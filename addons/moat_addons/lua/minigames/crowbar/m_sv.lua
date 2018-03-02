@@ -1,0 +1,1 @@
+local function nothing() end

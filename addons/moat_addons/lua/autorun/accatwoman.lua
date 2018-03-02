@@ -1,0 +1,1 @@
+player_manager.AddValidModel( "Arkham City Catwoman", "models/player/bobert/ACCatwoman.mdl" ) list.Set( "PlayerOptionsModel",  "Arkham City Catwoman",                     "models/player/bobert/ACCatwoman.mdl" ) --test 

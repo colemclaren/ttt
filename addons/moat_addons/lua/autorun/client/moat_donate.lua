@@ -1,0 +1,600 @@
+surface.CreateFont("moat_NotifyTest2", {
+    font = "GModNotify",
+    size = 32,
+    weight = 800
+})
+
+surface.CreateFont("moat_NotifyTestBonus", {
+    font = "GModNotify",
+    size = 26,
+    weight = 800
+})
+
+for i = 1, 10 do
+	surface.CreateFont("moat_Derma" .. i, {
+    	font = "DermaLarge",
+    	size = 16 + i,
+    	weight = 700
+	})
+end
+
+-- ahhh
+local support_url = "https://moat.gg/store"
+local circ_gradient = Material("moat_inv/moat_circle_grad.png")
+local gradient_u = Material("vgui/gradient-u")
+local gradient_d = Material("vgui/gradient-d")
+local gradient_r = Material("vgui/gradient-r")
+local gradient_l = Material("vgui/gradient-l")
+local heart_icon = Material("icon16/heart.png")
+
+MOAT_DONATE = MOAT_DONATE or {}
+MOAT_DONATE.FrameW = 800
+MOAT_DONATE.FrameH = 400
+MOAT_DONATE.BackgroundURL = "https://moat.gg/assets/img/bg-main.png"
+MOAT_DONATE.TitlePoly = {
+	{x = 1, y = 1},
+	{x = 140, y = 1},
+	{x = 170, y = 45},
+	{x = 1, y = 45}
+}
+
+MOAT_DONATE.CurCat = 0
+MOAT_DONATE.Packages = {
+	{"General Information", Material("icon16/information.png"), 1, 0, ""},
+	{"Free Rewards", Material("icon16/star.png"), 0, 0, ""},
+	{"Permanent VIP", Material("icon16/user.png"), 2, 1500, "", {
+		{Color(255, 255, 0), "10,000", "Total Inventory Credits", ""},
+		{Color(255, 255, 0), "", "Earn 50% more IC when Deconstructing Items", ""},
+		{Color(255, 255, 255), "VIP", "Rank In-Game & Forums", ""},
+		{Color(255, 255, 255), "", "Votekick Starting Access (Revokable)", ""},
+		{Color(255, 255, 255), "", "Access to closed beta(s)", ""},
+		{Color(255, 0, 0), "", "+ Whatever is Added to VIP in the Future!", ""},
+		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
+	}},
+	--{"30 Day MVP", Material("icon16/user_green.png"), 2000, "Stuff"},
+	--{"1 Year MVP", Material("icon16/user_red.png"), 20000, "Stuff"},
+	{"2,000 IC", Material("icon16/coins.png"), 3, 500, "500 Bonus", {
+		{Color(255, 255, 0), "2,500", "Total Inventory Credits", ""},
+		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
+	}},
+	{"5,000 IC", Material("icon16/coins.png"), 4, 1000, "1,500 Bonus", {
+		{Color(255, 255, 0), "6,500", "Total Inventory Credits", ""},
+		{Color(255, 0, 255), "15", "Random Crates from the Shop", ""},
+		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
+	}},
+	{"12,000 IC", Material("icon16/coins.png"), 5, 2000, "3,000 Bonus", {
+		{Color(255, 255, 0), "15,000", "Total Inventory Credits", ""},
+		{Color(0, 125, 255), "1", "Event Credit", ""},
+		{Color(255, 205, 0), "1", "Ascended Stat Mutator", ""},
+		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
+	}},
+	{"40,000 IC", Material("icon16/coins.png"), 6, 5000, "10,000 Bonus", {
+		{Color(255, 255, 0), "50,000", "Total Inventory Credits", ""},
+		{Color(0, 125, 255), "3", "Event Credits", ""},
+		{Color(255, 125, 0), "1", "Name Mutator", ""},
+		{Color(255, 205, 0), "1", "Ascended Talent Mutator", ""},
+		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
+	}},
+	{"100,000 IC", Material("icon16/coins.png"), 7, 10000, "25,000 Bonus", {
+		{Color(255, 255, 0), "125,000", "Total Inventory Credits", ""},
+		{Color(0, 125, 255), "7", "Event Credits", ""},
+		{Color(255, 125, 0), "2", "Name Mutators", ""},
+		{Color(255, 205, 0), "1", "Ascended Stat Mutator", ""},
+		{Color(0, 255, 0), "1", "Cosmic Talent Mutator", ""},
+		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
+	}},
+	{"Dola Effect", Material("icon16/money.png"), 8, 5000, "", {
+		{Color(255, 125, 0), "", "The Dola Effect", ""},
+		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
+	}}
+}
+
+MOAT_SUPPORT_CREDITS = 5000
+
+local blur = Material("pp/blurscreen")
+local function DrawBlur(panel, amount)
+    local x, y = panel:LocalToScreen(0, 0)
+    local scrW, scrH = ScrW(), ScrH()
+    surface.SetDrawColor(255, 255, 255)
+    surface.SetMaterial(blur)
+
+    for i = 1, 3 do
+        blur:SetFloat("$blur", (i / 3) * (amount or 6))
+        blur:Recompute()
+        render.UpdateScreenEffectTexture()
+        surface.DrawTexturedRect(x * -1, y * -1, scrW, scrH)
+    end
+end
+
+function MOAT_DONATE:DrawInfo(pnl, pkg, clr)
+	pnl.Paint = function(s, w, h)
+		local txtw = draw.SimpleText("Welcome to the Supporter Shop!", "moat_NotifyTest2", w/2, 5, Color(255, 255, 255), TEXT_ALIGN_CENTER)
+
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 10)
+		surface.DrawRect(0, 0, w, 45)
+
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 35)
+		surface.SetMaterial(gradient_u)
+		surface.DrawTexturedRect(0, 0, w, 45)
+
+		surface.DrawOutlinedRect(0, 0, w, 45)
+
+		draw.WebImage("https://moat.gg/assets/img/logo512.png", (w/2) - (235/2), 55, 254, 235, Color(255, 255, 255, 225))
+	end
+
+	local lbl = vgui.Create("DLabel", pnl)
+	lbl:SetPos(10, 145)
+	lbl:SetText("Here at the supporter shop, you can redeem support credits for supporting the community and automatically receive your rewards!\n\nClick any of the packages on the left to view your available rewards.\n\nYou can click the button at the top right of this menu to purchase support credits. Every contribution is greatly appreciated!\n\nDid something go wrong? Feel free to message Moat directly for assistance!\n\n")
+	lbl:SetWide(pnl:GetWide() - 20)
+	lbl:SetWrap(true)
+	lbl:SetAutoStretchVertical(true)
+	lbl:SetTextColor(Color(255, 255, 255))
+	lbl:SetFont("GModNotify")
+end
+MOAT_REWARDS = {
+	IC = 0,
+	SC = 0
+}
+net.Receive("NameRewards.Amount",function()
+	MOAT_REWARDS.IC = net.ReadInt(32)
+	MOAT_REWARDS.SC = net.ReadInt(32)
+	if MOAT_REWARDS.IC > 0 or MOAT_REWARDS.SC > 0 then
+		timer.Simple(10,function()
+			chat.AddText(Material("icon16/star.png"), Color(255,255,255), "You have pending daily rewards! Type ",Color(255,255,0),"!rewards ",Color(255,255,255),"to collect them!")
+		end)
+	end
+end)
+function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
+	RunConsoleCommand("moat_forum_rewards", "1")
+	--draw.WebImage( v , edge, edge, w - edge * 2, w - edge * 2, nil, s.Hovered and math.sin(CurTime())*15 or 0, true )
+	local moneybags = "https://i.moat.gg/18-02-28-z6L.png"
+	pnl.Paint = function(s, w, h)
+		local txtw = draw.SimpleText("Get free credits!", "moat_NotifyTest2", w/2, 5, Color(255, 255, 255), TEXT_ALIGN_CENTER)
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 10)
+		surface.DrawRect(0, 0, w, 45)
+
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 35)
+		surface.SetMaterial(gradient_u)
+		surface.DrawTexturedRect(0, 0, w, 45)
+
+		surface.DrawOutlinedRect(0, 0, w, 45)
+		
+		--draw.WebImage("https://moat.gg/assets/img/logo512.png", (w/2) - (235/2), 55, 254, 235, Color(255, 255, 255, 225))
+	end
+
+	local lbl = vgui.Create("DPanel", pnl)
+	lbl:SetPos(5, 50)
+	lbl:SetWide(pnl:GetWide() - 10)
+	lbl:SetTall(pnl:GetTall() - 55)
+	function lbl:Paint()
+	end
+
+	local top = vgui.Create("DPanel",lbl)
+	function top:Paint(w,h)
+		local txtw = draw.SimpleText("Click to find out more about the following things:", "moat_Derma5", w/2, h/2-2, Color(255, 255, 255), TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+	end
+	top:Dock(TOP)
+	top:DockMargin(0, 0, 0, 5)
+
+	local steam = vgui.Create("DButton",lbl)
+	steam:SetText("")
+	local clr = HSVToColor(math.random(1,200) * 1000 % 360, 1, 1)
+	function steam:Paint(w,h)
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 30)
+		surface.SetMaterial(gradient_r)
+		surface.DrawTexturedRect(0, 0, w, 45)
+
+		surface.DrawOutlinedRect(0, 0, w, 45)
+		draw.WebImage("https://i.moat.gg/18-02-28-E1s.png", 10, 4, 35,35 ,nil,math.sin(CurTime())*15,true)
+		local txtw = draw.SimpleText("Joining the steam group", "moat_NotifyTestBonus", 50, h/2-5, Color(255, 255, 255), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+		draw.SimpleText("(Get 2,500 IC!)", "moat_Derma5", w - 5, h- 20, HSVToColor((CurTime() + 100) * 25 % 360, 1, 1), TEXT_ALIGN_RIGHT,TEXT_ALIGN_CENTER)
+	end
+	function steam:DoClick()
+		RunConsoleCommand("say", "!steam")
+	end
+	steam:Dock(TOP)
+	steam:SetSize(0,50)
+	--MOAT_FORUMS:OpenWindow()
+	local steam = vgui.Create("DButton",lbl)
+	steam:SetText("")
+	local clr = HSVToColor(math.random(1,200) * 1000 % 360, 1, 1)
+	function steam:Paint(w,h)
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 30)
+		surface.SetMaterial(gradient_r)
+		surface.DrawTexturedRect(0, 0, w, 45)
+
+		surface.DrawOutlinedRect(0, 0, w, 45)
+		draw.WebImage("https://i.moat.gg/18-02-28-C1j.png", 10, 4, 35,35 ,nil,math.sin(CurTime() + 10)*15,true)
+		local txtw = draw.SimpleText("Joining the forums", "moat_NotifyTestBonus", 50, h/2-5, Color(255, 255, 255), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+		draw.SimpleText("(Get 2,500 IC!)", "moat_Derma5", w - 5, h- 20, HSVToColor((CurTime() + 50) * 25 % 360, 1, 1), TEXT_ALIGN_RIGHT,TEXT_ALIGN_CENTER)
+	end
+	function steam:DoClick()
+		MOAT_FORUMS:OpenWindow()
+	end
+	steam:Dock(TOP)
+	steam:SetSize(0,50)
+	local top = vgui.Create("DPanel",lbl)
+	function top:Paint(w,h)
+		local txtw = draw.SimpleText("Or check down below for free daily rewards!", "moat_Derma5", w/2, h/2-2, Color(255, 255, 255), TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+	end
+	top:Dock(TOP)
+
+	local rewards = vgui.Create("DPanel",lbl)
+	local clr = HSVToColor(math.random(1,200) * 1000 % 360, 1, 1)
+	function rewards:Paint(w,h)
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 10)
+		surface.SetMaterial(gradient_d)
+		surface.DrawTexturedRect(0, 0, w, h)
+		surface.DrawOutlinedRect(0, 0, w, h)
+
+	end
+	rewards:Dock(FILL)
+
+	local lb = vgui.Create("DLabel", rewards)
+	lb:SetText("NOTE: You can only get these rewards by adding moat.gg to your name! Click below to edit your name")
+	lb:SetWrap(true)
+	lb:SetAutoStretchVertical(true)
+	lb:SetTextColor(Color(255, 255, 255))
+	lb:SetFont("GModNotify")
+	lb:DockMargin(5,5,0,5)
+	lb:Dock(TOP)
+
+	local collect = vgui.Create("DButton",rewards)
+	--collect:Dock(BOTTOM)
+	collect.Label = "Edit Steam Name"
+	collect:SetSize(450,42)
+	collect:SetText("")
+	function collect:DoClick()
+		gui.OpenURL("http://steamcommunity.com/id/me/edit")
+	end
+	collect:Dock(TOP)
+	collect:DockMargin(10,5,10,0)
+	MOAT_FORUMS.ButtonPaint(collect, {51, 153, 255})
+
+	local bot = vgui.Create("DPanel",rewards)
+	bot:DockMargin(5,5,5,5)
+	bot:Dock(FILL)
+	function bot:Paint(w,h)
+		local txtw = draw.SimpleText("Pending rewards: ", "moat_NotifyTestBonus", 5, 15, Color(255, 255, 255), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+		txtw = txtw + draw.SimpleText(string.Comma(MOAT_REWARDS.IC) .. " IC", "moat_Derma4", txtw + 5, 17, Color(255, 255,0), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+		txtw = txtw + draw.SimpleText(" & ", "moat_Derma4", txtw + 5, 17, Color(255, 255, 255), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+		txtw = txtw + draw.SimpleText(string.Comma(MOAT_REWARDS.SC) .. " SC", "moat_Derma4", txtw + 5, 17, Color(255,0,0), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+	end
+
+	--458
+	local collect = vgui.Create("DButton",bot)
+	--collect:Dock(BOTTOM)
+	collect.Label = "COLLECT!"
+	collect:SetPos(5,40)
+	collect:SetSize(450,42)
+	collect:SetText("")
+	function collect:DoClick()
+		surface.PlaySound("ui/buttonclickrelease.wav")
+		if MOAT_REWARDS.IC < 1 and MOAT_REWARDS.SC < 1 then return end
+		net.Start("NameRewards.Collect")
+		net.SendToServer()
+		MOAT_REWARDS = {IC = 0,SC = 0}
+	end
+	MOAT_FORUMS.ButtonPaint(collect, {46, 204, 113})
+	--top:DockMargin(0, 0, 0, 5)
+
+end
+
+function MOAT_DONATE:RebuildSelection(num)
+	if (IsValid(self.info)) then
+		self.info:Remove()
+		self.info = vgui.Create("DPanel", self.bg)
+		self.info:SetSize(self.bg:GetWide() - 172, self.bg:GetTall() - 48)
+		self.info:SetPos(170, 46)
+	end
+	local pnl = self.info
+	local pkg = self.Packages[num]
+	local clr = HSVToColor(pkg[3] * 55 % 360, 1, 1)
+
+	if (pkg[3] == 1) then
+		MOAT_DONATE:DrawInfo(pnl, pkg, clr)
+		
+		return
+	elseif (pkg[3] == 0) then
+		MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
+		return
+	end
+	
+	pnl.Paint = function(s, w, h)
+		local txtw = draw.SimpleText(pkg[1] .. " Pack", "moat_NotifyTest2", w/2, 5, clr, TEXT_ALIGN_CENTER)
+
+		if (pkg[5] ~= "") then
+			local bnc = math.abs(math.sin((RealTime() - 0.08) * 5))
+
+			DrawBouncingText(3, 2.1, "+ " .. pkg[5], pkg[5] == "25,000 Bonus" and "moat_Derma8" or "moat_Derma6", (w/2) + (txtw/2) - 40, 45, rarity_names[9][2], TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+		end
+
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 10)
+		surface.DrawRect(0, 0, w, 45)
+
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 35)
+		surface.SetMaterial(gradient_u)
+		surface.DrawTexturedRect(0, 0, w, 45)
+
+		surface.DrawOutlinedRect(0, 0, w, 45)
+
+		if (pkg[6]) then
+			draw.SimpleText("This Package Includes:", "moat_Derma7", w/2, 85, Color(0, 255, 255), TEXT_ALIGN_CENTER)
+
+			local y = 130
+			for i = 1, #pkg[6] do
+				surface.SetFont("moat_Derma7")
+				local tw = surface.GetTextSize(pkg[6][i][4] .. pkg[6][i][2] .. " " .. pkg[6][i][3])
+				local tw1 = draw.SimpleText(pkg[6][i][4], "moat_Derma7", (w/2) - (tw/2), y, Color(255, 0, 0))
+				local tw2 = draw.SimpleText(pkg[6][i][2] .. " ", "moat_Derma7", (w/2) - (tw/2) + tw1, y, pkg[6][i][1])
+				draw.SimpleText(pkg[6][i][3], "moat_Derma7", (w/2) - (tw/2) + tw2 + tw1, y, pkg[6][i][3] == "Total Inventory Credits" and Color(255, 255, 255) or pkg[6][i][1])
+
+				y = y + 30
+			end
+		end
+
+		/*surface.SetDrawColor(clr.r, clr.g, clr.b, 35)
+		surface.SetMaterial(gradient_d)
+		surface.DrawTexturedRect(0, 0, w, h)*/
+
+		/*surface.SetDrawColor(clr.r, clr.g, clr.b, 50)
+		surface.SetMaterial(gradient_r)
+		surface.DrawTexturedRect(w - 100, 0, 100, h)
+
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 50)
+		surface.SetMaterial(gradient_l)
+		surface.DrawTexturedRect(0, 0, 100, h)*/
+	end
+
+	local btnw = pnl:GetWide()/1.5
+
+	pnl.r = vgui.Create("DButton", pnl)
+	pnl.r:SetSize(btnw, 30)
+	pnl.r:SetPos((pnl:GetWide()/2) - (btnw/2), pnl:GetTall() - 45)
+	pnl.r:SetText("")
+    pnl.r.LerpNum = 0
+    pnl.r.Paint = function(s, w, h)
+        if (not s.LerpNum) then s.LerpNum = 0 end
+
+        if (s:IsHovered() or s:IsDown()) then
+            s.LerpNum = Lerp(FrameTime() * 8, s.LerpNum, 1)
+        else
+            s.LerpNum = Lerp(FrameTime() * 8, s.LerpNum, 0)
+        end
+
+        if ((LocalPlayer():GetDataVar("SC") or 0) < pkg[4]) then s.LerpNum = 0 end
+
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 10)
+		surface.DrawRect(0, 0, w, h)
+
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 35 + (s.LerpNum * 100))
+		surface.SetMaterial(gradient_u)
+		surface.DrawTexturedRect(0, 0, w, h)
+
+		surface.DrawOutlinedRect(0, 0, w, h)
+
+		draw.SimpleText("Redeem " .. string.Comma(pkg[4]) .. " Support Credits", "GModNotify", w/2, 5, Color(255, 255, 255), TEXT_ALIGN_CENTER)
+
+		if ((LocalPlayer():GetDataVar("SC") or 0) < pkg[4]) then draw.RoundedBox(0, 0, 0, w, h, Color(50, 50, 50, 215)) end
+	end
+	pnl.r.DoClick = function(s)
+		if ((LocalPlayer():GetDataVar("SC") or 0) < pkg[4]) then
+			chat.AddText(Material("icon16/cancel.png"), Color(255, 80, 80), "You don't have enough Support Credits to redeem that package! Try re-joining if you just purchased some.")
+			surface.PlaySound("buttons/button10.wav")
+			return
+		end
+
+		net.Start("moat.donate.purchase")
+		net.WriteUInt(pkg[3], 8)
+		net.SendToServer()
+
+		surface.PlaySound("buttons/button3.wav")
+	end
+end
+
+function MOAT_DONATE:OpenWindow()
+	self.FrameW = 650
+	self.FrameH = 450
+	self.CurCat = 1
+
+	if (IsValid(self.bg)) then self.bg:Remove() end
+	
+	self.bg = vgui.Create("DFrame")
+	self.bg:SetSize(self.FrameW, self.FrameH)
+	self.bg:SetPos((ScrW()/2) - (self.FrameW/2), -self.FrameH)
+
+	self.bg:MoveTo((ScrW()/2) - (self.FrameW/2), (ScrH()/2) - (self.FrameH/2) + 10, 0.2, 0, -1, function(a, p)
+		p:MoveTo((ScrW()/2) - (self.FrameW/2), (ScrH()/2) - (self.FrameH/2), 0.1, 0, -1, function(a, p) end)
+	end)
+	self.bg:ShowCloseButton(false)
+	self.bg:SetTitle("")
+	self.bg:MakePopup()
+	self.bg.Think = function(s) end
+	self.bg.Paint = function(s, w, h)
+        surface.SetDrawColor(21, 28, 35, 150)
+        surface.DrawRect(0, 0, w, h)
+
+        DrawBlur(s, 3)
+
+        draw.WebImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 225))
+    	
+    	--[[Header Stuff]]--
+    	/*draw.RoundedBox(0, 0, 0, w, 45, Color(56, 56, 56, 255))
+    	draw.RoundedBox(0, 0, 45, w, 1, Color(86, 86, 86, 255))*/
+
+    	MOAT_DONATE.TitlePoly[2].x = Lerp(FrameTime() * 10, MOAT_DONATE.TitlePoly[2].x, 140)
+    	MOAT_DONATE.TitlePoly[3].x = Lerp(FrameTime() * 10, MOAT_DONATE.TitlePoly[3].x, 170)
+
+    	surface.SetDrawColor(118, 122, 126, 15)
+        surface.DrawRect(0, 0, w, 46)
+
+    	surface.SetDrawColor(21, 28, 35, 150)
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_DONATE.TitlePoly)
+
+    	--draw.SimpleText("Moat", "moat_GambleTitle", 5, 1, Color(0, 25, 50))
+    	--draw.SimpleText("Gaming", "moat_GambleTitle", 55, 1, Color(50, 50, 50))
+
+    	draw.SimpleText("Moat", "moat_GambleTitle", 4, 0, Color(0, 198, 255))
+    	draw.SimpleText("Gaming", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
+
+    	--draw.SimpleText("Supporter Shop", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
+    	draw.SimpleText("Supporter Shop", "moat_GambleTitle", 5, 20, Color(255, 255, 0))
+
+    	--draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 194, 6, Color(0, 0, 0))
+    	draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 193, 5, Color(255, 255, 255))
+
+    	--draw.SimpleText(string.Comma(MOAT_SUPPORT_CREDITS) .. " Support Credits", "moat_ItemDesc", 208, 27, Color(0, 0, 0))
+        draw.SimpleText(string.Comma(LocalPlayer():GetDataVar("SC") or 0) .. " Support Credits", "moat_ItemDesc", 207, 26, Color(255, 255, 255))
+
+        surface.SetMaterial(heart_icon)
+        surface.SetDrawColor(Color(255, 255, 255))
+        surface.DrawTexturedRect(185, 26, 16, 16)
+
+
+        draw.SimpleTextOutlined("Available Packages", "moat_ItemDesc", 84.5, 122, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
+
+
+        surface.SetDrawColor(0, 0, 0, 150)
+        surface.DrawRect(170, 46, w - 172, h - 48)
+
+        --surface.SetDrawColor(15, 15, 15, 150)
+        --surface.DrawRect(1, 46, 169, h - 47)
+
+        /*surface.SetMaterial(circ_gradient)
+        surface.SetDrawColor(Color(0, 0, 0))
+        surface.DrawTexturedRect(1, 46, w-2, h - 47)*/
+
+        surface.SetDrawColor(62, 62, 64, 255)
+        surface.DrawOutlinedRect(0, 0, w, h)
+
+        DisableClipping(true)
+        	surface.SetDrawColor(255, 85, 85, 255)
+        	surface.DrawRect(0, h, w, 25)
+        	draw.SimpleTextOutlined("You must reconnect after purchasing support credits to receive them.", "moat_ItemDesc", w/2, h + 12, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
+        DisableClipping(false)
+
+	end
+
+	self.info = vgui.Create("DPanel", self.bg)
+	self.info:SetSize(self.bg:GetWide() - 172, self.bg:GetTall() - 48)
+	self.info:SetPos(170, 46)
+
+    local ava = vgui.Create("AvatarImage", self.bg)
+    ava:SetPos(170, 4)
+    ava:SetSize(17, 17)
+    ava:SetPlayer(LocalPlayer(), 32)
+
+    local cl = vgui.Create("DButton", self.bg)
+    cl:SetPos(self.FrameW - 22, 5)
+    cl:SetSize(17, 17)
+    cl:SetText("")
+    cl.LerpNum = 0
+    cl.Paint = function(s, w, h)
+        if (not s.LerpNum) then s.LerpNum = 0 end
+
+        if (s:IsHovered() or s:IsDown()) then
+            s.LerpNum = Lerp(FrameTime() * 8, s.LerpNum, 1)
+        else
+            s.LerpNum = Lerp(FrameTime() * 8, s.LerpNum, 0)
+        end
+
+        draw.RoundedBox(4, 0, 0, w, h, Color(255 * s.LerpNum, 50 * s.LerpNum, 50 * s.LerpNum, 150 + (50 * s.LerpNum)))
+
+        draw.SimpleText("r", "marlett", 8 + 1, 8, Color(255 - (55 * s.LerpNum), 50 + (150 * s.LerpNum), 50 + (150 * s.LerpNum)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    end
+
+    cl.DoClick = function()
+        --gui.EnableScreenClicker( false )
+        self.bg:Remove()
+    end
+
+    local btnw = 150
+    local g = vgui.Create("DButton", self.bg)
+    g:SetSize(btnw, 17)
+    g:SetPos(self.FrameW - 22 - btnw - 5, 5)
+    g:SetText("")
+    g.LerpNum = 0
+    g.Paint = function(s, w, h)
+        if (not s.LerpNum) then s.LerpNum = 0 end
+
+        if (s:IsHovered() or s:IsDown()) then
+            s.LerpNum = Lerp(FrameTime() * 8, s.LerpNum, 1)
+        else
+            s.LerpNum = Lerp(FrameTime() * 8, s.LerpNum, 0)
+        end
+
+        draw.RoundedBox(4, 0, 0, w, h, Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b, 50))
+        draw.RoundedBox(4, 1, 1, w-2, h-2, Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b, 50 + (s.LerpNum * 220)))
+        draw.SimpleTextOutlined("Get Support Credits", "moat_ItemDesc", w/2, 8, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
+    end
+    g.DoClick = function(s)
+    	gui.OpenURL(support_url)
+    end
+
+    for i = 1, #MOAT_DONATE.Packages do
+        local caty = (31 * (i-1)) + 46
+
+        if (i > 2) then
+        	caty = caty + 30
+        end
+
+        local cat_btn = vgui.Create("DButton", self.bg)
+        cat_btn:SetPos(0, caty)
+        cat_btn:SetSize(170, 30)
+        cat_btn:SetText("")
+        cat_btn.HoveredWidth = 0
+        cat_btn.Paint = function(s, w, h)
+            local col = HSVToColor( i * 55 % 360, 1, 1 )
+
+            surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
+            surface.SetMaterial(gradient_l)
+            surface.DrawTexturedRect(0, 0, (w - 1) * s.HoveredWidth, h)
+
+            surface.DrawTexturedRect(0, 0, (w - 1) * s.HoveredWidth, 2)
+            surface.DrawTexturedRect(0, h-2, (w - 1) * s.HoveredWidth, 2)
+
+            draw.RoundedBox(0, 0, 0, MOAT_DONATE.CurCat == i and w or w - 1, h, Color(0, 0, 0, 150))
+
+            surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
+            surface.SetMaterial(gradient_l)
+            surface.DrawTexturedRect(0, 0, (w - 1) * s.HoveredWidth, h)
+
+            if (MOAT_DONATE.CurCat == i) then
+                draw.RoundedBox(0, 0, 0, 4, h, HSVToColor( i * 55 % 360, 1, 1 ))
+                surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
+                surface.SetMaterial(gradient_l)
+                surface.DrawTexturedRect(0, 0, (w) * 1, h)
+
+                surface.DrawTexturedRect(0, 0, (w) * 1, 2)
+                surface.DrawTexturedRect(0, h-2, (w) * 1, 2)
+            elseif (s:IsHovered()) then
+                s.HoveredWidth = Lerp(10 * FrameTime(), s.HoveredWidth, 1)
+            elseif (not s:IsHovered()) then
+                s.HoveredWidth = Lerp(10 * FrameTime(), s.HoveredWidth, 0)
+            end
+
+            draw.RoundedBox(0, 0, 0, 4 * s.HoveredWidth, h, HSVToColor( i * 55 % 360, 1, 1 ))
+
+            surface.SetDrawColor(Color(255, 255, 255))
+            surface.SetMaterial(MOAT_DONATE.Packages[i][2])
+            surface.DrawTexturedRect(10 + (s.HoveredWidth*4), (h/2) - 8, 16, 16)
+
+            draw.SimpleTextOutlined(MOAT_DONATE.Packages[i][1], "moat_ItemDesc", 10+(s.HoveredWidth*4) + 21, h/2, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
+
+        end
+        cat_btn.DoClick = function(s)
+            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
+
+            MOAT_DONATE.CurCat = i
+            MOAT_DONATE:RebuildSelection(i)
+        end
+        cat_btn.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+    end
+
+    MOAT_DONATE:RebuildSelection(1)
+end
+
+concommand.Add("donate", function()
+	MOAT_DONATE:OpenWindow()
+end)
