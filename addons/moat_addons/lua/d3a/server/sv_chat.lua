@@ -1,0 +1,90 @@
+D3A.Chat = {}
+
+util.AddNetworkString("D3A.Chat")
+util.AddNetworkString("D3A.AdminChat")
+util.AddNetworkString("D3A.Chat2")
+
+function D3A.Chat.AdminChat(pl, Text)
+	if (!pl:HasAccess(D3A.Config.StaffChat)) then
+		if (hook.Call("NonAdminChatted", GAMEMODE, pl, Text) == true) then -- true to suppress, anything else obviously to not
+			return
+		end
+	end
+	
+	local rf = {}
+	
+	for k, v in ipairs(player.GetAll()) do
+		if (v:HasAccess(D3A.Config.StaffChat) or v == pl) then
+			table.insert(rf, v)
+		end
+	end
+	
+	net.Start("D3A.AdminChat")
+		net.WriteString(tostring(pl:HasAccess("t")))
+		net.WriteString(pl:Name())
+		net.WriteString(string.Trim(Text))
+	net.Send(rf)
+end
+
+function D3A.Chat.SendToPlayer(pl, Text, Type)
+	if (type(pl) != "table") and (!pl:IsPlayer()) then
+		print(Text)
+	end
+	
+	Type = Type or "NORM"
+	
+	net.Start("D3A.Chat")
+		net.WriteString(Text)
+		net.WriteString(Type)
+	net.Send(pl)
+end
+
+function D3A.Chat.Broadcast(Text, Type)
+	Type = Type or "NORM"
+	
+	net.Start("D3A.Chat")
+		net.WriteString(Text)
+		net.WriteString(Type)
+	net.Broadcast()
+end
+
+function D3A.Chat.BroadcastStaff(Text, Type)
+	Type = Type or "NORM"
+	
+	local rf = {}
+	for _, v in ipairs(player.GetAll()) do if (v:HasAccess("t")) then table.insert(rf, v) end end
+	net.Start("D3A.Chat")
+		net.WriteString(Text)
+		net.WriteString(Type)
+	net.Send(rf)
+end
+
+function D3A.Chat.Broadcast2(...)
+	net.Start("D3A.Chat2")
+		net.WriteTable({...})
+	net.Broadcast()
+
+	MsgC(...)
+	MsgC("\n")
+end
+
+function D3A.Chat.SendToPlayer2(pl, ...)
+	net.Start("D3A.Chat2")
+		net.WriteTable({...})
+	net.Send(pl)
+
+	MsgC(...)
+	MsgC("\n")
+end
+
+function D3A.Chat.BroadcastStaff2(...)
+	local rf = {}
+	for _, v in ipairs(player.GetAll()) do if (v:HasAccess("t")) then table.insert(rf, v) end end
+
+	net.Start("D3A.Chat2")
+		net.WriteTable({...})
+	net.Send(rf)
+
+	MsgC(...)
+	MsgC("\n")
+end
