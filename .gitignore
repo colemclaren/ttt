@@ -1,0 +1,12 @@
+/*
+/*/
+!/addons/
+/addons/*
+!/addons/moat_addons
+!/gamemodes/
+/gamemodes/*
+!/gamemodes/terrortown
+!/gamemodes/terrorcity
+!/lua
+*.*
+!*.lua
