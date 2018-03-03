@@ -31,7 +31,7 @@ local function discord(sid,mouse)
 	local msg = "[I lost track v4] Detected: `" .. mouse[1] .. " (" .. sid .. ") [" .. mouse[2] .. "] lvl(" .. mouse[3] .. ")` { http://steamcommunity.com/profiles/" .. mouse[4] .. " } Server: " .. game.GetIP() .. " Detections: `" .. s .. "`"
 	SVDiscordRelay.SendToDiscordRaw("Skid bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
 end
---s
+
 local ban = true
 
 hook.Add("TTTEndRound","Joystick",function()
