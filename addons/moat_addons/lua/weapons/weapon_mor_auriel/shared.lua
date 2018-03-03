@@ -35,9 +35,9 @@ SWEP.Secondary.Ammo		= "none"
 
 function SWEP:PrimaryAttack()
 	if self:GetDTFloat(0) != 0 then return end
-    if (not self:CanPrimaryAttack()) then return end
+	if (not self:CanPrimaryAttack()) then return end
 
-    self:SetNextPrimaryFire(self:GetDTFloat(0))
+	self:SetNextPrimaryFire(self:GetDTFloat(0))
 
 	if (SERVER) then
 		local vm = self.Owner:GetViewModel()
@@ -55,8 +55,8 @@ function SWEP:PrimaryAttack()
 			vm:SetPlaybackRate(1)
 		end
 	end
-	
-	self.Weapon:EmitSound("weapons/bow/skyrim_bow_pull.mp3")
+
+	self:EmitSound("weapons/bow/skyrim_bow_pull.mp3")
 	self.DelayTime = CurTime() + 0.5
 	self:SetDTFloat(0, CurTime() + self.MaxHoldTime)
 	self:SetNextPrimaryFire(self:GetDTFloat(0))

@@ -8,51 +8,51 @@ if( CLIENT ) then
 	SWEP.Slot = 2
 	SWEP.DrawAmmo = true
 	SWEP.DrawCrosshair = false
-   SWEP.Icon = "vgui/ttt/icon_scout"
+	SWEP.Icon = "vgui/ttt/icon_scout"
 
-   local grad_d = Material("vgui/gradient-d")
+	local grad_d = Material("vgui/gradient-d")
 
-   function SWEP:DrawHUD()
-      local client = LocalPlayer()
-      if (not IsValid(client)) then return end
+	function SWEP:DrawHUD()
+		local client = LocalPlayer()
+		if (not IsValid(client)) then return end
 
-      local sights = (not self.NoSights) and self:GetIronsights()
+		local sights = (not self.NoSights) and self:GetIronsights()
 
-      local x = math.floor(ScrW() / 2.0)
-      local y = math.floor(ScrH() / 2.0)
-      local scale = math.max(0.2,  10 * self:GetPrimaryCone())
+		local x = math.floor(ScrW() / 2.0)
+		local y = math.floor(ScrH() / 2.0)
+		local scale = math.max(0.2,  10 * self:GetPrimaryCone())
 
-      local LastShootTime = self:LastShootTime()
-      scale = scale * (2 - math.Clamp( (CurTime() - LastShootTime) * 5, 0.0, 1.0 ))
+		local LastShootTime = self:LastShootTime()
+		scale = scale * (2 - math.Clamp( (CurTime() - LastShootTime) * 5, 0.0, 1.0 ))
 
-      local alpha = sights and 0.8 or 1
-      local bright = 1
+		local alpha = sights and 0.8 or 1
+		local bright = 1
 
-      if client.IsTraitor and client:IsTraitor() then
-         surface.SetDrawColor(255 * bright,
-                              50 * bright,
-                              50 * bright,
-                              255 * alpha)
-      else
-         surface.SetDrawColor(0,
-                              255 * bright,
-                              0,
-                              255 * alpha)
-      end
+		if client.IsTraitor and client:IsTraitor() then
+			surface.SetDrawColor(255 * bright,
+								50 * bright,
+								50 * bright,
+								255 * alpha)
+		else
+			surface.SetDrawColor(0,
+								255 * bright,
+								0,
+								255 * alpha)
+		end
 
-      local gap = math.floor(20 * scale * (sights and 0.8 or 1))
-      local length = math.floor(gap + (25 * 1) * scale)
+		local gap = math.floor(20 * scale * (sights and 0.8 or 1))
+		local length = math.floor(gap + (25 * 1) * scale)
 
-      surface.DrawLine(x - 6, y + 6, x, y)
-      surface.DrawLine(x + 6, y + 6, x, y)
+		surface.DrawLine(x - 6, y + 6, x, y)
+		surface.DrawLine(x + 6, y + 6, x, y)
 
-      surface.DrawLine(x - 6, y + 5, x, y - 1)
-      surface.DrawLine(x + 6, y + 5, x, y - 1)
+		surface.DrawLine(x - 6, y + 5, x, y - 1)
+		surface.DrawLine(x + 6, y + 5, x, y - 1)
 
-      surface.DrawLine(x - 5, y + 15, x + 5, y + 15)
-      surface.DrawLine(x - 4, y + 25, x + 4, y + 25)
-      surface.DrawLine(x - 3, y + 35, x + 3, y + 35)
-      surface.DrawLine(x - 2, y + 45, x + 2, y + 45)
+		surface.DrawLine(x - 5, y + 15, x + 5, y + 15)
+		surface.DrawLine(x - 4, y + 25, x + 4, y + 25)
+		surface.DrawLine(x - 3, y + 35, x + 3, y + 35)
+		surface.DrawLine(x - 2, y + 45, x + 2, y + 45)
 
 
 		local scrx = ScrW()/2
@@ -72,7 +72,7 @@ if( CLIENT ) then
 		end
 
 		draw.SimpleText("Bow Power", "ChatFont", scrx, scry + 207, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-    end
+	end
 end
 
 SWEP.PrintName = "Morrowind Bow"
@@ -121,22 +121,20 @@ function SWEP:Precache()
 end
 
 function SWEP:Initialize()
-    self:SetWeaponHoldType("Pistol")
+	self:SetWeaponHoldType("Pistol")
+	self:SetZoomed(false)
 end
-/*
-function SWEP:Equip()
-	self:Deploy()
-end
-*/
+
 function SWEP:SetupDataTables()
 	self:DTVar("Bool", 0, "FiredArrow")
 	self:DTVar("Float", 0, "HoldTimer")
+	self:NetworkVar("Bool", 1, "Zoomed")
 end
 
 function SWEP:Deploy()
 	self:EmitSound("weapons/bow/skyrim_bow_draw.mp3")
-	self.Weapon:SetNextPrimaryFire(CurTime() + 1)
-	self.Weapon:SetNextSecondaryFire(CurTime() + 1)	
+	self:SetNextPrimaryFire(CurTime() + 1)
+	self:SetNextSecondaryFire(CurTime() + 1)	
 	self.DelayTime = CurTime() + 1
 	if (SERVER) then
 		local vm = self.Owner:GetViewModel()
@@ -144,14 +142,14 @@ function SWEP:Deploy()
 			vm:SetPlaybackRate(1)
 		end
 	end
-	self.Weapon:SendWeaponAnim(ACT_VM_DRAW)
+	self:SendWeaponAnim(ACT_VM_DRAW)
 	self:SetDTBool(0, false)
 	self:SetDTFloat(0, 0)
 	return true
 end
 
 function SWEP:Holster()
-    self.Zoomed = false
+	self:SetZoomed(false)
 	if SERVER then
 		self.Owner:SetFOV( 0, 0.3 ) -- Setting to 0 resets the FOV
 	end
@@ -164,9 +162,9 @@ end
 ---------------------------------------------------------*/
 function SWEP:PrimaryAttack()
 	if self:GetDTFloat(0) != 0 then return end
-    if (not self:CanPrimaryAttack()) then return end
+	if (not self:CanPrimaryAttack()) then return end
 
-    self:SetNextPrimaryFire(self:GetDTFloat(0))
+	self:SetNextPrimaryFire(self:GetDTFloat(0))
 
 	if (SERVER) then
 		local vm = self.Owner:GetViewModel()
@@ -176,7 +174,7 @@ function SWEP:PrimaryAttack()
 	end
 
 	local anim = self.Owner:GetViewModel():LookupSequence("reload"..math.random(1,3))
-	self.Weapon:SendWeaponAnim(ACT_VM_RELOAD)
+	self:SendWeaponAnim(ACT_VM_RELOAD)
 
 	if (SERVER) then
 		local vm = self.Owner:GetViewModel()
@@ -185,21 +183,21 @@ function SWEP:PrimaryAttack()
 		end
 	end
 
-	self.Weapon:EmitSound("weapons/bow/skyrim_bow_pull.mp3")
+	self:EmitSound("weapons/bow/skyrim_bow_pull.mp3")
 	self.DelayTime = CurTime() + 0.5
 	self:SetDTFloat(0, CurTime() + self.MaxHoldTime)
 	self:SetNextPrimaryFire(self:GetDTFloat(0))
 end
 
 function SWEP:CanPrimaryAttack()
-   if not IsValid(self.Owner) then return end
-   --if (self.DelayTime > CurTime()) then return end
-   
-   if self:Clip1() <= 0 then
-      self:DryFire(self.SetNextPrimaryFire)
-      return false
-   end
-   return true
+	if not IsValid(self.Owner) then return end
+	--if (self.DelayTime > CurTime()) then return end
+
+	if self:Clip1() <= 0 then
+		self:DryFire(self.SetNextPrimaryFire)
+		return false
+	end
+	return true
 end
 
 /*---------------------------------------------------------
@@ -282,23 +280,19 @@ end
    Desc: +attack1 has been pressed.
 ---------------------------------------------------------*/
 function SWEP:SecondaryAttack()
-	 if !self.Zoomed then -- The player is not zoomed in.
-		self.Zoomed = true -- Now he is
-		if SERVER then
-			self.Owner:SetFOV( 35, 0.3 ) -- SetFOV is serverside only
-		end
+	 if not self:GetZoomed() then -- The player is not zoomed in.
+		self:SetZoomed(true)
+		self.Owner:SetFOV( 35, 0.3 )
 	else
-		self.Zoomed = false
-		if SERVER then
-			self.Owner:SetFOV( 0, 0.3 ) -- Setting to 0 resets the FOV
-		end
+		self:SetZoomed(false)
+		self.Owner:SetFOV( 0, 0.3 ) -- Setting to 0 resets the FOV
 	end
 end
 
 function SWEP:Reload()
 	if (self:Clip1() >= self.Primary.ClipSize or self.Owner:GetAmmoCount( self.Primary.Ammo ) <= 0) then return end
-   self:DefaultReload(0)
-   self.Zoomed = false
+	self:DefaultReload(0)
+	self:SetZoomed(false)
 	if SERVER then
 		self.Owner:SetFOV( 0, 0.3 ) -- Setting to 0 resets the FOV
 	end
