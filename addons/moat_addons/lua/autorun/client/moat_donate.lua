@@ -231,7 +231,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	rewards:Dock(FILL)
 
 	local lb = vgui.Create("DLabel", rewards)
-	lb:SetText("NOTE: You can only get these rewards by adding moat.gg to your name! Click below to edit your name")
+	lb:SetText("NOTE: You can only get daily rewards by adding moat.gg to your name! Capitalization doesn't matter")
 	lb:SetWrap(true)
 	lb:SetAutoStretchVertical(true)
 	lb:SetTextColor(Color(255, 255, 255))
@@ -241,7 +241,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 
 	local collect = vgui.Create("DButton",rewards)
 	--collect:Dock(BOTTOM)
-	collect.Label = "Edit Steam Name"
+	collect.Label = "Click to edit Steam Name"
 	collect:SetSize(450,42)
 	collect:SetText("")
 	function collect:DoClick()
@@ -263,8 +263,8 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 
 	--458
 	local collect = vgui.Create("DButton",bot)
-	--collect:Dock(BOTTOM)
-	collect.Label = "COLLECT!"
+	--collect:Dock(BOTTOM)fuckmoat
+	collect.Label = "COLLECT REWARDS!"
 	collect:SetPos(5,40)
 	collect:SetSize(450,42)
 	collect:SetText("")
