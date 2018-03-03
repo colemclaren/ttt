@@ -278,7 +278,7 @@ local function ColorLerp(from, mid, to, frac)
     if (frac > 1) then
         f, t, fr = mid, to, frac - 1
     end
-    return Color(Lerp(fr, f.r, t.r), Lerp(fr, f.g, t.g), Lerp(fr, f.b, t.b), 80)
+    return Color(Lerp(fr, f.r, t.r), Lerp(fr, f.g, t.g), Lerp(fr, f.b, t.b), 160)
 end
 
 local color_green = Color(40, 220, 40)
@@ -315,7 +315,7 @@ function SWEP:DrawDefaultThrowPath(wep, ply)
 
     render.SetColorMaterial()
     cam.Start3D(EyePos(), EyeAngles())
-    local step = 0.05
+    local step = 0.025
     local lastpos = PositionFromPhysicsParams(P, V, G, step)
     for T = step * 2, 1, step do
         local pos = PositionFromPhysicsParams(P, V, G, T)
