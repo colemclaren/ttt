@@ -305,10 +305,10 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 --v
 MOAT_BOUNTIES:AddBounty("Marathon walker", {
 	tier = 1,
-	desc = "For # rounds. Take # steps each round.",
+	desc = "For # rounds, Take # steps each round.",
 	vars = {
 		math.random(3,10),
-		math.random(350, 700)--lua_run hook.Add("PlayerFootstep","a",function(a) a.Steps = a.Steps + 1 print(a.Steps) end)
+		math.random(350, 700)
         -- Should probably be higher idk
 	},
 	runfunc = function(mods, bountyid)
