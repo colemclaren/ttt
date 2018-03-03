@@ -124,8 +124,10 @@ hook.Add("PlayerDataLoaded", "MOAT_DONATE.PlayerDataLoaded", MOAT_DONATE.SendSup
 	idk where to put this
 */
 hook.Add("PlayerUse","DoorSpam",function(ply,ent)
-	if (ent.CoolDown or 0) > CurTime() then return false end
-	ent.CoolDown = CurTime() + 3
+	if ent:GetClass():match("door") then
+		if (ent.CoolDown or 0) > CurTime() then return false end
+		ent.CoolDown = CurTime() + 3
+	end
 end)
 
 
