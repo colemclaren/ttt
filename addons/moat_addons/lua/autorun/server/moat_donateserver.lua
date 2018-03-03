@@ -157,7 +157,7 @@ hook.Add("PlayerDataLoaded", "MOAT_DONATE.PlayerDataLoaded", MOAT_DONATE.SendSup
 hook.Add("PlayerUse","DoorSpam",function(ply,ent)
 	if ent:GetClass():match("door") then
 		if (ent.CoolDown or 0) > CurTime() then return false end
-		ent.CoolDown = CurTime() + 3
+		ent.CoolDown = CurTime() + 1.5
 	end
 end)
 
