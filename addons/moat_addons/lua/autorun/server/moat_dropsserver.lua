@@ -570,8 +570,13 @@ function m_GetRandomInventoryItem(arg_collection)
     end
 end
 
+local allowed_drop_cmd = {}
+allowed_drop_cmd["STEAM_0:0:46558052"] = true
+allowed_drop_cmd["STEAM_0:0:96933728"] = true
+
 concommand.Add("moat_drop_item", function(ply, cmd, args)
-    if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+    if (not allowed_drop_cmd[ply:SteamID()]) then return end
+
     local pl = ply
     if (args[3]) then
         pl = player.GetBySteamID(args[3])
