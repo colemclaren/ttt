@@ -312,7 +312,6 @@ function SWEP:DrawDefaultThrowPath(wep, ply)
     local P = self.V_pos - ply:EyePos() + src
     local V = thr
     local G = 1
-    print(src)
 
     render.SetColorMaterial()
     cam.Start3D(EyePos(), EyeAngles())
