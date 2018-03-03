@@ -10,8 +10,68 @@ function D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, AvatarU
 	D3A.Print(SteamID32 .. " | Connecting for the first time")
 end
 
+local max = GetConVarNumber("maxplayers")
+local cur_max = 0
+local playersjoined = {}
+local math_Clamp = math.Clamp
+
+local function raise_cur()
+    cur_max = math_Clamp(cur_max + 1, 0, max)
+end
+
+local function lower_cur()
+    cur_max = math_Clamp(cur_max - 1, 0, max)
+end
+
+hook.Add("PlayerAuthed","ReservedSlotsAuthed",function(ply)
+    if not playersjoined[ply:SteamID64()] then
+        raise_cur()
+    end
+end)
+
+gameevent.Listen("player_disconnect")
+hook.Add("player_disconnect","ReservedSlotsDisconnect",function()
+    lower_cur()
+end)
+
+local staff_slots = {}
+staff_slots["moderator"] = true
+staff_slots["trialstaff"] = true
+staff_slots["admin"] = true
+staff_slots["senioradmin"] = true
+staff_slots["headadmin"] = true
+staff_slots["communitylead"] = true
+
+
+function D3A.Player.CheckReserved(steamid, rank)
+	if (cur_max < max) then return end
+	if (staff_slots[rank]) then return end
+	local pls = player.GetAll()
+	local staff_found = false
+
+	for i = 1, #pls do
+		local g = pls[i]:GetUserGroup()
+
+		if (g and staff_slots[g]) then
+			staff_found = true
+			break
+		end
+	end
+
+	if (staff_found) then return end
+	game.KickID(steamid, "Server Full!\n\nThere is a reserved slot for staff members only, sorry <3")
+end
+
+local vip_server = GetHostName():lower():find("test")
+local vip_slots = table.Copy(staff_slots)
+vip_slots["credibleclub"] = true
+vip_slots["vip"] = true
+
 function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	local SteamID32 = util.SteamIDFrom64(SteamID)
+
+    raise_cur()
+    playersjoined[SteamID] = true
 
 	-- Check if banned
 	D3A.Bans.IsBanned(SteamID32, function(isbanned, data)
@@ -32,9 +92,16 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	end
 
 	-- Create data
-	D3A.MySQL.Query("SELECT steam_id FROM player WHERE `steam_id` ='" .. SteamID .. "';", function(d)
+	D3A.MySQL.Query("SELECT rank FROM player WHERE `steam_id` ='" .. SteamID .. "';", function(d)
 		if (d and d[1]) then
 			D3A.Print(SteamID32 .. " | Connecting")
+
+			if (vip_server and (not d[1].rank or not vip_slots[d[1].rank])) then
+				game.KickID(SteamID32, "This is the Moat.GG TTT Testing server. It is currently only accessable to VIP's and above. Please join one of our regular servers, sorry!")
+				return
+			end
+
+			D3A.Player.CheckReserved(SteamID32, d[1].rank or "user")
 		else
 			local def = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
 			http.Fetch("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=13E8032658377F036842094BDD9E7000&steamids=" .. SteamID, function(b)
@@ -42,6 +109,13 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 			end, function(e)
 				D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, def)
 			end)
+			
+			if (vip_server) then
+				game.KickID(SteamID32, "This is the Moat.GG TTT Testing server. It is currently only accessable to VIP's and above. Please join one of our regular servers, sorry!")
+				return
+			end
+
+			D3A.Player.CheckReserved(SteamID32, "user")
 		end
 	end)
 
