@@ -131,7 +131,7 @@ function SWEP:BlowInFace()
    -- drop the grenade so it can immediately explode
 
    local ang = ply:GetAngles()
-   local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())
+   local src = ply:EyePos()
    src = src + (ang:Right() * 10)
 
    self:CreateGrenade(src, Angle(0,0,0), Vector(0,0,1), Vector(0,0,1), ply)
@@ -156,7 +156,7 @@ function SWEP:Throw()
       self.was_thrown = true
 
       local ang = ply:EyeAngles()
-      local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())+ (ang:Forward() * 8) + (ang:Right() * 10)
+      local src = ply:EyePos() + (ang:Forward() * 8) + (ang:Right() * 10)
       local target = ply:GetEyeTraceNoCursor().HitPos
       local tang = (target-src):Angle() -- A target angle to actually throw the grenade to the crosshair instead of fowards
       -- Makes the grenade go upgwards
@@ -295,7 +295,7 @@ function SWEP:DrawDefaultThrowPath(wep, ply)
     end
 
     local ang = ply:EyeAngles()
-    local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset()) + (ang:Forward() * 8) + (ang:Right() * 10)
+    local src = ply:EyePos() + (ang:Forward() * 8) + (ang:Right() * 10)
     local target = ply:GetEyeTraceNoCursor().HitPos
     local tang = (target-src):Angle() -- A target angle to actually throw the grenade to the crosshair instead of fowards
     -- Makes the grenade go upgwards
@@ -312,22 +312,22 @@ function SWEP:DrawDefaultThrowPath(wep, ply)
     local P = self.V_pos - ply:EyePos() + src
     local V = thr
     local G = 1
+    print(src)
 
-    local lastpos
     render.SetColorMaterial()
     cam.Start3D(EyePos(), EyeAngles())
-    for T = 0.025, 1, 0.025 do
+    local step = 0.05
+    local lastpos = PositionFromPhysicsParams(P, V, G, step)
+    for T = step * 2, 1, step do
         local pos = PositionFromPhysicsParams(P, V, G, T)
         local t = util.TraceLine {
             start = lastpos,
-            pos,
+            endpos = pos,
             filter = {ply, wep}
         }
+        render.DrawBeam(lastpos, t.Hit and t.HitPos or pos, 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
         if (t.Hit) then
             break
-        end
-        if (lastpos) then
-            render.DrawBeam(lastpos, pos, 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
         end
         lastpos = pos
     end
