@@ -154,7 +154,6 @@ function Damagelog:DrawDamageTab(x, y)
 	self.PS_Label = vgui.Create("DLabel", self.PlayerSelect)
 	self.PS_Label.Text = "Currently highlighted players:"
 	self.PS_Label:SetFont("DL_Highlight")
-	self.PS_Label:SetTextColor(color_black)
 	self.PS_Label:SetText(self.PS_Label.Text.." none")
 	self.PS_Label:SetPos(5, 10)
 	self.PS_Label:SizeToContents()
