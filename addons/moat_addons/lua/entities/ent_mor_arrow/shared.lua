@@ -91,8 +91,9 @@ function ENT:PlayerTick(p)
         util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
         self:EmitSound(self.HitWall)
         if Vi:Length() > 400 then
-            self:SetPos(tr.HitPos + self:GetForward() * -2)
+            self:SetPos(tr.HitPos + self:GetForward() * -25)
             self:SetMoveType(MOVETYPE_NONE)
+            hook.Remove("PlayerTick", self)
             self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
         end
         self.Disabled = true
