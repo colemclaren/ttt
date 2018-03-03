@@ -119,12 +119,14 @@ end
 function SWEP:Initialize()
 	self:SetWeaponHoldType("Pistol")
 	self:SetZoomed(false)
+	self:CreateArrow()
 end
 
 function SWEP:SetupDataTables()
 	self:NetworkVar("Float", 0, "HoldTime")
 	self:NetworkVar("Float", 1, "AnimationResetTime")
 	self:NetworkVar("Bool", 1, "Zoomed")
+	self:NetworkVar("Entity", 0, "Arrow")
 end
 
 function SWEP:ResetNetworkable()
@@ -215,6 +217,12 @@ function SWEP:Think()
 
 end
 
+function SWEP:CreateArrow()
+	if (not SERVER) then return end
+	self:SetArrow(ents.Create "ent_mor_arrow")
+	self:GetArrow():SetRenderMode(RENDERMODE_NONE)
+end
+
 /*---------------------------------------------------------
    Name: SWEP:ShootArrow()
    Desc: Hot Potato.
@@ -230,31 +238,24 @@ function SWEP:ShootArrow()
 	local ratio = math.Clamp((CurTime() - self:GetHoldTime()) / self.MaxHoldTime, 0.1, 1)
 	self:EmitSound("weapons/bow/skyrim_bow_shoot.mp3")
 
-	if (not SERVER) then return end
-	local arrow = ents.Create("ent_mor_arrow")
-	if SERVER then
-		arrow:SetAngles(self.Owner:EyeAngles())
-		local pos = self.Owner:GetShootPos()
-			pos = pos + self.Owner:GetUp() * -3
-		arrow:SetPos(pos)
-		arrow:SetOwner(self.Owner)
-		arrow.Weapon = self		-- Used to set the arrow's killicon.
-		arrow.Damage = self.Primary.Damage * ratio
-		arrow:SetAngles(self.Owner:EyeAngles() + Angle(0, 180, 0))
-		local trail = util.SpriteTrail(arrow, 0, Color(255, 255, 255, 100), false, 5, 5, 0.05, 1/(15+1)*0.5, "trails/plasma.vmt")
-		arrow.Trail = trail
-		arrow:Spawn()
-		arrow:Activate()
-	end
+	local arrow = self:GetArrow()
+	arrow:SetRenderMode(RENDERMODE_NORMAL)
+	arrow:SetModel("models/morrowind/steel/arrow/steelarrow.mdl")
+	self:CreateArrow()
+	arrow:SetAngles(self.Owner:EyeAngles())
+	local pos = self.Owner:GetShootPos()
+	pos = pos + self.Owner:GetUp() * -3
+	arrow:SetPos(pos)
+	arrow:SetOwner(self.Owner)
+	arrow.Weapon = self		-- Used to set the arrow's killicon.
+	arrow.Damage = self.Primary.Damage * ratio
+	arrow:SetAngles(self.Owner:EyeAngles() + Angle(0, 180, 0))
+	arrow:Spawn()
+	arrow:Activate()
 	//		self.Weapon:SendWeaponAnim(ACT_VM_IDLE)
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
-	if SERVER then
-		local phys = arrow:GetPhysicsObject()
-		if (phys) then
-			phys:SetVelocity(self.Owner:GetAimVector() * 5000 * ratio)
-		end
-		arrow:SetOwner(self.Owner)
-	end
+	arrow.Velocity = self.Owner:GetAimVector() * 5000 * ratio
+	arrow:SetFirer(self.Owner)
 	self:SetNextPrimaryFire(CurTime())
 	self:TakePrimaryAmmo(1)
 end
@@ -277,9 +278,7 @@ function SWEP:Reload()
 	if (self:Clip1() >= self.Primary.ClipSize or self.Owner:GetAmmoCount( self.Primary.Ammo ) <= 0) then return end
 	self:DefaultReload(0)
 	self:SetZoomed(false)
-	if SERVER then
-		self.Owner:SetFOV( 0, 0.3 ) -- Setting to 0 resets the FOV
-	end
+	self.Owner:SetFOV( 0, 0.3 ) -- Setting to 0 resets the FOV
 end
 
 function MorBowArrow(ent, ragdoll)
