@@ -32,7 +32,8 @@ local moat_Adverts = {
 	{ Color( 255, 255, 0 ), "Don't like the custom HUD? You can press F6 while alive to use the menu bar and the top left of elements to move them around!" },
 	{ Color( 255, 255, 0 ), "Want some free credits? Type !rewards in the chat to open the rewards menu!" },
 	{ Color( 255, 255, 0 ), "Someone causing problems with no staff online? Make a player complaint on our forums." },
-	{ Color( 255, 255, 0 ), "Have a suggestion for the server? Make a post on the forums!" }
+	{ Color( 255, 255, 0 ), "Have a suggestion for the server? Make a post on the forums!" },
+	{ Color( 255, 255, 0 ), "Join our discord for access to exclusive announcements and updates." },
 }
 
 
