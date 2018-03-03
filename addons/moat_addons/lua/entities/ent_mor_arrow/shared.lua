@@ -41,14 +41,14 @@ function ENT:PlayerTick(p)
 
     if (IsValid(Ent)) then
         if not(Ent:IsPlayer() or Ent:IsNPC() or Ent:GetClass() == "prop_ragdoll") then 
-            util.Decal("ManhackCut", data.HitPos + data.HitNormal, data.HitPos - data.HitNormal)
+            util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
             self:EmitSound(self.Hit)
             self.HitEnemy = true
         end
 
         local damage = self.Damage
 
-        if trace.Entity == Ent and trace.HitGroup == HITGROUP_HEAD then
+        if tr.Entity == Ent and tr.HitGroup == HITGROUP_HEAD then
             damage = damage * 2
         end
 
@@ -63,22 +63,22 @@ function ENT:PlayerTick(p)
         dmginfo:SetDamageType(DMG_BULLET)
         dmginfo:SetDamage(damage)
 
-        hook.Call("ScalePlayerDamage", nil, Ent, trace.HitGroup, dmginfo)
+        hook.Call("ScalePlayerDamage", nil, Ent, tr.HitGroup, dmginfo)
 
         Ent:TakeDamageInfo(dmginfo)
 
         if (Ent:IsPlayer() or Ent:IsNPC() or Ent:GetClass() == "prop_ragdoll") then 
             local effectdata = EffectData()
-            effectdata:SetStart(data.HitPos)
-            effectdata:SetOrigin(data.HitPos)
+            effectdata:SetStart(tr.HitPos)
+            effectdata:SetOrigin(tr.HitPos)
             effectdata:SetScale(1)
             util.Effect("BloodImpact", effectdata)
 
             self:EmitSound(self.Hit)
         end
         if (Ent:IsPlayer() or Ent:IsNPC()) and (Ent:Health() > 0) or Ent:GetMoveType() == MOVETYPE_VPHYSICS then //and (!Ent == self:GetOwner()) then
-            self.Entity:SetMoveType(MOVETYPE_NONE)
-            self.Entity:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+            self:SetMoveType(MOVETYPE_NONE)
+            self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
             self:SetPos(self:GetPos() + self:GetForward() * -25)
             self:SetParent(Ent)
             self:SetOwner(Ent)

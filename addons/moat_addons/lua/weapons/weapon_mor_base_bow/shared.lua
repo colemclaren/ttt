@@ -260,7 +260,7 @@ function SWEP:ShootArrow()
 	arrow:Activate()
 	//		self.Weapon:SendWeaponAnim(ACT_VM_IDLE)
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
-	arrow.Velocity = self.Owner:GetAimVector() * 5000 * ratio
+	arrow.Velocity = self.Owner:GetAimVector() * 1500 * ratio
 	arrow:SetFirer(self.Owner)
 	self:SetNextPrimaryFire(CurTime())
 	self:TakePrimaryAmmo(1)
