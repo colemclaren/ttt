@@ -4374,6 +4374,8 @@ local equipables = {
     ["model"] = true
 }
 
+local moat_decon = CreateClientConVar("moat_decon_hold", 0, true, false)
+
 function m_CreateItemMenu(num, ldt)
     local itemtbl = m_Inventory[num]
     if (ldt) then
@@ -4567,6 +4569,10 @@ function m_CreateItemMenu(num, ldt)
     M_INV_MENU:AddSpacer()
 
     local remove_text = "Deconstruct for " .. dec_min .. " - " .. dec_max .. " IC"
+    local deco = moat_decon:GetInt()
+    if (deco < 5) then
+        remove_text = "HOLD to Deconstruct for " .. dec_min .. " - " .. dec_max .. " IC"
+    end
 
     if (m_Inventory[num].item.Rarity == 0) then
         remove_text = "Deconstruct"
@@ -4606,9 +4612,9 @@ function m_CreateItemMenu(num, ldt)
             if (s.StopThink) then return end
 
             if (s:IsHovered() and input.IsMouseDown(MOUSE_LEFT)) then
-                pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 1)
+                pnl_width = math.Approach(pnl_width, 1, (dec_rate * 0.35) * FrameTime())
             elseif (input.IsMouseDown(MOUSE_LEFT)) then
-                pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 0)
+                pnl_width = math.Approach(pnl_width, 0, (dec_rate * 0.35) * FrameTime())
             end
 
             if (pnl_width >= 0.99) then
@@ -4618,15 +4624,16 @@ function m_CreateItemMenu(num, ldt)
                 net.WriteDouble(itemtbl.c)
                 net.SendToServer()
                 M_INV_MENU:Remove()
+                if (deco < 5) then moat_decon:SetInt(deco + 1) end
             end
         end
 
         pnl.Paint = function(s, w, h)
             if (s:IsHovered()) then
-                draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 150))
+                draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
             end
 
-            draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 0, 0, 150))
+            draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
         end
     end
 
@@ -4648,9 +4655,9 @@ function m_CreateItemMenu(num, ldt)
             if (s.StopThink) then return end
 
             if (s:IsHovered() and input.IsMouseDown(MOUSE_LEFT)) then
-                pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 1)
+                pnl_width = math.Approach(pnl_width, 1, (dec_rate * 0.35) * FrameTime())
             elseif (input.IsMouseDown(MOUSE_LEFT)) then
-                pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 0)
+                pnl_width = math.Approach(pnl_width, 0, (dec_rate * 0.35) * FrameTime())
             end
 
             if (pnl_width >= 0.99) then
@@ -4691,9 +4698,9 @@ function m_CreateItemMenu(num, ldt)
                 if (s.StopThink) then return end
 
                 if (s:IsHovered() and input.IsMouseDown(MOUSE_LEFT)) then
-                    pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 1)
+                    pnl_width = math.Approach(pnl_width, 1, (dec_rate * 0.35) * FrameTime())
                 elseif (input.IsMouseDown(MOUSE_LEFT)) then
-                    pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 0)
+                    pnl_width = math.Approach(pnl_width, 0, (dec_rate * 0.35) * FrameTime())
                 end
 
                 if (pnl_width >= 0.99) then
@@ -4735,9 +4742,9 @@ function m_CreateItemMenu(num, ldt)
                 if (s.StopThink) then return end
 
                 if (s:IsHovered() and input.IsMouseDown(MOUSE_LEFT)) then
-                    pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 1)
+                    pnl_width = math.Approach(pnl_width, 1, (dec_rate * 0.35) * FrameTime())
                 elseif (input.IsMouseDown(MOUSE_LEFT)) then
-                    pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 0)
+                    pnl_width = math.Approach(pnl_width, 0, (dec_rate * 0.35) * FrameTime())
                 end
 
                 if (pnl_width >= 0.99) then
@@ -4779,9 +4786,9 @@ function m_CreateItemMenu(num, ldt)
                 if (s.StopThink) then return end
 
                 if (s:IsHovered() and input.IsMouseDown(MOUSE_LEFT)) then
-                    pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 1)
+                    pnl_width = math.Approach(pnl_width, 1, (dec_rate * 0.35) * FrameTime())
                 elseif (input.IsMouseDown(MOUSE_LEFT)) then
-                    pnl_width = Lerp(dec_rate * FrameTime(), pnl_width, 0)
+                    pnl_width = math.Approach(pnl_width, 0, (dec_rate * 0.35) * FrameTime())
                 end
 
                 if (pnl_width >= 0.99) then
