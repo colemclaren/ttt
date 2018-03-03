@@ -112,7 +112,6 @@ SWEP.QuickFireRatio		= .6			// Changes quickfire damage/velocity, a ratio of nor
 SWEP.MaxHoldTime		= 3				// Must let go after this time. Determines damage/velocity based on time held.
 //Do not touch.
 //SWEP.FiredArrow			= false
-SWEP.DelayTime			= 0
 
 function SWEP:Precache()
 	util.PrecacheSound("sound/weapons/bow/skyrim_bow_draw.mp3")
@@ -129,13 +128,14 @@ function SWEP:SetupDataTables()
 	self:DTVar("Bool", 0, "FiredArrow")
 	self:DTVar("Float", 0, "HoldTimer")
 	self:NetworkVar("Bool", 1, "Zoomed")
+	self:NetworkVar("Float", 1, "DelayTime")
 end
 
 function SWEP:Deploy()
 	self:EmitSound("weapons/bow/skyrim_bow_draw.mp3")
 	self:SetNextPrimaryFire(CurTime() + 1)
-	self:SetNextSecondaryFire(CurTime() + 1)	
-	self.DelayTime = CurTime() + 1
+	self:SetNextSecondaryFire(CurTime() + 1)
+	self:SetDelayTime(CurTime() + 1)
 	if (SERVER) then
 		local vm = self.Owner:GetViewModel()
 		if (vm:IsValid()) then
@@ -184,14 +184,14 @@ function SWEP:PrimaryAttack()
 	end
 
 	self:EmitSound("weapons/bow/skyrim_bow_pull.mp3")
-	self.DelayTime = CurTime() + 0.5
+	self:SetDelayTime(CurTime() + 0.5)
 	self:SetDTFloat(0, CurTime() + self.MaxHoldTime)
 	self:SetNextPrimaryFire(self:GetDTFloat(0))
 end
 
 function SWEP:CanPrimaryAttack()
 	if not IsValid(self.Owner) then return end
-	--if (self.DelayTime > CurTime()) then return end
+	if (self:GetDelayTime() > CurTime()) then return end
 
 	if self:Clip1() <= 0 then
 		self:DryFire(self.SetNextPrimaryFire)
@@ -207,7 +207,7 @@ end
 function SWEP:Think()
 	if !self.Owner:IsValid() or !self.Owner:IsPlayer() then return end
 
-	if self:GetDTFloat(0) != 0 and self.DelayTime < CurTime() and self:GetDTBool(0) == false then
+	if self:GetDTFloat(0) != 0 and self:GetDelayTime() < CurTime() and self:GetDTBool(0) == false then
 		if !self.Owner:KeyDown(IN_ATTACK) then
 			if SERVER then
 				local vm = self.Owner:GetViewModel()
@@ -229,7 +229,7 @@ end
    Desc: Hot Potato.
 ---------------------------------------------------------*/
 function SWEP:ShootArrow()
-	if self.DelayTime > CurTime() then return end
+	if self:GetDelayTime() > CurTime() then return end
 	local anim = self.Owner:GetViewModel():LookupSequence("shoot"..math.random(4,6))
 	self.Owner:GetViewModel():SetSequence(anim)
 	self.Owner:GetViewModel():SetPlaybackRate(4)
