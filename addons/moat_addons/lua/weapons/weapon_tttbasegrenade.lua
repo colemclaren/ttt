@@ -317,34 +317,38 @@ function SWEP:DrawDefaultThrowPath(wep, ply)
 
     render.SetColorMaterial()
     cam.Start3D(EyePos(), EyeAngles())
-    local step = 0.005
-    local lastpos = PositionFromPhysicsParams(P, V, G, step)
+        local step = 0.005
+        local lastpos = PositionFromPhysicsParams(P, V, G, step)
 
-    local even = true
-    --local var = math.abs(math.sin(RealTime() * 20))
-    --if (var < 0.5) then on_even_line = true else on_even_line = false end
-    
-    if (on_even_line) then even = false end
+        local frac = SysTime() % 2
 
-    for T = step * 2, 1, step do
-        local pos = PositionFromPhysicsParams(P, V, G, T)
-        local t = util.TraceLine {
-            start = lastpos,
-            endpos = pos,
-            filter = {ply, wep}
-        }
+        local i = frac > 1 and 1 or 0
+        frac = frac - math.floor(frac)
+        for T = step * 2, 1, step do
+            local pos = PositionFromPhysicsParams(P, V, G, T)
+            local t = util.TraceLine {
+                start = lastpos,
+                endpos = pos,
+                filter = {ply, wep}
+            }
 
-        if (even) then
-          render.DrawBeam(lastpos, t.Hit and t.HitPos or pos, 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
+            local from, to = lastpos, t.Hit and t.HitPos or pos
+            local norm = to - from
+            norm:Normalize()
+            local len = from:Distance(to)
+
+            i = (i + 1) % 2
+            if (i == 0) then
+                render.DrawBeam(from, from + norm * (frac * len), 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
+            else
+                render.DrawBeam(to - norm * ((1 - frac) * len), to, 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
+            end
+
+            if (t.Hit) then
+                break
+            end
+            lastpos = pos
         end
-        
-        even = not even
-
-        if (t.Hit) then
-            break
-        end
-        lastpos = pos
-    end
     cam.End3D()
 
 end
