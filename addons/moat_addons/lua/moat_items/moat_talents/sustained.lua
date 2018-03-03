@@ -20,8 +20,7 @@ TALENT.Melee = false
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
-
-	if ( victim:Health() - dmginfo:GetDamage() <= 0 ) then
+	if (GetRoundState() == ROUND_ACTIVE and not MOAT_ACTIVE_BOSS and (victim:Health() - dmginfo:GetDamage() <= 0) ) then
 
 		local health_to_add = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 

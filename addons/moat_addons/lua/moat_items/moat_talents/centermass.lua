@@ -10,12 +10,13 @@ TALENT.Melee = false
 TALENT.NotUnique = true
 
 local da_hitgroups = {
-	[HITGROUP_CHEST] = true,
-	[HITGROUP_STOMACH] = true
+	[HITGROUP_LEFTLEG] = true,
+	[HITGROUP_RIGHTLEG] = true,
+	[HITGROUP_HEAD] = true
 }
 
 function TALENT:ScalePlayerDamage(victim, attacker, dmginfo, hitgroup, talent_mods)
-	if (da_hitgroups[hitgroup]) then
+	if (not da_hitgroups[hitgroup]) then
 		local increase = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 		dmginfo:ScaleDamage( 1 + ( increase / 100 ) )
 	end

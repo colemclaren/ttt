@@ -22,8 +22,7 @@ TALENT.Melee = false
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
-
-	if ( victim:Health() - dmginfo:GetDamage() <= 0 ) then
+	if (GetRoundState() == ROUND_ACTIVE and not MOAT_ACTIVE_BOSS and (victim:Health() - dmginfo:GetDamage() <= 0) ) then
 
 		local wep = dmginfo:GetAttacker():GetActiveWeapon()
 
