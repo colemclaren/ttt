@@ -25,7 +25,7 @@ function TALENT:OnWeaponSwitch(ply, wep, isto, talent_mods)
 
 	if (isto) then
 		timer.Create("moat_medicality" .. tn, timer_speed, 0, function()
-			if (not IsValid(tn)) then timer.Remove("moat_medicality" .. tn) return end
+			if (not IsValid(ply)) then timer.Remove("moat_medicality" .. tn) return end
 			if ((not wep:IsValid()) or (wep:IsValid() and ply:GetActiveWeapon():IsValid() and ply:GetActiveWeapon() ~= wep)) then timer.Remove("moat_medicality" .. tn) return end
 
 			if (ply:Health() < ply:GetMaxHealth()) then
