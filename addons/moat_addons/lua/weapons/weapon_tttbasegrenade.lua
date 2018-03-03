@@ -281,13 +281,15 @@ local function ColorLerp(from, mid, to, frac)
     return Color(Lerp(fr, f.r, t.r), Lerp(fr, f.g, t.g), Lerp(fr, f.b, t.b), 160)
 end
 
-local color_green = Color(40, 220, 40)
-local color_yellow = Color(220, 220, 40)
-local color_red = Color(220, 40, 40)
+local color_green = Color(255, 40, 40)
+local color_yellow = Color(220, 40, 40)
+local color_red = Color(255, 40, 40)
 
 function SWEP:GetViewModelPosition(pos, ang)
     self.V_pos = pos
 end
+
+local on_even_line = false
 
 function SWEP:DrawDefaultThrowPath(wep, ply)
     if (not self.V_pos) then
@@ -315,8 +317,15 @@ function SWEP:DrawDefaultThrowPath(wep, ply)
 
     render.SetColorMaterial()
     cam.Start3D(EyePos(), EyeAngles())
-    local step = 0.025
+    local step = 0.005
     local lastpos = PositionFromPhysicsParams(P, V, G, step)
+
+    local even = true
+    --local var = math.abs(math.sin(RealTime() * 20))
+    --if (var < 0.5) then on_even_line = true else on_even_line = false end
+    
+    if (on_even_line) then even = false end
+
     for T = step * 2, 1, step do
         local pos = PositionFromPhysicsParams(P, V, G, T)
         local t = util.TraceLine {
@@ -324,7 +333,13 @@ function SWEP:DrawDefaultThrowPath(wep, ply)
             endpos = pos,
             filter = {ply, wep}
         }
-        render.DrawBeam(lastpos, t.Hit and t.HitPos or pos, 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
+
+        if (even) then
+          render.DrawBeam(lastpos, t.Hit and t.HitPos or pos, 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
+        end
+        
+        even = not even
+
         if (t.Hit) then
             break
         end
