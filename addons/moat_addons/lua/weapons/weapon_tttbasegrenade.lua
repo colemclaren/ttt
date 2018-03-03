@@ -320,7 +320,7 @@ function SWEP:DrawDefaultThrowPath(wep, ply)
         local step = 0.005
         local lastpos = PositionFromPhysicsParams(P, V, G, step)
 
-        local frac = SysTime() % 2
+        local frac = (SysTime() % 1) / 1 * 2
 
         local i = frac > 1 and 1 or 0
         frac = frac - math.floor(frac)
