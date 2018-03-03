@@ -21,10 +21,12 @@ TALENT.NotUnique = true
 
 function TALENT:OnWeaponSwitch(ply, wep, isto, talent_mods)
 	local timer_speed = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
+	local tn = ply:EntIndex()
 
 	if (isto) then
-		timer.Create("moat_medicality" .. ply:EntIndex(), timer_speed, 0, function()
-			if ((not wep:IsValid()) or (wep:IsValid() and ply:GetActiveWeapon():IsValid() and ply:GetActiveWeapon() ~= wep)) then timer.Remove("moat_medicality" .. ply:EntIndex()) return end
+		timer.Create("moat_medicality" .. tn, timer_speed, 0, function()
+			if (not IsValid(tn)) then timer.Remove("moat_medicality" .. tn) return end
+			if ((not wep:IsValid()) or (wep:IsValid() and ply:GetActiveWeapon():IsValid() and ply:GetActiveWeapon() ~= wep)) then timer.Remove("moat_medicality" .. tn) return end
 
 			if (ply:Health() < ply:GetMaxHealth()) then
 				local hp = math.Clamp(ply:Health() + 1, 0, ply:GetMaxHealth())
@@ -32,6 +34,6 @@ function TALENT:OnWeaponSwitch(ply, wep, isto, talent_mods)
 			end
 		end)
 	else
-		timer.Remove("moat_medicality" .. ply:EntIndex())
+		timer.Remove("moat_medicality" .. tn)
 	end
 end

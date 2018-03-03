@@ -14,6 +14,8 @@ local item_kind_codes = {
 }
 
 function MOAT_LOADOUT.ResetPowerupAbilities(ply)
+    if (not IsValid(ply)) then return end
+    
     ply:SetJumpPower(160)
     ply.JumpHeight = 160
     ply:SetMaxHealth(100)
@@ -227,6 +229,7 @@ MOAT_LOADOUT.UpdateOtherWepCache = {}
 
 function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, powerup, tactical, is_reequip)
     if (hook.Call("MoatInventoryShouldGiveLoadout", nil, ply)) then return end
+    if (not IsValid(ply)) then return end
 
     local loadout_table = {
         ["Primary"] = pri_wep,
