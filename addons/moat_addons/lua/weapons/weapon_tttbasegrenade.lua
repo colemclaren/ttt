@@ -92,7 +92,7 @@ end
 
 function SWEP:Think()
    BaseClass.Think(self)
-   
+
    local ply = self.Owner
    if not IsValid(ply) then return end
 
@@ -131,7 +131,7 @@ function SWEP:BlowInFace()
    -- drop the grenade so it can immediately explode
 
    local ang = ply:GetAngles()
-   local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())
+   local src = ply:EyePos()
    src = src + (ang:Right() * 10)
 
    self:CreateGrenade(src, Angle(0,0,0), Vector(0,0,1), Vector(0,0,1), ply)
@@ -156,7 +156,7 @@ function SWEP:Throw()
       self.was_thrown = true
 
       local ang = ply:EyeAngles()
-      local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())+ (ang:Forward() * 8) + (ang:Right() * 10)
+      local src = ply:EyePos() + (ang:Forward() * 8) + (ang:Right() * 10)
       local target = ply:GetEyeTraceNoCursor().HitPos
       local tang = (target-src):Angle() -- A target angle to actually throw the grenade to the crosshair instead of fowards
       -- Makes the grenade go upgwards
@@ -169,7 +169,7 @@ function SWEP:Throw()
       tang.p=math.Clamp(tang.p,-90,90) -- Makes the grenade not go backwards :/
       local vel = math.min(800, (90 - tang.p) * 6)
       local thr = tang:Forward() * vel + ply:GetVelocity()
-      self:CreateGrenade(src, Angle(0,0,0), thr, Vector(600, math.random(-1200, 1200), 0), ply)
+      self:CreateGrenade(src, Angle(0,0,0), thr, vector_origin, ply)
 
       self:SetThrowTime(0)
       self:Remove()
@@ -194,9 +194,8 @@ function SWEP:CreateGrenade(src, ang, vel, angimp, ply)
    gren:SetOwner(ply)
    gren:SetThrower(ply)
 
-   gren:SetGravity(0.4)
-   gren:SetFriction(0.2)
-   gren:SetElasticity(0.45)
+   gren:SetFriction(200000)
+   gren:SetElasticity(0)
 
    gren:Spawn()
 
@@ -205,6 +204,7 @@ function SWEP:CreateGrenade(src, ang, vel, angimp, ply)
    local phys = gren:GetPhysicsObject()
    if IsValid(phys) then
       phys:SetVelocity(vel)
+      phys:EnableDrag(false)
       phys:AddAngleVelocity(angimp)
    end
 
@@ -265,4 +265,90 @@ function SWEP:OnRemove()
    if CLIENT and IsValid(self.Owner) and self.Owner == LocalPlayer() and self.Owner:Alive() then
       RunConsoleCommand("use", "weapon_ttt_unarmed")
    end
+end
+
+local function PositionFromPhysicsParams(P, V, G, T)
+    -- D = Vi * t + 1/2 * a * t ^ 2
+    local A = G * physenv.GetGravity()
+    return P + (V * T + 0.5 * A * T ^ 2)
+end
+
+local function ColorLerp(from, mid, to, frac)
+    local f, t, fr = from, mid, frac * 2
+    if (frac > 1) then
+        f, t, fr = mid, to, frac - 1
+    end
+    return Color(Lerp(fr, f.r, t.r), Lerp(fr, f.g, t.g), Lerp(fr, f.b, t.b), 160)
+end
+
+local color_green = Color(255, 40, 40)
+local color_yellow = Color(220, 40, 40)
+local color_red = Color(255, 40, 40)
+
+function SWEP:GetViewModelPosition(pos, ang)
+    self.V_pos = pos
+end
+
+local on_even_line = false
+
+function SWEP:DrawDefaultThrowPath(wep, ply)
+    if (not self.V_pos) then
+        return
+    end
+
+    local ang = ply:EyeAngles()
+    local src = ply:EyePos() + (ang:Forward() * 8) + (ang:Right() * 10)
+    local target = ply:GetEyeTraceNoCursor().HitPos
+    local tang = (target-src):Angle() -- A target angle to actually throw the grenade to the crosshair instead of fowards
+    -- Makes the grenade go upgwards
+    if tang.p < 90 then
+        tang.p = -10 + tang.p * ((90 + 10) / 90)
+    else
+        tang.p = 360 - tang.p
+        tang.p = -10 + tang.p * -((90 + 10) / 90)
+    end
+    tang.p = math.Clamp(tang.p,-90,90) -- Makes the grenade not go backwards :/
+    local vel = math.min(800, (90 - tang.p) * 6)
+    local thr = tang:Forward() * vel + ply:GetVelocity()
+
+    local P = self.V_pos - ply:EyePos() + src
+    local V = thr
+    local G = 1
+
+    render.SetColorMaterial()
+    cam.Start3D(EyePos(), EyeAngles())
+        local step = 0.005
+        local lastpos = PositionFromPhysicsParams(P, V, G, step)
+
+        local frac = (SysTime() % 1) / 1 * 2
+
+        local i = frac > 1 and 1 or 0
+        frac = frac - math.floor(frac)
+        for T = step * 2, 1, step do
+            local pos = PositionFromPhysicsParams(P, V, G, T)
+            local t = util.TraceLine {
+                start = lastpos,
+                endpos = pos,
+                filter = {ply, wep}
+            }
+
+            local from, to = lastpos, t.Hit and t.HitPos or pos
+            local norm = to - from
+            norm:Normalize()
+            local len = from:Distance(to)
+
+            i = (i + 1) % 2
+            if (i == 0) then
+                render.DrawBeam(from, from + norm * (frac * len), 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
+            else
+                render.DrawBeam(to - norm * ((1 - frac) * len), to, 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
+            end
+
+            if (t.Hit) then
+                break
+            end
+            lastpos = pos
+        end
+    cam.End3D()
+
 end
