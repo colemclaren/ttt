@@ -41,7 +41,7 @@ else
 end
 
 function CoolDownDoStuff()
-    cooldownnum = 2
+    cooldownnum = 7
  
     if table.Count(recentmaps) > cooldownnum then 
         table.remove(recentmaps)
