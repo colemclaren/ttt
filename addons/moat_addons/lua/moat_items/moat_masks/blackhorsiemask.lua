@@ -1,4 +1,4 @@
-ITEM.Name = "Stalion Mask"
+ITEM.Name = "Stallion Mask"
 ITEM.ID = 666
 ITEM.Description = "You are a beautiful horse"
 ITEM.Rarity = 7
