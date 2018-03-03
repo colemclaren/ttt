@@ -4673,10 +4673,10 @@ function m_CreateItemMenu(num, ldt)
 
         pnl.Paint = function(s, w, h)
             if (s:IsHovered()) then
-                draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 150))
+                draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
             end
 
-            draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 0, 0, 150))
+            draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
         end
     end
 
@@ -4716,10 +4716,10 @@ function m_CreateItemMenu(num, ldt)
 
             pnl.Paint = function(s, w, h)
                 if (s:IsHovered()) then
-                    draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 150))
+                    draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
                 end
 
-                draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 0, 0, 150))
+                draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
             end
         end
     end
@@ -4760,10 +4760,10 @@ function m_CreateItemMenu(num, ldt)
 
             pnl.Paint = function(s, w, h)
                 if (s:IsHovered()) then
-                    draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 150))
+                    draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
                 end
 
-                draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 0, 0, 150))
+                draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
             end
         end
     end
@@ -4804,12 +4804,10 @@ function m_CreateItemMenu(num, ldt)
 
             pnl.Paint = function(s, w, h)
                 if (s:IsHovered()) then
-                    draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(210, 210, 255, 255))
-                    surface_SetDrawColor(140, 140, 255, 255)
-                    surface_DrawOutlinedRect(2, 2, w - 4, h - 4)
+                    draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
                 end
 
-                draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 0, 0, 150))
+                draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
             end
         end
     end
