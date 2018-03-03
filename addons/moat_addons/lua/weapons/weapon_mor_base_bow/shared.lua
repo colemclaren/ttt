@@ -60,8 +60,8 @@ if( CLIENT ) then
 		surface.SetDrawColor(255, 255, 255, 100)
 		--surface.DrawRect(scrx - 75, scry + 200, 150, 16)
 		surface.DrawOutlinedRect(scrx - 75, scry + 200, 150, 16)
-		if self:GetHoldTime() ~= 0 then
-			local ratio = (math.Clamp((CurTime() - self:GetHoldTime()) / self.MaxHoldTime, 0.1, 1) - 0.1) / 0.9
+		if self.UnpredictedHoldTime ~= 0 then
+			local ratio = (math.Clamp((SysTime() - self.UnpredictedHoldTime) / self.MaxHoldTime, 0.1, 1) - 0.1) / 0.9
 			surface.SetDrawColor(255, 0, 0, 180)
 			surface.DrawRect(scrx - 75, scry + 200, 150 * ratio, 16)
 
@@ -131,6 +131,7 @@ end
 
 function SWEP:ResetNetworkable()
 	self:SetHoldTime(0)
+	self.UnpredictedHoldTime = 0
 	self:SetAnimationResetTime(0)
 	self:SetZoomed(false)
 end
@@ -171,7 +172,9 @@ function SWEP:PrimaryAttack()
 	end
 
 	self:SetHoldTime(CurTime())
-	self.UnpredictedHoldTime = UnPredictedCurTime()
+	if (IsFirstTimePredicted()) then
+		self.UnpredictedHoldTime = SysTime()
+	end
 
 	self:EmitSound("weapons/bow/skyrim_bow_pull.mp3")
 end
@@ -234,6 +237,9 @@ function SWEP:ShootArrow()
 	self:SetAnimationResetTime(CurTime() + 0.2)
 	self:SetNextPrimaryFire(CurTime() + 1)
 	self:SetHoldTime(0)
+	if (IsFirstTimePredicted()) then
+		self.UnpredictedHoldTime = 0
+	end
 
 	local ratio = math.Clamp((CurTime() - self:GetHoldTime()) / self.MaxHoldTime, 0.1, 1)
 	self:EmitSound("weapons/bow/skyrim_bow_shoot.mp3")
