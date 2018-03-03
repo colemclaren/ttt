@@ -2468,7 +2468,20 @@ end
 derma.DefineControl( "DVScrollBar", "A Scrollbar", PANEL, "Panel" )
 
 
+	if (not old_vgui_create) then old_vgui_create = vgui.Create end
 
+	function vgui.Create(c, p, n)
+		if (moat_already_skin) then
+			vgui.Create = old_vgui_create
+			return old_vgui_create(c, p, n)
+		end
+
+		local dagui = old_vgui_create(c, p, n)
+		dagui:SetSkin("moat")
+		moat_already_skin = true
+
+		return dagui
+	end
 end
 
 AddCSLuaFile "autorun/client/moat_util.lua"
