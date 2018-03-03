@@ -231,7 +231,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	rewards:Dock(FILL)
 
 	local lb = vgui.Create("DLabel", rewards)
-	lb:SetText("NOTE: You can only get these rewards by adding moat.gg to your name! Click below to edit your name")
+	lb:SetText("NOTE: You can only get daily rewards by adding moat.gg to your name! Capitalization doesn't matter")
 	lb:SetWrap(true)
 	lb:SetAutoStretchVertical(true)
 	lb:SetTextColor(Color(255, 255, 255))
