@@ -60,7 +60,7 @@ if( CLIENT ) then
 		surface.SetDrawColor(255, 255, 255, 100)
 		--surface.DrawRect(scrx - 75, scry + 200, 150, 16)
 		surface.DrawOutlinedRect(scrx - 75, scry + 200, 150, 16)
-		if self.UnpredictedHoldTime ~= 0 then
+		if self.UnpredictedHoldTime and self.UnpredictedHoldTime ~= 0 then
 			local ratio = (math.Clamp((SysTime() - self.UnpredictedHoldTime) / self.MaxHoldTime, 0.1, 1) - 0.1) / 0.9
 			surface.SetDrawColor(255, 0, 0, 180)
 			surface.DrawRect(scrx - 75, scry + 200, 150 * ratio, 16)
