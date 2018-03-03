@@ -19,7 +19,7 @@ function game.GetIP()
 
     return table.concat( ip, "." ) .. ":" .. GetConVarString("hostport")
 end
-
+-- meme hello
 
 local detections = {}
 
