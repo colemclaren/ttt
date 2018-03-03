@@ -661,3 +661,7 @@ if CLIENT then
     
 end
 
+
+function SWEP:PostDrawViewModel(vm, weapon, ply)
+    self:DrawDefaultThrowPath(weapon, ply)
+end

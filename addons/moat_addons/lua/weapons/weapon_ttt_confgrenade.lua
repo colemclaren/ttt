@@ -36,3 +36,7 @@ SWEP.Weight			= 5
 function SWEP:GetGrenadeName()
    return "ttt_confgrenade_proj"
 end
+
+function SWEP:PostDrawViewModel(vm, weapon, ply)
+    self:DrawDefaultThrowPath(weapon, ply)
+end
