@@ -24,7 +24,14 @@ function ENT:SetupDataTables()
 
 end
 
-
+function ENT:PhysicsCollide(colData, collider)
+    if (self.NextCollide and self.NextCollide > CurTime()) then
+        return
+    end
+    local phys = self:GetPhysicsObject()
+    self.NextCollide = CurTime() + 0.1
+    phys:SetVelocityInstantaneous(phys:GetVelocity() * 0.6)
+end
 
 function ENT:Initialize()
 
