@@ -307,7 +307,7 @@ MOAT_BOUNTIES:AddBounty("Marathon walker", {
 	tier = 1,
 	desc = "For # rounds, Take # steps each round.",
 	vars = {
-		math.random(3,10),
+		math.random(2,5),
 		math.random(350, 700)
         -- Should probably be higher idk
 	},
