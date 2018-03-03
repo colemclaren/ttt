@@ -194,8 +194,8 @@ function SWEP:CreateGrenade(src, ang, vel, angimp, ply)
    gren:SetOwner(ply)
    gren:SetThrower(ply)
 
-   gren:SetFriction(0.2)
-   gren:SetElasticity(0.45)
+   gren:SetFriction(200000)
+   gren:SetElasticity(0)
 
    gren:Spawn()
 
@@ -204,6 +204,7 @@ function SWEP:CreateGrenade(src, ang, vel, angimp, ply)
    local phys = gren:GetPhysicsObject()
    if IsValid(phys) then
       phys:SetVelocity(vel)
+      phys:EnableDrag(false)
       phys:AddAngleVelocity(angimp)
    end
 
@@ -277,14 +278,22 @@ local function ColorLerp(from, mid, to, frac)
     if (frac > 1) then
         f, t, fr = mid, to, frac - 1
     end
-    return Color(Lerp(fr, f.r, t.r), Lerp(fr, f.g, t.g), Lerp(fr, f.b, t.b))
+    return Color(Lerp(fr, f.r, t.r), Lerp(fr, f.g, t.g), Lerp(fr, f.b, t.b), 80)
 end
 
 local color_green = Color(40, 220, 40)
 local color_yellow = Color(220, 220, 40)
 local color_red = Color(220, 40, 40)
 
+function SWEP:GetViewModelPosition(pos, ang)
+    self.V_pos = pos
+end
+
 function SWEP:DrawDefaultThrowPath(wep, ply)
+    if (not self.V_pos) then
+        return
+    end
+
     local ang = ply:EyeAngles()
     local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset()) + (ang:Forward() * 8) + (ang:Right() * 10)
     local target = ply:GetEyeTraceNoCursor().HitPos
@@ -300,26 +309,26 @@ function SWEP:DrawDefaultThrowPath(wep, ply)
     local vel = math.min(800, (90 - tang.p) * 6)
     local thr = tang:Forward() * vel + ply:GetVelocity()
 
-    local P = src
+    local P = self.V_pos - ply:EyePos() + src
     local V = thr
     local G = 1
-    --local F = 0.2
 
-    local lastpos = P
+    local lastpos
     render.SetColorMaterial()
     cam.Start3D(EyePos(), EyeAngles())
-    for T = 0, 1, 0.05 do
+    for T = 0.025, 1, 0.025 do
         local pos = PositionFromPhysicsParams(P, V, G, T)
         local t = util.TraceLine {
             start = lastpos,
             pos,
-            filter = LocalPlayer()
+            filter = {ply, wep}
         }
         if (t.Hit) then
             break
         end
-        render.DrawBeam(lastpos, pos, 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
-
+        if (lastpos) then
+            render.DrawBeam(lastpos, pos, 0.2, 0, 1, ColorLerp(color_green, color_yellow, color_red, T))
+        end
         lastpos = pos
     end
     cam.End3D()

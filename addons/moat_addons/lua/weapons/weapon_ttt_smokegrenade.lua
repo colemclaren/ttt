@@ -32,6 +32,6 @@ function SWEP:GetGrenadeName()
    return "ttt_smokegrenade_proj"
 end
 
-function SWEP:PreDrawViewModel(vm, weapon, ply)
+function SWEP:PostDrawViewModel(vm, weapon, ply)
     self:DrawDefaultThrowPath(weapon, ply)
 end
