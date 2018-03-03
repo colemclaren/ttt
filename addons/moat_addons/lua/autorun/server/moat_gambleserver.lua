@@ -16,7 +16,7 @@ end
 */
 
 net.Receive("MOAT_GAMBLE_CAT", function(len, ply)
-    local num = math.Clamp(net.ReadUInt(4), 1, 5)
+    local num = math.Clamp(net.ReadUInt(4), 1, #MOAT_GAMBLE_CATS)
     ply.MoatGambleCat = num
 
     net.Start("MOAT_GAMBLE_CAT")
