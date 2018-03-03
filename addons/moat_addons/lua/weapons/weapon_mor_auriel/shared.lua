@@ -32,32 +32,3 @@ SWEP.Secondary.ClipSize		= -1					// Size of a clip
 SWEP.Secondary.DefaultClip	= -1					// Default number of bullets in a clip
 SWEP.Secondary.Automatic	= false				// Automatic/Semi Auto
 SWEP.Secondary.Ammo		= "none"
-
-function SWEP:PrimaryAttack()
-	if self:GetDTFloat(0) != 0 then return end
-	if (not self:CanPrimaryAttack()) then return end
-
-	self:SetNextPrimaryFire(self:GetDTFloat(0))
-
-	if (SERVER) then
-		local vm = self.Owner:GetViewModel()
-		if (vm:IsValid()) then
-			vm:SetPlaybackRate(1)
-		end
-	end
-
-	local anim = self.Owner:GetViewModel():LookupSequence("reload"..math.random(1,3))
-	self.Weapon:SendWeaponAnim(ACT_VM_RELOAD)
-
-	if (SERVER) then
-		local vm = self.Owner:GetViewModel()
-		if (vm:IsValid()) then
-			vm:SetPlaybackRate(1)
-		end
-	end
-
-	self:EmitSound("weapons/bow/skyrim_bow_pull.mp3")
-	self.DelayTime = CurTime() + 0.5
-	self:SetDTFloat(0, CurTime() + self.MaxHoldTime)
-	self:SetNextPrimaryFire(self:GetDTFloat(0))
-end
