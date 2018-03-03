@@ -84,7 +84,7 @@ MOAT_DONATE.Packages = {
 			num = num * 2
 			self:oApplyXP(num)
 		end
-
+		XP_MULTIPYER = 4
 
 		local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") started map event '**" .. MG_cur_event .. "**' on server: " .. GetHostName() .. " (" .. game.GetIP() .. ")"
 		SVDiscordRelay.SendToDiscordRaw("Event Log",false,msg,"https://discordapp.com/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX")

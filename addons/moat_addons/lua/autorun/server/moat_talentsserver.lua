@@ -333,7 +333,7 @@ function m_UpdateItemLevel(weapon_tbl, attacker, exp_to_add)
     m_SaveInventory(attacker)
 end
 
-local XP_MULTIPYER = 2
+XP_MULTIPYER = 2
 
 hook.Add("PlayerDeath", "moat_updateWeaponLevels", function(victim, inflictor, attacker)
     if (not attacker:IsValid() or not attacker:IsPlayer() or MOAT_MINIGAME_OCCURING) then return end
