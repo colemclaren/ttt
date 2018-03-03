@@ -263,7 +263,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 
 	--458
 	local collect = vgui.Create("DButton",bot)
-	--collect:Dock(BOTTOM)
+	--collect:Dock(BOTTOM)fuckmoat
 	collect.Label = "COLLECT REWARDS!"
 	collect:SetPos(5,40)
 	collect:SetSize(450,42)
