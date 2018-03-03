@@ -308,7 +308,7 @@ MOAT_BOUNTIES:AddBounty("Marathon walker", {
 	desc = "In # round. Take # steps.",
 	vars = {
 		1,
-		math.random(250, 500)--lua_run hook.Add("PlayerFootstep","a",function(a) a.Steps = a.Steps + 1 print(a.Steps) end)
+		math.random(400, 750)--lua_run hook.Add("PlayerFootstep","a",function(a) a.Steps = a.Steps + 1 print(a.Steps) end)
         -- Should probably be higher idk
 	},
 	runfunc = function(mods, bountyid)
