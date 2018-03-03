@@ -30,3 +30,7 @@ SWEP.AutoSpawnable      = true
 function SWEP:GetGrenadeName()
    return "ttt_firegrenade_proj"
 end
+
+function SWEP:PreDrawViewModel(vm, weapon, ply)
+    self:DrawDefaultThrowPath(weapon, ply)
+end

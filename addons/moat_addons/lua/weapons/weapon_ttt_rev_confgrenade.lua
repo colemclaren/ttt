@@ -117,3 +117,7 @@ function SWEP:GetGrenadeName()
 
 end
 
+
+function SWEP:PreDrawViewModel(vm, weapon, ply)
+    self:DrawDefaultThrowPath(weapon, ply)
+end

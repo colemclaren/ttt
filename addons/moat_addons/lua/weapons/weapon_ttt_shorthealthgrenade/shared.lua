@@ -128,3 +128,6 @@ end
 function SWEP:ShouldDropOnDie()
 	return true
 end
+function SWEP:PreDrawViewModel(vm, weapon, ply)
+    self:DrawDefaultThrowPath(weapon, ply)
+end
