@@ -122,6 +122,7 @@ hook.Add("PlayerDataLoaded", "MOAT_DONATE.PlayerDataLoaded", MOAT_DONATE.SendSup
 
 util.AddNetworkString("NameRewards.Amount")
 util.AddNetworkString("NameRewards.Collect")
+util.AddNetworkString("NameRewards.Time")
 
 local function namerewards()
 	local db = MINVENTORY_MYSQL
@@ -170,6 +171,9 @@ local function namerewards()
 			local time = os.time()
 			local q = db:query("UPDATE moat_namerewards SET last_name = '" .. time .. "' WHERE steamid = '" .. ply:SteamID64() .. "';")
 			q:start()
+			net.Start("NameRewards.Time")
+			net.WriteInt(time,32)
+			net.Send(ply)
 		end -- removing of name tag is checked when they join, before the reward
 	end)
 
@@ -185,6 +189,11 @@ local function namerewards()
 				end
 				local q = db:query("INSERT INTO moat_namerewards (steamid, last_name, last_reward, pending_ic, pending_sc) VALUES ('" .. ply:SteamID64() .. "','" .. name .. "','" .. time .. "',0,0);")
 				q:start()
+				if name > 0 then
+					net.Start("NameRewards.Time")
+					net.WriteInt(name,32)
+					net.Send(ply)
+				end
 			else
 				local diff = 86400 -- 24 hours in seconds (os.time)
 				local time = os.time()
@@ -205,6 +214,7 @@ local function namerewards()
 						d.pending_ic + reward_ic,
 						d.pending_sc + reward_sc
 					}
+					d.last_reward = time
 					net.Start("NameRewards.Amount")
 					net.WriteInt(d.pending_ic + reward_ic,32)
 					net.WriteInt(d.pending_sc + reward_sc,32)
@@ -224,6 +234,15 @@ local function namerewards()
 					--print("Player has no rewards and is waiting for reward")
 				else
 					--print("Player can't receive rewards since no nametag")
+				end
+				if d.last_name > 0 then
+					net.Start("NameRewards.Time")
+					local t = d.last_name
+					if d.last_reward > t then
+						t = d.last_reward
+					end
+					net.WriteInt(t,32)
+					net.Send(ply)
 				end
 			end
 		end)

@@ -144,6 +144,11 @@ net.Receive("NameRewards.Amount",function()
 		end)
 	end
 end)
+local hastag = false
+net.Receive("NameRewards.Time",function()
+	hastag = net.ReadInt(32)
+end)
+
 function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	RunConsoleCommand("moat_forum_rewards", "1")
 	--draw.WebImage( v , edge, edge, w - edge * 2, w - edge * 2, nil, s.Hovered and math.sin(CurTime())*15 or 0, true )
@@ -231,7 +236,11 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	rewards:Dock(FILL)
 
 	local lb = vgui.Create("DLabel", rewards)
-	lb:SetText("NOTE: You can only get daily rewards by adding moat.gg to your name! Capitalization doesn't matter")
+	if not hastag then
+		lb:SetText("NOTE: You can only get daily rewards by adding moat.gg to your name! Capitalization doesn't matter")
+	else
+		lb:SetText("You have moat.gg in your name and are currently receiving daily rewards!")
+	end
 	lb:SetWrap(true)
 	lb:SetAutoStretchVertical(true)
 	lb:SetTextColor(Color(255, 255, 255))
@@ -245,11 +254,25 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	collect:SetSize(450,42)
 	collect:SetText("")
 	function collect:DoClick()
-		gui.OpenURL("http://steamcommunity.com/id/me/edit")
+		if not hastag then
+			gui.OpenURL("http://steamcommunity.com/id/me/edit")
+		end
 	end
 	collect:Dock(TOP)
 	collect:DockMargin(10,5,10,0)
-	MOAT_FORUMS.ButtonPaint(collect, {51, 153, 255})
+	if not hastag then
+		MOAT_FORUMS.ButtonPaint(collect, {51, 153, 255})
+	else
+		function collect:Paint(w,h)
+			local txtw = draw.SimpleText("Receiving rewards in: ", "moat_NotifyTestBonus", 0, 15, Color(255, 255, 255), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+			local t = (hastag + 86400) - os.time()
+			local s = string.NiceTime((hastag + 86400) - os.time())
+			if t < 0 then
+				s = "next server join!"
+			end
+			draw.SimpleText(s, "moat_NotifyTestBonus", txtw + 5, 15, Color(255, 255, 0), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+		end
+	end
 
 	local bot = vgui.Create("DPanel",rewards)
 	bot:DockMargin(5,5,5,5)
