@@ -86,7 +86,12 @@ MOAT_DONATE.Packages = {
 	{"Dola Effect", Material("icon16/money.png"), 8, 5000, "", {
 		{Color(255, 125, 0), "", "The Dola Effect", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
-	}}
+	}},
+	-- MAke sure you don't take event out of name cause it's used to check if its a map event
+	{"Event: Double XP", Material("icon16/star.png"), 9, 250, "", {
+		{Color(255, 125, 0), "", "Double XP Map Event!", ""},
+		{Color(255, 0, 125), "", "Until the next map, everyone earns double xp", ""},
+	}},
 }
 
 MOAT_SUPPORT_CREDITS = 5000
@@ -147,6 +152,18 @@ end)
 local hastag = false
 net.Receive("NameRewards.Time",function()
 	hastag = net.ReadInt(32)
+end)
+
+
+MG_cur_event = false
+net.Receive("MapEvent",function()
+	MG_cur_event = net.ReadString()
+	local name = net.ReadString()
+	if name:len() > 1 then
+		chat.AddText(Material("icon16/star.png"), Color(255,255,255),name," started a map event: ",Color(255,255,0),MG_cur_event,Color(255,255,255),"! It will be active until the next map.")
+	else
+		chat.AddText(Material("icon16/star.png"), Color(255,255,255),"Map event now active: ",Color(255,255,0),MG_cur_event,Color(255,255,255),"! It will be active until the next map.")
+	end
 end)
 
 function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
@@ -403,6 +420,12 @@ function MOAT_DONATE:RebuildSelection(num)
 	pnl.r.DoClick = function(s)
 		if ((LocalPlayer():GetDataVar("SC") or 0) < pkg[4]) then
 			chat.AddText(Material("icon16/cancel.png"), Color(255, 80, 80), "You don't have enough Support Credits to redeem that package! Try re-joining if you just purchased some.")
+			surface.PlaySound("buttons/button10.wav")
+			return
+		end
+
+		if (pkg[1]):lower():match("event") and MG_cur_event then
+			chat.AddText(Material("icon16/cancel.png"), Color(255, 80, 80), "There's currently a map event going on! Wait until the next map.")
 			surface.PlaySound("buttons/button10.wav")
 			return
 		end

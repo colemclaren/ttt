@@ -69,8 +69,35 @@ MOAT_DONATE.Packages = {
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 2,500 IC Package!"})
 		net.Send(pl)
+	end},
+	[9] = {250,function(ply)
+		if MG_cur_event then return end
+		MG_cur_event = "Double XP"
+		net.Start("MapEvent")
+		net.WriteString(MG_cur_event)
+		net.WriteString(ply:Nick())
+		net.Broadcast()
+
+		local meta = FindMetaTable("Player")
+		if not meta.oApplyXP then meta.oApplyXP = meta.ApplyXP end
+		function meta:ApplyXP(num)
+			num = num * 2
+			self:oApplyXP(num)
+		end
+
 	end}
 }
+
+util.AddNetworkString("MapEvent")
+hook.Add("PlayerInitialSpawn","MapEventNetworking",function(ply)
+	if MG_cur_event then
+		net.Start("MapEvent")
+		net.WriteString(MG_cur_event)
+		net.WriteString("")
+		net.Send(ply)
+	end
+end)
+
 
 function MOAT_DONATE.Purchase(l, pl)
 	if (pl.SupportShopCooldown and pl.SupportShopCooldown > CurTime()) then return end
