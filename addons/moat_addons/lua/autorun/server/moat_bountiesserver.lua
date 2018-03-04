@@ -303,9 +303,9 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 })
 
 --v
-MOAT_BOUNTIES:AddBounty("Marathon walker", {
+MOAT_BOUNTIES:AddBounty("Marathon Walker", {
 	tier = 1,
-	desc = "For # rounds, Take # steps each round.",
+	desc = "In # different rounds, take # steps each round. (doesn't have to be in a row)",
 	vars = {
 		math.random(2,5),
 		math.random(350, 700)
