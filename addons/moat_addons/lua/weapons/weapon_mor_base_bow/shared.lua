@@ -236,10 +236,6 @@ function SWEP:ShootArrow()
 	self.Owner:GetViewModel():SetPlaybackRate(4)
 	self:SetAnimationResetTime(CurTime() + 0.2)
 	self:SetNextPrimaryFire(CurTime() + 1)
-	self:SetHoldTime(0)
-	if (IsFirstTimePredicted()) then
-		self.UnpredictedHoldTime = 0
-	end
 
 	local ratio = math.Clamp((CurTime() - self:GetHoldTime()) / self.MaxHoldTime, 0.1, 1)
 	self:EmitSound("weapons/bow/skyrim_bow_shoot.mp3")
@@ -264,6 +260,10 @@ function SWEP:ShootArrow()
 	arrow:SetFirer(self.Owner)
 	self:SetNextPrimaryFire(CurTime())
 	self:TakePrimaryAmmo(1)
+	self:SetHoldTime(0)
+	if (IsFirstTimePredicted()) then
+		self.UnpredictedHoldTime = 0
+	end
 end
 
 /*---------------------------------------------------------
