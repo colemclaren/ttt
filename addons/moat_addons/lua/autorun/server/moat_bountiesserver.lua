@@ -75,7 +75,7 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 
 	local level = self.Bounties[bounty_id].tier
 
-	self:SendChat(level, "You have completed the " .. self.Bounties[bounty_id].name .. " Bounty and has been rewarded " .. self.Bounties[bounty_id].rewards .. ".", ply)
+	self:SendChat(level, "You have completed the " .. self.Bounties[bounty_id].name .. " Bounty and have been rewarded " .. self.Bounties[bounty_id].rewards .. ".", ply)
 end
 
 function MOAT_BOUNTIES:IncreaseProgress(ply, bounty_id, max)
@@ -327,6 +327,7 @@ MOAT_BOUNTIES:AddBounty("Marathon Walker", {
             
             if ply.cSteps == mods[2] then
                 MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1])
+                MOAT_BOUNTIES:SendChat(1, "You have completed a round of the marathon walker bounty!", ply)
             end
 		end)
 	end,
