@@ -1,8 +1,8 @@
 
 Damagelog.MySQL_Informations = {
-	ip = "mgweb.site.nfoservers.com",
-	username = "mgweb",
-	password = "mpWaeSEauo",
-	database = "mgweb_inv",
+	ip = "127.0.0.1",
+	username = "",
+	password = "",
+	database = "",
 	port = 3306
 }
