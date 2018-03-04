@@ -99,6 +99,10 @@ function MOAT_BOUNTIES:IncreaseProgress(ply, bounty_id, max)
 		net.WriteUInt(cur_num + 1, 16)
 		net.Send(ply)
 
+		if (self.Bounties[bounty_id].name == "Marathon Walker") then
+			MOAT_BOUNTIES:SendChat(1, "You have completed a round of the marathon walker bounty!", ply)
+		end
+
 		if (cur_num + 1 == max) then
 			self:RewardPlayer(ply, bounty_id)
 		end
@@ -327,7 +331,6 @@ MOAT_BOUNTIES:AddBounty("Marathon Walker", {
             
             if ply.cSteps == mods[2] then
                 MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1])
-                MOAT_BOUNTIES:SendChat(1, "You have completed a round of the marathon walker bounty!", ply)
             end
 		end)
 	end,
