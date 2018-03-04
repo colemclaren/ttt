@@ -975,7 +975,7 @@ function PANEL:Init()
 
 	self:AddReasonRow(self.Distance/2 + self.Dimension/2, self.Distance*1.5,
 		self.Dimension, self.Dimension/2, reasons1)
-
+	/*
 	local reasons2 = {
 		Damagelog.Autoslay_DefaultReason7,
 		Damagelog.Autoslay_DefaultReason8,
@@ -986,7 +986,7 @@ function PANEL:Init()
 	}
 
 	self:AddReasonRow(self.Distance + self.Dimension * 1.25, self.Distance*1.5,
-		self.Dimension, self.Dimension/2, reasons2)
+		self.Dimension, self.Dimension/2, reasons2)*/
 
 	local DLabel = vgui.Create("DLabel", self)
 	DLabel:SetPos(self.Distance/2, self.Dimension/2.5 + 5)
@@ -1224,11 +1224,7 @@ function PANEL:Init()
 
 	local reasons2 = {
 		Damagelog.Ban_DefaultReason7,
-		Damagelog.Ban_DefaultReason8,
-		Damagelog.Ban_DefaultReason9,
-		Damagelog.Ban_DefaultReason10,
-		Damagelog.Ban_DefaultReason11,
-		Damagelog.Ban_DefaultReason12
+		Damagelog.Ban_DefaultReason8
 	}
 
 	self:AddReasonRow(self.Distance + self.Dimension * 1.25, self.Distance*1.5,

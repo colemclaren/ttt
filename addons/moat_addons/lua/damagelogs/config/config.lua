@@ -13,12 +13,16 @@
 	Third argument: access to RDM Manager tab in Damagelogs (true/false).
 ]]--
 
-Damagelog:AddUser("owner", 4, true)
-Damagelog:AddUser("founder", 4, true)
-Damagelog:AddUser("superadmin", 4, true)
-Damagelog:AddUser("admin", 4, true)
-Damagelog:AddUser("operator", 3, false)
-Damagelog:AddUser("user", 2, false)
+Damagelog:AddUser("communitylead", 4, true)
+Damagelog:AddUser("headadmin", 4, true)
+Damagelog:AddUser("senioradmin", 3, true)
+Damagelog:AddUser("admin", 3, true)
+Damagelog:AddUser("moderator", 3, true)
+Damagelog:AddUser("trialstaff", 3, true)
+Damagelog:AddUser("credibleclub", 1, false)
+Damagelog:AddUser("vip", 1, false)
+Damagelog:AddUser("user", 1, false)
+Damagelog:AddUser("guest", 1, false)
 
 -- The F-key
 
@@ -47,7 +51,7 @@ Damagelog.Respond_Command = "!respond"
 	Setting it to false will make the logs use SQLite (garrysmod/sv.db)
 ]]--
 
-Damagelog.Use_MySQL = false
+Damagelog.Use_MySQL = true
 
 --[[ Autoslay and Autojail Mode
 REQUIRES ULX ! If you are using ServerGuard, set this to 0 (it will use ServerGuard's autoslay automatically)
@@ -68,45 +72,34 @@ Damagelog.ULX_Autoslay_ForceRole = true
 
 -- Default autoslay reasons (ULX and ServerGuard)
 
-Damagelog.Autoslay_DefaultReason1 = "random kill"
-Damagelog.Autoslay_DefaultReason2 = "multiple random kills"
-Damagelog.Autoslay_DefaultReason3 = "random damage"
-Damagelog.Autoslay_DefaultReason4 = "multiple random damage"
-Damagelog.Autoslay_DefaultReason5 = "teamkill"
-Damagelog.Autoslay_DefaultReason6 = "needless report"
-Damagelog.Autoslay_DefaultReason7 = "unfitting answer"
-Damagelog.Autoslay_DefaultReason8 = "unfitting language"
-Damagelog.Autoslay_DefaultReason9 = "lying"
-Damagelog.Autoslay_DefaultReason10 = "propkill"
-Damagelog.Autoslay_DefaultReason11 = "teaming"
-Damagelog.Autoslay_DefaultReason12 = "random kos"
+Damagelog.Autoslay_DefaultReason1 = "Accidental RDM"
+Damagelog.Autoslay_DefaultReason2 = "Accidental Mass RDM"
+Damagelog.Autoslay_DefaultReason3 = "Victim Doesn't Forgive :("
+Damagelog.Autoslay_DefaultReason4 = "RDM and Leave"
+Damagelog.Autoslay_DefaultReason5 = "Lying in Report"
 
 -- Default ban reasons (ULX and ServerGuard)
 
-Damagelog.Ban_DefaultReason1 = "random kill"
-Damagelog.Ban_DefaultReason2 = "multiple random kills"
-Damagelog.Ban_DefaultReason3 = "random damage"
-Damagelog.Ban_DefaultReason4 = "multiple random damage"
-Damagelog.Ban_DefaultReason5 = "unfitting answer"
-Damagelog.Ban_DefaultReason6 = "unfitting answers"
-Damagelog.Ban_DefaultReason7 = "unfitting language"
-Damagelog.Ban_DefaultReason8 = "teaming"
-Damagelog.Ban_DefaultReason9 = "ghosting"
-Damagelog.Ban_DefaultReason10 = "rude"
-Damagelog.Ban_DefaultReason11 = "cheating"
-Damagelog.Ban_DefaultReason12 = "spam"
+Damagelog.Ban_DefaultReason1 = "Purposeful RDM"
+Damagelog.Ban_DefaultReason2 = "Purposeful Mass RDM"
+Damagelog.Ban_DefaultReason3 = "Attempted Mass RDM"
+Damagelog.Ban_DefaultReason4 = "Revenge RDM"
+Damagelog.Ban_DefaultReason5 = "Hateful Conduct"
+Damagelog.Ban_DefaultReason6 = "Spamming"
+Damagelog.Ban_DefaultReason7 = "Trolling"
+Damagelog.Ban_DefaultReason8 = "Cheating"
 
 -- The number of days the logs last on the database (to avoid lags when opening the menu)
 
-Damagelog.LogDays = 61
+Damagelog.LogDays = 31
 
 -- Hide the Donate button on the top-right corner
 
-Damagelog.HideDonateButton = false
+Damagelog.HideDonateButton = true
 
 -- Use the Workshop to download content files
 
-Damagelog.UseWorkshop = true
+Damagelog.UseWorkshop = false
 
 -- Force a language - When empty use user-defined language
 
@@ -114,7 +107,7 @@ Damagelog.ForcedLanguage = ""
 
 -- Allow reports even with no staff online
 
-Damagelog.NoStaffReports = false
+Damagelog.NoStaffReports = true
 
 -- Allow more than 2 reports per round
 
@@ -135,5 +128,5 @@ Damagelog.PrivateMessagePrefix = "[RDM Manager]"
 -- 0 - disabled
 -- 1 - create messages for new reports when there are no admins online
 -- 2 - create messages for every report
-Damagelog.DiscordWebhookMode = 0
+Damagelog.DiscordWebhookMode = 1
 -- Don't forget to set the value of "ttt_dmglogs_discordurl" convar to your webhook URL in server.cfg
