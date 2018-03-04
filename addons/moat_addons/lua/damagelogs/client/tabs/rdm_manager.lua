@@ -252,8 +252,8 @@ local function TakeAction()
 
 		menuPanel:AddOption(TTTLogTranslate(GetDMGLogLang, "SlayReportedPlayerNow"), function()
 			if IsValid(attacker) then
-				if ulx then
-					RunConsoleCommand("ulx", "slay", attacker:Nick())
+				if D3A then
+					RunConsoleCommand("mga", "slay", attacker:SteamID())
 				else
 					serverguard.command.Run("slay", false, ply:Nick())
 				end
@@ -272,8 +272,8 @@ local function TakeAction()
 			slaynr:AddOption(TTTLogTranslate(GetDMGLogLang, "ReportedPlayer") .. " ("..report.attacker_nick..")", function()
 				if IsValid(attacker) then
 					Derma_StringRequest(TTTLogTranslate(GetDMGLogLang, "PrivateMessage"), string.format(TTTLogTranslate(GetDMGLogLang, "WhatToSay"), attacker:Nick()), "", function(msg)
-						if ulx then
-							RunConsoleCommand("ulx", "psay", attacker:Nick(), Damagelog.PrivateMessagePrefix.." "..msg)
+						if D3A then
+							RunConsoleCommand("mga", "pm", attacker:SteamID(), Damagelog.PrivateMessagePrefix.." "..msg)
 						else
 							serverguard.command.Run("pm", attacker:Nick(), Damagelog.PrivateMessagePrefix.. " "..msg)
 						end
@@ -285,8 +285,8 @@ local function TakeAction()
 			slaynr:AddOption(TTTLogTranslate(GetDMGLogLang, "Victim") .. " ("..report.victim_nick..")", function()
 				if IsValid(victim) then
 					Derma_StringRequest(TTTLogTranslate(GetDMGLogLang, "PrivateMessage"), string.format(TTTLogTranslate(GetDMGLogLang, "WhatToSay"), victim:Nick()), "", function(msg)
-						if ulx then
-							RunConsoleCommand("ulx", "psay", victim:Nick(), Damagelog.PrivateMessagePrefix.." "..msg)
+						if D3A then
+							RunConsoleCommand("mga", "pm", victim:SteamID(), Damagelog.PrivateMessagePrefix.." "..msg)
 						else
 							serverguard.command.Run("pm", attacker:Nick(), Damagelog.PrivateMessagePrefix.. " "..msg)
 						end
@@ -312,14 +312,14 @@ local function TakeAction()
 
 			slaynr:AddOption(TTTLogTranslate(GetDMGLogLang, "ReportedPlayer") .. " ("..report.attacker_nick..")", function()
 				if IsValid(attacker) then
-					if ulx then
-						RunConsoleCommand("ulx", mode == 1 and "aslay" or "ajail", attacker:Nick(), "0")
+					if D3A then
+						RunConsoleCommand("mga", mode == 1 and "aslay" or "ajail", attacker:SteamID(), "0")
 					else
 						serverguard.command.Run("raslay", false, attacker:Nick())
 					end
 				else
-					if ulx then
-						RunConsoleCommand("ulx", mode == 1 and "aslayid" or "ajailid", report.attacker, "0")
+					if D3A then
+						RunConsoleCommand("mga", mode == 1 and "aslayid" or "ajailid", report.attacker, "0")
 					else
 						Damagelog:Notify(DAMAGELOG_NOTIFY_ALERT, TTTLogTranslate(GetDMGLogLang, "VictimReportedDisconnected"), 2, "buttons/weapon_cant_buy.wav")
 					end
@@ -328,14 +328,14 @@ local function TakeAction()
 
 			slaynr:AddOption(TTTLogTranslate(GetDMGLogLang, "TheVictim") .. " ("..report.victim_nick..")", function()
 				if IsValid(victim) then
-					if ulx then
-						RunConsoleCommand("ulx", mode == 1 and "aslay" or "ajail", victim:Nick(), "0")
+					if D3A then
+						RunConsoleCommand("mga", mode == 1 and "aslay" or "ajail", victim:SteamID(), "0")
 					else
 						serverguard.command.Run("raslay", false, victim:Nick())
 					end
 				else
-					if ulx then
-						RunConsoleCommand("ulx", mode == 1 and "aslayid" or "ajailid", report.victim, "0")
+					if D3A then
+						RunConsoleCommand("mga", mode == 1 and "aslayid" or "ajailid", report.victim, "0")
 					else
 						Damagelog:Notify(DAMAGELOG_NOTIFY_ALERT, TTTLogTranslate(GetDMGLogLang, "VictimReportedDisconnected"), 2, "buttons/weapon_cant_buy.wav")
 					end
@@ -1050,15 +1050,15 @@ function PANEL:SetPlayer(reported, ply, steamid, report)
 	self.NameLabel:SetText(reported and report.attacker_nick or report.victim_nick)
 	self.Button.DoClick = function(panel)
 		if IsValid(ply) then
-			if ulx then
-				RunConsoleCommand("ulx", mode == 1 and "aslay" or "ajail", ply:Nick(), tostring(self.NumSlays), self.CurrentReason)
+			if D3A then
+				RunConsoleCommand("mga", mode == 1 and "aslay" or "ajail", ply:SteamID(), tostring(self.NumSlays), self.CurrentReason)
 			else
 				serverguard.command.Run("aslay", false, ply:Nick(), self.NumSlays, self.CurrentReason)
 			end
 			self.SetConclusion(ply:Nick(), self.NumSlays, self.CurrentReason)
 		else
-			if ulx then
-				RunConsoleCommand("ulx", mode == 1 and "aslayid" or "ajailid", (reported and report.attacker) or (not reported and report.victim), tostring(self.NumSlays), self.CurrentReason)
+			if D3A then
+				RunConsoleCommand("mga", mode == 1 and "aslayid" or "ajailid", (reported and report.attacker) or (not reported and report.victim), tostring(self.NumSlays), self.CurrentReason)
 				self.SetConclusion((reported and report.attacker_nick) or (not reported and report.victim_nick), self.NumSlays, self.CurrentReason)
 			else
 				Damagelog:Notify(DAMAGELOG_NOTIFY_ALERT, TTTLogTranslate(GetDMGLogLang, "VictimReportedDisconnected"), 2, "buttons/weapon_cant_buy.wav")
@@ -1302,15 +1302,15 @@ function PANEL:SetPlayer(reported, ply, steamid, report)
 	self.NameLabel:SetText(reported and report.attacker_nick or report.victim_nick)
 	self.Button.DoClick = function(panel)
 		if IsValid(ply) then
-			if ulx then
-				RunConsoleCommand("ulx", "ban", ply:Nick(), tostring(self.BanTimeNumber), self.CurrentReason)
+			if D3A then
+				RunConsoleCommand("mga", "ban", ply:SteamID(), tostring(self.BanTimeNumber), "minutes", self.CurrentReason)
 			else
 				serverguard.command.Run("ban", false, ply:Nick(), self.BanTimeNumber, self.CurrentReason)
 			end
 			self.SetConclusion(ply:Nick(), self.TimeLabel:GetText(), self.CurrentReason)
 		else
-			if ulx then
-				RunConsoleCommand("ulx", "banid", (reported and report.attacker) or (not reported and report.victim), tostring(self.BanTimeNumber), self.CurrentReason)
+			if D3A then
+				RunConsoleCommand("mga", "ban", (reported and report.attacker) or (not reported and report.victim), tostring(self.BanTimeNumber), "minutes", self.CurrentReason)
 				self.SetConclusion((reported and report.attacker_nick) or (not reported and report.victim_nick), self.TimeLabel:GetText(), self.CurrentReason)
 			else
 				Damagelog:Notify(DAMAGELOG_NOTIFY_ALERT, TTTLogTranslate(GetDMGLogLang, "VictimReportedDisconnected"), 2, "buttons/weapon_cant_buy.wav")
