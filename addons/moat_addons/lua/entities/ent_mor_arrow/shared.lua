@@ -37,7 +37,7 @@ function ENT:PlayerTick(p)
     self:SetPos(tr.Hit and tr.HitPos or d)
     self.C_Pos = self:GetPos()
 
-    local Ent = tr.HitEntity
+    local Ent = tr.Entity
 
     if (IsValid(Ent)) then
         if not(Ent:IsPlayer() or Ent:IsNPC() or Ent:GetClass() == "prop_ragdoll") then 
@@ -52,20 +52,22 @@ function ENT:PlayerTick(p)
             damage = damage * 2
         end
 
-        if (not IsValid(self:GetOwner())) then
+        if (SREVER and not IsValid(self:GetOwner())) then
             self:Remove()
             return
         end
 
-        local dmginfo = DamageInfo()
-        dmginfo:SetAttacker(self:GetOwner())
-        dmginfo:SetInflictor(self.Weapon)
-        dmginfo:SetDamageType(DMG_BULLET)
-        dmginfo:SetDamage(damage)
+        if (SERVER) then
+            local dmginfo = DamageInfo()
+            dmginfo:SetAttacker(self:GetOwner())
+            dmginfo:SetInflictor(self.Weapon)
+            dmginfo:SetDamageType(DMG_BULLET)
+            dmginfo:SetDamage(damage)
 
-        hook.Call("ScalePlayerDamage", nil, Ent, tr.HitGroup, dmginfo)
+            hook.Call("ScalePlayerDamage", nil, Ent, tr.HitGroup, dmginfo)
 
-        Ent:TakeDamageInfo(dmginfo)
+            Ent:TakeDamageInfo(dmginfo)
+        end
 
         if (Ent:IsPlayer() or Ent:IsNPC() or Ent:GetClass() == "prop_ragdoll") then 
             local effectdata = EffectData()
@@ -86,7 +88,9 @@ function ENT:PlayerTick(p)
             self.Disabled = true
         end
 
-        self:Remove()
+        if (SERVER) then
+            self:Remove()
+        end
     elseif (tr.Hit) then
         util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
         self:EmitSound(self.HitWall)
