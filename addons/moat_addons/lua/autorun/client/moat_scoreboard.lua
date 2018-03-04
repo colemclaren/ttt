@@ -17,7 +17,7 @@ operation_leads["STEAM_0:1:69138364"] = true
 
 local tech_leads = {}
 tech_leads["STEAM_0:0:96933728"] = true
-
+tech_leads["STEAM_0:0:44950009"] = true
 
 hook.Add( "TTTScoreboardColumns", "moat_AddGroupLevel", function( pnl )
 
@@ -25,8 +25,8 @@ hook.Add( "TTTScoreboardColumns", "moat_AddGroupLevel", function( pnl )
 
 		local ply_rank = table.Copy(MOAT_RANKS[ply:GetUserGroup()])
 
-		if (operation_leads[ply:SteamID()]) then ply_rank[1] = "Operations Lead" end
-		if (tech_leads[ply:SteamID()]) then ply_rank[1] = "Tech Lead" end
+		if (operation_leads[ply:SteamID()]) then ply_rank[1] = "Operations Lead" ply_rank[2] = Color(255, 0, 0) end
+		if (tech_leads[ply:SteamID()]) then ply_rank[1] = "Tech Lead" ply_rank[2] = Color(255, 0, 0) end
 
 		label:SetTextColor( ply_rank[2] )
 
