@@ -38,6 +38,7 @@ net.Receive("TNT_Begin",function()
         red_save = 0,
         blue_save = 0,
     }
+    hook.Remove("CreateMove", "Beast_AutoHop")
     sound.PlayURL("http://server.moatgaming.org/tttsounds/pirates.mp3","",function(station)
         if IsValid(station) then
             station:SetVolume(0.5)
