@@ -51,6 +51,8 @@ net.Receive("TNT_Begin",function()
     kills = {}
 end)
 
+
+
 local blur = Material("pp/blurscreen")
 
 local function DrawBlurScreen(amount)
@@ -83,6 +85,16 @@ for i = 1, 50 do
 })
 end
 
+hook.Add("PreDrawHalos","Moat_TNT",function()
+    local t = {}
+    for k,v in ipairs(player.GetAll()) do
+        if v:Alive() and not v:IsSpec() then
+            table.insert(t,v)
+        end
+    end
+    if #t > 10 then return end
+    halo.Add(t, Color(200, 20, 20), 1, 1, 1, true, true)
+end)
 
 net.Receive("TNT_End",function()
     MOAT_DISABLE_BUNNY_HOP = false
