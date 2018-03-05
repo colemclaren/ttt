@@ -354,7 +354,7 @@ function MG_TNT.BeginRound()
     TNTSetBomb(r)
     ChangeTNTFuseTime(20,true)
     MG_TNT.InProgress = true
-    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 20) + 999999999999
+    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 20)
     net.Start("TNT_Begin")
     net.Broadcast()
 
@@ -372,8 +372,8 @@ concommand.Add("moat_start_TNT", function(ply, cmd, args)
         return
     end
 
-    SetRoundEnd(CurTime() + 5) -- pre
-    timer.Adjust("prep2begin", 5, 1, BeginRound)
+    SetRoundEnd(CurTime() + 30) -- pre
+    timer.Adjust("prep2begin", 30, 1, BeginRound)
     timer.Adjust("selectmute", 4, 1, function() MuteForRestart(true) end)
 
     net.Start("TNT_Prep")
