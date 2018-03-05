@@ -166,16 +166,30 @@ print(77798)
 
 if SERVER then
 	util.AddNetworkString("TNT.IsBomb")
+	util.AddNetworkString("TNT.NewBomb")
+	util.AddNetworkString("TNT.FuseTime")
 	function TNTSetBomb(ply)
 		print("setbomb",ply)
 		net.Start("TNT.IsBomb")
 		net.WriteBool(false)
 		net.Broadcast()
-		for k,v in ipairs(player.GetAll()) do v.IsBomb = false end 
+		for k,v in ipairs(player.GetAll()) do v.IsBomb = false v:Extinguish() v:SetColor(Color(255,255,255)) end 
 		net.Start("TNT.IsBomb")
 		net.WriteBool(true)
 		net.Send(ply)
+		net.Start("TNT.NewBomb")
+		net.WriteString(ply:Nick())
+		net.Broadcast()
+		ply:SetColor(Color(255,0,0))
+		BroadcastLua("chat.AddText(Color(255,0,0),[[" .. ply:Nick():gsub("%]%]","") .. "]],Color(255,255,255),[[ now has the bomb!]])")
 		ply.IsBomb = true
+	end
+	function ChangeTNTFuseTime(t,r)
+		if r then TNTFuseTime = CurTime() end
+		TNTFuseTime = (TNTFuseTime or CurTime()) + t
+		net.Start("TNT.FuseTime")
+		net.WriteInt(TNTFuseTime,32)
+		net.Broadcast()
 	end
 else
 	net.Receive("TNT.IsBomb",function()
@@ -267,6 +281,7 @@ function SWEP:SecondaryAttack()
 				local ply = t.HitEntity
 				if ply.IsBomb then
 					-- shorten fuse
+					ChangeTNTFuseTime(-1)
 				end
 				FrameDelay(function()
 					s:Remove()

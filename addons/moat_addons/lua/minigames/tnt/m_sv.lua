@@ -127,8 +127,6 @@ end
 local rarity_to_placing = {[1] = math.random(5,6), [2] = 5, [3] = 4, [4] = 4, [5] = 4}
 function MG_TNT.Win()
     if MG_TNT.Won then return end
-    TNT.CurrentLevel = Entity(0):GetModelRenderBounds().z
-    NextSuperDecentTime = nil
     MG_TNT.Won = true
     timer.Simple(25, function() MG_TNT:DoEnding() end)
     --print("WIN:",team)
@@ -180,7 +178,14 @@ function player.GetAlive()
 	end
 	return tab
 end
-
+/*
+    local exp = ents.Create("env_explosion")
+        exp:SetOwner(MG_HS.Current)
+        exp:SetPos(MG_HS.Current:GetPos())
+        exp:Spawn()
+        exp:SetKeyValue("iMagnitude", "0")
+        exp:Fire("Explode", 0, 0)
+*/
 function MG_TNT.Think()
     if not MG_TNT.InProgress then return end
     local i = 0
@@ -199,6 +204,29 @@ function MG_TNT.Think()
     end
 
     if MG_TNT.Won then return end
+    if TNTFuseTime > CurTime() then
+        print("Blowing up in ", TNTFuseTime - CurTime())
+    else
+        if MG_TNT.BlewUp then return end
+        for k,v in ipairs(ents.GetAll()) do
+            if v.IsBomb then
+                MG_TNT.BlewUp = true
+                local exp = ents.Create("env_explosion")
+                exp:SetOwner(v)
+                exp:SetPos(v:GetPos())
+                exp:Spawn()
+                exp:SetKeyValue("iMagnitude", "0")
+                exp:Fire("Explode", 0, 0)
+                v:Kill()
+                timer.Simple(0.1,function()
+                    local r = MG_TNT.RandomPlayer()
+                    TNTSetBomb(r)
+                    ChangeTNTFuseTime(20,true)
+                    MG_TNT.BlewUp = false
+                end)
+            end
+        end
+    end
 end
 
 local SoundsList = {"vo/npc/male01/help01.wav", "ambient/voices/m_scream1.wav", "vo/npc/male01/myleg02.wav", "vo/npc/male01/myleg01.wav", "vo/npc/male01/ohno.wav", "vo/npc/male01/moan01.wav", "vo/npc/male01/moan03.wav", "vo/ravenholm/monk_helpme03.wav"}
@@ -213,7 +241,7 @@ end
 
 function MG_TNT.TakeDamage(ply, dmginfo)
     if ply:IsPlayer() then
-        if dmginfo:IsDamageType(DMG_CRUSH) then
+        if dmginfo:IsDamageType(DMG_CRUSH) or dmginfo:IsDamageType(DMG_BURN) then
             dmginfo:ScaleDamage(0)
         end
     end
@@ -285,6 +313,14 @@ function MG_TNT:PrepRound(mk, pri, sec, creds)
     hook.Add("TTTCheckForWin", "MG_TNT_DELAYWIN", function() return WIN_NONE end)
 end
 
+function MG_TNT.RandomPlayer()
+    for k,v in RandomPairs(player.GetAll()) do
+        if v:Alive() and (not v:IsSpec()) then
+            return v
+        end
+    end
+end
+
 
 function MG_TNT.BeginRound()
     SetRoundEnd(CurTime() + 900)
@@ -293,11 +329,18 @@ function MG_TNT.BeginRound()
             v:Remove()
         end
     end
-    for k,v in pairs(player.GetAll()) do
-        v:Spawn()
+    for k,v in ipairs(player.GetAll()) do
         v:SetRole(ROLE_INNOCENT)
         v.TNTScore = 0
+        v:StripWeapons()
+        v:Give("tnt_fists")
+        timer.Simple(0.1,function()
+            v:SelectWeapon("tnt_fists")
+        end)
     end
+    local r = MG_TNT.RandomPlayer()
+    TNTSetBomb(r)
+    ChangeTNTFuseTime(20,true)
     MG_TNT.InProgress = true
     MG_TNT.TimeEnd = CurTime() + (60 * 10)
     net.Start("TNT_Begin")
@@ -317,9 +360,9 @@ concommand.Add("moat_start_TNT", function(ply, cmd, args)
         return
     end
 
-    SetRoundEnd(CurTime() + 30) -- pre
-    timer.Adjust("prep2begin", 30, 1, BeginRound)
-    timer.Adjust("selectmute", 14, 1, function() MuteForRestart(true) end)
+    SetRoundEnd(CurTime() + 5) -- pre
+    timer.Adjust("prep2begin", 5, 1, BeginRound)
+    timer.Adjust("selectmute", 4, 1, function() MuteForRestart(true) end)
 
     net.Start("TNT_Prep")
     net.Broadcast()
