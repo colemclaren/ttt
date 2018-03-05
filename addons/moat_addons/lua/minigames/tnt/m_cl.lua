@@ -29,7 +29,7 @@ net.Receive("TNT_Begin",function()
         goal = 100,
         TopKills = 0,
         MyKills = 0,
-        time_end = CurTime() + (60) * 10,
+        time_end = CurTime() + (#player.GetAll() * 20),
         tdm_blue = Color(90, 200, 255),
         tdm_red = Color(255, 50, 50),
         bar_width = 225,
@@ -133,7 +133,7 @@ hook.Add("HUDPaint","TNT_END_SCREEN",function()
     draw.RoundedBox(0, 0, 0, ScrW(), ScrH(), Color(0, 0, 0, 100))
 
 	DrawBlurScreen(5)
-    local text = "THE FLOOR IS TNT OVER!!!"
+    local text = "TNT-TAG IS OVER!!!"
     local textc = Color(255,0,0)
     local textc2 = Color(0,0,50)
 
@@ -206,55 +206,69 @@ local gradient_d = Material("vgui/gradient-d")
 
 local dead = 0
 local dead_oc = false
+TNT_Bomb = "forsenE"
+net.Receive("TNT.NewBomb",function()
+    TNT_Bomb = net.ReadString()
+end)
+
+TNTFuseTime = 0
+net.Receive("TNT.FuseTime",function()
+    TNTFuseTime = net.ReadInt(32)
+end)
+
+surface.CreateFont("TNT.Big",{
+    font = "Coolvetica",
+    size = 50,
+    weight = 800,
+    antialias = true,
+    blursize = 0
+})
+surface.CreateFont("TNT.Small",{
+    font = "Coolvetica",
+    size = 30,
+    weight = 800,
+    antialias = true,
+    blursize = 0
+})
 hook.Add("HUDPaint", "moat.test.L", function()
     if not istable(MOAT_TNT) then return end
-    if TNT_END then return end
-    local top = 0
-    for k,v in ipairs(player.GetAll()) do
-        if v:GetNWFloat("JBScore",0) > top then top = v:GetNWFloat("JBScore",0) end
-    end
-    local scrw = (ScrW() / 2) 
-    if (not LocalPlayer():Alive()) and not (dead > CurTime()) and not (dead_oc) then
-        dead = CurTime() + 5
-        dead_oc = true
-    elseif LocalPlayer():Alive() then dead_oc = false end
-    local x = (ScrW() * 0.5)
-    local y = 100
-    local sp = 30
-    for i = 1,5 do
-        --if not LocalPlayer():Alive() then continue end
-        if not kills[i] then continue end
-        surface.SetFont("moat_GunGameMedium")
-        local v = kills[i]
-        local sw, sh = surface.GetTextSize(v[5])
-        local c = Color(0,255,0,255/i + 100)
-        if v[6] < CurTime() then
-            c.a = 255 - ((CurTime() - v[6]) * 50) 
-            if (255 - (CurTime() - v[6]) * 50) < 0 then
-                kills[i] = nil
-                continue
-            end
-        end
-        local tw,th = draw.SimpleTextOutlined(v[3], "moat_GunGameMedium", x + sw / 2, y + (i * sp), c, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35, c.a))
-        local c = Color(0,255,0,255/i + 100)
-        if v[6] < CurTime() then
-            c.a = 255 - ((CurTime() - v[6]) * 50) 
-        end
-        tw,th = draw.SimpleTextOutlined(v[1], "moat_GunGameMedium", x - sw / 2, y + (i * sp), c, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35,c.a))
-        local c = Color(255,255,255,255/i + 100)
-        if v[6] < CurTime() then
-            c.a = 255 - ((CurTime() - v[6]) * 50) 
-        end
-        draw.SimpleTextOutlined(v[5], "moat_GunGameMedium", x, y + (i * sp),c, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35,c.a))
-    end
-
+    local w,h = ScrW(),ScrH()
     local f = string.FormattedTime(MOAT_TNT.time_end - CurTime())
     if tostring(f.s):len() == 1 then 
         f.s =  "0" .. f.s 
     end
+    f = f.m .. ":" .. f.s
+    local col = Color(255,255,255)
+    if LocalPlayer().IsBomb then
+        col = Color(255,0,0)
+    end
+    draw.SimpleTextOutlined(f, "TNT.Big", w/2, 64, col, TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+    surface.SetFont("TNT.Big")
+    local txtw = surface.GetTextSize(TNT_Bomb .. " has the bomb!")
+    local txw = draw.SimpleTextOutlined(TNT_Bomb, "TNT.Big", (w/2) - (txtw/2), h, Color(255,0,0), TEXT_ALIGN_LEFT,TEXT_ALIGN_BOTTOM, 1, Color(0,0,0))
+    local _,txh = draw.SimpleTextOutlined(" has the bomb!", "TNT.Big", (w/2) - (txtw/2) + txw, h, col, TEXT_ALIGN_LEFT,TEXT_ALIGN_BOTTOM, 1, Color(0,0,0))
 
-    DrawShadowedText(1, "DON'T FALL INTO THE TNT!", "GModNotify", scrw, 35, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-    DrawShadowedText(1, f.m .. ":" .. f.s, "GModNotify", scrw, 65, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    surface.SetDrawColor(255,0,0,255)
+    local bw = 300
+    local t = TNTFuseTime - CurTime()
+    bw = math.max(0,bw * (t/20))
+    draw.RoundedBox(0, w/2-150, h-txh-50, bw, 30, col)
+    surface.DrawOutlinedRect(w/2 - 150, h - txh - 50, 300, 30)
+    local right = "Fire that lowers fuse time when it hits bomb carrier"
+    local left = "Shove people!"
+    if LocalPlayer().IsBomb then
+        left = "Throw your bomb!"
+        right = 'Throw your bomb!'
+    end
+    draw.SimpleTextOutlined("Right Click:", "TNT.Small", (w/2) + (38), h - txh - 124, col, TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+    draw.SimpleTextOutlined(right, "TNT.Small", (w/2) + (38), h - txh - 94, col, TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+
+    draw.SimpleTextOutlined("Left Click:", "TNT.Small", (w/2) - (38), h - txh - 124, col, TEXT_ALIGN_RIGHT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+    draw.SimpleTextOutlined(left, "TNT.Small", (w/2) - (38), h - txh - 94, col, TEXT_ALIGN_RIGHT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+
+
+    draw.WebImage("https://i.moat.gg/18-03-04-D2P.png", (w/2) - (32), h - txh - 124, 64, 64, Color(255, 255, 255, 225))
+    draw.WebImage("https://i.moat.gg/18-03-04-s5l.png", (w/2) - (32), 0, 64, 64, Color(255, 255, 255, 225))
 end)
 
 
@@ -284,13 +298,13 @@ net.Receive("TNT_Prep",function()
 	end)
 
     local desc = {
-        "Try to be the last one alive by climbing away from the TNT!",
-        "Falling into the TNT will make you burn until you die!",
+        "Be the last one alive in this hot-potato style minigame!",
+        "When the timer at the bottom runs out, the bomb carrier explodes!",
         "Only players that stay alive the longest get the best items!",
         "",
-        "Left click to shove people",
-        "Right click to throw eggs to blind people",
-        "Headshotting someone with an egg will give you another egg back"
+        "Innocent's can throw fire that lowers the fuse time!",
+        "But be careful, they can also shove eachother!",
+        "(Fire will only lower the fuse time if it hits the bomb carrier)"
     }
 
     hook.Add("HUDPaint", "MG_TNT_PREPPAINT", function()
@@ -304,7 +318,7 @@ net.Receive("TNT_Prep",function()
         local x = ScrW() / 2
         local y = ScrH() / 2
 
-        draw.SimpleTextOutlined("THE FLOOR IS TNT!", "moat_GunGameLarge", x, y - 70, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("TNT TAG!", "moat_GunGameLarge", x, y - 70, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))
 
         local time = math.ceil(GetGlobalFloat("ttt_round_end", 0) - CurTime())
 

@@ -178,6 +178,7 @@ if SERVER then
 			v:SetColor(Color(255,255,255)) 
 			v:SetRunSpeed(220)
 			v:SetWalkSpeed(220)
+			v.SpeedMod = 1
 		end 
 		net.Start("TNT.IsBomb")
 		net.WriteBool(true)
@@ -233,6 +234,7 @@ function SWEP:ThrowTNT()
 			s:EmitSound("npc/manhack/gib.wav")
 			s:Remove()
 			self:SetBomb(false)
+			return
 		end
 		if s.Didthing then return end
 		FrameDelay(function()

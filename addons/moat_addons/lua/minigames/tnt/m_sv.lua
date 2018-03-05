@@ -133,7 +133,7 @@ function MG_TNT.Win()
     net.Start("TNT_End")
     local t = {}
     for k,v in pairs(player.GetAll()) do
-        if not IsValid(v) then continue end
+        v.SpeedMod = 1
         if not v.TNTScore then v.TNTScore = 0 end
         table.insert(t,{v,math.Round(v.TNTScore)})
     end
@@ -197,7 +197,7 @@ function MG_TNT.Think()
             if v.IsBomb then
                 local diff = TNTFuseTime - CurTime()
                 local speed = ((20 - diff))
-                v.SpeedMod = 1 + (speed * 0.025)
+                v.SpeedMod = 1 + (speed * 0.01)
             end
         end
     end
@@ -223,14 +223,15 @@ function MG_TNT.Think()
                 exp:SetKeyValue("iMagnitude", "0")
                 exp:Fire("Explode", 0, 0)
                 v:Kill()
-                timer.Simple(0.1,function()
-                    local r = MG_TNT.RandomPlayer()
-                    TNTSetBomb(r)
-                    ChangeTNTFuseTime(20,true)
-                    MG_TNT.BlewUp = false
-                end)
             end
         end
+        MG_TNT.BlewUp = true
+        timer.Simple(0.1,function()
+            local r = MG_TNT.RandomPlayer()
+            TNTSetBomb(r)
+            ChangeTNTFuseTime(20,true)
+            MG_TNT.BlewUp = false
+        end)
     end
 end
 
@@ -344,6 +345,7 @@ function MG_TNT.BeginRound()
         v:StripWeapons()
         v:SetModel("models/player/leet.mdl")
         v:Give("tnt_fists")
+        v.SpeedMod = 1
         timer.Simple(0.1,function()
             v:SelectWeapon("tnt_fists")
         end)
@@ -352,7 +354,7 @@ function MG_TNT.BeginRound()
     TNTSetBomb(r)
     ChangeTNTFuseTime(20,true)
     MG_TNT.InProgress = true
-    MG_TNT.TimeEnd = CurTime() + (60 * 10)
+    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 20) + 999999999999
     net.Start("TNT_Begin")
     net.Broadcast()
 
