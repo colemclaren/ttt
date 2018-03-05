@@ -87,6 +87,7 @@ end
 
 hook.Add("PreDrawHalos","Moat_TNT",function()
     local t = {}
+    if not MOAT_TNT then return end
     for k,v in ipairs(player.GetAll()) do
         if v:Alive() and not v:IsSpec() then
             table.insert(t,v)
