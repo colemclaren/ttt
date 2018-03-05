@@ -229,7 +229,7 @@ function MG_TNT.Think()
         timer.Simple(0.1,function()
             local r = MG_TNT.RandomPlayer()
             TNTSetBomb(r)
-            ChangeTNTFuseTime(20,true)
+            ChangeTNTFuseTime(20,true)--s
             MG_TNT.BlewUp = false
         end)
     end
