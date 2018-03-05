@@ -642,7 +642,16 @@ net.Receive("DL_GetForgive", function(_, ply)
 
 	Damagelog:SendLogToVictim(tbl)
 	UpdatePreviousReports()
-	hook_Call("TTTDLog_Decide", nil, ply, IsValid(attacker) and attacker or tbl.attacker, forgive, index)
+
+	local adminOnline = false
+	for k, v in ipairs(player_GetHumans()) do
+		if v:CanUseRDMManager() then
+			adminOnline = true
+			break
+		end
+	end
+
+	hook_Call("TTTDLog_Decide", nil, ply, IsValid(attacker) and attacker or tbl.attacker, forgive, index, adminOnline)
 end)
 
 net.Receive("DL_Answering", function(_len, ply)

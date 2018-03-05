@@ -185,9 +185,9 @@ local function TakeAction()
 		end
 	end):SetImage("icon16/television.png")
 
-	if serverguard or ulx then
+	if serverguard or D3A then
 
-		if serverguard or (ulx and (mode == 1 or mode == 2)) then
+		if serverguard or (D3A and (mode == 1 or mode == 2)) then
 			local function SetConclusion(ply, num, reason)
 				net.Start("DL_Conclusion")
 				net.WriteUInt(1, 1)
@@ -212,7 +212,7 @@ local function TakeAction()
 			slaynr:SetVisible(false)
 			slaynr_pnl:SetSubMenu(slaynr)
 			local txt = TTTLogTranslate(GetDMGLogLang, "SlayNextRound")
-			if ulx and mode == 2 then
+			if D3A and mode == 2 then
 				txt = TTTLogTranslate(GetDMGLogLang, "JailNextRound")
 			end
 			slaynr_pnl:SetText(txt)
@@ -301,7 +301,7 @@ local function TakeAction()
 			slaynr:SetVisible(false)
 			slaynr_pnl:SetSubMenu(slaynr)
 			local txt = TTTLogTranslate(GetDMGLogLang, "RemoveAutoSlays")
-			if ulx and mode == 2 then
+			if D3A and mode == 2 then
 				txt = TTTLogTranslate(GetDMGLogLang, "RemoveAutoJails")
 			elseif serverguard then
 				txt = TTTLogTranslate(GetDMGLogLang, "RemoveOneAutoSlay")
@@ -1029,7 +1029,7 @@ function PANEL:Init()
 	self.CustomReason:SelectAll()
 
 	self.Button = vgui.Create("DButton", self)
-	if ulx and mode == 2 then
+	if D3A and mode == 2 then
 		self.Button:SetText("ajail!")
 	else
 		self.Button:SetText("aslay!")
@@ -1042,7 +1042,7 @@ function PANEL:Init()
 end
 
 function PANEL:SetPlayer(reported, ply, steamid, report)
-	if ulx then
+	if D3A then
 		self:SetTitle(string.format(TTTLogTranslate(GetDMGLogLang, (mode == 1 and "Autoslaying" or "Autojailing")), (reported and report.attacker_nick or report.victim_nick)))
 	else
 		self:SetTitle(string.format(TTTLogTranslate(GetDMGLogLang, "Autoslaying"), (reported and report.attacker_nick or report.victim_nick)))
