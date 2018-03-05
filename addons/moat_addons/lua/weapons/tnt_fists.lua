@@ -58,11 +58,10 @@ local m_HasDispatchedEgg
 
 function SWEP:Initialize()
 	self:SetHoldType("normal")
-	self:SetEggs(6)
 end
 
 function SWEP:SetupDataTables()
-	self:NetworkVar("Int", 0, "Eggs")
+	self:NetworkVar("Bool", 0, "Bomb")
 	self:NetworkVar("Float", 0, "NextMeleeAttack")
 	self:NetworkVar("Float", 1, "NextSprint")
 end
@@ -71,6 +70,13 @@ function SWEP:UpdateNextSprint()
 end
 
 function SWEP:PrimaryAttack(NoForce)
+		if self.Owner.IsBomb then
+			if self:GetBomb() then return end
+			if SERVER then
+				self:ThrowTNT()
+			end
+			NoForce = true
+		end
 
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
 	local anim = "Shove"
@@ -155,38 +161,122 @@ function SWEP:Reload()
 		self.Owner.m_NextRagdollifcationTime = CurTime() + 1
 	end
 end
+print(77798)
+
+if SERVER then
+	util.AddNetworkString("TNT.IsBomb")
+	function TNTSetBomb(ply)
+		print("setbomb",ply)
+		net.Start("TNT.IsBomb")
+		net.WriteBool(false)
+		net.Broadcast()
+		for k,v in ipairs(player.GetAll()) do v.IsBomb = false end 
+		net.Start("TNT.IsBomb")
+		net.WriteBool(true)
+		net.Send(ply)
+		ply.IsBomb = true
+	end
+else
+	net.Receive("TNT.IsBomb",function()
+		LocalPlayer().IsBomb = net.ReadBool()
+	end)
+end
+
+function SWEP:ThrowTNT()
+	if self:GetBomb() then return end
+	self:SetBomb(true)
+	local ply = self.Owner
+	ply:EmitSound([[weapons\tnt\draw.wav]])
+	local egg = ents.Create("prop_physics")
+	self.Bomb = egg
+	egg.Bomb = true
+	egg.sound = CreateSound(egg,"npc/manhack/mh_blade_loop1.wav")
+	egg.sound:Play()
+	egg:CallOnRemove("Stop sound", function()
+		egg.sound:Stop()
+	end)
+	egg:SetFriction(200000)
+	egg:SetElasticity(0)
+	egg:SetGravity(0.8)
+	egg:AddCallback("PhysicsCollide", function(s,t)
+		local ply = t.HitEntity
+		timer.Simple(2,function()
+			if not IsValid(s) then return end
+			if s.Didthing then return end
+			s:EmitSound("npc/manhack/gib.wav")
+			s:Remove()
+			self:SetBomb(false)
+		end)
+		if not ply:IsPlayer() then return end
+		if ply == self.Owner then
+			if s.Didthing then return end
+			s:EmitSound("npc/manhack/gib.wav")
+			s:Remove()
+			self:SetBomb(false)
+		end
+		if s.Didthing then return end
+		FrameDelay(function()
+			s:EmitSound("npc/manhack/bat_away.wav")
+			s:Remove()
+			self:SetBomb(false)
+		end)
+		TNTSetBomb(ply)
+		s.Didthing = true
+	end)
+	egg:SetPos(self.Owner:GetShootPos())
+	egg:SetModel("models/weapons/w_vir_tnt.mdl")
+	egg.m_EggParent = self.Owner
+	egg:Spawn()
+	egg:SetOwner(self.Owner)
+	egg:Activate()
+	egg:GetPhysicsObject():AddAngleVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
+	egg:GetPhysicsObject():AddVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
+	egg.m_Velocity = egg:GetVelocity()
+
+	if m_Vel == false then
+		egg:Remove()
+		return
+	end
+
+	FrameDelay(function()
+		if IsValid(egg) then
+			egg:SetOwner()
+			egg.m_Velocity = egg:GetVelocity()
+		end
+	end)
+end
 
 function SWEP:SecondaryAttack()
-	hook.Call("Lava.FistsSecondaryAttack", nil, self.Owner, self )
-	self:PrimaryAttack(self:GetEggs() > 0)
-	if self:GetEggs() < 1 then return end
-	self:SetEggs(self:GetEggs() - 1)
-	m_HasDispatchedEgg = true
+	if self:GetBomb() then return end
+	self:PrimaryAttack(true)
 
 	if SERVER then
-		local egg = ents.Create("prop_physics")
-		egg:SetPos(self.Owner:GetShootPos())
-		egg:SetModel("models/props_phx/misc/egg.mdl")
-		egg.m_EggParent = self.Owner
-		egg:Spawn()
-		egg:SetOwner(self.Owner)
-		egg:Activate()
-		local m_Vel = hook.Call("Lava.PlayerEggDispatched", nil, self.Owner, self, egg )
-		egg:GetPhysicsObject():AddAngleVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
-		egg:GetPhysicsObject():AddVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
-		egg.m_Velocity = egg:GetVelocity()
+		if not self.Owner.IsBomb then
+			local egg = ents.Create("prop_physics")
+			egg:SetPos(self.Owner:GetShootPos())
+			egg:SetModel("models/props_phx/misc/egg.mdl")
+			egg.m_EggParent = self.Owner
+			egg:Spawn()
+			egg:SetOwner(self.Owner)
+			egg:Activate()
+			egg:GetPhysicsObject():AddAngleVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
+			egg:GetPhysicsObject():AddVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
+			egg.m_Velocity = egg:GetVelocity()
 
-		if m_Vel == false then
-			egg:Remove()
-			return
-		end
-
-		FrameDelay(function()
-			if IsValid(egg) then
-				egg:SetOwner()
-				egg.m_Velocity = egg:GetVelocity()
+			if m_Vel == false then
+				egg:Remove()
+				return
 			end
-		end)
+
+			FrameDelay(function()
+				if IsValid(egg) then
+					egg:SetOwner()
+					egg.m_Velocity = egg:GetVelocity()
+				end
+			end)
+		else
+			self:ThrowTNT()
+		end
 	end
 end
 
@@ -282,13 +372,16 @@ function SWEP:DrawHUD()
 	end
 
 	local xE, xT = (ScrH() / 100 + c_CValue), (c_CValue * ScrH() / 300)
-	draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
-	draw.WebImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
+	local t = LocalPlayer().IsBomb
+	if not t then
+		draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
+		draw.WebImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
+	else
+		draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), (c_CValue / 5):sin() * 180)
+		draw.WebImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), 0)
+	end
 	local Size = ScrH() / 12
 
-	for i = 1, self:GetEggs() do
-		draw.WebImage("https://images.emojiterra.com/emojione/v2/512px/1f95a.png", ScrW() - Size * (0.3 * i) - Size, ScrH() - Size * 1.5, Size, Size, nil, i == self:GetEggs() and (CurTime() * 5):sin() * 15 or -15, true)
-	end
 
 	CrosshairPos[1], CrosshairPos[2] = tosc.x, tosc.y
 end
