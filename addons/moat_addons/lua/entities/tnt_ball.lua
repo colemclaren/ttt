@@ -134,14 +134,8 @@ function ENT:PhysicsCollide( data, physobj )
 			self.Wep:SetBomb(false)
 		end
 	end)
-	print("SetBombBall",ply)
 	TNTSetBomb(ply)
 	ChangeTNTFuseTime(1)
-	ply:GetActiveWeapon().ThrewBomb = CurTime() + 0.25
-	ply:GetActiveWeapon():SetBomb(true)
-	timer.Simple(0.25,function()
-		ply:GetActiveWeapon():SetBomb(false)
-	end)
 	self.Didthing = true
 
 end

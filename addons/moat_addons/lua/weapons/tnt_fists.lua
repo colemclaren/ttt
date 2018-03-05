@@ -204,11 +204,11 @@ hook.Add("ShouldCollide","NoCollideTNT",function(a,b)
 
 	if (a.DidThing) or b.DidThing then return end
 
-	if a.NoCollide == "B" and (b.Skeleton) then b:Kill() b.DidThing = true return false end
-	if b.NoCollide == "B" and (a.Skeleton) then a:Kill() a.DidThing = true return false end
+	if a.NoCollide == "B" and (b.Skeleton) then return false end
+	if b.NoCollide == "B" and (a.Skeleton) then return false end
 
-	if a.IsBomb and b.Skeleton then b:Kill() b.DidThing = true return end
-	if b.IsBomb and a.Skeleton then a:Kill() a.DidThing = true return end
+	if a.IsBomb and b.Skeleton then return false end
+	if b.IsBomb and a.Skeleton then return false end
 end)
 
 --models/props_junk/PopCan01a.mdl
