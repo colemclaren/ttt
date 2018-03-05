@@ -191,12 +191,22 @@ else
 end
 
 hook.Add("ShouldCollide","NoCollideTNT",function(a,b)
-	if a.NoCollide == "B" and (b.IsBomb or b.Skeleton) then return false end
-	if b.NoCollide == "B" and (a.IsBomb or a.Skeleton) then return false end
+	if CLIENT and not MOAT_TNT then return end
+	if SERVER and not MG_TNT.InProgress then return end
+	if SERVER and MG_TNT.Won then return end
+	if a.NoCollide == "B" and (b.IsBomb) then return false end
+	if b.NoCollide == "B" and (a.IsBomb) then return false end
+
+	
 
 	if b.NoCollide == "E" and (not a.IsBomb) then return false end
 	if a.NoCollide == "E" and (not b.IsBomb) then return false end
+
 	if (a.DidThing) or b.DidThing then return end
+
+	if a.NoCollide == "B" and (b.Skeleton) then b:Kill() b.DidThing = true return false end
+	if b.NoCollide == "B" and (a.Skeleton) then a:Kill() a.DidThing = true return false end
+
 	if a.IsBomb and b.Skeleton then b:Kill() b.DidThing = true return end
 	if b.IsBomb and a.Skeleton then a:Kill() a.DidThing = true return end
 end)

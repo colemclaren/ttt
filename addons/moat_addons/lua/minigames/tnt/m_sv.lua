@@ -117,10 +117,16 @@ function MG_TNT.StartCommand(ply,cmd)
 end
 
 function MG_TNT.PlayerSpawn(ply)
+    ply.DidThing = false 
     ply:SetRole(ROLE_INNOCENT)
     ply:ResetEquipment()
     ply:SetCredits(0)
+    ply:StripWeapons()
+    ply:Give("tnt_fists")
+    ply:SelectWeapon("tnt_fists")
     ply:ShouldDropWeapon(false)
+    ply:SetCustomCollisionCheck(true)
+    ply:CollisionRulesChanged()
     if ply.Skeleton then
         timer.Simple(1.1,function()
             ply:SetModel("models/player/skeleton.mdl")
@@ -216,7 +222,7 @@ function MG_TNT.Think()
     if MG_TNT.Won then return end
     if TNTFuseTime > CurTime() then
         --print("Blowing up in ", TNTFuseTime - CurTime())
-    elseif (0==1) then
+    else
         if MG_TNT.BlewUp then return end
         for k,v in ipairs(ents.GetAll()) do
             if v.IsBomb then
@@ -247,6 +253,7 @@ function MG_TNT.PlayerTick(Player)
 end
 util.AddNetworkString("TNT.Skeleton")
 function MG_TNT.PostPlayerDeath(Player)
+    if not MG_TNT.InProgress then return end
     Player:Extinguish()
     net.Start("TNT.Skeleton")
     net.Send(Player)
@@ -254,7 +261,7 @@ function MG_TNT.PostPlayerDeath(Player)
     Player:SetCustomCollisionCheck(true)
     Player:CollisionRulesChanged()
     Player.SpeedMod = 1
-    timer.Simple(2,function()
+    timer.Simple(10,function()
         Player:SpawnForRound(true)
         Player:SetRole(ROLE_INNOCENT)
         Player:Spawn()
@@ -314,6 +321,8 @@ function MG_TNT:PrepRound(mk, pri, sec, creds)
     -- need to call this again? just for safe measures
     for k, v in pairs(player.GetAll()) do
         MG_TNT.StripWeapons(v)
+        v.IsBomb = false
+        v.Skeleton = false
     end
     
 
@@ -343,9 +352,14 @@ end
 function MG_TNT.RandomPlayer()
     local p = player.GetAll()
 
-    for k,v in ipairs(p) do
+    for k,v in RandomPairs(p) do
+        if (not v:Alive()) or (v:IsSpec()) or (v.Skeleton) then continue end
+
         local f = false
         for i,o in ipairs(p) do
+
+            if (not o:Alive()) or (v:IsSpec()) or (v.Skeleton) then continue end
+
             if v:GetPos():DistToSqr(o:GetPos()) < 372154.71837072 then
                 f = true
             end
@@ -371,11 +385,13 @@ function MG_TNT.BeginRound()
         end
     end
     for k,v in ipairs(player.GetAll()) do
+        if v.Skeleton then v.Skeleton = false v:Spawn() end
         v:SetRole(ROLE_INNOCENT)
         v.TNTScore = 0
         v:StripWeapons()
         v:SetModel("models/player/leet.mdl")
         v:Give("tnt_fists")
+        v:ShouldDropWeapon(false)
         v.SpeedMod = 1
         timer.Simple(0.1,function()
             v:SelectWeapon("tnt_fists")
@@ -385,7 +401,7 @@ function MG_TNT.BeginRound()
     TNTSetBomb(r)
     ChangeTNTFuseTime(15,true)
     MG_TNT.InProgress = true
-    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 15) + 99999
+    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 15) + 30
     net.Start("TNT_Begin")
     net.Broadcast()
 

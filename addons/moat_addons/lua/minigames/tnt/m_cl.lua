@@ -31,7 +31,7 @@ net.Receive("TNT_Begin",function()
         goal = 100,
         TopKills = 0,
         MyKills = 0,
-        time_end = CurTime() + (#player.GetAll() * 15),
+        time_end = CurTime() + (#player.GetAll() * 15) + 30,
         tdm_blue = Color(90, 200, 255),
         tdm_red = Color(255, 50, 50),
         bar_width = 225,
@@ -91,12 +91,12 @@ hook.Add("PreDrawHalos","Moat_TNT",function()
     local t = {}
     if not MOAT_TNT then return end
     for k,v in ipairs(player.GetAll()) do
-        if v:Alive() and not v:IsSpec() then
+        if v:Alive() and not v:IsSpec() and (not v.Skeleton) then
             table.insert(t,v)
         end
     end
-    if #t > 10 then return end
-    halo.Add(t, Color(200, 20, 20), 1, 1, 1, true, true)
+    if (#t > 10) and (not LocalPlayer().IsBomb) then return end
+    halo.Add(t, Color(255, 0, 0), 1, 1, 1, true, true)
 end)
 
 net.Receive("TNT_End",function()
@@ -248,6 +248,10 @@ surface.CreateFont("TNT.Small",{
     antialias = true,
     blursize = 0
 })
+
+net.Receive("TNT.Skeleton",function()
+    LocalPlayer().Skeleton = true
+end)
 hook.Add("HUDPaint", "moat.test.L", function()
     if not istable(MOAT_TNT) then return end
     local w,h = ScrW(),ScrH()
@@ -268,6 +272,11 @@ hook.Add("HUDPaint", "moat.test.L", function()
 
     local txw = draw.SimpleTextOutlined(TNT_Bomb, "TNT.Big", (w/2) - (txtw/2), 100, Color(255,0,0), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
     local _,txh = draw.SimpleTextOutlined(" has the bomb!", "TNT.Big", (w/2) - (txtw/2) + txw, 100, col, TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+    if LocalPlayer().Skeleton then
+        draw.SimpleTextOutlined("You are now a skeleton!", "TNT.Small", (w/2), 170, Color(255,0,0), TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+        draw.SimpleTextOutlined("Body-block and shove the survivors to make them lose!", "TNT.Small", (w/2), 200, Color(255,0,0), TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+        draw.SimpleTextOutlined("Getting close to the bomb carrier will kill you, though", "TNT.Small", (w/2), 230, Color(255,0,0), TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+    end
 
     surface.SetDrawColor(255,0,0,255)
     local bw = 300
@@ -280,6 +289,10 @@ hook.Add("HUDPaint", "moat.test.L", function()
     if LocalPlayer().IsBomb then
         left = "Throw your bomb!"
         right = 'Throw your bomb!'
+    end
+    if LocalPlayer().Skeleton then
+        left = "Shove people!"
+        right = "Shove people!"
     end
     draw.SimpleTextOutlined("Right Click:", "TNT.Small", (w/2) + (38), h - txh - 124, col, TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
     draw.SimpleTextOutlined(right, "TNT.Small", (w/2) + (38), h - txh - 94, col, TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
