@@ -187,7 +187,7 @@ if SERVER then
 		net.WriteString(ply:Nick())
 		net.Broadcast()
 		ply:SetColor(Color(255,0,0))
-		BroadcastLua("chat.AddText(Color(255,0,0),[[" .. ply:Nick():gsub("%]%]","") .. "]],Color(255,255,255),[[ now has the bomb!]])")
+		--BroadcastLua("chat.AddText(Color(255,0,0),[[" .. ply:Nick():gsub("%]%]","") .. "]],Color(255,255,255),[[ now has the bomb!]])")
 		ply.IsBomb = true
 	end
 	function ChangeTNTFuseTime(t,r)

@@ -210,6 +210,7 @@ local dead_oc = false
 TNT_Bomb = "forsenE"
 net.Receive("TNT.NewBomb",function()
     TNT_Bomb = net.ReadString()
+    chat.AddText(Color(255,0,0),TNT_Bomb,Color(255,255,255),[[ now has the bomb!]])
 end)
 
 TNTFuseTime = 0
