@@ -87,7 +87,6 @@ function MG_TNT.DoKill(ply)
 end
 
 function MG_TNT.PlayerDeath(vic, inf, att)
-
 end
 
 function MG_TNT.FindCorpse(ply)
@@ -122,7 +121,11 @@ function MG_TNT.PlayerSpawn(ply)
     ply:ResetEquipment()
     ply:SetCredits(0)
     ply:ShouldDropWeapon(false)
-
+    if ply.Skeleton then
+        timer.Simple(1.1,function()
+            ply:SetModel("models/player/skeleton.mdl")
+        end)
+    end
 end
 local rarity_to_placing = {[1] = math.random(5,6), [2] = 5, [3] = 4, [4] = 4, [5] = 4}
 function MG_TNT.Win()
@@ -172,7 +175,7 @@ end
 function player.GetAlive()
 	local tab = {}
 	for _,Player in ipairs( player.GetAll() ) do
-		if Player:Alive() and (not Player:IsSpec()) then
+		if Player:Alive() and (not Player:IsSpec()) and (not Player.Skeleton) then
 			table.insert( tab, Player )
 		end
 	end
@@ -190,7 +193,7 @@ function MG_TNT.Think()
     if not MG_TNT.InProgress then return end
     local i = 0
     for k,v in ipairs(player.GetAll()) do
-        if v:Alive() and (not v:IsSpec()) then 
+        if v:Alive() and (not v:IsSpec()) and (not v.Skeleton) then 
             if not v.TNTScore then v.TNTScore = 0 end
             i = i + 1 
             v.TNTScore = v.TNTScore + 1 -- ik this is lazy
@@ -213,7 +216,7 @@ function MG_TNT.Think()
     if MG_TNT.Won then return end
     if TNTFuseTime > CurTime() then
         --print("Blowing up in ", TNTFuseTime - CurTime())
-    else
+    elseif (0==1) then
         if MG_TNT.BlewUp then return end
         for k,v in ipairs(ents.GetAll()) do
             if v.IsBomb then
@@ -242,9 +245,20 @@ local SoundsList = {"vo/npc/male01/help01.wav", "ambient/voices/m_scream1.wav", 
 
 function MG_TNT.PlayerTick(Player)
 end
-
+util.AddNetworkString("TNT.Skeleton")
 function MG_TNT.PostPlayerDeath(Player)
     Player:Extinguish()
+    net.Start("TNT.Skeleton")
+    net.Send(Player)
+    Player.Skeleton = true
+    Player:SetCustomCollisionCheck(true)
+    Player:CollisionRulesChanged()
+    timer.Simple(2,function()
+        Player:SpawnForRound(true)
+        Player:SetRole(ROLE_INNOCENT)
+        Player:Spawn()
+    end)
+    print("Skeleton",Player)
 end
 
 function MG_TNT.TakeDamage(ply, dmginfo)
@@ -327,7 +341,7 @@ end
 
 function MG_TNT.RandomPlayer()
     for k,v in RandomPairs(player.GetAll()) do
-        if v:Alive() and (not v:IsSpec()) then
+        if v:Alive() and (not v:IsSpec()) and (not v.Skeleton) then
             return v
         end
     end
@@ -356,7 +370,7 @@ function MG_TNT.BeginRound()
     TNTSetBomb(r)
     ChangeTNTFuseTime(15,true)
     MG_TNT.InProgress = true
-    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 15)
+    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 15) + 99999
     net.Start("TNT_Begin")
     net.Broadcast()
 

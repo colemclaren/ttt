@@ -126,6 +126,10 @@ function ENT:PhysicsCollide( data, physobj )
 		return
 	end
 	if self.Didthing then return end
+	if ply.Skeleton then
+		ply:Kill()
+		return
+	end
 	FrameDelay(function()
 		self:EmitSound("npc/manhack/bat_away.wav")
 		self:Remove()
@@ -135,7 +139,12 @@ function ENT:PhysicsCollide( data, physobj )
 	end)
 	TNTSetBomb(ply)
 	ChangeTNTFuseTime(1)
-	s.Didthing = true
+	ply:GetActiveWeapon().ThrewBomb = CurTime() + 0.25
+	ply:GetActiveWeapon():SetBomb(true)
+	timer.Simple(0.25,function()
+		ply:GetActiveWeapon():SetBomb(false)
+	end)
+	self.Didthing = true
 
 end
 

@@ -23,6 +23,7 @@ local kills = {}
 local stats_spawn = GetConVar("moat_showstats_spawn")
 local stats_spawn_old = false
 net.Receive("TNT_Begin",function()
+    LocalPlayer().Skeleton = false
     MOAT_MINIGAME_OCCURING = true
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_TNT = {
