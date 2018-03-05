@@ -62,6 +62,7 @@ end
 
 function SWEP:SetupDataTables()
 	self:NetworkVar("Bool", 0, "Bomb")
+	self:NetworkVar("Bool", 1, "BombFire")
 	self:NetworkVar("Float", 0, "NextMeleeAttack")
 	self:NetworkVar("Float", 1, "NextSprint")
 end
@@ -181,7 +182,7 @@ else
 		LocalPlayer().IsBomb = net.ReadBool()
 	end)
 end
-
+--models/props_junk/PopCan01a.mdl
 function SWEP:ThrowTNT()
 	if self:GetBomb() then return end
 	self:SetBomb(true)
@@ -252,9 +253,31 @@ function SWEP:SecondaryAttack()
 
 	if SERVER then
 		if not self.Owner.IsBomb then
+			if self:GetBombFire() then return end
+			self:SetBombFire(true)
+			local ply = self.Owner
+			ply:EmitSound([[weapons\tnt\draw.wav]])
 			local egg = ents.Create("prop_physics")
+			egg:Ignite(100,0)
+			egg:SetFriction(200000)
+			egg:SetElasticity(0)
+			egg:SetGravity(0.8)
+			egg:AddCallback("PhysicsCollide", function(s,t)
+				if s.DidThing then return end
+				local ply = t.HitEntity
+				if ply.IsBomb then
+					-- shorten fuse
+				end
+				FrameDelay(function()
+					s:Remove()
+				end)
+				self:SetBombFire(false)
+				s.DidThing = true
+			end)
 			egg:SetPos(self.Owner:GetShootPos())
-			egg:SetModel("models/props_phx/misc/egg.mdl")
+			egg:SetModel("models/props_junk/PopCan01a.mdl")
+			egg:SetColor(Color(0,0,0,0))
+			egg:SetRenderMode(RENDERMODE_TRANSALPHA)
 			egg.m_EggParent = self.Owner
 			egg:Spawn()
 			egg:SetOwner(self.Owner)
