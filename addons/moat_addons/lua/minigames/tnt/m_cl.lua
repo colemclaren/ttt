@@ -248,6 +248,9 @@ hook.Add("HUDPaint", "moat.test.L", function()
     local txw = draw.SimpleTextOutlined(TNT_Bomb, "TNT.Big", (w/2) - (txtw/2), h, Color(255,0,0), TEXT_ALIGN_LEFT,TEXT_ALIGN_BOTTOM, 1, Color(0,0,0))
     local _,txh = draw.SimpleTextOutlined(" has the bomb!", "TNT.Big", (w/2) - (txtw/2) + txw, h, col, TEXT_ALIGN_LEFT,TEXT_ALIGN_BOTTOM, 1, Color(0,0,0))
 
+    local txw = draw.SimpleTextOutlined(TNT_Bomb, "TNT.Big", (w/2) - (txtw/2), 100, Color(255,0,0), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+    local _,txh = draw.SimpleTextOutlined(" has the bomb!", "TNT.Big", (w/2) - (txtw/2) + txw, 100, col, TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
+
     surface.SetDrawColor(255,0,0,255)
     local bw = 300
     local t = TNTFuseTime - CurTime()
