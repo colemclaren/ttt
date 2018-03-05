@@ -197,7 +197,9 @@ function MG_TNT.Think()
             if v.IsBomb then
                 local diff = TNTFuseTime - CurTime()
                 local speed = ((20 - diff))
-                v.SpeedMod = 1 + (speed * 0.1)
+                if not MG_TNT.Won then 
+                    v.SpeedMod = 1 + (speed * 0.05)
+                end
             end
         end
     end
@@ -210,7 +212,7 @@ function MG_TNT.Think()
 
     if MG_TNT.Won then return end
     if TNTFuseTime > CurTime() then
-        print("Blowing up in ", TNTFuseTime - CurTime())
+        --print("Blowing up in ", TNTFuseTime - CurTime())
     else
         if MG_TNT.BlewUp then return end
         for k,v in ipairs(ents.GetAll()) do

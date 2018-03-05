@@ -257,7 +257,7 @@ hook.Add("HUDPaint", "moat.test.L", function()
     bw = math.max(0,bw * (t/20))
     draw.RoundedBox(0, w/2-150, h-txh-50, bw, 30, col)
     surface.DrawOutlinedRect(w/2 - 150, h - txh - 50, 300, 30)
-    local right = "Throw fire"
+    local right = "Throw fire!"
     local left = "Shove people!"
     if LocalPlayer().IsBomb then
         left = "Throw your bomb!"
