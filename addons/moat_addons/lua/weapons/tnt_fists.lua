@@ -115,7 +115,7 @@ function SWEP:PrimaryAttack(NoForce)
 			self:EmitSound(HitSound)
 
 			if SERVER then
-				self.Owner:ViewPunch(Angle(0, (-2):random(2), (-2):random(2)))
+				--self.Owner:ViewPunch(Angle(0, (-2):random(2), (-2):random(2)))
 			end
 
 			local Entity = tR_v.Entity
@@ -367,17 +367,17 @@ function SWEP:Think()
 
 		if not owner:OnGround() and not owner.m_FistsHasJumped then
 			owner.m_FistsHasJumped = true
-			owner:ViewPunch(Angle(-5, rand, rand))
+			--owner:ViewPunch(Angle(-5, rand, rand))
 		elseif owner:OnGround() and owner.m_FistsHasJumped then
 			owner.m_FistsHasJumped = nil
-			owner:ViewPunch(Angle(-2, rand, rand))
+			--owner:ViewPunch(Angle(-2, rand, rand))
 		end
 
 		if owner:OnGround() and (owner:KeyDown(4) or owner:Crouching()) and not owner.m_FistHasCrouched then
-			owner:ViewPunch(Angle(-3.5, rand / 2, rand / 2))
+			--owner:ViewPunch(Angle(-3.5, rand / 2, rand / 2))
 			owner.m_FistHasCrouched = true
 		elseif (not owner:KeyDown(4) and not owner:Crouching()) and owner.m_FistHasCrouched then
-			owner:ViewPunch(Angle(-2, rand / 2, rand / 2))
+			--owner:ViewPunch(Angle(-2, rand / 2, rand / 2))
 			owner.m_FistHasCrouched = nil
 		end
 	end
