@@ -2283,6 +2283,7 @@ function m_OpenInventory(ply2, utrade)
 
             if (key == MOUSE_LEFT and input.IsKeyDown(KEY_LCONTROL) and m_Inventory[num].c) then
                 if (m_Inventory[num].l and m_Inventory[num].l == 1) then return end
+                if (m_Inventory[num].item and m_Inventory[num].item.Rarity and m_Inventory[num].item.Rarity > 5) then return end
                 
                 moat_RemoveEditPositionPanel()
 
@@ -4606,6 +4607,10 @@ function m_CreateItemMenu(num, ldt)
             dec_rate = dec_rate * deoncstruct_speed
         elseif (ConVarExists("moat_deconstruct_speed") and GetConVar("moat_deconstruct_speed"):GetInt() == 1) then
             dec_rate = 6.5
+        end
+
+        if (item_rarity > 5) then
+            dec_rate = 1.3
         end
 
         pnl.Think = function(s)
