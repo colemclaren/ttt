@@ -87,7 +87,6 @@ function MG_TNT.DoKill(ply)
 end
 
 function MG_TNT.PlayerDeath(vic, inf, att)
-
 end
 
 function MG_TNT.FindCorpse(ply)
@@ -118,11 +117,21 @@ function MG_TNT.StartCommand(ply,cmd)
 end
 
 function MG_TNT.PlayerSpawn(ply)
+    ply.DidThing = false 
     ply:SetRole(ROLE_INNOCENT)
     ply:ResetEquipment()
     ply:SetCredits(0)
+    ply:StripWeapons()
+    ply:Give("tnt_fists")
+    ply:SelectWeapon("tnt_fists")
     ply:ShouldDropWeapon(false)
-
+    ply:SetCustomCollisionCheck(true)
+    ply:CollisionRulesChanged()
+    if ply.Skeleton then
+        timer.Simple(1.1,function()
+            ply:SetModel("models/player/skeleton.mdl")
+        end)
+    end
 end
 local rarity_to_placing = {[1] = math.random(5,6), [2] = 5, [3] = 4, [4] = 4, [5] = 4}
 function MG_TNT.Win()
@@ -172,7 +181,7 @@ end
 function player.GetAlive()
 	local tab = {}
 	for _,Player in ipairs( player.GetAll() ) do
-		if Player:Alive() and (not Player:IsSpec()) then
+		if Player:Alive() and (not Player:IsSpec()) and (not Player.Skeleton) then
 			table.insert( tab, Player )
 		end
 	end
@@ -190,7 +199,7 @@ function MG_TNT.Think()
     if not MG_TNT.InProgress then return end
     local i = 0
     for k,v in ipairs(player.GetAll()) do
-        if v:Alive() and (not v:IsSpec()) then 
+        if v:Alive() and (not v:IsSpec()) and (not v.Skeleton) then 
             if not v.TNTScore then v.TNTScore = 0 end
             i = i + 1 
             v.TNTScore = v.TNTScore + 1 -- ik this is lazy
@@ -242,9 +251,22 @@ local SoundsList = {"vo/npc/male01/help01.wav", "ambient/voices/m_scream1.wav", 
 
 function MG_TNT.PlayerTick(Player)
 end
-
+util.AddNetworkString("TNT.Skeleton")
 function MG_TNT.PostPlayerDeath(Player)
+    if not MG_TNT.InProgress then return end
     Player:Extinguish()
+    net.Start("TNT.Skeleton")
+    net.Send(Player)
+    Player.Skeleton = true
+    Player:SetCustomCollisionCheck(true)
+    Player:CollisionRulesChanged()
+    Player.SpeedMod = 1
+    timer.Simple(10,function()
+        Player:SpawnForRound(true)
+        Player:SetRole(ROLE_INNOCENT)
+        Player:Spawn()
+    end)
+    print("Skeleton",Player)
 end
 
 function MG_TNT.TakeDamage(ply, dmginfo)
@@ -299,6 +321,8 @@ function MG_TNT:PrepRound(mk, pri, sec, creds)
     -- need to call this again? just for safe measures
     for k, v in pairs(player.GetAll()) do
         MG_TNT.StripWeapons(v)
+        v.IsBomb = false
+        v.Skeleton = false
     end
     
 
@@ -326,8 +350,27 @@ function MG_TNT:PrepRound(mk, pri, sec, creds)
 end
 
 function MG_TNT.RandomPlayer()
-    for k,v in RandomPairs(player.GetAll()) do
-        if v:Alive() and (not v:IsSpec()) then
+    local p = player.GetAll()
+
+    for k,v in RandomPairs(p) do
+        if (not v:Alive()) or (v:IsSpec()) or (v.Skeleton) then continue end
+
+        local f = false
+        for i,o in ipairs(p) do
+
+            if (not o:Alive()) or (v:IsSpec()) or (v.Skeleton) then continue end
+
+            if v:GetPos():DistToSqr(o:GetPos()) < 372154.71837072 then
+                f = true
+            end
+        end
+        if not f then
+            return v
+        end
+    end
+
+    for k,v in RandomPairs(p) do
+        if v:Alive() and (not v:IsSpec()) and (not v.Skeleton) then
             return v
         end
     end
@@ -342,11 +385,13 @@ function MG_TNT.BeginRound()
         end
     end
     for k,v in ipairs(player.GetAll()) do
+        if v.Skeleton then v.Skeleton = false v:Spawn() end
         v:SetRole(ROLE_INNOCENT)
         v.TNTScore = 0
         v:StripWeapons()
         v:SetModel("models/player/leet.mdl")
         v:Give("tnt_fists")
+        v:ShouldDropWeapon(false)
         v.SpeedMod = 1
         timer.Simple(0.1,function()
             v:SelectWeapon("tnt_fists")
@@ -356,7 +401,7 @@ function MG_TNT.BeginRound()
     TNTSetBomb(r)
     ChangeTNTFuseTime(15,true)
     MG_TNT.InProgress = true
-    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 15)
+    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 15) + 30
     net.Start("TNT_Begin")
     net.Broadcast()
 
