@@ -1,17 +1,3 @@
-local GetGlobalFloat = GetGlobalFloat
-TNT = TNT or {}
-
-TNT.SetLevel = function( n ) TNT.CurrentLevel = n end
-TNT.ShiftLevel = function( n )	TNT.CurrentLevel = TNT.CurrentLevel + n end
-TNT.StartingLevel = false
-TNT.CurrentLevel = -32768
-TNT.GetLevel = function()
-	return CLIENT and GetGlobalFloat("$TNTlev", -32768 ) or SERVER and TNT.CurrentLevel
-end
-
-
--- end of sh
-
 local hook = hook
 local cam = cam
 local draw = draw

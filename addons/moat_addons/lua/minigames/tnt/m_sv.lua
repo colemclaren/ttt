@@ -1,18 +1,3 @@
--- end of sh
-local SetGlobalFloat = SetGlobalFloat
-local table = table
-local TNT = TNT
-local Values = Values
-local hook = hook
-local FrameTime = FrameTime
-local player_manager = player_manager
-local CurTime = CurTime
-local m_UnderDescentAmount = 16 * 1.5
-
-
-
-
-
 util.AddNetworkString("TNT_I_Just_Joined")
 util.AddNetworkString("TNT_Begin")
 util.AddNetworkString("TNT_End")
@@ -195,13 +180,8 @@ function player.GetAlive()
 	end
 	return tab
 end
-debug.setmetatable(-1, {
-	__index = math
-})
+
 function MG_TNT.Think()
-    if TNT.CurrentLevel ~= GetGlobalFloat("$TNTlev", -10000) then
-		SetGlobalFloat("$TNTlev", TNT.CurrentLevel)
-	end
     if not MG_TNT.InProgress then return end
     local i = 0
     for k,v in ipairs(player.GetAll()) do
@@ -211,71 +191,29 @@ function MG_TNT.Think()
             v.TNTScore = v.TNTScore + 1 -- ik this is lazy
         end
     end
-    --print("Players left: " .. i)
     if i < 2 then
         MG_TNT.Win()
     end
     if CurTime() > MG_TNT.TimeEnd then
         MG_TNT.Win()
     end
-    if not TNT.StartingLevel then
-		TNT.StartingLevel = Entity(0):GetModelRenderBounds().z
-		TNT.CurrentLevel = TNT.StartingLevel
-	end
 
     if MG_TNT.Won then return end
-    NextSuperDecentTime = NextSuperDecentTime or CurTime()
-
-    if NextSuperDecentTime < CurTime() then
-        local tab = player.GetAlive()
-        table.sort(tab, function(a, b) return a:GetPos().z < b:GetPos().z end)
-
-        if tab[1] then
-            local t = ((tab[1]:GetPos().z - m_UnderDescentAmount - TNT.GetLevel()) * FrameTime() / 12):max(FrameTime() * 6)
-            TNT.ShiftLevel(t)
-
-            if t <= FrameTime() * 10 then
-                NextSuperDecentTime = CurTime() + 20
-                m_UnderDescentAmount = 8
-            end
-        end
-    else
-        TNT.ShiftLevel(FrameTime() * 3.8)
-    end
 end
 
 local SoundsList = {"vo/npc/male01/help01.wav", "ambient/voices/m_scream1.wav", "vo/npc/male01/myleg02.wav", "vo/npc/male01/myleg01.wav", "vo/npc/male01/ohno.wav", "vo/npc/male01/moan01.wav", "vo/npc/male01/moan03.wav", "vo/ravenholm/monk_helpme03.wav"}
 
 
 function MG_TNT.PlayerTick(Player)
-    if Player:Alive() and Player:GetPos().z <= TNT.CurrentLevel and not Player:IsSpec() then
-        if Player:WaterLevel() > 0 then Player:Kill() end
-		Player:Ignite(0.1, 0)
-		Player.m_NextScreamSoundTime = Player.m_NextScreamSoundTime or CurTime()
-
-		if Player.m_NextScreamSoundTime <= CurTime() then
-			Player.m_NextScreamSoundTime = CurTime() + 1
-			Player:EmitSound((table.Random(SoundsList)))
-		end
-	end
 end
 
 function MG_TNT.PostPlayerDeath(Player)
     Player:Extinguish()
-    if Player:GetPos().z <= TNT.GetLevel() then
-		local rag = Player:GetRagdollEntity()
-		if IsValid( rag ) then
-			rag:SetModel("models/player/charple.mdl")
-			rag:Ignite(500, 0)
-		end
-	end
 end
 
 function MG_TNT.TakeDamage(ply, dmginfo)
     if ply:IsPlayer() then
-        if dmginfo:IsDamageType(DMG_BURN) then
-            dmginfo:ScaleDamage(5)
-        elseif dmginfo:IsDamageType(DMG_CRUSH) then
+        if dmginfo:IsDamageType(DMG_CRUSH) then
             dmginfo:ScaleDamage(0)
         end
     end
@@ -358,13 +296,6 @@ function MG_TNT.BeginRound()
     for k,v in pairs(player.GetAll()) do
         v:Spawn()
         v:SetRole(ROLE_INNOCENT)
-        v:Give("TNT_fists")
-        v:Give("weapon_ttt_unarmed")
-        timer.Simple(1,function()
-            v:SelectWeapon("TNT_fists")
-        end)
-        --v:SetCustomCollisionCheck(true)
-        --v:CollisionRulesChanged()
         v.TNTScore = 0
     end
     MG_TNT.InProgress = true
