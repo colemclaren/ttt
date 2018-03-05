@@ -81,11 +81,18 @@ MOAT_MINIGAMES.AddMinigame("Explosive Chickens",
 	"Expoding chickens will spawn on you. Be the last alive to win!!"
 )
 
-MOAT_MINIGAMES.AddMinigame("Explosive Chickens", 
+MOAT_MINIGAMES.AddMinigame("The floor is lava", 
 	"minigames/tfil/", 
 	"moat_start_lava", 
 	0, 
 	"The floor is lava."
+)
+
+MOAT_MINIGAMES.AddMinigame("TNT Tag", 
+	"minigames/tnt/", 
+	"moat_start_tnt", 
+	0, 
+	"TNT Tag! The person holding the tnt eventually dies, and you can throw stuff at him to make him die faster!"
 )
 /*
 MOAT_MINIGAMES.AddMinigame("Secret Santa Tag", 
