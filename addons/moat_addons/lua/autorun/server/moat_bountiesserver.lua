@@ -75,7 +75,7 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 
 	local level = self.Bounties[bounty_id].tier
 
-	self:SendChat(level, "You have completed the " .. self.Bounties[bounty_id].name .. " Bounty and has been rewarded " .. self.Bounties[bounty_id].rewards .. ".", ply)
+	self:SendChat(level, "You have completed the " .. self.Bounties[bounty_id].name .. " Bounty and have been rewarded " .. self.Bounties[bounty_id].rewards .. ".", ply)
 end
 
 function MOAT_BOUNTIES:IncreaseProgress(ply, bounty_id, max)
@@ -98,6 +98,10 @@ function MOAT_BOUNTIES:IncreaseProgress(ply, bounty_id, max)
 		net.WriteUInt(tier, 4)
 		net.WriteUInt(cur_num + 1, 16)
 		net.Send(ply)
+
+		if (self.Bounties[bounty_id].name == "Marathon Walker") then
+			MOAT_BOUNTIES:SendChat(1, "You have completed a round of the marathon walker bounty!", ply)
+		end
 
 		if (cur_num + 1 == max) then
 			self:RewardPlayer(ply, bounty_id)
@@ -303,9 +307,9 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 })
 
 --v
-MOAT_BOUNTIES:AddBounty("Marathon walker", {
+MOAT_BOUNTIES:AddBounty("Marathon Walker", {
 	tier = 1,
-	desc = "For # rounds, Take # steps each round.",
+	desc = "In # different rounds, take # steps each round. (doesn't have to be in a row)",
 	vars = {
 		math.random(2,5),
 		math.random(350, 700)
