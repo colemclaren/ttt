@@ -243,6 +243,7 @@ function SWEP:ThrowTNT()
 			self:SetBomb(false)
 		end)
 		TNTSetBomb(ply)
+		ChangeTNTFuseTime(1.5)
 		s.Didthing = true
 	end)
 	egg:SetPos(self.Owner:GetShootPos())
@@ -288,7 +289,7 @@ function SWEP:SecondaryAttack()
 				local ply = t.HitEntity
 				if ply.IsBomb then
 					-- shorten fuse
-					ChangeTNTFuseTime(-1)
+					ChangeTNTFuseTime(-1.25)
 				end
 				FrameDelay(function()
 					s:Remove()
