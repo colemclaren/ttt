@@ -38,7 +38,7 @@ net.Receive("TNT_Begin",function()
         red_save = 0,
         blue_save = 0,
     }
-    hook.Remove("CreateMove", "Beast_AutoHop")
+    MOAT_DISABLE_BUNNY_HOP = true
     sound.PlayURL("http://server.moatgaming.org/tttsounds/pirates.mp3","",function(station)
         if IsValid(station) then
             station:SetVolume(0.5)
@@ -85,6 +85,7 @@ end
 
 
 net.Receive("TNT_End",function()
+    MOAT_DISABLE_BUNNY_HOP = false
     local players = net.ReadTable()
     MOAT_MINIGAME_OCCURING = false
     sound.PlayURL("http://server.moatgaming.org/tttsounds/forsen_end.mp3","",function(s)
