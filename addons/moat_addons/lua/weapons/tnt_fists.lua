@@ -173,7 +173,12 @@ if SERVER then
 		net.Start("TNT.IsBomb")
 		net.WriteBool(false)
 		net.Broadcast()
-		for k,v in ipairs(player.GetAll()) do v.IsBomb = false v:Extinguish() v:SetColor(Color(255,255,255)) end 
+		for k,v in ipairs(player.GetAll()) do 
+			v.IsBomb = false
+			v:SetColor(Color(255,255,255)) 
+			v:SetRunSpeed(220)
+			v:SetWalkSpeed(220)
+		end 
 		net.Start("TNT.IsBomb")
 		net.WriteBool(true)
 		net.Send(ply)

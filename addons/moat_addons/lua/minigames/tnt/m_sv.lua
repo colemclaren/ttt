@@ -194,6 +194,11 @@ function MG_TNT.Think()
             if not v.TNTScore then v.TNTScore = 0 end
             i = i + 1 
             v.TNTScore = v.TNTScore + 1 -- ik this is lazy
+            if v.IsBomb then
+                local diff = TNTFuseTime - CurTime()
+                local speed = ((20 - diff))
+                v.SpeedMod = 1 + (speed * 0.025)
+            end
         end
     end
     if i < 2 then
@@ -267,6 +272,9 @@ function MG_TNT.Collide(a,b)
     return true*/
 end
 
+function MG_TNT.PlayerSpeed(ply)
+end
+
 --MOVETYPE_LADDER
 function MG_TNT:PrepRound(mk, pri, sec, creds)
     TEST_TNT = false
@@ -307,6 +315,7 @@ function MG_TNT:PrepRound(mk, pri, sec, creds)
     MG_TNT.HookAdd("PlayerTick",MG_TNT.PlayerTick)
     MG_TNT.HookAdd("PostPlayerDeath",MG_TNT.PostPlayerDeath)
     MG_TNT.HookAdd("ShouldCollide",MG_TNT.Collide)
+    MG_TNT.HookAdd("TTTPlayerSpeed",MG_TNT.PlayerSpeed)
     MG_TNT.SpawnPoints = {}
 
 
@@ -333,6 +342,7 @@ function MG_TNT.BeginRound()
         v:SetRole(ROLE_INNOCENT)
         v.TNTScore = 0
         v:StripWeapons()
+        v:SetModel("models/player/leet.mdl")
         v:Give("tnt_fists")
         timer.Simple(0.1,function()
             v:SelectWeapon("tnt_fists")
