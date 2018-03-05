@@ -253,6 +253,7 @@ function MG_TNT.PostPlayerDeath(Player)
     Player.Skeleton = true
     Player:SetCustomCollisionCheck(true)
     Player:CollisionRulesChanged()
+    Player.SpeedMod = 1
     timer.Simple(2,function()
         Player:SpawnForRound(true)
         Player:SetRole(ROLE_INNOCENT)
@@ -340,7 +341,21 @@ function MG_TNT:PrepRound(mk, pri, sec, creds)
 end
 
 function MG_TNT.RandomPlayer()
-    for k,v in RandomPairs(player.GetAll()) do
+    local p = player.GetAll()
+
+    for k,v in ipairs(p) do
+        local f = false
+        for i,o in ipairs(p) do
+            if v:GetPos():DistToSqr(o:GetPos()) < 372154.71837072 then
+                f = true
+            end
+        end
+        if not f then
+            return v
+        end
+    end
+
+    for k,v in RandomPairs(p) do
         if v:Alive() and (not v:IsSpec()) and (not v.Skeleton) then
             return v
         end
