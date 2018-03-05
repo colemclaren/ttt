@@ -68,8 +68,6 @@ function SWEP:SetupDataTables()
 end
 
 function SWEP:UpdateNextSprint()
-	local vm = self.Owner:GetViewModel()
-	self:SetNextSprint(CurTime() + vm:SequenceDuration() / vm:GetPlaybackRate())
 end
 
 function SWEP:PrimaryAttack(NoForce)
@@ -251,111 +249,6 @@ end
 
 function SWEP:PreDrawViewModel(View, Weapon, Player)
 	--View.RenderOverride = function() end
-end
-
-if SERVER then
-	local net = net
-
-	local player = player
-	util.AddNetworkString("egged")
-
-	hook.Add("PropBreak", "PropVengeance", function(Player, Object)
-		if Object.m_EggParent and Object:GetModel() == "models/props_phx/misc/egg.mdl" then
-			if Object.m_Velocity then
-				util.Decal("BirdPoop", Object:GetPos(), Object:GetPos() + Object.m_Velocity, Object)
-			end
-
-			for _,Player in ipairs(player.GetAll()) do
-				if Player:EyePos():Distance(Object:GetPos()) < 28 then
-					if Object.m_EggParent ~= Player then
-
-						local Weapon = Object.m_EggParent:GetActiveWeapon()
-
-						if IsValid(Weapon) and Weapon:GetClass() == "lava_fists" then
-							Weapon:SetEggs(Weapon:GetEggs() + 1)
-						end
-					end
-
-					net.Start("egged")
-					net.WriteEntity( Player )
-					net.Broadcast()
-
-					hook.Call("Lava.PlayerEgged", nil, Object.m_EggParent, Object, Player )
-					break
-				end
-			end
-		end
-	end)
-else
-	local m_AmEgged
-	local m_EggRefract = 1
-	local DrawMaterialOverlay = DrawMaterialOverlay
-	local FrameTime = FrameTime
-	local EggCount
-	local m_ShouldPlus
-	local m_Position
-	local White = color_white
-
-	net.Receive("egged", function()
-		local Player = net.ReadEntity()
-
-		if Player == LocalPlayer() then
-			m_EggRefract = 1
-			m_AmEgged = true
-		end
-
-		Player:AddVCDSequenceToGestureSlot( GESTURE_SLOT_FLINCH, Player:LookupSequence("zombie_attack_frenzy"), 0, false )
-		Player:EmitSound("vo/npc/male01/ow02.wav")
-
-		timer.Simple( 3, function()
-			if IsValid( Player ) then
-				Player:AddVCDSequenceToGestureSlot( GESTURE_SLOT_FLINCH, Player:LookupSequence("zombie_attack_frenzy"), 0, true )
-			end
-		end)
-	end)
-
-	hook.Add("RenderScreenspaceEffects", "E G G E D", function()
-        if not istable(MOAT_LAVA) then return end
-		if m_AmEgged then
-			DrawMaterialOverlay("models/props_lab/tank_glass001", m_EggRefract)
-			DrawMaterialOverlay("effects/water_warp01", m_EggRefract)
-			DrawMaterialOverlay("models/shadertest/shader3", m_EggRefract)
-			m_EggRefract = m_EggRefract:lerp(0, FrameTime())
-
-			if m_EggRefract < 0.01 then
-				m_AmEgged = nil
-			end
-		end
-	end)
-
-	hook.Add("HUDPaint", "AddEggz", function()
-        if not istable(MOAT_LAVA) then return end
-		local Weapon = LocalPlayer():GetActiveWeapon()
-
-		if Weapon:IsValid() and Weapon:GetClass() == "lava_fists" then
-			EggCount = EggCount or Weapon:GetEggs()
-
-			if  EggCount < Weapon:GetEggs() then
-				if m_HasDispatchedEgg then
-					m_HasDispatchedEgg = nil
-				end
-				EggCount = Weapon:GetEggs()
-				m_Position = ScrH() - ScrH() / 7
-				m_ShouldPlus = true
-			elseif EggCount ~= Weapon:GetEggs() then
-				EggCount = Weapon:GetEggs()
-			end
-		end
-
-		if m_ShouldPlus then
-			draw.WebImage(WebElements.PlusSign, ScrW() * 0.925 + (CurTime() * 3):sin() * 15, m_Position, 50, 50, Color(255,255,255,m_Position / 5))
-			m_Position = m_Position - FrameTime() * 255
-
-			if m_Position < ScrH() / 3 then
-				m_ShouldPlus = false
-			end
-		end
-	end)
 end
 
 if SERVER then return end
