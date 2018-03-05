@@ -197,7 +197,7 @@ function MG_TNT.Think()
             if v.IsBomb then
                 local diff = TNTFuseTime - CurTime()
                 local speed = ((20 - diff))
-                v.SpeedMod = 1 + (speed * 0.01)
+                v.SpeedMod = 1 + (speed * 0.025)
             end
         end
     end
