@@ -29,7 +29,7 @@ net.Receive("TNT_Begin",function()
         goal = 100,
         TopKills = 0,
         MyKills = 0,
-        time_end = CurTime() + (#player.GetAll() * 20),
+        time_end = CurTime() + (#player.GetAll() * 15),
         tdm_blue = Color(90, 200, 255),
         tdm_red = Color(255, 50, 50),
         bar_width = 225,
@@ -254,7 +254,7 @@ hook.Add("HUDPaint", "moat.test.L", function()
     surface.SetDrawColor(255,0,0,255)
     local bw = 300
     local t = TNTFuseTime - CurTime()
-    bw = math.max(0,bw * (t/20))
+    bw = math.max(0,bw * (t/15))
     draw.RoundedBox(0, w/2-150, h-txh-50, bw, 30, col)
     surface.DrawOutlinedRect(w/2 - 150, h - txh - 50, 300, 30)
     local right = "Throw fire!"

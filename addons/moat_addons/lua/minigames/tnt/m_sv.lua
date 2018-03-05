@@ -196,7 +196,7 @@ function MG_TNT.Think()
             v.TNTScore = v.TNTScore + 1 -- ik this is lazy
             if v.IsBomb then
                 local diff = TNTFuseTime - CurTime()
-                local speed = ((20 - diff))
+                local speed = ((15 - diff))
                 if not MG_TNT.Won then 
                     v.SpeedMod = 1 + (speed * 0.05)
                 end
@@ -231,7 +231,7 @@ function MG_TNT.Think()
         timer.Simple(0.1,function()
             local r = MG_TNT.RandomPlayer()
             TNTSetBomb(r)
-            ChangeTNTFuseTime(20,true)--s
+            ChangeTNTFuseTime(15,true)--s
             MG_TNT.BlewUp = false
         end)
     end
@@ -354,9 +354,9 @@ function MG_TNT.BeginRound()
     end
     local r = MG_TNT.RandomPlayer()
     TNTSetBomb(r)
-    ChangeTNTFuseTime(20,true)
+    ChangeTNTFuseTime(15,true)
     MG_TNT.InProgress = true
-    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 20)
+    MG_TNT.TimeEnd = CurTime() + (#player.GetAll() * 15)
     net.Start("TNT_Begin")
     net.Broadcast()
 

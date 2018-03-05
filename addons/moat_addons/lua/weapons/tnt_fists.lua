@@ -243,7 +243,7 @@ function SWEP:ThrowTNT()
 			self:SetBomb(false)
 		end)
 		TNTSetBomb(ply)
-		ChangeTNTFuseTime(0.75)
+		ChangeTNTFuseTime(1)
 		s.Didthing = true
 	end)
 	egg:SetPos(self.Owner:GetShootPos())
