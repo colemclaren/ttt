@@ -75,6 +75,8 @@ function SWEP:PrimaryAttack(NoForce)
 			if self:GetBomb() then return end
 			if SERVER then
 				self:ThrowTNT()
+			else
+				self.ThrewBomb = CurTime() + 2
 			end
 			NoForce = true
 		end
@@ -146,21 +148,6 @@ function SWEP:PrimaryAttack(NoForce)
 end
 
 function SWEP:Reload()
-	hook.Call("Lava.FistsReload", nil, self.Owner, self )
-	self.NextRagdollTime = self.NextRagdollTime or CurTime() + 1
-
-	local pos = self.Owner:GetBonePosition(self.Owner:LookupBone("ValveBiped.Bip01_Head1"))
-	local trace = util.TraceLine({
-		start = pos,
-		endpos = Vector(pos.x, pos.y, self.Owner:GetBonePosition(self.Owner:LookupBone("ValveBiped.Bip01_R_Foot")).z),
-		filter = player.GetAll()
-	})
-
-	if SERVER and self.NextRagdollTime < CurTime() and not trace.Hit then
-		Ragdoll.Enable(self.Owner)
-		self.Owner:Flashlight(false)
-		self.Owner.m_NextRagdollifcationTime = CurTime() + 1
-	end
 end
 print(77798)
 
@@ -202,50 +189,37 @@ else
 		LocalPlayer().IsBomb = net.ReadBool()
 	end)
 end
+
+hook.Add("ShouldCollide","NoCollideTNT",function(a,b)
+	if a.NoCollide == "B" and b.IsBomb then return false end
+	if b.NoCollide == "B" and a.IsBomb then return false end
+
+	if b.NoCollide == "E" and (not a.IsBomb) then return false end
+	if a.NoCollide == "E" and (not b.IsBomb) then return false end
+end)
+
 --models/props_junk/PopCan01a.mdl
 function SWEP:ThrowTNT()
 	if self:GetBomb() then return end
 	self:SetBomb(true)
 	local ply = self.Owner
 	ply:EmitSound([[weapons\tnt\draw.wav]])
-	local egg = ents.Create("prop_physics")
+	local egg = ents.Create("tnt_ball")
 	self.Bomb = egg
 	egg.Bomb = true
+	egg.NoCollide = "B"
+	egg:SetCustomCollisionCheck(true)
+	egg:CollisionRulesChanged()
 	egg.sound = CreateSound(egg,"npc/manhack/mh_blade_loop1.wav")
 	egg.sound:Play()
 	egg:CallOnRemove("Stop sound", function()
 		egg.sound:Stop()
+		self:SetBomb(false)
 	end)
-	egg:SetFriction(200000)
-	egg:SetElasticity(0)
-	egg:SetGravity(0.8)
-	egg:AddCallback("PhysicsCollide", function(s,t)
-		local ply = t.HitEntity
-		timer.Simple(2,function()
-			if not IsValid(s) then return end
-			if s.Didthing then return end
-			s:EmitSound("npc/manhack/gib.wav")
-			s:Remove()
-			self:SetBomb(false)
-		end)
-		if not ply:IsPlayer() then return end
-		if ply == self.Owner then
-			if s.Didthing then return end
-			s:EmitSound("npc/manhack/gib.wav")
-			s:Remove()
-			self:SetBomb(false)
-			return
-		end
-		if s.Didthing then return end
-		FrameDelay(function()
-			s:EmitSound("npc/manhack/bat_away.wav")
-			s:Remove()
-			self:SetBomb(false)
-		end)
-		TNTSetBomb(ply)
-		ChangeTNTFuseTime(1)
-		s.Didthing = true
-	end)
+	egg.Wep = self
+	egg.Owner = self.Owner
+	egg:SetGravity(1)
+	egg:SetBallSize(25)
 	egg:SetPos(self.Owner:GetShootPos())
 	egg:SetModel("models/weapons/w_vir_tnt.mdl")
 	egg.m_EggParent = self.Owner
@@ -255,7 +229,14 @@ function SWEP:ThrowTNT()
 	egg:GetPhysicsObject():AddAngleVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
 	egg:GetPhysicsObject():AddVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
 	egg.m_Velocity = egg:GetVelocity()
-
+	--ThrewBomb
+	timer.Simple(2,function()
+		if not IsValid(egg) then return end
+		if egg.Didthing then return end
+		egg:EmitSound("npc/manhack/gib.wav")
+		egg:Remove()
+		self:SetBomb(false)
+	end)
 	if m_Vel == false then
 		egg:Remove()
 		return
@@ -284,6 +265,9 @@ function SWEP:SecondaryAttack()
 			egg:SetFriction(200000)
 			egg:SetElasticity(0)
 			egg:SetGravity(0.8)
+			egg.NoCollide = "E"
+			egg:SetCustomCollisionCheck(true)
+			egg:CollisionRulesChanged()
 			egg:AddCallback("PhysicsCollide", function(s,t)
 				if s.DidThing then return end
 				local ply = t.HitEntity
@@ -322,6 +306,10 @@ function SWEP:SecondaryAttack()
 			end)
 		else
 			self:ThrowTNT()
+		end
+	else
+		if self.IsBomb then
+			self.ThrewBomb = CurTime() + 2
 		end
 	end
 end
@@ -401,7 +389,7 @@ function SWEP:DrawHUD()
 	local Player = LocalPlayer()
 	local tr = Player:GetEyeTrace()
 	local tosc
-
+	local w,h = ScrW(),ScrH()
 	cam.Wrap3D(function()
 		tosc = tr.HitPos:ToScreen()
 	end)
@@ -430,6 +418,14 @@ function SWEP:DrawHUD()
 
 
 	CrosshairPos[1], CrosshairPos[2] = tosc.x, tosc.y
+
+	if LocalPlayer().IsBomb and (self.ThrewBomb or 0) > CurTime() then
+		local bw = 100
+		local t = self.ThrewBomb - CurTime()
+		bw = math.max(0,bw * (t/2)) -- <
+		draw.RoundedBox(0, w/2-50, h/2 -50, bw, 15, Color(255,0,0))
+		surface.DrawOutlinedRect(w/2 - 50, h/2 - 50, 100, 15)
+	end
 end
 
 _G.LavaCrosshairPos = CrosshairPos
