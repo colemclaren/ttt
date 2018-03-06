@@ -19,7 +19,6 @@ function PLAYER:CanSee()
 end
 
 local function load_sight_func()
-    file.Append("loaded.txt", "w")
     LP = LocalPlayer()
     trace.filter[1] = LocalPlayer()
 

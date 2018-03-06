@@ -2,9 +2,7 @@ if (SERVER and not MENU_DLL) then
     AddCSLuaFile()
 end
 
-local f = file.Open("hooks.txt", "wb", "DATA")
-
-do
+do 
     local i_fn       = 1
     local i_id       = 2
     local i_next     = 3
@@ -30,7 +28,6 @@ local function GetTable()
 end
 
 local function Remove(event, name)
-
     if (not name) then
         return
     end
@@ -39,8 +36,6 @@ local function Remove(event, name)
     if (not hook) then
         return
     end
-
-    f:Write(string.format("%q::%q removed from %s:%i\n", event, tostring(name), debug.getinfo(2).short_src, debug.getinfo(2).currentline))
 
     local found = false
 
@@ -97,7 +92,6 @@ local function Add(event, name, fn, priority)
             Remove(event, name)
         end
     end
-    f:Write(string.format("%q::%q added from %s:%i\n", event, tostring(name), debug.getinfo(2).short_src, debug.getinfo(2).currentline))
 
     local hook = event_table[event]
     
