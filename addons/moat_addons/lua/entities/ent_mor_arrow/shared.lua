@@ -1,54 +1,77 @@
+
+util.PrecacheSound "weapons/bow/skyrim_bow_hitflesh.mp3"
+util.PrecacheSound "weapons/bow/skyrim_bow_hitwall.mp3"
+    
 ENT.Type 			= "anim"
 ENT.PrintName		= "Knife"
 ENT.Author			= "Worshipper"
 ENT.Contact			= "Josephcadieux@hotmail.com"
 ENT.Purpose			= ""
 ENT.Instructions		= ""
+ENT.Hit = "weapons/bow/skyrim_bow_hitflesh.mp3"
+ENT.HitWall = "weapons/bow/skyrim_bow_hitwall.mp3"
 
 function ENT:SetupDataTables()
-	self:NetworkVar("Entity", 0, "Firer")
+    self:NetworkVar("Entity", 0, "Firer")
+    self:NetworkVar("Vector", 0, "Velocity2")
+    self:NetworkVar("Bool", 0, "Hit")
+end
+
+function ENT:Initialize()
+    hook.Add("PlayerTick", self, self.PlayerTick)
+    self:SetMoveType(MOVETYPE_NONE)
+    self:SetModel "models/morrowind/steel/arrow/steelarrow.mdl"
+
+    self:DrawShadow(false)
+    if (CLIENT) then
+        self:SetPredictable(true)
+    end
 end
 
 function ENT:PlayerTick(p)
     if (p ~= self:GetFirer()) then
         return
     end
-    
+
     local T = FrameTime()
-    local Vi = self.Velocity
+    local Vi = self:GetVelocity2()
     local A = physenv.GetGravity() * 0.3
     local Vf = Vi + A * T
     local d = Vf * T + self:GetPos()
-    self.Velocity = Vf
+    self:SetVelocity2(Vf)
+    self:SetPos(d)
+    self:SetAngles(self:GetVelocity2():Angle() - Angle(180, 0, 0))
+
+    self:NextThink(CurTime())
+
+    local LastCheck = self.LastCheck or self:GetPos()
+    self.LastCheck = self:GetPos()
 
     if (IsValid(self:GetFirer())) then
         self:GetFirer():LagCompensation(true)
     end
     local tr = util.TraceLine {
-        start = self:GetPos(),
-        endpos = d,
+        start = LastCheck,
+        endpos = self:GetPos(),
         filter = { self, self:GetFirer() }
     }
-
     if (IsValid(self:GetFirer())) then
         self:GetFirer():LagCompensation(false)
     end
 
-    self:SetPos(tr.Hit and tr.HitPos or d)
-    self.C_Pos = self:GetPos()
+    if (tr.Hit) then
+        self:SetPos(tr.Hit and tr.HitPos or d)
+    end
+    local ent = tr.Entity
 
-    local Ent = tr.Entity
-
-    if (IsValid(Ent)) then
-        if not(Ent:IsPlayer() or Ent:IsNPC() or Ent:GetClass() == "prop_ragdoll") then 
+    if (IsValid(ent)) then
+        if (not (ent:IsPlayer() or ent:IsNPC() or ent:GetClass() == "prop_ragdoll")) then 
             util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
             self:EmitSound(self.Hit)
-            self.HitEnemy = true
         end
 
         local damage = self.Damage
-
-        if tr.Entity == Ent and tr.HitGroup == HITGROUP_HEAD then
+        if tr.HitGroup == HITGROUP_HEAD then
             damage = damage * 2
         end
 
@@ -64,12 +87,12 @@ function ENT:PlayerTick(p)
             dmginfo:SetDamageType(DMG_BULLET)
             dmginfo:SetDamage(damage)
 
-            hook.Call("ScalePlayerDamage", nil, Ent, tr.HitGroup, dmginfo)
+            hook.Call("ScalePlayerDamage", nil, ent, tr.HitGroup, dmginfo)
 
-            Ent:TakeDamageInfo(dmginfo)
+            ent:TakeDamageInfo(dmginfo)
         end
 
-        if (Ent:IsPlayer() or Ent:IsNPC() or Ent:GetClass() == "prop_ragdoll") then 
+        if (ent:IsPlayer() or ent:IsNPC() or ent:GetClass() == "prop_ragdoll") then 
             local effectdata = EffectData()
             effectdata:SetStart(tr.HitPos)
             effectdata:SetOrigin(tr.HitPos)
@@ -78,54 +101,24 @@ function ENT:PlayerTick(p)
 
             self:EmitSound(self.Hit)
         end
-        if (Ent:IsPlayer() or Ent:IsNPC()) and (Ent:Health() > 0) or Ent:GetMoveType() == MOVETYPE_VPHYSICS then //and (!Ent == self:GetOwner()) then
+        if (ent:IsPlayer() or ent:IsNPC()) and ent:Health() > 0 or ent:GetMoveType() == MOVETYPE_VPHYSICS then
             self:SetMoveType(MOVETYPE_NONE)
             self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
-            self:SetPos(self:GetPos() + self:GetForward() * -25)
-            self:SetParent(Ent)
+            self:SetPos(self:GetPos())
+            self:SetParent(ent)
             self:SetOwner(Ent)
-            self.SpawnTime = CurTime()
-            self.Disabled = true
-        end
-
-        if (SERVER) then
-            self:Remove()
+            hook.Remove("PlayerTick", self)
+            self:SetHit(true)
         end
     elseif (tr.Hit) then
         util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
         self:EmitSound(self.HitWall)
-        if Vi:Length() > 400 then
+        if self:GetVelocity2():Length() > 400 then
             self:SetPos(tr.HitPos + self:GetForward() * -25)
             self:SetMoveType(MOVETYPE_NONE)
             hook.Remove("PlayerTick", self)
-            self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+            self:SetHit(true)
         end
-        self.Disabled = true
-        self.SpawnTime = CurTime()
     end
 
-end
-
-
-/*---------------------------------------------------------
-   Name: ENT:Initialize()
----------------------------------------------------------*/
-function ENT:Initialize()
-    hook.Add("PlayerTick", self, self.PlayerTick)
-    self:SetMoveType(MOVETYPE_NONE)
-    self:SetModel("models/morrowind/steel/arrow/steelarrow.mdl")
-
-    self.SpawnTime = CurTime()
-    self.HitEnemy = false
-    self.Disabled = false
-
-    self:DrawShadow(false)
-    self:SetGravity(.01)
-
-    util.PrecacheSound("weapons/bow/skyrim_bow_hitflesh.mp3")
-    util.PrecacheSound("weapons/bow/skyrim_bow_hitwall.mp3")
-
-    self.Hit = "weapons/bow/skyrim_bow_hitflesh.mp3"
-
-    self.HitWall = "weapons/bow/skyrim_bow_hitwall.mp3"
 end

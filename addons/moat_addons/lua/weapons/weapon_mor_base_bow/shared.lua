@@ -91,7 +91,7 @@ SWEP.ViewModel      = "models/morrowind/steel/shortbow/v_steel_shortbow.mdl"
 SWEP.WorldModel   = "models/morrowind/steel/shortbow/w_steel_shortbow.mdl"
 
 SWEP.Primary.Damage		= 50 * 2
-SWEP.Primary.Delay 		= 0
+SWEP.Primary.Delay 		= 0.6
 
 SWEP.Primary.ClipSize = 10
 SWEP.Primary.ClipMax = 20 -- keep mirrored to ammo
@@ -235,7 +235,6 @@ function SWEP:ShootArrow()
 	self.Owner:GetViewModel():SetSequence(anim)
 	self.Owner:GetViewModel():SetPlaybackRate(4)
 	self:SetAnimationResetTime(CurTime() + 0.2)
-	self:SetNextPrimaryFire(CurTime() + 0.1)
 
 	local ratio = math.Clamp((CurTime() - self:GetHoldTime()) / self.MaxHoldTime, 0.1, 1)
 	self:EmitSound("weapons/bow/skyrim_bow_shoot.mp3")
@@ -249,6 +248,8 @@ function SWEP:ShootArrow()
 	pos = pos + self.Owner:GetUp() * -3
 	arrow:SetPos(pos)
 	arrow:SetOwner(self.Owner)
+	arrow:SetVelocity2(self.Owner:GetAimVector() * 6500 * ratio)
+	arrow:SetFirer(self.Owner)
 	arrow.Weapon = self		-- Used to set the arrow's killicon.
 	arrow.Damage = self.Primary.Damage * ratio
 	arrow:SetAngles(self.Owner:EyeAngles() + Angle(0, 180, 0))
@@ -256,9 +257,6 @@ function SWEP:ShootArrow()
 	arrow:Activate()
 	//		self.Weapon:SendWeaponAnim(ACT_VM_IDLE)
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
-	arrow.Velocity = self.Owner:GetAimVector() * 6500 * ratio
-	arrow:SetFirer(self.Owner)
-	self:SetNextPrimaryFire(CurTime())
 	self:TakePrimaryAmmo(1)
 	self:SetHoldTime(0)
 	if (IsFirstTimePredicted()) then
