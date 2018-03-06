@@ -33,9 +33,10 @@ function ENT:PlayerTick(p)
         return
     end
 
+    local pos = self:GetPos()
     local T = FrameTime()
     local Vi = self:GetVelocity2()
-    local A = physenv.GetGravity() * 0.3
+    local A = physenv.GetGravity() * 0.6
     local Vf = Vi + A * T
     local d = Vf * T + self:GetPos()
     self:SetVelocity2(Vf)
@@ -44,14 +45,11 @@ function ENT:PlayerTick(p)
 
     self:NextThink(CurTime())
 
-    local LastCheck = self.LastCheck or self:GetPos()
-    self.LastCheck = self:GetPos()
-
     if (IsValid(self:GetFirer())) then
         self:GetFirer():LagCompensation(true)
     end
     local tr = util.TraceLine {
-        start = LastCheck,
+        start = pos,
         endpos = self:GetPos(),
         filter = { self, self:GetFirer() }
     }
