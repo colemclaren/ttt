@@ -162,12 +162,16 @@ if SERVER then
 		net.WriteBool(false)
 		net.Broadcast()
 		for k,v in ipairs(player.GetAll()) do 
+			if v.IsBomb then
+				v:SetModel("models/player/leet.mdl")
+			end
 			v.IsBomb = false
 			v:SetColor(Color(255,255,255)) 
 			v:SetRunSpeed(220)
 			v:SetWalkSpeed(220)
 			v.SpeedMod = 1
 		end 
+		ply:SetModel("models/player/arctic.mdl")
 		net.Start("TNT.IsBomb")
 		net.WriteBool(true)
 		net.Send(ply)
