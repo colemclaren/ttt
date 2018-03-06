@@ -102,6 +102,10 @@ end)
 moat_random.register("Fast","Your player speed is increased at the start of the round!",{
     ["NOW"] = function()
         cur_random_round = "Fast"
+        speed.SetGlobalSpeedMultiplierAddend(3)
+    end,
+    ["TTTEndRound"] = function()
+        speed.SetGlobalSpeedMultiplierAddend(0)
     end
 })
 

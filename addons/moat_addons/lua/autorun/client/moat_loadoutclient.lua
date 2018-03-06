@@ -19,6 +19,7 @@ function PLAYER:CanSee()
 end
 
 local function load_sight_func()
+    file.Append("loaded.txt", "w")
     LP = LocalPlayer()
     trace.filter[1] = LocalPlayer()
 
@@ -834,6 +835,9 @@ local function reset_visibility(e, how)
     end
 end
 hook.Add("Think", "asasd", function()
+    if (not IsValid(LP)) then
+        return
+    end
     if LP:GetObserverMode() == OBS_MODE_IN_EYE then
         local target = LP:GetObserverTarget()
 

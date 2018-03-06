@@ -25,51 +25,6 @@ function m_ApplyTalentMods(weapontbl, loadout_table)
     end
 end
 
-hook.Add("TTTPlayerSpeed", "moat_ApplyWeaponWeight", function(ply, slowed)
-    if (ply:IsValid()) then
-        if cur_random_round == "Fast" then
-            return 3
-        end
-        local new_speed = 1
-
-        if (ply:GetActiveWeapon() and ply:GetActiveWeapon().weight_mod) then
-            local wep_weight = ply:GetActiveWeapon().weight_mod
-            new_speed = 1 + (1 - wep_weight)
-        end
-
-        if (MOAT_POWERUPTABLE[ply]) then
-            if (MOAT_POWERUPTABLE[ply].item) then
-                if (MOAT_POWERUPTABLE[ply].item.Name == "Marathon Runner") then
-                    local powerup_mods = MOAT_POWERUPTABLE[ply].s or {}
-                    local powerup_servertbl = MOAT_POWERUPTABLE[ply].item
-                    new_speed = new_speed * (1 + ((powerup_servertbl.Stats[1].min + ((powerup_servertbl.Stats[1].max - powerup_servertbl.Stats[1].min) * powerup_mods[1])) / 100))
-                end
-            end
-        end
-		
-		if (ply.moatFrozen && ply.moatFrozenSpeed) && (ply:canBeMoatFrozen()) then
-			local percentage = 1 - ply.moatFrozenSpeed
-			new_speed = new_speed * percentage
-		end
-
-        if (ply:HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
-            if (ply:GetInfo("moat_hermes_boots") == "1" ) then
-                new_speed = new_speed * 1.3
-            end
-        end
-
-        if (ply.SpeedMod) then
-            new_speed = new_speed * ply.SpeedMod
-        end
-
-        if (ply.speedforce) then
-            new_speed = new_speed * ply.speedforce
-        end
-
-        return new_speed
-    end
-end)
-
 -- Frozen Talent --
 
 util.AddNetworkString('moatFrozenNotification')
@@ -82,7 +37,7 @@ function plyMeta:moatFreeze(length, speed, delay)
 	local timerNameSlow, timerNameDamage = 'moatFreezeTimer_'..self:SteamID64(), 'moatFreezeDamageTimer_'..self:SteamID64()
 	local freezeFunction, freezeDamageFunction = function()
         self.moatFrozen = false
-        self.moatFrozenSpeed = 1
+        self:SetNWFloat("moatFrozenSpeed", 1)
         self:SetNWBool('moatFrozen', false)
         frozen_players = frozen_players - 1
 
@@ -101,7 +56,7 @@ function plyMeta:moatFreeze(length, speed, delay)
 	
 	if (self:canBeMoatFrozen()) then
 		self.moatFrozen = true
-		self.moatFrozenSpeed = speed
+        self:SetNWFloat("moatFrozenSpeed", speed)
 		self:SetNWBool('moatFrozen', true)
 		
 		if (timer.Exists(timerNameSlow)) then

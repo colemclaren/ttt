@@ -23,7 +23,7 @@ local function moat_EndRoundBossHooks()
         MOAT_BOSS_CUR:SetColor(Color(255, 255, 255, 255))
         MOAT_BOSS_CUR:DrawShadow(true)
         MOAT_BOSS_CUR:SetNWBool("disguised", false)
-        MOAT_BOSS_CUR.SpeedMod = 1
+        MOAT_BOSS_CUR:SetNWFloat("SpeedModAddend", 0)
     end
 
     -- Remove our hooks
@@ -102,7 +102,7 @@ local function moat_BeginRoundBossHooks()
                 boss:SetHealth(hp)
                 boss:SetMaxHealth(hp)
                 boss:GodDisable()
-                boss.SpeedMod = 1.5
+                boss:SetNWFloat("SpeedModAddend", 0.5)
                 boss:SetCollisionGroup(COLLISION_GROUP_WEAPON)
                 boss:SetRenderMode(RENDERMODE_TRANSALPHA)
                 boss:SetColor(Color(255, 255, 255, 0))
@@ -243,7 +243,7 @@ local function moat_BeginRoundBossHooks()
                     boss:SetHealth(hp)
                     boss:SetMaxHealth(hp)
                     boss:GodDisable()
-                    boss.SpeedMod = 1.5
+                    boss:SetNWFloat("SpeedModAddend", 0.5)
                     boss:SetCollisionGroup(COLLISION_GROUP_WEAPON)
                     boss:SetRenderMode(RENDERMODE_TRANSALPHA)
                     boss:SetColor(Color(255, 255, 255, 0))

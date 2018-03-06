@@ -315,126 +315,83 @@ end
 
 
 -- Kill footsteps on player and client
-
 function GM:PlayerFootstep(ply, pos, foot, sound, volume, rf)
-
    if IsValid(ply) and (ply:Crouching() or ply:GetMaxSpeed() < 150 or ply:IsSpec()) then
-
       -- do not play anything, just prevent normal sounds from playing
-
       return true
-
    end
-
 end
 
-
-
-
+-- Predicted move speed changes
+function GM:Move(ply, mv)
+    if ply:IsTerror() then
+       local basemul = 1
+       local slowed = false
+       -- Slow down ironsighters
+       local wep = ply:GetActiveWeapon()
+       if IsValid(wep) and wep.GetIronsights and wep:GetIronsights() then
+          basemul = 120 / 220
+          slowed = true
+       end
+       local multbl = {1}
+       local mul = hook.Run("TTTPlayerSpeedModifier", ply, slowed, mv, multbl) or 1
+       mul = basemul * (multbl[1] + mul - 1)
+       mv:SetMaxClientSpeed(mv:GetMaxClientSpeed() * mul)
+       mv:SetMaxSpeed(mv:GetMaxSpeed() * mul)
+    end
+ end
 
 -- Weapons and items that come with TTT. Weapons that are not in this list will
-
 -- get a little marker on their icon if they're buyable, showing they are custom
-
 -- and unique to the server.
-
 DefaultEquipment = {
-
    -- traitor-buyable by default
-
    [ROLE_TRAITOR] = {
-
       "weapon_ttt_c4",
-
       "weapon_ttt_flaregun",
-
       "weapon_ttt_knife",
-
       "weapon_ttt_phammer",
-
       "weapon_ttt_push",
-
       "weapon_ttt_radio",
-
       "weapon_ttt_sipistol",
-
       "weapon_ttt_teleport",
-
       "weapon_ttt_decoy",
-
       EQUIP_ARMOR,
-
       EQUIP_RADAR,
-
       EQUIP_DISGUISE
-
    },
-
-
 
    -- detective-buyable by default
-
    [ROLE_DETECTIVE] = {
-
       "weapon_ttt_binoculars",
-
       "weapon_ttt_defuser",
-
       "weapon_ttt_health_station",
-
       "weapon_ttt_stungun",
-
       "weapon_ttt_cse",
-
       "weapon_ttt_teleport",
-
       EQUIP_ARMOR,
-
       EQUIP_RADAR
-
    },
 
-
-
    -- non-buyable
-
    [ROLE_NONE] = {
-
       "weapon_ttt_confgrenade",
-
       "weapon_ttt_m16",
-
       "weapon_ttt_smokegrenade",
-
       "weapon_ttt_unarmed",
-
       "weapon_ttt_wtester",
-
       "weapon_tttbase",
-
       "weapon_tttbasegrenade",
-
       "weapon_zm_carry",
-
       "weapon_zm_improvised",
-
       "weapon_zm_mac10",
-
       "weapon_zm_molotov",
-
       "weapon_zm_pistol",
-
       "weapon_zm_revolver",
-
       "weapon_zm_rifle",
-
       "weapon_zm_shotgun",
-
       "weapon_zm_sledge",
-
       "weapon_ttt_glock"
-
    }
-
 };
 

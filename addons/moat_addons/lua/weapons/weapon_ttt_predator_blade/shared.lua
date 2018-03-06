@@ -169,20 +169,20 @@ function SWEP:Deploy()
 	self.Owner:SetNWInt("PredatorStacks", self.MinimumPredatorStacks)
 	self.Weapon:SendWeaponAnim(ACT_VM_DRAW)
 	self:UpdateNextIdle()
-
-	hook.Add("TTTPlayerSpeed", "TTTPredatorBladeSpeed", function(ply)
-		if (IsValid(ply) and IsValid(ply:GetActiveWeapon()) and ply:GetActiveWeapon():GetClass() == "weapon_ttt_predator_blade") then
-			return 1 + ply:GetNWInt("PredatorStacks") * 0.1 -- 10% speed increase per stack
-		end
-	end)
 end
+
+hook.Add("TTTPlayerSpeedModifier", "TTTPredatorBladeSpeed", function(ply, slowed, mv, multbl)
+	if (IsValid(ply) and IsValid(ply:GetActiveWeapon()) and ply:GetActiveWeapon():GetClass() == "weapon_ttt_predator_blade") then
+		multbl[1] = multbl[1] + ply:GetNWInt("PredatorStacks") * 0.1 -- 10% speed increase per stack
+	end
+end, 100)
 
 function SWEP:UpdateNextIdle()
 	self:SetNWFloat("NextIdle", CurTime() + (self.Owner:GetViewModel():SequenceDuration() * 0.8))
 end
 
 function SWEP:Holster()
-	hook.Remove("TTTPlayerSpeed", "TTTPredatorBladeSpeed")
+	hook.Remove("TTTPlayerSpeedModifier", "TTTPredatorBladeSpeed")
 	if (IsValid(self) and IsValid(self.Owner)) then
 		self.Owner:ConCommand("-jump")
 	end

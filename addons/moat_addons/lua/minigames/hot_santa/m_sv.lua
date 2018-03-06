@@ -17,7 +17,7 @@ MG_HS.Players = {}
 MG_HS.DeadPlayers = {}
 MG_HS.AlivePlayers = {}
 function MG_HS.HookAdd(event, func)
-    hook.Add(event, "MG_HS_" .. event, func)
+    hook.Add(event, "MG_HS_" .. event, func, 100)
     table.insert(MG_HS.Hooks, {event, "MG_HS_" .. event})
 end
 
@@ -147,8 +147,10 @@ function MG_HS.Win()
     end)
 end
 
-function MG_HS.PlayerSpeed(ply)
-    if ply == MG_HS.Current then return 1.5 end 
+function MG_HS.PlayerSpeed(ply, slowed, mv, multbl)
+    if ply == MG_HS.Current then 
+        multbl[1] = multbl[1] + 0.5
+    end 
 end
 
 function MG_HS.Think()
@@ -268,7 +270,7 @@ function MG_HS:PrepRound(mk, pri, sec, creds)
     MG_HS.HookAdd("PlayerDisconnected", MG_HS.PlayerDisconnected)
     MG_HS.HookAdd("StartCommand", MG_HS.StartCommand)
     MG_HS.HookAdd("TTTCanUseTraitorButton",function() return false end)
-    MG_HS.HookAdd("TTTPlayerSpeed",MG_HS.PlayerSpeed)
+    MG_HS.HookAdd("TTTPlayerSpeedModifier", MG_HS.PlayerSpeed)
     MG_HS.SpawnPoints = {}
 
 

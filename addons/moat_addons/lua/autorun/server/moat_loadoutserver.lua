@@ -99,7 +99,7 @@ function MOAT_LOADOUT.SaveLoadedWeapons()
 end
 hook.Add("TTTBeginRound", "moat_SaveLoadedWeapons", MOAT_LOADOUT.SaveLoadedWeapons)
 
-function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl)
+function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, w)
     local wep = tbl
     local itemtbl = table.Copy(loadout_tbl)
 
@@ -128,6 +128,7 @@ function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl)
 
         if (itemtbl.s.w) then
             wep.weight_mod = 1 + ((itemtbl.item.Stats.Weight.min + ((itemtbl.item.Stats.Weight.max - itemtbl.item.Stats.Weight.min) * itemtbl.s.w)) / 100)
+            w:SetNWFloat("weight_mod", wep.weight_mod)
         end
 
         if (itemtbl.s.r) then
@@ -350,7 +351,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             local wpn_tbl = v3:GetTable()
 
             wpn_tbl = v3:GetTable()
-            MOAT_LOADOUT.ApplyWeaponMods(wpn_tbl, v)
+            MOAT_LOADOUT.ApplyWeaponMods(wpn_tbl, v, v3)
             v3:SetClip1(wpn_tbl.Primary.DefaultClip)
             wpn_tbl.UniqueItemID = v.c
             wpn_tbl.PrimaryOwner = ply
