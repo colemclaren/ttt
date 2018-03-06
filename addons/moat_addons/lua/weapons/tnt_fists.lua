@@ -156,6 +156,7 @@ if SERVER then
 	util.AddNetworkString("TNT.NewBomb")
 	util.AddNetworkString("TNT.FuseTime")
 	function TNTSetBomb(ply)
+		CurTNTBomb = ply
 		print("setbomb",ply)
 		net.Start("TNT.IsBomb")
 		net.WriteBool(false)
@@ -187,6 +188,15 @@ if SERVER then
 else
 	net.Receive("TNT.IsBomb",function()
 		LocalPlayer().IsBomb = net.ReadBool()
+		if LocalPlayer().IsBomb then
+			for k,v in ipairs(player.GetAll()) do
+				if v.Skeleton then v:SetNoDraw(true) end
+			end
+		else
+			for k,v in ipairs(player.GetAll()) do
+				v:SetNoDraw(false)
+			end
+		end
 	end)
 end
 
@@ -218,6 +228,7 @@ function SWEP:ThrowTNT()
 	local ply = self.Owner
 	ply:EmitSound([[weapons\tnt\draw.wav]])
 	local egg = ents.Create("tnt_ball")
+	CurTNTThrow = egg
 	self.Bomb = egg
 	egg.Bomb = true
 	egg.NoCollide = "B"

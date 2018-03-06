@@ -24,7 +24,9 @@ local stats_spawn = GetConVar("moat_showstats_spawn")
 local stats_spawn_old = false
 
 net.Receive("TNT_Begin",function()
-    LocalPlayer().Skeleton = false
+    for k,v in ipairs(player.GetAll()) do
+        v.Skeleton = false
+    end
     MOAT_MINIGAME_OCCURING = true
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_TNT = {
@@ -52,8 +54,6 @@ net.Receive("TNT_Begin",function()
     end)
     kills = {}
 end)
-
-
 
 local blur = Material("pp/blurscreen")
 
@@ -100,6 +100,9 @@ hook.Add("PreDrawHalos","Moat_TNT",function()
 end)
 
 net.Receive("TNT_End",function()
+    for k,v in ipairs(player.GetAll()) do
+        v:SetNoDraw(false)
+    end
     MOAT_DISABLE_BUNNY_HOP = false
     local players = net.ReadTable()
     MOAT_MINIGAME_OCCURING = false
@@ -250,8 +253,9 @@ surface.CreateFont("TNT.Small",{
 })
 
 net.Receive("TNT.Skeleton",function()
-    LocalPlayer().Skeleton = true
+    net.ReadEntity().Skeleton = true
 end)
+
 hook.Add("HUDPaint", "moat.test.L", function()
     if not istable(MOAT_TNT) then return end
     local w,h = ScrW(),ScrH()
@@ -338,7 +342,7 @@ net.Receive("TNT_Prep",function()
         "",
         "Innocent's can throw fire that lowers the fuse time!",
         "But be careful, they can also shove eachother!",
-        "(Fire will only lower the fuse time if it hits the bomb carrier)"
+        "(When you die, you turn into a skeleton. Skeletons can shove survivors and bodyblock!)"
     }
 
     hook.Add("HUDPaint", "MG_TNT_PREPPAINT", function()
