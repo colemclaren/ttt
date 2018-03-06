@@ -122,9 +122,12 @@ function MG_TNT.PlayerSpawn(ply)
     ply:ResetEquipment()
     ply:SetCredits(0)
     ply:StripWeapons()
-    ply:Give("tnt_fists")
-    ply:SelectWeapon("tnt_fists")
-    ply:ShouldDropWeapon(false)
+    timer.Simple(1,function()
+        ply:StripWeapons()
+        ply:Give("tnt_fists")
+        ply:SelectWeapon("tnt_fists")
+        ply:ShouldDropWeapon(false)
+    end)
     ply:SetCustomCollisionCheck(true)
     ply:CollisionRulesChanged()
     if ply.Skeleton then
@@ -245,6 +248,7 @@ function MG_TNT.Think()
                 exp:SetKeyValue("iMagnitude", "0")
                 exp:Fire("Explode", 0, 0)
                 v:Kill()
+                v.KilledByMe = true
             end
         end
         MG_TNT.BlewUp = true
@@ -265,7 +269,7 @@ end
 util.AddNetworkString("TNT.Skeleton")
 function MG_TNT.PostPlayerDeath(Player)
     if not MG_TNT.InProgress then return end
-    if Player.IsBomb then
+    if Player.IsBomb and (not Player.KilledByMe)then
         local r = MG_TNT.RandomPlayer()
         TNTSetBomb(r)
         ChangeTNTFuseTime(1)
@@ -340,6 +344,7 @@ function MG_TNT:PrepRound(mk, pri, sec, creds)
         MG_TNT.StripWeapons(v)
         v.IsBomb = false
         v.Skeleton = false
+        v.KilledByMe = false
     end
     
 
