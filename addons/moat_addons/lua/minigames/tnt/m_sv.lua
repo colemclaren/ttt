@@ -210,6 +210,17 @@ function MG_TNT.Think()
                     v.SpeedMod = 1 + (speed * 0.05)
                 end
             end
+        elseif v.Skeleton and v:Alive() then
+            if IsValid(CurTNTBomb) then
+                if v:GetPos():DistToSqr(CurTNTBomb:GetPos()) < 20000 then
+                    v:Kill()
+                end
+            end
+            if IsValid(CurTNTThrow) then
+                if v:GetPos():DistToSqr(CurTNTThrow:GetPos()) < 20000 then
+                    v:Kill()
+                end
+            end
         end
     end
     if i < 2 then
@@ -256,7 +267,8 @@ function MG_TNT.PostPlayerDeath(Player)
     if not MG_TNT.InProgress then return end
     Player:Extinguish()
     net.Start("TNT.Skeleton")
-    net.Send(Player)
+    net.WriteEntity(Player)
+    net.Broadcast()
     Player.Skeleton = true
     Player:SetCustomCollisionCheck(true)
     Player:CollisionRulesChanged()
