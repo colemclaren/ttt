@@ -227,3 +227,8 @@ MSE.Commands.Register "The Floor is Lava"
 	:SetCommand "moat_start_lava"
 	:SetDescription "The floor is lava! Be the last alive to win!!"
 	:SetMinPlayers "8"
+
+MSE.Commands.Register "TNT-Tag"
+	:SetCommand "moat_start_tnt"
+	:SetDescription "Hot-potato style minigame! Be the last alive to win the best prizes!"
+	:SetMinPlayers "8"
