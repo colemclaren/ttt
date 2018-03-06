@@ -235,7 +235,7 @@ function SWEP:ShootArrow()
 	self.Owner:GetViewModel():SetSequence(anim)
 	self.Owner:GetViewModel():SetPlaybackRate(4)
 	self:SetAnimationResetTime(CurTime() + 0.2)
-	self:SetNextPrimaryFire(CurTime() + 1)
+	self:SetNextPrimaryFire(CurTime() + 0.1)
 
 	local ratio = math.Clamp((CurTime() - self:GetHoldTime()) / self.MaxHoldTime, 0.1, 1)
 	self:EmitSound("weapons/bow/skyrim_bow_shoot.mp3")

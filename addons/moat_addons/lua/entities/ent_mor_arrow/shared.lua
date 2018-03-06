@@ -16,7 +16,7 @@ function ENT:PlayerTick(p)
     
     local T = FrameTime()
     local Vi = self.Velocity
-    local A = physenv.GetGravity() * 0.6
+    local A = physenv.GetGravity() * 0.3
     local Vf = Vi + A * T
     local d = Vf * T + self:GetPos()
     self.Velocity = Vf
