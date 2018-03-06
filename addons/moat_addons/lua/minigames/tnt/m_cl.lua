@@ -342,7 +342,7 @@ net.Receive("TNT_Prep",function()
         "",
         "Innocent's can throw fire that lowers the fuse time!",
         "But be careful, they can also shove eachother!",
-        "(Fire will only lower the fuse time if it hits the bomb carrier)"
+        "(When you die, you turn into a skeleton. Skeletons can shove survivors and bodyblock!)"
     }
 
     hook.Add("HUDPaint", "MG_TNT_PREPPAINT", function()

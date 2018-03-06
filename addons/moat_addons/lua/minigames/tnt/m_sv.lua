@@ -265,6 +265,11 @@ end
 util.AddNetworkString("TNT.Skeleton")
 function MG_TNT.PostPlayerDeath(Player)
     if not MG_TNT.InProgress then return end
+    if Player.IsBomb then
+        local r = MG_TNT.RandomPlayer()
+        TNTSetBomb(r)
+        ChangeTNTFuseTime(1)
+    end
     Player:Extinguish()
     net.Start("TNT.Skeleton")
     net.WriteEntity(Player)
