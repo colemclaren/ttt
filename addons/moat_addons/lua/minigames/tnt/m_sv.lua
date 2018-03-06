@@ -248,16 +248,9 @@ function MG_TNT.Think()
                 exp:SetKeyValue("iMagnitude", "0")
                 exp:Fire("Explode", 0, 0)
                 v:Kill()
-                v.KilledByMe = true
             end
         end
         MG_TNT.BlewUp = true
-        timer.Simple(0.1,function()
-            local r = MG_TNT.RandomPlayer()
-            TNTSetBomb(r)
-            ChangeTNTFuseTime(15,true)--s
-            MG_TNT.BlewUp = false
-        end)
     end
 end
 
@@ -269,10 +262,11 @@ end
 util.AddNetworkString("TNT.Skeleton")
 function MG_TNT.PostPlayerDeath(Player)
     if not MG_TNT.InProgress then return end
-    if Player.IsBomb and (not Player.KilledByMe)then
+    if Player.IsBomb then
         local r = MG_TNT.RandomPlayer()
         TNTSetBomb(r)
-        ChangeTNTFuseTime(1)
+        ChangeTNTFuseTime(15,true)--s
+        MG_TNT.BlewUp = false
     end
     Player:Extinguish()
     net.Start("TNT.Skeleton")
