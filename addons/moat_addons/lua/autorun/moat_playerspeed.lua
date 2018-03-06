@@ -25,7 +25,7 @@ hook.Add("TTTPlayerSpeedModifier", "Moat_PlayerSpeed", function(ply, slowed, mv,
     curmul = curmul + 1 - ply:GetNWFloat("speedforce", 1)
 
     if (ply:canBeMoatFrozen()) then
-        curmul = curmul + 1 - ply:GetNWFloat("moatFrozenSpeed", 1)
+        curmul = curmul - ply:GetNWFloat("moatFrozenSpeed", 0)
     end
 
     curmul = curmul + ply:GetNWFloat("marathon_runner", 0)

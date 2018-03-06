@@ -37,7 +37,7 @@ function plyMeta:moatFreeze(length, speed, delay)
 	local timerNameSlow, timerNameDamage = 'moatFreezeTimer_'..self:SteamID64(), 'moatFreezeDamageTimer_'..self:SteamID64()
 	local freezeFunction, freezeDamageFunction = function()
         self.moatFrozen = false
-        self:SetNWFloat("moatFrozenSpeed", 1)
+        self:SetNWFloat("moatFrozenSpeed", 0)
         self:SetNWBool('moatFrozen', false)
         frozen_players = frozen_players - 1
 
