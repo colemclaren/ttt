@@ -136,6 +136,10 @@ function SWEP:ResetNetworkable()
 	self:SetZoomed(false)
 end
 
+function SWEP:GetHeadshotMultiplier(ply, dmginfo)
+	return 3
+end
+
 function SWEP:Deploy()
 	self:EmitSound("weapons/bow/skyrim_bow_draw.mp3")
 	self:SetNextPrimaryFire(CurTime())

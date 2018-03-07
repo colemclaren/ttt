@@ -28,6 +28,15 @@ function ENT:Initialize()
     end
 end
 
+function ENT:Think()
+    local owner = self:GetOwner()
+    if (SERVER and (
+        owner ~= game.GetWorld() and (not IsValid(owner) or IsValid(owner) and owner:IsPlayer() and not owner:Alive())
+    )) then
+        --self:Remove()
+    end
+end
+
 function ENT:PlayerTick(p)
     if (p ~= self:GetFirer()) then
         return
@@ -43,14 +52,12 @@ function ENT:PlayerTick(p)
     self:SetPos(d)
     self:SetAngles(self:GetVelocity2():Angle() - Angle(180, 0, 0))
 
-    self:NextThink(CurTime())
-
     if (IsValid(self:GetFirer())) then
         self:GetFirer():LagCompensation(true)
     end
     local tr = util.TraceLine {
         start = pos,
-        endpos = self:GetPos(),
+        endpos = d,
         filter = { self, self:GetFirer() }
     }
     if (IsValid(self:GetFirer())) then
@@ -58,65 +65,45 @@ function ENT:PlayerTick(p)
     end
 
     if (tr.Hit) then
-        self:SetPos(tr.Hit and tr.HitPos or d)
+        self:SetHit(true)
+        self:SetPos(tr.HitPos)
+        hook.Remove("PlayerTick", self)
     end
+
     local ent = tr.Entity
-
     if (IsValid(ent)) then
-        if (not (ent:IsPlayer() or ent:IsNPC() or ent:GetClass() == "prop_ragdoll")) then 
-            util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
-            self:EmitSound(self.Hit)
-        end
-
-        local damage = self.Damage
-        if tr.HitGroup == HITGROUP_HEAD then
-            damage = damage * 2
-        end
-
-        if (SREVER and not IsValid(self:GetOwner())) then
-            self:Remove()
-            return
-        end
+        local isplayerobject = ent:IsPlayer() or ent:IsNPC() or ent:GetClass() == "prop_ragdoll"
 
         if (SERVER) then
             local dmginfo = DamageInfo()
             dmginfo:SetAttacker(self:GetOwner())
             dmginfo:SetInflictor(self.Weapon)
             dmginfo:SetDamageType(DMG_BULLET)
-            dmginfo:SetDamage(damage)
+            dmginfo:SetDamage(self.Damage)
 
-            hook.Call("ScalePlayerDamage", nil, ent, tr.HitGroup, dmginfo)
+            if (ent:IsPlayer()) then
+                hook.Run("ScalePlayerDamage", ent, tr.HitGroup, dmginfo)
+            end
 
             ent:TakeDamageInfo(dmginfo)
         end
 
-        if (ent:IsPlayer() or ent:IsNPC() or ent:GetClass() == "prop_ragdoll") then 
+        if (isplayerobject) then
             local effectdata = EffectData()
             effectdata:SetStart(tr.HitPos)
             effectdata:SetOrigin(tr.HitPos)
             effectdata:SetScale(1)
             util.Effect("BloodImpact", effectdata)
+        else
+            util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
+        end
 
-            self:EmitSound(self.Hit)
-        end
-        if (ent:IsPlayer() or ent:IsNPC()) and ent:Health() > 0 or ent:GetMoveType() == MOVETYPE_VPHYSICS then
-            self:SetMoveType(MOVETYPE_NONE)
-            self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
-            self:SetPos(self:GetPos())
-            self:SetParent(ent)
-            self:SetOwner(Ent)
-            hook.Remove("PlayerTick", self)
-            self:SetHit(true)
-        end
+        self:EmitSound(self.Hit)
+
+        self:SetParent(ent)
+        self:SetOwner(ent)
     elseif (tr.Hit) then
         util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
         self:EmitSound(self.HitWall)
-        if self:GetVelocity2():Length() > 400 then
-            self:SetPos(tr.HitPos + self:GetForward() * -25)
-            self:SetMoveType(MOVETYPE_NONE)
-            hook.Remove("PlayerTick", self)
-            self:SetHit(true)
-        end
     end
-
 end

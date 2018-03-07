@@ -8,7 +8,7 @@ function ENT:Draw()
     local pos = self:GetPos()
     self:DrawModel()
 
-    if (self:GetFirer() ~= LocalPlayer()) then
+    if (self:GetHit() or self:GetFirer() ~= LocalPlayer()) then
         return
     end
 
