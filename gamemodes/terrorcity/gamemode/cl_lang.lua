@@ -203,7 +203,16 @@ end
 local bgcolor = {
    [ROLE_TRAITOR]   = Color(150, 0, 0, 200),
    [ROLE_DETECTIVE] = Color(0, 0, 150, 200),
-   [ROLE_INNOCENT]  = Color(0, 50,  0, 200)
+   [ROLE_INNOCENT]  = Color(0, 50,  0, 200),
+   [ROLE_JESTER]    = Color(253, 158, 255, 200),
+   [ROLE_KILLER]    = Color(255, 145, 0, 200),
+   [ROLE_DOCTOR]    = Color(0, 255, 255, 200),
+   [ROLE_BEACON]    = Color(255, 255, 0, 200),
+   [ROLE_SURVIVOR]  = Color(128, 142, 0, 200),
+   [ROLE_HITMAN]    = Color(150, 0, 0, 200),
+   [ROLE_BODYGUARD] = Color(0, 153, 153, 200),
+   [ROLE_VETERAN]   = Color(179, 0, 255, 200),
+   [ROLE_XENOMORPH] = Color(0, 249, 199, 200)
 };
 
 -- Table of styles that can take a string and display it in some position,
