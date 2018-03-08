@@ -26,6 +26,8 @@ function FrameDelay( func )
     timer.Simple( FrameTime()*2, func )
 end
 SWEP.Base         = "weapon_tttbase"
+function SWEP:Holster() return false end
+SWEP.AllowDrop              = false
 SWEP.PrintName = "Fists"
 SWEP.Author = "Kilburn, robotboy655, MaxOfS2D & Tenrys"
 SWEP.Purpose = "Well we sure as hell didn't use guns! We would just wrestle Hunters to the ground with our bare hands! I used to kill ten, twenty a day, just using my fists."
