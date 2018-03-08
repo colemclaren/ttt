@@ -703,8 +703,13 @@ net.Receive("versus.JoinGame",function(l,ply)
             local winner = ply
             if math.random() > 0.5 then
                 winner = t
-            end		
-            addIC(winner,round(amt*2))
+            end	
+            local winamt = amt *2
+            if (winamt) > 50 then
+                winamt = winamt * 0.99
+            end
+            
+            addIC(winner,round(winamt))
             net.Start("versus.FinishGame")
             net.WriteEntity(t)
             net.WriteEntity(winner)
@@ -716,7 +721,7 @@ net.Receive("versus.JoinGame",function(l,ply)
             if winner == ply then
                 other = t
             end
-            local msg = winner:Nick() .. " (" .. winner:SteamID() .. ") won " .. round(amt) .. " IC in versus from " .. other:Nick() .. " (" .. other:SteamID() .. ")"
+            local msg = winner:Nick() .. " (" .. winner:SteamID() .. ") won " .. round(winamt) .. " IC in versus from " .. other:Nick() .. " (" .. other:SteamID() .. ")"
 		    SVDiscordRelay.SendToDiscordRaw("Gamble bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
         end
     end)
