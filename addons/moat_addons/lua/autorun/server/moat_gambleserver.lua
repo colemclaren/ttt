@@ -705,7 +705,7 @@ net.Receive("versus.JoinGame",function(l,ply)
                 winner = t
             end	
             local winamt = amt *2
-            if (winamt) > 50 then
+            if (winamt) > 50 then--s
                 winamt = winamt * 0.99
             end
             
