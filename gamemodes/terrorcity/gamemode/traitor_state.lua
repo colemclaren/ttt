@@ -84,10 +84,10 @@ function SendInnocentList(ply_or_rf)
     local traitor_ids = {}
 
     for k, v in pairs(player.GetAll()) do
-        if v:IsRole(ROLE_INNOCENT) then
-            table.insert(inno_ids, v:EntIndex())
-        elseif v:IsRole(ROLE_TRAITOR) then
+        if v:IsRole(ROLE_TRAITOR) then
             table.insert(traitor_ids, v:EntIndex())
+        elseif not v:IsRole(ROLE_DETECTIVE) then
+            table.insert(inno_ids, v:EntIndex())
         end
     end
 
