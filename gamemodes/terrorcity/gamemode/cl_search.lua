@@ -114,7 +114,20 @@ local TypeToMat = {
 
    eq_disg="disguise",
 
-   role={[ROLE_TRAITOR]="traitor", [ROLE_DETECTIVE]="det", [ROLE_INNOCENT]="inno"},
+   role = {
+      [ROLE_TRAITOR] = "traitor",
+      [ROLE_DETECTIVE] = "det",
+      [ROLE_INNOCENT] = "inno",
+      [ROLE_JESTER]    = "jester",
+      [ROLE_KILLER]    = "killer",
+      [ROLE_DOCTOR]    = "doctor",
+      [ROLE_BEACON]    = "beacon",
+      [ROLE_SURVIVOR]  = "survivor",
+      [ROLE_HITMAN]    = "hitman",
+      [ROLE_BODYGUARD] = "bodyguard",
+      [ROLE_VETERAN]   = "veteran",
+      [ROLE_XENOMORPH] = "xenomorph"
+   },
 
    c4="code",
 
