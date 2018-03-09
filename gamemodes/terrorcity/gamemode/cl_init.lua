@@ -49,8 +49,10 @@ include("cl_scoring_events.lua")
 include("cl_popups.lua")
 include("cl_equip.lua")
 include("cl_voice.lua")
+include "role_hooks.lua"
 
 function GM:Initialize()
+    self.InitializeRoles()
     MsgN("TTT Client initializing...")
     GAMEMODE.round_state = ROUND_WAIT
     LANG.Init()
@@ -131,11 +133,11 @@ local function RoundStateChange(o, n)
     -- players, which hooking code may not expect
     if n == ROUND_PREP then
         -- can enter PREP from any phase due to ttt_roundrestart
-        hook.Call("TTTPrepareRound", GAMEMODE)
+        hook.Run("TTTPrepareRound")
     elseif (o == ROUND_PREP) and (n == ROUND_ACTIVE) then
-        hook.Call("TTTBeginRound", GAMEMODE)
+        hook.Run("TTTBeginRound")
     elseif (o == ROUND_ACTIVE) and (n == ROUND_POST) then
-        hook.Call("TTTEndRound", GAMEMODE)
+        hook.Run("TTTEndRound")
     end
 
     -- whatever round state we get, clear out the voice flags
@@ -158,8 +160,14 @@ local function PlaySoundCue()
     end
 end
 
-GM.TTTBeginRound = PlaySoundCue
-GM.TTTEndRound = PlaySoundCue
+function GM:TTTBeginRound()
+    self:Role_TTTBeginRound()
+    PlaySoundCue()
+end
+function GM:TTTEndRound()
+    self:Role_TTTEndRound()
+    PlaySoundCue()
+end
 
 --- usermessages
 local function ReceiveRole()

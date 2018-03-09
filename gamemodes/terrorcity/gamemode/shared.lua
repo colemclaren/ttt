@@ -165,6 +165,13 @@ function GM:PlayerFootstep(ply, pos, foot, sound, volume, rf)
 return true end
 end
 
+function GM:TTTBeginRound()
+    self:Role_TTTBeginRound()
+end
+function GM:TTTEndRound()
+    self:Role_TTTEndRound()
+end
+
 -- Weapons and items that come with TTT. Weapons that are not in this list will
 -- get a little marker on their icon if they're buyable, showing they are custom
 -- and unique to the server.

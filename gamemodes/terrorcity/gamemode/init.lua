@@ -53,6 +53,7 @@ include("corpse.lua")
 include("player_ext_shd.lua")
 include("player_ext.lua")
 include("player.lua")
+include "role_hooks.lua"
 CreateConVar("ttt_roundtime_minutes", "10", FCVAR_NOTIFY)
 CreateConVar("ttt_preptime_seconds", "30", FCVAR_NOTIFY)
 CreateConVar("ttt_posttime_seconds", "30", FCVAR_NOTIFY)
@@ -135,6 +136,7 @@ util.AddNetworkString("TTT_Radar")
 
 ---- Round mechanics
 function GM:Initialize()
+    self.InitializeRoles()
     MsgN("Trouble In Terrorist Town gamemode initializing...")
     ShowVersion()
     -- Force friendly fire to be enabled. If it is off, we do not get lag compensation.
@@ -647,7 +649,7 @@ function BeginRound()
     LANG.Msg("round_started")
     ServerLog("Round proper has begun...\n")
     GAMEMODE:UpdatePlayerLoadouts() -- needs to happen when round_active
-    hook.Call("TTTBeginRound")
+    hook.Run("TTTBeginRound")
     ents.TTT.TriggerRoundStateOutputs(ROUND_BEGIN)
 end
 
@@ -734,7 +736,7 @@ function EndRound(type)
     SCORE:StreamToClients()
     -- server plugins might want to start a map vote here or something
     -- these hooks are not used by TTT internally
-    hook.Call("TTTEndRound", GAMEMODE, type)
+    hook.Run("TTTEndRound", type)
     ents.TTT.TriggerRoundStateOutputs(ROUND_POST, type)
 end
 

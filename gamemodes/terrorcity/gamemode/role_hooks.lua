@@ -1,0 +1,81 @@
+ROLES = {}
+AddCSLuaFile()
+
+local to_hook = {}
+
+function InstallRoleHook(event, plyargn)
+    to_hook[event] = plyargn
+end
+
+local function include_role(roleid, rolename)
+    ROLE = {
+        ID = roleid,
+        Name = rolename
+    }
+    local fpath = "roles/"..rolename.."/shared.lua"
+    AddCSLuaFile(fpath)
+    include(fpath)
+    ROLES[roleid] = ROLE
+    ROLE = nil
+end
+
+include_role(ROLE_KILLER, "killer")
+
+function GM.InitializeRoles()
+    for event, plyargn in pairs(to_hook) do
+        local gm = gmod.GetGamemode()
+        gm.RoleHook_cache = gm.RoleHook_cache or {}
+
+        if (not gm.RoleHook_cache[event]) then
+            gm.RoleHook_cache[event] = true
+            local old = gm[event]
+
+            gm[event] = function(self, ...)
+                local ply = select(plyargn, ...)
+
+                local ROLE = ROLES[ply:GetRole()]
+                if (ROLE and ROLE[event]) then
+
+                    print(event)
+                    local a, b, c, d, e, f = ROLE[event](ply, ...)
+                    if (a ~= nil) then
+                        return a, b, c, d, e, f
+                    end
+                end
+
+
+                if (old) then
+                    return old(self, ...)
+                end
+            end
+        end
+    end
+end
+
+function GM:Role_TTTBeginRound()
+    for k, ply in pairs(player.GetAll()) do
+        local event = "TTTBeginRound"
+
+        local ROLE = ROLES[ply:GetRole()]
+        print(ply:GetRoleString(), ROLE, ROLE and ROLE[event])
+        if (ROLE and ROLE[event]) then
+            local a, b, c, d, e, f = ROLE[event](ply)
+            if (a ~= nil) then
+                return a, b, c, d, e, f
+            end
+        end
+    end
+end
+function GM:Role_TTTEndRound()
+    for k, ply in pairs(player.GetAll()) do
+        local event = "TTTEndRound"
+
+        local ROLE = ROLES[ply:GetRole()]
+        if (ROLE and ROLE[event]) then
+            local a, b, c, d, e, f = ROLE[event](ply)
+            if (a ~= nil) then
+                return a, b, c, d, e, f
+            end
+        end
+    end
+end
