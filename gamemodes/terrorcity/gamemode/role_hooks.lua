@@ -21,6 +21,7 @@ end
 
 include_role(ROLE_KILLER, "killer")
 include_role(ROLE_JESTER, "jester")
+include_role(ROLE_BEACON, "beacon")
 
 function GM.InitializeRoles()
     for event, plyargn in pairs(to_hook) do
@@ -63,7 +64,6 @@ function GM:Role_TTTBeginRound()
         local event = "TTTBeginRound"
 
         local ROLE = ROLES[ply:GetRole()]
-        print(ply:GetRoleString(), ROLE, ROLE and ROLE[event])
         if (ROLE and ROLE[event]) then
             local a, b, c, d, e, f = ROLE[event](ply)
             if (a ~= nil) then
