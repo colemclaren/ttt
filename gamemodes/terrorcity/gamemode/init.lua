@@ -846,7 +846,7 @@ function SelectRoles()
 
     local shuffled = shuffle(players)
     local player_count = #shuffled
-    local t_count, d_count, sk_count, j_count = GetRoleCount(ply_count)
+    local t_count, d_count, sk_count, j_count = GetRoleCount(player_count)
     local chose_role = false
 
     local function r(pl, role)
