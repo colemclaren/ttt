@@ -20,11 +20,6 @@ function plymeta:IsSpec() return self:Team() == TEAM_SPEC end
 
 AccessorFunc(plymeta, "role", "Role", FORCE_NUMBER)
 
-function plymeta:GetBasicRole()
-      return BASIC_ROLE_LOOKUP[self:GetRole()]
-end
-
-
 
 -- Role access
 
