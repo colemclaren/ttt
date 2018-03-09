@@ -891,7 +891,7 @@ function SelectRoles()
       if (random_roles and #random_roles < 1) then r(pl, ROLE_INNOCENT) continue end
 
       local role_rand = math.random(1, #random_roles)
-      if (roles[role_rand] < 1) then r(pl, roles[role_rand]) random_roles[role_rand] = nil continue end
+      if (roles[random_roles[role_rand]] < 1) then r(pl, random_roles[role_rand]) random_roles[role_rand] = nil continue end
     end
 
     for _, ply in ipairs(pls) do
