@@ -9,6 +9,5 @@ function ROLE:TTTBeginRound()
     for k, wep in pairs(self:GetWeapons()) do
         local pammo = wep:GetPrimaryAmmoType()
         self:GiveAmmo(wep:GetMaxClip1() * math.floor(count / 2), pammo)
-        print(pammo,wep:GetMaxClip1())
     end
 end
