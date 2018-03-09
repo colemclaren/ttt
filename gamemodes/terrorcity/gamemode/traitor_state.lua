@@ -49,7 +49,7 @@ end
 local function SendRoleList(role, ply_or_rf, pred)
     local role_ids = {}
 
-    for k, v in pairs(player.GetAll()) do
+    for k, v in ipairs(player.GetAll()) do
         if v:IsRole(role) and (not pred or (pred and pred(v))) then
             table.insert(role_ids, v:EntIndex())
         end
