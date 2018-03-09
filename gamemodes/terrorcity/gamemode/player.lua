@@ -546,6 +546,7 @@ function GM:DoPlayerDeath(ply, attacker, dmginfo)
     -- Create ragdoll and hook up marking effects
     local rag = CORPSE.Create(ply, attacker, dmginfo)
     ply.server_ragdoll = rag -- nil if clientside
+    ply.killer = attacker
     CreateDeathEffect(ply, false)
     util.StartBleeding(rag, dmginfo:GetDamage(), 15)
 

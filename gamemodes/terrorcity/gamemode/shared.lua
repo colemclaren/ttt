@@ -25,6 +25,29 @@ ROLE_BODYGUARD = 9
 ROLE_VETERAN = 10
 ROLE_XENOMORPH = 11
 ROLE_NONE = ROLE_INNOCENT
+
+local basic_roles = {
+    [ROLE_INNOCENT] = {
+        ROLE_INNOCENT, ROLE_DOCTOR, ROLE_DETECTIVE, ROLE_BEACON, ROLE_SURVIVOR, ROLE_BODYGUARD, ROLE_VETERAN, ROLE_XENOMORPH
+    },
+    [ROLE_TRAITOR] = {
+        ROLE_TRAITOR, ROLE_HITMAN
+    },
+    [ROLE_JESTER] = {
+        ROLE_JESTER
+    },
+    [ROLE_KILLER] = {
+        ROLE_KILLER
+    }
+}
+
+BASIC_ROLE_LOOKUP = {}
+for basic, roles in pairs(basic_roles) do
+    for i, role in ipairs(roles) do
+        BASIC_ROLE_LOOKUP[role] = basic
+    end
+end
+
 -- Game event log defs
 EVENT_KILL = 1
 EVENT_SPAWN = 2

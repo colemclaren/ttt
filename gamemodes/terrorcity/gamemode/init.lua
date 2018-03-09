@@ -753,29 +753,36 @@ function GM:TTTCheckForWin()
         return mw
     end
 
-    local traitor_alive = false
-    local innocent_alive = false
+    local traitors_alive, jester_alive, innocents_alive, killer_alive = 0, false, 0, WaitingForPlayersChecker
+    local jester
 
     for k, v in pairs(player.GetAll()) do
-        if v:Alive() and v:IsTerror() then
-            if v:GetTraitor() then
-                traitor_alive = true
-            else
-                innocent_alive = true
+        local role = v:GetBasicRole()
+        if (role == ROLE_JESTER) then
+            jester = v
+        end
+        if (v:Alive()) then
+            if (role == ROLE_JESTER) then
+                jester_alive = true
+            elseif (role == ROLE_KILLER) then
+                killer_alive = true
+            elseif (role == ROLE_TRAITOR) then
+                traitors_alive = traitors_alive + 1
+            elseif (role == ROLE_INNOCENT) then
+                innocents_alive = innocents_alive + 1
             end
         end
-
-        if traitor_alive and innocent_alive then --early out
-return WIN_NONE end
     end
 
-    if traitor_alive and not innocent_alive then
-        -- ultimately if no one is alive, traitors win
+    if (jester and not jester_alive and IsValid(jester.killer) 
+        and jester.killer:IsPlayer() and jester.killer:GetBasicRole() == ROLE_INNOCENT) then
+        return WIN_JESTER
+    elseif (traitors_alive > 0 and innocents_alive == 0 and not killer_alive) then
         return WIN_TRAITOR
-    elseif not traitor_alive and innocent_alive then
+    elseif (innocents_alive > 0 and traitors_alive == 0 and not killer_alive) then
         return WIN_INNOCENT
-    elseif not innocent_alive then
-        return WIN_TRAITOR
+    elseif (killer_alive and innocents_alive == 0 and traitors_alive == 0) then
+        return WIN_KILLER
     end
 
     return WIN_NONE
