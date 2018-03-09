@@ -158,7 +158,30 @@ L.search_call = "Call Detective"
 L.search_nick = "This is the body of {player}."
 L.search_role_t = "This person was a Traitor!"
 L.search_role_d = "This person was a Detective."
+--[[
+    
+  [ROLE_INNOCENT] = "i",
+  [ROLE_JESTER] = "j",
+  [ROLE_KILLER] = "k",
+  [ROLE_DOCTOR] = "do",
+  [ROLE_BEACON] = "be",
+  [ROLE_SURVIVOR] = "s",
+  [ROLE_HITMAN] = "h",
+  [ROLE_BODYGUARD] = "bo",
+  [ROLE_VETERAN] = "v",
+  [ROLE_XENOMORPH] = "x"
+]]
 L.search_role_i = "This person was an innocent terrorist."
+L.search_role_j = "This person was a Jester!"
+L.search_role_k = "This person was a Killer!"
+L.search_role_do = "This person was an innocent Doctor."
+L.search_role_be = "This person was an innocent Beacon."
+L.search_role_s = "This person was an innocent Survivor."
+L.search_role_h = "This person was a Hitman!"
+L.search_role_bo = "This person was an innocent Bodyguard."
+L.search_role_v = "This person was an innocent Veteran."
+L.search_role_x = "This person was an innocent Xenomorph."
+
 L.search_words = "Something tells you some of this person's last words were: '{lastwords}'"
 L.search_armor = "They were wearing nonstandard body armor."
 L.search_disg = "They were carrying a device that could hide their identity."

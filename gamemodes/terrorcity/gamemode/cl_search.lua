@@ -100,6 +100,21 @@ local function WeaponToIcon(d)
 
 end
 
+local search_t = {
+  [ROLE_TRAITOR] = "t",
+  [ROLE_DETECTIVE] = "d",
+  [ROLE_INNOCENT] = "i",
+  [ROLE_JESTER] = "j",
+  [ROLE_KILLER] = "k",
+  [ROLE_DOCTOR] = "do",
+  [ROLE_BEACON] = "be",
+  [ROLE_SURVIVOR] = "s",
+  [ROLE_HITMAN] = "h",
+  [ROLE_BODYGUARD] = "bo",
+  [ROLE_VETERAN] = "v",
+  [ROLE_XENOMORPH] = "x"
+}
+
 
 
 local TypeToMat = {
@@ -219,21 +234,7 @@ function PreprocSearch(raw)
 
       elseif t == "role" then
 
-         if d == ROLE_TRAITOR then
-
-            search[t].text = T("search_role_t")
-
-         elseif d == ROLE_DETECTIVE then
-
-            search[t].text = T("search_role_d")
-
-         else
-
-            search[t].text = T("search_role_i")
-
-         end
-
-
+         search[t].text = T("search_role_"..search_t[d])
 
          search[t].p = 2
 
