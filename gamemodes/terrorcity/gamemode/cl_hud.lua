@@ -28,7 +28,17 @@ local bg_colors = {
    noround = Color(100,100,100,200),
    traitor = Color(200, 25, 25, 200),
    innocent = Color(25, 200, 25, 200),
-   detective = Color(25, 25, 200, 200)
+   detective = Color(25, 25, 200, 200),
+
+   [ROLE_JESTER]    = Color(253, 158, 255, 200),
+   [ROLE_KILLER]    = Color(255, 145, 0, 200),
+   [ROLE_DOCTOR]    = Color(0, 255, 255, 200),
+   [ROLE_BEACON]    = Color(255, 255, 0, 200),
+   [ROLE_SURVIVOR]  = Color(128, 142, 0, 200),
+   [ROLE_HITMAN]    = Color(40, 42, 47, 200),
+   [ROLE_BODYGUARD] = Color(0, 153, 153, 200),
+   [ROLE_VETERAN]   = Color(179, 0, 255, 200),
+   [ROLE_XENOMORPH] = Color(0, 249, 199, 200)
 };
 
 local health_colors = {
@@ -123,6 +133,8 @@ local function DrawBg(x, y, width, height, client)
       col = bg_colors.traitor
    elseif client:GetDetective() then
       col = bg_colors.detective
+   elseif (bg_colors[client:GetRole()]) then
+      col = bg_colors[client:GetRole()]
    end
 
    draw.RoundedBox(8, x, y, tw, th, col)
