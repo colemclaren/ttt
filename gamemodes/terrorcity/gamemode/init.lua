@@ -811,7 +811,7 @@ local function GetSKCount(ply_count)
    return (ply_count < sk_var:GetInt()) and 0 or 1
 end
 
-local jester_var CreateConVar("ttt_jester_min_players", "5")
+local jester_var = CreateConVar("ttt_jester_min_players", "5")
 local function GetJesterCount(ply_count)
    return (ply_count < jester_var:GetInt()) and 0 or 1
 end
