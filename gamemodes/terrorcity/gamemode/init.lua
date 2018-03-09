@@ -799,97 +799,82 @@ local function GetDetectiveCount(ply_count)
     return det_count
 end
 
+local sk_var = CreateConVar("ttt_killer_min_players", "8")
+local function GetSKCount(ply_count)
+   return (ply_count < sk_var:GetInt()) and 0 or 1
+end
+
+local jester_var CreateConVar("ttt_jester_min_players", "5")
+local function GetJesterCount(ply_count)
+   return (ply_count < jester_var:GetInt()) and 0 or 1
+end
+
+local function GetRoleCount(ply_count)
+   return GetTraitorCount(ply_count), GetDetectiveCount(ply_count), GetSKCount(ply_count), GetJesterCount(ply_count)
+end
+
+local function shuffle(t)
+    local shuffled = {}
+    local t = table.Copy(t)
+    for i = 1, #t do
+        local rand = math.random(1, #t)
+        table.insert(shuffled, t[rand])
+        table.remove(t, rand)
+    end
+    return shuffled
+end
+
 function SelectRoles()
-    local choices = {}
+    local pls = player.GetAll()
+    local players = {}
+    local roles = {}
+    for i = ROLE_INNOCENT, ROLE_XENOMORPH do roles[i] = 0 end
+    local random_roles = {ROLE_SURVIVOR, ROLE_VETERAN, ROLE_XENOMORPH, ROLE_DOCTOR, ROLE_BEACON}
 
-    local prev_roles = {
-        [ROLE_INNOCENT] = {},
-        [ROLE_TRAITOR] = {},
-        [ROLE_DETECTIVE] = {}
-    }
-
-    if not GAMEMODE.LastRole then
-        GAMEMODE.LastRole = {}
-    end
-
-    for k, v in pairs(player.GetAll()) do
-        -- everyone on the spec team is in specmode
-        if IsValid(v) and (not v:IsSpec()) then
-            -- save previous role and sign up as possible traitor/detective
-            local r = GAMEMODE.LastRole[v:SteamID()] or v:GetRole() or ROLE_INNOCENT
-            table.insert(prev_roles[r], v)
-            table.insert(choices, v)
-        end
-
-        v:SetRole(ROLE_INNOCENT)
-    end
-
-    -- determine how many of each role we want
-    local choice_count = #choices
-    local traitor_count = GetTraitorCount(choice_count)
-    local det_count = GetDetectiveCount(choice_count)
-    if choice_count == 0 then return end
-    -- first select traitors
-    local ts = 0
-
-    while ts < traitor_count do
-        -- select random index in choices table
-        local pick = math.random(1, #choices)
-        -- the player we consider
-        local pply = choices[pick]
-
-        -- make this guy traitor if he was not a traitor last time, or if he makes
-        -- a roll
-        if IsValid(pply) and ((not table.HasValue(prev_roles[ROLE_TRAITOR], pply)) or (math.random(1, 3) == 2)) then
-            pply:SetRole(ROLE_TRAITOR)
-            table.remove(choices, pick)
-            ts = ts + 1
+    for k, v in ipairs(pls) do
+        if (IsValid(v) and not v:IsSpec()) then
+            table.insert(players, v)
         end
     end
 
-    -- now select detectives, explicitly choosing from players who did not get
-    -- traitor, so becoming detective does not mean you lost a chance to be
-    -- traitor
-    local ds = 0
-    local min_karma = GetConVarNumber("ttt_detective_karma_min") or 0
+    local shuffled = shuffle(players)
+    local player_count = #shuffled
+    local t_count, d_count, sk_count, j_count = GetRoleCount(ply_count)
+    local chose_role = false
 
-    while (ds < det_count) and (#choices >= 1) do
-        -- sometimes we need all remaining choices to be detective to fill the
-        -- roles up, this happens more often with a lot of detective-deniers
-        if #choices <= (det_count - ds) then
-            for k, pply in pairs(choices) do
-                if IsValid(pply) then
-                    pply:SetRole(ROLE_DETECTIVE)
-                end
-            end
+    local function r(pl, role)
+      pl:SetRole(role)
+      roles[role] = roles[role] + 1
 
-            break -- out of while
-        end
-
-        local pick = math.random(1, #choices)
-        local pply = choices[pick]
-
-        -- we are less likely to be a detective unless we were innocent last round
-        if (IsValid(pply) and ((pply:GetBaseKarma() > min_karma and table.HasValue(prev_roles[ROLE_INNOCENT], pply)) or math.random(1, 3) == 2)) then
-            -- if a player has specified he does not want to be detective, we skip
-            -- him here (he might still get it if we don't have enough
-            -- alternatives)
-            if not pply:GetAvoidDetective() then
-                pply:SetRole(ROLE_DETECTIVE)
-                ds = ds + 1
-            end
-
-            table.remove(choices, pick)
-        end
+      if (role == ROLE_HITMAN) then t_count = t_count - 1 end
+      if (role == ROLE_DETECTIVE) then d_count = d_count - 1 end
+      if (role == ROLE_KILLER) then sk_count = sk_count - 1 end
+      if (role == ROLE_JESTER) then j_count = j_count - 1 end
     end
 
-    GAMEMODE.LastRole = {}
+    for i = 1, player_count do
+      local pl = shuffled[i]
 
-    for _, ply in pairs(player.GetAll()) do
+      -- Hitman/Traitor Selection
+      -- Always have at least 1 Hitman for the Traitors
+      if (t_count == 2) then r(pl, ROLE_HITMAN) continue end
+      if (t_count > 0) then r(pl, ROLE_TRAITOR) continue end
+
+      -- Other roles dependent on player count
+      if (j_count > 0) then r(pl, ROLE_JESTER) continue end
+      if (d_count > 0) then r(pl, ROLE_DETECTIVE) continue end
+      if (sk_count > 0) then r(pl, ROLE_KILLER) continue end
+
+      if (role[ROLE_BODYGUARD] < 1 and (role[ROLE_DETECTIVE] > 0 or role[ROLE_DOCTOR] > 0 )) then r(pl, ROLE_BODYGUARD) continue end
+      if (random_roles and #random_roles < 1) then r(pl, ROLE_INNOCENT) continue end
+
+      local role_rand = math.random(1, #random_roles)
+      if (role[role_rand] < 1) then r(pl, role_rand) random_roles[role_rand] = nil continue end
+    end
+
+    for _, ply in ipairs(pls) do
         -- initialize credit count for everyone based on their role
         ply:SetDefaultCredits()
-        -- store a steamid -> role map
-        GAMEMODE.LastRole[ply:SteamID()] = ply:GetRole()
     end
 end
 
