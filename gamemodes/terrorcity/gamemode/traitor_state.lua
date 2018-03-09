@@ -30,7 +30,7 @@ local function SendRoleListMessage(role, role_ids, ply_or_rf)
     end
 
     net.Start("TTT_RoleList")
-    net.WriteUInt(role, 2)
+    net.WriteUInt(role, 4)
     -- list contents
     local num_ids = #role_ids
     net.WriteUInt(num_ids, 8)
