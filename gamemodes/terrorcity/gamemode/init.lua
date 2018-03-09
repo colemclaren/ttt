@@ -762,7 +762,6 @@ function GM:TTTCheckForWin()
             jester = v
         end
         if (v:Alive()) then
-            print(v)
             if (role == ROLE_JESTER) then
                 jester_alive = true
             elseif (role == ROLE_KILLER) then
@@ -783,7 +782,6 @@ function GM:TTTCheckForWin()
     elseif (innocents_alive > 0 and traitors_alive == 0 and not killer_alive) then
         return WIN_INNOCENT
     elseif (killer_alive and innocents_alive == 0 and traitors_alive == 0) then
-        print"kill"
         return WIN_KILLER
     end
 
