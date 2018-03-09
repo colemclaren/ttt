@@ -3,8 +3,8 @@ AddCSLuaFile()
 
 local to_hook = {}
 
-function InstallRoleHook(event, plyargn)
-    to_hook[event] = plyargn
+function InstallRoleHook(event, plyargnorfn)
+    to_hook[event] = plyargnorfn
 end
 
 local function include_role(roleid, rolename)
@@ -20,6 +20,7 @@ local function include_role(roleid, rolename)
 end
 
 include_role(ROLE_KILLER, "killer")
+include_role(ROLE_JESTER, "jester")
 
 function GM.InitializeRoles()
     for event, plyargn in pairs(to_hook) do
@@ -31,18 +32,23 @@ function GM.InitializeRoles()
             local old = gm[event]
 
             gm[event] = function(self, ...)
-                local ply = select(plyargn, ...)
-
-                local ROLE = ROLES[ply:GetRole()]
-                if (ROLE and ROLE[event]) then
-
-                    print(event)
-                    local a, b, c, d, e, f = ROLE[event](ply, ...)
-                    if (a ~= nil) then
-                        return a, b, c, d, e, f
-                    end
+                local ply
+                if (type(plyargn) == "number") then
+                    ply = select(plyargn, ...)
+                else
+                    ply = plyargn(...)
                 end
 
+                if (IsValid(ply)) then
+                    local ROLE = ROLES[ply:GetRole()]
+                    if (ROLE and ROLE[event]) then
+
+                        local a, b, c, d, e, f = ROLE[event](ply, ...)
+                        if (a ~= nil) then
+                            return a, b, c, d, e, f
+                        end
+                    end
+                end
 
                 if (old) then
                     return old(self, ...)
