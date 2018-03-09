@@ -847,13 +847,12 @@ function SelectRoles()
     local shuffled = shuffle(players)
     local player_count = #shuffled
     local t_count, d_count, sk_count, j_count = GetRoleCount(player_count)
-    local chose_role = false
 
     local function r(pl, role)
       pl:SetRole(role)
       roles[role] = roles[role] + 1
 
-      if (role == ROLE_HITMAN) then t_count = t_count - 1 end
+      if (BASIC_ROLE_LOOKUP[role] == ROLE_TRAITOR) then t_count = t_count - 1 end
       if (role == ROLE_DETECTIVE) then d_count = d_count - 1 end
       if (role == ROLE_KILLER) then sk_count = sk_count - 1 end
       if (role == ROLE_JESTER) then j_count = j_count - 1 end
@@ -872,11 +871,11 @@ function SelectRoles()
       if (d_count > 0) then r(pl, ROLE_DETECTIVE) continue end
       if (sk_count > 0) then r(pl, ROLE_KILLER) continue end
 
-      if (role[ROLE_BODYGUARD] < 1 and (role[ROLE_DETECTIVE] > 0 or role[ROLE_DOCTOR] > 0 )) then r(pl, ROLE_BODYGUARD) continue end
+      if (roles[ROLE_BODYGUARD] < 1 and (roles[ROLE_DETECTIVE] > 0 or roles[ROLE_DOCTOR] > 0 )) then r(pl, ROLE_BODYGUARD) continue end
       if (random_roles and #random_roles < 1) then r(pl, ROLE_INNOCENT) continue end
 
       local role_rand = math.random(1, #random_roles)
-      if (role[role_rand] < 1) then r(pl, role_rand) random_roles[role_rand] = nil continue end
+      if (roles[role_rand] < 1) then r(pl, role_rand) random_roles[role_rand] = nil continue end
     end
 
     for _, ply in ipairs(pls) do
