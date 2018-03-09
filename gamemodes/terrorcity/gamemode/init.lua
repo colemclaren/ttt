@@ -753,7 +753,7 @@ function GM:TTTCheckForWin()
         return mw
     end
 
-    local traitors_alive, jester_alive, innocents_alive, killer_alive = 0, false, 0, WaitingForPlayersChecker
+    local traitors_alive, jester_alive, innocents_alive, killer_alive = 0, false, 0, false
     local jester
 
     for k, v in pairs(player.GetAll()) do
@@ -762,6 +762,7 @@ function GM:TTTCheckForWin()
             jester = v
         end
         if (v:Alive()) then
+            print(v)
             if (role == ROLE_JESTER) then
                 jester_alive = true
             elseif (role == ROLE_KILLER) then
@@ -782,6 +783,7 @@ function GM:TTTCheckForWin()
     elseif (innocents_alive > 0 and traitors_alive == 0 and not killer_alive) then
         return WIN_INNOCENT
     elseif (killer_alive and innocents_alive == 0 and traitors_alive == 0) then
+        print"kill"
         return WIN_KILLER
     end
 
@@ -816,7 +818,7 @@ local function GetJesterCount(ply_count)
    return (ply_count < jester_var:GetInt()) and 0 or 1
 end
 
-local function GetRoleCount(ply_count)
+function GetRoleCount(ply_count)
    return GetTraitorCount(ply_count), GetDetectiveCount(ply_count), GetSKCount(ply_count), GetJesterCount(ply_count)
 end
 
