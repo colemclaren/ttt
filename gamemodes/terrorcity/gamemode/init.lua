@@ -761,7 +761,7 @@ function GM:TTTCheckForWin()
         if (role == ROLE_JESTER) then
             jester = v
         end
-        if (v:Alive()) then
+        if (v:Alive() and not v:IsSpec()) then
             if (role == ROLE_JESTER) then
                 jester_alive = true
             elseif (role == ROLE_KILLER) then
@@ -783,6 +783,12 @@ function GM:TTTCheckForWin()
         return WIN_INNOCENT
     elseif (killer_alive and innocents_alive == 0 and traitors_alive == 0) then
         return WIN_KILLER
+    elseif (not killer_alive and innocents_alive == 0 and traitors_alive == 0) then
+        if (jester_alive) then
+            return WIN_JESTER
+        else
+            return WIN_TRAITOR
+        end
     end
 
     return WIN_NONE
