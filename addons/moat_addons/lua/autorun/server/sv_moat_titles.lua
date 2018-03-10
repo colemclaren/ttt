@@ -18,7 +18,8 @@ function MOAT_TITLES.Escape(str)
 end
 
 function MOAT_TITLES.Query(str, suc, err)
-
+    if (not DBD.onConnected) then return end
+    
     local dbq = mdb:query(str)
 
     if (suc) then
