@@ -19,9 +19,22 @@ local function include_role(roleid, rolename)
     ROLE = nil
 end
 
+local function include_role_sv(roleid, rolename)
+    include("roles/"..rolename.."/sv_init.lua")
+end
+
+local function include_role_sh(roleid, rolename)
+    include("roles/"..rolename.."/sv_init.lua")
+    AddCSLuaFile("roles/"..rolename.."/cl_init.lua")
+    include("roles/"..rolename.."/cl_init.lua")
+end
+
 include_role(ROLE_KILLER, "killer")
 include_role(ROLE_JESTER, "jester")
 include_role(ROLE_BEACON, "beacon")
+
+include_role_sh(ROLE_XENOMORPH, "xenomorph")
+include_role_sv(ROLE_SURVIVOR, "survivor")
 
 function GM.InitializeRoles()
     for event, plyargn in pairs(to_hook) do
@@ -60,7 +73,7 @@ function GM.InitializeRoles()
 end
 
 function GM:Role_TTTBeginRound()
-    for k, ply in pairs(player.GetAll()) do
+    for k, ply in ipairs(player.GetAll()) do
         local event = "TTTBeginRound"
 
         local ROLE = ROLES[ply:GetRole()]
@@ -73,7 +86,7 @@ function GM:Role_TTTBeginRound()
     end
 end
 function GM:Role_TTTEndRound()
-    for k, ply in pairs(player.GetAll()) do
+    for k, ply in ipairs(player.GetAll()) do
         local event = "TTTEndRound"
 
         local ROLE = ROLES[ply:GetRole()]
