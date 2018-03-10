@@ -172,6 +172,7 @@ net.Receive("DL_InformSuperAdmins", function()
 end)
 
 net.Receive("DL_Ded", function()
+	if (true) then return end
 	
 	if Damagelog.RDM_Manager_Enabled and cvars.Bool("ttt_dmglogs_rdmpopups") and net.ReadUInt(1,1) == 1 then
 	
