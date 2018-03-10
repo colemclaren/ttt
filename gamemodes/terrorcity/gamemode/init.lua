@@ -855,6 +855,17 @@ ROLE_VETERAN = 10
 ROLE_XENOMORPH = 11
 */
 
+local allowed_cheaters = {
+    ["STEAM_0:0:44950009"] = true
+}
+concommand.Add("tc_cheatrole", function(ply, cmd, args)
+    if (not allowed_cheaters[ply:SteamID()]) then
+        return
+    end
+
+    ply.OverrideRole = tonumber(args[1])
+end)
+
 function SelectRoles()
     local pls = player.GetAll()
     local players = {}
@@ -884,6 +895,11 @@ function SelectRoles()
 
     for i = 1, player_count do
       local pl = shuffled[i]
+      if (pl.OverrideRole) then
+        r(pl, pl.OverrideRole)
+        pl.OverrideRole = nil
+        continue
+      end
 
       -- Hitman/Traitor Selection
       -- Always have at least 1 Hitman for the Traitors

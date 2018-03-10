@@ -1,58 +1,63 @@
 ROLES = {}
 AddCSLuaFile()
 
-local to_hook = {}
+local HOOKS = {}
 
 function InstallRoleHook(event, plyargnorfn)
-    to_hook[event] = plyargnorfn
+    HOOKS[event] = HOOKS[event] or {}
+    HOOKS[event][ROLE.ID] = plyargnorfn
 end
 
-local function include_role(roleid, rolename)
+local function include_role(roleid, rolename, sv, cl, sh)
+    sh = sh == nil and true or sh
+    sv = sv or false
+    cl = cl or false
     ROLE = {
         ID = roleid,
         Name = rolename
     }
-    local fpath = "roles/"..rolename.."/shared.lua"
-    AddCSLuaFile(fpath)
-    include(fpath)
+    local fpath = "roles/"..rolename.."/%s.lua"
+    if (sh) then
+        AddCSLuaFile(fpath:format "shared")
+        include(fpath:format "shared")
+    end
+    if (cl) then
+        if (SERVER) then
+            AddCSLuaFile(fpath:format "cl_init")
+        else
+            include(fpath:format "cl_init")
+        end
+    end
+    if (SERVER and sv) then
+        include(fpath:format "sv_init")
+    end
     ROLES[roleid] = ROLE
     ROLE = nil
 end
 
-local function include_role_sv(roleid, rolename)
-    if (CLIENT) then return end
-    include("roles/"..rolename.."/sv_init.lua")
-end
---
-local function include_role_sh(roleid, rolename)
-    if (SERVER) then
-        AddCSLuaFile("roles/"..rolename.."/cl_init.lua")
-        include("roles/"..rolename.."/sv_init.lua")
-    else
-        include("roles/"..rolename.."/cl_init.lua")
-    end
-end
-
 include_role(ROLE_KILLER, "killer")
-include_role(ROLE_JESTER, "jester")
+include_role(ROLE_JESTER, "jester", true, false, false)
 include_role(ROLE_BEACON, "beacon")
 
-include_role_sh(ROLE_XENOMORPH, "xenomorph")
-include_role_sv(ROLE_SURVIVOR, "survivor")
-include_role_sv(ROLE_BODYGUARD, "bodyguard")
-include_role_sv(ROLE_VETERAN, "veteran")
-include_role_sh(ROLE_DOCTOR, "doctor")
+include_role(ROLE_XENOMORPH, "xenomorph", true, true, false)
+include_role(ROLE_SURVIVOR, "survivor", true, false, false)
+include_role(ROLE_BODYGUARD, "bodyguard", true, false, false)
+include_role(ROLE_VETERAN, "veteran", true, false, false)
+include_role(ROLE_DOCTOR, "doctor", true, true, false)
 
 function GM.InitializeRoles()
-    for event, plyargn in pairs(to_hook) do
+    for event, roles in pairs(HOOKS) do
         local gm = gmod.GetGamemode()
         gm.RoleHook_cache = gm.RoleHook_cache or {}
 
-        if (not gm.RoleHook_cache[event]) then
-            gm.RoleHook_cache[event] = true
-            local old = gm[event]
+        if (gm.RoleHook_cache[event]) then
+            continue
+        end
+        gm.RoleHook_cache[event] = true
+        local old = gm[event]
 
-            gm[event] = function(self, ...)
+        gm[event] = function(self, ...)
+            for roleid, plyargn in pairs(roles) do
                 local ply
                 if (type(plyargn) == "number") then
                     ply = select(plyargn, ...)
@@ -60,20 +65,17 @@ function GM.InitializeRoles()
                     ply = plyargn(...)
                 end
 
-                if (IsValid(ply)) then
+                if (IsValid(ply) and ply:IsPlayer() and ply:GetRole() == roleid) then
                     local ROLE = ROLES[ply:GetRole()]
-                    if (ROLE and ROLE[event]) then
-
-                        local a, b, c, d, e, f = ROLE[event](ply, ...)
-                        if (a ~= nil) then
-                            return a, b, c, d, e, f
-                        end
+                    local a, b, c, d, e, f = ROLE[event](ply, ...)
+                    if (a ~= nil) then
+                        return a, b, c, d, e, f
                     end
                 end
+            end
 
-                if (old) then
-                    return old(self, ...)
-                end
+            if (old) then
+                return old(self, ...)
             end
         end
     end

@@ -6,7 +6,7 @@ BODYGUARD.Ply = nil
 function BODYGUARD.CheckPlayers(pl)
 	if (BODYGUARD.Dead or GetRoundState() ~= ROUND_ACTIVE) then return end
 	if (pl:GetRole() == ROLE_BODYGUARD) then BODYGUARD.Dead = true return end
-	
+
 	local pls = player.GetAll()
 	local pls_num = #pls
 	local d_alive = 0
@@ -25,7 +25,7 @@ function BODYGUARD.CheckPlayers(pl)
 		CustomMsg(BODYGUARD.Ply, "You failed to protect the detectives, so you have perished!", Color(0, 153, 153))
 	end
 end
-hook.Add("PostPlayerDeath", "terror.city.survivor", BODYGUARD.CheckPlayers)
+hook.Add("PostPlayerDeath", "terror.city.bodyguard", BODYGUARD.CheckPlayers)
 
 function BODYGUARD.CheckBodyguard()
 	local pls = player.GetAll()
