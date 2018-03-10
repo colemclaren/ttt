@@ -31,6 +31,11 @@ function DOCTOR.Respawn(_, pl)
         if (not IsValid(vic)) then return end
 
         vic:SpawnForRound(true)
+
+        if (vic:GetRole() == ROLE_VETERAN) then
+        	vic:StripAll()
+        	vic:Give("weapon_ttt_veteran")
+        end
         --vic:SetRole(ROLE_BODYGUARD)
 
         CustomMsg(vic, "You have been revived by a doctor!", Color(0, 200, 255))
