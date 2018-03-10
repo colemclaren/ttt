@@ -20,13 +20,17 @@ local function include_role(roleid, rolename)
 end
 
 local function include_role_sv(roleid, rolename)
+    if (CLIENT) then return end
     include("roles/"..rolename.."/sv_init.lua")
 end
-
+--
 local function include_role_sh(roleid, rolename)
-    include("roles/"..rolename.."/sv_init.lua")
-    AddCSLuaFile("roles/"..rolename.."/cl_init.lua")
-    include("roles/"..rolename.."/cl_init.lua")
+    if (SERVER) then
+        AddCSLuaFile("roles/"..rolename.."/cl_init.lua")
+        include("roles/"..rolename.."/sv_init.lua")
+    else
+        include("roles/"..rolename.."/cl_init.lua")
+    end
 end
 
 include_role(ROLE_KILLER, "killer")

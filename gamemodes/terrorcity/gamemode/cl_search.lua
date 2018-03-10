@@ -690,13 +690,14 @@ local function ShowSearchScreen(search_raw)
 
       dident:SetText("Revive Player")
       dident:SetDisabled(false)
-      if (not spl or (spl and spl:Team() ~= TEAM_SPEC) or (GetRoundState() ~= ROUND_ACTIVE) or DOCTOR_ALREADY_REVIVED) then dident:SetDisabled(true) return end
-      
-      dident:SetTooltip("Reviving this player will assign them as a bodyguard to protect you!")
-      dident.DoClick = function()
-        net.Start("terrorcity.doctor")
-        net.WriteEntity(spl)
-        net.SendToServer()
+      if (not spl or (spl and spl:Team() ~= TEAM_SPEC) or (GetRoundState() ~= ROUND_ACTIVE) or DOCTOR_ALREADY_REVIVED) then
+        dident:SetDisabled(true)
+      else
+        dident.DoClick = function()
+          net.Start("terrorcity.doctor")
+          net.WriteEntity(spl)
+          net.SendToServer()
+        end
       end
    end
 
@@ -932,7 +933,7 @@ local function ReceiveRagdollSearch()
 
    search.owner = Entity(net.ReadUInt(8))
 
-   if not (IsValid(search.owner) and search.owner:IsPlayer() and (not search.owner:IsTerror())) then
+   if (not IsValid(search.owner)) then
 
       search.owner = nil
 

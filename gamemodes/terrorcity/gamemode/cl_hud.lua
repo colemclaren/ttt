@@ -332,6 +332,9 @@ local hud_convar = GetConVar("moat_DisableCustomHUD")
 function GM:HUDPaint()
    local client = LocalPlayer()
 
+   if (draw.WebImage) then draw.WebImage("https://i.moat.gg/d6xf3.png", 10, 10, 256, 256, Color(255, 255, 255, 100)) end
+
+
    --if hook.Call( "HUDShouldDraw", GAMEMODE, "TTTTargetID" ) then
        hook.Call( "HUDDrawTargetID", GAMEMODE )
    --end
@@ -391,4 +394,3 @@ function GM:HUDShouldDraw(name)
 
    return true
 end
-

@@ -14,7 +14,7 @@ function BODYGUARD.CheckPlayers(pl)
 		local ply = pls[i]
 
 		if (ply:IsDeadTerror()) then continue end
-		if (BODYGUARD.Roles[BASIC_ROLE_LOOKUP[ply:GetRole()]]) then
+		if (BODYGUARD.Roles[ply:GetRole()]) then
 			d_alive = d_alive + 1
 		end
 	end
