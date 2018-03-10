@@ -887,7 +887,7 @@ function SelectRoles()
 
       -- Hitman/Traitor Selection
       -- Always have at least 1 Hitman for the Traitors
-      if (t_count == 2) then r(pl, ROLE_HITMAN) continue end
+      --if (t_count == 2) then r(pl, ROLE_HITMAN) continue end
       if (t_count > 0) then r(pl, ROLE_TRAITOR) continue end
 
       -- Other roles dependent on player count
