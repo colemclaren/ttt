@@ -354,7 +354,7 @@ function PANEL:LayoutColumns()
           continue
           
       elseif ( k == 1 ) then
-
+         if (num_mod) then
          local num_mod = tonumber(v:GetText())
          local p_num = GetConVar("moat_scoreboard_ping"):GetInt()
 
@@ -385,6 +385,7 @@ function PANEL:LayoutColumns()
             if (num_mod > 300) then surface.SetDrawColor(255, 0, 0) end
 
             surface.DrawRect(0, 10, 5, 5)
+         end
          end
           
       elseif ( k == 4 ) then
