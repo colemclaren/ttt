@@ -172,6 +172,8 @@ function GM:HUDDrawPickupHistory()
 
          surface.SetTexture( self.PickupHistoryCorner )
 
+         if (not v.color) then v.color = Color(205, 155, 0, 255) end
+
          surface.SetDrawColor( v.color.r, v.color.g, v.color.b, alpha )
          surface.DrawTexturedRectRotated( rx + bordersize/2 , ry + bordersize/2, bordersize, bordersize, 0 )
          surface.DrawTexturedRectRotated( rx + bordersize/2 , ry + rh -bordersize/2, bordersize, bordersize, 90 )
