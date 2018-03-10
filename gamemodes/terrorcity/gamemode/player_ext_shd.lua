@@ -72,6 +72,10 @@ function plymeta:IsActiveSpecial()
     return self:IsSpecial() and self:IsActive()
 end
 
+function plymeta:GetBasicRole()
+      return BASIC_ROLE_LOOKUP[self:GetRole()]
+end
+
 local role_strings = {
    [ROLE_TRAITOR] = "traitor",
    [ROLE_INNOCENT] = "innocent",

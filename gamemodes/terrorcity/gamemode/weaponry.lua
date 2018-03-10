@@ -52,7 +52,11 @@ local function GetLoadoutWeapons(r)
         for k, w in pairs(weapons.GetList()) do
             if w and type(w.InLoadoutFor) == "table" then
                 for _, wrole in pairs(w.InLoadoutFor) do
-                    table.insert(tbl[wrole], WEPS.GetClass(w))
+                    for real_role, basic_role in pairs(BASIC_ROLE_LOOKUP) do
+                        if (basic_role == wrole) then
+                            table.insert(tbl[real_role], WEPS.GetClass(w))
+                        end
+                    end
                 end
             end
         end

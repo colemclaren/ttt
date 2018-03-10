@@ -339,6 +339,7 @@ local function TraitorMenuPopup()
    local dframe = vgui.Create("DFrame")
    dframe:SetSize(w, h)
    dframe:Center()
+   dframe:SetSkin("moat")
    dframe:SetTitle("Equipment Shop")
    dframe:SetVisible(true)
    dframe:ShowCloseButton(true)
@@ -520,13 +521,11 @@ local function TraitorMenuPopup()
    dinfobg:SetPos(dlistw + m, 0)
 
    -- item info pane
-   local dinfo = vgui.Create("ColoredBox", dinfobg)
-   dinfo:SetColor(Color(90, 90, 95))
+   local dinfo = vgui.Create("DPanel", dinfobg)
    dinfo:SetPos(0,0)
    dinfo:StretchToParent(0, 0, m*2, 130)
 
-   local dinfo2 = vgui.Create("ColoredBox", dinfobg)
-   dinfo2:SetColor(Color(90, 90, 95))
+   local dinfo2 = vgui.Create("DPanel", dinfobg)
    dinfo2:SetPos(0,dinfo:GetTall() + 5)
    dinfo2:SetSize(diw - m - 6, 70)
 
@@ -562,6 +561,7 @@ local function TraitorMenuPopup()
    dconfirm:SetPos(0, dih - bh*2)
    dconfirm:SetSize(bw, bh)
    dconfirm:SetDisabled(true)
+   dconfirm.Green = true
    dconfirm:SetText("Buy Equipment")
 
 
@@ -641,6 +641,7 @@ local function TraitorMenuPopup()
    dcancel:SetSize(bw, bh)
    dcancel:SetDisabled(false)
    dcancel:SetText(GetTranslation("close"))
+   dcancel.Red = true
    dcancel.DoClick = function()
      dframe:Close()
    end
