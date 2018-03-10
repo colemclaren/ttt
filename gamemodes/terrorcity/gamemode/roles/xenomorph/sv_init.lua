@@ -55,7 +55,7 @@ function XENOMORPH.PlayerCanSeePlayersChat(_, _, l, s)
 		return false
 	end
 end
-hook.Add("GM:PlayerCanSeePlayersChat", "terror.city.xenomorph", XENOMORPH.PlayerCanSeePlayersChat)
+hook.Add("PlayerCanSeePlayersChat", "terror.city.xenomorph", XENOMORPH.PlayerCanSeePlayersChat)
 
 
 function XENOMORPH.ResetXenomorph()
