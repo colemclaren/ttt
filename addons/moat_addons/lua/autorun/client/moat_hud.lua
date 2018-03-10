@@ -84,7 +84,8 @@ local moat_HUDConvars = {
 local moving_frame = ""
 
 hook.Add("InitPostEntity", "moat.hud.bg_colors", function()
-
+	if (not ROLE_JESTER) then return end
+	
 	bg_colors[ROLE_JESTER]    = Color(253, 158, 255, 200)
    	bg_colors[ROLE_KILLER]    = Color(255, 145, 0, 200)
    	bg_colors[ROLE_DOCTOR]    = Color(0, 200, 255, 200)
@@ -94,8 +95,8 @@ hook.Add("InitPostEntity", "moat.hud.bg_colors", function()
    	bg_colors[ROLE_BODYGUARD] = Color(0, 153, 153, 200)
    	bg_colors[ROLE_VETERAN]   = Color(179, 0, 255, 200)
    	bg_colors[ROLE_XENOMORPH] = Color(0, 249, 199, 200)
-
 end)
+
 function moat_AddMovableBox(convarname, x, y, w, h, paint)
 	-- Create x, y, w, h values for convar saving
 	if (not ConVarExists(convarname .. "x")) then
