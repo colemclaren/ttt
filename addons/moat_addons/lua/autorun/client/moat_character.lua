@@ -84,6 +84,102 @@ end
 MOAT_XP_LERP = 360
 MOAT_STATS_LERP = 0
 
+local Loadout = {
+	CurLoadout = "Default",
+	Loadouts = {}
+}
+
+if file.Exists("moat_loadouts.txt","DATA") then
+	Loadout = util.JSONToTable(file.Read("moat_loadouts.txt","DATA"))
+	print("Loaded saved loadouts")
+else
+	Loadout = {
+		CurLoadout = "Default",
+		Loadouts = {
+			["Default"] = {}
+		}
+	}
+	for k,v in pairs(m_Loadout) do
+		if v.c then
+			Loadout.Loadouts["Default"][k] = v.c
+		end
+	end
+	PrintTable(Loadout)--s
+end
+
+
+
+function m_SwitchLoadout(name)
+	PrintTable(Loadout.Loadouts)
+	if name == Loadout.CurLoadout then return end
+	if not Loadout.Loadouts[name] then return end
+	Loadout.CurLoadout = name
+	local t = {}
+	for k,v in ipairs(m_Loadout) do
+		if v.c then
+			local i = M_LOAD_SLOT[k]
+			for _,o in ipairs(m_Inventory) do
+				if (not o.c) and (not t[_]) and (not t[v.c]) then
+					print("Swapping",v.c,_)
+					m_SwapInventorySlots(i,_,nil)
+					t[_] = true
+					t[v.c] = true
+				end
+			end
+		end
+	end
+
+	for k,v in ipairs(m_Inventory) do
+		if v.c then
+			for i,o in pairs(Loadout.Loadouts[name]) do
+				if v.c == o then
+					 m_SwapInventorySlots(M_INV_SLOT[k], i .. "l", nil)
+				end
+			end
+		end
+	end
+end
+
+function m_SaveLoadout()
+	Loadout.Loadouts[Loadout.CurLoadout] = {}
+	for k,v in pairs(m_Loadout) do
+		if v.c then
+			Loadout.Loadouts[Loadout.CurLoadout][k] = v.c
+		end
+	end
+	file.Write("moat_loadouts.txt",util.TableToJSON(Loadout))
+	print("Saved loadout")
+	PrintTable(Loadout)
+end
+
+function m_RenameLoadout(cur,new)
+	if cur == "Default" then return "You cannot rename the Default loadout!" end
+	if Loadout.Loadouts[new] then return "A loadout with that name already exists!" end
+	if cur == Loadout.CurLoadout then
+		Loadout.CurLoadout = cur
+	end
+	Loadout.Loadouts[new] = table.Copy(Loadout.Loadouts[cur])
+	Loadout.Loadouts[cur] = nil
+	m_SaveLoadout()
+end
+
+function m_NewLoadout(name)
+	if Loadout.Loadouts[name] then return "A loadout with that name already exists!" end
+	Loadout.Loadouts[name] = {}
+end
+
+function m_DeleteLoadout(name)
+	if name == "Default" then
+		return "You cannot delete the default loadout!"
+	end
+	m_SwitchLoadout("Default")
+	Loadout.Loadouts[name] = nil
+	timer.Simple(0.1,function()
+		m_SaveLoadout()
+	end)
+end
+
+
 function m_PopulateStats(pnl)
     local level = LocalPlayer():GetNWInt("MOAT_STATS_LVL", 0)
     local xp = LocalPlayer():GetNWInt("MOAT_STATS_XP", 0)
@@ -139,8 +235,55 @@ function m_PopulateStats(pnl)
         surface.DrawTexturedRect(w - 10 - drops_w - 5 - 10, obtained_y - drops_h + 5, drops_w + 5 + 10, drops_h - 5)
         draw.SimpleTextOutlined("ITEMS", "moat_ItemDesc", 10, obtained_y - 25, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 25))
         draw.SimpleTextOutlined("DECONSTRUCTED", "moat_ItemDescLarge3", 10, obtained_y, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 25))
+		draw.SimpleTextOutlined("LOADOUT", "moat_ItemDescLarge3", 10, obtained_y + 35, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 25))
         draw.SimpleTextOutlined(math.ceil(deconstructs * MOAT_STATS_LERP), "moat_MOTDHead", w - 15, obtained_y + 2, MT_TCOL, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 25))
     end
+
+	local load = vgui.Create("DComboBox",pnl)
+	load:SetPos(10,465)
+	load:SetSize(352,25)
+	local function refresh()
+		load:Clear()
+		for k,v in pairs(Loadout.Loadouts) do
+			load:AddChoice(k,k,(Loadout.CurLoadout == k))
+		end
+	end
+	refresh()
+	load.OnSelect = function( panel, index, value )
+		m_SwitchLoadout(value)
+	end
+
+	local delete = vgui.Create("DButton",pnl)
+	delete:SetPos(10,493)
+	delete:SetSize(170,20)
+	delete:SetText("Delete Loadout")
+	function delete.DoClick()
+		Derma_Query("Are you sure you want to delete the '" .. Loadout.CurLoadout .. "' loadout?", "Confirm", "Yes", function()
+			local t = m_DeleteLoadout(Loadout.CurLoadout)
+			if t then
+				chat.AddText(Color(255,0,0),t)
+			end
+			timer.Simple(0.1,function()
+				refresh()
+			end)
+		end, "No")
+	end
+
+	local delete = vgui.Create("DButton",pnl)
+	delete:SetPos(191,493)
+	delete:SetSize(170,20)
+	delete:SetText("New Loadout")
+	function delete.DoClick()
+		Derma_StringRequest("Name required", "What would you like to name the new loadout?", "Default", function(s)
+			local t = m_NewLoadout(s)
+			if t then
+				chat.AddText(Color(255,0,0),t)
+			end
+			timer.Simple(0.1,function()
+				refresh()
+			end)
+		end)
+	end
 end
 
 timer.Remove("asd")
