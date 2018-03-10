@@ -99,6 +99,7 @@ function m_SwitchLoadout(name)
 	if not Loadout.Loadouts[name] then return end
 	Loadout.CurLoadout = name
 	local t = {}
+	LOAD_BLOCK = CurTime() + 0.25
 	for k,v in ipairs(m_Loadout) do
 		if v.c then
 			local i = M_LOAD_SLOT[k]
