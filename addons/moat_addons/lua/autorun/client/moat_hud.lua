@@ -73,15 +73,6 @@ local bg_colors = {
 	traitor = Color(200, 25, 25, 200),
 	innocent = Color(25, 200, 25, 200),
 	detective = Color(25, 25, 200, 200),
-   [ROLE_JESTER]    = Color(253, 158, 255, 200),
-   [ROLE_KILLER]    = Color(255, 145, 0, 200),
-   [ROLE_DOCTOR]    = Color(0, 200, 255, 200),
-   [ROLE_BEACON]    = Color(255, 200, 0, 200),
-   [ROLE_SURVIVOR]  = Color(128, 142, 0, 200),
-   [ROLE_HITMAN]    = Color(40, 42, 47, 200),
-   [ROLE_BODYGUARD] = Color(0, 153, 153, 200),
-   [ROLE_VETERAN]   = Color(179, 0, 255, 200),
-   [ROLE_XENOMORPH] = Color(0, 249, 199, 200)
 }
 
 local moat_HUDConvars = {
@@ -92,6 +83,19 @@ local moat_HUDConvars = {
 
 local moving_frame = ""
 
+hook.Add("InitPostEntity", "moat.hud.bg_colors", function()
+
+	bg_colors[ROLE_JESTER]    = Color(253, 158, 255, 200)
+   	bg_colors[ROLE_KILLER]    = Color(255, 145, 0, 200)
+   	bg_colors[ROLE_DOCTOR]    = Color(0, 200, 255, 200)
+   	bg_colors[ROLE_BEACON]    = Color(255, 200, 0, 200)
+   	bg_colors[ROLE_SURVIVOR]  = Color(128, 142, 0, 200)
+   	bg_colors[ROLE_HITMAN]    = Color(40, 42, 47, 200)
+   	bg_colors[ROLE_BODYGUARD] = Color(0, 153, 153, 200)
+   	bg_colors[ROLE_VETERAN]   = Color(179, 0, 255, 200)
+   	bg_colors[ROLE_XENOMORPH] = Color(0, 249, 199, 200)
+
+end)
 function moat_AddMovableBox(convarname, x, y, w, h, paint)
 	-- Create x, y, w, h values for convar saving
 	if (not ConVarExists(convarname .. "x")) then
