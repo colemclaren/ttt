@@ -36,6 +36,24 @@ hook.Add("DoPlayerDeath", "moat_killcard_death", function(pl, att, dmg)
 				str = "Traitor"
 			elseif (att:GetRole() == ROLE_DETECTIVE) then
 				str = "Detective"
+			elseif (att:GetRole() == ROLE_JESTER) then
+				str = "Jester"
+			elseif (att:GetRole() == ROLE_KILLER) then
+				str = "Serial Killer"
+			elseif (att:GetRole() == ROLE_DOCTOR) then
+				str = "Doctor"
+			elseif (att:GetRole() == ROLE_BEACON) then
+				str = "Beacon"
+			elseif (att:GetRole() == ROLE_SURVIVOR) then
+				str = "Survivor"
+			elseif (att:GetRole() == ROLE_HITMAN) then
+				str = "Hitman"
+			elseif (att:GetRole() == ROLE_BODYGUARD) then
+				str = "Bodyguard"
+			elseif (att:GetRole() == ROLE_VETERAN) then
+				str = "Veteran"
+			elseif (att:GetRole() == ROLE_XENOMORPH) then
+				str = "Xenomorph"
 			end
 
 			net.WriteString(str)
