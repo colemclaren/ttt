@@ -380,7 +380,7 @@ function CLSCORE:ShowPanel()
     dbut:SetSize(bw, bh)
     dbut:SetPos(w - bw - margin, h - bh - margin / 2)
     dbut:SetText(T("close"))
-
+    dbut.Red = true
     dbut.DoClick = function()
         dpanel:Close()
     end
@@ -391,6 +391,7 @@ function CLSCORE:ShowPanel()
     dsave:SetText(T("report_save"))
     dsave:SetTooltip(T("report_save_tip"))
     dsave:SetConsoleCommand("ttt_save_events")
+    dsave.Green = true
     local dtabsheet = vgui.Create("DPropertySheet", dpanel)
     dtabsheet:SetPos(margin, margin + 15)
     dtabsheet:SetSize(w - margin * 2, h - margin * 3 - bh)

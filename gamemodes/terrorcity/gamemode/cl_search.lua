@@ -632,9 +632,9 @@ local function ShowSearchScreen(search_raw)
 
 
 
-   local ddesc = vgui.Create("ColoredBox", dcont)
+   local ddesc = vgui.Create("DPanel", dcont)
 
-   ddesc:SetColor(Color(50, 50, 50))
+   --ddesc:SetColor(Color(50, 50, 50))
 
    ddesc:SetName(T("search_info"))
 
@@ -683,8 +683,22 @@ local function ShowSearchScreen(search_raw)
    local id = search_raw.eidx + search_raw.dtime
 
    dident.DoClick = function() RunConsoleCommand("ttt_confirm_death", search_raw.eidx, id) end
-
    dident:SetDisabled(client:IsSpec() or (not client:KeyDownLast(IN_WALK)))
+
+   if (LocalPlayer():GetRole() == ROLE_DOCTOR) then
+      local spl = IsValid(search_raw.owner) and search_raw.owner or nil
+
+      dident:SetText("Revive Player")
+      dident:SetDisabled(false)
+      if (not spl or (spl and spl:Team() ~= TEAM_SPEC) or (GetRoundState() ~= ROUND_ACTIVE) or DOCTOR_ALREADY_REVIVED) then dident:SetDisabled(true) return end
+      
+      dident:SetTooltip("Reviving this player will assign them as a bodyguard to protect you!")
+      dident.DoClick = function()
+        net.Start("terrorcity.doctor")
+        net.WriteEntity(spl)
+        net.SendToServer()
+      end
+   end
 
 
 
@@ -723,7 +737,7 @@ local function ShowSearchScreen(search_raw)
    dconfirm:SetSize(bw, bh)
 
    dconfirm:SetText(T("close"))
-
+   dconfirm.Red = true
    dconfirm.DoClick = function() dframe:Close() end
 
 
@@ -818,6 +832,9 @@ local function ShowSearchScreen(search_raw)
 
    dframe:MakePopup()
 
+  function RemoveSearchScreen()
+    if (IsValid(dframe)) then dframe:Remove() end
+  end
 end
 
 

@@ -25,7 +25,7 @@ end
 hook.Add("TTTBeginRound", "terror.city.veteran", VETERAN.Strip)
 
 function VETERAN.RestrictPickup(pl, wep)
-	if (GetRoundState() == ROUND_ACTIVE and pl:Role() == ROLE_VETERAN) then
+	if (GetRoundState() == ROUND_ACTIVE and pl:GetRole() == ROLE_VETERAN) then
 		return wep:GetClass() == "weapon_ttt_veteran"
 	end
 end

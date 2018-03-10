@@ -37,6 +37,7 @@ include_role_sh(ROLE_XENOMORPH, "xenomorph")
 include_role_sv(ROLE_SURVIVOR, "survivor")
 include_role_sv(ROLE_BODYGUARD, "bodyguard")
 include_role_sv(ROLE_VETERAN, "veteran")
+include_role_sh(ROLE_DOCTOR, "doctor")
 
 function GM.InitializeRoles()
     for event, plyargn in pairs(to_hook) do

@@ -6,7 +6,7 @@ L.detective = "Detective"
 L.innocent = "Innocent"
 
 L.jester = "Jester"
-L.killer = "Killer"
+L.killer = "Serial Killer"
 L.doctor = "Doctor"
 L.beacon = "Beacon"
 L.survivor = "Survivor"
