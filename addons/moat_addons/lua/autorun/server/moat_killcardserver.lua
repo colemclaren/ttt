@@ -36,23 +36,23 @@ hook.Add("DoPlayerDeath", "moat_killcard_death", function(pl, att, dmg)
 				str = "Traitor"
 			elseif (att:GetRole() == ROLE_DETECTIVE) then
 				str = "Detective"
-			elseif (att:GetRole() == ROLE_JESTER) then
+			elseif (ROLE_JESTER and att:GetRole() == ROLE_JESTER) then
 				str = "Jester"
-			elseif (att:GetRole() == ROLE_KILLER) then
+			elseif (ROLE_KILLER and att:GetRole() == ROLE_KILLER) then
 				str = "Serial Killer"
-			elseif (att:GetRole() == ROLE_DOCTOR) then
+			elseif (ROLE_DOCTOR and att:GetRole() == ROLE_DOCTOR) then
 				str = "Doctor"
-			elseif (att:GetRole() == ROLE_BEACON) then
+			elseif (ROLE_BEACON and att:GetRole() == ROLE_BEACON) then
 				str = "Beacon"
-			elseif (att:GetRole() == ROLE_SURVIVOR) then
+			elseif (ROLE_SURVIVOR and att:GetRole() == ROLE_SURVIVOR) then
 				str = "Survivor"
-			elseif (att:GetRole() == ROLE_HITMAN) then
+			elseif (ROLE_HITMAN and att:GetRole() == ROLE_HITMAN) then
 				str = "Hitman"
-			elseif (att:GetRole() == ROLE_BODYGUARD) then
+			elseif (ROLE_BODYGUARD and att:GetRole() == ROLE_BODYGUARD) then
 				str = "Bodyguard"
-			elseif (att:GetRole() == ROLE_VETERAN) then
+			elseif (ROLE_VETERAN and att:GetRole() == ROLE_VETERAN) then
 				str = "Veteran"
-			elseif (att:GetRole() == ROLE_XENOMORPH) then
+			elseif (ROLE_XENOMORPH and att:GetRole() == ROLE_XENOMORPH) then
 				str = "Xenomorph"
 			end
 
