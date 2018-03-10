@@ -19,7 +19,7 @@ end
 local function SendPlayerRoles()
     for k, v in pairs(player.GetAll()) do
         net.Start("TTT_Role")
-        net.WriteUInt(v:GetRole(), 2)
+        net.WriteUInt(v:GetRole(), 4)
         net.Send(v)
     end
 end
@@ -136,7 +136,7 @@ end
 function SendRoleReset(ply_or_rf)
     local plys = player.GetAll()
     net.Start("TTT_RoleList")
-    net.WriteUInt(ROLE_INNOCENT, 2)
+    net.WriteUInt(ROLE_INNOCENT, 4)
     net.WriteUInt(#plys, 8)
 
     for k, v in pairs(plys) do
