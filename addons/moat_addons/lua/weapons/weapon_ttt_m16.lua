@@ -28,7 +28,7 @@ SWEP.Primary.ClipMax = 60
 SWEP.Primary.DefaultClip = 20
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_ammo_pistol_ttt"
-SWEP.HeadshotMultiplier = 2.6
+SWEP.HeadshotMultiplier = 2
 
 SWEP.UseHands     = true
 SWEP.ViewModelFlip    = false
