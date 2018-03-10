@@ -91,7 +91,6 @@ local Loadout = {
 
 if file.Exists("moat_loadouts.txt","DATA") then
 	Loadout = util.JSONToTable(file.Read("moat_loadouts.txt","DATA"))
-	print("Loaded saved loadouts")
 else
 	Loadout = {
 		CurLoadout = "Default",
@@ -104,13 +103,11 @@ else
 			Loadout.Loadouts["Default"][k] = v.c
 		end
 	end
-	PrintTable(Loadout)--s
 end
 
 
 
 function m_SwitchLoadout(name)
-	PrintTable(Loadout.Loadouts)
 	if name == Loadout.CurLoadout then return end
 	if not Loadout.Loadouts[name] then return end
 	Loadout.CurLoadout = name
@@ -120,7 +117,6 @@ function m_SwitchLoadout(name)
 			local i = M_LOAD_SLOT[k]
 			for _,o in ipairs(m_Inventory) do
 				if (not o.c) and (not t[_]) and (not t[v.c]) then
-					print("Swapping",v.c,_)
 					m_SwapInventorySlots(i,_,nil)
 					t[_] = true
 					t[v.c] = true
@@ -148,8 +144,6 @@ function m_SaveLoadout()
 		end
 	end
 	file.Write("moat_loadouts.txt",util.TableToJSON(Loadout))
-	print("Saved loadout")
-	PrintTable(Loadout)
 end
 
 function m_RenameLoadout(cur,new)
