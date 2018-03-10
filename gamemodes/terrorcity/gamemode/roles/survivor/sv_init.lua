@@ -26,11 +26,16 @@ function SURVIVOR.CheckPlayers(pl)
 	local pls_num = #pls
 	local inno_alive = 0
 	for i = 1, pls_num do
-		local ply = pls[i]
-		if (ply:IsDeadTerror()) then continue end
-		if (SURVIVOR.Roles[BASIC_ROLE_LOOKUP[ply:GetRole()]]) then inno_alive = inno_alive + 1 end
+		local ply = pls[i]	
+		if (ply:Team() == TEAM_SPEC) then continue end
 
-		if (i == pls_num and inno_alive == 1) then SURVIVOR:GiveHealth(pls, pls_num) end
+		if (SURVIVOR.Roles[BASIC_ROLE_LOOKUP[ply:GetRole()]]) then
+			inno_alive = inno_alive + 1
+		end
+	end
+
+	if (inno_alive == 1) then
+		SURVIVOR:GiveHealth(pls, pls_num)
 	end
 end
 hook.Add("PostPlayerDeath", "terror.city.survivor", SURVIVOR.CheckPlayers)
