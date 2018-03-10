@@ -16,6 +16,8 @@ function XENOMORPH.RespawnTimer(pl, rnd, rnd_now)
         pl:SpawnForRound(true)
         pl:SetRole(ROLE_XENOMORPH)
 
+        CustomMsg(pl, "You have been respawned as a Xenomorph!", Color(0, 249, 199))
+
         if (pl:IsActive()) then timer.Destroy("respawn_player" .. pl:EntIndex()) return end
     end)
 end
