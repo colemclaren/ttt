@@ -19,7 +19,7 @@ hook.Add("PlayerDeath", "terror.city.veteran", VETERAN.PlayerDeath)
 function VETERAN.Strip()
 	local pls = player.GetAll()
 	for i = 1, #pls do
-		if (pls[i]:GetRole() == ROLE_VETERAN) then pls[i]:StripAll() end
+		if (pls[i]:GetRole() == ROLE_VETERAN) then pls[i]:StripAll() pls[i]:Give("weapon_ttt_veteran") end
 	end
 end
 hook.Add("TTTBeginRound", "terror.city.veteran", VETERAN.Strip)
