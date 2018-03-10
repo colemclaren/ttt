@@ -19,14 +19,18 @@ end
 local function SendPlayerRoles()
     for k, v in pairs(player.GetAll()) do
         net.Start("TTT_Role")
-        net.WriteUInt(v:GetRole(), 2)
+        net.WriteUInt(v:GetRole(), 4)
         net.Send(v)
     end
 end
 
 local function SendRoleListMessage(role, role_ids, ply_or_rf)
+    if (istable(ply_or_rf) and #ply_or_rf == 0) then
+        return
+    end
+
     net.Start("TTT_RoleList")
-    net.WriteUInt(role, 2)
+    net.WriteUInt(role, 4)
     -- list contents
     local num_ids = #role_ids
     net.WriteUInt(num_ids, 8)
@@ -45,11 +49,9 @@ end
 local function SendRoleList(role, ply_or_rf, pred)
     local role_ids = {}
 
-    for k, v in pairs(player.GetAll()) do
-        if v:IsRole(role) then
-            if not pred or (pred and pred(v)) then
-                table.insert(role_ids, v:EntIndex())
-            end
+    for k, v in ipairs(player.GetAll()) do
+        if v:IsRole(role) and (not pred or (pred and pred(v))) then
+            table.insert(role_ids, v:EntIndex())
         end
     end
 
@@ -57,7 +59,10 @@ local function SendRoleList(role, ply_or_rf, pred)
 end
 
 -- Tell traitors about other traitors
-function SendTraitorList(ply_or_rf, pred) SendRoleList(ROLE_TRAITOR, ply_or_rf, pred) end
+function SendTraitorList(ply_or_rf, pred) 
+    SendRoleList(ROLE_TRAITOR, ply_or_rf, pred)
+    SendRoleList(ROLE_HITMAN, ply_or_rf, pred)
+end
 function SendDetectiveList(ply_or_rf) SendRoleList(ROLE_DETECTIVE, ply_or_rf) end
 
 function SendJesterList(ply_or_rf) SendRoleList(ROLE_JESTER, ply_or_rf) end
@@ -79,10 +84,10 @@ function SendInnocentList(ply_or_rf)
     local traitor_ids = {}
 
     for k, v in pairs(player.GetAll()) do
-        if v:IsRole(ROLE_INNOCENT) then
-            table.insert(inno_ids, v:EntIndex())
-        elseif v:IsRole(ROLE_TRAITOR) then
+        if v:IsRole(ROLE_TRAITOR) then
             table.insert(traitor_ids, v:EntIndex())
+        elseif not v:IsRole(ROLE_DETECTIVE) then
+            table.insert(inno_ids, v:EntIndex())
         end
     end
 
@@ -100,28 +105,38 @@ function SendConfirmedTraitors(ply_or_rf)
     SendTraitorList(ply_or_rf, function(p) return p:GetNWBool("body_found") end)
 end
 
+function GetRoleFilter(role)
+    local ret = {}
+    for _, pl in pairs(player.GetAll()) do
+        if (pl:GetRole() == role) then
+            table.insert(ret, pl)
+        end
+    end
+    return ret
+end
+
 function SendFullStateUpdate()
    SendPlayerRoles()
    SendInnocentList()
    SendTraitorList(GetTraitorFilter())
    SendDetectiveList()
 
-   SendJesterList()
-   SendKillerList()
-   SendDoctorList()
-   SendBeaconList()
-   SendSurvivorList()
-   SendHitmanList()
-   SendBodyguardList()
-   SendVeteranList()
-   SendXenomorphList()
+   SendJesterList(GetRoleFilter(ROLE_JESTER))
+   SendKillerList(GetRoleFilter(ROLE_KILLER))
+
+   SendDoctorList(GetRoleFilter(ROLE_DOCTOR))
+   SendBeaconList(GetRoleFilter(ROLE_BEACON))
+   SendSurvivorList(GetRoleFilter(ROLE_SURVIVOR))
+   SendBodyguardList(GetRoleFilter(ROLE_BODYGUARD))
+   SendVeteranList(GetRoleFilter(ROLE_VETERAN))
+   SendXenomorphList(GetRoleFilter(ROLE_XENOMORPH))
     -- not useful to sync confirmed traitors here
 end
 
 function SendRoleReset(ply_or_rf)
     local plys = player.GetAll()
     net.Start("TTT_RoleList")
-    net.WriteUInt(ROLE_INNOCENT, 2)
+    net.WriteUInt(ROLE_INNOCENT, 4)
     net.WriteUInt(#plys, 8)
 
     for k, v in pairs(plys) do

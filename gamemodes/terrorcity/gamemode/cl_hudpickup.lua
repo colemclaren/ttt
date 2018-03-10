@@ -9,7 +9,16 @@ GM.PickupHistoryCorner  = surface.GetTextureID( "gui/corner8" )
 local pickupclr = {
    [ROLE_INNOCENT]  = Color(55, 170, 50, 255),
    [ROLE_TRAITOR]   = Color(180, 50, 40, 255),
-   [ROLE_DETECTIVE] = Color(50, 60, 180, 255)
+   [ROLE_DETECTIVE] = Color(50, 60, 180, 255),
+   [ROLE_JESTER]    = Color(253, 158, 255, 255),
+   [ROLE_KILLER]    = Color(255, 145, 0, 255),
+   [ROLE_DOCTOR]    = Color(0, 200, 255, 255),
+   [ROLE_BEACON]    = Color(255, 200, 0, 255),
+   [ROLE_SURVIVOR]  = Color(128, 142, 0, 255),
+   [ROLE_HITMAN]    = Color(40, 42, 47, 255),
+   [ROLE_BODYGUARD] = Color(0, 153, 153, 255),
+   [ROLE_VETERAN]   = Color(179, 0, 255, 255),
+   [ROLE_XENOMORPH] = Color(0, 249, 199, 255)
 }
 
 function GM:HUDWeaponPickedUp( wep )
@@ -162,6 +171,8 @@ function GM:HUDDrawPickupHistory()
          local bordersize = 8
 
          surface.SetTexture( self.PickupHistoryCorner )
+
+         if (not v.color) then v.color = Color(205, 155, 0, 255) end
 
          surface.SetDrawColor( v.color.r, v.color.g, v.color.b, alpha )
          surface.DrawTexturedRectRotated( rx + bordersize/2 , ry + bordersize/2, bordersize, bordersize, 0 )

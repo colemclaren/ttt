@@ -40,7 +40,6 @@ end
 
 function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
     if (INV_SELECT_MODE) then return end
-    
     if (m_HoveredSlot and M_INV_DRAG.Slot and M_INV_DRAG.Slot ~= m_HoveredSlot) then
         if (string.EndsWith(tostring(M_INV_DRAG.Slot), "t") or string.EndsWith(tostring(m_HoveredSlot), "t")) then
             if (string.EndsWith(tostring(M_INV_DRAG.Slot), "t") and not string.EndsWith(tostring(m_HoveredSlot), "t")) then
@@ -85,6 +84,7 @@ function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
                 net.WriteString(m_Inventory[m_HoveredSlot].c or "")
                 net.WriteString(m_Loadout[DRAG_SLOT].c or "")
                 net.SendToServer()
+                timer.Simple(0.1,function() m_SaveLoadout() end)
             elseif (not string.EndsWith(tostring(M_INV_DRAG.Slot), "l") and string.EndsWith(tostring(m_HoveredSlot), "l")) then
                 local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))
                 net.Start("MOAT_SWP_INV_ITEM")
@@ -93,6 +93,7 @@ function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
                 net.WriteString(m_Loadout[HVRD_SLOT].c or "")
                 net.WriteString(m_Inventory[M_INV_DRAG.Slot].c or "")
                 net.SendToServer()
+                timer.Simple(0.1,function() m_SaveLoadout() end)
             else
                 local DRAG_SLOT = tonumber(string.sub(tostring(M_INV_DRAG.Slot), 1, tostring(M_INV_DRAG.Slot):len() - 1))
                 local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))

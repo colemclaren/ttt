@@ -52,7 +52,16 @@ MOAT_KILLCARDS.Colors = {
 		["Innocent"] = Color(25, 220, 25),
 		["Detective"] = Color(25, 25, 220),
 		["Enviroment"] = Color(255, 255, 255),
-		["Player"] = Color(255, 255, 255)
+		["Player"] = Color(255, 255, 255),
+		["Jester"]    = Color(253, 158, 255, 255),
+  		["Serial Killer"]    = Color(255, 145, 0, 255),
+   		["Doctor"]    = Color(0, 200, 255, 255),
+   		["Beacon"]    = Color(255, 200, 0, 255),
+   		["Survivor"]  = Color(128, 142, 0, 255),
+   		["Hitman"]    = Color(40, 42, 47, 255),
+   		["Bodyguard"] = Color(0, 153, 153, 255),
+   		["Veteran"]   = Color(179, 0, 255, 255),
+   		["Xenomorph"] = Color(0, 249, 199, 255)
 	}
 }
 

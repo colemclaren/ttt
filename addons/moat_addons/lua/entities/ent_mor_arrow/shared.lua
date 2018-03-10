@@ -76,7 +76,7 @@ function ENT:PlayerTick(p)
 
         if (SERVER) then
             local dmginfo = DamageInfo()
-            dmginfo:SetAttacker(self:GetOwner())
+            dmginfo:SetAttacker(self:GetFirer())
             dmginfo:SetInflictor(self.Weapon)
             dmginfo:SetDamageType(DMG_BULLET)
             dmginfo:SetDamage(self.Damage)

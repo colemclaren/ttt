@@ -94,7 +94,7 @@ local function RoleChatMsg(sender, role, msg)
 
    net.Start("TTT_RoleChat")
 
-      net.WriteUInt(role, 2)
+      net.WriteUInt(role, 4)
 
       net.WriteEntity(sender)
 

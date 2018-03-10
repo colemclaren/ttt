@@ -72,7 +72,7 @@ local bg_colors = {
 	noround = Color(100, 100, 100, 200),
 	traitor = Color(200, 25, 25, 200),
 	innocent = Color(25, 200, 25, 200),
-	detective = Color(25, 25, 200, 200)
+	detective = Color(25, 25, 200, 200),
 }
 
 local moat_HUDConvars = {
@@ -82,6 +82,20 @@ local moat_HUDConvars = {
 }
 
 local moving_frame = ""
+
+hook.Add("InitPostEntity", "moat.hud.bg_colors", function()
+	if (not ROLE_JESTER) then return end
+	
+	bg_colors[ROLE_JESTER]    = Color(253, 158, 255, 200)
+   	bg_colors[ROLE_KILLER]    = Color(255, 145, 0, 200)
+   	bg_colors[ROLE_DOCTOR]    = Color(0, 200, 255, 200)
+   	bg_colors[ROLE_BEACON]    = Color(255, 200, 0, 200)
+   	bg_colors[ROLE_SURVIVOR]  = Color(128, 142, 0, 200)
+   	bg_colors[ROLE_HITMAN]    = Color(40, 42, 47, 200)
+   	bg_colors[ROLE_BODYGUARD] = Color(0, 153, 153, 200)
+   	bg_colors[ROLE_VETERAN]   = Color(179, 0, 255, 200)
+   	bg_colors[ROLE_XENOMORPH] = Color(0, 249, 199, 200)
+end)
 
 function moat_AddMovableBox(convarname, x, y, w, h, paint)
 	-- Create x, y, w, h values for convar saving
@@ -789,7 +803,9 @@ local function moat_CustomHUD()
 		role_color = bg_colors.traitor
 	elseif (LP:GetDetective()) then
 		role_color = bg_colors.detective
-	end
+   elseif (bg_colors[LP:GetRole()]) then
+      	role_color = bg_colors[LP:GetRole()]
+   end
 
 	local L = GetLang()
 	local role_text = ""
