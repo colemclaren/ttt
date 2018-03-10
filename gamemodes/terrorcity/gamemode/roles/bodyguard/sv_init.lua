@@ -20,6 +20,7 @@ function BODYGUARD.CheckPlayers(pl)
 	end
 
 	if (d_alive < 1 and IsValid(BODYGUARD.Ply)) then
+		BODYGUARD.Dead = true
 		BODYGUARD.Ply:Kill()
 		CustomMsg(BODYGUARD.Ply, "You failed to protect the detectives, so you have perished!", Color(0, 153, 153))
 	end
