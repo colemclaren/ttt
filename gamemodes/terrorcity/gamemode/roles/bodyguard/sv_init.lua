@@ -6,7 +6,7 @@ BODYGUARD.Ply = nil
 function BODYGUARD.CheckPlayers(pl)
 	if (BODYGUARD.Dead or GetRoundState() ~= ROUND_ACTIVE) then return end
 	if (pl:GetRole() == ROLE_BODYGUARD) then BODYGUARD.Dead = true return end
-	
+
 	local pls = player.GetAll()
 	local pls_num = #pls
 	local d_alive = 0
