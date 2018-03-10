@@ -25,7 +25,7 @@ function BODYGUARD.CheckPlayers(pl)
 		CustomMsg(BODYGUARD.Ply, "You failed to protect the detectives, so you have perished!", Color(0, 153, 153))
 	end
 end
-hook.Add("PostPlayerDeath", "terror.city.survivor", BODYGUARD.CheckPlayers)
+hook.Add("PostPlayerDeath", "terror.city.bodyguard", BODYGUARD.CheckPlayers)
 
 function BODYGUARD.CheckBodyguard()
 	local pls = player.GetAll()
