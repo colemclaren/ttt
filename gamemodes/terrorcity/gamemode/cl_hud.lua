@@ -184,16 +184,6 @@ end
 
 local key_params = { usekey = Key("+use", "USE") }
 
-function GetRoundEnd()
-    local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
-    return GetGlobalFloat("ttt_round_end", CurTime()) -  dist
-end
-
-function GetHasteEnd()
-    local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
-    return GetGlobalFloat("ttt_haste_end", CurTime()) -  dist
-end
-
 local function SpecHUDPaint(client)
    local L = GetLang() -- for fast direct table lookups
 
@@ -216,7 +206,7 @@ local function SpecHUDPaint(client)
    ShadowedText(text, "TraitorState", x + margin, round_y, COLOR_WHITE)
 
    -- Draw round/prep/post time remaining
-   local text = util.SimpleTime(math.max(0, GetRoundEnd() - CurTime()), "%02i:%02i")
+   local text = util.SimpleTime(math.max(0, GetGlobalFloat("ttt_round_end", 0) - CurTime()), "%02i:%02i")
    ShadowedText(text, "TimeLeft", time_x + margin, time_y, COLOR_WHITE)
 
    local tgt = client:GetObserverTarget()
@@ -288,7 +278,7 @@ local function InfoPaint(client)
    local is_haste = HasteMode() and round_state == ROUND_ACTIVE
    local is_traitor = client:IsActiveTraitor()
 
-   local endtime = GetRoundEnd() - CurTime()
+   local endtime = GetGlobalFloat("ttt_round_end", 0) - CurTime()
 
    local text
    local font = "TimeLeft"
@@ -299,7 +289,7 @@ local function InfoPaint(client)
    -- Time displays differently depending on whether haste mode is on,
    -- whether the player is traitor or not, and whether it is overtime.
    if is_haste then
-      local hastetime = GetHasteEnd() - CurTime()
+      local hastetime = GetGlobalFloat("ttt_haste_end", 0) - CurTime()
       if hastetime < 0 then
          if (not is_traitor) or (math.ceil(CurTime()) % 7 <= 2) then
             -- innocent or blinking "overtime"

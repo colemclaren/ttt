@@ -844,13 +844,13 @@ local function moat_CustomHUD()
 	draw_SimpleTextOutlined(role_text, "TimeLeft", x + 10, y + (h / 2), roletext_color, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
 	local is_haste = HasteMode() and GAMEMODE.round_state == ROUND_ACTIVE
 	local is_traitor = LP:IsActiveTraitor()
-	local endtime = (GetRoundEnd and GetRoundEnd() or GetGlobalFloat("ttt_round_end", 0)) - CurTime()
+	local endtime = GetGlobalFloat("ttt_round_end", 0) - CurTime()
 	local text
 	local font = "TimeLeft"
 	local color = Color(255, 255, 255)
 
 	if (is_haste) then
-		local hastetime = (GetHasteEnd and GetHasteEnd() or GetGlobalFloat("ttt_haste_end", 0)) - CurTime()
+		local hastetime = GetGlobalFloat("ttt_haste_end", 0) - CurTime()
 
 		if (hastetime < 0) then
 			if ((not is_traitor) or (math.ceil(CurTime()) % 7 <= 2)) then
