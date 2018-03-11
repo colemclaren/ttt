@@ -45,6 +45,11 @@ function D3A.MySQL.Query(query, callback, ret)
 		print("No query given.")
 		return
 	end
+
+	if (not D3A.MySQL.DBHandle) then
+		timer.Simple(1, function() D3A.MySQL.Query(query, callback, ret) end)
+		return
+	end
 	
 	local db = D3A.MySQL.DBHandle
 	local q = db:query(query)
