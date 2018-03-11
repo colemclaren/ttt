@@ -236,7 +236,7 @@ function KARMA.Hurt(attacker, victim, dmginfo)
 
 
 
-   if attacker:GetTraitor() == victim:GetTraitor() then
+   if attacker:GetBasicRole() == victim:GetBasicRole() then
 
       if WasAvoidable(attacker, victim, dmginfo) then return end
 
@@ -260,7 +260,7 @@ function KARMA.Hurt(attacker, victim, dmginfo)
 
       end
 
-   elseif (not attacker:GetTraitor()) and victim:GetTraitor() then
+   else
 
       local reward = KARMA.GetHurtReward(hurt_amount)
 
