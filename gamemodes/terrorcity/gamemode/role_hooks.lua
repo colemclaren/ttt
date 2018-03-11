@@ -36,7 +36,7 @@ local function include_role(roleid, rolename, sv, cl, sh)
 end
 
 include_role(ROLE_KILLER, "killer")
-include_role(ROLE_JESTER, "jester", true, false, false)
+include_role(ROLE_JESTER, "jester", true, false, true)
 include_role(ROLE_BEACON, "beacon")
 
 include_role(ROLE_XENOMORPH, "xenomorph", true, true, false)
