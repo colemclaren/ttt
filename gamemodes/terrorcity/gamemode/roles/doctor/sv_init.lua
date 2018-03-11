@@ -4,7 +4,7 @@ local DOCTOR = {}
 DOCTOR.HasRespawned = false
 
 function DOCTOR.Respawn(_, pl)
-	if (pl.LastDoctorMessage and pl.LastDoctorMessage > CurTime()) then return end
+	if (pl.LastDoctorMessage and pl.LastDoctorMessage > CurTime() or pl:IsDeadTerror()) then return end
 	pl.LastDoctorMessage = CurTime() + 1
 
 	if (pl:GetRole() ~= ROLE_DOCTOR) then return end
@@ -19,7 +19,7 @@ function DOCTOR.Respawn(_, pl)
 	end
 
 	local vic = net.ReadEntity()
-	if (not IsValid(vic) or not vic:IsPlayer()) then return end
+	if (not IsValid(vic) or not vic:IsPlayer() or vic:IsActiveTerror()) then return end
 	
 	DOCTOR.HasRespawned = true
 	CustomMsg(pl, "You have been revived " .. vic:Nick() .. "!", Color(0, 200, 255))
