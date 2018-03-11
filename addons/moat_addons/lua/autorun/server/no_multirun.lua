@@ -30,9 +30,9 @@ end
 function nomr:onConnected()
 	self.serverid = "'" .. self.db:escape(self.serverid) .. "'"
 
-	local checksession 	= self.db:prepare('SELECT steamid64, server FROM player_sessions WHERE steamid64=? AND time >= (UNIX_TIMESTAMP() - 0.5) AND server != ' .. self.serverid .. ';')
+	/*local checksession 	= self.db:prepare('SELECT steamid64, server FROM player_sessions WHERE steamid64=? AND time >= (UNIX_TIMESTAMP() - 0.5) AND server != ' .. self.serverid .. ';')
 	local updatesession = self.db:prepare('REPLACE INTO player_sessions(steamid64, time, server, name, rank, level, team_kills, slays) VALUES(?, UNIX_TIMESTAMP(), ' .. self.serverid .. ', ?, ?, ?, 0, 0);')
-	local deletesession = self.db:prepare('DELETE FROM player_sessions WHERE steamid64=? AND server = ' .. self.serverid .. ';')
+	local deletesession = self.db:prepare('DELETE FROM player_sessions WHERE steamid64=? AND server = ' .. self.serverid .. ';')*/
 
 	hook.Add('CheckPassword', 'nomr.CheckPassword', function(steamid64)
 		nomr:Query('SELECT steamid64, server FROM player_sessions WHERE steamid64=' .. steamid64 .. ' AND time >= (UNIX_TIMESTAMP() - 0.5) AND server != ' .. self.serverid .. ';', function(d)
