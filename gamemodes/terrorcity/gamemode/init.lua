@@ -501,25 +501,13 @@ function GetHasteEnd()
     return GetGlobalFloat("ttt_haste_end", CurTime()) -  dist
 end
 
-local function GetRealRoundEnd()
-    local dist = (GetGlobalFloat("ttt_round_end", 0) - GetGlobalFloat("ttt_round_speedup_start", CurTime())) / GetGlobalFloat("ttt_round_speedup", 1)
-    return GetGlobalFloat("ttt_round_speedup_start", CurTime()) + dist
-end
-
-local function GetRealHasteEnd()
-    local dist = (GetGlobalFloat("ttt_round_end", 0) - GetGlobalFloat("ttt_round_speedup_start", CurTime())) / GetGlobalFloat("ttt_round_speedup", 1)
-    return GetGlobalFloat("ttt_round_speedup_start", CurTime()) + dist
-end
-
 function StartRoundSpeedup(mul)
-    SetGlobalFloat("ttt_round_end", GetRealRoundEnd())
-    SetGlobalFloat("ttt_haste_end", GetRealHasteEnd())
     SetGlobalFloat("ttt_round_speedup_start", CurTime())
     SetGlobalFloat("ttt_round_speedup", mul)
 end
 
 function IncRoundEnd(incr)
-    SetRoundEnd(GetRoundEnd() + incr)
+    SetRoundEnd(GetGlobalFloat("ttt_round_end", 0) + incr)
 end
 
 function TellTraitorsAboutTraitors()

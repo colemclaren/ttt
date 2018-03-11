@@ -14,7 +14,7 @@ function ROLE:PlayerDeath(pl, inf, att)
         net.Start("jester.killed")
         net.WriteString(att:Nick() or "Someone")
         net.Broadcast()
-        StartRoundSpeedup(5)
+        StartRoundSpeedup(4)
         ded = true
     end
 end
@@ -24,7 +24,7 @@ hook.Add("TTTBeginRound", "terrorcity.roles.jester", function()
 end)
 
 hook.Add("TTTEndRound", "terrorcity.roles.jester", function()
-    StartRoundSpeedup(1)
+    StartRoundSpeedup(0)
 end)
 
 function DidJesterDie()
