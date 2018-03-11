@@ -1,4 +1,5 @@
 if (util.NetworkStringToID "ttt_enable_tc" ~= 0) then
+    print"loading terrorcity"
     DeriveGamemode "terrorcity"
     return
 end
