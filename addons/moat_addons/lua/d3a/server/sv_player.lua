@@ -62,7 +62,7 @@ function D3A.Player.CheckReserved(steamid, rank)
 	game.KickID(steamid, "Server Full!\n\nThere is a reserved slot for staff members only, sorry <3")
 end
 
-local vip_server = GetHostName():lower():find("test")
+local vip_server = GetHostName():lower():find("beta")
 local vip_slots = table.Copy(staff_slots)
 vip_slots["credibleclub"] = true
 vip_slots["vip"] = true
