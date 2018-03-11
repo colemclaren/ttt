@@ -92,6 +92,10 @@ local role_strings = {
    [ROLE_XENOMORPH]= "xenomorph"
 }
 
+function GetRoleStringRaw(role)
+    return role_strings[role]
+end
+
 local GetRTranslation = CLIENT and LANG.GetRawTranslation or util.passthrough
 
 -- Returns printable role
