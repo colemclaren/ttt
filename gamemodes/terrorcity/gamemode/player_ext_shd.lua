@@ -1,3 +1,4 @@
+DEFINE_BASECLASS "gamemode_base"
 -- shared extensions to player table
 local plymeta = FindMetaTable("Player")
 if not plymeta then return end
@@ -264,7 +265,7 @@ if CLIENT then
     function GM:UpdateAnimation(ply, vel, maxseqgroundspeed)
         ply:AnimUpdateGesture()
 
-        return self.BaseClass.UpdateAnimation(self, ply, vel, maxseqgroundspeed)
+        return BaseClass.UpdateAnimation(self, ply, vel, maxseqgroundspeed)
     end
 
     function GM:GrabEarAnimation(ply)
