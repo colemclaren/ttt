@@ -62,11 +62,10 @@ function m_InventoryTable(db)
     dq:start()
 end
 
-MINVENTORY_MYSQL = mysqloo.connect(DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME, DATABASE_PORT)
-
 local sql_queue = {}
 
-MINVENTORY_MYSQL.onConnected = function()
+hook.Add("SQLConnected", "MINVENTORY_MYSQL", function(db)
+    MINVENTORY_MYSQL = db
     MINVENTORY_CONNECTED = true
     print("Connected to Database.")
 
@@ -80,14 +79,11 @@ MINVENTORY_MYSQL.onConnected = function()
     sql_queue = {}
 
     m_InventoryTable(MINVENTORY_MYSQL)
-end
+end)
 
-MINVENTORY_MYSQL.onConnectionFailed = function()
-    print("Failed to connect to the database.")
+hook.Add("SQLConnectionFailed", "MINVENTORY_MYSQL", function(db)
     MINVENTORY_CONNECTED = false
-end
-
-MINVENTORY_MYSQL:connect()
+end)
 
 function m_InsertCompTicket(c, cb, cbf)
     local q = MINVENTORY_MYSQL:query("INSERT INTO moat_comps ( time, steamid, admin, link, ic, ec, item, class, talent1, talent2, talent3, talent4, comment, approved ) VALUES ( UNIX_TIMESTAMP(), '" .. MINVENTORY_MYSQL:escape(c.steamid) .. "', '" .. MINVENTORY_MYSQL:escape(c.admin) .. "', '" .. MINVENTORY_MYSQL:escape(c.ticket) .. "', '" .. MINVENTORY_MYSQL:escape(c.ic) .. "', '" .. MINVENTORY_MYSQL:escape(c.ec) .. "', '" .. MINVENTORY_MYSQL:escape(c.item) .. "', '" .. MINVENTORY_MYSQL:escape(c.class) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent1) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent2) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent3) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent4) .. "', '" .. MINVENTORY_MYSQL:escape(c.comments) .. "', '0')")
