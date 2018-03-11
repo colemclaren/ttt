@@ -26,12 +26,24 @@ else
 		[DAMAGELOG_NOTIFY_INFO] = Material("icon16/information.png")
 	}
 
+	local snd_link = "https://moat.gg/assets/sounds/"
+
 	function Damagelog:Notify(msg_type, msg, _time, soundFile)
-		if GetConVar("ttt_dmglogs_outsidenotification"):GetBool() then
-			sound.PlayFile("sound/" .. soundFile, "play", function()
-			end)
-		else
-			surface.PlaySound(soundFile)
+
+		if (soundFile) then
+			if (soundFile == "ui/vote_failure.wav") then
+				sound.PlayURL(snd_link .. "vote_failure.wav", "mono", function(s) if (IsValid(s)) then s:Play() end end)
+			elseif (soundFile == "ui/vote_yes.wav") then
+				sound.PlayURL(snd_link .. "vote_yes.wav", "mono", function(s) if (IsValid(s)) then s:Play() end end)
+			elseif (soundFile == "ui/vote_no.wav") then
+				sound.PlayURL(snd_link .. "vote_no.wav", "mono", function(s) if (IsValid(s)) then s:Play() end end)
+			else 
+				if GetConVar("ttt_dmglogs_outsidenotification"):GetBool() then
+					sound.PlayFile("sound/" .. soundFile, "play", function() end)
+				else
+					surface.PlaySound(soundFile)
+				end
+			end
 		end
 		table.insert(Damagelog.Notifications, {
 			text = msg,
