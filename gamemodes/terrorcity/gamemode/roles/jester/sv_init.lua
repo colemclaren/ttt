@@ -21,7 +21,6 @@ end
 
 InstallRoleHook("EntityFireBullets", 1)
 function ROLE:EntityFireBullets()
-    print"no"
     return false
 end
 
