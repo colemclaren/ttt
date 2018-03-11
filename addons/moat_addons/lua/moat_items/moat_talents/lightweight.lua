@@ -25,4 +25,5 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 	else
 		weapon.weight_mod = 1 + ( ( self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] ) ) / 100 )
 	end
+	weapon:SetNWFloat("weight_mod", weapon.weight_mod)
 end

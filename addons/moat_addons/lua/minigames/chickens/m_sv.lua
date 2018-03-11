@@ -206,7 +206,7 @@ function MG_CM.PlayerSpawn(ply)
 
     /*
     if (MG_CM.Infected[ply]) then
-        ply.SpeedMod = 2
+        ply:SetNWFloat("SpeedModAddend", 1)
         timer.Simple(1, function()
             if (not ply:IsValid() or ply:Team() == TEAM_SPEC) then return end
             ply:SetModel(MG_CM.ModelPath)

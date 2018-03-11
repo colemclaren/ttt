@@ -21,14 +21,10 @@ ITEM.Stats = {
 
 function ITEM:OnPlayerSpawn( ply, powerup_mods )
 
-	/*local new_speed = ply.MaxSpeed * ( 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * powerup_mods[1] ) ) / 100 ) )
-
-	ply:SetMaxSpeed( new_speed )
-
-	ply:SetWalkSpeed( new_speed )
-
-	ply:SetRunSpeed( new_speed )
-
-	ply.MaxSpeed = new_speed*/
+	ply:SetNWFloat("marathon_runner", (self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * powerup_mods[1])) / 100 )
 
 end
+
+hook.Add("PlayerDeath", "MarathonRunner", function(pl)
+	pl:SetNWFloat("marathon_runner", 0)
+end)

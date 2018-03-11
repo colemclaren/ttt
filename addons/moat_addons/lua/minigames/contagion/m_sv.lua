@@ -122,7 +122,7 @@ function MG_CG.DoEnding(survivors_win)
     MG_CG.ContagionOver = true
 
     for k, v in pairs(player.GetAll()) do
-        v.SpeedMod = nil
+        v:SetNWFloat("SpeedModAddend", 0)
     end
 
     net.Start("MG_CG_END")
@@ -215,7 +215,7 @@ function MG_CG.PlayerSpawn(ply)
     MG_CG.GiveCorrectWeapon(ply)
 
     if (MG_CG.Infected[ply]) then
-        ply.SpeedMod = 2
+        ply:SetNWFloat("SpeedModAddend", 1)
         timer.Simple(1, function()
             if (not ply:IsValid() or ply:Team() == TEAM_SPEC) then return end
             ply:SetModel(MG_CG.ModelPath)
@@ -328,7 +328,7 @@ function MG_CG.PlayerDeath(vic, inf, att)
         MG_CG.Players[vic:EntIndex()].survivaltime = CurTime() - orgtime
     end
 
-    vic.SpeedMod = nil
+    vic:SetNWFloat("SpeedModAddend", 0)
 
     timer.Simple(1, function()
         MG_CG.RespawnPlayer(vic)
@@ -406,7 +406,7 @@ function MG_CG.BeginRound()
         v:SetRole(ROLE_INNOCENT)
         MG_CG.Survivors[v] = true
         MG_CG.GiveAmmo(v)
-        v.SpeedMod = nil
+        v:SetNWFloat("SpeedModAddend", 0)
     end
 
     for k, v in RandomPairs(MG_CG.Players) do

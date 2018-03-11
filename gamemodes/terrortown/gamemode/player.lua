@@ -2198,22 +2198,6 @@ function GM:Tick()
 
 
 
-         -- Slow down ironsighters
-
-         local wep = ply:GetActiveWeapon()
-
-         if IsValid(wep) and wep.GetIronsights and wep:GetIronsights() then
-
-            ply:SetSpeed(true)
-
-         else
-
-            ply:SetSpeed(false)
-
-         end
-
-
-
          -- Run DNA Scanner think also when it is not deployed
 
          if IsValid(ply.scanner_weapon) and wep != ply.scanner_weapon then

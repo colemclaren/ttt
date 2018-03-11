@@ -145,7 +145,7 @@ function MG_TNT.Win()
     net.Start("TNT_End")
     local t = {}
     for k,v in pairs(player.GetAll()) do
-        v.SpeedMod = 1
+        v:SetNWFloat("SpeedModAddend", 0)
         if not v.TNTScore then v.TNTScore = 0 end
         table.insert(t,{v,math.Round(v.TNTScore)})
     end
@@ -210,7 +210,7 @@ function MG_TNT.Think()
                 local diff = TNTFuseTime - CurTime()
                 local speed = ((15 - diff))
                 if not MG_TNT.Won then 
-                    v.SpeedMod = 1 + (speed * 0.05)
+                    v:SetNWFloat("SpeedModAddend", speed * 0.05)
                 end
             end
         elseif v.Skeleton and v:Alive() then
@@ -276,7 +276,7 @@ function MG_TNT.PostPlayerDeath(Player)
     Player.Skeleton = true
     Player:SetCustomCollisionCheck(true)
     Player:CollisionRulesChanged()
-    Player.SpeedMod = 1
+    Player:SetNWFloat("SpeedModAddend", 0)
     timer.Simple(10,function()
         Player:SpawnForRound(true)
         Player:SetRole(ROLE_INNOCENT)
@@ -311,9 +311,6 @@ function MG_TNT.Collide(a,b)
         return false
     end
     return true*/
-end
-
-function MG_TNT.PlayerSpeed(ply)
 end
 
 --MOVETYPE_LADDER
@@ -359,7 +356,6 @@ function MG_TNT:PrepRound(mk, pri, sec, creds)
     MG_TNT.HookAdd("PlayerTick",MG_TNT.PlayerTick)
     MG_TNT.HookAdd("PostPlayerDeath",MG_TNT.PostPlayerDeath)
     MG_TNT.HookAdd("ShouldCollide",MG_TNT.Collide)
-    MG_TNT.HookAdd("TTTPlayerSpeed",MG_TNT.PlayerSpeed)
     MG_TNT.SpawnPoints = {}
 
 
@@ -409,7 +405,7 @@ function MG_TNT.BeginRound()
         v:SetModel("models/player/leet.mdl")
         v:Give("tnt_fists")
         v:ShouldDropWeapon(false)
-        v.SpeedMod = 1
+        v:SetNWFloat("SpeedModAddend", 0)
         timer.Simple(0.1,function()
             v:SelectWeapon("tnt_fists")
         end)

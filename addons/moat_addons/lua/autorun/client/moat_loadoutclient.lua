@@ -834,6 +834,9 @@ local function reset_visibility(e, how)
     end
 end
 hook.Add("Think", "asasd", function()
+    if (not IsValid(LP)) then
+        return
+    end
     if LP:GetObserverMode() == OBS_MODE_IN_EYE then
         local target = LP:GetObserverTarget()
 

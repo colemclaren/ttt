@@ -407,35 +407,6 @@ function plymeta:RecordKill(victim)
 end
 
 
-
-
-
-function plymeta:SetSpeed(slowed)
-
-   local mul = hook.Call("TTTPlayerSpeed", GAMEMODE, self, slowed) or 1
-
-   if slowed then
-
-      self:SetWalkSpeed(120 * mul)
-
-      self:SetRunSpeed(120 * mul)
-
-      self:SetMaxSpeed(120 * mul)
-
-   else
-
-      self:SetWalkSpeed(220 * mul)
-
-      self:SetRunSpeed(220 * mul)
-
-      self:SetMaxSpeed(220 * mul)
-
-   end
-
-end
-
-
-
 function plymeta:ResetLastWords()
 
    if not IsValid(self) then return end -- timers are dangerous things
@@ -444,7 +415,9 @@ function plymeta:ResetLastWords()
 
 end
 
-
+function plymeta:SetSpeed()
+    error "Player:SetSpeed is deprecated - please remove this call and use the TTTPlayerSpeedModifier hook in both CLIENT and SERVER states"
+end
 
 function plymeta:SendLastWords(dmginfo)
 
@@ -615,8 +588,6 @@ function plymeta:InitialSpawn()
    self:SetCanZoom(false)
 
    self:SetJumpPower(160)
-
-   self:SetSpeed(false)
 
    self:SetCrouchedWalkSpeed(0.3)
 

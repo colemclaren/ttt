@@ -171,7 +171,7 @@ if SERVER then
 			v:SetColor(Color(255,255,255)) 
 			v:SetRunSpeed(220)
 			v:SetWalkSpeed(220)
-			v.SpeedMod = 1
+			v:SetNWFloat("SpeedModAddend", 0)
 		end 
 		ply:SetModel("models/player/arctic.mdl")
 		net.Start("TNT.IsBomb")
