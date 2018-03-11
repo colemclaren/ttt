@@ -1,3 +1,4 @@
+DEFINE_BASECLASS "gamemode_base"
 include("shared.lua")
 
 -- Define GM12 fonts for compatibility
@@ -56,7 +57,7 @@ function GM:Initialize()
     MsgN("TTT Client initializing...")
     GAMEMODE.round_state = ROUND_WAIT
     LANG.Init()
-    self.BaseClass:Initialize()
+    BaseClass.Initialize(self)
     RunConsoleCommand("ttt_spectate", GetConVar("ttt_spectator_mode"):GetInt())
 end
 
@@ -432,5 +433,5 @@ function GM:OnEntityCreated(ent)
         end
     end
 
-    return self.BaseClass.OnEntityCreated(self, ent)
+    return BaseClass.OnEntityCreated(self, ent)
 end

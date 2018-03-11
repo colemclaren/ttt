@@ -1,3 +1,8 @@
+if (util.NetworkStringToID "ttt_enable_tc" ~= 0) then
+    DeriveGamemode "terrorcity"
+    return
+end
+
 include("shared.lua")
 
 
