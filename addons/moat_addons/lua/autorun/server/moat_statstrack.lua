@@ -32,7 +32,7 @@ function MOATSTATS.Query(str, suc, err)
 
     dbq:start()
 end
-
+/*
 function MOATSTATS.InitializeMySQL()
     mdb = mysqloo.connect(DBD.host, DBD.user, DBD.pass, DBD.name, DBD.port)
 
@@ -50,9 +50,21 @@ function MOATSTATS.InitializeMySQL()
 
     mdb:connect()
 end
+*/
+hook.Add("SQLConnected", "StatsTrackSQL", function(db)
+    mdb = db
+    DBD.connected = true
+    print("Stats connected to database.")
+    MOATSTATS.Query("CREATE TABLE IF NOT EXISTS stats (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, steamid VARCHAR(30) NOT NULL, credits INTEGER NOT NULL, time INTEGER NOT NULL, rank TEXT NOT NULL, name TEXT NOT NULL)")
+    MOATSTATS.Query("CREATE TABLE IF NOT EXISTS bans (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, steamid VARCHAR(30) NOT NULL, length TEXT NOT NULL, reason TEXT NOT NULL, admin TEXT NOT NULL, adminid VARCHAR(30) NOT NULL)")
+end)
 
-MOATSTATS.InitializeMySQL()
+hook.Add("SQLConnectionFailed", "StatsTrackSQL", function(db, err)
+    print("Stats failed to connect to the database.")
+    DBD.connected = false
+end)
 
+/*
 util.AddNetworkString("MOAT_EASTER_GIVEAWAY")
 
 function MOATSTATS.InitializePlayer(ply)
@@ -105,4 +117,4 @@ function MOATSTATS.InitializePlayer(ply)
         end
     end)
 end
-hook.Add("PlayerInitialSpawn", "MoatStats Initialize Player", MOATSTATS.InitializePlayer)
+hook.Add("PlayerInitialSpawn", "MoatStats Initialize Player", MOATSTATS.InitializePlayer)*/

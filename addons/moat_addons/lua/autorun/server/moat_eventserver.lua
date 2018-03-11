@@ -31,7 +31,7 @@ function MOAT_EVENT.SQL.CheckTable()
 		weps TEXT NOT NULL)
 	]])
 end
-
+/*
 function MOAT_EVENT.SQL.Connect()
 	if (MOAT_EVENT.SQL.DBHandle) then
 		MOAT_EVENT.Print "Using pre-established MySQL link."
@@ -58,7 +58,17 @@ function MOAT_EVENT.SQL.Connect()
 	db:wait()
 	
 	MOAT_EVENT.SQL.DBHandle = db
-end
+end*/
+
+hook.Add("SQLConnected", "EventSQL", function(db)
+	MOAT_EVENT.Print("MySQL connection established at " .. os.date())
+	MOAT_EVENT.SQL.DBHandle = db
+	MOAT_EVENT.SQL.CheckTable()
+end)
+
+hook.Add("SQLConnectionFailed", "EventSQL", function(db, err)
+    MOAT_EVENT.Print("MySQL connection failed: " .. tostring(err))
+end)
 
 function MOAT_EVENT.SQL.Escape(txt)
 	return MOAT_EVENT.SQL.DBHandle:escape(tostring(txt or ""))
@@ -126,7 +136,7 @@ function MOAT_EVENT.SQL.QueryRet(query, callback)
 	return MOAT_EVENT.SQL.Query(query, callback, true)
 end
 
-hook.Add("Initialize", "MOAT_EVENT.SQL.Connect", MOAT_EVENT.SQL.Connect)
+--=hook.Add("Initialize", "MOAT_EVENT.SQL.Connect", MOAT_EVENT.SQL.Connect)
 
 --[[-------------------------------------------------------------------------
 still mysql stuff, but not the core lol

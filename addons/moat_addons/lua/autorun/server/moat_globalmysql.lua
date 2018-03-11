@@ -14,3 +14,7 @@ MOATSQL.onConnected = function(db) hook.Run("SQLConnected", db) end
 MOATSQL.onConnectionFailed = function(db, err) hook.Run("SQLConnectionFailed", db, err) end
 MOATSQL:connect()
 
+timer.Create("moat_sql_no_disconnecto", 180, 0, function()
+    local q = MOATSQL:query("SELECT max_slots FROM moat_inventory WHERE steamid = 'STEAM_0:0:46558052'")
+    q:start()
+end)

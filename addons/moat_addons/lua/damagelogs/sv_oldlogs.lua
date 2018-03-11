@@ -14,47 +14,62 @@ local function GetLogsCount_SQLite()
 	return sql.QueryValue("SELECT COUNT(id) FROM damagelog_oldlogs;")
 end
 
-if Damagelog.Use_MySQL then
-	require("mysqloo")
-	include("config/mysqloo.lua")
-	Damagelog.MySQL_Error = nil
-	file.Delete("damagelog/mysql_error.txt")
-	local info = Damagelog.MySQL_Informations
+require("mysqloo")
+include("config/mysqloo.lua")
+Damagelog.MySQL_Error = nil
+file.Delete("damagelog/mysql_error.txt")
+
+hook.Add("SQLConnected", "damagelogsSQL", function(db)
+	Damagelog.database = db
+
+	Damagelog.MySQL_Connected = true
+	local create_table1 = db:query([[CREATE TABLE IF NOT EXISTS damagelog_oldlogs (
+		id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+		date INTEGER NOT NULL,
+		map TINYTEXT NOT NULL,
+		round TINYINT NOT NULL,
+		damagelog BLOB NOT NULL,
+		PRIMARY KEY (id));
+		]])
+	create_table1:start()
+	local create_table2 = db:query([[CREATE TABLE IF NOT EXISTS damagelog_weapons (
+		class varchar(255) NOT NULL,
+		name varchar(255) NOT NULL,
+		PRIMARY KEY (class));
+	]])
+	
+	create_table2:start()
+	local list = db:query("SELECT MIN(date), MAX(date) FROM damagelog_oldlogs;")
+	list.onSuccess = function(query)
+		local data = query:getData()
+		if not data[1] then return end
+		Damagelog.OlderDate = data[1]["MIN(date)"]
+		Damagelog.LatestDate = data[1]["MAX(date)"]
+	end
+	list:start()
+	local delete_old = db:query("DELETE FROM damagelog_oldlogs WHERE date <= "..limit..";")
+	delete_old:start()
+	Damagelog:GetWepTable()
+end)
+
+hook.Add("SQLConnectionFailed", "damagelogsSQL", function(db, err)
+	file.Write("damagelog/mysql_error.txt", err)
+	Damagelog.MySQL_Error = err
+end)
+
+/*
+local info = Damagelog.MySQL_Informations
 	Damagelog.database = mysqloo.connect(info.ip, info.username, info.password, info.database, info.port)
 	Damagelog.database.onConnected = function(self)
-		Damagelog.MySQL_Connected = true
-		local create_table1 = self:query([[CREATE TABLE IF NOT EXISTS damagelog_oldlogs (
-			id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-			date INTEGER NOT NULL,
-			map TINYTEXT NOT NULL,
-			round TINYINT NOT NULL,
-			damagelog BLOB NOT NULL,
-			PRIMARY KEY (id));
-		]])
-		create_table1:start()
-		local create_table2 = self:query([[CREATE TABLE IF NOT EXISTS damagelog_weapons (
-			class varchar(255) NOT NULL,
-			name varchar(255) NOT NULL,
-			PRIMARY KEY (class));
-		]])
-		create_table2:start()
-		local list = self:query("SELECT MIN(date), MAX(date) FROM damagelog_oldlogs;")
-		list.onSuccess = function(query)
-			local data = query:getData()
-			if not data[1] then return end
-			Damagelog.OlderDate = data[1]["MIN(date)"]
-			Damagelog.LatestDate = data[1]["MAX(date)"]
-		end
-		list:start()
-		local delete_old = self:query("DELETE FROM damagelog_oldlogs WHERE date <= "..limit..";")
-		delete_old:start()
-		Damagelog:GetWepTable()
+
 	end
 	Damagelog.database.onConnectionFailed = function(self, err)
 		file.Write("damagelog/mysql_error.txt", err)
 		Damagelog.MySQL_Error = err
 	end
-else
+*/
+
+if not Damagelog.Use_MySQL then
 	if not sql.TableExists("damagelog_oldlogs") then
 		sql.Query([[CREATE TABLE IF NOT EXISTS damagelog_oldlogs (
 			id INT UNSIGNED NOT NULL PRIMARY KEY,

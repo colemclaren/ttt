@@ -915,8 +915,3 @@ hook.Add("PlayerDisconnected", "moat_LoadInventoryForPlayer", function(ply)
     m_SaveInventory(ply)
     m_SaveStats(ply)
 end)
-
-timer.Create("moat_sql_no_disconnecto", 180, 0, function()
-    local q = MINVENTORY_MYSQL:query("SELECT max_slots FROM moat_inventory WHERE steamid = 'STEAM_0:0:46558052'")
-    q:start()
-end)

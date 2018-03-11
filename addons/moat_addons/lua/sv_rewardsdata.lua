@@ -10,8 +10,10 @@ REWARDS.Database.Username = 'footsies' -- MySQL username
 REWARDS.Database.Password = 'clkmTQF6bF@3V0NYjtUMoC6sF&17B$' -- MySQL password
 REWARDS.Database.DatabaseName = 'old_moat_stats' -- MySQL database
 REWARDS.Database.Port = 3306 -- MySQL port number (Usually 3306)
-
+/*
 function REWARDS.Database.Setup()
+
+
 	REWARDS.Database.DB = mysqloo.connect(REWARDS.Database.Host, REWARDS.Database.Username, REWARDS.Database.Password, REWARDS.Database.DatabaseName, REWARDS.Database.Port)
 	
 	function REWARDS.Database.DB:onConnected()
@@ -29,7 +31,18 @@ function REWARDS.Database.Setup()
 	
 	
 end
-hook.Add("InitPostEntity","REWARDS_InitSetupDatabase",REWARDS.Database.Setup)
+hook.Add("InitPostEntity","REWARDS_InitSetupDatabase",REWARDS.Database.Setup)*/
+
+
+hook.Add("SQLConnected", "REWARDS_SQL", function(db)
+    REWARDS.Database.DB = db
+    print("SteamGroup Rewards: MySQL connection successful.")
+    REWARDS.MySQLQuery("CREATE TABLE IF NOT EXISTS steam_rewards(steam char(20) NOT NULL, value INTEGER NOT NULL, PRIMARY KEY(steam));")
+end)
+
+hook.Add("SQLConnectionFailed", "REWARDS_SQL", function(db, err)
+    print("SteamGroup Rewards: MySQL CONNECTION FAILED. Please check your MySQL settings: " .. err)
+end)
 
 function REWARDS.Database.GroupJoin(ply)
 	if not IsValid(ply) then return end

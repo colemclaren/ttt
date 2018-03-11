@@ -33,6 +33,8 @@ function m_InitStatsToPlayer(ply, stats_tbl)
         MOAT_STATS[ply]["d"] = stats.d
         ply:SetNWInt("MOAT_STATS_DEATHS", stats.d)
     end
+
+    hook.Run("PlayerStatsLoaded", ply, stats)
 end
 
 local meta = FindMetaTable("Player")
