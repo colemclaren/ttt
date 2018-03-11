@@ -18,6 +18,7 @@ require("mysqloo")
 include("config/mysqloo.lua")
 Damagelog.MySQL_Error = nil
 file.Delete("damagelog/mysql_error.txt")
+Damagelog.database = nil
 
 hook.Add("SQLConnected", "damagelogsSQL", function(db)
 	Damagelog.database = db

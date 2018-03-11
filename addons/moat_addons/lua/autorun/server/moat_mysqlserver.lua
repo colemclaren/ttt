@@ -63,6 +63,7 @@ function m_InventoryTable(db)
 end
 
 local sql_queue = {}
+MINVENTORY_MYSQL = nil
 
 hook.Add("SQLConnected", "MINVENTORY_MYSQL", function(db)
     MINVENTORY_MYSQL = db
