@@ -52,9 +52,13 @@ local function GetLoadoutWeapons(r)
         for k, w in pairs(weapons.GetList()) do
             if w and type(w.InLoadoutFor) == "table" then
                 for _, wrole in pairs(w.InLoadoutFor) do
-                    for real_role, basic_role in pairs(BASIC_ROLE_LOOKUP) do
-                        if (basic_role == wrole) then
-                            table.insert(tbl[real_role], WEPS.GetClass(w))
+                    if (BASIC_ROLE_LOOKUP[wrole] ~= wrole and not table.HasValue(tbl[wrole], WEPS.GetClass(w))) then
+                        table.insert(tbl[wrole], WEPS.GetClass(w))
+                    else
+                        for real_role, basic_role in pairs(BASIC_ROLE_LOOKUP) do
+                            if (basic_role == wrole or wrole == wrole) and not table.HasValue(tbl[real_role], WEPS.GetClass(w)) then
+                                table.insert(tbl[real_role], WEPS.GetClass(w))
+                            end
                         end
                     end
                 end
@@ -365,7 +369,7 @@ local function OrderEquipment(ply, cmd, args)
     if is_item then
         id = tonumber(id)
         -- item whitelist check
-        local allowed = GetEquipmentItem(ply:GetRole(), id)
+        local allowed = GetEquipmentItem(ply:IsDetective() and ROLE_DETECTIVE or ROLE_HITMAN, id)
 
         if not allowed then
             print(ply, "tried to buy item not buyable for his class:", id)
@@ -386,7 +390,7 @@ local function OrderEquipment(ply, cmd, args)
         -- no longer restricted to only WEAPON_EQUIP weapons, just anything that
         -- is whitelisted and carryable
     elseif swep_table then
-        if not table.HasValue(swep_table.CanBuy, ply:GetRole()) then
+        if not (table.HasValue(swep_table.CanBuy, ply:GetRole()) or table.HasValue(swep_table.CanBuy, ply:GetBasicRole())) then
             print(ply, "tried to buy weapon his role is not permitted to buy")
 
             return

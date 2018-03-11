@@ -62,7 +62,7 @@ function plymeta:IsActiveRole(role)
 end
 
 function plymeta:IsActiveTraitor()
-    return self:IsActiveRole(ROLE_TRAITOR)
+    return self:IsActive() and self:GetTraitor()
 end
 
 function plymeta:IsActiveDetective()
