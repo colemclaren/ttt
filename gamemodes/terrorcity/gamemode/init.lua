@@ -289,8 +289,8 @@ end
 -- Used to be in think, now a timer
 local function WinChecker()
     if GetRoundState() == ROUND_ACTIVE then
-        if CurTime() > GetGlobalFloat("ttt_round_end", 0) then
-            EndRound(WIN_TIMELIMIT)
+        if CurTime() > GetRoundEnd() then
+            EndRound(DidJesterDie() and WIN_JESTER or WIN_TIMELIMIT)
         else
             local win = hook.Call("TTTCheckForWin", GAMEMODE)
 
@@ -491,8 +491,35 @@ function SetRoundEnd(endtime)
     SetGlobalFloat("ttt_round_end", endtime)
 end
 
+function GetRoundEnd()
+    local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
+    return GetGlobalFloat("ttt_round_end", CurTime()) -  dist
+end
+
+function GetHasteEnd()
+    local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
+    return GetGlobalFloat("ttt_haste_end", CurTime()) -  dist
+end
+
+local function GetRealRoundEnd()
+    local dist = (GetGlobalFloat("ttt_round_end", 0) - GetGlobalFloat("ttt_round_speedup_start", CurTime())) / GetGlobalFloat("ttt_round_speedup", 1)
+    return GetGlobalFloat("ttt_round_speedup_start", CurTime()) + dist
+end
+
+local function GetRealHasteEnd()
+    local dist = (GetGlobalFloat("ttt_round_end", 0) - GetGlobalFloat("ttt_round_speedup_start", CurTime())) / GetGlobalFloat("ttt_round_speedup", 1)
+    return GetGlobalFloat("ttt_round_speedup_start", CurTime()) + dist
+end
+
+function StartRoundSpeedup(mul)
+    SetGlobalFloat("ttt_round_end", GetRealRoundEnd())
+    SetGlobalFloat("ttt_haste_end", GetRealHasteEnd())
+    SetGlobalFloat("ttt_round_speedup_start", CurTime())
+    SetGlobalFloat("ttt_round_speedup", mul)
+end
+
 function IncRoundEnd(incr)
-    SetRoundEnd(GetGlobalFloat("ttt_round_end", 0) + incr)
+    SetRoundEnd(GetRoundEnd() + incr)
 end
 
 function TellTraitorsAboutTraitors()
@@ -778,7 +805,7 @@ function GM:TTTCheckForWin()
 
     if (jester and not jester_alive and IsValid(jester.killer) 
         and jester.killer:IsPlayer() and jester.killer:GetBasicRole() == ROLE_INNOCENT) then
-        return WIN_JESTER
+        --return WIN_JESTER
     elseif (traitors_alive > 0 and innocents_alive == 0 and not killer_alive) then
         return WIN_TRAITOR
     elseif (innocents_alive > 0 and traitors_alive == 0 and not killer_alive) then
