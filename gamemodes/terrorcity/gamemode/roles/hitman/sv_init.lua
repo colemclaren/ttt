@@ -4,7 +4,7 @@ local ROLE = ROLE
 local function SelectTarget()
 
     for _, ply in RandomPairs(player.GetAll()) do
-        if (ply:IsDeadTerror() or ply:GetTraitor()) then
+        if (ply:IsDeadTerror() or ply:GetTraitor() or ply:IsSpec()) then
             continue
         end
 
