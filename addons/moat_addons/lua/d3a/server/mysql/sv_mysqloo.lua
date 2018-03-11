@@ -1,5 +1,6 @@
 require "mysqloo"
 
+/*
 function D3A.MySQL.Connect()
 	if (D3A.MySQL.DBHandle) then
 		D3A.Print("Using pre-established MySQL link.")
@@ -25,6 +26,15 @@ function D3A.MySQL.Connect()
 	
 	D3A.MySQL.DBHandle = db
 end
+*/
+hook.Add("SQLConnected", "d3aSQL", function(db)
+	D3A.Print("MySQL connection established at " .. os.date())
+	D3A.MySQL.DBHandle = db
+end)
+
+hook.Add("SQLConnectionFailed", "d3aSQL", function(db, err)
+    D3A.Print("MySQL connection failed: " .. tostring(err))
+end)
 
 function D3A.MySQL.Escape(txt)
 	return D3A.MySQL.DBHandle:escape(tostring(txt or ""))
@@ -76,4 +86,4 @@ function D3A.MySQL.QueryRet(query, callback)
 	return D3A.MySQL.Query(query, callback, true)
 end
 
-hook.Add("D3A_Initialize", "D3A.MySQL.Connect", D3A.MySQL.Connect)
+--hook.Add("D3A_Initialize", "D3A.MySQL.Connect", D3A.MySQL.Connect)

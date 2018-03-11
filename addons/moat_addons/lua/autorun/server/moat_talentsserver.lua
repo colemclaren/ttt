@@ -343,23 +343,21 @@ hook.Add("PlayerDeath", "moat_updateWeaponLevels", function(victim, inflictor, a
         wep_used = inflictor
     end
 
-    if (wep_used.Talents) then
-        if (wep_used.PrimaryOwner == attacker) then
-            local exp_to_add = 0
+    if (wep_used.Talents and wep_used.PrimaryOwner == attacker) then
+        local exp_to_add = 0
 
-            if (victim:GetTraitor() and attacker:GetDetective()) then
-                exp_to_add = (75 * XP_MULTIPYER) * attacker.ExtraXP
-            elseif ((victim:GetTraitor() and not attacker:IsSpecial()) or (attacker:GetTraitor() and victim:GetDetective())) then
-                exp_to_add = (50 * XP_MULTIPYER) * attacker.ExtraXP
-            elseif (attacker:GetTraitor() and not victim:IsSpecial()) then
-                exp_to_add = (35 * XP_MULTIPYER) * attacker.ExtraXP
-            elseif (attacker:IsRole(victim:GetRole())) then
-                exp_to_add =(-35 * XP_MULTIPYER) * attacker.ExtraXP
-            end
+        local vic_killer = victim:GetRole() == ROLE_TRAITOR or victim:GetRole() == ROLE_KILLER
 
-            if (exp_to_add ~= 0 and GetRoundState() == ROUND_ACTIVE) then
-                m_UpdateItemLevel(wep_used, attacker, exp_to_add)
-            end
+        if (victim:GetRole() == attacker:GetRole()) then
+            exp_to_add = -35
+        elseif (vic_killer and attacker:GetDetective()) then
+            exp_to_add = 75
+        elseif (vic_killer and (victim.GetBasicRole and victim:GetBasicRole() or victim:GetRole()) == ROLE_INNOCENT) then
+            exp_to_add = 50
+        end
+
+        if (exp_to_add ~= 0 and GetRoundState() == ROUND_ACTIVE) then
+            m_UpdateItemLevel(wep_used, attacker, (exp_to_add * XP_MULTIPYER) * attacker.ExtraXP)
         end
     end
 end)

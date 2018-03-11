@@ -200,7 +200,7 @@ local function WasAvoidable(attacker, victim, dmginfo)
 
    local infl = dmginfo:GetInflictor()
 
-   if attacker:IsTraitor() and victim:IsTraitor() and IsValid(infl) and infl.Avoidable then
+   if attacker:GetBasicRole() == victim:GetBasicRole() and IsValid(infl) and infl.Avoidable then
 
       return true
 
@@ -236,7 +236,7 @@ function KARMA.Hurt(attacker, victim, dmginfo)
 
 
 
-   if attacker:GetTraitor() == victim:GetTraitor() then
+   if attacker:GetBasicRole() == victim:GetBasicRole() then
 
       if WasAvoidable(attacker, victim, dmginfo) then return end
 
@@ -260,7 +260,7 @@ function KARMA.Hurt(attacker, victim, dmginfo)
 
       end
 
-   elseif (not attacker:GetTraitor()) and victim:GetTraitor() then
+   else
 
       local reward = KARMA.GetHurtReward(hurt_amount)
 
@@ -294,7 +294,7 @@ function KARMA.Killed(attacker, victim, dmginfo)
 
 
 
-   if attacker:GetTraitor() == victim:GetTraitor() then
+   if attacker:GetBasicRole() == victim:GetBasicRole() then
 
       -- don't penalise attacker for stupid victims
 
@@ -320,7 +320,7 @@ function KARMA.Killed(attacker, victim, dmginfo)
 
       end
 
-   elseif (not attacker:GetTraitor()) and victim:GetTraitor() then
+   else
 
       local reward = KARMA.GetKillReward()
 
@@ -490,8 +490,7 @@ end
 
 function KARMA.RoundEnd()
 
-   if false then
-   --if KARMA.IsEnabled() then
+   if KARMA.IsEnabled() then
 
       KARMA.RoundIncrement()
 

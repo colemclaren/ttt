@@ -307,7 +307,7 @@ local function namerewards()
 end
 
 local function c()
-    return MINVENTORY_MYSQL:status() == mysqloo.DATABASE_CONNECTED
+    return MINVENTORY_MYSQL and MINVENTORY_MYSQL:status() == mysqloo.DATABASE_CONNECTED
 end
 
 if MINVENTORY_MYSQL then
