@@ -245,10 +245,6 @@ hook.Add("PlayerDeath", "Damagelog_PlayerDeathLastLogs", function(ply)
 		ply.DeathDmgLog[Damagelog.CurrentRound] = found_dmg
 	end
 end)
-	
-if Damagelog.Use_MySQL then
-	Damagelog.database:connect()
-end
 
 --Fuck this
 --http.Post("http://lesterriblestesticules.fr/admin_tools/damagelogs.php", {ip = GetConVarString("hostip")} )

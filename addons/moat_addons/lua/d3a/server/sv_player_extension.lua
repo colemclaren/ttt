@@ -86,7 +86,7 @@ function meta:SaveVars() -- The system will call this, you don't need to
 	local donator_credits = t["SC"] or 0
 	t["SC"] = nil
 
-	local last_join = t["lastTimeSave"] or 0
+	local last_join = t["lastTimeSave"] or os.time()
 	t["lastTimeSave"] = nil
 
 	local s = util.TableToJSON(t);

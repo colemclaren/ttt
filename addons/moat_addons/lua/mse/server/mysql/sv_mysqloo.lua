@@ -1,6 +1,6 @@
 require "mysqloo"
 
-function MSE.MySQL.Connect()
+/*function MSE.MySQL.Connect()
 	if (MSE.MySQL.DBHandle) then
 		MSE.Print "Using pre-established MySQL link."
 		return
@@ -26,7 +26,17 @@ function MSE.MySQL.Connect()
 	db:wait()
 	
 	MSE.MySQL.DBHandle = db
-end
+end*/
+
+hook.Add("SQLConnected", "mseSQL", function(db)
+	MSE.Print("MySQL connection established at " .. os.date())
+	MSE.MySQL.DBHandle = db
+	MSE.MySQL.CheckTable()
+end)
+
+hook.Add("SQLConnectionFailed", "mseSQL", function(db, err)
+    MSE.Print("MySQL connection failed: " .. tostring(err))
+end)
 
 function MSE.MySQL.Escape(txt)
 	return MSE.MySQL.DBHandle:escape(tostring(txt or ""))
@@ -90,4 +100,4 @@ function MSE.MySQL.QueryRet(query, callback)
 	return MSE.MySQL.Query(query, callback, true)
 end
 
-hook.Add("MSE_Initialize", "MSE.MySQL.Connect", MSE.MySQL.Connect)
+//hook.Add("MSE_Initialize", "MSE.MySQL.Connect", MSE.MySQL.Connect)

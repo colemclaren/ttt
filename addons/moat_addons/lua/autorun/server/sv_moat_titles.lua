@@ -34,7 +34,7 @@ function MOAT_TITLES.Query(str, suc, err)
 
     dbq:start()
 end
-
+/*
 function MOAT_TITLES.InitializeMySQL()
     mdb = mysqloo.connect(DBD.host, DBD.user, DBD.pass, DBD.name, DBD.port)
 
@@ -51,8 +51,20 @@ function MOAT_TITLES.InitializeMySQL()
 
     mdb:connect()
 end
+*/
+hook.Add("SQLConnected", "TitlesSQL", function(db)
+    mdb = db
+    DBD.connected = true
+    print("Titles connected to database.")
+    MOAT_TITLES.Query("CREATE TABLE IF NOT EXISTS titles (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, steamid VARCHAR(30) NOT NULL, title TEXT NOT NULL, color TEXT NOT NULL, changerid VARCHAR(30) NOT NULL)")
+end)
 
-MOAT_TITLES.InitializeMySQL()
+hook.Add("SQLConnectionFailed", "TitlesSQL", function(db, err)
+    print("Titles failed to connect to the database.")
+    DBD.connected = false
+end)
+
+--MOAT_TITLES.InitializeMySQL()
 
 
 util.AddNetworkString("MoatTitlesChange")
