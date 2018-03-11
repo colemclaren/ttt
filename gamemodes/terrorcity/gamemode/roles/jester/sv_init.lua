@@ -19,6 +19,12 @@ function ROLE:PlayerDeath(pl, inf, att)
     end
 end
 
+InstallRoleHook("EntityFireBullets", 1)
+function ROLE:EntityFireBullets()
+    print"no"
+    return false
+end
+
 hook.Add("TTTBeginRound", "terrorcity.roles.jester", function()
     ded = false
 end)
