@@ -44,8 +44,8 @@ include("damagelogs/sh_chat.lua")
 include("damagelogs/sv_chat.lua")
 if Damagelog.RDM_Manager_Enabled then
 	include("damagelogs/sh_rdm_manager.lua")
-	resource.AddFile("sound/ui/vote_failure.wav")
-	resource.AddFile("sound/ui/vote_yes.wav")
+	/*resource.AddFile("sound/ui/vote_failure.wav")
+	resource.AddFile("sound/ui/vote_yes.wav")*/
 end
 
 util.AddNetworkString("DL_AskDamagelog")
