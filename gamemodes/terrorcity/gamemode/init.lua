@@ -791,10 +791,7 @@ function GM:TTTCheckForWin()
         end
     end
 
-    if (jester and not jester_alive and IsValid(jester.killer) 
-        and jester.killer:IsPlayer() and jester.killer:GetBasicRole() == ROLE_INNOCENT) then
-        --return WIN_JESTER
-    elseif (traitors_alive > 0 and innocents_alive == 0 and not killer_alive) then
+    if (traitors_alive > 0 and innocents_alive == 0 and not killer_alive) then
         return WIN_TRAITOR
     elseif (innocents_alive > 0 and traitors_alive == 0 and not killer_alive) then
         return WIN_INNOCENT
