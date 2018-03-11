@@ -14,7 +14,7 @@ function ROLE:PlayerDeath(pl, inf, att)
         net.Start("jester.killed")
         net.WriteString(att:Nick() or "Someone")
         net.Broadcast()
-        StartRoundSpeedup(4)
+        StartRoundSpeedup(2)
         ded = true
     end
 end
