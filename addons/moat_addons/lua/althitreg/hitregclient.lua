@@ -337,6 +337,11 @@ local function moatFireBullets(ent, data)
                         for hitbox = 0, ply:GetHitBoxCount(group) - 1 do
                             local bone = ply:GetHitBoxBone(hitbox, group)
 
+                            local origin, angles = ply:GetBonePosition(bone)
+                            origin = origin + ply:GetManipulateBonePosition(bone)
+                            if (math.abs(math.deg(math.acos((origin - tr.StartPos):GetNormalized():Dot(data.Dir)))) > 15) then
+                                continue
+                            end
                             local scale = ply:GetManipulateBoneScale(bone)
                             local mins, maxs = ply:GetHitBoxBounds(hitbox, group)
                             mins.x = mins.x * scale.x
@@ -345,11 +350,6 @@ local function moatFireBullets(ent, data)
                             maxs.y = maxs.y * scale.y
                             mins.z = mins.z * scale.z
                             maxs.z = maxs.z * scale.z
-                            local origin, angles = ply:GetBonePosition(bone)
-                            origin = origin + ply:GetManipulateBonePosition(bone)
-                            if (math.deg(origin - tr.StartPos):GetNormalized():Dot(data.Dir) > 15) then
-                                continue
-                            end
                             angles = angles:Forward()
                             angles:Rotate(ply:GetManipulateBoneAngles(bone))
                             angles = angles:Angle()
