@@ -276,7 +276,6 @@ hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
 
             if (talent_servertbl.OnWeaponFired) then
                 if (talent_servertbl:OnWeaponFired(attacker, dmginfo, talent_mods)) then
-                    return true
                 end
             end
         end

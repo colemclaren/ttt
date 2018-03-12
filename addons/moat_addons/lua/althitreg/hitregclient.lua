@@ -330,8 +330,6 @@ local function moatFireBullets(ent, data)
             end
         end
     end
-
-    return true
 end
 
 hook.Add("EntityFireBullets", "moatFireBullets", moatFireBullets)

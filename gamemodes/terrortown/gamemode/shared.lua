@@ -12,6 +12,9 @@ GM.Version = "2016-04-20"
 
 
 
+function GM:EntityFireBullets()
+    return true
+end
 
 
 GM.Customized = false

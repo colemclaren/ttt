@@ -5,6 +5,10 @@ GM.Website = "ttt.badking.net"
 -- Date of latest changes (YYYY-MM-DD)
 GM.Version = "2016-04-20"
 GM.Customized = false
+
+function GM:EntityFireBullets()
+    return true
+end
 -- Round status consts
 ROUND_WAIT = 1
 ROUND_PREP = 2
