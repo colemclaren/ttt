@@ -4,8 +4,10 @@ DEFINE_BASECLASS "base_anim"
 
 local function Reset(ply)
     local hitboxes = ply.HitBoxes_ or {}
-    for _, ent in pairs(hitboxes) do
-        ent:Remove()
+    for _, ent in pairs(ents.FindByClass "player_hitbox") do
+        if ent:GetPlayer() == ply then
+            ent:Remove()
+        end
     end
     table.Empty(hitboxes)
 
@@ -80,19 +82,14 @@ function ENT:Think()
 
     self:SetPos(pos)
     self:SetAngles(angles)
-
-    local scale = owner:GetManipulateBoneScale(bone)
-
-    local mins, maxs = owner:GetHitBoxBounds(hitbox, hitgroup)
-    if (mins * scale ~= self:GetMins() or maxs * scale ~= self:GetMaxs()) then
-        Reset(owner)
-        self:Remove()
-        return
-    end
 end
 
 
 function ENT:TestCollision(startpos, delta, isbox, extents, mask)
+    if (mask ~= MASK_SHOT) then
+        return
+    end
+
     local pos, normal, frac = self.PhysCollide:TraceBox(self:GetPos(), self:GetAngles(), startpos, startpos + delta, -extents, extents)
     if (pos) then
         return {
@@ -108,19 +105,22 @@ function ENT:UpdateTransmitState()
 end
 
 hook.Add("ShouldCollide", "moat.hitbox", function(e1, e2)
-    local ply
-    if (e1:IsPlayer()) then
-        ply = e1
-    elseif (e2:IsPlayer()) then
-        ply = e2
-    end
-    local hitbox
+    local ply, hitbox
     if (e1:GetClass() == "player_hitbox") then
         hitbox = e1
     elseif (e2:GetClass() == "player_hitbox") then
         hitbox = e2
+    else
+        return
     end
-    if (hitbox and (not ply or ply == hitbox:GetPlayer() and hitbox:GetPlayer():Alive() and not hitbox:GetPlayer():IsSpec())) then
+    if (e1:IsPlayer()) then
+        ply = e1
+    elseif (e2:IsPlayer()) then
+        ply = e2
+    else
+        return false
+    end
+    if (ply == hitbox:GetPlayer() or not hitbox:GetPlayer():Alive() or hitbox:GetPlayer():IsSpec()) then
         return false
     end
 end)
