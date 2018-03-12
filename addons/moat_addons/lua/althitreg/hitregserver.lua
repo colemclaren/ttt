@@ -74,7 +74,7 @@ net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
         dmginfo:SetDamageType(trace.dmgType)
 
         local wep = trace.trAtt:GetActiveWeapon()
-        
+
         if (IsValid(trace.dmgInf)) then
             dmginfo:SetInflictor(trace.dmgInf)
         elseif (IsValid(wep)) then
