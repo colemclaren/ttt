@@ -351,9 +351,9 @@ hook.Add("PlayerDeath", "moat_updateWeaponLevels", function(victim, inflictor, a
 
         if (victim:GetRole() == attacker:GetRole()) then
             exp_to_add = -35
-        elseif (vic_killer and attacker:GetDetective()) then
+        elseif ((vic_killer and attacker:GetDetective()) or (att_killer and victim:GetDetective())) then
             exp_to_add = 75
-        elseif (vic_killer and (victim.GetBasicRole and victim:GetBasicRole() or victim:GetRole()) == ROLE_INNOCENT) then
+        elseif (vic_killer and not att_killer) then
             exp_to_add = 50
         elseif (att_killer and not vic_killer) then
             exp_to_add = 35
