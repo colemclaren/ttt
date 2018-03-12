@@ -327,7 +327,7 @@ local function moatFireBullets(ent, data)
                 net.SendToServer()
 
                 return true
-            else
+            elseif (false) then
                 -- fuck hitboxes lol
                 for _, ply in pairs(player.GetAll()) do
                     if (ply == LocalPlayer()) then
