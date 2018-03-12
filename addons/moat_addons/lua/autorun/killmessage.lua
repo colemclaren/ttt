@@ -1,7 +1,5 @@
 if (CLIENT) then
 
-	local GetRTranslation = CLIENT and LANG.GetRawTranslation or util.passthrough
-
 	net.Receive( "ClientDeathNotify", function()
 		local bg_colors = {
 			background_main = Color(0, 0, 10, 200),
@@ -30,7 +28,7 @@ if (CLIENT) then
 		local reason = net.ReadString()
 
 		local col = bg_colors[role]
-		role = GetRTranslation(GetRoleStringRaw(role))
+		role = LANG.GetRawTranslation(GetRoleStringRaw(role))
 
 		if reason == "suicide" then
 			chat.AddText( NameColor, "You ", White, "killed ", NameColor, "Yourself!")
