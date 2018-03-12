@@ -339,7 +339,8 @@ local function moatFireBullets(ent, data)
 
                             local origin, angles = ply:GetBonePosition(bone)
                             origin = origin + ply:GetManipulateBonePosition(bone)
-                            if (math.abs(math.deg(math.acos((origin - tr.StartPos):GetNormalized():Dot(data.Dir)))) > 15) then
+                            print(math.abs(math.deg(math.acos((origin - tr.StartPos):GetNormalized():Dot(data.Dir)))))
+                            if (math.abs(math.deg(math.acos((origin - tr.StartPos):GetNormalized():Dot(data.Dir)))) > 25) then
                                 continue
                             end
                             local scale = ply:GetManipulateBoneScale(bone)
@@ -350,9 +351,6 @@ local function moatFireBullets(ent, data)
                             maxs.y = maxs.y * scale.y
                             mins.z = mins.z * scale.z
                             maxs.z = maxs.z * scale.z
-                            angles = angles:Forward()
-                            angles:Rotate(ply:GetManipulateBoneAngles(bone))
-                            angles = angles:Angle()
                             local coll = CreatePhysCollideBox(mins, maxs)
                             local hitpos = coll:TraceBox(origin, angles, tr.StartPos, data.Dir * 14000, vector_origin, vector_origin)
                             coll:Destroy()
