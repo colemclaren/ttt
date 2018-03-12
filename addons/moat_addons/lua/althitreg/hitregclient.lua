@@ -327,10 +327,10 @@ local function moatFireBullets(ent, data)
                 net.SendToServer()
 
                 return true
-            elseif (false) then
+            else
                 -- fuck hitboxes lol
                 for _, ply in pairs(player.GetAll()) do
-                    if (ply == LocalPlayer()) then
+                    if (ply == LocalPlayer() or ply:IsDormant() or ply:IsDeadTerror() or ply:IsSpec()) then
                         continue
                     end
                     for group = 0, ply:GetHitBoxGroupCount() - 1 do
@@ -345,12 +345,15 @@ local function moatFireBullets(ent, data)
                             maxs.y = maxs.y * scale.y
                             mins.z = mins.z * scale.z
                             maxs.z = maxs.z * scale.z
-                            local coll = CreatePhysCollideBox(mins, maxs)
                             local origin, angles = ply:GetBonePosition(bone)
                             origin = origin + ply:GetManipulateBonePosition(bone)
+                            if (math.deg(origin - tr.StartPos):GetNormalized():Dot(data.Dir) > 15) then
+                                continue
+                            end
                             angles = angles:Forward()
                             angles:Rotate(ply:GetManipulateBoneAngles(bone))
                             angles = angles:Angle()
+                            local coll = CreatePhysCollideBox(mins, maxs)
                             local hitpos = coll:TraceBox(origin, angles, tr.StartPos, data.Dir * 14000, vector_origin, vector_origin)
                             coll:Destroy()
                             if (hitpos) then
