@@ -83,7 +83,7 @@ function ENT:Think()
 
     local pos, angles = owner:GetBonePosition(bone)
 
-    self:SetPos(pos + Vector(0,0,10))
+    self:SetPos(pos)
     self:SetAngles(angles)
 end
 
@@ -92,10 +92,8 @@ local in_fire = false
 hook.Add("EntityFireBullets", "moat.hitbox", function(att, data)
     local callback = data.Callback
     in_fire = att
-    print"t"
     data.Callback = function(...)
         timer.Simple(0, function()
-            print"d"
             in_fire = false
         end)
         if (callback) then
