@@ -38,6 +38,7 @@ hook.Add("EntityTakeDamage", "moat_HitMarkers", function(ply, dmginfo)
     end
 end)
 
+--[[
 net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
     --local trace = net.ReadTable()
     local trace = {}
@@ -105,14 +106,14 @@ net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
     else
         trace.trAtt:ChatPrint("Your ping is too high for alternative hit registration!")
     end
-end)
+end)]]
 
 local PLAYER = FindMetaTable "Player"
 
 PLAYER.Old_FireBullets = PLAYER.Old_FireBullets or FindMetaTable "Entity".FireBullets
 function PLAYER:FireBullets(bul, supp)
     if self:Ping() <= MOAT_HITREG.MaxPing and not m_ActiveBoss() then
-        bul.Damage = 0
+        --bul.Damage = 0
     end
     return self:Old_FireBullets(bul, supp)
 end
