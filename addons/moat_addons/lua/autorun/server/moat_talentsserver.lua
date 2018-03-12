@@ -46,11 +46,11 @@ hook.Add("TTTPlayerSpeed", "moat_ApplyWeaponWeight", function(ply, slowed)
                 end
             end
         end
-		
-		if (ply.moatFrozen && ply.moatFrozenSpeed) && (ply:canBeMoatFrozen()) then
-			local percentage = 1 - ply.moatFrozenSpeed
-			new_speed = new_speed * percentage
-		end
+        
+        if (ply.moatFrozen && ply.moatFrozenSpeed) && (ply:canBeMoatFrozen()) then
+            local percentage = 1 - ply.moatFrozenSpeed
+            new_speed = new_speed * percentage
+        end
 
         if (ply:HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
             if (ply:GetInfo("moat_hermes_boots") == "1" ) then
@@ -79,8 +79,8 @@ util.AddNetworkString("FrozenPlayer")
 local frozen_players = 0
 
 function plyMeta:moatFreeze(length, speed, delay)
-	local timerNameSlow, timerNameDamage = 'moatFreezeTimer_'..self:SteamID64(), 'moatFreezeDamageTimer_'..self:SteamID64()
-	local freezeFunction, freezeDamageFunction = function()
+    local timerNameSlow, timerNameDamage = 'moatFreezeTimer_'..self:SteamID64(), 'moatFreezeDamageTimer_'..self:SteamID64()
+    local freezeFunction, freezeDamageFunction = function()
         self.moatFrozen = false
         self.moatFrozenSpeed = 1
         self:SetNWBool('moatFrozen', false)
@@ -98,23 +98,23 @@ function plyMeta:moatFreeze(length, speed, delay)
             timer.Remove(timerNameDamage)
         end
     end
-	
-	if (self:canBeMoatFrozen()) then
-		self.moatFrozen = true
-		self.moatFrozenSpeed = speed
-		self:SetNWBool('moatFrozen', true)
-		
-		if (timer.Exists(timerNameSlow)) then
-			timer.Adjust(timerNameSlow, length, 1, freezeFunction)
-			timer.Adjust(timerNameDamage, delay, 0, freezeDamageFunction)
+    
+    if (self:canBeMoatFrozen()) then
+        self.moatFrozen = true
+        self.moatFrozenSpeed = speed
+        self:SetNWBool('moatFrozen', true)
+        
+        if (timer.Exists(timerNameSlow)) then
+            timer.Adjust(timerNameSlow, length, 1, freezeFunction)
+            timer.Adjust(timerNameDamage, delay, 0, freezeDamageFunction)
 
             net.Start("moat.dot.adjust")
             net.WriteString(tostring("frost" .. self:EntIndex()))
             net.WriteUInt(length, 16)
             net.Send(self)
-		else
-			timer.Create(timerNameSlow, length, 1, freezeFunction)
-			timer.Create(timerNameDamage, delay, 0, freezeDamageFunction)
+        else
+            timer.Create(timerNameSlow, length, 1, freezeFunction)
+            timer.Create(timerNameDamage, delay, 0, freezeDamageFunction)
 
             net.Start("moat.dot.init")
             net.WriteString("Frostbitten")
@@ -129,15 +129,15 @@ function plyMeta:moatFreeze(length, speed, delay)
             net.Start("FrozenPlayer")
             net.WriteUInt(frozen_players, 8)
             net.Broadcast()
-		end
-		
-		net.Start('moatFrozenNotification')
-		net.Send(self)
-		
-		net.Start('moatFrozenShake')
-			net.WriteInt(length, 32)
-		net.Send(self)
-	end
+        end
+        
+        net.Start('moatFrozenNotification')
+        net.Send(self)
+        
+        net.Start('moatFrozenShake')
+            net.WriteInt(length, 32)
+        net.Send(self)
+    end
 end
 
 -------------------
@@ -351,9 +351,9 @@ hook.Add("PlayerDeath", "moat_updateWeaponLevels", function(victim, inflictor, a
 
         if (victim:GetRole() == attacker:GetRole()) then
             exp_to_add = -35
-        elseif (vic_killer and attacker:GetDetective()) then
+        elseif ((vic_killer and attacker:GetDetective()) or (att_killer and victim:GetDetective())) then
             exp_to_add = 75
-        elseif (vic_killer and (victim.GetBasicRole and victim:GetBasicRole() or victim:GetRole()) == ROLE_INNOCENT) then
+        elseif (vic_killer and not att_killer) then
             exp_to_add = 50
         elseif (att_killer and not vic_killer) then
             exp_to_add = 35
