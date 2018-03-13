@@ -88,5 +88,5 @@ hook.Add("SQLConnected", "nomr_sql", function(data)
 end)
 
 timer.Create("no_multirun_no_disconnect", 180, 0, function()
-	nomr:Query("SELECT * FROM sessions")
+	nomr:Query("SELECT * FROM player_sessions")
 end)
