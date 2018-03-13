@@ -98,7 +98,6 @@ function MOAT_EVENT.SQL.Query(query, callback, ret)
 			MOAT_EVENT.Print "MySQL connection lost during query. Reconnecting."
 
 			db:connect()
-			db:wait()
 
             timer.Simple(1, function()
                 MOAT_EVENT.SQL.Query(query, callback, ret)
@@ -113,7 +112,7 @@ function MOAT_EVENT.SQL.Query(query, callback, ret)
 	
 	q:start()
 	
-	if (ret) then q:wait() end
+	--if (ret) then q:wait() end
 	
 	return r
 end

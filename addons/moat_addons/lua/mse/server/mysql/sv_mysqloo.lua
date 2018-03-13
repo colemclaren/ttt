@@ -66,9 +66,7 @@ function MSE.MySQL.Query(query, callback, ret)
 			MSE.Print "MySQL connection lost during query. Reconnecting."
 			
 			db:connect()
-			db:wait()
-			
-			r = MSE.MySQL.Query(query, callback, ret)
+			timer.Simple(1, function() r = MSE.MySQL.Query(query, callback, ret) end)
 		else
 			MSE.Print("MySQL error: " ..err)
 			MSE.Print(" | Query: " .. query)
@@ -77,7 +75,7 @@ function MSE.MySQL.Query(query, callback, ret)
 	
 	q:start()
 	
-	if (ret) then q:wait() end
+	--if (ret) then q:wait() end
 	
 	return r
 end

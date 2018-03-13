@@ -69,9 +69,7 @@ function D3A.MySQL.Query(query, callback, ret)
 			D3A.Print("MySQL connection lost during query. Reconnecting.")
 			
 			db:connect()
-			db:wait()
-			
-			r = D3A.MySQL.Query(query, callback, ret)
+			timer.Simple(1, function() r = D3A.MySQL.Query(query, callback, ret) end)
 		else
 			D3A.Print("MySQL error: " ..err)
 			D3A.Print(" | Query: " .. query)
@@ -80,7 +78,7 @@ function D3A.MySQL.Query(query, callback, ret)
 	
 	q:start()
 	
-	if (ret) then q:wait() end
+	--if (ret) then q:wait() end
 	
 	return r
 end

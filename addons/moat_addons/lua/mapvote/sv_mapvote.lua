@@ -172,6 +172,8 @@ function MapVote.Start(length, current, limit, prefix, callback)
     cooldown = MapVote.Config.EnableCooldown or MapVote.Config.EnableCooldown == nil and true
     prefix = prefix or MapVote.Config.MapPrefixes
 
+    hook.Run("MapVoteStarted")
+
     ServerLog("mapvote1")
 
     local is_expression = false

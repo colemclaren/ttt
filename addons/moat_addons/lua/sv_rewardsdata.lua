@@ -79,7 +79,8 @@ function REWARDS.MySQLQuery(query, callback)
 	function result:OnError(error, query)
 		if REWARDS.Database.DB and REWARDS.Database.DB:status() == mysqloo.DATABASE_NOT_CONNECTED then
 			REWARDS.Database.DB:connect()
-			REWARDS.Database.DB:wait()
+			timer.Simple(1, function() result:start() end)
+
 			result:start()
 		end
 		print("SteamGroup Rewards: MySQL Query Failed. Please check your MySQL settings: " .. error .. " when running: " .. query)
