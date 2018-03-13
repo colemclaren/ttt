@@ -511,9 +511,10 @@ function m_SaveCredits(ply)
     function csq:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
             MINVENTORY_MYSQL:connect()
-            MINVENTORY_MYSQL:wait()
+            timer.Simple(1, function() m_SaveCredits(ply) end)
+            --MINVENTORY_MYSQL:wait()
 
-            m_SaveCredits(ply)
+            --m_SaveCredits(ply)
         end
     end
 
@@ -794,9 +795,11 @@ function m_LoadInventoryForPlayer(ply)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
             
             MINVENTORY_MYSQL:connect()
-            MINVENTORY_MYSQL:wait()
+            timer.Simple(1, function() m_LoadInventoryForPlayer(ply) end)
+            --MINVENTORY_MYSQL:wait()
 
-            m_LoadInventoryForPlayer(ply)
+
+            --m_LoadInventoryForPlayer(ply)
 
             return
         end
@@ -829,9 +832,10 @@ function m_SaveInventory(ply)
     function sq:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
             MINVENTORY_MYSQL:connect()
-            MINVENTORY_MYSQL:wait()
+            timer.Simple(1, function() m_SaveInventory(ply) end)
+            --MINVENTORY_MYSQL:wait()
 
-            m_SaveInventory(ply)
+            --m_SaveInventory(ply)
         end
     end
 
@@ -853,9 +857,10 @@ function m_SaveMaxSlots(ply)
     function sq:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
             MINVENTORY_MYSQL:connect()
-            MINVENTORY_MYSQL:wait()
+            timer.Simple(1, function() m_SaveMaxSlots(ply) end)
+            --MINVENTORY_MYSQL:wait()
             
-            m_SaveMaxSlots(ply)
+            --m_SaveMaxSlots(ply)
         end
     end
 
@@ -877,9 +882,7 @@ function m_SaveStats(ply)
     function csq:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
             MINVENTORY_MYSQL:connect()
-            MINVENTORY_MYSQL:wait()
-            
-            m_SaveStats(ply)
+            timer.Simple(1, function() m_SaveStats(ply) end)
         end
     end
 end
@@ -905,8 +908,8 @@ hook.Add("PlayerInitialSpawn", "moat_LoadInventoryForPlayer", function(ply)
     m_LoadStats(ply)
 end)
 
-hook.Add("ShutDown", "moat_LoadInventoryForPlayer", function(ply)
-    for k, v in pairs(player.GetAll()) do
+hook.Add("MapVoteStarted", "moat_SaveInventoryForPlayer", function(ply)
+    for k, v in ipairs(player.GetAll()) do
         --m_SaveInventory(v)
         m_SaveStats(v)
     end
