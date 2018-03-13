@@ -403,7 +403,7 @@ local function ShowSearchScreen(search_raw)
         dident:SetText("Revive Player")
         dident:SetDisabled(false)
 
-        if (not spl or (spl and spl:Team() ~= TEAM_SPEC) or (GetRoundState() ~= ROUND_ACTIVE) or DOCTOR_ALREADY_REVIVED) then
+        if (not spl or spl:Team() == TEAM_SPEC or GetRoundState() ~= ROUND_ACTIVE or DOCTOR_ALREADY_REVIVED) then
             dident:SetDisabled(true)
         else
             dident.DoClick = function()
