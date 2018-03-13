@@ -114,8 +114,10 @@ function D3A.Bans.BanPlayer(steamid, a_steamid, len, unit, reason, override, cb)
 	return ret
 end
 
-function D3A.Bans.Unban(sid, reason, bantime)
+function D3A.Bans.Unban(sid, reason, bantime, cb)
 	local ret = D3A.MySQL.QueryRet("UPDATE player_bans SET unban_reason='" .. D3A.MySQL.Escape(reason) .. "' WHERE time='" .. bantime .. "' AND steam_id='" .. util.SteamIDTo64(sid) .. "'", function()
+		if (cb) then cb() end
+		
 		return true
 	end)
 	
