@@ -52,7 +52,7 @@ function D3A.Bans.IsBanned(steamid, callback)
 	end)
 end
 
-function D3A.Bans.BanPlayer(steamid, a_steamid, len, unit, reason, override)
+function D3A.Bans.BanPlayer(steamid, a_steamid, len, unit, reason, override, cb)
 	local units = {}
 		units["perm"] = 0
 		units["second"] = 1
@@ -98,11 +98,15 @@ function D3A.Bans.BanPlayer(steamid, a_steamid, len, unit, reason, override)
 				else exp = "for " .. len .. " " .. unit .. (((len != 1) and "s") or "") end
 				tg:Kick("Banned by " .. nm .. " " .. exp .. ". Reason: " .. reason)
 			end
+
+			if (cb) then cb() end
 		
 			return true
 		end)
 	else
 		ret = D3A.MySQL.QueryRet("UPDATE player_bans SET time='" .. os.time() .. "', staff_steam_id='" .. util.SteamIDTo64(a_steamid) .. "', length='" .. banlen .. "', reason='" .. D3A.MySQL.Escape(reason) .. "' WHERE time='" .. override .. "' AND steam_id='" .. util.SteamIDTo64(steamid) .. "'", function()
+			if (cb) then cb() end
+
 			return true
 		end)
 	end

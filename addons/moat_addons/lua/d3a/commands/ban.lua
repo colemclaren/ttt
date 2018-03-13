@@ -79,24 +79,20 @@ COMMAND.Run = function(pl, args, supplement)
 			local useunit = (time != 1 and unit .. "s") or unit
 			local reason = table.concat(args, " ", 4)
 			
-			if D3A.Bans.BanPlayer(targstid, plstid, time, unit, reason, Bans.Current.time) then
+			D3A.Bans.BanPlayer(targstid, plstid, time, unit, reason, Bans.Current.time, function()
 				D3A.Chat.Broadcast2(moat_cyan, targstid .. "'s", moat_white, " ban was updated by ", moat_cyan, plname, moat_white, " to ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ")'s *ban was updated* by " .. plname .. " (" .. plstid .. ") to " .. time .. " " .. useunit .. ". Reason: " .. reason .. "."
 				SVDiscordRelay.SendToDiscordRaw("Ban bot",false,msg,"https://discordapp.com/api/webhooks/393120753593221130/bPZTXCj5fjQgHJCOKDPbUj4Btq5EtqkZSKV-ewwaLwESwZEEc7fBHBWuIbe8np2FG8Jn")
-			else
-				D3A.Chat.SendToPlayer2(pl, moat_red, "An unexpected error has occurred while banning. Tell the boss!")
-			end
+			end)
 		else
 			local useunit = (time != 1 and unit .. "s") or unit
 			local reason = table.concat(args, " ", 4)
 		
-			if D3A.Bans.BanPlayer(targstid, plstid, time, unit, reason) then
+			D3A.Bans.BanPlayer(targstid, plstid, time, unit, reason, false, function()
 				D3A.Chat.Broadcast2(moat_cyan, ((targpl and targpl:Name()) or targstid), moat_white, " was banned by ", moat_cyan, plname, moat_white, " for ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ") was *banned* by " .. plname .. " (" .. plstid .. ") for " .. time .. " " .. useunit .. ". Reason: " .. reason .. "."
 				SVDiscordRelay.SendToDiscordRaw("Ban bot",false,msg,"https://discordapp.com/api/webhooks/393120753593221130/bPZTXCj5fjQgHJCOKDPbUj4Btq5EtqkZSKV-ewwaLwESwZEEc7fBHBWuIbe8np2FG8Jn")
-			else
-				D3A.Chat.SendToPlayer2(pl, moat_red, "An unexpected error has occurred while banning. Tell the boss!")
-			end
+			end)
 		end
 	end)
 end
