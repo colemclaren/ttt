@@ -51,17 +51,21 @@ function ENT:Initialize()
     self:SetSolid(SOLID_VPHYSICS)
     self:PhysWake()
 
-    self:SetCollisionBounds(self:GetMins(), self:GetMaxs())
+    self:SetCollisionBounds(self:GetMins() * 2, self:GetMaxs() * 2)
     self:EnableCustomCollisions(true)
     self:DrawShadow(false)
 
     self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
 
+    self:SetCustomCollisionCheck(true) -- has to do this unfortunately
+
     self.PhysCollide = CreatePhysCollideBox(self:GetMins(), self:GetMaxs())
 end
 
 function ENT:OnTakeDamage(dmg)
-    self:GetOwner():TakeDamageInfo(dmg)
+    if (dmg:IsDamageType(DMG_BULLET)) then
+        self:GetOwner():TakeDamageInfo(dmg)
+    end
 end
 
 function ENT:Think()
@@ -104,13 +108,11 @@ end)
 
 function ENT:TestCollision(startpos, delta, isbox, extents, mask)
     if (not in_fire or in_fire == self:GetOwner() or self:GetOwner():IsSpec() or not self:GetOwner():Alive()) then
-        print(false, in_fire, self:GetOwner())
         return
     end
 
     local pos, normal, frac = self.PhysCollide:TraceBox(self:GetPos(), self:GetAngles(), startpos, startpos + delta, -extents, extents)
     if (pos) then
-        print(self:GetOwner(), in_fire)
         return {
             HitPos = pos,
             Normal = normal,
@@ -118,6 +120,14 @@ function ENT:TestCollision(startpos, delta, isbox, extents, mask)
         }
     end
 end
+
+hook.Add("ShouldCollide", "moat.hitbox", function(e1, e2)
+    local hitbox = e1:GetClass() == "player_hitbox" and e1 or e2:GetClass() == "player_hitbox" and e2 or nil
+    local other = e1 == hitbox and e1 or e2 == hitbox and e1 or nil
+    if (hitbox) then
+        return other:IsPlayer()
+    end
+end)
 
 function ENT:UpdateTransmitState()
     return TRANSMIT_NEVER
