@@ -36,11 +36,20 @@ function plymeta:GetKiller()
     return killer[self:GetRole()]
 end
 
+local canuse = {
+    [ROLE_HITMAN] = true,
+    [ROLE_TRAITOR] = true,
+    [ROLE_DETECTIVE] = true
+}
+
+function plymeta:CanUseCredits()
+    return canuse[self:GetRole()]
+end
+
 plymeta.IsTraitor = plymeta.GetTraitor
 plymeta.IsDetective = plymeta.GetDetective
 plymeta.IsJester = plymeta.GetJester
 plymeta.IsKiller = plymeta.GetKiller
-
 
 
 function plymeta:IsSpecial()
