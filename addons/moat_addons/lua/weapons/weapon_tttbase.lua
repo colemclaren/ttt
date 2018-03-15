@@ -2,9 +2,6 @@
 
 AddCSLuaFile()
 
-
-SHOTGUN_RPM_CHANGE = 1
-
 ---- TTT SPECIAL EQUIPMENT FIELDS
 
 -- This must be set to one of the WEAPON_ types in TTT weapons for weapon

@@ -28,7 +28,7 @@ SWEP.reloadtimer = 0
 
 SWEP.Primary.Sound			= Sound("gunshot_moss_590")		-- script that calls the primary fire sound
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Delay = 1.1 + SHOTGUN_RPM_CHANGE
+SWEP.Primary.Delay = 1.1 + 1
 SWEP.Primary.Recoil = 10
 SWEP.Primary.Cone = 0.19
 SWEP.Primary.Damage = 20
