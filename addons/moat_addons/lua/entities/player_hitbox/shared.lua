@@ -79,13 +79,11 @@ function ENT:SetupDataTables()
 end
 
 function ENT:Initialize()
-    if (SERVER) then
-        self:PhysicsInitBox(self.Mins, self.Maxs)
-        self:SetSolid(SOLID_VPHYSICS)
-        self:PhysWake()
-        self:GetPhysicsObject():EnableGravity(false)
-        self.PhysCollide = CreatePhysCollideBox(self:GetCollisionBounds())
-    end
+    self:PhysicsInitBox(self.Mins, self.Maxs)
+    self:SetSolid(SOLID_VPHYSICS)
+    self:PhysWake()
+    self:GetPhysicsObject():EnableGravity(false)
+    self.PhysCollide = CreatePhysCollideBox(self:GetCollisionBounds())
 
     self:EnableCustomCollisions(true)
     self:DrawShadow(false)
