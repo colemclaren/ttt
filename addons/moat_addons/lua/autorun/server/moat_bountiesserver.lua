@@ -189,27 +189,24 @@ local chal_suffix = {
 }
 
 local tier1_rewards = {
-	ic = 2000,
+	ic = 1000,
 	exp = 2500,
-	drop = 5
 }
-local tier1_rewards_str = "2,000 Inventory Credits + 2,500 Player Experience + High-End+ Item"
+local tier1_rewards_str = "1,500 Inventory Credits + 2,500 Player Experience"
 
 
 local tier2_rewards = {
-	ic = 3500,
+	ic = 2000,
 	exp = 5500,
-	drop = 5
 }
-local tier2_rewards_str = "3,500 Inventory Credits + 5,500 Player Experience + High-End+ Item"
+local tier2_rewards_str = "2,000 Inventory Credits + 5,500 Player Experience"
 
 
 local tier3_rewards = {
-	ic = 5000,
-	exp = 8500,
-	drop = 5
+	ic = 4000,
+	exp = 8500
 }
-local tier3_rewards_str = "5,000 Inventory Credits + 8,500 Player Experience + High-End+ Item"
+local tier3_rewards_str = "4,000 Inventory Credits + 8,500 Player Experience"
 
 
 
