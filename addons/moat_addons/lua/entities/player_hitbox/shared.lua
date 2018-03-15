@@ -74,6 +74,10 @@ function ENT:OnTakeDamage(dmg)
 end
 
 function ENT:Think()
+    if (not SERVER) then
+        return
+    end
+
     local hitbox, hitgroup = self:GetHitBox(), self:GetHitGroup()
     local owner = self:GetOwner()
 
@@ -82,7 +86,7 @@ function ENT:Think()
         return
     end
 
-    if (SERVER and owner:GetModel() ~= self.ModelStr) then
+    if (owner:GetModel() ~= self.ModelStr) then
         Reset(owner)
         self:Remove()
         return
@@ -92,10 +96,8 @@ function ENT:Think()
 
     local pos, angles = owner:GetBonePosition(bone)
 
-    if (SERVER) then
-        self:SetPos(pos)
-        self:SetAngles(angles)
-    end
+    self:SetPos(pos)
+    self:SetAngles(angles)
 
     self:NextThink(CurTime())
     return true
