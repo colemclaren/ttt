@@ -45,8 +45,8 @@ local function Reset(ply)
                 local scale = ply:GetManipulateBoneScale(bone)
 
                 local mins, maxs = ply:GetHitBoxBounds(hitbox, group)
-                ent.Mins = mins * scale * BIG_SCALE
-                ent.Maxs = maxs * scale * BIG_SCALE
+                ent:SetMins(mins * scale * BIG_SCALE)
+                ent:SetMaxs(maxs * scale * BIG_SCALE)
 
                 table.insert(hitboxes, ent)
             end
@@ -75,11 +75,13 @@ function ENT:SetupDataTables()
     self:NetworkVar("Int", 0, "HitBox")
     self:NetworkVar("Int", 1, "HitGroup")
     self:NetworkVar("Int", 2, "Bone")
+    self:NetworkVar("Vector", 0, "Mins")
+    self:NetworkVar("Vector", 1, "Maxs")
     self:NetworkVar("Entity", 0, "HitBoxParent")
 end
 
 function ENT:Initialize()
-    self:PhysicsInitBox(self.Mins, self.Maxs)
+    self:PhysicsInitBox(self:GetMins(), self:GetMaxs())
     self:SetSolid(SOLID_VPHYSICS)
     self:PhysWake()
     self:GetPhysicsObject():EnableGravity(false)
