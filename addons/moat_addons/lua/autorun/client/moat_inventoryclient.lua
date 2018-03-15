@@ -2151,7 +2151,7 @@ function m_OpenInventory(ply2, utrade)
 
         m_DPanelIcon.SIcon:SetVisible(false)
 
-        if (m_ItemExists) then
+        if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
             if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
                 m_DPanelIcon.SIcon.Icon:SetAlpha(0)
             end
@@ -2164,7 +2164,7 @@ function m_OpenInventory(ply2, utrade)
         m_DPanelIcon.Item = nil
         m_DPanelIcon.MSkin = nil
 
-        if (m_ItemExists) then
+        if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
             m_DPanelIcon.WModel = m_WClass.WorldModel
             m_DPanelIcon.Item = m_Inventory[num]
             if (m_WClass.ModelSkin) then
