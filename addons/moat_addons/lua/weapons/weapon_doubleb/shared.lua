@@ -126,7 +126,7 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_SHOTGUN
 
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Delay = 1.2
+SWEP.Primary.Delay = 1.2 + SHOTGUN_RPM_CHANGE
 SWEP.Primary.Recoil = 7
 SWEP.Primary.Cone = 0.08
 SWEP.Primary.Damage = 15

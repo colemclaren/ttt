@@ -21,7 +21,7 @@ SWEP.WeaponID = AMMO_SHOTGUN
 SWEP.ENUM = 13
 
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Delay = 1.2
+SWEP.Primary.Delay = 1.2 + SHOTGUN_RPM_CHANGE
 SWEP.Primary.Recoil = 7
 SWEP.Primary.Cone = 0.1
 SWEP.Primary.Damage = 11
