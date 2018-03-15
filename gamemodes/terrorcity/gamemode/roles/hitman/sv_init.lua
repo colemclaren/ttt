@@ -50,4 +50,12 @@ function ROLE.PostPlayerDeath(ply)
     end
 end
 
+function ROLE.PlayerDisconnected(ply)
+    if (ply == ROLE.Target) then
+        SelectTarget()
+    end
+end
+
+hook.Add("PlayerDisconnected", "terrortown.roles.hitman", ROLE.PlayerDisconnected)
+
 hook.Add("PostPlayerDeath", "terrortown.roles.hitman", ROLE.PostPlayerDeath)
