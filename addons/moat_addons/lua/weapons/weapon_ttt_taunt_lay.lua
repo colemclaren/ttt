@@ -3,11 +3,11 @@ AddCSLuaFile()
 SWEP.HoldType = "normal"
 
 if CLIENT then
-	SWEP.PrintName = "Lay Taunt"
-	SWEP.Slot      = 5
-	SWEP.Icon = "moat_inv/moat_taunt.png"
+   SWEP.PrintName = "Lay Taunt"
+   SWEP.Slot      = 5
+   SWEP.Icon = "moat_inv/moat_taunt.png"
 
-	SWEP.ViewModelFOV = 10
+   SWEP.ViewModelFOV = 10
 end
 
 SWEP.Base = "weapon_tttbase"
@@ -25,6 +25,7 @@ SWEP.Secondary.Ammo         = "none"
 SWEP.CurrentCamera = 0
 SWEP.TauntAnimation = ACT_HL2MP_ZOMBIE_SLUMP_IDLE
 SWEP.TauntLoop = true
+SWEP.TauntOver = CurTime()
 SWEP.ViewAngles = Angle(0, 0, 0)
 
 SWEP.Kind = WEAPON_UNARMED
@@ -34,7 +35,7 @@ SWEP.AllowDrop = false
 SWEP.NoSights = true
 
 function SWEP:GetClass()
-	return "weapon_ttt_unarmed"
+   return "weapon_ttt_unarmed"
 end
 
 function SWEP:SetupDataTables()
@@ -43,27 +44,41 @@ function SWEP:SetupDataTables()
 end
 
 function SWEP:OnDrop()
-	self:Remove()
+   self:Remove()
 end
 
 function SWEP:ShouldDropOnDie()
-	return false
+   return false
 end
 
 function SWEP:InitializeTaunt()
 	local seq = self.Owner:SelectWeightedSequence(self.TauntAnimation)
 	local len = self.Owner:SequenceDuration(seq)
 
-	self.Owner:AnimRestartGesture(GESTURE_SLOT_GRENADE, self.TauntAnimation, false)
-	self:SetTauntActive(true)
+	if SERVER then
+		self.Owner:AnimRestartGesture(GESTURE_SLOT_GRENADE, self.TauntAnimation, false)
+		self.TauntOver = CurTime() + 99999
+		self:SetTauntActive(true)
+
+		net.Start("MOAT_RESET_ANIMATION")
+		net.WriteEntity(self.Owner)
+		net.WriteUInt(9, 8)
+		net.Broadcast()
+	end
 end
 
 function SWEP:EndTaunt()
 	if (IsValid(self.Owner)) then
 		self.Owner:AnimResetGestureSlot(GESTURE_SLOT_GRENADE)
 	end
-
+	if (CLIENT) then return end
+	
 	self:SetTauntActive(false)
+
+	net.Start("MOAT_RESET_ANIMATION")
+	net.WriteEntity(self.Owner)
+	net.WriteUInt(0, 8)
+	net.Broadcast()
 end
 
 function SWEP:OnRemove()
@@ -91,8 +106,14 @@ function SWEP:Reload()
 end
 
 function SWEP:Think()
-	if (self:GetTauntActive()) then
+	if (SERVER and self:GetTauntActive()) then
 		local own = self.Owner
+
+		if (self.TauntOver < CurTime()) then
+			self:EndTaunt()
+
+			return
+		end
 
 		if (own:KeyDown(IN_BACK) or own:KeyDown(IN_DUCK) or own:KeyDown(IN_FORWARD) or own:KeyDown(IN_JUMP) or own:KeyDown(IN_MOVELEFT) or own:KeyDown(IN_MOVERIGHT) or own:KeyDown(IN_RELOAD) or own:KeyDown(IN_WALK) or own:KeyDown(IN_USE)) then
 			self:EndTaunt()
@@ -103,10 +124,10 @@ function SWEP:Think()
 end
 
 function SWEP:Deploy()
-	if SERVER and IsValid(self.Owner) then
-		self.Owner:DrawViewModel(false)
-	end
-	return true
+   if SERVER and IsValid(self.Owner) then
+      self.Owner:DrawViewModel(false)
+   end
+   return true
 end
 
 function SWEP:Holster()
@@ -114,7 +135,7 @@ function SWEP:Holster()
 		self:EndTaunt()
 	end
 
-	return true
+    return true
 end
 
 function SWEP:DrawWorldModel()
@@ -124,27 +145,27 @@ function SWEP:DrawWorldModelTranslucent()
 end
 
 function SWEP:CalcView(ply, pos, ang, fov)
-	if (self:GetTauntActive()) then
-		local calc = {}
+    if (self:GetTauntActive()) then
+    	local calc = {}
 
-		self.CurrentCamera = Lerp(FrameTime() * 5, self.CurrentCamera, 100)
+    	self.CurrentCamera = Lerp(FrameTime() * 5, self.CurrentCamera, 100)
 
-		local extra_vec = pos - (ang:Forward() * self.CurrentCamera)
+    	local extra_vec = pos - (ang:Forward() * self.CurrentCamera)
 
-		local tr = util.TraceLine({
+    	local tr = util.TraceLine({
 			start = pos,
 			endpos = extra_vec,
 			filter = ply
 		})
 
-		if (tr.Hit) then
-			extra_vec = tr.HitPos + (ang:Forward() * 10)
-		end
+    	if (tr.Hit) then
+    		extra_vec = tr.HitPos + (ang:Forward() * 10)
+    	end
 
-		calc.origin = extra_vec
-		calc.angles = ang
-		calc.fov = fov
+    	calc.origin = extra_vec
+    	calc.angles = ang
+    	calc.fov = fov
 
-		return calc.origin, calc.angles, calc.fov, true
-	end
+    	return calc.origin, calc.angles, calc.fov, true
+    end
 end
