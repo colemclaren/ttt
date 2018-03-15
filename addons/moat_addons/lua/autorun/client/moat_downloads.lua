@@ -210,8 +210,6 @@ function moat_dl:DownloadAddon(n)
 	end
 
 	info(wid, function(r)
-		PrintTable(r)
-
 		local id = r.fileid
 		local t = !exist("cache/workshop/" .. id .. ".cache", "GAME")
 
