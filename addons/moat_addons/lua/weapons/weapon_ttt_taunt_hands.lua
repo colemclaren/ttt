@@ -69,6 +69,7 @@ function SWEP:EndTaunt()
 
 	for k, v in pairs(self.TauntTable) do
 		local b = self.Owner:LookupBone(k)
+		if (not b) then continue end
 		self.Owner:ManipulateBoneAngles(b, Angle(0, 0, 0))
 		v[2] = Angle(0, 0, 0)
 	end
@@ -108,6 +109,7 @@ function SWEP:Think()
 	if (self:GetTauntActive() and self.TauntReady <= CurTime()) then
 		for k, v in pairs(self.TauntTable) do
 			local b = self.Owner:LookupBone(k)
+			if (not b) then continue end
 
 			if (self.TauntAnimationOver) then
 				v[2] = LerpAngle(FrameTime() * self.AnimationSpeed, v[2], Angle(0, 0, 0))

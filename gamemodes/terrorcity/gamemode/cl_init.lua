@@ -295,6 +295,10 @@ end
 net.Receive("TTT_PlayerDied", PlayerDeath)
 
 function GM:ShouldDrawLocalPlayer(ply)
+    local wep = ply:GetActiveWeapon()
+    if (IsValid(wep) and wep.GetTauntActive and wep:GetTauntActive()) then
+        return true
+    end
     return false
 end
 

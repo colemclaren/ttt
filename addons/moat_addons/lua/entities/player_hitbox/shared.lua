@@ -1,4 +1,7 @@
 AddCSLuaFile()
+if (SERVER) then
+    include "quaternion.lua"
+end
 ENT.Type = "anim"
 
 DEFINE_BASECLASS "base_anim"
@@ -19,15 +22,25 @@ local function Reset(ply)
 
     timer.Create("reset_hitboxes_"..ply:EntIndex(), 4, 1, function()
         print("reset",ply:Nick())
+        local parents = {
+            hitboxes = {},
+            bones = {}
+        }
+
         for group = 0, ply:GetHitBoxGroupCount() - 1 do
+            parents.hitboxes[group] = {}
             for hitbox = 0, ply:GetHitBoxCount(group) - 1 do
                 local ent = ents.Create "player_hitbox"
-                ent:SetHitBox(hitbox)
-                ent:SetHitGroup(group)
+                parents.hitboxes[group][hitbox] = ent
                 ent:SetOwner(ply)
+                ent:SetHitGroup(group)
+                ent:SetHitBox(hitbox)
                 ent.ModelStr = ply:GetModel()
 
                 local bone = ply:GetHitBoxBone(hitbox, group)
+                parents.bones[bone] = ent
+
+                ent:SetBone(bone)
 
                 local scale = ply:GetManipulateBoneScale(bone)
 
@@ -35,8 +48,22 @@ local function Reset(ply)
                 ent.Mins = mins * scale * BIG_SCALE
                 ent.Maxs = maxs * scale * BIG_SCALE
 
-                ent:Spawn()
                 table.insert(hitboxes, ent)
+            end
+        end
+
+        for group = 0, ply:GetHitBoxGroupCount() - 1 do
+            for hitbox = 0, ply:GetHitBoxCount(group) - 1 do
+                local ent = parents.hitboxes[group][hitbox]
+                local bone = ply:GetHitBoxBone(hitbox, group)
+                local parent = ply:GetBoneParent(bone)
+                if (parent ~= -1 and parents.bones[parent]) then
+                    parent = parents.bones[parent]
+                    ent:SetHitBoxParent(parent)
+                    parent.children = parent.children or {}
+                    table.insert(parent.children, ent)
+                end
+                ent:Spawn()
             end
         end
     end)
@@ -47,6 +74,8 @@ end
 function ENT:SetupDataTables()
     self:NetworkVar("Int", 0, "HitBox")
     self:NetworkVar("Int", 1, "HitGroup")
+    self:NetworkVar("Int", 2, "Bone")
+    self:NetworkVar("Entity", 0, "HitBoxParent")
 end
 
 function ENT:Initialize()
@@ -73,18 +102,12 @@ function ENT:OnTakeDamage(dmg)
     end
 end
 
-function ENT:Think()
+function ENT:Recalculate(parent, prevmatr)
     if (not SERVER) then
         return
     end
 
-    local hitbox, hitgroup = self:GetHitBox(), self:GetHitGroup()
     local owner = self:GetOwner()
-
-    if (not IsValid(owner)) then
-        self:Remove()
-        return
-    end
 
     if (owner:GetModel() ~= self.ModelStr) then
         Reset(owner)
@@ -92,15 +115,51 @@ function ENT:Think()
         return
     end
 
-    local bone = owner:GetHitBoxBone(hitbox, hitgroup)
+    local bone = self:GetBone()
 
-    local pos, angles = owner:GetBonePosition(bone)
+    local bmatr = owner:GetBoneMatrix(bone)
+    pos = bmatr:GetTranslation() + owner:GetManipulateBonePosition(bone)
+
+    local matr = Matrix()
+    if (not prevmatr) then
+        prevmatr = Matrix()
+    end
+    prevmatr:Rotate(owner:GetManipulateBoneAngles(bone))
+    matr:SetAngles(bmatr:GetAngles())
+    matr:Rotate(prevmatr:GetAngles())
+
+    if (parent) then
+        local angles = matr:GetAngles()
+        pos, angles = WorldToLocal(pos, angles, owner:GetBonePosition(parent:GetBone()))
+        pos, angles = LocalToWorld(pos, angles, parent:GetPos(), parent:GetAngles())
+    end
 
     self:SetPos(pos)
-    self:SetAngles(angles)
+    self:SetAngles(matr:GetAngles())
 
-    self:NextThink(CurTime())
-    return true
+    local children = self.children
+    if (children) then
+        local m = Matrix()
+        for i = 1, #children do
+            m:Set(prevmatr)
+            children[i]:Recalculate(self, m, owner:GetManipulateBoneAngles(bone))
+        end
+    end
+
+    if (not parent) then
+        self:NextThink(CurTime())
+        return true
+    end
+end
+
+function ENT:Think()
+    if (not IsValid(self:GetOwner())) then
+        self:Remove()
+        return
+    end
+    if (not IsValid(self:GetHitBoxParent())) then
+        return self:Recalculate()
+    end
 end
 
 local in_fire = false
@@ -134,7 +193,8 @@ function ENT:TestCollision(startpos, delta, isbox, extents, mask)
 end
 
 function ENT:Draw()
-    if (self:GetOwner() == LocalPlayer()) then
+    local owner = self:GetOwner()
+    if (owner == LocalPlayer() and not hook.Run("ShouldDrawLocalPlayer", owner) or owner:IsDeadTerror() or owner:IsSpec()) then
         return
     end
 
@@ -156,8 +216,11 @@ function ENT:UpdateTransmitState()
 end
 
 if (SERVER) then
-    concommand.Add("player_hitbox_tag", function(ply)
+    concommand.Add("player_hitbox_tag", function(ply, cmd, args)
         local e = ply:GetEyeTrace().Entity
+        if (args[1]) then
+            e = Player(tonumber(args[1]))
+        end
         if (IsValid(e) and e:IsPlayer()) then
             for k,v in pairs(ents.FindByClass "player_hitbox") do
                 if (v:GetOwner() == e) then
