@@ -192,7 +192,7 @@ local tier1_rewards = {
 	ic = 1000,
 	exp = 2500,
 }
-local tier1_rewards_str = "1,500 Inventory Credits + 2,500 Player Experience"
+local tier1_rewards_str = "1,000 Inventory Credits + 2,500 Player Experience"
 
 
 local tier2_rewards = {
