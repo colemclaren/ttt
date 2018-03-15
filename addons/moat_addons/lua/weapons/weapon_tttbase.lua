@@ -384,7 +384,24 @@ function SWEP:GetPrimaryCone()
 end
 
 function SWEP:GetHeadshotMultiplier(victim, dmginfo)
+   if (self.Primary.Ammo == "Buckshot") then
+      return self:GetShotgunHeadshotMultiplier(victim, dmginfo)
+   end
+
    return self.HeadshotMultiplier
+end
+
+function SWEP:GetShotgunHeadshotMultiplier(victim, dmginfo)
+   return 1 -- disabled headshot damage for shotgun
+   /*
+   local att = dmginfo:GetAttacker()
+   if not IsValid(att) then return 3 end
+
+   local dist = victim:GetPos():Distance(att:GetPos())
+   local d = math.max(0, dist - 140)
+
+   -- decay from 3.1 to 1 slowly as distance increases
+   return 1 + math.max(0, (2.1 - 0.002 * (d ^ 1.25)))*/
 end
 
 function SWEP:IsEquipment()
