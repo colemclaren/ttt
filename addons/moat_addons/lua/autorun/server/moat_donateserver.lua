@@ -72,7 +72,7 @@ MOAT_DONATE.Packages = {
 	end},
 	[9] = {250,function(ply)
 		if MG_cur_event then return end
-		MG_cur_event = "Double XP"
+		MG_cur_event = "Quadra XP"
 		net.Start("MapEvent")
 		net.WriteString(MG_cur_event)
 		net.WriteString(ply:Nick())
@@ -81,10 +81,10 @@ MOAT_DONATE.Packages = {
 		local meta = FindMetaTable("Player")
 		if not meta.oApplyXP then meta.oApplyXP = meta.ApplyXP end
 		function meta:ApplyXP(num)
-			num = num * 2
+			num = num * 4
 			self:oApplyXP(num)
 		end
-		XP_MULTIPYER = 4
+		XP_MULTIPYER = 8
 
 		local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") started map event '**" .. MG_cur_event .. "**' on server: " .. GetHostName() .. " (" .. game.GetIP() .. ")"
 		SVDiscordRelay.SendToDiscordRaw("Event Log",false,msg,"https://discordapp.com/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX")
