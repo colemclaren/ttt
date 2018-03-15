@@ -12,7 +12,7 @@ function pl:SelectHolster()
 	end
 end
 
-/*
+if (not file.Exists("terrorcity.txt", "MOD")) then
 hook.Add("TTTBeginRound","Role Save",function()
     timer.Simple(0.5,function()
         if MOAT_MINIGAME_OCCURING then return end
@@ -39,8 +39,8 @@ end)
 
 hook.Add("PlayerDisconnected","Role Save",function(ply)
     cookie.Delete("rolesave" .. ply:SteamID64())
-end)*/
-
+end)
+end
 /*
 util.AddNetworkString("TTT_Player_Equipment")
 
