@@ -10,4 +10,7 @@ function ROLE:TTTBeginRound()
         local pammo = wep:GetPrimaryAmmoType()
         self:GiveAmmo(wep:GetMaxClip1() * math.floor(count / 2), pammo)
     end
+
+    self:GiveEquipmentItem(EQUIP_RADAR)
+    self:GiveEquipmentItem(EQUIP_ARMOR)
 end
