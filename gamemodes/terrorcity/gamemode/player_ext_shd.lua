@@ -56,6 +56,16 @@ function plymeta:IsSpecial()
     return self:GetRole() ~= ROLE_INNOCENT
 end
 
+local chatroles = {
+    [ROLE_DETECTIVE] = ROLE_DETECTIVE,
+    [ROLE_TRAITOR] = ROLE_TRAITOR,
+    [ROLE_HITMAN] = ROLE_TRAITOR
+}
+
+function plymeta:GetChatRole()
+    return chatroles[self:GetRole()]
+end
+
 -- Player is alive and in an active round
 function plymeta:IsActive()
     return self:IsTerror() and GetRoundState() == ROUND_ACTIVE
