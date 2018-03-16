@@ -161,7 +161,7 @@ local function DrawBlur(panel, amount)
 end
 
 local light_gradient = Material("sprites/light_ignorez")
-local circ_gradient = Material("moat_inv/moat_circle_grad.png")
+local circ_gradient = "https://i.moat.gg/8WkHz.png"
 
 MOAT_THEME = MOAT_THEME or {}
 MOAT_THEME.Cooldown = CurTime()
@@ -1183,7 +1183,7 @@ MOAT_THEME.Themes["Alpha"] = {
                 draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(255, 255, 255, 50))
             end
 
-            surface_SetMaterial(circ_gradient)
+            surface_SetMaterial(fetch_asset(circ_gradient))
             surface_SetDrawColor(rarity_names[item.item.Rarity][2].r, rarity_names[item.item.Rarity][2].g, rarity_names[item.item.Rarity][2].b, 255)
             surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
             surface_SetDrawColor(0, 0, 0, 255)
@@ -1214,7 +1214,7 @@ MOAT_THEME.Themes["Alpha"] = {
             surface_SetDrawColor(183, 183, 183, 0)
             surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
             surface_SetDrawColor(0, 0, 0, lr / 2)
-            surface_SetMaterial(circ_gradient)
+            surface_SetMaterial(fetch_asset(circ_gradient))
             surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
         end
     end,
@@ -1237,7 +1237,7 @@ MOAT_THEME.Themes["Alpha"] = {
                 draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(255, 255, 255, 50))
             end
 
-            surface_SetMaterial(circ_gradient)
+            surface_SetMaterial(fetch_asset(circ_gradient))
             surface_SetDrawColor(rarity_names[item.item.Rarity][2].r, rarity_names[item.item.Rarity][2].g, rarity_names[item.item.Rarity][2].b, 255)
             surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
             surface_SetDrawColor(0, 0, 0, 255)
@@ -1265,7 +1265,7 @@ MOAT_THEME.Themes["Alpha"] = {
         if (item.c) then
             surface_SetDrawColor(rarity_names[item.item.Rarity][2].r, rarity_names[item.item.Rarity][2].g, rarity_names[item.item.Rarity][2].b, lr / 2)
         else
-            surface_SetMaterial(circ_gradient)
+            surface_SetMaterial(fetch_asset(circ_gradient))
             surface_SetDrawColor(50, 50, 50, 25 - (lr / 2))
             surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
             surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)

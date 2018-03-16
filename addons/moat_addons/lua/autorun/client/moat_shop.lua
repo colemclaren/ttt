@@ -158,7 +158,7 @@ function m_PopulateHomeShop(pnl)
     end
 end
 
-local circ_gradient = Material("moat_inv/moat_circle_grad.png")
+local circ_gradient = "https://i.moat.gg/8WkHz.png"
 
 function m_PopulateShop(pnl)
     local M_SHOP_LIST = vgui.Create("DIconLayout", pnl)
@@ -181,7 +181,7 @@ function m_PopulateShop(pnl)
             draw.RoundedBox(0, 0, 0, w, h, name_col)
             draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 100))
 
-            surface.SetMaterial(circ_gradient)
+            surface.SetMaterial(fetch_asset(circ_gradient))
             surface.SetDrawColor(0, 0, 0, 150)
             surface.DrawRect(1, 1, w-2, h-2)
             surface.SetDrawColor(0, 0, 0, 255)
@@ -353,7 +353,7 @@ function m_PopulateShop(pnl)
             draw.RoundedBox(0, 0, 0, w, h, name_col)
             draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 100))
 
-            surface.SetMaterial(circ_gradient)
+            surface.SetMaterial(fetch_asset(circ_gradient))
             surface.SetDrawColor(0, 0, 0, 150)
             surface.DrawRect(1, 1, w-2, h-2)
             surface.SetDrawColor(0, 0, 0, 255)
