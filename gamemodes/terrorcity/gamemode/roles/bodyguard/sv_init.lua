@@ -1,7 +1,7 @@
 if (CLIENT) then return end
 
 local BODYGUARD = {}
-BODYGUARD.Roles = {[ROLE_DETECTIVE] = true, [ROLE_DOCTOR] = true}
+BODYGUARD.Roles = {[ROLE_DETECTIVE] = true}
 BODYGUARD.Ply = nil
 function BODYGUARD.CheckPlayers(pl)
 	if (BODYGUARD.Dead or GetRoundState() ~= ROUND_ACTIVE) then return end
