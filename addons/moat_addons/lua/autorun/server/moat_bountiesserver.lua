@@ -189,24 +189,24 @@ local chal_suffix = {
 }
 
 local tier1_rewards = {
-	ic = 1000,
+	ic = 2000,
 	exp = 2500,
 }
-local tier1_rewards_str = "1,000 Inventory Credits + 2,500 Player Experience"
+local tier1_rewards_str = "2,000 Inventory Credits + 2,500 Player Experience"
 
 
 local tier2_rewards = {
-	ic = 2000,
+	ic = 3500,
 	exp = 5500,
 }
-local tier2_rewards_str = "2,000 Inventory Credits + 5,500 Player Experience"
+local tier2_rewards_str = "3,500 Inventory Credits + 5,500 Player Experience"
 
 
 local tier3_rewards = {
-	ic = 4000,
+	ic = 5000,
 	exp = 8500
 }
-local tier3_rewards_str = "4,000 Inventory Credits + 8,500 Player Experience"
+local tier3_rewards_str = "5,000 Inventory Credits + 8,500 Player Experience"
 
 
 
@@ -477,8 +477,8 @@ MOAT_BOUNTIES:AddBounty("Knife Addicted", {
 			end
 		end)
 	end,
-	rewards = tier2_rewards_str,
-	rewardtbl = tier2_rewards
+	rewards = "5,000 Inventory Credits + 10,500 Player Experience",
+	rewardtbl = {ic = 5000, exp = 10500}
 })
 
 MOAT_BOUNTIES:AddBounty("DNA Addicted", {
@@ -561,8 +561,8 @@ MOAT_BOUNTIES:AddBounty("Equipment User", {
 			end
 		end)
 	end,
-	rewards = tier2_rewards_str,
-	rewardtbl = tier2_rewards
+	rewards = "5,000 Inventory Credits + 5,500 Player Experience",
+	rewardtbl = {ic = 5000, exp = 5500}
 })
 
 MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
@@ -578,8 +578,8 @@ MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
 			end
 		end)
 	end,
-	rewards = tier2_rewards_str,
-	rewardtbl = tier2_rewards
+	rewards = "5,000 Inventory Credits + 10,500 Player Experience",
+	rewardtbl = {ic = 5000, exp = 10500}
 })
 
 MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
@@ -611,8 +611,8 @@ MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
 			end
 		end)
 	end,
-	rewards = tier2_rewards_str,
-	rewardtbl = tier2_rewards
+	rewards = "5,000 Inventory Credits + 10,500 Player Experience",
+	rewardtbl = {ic = 5000, exp = 10500}
 })
 
 
@@ -794,7 +794,7 @@ MOAT_BOUNTIES:AddBounty("The A Team", {
 	tier = 3,
 	desc = "Win # rounds as a traitor with none of your traitor buddies dying. Can be completed as a traitor only.",
 	vars = {
-		math.random(1, 3),
+		math.random(3, 5),
 	},
 	runfunc = function(mods, bountyid)
 		local traitor_died = false
@@ -849,7 +849,7 @@ MOAT_BOUNTIES:AddBounty("Clutch Master", {
 	tier = 3,
 	desc = "Win # rounds as the last traitor alive with the most amount of kills. Can be completed as a traitor only.",
 	vars = {
-		math.random(1, 3),
+		math.random(3, 5),
 	},
 	runfunc = function(mods, bountyid)
 		local traitor_died = false
@@ -919,7 +919,7 @@ MOAT_BOUNTIES:AddBounty("An Explosive Ending", {
 	desc = "With # explosion, elimite # terrorists rightfully. Can be completed as any role.",
 	vars = {
 		1,
-		math.random(3, 4)
+		math.random(5, 7)
 	},
 	runfunc = function(mods, bountyid)
 		hook.Add("EntityTakeDamage", "moat_explosive_ending", function(targ, dmg)
