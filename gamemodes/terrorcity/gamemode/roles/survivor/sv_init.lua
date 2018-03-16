@@ -5,6 +5,9 @@ SURVIVOR.Roles = {[ROLE_INNOCENT] = true}
 SURVIVOR.Extra = {[ROLE_TRAITOR] = true, [ROLE_KILLER] = true, [ROLE_JESTER] = true}
 
 function SURVIVOR:GiveHealth()
+	if (SURVIVOR.GotHealth) then
+		return
+	end
 	local pl, extra = nil, 0
 	for i, ply in pairs(player.GetAll()) do
 		if (self.Extra[ply:GetRole()]) then extra = extra + 1 end
@@ -15,7 +18,8 @@ function SURVIVOR:GiveHealth()
 		return
 	end
 
-	local new_hp = pl:Health() + extra * 200
+	SURVIVOR.GotHealth = true
+	local new_hp = pl:Health() + extra * 75
 	pl:SetMaxHealth(new_hp)
 	pl:SetHealth(new_hp)
 end
@@ -39,3 +43,7 @@ function SURVIVOR.CheckPlayers(pl)
 	end
 end
 hook.Add("PostPlayerDeath", "terror.city.survivor", SURVIVOR.CheckPlayers)
+
+function SURVIVOR:TTTBeginRound()
+	SURVIVOR.GotHealth = false
+end
