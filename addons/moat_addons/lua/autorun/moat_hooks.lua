@@ -171,3 +171,6 @@ MOAT_ITEM_CHECK[12] = {function(i)
 	
 	return i.item and textureable[i.item.Kind:lower()] or i.Kind and textureable[i.Kind:lower()]
 end, "Item must be a weapon!"}
+MOAT_ITEM_CHECK[13] = {function(i)
+	return true
+end, "Tell moat you can't gift this item."}

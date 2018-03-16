@@ -515,7 +515,7 @@ function m_DrawItemDesc(text, font, x, y, w, h)
         draw_SimpleText(char, font, x + chars_x, y + (chars_y * 15), char_col)
         chars_x = chars_x + charw
 
-        if (i == #texte) then
+        if (not text:EndsWith(".") and not text:EndsWith("!") and not text:EndsWith("?") and i == #texte) then
             local charw2, charh2 = surface_GetTextSize(" ")
             draw_SimpleText(".", font, x + chars_x - charw2 + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
             draw_SimpleText(".", font, x + chars_x - charw2, y + (chars_y * 15), Color(255, 255, 255))
@@ -642,7 +642,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         wpn_mag = "∞"
     end
 
-    if (itemtbl.item.Rarity == 0) then
+    if (itemtbl.item.Rarity == 0 and itemtbl.item.ID and itemtbl.item.ID ~= 7820) then
         m_DrawShadowedText(1, "DMG", font, x1, y, Color(255, 255, 255))
         m_DrawShadowedText(1, wpn_dmg, font_large, x1, y + y_addition, Color(255, 255, 255))
         m_DrawShadowedText(1, "RPM", font, x2, y, Color(255, 255, 255))
@@ -2702,7 +2702,7 @@ function m_OpenInventory(ply2, utrade)
 
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-                if (ITEM_HOVERED.item.Rarity == 0) then
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
                     ITEM_NAME_FULL = ITEM_NAME
                 end
             else
@@ -2884,7 +2884,7 @@ function m_OpenInventory(ply2, utrade)
 
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-                if (ITEM_HOVERED.item.Rarity == 0) then
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
                     ITEM_NAME_FULL = ITEM_NAME
                 end
             else
@@ -2988,7 +2988,7 @@ function m_OpenInventory(ply2, utrade)
 
             local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
-            if (ITEM_HOVERED.item.Rarity == 0) then
+            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
                 panel_height = 100
             end
             
@@ -5536,7 +5536,7 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
 
             ITEM_NAME_FULL = item_tbl.item.Name .. " " .. ITEM_NAME
 
-            if (item_tbl.item.Rarity == 0) then
+            if (item_tbl.item.Rarity == 0 and item_tbl.item.ID and item_tbl.item.ID ~= 7820) then
                 ITEM_NAME_FULL = ITEM_NAME
             end
         else
@@ -5609,7 +5609,7 @@ function m_DrawFoundItem(tbl, s_type)
 
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-                if (ITEM_HOVERED.item.Rarity == 0) then
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
                     ITEM_NAME_FULL = ITEM_NAME
                 end
             else
@@ -5760,7 +5760,7 @@ function m_DrawFoundItem(tbl, s_type)
 
             ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-            if (ITEM_HOVERED.item.Rarity == 0) then
+            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
                 ITEM_NAME_FULL = ITEM_NAME
             end
         else
@@ -5855,7 +5855,7 @@ function m_DrawFoundItem(tbl, s_type)
 
         local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
-        if (ITEM_HOVERED.item.Rarity == 0) then
+        if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
             panel_height = 100
         end
 
@@ -5876,7 +5876,7 @@ function m_DrawFoundItem(tbl, s_type)
 
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-                if (ITEM_HOVERED.item.Rarity == 0) then
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
                     ITEM_NAME_FULL = ITEM_NAME
                 end
             else
@@ -5972,7 +5972,7 @@ function m_DrawFoundItem(tbl, s_type)
 
             local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
-            if (ITEM_HOVERED.item.Rarity == 0) then
+            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
                 panel_height = 100
             end
 
