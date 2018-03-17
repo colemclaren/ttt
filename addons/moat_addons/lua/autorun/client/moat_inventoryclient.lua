@@ -4981,7 +4981,7 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
     if (GetConVar("moat_auto_deconstruct"):GetInt() == 1 and not not_drop and not string.find(m_Inventory[slot].item.Name, "Crate")) then
         local rar = GetConVar("moat_auto_deconstruct_rarity"):GetString()
 
-        if (ITEM_RARITY_TO_NAME[rar] and m_Inventory[slot].item.Rarity <= ITEM_RARITY_TO_NAME[rar] and m_CanAutoDeconstruct(m_Inventory[slot])) then
+        if (ITEM_RARITY_TO_NAME[rar] and m_Inventory[slot].item.Rarity ~= 0 and m_Inventory[slot].item.Rarity <= ITEM_RARITY_TO_NAME[rar] and m_CanAutoDeconstruct(m_Inventory[slot])) then
             net.Start("MOAT_REM_INV_ITEM")
             net.WriteDouble(slot)
             net.WriteDouble(m_Inventory[slot].c)
