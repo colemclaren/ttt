@@ -244,6 +244,8 @@ function m_PopulateStats(pnl)
 	load:SetSize(352,25)
 	local function refresh()
 		load:Clear()
+		if (not Loadout or not Loadout.Loadouts) then return end
+		
 		for k,v in pairs(Loadout.Loadouts) do
 			load:AddChoice(k,k,(Loadout.CurLoadout == k))
 		end
