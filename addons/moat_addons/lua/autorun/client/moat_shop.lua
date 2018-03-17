@@ -204,6 +204,9 @@ function m_PopulateShop(pnl)
                 if (itemtbl.CrateShopOverride == "50/50") then
                     m_DrawEnchantedText(itemtbl.CrateShopOverride, "moat_Trebuchet24", (w / 2) - 35, 5, name_col, Color(0, 0, 255))
                     m_DrawEnchantedText("Crate", "moat_Trebuchet24", (w / 2) - 29, 25, name_col, Color(0, 0, 255))
+                elseif (itemtbl.CrateShopOverride == "Gift") then
+                    m_DrawShadowedText(1, "Empty Gift", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                    m_DrawShadowedText(1, "Package", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
                 else
                     m_DrawEnchantedText(itemtbl.CrateShopOverride, "moat_Trebuchet24", w / 2, 5, name_col, Color(255, 0, 255))
                     m_DrawEnchantedText("Crate", "moat_Trebuchet24", w / 2, 25, name_col, Color(255, 0, 255))
@@ -213,11 +216,15 @@ function m_PopulateShop(pnl)
                 m_DrawShadowedText(1, "Crate", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
             end
 
+            local img = Material(itemtbl.Image)
+            if (itemtbl.Image:StartWith("https")) then img = fetch_asset(itemtbl.Image) end
+                    
+
             surface.SetDrawColor(0, 0, 0, 100)
-            surface.SetMaterial(Material(itemtbl.Image))
+            surface.SetMaterial(img)
             surface.DrawTexturedRect((w / 2) - 35, ((h - 50) / 2) - 35 + image_y_off, 70, 70)
             surface.SetDrawColor(255, 255, 255, 255)
-            surface.SetMaterial(Material(itemtbl.Image))
+            surface.SetMaterial(img)
             surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
             m_DrawShadowedText(1, item_price, "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255), TEXT_ALIGN_CENTER)
             surface.SetMaterial(Material("icon16/coins_delete.png"))
@@ -228,20 +235,22 @@ function m_PopulateShop(pnl)
         end
         ITEM_BG.PaintOver = function(s, w, h) end
 
-        local ITEM_PREVIEW = vgui.Create("DButton", ITEM_BG)
-        ITEM_PREVIEW:SetSize(70, 70)
-        ITEM_PREVIEW:SetPos(49, 50)
-        ITEM_PREVIEW:SetText("")
-        ITEM_PREVIEW:SetTooltip("Preview Crate")
-        ITEM_PREVIEW.Paint = nil
-        ITEM_PREVIEW.DoClick = function(s)
-            if (moat_crate_previews[itemtbl.ID]) then 
-                m_PreviewCrate(moat_crate_previews[itemtbl.ID])
-                return
+        if (itemtbl.Preview == nil or itemtbl.Preview) then
+            local ITEM_PREVIEW = vgui.Create("DButton", ITEM_BG)
+            ITEM_PREVIEW:SetSize(70, 70)
+            ITEM_PREVIEW:SetPos(49, 50)
+            ITEM_PREVIEW:SetText("")
+            ITEM_PREVIEW:SetTooltip("Preview Crate")
+            ITEM_PREVIEW.Paint = nil
+            ITEM_PREVIEW.DoClick = function(s)
+               if (moat_crate_previews[itemtbl.ID]) then 
+                    m_PreviewCrate(moat_crate_previews[itemtbl.ID])
+                    return
+                end
+                net.Start("MOAT_CRATE_PREVIEW")
+                net.WriteUInt(itemtbl.ID, 32)
+                net.SendToServer()
             end
-            net.Start("MOAT_CRATE_PREVIEW")
-            net.WriteUInt(itemtbl.ID, 32)
-            net.SendToServer()
         end
 
         local ITEM_BUY_INC = vgui.Create("DButton", ITEM_BG)
@@ -374,11 +383,14 @@ function m_PopulateShop(pnl)
             m_DrawShadowedText(1, item_name[1], "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
             m_DrawShadowedText(1, item_name[2], "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
 
+            local imgs = Material(img)
+            if (img:StartWith("https")) then imgs = fetch_asset(img) end
+
             surface.SetDrawColor(0, 0, 0, 100)
-            surface.SetMaterial(Material(img))
+            surface.SetMaterial(imgs)
             surface.DrawTexturedRect((w / 2) - 35, ((h - 50) / 2) - 35 + image_y_off, 70, 70)
             surface.SetDrawColor(255, 255, 255, 255)
-            surface.SetMaterial(Material(img))
+            surface.SetMaterial(imgs)
             surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
             m_DrawShadowedText(1, item_price, "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255), TEXT_ALIGN_CENTER)
             surface.SetMaterial(Material("icon16/coins_delete.png"))

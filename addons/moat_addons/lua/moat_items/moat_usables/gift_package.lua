@@ -1,13 +1,18 @@
-ITEM.ID = 7820
+ITEM.ID = 7821
 ITEM.Name = "Gift Package"
-ITEM.Description = "Every player will receive a holiday crate when this item is used"
+ITEM.Description = "I wonder what's inside?"
 ITEM.Rarity = 0
 ITEM.Active = false
-ITEM.Price = 5000
 ITEM.Collection = "Gift Collection"
-ITEM.Image = "moat_inv/gift_usable64.png"
-ITEM.ItemCheck = 1
+ITEM.Image = "https://i.moat.gg/nzP37.png"
+ITEM.Preview = false
+ITEM.CrateShopOverride = "Gift"
 ITEM.ItemUsed = function(pl, slot, item)
- -- 	m_ResetTalents(pl, slot, item)
- --     m_SendInvItem(pl, slot)
+	local ply_inv = MOAT_INVS[pl]
+	if (not ply_inv) then return end
+	local i = ply_inv["slot" .. slot]
+	if (not i) then return end
+	if (not i.g) then return end
+
+	pl:m_AddInventoryItem(i.g)
 end
