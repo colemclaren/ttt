@@ -1,27 +1,4 @@
-if (SERVER) then
-
-	local PLAYER = FindMetaTable "Player"
-	PLAYER.O_AnimResetGestureSlot = PLAYER.O_AnimResetGestureSlot or PLAYER.AnimResetGestureSlot
-	function PLAYER:AnimResetGestureSlot(slot)
-		self:O_AnimResetGestureSlot(slot)
-		net.Start "moat.animresetgestureslot"
-			net.WriteEntity(self)
-			net.WriteUInt(slot, 8)
-		net.Broadcast()
-	end
-
-	PLAYER.O_AnimRestartGesture = PLAYER.O_AnimRestartGesture or PLAYER.AnimRestartGesture
-	function PLAYER:AnimRestartGesture(slot, activity, autokill)
-		self:O_AnimRestartGesture(slot, activity, autokill)
-		net.Start "moat.animrestartgesture"
-		net.WriteEntity(self)
-			net.WriteUInt(slot, 8)
-			net.WriteUInt(activity, 8)
-			net.WriteBool(autokill)
-		net.Broadcast()
-	end
-	util.AddNetworkString "moat.animrestartgesture"
-	util.AddNetworkString "moat.animresetgestureslot"
+if (SERVER) then 
 	util.AddNetworkString("moat_OpenInventory")
 	util.AddNetworkString("moat_InventoryCatChange")
 	util.AddNetworkString("MOAT_RESET_ANIMATION")
@@ -82,6 +59,8 @@ if (SERVER) then
 			for i = 1, #ply.WeaponAnims do
 				local wep = ply.WeaponAnims[i]
 				if (not IsValid(wep)) then continue end
+				if (not wep.HoldType) then continue end
+				
 				wep:SetHoldType(wep.HoldType)
 			end
 		end
@@ -90,14 +69,13 @@ if (SERVER) then
 	net.Receive("moat_OpenInventory", function(len, ply)
 		local open = net.ReadBool()
 
-		if (ply.InventoryOpen ~= open) then
-			if (open) then
-				moat_StartInventoryOpenAntimationStart(ply)
-			else
-				moat_StartInventoryOpenAntimationEnd(ply)
-			end
-		end
 		ply.InventoryOpen = open
+		
+		if (open) then
+			moat_StartInventoryOpenAntimationStart(ply)
+		else
+			moat_StartInventoryOpenAntimationEnd(ply)
+		end
 	end)
 
 	hook.Add("PlayerDisconnected", "moat_InventoryOpenAnimDisconnect", function(ply)
@@ -105,6 +83,8 @@ if (SERVER) then
 			for i = 1, #ply.WeaponAnims do
 				local wep = ply.WeaponAnims[i]
 				if (not IsValid(wep)) then continue end
+				if (not wep.HoldType) then continue end
+
 				wep:SetHoldType(wep.HoldType)
 			end
 		end
@@ -115,6 +95,8 @@ if (SERVER) then
 			for i = 1, #ply.WeaponAnims do
 				local wep = ply.WeaponAnims[i]
 				if (not IsValid(wep)) then continue end
+				if (not wep.HoldType) then continue end
+				
 				wep:SetHoldType(wep.HoldType)
 			end
 		end
@@ -234,53 +216,53 @@ if (SERVER) then
 			end)
 		end
 	end)
-	/*
-	local bones = {
-		["ValveBiped.Bip01_R_Forearm"] = Angle(45, -45, 0),
-		["ValveBiped.Bip01_R_UpperArm"] = Angle(90, 0, 45),
-		["ValveBiped.Bip01_L_UpperArm"] = Angle(-90, 0, -45),
-		["ValveBiped.Bip01_L_Forearm"] = Angle(-45, -45, 0),
-	}
+/*
+local bones = {
+	["ValveBiped.Bip01_R_Forearm"] = Angle(45, -45, 0),
+	["ValveBiped.Bip01_R_UpperArm"] = Angle(90, 0, 45),
+	["ValveBiped.Bip01_L_UpperArm"] = Angle(-90, 0, -45),
+	["ValveBiped.Bip01_L_Forearm"] = Angle(-45, -45, 0),
+}
 
-	for k, v in pairs(player.GetBots()) do
-		v:SelectWeapon("weapon_ttt_unarmed")
+for k, v in pairs(player.GetBots()) do
+	v:SelectWeapon("weapon_ttt_unarmed")
+end
+
+hook.Add("Think", "moat_ModifyBones", function()
+   for _, ply in pairs(player.GetAll()) do
+        for k, v in pairs(bones) do
+            local b = ply:LookupBone(k)
+             ply:ManipulateBoneAngles(b, v)
+        end
+    end
+end)
+
+concommand.Add("moat_getbonelist", function(ply, cmd, args)
+	local bonelist = ply:GetBoneCount()
+
+	for i = 1, 100 do
+		print(ply:GetBoneName(i))
 	end
-
-	hook.Add("Think", "moat_ModifyBones", function()
-	for _, ply in pairs(player.GetAll()) do
-			for k, v in pairs(bones) do
-				local b = ply:LookupBone(k)
-				ply:ManipulateBoneAngles(b, v)
-			end
-		end
-	end)
-
-	concommand.Add("moat_getbonelist", function(ply, cmd, args)
-		local bonelist = ply:GetBoneCount()
-
-		for i = 1, 100 do
-			print(ply:GetBoneName(i))
-		end
-	end)*/
+end)*/
 
 	return
 end
 
 hook.Add("CreateMove", "moat_InventoryHandleDucking", function(cmd)
-	if (cmd:KeyDown(IN_DUCK) and IsValid(MOAT_INV_BG)) then
-		RunConsoleCommand("-duck")
-	end
+    if (cmd:KeyDown(IN_DUCK) and IsValid(MOAT_INV_BG)) then
+        RunConsoleCommand("-duck")
+    end
 end)
 
 surface.CreateFont("moat_ExtremeLarge", {
-	font = "DermaLarge",
-	size = 200,
-	weight = 800
+    font = "DermaLarge",
+    size = 200,
+    weight = 800
 })
 surface.CreateFont("moat_Extreme1Large", {
-	font = "DermaLarge",
-	size = 100,
-	weight = 800
+    font = "DermaLarge",
+    size = 100,
+    weight = 800
 })
 
 local MOAT_PLYS_INV = {}
@@ -296,31 +278,32 @@ local function m_InitializeAnimations(ply)
 
 		local b = ply:LookupBone("ValveBiped.Bip01_R_Forearm")
 		if (not b) then return end
+		
+    	local pos1, ang = ply:GetBonePosition(b)
+    	local pos2 = ply:GetManipulateBonePosition(b)
+    	ang:RotateAroundAxis(ang:Right(), 187)
+    	ang:RotateAroundAxis(ang:Up(), 180)
 
-		local pos1, ang = ply:GetBonePosition(b)
-		local pos2 = ply:GetManipulateBonePosition(b)
-		ang:RotateAroundAxis(ang:Right(), 187)
-		ang:RotateAroundAxis(ang:Up(), 180)
+    	local cam_pos = pos1 + pos2 + (ang:Forward() * 11) + (ang:Up() * 4) + (ang:Right() * -1)
 
-		local cam_pos = pos1 + pos2 + (ang:Forward() * 11) + (ang:Up() * 4) + (ang:Right() * -1)
+    	if (MOAT_PLYS_INV[ply][1]) then
+    	    col_alpha = Lerp(FrameTime() * 1, col_alpha, 255)
+    	else
+    		hook.Remove("PostDrawOpaqueRenderables", "moat_InventoryOpenCam" .. ply:EntIndex())
+    	end
 
-		if (MOAT_PLYS_INV[ply][1]) then
-			col_alpha = Lerp(FrameTime(), col_alpha, 255)
-		else
-			hook.Remove("PostDrawOpaqueRenderables", "moat_InventoryOpenCam" .. ply:EntIndex())
-		end
+    	local col_alpha = col_alpha * math.Clamp((1 - ((200 + (cam_pos:Distance(LocalPlayer():GetPos())))/1000)), 0, 1)
+    	local hsvcol = HSVToColor(CurTime() * 70 % 360, 1, 1 )
+    	local angles = ply:EyeAngles()
 
-		col_alpha = col_alpha * math.Clamp(1 - (200 + cam_pos:Distance(LocalPlayer():GetPos())) / 1000, 0, 1)
-		local hsvcol = HSVToColor(CurTime() * 70 % 360, 1, 1 )
-
-		cam.Start3D2D(cam_pos, ang, 0.02)
-			draw.SimpleTextOutlined("Viewing Inventory", "moat_Extreme1Large", 0, -80, Color(255, 255, 255, col_alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 8, Color(0, 0, 0, 15 * (col_alpha/255)))
-
-			surface.SetDrawColor(hsvcol.r, hsvcol.g, hsvcol.b, col_alpha)
-			surface.DrawRect(-400, 35, 800, 5)
-
-			draw.SimpleTextOutlined(MOAT_PLYS_INV[ply][2], "moat_ExtremeLarge", 0, 30, Color(255, 255, 255, col_alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 8, Color(0, 0, 0, 15 * (col_alpha/255)))
-		cam.End3D2D()
+    	cam.Start3D2D(cam_pos, ang, 0.02)
+    		draw.SimpleTextOutlined("Viewing Inventory", "moat_Extreme1Large", 0, -80, Color(255, 255, 255, col_alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 8, Color(0, 0, 0, 15 * (col_alpha/255)))
+        	
+        	surface.SetDrawColor(hsvcol.r, hsvcol.g, hsvcol.b, col_alpha)
+        	surface.DrawRect(-400, 35, 800, 5)
+        	
+        	draw.SimpleTextOutlined(MOAT_PLYS_INV[ply][2], "moat_ExtremeLarge", 0, 30, Color(255, 255, 255, col_alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 8, Color(0, 0, 0, 15 * (col_alpha/255)))
+    	cam.End3D2D()
 	end)
 end
 
@@ -377,11 +360,4 @@ net.Receive("MOAT_RESET_ANIMATION", function(len)
 			ply:AnimRestartGesture(GESTURE_SLOT_GRENADE, anims[act][1], anims[act][2])
 		end
 	end
-end)
-
-net.Receive("moat.animresetgestureslot", function()
-	net.ReadEntity():AnimResetGestureSlot(net.ReadUInt(8))
-end)
-net.Receive("moat.animrestartgesture", function()
-	net.ReadEntity():AnimRestartGesture(net.ReadUInt(8), net.ReadUInt(8), net.ReadBool())
 end)
