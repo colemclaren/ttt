@@ -642,7 +642,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         wpn_mag = "∞"
     end
 
-    if (itemtbl.item.Rarity == 0 and itemtbl.item.ID and itemtbl.item.ID ~= 7820) then
+    if (itemtbl.item.Rarity == 0 and itemtbl.item.ID and itemtbl.item.ID ~= 7820 and itemtbl.item.ID ~= 7821) then
         m_DrawShadowedText(1, "DMG", font, x1, y, Color(255, 255, 255))
         m_DrawShadowedText(1, wpn_dmg, font_large, x1, y + y_addition, Color(255, 255, 255))
         m_DrawShadowedText(1, "RPM", font, x2, y, Color(255, 255, 255))
@@ -931,6 +931,21 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
         slot = tonumber(key)
         m_Inventory[slot] = {}
         m_Inventory[slot] = tbl
+
+        if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
+            local d = nil
+
+            if (m_Inventory[slot] and m_Inventory[slot].item) then
+                local m = m_Inventory[slot].item
+
+                if (m.Image) then
+                    d = m.Image
+                    if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
+                        M_INV_SLOT[slot].VGUI.WModel = d
+                    end
+                end
+            end
+        end
     end
 end)
 
@@ -1843,7 +1858,7 @@ function m_OpenInventory(ply2, utrade)
     M_SLOT_D.PaintOver = function(s, w, h)
         if (not M_INV_DRAG) then return end
 
-        if (not string.EndsWith(M_INV_DRAG.VGUI.WModel, ".mdl")) then
+        if (M_INV_DRAG.VGUI and M_INV_DRAG.VGUI.WModel and not string.EndsWith(M_INV_DRAG.VGUI.WModel, ".mdl")) then
             s.Icon:SetAlpha(0)
             if (M_INV_DRAG.VGUI.Item and M_INV_DRAG.VGUI.Item.item and M_INV_DRAG.VGUI.Item.item.Clr) then
                 surface_SetDrawColor(M_INV_DRAG.VGUI.Item.item.Clr[1], M_INV_DRAG.VGUI.Item.item.Clr[2], M_INV_DRAG.VGUI.Item.item.Clr[3], 200)
@@ -2702,7 +2717,7 @@ function m_OpenInventory(ply2, utrade)
 
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                     ITEM_NAME_FULL = ITEM_NAME
                 end
             else
@@ -2884,7 +2899,7 @@ function m_OpenInventory(ply2, utrade)
 
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                     ITEM_NAME_FULL = ITEM_NAME
                 end
             else
@@ -2988,7 +3003,7 @@ function m_OpenInventory(ply2, utrade)
 
             local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
-            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
+            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                 panel_height = 100
             end
             
@@ -3796,7 +3811,7 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
     local m_WClass = {}
     local m_ItemExists = true
 
-    if (m_ItemExists) then
+    if (m_ItemExists and item_cache and item_cache.item) then
         if (item_cache.item.Image) then
             m_WClass.WorldModel = item_cache.item.Image
         elseif (item_cache.item.Model) then
@@ -3873,7 +3888,7 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
 
     m_DPanelIcon.SIcon:SetVisible(false)
 
-    if (m_ItemExists) then
+    if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
         if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
             m_DPanelIcon.SIcon.Icon:SetAlpha(0)
         end
@@ -4057,7 +4072,7 @@ function m_IniateUsableItem(num, itemtbl)
             surface_DrawOutlinedRect((w/2) - 34, 305, 68, 68)
             surface_DrawOutlinedRect((w/2) - 35, 304, 70, 70)
             surface_DrawOutlinedRect((w/2) - 36, 303, 72, 72)
-        elseif (sel_itm) then
+        elseif (sel_itm and sel_itm.item) then
             surface_SetDrawColor(rarity_names[sel_itm.item.Rarity][2])
             surface_DrawOutlinedRect((w/2) - 34, 305, 68, 68)
             surface_SetDrawColor(rarity_names[sel_itm.item.Rarity][2].r, rarity_names[sel_itm.item.Rarity][2].g, rarity_names[sel_itm.item.Rarity][2].b, 75)
@@ -4457,7 +4472,10 @@ function m_CreateItemMenu(num, ldt)
     end
 
     if (itemtbl.item.Kind == "Usable" and not ldt) then
-        M_INV_MENU:AddOption("Use", function()
+        local txt = "Use"
+        if (itemtbl and itemtbl.u and itemtbl.u == 7821) then txt = "Open Gift" end
+        
+        M_INV_MENU:AddOption(txt, function()
             net.Start("MOAT_INIT_USABLE")
             net.WriteDouble(num)
             net.WriteDouble(itemtbl.c)
@@ -4465,6 +4483,11 @@ function m_CreateItemMenu(num, ldt)
             surface.PlaySound("UI/buttonclick.wav")
         end):SetIcon("icon16/accept.png")
 
+        if (itemtbl and itemtbl.u and itemtbl.u == 7821) then
+            M_INV_MENU:AddOption("Send to Player", function()
+                MOAT_GIFTS.SendGift(itemtbl, num)
+            end):SetIcon("icon16/heart.png")
+        end
 
         M_INV_MENU:AddSpacer()
     end
@@ -4543,6 +4566,7 @@ function m_CreateItemMenu(num, ldt)
         net.SendToServer()
         surface.PlaySound("UI/buttonclick.wav")
     end):SetIcon("icon16/lock" .. lock_image .. ".png")
+
 
     if (itemtbl.l and itemtbl.l == 1) then return end
 
@@ -5536,7 +5560,7 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
 
             ITEM_NAME_FULL = item_tbl.item.Name .. " " .. ITEM_NAME
 
-            if (item_tbl.item.Rarity == 0 and item_tbl.item.ID and item_tbl.item.ID ~= 7820) then
+            if (item_tbl.item.Rarity == 0 and item_tbl.item.ID and item_tbl.item.ID ~= 7820 and item_tbl.item.ID ~= 7821) then
                 ITEM_NAME_FULL = ITEM_NAME
             end
         else
@@ -5609,7 +5633,7 @@ function m_DrawFoundItem(tbl, s_type)
 
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                     ITEM_NAME_FULL = ITEM_NAME
                 end
             else
@@ -5760,7 +5784,7 @@ function m_DrawFoundItem(tbl, s_type)
 
             ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
+            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                 ITEM_NAME_FULL = ITEM_NAME
             end
         else
@@ -5855,7 +5879,7 @@ function m_DrawFoundItem(tbl, s_type)
 
         local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
-        if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
+        if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
             panel_height = 100
         end
 
@@ -5876,7 +5900,7 @@ function m_DrawFoundItem(tbl, s_type)
 
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                     ITEM_NAME_FULL = ITEM_NAME
                 end
             else
@@ -5972,7 +5996,7 @@ function m_DrawFoundItem(tbl, s_type)
 
             local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
-            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820) then
+            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                 panel_height = 100
             end
 

@@ -5,10 +5,10 @@ ITEM.Rarity = 0
 ITEM.Active = true
 ITEM.Price = 5000
 ITEM.Collection = "Gift Collection"
-ITEM.Image = "https://i.moat.gg/nzP37.png"
+ITEM.Image = "https://i.moat.gg/j1cLj.png"
 ITEM.ItemCheck = 13
 ITEM.Preview = false
 ITEM.CrateShopOverride = "Gift"
-ITEM.ItemUsed = function(pl, slot, item)
-	
+ITEM.ItemUsed = function(pl, slot, item, cslot, citem)
+	return MOAT_GIFTS.UseEmptyGift(pl, slot, item, cslot, citem)
 end
