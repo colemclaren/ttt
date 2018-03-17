@@ -1826,6 +1826,18 @@ net.Receive("MOAT_LOCK_INV_ITEM", function(len, ply)
     m_LockInventoryItem(ply, slot, class, lock)
 end)
 
+function m_FinishUsableItem(pl, item)
+    net.Start("MOAT_END_USABLE")
+    net.Send(pl)
+
+    net.Start("moat.comp.chat")
+    net.WriteString("Successfully used " .. item.Name .. "!")
+    net.WriteBool(false)
+    net.Send(pl)
+
+    pl.UsingUsable = false
+end
+
 function m_UseUsableItem(pl, slot, class, wep_slot, wep_class, str)
     local ply_inv = MOAT_INVS[pl]
 
@@ -1861,22 +1873,22 @@ function m_UseUsableItem(pl, slot, class, wep_slot, wep_class, str)
     else
         if (item.PaintVer) then
             item.ItemUsed(item, pl, wep_slot, item_chosen)
+        elseif (item.ID == 7820) then
+            if (not item_chosen) then return end
+            
+            if (item.ItemUsed(pl, slot, item, wep_slot, item_chosen)) then
+                m_FinishUsableItem(pl, item)
+            end
+            return
+        elseif (item.ID == 7821) then
+            item.ItemUsed(pl, slot, class)
         else
             item.ItemUsed(pl, wep_slot, item_chosen)
         end
     end
 
     m_RemoveInventoryItem(pl, slot, class, 1)
-
-    net.Start("MOAT_END_USABLE")
-    net.Send(pl)
-
-    net.Start("moat.comp.chat")
-    net.WriteString("Successfully used " .. item.Name .. "!")
-    net.WriteBool(false)
-    net.Send(pl)
-
-    pl.UsingUsable = false
+    m_FinishUsableItem(pl, item)
 end
 
 net.Receive("MOAT_USE_USABLE", function(l, pl)
