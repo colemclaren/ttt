@@ -12,7 +12,7 @@ function m_GetActiveCrates()
     for k, v in pairs(MOAT_DROPTABLE) do
         if (v.Kind ~= "Crate" and v.Kind ~= "Usable") then continue end
 
-        if (v.Active and v.Name ~= "Pumpkin Crate" and v.Name ~= "Santa's Present" and v.Name ~= "Holiday Crate") then
+        if (v.Active and v.Name ~= "Pumpkin Crate" and v.Name ~= "Santa's Present" and v.Name ~= "Holiday Crate" and v.Name ~= "Empty Gift Package") then
             table.insert(active_crates, v)
         end
     end
