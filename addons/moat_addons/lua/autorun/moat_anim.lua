@@ -59,6 +59,8 @@ if (SERVER) then
 			for i = 1, #ply.WeaponAnims do
 				local wep = ply.WeaponAnims[i]
 				if (not IsValid(wep)) then continue end
+				if (not wep.HoldType) then continue end
+				
 				wep:SetHoldType(wep.HoldType)
 			end
 		end
@@ -81,6 +83,8 @@ if (SERVER) then
 			for i = 1, #ply.WeaponAnims do
 				local wep = ply.WeaponAnims[i]
 				if (not IsValid(wep)) then continue end
+				if (not wep.HoldType) then continue end
+
 				wep:SetHoldType(wep.HoldType)
 			end
 		end
@@ -91,6 +95,8 @@ if (SERVER) then
 			for i = 1, #ply.WeaponAnims do
 				local wep = ply.WeaponAnims[i]
 				if (not IsValid(wep)) then continue end
+				if (not wep.HoldType) then continue end
+				
 				wep:SetHoldType(wep.HoldType)
 			end
 		end
