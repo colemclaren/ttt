@@ -1,7 +1,4 @@
 AddCSLuaFile()
-if (SERVER) then
-    include "quaternion.lua"
-end
 ENT.Type = "anim"
 
 DEFINE_BASECLASS "base_anim"
@@ -118,7 +115,7 @@ function ENT:Recalculate(parent, prevmatr)
     local bone = self:GetBone()
 
     local bmatr = owner:GetBoneMatrix(bone)
-    pos = bmatr:GetTranslation() + owner:GetManipulateBonePosition(bone)
+    pos = owner:GetBonePosition(bone) + owner:GetManipulateBonePosition(bone)
 
     local matr = Matrix()
     if (not prevmatr) then
@@ -178,7 +175,7 @@ hook.Add("EntityFireBullets", "moat.hitbox", function(att, data)
 end)
 
 function ENT:TestCollision(startpos, delta, isbox, extents, mask)
-    if (not SERVER or not in_fire or in_fire == self:GetOwner() or self:GetOwner():IsSpec() or not self:GetOwner():Alive()) then
+    if (not in_fire or in_fire == self:GetOwner() or self:GetOwner():IsSpec() or not self:GetOwner():Alive()) then
         return
     end
 
