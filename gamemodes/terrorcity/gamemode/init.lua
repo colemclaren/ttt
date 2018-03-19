@@ -929,8 +929,12 @@ function SelectRoles()
       if (roles[ROLE_BODYGUARD] < 1 and roles[ROLE_DETECTIVE] > 0) then r(pl, ROLE_BODYGUARD) continue end
       if (random_roles and #random_roles < 1) then r(pl, ROLE_INNOCENT) continue end
 
-      local role_rand = math.random(1, #random_roles)
-      if (role_rand and random_roles[role_rand] and roles[random_roles[role_rand]] < 1) then r(pl, random_roles[role_rand]) random_roles[role_rand] = nil continue end
+      local i = math.random(1, #random_roles)
+      if (random_roles[i] and roles[random_roles[i]] < 1) then
+        r(pl, random_roles[i]) 
+        table.remove(random_roles, i)
+        continue
+      end
     end
 
     for _, ply in ipairs(pls) do
