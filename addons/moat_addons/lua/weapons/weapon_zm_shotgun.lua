@@ -21,14 +21,14 @@ SWEP.WeaponID = AMMO_SHOTGUN
 SWEP.ENUM = 2
 
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Damage = 10
-SWEP.Primary.Cone = 0.2
-SWEP.Primary.Delay = 0.8 + 0.5
+SWEP.Primary.Damage = 7
+SWEP.Primary.Cone = 0.12
+SWEP.Primary.Delay = 0.8 + 0.2
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 8
 SWEP.Primary.Automatic = true
-SWEP.Primary.NumShots = 8
+SWEP.Primary.NumShots = 11
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 
