@@ -7,10 +7,10 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
+	Damage = { min = 28, max = 45 },
+	Accuracy = { min = 40, max = 75 },
 	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
+	Firerate = { min = 20, max = 38 },
 	Magazine = { min = 23, max = 33 },
 	Range = { min = 23, max = 33 },
 	Weight = { min = -5, max = -7 }
