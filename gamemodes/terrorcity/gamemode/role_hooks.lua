@@ -12,7 +12,7 @@ local function include_role(roleid, rolename, sv, cl, sh)
     sh = sh == nil and true or sh
     sv = sv or false
     cl = cl or false
-    ROLE = {
+    ROLE = ROLES[roleid] or {
         ID = roleid,
         Name = rolename
     }

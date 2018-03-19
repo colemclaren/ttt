@@ -59,6 +59,7 @@ function RADAR.CacheEnts()
 end
 
 function RADAR.Bought(is_item, id)
+    print(is_item, id)
     if is_item and id == EQUIP_RADAR then
         RunConsoleCommand("ttt_radar_scan")
     end

@@ -892,8 +892,7 @@ function SelectRoles()
     end
 
     local shuffled = shuffle(players)
-    local player_count = #shuffled
-    local t_count, d_count, sk_count, j_count = GetRoleCount(player_count)
+    local t_count, d_count, sk_count, j_count = GetRoleCount(#shuffled)
 
     local function r(pl, role)
       pl:SetRole(role)
@@ -905,13 +904,17 @@ function SelectRoles()
       if (role == ROLE_JESTER) then j_count = j_count - 1 end
     end
 
-    for i = 1, player_count do
+    for i = #shuffled, 1, -1 do
+        local p = shuffled[i]
+        if (p.OverrideRole) then
+            r(p, p.OverrideRole)
+            p.OverrideRole = nil
+            table.remove(shuffled, i)
+        end
+    end
+
+    for i = 1, #shuffled do
       local pl = shuffled[i]
-      if (pl.OverrideRole) then
-        r(pl, pl.OverrideRole)
-        pl.OverrideRole = nil
-        continue
-      end
 
       -- Hitman/Traitor Selection
       -- Always have at least 1 Hitman for the Traitors
