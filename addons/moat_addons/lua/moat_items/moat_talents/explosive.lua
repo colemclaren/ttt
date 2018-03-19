@@ -5,7 +5,7 @@ TALENT.Description = "Every quarter second of firing, this gun has a %s_^ chance
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 15, max = 35}
+TALENT.Modifications[1] = {min = 10, max = 25}
 TALENT.Modifications[2] = {min = 13.37, max = 50}
 TALENT.Melee = false
 TALENT.NotUnique = true
@@ -25,7 +25,7 @@ function TALENT:OnWeaponFired(attacker, dmginfo, talent_mods, is_bow, hit_pos)
             return
         end
         local rps = (wep.Primary.NumShots or 1) / wep.Primary.Delay
-        chance = chance * 4 / rps -- 4 = quarter second
+        chance = math.min(chance * 4 / rps, 0.85) -- 4 = quarter second
     end
 
     local apply_mod = chance > random_num
