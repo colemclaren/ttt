@@ -17,7 +17,7 @@ SWEP.ViewModelFlip	= true
 SWEP.ViewModel      = "models/morrowind/bonemold/longbow/v_bonemold_longbow.mdl"
 SWEP.WorldModel   = "models/morrowind/bonemold/longbow/w_bonemold_longbow.mdl"
 
-SWEP.Primary.Damage		= 40 * 2
+SWEP.Primary.Damage		= 100
 SWEP.Primary.Velocity 		= 3000
 
 SWEP.Primary.ClipSize = 8

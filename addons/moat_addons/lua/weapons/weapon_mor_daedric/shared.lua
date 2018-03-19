@@ -17,7 +17,7 @@ SWEP.ViewModelFlip	= true
 SWEP.ViewModel      = "models/morrowind/daedric/longbow/v_daedric_longbow.mdl"
 SWEP.WorldModel   = "models/morrowind/daedric/longbow/w_daedric_longbow.mdl"
 
-SWEP.Primary.Damage		= 40 * 2
+SWEP.Primary.Damage		= 100
 SWEP.Primary.Velocity 		= 3000
 
 SWEP.Primary.ClipSize = 10
