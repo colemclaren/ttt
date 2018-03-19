@@ -76,10 +76,6 @@ function SWEP:Precache()
    util.PrecacheSound( "weapons/det_revolver/revolver-fire.wav" )
 end
 
-function SWEP:Holster()
-   return false
-end
-
 -- Give the primary sound an alias
 sound.Add ( {
    name = "Weapon_DetRev.Single",
