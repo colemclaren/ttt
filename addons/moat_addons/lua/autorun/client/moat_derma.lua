@@ -1069,6 +1069,7 @@ function PANEL:DoRightClick()
 end
 
 function PANEL:DoClick()
+    self:RebuildSpawnIcon()
 end
 
 function PANEL:OpenMenu()

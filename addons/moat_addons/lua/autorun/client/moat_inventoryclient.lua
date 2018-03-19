@@ -2291,6 +2291,8 @@ function m_OpenInventory(ply2, utrade)
         
         m_DPanelBTN.OnMousePressed = function(s, key)
             if (crate_wait > CurTime() or IsValid(MOAT_CRATE_BG)) then return end
+
+            if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
             
             if (INV_SELECT_MODE) then
                 if (m_Inventory[num].c and key == MOUSE_LEFT and INV_SELECTED_ITEM ~= num) then
@@ -2636,6 +2638,8 @@ function m_OpenInventory(ply2, utrade)
         end
 
         m_DPanelBTN.OnMousePressed = function(s, key)
+            if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
+
             if (key == MOUSE_LEFT) then
                 if (m_DPanelIcon.Item ~= nil) then
                     M_INV_DRAG = M_LOAD_SLOT[num]
@@ -3404,6 +3408,8 @@ function m_OpenInventory(ply2, utrade)
                 end
 
                 m_DPanelBTN.OnMousePressed = function(s, key)
+                    if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
+                    
                     if (key == MOUSE_LEFT and num < 11) then
                         if (m_DPanelIcon.Item ~= nil) then
                             M_INV_DRAG = M_TRADE_SLOT[num]
