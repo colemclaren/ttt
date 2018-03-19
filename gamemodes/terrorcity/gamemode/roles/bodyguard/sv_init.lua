@@ -21,8 +21,11 @@ function BODYGUARD.CheckPlayers(pl)
 
 	if (d_alive < 1 and IsValid(BODYGUARD.Ply)) then
 		BODYGUARD.Dead = true
-		BODYGUARD.Ply:Kill()
-		CustomMsg(BODYGUARD.Ply, "You failed to protect the detectives, so you have perished!", Color(0, 153, 153))
+		BODYGUARD.Ply:SetRole(ROLE_DETECTIVE)
+		BODYGUARD.Ply:SetHealth(math.min(BODYGUARD.Ply:Health(), 25))
+		BODYGUARD.Ply:SetMaxHealth(25)
+		SendDetectiveList()
+		CustomMsg(BODYGUARD.Ply, "You failed to protect the detectives, so you take their place!", Color(0, 153, 153))
 	end
 end
 hook.Add("PostPlayerDeath", "terror.city.bodyguard", BODYGUARD.CheckPlayers)
