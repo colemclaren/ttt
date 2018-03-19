@@ -6,6 +6,12 @@ util.AddNetworkString("MOAT_NET_SPAWN")
 util.AddNetworkString("MOAT_UPDATE_WEP_CACHE")
 util.AddNetworkString("MOAT_UPDATE_OTHER_WEP_CACHE")
 
+util.AddNetworkString("MOAT_UPDATE_WEP_PAINT")
+util.AddNetworkString("MOAT_UPDATE_WEP_PAINT_LATE")
+
+util.AddNetworkString("MOAT_UPDATE_PLANETARIES")
+util.AddNetworkString("MOAT_UPDATE_PLANETARIES_LATE")
+
 MOAT_LOADOUT = {}
 
 -- We only need to know if the weapon is a unique or a tier, nothing else
@@ -92,13 +98,13 @@ function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
         ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
     end
 end
-
+/*
 function MOAT_LOADOUT.SaveLoadedWeapons()
     loadout_weapon_indexes = {}
     loadout_cosmetic_indexes = {}
 end
 hook.Add("TTTBeginRound", "moat_SaveLoadedWeapons", MOAT_LOADOUT.SaveLoadedWeapons)
-
+*/
 function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl)
     local wep = tbl
     local itemtbl = table.Copy(loadout_tbl)
@@ -173,10 +179,12 @@ function MOAT_LOADOUT.ApplyOtherModifications(tbl, loadout_tbl)
 end
 
 local loadout_weapon_indexes = {}
+local loadout_other_indexes = {}
 local loadout_cosmetic_indexes = {}
 MOAT_MODEL_EDIT_POS = MOAT_MODEL_EDIT_POS or {}
 
 function MOAT_LOADOUT.SaveLoadedWeapons()
+    loadout_other_indexes = {}
     loadout_weapon_indexes = {}
     loadout_cosmetic_indexes = {}
 end
@@ -324,9 +332,10 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 v.item = m_GetItemFromEnum(v.u)
 
                 net.WriteTable(v)
-                net.Broadcast()
+                net.Send(ply)
 
-                table.insert(loadout_weapon_indexes, {v3:EntIndex(), v})
+                loadout_other_indexes[v3:EntIndex()] = {owner = ply:EntIndex(), info = v}
+
                 v.item = item_old
             end
 
@@ -384,8 +393,29 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             end
 
             net.WriteTable(v)
-            net.Broadcast()
-            table.insert(loadout_weapon_indexes, {v3:EntIndex(), v})
+
+            local sent = false
+            if ((v.item and v.item.Rarity == 9) or v.p2 or v.p or v.p3) then
+                sent = true
+                net.Broadcast()
+            else
+                net.Send(ply)
+            end
+
+            loadout_weapon_indexes[v3:EntIndex()] = {
+                stats = {
+                    wpn_tbl.Primary.Damage or 0,
+                    wpn_tbl.Primary.Delay or 0,
+                    wpn_tbl.Primary.ClipSize or 0,
+                    wpn_tbl.Primary.Recoil or 0,
+                    wpn_tbl.Primary.Cone or 0,
+                    wpn_tbl.PushForce or 0,
+                    wpn_tbl.Secondary.Delay or 0
+                },
+                owner = ply:EntIndex(),
+                info = v,
+                net = sent
+            }
 
             if (wpn_tbl.Primary.Ammo and wpn_tbl.Primary.ClipSize and ply:GetAmmoCount(wpn_tbl.Primary.Ammo) < wpn_tbl.Primary.ClipSize) then
                 ply:GiveAmmo(wpn_tbl.Primary.ClipSize, wpn_tbl.Primary.Ammo, true)
@@ -420,7 +450,7 @@ end
 hook.Add("PlayerSpawn", "moat_GiveLoadout", MOAT_LOADOUT.GiveLoadout)
 
 function MOAT_LOADOUT.LoadLoadedLoadouts(ply)
-    if (table.Count(loadout_weapon_indexes) < 1) then return end
+    /*if (table.Count(loadout_weapon_indexes) < 1) then return end
 
     for k, v in pairs(loadout_weapon_indexes) do
         if (not Entity(v[1]):IsValid()) then continue end
@@ -487,7 +517,7 @@ function MOAT_LOADOUT.LoadLoadedLoadouts(ply)
         net.WriteDouble(wpn_ownerindex)
         net.WriteTable(v[2])
         net.Send(ply)
-    end
+    end*/
 end
 hook.Add("PlayerInitialSpawn", "moat_LoadLoadedLoadouts", MOAT_LOADOUT.LoadLoadedLoadouts)
 
@@ -496,7 +526,7 @@ function MOAT_LOADOUT.LoadCosmeticLoadouts(ply)
     if (table.Count(loadout_cosmetic_indexes) < 1) then return end
 
     for k, v in pairs(loadout_cosmetic_indexes) do
-        if (not ents.GetByIndex(v[1]):IsValid()) then continue end
+        if (not Entity(v[1]):IsValid()) then continue end
         net.Start("MOAT_APPLY_MODELS")
         net.WriteDouble(v[1])
         net.WriteDouble(v[2])
@@ -576,3 +606,44 @@ hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
 end)
 
 hook.Add("TTTPlayerColor", "moat_ResetPlayerColor", function() return Color(61, 87, 105) end) -- Set the default player color (paint for items coming soon)
+
+
+--[[-------------------------------------------------------------------------
+Loadout Networking
+---------------------------------------------------------------------------]]
+
+
+hook.Add("PlayerDroppedWeapon", "moat_NetworkRegularWeapons", function(pl, wep)
+    if (not IsValid(wep) or not loadout_weapon_indexes[wep:EntIndex()]) then return end
+
+    local tbl = loadout_weapon_indexes[wep:EntIndex()]
+    if (tbl.net) then return end
+    if (GetRoundState() == ROUND_ACTIVE) then tbl.net = true end
+    
+    net.Start("MOAT_UPDATE_WEP")
+    net.WriteUInt(wep:EntIndex(), 16)
+    net.WriteDouble(tbl.stats[1])
+    net.WriteDouble(tbl.stats[2])
+    net.WriteDouble(tbl.stats[3])
+    net.WriteDouble(tbl.stats[4])
+    net.WriteDouble(tbl.stats[5])
+    net.WriteDouble(tbl.stats[6])
+    net.WriteDouble(tbl.stats[7])
+    net.WriteDouble(tbl.owner)
+    net.WriteTable(tbl.info)
+    net.Broadcast()
+end)
+
+hook.Add("PlayerDroppedWeapon", "moat_NetworkOtherWeapons", function(pl, wep)
+    if (not IsValid(wep) or not loadout_other_indexes[wep:EntIndex()]) then return end
+
+    local tbl = loadout_other_indexes[wep:EntIndex()]
+    if (GetRoundState() ~= ROUND_PREP and tbl.net) then return end
+    if (GetRoundState() == ROUND_ACTIVE) then tbl.net = true end
+
+    net.Start("MOAT_UPDATE_OTHER_WEP")
+    net.WriteUInt(wep:EntIndex(), 16)
+    net.WriteDouble(tbl.owner)
+    net.WriteTable(tbl.info)
+    net.Broadcast()
+end)
