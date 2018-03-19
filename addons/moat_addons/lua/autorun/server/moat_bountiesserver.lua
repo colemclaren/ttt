@@ -494,7 +494,7 @@ MOAT_BOUNTIES:AddBounty("Knife Addicted", {
 			end
 		end)
 	end,
-	rewards = "5,000 Inventory Credits + 10,500 Player Experience",
+	rewards = "5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End",
 	rewardtbl = {ic = 5000, exp = 10500}
 })
 
@@ -578,7 +578,7 @@ MOAT_BOUNTIES:AddBounty("Equipment User", {
 			end
 		end)
 	end,
-	rewards = "5,000 Inventory Credits + 5,500 Player Experience",
+	rewards = "5,000 Inventory Credits + 5,500 Player Experience + 1 in 5 Chance for High-End",
 	rewardtbl = {ic = 5000, exp = 5500}
 })
 
@@ -595,7 +595,7 @@ MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
 			end
 		end)
 	end,
-	rewards = "5,000 Inventory Credits + 10,500 Player Experience",
+	rewards = "5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End",
 	rewardtbl = {ic = 5000, exp = 10500}
 })
 
@@ -628,7 +628,7 @@ MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
 			end
 		end)
 	end,
-	rewards = "5,000 Inventory Credits + 10,500 Player Experience",
+	rewards = "5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End",
 	rewardtbl = {ic = 5000, exp = 10500}
 })
 
@@ -936,7 +936,7 @@ MOAT_BOUNTIES:AddBounty("An Explosive Ending", {
 	desc = "With # explosion, elimite # terrorists rightfully. Can be completed as any role.",
 	vars = {
 		1,
-		math.random(5, 7)
+		math.random(4, 6)
 	},
 	runfunc = function(mods, bountyid)
 		hook.Add("EntityTakeDamage", "moat_explosive_ending", function(targ, dmg)
