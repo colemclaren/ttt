@@ -24,12 +24,12 @@ SWEP.Primary.Ammo = "Buckshot"
 SWEP.Primary.Delay = 1.2 + 0.2
 SWEP.Primary.Recoil = 7
 SWEP.Primary.Cone = 0.1
-SWEP.Primary.Damage = 11
+SWEP.Primary.Damage = 13
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 8
 SWEP.Primary.Automatic = true
-SWEP.Primary.NumShots = 8
+SWEP.Primary.NumShots = 7
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 
