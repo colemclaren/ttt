@@ -15,9 +15,9 @@ TALENT.LevelRequired = { min = 25, max = 30 }
 
 TALENT.Modifications = {}
 
-TALENT.Modifications[1] = { min = 5, max = 10 } // Chance to ignite
+TALENT.Modifications[1] = { min = 5, max = 10 } -- Chance to ignite
 
-TALENT.Modifications[2] = { min = 4, max = 8 } // Ignite time
+TALENT.Modifications[2] = { min = 4, max = 8 } -- Ignite time
 
 TALENT.Melee = false
 
@@ -28,8 +28,20 @@ function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
 	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then return end
 
 	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
+	local random_num = math.random() * 100
 
-	local random_num = math.Rand( 1, 100 )
+	if (not is_bow) then
+		local wep = attacker:GetActiveWeapon()
+		if (not IsValid(wep)) then
+			return
+		end
+		if (not wep.Primary or not wep.Primary.Delay) then
+			attacker:PrintMessage(HUD_PRINTCENTER, "Your gun does not have valid stats for Inferno.")
+			return
+		end
+		local rps = (wep.Primary.NumShots or 1) / wep.Primary.Delay
+		chance = chance * 4 / rps -- 4 = quarter second
+	end
 
 	local apply_mod = chance > random_num
 
@@ -42,10 +54,10 @@ function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
 		victim.ignite_info = {att = dmginfo:GetAttacker(), infl = dmginfo:GetInflictor()}
 
 		timer.Simple(ignite_time + 0.1, function()
-            if IsValid(victim) then
-                victim.ignite_info = nil
-            end
-        end)
+			if IsValid(victim) then
+				victim.ignite_info = nil
+			end
+		end)
 
 	end
 
