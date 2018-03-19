@@ -14,14 +14,14 @@ SWEP.Base = "weapon_tttbase"
 SWEP.HoldType = "pistol"
 
 SWEP.Primary.Ammo = "none"
-SWEP.Primary.Delay = 2
+SWEP.Primary.Delay = 0.4
 SWEP.Primary.Recoil = 0.8
-SWEP.Primary.Cone = 0.0325
+SWEP.Primary.Cone = 0.0025
 SWEP.Primary.Damage = 1000
 SWEP.Primary.Automatic = false
-SWEP.Primary.ClipSize = 3
-SWEP.Primary.ClipMax = 3
-SWEP.Primary.DefaultClip = 3
+SWEP.Primary.ClipSize = 10
+SWEP.Primary.ClipMax = 10
+SWEP.Primary.DefaultClip = 10
 SWEP.Primary.Sound = Sound( "Weapon_DetRev.Single" )
 
 -- Model properties
