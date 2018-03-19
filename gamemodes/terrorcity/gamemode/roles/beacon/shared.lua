@@ -2,6 +2,8 @@ if (SERVER) then
     include "sv_init.lua"
 end
 
+DEFINE_BASECLASS "gamemode_base"
+
 if (not CLIENT) then return end
 
 local lightning_pos, lightning_time
@@ -18,6 +20,7 @@ end)
 local lightningMaterial = Material( "sprites/lgtning" )
 
 function GM:PreDrawTranslucentRenderables( isDrawingDepth, isDrawingSkybox )
+    BaseClass.PreDrawTranslucentRenderables(isDrawingDepth, isDrawingSkybox)
 
     if isDrawingDepth or isDrawSkybox or not lightning_time or lightning_time < CurTime() - 2 then return end
     local offset = CurTime() - lightning_time

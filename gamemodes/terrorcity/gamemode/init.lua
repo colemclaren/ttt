@@ -886,7 +886,7 @@ function SelectRoles()
     local random_roles = {ROLE_SURVIVOR, ROLE_VETERAN, ROLE_XENOMORPH, ROLE_DOCTOR, ROLE_BEACON}
 
     for k, v in ipairs(pls) do
-        if (IsValid(v) and not v:IsSpec()) then
+        if (IsValid(v) and not v:GetForceSpec()) then
             table.insert(players, v)
         end
     end
