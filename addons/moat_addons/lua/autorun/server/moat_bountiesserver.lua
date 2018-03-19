@@ -51,6 +51,17 @@ function MOAT_BOUNTIES:AddBounty(name_, tbl)
 	bounty_id = bounty_id + 1
 end
 
+local chances = {[1] = 10, [2] = 5, [3] = 2}
+function MOAT_BOUNTIES:HighEndChance(tier)
+	local c = chances[tier]
+	if (not c) then return false end
+
+	local num = math.random(1, c)
+	if (num == c) then return true end
+	
+	return false
+end
+
 function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 	if (not ply:IsValid()) then return end
 	local rewards = self.Bounties[bounty_id].rewardtbl
@@ -61,6 +72,12 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 
 	if (rewards.exp) then
 		ply:ApplyXP(rewards.exp)
+	end
+
+	local t = self.Bounties[bounty_id].tier
+
+	if (t and self:HighEndChance(t)) then
+		ply:m_DropInventoryItem(5)
 	end
 
 	if (rewards.drop) then
@@ -192,21 +209,21 @@ local tier1_rewards = {
 	ic = 2000,
 	exp = 2500,
 }
-local tier1_rewards_str = "2,000 Inventory Credits + 2,500 Player Experience"
+local tier1_rewards_str = "2,000 Inventory Credits + 2,500 Player Experience + 1 in 10 Chance for High-End"
 
 
 local tier2_rewards = {
 	ic = 3500,
 	exp = 5500,
 }
-local tier2_rewards_str = "3,500 Inventory Credits + 5,500 Player Experience"
+local tier2_rewards_str = "3,500 Inventory Credits + 5,500 Player Experience + 1 in 5 Chance for High-End"
 
 
 local tier3_rewards = {
 	ic = 5000,
 	exp = 8500
 }
-local tier3_rewards_str = "5,000 Inventory Credits + 8,500 Player Experience"
+local tier3_rewards_str = "5,000 Inventory Credits + 8,500 Player Experience + 1 in 2 Chance for High-End"
 
 
 
