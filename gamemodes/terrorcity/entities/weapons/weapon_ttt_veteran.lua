@@ -19,9 +19,9 @@ SWEP.Primary.Recoil = 0.8
 SWEP.Primary.Cone = 0.0025
 SWEP.Primary.Damage = 1000
 SWEP.Primary.Automatic = false
-SWEP.Primary.ClipSize = 10
-SWEP.Primary.ClipMax = 10
-SWEP.Primary.DefaultClip = 10
+SWEP.Primary.ClipSize = 5
+SWEP.Primary.ClipMax = SWEP.Primary.ClipSize
+SWEP.Primary.DefaultClip = SWEP.Primary.ClipSize
 SWEP.Primary.Sound = Sound( "Weapon_DetRev.Single" )
 
 -- Model properties
