@@ -15,14 +15,13 @@ hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
         local range_mod = weapon_tbl.range_mod or 1
 
         if (weapon_tbl.Primary.Ammo and weapon_tbl.Primary.Ammo == "Buckshot") then
-        	RANGE_NUMBER = 150
+        	RANGE_NUMBER = 75
         end
 
         local optimimal_range = (RANGE_NUMBER / weapon_tbl.Primary.Cone) * range_mod
-        local damage_scale = 1
 
         if (distance > optimimal_range) then
-            local falloff_range = math.max(optimimal_range, 100)
+            local falloff_range = optimimal_range
 
             dmginfo:ScaleDamage(math.max(0.1, 1 - (distance - optimimal_range) / falloff_range))
         end
