@@ -926,7 +926,7 @@ function SelectRoles()
       if (d_count > 0) then r(pl, ROLE_DETECTIVE) continue end
       if (sk_count > 0) then r(pl, ROLE_KILLER) continue end
 
-      if (roles[ROLE_BODYGUARD] < 1 and (roles[ROLE_DETECTIVE] > 0 or roles[ROLE_DOCTOR] > 0 )) then r(pl, ROLE_BODYGUARD) continue end
+      if (roles[ROLE_BODYGUARD] < 1 and roles[ROLE_DETECTIVE] > 0) then r(pl, ROLE_BODYGUARD) continue end
       if (random_roles and #random_roles < 1) then r(pl, ROLE_INNOCENT) continue end
 
       local role_rand = math.random(1, #random_roles)
