@@ -25,7 +25,7 @@ function TALENT:OnWeaponFired(attacker, dmginfo, talent_mods, is_bow, hit_pos)
             return
         end
         local rps = (wep.Primary.NumShots or 1) / wep.Primary.Delay
-        chance = math.min(chance * 4 / rps, 0.85) -- 4 = quarter second
+        chance = math.min(chance * 4 / rps, 85) -- 4 = quarter second
     end
 
     local apply_mod = chance > random_num
