@@ -103,4 +103,6 @@ net.Receive("MOAT_SEND_GIFT", function(_, pl)
 	moat_add_saved_item(sid, j)
 	pl:SendLua([[chat.AddText(Material("icon16/heart.png"), Color(255, 0, 255), "Successfully sent gift package! The player will receive the gift the next time they login! <3")]])
 	m_RemoveInventoryItem(pl, slot, class, 1)
+
+	MoatLog(pl:SteamID64() .. " sent a gift package to " .. sid .. " containing " .. j)
 end)
