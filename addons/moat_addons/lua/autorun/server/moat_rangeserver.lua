@@ -14,16 +14,21 @@ hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
         local distance = attackerpos:Distance(entpos)
         local range_mod = weapon_tbl.range_mod or 1
 
-        if (weapon_tbl.Primary.Ammo and weapon_tbl.Primary.Ammo == "Buckshot") then
-        	RANGE_NUMBER = 75
+        local optimal_range
+
+        if (weapon_tbl.Primary.Range) then
+            optimal_range = weapon_tbl.Primary.Range
+        else
+            optimal_range = RANGE_NUMBER / weapon_tbl.Primary.Cone
         end
 
-        local optimimal_range = (RANGE_NUMBER / weapon_tbl.Primary.Cone) * range_mod
+        optimal_range = optimal_range * range_mod
 
-        if (distance > optimimal_range) then
-            local falloff_range = optimimal_range
 
-            dmginfo:ScaleDamage(math.max(0.1, 1 - (distance - optimimal_range) / falloff_range))
+        if (distance > optimal_range) then
+            local falloff_range = weapon_tbl.Primary.FalloffRange or optimal_range
+
+            dmginfo:ScaleDamage(math.max(0.2, 1 - (distance - optimal_range) / falloff_range))
         end
     end
 end)
