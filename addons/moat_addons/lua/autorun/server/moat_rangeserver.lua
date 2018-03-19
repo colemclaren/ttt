@@ -15,7 +15,7 @@ hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
         local range_mod = weapon_tbl.range_mod or 1
 
         if (weapon_tbl.Primary.Ammo and weapon_tbl.Primary.Ammo == "Buckshot") then
-        	RANGE_NUMBER = 20
+        	RANGE_NUMBER = 150
         end
 
         local optimimal_range = (RANGE_NUMBER / weapon_tbl.Primary.Cone) * range_mod
