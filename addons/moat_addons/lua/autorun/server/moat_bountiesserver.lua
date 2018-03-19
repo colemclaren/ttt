@@ -933,7 +933,7 @@ MOAT_BOUNTIES:AddBounty("Bunny Roleplayer", {
 
 MOAT_BOUNTIES:AddBounty("An Explosive Ending", {
 	tier = 3,
-	desc = "With # explosion, elimite # terrorists rightfully. Can be completed as any role.",
+	desc = "With # explosion, eliminate # terrorists rightfully. Can be completed as any role.",
 	vars = {
 		1,
 		math.random(4, 6)
