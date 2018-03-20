@@ -665,7 +665,7 @@ function MOAT_LOADOUT.UpdateWep()
                 wep.Weapon.Secondary.Delay = wep_p
             end
 
-            if (wep.Weapon.PrintName) then
+            if (wep.Weapon.PrintName and wep_stats and wep_stats.item) then
                 local ITEM_NAME_FULL = ""
 
                 if (wep_stats.item.Kind == "tier") then
