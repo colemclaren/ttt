@@ -5,7 +5,7 @@ TALENT.Description = "Every quarter second of firing, this gun has a %s_^ chance
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 31, max = 60}
+TALENT.Modifications[1] = {min = 21, max = 40}
 TALENT.Modifications[2] = {min = 13.37, max = 42}
 TALENT.Melee = false
 TALENT.NotUnique = true
