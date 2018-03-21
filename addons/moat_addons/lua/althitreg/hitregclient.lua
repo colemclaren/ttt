@@ -306,9 +306,9 @@ end)
 local function moatFireBullets(ent, data)
     local attacker = data.Attacker
 
-    if (ent:IsValid() and (attacker:IsValid() and attacker:IsPlayer() and (attacker == LocalPlayer())) and GetConVar("moat_alt_hitreg"):GetBool() and not MOAT_ACTIVE_BOSS) then
+    if (ent:IsValid() and attacker == LocalPlayer() and not MOAT_ACTIVE_BOSS) then
         data.Callback = function(att, tr, dmginfo)
-            if (att:IsValid() and att:IsPlayer() and tr.Hit and tr.Entity:IsValid() and att:GetActiveWeapon().Base == "weapon_tttbase") then
+            if (tr.Hit and IsValid(tr.Entity)) then
                 local trace = {}
                 trace.trEnt = tr.Entity
                 trace.trHGrp = tr.HitGroup
@@ -330,8 +330,6 @@ local function moatFireBullets(ent, data)
             end
         end
     end
-
-    return true
 end
 
 hook.Add("EntityFireBullets", "moatFireBullets", moatFireBullets)

@@ -948,8 +948,9 @@ function chat.AddText(...)
 
             if (not TextTable[pos]) then break end
             local text = TextTable[pos]
-            if (istable(TextTable[pos]) and TextTable[pos].IsItem) then text = TextTable[pos]["ItemName"] end
-            
+            if (istable(TextTable[pos]) and TextTable[pos].IsItem) then text = TextTable[pos]["ItemName"] or "Scripted Weapon" end
+            if (not text) then break end
+
             local x, y = surface_GetTextSize(text)
 
             if TextPosX + x >= windowSizeX then

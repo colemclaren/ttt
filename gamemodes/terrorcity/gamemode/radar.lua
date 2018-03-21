@@ -1,6 +1,6 @@
 -- Traitor radar functionality
 -- should mirror client
-local chargetime = 30
+local chargetime = 10
 local math = math
 
 local function RadarScan(ply, cmd, args)
@@ -12,6 +12,7 @@ local function RadarScan(ply, cmd, args)
                 return
             end
 
+            local ply_role = ply:IsRole(ROLE_HITMAN) and ROLE_TRAITOR or ply:GetRole()
             ply.radar_charge = CurTime() + chargetime
             local scan_ents = player.GetAll()
             table.Add(scan_ents, ents.FindByClass("ttt_decoy"))
@@ -32,6 +33,10 @@ local function RadarScan(ply, cmd, args)
                 pos.z = math.Round(pos.z)
                 local role = p:IsPlayer() and p:GetRole() or -1
 
+                if (role == ROLE_HITMAN) then
+                    role = ROLE_TRAITOR
+                end
+
                 if not p:IsPlayer() then
                     -- Decoys appear as innocents for non-traitors
                     if not ply:IsTraitor() then
@@ -39,7 +44,7 @@ local function RadarScan(ply, cmd, args)
                     end
                     -- Detectives/Traitors can see who has their role, but not who
                     -- has the opposite role.
-                elseif role ~= ROLE_INNOCENT and role ~= ply:GetRole() then
+                elseif role ~= ROLE_INNOCENT and role ~= ply_role then
                     role = ROLE_INNOCENT
                 end
 

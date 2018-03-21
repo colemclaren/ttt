@@ -28,7 +28,7 @@ SWEP.reloadtimer = 0
 
 SWEP.Primary.Sound			= Sound("gunshot_moss_590")		-- script that calls the primary fire sound
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Delay = 1.1
+SWEP.Primary.Delay = 1.1 + 0.5
 SWEP.Primary.Recoil = 10
 SWEP.Primary.Cone = 0.19
 SWEP.Primary.Damage = 20
@@ -170,16 +170,6 @@ end
 -- is, the more damage it does. This reinforces the shotgun's role as short
 -- range weapon by reducing effectiveness at mid-range, where one could score
 -- lucky headshots relatively easily due to the spread.
-function SWEP:GetHeadshotMultiplier(victim, dmginfo)
-   local att = dmginfo:GetAttacker()
-   if not IsValid(att) then return 3 end
-
-   local dist = victim:GetPos():Distance(att:GetPos())
-   local d = math.max(0, dist - 140)
-
-   -- decay from 3.1 to 1 slowly as distance increases
-   return 0.8 + math.max(0, (2.1 - 0.002 * (d ^ 1.25)))
-end
 
 function SWEP:SecondaryAttack()
    if self.NoSights or (not self.IronSightsPos) or self:GetReloading() then return end

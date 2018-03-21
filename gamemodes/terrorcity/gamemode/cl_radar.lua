@@ -7,7 +7,7 @@ local math = math
 RADAR = {}
 RADAR.targets = {}
 RADAR.enable = false
-RADAR.duration = 30
+RADAR.duration = 10
 RADAR.endtime = 0
 RADAR.bombs = {}
 RADAR.bombs_count = 0
@@ -59,6 +59,7 @@ function RADAR.CacheEnts()
 end
 
 function RADAR.Bought(is_item, id)
+    print(is_item, id)
     if is_item and id == EQUIP_RADAR then
         RunConsoleCommand("ttt_radar_scan")
     end

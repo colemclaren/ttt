@@ -17,11 +17,11 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_M16
 SWEP.ENUM = 10
 
-SWEP.Primary.Delay      = 0.15
+SWEP.Primary.Delay      = 0.165
 SWEP.Primary.Recoil     = 1.6
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "Pistol"
-SWEP.Primary.Damage = 28
+SWEP.Primary.Damage = 33
 SWEP.Primary.Cone = 0.018
 SWEP.Primary.ClipSize = 20
 SWEP.Primary.ClipMax = 60

@@ -55,7 +55,9 @@ function SWEP:PrimaryAttack()
 		local spos = owner:GetShootPos()
 		local epos = spos + (owner:GetAimVector() * 130)
 
+		self.Owner:LagCompensation(true)
 		local tr = util.TraceLine({start = spos, endpos = epos, filter = owner, mask = MASK_SHOT_HULL})
+		self.Owner:LagCompensation(false)
 		local ent = tr.Entity
 
 		-- blood effect

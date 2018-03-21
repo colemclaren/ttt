@@ -261,8 +261,7 @@ hook.Add ("EntityFireBullets", "CAC.ShotHandler",
 				return originalCallback (ply, trace, damageInfo, ...)
 			end
 		end
-		
-		return true -- override bulletInfo table
+
 	end
 )
 

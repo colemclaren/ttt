@@ -63,7 +63,15 @@ function GetEquipmentForRole(role)
 
             -- add this buyable weapon to all relevant equipment tables
             for _, r in pairs(v.CanBuy) do
-               table.insert(tbl[r], base)
+                if (BASIC_ROLE_LOOKUP[r] ~= r and not table.HasValue(tbl[r], base)) then
+                    table.insert(tbl[r], base)
+                else
+                    for real_role, basic_role in pairs(BASIC_ROLE_LOOKUP) do
+                        if (basic_role == r and not table.HasValue(tbl[real_role], base)) then
+                            table.insert(tbl[real_role], base)
+                        end
+                    end
+                end
             end
          end
       end
@@ -252,6 +260,7 @@ local color_slot = {
    [ROLE_TRAITOR]   = Color(180, 50, 40, 255),
    [ROLE_DETECTIVE] = Color(50, 60, 180, 255)
 };
+color_slot[ROLE_HITMAN] = color_slot[ROLE_TRAITOR]
 
 local eqframe = nil
 

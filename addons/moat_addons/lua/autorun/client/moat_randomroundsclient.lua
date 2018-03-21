@@ -96,7 +96,7 @@ function MOAT_THIRDPERSON.ThirdPersonCamera(ply, pos, ang, fov, znear, zfar)
 
     local active_wep = ply:GetActiveWeapon()
 
-    if (active_wep and IsValid(active_wep) and active_wep:GetIronsights()) then
+    if (active_wep and IsValid(active_wep) and active_wep.GetIronsights and active_wep:GetIronsights()) then
         MOAT_THIRDPERSON.cam.Target = MOAT_THIRDPERSON.cam.Preset.Focus * Vector(1, MOAT_THIRDPERSON.cam.Dir, 1)
     else
         MOAT_THIRDPERSON.cam.Target = MOAT_THIRDPERSON.cam.Preset.Main

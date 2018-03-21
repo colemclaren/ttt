@@ -90,7 +90,7 @@ SWEP.AdminSpawnable		= false
 SWEP.ViewModel      = "models/morrowind/steel/shortbow/v_steel_shortbow.mdl"
 SWEP.WorldModel   = "models/morrowind/steel/shortbow/w_steel_shortbow.mdl"
 
-SWEP.Primary.Damage		= 50 * 2
+SWEP.Primary.Damage		= 100
 SWEP.Primary.Delay 		= 0.6
 
 SWEP.Primary.ClipSize = 10

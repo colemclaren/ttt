@@ -1,5 +1,5 @@
 InstallRoleHook("PlayerShouldTakeDamage", 2)
-
+local ROLE = ROLE
 function ROLE:PlayerShouldTakeDamage(ply)
     return false
 end
@@ -14,19 +14,24 @@ function ROLE:PlayerDeath(pl, inf, att)
         net.Start("jester.killed")
         net.WriteString(att:Nick() or "Someone")
         net.Broadcast()
-        StartRoundSpeedup(2)
+        StartRoundSpeedup(math.ceil(ROLE.ActivePlayers * 0.175, 2))
         ded = true
     end
 end
 
 InstallRoleHook("EntityFireBullets", 1)
 function ROLE:EntityFireBullets()
-    print"no"
     return false
 end
 
 hook.Add("TTTBeginRound", "terrorcity.roles.jester", function()
     ded = false
+    ROLE.ActivePlayers = 0
+    for _, ply in pairs(player.GetAll()) do
+        if (not ply:IsSpec()) then
+            ROLE.ActivePlayers = ROLE.ActivePlayers + 1
+        end
+    end
 end)
 
 hook.Add("TTTEndRound", "terrorcity.roles.jester", function()

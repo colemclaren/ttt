@@ -183,7 +183,8 @@ moat_random.register("Invisible Traitors","The traitors are invisible! And every
             if v:IsTraitor() then
                 v:SetRenderMode(RENDERMODE_TRANSALPHA)
                 v:SetColor(Color(0, 0, 0, 0))
-
+                v:DrawShadow(false)
+                
                 timer.Simple(1, function()
                     net.Start("MOAT_PLAYER_CLOAKED")
                     net.WriteEntity(v)

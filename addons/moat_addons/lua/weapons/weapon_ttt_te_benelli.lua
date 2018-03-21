@@ -304,14 +304,14 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_SHOTGUN
 
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Damage = 10
-SWEP.Primary.Cone = 0.1
-SWEP.Primary.Delay = 0.55
+SWEP.Primary.Damage = 7
+SWEP.Primary.Cone = 0.2
+SWEP.Primary.Delay = 0.55 + 0.2
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 8
 SWEP.Primary.Automatic = true
-SWEP.Primary.NumShots = 8
+SWEP.Primary.NumShots = 10
 SWEP.AutoSpawnable      = false
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 
@@ -462,16 +462,6 @@ end
 -- is, the more damage it does. This reinforces the shotgun's role as short
 -- range weapon by reducing effectiveness at mid-range, where one could score
 -- lucky headshots relatively easily due to the spread.
-function SWEP:GetHeadshotMultiplier(victim, dmginfo)
-   local att = dmginfo:GetAttacker()
-   if not IsValid(att) then return 3 end
-
-   local dist = victim:GetPos():Distance(att:GetPos())
-   local d = math.max(0, dist - 140)
-
-   -- decay from 3.1 to 1 slowly as distance increases
-   return 1 + math.max(0, (2.1 - 0.002 * (d ^ 1.25)))
-end
 
 function SWEP:SecondaryAttack()
    if self.NoSights or (not self.IronSightsPos) or self.dt.reloading then return end

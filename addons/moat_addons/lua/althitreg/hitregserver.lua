@@ -38,6 +38,7 @@ hook.Add("EntityTakeDamage", "moat_HitMarkers", function(ply, dmginfo)
     end
 end)
 
+
 net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
     --local trace = net.ReadTable()
     local trace = {}
@@ -74,7 +75,7 @@ net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
         dmginfo:SetDamageType(trace.dmgType)
 
         local wep = trace.trAtt:GetActiveWeapon()
-        
+
         if (IsValid(trace.dmgInf)) then
             dmginfo:SetInflictor(trace.dmgInf)
         elseif (IsValid(wep)) then
@@ -107,51 +108,15 @@ net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
     end
 end)
 
-local function moat_ReplaceShootBullet()
-    local BASE = weapons.GetStored("weapon_tttbase")
-    if (not BASE) then return end
+local PLAYER = FindMetaTable "Player"
 
-    -- replace default shootbullet function to fit the alternative hit reg
-    function BASE:ShootBullet(dmg, recoil, numbul, cone)
-        self:SendWeaponAnim(self.PrimaryAnim)
-        self.Owner:MuzzleFlash()
-        self.Owner:SetAnimation(PLAYER_ATTACK1)
-        if not IsFirstTimePredicted() then return end
-        local sights = self:GetIronsights()
-        numbul = numbul or 1
-        cone = cone or 0.01
-        local bullet = {}
-        bullet.Num = numbul
-        bullet.Src = self.Owner:GetShootPos()
-        bullet.Dir = self.Owner:GetAimVector()
-        bullet.Spread = Vector(cone, cone, 0)
-        bullet.Tracer = 4
-        bullet.TracerName = self.Tracer or "Tracer"
-        bullet.Force = 10
-
-        if (tobool(self.Owner:GetInfo("moat_alt_hitreg")) and (self.Owner:Ping() <= MOAT_HITREG.MaxPing) and not m_ActiveBoss()) then
-            bullet.Damage = 0
-        else
-            bullet.Damage = dmg
-        end
-
-        self.Owner:FireBullets(bullet)
-        -- Owner can die after firebullets
-        if (not IsValid(self.Owner)) or (not self.Owner:Alive()) or self.Owner:IsNPC() then return end
-
-        if ((game.SinglePlayer() and SERVER) or ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) then
-            -- reduce recoil if ironsighting
-            recoil = sights and (recoil * 0.6) or recoil
-            local eyeang = self.Owner:EyeAngles()
-            eyeang.pitch = eyeang.pitch - recoil
-            self.Owner:SetEyeAngles(eyeang)
-        end
+PLAYER.Old_FireBullets = PLAYER.Old_FireBullets or FindMetaTable "Entity".FireBullets
+function PLAYER:FireBullets(bul, supp)
+    if self:Ping() <= MOAT_HITREG.MaxPing and not m_ActiveBoss() then
+        bul.Damage = 0
     end
+    return self:Old_FireBullets(bul, supp)
 end
-
-timer.Simple(0, moat_ReplaceShootBullet)
-hook.Add("Initialize", "moat_ReplaceBaseShoot", moat_ReplaceShootBullet)
-
 
 hook.Add("PlayerSay", "moat_ChatCommand", function(ply, text, team)
     if (table.HasValue(MOAT_HITREG.ChatCommands, text) or table.HasValue(MOAT_HITREG.ChatCommands, text:lower())) then

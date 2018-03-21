@@ -14,14 +14,14 @@ SWEP.Base = "weapon_tttbase"
 SWEP.HoldType = "pistol"
 
 SWEP.Primary.Ammo = "none"
-SWEP.Primary.Delay = 2
+SWEP.Primary.Delay = 1
 SWEP.Primary.Recoil = 0.8
-SWEP.Primary.Cone = 0.0325
+SWEP.Primary.Cone = 0.0025
 SWEP.Primary.Damage = 1000
 SWEP.Primary.Automatic = false
-SWEP.Primary.ClipSize = 3
-SWEP.Primary.ClipMax = 3
-SWEP.Primary.DefaultClip = 3
+SWEP.Primary.ClipSize = 5
+SWEP.Primary.ClipMax = SWEP.Primary.ClipSize
+SWEP.Primary.DefaultClip = SWEP.Primary.ClipSize
 SWEP.Primary.Sound = Sound( "Weapon_DetRev.Single" )
 
 -- Model properties
@@ -74,10 +74,6 @@ end
 -- Precache custom sounds
 function SWEP:Precache()
    util.PrecacheSound( "weapons/det_revolver/revolver-fire.wav" )
-end
-
-function SWEP:Holster()
-   return false
 end
 
 -- Give the primary sound an alias

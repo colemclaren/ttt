@@ -294,9 +294,9 @@ function GM:PlayerSay(ply, text, team_only)
 
          return table.concat(filtered, " ")
 
-      elseif team_only and not team and ply:IsSpecial() then
+      elseif team_only and not team and ply:GetChatRole() then
 
-	     RoleChatMsg(ply, ply:GetRole(), text)
+	     RoleChatMsg(ply, ply:GetChatRole(), text)
 
 		 return ""
 

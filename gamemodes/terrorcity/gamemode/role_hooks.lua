@@ -12,7 +12,7 @@ local function include_role(roleid, rolename, sv, cl, sh)
     sh = sh == nil and true or sh
     sv = sv or false
     cl = cl or false
-    ROLE = {
+    ROLE = ROLES[roleid] or {
         ID = roleid,
         Name = rolename
     }
@@ -44,6 +44,7 @@ include_role(ROLE_SURVIVOR, "survivor", true, false, false)
 include_role(ROLE_BODYGUARD, "bodyguard", true, false, false)
 include_role(ROLE_VETERAN, "veteran", true, false, false)
 include_role(ROLE_DOCTOR, "doctor", true, true, false)
+include_role(ROLE_HITMAN, "hitman", true, true, false)
 
 function GM.InitializeRoles()
     for event, roles in pairs(HOOKS) do

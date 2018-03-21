@@ -73,6 +73,9 @@ local role_strings = {
 
 };
 
+function GetRoleStringRaw(role)
+   return role_strings[role]
+end
 
 
 local GetRTranslation = CLIENT and LANG.GetRawTranslation or util.passthrough

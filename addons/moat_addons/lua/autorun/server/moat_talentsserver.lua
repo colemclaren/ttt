@@ -275,8 +275,7 @@ hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
             local talent_servertbl = m_GetTalentFromEnumWithFunctions(talent_enum)
 
             if (talent_servertbl.OnWeaponFired) then
-                if (talent_servertbl:OnWeaponFired(attacker, dmginfo, talent_mods)) then
-                    return true
+                if (talent_servertbl:OnWeaponFired(ent, dmginfo, talent_mods)) then
                 end
             end
         end

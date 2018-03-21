@@ -236,6 +236,8 @@ end
 local disable_downloads = CreateClientConVar("disable_downloads", 0, true, false)
 
 function moat_dl.InitDownloads()
+	if (util.NetworkStringToID "ttt_enable_tc" ~= 0) then moat_dl.done = true return end
+	
 	moat_dl.start = CurTime() + 15
 	moat_dl:DownloadAddon(moat_dl.cur)
 end

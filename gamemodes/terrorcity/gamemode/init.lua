@@ -886,14 +886,13 @@ function SelectRoles()
     local random_roles = {ROLE_SURVIVOR, ROLE_VETERAN, ROLE_XENOMORPH, ROLE_DOCTOR, ROLE_BEACON}
 
     for k, v in ipairs(pls) do
-        if (IsValid(v) and not v:IsSpec()) then
+        if (IsValid(v) and not v:GetForceSpec()) then
             table.insert(players, v)
         end
     end
 
     local shuffled = shuffle(players)
-    local player_count = #shuffled
-    local t_count, d_count, sk_count, j_count = GetRoleCount(player_count)
+    local t_count, d_count, sk_count, j_count = GetRoleCount(#shuffled)
 
     local function r(pl, role)
       pl:SetRole(role)
@@ -905,17 +904,21 @@ function SelectRoles()
       if (role == ROLE_JESTER) then j_count = j_count - 1 end
     end
 
-    for i = 1, player_count do
+    for i = #shuffled, 1, -1 do
+        local p = shuffled[i]
+        if (p.OverrideRole) then
+            r(p, p.OverrideRole)
+            p.OverrideRole = nil
+            table.remove(shuffled, i)
+        end
+    end
+
+    for i = 1, #shuffled do
       local pl = shuffled[i]
-      if (pl.OverrideRole) then
-        r(pl, pl.OverrideRole)
-        pl.OverrideRole = nil
-        continue
-      end
 
       -- Hitman/Traitor Selection
       -- Always have at least 1 Hitman for the Traitors
-      --if (t_count == 2) then r(pl, ROLE_HITMAN) continue end
+      if (t_count == 2) then r(pl, ROLE_HITMAN) continue end
       if (t_count > 0) then r(pl, ROLE_TRAITOR) continue end
 
       -- Other roles dependent on player count
@@ -923,11 +926,15 @@ function SelectRoles()
       if (d_count > 0) then r(pl, ROLE_DETECTIVE) continue end
       if (sk_count > 0) then r(pl, ROLE_KILLER) continue end
 
-      if (roles[ROLE_BODYGUARD] < 1 and (roles[ROLE_DETECTIVE] > 0 or roles[ROLE_DOCTOR] > 0 )) then r(pl, ROLE_BODYGUARD) continue end
+      if (roles[ROLE_BODYGUARD] < 1 and roles[ROLE_DETECTIVE] > 0) then r(pl, ROLE_BODYGUARD) continue end
       if (random_roles and #random_roles < 1) then r(pl, ROLE_INNOCENT) continue end
 
-      local role_rand = math.random(1, #random_roles)
-      if (role_rand and random_roles[role_rand] and roles[random_roles[role_rand]] < 1) then r(pl, random_roles[role_rand]) random_roles[role_rand] = nil continue end
+      local i = math.random(1, #random_roles)
+      if (random_roles[i] and roles[random_roles[i]] < 1) then
+        r(pl, random_roles[i]) 
+        table.remove(random_roles, i)
+        continue
+      end
     end
 
     for _, ply in ipairs(pls) do

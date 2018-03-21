@@ -36,15 +36,34 @@ function plymeta:GetKiller()
     return killer[self:GetRole()]
 end
 
+local canuse = {
+    [ROLE_HITMAN] = true,
+    [ROLE_TRAITOR] = true,
+    [ROLE_DETECTIVE] = true
+}
+
+function plymeta:CanUseCredits()
+    return canuse[self:GetRole()]
+end
+
 plymeta.IsTraitor = plymeta.GetTraitor
 plymeta.IsDetective = plymeta.GetDetective
 plymeta.IsJester = plymeta.GetJester
 plymeta.IsKiller = plymeta.GetKiller
 
 
-
 function plymeta:IsSpecial()
     return self:GetRole() ~= ROLE_INNOCENT
+end
+
+local chatroles = {
+    [ROLE_DETECTIVE] = ROLE_DETECTIVE,
+    [ROLE_TRAITOR] = ROLE_TRAITOR,
+    [ROLE_HITMAN] = ROLE_TRAITOR
+}
+
+function plymeta:GetChatRole()
+    return chatroles[self:GetRole()]
 end
 
 -- Player is alive and in an active round
@@ -62,7 +81,7 @@ function plymeta:IsActiveRole(role)
 end
 
 function plymeta:IsActiveTraitor()
-    return self:IsActiveRole(ROLE_TRAITOR)
+    return self:IsActive() and self:GetTraitor()
 end
 
 function plymeta:IsActiveDetective()
@@ -91,6 +110,10 @@ local role_strings = {
    [ROLE_VETERAN]  = "veteran",
    [ROLE_XENOMORPH]= "xenomorph"
 }
+
+function GetRoleStringRaw(role)
+    return role_strings[role]
+end
 
 local GetRTranslation = CLIENT and LANG.GetRawTranslation or util.passthrough
 
