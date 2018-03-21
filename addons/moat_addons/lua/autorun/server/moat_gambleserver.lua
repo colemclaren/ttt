@@ -1263,7 +1263,7 @@ end)
 
 net.Receive("mines.CashOut",function(l,ply)
     if not MINES_GAMES[ply] then return end
-    local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(MINES_GAMES[ply][1]) .. " IC in mines."
+    local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) .. " IC in mines."
 	SVDiscordRelay.SendToDiscordRaw("Gamble Log", false, msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
     if MINES_GAMES[ply][1]> 10000 then
         DiscordGamble(ply:Nick() .. " (" .. ply:SteamID() .. ") won **" .. string.Comma(round(MINES_GAMES[ply][1])) .. "** IC in Mines.")
