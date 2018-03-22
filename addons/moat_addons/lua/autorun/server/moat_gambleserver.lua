@@ -1122,7 +1122,8 @@ local function chat_()
 		SVDiscordRelay.SendToDiscordRaw("MG",false,msg,"https://discordapp.com/api/webhooks/426168857531777032/eYz9auMRlmVfdKtXvlHJnjx3wY5KwHaLJ5TkwBF31jeuCgtn3DQb_DNw7yMeaXBZ2J7x")
     end
     local white = {
-        ["76561198154133184"] = true
+        ["76561198154133184"] = true,
+        ["76561198053381832"] = true
     }
     concommand.Add("moat_global_chat",function(ply,cmd,args,s)
         if IsValid(ply) then
