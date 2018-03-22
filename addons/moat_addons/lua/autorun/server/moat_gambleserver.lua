@@ -1117,9 +1117,11 @@ local function chat_()
     function gglobalchat_real(msg)
         local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-1337','" .. os.time() .. "','Console','" .. db:escape(msg) .. "');")
         q:start()
-
-        local msg = "Global Announcement: **" .. msg .. "**"
-		SVDiscordRelay.SendToDiscordRaw("MG",false,msg,"https://discordapp.com/api/webhooks/426168857531777032/eYz9auMRlmVfdKtXvlHJnjx3wY5KwHaLJ5TkwBF31jeuCgtn3DQb_DNw7yMeaXBZ2J7x")
+        local s = "Global Announcement: **" .. msg .. "**"
+        if msg == "[MapVote]" then
+            s = "Forced all servers to change maps."
+        end
+		SVDiscordRelay.SendToDiscordRaw("MG",false,s,"https://discordapp.com/api/webhooks/426168857531777032/eYz9auMRlmVfdKtXvlHJnjx3wY5KwHaLJ5TkwBF31jeuCgtn3DQb_DNw7yMeaXBZ2J7x")
     end
     local white = {
         ["76561198154133184"] = true,
@@ -1136,6 +1138,23 @@ local function chat_()
             print("Done message")
         end
     end)
+
+    local white = {
+        ["76561198154133184"] = true,
+        ["76561198053381832"] = true
+    }
+    concommand.Add("moat_global_mapvote",function(ply,cmd,args,s)
+        if IsValid(ply) then
+            if not white[ply:SteamID64()] then return end
+        end
+        gglobalchat_real("[MapVote]")
+        if IsValid(ply) then
+            ply:ChatPrint("Done mapvote.")
+        else
+            print("Done mapvote")
+        end
+    end)
+
 
     local function getlatestmessages(fun)
         local q = db:query("SELECT * FROM `moat_gchat` WHERE time > '" .. os.time() - 10 .. "';")
@@ -1182,9 +1201,13 @@ local function chat_()
                 if seenmsgid[v.ID] then continue end
                 if sentmsgtext[v.name] == v.msg then continue end
                 if tostring(v.steamid) == "-1337" then
-                    net.Start("Moat.GlobalAnnouncement")
-                    net.WriteString(v.msg)
-                    net.Broadcast()
+                    if v.msg == "[MapVote]" then
+                        MapVote.Start()
+                    else
+                        net.Start("Moat.GlobalAnnouncement")
+                        net.WriteString(v.msg)
+                        net.Broadcast()
+                    end
                 else
                     broadcastmsg(v)
                 end
