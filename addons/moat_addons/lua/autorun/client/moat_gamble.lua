@@ -4018,3 +4018,7 @@ net.Receive("MOAT_GAMBLE_GLOBAL",function()
 		m_AddGambleChatMessage(unpack(tbl))
 	end
 end)
+
+net.Receive("Moat.GlobalAnnouncement",function()
+	chat.AddText(Color(255,255,255),"[",Color(255,0,0),"GLOBAL ANNOUNCEMENT",Color(255,255,255),"]: ",net.ReadString())
+end)
