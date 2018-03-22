@@ -1,5 +1,6 @@
 util.AddNetworkString("MOAT_GAMBLE_CAT")
 util.AddNetworkString("MOAT_GAMBLE_GLOBAL")
+util.AddNetworkString("Moat.GlobalAnnouncement")
 local MOAT_GAMBLE_CATS = {{"Mines", Color(150, 0, 255)}, {"Roulette", Color(255, 0, 50)}, {"Crash", Color(255, 255, 0)}, {"Jackpot", Color(0, 255, 0)}, {"Versus", Color(0, 255, 255)}}
 
 local function DiscordGamble(msg)
@@ -1113,6 +1114,29 @@ local function chat_()
         ply.gChat = CurTime() + 10
     end
 
+    function gglobalchat_real(msg)
+        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-1337','" .. os.time() .. "','Console','" .. db:escape(msg) .. "');")
+        q:start()
+
+        local msg = "Global Announcement: **" .. msg .. "**"
+		SVDiscordRelay.SendToDiscordRaw("MG",false,msg,"https://discordapp.com/api/webhooks/426168857531777032/eYz9auMRlmVfdKtXvlHJnjx3wY5KwHaLJ5TkwBF31jeuCgtn3DQb_DNw7yMeaXBZ2J7x")
+    end
+    local white = {
+        ["76561198154133184"] = true,
+        ["76561198053381832"] = true
+    }
+    concommand.Add("moat_global_chat",function(ply,cmd,args,s)
+        if IsValid(ply) then
+            if not white[ply:SteamID64()] then return end
+        end
+        gglobalchat_real(s)
+        if IsValid(ply) then
+            ply:ChatPrint("Done.")
+        else
+            print("Done message")
+        end
+    end)
+
     local function getlatestmessages(fun)
         local q = db:query("SELECT * FROM `moat_gchat` WHERE time > '" .. os.time() - 10 .. "';")
         function q:onSuccess(d)
@@ -1127,6 +1151,8 @@ local function chat_()
         if msg:len() < 1 then return end
         gglobalchat(ply,msg)
     end)
+
+
 
     local function broadcastmsg(d)
         local time = d.time
@@ -1155,7 +1181,13 @@ local function chat_()
                 --print("LOOP",v.ID,v.name,v.msg)
                 if seenmsgid[v.ID] then continue end
                 if sentmsgtext[v.name] == v.msg then continue end
-                broadcastmsg(v)
+                if tostring(v.steamid) == "-1337" then
+                    net.Start("Moat.GlobalAnnouncement")
+                    net.WriteString(v.msg)
+                    net.Broadcast()
+                else
+                    broadcastmsg(v)
+                end
                 seenmsgid[v.ID] = true
             end
         end)
