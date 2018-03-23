@@ -162,7 +162,7 @@ local function DrawSnow(pnl, w, h, amt)
 end
 
 local function createFestive(pnl, x, y, w, h)
-    pnl.festivepanel = vgui.Create("DPanel",pnl)
+    /*pnl.festivepanel = vgui.Create("DPanel",pnl)
     pnl.festivepanel:SetSize(w,h)
     pnl.festivepanel:SetPos(x,y)
     pnl.festivepanel.snowtbl = {}
@@ -170,7 +170,7 @@ local function createFestive(pnl, x, y, w, h)
         if (tobool(GetConVar("moat_EnableChristmasTheme"):GetInt())) then
             DrawSnow(s, w, h, 50)
         end
-    end
+    end*/
 end
 
 local spooky_url = "http://server.moatgaming.org/images/halloween/"
@@ -234,12 +234,82 @@ local function createSpooky(pnl, x, y, w, h)
 end
 
 
+
+
+local spring_url = "https://moat.gg/assets/img/spring/"
+local springs = {
+    [1] = {"butterfly1.png", 0, 0, 0},
+    [2] = {"butterfly2.png", 0, 0, 0},
+    [3] = {"butterfly3.png", 0, 0, 0},
+    [4] = {"butterfly4.png", 0, 0, 0}
+}
+local next_spring = CurTime()
+local current_spring = 1
+local left_or_right = 1
+local currently_spring = false
+
+local function DrawSpring(s, w, h)
+    draw.WebImage(spring_url .. "spring_bg.png", 0, 0, 1024, 1024, Color(255, 255, 255, 50))
+
+    if (next_spring <= CurTime()) then
+        current_spring = math.random(1, 4)
+        left_or_right = math.random(1, 2)
+
+        local da_spring = springs[current_spring]
+        if (left_or_right == 2) then
+            da_spring[2] = -100
+        else
+            da_spring[2] = w + 100
+        end
+
+        da_spring[3] = math.random(100, h - 200)
+        da_spring[4] = math.random(50, 100)
+
+        currently_spring = true
+        next_spring = CurTime() + 20
+    elseif (currently_spring) then
+        local da_spring = springs[current_spring]
+
+        draw.WebImage(spring_url .. da_spring[1], da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
+
+        if (left_or_right == 2) then
+            da_spring[2] = da_spring[2] + (FrameTime() * 120)
+
+            if (da_spring[2] > w) then currently_spring = false end
+        else
+            da_spring[2] = da_spring[2] - (FrameTime() * 120)
+
+            if (da_spring[2] < -100) then currently_spring = false end
+        end
+    end
+end
+
+local moat_spring_theme = CreateClientConVar("moat_spring_theme", 1, true, false)
+local function createSpring(pnl, x, y, w, h)
+
+    next_spring = CurTime() + 5
+    pnl.springpanel = vgui.Create("DPanel",pnl)
+    pnl.springpanel:SetSize(w,h)
+    pnl.springpanel:SetPos(x,y)
+    pnl.springpanel.Paint = function(s,w,h)
+        if (moat_spring_theme:GetInt() < 1) then return end
+        
+        DrawSpring(s, w, h)
+    end
+end
+
+
+
+
+
 local pmeta = FindMetaTable("Panel")
 
 function pmeta:SetFestive(x, y, w, h)
+
+    /*
     if (not IsValid(self.festivepanel) and tobool(GetConVar("moat_EnableChristmasTheme"):GetInt())) then
         createFestive(self, x, y, w, h)
-    end
+    end*/
 end
 
 function m_DrawShadowedText(shadow, text, font, x, y, color, xalign, yalign)
@@ -1268,7 +1338,7 @@ function m_OpenInventory(ply2, utrade)
         net.WriteBool(false)
         net.SendToServer()
     end
-    createSpooky(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
+    createSpring(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
 
     M_TRADING_PNL = vgui.Create("DPanel", MOAT_INV_BG)
     M_TRADING_PNL:SetSize(385, MOAT_INV_BG:GetTall())
