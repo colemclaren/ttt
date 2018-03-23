@@ -353,7 +353,7 @@ function GM:HUDDrawTargetID()
          if client:IsTraitor() or client:IsSpec() then
 
             text = ent:Nick() .. L.target_disg
-            text = text:TrimLeft("[moat.gg]"):TrimLeft("moat.gg"):TrimLeft(" ")
+            text = text:TrimLeft("[moat.gg]"):TrimLeft("[Moat.gg]"):TrimLeft("moat.gg |"):TrimLeft("Moat.gg |"):TrimLeft("Moat.gg"):TrimLeft("moat.gg"):TrimLeft(" ")
 
          else
 
@@ -370,8 +370,8 @@ function GM:HUDDrawTargetID()
       else
 
          text = ent:Nick()
-         text = text:TrimLeft("[moat.gg]"):TrimLeft("moat.gg"):TrimLeft(" ")
-         
+         text = text:TrimLeft("[moat.gg]"):TrimLeft("[Moat.gg]"):TrimLeft("moat.gg |"):TrimLeft("Moat.gg |"):TrimLeft("Moat.gg"):TrimLeft("moat.gg"):TrimLeft(" ")
+
          client.last_id = ent
 
       end
