@@ -546,7 +546,7 @@ local function moat_CustomHUD()
 
 		local ammo_yoff = y
 
-		if (wpn.ItemStats) then
+		if (wpn.ItemStats and wpn.ItemStats.item) then
 			local wpn_stats = wpn.ItemStats
 			local ITEM_NAME_FULL = wpn.PrintName
 
