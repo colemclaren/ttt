@@ -136,8 +136,7 @@ end
 local pmeta = FindMetaTable("Panel")
 
 function pmeta:SetFestive(x, y, w, h)
-    /*
-    if (not IsValid(self.festivepanel) and tobool(GetConVar("moat_EnableChristmasTheme"):GetInt())) then
+    /*if (not IsValid(self.festivepanel) and tobool(GetConVar("moat_EnableChristmasTheme"):GetInt())) then
         createFestive(self, x, y, w, h)
     end*/
 end
