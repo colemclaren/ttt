@@ -157,6 +157,7 @@ moat_random.register("Golden Deagle","You can only use the golden deagle!",{
         for k,v in pairs(player.GetAll()) do
             v:StripWeapons()
             timer.Simple(1,function()
+                if not IsValid(v) then return end
                 if not v:Alive() then return end
                 v:Give("weapon_ttt_golden_deagle")
                 v:GiveAmmo(99999,"AlyxGun",true)
