@@ -5,8 +5,8 @@ function D3A.Player.CanTarget(pl1, pl2)
 end
 
 function D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, AvatarURL)
-	D3A.MySQL.Query("REPLACE INTO player (`steam_id`, `name`, `first_join`, `avatar_url`, `inventory_credits`, `event_credits`, `donator_credits`, `extra`) VALUES ('" .. SteamID .."', '" .. D3A.MySQL.Escape(Name) .. "', '" .. os.time() .. "', '" .. AvatarURL .. "', 0, 0, 0, null);")
-	D3A.MySQL.Query("REPLACE INTO player_iplog (`SteamID`, `Address`, `LastSeen`) VALUES ('" .. SteamID32 .. "', '" .. IP .. "', '-1');")
+	D3A.MySQL.Query("INSERT INTO player (`steam_id`, `name`, `first_join`, `avatar_url`, `inventory_credits`, `event_credits`, `donator_credits`, `extra`) VALUES ('" .. SteamID .."', '" .. D3A.MySQL.Escape(Name) .. "', '" .. os.time() .. "', '" .. AvatarURL .. "', 0, 0, 0, null);")
+	D3A.MySQL.Query("INSERT INTO player_iplog (`SteamID`, `Address`, `LastSeen`) VALUES ('" .. SteamID32 .. "', '" .. IP .. "', '-1');")
 	D3A.Print(SteamID32 .. " | Connecting for the first time")
 end
 
@@ -92,7 +92,7 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	end
 
 	-- Create data
-	D3A.MySQL.Query("SELECT rank FROM player WHERE `steam_id` ='" .. SteamID .. "';", function(d)
+	D3A.MySQL.Query("SELECT rank, name FROM player WHERE `steam_id` ='" .. SteamID .. "';", function(d)
 		if (d and d[1]) then
 			D3A.Print(SteamID32 .. " | Connecting")
 
