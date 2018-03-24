@@ -438,12 +438,15 @@ function MOAT_LOADOUT.GiveLoadout(ply)
     net.Start("MOAT_NET_SPAWN")
     net.Send(ply)
 
-    timer.Create("moat_CheckLoadoutSpawn" .. ply:EntIndex(), 1, 0, function()
+    local idx = ply:EntIndex()
+    timer.Create("moat_CheckLoadoutSpawn" .. idx, 1, 0, function()
+        if (not IsValid(ply)) then timer.Remove("moat_CheckLoadoutSpawn" .. idx) return end
+
         local pri_wep, sec_wep, melee_wep, powerup, tactical = m_GetLoadout(ply)
 
         if (pri_wep and sec_wep and melee_wep and powerup and tactical) then
             m_GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, powerup, tactical)
-            timer.Remove("moat_CheckLoadoutSpawn" .. ply:EntIndex())
+            timer.Remove("moat_CheckLoadoutSpawn" .. idx)
         end
     end)
 end
