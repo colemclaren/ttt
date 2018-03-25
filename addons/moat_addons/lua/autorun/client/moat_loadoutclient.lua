@@ -509,13 +509,13 @@ function MOAT_LOADOUT.UpdateOtherWep()
     local wep_owner = net.ReadDouble()
     local wep_stats = net.ReadTable()
 
-    if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
+    /*if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
         if (GetConVar("moat_showstats_spawn"):GetInt() == 1) then
             if (wep_stats.item and wep_stats.item.Kind ~= "Melee") then
                 m_DrawFoundItemAdd(wep_stats, "pickup")
             end
         end
-    end
+    end*/
 
     timer.Create("moat_StatRefresh" .. wep_index, 0.1, 0, function()
         local wep = Entity(wep_index)
@@ -617,13 +617,13 @@ function MOAT_LOADOUT.UpdateWep()
         wep_stats = net.ReadTable()
     end
 
-    if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
+    /*if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
         if (GetConVar("moat_showstats_spawn"):GetInt() == 1) then
             if (wep_stats.item and wep_stats.item.Kind ~= "Melee") then
                 m_DrawFoundItemAdd(wep_stats, "pickup")
             end
         end
-    end
+    end*/
 
     timer.Create("moat_StatRefresh" .. wep_index, 0.1, 0, function()
         local wep = Entity(wep_index)
