@@ -41,7 +41,13 @@ D3A.Config.IgnoreChatCommands = {
 	"mapvote",
 	"mv",
 	"forums",
-	"forum"
+	"forum",
+	"rm",
+    "reloadmaterials",
+    "reloadmats",
+    "materials",
+    "textures",
+    "m"
 }
 
 --[[
