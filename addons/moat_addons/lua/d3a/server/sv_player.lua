@@ -92,7 +92,7 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	end
 
 	-- Create data
-	D3A.MySQL.Query("SELECT rank FROM player WHERE `steam_id` ='" .. SteamID .. "';", function(d)
+	D3A.MySQL.Query("SELECT rank, name FROM player WHERE `steam_id` ='" .. SteamID .. "';", function(d)
 		if (d and d[1]) then
 			D3A.Print(SteamID32 .. " | Connecting")
 
