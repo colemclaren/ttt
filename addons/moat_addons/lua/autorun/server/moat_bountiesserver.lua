@@ -1,3 +1,361 @@
+moat_contracts = {}
+util.AddNetworkString("moat.contracts")
+util.AddNetworkString("moat.contractinfo")
+util.AddNetworkString("moat.contracts.chat")
+contract_starttime = os.time()
+contract_loaded = false
+
+local function c()
+    return MINVENTORY_MYSQL and MINVENTORY_MYSQL:status() == mysqloo.DATABASE_CONNECTED
+end
+
+function contract_increase(ply,am)
+
+end
+
+local function _contracts()
+	local db = MINVENTORY_MYSQL
+	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(255) NOT NULL, `start_time` INT NOT NULL, `active` INT NOT NULL, `refresh_next` INT, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	function dq:onError(err)
+        ServerLog("[mInventory] Error with creating table: " .. err)
+    end
+    dq:start()
+
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractplayers` ( `steamid` varchar(255) NOT NULL, `score` INT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractwinners` ( `steamid` varchar(255) NOT NULL, `place` INT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+
+	function newcontract()
+		local c,name = table.Random(moat_contracts)
+		local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
+		q:start()
+		c.runfunc()
+		local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
+		local s = "|\nDaily contract of **" .. os.date("%B %d, %Y",os.time()) .. "**:```"
+		s = s .. [[]] .. name .. "\n---------------------\n" .. c.desc .. "\n---------------------\n\n\n\n"
+		s = s .. "```"
+		SVDiscordRelay.SendToDiscordRaw("Contracts",nil,s,url)
+		contract_loaded = name
+	end
+
+	function moat_contract_refresh()
+		local q = db:query("UPDATE moat_contracts SET active = '0', refresh_next = '1';")
+		q:start()
+	end
+
+	local q = db:query("SELECT * FROM moat_contracts WHERE refresh_next = '1';")
+	function q:onSuccess(d)
+		if contract_loaded then return end
+		if (#d > 0) then
+			contract_transferall()
+			local q = db:query("UPDATE moat_contracts SET active ='0', refresh_next = '0';")
+			q:start()
+			newcontract()
+			contract_starttime = os.time()
+		else
+			local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
+			function q:onSuccess(b)
+				print("Loading active contract: " .. b[1].contract)
+				moat_contracts[b[1].contract].runfunc()
+				contract_starttime = b[1].start_time
+				contract_loaded = b[1].contract
+			end
+			q:start()
+		end
+	end
+	q:start()
+
+	function contract_getcurrent(fun)
+		local q = db:query("SELECT * FROM moat_contracts WHERE active = '1';")
+		function q:onSuccess(d)
+            fun(d[1])
+        end
+        function q:onError(err)
+        end
+        q:start()
+	end
+
+	function contract_top(fun)
+		local q = db:query("SELECT * FROM moat_contractplayers ORDER BY score DESC LIMIT 50")
+		function q:onSuccess(d)
+			fun(d)
+		end
+		q:start()
+	end
+
+	function contract_getply(ply,fun)
+		local q = db:query("SELECT * FROM moat_contractplayers WHERE steamid = '" .. ply:SteamID64() .. "';")
+		function q:onSuccess(d)
+			fun(d[1])
+		end
+		q:start()
+	end
+
+	function contract_getplace(ply,fun)
+		contract_getply(ply,function(d)
+			local q = db:query([[SELECT `score`,
+       (SELECT COUNT(*) FROM `moat_contractplayers`) - (SELECT COUNT(*) FROM `moat_contractplayers` WHERE `score` <= ']] .. d.score .. [[') + 1 AS `position`,
+       `steamid`
+FROM `moat_contractplayers`
+WHERE `steamid` = ']] .. d.steamid .. [[']])
+		function q:onSuccess(d)
+			fun(d[1])
+		end
+		q:start()
+		end)
+	end
+
+	function contract_transferall()
+		contract_top(function(d)
+			for k,v in pairs(d) do
+				local q = db:query("INSERT INTO moat_contractwinners (steamid, place) VALUES ('" .. v.steamid .. "','" .. k .. "');")
+				if k == #d then
+					function q:onSuccess()
+						local b = db:query("DROP TABLE moat_contractplayers;")
+						b:start()
+					end
+				end
+				q:start()
+			end
+		end)
+	end
+
+	local function reward_ply(ply,place)
+		if place == 1 then
+			ply:m_GiveIC(5000)
+			ply:give_ec(1)
+			net.Start("moat.contracts.chat")
+			net.WriteString("You got 1st place on the last contract and have received 5,000 IC and a EVENT CREDIT!")
+			net.Send(ply)
+		elseif place < 11 then
+			ply:m_GiveIC(math.Round((51 - place) * 100))
+			ply:m_DropInventoryItem(5)
+			net.Start("moat.contracts.chat")
+			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 100)) .. " IC and a Random High End Item!")
+			net.Send(ply)
+		elseif place < 51 then
+			ply:m_GiveIC(math.Round((51 - place) * 100))
+			net.Start("moat.contracts.chat")
+			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 100)) .. " IC!")
+			net.Send(ply)
+		end
+	end
+	function GetRandomSteamID()
+		return "7656119"..tostring( 7960265728+math.random( 1, 200000000 ) )
+	end
+
+	hook.Add("PlayerInitialSpawn","Contracts",function(ply)
+		net.Start("moat.contractinfo")
+		net.WriteString(contract_loaded)
+		net.WriteString(moat_contracts[contract_loaded].desc)
+		net.WriteString(moat_contracts[contract_loaded].adj)
+		net.Send(ply)
+		
+		--[[for i =1,100 do
+			local b = db:query("INSERT INTO moat_contractplayers (steamid,score) VALUES ('" .. GetRandomSteamID() .. "'," .. i .. ");")
+			b:start()
+		end]]
+		
+		local q = db:query("SELECT * FROM moat_contractplayers WHERE steamid = '" .. ply:SteamID64() .. "';")
+		function q:onSuccess(d)
+			if not d[1] then
+				local b = db:query("INSERT INTO moat_contractplayers (steamid,score) VALUES ('" .. ply:SteamID64() .. "',0);")
+				b:start()
+				ply.contract_score = 0
+			else
+				ply.contract_score = d[1].score
+			end
+		end
+		q:start()
+		contract_top(function(top)
+			contract_getplace(ply,function(p)
+				net.Start("moat.contracts")
+				net.WriteInt(p.position,32)
+				net.WriteInt(p.score,32)
+				net.WriteTable(top)
+				net.Send(ply)
+			end)
+		end)
+
+		local q = db:query("SELECT * FROM moat_contractwinners WHERE steamid = '" .. ply:SteamID64() .. "';")
+		function q:onSuccess(d)
+			if #d < 1 then return end
+			reward_ply(ply,d[1].place)
+			local b = db:query("DELETE FROM moat_contractwinners WHERE steamid = '" .. ply:SteamID64() .. "';")
+			b:start()
+		end
+		q:start()
+	end)
+
+	function contract_increase(ply,am)
+		if #player.GetAll() < 8 then return end
+		if (os.time() - contract_starttime) > 86400 then return end -- Contract already over, wait for next map 
+		ply.contract_score = (ply.contract_score or 0) + am
+		local q = db:query("UPDATE moat_contractplayers SET score = '" .. (ply.contract_score) .. "' WHERE steamid = '" .. ply:SteamID64() .. "';")
+		q:start()
+	end
+
+	hook.Add("TTTEndRound","Contracts",function()
+		contract_top(function(top)
+			for k,v in ipairs(player.GetAll()) do
+				contract_getplace(v,function(p)
+					net.Start("moat.contracts")
+					net.WriteInt(p.place,32)
+					net.WriteInt(p.score)
+					net.WriteTable(top)
+					net.Send(v)
+				end)
+			end
+		end)
+	end)
+
+
+	print("Loaded contracts")
+end
+
+function addcontract(name,contract)
+	moat_contracts[name] = contract
+end
+
+local function WasRightfulKill(att, vic)
+	if (GetRoundState() ~= ROUND_ACTIVE) then return false end
+	
+	local vicrole = vic:GetRole()
+	local attrole = att:GetRole()
+
+	if (vicrole == ROLE_TRAITOR and attrole == ROLE_TRAITOR) then return false end
+	if ((vicrole == ROLE_DETECTIVE or vicrole == ROLE_INNOCENT) and attrole ~= ROLE_TRAITOR) then return false end
+
+	return true
+end
+
+
+local weapon_challenges = {
+    {"weapon_zm_shotgun", "an XM1014", "XM1014"},
+    {"weapon_zm_mac10", "a MAC10", "MAC10"},
+    {"weapon_ttt_p90", "an FN P90", "FN P90"},
+    {"weapon_ttt_aug", "an AUG", "AUG"},
+    {"weapon_ttt_ak47", "an AK47", "AK47"},
+    {"weapon_ttt_mr96", "a Revolver", "Revolver"},
+    {"weapon_zm_pistol", "a Pistol", "Pistol"},
+    {"weapon_ttt_sg550", "an SG550", "SG550"},
+    {"weapon_ttt_m16", "an M16", "M16"},
+    {"weapon_zm_sledge", "a H.U.G.E-249", "H.U.G.E-249"},
+    {"weapon_ttt_dual_elites", "Dual Elites", "Dual Elites"},
+    {"weapon_zm_revolver", "a Deagle", "Deagle"},
+    {"weapon_ttt_ump45", "an UMP-45", "UMP-45"},
+    {"weapon_ttt_msbs", "a MSBS", "MSBS"},
+    {"weapon_ttt_shotgun", "a Shotgun", "Shotgun"},
+    {"weapon_xm8b", "an M8A1", "M8A1"},
+    {"weapon_zm_rifle", "a Rifle", "Rifle"},
+    {"weapon_ttt_galil", "a Galil", "Galil"},
+    {"weapon_ttt_sg552", "an SG552", "SG552"},
+    {"weapon_ttt_m590", "a Mossberg", "Mossberg"},
+    {"weapon_flakgun", "a Flak-28", "Flak-28"},
+    {"weapon_thompson", "a Tommy Gun", "Tommy Gun"},
+    {"weapon_ttt_famas", "a Famas", "Famas"},
+    {"weapon_ttt_glock", "a Glock", "Glock"},
+    {"weapon_ttt_mp5", "an MP5", "MP5"}
+}
+
+local chal_prefix = {
+	"Dangerous",
+	"Alarming",
+	"Hazardous",
+	"Troubling",
+	"Deadly",
+	"Fatal",
+	"Nasty",
+	"Risky",
+	"Serious",
+	"Terrible",
+	"Threatening",
+	"Ugly",
+	"Cruel",
+	"Evil",
+	"Atrocious",
+	"Vicious",
+	"Pitiless",
+	"Brutal",
+	"Harsh",
+	"Hateful",
+	"Heartless",
+	"Merciless",
+	"Wicked",
+	"Ferocious",
+	"Spiteful"
+}
+
+local chal_suffix = {
+	"Killer",
+	"Assassin",
+	"Hunter",
+	"Exterminator",
+	"Slayer",
+	"Criminal",
+	"Murderer"
+}
+
+for k,v in pairs(weapon_challenges) do
+	addcontract("Global " .. v[3] .. " Killer",{
+	desc = "Get as many kills as you can with " .. v[2] .. ", rightfully.",
+	adj = "Kills",
+	runfunc = function()
+			hook.Add("PlayerDeath", "RightfulContract" .. k, function(ply, inf, att)
+				if (att:IsValid() and att:IsPlayer()) then
+					inf = att:GetActiveWeapon()
+				end
+
+				if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) and inf.ClassName and inf.ClassName == v[1] then
+					contract_increase(att,1)
+				end
+			end)
+		end
+	})
+end
+
+addcontract("Rightful Slayer",{
+	desc = "Eliminate as many terrorists as you can, rightfully.",
+	adj = "Kills",
+	runfunc = function()
+		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
+			if (att:IsValid() and att:IsPlayer()) then
+				inf = att:GetActiveWeapon()
+			end
+
+			if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
+				contract_increase(att,1)
+			end
+		end)
+	end
+})
+
+
+
+
+if MINVENTORY_MYSQL then
+    if c() then
+        _contracts()
+    end
+end
+
+hook.Add("InitPostEntity","Contracts",function()
+    if not c() then 
+        timer.Create("CheckContracts",1,0,function()
+            if c() then
+                _contracts()
+                timer.Destroy("CheckContracts")
+            end
+        end)
+    else
+        _contracts()
+    end
+
+end)
+
+
 util.AddNetworkString "moat_bounty_send"
 util.AddNetworkString "moat_bounty_update"
 util.AddNetworkString "moat_bounty_chat"
@@ -125,85 +483,6 @@ function MOAT_BOUNTIES:IncreaseProgress(ply, bounty_id, max)
 		end
 	end
 end
-
-
-local weapon_challenges = {
-    {"weapon_zm_shotgun", "an XM1014", "XM1014"},
-    {"weapon_zm_mac10", "a MAC10", "MAC10"},
-    {"weapon_ttt_p90", "an FN P90", "FN P90"},
-    {"weapon_ttt_aug", "an AUG", "AUG"},
-    {"weapon_ttt_ak47", "an AK47", "AK47"},
-    {"weapon_ttt_mr96", "a Revolver", "Revolver"},
-    {"weapon_zm_pistol", "a Pistol", "Pistol"},
-    {"weapon_ttt_sg550", "an SG550", "SG550"},
-    {"weapon_ttt_m16", "an M16", "M16"},
-    {"weapon_zm_sledge", "a H.U.G.E-249", "H.U.G.E-249"},
-    {"weapon_ttt_dual_elites", "Dual Elites", "Dual Elites"},
-    {"weapon_zm_revolver", "a Deagle", "Deagle"},
-    {"weapon_ttt_ump45", "an UMP-45", "UMP-45"},
-    {"weapon_ttt_msbs", "a MSBS", "MSBS"},
-    {"weapon_ttt_shotgun", "a Shotgun", "Shotgun"},
-    {"weapon_xm8b", "an M8A1", "M8A1"},
-    {"weapon_zm_rifle", "a Rifle", "Rifle"},
-    {"weapon_ttt_galil", "a Galil", "Galil"},
-    {"weapon_ttt_sg552", "an SG552", "SG552"},
-    {"weapon_ttt_m590", "a Mossberg", "Mossberg"},
-    {"weapon_flakgun", "a Flak-28", "Flak-28"},
-    {"weapon_thompson", "a Tommy Gun", "Tommy Gun"},
-    {"weapon_ttt_famas", "a Famas", "Famas"},
-    {"weapon_ttt_glock", "a Glock", "Glock"},
-    {"weapon_ttt_mp5", "an MP5", "MP5"}
-}
-
-local function WasRightfulKill(att, vic)
-	if (GetRoundState() ~= ROUND_ACTIVE) then return false end
-	
-	local vicrole = vic:GetRole()
-	local attrole = att:GetRole()
-
-	if (vicrole == ROLE_TRAITOR and attrole == ROLE_TRAITOR) then return false end
-	if ((vicrole == ROLE_DETECTIVE or vicrole == ROLE_INNOCENT) and attrole ~= ROLE_TRAITOR) then return false end
-
-	return true
-end
-
-local chal_prefix = {
-	"Dangerous",
-	"Alarming",
-	"Hazardous",
-	"Troubling",
-	"Deadly",
-	"Fatal",
-	"Nasty",
-	"Risky",
-	"Serious",
-	"Terrible",
-	"Threatening",
-	"Ugly",
-	"Cruel",
-	"Evil",
-	"Atrocious",
-	"Vicious",
-	"Pitiless",
-	"Brutal",
-	"Harsh",
-	"Hateful",
-	"Heartless",
-	"Merciless",
-	"Wicked",
-	"Ferocious",
-	"Spiteful"
-}
-
-local chal_suffix = {
-	"Killer",
-	"Assassin",
-	"Hunter",
-	"Exterminator",
-	"Slayer",
-	"Criminal",
-	"Murderer"
-}
 
 local tier1_rewards = {
 	ic = 2000,
@@ -1144,6 +1423,11 @@ function MOAT_BOUNTIES.InitializeBounties()
 
     	if (hr == 0 and min == 0 and sec == 1) then
     		SetGlobalFloat("moat_bounties_refresh_next", true)
+			contract_getcurrent(function(d)
+				if os.time() - d.start_time > 3600 and (not (d.refresh_next > 0)) then
+					moat_contract_refresh()
+				end
+			end)
     	end
     end)
 end
