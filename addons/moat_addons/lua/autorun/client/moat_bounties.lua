@@ -79,7 +79,248 @@ function m_DrawBountyDesc(text, font, x, y, w)
 
     return chars_y * 15
 end
+MOAT_CHALL = {}
+MOAT_CHALL.TitlePoly = {
+	{x = 1, y = 1},
+	{x = 140, y = 1},
+	{x = 170, y = 45},
+	{x = 1, y = 45}
+}
 
+local function m_GetFontWidth(font, txt)
+	surface.SetFont(font)
+	return surface.GetTextSize(txt)
+end
+
+
+--function m_PopulateBountiesPanel(pnl,pnl_x, pnl_y, pnl_w, pnl_h)
+function m_PopulateBountiesPanel(pnl)
+	if (IsValid(MOAT_CHALL_BG)) then return end
+	MOAT_CHALL.LocalChat = true
+	MOAT_CHALL.CurCat = 1
+	MOAT_CHALL.TitlePoly = {
+		{x = 1, y = 1},
+		{x = 0, y = 1},
+		{x = 30, y = 45},
+		{x = 1, y = 45}
+	}
+    pnl_h,pnl_w = pnl:GetTall(),pnl:GetWide()
+    pnl_x,pnl_y = 0,0 
+    MOAT_CHALL_BG = vgui.Create("DPanel",pnl)
+    MOAT_CHALL_BG:SetSize(pnl_w,pnl_h)
+    MOAT_CHALL_BG:SetPos(pnl_x, pnl_y)
+    --MOAT_CHALL_BG:MakePopup()
+   -- MOAT_CHALL_BG:SetKeyboardInputEnabled(false)
+    --MOAT_CHALL_BG:SetDraggable(false)
+   -- --MOAT_CHALL_BG:ShowCloseButton(false)
+   -- MOAT_CHALL_BG:SetTitle("")
+   -- MOAT_CHALL_BG:SetAlpha(0)
+    MOAT_CHALL_BG.Think = function(s)
+    	if (not IsValid(MOAT_INV_BG)) then
+    		s:Remove()
+    	else
+			local x, y = MOAT_INV_BG:GetPos()
+            s:SetPos(x + 5, y + 30)
+    	end
+
+    	if ((input.IsMouseDown(MOUSE_LEFT) or input.IsMouseDown(MOUSE_RIGHT)) and not s:IsHovered()) then
+    		s:MakePopup()
+    	end
+    end
+    MOAT_CHALL_BG.Paint = function(s, w, h)
+    	draw.RoundedBox(0, 0, 0, w, h, Color(30, 30, 30, 255))
+    	
+    	--[[Header Stuff]]--
+    	draw.RoundedBox(0, 0, 0, w, 45, Color(56, 56, 56, 255))
+    	draw.RoundedBox(0, 0, 45, w, 1, Color(86, 86, 86, 255))
+
+    	MOAT_CHALL.TitlePoly[2].x = Lerp(FrameTime() * 10, MOAT_CHALL.TitlePoly[2].x, 140)
+    	MOAT_CHALL.TitlePoly[3].x = Lerp(FrameTime() * 10, MOAT_CHALL.TitlePoly[3].x, 170)
+
+    	surface.SetDrawColor(46, 46, 46)
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_CHALL.TitlePoly)
+
+    	surface.SetDrawColor(15, 15, 15, 150)
+        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.DrawTexturedRect(0, 0, w, 45)
+
+    	draw.SimpleText("Moat", "moat_GambleTitle", 5, 1, Color(0, 25, 50))
+    	draw.SimpleText("Gaming", "moat_GambleTitle", 55, 1, Color(50, 50, 50))
+
+    	draw.SimpleText("Moat", "moat_GambleTitle", 4, 0, Color(0, 198, 255))
+    	draw.SimpleText("Gaming", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
+
+    	draw.SimpleText("Daily Challenges", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
+    	draw.SimpleText("Daily Challenges", "moat_GambleTitle", 5, 20, Color(255, 255, 0))
+
+    	draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 194, 6, Color(0, 0, 0))
+    	draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 193, 5, Color(255, 255, 255))
+
+    	draw.SimpleText("IC: " .. string.Comma(MOAT_INVENTORY_CREDITS), "moat_ItemDesc", 208, 27, Color(0, 0, 0))
+        draw.SimpleText("IC: " .. string.Comma(MOAT_INVENTORY_CREDITS), "moat_ItemDesc", 207, 26, Color(255, 255, 255))
+        surface.SetMaterial(Material("icon16/coins.png"))
+        surface.SetDrawColor(Color(255, 255, 255))
+        surface.DrawTexturedRect(185, 26, 16, 16)
+
+
+        --[[Chat Stuff]]--
+    	draw.RoundedBox(0, 1, 46, 225, h-46, Color(25, 25, 25))
+    	//draw.RoundedBox(0, 1, 46, 225, 25, Color(45, 45, 45))
+    	surface.SetDrawColor(86, 86, 86)
+    	//surface.DrawLine(1, 46+25, 225, 46+25)
+    	//surface.DrawLine(225, 46, 225, 46+25)
+
+    	//draw.SimpleText("Chat Lounge", "moat_ItemDesc", 1+113, 59, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
+    	draw.RoundedBox(4, 6, h-51, 215, 45, Color(86, 86, 86))
+    	draw.RoundedBox(4, 7, h-50, 213, 43, Color(20, 20, 20))
+
+    	surface.SetDrawColor(86, 86, 86)
+    	surface.DrawOutlinedRect(0, 0, w, h)
+    end
+
+    local MOAT_CHALL_AVA = vgui.Create("AvatarImage", MOAT_CHALL_BG)
+    MOAT_CHALL_AVA:SetPos(170, 4)
+    MOAT_CHALL_AVA:SetSize(17, 17)
+    MOAT_CHALL_AVA:SetPlayer(LocalPlayer(), 32)
+
+    local MOAT_CHALL_CATS = {{"Bounties", Color(150, 0, 255)}, {"Contracts", Color(255, 0, 50)}}
+    local CAT_WIDTHS = 0
+
+    for i = 1, #MOAT_CHALL_CATS do
+    	local MOAT_CHALL_CAT_BTN = vgui.Create("DButton", MOAT_CHALL_BG)
+    	MOAT_CHALL_CAT_BTN:SetSize(81, 30)
+    	MOAT_CHALL_CAT_BTN:SetPos(320 + CAT_WIDTHS, 15)
+    	MOAT_CHALL_CAT_BTN:SetText("")
+    	MOAT_CHALL_CAT_BTN.HoveredNum = 0
+        MOAT_CHALL_CAT_BTN.Paint = function(s, w, h)
+            local col = MOAT_CHALL_CATS[i][2]
+
+            surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
+            surface.SetMaterial(Material("vgui/gradient-d"))
+            surface.DrawTexturedRect(0, h - (h * s.HoveredNum), w, h * s.HoveredNum)
+
+            draw.SimpleTextOutlined(MOAT_CHALL_CATS[i][1], "GModNotify", w/2, (h/2)-(s.HoveredNum*4), Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
+
+            if (MOAT_CHALL.CurCat == i) then
+                draw.RoundedBox(0, 0, h-4, w, 4, MOAT_CHALL_CATS[i][2])
+                surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
+                surface.SetMaterial(Material("vgui/gradient-d"))
+                surface.DrawTexturedRect(0, 0, w, h)
+            elseif (s:IsHovered()) then
+                s.HoveredNum = Lerp(10 * FrameTime(), s.HoveredNum, 1)
+            elseif (not s:IsHovered()) then
+                s.HoveredNum = Lerp(10 * FrameTime(), s.HoveredNum, 0)
+            end
+
+            draw.RoundedBox(0, 0, h - (4 * s.HoveredNum), w, 4 * s.HoveredNum, MOAT_CHALL_CATS[i][2])
+        end
+    	
+        MOAT_CHALL_CAT_BTN.DoClick = function(s)
+        	if (i == MOAT_CHALL.CurCat) then return end
+
+            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
+
+            net.Start("MOAT_CHALL_CAT")
+            net.WriteUInt(i, 4)
+            net.SendToServer()
+        end
+
+        MOAT_CHALL_CAT_BTN.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+
+        CAT_WIDTHS = CAT_WIDTHS + 83
+    end
+
+    MOAT_CHALL_CHAT = vgui.Create("RichText", MOAT_CHALL_BG)
+    MOAT_CHALL_CHAT:SetPos(1, 46 + 25)
+    MOAT_CHALL_CHAT:SetSize(225, pnl_h-46-25-50)
+    function MOAT_CHALL_CHAT:PerformLayout()
+		self:SetFontInternal("moat_ItemDesc")
+		self:SetFGColor(Color(255, 255, 255))
+	end
+
+
+	local MOAT_CHALL_CHAT_ENTRY = vgui.Create("DTextEntry", MOAT_CHALL_BG)
+    MOAT_CHALL_CHAT_ENTRY:SetPos(10, pnl_h - 48)
+    MOAT_CHALL_CHAT_ENTRY:SetSize(210, 43)
+    MOAT_CHALL_CHAT_ENTRY:SetFont("moat_ItemDesc")
+    MOAT_CHALL_CHAT_ENTRY:SetTextColor(Color(255, 255, 255))
+    MOAT_CHALL_CHAT_ENTRY:SetCursorColor(Color(255, 255, 255))
+    MOAT_CHALL_CHAT_ENTRY:SetHistoryEnabled(true)
+    MOAT_CHALL_CHAT_ENTRY:SetEnterAllowed(true)
+    MOAT_CHALL_CHAT_ENTRY:SetTabbingDisabled(true)
+    MOAT_CHALL_CHAT_ENTRY:SetDrawBackground(false)
+    MOAT_CHALL_CHAT_ENTRY:SetMultiline(true)
+    MOAT_CHALL_CHAT_ENTRY:SetVerticalScrollbarEnabled(false)
+
+    MOAT_CHALL_CHAT_ENTRY.Think = function(s)
+        if (#tostring(s:GetValue():Trim() or "") == 0) then
+            MOAT_CHALL_CHAT_COL = 50
+        else
+            MOAT_CHALL_CHAT_COL = 0
+        end
+    end
+
+    MOAT_CHALL_CHAT_ENTRY.OnEnter = function(s)
+        local val = s:GetValue()
+		if (MOAT_CHALL.GlobalBlock or 0) > CurTime() and (not MOAT_CHALL.LocalChat) then
+			m_AddGambleChatMessage(Color(255,0,0),"Wait another " .. string.NiceTime(MOAT_CHALL.GlobalBlock - CurTime()) .." before sending any global messages!")
+			return
+		end 
+        if (#tostring(val) > 0) then
+            s:AddHistory(val)
+			if MOAT_CHALL.LocalChat then
+            	net.Start("MOAT_CHALL_NEW_CHAT")
+			else
+				net.Start("MOAT_CHALL_GLOBAL")
+				MOAT_CHALL.GlobalBlock = CurTime() + 10
+			end
+            net.WriteString(tostring(val))
+            net.SendToServer()
+            s:SetText("")
+            s:SetValue("")
+
+            MOAT_CHALL_CHAT_COL = 50
+        end
+		return false
+    end
+
+    MOAT_CHALL_CHAT_ENTRY.OnKeyCodeTyped = function(s, k)
+    	if (k == KEY_ENTER) then
+    		s:OnEnter()
+			return true
+    	end
+    end
+
+    MOAT_CHALL_CHAT_ENTRY.MaxChars = 192
+
+    MOAT_CHALL_CHAT_ENTRY.OnTextChanged = function(s)
+        local txt = s:GetValue()
+        local amt = string.len(txt)
+
+        if (amt > s.MaxChars or string.sub(tostring(txt), #txt, #txt) == "#") then
+            if (s.OldText == nil) then
+                s:SetText("")
+                s:SetValue("")
+                s:SetCaretPos(string.len(""))
+            else
+                s:SetText(s.OldText)
+                s:SetValue(s.OldText)
+                s:SetCaretPos(string.len(s.OldText))
+            end
+        else
+            s.OldText = txt
+        end
+    end
+
+    m_DrawDicePanel()
+
+    MOAT_CHALL_BG:AlphaTo(255, 0.15, 0.15)
+end
+
+
+/*
 function m_PopulateBountiesPanel(pnl)
     pnl.Paint = function(s, w, h)
         draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
@@ -282,6 +523,7 @@ function m_PopulateBountiesPanel(pnl)
         surface.DrawTexturedRect(15, gradient_rtbl.y + 284 + 15, (w - 30) * progress_width + 1, 5)
     end
 end
+*/
 
 local chat_icons = {
     Material("icon16/medal_bronze_3.png"),
