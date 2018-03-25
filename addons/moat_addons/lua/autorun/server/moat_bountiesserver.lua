@@ -163,7 +163,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			if not d[1] then
 				local b = db:query("INSERT INTO moat_contractplayers (steamid,score) VALUES ('" .. ply:SteamID64() .. "',0);")
 				b:start()
-				ply.contract_score = 0
+				ply.contract_score = 0--s
 			else
 				ply.contract_score = d[1].score
 			end
