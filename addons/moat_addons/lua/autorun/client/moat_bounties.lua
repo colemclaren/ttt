@@ -88,7 +88,7 @@ MOAT_CHALL.TitlePoly = {
 }
 
 local function m_GetFontWidth(font, txt)
-	surface.SetFont(font)
+	surface.SetFont(font)--s
 	return surface.GetTextSize(txt)
 end
 
