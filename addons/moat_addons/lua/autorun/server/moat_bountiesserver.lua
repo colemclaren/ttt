@@ -197,6 +197,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	end)
 
 	function contract_increase(ply,am)
+		if MOAT_MINIGAME_OCCURING then return end
 		if #player.GetAll() < 8 then return end
 		if (os.time() - contract_starttime) > 86400 then return end -- Contract already over, wait for next map 
 		contract_getcurrent(function(c)
