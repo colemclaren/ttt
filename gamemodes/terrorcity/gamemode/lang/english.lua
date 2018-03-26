@@ -171,6 +171,8 @@ L.search_role_d = "This person was a Detective."
   [ROLE_VETERAN] = "v",
   [ROLE_XENOMORPH] = "x"
 ]]
+
+
 L.search_role_i = "This person was an innocent terrorist."
 L.search_role_j = "This person was a Jester!"
 L.search_role_k = "This person was a Killer!"
@@ -826,3 +828,90 @@ L.set_cross_weaponscale_enable = "Enable weapon crosshair scale."
 L.set_cross_thickness = "Crosshair thickness."
 L.set_cross_outlinethickness = "Crosshair outline thickness."
 L.set_cross_dot_enable = "Enable crosshair dot."
+
+
+local function BuildTutorial(name, tab)
+  tab.NAME = L[name]
+  L["tutorial_text_"..name] = string.gsub(
+[[The _NAME _DESC
+
+Objectives: _OBJ
+Winning Conditions: _WINCOND
+Special Abilities: _SPECIAL
+]], "_([A-Z]+)", function(n)
+    return tab[n]
+  end)
+end
+
+BuildTutorial("beacon", {
+  DESC = "shows his friends the way to death.",
+  OBJ = "To kill all evil doers.",
+  WINCOND = "Innocent win.",
+  SPECIAL = "Casts lightning down upon his dead corpse."
+})
+BuildTutorial("detective", {
+  DESC = "leads the innocents to victory.",
+  OBJ = "To kill all evil doers.",
+  WINCOND = "Innocent win.",
+  SPECIAL = "Has a DNA Scanner and can access the Detective Shop. DNA Scanner allows access to vital information of corpses and weapons."
+})
+BuildTutorial("bodyguard", {
+  DESC = "protects those most important to the cause.",
+  OBJ = "To kill all evil doers and protect the Detectives.",
+  WINCOND = "Innocent win.",
+  SPECIAL = "Protects the detectives. If all the detectives dies, the bodyguard uses his learned skills from helping the Detectives by becoming a Detective with 25 max health."
+})
+BuildTutorial("doctor", {
+  DESC = "revives those most important to the cause.",
+  OBJ = "To kill all evil doers and revive whoever will help most.",
+  WINCOND = "Innocent win.",
+  SPECIAL = "Able to revive a terrorist by searching their corpse."
+})
+BuildTutorial("hitman", {
+  DESC = "eliminates the most important people against the Traitors.",
+  OBJ = "To kill all non-traitors.",
+  WINCOND = "Traitor win.",
+  SPECIAL = "Gains 2 credits for each targetted kills done. Takes 75 damage from every person killed that is not a jester, a serial killer, or their target."
+})
+BuildTutorial("innocent", {
+  DESC = "is a lowly grunt of a terrorist.",
+  OBJ = "To kill all evil doers.",
+  WINCOND = "Innocent win.",
+  SPECIAL = "none"
+})
+BuildTutorial("jester", {
+  DESC = "is a manipulative fool whose sole purpose is to ruin the game.",
+  OBJ = "Dying by an innocent terrorist.",
+  WINCOND = "Time limit run-out after objective complete.",
+  SPECIAL = "Time speeds up after objective complete."
+})
+BuildTutorial("xenomorph", {
+  DESC = "is able to revive himself after a single death.",
+  OBJ = "To kill all evil doers.",
+  WINCOND = "Innocent win.",
+  SPECIAL = "Able to revive himself once after death, after 30 seconds."
+})
+BuildTutorial("killer", {
+  DESC = "is a rogue terrorist who was turned by nanomachines into a killing machine. He wants everyone dead.",
+  OBJ = "To kill everyone",
+  WINCOND = "Everyone but him is dead.",
+  SPECIAL = "Starts with a clip of ammo for every 2 other people alive. Has killstreaks."
+})
+BuildTutorial("survivor", {
+  DESC = "just wants to live through it all to see his wife and child again.",
+  OBJ = "To live to see the end of this foul round.",
+  WINCOND = "Innocent win.",
+  SPECIAL = "Gains 75 health per evil-doer from this round after all his friends have died."
+})
+BuildTutorial("traitor", {
+  DESC = "is your classic run of the mill traitor, work together with the Hitman to kill everyone that moves!",
+  OBJ = "Eliminate everyone but the traitors.",
+  WINCOND = "Traitor Win.",
+  SPECIAL = "Has access to traitor equipment menu. Credits given after killing."
+})
+BuildTutorial("veteran", {
+  DESC = "is out to shoot the traitors and serial killers with a one-shot OP weapon, but watch out! If you hit an innocent with your weapon your weapon takes your soul... probably.",
+  OBJ = "Eliminate the traitors and serial killer with a one-shot weapon.",
+  WINCOND = "Innocent win.",
+  SPECIAL = "Has only five shots, and dies if innocent is shot."
+})
