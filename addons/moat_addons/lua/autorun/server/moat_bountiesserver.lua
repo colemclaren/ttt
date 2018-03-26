@@ -232,7 +232,7 @@ end
 local function WasRightfulKill(att, vic)
 	if (GetRoundState() ~= ROUND_ACTIVE) then return false end
 
-	return hook.Run("TTTIsRightfulDamage", killer, victim)
+	if true then return hook.Run("TTTIsRightfulDamage", killer, victim) end
 	
 	local vicrole = vic:GetRole()
 	local attrole = att:GetRole()
