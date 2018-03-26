@@ -126,7 +126,7 @@ end)
 
 local function getreward(place)
     if place == 1 then 
-        return true,8000,"Event Credit", HSVToColor(CurTime() * 50 % 360, 1, 1)
+        return true,8000,"Event Credit + Random High End", HSVToColor(CurTime() * 50 % 360, 1, 1)
     elseif place < 11 then
         return true,math.Round((51 - place) * 160),"High End Item",Color(255,0,0)
     else

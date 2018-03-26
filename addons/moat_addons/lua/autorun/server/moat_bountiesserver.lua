@@ -133,8 +133,9 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		if place == 1 then
 			ply:m_GiveIC(8000)
 			ply:give_ec(1)
+			ply:m_DropInventoryItem(5)
 			net.Start("moat.contracts.chat")
-			net.WriteString("You got 1st place on the last contract and have received 5,000 IC and a EVENT CREDIT!")
+			net.WriteString("You got 1st place on the last contract and have received 8,000 IC and a random High End Item and a EVENT CREDIT!")
 			net.Send(ply)
 		elseif place < 11 then
 			ply:m_GiveIC(math.Round((51 - place) * 160))
