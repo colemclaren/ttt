@@ -96,19 +96,19 @@ function plymeta:GetBasicRole()
       return BASIC_ROLE_LOOKUP[self:GetRole()]
 end
 
-local role_strings = {
+role_strings = {
    [ROLE_TRAITOR] = "traitor",
    [ROLE_INNOCENT] = "innocent",
    [ROLE_DETECTIVE] = "detective",
    [ROLE_JESTER] = "jester",
    [ROLE_KILLER]  = "killer",
-   [ROLE_DOCTOR]= "doctor",
+   [ROLE_DOCTOR] = "doctor",
    [ROLE_BEACON] = "beacon",
    [ROLE_SURVIVOR]  = "survivor",
-   [ROLE_HITMAN]= "hitman",
+   [ROLE_HITMAN] = "hitman",
    [ROLE_BODYGUARD] = "bodyguard",
    [ROLE_VETERAN]  = "veteran",
-   [ROLE_XENOMORPH]= "xenomorph"
+   [ROLE_XENOMORPH] = "xenomorph"
 }
 
 function GetRoleStringRaw(role)

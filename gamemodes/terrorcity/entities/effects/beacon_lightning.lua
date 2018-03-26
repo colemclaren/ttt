@@ -1,6 +1,15 @@
 function EFFECT:Init(data)
     self.lightning_time = CurTime()
     self.pos = data:GetOrigin()
+    sound.PlayURL("https://i.moat.gg/DRx6h.mp3", "3d", function(snd)
+        if (IsValid(snd)) then
+            snd:SetPos(self.pos)
+            snd:Set3DFadeDistance(8000, 1000000000)
+            snd:Play()
+        end
+        print"SND"
+        print(snd)
+    end)
 end
 
 -- from wiki!

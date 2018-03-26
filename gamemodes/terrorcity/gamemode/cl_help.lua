@@ -197,65 +197,7 @@ end
 
 cvars.AddChangeCallback("ttt_mute_team_check", MuteTeamCallback)
 --- Tutorial
-local imgpath = "vgui/ttt/help/tut0%d"
-local tutorial_pages = 6
 
 function HELPSCRN:CreateTutorial(parent)
-    local w, h = parent:GetSize()
-    local m = 5
-    local bg = vgui.Create("ColoredBox", parent)
-    bg:StretchToParent(0, 0, 0, 0)
-    bg:SetTall(330)
-    bg:SetColor(COLOR_BLACK)
-    local tut = vgui.Create("DImage", parent)
-    tut:StretchToParent(0, 0, 0, 0)
-    tut:SetVerticalScrollbarEnabled(false)
-    tut:SetImage(Format(imgpath, 1))
-    tut:SetWide(1024)
-    tut:SetTall(512)
-    tut.current = 1
-    local bw, bh = 100, 30
-    local bar = vgui.Create("TTTProgressBar", parent)
-    bar:SetSize(200, bh)
-    bar:MoveBelow(bg)
-    bar:CenterHorizontal()
-    bar:SetMin(1)
-    bar:SetMax(tutorial_pages)
-    bar:SetValue(1)
-    bar:SetColor(Color(0, 200, 0))
-
-    -- fixing your panels...
-    bar.UpdateText = function(s)
-        s.Label:SetText(Format("%i / %i", s.m_iValue, s.m_iMax))
-    end
-
-    bar:UpdateText()
-    local bnext = vgui.Create("DButton", parent)
-    bnext:SetFont("Trebuchet22")
-    bnext:SetSize(bw, bh)
-    bnext:SetText(GetTranslation("next"))
-    bnext:CopyPos(bar)
-    bnext:AlignRight(1)
-    local bprev = vgui.Create("DButton", parent)
-    bprev:SetFont("Trebuchet22")
-    bprev:SetSize(bw, bh)
-    bprev:SetText(GetTranslation("prev"))
-    bprev:CopyPos(bar)
-    bprev:AlignLeft()
-
-    bnext.DoClick = function()
-        if tut.current < tutorial_pages then
-            tut.current = tut.current + 1
-            tut:SetImage(Format(imgpath, tut.current))
-            bar:SetValue(tut.current)
-        end
-    end
-
-    bprev.DoClick = function()
-        if tut.current > 1 then
-            tut.current = tut.current - 1
-            tut:SetImage(Format(imgpath, tut.current))
-            bar:SetValue(tut.current)
-        end
-    end
+    vgui.Create("Tutorial", parent)
 end

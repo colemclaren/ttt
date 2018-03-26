@@ -315,7 +315,7 @@ function m_MakeContractsPanel()
     local list = vgui.Create("DScrollPanel",MOAT_CONTRACTS)
     list:SetSize(708,240)
     list:SetPos(16,205)
-    list:GetVBar():SetWide(2)
+    list:GetVBar():SetWide(6)
     for k,v in pairs(contracts_tbl.players) do
         local mine = vgui.Create("DPanel",list)
         mine:SetSize(708,17)

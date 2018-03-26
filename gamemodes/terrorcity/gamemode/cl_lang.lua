@@ -212,8 +212,20 @@ local bgcolor = {
    [ROLE_HITMAN]    = Color(150, 0, 0, 200),
    [ROLE_BODYGUARD] = Color(0, 153, 153, 200),
    [ROLE_VETERAN]   = Color(179, 0, 255, 200),
-   [ROLE_XENOMORPH] = Color(255, 80, 80, 200)
+   [ROLE_XENOMORPH] = Color(255,255,255, 200), --Color(255, 80, 80, 200)
 };
+
+function GetRoleColor(role)
+    return hook.Run("TTTGetRoleColor", role)
+end
+
+function GM:TTTGetRoleColor(role)
+    if (type(role) ~= "number") then
+        role = role:GetRole()
+    end
+
+    return bgcolor[role]
+end
 
 -- Table of styles that can take a string and display it in some position,
 -- colour, etc.

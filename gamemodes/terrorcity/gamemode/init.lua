@@ -37,6 +37,7 @@ AddCSLuaFile("vgui/sb_main.lua")
 AddCSLuaFile("vgui/sb_row.lua")
 AddCSLuaFile("vgui/sb_team.lua")
 AddCSLuaFile("vgui/sb_info.lua")
+AddCSLuaFile "vgui/tutorial.lua"
 include("shared.lua")
 include("karma.lua")
 include("entity.lua")
@@ -312,13 +313,9 @@ local function NameChangeKick()
         for _, ply in pairs(player.GetHumans()) do
             if ply.spawn_nick then
                 if ply.has_spawned and ply.spawn_nick ~= ply:Nick() then
-                    local t = GetConVar("ttt_namechange_bantime"):GetInt()
-                    local msg = "Changed name during a round"
-
-                    if t > 0 then
-                        ply:KickBan(t, msg)
-                    else
-                        ply:Kick(msg)
+                    ply.spawn_nick = ply:Nick()
+                    if (ply:Alive()) then
+                        ply:Kill()
                     end
                 end
             else

@@ -295,7 +295,7 @@ local custom_tbl = {
   ["vgui/ttt/icon_killer.png"] = true,
   ["vgui/ttt/icon_survivor.png"] = true,
   ["vgui/ttt/icon_veteran.png"] = true,
-  ["vgui/ttt/icon_xenomorph.png"] = true
+  ["vgui/ttt/icon_xenomorph.png"] = "https://moat.gg/assets/img/ttc/icon_phoenix.png"
 }
 local function SearchInfoController(search, dactive, dtext)
     -- If wrapping is on, the Label's SizeToContentsY misbehaves for
@@ -317,7 +317,11 @@ local function SearchInfoController(search, dactive, dtext)
 
         local da_string = isstring(data.img) and data.img
         if (da_string and custom_tbl[da_string]) then
-          dactive:SetImage(fetch_asset("https://moat.gg/assets/img/ttc/" .. string.sub(da_string, 10, #da_string)):GetName() .. ".png")
+          local url = custom_tbl[da_string]
+          if (type(url) ~= "string") then
+            url = nil
+          end
+          dactive:SetImage(fetch_asset(url or "https://moat.gg/assets/img/ttc/" .. string.sub(da_string, 10, #da_string)):GetName() .. ".png")
         end
     end
 end
