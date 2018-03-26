@@ -148,8 +148,8 @@ local function makeplayer(pnl,lp,steamid,name,score,place)
             local r = (contracts_tbl.my_rank or "??")
             draw.DrawText(r .. ".", "moat_ItemDesc", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
             local n = LocalPlayer():Nick()
-            if #n > 20 then
-                n = n:sub(0,23) .. "..."
+            if #n > 27 then
+                n = n:sub(0,27) .. "..."
             end
             draw.DrawText(n, "moat_ItemDesc", 76, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
             local s = (contracts_tbl.my_score or 0)
