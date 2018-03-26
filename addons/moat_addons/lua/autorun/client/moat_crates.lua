@@ -178,9 +178,13 @@ local function m_StartCrateRoll(crate_slot, crate_class, parent_pnl)
             if (table_items[i].c) then
                 if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
                     s.Icon:SetAlpha(0)
-                    surface.SetDrawColor(255, 255, 255, 255)
-                    surface.SetMaterial(Material(m_DPanelIcon.WModel))
-                    surface.DrawTexturedRect(0, 0, w, h)
+                    if (m_DPanelIcon.WModel:StartWith("https")) then
+                        draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+                    else
+                        surface.SetDrawColor(255, 255, 255, 255)
+                        surface.SetMaterial(Material(m_DPanelIcon.WModel))
+                        surface.DrawTexturedRect(0, 0, w, h)
+                    end
                 else
                     s.Icon:SetAlpha(255)
                 end
@@ -328,9 +332,14 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         surface.SetDrawColor(62, 62, 64, item_col / 2)
         surface.SetDrawColor(rarity_names[itemtbl.item.Rarity][2].r, rarity_names[itemtbl.item.Rarity][2].g, rarity_names[itemtbl.item.Rarity][2].b, item_col / 2)
         surface.DrawOutlinedRect(0, 0, w, h)
-        surface.SetDrawColor(255, 255, 255, 255)
-        surface.SetMaterial(Material(itemtbl.item.Image))
-        surface.DrawTexturedRect(2, 2, 64, 64)
+        
+        if (itemtbl.item.Image:StartWith("https")) then
+            draw.WebImage(itemtbl.item.Image, 2, 2, 64, 64, {r = 255, g = 255, b = 255, a = 255})
+        else
+            surface.SetDrawColor(255, 255, 255, 255)
+            surface.SetMaterial(Material(itemtbl.item.Image))
+            surface.DrawTexturedRect(2, 2, 64, 64)
+        end
     end
 
     local crate_lower_panel = {
