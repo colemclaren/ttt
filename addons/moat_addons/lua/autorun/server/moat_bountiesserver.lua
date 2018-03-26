@@ -117,14 +117,16 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	function contract_transferall()
 		contract_top(function(d)
 			for k,v in pairs(d) do
-				local q = db:query("INSERT INTO moat_contractwinners (steamid, place) VALUES ('" .. v.steamid .. "','" .. k .. "');")
-				if k == #d then
-					function q:onSuccess()
-						local b = db:query("DROP TABLE moat_contractplayers;")
-						b:start()
+				timer.Simple(0.1*k,function()
+					local q = db:query("INSERT INTO moat_contractwinners (steamid, place) VALUES ('" .. v.steamid .. "','" .. k .. "');")
+					if k == #d then
+						function q:onSuccess()
+							local b = db:query("DROP TABLE moat_contractplayers;")
+							b:start()
+						end
 					end
-				end
-				q:start()
+					q:start()
+				end)
 			end
 		end)
 	end
@@ -132,7 +134,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	local function reward_ply(ply,place)
 		if place == 1 then
 			ply:m_GiveIC(8000)
-			ply:give_ec(1)
+			give_ec(ply,1)
 			ply:m_DropInventoryItem(5)
 			net.Start("moat.contracts.chat")
 			net.WriteString("You got 1st place on the last contract and have received 8,000 IC and a random High End Item and a EVENT CREDIT!")
@@ -141,12 +143,12 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			ply:m_GiveIC(math.Round((51 - place) * 160))
 			ply:m_DropInventoryItem(5)
 			net.Start("moat.contracts.chat")
-			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 100)) .. " IC and a Random High End Item!")
+			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 160)) .. " IC and a Random High End Item!")
 			net.Send(ply)
 		elseif place < 51 then
 			ply:m_GiveIC(math.Round((51 - place) * 160))
 			net.Start("moat.contracts.chat")
-			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 100)) .. " IC!")
+			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 160)) .. " IC!")
 			net.Send(ply)
 		end
 	end
