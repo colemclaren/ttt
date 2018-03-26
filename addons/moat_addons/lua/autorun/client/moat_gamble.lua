@@ -2793,7 +2793,7 @@ function m_DrawBlackjackPanel()
 			av:SetPos(3,3)
 			av:SetSize(46,44)
 			av:SetSteamID(v.steamid,64)
-			steamworks.RequestPlayerInfo(v.steamid, function(s) name = s av:SetTooltip(s) end)
+			steamworks.RequestPlayerInfo(v.steamid, function(s) if IsValid(av) then name = s av:SetTooltip(s) end end)
 		end
 	end
 	build_jack_list()
