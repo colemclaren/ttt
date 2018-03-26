@@ -17,7 +17,7 @@ if (CLIENT) then
 			[ROLE_HITMAN or -2]    = Color(40, 42, 47, 200),
 			[ROLE_BODYGUARD or -2] = Color(0, 153, 153, 200),
 			[ROLE_VETERAN or -2]   = Color(179, 0, 255, 200),
-			[ROLE_XENOMORPH or -2] = Color(0, 249, 199, 200)
+			[ROLE_XENOMORPH or -2] = Color(255, 80, 80, 200)
 		};
 		local NameColor = Color(236,240,241)
 

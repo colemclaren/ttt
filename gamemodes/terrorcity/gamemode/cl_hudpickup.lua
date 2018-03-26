@@ -18,7 +18,7 @@ local pickupclr = {
    [ROLE_HITMAN]    = Color(40, 42, 47, 255),
    [ROLE_BODYGUARD] = Color(0, 153, 153, 255),
    [ROLE_VETERAN]   = Color(179, 0, 255, 255),
-   [ROLE_XENOMORPH] = Color(0, 249, 199, 255)
+   [ROLE_XENOMORPH] = Color(255, 80, 80, 255)
 }
 
 function GM:HUDWeaponPickedUp( wep )

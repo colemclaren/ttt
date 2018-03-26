@@ -38,7 +38,7 @@ local bg_colors = {
    [ROLE_HITMAN]    = Color(40, 42, 47, 200),
    [ROLE_BODYGUARD] = Color(0, 153, 153, 200),
    [ROLE_VETERAN]   = Color(179, 0, 255, 200),
-   [ROLE_XENOMORPH] = Color(0, 249, 199, 200)
+   [ROLE_XENOMORPH] = Color(255, 80, 80, 200)
 };
 
 local health_colors = {
