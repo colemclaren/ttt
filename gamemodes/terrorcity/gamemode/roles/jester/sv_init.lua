@@ -19,11 +19,6 @@ function ROLE:PlayerDeath(pl, inf, att)
     end
 end
 
-InstallRoleHook("EntityFireBullets", 1)
-function ROLE:EntityFireBullets()
-    return false
-end
-
 InstallRoleHook("m_ShouldPreventWeaponHitTalent", 1)
 
 function ROLE:m_ShouldPreventWeaponHitTalent(attacker, victim)
