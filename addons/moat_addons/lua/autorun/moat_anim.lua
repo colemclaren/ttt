@@ -29,6 +29,9 @@ if (SERVER) then
 				if (ply:IsValid() and ply:Team() ~= TEAM_SPEC) then
 					for k, v in pairs(bones) do
 						local b = ply:LookupBone(k)
+						if (not b) then
+							continue
+						end
 						if (ply.InventoryOpen) then
 							v[2] = LerpAngle(FrameTime() * 10, v[2], v[1])
 							if (math.abs(math.AngleDifference(v[2].p, v[1].p)) > 0.1 or math.abs(math.AngleDifference(v[2].y, v[1].y)) > 0.1 or math.abs(math.AngleDifference(v[2].r, v[1].r)) > 0.1) then
