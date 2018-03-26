@@ -206,6 +206,18 @@ local bgcolor = {
    [ROLE_INNOCENT]  = Color(0, 50,  0, 200)
 };
 
+function GetRoleColor(role)
+    return hook.Run("TTTGetRoleColor", role)
+end
+
+function GM:TTTGetRoleColor(role)
+    if (type(role) ~= "number") then
+        role = role:GetRole()
+    end
+
+    return bgcolor[role]
+end
+
 -- Table of styles that can take a string and display it in some position,
 -- colour, etc.
 LANG.Styles = {

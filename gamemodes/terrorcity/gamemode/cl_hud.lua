@@ -24,21 +24,7 @@ surface.CreateFont("HealthAmmo",   {font = "Trebuchet24",
 -- Color presets
 local bg_colors = {
    background_main = Color(0, 0, 10, 200),
-
    noround = Color(100,100,100,200),
-   traitor = Color(200, 25, 25, 200),
-   innocent = Color(25, 200, 25, 200),
-   detective = Color(25, 25, 200, 200),
-
-   [ROLE_JESTER]    = Color(253, 158, 255, 200),
-   [ROLE_KILLER]    = Color(255, 145, 0, 200),
-   [ROLE_DOCTOR]    = Color(0, 200, 255, 200),
-   [ROLE_BEACON]    = Color(255, 200, 0, 200),
-   [ROLE_SURVIVOR]  = Color(128, 142, 0, 200),
-   [ROLE_HITMAN]    = Color(40, 42, 47, 200),
-   [ROLE_BODYGUARD] = Color(0, 153, 153, 200),
-   [ROLE_VETERAN]   = Color(179, 0, 255, 200),
-   [ROLE_XENOMORPH] = Color(255, 80, 80, 200)
 };
 
 local health_colors = {
@@ -126,15 +112,9 @@ local function DrawBg(x, y, width, height, client)
    draw.RoundedBox(8, x, y, width, height, bg_colors.background_main)
 
    -- main border, traitor based
-   local col = bg_colors.innocent
+   local col = GetRoleColor(client)
    if GAMEMODE.round_state != ROUND_ACTIVE then
       col = bg_colors.noround
-   elseif client:GetTraitor() then
-      col = bg_colors.traitor
-   elseif client:GetDetective() then
-      col = bg_colors.detective
-   elseif (bg_colors[client:GetRole()]) then
-      col = bg_colors[client:GetRole()]
    end
 
    draw.RoundedBox(8, x, y, tw, th, col)
