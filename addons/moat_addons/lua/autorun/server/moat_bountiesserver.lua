@@ -185,7 +185,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			reward_ply(ply,d[1].place)
 			local b = db:query("DELETE FROM moat_contractwinners WHERE steamid = '" .. ply:SteamID64() .. "';")
 			b:start()
-		end
+		end--ss
 		q:start()
 	end)
 
