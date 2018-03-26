@@ -7,7 +7,4 @@ local function RemoveChildren(ent)
     end
 end
 
-hook.Add("EntityRemoved", "m_TryPreventCrash", function(e)
-    --print("Entity removed: "..e:GetClass())
-    RemoveChildren(e)
-end)
+hook.Add("EntityRemoved", "m_TryPreventCrash", RemoveChildren)
