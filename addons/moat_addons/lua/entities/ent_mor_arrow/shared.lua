@@ -15,6 +15,7 @@ function ENT:SetupDataTables()
     self:NetworkVar("Entity", 0, "Firer")
     self:NetworkVar("Vector", 0, "Velocity2")
     self:NetworkVar("Bool", 0, "Hit")
+    self:NetworkVar("Float", 0, "DeleteTime")
 end
 
 function ENT:Initialize()
@@ -29,11 +30,15 @@ function ENT:Initialize()
 end
 
 function ENT:Think()
-    local owner = self:GetOwner()
-    if (SERVER and (
-        owner ~= game.GetWorld() and (not IsValid(owner) or IsValid(owner) and owner:IsPlayer() and not owner:Alive())
-    )) then
-        --self:Remove()
+    if (not SERVER or not self:GetHit()) then
+        return
+    end
+
+    local parent = self:GetParent()
+    if (IsValid(parent) and parent:IsPlayer() and not parent:Alive() or
+        (not IsValid(parent) or not parent:IsPlayer()) and self:GetDeleteTime() < CurTime()) then
+
+        self:Remove()
     end
 end
 
@@ -65,6 +70,7 @@ function ENT:PlayerTick(p)
     end
 
     if (tr.Hit) then
+        self:SetDeleteTime(CurTime() + 5)
         self:SetHit(true)
         self:SetPos(tr.HitPos)
         hook.Remove("PlayerTick", self)

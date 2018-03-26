@@ -1,5 +1,8 @@
 ---- Karma system stuff
 
+local function IsRightful(killer, victim)
+    return hook.Run("TTTIsRightfulDamage", killer, victim)
+end
 
 
 KARMA = {}
@@ -200,7 +203,7 @@ local function WasAvoidable(attacker, victim, dmginfo)
 
    local infl = dmginfo:GetInflictor()
 
-   if attacker:GetBasicRole() == victim:GetBasicRole() and IsValid(infl) and infl.Avoidable then
+   if not IsRightful(attacker, victim) and IsValid(infl) and infl.Avoidable then
 
       return true
 
@@ -236,7 +239,7 @@ function KARMA.Hurt(attacker, victim, dmginfo)
 
 
 
-   if attacker:GetBasicRole() == victim:GetBasicRole() then
+   if not IsRightful(attacker, victim) then
 
       if WasAvoidable(attacker, victim, dmginfo) then return end
 
@@ -294,7 +297,7 @@ function KARMA.Killed(attacker, victim, dmginfo)
 
 
 
-   if attacker:GetBasicRole() == victim:GetBasicRole() then
+   if not IsRightful(attacker, victim) then
 
       -- don't penalise attacker for stupid victims
 

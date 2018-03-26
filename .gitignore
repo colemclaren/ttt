@@ -10,3 +10,4 @@
 !/lua
 *.*
 !*.lua
+addons/moat_addons/lua/autorun/server/cac.lua

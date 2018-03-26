@@ -59,6 +59,20 @@ function SWEP:PrimaryAttack(worldsnd)
    owner:ViewPunch( Angle( math.Rand(-0.2,-0.1) * self.Primary.Recoil, math.Rand(-0.1,0.1) *self.Primary.Recoil, 0 ) )
 end*/
 
+function SWEP:ReBolt()
+  if (not IsValid(self)) then return end
+  
+  if (self.FireEnd == 1) then
+    self.Weapon:SendWeaponAnim(ACT_VM_SECONDARYATTACK)
+  end
+
+  if (self.FireEnd == 1) and (bIron) then
+    self.Weapon:SendWeaponAnim(ACT_VM_RELOAD_DEPLOYED)
+  end
+
+  self.FireEnd = 0
+end
+
 
 function SWEP:PrimaryAttack(worldsnd)
     if (not self:CanPrimaryAttack()) or not (self.Sprint == 0) then return end
@@ -76,15 +90,7 @@ function SWEP:PrimaryAttack(worldsnd)
 
     if (self.FireEnd == 1) then
         timer.Simple(0.3, function()
-            if (self.FireEnd == 1) then
-                self.Weapon:SendWeaponAnim(ACT_VM_SECONDARYATTACK)
-            end
-
-            if (self.FireEnd == 1) and (bIron) then
-                self.Weapon:SendWeaponAnim(ACT_VM_RELOAD_DEPLOYED)
-            end
-
-            self.FireEnd = 0
+            self:ReBolt()
         end)
     end
 

@@ -172,7 +172,7 @@ function m_ApplyTalentsToWeaponDuringDamage(dmginfo, victim, attacker, talent_tb
     local talent_mods = talent_tbl.m or {}
     local talent_servertbl = m_GetTalentFromEnumWithFunctions(talent_enum)
 
-    if (talent_servertbl.OnPlayerHit) then
+    if (talent_servertbl.OnPlayerHit and not hook.Run("m_ShouldPreventWeaponHitTalent", attacker, victim)) then
         talent_servertbl:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
     end
 end

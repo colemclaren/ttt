@@ -2793,7 +2793,7 @@ function m_DrawBlackjackPanel()
 			av:SetPos(3,3)
 			av:SetSize(46,44)
 			av:SetSteamID(v.steamid,64)
-			steamworks.RequestPlayerInfo(v.steamid, function(s) name = s av:SetTooltip(s) end)
+			steamworks.RequestPlayerInfo(v.steamid, function(s) if IsValid(av) then name = s av:SetTooltip(s) end end)
 		end
 	end
 	build_jack_list()
@@ -3530,7 +3530,7 @@ net.Receive("versus.FinishGame",function()
 		local ply = net.ReadEntity()
 		local win = net.ReadEntity()
 		if not versus_players[ply] then return end
-		if not versus_players[ply][1] then return end
+		if not versus_players[ply][1] or (not IsValid(versus_players[ply][1])) then return end
 		versus_players[ply][4] = win
 		timer.Simple(3,function()
 			local ss = false

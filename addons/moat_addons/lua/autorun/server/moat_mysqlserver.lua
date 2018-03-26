@@ -399,7 +399,7 @@ function m_SendInventoryToPlayer(ply)
 
     for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
         timer.Simple(i * 0.03, function()
-            if (ply:IsValid()) then
+            if (ply:IsValid() and not ply:IsBot()) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
                 local tbl = table.Copy(ply_inv["slot" .. i])

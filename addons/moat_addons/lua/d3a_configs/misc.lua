@@ -43,11 +43,11 @@ D3A.Config.IgnoreChatCommands = {
 	"forums",
 	"forum",
 	"rm",
-    "reloadmaterials",
-    "reloadmats",
-    "materials",
-    "textures",
-    "m"
+	"reloadmaterials",
+	"reloadmats",
+	"materials",
+	"textures",
+	"m"
 }
 
 --[[

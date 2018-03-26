@@ -147,6 +147,10 @@ local ttt_playercolors = {
 
 CreateConVar("ttt_playercolor_mode", "1")
 
+function GM:TTTIsRightfulDamage(attacker, victim)
+    return attacker:GetBasicRole() ~= victim:GetBasicRole() and not (attacker:GetRole() == ROLE_DETECTIVE and victim:GetRole() == ROLE_INNOCENT)
+end
+
 function GM:TTTPlayerColor(model)
     local mode = GetConVarNumber("ttt_playercolor_mode") or 0
 

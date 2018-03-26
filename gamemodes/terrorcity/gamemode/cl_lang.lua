@@ -212,7 +212,7 @@ local bgcolor = {
    [ROLE_HITMAN]    = Color(150, 0, 0, 200),
    [ROLE_BODYGUARD] = Color(0, 153, 153, 200),
    [ROLE_VETERAN]   = Color(179, 0, 255, 200),
-   [ROLE_XENOMORPH] = Color(0, 249, 199, 200)
+   [ROLE_XENOMORPH] = Color(255, 80, 80, 200)
 };
 
 -- Table of styles that can take a string and display it in some position,

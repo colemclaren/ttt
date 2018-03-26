@@ -61,7 +61,7 @@ MOAT_KILLCARDS.Colors = {
    		["Hitman"]    = Color(40, 42, 47, 255),
    		["Bodyguard"] = Color(0, 153, 153, 255),
    		["Veteran"]   = Color(179, 0, 255, 255),
-   		["Xenomorph"] = Color(0, 249, 199, 255)
+   		["Phoenix"] = Color(0, 249, 199, 255)
 	}
 }
 

@@ -37,7 +37,7 @@ end
 
 include_role(ROLE_KILLER, "killer")
 include_role(ROLE_JESTER, "jester", true, false, true)
-include_role(ROLE_BEACON, "beacon")
+include_role(ROLE_BEACON, "beacon", true, true, false)
 
 include_role(ROLE_XENOMORPH, "xenomorph", true, true, false)
 include_role(ROLE_SURVIVOR, "survivor", true, false, false)
