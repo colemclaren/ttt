@@ -225,8 +225,8 @@ local function WasRightfulKill(att, vic)
 	local vicrole = vic:GetRole()
 	local attrole = att:GetRole()
 
-	if attrole == (ROLE_KILLER or false) then return true end
-
+	--if attrole == (ROLE_KILLER or false) then return true end
+--s
 	if (vicrole == ROLE_TRAITOR and attrole == ROLE_TRAITOR) then return false end
 	if ((vicrole == ROLE_DETECTIVE or vicrole == ROLE_INNOCENT) and attrole ~= ROLE_TRAITOR) then return false end
 
