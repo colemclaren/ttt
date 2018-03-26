@@ -96,7 +96,7 @@ local function _contracts()
 	function contract_getplace(ply,fun)
 		contract_getply(ply,function(d)
 			local q = db:query([[SELECT `score`,
-       (SELECT COUNT(*) FROM `moat_contractplayers`) - (SELECT COUNT(*) FROM `moat_contractplayers` WHERE `score` <= ']] .. d.score .. [[') + 1 AS `position`,
+       (SELECT COUNT(*) FROM `moat_contractplayers` WHERE `score` >= ']] .. d.score .. [[') AS `position`,
        `steamid`
 FROM `moat_contractplayers`
 WHERE `steamid` = ']] .. d.steamid .. [[']])
