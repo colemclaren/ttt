@@ -24,6 +24,12 @@ function ROLE:EntityFireBullets()
     return false
 end
 
+InstallRoleHook("m_ShouldPreventWeaponHitTalent", 1)
+
+function ROLE:m_ShouldPreventWeaponHitTalent(attacker, victim)
+    return true
+end
+
 hook.Add("TTTBeginRound", "terrorcity.roles.jester", function()
     ded = false
     ROLE.ActivePlayers = 0
