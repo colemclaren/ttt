@@ -131,19 +131,19 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 
 	local function reward_ply(ply,place)
 		if place == 1 then
-			ply:m_GiveIC(7500)
+			ply:m_GiveIC(8000)
 			ply:give_ec(1)
 			net.Start("moat.contracts.chat")
 			net.WriteString("You got 1st place on the last contract and have received 5,000 IC and a EVENT CREDIT!")
 			net.Send(ply)
 		elseif place < 11 then
-			ply:m_GiveIC(math.Round((51 - place) * 150))
+			ply:m_GiveIC(math.Round((51 - place) * 160))
 			ply:m_DropInventoryItem(5)
 			net.Start("moat.contracts.chat")
 			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 100)) .. " IC and a Random High End Item!")
 			net.Send(ply)
 		elseif place < 51 then
-			ply:m_GiveIC(math.Round((51 - place) * 150))
+			ply:m_GiveIC(math.Round((51 - place) * 160))
 			net.Start("moat.contracts.chat")
 			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 100)) .. " IC!")
 			net.Send(ply)
