@@ -3,6 +3,7 @@ util.AddNetworkString("moat.contracts")
 util.AddNetworkString("moat.contractinfo")
 util.AddNetworkString("moat.contracts.chat")
 contract_starttime = os.time()
+contract_id = 0
 contract_loaded = false
 
 local function c()
@@ -38,6 +39,11 @@ local function _contracts()
 		s = s .. "```"
 		SVDiscordRelay.SendToDiscordRaw("Contracts",nil,s,url)
 		contract_loaded = name
+		local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
+		function q:onSuccess(b)
+			contract_id = b[1].ID
+		end
+		q:start()
 	end
 
 	function moat_contract_refresh()
@@ -61,6 +67,7 @@ local function _contracts()
 				moat_contracts[b[1].contract].runfunc()
 				contract_starttime = b[1].start_time
 				contract_loaded = b[1].contract
+				contract_id = b[1].ID
 			end
 			q:start()
 		end
@@ -192,9 +199,12 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	function contract_increase(ply,am)
 		if #player.GetAll() < 8 then return end
 		if (os.time() - contract_starttime) > 86400 then return end -- Contract already over, wait for next map 
-		ply.contract_score = (ply.contract_score or 0) + am
-		local q = db:query("UPDATE moat_contractplayers SET score = '" .. (ply.contract_score) .. "' WHERE steamid = '" .. ply:SteamID64() .. "';")
-		q:start()
+		contract_getcurrent(function(c)
+			if contract_id ~= tonumber(c.ID) then return end -- check if other servers already refresh contract
+			ply.contract_score = (ply.contract_score or 0) + am
+			local q = db:query("UPDATE moat_contractplayers SET score = '" .. (ply.contract_score) .. "' WHERE steamid = '" .. ply:SteamID64() .. "';")
+			q:start()
+		end)
 	end
 
 	hook.Add("TTTEndRound","Contracts",function()
