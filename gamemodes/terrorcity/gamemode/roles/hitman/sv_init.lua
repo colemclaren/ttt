@@ -38,7 +38,7 @@ InstallRoleHook("PlayerDeath", 3)
 
 function ROLE:PlayerDeath(victim, inflictor, attacker)
     if (victim ~= attacker and victim ~= ROLE.Target) then
-        attacker:Kill()
+        attacker:TakeDamage(75, attacker, attacker)
     else
         attacker:AddCredits(2)
     end
