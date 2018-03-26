@@ -22,7 +22,7 @@ end
 local function Insert(log)
     if (SQL.connected) then
         local db = CHAT_LOGGER.DB
-        local q = db:query("INSERT INTO `chat_log` (`time`, `author`, `message`, `server`) VALUES ("..log.time..", "..db:escape(log.authorid64)..", \""..db:escape(log.message).."\", \""..db:escape(game.GetIP()).."\");");
+        local q = db:query("INSERT INTO `chat_log` (`time`, `steam_id`, `message`, `server`, `name`) VALUES ("..log.time..", "..db:escape(log.authorid64)..", \""..db:escape(log.message).."\", \""..db:escape(game.GetIP()).."\", \""..db:escape(log.name).."\");");
         q.onError = Query_Error
         q:start()
     else
@@ -59,6 +59,7 @@ hook.Add("PlayerSay", "chat.log", function(author, text, teamchat)
     Insert {
         time = os.time(),
         authorid64 = author:SteamID64(),
-        message = (teamchat and "(TEAM) " or "")..text
+        message = (teamchat and "(TEAM) " or "")..text,
+        name = author:Nick()
     }
 end)
