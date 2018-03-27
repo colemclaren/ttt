@@ -160,12 +160,12 @@ if CLIENT then
 
       local x = ScrW() / 2
       local y = ScrH() / 2
-      local scale = crosshair_weaponscale:GetBool() and self:GetPrimaryCone() or 0
+      local scale = crosshair_weaponscale:GetBool() and math.max(0.2,  10 * self:GetPrimaryCone()) or 1
 
       local timescale = 1
       if not crosshair_static:GetBool() then
          local LastShootTime = self:LastShootTime()
-         timescale = 2 - math.Clamp((CurTime() - LastShootTime) * 5, 0.0, 1.0)
+         timescale = (2 - math.Clamp( (CurTime() - LastShootTime) * 5, 0.0, 1.0 ))
       end
 
       local size_float = crosshair_size:GetFloat()
@@ -176,20 +176,14 @@ if CLIENT then
       
       local alpha = sights and sights_opacity:GetFloat() or crosshair_opacity:GetFloat()
       local bright = crosshair_brightness:GetFloat() or 1
-      local gap = enable_gap_crosshair:GetBool() and (timescale * crosshair_gap:GetFloat())
+      local gap = enable_gap_crosshair:GetBool() and (timescale * crosshair_gap:GetFloat()) or 20 * scale * timescale * (1)
       local thickness = crosshair_thickness:GetFloat()
       local outline = crosshair_outlinethickness:GetFloat()
-      local fov = client:GetFOV()
-      -- 1.5 is because of size_float
-      local length = math.max(4, math.deg(scale) * 3 / 4 / fov * ScrW() / 1.5) * timescale * size_float
-      if (not gap) then
-        gap = length / 4
-        length = gap * 3
-      end
+      local length = ((gap + (25 * size_float)) * scale) * timescale
 
       local offset = thickness / 2
 
-      if outline > 0 then
+      if outline > 0 then    
         surface.SetDrawColor(0, 0, 0, 255 * alpha)
         surface.DrawRect( x - length - outline, y - offset - outline, length - gap + outline*2,  thickness + outline*2 )     
         surface.DrawRect( x + gap - outline, y - offset - outline, length - gap + outline*2, thickness + outline*2 )
