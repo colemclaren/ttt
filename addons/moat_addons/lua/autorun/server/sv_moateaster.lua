@@ -27,7 +27,7 @@ end)
 
 MOAT_EASTER = MOAT_EASTER or {}
 MOAT_EASTER.MaxEggs = (game.MaxPlayers()) / 2
-MOAT_EASTER.SpawnChance = 20
+MOAT_EASTER.SpawnChance = 15
 MOAT_EASTER.CurEggs = 0
 MOAT_EASTER.MapEggs = 0
 
@@ -101,7 +101,7 @@ end)
 hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
 	MOAT_EASTER.CurEggs = 0
 
-	timer.Create("moat_easter_egg_spawn", 30, 0, function()
+	timer.Create("moat_easter_egg_spawn", 60, 0, function()
 		if (player.GetCount() < 8) then return end
 		if (GetRoundState() ~= ROUND_ACTIVE or MOAT_MINIGAME_OCCURING) then timer.Remove("moat_easter_egg_spawn") return end
 		if (math.random(1, 100) < MOAT_EASTER.SpawnChance) then return end
