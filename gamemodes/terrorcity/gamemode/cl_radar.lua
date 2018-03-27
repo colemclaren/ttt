@@ -7,7 +7,7 @@ local math = math
 RADAR = {}
 RADAR.targets = {}
 RADAR.enable = false
-RADAR.duration = 10
+RADAR.duration = 4
 RADAR.endtime = 0
 RADAR.bombs = {}
 RADAR.bombs_count = 0
@@ -32,7 +32,7 @@ end
 function RADAR:Timeout()
     self:EndScan()
 
-    if self.repeating and LocalPlayer() and (LocalPlayer():IsActiveTraitor() or LocalPlayer():IsActiveDetective()) then
+    if self.repeating and LocalPlayer() and LocalPlayer():IsActive() then
         RunConsoleCommand("ttt_radar_scan")
     end
 end

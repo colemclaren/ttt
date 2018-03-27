@@ -201,18 +201,18 @@ end
 ---- Styling
 
 local bgcolor = {
-   [ROLE_TRAITOR]   = Color(150, 0, 0, 200),
-   [ROLE_DETECTIVE] = Color(0, 0, 150, 200),
-   [ROLE_INNOCENT]  = Color(0, 50,  0, 200),
-   [ROLE_JESTER]    = Color(253, 158, 255, 200),
-   [ROLE_KILLER]    = Color(255, 145, 0, 200),
-   [ROLE_DOCTOR]    = Color(0, 200, 255, 200),
-   [ROLE_BEACON]    = Color(255, 200, 0, 200),
-   [ROLE_SURVIVOR]  = Color(128, 142, 0, 200),
-   [ROLE_HITMAN]    = Color(150, 0, 0, 200),
-   [ROLE_BODYGUARD] = Color(0, 153, 153, 200),
-   [ROLE_VETERAN]   = Color(179, 0, 255, 200),
-   [ROLE_XENOMORPH] = Color(255,255,255, 200), --Color(255, 80, 80, 200)
+    [ROLE_TRAITOR]   = Color(200, 25, 25, 200),
+    [ROLE_DETECTIVE] = Color(25, 25, 200, 200),
+    [ROLE_INNOCENT]  = Color(25, 200, 25, 200),
+    [ROLE_JESTER]    = Color(253, 158, 255, 200),
+    [ROLE_KILLER]    = Color(255, 145, 0, 200),
+    [ROLE_DOCTOR]    = Color(0, 200, 255, 200),
+    [ROLE_BEACON]    = Color(255, 200, 0, 200),
+    [ROLE_SURVIVOR]  = Color(128, 142, 0, 200),
+    [ROLE_HITMAN]    = Color(150, 0, 0, 200),
+    [ROLE_BODYGUARD] = Color(0, 153, 153, 200),
+    [ROLE_VETERAN]   = Color(179, 0, 255, 200),
+    [ROLE_XENOMORPH] = Color(255,255,255, 200), --Color(255, 80, 80, 200)
 };
 
 function GetRoleColor(role)
