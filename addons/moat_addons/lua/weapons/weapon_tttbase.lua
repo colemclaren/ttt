@@ -179,7 +179,12 @@ if CLIENT then
       local gap = enable_gap_crosshair:GetBool() and (timescale * crosshair_gap:GetFloat()) or 20 * scale * timescale * (1)
       local thickness = crosshair_thickness:GetFloat()
       local outline = crosshair_outlinethickness:GetFloat()
-      local length = ((gap + (25 * size_float)) * scale) * timescale
+      -- 1.5 is because of size_float
+      local length = math.max(8, (gap or 0) + math.max(4, math.deg(scale) * 3 / 4 / client:GetFOV() * ScrW() / 1.5) * timescale * size_float)
+      if (not gap) then
+        gap = length / 4
+        length = gap * 3
+      end
 
       local offset = thickness / 2
 
