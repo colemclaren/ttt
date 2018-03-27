@@ -198,3 +198,9 @@ net.Receive("moat_easter_egg_found", function()
 
 	chat.AddText(Material("icon16/information.png"), Color(255, 105, 180), str, Color(100, 149, 237), " has found an easter egg!!")
 end)
+
+net.Receive("moat_easter_basket_found", function()
+    local str = net.ReadString()
+
+    chat.AddText(Material("icon16/information.png"), Color(255, 105, 180), str, Color(100, 149, 237), " has found a 2018 easter basket!!")
+end)
