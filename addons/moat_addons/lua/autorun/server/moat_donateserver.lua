@@ -32,6 +32,8 @@ MOAT_DONATE.Packages = {
         	pl:m_DropInventoryItem(crate, "hide_chat_obtained", false, false)
 		end
 
+		m_DropEasterBasket(pl, 1)
+
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,000 ", Color(255, 255, 255), "Support Credits for the 5,000 IC Package!"})
 		net.Send(pl)
@@ -40,6 +42,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 15000)
 		give_ec(pl, 1)
 		pl:Drop20()
+		m_DropEasterBasket(pl, 2)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "2,000 ", Color(255, 255, 255), "Support Credits for the 12,000 IC Package!"})
@@ -49,6 +52,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 50000)
 		give_ec(pl, 3)
 		pl:Drop50()
+		m_DropEasterBasket(pl, 6)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 40,000 IC Package!"})
@@ -58,6 +62,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 125000)
 		give_ec(pl, 7)
 		pl:Drop100()
+		m_DropEasterBasket(pl, 13)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "10,000 ", Color(255, 255, 255), "Support Credits for the 100,000 IC Package!"})
