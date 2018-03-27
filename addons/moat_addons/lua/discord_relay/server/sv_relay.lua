@@ -500,7 +500,7 @@ net.Receive("MOAT_CHAT_OBTAINED_VERIFY", function(l, pl)
     local tbl = net.ReadTable()
     local wpnstr = net.ReadString()
 
-    --SVDiscordRelay.LinkItem(pl, tbl, wpnstr, str)
+    SVDiscordRelay.LinkItem(pl, tbl, wpnstr, str)
 end)
 
 function SVDiscordRelay.LinkItem(ply, tbl, wpnstr, msg)
