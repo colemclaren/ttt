@@ -32,7 +32,7 @@ end
 function RADAR:Timeout()
     self:EndScan()
 
-    if self.repeating and LocalPlayer() and (LocalPlayer():IsActiveTraitor() or LocalPlayer():IsActiveDetective()) then
+    if self.repeating and LocalPlayer() and LocalPlayer():IsActive() then
         RunConsoleCommand("ttt_radar_scan")
     end
 end

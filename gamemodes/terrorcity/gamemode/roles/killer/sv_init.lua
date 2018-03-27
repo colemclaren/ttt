@@ -15,6 +15,7 @@ function ROLE:TTTBeginRound()
 
     self:GiveEquipmentItem(EQUIP_ARMOR)
     self.SK_Kills = 0
+    print"begin"
 end
 
 local rewards = {
@@ -27,6 +28,7 @@ InstallRoleHook("PlayerDeath", 3)
 function ROLE:PlayerDeath(vic, inflic, attac)
     self.SK_Kills = self.SK_Kills + 1
     local k = self.SK_Kills
+    print(k)
     if (rewards[k]) then
         self:GiveEquipmentItem(rewards[k])
         net.Start("TTT_BoughtItem")
