@@ -7,4 +7,4 @@ local function RemoveChildren(ent)
     end
 end
 
-hook.Add("EntityRemoved", "m_TryPreventCrash", RemoveChildren)
+--hook.Add("EntityRemoved", "m_TryPreventCrash", RemoveChildren)
