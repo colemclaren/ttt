@@ -114,13 +114,13 @@ end)
 
 function m_DropEasterBasket(ply, amt)
 	for i = 1, amt do
-		ply:m_DropInventoryItem("Easter Basket", "hide_chat_obtained")
+		timer.Simple(i, function() ply:m_DropInventoryItem("Easter Basket", "hide_chat_obtained") end)
 	end
 end
 
 function m_DropEasterEgg(ply, amt)
 	for i = 1, amt do
-		ply:m_DropInventoryItem("Easter Egg", "hide_chat_obtained")
+		timer.Simple(i, function() ply:m_DropInventoryItem("Easter Egg", "hide_chat_obtained") end)
 	end
 end
 
