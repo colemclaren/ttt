@@ -1442,7 +1442,7 @@ function MOAT_BOUNTIES.InitializeBounties()
     	if (hr == 0 and min == 0 and sec == 1) then
     		SetGlobalFloat("moat_bounties_refresh_next", true)
 			contract_getcurrent(function(d)
-				if os.time() - d.start_time > 43200 and (not (d.refresh_next > 0)) then
+				if os.time() - d.start_time > 43200 and (not (d.refresh_next)) then
 					moat_contract_refresh()
 				end
 			end)
