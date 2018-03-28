@@ -27,7 +27,7 @@ end)
 
 MOAT_EASTER = MOAT_EASTER or {}
 MOAT_EASTER.MaxEggs = (game.MaxPlayers()) / 2
-MOAT_EASTER.SpawnChance = 20
+MOAT_EASTER.SpawnChance = 10
 MOAT_EASTER.CurEggs = 0
 MOAT_EASTER.MapEggs = 0
 
@@ -114,13 +114,13 @@ end)
 
 function m_DropEasterBasket(ply, amt)
 	for i = 1, amt do
-		ply:m_DropInventoryItem("Easter Basket", "hide_chat_obtained")
+		timer.Simple(i, function() ply:m_DropInventoryItem("Easter Basket", "hide_chat_obtained") end)
 	end
 end
 
 function m_DropEasterEgg(ply, amt)
 	for i = 1, amt do
-		ply:m_DropInventoryItem("Easter Egg", "hide_chat_obtained")
+		timer.Simple(i, function() ply:m_DropInventoryItem("Easter Egg", "hide_chat_obtained") end)
 	end
 end
 
