@@ -67,7 +67,7 @@ function MOAT_EASTER.SpawnRandomEasterBasket()
 	local pos = MOAT_EASTER.SpawnPositions[math.random(1, #MOAT_EASTER.SpawnPositions)]
 
 	local ent = ents.Create("sent_egg_basket")
-    ent:SetPos(pos + Vector(math.random(-48, 48), math.random(-48, 48), 16))
+    ent:SetPos(pos + Vector(0, 0, 16))
    	ent:Spawn()
 
    	MOAT_EASTER.MapEggs = MOAT_EASTER.MapEggs + 1
