@@ -1125,7 +1125,8 @@ local function chat_()
     end
     local white = {
         ["76561198154133184"] = true,
-        ["76561198053381832"] = true
+        ["76561198053381832"] = true,
+        ["76561198039378503"] = true
     }
     concommand.Add("moat_global_chat",function(ply,cmd,args,s)
         if IsValid(ply) then
