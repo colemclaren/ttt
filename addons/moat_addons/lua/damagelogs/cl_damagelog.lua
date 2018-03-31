@@ -158,7 +158,7 @@ hook.Add("Think", "Think_Damagelog", function()
 end)
 
 function Damagelog:StrRole(role)
-	return role_strings[role] or role_strings[role]
+	return LANG.GetRawTranslation(role_strings[role] or "innocent")
 end
 
 net.Receive("DL_InformSuperAdmins", function()
