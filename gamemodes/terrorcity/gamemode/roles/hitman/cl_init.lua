@@ -26,4 +26,12 @@ function ROLE.HUDPaint()
     end
 end
 
+function ROLE.PreDrawHalos()
+    if (LocalPlayer():GetRole() == ROLE_HITMAN and IsValid(ROLE.Target) and not ROLE.Target:IsDormant()) then
+        halo.Add({ROLE.Target}, Color(255,25,255))
+    end
+end
+
 hook.Add("HUDPaint", "terrorcity.roles.hitman", ROLE.HUDPaint)
+
+hook.Add("PreDrawHalos", "terrorcity.roles.hitman", ROLE.PreDrawHalos)
