@@ -1,5 +1,7 @@
 -- DNA Scanner
 
+local IsTTC = not not ROLE_HITMAN
+
 AddCSLuaFile()
 
 DEFINE_BASECLASS "weapon_tttbase"
@@ -60,7 +62,7 @@ local MAX_ITEM = 30
 SWEP.MaxItemSamples = MAX_ITEM
 
 local CHARGE_DELAY = 0.1
-local CHARGE_RATE = 3
+local CHARGE_RATE = IsTTC and 6 or 3
 local MAX_CHARGE = 1250
 
 local SAMPLE_PLAYER = 1
