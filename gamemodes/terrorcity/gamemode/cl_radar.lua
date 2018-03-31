@@ -175,8 +175,8 @@ function RADAR:Draw(client)
             surface.SetDrawColor(150, 150, 150, alpha)
             surface.SetTextColor(150, 150, 150, alpha)
         elseif role == ROLE_BEACON then
-            surface.SetDrawColor(255, 215, 0, alpha)
-            surface.SetTextColor(255, 215, 0, alpha)
+            surface.SetDrawColor(255, 25, 255, alpha)
+            surface.SetTextColor(255, 25, 255, alpha)
         else
             surface.SetDrawColor(0, 255, 0, alpha)
             surface.SetTextColor(0, 255, 0, alpha)
