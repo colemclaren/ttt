@@ -158,10 +158,7 @@ hook.Add("Think", "Think_Damagelog", function()
 end)
 
 function Damagelog:StrRole(role)
-	if role == ROLE_TRAITOR then return "traitor"
-	elseif role == ROLE_DETECTIVE then return "detective"
-	elseif role == "disconnected" then return "disconnected"
-	else return "innocent" end
+	return role_strings[role] or role_strings[role]
 end
 
 net.Receive("DL_InformSuperAdmins", function()
