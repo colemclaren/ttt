@@ -1,5 +1,16 @@
 print("loadout loaded")
 
+FindMetaTable "Player".HasWeapon2 = FindMetaTable "Player".HasWeapon2 or FindMetaTable "Player".HasWeapon
+-- crowbars and friends
+FindMetaTable "Player".HasWeapon = function(ply, class)
+    for i, w in pairs(ply:GetWeapons()) do
+        if (w:GetClass() == class) then
+            return true
+        end
+    end
+    return ply:HasWeapon2(class)
+end
+
 util.AddNetworkString("MOAT_UPDATE_WEP")
 util.AddNetworkString("MOAT_UPDATE_OTHER_WEP")
 util.AddNetworkString("MOAT_NET_SPAWN")
