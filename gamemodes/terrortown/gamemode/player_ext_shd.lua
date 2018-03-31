@@ -63,7 +63,7 @@ function plymeta:IsActiveSpecial() return self:IsSpecial() and self:IsActive() e
 
 
 
-local role_strings = {
+role_strings = {
 
    [ROLE_TRAITOR]   = "traitor",
 
