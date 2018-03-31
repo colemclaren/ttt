@@ -6,7 +6,7 @@ include( "shared.lua" )
 
 function ENT:Explode()
 
-	local radius = 100
+	local radius = 125
 
 	local damage = 100
 
