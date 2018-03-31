@@ -58,7 +58,9 @@ function plymeta:SubtractCredits(amt)
 end
 
 function plymeta:SetDefaultCredits()
-    if self:GetTraitor() then
+    if (self:GetRole() == ROLE_HITMAN) then
+        self:SetCredits(0)
+    elseif self:GetTraitor() then
         local c = GetConVarNumber("ttt_credits_starting")
 
         if CountTraitors() == 1 then
