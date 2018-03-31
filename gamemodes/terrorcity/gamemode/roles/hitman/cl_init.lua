@@ -3,6 +3,23 @@ local ROLE = ROLE
 net.Receive("terrorcity.hitman.acquiretarget", function()
     ROLE.Target = net.ReadEntity()
 end)
+net.Receive("terrorcity.hitman.notifykills", function()
+    ROLE.False_Kills = net.ReadUInt(8)
+end)
+
+local function FalseKills()
+    return ROLE.False_Kills or 0
+end
+
+local function CanKillAmount()
+    local credits = LocalPlayer():GetCredits()
+    local r = 0
+    local worth = FalseKills() + 1
+    while (credits >= worth) do
+        r, worth, credits = r + 1, worth + 1, credits - worth
+    end
+    return r, math.ceil((worth - credits) / 2)
+end
 
 function ROLE.HUDPaint()
     if (IsValid(ROLE.Target) and LocalPlayer():GetRole() == ROLE_HITMAN) then
@@ -15,13 +32,15 @@ function ROLE.HUDPaint()
         draw.SimpleTextOutlined("Target: ", "TargetID", centerx - tw / 2, centery, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 40))
         draw.SimpleTextOutlined(name, "TargetID", centerx - tw / 2 + w, centery, Color(230, 90, 90), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 40))
 
-        local credits = LocalPlayer():GetCredits()
-        w = surface.GetTextSize "Credits (Free Kills): "
-        w2 = surface.GetTextSize(credits)
+        local killamt, credneeded = CanKillAmount()
+        local text = "Free Kills (next in "..credneeded.." kills):"
+
+        w = surface.GetTextSize(text)
+        w2 = surface.GetTextSize(killamt)
         tw = w + w2
         centerx, centery = ScrW() / 2, ScrH() / 2 + 90 + h + 5
-        draw.SimpleTextOutlined("Credits (Free Kills): ", "TargetID", centerx - tw / 2, centery, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 40))
-        draw.SimpleTextOutlined(credits, "TargetID", centerx - tw / 2 + w, centery, Color(230, 90, 90), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 40))
+        draw.SimpleTextOutlined(text, "TargetID", centerx - tw / 2, centery, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 40))
+        draw.SimpleTextOutlined(killamt, "TargetID", centerx - tw / 2 + w, centery, Color(230, 90, 90), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 40))
 
     end
 end
