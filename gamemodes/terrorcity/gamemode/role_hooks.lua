@@ -1,4 +1,4 @@
-ROLES = {}
+ROLES = ROLES or {}
 AddCSLuaFile()
 
 local HOOKS = {}
