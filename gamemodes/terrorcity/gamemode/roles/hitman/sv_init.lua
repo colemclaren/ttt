@@ -43,8 +43,12 @@ InstallRoleHook("PlayerDeath", 3)
 
 function ROLE:PlayerDeath(victim, inflictor, attacker)
     if (victim ~= attacker and victim ~= ROLE.Target and not ok_roles[victim:GetRole()]) then
-        attacker:TakeDamage(75, attacker, attacker)
-    elseif (not ok_roles[victim:GetRole()]) then
+        if (self:GetCredits() > 1) then
+            self:SetCredits(self:GetCredits() - 1)
+        else
+            attacker:TakeDamage(75, attacker, attacker)
+        end
+    elseif (ROLE.Target == victim) then
         attacker:AddCredits(2)
     end
 end
@@ -62,5 +66,4 @@ function ROLE.PlayerDisconnected(ply)
 end
 
 hook.Add("PlayerDisconnected", "terrortown.roles.hitman", ROLE.PlayerDisconnected)
-
 hook.Add("PostPlayerDeath", "terrortown.roles.hitman", ROLE.PostPlayerDeath)

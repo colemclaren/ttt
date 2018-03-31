@@ -504,7 +504,7 @@ local function CheckCreditAward(victim, attacker)
                 })
 
                 for _, ply in pairs(player.GetAll()) do
-                    if ply:IsActiveTraitor() then
+                    if ply:IsActiveTraitor() and ply:GetRole() ~= ROLE_HITMAN then
                         ply:AddCredits(amt)
                     end
                 end
@@ -589,7 +589,7 @@ function GM:DoPlayerDeath(ply, attacker, dmginfo)
             reward = math.ceil(GetConVarNumber("ttt_det_credits_traitorkill"))
         end
 
-        if reward > 0 then
+        if reward > 0 and attacker:GetRole() ~= ROLE_HITMAN then
             attacker:AddCredits(reward)
 
             LANG.Msg(attacker, "credit_kill", {
