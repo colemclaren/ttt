@@ -4214,3 +4214,7 @@ end)
 net.Receive("Moat.GlobalAnnouncement",function()
 	chat.AddText(Color(255,255,255),"[",Color(255,0,0),"GLOBAL ANNOUNCEMENT",Color(255,255,255),"]: ",net.ReadString())
 end)
+
+net.Receive("Moat.JackpotWin",function()
+	chat.AddText(Color(255,255,255),"[",Color(255,255,0),"JACKPOT",Color(255,255,255),"] ",Color(255,0,0),net.ReadString(),Color(255,255,255), " just won ",Color(255,255,0),string.Comma(net.ReadInt(32)) .. " IC",Color(255,255,255)," (" .. math.Round(net.ReadFloat(),2) .. "%) in jackpot!")
+end)

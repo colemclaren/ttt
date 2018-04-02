@@ -1,6 +1,7 @@
 util.AddNetworkString("MOAT_GAMBLE_CAT")
 util.AddNetworkString("MOAT_GAMBLE_GLOBAL")
 util.AddNetworkString("Moat.GlobalAnnouncement")
+util.AddNetworkString("Moat.JackpotWin")
 local MOAT_GAMBLE_CATS = {{"Mines", Color(150, 0, 255)}, {"Roulette", Color(255, 0, 50)}, {"Crash", Color(255, 255, 0)}, {"Jackpot", Color(0, 255, 0)}, {"Versus", Color(0, 255, 255)}}
 
 local function DiscordGamble(msg)
@@ -743,6 +744,12 @@ function jackpot_()
     local anim_time = 20
     local db = MINVENTORY_MYSQL
 
+    function gglobalchat_jack(name,ic,percent)
+        local s = name .. "{forsenE}" .. ic .. "{forsenE}" .. percent
+        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-1000','" .. os.time() .. "','Console','" .. db:escape(s) .. "');")
+        q:start()
+    end
+
     local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_jpgames` ( ID int NOT NULL AUTO_INCREMENT, `time_end` int NOT NULL, `active` int NOT NULL, `cool` int, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
@@ -1123,6 +1130,8 @@ local function chat_()
         end
 		SVDiscordRelay.SendToDiscordRaw("MG",false,s,"https://discordapp.com/api/webhooks/426168857531777032/eYz9auMRlmVfdKtXvlHJnjx3wY5KwHaLJ5TkwBF31jeuCgtn3DQb_DNw7yMeaXBZ2J7x")
     end
+
+
     local white = {
         ["76561198154133184"] = true,
         ["76561198053381832"] = true,
@@ -1209,6 +1218,13 @@ local function chat_()
                         net.WriteString(v.msg)
                         net.Broadcast()
                     end
+                elseif tostring(v.steamid) == "-1000" then
+                    local t = string.Explode("{forsenE}", v.msg)
+                    net.Start("Moat.JackpotWin")
+                    net.WriteString(t[1])
+                    net.WriteInt(t[2],32)
+                    net.WriteFloat(t[3])
+                    net.Broadcast()
                 else
                     broadcastmsg(v)
                 end
