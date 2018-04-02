@@ -763,18 +763,18 @@ function jackpot_()
         if #d > 0 then
             local f = false
             for k,v in pairs(d) do
-                if v.crc == game.GetIPAddress() then
+                if v.crc == game.GetIP() then
                     server_id = v.ID
                     f = true
                 end
             end
             if not f then
-                local qq = db:query("INSERT INTO moat_jpservers (crc) VALUES ('" .. game.GetIPAddress() .. "');")
+                local qq = db:query("INSERT INTO moat_jpservers (crc) VALUES ('" .. game.GetIP() .. "');")
                 qq:start()
                 server_id = #d + 1
             end
         else
-            local qq = db:query("INSERT INTO moat_jpservers (crc) VALUES ('" .. game.GetIPAddress() .. "');")
+            local qq = db:query("INSERT INTO moat_jpservers (crc) VALUES ('" .. game.GetIP() .. "');")
             qq:start()
             server_id = #d + 1
         end
@@ -929,7 +929,7 @@ function jackpot_()
                     
                     local b = db:query("DELETE FROM moat_jpwinners WHERE steamid = '" .. v.steamid .. "';")
                     b:start()
-                    local msg = "Rewarding " .. vp:Nick() .. " " .. vp:SteamID() .. " jackpot: " .. v.money .. " IC (" .. game.GetIPAddress() .. ")"
+                    local msg = "Rewarding " .. vp:Nick() .. " " .. vp:SteamID() .. " jackpot: " .. v.money .. " IC (" .. game.GetIP() .. ")"
 		            SVDiscordRelay.SendToDiscordRaw("Gamble bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
 		
                 end
