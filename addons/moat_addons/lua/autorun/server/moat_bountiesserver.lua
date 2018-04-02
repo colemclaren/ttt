@@ -87,7 +87,7 @@ local function _contracts()
 	local datime = os.date("!*t", (os.time() - 21600 - 3600))
 	if datime.hour == 0 then
 		contract_getcurrent(function(c)
-			if (os.time() - c.start_time > 43200  and (not c.refresh_next)) then
+			if (os.time() - c.start_time > 43200 and (not c.refresh_next)) then
 				moat_contract_refresh()
 				print("REfreshingf contract",os.time() - c.start_time,(not c.refresh_next))
 			end
@@ -1439,7 +1439,7 @@ function MOAT_BOUNTIES.InitializeBounties()
     if (hr == 0 and min == 0 and sec == 1) then
     	SetGlobalFloat("moat_bounties_refresh_next", true)
     end
-
+	local checked_contract = false
     timer.Create("moat_bounties_refresh_check", 1, 0, function()
     	local datime = os.date("!*t", (os.time() - 21600 - 3600))
 
@@ -1452,6 +1452,17 @@ function MOAT_BOUNTIES.InitializeBounties()
     	if (hr == 0 and min == 0 and sec == 1) then
     		SetGlobalFloat("moat_bounties_refresh_next", true)
     	end
+
+		local dattime = os.date("!*t", (os.time() - 21600 - 3600))
+		if dattime.hour == 0 and (not checked_contract) then
+			contract_getcurrent(function(c)
+				if (os.time() - c.start_time > 43200 and (not c.refresh_next)) then
+					moat_contract_refresh()
+					print("REfreshingf contract",os.time() - c.start_time,(not c.refresh_next))
+				end
+			end)
+			checked_contract = true
+		end
     end)
 end
 MOAT_BOUNTIES.InitializeBounties()
