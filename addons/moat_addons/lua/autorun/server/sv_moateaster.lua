@@ -27,7 +27,7 @@ end)
 
 MOAT_EASTER = MOAT_EASTER or {}
 MOAT_EASTER.MaxEggs = (game.MaxPlayers()) / 4
-MOAT_EASTER.SpawnChance = 7
+MOAT_EASTER.SpawnChance = 5
 MOAT_EASTER.CurEggs = 0
 MOAT_EASTER.MapEggs = 0
 
