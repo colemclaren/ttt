@@ -46,11 +46,6 @@ local function _contracts()
 		q:start()
 	end
 
-	function moat_contract_refresh()
-		local q = db:query("UPDATE moat_contracts SET active = '0', refresh_next = '1';")
-		q:start()
-	end
-
 	local q = db:query("SELECT * FROM moat_contracts WHERE refresh_next = '1';")
 	function q:onSuccess(d)
 		if contract_loaded then return end
@@ -82,6 +77,21 @@ local function _contracts()
         function q:onError(err)
         end
         q:start()
+	end
+
+	function moat_contract_refresh()
+		local q = db:query("UPDATE moat_contracts SET active = '0', refresh_next = '1';")
+		q:start()
+	end
+
+	local datime = os.date("!*t", (os.time() - 21600 - 3600))
+	if datime.hour == 0 then
+		contract_getcurrent(function(c)
+			if (os.time() - c.start_time > 43200  and (not c.refresh_next)) then
+				moat_contract_refresh()
+				print("REfreshingf contract",os.time() - c.start_time,(not c.refresh_next))
+			end
+		end)
 	end
 
 	function contract_top(fun)
@@ -608,7 +618,7 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 
 		hook.Add("PlayerDeath", "moat_headshot_expert", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and WasRightfulKill(att, ply)) then
-                if not att.attacked[ply] or att.attacked[ply][1] > 1 then return end
+                if att.attacked[ply][1] > 1 then return end
 				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
 			end
 		end)
@@ -1441,7 +1451,6 @@ function MOAT_BOUNTIES.InitializeBounties()
 
     	if (hr == 0 and min == 0 and sec == 1) then
     		SetGlobalFloat("moat_bounties_refresh_next", true)
-			moat_contract_refresh()
     	end
     end)
 end
