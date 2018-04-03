@@ -98,7 +98,7 @@ concommand.Add("moat_record_pos", function()
 	MOAT_EASTER.Record = not MOAT_EASTER.Record
 end)
 
-hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
+/*hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
 	MOAT_EASTER.CurEggs = 0
 
 	timer.Create("moat_easter_egg_spawn", 60, 0, function()
@@ -110,7 +110,7 @@ hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
 
 		MOAT_EASTER.SpawnRandomEasterBasket()
 	end)
-end)
+end)*/
 
 function m_DropEasterBasket(ply, amt)
 	for i = 1, amt do
