@@ -3,6 +3,9 @@ local cookie_name = "ttc-lastplayed"
 local lastplayed = cookie.GetNumber(cookie_name, 0)
 
 local changelogs = {
+    [1] = {
+        "First time playing? Hit F1 to explore the different roles."
+    },
     [20180330] = {
         "Hitman target is now purple on radar"
     },
@@ -16,13 +19,12 @@ local changelogs = {
     [20180403] = {
         "Introduced Changelog",
         "Spectating is a better feature",
-        "Added F1 Tutorial"
+        "Added F1 Tutorial",
+        "Added Witch Doctor role"
     }
 }
 
 local PANEL = {}
-
-DEFINE_BASECLASS "DFrame"
 
 function PANEL:Init()
     self:MakePopup()
