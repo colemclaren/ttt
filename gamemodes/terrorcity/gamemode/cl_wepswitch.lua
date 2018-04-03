@@ -40,7 +40,8 @@ local col_active = {
       [ROLE_HITMAN]    = Color(40, 42, 47, 255),
       [ROLE_BODYGUARD] = Color(0, 153, 153, 255),
       [ROLE_VETERAN]   = Color(179, 0, 255, 255),
-      [ROLE_XENOMORPH] = Color(255, 80, 80, 255)
+      [ROLE_XENOMORPH] = Color(255, 80, 80, 255),
+      [ROLE_WITCHDOCTOR] = Color(255,255,80,255)
    },
 
    bg = Color(20, 20, 20, 250),
@@ -64,7 +65,8 @@ local col_dark = {
       [ROLE_HITMAN]    = Color(40, 42, 47, 120),
       [ROLE_BODYGUARD] = Color(0, 153, 153, 120),
       [ROLE_VETERAN]   = Color(179, 0, 255, 120),
-      [ROLE_XENOMORPH] = Color(255, 80, 80, 120)
+      [ROLE_XENOMORPH] = Color(255, 80, 80, 120),
+      [ROLE_WITCHDOCTOR] = Color(255,255,80,120)
    },
 
    bg = Color(20, 20, 20, 200),
