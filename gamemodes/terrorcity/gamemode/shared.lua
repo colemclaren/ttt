@@ -6,6 +6,8 @@ GM.Website = "ttt.badking.net"
 GM.Version = "2016-04-20"
 GM.Customized = false
 
+GM.TTC_Version = 20180403
+
 function GM:EntityFireBullets()
     return true
 end
