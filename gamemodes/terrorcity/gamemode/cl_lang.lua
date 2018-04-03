@@ -220,7 +220,7 @@ function GetRoleColor(role)
 end
 
 function GM:TTTGetRoleColor(role)
-    if (type(role) ~= "number") then
+    if (TypeID(role) == TYPE_ENTITY and role:IsPlayer()) then
         role = role:GetRole()
     end
 
