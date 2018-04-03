@@ -135,6 +135,8 @@ util.AddNetworkString("TTT_ScanResult")
 util.AddNetworkString("TTT_FlareScorch")
 util.AddNetworkString("TTT_Radar")
 
+DEFINE_BASECLASS "gamemode_base"
+
 ---- Round mechanics
 function GM:Initialize()
     self.InitializeRoles()
@@ -754,6 +756,17 @@ end
 
 function GM:MapTriggeredEnd(wintype)
     self.MapWin = wintype
+end
+
+function GM:SetupPlayerVisibility(ply, view)
+    BaseClass.SetupPlayerVisibility(self, ply, view)
+    if (ply:IsSpec()) then
+        for _, v in pairs(player.GetAll()) do
+            if (v:IsActive() and not v:IsSpec()) then
+                AddOriginToPVS(v:EyePos())
+            end
+        end
+    end
 end
 
 -- The most basic win check is whether both sides have one dude alive
