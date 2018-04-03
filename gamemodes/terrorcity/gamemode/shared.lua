@@ -6,6 +6,8 @@ GM.Website = "ttt.badking.net"
 GM.Version = "2016-04-20"
 GM.Customized = false
 
+GM.TTC_Version = 20180403
+
 function GM:EntityFireBullets()
     return true
 end
@@ -28,6 +30,8 @@ ROLE_HITMAN = 8
 ROLE_BODYGUARD = 9
 ROLE_VETERAN = 10
 ROLE_XENOMORPH = 11
+ROLE_WITCHDOCTOR = 12
+ROLE_MAX = ROLE_WITCHDOCTOR
 ROLE_NONE = ROLE_INNOCENT
 
 local basic_roles = {

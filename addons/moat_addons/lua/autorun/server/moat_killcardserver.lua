@@ -54,6 +54,8 @@ hook.Add("DoPlayerDeath", "moat_killcard_death", function(pl, att, dmg)
 				str = "Veteran"
 			elseif (ROLE_XENOMORPH and att:GetRole() == ROLE_XENOMORPH) then
 				str = "Phoenix"
+			elseif (ROLE_WITCHDOCTOR and att:GetRole() == ROLE_WITCHDOCTOR) then
+				str = "Witch Doctor"
 			end
 
 			net.WriteString(str)

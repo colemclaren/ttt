@@ -43,7 +43,8 @@ local role_text_tbl = {
    [ROLE_HITMAN]= "body_found_h",
    [ROLE_BODYGUARD] = "body_found_bg",
    [ROLE_VETERAN]  = "body_found_v",
-   [ROLE_XENOMORPH]= "body_found_x"
+   [ROLE_XENOMORPH]= "body_found_x",
+   [ROLE_WITCHDOCTOR] = "body_found_w",
 }
 
 
