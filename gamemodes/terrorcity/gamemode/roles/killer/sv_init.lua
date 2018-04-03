@@ -40,7 +40,9 @@ function ROLE:PlayerDeath(vic, inflic, attac)
             local wepclass = wep.ClassName
             if (wep.CanBuy and table.HasValue(wep.CanBuy, ROLE_TRAITOR) and not self:HasWeapon(wepclass)) then
                 self:Give(wepclass)
-                break
+                if (self:HasWeapon(wepclass)) then
+                    break
+                end
             end
         end
     end
