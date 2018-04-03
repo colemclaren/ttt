@@ -162,11 +162,7 @@ function GM:PostDrawTranslucentRenderables()
 
 end
 
-
-
 ---- Spectator labels
-
-
 
 local function DrawPropSpecLabels(client)
    if (not client:IsSpec()) and (GetRoundState() != ROUND_POST) then return end
