@@ -759,7 +759,7 @@ function discordrpc.GetActivity()
 	local activity = {}
         activity = {
             details = #player.GetAll()  .. "/" .. game.MaxPlayers() .. " Players | " .. math.max(0, GetGlobalInt("ttt_rounds_left", 6)) .. " Rounds Left | " .. round,
-            state = ServerName ..  " | " .. game.GetIPAddress() .. "",
+            state = ServerName ..  " | " .. game.GetMap() .. " | " .. game.GetIPAddress() .. "",
             timestamps = {
                -- start = start,
                 ["end"] = os.time() + math.ceil(GetGlobalFloat("ttt_round_end", 0) - CurTime()) -- nothing?
