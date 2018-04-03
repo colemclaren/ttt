@@ -7,8 +7,6 @@ function EFFECT:Init(data)
             snd:Set3DFadeDistance(8000, 1000000000)
             snd:Play()
         end
-        print"SND"
-        print(snd)
     end)
 end
 
