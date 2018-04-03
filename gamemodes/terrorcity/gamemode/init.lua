@@ -893,7 +893,7 @@ function SelectRoles()
     local pls = player.GetAll()
     local players = {}
     local roles = {}
-    for i = ROLE_INNOCENT, ROLE_XENOMORPH do roles[i] = 0 end
+    for i = ROLE_INNOCENT, ROLE_MAX do roles[i] = 0 end
     local random_roles = {ROLE_SURVIVOR, ROLE_VETERAN, ROLE_XENOMORPH, ROLE_DOCTOR, ROLE_BEACON}
 
     for k, v in ipairs(pls) do

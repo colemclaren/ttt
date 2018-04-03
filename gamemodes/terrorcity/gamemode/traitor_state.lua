@@ -74,6 +74,7 @@ function SendHitmanList(ply_or_rf) SendRoleList(ROLE_HITMAN, ply_or_rf) end
 function SendBodyguardList(ply_or_rf) SendRoleList(ROLE_BODYGUARD, ply_or_rf) end
 function SendVeteranList(ply_or_rf) SendRoleList(ROLE_VETERAN, ply_or_rf) end
 function SendXenomorphList(ply_or_rf) SendRoleList(ROLE_XENOMORPH, ply_or_rf) end
+function SendWitchDoctorList(ply_or_rf) SendRoleList(ROLE_WITCHDOCTOR, ply_or_rf) end
 
 -- this is purely to make sure last round's traitors/dets ALWAYS get reset
 -- not happy with this, but it'll do for now
@@ -84,7 +85,7 @@ function SendInnocentList(ply_or_rf)
     local traitor_ids = {}
 
     for k, v in pairs(player.GetAll()) do
-        if v:IsRole(ROLE_TRAITOR) then
+        if v:IsTraitor() then
             table.insert(traitor_ids, v:EntIndex())
         elseif not v:IsRole(ROLE_DETECTIVE) then
             table.insert(inno_ids, v:EntIndex())
@@ -130,6 +131,8 @@ function SendFullStateUpdate()
    SendBodyguardList(GetRoleFilter(ROLE_BODYGUARD))
    SendVeteranList(GetRoleFilter(ROLE_VETERAN))
    SendXenomorphList(GetRoleFilter(ROLE_XENOMORPH))
+   
+   SendWitchDoctorList(GetRoleFilter(ROLE_WITCHDOCTOR))
     -- not useful to sync confirmed traitors here
 end
 
