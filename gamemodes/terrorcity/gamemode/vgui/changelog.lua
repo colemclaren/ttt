@@ -26,7 +26,7 @@ DEFINE_BASECLASS "DFrame"
 
 function PANEL:Init()
     self:MakePopup()
-    self:SetTitle "TTC Changelog update"
+    self:SetTitle "TTC Changelog"
     self:SetSize(ScrW() / 2, ScrH()  / 2)
     self.close = vgui.Create("DButton", self)
     self.close:Dock(BOTTOM)
