@@ -38,6 +38,7 @@ AddCSLuaFile("vgui/sb_row.lua")
 AddCSLuaFile("vgui/sb_team.lua")
 AddCSLuaFile("vgui/sb_info.lua")
 AddCSLuaFile "vgui/tutorial.lua"
+AddCSLuaFile "vgui/changelog.lua"
 include("shared.lua")
 include("karma.lua")
 include("entity.lua")
