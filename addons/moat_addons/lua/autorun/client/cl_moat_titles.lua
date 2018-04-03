@@ -729,11 +729,11 @@ local ServerName = false
 
 function discordrpc.GetActivity()
     if not ServerName then
-        local s = "Moat"
+        local s = ""
         if GetHostName():lower():match("ttc") then
-            s = s .. " TTC"
+            s = s .. "TTC"
         else
-            s = s .. " TTT"
+            s = s .. "TTT"
         end
         if GetHostName():lower():match("west") then
             s = s .. " West"
@@ -747,7 +747,7 @@ function discordrpc.GetActivity()
                 s = s .. " #" .. i
             end
         end
-        if s == "Moat TTT" then s = s .. " Dev" end
+        if (s == "TTT") or (s == "TTC") then s = s .. " Dev" end
         ServerName = s
     end
 
@@ -759,7 +759,7 @@ function discordrpc.GetActivity()
 	local activity = {}
         activity = {
             details = #player.GetAll()  .. "/" .. game.MaxPlayers() .. " Players | " .. math.max(0, GetGlobalInt("ttt_rounds_left", 6)) .. " Rounds Left | " .. round,
-            state = ServerName ..  " | " .. game.GetIPAddress() .. "",
+            state = ServerName ..  " | " .. game.GetMap() .. " | " .. game.GetIPAddress() .. "",
             timestamps = {
                -- start = start,
                 ["end"] = os.time() + math.ceil(GetGlobalFloat("ttt_round_end", 0) - CurTime()) -- nothing?
