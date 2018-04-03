@@ -585,3 +585,246 @@ net.Receive("Moat.TTS",function()
         end
     end)
 end)
+
+
+-- begin discordrpc here cause why not
+
+
+
+
+
+
+
+--
+
+
+
+
+
+--
+
+--
+
+--
+--
+
+
+
+
+
+
+
+-- Credits to SpiralP and Tenrys
+-- Edited by velkon
+-- Fail message: Not authenticated or invalid scope
+
+discordrpc = discordrpc or {}
+discordrpc.enabled = true
+discordrpc.debug = false
+discordrpc.port = discordrpc.port
+
+discordrpc.states = discordrpc.states or {}
+discordrpc.state = discordrpc.state
+
+
+function discordrpc.Print(...)
+	local header = "[Discord RPC%s] "
+	local args = {...}
+	if type(args[1]) ~= "string" then
+		if not discordrpc.debug then return end -- we are entering debug message land, don't show them if we don't want them to
+		header = header:format(" DEBUG")
+	else
+		header = header:format("")
+	end
+
+	MsgC(Color(114, 137, 218), header)
+	for k, v in next, args do
+		if istable(v) then
+			args[k] = table.ToString(v)
+		end
+	end
+	print(unpack(args))
+end
+
+function discordrpc.Init(callback)
+    print("init",discordrpc.port)
+	if not discordrpc.port then
+		local validPort
+		for port = 6463, 6473 do
+			local success = function(body)
+				if body:match("Authorization Required") and not validPort then
+					discordrpc.Print(("Connection success on port %s! "):format(port))
+					validPort = port
+					discordrpc.port = validPort
+
+					discordrpc.SetActivity({ details = GetHostName(), state = game.GetIPAddress() }, function(body, err)
+						if body == false then
+							discordrpc.Print("First SetActivity test was unsuccessful, error: " .. err)
+							if err:match("Not authenticated or invalid scope") then
+								discordrpc.Print("Make sure you're using Discord Canary!")
+							end
+						else
+							discordrpc.Print("First SetActivity test was successful, should be ready to work!")
+						end
+						discordrpc.Print(body, err)
+
+						if callback then -- idk if we should cancel calling the call back if we error
+							callback(body, err)
+						end
+					end)
+				end
+			end
+			local failed = function(...)
+				-- do nothing
+			end
+			http.Fetch(("http://127.0.0.1:%s"):format(port), success, failed)
+		end
+	end
+end
+function discordrpc.SetActivity(activity, callback)
+	if not discordrpc.enabled then return end
+
+	if not discordrpc.port then
+		ErrorNoHalt("DiscordRPC: port unset, did you Init?")
+		return
+	end
+
+	HTTP{
+		method = "POST",
+		url = ("http://127.0.0.1:%s/rpc?v=1&client_id=%s"):format(discordrpc.port, discordrpc.clientID),
+
+		type = "application/json",
+		body = util.TableToJSON{
+			cmd = "SET_ACTIVITY",
+			args = {
+				pid = math.random(11, 32768), -- This doesn't really matter though it would be nice if we could get GMod's process ID in Lua
+				activity = activity
+			},
+			nonce = tostring(SysTime())
+		},
+
+		success = function(status, body)
+			if not callback then return end
+
+			local data = util.JSONToTable(body)
+			if not data or data.evt == "ERROR" then
+				callback(false, "Discord error: " .. tostring(data.data and data.data.message or "nil"))
+			else
+				callback(data)
+			end
+		end,
+		failed = function(err)
+			if not callback then return end
+
+			callback(false, "HTTP error: " .. err)
+		end,
+	}
+end
+local defaultActivity = {
+	details = "???",
+	state = "Default state"
+}
+local start = os.time()
+local ServerName = false
+
+function discordrpc.GetActivity()
+    if not ServerName then
+        local s = "Moat"
+        if GetHostName():lower():match("ttc") then
+            s = s .. " TTC"
+        else
+            s = s .. " TTT"
+        end
+        if GetHostName():lower():match("west") then
+            s = s .. " West"
+        elseif GetHostName():lower():match("eu") then
+            s = s .. " EU"
+        elseif GetHostName():lower():match("minecraft") then
+            s = s .. " MC"
+        end
+        for i = 1,12 do
+            if GetHostName():lower():match("%#" .. i) then
+                s = s .. " #" .. i
+            end
+        end
+        if s == "Moat TTT" then s = s .. " Dev" end
+        ServerName = s
+    end
+
+    local round = "Active Round"
+    local r = GetRoundState()
+    if r == ROUND_POST then round = "Ending Round" end
+    if r == ROUND_PREP then round = "Preparing Round" end
+
+	local activity = {}
+        activity = {
+            details = #player.GetAll()  .. "/" .. game.MaxPlayers() .. " Players | " .. round,
+            state = ServerName ..  " | " .. game.GetIPAddress() .. "",
+            timestamps = {
+                start = start,
+                ["end"] = nil -- nothing?
+            },
+            assets = {
+                large_image = "logo",
+                large_text = "http://moat.gg/",
+                small_image = "gmod",
+                small_text = "Garry's Mod"
+            }
+            -- Other fields available that we can't use (atleast I don't think so): party, secrets, instance, application_id, flags
+        }
+
+	return activity
+end
+
+
+discordrpc.clientID = "430843529510649897" 
+discordrpc.state = "" 
+
+http.Loaded = http.Loaded and http.Loaded or false
+local function checkHTTP()
+	http.Fetch("http://google.com", function()
+		http.Loaded = true
+	end, function()
+		http.Loaded = true
+	end)
+end
+if not http.Loaded then
+	timer.Create("HTTPLoadedCheck", 3, 0, function()
+		if not http.Loaded then
+			checkHTTP()
+		else
+			hook.Run("HTTPLoaded")
+			timer.Remove("HTTPLoadedCheck")
+		end
+	end)
+end
+
+hook.Add("HTTPLoaded", "discordrpc_init", function()
+	discordrpc.Init(function(succ, err)
+		if succ then
+			discordrpc.SetActivity(discordrpc.GetActivity(), print)
+            hook.Add("ShutDown","Discord",function()
+                HTTP{
+                    method = "POST",
+                    url = ("http://127.0.0.1:%s/rpc?v=1&client_id=%s"):format(discordrpc.port, discordrpc.clientID),
+
+                    type = "application/json",
+                    body = util.TableToJSON{
+                        cmd = "SET_ACTIVITY",
+                        args = {
+                        },
+                        nonce = tostring(SysTime())
+                    },
+
+                    success = function(status, body)
+                    end,
+                    failed = function(err)
+                    end,
+                }          
+            end)
+            timer.Create("discordrpc", 20, 0, function()
+                discordrpc.SetActivity(discordrpc.GetActivity(), discordrpc.Print)
+            end)
+		end
+	end)
+end)
