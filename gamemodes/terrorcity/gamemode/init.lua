@@ -894,7 +894,7 @@ function SelectRoles()
     local players = {}
     local roles = {}
     for i = ROLE_INNOCENT, ROLE_MAX do roles[i] = 0 end
-    local random_roles = {ROLE_SURVIVOR, ROLE_VETERAN, ROLE_XENOMORPH, ROLE_DOCTOR, ROLE_BEACON}
+    local random_roles = {ROLE_SURVIVOR, ROLE_VETERAN, ROLE_XENOMORPH, ROLE_DOCTOR, ROLE_BEACON, ROLE_WITCHDOCTOR}
 
     for k, v in ipairs(pls) do
         if (IsValid(v) and not v:GetForceSpec()) then
