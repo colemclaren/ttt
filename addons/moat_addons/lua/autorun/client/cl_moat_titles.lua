@@ -822,7 +822,6 @@ function discordrpc.Auth()
         },
 
         success = function(status, body)
-            --{"cmd":"AUTHORIZE","data":{"code":"FZRxu4jlhHIoQtxHYi47nf63pDY8pc"},"evt":null,"nonce":"851.06856761123"}
             body = util.JSONToTable(body)
             PrintTable(body)
             if body.data.code == 5000 then print("User declined request") return end
