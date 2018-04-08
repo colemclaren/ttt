@@ -202,9 +202,13 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		local q = db:query("SELECT * FROM moat_contractwinners WHERE steamid = '" .. ply:SteamID64() .. "';")
 		function q:onSuccess(d)
 			if #d < 1 then return end
-			reward_ply(ply,d[1].place)
-			local b = db:query("DELETE FROM moat_contractwinners WHERE steamid = '" .. ply:SteamID64() .. "';")
-			b:start()
+			timer.Simple(30,function()
+				if not IsValid(ply) then return end
+				-- wait for data to load and chat message
+				reward_ply(ply,d[1].place)
+				local b = db:query("DELETE FROM moat_contractwinners WHERE steamid = '" .. ply:SteamID64() .. "';")
+				b:start()
+			end)
 		end--ss
 		q:start()
 	end)
