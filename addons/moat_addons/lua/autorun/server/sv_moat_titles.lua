@@ -10,12 +10,7 @@ discord.botClientID = "432286257532633099"
 discord.botClientSecret = "i696pb2jZgFGY5ZhJ_-CkO0qs86BPeb_"
 discord.users = {}
 
-/*
-[3:02 PM] meharryp: then get an access token
-[3:02 PM] meharryp: for the client you want to invite
-[3:02 PM] meharryp: put it in the body of the request
-[3:02 PM] meharryp: and itll force them in
-*/
+
 local function AuthedGet(bearer,url,succ,fail)
     HTTP({
         method = "GET",
