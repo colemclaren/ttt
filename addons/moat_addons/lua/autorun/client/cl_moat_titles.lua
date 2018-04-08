@@ -905,7 +905,16 @@ hook.Add("HTTPLoaded", "discordrpc_init", function()
             print("Discord RPC Loaded")
             timer.Simple(10,function()
                 if cookie.GetNumber("MG_Discord", 0) ~= 1 then
-                    make_discord()
+                    net.Receive("AmIDiscord",function()
+                        local d = net.ReadBool()
+                        if d then
+                            cookie.Set("MG_Discord",1)
+                        else
+                            make_discord()
+                        end
+                    end)
+                    net.Start("AmIDiscord")
+                    net.SendToServer()
                 end
             end)
 			discordrpc.SetActivity(discordrpc.GetActivity(), print)

@@ -33,6 +33,25 @@ local function AuthedGet(bearer,url,succ,fail)
         end,
     })
 end
+util.AddNetworkString("AmIDiscord")
+net.Receive("AmIDiscord",function(l,ply)
+    if ply.Discorded then return end
+    ply.Discorded = true
+    local sid = ply:SteamID64()
+    local q = db:query("SELECT * FROM moat_discord WHERE steamid = '" .. sid .. "';")
+    function q:onSuccess(d)
+        if #d < 1 then
+            net.Start("AmIDiscord")
+            net.WriteBool(false)
+            net.Send(ply)
+        else
+            net.Start("AmIDiscord")
+            net.WriteBool(true)
+            net.Send(ply)
+        end
+    end
+    q:start()
+end)
 
 function discord_()
 
