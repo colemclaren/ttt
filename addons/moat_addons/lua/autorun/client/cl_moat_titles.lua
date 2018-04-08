@@ -894,7 +894,7 @@ concommand.Add("discord_popup",make_discord)
 net.Receive("discord.OAuth",function()
     local p = net.ReadEntity()
     if p == LocalPlayer() then
-        cookie.Set("Mg_discord",1)
+        cookie.Set("MG_Discord",1)
     end
     chat.AddText(Color(255,255,255),"[",Color(75,0,130),"DISCORD",Color(255,255,255),"] ",Color(0,255,0),p:Nick(),Color(255,255,255)," Just joined our discord and got ",Color(255,255,0),"3,000 IC!!!")
 end)
