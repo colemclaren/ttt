@@ -54,6 +54,8 @@ hook.Add("DoPlayerDeath", "moat_killcard_death", function(pl, att, dmg)
 				str = "Veteran"
 			elseif (ROLE_XENOMORPH and att:GetRole() == ROLE_XENOMORPH) then
 				str = "Phoenix"
+			elseif (ROLE_WITCHDOCTOR and att:GetRole() == ROLE_WITCHDOCTOR) then
+				str = "Witch Doctor"
 			end
 
 			net.WriteString(str)
@@ -74,4 +76,28 @@ hook.Add("DoPlayerDeath", "moat_killcard_death", function(pl, att, dmg)
 	end
 
 	net.Send(pl)
+end)
+
+
+
+--[[-------------------------------------------------------------------------
+Killcard Networking
+---------------------------------------------------------------------------]]
+if (true) then return end
+
+function moat.send.killcard(pl, att, dmg)
+	net.Start("moat_killcard_kill")
+	if (not IsValid(att)) then att = pl end
+	net.WriteEntity(att)
+
+	
+
+	/*
+	net.WriteTable(wpn.item_stats)
+	net.Send(pl)*/
+end
+
+hook.Add("DoPlayerDeath", "moat.killcard.networking", function(pl, att, dmg)
+
+	moat.send.killcard(pl, att, dmg)
 end)
