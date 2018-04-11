@@ -89,9 +89,25 @@ function moat.send.killcard(pl, att, dmg)
 	net.Start("moat_killcard_kill")
 	if (not IsValid(att)) then att = pl end
 	net.WriteEntity(att)
+	net.WriteDouble(dmg:GetDamageType())
 
+	local inf = dmg:GetInflictor()
+	if (inf and inf:IsValid() and inf:IsWeapon()) then
+		local wep = dmg:GetInflictor()
+		net.WriteEntity(wep)
+		if (wep.ItemStats) then net.WriteTable(wep.ItemStats) end
+	else
+		local wep = att:GetActiveWeapon()
+		if (IsValid(att) and att:IsPlayer() and IsValid(wep)) then
+			net.WriteEntity(wep)
+			if (wep.ItemStats) then net.WriteTable(wep.ItemStats) end
+		else
+			net.WriteEntity(Entity(0))
+		end
+	end
 	
-
+	net.Send(pl)
+	
 	/*
 	net.WriteTable(wpn.item_stats)
 	net.Send(pl)*/
