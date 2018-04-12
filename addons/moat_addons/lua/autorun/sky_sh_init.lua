@@ -1,4 +1,4 @@
-if(!SLVBase) then
+/*if(!SLVBase) then
 	include("slvbase/slvbase.lua")
 	if(!SLVBase) then return end
 end
@@ -341,4 +341,6 @@ SLVBase.AddNPC(Category,"Falmer Gloomlurker","npc_falmer_gloomlurker")
 SLVBase.AddNPC(Category,"Falmer Nightprowler","npc_falmer_nightprowler")
 SLVBase.AddNPC(Category,"Falmer Shadowmaster","npc_falmer_shadowmaster")
 
-SLVBase.AddNPC(Category,"Ash Hopper","npc_scrib")
+SLVBase.AddNPC(Category,"Ash Hopper","npc_scrib")*/
+
+print 'testing enabled'
