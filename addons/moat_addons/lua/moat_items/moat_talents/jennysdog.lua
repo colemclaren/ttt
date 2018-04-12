@@ -1,7 +1,7 @@
 TALENT.ID = 154
 TALENT.Name = "Dog Lover"
 TALENT.NameColor = Color(255, 0, 127)
-TALENT.Description = "Each hit has a %s_^ chance to overwehlm the target with pictures of Mocha for %s seconds"
+TALENT.Description = "Each hit has a %s_^ chance to overwehlm the target with pictures of an adorable dog for %s seconds"
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}

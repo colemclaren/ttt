@@ -741,33 +741,24 @@ local function CleanUp()
 
    et.SetReplaceChecking(not et.CanImportEntities(game.GetMap()))
 
+   for k,v in pairs(player.GetAll()) do
+      if IsValid(v) then
+         v:StripWeapons()
+      end
+   end
 
+   for k, v in pairs(ents.GetAll()) do
+      if v:IsWeapon() then
+         v:SetOwner()
+         v:Remove()
+      end
+   end
 
    et.FixParentedPreCleanup()
 
-
-
    game.CleanUpMap()
 
-
-
    et.FixParentedPostCleanup()
-
-
-
-   -- Strip players now, so that their weapons are not seen by ReplaceEntities
-
-   for k,v in pairs(player.GetAll()) do
-
-      if IsValid(v) then
-
-         v:StripWeapons()
-
-      end
-
-   end
-
-
 
    -- a different kind of cleanup
 

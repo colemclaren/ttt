@@ -751,6 +751,30 @@ function m_ResetTalents(pl, wep_slot, itemtbl)
     m_SendInvItem(pl, wep_slot)
 end
 
+function m_AssignDogLover(pl, wep_slot, itemtbl)
+    local ply_item = MOAT_INVS[pl]["slot" .. wep_slot]
+    local talent_index = 2
+
+    if (not ply_item.t) then
+        ply_item.s.l = 1
+        ply_item.s.x = 0
+        ply_item.t = {}
+
+        talent_index = 1
+    end
+
+    ply_item.t[talent_index] = {}
+    ply_item.t[talent_index].e = 154
+    ply_item.t[talent_index].l = math.random(15, 20)
+    ply_item.t[talent_index].m = {}
+    ply_item.t[talent_index].m[1] = math.Round(math.Rand(0, 1), 2)
+    ply_item.t[talent_index].m[2] = math.Round(math.Rand(0, 1), 2)
+    ply_item.tr = 1
+
+    m_SaveInventory(pl)
+    m_SendInvItem(pl, wep_slot)
+end
+
 function m_ResetStats(pl, wep_slot, itemtbl)
     local ply_item = MOAT_INVS[pl]["slot" .. wep_slot]
 

@@ -74,10 +74,3 @@ function AMB_KillVelocity(ent)
    AMB_SetSubPhysMotionEnabled(ent, false)
    timer.Simple(3, function() AMB_SetSubPhysMotionEnabled(ent, true) end)
 end
-
-
-hook.Add("PreCleanupMap", "moat.remove.weapon.owners", function()
-	for k, v in ipairs(ents.GetAll()) do
-		if (v:IsWeapon()) then v:SetOwner() end
-	end
-end)
