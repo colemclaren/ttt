@@ -79,21 +79,40 @@ hook.Add("PostPlayerDeath", "moat_ApplyDeadStat", function(ply)
     ply:m_ModifyStatType("MOAT_STATS_DEATHS", "d", 1)
 end)
 
+
+local function m_CalculateLevel(cur_lvl, cur_exp, exp_to_add)
+    local new_level, new_xp = cur_lvl, cur_exp
+
+    if ((cur_exp + exp_to_add) < (cur_lvl * 1000)) then
+        return new_level, math.max(0, new_xp + exp_to_add)
+    end
+
+    new_xp = new_xp + exp_to_add
+    while new_xp >= (new_level * 1000) do
+        new_xp = new_xp - (new_level * 1000)
+        new_level = new_level + 1
+    end
+
+    return new_level, new_xp
+end
+
 function meta:ApplyXP(num)
-    local cur_xp = self:GetNWInt("MOAT_STATS_XP")
+    local cur_exp = self:GetNWInt("MOAT_STATS_XP")
     local cur_lvl = self:GetNWInt("MOAT_STATS_LVL")
+    local new_level, new_xp = m_CalculateLevel(cur_lvl, cur_exp, num)
 
-    if ((cur_xp + num) >= (cur_lvl * 1000)) then
-        local xp_to_add = (cur_xp + num) - (cur_lvl * 1000)
-        self:m_SetStatType("MOAT_STATS_XP", "x", xp_to_add)
-        self:m_ModifyStatType("MOAT_STATS_LVL", "l", 1)
+    self:m_SetStatType("MOAT_STATS_XP", "x", new_xp)
 
-        local crates = m_GetActiveCrates()
-        local crate = crates[math.random(1, #crates)].Name
+    local level_upgrades = new_level - cur_lvl
+    if (level_upgrades > 0) then
+        self:m_ModifyStatType("MOAT_STATS_LVL", "l", level_upgrades)
 
-        self:m_DropInventoryItem(crate, "hide_chat_obtained", false, false)
-    else
-        self:m_ModifyStatType("MOAT_STATS_XP", "x", num)
+        for i = 1, level_upgrades do
+            local crates = m_GetActiveCrates()
+            local crate = crates[math.random(1, #crates)].Name
+
+            self:m_DropInventoryItem(crate, "hide_chat_obtained", false, false)
+        end
     end
 end
 

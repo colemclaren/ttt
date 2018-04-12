@@ -282,44 +282,65 @@ hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
     end
 end)
 
+local function m_CalculateLevel(cur_lvl, cur_exp, exp_to_add)
+    local new_level, new_xp = cur_lvl, cur_exp
+
+    if ((cur_exp + exp_to_add) < (cur_lvl * 100)) then
+        return new_level, math.max(0, new_xp + exp_to_add)
+    end
+
+    new_xp = new_xp + exp_to_add
+    while new_xp >= (new_level * 100) do
+        new_xp = new_xp - (new_level * 100)
+        new_level = new_level + 1
+    end
+
+    return new_level, new_xp
+end
+
 function m_UpdateItemLevel(weapon_tbl, attacker, exp_to_add)
     local unique_item_id = weapon_tbl.UniqueItemID
-    local inv_item = {}
-
-    for i = 1, attacker:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
-        if (MOAT_INVS[attacker]["slot" .. i] and MOAT_INVS[attacker]["slot" .. i].c) then
-            if (MOAT_INVS[attacker]["slot" .. i].c == unique_item_id) then
-                inv_item = MOAT_INVS[attacker]["slot" .. i]
-            end
-        end
-    end
+    local inv_item = nil
 
     for i = 1, 10 do
         if (MOAT_INVS[attacker]["l_slot" .. i] and MOAT_INVS[attacker]["l_slot" .. i].c) then
             if (MOAT_INVS[attacker]["l_slot" .. i].c == unique_item_id) then
                 inv_item = MOAT_INVS[attacker]["l_slot" .. i]
+                break
             end
         end
     end
 
+    if (not inv_item) then
+        for i = 1, attacker:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+            if (MOAT_INVS[attacker]["slot" .. i] and MOAT_INVS[attacker]["slot" .. i].c) then
+                if (MOAT_INVS[attacker]["slot" .. i].c == unique_item_id) then
+                    inv_item = MOAT_INVS[attacker]["slot" .. i]
+                    break
+                end
+            end
+        end
+        if (not inv_item) then return end
+    end
+
     local cur_exp = inv_item.s.x
     local cur_lvl = inv_item.s.l
+    local new_level, new_xp = m_CalculateLevel(cur_lvl, cur_exp, exp_to_add)
 
-    if ((cur_exp + exp_to_add) >= (cur_lvl * 100)) then
-        inv_item.s.l = cur_lvl + 1
-        inv_item.s.x = math.Round((cur_exp + exp_to_add) - (cur_lvl * 100))
+    inv_item.s.l = new_level
+    inv_item.s.x = new_xp
 
-        if (inv_item.s.l % 2 == 0) then
-            local crates = m_GetActiveCrates()
-            local crate = crates[math.random(1, #crates)].Name
+    local level_upgrades = new_level - cur_lvl
+    local we_saved = false
+    if (level_upgrades > 0) then
+        for i = 1, level_upgrades do
+            if ((cur_lvl + i) % 2 == 0) then
+                local crates = m_GetActiveCrates()
+                local crate = crates[math.random(1, #crates)].Name
 
-            attacker:m_DropInventoryItem(crate, "hide_chat_obtained", false, false)
-        end
-    else
-        if ((cur_exp + exp_to_add) < 0) then
-            inv_item.s.x = 0
-        else
-            inv_item.s.x = math.Round(cur_exp + exp_to_add)
+                attacker:m_DropInventoryItem(crate, "hide_chat_obtained", false, false)
+                we_saved = true
+            end
         end
     end
 
@@ -329,7 +350,7 @@ function m_UpdateItemLevel(weapon_tbl, attacker, exp_to_add)
     net.WriteDouble(inv_item.s.x)
     net.Send(attacker)
 
-    m_SaveInventory(attacker)
+    if (not we_saved) then m_SaveInventory(attacker) end
 end
 
 XP_MULTIPYER = 2
@@ -337,10 +358,7 @@ XP_MULTIPYER = 2
 hook.Add("PlayerDeath", "moat_updateWeaponLevels", function(victim, inflictor, attacker)
     if (not attacker:IsValid() or not attacker:IsPlayer() or MOAT_MINIGAME_OCCURING) then return end
     local wep_used = attacker:GetActiveWeapon()
-
-    if (IsValid(inflictor) and inflictor.MaxHoldTime) then
-        wep_used = inflictor
-    end
+    if (IsValid(inflictor) and (inflictor.MaxHoldTime or inflictor.UniqueItemID)) then wep_used = inflictor end
 
     if (wep_used.Talents and wep_used.PrimaryOwner == attacker) then
         local exp_to_add = 0
