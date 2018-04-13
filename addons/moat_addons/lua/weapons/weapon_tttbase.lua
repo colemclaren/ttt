@@ -138,7 +138,7 @@ if CLIENT then
   end
    local sights_opacity = CreateNewConVar("ttt_ironsights_crosshair_opacity", "1", FCVAR_ARCHIVE)
    local crosshair_brightness = CreateNewConVar("ttt_crosshair_brightness", "1.0", FCVAR_ARCHIVE)
-   local crosshair_size = CreateNewConVar("ttt_crosshair_size_", "1.5", FCVAR_ARCHIVE)
+   local crosshair_size = CreateNewConVar("ttt_crosshair_size", "1.5", FCVAR_ARCHIVE)
    local disable_crosshair = CreateNewConVar("ttt_disable_crosshair", "0", FCVAR_ARCHIVE)
 
    local enable_color_crosshair = CreateNewConVar("ttt_crosshair_color_enable", "0", FCVAR_ARCHIVE)
