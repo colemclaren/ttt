@@ -3822,6 +3822,7 @@ function m_DrawVersusPanel()
 			local kname = "forsenE"
 			steamworks.RequestPlayerInfo(k, function()
 				kname = steamworks.GetPlayerName(k)
+				if not IsValid(av) then return end
 				av:SetTooltip(kname)
 			end)
 
@@ -3834,6 +3835,7 @@ function m_DrawVersusPanel()
 				op:SetSteamID(v[1],64)
 				steamworks.RequestPlayerInfo(v[1], function()
 					vnick = steamworks.GetPlayerName(v[1])
+					if not IsValid(op) then return end
 					op:SetTooltip(vnick)
 				end)
 			else

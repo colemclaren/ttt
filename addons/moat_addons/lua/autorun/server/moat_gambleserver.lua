@@ -847,6 +847,9 @@ function jackpot_()
         local sid = net.ReadString()
         if not sid:match("765") then return end
         if sid == ply:SteamID64() then return end
+        if (not ply.VersT) then ply.VersT = {} end
+        if (ply.VersT[sid] or 0) > CurTime() then return end
+        ply.VersT[sid] = CurTime() + 2
         versus_joingame(ply,sid)
     end)
 
