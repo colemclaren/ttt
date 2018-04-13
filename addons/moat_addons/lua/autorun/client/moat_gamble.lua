@@ -3566,36 +3566,36 @@ net.Receive("gversus.JoinGame",function()
 end)
 
 net.Receive("gversus.FinishGame",function()
-		local ply = net.ReadString()
-		local win = net.ReadString()
-		if not versus_players[ply] then return end
-		if not versus_players[ply][1] or (not IsValid(versus_players[ply][1])) then return end
-		versus_players[ply][4] = win
-		local plyname = "forsenE"
-		local winname = "forsenE"
-		
-		steamworks.RequestPlayerInfo(ply, function()
-			plyname = steamworks.GetPlayerName(ply)
-		end)
-
-		steamworks.RequestPlayerInfo(versus_players[ply][1], function()
-			winname = steamworks.GetPlayerName(versus_players[ply][1])
-		end)
-
-		timer.Simple(3,function()
-			local ss = false
-			if win == ply then ss = true end
-			table.insert(versus_oldgames,{
-				ply,
-				versus_players[ply][1],
-				versus_players[ply][2],
-				plyname,
-				winname,
-				ss
-			})
-			versus_players[ply] = nil
-		end)
+	local ply = net.ReadString()
+	local win = net.ReadString()
+	if not versus_players[ply] then return end
+	if not versus_players[ply][1] or (not IsValid(versus_players[ply][1])) then return end
+	versus_players[ply][4] = win
+	local plyname = "forsenE"
+	local winname = "forsenE"
+	
+	steamworks.RequestPlayerInfo(ply, function()
+		plyname = steamworks.GetPlayerName(ply)
 	end)
+
+	steamworks.RequestPlayerInfo(versus_players[ply][1], function()
+		winname = steamworks.GetPlayerName(versus_players[ply][1])
+	end)
+
+	timer.Simple(3,function()
+		local ss = false
+		if win == ply then ss = true end
+		table.insert(versus_oldgames,{
+			ply,
+			versus_players[ply][1],
+			versus_players[ply][2],
+			plyname,
+			winname,
+			ss
+		})
+		versus_players[ply] = nil
+	end)
+end)
 net.Receive("versus.Cancel",function()
 	versus_players[net.ReadString()] = nil
 end)
@@ -3974,6 +3974,56 @@ function m_DrawVersusPanel()
 
 	end
 	versus_buildlist()
+
+	net.Receive("gversus.CreateGame",function()
+		local ply = net.ReadString()
+		local amt = net.ReadFloat()
+		versus_players[ply] = {nil,amt}
+		versus_buildlist()
+	end)
+
+	net.Receive("gversus.JoinGame",function()
+		local ply = net.ReadString()
+		local j = net.ReadString()
+		if not versus_players[ply] then return end
+		versus_players[ply][1] = j
+		versus_players[ply][3] = CurTime() + versus_wait
+		versus_buildlist()
+	end)
+
+	net.Receive("gversus.FinishGame",function()
+		local ply = net.ReadString()
+		local win = net.ReadString()
+		if not versus_players[ply] then return end
+		if not versus_players[ply][1] or (not IsValid(versus_players[ply][1])) then return end
+		versus_players[ply][4] = win
+		local plyname = "forsenE"
+		local winname = "forsenE"
+		
+		steamworks.RequestPlayerInfo(ply, function()
+			plyname = steamworks.GetPlayerName(ply)
+		end)
+
+		steamworks.RequestPlayerInfo(versus_players[ply][1], function()
+			winname = steamworks.GetPlayerName(versus_players[ply][1])
+		end)
+
+		timer.Simple(3,function()
+			local ss = false
+			if win == ply then ss = true end
+			table.insert(versus_oldgames,{
+				ply,
+				versus_players[ply][1],
+				versus_players[ply][2],
+				plyname,
+				winname,
+				ss
+			})
+			versus_players[ply] = nil
+			versus_buildlist()
+		end)
+	end)
+
 	net.Receive("versus.Cancel",function()
 		versus_players[net.ReadEntity()] = nil
 		versus_buildlist()

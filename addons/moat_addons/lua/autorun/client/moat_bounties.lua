@@ -615,7 +615,7 @@ function m_PopulateBountiesPanel(pnl)
     MOAT_CHALL_AVA:SetSize(17, 17)
     MOAT_CHALL_AVA:SetPlayer(LocalPlayer(), 32)
 
-    local MOAT_CHALL_CATS = {{"Bounties", Color(150, 0, 255)}, {"Contracts", Color(255, 0, 50)},{"Free Rewards", Color(255, 255, 50)} }
+    local MOAT_CHALL_CATS = {{"Bounties", Color(150, 0, 255)}, {"Contracts", Color(255, 0, 50)},{"Rewards", Color(255, 255, 50)} }
     local CAT_WIDTHS = 0
 
     for i = 1, #MOAT_CHALL_CATS do
