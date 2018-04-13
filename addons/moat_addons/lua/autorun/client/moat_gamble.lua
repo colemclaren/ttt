@@ -3656,9 +3656,9 @@ function m_DrawVersusPanel()
     	end
 		surface.DrawOutlinedRect(160,5,180,31)
 		draw.SimpleText("GAME AMOUNT:", "moat_GambleTitle", 10, 20, Color(255,255,255),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
-		--surface.SetDrawColor(86, 86, 86)
-		--surface.DrawLine(0,h-20,w,h-20)
-		--draw.DrawText("Versus is cross-server! There are 11 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
+		surface.SetDrawColor(86, 86, 86)
+		surface.DrawLine(0,h-20,w,h-20)
+		draw.DrawText("Versus is cross-server! There are 11 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
     end
 	local game_panel = vgui.Create("DPanel",MOAT_GAMBLE_VS)
 	game_panel:SetSize(495,407)
