@@ -141,10 +141,8 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		end)
 	end
 
-	vapes = {
-		"USA American Vape",
-		"Butterfly Vape",
-		"Golden Vape"
+	local vapes = {
+		"Golden Vape", "White Vape", "Medicinal Vape", "Helium Vape", "Hallucinogenic Vape", "Butterfly Vape", "Custom Vape"
 	}
 
 	local function reward_ply(ply,place)
