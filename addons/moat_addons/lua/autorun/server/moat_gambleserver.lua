@@ -881,6 +881,7 @@ function jackpot_()
     util.AddNetworkString("gversus.Cancel")
     util.AddNetworkString("gversus.CancelGame")
     util.AddNetworkString("gversus.Sync")
+    versus_suspense = {}
     net.Receive("gversus.Sync",function(l,ply)
         if not ply.gvSyn then
             local t = {}
@@ -895,6 +896,7 @@ function jackpot_()
     end)
     timer.Create("Versus.Rewards",20,0,function()
         for k,v in ipairs(player.GetAll()) do
+            if (versus_suspense[v:SteamID64()] or 0) > CurTime() then continue end
             local q = db:query("SELECT * FROM moat_vswinners WHERE steamid = '" .. v:SteamID64() .. "';")
             function q:onSuccess(d)
                 if #d < 1 then return end
@@ -938,7 +940,9 @@ function jackpot_()
                     net.WriteString(v.steamid)
                     net.WriteString(v.other)
                     net.Broadcast()
+                    versus_suspense[v.winner] = CurTime() + versus_wait
                     timer.Simple(versus_wait,function()
+                        versus_suspense[v.winner] = nil
                         net.Start("gversus.FinishGame")
                         net.WriteString(v.steamid)
                         net.WriteString(v.winner)
