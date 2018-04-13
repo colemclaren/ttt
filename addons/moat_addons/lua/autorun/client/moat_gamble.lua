@@ -3666,7 +3666,7 @@ function m_DrawVersusPanel()
 	function game_panel:Paint() end
 
 	local game_actual = vgui.Create("DScrollPanel",game_panel)
-	game_actual:SetSize(495,405)
+	game_actual:SetSize(495,385)
 	game_actual:GetVBar():SetWide(3)
 	function versus_buildlist()
 		inGame = false 
