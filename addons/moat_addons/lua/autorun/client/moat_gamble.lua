@@ -1265,13 +1265,13 @@ surface.CreateFont("moat_RoulettBet", {
 local bg = Color(86, 86, 86)
 local fsize = 505, 460
 local mats = {
-    wheel = "http://i.imgur.com/DqbDPgl.png",
-    mat_green_normal = "http://i.imgur.com/67WZP8A.png",
-    mat_green_red = "http://i.imgur.com/a2g9g7Y.png",
-    mat_green_black = "http://i.imgur.com/K0GbeBr.png",
-    mat_green_normal_hover = "http://i.imgur.com/IYpDTnY.png",
-    mat_green_black_hover = "http://i.imgur.com/61xyFDK.png",
-    mat_green_red_hover = "http://i.imgur.com/E9efBb6.png"
+    wheel = "https://i.moat.gg/18-04-12-l4h.png",
+    mat_green_normal = "https://i.moat.gg/18-04-12-k7h.png",
+    mat_green_red = "https://i.moat.gg/18-04-12-y1i.png",
+    mat_green_black = "https://i.moat.gg/18-04-12-62k.png",
+    mat_green_normal_hover = "https://i.moat.gg/18-04-12-D4O.png",
+    mat_green_black_hover = "https://i.moat.gg/18-04-12-b2J.png",
+    mat_green_red_hover = "https://i.moat.gg/18-04-12-J16.png"
 }
 if not file.Exists("moat_assets2/wheel.png","DATA") then
     file.CreateDir("moat_assets2")
