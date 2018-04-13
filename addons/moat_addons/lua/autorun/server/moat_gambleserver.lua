@@ -748,6 +748,7 @@ function jackpot_()
     function versus_creategame(ply,am,fun)
         local q = db:query("INSERT INTO moat_versus (steamid, money) VALUES ('" .. ply:SteamID64() .. "','" .. am .. "');")
         function q:onSuccess(d)
+            removeIC(ply,am)
             fun()
         end
         q:start()
@@ -861,7 +862,6 @@ function jackpot_()
         return end
         local amount = math.floor(net.ReadFloat())
         if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
-        removeIC(ply,amount)
         versus_creategame(ply,amount,function()
             if not IsValid(ply) then return end
             versus_curgames[ply:SteamID64()] = amount
