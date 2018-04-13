@@ -1212,6 +1212,13 @@ end
 net.Receive("MOAT_TRADE_CREDITS", function(len, ply)
     local trade_id = net.ReadDouble()
     local credits = net.ReadDouble()
+
+    if (credits ~= credits) or (trade_id ~= trade_id) then
+        local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") Tried to add nan IC to trade. <@150809682318065664> <@135912347389788160>"
+		SVDiscordRelay.SendToDiscordRaw("Trade bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
+        RunConsoleCommand("mga", "ban", att:SteamID(), "0", "minutes", "6Meme")
+        return
+    end
     local ver_credits = credits
 
     if (ver_credits > ply:m_GetIC()) then

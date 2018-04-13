@@ -587,7 +587,6 @@ function SVDiscordRelay.SendToDiscord(ply, s_image, s_text, teamchat)
 end
 
 function SVDiscordRelay.SendToDiscordRaw(username, avatarurl, message, url)
-    message = message:gsub("%@","#")
     message = message:gsub("discord","")
     message = message:gsub("discord.gg","")
     local t_post = {
