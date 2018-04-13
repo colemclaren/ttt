@@ -130,7 +130,7 @@ local sparkle = CLIENT and CreateConVar("ttt_crazy_sparks", "0", FCVAR_ARCHIVE)
 if CLIENT then
   local function CreateNewConVar(name, default, flags)
     local old_cv = CreateConVar(name, default, flags)
-    local new_cv = CreateConVar(name.."_mg", "", flags)
+    local new_cv = CreateConVar(name.."_mg", "", flags, "Real default value is from "..name)
     if (new_cv:GetString() == "") then
       new_cv:SetString(old_cv:GetString())
     end
