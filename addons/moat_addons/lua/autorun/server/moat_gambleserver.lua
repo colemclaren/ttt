@@ -811,6 +811,7 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
                 return
             end
+            removeIC(ply,d.money)
             local winner = ply:SteamID64()
             if math.random() > 0.5 then
                 winner = sid
@@ -824,8 +825,6 @@ function jackpot_()
             net.Broadcast()
             local am = d.money * 2
             if am > 50 then am = math.floor(am * 0.99) end
-            local q = db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');")
-            q:start()
             timer.Simple(versus_wait,function()
                 net.Start("gversus.FinishGame")
                 net.WriteString(sid)
@@ -835,11 +834,11 @@ function jackpot_()
                 for k,v in ipairs(player.GetAll()) do
                     if winner == v:SteamID64() then
                         addIC(v,am)
-                        local q = db:query("DELETE FROM moat_vswinners WHERE steamid = '" .. db:escape(winner) .. "' AND money = '" .. am .. "';")
-                        q:start()
                         return
                     end
                 end
+                local q = db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');")
+                q:start()
             end)
         end)
     end
@@ -848,6 +847,7 @@ function jackpot_()
         local sid = net.ReadString()
         if not sid:match("765") then return end
         versus_joingame(ply,sid)
+        
     end)
 
     net.Receive("gversus.CreateGame",function(l,ply)
