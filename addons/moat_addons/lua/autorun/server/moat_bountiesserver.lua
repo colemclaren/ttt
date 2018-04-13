@@ -142,8 +142,6 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	end
 
 	vapes = {
-		"Juicy Vape",
-		"American Vape",
 		"USA American Vape",
 		"Butterfly Vape",
 		"Golden Vape"
