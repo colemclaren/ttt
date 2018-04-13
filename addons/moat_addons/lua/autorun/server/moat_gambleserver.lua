@@ -674,6 +674,7 @@ net.Receive("versus.CancelGame",function(l,ply)
 end)
 
 net.Receive("versus.JoinGame",function(l,ply)
+    if true then return end
     local t = net.ReadEntity()
     if t == ply then return end
     if not versus_players[t] then return end
@@ -737,12 +738,231 @@ local jpl = false
 jp = {}
 function jackpot_()
     if jpl then return end jpl = true
+    local db = MINVENTORY_MYSQL
+
+    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_versus` ( `steamid` varchar(255) NOT NULL, `money` INT NOT NULL, `time` INT, `other` varchar(255), `winner` varchar(255), PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+    versus_curgames = {}
+    versus_knowngames = {}
+
+    function versus_creategame(ply,am,fun)
+        local q = db:query("INSERT INTO moat_versus (steamid, money) VALUES ('" .. ply:SteamID64() .. "','" .. am .. "');")
+        function q:onSuccess(d)
+            fun()
+        end
+        q:start()
+    end
+
+    function versus_getgame(sid,fun)
+        local q = db:query("SELECT * FROM moat_versus WHERE steamid = '" .. db:escape(sid) .. "';")
+        function q:onSuccess(d)
+            fun(d)
+        end
+        q:start()
+    end
+
+    function versus_getgames(fun)
+        local q = db:query("SELECT * FROM moat_versus;")
+        function q:onSuccess(d)
+            fun(d)
+        end
+        q:start()
+    end
+
+    function versus_cancel(ply)
+        versus_getgame(ply:SteamID64(),function(d)
+            if #d < 1 then return end
+            d = d[1]
+            if d.winner then 
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined the game!")
+                return
+            end
+            local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. ply:SteamID64().. "';")
+            addIC(ply,d.money)
+            function q:onSuccess()
+                versus_curgames[ply:SteamID64()] = nil
+                net.Start("gversus.Cancel")
+                net.WriteString(ply:SteamID64())
+                net.Broadcast()
+            end
+            q:start()
+        end)
+    end
+
+    net.Receive("gversus.CancelGame",function(l,ply)
+        if (ply.VersCool or 0) > CurTime() then return end
+        ply.VersCool = CurTime() + 2.5
+        versus_cancel(ply)
+    end)
+
+    function versus_joingame(ply,sid,fun)
+        versus_getgame(sid,function(d)
+            if not IsValid(ply) then return end
+            if #d < 1 then 
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player cancelled that game!")
+                return 
+            end
+            d = d[1]
+            if d.winner then 
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined that game!")
+                return
+            end
+            if not ply:m_HasIC(d.money) then
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
+                return
+            end
+            local winner = ply:SteamID64()
+            if math.random() > 0.5 then
+                winner = sid
+            end	
+            local q = db:query("UPDATE moat_versus SET winner = '" .. db:escape(winner) .. "', other = '" .. ply:SteamID64() .. "', time = '" .. os.time() .. "' WHERE steamid = '" .. db:escape(sid) .. "';")
+            q:start()
+            versus_knowngames[sid] = CurTime() + versus_wait + 5
+            net.Start("gversus.JoinGame")
+            net.WriteString(sid)
+            net.WriteString(ply:SteamID64())
+            net.Broadcast()
+            local am = d.money * 2
+            if am > 50 then am = math.floor(am * 0.99) end
+            local q = db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');")
+            q:start()
+            timer.Simple(versus_wait,function()
+                net.Start("gversus.FinishGame")
+                net.WriteString(sid)
+                net.WriteString(winner)
+                net.Broadcast()
+                versus_curgames[sid] = nil
+                for k,v in ipairs(player.GetAll()) do
+                    if winner == v:SteamID64() then
+                        addIC(v,am)
+                        local q = db:query("DELETE FROM moat_vswinners WHERE steamid = '" .. db:escape(winner) .. "' AND money = '" .. am .. "';")
+                        q:start()
+                        return
+                    end
+                end
+            end)
+        end)
+    end
+
+    net.Receive("gversus.JoinGame",function(l,ply)
+        local sid = net.ReadString()
+        if not sid:match("765") then return end
+        versus_joingame(ply,sid)
+    end)
+
+    net.Receive("gversus.CreateGame",function(l,ply)
+        if (ply.VersCool or 0) > CurTime() then return end
+        ply.VersCool = CurTime() + 2.5
+        if versus_curgames[ply:SteamID64()] then 
+            m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait a second (You already have a match up?)")
+        return end
+        local amount = math.floor(net.ReadFloat())
+        if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
+        removeIC(ply,amount)
+        versus_creategame(ply,amount,function()
+            if not IsValid(ply) then return end
+            versus_curgames[ply:SteamID64()] = amount
+            net.Start("gversus.CreateGame")
+            net.WriteString(ply:SteamID64())
+            net.WriteFloat(amount)
+            net.Broadcast()
+        end)
+    end)
+
+    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_vswinners` ( `ID` int NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `money` INT NOT NULL, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+    local ov = 0
+    util.AddNetworkString("gversus.CreateGame")
+    util.AddNetworkString("gversus.FinishGame")
+    util.AddNetworkString("gversus.JoinGame")
+    util.AddNetworkString("gversus.Cancel")
+    util.AddNetworkString("gversus.CancelGame")
+    util.AddNetworkString("gversus.Sync")
+    net.Receive("gversus.Sync",function(l,ply)
+        if not ply.gvSyn then
+            local t = {}
+            for k,v in pairs(versus_curgames) do
+                t[k] = {nil,v}
+            end
+            net.Start("gversus.Sync")
+            net.WriteTable(t)
+            net.Send(ply)
+            ply.gvSyn = true
+        end
+    end)
+    timer.Create("Versus.Rewards",20,0,function()
+        for k,v in ipairs(player.GetAll()) do
+            local q = db:query("SELECT * FROM moat_vswinners WHERE steamid = '" .. v:SteamID64() .. "';")
+            function q:onSuccess(d)
+                if #d < 1 then return end
+                if not IsValid(v) then return end
+                for i,o in pairs(d) do
+                    addIC(v,o.money)
+                    m_AddGambleChatPlayer(v, Color(0, 255, 0), "You won " .. string.Comma(o.money) .. " IC in versus!")
+                end
+                local b = db:query("DELETE FROM moat_vswinners WHERE steamid = '" .. v:SteamID64() .. "';")
+                b:start()
+            end
+            q:start()
+        end
+    end)
+    timer.Create("Versus.Watchdog",10,0,function()
+        versus_getgames(function(d)
+            local games = {}
+            for k,v in pairs(d) do
+                games[v.steamid] = v.money
+                if versus_curgames[v.steamid] then
+                    if (versus_curgames[v.steamid] ~= v.money) then
+                        net.Start("gversus.CreateGame")
+                        net.WriteString(v.steamid)
+                        net.WriteFloat(v.money)
+                        net.Broadcast()
+                        versus_curgames[v.steamid] = v.money
+                    end
+                end
+                
+                if (not v.winner) and (not versus_curgames[v.steamid]) then
+                    versus_curgames[v.steamid] = v.money
+                    net.Start("gversus.CreateGame")
+                    net.WriteString(v.steamid)
+                    net.WriteFloat(v.money)
+                    net.Broadcast()
+                end
+                if not v.winner then continue end
+                if v.winner and ((versus_knowngames[v.steamid] or 0) < CurTime()) and (os.time() - v.time) < 15 then
+                    versus_knowngames[v.steamid] = CurTime() + versus_wait + 5
+                    net.Start("gversus.JoinGame")
+                    net.WriteString(v.steamid)
+                    net.WriteString(v.other)
+                    net.Broadcast()
+                    timer.Simple(versus_wait,function()
+                        net.Start("gversus.FinishGame")
+                        net.WriteString(v.steamid)
+                        net.WriteString(v.winner)
+                        net.Broadcast()
+                        versus_curgames[v.steamid] = nil
+                    end)
+                elseif (os.time() - v.time) > 15 then
+                    local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. v.steamid .. "';")
+                    q:start()
+                end
+            end
+            for k,v in pairs(versus_curgames) do
+                if (not games[k]) then
+                    versus_curgames[k] = nil
+                    net.Start("gversus.Cancel")
+                    net.WriteString(k)
+                    net.Broadcast()
+                end
+            end
+        end)
+    end)
+
     util.AddNetworkString("jackpot.players")
     util.AddNetworkString("jackpot.info")
     util.AddNetworkString("jackpot.join")
     util.AddNetworkString("jackpot.win")
     local anim_time = 20
-    local db = MINVENTORY_MYSQL
 
     function gglobalchat_jack(name,ic,percent)
         local s = name .. "{forsenE}" .. ic .. "{forsenE}" .. percent

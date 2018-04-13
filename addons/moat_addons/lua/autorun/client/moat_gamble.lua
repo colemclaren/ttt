@@ -3501,7 +3501,7 @@ end
 ]]
 local versus_wait = 5
 local versus_players = {}
-local gversus_players = {}
+gversus_players = {}
 local versus_winners = {}
 versus_oldgames = {}
 
@@ -3510,6 +3510,14 @@ net.Receive("versus.Sync",function()
 end)
 timer.Simple(0,function()
 	net.Start("versus.Sync")
+	net.SendToServer()
+end)
+
+net.Receive("gversus.Sync",function()
+	gversus_players = net.ReadTable()
+end)
+timer.Simple(0,function()
+	net.Start("gversus.Sync")
 	net.SendToServer()
 end)
 
@@ -3549,28 +3557,28 @@ net.Receive("versus.FinishGame",function()
 	end)
 net.Receive("versus.Cancel",function()
 	versus_players[net.ReadEntity()] = nil
+	
 end)
 
 net.Receive("gversus.CreateGame",function()
 	local ply = net.ReadString()
 	local amt = net.ReadFloat()
-	versus_players[ply] = {nil,amt}
+	gversus_players[ply] = {nil,amt}
 end)
 
 net.Receive("gversus.JoinGame",function()
 	local ply = net.ReadString()
 	local j = net.ReadString()
-	if not versus_players[ply] then return end
-	versus_players[ply][1] = j
-	versus_players[ply][3] = CurTime() + versus_wait
+	if not gversus_players[ply] then return end
+	gversus_players[ply][1] = j
+	gversus_players[ply][3] = CurTime() + versus_wait
 end)
 
 net.Receive("gversus.FinishGame",function()
 	local ply = net.ReadString()
 	local win = net.ReadString()
-	if not versus_players[ply] then return end
-	if not versus_players[ply][1] or (not IsValid(versus_players[ply][1])) then return end
-	versus_players[ply][4] = win
+	if not gversus_players[ply] then return end
+	gversus_players[ply][4] = win
 	local plyname = "forsenE"
 	local winname = "forsenE"
 	
@@ -3578,8 +3586,8 @@ net.Receive("gversus.FinishGame",function()
 		plyname = steamworks.GetPlayerName(ply)
 	end)
 
-	steamworks.RequestPlayerInfo(versus_players[ply][1], function()
-		winname = steamworks.GetPlayerName(versus_players[ply][1])
+	steamworks.RequestPlayerInfo(gversus_players[ply][1], function()
+		winname = steamworks.GetPlayerName(gversus_players[ply][1])
 	end)
 
 	timer.Simple(3,function()
@@ -3587,8 +3595,8 @@ net.Receive("gversus.FinishGame",function()
 		if win == ply then ss = true end
 		table.insert(versus_oldgames,{
 			ply,
-			versus_players[ply][1],
-			versus_players[ply][2],
+			gversus_players[ply][1],
+			gversus_players[ply][2],
 			plyname,
 			winname,
 			ss
@@ -3596,6 +3604,11 @@ net.Receive("gversus.FinishGame",function()
 		versus_players[ply] = nil
 	end)
 end)
+
+net.Receive("gversus.Cancel",function()
+	gversus_players[net.ReadString()] = nil
+end)
+
 net.Receive("versus.Cancel",function()
 	versus_players[net.ReadString()] = nil
 end)
@@ -3643,7 +3656,9 @@ function m_DrawVersusPanel()
     	end
 		surface.DrawOutlinedRect(160,5,180,31)
 		draw.SimpleText("GAME AMOUNT:", "moat_GambleTitle", 10, 20, Color(255,255,255),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
-
+		--surface.SetDrawColor(86, 86, 86)
+		--surface.DrawLine(0,h-20,w,h-20)
+		--draw.DrawText("Versus is cross-server! There are 11 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
     end
 	local game_panel = vgui.Create("DPanel",MOAT_GAMBLE_VS)
 	game_panel:SetSize(495,407)
@@ -3815,7 +3830,7 @@ function m_DrawVersusPanel()
 			op:SetSize(46,40)
 			op:Dock(LEFT)
 			local vnick = "forsenE"
-			if IsValid(v[1]) then
+			if (v[1]) then
 				op:SetSteamID(v[1],64)
 				steamworks.RequestPlayerInfo(v[1], function()
 					vnick = steamworks.GetPlayerName(v[1])
@@ -3827,7 +3842,7 @@ function m_DrawVersusPanel()
 --a
 			local s = true
 			local winner
-			if not IsValid(v[1]) then
+			if not (v[1]) then
 				local join = vgui.Create("DButton",a)
 				join:SetSize(148,0)
 				join:DockMargin(5,5,5,5)
@@ -3841,7 +3856,7 @@ function m_DrawVersusPanel()
 						c = Color(86,86,86)
 						a = 10
 					end
-					if (k == LocalPlayer()) then
+					if (k == LocalPlayer():SteamID64()) then
 						c = Color(200,10,10)
 						draw.RoundedBox(0,0,0,w,h,c)
 						surface.SetDrawColor(0,255,0,a * 0.7)
@@ -3876,14 +3891,12 @@ function m_DrawVersusPanel()
 				winner:SetSize(46,40)
 				winner:Dock(RIGHT)
 				winner:SetSteamID(k,64)
-				versus_players[k][5] = winner
+				gversus_players[k][5] = winner
 				local s = true
-				timer.Create("versus_winner:" .. k:SteamID(),0.25,0,function()
-					if not IsValid(winner) then return end
-					if not IsValid(k) then return end
-					if not IsValid(v[1]) then return end
-					if not versus_players[k] then return end
-					if versus_players[k][4] then
+				timer.Create("versus_winner:" .. k,0.25,0,function()
+					if not gversus_players[k] then return end
+					if not gversus_players[k][1] then return end
+					if gversus_players[k][4] then
 						return
 					end
 					if s then
@@ -3899,8 +3912,8 @@ function m_DrawVersusPanel()
 
 
 			function a:Paint(w,h)
-				if not versus_players[k] then a:Remove() return end
-				if not IsValid(v[1]) then
+				if not gversus_players[k] then a:Remove() return end
+				if not (v[1]) then
 					op:SetSteamID("BOT",64)
 					draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_VersusTitle", 240, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 				else
@@ -3911,10 +3924,10 @@ function m_DrawVersusPanel()
 					draw.RoundedBox(0,0,0,w*a,h,Color(175,175,175))
 					draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_VersusTitle", 145,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 					local c = Color(255,255,255)
-					if versus_players[k][4] then
+					if gversus_players[k][4] then
 						c = HSVToColor((SysTime()*100)%360,0.65,0.9)
 						--print(versus_players[k][4])
-						winner:SetSteamID(versus_players[k][4],64)
+						winner:SetSteamID(gversus_players[k][4],64)
 					end
 					draw.SimpleText("WINNER:", "moat_VersusWinner", 325, h - (h/3), c,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 				end
@@ -3978,25 +3991,24 @@ function m_DrawVersusPanel()
 	net.Receive("gversus.CreateGame",function()
 		local ply = net.ReadString()
 		local amt = net.ReadFloat()
-		versus_players[ply] = {nil,amt}
+		gversus_players[ply] = {nil,amt}
 		versus_buildlist()
 	end)
 
 	net.Receive("gversus.JoinGame",function()
 		local ply = net.ReadString()
 		local j = net.ReadString()
-		if not versus_players[ply] then return end
-		versus_players[ply][1] = j
-		versus_players[ply][3] = CurTime() + versus_wait
+		if not gversus_players[ply] then return end
+		gversus_players[ply][1] = j
+		gversus_players[ply][3] = CurTime() + versus_wait
 		versus_buildlist()
 	end)
 
 	net.Receive("gversus.FinishGame",function()
 		local ply = net.ReadString()
 		local win = net.ReadString()
-		if not versus_players[ply] then return end
-		if not versus_players[ply][1] or (not IsValid(versus_players[ply][1])) then return end
-		versus_players[ply][4] = win
+		if not gversus_players[ply] then return end
+		gversus_players[ply][4] = win
 		local plyname = "forsenE"
 		local winname = "forsenE"
 		
@@ -4004,8 +4016,8 @@ function m_DrawVersusPanel()
 			plyname = steamworks.GetPlayerName(ply)
 		end)
 
-		steamworks.RequestPlayerInfo(versus_players[ply][1], function()
-			winname = steamworks.GetPlayerName(versus_players[ply][1])
+		steamworks.RequestPlayerInfo(gversus_players[ply][1], function()
+			winname = steamworks.GetPlayerName(gversus_players[ply][1])
 		end)
 
 		timer.Simple(3,function()
@@ -4013,19 +4025,24 @@ function m_DrawVersusPanel()
 			if win == ply then ss = true end
 			table.insert(versus_oldgames,{
 				ply,
-				versus_players[ply][1],
-				versus_players[ply][2],
+				gversus_players[ply][1],
+				gversus_players[ply][2],
 				plyname,
 				winname,
 				ss
 			})
-			versus_players[ply] = nil
+			gversus_players[ply] = nil
 			versus_buildlist()
 		end)
 	end)
 
 	net.Receive("versus.Cancel",function()
 		versus_players[net.ReadEntity()] = nil
+		versus_buildlist()
+	end)
+
+	net.Receive("gversus.Cancel",function()
+		gversus_players[net.ReadString()] = nil
 		versus_buildlist()
 	end)
 	net.Receive("versus.CreateGame",function()
@@ -4093,7 +4110,7 @@ function m_DrawVersusPanel()
 	end
 	function make_game.DoClick()
 		if (MOAT_GAMBLE.VersusAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.VersusAmount < 1)) or (versus_players[LocalPlayer()]) or (inGame) then return end
-		net.Start("versus.CreateGame")
+		net.Start("gversus.CreateGame")
 		net.WriteFloat(MOAT_GAMBLE.VersusAmount)
 		net.SendToServer()
 	end
