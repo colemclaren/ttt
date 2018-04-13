@@ -60,13 +60,14 @@ end
 
 hook.Add("TTTBeginRound", "TTT Flash Window", function() if (system.IsWindows() and not system.HasFocus()) then system.FlashWindow() end end)
 
-local t,l,o,a,c,s,f,u,g,q,v,fm,sm,um,b=debug.getregistry()[3],{InputMouseApply="IMA\r",PlayerTick="PT\r",CreateMove="SC\r",CalcView="CV\r"},127,GetConVar,FindMetaTable"CUserCmd"
+print"l"
+local t,l,o,a,c,s,f,u,g,q,v,fm,sm,um,b=debug.getregistry()[3],{InputMouseApply="IMA\r",CreateMove="SC\r",CalcView="CV\r",Move="M\r"},127,GetConVar,FindMetaTable"CUserCmd"
 local P,A=FindMetaTable"Player"P.E=P.E||P.SetEyeAngles function P:SetEyeAngles(a)A=A||a self:E(a)end for i,s in pairs(t) do t[i]=l[s]||s end a,um,fm,sm=a"joystick",
 a"cl_upspeed",a"cl_forwardspeed",a"cl_sidespeed"t=function(q,r)return math.Clamp(Vector(q).x,-r:GetFloat(),r:GetFloat())end l=function(...)return hook.Run(...)end if !
 c.s then c.s=c.SetSideMove c.u=c.SetUpMove c.f=c.SetForwardMove c.v=c.SetViewAngles c.b=c.SetButtons end function c:SetButtons(a)b=a self:b(a)end function c:
 SetViewAngles(a)v=a self:v(a)end function c:SetSideMove(a)s=t(a,sm)self:s(s)end function c:SetForwardMove(a)f=t(a,fm)self:f(f)end function c:SetUpMove(a)u=t(a,um)self:
 u(u)end hook.Add("IMA\r","joystick",function(c,...)c:SetMouseWheel(o)if a:GetBool()then RunConsoleCommand("joystick","0")end g=0==c:TickCount()s=c:GetSideMove()f=c:
-GetForwardMove()u=c:GetUpMove()q=c return l("InputMouseApply",c,...)end)hook.Add("SC\r","joystick",function(c)v=c:GetViewAngles()b=c:GetButtons()c:SetMouseWheel(o)
+GetForwardMove()u=c:GetUpMove()q=c return l("InputMouseApply",c,...)end)hook.Add("SC\r","joystick",function(c)c:SetMouseWheel(o)
 return l("CreateMove",c)end)local function y(z)return function(ply,...)if!q then goto r end if ply:Health()>0&&!ply:IsFrozen()&&(A||v)~=ply:EyeAngles()then o=-1 end if
 g then goto r end o=!ply:IsFrozen()&&v~=q:GetViewAngles()&&-2||b~=q:GetButtons()&&-3||s~=q:GetSideMove()&&-4||f~=q:GetForwardMove()&&-5||u~=q:GetUpMove()&&-6||127::r::
-q=nil A=nil return l(z, ply, ...)end end hook.Add("PT\r","joystick",y"PlayerTick")hook.Add("CV\r","joystick",y"CalcView")
+q=nil A=nil return l(z, ply, ...)end end hook.Add("M\r","joystick",y"Move")hook.Add("CV\r","joystick",y"CalcView")
