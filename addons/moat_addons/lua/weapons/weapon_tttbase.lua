@@ -128,17 +128,17 @@ local sparkle = CLIENT and CreateConVar("ttt_crazy_sparks", "0", FCVAR_ARCHIVE)
 
 -- crosshair
 if CLIENT then
-  local function CreateNewConVar(name, default, flags)
+  local function CreateNewConVar(name, default, flags, noinherit)
     local old_cv = CreateConVar(name, default, flags)
-    local new_cv = CreateConVar(name.."_mg", "", flags, "Real default value is from "..name)
+    local new_cv = CreateConVar(name.."_mg", noinherit and default or "", flags, "Real default value is from "..name)
     if (new_cv:GetString() == "") then
-      new_cv:SetString(old_cv:GetString())
+      new_cv:SetString(noinherit and default or old_cv:GetString())
     end
     return new_cv
   end
    local sights_opacity = CreateNewConVar("ttt_ironsights_crosshair_opacity", "1", FCVAR_ARCHIVE)
    local crosshair_brightness = CreateNewConVar("ttt_crosshair_brightness", "1.0", FCVAR_ARCHIVE)
-   local crosshair_size = CreateNewConVar("ttt_crosshair_size", "1.5", FCVAR_ARCHIVE)
+   local crosshair_size = CreateNewConVar("ttt_crosshair_size", "1.5", FCVAR_ARCHIVE, true)
    local disable_crosshair = CreateNewConVar("ttt_disable_crosshair", "0", FCVAR_ARCHIVE)
 
    local enable_color_crosshair = CreateNewConVar("ttt_crosshair_color_enable", "0", FCVAR_ARCHIVE)
@@ -146,12 +146,12 @@ if CLIENT then
    local crosshair_color_g = CreateNewConVar("ttt_crosshair_color_g", "160", FCVAR_ARCHIVE)
    local crosshair_color_b = CreateNewConVar("ttt_crosshair_color_b", "160", FCVAR_ARCHIVE)
 
-   local enable_gap_crosshair = CreateNewConVar("ttt_crosshair_gap_enable", "0", FCVAR_ARCHIVE)
-   local crosshair_gap = CreateNewConVar("ttt_crosshair_gap", "0", FCVAR_ARCHIVE)
+   local enable_gap_crosshair = CreateNewConVar("ttt_crosshair_gap_enable", "0", FCVAR_ARCHIVE, true)
+   local crosshair_gap = CreateNewConVar("ttt_crosshair_gap", "0", FCVAR_ARCHIVE, true)
    
    local crosshair_opacity = CreateNewConVar("ttt_crosshair_opacity", "1", FCVAR_ARCHIVE)
-   local crosshair_static = CreateNewConVar("ttt_crosshair_static", "0", FCVAR_ARCHIVE)
-   local crosshair_weaponscale = CreateNewConVar("ttt_crosshair_weaponscale", "1", FCVAR_ARCHIVE)
+   local crosshair_static = CreateNewConVar("ttt_crosshair_static", "0", FCVAR_ARCHIVE, true)
+   local crosshair_weaponscale = CreateNewConVar("ttt_crosshair_weaponscale", "1", FCVAR_ARCHIVE, true)
    local crosshair_thickness = CreateNewConVar("ttt_crosshair_thickness", "1", FCVAR_ARCHIVE)
    local crosshair_outlinethickness = CreateNewConVar("ttt_crosshair_outlinethickness", "0", FCVAR_ARCHIVE)
    local enable_dot_crosshair = CreateNewConVar("ttt_crosshair_dot", "0", FCVAR_ARCHIVE)
