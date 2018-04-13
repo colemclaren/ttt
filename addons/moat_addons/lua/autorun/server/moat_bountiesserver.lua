@@ -166,7 +166,6 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			net.Start("moat.contracts.chat")
 			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 160)) .. " IC and a random vape for the 4/20 event!")
 			net.Send(ply)
-		end
 		elseif place < 51 then
 			ply:m_GiveIC(math.Round((51 - place) * 160))
 			net.Start("moat.contracts.chat")
