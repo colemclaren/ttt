@@ -96,6 +96,7 @@ end
 --function m_PopulateBountiesPanel(pnl,pnl_x, pnl_y, pnl_w, pnl_h)
 
 function m_RemoveContractsPanel()
+    if not IsValid(MOAT_CONTRACTS) then return end
     MOAT_CONTRACTS:Remove()
 end
 
@@ -614,7 +615,7 @@ function m_PopulateBountiesPanel(pnl)
     MOAT_CHALL_AVA:SetSize(17, 17)
     MOAT_CHALL_AVA:SetPlayer(LocalPlayer(), 32)
 
-    local MOAT_CHALL_CATS = {{"Bounties", Color(150, 0, 255)}, {"Contracts", Color(255, 0, 50)}}
+    local MOAT_CHALL_CATS = {{"Bounties", Color(150, 0, 255)}, {"Contracts", Color(255, 0, 50)},{"Rewards", Color(255, 255, 50)} }
     local CAT_WIDTHS = 0
 
     for i = 1, #MOAT_CHALL_CATS do
@@ -660,6 +661,11 @@ function m_PopulateBountiesPanel(pnl)
                 m_MakeContractsPanel()
             else
                 m_RemoveContractsPanel()
+            end
+
+            if (i == 3) then
+                MOAT_INV_BG:Remove()
+                RunConsoleCommand("say", "!rewards")
             end
 
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
