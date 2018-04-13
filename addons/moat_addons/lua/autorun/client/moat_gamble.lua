@@ -3901,6 +3901,7 @@ function m_DrawVersusPanel()
 					if gversus_players[k][4] then
 						return
 					end
+					if not IsValid(winner) then return end
 					if s then
 						winner:SetSteamID(v[1],64)
 						s = false
