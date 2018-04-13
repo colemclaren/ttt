@@ -848,7 +848,6 @@ function jackpot_()
         if not sid:match("765") then return end
         if sid == ply:SteamID64() then return end
         versus_joingame(ply,sid)
-        
     end)
 
     net.Receive("gversus.CreateGame",function(l,ply)
