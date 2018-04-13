@@ -127,9 +127,11 @@ end)
 
 local function getreward(place)
     if place == 1 then 
-        return true,8000,"Event Credit + Random High End", HSVToColor(CurTime() * 50 % 360, 1, 1)
+        return true,8000,"Event Credit + High End Item + Vape", HSVToColor(CurTime() * 50 % 360, 1, 1)
     elseif place < 11 then
-        return true,math.Round((51 - place) * 160),"High End Item",Color(255,0,0)
+        return true,math.Round((51 - place) * 160),"High End Item + Random Vape",Color(255,0,0)
+    elseif place < 26 then
+        return true,math.Round((51 - place) * 160), "Random Vape", Color(255,255,0)
     else
         return false,math.Round((51 - place) * 160)
     end

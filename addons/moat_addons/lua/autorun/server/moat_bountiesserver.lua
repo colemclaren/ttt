@@ -141,19 +141,30 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		end)
 	end
 
+	vapes = {
+		"Juicy Vape",
+		"American Vape",
+		"USA American Vape",
+		"Butterfly Vape",
+		"Golden Vape"
+	}
+
 	local function reward_ply(ply,place)
+		if place < 26 then
+			ply:m_DropInventoryItem(table.Random(vapes))
+		end
 		if place == 1 then
 			ply:m_GiveIC(8000)
 			give_ec(ply,1)
 			ply:m_DropInventoryItem(5)
 			net.Start("moat.contracts.chat")
-			net.WriteString("You got 1st place on the last contract and have received 8,000 IC and a random High End Item and a EVENT CREDIT!")
+			net.WriteString("You got 1st place on the last contract and have received 8,000 IC and a random High End Item and a EVENT CREDIT and a Random vape for the 4/20 event!")
 			net.Send(ply)
-		elseif place < 11 then
+		elseif place < 26 then
 			ply:m_GiveIC(math.Round((51 - place) * 160))
 			ply:m_DropInventoryItem(5)
 			net.Start("moat.contracts.chat")
-			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 160)) .. " IC and a Random High End Item!")
+			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 160)) .. " IC and a Random High End Item and a random vape for the 4/20 event!")
 			net.Send(ply)
 		elseif place < 51 then
 			ply:m_GiveIC(math.Round((51 - place) * 160))

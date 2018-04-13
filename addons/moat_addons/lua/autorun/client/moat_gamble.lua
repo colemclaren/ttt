@@ -2,6 +2,8 @@ MOAT_GAMBLE = MOAT_GAMBLE or {}
 MOAT_GAMBLE.CurCat = 1
 MOAT_GAMBLE.ChatTable = {}
 MOAT_GAMBLE.GlobalTable = {}
+local GLOBAL_LAST = 0
+local GLOBAL_LAST_A = 0
 surface.CreateFont("moat_GambleTitle", {
     font = "DermaLarge",
     size = 22,
@@ -136,20 +138,40 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 		MOAT_GAMBLE.LocalChat = true
 		MOAT_GAMBLE.ToggleChat()
 	end
+	local cb = false
+	local global_color = Color(255,255,255)
 
 	local gamble_chat_global = vgui.Create("DButton",MOAT_GAMBLE_BG)
 	gamble_chat_global:SetSize(112,28)
 	gamble_chat_global:SetPos(114,46)
 	gamble_chat_global:SetText("")
+	timer.Create("GambleChatGlobal",0.5,0,function()
+		if not IsValid(gamble_chat_global) then return end
+		if GLOBAL_LAST_A < GLOBAL_LAST then
+			if cb then
+				global_color = Color(255,255,255)
+				cb = false
+			else
+				global_color = Color(255,0,0)
+				cb = true
+			end
+		end
+	end)
 	function gamble_chat_global:Paint(w,h)
 		if not MOAT_GAMBLE.LocalChat then
-			draw.SimpleText("Global Chat", "moat_GambleTitle", 5, 3, Color(255,255,255))
+			local c = Color(255,255,255)
+			draw.SimpleText("Global Chat", "moat_GambleTitle", 5, 3, c)
 		else
+			local c = Color(255,255,255)
+			if GLOBAL_LAST_A < GLOBAL_LAST then
+				c = global_color
+			end
 			draw.RoundedBox(0,0,0,w,h,Color(86,86,86,50))
-			draw.SimpleText("Global Chat", "moat_GambleTitle", 5, 3, Color(255,255,255))
+			draw.SimpleText("Global Chat", "moat_GambleTitle", 5, 3, c)
 		end
 	end
 	function gamble_chat_global:DoClick()
+		GLOBAL_LAST_A = GLOBAL_LAST
 		MOAT_GAMBLE.LocalChat = false
 		MOAT_GAMBLE.ToggleChat()
 	end
@@ -4269,6 +4291,7 @@ net.Receive("MOAT_GAMBLE_GLOBAL",function()
 	local time = net.ReadString()
 	local name = net.ReadString()
 	local msg = net.ReadString()
+	GLOBAL_LAST = CurTime()
 	if #MOAT_GAMBLE.GlobalTable >= 250 then
 		table.remove(MOAT_GAMBLE.GlobalTable, 1)
 	end
