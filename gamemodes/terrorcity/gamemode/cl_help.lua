@@ -122,7 +122,7 @@ function HELPSCRN:Show()
       cb.Label:SetWrap(true)
    end
 
-   cb = dgui:NumSlider(GetTranslation("set_cross_size"), m"ttt_crosshair_size_", 0.1, 3, 1)
+   cb = dgui:NumSlider(GetTranslation("set_cross_size"), m"ttt_crosshair_size", 0.1, 3, 1)
    if cb.Label then
       cb.Label:SetWrap(true)
    end
