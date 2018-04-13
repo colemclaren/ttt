@@ -328,7 +328,7 @@ function m_UpdateItemLevel(weapon_tbl, attacker, exp_to_add)
     local new_level, new_xp = m_CalculateLevel(cur_lvl, cur_exp, exp_to_add)
 
     inv_item.s.l = new_level
-    inv_item.s.x = new_xp
+    inv_item.s.x = math.Round(new_xp)
 
     local level_upgrades = new_level - cur_lvl
     local we_saved = false
