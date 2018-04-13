@@ -291,7 +291,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
             	net.Start("MOAT_GAMBLE_NEW_CHAT")
 			else
 				net.Start("MOAT_GAMBLE_GLOBAL")
-				MOAT_GAMBLE.GlobalBlock = CurTime() + 10
+				MOAT_GAMBLE.GlobalBlock = CurTime() + 3
 			end
             net.WriteString(tostring(val))
             net.SendToServer()
@@ -4291,7 +4291,9 @@ net.Receive("MOAT_GAMBLE_GLOBAL",function()
 	local time = net.ReadString()
 	local name = net.ReadString()
 	local msg = net.ReadString()
-	GLOBAL_LAST = CurTime()
+	if MOAT_GAMBLE.LocalChat then
+		GLOBAL_LAST = CurTime()
+	end
 	if #MOAT_GAMBLE.GlobalTable >= 250 then
 		table.remove(MOAT_GAMBLE.GlobalTable, 1)
 	end

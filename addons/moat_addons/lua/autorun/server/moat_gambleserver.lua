@@ -1349,7 +1349,7 @@ local function chat_()
         q:start()
         local msg = "" .. ply:Nick() .. " (" .. ply:SteamID() .. ") said in global gamble: " .. msg
 		SVDiscordRelay.SendToDiscordRaw("Gamble Chat",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
-        ply.gChat = CurTime() + 10
+        ply.gChat = CurTime() + 3
     end
 
     function gglobalchat_real(msg)
