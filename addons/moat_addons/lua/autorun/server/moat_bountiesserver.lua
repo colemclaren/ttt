@@ -156,12 +156,17 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			net.Start("moat.contracts.chat")
 			net.WriteString("You got 1st place on the last contract and have received 8,000 IC and a random High End Item and a EVENT CREDIT and a Random vape for the 4/20 event!")
 			net.Send(ply)
-		elseif place < 26 then
+		elseif place < 11 then
 			ply:m_GiveIC(math.Round((51 - place) * 160))
 			ply:m_DropInventoryItem(5)
 			net.Start("moat.contracts.chat")
 			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 160)) .. " IC and a Random High End Item and a random vape for the 4/20 event!")
 			net.Send(ply)
+		elseif place < 26 then
+			net.Start("moat.contracts.chat")
+			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 160)) .. " IC and a random vape for the 4/20 event!")
+			net.Send(ply)
+		end
 		elseif place < 51 then
 			ply:m_GiveIC(math.Round((51 - place) * 160))
 			net.Start("moat.contracts.chat")
