@@ -3623,7 +3623,7 @@ net.Receive("gversus.FinishGame",function()
 			winname,
 			ss
 		})
-		versus_players[ply] = nil
+		gversus_players[ply] = nil
 	end)
 end)
 
