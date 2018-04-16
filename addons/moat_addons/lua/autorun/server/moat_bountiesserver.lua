@@ -376,6 +376,40 @@ addcontract("Rightful Slayer",{
 	end
 })
 
+addcontract("Melee Hunter",{
+	desc = "Rightfully kill as many terrorists as you can with a melee weapon.",
+	adj = "Kills",
+	runfunc = function()
+		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
+			if (att:IsValid() and att:IsPlayer()) then
+				inf = att:GetActiveWeapon()
+			end
+			if (not inf.Kind) then return end
+			if (not inf.Kind == WEAPON_MELEE) then return end
+			if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
+				contract_increase(att,1)
+			end
+		end)
+	end
+})
+
+addcontract("Pistol Hunter",{
+	desc = "Rightfully kill as many terrorists as you can with a pistol.",
+	adj = "Kills",
+	runfunc = function()
+		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
+			if (att:IsValid() and att:IsPlayer()) then
+				inf = att:GetActiveWeapon()
+			end
+			if (not inf.Kind) then return end
+			if (not inf.Kind == WEAPON_PISTOL) then return end
+			if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
+				contract_increase(att,1)
+			end
+		end)
+	end
+})
+
 
 
 
