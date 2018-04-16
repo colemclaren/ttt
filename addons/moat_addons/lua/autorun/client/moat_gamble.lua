@@ -3969,6 +3969,7 @@ function m_DrawVersusPanel()
 		end
 
 		for k,v in pairs(table.Reverse(versus_oldgames)) do
+			if k > 10 then return end
 			local a = vgui.Create("DPanel",game_actual)
 			a:SetSize(0,50)
 			a:DockMargin(0,0,0,5)
