@@ -28,7 +28,10 @@ local function _contracts()
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractwinners` ( `steamid` varchar(255) NOT NULL, `place` INT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
     q:start()
 
-	function newcontract()
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractrig` ( `contract` varchar(255) NOT NULL, PRIMARY KEY (contract) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+
+	local function loadnew()
 		local c,name = table.Random(moat_contracts)
 		local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
 		q:start()
@@ -42,6 +45,36 @@ local function _contracts()
 		local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
 		function q:onSuccess(b)
 			contract_id = b[1].ID
+		end
+		q:start()
+	end
+
+	function newcontract()
+		local q = db:query("SELECT * FROM moat_contractrig;")
+		function q:onSuccess(da)
+			if #da < 1 then
+				loadnew()
+			else
+				local q = db:query("DELETE FROM moat_contractrig WHERE contract = '" .. da[1].contract .. "';")
+				q:start()
+				local name = da[1].contract
+				local c = moat_contracts[name]
+				if not istable(c) then loadnew() return end
+				local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
+				q:start()
+				c.runfunc()
+				local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
+				local s = "|\nDaily contract of **" .. os.date("%B %d, %Y",os.time()) .. "**:```"
+				s = s .. [[]] .. name .. "\n---------------------\n" .. c.desc .. "\n---------------------\n\n\n\n"
+				s = s .. "```"
+				SVDiscordRelay.SendToDiscordRaw("Contracts",nil,s,url)
+				contract_loaded = name
+				local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
+				function q:onSuccess(b)
+					contract_id = b[1].ID
+				end
+				q:start()
+			end
 		end
 		q:start()
 	end
