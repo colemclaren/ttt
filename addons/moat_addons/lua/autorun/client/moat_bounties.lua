@@ -114,9 +114,14 @@ net.Receive("moat.contractinfo",function()
     contracts_tbl.desc = net.ReadString()
     contracts_tbl.adj = net.ReadString()
 end)
-
 net.Receive("moat.contracts",function()
     contracts_tbl.my_rank = net.ReadInt(32)
+    timer.Simple(5,function()
+        if tonumber(contracts_tbl.my_rank) ~= cookie.GetNumber("mg_ncontract", 1) then
+            cookie.Set("mg_ncontract",contracts_tbl.my_rank)
+            chat.AddText(Material("icon16/medal_gold_3.png"), Color(255, 255, 0), "[", Color(0, 255, 255), "M", Color(255, 255, 255), "G ", Color(255, 255, 0), "Contracts", Color(255, 255, 0), "] ", Color(255,255,255), "You are now rank #" .. contracts_tbl.my_rank .. " on the daily contract!")
+        end
+    end)
     contracts_tbl.my_score = net.ReadInt(32)
     local p = net.ReadTable()
     contracts_tbl.players = {}
