@@ -8,6 +8,8 @@ local function DiscordGamble(msg)
     SVDiscordRelay.SendToDiscordRaw("Gamble Log",false,msg,"https://discordapp.com/api/webhooks/393120753593221130/bPZTXCj5fjQgHJCOKDPbUj4Btq5EtqkZSKV-ewwaLwESwZEEc7fBHBWuIbe8np2FG8Jn")
 end
 
+GG_DISABLE = CreateConVar("moat_disable_sv_gamble",0)
+
 /*
     ADD CATEGORY IF U ADD NEW ONE 
     ADD CATEGORY IF U ADD NEW ONE 
@@ -1331,6 +1333,7 @@ function jackpot_()
 
 end
 local function c()
+    if GG_DISABLE:GetBool() then return false end
     return MINVENTORY_MYSQL and MINVENTORY_MYSQL:status() == mysqloo.DATABASE_CONNECTED
 end
 
