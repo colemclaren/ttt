@@ -417,9 +417,8 @@ addcontract("Melee Hunter",{
 			if (att:IsValid() and att:IsPlayer()) then
 				inf = att:GetActiveWeapon()
 			end
-			if (not inf.Kind) then return end
-			if (not inf.Kind == WEAPON_MELEE) then return end
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
+
+			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and inf.Weapon.Kind and inf.Weapon.Kind == WEAPON_MELEE and WasRightfulKill(att, ply)) then
 				contract_increase(att,1)
 			end
 		end)
