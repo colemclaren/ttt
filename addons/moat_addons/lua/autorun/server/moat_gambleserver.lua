@@ -917,6 +917,7 @@ function jackpot_()
         end
     end)
     timer.Create("Versus.Watchdog",10,0,function()
+        if GG_DISABLE:GetBool() then return false end
         versus_getgames(function(d)
             local games = {}
             for k,v in pairs(d) do
@@ -1151,6 +1152,7 @@ function jackpot_()
     local jp_rewarding = false
     local jp_rewards = {}
     timer.Create("JPGrand",5,0,function()
+        if GG_DISABLE:GetBool() then return end
         local q = db:query("SELECT * FROM moat_jpwinners;")
         function q:onSuccess(p)
             --print("Winmners",#p)
