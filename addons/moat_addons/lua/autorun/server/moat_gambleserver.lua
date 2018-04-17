@@ -1264,7 +1264,7 @@ function jackpot_()
                                         if #d < 1 then return end
                                         d = d[1]
                                         gglobalchat_jack(d.name,math.Round(jp_tt * 0.95),round((p[i].money/jp_tt) * 100 ))
-                                        local msg = d.name .. " (" .. util.SteamIDFrom64(tostring(d.steam_id)) .. ") won **" .. string.Comma(math.Round(jp_tt * 0.95)) .. "** IC (" .. round((p[i].money/jp_tt) * 100 ) .."%) in Jackpot."
+                                        local msg = d.name .. " (" .. util.SteamIDFrom64(jp_w) .. ") won **" .. string.Comma(math.Round(jp_tt * 0.95)) .. "** IC (" .. round((p[i].money/jp_tt) * 100 ) .."%) in Jackpot."
                                         SVDiscordRelay.SendToDiscordRaw("Gamble Log",false,msg,"https://discordapp.com/api/webhooks/393120753593221130/bPZTXCj5fjQgHJCOKDPbUj4Btq5EtqkZSKV-ewwaLwESwZEEc7fBHBWuIbe8np2FG8Jn")
                                     end
                                     q:start()
