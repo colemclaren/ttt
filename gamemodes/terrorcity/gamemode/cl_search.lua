@@ -70,7 +70,8 @@ local search_t = {
     [ROLE_HITMAN] = "h",
     [ROLE_BODYGUARD] = "bo",
     [ROLE_VETERAN] = "v",
-    [ROLE_XENOMORPH] = "x"
+    [ROLE_XENOMORPH] = "x",
+    [ROLE_WITCHDOCTOR] = "w"
 }
 
 local TypeToMat = {
@@ -91,7 +92,8 @@ local TypeToMat = {
         [ROLE_HITMAN] = "hitman.png",
         [ROLE_BODYGUARD] = "bodyguard.png",
         [ROLE_VETERAN] = "veteran.png",
-        [ROLE_XENOMORPH] = "xenomorph.png"
+        [ROLE_XENOMORPH] = "xenomorph.png",
+        [ROLE_WITCHDOCTOR] = "witchdoctor.png"
     },
     c4 = "code",
     dmg = DmgToMat,

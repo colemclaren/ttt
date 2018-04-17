@@ -87,10 +87,6 @@ function ENT:PlayerTick(p)
             dmginfo:SetDamageType(DMG_BULLET)
             dmginfo:SetDamage(self.Damage)
 
-            if (ent:IsPlayer()) then
-                hook.Run("ScalePlayerDamage", ent, tr.HitGroup, dmginfo)
-            end
-
             ent:TakeDamageInfo(dmginfo)
         end
 

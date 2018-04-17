@@ -148,7 +148,7 @@ function RADAR:Draw(client)
     if (not self.enable) or (not client:IsActiveSpecial()) then return end
     surface.SetTexture(indicator)
     local remaining = math.max(0, RADAR.endtime - CurTime())
-    local alpha_base = 50 + 180 * (remaining / RADAR.duration)
+    local alpha_base = 230
     local mpos = Vector(ScrW() / 2, ScrH() / 2, 0)
     local role, alpha, scrpos, md
 
@@ -159,7 +159,7 @@ function RADAR:Draw(client)
         md = mpos:Distance(Vector(scrpos.x, scrpos.y, 0))
 
         if md < near_cursor_dist then
-            alpha = math.Clamp(alpha * (md / near_cursor_dist), 40, 230)
+            alpha = math.Clamp(alpha * (md / near_cursor_dist), 10, 230)
         end
 
         role = tgt.role or ROLE_INNOCENT
@@ -174,6 +174,9 @@ function RADAR:Draw(client)
         elseif role == 3 then
             surface.SetDrawColor(150, 150, 150, alpha)
             surface.SetTextColor(150, 150, 150, alpha)
+        elseif role == ROLE_BEACON then
+            surface.SetDrawColor(255, 25, 255, alpha)
+            surface.SetTextColor(255, 25, 255, alpha)
         else
             surface.SetDrawColor(0, 255, 0, alpha)
             surface.SetTextColor(0, 255, 0, alpha)

@@ -38,6 +38,7 @@ AddCSLuaFile("vgui/sb_row.lua")
 AddCSLuaFile("vgui/sb_team.lua")
 AddCSLuaFile("vgui/sb_info.lua")
 AddCSLuaFile "vgui/tutorial.lua"
+AddCSLuaFile "vgui/changelog.lua"
 include("shared.lua")
 include("karma.lua")
 include("entity.lua")
@@ -134,6 +135,8 @@ util.AddNetworkString("TTT_ShowPrints")
 util.AddNetworkString("TTT_ScanResult")
 util.AddNetworkString("TTT_FlareScorch")
 util.AddNetworkString("TTT_Radar")
+
+DEFINE_BASECLASS "gamemode_base"
 
 ---- Round mechanics
 function GM:Initialize()
@@ -756,6 +759,17 @@ function GM:MapTriggeredEnd(wintype)
     self.MapWin = wintype
 end
 
+function GM:SetupPlayerVisibility(ply, view)
+    BaseClass.SetupPlayerVisibility(self, ply, view)
+    if (ply:IsSpec()) then
+        for _, v in pairs(player.GetAll()) do
+            if (v:IsActive() and not v:IsSpec()) then
+                AddOriginToPVS(v:EyePos())
+            end
+        end
+    end
+end
+
 -- The most basic win check is whether both sides have one dude alive
 function GM:TTTCheckForWin()
     if ttt_dbgwin:GetBool() then return WIN_NONE end
@@ -879,8 +893,8 @@ function SelectRoles()
     local pls = player.GetAll()
     local players = {}
     local roles = {}
-    for i = ROLE_INNOCENT, ROLE_XENOMORPH do roles[i] = 0 end
-    local random_roles = {ROLE_SURVIVOR, ROLE_VETERAN, ROLE_XENOMORPH, ROLE_DOCTOR, ROLE_BEACON}
+    for i = ROLE_INNOCENT, ROLE_MAX do roles[i] = 0 end
+    local random_roles = {ROLE_SURVIVOR, ROLE_VETERAN, ROLE_XENOMORPH, ROLE_DOCTOR, ROLE_BEACON, ROLE_WITCHDOCTOR}
 
     for k, v in ipairs(pls) do
         if (IsValid(v) and not v:GetForceSpec()) then

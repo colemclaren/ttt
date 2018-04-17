@@ -46,7 +46,8 @@ local function GetLoadoutWeapons(r)
             [ROLE_HITMAN] = {},
             [ROLE_BODYGUARD] = {},
             [ROLE_VETERAN] = {},
-            [ROLE_XENOMORPH] = {}
+            [ROLE_XENOMORPH] = {},
+            [ROLE_WITCHDOCTOR] = {}
         }
 
         for k, w in pairs(weapons.GetList()) do

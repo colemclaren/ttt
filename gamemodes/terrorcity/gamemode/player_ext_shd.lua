@@ -108,7 +108,8 @@ role_strings = {
    [ROLE_HITMAN] = "hitman",
    [ROLE_BODYGUARD] = "bodyguard",
    [ROLE_VETERAN]  = "veteran",
-   [ROLE_XENOMORPH] = "xenomorph"
+   [ROLE_XENOMORPH] = "xenomorph",
+   [ROLE_WITCHDOCTOR] = "witchdoctor"
 }
 
 function GetRoleStringRaw(role)

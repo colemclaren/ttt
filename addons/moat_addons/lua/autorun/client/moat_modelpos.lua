@@ -130,18 +130,6 @@ hook.Add("TTTBeginRound", "moat_NewRoundNotify", function()
 
 end)
 
-CreateClientConVar("moat_bunny_hop", 0, true, false)
-
-
-local function Beast_AutoHop(data)
-    local ply = LocalPlayer()
-    if GetConVar( "moat_bunny_hop" ):GetInt() == 1 and !MOAT_DISABLE_BUNNY_HOP then
-        if !ply:IsOnGround() and ply:WaterLevel() < 2 and ply:GetMoveType() != MOVETYPE_LADDER and gui.MouseX() == 0 and gui.MouseY() == 0 then
-            data:SetButtons(bit.band(data:GetButtons(), bit.bnot(IN_JUMP)))
-        end
-    end
-end
-hook.Add("CreateMove", "Beast_AutoHop", Beast_AutoHop)
 
 /*
 local function Bunnyhop()

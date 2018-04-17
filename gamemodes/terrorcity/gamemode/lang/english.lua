@@ -14,6 +14,7 @@ L.hitman = "Hitman"
 L.bodyguard = "Bodyguard"
 L.veteran = "Veteran"
 L.xenomorph = "Phoenix"
+L.witchdoctor = "Witch Doctor"
 
 L.last_words = "Last Words"
 L.terrorists = "Terrorists"
@@ -57,6 +58,7 @@ L.body_found_h = "They were a Hitman!"
 L.body_found_bg = "They were a Bodyguard."
 L.body_found_v = "They were a Veteran."
 L.body_found_x = "They were a Phoenix."
+L.body_found_w = "They were a Witch Doctor."
 
 
 L.body_confirm = "{finder} confirmed the death of {victim}."
@@ -183,6 +185,7 @@ L.search_role_h = "This person was a Hitman!"
 L.search_role_bo = "This person was an innocent Bodyguard."
 L.search_role_v = "This person was an innocent Veteran."
 L.search_role_x = "This person was an innocent Phoenix."
+L.search_role_w = "This person was an innocent Witch Doctor."
 
 L.search_words = "Something tells you some of this person's last words were: '{lastwords}'"
 L.search_armor = "They were wearing nonstandard body armor."
@@ -914,4 +917,10 @@ BuildTutorial("veteran", {
   OBJ = "Eliminate the traitors and serial killer with a one-shot weapon.",
   WINCOND = "Innocent win.",
   SPECIAL = "Has only five shots, and dies if innocent is shot."
+})
+BuildTutorial("witchdoctor", {
+  DESC = "was once a world renowned scientist who saught to revive their murdered family. What he learned was, he needed more than just their family to do it.",
+  OBJ = "Eliminate the traitors who destroyed your family.",
+  WINCOND = "Innocent win.",
+  SPECIAL = "Has special item to revive a random player from a pile of three or more corpses."
 })

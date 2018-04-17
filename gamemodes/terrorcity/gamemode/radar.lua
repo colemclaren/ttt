@@ -43,6 +43,8 @@ local function RadarScan(ply, cmd, args)
                 end
                 -- Detectives/Traitors can see who has their role, but not who
                 -- has the opposite role.
+            elseif (ply:GetRole() == ROLE_HITMAN and p == ROLES[ROLE_HITMAN].Target) then
+                role = ROLE_BEACON
             elseif role ~= ROLE_INNOCENT and role ~= ply_role then
                 role = ROLE_INNOCENT
             end
