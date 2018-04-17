@@ -381,9 +381,9 @@ for k,v in pairs(weapon_challenges) do
 	adj = "Kills",
 	runfunc = function()
 			hook.Add("PlayerDeath", "RightfulContract" .. k, function(ply, inf, att)
-				if (att:IsValid() and att:IsPlayer()) then
-					inf = att:GetActiveWeapon()
-				end
+				if not inf:IsWeapon() then return end
+				local att = inf:GetOwner()
+				if not att:IsPlayer() then return end
 
 				if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) and inf.ClassName and inf.ClassName == v[1] then
 					contract_increase(att,1)
@@ -414,11 +414,13 @@ addcontract("Melee Hunter",{
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
-				inf = att:GetActiveWeapon()
-			end
-
+			if not inf:IsWeapon() then return end
+			local att = inf:GetOwner()
+			if not att:IsPlayer() then return end
+			--print("C12367")
+		--	print(inf,inf.Weapon.Kind,inf.Weapon.Kind == WEAPON_MELEE,att:IsPlayer(),inf:IsWeapon(),WasRightfulKill(att, ply))
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and inf.Weapon.Kind and inf.Weapon.Kind == WEAPON_MELEE and WasRightfulKill(att, ply)) then
+				--print("Cotnract increase")
 				contract_increase(att,1)
 			end
 		end)
@@ -430,12 +432,11 @@ addcontract("Pistol Hunter",{
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
-				inf = att:GetActiveWeapon()
-			end
-			if (not inf.Kind) then return end
-			if (not inf.Kind == WEAPON_PISTOL) then return end
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
+			if not inf:IsWeapon() then return end
+			local att = inf:GetOwner()
+			if not att:IsPlayer() then return end
+
+			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and inf.Weapon.Kind and inf.Weapon.Kind == WEAPON_PISTOL and WasRightfulKill(att, ply)) then
 				contract_increase(att,1)
 			end
 		end)
