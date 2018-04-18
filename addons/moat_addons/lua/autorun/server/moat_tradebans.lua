@@ -52,7 +52,7 @@ end)
 hook.Add("StartCommand", "Joystick", function(p, c)
 	if (p.MCoolDown or 0) > CurTime() then return end
 	local mwheel = c:GetMouseWheel()
-    if (not c:IsForced() and not p:IsBot() and not (mwheel == 0 or mwheel == 127)) and (p:Alive()) and (mwheel <= -2) then
+    if (not p:InVehicle() and not c:IsForced() and not p:IsBot() and not (mwheel == 0 or mwheel == 127)) and (p:Alive()) and (mwheel <= -2) then
         print(mwheel)
 		p.MDetect = true
         p.MCoolDown = CurTime() + 1
