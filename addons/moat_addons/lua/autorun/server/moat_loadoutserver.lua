@@ -271,6 +271,13 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
         }
 
         for k, v in pairs(cosmetic_table) do
+            if k == "Effect" then
+                if not v.item then continue end
+                if tonumber(v.u) == 920 then
+                    mg_tesla(ply)
+                    continue
+                end
+            end
             if (v.c) then
                 local paint = 0
                 if (v.p) then paint = v.p - 6000 end
