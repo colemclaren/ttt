@@ -22,7 +22,7 @@ if CLIENT then
         end
     end)
     
-    timer.Create("Tesla Effect",6.5,0,function()
+    timer.Create("Tesla Effect",8,0,function()
         for _,ply in ipairs(player.GetAll()) do
             local r = math.random()
             if ply.Tesla and (r < 0.9) and ply:Alive() and (not ply:IsSpec()) then
