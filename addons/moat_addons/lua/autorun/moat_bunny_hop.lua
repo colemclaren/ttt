@@ -18,7 +18,7 @@ else
 end
 
 hook.Add("SetupMove", "moat_bunny_hop", function(ply, mv, data)
-    if ((cv and cv:GetBool() or ply.moat_bunny_hop) and not MOAT_DISABLE_BUNNY_HOP and data:KeyDown(IN_JUMP) and ply:WaterLevel() < 2) then -- can bunny hop
+    if ((cv and cv:GetBool() or ply.moat_bunny_hop) and not MOAT_DISABLE_BUNNY_HOP and ply:GetMoveType() == MOVETYPE_WALK and data:KeyDown(IN_JUMP) and ply:WaterLevel() < 2) then -- can bunny hop
         local shouldhop = ply:GetGroundEntity() ~= NULL and bit.band(mv:GetOldButtons(), IN_JUMP) == 0
         if (not shouldhop) then
             data:SetButtons(bit.band(data:GetButtons(), bit.bnot(IN_JUMP)))
