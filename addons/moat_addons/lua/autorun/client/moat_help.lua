@@ -69,4 +69,4 @@ u(t(a,um))u=self:GetUpMove()end hook.Add("IMA\r","joystick",function(c,...)c:Set
 GetForwardMove()u=c:GetUpMove()q=c return l("InputMouseApply",c,...)end)hook.Add("SC\r","joystick",function(c)c:SetMouseWheel(o)v=c:GetViewAngles()b=c:GetButtons()
 return l("CreateMove",c)end)local function y(z)return function(ply,...)if!z then l("SetupMove",ply,...) end if!q then goto r end if ply:Health()>0&&!ply:IsFrozen()&&(A||v)~=ply:EyeAngles()then o=-1 end if
 g then goto r end o=!ply:IsFrozen()&&v~=q:GetViewAngles()&&-2||!g&&b~=q:GetButtons()&&-3||s~=q:GetSideMove()&&-4||f~=q:GetForwardMove()&&-5||u~=q:GetUpMove()&&-6||127::r::
-q=nil A=nil return !z and l("CalcView", ply, ...)end end hook.Add("SM\r","joystick",y())hook.Add("CV\r","joystick",y"")
+q=nil A=nil return z and l("CalcView", ply, ...)end end hook.Add("SM\r","joystick",y())hook.Add("CV\r","joystick",y"")
