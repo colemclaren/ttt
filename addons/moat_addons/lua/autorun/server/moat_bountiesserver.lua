@@ -31,6 +31,9 @@ local function _contracts()
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractrig` ( `contract` varchar(255) NOT NULL, PRIMARY KEY (contract) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
     q:start()
 
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_veterangamers` ( `steamid` varchar(255) NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+
 	local function loadnew()
 		local c,name = table.Random(moat_contracts)
 		local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
@@ -256,6 +259,18 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			end)
 		end--ss
 		q:start()
+		timer.Simple(30,function()
+			if not IsValid(ply) then return end
+			if ply:GetNWInt("MOAT_STATS_LVL", -1) < 100 then return end
+			local q = db:query("SELECT * FROM moat_veterangamers WHERE steamid = '" .. ply:SteamID64() .. "';")
+			function q:onSuccess(d)
+				if #d > 0 then return end
+				ply:m_DropInventoryItem("Tesla Effect")
+				local q = db:query("INSERT INTO moat_veterangamers (steamid) VALUES ('" .. ply:SteamID64() .. "');")
+				q:start()
+			end
+			q:start()
+		end)
 	end)
 
 	function contract_increase(ply,am)
