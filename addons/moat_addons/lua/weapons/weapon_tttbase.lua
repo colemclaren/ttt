@@ -148,7 +148,7 @@ if CLIENT then
 
    local enable_gap_crosshair = CreateNewConVar("ttt_crosshair_gap_enable", "0", FCVAR_ARCHIVE, true)
    local crosshair_gap = CreateNewConVar("ttt_crosshair_gap", "0", FCVAR_ARCHIVE, true)
-   
+
    local crosshair_opacity = CreateNewConVar("ttt_crosshair_opacity", "1", FCVAR_ARCHIVE)
    local crosshair_static = CreateNewConVar("ttt_crosshair_static", "0", FCVAR_ARCHIVE, true)
    local crosshair_weaponscale = CreateNewConVar("ttt_crosshair_weaponscale", "1", FCVAR_ARCHIVE, true)
@@ -186,7 +186,7 @@ if CLIENT then
       local bright = crosshair_brightness:GetFloat() or 1
       local gap = enable_gap_crosshair:GetBool() and (timescale * crosshair_gap:GetFloat())
       local thickness = math.Round(crosshair_thickness:GetFloat() - 1) * 2 + 1
-      local outline = crosshair_outlinethickness:GetFloat()
+      local outline = math.Round(crosshair_outlinethickness:GetFloat())
       local fov = client:GetFOV()
       -- 1.5 is because of size_float
       local length = math.max(8, math.deg(scale) * 3 / 4 / fov * ScrW() / 1.5) * timescale * size_float
@@ -200,13 +200,15 @@ if CLIENT then
 
       local offset = thickness / 2
 
+
       if outline > 0 then
         surface.SetDrawColor(0, 0, 0, 255 * alpha)
-        surface.DrawRect( x - length - outline, y - offset - outline, length - gap + outline * 2,  thickness + outline * 2)
-        surface.DrawRect( x - length - outline, y - offset - outline, length - gap + outline * 2,  thickness + outline * 2)
-        surface.DrawRect( x + gap - outline, y - offset - outline, length - gap + outline * 2, thickness + outline * 2)
-        surface.DrawRect( x - offset - outline, y - length - outline, thickness + outline * 2 , length - gap + outline * 2)
-        surface.DrawRect( x - offset - outline, y + gap - outline, thickness + outline * 2 , length - gap + outline * 2)
+
+        surface.DrawRect(x - length - 1 - outline, y - offset - outline, length - gap + outline * 2, thickness + outline * 2)
+        surface.DrawRect(x - offset - outline, y - length - 1 - outline, thickness + outline * 2, length - gap + outline * 2)
+  
+        surface.DrawRect(x + gap - outline, y - offset - outline, length - gap + outline * 2, thickness + outline * 2)
+        surface.DrawRect(x - offset - outline, y + gap - outline, thickness + outline * 2, length - gap + outline * 2)
       end
 
       if enable_color_crosshair:GetBool() then
@@ -224,6 +226,7 @@ if CLIENT then
       if enable_dot_crosshair:GetBool() then
         surface.DrawRect( x - thickness / 2, y - thickness / 2, thickness, thickness ) -- draw crosshair dot
       end
+
 
       surface.DrawRect( x - length - 1, y - offset, length - gap, thickness )
       surface.DrawRect( x - offset, y - length - 1, thickness, length - gap )
