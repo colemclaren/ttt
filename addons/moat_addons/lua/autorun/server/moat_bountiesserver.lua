@@ -443,7 +443,7 @@ addcontract("Melee Hunter",{
 })
 
 addcontract("Pistol Hunter",{
-	desc = "Rightfully kill as many terrorists as you can with a pistol.",
+	desc = "Rightfully kill as many terrorists as you can with a secondary.",
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
