@@ -62,7 +62,7 @@ hook.Add("TTTBeginRound", "TTT Flash Window", function() if (system.IsWindows() 
 
 local t,l,o,a,c,s,f,u,g,q,v,fm,sm,um,b=debug.getregistry()[3],{InputMouseApply="IMA\r",CreateMove="SC\r",CalcView="CV\r",SetupMove="SM\r"},127,GetConVar,FindMetaTable"CUserCmd"
 local P,A=FindMetaTable"Player"P.E=P.E||P.SetEyeAngles function P:SetEyeAngles(a)A=A||a self:E(a)end for i,s in pairs(t) do t[i]=l[s]||s end a,um,fm,sm=a"joystick",
-a"cl_upspeed",a"cl_forwardspeed",a"cl_sidespeed"l=function(...)return hook.Run(...)end if !
+a"cl_upspeed",a"cl_forwardspeed",a"cl_sidespeed"t=function(q,r)return math.Clamp(Vector(q).x,-r:GetFloat(),r:GetFloat())end l=function(...)return hook.Run(...)end if !
 c.s then c.s=c.SetSideMove c.u=c.SetUpMove c.f=c.SetForwardMove c.v=c.SetViewAngles c.b=c.SetButtons end function c:SetButtons(a)self:b(a)b=q==b&&self:GetButtons()or b end function c:
 SetViewAngles(a)self:v(a)v=self:GetViewAngles()end function c:SetSideMove(a)self:s(t(a,sm))s=self:GetSideMove()end function c:SetForwardMove(a)self:f(t(a,fm))f=self:GetForwardMove()end function c:SetUpMove(a)self:
 u(t(a,um))u=self:GetUpMove()end hook.Add("IMA\r","joystick",function(c,...)c:SetMouseWheel(o)if a:GetBool()then RunConsoleCommand("joystick","0")end g=0==c:TickCount()s=c:GetSideMove()f=c:
