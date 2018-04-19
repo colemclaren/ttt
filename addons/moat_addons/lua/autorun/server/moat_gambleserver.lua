@@ -736,6 +736,20 @@ end)
 /*
     JackPot - Cross server
 */
+
+util.AddNetworkString("gversus.CreateGame")
+util.AddNetworkString("gversus.FinishGame")
+util.AddNetworkString("gversus.JoinGame")
+util.AddNetworkString("gversus.Cancel")
+util.AddNetworkString("gversus.CancelGame")
+util.AddNetworkString("gversus.Sync")
+
+
+util.AddNetworkString("jackpot.players")
+util.AddNetworkString("jackpot.info")
+util.AddNetworkString("jackpot.join")
+util.AddNetworkString("jackpot.win")
+
 local jpl = false
 jp = {}
 function jackpot_()
@@ -880,12 +894,7 @@ function jackpot_()
     local q = db:query("CREATE TABLE IF NOT EXISTS `moat_vswinners` ( `ID` int NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `money` INT NOT NULL, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
     q:start()
     local ov = 0
-    util.AddNetworkString("gversus.CreateGame")
-    util.AddNetworkString("gversus.FinishGame")
-    util.AddNetworkString("gversus.JoinGame")
-    util.AddNetworkString("gversus.Cancel")
-    util.AddNetworkString("gversus.CancelGame")
-    util.AddNetworkString("gversus.Sync")
+
     versus_suspense = {}
     net.Receive("gversus.Sync",function(l,ply)
         if not ply.gvSyn then
@@ -971,10 +980,6 @@ function jackpot_()
         end)
     end)
 
-    util.AddNetworkString("jackpot.players")
-    util.AddNetworkString("jackpot.info")
-    util.AddNetworkString("jackpot.join")
-    util.AddNetworkString("jackpot.win")
     local anim_time = 20
 
     function gglobalchat_jack(name,ic,percent)
@@ -1484,7 +1489,6 @@ hook.Add("InitPostEntity","JackPot",function()
     print("Jackpot init",c())
     if not c() then 
         timer.Create("CheckJackPot",1,0,function()
-            print("JackPot timer",c())
             if c() then
                 jackpot_()
                 chat_()
