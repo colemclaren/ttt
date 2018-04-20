@@ -24,8 +24,7 @@ if CLIENT then
     
     timer.Create("Tesla Effect",8,0,function()
         for _,ply in ipairs(player.GetAll()) do
-            local r = math.random()
-            if ply.Tesla and (r < 0.9) and ply:Alive() and (not ply:IsSpec()) then
+            if ply.Tesla and ply:Alive() and (not ply:IsSpec()) then
                 local pos = ply:EyePos()
                 local effect = EffectData()
                 effect:SetOrigin(pos)
