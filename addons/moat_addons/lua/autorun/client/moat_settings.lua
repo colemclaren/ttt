@@ -80,6 +80,7 @@ local moat_rarity_colors = {
 }
 
 hook.Add("CalcView","Change FOV",function()
+    if cur_random_round then return end
     if cur_random_round == "High FOV" then return end
     local view = {}
 
