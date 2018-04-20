@@ -79,7 +79,7 @@ local moat_rarity_colors = {
     ["Cosmic"] = Color(0, 255, 0)
 }
 
-hook.Add("CalcView","Change FOV",function()
+hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
     if cur_random_round then return end
     if cur_random_round == "High FOV" then return end
     local view = {}
