@@ -900,6 +900,8 @@ net.Receive("discord.OAuth",function()
 end)
 
 hook.Add("HTTPLoaded", "discordrpc_init", function()
+    if (GetHostName():lower():find("dev")) then return end
+
 	discordrpc.Init(function(succ, err)
 		if succ then
             print("Discord RPC Loaded")
