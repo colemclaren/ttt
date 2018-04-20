@@ -2152,7 +2152,7 @@ function m_OpenInventory(ply2, utrade)
 
         if (cat == 4 or cat == 5 or cat == 6 or cat == 7) then
             M_INV_PNL:MoveTo(MOAT_INV_BG_W, inv_pnl_y, anim_time, 0, -1)
-            M_INV_PNL:AlphaTo(0, anim_time)            
+            M_INV_PNL:AlphaTo(0, anim_time)
         elseif (cat ~= "extend") then
             M_INV_PNL:MoveTo(inv_pnl_x, inv_pnl_y, 0.15)
             M_INV_PNL:AlphaTo(255, anim_time, anim_time)
