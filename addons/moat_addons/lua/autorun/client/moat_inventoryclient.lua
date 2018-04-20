@@ -5483,7 +5483,7 @@ function m_DrawTradeRequest(ply)
         return
     end
 
-    if (GetConVar("moat_autodecline"):GetInt() == 1) then
+    if (GetConVar("moat_autodecline"):GetInt() == 1 or cookie.GetNumber("moat_block" .. ply:SteamID(), 0) == 1) then
         MOAT_REQ_BG:Remove()
         net.Start("MOAT_RESPOND_TRADE_REQ")
         net.WriteBool(false)
