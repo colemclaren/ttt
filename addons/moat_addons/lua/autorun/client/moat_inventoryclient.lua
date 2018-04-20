@@ -4704,6 +4704,7 @@ function m_CreateItemMenu(num, ldt)
                     ["Authorization"] = "Client-ID 2201ae44ef37cfc"
                 },
                 success = function(_,b,_,_)
+                    local ob = b
                     b = util.JSONToTable(b)
                     if b.success then
                         local l = b.data.link
@@ -4718,7 +4719,7 @@ function m_CreateItemMenu(num, ldt)
                             l
                         }
                     else
-                        Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. b, "Upload failed", "Thanks")
+                        Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. ob, "Upload failed", "Thanks")
                     end
                     MOAT_UPLOADING = false
                 end,
