@@ -36,6 +36,7 @@ if CLIENT then
                     timer.Simple(0.09 * i,function()
                         if not IsValid(ply) then return end
                         if not ply:Alive() then return end
+                        if ply:IsSpec() then return end
                         effect:SetOrigin(pos - Vector((i) * math.random(-1,1),i * math.random(-1,1),i))
                         util.Effect("TeslaHitBoxes",effect)
                     end)
