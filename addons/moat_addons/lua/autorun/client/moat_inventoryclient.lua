@@ -2018,6 +2018,26 @@ function m_OpenInventory(ply2, utrade)
         return s.OldAdd(s, ...)
     end
 
+    /*local M_INV_PNL_EXTND = vgui.Create("DButton", M_INV_PNL)
+    M_INV_PNL_EXTND:SetPos(0, 0)
+    M_INV_PNL_EXTND:SetSize(125, 25)
+    M_INV_PNL_EXTND:SetText ""
+    M_INV_PNL_EXTND.Extend = 0
+    M_INV_PNL_EXTND.Paint = function(s, w, h)
+        s.Extend = Lerp(FrameTime() * 8, s.Extend, s:IsHovered() and 1 or 0)
+
+        draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2 + (23 * s.Extend), 0, MT[CurTheme].TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
+        draw.WebImage("https://i.moat.gg/RJSqe.png", 8 * s.Extend, 5, 15, 15, Color(255, 255, 255, 200 * s.Extend))
+    end
+    M_INV_PNL_EXTND.DoClick = function(s, w, h)
+        local w_off = 32
+        M_INV_PNL:MoveTo(w_off + 5, 30, 0.15)
+        M_INV_PNL:SizeTo(MOAT_INV_BG_W-10 - w_off, help_pnl_h, 0.15)
+
+        --Inside Inventory
+        M_INV_SP:SizeTo(MOAT_INV_BG_W-10 - w_off, 488, 0.15)
+        M_INV_L:SizeTo(MOAT_INV_BG_W-24 - w_off, 488, 0.15)
+    end*/
 
     /*M_LOADOUT_PNL:MoveTo(-M_LOADOUT_PNL:GetWide(), 0, 0.15, 0, -1)
     M_LOADOUT_PNL:AlphaTo(0, 0.15)
@@ -4606,12 +4626,12 @@ function m_CreateItemMenu(num, ldt)
         surface.PlaySound("UI/buttonclick.wav")
     end):SetIcon("icon16/attach.png")
 
-    M_INV_MENU:AddOption("Copy Chat Link", function()
-        SetClipboardText("{" .. (ldt and chatlinks[num] or ("slot" .. num)) .. "}")
-        surface.PlaySound("UI/buttonclick.wav")
-    end):SetIcon("icon16/tag_blue.png")
-
     if (ldt) then
+        M_INV_MENU:AddOption("Copy Chat Link", function()
+            SetClipboardText("{" .. (ldt and chatlinks[num] or ("slot" .. num)) .. "}")
+            surface.PlaySound("UI/buttonclick.wav")
+        end):SetIcon("icon16/tag_blue.png")
+
         if (num == 6 or num == 7 or num == 8) then
             M_INV_MENU:AddOption("Change Position", function()
                 for i = 1, #m_Inventory do
@@ -4645,6 +4665,9 @@ function m_CreateItemMenu(num, ldt)
         surface.PlaySound("UI/buttonclick.wav")
     end):SetIcon("icon16/lock" .. lock_image .. ".png")
 
+    local M_INV_MENU2, M_INV_MENU2P = M_INV_MENU:AddSubMenu "More Options" 
+    M_INV_MENU2P:SetIcon "icon16/cog.png"
+
     if not old_inputdown then
         old_inputdown = input.IsKeyDown
     end
@@ -4656,7 +4679,12 @@ function m_CreateItemMenu(num, ldt)
         return old_inputdown(key)
     end
 
-    M_INV_MENU:AddOption("Upload picture of stats",function()
+    M_INV_MENU2:AddOption("Copy Chat Link", function()
+        SetClipboardText("{" .. (ldt and chatlinks[num] or ("slot" .. num)) .. "}")
+        surface.PlaySound("UI/buttonclick.wav")
+    end):SetIcon("icon16/tag_blue.png")
+
+    M_INV_MENU2:AddOption("Upload Picture of Stats",function()
         if MOAT_CACHED_PICS[itemtbl.c] then
             local x = 0
             if itemtbl.s then
@@ -4737,8 +4765,9 @@ function m_CreateItemMenu(num, ldt)
         render.Spin()
     end):SetIcon("icon16/camera_add.png")
 
-
     if (itemtbl.l and itemtbl.l == 1) then return end
+
+    M_INV_MENU:AddSpacer()
 
     if (itemtbl.n) then
         M_INV_MENU:AddOption("Remove Name Mutator", function()
@@ -4774,8 +4803,6 @@ function m_CreateItemMenu(num, ldt)
         dec_min = dec_min * 1.5
         dec_max = dec_max * 1.5
     end
-
-    M_INV_MENU:AddSpacer()
 
     local remove_text = "Deconstruct for " .. dec_min .. " - " .. dec_max .. " IC"
     local deco = moat_decon:GetInt()
