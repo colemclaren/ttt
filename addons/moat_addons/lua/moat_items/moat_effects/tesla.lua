@@ -9,6 +9,8 @@ ITEM.Collection = "Veteran Collection"
 ITEM.Model = "models/weapons/w_missile_closed.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 
+ITEM.NameEffect = "electric"
+
 ITEM.Image = "https://i.moat.gg/18-04-17-S56.png"
 local particle = "TeslaHitBoxes"
 if CLIENT then
