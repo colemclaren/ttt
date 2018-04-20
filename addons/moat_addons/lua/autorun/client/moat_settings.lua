@@ -79,10 +79,26 @@ local moat_rarity_colors = {
     ["Cosmic"] = Color(0, 255, 0)
 }
 
-hook.Add("CalcView","Change FOV",function()
+hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
     if cur_random_round then return end
     if cur_random_round == "High FOV" then return end
     local view = {}
+    local wep = LocalPlayer():GetActiveWeapon()
+    if IsValid(wep) then
+        if wep.CalcView then
+            local c = wep:CalcView(ply, pos, angles, fov)
+            -- if weapon actually returns anything, use it
+            if c then
+                return c
+            end
+        end
+        if wep.GetIronsights then
+            if wep:GetIronsights() then return end
+        end
+        if wep.GetTauntActive then
+            if wep:GetTauntActive() then return end
+        end
+    end
 
 	view.origin = pos
 	view.angles = angles
