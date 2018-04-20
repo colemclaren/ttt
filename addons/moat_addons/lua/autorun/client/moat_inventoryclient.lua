@@ -92,6 +92,7 @@ local draw_SimpleTextOutlined = draw.SimpleTextOutlined
 local draw_RoundedBoxEx = draw.RoundedBoxEx
 local draw_RoundedBox = draw.RoundedBox
 local draw_DrawText = draw.DrawText
+local draw_NoTexture = draw.NoTexture
 local surface_SetFont = surface.SetFont
 local surface_SetTextColor = surface.SetTextColor
 local surface_SetTextPos = surface.SetTextPos
@@ -2018,26 +2019,29 @@ function m_OpenInventory(ply2, utrade)
         return s.OldAdd(s, ...)
     end
 
-    /*local M_INV_PNL_EXTND = vgui.Create("DButton", M_INV_PNL)
+    local M_INV_PNL_EXTND = vgui.Create("DButton", M_INV_PNL)
     M_INV_PNL_EXTND:SetPos(0, 0)
     M_INV_PNL_EXTND:SetSize(125, 25)
     M_INV_PNL_EXTND:SetText ""
     M_INV_PNL_EXTND.Extend = 0
+    M_INV_PNL_EXTND.Extended = false
     M_INV_PNL_EXTND.Paint = function(s, w, h)
         s.Extend = Lerp(FrameTime() * 8, s.Extend, s:IsHovered() and 1 or 0)
 
-        draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2 + (23 * s.Extend), 0, MT[CurTheme].TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
-        draw.WebImage("https://i.moat.gg/RJSqe.png", 8 * s.Extend, 5, 15, 15, Color(255, 255, 255, 200 * s.Extend))
+        draw_RoundedBox(4, 0, 0, w, h, Color(0, 0, 0, 100 * s.Extend))
+        draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2 + (23 * s.Extend), 0, MT[CurTheme].TextColor or Color(235, 235, 235), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
+
+        surface_SetDrawColor(MT[CurTheme].TextColor.r or 255, MT[CurTheme].TextColor.g or 255, MT[CurTheme].TextColor.b or 255, 255 * s.Extend)
+        draw_NoTexture()
+
+        local e = 12 * s.Extend
+        surface_DrawLine(e, s.Extended and 12 - 5 or 12, 6 + e, s.Extended and 13 or 12 - 6)
+        surface_DrawLine(e, s.Extended and 12 + 5 or 12, 6 + e, s.Extended and 11 or 12 + 6)
     end
     M_INV_PNL_EXTND.DoClick = function(s, w, h)
-        local w_off = 32
-        M_INV_PNL:MoveTo(w_off + 5, 30, 0.15)
-        M_INV_PNL:SizeTo(MOAT_INV_BG_W-10 - w_off, help_pnl_h, 0.15)
-
-        --Inside Inventory
-        M_INV_SP:SizeTo(MOAT_INV_BG_W-10 - w_off, 488, 0.15)
-        M_INV_L:SizeTo(MOAT_INV_BG_W-24 - w_off, 488, 0.15)
-    end*/
+        s.Extended = not s.Extended
+        m_ChangeInventoryPanel(s.Extended and "extend" or M_INV_CAT, IsValid(MOAT_TRADE_BG) and true or false)
+    end
 
     /*M_LOADOUT_PNL:MoveTo(-M_LOADOUT_PNL:GetWide(), 0, 0.15, 0, -1)
     M_LOADOUT_PNL:AlphaTo(0, 0.15)
@@ -2049,7 +2053,7 @@ function m_OpenInventory(ply2, utrade)
 
     function m_ChangeInventoryPanel(cat, trading)
         if (not IsValid(MOAT_INV_BG)) then return end
-        
+
         local anim_time = 0.15
 
         moat_RemoveEditPositionPanel()
@@ -2077,6 +2081,16 @@ function m_OpenInventory(ply2, utrade)
                     M_TRADING_PNL:AlphaTo(0, anim_time)
                 end
             end
+        end
+
+        if (cat == "extend") then
+            local w_off = 32
+            M_INV_PNL:MoveTo(w_off + 5, 30, 0.15)
+            M_INV_PNL:SizeTo(MOAT_INV_BG_W-10 - w_off, help_pnl_h, 0.15)
+
+            --Inside Inventory
+            M_INV_SP:SizeTo(MOAT_INV_BG_W-10 - w_off, 488, 0.15)
+            M_INV_L:SizeTo(MOAT_INV_BG_W-24 - w_off, 488, 0.15)
         end
 
         if (cat == 1) then
@@ -2139,9 +2153,12 @@ function m_OpenInventory(ply2, utrade)
         if (cat == 4 or cat == 5 or cat == 6 or cat == 7) then
             M_INV_PNL:MoveTo(MOAT_INV_BG_W, inv_pnl_y, anim_time, 0, -1)
             M_INV_PNL:AlphaTo(0, anim_time)            
-        else
-            M_INV_PNL:MoveTo(inv_pnl_x, inv_pnl_y, anim_time, anim_time, -1)
-            M_INV_PNL:AlphaTo(255, anim_time, anim_time)            
+        elseif (cat ~= "extend") then
+            M_INV_PNL:MoveTo(inv_pnl_x, inv_pnl_y, 0.15)
+            M_INV_PNL:AlphaTo(255, anim_time, anim_time)
+            M_INV_PNL:SizeTo(364, 515, 0.15)
+            M_INV_SP:SizeTo(364, 488, 0.15)
+            M_INV_L:SizeTo(350, 488, 0.15)
         end
 
         for i = 1, #m_Inventory do
@@ -2171,7 +2188,8 @@ function m_OpenInventory(ply2, utrade)
             M_STATS_PNL:AlphaTo(0, anim_time)
         end
 
-        if (cat == "usable" or cat == "stats") then return end
+        if (cat ~= "extend") then M_INV_PNL_EXTND.Extended = false end
+        if (cat == "usable" or cat == "stats" or cat == "extend") then return end
 
         CAT_BAR.new_cat = cat
     end

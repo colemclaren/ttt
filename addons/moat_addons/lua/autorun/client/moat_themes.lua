@@ -192,7 +192,7 @@ MOAT_THEME.Themes["Original"] = {
         DisableClipping(false)
     end,
     INV_PANEL_PAINT = function(s, w, h)
-        m_DrawShadowedText(1, "Inventory", "moat_Trebuchet", 2, 0, Color(200, 200, 200, 255))
+        --m_DrawShadowedText(1, "Inventory", "moat_Trebuchet", 2, 0, Color(200, 200, 200, 255))
         local m_DrawCredits = "Inventory Credits: " .. string.Comma(MOAT_INVENTORY_CREDITS)
         surface_SetFont("moat_ItemDesc")
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
@@ -381,7 +381,7 @@ MOAT_THEME.Themes["Light"] = {
         surface_DrawTexturedRect(0, 0, w, h)
     end,
     INV_PANEL_PAINT = function(s, w, h)
-        draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
+        --draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         local m_DrawCredits = "Inventory Credits: " .. string.Comma(MOAT_INVENTORY_CREDITS)
         surface_SetFont("moat_ItemDesc")
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
@@ -544,7 +544,7 @@ MOAT_THEME.Themes["Dark"] = {
         surface_DrawTexturedRect(0, 0, w, h)
     end,
     INV_PANEL_PAINT = function(s, w, h)
-        draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
+        --draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         local m_DrawCredits = "Inventory Credits: " .. string.Comma(MOAT_INVENTORY_CREDITS)
         surface_SetFont("moat_ItemDesc")
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
@@ -704,7 +704,7 @@ MOAT_THEME.Themes["Blur"] = {
         draw_RoundedBox(0, 1, 1, w - 2, h - 2, s.Theme.Background)
     end,
     INV_PANEL_PAINT = function(s, w, h)
-        draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
+        --draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         local m_DrawCredits = "Inventory Credits: " .. string.Comma(MOAT_INVENTORY_CREDITS)
         surface_SetFont("moat_ItemDesc")
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
@@ -878,7 +878,7 @@ MOAT_THEME.Themes["Clear"] = {
     TradePlayerColor = {0, 200, 0},
     BG_PAINT = function(s, w, h) end,
     INV_PANEL_PAINT = function(s, w, h)
-        draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
+        --draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         local m_DrawCredits = "Inventory Credits: " .. string.Comma(MOAT_INVENTORY_CREDITS)
         surface_SetFont("moat_ItemDesc")
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
@@ -1062,7 +1062,7 @@ MOAT_THEME.Themes["Alpha"] = {
         draw.WebImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 225))
     end,
     INV_PANEL_PAINT = function(s, w, h)
-        draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
+        --draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         local m_DrawCredits = "Inventory Credits: " .. string.Comma(MOAT_INVENTORY_CREDITS)
         surface_SetFont("moat_ItemDesc")
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
