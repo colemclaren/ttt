@@ -232,8 +232,10 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 				local b = db:query("INSERT INTO moat_contractplayers (steamid,score) VALUES ('" .. ply:SteamID64() .. "',0);")
 				b:start()
 				ply.contract_score = 0--s
+				ply.contract_loaded = true
 			else
 				ply.contract_score = d[1].score
+				ply.contract_loaded = true
 			end
 		end
 		q:start()
@@ -274,6 +276,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	end)
 
 	function contract_increase(ply,am)
+		if not ply.contract_loaded then return end
 		if MOAT_MINIGAME_OCCURING then return end
 		if #player.GetAll() < 8 then return end
 		if (os.time() - contract_starttime) > 86400 then return end -- Contract already over, wait for next map 
