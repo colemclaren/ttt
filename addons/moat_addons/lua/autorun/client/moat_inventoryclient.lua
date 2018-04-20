@@ -4480,6 +4480,8 @@ local equipables = {
     ["model"] = true
 }
 
+MOAT_CACHED_PICS = {}
+
 local moat_decon = CreateClientConVar("moat_decon_hold", 0, true, false)
 
 function m_CreateItemMenu(num, ldt)
@@ -4642,6 +4644,97 @@ function m_CreateItemMenu(num, ldt)
         net.SendToServer()
         surface.PlaySound("UI/buttonclick.wav")
     end):SetIcon("icon16/lock" .. lock_image .. ".png")
+
+    if not old_inputdown then
+        old_inputdown = input.IsKeyDown
+    end
+
+    function input.IsKeyDown(key)
+        if moat_imagehack and (key == KEY_LCONTROL) then
+            return true
+        end
+        return old_inputdown(key)
+    end
+
+    M_INV_MENU:AddOption("Upload picture of stats",function()
+        if MOAT_CACHED_PICS[itemtbl.c] then
+            local x = 0
+            if itemtbl.s then
+                x = (itemtbl.s.x or 0)
+            end
+            if MOAT_CACHED_PICS[itemtbl.c][1] == x then
+                local l = MOAT_CACHED_PICS[itemtbl.c][2]
+                Derma_Message("Your picture of your stats has been uploaded and copied to your clipboard! (" .. l .. ")\nYou can now simply paste it into any text channel like the #trading-room in our Discord!", "Upload success", "Thanks!")
+                SetClipboardText(l)
+                return
+            end
+        end
+        if MOAT_UPLOADING then 
+            chat.AddText(Color(255,0,0),"Another picture of an item is already uploading!")
+            return 
+        end
+        local n = num
+        m_HoveredSlot = num
+        local x = gui.MouseX() + 5
+        local y = gui.MouseY() - 5
+        MOAT_INV_S.ctrldown = true
+        moat_imagehack = true
+        hook.Add("HudPaint","Mid Framegg",function()
+            m_HoveredSlot = num
+            MOAT_INV_S.ctrldown = true
+            hook.Remove("HudPaint","Mid Framegg")
+        end)
+        hook.Add( "PostRender", "Gay render capture rules", function()
+            local w = MOAT_INV_S:GetWide()
+            local h = MOAT_INV_S:GetTall()
+            local data = render.Capture( {
+                format = "jpeg",
+                quality = 80,
+                h = h,
+                w = w,
+                x = x,
+                y = y-h,
+            } )
+            moat_imagehack = false
+            MOAT_UPLOADING = true
+            HTTP({
+                url = "https://api.imgur.com/3/image",
+                method = "post",
+                headers = {
+                    ["Authorization"] = "Client-ID 2201ae44ef37cfc"
+                },
+                success = function(_,b,_,_)
+                    b = util.JSONToTable(b)
+                    if b.success then
+                        local l = b.data.link
+                        Derma_Message("Your picture of your stats has been uploaded and copied to your clipboard! (" .. l .. ")\nYou can now simply paste it into any text channel like the #trading-room in our Discord!", "Upload success", "Thanks!")
+                        SetClipboardText(l)
+                        local x = 0
+                        if itemtbl.s then
+                            x = itemtbl.s.x or 0
+                        end
+                        MOAT_CACHED_PICS[itemtbl.c] = {
+                            x,
+                            l
+                        }
+                    else
+                        Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. b, "Upload failed", "Thanks")
+                    end
+                    MOAT_UPLOADING = false
+                end,
+                failed = function(a) 
+                    Derma_Message("Your upload was not successful (2)! Please show this to velkon: " .. a, "Upload failed", "Thanks")
+                    MOAT_UPLOADING = false
+                end,
+                parameters = {
+                    image = util.Base64Encode(data)
+                },
+            })
+            m_HoveredSlot = num
+            hook.Remove("PostRender", "Gay render capture rules")
+        end )
+        render.Spin()
+    end):SetIcon("icon16/camera_add.png")
 
 
     if (itemtbl.l and itemtbl.l == 1) then return end
