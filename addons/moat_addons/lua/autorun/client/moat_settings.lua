@@ -85,6 +85,11 @@ hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
     local view = {}
     local wep = LocalPlayer():GetActiveWeapon()
     if IsValid(wep) then
+        if wep.CalcView then
+            if wep:CalcView(ply, pos, angles, fov) then
+                return wep:CalcView(ply, pos, angles, fov)
+            end
+        end
         if wep.GetIronsights then
             if wep:GetIronsights() then return end
         end
