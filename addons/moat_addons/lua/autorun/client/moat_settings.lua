@@ -1,6 +1,7 @@
 local moat_convars = {
     ["moat_round_music"] = 1,
     ["moat_round_music_volume"] = 0.75,
+    ["moat_clfov"] = 0.428571429,
     ["moat_showstats_spawn"] = 1,
     ["moat_showstats_pickup"] = 1,
     ["moat_obtain_cosmetics"] = 0,
@@ -78,10 +79,22 @@ local moat_rarity_colors = {
     ["Cosmic"] = Color(0, 255, 0)
 }
 
+hook.Add("CalcView","Change FOV",function()
+    if cur_random_round == "High FOV" then return end
+    local view = {}
+
+	view.origin = pos
+	view.angles = angles
+	view.fov = 75 + (math.min(GetConVar("moat_clfov"):GetFloat(),1) * 35)
+
+	return view
+end)
+
 local moat_Settings = {
     {"General",
         {"End Round Music", {"Multi"}, "moat_round_music"},
         {"End Round Music Volume", {"Slider", 0, 1}, "moat_round_music_volume"},
+        {"FOV (75 to 110)", {"Slider", 0, 1}, "moat_clfov"},
         {"Christmas End Round Music", {"Multi"}, "moat_round_music_christmas"},
         {"Disable MOTD on Join", {"Multi"}, "moat_disable_motd"},
         {"Invert Map [BETA]", {"Multi"}, "moat_map_invert"},
