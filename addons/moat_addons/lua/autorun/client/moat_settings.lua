@@ -88,6 +88,9 @@ hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
         if wep.GetIronsights then
             if wep:GetIronsights() then return end
         end
+        if wep.GetTauntActive then
+            if wep:GetTauntActive() then return end
+        end
     end
 
 	view.origin = pos
