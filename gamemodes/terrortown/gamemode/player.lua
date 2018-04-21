@@ -1571,11 +1571,8 @@ function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
    -- Keep ignite-burn damage etc on old levels
 
    if (dmginfo:IsDamageType(DMG_DIRECT) or
-
        dmginfo:IsExplosionDamage() or
-
        dmginfo:IsDamageType(DMG_FALL) or
-
        dmginfo:IsDamageType(DMG_PHYSGUN)) then
 
       dmginfo:ScaleDamage(2)
