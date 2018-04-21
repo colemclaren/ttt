@@ -632,11 +632,7 @@ hook.Add("TTTPlayerColor", "moat_ResetPlayerColor", function() return Color(61, 
 --[[-------------------------------------------------------------------------
 Loadout Networking
 ---------------------------------------------------------------------------]]
-
-
-hook.Add("PlayerDroppedWeapon", "moat_NetworkRegularWeapons", function(pl, wep)
-    if (not IsValid(wep) or not loadout_weapon_indexes[wep:EntIndex()]) then return end
-
+local function NetworkRegularWeapon(wep)
     local tbl = loadout_weapon_indexes[wep:EntIndex()]
     if (tbl.net) then return end
     if (GetRoundState() == ROUND_ACTIVE) then tbl.net = true end
@@ -653,11 +649,9 @@ hook.Add("PlayerDroppedWeapon", "moat_NetworkRegularWeapons", function(pl, wep)
     net.WriteDouble(tbl.owner)
     net.WriteTable(tbl.info)
     net.Broadcast()
-end)
+end
 
-hook.Add("PlayerDroppedWeapon", "moat_NetworkOtherWeapons", function(pl, wep)
-    if (not IsValid(wep) or not loadout_other_indexes[wep:EntIndex()]) then return end
-
+local function NetworkOtherWeapon(wep)
     local tbl = loadout_other_indexes[wep:EntIndex()]
     if (GetRoundState() ~= ROUND_PREP and tbl.net) then return end
     if (GetRoundState() == ROUND_ACTIVE) then tbl.net = true end
@@ -667,4 +661,29 @@ hook.Add("PlayerDroppedWeapon", "moat_NetworkOtherWeapons", function(pl, wep)
     net.WriteDouble(tbl.owner)
     net.WriteTable(tbl.info)
     net.Broadcast()
+end
+
+function NetworkWeaponStats(wep)
+    if (not IsValid(wep)) then return end
+
+    if (loadout_other_indexes[wep:EntIndex()]) then NetworkOtherWeapon(wep) end
+    if (loadout_weapon_indexes[wep:EntIndex()]) then NetworkRegularWeapon(wep) end
+end
+
+hook.Add("PlayerDroppedWeapon", "moat_NetworkWeapons", function(pl, wep)
+    NetworkWeaponStats(wep)
+end)
+
+hook.Add("PlayerDeath", "moat_NetworkWeapons", function(pl, inf, att)
+    if (IsValid(inf) and inf:IsWeapon() and inf.ItemStats) then
+        NetworkWeaponStats(inf)
+        return
+    end
+
+    if (IsValid(att) and att:IsPlayer()) then
+        local wep = att:GetActiveWeapon()
+        if (IsValid(wep) and wep.ItemStats) then
+            NetworkWeaponStats(wep)
+        end
+    end
 end)
