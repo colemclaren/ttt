@@ -83,13 +83,17 @@ hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
     if cur_random_round then return end
     if cur_random_round == "High FOV" then return end
     local view = {}
-    local wep = LocalPlayer():GetActiveWeapon()
+    local wep = LocalPlayer():GetActiveWeapon()--
     if IsValid(wep) then
         if wep.CalcView then
-            local c = wep:CalcView(ply, pos, angles, fov)
+            local a,b,c,d = wep:CalcView(ply, pos, angles, fov)
             -- if weapon actually returns anything, use it
-            if c then
-                return c
+            if a or b or c or d then
+                view.origin = a or pos
+                view.angles = b or angles
+                view.fov = c or fov
+                view.drawviewer = d or false
+                return view
             end
         end
         if wep.GetIronsights then
