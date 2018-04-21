@@ -1,4 +1,10 @@
 -- Init
+if (CLIENT) then
+	RunConsoleCommand("con_filter_enable", "1")
+	RunConsoleCommand("con_filter_text", "")
+	RunConsoleCommand("con_filter_text_out", "creating")
+end
+
 if (SERVER) then
 	AddCSLuaFile()
 	AddCSLuaFile 'dash/init.lua'

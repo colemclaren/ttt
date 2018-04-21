@@ -408,3 +408,8 @@ BMASKS.EndMask = function(maskName, x, y, sizex, sizey, opacity, rotation, dontD
 	return BMASKS.Masks[maskName].renderTarget
 end
 end
+
+hook.Add("InitPostEntity", "Filter Out Spam Errors", function()
+	RunConsoleCommand("con_filter_text", "")
+	RunConsoleCommand("con_filter_text_out", "Error")
+end)
