@@ -162,6 +162,8 @@ inspecting_weapon = false
 concommand.Add("inspect", function()
 	inspecting_weapon = not inspecting_weapon
 
+	if (GetConVar("moat_inspect_stats"):GetInt() ~= 1) then return end
+
 	if (not inspecting_weapon) then
 		m_DrawFoundItem({}, "remove_inspect")
 		if (IsValid(MOAT_INSPECT_BG)) then MOAT_INSPECT_BG:Remove() end	
@@ -227,7 +229,10 @@ end)
 hook.Add("PlayerSwitchWeapon", "Moat.Inspect.Switch", function(ply, oldw, neww)
 	inspecting_weapon = false
 	inspect_vars = {0, 0, 0, 0}
-	m_DrawFoundItem({}, "remove_inspect")
+
+	if (GetConVar("moat_inspect_stats"):GetInt() == 1) then
+		m_DrawFoundItem({}, "remove_inspect")
+	end
 end)
 
 local stop_keys = {
@@ -242,7 +247,10 @@ hook.Add("KeyPress", "Moat.Inspect.Cmd", function(ply, key)
 	if ((inspecting_weapon or (inspect_vars[1] > 0.001 or inspect_vars[2] > 0.001 or inspect_vars[3] > 0.01 or inspect_vars[4] > 0.001)) and (stop_keys[key])) then
 		inspecting_weapon = false
 		inspect_vars = {0, 0, 0, 0}
-		m_DrawFoundItem({}, "remove_inspect")
+
+		if (GetConVar("moat_inspect_stats"):GetInt() == 1) then
+			m_DrawFoundItem({}, "remove_inspect")
+		end
 	end
 end)
 

@@ -50,7 +50,8 @@ local moat_convars = {
     ["moat_scoreboard_ping"] = 0,
     ["moat_skybox"] = 0,
     ["moat_droppaint"] = 0,
-    ["moat_round_music_christmas"] = 1
+    ["moat_round_music_christmas"] = 1,
+    ["moat_inspect_stats"] = 1
 }
 
 local function moat_InitializeConvars()
@@ -127,7 +128,8 @@ local moat_Settings = {
         {"Inventory Effects Visible", {"Multi"}, "moat_EnableEffects"},
         {"Inventory Effects Halos Visible", {"Multi"}, "moat_EnableEffectHalos"},
         {"Flip Weapon View Models", {"Multi"}, "moat_ViewModelFlip"},
-        {"Disable 3D Skybox (Can Increase FPS)", {"Multi"}, "moat_skybox"}
+        {"Disable 3D Skybox (Can Increase FPS)", {"Multi"}, "moat_skybox"},
+        {"Display Item Stats when Inspecting Weapons", {"Multi"}, "moat_inspect_stats"},
     },
     {"HUD",
         {"Revert to Default HUD", {"Multi"}, "moat_DisableCustomHUD"},
