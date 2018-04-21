@@ -134,7 +134,7 @@ local function moat_send_killcard(pl, att, dmg)
 	end
 	if (att == pl) then dmg_str = "Couldn't Take it Anymore :(" end
 	if (pl.ignite_info and dmg:IsDamageType(DMG_DIRECT)) then dmg_str = "Burned to a Crisp" end
-	if (pl.was_pushed and dmg:IsDamageType(DMG_FALL)) then dmg_str = "Pushed You" end
+	//if (pl.was_pushed and dmg:IsDamageType(DMG_FALL)) then dmg_str = "Pushed You" end
 	net.WriteString(dmg_str)
 
 	if (inf and IsValid(inf) and inf:IsWeapon()) then

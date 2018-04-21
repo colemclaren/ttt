@@ -592,6 +592,8 @@ function MOAT_KILLCARDS.ReceiveDeath(l)
 		end
 	end
 
+	if (info.hp > 999999999) then info.hp = 0 end
+	
 	MOAT_KILLCARDS:DrawDeathCard(info.role, info.id, info.name, info.wpn, info.hp, info.max_hp, GetRoundState())
 end
 net.Receive("moat_killcard_kill", MOAT_KILLCARDS.ReceiveDeath)
