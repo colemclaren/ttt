@@ -693,11 +693,6 @@ function GM:PlayerTraceAttack(ply, dmginfo, dir, trace)
 end
 
 function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
-    if dmginfo:IsBulletDamage() and ply:HasEquipmentItem(EQUIP_ARMOR) then
-        -- Body armor nets you a damage reduction.
-        dmginfo:ScaleDamage(0.7)
-    end
-
     ply.was_headshot = false
 
     -- actual damage scaling
@@ -713,6 +708,11 @@ function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
     elseif (hitgroup == HITGROUP_LEFTARM or hitgroup == HITGROUP_RIGHTARM or hitgroup == HITGROUP_LEFTLEG or hitgroup == HITGROUP_RIGHTLEG or hitgroup == HITGROUP_GEAR) then
         dmginfo:ScaleDamage(0.55)
     end
+
+   if dmginfo:IsBulletDamage() and ply:HasEquipmentItem(EQUIP_ARMOR) then
+      -- Body armor nets you a damage reduction.
+      dmginfo:ScaleDamage(0.5)
+   end
 
     -- Keep ignite-burn damage etc on old levels
     if (dmginfo:IsDamageType(DMG_DIRECT) or dmginfo:IsExplosionDamage() or dmginfo:IsDamageType(DMG_FALL) or dmginfo:IsDamageType(DMG_PHYSGUN)) then
