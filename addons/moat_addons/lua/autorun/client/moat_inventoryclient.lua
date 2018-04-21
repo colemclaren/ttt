@@ -5802,7 +5802,7 @@ function m_DrawFoundItem(tbl, s_type)
     m_LoadoutTypes[2] = "Primary"
     local extra_y_padding = 20
 
-    if (s_type == "chat" or s_type == "remove_chat") then
+    if (s_type == "chat" or s_type == "remove_chat" or s_type == "inspect" or s_type == "remove_inspect") then
         if (IsValid(MOAT_ITEM_STATS)) then
             MOAT_ITEM_STATS:Remove()
         end
@@ -5816,13 +5816,14 @@ function m_DrawFoundItem(tbl, s_type)
         end
 
         MOAT_ITEM_IS_BEING_DRAWN = false
-        if (s_type == "remove_chat") then return end
+        if (s_type == "remove_chat" or s_type == "remove_inspect") then return end
     end
 
     MOAT_ITEM_IS_BEING_DRAWN = true
     MOAT_ITEM_STATS = vgui.Create("DPanel")
     MOAT_ITEM_STATS:SetDrawOnTop(true)
     MOAT_ITEM_STATS:SetSize(275, 150)
+    MOAT_ITEM_STATS.StatTbl = itemtbl
     local drawn_stats = 0
     local draw_stats_x = 7
     local draw_stats_multi = 0
@@ -6217,6 +6218,15 @@ function m_DrawFoundItem(tbl, s_type)
 
             MOAT_ITEM_STATS:SetTall(panel_height)
         end
+    end
+
+    if (s_type == "inspect") then
+        MOAT_ITEM_STATS:SetPos(ScrW() - MOAT_ITEM_STATS:GetWide() - 50, 50)
+
+        MOAT_ITEM_STATS:SetAlpha(0)
+        MOAT_ITEM_STATS:AlphaTo(255, 0.5, 0)
+
+        return
     end
 
     if (s_type == "chat") then

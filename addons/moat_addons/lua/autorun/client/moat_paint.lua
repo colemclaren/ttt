@@ -94,10 +94,86 @@ function MOAT_PAINT.ApplyPaint(vm, pl, wpn)
 end
 hook.Add("PreDrawViewModel", "MOAT_PAINT.ApplyPaint", MOAT_PAINT.ApplyPaint)*/
 
+local blur = Material("pp/blurscreen")
+local function DrawBlur(panel, amount)
+    local x, y = panel:LocalToScreen(0, 0)
+    local scrW, scrH = ScrW(), ScrH()
+    surface.SetDrawColor(255, 255, 255)
+    surface.SetMaterial(blur)
 
+    for i = 1, 3 do
+        blur:SetFloat("$blur", (i / 3) * (amount or 6))
+        blur:Recompute()
+        render.UpdateScreenEffectTexture()
+        surface.DrawTexturedRect(x * -1, y * -1, scrW, scrH)
+    end
+end
+
+if (IsValid(MOAT_INSPECT_BG)) then MOAT_INSPECT_BG:Remove() end
+local function create_inspect_bg(tbl)
+	MOAT_INSPECT_BG = vgui.Create("DFrame")
+	MOAT_INSPECT_BG:SetTitle("")
+	MOAT_INSPECT_BG:ShowCloseButton(false)
+	MOAT_INSPECT_BG:SetPos(ScrW() - 50 - 275 - 15, 50 - 15)
+	MOAT_INSPECT_BG:SetSize(275 + 30, 150 + 30)
+	MOAT_INSPECT_BG.Think = function(s, w, h)
+		if (IsValid(MOAT_ITEM_STATS) and MOAT_ITEM_STATS.StatTbl and MOAT_ITEM_STATS.StatTbl == tbl) then
+			local px, py = MOAT_ITEM_STATS:GetPos()
+			local pw, ph = MOAT_ITEM_STATS:GetSize()
+			MOAT_ITEM_STATS:SetPos(ScrW() - pw - 50, 50)
+
+			s:SetPos(px - 15, py - 15)
+			s:SetSize(pw + 30, ph + 30)
+		else
+			MOAT_INSPECT_BG:Remove()
+			return
+		end
+	end
+	MOAT_INSPECT_BG.Paint = function(s, w, h)
+		--DrawBlur(s, 5) 32, 34, 37
+		surface.SetDrawColor(32, 34, 37, 255)
+		surface.DrawRect(0, 0, w, h)
+
+		surface.SetDrawColor(47, 49, 54, 255)
+		surface.DrawRect(10, 10, w - 20, h - 20)
+
+		DisableClipping(true)
+
+		surface.SetDrawColor(32, 34, 37, 255)
+		draw.NoTexture()
+		surface.DrawPoly({
+			{x = w/8, y = h},
+			{x = (w/8) * 7, y = h},
+			{x = -25, y = h + 75},
+		})
+
+		surface.SetDrawColor(47, 49, 54, 255)
+		surface.DrawPoly({
+			{x = (w/8) + 30, y = h - 15},
+			{x = ((w/8) * 7) + 10, y = h - 15},
+			{x = -25 + 32, y = h + 75 - 20},
+		})
+
+		DisableClipping(false)
+	end
+end
 
 inspecting_weapon = false
-concommand.Add("inspect", function() inspecting_weapon = not inspecting_weapon end)
+concommand.Add("inspect", function()
+	inspecting_weapon = not inspecting_weapon
+
+	if (not inspecting_weapon) then
+		m_DrawFoundItem({}, "remove_inspect")
+		if (IsValid(MOAT_INSPECT_BG)) then MOAT_INSPECT_BG:Remove() end	
+		return
+	end
+
+	local wep = LocalPlayer():GetActiveWeapon()
+	if (not IsValid(wep) or not wep.ItemStats or not wep.ItemStats.item) then return end
+
+	create_inspect_bg(wep.ItemStats)
+	m_DrawFoundItem(wep.ItemStats, "inspect")
+end)
 
 local inspect_vars = {0, 0, 0, 0}
 
@@ -151,6 +227,7 @@ end)
 hook.Add("PlayerSwitchWeapon", "Moat.Inspect.Switch", function(ply, oldw, neww)
 	inspecting_weapon = false
 	inspect_vars = {0, 0, 0, 0}
+	m_DrawFoundItem({}, "remove_inspect")
 end)
 
 local stop_keys = {
@@ -165,6 +242,7 @@ hook.Add("KeyPress", "Moat.Inspect.Cmd", function(ply, key)
 	if ((inspecting_weapon or (inspect_vars[1] > 0.001 or inspect_vars[2] > 0.001 or inspect_vars[3] > 0.01 or inspect_vars[4] > 0.001)) and (stop_keys[key])) then
 		inspecting_weapon = false
 		inspect_vars = {0, 0, 0, 0}
+		m_DrawFoundItem({}, "remove_inspect")
 	end
 end)
 
