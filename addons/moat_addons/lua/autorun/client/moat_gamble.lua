@@ -3609,6 +3609,7 @@ net.Receive("gversus.FinishGame",function()
 	end)
 	if not gversus_players[ply][1] then
 		gversus_players[ply] = nil
+		return
 	end
 	steamworks.RequestPlayerInfo(gversus_players[ply][1], function()
 		winname = steamworks.GetPlayerName(gversus_players[ply][1])
