@@ -758,9 +758,19 @@ local function CleanUp()
             table.insert(tbl, v)
         end
     end*/
-    
+    local prop_classes = {
+        ["prop_dynamic"] = true,
+        ["prop_physics"] = true,
+        ["func_breakable"] = true,
+        ["prop_physics_multiplayer"] = true
+    }
+
     local tbl = {}
     for k, v in ipairs(ents.GetAll()) do
+        if (prop_classes[v:GetClass()]) then
+            v:Remove()
+            continue
+        end
         if (v:IsWeapon() or v:IsRagdoll()) then
             if (not tbl[v:GetClass()]) then
                 tbl[v:GetClass()] = true
