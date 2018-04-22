@@ -657,9 +657,12 @@ local m_color_green = Color(40, 255, 40)
 local m_color_red = Color(255, 40, 40)
 local talents_spacer = 25
 local appl = "apple_pie"
+local stat_anim = 10
+local saved_itemtbl = nil
 
 function m_DrawItemStats(font, x, y, itemtbl, pnl)
     local ctrldown = input.IsKeyDown(KEY_LCONTROL)
+    --pnl.AnimVal = Lerp(FrameTime() * stat_anim, pnl.AnimVal, 1)
 
     if (not pnl.savewide) then pnl.savewide = pnl:GetWide() end
 
@@ -832,7 +835,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         if (not table.HasValue(default_stats, stat_str) and not table.HasValue(level_stats, stat_str)) then
             m_DrawShadowedText(1, stat_str, font, x, y + stats_y_add, Color(255, 255, 255))
             local box_width = pnl:GetWide() - 14
-            local stat_width = v * (box_width)
+            local stat_width = (v * (box_width)) * (pnl.AnimVal or 1)
             surface_SetDrawColor(0, 0, 0)
             surface_DrawRect(x + 1, y + 16 + 1 + stats_y_add, box_width, 5)
             surface_SetDrawColor(stat_color.r, stat_color.g, stat_color.b, 25)
@@ -2812,7 +2815,7 @@ function m_OpenInventory(ply2, utrade)
     local draw_stats_multi = 0
     local draw_xp_lvl = 9
     local draw_stats_y = 26 + 21 + draw_xp_lvl
-
+    MOAT_INV_S.AnimVal = 0
     MOAT_INV_S.Paint = function(s, w, h)
         local ITEM_HOVERED = m_Inventory[m_HoveredSlot]
 
@@ -3017,6 +3020,13 @@ function m_OpenInventory(ply2, utrade)
         end
 
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
+            s.AnimVal = Lerp(FrameTime() * stat_anim, s.AnimVal, 1)
+
+            if (not s.SavedItem or (s.SavedItem ~= ITEM_HOVERED)) then
+                s.AnimVal = 0
+                s.SavedItem = ITEM_HOVERED
+            end
+
             local ITEM_NAME_FULL = ""
 
             if (ITEM_HOVERED.item.Kind == "tier") then
@@ -3153,6 +3163,7 @@ function m_OpenInventory(ply2, utrade)
             s:SetPos(gui.MouseX() - x2 + gui_frame_off, gui.MouseY() - (panel_height) + y2 - gui_frame_off)
             s:SetAlpha(255)
         else
+            s.AnimVal = 0
             s:SetAlpha(0)
         end
     end
@@ -4760,12 +4771,14 @@ function m_CreateItemMenu(num, ldt)
         moat_imagehack = true
         hook.Add("HudPaint","Mid Framegg",function()
             m_HoveredSlot = num
+            MOAT_INV_S.AnimVal = 1
             MOAT_INV_S.ctrldown = true
             hook.Remove("HudPaint","Mid Framegg")
         end)
         hook.Add( "PostRender", "Gay render capture rules", function()
             local w = MOAT_INV_S:GetWide()
             local h = MOAT_INV_S:GetTall()
+            MOAT_INV_S.AnimVal = 1
             local data = render.Capture( {
                 format = "jpeg",
                 quality = 80,
@@ -4810,7 +4823,7 @@ function m_CreateItemMenu(num, ldt)
                     image = util.Base64Encode(data)
                 },
             })
-            m_HoveredSlot = num
+            m_HoveredSlot = nil
             hook.Remove("PostRender", "Gay render capture rules")
         end )
         render.Spin()
@@ -5878,7 +5891,7 @@ function m_DrawFoundItem(tbl, s_type)
     local draw_stats_multi = 0
     local draw_xp_lvl = 9
     local draw_stats_y = 26 + 21 + draw_xp_lvl
-
+    MOAT_ITEM_STATS.AnimVal = 1
     MOAT_ITEM_STATS.Paint = function(s, w, h)
         s.ctrldown = input.IsKeyDown(KEY_LCONTROL)
 
