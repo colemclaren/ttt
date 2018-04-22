@@ -166,7 +166,6 @@ net.Receive("DL_AskOldLogRounds", function(_, ply)
 		local query_str = "SELECT date,map FROM damagelog_oldlogs WHERE date BETWEEN strftime(\"%s\", \"".._date.." 00:00:00\") AND strftime(\"%s\", \"".._date.." 23:59:59\") ORDER BY date ASC;"
 		local result = sql.Query(query_str)
 		if not result then result = {} end
-		print(2,result)
 		net.Start("DL_SendOldLogRounds")
 		net.WriteUInt(id, 32)
 		net.WriteTable(result)
