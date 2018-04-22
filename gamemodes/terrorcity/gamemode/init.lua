@@ -356,19 +356,83 @@ local function CleanUp()
     -- if we are going to import entities, it's no use replacing HL2DM ones as
     -- soon as they spawn, because they'll be removed anyway
     et.SetReplaceChecking(not et.CanImportEntities(game.GetMap()))
-    et.FixParentedPreCleanup()
-    game.CleanUpMap()
-    et.FixParentedPostCleanup()
 
-    -- Strip players now, so that their weapons are not seen by ReplaceEntities
-    for k, v in pairs(player.GetAll()) do
-        if IsValid(v) then
-            v:StripWeapons()
+   for k,v in ipairs(player.GetAll()) do
+      if IsValid(v) then
+         v:StripWeapons()
+      end
+   end
+
+    /*local tbl = {}
+    for k, v in ipairs(ents.GetAll()) do
+        if (not v:IsPlayer() and not v:IsWorld()) then
+            if (v:IsWeapon()) then
+                v:SetOwner()
+                v:Remove()
+                continue
+            end
+            table.insert(tbl, v)
+        end
+    end*/
+
+    /*local test_tbl = {}
+    for k, v in ipairs(ents.GetAll()) do
+        if (not test_tbl[v:GetClass()]) then test_tbl[v:GetClass()] = true end
+    end
+
+    PrintTable(test_tbl)*/
+
+    local prop_classes = {
+        ["prop_dynamic"] = true,
+        ["prop_physics"] = true,
+        ["func_breakable"] = true,
+        ["prop_physics_multiplayer"] = true,
+        ["trigger_hurt"] = true,
+        ["trigger_push"] = true
+    }
+
+    ServerLog("Starting Cleanup Map\n")
+
+    local tbl = {}
+    for k, v in ipairs(ents.GetAll()) do
+        --ServerLog(v:GetClass() .. "\n")
+
+        if (prop_classes[v:GetClass()]) then
+            v:Remove()
+            continue
+        end
+        if (v:IsWeapon() or v:IsRagdoll()) then
+            if (not tbl[v:GetClass()]) then
+                tbl[v:GetClass()] = true
+                table.insert(tbl, v:GetClass())
+            end
+
+            if (v:IsWeapon()) then v:SetOwner(nil) end
+            v:Remove()
         end
     end
 
-    -- a different kind of cleanup
-    util.SafeRemoveHook("PlayerSay", "ULXMeCheck")
+    ServerLog("Looped Through Entities\n")
+
+    et.FixParentedPreCleanup()
+
+    game.CleanUpMap(false, tbl)
+
+    ServerLog("Clean Up 1\n")
+
+    game.CleanUpMap()
+
+    ServerLog("Clean Up 2\n")
+
+    --for k, v in ipairs(tbl) do if (IsValid(v)) then v:Remove() end end
+
+    et.FixParentedPostCleanup()
+
+   -- a different kind of cleanup
+
+   util.SafeRemoveHook("PlayerSay", "ULXMeCheck")
+
+    ServerLog("Function Finished\n")
 end
 
 local function SpawnEntities()
