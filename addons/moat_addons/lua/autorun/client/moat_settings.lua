@@ -2,6 +2,8 @@ local moat_convars = {
     ["moat_round_music"] = 1,
     ["moat_round_music_volume"] = 0.75,
     ["moat_clfov"] = 0.428571429,
+    ["moat_chatplanetary"] = 1,
+    ["moat_chatjackpot"] = 1,
     ["moat_showstats_spawn"] = 1,
     ["moat_showstats_pickup"] = 1,
     ["moat_obtain_cosmetics"] = 0,
@@ -173,6 +175,8 @@ local moat_Settings = {
         {"Auto-Deconstruct filter Model Cosmetics", {"Multi"}, "moat_auto_deconstruct_model"}
     },
     {"Chat",
+        {"Diplay Jackpot wins in chat", {"Multi"}, "moat_chatjackpot"},
+        {"Display Planetary drops in chat", {"Multi"}, "moat_chatplanetary"},
         {"Gangsta Speech Mode", {"Multi"}, "moat_gangsta"},
         {"Hear TTS when available", {"Multi"}, "moat_text_to_speech"},
         {"Minimum rarity required to see others obtaining items", {"MultiText", "Worn", "Standard", "Specialized", "Superior", "High-End", "Ascended"}, "moat_chat_obtain_rarity"},

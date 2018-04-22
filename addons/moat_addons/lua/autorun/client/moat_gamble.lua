@@ -3607,7 +3607,9 @@ net.Receive("gversus.FinishGame",function()
 	steamworks.RequestPlayerInfo(ply, function()
 		plyname = steamworks.GetPlayerName(ply)
 	end)
-
+	if not gversus_players[ply][1] then
+		gversus_players[ply] = nil
+	end
 	steamworks.RequestPlayerInfo(gversus_players[ply][1], function()
 		winname = steamworks.GetPlayerName(gversus_players[ply][1])
 	end)
@@ -4312,5 +4314,29 @@ net.Receive("Moat.GlobalAnnouncement",function()
 end)
 
 net.Receive("Moat.JackpotWin",function()
+	if (not GetConVar("moat_chatjackpot"):GetBool()) then return end
+
 	chat.AddText(Color(255,255,255),"[",Color(255,255,0),"JACKPOT",Color(255,255,255),"] ",Color(255,0,0),net.ReadString(),Color(255,255,255), " just won ",Color(255,255,0),string.Comma(net.ReadInt(32)) .. " IC",Color(255,255,255)," (" .. math.Round(net.ReadFloat(),2) .. "%) in jackpot!")
+end)
+
+net.Receive("Moat.PlanetaryDrop",function()
+	if (not GetConVar("moat_chatplanetary"):GetBool()) then return end
+	local name = net.ReadString()
+	local text = net.ReadString()
+	local tab = {
+		Color(255,255,255) ,"[", Color(0,255,0) ,"PLANTERAY", Color(255,255,255), "] ", Color(255,0,0) ,name, Color(255,255,255), " just dropped a Planetary: ",
+	}
+    
+    for i = 1, #text do
+        local col = HSVToColor( i * 40 % 360, 1, 1 )
+        table.insert( tab, Color(col.r,col.g, col.b) )
+        local letter = string.sub( text, i, i )
+        table.insert( tab, letter )
+    end
+
+	table.insert(tab,Color(255,255,255))
+	table.insert(tab,"!")
+	print(name,text)
+	print(unpack(tab))
+	chat.AddText(unpack(tab))
 end)

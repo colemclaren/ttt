@@ -364,8 +364,8 @@ hook.Add("Think", "Think_Record", function()
 					vector = LerpVector(percent, next_scene[k].pos, v.pos)
 					angle = LerpAngle(percent, next_scene[k].ang, v.ang)
 				end
-				props[k]:SetPos(vector)
-				props[k]:SetAngles(angle)
+				props[k]:SetPos(vector or Vector(0,0,0))
+				props[k]:SetAngles(angle or Angle(0,0,0))
 				continue 
 			end
 			if models[k] and v.corpse and not models[k].corpse then

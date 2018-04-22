@@ -431,6 +431,22 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
             elseif (item_to_drop.Rarity == 9) then
                 BroadcastLua("sound.PlayURL('http://server.moatgaming.org/tttsounds/planetary.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
                 BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 25, 25, 15, 5000)")
+                local ITEM_HOVERED = item_to_drop
+                local wpnstr = item_to_drop.Name
+                local ITEM_NAME_FULL = ""
+                if (ITEM_HOVERED.Kind == "tier") then
+                    local ITEM_NAME = weapons.Get(dropped_item.w).PrintName or wpnstr
+
+                    if (string.EndsWith(ITEM_NAME, "_name")) then
+                        ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                        ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+                    end
+
+                    ITEM_NAME_FULL = ITEM_HOVERED.Name .. " " .. ITEM_NAME
+                else
+                    ITEM_NAME_FULL = ITEM_HOVERED.Name
+                end
+                gglobalchat_planetary(self:Nick(),ITEM_NAME_FULL)
             elseif (tonumber(dropped_item.u) == 912 or titan_tier_ids[tostring(dropped_item.u)]) then
                 BroadcastLua("sound.PlayURL('http://server.moatgaming.org/tttsounds/drops/shockwave.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
             end

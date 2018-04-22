@@ -2,6 +2,7 @@ util.AddNetworkString("MOAT_GAMBLE_CAT")
 util.AddNetworkString("MOAT_GAMBLE_GLOBAL")
 util.AddNetworkString("Moat.GlobalAnnouncement")
 util.AddNetworkString("Moat.JackpotWin")
+util.AddNetworkString("Moat.PlanetaryDrop")
 local MOAT_GAMBLE_CATS = {{"Mines", Color(150, 0, 255)}, {"Roulette", Color(255, 0, 50)}, {"Crash", Color(255, 255, 0)}, {"Jackpot", Color(0, 255, 0)}, {"Versus", Color(0, 255, 255)}}
 
 local function DiscordGamble(msg)
@@ -988,6 +989,12 @@ function jackpot_()
         q:start()
     end
 
+    function gglobalchat_planetary(name,gun)
+        local s = name .. "{420}" .. gun
+        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-420','" .. os.time() .. "','Console','" .. db:escape(s) .. "');")
+        q:start()
+    end
+
     local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_jpgames` ( ID int NOT NULL AUTO_INCREMENT, `time_end` int NOT NULL, `active` int NOT NULL, `cool` int, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
@@ -1466,6 +1473,12 @@ local function chat_()
                     net.WriteInt(t[2],32)
                     net.WriteFloat(t[3])
                     net.Broadcast()
+                elseif tostring(v.steamid) == "-420" then
+                    local t = string.Explode("{420}",v.msg)
+                    net.Start("Moat.PlanetaryDrop")
+                    net.WriteString(t[1])
+                    net.WriteString(t[2])
+                    net.Broadcast()
                 else
                     broadcastmsg(v)
                 end
@@ -1476,6 +1489,7 @@ local function chat_()
 
     print("Loaded global gamble chat")
 end
+
 
 if MINVENTORY_MYSQL then
     if c() then
