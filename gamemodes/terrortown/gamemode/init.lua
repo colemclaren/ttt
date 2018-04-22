@@ -741,24 +741,45 @@ local function CleanUp()
 
    et.SetReplaceChecking(not et.CanImportEntities(game.GetMap()))
 
-   for k,v in pairs(player.GetAll()) do
+   for k,v in ipairs(player.GetAll()) do
       if IsValid(v) then
          v:StripWeapons()
       end
    end
 
-   for k, v in pairs(ents.GetAll()) do
-      if v:IsWeapon() then
-         v:SetOwner()
-         v:Remove()
-      end
-   end
+    /*local tbl = {}
+    for k, v in ipairs(ents.GetAll()) do
+        if (not v:IsPlayer() and not v:IsWorld()) then
+            if (v:IsWeapon()) then
+                v:SetOwner()
+                v:Remove()
+                continue
+            end
+            table.insert(tbl, v)
+        end
+    end*/
+    
+    local tbl = {}
+    for k, v in ipairs(ents.GetAll()) do
+        if (v:IsWeapon() or v:IsRagdoll()) then
+            if (not tbl[v:GetClass()]) then
+                tbl[v:GetClass()] = true
+                table.insert(tbl, v:GetClass())
+            end
 
-   et.FixParentedPreCleanup()
+            if (v:IsWeapon()) then v:SetOwner(nil) end
+            v:Remove()
+        end
+    end
 
-   game.CleanUpMap()
+    et.FixParentedPreCleanup()
 
-   et.FixParentedPostCleanup()
+    game.CleanUpMap(false, tbl)
+    game.CleanUpMap()
+
+    --for k, v in ipairs(tbl) do if (IsValid(v)) then v:Remove() end end
+
+    et.FixParentedPostCleanup()
 
    -- a different kind of cleanup
 
