@@ -96,10 +96,10 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 		if (d and d[1]) then
 			D3A.Print(SteamID32 .. " | Connecting")
 
-			if (vip_server and (not d[1].rank or not vip_slots[d[1].rank])) then
+			/*if (vip_server and (not d[1].rank or not vip_slots[d[1].rank])) then
 				game.KickID(SteamID32, "This is the Moat.GG TTT Testing server. It is currently only accessable to VIP's and above. Please join one of our regular servers, sorry!")
 				return
-			end
+			end*/
 
 			D3A.Player.CheckReserved(SteamID32, d[1].rank or "user")
 		else
@@ -110,14 +110,32 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 				D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, def)
 			end)
 			
-			if (vip_server) then
+			/*if (vip_server) then
 				game.KickID(SteamID32, "This is the Moat.GG TTT Testing server. It is currently only accessable to VIP's and above. Please join one of our regular servers, sorry!")
 				return
-			end
+			end*/
 
 			D3A.Player.CheckReserved(SteamID32, "user")
 		end
 	end)
+
+	if (vip_server) then
+		D3A.MySQL.Query("SELECT stats_tbl FROM moat_stats WHERE `steamid` ='" .. SteamID32 .. "';", function(d)
+			if (d and d[1]) then
+				local t = d[1].stats_tbl
+				if (t) then
+					local t2 = util.JSONToTable(t)
+					if (t2) then
+						local lvl = t2.l
+						print "yep"
+						if (lvl and tonumber(lvl) >= 15) then return end
+					end
+				end
+			end
+
+			game.KickID(SteamID32, "This is the Moat.GG Terror City server. You must be at least level 15 to join, as it's a bit more advanced than regular TTT. Please join one of our regular servers, sorry!")
+		end)
+	end
 
 	/*D3A.MySQL.Query("CALL createUserInfo('" .. SteamID .. "', '" .. D3A.MySQL.Escape(Name) .. "', '" .. IP .. "', '" .. os.time() .. "');", function(d)
 		if (tonumber(d[1].Created) == 1) then
