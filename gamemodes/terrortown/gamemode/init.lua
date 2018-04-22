@@ -775,8 +775,12 @@ local function CleanUp()
         ["trigger_push"] = true
     }
 
+    ServerLog("Starting Cleanup Map\n")
+
     local tbl = {}
     for k, v in ipairs(ents.GetAll()) do
+        --ServerLog(v:GetClass() .. "\n")
+
         if (prop_classes[v:GetClass()]) then
             v:Remove()
             continue
@@ -792,10 +796,17 @@ local function CleanUp()
         end
     end
 
+    ServerLog("Looped Through Entities\n")
+
     et.FixParentedPreCleanup()
 
     game.CleanUpMap(false, tbl)
+
+    ServerLog("Clean Up 1\n")
+
     game.CleanUpMap()
+
+    ServerLog("Clean Up 2\n")
 
     --for k, v in ipairs(tbl) do if (IsValid(v)) then v:Remove() end end
 
@@ -805,6 +816,7 @@ local function CleanUp()
 
    util.SafeRemoveHook("PlayerSay", "ULXMeCheck")
 
+    ServerLog("Function Finished\n")
 end
 
 
