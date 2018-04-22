@@ -4324,7 +4324,7 @@ net.Receive("Moat.PlanetaryDrop",function()
 	local name = net.ReadString()
 	local text = net.ReadString()
 	local tab = {
-		Color(255,255,255) ,"[", Color(0,255,0) ,"PLANTERAY", Color(255,255,255), "] ", Color(255,0,0) ,name, Color(255,255,255), " just dropped a Planetary: ",
+		Color(255,255,255) ,"[", Color(0,255,0) ,"PLANETARY", Color(255,255,255), "] ", Color(255,0,0) ,name, Color(255,255,255), " just dropped a Planetary: ",
 	}
     
     for i = 1, #text do
