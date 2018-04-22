@@ -183,9 +183,9 @@ MOAT_THEME.Themes["Original"] = {
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(1, 1, w - 2, 25)
         local line_x = MOAT_INV_BG:GetWide() - (350 + 14) - 4 - 5
-        surface_SetDrawColor(Color(100, 100, 100, 50))
+        surface_SetDrawColor(100, 100, 100, 50)
         surface_DrawLine(0, 25, s:GetWide(), 25)
-        surface_SetDrawColor(Color(0, 0, 0, 100))
+        surface_SetDrawColor(0, 0, 0, 100)
         surface_DrawLine(0, 26, s:GetWide(), 26)
         DisableClipping(true)
         m_DrawShadowedText(1, "Moat Inventory " .. MOAT_VERSION, "moat_ItemDesc", w, h, Color(200, 200, 200, 255), TEXT_ALIGN_RIGHT)
@@ -198,14 +198,14 @@ MOAT_THEME.Themes["Original"] = {
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
         m_DrawShadowedText(1, m_DrawCredits, "moat_ItemDesc", w, 10, Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT)
         surface_SetMaterial(mat_coins)
-        surface_SetDrawColor(Color(255, 255, 255))
+        surface_SetDrawColor(255, 255, 255)
         surface_DrawTexturedRect(w - cred_w - 5 - 16, 9, 16, 16)
     end,
     CloseB = {714, 3, 33, 19},
     CLOSE_PAINT = function(s, w, h)
         draw_RoundedBoxEx(0, 0, 0, w, h, Color(28, 28, 25), false, true, false, true)
         draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(95, 95, 95))
-        surface_SetDrawColor(Color(137, 137, 137, 255))
+        surface_SetDrawColor(137, 137, 137, 255)
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(1, 1, w - 2, h - 2)
         draw_SimpleTextOutlined("r", "marlett", 17, 9, Color(157, 157, 157, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
@@ -267,7 +267,7 @@ MOAT_THEME.Themes["Original"] = {
             end
 
             draw_RoundedBox(0, 0, 0, 11, h, draw_color)
-            surface_SetDrawColor(Color(50, 50, 50, 255))
+            surface_SetDrawColor(50, 50, 50, 255)
             surface_SetMaterial(gradient_r)
             surface_DrawTexturedRect(0, 0, 11, h)
         end,
@@ -350,10 +350,10 @@ MOAT_THEME.Themes["Original"] = {
             surface_SetMaterial(gradient_d)
             surface_DrawTexturedRect(1, 1, w - 2, 25)
             local line_x = 350 - (350 + 14) - 4 - 5
-            surface_SetDrawColor(Color(100, 100, 100, 50))
+            surface_SetDrawColor(100, 100, 100, 50)
             surface_DrawLine(line_x, 26, line_x, s:GetTall())
             surface_DrawLine(0, 25, s:GetWide(), 25)
-            surface_SetDrawColor(Color(0, 0, 0, 100))
+            surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawLine(line_x + 1, 26, line_x + 1, s:GetTall())
             surface_DrawLine(0, 26, s:GetWide(), 26)
             local other_cols = (200 / 30) * s.Timer
@@ -387,7 +387,7 @@ MOAT_THEME.Themes["Light"] = {
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
         draw_SimpleTextOutlined(m_DrawCredits, "moat_ItemDesc", w, 10, s.Theme.TextColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         surface_SetMaterial(mat_coins)
-        surface_SetDrawColor(Color(255, 255, 255))
+        surface_SetDrawColor(255, 255, 255)
         surface_DrawTexturedRect(w - cred_w - 5 - 16, 9, 16, 16)
     end,
     CloseB = {727, 3, 20, 20},
@@ -550,7 +550,7 @@ MOAT_THEME.Themes["Dark"] = {
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
         draw_SimpleTextOutlined(m_DrawCredits, "moat_ItemDesc", w, 10, s.Theme.TextColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         surface_SetMaterial(mat_coins)
-        surface_SetDrawColor(Color(255, 255, 255))
+        surface_SetDrawColor(255, 255, 255)
         surface_DrawTexturedRect(w - cred_w - 5 - 16, 9, 16, 16)
     end,
     CloseB = {727, 3, 20, 20},
@@ -710,7 +710,7 @@ MOAT_THEME.Themes["Blur"] = {
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
         draw_SimpleTextOutlined(m_DrawCredits, "moat_ItemDesc", w, 10, s.Theme.TextColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         surface_SetMaterial(mat_coins)
-        surface_SetDrawColor(Color(255, 255, 255))
+        surface_SetDrawColor(255, 255, 255)
         surface_DrawTexturedRect(w - cred_w - 5 - 16, 9, 16, 16)
     end,
     CloseB = {727, 3, 20, 20},
@@ -884,7 +884,7 @@ MOAT_THEME.Themes["Clear"] = {
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
         draw_SimpleTextOutlined(m_DrawCredits, "moat_ItemDesc", w, 10, s.Theme.TextColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         surface_SetMaterial(mat_coins)
-        surface_SetDrawColor(Color(255, 255, 255))
+        surface_SetDrawColor(255, 255, 255)
         surface_DrawTexturedRect(w - cred_w - 5 - 16, 9, 16, 16)
     end,
     CloseB = {727, 3, 20, 20},
@@ -1068,7 +1068,7 @@ MOAT_THEME.Themes["Alpha"] = {
         local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
         draw_SimpleTextOutlined(m_DrawCredits, "moat_ItemDesc", w, 10, s.Theme.TextColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
         surface_SetMaterial(mat_coins)
-        surface_SetDrawColor(Color(255, 255, 255))
+        surface_SetDrawColor(255, 255, 255)
         surface_DrawTexturedRect(w - cred_w - 5 - 16, 9, 16, 16)
     end,
     CloseB = {728, 5, 17, 17},

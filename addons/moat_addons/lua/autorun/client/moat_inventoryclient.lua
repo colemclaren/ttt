@@ -833,10 +833,12 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             m_DrawShadowedText(1, stat_str, font, x, y + stats_y_add, Color(255, 255, 255))
             local box_width = pnl:GetWide() - 14
             local stat_width = v * (box_width)
-            draw_RoundedBox(0, x + 1, y + 16 + 1 + stats_y_add, box_width, 5, Color(0, 0, 0))
-            surface_SetDrawColor(Color(stat_color.r, stat_color.g, stat_color.b, 25))
+            surface_SetDrawColor(0, 0, 0)
+            surface_DrawRect(x + 1, y + 16 + 1 + stats_y_add, box_width, 5)
+            surface_SetDrawColor(stat_color.r, stat_color.g, stat_color.b, 25)
             surface_DrawRect(x, y + 16 + stats_y_add, box_width, 5)
-            draw_RoundedBox(0, x, y + 16 + stats_y_add, stat_width, 5, Color(stat_color.r, stat_color.g, stat_color.b, 25))
+            surface_SetDrawColor(stat_color.r, stat_color.g, stat_color.b, 25)
+            surface_DrawRect(x, y + 16 + stats_y_add, stat_width, 5)
             surface_SetDrawColor(stat_color)
             surface_SetMaterial(gradient_r)
             surface_DrawTexturedRect(x, y + 16 + stats_y_add, stat_width + 1, 5)
@@ -867,9 +869,9 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         if (itemtbl.tr) then mutated = " (Mutated)" end
 
         m_DrawShadowedText(1, num_talents .. " Talent" .. talents_s .. mutated, font, 6, y + stats_y_add, Color(0, 128, 255))
-        surface_SetDrawColor(Color(100, 100, 100, 50))
+        surface_SetDrawColor(100, 100, 100, 50)
         surface_DrawLine(6, y + stats_y_add + 0 + 15, pnl:GetWide() - 6, y + stats_y_add + 0 + 15)
-        surface_SetDrawColor(Color(0, 0, 0, 100))
+        surface_SetDrawColor(0, 0, 0, 100)
         surface_DrawLine(6, y + stats_y_add + 1 + 15, pnl:GetWide() - 6, y + stats_y_add + 1 + 15)
         local talent_name = ""
         local talent_desc = ""
@@ -939,9 +941,9 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             local talents_line_space = 3
 
             if (k ~= num_talents) then
-                surface_SetDrawColor(Color(100, 100, 100, 50))
+                surface_SetDrawColor(100, 100, 100, 50)
                 surface_DrawLine(6, y + stats_y_add + talents_y_add + talent_desc_h + talents_line_space, pnl:GetWide() - 6, y + stats_y_add + talents_y_add + talent_desc_h + talents_line_space)
-                surface_SetDrawColor(Color(0, 0, 0, 100))
+                surface_SetDrawColor(0, 0, 0, 100)
                 surface_DrawLine(6, y + stats_y_add + talents_y_add + talent_desc_h + talents_line_space + 1, pnl:GetWide() - 6, y + stats_y_add + talents_y_add + talent_desc_h + talents_line_space + 1)
             end
 
@@ -1401,8 +1403,10 @@ function m_OpenInventory(ply2, utrade)
         M_LINE.TimerActive = false
 
         M_LINE.Paint = function(s, w, h)
-            draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
-            draw_RoundedBox(0, 0, 0, w, h, Color(50, 50, 50, hover_coloral))
+            surface_SetDrawColor(0, 0, 0, 150)
+            surface_DrawRect(0, 0, w, h)
+            surface_SetDrawColor(50, 50, 50, hover_coloral)
+            surface_DrawRect(0, 0, w, h)
             surface_SetDrawColor(62, 62, 64, 255)
             surface_DrawOutlinedRect(0, 0, w, h)
 
@@ -1637,7 +1641,8 @@ function m_OpenInventory(ply2, utrade)
         local box_x = 5
         local box_y = 30
         local box_col = Color(0, 0, 0, 150)
-        draw_RoundedBox(0, 5, 30, w - (box_x * 2) - 7, h - box_y - 5, box_col)
+        surface_SetDrawColor(box_col)
+        surface_DrawRect(5, 30, w - (box_x * 2) - 7, h - box_y - 5)
     end
 
     M_BOUNTY_PNL = vgui.Create("DPanel", MOAT_INV_BG)
@@ -1770,9 +1775,9 @@ function m_OpenInventory(ply2, utrade)
             draw_SimpleText(cur_level, "moat_Medium3", 24, 5, MT_TCOL, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
             draw_SimpleText(cur_level + 1, "moat_Medium3", 346, 5, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
         end
-        surface_SetDrawColor(Color(137, 137, 137, 255))
+        surface_SetDrawColor(137, 137, 137, 255)
         surface_DrawOutlinedRect(29, 2, 312, 8)
-        surface_SetDrawColor(Color(200, 200, 200, 255))
+        surface_SetDrawColor(200, 200, 200, 255)
         surface_SetMaterial(gradient_r)
         surface_DrawTexturedRect(30, 3, 310, 6)
         local bar_width = 310
@@ -1780,7 +1785,8 @@ function m_OpenInventory(ply2, utrade)
         local cur_xp = LocalPlayer():GetNWInt("MOAT_STATS_XP", 1)
         local bar_times = (cur_xp / xp_needed)
         bar_width = bar_width * bar_times
-        draw_RoundedBox(0, 30 + bar_width, 0, 2, h, Color(255 - (255 * bar_times), 255 * bar_times, 0, 255))
+        surface_SetDrawColor(255 - (255 * bar_times), 255 * bar_times, 0, 255)
+        surface_DrawRect(30 + bar_width, 0, 2, h)
     end
 
     local M_INV_C = vgui.Create("DButton", MOAT_INV_BG)
@@ -1996,7 +2002,8 @@ function m_OpenInventory(ply2, utrade)
 
         surface_SetDrawColor(62, 62, 64, 255)
         surface_DrawOutlinedRect(0, 0, w, h)
-        draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(0, 0, 0, 100))
+        surface_SetDrawColor(0, 0, 0, 100)
+        surface_DrawRect(1, 1, w - 2, h - 2)
     end
 
     M_INV_SP.PaintOver = function(s, w, h)
@@ -2233,15 +2240,19 @@ function m_OpenInventory(ply2, utrade)
             local draw_h = h - 4
             local draw_y2 = 2 + ((h - 4) / 2)
             local draw_h2 = (h - 4) - ((h - 4) / 2)
-            draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(0, 0, 0, 100))
-            draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(50, 50, 50, hover_coloral))
+            surface_SetDrawColor(0, 0, 0, 100)
+            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+            surface_SetDrawColor(50, 50, 50, hover_coloral)
+            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
             if (not m_Inventory[num]) then return end
 
             if (m_Inventory[num].c) then
-                draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100))
+                surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
+                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
                 if (m_Inventory[num].l and m_Inventory[num].l == 1) then
-                    draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(255, 255, 255, 50))
+                    surface_SetDrawColor(255, 255, 255, 50)
+                    surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
                 end
 
                 surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2].r, rarity_names[m_Inventory[num].item.Rarity][2].g, rarity_names[m_Inventory[num].item.Rarity][2].b, 100 + hover_coloral)
@@ -2337,7 +2348,8 @@ function m_OpenInventory(ply2, utrade)
                 end
 
                 if (m_Inventory[num].decon) then
-                    draw_RoundedBox(0, 0, 0, w, h, Color(150, 0, 0, 200))
+                    surface_SetDrawColor(150, 0, 0, 200)
+                    surface_DrawRect(0, 0, w, h)
                 end
             end
         end
@@ -2571,7 +2583,8 @@ function m_OpenInventory(ply2, utrade)
             draw.DrawText(m_LoadoutLabels[num], "moat_Medium9", w / 2, -3, MT_TCOL, TEXT_ALIGN_CENTER)
             surface_SetDrawColor(62, 62, 64, 255)
             surface_DrawOutlinedRect(0, 0 + y2, w, h - y2)
-            draw_RoundedBox(0, 1, 1 + y2, w - 2, h - 2 - y2, Color(0, 0, 0, 100))
+            surface_SetDrawColor(0, 0, 0, 100)
+            surface_DrawRect(1, 1 + y2, w - 2, h - 2 - y2)
             local draw_x = 2 + 3
             local draw_y = 2 + y2 + 3
             local draw_w = w - 4 - 6
@@ -2585,12 +2598,15 @@ function m_OpenInventory(ply2, utrade)
                 return
             end
 
-            draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(0, 0, 0, 100))
-            draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(50, 50, 50, hover_coloral))
+            surface_SetDrawColor(0, 0, 0, 100)
+            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+            surface_SetDrawColor(50, 50, 50, hover_coloral)
+            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
             if (not m_Inventory[num]) then return end
 
             if (m_Loadout[num].c) then
-                draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100))
+                surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
+                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
                 surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2].r, rarity_names[m_Loadout[num].item.Rarity][2].g, rarity_names[m_Loadout[num].item.Rarity][2].b, 100 + hover_coloral)
                 surface_SetMaterial(gradient_d)
                 surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
@@ -2856,11 +2872,12 @@ function m_OpenInventory(ply2, utrade)
             surface_SetDrawColor(100, 100, 100, 50)
             surface_DrawOutlinedRect(0, 0, w, h)
             --draw_RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 100 ) )
-            draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(15, 15, 15, 250))
-            surface_SetDrawColor(Color(100, 100, 100, 50))
+            surface_SetDrawColor(15, 15, 15, 250)
+            surface_DrawRect(1, 1, w - 2, h - 2)
+            surface_SetDrawColor(100, 100, 100, 50)
             surface_DrawLine(6, 22 + draw_xp_lvl, w - 6, 22 + draw_xp_lvl)
             surface_DrawLine(6, 43 + draw_xp_lvl, w - 6, 43 + draw_xp_lvl)
-            surface_SetDrawColor(Color(0, 0, 0, 100))
+            surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawLine(6, 23 + draw_xp_lvl, w - 6, 23 + draw_xp_lvl)
             surface_DrawLine(6, 44 + draw_xp_lvl, w - 6, 44 + draw_xp_lvl)
             surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2])
@@ -2875,7 +2892,7 @@ function m_OpenInventory(ply2, utrade)
             surface_SetMaterial(gradient_r)
             surface_DrawTexturedRectRotated(grad_x2, grad_y2, grad_w, grad_h, 180)
             surface_SetMaterial(gradient_d)
-            surface_SetDrawColor(Color(rarity_names[ITEM_HOVERED.item.Rarity][2].r, rarity_names[ITEM_HOVERED.item.Rarity][2].g, rarity_names[ITEM_HOVERED.item.Rarity][2].b, 100))
+            surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2].r, rarity_names[ITEM_HOVERED.item.Rarity][2].g, rarity_names[ITEM_HOVERED.item.Rarity][2].b, 100)
             --surface_DrawTexturedRect( 1, 1 + ( h / 2 ), w - 2, ( h / 2 ) - 2 )
             local RARITY_TEXT = ""
 
@@ -2961,10 +2978,11 @@ function m_OpenInventory(ply2, utrade)
                 local nt_ = 0
                 if (ITEM_HOVERED.n) then nt_ = 15 end
 
-                draw_RoundedBox(0, 6, 27 + nt_, w - 12, 2, Color(255, 255, 255, 20))
+                surface_SetDrawColor(255, 255, 255, 20)
+                surface_DrawRect(6, 27 + nt_, w - 12, 2)
                 local bar_width = w - 12
                 local xp_bar_width = bar_width * (ITEM_HOVERED.s.x / (ITEM_HOVERED.s.l * 100))
-                surface_SetDrawColor(Color(200, 200, 200, 255))
+                surface_SetDrawColor(200, 200, 200, 255)
                 surface_SetMaterial(gradient_r)
                 surface_DrawTexturedRect(7, 27 + nt_, xp_bar_width, 2)
             end
@@ -3242,16 +3260,17 @@ function m_OpenInventory(ply2, utrade)
                 surface_SetDrawColor(62, 62, 64, 255)
                 surface_DrawOutlinedRect(offer1_x, offer1_y, offer1_w, offer1_h + 19)
                 surface_DrawOutlinedRect(offer2_x, offer2_y, offer2_w, offer2_h + 19)
-                draw_RoundedBox(0, offer1_x + 1, offer1_y + 1, offer1_w - 2, offer1_h - 2 + 19, Color(0, 0, 0, 100))
-                draw_RoundedBox(0, offer2_x + 1, offer2_y + 1, offer2_w - 2, offer2_h - 2 + 19, Color(0, 0, 0, 100))
+                surface_SetDrawColor(0, 0, 0, 100)
+                surface_DrawRect(offer1_x + 1, offer1_y + 1, offer1_w - 2, offer1_h - 2 + 19)
+                surface_DrawRect(offer2_x + 1, offer2_y + 1, offer2_w - 2, offer2_h - 2 + 19)
                 surface_SetDrawColor(62, 62, 64, 255)
                 surface_DrawOutlinedRect(offer1_x, offer1_y, offer1_w, offer1_h + 19)
                 surface_DrawOutlinedRect(offer2_x, offer2_y, offer2_w, offer2_h + 19)
                 surface_SetMaterial(mat_coins)
-                surface_SetDrawColor(Color(255, 255, 255))
+                surface_SetDrawColor(255, 255, 255)
                 surface_DrawTexturedRect(offer1_x + 4, offer1_y + offer1_h - 1, 16, 16)
                 surface_DrawTexturedRect(offer2_x + 4, offer2_y + offer2_h - 1, 16, 16)
-                surface_SetDrawColor(Color(0, 0, 0, 100))
+                surface_SetDrawColor(0, 0, 0, 100)
                 surface_DrawRect(offer1_x + 4 + 20, offer1_y + offer1_h - 1, offer2_w - 8 - 20, 16)
                 surface_DrawRect(offer2_x + 4 + 20, offer2_y + offer2_h - 1, offer2_w - 8 - 20, 16)
                 if (MT_TSHADOW) then
@@ -3263,33 +3282,35 @@ function m_OpenInventory(ply2, utrade)
                 end
                 surface_SetDrawColor(62, 62, 64, 255)
                 surface_DrawOutlinedRect(offer2_x, offer2_y + offer2_h - 1 + 23, s:GetWide(), 96)
-                draw_RoundedBox(0, offer2_x + 1, offer2_y + offer2_h + 1 + 23, s:GetWide() - 2, 96 - 2, Color(0, 0, 0, 100))
+                surface_SetDrawColor(0, 0, 0, 100)
+                surface_DrawRect(offer2_x + 1, offer2_y + offer2_h + 1 + 23, s:GetWide() - 2, 96 - 2)
                 surface_DrawOutlinedRect(offer2_x, offer2_y + offer2_h - 1 + 23, s:GetWide(), 96)
                 surface_SetDrawColor(62, 62, 64, 255)
                 surface_DrawLine(offer2_x + 1, offer2_y + offer2_h - 2 + 23 + 96 - 16, s:GetWide() - 1, offer2_y + offer2_h - 2 + 23 + 96 - 16)
                 surface_DrawLine(offer2_x + 1, offer2_y + offer2_h - 2 + 23 + 96 - 16, s:GetWide() - 1, offer2_y + offer2_h - 2 + 23 + 96 - 16)
-                draw_RoundedBox(0, offer2_x + 2, offer2_y + offer2_h - 1 + 23 + 96 - 16 + 1, s:GetWide() - 2 - 2, 14, Color(0, 0, 0, 100))
+                surface_SetDrawColor(0, 0, 0, 100)
+                surface_DrawRect(offer2_x + 2, offer2_y + offer2_h - 1 + 23 + 96 - 16 + 1, s:GetWide() - 2 - 2, 14)
                 if (MT_TSHADOW) then
                     m_DrawShadowedText(1, "Enter a message here...", "moat_ItemDesc", offer2_x + 4, offer2_y + offer2_h - 1 + 23 + 96 - 16, Color(255, 255, 255, M_TRADE_CHAT_LBL_COL))
                 else
                     draw_SimpleText("Enter a message here...", "moat_ItemDesc", offer2_x + 4, offer2_y + offer2_h - 1 + 23 + 96 - 16, Color(255, 255, 255, M_TRADE_CHAT_LBL_COL))
                 end
                 if (s.ACCEPTED == 1) then
-                    surface_SetDrawColor(Color(0, 100, 0, 200))
+                    surface_SetDrawColor(0, 100, 0, 200)
                 elseif (s.ACCEPTED == 2) then
-                    surface_SetDrawColor(Color(0, 200, 0, 200))
+                    surface_SetDrawColor(0, 200, 0, 200)
                 else
-                    surface_SetDrawColor(Color(0, 0, 0, 200))
+                    surface_SetDrawColor(0, 0, 0, 200)
                 end
 
                 surface_DrawRect(offer1_x + offer1_w + 4, offer1_y, 14, offer1_h + 19)
 
                 if (s.ACCEPTED2 == 1) then
-                    surface_SetDrawColor(Color(0, 100, 0, 200))
+                    surface_SetDrawColor(0, 100, 0, 200)
                 elseif (s.ACCEPTED2 == 2) then
-                    surface_SetDrawColor(Color(0, 200, 0, 200))
+                    surface_SetDrawColor(0, 200, 0, 200)
                 else
-                    surface_SetDrawColor(Color(0, 0, 0, 200))
+                    surface_SetDrawColor(0, 0, 0, 200)
                 end
 
                 surface_DrawRect(offer2_x + offer2_w + 4, offer2_y, 14, offer2_h + 19)
@@ -3371,11 +3392,14 @@ function m_OpenInventory(ply2, utrade)
                         return
                     end
 
-                    draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(0, 0, 0, 100))
-                    draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(50, 50, 50, hover_coloral))
+                    surface_SetDrawColor(0, 0, 0, 100)
+                    surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+                    surface_SetDrawColor(50, 50, 50, hover_coloral)
+                    surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
                     if (m_Trade[num].c) then
-                        draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100))
+                        surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
+                        surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
                         surface_SetDrawColor(rarity_names[m_Trade[num].item.Rarity][2].r, rarity_names[m_Trade[num].item.Rarity][2].g, rarity_names[m_Trade[num].item.Rarity][2].b, 100 + hover_coloral)
                         surface_SetMaterial(gradient_d)
                         surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
@@ -3694,7 +3718,8 @@ function m_OpenInventory(ply2, utrade)
                     green_col = 50
                 end
 
-                draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
+                surface_SetDrawColor(0, 0, 0, 255)
+                surface_DrawRect(0, 0, w, h)
 
                 surface_SetDrawColor(50, 50, 50, 100)
                 surface_DrawOutlinedRect(0, 0, w, h)
@@ -3761,7 +3786,8 @@ function m_OpenInventory(ply2, utrade)
                 local x, y = MOAT_INV_BG:GetPos()
                 local invw, invh = MOAT_INV_BG:GetSize()
                 render.SetScissorRect( x, y, x + invw, y + invh, true )
-                draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
+                surface_SetDrawColor(0, 0, 0, 255)
+                surface_DrawRect(0, 0, w, h)
                 surface_SetDrawColor(50, 50, 50, 100)
                 surface_DrawOutlinedRect(0, 0, w, h)
                 surface_SetDrawColor(255, 0, 0, 20 + hover_coloral2 / 5)
@@ -3959,15 +3985,19 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
         local draw_h = h - 4
         local draw_y2 = 2 + ((h - 4) / 2)
         local draw_h2 = (h - 4) - ((h - 4) / 2)
-        draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(0, 0, 0, 100))
-        draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(50, 50, 50, hover_coloral))
+        surface_SetDrawColor(0, 0, 0, 100)
+        surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+        surface_SetDrawColor(50, 50, 50, hover_coloral)
+        surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
         if (not item_cache) then return end
 
         if (item_cache.c) then
-            draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100))
+            surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
+            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
             if (item_cache.l and item_cache.l == 1) then
-                draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(255, 255, 255, 50))
+                surface_SetDrawColor(255, 255, 255, 50)
+                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
             end
 
             surface_SetDrawColor(rarity_names[item_cache.item.Rarity][2].r, rarity_names[item_cache.item.Rarity][2].g, rarity_names[item_cache.item.Rarity][2].b, 100 + hover_coloral)
@@ -4148,7 +4178,8 @@ function m_IniateUsableItem(num, itemtbl)
     M_USABLE_PNL_BG.Paint = function(s, w, h)
         surface_SetDrawColor(62, 62, 64, 255)
         surface_DrawOutlinedRect(0, 0, w, h)
-        draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(0, 0, 0, 100))
+        surface_SetDrawColor(0, 0, 0, 100)
+        surface_DrawRect(1, 1, w - 2, h - 2)
 
         surface_SetDrawColor(62, 62, 64, 255)
         surface_DrawOutlinedRect(0, 0, w, h)
@@ -4383,7 +4414,8 @@ function m_IniateUsableItem(num, itemtbl)
             green_col = 50
         end
 
-        draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
+        surface_SetDrawColor(0, 0, 0, 255)
+        surface_DrawRect(0, 0, w, h)
 
         surface_SetDrawColor(50, 50, 50, 100)
         surface_DrawOutlinedRect(0, 0, w, h)
@@ -4438,7 +4470,8 @@ function m_IniateUsableItem(num, itemtbl)
     M_REQ_D:SetText("")
 
     M_REQ_D.Paint = function(s, w, h)
-        draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
+        surface_SetDrawColor(0, 0, 0, 255)
+        surface_DrawRect(0, 0, w, h)
 
         surface_SetDrawColor(50, 50, 50, 100)
         surface_DrawOutlinedRect(0, 0, w, h)
@@ -4888,10 +4921,12 @@ function m_CreateItemMenu(num, ldt)
 
         pnl.Paint = function(s, w, h)
             if (s:IsHovered()) then
-                draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
+                surface_SetDrawColor(255, 100, 100, 100)
+                surface_DrawRect(2, 2, w - 4, h - 4)
             end
 
-            draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
+            surface_SetDrawColor(255, 150, 0, 150)
+            surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
         end
     end
 
@@ -4931,10 +4966,12 @@ function m_CreateItemMenu(num, ldt)
 
         pnl.Paint = function(s, w, h)
             if (s:IsHovered()) then
-                draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
+                surface_SetDrawColor(255, 100, 100, 100)
+                surface_DrawRect(2, 2, w - 4, h - 4)
             end
 
-            draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
+            surface_SetDrawColor(255, 150, 0, 150)
+            surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
         end
     end
 
@@ -4974,10 +5011,12 @@ function m_CreateItemMenu(num, ldt)
 
             pnl.Paint = function(s, w, h)
                 if (s:IsHovered()) then
-                    draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
+                    surface_SetDrawColor(255, 100, 100, 100)
+                    surface_DrawRect(2, 2, w - 4, h - 4)
                 end
 
-                draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
+                surface_SetDrawColor(255, 150, 0, 150)
+                surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
             end
         end
     end
@@ -5018,10 +5057,12 @@ function m_CreateItemMenu(num, ldt)
 
             pnl.Paint = function(s, w, h)
                 if (s:IsHovered()) then
-                    draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
+                    surface_SetDrawColor(255, 100, 100, 100)
+                    surface_DrawRect(2, 2, w - 4, h - 4)
                 end
 
-                draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
+                surface_SetDrawColor(255, 150, 0, 150)
+                surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
             end
         end
     end
@@ -5062,10 +5103,12 @@ function m_CreateItemMenu(num, ldt)
 
             pnl.Paint = function(s, w, h)
                 if (s:IsHovered()) then
-                    draw_RoundedBox(0, 2, 2, w - 4, h - 4, Color(255, 100, 100, 100))
+                    surface_SetDrawColor(255, 100, 100, 100)
+                    surface_DrawRect(2, 2, w - 4, h - 4)
                 end
 
-                draw_RoundedBox(0, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 150))
+                surface_SetDrawColor(255, 150, 0, 150)
+                surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
             end
         end
     end
@@ -5265,7 +5308,8 @@ function m_DrawTradeRequest(ply)
 
         surface_SetDrawColor(62, 62, 64, 255)
         surface_DrawOutlinedRect(0, 0, w, h)
-        draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(34, 35, 38, 250))
+        surface_SetDrawColor(34, 35, 38, 250)
+        surface_DrawRect(1, 1, w - 2, h - 2)
         surface_SetDrawColor(0, 0, 0, 120)
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(1, 1, w - 2, h - 2)
@@ -5283,8 +5327,10 @@ function m_DrawTradeRequest(ply)
         m_DrawShadowedText(1, s.Timer, "moat_ItemDesc", w - 40, 6, Color(200, other_cols, other_cols, 255), TEXT_ALIGN_RIGHT)
         draw_SimpleText(1, "has requested to trade with you.", "GModNotify", w / 2, 195, Color(200, 200, 200, 255), TEXT_ALIGN_CENTER)
         local timer_vis = (w - 2) * ((s.TimerVis - CurTime()) / 30)
-        draw_RoundedBox(0, 1, h - 4, w - 2, 3, Color(0, 0, 0, 100))
-        draw_RoundedBox(0, 1, h - 4, timer_vis, 3, Color(255, 255, 255, 255))
+        surface_SetDrawColor(0, 0, 0, 100)
+        surface_DrawRect(1, h - 4, w - 2, 3)
+        surface_SetDrawColor(255, 255, 255, 255)
+        surface_DrawRect(1, h - 4, timer_vis, 3)
     end
 
     MOAT_REQ_BG.Think = function(s)
@@ -5517,19 +5563,22 @@ function m_DrawTradeRequest(ply)
 
     M_REQ_C.Paint = function(s, w, h)
         draw_RoundedBoxEx(0, 0, 0, w, h, Color(28, 28, 25), false, true, false, true)
-        draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(95, 95, 95))
-        surface_SetDrawColor(Color(137, 137, 137, 255))
+        surface_SetDrawColor(95, 95, 95)
+        surface_DrawRect(1, 1, w - 2, h - 2)
+        surface_SetDrawColor(137, 137, 137, 255)
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(1, 1, w - 2, h - 2)
         draw_SimpleTextOutlined("r", "marlett", 17, 9, Color(157, 157, 157, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
 
         if (s:IsHovered()) then
-            draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(255, 0, 0, 15))
+            surface_SetDrawColor(255, 0, 0, 15)
+            surface_DrawRect(1, 1, w - 2, h - 2)
             draw_SimpleTextOutlined("r", "marlett", 17, 9, Color(255, 0, 0, 50), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
         end
 
         if (s:IsDown()) then
-            draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(255, 0, 0, 20))
+            surface_SetDrawColor(255, 0, 0, 20)
+            surface_DrawRect(1, 1, w - 2, h - 2)
             draw_SimpleTextOutlined("r", "marlett", 17, 9, Color(255, 0, 0, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
         end
     end
@@ -5875,11 +5924,12 @@ function m_DrawFoundItem(tbl, s_type)
 
             surface_SetDrawColor(100, 100, 100, 50)
             surface_DrawOutlinedRect(0, 0, w, h)
-            draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(15, 15, 15, 250))
-            surface_SetDrawColor(Color(100, 100, 100, 50))
+            surface_SetDrawColor(15, 15, 15, 250)
+            surface_DrawRect(1, 1, w - 2, h - 2)
+            surface_SetDrawColor(100, 100, 100, 50)
             surface_DrawLine(6, 22 + draw_xp_lvl, w - 6, 22 + draw_xp_lvl)
             surface_DrawLine(6, 43 + draw_xp_lvl, w - 6, 43 + draw_xp_lvl)
-            surface_SetDrawColor(Color(0, 0, 0, 100))
+            surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawLine(6, 23 + draw_xp_lvl, w - 6, 23 + draw_xp_lvl)
             surface_DrawLine(6, 44 + draw_xp_lvl, w - 6, 44 + draw_xp_lvl)
             surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2])
@@ -5974,10 +6024,11 @@ function m_DrawFoundItem(tbl, s_type)
                 local nt_ = 0
                 if (ITEM_HOVERED.n) then nt_ = 15 end
 
-                draw_RoundedBox(0, 6, 27 + nt_, w - 12, 2, Color(255, 255, 255, 20))
+                surface_SetDrawColor(255, 255, 255, 20)
+                surface_DrawRect(6, 27 + nt_, w - 12, 2)
                 local bar_width = w - 12
                 local xp_bar_width = bar_width * (ITEM_HOVERED.s.x / (ITEM_HOVERED.s.l * 100))
-                surface_SetDrawColor(Color(200, 200, 200, 255))
+                surface_SetDrawColor(200, 200, 200, 255)
                 surface_SetMaterial(gradient_r)
                 surface_DrawTexturedRect(7, 27 + nt_, xp_bar_width, 2)
             end
@@ -6401,7 +6452,8 @@ function m_DrawDeconButton()
     MOAT_INV_MASS_DECON:SetText("")
     local hover_coloral = 1
     MOAT_INV_MASS_DECON.Paint = function(s, w, h)
-        draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
+        surface_SetDrawColor(0, 0, 0, 255)
+        surface_DrawRect(0, 0, w, h)
         surface_SetDrawColor(50, 50, 50, 100)
         surface_DrawOutlinedRect(0, 0, w, h)
         surface_SetDrawColor(255, 0, 0, 20 + hover_coloral / 5)
