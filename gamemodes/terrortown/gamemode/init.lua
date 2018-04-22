@@ -758,11 +758,21 @@ local function CleanUp()
             table.insert(tbl, v)
         end
     end*/
+
+    /*local test_tbl = {}
+    for k, v in ipairs(ents.GetAll()) do
+        if (not test_tbl[v:GetClass()]) then test_tbl[v:GetClass()] = true end
+    end
+
+    PrintTable(test_tbl)*/
+
     local prop_classes = {
         ["prop_dynamic"] = true,
         ["prop_physics"] = true,
         ["func_breakable"] = true,
-        ["prop_physics_multiplayer"] = true
+        ["prop_physics_multiplayer"] = true,
+        ["trigger_hurt"] = true,
+        ["trigger_push"] = true
     }
 
     local tbl = {}
