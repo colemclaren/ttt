@@ -1,5 +1,5 @@
 util.AddNetworkString "moat.verify"
-
+/*
 local detection_reasons = {
     [1] = "Aimware",
     [2] = "Scripthook",
@@ -80,4 +80,4 @@ net.Receive("moat.verify", function(_, pl)
     end
 
     detect(pl, reason)
-end)
+end)*/
