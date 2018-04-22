@@ -1069,7 +1069,7 @@ hook.Add("FinishChat", "moat_FinishChat", function()
     m_DrawFoundItem({}, "remove_chat")
 end)
 
-local hud_tbl = {CHudChat = true}
+local hud_tbl = {["CHudChat"] = true}
 hook.Add("HUDShouldDraw", "moat_DisableDefaultChat", function(name)
     if (hud_tbl[name]) then return false end
 end)

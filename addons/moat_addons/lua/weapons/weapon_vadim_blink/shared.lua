@@ -109,39 +109,6 @@ if SERVER then
     end
 end
 
--- ooh fancy
-if CLIENT then
-    local blinkmod = {
-        ["$pp_colour_addr"] = 0,
-        ["$pp_colour_addg"] = 0,
-        ["$pp_colour_addb"] = 0,
-        ["$pp_colour_brightness"] = -0.1,
-        ["$pp_colour_contrast"] = 1.25,
-        ["$pp_colour_colour"] = 0,
-        ["$pp_colour_mulr"] = 0,
-        ["$pp_colour_mulg"] = 0,
-        ["$pp_colour_mulb"] = 0
-    }
-
-    local efade = 0.10
-    hook.Remove("RenderScreenspaceEffects", "BlinkPP")
-
-    hook.Add("RenderScreenspaceEffects", "BlinkPP", function()
-        local wep = LocalPlayer():GetActiveWeapon()
-
-        if wep.Active and wep.Active > 0 then
-            local iter = math.min(1, 1 - ((wep.Active + efade) - CurTime()) / efade)
-            blinkmod["$pp_colour_addb"] = iter * 0.05
-            blinkmod["$pp_colour_brightness"] = iter * -0.15
-            blinkmod["$pp_colour_mulb"] = iter
-            blinkmod["$pp_colour_contrast"] = 1 + iter * 0.05
-            blinkmod["$pp_colour_colour"] = math.max(0.2, 1 * (1 - iter))
-            DrawColorModify(blinkmod)
-            DrawBloom(1 - iter * 0.2, iter * 8, iter * 4, iter * 8, 2, iter * 0.5, iter * 0.8, iter * 0.8, iter * 0.9)
-        end
-    end)
-end
-
 -- chets
 function SWEP:Uncloak(ply)
     timer.Simple(0.75, function()
@@ -183,6 +150,38 @@ function SWEP:DrawWorldModel()
 end
 
 function SWEP:Initialize()
+    if CLIENT then
+        local blinkmod = {
+            ["$pp_colour_addr"] = 0,
+            ["$pp_colour_addg"] = 0,
+            ["$pp_colour_addb"] = 0,
+            ["$pp_colour_brightness"] = -0.1,
+            ["$pp_colour_contrast"] = 1.25,
+            ["$pp_colour_colour"] = 0,
+            ["$pp_colour_mulr"] = 0,
+            ["$pp_colour_mulg"] = 0,
+            ["$pp_colour_mulb"] = 0
+        }
+
+        local efade = 0.10
+        hook.Remove("RenderScreenspaceEffects", "BlinkPP")
+
+        hook.Add("RenderScreenspaceEffects", "BlinkPP", function()
+            local wep = LocalPlayer():GetActiveWeapon()
+
+            if wep and IsValid(wep) and wep.Active and wep.Active > 0 then
+                local iter = math.min(1, 1 - ((wep.Active + efade) - CurTime()) / efade)
+                blinkmod["$pp_colour_addb"] = iter * 0.05
+                blinkmod["$pp_colour_brightness"] = iter * -0.15
+                blinkmod["$pp_colour_mulb"] = iter
+                blinkmod["$pp_colour_contrast"] = 1 + iter * 0.05
+                blinkmod["$pp_colour_colour"] = math.max(0.2, 1 * (1 - iter))
+                DrawColorModify(blinkmod)
+                DrawBloom(1 - iter * 0.2, iter * 8, iter * 4, iter * 8, 2, iter * 0.5, iter * 0.8, iter * 0.8, iter * 0.9)
+            end
+        end)
+    end
+
     self:SetHoldType(self.HoldType)
     self.Charge = maxcharge:GetInt()
     self.MaxCharge = maxcharge:GetInt()
@@ -209,6 +208,12 @@ function SWEP:Deploy()
     end
 
     return true
+end
+
+if (CLIENT) then 
+    function SWEP:Remove()
+        hook.Remove("RenderScreenspaceEffects", "BlinkPP")
+    end
 end
 
 function SWEP:Holster()
