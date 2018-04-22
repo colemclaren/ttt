@@ -4328,7 +4328,7 @@ net.Receive("Moat.PlanetaryDrop",function()
 	}
     
     for i = 1, #text do
-        local col = HSVToColor( i * 40 % 360, 1, 1 )
+        local col = HSVToColor( i * 30 % 360, 1, 1 )
         table.insert( tab, Color(col.r,col.g, col.b) )
         local letter = string.sub( text, i, i )
         table.insert( tab, letter )
@@ -4336,7 +4336,5 @@ net.Receive("Moat.PlanetaryDrop",function()
 
 	table.insert(tab,Color(255,255,255))
 	table.insert(tab,"!")
-	print(name,text)
-	print(unpack(tab))
 	chat.AddText(unpack(tab))
 end)
