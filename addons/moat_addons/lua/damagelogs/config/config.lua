@@ -51,7 +51,7 @@ Damagelog.Respond_Command = "!respond"
 	Setting it to false will make the logs use SQLite (garrysmod/sv.db)
 ]]--
 
-Damagelog.Use_MySQL = true
+Damagelog.Use_MySQL = false
 
 --[[ Enables the !aslay and !aslayid command for ULX, designed to work with the logs.
 Works like that : !aslay target number_of_slays reason

@@ -71,6 +71,7 @@ function Damagelog:SetLineMenu(item, infos, tbl, text, old_logs)
 		end
 		if item.DeathScene then
 			menu:AddOption("Show Death Scene", function()
+				if not item.sceneid then return end
 				net.Start("DL_AskDeathScene")
 				net.WriteUInt(item.sceneid, 32)
 				net.WriteString(item.ply1)

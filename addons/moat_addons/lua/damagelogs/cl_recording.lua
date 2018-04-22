@@ -357,8 +357,8 @@ hook.Add("Think", "Think_Record", function()
 				if not props[k] then
 					props[k] = ClientsideModel(v.model or "", RENDERGROUP_TRANSLUCENT)
 				end
-				local vector = v.pos
-				local angle = v.ang
+				local vector = v.pos or Vector(0,0,0)
+				local angle = v.ang or Angle(0,0,0)
 				if next_scene and next_scene[k] then
 					local percent = math.ceil(i) - i
 					vector = LerpVector(percent, next_scene[k].pos, v.pos)
