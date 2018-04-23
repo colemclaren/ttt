@@ -1473,7 +1473,7 @@ function MOAT_BOUNTIES.ResetBounties()
 	MOAT_BOUNTIES:LoadBounties()
 
 	local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
-	local s = "|\nDaily bounties of **" .. os.date("%B %d, %Y",os.time()) .. "**:\nServer: **" .. GetHostName() .. "** (" .. game.GetIP() .. ")\n```"
+	local s = "|\nDaily bounties of **" .. os.date("%B %d, %Y",os.time()) .. "**:\nServer: **" .. GetHostName() .. "** ( steam://connect/" .. game.GetIP() .. " )\n```"
 	for i = 1,3 do
 		local bounty = MOAT_BOUNTIES.ActiveBounties[i].bnty
 		local mods = MOAT_BOUNTIES.ActiveBounties[i].mods

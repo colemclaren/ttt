@@ -3616,6 +3616,8 @@ net.Receive("gversus.FinishGame",function()
 	end)
 
 	timer.Simple(3,function()
+		if not gversus_players[ply] then return end
+		if not gversus_players[ply][1] then return end
 		local ss = false
 		if win == ply then ss = true end
 		table.insert(versus_oldgames,{
