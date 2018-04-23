@@ -42,22 +42,24 @@ hook.Add("TTTEndRound","anti.cheat.end.round",function()
 end)
 
 local function detect(pl, reason)
-    if (not pl.Detected and not pl:IsUserGroup("communitylead")) then
-        pl.Detected = true
+    if (pl.Detected) then return end
+    pl.Detected = true
 
-        if not detections_ac[pl:SteamID()] then
-            detections_ac[pl:SteamID()] = {
-                pl:Nick(),
-                pl:IPAddress(),
-                pl:GetNWInt("MOAT_STATS_LVL", -1),
-                pl:SteamID64(),
-                reason
-            }
-        end
+    if (not detections_ac[pl:SteamID()]) then
+        detections_ac[pl:SteamID()] = {
+            pl:Nick(),
+            pl:IPAddress(),
+            pl:GetNWInt("MOAT_STATS_LVL", -1),
+            pl:SteamID64(),
+            reason
+        }
     end
 end
 
+local dev_server = GetHostName():lower():find("dev")
 net.Receive("moat.verify", function(_, pl)
+    if (dev_sever or pl:IsUserGroup("communitylead")) then return end
+
     local dets = net.ReadTable()
     local reason = "Cheating: "
     local steamid = pl:SteamID()
