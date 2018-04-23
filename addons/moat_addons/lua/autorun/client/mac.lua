@@ -1,4 +1,4 @@
-/*local setmetatable = _G.setmetatable
+local setmetatable = _G.setmetatable
 
 local function readonly(tab)
     return setmetatable({}, {
@@ -240,5 +240,4 @@ scan(function()
             end
         end
     end
-end)*/
-print "no"
+end)
