@@ -35,10 +35,10 @@ end
 MOTD = {}
 MOTD.CurTab = 1
 MOTD.Tabs = {
-    {"Home", "http://server.moatgaming.org/ttt/motd/rules.php?n=User"},
-    {"Tutorial", "http://server.moatgaming.org/ttt/motd/help.php"},
+    {"Home", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"},
+    {"Tutorial", "https://i.moat.gg/servers/ttt/motd/help.php"},
     {"Errors", "https://moat.gg/ttt/motd/content.php", true},
-    {"Changelog", "http://server.moatgaming.org/ttt/motd/changelog.php"},
+    {"Changelog", "https://i.moat.gg/servers/ttt/motd/changelog.php"},
     {"Forums", "https://moat.gg/forums/", true},
     {"Donate", "https://moat.gg/store/", true},
     {"Leaderboard", "https://moat.gg/players", true},
@@ -96,7 +96,7 @@ function m_OpenMOTD(str)
     MOTD.w = vgui.Create("DHTML", p)
     MOTD.w:DockMargin(0, 10, 10, 10)
     MOTD.w:Dock(FILL)
-    MOTD.w:OpenURL("http://server.moatgaming.org/ttt/motd/rules.php?n=" .. name)
+    MOTD.w:OpenURL("https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. name)
     MOTD.w.Paint = function(s, w, h)
         DrawRainbowText(1, "Loading Page...", "DermaLarge", w/2, h/2, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
@@ -105,7 +105,7 @@ function m_OpenMOTD(str)
 
     for i = 1, #MOTD.Tabs do
         if (i == 1) then
-            MOTD.Tabs[i][2] = "http://server.moatgaming.org/ttt/motd/rules.php?n=" .. name
+            MOTD.Tabs[i][2] = "https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. name
         end
 
         local btn = vgui.Create("DButton", c)

@@ -90,7 +90,7 @@ local function moat_InitDrawBossHealth()
 		end)
 	end
 
-	sound.PlayURL("http://moatgaming.net/ttt/boss_battle.mp3", "mono", function(siren)
+	sound.PlayURL("https://i.moat.gg/servers/tttsounds/boss_battle.mp3", "mono", function(siren)
 	--sound.PlayURL("http://moatgaming.net/ttt/boss_sexy.mp3", "mono", function(siren)
 		if(IsValid(siren))then
 			siren:Play()
@@ -133,7 +133,7 @@ local function moat_PrepareBoss()
 	MOAT_BOSS_ROUND_OVER = false
 	MOAT_ACTIVE_BOSS = true
 
-	sound.PlayURL("http://moatgaming.net/ttt/boss_warning.mp3", "mono", function(siren)
+	sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
 		if(IsValid(siren))then
 			siren:Play()
 		else

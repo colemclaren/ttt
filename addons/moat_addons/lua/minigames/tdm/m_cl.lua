@@ -37,7 +37,7 @@ net.Receive("TDM_Begin",function()
         blue_save = 0,
         time_end = CurTime() + (60) * 10
     }
-    sound.PlayURL("http://server.moatgaming.org/tttsounds/tdmsong.mp3","",function(station)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/tdmsong.mp3","",function(station)
         if IsValid(station) then
             station:SetVolume(0.5)
             station:Play()
@@ -89,7 +89,7 @@ net.Receive("TDM_End",function()
     local players = net.ReadTable()
     local red = net.ReadBool()
     MOAT_MINIGAME_OCCURING = false
-    sound.PlayURL("http://server.moatgaming.org/tttsounds/forsen_end.mp3","",function(s)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/forsen_end.mp3","",function(s)
         if IsValid(s) then
             s:SetVolume(0.5)
             s:Play()
@@ -420,7 +420,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("TDM_Prep",function()
-    sound.PlayURL("http://moatgaming.net/ttt/boss_warning.mp3", "mono", function(siren)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
 		if(IsValid(siren))then
 			siren:Play()
 		end

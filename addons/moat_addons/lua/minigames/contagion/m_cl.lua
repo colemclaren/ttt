@@ -263,7 +263,7 @@ end
 function MG_CG.PrepRound()
     MG_CG.ResetVars()
 
-    sound.PlayURL("http://moatgaming.net/ttt/virus/prepare.mp3", "mono", function(siren)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/virus/prepare.mp3", "mono", function(siren)
         if(IsValid(siren))then
             siren:Play()
             siren:SetVolume(1)
@@ -322,7 +322,7 @@ function MG_GG.PlayMusic(num)
         next_num = 1
     end
 
-    sound.PlayURL("http://moatgaming.net/ttt/virus/song" .. num .. ".mp3", "mono", function(song)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/virus/song" .. num .. ".mp3", "mono", function(song)
         if (IsValid(song)) then
             song:Play()
             song:SetVolume(1)

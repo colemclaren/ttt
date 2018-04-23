@@ -72,7 +72,7 @@ local function createFestive(pnl, x, y, w, h)
     end
 end
 
-local spooky_url = "http://server.moatgaming.org/images/halloween/"
+local spooky_url = "https://i.moat.gg/servers/images/halloween/"
 local spooks = {
     [1] = {"1left.png", 0, 0, 0},
     [2] = {"2left.png", 0, 0, 0},

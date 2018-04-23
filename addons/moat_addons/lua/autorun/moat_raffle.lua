@@ -65,7 +65,7 @@ else
 	local playerAvatarRoulette, playerRaffleNick = nil, ''
 	local avatarSize, margin = 128, 25
 	local finalizedRaffle = false
-	local raffleSong, raffleStation = 'http://moatgaming.net/ttt/rafflesong.mp3', nil
+	local raffleSong, raffleStation = 'https://i.moat.gg/servers/tttsounds/rafflesong.mp3', nil
 	
 	net.Receive('moat_startRaffle', function(len)
 		local w, h = ScrW(), ScrH()

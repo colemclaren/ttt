@@ -84,7 +84,7 @@ local function moat_InitDrawBossHealth()
 
 	hook.Add("HUDPaint", "moat_DrawBossHealth", moat_DrawBossHealth)
 
-	sound.PlayURL("http://server.moatgaming.org/tttsounds/stalker/stalker_music.mp3", "mono", function(siren)
+	sound.PlayURL("https://i.moat.gg/servers/tttsounds/stalker/stalker_music.mp3", "mono", function(siren)
 	--sound.PlayURL("http://moatgaming.net/ttt/boss_sexy.mp3", "mono", function(siren)
 		if(IsValid(siren))then
 			siren:Play()
@@ -126,7 +126,7 @@ local function moat_PrepareBoss()
 	MOAT_BOSS_ROUND_OVER = false
 	MOAT_ACTIVE_BOSS = true
 
-	sound.PlayURL("http://server.moatgaming.org/tttsounds/stalker/stalker_preround.mp3", "mono", function(siren)
+	sound.PlayURL("https://i.moat.gg/servers/tttsounds/stalker/stalker_preround.mp3", "mono", function(siren)
 		if(IsValid(siren))then
 			siren:Play()
 		else

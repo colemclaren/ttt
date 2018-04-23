@@ -65,7 +65,7 @@ timer.Create( "moat_ChatAdverts", 360, 0, function()
 	end
 end )
 
-local moat_URL = "http://server.moatgaming.org/tttsounds/postround/"
+local moat_URL = "https://i.moat.gg/servers/tttsounds/postround/"
 local moat_Songs = 55
 
 function m_ChooseRandomSong()
@@ -74,7 +74,7 @@ function m_ChooseRandomSong()
 	return song_url
 end
 
-local moat_URL2 = "http://server.moatgaming.org/tttsounds/christmas/"
+local moat_URL2 = "https://i.moat.gg/servers/tttsounds/christmas/"
 local moat_Songs2 = 49
 function m_ChooseRandomChristmas()
 	local song_num = math.random(moat_Songs2)

@@ -144,7 +144,7 @@ end
 function MG_OC.PrepRound()
 	MG_OC.ResetVars()
 
-	sound.PlayURL("http://moatgaming.net/ttt/boss_warning.mp3", "mono", function(siren)
+	sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
 		if(IsValid(siren))then
 			siren:Play()
 		else
@@ -180,7 +180,7 @@ function MG_OC.DrawHalos()
 end
 
 function MG_OC.BeginRound()
-	sound.PlayURL("http://server.moatgaming.org/tttsounds/happy.mp3", "mono", function(siren)
+	sound.PlayURL("https://i.moat.gg/servers/tttsounds/happy.mp3", "mono", function(siren)
 		if(IsValid(siren))then
 			siren:Play()
 			siren:SetVolume(2)

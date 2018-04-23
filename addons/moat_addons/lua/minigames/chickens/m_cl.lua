@@ -267,7 +267,7 @@ function MG_CM.PrepRound()
     MG_CM.ResetVars()
     MOAT_DISABLE_BUNNY_HOP = true
 
-    sound.PlayURL("http://moatgaming.net/ttt/boss_warning.mp3", "mono", function(siren)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
         if(IsValid(siren))then
             siren:SetVolume(0.3)
             siren:Play()
@@ -292,7 +292,7 @@ end
 function MG_GG.PlayMusic(num)
     local num = num or math.random(2)
 
-    sound.PlayURL("http://server.moatgaming.org/tttsounds/chicken_song" .. num .. ".mp3", "mono", function(song)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/chicken_song" .. num .. ".mp3", "mono", function(song)
         if (IsValid(song)) then
             song:Play()
             song:SetVolume(0.4)

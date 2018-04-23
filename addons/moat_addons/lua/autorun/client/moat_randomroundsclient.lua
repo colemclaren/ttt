@@ -32,7 +32,7 @@ net.Receive("RandomRound",function()
     chat.AddText(Color(255,255,255),name .. " Round!")
     desc = net.ReadString()
     chat.AddText(Color(255,255,255),desc)
-    sound.PlayURL("http://server.moatgaming.org/tttsounds/slide_whistle.mp3","",function() end)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/slide_whistle.mp3","",function() end)
 
     if (name == "Third Person") then
         hook.Add("CreateMove", "MOAT_THIRDPERSON.ThirdPersonMovement", MOAT_THIRDPERSON.ThirdPersonMovement)

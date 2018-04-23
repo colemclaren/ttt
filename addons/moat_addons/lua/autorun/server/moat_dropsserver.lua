@@ -424,12 +424,12 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
 
         if (dropped_item and dropped_item.u and item_to_drop and item_to_drop.Rarity) then
             if (item_to_drop.Rarity == 6) then
-                BroadcastLua("sound.PlayURL('http://server.moatgaming.org/tttsounds/ascended.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
+                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/ascended.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
             elseif (item_to_drop.Rarity == 7) then
-                BroadcastLua("sound.PlayURL('http://server.moatgaming.org/tttsounds/cosmic.wav', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
+                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/cosmic.wav', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
                 BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)")
             elseif (item_to_drop.Rarity == 9) then
-                BroadcastLua("sound.PlayURL('http://server.moatgaming.org/tttsounds/planetary.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
+                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/planetary.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
                 BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 25, 25, 15, 5000)")
                 local ITEM_HOVERED = item_to_drop
                 local wpnstr = item_to_drop.Name
@@ -448,7 +448,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                 end
                 gglobalchat_planetary(self:Nick(),ITEM_NAME_FULL)
             elseif (tonumber(dropped_item.u) == 912 or titan_tier_ids[tostring(dropped_item.u)]) then
-                BroadcastLua("sound.PlayURL('http://server.moatgaming.org/tttsounds/drops/shockwave.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
+                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/drops/shockwave.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
             end
         end
 

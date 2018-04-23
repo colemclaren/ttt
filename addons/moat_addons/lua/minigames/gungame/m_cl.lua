@@ -126,7 +126,7 @@ end
 function MG_GG.PrepRound()
 	MG_GG.ResetVars()
 
-	sound.PlayURL("http://moatgaming.net/ttt/boss_warning.mp3", "mono", function(siren)
+	sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
 		if(IsValid(siren))then
 			siren:Play()
 		else
@@ -139,7 +139,7 @@ function MG_GG.PrepRound()
 end
 
 function MG_GG.BeginRound()
-	sound.PlayURL("http://moatgaming.net/ttt/stayin_alive.mp3", "mono", function(siren)
+	sound.PlayURL("https://i.moat.gg/servers/tttsounds/stayin_alive.mp3", "mono", function(siren)
 		if(IsValid(siren))then
 			siren:Play()
 			siren:SetVolume(0.8)

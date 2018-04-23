@@ -12,7 +12,7 @@ local audio_width = (ScrW() / 256) * 2
 local sound_cache = {}
 local audio_color = Color(0, 255, 255)
 local audio_beat = 0
-local moat_URL = "http://server.moatgaming.org/tttsounds/easteregg"
+local moat_URL = "https://i.moat.gg/servers/tttsounds/easteregg"
 local moat_Songs = 55
 
 function m_ChooseRandomSongH(song_num)
@@ -33,7 +33,7 @@ local color2 = Color(0, 0, 0)
 local color_delay = CurTime()
 
 function moat_FFTFuncH(music_id)
-    local music_url = "http://server.moatgaming.org/tttsounds/laugh.mp3" --m_ChooseRandomSongH(music_id)
+    local music_url = "https://i.moat.gg/servers/tttsounds/laugh.mp3" --m_ChooseRandomSongH(music_id)
 
     sound.PlayURL(music_url, "mono", function(song, error, errorstring)
         if (IsValid(song)) then

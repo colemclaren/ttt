@@ -448,7 +448,7 @@ function moat_chat.InitChat()
     mc.MOVE:SetSize(16, 16)
     mc.MOVE:SetText("")
     mc.MOVE.Paint = function(s, w, h)
-        draw.WebImage("http://server.moatgaming.org/images/arrows.png", 0, 0, 16, 16, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
+        draw.WebImage("https://i.moat.gg/servers/images/arrows.png", 0, 0, 16, 16, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
     end
     mc.MOVE.Moving = false
     mc.MOVE.MovingX = 0

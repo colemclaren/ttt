@@ -12,7 +12,7 @@ local audio_width = (ScrW() / 256) * 2
 local sound_cache = {}
 local audio_color = Color(0, 255, 255)
 local audio_beat = 0
-local moat_URL = "http://server.moatgaming.org/tttsounds/easteregg"
+local moat_URL = "https://i.moat.gg/servers/tttsounds/easteregg"
 local moat_Songs = 55
 
 function m_ChooseRandomSong(song_num)

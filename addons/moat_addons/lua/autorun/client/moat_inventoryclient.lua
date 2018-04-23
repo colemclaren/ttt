@@ -174,7 +174,7 @@ local function createFestive(pnl, x, y, w, h)
     end*/
 end
 
-local spooky_url = "http://server.moatgaming.org/images/halloween/"
+local spooky_url = "https://i.moat.gg/servers/images/halloween/"
 local spooks = {
     [1] = {"1left.png", 0, 0, 0},
     [2] = {"2left.png", 0, 0, 0},
@@ -6556,7 +6556,7 @@ net.Receive("MOAT_DECON_NOTIFY", function()
 
     local s = mul == true and "s" or ""
 
-    sound.PlayURL("http://server.moatgaming.org/tttsounds/decon.mp3", "mono", function(snd)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/decon.mp3", "mono", function(snd)
         if (IsValid(snd)) then snd:Play() snd:SetVolume(1) end
     end)
 
@@ -6564,7 +6564,7 @@ net.Receive("MOAT_DECON_NOTIFY", function()
 end)
 
 net.Receive("MOAT_DECON_MUTATOR", function()
-    sound.PlayURL("http://server.moatgaming.org/tttsounds/achievement1.wav", "mono", function(snd)
+    sound.PlayURL("https://i.moat.gg/servers/tttsounds/achievement1.wav", "mono", function(snd)
         if (IsValid(snd)) then snd:Play() snd:SetVolume(1) end
     end)
 end)
