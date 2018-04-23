@@ -556,6 +556,7 @@ function MOAT_KILLCARDS:DrawDeathCard(role, id, name, wpn, hp, max_hp, rnd_state
 end
 
 function MOAT_KILLCARDS.ReceiveDeath(l)
+	if (LocalPlayer() or not IsValid(LocalPlayer())) then return end
 	local info = {role = "Something?", id = LocalPlayer():SteamID64(), name = LocalPlayer():Nick(), wpn = "Unknown Weapon", hp = 0, max_hp = 0}
 	local att = net.ReadEntity()
 
