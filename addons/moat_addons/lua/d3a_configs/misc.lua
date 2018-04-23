@@ -47,7 +47,8 @@ D3A.Config.IgnoreChatCommands = {
 	"reloadmats",
 	"materials",
 	"textures",
-	"m"
+	"m",
+	"rtv"
 }
 
 --[[
