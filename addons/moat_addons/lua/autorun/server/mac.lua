@@ -58,7 +58,7 @@ end
 
 local dev_server = GetHostName():lower():find("dev")
 net.Receive("moat.verify", function(_, pl)
-    if (dev_sever or pl:IsUserGroup("communitylead")) then return end
+    if (dev_server or pl:IsUserGroup("communitylead")) then return end
 
     local dets = net.ReadTable()
     local reason = "Cheating: "
