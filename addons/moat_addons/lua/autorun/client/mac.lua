@@ -173,7 +173,8 @@ scan(function()
     end
 end)
 
-local protected_convars = {{"sv_allowcslua", 4, 0}, {"sv_cheats", 5, 0}, {"host_timescale", 8, 1}, {"mat_wireframe", 9, 0}, {"mat_fullbright", 10, 0}}
+--local protected_convars = {{"sv_allowcslua", 4, 0}, {"sv_cheats", 5, 0}, {"host_timescale", 8, 1}, {"mat_wireframe", 9, 0}, {"mat_fullbright", 10, 0}}
+local protected_convars = {{"sv_allowcslua", 4, 0}, {"sv_cheats", 5, 0}, {"host_timescale", 8, 1}, {"mat_wireframe", 9, 0}}
 
 scan(function()
     local r = {}
