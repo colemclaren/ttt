@@ -64,7 +64,7 @@ SWEP.Primary.ClipMax	    = 3
 
 SWEP.Primary.Delay			= 1.5
 
-SWEP.Primary.DefaultClip    = 3
+SWEP.Primary.DefaultClip    = 0
 
 SWEP.Primary.Automatic      = false
 
@@ -119,6 +119,11 @@ SWEP.IsSilent = false
 SWEP.NoSights = false
 
 
+function SWEP:WasBought(buyer)
+   if IsValid(buyer) then -- probably already self.Owner
+      buyer:GiveAmmo(3, "XBowBolt")
+   end
+end
 
 function SWEP:PrimaryAttack()
 
