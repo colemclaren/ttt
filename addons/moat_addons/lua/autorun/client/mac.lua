@@ -1,4 +1,4 @@
-/*local setmetatable = _G.setmetatable
+local setmetatable = _G.setmetatable
 
 local function readonly(tab)
     return setmetatable({}, {
@@ -86,10 +86,10 @@ g.rawset(_G.debug, "setlocal", function() end)
 g.rawset(_G.debug, "getlocal", function() end)
 g.rawset(_G.debug, "setupvalue", function() end)
 g.rawset(_G, "RunStringEx", function() end)
-g.rawset(_G, "CompileString", function() end)
+//g.rawset(_G, "CompileString", function() end)
 g.rawset(_G, "CompileFile", function() end)
 g.rawset(_G, "rawset", function() end)
-g.rawset(_G, "rawget", function() end)
+//g.rawset(_G, "rawget", function() end)
 
 local function hashfunc(func)
     local info = debug.getinfo(func)
@@ -240,5 +240,4 @@ scan(function()
             end
         end
     end
-end)*/
-print "yee"
+end)

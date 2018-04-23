@@ -1,5 +1,5 @@
 function includeData( data, path )
-	RunStringEx( util.Decompress( data ), path )
+	RunString( util.Decompress( data ), path )
 end
 
 net.Receive( "acrashscreen_alt", function()
