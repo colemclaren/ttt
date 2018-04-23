@@ -4747,6 +4747,10 @@ function m_CreateItemMenu(num, ldt)
     end):SetIcon("icon16/tag_blue.png")
 
     M_INV_MENU2:AddOption("Upload Picture of Stats",function()
+        if (IsValid(MOAT_INV_S)) then
+            MOAT_INV_S.AnimVal = 1
+        end
+
         if MOAT_CACHED_PICS[itemtbl.c] then
             local x = 0
             if itemtbl.s then
@@ -4759,36 +4763,43 @@ function m_CreateItemMenu(num, ldt)
                 return
             end
         end
-        if MOAT_UPLOADING then 
+        if MOAT_UPLOADING then
             chat.AddText(Color(255,0,0),"Another picture of an item is already uploading!")
-            return 
+            return
         end
+
+        M_INV_MENU:Remove()
+
         local n = num
         m_HoveredSlot = num
-        local x = gui.MouseX() + 5
-        local y = gui.MouseY() - 5
         MOAT_INV_S.ctrldown = true
         moat_imagehack = true
         hook.Add("HudPaint","Mid Framegg",function()
             m_HoveredSlot = num
             MOAT_INV_S.AnimVal = 1
             MOAT_INV_S.ctrldown = true
+            MOAT_INV_S:SetAlpha(255)
+            MOAT_INV_S:Think()
             hook.Remove("HudPaint","Mid Framegg")
         end)
-        hook.Add( "PostRender", "Gay render capture rules", function()
-            local w = MOAT_INV_S:GetWide()
-            local h = MOAT_INV_S:GetTall()
-            MOAT_INV_S.AnimVal = 1
-            local data = render.Capture( {
+        hook.Add("PostRender", "Gay render capture rules", function()
+            MOAT_INV_S:Think()
+
+            local x, y = MOAT_INV_S:GetPos()
+            local w, h = MOAT_INV_S:GetSize()
+            
+            local data = render.Capture({
                 format = "jpeg",
-                quality = 80,
+                quality = 100,
                 h = h,
                 w = w,
                 x = x,
-                y = y-h,
-            } )
+                y = y,
+            })
+
             moat_imagehack = false
             MOAT_UPLOADING = true
+            
             HTTP({
                 url = "https://api.imgur.com/3/image",
                 method = "post",
@@ -4825,7 +4836,7 @@ function m_CreateItemMenu(num, ldt)
             })
             m_HoveredSlot = nil
             hook.Remove("PostRender", "Gay render capture rules")
-        end )
+        end)
         render.Spin()
     end):SetIcon("icon16/camera_add.png")
 
