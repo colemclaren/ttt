@@ -194,13 +194,12 @@ end
 
 function PANEL:StartUpdateTimer()
    if not timer.Exists("TTTScoreboardUpdater") then
-      timer.Create( "TTTScoreboardUpdater", 0.3, 0,
-                    function()
-                       local pnl = GAMEMODE:GetScoreboardPanel()
-                       if IsValid(pnl) then
-                          pnl:UpdateScoreboard()
-                       end
-                    end)
+      timer.Create("TTTScoreboardUpdater", 0.5, 0, function()
+        local pnl = GAMEMODE:GetScoreboardPanel()
+        if IsValid(pnl) then
+            pnl:UpdateScoreboard()
+        end
+    end)
    end
 end
 
@@ -327,7 +326,7 @@ function PANEL:UpdateScoreboard( force )
 
    -- Put players where they belong. Groups will dump them as soon as they don't
    -- anymore.
-   for k, p in pairs(player.GetAll()) do
+   for k, p in ipairs(player.GetAll()) do
       if IsValid(p) then
          local group = ScoreGroup(p)
          if self.ply_groups[group] and not self.ply_groups[group]:HasPlayerRow(p) then
@@ -337,7 +336,7 @@ function PANEL:UpdateScoreboard( force )
       end
    end
 
-   for k, group in pairs(self.ply_groups) do
+   for k, group in ipairs(self.ply_groups) do
       if IsValid(group) then
          group:SetVisible( group:HasRows() )
          group:UpdatePlayerData()

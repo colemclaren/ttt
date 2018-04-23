@@ -7,10 +7,10 @@ local idle = {
     my = 0,
     t = 0
 }
-local game_ip = tostring(game.GetIPAddress())
+local dev_server = GetHostName():lower():find("dev")
 
 function CheckIdle()
-   if (MOAT_CONTAGION_ROUND_ACTIVE) then return end
+   if (MOAT_CONTAGION_ROUND_ACTIVE or dev_server) then return end
 
     local client = LocalPlayer()
     if not IsValid(client) then return end

@@ -170,6 +170,8 @@ function PANEL:Paint(width, height)
    if not IsValid(self.Player) then return end
    local ply = self.Player
 
+   self:InvalidateLayout()
+
    local c = hook.Call("TTTScoreboardRowColorForPlayer", GAMEMODE, ply)
 
    surface_SetDrawColor(103, 103, 103, 35)
