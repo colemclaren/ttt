@@ -65,7 +65,10 @@ end
 -- to handle lookup of strings that may legitimately fail to exist
 -- (eg. SWEP-defined).
 function LANG.GetRawTranslation(name)
-   return rawget(cached_active, name) or rawget(cached_default, name)
+    local s = cached_active[name]
+    if (not s) then s = cached_default[name] or name end
+
+   return s
 end
 
 -- A common idiom
@@ -84,7 +87,9 @@ end
 LANG.GetPTranslation = LANG.GetParamTranslation
 
 function LANG.GetTranslationFromLanguage(name, lang_name)
-   return rawget(LANG.Strings[lang_name], name)
+    if (not LANG.Strings[lang_name]) then long_name = "english" end
+
+   return LANG.Strings[lang_name][name] or name
 end
 
 -- Ability to perform lookups in the current language table directly is of
