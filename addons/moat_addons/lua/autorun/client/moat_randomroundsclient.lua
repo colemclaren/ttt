@@ -16,7 +16,7 @@ net.Receive("RandomRound",function()
     if name == "nono" then 
         if (cur_random_round == "Third Person") then
             hook.Remove("CreateMove", "MOAT_THIRDPERSON.ThirdPersonMovement")
-            hook.Remove("InputMouseApply", "MOAT_THIRDPERSON.ThirdPersonAiming")
+            hook.Remove("InputMouseApply", "MOAT_THIRDPERSON.ThirdPersonMouse")
             hook.Remove("CalcView", "MOAT_THIRDPERSON.ThirdPersonCamera")
             hook.Remove("PostPlayerDraw", "MOAT_THIRDPERSON.OverrideDepthEnableFalse")
             hook.Remove("PrePlayerDraw", "MOAT_THIRDPERSON.OverrideDepthEnableTrue")
@@ -36,7 +36,7 @@ net.Receive("RandomRound",function()
 
     if (name == "Third Person") then
         hook.Add("CreateMove", "MOAT_THIRDPERSON.ThirdPersonMovement", MOAT_THIRDPERSON.ThirdPersonMovement)
-        hook.Add("InputMouseApply", "MOAT_THIRDPERSON.ThirdPersonAiming", MOAT_THIRDPERSON.ThirdPersonAiming)
+        hook.Add("InputMouseApply", "MOAT_THIRDPERSON.ThirdPersonMouse", MOAT_THIRDPERSON.ThirdPersonAiming)
         hook.Add("CalcView", "MOAT_THIRDPERSON.ThirdPersonCamera", MOAT_THIRDPERSON.ThirdPersonCamera)
         hook.Add("PostPlayerDraw", "MOAT_THIRDPERSON.OverrideDepthEnableFalse", MOAT_THIRDPERSON.OverrideDepthEnableFalse)
         hook.Add("PrePlayerDraw", "MOAT_THIRDPERSON.OverrideDepthEnableTrue", MOAT_THIRDPERSON.OverrideDepthEnableTrue)

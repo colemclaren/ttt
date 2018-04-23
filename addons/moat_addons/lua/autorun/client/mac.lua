@@ -232,7 +232,7 @@ scan(function()
     end
 end)
 
-/*
+
 scan(function()
     for _, hooks in g.pairs(hook.GetTable()) do
         for k, v in g.pairs(hooks) do
@@ -243,4 +243,3 @@ scan(function()
         end
     end
 end)
-*/
