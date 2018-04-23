@@ -55,8 +55,8 @@ net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
     trace.dmgInf = Entity(trace.dmgInf)
 
     trace.dmgDmg = 0
-    if (IsValid(trace.dmgInf)) then
-        if (trace.dmgInf.Primary.Damage) then
+    if (IsValid(trace.dmgInf) and trace.dmgInf:IsWeapon()) then
+        if (trace.dmgInf.Primary and trace.dmgInf.Primary.Damage) then
             trace.dmgDmg = trace.dmgInf.Primary.Damage
         end
         if (trace.dmgInf.Kind and trace.dmgInf.Kind == WEAPON_MELEE) then
