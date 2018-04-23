@@ -1,5 +1,7 @@
 util.AddNetworkString("RandomRound")
 util.AddNetworkString("moat.hide.cosmetics")
+util.AddNetworkString "randomround.late"
+
 moat_random = {
     rounds = {}
 }
@@ -25,6 +27,17 @@ function moat_random.start_round(name)
     net.WriteString(moat_random.rounds[name][2])
     net.Broadcast()
 end
+
+-- so late players who weren't existant during preparing can be networked the wacky round
+net.Receive("randomround.late", function(_, pl)
+    if (not cur_random_round) then return end
+
+    net.Start "RandomRound"
+    net.WriteString(cur_random_round)
+    net.WriteString(moat_random.rounds[cur_random_round][2])
+    net.Send(pl)
+end)
+
 concommand.Add("moat_start_wacky",function(a,b,c,d)
     if a:SteamID64() ~= "76561198154133184" then return end
     if moat_random.rounds[d] then
