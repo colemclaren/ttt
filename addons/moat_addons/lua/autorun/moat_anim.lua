@@ -20,11 +20,11 @@ if (SERVER) then
 		local activeewp = ply:GetActiveWeapon()
 
 		if (activeewp) then
-			activeewp:SetHoldType("normal")
+			activeewp:SetHoldType("magic")
 			table.insert(ply.WeaponAnims, activeewp)
 		end
 
-		timer.Simple(0.2, function()
+		/*timer.Simple(0.2, function()
 			hook.Add("Think", "moatLookAtArm" .. ply:EntIndex(), function()
 				if (ply:IsValid() and ply:Team() ~= TEAM_SPEC) then
 					for k, v in pairs(bones) do
@@ -49,7 +49,7 @@ if (SERVER) then
 					end
 				end
 			end)
-		end)
+		end)*/
 	end
 
 	function moat_StartInventoryOpenAntimationEnd(ply)
@@ -106,10 +106,9 @@ if (SERVER) then
 	end)
 
 	hook.Add("PlayerSpawn", "moat_InventoryOpenAnimSpawn", function(ply)
-		if (ply:IsValid() and ply:Team() ~= TEAM_SPEC) then
+		if (IsValid(ply) and ply:Team() ~= TEAM_SPEC) then
 			timer.Simple(5, function()
-				if (ply.InventoryOpen) then
-					hook.Remove("Think", "moatLookAtArm" .. ply:EntIndex())
+				if (IsValid(ply) and ply:Team() ~= TEAM_SPEC and ply.InventoryOpen) then
 					moat_StartInventoryOpenAntimationStart(ply)
 				end
 			end)
@@ -251,6 +250,10 @@ end)*/
 	return
 end
 
+
+
+
+
 hook.Add("CreateMove", "moat_InventoryHandleDucking", function(cmd)
     if (cmd:KeyDown(IN_DUCK) and IsValid(MOAT_INV_BG)) then
         RunConsoleCommand("-duck")
@@ -270,29 +273,41 @@ surface.CreateFont("moat_Extreme1Large", {
 
 local MOAT_PLYS_INV = {}
 
+MOAT_GLOBAL_TEST_VARS = {
+	187,
+	190,
+	9,
+	4.3,
+	1
+}
+
 local function m_InitializeAnimations(ply)
 	local col_alpha = -255
 
-	hook.Add("PostDrawOpaqueRenderables", "moat_InventoryOpenCam" .. ply:EntIndex(), function()
-		if (not ply:IsValid() or ply:Team() == TEAM_SPEC or ply == LocalPlayer()) then
-			hook.Remove("PostDrawOpaqueRenderables", "moat_InventoryOpenCam" .. ply:EntIndex())
+	hook.Add("PostDrawTranslucentRenderables", "moat_InventoryOpenCam" .. ply:EntIndex(), function()
+		local lp = LocalPlayer()
+
+		if (not IsValid(ply) or ply:Team() == TEAM_SPEC or (IsValid(lp) and ply == lp)) then
+			hook.Remove("PostDrawTranslucentRenderables", "moat_InventoryOpenCam" .. ply:EntIndex())
 			return
 		end
+
+		if (IsValid(lp) and lp:Team() == TEAM_SPEC and lp:GetObserverTarget() == ply and lp:GetObserverMode() == OBS_MODE_IN_EYE) then return end
 
 		local b = ply:LookupBone("ValveBiped.Bip01_R_Forearm")
 		if (not b) then return end
 		
     	local pos1, ang = ply:GetBonePosition(b)
     	local pos2 = ply:GetManipulateBonePosition(b)
-    	ang:RotateAroundAxis(ang:Right(), 187)
-    	ang:RotateAroundAxis(ang:Up(), 180)
+    	ang:RotateAroundAxis(ang:Right(), MOAT_GLOBAL_TEST_VARS[1])
+    	ang:RotateAroundAxis(ang:Up(), MOAT_GLOBAL_TEST_VARS[2])
 
-    	local cam_pos = pos1 + pos2 + (ang:Forward() * 11) + (ang:Up() * 4) + (ang:Right() * -1)
+    	local cam_pos = pos1 + pos2 + (ang:Forward() * MOAT_GLOBAL_TEST_VARS[3]) + (ang:Up() * MOAT_GLOBAL_TEST_VARS[4]) + (ang:Right() * MOAT_GLOBAL_TEST_VARS[5])
 
     	if (MOAT_PLYS_INV[ply][1]) then
     	    col_alpha = Lerp(FrameTime() * 1, col_alpha, 255)
     	else
-    		hook.Remove("PostDrawOpaqueRenderables", "moat_InventoryOpenCam" .. ply:EntIndex())
+    		hook.Remove("PostDrawTranslucentRenderables", "moat_InventoryOpenCam" .. ply:EntIndex())
     	end
 
     	local col_alpha = col_alpha * math.Clamp((1 - ((200 + (cam_pos:Distance(LocalPlayer():GetPos())))/1000)), 0, 1)
@@ -306,21 +321,83 @@ local function m_InitializeAnimations(ply)
         	surface.DrawRect(-400, 35, 800, 5)
         	
         	draw.SimpleTextOutlined(MOAT_PLYS_INV[ply][2], "moat_ExtremeLarge", 0, 30, Color(255, 255, 255, col_alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 8, Color(0, 0, 0, 15 * (col_alpha/255)))
-    	cam.End3D2D()
+		cam.End3D2D()
 	end)
+end
+
+local function remove_view_hook(i)
+	hook.Remove("Think", "moat.inventory.view." .. i)
+end
+
+/*
+    - get the bone position
+	- determine optimial angle
+	- animate from difference
+	- changing the angle based on player angle
+
+	for i = 0, LocalPlayer():GetBoneCount() - 1 do if (not LocalPlayer():LookupBone(LocalPlayer():GetBoneName(i))) then continue end print(LocalPlayer():GetBoneName(i), LocalPlayer():GetManipulateBoneAngles(LocalPlayer():LookupBone(LocalPlayer():GetBoneName(i)))) end
+*/
+MOAT_GLOBAL_DABONE = {
+	Angle(0, -30, 0),
+	Angle(-25, -20, -40),
+	Angle(10, -30, 0),
+	Angle(10, -50, 25)
+}
+
+local mw = {
+	["ValveBiped.Bip01_R_Forearm"] = true,
+	["ValveBiped.Bip01_R_UpperArm"] = true,
+	["ValveBiped.Bip01_Head1"] = true,
+	["ValveBiped.Bip01_R_Hand"] = true
+}
+local function reset_bones(pl, w) -- no fucking idea why it changes others
+	for i = 0, pl:GetBoneCount() - 1 do
+		local n = pl:GetBoneName(i)
+		local l = pl:LookupBone(n)
+		if (not l or (mw[n] and not w)) then continue end
+
+		pl:ManipulateBoneAngles(l, Angle(0, 0, 0))
+	end
 end
 
 net.Receive("moat_OpenInventory", function()
 	local ply = net.ReadEntity()
 	local open = net.ReadBool()
+	ply.InventoryOpen = open
 
+	if (not ply:IsValid() or ply:Team() == TEAM_SPEC) then return end
 	MOAT_PLYS_INV[ply] = {open, "Loadout"}
 
 	if (open) then
+		reset_bones(ply, true)
 		m_InitializeAnimations(ply)
 	else
-		hook.Remove("PostDrawOpaqueRenderables", "moat_InventoryOpenCam" .. ply:EntIndex())
+		hook.Remove("PostDrawTranslucentRenderables", "moat_InventoryOpenCam" .. ply:EntIndex())
+		return
 	end
+
+	local idx, val = ply:EntIndex(), 0
+	hook.Add("Think", "moat.inventory.view." .. idx, function()
+		if (not IsValid(ply) or ply:Team() == TEAM_SPEC) then remove_view_hook(idx) return end
+		val = ply.InventoryOpen and Lerp(FrameTime() * 10, val, 1) or Lerp(FrameTime() * 10, val, 0)
+
+		if (val < 1) then
+			local p1 = ply:LookupBone "ValveBiped.Bip01_R_Forearm"
+			local p2 = ply:LookupBone "ValveBiped.Bip01_R_UpperArm"
+			local p3 = ply:LookupBone "ValveBiped.Bip01_Head1"
+			local p4 = ply:LookupBone "ValveBiped.Bip01_R_Hand"
+			if (not p1 or not p2 or not p3 or not p4) then remove_view_hook(idx) return end
+
+			--reset_bones(ply)
+			ply:ManipulateBoneAngles(p1, Angle(MOAT_GLOBAL_DABONE[1].p * val, MOAT_GLOBAL_DABONE[1].y * val, MOAT_GLOBAL_DABONE[1].r * val))
+			ply:ManipulateBoneAngles(p2, Angle(MOAT_GLOBAL_DABONE[2].p * val, MOAT_GLOBAL_DABONE[2].y * val, MOAT_GLOBAL_DABONE[2].r * val))
+			ply:ManipulateBoneAngles(p3, Angle(MOAT_GLOBAL_DABONE[3].p * val, MOAT_GLOBAL_DABONE[3].y * val, MOAT_GLOBAL_DABONE[3].r * val))
+			ply:ManipulateBoneAngles(p4, Angle(MOAT_GLOBAL_DABONE[4].p * val, MOAT_GLOBAL_DABONE[4].y * val, MOAT_GLOBAL_DABONE[4].r * val))
+		end
+
+		if (val >= 0.99999) then val = 1 end
+		if (val <= 0.00009) then val = 0 remove_view_hook(idx) reset_bones(ply, true) end
+	end)
 end)
 
 net.Receive("moat_InventoryCatChange", function()
