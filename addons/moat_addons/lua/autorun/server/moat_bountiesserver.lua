@@ -420,7 +420,7 @@ addcontract("Rightful Slayer",{
 })
 
 addcontract("Crouching Hunters",{
-	desc = "Kill as many terrorists as you can rightfully while crouching.",
+	desc = "Kill as many terrorists as you can rightfully while YOU are crouching.",
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
@@ -428,7 +428,7 @@ addcontract("Crouching Hunters",{
 			local att = inf:GetOwner()
 			if not att:IsPlayer() then return end
 
-			if (not ply:Crouching()) then return end
+			if (not att:Crouching()) then return end
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
 				contract_increase(att,1)
 			end
