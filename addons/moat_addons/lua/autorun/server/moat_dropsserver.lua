@@ -429,7 +429,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                 BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/cosmic.wav', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
                 BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)")
             elseif (item_to_drop.Rarity == 9) then
-                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/planetary.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
+                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/planetary.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(0.5) end end)") 
                 BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 25, 25, 15, 5000)")
                 local ITEM_HOVERED = item_to_drop
                 local wpnstr = item_to_drop.Name
