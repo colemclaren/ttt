@@ -217,7 +217,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 		draw.SimpleText("(Get 2,500 IC!)", "moat_Derma5", w - 5, h- 20, HSVToColor((CurTime() + 100) * 25 % 360, 1, 1), TEXT_ALIGN_RIGHT,TEXT_ALIGN_CENTER)
 	end
 	function steam:DoClick()
-		RunConsoleCommand("say", "!steam")
+		REWARDS.OpenRewards( )
 	end
 	steam:Dock(TOP)
 	steam:SetSize(0,50)
