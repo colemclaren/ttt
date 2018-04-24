@@ -437,7 +437,7 @@ addcontract("Melee Hunter",{
 	end
 })
 
-addcontract("Pistol Hunter",{
+addcontract("Secondary Hunter",{
 	desc = "Rightfully kill as many terrorists as you can with a secondary.",
 	adj = "Kills",
 	runfunc = function()
