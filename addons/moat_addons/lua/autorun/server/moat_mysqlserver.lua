@@ -806,6 +806,10 @@ function m_LoadInventoryForPlayer(ply)
     end
 
     query1:start()
+
+    --UPDATE core_members SET last_activity = 1524525387 WHERE steamid = 76561198831932398
+    local query2 = MINVENTORY_MYSQL:query("UPDATE core_members SET last_activity = UNIX_TIMESTAMP() WHERE steamid = '" .. ply:SteamID64() .. "'")
+    query2:start()
 end
 
 function m_SaveInventory(ply)
