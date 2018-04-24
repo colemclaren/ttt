@@ -1375,6 +1375,8 @@ local function chat_()
         local s = "Global Announcement: **" .. msg .. "**"
         if msg == "[MapVote]" then
             s = "Forced all servers to change maps."
+        elseif msg == "[EndRound]" then
+            s = "Forced all servers to change maps at the end of their rounds."
         end
 		SVDiscordRelay.SendToDiscordRaw("MG",false,s,"https://discordapp.com/api/webhooks/426168857531777032/eYz9auMRlmVfdKtXvlHJnjx3wY5KwHaLJ5TkwBF31jeuCgtn3DQb_DNw7yMeaXBZ2J7x")
     end
@@ -1461,6 +1463,14 @@ local function chat_()
                 if tostring(v.steamid) == "-1337" then
                     if v.msg == "[MapVote]" then
                         MapVote.Start()
+                    elseif v.msg == "[EndRound]" then
+                        net.Start("Moat.GlobalAnnouncement")
+                        net.WriteString("A map vote has been forced at the end of this round.")
+                        net.Broadcast()
+                        hook.Add("TTTEndRound", "EndRoundMapVote", function(res)
+                            MapVote.Start()
+                            hook.Remove("TTTEndRound", "EndRoundMapVote")
+                        end)
                     else
                         net.Start("Moat.GlobalAnnouncement")
                         net.WriteString(v.msg)
