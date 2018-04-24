@@ -730,7 +730,7 @@ function StopWinChecks()
 end
 
 
-
+local mc_server = GetHostName():lower():find("minecraft")
 local function CleanUp()
 
    local et = ents.TTT
@@ -774,35 +774,36 @@ local function CleanUp()
         ["trigger_hurt"] = true,
         ["trigger_push"] = true
     }
-
     ServerLog("Starting Cleanup Map\n")
 
-    local tbl = {}
-    for k, v in ipairs(ents.GetAll()) do
-        --ServerLog(v:GetClass() .. "\n")
+    if (not mc_server) then
+        local tbl = {}
+        for k, v in ipairs(ents.GetAll()) do
+            --ServerLog(v:GetClass() .. "\n")
 
-        if (prop_classes[v:GetClass()]) then
-            v:Remove()
-            continue
-        end
-        if (v:IsWeapon() or v:IsRagdoll()) then
-            if (not tbl[v:GetClass()]) then
-                tbl[v:GetClass()] = true
-                table.insert(tbl, v:GetClass())
+            if (prop_classes[v:GetClass()]) then
+                v:Remove()
+                continue
             end
+            if (v:IsWeapon() or v:IsRagdoll()) then
+                if (not tbl[v:GetClass()]) then
+                    tbl[v:GetClass()] = true
+                    table.insert(tbl, v:GetClass())
+                end
 
-            if (v:IsWeapon()) then v:SetOwner(nil) end
-            v:Remove()
+                if (v:IsWeapon()) then v:SetOwner(nil) end
+                v:Remove()
+            end
         end
+        ServerLog("Looped Through Entities\n")
     end
-
-    ServerLog("Looped Through Entities\n")
 
     et.FixParentedPreCleanup()
 
-    game.CleanUpMap(false, tbl)
-
-    ServerLog("Clean Up 1\n")
+    if (not mc_server) then
+        game.CleanUpMap(false, tbl)
+        ServerLog("Clean Up 1\n")
+    end
 
     game.CleanUpMap()
 
@@ -815,7 +816,6 @@ local function CleanUp()
    -- a different kind of cleanup
 
    util.SafeRemoveHook("PlayerSay", "ULXMeCheck")
-
     ServerLog("Function Finished\n")
 end
 
