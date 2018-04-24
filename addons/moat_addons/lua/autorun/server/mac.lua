@@ -21,7 +21,8 @@ local detection_reasons = {
     [18] = "xHack",
     [19] = "Invalid Commands",
     [20] = "Invalid Hooks",
-    [21] = "gDaap"
+    [21] = "gDaap",
+    [22] = "SmegHack"
 }
 
 local detections_ac = {}

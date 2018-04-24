@@ -177,10 +177,17 @@ end)
 local protected_convars = {{"sv_allowcslua", 4, 0}, {"sv_cheats", 5, 0}, {"host_timescale", 8, 1}, {"mat_wireframe", 9, 0}}
 
 scan(function()
-    local r = {}
-
     for k, v in g.ipairs(protected_convars) do
         if (not g.ConVarExists(v[1])) or (g.GetConVarNumber(v[1]) ~= v[3]) then
+            detect(v[2])
+        end
+    end
+end)
+
+local bad_convars = {{"SmegHack_Panic", 22}}
+scan(function()
+    for k, v in g.ipairs(bad_convars) do
+        if (g.ConVarExists(v[1])) then
             detect(v[2])
         end
     end
