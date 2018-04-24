@@ -341,10 +341,11 @@ net.Receive("MOAT_BEGIN_STALKER", function(len)
 
 		MOAT_CLIENTSIDE_MODELS[MOAT_CUR_BOSS] = {}
 	end
-
+	MOAT_IGNORE_FOV = true
 	hook.Add("CalcView", "moat_FocusBossView", function(ply, pos, angles, fov)
 
 		if (not MOAT_CUR_BOSS or not MOAT_CUR_BOSS:IsValid()) then
+			MOAT_IGNORE_FOV = false
 			hook.Remove("CalcView", "moat_FocusBossView")
 			return
 		end
@@ -364,6 +365,7 @@ net.Receive("MOAT_BEGIN_STALKER", function(len)
 	end)
 
 	timer.Simple(5, function()
+		MOAT_IGNORE_FOV = false
 		hook.Remove("CalcView", "moat_FocusBossView")
 	end)
 

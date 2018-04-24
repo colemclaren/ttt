@@ -84,6 +84,7 @@ local moat_rarity_colors = {
 }
 
 hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
+    if MOAT_IGNORE_FOV then return end
     if cur_random_round then return end
     if (not LocalPlayer():Alive()) or LocalPlayer():IsSpec() then return end
     if current_scene then return end

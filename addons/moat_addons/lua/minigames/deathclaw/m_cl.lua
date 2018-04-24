@@ -329,10 +329,11 @@ net.Receive("MOAT_BEGIN_BOSS", function(len)
 
 	local ply = net.ReadEntity()
 	MOAT_CUR_BOSS = ply
-
+	MOAT_IGNORE_FOV = true
 	hook.Add("CalcView", "moat_FocusBossView", function(ply, pos, angles, fov)
 
 		if (not MOAT_CUR_BOSS or not MOAT_CUR_BOSS:IsValid()) then
+			MOAT_IGNORE_FOV = false
 			hook.Remove("CalcView", "moat_FocusBossView")
 			return
 		end
@@ -352,6 +353,7 @@ net.Receive("MOAT_BEGIN_BOSS", function(len)
 	end)
 
 	timer.Simple(5, function()
+		MOAT_IGNORE_FOV = false
 		hook.Remove("CalcView", "moat_FocusBossView")
 	end)
 

@@ -342,7 +342,7 @@ net.Receive("MOAT_BEGIN_DRAGON", function(len)
 	moat_InitDrawBossHealth()
 
 	local the_pos = MOAT_CUR_BOSS_PLY:GetPos() + Vector(0, 0, 100)
-
+	MOAT_IGNORE_FOV = true
 	hook.Add("CalcView", "moat_FocusBossView", function(ply, pos, angles, fov)
 		local view = {}
 		local angles = Angle(0, 0, 0)
@@ -358,6 +358,7 @@ net.Receive("MOAT_BEGIN_DRAGON", function(len)
 	end)
 
 	timer.Simple(5, function()
+		MOAT_IGNORE_FOV = false
 		hook.Remove("CalcView", "moat_FocusBossView")
 
 		/*hook.Add("CalcView", "moat_SpectateApache", function(ply, pos, angles, fov)
