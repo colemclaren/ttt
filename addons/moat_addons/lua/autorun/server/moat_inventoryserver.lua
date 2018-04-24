@@ -1065,10 +1065,12 @@ function m_InitTradeAccept(trade_id)
         end
         t[#t+1] = v
     end
-    net.Start("MOAT_TRADED_ITEMS")
-    net.WriteEntity(offer_player2)
-    net.WriteTable(t or {})
-    net.Broadcast()
+    if (not offer_player2.ChatMuted) then
+        net.Start("MOAT_TRADED_ITEMS")
+        net.WriteEntity(offer_player2)
+        net.WriteTable(t or {})
+        net.Broadcast()
+    end
 
     local t = {}
     for k,v in pairs(offer_table2_items) do
@@ -1082,10 +1084,12 @@ function m_InitTradeAccept(trade_id)
         end
         t[#t+1] = v
     end
-    net.Start("MOAT_TRADED_ITEMS")
-    net.WriteEntity(offer_player1)
-    net.WriteTable(offer_table2_items or {})
-    net.Broadcast()
+    if (not offer_player1.ChatMuted) then
+        net.Start("MOAT_TRADED_ITEMS")
+        net.WriteEntity(offer_player1)
+        net.WriteTable(offer_table2_items or {})
+        net.Broadcast()
+    end
 
 
     if (MOAT_TRADE_BANNED and (MOAT_TRADE_BANNED[offer_player1:SteamID()] or MOAT_TRADE_BANNED[offer_player2:SteamID()])) then
