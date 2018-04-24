@@ -334,6 +334,7 @@ local function moat_BeginRoundBossHooks()
             end)
 
             local pos = MOAT_EASTER.SpawnPositions[math.random(1, #MOAT_EASTER.SpawnPositions)]
+            if (not pos) then return end
 
             local ent = ents.Create("sent_egg")
             ent:SetPos(pos + Vector(math.random(-48, 48), math.random(-48, 48), 16))

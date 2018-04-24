@@ -19,7 +19,7 @@ if (SERVER) then
 		ply.WeaponAnims = {}
 		local activeewp = ply:GetActiveWeapon()
 
-		if (activeewp) then
+		if (IsValid(activeewp) and activeewp.SetHoldType) then
 			activeewp:SetHoldType("magic")
 			table.insert(ply.WeaponAnims, activeewp)
 		end
