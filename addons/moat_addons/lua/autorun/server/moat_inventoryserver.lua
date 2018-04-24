@@ -49,7 +49,7 @@ util.AddNetworkString "MOAT_REM_PAINT"
 util.AddNetworkString "MOAT_REM_TEXTURE"
 util.AddNetworkString "MOAT_UPDATE_MODEL_POS"
 
-local MOAT_TRADES = {}
+MOAT_TRADES = {}
 local meta = FindMetaTable("Player")
 
 function meta:m_getInvCat()
@@ -664,6 +664,7 @@ end)
 local trade_key_stored = 1
 
 function m_InitializeTrade(ply1, ply2)
+    if ply1 == ply2 then return end
     ply1:SetNWBool("MOAT_IS_CURRENTLY_TRADING", true)
     ply2:SetNWBool("MOAT_IS_CURRENTLY_TRADING", true)
     trade_key_stored = trade_key_stored + 1
@@ -903,7 +904,7 @@ net.Receive("MOAT_TRADE_MESSAGE", function(len, ply)
 end)
 
 local trade_processing = {}
-
+util.AddNetworkString("MOAT_TRADED_ITEMS")
 function m_InitTradeAccept(trade_id)
     local trade_tbl = MOAT_TRADES[trade_id]
     if (not trade_tbl) then return end
@@ -1013,8 +1014,9 @@ function m_InitTradeAccept(trade_id)
             end
         end
     end
-
+    -- meme1337
     -- Give items to player 2
+
     for k, v in pairs(offer_table1_items) do
         if (v.c) then
             offer_player2:m_AddInventoryItem(v, true, true)
@@ -1050,6 +1052,41 @@ function m_InitTradeAccept(trade_id)
     net.Send(offer_player2)
 
     trade_tbl = nil
+
+    local t = {}
+    for k,v in pairs(offer_table1_items) do
+        v.item = m_GetItemFromEnum(v.u)
+        if (v.t) then
+            v.Talents = {}
+
+            for i, o in ipairs(v.t) do
+                v.Talents[i] = m_GetTalentFromEnum(o.e)
+            end
+        end
+        t[#t+1] = v
+    end
+    net.Start("MOAT_TRADED_ITEMS")
+    net.WriteEntity(offer_player2)
+    net.WriteTable(t or {})
+    net.Broadcast()
+
+    local t = {}
+    for k,v in pairs(offer_table2_items) do
+        v.item = m_GetItemFromEnum(v.u)
+        if (v.t) then
+            v.Talents = {}
+
+            for i, o in ipairs(v.t) do
+                v.Talents[i] = m_GetTalentFromEnum(o.e)
+            end
+        end
+        t[#t+1] = v
+    end
+    net.Start("MOAT_TRADED_ITEMS")
+    net.WriteEntity(offer_player1)
+    net.WriteTable(offer_table2_items or {})
+    net.Broadcast()
+
 
     if (MOAT_TRADE_BANNED and (MOAT_TRADE_BANNED[offer_player1:SteamID()] or MOAT_TRADE_BANNED[offer_player2:SteamID()])) then
         if (MOAT_TRADE_BANNED[offer_player1:SteamID()]) then
