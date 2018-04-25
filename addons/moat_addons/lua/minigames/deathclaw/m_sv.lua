@@ -130,7 +130,7 @@ local function moat_BeginRoundBossHooks()
             if (#healers < math.ceil(#player.GetAll() / 4)) then
                 table.insert(healers, v)
                 v:Give("weapon_ttt_health_station")
-                BroadcastLua([[chat.AddText(Material("icon16/information.png"), Color( 0, 255, 0 ),"]] .. v:Nick() .. [[ has a health station!" )]])
+               -- BroadcastLua([[chat.AddText(Material("icon16/information.png"), Color( 0, 255, 0 ),"]] .. v:Nick() .. [[ has a health station!" )]])
             end
         end
 
