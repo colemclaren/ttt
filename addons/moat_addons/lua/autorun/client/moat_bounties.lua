@@ -99,6 +99,9 @@ lottery = lottery or {}
 
 net.Receive("lottery.firstjoin",function()
     lottery = net.ReadTable()
+    timer.Simple(60,function()
+        chat.AddText(Material("icon16/information.png"),"Welcome back! Today's lottery is currently at ",Color(255,255,0),string.Comma(lottery.amount)," IC",Color(255,255,255),"! (Dailies tab)")
+    end)
     if net.ReadBool() then
         lottery.mine = net.ReadInt(32)
     end
