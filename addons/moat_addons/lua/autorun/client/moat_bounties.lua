@@ -95,6 +95,137 @@ end
 
 --function m_PopulateBountiesPanel(pnl,pnl_x, pnl_y, pnl_w, pnl_h)
 
+lottery = lottery or {}
+
+net.Receive("lottery.firstjoin",function()
+    lottery = net.ReadTable()
+    if net.ReadBool() then
+        lottery.mine = net.ReadInt(32)
+    end
+end)
+
+net.Receive("lottery.updatepopular",function()
+    lottery.popular_num = net.ReadInt(32)
+    lottery.popular_ply = net.ReadInt(32)
+end)
+
+net.Receive("lottery.updateamount",function()
+    lottery.amount = net.ReadInt(32)
+end)
+
+net.Receive("lottery.updatetotal",function()
+    lottery.players = net.ReadInt(32)
+end)
+
+net.Receive("lottery.Purchase",function()
+    local i = net.ReadInt(32)
+    if i == -1 then lottery.mine = nil return end
+    lottery.mine = i
+    chat.AddText(Color(0,255,0),"You have purchase a ticket with the number of " .. i .. " in the lottery!")
+end)
+
+net.Receive("lottery.Win",function()
+    local i = net.ReadInt(32)
+    chat.AddText(Color(255,255,255),"You WON the last lottery and earned ",Color(255,255,0),string.Comma(i), " IC!")
+end)
+
+net.Receive("lottery.last",function()
+    lottery.last_num = net.ReadInt(32)
+end)
+
+surface.CreateFont("MinnLottery",{
+    font = "DermaLarge",
+    size = 25,
+    weight = 400,
+})
+
+function m_MakeLotteryPanel()
+    print(3733)
+    MOAT_LOTTERY = vgui.Create("DPanel", MOAT_CHALL_BG)
+	MOAT_LOTTERY:SetPos(1, 50)
+	MOAT_LOTTERY:SetSize(738, 463)
+    MOAT_LOTTERY.Paint = function(s, w, h)
+        draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
+
+        HSVColor = HSVToColor(CurTime() * 50 % 360, 1, 1)
+
+        -- Header
+        --draw.SimpleTextOutlined("Daily Bounties", "DermaLarge", w/2, 35, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+        --draw.RoundedBox(0, (w/2) - ((w/3)/2), 35 + 20, w/3, 1, HSVColor)
+
+        -- Description
+        draw.SimpleTextOutlined("This is the 1-200 lucky number lottery, the pot starts at 10,000 IC!", "moat_ItemDesc", w/2, 10, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("The way to win the lottery is to guess the lucky number that gets picked at the end of the timer!", "moat_ItemDesc", w/2, 30, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("If there are multiple winners, the reward is shared evenly! The lottery is also cross-server", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
+
+        local datime = os.date("!*t", (os.time() - 21600))
+
+        if (datime.hour == 0) then datime.hour = 24 end
+        
+        local hr = 24 - datime.hour 
+        if (hr < 10) then
+            hr = "0" .. hr
+        end
+
+        local min = 60 - datime.min
+        if (min < 10) then
+            min = "0" .. min
+        end
+
+        local sec = 60 - datime.sec
+        if (sec < 10) then
+            sec = "0" .. sec
+        end
+
+        local timestring = hr .. ":" .. min .. ":" .. sec
+
+        -- Time Left
+        if (GetGlobalFloat("moat_bounties_refresh_next")) then
+            draw.SimpleTextOutlined("Will be determined on Map Change!", "DermaLarge", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+        else
+            draw.SimpleTextOutlined("Time Until Draw: " .. timestring, "DermaLarge", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+        end
+        draw.SimpleTextOutlined("Lottery Pot is currently:", "DermaLarge", w/2, 130, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined((string.Comma(lottery.amount or 10000)) .. " IC", "moat_JackBig", w/2, 175, Color(255, 255, 0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+
+        draw.SimpleTextOutlined("There are " .. (lottery.players or 0) .. " players in the lottery!", "MinnLottery", w/2, 220, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+
+        draw.SimpleTextOutlined("The most popular number is " .. (lottery.popular_num or 1) .. ", which has " .. (lottery.popular_ply or 0) .. " players", "MinnLottery", w/2, 250, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+
+        draw.SimpleTextOutlined("The last lottery number was " .. (lottery.last_num or 1), "MinnLottery", w/2, 280, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+
+        if lottery.mine then
+            draw.SimpleTextOutlined("Your number is " .. lottery.mine .. ", good luck!", "moat_JackBig", w/2, 330, Color(0, 255, 0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+        else
+            draw.SimpleTextOutlined("You are not in the current lottery, you can purchase a ticket below!", "MinnLottery", w/2, 330, Color(255, 0, 0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+        end
+        
+    end
+
+    local but = vgui.Create("DButton",MOAT_LOTTERY)
+    but:SetSize(718,70)
+    but:SetPos(10,379)
+    but:SetText("")
+    but:SetFont("DermaLarge")
+    but.Label = ((lottery.mine and "Change ticket number for 1,000 IC" or "Purchase lottery ticket for 1,000 IC"))
+    MOAT_FORUMS.ButtonPaint(but, {51, 153, 255})
+    function but.DoClick()
+        if MOAT_INVENTORY_CREDITS < 1000 then chat.AddText(Color(255,0,0),"You do not have enough IC!") surface.PlaySound("/resource/warning.wav") return end
+        Derma_StringRequest("Please input a number", "Please select a number for your lottery ticket\n(Must be between 1 and 200)", "100", function(i)
+            i = tonumber(i)
+            if i < 1 or i > 200 then chat.AddText(Color(255,0,0),"The number must be between 1 and 200!") surface.PlaySound("/resource/warning.wav") return end
+            net.Start("lottery.Purchase")
+            net.WriteInt(i,32)
+            net.SendToServer()
+        end, "Nevermind")
+    end
+end
+
+function m_RemoveLotteryPanel()
+    if not IsValid(MOAT_LOTTERY) then return end
+    MOAT_LOTTERY:Remove()
+end
+
 function m_RemoveContractsPanel()
     if not IsValid(MOAT_CONTRACTS) then return end
     MOAT_CONTRACTS:Remove()
@@ -620,7 +751,7 @@ function m_PopulateBountiesPanel(pnl)
     MOAT_CHALL_AVA:SetSize(17, 17)
     MOAT_CHALL_AVA:SetPlayer(LocalPlayer(), 32)
 
-    local MOAT_CHALL_CATS = {{"Bounties", Color(150, 0, 255)}, {"Contracts", Color(255, 0, 50)},{"Rewards", Color(255, 255, 50)} }
+    local MOAT_CHALL_CATS = {{"Bounties", Color(150, 0, 255)}, {"Contracts", Color(255, 0, 50)}, {"Lottery", Color(255, 0, 50)}, {"Rewards", Color(255, 255, 50)} }
     local CAT_WIDTHS = 0
 
     for i = 1, #MOAT_CHALL_CATS do
@@ -669,6 +800,12 @@ function m_PopulateBountiesPanel(pnl)
             end
 
             if (i == 3) then
+                m_MakeLotteryPanel()
+            else
+                m_RemoveLotteryPanel()
+            end
+
+            if (i == 4) then
                 MOAT_INV_BG:Remove()
                 RunConsoleCommand("say", "!rewards")
             end

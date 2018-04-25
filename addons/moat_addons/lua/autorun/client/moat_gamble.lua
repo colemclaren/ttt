@@ -4341,3 +4341,15 @@ net.Receive("Moat.PlanetaryDrop",function()
 	table.insert(tab,"!")
 	chat.AddText(unpack(tab))
 end)
+
+net.Receive("Moat.LotteryChat",function()
+	local t = net.ReadTable()
+	local number = tonumber(t[1])
+	local am = tonumber(t[2])
+	local winners = tonumber(t[3])
+	if winners < 1 then
+		chat.AddText(Color(255,255,255),"[",Color(255,255,0),"LOTTERY",Color(255,255,255),"] The lottery number for today was ",Color(255,0,0),number,Color(255,255,255)," with a pot of ",Color(255,255,0),string.Comma(am), " IC",Color(255,255,255),"! There were no winners!")
+	else
+		chat.AddText(Color(255,255,255),"[",Color(255,255,0),"LOTTERY",Color(255,255,255),"] The lottery number for today was ",Color(255,0,0),number,Color(255,255,255)," with a pot of ",Color(255,255,0),string.Comma(am), " IC",Color(255,255,255),"! There's " .. winners .. " winner" .. (#winners == 1 and "" or "s") .. "!")
+	end
+end)

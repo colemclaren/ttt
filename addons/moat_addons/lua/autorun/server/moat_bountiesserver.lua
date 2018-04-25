@@ -2,6 +2,15 @@ moat_contracts = {}
 util.AddNetworkString("moat.contracts")
 util.AddNetworkString("moat.contractinfo")
 util.AddNetworkString("moat.contracts.chat")
+
+util.AddNetworkString("lottery.updateamount")
+util.AddNetworkString("lottery.updatepopular")
+util.AddNetworkString("lottery.Purchase")
+util.AddNetworkString("lottery.updatetotal")
+util.AddNetworkString("lottery.firstjoin")
+util.AddNetworkString("lottery.Win")
+util.AddNetworkString("lottery.last")
+
 contract_starttime = os.time()
 contract_id = 0
 contract_loaded = false
@@ -34,6 +43,217 @@ local function _contracts()
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_veterangamers` ( `steamid` varchar(255) NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
     q:start()
 
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery` ( `amount` INT NOT NULL, PRIMARY KEY (amount) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_last` ( `num` INT NOT NULL, PRIMARY KEY (num) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_players` ( `steamid` varchar(255), `name` varchar(255), `ticket` INT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_winners` ( `steamid` varchar(255), `amount` INT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+	
+	lottery_stats = lottery_stats or {
+		amount = 10000,
+		players = 0,
+		popular_num = 1,
+		popular_ply = 0,
+		loaded = false
+	}
+
+	function lottery_updatepopular()
+		local q = db:query("SELECT ticket, COUNT(*) AS num from moat_lottery_players GROUP BY ticket ORDER BY COUNT(*) DESC")
+		function q:onSuccess(d)
+			if #d < 1 then return end
+			d = d[1]
+			lottery_stats.loaded = true
+			lottery_stats.popular_num = d.ticket
+			lottery_stats.popular_ply = d.num
+			net.Start("lottery.updatepopular")
+			net.WriteInt(d.ticket,32)
+			net.WriteInt(d.num,32)
+			net.Broadcast()
+		end
+		q:start()
+	end
+
+	function lottery_updateamount()
+		local q = db:query("SELECT amount from moat_lottery;")
+		function q:onSuccess(d)
+			lottery_stats.loaded = true
+			lottery_stats.amount = d[1].amount
+			net.Start("lottery.updateamount")
+			net.WriteInt(d[1].amount,32)
+			net.Broadcast()
+		end
+		q:start()
+	end
+
+	function lottery_updatetotal()
+		local q = db:query("SELECT COUNT(*) AS num FROM moat_lottery_players;")
+		function q:onSuccess(d)
+			lottery_stats.loaded = true			
+			lottery_stats.players = d[1].num
+			net.Start("lottery.updatetotal")
+			net.WriteInt(d[1].num or 0,32)
+			net.Broadcast()
+		end
+		q:start()
+	end
+
+	function lottery_updatelast()
+		local q = db:query("SELECT num FROM moat_lottery_last")
+		function q:onSuccess(d)
+			lottery_stats.last_num = d[1].num
+			net.Start("lottery.last")
+			net.WriteInt(d[1].num,32)
+			net.Broadcast()
+		end
+		q:start()
+	end
+
+	function lottery_playerspawn(ply)
+		local q = db:query("SELECT * FROM moat_lottery_players WHERE steamid = '" .. ply:SteamID64() .. "';")
+		function q:onSuccess(d)
+
+			print("GOt lottery player")
+			net.Start("lottery.firstjoin")
+			net.WriteTable(lottery_stats)
+			net.WriteBool(#d > 1)
+			if #d > 1 then
+				net.WriteInt(d[1].ticket,32)
+			end
+			net.Send(ply)
+			if not lottery_stats.loaded then
+				lottery_updatetotal()
+				lottery_updateamount()
+				lottery_updatepopular()
+				
+				lottery_updatelast()
+			end
+		end
+		q:start()
+
+		timer.Simple(30,function()
+			if not IsValid(ply) then return end
+			local q = db:query("SELECT * FROM moat_lottery_winners WHERE steamid = '" .. ply:SteamID64() .. "';")
+			function q:onSuccess(d)
+				if #d < 1 then return end
+				if not IsValid(ply) then return end
+				ply:m_GiveIC(d[1].amount)
+				net.Start("lottery.Win")
+				net.WriteInt(d[1].amount,32)
+				net.Send(ply)
+				local q = db:query("DELETE FROM moat_lottery_winners WHERE steamid = '" .. ply:SteamID64() .. "';")
+				q:start()
+			end
+			q:start()
+		end)
+	end
+
+	net.Receive("lottery.Purchase",function(l,ply)
+		if not ply:m_HasIC(1000) then return end
+		local i = net.ReadInt(32)
+		if i < 1 or i > 200 then return end
+		ply:m_GiveIC(-1000)
+		print(ply)
+		local q = db:query("UPDATE moat_lottery SET amount = amount + 1000;")
+		q:start()
+		local q = db:query("REPLACE INTO moat_lottery_players (steamid, name, ticket) VALUES ('" .. ply:SteamID64() .. "','" .. db:escape(ply:Nick()) .. "'," .. i .. ");")
+		function q:onSuccess()
+			net.Start("lottery.Purchase")
+			net.WriteInt(i,32)
+			net.Send(ply)
+			lottery_updatetotal()
+			lottery_updateamount()
+			lottery_updatepopular()
+		end
+		function q:onError(d)
+			print(d)
+		end
+		q:start()
+	end)
+
+	function lottery_finish()
+		for i =1,7 do math.random() end
+		local winner = math.random(1,200)
+		local q = db:query("UPDATE moat_lottery_last SET num = '" .. winner .. "';")
+		q:start()
+		print(winner)
+		local q = db:query("SELECT * FROM moat_lottery_players WHERE ticket = '" .. winner .. "';")
+		function q:onSuccess(plys)
+			local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
+			local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\nThere's **" .. #plys .. "** winner" .. (#plys == 1 and "" or "s") .. "!" .. (#plys > 0 and "\n(Check #ttt-logs for who they were)" or "")
+			SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
+			gglobalchat_lottery(winner,lottery_stats.amount,#plys)
+			if #plys < 1 then
+				print("No winners")
+				local c = db:query("UPDATE moat_lottery SET amount = '10000'")
+				c:start()
+				local e = db:query("DELETE FROM moat_lottery_players;")
+				function e:onSuccess()
+					print("Donesucc")
+					timer.Simple(5,function()
+						lottery_updatetotal()
+						lottery_updateamount()
+						lottery_updatepopular()
+						
+						lottery_updatelast()
+						net.Start("lottery.Purchase")
+						net.WriteInt(-1,32)
+						net.Broadcast()
+					end)
+				end
+				function e:onError(d) print(d) end
+				e:start()
+				return 
+			end
+			local c = db:query("SELECT amount from moat_lottery;")
+			function c:onSuccess(d)
+				d = d[1]
+				d.amount = d.amount * 0.9
+				local each = math.floor(d.amount/#plys)
+				print("Each winner gets " .. each)
+				for k,v in pairs(plys) do
+					local q = db:query("INSERT INTO moat_lottery_winners (steamid,amount) VALUES ('" .. v.steamid .. "'," .. each .. ");")
+						print(k,#plys,v.name)
+						timer.Simple(k,function()
+							local msg = v.name .. " (" .. util.SteamIDFrom64(v.steamid) .. ") won **" .. string.Comma(each) .. " IC** in the lottery!"
+							SVDiscordRelay.SendToDiscordRaw("Ban bot",false,msg,"https://discordapp.com/api/webhooks/393120753593221130/bPZTXCj5fjQgHJCOKDPbUj4Btq5EtqkZSKV-ewwaLwESwZEEc7fBHBWuIbe8np2FG8Jn")
+						end)
+						if k == #plys then
+							function q:onSuccess()
+								print("Done")
+								local c = db:query("UPDATE moat_lottery SET amount = '10000'")
+								c:start()
+								local e = db:query("DELETE FROM moat_lottery_players;")
+								function e:onSuccess()
+									print("Donesucc")
+									timer.Simple(5,function()
+										lottery_updatetotal()
+										lottery_updateamount()
+										lottery_updatepopular()
+										
+										lottery_updatelast()
+									end)
+								end
+								function e:onError(d) print(d) end
+								e:start()
+							end
+						end
+					q:start()
+				end
+			end
+			c:start()
+		end
+		function q:onError(d)
+			print(d)
+		end
+		q:start()
+	end
+
 	local function loadnew()
 		local c,name = table.Random(moat_contracts)
 		local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
@@ -50,6 +270,7 @@ local function _contracts()
 			contract_id = b[1].ID
 		end
 		q:start()
+		lottery_finish()
 	end
 
 	function newcontract()
@@ -207,6 +428,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	end
 
 	hook.Add("PlayerInitialSpawn","Contracts",function(ply)
+		lottery_playerspawn(ply)
 		net.Start("moat.contractinfo")
 		net.WriteString(contract_loaded)
 		net.WriteString(moat_contracts[contract_loaded].desc)
@@ -281,6 +503,9 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	end
 
 	hook.Add("TTTEndRound","Contracts",function()
+		lottery_updatetotal()
+		lottery_updateamount()
+		lottery_updatepopular()
 		contract_top(function(top)
 			for k,v in ipairs(player.GetAll()) do
 				contract_getplace(v,function(p)
