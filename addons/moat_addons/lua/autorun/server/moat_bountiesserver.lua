@@ -121,8 +121,8 @@ local function _contracts()
 			print("GOt lottery player")
 			net.Start("lottery.firstjoin")
 			net.WriteTable(lottery_stats)
-			net.WriteBool(#d > 1)
-			if #d > 1 then
+			net.WriteBool(#d > 0)
+			if #d > 0 then
 				net.WriteInt(d[1].ticket,32)
 			end
 			net.Send(ply)
