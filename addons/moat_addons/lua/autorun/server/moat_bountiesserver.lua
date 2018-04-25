@@ -91,6 +91,7 @@ local function _contracts()
 		end
 		q:start()
 	end
+	lottery_updatepopular()
 
 	function lottery_updatetotal()
 		local q = db:query("SELECT COUNT(*) AS num FROM moat_lottery_players;")
@@ -103,6 +104,7 @@ local function _contracts()
 		end
 		q:start()
 	end
+	lottery_updatetotal()
 
 	function lottery_updatelast()
 		local q = db:query("SELECT num FROM moat_lottery_last")
@@ -114,6 +116,7 @@ local function _contracts()
 		end
 		q:start()
 	end
+	lottery_updatelast()
 
 	function lottery_playerspawn(ply)
 		local q = db:query("SELECT * FROM moat_lottery_players WHERE steamid = '" .. ply:SteamID64() .. "';")
@@ -176,46 +179,72 @@ local function _contracts()
 		end
 		q:start()
 	end)
-
+	
+	local l_test = false
 	function lottery_finish()
 		for i =1,7 do math.random() end
 		local winner = math.random(1,200)
 		local q = db:query("UPDATE moat_lottery_last SET num = '" .. winner .. "';")
 		q:start()
-		print(winner)
-		local q = db:query("SELECT * FROM moat_lottery_players WHERE ticket = '" .. winner .. "';")
-		function q:onSuccess(plys)
-			local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
-			local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\nThere's **" .. #plys .. "** winner" .. (#plys == 1 and "" or "s") .. "!" .. (#plys > 0 and "\n(Check #ttt-logs for who they were)" or "")
-			SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
-			gglobalchat_lottery(winner,lottery_stats.amount,#plys)
-			if #plys < 1 then
-				local c = db:query("UPDATE moat_lottery SET amount = '5000'")
-				c:start()
-				local e = db:query("DELETE FROM moat_lottery_players;")
-				function e:onSuccess()
-					timer.Simple(5,function()
-						lottery_updatetotal()
-						lottery_updateamount()
-						lottery_updatepopular()
-						
-						lottery_updatelast()
-						net.Start("lottery.Purchase")
-						net.WriteInt(-1,32)
-						net.Broadcast()
-					end)
+		local c = db:query("SELECT amount from moat_lottery;")
+		function c:onSuccess(amt)
+			lottery_stats.amount = amt[1].amount
+			local q = db:query("SELECT * FROM moat_lottery_players WHERE ticket = '" .. winner .. "';")
+			function q:onSuccess(plys)
+
+				if (not l_test) then
+					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
+					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\nThere's **" .. #plys .. "** winner" .. (#plys == 1 and "" or "s") .. "!" .. (#plys > 0 and "\n(Check #ttt-logs for who they were)" or "")
+					SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
 				end
-				function e:onError(d) print(d) end
-				e:start()
-				return 
-			end
-			local c = db:query("SELECT amount from moat_lottery;")
-			function c:onSuccess(d)
-				d = d[1]
-				d.amount = d.amount * 0.9
-				local each = math.floor(d.amount/#plys)
+
+				if #plys < 1 then
+					gglobalchat_real("Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " was " .. winner .. " and there were no winners! " .. string.Comma(lottery_stats.amount * 0.75) .. " IC has rolled over to today's pot.")
+					if (not l_test) then
+						local c = db:query("UPDATE moat_lottery SET amount = '" .. lottery_stats.amount * 0.75 .. "'")
+						c:start()
+						local e = db:query("DELETE FROM moat_lottery_players;")
+						function e:onSuccess()
+							timer.Simple(5,function()
+								lottery_updatetotal()
+								lottery_updateamount()
+								lottery_updatepopular()
+								
+								lottery_updatelast()
+								net.Start("lottery.Purchase")
+								net.WriteInt(-1,32)
+								net.Broadcast()
+							end)
+						end
+						function e:onError(d) print(d) end
+						e:start()
+					end
+					return 
+				end
+				local each = math.floor(lottery_stats.amount/#plys)
+				if #plys == 1 then
+					local nick = plys[1].name
+					local steamid = plys[1].steamid
+					gglobalchat_real("Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " was " .. winner .. " and " .. nick .. " (" .. util.SteamIDFrom64(steamid) .. ") won all of it with his number!")
+				else
+					local s = "Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " was " .. winner .. " and "
+					for k,v in pairs(plys) do
+						s = s .. v.name
+						if k == #plys - 1 then
+							s = s .. ", and "
+						elseif k ~= #plys then
+							s = s .. ", "
+						else
+							s = s  .. " "
+						end
+					end
+					s = s .. "won " .. string.Comma(each) .. " IC each!"
+					gglobalchat_real(s)
+				end
+
 				print("Each winner gets " .. each)
 				for k,v in pairs(plys) do
+					if l_test then return end
 					local q = db:query("INSERT INTO moat_lottery_winners (steamid,amount) VALUES ('" .. v.steamid .. "'," .. each .. ");")
 						timer.Simple(k,function()
 							local msg = v.name .. " (" .. util.SteamIDFrom64(v.steamid) .. ") won **" .. string.Comma(each) .. " IC** in the lottery!"
@@ -223,7 +252,7 @@ local function _contracts()
 						end)
 						if k == #plys then
 							function q:onSuccess()
-								local c = db:query("UPDATE moat_lottery SET amount = '5000'")
+								local c = db:query("UPDATE moat_lottery SET amount = '5000';")
 								c:start()
 								local e = db:query("DELETE FROM moat_lottery_players;")
 								function e:onSuccess()
@@ -242,12 +271,12 @@ local function _contracts()
 					q:start()
 				end
 			end
-			c:start()
+			function q:onError(d)
+				print(d)
+			end
+			q:start()
 		end
-		function q:onError(d)
-			print(d)
-		end
-		q:start()
+		c:start()
 	end
 
 	local function loadnew()
