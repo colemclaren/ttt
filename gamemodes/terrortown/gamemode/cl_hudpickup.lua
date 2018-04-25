@@ -15,7 +15,7 @@ local pickupclr = {
 function GM:HUDWeaponPickedUp( wep )
    if not (IsValid(wep) and IsValid(LocalPlayer())) or (not LocalPlayer():Alive()) then return end
 
-   local name = TryTranslation(wep.PrintName and wep:GetPrintName() or wep:GetClass() or "Unknown Weapon Name")
+   local name = TryTranslation(wep.GetPrintName and wep:GetPrintName() or wep.PrintName or wep:GetClass() or "Unknown Weapon Name")
 
    local pickup = {}
    pickup.time      = CurTime()
