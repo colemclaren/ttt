@@ -124,7 +124,7 @@ net.Receive("lottery.Purchase",function()
     local i = net.ReadInt(32)
     if i == -1 then lottery.mine = nil return end
     lottery.mine = i
-    chat.AddText(Color(0,255,0),"You have purchase a ticket with the number of " .. i .. " in the lottery!")
+    chat.AddText(Color(0,255,0),"You have purchased a ticket with the number of " .. i .. " in the lottery!")
 end)
 
 net.Receive("lottery.Win",function()
