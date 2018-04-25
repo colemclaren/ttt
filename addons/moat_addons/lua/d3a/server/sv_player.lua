@@ -127,7 +127,6 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 					local t2 = util.JSONToTable(t)
 					if (t2) then
 						local lvl = t2.l
-						print "yep"
 						if (lvl and tonumber(lvl) >= 15) then return end
 					end
 				end
