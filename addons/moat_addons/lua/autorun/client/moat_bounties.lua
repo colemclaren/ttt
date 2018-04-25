@@ -140,7 +140,6 @@ surface.CreateFont("MinnLottery",{
 })
 
 function m_MakeLotteryPanel()
-    print(3733)
     MOAT_LOTTERY = vgui.Create("DPanel", MOAT_CHALL_BG)
 	MOAT_LOTTERY:SetPos(1, 50)
 	MOAT_LOTTERY:SetSize(738, 463)
@@ -154,7 +153,7 @@ function m_MakeLotteryPanel()
         --draw.RoundedBox(0, (w/2) - ((w/3)/2), 35 + 20, w/3, 1, HSVColor)
 
         -- Description
-        draw.SimpleTextOutlined("This is the 1-200 lucky number lottery, the pot starts at 10,000 IC!", "moat_ItemDesc", w/2, 10, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("This is the 1-200 lucky number lottery, the pot starts at 5000 IC!", "moat_ItemDesc", w/2, 10, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
         draw.SimpleTextOutlined("The way to win the lottery is to guess the lucky number that gets picked at the end of the timer!", "moat_ItemDesc", w/2, 30, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
         draw.SimpleTextOutlined("If there are multiple winners, the reward is shared evenly! The lottery is also cross-server", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
 
@@ -751,7 +750,7 @@ function m_PopulateBountiesPanel(pnl)
     MOAT_CHALL_AVA:SetSize(17, 17)
     MOAT_CHALL_AVA:SetPlayer(LocalPlayer(), 32)
 
-    local MOAT_CHALL_CATS = {{"Bounties", Color(150, 0, 255)}, {"Contracts", Color(255, 0, 50)}, {"Lottery", Color(255, 0, 50)}, {"Rewards", Color(255, 255, 50)} }
+    local MOAT_CHALL_CATS = {{"Bounties", Color(150, 0, 255)}, {"Contracts", Color(255, 0, 50)}, {"Lottery", Color(0, 255, 50)}, {"Rewards", Color(255, 255, 50)} }
     local CAT_WIDTHS = 0
 
     for i = 1, #MOAT_CHALL_CATS do

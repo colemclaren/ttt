@@ -190,7 +190,7 @@ local function _contracts()
 			gglobalchat_lottery(winner,lottery_stats.amount,#plys)
 			if #plys < 1 then
 				print("No winners")
-				local c = db:query("UPDATE moat_lottery SET amount = '10000'")
+				local c = db:query("UPDATE moat_lottery SET amount = '5000'")
 				c:start()
 				local e = db:query("DELETE FROM moat_lottery_players;")
 				function e:onSuccess()
