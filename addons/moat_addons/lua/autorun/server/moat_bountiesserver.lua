@@ -221,11 +221,11 @@ local function _contracts()
 					end
 					return 
 				end
-				local each = math.floor(lottery_stats.amount/#plys)
+				local each = math.floor((lottery_stats.amount * 0.9)/#plys)
 				if #plys == 1 then
 					local nick = plys[1].name
 					local steamid = plys[1].steamid
-					gglobalchat_real("Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " was " .. winner .. " and " .. nick .. " (" .. util.SteamIDFrom64(steamid) .. ") won all of it with his number!")
+					gglobalchat_real("Yesterday's lottery lucky number with an amount of " .. string.Comma(each) .. " was " .. winner .. " and " .. nick .. " (" .. util.SteamIDFrom64(steamid) .. ") won all of it with his number!")
 				else
 					local s = "Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " was " .. winner .. " and "
 					for k,v in pairs(plys) do
