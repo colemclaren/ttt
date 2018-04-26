@@ -479,85 +479,115 @@ function m_GetRandomRarity(min, max)
     return chosen_rarity
 end
 
+
+local cached_droptable
+local cached_itemstodrop = {}
+local cached_items = {}
+local cached_rarities = {}
+local cached_weapons
 function m_GetRandomInventoryItem(arg_collection)
+    if (not cached_droptable) then cached_droptable = table.Copy(MOAT_DROPTABLE) end
     local dropped_item = {}
-    local drop_table = table.Copy(MOAT_DROPTABLE)
+    local drop_table = cached_droptable
     local items_to_drop = {}
 
-    for k, v in pairs(drop_table) do
-        if (v.Collection == arg_collection) then
-            table.insert(items_to_drop, v)
+    if (cached_itemstodrop[arg_collection]) then
+        items_to_drop = cached_itemstodrop[arg_collection]
+    elseif (arg_collection ~= "50/50 Collection") then
+        for k, v in pairs(drop_table) do
+            if (v.Collection == arg_collection) then
+                table.insert(items_to_drop, v)
+            end
         end
+
+        cached_itemstodrop[arg_collection] = items_to_drop
     end
 
     -- Make sure all the rarities from the collection are set
     local min_rarity = 8
     local max_rarity = 1
 
-    for k, v in pairs(items_to_drop) do
-        if (v.Rarity > max_rarity) then
-            max_rarity = v.Rarity
+    if (cached_rarities[arg_collection]) then
+        min_rarity = cached_rarities[arg_collection][1]
+        max_rarity = cached_rarities[arg_collection][2]
+    elseif (arg_collection ~= "50/50 Collection") then
+        for k, v in pairs(items_to_drop) do
+            if (v.Rarity > max_rarity) then
+                max_rarity = v.Rarity
+            end
+
+            if (v.Rarity < min_rarity) then
+                min_rarity = v.Rarity
+            end
         end
 
-        if (v.Rarity < min_rarity) then
-            min_rarity = v.Rarity
-        end
+        cached_rarities[arg_collection] = {min_rarity, max_rarity}
     end
 
     local rarity_chosen = 1
 
     if (arg_collection == "Easter Collection") then
         rarity_chosen = 8
-    else
+    elseif (arg_collection ~= "50/50 Collection") then
         rarity_chosen = m_GetRandomRarity(min_rarity, max_rarity)
     end
     
     local items_from_collection = {}
-
-    for k, v in pairs(items_to_drop) do
-        if (v.Rarity == rarity_chosen and v.Kind ~= "Crate") then
-            table.insert(items_from_collection, v)
-        end
-    end
-
     if (arg_collection == "50/50 Collection") then
-        items_from_collection = {}
-        rarity_chosen = 1
+        rarity_chosen = math.random(1, 100) <= 50 and 5 or 1
 
-        if (math.random(1, 100) <= 50) then
-            rarity_chosen = 5
-        end
-
-        for k, v in RandomPairs(drop_table) do
-            if (v.Rarity == rarity_chosen and v.Kind ~= "Crate" and not COSMETIC_TYPES[v.Kind] and v.Collection ~= "Holiday Collection") then
-                table.insert(items_from_collection, v)
+        if (cached_items[arg_collection] and cached_items[arg_collection][rarity_chosen]) then
+            items_from_collection = cached_items[arg_collection][rarity_chosen]
+        else
+            for k, v in pairs(drop_table) do
+                if (v.Rarity == rarity_chosen and v.Kind ~= "Crate" and not COSMETIC_TYPES[v.Kind] and v.Collection ~= "Holiday Collection") then
+                    table.insert(items_from_collection, v)
+                end
             end
+
+            if (not cached_items[arg_collection]) then cached_items[arg_collection] = {} end
+            cached_items[arg_collection][rarity_chosen] = items_from_collection
+        end
+    else
+        if (cached_items[arg_collection] and cached_items[arg_collection][rarity_chosen]) then
+            items_from_collection = cached_items[arg_collection][rarity_chosen]
+        else
+            for k, v in pairs(items_to_drop) do
+                if (v.Rarity == rarity_chosen and v.Kind ~= "Crate") then
+                    table.insert(items_from_collection, v)
+                end
+            end
+
+            if (not cached_items[arg_collection]) then cached_items[arg_collection] = {} end
+            cached_items[arg_collection][rarity_chosen] = items_from_collection
         end
     end
-
+    
     if (#items_from_collection > 0) then
         local item_to_drop = items_from_collection[math.random(#items_from_collection)]
         dropped_item.u = item_to_drop.ID
+
+        if (not cached_weapons) then cached_weapons = weapons.GetList() end
 
         if (item_to_drop.Kind == "tier" or item_to_drop.Kind == "Unique") then
             dropped_item.w = ""
 
             if (item_to_drop.Collection == "Pumpkin Collection"or item_to_drop.Collection == "Holiday Collection") then
-                for k, v in RandomPairs(weapons.GetList()) do
+                for k, v in RandomPairs(cached_weapons) do
                     if (v.Base == "weapon_tttbase" and (v.AutoSpawnable or v.ClassName:StartWith("weapon_ttt_te_"))) then
                         dropped_item.w = v.ClassName
                         break
                     end
                 end
             elseif (titan_tier_ids[tostring(item_to_drop.ID)]) then
-                for k, v in RandomPairs(weapons.GetList()) do
+                for k, v in RandomPairs(cached_weapons) do
                     if (v.Base == "weapon_tttbase" and v.ClassName:StartWith("weapon_ttt_te_")) then
                         dropped_item.w = v.ClassName
                         break
                     end
                 end
             else
-                for k, v in RandomPairs(weapons.GetList()) do
+                for k, v in RandomPairs(cached_weapons) do
                     if (v.AutoSpawnable and v.Base == "weapon_tttbase") then
                         dropped_item.w = v.ClassName
                         break
