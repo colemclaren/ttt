@@ -379,14 +379,11 @@ function CORPSE.Create(ply, attacker, dmginfo)
     rag:SetCustomCollisionCheck(true)
     rag:Spawn()
     rag:Activate()
-
-    ServerLog("Created Ragdoll\n")
     -- nonsolid to players, but can be picked up and shot
     rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
     timer.Simple(1, function()
         if IsValid(rag) then
-            ServerLog("Collision Rules Changed Ragdoll\n")
             rag:CollisionRulesChanged()
         end
     end)
@@ -448,8 +445,6 @@ function CORPSE.Create(ply, attacker, dmginfo)
             efn(rag)
         end)
     end
-
-    ServerLog("Finished Ragdoll\n")
     -- we'll be speccing this
 
     return rag

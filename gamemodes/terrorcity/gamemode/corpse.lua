@@ -390,10 +390,12 @@ function CORPSE.Create(ply, attacker, dmginfo)
     rag:SetModel(ply:GetModel())
     rag:SetAngles(ply:GetAngles())
     rag:SetColor(ply:GetColor())
+    rag.CheckThisShit = true
+    rag:SetCustomCollisionCheck(true)
     rag:Spawn()
     rag:Activate()
     -- nonsolid to players, but can be picked up and shot
-    rag:SetCollisionGroup(rag_collide:GetBool() and COLLISION_GROUP_WEAPON or COLLISION_GROUP_DEBRIS_TRIGGER)
+    rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
     timer.Simple(1, function()
         if IsValid(rag) then
@@ -462,3 +464,7 @@ function CORPSE.Create(ply, attacker, dmginfo)
 
     return rag
 end
+
+hook.Add("ShouldCollide", "RagdollShouldCollide", function(e, r)
+    if (e.CheckThisShit and r.CheckThisShit) then return false end
+end)
