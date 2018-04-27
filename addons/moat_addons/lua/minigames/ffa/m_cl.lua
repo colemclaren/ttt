@@ -339,7 +339,7 @@ hook.Add("HUDPaint", "moat.test.FFA", function()
 
 
     
-    DrawShadowedText(1, "Snowball FFA | " .. MOAT_FFA.goal .. " to Win", "GModNotify", scrw, 35, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    DrawShadowedText(1, "Free For All | " .. MOAT_FFA.goal .. " to Win", "GModNotify", scrw, 35, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     DrawShadowedText(1, f.m .. ":" .. f.s, "GModNotify", scrw, 89, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
     DrawShadowedText(1, "Your kills: " .. MOAT_FFA.MyKills, "GModNotify", scrw - 81, 62, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
