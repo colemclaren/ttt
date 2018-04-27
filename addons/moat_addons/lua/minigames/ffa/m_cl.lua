@@ -1,7 +1,7 @@
 
 
 local kills = {}
-
+local _SEED = 1337
 net.Receive("FFA_KStreak",function()
     local c = Color(255,0,0)
     local blue = net.ReadBool()
@@ -39,7 +39,12 @@ net.Receive("FFA_Begin",function()
         red_save = 0,
         blue_save = 0,
     }
-    sound.PlayURL("https://i.moat.gg/18-04-26-48t.mp3","",function(station)
+    local songs = {
+        "https://i.moat.gg/18-04-26-48t.mp3",
+        "https://i.moat.gg/18-04-26-77y.mp3"
+        }
+    math.randomseed(_SEED)
+    sound.PlayURL(table.Random(songs),"",function(station)
         if IsValid(station) then
             station:SetVolume(0.5)
             station:Play()
@@ -385,6 +390,7 @@ net.Receive("FFA_Prep",function()
     }
 
     local primary = net.ReadString()
+    _SEED = util.CRC(primary)
     local secondary = net.ReadString()
 
     hook.Add("HUDPaint", "MG_FFA_PREPPAINT", function()
