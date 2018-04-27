@@ -80,7 +80,7 @@ MSE.Commands.Register "Team Deathmatch"
 			return "Kill Goal", true, k
 		end,
 		function(ply)
-			local ids = {"self", "randomply"}
+			local ids = {"randomply","self"}
 
 			for k, v in pairs(player.GetAll()) do
 				if (v:Team() ~= TEAM_SPEC) then
@@ -108,7 +108,7 @@ MSE.Commands.Register "Team Deathmatch"
 			return "Primary weapon", true, ids
 		end,
 		function(ply)
-			local ids = {"self", "randomply", "nothing"}
+			local ids = {"randomply", "self", "nothing"}
 
 			for k, v in pairs(player.GetAll()) do
 				if (v:Team() ~= TEAM_SPEC) then

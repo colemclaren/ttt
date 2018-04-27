@@ -479,7 +479,7 @@ concommand.Add("moat_start_FFA", function(ply, cmd, args)
 
 
     local max_kills = tonumber(args[1]) or 25
-    max_kills = math.max(0,math.min(max_kills,75)) -- max kills
+    max_kills = math.max(0,math.min(max_kills,40)) -- max kills
     MG_FFA.KillsMax = max_kills
     print("mk:" .. max_kills)
 
