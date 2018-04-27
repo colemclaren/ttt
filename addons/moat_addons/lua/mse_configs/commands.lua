@@ -73,7 +73,7 @@ MSE.Commands.Register "Team Deathmatch"
 	:CommandArguments({
 		function(ply)
 			local k = {}
-			for i = 10,30 do
+			for i = 25,75 do
 				table.insert(k,tostring(i))
 			end
 
@@ -147,7 +147,7 @@ MSE.Commands.Register "Free For All"
 	:CommandArguments({
 		function(ply)
 			local k = {}
-			for i = 25,75 do
+			for i = 10,30 do
 				table.insert(k,tostring(i))
 			end
 
