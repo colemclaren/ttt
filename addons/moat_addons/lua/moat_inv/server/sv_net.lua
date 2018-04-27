@@ -1,0 +1,1 @@
+util.AddNetworkString "MOAT_INV.Load"

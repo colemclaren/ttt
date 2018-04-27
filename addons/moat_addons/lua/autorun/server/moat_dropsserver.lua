@@ -120,9 +120,7 @@ local COSMETIC_TYPES = {
 MOAT_TALENTS = {}
 
 function m_AddTalent(talent_tbl)
-    local tbl = {}
-    tbl = talent_tbl
-    table.insert(MOAT_TALENTS, tbl)
+    MOAT_TALENTS[talent_tbl.ID] = talent_tbl
 end
 
 for k, v in pairs(file.Find("moat_items/moat_talents/*.lua", "LUA")) do
