@@ -555,7 +555,7 @@ function MG_TDM.TakeDamage(ply, dmginfo)
         if (not att.TDMDamage) then
             att.TDMDamage = 0
         end
-        if ply.SpawnProtection or att.SpawnProtection then return end
+         if (ply.SpawnProtection and att:IsPlayer()) or (att.SpawnProtection and ply:IsPlayer()) then return end
         --print(ply:Health(),"Add: ",(math.min(dmginfo:GetDamage(),ply:Health())))
         att.TDMDamage = att.TDMDamage + (math.min(dmginfo:GetDamage(),ply:Health()))
     elseif (IsValid(ply) and ply:IsPlayer() and dmginfo:GetDamage() >= 1 and dmginfo:GetAttacker():IsPlayer() and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == dmginfo:GetAttacker():GetRole()) then

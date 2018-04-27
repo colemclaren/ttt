@@ -359,7 +359,7 @@ function MG_FFA.TakeDamage(ply, dmginfo)
         if (not att.FFADamage) then
             att.FFADamage = 0
         end
-        if ply.SpawnProtection or att.SpawnProtection then return end
+        if (ply.SpawnProtection and att:IsPlayer()) or (att.SpawnProtection and ply:IsPlayer()) then return end
         --print(ply:Health(),"Add: ",(math.min(dmginfo:GetDamage(),ply:Health())))
         att.FFADamage = att.FFADamage + (math.min(dmginfo:GetDamage(),ply:Health()))
     end
