@@ -140,6 +140,76 @@ MSE.Commands.Register "Team Deathmatch"
 		end,
 	})
 
+MSE.Commands.Register "Free For All"
+	:SetCommand "moat_start_ffa"
+	:SetDescription "First player to reach the kill count gets the top prize! Everyone must compete in a free-for-all shootout with the same guns!"
+	:SetMinPlayers "8"
+	:CommandArguments({
+		function(ply)
+			local k = {}
+			for i = 25,75 do
+				table.insert(k,tostring(i))
+			end
+
+			return "Kill Goal", true, k
+		end,
+		function(ply)
+			local ids = {"randomply","self"}
+
+			for k, v in pairs(player.GetAll()) do
+				if (v:Team() ~= TEAM_SPEC) then
+					table.insert(ids, v:SteamID())
+				end
+			end
+
+			local wpns = {}
+			local n = 1
+			
+			for k, v in pairs(weapons.GetList()) do
+				if (v.Kind == WEAPON_PISTOL) then continue end
+				if (v.Kind ~= WEAPON_HEAVY and v.Kind ~= WEAPON_PISTOL) then continue end
+				if (v.Base ~= "weapon_tttbase" or v.ClassName:find("_oc")) then continue end
+
+				wpns[n] = v.ClassName
+				n = n + 1
+			end
+
+			for i = 1,#wpns do
+				ids[#ids + 1] = wpns[i]
+			end
+
+
+			return "Primary weapon", true, ids
+		end,
+		function(ply)
+			local ids = {"randomply","self"}
+
+			for k, v in pairs(player.GetAll()) do
+				if (v:Team() ~= TEAM_SPEC) then
+					table.insert(ids, v:SteamID())
+				end
+			end
+
+			local wpns = {}
+			local n = 1
+			
+			for k, v in pairs(weapons.GetList()) do
+				if (v.Kind == WEAPON_HEAVY) then continue end
+				if (v.Kind ~= WEAPON_HEAVY and v.Kind ~= WEAPON_PISTOL) then continue end
+				if (v.Base ~= "weapon_tttbase" or v.ClassName:find("_oc")) then continue end
+
+				wpns[n] = v.ClassName
+				n = n + 1
+			end
+
+			for i = 1,#wpns do
+				ids[#ids + 1] = wpns[i]
+			end
+ 
+			return "Secondary weapon", true, ids
+		end
+	})
+
 MSE.Commands.Register "Apache Round"
 	:SetCommand "moat_start_apache"
 	:SetDescription "Team up with every player to defeat the boss for a prize!"

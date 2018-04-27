@@ -46,6 +46,14 @@ MOAT_MINIGAMES.AddMinigame("Team Deathmatch Round",
 	"Team deathmatch is a fight between two teams, first team to get all kills, wins."
 )
 
+MOAT_MINIGAMES.AddMinigame("Free For All Round", 
+	"minigames/ffa/", 
+	"moat_start_ffa", 
+	350, 
+	"Like TDM, But it's free for all! Everyone must use the same gun."
+)
+
+
 MOAT_MINIGAMES.AddMinigame("Gun Game Round", 
 	"minigames/gungame/", 
 	"moat_start_gungame", 

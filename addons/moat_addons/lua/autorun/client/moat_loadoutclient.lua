@@ -567,6 +567,11 @@ function MOAT_LOADOUT.UpdateWep()
     local wep_p
     local wep_owner
     local wep_stats
+    
+    local MOAT_TDM = MOAT_TDM
+    if MOAT_FFA then
+        MOAT_TDM = MOAT_FFA
+    end
     if (MOAT_TDM) then
         local wep_class = net.ReadString()
         if MOAT_TDM.WepCache[wep_class] then
