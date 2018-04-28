@@ -16,19 +16,23 @@
 
 local PLAYER = FindMetaTable "Player"
 
-local load_str = [[CALL selectInventoryDev4(#)]]
-function PLAYER:LoadInventory()
+local load_str = [[call selectInventoryDev4(#)]]
+function PLAYER:LoadInventory(cb)
     self.LoadingInventory = true
 
-    MOAT_INV:Query(load_str:gsub("#", self.SteamID64 and self:SteamID64() or "BOT"), function(data, q)
+    MOAT_INV:Query(load_str:gsub("#", self.SteamID64 and self:SteamID64() or "BOT"), function(d, q)
         if (not IsValid(self)) then return end
         if (not d or not d[1]) then
             -- new player?
             return
         end
 
-        pl.Inventory = MOAT_INV:ParseInventoryQuery(d, q)
+        print "ran"
+
+        self.Inventory = MOAT_INV:ParseInventoryQuery(d, q)
         self.InventoryLoaded = true
+
+        cb(self)
     end)
 end
 

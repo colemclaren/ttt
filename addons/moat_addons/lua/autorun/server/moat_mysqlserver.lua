@@ -759,7 +759,7 @@ function m_InsertNewStatsPlayer(ply)
     iq:start()
 end
 
-function m_LoadInventoryForPlayer(ply)
+function m_LoadInventoryForPlayer(ply, cb)
     local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = '" .. ply:SteamID() .. "'")
 
     function query1:onSuccess(data)
@@ -775,6 +775,8 @@ function m_LoadInventoryForPlayer(ply)
             end
 
             local inventory_tbl = util.JSONToTable(row["inventory"])
+
+            if (cb) then cb() end
 
             for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
                 inv_tbl["slot" .. i] = inventory_tbl[i]
