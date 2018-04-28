@@ -10,3 +10,8 @@ function string:finish(...)
     local n, t = 0, {...}
     return self:gsub("#", function() n = n + 1 return t[n] end) .. ");"
 end
+
+local PLAYER = FindMetaTable "Player"
+function PLAYER:ID()
+    return self.SteamID64 and self:SteamID64() or "BOT"
+end

@@ -16,18 +16,15 @@
 
 local PLAYER = FindMetaTable "Player"
 
-local load_str = [[call selectInventoryDev4(#)]]
 function PLAYER:LoadInventory(cb)
     self.LoadingInventory = true
 
-    MOAT_INV:Query(load_str:gsub("#", self.SteamID64 and self:SteamID64() or "BOT"), function(d, q)
+    MOAT_INV:Query("call selectInventory(#)", self:ID(), function(d, q)
         if (not IsValid(self)) then return end
         if (not d or not d[1]) then
             -- new player?
             return
         end
-
-        print "ran"
 
         self.Inventory = MOAT_INV:ParseInventoryQuery(d, q)
         self.InventoryLoaded = true
@@ -36,20 +33,41 @@ function PLAYER:LoadInventory(cb)
     end)
 end
 
-function PLAYER:DropItem()
+function PLAYER:AddItem(item, cb)
+    if (not item["u"]) then return end
+    if (item["tr"] and item["s"]) then item["s"]["j"] = "1" end
+    local str = MOAT_INV:QueryFromItem(item, self:ID())
 
+    if (item["n"]) then
+        str = str .. MOAT_INV:QueryForName(item.n, "LAST_INSERT_ID()")
+    end
+
+    if (item["p"] or item["p2"] or item["p3"]) then
+        str = str .. MOAT_INV:QueryForPaint(item, "LAST_INSERT_ID()")
+    end
+
+    MOAT_INV:Query(str, function(d, q)
+        if (not d or not d[1]) then return end
+        if (cb) then cb(d[1].cid) end
+    end)
 end
 
-function PLAYER:AddItem()
+function PLAYER:RemoveItem(id, cb)
+    if (istable(id)) then id = id["c"] end
+    if (not self.Inventory[id]) then return end
 
+    MOAT_INV:Query("call removeItem(#)", id, function(d, q)
+        if (cb) then cb() end
+    end)
 end
 
-function PLAYER:SaveItem()
+function PLAYER:TransferItem(id, new, cb)
+    if (istable(id)) then id = id["c"] end
+    if (not self.Inventory[id]) then return end
 
-end
-
-function PLAYER:TransferItem()
-
+    MOAT_INV:Query("call transferItem(#, #)", id, new, function(d, q)
+        if (cb) then cb() end
+    end)
 end
 
 function PLAYER:NetworkItem()

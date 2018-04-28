@@ -811,6 +811,9 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     end
 
     for k, v in SortedPairs(itemtbl.s) do
+        local stat_str = stats_full[tostring(k)]
+        if (not stat_str) then continue end
+
         local stat_min, stat_max = m_GetStatMinMax(k, itemtbl)
         local stat_num = math.Round(stat_min + ((stat_max - stat_min) * v), 1)
         stat_sign = "+"
@@ -829,7 +832,6 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             end
         end
 
-        local stat_str = stats_full[tostring(k)]
         local stat_strw, stat_strh = surface_GetTextSize(stat_str)
 
         if (not table.HasValue(default_stats, stat_str) and not table.HasValue(level_stats, stat_str)) then
@@ -2992,7 +2994,7 @@ function m_OpenInventory(ply2, utrade)
         end
     end
 
-    local non_drawn_stats = {"d", "f", "m", "l", "x"}
+    local non_drawn_stats = {"d", "f", "m", "l", "x", "j", "tr"}
 
     MOAT_INV_S.Think = function(s)
         if (not IsValid(MOAT_INV_BG)) then
@@ -6059,7 +6061,7 @@ function m_DrawFoundItem(tbl, s_type)
         end
     end
 
-    local non_drawn_stats = {"d", "f", "m", "l", "x"}
+    local non_drawn_stats = {"d", "f", "m", "l", "x", "j", "tr"}
     local ITEM_HOVERED = itemtbl
     -- Put your Lua here
     if (ITEM_HOVERED and ITEM_HOVERED.c) then

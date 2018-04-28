@@ -75,21 +75,9 @@ end
 Parsing Item > SQL
 ------------------------------------]]--
 
---[[
-{"t":[{"m":[1.0],"l":8.0,"e":85.0},
-    {"m":[1.0,1.0],"l":14.0,"e":154.0},
-    {"m":[1.0,1.0],"l":27.0,"e":3.0}],
- "u":1147.0,
- "c":"2197761330",
- "s":{"x":170.0,"k":0.197,"f":0.803
-    "m":0.429,"w":0.682,"r":0.458,
-    "l":13.0,"a":0.521,"d":0.183},
- "w":"weapon_ttt_te_sr25",
-    "tr":1.0,
-    "n":"Hitregs...",
-    "l":1.0,
-    "p":6035.0}
-]]
+function MOAT_INV:QueryFromItem(i, o)
+    return i["s"] and (i["t"] and self:InsertWeaponTalents(i, o) or self:InsertWeaponStats(i, o)) or (i["w"] and self:InsertWeapon(i, o) or self:InsertItem(i, o))
+end
 
 function MOAT_INV:item(u)
     return "call insertItem(" .. u
@@ -191,16 +179,12 @@ function MOAT_INV:QueryForPaint(i, u)
     return s
 end
 
-function MOAT_INV:QueryFromItem(i, o)
-    return i["s"] and (i["t"] and self:InsertWeaponTalents(i, o) or self:InsertWeaponStats(i, o)) or (i["w"] and self:InsertWeapon(i, o) or self:InsertItem(i, o))
-end
-
-
 concommand.Add("test_inventory", function(pl, cmd, args)
     local id = pl:SteamID64()
+    local inv = table.Copy(MOAT_INVS[pl])
 
     local qstr = ""
-    for k, v in pairs(MOAT_INVS[pl]) do
+    for k, v in pairs(inv) do
         if (not v.u) then continue end
 
         if (k:StartWith("l")) then v["slot"] = k:TrimLeft("l_slot") end
