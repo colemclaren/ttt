@@ -582,7 +582,7 @@ end)
 function MG_FFA.TrackSpawnPoints() 
     if not MG_FFA.SpawnPoints then MG_FFA.SpawnPoints = {} end
     for k,v in ipairs(player.GetAll()) do
-        if v:Alive() and v:IsOnGround() and (not v:IsSpec()) then
+        if v:Alive() and v:IsOnGround() and (not v:IsSpec()) and (not v:Crouching()) then
             table.insert(MG_FFA.SpawnPoints,v:GetPos())
         end
     end

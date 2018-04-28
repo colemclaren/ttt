@@ -809,7 +809,7 @@ end)
 function MG_TDM.TrackSpawnPoints() 
     if not MG_TDM.SpawnPoints then MG_TDM.SpawnPoints = {} end
     for k,v in ipairs(player.GetAll()) do
-        if v:Alive() and v:IsOnGround() and (not v:IsSpec()) then
+        if v:Alive() and v:IsOnGround() and (not v:IsSpec()) and (not v:Crouching()) then
             table.insert(MG_TDM.SpawnPoints,v:GetPos())
         end
     end
