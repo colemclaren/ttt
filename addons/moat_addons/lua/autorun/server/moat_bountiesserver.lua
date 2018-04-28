@@ -24,6 +24,8 @@ function contract_increase(ply,am)
 end
 
 local function _contracts()
+	local dev_server = GetHostName():lower():find("dev")
+	if (not dev_server) then return end
 	local db = MINVENTORY_MYSQL
 	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(255) NOT NULL, `start_time` INT NOT NULL, `active` INT NOT NULL, `refresh_next` INT, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
 	function dq:onError(err)
