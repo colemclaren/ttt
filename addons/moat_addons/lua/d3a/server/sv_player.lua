@@ -66,12 +66,13 @@ local vip_server = GetHostName():lower():find("beta")
 local vip_slots = table.Copy(staff_slots)
 vip_slots["credibleclub"] = true
 vip_slots["vip"] = true
+local banned_players = {}
 
 local players_connecting = {}
 function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	--if (players_connecting[SteamID] and players_connecting[SteamID] > CurTime()) then return false, "Reconnecting too fast!" end
 	--players_connecting[SteamID] = CurTime() + 1
-	local SteamID32 = util.SteamIDFrom64(SteamID)
+	local SteamID32 = util.SteamIDFrom64(SteamID)	
 
     raise_cur()
     playersjoined[SteamID] = true
@@ -107,12 +108,8 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 
 			D3A.Player.CheckReserved(SteamID32, d[1].rank or "user")
 		else
-			local def = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
-			http.Fetch("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=13E8032658377F036842094BDD9E7000&steamids=" .. SteamID, function(b)
-				D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, util.JSONToTable(b).response.players[1]["avatarfull"])
-			end, function(e)
-				D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, def)
-			end)
+			local def = ""
+			D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, def)
 			
 			/*if (vip_server) then
 				game.KickID(SteamID32, "This is the Moat.GG TTT Testing server. It is currently only accessable to VIP's and above. Please join one of our regular servers, sorry!")
