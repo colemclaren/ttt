@@ -194,12 +194,6 @@ local function _contracts()
 			local q = db:query("SELECT * FROM moat_lottery_players WHERE ticket = '" .. winner .. "';")
 			function q:onSuccess(plys)
 
-				if (not l_test) then
-					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
-					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\nThere's **" .. #plys .. "** winner" .. (#plys == 1 and "" or "s") .. "!" .. (#plys > 0 and "\n(Check #ttt-logs for who they were)" or "")
-					SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
-				end
-
 				if #plys < 1 then
 					gglobalchat_real("Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " was " .. winner .. " and there were no winners! " .. string.Comma(lottery_stats.amount * 0.75) .. " IC has rolled over to today's pot.")
 					if (not l_test) then
@@ -221,6 +215,9 @@ local function _contracts()
 						function e:onError(d) print(d) end
 						e:start()
 					end
+					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
+					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\nThere was **no** winner!\n**" .. string.Comma(lottery_stats.amount * 0.75) .. "** IC has rolled over to today's pot!"
+					SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
 					return 
 				end
 				local each = math.floor((lottery_stats.amount * 0.9)/#plys)
@@ -228,20 +225,27 @@ local function _contracts()
 					local nick = plys[1].name
 					local steamid = plys[1].steamid
 					gglobalchat_real("Yesterday's lottery lucky number with an amount of " .. string.Comma(each) .. " was " .. winner .. " and " .. nick .. " (" .. util.SteamIDFrom64(steamid) .. ") won all of it with his number!")
+					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
+					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\n**" .. nick .. " (" .. util.SteamIDFrom64(steamid) .. ")** won all of it!" 
+					SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
 				else
-					local s = "Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " was " .. winner .. " and "
+					local s = "Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " IC was " .. winner .. " and "
+					local ps = ""
 					for k,v in pairs(plys) do
-						s = s .. v.name
+						ps = ps .. v.name
 						if k == #plys - 1 then
-							s = s .. ", and "
+							ps = ps .. ", and "
 						elseif k ~= #plys then
-							s = s .. ", "
+							ps = ps .. ", "
 						else
-							s = s  .. " "
+							ps = ps  .. " "
 						end
 					end
-					s = s .. "won " .. string.Comma(each) .. " IC each!"
+					s = s .. ps .. "won " .. string.Comma(each) .. " IC each!"
 					gglobalchat_real(s)
+					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
+					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\n**" .. ps .. "**won **" ..  string.Comma(each) .. "** IC each!"
+					SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
 				end
 
 				print("Each winner gets " .. each)
