@@ -69,8 +69,8 @@ vip_slots["vip"] = true
 
 local players_connecting = {}
 function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
-	if (players_connecting[SteamID]) then return false, "Joining too fast!" end
-	players_connecting[SteamID] = true
+	if (players_connecting[SteamID] and players_connecting[SteamID] > CurTime()) then return false, "Reconnecting too fast!" end
+	players_connecting[SteamID] = CurTime() + 1
 	local SteamID32 = util.SteamIDFrom64(SteamID)
 
     raise_cur()
@@ -78,8 +78,6 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 
 	-- Check if banned
 	D3A.Bans.IsBanned(SteamID32, function(isbanned, data)
-		players_connecting[SteamID] = nil
-
 		if isbanned then
 			local exp
 			if (tonumber(data.Current.length) == 0) then
@@ -93,13 +91,11 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 
 	-- Check pass
 	if (sv_Pass != "") and (cl_Pass != sv_Pass) then
-		players_connecting[SteamID] = nil
 		return false, "Invalid password: " .. cl_Pass
 	end
 
 	-- Create data
 	D3A.MySQL.Query("SELECT rank, name FROM player WHERE `steam_id` ='" .. SteamID .. "';", function(d)
-		players_connecting[SteamID] = nil
 
 		if (d and d[1]) then
 			D3A.Print(SteamID32 .. " | Connecting")
