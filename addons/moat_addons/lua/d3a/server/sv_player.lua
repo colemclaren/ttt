@@ -69,8 +69,8 @@ vip_slots["vip"] = true
 
 local players_connecting = {}
 function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
-	if (players_connecting[SteamID] and players_connecting[SteamID] > CurTime()) then return false, "Reconnecting too fast!" end
-	players_connecting[SteamID] = CurTime() + 1
+	--if (players_connecting[SteamID] and players_connecting[SteamID] > CurTime()) then return false, "Reconnecting too fast!" end
+	--players_connecting[SteamID] = CurTime() + 1
 	local SteamID32 = util.SteamIDFrom64(SteamID)
 
     raise_cur()
