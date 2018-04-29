@@ -70,16 +70,34 @@ local banned_players = {}
 
 local players_connecting = {}
 function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
-	--if (players_connecting[SteamID] and players_connecting[SteamID] > CurTime()) then return false, "Reconnecting too fast!" end
+	local SteamID32 = util.SteamIDFrom64(SteamID)	
+	if (sv_Pass != "") and (cl_Pass != sv_Pass) then
+		return false, "Invalid password: " .. cl_Pass
+	end
+
+	if (players_connecting[SteamID]) then 
+		if players_connecting[SteamID][1] > CurTime() then
+			if players_connecting[SteamID][2] then
+				game.KickID(SteamID32, "\nYou are banned!\n==================\nTime left: " .. (players_connecting[SteamID][3] or "") .. "\nReason: " .. (players_connecting[SteamID][4] or "") .. "\n==================\nThink it's an unfair ban?\nHead to http://moat.gg/unban to make an unban appeal")
+			end
+			if players_connecting[SteamID][5] then
+				game.KickID(SteamID32, "This is the Moat.GG Terror City server. You must be at least level 15 to join, as it's a bit more advanced than regular TTT. Please join one of our regular servers, sorry!")
+			end
+			return 
+		end
+	end -- only need to return cause they get kicked anyways if they're still joining
+
 	--players_connecting[SteamID] = CurTime() + 1
 	local SteamID32 = util.SteamIDFrom64(SteamID)	
 
     raise_cur()
     playersjoined[SteamID] = true
-
+	players_connecting[SteamID] = {}
+	players_connecting[SteamID][1] = 0
 	-- Check if banned
 	D3A.Bans.IsBanned(SteamID32, function(isbanned, data)
 		if isbanned then
+			players_connecting[SteamID][2] = true
 			local exp
 			if (tonumber(data.Current.length) == 0) then
 				exp = "permanently"
@@ -87,13 +105,10 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 				exp = math.Round(((data.Current.time + data.Current.length) - os.time())/60, 2) .. " minutes"
 			end
 			game.KickID(SteamID32, "\nYou are banned!\n==================\nTime left: " .. exp .. "\nReason: " .. data.Current.reason .. "\n==================\nThink it's an unfair ban?\nHead to http://moat.gg/unban to make an unban appeal")
+			players_connecting[SteamID][3] = exp
+			players_connecting[SteamID][4] = data.Current.reason
 		end
 	end)
-
-	-- Check pass
-	if (sv_Pass != "") and (cl_Pass != sv_Pass) then
-		return false, "Invalid password: " .. cl_Pass
-	end
 
 	-- Create data
 	D3A.MySQL.Query("SELECT rank, name FROM player WHERE `steam_id` ='" .. SteamID .. "';", function(d)
@@ -122,7 +137,6 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 
 	if (vip_server) then
 		D3A.MySQL.Query("SELECT stats_tbl FROM moat_stats WHERE `steamid` ='" .. SteamID32 .. "';", function(d)
-			players_connecting[SteamID] = nil
 			if (d and d[1]) then
 				local t = d[1].stats_tbl
 				if (t) then
@@ -133,7 +147,7 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 					end
 				end
 			end
-
+			players_connecting[SteamID][5] = true
 			game.KickID(SteamID32, "This is the Moat.GG Terror City server. You must be at least level 15 to join, as it's a bit more advanced than regular TTT. Please join one of our regular servers, sorry!")
 		end)
 	end
@@ -145,7 +159,7 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 			D3A.Print(SteamID .. " | Connecting")
 		end
 	end)*/
-
+	players_connecting[SteamID][1] = CurTime() + 5
 	--return true
 end
 hook.Add("CheckPassword", "D3A.Player.CheckPassword", D3A.Player.CheckPassword)
