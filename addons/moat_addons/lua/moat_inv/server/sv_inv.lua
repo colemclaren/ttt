@@ -63,18 +63,19 @@ end
 */
 
 function MOAT_INV:ReplaceItemTalents(id, tbl, cb)
-    /*local str = ""
+    local str = ""
 
     for k, v in ipairs(tbl) do
         for i = 1, #v["m"] do
 
-            str = s:add(v["e"]):add(v["l"]):add(i):add(v["m"][i])
+            str = str .. "insert into mg_itemtalents (weaponid, talentid, required, modification, value) values ("
+            str = str:add(id):add(v["e"]):add(v["l"]):add(i):add(v["m"][i]) .. ");"
         end
     end
     
-    self:Query("replace into mg_itemstats (weaponid, statid, value) values (#, #, #)", id, stat, val, function(d, q)
+    self:Query("delete from mg_itemtalents where weaponid = #; " .. str, id, stat, val, function(d, q)
         if (cb) then cb() end
-    end)*/
+    end)
 end
 
 
