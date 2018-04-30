@@ -9,8 +9,8 @@ function XENOMORPH.HUDPaint()
 	surface.SetDrawColor(0, 0, 0, 255)
 	surface.DrawRect(0, 0, ScrW(), ScrH())
 
-	draw.SimpleText("Oh noes! Someone killed the Xenomorph! That's you!", "moat_GunGameMedium", ScrW()/2, ScrH()/2, Color(255, 255, 255), TEXT_ALIGN_CENTER)
-	draw.SimpleText("Respawning: " .. math.floor(XENOMORPH.TimeEnd - CurTime()), "moat_GunGameMedium", ScrW()/2, (ScrH()/2) + 40, Color(255, 255, 255), TEXT_ALIGN_CENTER)
+	draw.SimpleText("You've died as the Phoenix!", "moat_GunGameMedium", ScrW() / 2, ScrH() / 2, Color(255, 255, 255), TEXT_ALIGN_CENTER)
+	draw.SimpleText("Respawning in " .. math.floor(XENOMORPH.TimeEnd - CurTime()), "moat_GunGameMedium", ScrW() / 2, (ScrH() / 2) + 40, Color(255, 255, 255), TEXT_ALIGN_CENTER)
 end
 hook.Add("HUDPaint", "terror.city.xenomorph", XENOMORPH.HUDPaint)
 

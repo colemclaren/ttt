@@ -16,10 +16,13 @@ function XENOMORPH.RespawnTimer(pl, rnd, rnd_now)
 	CustomMsg(pl, "You have been respawned as a Xenomorph!", Color(0, 249, 199))
 end
 
-InstallRoleHook("PostPlayerDeath", 1)
+InstallRoleHook("PlayerDeath", 1)
 
-function XENOMORPH:PostPlayerDeath(pl)
+function XENOMORPH:PlayerDeath(pl, _, atk)
 	if (GetRoundState() ~= ROUND_ACTIVE) then return end
+	if (atk == pl) then
+		return
+	end
 	if (not XENOMORPH.HasDied) then
 		XENOMORPH.Ply = pl
 		XENOMORPH.HasDied = true

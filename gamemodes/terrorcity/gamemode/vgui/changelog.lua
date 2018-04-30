@@ -21,6 +21,18 @@ local changelogs = {
         "Spectating is a better feature",
         "Added F1 Tutorial",
         "Added Witch Doctor role"
+    },
+    [20180429] = {
+        "Phoenix no longer respawns when suiciding",
+        "Fixed Phoenix screen displaying Xenomorph",
+        "Phoenix will not longer respawn after a slay",
+        "When a Jester KOSes another player, they are considered an innocent by the rules",
+        "When a Jester destroys a piece of equipment they are not going to be considered breaking the rules.",
+        "Doctor cannot revive people who have suicided",
+        "Doctor cannot revive people he has killed",
+        "Doctors cannot revive non-innocents",
+        "Someone purposefully killing themselves so the doctor can prove them is considered metagaming.",
+        "FEEDBACK WELCOME ON THE FORUMS"
     }
 }
 

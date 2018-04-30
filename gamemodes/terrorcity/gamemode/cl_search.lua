@@ -408,8 +408,8 @@ local function ShowSearchScreen(search_raw)
         local spl = IsValid(search_raw.owner) and search_raw.owner or nil
         dident:SetText("Revive Player")
         dident:SetDisabled(false)
-
-        if (not IsValid(spl) or not spl:IsPlayer() or not spl:IsDeadTerror() or DOCTOR_ALREADY_REVIVED) then
+        -- FIXME: bots suck with this because of serverside
+        if (not IsValid(spl) or not spl:IsPlayer() or not spl:IsDeadTerror() or DOCTOR_ALREADY_REVIVED or spl.Doctor_CannotRevive or spl:GetBasicRole() ~= ROLE_INNOCENT) then
             dident:SetDisabled(true)
         else
             dident.DoClick = function()
