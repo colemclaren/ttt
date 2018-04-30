@@ -89,7 +89,7 @@ local pl_kills = {}
 
 hook.Add("PlayerDeath", "AutoBanRDM", function(vic, inf, att)
     if (MOAT_MINIGAME_OCCURING) then return end
-    if (not IsValid(att) or not att:IsPlayer() or att == vic) then return end
+    if (inf.Avoidable or not IsValid(att) or not att:IsPlayer() or att == vic) then return end
     if (GetRoundState() ~= ROUND_ACTIVE) then return end
     if (att:GetRole() == vic:GetRole()) then
         if (not pl_kills[att:SteamID()]) then pl_kills[att:SteamID()] = 0 end
