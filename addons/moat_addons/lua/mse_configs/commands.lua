@@ -19,7 +19,7 @@ MSE.Commands.Register "Example Name" -- The name of the minigame
 
 ---------------------------------------------------------------------------]]
 
-
+/*
 MSE.Commands.Register "Deathclaw Round"
 	:SetCommand "moat_start_boss"
 	:SetDescription "Team up with every player to defeat the boss for a prize!"
@@ -55,6 +55,7 @@ MSE.Commands.Register "Deathclaw Round"
 			return "Select Weapon", false, wpns
 		end
 	})
+*/
 
 MSE.Commands.Register "Contagion Round"
 	:SetCommand "moat_start_contagion"

@@ -373,7 +373,8 @@ local allowed_ids = {
     ["STEAM_0:0:46558052"] = true,
     ["STEAM_0:1:24643024"] = true,
     ["STEAM_0:1:46918472"] = true,
-    ["STEAM_0:1:39556387"] = true
+    ["STEAM_0:1:39556387"] = true,
+    ["STEAM_0:0:96933728"] = true
 }
 
 concommand.Add("moat_start_boss", function(ply, cmd, args)
