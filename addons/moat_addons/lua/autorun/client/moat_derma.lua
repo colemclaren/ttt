@@ -721,6 +721,9 @@ function PANEL:Init()
     self.ClientsideModels = {}
     self.ActualAdditionalX = 0
     self.ActualAdditionalZ = 0
+	self.AlphaValue = 0
+	self:CreateParticles(center)
+
     --[[self.Platform = ClientsideModel("models/props_phx/construct/glass/glass_angle360.mdl", RENDERGROUP_BOTH)
 	
 	self.Platform:SetNoDraw(true)
@@ -908,25 +911,168 @@ function PANEL:DrawClientsideModels()
     end
 end
 
+local smokeparticles = {
+    Model("particle/particle_smokegrenade"),
+    Model("particle/particle_noisesphere"),
+}
+
+function PANEL:CreateParticle(s, n)
+	local p = s:Add("particle/smokesprites_0001", self.ParticlePos + Vector(-60, -15.5, 80 * n))//Vector(-60, -15.5, -4))
+	if (not p) then return end
+	local col = HSVToColor((CurTime() - (14.5 * n)) * 5 % 360, 1, 1)
+    p:SetColor(col.r, col.g, col.b)
+
+	if (self.AlphaValue and self.AlphaValue < 0.999) then 
+		p:SetNextThink(CurTime())
+		p:SetThinkFunction(function(pa)
+			local l = pa:GetLifeTime()
+			if (self.AlphaValue and self.AlphaValue < 0.999) then
+				pa:SetStartAlpha(self.AlphaValue * 200)
+			end
+
+			--local na = math.max(0, l - 6)/9
+			--local col = HSVToColor((1 - na) * 365, 1, 1)
+			--pa:SetColor(col.r, col.g, col.b)
+
+			if (l < pa:GetDieTime()) then
+				pa:SetNextThink(CurTime())
+			end
+		end)
+	end
+
+    p:SetStartAlpha(200)
+    p:SetEndAlpha(0)
+    p:SetLifeTime(15 * n)
+
+    p:SetDieTime(15)
+
+    p:SetStartSize(20)
+    p:SetEndSize(20)
+	p:SetGravity(Vector(0, 0, 65))
+    p:SetAirResistance(600)
+	p:SetAngles(Angle(0, 0, math.random(180)))
+    p:SetCollide(true)
+    p:SetBounce(0.4)
+    p:SetLighting(false)
+end
+
+
+/*function PANEL:CreateParticle(s, n)
+	for i = 1, 7 do
+	local p = s:Add("particle/smokesprites_0001", self.ParticlePos + Vector(-60, -90 + (20 * i), 0))//Vector(-60, -15.5, -4))
+	if (not p) then return end
+	local col = HSVToColor((CurTime() - (14.5 * n)) * 5 % 360, 1, 1)
+    p:SetColor(col.r, col.g, col.b)
+
+    p:SetStartAlpha(30)
+    p:SetEndAlpha(0)
+    p:SetLifeTime(0)
+
+    p:SetDieTime(5)
+
+    p:SetStartSize(30)
+    p:SetEndSize(40)
+	p:SetGravity(Vector(0, 65, 65))
+    p:SetAirResistance(600)
+	p:SetAngles(Angle(0, 0, math.random(180)))
+    p:SetCollide(true)
+    p:SetBounce(0.4)
+    p:SetLighting(false)
+	end
+end*/
+
+function PANEL:FakeCreateParticles()
+	for i = 1, 58 do
+		self:CreateParticle(self.SmokeEffect, 1 - (i/58), amt)
+	end
+end
+
+local particles = CreateConVar("moat_inventory_smoke", "0", FCVAR_ARCHIVE)
+function PANEL:CreateParticles(pos)
+	if (particles:GetInt() ~= 1) then return end
+	
+	self.SmokeEffect = ParticleEmitter(pos, true)
+	self.SmokeEffect:SetNoDraw(true)
+
+	local prpos = Vector(0, -5, -20)
+	self.ParticlePos = pos + prpos
+
+	self:FakeCreateParticles()
+end
+
+function PANEL:CustomThink()
+	if (particles:GetInt() ~= 1) then return end
+	if (not self.NextSmoke) then 
+		self.NextSmoke = CurTime() + 0.25
+	end
+
+	if (self.NextSmoke <= CurTime()) then
+
+		self:CreateParticle(self.SmokeEffect, 0)
+		self.NextSmoke = CurTime() + 0.25
+	end
+end
+
+function PANEL:DrawParticles()
+	if (self.SmokeEffect and self.SmokeEffect:IsValid()) then
+		self.SmokeEffect:SetPos(self.PlayerModel:GetPos())
+		self.SmokeEffect:Draw()
+	end
+end
+
 local light = CreateConVar("moat_inventory_lighting", "0", FCVAR_ARCHIVE)
 
-function PANEL:Paint(intW, intH)
-    if not IsValid(self.PlayerModel) then return end
-    local x, y = self:LocalToScreen(0, 0)
-    local ang = Angle(0, 0, 0)
-    cam.Start3D(ang:Forward() * self.ScrollDelta + Vector(0, self.ActualAdditionalX, self.ActualAdditionalZ), (ang:Forward() * -1):Angle(), 33, x, y, intW, intH, 5)
-    cam.IgnoreZ(true)
-    render.SuppressEngineLighting(light:GetInt() == 0 and true or false)
+function PANEL:HandleParticles(x, y, ang)
+	local x2, y2 = MOAT_INV_BG:GetPos()
+	local pcf = {["x"] = x - 33, ["y"] = y - 44 - 26, ["w"] = MOAT_INV_BG_W, ["h"] = MOAT_INV_BG_H}
+	
+	if (self.ParticleInventory) then
+		pcf["x"], pcf["y"] = MOAT_INV_BG:LocalToScreen()
+	end
+
+    cam.Start3D(ang:Forward() * 103, (ang:Forward() * -1):Angle(), 33, pcf["x"], pcf["y"], pcf["w"], pcf["h"], 5)
+	render.SetScissorRect(x2, y2, x2 + pcf["w"], y2 + pcf["h"], true)
+	render.SuppressEngineLighting(true)
     render.SetLightingMode(1)
     render.SetLightingOrigin(self.PlayerModel:GetPos())
     render.ResetModelLighting(1, 1, 1)
     render.SetColorModulation(1, 1, 1)
     render.SetBlend(1)
-    self:DrawModel()
+    self:DrawParticles()
+    render.SetLightingMode(0)
+	render.SuppressEngineLighting(false)
+	render.SetScissorRect(0, 0, 0, 0, false)
+    cam.End3D()
+end
+
+function PANEL:Paint(intW, intH)
+    if not IsValid(self.PlayerModel) then return end
+
+    local x, y = self:LocalToScreen()
+    local ang = Angle(0, 0, 0)
+
+	if (particles:GetInt() == 1 and self.ShowParticles and IsValid(MOAT_INV_BG)) then
+		if (MOAT_INV_BG:GetAlpha() == 255) then
+			self.AlphaValue = Lerp(FrameTime() * 1, self.AlphaValue, 1)
+		end
+
+		self:HandleParticles(x, y, ang)
+	else
+		self.AlphaValue = 1
+	end
+
+    cam.Start3D(ang:Forward() * self.ScrollDelta + Vector(0, self.ActualAdditionalX, self.ActualAdditionalZ), (ang:Forward() * -1):Angle(), 33, x, y, intW, intH, 5)
+    render.SuppressEngineLighting(light:GetInt() == 0 and true or false)
+    render.SetLightingMode(1)
+    render.SetLightingOrigin(self.PlayerModel:GetPos())
+    render.ResetModelLighting(1, 1, 1)
+    render.SetColorModulation(1, 1, 1)
+	render.SetBlend(1)
+	self:DrawModel()
     render.SetLightingMode(0)
     render.SuppressEngineLighting(false)
-    cam.IgnoreZ(false)
     cam.End3D()
+
     self.PlayerModel:FrameAdvance((RealTime() - self.m_intLastPaint) * 1)
     self.m_intLastPaint = RealTime()
 end
@@ -945,8 +1091,6 @@ function PANEL:ResetZoom()
     self.EntAngle = 0
     self.PlayerModel:SetAngles(Angle(0, 0, 0))
 end
-
-function PANEL:CustomThink() end
 
 function PANEL:Think()
     if (self.ActualAdditionalX ~= self.AdditionalX) then
@@ -1109,8 +1253,10 @@ function PANEL:SetBodyGroup( k, v )
 end
 
 function PANEL:SetModel(mdl, iSkin, BodyGroups)
-
-    if ( !mdl ) then debug.Trace() return end
+	if ( !mdl ) then debug.Trace() return end
+	if (not mdl:EndsWith(".mdl")) then
+		return
+	end
 
     self:SetModelName( mdl )
     self:SetSkinID( iSkin )

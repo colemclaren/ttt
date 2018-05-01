@@ -270,7 +270,6 @@ local function DrawSpring(s, w, h)
         next_spring = CurTime() + 20
     elseif (currently_spring) then
         local da_spring = springs[current_spring]
-
         draw.WebImage(spring_url .. da_spring[1], da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
 
         if (left_or_right == 2) then
@@ -1311,7 +1310,7 @@ function m_OpenInventory(ply2, utrade)
     MOAT_INV_BG:SetSize(MOAT_INV_BG_W, MOAT_INV_BG_H)
     MOAT_INV_BG:SetTitle("")
     MOAT_INV_BG:ShowCloseButton(false)
-    MOAT_INV_BG:AlphaTo(0, 0, 0)
+    MOAT_INV_BG:SetAlpha(0)
     MOAT_INV_BG:MakePopup()
     MOAT_INV_BG:SetKeyboardInputEnabled(false)
     MOAT_INV_BG:SetPos(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, -MOAT_INV_BG:GetTall())
@@ -1729,24 +1728,30 @@ function m_OpenInventory(ply2, utrade)
     M_INV_PMDL = vgui.Create("MOAT_PlayerPreview", M_INV_PMDL_PNL)
     M_INV_PMDL:SetSize(350, 550)
     M_INV_PMDL:SetPos(-60, 0)
-    M_INV_PMDL:SetModel(GetGlobalString("ttt_default_playermodel"))
+	M_INV_PMDL.ShowParticles = true
+	--M_INV_PMDL.ParticleInventory = true
     M_INV_PMDL:SetText("")
+
+	local set_model = false
 
     if (m_Loadout) then
         for i = 6, 10 do
-            if (IsValid(M_INV_PMDL) and m_Loadout[i]) then
-                if (m_Loadout[i].c) then
-                    if (m_Loadout[i].item and m_Loadout[i].item.Kind and m_CosmeticSlots[m_Loadout[i].item.Kind]) then
-                        M_INV_PMDL:AddModel(m_Loadout[i].u, m_Loadout[i])
-                    end
+            if (IsValid(M_INV_PMDL) and m_Loadout[i] and m_Loadout[i].c) then
+                if (m_Loadout[i].item and m_Loadout[i].item.Kind and m_CosmeticSlots[m_Loadout[i].item.Kind]) then
+                    M_INV_PMDL:AddModel(m_Loadout[i].u, m_Loadout[i])
+                end
 
-                    if (m_Loadout[i].item and m_Loadout[i].item.Kind == "Model") then
-                        M_INV_PMDL:SetModel(m_Loadout[i].u)
-                    end
+                if (m_Loadout[i].item and m_Loadout[i].item.Kind == "Model") then
+                    M_INV_PMDL:SetModel(m_Loadout[i].u)
+					set_model = true
                 end
             end
         end
     end
+
+	if (not set_model) then
+		 M_INV_PMDL:SetModel(GetGlobalString("ttt_default_playermodel"))
+	end
 
     local M_INV_NICK = Label(LocalPlayer():Nick(), M_LOADOUT_PNL)
     M_INV_NICK:SetFont("moat_Medium11")
@@ -2296,7 +2301,7 @@ function m_OpenInventory(ply2, utrade)
             if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
                 m_DPanelIcon.SIcon.Icon:SetAlpha(0)
             end
-
+			
             m_DPanelIcon.SIcon:SetModel(m_WClass.WorldModel, m_WClass.ModelSkin)
             m_DPanelIcon.SIcon:SetVisible(true)
         end
@@ -3920,7 +3925,6 @@ function m_OpenInventory(ply2, utrade)
     if (m_ply2 and m_utrade) then
         m_InitializeTrade(m_ply2, m_utrade)
         MOAT_TRADE_BG:MoveTo((ScrW() / 2 - MOAT_INV_BG:GetWide() / 2) + 5, (ScrH() / 2 - MOAT_INV_BG:GetTall() / 2) + 30, 0.4, 0, 1)
-        MOAT_TRADE_BG:AlphaTo(255, 0.4, 0)
     end
 
     MOAT_INV_BG:MoveTo(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, ScrH() / 2 - MOAT_INV_BG:GetTall() / 2, 0.4, 0, 1)
