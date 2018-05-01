@@ -26,7 +26,7 @@ for k, v in ipairs(Files) do
 	MOAT_INV.Print(" | " .. v)
 	MOAT_INV.IncludeCL("moat_inv/client/" .. v)
 end
-	
+
 MOAT_INV.Print "Parsing shared files"
 Files, Folders = file.Find("moat_inv/shared/*.lua", "LUA")
 for k, v in ipairs(Files) do

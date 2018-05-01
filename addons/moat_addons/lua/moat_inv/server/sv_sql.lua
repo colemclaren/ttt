@@ -28,7 +28,7 @@ function MOAT_INV:Query(str, ...)
     end
 
     function dbq:onError(er)
-        ServerLog("\nQuery Error: " .. er .. " | With Query: " .. str .. "\n")
+        print("\nQuery Error: " .. er .. " | With Query: " .. str .. "\n")
     end
 
     dbq:start()
@@ -37,6 +37,7 @@ end
 
 hook.Add("SQLConnected", "MOAT_INV.SQL", function(db)
     MOAT_INV.DBHandle = db
+    hook.Run("InventoryPrepare", db)
 end)
 
 
@@ -144,4 +145,4 @@ str = str .. "  select uid as cid;\n"
 str = str .. "END; $$\n"
 str = str .. "DELIMITER ;\n"
 
-file.Write("export.txt", str)]=]
+file.Write("export.txt", str)--]=]

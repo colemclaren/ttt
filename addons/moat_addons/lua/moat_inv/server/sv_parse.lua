@@ -1,3 +1,8 @@
+local SQL
+local mysqloo = include "sql_mysqloo.lua"
+hook.Add("InventoryPrepare", "MOAT_INV.Prepare", function(sql)
+    SQL = mysqloo(sql)
+end)
 --[[-----------------------------------
 Parsing SQL > Table
 ------------------------------------]]--
@@ -7,7 +12,10 @@ function MOAT_INV:ParseInventoryQuery(d, q)
 
     for i = 1, #d do
         local r = d[i]
-        inv[r["id"]] = {["u"] = r["itemid"], ["w"] = r["classname"] or nil}
+        inv[r["id"]] = {
+            ["u"] = r["itemid"],
+            ["w"] = r["classname"] or nil
+        }
     end
 
     while (q:hasMoreResults()) do
@@ -76,110 +84,111 @@ Parsing Item > SQL
 ------------------------------------]]--
 
 function MOAT_INV:QueryFromItem(i, o)
-    return i["s"] and (i["t"] and self:InsertWeaponTalents(i, o) or self:InsertWeaponStats(i, o)) or (i["w"] and self:InsertWeapon(i, o) or self:InsertItem(i, o))
-end
-
-function MOAT_INV:item(u)
-    return "call insertItem(" .. u
-end
-
-function MOAT_INV:weapon(u)
-    return "call insertWeapon(" .. u
-end
-
-function MOAT_INV:stats(u, s)
-    return "call insertWeapon#Stats(" .. u
-end
-
-function MOAT_INV:talents(u)
-    return "call insertWeapon#Stats#Talents(" .. u
-end
-
-function MOAT_INV:paint(u)
-    return "call insertItemPaint(" .. u
-end
-
-function MOAT_INV:name(u)
-    return "call insertItemName(" .. u
+    if (i.s) then -- weapon
+        if (i.t) then
+            return self:InsertWeaponTalents(i, o)
+        else
+            return self:InsertWeaponStats(i, o)
+        end
+    else
+        if (i.w) then
+            return self:InsertWeapon(i, o)
+        else
+            return self:InsertItem(i, o)
+        end
+    end
 end
 
 function MOAT_INV:InsertItem(tbl, owner)
-    return self:item(tbl["u"]):add(owner):add(tbl["slot"] or "0"):finish()
+    return SQL:CreateQuery("call insertItem(?, ?!, ?);", tbl.u, owner, tbl.slot)
 end
 
+
 function MOAT_INV:InsertWeapon(tbl, owner)
-    return self:weapon(tbl["u"])
-    :add(owner)
-    :add(tbl["slot"] or "0")
-    :add(self:Escape(tbl["w"]))
-    :finish()
+    return SQL:CreateQuery("call insertWeapon(?, ?!, ?, ?);", tbl.u, owner, tbl.slot, tbl.w)
 end
 
 function MOAT_INV:InsertWeaponStats(tbl, owner)
-    local n, s = 0, self:stats(tbl["u"])
-    :add(owner)
-    :add(tbl["slot"] or "0")
-    :add(self:Escape(tbl["w"]))
-
+    local data = {
+        stat_count = 0,
+        slot = tbl.slot,
+        class_name = tbl.w,
+        tbl.u,
+        owner
+    }
     for k, v in pairs(tbl["s"]) do
-        s = s:add(self:Escape(k)):add(v)
-        n = n + 1
+        data.stat_count = data.stat_count + 1
+        table.insert(data, k)
+        table.insert(data, v)
     end
 
-    if (n == 0) then return self:InsertWeapon(tbl, owner) end
-    return s:finish(n)
+    if (data.stat_count == 0) then
+        return self:InsertWeapon(tbl, owner)
+    end
+    return SQL:CreateQuery("call insertWeapon?stat_count#Stats(?, ?!, ?slot, ?class_name"..string.rep(", ?, ?", data.stat_count)..");", data)
 end
 
 function MOAT_INV:InsertWeaponTalents(tbl, owner)
-    local n, a, s = 0, 0, self:talents(tbl["u"])
-    :add(owner)
-    :add(tbl["slot"] or "0")
-    :add(self:Escape(tbl["w"]))
-
+    local data = {
+        stat_count = 0,
+        talent_count = 0,
+        slot = tbl.slot,
+        class_name = tbl.w,
+        tbl.u,
+        owner,
+    }
     for k, v in pairs(tbl["s"]) do
-        s = s:add(self:Escape(k)):add(v)
-        n = n + 1
+        table.insert(data, k)
+        table.insert(data, v)
+        data.stat_count = data.stat_count + 1
     end
-
     for k, v in ipairs(tbl["t"]) do
         for i = 1, #v["m"] do
-            s = s:add(v["e"]):add(v["l"]):add(i):add(v["m"][i])
-            a = a + 1
+            table.insert(data, v.e)
+            table.insert(data, v.l)
+            table.insert(data, i)
+            table.insert(data, v.m[i])
+            data.talent_count = data.talent_count + 1
         end
     end
+    return SQL:CreateQuery("call insertWeapon?stat_count#Stats?talent_count#Talents(?, ?!, ?slot, ?class_name"..string.rep(", ?", data.stat_count * 2 + data.talent_count * 4)..");", data)
+end
 
-    return s:finish(n, a)
+function MOAT_INV:LastInsertID()
+    return SQL:Function("LAST_INSERT_ID")
+end
+
+function MOAT_INV:Raw(s)
+    return SQL:Raw(s)
 end
 
 function MOAT_INV:QueryForName(n, u)
-    local s = self:name(u)
-    :add(self:Escape(n))
-    return s:finish()
+    return SQL:CreateQuery("call insertItemName(?, ?);", u, n)
+end
+
+function MOAT_INV:CreateQuery(...)
+    return SQL:CreateQuery(...)
 end
 
 function MOAT_INV:QueryForPaint(i, u)
-    local s, a = self:paint(u)
-
+    local query = {}
     if (i["p"]) then
-        s = s:add(1):add(i["p"]):finish()
-        a = 1
+        table.insert(query, SQL:CreateQuery("call insertItemPaint(?, ?, ?);", u, 1, i.p))
     end
 
     if (i["p2"]) then
-        if (a) then s = s .. self:paint(u) end
-        s = s:add(2):add(i["p2"]):finish()
-        a = 1
+        table.insert(query, SQL:CreateQuery("call insertItemPaint(?, ?, ?);", u, 2, i.p2))
     end
 
     if (i["p3"]) then
-        if (a) then s = s .. self:paint(u) end
-        s = s:add(3):add(i["p3"]):finish()
+        table.insert(query, SQL:CreateQuery("call insertItemPaint(?, ?, ?);", u, 3, i.p3))
     end
 
-    return s
+    return table.concat(query, "")
 end
 
 concommand.Add("test_inventory", function(pl, cmd, args)
+    local LAST_INSERT_ID = MOAT_INV:LastInsertID()
     local id = pl:SteamID64()
     local inv = table.Copy(MOAT_INVS[pl])
 
@@ -187,17 +196,22 @@ concommand.Add("test_inventory", function(pl, cmd, args)
     for k, v in pairs(inv) do
         if (not v.u) then continue end
 
-        if (k:StartWith("l")) then v["slot"] = k:TrimLeft("l_slot") end
+        if (k:StartWith("l")) then v["loadoutslot"] = k:TrimLeft("l_slot")
+        else v["slotid"] = k:TrimLeft("slot") end
         if (v["tr"] and v["s"]) then v["s"]["tr"] = nil v["s"]["j"] = "1" end
 
         local str = MOAT_INV:QueryFromItem(v, id)
 
+        local var = MOAT_INV:Raw "@cid"
+
+        str = str .. MOAT_INV:CreateQuery("set ? = ?;", var, LAST_INSERT_ID)
+
         if (v.n) then
-            str = str .. MOAT_INV:QueryForName(v.n, "LAST_INSERT_ID()")
+            str = str .. MOAT_INV:QueryForName(v.n, var)
         end
 
         if (v.p or v.p2 or v.p3) then
-            str = str .. MOAT_INV:QueryForPaint(v, "LAST_INSERT_ID()")
+            str = str .. MOAT_INV:QueryForPaint(v, var)
         end
 
         qstr = qstr .. str
@@ -211,7 +225,7 @@ end)
 concommand.Add("test_inv1", function(pl, cmd, args)
     local start_time = SysTime()
 
-    pl:LoadInventory(function()
+    pl:LoadInventory(function(pl, inv)
         end_time = SysTime()
 
         print(end_time - start_time, start_time, end_time)
