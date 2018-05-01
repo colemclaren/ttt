@@ -984,7 +984,7 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 		end)
 
 		hook.Add("PlayerDeath", "moat_headshot_expert", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and WasRightfulKill(att, ply)) then
+			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and WasRightfulKill(att, ply) and att.attacked and att.attacked[ply] and att.attacked[ply][1]) then
                 if att.attacked[ply][1] > 1 then return end
 				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
 			end
