@@ -1,6 +1,3 @@
-if (util.NetworkStringToID "moat_invdev") then
-    return
-end
 MOAT_VERSION = "1.7.1"
 MOAT_BG_URL = "https://moat.gg/assets/img/bg-main.png"
 
@@ -227,7 +224,7 @@ end
 
 local function createSpooky(pnl, x, y, w, h)
     if (true) then return end
-    
+
     next_spook = CurTime() + 5
     pnl.spookypanel = vgui.Create("DPanel",pnl)
     pnl.spookypanel:SetSize(w,h)
@@ -273,6 +270,7 @@ local function DrawSpring(s, w, h)
         next_spring = CurTime() + 20
     elseif (currently_spring) then
         local da_spring = springs[current_spring]
+
         draw.WebImage(spring_url .. da_spring[1], da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
 
         if (left_or_right == 2) then
@@ -988,29 +986,87 @@ function m_GetESlots()
     return eslots
 end
 
-net.Receive("MOAT_SEND_INV_ITEM", function(len)
-    local key = net.ReadString()
-    local tbl = net.ReadTable()
-    local slot = 0
-
-    if (tbl and tbl.item and tbl.item.Kind == "Other") then
-        if (tbl.item.WeaponClass) then
-            tbl.w = tbl.item.WeaponClass
-        end    
+local function ReadWeaponFromNet()
+    local self = {}
+    if (not net.ReadBool()) then
+        return self
+    end
+    self.c = net.ReadUInt(32)
+    self.u = net.ReadUInt(32)
+    if (net.ReadBool()) then
+        self.w = net.ReadString()
     end
 
-    if (string.StartWith(key, "l")) then
-        slot = tonumber(string.sub(key, 2, #key))
-        m_Loadout[slot] = {}
-        m_Loadout[slot] = tbl
+    while (true) do
+        local statid = net.ReadUInt(8)
+        if (statid == 0) then
+            break
+        end
+        self.s = self.s or {}
+        statid = string.char(statid)
+        self.s[tonumber(statid) or statid] = net.ReadFloat()
+    end
+
+    while (true) do
+        local tier = net.ReadUInt(8)
+        if (tier == 255) then
+            break
+        end
+        self.t = self.t or {}
+        local tierdata = {}
+        self.t[tier] = tierdata
+        tierdata.e = net.ReadUInt(16)
+        tierdata.l = net.ReadUInt(16)
+        for i = 1, 255 do
+            if (not net.ReadBool()) then
+                break
+            end
+            tierdata.m = tierdata.m or {}
+            tierdata.m[i] = net.ReadFloat()
+        end
+    end
+
+    net.WriteBool(not not self.p1)
+    if (net.ReadBool()) then
+        self.p1 = net.ReadUInt(16)
+    end
+    if (net.ReadBool()) then
+        self.p2 = net.ReadUInt(16)
+    end
+    if (net.ReadBool()) then
+        self.p3 = net.ReadUInt(16)
+    end
+
+    net.WriteBool(not not self.n)
+    if (net.ReadBool()) then
+        self.n = net.WriteString()
+    end
+    return self
+end
+
+net.Receive("MOAT_SEND_INV_ITEM", function(len)
+    local is_loadout = net.ReadBool()
+    local slot = net.ReadUInt(32)
+    local wep = ReadWeaponFromNet()
+    local tbl = net.ReadTable()
+
+    for k,v in pairs(tbl) do
+        wep[k] = v
+    end
+    tbl = wep
+
+    if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
+        wep.w = tbl.item.WeaponClass
+    end
+
+    if (is_loadout) then
+        m_Loadout[slot] = wep
 
         if (slot >= 6 and slot <= 8 and m_Loadout[slot] and m_Loadout[slot].u) then
             m_SendCosmeticPositions(m_Loadout[slot], slot)
         end
     else
-        slot = tonumber(key)
-        m_Inventory[slot] = {}
-        m_Inventory[slot] = tbl
+        m_Inventory[slot] = wep
 
         if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
             local d = nil
@@ -1264,6 +1320,7 @@ function m_OpenInventory(ply2, utrade)
     moat_inv_cooldown = CurTime() + 1
 
     if (#m_Inventory < NUMBER_OF_SLOTS) then
+        print(#m_Inventory, NUMBER_OF_SLOTS)
         chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
 
         return
@@ -1271,6 +1328,7 @@ function m_OpenInventory(ply2, utrade)
 
     for i = 1, #m_Inventory do
         if (m_Inventory[i] and #m_Inventory[i] > 0 and not m_Inventory[i].c) then
+            print(i)
             chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
 
             return
@@ -1288,7 +1346,7 @@ function m_OpenInventory(ply2, utrade)
     INV_SELECTED_ITEM = nil
 
     local MAX_SLOTS = LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS", 0)
-    M_INV_DRAG = nil
+    local M_INV_DRAG = nil
     m_ply2 = ply2 or nil
     m_utrade = utrade or nil
     M_INV_SLOT = {}
@@ -1313,7 +1371,7 @@ function m_OpenInventory(ply2, utrade)
     MOAT_INV_BG:SetSize(MOAT_INV_BG_W, MOAT_INV_BG_H)
     MOAT_INV_BG:SetTitle("")
     MOAT_INV_BG:ShowCloseButton(false)
-    MOAT_INV_BG:SetAlpha(0)
+    MOAT_INV_BG:AlphaTo(0, 0, 0)
     MOAT_INV_BG:MakePopup()
     MOAT_INV_BG:SetKeyboardInputEnabled(false)
     MOAT_INV_BG:SetPos(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, -MOAT_INV_BG:GetTall())
@@ -1385,7 +1443,6 @@ function m_OpenInventory(ply2, utrade)
         self:AlphaTo(0, anim1, delay1)
 
         timer.Simple(anim1 + delay1, function()
-			if (not IsValid(self)) then return end
             self:SetText(new)
         end)
 
@@ -1438,7 +1495,7 @@ function m_OpenInventory(ply2, utrade)
                 end
 
                 m_DrawShadowedText(1, "Trade request sent to:", "Trebuchet24", w / 2, 243, Color(255, 255, 255), TEXT_ALIGN_CENTER)
-                m_DrawShadowedText(1, (IsValid(v) and v:Nick()) or "Disconnected", "Trebuchet24", w / 2, 278, Color(0, 200, 0), TEXT_ALIGN_CENTER)
+                m_DrawShadowedText(1, v:Nick(), "Trebuchet24", w / 2, 278, Color(0, 200, 0), TEXT_ALIGN_CENTER)
                 local ava_x, ava_y = s:GetChildren()[2]:GetPos()
                 local ava_w, ava_h = s:GetChildren()[2]:GetSize()
                 --draw_RoundedBox( 0, ava_x - 2, ava_y - 2, ava_w + 4, ava_h + 4, Color( 62, 62, 64, 255 ) )
@@ -1732,30 +1789,24 @@ function m_OpenInventory(ply2, utrade)
     M_INV_PMDL = vgui.Create("MOAT_PlayerPreview", M_INV_PMDL_PNL)
     M_INV_PMDL:SetSize(350, 550)
     M_INV_PMDL:SetPos(-60, 0)
-	M_INV_PMDL.ShowParticles = true
-	--M_INV_PMDL.ParticleInventory = true
+    M_INV_PMDL:SetModel(GetGlobalString("ttt_default_playermodel"))
     M_INV_PMDL:SetText("")
-
-	local set_model = false
 
     if (m_Loadout) then
         for i = 6, 10 do
-            if (IsValid(M_INV_PMDL) and m_Loadout[i] and m_Loadout[i].c) then
-                if (m_Loadout[i].item and m_Loadout[i].item.Kind and m_CosmeticSlots[m_Loadout[i].item.Kind]) then
-                    M_INV_PMDL:AddModel(m_Loadout[i].u, m_Loadout[i])
-                end
+            if (IsValid(M_INV_PMDL) and m_Loadout[i]) then
+                if (m_Loadout[i].c) then
+                    if (m_Loadout[i].item and m_Loadout[i].item.Kind and m_CosmeticSlots[m_Loadout[i].item.Kind]) then
+                        M_INV_PMDL:AddModel(m_Loadout[i].u, m_Loadout[i])
+                    end
 
-                if (m_Loadout[i].item and m_Loadout[i].item.Kind == "Model") then
-                    M_INV_PMDL:SetModel(m_Loadout[i].u)
-					set_model = true
+                    if (m_Loadout[i].item and m_Loadout[i].item.Kind == "Model") then
+                        M_INV_PMDL:SetModel(m_Loadout[i].u)
+                    end
                 end
             end
         end
     end
-
-	if (not set_model) then
-		 M_INV_PMDL:SetModel(GetGlobalString("ttt_default_playermodel"))
-	end
 
     local M_INV_NICK = Label(LocalPlayer():Nick(), M_LOADOUT_PNL)
     M_INV_NICK:SetFont("moat_Medium11")
@@ -1813,11 +1864,12 @@ function m_OpenInventory(ply2, utrade)
         s:RequestFocus()
     end
 
-	function MOAT_INV_BG:SafeClose(send)
+    M_INV_C.DoClick = function()
+        --gui.EnableScreenClicker( false )
         MOAT_INV_BG:Remove()
 
         if (m_ply2 and m_utrade) then
-        	if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
+            MOAT_TRADE_BG:Remove()
             moat_inv_cooldown = CurTime() + 1
             m_ClearInventory()
             net.Start("MOAT_SEND_INV_ITEM")
@@ -1827,17 +1879,7 @@ function m_OpenInventory(ply2, utrade)
             net.WriteDouble(m_ply2:EntIndex())
             net.WriteDouble(m_utrade)
             net.SendToServer()
-        elseif (send) then
-            moat_inv_cooldown = CurTime() + 1
-            m_ClearInventory()
-            net.Start("MOAT_SEND_INV_ITEM")
-            net.SendToServer()
-		end
-	end
-
-    M_INV_C.DoClick = function()
-        --gui.EnableScreenClicker( false )
-        MOAT_INV_BG:SafeClose()
+        end
     end
 
     //M_INV_CATS = {{"Loadout", 90}, {"Player", 90}, {"Trading", 90}, {"Shop", 90}, {"Gamble", 90}, {"Bounties", 90}, {"Settings", 90}}
@@ -1872,17 +1914,15 @@ function m_OpenInventory(ply2, utrade)
                     s.hover_coloral = Lerp(2 * FrameTime(), s.hover_coloral, 0)
                 end
             else
-                if (IsValid(M_INV_MENU)) then
-                    if (M_INV_MENU.Hovered) then
-                        s.btn_hovered = 0
-                        s.btn_color_a = false
+                if (IsValid(M_INV_MENU) and M_INV_MENU.Hovered) then
+                    s.btn_hovered = 0
+                    s.btn_color_a = false
 
-                        if (s.hover_coloral > 0) then
-                            s.hover_coloral = Lerp(2 * FrameTime(), s.hover_coloral, 0)
-                        end
-
-                        return
+                    if (s.hover_coloral > 0) then
+                        s.hover_coloral = Lerp(2 * FrameTime(), s.hover_coloral, 0)
                     end
+
+                    return
                 end
 
                 if (s.hover_coloral < 154 and s.btn_hovered == 0) then
@@ -2089,23 +2129,23 @@ function m_OpenInventory(ply2, utrade)
         moat_RemoveEditPositionPanel()
 
         if (cat == 3) then
-            if (trading and IsValid(MOAT_TRADE_BG)) then
+            if (trading) then
                 local inv_x, inv_y = MOAT_INV_BG:GetPos()
                 MOAT_TRADE_BG:MoveTo(inv_x + 5, inv_y + 30, anim_time, anim_time, -1)
                 MOAT_TRADE_BG:AlphaTo(255, anim_time, anim_time)
                 MOAT_TRADE_BG:MakePopup()
-            elseif (not trading) then
+            else
                 M_TRADING_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
                 M_TRADING_PNL:AlphaTo(255, anim_time, anim_time)
                 M_TRADE_PLYS:RebuildList()
             end
         else
-            if (trading and IsValid(MOAT_TRADE_BG)) then
+            if (trading) then
                 local inv_x, inv_y = MOAT_INV_BG:GetPos()
                 MOAT_TRADE_BG:MoveTo(inv_x - MOAT_TRADE_BG:GetWide() - 5, inv_y + 30, anim_time, 0, -1)
                 MOAT_TRADE_BG:AlphaTo(0, anim_time, anim_time)
                 MOAT_TRADE_BG:MakePopup()
-            elseif (not trading) then
+            else
                 if (IsValid(M_TRADING_PNL)) then
                     M_TRADING_PNL:MoveTo(-M_TRADING_PNL:GetWide(), 0, anim_time, 0, -1)
                     M_TRADING_PNL:AlphaTo(0, anim_time)
@@ -2191,9 +2231,9 @@ function m_OpenInventory(ply2, utrade)
             M_INV_L:SizeTo(350, 488, 0.15)
         end
 
-		for k, v in pairs(m_Inventory) do
-			v.decon = false
-		end
+        for i = 1, #m_Inventory do
+            m_Inventory[i].decon = false
+        end
 
         MOAT_ITEMS_DECON_MARKED = 0
 
@@ -2267,9 +2307,10 @@ function m_OpenInventory(ply2, utrade)
             surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
             surface_SetDrawColor(50, 50, 50, hover_coloral)
             surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+
             if (not m_Inventory[num]) then return end
 
-            if (m_Inventory[num].c and m_Inventory[num].item and m_Inventory[num].item.Rarity) then
+            if (m_Inventory[num].c) then
                 surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
                 surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
@@ -2285,12 +2326,16 @@ function m_OpenInventory(ply2, utrade)
 
             surface_SetDrawColor(62, 62, 64, 255)
 
-            if (m_Inventory[num].c and m_Inventory[num].item and m_Inventory[num].item.Rarity) then
+            if (m_Inventory[num].c) then
                 surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2])
             end
 
             surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
             surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
+
+            if (m_Inventory[num].c) then
+                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2].r, rarity_names[m_Inventory[num].item.Rarity][2].g, rarity_names[m_Inventory[num].item.Rarity][2].b, hover_coloral / 2)
+            end
         end
 
         --  surface_DrawPoly( triangle )
@@ -2308,10 +2353,9 @@ function m_OpenInventory(ply2, utrade)
 
         if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
             if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
-				if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
                 m_DPanelIcon.SIcon.Icon:SetAlpha(0)
             end
-			
+
             m_DPanelIcon.SIcon:SetModel(m_WClass.WorldModel, m_WClass.ModelSkin)
             m_DPanelIcon.SIcon:SetVisible(true)
         end
@@ -2519,41 +2563,17 @@ function m_OpenInventory(ply2, utrade)
         M_INV_SLOT[num] = tbl
     end
 
-    local function m_HandleLayoutSpacing(remove)
-        if (remove) then
-            if (IsValid(M_INV_L.Spacing)) then M_INV_L.Spacing:Remove() end
-            return
-        end
-
-		if (IsValid(M_INV_L)) then
-        	M_INV_L.Spacing = M_INV_L:Add("DPanel")
-        	M_INV_L.Spacing:SetSize(676, 2)
-       		M_INV_L.Spacing.Paint = nil
-		end
-    end
-
-    function m_CreateNewInvSlot(num)
-        m_HandleLayoutSpacing(true)
-		m_CreateInvSlot(num)
-        m_HandleLayoutSpacing()
-
-		if (not IsValid(M_INV_SP)) then return end
-        M_INV_SP.VBar.ScrollOnExtend = true
-        local s = M_INV_SP.VBar.CanvasSize
-        M_INV_SP.VBar.LerpTarget = s
-        M_INV_SP.VBar:SetScroll(s)
-    end
 
     local function m_CreateInventorySlots()
         for i = 1, MAX_SLOTS do
-			if (not m_Inventory[i]) then
-				MsgC(Color(255, 0, 0), "Couldn't create slot " .. i .. " in your inventory.\n")
-				m_Inventory[i] = {}
-			end
             m_CreateInvSlot(i)
         end
 
-		m_HandleLayoutSpacing()
+        for i = 1, 5 do
+            local EndSpacing = M_INV_L:Add("DPanel")
+            EndSpacing:SetSize(169, 0)
+            EndSpacing.Paint = nil
+        end
     end
 
     if (not m_Inventory[MAX_SLOTS]) then
@@ -2714,7 +2734,6 @@ function m_OpenInventory(ply2, utrade)
 
         if (m_ItemExists and m_WClass) then
             if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
-				if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
                 m_DPanelIcon.SIcon.Icon:SetAlpha(0)
             end
 
@@ -3132,6 +3151,7 @@ function m_OpenInventory(ply2, utrade)
                 if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
                     
                     for i = 1, #item_desctbl do
+                        print(i)
                         local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
 
                         if (s.ctrldown) then
@@ -3235,16 +3255,7 @@ function m_OpenInventory(ply2, utrade)
 
     function m_InitializeTrade(ply_2, u_trade)
         if (ply_2 and u_trade) then
-            if (IsValid(M_TRADING_PNL)) then M_TRADING_PNL:SetVisible(false) end
-			if (not IsValid(MOAT_INV_BG)) then
-            	net.Start("MOAT_RESPOND_TRADE")
-            	net.WriteBool(false)
-            	net.WriteDouble(ply_2:EntIndex())
-            	net.WriteDouble(u_trade)
-            	net.SendToServer()
-				return
-			end
-
+            M_TRADING_PNL:SetVisible(false)
             local inv_x, inv_y = MOAT_INV_BG:GetPos()
             MOAT_TRADE_BG = vgui.Create("DFrame")
             MOAT_TRADE_BG:SetTitle("")
@@ -3286,9 +3297,13 @@ function m_OpenInventory(ply2, utrade)
             MOAT_TRADE_BG.ACCEPTED2 = 0
 
             MOAT_TRADE_BG.Paint = function(s, w, h)
+                local x, y = MOAT_INV_BG:GetPos()
+                local invw, invh = MOAT_INV_BG:GetSize()
+                render.SetScissorRect(x, y, x + invw, y + invh, true)
                 if (not IsValid(ply_2)) then
-					if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
-        			if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
+                    MOAT_TRADE_BG.ACCEPTED = 0
+                    MOAT_INV_BG:Remove()
+                    MOAT_TRADE_BG:Remove()
 
                     if (m_ply2 and m_utrade) then
                         moat_inv_cooldown = CurTime() + 1
@@ -3301,15 +3316,9 @@ function m_OpenInventory(ply2, utrade)
                         net.WriteDouble(m_utrade)
                         net.SendToServer()
                     end
-
                     chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Trade canceled. Player disconnected?")
                     return
                 end
-
-				if (not IsValid(MOAT_INV_BG)) then return end
-                local x, y = MOAT_INV_BG:GetPos()
-                local invw, invh = MOAT_INV_BG:GetSize()
-                render.SetScissorRect(x, y, x + invw, y + invh, true)
                 if (MT_TSHADOW) then
                     m_DrawShadowedText(1, "Your offer:", "Trebuchet24", 25 + 2 + 3 + x_off, 1 + y_off - y_off2, MT_TCOL)
                     m_DrawShadowedText(1, "Viewing Trade", "moat_TradeDesc", 25 + 2 + 3 + x_off, 1 + y_off + y_off2 + 2, Color(0, 200, 0, 255))
@@ -3420,9 +3429,14 @@ function m_OpenInventory(ply2, utrade)
                 m_DPanel:SetSize(68, 68)
 
                 m_DPanel.Paint = function(s, w, h)
+                    local x, y = MOAT_INV_BG:GetPos()
+                    local invw, invh = MOAT_INV_BG:GetSize()
+                    render.SetScissorRect( x, y, x + invw, y + invh, true )
+
                     if (not m_Trade[num]) then
-						if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
-        				if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
+                        MOAT_TRADE_BG.ACCEPTED = 0
+                        MOAT_INV_BG:Remove()
+                        MOAT_TRADE_BG:Remove()
 
                         if (m_ply2 and m_utrade) then
                             moat_inv_cooldown = CurTime() + 1
@@ -3435,15 +3449,8 @@ function m_OpenInventory(ply2, utrade)
                             net.WriteDouble(m_utrade)
                             net.SendToServer()
                         end
-
-						chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Trade canceled. Player disconnected?")
                         return
                     end
-
-					if (not IsValid(MOAT_INV_BG)) then return end
-                    local x, y = MOAT_INV_BG:GetPos()
-                    local invw, invh = MOAT_INV_BG:GetSize()
-                    render.SetScissorRect( x, y, x + invw, y + invh, true )
 
                     local draw_x = 2
                     local draw_y = 2
@@ -3523,11 +3530,8 @@ function m_OpenInventory(ply2, utrade)
                 m_DPanelIcon.MSkin = nil
 
                 m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
-					if (not m_Trade[num]) then return end
-
                     if (m_Trade[num].c) then
                         if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
-							if (not IsValid(MOAT_INV_BG)) then return end
                             local x, y = MOAT_INV_BG:GetPos()
                             local invw, invh = MOAT_INV_BG:GetSize()
                             render.SetScissorRect( x, y, x + invw, y + invh, true )
@@ -3778,7 +3782,6 @@ function m_OpenInventory(ply2, utrade)
             M_TRADE_A:SetText("")
 
             M_TRADE_A.Paint = function(s, w, h)
-				if (not IsValid(MOAT_INV_BG)) then return end
                 local x, y = MOAT_INV_BG:GetPos()
                 local invw, invh = MOAT_INV_BG:GetSize()
                 render.SetScissorRect( x, y, x + invw, y + invh, true )
@@ -3853,7 +3856,6 @@ function m_OpenInventory(ply2, utrade)
             M_TRADE_D:SetText("")
 
             M_TRADE_D.Paint = function(s, w, h)
-				if (not IsValid(MOAT_INV_BG)) then return end
                 local x, y = MOAT_INV_BG:GetPos()
                 local invw, invh = MOAT_INV_BG:GetSize()
                 render.SetScissorRect( x, y, x + invw, y + invh, true )
@@ -3923,6 +3925,7 @@ function m_OpenInventory(ply2, utrade)
             end
 
             M_TRADE_D.DoClick = function(s)
+                MOAT_TRADE_BG.ACCEPTED = 0
                 MOAT_INV_BG:Remove()
                 MOAT_TRADE_BG:Remove()
 
@@ -3945,9 +3948,7 @@ function m_OpenInventory(ply2, utrade)
                 end
                 
                 local curx = s:GetPos()
-                local invx = ScrW()
-				if (IsValid(MOAT_INV_BG)) then invx = MOAT_INV_BG:GetPos() end
-
+                local invx = MOAT_INV_BG:GetPos()
                 if (curx < invx) then
                     M_TRADE_CHATLIST:SetAlpha(0)
                     MOAT_TRADE_AVA2:SetAlpha(0)
@@ -3979,6 +3980,7 @@ function m_OpenInventory(ply2, utrade)
     if (m_ply2 and m_utrade) then
         m_InitializeTrade(m_ply2, m_utrade)
         MOAT_TRADE_BG:MoveTo((ScrW() / 2 - MOAT_INV_BG:GetWide() / 2) + 5, (ScrH() / 2 - MOAT_INV_BG:GetTall() / 2) + 30, 0.4, 0, 1)
+        MOAT_TRADE_BG:AlphaTo(255, 0.4, 0)
     end
 
     MOAT_INV_BG:MoveTo(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, ScrH() / 2 - MOAT_INV_BG:GetTall() / 2, 0.4, 0, 1)
@@ -3991,7 +3993,6 @@ end
 
 function m_AddTradeChatMessage(tmsg, tply)
     if (not IsValid(M_TRADE_CHATLIST)) then return end
-    if not IsValid(tply) then return end
     local ply_name = tply:Nick()
 
     if (string.StartWith(ply_name, "#") and #ply_name > 1) then
@@ -4106,7 +4107,6 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
 
     if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
         if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
-			if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
             m_DPanelIcon.SIcon.Icon:SetAlpha(0)
         end
 
@@ -4240,13 +4240,7 @@ local non_char_cap = {
 }
 
 function m_IniateUsableItem(num, itemtbl)
-	if (not IsValid(MOAT_INV_BG)) then
-		net.Start "MOAT_END_USABLE"
-        net.SendToServer()
-		return
-	end
-
-	if (IsValid(M_USABLE_PNL_BG)) then M_USABLE_PNL_BG:Remove() end
+    if (IsValid(M_USABLE_PNL_BG)) then M_USABLE_PNL_BG:Remove() end
     INV_SELECTED_ITEM = nil
     local sel_itm = nil
 
@@ -4341,7 +4335,7 @@ function m_IniateUsableItem(num, itemtbl)
         ne:SetPos(5, M_USABLE_PNL_BG:GetTall() - 115)
         ne:SetSize(M_USABLE_PNL_BG:GetWide() - 10, 30)
         ne:SetFont("GModNotify")
-        ne.MaxChars = 30
+        ne.MaxChars = 20
         ne.ed = false
         ne.txt = ""
         ne.Paint = function(s, w, h)
@@ -4358,7 +4352,7 @@ function m_IniateUsableItem(num, itemtbl)
                 return
             end
 
-            if (#s.txt < 3 or #s.txt > 30) then M_REQ_A:SetDisabled(true) elseif (#s.txt > 2) then M_REQ_A:SetDisabled(false) end
+            if (#s.txt < 3 or #s.txt > 20) then M_REQ_A:SetDisabled(true) elseif (#s.txt > 2) then M_REQ_A:SetDisabled(false) end
 
             if (input.IsMouseDown(MOUSE_LEFT)) then
                 if (s.h) then
@@ -4643,9 +4637,6 @@ function m_CreateItemMenu(num, ldt)
     if (IsValid(M_INV_MENU)) then
         M_INV_MENU:Remove()
     end
-
-	if (not itemtbl or not itemtbl.item) then return end
-
     /*
     local ITEM_NAME_FULL = ""
 
@@ -4843,26 +4834,21 @@ function m_CreateItemMenu(num, ldt)
 
         local n = num
         m_HoveredSlot = num
-        if (IsValid(MOAT_INV_S)) then MOAT_INV_S.ctrldown = true end
+        MOAT_INV_S.ctrldown = true
         moat_imagehack = true
         hook.Add("HudPaint","Mid Framegg",function()
             m_HoveredSlot = num
-			if (IsValid(MOAT_INV_S)) then
-            	MOAT_INV_S.AnimVal = 1
-            	MOAT_INV_S.ctrldown = true
-            	MOAT_INV_S:SetAlpha(255)
-            	MOAT_INV_S:Think()
-			end
+            MOAT_INV_S.AnimVal = 1
+            MOAT_INV_S.ctrldown = true
+            MOAT_INV_S:SetAlpha(255)
+            MOAT_INV_S:Think()
             hook.Remove("HudPaint","Mid Framegg")
         end)
         hook.Add("PostRender", "Gay render capture rules", function()
-            if (IsValid(MOAT_INV_S)) then MOAT_INV_S:Think() end
+            MOAT_INV_S:Think()
 
-            local x, y, w, h = 0, 0, 0, 0
-			if (IsValid(MOAT_INV_S)) then
-				x, y = MOAT_INV_S:GetPos()
-				w, h = MOAT_INV_S:GetSize()
-			end
+            local x, y = MOAT_INV_S:GetPos()
+            local w, h = MOAT_INV_S:GetSize()
             
             local data = render.Capture({
                 format = "jpeg",
@@ -5303,34 +5289,11 @@ function m_CanAutoDeconstruct(ITEM_TBL)
 end
 
 net.Receive("MOAT_ADD_INV_ITEM", function(len)
-    local slot = net.ReadUInt(16)
+    local key = net.ReadString()
     local tbl = net.ReadTable()
     local not_drop = net.ReadBool()
-
-	if (net.ReadBool()) then
-		local max_slots = net.ReadUInt(16)
-		print("add", max_slots)
-		local max_slots_old = max_slots - 4
-
-		for i = max_slots_old, max_slots do
-       		m_Inventory[i] = {}
-
-        	if (m_isUsingInv()) then
-            	m_CreateNewInvSlot(i)
-        	end
-    	end
-
-		local cnt = 0
-		for i = 1, #m_Inventory do
-			if (m_Inventory[i] and m_Inventory[i].c) then cnt = cnt + 1 end
-		end
-
-		if (cnt > 350) then
-        	for i = 1, 10 do
-            	chat.AddText(Color(255, 0, 0), "Warning! Your inventory is taking a lot of time to save! Consider deconstructing items or risk losing some!")
-        	end
-    	end
-	end
+    local slot = 0
+    slot = tonumber(key)
 
     if (tbl and tbl.item and tbl.item.Kind == "Other") then
         if (tbl.item.WeaponClass) then
@@ -5341,12 +5304,11 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
     m_Inventory[slot] = {}
     m_Inventory[slot] = tbl
 
-    if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
+    if (m_isUsingInv()) then
         M_INV_SLOT[slot].VGUI.Item = m_Inventory[slot]
 
         if (m_Inventory[slot].item.Image) then
             M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Image
-			if (not IsValid(M_INV_SLOT[slot].VGUI.SIcon.Icon)) then M_INV_SLOT[slot].VGUI.SIcon:CreateIcon(n) end
             M_INV_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(255)
         elseif (m_Inventory[slot].item.Model) then
             M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Model
@@ -5406,8 +5368,6 @@ local MOAT_REQ_BG_W = 350
 local MOAT_REQ_BG_H = 290
 
 function m_DrawTradeRequest(ply)
-	if (not IsValid(ply)) then return end
-
     local MT = MOAT_THEME.Themes
     local CurTheme = GetConVar("moat_Theme"):GetString()
     if (not MT[CurTheme]) then
@@ -5724,24 +5684,16 @@ end)
 net.Receive("MOAT_RESPOND_TRADE_REQ", function(len)
     local accepted = net.ReadBool()
     local other_ply = net.ReadDouble()
-	if (not IsValid(Entity(other_ply))) then
-        chat.AddText(Color(255, 0, 0), "The trade request failed because the player left.")
-        if (IsValid(M_TRADE_PLYS)) then
-            M_TRADE_PLYS:RebuildList()
-        end
-
-		return
-	end
 
     if (not accepted) then
-        chat.AddText(Color(0, 200, 0), Entity(other_ply):Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " your trade request.")
+        chat.AddText(Color(0, 200, 0), ents.GetByIndex(other_ply):Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " your trade request.")
         if (IsValid(M_TRADE_PLYS)) then
             M_TRADE_PLYS:RebuildList()
         end
 
         return
     else
-        chat.AddText(Color(0, 200, 0), "You ", Color(255, 255, 255), "are now trading with ", Color(0, 255, 0), Entity(other_ply):Nick(), Color(255, 255, 255), ".")
+        chat.AddText(Color(0, 200, 0), "You ", Color(255, 255, 255), "are now trading with ", Color(0, 255, 0), ents.GetByIndex(other_ply):Nick(), Color(255, 255, 255), ".")
     end
 end)
 
@@ -5749,15 +5701,11 @@ net.Receive("MOAT_SEND_TRADE_REQ", function(len)
     local passed = net.ReadBool()
     local ply_sent = net.ReadBool()
     local ply_index = net.ReadDouble()
-    local other_ply = Entity(ply_index)
-
-	if (not IsValid(other_ply)) then
-		chat.AddText(Color(255, 0, 0), "The player you sent a trade request to left the server.")
-		return
-	end
+    local other_ply = ents.GetByIndex(ply_index)
 
     if (not passed) then
         chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " is ", Color(255, 0, 0), "busy", Color(255, 255, 255), " at the moment.")
+
         return
     end
 
@@ -5769,12 +5717,11 @@ net.Receive("MOAT_SEND_TRADE_REQ", function(len)
 
                 for k2, v2 in ipairs(M_TRADE_PLYTBL) do
                     if (v2 ~= v) then
-						if (not IsValid(v2)) then continue end
                         v2:AlphaTo(0, 0.1)
                         v2:SizeTo(0, 0, 0.2, 0)
 
                         timer.Simple(0.3, function()
-							if (IsValid(v2)) then v2:Remove() end
+                            v2:Remove()
                         end)
                     end
                 end
@@ -5801,7 +5748,7 @@ end)
 
 net.Receive("MOAT_INIT_TRADE", function(len)
     local other_int = net.ReadDouble()
-    local other_ply = Entity(other_int)
+    local other_ply = ents.GetByIndex(other_int)
     local trade_uid = net.ReadDouble()
 
     if (m_isUsingInv()) then
@@ -5819,48 +5766,22 @@ net.Receive("MOAT_INIT_TRADE", function(len)
         end)
     else
         m_OpenInventory(other_ply, trade_uid)
-
-		if (not m_ChangeInventoryPanel) then
-			if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
-        	if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
-			chat.AddText(Color(255, 0, 0), "Can't accept trade request because your inventory didn't load? Trying opening it before trading.")
-
-            moat_inv_cooldown = CurTime() + 1
-            m_ClearInventory()
-            net.Start("MOAT_SEND_INV_ITEM")
-            net.SendToServer()
-
-            net.Start("MOAT_RESPOND_TRADE")
-            net.WriteBool(false)
-            net.WriteDouble(other_int)
-            net.WriteDouble(trade_uid)
-            net.SendToServer()
-
-			return
-		end
-
-		m_ChangeInventoryPanel(3)
+        m_ChangeInventoryPanel(3)
     end
 end)
 
 net.Receive("MOAT_RESPOND_TRADE", function(len)
     local accepted = net.ReadBool()
-    local other_ply = Entity(net.ReadDouble())
+    local other_ply = ents.GetByIndex(net.ReadDouble())
 
     if (not accepted) then
-		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
-        if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
-
+        MOAT_INV_BG:Remove()
+        MOAT_TRADE_BG:Remove()
         moat_inv_cooldown = CurTime() + 1
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
         net.SendToServer()
-
-		if (IsValid(other_ply)) then
-			chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " the trade.")
-		else
-			chat.AddText(Color(0, 200, 0), "You", Color(255, 255, 255), " have ", Color(255, 0, 0), "automatically declined", Color(255, 255, 255), " the trade because something went wrong.")
-		end
+        chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " the trade.")
 
         if (m_isUsingInv()) then
             MOAT_INV_BG:MoveTo(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, ScrH() + MOAT_INV_BG:GetTall(), 0.4, 0, 1)
@@ -5871,9 +5792,8 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
             end)
         end
     else
-		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
-        if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
-
+        MOAT_INV_BG:Remove()
+        MOAT_TRADE_BG:Remove()
         moat_inv_cooldown = CurTime() + 1
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
@@ -5886,10 +5806,9 @@ net.Receive("MOAT_TRADE_MESSAGE", function(len)
     local msg = net.ReadString()
     local tid = net.ReadDouble()
     local plyid = net.ReadDouble()
-	if (not IsValid(Entity(plyid))) then return end
 
     if (m_utrade == tid) then
-        m_AddTradeChatMessage(msg, Entity(plyid))
+        m_AddTradeChatMessage(msg, ents.GetByIndex(plyid))
     end
 end)
 
@@ -6160,7 +6079,7 @@ function m_DrawFoundItem(tbl, s_type)
                 local item_desc = ITEM_HOVERED.item.Description
                 local item_desctbl = string.Explode("^", item_desc)
 
-                if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
+                if (ITEM_HOVERED.s) then
                     for i = 1, #item_desctbl do
                         local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
 
@@ -6258,7 +6177,7 @@ function m_DrawFoundItem(tbl, s_type)
             local item_desc = ITEM_HOVERED.item.Description
             local item_desctbl = string.Explode("^", item_desc)
 
-            if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
+            if (ITEM_HOVERED.s) then
                 for i = 1, #item_desctbl do
                     local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
 
@@ -6374,7 +6293,7 @@ function m_DrawFoundItem(tbl, s_type)
                 local item_desc = ITEM_HOVERED.item.Description
                 local item_desctbl = string.Explode("^", item_desc)
 
-                if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
+                if (ITEM_HOVERED.s) then
                     
                     for i = 1, #item_desctbl do
                         local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
@@ -6587,8 +6506,6 @@ net.Receive("MOAT_MAX_SLOTS", function(len)
             chat.AddText(Color(255, 0, 0), "Warning! Your inventory is taking a lot of time to save! Consider deconstructing items or risk losing some!")
         end
     end
-	
-	print("max", max_slots)
 
     for i = max_slots_old, max_slots do
         m_Inventory[i] = {}
@@ -6684,7 +6601,7 @@ function m_DrawDeconButton()
         local items_decon = 0
 
         for i = 1, #m_Inventory do
-            if (m_Inventory[i] and m_Inventory[i].decon) then
+            if (m_Inventory[i].decon) then
                 items_decon = items_decon + 1
 
                 net.Start("MOAT_REM_INV_ITEM")

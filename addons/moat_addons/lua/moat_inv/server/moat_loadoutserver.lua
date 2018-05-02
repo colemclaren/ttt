@@ -1,18 +1,4 @@
-if (util.NetworkStringToID "moat_invdev") then
-    return
-end
-
 print("loadout loaded")
-
-function table.removeFunctions(tbl)
-    for k,v in pairs(tbl) do
-        if isfunction(v) then
-            tbl[k] = nil
-        elseif istable(v) then
-            table.removeFunctions(v)
-        end
-    end
-end
 
 FindMetaTable "Player".HasWeapon2 = FindMetaTable "Player".HasWeapon2 or FindMetaTable "Player".HasWeapon
 -- crowbars and friends
@@ -60,7 +46,7 @@ function MOAT_LOADOUT.GetLoadout(ply)
 
     for i = 1, 5 do
         if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot" .. i]) then
-            tbl[i] = table.Copy(MOAT_INVS[ply]["l_slot" .. i])
+            tbl[i] = MOAT_INVS[ply]["l_slot" .. i]
         else
             tbl[i] = nil
             continue
@@ -84,10 +70,9 @@ function MOAT_LOADOUT.GetLoadout(ply)
                 end
             end
 
-            if (tbl[i] and tbl[i].item and (tbl[i].item.Kind == "Other" or tbl[i].item.Kind == "Unique")) then
-                if (tbl[i].item.WeaponClass) then
-                    tbl[i].w = tbl[i].item.WeaponClass
-                end
+            if (tbl[i] and tbl[i].item and (tbl[i].item.Kind == "Other" or tbl[i].item.Kind == "Unique")
+                and tbl[i].item.WeaponClass) then
+                tbl[i].w = tbl[i].item.WeaponClass
             end
         end
     end
@@ -103,7 +88,7 @@ function MOAT_LOADOUT.GetCosmetics(ply)
     local tbl = {}
 
     for i = 6, 10 do
-        tbl[i] = table.Copy(MOAT_INVS[ply]["l_slot" .. i]) or {}
+        tbl[i] = MOAT_INVS[ply]["l_slot" .. i] or {}
 
         if (not tbl[i].c) then
             tbl[i] = {}
@@ -117,11 +102,9 @@ function MOAT_LOADOUT.GetCosmetics(ply)
 end
 
 function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
-	if (item_tbl.item.CustomSpawn and item_tbl.item.OnPlayerSpawn) then
-		item_tbl.item:OnPlayerSpawn(ply)
-	else
-		timer.Simple(1, function() if (IsValid(ply)) then ply:SetModel(item_tbl.item.Model) end end)
-	end
+    if (item_tbl.item.OnPlayerSpawn) then
+        item_tbl.item:OnPlayerSpawn(ply)
+    end
 
     if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
         local col = MOAT_PAINT.Colors[MOAT_INVS[ply]["l_slot10"].p2 - (#MOAT_PAINT.Colors) - 6000][2]
@@ -138,7 +121,7 @@ hook.Add("TTTBeginRound", "moat_SaveLoadedWeapons", MOAT_LOADOUT.SaveLoadedWeapo
 */
 function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl)
     local wep = tbl
-    local itemtbl = table.Copy(loadout_tbl)
+    local itemtbl = loadout_tbl
 
     if (itemtbl.s) then
         if (itemtbl.s.d) then
@@ -181,7 +164,7 @@ function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl)
     end
 
     if (itemtbl.t) then
-        wep.Talents = table.Copy(itemtbl.t)
+        wep.Talents = itemtbl.t
         wep.level = itemtbl.s.l
         wep.exp = itemtbl.s.x
         m_ApplyTalentMods(wep, itemtbl)
@@ -198,7 +181,7 @@ end
 
 function MOAT_LOADOUT.ApplyOtherModifications(tbl, loadout_tbl)
     local wep = tbl
-    local itemtbl = table.Copy(loadout_tbl)
+    local itemtbl = loadout_tbl
 
     if (itemtbl and itemtbl.item and itemtbl.item.Stats and itemtbl.s and #itemtbl.s > 0) then
         wep.InventoryModifications = {}
@@ -267,7 +250,7 @@ MOAT_LOADOUT.UpdateWepCache = {}
 MOAT_LOADOUT.UpdateOtherWepCache = {}
 
 function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, powerup, tactical, is_reequip)
-    if (hook.Run("MoatInventoryShouldGiveLoadout", ply)) then return end
+    if (hook.Call("MoatInventoryShouldGiveLoadout", nil, ply)) then return end
     if (not IsValid(ply)) then return end
 
     local loadout_table = {
@@ -366,7 +349,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 net.WriteUInt(v3:EntIndex(), 16)
                 net.WriteDouble(ply:EntIndex())
 
-                local item_old = table.Copy(v.item)
+                local item_old = v.item
                 v.item = m_GetItemFromEnum(v.u)
 
                 net.WriteTable(v)
@@ -418,7 +401,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 kind_addition = item_kind_codes[v.item.Kind]
             end
 
-            local item_old = table.Copy(v.item)
+            local item_old = v.item
             v.item = {}
             v.item = m_GetItemFromEnum(v.u)
 
@@ -659,13 +642,13 @@ local function NetworkRegularWeapon(wep)
     
     net.Start("MOAT_UPDATE_WEP")
     net.WriteUInt(wep:EntIndex(), 16)
-    net.WriteDouble(tbl.stats[1])
-    net.WriteDouble(tbl.stats[2])
-    net.WriteDouble(tbl.stats[3])
-    net.WriteDouble(tbl.stats[4])
-    net.WriteDouble(tbl.stats[5])
-    net.WriteDouble(tbl.stats[6])
-    net.WriteDouble(tbl.stats[7])
+    net.WriteFloat(tbl.stats[1])
+    net.WriteFloat(tbl.stats[2])
+    net.WriteFloat(tbl.stats[3])
+    net.WriteFloat(tbl.stats[4])
+    net.WriteFloat(tbl.stats[5])
+    net.WriteFloat(tbl.stats[6])
+    net.WriteFloat(tbl.stats[7])
     net.WriteDouble(tbl.owner)
     net.WriteTable(tbl.info)
     net.Broadcast()

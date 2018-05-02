@@ -177,7 +177,7 @@ function m_CheckCompTickets(pl)
                         (#tbl.talent4 > 1 and tbl.talent4) or nil
                     }
                 end
-                
+
                 if (tbl.item and #tbl.item > 1) then
                     pl:m_DropInventoryItem(tbl.item, class, true, false, true, talents)
 

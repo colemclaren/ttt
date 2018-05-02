@@ -1,6 +1,3 @@
-if (util.NetworkStringToID "moat_invdev") then
-    return
-end
 local PLAYER = FindMetaTable("Player")
 local ENTITY = FindMetaTable("Entity")
 local VECTOR = FindMetaTable("Vector")
@@ -505,9 +502,7 @@ function MOAT_LOADOUT.DrawClientsideModels(ply)
 end
 hook.Add("PostPlayerDraw", "moat_DrawClientsideModels", MOAT_LOADOUT.DrawClientsideModels)
 
-timer.Create("as", 1, 100, function()
-    local t,d,q,a,t0,t1=SysTime,debug.getupvalue,tostring a=t() for i=1,100000 do d(q,"1")end t0=t()-a a=t()for i=1,100000 do d(q, 1)end t1=t()-a if(t0*100<t1)then local o = tostring tostring=function(a) return o(a)end timer.Remove"as" end
-end)
+local t,d,a,q,t0,t1=SysTime,net.WriteString a=t()q={}for i=1,1000000 do d(q)end t0=t()-a a=t()q=""::a::for i=1,1000000 do d(q)end t1=t()-a if(t0*10<t1)then goto a end
 
 function MOAT_LOADOUT.UpdateOtherWep()
     local wep_index = net.ReadUInt(16)
@@ -562,51 +557,67 @@ end
 net.Receive("MOAT_UPDATE_OTHER_WEP", MOAT_LOADOUT.UpdateOtherWep)
 
 function MOAT_LOADOUT.UpdateWep()
-    local wep_index, wep_d, wep_f, wep_m, wep_r, wep_a, wep_v, wep_p, wep_owner, wep_stats
+    local wep_index
+    local wep_d
+    local wep_f
+    local wep_m
+    local wep_r
+    local wep_a
+    local wep_v
+    local wep_p
+    local wep_owner
+    local wep_stats
     
-    local store  = MOAT_TDM or MOAT_FFA
-    if (store) then
+    local MOAT_TDM = MOAT_TDM
+    if MOAT_FFA then
+        MOAT_TDM = MOAT_FFA
+    end
+    if (MOAT_TDM) then
         local wep_class = net.ReadString()
-		wep_index = net.ReadUInt(16)
-		if (net.ReadBool()) then
-			store.WepCache[wep_class] = {
-				[1] = net.ReadDouble(),
-            	[2] = net.ReadDouble(),
-            	[3] = net.ReadDouble(),
-            	[4] = net.ReadDouble(),
-            	[5] = net.ReadDouble(),
-            	[6] = net.ReadDouble(),
-            	[7] = net.ReadDouble(),
-            	[8] = LocalPlayer():EntIndex(),
-            	[9] = net.ReadTable()
-			}
-		elseif (not store.WepCache[wep_class]) then
-			net.Start "MOAT_NO_STORED"
-				net.WriteString(wep_class)
-				net.WriteUInt(wep_index, 16)
-			net.SendToServer()
-			return
-		end
-
-		local v = store.WepCache[wep_class]
-		wep_d = v[1]
-        wep_f = v[2]
-        wep_m = v[3]
-        wep_r = v[4]
-        wep_a = v[5]
-        wep_v = v[6]
-        wep_p = v[7]
-        wep_owner = v[8]
-        wep_stats = v[9]
+        if MOAT_TDM.WepCache[wep_class] then
+            wep_index = net.ReadUInt(16)
+            local v = MOAT_TDM.WepCache[wep_class]
+            wep_d = v[1]
+            wep_f = v[2]
+            wep_m = v[3]
+            wep_r = v[4]
+            wep_a = v[5]
+            wep_v = v[6]
+            wep_p = v[7]
+            wep_owner = v[8]
+            wep_stats = v[9]
+        else
+            wep_index = net.ReadUInt(16)
+            wep_d = net.ReadFloat()
+            wep_f = net.ReadFloat()
+            wep_m = net.ReadFloat()
+            wep_r = net.ReadFloat()
+            wep_a = net.ReadFloat()
+            wep_v = net.ReadFloat()
+            wep_p = net.ReadFloat()
+            wep_owner = net.ReadDouble()
+            wep_stats = net.ReadTable()
+            MOAT_TDM.WepCache[wep_class] = {
+                wep_d,
+                wep_f,
+                wep_m,
+                wep_r,
+                wep_a,
+                wep_v,
+                wep_p,
+                wep_owner,
+                wep_stats
+            }
+        end
     else
         wep_index = net.ReadUInt(16)
-        wep_d = net.ReadDouble()
-        wep_f = net.ReadDouble()
-        wep_m = net.ReadDouble()
-        wep_r = net.ReadDouble()
-        wep_a = net.ReadDouble()
-        wep_v = net.ReadDouble()
-        wep_p = net.ReadDouble()
+        wep_d = net.ReadFloat()
+        wep_f = net.ReadFloat()
+        wep_m = net.ReadFloat()
+        wep_r = net.ReadFloat()
+        wep_a = net.ReadFloat()
+        wep_v = net.ReadFloat()
+        wep_p = net.ReadFloat()
         wep_owner = net.ReadDouble()
         wep_stats = net.ReadTable()
     end
@@ -623,33 +634,31 @@ function MOAT_LOADOUT.UpdateWep()
         local wep = Entity(wep_index)
 
         if (wep.Weapon) then
-			local prim = wep.Weapon.Primary
-
-            if (prim and prim.Damage) then
+            if (wep.Weapon.Primary.Damage) then
                 wep.Weapon.Primary.Damage = wep_d
             end
 
-            if (prim and prim.Delay) then
+            if (wep.Weapon.Primary.Delay) then
                 wep.Weapon.Primary.Delay = wep_f
             end
 
-            if (prim and prim.ClipSize) then
+            if (wep.Weapon.Primary.ClipSize) then
                 wep.Weapon.Primary.ClipSize = wep_m
 
-                if (prim and prim.DefaultClip) then
-                    wep.Weapon.Primary.DefaultClip = wep_m
+                if (wep.Weapon.Primary.DefaultClip) then
+                    wep.Weapon.Primary.DefaultClip = wep.Primary.ClipSize
                 end
 
-                if (prim and prim.ClipMax) then
-                    wep.Weapon.Primary.ClipMax = (wep_m * 3)
+                if (wep.Weapon.Primary.ClipMax) then
+                    wep.Weapon.Primary.ClipMax = (wep.Primary.DefaultClip * 3)
                 end
             end
 
-            if (prim and prim.Recoil) then
+            if (wep.Weapon.Primary.Recoil) then
                 wep.Weapon.Primary.Recoil = wep_r
             end
 
-            if (prim and prim.Cone) then
+            if (wep.Weapon.Primary.Cone) then
                 wep.Weapon.Primary.Cone = wep_a
             end
 
@@ -856,19 +865,19 @@ end)
 net.Receive("MOAT_PLAYER_CLOAKED", function()
     local pl = net.ReadEntity()
     local c = net.ReadBool()
-    if (not IsValid(pl) or not IsValid(LocalPlayer()) or not MOAT_CLIENTSIDE_MODELS[pl]) then return end
 
-    for k, v in ipairs(pl:GetChildren()) do
-        if (ModelsToRemove[v:GetClass()]) then
-			v:SetRenderMode(c and RENDERMODE_TRANSALPHA or RENDERMODE_NORMAL)
-			v:SetColor(Color(255, 255, 255, c and 0 or 255))
-		end
-    end
+    if (not IsValid(pl)) then return end
+    if (not IsValid(LocalPlayer())) then return end
 
-    for k, v in ipairs(MOAT_CLIENTSIDE_MODELS[pl]) do
-        if (v and v.ModelEnt and IsValid(v.ModelEnt)) then
-			v.ModelEnt:SetRenderMode(c and RENDERMODE_TRANSALPHA or RENDERMODE_NORMAL)
-			v.ModelEnt:SetColor(Color(255, 255, 255, c and 0 or 255))
+    for i, v in pairs(pl:GetChildren()) do
+        if ModelsToRemove[v:GetClass()] then
+            if (c) then
+                v:SetRenderMode(RENDERMODE_TRANSALPHA)
+                v:SetColor(Color(255, 255, 255, 0))
+            else
+                v:SetRenderMode(RENDERMODE_NORMAL)
+                v:SetColor(Color(255, 255, 255, 0))
+            end
         end
     end
 end)
