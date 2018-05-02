@@ -986,7 +986,7 @@ function m_GetESlots()
     return eslots
 end
 
-local function ReadWeaponFromNet()
+function m_ReadWeaponFromNet()
     local self = {}
     if (not net.ReadBool()) then
         return self
@@ -1044,43 +1044,67 @@ local function ReadWeaponFromNet()
     return self
 end
 
+m_TalentData = m_TalentData or {}
+m_ItemData = m_ItemData or {}
+
+
 net.Receive("MOAT_SEND_INV_ITEM", function(len)
-    local is_loadout = net.ReadBool()
-    local slot = net.ReadUInt(32)
-    local wep = ReadWeaponFromNet()
-    local tbl = net.ReadTable()
-
-    for k,v in pairs(tbl) do
-        wep[k] = v
-    end
-    tbl = wep
-
-    if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
-        wep.w = tbl.item.WeaponClass
-    end
-
-    if (is_loadout) then
-        m_Loadout[slot] = wep
-
-        if (slot >= 6 and slot <= 8 and m_Loadout[slot] and m_Loadout[slot].u) then
-            m_SendCosmeticPositions(m_Loadout[slot], slot)
+    local which = net.ReadBool()
+    if (which) then
+        -- receive data
+        while (net.ReadBool()) do
+            local tbl = net.ReadBool() and m_ItemData or m_TalentData
+            local ind = net.ReadUInt(32)
+            tbl[ind] = net.ReadTable()
         end
     else
-        m_Inventory[slot] = wep
+        local is_loadout = net.ReadBool()
+        local i = net.ReadUInt(32)
+        while (net.ReadBool()) do
+            local slot = i
+            local wep = m_ReadWeaponFromNet()
+            local tbl = m_ItemData[wep.u]
+            print(type(wep.u), wep.u)
+            for k, v in pairs(tbl) do
+                wep[k] = v
+            end
+            tbl = wep
+            if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
+                wep.w = tbl.item.WeaponClass
+            end
+            wep.item = m_ItemData[wep.u]
+            if (wep.t) then
+                wep.Talents = {}
+                for k, v in ipairs(wep.t) do
+                    wep.Talents[k] = m_TalentData[v.e]
+                end
+            end
 
-        if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
-            local d = nil
+            if (is_loadout) then
+                m_Loadout[slot] = wep
 
-            if (m_Inventory[slot] and m_Inventory[slot].item) then
-                local m = m_Inventory[slot].item
+                if (slot >= 6 and slot <= 8 and m_Loadout[slot] and m_Loadout[slot].u) then
+                    m_SendCosmeticPositions(m_Loadout[slot], slot)
+                end
+            else
+                m_Inventory[slot] = wep
 
-                if (m.Image) then
-                    d = m.Image
-                    if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
-                        M_INV_SLOT[slot].VGUI.WModel = d
+                if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
+                    local d = nil
+
+                    if (m_Inventory[slot] and m_Inventory[slot].item) then
+                        local m = m_Inventory[slot].item
+
+                        if (m.Image) then
+                            d = m.Image
+                            if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
+                                M_INV_SLOT[slot].VGUI.WModel = d
+                            end
+                        end
                     end
                 end
             end
+            i = i + 1
         end
     end
 end)

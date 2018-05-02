@@ -128,7 +128,7 @@ timer.Simple(0, function()
                             (#tbl.talent4 > 1 and tbl.talent4) or nil
                         }
                     end
-                    
+
                     if (tbl.item and #tbl.item > 1) then
                         pl:m_DropInventoryItem(tbl.item, class, true, false, true, talents)
 
@@ -140,7 +140,7 @@ timer.Simple(0, function()
 
                         comp_msg = "You have received " .. tbl.ic .. " inventory credits from a compensation ticket!"
                     end
-                    
+
                     m_SaveInventory(pl)
                     m_CloseCompTicket(tbl.ID)
 
@@ -311,7 +311,117 @@ timer.Simple(0, function()
     if (not MOAT_INVS) then
         MOAT_INVS = {}
     end
+    function m_WriteWeaponForPlayer(wep, ply)
+        local written = net.BytesWritten()
+        wep:WriteToNet()
+        return net.BytesWritten() - written
+    end
 
+    local interval = engine.TickInterval()
+    local max_per_interval = 30000 * interval
+
+    local function SendExtraInfo(ply, sending, cb)
+        if (not IsValid(ply)) then
+            cb(false)
+            return
+        end
+        local overflow = false
+        net.Start "MOAT_SEND_INV_ITEM"
+            net.WriteBool(true) -- data
+            for j = #sending.t, 1, -1 do
+                net.WriteBool(true)
+                net.WriteBool(false) -- talent
+                local send = sending.t[j]
+                net.WriteUInt(send[1], 32)
+                net.WriteTable(send[2])
+                table.remove(sending.t, j)
+                if (net.BytesWritten() >= max_per_interval) then
+                    overflow = true
+                    break
+                end
+            end
+            if (not overflow) then
+                for j = #sending.i, 1, -1 do
+                    net.WriteBool(true)
+                    net.WriteBool(true) -- item
+                    local send = sending.i[j]
+                    net.WriteUInt(send[1], 32)
+                    net.WriteTable(send[2])
+                    table.remove(sending.i, j)
+                    if (net.BytesWritten() >= max_per_interval) then
+                        overflow = true
+                        break
+                    end
+                end
+            end
+            net.WriteBool(false)
+        net.Send(ply)
+        if (overflow) then
+            timer.Simple(0, function()
+                SendExtraInfo(ply, sending, cb)
+            end)
+        else
+            cb()
+        end
+    end
+
+    local function SendWeapons(ply, is_loadout, weps, cb, i)
+        if (not IsValid(ply)) then
+            cb(false)
+            return
+        end
+        net.Start "MOAT_SEND_INV_ITEM"
+            net.WriteBool(false) -- weapons
+            net.WriteBool(is_loadout)
+            net.WriteUInt(i, 32)
+            while (true) do
+                net.WriteBool(true)
+                local wep = weps[i]
+                wep:WriteToNet()
+                i = i + 1
+                if (net.BytesWritten() >= max_per_interval or not weps[i]) then
+                    break
+                end
+            end
+            net.WriteBool(false)
+        net.Send(ply)
+        --print("wrote "..i.." weapons to "..ply:Nick())
+        if (weps[i]) then
+            timer.Simple(0, function()
+                SendWeapons(ply, is_loadout, weps, cb, i)
+            end)
+        else
+            cb()
+        end
+    end
+    local function m_WriteWeaponsToPlayer(ply, is_loadout, weps, cb)
+        local needed = ply.MG_InfoSent or {
+            t = {},
+            i = {}
+        }
+        local sending = {
+            t = {},
+            i = {}
+        }
+        ply.MG_InfoSent = needed
+        for _, wep in pairs(weps) do
+            if (wep.u and not needed.i[wep.u]) then
+                needed.i[wep.u] = m_GetItemFromEnum(wep.u)
+                table.insert(sending.i, {wep.u, needed.i[wep.u]})
+            end
+            if (wep.t) then
+                for _, talent in pairs(wep.t.real_data) do
+                    if (not needed.t[talent.e]) then
+                        needed.t[talent.e] = m_GetTalentFromEnum(talent.e)
+                        table.insert(sending.t, {talent.e, needed.t[talent.e]})
+                    end
+                end
+            end
+        end
+        SendExtraInfo(ply, sending, function()
+            SendWeapons(ply, is_loadout, weps, cb, 1)
+        end)
+    end
     function m_SendInventoryToPlayer(ply)
         if (ply:IsValid()) then
             net.Start("MOAT_SEND_SLOTS")
@@ -326,61 +436,20 @@ timer.Simple(0, function()
             return
         end
 
+        local loadout = {}
         for i = 1, 10 do
-            timer.Simple(i * 0.03, function()
-                if (ply:IsValid()) then
-                    net.Start("MOAT_SEND_INV_ITEM")
-                    net.WriteBool(true)
-                    net.WriteUInt(i, 32)
-
-                    local wep = ply_inv["l_slot" .. i]
-                    wep:WriteToNet()
-                    local tbl = {}
-                    tbl.item = m_GetItemFromEnum(wep.u)
-
-                    if (wep.t) then
-                        tbl.Talents = {}
-
-                        for k, v in ipairs(wep.t.real_data) do
-                            tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-                        end
-                    end
-
-                    net.WriteTable(tbl)
-                    net.Send(ply)
-                end
-            end)
+            loadout[i] = ply_inv["l_slot"..i]
         end
+        m_WriteWeaponsToPlayer(ply, true, loadout, function()
+            local inv = {}
 
-        for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
-            timer.Simple(i * 0.03, function()
-                if (ply:IsValid()) then
-                    net.Start("MOAT_SEND_INV_ITEM")
-                    net.WriteBool(false)
-                    net.WriteUInt(i, 32)
-
-                    local wep = ply_inv["slot" .. i]
-                    wep:WriteToNet()
-                    local tbl = {}
-                    tbl.item = m_GetItemFromEnum(wep.u)
-
-                    if (wep.t) then
-                        tbl.Talents = {}
-
-                        for k, v in ipairs(wep.t.real_data) do
-                            tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-                        end
-                    end
-
-                    net.WriteTable(tbl)
-                    net.Send(ply)
-
-                    if (i == ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS")) then
-                        MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
-                    end
-                end
+            for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+                inv[i] = ply_inv["slot"..i]
+            end
+            m_WriteWeaponsToPlayer(ply, false, inv, function()
+                MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
             end)
-        end
+        end)
     end
 
     function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
@@ -397,61 +466,20 @@ timer.Simple(0, function()
             return
         end
 
+        local loadout = {}
         for i = 1, 10 do
-            timer.Simple(i * 0.03, function()
-                if (ply:IsValid()) then
-                    net.Start("MOAT_SEND_INV_ITEM")
-                    net.WriteBool(true)
-                    net.WriteUInt(i, 32)
-
-                    local wep = ply_inv["l_slot" .. i]
-                    wep:WriteToNet()
-                    local tbl = {}
-                    tbl.item = m_GetItemFromEnum(wep.u)
-
-                    if (wep.t) then
-                        tbl.Talents = {}
-
-                        for k, v in ipairs(wep.t.real_data) do
-                            tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-                        end
-                    end
-
-                    net.WriteTable(tbl)
-                    net.Send(ply)
-                end
-            end)
+            loadout[i] = ply_inv["l_slot"..i]
         end
+        m_WriteWeaponsToPlayer(ply, true, loadout, function()
+            local inv = {}
 
-        for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
-            timer.Simple(i * 0.03, function()
-                if (ply:IsValid()) then
-                    net.Start("MOAT_SEND_INV_ITEM")
-                    net.WriteBool(false)
-                    net.WriteUInt(i, 32)
-
-                    local wep = ply_inv["slot" .. i]
-                    wep:WriteToNet()
-                    local tbl = {}
-                    tbl.item = m_GetItemFromEnum(wep.u)
-
-                    if (wep.t) then
-                        tbl.Talents = {}
-
-                        for k, v in ipairs(wep.t.real_data) do
-                            tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-                        end
-                    end
-
-                    net.WriteTable(tbl)
-                    net.Send(ply)
-
-                    if (i == ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS")) then
-                        MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
-                    end
-                end
+            for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+                inv[i] = ply_inv["slot"..i]
+            end
+            m_WriteWeaponsToPlayer(ply, false, inv, function()
+                MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
             end)
-        end
+        end)
     end
 
     net.Receive("MOAT_SEND_INV_ITEM", function(len, ply)
