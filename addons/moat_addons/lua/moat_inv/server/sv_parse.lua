@@ -356,7 +356,6 @@ local function LoadInventory_Deprecated(ply, cb)
     function query1:onSuccess(data)
         if (#data > 0) then
             local MOAT_MAX_INVENTORY_SLOTS = data[1].max_slots
-            PrintTable(data)
             local inv_tbl = {}
             local row = data[1]
             inv_tbl["credits"] = util.JSONToTable(row["credits"])
@@ -396,7 +395,7 @@ local function LoadInventory_Deprecated(ply, cb)
     --UPDATE core_members SET last_activity = 1524525387 WHERE steamid = 76561198831932398
     local query2 = MINVENTORY_MYSQL:query("UPDATE core_members SET last_activity = UNIX_TIMESTAMP() WHERE steamid = '" .. ply:SteamID64() .. "'")
     query2:start()
-end print"hg"
+end
 
 concommand.Add("test_inventory", function(pl, cmd, args)
     LoadInventory_Deprecated(pl, function(inv)
@@ -407,7 +406,6 @@ concommand.Add("test_inventory", function(pl, cmd, args)
             if (not v.u) then continue end
 
             if (k:StartWith("l")) then
-                print (k)
                 v["slot"] = tonumber(k:TrimLeft("l_slot"))
             end
             if (v["tr"] and v["s"]) then v["s"]["tr"] = nil v["s"]["j"] = "1" end
@@ -428,9 +426,6 @@ concommand.Add("test_inventory", function(pl, cmd, args)
 
             qstr = qstr .. str
         end
-        print "h"
-print(qstr)
-PrintTable(inv)
         MOAT_INV:SQLQuery(qstr, function(d)
             print("done")
         end)
