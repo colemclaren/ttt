@@ -1,4 +1,8 @@
 require("mysqloo")
+
+util.AddNetworkString "MOAT_ITEM_INFO"
+util.AddNetworkString "MOAT_DATA_INFO"
+
 local DATABASE_HOST = "208.103.169.40"
 local DATABASE_PORT = 3306
 local DATABASE_NAME = "forum"
@@ -325,8 +329,7 @@ local function SendExtraInfo(ply, sending, cb)
     end
     local overflow = false
 
-    net.Start "MOAT_SEND_INV_ITEM"
-        net.WriteBool(true)
+    net.Start "MOAT_DATA_INFO"
         for j = #sending.t, 1, -1 do
             net.WriteBool(true)
             net.WriteBool(false) -- talent
@@ -364,31 +367,35 @@ local function SendExtraInfo(ply, sending, cb)
     end
 end
 
-local function SendWeapons(fn, weps, cb, i)
-    fn(function()
-        net.WriteUInt(i, 32)
+local function SendWeapons(ply, weps, cb, i)
+    ply.ItemCache = ply.ItemCache or {}
+    net.Start "MOAT_ITEM_INFO"
         while (true) do
             if (net.BytesWritten() >= max_per_interval or not weps[i]) then
                 break
             end
-            net.WriteBool(true)
             local wep = weps[i]
-            wep:WriteToNet()
+            local cached = ply.ItemCache[wep.c]
+            if (not cached) then
+                net.WriteBool(true)
+                wep:WriteToNet()
+                ply.ItemCache[wep.c] = true
+            end
             i = i + 1
         end
         net.WriteBool(false)
-    end)
+    net.Send(ply)
     --print("wrote "..i.." weapons to "..ply:Nick())
     if (weps[i]) then
         timer.Simple(0, function()
-            SendWeapons(fn, weps, cb, i)
+            SendWeapons(ply, weps, cb, i)
         end)
     else
         return cb()
     end
 end
 
-local function m_WriteWeaponsToPlayer(fn, ply, weps, cb)
+function m_WriteWeaponsToPlayer(ply, weps, cb)
     local needed = ply.MG_InfoSent or {
         t = {},
         i = {}
@@ -413,22 +420,54 @@ local function m_WriteWeaponsToPlayer(fn, ply, weps, cb)
         end
     end
     SendExtraInfo(ply, sending, function()
-        SendWeapons(fn, weps, cb, 1)
+        SendWeapons(ply, weps, cb, 1)
     end)
 end
-local function SendInvItemFn(ply, is_loadout)
-    return function(fn)
-        if (not IsValid(ply)) then
-            cb(false)
-            return
+function m_BreakableMessage(data, i)
+    i = i or 1
+    local startfn = data.startfn
+    local endfn = data.endfn
+    local writefn = data.writefn
+    local datas = data.datas
+
+    startfn(i)
+        while (datas[i]) do
+            net.WriteBool(true)
+            writefn(i, datas[i])
+            i = i + 1
+            if (net.BytesWritten() >= max_per_interval) then
+                break
+            end
         end
-        net.Start "MOAT_SEND_INV_ITEM"
-            net.WriteBool(false) -- weapons
-            net.WriteBool(is_loadout)
-            fn()
-        net.Send(ply)
+        net.WriteBool(false)
+    endfn()
+    if (datas[i]) then
+        timer.Simple(0, function()
+            return m_BreakableMessage(data, i)
+        end)
+    else
+        return data.callback()
     end
 end
+
+local function SendWeaponInvItems(ply, datas, is_loadout, cb)
+    return m_BreakableMessage {
+        datas = datas,
+        startfn = function(i)
+            net.Start "MOAT_SEND_INV_ITEM"
+            net.WriteBool(is_loadout)
+            net.WriteUInt(i, 32)
+        end,
+        writefn = function(i, wep)
+            net.WriteUInt(wep.c, 32)
+        end,
+        endfn = function()
+            net.Send(ply)
+        end,
+        callback = cb
+    }
+end
+
 function m_SendInventoryToPlayer(ply)
     if (ply.Sending) then
         return
@@ -440,22 +479,26 @@ function m_SendInventoryToPlayer(ply)
         net.Send(ply)
     end
 
-    m_LoadInventoryForPlayer(ply, function()
+    return m_LoadInventoryForPlayer(ply, function()
         local ply_inv = MOAT_INVS[ply]
 
         local loadout = {}
         for i = 1, 10 do
             loadout[i] = ply_inv["l_slot"..i]
         end
-        m_WriteWeaponsToPlayer(SendInvItemFn(ply, true), ply, loadout, function()
-            local inv = {}
+        return m_WriteWeaponsToPlayer(ply, loadout, function()
+            return SendWeaponInvItems(ply, loadout, true, function()
+                local inv = {}
 
-            for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
-                inv[i] = ply_inv["slot"..i]
-            end
-            m_WriteWeaponsToPlayer(SendInvItemFn(ply, false), ply, inv, function()
-                MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
-                ply.Sending = false
+                for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+                    inv[i] = ply_inv["slot"..i]
+                end
+                return m_WriteWeaponsToPlayer(ply, inv, function()
+                    return SendWeaponInvItems(ply, inv, false, function()
+                        MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
+                        ply.Sending = false
+                    end)
+                end)
             end)
         end)
     end)

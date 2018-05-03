@@ -103,11 +103,11 @@ local function WriteWeaponToNet(self)
     -- item stats
     if (self.s) then
         for statid, value in pairs(self.s.real_data) do
-            net.WriteUInt(statid:byte(1,1), 8)
+            net.WriteType(statid)
             net.WriteFloat(value)
         end
     end
-    net.WriteUInt(0, 8)
+    net.WriteType(nil)
 
     -- item talents
     if (self.t) then
@@ -196,7 +196,7 @@ function MOAT_INV:ParseItemStatsQuery(d, inv)
         if (not wep["s"]) then
             wep["s"] = new_stats(wep)
         end
-        wep["s"][r["statid"]] = r["value"]
+        wep["s"][tonumber(r["statid"]) or r["statid"]] = r["value"]
     end
 end
 

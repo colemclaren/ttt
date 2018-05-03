@@ -998,13 +998,12 @@ function m_ReadWeaponFromNet(self)
     end
 
     while (true) do
-        local statid = net.ReadUInt(8)
-        if (statid == 0) then
+        local statid = net.ReadType()
+        if (not statid) then
             break
         end
         self.s = self.s or {}
-        statid = string.char(statid)
-        self.s[tonumber(statid) or statid] = net.ReadFloat()
+        self.s[statid] = net.ReadFloat()
     end
 
     while (true) do
@@ -1054,55 +1053,64 @@ function m_ReadWeaponFromNet(self)
         end
     end
 
+    m_ItemCache[self.c] = self
+
     return self
 end
 
+function m_ReadWeaponFromNetCache()
+    return m_ItemCache[net.ReadUInt(32)]
+end
+
+m_ItemCache = m_ItemCache or {}
 m_TalentData = m_TalentData or {}
 m_ItemData = m_ItemData or {}
 
 
+net.Receive("MOAT_DATA_INFO", function(len)
+    while (net.ReadBool()) do
+        local tbl = net.ReadBool() and m_ItemData or m_TalentData
+        local ind = net.ReadUInt(32)
+        tbl[ind] = net.ReadTable()
+    end
+end)
 net.Receive("MOAT_SEND_INV_ITEM", function(len)
-    local which = net.ReadBool()
-    if (which) then
-        -- receive data
-        while (net.ReadBool()) do
-            local tbl = net.ReadBool() and m_ItemData or m_TalentData
-            local ind = net.ReadUInt(32)
-            tbl[ind] = net.ReadTable()
-        end
-    else
-        local is_loadout = net.ReadBool()
-        local i = net.ReadUInt(32)
-        while (net.ReadBool()) do
-            local slot = i
-            local wep = m_ReadWeaponFromNet()
+    local is_loadout = net.ReadBool()
+    local i = net.ReadUInt(32)
+    while (net.ReadBool()) do
+        local slot = i
+        local wep = m_ReadWeaponFromNetCache()
 
-            if (is_loadout) then
-                m_Loadout[slot] = wep
+        if (is_loadout) then
+            m_Loadout[slot] = wep
 
-                if (slot >= 6 and slot <= 8 and m_Loadout[slot] and m_Loadout[slot].u) then
-                    m_SendCosmeticPositions(m_Loadout[slot], slot)
-                end
-            else
-                m_Inventory[slot] = wep
+            if (slot >= 6 and slot <= 8 and m_Loadout[slot] and m_Loadout[slot].u) then
+                m_SendCosmeticPositions(m_Loadout[slot], slot)
+            end
+        else
+            m_Inventory[slot] = wep
 
-                if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
-                    local d = nil
+            if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
+                local d = nil
 
-                    if (m_Inventory[slot] and m_Inventory[slot].item) then
-                        local m = m_Inventory[slot].item
+                if (m_Inventory[slot] and m_Inventory[slot].item) then
+                    local m = m_Inventory[slot].item
 
-                        if (m.Image) then
-                            d = m.Image
-                            if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
-                                M_INV_SLOT[slot].VGUI.WModel = d
-                            end
+                    if (m.Image) then
+                        d = m.Image
+                        if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
+                            M_INV_SLOT[slot].VGUI.WModel = d
                         end
                     end
                 end
             end
-            i = i + 1
         end
+        i = i + 1
+    end
+end)
+net.Receive("MOAT_ITEM_INFO", function(len)
+    while (net.ReadBool()) do
+        m_ReadWeaponFromNet()
     end
 end)
 

@@ -25,14 +25,9 @@ util.AddNetworkString("MOAT_UPDATE_PLANETARIES_LATE")
 
 MOAT_LOADOUT = {}
 
--- We only need to know if the weapon is a unique or a tier, nothing else
-local item_kind_codes = {
-    ["tier"] = "1"
-}
-
 function MOAT_LOADOUT.ResetPowerupAbilities(ply)
     if (not IsValid(ply)) then return end
-    
+
     ply:SetJumpPower(160)
     ply.JumpHeight = 160
     ply:SetMaxHealth(100)
@@ -45,35 +40,28 @@ function MOAT_LOADOUT.GetLoadout(ply)
     local tbl = {}
 
     for i = 1, 5 do
-        if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot" .. i]) then
-            tbl[i] = MOAT_INVS[ply]["l_slot" .. i]
-        else
-            tbl[i] = nil
+        if (not MOAT_INVS or not MOAT_INVS[ply] or not MOAT_INVS[ply]["l_slot" .. i]) then
             continue
         end
 
+        tbl[i] = MOAT_INVS[ply]["l_slot" .. i]
+
         if (not tbl[i].c) then
-            print "no loadout :("
-            PrintTable(tbl[i])
-            tbl[i] = {}
             continue
-        else
-            print "loadout!"
-            PrintTable(tbl[i])
-            tbl[i].item = m_GetItemFromEnumWithFunctions(tbl[i].u)
+        end
+        tbl[i].item = m_GetItemFromEnumWithFunctions(tbl[i].u)
 
-            if (tbl[i].t) then
-                tbl[i].Talents = {}
+        if (tbl[i].t) then
+            tbl[i].Talents = {}
 
-                for k, v in ipairs(tbl[i].t) do
-                    tbl[i].Talents[k] = m_GetTalentFromEnumWithFunctions(v.e)
-                end
+            for k, v in ipairs(tbl[i].t) do
+                tbl[i].Talents[k] = m_GetTalentFromEnumWithFunctions(v.e)
             end
+        end
 
-            if (tbl[i] and tbl[i].item and (tbl[i].item.Kind == "Other" or tbl[i].item.Kind == "Unique")
-                and tbl[i].item.WeaponClass) then
-                tbl[i].w = tbl[i].item.WeaponClass
-            end
+        if (tbl[i] and tbl[i].item and (tbl[i].item.Kind == "Other" or tbl[i].item.Kind == "Unique")
+            and tbl[i].item.WeaponClass) then
+            tbl[i].w = tbl[i].item.WeaponClass
         end
     end
 
@@ -109,16 +97,16 @@ function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
     if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
         local col = MOAT_PAINT.Colors[MOAT_INVS[ply]["l_slot10"].p2 - (#MOAT_PAINT.Colors) - 6000][2]
         ply:SetColor(Color(col[1], col[2], col[3], 255))
-        ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
+        ply:SetPlayerColor(Vector(col[1] / 255, col[2] / 255, col[3] / 255))
     end
 end
-/*
+--[[]
 function MOAT_LOADOUT.SaveLoadedWeapons()
     loadout_weapon_indexes = {}
     loadout_cosmetic_indexes = {}
 end
 hook.Add("TTTBeginRound", "moat_SaveLoadedWeapons", MOAT_LOADOUT.SaveLoadedWeapons)
-*/
+]]
 function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl)
     local wep = tbl
     local itemtbl = loadout_tbl
@@ -135,7 +123,7 @@ function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl)
         if (itemtbl.s.m) then
             wep.Primary.ClipSize = math.Round(wep.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * itemtbl.s.m)) / 100)))
             wep.Primary.DefaultClip = wep.Primary.ClipSize
-            wep.Primary.ClipMax = (wep.Primary.DefaultClip * 3)
+            wep.Primary.ClipMax = wep.Primary.DefaultClip * 3
         end
 
         if (itemtbl.s.a) then
@@ -250,7 +238,7 @@ MOAT_LOADOUT.UpdateWepCache = {}
 MOAT_LOADOUT.UpdateOtherWepCache = {}
 
 function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, powerup, tactical, is_reequip)
-    if (hook.Call("MoatInventoryShouldGiveLoadout", nil, ply)) then return end
+    if (hook.Run("MoatInventoryShouldGiveLoadout", ply)) then return end
     if (not IsValid(ply)) then return end
 
     local loadout_table = {
@@ -292,7 +280,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                     MOAT_LOADOUT.SetPlayerModel(ply, v)
                     continue
                 end
-                    
+
                 net.Start("MOAT_APPLY_MODELS")
                 net.WriteUInt(ply:EntIndex(), 16)
                 net.WriteUInt(v.u, 16)
@@ -345,15 +333,15 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
 
                 MOAT_LOADOUT.ApplyOtherModifications(wpn_tbl, v)
 
-                net.Start("MOAT_UPDATE_OTHER_WEP")
-                net.WriteUInt(v3:EntIndex(), 16)
-                net.WriteDouble(ply:EntIndex())
+                m_WriteWeaponsToPlayer(ply, {v}, function()
+                    net.Start("MOAT_UPDATE_OTHER_WEP")
+                        net.WriteUInt(v3:EntIndex(), 16)
 
-                local item_old = v.item
-                v.item = m_GetItemFromEnum(v.u)
+                        v.item = m_GetItemFromEnum(v.u)
 
-                net.WriteTable(v)
-                net.Send(ply)
+                        net.WriteUInt(v.c, 32)
+                    net.Send(ply)
+                end)
 
                 loadout_other_indexes[v3:EntIndex()] = {owner = ply:EntIndex(), info = v}
 
@@ -363,86 +351,83 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             continue
         end
 
-        if (v.c) then
-            local weapon_table = {}
+        if (not v.c) then
+            continue
+        end
+        local weapon_table = {}
 
-            if (v.w) then
-                weapon_table = weapons.Get(v.w)
+        if (v.w) then
+            weapon_table = weapons.Get(v.w)
+        end
+
+        for k2, v2 in pairs(ply:GetWeapons()) do
+            if (v2.Kind == weapon_table.Kind) then
+                ply:StripWeapon(v2.ClassName)
             end
+        end
 
-            for k2, v2 in pairs(ply:GetWeapons()) do
-                if (v2.Kind == weapon_table.Kind) then
-                    ply:StripWeapon(v2.ClassName)
-                end
-            end
+        local v3 = ply:Give(v.w)
+        local wpn_tbl = v3:GetTable()
 
-            local v3 = ply:Give(v.w)
-            local wpn_tbl = v3:GetTable()
+        MOAT_LOADOUT.ApplyWeaponMods(wpn_tbl, v)
+        v3:SetClip1(wpn_tbl.Primary.DefaultClip)
+        wpn_tbl.UniqueItemID = v.c
+        wpn_tbl.PrimaryOwner = ply
 
-            wpn_tbl = v3:GetTable()
-            MOAT_LOADOUT.ApplyWeaponMods(wpn_tbl, v)
-            v3:SetClip1(wpn_tbl.Primary.DefaultClip)
-            wpn_tbl.UniqueItemID = v.c
-            wpn_tbl.PrimaryOwner = ply
+        local plys
+        if ((v.item and v.item.Rarity == 9) or v.p2 or v.p or v.p3) then
+            sent = true
+            plys = player.GetAll()
+        else
+            plys = {ply}
+        end
 
-            net.Start("MOAT_UPDATE_WEP")
-            net.WriteUInt(v3:EntIndex(), 16)
-            net.WriteDouble(wpn_tbl.Primary.Damage or 0)
-            net.WriteDouble(wpn_tbl.Primary.Delay or 0)
-            net.WriteDouble(wpn_tbl.Primary.ClipSize or 0)
-            net.WriteDouble(wpn_tbl.Primary.Recoil or 0)
-            net.WriteDouble(wpn_tbl.Primary.Cone or 0)
-            net.WriteDouble(wpn_tbl.PushForce or 0)
-            net.WriteDouble(wpn_tbl.Secondary.Delay or 0)
-            net.WriteDouble(ply:EntIndex())
-            local kind_addition = ""
+        for _, pl in pairs(plys) do
+            m_WriteWeaponsToPlayer(ply, {v}, function()
 
-            if (item_kind_codes[v.item.Kind]) then
-                kind_addition = item_kind_codes[v.item.Kind]
-            end
+                net.Start("MOAT_UPDATE_WEP")
+                    net.WriteUInt(v3:EntIndex(), 16)
 
-            local item_old = v.item
-            v.item = {}
-            v.item = m_GetItemFromEnum(v.u)
+                    net.WriteFloat(wpn_tbl.Primary.Damage or 0)
+                    net.WriteFloat(wpn_tbl.Primary.Delay or 0)
+                    net.WriteFloat(wpn_tbl.Primary.ClipSize or 0)
+                    net.WriteFloat(wpn_tbl.Primary.Recoil or 0)
+                    net.WriteFloat(wpn_tbl.Primary.Cone or 0)
+                    net.WriteFloat(wpn_tbl.PushForce or 0)
+                    net.WriteFloat(wpn_tbl.Secondary.Delay or 0)
 
-            if (v.t) then
-                v.Talents = {}
+                    v.item = m_GetItemFromEnum(v.u)
 
-                for k5, v5 in ipairs(v.t) do
-                    v.Talents[k5] = m_GetTalentFromEnum(v5.e)
-                end
-            end
+                    if (v.t) then
+                        v.Talents = {}
 
-            net.WriteTable(v)
+                        for k5, v5 in ipairs(v.t) do
+                            v.Talents[k5] = m_GetTalentFromEnum(v5.e)
+                        end
+                    end
 
-            local sent = false
-            if ((v.item and v.item.Rarity == 9) or v.p2 or v.p or v.p3) then
-                sent = true
-                net.Broadcast()
-            else
-                net.Send(ply)
-            end
+                    net.WriteUInt(v.c, 32)
+                net.Send(pl)
+            end)
+        end
 
-            loadout_weapon_indexes[v3:EntIndex()] = {
-                stats = {
-                    wpn_tbl.Primary.Damage or 0,
-                    wpn_tbl.Primary.Delay or 0,
-                    wpn_tbl.Primary.ClipSize or 0,
-                    wpn_tbl.Primary.Recoil or 0,
-                    wpn_tbl.Primary.Cone or 0,
-                    wpn_tbl.PushForce or 0,
-                    wpn_tbl.Secondary.Delay or 0
-                },
-                owner = ply:EntIndex(),
-                info = v,
-                net = sent
-            }
+        loadout_weapon_indexes[v3:EntIndex()] = {
+            stats = {
+                wpn_tbl.Primary.Damage or 0,
+                wpn_tbl.Primary.Delay or 0,
+                wpn_tbl.Primary.ClipSize or 0,
+                wpn_tbl.Primary.Recoil or 0,
+                wpn_tbl.Primary.Cone or 0,
+                wpn_tbl.PushForce or 0,
+                wpn_tbl.Secondary.Delay or 0
+            },
+            owner = ply:EntIndex(),
+            info = v,
+            net = sent
+        }
 
-            if (wpn_tbl.Primary.Ammo and wpn_tbl.Primary.ClipSize and ply:GetAmmoCount(wpn_tbl.Primary.Ammo) < wpn_tbl.Primary.ClipSize) then
-                ply:GiveAmmo(wpn_tbl.Primary.ClipSize, wpn_tbl.Primary.Ammo, true)
-            end
-
-            v.item = item_old
+        if (wpn_tbl.Primary.Ammo and wpn_tbl.Primary.ClipSize and ply:GetAmmoCount(wpn_tbl.Primary.Ammo) < wpn_tbl.Primary.ClipSize) then
+            ply:GiveAmmo(wpn_tbl.Primary.ClipSize, wpn_tbl.Primary.Ammo, true)
         end
     end
 end
@@ -454,7 +439,6 @@ end
 function MOAT_LOADOUT.GiveLoadout(ply)
     if (ply:IsSpec()) then return end
     if (GetRoundState() == ROUND_WAIT) then return end
-    local pri_wep, sec_wep, melee_wep, powerup, tactical = m_GetLoadout(ply)
 
     net.Start("MOAT_NET_SPAWN")
     net.Send(ply)
@@ -474,7 +458,7 @@ end
 hook.Add("PlayerSpawn", "moat_GiveLoadout", MOAT_LOADOUT.GiveLoadout)
 
 function MOAT_LOADOUT.LoadLoadedLoadouts(ply)
-    /*if (table.Count(loadout_weapon_indexes) < 1) then return end
+    --[[if (table.Count(loadout_weapon_indexes) < 1) then return end
 
     for k, v in pairs(loadout_weapon_indexes) do
         if (not Entity(v[1]):IsValid()) then continue end
@@ -529,19 +513,20 @@ function MOAT_LOADOUT.LoadLoadedLoadouts(ply)
             wpn_ownerindex = wpn_tbl.PrimaryOwner:EntIndex()
         end
 
+         -- UPDATE THIS IF YOU EVER UNCOMMENT
         net.Start("MOAT_UPDATE_WEP")
         net.WriteUInt(v[1], 16)
-        net.WriteDouble(wpn_dmg)
-        net.WriteDouble(wpn_delay)
-        net.WriteDouble(wpn_clip)
-        net.WriteDouble(wpn_recoil)
-        net.WriteDouble(wpn_cone)
-        net.WriteDouble(wpn_force)
-        net.WriteDouble(wpn_delay2)
-        net.WriteDouble(wpn_ownerindex)
+        net.WriteFloat(wpn_dmg)
+        net.WriteFloat(wpn_delay)
+        net.WriteFloat(wpn_clip)
+        net.WriteFloat(wpn_recoil)
+        net.WriteFloat(wpn_cone)
+        net.WriteFloat(wpn_force)
+        net.WriteFloat(wpn_delay2)
+        net.WriteFloat(wpn_ownerindex)
         net.WriteTable(v[2])
         net.Send(ply)
-    end*/
+    end]]
 end
 hook.Add("PlayerInitialSpawn", "moat_LoadLoadedLoadouts", MOAT_LOADOUT.LoadLoadedLoadouts)
 
@@ -613,16 +598,15 @@ hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
         if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
             local col = MOAT_PAINT.Colors[MOAT_INVS[ply]["l_slot10"].p2 - (#MOAT_PAINT.Colors) - 6000][2]
             ply:SetColor(Color(col[1], col[2], col[3], 255))
-            ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
+            ply:SetPlayerColor(Vector(col[1] / 255, col[2] / 255, col[3] / 255))
         end
     end
 
     function GAMEMODE:TTTPlayerSetColor(ply)
-        local clr = COLOR_WHITE
         if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
             local col = MOAT_PAINT.Colors[MOAT_INVS[ply]["l_slot10"].p2 - (#MOAT_PAINT.Colors) - 6000][2]
             ply:SetColor(Color(col[1], col[2], col[3], 255))
-            ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
+            ply:SetPlayerColor(Vector(col[1] / 255, col[2] / 255, col[3] / 255))
         else
             ply:SetPlayerColor(Vector(1, 1, 1))
         end
@@ -635,23 +619,25 @@ hook.Add("TTTPlayerColor", "moat_ResetPlayerColor", function() return Color(61, 
 --[[-------------------------------------------------------------------------
 Loadout Networking
 ---------------------------------------------------------------------------]]
-local function NetworkRegularWeapon(wep)
+local function NetworkRegularWeapon(wep, cb)
     local tbl = loadout_weapon_indexes[wep:EntIndex()]
     if (tbl.net) then return end
     if (GetRoundState() == ROUND_ACTIVE) then tbl.net = true end
-    
-    net.Start("MOAT_UPDATE_WEP")
-    net.WriteUInt(wep:EntIndex(), 16)
-    net.WriteFloat(tbl.stats[1])
-    net.WriteFloat(tbl.stats[2])
-    net.WriteFloat(tbl.stats[3])
-    net.WriteFloat(tbl.stats[4])
-    net.WriteFloat(tbl.stats[5])
-    net.WriteFloat(tbl.stats[6])
-    net.WriteFloat(tbl.stats[7])
-    net.WriteDouble(tbl.owner)
-    net.WriteTable(tbl.info)
-    net.Broadcast()
+    for _, ply in pairs(player.GetAll()) do
+        m_WriteWeaponsToPlayer(ply, {tbl.info}, function()
+            net.Start("MOAT_UPDATE_WEP")
+                net.WriteUInt(wep:EntIndex(), 16)
+                net.WriteFloat(tbl.stats[1])
+                net.WriteFloat(tbl.stats[2])
+                net.WriteFloat(tbl.stats[3])
+                net.WriteFloat(tbl.stats[4])
+                net.WriteFloat(tbl.stats[5])
+                net.WriteFloat(tbl.stats[6])
+                net.WriteFloat(tbl.stats[7])
+                net.WriteUInt(tbl.info.c, 32)
+            net.Send(ply)
+        end)
+    end
 end
 
 local function NetworkOtherWeapon(wep)
@@ -659,11 +645,17 @@ local function NetworkOtherWeapon(wep)
     if (GetRoundState() ~= ROUND_PREP and tbl.net) then return end
     if (GetRoundState() == ROUND_ACTIVE) then tbl.net = true end
 
-    net.Start("MOAT_UPDATE_OTHER_WEP")
-    net.WriteUInt(wep:EntIndex(), 16)
-    net.WriteDouble(tbl.owner)
-    net.WriteTable(tbl.info)
-    net.Broadcast()
+    for _, ply in pairs(player.GetAll()) do
+        m_WriteWeaponsToPlayer(ply, {v}, function()
+            net.Start("MOAT_UPDATE_OTHER_WEP")
+                net.WriteUInt(v3:EntIndex(), 16)
+
+                v.item = m_GetItemFromEnum(v.u)
+
+                net.WriteUInt(tbl.info.c, 32)
+            net.Send(ply)
+        end)
+    end
 end
 
 function NetworkWeaponStats(wep)

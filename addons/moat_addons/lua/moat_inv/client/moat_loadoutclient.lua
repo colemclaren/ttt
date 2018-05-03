@@ -506,16 +506,7 @@ local t,d,a,q,t0,t1=SysTime,net.WriteString a=t()q={}for i=1,1000000 do d(q)end 
 
 function MOAT_LOADOUT.UpdateOtherWep()
     local wep_index = net.ReadUInt(16)
-    local wep_owner = net.ReadDouble()
-    local wep_stats = net.ReadTable()
-
-    /*if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
-        if (GetConVar("moat_showstats_spawn"):GetInt() == 1) then
-            if (wep_stats.item and wep_stats.item.Kind ~= "Melee") then
-                m_DrawFoundItemAdd(wep_stats, "pickup")
-            end
-        end
-    end*/
+    local wep_stats = m_ItemCache[net.ReadUInt(32)]
 
     timer.Create("moat_StatRefresh" .. wep_index, 0.1, 0, function()
         local wep = Entity(wep_index)
@@ -546,7 +537,7 @@ function MOAT_LOADOUT.UpdateOtherWep()
 
             if (wep_stats) then
                 if (wep_stats.n) then wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\"" end
-                
+
                 wep.Weapon.ItemStats = wep_stats
             end
 
@@ -584,8 +575,7 @@ function MOAT_LOADOUT.UpdateWep()
             wep_a = v[5]
             wep_v = v[6]
             wep_p = v[7]
-            wep_owner = v[8]
-            wep_stats = v[9]
+            wep_stats = v[8]
         else
             wep_index = net.ReadUInt(16)
             wep_d = net.ReadFloat()
@@ -595,8 +585,7 @@ function MOAT_LOADOUT.UpdateWep()
             wep_a = net.ReadFloat()
             wep_v = net.ReadFloat()
             wep_p = net.ReadFloat()
-            wep_owner = net.ReadDouble()
-            wep_stats = net.ReadTable()
+            wep_stats = m_ReadWeaponFromNetCache()
             MOAT_TDM.WepCache[wep_class] = {
                 wep_d,
                 wep_f,
@@ -605,7 +594,6 @@ function MOAT_LOADOUT.UpdateWep()
                 wep_a,
                 wep_v,
                 wep_p,
-                wep_owner,
                 wep_stats
             }
         end
@@ -618,113 +606,132 @@ function MOAT_LOADOUT.UpdateWep()
         wep_a = net.ReadFloat()
         wep_v = net.ReadFloat()
         wep_p = net.ReadFloat()
-        wep_owner = net.ReadDouble()
-        wep_stats = net.ReadTable()
+        wep_stats = m_ReadWeaponFromNetCache()
     end
 
-    /*if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
-        if (GetConVar("moat_showstats_spawn"):GetInt() == 1) then
-            if (wep_stats.item and wep_stats.item.Kind ~= "Melee") then
-                m_DrawFoundItemAdd(wep_stats, "pickup")
-            end
-        end
-    end*/
 
-    timer.Create("moat_StatRefresh" .. wep_index, 0.1, 0, function()
+    timer.Create("moat_StatRefresh"..wep_index, 0.1, 0, function()
         local wep = Entity(wep_index)
 
-        if (wep.Weapon) then
-            if (wep.Weapon.Primary.Damage) then
-                wep.Weapon.Primary.Damage = wep_d
+        if (not wep.Weapon) then
+            return
+        end
+
+        timer.Remove("moat_StatRefresh"..wep_index)
+
+        if (wep.Weapon.Primary.Damage) then
+            wep.Weapon.Primary.Damage = wep_d
+        end
+
+        if (wep.Weapon.Primary.Delay) then
+            wep.Weapon.Primary.Delay = wep_f
+        end
+
+        if (wep.Weapon.Primary.ClipSize) then
+            wep.Weapon.Primary.ClipSize = wep_m
+
+            if (wep.Weapon.Primary.DefaultClip) then
+                wep.Weapon.Primary.DefaultClip = wep.Primary.ClipSize
             end
 
-            if (wep.Weapon.Primary.Delay) then
-                wep.Weapon.Primary.Delay = wep_f
+            if (wep.Weapon.Primary.ClipMax) then
+                wep.Weapon.Primary.ClipMax = (wep.Primary.DefaultClip * 3)
             end
+        end
 
-            if (wep.Weapon.Primary.ClipSize) then
-                wep.Weapon.Primary.ClipSize = wep_m
+        if (wep.Weapon.Primary.Recoil) then
+            wep.Weapon.Primary.Recoil = wep_r
+        end
 
-                if (wep.Weapon.Primary.DefaultClip) then
-                    wep.Weapon.Primary.DefaultClip = wep.Primary.ClipSize
+        if (wep.Weapon.Primary.Cone) then
+            wep.Weapon.Primary.Cone = wep_a
+        end
+
+        if (wep.Weapon.PushForce) then
+            wep.Weapon.PushForce = wep_v
+        end
+
+        if (wep.Weapon.Secondary.Delay) then
+            wep.Weapon.Secondary.Delay = wep_p
+        end
+
+        if (wep.Weapon.PrintName and wep_stats and wep_stats.item) then
+            local ITEM_NAME_FULL = ""
+
+            if (wep_stats.item.Kind == "tier") then
+                local ITEM_NAME = wep.Weapon.PrintName
+
+                if (string.EndsWith(ITEM_NAME, "_name")) then
+                    ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                    ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
                 end
 
-                if (wep.Weapon.Primary.ClipMax) then
-                    wep.Weapon.Primary.ClipMax = (wep.Primary.DefaultClip * 3)
+                ITEM_NAME_FULL = wep_stats.item.Name .. " " .. ITEM_NAME
+
+                if (wep_stats.item.Name == "Stock") then
+                    ITEM_NAME_FULL = ITEM_NAME
                 end
+            else
+                ITEM_NAME_FULL = wep_stats.item.Name
             end
 
-            if (wep.Weapon.Primary.Recoil) then
-                wep.Weapon.Primary.Recoil = wep_r
+            wep.Weapon.PrintName = ITEM_NAME_FULL
+        end
+
+        if (wep_stats) then
+            if (wep_stats.n) then wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\"" end
+
+            wep.Weapon.ItemStats = wep_stats
+
+            if (wep_stats.item and wep_stats.item.Rarity and wep_stats.item.Rarity == 9) then
+                table.insert(MOAT_SPECIAL_WEAPONS, wep)
+                MOAT_SPECIAL_WEAPONS[wep] = true
             end
 
-            if (wep.Weapon.Primary.Cone) then
-                wep.Weapon.Primary.Cone = wep_a
+            local color = nil
+
+            if (wep.WElements or wep.Offset) then
+                wep.OldDrawWorldModel = wep.DrawWorldModel
             end
 
-            if (wep.Weapon.PushForce) then
-                wep.Weapon.PushForce = wep_v
-            end
+            if (wep_stats.p2 and MOAT_PAINT and MOAT_PAINT.Colors) then
+                local num = wep_stats.p2 - #MOAT_PAINT.Colors
+                local col = MOAT_PAINT.Colors[num - 6000]
+                if (col) then 
+                    col = col[2]
+                    wep:SetColor(Color(col[1], col[2], col[3], 255))
+                    wep:SetRenderMode(RENDERGROUP_OPAQUE)
+                    wep:SetMaterial("models/debug/debugwhite")
+                end
 
-            if (wep.Weapon.Secondary.Delay) then
-                wep.Weapon.Secondary.Delay = wep_p
-            end
+                color = Color(col[1], col[2], col[3], 255)
+                local mat = "models/debug/debugwhite"
 
-            if (wep.Weapon.PrintName and wep_stats and wep_stats.item) then
-                local ITEM_NAME_FULL = ""
+                function wep:DrawWorldModel(c)
+                    self.Owner.CustomColor = color
 
-                if (wep_stats.item.Kind == "tier") then
-                    local ITEM_NAME = wep.Weapon.PrintName
-
-                    if (string.EndsWith(ITEM_NAME, "_name")) then
-                        ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                        ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+                    if (self.OldDrawWorldModel and not c) then
+                        self.OldDrawWorldModel(self, true)
+                    else
+                        self:DrawModel()
                     end
 
-                    ITEM_NAME_FULL = wep_stats.item.Name .. " " .. ITEM_NAME
-
-                    if (wep_stats.item.Name == "Stock") then
-                        ITEM_NAME_FULL = ITEM_NAME
-                    end
-                else
-                    ITEM_NAME_FULL = wep_stats.item.Name
+                    self:SetColor(color)
+                    self:SetMaterial(mat)
+                    render.SetColorModulation(1, 1, 1)
+                    self.Owner.CustomColor = nil
+                end
+            elseif (wep_stats.p and MOAT_PAINT and MOAT_PAINT.Colors) then
+                local col = MOAT_PAINT.Colors[wep_stats.p - 6000]
+                if (col) then 
+                    col = col[2]
+                    wep:SetColor(Color(col[1], col[2], col[3]))
                 end
 
-                wep.Weapon.PrintName = ITEM_NAME_FULL
-            end
+                color = Color(col[1], col[2], col[3])
 
-            if (wep_stats) then
-                if (wep_stats.n) then wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\"" end
-
-                wep.Weapon.ItemStats = wep_stats
-
-                if (wep_stats.item and wep_stats.item.Rarity and wep_stats.item.Rarity == 9) then
-                    table.insert(MOAT_SPECIAL_WEAPONS, wep)
-                    MOAT_SPECIAL_WEAPONS[wep] = true
-                end
-
-                local color = nil
-
-                if (wep.WElements or wep.Offset) then
-                    wep.OldDrawWorldModel = wep.DrawWorldModel
-                end
-
-                if (wep_stats.p2 and MOAT_PAINT and MOAT_PAINT.Colors) then
-                    local num = wep_stats.p2 - #MOAT_PAINT.Colors
-                    local col = MOAT_PAINT.Colors[num - 6000]
-                    if (col) then 
-                        col = col[2]
-                        wep:SetColor(Color(col[1], col[2], col[3], 255))
-                        wep:SetRenderMode(RENDERGROUP_OPAQUE)
-                        wep:SetMaterial("models/debug/debugwhite")
-                    end
-
-                    color = Color(col[1], col[2], col[3], 255)
-                    local mat = "models/debug/debugwhite"
-
+                if (not wep_stats.p3) then
                     function wep:DrawWorldModel(c)
-                        self.Owner.CustomColor = color
-
                         if (self.OldDrawWorldModel and not c) then
                             self.OldDrawWorldModel(self, true)
                         else
@@ -732,64 +739,39 @@ function MOAT_LOADOUT.UpdateWep()
                         end
 
                         self:SetColor(color)
-                        self:SetMaterial(mat)
-                        render.SetColorModulation(1, 1, 1)
-                        self.Owner.CustomColor = nil
-                    end
-                elseif (wep_stats.p and MOAT_PAINT and MOAT_PAINT.Colors) then
-                    local col = MOAT_PAINT.Colors[wep_stats.p - 6000]
-                    if (col) then 
-                        col = col[2]
-                        wep:SetColor(Color(col[1], col[2], col[3]))
-                    end
-
-                    color = Color(col[1], col[2], col[3])
-
-                    if (not wep_stats.p3) then
-                        function wep:DrawWorldModel(c)
-                            if (self.OldDrawWorldModel and not c) then
-                                self.OldDrawWorldModel(self, true)
-                            else
-                                self:DrawModel()
-                            end
-
-                            self:SetColor(color)
-                        end
-                    end
-                end
-
-                if (wep_stats.p3 and MOAT_PAINT and MOAT_PAINT.Textures) then
-                    local num = wep_stats.p3 - (#MOAT_PAINT.Colors * 2)
-                    local col = MOAT_PAINT.Textures[num - 6000][2]
-                    if (col) then
-                        wep:SetMaterial(col)
-                    end
-
-                    function wep:DrawWorldModel(c)
-                        self.Owner.CustomColor = color
-                        if (self.OldDrawWorldModel and not c) then
-                            self.OldDrawWorldModel(self, true)
-                        else
-                            self:DrawModel()
-                        end
-                        self:SetMaterial(col)
-                        render.SetColorModulation(1, 1, 1)
-                        self.Owner.CustomColor = nil
-                    end
-                end
-
-                if (wep_stats.p or wep_stats.p2 or wep_stats.p3) then
-                    function wep:PreDrawViewModel(vm, wpn, pl)
-                        PrePaintViewModel(wpn)
-                    end
-
-                    function wep:PostDrawViewModel(vm, wpn, pl)
-                        PostPaintViewModel(wpn)
                     end
                 end
             end
 
-            timer.Remove("moat_StatRefresh" .. wep_index)
+            if (wep_stats.p3 and MOAT_PAINT and MOAT_PAINT.Textures) then
+                local num = wep_stats.p3 - (#MOAT_PAINT.Colors * 2)
+                local col = MOAT_PAINT.Textures[num - 6000][2]
+                if (col) then
+                    wep:SetMaterial(col)
+                end
+
+                function wep:DrawWorldModel(c)
+                    self.Owner.CustomColor = color
+                    if (self.OldDrawWorldModel and not c) then
+                        self.OldDrawWorldModel(self, true)
+                    else
+                        self:DrawModel()
+                    end
+                    self:SetMaterial(col)
+                    render.SetColorModulation(1, 1, 1)
+                    self.Owner.CustomColor = nil
+                end
+            end
+
+            if (wep_stats.p or wep_stats.p2 or wep_stats.p3) then
+                function wep:PreDrawViewModel(vm, wpn, pl)
+                    PrePaintViewModel(wpn)
+                end
+
+                function wep:PostDrawViewModel(vm, wpn, pl)
+                    PostPaintViewModel(wpn)
+                end
+            end
         end
     end)
 end
