@@ -1068,10 +1068,10 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
                 wep[k] = v
             end
             tbl = wep
+            wep.item = m_ItemData[wep.u]
             if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
                 wep.w = tbl.item.WeaponClass
             end
-            wep.item = m_ItemData[wep.u]
             if (wep.t) then
                 wep.Talents = {}
                 for k, v in ipairs(wep.t) do
@@ -1343,7 +1343,6 @@ function m_OpenInventory(ply2, utrade)
     moat_inv_cooldown = CurTime() + 1
 
     if (#m_Inventory < NUMBER_OF_SLOTS) then
-        print(#m_Inventory, NUMBER_OF_SLOTS)
         chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
 
         return
@@ -1351,7 +1350,6 @@ function m_OpenInventory(ply2, utrade)
 
     for i = 1, #m_Inventory do
         if (m_Inventory[i] and #m_Inventory[i] > 0 and not m_Inventory[i].c) then
-            print(i)
             chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
 
             return
@@ -2421,7 +2419,7 @@ function m_OpenInventory(ply2, utrade)
 
                 local locked = false
 
-                if (m_Inventory[num].l and m_Inventory[num].l == 1) then
+                if (m_Inventory[num].l == 1) then
                     locked = true
                     surface_SetDrawColor(255, 255, 255)
                     surface_SetMaterial(mat_lock)
@@ -2589,7 +2587,6 @@ function m_OpenInventory(ply2, utrade)
 
     local function m_CreateInventorySlots()
         for i = 1, MAX_SLOTS do
-            print(i)
             m_CreateInvSlot(i)
         end
 
@@ -3175,7 +3172,6 @@ function m_OpenInventory(ply2, utrade)
                 if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
                     
                     for i = 1, #item_desctbl do
-                        print(i)
                         local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
 
                         if (s.ctrldown) then
