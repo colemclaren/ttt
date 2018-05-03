@@ -811,6 +811,7 @@ function jackpot_()
     net.Receive("gversus.CancelGame",function(l,ply)
         if (ply.VersCool or 0) > CurTime() then return end
         ply.VersCool = CurTime() + 2.5
+        versus_joins[ply:SteamID64()] = CurTime() + 0.5
         versus_cancel(ply)
     end)
 
