@@ -9,7 +9,14 @@ function MOAT_INV:RegisterStat(id, name, def)
 	if (SERVER) then util.AddNetworkString(netid) end
 
 	local smt = {
-		__index = function(s)
+		__index = function(s, k)
+			if (CLIENT and IsValid(k)) then
+				s[k] = s["default"]
+				net.Start(netid)
+					net.WriteEntity(k)
+				net.SendToServer()
+			end
+
 			return s["default"]
 		end
 	}
@@ -46,12 +53,25 @@ function MOAT_INV:RegisterStat(id, name, def)
 	PLAYER["Has" .. name] = function(s, n)
 		return s["Get" .. name]() <= n
 	end
-	PLAYER["SetStat" .. name] = function(s, n)
+	PLAYER["SetStat" .. id] = function(s, n)
 		s["Set" .. name](n)
 	end
 
 	MOAT_INV.Stats.n = MOAT_INV.Stats.n + 1
-	if (SERVER) then return end
+
+	if (SERVER) then
+		net.Receive(netid, function(_, p)
+			local pl = net.ReadEntity()
+			if (not IsValid(pl)) then return end
+
+			net.Start(netid)
+				net.WriteEntity(pl)
+				net.WriteUInt(pl["Get" .. name](), 32)
+			net.Send(p)
+		end)
+		return
+	end
+
 	net.Receive(netid, function()
 		local pl = net.ReadEntity()
 		if (not IsValid(pl)) then return end

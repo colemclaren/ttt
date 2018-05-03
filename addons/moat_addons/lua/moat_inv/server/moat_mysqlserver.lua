@@ -425,39 +425,9 @@ function m_WriteWeaponsToPlayer(ply, weps, cb)
         SendWeapons(ply, weps, cb, 1)
     end)
 end
-function m_BreakableMessage(data, i)
-    i = i or 1
-    local startfn = data.startfn
-    local endfn = data.endfn
-    local writefn = data.writefn
-    local datas = data.datas
-
-	if (not datas[i]) then return data.callback() end
-	if (not datas[i].c) then i = i + 1 return m_BreakableMessage(data, i) end
-
-    startfn(i)
-        while (datas[i]) do
-			if (not datas[i].c) then i = i + 1 continue end
-            net.WriteBool(true)
-            writefn(i, datas[i])
-            i = i + 1
-            if (net.BytesWritten() >= max_per_interval) then
-                break
-            end
-        end
-        net.WriteBool(false)
-    endfn()
-    if (datas[i]) then
-        timer.Simple(0, function()
-            return m_BreakableMessage(data, i)
-        end)
-    else
-        return data.callback()
-    end
-end
 
 local function SendWeaponInvItems(ply, datas, is_loadout, cb)
-    return m_BreakableMessage {
+    return BreakableMessage {
         datas = datas,
         startfn = function(i)
             net.Start "MOAT_SEND_INV_ITEM"
@@ -470,6 +440,9 @@ local function SendWeaponInvItems(ply, datas, is_loadout, cb)
         endfn = function()
             net.Send(ply)
         end,
+		checkfn = function(d)
+			return d.c
+		end,
         callback = cb
     }
 end

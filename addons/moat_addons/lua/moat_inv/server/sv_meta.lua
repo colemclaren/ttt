@@ -99,7 +99,7 @@ end
 
 function PLAYER:LoadStats(id, cb)
 	//to-do: make procedure
-	self:SQLQuery("select var, val from mg_players where id = ?!;", id, function(d, q)
+	MOAT_INV:SQLQuery("select var, val from mg_players where id = ?!;", id, function(d, q)
 		if (cb) then cb(d, q) end
 	end)
 end
