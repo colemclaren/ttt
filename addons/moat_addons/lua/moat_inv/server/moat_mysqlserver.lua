@@ -324,8 +324,9 @@ local function SendExtraInfo(ply, sending, cb)
         return
     end
     local overflow = false
+
     net.Start "MOAT_SEND_INV_ITEM"
-        net.WriteBool(true) -- data
+        net.WriteBool(true)
         for j = #sending.t, 1, -1 do
             net.WriteBool(true)
             net.WriteBool(false) -- talent
@@ -363,14 +364,8 @@ local function SendExtraInfo(ply, sending, cb)
     end
 end
 
-local function SendWeapons(ply, is_loadout, weps, cb, i)
-    if (not IsValid(ply)) then
-        cb(false)
-        return
-    end
-    net.Start "MOAT_SEND_INV_ITEM"
-        net.WriteBool(false) -- weapons
-        net.WriteBool(is_loadout)
+local function SendWeapons(fn, weps, cb, i)
+    fn(function()
         net.WriteUInt(i, 32)
         while (true) do
             if (net.BytesWritten() >= max_per_interval or not weps[i]) then
@@ -382,16 +377,17 @@ local function SendWeapons(ply, is_loadout, weps, cb, i)
             i = i + 1
         end
         net.WriteBool(false)
-    net.Send(ply)
+    end)
     --print("wrote "..i.." weapons to "..ply:Nick())
     if (weps[i]) then
         timer.Simple(0, function()
-            SendWeapons(ply, is_loadout, weps, cb, i)
+            SendWeapons(fn, weps, cb, i)
         end)
     else
         return cb()
     end
 end
+
 local function m_WriteWeaponsToPlayer(ply, is_loadout, weps, cb)
     local needed = ply.MG_InfoSent or {
         t = {},
@@ -417,7 +413,17 @@ local function m_WriteWeaponsToPlayer(ply, is_loadout, weps, cb)
         end
     end
     SendExtraInfo(ply, sending, function()
-        SendWeapons(ply, is_loadout, weps, cb, 1)
+        SendWeapons(function(fn)
+            if (not IsValid(ply)) then
+                cb(false)
+                return
+            end
+            net.Start "MOAT_SEND_INV_ITEM"
+                net.WriteBool(false) -- weapons
+                net.WriteBool(is_loadout)
+                fn()
+            net.Send(ply)
+        end, weps, cb, 1)
     end)
 end
 function m_SendInventoryToPlayer(ply)

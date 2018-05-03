@@ -986,8 +986,8 @@ function m_GetESlots()
     return eslots
 end
 
-function m_ReadWeaponFromNet()
-    local self = {}
+function m_ReadWeaponFromNet(self)
+    self = self or {}
     if (not net.ReadBool()) then
         return self
     end
@@ -1041,6 +1041,19 @@ function m_ReadWeaponFromNet()
     if (net.ReadBool()) then
         self.n = net.WriteString()
     end
+
+    self.item = m_ItemData[self.u]
+    if (self.item.Kind == "Other" and self.item.WeaponClass) then
+        self.w = self.item.WeaponClass
+    end
+
+    if (self.t) then
+        self.Talents = {}
+        for k, v in ipairs(self.t) do
+            self.Talents[k] = m_TalentData[v.e]
+        end
+    end
+
     return self
 end
 
@@ -1063,21 +1076,6 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
         while (net.ReadBool()) do
             local slot = i
             local wep = m_ReadWeaponFromNet()
-            local tbl = m_ItemData[wep.u]
-            for k, v in pairs(tbl) do
-                wep[k] = v
-            end
-            tbl = wep
-            wep.item = m_ItemData[wep.u]
-            if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
-                wep.w = tbl.item.WeaponClass
-            end
-            if (wep.t) then
-                wep.Talents = {}
-                for k, v in ipairs(wep.t) do
-                    wep.Talents[k] = m_TalentData[v.e]
-                end
-            end
 
             if (is_loadout) then
                 m_Loadout[slot] = wep
