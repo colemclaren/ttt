@@ -1645,7 +1645,7 @@ local function containsItemLink(str)
     str = str:lower()
 
     for k, v in pairs(chatlinks) do
-        if (str:find("{" .. v .. "}") or string.match(str, "{slot")) then return true end
+        if (str:find("{" .. v .. "}") or string.match(str, "{slot") or string.match(str,"{loadout")) then return true end
     end
 
     return false
@@ -1700,6 +1700,18 @@ local function initiateItemMessage(ply, str, public)
 
     local amt = 0
     local item_table = {}
+    local loadout = str:lower():match("%{loadout%}")
+    local s = ""
+    if loadout then
+        print("lll")
+        for k,v in pairs(chatlinks) do
+            local t = getItemFromLink("{" .. v .. "}",ply)
+            if isstring(t) then continue end
+            s = s .. "{" .. v .. "} "
+        end
+    end
+
+    str = str:lower():gsub("%{loadout%}",s)
     local fstr = string.Explode("{", str)
 
     for k, v in ipairs(fstr) do
