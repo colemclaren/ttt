@@ -695,7 +695,7 @@ function MOAT_LOADOUT.UpdateWep()
 
             if (wep_stats) then
                 if (wep_stats.n) then wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\"" end
-                
+
                 wep.Weapon.ItemStats = wep_stats
 
                 if (wep_stats.item and wep_stats.item.Rarity and wep_stats.item.Rarity == 9) then

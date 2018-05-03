@@ -1,3 +1,5 @@
+local ORM = include "sql_mysqloo.lua"
+
 function MOAT_INV:Escape(str)
 
     return "\"" .. self.DBHandle:escape(tostring(str)) .. "\""
@@ -12,32 +14,33 @@ function MOAT_INV:JSON(arg)
 
     return arg
 end
+print"hai"
+function MOAT_INV:SQLQuery(str, ...)
+    local args = {n = select("#", ...), ...}
 
-function MOAT_INV:Query(str, ...)
-    local args, arg, succ = {...}, 0
-
-    if (args and #args > 0 and isfunction(args[#args])) then
-        succ = args[#args]
-        args[#args] = nil
+    local succ, err
+    if (isfunction(args[args.n])) then
+        succ = args[args.n]
+        args[args.n] = nil
+        args.n = args.n - 1
     end
-    str = str:gsub("#", function() arg = arg + 1 return self:Escape(args[arg]) end)
-
-    local dbq = self.DBHandle:query(str)
-    if (succ) then
-        function dbq:onSuccess(data) succ(data, self) end
+    if (isfunction(args[args.n])) then
+        succ, err = args[args.n], succ
+        args[args.n] = nil
+        args.n = args.n - 1
     end
-
-    function dbq:onError(er)
+    print(tostring(str))
+    PrintTable(args)
+    debug.Trace()
+    self.SQL:Query(self.SQL:CreateQuery(str, unpack(args, 1, args.n)), succ, err or function(er)
         print("\nQuery Error: " .. er .. " | With Query: " .. str .. "\n")
-    end
-
-    dbq:start()
+    end)
 end
 
 
 hook.Add("SQLConnected", "MOAT_INV.SQL", function(db)
-    MOAT_INV.DBHandle = db
-    hook.Run("InventoryPrepare", db)
+    MOAT_INV.SQL = ORM(db)
+    hook.Run("InventoryPrepare")
 end)
 
 

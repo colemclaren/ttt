@@ -43,16 +43,13 @@ local PLAYER = FindMetaTable "Player"
 function PLAYER:LoadInventory(cb)
     self.LoadingInventory = true
 
-    MOAT_INV:Query("call selectInventory(#)", self:ID(), function(d, q)
+    local query = MOAT_INV.SQL:CreateQuery("call selectInventory(?!);", self:SteamID64())
+    MOAT_INV:SQLQuery(query, function(d, q)
+        print(d, q)
         if (not IsValid(self)) then return end
-        if (not d or not d[1]) then
-            self.Inventory = {}
-        else
-            self.Inventory = MOAT_INV:ParseInventoryQuery(d, q)
-        end
         self.InventoryLoaded = true
 
-        cb(self, self.Inventory)
+        cb(self, d and d[1] and MOAT_INV:ParseInventoryQuery(d, q) or {})
     end)
 end
 
@@ -71,7 +68,7 @@ function PLAYER:AddItem(item, cb)
         str = str .. MOAT_INV:QueryForPaint(item, var)
     end
 
-    MOAT_INV:Query(str, function(d, q)
+    MOAT_INV:SQLQuery(str, function(d, q)
         if (not d or not d[1]) then return end
         if (cb) then cb(d[1].cid) end
     end)
@@ -81,7 +78,7 @@ function PLAYER:RemoveItem(id, cb)
     if (istable(id)) then id = id["c"] end
     if (not self.Inventory[id]) then return end
 
-    MOAT_INV:Query("call removeItem(#)", id, function(d, q)
+    MOAT_INV:SQLQuery("call removeItem(?)", id, function(d, q)
         if (cb) then cb() end
     end)
 end
@@ -90,7 +87,7 @@ function PLAYER:TransferItem(id, new, cb)
     if (istable(id)) then id = id["c"] end
     if (not self.Inventory[id]) then return end
 
-    MOAT_INV:Query("call transferItem(#, #)", id, new, function(d, q)
+    MOAT_INV:SQLQuery("call transferItem(?, ?)", id, new, function(d, q)
         if (cb) then cb() end
     end)
 end

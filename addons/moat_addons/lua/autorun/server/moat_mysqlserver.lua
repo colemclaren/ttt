@@ -1,3 +1,6 @@
+if (GetHostName():lower():find "dev") then
+    return
+end
 require("mysqloo")
 local DATABASE_HOST = "208.103.169.40"
 local DATABASE_PORT = 3306

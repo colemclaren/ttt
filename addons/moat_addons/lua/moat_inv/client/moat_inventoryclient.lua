@@ -1064,7 +1064,6 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
             local slot = i
             local wep = m_ReadWeaponFromNet()
             local tbl = m_ItemData[wep.u]
-            print(type(wep.u), wep.u)
             for k, v in pairs(tbl) do
                 wep[k] = v
             end
@@ -2590,6 +2589,7 @@ function m_OpenInventory(ply2, utrade)
 
     local function m_CreateInventorySlots()
         for i = 1, MAX_SLOTS do
+            print(i)
             m_CreateInvSlot(i)
         end
 

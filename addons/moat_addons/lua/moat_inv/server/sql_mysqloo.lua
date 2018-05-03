@@ -72,6 +72,18 @@ function data:CreateQuery(q, ...)
     end)).."\n"
 end
 
+function data:Query(q, succ, err)
+    local dbq = self.mysqloo:query(q)
+    if (succ) then
+        dbq.onSuccess = function(self, data) succ(data, self) end
+    end
+    if (err) then
+        dbq.onError = err
+    end
+
+    dbq:start()
+end
+
 return function(db)
     return setmetatable({mysqloo = db}, mt)
 end

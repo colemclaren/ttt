@@ -1,8 +1,7 @@
-local SQL
-local mysqloo = include "sql_mysqloo.lua"
+local SQL = MOAT_INV.SQL
 hook.Add("InventoryPrepare", "MOAT_INV.Prepare", function(sql)
     print"\n\n\n\n\n\n\n\n\n\n\n\n\n"
-    SQL = mysqloo(sql)
+    SQL = MOAT_INV.SQL
 end)
 --[[-----------------------------------
 Parsing SQL > Table
@@ -352,11 +351,12 @@ function MOAT_INV:QueryForPaint(i, u)
 end
 
 local function LoadInventory_Deprecated(ply, cb)
-    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = '" .. ply:SteamID() .. "'")
+    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = 'STEAM_0:0:46558052'")
 
     function query1:onSuccess(data)
         if (#data > 0) then
             local MOAT_MAX_INVENTORY_SLOTS = data[1].max_slots
+            PrintTable(data)
             local inv_tbl = {}
             local row = data[1]
             inv_tbl["credits"] = util.JSONToTable(row["credits"])
@@ -396,7 +396,7 @@ local function LoadInventory_Deprecated(ply, cb)
     --UPDATE core_members SET last_activity = 1524525387 WHERE steamid = 76561198831932398
     local query2 = MINVENTORY_MYSQL:query("UPDATE core_members SET last_activity = UNIX_TIMESTAMP() WHERE steamid = '" .. ply:SteamID64() .. "'")
     query2:start()
-end
+end print"hg"
 
 concommand.Add("test_inventory", function(pl, cmd, args)
     LoadInventory_Deprecated(pl, function(inv)
@@ -428,8 +428,10 @@ concommand.Add("test_inventory", function(pl, cmd, args)
 
             qstr = qstr .. str
         end
-
-        MOAT_INV:Query(qstr, function(d)
+        print "h"
+print(qstr)
+PrintTable(inv)
+        MOAT_INV:SQLQuery(qstr, function(d)
             print("done")
         end)
     end)
