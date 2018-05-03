@@ -156,6 +156,7 @@ local moat_Settings = {
         {"Enable UI Sound Effects", {"Multi"}, "moat_enable_uisounds"},
         {"Enable Momentum Smooth Scrolling", {"Multi"}, "moat_smooth_scrolling"},
         {"Enable Custom Model Preview when Using Crates", {"Multi"}, "moat_model_preview"},
+        {"Enable Inventory model smoke", {"Multi"}, "moat_inventory_model_smoke"},
         {"Disable Lighting in Inventory Model Preview", {"Multi"}, "moat_inventory_lighting"},
         {"Spring Inventory Theme", {"Multi"}, "moat_spring_theme"}
     },

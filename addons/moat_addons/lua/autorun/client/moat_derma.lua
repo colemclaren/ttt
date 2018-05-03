@@ -987,7 +987,7 @@ function PANEL:FakeCreateParticles()
 	end
 end
 
-local particles = CreateConVar("moat_inventory_smoke", "0", FCVAR_ARCHIVE)
+local particles = CreateConVar("moat_inventory_model_smoke", "1", FCVAR_ARCHIVE)
 function PANEL:CreateParticles(pos)
 	if (particles:GetInt() ~= 1) then return end
 	
