@@ -48,39 +48,21 @@ function data:Function(name, ...)
 end
 
 function data:CreateQuery(q, ...)
-    local data = ...
-    -- q = "select ?1, ?2! as ass, ?3 as vomit;"
-    if (type(data) ~= "table") then
-        data = {...}
-    end
+    local d = type(...) ~= "table" and {...} or ...
+    local idx, str = 1, "%s"
 
-    local index = 1
-    return (q:gsub("([^%%])%?(.-)(%!?)([#, %)%(\"';])", function(noescape, id, raw, rest)
-        local escape = raw ~= "!" 
-        if (id == "") then
-            id = index
-            index = index + 1
-        end
+    return (q:gsub("(%%?)%?(!?)([%l_]*)", function(skip, raw, id)
+		if (skip == "%") then return end
+		id, idx = d[id] or d[idx], d[id] and idx or idx + 1
 
-        local dat = data[tonumber(id)] or data[tostring(id)] or nil
-        if (escape) then
-            dat = self:Escape(dat)
-        end
-        dat = tostring(dat)
-
-        return string.format("%s%s%s", noescape, dat, rest == "#" and "" or rest)
-    end)).."\n"
+		return str:format(raw ~= "!" and tostring(self:Escape(id)) or id)
+    end))
 end
 
 function data:Query(q, succ, err)
     local dbq = self.mysqloo:query(q)
-    if (succ) then
-        dbq.onSuccess = function(self, data) succ(data, self) end
-    end
-    if (err) then
-        dbq.onError = err
-    end
-
+    if (succ) then dbq.onSuccess = function(s, d) succ(d, s) end end
+    if (err) then dbq.onError = err end
     dbq:start()
 end
 

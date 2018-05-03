@@ -247,7 +247,7 @@ Parsing Item > SQL
 ------------------------------------]]--
 
 function MOAT_INV:QueryFromItem(i, o)
-    if (i.s) then -- weapon
+    if (i.s and next(i.s) ~= nil) then -- weapon
         if (i.t) then
             return self:InsertWeaponTalents(i, o)
         else
@@ -288,7 +288,7 @@ function MOAT_INV:InsertWeaponStats(tbl, owner)
     if (data.stat_count == 0) then
         return self:InsertWeapon(tbl, owner)
     end
-    return SQL:CreateQuery("call insertWeapon?stat_count#Stats(?, ?!, ?slot, ?class_name"..string.rep(", ?, ?", data.stat_count)..");", data)
+    return SQL:CreateQuery("call insertWeapon?stat_countStats(?, ?!, ?slot, ?class_name"..string.rep(", ?, ?", data.stat_count)..");", data)
 end
 
 function MOAT_INV:InsertWeaponTalents(tbl, owner)
@@ -314,7 +314,7 @@ function MOAT_INV:InsertWeaponTalents(tbl, owner)
             data.talent_count = data.talent_count + 1
         end
     end
-    return SQL:CreateQuery("call insertWeapon?stat_count#Stats?talent_count#Talents(?, ?!, ?slot, ?class_name"..string.rep(", ?", data.stat_count * 2 + data.talent_count * 4)..");", data)
+    return SQL:CreateQuery("call insertWeapon?stat_countStats?talent_countTalents(?, ?!, ?slot, ?class_name"..string.rep(", ?", data.stat_count * 2 + data.talent_count * 4)..");", data)
 end
 
 function MOAT_INV:LastInsertID()
@@ -351,7 +351,7 @@ function MOAT_INV:QueryForPaint(i, u)
 end
 
 local function LoadInventory_Deprecated(ply, cb)
-    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = 'STEAM_0:0:46558052'")
+    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = '" .. ply:SteamID() .. "'")
 
     function query1:onSuccess(data)
         if (#data > 0) then
@@ -391,10 +391,6 @@ local function LoadInventory_Deprecated(ply, cb)
     end
 
     query1:start()
-
-    --UPDATE core_members SET last_activity = 1524525387 WHERE steamid = 76561198831932398
-    local query2 = MINVENTORY_MYSQL:query("UPDATE core_members SET last_activity = UNIX_TIMESTAMP() WHERE steamid = '" .. ply:SteamID64() .. "'")
-    query2:start()
 end
 
 concommand.Add("test_inventory", function(pl, cmd, args)
@@ -405,9 +401,8 @@ concommand.Add("test_inventory", function(pl, cmd, args)
         for k, v in pairs(inv) do
             if (not v.u) then continue end
 
-            if (k:StartWith("l")) then
-                v["slot"] = tonumber(k:TrimLeft("l_slot"))
-            end
+            v["slot"] = k:StartWith("l") and -tonumber(k:TrimLeft("l_slot")) or tonumber(k:TrimLeft("slot"))
+
             if (v["tr"] and v["s"]) then v["s"]["tr"] = nil v["s"]["j"] = "1" end
 
             local str = MOAT_INV:QueryFromItem(v, id)
@@ -436,10 +431,12 @@ concommand.Add("test_inv1", function(pl, cmd, args)
     local start_time = SysTime()
 
     pl:LoadInventory(function(pl, inv)
-        end_time = SysTime()
+        local end_time = SysTime()
+        print(end_time - start_time)
 
-        PrintTable(inv)
-
-        print(end_time - start_time, start_time, end_time)
+		LoadInventory_Deprecated(pl, function()
+        	start_time = SysTime()
+        	print(start_time - end_time)
+		end)
     end)
 end)

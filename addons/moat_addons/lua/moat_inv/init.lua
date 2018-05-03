@@ -10,26 +10,26 @@ MOAT_INV.IncludeSH "util.lua"
 
 MOAT_INV.Print "Initializing Moat Inventory."
 
-local Files, Folders
+local files
 if (SERVER) then
 	MOAT_INV.Print "Parsing serverside files"
-	Files, Folders = file.Find("moat_inv/server/*.lua", "LUA")
-	for k, v in ipairs(Files) do
+	files = file.Find("moat_inv/server/*.lua", "LUA")
+	for k, v in ipairs(files) do
 		MOAT_INV.Print(" | " .. v)
 		MOAT_INV.IncludeSV("moat_inv/server/" .. v)
 	end
 end
 
 MOAT_INV.Print "Parsing clientside files"
-Files, Folders = file.Find("moat_inv/client/*.lua", "LUA")
-for k, v in ipairs(Files) do
+files = file.Find("moat_inv/client/*.lua", "LUA")
+for k, v in ipairs(files) do
 	MOAT_INV.Print(" | " .. v)
 	MOAT_INV.IncludeCL("moat_inv/client/" .. v)
 end
 
 MOAT_INV.Print "Parsing shared files"
-Files, Folders = file.Find("moat_inv/shared/*.lua", "LUA")
-for k, v in ipairs(Files) do
+files = file.Find("moat_inv/shared/*.lua", "LUA")
+for k, v in ipairs(files) do
 	MOAT_INV.Print(" | " .. v)
 	MOAT_INV.IncludeSH("moat_inv/shared/" .. v)
 end

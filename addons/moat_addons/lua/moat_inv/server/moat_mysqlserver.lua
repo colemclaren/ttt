@@ -368,6 +368,9 @@ local function SendExtraInfo(ply, sending, cb)
 end
 
 local function SendWeapons(ply, weps, cb, i)
+	if (not weps[i]) then return cb() end
+	if (not weps[i].c) then i = i + 1 return SendWeapons(ply, weps, cb, i) end
+
     ply.ItemCache = ply.ItemCache or {}
     net.Start "MOAT_ITEM_INFO"
         while (true) do
@@ -375,8 +378,7 @@ local function SendWeapons(ply, weps, cb, i)
                 break
             end
             local wep = weps[i]
-            local cached = ply.ItemCache[wep.c]
-            if (not cached) then
+            if (wep.c and not ply.ItemCache[wep.c]) then
                 net.WriteBool(true)
                 wep:WriteToNet()
                 ply.ItemCache[wep.c] = true
@@ -385,7 +387,7 @@ local function SendWeapons(ply, weps, cb, i)
         end
         net.WriteBool(false)
     net.Send(ply)
-    --print("wrote "..i.." weapons to "..ply:Nick())
+
     if (weps[i]) then
         timer.Simple(0, function()
             SendWeapons(ply, weps, cb, i)
@@ -430,8 +432,12 @@ function m_BreakableMessage(data, i)
     local writefn = data.writefn
     local datas = data.datas
 
+	if (not datas[i]) then return data.callback() end
+	if (not datas[i].c) then i = i + 1 return m_BreakableMessage(data, i) end
+
     startfn(i)
         while (datas[i]) do
+			if (not datas[i].c) then i = i + 1 continue end
             net.WriteBool(true)
             writefn(i, datas[i])
             i = i + 1
@@ -468,11 +474,45 @@ local function SendWeaponInvItems(ply, datas, is_loadout, cb)
     }
 end
 
+function m_LoadInventoryForPlayer(ply, cb)
+    ply:LoadInventory(function(_, inv)
+        local inv_tbl = {
+            credits = {
+                c = 0
+            } -- TODO: readd
+        }
+        MOAT_INVS[ply] = inv_tbl
+
+        for i = 1, 10 do
+            inv_tbl["l_slot"..i] = MOAT_INV:Blank()
+        end
+        local i = 0
+        for uid, wep in pairs(inv) do
+			if (wep.slotid < 0) then
+				inv_tbl["l_slot"..math.abs(wep.slotid)] = wep
+				continue
+			end
+
+            i = i + 1
+            inv_tbl["slot"..i] = wep
+        end
+
+        ply.Inventory = inv_tbl
+
+        ply:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", i)
+        if (cb) then cb() end
+    end)
+
+    --UPDATE core_members SET last_activity = 1524525387 WHERE steamid = 76561198831932398
+    local query2 = MINVENTORY_MYSQL:query("UPDATE core_members SET last_activity = UNIX_TIMESTAMP() WHERE steamid = '" .. ply:SteamID64() .. "'")
+    query2:start()
+end
+
 function m_SendInventoryToPlayer(ply)
-    if (ply.Sending) then
+    /*if (ply.Sending) then
         return
     end
-    ply.Sending = true
+    ply.Sending = true*/
     if (ply:IsValid()) then
         net.Start("MOAT_SEND_SLOTS")
         net.WriteDouble(ply:GetMaxSlots())
@@ -486,6 +526,7 @@ function m_SendInventoryToPlayer(ply)
         for i = 1, 10 do
             loadout[i] = ply_inv["l_slot"..i]
         end
+
         return m_WriteWeaponsToPlayer(ply, loadout, function()
             return SendWeaponInvItems(ply, loadout, true, function()
                 local inv = {}
@@ -507,6 +548,7 @@ end
 net.Receive("MOAT_SEND_INV_ITEM", function(len, ply)
     m_SendInventoryToPlayer(ply)
 end)
+
 
 function m_SendCreditsToPlayer(ply)
     local ply_creds = table.Copy(MOAT_INVS[ply]["credits"])
@@ -772,40 +814,6 @@ function m_InsertNewStatsPlayer(ply)
     local fs = string.format("INSERT INTO moat_stats ( steamid, stats_tbl ) VALUES ( '%s', '%s' )", _steamid, stats_table)
     iq = MINVENTORY_MYSQL:query(fs)
     iq:start()
-end
-
-
-function m_LoadInventoryForPlayer(ply, cb)
-    ply:LoadInventory(function(_, inv)
-        local inv_tbl = {
-            credits = {
-                c = 0
-            } -- TODO: readd
-        }
-        MOAT_INVS[ply] = inv_tbl
-
-        for i = 1, 10 do
-            inv_tbl["l_slot"..i] = MOAT_INV:Blank()
-        end
-        local i = 0
-        for uid, wep in pairs(inv) do
-            if (wep.slotid) then
-                inv_tbl["l_slot"..wep.slotid] = wep
-            else
-                i = i + 1
-                inv_tbl["slot"..i] = wep
-            end
-        end
-
-        ply.Inventory = inv_tbl
-
-        ply:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", i - 1)
-        if (cb) then cb() end
-    end)
-
-    --UPDATE core_members SET last_activity = 1524525387 WHERE steamid = 76561198831932398
-    local query2 = MINVENTORY_MYSQL:query("UPDATE core_members SET last_activity = UNIX_TIMESTAMP() WHERE steamid = '" .. ply:SteamID64() .. "'")
-    query2:start()
 end
 
 function m_SaveInventory(ply)

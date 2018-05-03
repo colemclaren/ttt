@@ -45,9 +45,9 @@ function PLAYER:LoadInventory(cb)
 
     local query = MOAT_INV.SQL:CreateQuery("call selectInventory(?!);", self:SteamID64())
     MOAT_INV:SQLQuery(query, function(d, q)
-        print(d, q)
         if (not IsValid(self)) then return end
         self.InventoryLoaded = true
+		self.LoadingInventory = false
 
         cb(self, d and d[1] and MOAT_INV:ParseInventoryQuery(d, q) or {})
     end)
@@ -94,4 +94,12 @@ end
 
 function PLAYER:NetworkItem()
 
+end
+
+
+function PLAYER:LoadStats(id, cb)
+	//to-do: make procedure
+	self:SQLQuery("select var, val from mg_players where id = ?!;", id, function(d, q)
+		if (cb) then cb(d, q) end
+	end)
 end

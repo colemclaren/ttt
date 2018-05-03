@@ -961,12 +961,12 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 end
 
 m_Inventory = m_Inventory or {}
-m_Loadout = m_Loadout or {}
+m_Loadout = m_Loadout or {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}}
 m_Trade = m_Trade or {}
 
 function m_ClearInventory()
     m_Inventory = {}
-    m_Loadout = {}
+    m_Loadout = {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}}
     m_Trade = {}
 end
 
@@ -3029,7 +3029,7 @@ function m_OpenInventory(ply2, utrade)
 
             local drawn_stats = 0
 
-            if (ITEM_HOVERED.s and (ITEM_HOVERED.item.Kind == "tier" or ITEM_HOVERED.item.Kind == "Unique" or ITEM_HOVERED.item.Kind == "Melee")) then
+            if ((ITEM_HOVERED.s and (ITEM_HOVERED.item.Kind == "tier" or ITEM_HOVERED.item.Kind == "Unique" or ITEM_HOVERED.item.Kind == "Melee")) or (ITEM_HOVERED.u and ITEM_HOVERED.u == 0)) then
                 draw_stats_multi = 25
                 m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
                 drawn_stats = 10
@@ -6097,7 +6097,7 @@ function m_DrawFoundItem(tbl, s_type)
 
             local drawn_stats = 0
 
-            if (ITEM_HOVERED.s and (ITEM_HOVERED.item.Kind == "tier" or ITEM_HOVERED.item.Kind == "Unique" or ITEM_HOVERED.item.Kind == "Melee")) then
+            if ((ITEM_HOVERED.s and (ITEM_HOVERED.item.Kind == "tier" or ITEM_HOVERED.item.Kind == "Unique" or ITEM_HOVERED.item.Kind == "Melee")) or (ITEM_HOVERED.u and ITEM_HOVERED.u == 0)) then
                 draw_stats_multi = 25
                 m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
                 drawn_stats = 10
