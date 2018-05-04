@@ -54,5 +54,7 @@ function MOAT_INV:InitializeModules()
 		self:InitializeModule(fldr, 1, fldr:StartWith("sv_") and "sv" or fldr:StartWith("cl_") and "cl")
 	end
 	self:BigLog "-----Finished Loading Modules-----"
+
+	hook.Run "MOAT_INV.Initialized"
 end
 MOAT_INV:InitializeModules()

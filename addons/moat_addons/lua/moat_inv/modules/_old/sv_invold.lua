@@ -1,9 +1,3 @@
-if (util.NetworkStringToID "moat_invdev") then
-    return
-end
-
-print("Server Loaded")
-
 util.AddNetworkString("MOAT_SEND_SLOTS")
 util.AddNetworkString("MOAT_SEND_INV_ITEM")
 util.AddNetworkString("MOAT_ADD_INV_ITEM")
@@ -209,7 +203,7 @@ end
 
 function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
     local ply_inv = table.Copy(MOAT_INVS[self])
-    local slot_found, upgrade = 0, false
+    local slot_found = 0
 
     for i = 1, self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
         if (ply_inv["slot" .. i].c) then
@@ -223,21 +217,15 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
     if (slot_found == 0) then
         slot_found = self:GetMaxSlots() + 1
         self:UpgradeMaxSlots()
-
-		if (delay_saving) then
-        	net.Start("MOAT_MAX_SLOTS")
-        	net.WriteDouble(self:GetMaxSlots())
-        	net.Send(self)
-		end
-
+        net.Start("MOAT_MAX_SLOTS")
+        net.WriteDouble(self:GetMaxSlots())
+        net.Send(self)
         local max_slots = self:GetMaxSlots()
         local max_slots_old = max_slots - 4
 
         for i = max_slots_old, max_slots do
             MOAT_INVS[self]["slot" .. i] = {}
         end
-
-		upgrade = true
     end
 
     MOAT_INVS[self]["slot" .. slot_found] = tbl
@@ -245,7 +233,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
     if (delay_saving) then return end
     
     net.Start("MOAT_ADD_INV_ITEM")
-    net.WriteUInt(slot_found, 16)
+    net.WriteString(tostring(slot_found))
     local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
     tbl2.item = m_GetItemFromEnum(tbl2.u)
 
@@ -259,8 +247,6 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
 
     net.WriteTable(tbl2)
     net.WriteBool(no_chat or false)
-	net.WriteBool(upgrade)
-	if (upgrade) then net.WriteUInt(self:GetMaxSlots(), 16) end
     net.Send(self)
 
 
@@ -277,7 +263,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
         net.Send(self)
     end
 
-    if (not delay_saving) then
+    if (delay_saving == nil or not delay_saving) then
         m_SaveInventory(self)
     end
 end
@@ -449,30 +435,82 @@ net.Receive("MOAT_SWP_INV_ITEM", function(len, ply)
     local slot2 = net.ReadString()
     local slot1_c = net.ReadString()
     local slot2_c = net.ReadString()
+    --[[
+    local slot1_n = net.ReadDouble()
 
+    local slot2_n = net.ReadDouble()
+
+    if ( not slot1_n ) then
+        
+        slot1_n = 1
+
+    end
+
+    if ( not slot2_n ) then
+        
+        slot2_n = 1
+        
+    end]]
     local inv_slot1 = table.Copy(MOAT_INVS[ply][slot1])
     local inv_slot2 = table.Copy(MOAT_INVS[ply][slot2])
-	local inv_slot1_i = table.Copy(inv_slot1)
-	local inv_slot2_i = table.Copy(inv_slot2)
-
-	if (not inv_slot1_i or not inv_slot2_i) then
-        m_SendInventorySwapFail(ply)
-        return
-	end
-
+    local inv_slot1_i = table.Copy(inv_slot1)
     inv_slot1_i.item = m_GetItemFromEnum(inv_slot1_i.u)
+    local inv_slot2_i = table.Copy(inv_slot2)
     inv_slot2_i.item = m_GetItemFromEnum(inv_slot2_i.u)
 
-    if (inv_slot1 and inv_slot1.c and inv_slot1.c ~= slot1_c and not ply:m_isTrading()) then
-        m_SendInventorySwapFail(ply)
-        return
+    if (inv_slot1 and inv_slot1.c and not ply:m_isTrading()) then
+        if (inv_slot1.c ~= slot1_c) then
+            m_SendInventorySwapFail(ply)
+
+            return
+        end
+        --[[if ( slot1_n and inv_slot1 ) then
+
+            local slot_1_n = 1
+            
+            if ( inv_slot1.n ) then
+
+                slot_1_n = inv_slot1.n
+
+            end
+
+            if ( slot_1_n < slot1_n ) then
+                
+                m_SendInventorySwapFail( ply )
+
+                return
+
+            end
+
+        end]]
     end
 
-    if (inv_slot2 and inv_slot2.c and inv_slot2.c ~= slot2_c and not ply:m_isTrading()) then
-        m_SendInventorySwapFail(ply)
-        return
-    end
+    if (inv_slot2 and inv_slot2.c and not ply:m_isTrading()) then
+        if (inv_slot2.c ~= slot2_c) then
+            m_SendInventorySwapFail(ply)
 
+            return
+        end
+        --[[if ( slot2_n and inv_slot2 ) then
+
+            local slot_2_n = 1
+            
+            if ( inv_slot2.n ) then
+
+                slot_2_n = inv_slot2.n
+
+            end
+
+            if ( slot_2_n < slot2_n ) then
+                
+                m_SendInventorySwapFail( ply )
+
+                return
+
+            end
+
+        end]]
+    end
 
     if (string.StartWith(slot2, "l") and not string.StartWith(slot1, "l")) then
         local DRAG_SLOT = tonumber(string.sub(slot2, 7, #slot2))
@@ -507,12 +545,37 @@ net.Receive("MOAT_SWP_INV_ITEM", function(len, ply)
         end
     end
 
+    --[[
+    if ( inv_slot1_i.item.Stackable and inv_slot2_i.item.Stackable and ( inv_slot1_i.u == inv_slot2_i. u ) ) then
+        
+        if ( not inv_slot1.n ) then
+            
+            inv_slot1.n = 1
+
+        end
+
+        if ( not inv_slot2.n ) then
+            
+            inv_slot2.n = 1
+
+        end
+
+        if ( inv_slot2.n - slot2_n < 1 ) then
+            
+            inv_slot1 = {}
+
+        end
+
+        inv_slot2.n = inv_slot2.n + inv_slot1.n
+
+    end]]
     net.Start("MOAT_SWP_INV_ITEM")
     net.WriteBool(true)
     net.WriteString(slot1)
     net.WriteString(slot2)
+    --net.WriteDouble( slot1_n )
+    --net.WriteDouble( slot2_n )
     net.Send(ply)
-
     MOAT_INVS[ply][slot1] = inv_slot2
     MOAT_INVS[ply][slot2] = inv_slot1
 
@@ -675,15 +738,6 @@ net.Receive("MOAT_RESPOND_TRADE_REQ", function(len, ply)
 
         return
     end
-
-	if (not IsValid(Entity(other_ply))) then
-        net.Start("moat.comp.chat")
-        net.WriteString("The other player for the trade left or something.")
-        net.WriteBool(true)
-        net.Send(ply)
-
-		return
-	end
 
     if (Entity(other_ply):m_isTrading()) then
         net.Start("MOAT_SEND_TRADE_REQ")
@@ -1941,7 +1995,7 @@ net.Receive("MOAT_USE_NAME_MUTATOR", function(l, pl)
     end
 
     if (not str) then return end
-    if (#str < 3 or #str > 30) then return end
+    if (#str < 3 or #str > 20) then return end
 
     local stramt = 0
 
@@ -1952,7 +2006,7 @@ net.Receive("MOAT_USE_NAME_MUTATOR", function(l, pl)
         stramt = stramt + 1
     end
 
-    if (stramt > 30) then return end
+    if (stramt > 20) then return end
 
     m_UseUsableItem(pl, slot, class, wep_slot ~= 0 and wep_slot or nil, wep_class ~= 0 and wep_class or nil, str)
 end)

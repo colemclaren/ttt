@@ -873,13 +873,22 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
 end
 
-m_Inventory = m_Inventory or {}
-m_Loadout = m_Loadout or {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}}
+function CreateSlots(num)
+	local tbl = {}
+	for i = 1, num do
+		tbl[i] = {}
+	end
+
+	return tbl
+end
+
+m_Inventory = m_Inventory or CreateSlots(40)
+m_Loadout = m_Loadout or CreateSlots(10)
 m_Trade = m_Trade or {}
 
 function m_ClearInventory()
-    m_Inventory = {}
-    m_Loadout = {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}}
+    m_Inventory = CreateSlots(40)
+    m_Loadout = CreateSlots(10)
     m_Trade = {}
 end
 
@@ -888,7 +897,7 @@ local NUMBER_OF_SLOTS = 0
 function m_GetESlots()
     local eslots = 0
 
-    for i = 1, LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, #m_Inventory do
         if (m_Inventory[i] and m_Inventory[i].c) then
             continue
         else
@@ -1026,8 +1035,6 @@ net.Receive("MOAT_ITEM_INFO", function(len)
         m_ReadWeaponFromNet()
     end
 end)
-
-MsgC(Color(255, 0, 0), "Requesting Inventory from Server!")
 
 net.Start("MOAT_SEND_INV_ITEM")
 net.SendToServer()
@@ -2517,8 +2524,8 @@ function m_OpenInventory(ply2, utrade)
     end
 
 
-    local function m_CreateInventorySlots()
-        for i = 1, MAX_SLOTS do
+    local function m_CreateInventorySlots(num)
+        for i = 1, num do
             m_CreateInvSlot(i)
         end
 
@@ -2528,20 +2535,8 @@ function m_OpenInventory(ply2, utrade)
             EndSpacing.Paint = nil
         end
     end
-
-    if (not m_Inventory[MAX_SLOTS]) then
-        timer.Create("moat_CheckForInventory", 0.1, 0, function()
-            if (m_Inventory[MAX_SLOTS]) then
-                if (timer.Exists("moat_CheckForInventory")) then
-                    timer.Remove("moat_CheckForInventory")
-                end
-
-                m_CreateInventorySlots()
-            end
-        end)
-    else
-        m_CreateInventorySlots()
-    end
+    
+	m_CreateInventorySlots(#m_Inventory)
 
     local inv_pnl_x2 = MOAT_INV_BG:GetWide() - (350 + 14) - 18 - 5 - 78
     local M_INV_LP = vgui.Create("DPanel", M_LOADOUT_PNL)

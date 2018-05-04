@@ -1,6 +1,7 @@
 
 -- wow a config
-MOAT_INV.Config.StartingWeapons = {
+MOAT_INV.Config.DefaultSlots = 40
+MOAT_INV.Config.DefaultInv = {
 	"weapon_ttt_mac10",
 	"weapon_zm_improvised",
 	"weapon_zm_revolver",
@@ -15,5 +16,10 @@ MOAT_INV.Config.StartingWeapons = {
 	"weapon_ttt_sg552",
 	"weapon_ttt_shotgun",
 	"weapon_ttt_galil",
-	"weapon_ttt_aug"
+	"weapon_ttt_aug",
+	"Alpha Crate",
+	"Alpha Crate",
+	"Alpha Crate",
+	"Alpha Crate",
+	"Alpha Crate"
 }

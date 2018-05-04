@@ -12,4 +12,4 @@ function MOAT_INV.StatsRegistered()
 	net.Start "MOAT_INV.SendStats"
 	net.SendToServer()
 end
-hook.Add("MOAT_INV.StatsRegistered", "MOAT_INV.StatsRegistered", MOAT_INV.StatsRegistered)
+hook.Add("MOAT_INV.Initialized", "MOAT_INV.StatsRegistered", MOAT_INV.StatsRegistered)

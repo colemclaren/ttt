@@ -88,5 +88,3 @@ MOAT_INV:RegisterStat("o", "Drops")
 MOAT_INV:RegisterStat("l", "Level", 1)
 MOAT_INV:RegisterStat("r", "Deconstructs")
 MOAT_INV:RegisterStat("c", "IC")
-
-hook.Run "MOAT_INV.StatsRegistered"
