@@ -10,8 +10,7 @@ MOAT_INV.ModulePath = "moat_inv/modules/"
 MOAT_INV.ModulePrefixes = {
 	["sv"] = MOAT_INV.IncludeSV,
 	["cl"] = MOAT_INV.IncludeCL,
-	["sh"] = MOAT_INV.IncludeSH,
-	["sq"] = function() end
+	["sh"] = MOAT_INV.IncludeSH
 }
 
 function MOAT_INV:InitializeModule(folder, num, fpref)
@@ -28,9 +27,6 @@ function MOAT_INV:InitializeModule(folder, num, fpref)
 		elseif (fpref) then
 			self.ModulePrefixes[fpref](self.ModulePath .. folder .. "/" .. v)
 			self.Log(string.rep(" | ", num) .. v)
-		else
-			self.Log("Unable to load module files in folder: " .. folder, true)
-			self.Log("Files must start with realm prefix.", true)
 		end
 	end
 

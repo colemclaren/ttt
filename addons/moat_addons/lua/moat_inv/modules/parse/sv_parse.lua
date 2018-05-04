@@ -94,8 +94,10 @@ local function WriteWeaponToNet(self)
     if (not self.c) then
         return
     end
+
     net.WriteUInt(self.c, 32)
     net.WriteUInt(self.u, 32)
+
     net.WriteBool(not not self.w)
     if (self.w) then
         net.WriteString(self.w)

@@ -108,12 +108,15 @@ end
 function PLAYER:CreateNewPlayer(str, inv)
 	MOAT_INV:SQLQuery(str, function()
 		if (not IsValid(self)) then return end
-		MOAT_INV.LoadStats(self)
+
+		MOAT_INV:SendUpdatedSlots(self, function()
+			MOAT_INV.LoadStats(self)
+		end)
 	end)
 end
 
 function PLAYER:NewPlayer()
-	self:GetOldData(function(st, inv)
+	self:GetOldData(function(st, inv, tbl)
 		if (not IsValid(self)) then return end
 		
 		local s, str = MOAT_INV.Stats, ""
@@ -121,6 +124,8 @@ function PLAYER:NewPlayer()
 			str = MOAT_INV:GetOldInvQuery(inv, self:ID())
 			st["c"] = math.max(0, math.floor(inv["credits"].c))
 		end
+
+		MOAT_INV:PlayerCreateSlots(self, tbl)
 
 		for i = 1, s.n do
 			local chr = s[i].char

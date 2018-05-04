@@ -1,72 +1,43 @@
-MOAT_INV.Dir = "moat_inv/i"
-MOAT_INV.Dir2 = "moat_inv/s"
+function MOAT_INV:CreateSlotFiles(num, lids)
+	for i = 1, num do
+		local str = ""
+		self:SaveSlotItem(i, str)
+		if (lids and lids[i]) then self:SaveSlotItemL(i, str) end
+	end
 
-file.CreateDir(MOAT_INV.Dir)
-
-function MOAT_INV:RequestInventory()
-
+	for i = 1, 10 do
+		self:SaveSlotItem(-i, "")
+	end
 end
 
-/*
-    Item Stats
-*/
+function MOAT_INV.ShouldCreateSlots()
+	local amt = net.ReadUInt(16)
+	if (not amt) then
+		MOAT_INV:CreateSlotFiles(MOAT_INV.Config.DefaultSlots)
+		return 
+	end
 
-function MOAT_INV:GetStats(id)
-    local s = cookie.GetString("moat_inv" .. id, "")
-    return util.JSONToTable(s)
+	local lids = {}
+	for i = 1, net.ReadUInt(16) do
+		lids[net.ReadUInt(16)] = true
+	end
+
+	MOAT_INV:CreateSlotFiles(amt, lids)
 end
+net.Receive("MOAT_INV.CreateSlots", MOAT_INV.ShouldCreateSlots)
 
-function MOAT_INV:SaveStats(id, tbl)
-    local s = util.TableToJSON(tbl)
-    return cookie.Set("moat_inv" .. id, s)
+
+
+function MOAT_INV.UpdateSlots()
+	local tbl = {}
+	for i = 1, net.ReadUInt(16) do
+		tbl[net.ReadUInt(16)] = net.ReadUInt(32)
+	end
+
+	for k, v in pairs(tbl) do
+		MOAT_INV:SaveSlotItem(k, v)
+	end
+
+	MOAT_INV:HandleSlotLocks()
 end
-
-/*
-    Item Slots
-*/
-
-function MOAT_INV:Slot(id)
-    return MOAT_INV.Dir .. "/" .. id .. ".txt"
-end
-
-function MOAT_INV:Item(slot)
-    return MOAT_INV.Dir2 .. "/" .. slot .. ".txt"
-end
-
-
-
-function MOAT_INV:GetSlotForItem(id)
-    return file.Read(self:Slot(id)) or 0
-end
-
-function MOAT_INV:SaveItemSlot(id, slot)
-    return file.Write(self:Slot(id), slot)
-end
-
-function MOAT_INV:SwapItemSlot(id, id2)
-    local slot1, slot2 = self:GetSlotForItem(id), self:GetSlotForItem(id2)
-    return file.Write(self:Slot(id), slot2), file.Write(self:Slot(id2), slot1)
-end
-
-function MOAT_INV:ClearItemSlot(id)
-    return file.Delete(self:Slot(id))
-end
-
-
-
-function MOAT_INV:GetItemForSlot(slot)
-    return file.Read(self:Item(slot)) or 0
-end
-
-function MOAT_INV:SaveSlotItem(id, slot)
-    return file.Write(self:Item(slot), id)
-end
-
-function MOAT_INV:SwapSlotItem(slot, slot2)
-    local id, id2 = self:GetItemForSlot(slot), self:GetItemForSlot(slot2)
-    return file.Write(self:Item(slot2), id), file.Write(self:Item(slot), id2)
-end
-
-function MOAT_INV:ClearSlotItem(slot)
-    return file.Delete(self:Item(slot))
-end
+net.Receive("MOAT_INV.UpdateSlots", MOAT_INV.UpdateSlots)

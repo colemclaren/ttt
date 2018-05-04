@@ -915,6 +915,7 @@ function m_ReadWeaponFromNet(self)
     end
     self.c = net.ReadUInt(32)
     self.u = net.ReadUInt(32)
+
     if (net.ReadBool()) then
         self.w = net.ReadString()
     end
@@ -996,12 +997,48 @@ net.Receive("MOAT_DATA_INFO", function(len)
         tbl[ind] = net.ReadTable()
     end
 end)
+
+m_SlotData = {s = {}, c = {}}
+local function load_slots(s)
+	local f, num, ldt = MOAT_INV:GetSlots(), 0, 0
+	for _, v in pairs(f) do
+		local slot = tonumber(v:sub(1, -5))
+		if (slot < 0) then ldt = ldt + 1 continue end
+		local id = MOAT_INV:GetItemForSlot(slot)
+		id = id == "" and 0 or tonumber(id)
+		m_SlotData.s[slot] = id
+		m_SlotData.c[id] = slot
+
+		num = num + 1
+	end
+
+	s.n = num
+	s.l = ldt
+
+	for i = 1, s.n do
+		m_Inventory[i] = {}
+	end
+
+	for i = 1, s.l do
+		m_Loadout[i] = {}
+	end
+end
+
 net.Receive("MOAT_SEND_INV_ITEM", function(len)
+	if (not m_SlotData.n) then load_slots(m_SlotData) end
+
     local is_loadout = net.ReadBool()
     local i = net.ReadUInt(32)
     while (net.ReadBool()) do
         local slot = i
         local wep = m_ReadWeaponFromNetCache()
+
+		if (wep.c) then
+			wep.l = MOAT_INV:IsLocked(wep.c) and 1
+			if (m_SlotData.c[wep.c]) then
+				slot = m_SlotData.c[wep.c]
+			end
+		end
 
         if (is_loadout) then
             m_Loadout[slot] = wep
