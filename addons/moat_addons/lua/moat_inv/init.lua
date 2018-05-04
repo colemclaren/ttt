@@ -14,7 +14,7 @@ MOAT_INV.ModulePrefixes = {
 	["sq"] = function() end
 }
 
-function MOAT_INV:InitializeModule(folder, num)
+function MOAT_INV:InitializeModule(folder, num, fpref)
 	if (not folder) then return end
 	local files, folders = file.Find(self.ModulePath .. folder .. "/*", "LUA")
 
@@ -24,6 +24,9 @@ function MOAT_INV:InitializeModule(folder, num)
 
 		if (self.ModulePrefixes[pref]) then
 			self.ModulePrefixes[pref](self.ModulePath .. folder .. "/" .. v)
+			self.Log(string.rep(" | ", num) .. v)
+		elseif (fpref) then
+			self.ModulePrefixes[fpref](self.ModulePath .. folder .. "/" .. v)
 			self.Log(string.rep(" | ", num) .. v)
 		else
 			self.Log("Unable to load module files in folder: " .. folder, true)
@@ -35,7 +38,7 @@ function MOAT_INV:InitializeModule(folder, num)
 
 	for _, v in SortedPairs(folders) do
 		self.Log(string.rep(" | ", num - 1) .. v)
-		self:InitializeModule(folder .. "/" .. v, num)
+		self:InitializeModule(folder .. "/" .. v, num, v:StartWith("sv_") and "sv" or v:StartWith("cl_") and "cl")
 	end
 end
 
@@ -48,7 +51,7 @@ function MOAT_INV:InitializeModules()
 	local _, folders = file.Find(self.ModulePath .. "*", "LUA")
 	for _, fldr in SortedPairs(folders) do
 		self.Log(fldr)
-		self:InitializeModule(fldr, 1)
+		self:InitializeModule(fldr, 1, fldr:StartWith("sv_") and "sv" or fldr:StartWith("cl_") and "cl")
 	end
 	self:BigLog "-----Finished Loading Modules-----"
 end

@@ -1,86 +1,6 @@
 MOAT_VERSION = "1.7.1"
 MOAT_BG_URL = "https://moat.gg/assets/img/bg-main.png"
 
-surface.CreateFont("moat_Medium11", {
-    font = "Trebuchet24",
-    size = 28,
-    weight = 800
-})
-
-surface.CreateFont("moat_Trebuchet", {
-    font = "DermaLarge",
-    additive = false,
-    size = 24,
-    weight = 600
-})
-
-surface.CreateFont("moat_Medium9", {
-    font = "Trebuchet24",
-    size = 13,
-    weight = 800
-})
-
-surface.CreateFont("moat_Medium10", {
-    font = "Trebuchet24",
-    size = 15,
-    weight = 800
-})
-
-surface.CreateFont("moat_Medium4", {
-    font = "Trebuchet24",
-    size = 18,
-    weight = 800
-})
-
-surface.CreateFont("moat_Medium5", {
-    font = "Trebuchet24",
-    size = 20,
-    weight = 800
-})
-
-surface.CreateFont("moat_Medium3", {
-    font = "Trebuchet18",
-    size = 16,
-    weight = 700
-})
-
-surface.CreateFont("moat_ItemDesc", {
-    font = "DermaLarge",
-    size = 14,
-    weight = 800
-})
-
-surface.CreateFont("moat_TradeDesc", {
-    font = "DermaLarge",
-    size = 12,
-    weight = 800
-})
-
-surface.CreateFont("moat_ItemDescLarge3", {
-    font = "DermaLarge",
-    size = 28,
-    weight = 800
-})
-
-surface.CreateFont("moat_MOTDHead", {
-    font = "DermaLarge",
-    size = 40,
-    weight = 700
-})
-
-surface.CreateFont("moat_ItemDescSmall2", {
-    font = "DermaLarge",
-    size = 10,
-    weight = 700
-})
-
-surface.CreateFont("moat_Medium2", {
-    font = "Trebuchet18",
-    size = 12,
-    weight = 500,
-    italic = true
-})
-
 local math              = math
 local table             = table
 local draw              = draw
@@ -457,13 +377,6 @@ function m_DrawFireText(rarity, text, font, x, y, color, xalign, yalign)
     draw_SimpleText(text, font, x + 1, y + 1, Color(0, 0, 0), xalign, yalign)
     draw_SimpleText(text, font, x, y, color, xalign, yalign)
 end
-
-surface.CreateFont("moat_Medium52", {
-    font = "Trebuchet24",
-    size = 20,
-    weight = 800,
-    antialias = false
-})
 
 function draw_SimpleTextDegree(text, font, x, y, x2, y2, top, bottom, percent, xalign, yalign)
     local xalign = xalign or TEXT_ALIGN_LEFT
@@ -6680,36 +6593,3 @@ net.Receive("MOAT_DECON_MUTATOR", function()
         if (IsValid(snd)) then snd:Play() snd:SetVolume(1) end
     end)
 end)
-
--- thank you MPan1 for the rainbow library https://github.com/Mysterypancake1/GMod-Rainbows/blob/master/rainbow.lua
-local function ConsolePrintRainbow( text )
-    
-    local tab = {}
-    
-    for i = 1, #text do
-        local col = HSVToColor( i * 2 % 360, 1, 1 )
-        table.insert( tab, col )
-        local letter = string.sub( text, i, i )
-        table.insert( tab, letter )
-    end
-    
-    table.insert( tab, '\n' ) -- this adds a newline to the console, but this isn't essential
-    
-    MsgC( unpack( tab ) )
-    
-end
-
-ConsolePrintRainbow([[  
-======================================================================
-Version ]] .. MOAT_VERSION .. [[ Loaded Successfully
-======================================================================
-
- __  __  ___   _ _____   ___ _  ___   _____ _  _ _____ ___  _____   __
-|  \/  |/ _ \ /_\_   _| |_ _| \| \ \ / / __| \| |_   _/ _ \| _ \ \ / /
-| |\/| | (_) / _ \| |    | || .` |\ V /| _|| .` | | || (_) |   /\ V / 
-|_|  |_|\___/_/ \_\_|   |___|_|\_| \_/ |___|_|\_| |_| \___/|_|_\ |_|  
-                                                                       
-======================================================================
-By https://steamcommunity.com/id/moat_
-======================================================================
-]])
