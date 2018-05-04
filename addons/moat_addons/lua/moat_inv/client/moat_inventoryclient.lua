@@ -1218,7 +1218,8 @@ rarity_names[0] = {
     {
         min = 10,
         max = 20
-    }
+    },
+	"https://i.moat.gg/HchBd.png"
 }
 
 hook.Add("Think", "moat_InventoryHSV", function()
@@ -1227,14 +1228,17 @@ hook.Add("Think", "moat_InventoryHSV", function()
 /*    if (MOAT_PAINT and MOAT_PAINT.Colors) then
         MOAT_PAINT.Colors[58][2] = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
     end*/
-    rarity_names[0] = {
-        "Stock",
-        Color(74, 73, 68),
-        {
-            min = 10,
-            max = 20
-        }
-    }
+
+	rarity_names[0][2] = Color(74, 73, 68)
+	rarity_names[1][2] = Color(204, 204, 255)
+	rarity_names[2][2] = Color(0, 0, 255)
+	rarity_names[3][2] = Color(127, 0, 255)
+	rarity_names[4][2] = Color(255, 0, 255)
+	rarity_names[5][2] = Color(255, 0, 0)
+	rarity_names[6][2] = Color(255, 205, 0)
+	rarity_names[7][2] = Color(0, 255, 0)
+	rarity_names[8][2] = Color(255, 128, 0)
+	rarity_names[9][2] = HSVToColor( CurTime() * 70 % 360, 1, 1 )
 end)
 
 local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
@@ -2337,15 +2341,40 @@ function m_OpenInventory(ply2, utrade)
             local draw_y = 2
             local draw_w = w - 4
             local draw_h = h - 4
+            local draw_y2 = 2 + ((h - 4) / 2)
+            local draw_h2 = (h - 4) - ((h - 4) / 2)
+            surface_SetDrawColor(0, 0, 0, 100)
+            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+            surface_SetDrawColor(50, 50, 50, hover_coloral)
+            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
             if (not m_Inventory[num]) then return end
 
             if (m_Inventory[num].c) then
-                -- BACKGROUND
-                local raritymat = fetch_asset(rarity_names[m_Inventory[num].item.Rarity][4])
-                surface_SetMaterial(raritymat)
-                surface_SetDrawColor(255, 255, 255)
-                surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
+                surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
+                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+
+                if (m_Inventory[num].l and m_Inventory[num].l == 1) then
+                    surface_SetDrawColor(255, 255, 255, 50)
+                    surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+                end
+
+                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2].r, rarity_names[m_Inventory[num].item.Rarity][2].g, rarity_names[m_Inventory[num].item.Rarity][2].b, 100 + hover_coloral)
+                surface_SetMaterial(gradient_d)
+                surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
+            end
+
+            surface_SetDrawColor(62, 62, 64, 255)
+
+            if (m_Inventory[num].c) then
+                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2])
+            end
+
+            surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
+            surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
+
+            if (m_Inventory[num].c) then
+                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2].r, rarity_names[m_Inventory[num].item.Rarity][2].g, rarity_names[m_Inventory[num].item.Rarity][2].b, hover_coloral / 2)
             end
         end
 
@@ -2656,14 +2685,16 @@ function m_OpenInventory(ply2, utrade)
         m_DPanel.Paint = function(s, w, h)
             local y2 = 10
             draw.DrawText(m_LoadoutLabels[num], "moat_Medium9", w / 2, -3, MT_TCOL, TEXT_ALIGN_CENTER)
-            local draw_x = 2 + 3
-            local draw_y = 2 + y2 + 3
-            local draw_w = w - 4 - 6
-            local draw_h = h - 4 - y2 - 6
             surface_SetDrawColor(62, 62, 64, 255)
             surface_DrawOutlinedRect(0, 0 + y2, w, h - y2)
             surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawRect(1, 1 + y2, w - 2, h - 2 - y2)
+            local draw_x = 2 + 3
+            local draw_y = 2 + y2 + 3
+            local draw_w = w - 4 - 6
+            local draw_h = h - 4 - y2 - 6
+            local draw_y2 = 2 + ((h - 4) / 2) + y2 + 3
+            local draw_h2 = (h - 4) - ((h - 4) / 2) - y2 - 6
 
             if (MT[CurTheme].LSLOT_PAINT) then
                 MT[CurTheme].LSLOT_PAINT(s, w, h, hover_coloral, m_Loadout[num])
@@ -2671,16 +2702,52 @@ function m_OpenInventory(ply2, utrade)
                 return
             end
 
+            surface_SetDrawColor(0, 0, 0, 100)
+            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+            surface_SetDrawColor(50, 50, 50, hover_coloral)
+            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+            if (not m_Loadout[num]) then return end
 
-            if (not m_Inventory[num]) then return end
-
-            if (m_Inventory[num].c) then
-                -- BACKGROUND
-                local raritymat = fetch_asset(rarity_names[m_Inventory[num].item.Rarity][4])
-                surface_SetMaterial(raritymat)
-                surface_SetDrawColor(255, 255, 255)
-                surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
+            if (m_Loadout[num].c) then
+                surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
+                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+                surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2].r, rarity_names[m_Loadout[num].item.Rarity][2].g, rarity_names[m_Loadout[num].item.Rarity][2].b, 100 + hover_coloral)
+                surface_SetMaterial(gradient_d)
+                surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
             end
+
+            surface_SetDrawColor(62, 62, 64, 255)
+
+            if (m_Loadout[num].c) then
+                surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2])
+            end
+
+            surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
+            surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
+
+            if (m_Loadout[num].c) then
+                surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2].r, rarity_names[m_Loadout[num].item.Rarity][2].g, rarity_names[m_Loadout[num].item.Rarity][2].b, hover_coloral / 2)
+            end
+
+            surface_DrawOutlinedRect(3, y2 + 3, w - 6, h - y2 - 6)
+
+            local triangle = {
+                {
+                    x = 6,
+                    y = 6 + y2
+                },
+                {
+                    x = w - 6,
+                    y = w - 6 + y2
+                },
+                {
+                    x = 6,
+                    y = w - 6 + y2
+                }
+            }
+
+            surface_SetDrawColor(50, 50, 50, 10)
+            draw.NoTexture()
         end
 
         --  surface_DrawPoly( triangle )
