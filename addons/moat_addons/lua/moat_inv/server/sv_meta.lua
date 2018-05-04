@@ -104,8 +104,11 @@ function PLAYER:LoadStats(cb)
 end
 
 function PLAYER:NewPlayer()
-	/*local s, str = MOAT_INV.Stats, ""
-	for i = 1, s.n do
-		str = str .. MOAT_INV:CreateQuery("call saveStat(?!, ?, ?);", self, s[i].char, s[i].default)
-	end*/
+	self:GetOldStats(function(t)
+		local s, str = MOAT_INV.Stats, ""
+		for i = 1, s.n do
+			local c = s[i].char
+			str = str .. MOAT_INV:CreateQuery("call saveStat(?!, ?, ?);", self, c, t[c] and math.max(0, math.floor(t[c])) or s[i].default)
+		end
+	end)
 end

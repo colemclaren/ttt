@@ -350,49 +350,6 @@ function MOAT_INV:QueryForPaint(i, u)
     return table.concat(query, "")
 end
 
-local function LoadInventory_Deprecated(ply, cb)
-    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = '" .. ply:SteamID() .. "'")
-
-    function query1:onSuccess(data)
-        if (#data > 0) then
-            local MOAT_MAX_INVENTORY_SLOTS = data[1].max_slots
-            local inv_tbl = {}
-            local row = data[1]
-            inv_tbl["credits"] = util.JSONToTable(row["credits"])
-
-            for i = 1, 10 do
-                inv_tbl["l_slot" .. i] = util.JSONToTable(row["l_slot" .. i])
-            end
-
-            local inventory_tbl = util.JSONToTable(row["inventory"])
-
-            for i = 1, MOAT_MAX_INVENTORY_SLOTS do
-                inv_tbl["slot" .. i] = inventory_tbl[i]
-
-                if (i == MOAT_MAX_INVENTORY_SLOTS) then
-                    cb(inv_tbl)
-                end
-            end
-        end
-    end
-
-    function query1:onError(err)
-        if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
-
-            MINVENTORY_MYSQL:connect()
-            timer.Simple(1, function() LoadInventory_Deprecated(ply) end)
-            --MINVENTORY_MYSQL:wait()
-
-
-            --m_LoadInventoryForPlayer(ply)
-
-            return
-        end
-    end
-
-    query1:start()
-end
-
 concommand.Add("test_inventory", function(pl, cmd, args)
     LoadInventory_Deprecated(pl, function(inv)
         local LAST_INSERT_ID = MOAT_INV:LastInsertID()

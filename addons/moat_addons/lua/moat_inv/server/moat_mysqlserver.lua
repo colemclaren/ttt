@@ -461,7 +461,7 @@ function m_LoadInventoryForPlayer(ply, cb)
         end
         local i = 0
         for uid, wep in pairs(inv) do
-			if (wep.slotid < 0) then
+			if (wep.slotid and wep.slotid < 0) then
 				inv_tbl["l_slot"..math.abs(wep.slotid)] = wep
 				continue
 			end

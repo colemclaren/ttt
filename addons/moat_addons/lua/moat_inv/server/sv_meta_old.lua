@@ -1,16 +1,30 @@
 local PLAYER = FindMetaTable "Player"
 
 function PLAYER:GetOldStats(cb)
-	/*OAT_INV:SQLQuery(""
-    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_stats WHERE steamid = '" .. ply:SteamID() .. "'")
-    function query1:onSuccess(data)
-        if (#data > 0) then
-            local row = data[1]
-            local stats_table = util.JSONToTable(row["stats_tbl"])
-            m_InitStatsToPlayer(ply, stats_table)
-        else
-            m_InsertNewStatsPlayer(ply)
+	MOAT_INV:SQLQuery("select stats_tbl from moat_stats where steamid = ?", self:SteamID(), function(d)
+		if (not d or not d[1]) then cb() end
+		cb(util.JSONToTable(d[1].stats_tbl))
+	end)
+end
+
+function PLAYER:GetOldInv(cb)
+	MOAT_INV:SQLQuery("select * from moat_inventories where steamid = ?", self:SteamID(), function(d)
+		if (not d or not d[1]) then cb() end
+        local inv_tbl = {}
+        local row = d[1]
+        inv_tbl["credits"] = util.JSONToTable(row["credits"])
+
+        for i = 1, 10 do
+            inv_tbl["l_slot" .. i] = util.JSONToTable(row["l_slot" .. i])
         end
-    end
-    query1:start()*/
+
+        local inventory_tbl = util.JSONToTable(row["inventory"])
+        for i = 1, #inventory_tbl do
+            inv_tbl["slot" .. i] = inventory_tbl[i]
+
+            if (i == #inventory_tbl and cb) then
+                cb(inv_tbl)
+            end
+        end
+	end)
 end
