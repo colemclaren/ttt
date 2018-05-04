@@ -1135,7 +1135,8 @@ rarity_names = {
         {
             min = 10,
             max = 20
-        }
+        },
+        fetch_asset "https://i.moat.gg/jEHlL.png"
     },
     {
         "Standard",
@@ -1143,7 +1144,8 @@ rarity_names = {
         {
             min = 20,
             max = 40
-        }
+        },
+        fetch_asset "https://i.moat.gg/KtYu1.png"
     },
     {
         "Specialized",
@@ -1151,7 +1153,8 @@ rarity_names = {
         {
             min = 60,
             max = 120
-        }
+        },
+        fetch_asset "https://i.moat.gg/jFEwK.png"
     },
     {
         "Superior",
@@ -1159,7 +1162,8 @@ rarity_names = {
         {
             min = 240,
             max = 480
-        }
+        },
+        fetch_asset "https://i.moat.gg/aX9wA.png"
     },
     {
         "High-End",
@@ -1167,7 +1171,8 @@ rarity_names = {
         {
             min = 1200,
             max = 2400
-        }
+        },
+        fetch_asset "https://i.moat.gg/5aa7B.png"
     },
     {
         "Ascended",
@@ -1175,7 +1180,8 @@ rarity_names = {
         {
             min = 7200,
             max = 14400
-        }
+        },
+        fetch_asset "https://i.moat.gg/L4ayx.png"
     },
     {
         "Cosmic",
@@ -1183,7 +1189,8 @@ rarity_names = {
         {
             min = 25200,
             max = 50400
-        }
+        },
+        fetch_asset "https://i.moat.gg/AvdDV.png"
     },
     {
         "Extinct",
@@ -1191,7 +1198,8 @@ rarity_names = {
         {
             min = 2,
             max = 5000
-        }
+        },
+        fetch_asset "https://i.moat.gg/skGif.png"
     },
     {
         "Planetary",
@@ -1199,7 +1207,8 @@ rarity_names = {
         {
             min = 25200,
             max = 50400
-        }
+        },
+        fetch_asset "https://i.moat.gg/7akmi.png"
     }
 }
 
@@ -1213,7 +1222,7 @@ rarity_names[0] = {
 }
 
 hook.Add("Think", "moat_InventoryHSV", function()
-    rarity_names = { { "Worn", Color(204, 204, 255), { min = 10, max = 20 } }, { "Standard", Color(0, 0, 255), { min = 20, max = 40 } }, { "Specialized", Color(127, 0, 255), { min = 60, max = 120 } }, { "Superior", Color(255, 0, 255), { min = 240, max = 480 } }, { "High-End", Color(255, 0, 0), { min = 1200, max = 2400 } }, { "Ascended", Color(255, 205, 0), { min = 7200, max = 14400 } }, { "Cosmic", Color(0, 255, 0), { min = 25200, max = 50400 } }, { "Extinct", Color(255, 128, 0), { min = 2, max = 5000 } }, { "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } }
+    --rarity_names = { { "Worn", Color(204, 204, 255), { min = 10, max = 20 } }, { "Standard", Color(0, 0, 255), { min = 20, max = 40 } }, { "Specialized", Color(127, 0, 255), { min = 60, max = 120 } }, { "Superior", Color(255, 0, 255), { min = 240, max = 480 } }, { "High-End", Color(255, 0, 0), { min = 1200, max = 2400 } }, { "Ascended", Color(255, 205, 0), { min = 7200, max = 14400 } }, { "Cosmic", Color(0, 255, 0), { min = 25200, max = 50400 } }, { "Extinct", Color(255, 128, 0), { min = 2, max = 5000 } }, { "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } }
     rarity_names[9][2] = HSVToColor( CurTime() * 70 % 360, 1, 1 )
 /*    if (MOAT_PAINT and MOAT_PAINT.Colors) then
         MOAT_PAINT.Colors[58][2] = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
@@ -2328,40 +2337,15 @@ function m_OpenInventory(ply2, utrade)
             local draw_y = 2
             local draw_w = w - 4
             local draw_h = h - 4
-            local draw_y2 = 2 + ((h - 4) / 2)
-            local draw_h2 = (h - 4) - ((h - 4) / 2)
-            surface_SetDrawColor(0, 0, 0, 100)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-            surface_SetDrawColor(50, 50, 50, hover_coloral)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
             if (not m_Inventory[num]) then return end
 
             if (m_Inventory[num].c) then
-                surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
-                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-
-                if (m_Inventory[num].l and m_Inventory[num].l == 1) then
-                    surface_SetDrawColor(255, 255, 255, 50)
-                    surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-                end
-
-                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2].r, rarity_names[m_Inventory[num].item.Rarity][2].g, rarity_names[m_Inventory[num].item.Rarity][2].b, 100 + hover_coloral)
-                surface_SetMaterial(gradient_d)
-                surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
-            end
-
-            surface_SetDrawColor(62, 62, 64, 255)
-
-            if (m_Inventory[num].c) then
-                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2])
-            end
-
-            surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
-            surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
-
-            if (m_Inventory[num].c) then
-                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2].r, rarity_names[m_Inventory[num].item.Rarity][2].g, rarity_names[m_Inventory[num].item.Rarity][2].b, hover_coloral / 2)
+                -- BACKGROUND
+                local raritymat = rarity_names[m_Inventory[num].item.Rarity][4]
+                surface_SetMaterial(raritymat)
+                surface_SetDrawColor(255, 255, 255)
+                surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
             end
         end
 
@@ -2672,16 +2656,14 @@ function m_OpenInventory(ply2, utrade)
         m_DPanel.Paint = function(s, w, h)
             local y2 = 10
             draw.DrawText(m_LoadoutLabels[num], "moat_Medium9", w / 2, -3, MT_TCOL, TEXT_ALIGN_CENTER)
-            surface_SetDrawColor(62, 62, 64, 255)
-            surface_DrawOutlinedRect(0, 0 + y2, w, h - y2)
-            surface_SetDrawColor(0, 0, 0, 100)
-            surface_DrawRect(1, 1 + y2, w - 2, h - 2 - y2)
             local draw_x = 2 + 3
             local draw_y = 2 + y2 + 3
             local draw_w = w - 4 - 6
             local draw_h = h - 4 - y2 - 6
-            local draw_y2 = 2 + ((h - 4) / 2) + y2 + 3
-            local draw_h2 = (h - 4) - ((h - 4) / 2) - y2 - 6
+            surface_SetDrawColor(62, 62, 64, 255)
+            surface_DrawOutlinedRect(0, 0 + y2, w, h - y2)
+            surface_SetDrawColor(0, 0, 0, 100)
+            surface_DrawRect(1, 1 + y2, w - 2, h - 2 - y2)
 
             if (MT[CurTheme].LSLOT_PAINT) then
                 MT[CurTheme].LSLOT_PAINT(s, w, h, hover_coloral, m_Loadout[num])
@@ -2689,52 +2671,16 @@ function m_OpenInventory(ply2, utrade)
                 return
             end
 
-            surface_SetDrawColor(0, 0, 0, 100)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-            surface_SetDrawColor(50, 50, 50, hover_coloral)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+
             if (not m_Inventory[num]) then return end
 
-            if (m_Loadout[num].c) then
-                surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
-                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-                surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2].r, rarity_names[m_Loadout[num].item.Rarity][2].g, rarity_names[m_Loadout[num].item.Rarity][2].b, 100 + hover_coloral)
-                surface_SetMaterial(gradient_d)
-                surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
+            if (m_Inventory[num].c) then
+                -- BACKGROUND
+                local raritymat = rarity_names[m_Inventory[num].item.Rarity][4]
+                surface_SetMaterial(raritymat)
+                surface_SetDrawColor(255, 255, 255)
+                surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
             end
-
-            surface_SetDrawColor(62, 62, 64, 255)
-
-            if (m_Loadout[num].c) then
-                surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2])
-            end
-
-            surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
-            surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
-
-            if (m_Loadout[num].c) then
-                surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2].r, rarity_names[m_Loadout[num].item.Rarity][2].g, rarity_names[m_Loadout[num].item.Rarity][2].b, hover_coloral / 2)
-            end
-
-            surface_DrawOutlinedRect(3, y2 + 3, w - 6, h - y2 - 6)
-
-            local triangle = {
-                {
-                    x = 6,
-                    y = 6 + y2
-                },
-                {
-                    x = w - 6,
-                    y = w - 6 + y2
-                },
-                {
-                    x = 6,
-                    y = w - 6 + y2
-                }
-            }
-
-            surface_SetDrawColor(50, 50, 50, 10)
-            draw.NoTexture()
         end
 
         --  surface_DrawPoly( triangle )

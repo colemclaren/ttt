@@ -1166,7 +1166,6 @@ MOAT_THEME.Themes["Alpha"] = {
         end
     },
     SLOT_PAINT = function(s, w, h, lr, item)
-        debug.Trace()
         local draw_x = 2
         local draw_y = 2
         local draw_w = w - 4
