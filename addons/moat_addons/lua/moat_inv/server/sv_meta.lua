@@ -43,7 +43,7 @@ local PLAYER = FindMetaTable "Player"
 function PLAYER:LoadInventory(cb)
     self.LoadingInventory = true
 
-    local query = MOAT_INV.SQL:CreateQuery("call selectInventory(?!);", self:SteamID64())
+    local query = MOAT_INV.SQL:CreateQuery("call selectInventory(?!);", self)
     MOAT_INV:SQLQuery(query, function(d, q)
         if (not IsValid(self)) then return end
         self.InventoryLoaded = true
@@ -56,7 +56,7 @@ end
 function PLAYER:AddItem(item, cb)
     if (not item["u"]) then return end
     if (item["tr"] and item["s"]) then item["s"]["j"] = "1" end
-    local str = MOAT_INV:QueryFromItem(item, self:ID())
+    local str = MOAT_INV:QueryFromItem(item, self)
 
     local var = MOAT_INV:Raw "@cid"
     str = str..MOAT_INV:CreateQuery("set ? = ?;", var, MOAT_INV:LastInsertID())
@@ -97,9 +97,15 @@ function PLAYER:NetworkItem()
 end
 
 
-function PLAYER:LoadStats(id, cb)
-	//to-do: make procedure
-	MOAT_INV:SQLQuery("select var, val from mg_players where id = ?!;", id, function(d, q)
+function PLAYER:LoadStats(cb)
+	MOAT_INV:SQLQuery("call selectStats(?!);", self, function(d, q)
 		if (cb) then cb(d, q) end
 	end)
+end
+
+function PLAYER:NewPlayer()
+	/*local s, str = MOAT_INV.Stats, ""
+	for i = 1, s.n do
+		str = str .. MOAT_INV:CreateQuery("call saveStat(?!, ?, ?);", self, s[i].char, s[i].default)
+	end*/
 end

@@ -22,7 +22,7 @@ local type_escape = {
     end,
     ["nil"] = function() return "NULL" end,
     boolean = tostring,
-    sql_escaped = function(d) return d end
+    sql_escaped = function(d) return d end,
 }
 
 function data:Escape(d)
@@ -53,9 +53,9 @@ function data:CreateQuery(q, ...)
 
     return (q:gsub("(%%?)%?(!?)([%l_]*)", function(skip, raw, id)
 		if (skip == "%") then return end
-		id, idx = d[id] or d[idx], d[id] and idx or idx + 1
+		id, idx = id == "" and d[idx] or d[id], id ~= "" and idx or idx + 1
 
-		return str:format(raw ~= "!" and tostring(self:Escape(id)) or id)
+		return str:format(raw ~= "!" and tostring(self:Escape(id)) or (type(id) == "Player" and id:ID() or id))
     end))
 end
 

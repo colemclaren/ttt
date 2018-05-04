@@ -51,3 +51,8 @@ function BreakableMessage(data, i)
         return data.callback()
     end
 end
+
+-- just useful for running lua
+function me()
+	return CLIENT and LocalPlayer() or player.GetHumans()[1]
+end

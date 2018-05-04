@@ -1,23 +1,26 @@
 local PLAYER = FindMetaTable "Player"
-
 MOAT_INV.Stats = MOAT_INV.Stats or {}
-MOAT_INV.Stats.n = 1
+MOAT_INV.Stats.n = 0
 
 function MOAT_INV:RegisterStat(id, name, def)
-	local char = MOAT_INV.Stats.n
+	MOAT_INV.Stats.n = MOAT_INV.Stats.n + 1
+	local pls, char = {}, MOAT_INV.Stats.n
 	local netid = "MOAT_INV.Stats." .. char
-	if (SERVER) then util.AddNetworkString(netid) end
-
 	local smt = {
 		__index = function(s, k)
+			if (pls[k]) then return pls[k] end
+
 			if (CLIENT and IsValid(k)) then
-				s[k] = s["default"]
+				pls[k] = s["default"]
 				net.Start(netid)
 					net.WriteEntity(k)
 				net.SendToServer()
 			end
 
 			return s["default"]
+		end,
+		__newindex = function(s, k, v)
+			pls[k] = math.max(0, math.floor(v))
 		end
 	}
 
@@ -31,10 +34,10 @@ function MOAT_INV:RegisterStat(id, name, def)
 		return self.Stats[char][s]
 	end
 	PLAYER["Set" .. name] = function(s, n)
-		self.Stats[char][s] = math.max(0, math.floor(n))
+		self.Stats[char][s] = n
 
 		if (SERVER) then
-			self:SaveStat(s:ID(), id, self.Stats[char][s], function()
+			self:SaveStat(s, id, self.Stats[char][s], function()
 				net.Start(netid)
 					net.WriteEntity(s)
 					net.WriteUInt(s["Get" .. name](), 32)
@@ -54,12 +57,11 @@ function MOAT_INV:RegisterStat(id, name, def)
 		return s["Get" .. name]() <= n
 	end
 	PLAYER["SetStat" .. id] = function(s, n)
-		s["Set" .. name](n)
+		self.Stats[char][s] = n
 	end
 
-	MOAT_INV.Stats.n = MOAT_INV.Stats.n + 1
-
 	if (SERVER) then
+		util.AddNetworkString(netid)
 		net.Receive(netid, function(_, p)
 			local pl = net.ReadEntity()
 			if (not IsValid(pl)) then return end
