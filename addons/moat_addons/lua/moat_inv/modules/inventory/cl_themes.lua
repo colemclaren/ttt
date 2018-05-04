@@ -1338,6 +1338,7 @@ MOAT_THEME.Themes["Alpha"] = {
     }
 }
 
+local no_item = "https://i.moat.gg/jAQ10.png"
 MOAT_THEME.Themes["2.0"] = {
     Background = Color(0, 0, 0, 100),
     Header = Color(46, 49, 54),
@@ -1465,29 +1466,28 @@ MOAT_THEME.Themes["2.0"] = {
         local draw_y = 2
         local draw_w = w - 4
         local draw_h = h - 4
+        draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(0, 0, 0, 100))
+        draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(150, 150, 150, lr))
 
-        if (item.c) then
-            -- BACKGROUND
-        	local raritymat = fetch_asset(rarity_names[item.item.Rarity][4])
-            surface_SetMaterial(raritymat)
-            surface_SetDrawColor(255, 255, 255)
-            surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
-        end
+        local raritymat = item.c and fetch_asset(rarity_names[item.item.Rarity][4]) or fetch_asset(no_item)
+        surface_SetMaterial(raritymat)
+        surface_SetDrawColor(255, 255, 255)
+        surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
     end,
     LSLOT_PAINT = function(s, w, h, lr, item)
         if (not item) then return end
-        local draw_x = 2
-        local draw_y = 2
-        local draw_w = w - 4
-        local draw_h = h - 4
+        local y2 = 10
+        local draw_x = 2 + 3
+        local draw_y = 2 + y2 + 3
+        local draw_w = w - 4 - 6
+        local draw_h = h - 4 - y2 - 6
+        draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(0, 0, 0, 100))
+        draw_RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(150, 150, 150, lr))
 
-        if (item.c) then
-            -- BACKGROUND
-        	local raritymat = fetch_asset(rarity_names[item.item.Rarity][4])
-            surface_SetMaterial(raritymat)
-            surface_SetDrawColor(255, 255, 255)
-            surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
-        end
+        local raritymat = item.c and fetch_asset(rarity_names[item.item.Rarity][4]) or fetch_asset(no_item)
+        surface_SetMaterial(raritymat)
+        surface_SetDrawColor(255, 255, 255)
+        surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
     end,
     CHAT = {
         CHAT_BG = function(s, w, h, mc, b)

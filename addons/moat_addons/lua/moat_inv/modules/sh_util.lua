@@ -1,5 +1,17 @@
+function MOAT_INV.Log(str, err)
+	if (not str) then MsgC(Color(0, 255, 0), "[MOAT] " .. "----------------------------------\n") return end
+	if (SERVER and err) then ServerLog("[MOAT" .. ((err and " Failure!") or "") .. "] " .. str .. "\n") end
+	MsgC(((err and Color(255, 0, 0)) or Color(0, 255, 0)), "[MOAT" .. ((err and " Failure!") or "") .. "] " .. str .. "\n")
+end
+
+function MOAT_INV:BigLog(str)
+	self.Log()
+	self.Log(str)
+	self.Log()
+end
+
 function MOAT_INV.Print(str, b)
-    MsgC(b and Color(255, 0, 0) or Color(255, 255, 0), "INV | " .. str .. "\n")
+    MsgC(b and Color(255, 0, 0) or Color(255, 255, 0), "MOAT | " .. str .. "\n")
 end
 
 function string:add(str)

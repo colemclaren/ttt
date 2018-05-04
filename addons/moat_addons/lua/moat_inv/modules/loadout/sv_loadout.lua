@@ -1,5 +1,3 @@
-print("loadout loaded")
-
 FindMetaTable "Player".HasWeapon2 = FindMetaTable "Player".HasWeapon2 or FindMetaTable "Player".HasWeapon
 -- crowbars and friends
 FindMetaTable "Player".HasWeapon = function(ply, class)
