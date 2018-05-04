@@ -43,7 +43,7 @@ local PLAYER = FindMetaTable "Player"
 function PLAYER:LoadInventory(cb)
     self.LoadingInventory = true
 
-    local query = MOAT_INV.SQL:CreateQuery("call selectInventory(?!);", self)
+    local query = MOAT_INV.SQL:CreateQuery("call selectInventory(?);", self)
     MOAT_INV:SQLQuery(query, function(d, q)
         if (not IsValid(self)) then return end
         self.InventoryLoaded = true
@@ -98,7 +98,7 @@ end
 
 
 function PLAYER:LoadStats(cb)
-	MOAT_INV:SQLQuery("call selectStats(?!);", self, function(d, q)
+	MOAT_INV:SQLQuery("call selectStats(?);", self, function(d, q)
 		if (cb) then cb(d, q) end
 	end)
 end

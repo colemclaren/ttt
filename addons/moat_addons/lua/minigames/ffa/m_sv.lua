@@ -263,16 +263,14 @@ local sp_time = 5
 
 function MG_FFA.StartCommand(ply,cmd)
     if not ply:Alive() then return end
-    if ply.SpawnProtection then
-        if cmd:KeyDown(IN_ATTACK) then
-            ply.SpawnProtection = false
-            ply:SetRenderMode(RENDERMODE_NORMAL)
+    if ply.SpawnProtection and cmd:KeyDown(IN_ATTACK) then
+        ply.SpawnProtection = false
+        ply:SetRenderMode(RENDERMODE_NORMAL)
+        ply:SetColor(Color(255,255,255,255))
+        timer.Simple(1,function()
             ply:SetColor(Color(255,255,255,255))
-            timer.Simple(1,function()
-                ply:SetColor(Color(255,255,255,255))
-            end)
-            ply:SetNWInt("MG_FFA_SPAWNPROTECTION",0)
-        end
+        end)
+        ply:SetNWInt("MG_FFA_SPAWNPROTECTION",0)
     end
 end
 

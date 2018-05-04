@@ -262,22 +262,22 @@ function MOAT_INV:QueryFromItem(i, o)
     end
 end
 
-function MOAT_INV:InsertItem(tbl, owner)
-    return SQL:CreateQuery("call insertItem(?, ?!, ?);", tbl.u, owner, tbl.slot)
+function MOAT_INV:InsertItem(tbl, ownerid)
+    return SQL:CreateQuery("call insertItem(?, ?!, ?);", tbl.u, ownerid, tbl.slot)
 end
 
 
-function MOAT_INV:InsertWeapon(tbl, owner)
-    return SQL:CreateQuery("call insertWeapon(?, ?!, ?, ?);", tbl.u, owner, tbl.slot, tbl.w)
+function MOAT_INV:InsertWeapon(tbl, ownerid)
+    return SQL:CreateQuery("call insertWeapon(?, ?!, ?, ?);", tbl.u, ownerid, tbl.slot, tbl.w)
 end
 
-function MOAT_INV:InsertWeaponStats(tbl, owner)
+function MOAT_INV:InsertWeaponStats(tbl, ownerid)
     local data = {
         stat_count = 0,
         slot = tbl.slot,
         class_name = tbl.w,
         tbl.u,
-        owner
+        ownerid
     }
     for k, v in pairs(tbl["s"]) do
         data.stat_count = data.stat_count + 1
@@ -291,14 +291,14 @@ function MOAT_INV:InsertWeaponStats(tbl, owner)
     return SQL:CreateQuery("call insertWeapon?stat_countStats(?, ?!, ?slot, ?class_name"..string.rep(", ?, ?", data.stat_count)..");", data)
 end
 
-function MOAT_INV:InsertWeaponTalents(tbl, owner)
+function MOAT_INV:InsertWeaponTalents(tbl, ownerid)
     local data = {
         stat_count = 0,
         talent_count = 0,
         slot = tbl.slot,
         class_name = tbl.w,
         tbl.u,
-        owner,
+        ownerid,
     }
     for k, v in pairs(tbl["s"]) do
         table.insert(data, k)

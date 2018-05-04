@@ -12,10 +12,13 @@ local escaped_tbl = setmetatable({}, {__mode = "k"})
 local escaped_mt = {
     TypeID = -1001,
     MetaName = "sql_escaped",
-    __tostring = function(self) return escaped_tbl[self] end
+    __tostring = function(self) return tostring(escaped_tbl[self]) end
 }
 
 local type_escape = {
+    Player = function(s)
+        return s:ID()
+    end,
     number = tostring,
     string = function(s, db) 
         return string.format("\"%s\"", db:escape(s))
@@ -52,10 +55,14 @@ function data:CreateQuery(q, ...)
     local idx, str = 1, "%s"
 
     return (q:gsub("(%%?)%?(!?)([%l_]*)", function(skip, raw, id)
-		if (skip == "%") then return end
-		id, idx = id == "" and d[idx] or d[id], id ~= "" and idx or idx + 1
+        if (skip == "%") then return end
+        if (id == "") then
+            idx, id = idx + 1, d[idx]
+        else
+            id = d[id]
+        end
 
-		return str:format(raw ~= "!" and tostring(self:Escape(id)) or (type(id) == "Player" and id:ID() or id))
+		return raw ~= "!" and tostring(self:Escape(id)) or id
     end))
 end
 
