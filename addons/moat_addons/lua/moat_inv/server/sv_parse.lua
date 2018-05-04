@@ -286,7 +286,7 @@ function MOAT_INV:InsertWeaponStats(tbl, ownerid)
     end
 
     if (data.stat_count == 0) then
-        return self:InsertWeapon(tbl, owner)
+        return self:InsertWeapon(tbl, ownerid)
     end
     return SQL:CreateQuery("call insertWeapon?stat_countStats(?, ?!, ?slot, ?class_name"..string.rep(", ?, ?", data.stat_count)..");", data)
 end

@@ -56,7 +56,7 @@ end
 function PLAYER:AddItem(item, cb)
     if (not item["u"]) then return end
     if (item["tr"] and item["s"]) then item["s"]["j"] = "1" end
-    local str = MOAT_INV:QueryFromItem(item, self)
+    local str = MOAT_INV:QueryFromItem(item, self:ID())
 
     local var = MOAT_INV:Raw "@cid"
     str = str..MOAT_INV:CreateQuery("set ? = ?;", var, MOAT_INV:LastInsertID())
@@ -108,7 +108,7 @@ function PLAYER:NewPlayer()
 		local s, str = MOAT_INV.Stats, ""
 		for i = 1, s.n do
 			local c = s[i].char
-			str = str .. MOAT_INV:CreateQuery("call saveStat(?!, ?, ?);", self, c, t[c] and math.max(0, math.floor(t[c])) or s[i].default)
+			str = str .. MOAT_INV:CreateQuery("call saveStat(?, ?, ?);", self, c, t[c] and math.max(0, math.floor(t[c])) or s[i].default)
 		end
 	end)
 end

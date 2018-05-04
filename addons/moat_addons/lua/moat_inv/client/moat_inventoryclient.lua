@@ -1136,7 +1136,7 @@ rarity_names = {
             min = 10,
             max = 20
         },
-        fetch_asset "https://i.moat.gg/jEHlL.png"
+        "https://i.moat.gg/jEHlL.png"
     },
     {
         "Standard",
@@ -1145,7 +1145,7 @@ rarity_names = {
             min = 20,
             max = 40
         },
-        fetch_asset "https://i.moat.gg/KtYu1.png"
+        "https://i.moat.gg/KtYu1.png"
     },
     {
         "Specialized",
@@ -1154,7 +1154,7 @@ rarity_names = {
             min = 60,
             max = 120
         },
-        fetch_asset "https://i.moat.gg/jFEwK.png"
+        "https://i.moat.gg/jFEwK.png"
     },
     {
         "Superior",
@@ -1163,7 +1163,7 @@ rarity_names = {
             min = 240,
             max = 480
         },
-        fetch_asset "https://i.moat.gg/aX9wA.png"
+        "https://i.moat.gg/aX9wA.png"
     },
     {
         "High-End",
@@ -1172,7 +1172,7 @@ rarity_names = {
             min = 1200,
             max = 2400
         },
-        fetch_asset "https://i.moat.gg/5aa7B.png"
+        "https://i.moat.gg/5aa7B.png"
     },
     {
         "Ascended",
@@ -1181,7 +1181,7 @@ rarity_names = {
             min = 7200,
             max = 14400
         },
-        fetch_asset "https://i.moat.gg/L4ayx.png"
+        "https://i.moat.gg/L4ayx.png"
     },
     {
         "Cosmic",
@@ -1190,7 +1190,7 @@ rarity_names = {
             min = 25200,
             max = 50400
         },
-        fetch_asset "https://i.moat.gg/AvdDV.png"
+        "https://i.moat.gg/AvdDV.png"
     },
     {
         "Extinct",
@@ -1199,7 +1199,7 @@ rarity_names = {
             min = 2,
             max = 5000
         },
-        fetch_asset "https://i.moat.gg/skGif.png"
+        "https://i.moat.gg/skGif.png"
     },
     {
         "Planetary",
@@ -1208,7 +1208,7 @@ rarity_names = {
             min = 25200,
             max = 50400
         },
-        fetch_asset "https://i.moat.gg/7akmi.png"
+        "https://i.moat.gg/7akmi.png"
     }
 }
 
@@ -2342,7 +2342,7 @@ function m_OpenInventory(ply2, utrade)
 
             if (m_Inventory[num].c) then
                 -- BACKGROUND
-                local raritymat = rarity_names[m_Inventory[num].item.Rarity][4]
+                local raritymat = fetch_asset(rarity_names[m_Inventory[num].item.Rarity][4])
                 surface_SetMaterial(raritymat)
                 surface_SetDrawColor(255, 255, 255)
                 surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
@@ -2676,7 +2676,7 @@ function m_OpenInventory(ply2, utrade)
 
             if (m_Inventory[num].c) then
                 -- BACKGROUND
-                local raritymat = rarity_names[m_Inventory[num].item.Rarity][4]
+                local raritymat = fetch_asset(rarity_names[m_Inventory[num].item.Rarity][4])
                 surface_SetMaterial(raritymat)
                 surface_SetDrawColor(255, 255, 255)
                 surface_DrawTexturedRect(draw_x, draw_y, draw_w, draw_h)
