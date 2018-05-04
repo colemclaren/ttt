@@ -350,39 +350,31 @@ function MOAT_INV:QueryForPaint(i, u)
     return table.concat(query, "")
 end
 
-concommand.Add("test_inventory", function(pl, cmd, args)
-    LoadInventory_Deprecated(pl, function(inv)
-        local LAST_INSERT_ID = MOAT_INV:LastInsertID()
-        local id = pl:SteamID64()
-        local qstr = ""
-        for k, v in pairs(inv) do
-            if (not v.u) then continue end
+function MOAT_INV:GetOldInvQuery(inv, id)
+    local LAST_INSERT_ID = MOAT_INV:LastInsertID()
+    local qstr = ""
+    for k, v in pairs(inv) do
+        if (not v.u) then continue end
+        v["slot"] = k:StartWith("l") and -tonumber(k:TrimLeft("l_slot")) or tonumber(k:TrimLeft("slot"))
+        if (v["tr"] and v["s"]) then v["s"]["tr"] = nil v["s"]["j"] = "1" end
 
-            v["slot"] = k:StartWith("l") and -tonumber(k:TrimLeft("l_slot")) or tonumber(k:TrimLeft("slot"))
+        local str = MOAT_INV:QueryFromItem(v, id)
+        local var = MOAT_INV:Raw "@cid"
+        str = str .. MOAT_INV:CreateQuery("set ? = ?;", var, LAST_INSERT_ID)
 
-            if (v["tr"] and v["s"]) then v["s"]["tr"] = nil v["s"]["j"] = "1" end
-
-            local str = MOAT_INV:QueryFromItem(v, id)
-
-            local var = MOAT_INV:Raw "@cid"
-
-            str = str .. MOAT_INV:CreateQuery("set ? = ?;", var, LAST_INSERT_ID)
-
-            if (v.n) then
-                str = str .. MOAT_INV:QueryForName(v.n, var)
-            end
-
-            if (v.p or v.p2 or v.p3) then
-                str = str .. MOAT_INV:QueryForPaint(v, var)
-            end
-
-            qstr = qstr .. str
+        if (v.n) then
+            str = str .. MOAT_INV:QueryForName(v.n, var)
         end
-        MOAT_INV:SQLQuery(qstr, function(d)
-            print("done")
-        end)
-    end)
-end)
+
+        if (v.p or v.p2 or v.p3) then
+            str = str .. MOAT_INV:QueryForPaint(v, var)
+        end
+
+        qstr = qstr .. str
+    end
+
+	return qstr
+end
 
 concommand.Add("test_inv1", function(pl, cmd, args)
     local start_time = SysTime()

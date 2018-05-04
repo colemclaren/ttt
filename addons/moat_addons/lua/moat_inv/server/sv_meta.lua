@@ -99,16 +99,34 @@ end
 
 function PLAYER:LoadStats(cb)
 	MOAT_INV:SQLQuery("call selectStats(?);", self, function(d, q)
+		if (not IsValid(self)) then return end
+
 		if (cb) then cb(d, q) end
 	end)
 end
 
+function PLAYER:CreateNewPlayer(str, inv)
+	MOAT_INV:SQLQuery(str, function()
+		if (not IsValid(self)) then return end
+		MOAT_INV.LoadStats(self)
+	end)
+end
+
 function PLAYER:NewPlayer()
-	self:GetOldStats(function(t)
+	self:GetOldData(function(st, inv)
+		if (not IsValid(self)) then return end
+		
 		local s, str = MOAT_INV.Stats, ""
-		for i = 1, s.n do
-			local c = s[i].char
-			str = str .. MOAT_INV:CreateQuery("call saveStat(?, ?, ?);", self, c, t[c] and math.max(0, math.floor(t[c])) or s[i].default)
+		if (inv) then
+			str = MOAT_INV:GetOldInvQuery(inv, self:ID())
+			st["c"] = math.max(0, math.floor(inv["credits"].c))
 		end
+
+		for i = 1, s.n do
+			local chr = s[i].char
+			str = str .. MOAT_INV:CreateQuery("call saveStat(?, ?, ?);", self, chr, st[chr] and math.max(0, math.floor(st[chr])) or s[i].default)
+		end
+
+		self:CreateNewPlayer(str, inv)
 	end)
 end

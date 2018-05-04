@@ -481,10 +481,10 @@ function m_LoadInventoryForPlayer(ply, cb)
 end
 
 function m_SendInventoryToPlayer(ply)
-    /*if (ply.Sending) then
+    if (ply.Sending) then
         return
     end
-    ply.Sending = true*/
+    ply.Sending = true
     if (ply:IsValid()) then
         net.Start("MOAT_SEND_SLOTS")
         net.WriteDouble(ply:GetMaxSlots())
@@ -789,6 +789,7 @@ function m_InsertNewStatsPlayer(ply)
 end
 
 function m_SaveInventory(ply)
+	if (true) then return end
     if (not ply or not ply:IsValid()) then return end
     
     local ply_inv = table.Copy(MOAT_INVS[ply])
@@ -823,6 +824,8 @@ function m_SaveInventory(ply)
 end
 
 function m_SaveMaxSlots(ply)
+	if (true) then return end
+
     local ply_inv = table.Copy(MOAT_INVS[ply])
 
     if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then

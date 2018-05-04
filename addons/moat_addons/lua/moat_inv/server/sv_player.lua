@@ -20,7 +20,7 @@ end
 net.Receive("MOAT_INV.SendStats", MOAT_INV.SendStats)
 
 function MOAT_INV:SaveStat(id, var, val, cb)
-	self:SQLQuery("call saveStat(?!, ?, ?);", id, var, val, function()
+	self:SQLQuery("call saveStat(?, ?, ?);", id, var, val, function()
 		if (cb) then cb() end
 	end)
 end
@@ -35,10 +35,13 @@ function MOAT_INV.LoadStats(pl)
 		end
 
 		for i = 1, #d do
-			pl["SetStat" .. d[i].var](d[i].val)
+			pl["SetStat" .. d[i].var](pl, d[i].val)
 		end
 
 		MOAT_INV:NetworkStats(pl)
+
+		-- temp
+		m_SendInventoryToPlayer(pl)
 	end)
 end
 hook.Add("PlayerAuthed", "MOAT_INV.LoadStats", MOAT_INV.LoadStats)

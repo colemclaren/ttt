@@ -2,7 +2,7 @@ local PLAYER = FindMetaTable "Player"
 
 function PLAYER:GetOldStats(cb)
 	MOAT_INV:SQLQuery("select stats_tbl from moat_stats where steamid = ?", self:SteamID(), function(d)
-		if (not d or not d[1]) then cb() end
+		if (not d or not d[1]) then cb({}) end
 		cb(util.JSONToTable(d[1].stats_tbl))
 	end)
 end
@@ -26,5 +26,13 @@ function PLAYER:GetOldInv(cb)
                 cb(inv_tbl)
             end
         end
+	end)
+end
+
+function PLAYER:GetOldData(cb)
+	self:GetOldStats(function(stats)
+		self:GetOldInv(function(inv)
+			cb(stats, inv)
+		end)
 	end)
 end
