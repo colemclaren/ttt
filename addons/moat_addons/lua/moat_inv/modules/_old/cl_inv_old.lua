@@ -4728,11 +4728,14 @@ function m_CreateItemMenu(num, ldt)
     end
 
     M_INV_MENU:AddOption(lock_text, function()
-        net.Start("MOAT_LOCK_INV_ITEM")
-        net.WriteDouble(num)
-        net.WriteDouble(itemtbl.c)
-        net.SendToServer()
-        surface.PlaySound("UI/buttonclick.wav")
+		if (itemtbl.l and itemtbl.l == 1) then
+			MOAT_INV:RemoveLocked(itemtbl.c)
+			itemtbl.l = nil
+			return
+		end
+
+		MOAT_INV:AddLocked(itemtbl.c)
+		itemtbl.l = 1
     end):SetIcon("icon16/lock" .. lock_image .. ".png")
 
     local M_INV_MENU2, M_INV_MENU2P = M_INV_MENU:AddSubMenu "More Options" 

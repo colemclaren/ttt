@@ -1,7 +1,3 @@
-if (util.NetworkStringToID "moat_invdev") then
-    return
-end
-
 m_CosmeticSlots = {}
 m_CosmeticSlots["Hat"] = ""
 m_CosmeticSlots["Mask"] = ""
@@ -59,7 +55,6 @@ function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
             elseif (not string.EndsWith(tostring(M_INV_DRAG.Slot), "t") and string.EndsWith(tostring(m_HoveredSlot), "t")) then
                 local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))
                 if (HVRD_SLOT > 10) then return end
-				if (isstring(M_INV_DRAG.Slot)) then return end
                 net.Start("MOAT_TRADE_ADD")
                 net.WriteDouble(HVRD_SLOT)
                 net.WriteDouble(M_INV_DRAG.Slot)
@@ -94,7 +89,6 @@ function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
                 end
             elseif (not string.EndsWith(tostring(M_INV_DRAG.Slot), "l") and string.EndsWith(tostring(m_HoveredSlot), "l")) then
                 local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))
-				if (not m_Loadout[HVRD_SLOT]) then return end
                 net.Start("MOAT_SWP_INV_ITEM")
                 net.WriteString("l_slot" .. HVRD_SLOT)
                 net.WriteString("slot" .. M_INV_DRAG.Slot)
@@ -134,8 +128,6 @@ m_SlotToLoadout[1] = "Secondary"
 m_SlotToLoadout[2] = "Primary"
 
 function m_CanSwapLoadout(ITEM_TBL, DRAG_SLOT)
-	if (not ITEM_TBL) then return false end
-
     if (ITEM_TBL.c == nil) then return true end
     if (ITEM_TBL.item.Kind == "Power-Up") then return DRAG_SLOT == 4 end
     if (ITEM_TBL.item.Kind == "Other") then return DRAG_SLOT == 5 end
@@ -166,36 +158,51 @@ function m_GetCorrectLoadoutSlot(ITEM_TBL)
     return WeaponLoadoutSlots[weapons.Get(ITEM_TBL.w).Slot]
 end
 
-local function handleIcons(pnl1, pnl2)
-	if (pnl1.WModel and IsValid(pnl2.SIcon)) then
-		if (not IsValid(pnl2.SIcon.Icon)) then pnl2.SIcon:CreateIcon() end
-
-		if (pnl1.WModel:EndsWith(".mdl")) then
-            pnl2.SIcon.Icon:SetAlpha(255)
-        else
-            pnl2.SIcon.Icon:SetAlpha(0)
-        end
-
-		pnl2.SIcon:SetModel(pnl1.WModel, pnl1.MSkin or nil)
-		pnl2.SIcon:SetVisible(true)
-	elseif (IsValid(pnl2.SIcon)) then
-		pnl2.SIcon:SetVisible(false)
-	end
-end
-
-local function swapIcons(pnl1, pnl2)
-	handleIcons(pnl1, pnl2)
-	handleIcons(pnl2, pnl1)
-end
-
 local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
-	moat_RemoveEditPositionPanel()
-
     if (m_HoveredSlot3 and M_INV_DRAG3.Slot and M_INV_DRAG3.Slot ~= m_HoveredSlot3) then
         if (string.EndsWith(tostring(M_INV_DRAG3.Slot), "t") and not string.EndsWith(tostring(m_HoveredSlot3), "t")) then
             local DRAG_SLOT = tonumber(string.sub(tostring(M_INV_DRAG3.Slot), 1, tostring(M_INV_DRAG3.Slot):len() - 1))
+            local M_INV_SLOT1_ICON = M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel
+            local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot3].VGUI.WModel
+            local M_INV_SLOT1_SKIN = M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin
+            local M_INV_SLOT2_SKIN = M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin
+            local M_INV_SLOT1_ITEM = M_TRADE_SLOT[DRAG_SLOT].VGUI.Item
+            local M_INV_SLOT2_ITEM = M_INV_SLOT[m_HoveredSlot3].VGUI.Item
             local M_INV_TBL1 = table.Copy(m_Inventory[m_HoveredSlot3])
             local M_INV_TBL2 = table.Copy(m_Trade[DRAG_SLOT])
+
+            if (M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel) then
+                if (string.EndsWith(M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel, ".mdl")) then
+                    M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon:SetAlpha(255)
+                else
+                    M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon:SetAlpha(0)
+                end
+
+                M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:SetModel(M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel, M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin)
+                M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:SetVisible(true)
+            else
+                M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:SetVisible(false)
+            end
+
+            if (M_INV_SLOT[m_HoveredSlot3].VGUI.WModel) then
+                if (string.EndsWith(M_INV_SLOT[m_HoveredSlot3].VGUI.WModel, ".mdl")) then
+                    M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
+                else
+                    M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(0)
+                end
+
+                M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon:SetModel(M_INV_SLOT[m_HoveredSlot3].VGUI.WModel, M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin)
+                M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(true)
+            else
+                M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(false)
+            end
+
+            M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel = M_INV_SLOT2_ICON
+            M_INV_SLOT[m_HoveredSlot3].VGUI.WModel = M_INV_SLOT1_ICON
+            M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin = M_INV_SLOT2_SKIN
+            M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin = M_INV_SLOT1_SKIN
+            M_TRADE_SLOT[DRAG_SLOT].VGUI.Item = M_INV_SLOT2_ITEM
+            M_INV_SLOT[m_HoveredSlot3].VGUI.Item = M_INV_SLOT1_ITEM
             m_Inventory[m_HoveredSlot3] = M_INV_TBL2
             m_Trade[DRAG_SLOT] = M_INV_TBL1
 
@@ -209,27 +216,49 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 net.WriteDouble(eslots)
                 net.SendToServer()
             end
-
-			if (not M_TRADE_SLOT[DRAG_SLOT] or not M_INV_SLOT[m_HoveredSlot3]) then return end
-            local M_INV_SLOT1_ICON = M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel
-            local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot3].VGUI.WModel
-            local M_INV_SLOT1_SKIN = M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin
-            local M_INV_SLOT2_SKIN = M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin
-            local M_INV_SLOT1_ITEM = M_TRADE_SLOT[DRAG_SLOT].VGUI.Item
-            local M_INV_SLOT2_ITEM = M_INV_SLOT[m_HoveredSlot3].VGUI.Item
-
-			swapIcons(M_TRADE_SLOT[DRAG_SLOT].VGUI, M_INV_SLOT[m_HoveredSlot3].VGUI)
-
-            M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel = M_INV_SLOT2_ICON
-            M_INV_SLOT[m_HoveredSlot3].VGUI.WModel = M_INV_SLOT1_ICON
-            M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin = M_INV_SLOT2_SKIN
-            M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin = M_INV_SLOT1_SKIN
-            M_TRADE_SLOT[DRAG_SLOT].VGUI.Item = M_INV_SLOT2_ITEM
-            M_INV_SLOT[m_HoveredSlot3].VGUI.Item = M_INV_SLOT1_ITEM
         elseif (not string.EndsWith(tostring(M_INV_DRAG3.Slot), "t") and string.EndsWith(tostring(m_HoveredSlot3), "t")) then
             local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot3), 1, tostring(m_HoveredSlot3):len() - 1))
+            local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel
+            local M_INV_SLOT2_ICON = M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel
+            local M_INV_SLOT1_SKIN = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin
+            local M_INV_SLOT2_SKIN = M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin
+            local M_INV_SLOT1_ITEM = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.Item
+            local M_INV_SLOT2_ITEM = M_TRADE_SLOT[HVRD_SLOT].VGUI.Item
             local M_INV_TBL1 = table.Copy(m_Trade[HVRD_SLOT])
             local M_INV_TBL2 = table.Copy(m_Inventory[M_INV_DRAG3.Slot])
+
+            if (M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel) then
+                if (string.EndsWith(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel, ".mdl")) then
+                    M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
+                else
+                    M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(0)
+                end
+
+                M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon:SetModel(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel, M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin)
+                M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(true)
+            else
+                M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(false)
+            end
+
+            if (M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel) then
+                if (string.EndsWith(M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel, ".mdl")) then
+                    M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon:SetAlpha(255)
+                else
+                    M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon:SetAlpha(0)
+                end
+
+                M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetModel(M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel, M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin)
+                M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetVisible(true)
+            else
+                M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetVisible(false)
+            end
+
+            M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel = M_INV_SLOT2_ICON
+            M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel = M_INV_SLOT1_ICON
+            M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin = M_INV_SLOT2_SKIN
+            M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin = M_INV_SLOT1_SKIN
+            M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.Item = M_INV_SLOT2_ITEM
+            M_TRADE_SLOT[HVRD_SLOT].VGUI.Item = M_INV_SLOT1_ITEM
             m_Trade[HVRD_SLOT] = M_INV_TBL2
             m_Inventory[M_INV_DRAG3.Slot] = M_INV_TBL1
 
@@ -243,28 +272,50 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 net.WriteDouble(eslots)
                 net.SendToServer()
             end
-
-			if (not M_INV_SLOT[M_INV_DRAG3.Slot] or not M_TRADE_SLOT[HVRD_SLOT]) then return end
-            local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel
-            local M_INV_SLOT2_ICON = M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel
-            local M_INV_SLOT1_SKIN = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin
-            local M_INV_SLOT2_SKIN = M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin
-            local M_INV_SLOT1_ITEM = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.Item
-            local M_INV_SLOT2_ITEM = M_TRADE_SLOT[HVRD_SLOT].VGUI.Item
-
-			swapIcons(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI, M_TRADE_SLOT[HVRD_SLOT].VGUI)
-
-            M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel = M_INV_SLOT2_ICON
-            M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel = M_INV_SLOT1_ICON
-            M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin = M_INV_SLOT2_SKIN
-            M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin = M_INV_SLOT1_SKIN
-            M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.Item = M_INV_SLOT2_ITEM
-            M_TRADE_SLOT[HVRD_SLOT].VGUI.Item = M_INV_SLOT1_ITEM
         elseif (string.EndsWith(tostring(M_INV_DRAG3.Slot), "t") and string.EndsWith(tostring(m_HoveredSlot3), "t")) then
             local DRAG_SLOT = tonumber(string.sub(tostring(M_INV_DRAG3.Slot), 1, tostring(M_INV_DRAG3.Slot):len() - 1))
             local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot3), 1, tostring(m_HoveredSlot3):len() - 1))
+            local M_INV_SLOT1_ICON = M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel
+            local M_INV_SLOT2_ICON = M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel
+            local M_INV_SLOT1_SKIN = M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin
+            local M_INV_SLOT2_SKIN = M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin
+            local M_INV_SLOT1_ITEM = M_TRADE_SLOT[DRAG_SLOT].VGUI.Item
+            local M_INV_SLOT2_ITEM = M_TRADE_SLOT[HVRD_SLOT].VGUI.Item
             local M_INV_TBL1 = table.Copy(m_Trade[HVRD_SLOT])
             local M_INV_TBL2 = table.Copy(m_Trade[DRAG_SLOT])
+
+            if (M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel) then
+                if (string.EndsWith(M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel, ".mdl")) then
+                    M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
+                else
+                    M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(0)
+                end
+
+                M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon:SetModel(M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel, M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin)
+                M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(true)
+            else
+                M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(false)
+            end
+
+            if (M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel) then
+                if (string.EndsWith(M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel, ".mdl")) then
+                    M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
+                else
+                    M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(0)
+                end
+
+                M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon:SetModel(M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel, M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin)
+                M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(true)
+            else
+                M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(false)
+            end
+
+            M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel = M_INV_SLOT2_ICON
+            M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel = M_INV_SLOT1_ICON
+            M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin = M_INV_SLOT2_SKIN
+            M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin = M_INV_SLOT1_SKIN
+            M_TRADE_SLOT[DRAG_SLOT].VGUI.Item = M_INV_SLOT2_ITEM
+            M_TRADE_SLOT[HVRD_SLOT].VGUI.Item = M_INV_SLOT1_ITEM
             m_Trade[HVRD_SLOT] = M_INV_TBL2
             m_Trade[DRAG_SLOT] = M_INV_TBL1
 
@@ -278,34 +329,20 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 net.WriteDouble(eslots)
                 net.SendToServer()
             end
-
-			if (not M_TRADE_SLOT[DRAG_SLOT] or not M_TRADE_SLOT[HVRD_SLOT]) then return end
-            local M_INV_SLOT1_ICON = M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel
-            local M_INV_SLOT2_ICON = M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel
-            local M_INV_SLOT1_SKIN = M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin
-            local M_INV_SLOT2_SKIN = M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin
-            local M_INV_SLOT1_ITEM = M_TRADE_SLOT[DRAG_SLOT].VGUI.Item
-            local M_INV_SLOT2_ITEM = M_TRADE_SLOT[HVRD_SLOT].VGUI.Item
-
-			swapIcons(M_TRADE_SLOT[DRAG_SLOT].VGUI, M_TRADE_SLOT[HVRD_SLOT].VGUI)
-
-            M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel = M_INV_SLOT2_ICON
-            M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel = M_INV_SLOT1_ICON
-            M_TRADE_SLOT[DRAG_SLOT].VGUI.MSkin = M_INV_SLOT2_SKIN
-            M_TRADE_SLOT[HVRD_SLOT].VGUI.MSkin = M_INV_SLOT1_SKIN
-            M_TRADE_SLOT[DRAG_SLOT].VGUI.Item = M_INV_SLOT2_ITEM
-            M_TRADE_SLOT[HVRD_SLOT].VGUI.Item = M_INV_SLOT1_ITEM
         elseif (string.EndsWith(tostring(M_INV_DRAG3.Slot), "l") or string.EndsWith(tostring(m_HoveredSlot3), "l")) then
             if (string.EndsWith(tostring(M_INV_DRAG3.Slot), "l") and not string.EndsWith(tostring(m_HoveredSlot3), "l")) then
                 local DRAG_SLOT = tonumber(string.sub(tostring(M_INV_DRAG3.Slot), 1, tostring(M_INV_DRAG3.Slot):len() - 1))
+                local M_INV_SLOT1_ICON = M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel
+                local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot3].VGUI.WModel
+                local M_INV_SLOT1_SKIN = M_LOAD_SLOT[DRAG_SLOT].VGUI.MSkin
+                local M_INV_SLOT2_SKIN = M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin
+                local M_INV_SLOT1_ITEM = M_LOAD_SLOT[DRAG_SLOT].VGUI.Item
+                local M_INV_SLOT2_ITEM = M_INV_SLOT[m_HoveredSlot3].VGUI.Item
                 local M_INV_TBL1 = table.Copy(m_Inventory[m_HoveredSlot3])
                 local M_INV_TBL2 = table.Copy(m_Loadout[DRAG_SLOT])
-                m_Inventory[m_HoveredSlot3] = M_INV_TBL2
-                m_Loadout[DRAG_SLOT] = M_INV_TBL1
-                m_SendCosmeticPositions(m_Loadout[DRAG_SLOT], DRAG_SLOT)
 
                 if (M_INV_TBL1 ~= nil and not m_CanSwapLoadout(M_INV_TBL1, DRAG_SLOT)) then
-                    if (IsValid(M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon)) then M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(true) end
+                    M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(true)
                     M_INV_DRAG3 = nil
                     notification.AddLegacy("You cannot equip that item there!", NOTIFY_ERROR, 3)
                     surface.PlaySound("buttons/button16.wav")
@@ -313,15 +350,31 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                     return
                 end
 
-				if (not M_LOAD_SLOT[DRAG_SLOT] or not M_INV_SLOT[m_HoveredSlot3]) then return end
-                local M_INV_SLOT1_ICON = M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel
-                local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot3].VGUI.WModel
-                local M_INV_SLOT1_SKIN = M_LOAD_SLOT[DRAG_SLOT].VGUI.MSkin
-                local M_INV_SLOT2_SKIN = M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin
-                local M_INV_SLOT1_ITEM = M_LOAD_SLOT[DRAG_SLOT].VGUI.Item
-                local M_INV_SLOT2_ITEM = M_INV_SLOT[m_HoveredSlot3].VGUI.Item
+                if (M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel) then
+                    if (string.EndsWith(M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel, ".mdl")) then
+                        M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon:SetAlpha(255)
+                    else
+                        M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon:SetAlpha(0)
+                    end
 
-				swapIcons(M_LOAD_SLOT[DRAG_SLOT].VGUI, M_INV_SLOT[m_HoveredSlot3].VGUI)
+                    M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:SetModel(M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel, M_LOAD_SLOT[DRAG_SLOT].VGUI.MSkin)
+                    M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:SetVisible(true)
+                else
+                    M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:SetVisible(false)
+                end
+
+                if (M_INV_SLOT[m_HoveredSlot3].VGUI.WModel) then
+                    if (string.EndsWith(M_INV_SLOT[m_HoveredSlot3].VGUI.WModel, ".mdl")) then
+                        M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
+                    else
+                        M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(0)
+                    end
+
+                    M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetModel(M_INV_SLOT[m_HoveredSlot3].VGUI.WModel, M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin)
+                    M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(true)
+                else
+                    M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(false)
+                end
 
                 M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel = M_INV_SLOT2_ICON
                 M_INV_SLOT[m_HoveredSlot3].VGUI.WModel = M_INV_SLOT1_ICON
@@ -329,6 +382,9 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin = M_INV_SLOT1_SKIN
                 M_LOAD_SLOT[DRAG_SLOT].VGUI.Item = M_INV_SLOT2_ITEM
                 M_INV_SLOT[m_HoveredSlot3].VGUI.Item = M_INV_SLOT1_ITEM
+                m_Inventory[m_HoveredSlot3] = M_INV_TBL2
+                m_Loadout[DRAG_SLOT] = M_INV_TBL1
+                m_SendCosmeticPositions(m_Loadout[DRAG_SLOT], DRAG_SLOT)
 
                 if (M_INV_TBL2 and M_INV_TBL2.item and m_CosmeticSlots[M_INV_TBL2.item.Kind]) then
                     if (IsValid(M_INV_PMDL)) then
@@ -355,14 +411,17 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 end
             elseif (not string.EndsWith(tostring(M_INV_DRAG3.Slot), "l") and string.EndsWith(tostring(m_HoveredSlot3), "l")) then
                 local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot3), 1, tostring(m_HoveredSlot3):len() - 1))
+                local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel
+                local M_INV_SLOT2_ICON = M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel
+                local M_INV_SLOT1_SKIN = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin
+                local M_INV_SLOT2_SKIN = M_LOAD_SLOT[HVRD_SLOT].VGUI.MSkin
+                local M_INV_SLOT1_ITEM = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.Item
+                local M_INV_SLOT2_ITEM = M_LOAD_SLOT[HVRD_SLOT].VGUI.Item
                 local M_INV_TBL1 = table.Copy(m_Loadout[HVRD_SLOT])
                 local M_INV_TBL2 = table.Copy(m_Inventory[M_INV_DRAG3.Slot])
-			    m_Loadout[HVRD_SLOT] = M_INV_TBL2
-                m_SendCosmeticPositions(m_Loadout[HVRD_SLOT], HVRD_SLOT)
-                m_Inventory[M_INV_DRAG3.Slot] = M_INV_TBL1
 
                 if (not m_CanSwapLoadout(M_INV_TBL2, HVRD_SLOT)) then
-                    if (IsValid(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon)) then M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetVisible(true) end
+                    M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetVisible(true)
                     M_INV_DRAG3 = nil
                     notification.AddLegacy("You cannot equip that item there!", NOTIFY_ERROR, 3)
                     surface.PlaySound("buttons/button16.wav")
@@ -370,15 +429,31 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                     return
                 end
 
-				if (not M_INV_SLOT[M_INV_DRAG3.Slot] or not M_LOAD_SLOT[HVRD_SLOT]) then return end
-                local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel
-                local M_INV_SLOT2_ICON = M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel
-                local M_INV_SLOT1_SKIN = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin
-                local M_INV_SLOT2_SKIN = M_LOAD_SLOT[HVRD_SLOT].VGUI.MSkin
-                local M_INV_SLOT1_ITEM = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.Item
-                local M_INV_SLOT2_ITEM = M_LOAD_SLOT[HVRD_SLOT].VGUI.Item
+                if (M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel) then
+                    if (string.EndsWith(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel, ".mdl")) then
+                        M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
+                    else
+                        M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(0)
+                    end
 
-				swapIcons(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI, M_LOAD_SLOT[HVRD_SLOT].VGUI)
+                    M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:SetModel(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel, M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin)
+                    M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(true)
+                else
+                    M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(false)
+                end
+
+                if (M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel) then
+                    if (string.EndsWith(M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel, ".mdl")) then
+                        M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon:SetAlpha(255)
+                    else
+                        M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon:SetAlpha(0)
+                    end
+
+                    M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetModel(M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel, M_LOAD_SLOT[HVRD_SLOT].VGUI.MSkin)
+                    M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetVisible(true)
+                else
+                    M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetVisible(false)
+                end
 
                 M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel = M_INV_SLOT2_ICON
                 M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel = M_INV_SLOT1_ICON
@@ -386,6 +461,9 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 M_LOAD_SLOT[HVRD_SLOT].VGUI.MSkin = M_INV_SLOT1_SKIN
                 M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.Item = M_INV_SLOT2_ITEM
                 M_LOAD_SLOT[HVRD_SLOT].VGUI.Item = M_INV_SLOT1_ITEM
+                m_Loadout[HVRD_SLOT] = M_INV_TBL2
+                m_SendCosmeticPositions(m_Loadout[HVRD_SLOT], HVRD_SLOT)
+                m_Inventory[M_INV_DRAG3.Slot] = M_INV_TBL1
 
                 if (M_INV_TBL1 and M_INV_TBL1.item and m_CosmeticSlots[M_INV_TBL1.item.Kind]) then
                     if (IsValid(M_INV_PMDL)) then
@@ -413,15 +491,17 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             else
                 local DRAG_SLOT = tonumber(string.sub(tostring(M_INV_DRAG3.Slot), 1, tostring(M_INV_DRAG3.Slot):len() - 1))
                 local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot3), 1, tostring(m_HoveredSlot3):len() - 1))
+                local M_INV_SLOT1_ICON = M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel
+                local M_INV_SLOT2_ICON = M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel
+                local M_INV_SLOT1_SKIN = M_LOAD_SLOT[DRAG_SLOT].VGUI.MSkin
+                local M_INV_SLOT2_SKIN = M_LOAD_SLOT[HVRD_SLOT].VGUI.MSkin
+                local M_INV_SLOT1_ITEM = M_LOAD_SLOT[DRAG_SLOT].VGUI.Item
+                local M_INV_SLOT2_ITEM = M_LOAD_SLOT[HVRD_SLOT].VGUI.Item
                 local M_INV_TBL1 = table.Copy(m_Loadout[HVRD_SLOT])
                 local M_INV_TBL2 = table.Copy(m_Loadout[DRAG_SLOT])
-                m_Loadout[HVRD_SLOT] = M_INV_TBL2
-                m_Loadout[DRAG_SLOT] = M_INV_TBL1
-                m_SendCosmeticPositions(m_Loadout[HVRD_SLOT], HVRD_SLOT)
-                m_SendCosmeticPositions(m_Loadout[DRAG_SLOT], DRAG_SLOT)
 
                 if (not m_CanSwapLoadout(M_INV_TBL2, HVRD_SLOT)) then
-                    if (IsValid(M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon)) then M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(true) end
+                    M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(true)
                     M_INV_DRAG3 = nil
                     notification.AddLegacy("You cannot equip that item there!", NOTIFY_ERROR, 3)
                     surface.PlaySound("buttons/button16.wav")
@@ -430,7 +510,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 end
 
                 if (not m_CanSwapLoadout(M_INV_TBL1, DRAG_SLOT)) then
-                    if (IsValid(M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon)) then M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(true) end
+                    M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(true)
                     M_INV_DRAG3 = nil
                     notification.AddLegacy("You cannot equip that item there!", NOTIFY_ERROR, 3)
                     surface.PlaySound("buttons/button16.wav")
@@ -438,15 +518,31 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                     return
                 end
 
-				if (not M_LOAD_SLOT[DRAG_SLOT] or not M_LOAD_SLOT[HVRD_SLOT]) then return end
-                local M_INV_SLOT1_ICON = M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel
-                local M_INV_SLOT2_ICON = M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel
-                local M_INV_SLOT1_SKIN = M_LOAD_SLOT[DRAG_SLOT].VGUI.MSkin
-                local M_INV_SLOT2_SKIN = M_LOAD_SLOT[HVRD_SLOT].VGUI.MSkin
-                local M_INV_SLOT1_ITEM = M_LOAD_SLOT[DRAG_SLOT].VGUI.Item
-                local M_INV_SLOT2_ITEM = M_LOAD_SLOT[HVRD_SLOT].VGUI.Item
+                if (M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel) then
+                    if (string.EndsWith(M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel, ".mdl")) then
+                        M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
+                    else
+                        M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(0)
+                    end
 
-				swapIcons(M_LOAD_SLOT[DRAG_SLOT].VGUI, M_LOAD_SLOT[HVRD_SLOT].VGUI)
+                    M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:SetModel(M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel, M_LOAD_SLOT[DRAG_SLOT].VGUI.MSkin)
+                    M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(true)
+                else
+                    M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:SetVisible(false)
+                end
+
+                if (M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel) then
+                    if (string.EndsWith(M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel, ".mdl")) then
+                        M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
+                    else
+                        M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(0)
+                    end
+
+                    M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetModel(M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel, M_LOAD_SLOT[HVRD_SLOT].VGUI.MSkin)
+                    M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(true)
+                else
+                    M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:SetVisible(false)
+                end
 
                 M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel = M_INV_SLOT2_ICON
                 M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel = M_INV_SLOT1_ICON
@@ -454,22 +550,46 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 M_LOAD_SLOT[HVRD_SLOT].VGUI.MSkin = M_INV_SLOT1_SKIN
                 M_LOAD_SLOT[DRAG_SLOT].VGUI.Item = M_INV_SLOT2_ITEM
                 M_LOAD_SLOT[HVRD_SLOT].VGUI.Item = M_INV_SLOT1_ITEM
+                m_Loadout[HVRD_SLOT] = M_INV_TBL2
+                m_Loadout[DRAG_SLOT] = M_INV_TBL1
+                m_SendCosmeticPositions(m_Loadout[HVRD_SLOT], HVRD_SLOT)
+                m_SendCosmeticPositions(m_Loadout[DRAG_SLOT], DRAG_SLOT)
             end
         else
-            local M_INV_TBL1 = table.Copy(m_Inventory[m_HoveredSlot3])
-            local M_INV_TBL2 = table.Copy(m_Inventory[M_INV_DRAG3.Slot])
-            m_Inventory[m_HoveredSlot3] = M_INV_TBL2
-            m_Inventory[M_INV_DRAG3.Slot] = M_INV_TBL1
-
-			if (not M_INV_SLOT[M_INV_DRAG3.Slot] or not M_INV_SLOT[m_HoveredSlot3]) then return end
             local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel
             local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot3].VGUI.WModel
             local M_INV_SLOT1_SKIN = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin
             local M_INV_SLOT2_SKIN = M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin
             local M_INV_SLOT1_ITEM = M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.Item
             local M_INV_SLOT2_ITEM = M_INV_SLOT[m_HoveredSlot3].VGUI.Item
+            local M_INV_TBL1 = table.Copy(m_Inventory[m_HoveredSlot3])
+            local M_INV_TBL2 = table.Copy(m_Inventory[M_INV_DRAG3.Slot])
 
-			swapIcons(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI, M_INV_SLOT[m_HoveredSlot3].VGUI)
+            if (M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel) then
+                if (string.EndsWith(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel, ".mdl")) then
+                    M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon:SetAlpha(255)
+                else
+                    M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon:SetAlpha(0)
+                end
+
+                M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:SetModel(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel, M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.MSkin)
+                M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:SetVisible(true)
+            else
+                M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:SetVisible(false)
+            end
+
+            if (M_INV_SLOT[m_HoveredSlot3].VGUI.WModel) then
+                if (string.EndsWith(M_INV_SLOT[m_HoveredSlot3].VGUI.WModel, ".mdl")) then
+                    M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon:SetAlpha(255)
+                else
+                    M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon:SetAlpha(0)
+                end
+
+                M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetModel(M_INV_SLOT[m_HoveredSlot3].VGUI.WModel, M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin)
+                M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetVisible(true)
+            else
+                M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:SetVisible(false)
+            end
 
             M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel = M_INV_SLOT2_ICON
             M_INV_SLOT[m_HoveredSlot3].VGUI.WModel = M_INV_SLOT1_ICON
@@ -477,8 +597,11 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             M_INV_SLOT[m_HoveredSlot3].VGUI.MSkin = M_INV_SLOT1_SKIN
             M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.Item = M_INV_SLOT2_ITEM
             M_INV_SLOT[m_HoveredSlot3].VGUI.Item = M_INV_SLOT1_ITEM
+            m_Inventory[m_HoveredSlot3] = M_INV_TBL2
+            m_Inventory[M_INV_DRAG3.Slot] = M_INV_TBL1
         end
     end
+    moat_RemoveEditPositionPanel()
 end
 
 net.Receive("MOAT_SWP_INV_ITEM", function(len)
@@ -530,29 +653,8 @@ local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
     if (M_ITEM_TBL and M_ITEM_TBL.item and M_ITEM_TBL.item.Kind == "Other") then
         if (M_ITEM_TBL.item.WeaponClass) then
             M_ITEM_TBL.w = M_ITEM_TBL.item.WeaponClass
-        end
+        end    
     end
-
-	if ((not M_TRADE_SLOT[slot]) or (not M_TRADE_SLOT[slot].VGUI) or (not IsValid(M_TRADE_SLOT[slot].VGUI.SIcon))) then
-		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
-        if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
-
-        if (m_utrade and m_ply2) then
-            moat_inv_cooldown = CurTime() + 1
-            m_ClearInventory()
-            net.Start("MOAT_SEND_INV_ITEM")
-            net.SendToServer()
-
-            net.Start("MOAT_RESPOND_TRADE")
-            net.WriteBool(false)
-            net.WriteDouble(m_ply2:EntIndex())
-            net.WriteDouble(m_utrade)
-            net.SendToServer()
-        end
-
-		MsgC(Color(255, 0, 0), "Failed to load trade slot " .. slot .. ".\n")
-		return
-	end
 
     m_Trade[slot] = M_ITEM_TBL
     M_TRADE_SLOT[slot].VGUI.Item = m_Trade[slot]
@@ -560,7 +662,6 @@ local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
     if (M_ITEM_TBL and M_ITEM_TBL.c) then
         if (m_Trade[slot].item.Image) then
             M_TRADE_SLOT[slot].VGUI.WModel = m_Trade[slot].item.Image
-			if (not IsValid(M_TRADE_SLOT[slot].VGUI.SIcon.Icon)) then M_TRADE_SLOT[slot].VGUI.SIcon:CreateIcon(n) end
             M_TRADE_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(255)
         elseif (m_Trade[slot].item.Model) then
             M_TRADE_SLOT[slot].VGUI.WModel = m_Trade[slot].item.Model
@@ -574,8 +675,6 @@ local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
         M_TRADE_SLOT[slot].VGUI.SIcon:SetVisible(true)
     else
         M_TRADE_SLOT[slot].VGUI.SIcon:SetVisible(false)
-
-		if (not IsValid(M_TRADE_SLOT[slot].VGUI.SIcon.Icon)) then M_TRADE_SLOT[slot].VGUI.SIcon:CreateIcon(n) end
         M_TRADE_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(0)
     end
 
@@ -818,8 +917,6 @@ local smokeparticles = {
 }
 
 function PANEL:CreateParticle(s, n)
-	if (not s) then return end
-
 	local p = s:Add("particle/smokesprites_0001", self.ParticlePos + Vector(-60, -15.5, 80 * n))//Vector(-60, -15.5, -4))
 	if (not p) then return end
 	local col = HSVToColor((CurTime() - (14.5 * n)) * 5 % 360, 1, 1)
@@ -1130,12 +1227,18 @@ end
 
 
 function PANEL:PerformLayout()
-    self.Icon:StretchToParent(0, 0, 0, 0)
+
+    if ( self:IsDown() && !self.Dragging ) then
+        self.Icon:StretchToParent( 6, 6, 6, 6 )
+    else
+        self.Icon:StretchToParent( 0, 0, 0, 0 )
+    end
+
 end
 
-function PANEL:SetSpawnIcon(name)
+function PANEL:SetSpawnIcon( name )
     self.m_strIconName = name
-    self.Icon:SetSpawnIcon(name)
+    self.Icon:SetSpawnIcon( name )
 end
 
 function PANEL:SetBodyGroup( k, v )
@@ -1147,23 +1250,6 @@ function PANEL:SetBodyGroup( k, v )
 
     self.m_strBodyGroups = self.m_strBodyGroups:SetChar( k + 1, v )
 
-end
-
-function PANEL:CreateIcon(n)
-	if (IsValid(self.Icon)) then self.Icon:Remove() end -- Why are we being called anyways?
-
-	self.Icon = vgui.Create("ModelImage", self)
-    self.Icon:SetMouseInputEnabled(false)
-    self.Icon:SetKeyboardInputEnabled(false)
-	self.Icon:StretchToParent(0, 0, 0, 0)
-
-	local mdl = self:GetModelName()
-	local skn = self:GetSkinID()
-
-	if (not mdl and not n) then return end
-	mdl = tostring(mdl)
-
-	self:SetModel(mdl, skn)
 end
 
 function PANEL:SetModel(mdl, iSkin, BodyGroups)
@@ -1181,12 +1267,12 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
 
     self.m_strBodyGroups = BodyGroups
 
-	if (not IsValid(self.Icon)) then self:CreateIcon(true) end
-    self.Icon:SetModel(mdl, iSkin, BodyGroups)
+    self.Icon:SetModel( mdl, iSkin, BodyGroups )
 
     local mdls = tostring(mdl)
 
     if (self.ModelPanel) then self.ModelPanel:Remove() end
+
     if (MOAT_MODEL_POS[mdls]) then
         self.Icon:SetVisible(false)
 
@@ -1218,12 +1304,15 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
 end
 
 function PANEL:RebuildSpawnIcon()
-	if (not IsValid(self.Icon)) then self:CreateIcon() end
+
     self.Icon:RebuildSpawnIcon()
+
 end
 
 function PANEL:RebuildSpawnIconEx( t )
+
     self.Icon:RebuildSpawnIconEx( t )
+
 end
 
 function PANEL:ToTable( bigtable )
