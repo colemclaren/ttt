@@ -145,25 +145,57 @@ function MOAT_INV:GetOurSlots()
 	return num, tbl
 end
 
-function MOAT_INV:GetSlotForID(id)
-	local sn, st = self:GetOurSlots()
-	if (st.c[id]) then return st.c[id] end
-	
-	local ns = 0
-	for i = 1, sn do
+function MOAT_INV:CreateNewSlot(num)
+	if (not self.CachedSlots) then self:GetOurSlots() end
+	num = num or (self.CachedSlots[1] + 1)
+
+	self:ClearSlotItem(num)
+	self.CachedSlots[1] = num
+	self.CachedSlots[2].s[num] = 0
+
+	m_Inventory[num] = {}
+	if (IsValid(MOAT_INV_BG)) then
+        m_CreateNewInvSlot(num)
+    end
+end
+
+function MOAT_INV:RemoveEmptySlot()
+	local num = self:GetEmptySlot(nil, nil, true)
+	if (num == 0 or self.CachedSlots[2].s[num] ~= 0) then return end
+
+	self.CachedSlots[1] = self.CachedSlots[1] - 1
+	self.CachedSlots[2].s[num] = nil
+
+	m_Inventory[num] = nil
+	if (IsValid(MOAT_INV_BG)) then
+        m_RemoveInvSlot(num)
+    end
+end
+
+function MOAT_INV:GetEmptySlot(sn, st, r)
+	if (not sn or not st) then sn, st = self:GetOurSlots() end
+
+	local ns, i1, i2, i3 = 0, 1, sn, 1
+	if (r) then i1, i2, i3 = sn, 1, -1 end
+
+	for i = i1, i2, i3 do
 		if (st.s[i] == 0) then
 			ns = i
 			break
 		end
 	end
 
+	return ns
+end
+
+function MOAT_INV:GetSlotForID(id)
+	local sn, st = self:GetOurSlots()
+	if (st.c[id]) then return st.c[id] end
+	
+	local ns = self:GetEmptySlot(sn, st)
 	if (ns == 0) then
 		ns = sn + 1
-
-		m_Inventory[ns] = {}
-		if (m_isUsingInv()) then
-            m_CreateInvSlot(ns)
-        end
+		self:CreateNewSlot(ns)
 	end
 
 	self.CachedSlots[1] = ns

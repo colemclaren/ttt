@@ -1017,7 +1017,6 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
     local i = net.ReadUInt(32)
     while (net.ReadBool()) do
         local slot = i
-		print(slot)
         local wep = m_ReadWeaponFromNetCache()
 
 		if (wep.c) then
@@ -1034,8 +1033,6 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
 			if (wep.c) then
 				slot = MOAT_INV:GetSlotForID(wep.c)
 			end
-
-			print(slot)
 
             m_Inventory[slot] = wep
 
@@ -1227,48 +1224,6 @@ function m_PaintVBar(sbar)
         CurTheme = "Original"
     end
     local VBARP = MT[CurTheme].VBAR_PAINT
-
-    local smooth_scrolling = GetConVar("moat_smooth_scrolling"):GetInt()
-
-    sbar.LerpTarget = 0
-
-    function sbar:AddScroll(dlta)
-        local OldScroll = self.LerpTarget or self:GetScroll()
-
-        if (smooth_scrolling > 0) then
-            dlta = dlta * 75
-        else
-            dlta = dlta * 50
-        end
-
-        self.LerpTarget = math.Clamp(self.LerpTarget + dlta, -self.btnGrip:GetTall(), self.CanvasSize + self.btnGrip:GetTall())
-        return OldScroll != self:GetScroll()
-    end
-
-    sbar.Think = function(s)
-        local frac = FrameTime() * 5
-
-        if (smooth_scrolling > 0) then
-            if (math.abs(s.LerpTarget - s:GetScroll()) <= (s.CanvasSize/10)) then frac = FrameTime() * 2 end
-        else
-            frac = FrameTime() * 10
-        end
-
-        local newpos = Lerp(frac, s:GetScroll(), s.LerpTarget)
-        newpos = math.Clamp(newpos, 0, s.CanvasSize)
-
-        s:SetScroll(newpos)
-
-        if (s.LerpTarget < 0 and s:GetScroll() == 0) then
-            s.LerpTarget = 0
-        end
-
-        if (s.LerpTarget > s.CanvasSize and s:GetScroll() == s.CanvasSize) then
-            s.LerpTarget = s.CanvasSize
-        end
-    end
-
-    sbar.moving = false
 
     function sbar:Paint(w, h)
         VBARP.PAINT(self, w, h)
@@ -2131,12 +2086,12 @@ function m_OpenInventory(ply2, utrade)
 
         if (cat == "extend") then
             local w_off = 32
-            M_INV_PNL:MoveTo(w_off + 5, 30, 0.15)
-            M_INV_PNL:SizeTo(MOAT_INV_BG_W-10 - w_off, help_pnl_h, 0.15)
+            M_INV_PNL:MoveTo(w_off + 4, 30, 0.15)
+            M_INV_PNL:SizeTo(MOAT_INV_BG_W-9 - w_off, help_pnl_h, 0.15)
 
             --Inside Inventory
-            M_INV_SP:SizeTo(MOAT_INV_BG_W-10 - w_off, 488, 0.15)
-            M_INV_L:SizeTo(MOAT_INV_BG_W-24 - w_off, 488, 0.15)
+            M_INV_SP:SizeTo(MOAT_INV_BG_W-9 - w_off, 488, 0.15)
+            M_INV_L:SizeTo(MOAT_INV_BG_W-23 - w_off, 488, 0.15)
         end
 
         if (cat == 1) then
@@ -2536,20 +2491,48 @@ function m_OpenInventory(ply2, utrade)
         local tbl = {}
         tbl.VGUI = m_DPanelIcon
         tbl.Slot = num
+		tbl.Panel = m_DPanel
         M_INV_SLOT[num] = tbl
     end
 
+	local function m_HandleLayoutSpacing(remove)
+		if (remove) then
+			if (IsValid(M_INV_L.Spacing)) then M_INV_L.Spacing:Remove() end
+			return
+		end
+
+		M_INV_L.Spacing = M_INV_L:Add("DPanel")
+        M_INV_L.Spacing:SetSize(676, 2)
+        M_INV_L.Spacing.Paint = nil
+	end
+
+	function m_RemoveInvSlot(num)
+        m_HandleLayoutSpacing(true)
+
+		if (M_INV_SLOT[num] and M_INV_SLOT[num].Panel) then
+			M_INV_SLOT[num].Panel:Remove()
+		end
+
+       	m_HandleLayoutSpacing()
+	end
+
+	function m_CreateNewInvSlot(num)
+        m_HandleLayoutSpacing(true)
+		m_CreateInvSlot(num)
+		m_HandleLayoutSpacing()
+
+		M_INV_SP.VBar.ScrollOnExtend = true
+		local s = M_INV_SP.VBar.CanvasSize
+		M_INV_SP.VBar.LerpTarget = s
+		M_INV_SP.VBar:SetScroll(s)
+	end
 
     local function m_CreateInventorySlots(num)
         for i = 1, num do
             m_CreateInvSlot(i)
         end
 
-        for i = 1, 5 do
-            local EndSpacing = M_INV_L:Add("DPanel")
-            EndSpacing:SetSize(169, 0)
-            EndSpacing.Paint = nil
-        end
+		m_HandleLayoutSpacing()
     end
     
 	m_CreateInventorySlots(#m_Inventory)
