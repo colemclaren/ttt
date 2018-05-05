@@ -998,46 +998,30 @@ net.Receive("MOAT_DATA_INFO", function(len)
     end
 end)
 
-m_SlotData = {s = {}, c = {}}
-local function load_slots(s)
-	local f, num, ldt = MOAT_INV:GetSlots(), 0, 0
-	for _, v in pairs(f) do
-		local slot = tonumber(v:sub(1, -5))
-		if (slot < 0) then ldt = ldt + 1 continue end
-		local id = MOAT_INV:GetItemForSlot(slot)
-		id = id == "" and 0 or tonumber(id)
-		m_SlotData.s[slot] = id
-		m_SlotData.c[id] = slot
+local function load_slots()
+	local n = MOAT_INV:GetOurSlots()
 
-		num = num + 1
-	end
-
-	s.n = num
-	s.l = ldt
-
-	for i = 1, s.n do
+	for i = 1, n do
 		m_Inventory[i] = {}
 	end
 
-	for i = 1, s.l do
+	for i = 1, 10 do
 		m_Loadout[i] = {}
 	end
 end
 
 net.Receive("MOAT_SEND_INV_ITEM", function(len)
-	if (not m_SlotData.n) then load_slots(m_SlotData) end
+	if (not MOAT_INV.CachedSlots or not (MOAT_INV.CachedSlots[1] and MOAT_INV.CachedSlots[2])) then load_slots() end
 
     local is_loadout = net.ReadBool()
     local i = net.ReadUInt(32)
     while (net.ReadBool()) do
         local slot = i
+		print(slot)
         local wep = m_ReadWeaponFromNetCache()
 
 		if (wep.c) then
 			wep.l = MOAT_INV:IsLocked(wep.c) and 1
-			if (m_SlotData.c[wep.c]) then
-				slot = m_SlotData.c[wep.c]
-			end
 		end
 
         if (is_loadout) then
@@ -1047,6 +1031,12 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
                 m_SendCosmeticPositions(m_Loadout[slot], slot)
             end
         else
+			if (wep.c) then
+				slot = MOAT_INV:GetSlotForID(wep.c)
+			end
+
+			print(slot)
+
             m_Inventory[slot] = wep
 
             if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
@@ -1318,18 +1308,7 @@ local disable_freeic = CreateClientConVar("moat_forum_rewards", 0, true, false)
 function m_OpenInventory(ply2, utrade)
     moat_inv_cooldown = CurTime() + 1
 
-    if (#m_Inventory < NUMBER_OF_SLOTS) then
-        chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
-
-        return
-    end
-
     for i = 1, #m_Inventory do
-        if (m_Inventory[i] and #m_Inventory[i] > 0 and not m_Inventory[i].c) then
-            chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
-
-            return
-        end
         if (m_Inventory[i]) then
             m_Inventory[i].decon = false
         end
@@ -1342,7 +1321,7 @@ function m_OpenInventory(ply2, utrade)
     INV_SELECT_MODE = false
     INV_SELECTED_ITEM = nil
 
-    local MAX_SLOTS = LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS", 0)
+    //local MAX_SLOTS = LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS", 0)
     local M_INV_DRAG = nil
     m_ply2 = ply2 or nil
     m_utrade = utrade or nil
@@ -6483,6 +6462,7 @@ end)
 
 net.Receive("MOAT_MAX_SLOTS", function(len)
     local max_slots = net.ReadDouble()
+	/*
     local max_slots_old = max_slots - 4
 
     if (max_slots > 350) then
@@ -6497,7 +6477,7 @@ net.Receive("MOAT_MAX_SLOTS", function(len)
         if (m_isUsingInv()) then
             m_CreateInvSlot(i)
         end
-    end
+    end*/
 end)
 
 net.Receive("MOAT_SEND_SLOTS", function(len)

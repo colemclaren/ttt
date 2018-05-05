@@ -62,7 +62,12 @@ end
 
 
 function MOAT_INV:GetItemForSlot(slot)
-    return file.Read(self:Item(slot)) or 0
+	local id = file.Read(self:Item(slot))
+    return id == "" and 0 or id
+end
+
+function MOAT_INV:SlotExists(slot)
+    return file.Exists(self:Item(slot), "DATA")
 end
 
 function MOAT_INV:SaveSlotItem(slot, id)
@@ -110,6 +115,61 @@ function MOAT_INV:HandleSlotLocks()
 	end
 end
 
-function MOAT_INV:GetSlots()
-	return file.Find(self.Dir2 .. "/*.jpg", "DATA")
+function MOAT_INV:GetOurSlots()
+	if (self.CachedSlots and self.CachedSlots[1] and self.CachedSlots[2]) then
+		return self.CachedSlots[1], self.CachedSlots[2]
+	end
+
+	local num, tbl = 0, {s = {}, c = {}}
+	for k, s in pairs(file.Find(self.Dir2 .. "/*.jpg", "DATA")) do
+		local id = tonumber(s:sub(1, -5))
+		if (not id) then continue end
+		num = id > num and id or num
+	end
+
+	if (num < self.Config.MinSlots) then num = self.Config.MinSlots end
+
+	for i = -10, num do
+		if (i == 0) then continue end
+		if (not self:SlotExists(i)) then self:ClearSlotItem(i) end
+		local id = tonumber(self:GetItemForSlot(i))
+		if (tbl.c[id]) then id = 0 end
+
+		tbl.s[i] = id
+		if (id == 0) then continue end
+
+		tbl.c[id] = i
+	end
+
+	self.CachedSlots = {num, tbl}
+	return num, tbl
+end
+
+function MOAT_INV:GetSlotForID(id)
+	local sn, st = self:GetOurSlots()
+	if (st.c[id]) then return st.c[id] end
+	
+	local ns = 0
+	for i = 1, sn do
+		if (st.s[i] == 0) then
+			ns = i
+			break
+		end
+	end
+
+	if (ns == 0) then
+		ns = sn + 1
+
+		m_Inventory[ns] = {}
+		if (m_isUsingInv()) then
+            m_CreateInvSlot(ns)
+        end
+	end
+
+	self.CachedSlots[1] = ns
+	self.CachedSlots[2].c[id] = ns
+	self.CachedSlots[2].s[ns] = id
+
+	self:AddSlotItem(ns, id)
+	return ns
 end

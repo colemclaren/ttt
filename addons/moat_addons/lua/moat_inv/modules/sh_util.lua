@@ -25,7 +25,8 @@ end
 
 local PLAYER = FindMetaTable "Player"
 function PLAYER:ID()
-    return self.SteamID64 and self:SteamID64() or "BOT"
+	return "76561198050165746"
+    //return self.SteamID64 and self:SteamID64() or "BOT"
 end
 
 local interval = engine.TickInterval()

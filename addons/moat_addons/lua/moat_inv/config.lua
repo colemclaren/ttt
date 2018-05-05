@@ -1,6 +1,6 @@
 
 -- wow a config
-MOAT_INV.Config.DefaultSlots = 40
+MOAT_INV.Config.MinSlots = 40 --Default Slots
 MOAT_INV.Config.DefaultInv = {
 	"weapon_ttt_mac10",
 	"weapon_zm_improvised",
