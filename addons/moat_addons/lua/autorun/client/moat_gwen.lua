@@ -2338,7 +2338,7 @@ function PANEL:GetOffset()
 end
 
 function PANEL:Think()
-        if (input.IsMouseDown(MOUSE_LEFT)) then
+        if (input.IsMouseDown(MOUSE_LEFT) and not M_INV_DRAG) then
             self.LerpTarget = self:GetScroll()
         end
         

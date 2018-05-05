@@ -1285,7 +1285,7 @@ function m_OpenInventory(ply2, utrade)
     INV_SELECTED_ITEM = nil
 
     local MAX_SLOTS = LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS", 0)
-    local M_INV_DRAG = nil
+    M_INV_DRAG = nil
     m_ply2 = ply2 or nil
     m_utrade = utrade or nil
     M_INV_SLOT = {}
