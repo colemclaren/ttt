@@ -9,154 +9,209 @@ file.CreateDir(MOAT_INV.Dir3)
 
 /*
     Item Stats
+	NO REASON TO USE THIS
+	IT ONLY ADDS MORE VULNERABILITIES
 */
 
 function MOAT_INV:GetStats(id)
-    local s = cookie.GetString("moat_inv" .. id, "")
-    return util.JSONToTable(s)
+    --local s = cookie.GetString("moat_inv" .. id, "")
+    --return util.JSONToTable(s)
 end
 
 function MOAT_INV:SaveStats(id, tbl)
-    local s = util.TableToJSON(tbl)
-    return cookie.Set("moat_inv" .. id, s)
+    --local s = util.TableToJSON(tbl)
+    --return cookie.Set("moat_inv" .. id, s)
 end
 
 /*
     Item Slots
 */
 
-function MOAT_INV:Slot(id)
-    return self.Dir .. "/" .. id .. ".txt"
+function MOAT_INV:GetSlotForItem(id, fn)
+	local query = self.SQL:CreateQuery("SELECT slotid FROM mg_slots WHERE c = ?;", id)
+	self.SQL:Query(query, function(succ)
+		return fn(succ)
+	end)
 end
 
-function MOAT_INV:Item(slot)
-    return self.Dir2 .. "/" .. slot .. ".jpg"
+function MOAT_INV:Item(slot, fn)
+	local query = self.SQL:CreateQuery("SELECT c FROM mg_slots WHERE slotid = ?;", slot)
+	self.SQL:Query(query, function(succ)
+		return fn(succ and succ.c or nil)
+	end)
 end
 
-function MOAT_INV:ItemL(slot)
-    return self.Dir2 .. "/" .. slot .. ".png"
+function MOAT_INV:ItemL(slot, fn)
+	self:Item(slot, fn)
 end
 
-function MOAT_INV:Locked(id)
-    return self.Dir3 .. "/" .. id .. ".png"
+function MOAT_INV:Locked(id, fn)
+	local query = self.SQL:CreateQuery("SELECT locked FROM mg_slots WHERE c = ?;", id)
+	self.SQL:Query(query, function(succ)
+		return fn(succ and succ.c or nil)
+	end)
 end
 
-
-function MOAT_INV:GetSlotForItem(id)
-    return file.Read(self:Slot(id)) or 0
-end
-
-function MOAT_INV:SaveItemSlot(id, slot)
-    return file.Write(self:Slot(id), slot)
-end
-
-function MOAT_INV:SwapItemSlot(id, id2)
-    local slot1, slot2 = self:GetSlotForItem(id), self:GetSlotForItem(id2)
-    return file.Write(self:Slot(id), slot2), file.Write(self:Slot(id2), slot1)
-end
-
-function MOAT_INV:ClearItemSlot(id)
-    return file.Write(self:Slot(id), "")
+function MOAT_INV:SaveItemLSlot(id, slot, fn)
+	self:SaveItemSlot(id, slot, fn)
 end
 
 
-
-function MOAT_INV:GetItemForSlot(slot)
-	local id = file.Read(self:Item(slot))
-    return id == "" and 0 or id
+function MOAT_INV:SaveItemSlot(id, slot, fn)
+	local query = self.SQL:CreateQuery("REPLACE INTO mg_slots (slotid, c) values (?, ?)", slot, id)
+	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:SlotExists(slot)
-    return file.Exists(self:Item(slot), "DATA")
+function MOAT_INV:SwapItemSlot(id, id2, fn)
+	local query = self.SQL:CreateQuery([[
+		DROP TABLE IF EXISTS lookup;
+		CREATE TEMP TABLE lookup (k int unsigned not null, val tinyint unsigned not null, primary key(k));
+		INSERT INTO lookup (k, val) values (
+			SELECT slotid, 1 from mg_slots where c = ?slot1,
+			SELECT slotid, 2 from mg_slots where c = ?slot2
+		);
+		UPDATE mg_slots SET c = ?slot2 WHERE slotid = (SELECT k FROM lookup WHERE val = 1);
+		UPDATE mg_slots SET c = ?slot1 WHERE slotid = (SELECT k FROM lookup WHERE val = 2);
+	]], {
+		slot1 = id,
+		slot2 = id2
+	})
+
+	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:SaveSlotItem(slot, id)
-    return file.Write(self:Item(slot), id)
+function MOAT_INV:ClearItemSlot(id, fn)
+	local query = self.SQL:CreateQuery("DELETE FROM mg_slots WHERE c = ?;", id)
+	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:SwapSlotItem(slot, slot2)
-    local id, id2 = self:GetItemForSlot(slot), self:GetItemForSlot(slot2)
-    return file.Write(self:Item(slot2), id), file.Write(self:Item(slot), id2)
+function MOAT_INV:GetItemForSlot(slot, fn)
+	local query = self.SQL:CreateQuery("SELECT c FROM mg_slots WHERE slotid = ?;", slot)
+	self.SQL:Query(query, function(d)
+		return fn(d and d.c or 0)
+	end)
 end
 
-function MOAT_INV:ClearSlotItem(slot)
-    return file.Write(self:Item(slot), "")
+function MOAT_INV:SlotExists(slot, fn)
+	local query = self.SQL:CreateQuery("SELECT 1 FROM mg_slots WHERE slotid = ?;", slot)
+	self.SQL:Query(query, function(d)
+		return fn(not not d)
+	end)
 end
 
-function MOAT_INV:AddSlotItem(slot, id)
-    return file.Write(self:Item(slot), id)
+function MOAT_INV:SaveSlotItem(slot, id, fn)
+	local query = self.SQL:CreateQuery("REPLACE mg_slots SET c = ? where slotid = ?;", id, slot)
+	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:SaveSlotItemL(slot, id)
-    return file.Write(self:ItemL(slot), id)
+function MOAT_INV:SwapSlotItem(slot, slot2, fn)
+	local query = self.SQL:CreateQuery([[
+		DROP TABLE IF EXISTS lookup;
+		CREATE TEMP TABLE lookup (k int unsigned not null, val tinyint unsigned not null, primary key(k));
+		INSERT INTO lookup (k, val) values (
+			SELECT c, 1 from mg_slots where slotid = ?slot1,
+			SELECT c, 2 from mg_slots where slotid = ?slot2
+		);
+		UPDATE mg_slots SET c = (SELECT k FROM lookup WHERE val = 2) WHERE slotid = ?slot1;
+		UPDATE mg_slots SET c = (SELECT k FROM lookup WHERE val = 1) WHERE slotid = ?slot2;
+	]], {
+		slot1 = slot,
+		slot2 = slot2
+	})
+
+	self.SQL:Query(query, fn)
+end
+
+function MOAT_INV:ClearSlotItem(slot, fn)
+	local query = self.SQL:CreateQuery("DELETE FROM mg_slots WHERE slotid = ?;", slot)
+	self.SQL:Query(query, fn)
+end
+
+function MOAT_INV:AddSlotItem(slot, id, fn)
+	self:SaveSlotItem(slot, id, fn)
+end
+
+function MOAT_INV:SaveSlotItemL(slot, id, fn)
+	self:SaveSlotItem(slot, id, fn)
 end
 
 
-function MOAT_INV:AddLocked(id)
-	return file.Write(self:Locked(id), "")
+function MOAT_INV:AddLocked(id, fn)
+	local query = self.SQL:CreateQuery("UPDATE mg_items SET locked = true WHERE c = ?;", id)
+	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:RemoveLocked(id)
-	return file.Delete(self:Locked(id))
+function MOAT_INV:RemoveLocked(id, fn)
+	local query = self.SQL:CreateQuery("UPDATE mg_items SET locked = false WHERE c = ?;", id)
+	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:IsLocked(id)
-	return file.Exists(self:Locked(id), "DATA")
+function MOAT_INV:IsLocked(id, fn)
+	local query = self.SQL:CreateQuery("SELECT locked FROM mg_items WHERE c = ?;", id)
+	self.SQL:Query(query, function(d)
+		fn(d and d.locked or false)
+	end)
 end
 
-function MOAT_INV:HandleSlotLocks()
-	local dir = self.Dir2 .. "/"
+MOAT_INV.SlotCache = {}
 
-	for _, s in pairs(file.Find(dir .. "*.png", "DATA")) do
-		local id = file.Read(dir .. s:sub(1, -5) .. ".jpg")
-		if (not id) then continue end
-		file.Delete(dir .. s)
-		self:AddLocked(id)
-	end
-end
-
-function MOAT_INV:GetOurSlots()
+function MOAT_INV:GetOurSlots(fn)
 	if (self.CachedSlots and self.CachedSlots[1] and self.CachedSlots[2]) then
-		return self.CachedSlots[1], self.CachedSlots[2]
+		return fn(self.CachedSlots[1], self.CachedSlots[2])
+	end
+	if (self.SlotCache) then
+		table.insert(self.SlotCache, fn)
+		return
 	end
 
-	local num, tbl = 0, {s = {}, c = {}}
-	for k, s in pairs(file.Find(self.Dir2 .. "/*.jpg", "DATA")) do
-		local id = tonumber(s:sub(1, -5))
-		if (not id) then continue end
-		num = id > num and id or num
-	end
+	self.SlotCache = {fn}
 
-	if (num < self.Config.MinSlots) then num = self.Config.MinSlots end
+	self.SQL:Query("SELECT slotid, c FROM mg_items;", function(data)
+		local cache = {
+			c = {}, -- id -> slot
+			s = {}, -- slot -> id
+		}
+		local max = self.Config.MinSlots
+		for _, dat in pairs(data) do
+			max = math.max(dat.slotid, dat)
+			cache.c[dat.c] = dat.slotid
+			cache.s[dat.slotid] = dat.c
+		end
 
-	for i = -10, num do
-		if (i == 0) then continue end
-		if (not self:SlotExists(i)) then self:ClearSlotItem(i) end
-		local id = tonumber(self:GetItemForSlot(i))
-		if (tbl.c[id]) then id = 0 end
+		for i = -10, max do
+			if (not cache.s[i]) then
+				cache.s[i] = 0
+			end
+		end
+		self.CachedSlots = {
+			max,
+			cache
+		}
 
-		tbl.s[i] = id
-		if (id == 0) then continue end
 
-		tbl.c[id] = i
-	end
-
-	self.CachedSlots = {num, tbl}
-	return num, tbl
+		for i = 1, #self.SlotCache do
+			self:GetOurSlots(self.SlotCache[i])
+		end
+	end)
 end
+
+-- c = id -> slot
+-- s = slot -> id
 
 function MOAT_INV:CreateNewSlot(num)
-	if (not self.CachedSlots) then self:GetOurSlots() end
-	num = num or (self.CachedSlots[1] + 1)
+	if (not self.CachedSlots) then
+		self:GetOurSlots(function(max, cache)
+			local new = num or max + 1
+			self:ClearSlotItem(num)
+			self.CachedSlots = math.max(max, new)
+			cache[2].s[num] = 0
 
-	self:ClearSlotItem(num)
-	self.CachedSlots[1] = num
-	self.CachedSlots[2].s[num] = 0
-
-	m_Inventory[num] = {}
-	if (IsValid(MOAT_INV_BG)) then
-        m_CreateNewInvSlot(num)
-    end
+			m_Inventory[num] = {}
+			if (IsValid(MOAT_INV_BG)) then
+				m_CreateNewInvSlot(num)
+			end
+		end)
+	end
 end
 
 function MOAT_INV:RemoveEmptySlot()
@@ -168,24 +223,28 @@ function MOAT_INV:RemoveEmptySlot()
 
 	m_Inventory[num] = nil
 	if (IsValid(MOAT_INV_BG)) then
-        m_RemoveInvSlot(num)
-    end
+		m_RemoveInvSlot(num)
+	end
 end
 
-function MOAT_INV:GetEmptySlot(sn, st, r)
-	if (not sn or not st) then sn, st = self:GetOurSlots() end
+function MOAT_INV:GetEmptySlot(sn, st, r, fn)
+	if (not sn or not st) then 
+		self:GetOurSlots(function(sn, st)
+			local starts, ends, step = 1, sn, 1
+			if (r) then
+				starts, ends, step = sn, 1, -1
+			end
 
-	local ns, i1, i2, i3 = 0, 1, sn, 1
-	if (r) then i1, i2, i3 = sn, 1, -1 end
+			for i = starts, ends, step do
+				if (st.s[i] == 0) then
+					return i
+				end
+			end
 
-	for i = i1, i2, i3 do
-		if (st.s[i] == 0) then
-			ns = i
-			break
-		end
+			return ns
+		end) 
 	end
 
-	return ns
 end
 
 function MOAT_INV:GetSlotForID(id)
