@@ -15,7 +15,6 @@ function ROLE:TTTBeginRound()
 
     self:GiveEquipmentItem(EQUIP_ARMOR)
     self.SK_Kills = 0
-    print"begin"
 end
 
 local rewards = {
@@ -46,4 +45,10 @@ function ROLE:PlayerDeath(vic, inflic, attac)
             end
         end
     end
-end 
+end
+
+InstallRoleHook("ScalePlayerDamage", 1)
+function ROLE:ScalePlayerDamage(ply, hitgroup, dmginfo)
+    local atk = dmginfo:GetAttacker()
+    dmginfo:ScaleDamage(IsValid(atk) and atk:IsPlayer() and atk:IsTraitor() and 0.75 or 0.9)
+end
