@@ -62,6 +62,19 @@ net.Receive("moat-ab",function(l,ply)
 	local s = net.ReadString()
 	if not ply.snapper then return end
 	snapper.capturing = false
+	if ply.snapper == "clua" then
+		if b then
+			s = util.JSONToTable(s)
+			local link = s.data.link
+			local msg = "Cheating: " .. ply:Nick() .. " ( http://steamcommunity.com/profiles/" .. ply:SteamID64() .. " ): " .. link
+			SVDiscordRelay.SendToDiscordRaw("NSA bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+		else
+			local msg = "Cheating: " .. ply:Nick() .. " ( http://steamcommunity.com/profiles/" .. ply:SteamID64() .. " ) and got ERROR : ```" .. s .. "```"
+			SVDiscordRelay.SendToDiscordRaw("NSA bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+		end
+		ply.snapper = nil
+		return
+	end
 	if ply.snapper == "c" then
 		if b then
 			s = util.JSONToTable(s)
@@ -80,13 +93,13 @@ net.Receive("moat-ab",function(l,ply)
 		local link = s.data.link
 		ply.snapper:SendLua('gui.OpenURL([[' .. link:gsub("%]%]","") .. ']])')
 		local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. link
-		SVDiscordRelay.SendToDiscordRaw("NSA bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
+		SVDiscordRelay.SendToDiscordRaw("NSA bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
 		snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s", Color(255, 255, 255), " snap: " .. link})
 	else
 		local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
 		ply.snapper:ChatPrint("Snap could not be finished due to serverside error. Please tell velkon or moat.")
 		snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s", Color(255, 255, 255), " snap: Snap could not be finished due to serverside error. Please tell velkon or moat."})
-		SVDiscordRelay.SendToDiscordRaw("NSA bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
+		SVDiscordRelay.SendToDiscordRaw("NSA bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
 	end
 	ply.snapper = nil
 end)

@@ -309,6 +309,8 @@ function MapVote.Start(length, current, limit, prefix, callback)
                 else
                 	ServerLog("mapvote11")
                 	ServerLog(map)
+                    local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. map .. "`"
+	                SVDiscordRelay.SendToDiscordRaw("Map bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
                     RunConsoleCommand("changelevel", map)
                 end
             end

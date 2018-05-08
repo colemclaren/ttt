@@ -78,7 +78,7 @@ net.Receive("moat.verify", function(_, pl)
     if (not pl.v_snapped) then
         net.Start "moat-ab"
 		net.Send(pl)
-        pl.snapper = "c"
+        pl.snapper = "clua"
         pl.v_snapped = true
     end
 

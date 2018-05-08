@@ -505,6 +505,10 @@ hook.Add("Think","Roulette think",function()
             if roulette_number < 1 then m = 14 end -- green.
             if not IsValid(k) then continue end
             addIC(k,v*m)
+            if (v*m) > 100 then
+                local msg = k:Nick() .. " (" .. k:SteamID() .. ") won " .. round(v*m) .. " IC in roulette."
+                SVDiscordRelay.SendToDiscordRaw("Gamble Log", false, msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+            end
             if roulette_number < 1 then
                 DiscordGamble(k:Nick() .. " (" .. k:SteamID() .. ") won **" .. round(v*m) .. "** IC on Green in Roulette.")
             end
@@ -591,6 +595,10 @@ net.Receive("crash.getout", function(l,ply)
     if not crash_crashing then return end
     local a = crash_players[ply] * round(crash_number)
     addIC(ply,a)
+    if (a) > 100 then
+        local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(a) .. " IC in crash."
+        SVDiscordRelay.SendToDiscordRaw("Gamble Log", false, msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+    end
     crash_players[ply] = nil
     net.Start("crash.player")
     net.WriteEntity(ply)
@@ -728,8 +736,10 @@ net.Receive("versus.JoinGame",function(l,ply)
             if winner == ply then
                 other = t
             end
-            local msg = winner:Nick() .. " (" .. winner:SteamID() .. ") won " .. round(winamt) .. " IC in versus from " .. other:Nick() .. " (" .. other:SteamID() .. ")"
-		    SVDiscordRelay.SendToDiscordRaw("Gamble bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
+            if winamt > 100 then
+                local msg = winner:Nick() .. " (" .. winner:SteamID() .. ") won " .. round(winamt) .. " IC in versus from " .. other:Nick() .. " (" .. other:SteamID() .. ")"
+                SVDiscordRelay.SendToDiscordRaw("Gamble bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+            end
         end
     end)
 end)
@@ -1374,7 +1384,7 @@ local function chat_()
         local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('" .. ply:SteamID64() .. "','" .. os.time() .. "','" .. db:escape(ply:Nick()) .. "','" .. db:escape(msg) .. "');")
         q:start()
         local msg = "" .. ply:Nick() .. " (" .. ply:SteamID() .. ") said in global gamble: " .. msg
-		SVDiscordRelay.SendToDiscordRaw("Gamble Chat",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
+		SVDiscordRelay.SendToDiscordRaw("Gamble Chat",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
         ply.gChat = CurTime() + 3
     end
 
@@ -1613,8 +1623,10 @@ end)
 
 net.Receive("mines.CashOut",function(l,ply)
     if not MINES_GAMES[ply] then return end
-    local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) .. " IC in mines."
-	SVDiscordRelay.SendToDiscordRaw("Gamble Log", false, msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
+    if (MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) > 100 then
+        local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) .. " IC in mines."
+        SVDiscordRelay.SendToDiscordRaw("Gamble Log", false, msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+    end
     if MINES_GAMES[ply][1]> 10000 then
         DiscordGamble(ply:Nick() .. " (" .. ply:SteamID() .. ") won **" .. string.Comma(round(MINES_GAMES[ply][1])) .. "** IC in Mines.")
     end
