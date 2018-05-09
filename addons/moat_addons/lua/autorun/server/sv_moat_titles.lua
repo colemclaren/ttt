@@ -415,7 +415,7 @@ net.Receive("Moat.TTS",function(l,ply)
             send(urlencode(txt),alive)
             ply:ConCommand("say [TTS] " .. otxt)
 			local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") Used TTS Success: " .. otxt
-			SVDiscordRelay.SendToDiscordRaw("Generic bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
+			SVDiscordRelay.SendToDiscordRaw("Generic bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
         else
            ply:SendLua([[chat.AddText(Color(255,0,0),"There was an error with the TTS and your IC was returned. (]] .. c .. [[)")]]) 
            ply:m_GiveIC(ic)

@@ -846,7 +846,8 @@ function jackpot_()
             if math.random() > 0.5 then
                 winner = sid
             end	
-            local q = db:query("UPDATE moat_versus SET winner = '" .. db:escape(winner) .. "', other = '" .. ply:SteamID64() .. "', time = '" .. os.time() .. "' WHERE steamid = '" .. db:escape(sid) .. "';")
+            local plyz = ply:SteamID64()
+            local q = db:query("UPDATE moat_versus SET winner = '" .. db:escape(winner) .. "', other = '" .. plyz .. "', time = '" .. os.time() .. "' WHERE steamid = '" .. db:escape(sid) .. "';")
             q:start()
             versus_knowngames[sid] = CurTime() + versus_wait + 5
             net.Start("gversus.JoinGame")
@@ -869,6 +870,13 @@ function jackpot_()
                 end
                 local q = db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');")
                 q:start()
+            end)
+            timer.Simple(versus_wait - 2,function()
+                if am < 100 then return end
+                local other = plyz
+                if other == winner then other = sid end
+                local msg = util.SteamIDFrom64(winner) .. " won " .. am .. " IC from " .. util.SteamIDFrom64(other)
+                SVDiscordRelay.SendToDiscordRaw("Gamble Log",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
             end)
         end)
     end
