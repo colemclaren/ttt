@@ -129,11 +129,11 @@ local function loadSQL()
     local cool = {}
     net.Receive("MapVote.Feedback",function(l,ply)
         if (cool[ply] or 0) > CurTime() then return end
-        cool[ply] = CurTime() + 2
+        cool[ply] = CurTime() + 1
         local b = net.ReadBool()
         GiveFeedback(ply,b)
-        local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") Voted " .. tostring(b) .. " on " .. game.GetMap()
-		SVDiscordRelay.SendToDiscordRaw("MapVote bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
+        --[[local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") Voted " .. tostring(b) .. " on " .. game.GetMap()
+		SVDiscordRelay.SendToDiscordRaw("MapVote bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")]]
 
     end)
 end
