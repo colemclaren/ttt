@@ -598,6 +598,7 @@ end
 function PANEL:SetModel(mdl, iSkin, BodyGroups)
 	if ( !mdl ) then debug.Trace() return end
 	if (not mdl:EndsWith(".mdl")) then
+		if (self.ModelPanel) then self.ModelPanel:Remove() end
 		return
 	end
 

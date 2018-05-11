@@ -1,3 +1,50 @@
+function MOAT_INV:SwapSlotPanels(pnl1, pnl2)
+	local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel
+    local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot].VGUI.WModel
+    local M_INV_SLOT1_SKIN = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.MSkin
+    local M_INV_SLOT2_SKIN = M_INV_SLOT[m_HoveredSlot].VGUI.MSkin
+    local M_INV_SLOT1_ITEM = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.Item
+    local M_INV_SLOT2_ITEM = M_INV_SLOT[m_HoveredSlot].VGUI.Item
+    local M_INV_TBL1 = table.Copy(m_Inventory[m_HoveredSlot])
+    local M_INV_TBL2 = table.Copy(m_Inventory[M_INV_DRAG.Slot])
+
+    if (M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel) then
+        if (string.EndsWith(M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel, ".mdl")) then
+            M_INV_SLOT[m_HoveredSlot].VGUI.SIcon.Icon:SetAlpha(255)
+        else
+            M_INV_SLOT[m_HoveredSlot].VGUI.SIcon.Icon:SetAlpha(0)
+        end
+
+        M_INV_SLOT[m_HoveredSlot].VGUI.SIcon:SetModel(M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel, M_INV_SLOT[M_INV_DRAG.Slot].VGUI.MSkin)
+        M_INV_SLOT[m_HoveredSlot].VGUI.SIcon:SetVisible(true)
+    else
+        M_INV_SLOT[m_HoveredSlot].VGUI.SIcon:SetVisible(false)
+    end
+
+    if (M_INV_SLOT[m_HoveredSlot].VGUI.WModel) then
+        if (string.EndsWith(M_INV_SLOT[m_HoveredSlot].VGUI.WModel, ".mdl")) then
+            M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon.Icon:SetAlpha(255)
+        else
+            M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon.Icon:SetAlpha(0)
+        end
+
+        M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon:SetModel(M_INV_SLOT[m_HoveredSlot].VGUI.WModel, M_INV_SLOT[m_HoveredSlot].VGUI.MSkin)
+        M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon:SetVisible(true)
+    else
+        M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon:SetVisible(false)
+    end
+
+    M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel = M_INV_SLOT2_ICON
+    M_INV_SLOT[m_HoveredSlot].VGUI.WModel = M_INV_SLOT1_ICON
+    M_INV_SLOT[M_INV_DRAG.Slot].VGUI.MSkin = M_INV_SLOT2_SKIN
+    M_INV_SLOT[m_HoveredSlot].VGUI.MSkin = M_INV_SLOT1_SKIN
+    M_INV_SLOT[M_INV_DRAG.Slot].VGUI.Item = M_INV_SLOT2_ITEM
+    M_INV_SLOT[m_HoveredSlot].VGUI.Item = M_INV_SLOT1_ITEM
+    m_Inventory[m_HoveredSlot] = M_INV_TBL2
+    m_Inventory[M_INV_DRAG.Slot] = M_INV_TBL1
+end
+
+
 function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
     if (INV_SELECT_MODE) then return end
     if (m_HoveredSlot and M_INV_DRAG.Slot and M_INV_DRAG.Slot ~= m_HoveredSlot) then

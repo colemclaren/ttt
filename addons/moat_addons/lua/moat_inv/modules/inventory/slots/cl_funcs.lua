@@ -205,3 +205,11 @@ function MOAT_INV:GetSlotForID(id)
 	self:AddSlotItem(ns, id)
 	return ns
 end
+
+
+
+function MOAT_INV:ConvertFilesToSQL()
+
+end
+
+concommand.Add("moat_files_sql", function() MOAT_INV:ConvertFilesToSQL() end)
