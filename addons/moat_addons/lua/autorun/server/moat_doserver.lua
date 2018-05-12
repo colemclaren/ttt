@@ -86,9 +86,10 @@ end
 
 local max_kills = 5
 local pl_kills = {}
+local dev_server = GetHostName():lower():find("dev")
 
 hook.Add("PlayerDeath", "AutoBanRDM", function(vic, inf, att)
-    if (MOAT_MINIGAME_OCCURING) then return end
+    if (MOAT_MINIGAME_OCCURING or dev_server) then return end
     if (inf.Avoidable or not IsValid(att) or not att:IsPlayer() or att == vic) then return end
     if (GetRoundState() ~= ROUND_ACTIVE) then return end
     if (att:GetRole() == vic:GetRole()) then
