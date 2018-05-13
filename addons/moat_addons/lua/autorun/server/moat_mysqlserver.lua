@@ -824,10 +824,17 @@ function m_SaveInventory(ply)
     local ply_inv = table.Copy(MOAT_INVS[ply])
     local string1 = ""
     local comma1 = "',"
-
+    
+    if (not ply_inv) then return end
+    
+    local stop = false
     for i = 1, 10 do
-        string1 = string1 .. "l_slot" .. tostring(i) .. "='" .. sql.SQLStr(util.TableToJSON(ply_inv["l_slot" .. i]), true) .. comma1
+        local str = sql.SQLStr(util.TableToJSON(ply_inv["l_slot" .. i]), true)
+        if (not str or str == "nil") then stop = true break end
+        string1 = string1 .. "l_slot" .. tostring(i) .. "='" .. str .. comma1
     end
+    
+    if (stop) then MsgC(Color(0, 255, 0), "COULDNT SAVE inventory for " .. ply:Nick() .. "\n") return end
 
     local inventory_table = {}
 
