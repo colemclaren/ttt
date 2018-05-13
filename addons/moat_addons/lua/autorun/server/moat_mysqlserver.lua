@@ -775,7 +775,11 @@ function m_LoadInventoryForPlayer(ply, cb)
             end
 
             local inventory_tbl = util.JSONToTable(row["inventory"])
-
+            
+            if (row.max_slots ~= #inventory_tbl) then
+                ply:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", #inventory_tbl)
+            end
+            
             if (cb) then cb() end
 
             for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
