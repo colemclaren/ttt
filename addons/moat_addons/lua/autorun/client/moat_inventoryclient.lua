@@ -4296,7 +4296,7 @@ function m_IniateUsableItem(num, itemtbl)
                 return
             end
 
-            if (#s.txt < 3 or #s.txt > 20) then M_REQ_A:SetDisabled(true) elseif (#s.txt > 2) then M_REQ_A:SetDisabled(false) end
+            if (#s.txt < 3 or #s.txt > 30) then M_REQ_A:SetDisabled(true) elseif (#s.txt > 2) then M_REQ_A:SetDisabled(false) end
 
             if (input.IsMouseDown(MOUSE_LEFT)) then
                 if (s.h) then

@@ -1997,7 +1997,7 @@ net.Receive("MOAT_USE_NAME_MUTATOR", function(l, pl)
     end
 
     if (not str) then return end
-    if (#str < 3 or #str > 20) then return end
+    if (#str < 3 or #str > 30) then return end
 
     local stramt = 0
 
@@ -2008,7 +2008,7 @@ net.Receive("MOAT_USE_NAME_MUTATOR", function(l, pl)
         stramt = stramt + 1
     end
 
-    if (stramt > 20) then return end
+    if (stramt > 30) then return end
 
     m_UseUsableItem(pl, slot, class, wep_slot ~= 0 and wep_slot or nil, wep_class ~= 0 and wep_class or nil, str)
 end)
