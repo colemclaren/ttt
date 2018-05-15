@@ -41,7 +41,7 @@ end
 function MOAT_INV:InitializeModules()
 	self.IncludeSH "config.lua"
 	self.IncludeSH(self.ModulePath .. "sh_util.lua")
-	
+
 	self:BigLog "------Welcome to Moat Gaming------"
 	self:BigLog "---------Loading Modules----------"
 	local _, folders = file.Find(self.ModulePath .. "*", "LUA")

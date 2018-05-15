@@ -6,23 +6,6 @@ file.CreateDir(MOAT_INV.Dir)
 file.CreateDir(MOAT_INV.Dir2)
 file.CreateDir(MOAT_INV.Dir3)
 
-
-/*
-    Item Stats
-	NO REASON TO USE THIS
-	IT ONLY ADDS MORE VULNERABILITIES
-*/
-
-function MOAT_INV:GetStats(id)
-    --local s = cookie.GetString("moat_inv" .. id, "")
-    --return util.JSONToTable(s)
-end
-
-function MOAT_INV:SaveStats(id, tbl)
-    --local s = util.TableToJSON(tbl)
-    --return cookie.Set("moat_inv" .. id, s)
-end
-
 /*
     Item Slots
 */
@@ -166,7 +149,9 @@ function MOAT_INV:GetOurSlots(fn)
 
 	self.SlotCache = {fn}
 
-	self.SQL:Query("SELECT slotid, c FROM mg_items;", function(data)
+	local query = self.SQL:CreateQuery("SELECT slotid, c FROM mg_items WHERE steamid = ?;", LocalPlayer():SteamID64())
+
+	self.SQL:Query(query, function(data)
 		local cache = {
 			c = {}, -- id -> slot
 			s = {}, -- slot -> id
@@ -250,7 +235,7 @@ end
 function MOAT_INV:GetSlotForID(id)
 	local sn, st = self:GetOurSlots()
 	if (st.c[id]) then return st.c[id] end
-	
+
 	local ns = self:GetEmptySlot(sn, st)
 	if (ns == 0) then
 		ns = sn + 1

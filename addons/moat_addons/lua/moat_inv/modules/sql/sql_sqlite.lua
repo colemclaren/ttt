@@ -68,10 +68,12 @@ end
 
 function data:Query(q, succ, err)
     local d = sql.Query(q)
-    if (d == false) then
+    if (d == false and err) then
         return err(sql.LastError())
     end
-    return succ(d)
+    if (d ~= false and succ) then
+        return succ(d)
+    end
 end
 
 return function()

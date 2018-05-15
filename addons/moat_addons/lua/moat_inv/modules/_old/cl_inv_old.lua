@@ -874,12 +874,12 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 end
 
 function CreateSlots(num)
-	local tbl = {}
-	for i = 1, num do
-		tbl[i] = {}
-	end
+    local tbl = {}
+    for i = 1, num do
+        tbl[i] = {}
+    end
 
-	return tbl
+    return tbl
 end
 
 m_Inventory = m_Inventory or CreateSlots(40)
@@ -988,6 +988,7 @@ end
 m_ItemCache = m_ItemCache or {}
 m_TalentData = m_TalentData or {}
 m_ItemData = m_ItemData or {}
+m_ItemsLoaded = m_ItemsLoaded or false
 
 
 net.Receive("MOAT_DATA_INFO", function(len)
@@ -999,19 +1000,22 @@ net.Receive("MOAT_DATA_INFO", function(len)
 end)
 
 local function load_slots()
-	local n = MOAT_INV:GetOurSlots()
+    m_ItemsLoaded = true
+    MOAT_INV:GetOurSlots(function(n)
+        for i = 1, n do
+            m_Inventory[i] = {}
+        end
 
-	for i = 1, n do
-		m_Inventory[i] = {}
-	end
-
-	for i = 1, 10 do
-		m_Loadout[i] = {}
-	end
+        for i = 1, 10 do
+            m_Loadout[i] = {}
+        end
+    end)
 end
 
 net.Receive("MOAT_SEND_INV_ITEM", function(len)
-	if (not MOAT_INV.CachedSlots or not (MOAT_INV.CachedSlots[1] and MOAT_INV.CachedSlots[2])) then load_slots() end
+    if (not m_ItemsLoaded) then
+        load_slots()
+    end
 
     local is_loadout = net.ReadBool()
     local i = net.ReadUInt(32)
@@ -1019,9 +1023,9 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
         local slot = i
         local wep = m_ReadWeaponFromNetCache()
 
-		if (wep.c) then
-			wep.l = MOAT_INV:IsLocked(wep.c) and 1
-		end
+        if (wep.c) then
+            wep.l = MOAT_INV:IsLocked(wep.c) and 1
+        end
 
         if (is_loadout) then
             m_Loadout[slot] = wep
@@ -1030,9 +1034,9 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
                 m_SendCosmeticPositions(m_Loadout[slot], slot)
             end
         else
-			if (wep.c) then
-				slot = MOAT_INV:GetSlotForID(wep.c)
-			end
+            if (wep.c) then
+                slot = MOAT_INV:GetSlotForID(wep.c)
+            end
 
             m_Inventory[slot] = wep
 
@@ -1163,7 +1167,7 @@ rarity_names[0] = {
         min = 10,
         max = 20
     },
-	"https://i.moat.gg/HchBd.png"
+    "https://i.moat.gg/HchBd.png"
 }
 
 hook.Add("Think", "moat_InventoryHSV", function()
@@ -1173,16 +1177,16 @@ hook.Add("Think", "moat_InventoryHSV", function()
         MOAT_PAINT.Colors[58][2] = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
     end*/
 
-	rarity_names[0][2] = Color(74, 73, 68)
-	rarity_names[1][2] = Color(204, 204, 255)
-	rarity_names[2][2] = Color(0, 0, 255)
-	rarity_names[3][2] = Color(127, 0, 255)
-	rarity_names[4][2] = Color(255, 0, 255)
-	rarity_names[5][2] = Color(255, 0, 0)
-	rarity_names[6][2] = Color(255, 205, 0)
-	rarity_names[7][2] = Color(0, 255, 0)
-	rarity_names[8][2] = Color(255, 128, 0)
-	rarity_names[9][2] = HSVToColor( CurTime() * 70 % 360, 1, 1 )
+    rarity_names[0][2] = Color(74, 73, 68)
+    rarity_names[1][2] = Color(204, 204, 255)
+    rarity_names[2][2] = Color(0, 0, 255)
+    rarity_names[3][2] = Color(127, 0, 255)
+    rarity_names[4][2] = Color(255, 0, 255)
+    rarity_names[5][2] = Color(255, 0, 0)
+    rarity_names[6][2] = Color(255, 205, 0)
+    rarity_names[7][2] = Color(0, 255, 0)
+    rarity_names[8][2] = Color(255, 128, 0)
+    rarity_names[9][2] = HSVToColor( CurTime() * 70 % 360, 1, 1 )
 end)
 
 local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
@@ -2491,51 +2495,51 @@ function m_OpenInventory(ply2, utrade)
         local tbl = {}
         tbl.VGUI = m_DPanelIcon
         tbl.Slot = num
-		tbl.Panel = m_DPanel
+        tbl.Panel = m_DPanel
         M_INV_SLOT[num] = tbl
     end
 
-	local function m_HandleLayoutSpacing(remove)
-		if (remove) then
-			if (IsValid(M_INV_L.Spacing)) then M_INV_L.Spacing:Remove() end
-			return
-		end
+    local function m_HandleLayoutSpacing(remove)
+        if (remove) then
+            if (IsValid(M_INV_L.Spacing)) then M_INV_L.Spacing:Remove() end
+            return
+        end
 
-		M_INV_L.Spacing = M_INV_L:Add("DPanel")
+        M_INV_L.Spacing = M_INV_L:Add("DPanel")
         M_INV_L.Spacing:SetSize(676, 2)
         M_INV_L.Spacing.Paint = nil
-	end
+    end
 
-	function m_RemoveInvSlot(num)
+    function m_RemoveInvSlot(num)
         m_HandleLayoutSpacing(true)
 
-		if (M_INV_SLOT[num] and M_INV_SLOT[num].Panel) then
-			M_INV_SLOT[num].Panel:Remove()
-		end
+        if (M_INV_SLOT[num] and M_INV_SLOT[num].Panel) then
+            M_INV_SLOT[num].Panel:Remove()
+        end
 
-       	m_HandleLayoutSpacing()
-	end
+           m_HandleLayoutSpacing()
+    end
 
-	function m_CreateNewInvSlot(num)
+    function m_CreateNewInvSlot(num)
         m_HandleLayoutSpacing(true)
-		m_CreateInvSlot(num)
-		m_HandleLayoutSpacing()
+        m_CreateInvSlot(num)
+        m_HandleLayoutSpacing()
 
-		M_INV_SP.VBar.ScrollOnExtend = true
-		local s = M_INV_SP.VBar.CanvasSize
-		M_INV_SP.VBar.LerpTarget = s
-		M_INV_SP.VBar:SetScroll(s)
-	end
+        M_INV_SP.VBar.ScrollOnExtend = true
+        local s = M_INV_SP.VBar.CanvasSize
+        M_INV_SP.VBar.LerpTarget = s
+        M_INV_SP.VBar:SetScroll(s)
+    end
 
     local function m_CreateInventorySlots(num)
         for i = 1, num do
             m_CreateInvSlot(i)
         end
 
-		m_HandleLayoutSpacing()
+        m_HandleLayoutSpacing()
     end
     
-	m_CreateInventorySlots(#m_Inventory)
+    m_CreateInventorySlots(#m_Inventory)
 
     local inv_pnl_x2 = MOAT_INV_BG:GetWide() - (350 + 14) - 18 - 5 - 78
     local M_INV_LP = vgui.Create("DPanel", M_LOADOUT_PNL)
@@ -4728,14 +4732,14 @@ function m_CreateItemMenu(num, ldt)
     end
 
     M_INV_MENU:AddOption(lock_text, function()
-		if (itemtbl.l and itemtbl.l == 1) then
-			MOAT_INV:RemoveLocked(itemtbl.c)
-			itemtbl.l = nil
-			return
-		end
+        if (itemtbl.l and itemtbl.l == 1) then
+            MOAT_INV:RemoveLocked(itemtbl.c)
+            itemtbl.l = nil
+            return
+        end
 
-		MOAT_INV:AddLocked(itemtbl.c)
-		itemtbl.l = 1
+        MOAT_INV:AddLocked(itemtbl.c)
+        itemtbl.l = 1
     end):SetIcon("icon16/lock" .. lock_image .. ".png")
 
     local M_INV_MENU2, M_INV_MENU2P = M_INV_MENU:AddSubMenu "More Options" 
@@ -6448,7 +6452,7 @@ end)
 
 net.Receive("MOAT_MAX_SLOTS", function(len)
     local max_slots = net.ReadDouble()
-	/*
+    /*
     local max_slots_old = max_slots - 4
 
     if (max_slots > 350) then
