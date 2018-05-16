@@ -1,6 +1,6 @@
 COMMAND.Name = "Perma"
 
-COMMAND.Flag = D3A.Config.Commands.Perma
+COMMAND.Flag = "t"
 COMMAND.AdminMode = true
 COMMAND.CheckRankWeight = true
 
