@@ -4279,7 +4279,7 @@ function m_IniateUsableItem(num, itemtbl)
         ne:SetPos(5, M_USABLE_PNL_BG:GetTall() - 115)
         ne:SetSize(M_USABLE_PNL_BG:GetWide() - 10, 30)
         ne:SetFont("GModNotify")
-        ne.MaxChars = 20
+        ne.MaxChars = 30
         ne.ed = false
         ne.txt = ""
         ne.Paint = function(s, w, h)
