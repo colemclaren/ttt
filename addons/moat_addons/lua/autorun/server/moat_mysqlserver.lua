@@ -773,6 +773,7 @@ function m_LoadInventoryForPlayer(ply, cb)
             for i = 1, 10 do
                 inv_tbl["l_slot" .. i] = util.JSONToTable(row["l_slot" .. i])
 				if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].item) then inv_tbl["l_slot" .. i].item = nil end
+				if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].Talents) then inv_tbl["l_slot" .. i].Talents = nil end
             end
 
             local inventory_tbl = util.JSONToTable(row["inventory"])
@@ -786,6 +787,7 @@ function m_LoadInventoryForPlayer(ply, cb)
             for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
                 inv_tbl["slot" .. i] = inventory_tbl[i]
 				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].item) then inv_tbl["slot" .. i].item = nil end
+				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].Talents) then inv_tbl["slot" .. i].Talents = nil end
 
                 if (i == ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS")) then
                     MOAT_INVS[ply] = inv_tbl
@@ -832,6 +834,7 @@ function m_SaveInventory(ply)
     local stop = false
     for i = 1, 10 do
 		if (ply_inv["l_slot" .. i] and ply_inv["l_slot" .. i].item) then ply_inv["l_slot" .. i].item = nil end
+		if (ply_inv["l_slot" .. i] and ply_inv["l_slot" .. i].Talents) then ply_inv["l_slot" .. i].Talents = nil end
 
         local str = sql.SQLStr(util.TableToJSON(ply_inv["l_slot" .. i]), true)
         if (not str or str == "nil") then stop = true break end
@@ -844,6 +847,8 @@ function m_SaveInventory(ply)
 
     for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
 		if (ply_inv["slot" .. i] and ply_inv["slot" .. i].item) then ply_inv["slot" .. i].item = nil end
+		if (ply_inv["slot" .. i] and ply_inv["slot" .. i].Talents) then ply_inv["slot" .. i].Talents = nil end
+
         table.insert(inventory_table, ply_inv["slot" .. i])
     end
 
