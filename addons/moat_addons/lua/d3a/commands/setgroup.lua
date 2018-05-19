@@ -19,6 +19,11 @@ COMMAND.Run = function(pl, args, supp)
 		end
 		newrank = args[4]
 	end
+
+	if (tmname == "trialstaff") then
+		exptime = 43200 * 60
+		newrank = "moderator"
+	end
 	
 	local targ = D3A.FindPlayer(args[1]);
 	
