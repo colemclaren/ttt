@@ -1,6 +1,6 @@
 COMMAND.Name = "Perma"
 
-COMMAND.Flag = "t"
+COMMAND.Flag = "m"
 COMMAND.AdminMode = true
 COMMAND.CheckRankWeight = true
 
@@ -33,8 +33,8 @@ COMMAND.Run = function(pl, args, supplement)
 	
 	D3A.Bans.GetBans(targstid, function(Bans)
 		if (Bans.Current) then
-			if (!pl:HasAccess("S")) then
-				D3A.Chat.SendToPlayer2(pl, moat_red, targstid .. " is already banned ('S' access required to update a ban)")
+			if (!pl:HasAccess("A")) then
+				D3A.Chat.SendToPlayer2(pl, moat_red, targstid .. " is already banned (Administrator access required to update a ban)")
 				return
 			end
 

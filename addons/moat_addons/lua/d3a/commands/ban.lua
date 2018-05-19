@@ -40,10 +40,10 @@ COMMAND.Run = function(pl, args, supplement)
 	units2["year"] = 29030400
 	local banlen = time * units2[unit]
 
-	/*if (pl:IsValid() and pl:IsUserGroup("trialstaff") and banlen > 172800) then
+	if (pl:IsValid() and pl:IsUserGroup("trialstaff") and banlen > 604800) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Trial Staff can only ban a maximum of 2 days!")
 		return
-	end*/
+	end
 	
 	local targpl = D3A.FindPlayer(targ)
 	
