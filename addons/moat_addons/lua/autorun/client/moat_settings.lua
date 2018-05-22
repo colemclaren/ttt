@@ -113,7 +113,7 @@ hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
 
 	view.origin = pos
 	view.angles = angles
-	view.fov = 75 + (math.min(GetConVar("moat_clfov"):GetFloat(),1) * 35)
+	view.fov = 75 + (math.min(GetConVar("moat_clfov"):GetFloat(),3) * 35)
 
 	return view
 end)
