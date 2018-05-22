@@ -142,7 +142,8 @@ function MOAT_INV:GetOurSlots(fn)
 	if (self.CachedSlots and self.CachedSlots[1] and self.CachedSlots[2]) then
 		return fn(self.CachedSlots[1], self.CachedSlots[2])
 	end
-	if (self.SlotCache) then
+
+	if (next(self.SlotCache) ~= nil) then
 		table.insert(self.SlotCache, fn)
 		return
 	end
