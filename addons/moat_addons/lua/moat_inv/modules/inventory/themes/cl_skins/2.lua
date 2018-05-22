@@ -44,7 +44,7 @@ local function DrawBlur(panel, amount)
 end
 
 local no_item = "https://i.moat.gg/5xhfv.png"
-MOAT_THEME.Themes["new"] = {
+MOAT_THEME.Themes["newinv"] = {
     Background = Color(0, 0, 0, 100),
     Header = Color(46, 49, 54),
     TextColor = Color(255, 255, 255),
