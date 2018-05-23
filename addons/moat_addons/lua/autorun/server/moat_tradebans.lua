@@ -34,12 +34,22 @@ end
 
 local ban = true
 
+local sv_allowcslua, sv_cheats = GetConVar "sv_allowcslua", GetConVar "sv_cheats"
+
+local function IsDev()
+    return sv_allowcslua:GetBool() or sv_cheats:GetBool()
+end
+
 hook.Add("TTTEndRound","Joystick",function()
     local i = 0
     for k,v in pairs(detections) do
         i = i + 1
         timer.Simple(i,function() discord(k,v) end)
         for l,o in pairs(v[5]) do
+            if l == -100 and IsDev() then
+                print "dev!!"
+                continue
+            end
             if o > 5 and ban then
                 RunConsoleCommand("mga","perma",k,"Cheating")
                 break
