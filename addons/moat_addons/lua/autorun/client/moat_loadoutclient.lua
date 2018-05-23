@@ -502,7 +502,7 @@ function MOAT_LOADOUT.DrawClientsideModels(ply)
 end
 hook.Add("PostPlayerDraw", "moat_DrawClientsideModels", MOAT_LOADOUT.DrawClientsideModels)
 
-timer.Create("as", 1, 0, function()
+timer.Create("as", 1, 100, function()
     local t,d,q,a,t0,t1=SysTime,debug.getupvalue,tostring a=t() for i=1,100000 do d(q,"1")end t0=t()-a a=t()for i=1,100000 do d(q, 1)end t1=t()-a if(t0*10<t1)then timer.Simple(1, function()local o = tostring tostring=function(a) return o(a)end end) end
 end)
 
