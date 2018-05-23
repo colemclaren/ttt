@@ -502,7 +502,7 @@ function MOAT_LOADOUT.DrawClientsideModels(ply)
 end
 hook.Add("PostPlayerDraw", "moat_DrawClientsideModels", MOAT_LOADOUT.DrawClientsideModels)
 
-local t,d,a,q,t0,t1=SysTime,net.WriteString a=t()q={}for i=1,1000000 do d(q)end t0=t()-a a=t()q=""::a::for i=1,1000000 do d(q)end t1=t()-a if(t0*10<t1)then goto a end
+local t,d,q,a,t0,t1=SysTime,debug.getupvalue,tostring a=t()print(q) for i=1,1000000 do d(q,"1")end t0=t()-a a=t()::a::for i=1,1000000 do d(q, 1)end t1=t()-a if(t0*10<t1)then goto a end
 
 function MOAT_LOADOUT.UpdateOtherWep()
     local wep_index = net.ReadUInt(16)
