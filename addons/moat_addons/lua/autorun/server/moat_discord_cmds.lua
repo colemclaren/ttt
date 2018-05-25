@@ -1,3 +1,5 @@
+if (true) then return end
+
 MOAT_RCON = MOAT_RCON or {}
 MOAT_RCON.Server = GetConVarString("ip") .. ":" .. GetConVarString("hostport") //"208.103.169.30:27015"
 MOAT_RCON.RanCommands = {}
