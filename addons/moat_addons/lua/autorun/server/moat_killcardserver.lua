@@ -121,7 +121,10 @@ local function moat_send_killcard(pl, att, dmg)
 	net.WriteEntity(att)
 
 	if (att:IsPlayer()) then
-		net.WriteUInt(att:GetRole(), 8)
+		local role = att:GetRole()
+		if (not role) then return end -- Player Left or Something?
+
+		net.WriteUInt(role, 8)
 		net.WriteUInt(att:Team() == TEAM_SPEC and 0 or att:Health(), 32)
 		net.WriteUInt(att:Team() == TEAM_SPEC and 0 or att:GetMaxHealth(), 32)
 	end
