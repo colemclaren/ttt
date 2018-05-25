@@ -1,5 +1,3 @@
-if (true) then return end
-
 MOAT_RCON = MOAT_RCON or {}
 MOAT_RCON.Server = GetConVarString("ip") .. ":" .. GetConVarString("hostport") //"208.103.169.30:27015"
 MOAT_RCON.RanCommands = {}
@@ -41,9 +39,9 @@ function MOAT_RCON:ProcessCommand(d)
 end
 
 function MOAT_RCON:CheckQueue(srvr)
-	self:Query("call selectRconCommands(#);", srvr, function(d)
+	self:Query("select id, staff_steamid, staff_rank, staff_name, command, args, steamid from rcon_commands as rc inner join rcon_queue as rq on rc.id = rq.cmdid where rq.server = #;", srvr, function(d)
 		if (not d or not d[1]) then return end
-		self:Query("call removeRconCommands(#);", srvr, function()
+		self:Query("delete from rcon_queue where server = #;", srvr, function()
 			for i = 1, #d do
 				MOAT_RCON:ProcessCommand(d[i])
 			end
