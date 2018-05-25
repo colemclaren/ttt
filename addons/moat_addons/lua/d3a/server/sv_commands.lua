@@ -24,7 +24,7 @@ function D3A.Commands.CheckArgs(pl, cmd, args)
 	local err
 	local supp = {}
 	
-	if (pl:IsPlayer() and !pl:HasAccess(cmd.Flag)) then
+	if ((pl and not pl.rcon) and pl:IsPlayer() and !pl:HasAccess(cmd.Flag)) then
 		err = "'" .. cmd.Flag .. "' access required!"
 	end
 	
@@ -45,12 +45,10 @@ function D3A.Commands.CheckArgs(pl, cmd, args)
 			elseif (v[1] == "player") then
 				local targ = D3A.FindPlayer(args[k])
 				if (targ) then
-					if (cmd.CheckRankWeight) then
-						if (!D3A.Ranks.CheckWeight(pl, targ)) then
-							err = "Player's rank is equal or greater weight than yours!"
-							D3A.Chat.SendToPlayer2(targ, moat_red, pl:Name() .. " (" .. pl:SteamID() .. ") attempted to use " .. cmd.Name .. " on you.")
-							break
-						end
+					if (cmd.CheckRankWeight and !D3A.Ranks.CheckWeight(pl, targ)) then
+						err = "Player's rank is equal or greater weight than yours!"
+						D3A.Chat.SendToPlayer2(targ, moat_red, pl:Name() .. " (" .. pl:SteamID() .. ") attempted to use " .. cmd.Name .. " on you.")
+						break
 					end
 					table.insert(supp, targ)
 				else err = "Unknown player " .. args[k] .. "." break end
@@ -76,7 +74,7 @@ end
 
 function D3A.Commands.Parse(pl, cmd, args) -- cmd is the actual command here
 	for k, v in pairs(D3A.Commands.Stored) do if (v.Alias and v.Alias == cmd) then cmd = v.Name:lower(); break; end end
-	
+
 	if (D3A.Commands.Stored[cmd]) then
 		local cmd = D3A.Commands.Stored[cmd]
 		local supp
@@ -91,7 +89,7 @@ function D3A.Commands.Parse(pl, cmd, args) -- cmd is the actual command here
 			cmd.Run(pl, args, supp)
 		end
 	else
-		if (cmd == "help") then
+		if (cmd == "help" and not pl.rcon) then
 			pl:PrintMessage(HUD_PRINTCONSOLE, "\n\nMGA | Your available commands:\n")
 			for i, l in pairs(D3A.Commands.Stored) do
 				if (!pl:HasAccess(l.Flag or "")) then continue end
@@ -160,7 +158,6 @@ function D3A.Commands.PlayerSay(pl, text, teamchat)
 			table.remove(explode, 1)
 			
 			local args = parseQuotes(explode)
-			
 			D3A.Commands.Parse(pl, cmd, args)
 		end
 		

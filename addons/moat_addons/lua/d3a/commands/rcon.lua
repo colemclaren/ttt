@@ -1,8 +1,7 @@
 COMMAND.Name = "Rcon"
-
 COMMAND.Flag = "*"
-
 COMMAND.Args = {{"string", "Command"}}
+COMMAND.skipArgParsing = true
 
 COMMAND.Run = function(pl, args, supp)
 	local da_cmd = table.concat(args, " ", 1)

@@ -190,6 +190,7 @@ function D3A.Player.PlayerAuthed(pl)
 			end
 		end
 		table.insert(msg_tbl, ".")
+
 		D3A.Chat.Broadcast2(unpack(msg_tbl))
 		
 		pl:SaveInfo()

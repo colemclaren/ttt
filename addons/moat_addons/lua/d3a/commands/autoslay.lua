@@ -11,7 +11,7 @@ COMMAND.CheckArgs = function(pl, cmd, args)
 	local err
 	local supp = false
 	
-	if (pl:IsPlayer() and !pl:HasAccess(cmd.Flag)) then
+	if ((pl and not pl.rcon) and pl:IsPlayer() and !pl:HasAccess(cmd.Flag)) then
 		err = "'" .. cmd.Flag .. "' access required!"
 	end
 	
@@ -56,7 +56,7 @@ COMMAND.CheckArgs = function(pl, cmd, args)
 end
 
 COMMAND.Run = function(pl, args, supplement)
-	local plname = (pl:IsValid() and pl:Name()) or "Console"
+	local plname = (((pl and pl.rcon) or pl:IsValid()) and pl:Name()) or "Console"
 	
 	local targ = supplement[1]
 	local rounds = tonumber(args[2]) or 1
@@ -67,8 +67,8 @@ COMMAND.Run = function(pl, args, supplement)
 	Damagelog:SetSlays(pl, targ:SteamID(), rounds, reason, targ)
 	
 	if (rounds >= 1) then
-		D3A.Chat.Broadcast2(moat_cyan, plname, moat_white, " has added ", moat_green, tostring(rounds), moat_white, " autoslays to ", moat_green, targ:Name(), moat_white, " with the reason: ", moat_green, reason, moat_white, ".")
+		D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has added ", moat_green, tostring(rounds), moat_white, " autoslays to ", moat_green, targ:Name(), moat_white, " with the reason: ", moat_green, reason, moat_white, ".")
 	else
-		D3A.Chat.Broadcast2(moat_cyan, plname, moat_white, " has removed the autoslays of ", moat_green, targ:Name(), moat_white, ".")
+		D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has removed the autoslays of ", moat_green, targ:Name(), moat_white, ".")
 	end
 end

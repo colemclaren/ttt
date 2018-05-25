@@ -6,8 +6,8 @@ COMMAND.Flag = D3A.Config.Commands.SetGroup
 COMMAND.Args = {{"string", "Name/SteamID"}, {"string", "Rank"}}
 
 COMMAND.Run = function(pl, args, supp)
-	local plname = (pl:IsValid() and pl:Name()) or "Console"
-	local plstid = (pl:IsValid() and pl:SteamID()) or "CONSOLE"
+	local plname = (((pl and pl.rcon) or pl:IsValid()) and pl:Name()) or "Console"
+	local plstid = (((pl and pl.rcon) or pl:IsValid()) and pl:SteamID()) or "CONSOLE"
 	local tmname = args[2]:lower()
 	local exptime = 0
 	local newrank
@@ -45,7 +45,7 @@ COMMAND.Run = function(pl, args, supp)
 			tmname = D3A.Ranks.Stored[tmname].Name
 			newrank = (newrank and D3A.Ranks.Stored[newrank].Name) or nil
 			
-			D3A.Chat.Broadcast2(moat_cyan, plname, moat_white, " has set the rank of ", moat_green, targ:Name(), moat_white, " (", moat_green, targ:SteamID(), moat_white, ") to ", moat_green, tmname, moat_white, ".")
+			D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has set the rank of ", moat_green, targ:Name(), moat_white, " (", moat_green, targ:SteamID(), moat_white, ") to ", moat_green, tmname, moat_white, ".")
 		end
 	else
 		local steamID = D3A.MySQL.Escape(args[1]);
@@ -75,7 +75,7 @@ COMMAND.Run = function(pl, args, supp)
 					tmname = D3A.Ranks.Stored[tmname].Name
 					newrank = (newrank and D3A.Ranks.Stored[newrank].Name) or nil
 					
-					D3A.Chat.Broadcast2(moat_cyan, plname, moat_white, " has set the rank of ", moat_green, data.name, moat_white, " (", moat_green, steamID, moat_white, ") to ", moat_green, tmname, moat_white, ".")
+					D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has set the rank of ", moat_green, data.name, moat_white, " (", moat_green, steamID, moat_white, ") to ", moat_green, tmname, moat_white, ".")
 					
 					D3A.Chat.SendToPlayer2(pl, moat_red, "WARNING: If this player is online on another MG TTT server right now, this will not work.")
 				end

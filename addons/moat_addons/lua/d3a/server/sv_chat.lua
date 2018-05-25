@@ -60,21 +60,39 @@ function D3A.Chat.BroadcastStaff(Text, Type)
 end
 
 function D3A.Chat.Broadcast2(...)
+	local args = {...}
+
+	if (args[1] and (isentity(args[1]) or (istable(args[1]) and args[1].rcon))) then
+		local info = args[1]
+		table.remove(args, 1)
+
+		if (istable(info) and info.rcon) then
+			MOAT_RCON:Post(info, args)
+		end
+	end
+
 	net.Start("D3A.Chat2")
-		net.WriteTable({...})
+		net.WriteTable(args)
 	net.Broadcast()
 
-	MsgC(...)
+	MsgC(unpack(args))
 	MsgC("\n")
 end
 
 function D3A.Chat.SendToPlayer2(pl, ...)
+	MsgC(...)
+	MsgC("\n")
+
+	if (pl and istable(pl) and pl.rcon) then
+		MOAT_RCON:Post(pl, {...})
+		return
+	elseif (not IsValid(pl)) then 
+		return
+	end
+
 	net.Start("D3A.Chat2")
 		net.WriteTable({...})
 	net.Send(pl)
-
-	MsgC(...)
-	MsgC("\n")
 end
 
 function D3A.Chat.BroadcastStaff2(...)

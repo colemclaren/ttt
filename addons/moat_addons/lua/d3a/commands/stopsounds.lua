@@ -6,5 +6,5 @@ COMMAND.Run = function(pl, args, supp)
 		v:SendLua("LocalPlayer():ConCommand('stopsound')")
 	end
 	
-	D3A.Chat.Broadcast2(moat_cyan, pl:NameID(), moat_white, " has stopped sounds.")
+	D3A.Chat.Broadcast2(pl, moat_cyan, pl:NameID(), moat_white, " has stopped sounds.")
 end

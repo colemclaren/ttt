@@ -11,7 +11,7 @@ COMMAND.CheckArgs = function(pl, cmd, args)
 	local err
 	local supp = false
 	
-	if (pl:IsPlayer() and !pl:HasAccess(cmd.Flag)) then
+	if ((pl and not pl.rcon) and pl:IsPlayer() and !pl:HasAccess(cmd.Flag)) then
 		err = "'" .. cmd.Flag .. "' access required!"
 	end
 	

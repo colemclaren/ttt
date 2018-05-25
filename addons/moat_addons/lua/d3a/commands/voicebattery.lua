@@ -12,5 +12,5 @@ COMMAND.Run = function(pl, args, supp)
 
 	RunConsoleCommand("ttt_voice_drain", (vbatenabled and 1) or 0)
 
-	D3A.Chat.Broadcast2(moat_cyan, pl:Name(), moat_white, " has ", moat_green, ((vbatenabled and "enabled") or "disabled"), moat_white, " the ", moat_green, "voice battery", moat_white, ". Changes will take effect next round.")
+	D3A.Chat.Broadcast2(pl, moat_cyan, pl:Name(), moat_white, " has ", moat_green, ((vbatenabled and "enabled") or "disabled"), moat_white, " the ", moat_green, "voice battery", moat_white, ". Changes will take effect next round.")
 end
