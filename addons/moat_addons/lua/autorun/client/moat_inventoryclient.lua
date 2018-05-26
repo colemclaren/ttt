@@ -2187,9 +2187,9 @@ function m_OpenInventory(ply2, utrade)
             M_INV_L:SizeTo(350, 488, 0.15)
         end
 
-        for i = 1, #m_Inventory do
-            m_Inventory[i].decon = false
-        end
+		for k, v in pairs(m_Inventory) do
+			v.decon = false
+		end
 
         MOAT_ITEMS_DECON_MARKED = 0
 
