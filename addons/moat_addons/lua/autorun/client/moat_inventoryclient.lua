@@ -1809,8 +1809,7 @@ function m_OpenInventory(ply2, utrade)
         s:RequestFocus()
     end
 
-    M_INV_C.DoClick = function()
-        --gui.EnableScreenClicker( false )
+	function MOAT_INV_BG:SafeClose(send)
         MOAT_INV_BG:Remove()
 
         if (m_ply2 and m_utrade) then
@@ -1824,7 +1823,17 @@ function m_OpenInventory(ply2, utrade)
             net.WriteDouble(m_ply2:EntIndex())
             net.WriteDouble(m_utrade)
             net.SendToServer()
-        end
+        elseif (send) then
+            moat_inv_cooldown = CurTime() + 1
+            m_ClearInventory()
+            net.Start("MOAT_SEND_INV_ITEM")
+            net.SendToServer()
+		end
+	end
+
+    M_INV_C.DoClick = function()
+        --gui.EnableScreenClicker( false )
+        MOAT_INV_BG:SafeClose()
     end
 
     //M_INV_CATS = {{"Loadout", 90}, {"Player", 90}, {"Trading", 90}, {"Shop", 90}, {"Gamble", 90}, {"Bounties", 90}, {"Settings", 90}}

@@ -219,7 +219,7 @@ function m_MakeLotteryPanel()
             net.Start("lottery.Purchase")
             net.WriteInt(i,32)
             net.SendToServer()
-        end, "Nevermind")
+        end)
     end
 end
 
