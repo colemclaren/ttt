@@ -1263,6 +1263,9 @@ function jackpot_()
                         return
                     end
                         getplayers(function(p)
+                            net.Start("jackpot.players")
+                            net.WriteTable(p)
+                            net.Broadcast()
                             s = s[1]
                             s.time_end = tonumber(s.time_end)
                             if s.time_end ~= 0 then
