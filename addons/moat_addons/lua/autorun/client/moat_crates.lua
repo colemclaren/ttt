@@ -6,7 +6,8 @@ function m_OpenCrate(tbl, fastopen)
         chat.AddText(Color(255, 0, 0), "Please wait " .. math.Round(CurTime() - crate_wait) .. " sec(s) before opening another crate!")
         return
     end
-    
+
+	if (not tbl.c) then return end
     net.Start("MOAT_VERIFY_CRATE")
     net.WriteDouble(tonumber(tbl.c))
     net.WriteBool(fastopen or false)
