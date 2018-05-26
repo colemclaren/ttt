@@ -71,11 +71,13 @@ else
 
 	net.Receive("moat_finishRaffle", function()
 		local winningPly = net.ReadEntity()
-		playerRaffleNick = IsValid(winningPly) and winningPly:Nick() or "Winner Left rofl"
 		finalizedRaffle = true
-		chat.AddText(Color(237, 225, 165), playerRaffleNick, Color(197, 179, 88), ' won the raffle!')
 
-		playerAvatarRoulette:SetPlayer(winningPly, avatarSize)
+		if (IsValid(playerAvatarRoulette)) then
+			playerRaffleNick = IsValid(winningPly) and winningPly:Nick() or "Winner Left rofl"
+			chat.AddText(Color(237, 225, 165), playerRaffleNick, Color(197, 179, 88), ' won the raffle!')
+			playerAvatarRoulette:SetPlayer(winningPly, avatarSize)
+		end
 	end)
 	
 	net.Receive('moat_startRaffle', function(len)
