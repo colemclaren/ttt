@@ -171,7 +171,7 @@ function PANEL:Init()
 	end
 	
 	-- Volume slider
-	self.volumeSliderContainer = vgui.Create( 'DPanel', self )
+	/*self.volumeSliderContainer = vgui.Create( 'DPanel', self )
 	self.volumeSliderContainer:SetSize( 180, 40 )
 	self.volumeSliderContainer:SetPos( ScrW() - 200 , ScrH() - 60 )
 	self.volumeSliderContainer.Paint = function() end
@@ -209,7 +209,7 @@ function PANEL:Init()
 			volume = sliderVolume
 			file.Write( 'crashscreen-volume.dat', tostring( sliderVolume ) ) -- Cookie not working???
 		end
-	end
+	end*/
 	
 	-- Chat panel
 	if _this.config.chatURL then
@@ -249,7 +249,7 @@ function PANEL:onTerminated()
 end
 
 function PANEL:setVolumeSliderEnabled( enabled )
-	self.volumeSliderContainer:SetVisible( enabled )
+	--self.volumeSliderContainer:SetVisible( enabled )
 end
 
 function PANEL:setBackground( background )
