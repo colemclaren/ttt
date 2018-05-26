@@ -3611,7 +3611,7 @@ net.Receive("gversus.FinishGame",function()
 	gversus_players[ply][4] = win
 	local plyname = "forsenE"
 	local winname = "forsenE"
-	
+	--s
 	steamworks.RequestPlayerInfo(ply, function()
 		plyname = steamworks.GetPlayerName(ply)
 	end)
