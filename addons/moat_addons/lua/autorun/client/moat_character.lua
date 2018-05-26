@@ -161,26 +161,37 @@ function m_DeleteLoadout(name)
 	end)
 end
 
+local function LoadFromLoadout()
+	Loadout = {
+		CurLoadout = "Default",
+		Loadouts = {
+			["Default"] = {}
+		}
+	}
+	for k,v in pairs(m_Loadout) do
+		if v.c then
+			Loadout.Loadouts["Default"][k] = v.c
+		end
+	end
+end
 
 function m_PopulateStats(pnl)
 	if not loaded then
-		if file.Exists("moat_loadouts.txt","DATA") then
-			Loadout = util.JSONToTable(file.Read("moat_loadouts.txt","DATA"))
-		else
-			Loadout = {
-				CurLoadout = "Default",
-				Loadouts = {
-					["Default"] = {}
-				}
-			}
-			for k,v in pairs(m_Loadout) do
-				if v.c then
-					Loadout.Loadouts["Default"][k] = v.c
-				end
+		if file.Exists("moat_loadouts.txt", "DATA") then
+			local saved = util.JSONToTable(file.Read("moat_loadouts.txt","DATA"))
+			if (saved) then
+				Loadout = saved
+			else
+				file.Delete("moat_loadouts.txt") // Corrupted or something???
+				LoadFromLoadout()
 			end
+		else
+			LoadFromLoadout()
 		end
+
 		loaded = true
 	end
+
     local level = LocalPlayer():GetNWInt("MOAT_STATS_LVL", 0)
     local xp = LocalPlayer():GetNWInt("MOAT_STATS_XP", 0)
     local drops = LocalPlayer():GetNWInt("MOAT_STATS_DROPS", 0)
