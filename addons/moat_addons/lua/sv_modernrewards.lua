@@ -140,6 +140,7 @@ function REWARDS.CheckPlayerSteamGroup(ply, group, callback, link)
 	http.Fetch( link or string.format("http://steamcommunity.com/groups/%s/memberslistxml/?xml=1&c=%i",group,CurTime()),
 	function(body,len,headers,code)
 	if code==200 then
+		if (not IsValid(ply)) then return end
 		local results = XMLToTable(body)
 		if not results or not results.memberList or not results.memberList.members or not results.memberList.members.steamID64 then if callback then callback(ply) end return end
 		for k,v in pairs(results.memberList.members.steamID64) do
