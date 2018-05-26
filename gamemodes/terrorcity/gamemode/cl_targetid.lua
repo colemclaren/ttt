@@ -235,7 +235,7 @@ function GM:TTTGetCurrentPlayerTrace()
     local obs_mode = p:GetObserverMode()
     if (obs_mode == OBS_MODE_IN_EYE) then
         local obs = p:GetObserverTarget()
-        if (obs:IsPlayer()) then
+        if (obs and obs:IsPlayer()) then
             p = obs
             table.insert(filter, obs)
         end
