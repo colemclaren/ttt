@@ -6,6 +6,7 @@
 CreateConVar("vape_block_sounds", "0", FCVAR_REPLICATED, "Set to 1 to disable Vape SWEP speech sounds")
 
 --override Entity:SetMaterial to make sure vape shows for ponies
+/*
 meta = FindMetaTable("Entity")
 if meta.VapeOrigSetMaterial == nil then
 	meta.VapeOrigSetMaterial = meta.SetMaterial
@@ -14,3 +15,4 @@ if meta.VapeOrigSetMaterial == nil then
 		self:VapeOrigSetMaterial(materialName, forceMaterial)
 	end
 end
+*/
