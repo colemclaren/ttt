@@ -6598,7 +6598,7 @@ function m_DrawDeconButton()
         local items_decon = 0
 
         for i = 1, #m_Inventory do
-            if (m_Inventory[i].decon) then
+            if (m_Inventory[i] and m_Inventory[i].decon) then
                 items_decon = items_decon + 1
 
                 net.Start("MOAT_REM_INV_ITEM")
