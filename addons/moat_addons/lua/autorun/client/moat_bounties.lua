@@ -256,6 +256,7 @@ net.Receive("moat.contracts",function()
         end
     end)
     contracts_tbl.my_score = net.ReadInt(32)
+	if (net.ReadBool()) then return end
     local p = net.ReadTable()
     contracts_tbl.players = {}
     for k,v in pairs(p) do

@@ -399,6 +399,13 @@ local function _contracts()
 	end
 
 	function contract_getplace(ply,fun)
+		local q = db:query("call selectContract('" .. ply:SteamID64() .. "');")
+		function q:onSuccess(d)
+			fun(d[1])
+		end
+		q:start()
+
+		/*
 		contract_getply(ply,function(d)
 			local q = db:query([[SELECT `score`,
        (SELECT COUNT(*) FROM `moat_contractplayers` WHERE `score` >= ']] .. d.score .. [[') AS `position`,
@@ -410,6 +417,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		end
 		q:start()
 		end)
+		*/
 	end
 
 	function contract_transferall()
@@ -458,6 +466,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		return "7656119"..tostring( 7960265728+math.random( 1, 200000000 ) )
 	end
 
+	local top_cache
 	hook.Add("PlayerInitialSpawn","Contracts",function(ply)
 		lottery_playerspawn(ply)
 		net.Start("moat.contractinfo")
@@ -485,10 +494,12 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		end
 		q:start()
 		contract_top(function(top)
+			top_cache = top
 			contract_getplace(ply,function(p)
 				net.Start("moat.contracts")
 				net.WriteInt(p.position,32)
 				net.WriteInt(p.score,32)
+				net.WriteBool(false)
 				net.WriteTable(top)
 				net.Send(ply)
 			end)
@@ -533,20 +544,45 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		end)
 	end
 
-	hook.Add("TTTEndRound","Contracts",function()
-		lottery_updatetotal()
-		lottery_updateamount()
-		lottery_updatepopular()
-		contract_top(function(top)
-			for k,v in ipairs(player.GetAll()) do
-				contract_getplace(v,function(p)
-					net.Start("moat.contracts")
-					net.WriteInt(p.position,32)
-					net.WriteInt(p.score,32)
-					net.WriteTable(top)
-					net.Send(v)
-				end)
-			end
+	hook.Add("TTTEndRound","Contracts", function()
+		timer.Simple(5, function()
+			lottery_updatetotal()
+			lottery_updateamount()
+			lottery_updatepopular()
+			//contract_top(function(top)
+				local q = db:query("call selectContracts('" .. db:escape(MOAT_RCON.Server) .. "');")
+				function q:onSuccess(d)
+					if (not d or not d[1]) then return end
+					local pls = {}
+					for i = 1, #d do
+						pls[tostring(d[i].steamid)] = {score = d[i].myscore, position = d[i].position}
+					end
+
+					for k,v in ipairs(player.GetAll()) do
+						local data = pls[v:SteamID64()]
+						if (not data) then continue end
+
+						net.Start("moat.contracts")
+						net.WriteInt(data.position,32)
+						net.WriteInt(data.score,32)
+						net.WriteBool(true)
+						net.Send(v)
+					end
+				end
+				q:start()
+
+				/*
+				for k,v in ipairs(player.GetAll()) do
+					contract_getplace(v,function(p)
+						net.Start("moat.contracts")
+						net.WriteInt(p.position,32)
+						net.WriteInt(p.score,32)
+						net.WriteTable(top)
+						net.Send(v)
+					end)
+				end
+				*/
+			//end)
 		end)
 	end)
 
