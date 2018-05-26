@@ -893,6 +893,8 @@ concommand.Add("discord_popup",make_discord)
 
 net.Receive("discord.OAuth",function()
     local p = net.ReadEntity()
+	if (not IsValid(p)) then return end
+
     if p == LocalPlayer() then
         cookie.Set("MG_Discord",1)
     end
