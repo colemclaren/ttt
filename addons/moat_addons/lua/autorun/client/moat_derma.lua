@@ -172,6 +172,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             local M_INV_TBL2 = table.Copy(m_Trade[DRAG_SLOT])
 
             if (M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel) then
+				if (not IsValid(M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon)) then M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:CreateIcon(n) end
                 if (string.EndsWith(M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel, ".mdl")) then
                     M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon:SetAlpha(255)
                 else
@@ -185,6 +186,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             end
 
             if (M_INV_SLOT[m_HoveredSlot3].VGUI.WModel) then
+				if (not IsValid(M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon.Icon)) then M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon:CreateIcon(n) end
                 if (string.EndsWith(M_INV_SLOT[m_HoveredSlot3].VGUI.WModel, ".mdl")) then
                     M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
                 else
@@ -228,6 +230,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             local M_INV_TBL2 = table.Copy(m_Inventory[M_INV_DRAG3.Slot])
 
             if (M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel) then
+				if (not IsValid(M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon.Icon)) then M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon:CreateIcon(n) end
                 if (string.EndsWith(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel, ".mdl")) then
                     M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
                 else
@@ -241,6 +244,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             end
 
             if (M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel) then
+				if (not IsValid(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon)) then M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:CreateIcon(n) end
                 if (string.EndsWith(M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel, ".mdl")) then
                     M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon:SetAlpha(255)
                 else
@@ -285,6 +289,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             local M_INV_TBL2 = table.Copy(m_Trade[DRAG_SLOT])
 
             if (M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel) then
+				if (not IsValid(M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon.Icon)) then M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon:CreateIcon(n) end
                 if (string.EndsWith(M_TRADE_SLOT[DRAG_SLOT].VGUI.WModel, ".mdl")) then
                     M_TRADE_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
                 else
@@ -298,6 +303,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             end
 
             if (M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel) then
+				if (not IsValid(M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon.Icon)) then M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon:CreateIcon(n) end
                 if (string.EndsWith(M_TRADE_SLOT[HVRD_SLOT].VGUI.WModel, ".mdl")) then
                     M_TRADE_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
                 else
@@ -351,6 +357,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 end
 
                 if (M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel) then
+					if (not IsValid(M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon)) then M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:CreateIcon(n) end
                     if (string.EndsWith(M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel, ".mdl")) then
                         M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon:SetAlpha(255)
                     else
@@ -364,6 +371,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 end
 
                 if (M_INV_SLOT[m_HoveredSlot3].VGUI.WModel) then
+					if (not IsValid(M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon.Icon)) then M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:CreateIcon(n) end
                     if (string.EndsWith(M_INV_SLOT[m_HoveredSlot3].VGUI.WModel, ".mdl")) then
                         M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
                     else
@@ -430,6 +438,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 end
 
                 if (M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel) then
+					if (not IsValid(M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon.Icon)) then M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:CreateIcon(n) end
                     if (string.EndsWith(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel, ".mdl")) then
                         M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
                     else
@@ -443,6 +452,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 end
 
                 if (M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel) then
+					if (not IsValid(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon)) then M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:CreateIcon(n) end
                     if (string.EndsWith(M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel, ".mdl")) then
                         M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon:SetAlpha(255)
                     else
@@ -519,6 +529,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 end
 
                 if (M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel) then
+					if (not IsValid(M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon.Icon)) then M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon:CreateIcon(n) end
                     if (string.EndsWith(M_LOAD_SLOT[DRAG_SLOT].VGUI.WModel, ".mdl")) then
                         M_LOAD_SLOT[HVRD_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
                     else
@@ -532,6 +543,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
                 end
 
                 if (M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel) then
+					if (not IsValid(M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon.Icon)) then M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon:CreateIcon(n) end
                     if (string.EndsWith(M_LOAD_SLOT[HVRD_SLOT].VGUI.WModel, ".mdl")) then
                         M_LOAD_SLOT[DRAG_SLOT].VGUI.SIcon.Icon:SetAlpha(255)
                     else
@@ -566,6 +578,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             local M_INV_TBL2 = table.Copy(m_Inventory[M_INV_DRAG3.Slot])
 
             if (M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel) then
+				if (not IsValid(M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon)) then M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon:CreateIcon(n) end
                 if (string.EndsWith(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.WModel, ".mdl")) then
                     M_INV_SLOT[m_HoveredSlot3].VGUI.SIcon.Icon:SetAlpha(255)
                 else
@@ -579,6 +592,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
             end
 
             if (M_INV_SLOT[m_HoveredSlot3].VGUI.WModel) then
+				if (not IsValid(M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon)) then M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon:CreateIcon(n) end
                 if (string.EndsWith(M_INV_SLOT[m_HoveredSlot3].VGUI.WModel, ".mdl")) then
                     M_INV_SLOT[M_INV_DRAG3.Slot].VGUI.SIcon.Icon:SetAlpha(255)
                 else
@@ -656,7 +670,7 @@ local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
         end
     end
 
-	if (not M_TRADE_SLOT[slot] or not M_TRADE_SLOT[slot].VGUI) then
+	if ((not M_TRADE_SLOT[slot]) or (not M_TRADE_SLOT[slot].VGUI) or (not IsValid(M_TRADE_SLOT[slot].VGUI.SIcon))) then
 		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
         if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
@@ -683,6 +697,7 @@ local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
     if (M_ITEM_TBL and M_ITEM_TBL.c) then
         if (m_Trade[slot].item.Image) then
             M_TRADE_SLOT[slot].VGUI.WModel = m_Trade[slot].item.Image
+			if (not IsValid(M_TRADE_SLOT[slot].VGUI.SIcon.Icon)) then M_TRADE_SLOT[slot].VGUI.SIcon:CreateIcon(n) end
             M_TRADE_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(255)
         elseif (m_Trade[slot].item.Model) then
             M_TRADE_SLOT[slot].VGUI.WModel = m_Trade[slot].item.Model
@@ -696,6 +711,8 @@ local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
         M_TRADE_SLOT[slot].VGUI.SIcon:SetVisible(true)
     else
         M_TRADE_SLOT[slot].VGUI.SIcon:SetVisible(false)
+
+		if (not IsValid(M_TRADE_SLOT[slot].VGUI.SIcon.Icon)) then M_TRADE_SLOT[slot].VGUI.SIcon:CreateIcon(n) end
         M_TRADE_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(0)
     end
 
@@ -1248,18 +1265,12 @@ end
 
 
 function PANEL:PerformLayout()
-
-    if ( self:IsDown() && !self.Dragging ) then
-        self.Icon:StretchToParent( 6, 6, 6, 6 )
-    else
-        self.Icon:StretchToParent( 0, 0, 0, 0 )
-    end
-
+    self.Icon:StretchToParent(0, 0, 0, 0)
 end
 
-function PANEL:SetSpawnIcon( name )
+function PANEL:SetSpawnIcon(name)
     self.m_strIconName = name
-    self.Icon:SetSpawnIcon( name )
+    self.Icon:SetSpawnIcon(name)
 end
 
 function PANEL:SetBodyGroup( k, v )
@@ -1271,6 +1282,23 @@ function PANEL:SetBodyGroup( k, v )
 
     self.m_strBodyGroups = self.m_strBodyGroups:SetChar( k + 1, v )
 
+end
+
+function PANEL:CreateIcon(n)
+	if (IsValid(self.Icon)) then self.Icon:Remove() end -- Why are we being called anyways?
+
+	self.Icon = vgui.Create("ModelImage", self)
+    self.Icon:SetMouseInputEnabled(false)
+    self.Icon:SetKeyboardInputEnabled(false)
+	self.Icon:StretchToParent(0, 0, 0, 0)
+
+	local mdl = self:GetModelName()
+	local skn = self:GetSkinID()
+
+	if (not mdl and not n) then return end
+	mdl = tostring(mdl)
+
+	self:SetModel(mdl, skn)
 end
 
 function PANEL:SetModel(mdl, iSkin, BodyGroups)
@@ -1288,12 +1316,12 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
 
     self.m_strBodyGroups = BodyGroups
 
-    self.Icon:SetModel( mdl, iSkin, BodyGroups )
+	if (not IsValid(self.Icon)) then self:CreateIcon(true) end
+    self.Icon:SetModel(mdl, iSkin, BodyGroups)
 
     local mdls = tostring(mdl)
 
     if (self.ModelPanel) then self.ModelPanel:Remove() end
-
     if (MOAT_MODEL_POS[mdls]) then
         self.Icon:SetVisible(false)
 
@@ -1325,15 +1353,12 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
 end
 
 function PANEL:RebuildSpawnIcon()
-
+	if (not IsValid(self.Icon)) then self:CreateIcon() end
     self.Icon:RebuildSpawnIcon()
-
 end
 
 function PANEL:RebuildSpawnIconEx( t )
-
     self.Icon:RebuildSpawnIconEx( t )
-
 end
 
 function PANEL:ToTable( bigtable )

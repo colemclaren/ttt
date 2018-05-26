@@ -2299,6 +2299,7 @@ function m_OpenInventory(ply2, utrade)
 
         if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
             if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
+				if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
                 m_DPanelIcon.SIcon.Icon:SetAlpha(0)
             end
 			
@@ -2684,6 +2685,7 @@ function m_OpenInventory(ply2, utrade)
 
         if (m_ItemExists and m_WClass) then
             if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
+				if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
                 m_DPanelIcon.SIcon.Icon:SetAlpha(0)
             end
 
@@ -4065,6 +4067,7 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
 
     if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
         if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
+			if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
             m_DPanelIcon.SIcon.Icon:SetAlpha(0)
         end
 
@@ -5267,6 +5270,7 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
 
         if (m_Inventory[slot].item.Image) then
             M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Image
+			if (not IsValid(M_INV_SLOT[slot].VGUI.SIcon.Icon)) then M_INV_SLOT[slot].VGUI.SIcon:CreateIcon(n) end
             M_INV_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(255)
         elseif (m_Inventory[slot].item.Model) then
             M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Model

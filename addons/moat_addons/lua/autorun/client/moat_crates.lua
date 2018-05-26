@@ -155,6 +155,7 @@ local function m_StartCrateRoll(crate_slot, crate_class, parent_pnl)
 
         if (m_ItemExists and m_WClass) then
             if (not string.EndsWith(tostring(m_WClass.WorldModel), ".mdl")) then
+				if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
                 m_DPanelIcon.SIcon.Icon:SetAlpha(0)
             end
 
