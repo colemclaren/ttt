@@ -955,6 +955,8 @@ local smokeparticles = {
 }
 
 function PANEL:CreateParticle(s, n)
+	if (not s) then return end
+
 	local p = s:Add("particle/smokesprites_0001", self.ParticlePos + Vector(-60, -15.5, 80 * n))//Vector(-60, -15.5, -4))
 	if (not p) then return end
 	local col = HSVToColor((CurTime() - (14.5 * n)) * 5 % 360, 1, 1)
