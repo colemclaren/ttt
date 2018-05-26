@@ -3483,6 +3483,8 @@ function m_OpenInventory(ply2, utrade)
                 m_DPanelIcon.MSkin = nil
 
                 m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
+					if (not m_Trade[num]) then return end
+
                     if (m_Trade[num].c) then
                         if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
 							if (not IsValid(MOAT_INV_BG)) then return end
