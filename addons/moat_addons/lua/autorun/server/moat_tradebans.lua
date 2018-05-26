@@ -65,7 +65,6 @@ hook.Add("StartCommand", "Joystick", function(p, c)
     if MOAT_MINIGAME_OCCURING then return end
     if p:IsSpec() then return end
     if (not p:InVehicle() and not c:IsForced() and not p:IsBot() and not (mwheel == 0 or mwheel == 127)) and (p:Alive()) and (mwheel <= -2) then
-        print(mwheel)
 		p.MDetect = true
         p.MCoolDown = CurTime() + 1
         if not detections[p:SteamID()] then
@@ -82,6 +81,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
         else
             detections[p:SteamID()][5][mwheel] = detections[p:SteamID()][5][mwheel] + 1
             if detections[p:SteamID()][5][mwheel] > 4 and (not p.v_snapped) then
+                if mwheel == -100 then return end
                 net.Start("moat-ab")
 			    net.Send(p)
                 p.snapper = "c"
