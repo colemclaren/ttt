@@ -277,6 +277,12 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 	m:Dock(FILL)
 	m:SetModel(mdl)
 	m:Refresh()
+
+	if (not m.Entity) then -- they don't have the model I guess
+		m:SetModel("models/props_junk/PlasticCrate01a.mdl")
+		m:Refresh()
+	end
+
 	m:SetFirstPerson( true )
 	m:SetLookAng(Angle( 45, 0, 0 ))
 	m:SetCamPos(Vector( -40, 0, 40 ))
