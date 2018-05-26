@@ -48,7 +48,7 @@ function MG_OC.UpdateTop(ply)
     local tbl = MG_OC.Players[ply:EntIndex()]
 
     net.Start("MG_OC_TOP")
-    net.WriteEntity(ply)
+    net.WriteString(ply:Nick())
     net.WriteUInt(tbl.kills, 8)
     net.Broadcast()
 end

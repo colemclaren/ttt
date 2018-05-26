@@ -359,10 +359,10 @@ function MG_OC.EndRound()
 end
 
 function MG_OC.UpdateTopPlayer()
-	local top = net.ReadEntity()
+	local top = net.ReadString()
 	local ks = net.ReadUInt(8)
 
-	MG_OC.Top = {nick = top:Nick(), rank = lad, kills = ks}
+	MG_OC.Top = {nick = top, rank = lad, kills = ks}
 end
 
 function MG_OC.IncreaseCurKills()
