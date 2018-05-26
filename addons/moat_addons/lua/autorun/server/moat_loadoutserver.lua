@@ -1,5 +1,15 @@
 print("loadout loaded")
 
+function table.removeFunctions(tbl)
+    for k,v in pairs(tbl) do
+        if isfunction(v) then
+            tbl[k] = nil
+        elseif istable(v) then
+            table.removeFunctions(v)
+        end
+    end
+end
+
 FindMetaTable "Player".HasWeapon2 = FindMetaTable "Player".HasWeapon2 or FindMetaTable "Player".HasWeapon
 -- crowbars and friends
 FindMetaTable "Player".HasWeapon = function(ply, class)

@@ -219,7 +219,7 @@ function MG_FFA.GiveWeapon(ply,v)
                 v.Talents[k5] = m_GetTalentFromEnum(v5.e)
             end
         end
-
+        table.removeFunctions(v)
         net.WriteTable(v)
     end
     net.Broadcast()
