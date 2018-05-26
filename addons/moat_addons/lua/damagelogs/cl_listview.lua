@@ -44,9 +44,11 @@ function Damagelog:SetLineMenu(item, infos, tbl, text, old_logs)
 			SetClipboardText(full_text)
 		end)
 		if item.Copy then
-			copy:AddOption("SteamID of "..item.steamid1[1], function()
-				SetClipboardText(item.steamid1[2])
-			end)
+			if item.steamid1 then
+				copy:AddOption("SteamID of "..item.steamid1[1], function()
+					SetClipboardText(item.steamid1[2])
+				end)
+			end
 			if item.steamid2 then
 				copy:AddOption("SteamID of "..item.steamid2[1], function()
 					SetClipboardText(item.steamid2[2])
