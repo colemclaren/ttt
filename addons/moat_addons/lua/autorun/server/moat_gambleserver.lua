@@ -1341,7 +1341,7 @@ function jackpot_()
                                 local q = db:query("UPDATE `moat_jpgames` SET cool = '1', time_end = '" .. os.time() + anim_time .. "' WHERE ID = '" .. s.ID .. "';")
                                 q:start()
                             end
-                            if s.cool and ((s.time_end + (server_id*10) ) < os.time() ) and s.active then
+                            if tonumber(s.cool) == 1 and ((s.time_end + (server_id*10) ) < os.time() ) and (s.active == 1) then
                                 local q = db:query("DROP TABLE moat_jpplayers;")
                                 q:start()
                                 local q = db:query("UPDATE moat_jpgames SET active = '0';")
@@ -1351,7 +1351,7 @@ function jackpot_()
                                 --print("Sending ply")
                                 net.Start("jackpot.players")
                                 net.WriteTable(p)
-                                net.Broadcast()
+                                net.Broadcast() 
                                 old_p = p
                             end
                             ----print("P",#p,"JP",jp_down)
