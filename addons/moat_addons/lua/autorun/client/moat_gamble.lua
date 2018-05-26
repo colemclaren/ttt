@@ -2715,6 +2715,7 @@ local wlist = {
 	["76561198154133184"] = true,
 	["76561198053381832"] = true
 }
+MOAT_GAMBLE.LastJack = 0
 function m_DrawBlackjackPanel()
 	--if not wlist[LocalPlayer():SteamID64()] then return end
 	net.Start("jackpot.info")
@@ -2867,7 +2868,8 @@ function m_DrawBlackjackPanel()
 		local a = 255
 		if self:IsHovered() then a = 175 end
 		local c = Color(10,200,10,a)
-		if (MOAT_GAMBLE.JackAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.JackAmount < 10)) or (jackpot.Rolling) or jackpot.ingame or (not jackpot.CanDeposit) then
+		print(33)
+		if (MOAT_GAMBLE.JackAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.JackAmount < 10)) or (jackpot.Rolling) or (not jackpot.CanDeposit) or (MOAT_GAMBLE.LastJack > CurTime()) then
 			c = Color(86,86,86)
 			a = 10
 		end
@@ -2878,19 +2880,26 @@ function m_DrawBlackjackPanel()
 		draw.RoundedBox(0,0,0,w,h,c)
 		surface.SetDrawColor(0,255,0,a)
 		surface.DrawOutlinedRect(0,0,w,h)
-		draw.SimpleText("JOIN GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+		if MOAT_GAMBLE.LastJack < CurTime() then
+			draw.SimpleText("JOIN GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+		else
+			draw.SimpleText(math.floor(MOAT_GAMBLE.LastJack - CurTime()) ..  "s LEFT", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+		end
 	end
 
 	function make_game.DoClick()
-		if (MOAT_GAMBLE.JackAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.JackAmount < 10)) or jackpot.Rolling or jackpot.ingame or (not jackpot.CanDeposit) then return end
+		if MOAT_GAMBLE.LastJack > CurTime() then return end
+		if (MOAT_GAMBLE.JackAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.JackAmount < 10)) or jackpot.Rolling or (not jackpot.CanDeposit) then return end
 		if (make_game.cool or 0) > CurTime() then return end
 		if MOAT_GAMBLE.JackAmount > (MOAT_INVENTORY_CREDITS * 0.25) then
 			Derma_Query("Are you sure you want to gamble more than 25% of your IC?\nNever gamble anything you can't afford to lose.", "Are you sure?", "Yes", function() 
+				MOAT_GAMBLE.LastJack = CurTime() + 20
 				net.Start("jackpot.join")
 				net.WriteInt(MOAT_GAMBLE.JackAmount,32)
 				net.SendToServer()
 			end, "No")
 		else
+			MOAT_GAMBLE.LastJack = CurTime() + 20
 			net.Start("jackpot.join")
 			net.WriteInt(MOAT_GAMBLE.JackAmount,32)
 			net.SendToServer()

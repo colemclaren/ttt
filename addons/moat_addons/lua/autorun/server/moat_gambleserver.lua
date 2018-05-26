@@ -1101,9 +1101,14 @@ function jackpot_()
     function jp.joingame(ply, am)
         local j = function()
             if not IsValid(ply) then return end
-            local q = db:query("INSERT INTO `moat_jpplayers` (steamid, money) VALUES ('" .. ply:SteamID64() .. "','" .. am .. "');")
+            local q = db:query("INSERT INTO `moat_jpplayers` (steamid, money) VALUES ('" .. ply:SteamID64() .. "','" .. am .. "') ON DUPLICATE KEY UPDATE money = money + '" .. am .. "';")
             q:start()
             pendingply[ply] = nil
+            getplayers(function(p)
+                net.Start("jackpot.players")
+                net.WriteTable(p)
+                net.Broadcast()
+            end)
             ----print(ply,"Joined game",am)
         end
         ----print("Jpg")
@@ -1115,8 +1120,9 @@ function jackpot_()
             j()
         end)
     end
-
+    local multiple_cool = {}
     net.Receive("jackpot.join",function(l,ply)
+        if (multiple_cool[ply] or 0) > CurTime() then return end 
         local am = net.ReadInt(32)
         if am < 10 then return end
         ----print(ply)
@@ -1125,17 +1131,21 @@ function jackpot_()
         if pendingply[ply] then return end
         ----print(2)
         pendingply[ply] = true
+        multiple_cool[ply] = CurTime() + 20
         getactive(function(a,b)
             if not a then 
-            net.Start("jackpot.players")
-            net.WriteTable({
-                [1] = {
-                    steamid = ply:SteamID64(),
-                    money = am
-                }
-            })
-            net.Broadcast()
-            jp.joingame(ply,am) removeIC(ply,am) return end
+                net.Start("jackpot.players")
+                net.WriteTable({
+                    [1] = {
+                        steamid = ply:SteamID64(),
+                        money = am
+                    }
+                })
+                net.Broadcast()
+                jp.joingame(ply,am) 
+                removeIC(ply,am) 
+                return 
+            end
             b = b[1]
             if b.cool then 
                 pendingply[ply] = nil
@@ -1147,8 +1157,7 @@ function jackpot_()
                 ----print(5)
                 for k,v in pairs(d) do
                     if v.steamid == ply:SteamID64() then
-                         pendingply[ply] = nil
-                        return
+                        pendingply[ply] = nil
                     end
                 end
                 jp.joingame(ply,am)
