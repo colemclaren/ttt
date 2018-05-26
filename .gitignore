@@ -5,6 +5,7 @@
 !/addons/moat_addons
 !/gamemodes/
 /gamemodes/*
+!/gamemodes/base
 !/gamemodes/terrortown
 !/gamemodes/terrorcity
 !/lua
