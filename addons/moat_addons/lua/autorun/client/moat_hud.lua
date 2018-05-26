@@ -156,7 +156,7 @@ function moat_HUDConvarsCreate(convarname, default)
 		CreateClientConVar(convarname, default, true)
 	end
 
-	table.insert(moat_HUDConvarStrings, convarname)
+	table.insert(moat_HUDConvarStrings, {convarname, default})
 end
 
 moat_HUDConvarsCreate("moat_HUDHealth", "TimeLeft")
@@ -922,8 +922,13 @@ concommand.Add("moat_resethud", function()
 	end
 
 	for k, v in pairs(moat_HUDConvarStrings) do
-		local convar = GetConVar(v)
-		convar:SetString(convar:GetDefault())
+		local convar = GetConVar(v[1])
+		if (not convar) then
+			CreateClientConVar(v[1], v[2], true)
+			continue
+		end
+
+		convar:SetString(v[2])
 	end
 
 	if (IsValid(MOAT_HUDMENU)) then
