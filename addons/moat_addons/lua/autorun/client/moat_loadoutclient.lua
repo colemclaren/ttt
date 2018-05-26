@@ -636,31 +636,33 @@ function MOAT_LOADOUT.UpdateWep()
         local wep = Entity(wep_index)
 
         if (wep.Weapon) then
-            if (wep.Weapon.Primary.Damage) then
+			local prim = wep.Weapon.Primary
+
+            if (prim and prim.Damage) then
                 wep.Weapon.Primary.Damage = wep_d
             end
 
-            if (wep.Weapon.Primary.Delay) then
+            if (prim and prim.Delay) then
                 wep.Weapon.Primary.Delay = wep_f
             end
 
-            if (wep.Weapon.Primary.ClipSize) then
+            if (prim and prim.ClipSize) then
                 wep.Weapon.Primary.ClipSize = wep_m
 
-                if (wep.Weapon.Primary.DefaultClip) then
+                if (prim and prim.DefaultClip) then
                     wep.Weapon.Primary.DefaultClip = wep.Primary.ClipSize
                 end
 
-                if (wep.Weapon.Primary.ClipMax) then
+                if (prim and prim.ClipMax) then
                     wep.Weapon.Primary.ClipMax = (wep.Primary.DefaultClip * 3)
                 end
             end
 
-            if (wep.Weapon.Primary.Recoil) then
+            if (prim and prim.Recoil) then
                 wep.Weapon.Primary.Recoil = wep_r
             end
 
-            if (wep.Weapon.Primary.Cone) then
+            if (prim and prim.Cone) then
                 wep.Weapon.Primary.Cone = wep_a
             end
 
