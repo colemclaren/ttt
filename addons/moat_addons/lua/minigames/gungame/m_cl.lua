@@ -316,11 +316,11 @@ function MG_GG.EndRound()
 end
 
 function MG_GG.UpdateTopPlayer()
-	local top = net.ReadEntity()
+	local top = net.ReadString()
 	local lad = net.ReadUInt(5)
 	local ks = net.ReadUInt(8)
 
-	MG_GG.Top = {nick = top:Nick(), rank = lad, kills = ks}
+	MG_GG.Top = {nick = top, rank = lad, kills = ks}
 end
 
 function MG_GG.UpdateNextWeapon()

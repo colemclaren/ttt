@@ -63,7 +63,7 @@ function MG_GG.UpdateTop(ply)
     local tbl = MG_GG.Players[ply:EntIndex()]
 
     net.Start("MG_GG_TOP")
-    net.WriteEntity(ply)
+    net.WriteString(ply:Nick())
     net.WriteUInt(tbl.ladder, 5)
     net.WriteUInt(tbl.kills, 8)
     net.Broadcast()
