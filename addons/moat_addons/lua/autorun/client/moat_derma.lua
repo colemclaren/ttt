@@ -653,8 +653,29 @@ local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
     if (M_ITEM_TBL and M_ITEM_TBL.item and M_ITEM_TBL.item.Kind == "Other") then
         if (M_ITEM_TBL.item.WeaponClass) then
             M_ITEM_TBL.w = M_ITEM_TBL.item.WeaponClass
-        end    
+        end
     end
+
+	if (not M_TRADE_SLOT[slot] or not M_TRADE_SLOT[slot].VGUI) then
+		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+        if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
+
+        if (m_utrade and m_ply2) then
+            moat_inv_cooldown = CurTime() + 1
+            m_ClearInventory()
+            net.Start("MOAT_SEND_INV_ITEM")
+            net.SendToServer()
+
+            net.Start("MOAT_RESPOND_TRADE")
+            net.WriteBool(false)
+            net.WriteDouble(m_ply2:EntIndex())
+            net.WriteDouble(m_utrade)
+            net.SendToServer()
+        end
+
+		MsgC(Color(255, 0, 0), "Failed to load trade slot " .. slot .. ".\n")
+		return
+	end
 
     m_Trade[slot] = M_ITEM_TBL
     M_TRADE_SLOT[slot].VGUI.Item = m_Trade[slot]
