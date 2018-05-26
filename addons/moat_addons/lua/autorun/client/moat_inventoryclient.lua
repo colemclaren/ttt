@@ -1814,7 +1814,7 @@ function m_OpenInventory(ply2, utrade)
         MOAT_INV_BG:Remove()
 
         if (m_ply2 and m_utrade) then
-            MOAT_TRADE_BG:Remove()
+        	if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
             moat_inv_cooldown = CurTime() + 1
             m_ClearInventory()
             net.Start("MOAT_SEND_INV_ITEM")
@@ -3250,9 +3250,8 @@ function m_OpenInventory(ply2, utrade)
                 local invw, invh = MOAT_INV_BG:GetSize()
                 render.SetScissorRect(x, y, x + invw, y + invh, true)
                 if (not IsValid(ply_2)) then
-                    MOAT_TRADE_BG.ACCEPTED = 0
-                    MOAT_INV_BG:Remove()
-                    MOAT_TRADE_BG:Remove()
+					if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+        			if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
                     if (m_ply2 and m_utrade) then
                         moat_inv_cooldown = CurTime() + 1
@@ -3265,6 +3264,7 @@ function m_OpenInventory(ply2, utrade)
                         net.WriteDouble(m_utrade)
                         net.SendToServer()
                     end
+
                     chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Trade canceled. Player disconnected?")
                     return
                 end
@@ -3383,9 +3383,8 @@ function m_OpenInventory(ply2, utrade)
                     render.SetScissorRect( x, y, x + invw, y + invh, true )
 
                     if (not m_Trade[num]) then
-                        MOAT_TRADE_BG.ACCEPTED = 0
-                        MOAT_INV_BG:Remove()
-                        MOAT_TRADE_BG:Remove()
+						if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+        				if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
                         if (m_ply2 and m_utrade) then
                             moat_inv_cooldown = CurTime() + 1
@@ -3398,6 +3397,8 @@ function m_OpenInventory(ply2, utrade)
                             net.WriteDouble(m_utrade)
                             net.SendToServer()
                         end
+
+						chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Trade canceled. Player disconnected?")
                         return
                     end
 
@@ -3874,7 +3875,6 @@ function m_OpenInventory(ply2, utrade)
             end
 
             M_TRADE_D.DoClick = function(s)
-                MOAT_TRADE_BG.ACCEPTED = 0
                 MOAT_INV_BG:Remove()
                 MOAT_TRADE_BG:Remove()
 
@@ -5725,8 +5725,9 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
     local other_ply = ents.GetByIndex(net.ReadDouble())
 
     if (not accepted) then
-        MOAT_INV_BG:Remove()
-        MOAT_TRADE_BG:Remove()
+		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+        if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
+
         moat_inv_cooldown = CurTime() + 1
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
@@ -5742,8 +5743,9 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
             end)
         end
     else
-        MOAT_INV_BG:Remove()
-        MOAT_TRADE_BG:Remove()
+		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+        if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
+
         moat_inv_cooldown = CurTime() + 1
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
