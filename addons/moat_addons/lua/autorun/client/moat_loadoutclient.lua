@@ -559,26 +559,14 @@ end
 net.Receive("MOAT_UPDATE_OTHER_WEP", MOAT_LOADOUT.UpdateOtherWep)
 
 function MOAT_LOADOUT.UpdateWep()
-    local wep_index
-    local wep_d
-    local wep_f
-    local wep_m
-    local wep_r
-    local wep_a
-    local wep_v
-    local wep_p
-    local wep_owner
-    local wep_stats
+    local wep_index, wep_d, wep_f, wep_m, wep_r, wep_a, wep_v, wep_p, wep_owner, wep_stats
     
-    local MOAT_TDM = MOAT_TDM
-    if MOAT_FFA then
-        MOAT_TDM = MOAT_FFA
-    end
-    if (MOAT_TDM) then
+    local store = MOAT_TDM or MOAT_FFA
+    if (store) then
         local wep_class = net.ReadString()
-        if MOAT_TDM.WepCache[wep_class] then
+        if store.WepCache[wep_class] then
             wep_index = net.ReadUInt(16)
-            local v = MOAT_TDM.WepCache[wep_class]
+            local v = store.WepCache[wep_class]
             wep_d = v[1]
             wep_f = v[2]
             wep_m = v[3]
@@ -599,7 +587,8 @@ function MOAT_LOADOUT.UpdateWep()
             wep_p = net.ReadDouble()
             wep_owner = net.ReadDouble()
             wep_stats = net.ReadTable()
-            MOAT_TDM.WepCache[wep_class] = {
+
+            store.WepCache[wep_class] = {
                 wep_d,
                 wep_f,
                 wep_m,

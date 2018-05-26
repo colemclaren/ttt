@@ -95,10 +95,11 @@ net.Receive("TDM_End",function()
             s:Play()
         end
     end)
-    MOAT_TDM = nil
+
     kills = {}
     TDM_END = {}
     timer.Create("TDM END TIMER",21,1,function()
+		MOAT_TDM = nil
         for k,v in pairs(TDM_END.av) do
             v:Remove()
         end

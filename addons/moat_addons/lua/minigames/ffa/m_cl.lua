@@ -102,10 +102,11 @@ net.Receive("FFA_End",function()
             s:Play()
         end
     end)
-    MOAT_FFA = nil
+
     kills = {}
     FFA_END = {}
     timer.Create("FFA END TIMER",21,1,function()
+		MOAT_FFA = nil
         for k,v in pairs(FFA_END.av) do
             v:Remove()
         end
