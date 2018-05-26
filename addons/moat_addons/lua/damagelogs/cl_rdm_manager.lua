@@ -53,7 +53,7 @@ local function BuildReportFrame(report)
 		ColumnSheet.Navigation:SetWidth(150)
 		
 		ReportFrame.AddReport = function(ReportFrame, report)
-	
+			if (not report.victim_nick) then report.victim_nick = "Someone" end
 			local current = not report.previous
 		
 			local PanelList = vgui.Create("DPanelList")
