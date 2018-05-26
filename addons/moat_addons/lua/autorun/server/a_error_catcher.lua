@@ -46,9 +46,18 @@ local function logerror(report, error, serverip, realm, stack, steamid)
 end
 
 local error_cache = {}
+local pl_error_cache = {}
 local function catchError(pl, err, _, _, _, stack)
 	if (not err or error_cache[err]) then return end
 	error_cache[err] = true
+
+	pl = type(pl) == "Player" and pl:SteamID64() or nil
+	if (pl and pl_error_cache[pl]) then
+		if (pl_error_cache[pl] >= 5) then return end
+		pl_error_cache[pl] = pl_error_cache[pl] + 1
+	elseif (pl) then
+		pl_error_cache[pl] = 1
+	end
 
 	local row = sql.QueryRow("SELECT stack FROM server_errors WHERE error = " .. sql.SQLStr(err))
 	if (row) then return end
@@ -65,7 +74,6 @@ local function catchError(pl, err, _, _, _, stack)
 	st = util.TableToJSON(st)
 	sql.Query("INSERT INTO server_errors (error, stack) VALUES (" .. sql.SQLStr(err) .. ", " .. sql.SQLStr(st) .. ");")
 
-	pl = type(pl) == "Player" and pl:SteamID64() or nil
 	MOAT_RCON:Query("SELECT serverip FROM rcon_errors WHERE error = #", err, function(d)
 		logerror((not d or not d[1]), err, MOAT_RCON.Server, pl and 1 or 0, st, pl)
 	end)
