@@ -2880,7 +2880,7 @@ function m_DrawBlackjackPanel()
 		surface.SetDrawColor(0,255,0,a)
 		surface.DrawOutlinedRect(0,0,w,h)
 		if MOAT_GAMBLE.LastJack < CurTime() then
-			draw.SimpleText("JOIN GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+			draw.SimpleText((jackpot.ingame and "ADD TO GAME") or "JOIN GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 		else
 			draw.SimpleText(math.floor(MOAT_GAMBLE.LastJack - CurTime()) ..  "s LEFT", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 		end
