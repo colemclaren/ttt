@@ -1341,7 +1341,7 @@ function jackpot_()
                                 local q = db:query("UPDATE `moat_jpgames` SET cool = '1', time_end = '" .. os.time() + anim_time .. "' WHERE ID = '" .. s.ID .. "';")
                                 q:start()
                             end
-                            if tonumber(s.cool) == 1 and ((s.time_end + (server_id*10) ) < os.time() ) and (s.active == 1) then
+                            if tonumber(s.cool) == 1 and ((s.time_end + (server_id*10) ) < os.time() ) and (s.active == 1) and (s.time_end ~= 0)  then
                                 local q = db:query("DROP TABLE moat_jpplayers;")
                                 q:start()
                                 local q = db:query("UPDATE moat_jpgames SET active = '0';")
