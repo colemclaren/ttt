@@ -304,8 +304,8 @@ function SWEP:PlayerMove( ply, mv, cmd )
 	if (IsValid(hk:GetTargetEnt()) and hk:GetTargetEnt()~=self and ply~=hk:GetTargetEnt() and (hk:GetTargetEnt():IsPlayer() or ValidPullEnt(hk:GetTargetEnt()))) then return end
 	if (hk:GetTargetEnt()==hk or (not (ValidPullEnt(hk:GetTargetEnt()) or hk:GetTargetEnt():IsPlayer()))) and ply~=self.Owner then return end
 	
-	if not (ply.InVehicle and self.Owner.InVehicle) then hk:Remove() self:SetCooldown(10) return end // What
-	if ply:InVehicle() or self.Owner:InVehicle() or (not ply:Alive()) then hk:Remove() self:SetCooldown(10) return end
+	if (not (ply.InVehicle and self.Owner.InVehicle)) and SERVER then hk:Remove() self:SetCooldown(10) return end // What
+	if (ply:InVehicle() or self.Owner:InVehicle() or (not ply:Alive())) and SERVER then hk:Remove() self:SetCooldown(10) return end
 	
 	if ply~=self.Owner then
 		ply.was_pushed = {t=CurTime(),att=self.Owner}

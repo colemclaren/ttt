@@ -346,7 +346,7 @@ function SWEP:SecondaryAttack()
 
 		end
 
-		if (self.Weapon:Clip1() <= 0) then
+		if (SERVER and self.Weapon:Clip1() <= 0) then
 
 			self:Remove()
 

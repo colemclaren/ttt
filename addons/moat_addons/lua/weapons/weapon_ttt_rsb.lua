@@ -273,7 +273,7 @@ function SWEP:PrimaryAttack()
 
 					net.Send(ply)
 
-					self:Remove()
+					if (SERVER) then self:Remove() end
 
 					self:DetonateBomb()
 
@@ -283,7 +283,7 @@ function SWEP:PrimaryAttack()
 
 		else
 
-			self:Remove()
+			if (SERVER) then self:Remove() end
 
 			self.target = nil
 
@@ -432,7 +432,7 @@ function SWEP:RSBClear()
 
 	
 
-	self:Remove()
+	if (SERVER) then self:Remove() end
 
 end
 
@@ -471,7 +471,7 @@ function SWEP:Think()
 				CustomMsg(ply, "Your RSB target died, and you throw away the remote.", Color(255, 0, 0))
 			end
 
-			self:Remove()
+			if (SERVER) then self:Remove() end
 
 		end
 
@@ -567,7 +567,7 @@ function SWEP:DetonateBomb()
 
 					self:RSBClear()
 
-					bomb:Remove()
+					if (SERVER) then bomb:Remove() end
 
 					ErrorNoHalt("ERROR CAUGHT: ttt_c4: " .. err .. "\n")
 
@@ -629,7 +629,7 @@ function SWEP:PreDrop()
 
 		net.Send(ply)
 
-		self:Remove()
+		if (SERVER) then self:Remove() end
 
 		self.arming = false
 

@@ -148,7 +148,7 @@ function SWEP:Heal(player)
 	player:SetAnimation(PLAYER_ATTACK1)
 
 	self:TakePrimaryAmmo(1)
-	if (self.Weapon:Clip1() < 1) then
+	if (SERVER and self.Weapon:Clip1() < 1) then
 		self:Remove()
 	end
 end

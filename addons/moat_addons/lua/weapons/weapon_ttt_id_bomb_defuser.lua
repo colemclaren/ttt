@@ -154,7 +154,7 @@ function SWEP:PrimaryAttack()
 
 			self.Owner:ChatPrint("Identification Bomb successfully defused!")
 
-			self:Remove()
+			if (SERVER) then self:Remove() end
 
 			hook.Call("IDBombFade", GAMEMODE, tr.Entity)
 

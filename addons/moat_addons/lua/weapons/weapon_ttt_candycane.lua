@@ -325,7 +325,7 @@ function SWEP:AttachProp()
 end
 
 function SWEP:RemoveProp()
-   if IsValid(self.Prop) then
+   if SERVER and IsValid(self.Prop) then
       self.Prop:Remove()
       self.Prop = nil
    end

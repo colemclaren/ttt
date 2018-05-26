@@ -290,7 +290,7 @@ tf:SetVelocity(((en:GetPos() - tf:GetPos()):Angle():Forward() * 500) + Vector(0,
 
 	d = tf;
 
-	self:Remove();
+	if (SERVER) then self:Remove(); end
 
 	end
 

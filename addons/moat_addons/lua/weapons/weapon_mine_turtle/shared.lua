@@ -123,7 +123,7 @@ end
 
 function SWEP:Deploy()
 	if (self.Weapon:Clip1() == 0) then
-		self:Remove()
+		if (SERVER) then self:Remove() end
 	else
 		self.Weapon:SendWeaponAnim(ACT_VM_DRAW)
 	end

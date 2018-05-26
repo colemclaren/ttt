@@ -198,7 +198,7 @@ function SWEP:PrimaryAttack()
 
    self.Done = true
 
-   self:Remove()
+   if (SERVER) then self:Remove() end
 
 end
 
@@ -296,7 +296,7 @@ function SWEP:SecondaryAttack()
 
     end
 
-    self:Remove()
+    if (SERVER) then self:Remove() end
 
     self.Done = true
 

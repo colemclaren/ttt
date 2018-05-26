@@ -166,7 +166,7 @@ function SWEP:PrimaryAttack()
     if wep:Clip1() <= 0 then
         timer.Simple(0.49, function()
             if IsValid(self) then
-                self:Remove()
+                if (SERVER) then self:Remove() end
                 RunConsoleCommand("lastinv")
             end
         end)

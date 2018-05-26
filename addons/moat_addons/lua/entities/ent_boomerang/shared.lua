@@ -87,11 +87,11 @@ function deploySwep(ent)
 end
 
 function ENT:Think()
+	if (CLIENT or self.Drop) then return end
     if self.Hits >= 4 then
         self:Remove()
     end
 
-    if CLIENT or self.Drop then return end
     local targetPos = self:GetNWVector("targetPos")
     local Pos = self:GetPos()
     local ownerPos = self.Owner:GetShootPos()

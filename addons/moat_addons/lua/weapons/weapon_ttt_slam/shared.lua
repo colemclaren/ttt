@@ -261,7 +261,7 @@ function SWEP:ChangeAnimation()
 end
 
 function SWEP:Deploy()
-	if ((self:GetActiveSatchel() <= 0) and self.Weapon:Clip1() == 0) then
+	if (SERVER and (self:GetActiveSatchel() <= 0) and self.Weapon:Clip1() == 0) then
 		self:Remove()
 	else
 		self.State = NONE

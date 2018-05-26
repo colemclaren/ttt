@@ -137,7 +137,7 @@ function SWEP:BlowInFace()
    self:CreateGrenade(src, Angle(0,0,0), Vector(0,0,1), Vector(0,0,1), ply)
 
    self:SetThrowTime(0)
-   self:Remove()
+   if (SERVER) then self:Remove() end
 end
 
 function SWEP:StartThrow()

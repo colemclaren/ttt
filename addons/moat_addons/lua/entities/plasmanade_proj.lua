@@ -210,7 +210,7 @@ function ENT:Think()
 	
 	if self.Hit && self.Splodetimer && self.Splodetimer < CurTime() then
 		util.ScreenShake( self:GetPos(), 50, 50, 1, 250 )
-		if IsValid(self.Owner) then
+		if SERVER and IsValid(self.Owner) then
 			if IsValid(self.Inflictor) then
 				util.BlastDamage(self.Inflictor, self.Owner, self:GetPos(), 150, 88) 
 			else
@@ -225,8 +225,8 @@ function ENT:Think()
 		self:EmitSound("ambient/energy/zap"..math.random(1,9)..".wav",90,100)
 		self:EmitSound("ambient/explosions/explode_"..math.random(7,9)..".wav",90,100)
 		self:EmitSound("weapons/explode"..math.random(3,5)..".wav",90,85)
-			
-		self:Remove()			
+
+		if (SERVER) then self:Remove() end
 	end		
 end
 

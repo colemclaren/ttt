@@ -50,8 +50,7 @@ if SERVER then
 
 ---------------------------------------------------------]]
     function ENT:Think()
-        if not IsValid(self) then return end
-        if not IsValid(self.Entity) then return end
+        if not IsValid(self) or not IsValid(self.Entity) then return end
         self.lifetime = self.lifetime or CurTime() + 20
 
         if CurTime() > self.lifetime then

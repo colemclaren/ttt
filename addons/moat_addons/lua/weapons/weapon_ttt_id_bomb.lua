@@ -310,7 +310,7 @@ function SWEP:PrimaryAttack()
 
 		hook.Call( "IDBombPlanted", GAMEMODE, target)		
 
-		self:Remove()
+		if (SERVER) then self:Remove() end
 
 		self.Owner:ChatPrint("Identification Bomb successfully planted!")
 

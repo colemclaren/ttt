@@ -96,11 +96,11 @@ local function KillVelocity(ent)
 end
 
 function SWEP:Reset(keep_velocity)
-   if IsValid(self.CarryHack) then
+   if SERVER and IsValid(self.CarryHack) then
       self.CarryHack:Remove()
    end
 
-   if IsValid(self.Constr) then
+   if SERVER and IsValid(self.Constr) then
       self.Constr:Remove()
    end
 

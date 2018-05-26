@@ -59,8 +59,7 @@ function ENT:PhysicsCollide()
 end
 
 function ENT:Think()
-
-if ( self.dietime < CurTime() ) then
+	if ( self.dietime < CurTime() ) then
 		util.BlastDamage(self.Entity, self.Entity, self.Entity:GetPos(), 100, 250)
 		
 		local effectdata = EffectData()
@@ -73,9 +72,9 @@ if ( self.dietime < CurTime() ) then
 		print("Exploded due to time out")
 	end
 
-if self.exploded == true then self:Remove() end
-self:NextThink( CurTime() )
-return true
+	if self.exploded == true then self:Remove() end
+	self:NextThink(CurTime())
+	return true
 end
 /*
 function ENT:Touch()
