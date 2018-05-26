@@ -5312,6 +5312,8 @@ local MOAT_REQ_BG_W = 350
 local MOAT_REQ_BG_H = 290
 
 function m_DrawTradeRequest(ply)
+	if (not IsValid(ply)) then return end
+
     local MT = MOAT_THEME.Themes
     local CurTheme = GetConVar("moat_Theme"):GetString()
     if (not MT[CurTheme]) then
@@ -5645,7 +5647,7 @@ net.Receive("MOAT_SEND_TRADE_REQ", function(len)
     local passed = net.ReadBool()
     local ply_sent = net.ReadBool()
     local ply_index = net.ReadDouble()
-    local other_ply = ents.GetByIndex(ply_index)
+    local other_ply = Entity(ply_index)
 
     if (not passed) then
         chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " is ", Color(255, 0, 0), "busy", Color(255, 255, 255), " at the moment.")
