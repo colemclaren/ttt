@@ -1,3 +1,4 @@
+local report_errors = CreateConVar("moat_report_errors", 1)
 local HTTP, reset, limit = HTTP, 0
 local function post(tbl)
 	local now = os.time(os.date("!*t"))
@@ -51,6 +52,8 @@ local function catchError(pl, err, _, _, _, stack)
 
 	local row = sql.QueryRow("SELECT stack FROM server_errors WHERE error = " .. sql.SQLStr(err))
 	if (row) then return end
+	if (report_errors:GetInt() ~= 1) then return end
+
 	local st = {}
 	if (stack) then
 		for i = 1, 5 do
