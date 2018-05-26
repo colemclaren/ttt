@@ -322,11 +322,9 @@ net.Receive("MOAT_PREP_STALKER", function(len)
 end)
 
 net.Receive("MOAT_BEGIN_STALKER", function(len)
+	MOAT_CUR_BOSS = net.ReadEntity()
 
-	local ply = net.ReadEntity()
-	MOAT_CUR_BOSS = ply
-
-	if (MOAT_CUR_BOSS and LocalPlayer() == MOAT_CUR_BOSS) then
+	if (IsValid(MOAT_CUR_BOSS) and LocalPlayer() == MOAT_CUR_BOSS) then
 		hook.Add("HUDShouldDraw", "moat_HideDamageIndicator", function(element)
 			if ( element == "CHudDamageIndicator" ) then return false end
 		end)
@@ -343,8 +341,7 @@ net.Receive("MOAT_BEGIN_STALKER", function(len)
 	end
 	MOAT_IGNORE_FOV = true
 	hook.Add("CalcView", "moat_FocusBossView", function(ply, pos, angles, fov)
-
-		if (not MOAT_CUR_BOSS or not MOAT_CUR_BOSS:IsValid()) then
+		if (not MOAT_CUR_BOSS or not IsValid(MOAT_CUR_BOSS)) then
 			MOAT_IGNORE_FOV = false
 			hook.Remove("CalcView", "moat_FocusBossView")
 			return
@@ -369,7 +366,7 @@ net.Receive("MOAT_BEGIN_STALKER", function(len)
 		hook.Remove("CalcView", "moat_FocusBossView")
 	end)
 
-	if (MOAT_CUR_BOSS) then
+	if (MOAT_CUR_BOSS and IsValid(MOAT_CUR_BOSS)) then
 		MOAT_CUR_BOSS:DrawShadow(false)
 	end
 end)
