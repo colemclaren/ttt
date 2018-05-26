@@ -4607,6 +4607,9 @@ function m_CreateItemMenu(num, ldt)
     if (IsValid(M_INV_MENU)) then
         M_INV_MENU:Remove()
     end
+
+	if (not itemtbl or not itemtbl.item) then return end
+
     /*
     local ITEM_NAME_FULL = ""
 
