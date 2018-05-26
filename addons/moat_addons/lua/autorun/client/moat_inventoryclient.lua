@@ -5250,11 +5250,33 @@ function m_CanAutoDeconstruct(ITEM_TBL)
 end
 
 net.Receive("MOAT_ADD_INV_ITEM", function(len)
-    local key = net.ReadString()
+    local slot = net.ReadUInt(16)
     local tbl = net.ReadTable()
     local not_drop = net.ReadBool()
-    local slot = 0
-    slot = tonumber(key)
+
+	local max_slots = net.ReadUInt(16)
+	if (max_slots) then
+		local max_slots_old = max_slots - 4
+
+		for i = max_slots_old, max_slots do
+       		m_Inventory[i] = {}
+
+        	if (m_isUsingInv()) then
+            	m_CreateInvSlot(i)
+        	end
+    	end
+
+		local cnt = 0
+		for i = 1, #m_Inventory do
+			if (m_Inventory[i] and m_Inventory[i].c) then cnt = cnt + 1 end
+		end
+
+		if (cnt > 350) then
+        	for i = 1, 10 do
+            	chat.AddText(Color(255, 0, 0), "Warning! Your inventory is taking a lot of time to save! Consider deconstructing items or risk losing some!")
+        	end
+    	end
+	end
 
     if (tbl and tbl.item and tbl.item.Kind == "Other") then
         if (tbl.item.WeaponClass) then

@@ -205,7 +205,7 @@ end
 
 function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
     local ply_inv = table.Copy(MOAT_INVS[self])
-    local slot_found = 0
+    local slot_found, upgrade = 0, false
 
     for i = 1, self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
         if (ply_inv["slot" .. i].c) then
@@ -219,15 +219,21 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
     if (slot_found == 0) then
         slot_found = self:GetMaxSlots() + 1
         self:UpgradeMaxSlots()
-        net.Start("MOAT_MAX_SLOTS")
-        net.WriteDouble(self:GetMaxSlots())
-        net.Send(self)
+
+		if (delay_saving) then
+        	net.Start("MOAT_MAX_SLOTS")
+        	net.WriteDouble(self:GetMaxSlots())
+        	net.Send(self)
+		end
+
         local max_slots = self:GetMaxSlots()
         local max_slots_old = max_slots - 4
 
         for i = max_slots_old, max_slots do
             MOAT_INVS[self]["slot" .. i] = {}
         end
+
+		upgrade = true
     end
 
     MOAT_INVS[self]["slot" .. slot_found] = tbl
@@ -235,7 +241,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
     if (delay_saving) then return end
     
     net.Start("MOAT_ADD_INV_ITEM")
-    net.WriteString(tostring(slot_found))
+    net.WriteUInt(slot_found, 16)
     local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
     tbl2.item = m_GetItemFromEnum(tbl2.u)
 
@@ -249,6 +255,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
 
     net.WriteTable(tbl2)
     net.WriteBool(no_chat or false)
+	if (upgrade) then net.WriteUInt(self:GetMaxSlots(), 16) end
     net.Send(self)
 
 
@@ -265,7 +272,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
         net.Send(self)
     end
 
-    if (delay_saving == nil or not delay_saving) then
+    if (not delay_saving) then
         m_SaveInventory(self)
     end
 end
