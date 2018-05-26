@@ -3,6 +3,7 @@ MOAT_RCON.Server = GetConVarString("ip") .. ":" .. GetConVarString("hostport") /
 MOAT_RCON.RanCommands = {}
 
 function MOAT_RCON:Escape(str)
+	if (not str or str == "NULL") then return "NULL" end
     return isnumber(str) and tostring(str) or "\"" .. self.DBHandle:escape(tostring(str)) .. "\""
 end
 
@@ -17,7 +18,7 @@ function MOAT_RCON:Query(str, ...)
 
     local dbq = self.DBHandle:query(str)
     if (succ) then
-    	function dbq:onSuccess(data) succ(data) end
+    	function dbq:onSuccess(data) succ(data, self) end
     end
 
     function dbq:onError(er)
@@ -29,6 +30,13 @@ end
 
 function MOAT_RCON:ProcessCommand(d)
 	if (self.RanCommands[d.id]) then return end
+	if (d.command and d.command == "fixed") then
+		sql.QueryRow("DELETE FROM server_errors WHERE error = " .. sql.SQLStr(d.args))
+		print("DELETE FROM server_errors WHERE error = " .. sql.SQLStr(d.args))
+		self.RanCommands[d.id] = true
+		return
+	end
+
 	if (d.args) then d.args = util.JSONToTable(d.args) end
 	if (d.steamid and d.steamid:StartWith("STEAM_0")) then d.args[1] = d.steamid end
 
@@ -145,8 +153,7 @@ end
 
 		Keep these here just in case.
 		When restoring commands, make sure to remove any commands that a staff should not be using remotely. (teleporting, etc)
-
-]]--
+		There's also other commands for discord shit so pls try not to use these commands.
 
 concommand.Add("_restorecommands", function(pl)
 	if (IsValid(pl)) then return end
@@ -173,3 +180,5 @@ concommand.Add("_restoreranks", function(pl)
 		end
 	end)
 end)
+
+]]--

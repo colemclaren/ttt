@@ -9,5 +9,7 @@
 !/gamemodes/terrorcity
 !/lua
 *.*
+!/lua/bin/gmsv_luaerror_linux.dll
+!/lua/bin/gmsv_luaerror_win32.dll
 !*.lua
 addons/moat_addons/lua/autorun/server/cac.lua
