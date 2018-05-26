@@ -1417,7 +1417,9 @@ function m_DrawRoulettePanel()
         draw.RoundedBox(0,260,80,170,170,Color(32,32,34))
 
         surface.SetDrawColor(255, 255, 255, 255)
-        surface.SetMaterial(mats["wheel"])
+		if not isstring(mats["wheel"]) then
+        	surface.SetMaterial(mats["wheel"])
+		end
         if doing then
             ang = Lerp(FrameTime()*time_m,ang,toang)
         end
@@ -1629,7 +1631,9 @@ function m_DrawRoulettePanel()
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
         surface.SetDrawColor(255,255,255,255)
-        surface.SetMaterial(mats["mat_green_red" .. (self:IsHovered() and "_hover" or "")])
+		if not isstring(mats["mat_green_red" .. (self:IsHovered() and "_hover" or "")])
+        	surface.SetMaterial(mats["mat_green_red" .. (self:IsHovered() and "_hover" or "")])
+		end
         surface.DrawTexturedRect(0,0,w,h)
         surface.SetDrawColor(86,86,86,255)
         surface.DrawOutlinedRect(0, 0, w, h)
@@ -1658,7 +1662,9 @@ function m_DrawRoulettePanel()
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
         surface.SetDrawColor(255,255,255,255)
-        surface.SetMaterial(mats["mat_green_normal" .. (self:IsHovered() and "_hover" or "")])
+		if not isstring(mats["mat_green_normal" .. (self:IsHovered() and "_hover" or "")]) then
+        	surface.SetMaterial(mats["mat_green_normal" .. (self:IsHovered() and "_hover" or "")])
+		end
         surface.DrawTexturedRect(0,0,w,h)
         surface.SetDrawColor(86,86,86,255)
         surface.DrawOutlinedRect(0, 0, w, h)
@@ -1687,7 +1693,9 @@ function m_DrawRoulettePanel()
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
         surface.SetDrawColor(255,255,255,255)
-        surface.SetMaterial(mats["mat_green_black" .. (self:IsHovered() and "_hover" or "")])
+		if not isstring(mats["mat_green_black" .. (self:IsHovered() and "_hover" or "")])
+        	surface.SetMaterial(mats["mat_green_black" .. (self:IsHovered() and "_hover" or "")])
+		end
         surface.DrawTexturedRect(0,0,w,h)
         surface.SetDrawColor(86,86,86,255)
         surface.DrawOutlinedRect(0, 0, w, h)
@@ -3607,11 +3615,13 @@ net.Receive("gversus.FinishGame",function()
 	steamworks.RequestPlayerInfo(ply, function()
 		plyname = steamworks.GetPlayerName(ply)
 	end)
+
 	if not gversus_players[ply][1] then
 		gversus_players[ply] = nil
 		return
 	end
 	steamworks.RequestPlayerInfo(gversus_players[ply][1], function()
+		if not gversus_players[ply] then return end
 		winname = steamworks.GetPlayerName(gversus_players[ply][1])
 	end)
 
@@ -3999,10 +4009,14 @@ function m_DrawVersusPanel()
 			winner:SetSize(46,40)
 			winner:Dock(RIGHT)
 			if v[6] then
+				if not v[1] then return end
 				winner:SetSteamID(v[1],64)
+				if not v[4] then return end
 				winner:SetTooltip(v[4])
 			else
+				if not v[2] then return end
 				winner:SetSteamID(v[2],64)
+				if not v[5] then return end
 				winner:SetTooltip(v[5])
 			end
 
@@ -4046,8 +4060,12 @@ function m_DrawVersusPanel()
 		steamworks.RequestPlayerInfo(ply, function()
 			plyname = steamworks.GetPlayerName(ply)
 		end)
-
+		if not gversus_players[ply][1] then 
+			gversus_players[ply] = nil
+			return 
+		end
 		steamworks.RequestPlayerInfo(gversus_players[ply][1], function()
+			if not gversus_players[ply] then return end
 			winname = steamworks.GetPlayerName(gversus_players[ply][1])
 		end)
 
