@@ -228,6 +228,7 @@ end
 function SWEP:DrawWorldModel()
 	self:DrawModel()
 	local att = self:GetAttachment( 1 )
+	if (not att) then return end
 	self:DrawRope( att.Pos )
 end
 function SWEP:VMDraw()
