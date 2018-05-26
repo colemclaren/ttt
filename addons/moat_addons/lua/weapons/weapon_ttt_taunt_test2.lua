@@ -69,6 +69,8 @@ function SWEP:InitializeTaunt()
 end
 
 function SWEP:EndTaunt()
+	if (not IsValid(self.Owner)) then return end
+
 	self.Owner:AnimRestartGesture(GESTURE_SLOT_GRENADE, ACT_RESET, true)
 	if (CLIENT) then return end
 	

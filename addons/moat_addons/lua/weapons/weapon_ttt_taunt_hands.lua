@@ -63,6 +63,8 @@ function SWEP:InitializeTaunt()
 end
 
 function SWEP:EndTaunt()
+	if (not IsValid(self.Owner)) then return end
+
 	if (CLIENT) then return end
 
 	self:SetTauntActive(false)
