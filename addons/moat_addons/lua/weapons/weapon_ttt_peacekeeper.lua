@@ -23,7 +23,7 @@ SWEP.Primary.Sound			= Sound("BO2_PEACE_FIRE")
 SWEP.Primary.Reload1 = Sound("BO2_PEACE_MAGOUT")
 SWEP.Primary.Reload2 = Sound("BO2_PEACE_MAGIN")
 SWEP.Primary.Ammo = "SMG1"
-SWEP.Primary.Delay = 0.085
+SWEP.Primary.Delay = 0.105
 SWEP.Primary.Recoil = 0.9
 SWEP.Primary.Cone = 0.01
 SWEP.Primary.Damage = 22
@@ -58,16 +58,16 @@ function SWEP:Reload()
   local seq = Animation:LookupSequence(anim)
   Animation:SetSequence(seq)
 
-  timer.Simple(0.4, function() 
-    if (self.StopSounds) then return end
-    self:EmitSound(self.Primary.Reload1)
-    timer.Simple(0.8, function()
-      if (self.StopSounds) then return end
-      self:EmitSound(self.Primary.Reload2)
-
-      self.Reloading = false
-    end)
-  end)
+	timer.Simple(0.4, function() 
+    	if (self.StopSounds or not self.Primary) then return end
+    	self:EmitSound(self.Primary.Reload1)
+	
+    	timer.Simple(0.8, function()
+      		if (self.StopSounds or not self.Primary) then return end
+      		self:EmitSound(self.Primary.Reload2)
+      		self.Reloading = false
+    	end)
+  	end)
 
    self:DefaultReload(self.ReloadAnim)
    self:SetIronsights(false)
