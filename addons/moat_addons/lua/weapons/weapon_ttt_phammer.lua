@@ -280,6 +280,8 @@ if CLIENT then
       local plytr = client:GetEyeTrace(MASK_SHOT)
 
       local muzzle_angpos = vm:GetAttachment(1)
+	  if (not muzzle_angpos) then return end
+
       local spos = muzzle_angpos.Pos + muzzle_angpos.Ang:Forward() * 10
       local epos = client:GetShootPos() + client:GetAimVector() * maxrange
 
