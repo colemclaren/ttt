@@ -58,16 +58,16 @@ function SWEP:Reload()
   local seq = Animation:LookupSequence(anim)
   Animation:SetSequence(seq)
 
-  timer.Simple(0.4, function() 
-    if (self.StopSounds) then return end
-    self:EmitSound(self.Primary.Reload1)
-    timer.Simple(0.8, function()
-      if (self.StopSounds) then return end
-      self:EmitSound(self.Primary.Reload2)
-
-      self.Reloading = false
-    end)
-  end)
+	timer.Simple(0.4, function() 
+    	if (self.StopSounds or not self.Primary) then return end
+    	self:EmitSound(self.Primary.Reload1)
+	
+    	timer.Simple(0.8, function()
+      		if (self.StopSounds or not self.Primary) then return end
+      		self:EmitSound(self.Primary.Reload2)
+      		self.Reloading = false
+    	end)
+  	end)
 
    self:DefaultReload(self.ReloadAnim)
    self:SetIronsights(false)
