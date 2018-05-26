@@ -419,6 +419,8 @@ hook.Add("Think", "Think_Record", function()
 		end
 		if scene and playedsounds != scene then
 			for k,v in pairs(scene) do
+				if ((not k) or (not v) or (not models[k])) then continue end
+
 				if v.shot then
 					models[k]:EmitSound(v.shot, 100, 100)
 				end
