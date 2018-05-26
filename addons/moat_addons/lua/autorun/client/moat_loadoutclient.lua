@@ -654,7 +654,7 @@ function MOAT_LOADOUT.UpdateWep()
                 end
 
                 if (prim and prim.ClipMax) then
-                    wep.Weapon.Primary.ClipMax = (wep.Primary.DefaultClip * 3)
+                    wep.Weapon.Primary.ClipMax = (wep_m * 3)
                 end
             end
 
