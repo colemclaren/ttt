@@ -544,7 +544,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
                 end
                 return
             end
-            if (s.Item.ID and s.Item.Model) then
+            if (s.Item.ID and s.Item.Model and MOAT_ITEM_PREVIEW and IsValid(MOAT_ITEM_PREVIEW)) then
                 if (s.Item.Kind == "Model") then
                     MOAT_ITEM_PREVIEW:SetModel(s.Item.ID)
                 else
@@ -561,7 +561,8 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
             end
 
             if (not s.Item.ID or not s.Item.Model) then return end
-            
+			if (not (MOAT_ITEM_PREVIEW and IsValid(MOAT_ITEM_PREVIEW))) then return end
+
             if (s.Item.Kind == "Model") then
                 MOAT_ITEM_PREVIEW:SetModel(MOAT_ITEM_PREVIEW.DefaultModel)
             else
