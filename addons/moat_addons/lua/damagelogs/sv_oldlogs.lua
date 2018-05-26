@@ -97,7 +97,7 @@ if file.Exists("damagelog/damagelog_lastroundmap.txt", "DATA") then
 	file.Delete("damagelog/damagelog_lastroundmap.txt")
 end
 
-hook.Add("TTTEndRound", "Damagelog_EndRound", function()
+hook.Add("ShutDown", "Damagelog_EndRound", function()
 	if Damagelog.DamageTable and (Damagelog.ShootTables and Damagelog.ShootTables[Damagelog.CurrentRound]) then
 		local logs = {
 			DamageTable = Damagelog.DamageTable,
