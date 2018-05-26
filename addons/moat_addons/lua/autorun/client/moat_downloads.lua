@@ -183,14 +183,12 @@ hook.Add("HUDPaint", "moat_dl.drawhud", moat_dl.DrawHUD)
 local tries = 0
 function moat_dl:DownloadID(id, t)
 	dl(id, true, function(c)
-		tries = tries + 1
+		if (not c) then
+			if (tries < 10) then self:DownloadAddon(self.cur) return end
 
-		if (c == nil and tries < 10) then
-			self:DownloadAddon(self.cur)
-			return
-		elseif (c == nil) then
-			MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Load Resource " .. self.ids[self.cur] .. ".\n")
+			MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Download Resource " .. self.ids[self.cur] .. ".\n")
 			self:NextAddon()
+
 			return
 		end
 
@@ -207,6 +205,7 @@ end
 
 function moat_dl:DownloadAddon(n)
 	local wid = self.ids[n]
+	tries = tries + 1
 
 	if (sub(wid)) then
 		self:NextAddon()
@@ -214,6 +213,15 @@ function moat_dl:DownloadAddon(n)
 	end
 
 	info(wid, function(r)
+		if (not r) then
+			if (tries < 10) then self:DownloadAddon(self.cur) return end
+
+			MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Load Resource " .. self.ids[self.cur] .. ".\n")
+			self:NextAddon()
+
+			return
+		end
+
 		local id = r.fileid
 		local t = !exist("cache/workshop/" .. id .. ".cache", "GAME")
 
