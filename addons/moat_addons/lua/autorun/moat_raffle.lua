@@ -2,6 +2,7 @@ local raffleTimer = 7
 
 if SERVER then
 	util.AddNetworkString('moat_startRaffle')
+	util.AddNetworkString "moat_finishRaffle"
 	local allowedSteamUsers = {
 		'76561198053381832', -- Moat
 		'76561197996924066', -- Nook
@@ -14,22 +15,23 @@ if SERVER then
 		Desc: Function to call the raffle
 	]]
 	function moatStartRaffle()
-
-		local plys = {}
-
-		for k, v in pairs(player.GetAll()) do
-			if (v:Team() ~= TEAM_SPEC) then
-				table.insert(plys, v)
-			end
-		end
-		
-		local plyWinner = plys[math.random(1, #plys)]
 		net.Start('moat_startRaffle')
-			net.WriteEntity(plyWinner)
 		net.Broadcast()
 		
 		timer.Simple(raffleTimer + 1, function() -- Plus one so it does it after the winner is announced
+			local plys = {}
+			for k, v in pairs(player.GetAll()) do
+				if (v:Team() ~= TEAM_SPEC) then
+					table.insert(plys, v)
+				end
+			end
+		
+			local plyWinner = plys[math.random(#plys)]
 			plyWinner:m_DropInventoryItem(5)
+
+			net.Start("moat_finishRaffle")
+				net.WriteEntity(plyWinner)
+			net.Broadcast()
 		end)
 	end
 	
@@ -52,7 +54,7 @@ if SERVER then
 		local randomNum = math.random(1, 20)
 		
 		if (randomNum == raffleChance) then
-			moatStartRaffle()
+			timer.Simple(5, function() moatStartRaffle() end)
 		end
 	end)
 else
@@ -66,11 +68,19 @@ else
 	local avatarSize, margin = 128, 25
 	local finalizedRaffle = false
 	local raffleSong, raffleStation = 'https://i.moat.gg/servers/tttsounds/rafflesong.mp3', nil
+
+	net.Receive("moat_finishRaffle", function()
+		local winningPly = net.ReadEntity()
+		playerRaffleNick = IsValid(winningPly) and winningPly:Nick() or "Winner Left rofl"
+		finalizedRaffle = true
+		chat.AddText(Color(237, 225, 165), playerRaffleNick, Color(197, 179, 88), ' won the raffle!')
+
+		playerAvatarRoulette:SetPlayer(winningPly, avatarSize)
+	end)
 	
 	net.Receive('moat_startRaffle', function(len)
 		local w, h = ScrW(), ScrH()
 		local endtime = CurTime() + raffleTimer
-		local winningPly = net.ReadEntity()
 		
 		if (!playerAvatarRoulette) then 
 			playerAvatarRoulette = vgui.Create('AvatarImage') 
@@ -90,21 +100,16 @@ else
 		chat.AddText(Color(197, 179, 88), 'A raffle has started!')
 		
 		timer.Create('moat_raffle_cyclePlayers', 0.3, 0, function()
-			local randomPlayer = table.Random(player.GetAll())
-			playerRaffleNick = randomPlayer:Nick()
-			playerAvatarRoulette:SetPlayer(randomPlayer, avatarSize)
+			local pls = player.GetAll()
+			local randomPlayer = pls[math.random(#pls)]
+			if (not randomPlayer) then return end
+
+			if (not finalizedRaffle) then
+				playerRaffleNick = randomPlayer:Nick()
+				playerAvatarRoulette:SetPlayer(randomPlayer, avatarSize)
+			end
 			
 			if (CurTime() >= endtime) then
-				playerAvatarRoulette:SetPlayer(winningPly, avatarSize)
-				if (not IsValid(winningPly)) then
-					playerRaffleNick = "Winner Left rofl"
-				else
-					playerRaffleNick = winningPly:Nick()
-				end
-				finalizedRaffle = true
-				
-				chat.AddText(Color(237, 225, 165), playerRaffleNick, Color(197, 179, 88), ' won the raffle!')
-				
 				timer.Destroy('moat_raffle_cyclePlayers')
 				
 				timer.Simple(5, function()
