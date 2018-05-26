@@ -6079,7 +6079,7 @@ function m_DrawFoundItem(tbl, s_type)
                 local item_desc = ITEM_HOVERED.item.Description
                 local item_desctbl = string.Explode("^", item_desc)
 
-                if (ITEM_HOVERED.s) then
+                if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
                     for i = 1, #item_desctbl do
                         local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
 
@@ -6177,7 +6177,7 @@ function m_DrawFoundItem(tbl, s_type)
             local item_desc = ITEM_HOVERED.item.Description
             local item_desctbl = string.Explode("^", item_desc)
 
-            if (ITEM_HOVERED.s) then
+            if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
                 for i = 1, #item_desctbl do
                     local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
 
