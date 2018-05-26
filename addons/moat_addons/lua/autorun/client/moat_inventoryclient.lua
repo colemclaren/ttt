@@ -3246,9 +3246,6 @@ function m_OpenInventory(ply2, utrade)
             MOAT_TRADE_BG.ACCEPTED2 = 0
 
             MOAT_TRADE_BG.Paint = function(s, w, h)
-                local x, y = MOAT_INV_BG:GetPos()
-                local invw, invh = MOAT_INV_BG:GetSize()
-                render.SetScissorRect(x, y, x + invw, y + invh, true)
                 if (not IsValid(ply_2)) then
 					if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
         			if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
@@ -3268,6 +3265,11 @@ function m_OpenInventory(ply2, utrade)
                     chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Trade canceled. Player disconnected?")
                     return
                 end
+
+				if (not IsValid(MOAT_INV_BG)) then return end
+                local x, y = MOAT_INV_BG:GetPos()
+                local invw, invh = MOAT_INV_BG:GetSize()
+                render.SetScissorRect(x, y, x + invw, y + invh, true)
                 if (MT_TSHADOW) then
                     m_DrawShadowedText(1, "Your offer:", "Trebuchet24", 25 + 2 + 3 + x_off, 1 + y_off - y_off2, MT_TCOL)
                     m_DrawShadowedText(1, "Viewing Trade", "moat_TradeDesc", 25 + 2 + 3 + x_off, 1 + y_off + y_off2 + 2, Color(0, 200, 0, 255))
@@ -3378,10 +3380,6 @@ function m_OpenInventory(ply2, utrade)
                 m_DPanel:SetSize(68, 68)
 
                 m_DPanel.Paint = function(s, w, h)
-                    local x, y = MOAT_INV_BG:GetPos()
-                    local invw, invh = MOAT_INV_BG:GetSize()
-                    render.SetScissorRect( x, y, x + invw, y + invh, true )
-
                     if (not m_Trade[num]) then
 						if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
         				if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
@@ -3401,6 +3399,11 @@ function m_OpenInventory(ply2, utrade)
 						chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Trade canceled. Player disconnected?")
                         return
                     end
+
+					if (not IsValid(MOAT_INV_BG)) then return end
+                    local x, y = MOAT_INV_BG:GetPos()
+                    local invw, invh = MOAT_INV_BG:GetSize()
+                    render.SetScissorRect( x, y, x + invw, y + invh, true )
 
                     local draw_x = 2
                     local draw_y = 2
@@ -3482,6 +3485,7 @@ function m_OpenInventory(ply2, utrade)
                 m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
                     if (m_Trade[num].c) then
                         if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
+							if (not IsValid(MOAT_INV_BG)) then return end
                             local x, y = MOAT_INV_BG:GetPos()
                             local invw, invh = MOAT_INV_BG:GetSize()
                             render.SetScissorRect( x, y, x + invw, y + invh, true )
@@ -3732,6 +3736,7 @@ function m_OpenInventory(ply2, utrade)
             M_TRADE_A:SetText("")
 
             M_TRADE_A.Paint = function(s, w, h)
+				if (not IsValid(MOAT_INV_BG)) then return end
                 local x, y = MOAT_INV_BG:GetPos()
                 local invw, invh = MOAT_INV_BG:GetSize()
                 render.SetScissorRect( x, y, x + invw, y + invh, true )
@@ -3806,6 +3811,7 @@ function m_OpenInventory(ply2, utrade)
             M_TRADE_D:SetText("")
 
             M_TRADE_D.Paint = function(s, w, h)
+				if (not IsValid(MOAT_INV_BG)) then return end
                 local x, y = MOAT_INV_BG:GetPos()
                 local invw, invh = MOAT_INV_BG:GetSize()
                 render.SetScissorRect( x, y, x + invw, y + invh, true )
@@ -3897,7 +3903,9 @@ function m_OpenInventory(ply2, utrade)
                 end
                 
                 local curx = s:GetPos()
-                local invx = MOAT_INV_BG:GetPos()
+                local invx = ScrW()
+				if (IsValid(MOAT_INV_BG)) then invx = MOAT_INV_BG:GetPos() end
+
                 if (curx < invx) then
                     M_TRADE_CHATLIST:SetAlpha(0)
                     MOAT_TRADE_AVA2:SetAlpha(0)
