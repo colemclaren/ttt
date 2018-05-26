@@ -1024,7 +1024,9 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
         local wep = m_ReadWeaponFromNetCache()
 
         if (wep.c) then
-            wep.l = MOAT_INV:IsLocked(wep.c) and 1
+            MOAT_INV:IsLocked(wep.c, function(locked)
+                wep.l = locked and 1 or nil
+            end)
         end
 
         if (is_loadout) then
@@ -1034,25 +1036,30 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
                 m_SendCosmeticPositions(m_Loadout[slot], slot)
             end
         else
-            if (wep.c) then
-                slot = MOAT_INV:GetSlotForID(wep.c)
-            end
+            local function Internal(slot)
+            print("internal", slot)
+                m_Inventory[slot] = wep
 
-            m_Inventory[slot] = wep
+                if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
+                    local d = nil
 
-            if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
-                local d = nil
+                    if (m_Inventory[slot] and m_Inventory[slot].item) then
+                        local m = m_Inventory[slot].item
 
-                if (m_Inventory[slot] and m_Inventory[slot].item) then
-                    local m = m_Inventory[slot].item
-
-                    if (m.Image) then
-                        d = m.Image
-                        if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
-                            M_INV_SLOT[slot].VGUI.WModel = d
+                        if (m.Image) then
+                            d = m.Image
+                            if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
+                                M_INV_SLOT[slot].VGUI.WModel = d
+                            end
                         end
                     end
                 end
+            end
+
+            if (wep.c) then
+                MOAT_INV:GetSlotForID(wep.c, Internal)
+            else
+                Internal(slot)
             end
         end
         i = i + 1
@@ -1064,12 +1071,14 @@ net.Receive("MOAT_ITEM_INFO", function(len)
     end
 end)
 
-net.Start("MOAT_SEND_INV_ITEM")
-net.SendToServer()
 local m_Credits = 0
 MOAT_INVENTORY_CREDITS = m_Credits
-net.Start("MOAT_SEND_CREDITS")
-net.SendToServer()
+hook.Add("InitPostEntity", "moat_inv.init", function()
+    net.Start("MOAT_SEND_INV_ITEM")
+    net.SendToServer()
+    net.Start("MOAT_SEND_CREDITS")
+    net.SendToServer()
+end)
 
 net.Receive("MOAT_SEND_CREDITS", function(len)
     m_Credits = math.Round(net.ReadDouble(), 2)

@@ -52,9 +52,9 @@ end
 
 function data:CreateQuery(q, ...)
     local d = type(...) ~= "table" and {...} or ...
-    local idx, str = 1, "%s"
+    local idx = 1
 
-    return (q:gsub("(%%?)%?(!?)([%l_]*)", function(skip, raw, id)
+    return (q:gsub("(%%?)%?(!?)([%w_]*)", function(skip, raw, id)
         if (skip == "%") then return end
         if (id == "") then
             idx, id = idx + 1, d[idx]
@@ -68,8 +68,12 @@ end
 
 function data:Query(q, succ, err)
     local d = sql.Query(q)
-    if (d == false and err) then
-        return err(sql.LastError())
+    if (d == false) then
+        if (err) then
+            return err(sql.LastError())
+        else
+            error(sql.LastError())
+        end
     end
     if (d ~= false and succ) then
         return succ(d)

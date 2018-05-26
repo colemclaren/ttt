@@ -14,7 +14,7 @@ function MOAT_INV.ShouldCreateSlots()
 	local amt = net.ReadUInt(16)
 	if (not amt) then
 		MOAT_INV:CreateSlotFiles(MOAT_INV.Config.DefaultSlots)
-		return 
+		return
 	end
 
 	local lids = {}

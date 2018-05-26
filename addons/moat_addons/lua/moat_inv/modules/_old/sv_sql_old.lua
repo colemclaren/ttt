@@ -485,13 +485,13 @@ function m_SendInventoryToPlayer(ply)
         return
     end
     ply.Sending = true
-    if (ply:IsValid()) then
-        net.Start("MOAT_SEND_SLOTS")
-        net.WriteDouble(ply:GetMaxSlots())
-        net.Send(ply)
-    end
 
     return m_LoadInventoryForPlayer(ply, function()
+        if (ply:IsValid()) then
+            net.Start("MOAT_SEND_SLOTS")
+            net.WriteDouble(ply:GetMaxSlots())
+            net.Send(ply)
+        end
         local ply_inv = MOAT_INVS[ply]
 
         local loadout = {}
@@ -503,9 +503,10 @@ function m_SendInventoryToPlayer(ply)
             return SendWeaponInvItems(ply, loadout, true, function()
                 local inv = {}
 
-                for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+                for i = 1, ply:GetMaxSlots() do
                     inv[i] = ply_inv["slot"..i]
                 end
+
                 return m_WriteWeaponsToPlayer(ply, inv, function()
                     return SendWeaponInvItems(ply, inv, false, function()
                         MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
