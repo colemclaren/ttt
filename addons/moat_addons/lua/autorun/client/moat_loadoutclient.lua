@@ -650,7 +650,7 @@ function MOAT_LOADOUT.UpdateWep()
                 wep.Weapon.Primary.ClipSize = wep_m
 
                 if (prim and prim.DefaultClip) then
-                    wep.Weapon.Primary.DefaultClip = wep.Primary.ClipSize
+                    wep.Weapon.Primary.DefaultClip = wep_m
                 end
 
                 if (prim and prim.ClipMax) then
