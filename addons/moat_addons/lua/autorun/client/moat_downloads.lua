@@ -181,18 +181,21 @@ end
 hook.Add("HUDPaint", "moat_dl.drawhud", moat_dl.DrawHUD)
 
 local tries = 0
-
 function moat_dl:DownloadID(id, t)
 	dl(id, true, function(c)
 		tries = tries + 1
 
-		if (c == nil and tries < 3) then
+		if (c == nil and tries < 10) then
 			self:DownloadAddon(self.cur)
+			return
+		elseif (c == nil) then
+			MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Load Resource " .. self.ids[self.cur] .. ".\n")
+			self:NextAddon()
 			return
 		end
 
 		local s = gma(c)
-		MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Addon " .. self.ids[self.cur] .. ".\n")
+		MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. self.ids[self.cur] .. ".\n")
 
 		if (t) then
 			timer.Simple(5, function() self:NextAddon() end)
