@@ -192,7 +192,7 @@ function moat_dl:DownloadID(id, t)
 			return
 		end
 
-		local s = gma(c)
+		gma(c)
 		MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. self.ids[self.cur] .. ".\n")
 
 		if (t) then
