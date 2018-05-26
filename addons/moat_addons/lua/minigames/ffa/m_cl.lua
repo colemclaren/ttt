@@ -241,7 +241,7 @@ local killed_words = {
 
 net.Receive("FFA_Kill",function()
     local p = net.ReadEntity()
-    if p == LocalPlayer() then 
+    if MOAT_FFA and IsValid(LocalPlayer()) and p == LocalPlayer() then 
         MOAT_FFA.MyKills = MOAT_FFA.MyKills + 1 
         MOAT_FFA.blue_cur = MOAT_FFA.MyKills
     end
