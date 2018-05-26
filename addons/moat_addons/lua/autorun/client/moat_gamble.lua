@@ -2868,7 +2868,6 @@ function m_DrawBlackjackPanel()
 		local a = 255
 		if self:IsHovered() then a = 175 end
 		local c = Color(10,200,10,a)
-		print(33)
 		if (MOAT_GAMBLE.JackAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.JackAmount < 10)) or (jackpot.Rolling) or (not jackpot.CanDeposit) or (MOAT_GAMBLE.LastJack > CurTime()) then
 			c = Color(86,86,86)
 			a = 10
