@@ -2512,6 +2512,10 @@ function m_OpenInventory(ply2, utrade)
 
     local function m_CreateInventorySlots()
         for i = 1, MAX_SLOTS do
+			if (not m_Inventory[i]) then
+				MsgC(Color(255, 0, 0), "Couldn't create slot " .. i .. " in your inventory.\n")
+				m_Inventory[i] = {}
+			end
             m_CreateInvSlot(i)
         end
 
