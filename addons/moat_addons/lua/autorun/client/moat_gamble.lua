@@ -1631,7 +1631,7 @@ function m_DrawRoulettePanel()
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
         surface.SetDrawColor(255,255,255,255)
-		if not isstring(mats["mat_green_red" .. (self:IsHovered() and "_hover" or "")])
+		if not isstring(mats["mat_green_red" .. (self:IsHovered() and "_hover" or "")]) then
         	surface.SetMaterial(mats["mat_green_red" .. (self:IsHovered() and "_hover" or "")])
 		end
         surface.DrawTexturedRect(0,0,w,h)
@@ -1693,7 +1693,7 @@ function m_DrawRoulettePanel()
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
         surface.SetDrawColor(255,255,255,255)
-		if not isstring(mats["mat_green_black" .. (self:IsHovered() and "_hover" or "")])
+		if not isstring(mats["mat_green_black" .. (self:IsHovered() and "_hover" or "")]) then
         	surface.SetMaterial(mats["mat_green_black" .. (self:IsHovered() and "_hover" or "")])
 		end
         surface.DrawTexturedRect(0,0,w,h)
