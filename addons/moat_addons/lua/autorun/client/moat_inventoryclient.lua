@@ -3962,6 +3962,7 @@ end
 
 function m_AddTradeChatMessage(tmsg, tply)
     if (not IsValid(M_TRADE_CHATLIST)) then return end
+    if not IsValid(tply) then return end
     local ply_name = tply:Nick()
 
     if (string.StartWith(ply_name, "#") and #ply_name > 1) then
