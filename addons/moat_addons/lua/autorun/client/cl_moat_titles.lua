@@ -643,11 +643,10 @@ function discordrpc.Print(...)
 			args[k] = table.ToString(v)
 		end
 	end
-	print(unpack(args))
+	--print(unpack(args))
 end
 
 function discordrpc.Init(callback)
-    print("init",discordrpc.port)
 	if not discordrpc.port then
 		local validPort
 		for port = 6463, 6473 do
@@ -822,11 +821,13 @@ function discordrpc.Auth()
         },
 
         success = function(status, body)
+			if (body) then return end
+
             body = util.JSONToTable(body)
-            PrintTable(body)
-            if body.data.code == 5000 then print("User declined request") return end
+			if (not body.data) then return end
+            if body.data.code == 5000 then return end
             discordrpc.OAuth = body.data.code
-            print("Got OAuth Code: " .. discordrpc.OAuth)
+
             net.Start("discord.OAuth")
             net.WriteString(discordrpc.OAuth)
             net.SendToServer()         
@@ -906,7 +907,6 @@ hook.Add("HTTPLoaded", "discordrpc_init", function()
 
 	discordrpc.Init(function(succ, err)
 		if succ then
-            print("Discord RPC Loaded")
             timer.Simple(10,function()
                 if cookie.GetNumber("MG_Discord", 0) ~= 1 then
                     net.Receive("AmIDiscord",function()
