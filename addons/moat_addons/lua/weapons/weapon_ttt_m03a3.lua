@@ -90,7 +90,7 @@ function SWEP:PrimaryAttack(worldsnd)
 
     if (self.FireEnd == 1) then
         timer.Simple(0.3, function()
-            self:ReBolt()
+			if (IsValid(self)) then self:ReBolt() end
         end)
     end
 
