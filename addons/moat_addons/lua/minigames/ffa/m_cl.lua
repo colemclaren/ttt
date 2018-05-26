@@ -8,13 +8,15 @@ net.Receive("FFA_KStreak",function()
     if blue then c = Color(0,0,255) end
     local p = net.ReadEntity()
     local s = net.ReadString()
-    if p == LocalPlayer() then
+    if IsValid(p) and p == LocalPlayer() then
         k_streak = {
             t = CurTime() + 5,
             s = s:upper() .. "!"
         }
     end
     local reward = net.ReadString()
+
+	if (not IsValid(p)) then return end
     chat.AddText(c,p:Nick(),Color(255,255,255)," just got a ",Color(255,255,0),s,Color(255,255,255)," and received ",Color(0,255,0),reward,Color(255,255,255),"!")
 end)
 local stats_spawn = GetConVar("moat_showstats_spawn")
@@ -245,11 +247,13 @@ net.Receive("FFA_Kill",function()
         MOAT_FFA.MyKills = MOAT_FFA.MyKills + 1 
         MOAT_FFA.blue_cur = MOAT_FFA.MyKills
     end
-    local killer = p:Nick()
     local killer_team = net.ReadBool()
-    local dead = net.ReadEntity():Nick()
+	local deadpl = net.ReadEntity()
     local dead_team = net.ReadBool()
-    
+
+	if (not IsValid(p) or not IsValid(deadpl)) then return end
+	local killer = p:Nick()
+    local dead = deadpl:Nick()
     table.insert(kills,1,{
         killer,
         killer_team,

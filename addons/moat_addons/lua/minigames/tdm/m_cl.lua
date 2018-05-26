@@ -8,13 +8,15 @@ net.Receive("TDM_KStreak",function()
     if blue then c = Color(0,0,255) end
     local p = net.ReadEntity()
     local s = net.ReadString()
-    if p == LocalPlayer() then
+    if IsValid(p) and p == LocalPlayer() then
         k_streak = {
             t = CurTime() + 5,
             s = s:upper() .. "!"
         }
     end
     local reward = net.ReadString()
+
+	if (not IsValid(p)) then return end
     chat.AddText(c,p:Nick(),Color(255,255,255)," just got a ",Color(255,255,0),s,Color(255,255,255)," and received ",Color(0,255,0),reward,Color(255,255,255),"!")
 end)
 local stats_spawn = GetConVar("moat_showstats_spawn")
@@ -238,15 +240,16 @@ local killed_words = {
 }
 
 net.Receive("TDM_Kill",function()
-    local killer = net.ReadEntity():Nick()
+    local killer = net.ReadEntity()
     local killer_team = net.ReadBool()
-    local dead = net.ReadEntity():Nick()
+    local dead = net.ReadEntity()
     local dead_team = net.ReadBool()
+	if (not IsValid(killer) or not IsValid(dead)) then return end
 
     table.insert(kills,1,{
-        killer,
+        killer:Nick(),
         killer_team,
-        dead,
+        dead:Nick(),
         dead_team,
         table.Random(killed_words),
         CurTime() + 10})
