@@ -99,9 +99,11 @@ function MOAT_LOADOUT.GetCosmetics(ply)
 end
 
 function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
-    if (item_tbl.item.OnPlayerSpawn) then
-        item_tbl.item:OnPlayerSpawn(ply)
-    end
+	if (item_tbl.item.CustomSpawn and item_tbl.item.OnPlayerSpawn) then
+		item_tbl.item:OnPlayerSpawn(ply)
+	else
+		timer.Simple(1, function() if (IsValid(ply)) then ply:SetModel(item_tbl.item.Model) end end)
+	end
 
     if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
         local col = MOAT_PAINT.Colors[MOAT_INVS[ply]["l_slot10"].p2 - (#MOAT_PAINT.Colors) - 6000][2]
