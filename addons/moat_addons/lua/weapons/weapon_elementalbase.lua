@@ -108,6 +108,7 @@ if CLIENT then
 
 	SWEP.vRenderOrder = nil
 	function SWEP:ViewModelDrawn()
+		if (not IsValid(self.Owner)) then return end
 
 		local vm = self.Owner:GetViewModel()
 		if !IsValid(vm) then return end
