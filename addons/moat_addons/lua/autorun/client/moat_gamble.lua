@@ -2265,6 +2265,7 @@ function m_DrawCrashPanel()
 		local ply = net.ReadEntity()
 		if ply == LocalPlayer() then crash_inside = true end
 		local e = net.ReadBool()
+		if not crash_players then crash_players = {} end
 		if crash_waitingfor then
 			crash_players = {}
 			updatelist()
