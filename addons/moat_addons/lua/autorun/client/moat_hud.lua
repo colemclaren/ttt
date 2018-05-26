@@ -917,6 +917,11 @@ concommand.Add("moat_resethud", function()
 
 		for k2, v2 in pairs(panel_values) do
 			local convar = GetConVar(k .. v2)
+			if (not convar) then
+				CreateClientConVar(k .. v2, tbl[v2], true)
+				continue
+			end
+
 			convar:SetInt(tbl[v2])
 		end
 	end
