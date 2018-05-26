@@ -357,6 +357,8 @@ hook.Add("Think", "Think_Record", function()
 				if not props[k] then
 					props[k] = ClientsideModel(v.model or "", RENDERGROUP_TRANSLUCENT)
 				end
+				if (not props[k]) then continue end
+				
 				local vector = v.pos or Vector(0,0,0)
 				local angle = v.ang or Angle(0,0,0)
 				if next_scene and next_scene[k] then
