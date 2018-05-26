@@ -74,6 +74,12 @@ function startProcess()
 	
 	-- Create menu
 	local menu = vgui.Create( 'aCrashScreen-menu' )
+	menu:SetVisible(false)
+
+	timer.Simple(8, function()
+		if (IsValid(menu)) then menu:SetVisible(true) end
+	end)
+	
 	_this.menu = menu
 	
 	-- Set the background
