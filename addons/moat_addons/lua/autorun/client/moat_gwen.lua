@@ -1037,8 +1037,10 @@ function PANEL:OnCursorEntered()
 		return
 	end
 
-	self:GetParent():OpenSubMenu( self, self.SubMenu )
-
+	local p = self:GetParent()
+	if (IsValid(p) and p.OpenSubMenu) then
+		p:OpenSubMenu(self, self.SubMenu)
+	end
 end
 
 function PANEL:OnCursorExited()
