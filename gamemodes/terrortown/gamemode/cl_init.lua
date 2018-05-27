@@ -606,19 +606,35 @@ function GM:CalcView( ply, origin, angles, fov )
 
    end
 
-	view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
-    if view.fov > 175 then
-        view.fov = 175
-    end
+    local wep, sights = ply:GetActiveWeapon()
+    if IsValid(wep) then
+		if (wep.GetTauntActive) then
+			if (wep:GetTauntActive()) then sights = true end
+		end
 
-   local wep = ply:GetActiveWeapon()
-   if IsValid(wep) then
-      local func = wep.CalcView
-      view.drawviewer = false
-      if func then
-         view.origin, view.angles, view.fov, view.drawviewer = func( wep, ply, origin*1, angles*1, view.fov )
-      end
-   end
+		if (wep.GetIronsights) then
+			if (wep:GetIronsights()) then sights = true end
+		end
+
+        local func = wep.CalcView
+        view.drawviewer = false
+
+		if (not sights) then
+			view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
+    		if view.fov > 175 then
+        		view.fov = 175
+    		end
+		end
+		
+        if func then
+            view.origin, view.angles, view.fov, view.drawviewer = func(wep, ply, origin * 1, angles * 1, view.fov)
+        end
+    else
+		view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
+    	if view.fov > 175 then
+        	view.fov = 175
+    	end
+	end
 
 
 
