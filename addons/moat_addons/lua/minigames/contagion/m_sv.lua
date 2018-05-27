@@ -35,7 +35,9 @@ MG_CG.ModelPath = "models/player/zombie_fast.mdl"
 MG_CG.TimeLeft = 0
 MG_CG.DeafultLoadout = {
     ["weapon_ttt_unarmed"] = true,
-    ["weapon_zm_improvised"] = true
+    ["weapon_zm_improvised"] = true,
+	["realistic_hook"] = true,
+	["weapon_ttt_jetpack"] = true
 }
 MG_CG.AmmoTypes = {
     "AR2",
@@ -445,10 +447,9 @@ function MG_CG.KarmaStuff()
 end
 
 function MG_CG.CanPickupWeapon(ply, wep)
-    if (MG_CG.DeafultLoadout[wep:GetClass()] or ((wep:GetClass() == "realistic_hook" or wep:GetClass() == "weapon_ttt_jetpack") and MG_CG.Infected[ply])) then
-        return true
-    end
-    return (MG_CG.Survivors[ply] or false)
+	if (not MG_CG.DeafultLoadout[wep:GetClass()] and MG_CG.Infected[ply]) then
+		return false
+	end
 end
 
 function MG_CG.StopFallDamage(ent, dmginfo)

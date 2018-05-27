@@ -70,7 +70,7 @@ function MSE.Events.Start(pl, amt, cmd, args, cmd_name, ec)
 
 	RunConsoleCommand(cmd, unpack(args))
 
-	timer.Simple(0, function()
+	timer.Simple(1, function()
 		if (MOAT_MINIGAME_OCCURING) then
 			MSE.Events.Started(pl, amt, cmd, args, cmd_name, ec)
 			MSE.Player = nil
