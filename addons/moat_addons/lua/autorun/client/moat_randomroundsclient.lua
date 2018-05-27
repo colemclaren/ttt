@@ -236,6 +236,8 @@ end)
 
 -- so late players who weren't existant during preparing can be networked the wacky round
 hook.Add("InitPostEntity", "RandomRoundLateCheck", function()
-    net.Start "randomround.late"
-    net.SendToServer()
+    timer.Simple(10, function()
+		net.Start "randomround.late"
+    	net.SendToServer()
+	end)
 end)
