@@ -10,8 +10,6 @@ local DATABASE_USERNAME = "footsies"
 local DATABASE_PASSWORD = "clkmTQF6bF@3V0NYjtUMoC6sF&17B$"
 local MINVENTORY_CONNECTED = false
 
-function m_InventoryTable(db)
-end
 
 local sql_queue = {}
 MINVENTORY_MYSQL = MOAT_INV.SQL and MOAT_INV.SQL.mysqloo
@@ -31,8 +29,6 @@ hook.Add("InventoryPrepare", "MINVENTORY_MYSQL", function()
     end
 
     sql_queue = {}
-
-    m_InventoryTable(MINVENTORY_MYSQL)
 end)
 
 hook.Add("SQLConnectionFailed", "MINVENTORY_MYSQL", function(db)
@@ -450,6 +446,8 @@ end
 function m_LoadInventoryForPlayer(ply, cb)
     ply:LoadInventory(function(_, inv)
         local inv_tbl = {
+            ply = ply,
+            ply_steamid = ply:SteamID64(),
             credits = {
                 c = 0
             } -- TODO: readd
@@ -469,6 +467,14 @@ function m_LoadInventoryForPlayer(ply, cb)
             i = i + 1
             inv_tbl["slot"..i] = wep
         end
+
+        setmetatable(inv_tbl, {
+            __newindex = function(self, k, v)
+                rawset(self, k, v)
+                print(self.ply, k, v)
+                debug.Trace()
+            end
+        })
 
         ply.Inventory = inv_tbl
 

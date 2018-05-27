@@ -202,7 +202,7 @@ function m_GetTalentFromEnumWithFunctions(tenum)
 end
 
 function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
-    local ply_inv = table.Copy(MOAT_INVS[self])
+    local ply_inv = MOAT_INVS[self]
     local slot_found = 0
 
     for i = 1, self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
@@ -214,24 +214,10 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
         end
     end
 
-    if (slot_found == 0) then
-        slot_found = self:GetMaxSlots() + 1
-        self:UpgradeMaxSlots()
-        net.Start("MOAT_MAX_SLOTS")
-        net.WriteDouble(self:GetMaxSlots())
-        net.Send(self)
-        local max_slots = self:GetMaxSlots()
-        local max_slots_old = max_slots - 4
-
-        for i = max_slots_old, max_slots do
-            MOAT_INVS[self]["slot" .. i] = {}
-        end
-    end
-
     MOAT_INVS[self]["slot" .. slot_found] = tbl
 
     if (delay_saving) then return end
-    
+
     net.Start("MOAT_ADD_INV_ITEM")
     net.WriteString(tostring(slot_found))
     local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
@@ -2086,28 +2072,6 @@ end)
 net.Receive("MOAT_END_USABLE", function(l, pl)
     pl.UsingUsable = false
 end)
-
-function m_SendInvItem(pl, s, l)
-    local slot_text = "slot"
-    if (l) then slot_text = "l_slot" end
-    
-    net.Start("MOAT_SEND_INV_ITEM")
-    net.WriteString(s)
-
-    local tbl = table.Copy(MOAT_INVS[pl][slot_text .. s])
-    tbl.item = m_GetItemFromEnum(tbl.u)
-
-    if (tbl.t) then
-        tbl.Talents = {}
-
-        for k, v in ipairs(tbl.t) do
-            tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
-
-    net.WriteTable(tbl)
-    net.Send(pl)
-end
 
 local mutator_rar = {
     [5] = "High-End",

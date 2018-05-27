@@ -2547,7 +2547,7 @@ function m_OpenInventory(ply2, utrade)
 
         m_HandleLayoutSpacing()
     end
-    
+
     m_CreateInventorySlots(#m_Inventory)
 
     local inv_pnl_x2 = MOAT_INV_BG:GetWide() - (350 + 14) - 18 - 5 - 78
@@ -5836,26 +5836,22 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
     local item_tbl = {}
 
     for i = 1, LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
-        if (m_Inventory[i] and m_Inventory[i].c) then
-            if (m_Inventory[i].c == item_id) then
-                old_level = m_Inventory[i].s.l
-                m_Inventory[i].s.l = item_lvl
-                m_Inventory[i].s.x = item_exp
-                item_tbl = m_Inventory[i]
-                break
-            end
+        if (m_Inventory[i] and m_Inventory[i].c and m_Inventory[i].c == item_id) then
+            old_level = m_Inventory[i].s.l
+            m_Inventory[i].s.l = item_lvl
+            m_Inventory[i].s.x = item_exp
+            item_tbl = m_Inventory[i]
+            break
         end
     end
 
     for i = 1, 10 do
-        if (m_Loadout[i] and m_Loadout[i].c) then
-            if (m_Loadout[i].c == item_id) then
-                old_level = m_Loadout[i].s.l
-                m_Loadout[i].s.l = item_lvl
-                m_Loadout[i].s.x = item_exp
-                item_tbl = m_Loadout[i]
-                break
-            end
+        if (m_Loadout[i] and m_Loadout[i].c and m_Loadout[i].c == item_id) then
+            old_level = m_Loadout[i].s.l
+            m_Loadout[i].s.l = item_lvl
+            m_Loadout[i].s.x = item_exp
+            item_tbl = m_Loadout[i]
+            break
         end
     end
 
