@@ -1382,6 +1382,7 @@ function m_OpenInventory(ply2, utrade)
         self:AlphaTo(0, anim1, delay1)
 
         timer.Simple(anim1 + delay1, function()
+			if (not IsValid(self)) then return end
             self:SetText(new)
         end)
 
