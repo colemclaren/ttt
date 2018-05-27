@@ -351,19 +351,24 @@ function StopWinChecks()
     timer.Stop("winchecker")
 end
 
+local mc_server = GetHostName():lower():find("minecraft")
 local function CleanUp()
-    local et = ents.TTT
-    -- if we are going to import entities, it's no use replacing HL2DM ones as
-    -- soon as they spawn, because they'll be removed anyway
-    et.SetReplaceChecking(not et.CanImportEntities(game.GetMap()))
+	ServerLog("Starting Cleanup\n")
+   local et = ents.TTT
 
-   for k,v in ipairs(player.GetAll()) do
+   -- if we are going to import entities, it's no use replacing HL2DM ones as
+
+   -- soon as they spawn, because they'll be removed anyway
+
+   et.SetReplaceChecking(not et.CanImportEntities(game.GetMap()))
+
+   /*for k,v in ipairs(player.GetAll()) do
       if IsValid(v) then
          v:StripWeapons()
       end
    end
 
-    /*local tbl = {}
+    local tbl = {}
     for k, v in ipairs(ents.GetAll()) do
         if (not v:IsPlayer() and not v:IsWorld()) then
             if (v:IsWeapon()) then
@@ -382,7 +387,7 @@ local function CleanUp()
 
     PrintTable(test_tbl)*/
 
-    local prop_classes = {
+    /*local prop_classes = {
         ["prop_dynamic"] = true,
         ["prop_physics"] = true,
         ["func_breakable"] = true,
@@ -390,48 +395,46 @@ local function CleanUp()
         ["trigger_hurt"] = true,
         ["trigger_push"] = true
     }
-
     ServerLog("Starting Cleanup Map\n")
 
-    local tbl = {}
-    for k, v in ipairs(ents.GetAll()) do
-        --ServerLog(v:GetClass() .. "\n")
+    if (not mc_server) then
+        local tbl = {}
+        for k, v in ipairs(ents.GetAll()) do
+            --ServerLog(v:GetClass() .. "\n")
 
-        if (prop_classes[v:GetClass()]) then
-            v:Remove()
-            continue
-        end
-        if (v:IsWeapon() or v:IsRagdoll()) then
-            if (not tbl[v:GetClass()]) then
-                tbl[v:GetClass()] = true
-                table.insert(tbl, v:GetClass())
+            if (prop_classes[v:GetClass()]) then
+                v:Remove()
+                continue
             end
+            if (v:IsWeapon() or v:IsRagdoll()) then
+                if (not tbl[v:GetClass()]) then
+                    tbl[v:GetClass()] = true
+                    table.insert(tbl, v:GetClass())
+                end
 
-            if (v:IsWeapon()) then v:SetOwner(nil) end
-            v:Remove()
+                if (v:IsWeapon()) then v:SetOwner(nil) end
+                v:Remove()
+            end
         end
-    end
-
-    ServerLog("Looped Through Entities\n")
+        ServerLog("Looped Through Entities\n")
+    end*/
 
     et.FixParentedPreCleanup()
 
-    game.CleanUpMap(false, tbl)
+    /*if (not mc_server) then
+        game.CleanUpMap(false, tbl)
+        ServerLog("Clean Up 1\n")
+    end*/
 
-    ServerLog("Clean Up 1\n")
-
+	ServerLog("Starting Cleanup Map\n")
     game.CleanUpMap()
-
-    ServerLog("Clean Up 2\n")
+    ServerLog("Clean Up Map Done\n")
 
     --for k, v in ipairs(tbl) do if (IsValid(v)) then v:Remove() end end
 
     et.FixParentedPostCleanup()
 
    -- a different kind of cleanup
-
-   util.SafeRemoveHook("PlayerSay", "ULXMeCheck")
-
     ServerLog("Function Finished\n")
 end
 

@@ -732,7 +732,7 @@ end
 
 local mc_server = GetHostName():lower():find("minecraft")
 local function CleanUp()
-
+	ServerLog("Starting Cleanup\n")
    local et = ents.TTT
 
    -- if we are going to import entities, it's no use replacing HL2DM ones as
@@ -741,13 +741,13 @@ local function CleanUp()
 
    et.SetReplaceChecking(not et.CanImportEntities(game.GetMap()))
 
-   for k,v in ipairs(player.GetAll()) do
+   /*for k,v in ipairs(player.GetAll()) do
       if IsValid(v) then
          v:StripWeapons()
       end
    end
 
-    /*local tbl = {}
+    local tbl = {}
     for k, v in ipairs(ents.GetAll()) do
         if (not v:IsPlayer() and not v:IsWorld()) then
             if (v:IsWeapon()) then
@@ -766,7 +766,7 @@ local function CleanUp()
 
     PrintTable(test_tbl)*/
 
-    local prop_classes = {
+    /*local prop_classes = {
         ["prop_dynamic"] = true,
         ["prop_physics"] = true,
         ["func_breakable"] = true,
@@ -796,26 +796,24 @@ local function CleanUp()
             end
         end
         ServerLog("Looped Through Entities\n")
-    end
+    end*/
 
     et.FixParentedPreCleanup()
 
-    if (not mc_server) then
+    /*if (not mc_server) then
         game.CleanUpMap(false, tbl)
         ServerLog("Clean Up 1\n")
-    end
+    end*/
 
+	ServerLog("Starting Cleanup Map\n")
     game.CleanUpMap()
-
-    ServerLog("Clean Up 2\n")
+    ServerLog("Clean Up Map Done\n")
 
     --for k, v in ipairs(tbl) do if (IsValid(v)) then v:Remove() end end
 
     et.FixParentedPostCleanup()
 
    -- a different kind of cleanup
-
-   util.SafeRemoveHook("PlayerSay", "ULXMeCheck")
     ServerLog("Function Finished\n")
 end
 
