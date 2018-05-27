@@ -358,7 +358,6 @@ function MG_TDM.GiveWeapon(ply,v)
     net.WriteString(v.w)
     if not ply.TDM_Cache then ply.TDM_Cache = {} end
     net.WriteUInt(v3:EntIndex(), 16)
-    local item_old = table.Copy(v.item)
     if not ply.TDM_Cache[v.w] then
         ply.TDM_Cache[v.w] = true
         net.WriteDouble(wpn_tbl.Primary.Damage or 0)
@@ -369,12 +368,8 @@ function MG_TDM.GiveWeapon(ply,v)
         net.WriteDouble(wpn_tbl.PushForce or 0)
         net.WriteDouble(wpn_tbl.Secondary.Delay or 0)
         net.WriteDouble(ply:EntIndex())
-        local kind_addition = ""
 
-        if (item_kind_codes[v.item.Kind]) then
-            kind_addition = item_kind_codes[v.item.Kind]
-        end
-
+		local item_old = table.Copy(v.item)
         v.item = {}
         v.item = m_GetItemFromEnum(v.u)
 
@@ -387,14 +382,13 @@ function MG_TDM.GiveWeapon(ply,v)
         end
 
         net.WriteTable(v)
+		v.item = item_old
     end
-    net.Broadcast()
+    net.Send(ply)
 
     if (wpn_tbl.Primary.Ammo and wpn_tbl.Primary.ClipSize and ply:GetAmmoCount(wpn_tbl.Primary.Ammo) < wpn_tbl.Primary.ClipSize) then
         ply:GiveAmmo(wpn_tbl.Primary.ClipSize, wpn_tbl.Primary.Ammo, true)
     end
-
-    v.item = item_old
 end
 
 function MG_TDM.GiveWeapons(ply)
