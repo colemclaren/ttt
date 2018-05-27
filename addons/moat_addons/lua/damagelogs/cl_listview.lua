@@ -32,6 +32,8 @@ function Damagelog:SetLineMenu(item, infos, tbl, text, old_logs)
 		pnl:SetImage("icon16/tab_edit.png")
 		menu:AddPanel(pnl)
 		copy:AddOption("Line(s)", function()
+			if (not IsValid(item) or not IsValid(item:GetListView())) then return end
+
 			local full_text = ""
 			local append = false
 			for _,line in pairs(item:GetListView():GetSelected()) do
