@@ -371,11 +371,11 @@ function MG_GG.PlayerDeath(vic, inf, att)
 
     for k, v in pairs(player.GetAll()) do
         if (v == att) then
-            v:SendLua("chat.AddText(Color(255, 0, 0), [[" .. msg .. "]])")
+			D3A.Chat.SendToPlayer2(v, Color(255, 0, 0), msg)
         elseif (v == vic) then
-            v:SendLua("chat.AddText(Color(0, 0, 255), [[" .. msg .. "]])")
+			D3A.Chat.SendToPlayer2(v, Color(0, 0, 255), msg)
         else
-            v:SendLua("chat.AddText(Color(255, 255, 0), [[" .. msg .. "]])")
+			D3A.Chat.SendToPlayer2(v, Color(255, 255, 0), msg)
         end
     end
 

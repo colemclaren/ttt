@@ -3217,6 +3217,15 @@ function m_OpenInventory(ply2, utrade)
     function m_InitializeTrade(ply_2, u_trade)
         if (ply_2 and u_trade) then
             if (IsValid(M_TRADING_PNL)) then M_TRADING_PNL:SetVisible(false) end
+			if (not IsValid(MOAT_INV_BG)) then
+            	net.Start("MOAT_RESPOND_TRADE")
+            	net.WriteBool(false)
+            	net.WriteDouble(ply_2:EntIndex())
+            	net.WriteDouble(u_trade)
+            	net.SendToServer()
+				return
+			end
+
             local inv_x, inv_y = MOAT_INV_BG:GetPos()
             MOAT_TRADE_BG = vgui.Create("DFrame")
             MOAT_TRADE_BG:SetTitle("")
@@ -5689,16 +5698,24 @@ end)
 net.Receive("MOAT_RESPOND_TRADE_REQ", function(len)
     local accepted = net.ReadBool()
     local other_ply = net.ReadDouble()
+	if (not IsValid(Entity(other_ply))) then
+        chat.AddText(Color(255, 0, 0), "The trade request failed because the player left.")
+        if (IsValid(M_TRADE_PLYS)) then
+            M_TRADE_PLYS:RebuildList()
+        end
+
+		return
+	end
 
     if (not accepted) then
-        chat.AddText(Color(0, 200, 0), ents.GetByIndex(other_ply):Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " your trade request.")
+        chat.AddText(Color(0, 200, 0), Entity(other_ply):Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " your trade request.")
         if (IsValid(M_TRADE_PLYS)) then
             M_TRADE_PLYS:RebuildList()
         end
 
         return
     else
-        chat.AddText(Color(0, 200, 0), "You ", Color(255, 255, 255), "are now trading with ", Color(0, 255, 0), ents.GetByIndex(other_ply):Nick(), Color(255, 255, 255), ".")
+        chat.AddText(Color(0, 200, 0), "You ", Color(255, 255, 255), "are now trading with ", Color(0, 255, 0), Entity(other_ply):Nick(), Color(255, 255, 255), ".")
     end
 end)
 
@@ -5708,9 +5725,13 @@ net.Receive("MOAT_SEND_TRADE_REQ", function(len)
     local ply_index = net.ReadDouble()
     local other_ply = Entity(ply_index)
 
+	if (not IsValid(other_ply)) then
+		chat.AddText(Color(255, 0, 0), "The player you sent a trade request to left the server.")
+		return
+	end
+
     if (not passed) then
         chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " is ", Color(255, 0, 0), "busy", Color(255, 255, 255), " at the moment.")
-
         return
     end
 
@@ -5808,7 +5829,12 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
         net.SendToServer()
-        chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " the trade.")
+
+		if (IsValid(other_ply)) then
+			chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " the trade.")
+		else
+			chat.AddText(Color(0, 200, 0), "You", Color(255, 255, 255), " have ", Color(255, 0, 0), "automatically declined", Color(255, 255, 255), " the trade because something went wrong.")
+		end
 
         if (m_isUsingInv()) then
             MOAT_INV_BG:MoveTo(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, ScrH() + MOAT_INV_BG:GetTall(), 0.4, 0, 1)
@@ -5834,9 +5860,10 @@ net.Receive("MOAT_TRADE_MESSAGE", function(len)
     local msg = net.ReadString()
     local tid = net.ReadDouble()
     local plyid = net.ReadDouble()
+	if (not IsValid(Entity(plyid))) then return end
 
     if (m_utrade == tid) then
-        m_AddTradeChatMessage(msg, ents.GetByIndex(plyid))
+        m_AddTradeChatMessage(msg, Entity(plyid))
     end
 end)
 

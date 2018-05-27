@@ -300,12 +300,16 @@ if SERVER then
 
 	    hook.Add("EntityTakeDamage","ManhackDamage", function( hack, dmginfo )
 	    	local inflictor = dmginfo:GetInflictor()
+			if (not IsValid(inflictor)) then return end
+
         	if inflictor.ManhackExplosion then
         	    if inflictor.ManhackExplosion.Controller and hack.Controller and hack.Controller == inflictor.ManhackExplosion.Controller then
         	        dmginfo:SetDamage(0)
         	    else
         	        dmginfo:SetInflictor(inflictor.ManhackExplosion)
-        	        dmginfo:SetAttacker(inflictor.ManhackExplosion.Controller)
+					if (IsValid(inflictor.ManhackExplosion.Controller)) then
+        	        	dmginfo:SetAttacker(inflictor.ManhackExplosion.Controller)
+					end
         	    end
         	end
 

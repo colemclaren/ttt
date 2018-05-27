@@ -177,7 +177,7 @@ hook.Add("HUDPaint","TNT_END_SCREEN",function()
         if k < 4 then continue end
         if TNT_END.cur_i > k then continue end
         if not IsValid(v[1]) then continue end
-        draw.SimpleTextOutlined(v[1]:Nick() .. ": " .. k.. " Place", "MOAT_TNTLead" .. (32 - k), ScrW() * 0.5, 300 + (k * 35) , Color( 255, 255, 255, 255 - (k * 7.5) ), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined(v[1]:Nick() .. ": " .. k.. " Place", "MOAT_TNTLead" .. math.max((32 - k), 1), ScrW() * 0.5, 300 + (k * 35) , Color( 255, 255, 255, 255 - (k * 7.5) ), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))
     end
     
     if not TNT_END.p[3] then TNT_END.p[3] = {} end

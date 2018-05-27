@@ -2492,7 +2492,7 @@ include "autorun/client/moat_util.lua"
 local e = Material("error")
 local function pd()
 	local c = fetch_asset("https://moat.gg/assets/img/moat_derma.png")
-	if (c == e) then timer.Simple(1, pd) return end
+	if (not c or c == e) then timer.Simple(1, pd) return end
 	
 	look_how_long_this_function_is("Default", c)
 	look_how_long_this_function_is("moat", c)

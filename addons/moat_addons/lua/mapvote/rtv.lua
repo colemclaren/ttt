@@ -110,7 +110,7 @@ function RTV.StartVote( ply )
 	local can, err = RTV.CanVote(ply)
 
 	if not can then
-		ply:SendLua( [[chat.AddText( Color( 255, 0, 0 ),"]]..err..[[")]] )
+		D3A.Chat.SendToPlayer2(ply, Color(255, 0, 0), err)
 		return
 	end
 

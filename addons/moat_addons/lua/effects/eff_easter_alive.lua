@@ -17,11 +17,11 @@ function EFFECT:Think()
 
 				if (beat) then
 					beat:SetLifeTime(0)
-					beat:SetDieTime(math.random(0.5, 1) * self.Entity:GetModelScale() * 2)
+					beat:SetDieTime(math.random(0.5, 1) * (self.Entity:GetModelScale() or 1) * 2)
 					beat:SetStartAlpha(255)
 					beat:SetEndAlpha(0)
 					beat:SetStartSize(2)
-					beat:SetEndSize(math.random(2, 12 * self.Entity:GetModelScale() * 2))
+					beat:SetEndSize(math.random(2, 12 * (self.Entity:GetModelScale() or 1) * 2))
 					beat:SetGravity(Vector(math.cos((k / 8) * 180) * 45, math.sin((k / 8) * 180) * 45, 45))
 					beat:SetColor(150 + math.random(0, 105), 150 + math.random(0, 105), 150 + math.random(0, 105))
 				end

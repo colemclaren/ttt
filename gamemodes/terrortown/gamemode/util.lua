@@ -124,6 +124,7 @@ function util.PaintDown(start, effname, ignore)
         mask = MASK_SOLID
     })
 
+	if (not btr) then return end
     util.Decal(effname, btr.HitPos + btr.HitNormal, btr.HitPos - btr.HitNormal)
 end
 

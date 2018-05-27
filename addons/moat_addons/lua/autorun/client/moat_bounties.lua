@@ -215,6 +215,7 @@ function m_MakeLotteryPanel()
         if MOAT_INVENTORY_CREDITS < 1000 then chat.AddText(Color(255,0,0),"You do not have enough IC!") surface.PlaySound("/resource/warning.wav") return end
         Derma_StringRequest("Please input a number", "Please select a number for your lottery ticket\n(Must be between 1 and 200)", "100", function(i)
             i = tonumber(i)
+			if (not i) then return end
             if i < 1 or i > 200 then chat.AddText(Color(255,0,0),"The number must be between 1 and 200!") surface.PlaySound("/resource/warning.wav") return end
             net.Start("lottery.Purchase")
             net.WriteInt(i,32)

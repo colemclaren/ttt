@@ -108,7 +108,10 @@ end
 
 -- Explosion properties
 function SWEP:Explode()
-   local k, v
+	if (not IsValid(self.Owner)) then
+		self:Remove()
+		return
+	end
 
    local ent = ents.Create( "env_explosion" )
    ent:SetPos( self.Owner:GetPos() )

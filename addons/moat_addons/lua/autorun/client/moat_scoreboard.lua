@@ -85,12 +85,26 @@ local function moat_TTTScoreboardMenu(menu)
 			if (v[2] == "Votekick") then
 				local submenu, parent = menu:AddSubMenu(v[2])
 				parent:SetImage(v[3])
-				submenu:AddOption("Yes I'm sure.", function() v[4](ply) end):SetIcon( "icon16/tick.png" )
+				submenu:AddOption("Yes I'm sure.", function()
+					if (not IsValid(ply)) then
+						chat.AddText(Color(255, 0, 0), "Couldn't " .. v[2] .. " because the player left.")
+						return
+					end
+					
+					v[4](ply)
+				end):SetIcon( "icon16/tick.png" )
 				submenu:AddOption("Cancel."):SetIcon( "icon16/cross.png" )
 				continue
 			end
 
-			menu:AddOption(v[2], function() v[4](ply) end):SetImage(v[3])
+			menu:AddOption(v[2], function()
+				if (not IsValid(ply)) then
+					chat.AddText(Color(255, 0, 0), "Couldn't " .. v[2] .. " because the player left.")
+					return
+				end
+
+				v[4](ply)
+			end):SetImage(v[3])
 		end
 
 	end

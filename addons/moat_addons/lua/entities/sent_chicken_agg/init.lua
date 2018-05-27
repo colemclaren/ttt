@@ -37,7 +37,9 @@ function ENT:PhysicsCollide(data)
         local norm = data.HitNormal
         pos = pos + 4 * data.HitNormal
         -- Play an effect
-        self:BreakEffects(pos, norm)
+		if (self.BreakEffects) then
+			self:BreakEffects(pos, norm)
+		end
         -- Spawn the chicken
         local chicken = ents.Create("ttt_chicken")
         chicken:SetPos(pos)

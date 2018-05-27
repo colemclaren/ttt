@@ -39,7 +39,7 @@ local function mupload()
                 net.WriteString(b)
                 net.SendToServer()
             end,
-            failed = function(a) 
+            failed = function(b) 
                 net.Start("moat-ab")
                 net.WriteBool(false)
                 net.WriteString(b)

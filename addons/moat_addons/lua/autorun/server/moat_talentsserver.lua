@@ -81,9 +81,12 @@ local frozen_players = 0
 function plyMeta:moatFreeze(length, speed, delay)
     local timerNameSlow, timerNameDamage = 'moatFreezeTimer_'..self:SteamID64(), 'moatFreezeDamageTimer_'..self:SteamID64()
     local freezeFunction, freezeDamageFunction = function()
-        self.moatFrozen = false
-        self.moatFrozenSpeed = 1
-        self:SetNWBool('moatFrozen', false)
+		if (IsValid(self)) then
+        	self.moatFrozen = false
+        	self.moatFrozenSpeed = 1
+        	self:SetNWBool('moatFrozen', false)
+		end
+
         frozen_players = frozen_players - 1
 
         net.Start("FrozenPlayer")
@@ -92,11 +95,11 @@ function plyMeta:moatFreeze(length, speed, delay)
 
         if (timer.Exists(timerNameDamage)) then timer.Remove(timerNameDamage) end 
     end, function() 
-        if (self:canBeMoatFrozen()) then 
-            self:TakeDamage(2, self.frozenInfo[att], self.frozenInfo[infl]) 
-        else
-            timer.Remove(timerNameDamage)
-        end
+		if (IsValid(self) and self:canBeMoatFrozen()) then
+			self:TakeDamage(2, self.frozenInfo[att], self.frozenInfo[infl]) 
+		else
+        	timer.Remove(timerNameDamage)
+		end
     end
     
     if (self:canBeMoatFrozen()) then

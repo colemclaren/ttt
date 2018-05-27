@@ -671,6 +671,15 @@ net.Receive("MOAT_RESPOND_TRADE_REQ", function(len, ply)
         return
     end
 
+	if (not IsValid(Entity(other_ply))) then
+        net.Start("moat.comp.chat")
+        net.WriteString("The other player for the trade left or something.")
+        net.WriteBool(true)
+        net.Send(ply)
+
+		return
+	end
+
     if (Entity(other_ply):m_isTrading()) then
         net.Start("MOAT_SEND_TRADE_REQ")
         net.WriteBool(false)

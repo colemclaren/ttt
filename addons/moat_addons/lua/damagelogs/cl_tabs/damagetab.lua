@@ -342,7 +342,7 @@ function Damagelog:DrawDamageTab(x, y)
 		local sorted = {}
 		for k,v in pairs(self.Choices) do table.insert(sorted, { id = k, data = v }) end
 		for k,v in pairs(sorted, "data") do
-			self.Menu:AddOption(v.data, function() self:ChooseOption( v.data, v.id ) end)
+			self.Menu:AddOption(v.data, function() if (not IsValid(self) or not self.ChooseOption) then return end self:ChooseOption( v.data, v.id ) end)
 		end
 		local x, y = self:LocalToScreen(0, self:GetTall())
 		self.Menu:SetMinimumWidth(self:GetWide())

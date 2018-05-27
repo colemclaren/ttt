@@ -300,6 +300,7 @@ else
 
 	net.Receive("egged", function()
 		local Player = net.ReadEntity()
+		if (not IsValid(Player)) then return end
 
 		if Player == LocalPlayer() then
 			m_EggRefract = 1

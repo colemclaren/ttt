@@ -6,7 +6,7 @@ function pl:ApplyDOTTimer(dmgtype, dmg, att, delay, reps, onhit, onstart, onend)
     local wep = att:GetActiveWeapon()
 
     timer.Create(id, delay, reps, function()
-        if (not self:IsValid() or self:IsSpec() or not self:IsActive() or GetRoundState() ~= ROUND_ACTIVE) then
+        if (not IsValid(self) or self:Team() == TEAM_SPEC or not IsValid(att) or GetRoundState() ~= ROUND_ACTIVE) then
             timer.Remove(id)
 
             return
@@ -20,6 +20,7 @@ function pl:ApplyDOTTimer(dmgtype, dmg, att, delay, reps, onhit, onstart, onend)
             local dmginfo = DamageInfo()
             dmginfo:SetDamage(dmg)
             dmginfo:SetAttacker(att)
+			if (not IsValid(wep)) then wep = att end
             dmginfo:SetInflictor(wep)
             self:TakeDamageInfo(dmginfo)
         end
@@ -40,7 +41,7 @@ function pl:IncreaseDOTTimer(dmgtype, dmg, att, delay, reps, onhit, onstart, one
     local wep = att:GetActiveWeapon()
 
     timer.Adjust(id, delay, newreps, function()
-        if (not self:IsValid() or self:IsSpec() or not self:IsActive() or GetRoundState() ~= ROUND_ACTIVE) then
+        if (not IsValid(self) or self:Team() == TEAM_SPEC or not IsValid(att) or GetRoundState() ~= ROUND_ACTIVE) then
             timer.Remove(id)
 
             return
@@ -54,6 +55,7 @@ function pl:IncreaseDOTTimer(dmgtype, dmg, att, delay, reps, onhit, onstart, one
             local dmginfo = DamageInfo()
             dmginfo:SetDamage(dmg)
             dmginfo:SetAttacker(att)
+			if (not IsValid(wep)) then wep = att end
             dmginfo:SetInflictor(wep)
             self:TakeDamageInfo(dmginfo)
         end

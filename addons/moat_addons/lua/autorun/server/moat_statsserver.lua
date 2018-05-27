@@ -173,31 +173,3 @@ hook.Add("PlayerDeath", "moat_ApplyKillLevelXPStat", function(vic, inf, att)
         att:m_ModifyStatType("MOAT_STATS_KILLS", "k", 1)
     end
 end)
-
-hook.Add("PlayerDeconstructItem", "moat_ApplyDeconstructStat", function(ply, item_enum)
-    ply:m_ModifyStatType("MOAT_STATS_DECONSTRUCTS", "r", 1)
-    local item_tbl = m_GetItemFromEnum(item_enum)
-    local item_rarity = item_tbl.Rarity or 1
-
-    local deconstruct_tbl = {
-        min = 0,
-        max = 0
-    }
-
-    for k, v in pairs(MOAT_RARITIES) do
-        if (v.ID == item_rarity) then
-            deconstruct_tbl = table.Copy(v.Deconstruct)
-            break
-        end
-    end
-
-    local deconstruct_creds = math.random(deconstruct_tbl.min, deconstruct_tbl.max)
-
-    if (table.HasValue(MOAT_VIP, ply:GetUserGroup())) then
-        deconstruct_creds = deconstruct_creds * 1.5
-    end
-
-    deconstruct_creds = math.Round(deconstruct_creds)
-    ply:m_GiveIC(deconstruct_creds)
-    ply:SendLua([[chat.AddText( Material( "icon16/information.png" ), Color( 255, 255, 0 ), "You received ]] .. deconstruct_creds .. [[ IC from deconstructing your item!" )]])
-end)
