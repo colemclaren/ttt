@@ -616,6 +616,10 @@ function GM:CalcView( ply, origin, angles, fov )
 			if (wep:GetIronsights()) then sights = true end
 		end
 
+		if (cur_random_round) then
+			if cur_random_round == "High FOV" then sights = true end
+		end
+
         local func = wep.CalcView
         view.drawviewer = false
 
@@ -629,7 +633,7 @@ function GM:CalcView( ply, origin, angles, fov )
         if func then
             view.origin, view.angles, view.fov, view.drawviewer = func(wep, ply, origin * 1, angles * 1, view.fov)
         end
-    else
+    elseif (not cur_random_round) or (cur_random_round and cur_random_round ~= "High FOV") then
 		view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
     	if view.fov > 175 then
         	view.fov = 175
