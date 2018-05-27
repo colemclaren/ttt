@@ -46,7 +46,6 @@ local function DrawBlurScreen(amount)
 end
 
 local function moat_DrawBossHealth()
-	
 	if (GetRoundState() ~= ROUND_ACTIVE or MOAT_BOSS_ROUND_OVER or not IsValid(MOAT_CUR_BOSS)) then
 		hook.Remove("HUDPaint", "moat_DrawBossHealth")
 		hook.Remove("HUDShouldDraw", "moat_HideDamageIndicator")
@@ -77,18 +76,10 @@ local function moat_DrawBossHealth()
     local health_text = math.max(0, MOAT_CUR_BOSS:Health())
     draw.SimpleTextOutlined(MOAT_CUR_BOSS:Nick() .. ": " .. health_text, font, x + (w / 2), y + (h / 2), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
     m_DrawShadowedText(1, "Team up and kill the boss!", "moat_ItemDesc", (ScrW()/2), 30, Color(200, 200, 200, 255), TEXT_ALIGN_CENTER)
-
 end
 
 local function moat_InitDrawBossHealth()
-
 	hook.Add("HUDPaint", "moat_DrawBossHealth", moat_DrawBossHealth)
-
-	if (MOAT_CUR_BOSS and LocalPlayer() and LocalPlayer() == MOAT_CUR_BOSS) then
-		hook.Add("HUDShouldDraw", "moat_HideDamageIndicator", function(element)
-			if ( element == "CHudDamageIndicator" ) then return false end
-		end)
-	end
 
 	sound.PlayURL("https://i.moat.gg/servers/tttsounds/boss_battle.mp3", "mono", function(siren)
 	--sound.PlayURL("http://moatgaming.net/ttt/boss_sexy.mp3", "mono", function(siren)
@@ -123,13 +114,12 @@ local function moat_DrawBossWarning()
 	surface.SetFont("moat_BossInfo")
 
 	for k, v in pairs(moat_BossDirections) do
-		local textw, texth = surface.GetTextSize(v)
+		textw, texth = surface.GetTextSize(v)
 		m_DrawShadowedText(1, v, "moat_BossInfo", (ScrW()/2)-(textw/2), 155+(texth*k), Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	end
 end
 
 local function moat_PrepareBoss()
-
 	MOAT_BOSS_ROUND_OVER = false
 	MOAT_ACTIVE_BOSS = true
 
@@ -143,7 +133,6 @@ local function moat_PrepareBoss()
 
 	hook.Add("HUDPaint", "moat_PrepareBoss", moat_DrawBossWarning)
 	hook.Add("TTTBeginRound", "moat_StartBoss", moat_InitDrawBossHealth)
-
 end
 
 local END_ROUND_WIN = "PLAYERS ARE VICTORIOUS!!!"
@@ -151,7 +140,6 @@ local END_ROUND_LOSS = "THE BOSS IS VICTORIOUS!!!"
 local cols = {Color(0, 255, 0), Color(100, 255, 100), Color(100, 255, 100)}
 
 local function moat_DrawBossEnd(MOAT_BOSS_LOSS)
-
 	if (GetRoundState() ~= ROUND_ACTIVE) then
 		hook.Remove("HUDPaint", "moat_DrawBossEnd")
 
@@ -191,9 +179,7 @@ local function moat_DrawBossEnd(MOAT_BOSS_LOSS)
 	surface.SetFont("moat_BossInfo")
 	local num = math.Clamp(#MOAT_BOSS_DMG, 1, 10)
 	for i = 1, num do
-
 		if (i == 1) then
-
 			surface.SetFont("moat_BossInfo")
 			local txt = "Top Damage"
 			local col = Color(255, 255, 255)
@@ -307,17 +293,13 @@ local function moat_DrawBossEnd(MOAT_BOSS_LOSS)
 		local textw, texth = surface.GetTextSize(txt)
 		m_DrawShadowedText(1, txt, "moat_BossInfo2", (ScrW()/2)-(textw/2), 155+(texth*(i+6)), col, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	end
-
 end
 
 local function moat_InitBossEnd(BOSS_LOSS)
-
 	hook.Add("HUDPaint", "moat_DrawBossEnd", function() moat_DrawBossEnd(BOSS_LOSS) end)
-
 	hook.Remove("TTTBeginRound", "moat_StartBoss")
-
+	hook.Remove("HUDShouldDraw", "moat_HideDamageIndicator")
 	MOAT_ACTIVE_BOSS = false
-
 end
 
 net.Receive("MOAT_PREP_BOSS", function(len)
@@ -326,14 +308,11 @@ net.Receive("MOAT_PREP_BOSS", function(len)
 end)
 
 net.Receive("MOAT_BEGIN_BOSS", function(len)
-
 	local ply = net.ReadEntity()
 	MOAT_CUR_BOSS = ply
-	MOAT_IGNORE_FOV = true
-	hook.Add("CalcView", "moat_FocusBossView", function(ply, pos, angles, fov)
 
-		if (not MOAT_CUR_BOSS or not MOAT_CUR_BOSS:IsValid()) then
-			MOAT_IGNORE_FOV = false
+	hook.Add("CalcView", "moat_FocusBossView", function(ply, pos, angles, fov)
+		if (not IsValid(MOAT_CUR_BOSS)) then
 			hook.Remove("CalcView", "moat_FocusBossView")
 			return
 		end
@@ -353,14 +332,17 @@ net.Receive("MOAT_BEGIN_BOSS", function(len)
 	end)
 
 	timer.Simple(5, function()
-		MOAT_IGNORE_FOV = false
 		hook.Remove("CalcView", "moat_FocusBossView")
 	end)
 
+	if (IsValid(MOAT_CUR_BOSS) and IsValid(LocalPlayer()) and LocalPlayer() == MOAT_CUR_BOSS) then
+		hook.Add("HUDShouldDraw", "moat_HideDamageIndicator", function(element)
+			if (element == "CHudDamageIndicator") then return false end
+		end)
+	end
 end)
 
 net.Receive("MOAT_END_BOSS", function(len)
-
 	local BOSS_LOSS = net.ReadBool()
 	local BOSS_DMG = net.ReadTable()
 	MOAT_BOSS_DMG = BOSS_DMG
@@ -369,7 +351,4 @@ net.Receive("MOAT_END_BOSS", function(len)
 	MOAT_BOSS_ROUND_OVER = true
 
 	moat_InitBossEnd(BOSS_LOSS)
-
 end)
-
-hook.Remove("HUDPaint", "moat_TestBossDraw")

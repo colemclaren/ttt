@@ -86,14 +86,7 @@ local function moat_DrawBossHealth()
 end
 
 local function moat_InitDrawBossHealth()
-
 	hook.Add("HUDPaint", "moat_DrawBossHealth", moat_DrawBossHealth)
-
-	if (LocalPlayer() == MOAT_CUR_BOSS_PLY) then
-		hook.Add("HUDShouldDraw", "moat_HideDamageIndicator", function(element)
-			if ( element == "CHudDamageIndicator" ) then return false end
-		end)
-	end
 
 	sound.PlayURL("https://i.moat.gg/servers/tttsounds/apache/american_music.mp3", "mono", function(siren)
 	--sound.PlayURL("http://moatgaming.net/ttt/boss_sexy.mp3", "mono", function(siren)
@@ -351,7 +344,6 @@ net.Receive("MOAT_BEGIN_APACHE", function(len)
 	moat_InitDrawBossHealth()
 
 	local the_pos = MOAT_CUR_BOSS_PLY:GetPos() + Vector(0, 0, 400)
-	MOAT_IGNORE_FOV = true
 	hook.Add("CalcView", "moat_FocusBossView", function(ply, pos, angles, fov)
 		local view = {}
 		local angles = Angle(0, 0, 0)
@@ -367,21 +359,22 @@ net.Receive("MOAT_BEGIN_APACHE", function(len)
 	end)
 
 	timer.Simple(5, function()
-		MOAT_IGNORE_FOV = false
 		hook.Remove("CalcView", "moat_FocusBossView")
 
 		hook.Add("CalcView", "moat_SpectateApache", function(ply, pos, angles, fov)
-			if (MOAT_CUR_BOSS_PLY == LocalPlayer() and MOAT_CUR_APACHE_BOSS) then
-				MOAT_IGNORE_FOV = true
+			if (not MOAT_CUR_APACHE_BOSS) then-- or not IsValid(MOAT_CUR_BOSS_PLY) or not IsValid(MOAT_CUR_BOSS)) then
+				hook.Remove("CalcView", "moat_SpectateApache")
+				return
+			end
+
+			local obs = LocalPlayer():GetObserverTarget()
+			if (LocalPlayer() == MOAT_CUR_BOSS_PLY or (IsValid(obs) and obs == MOAT_CUR_BOSS_PLY)) then
 				local view = {}
 				view.origin = (pos - (angles:Forward() * 500)) + (Vector(0, 0, 150))
 				view.angles = angles
 				view.fov = fov
 				view.drawviewer = false
 				return view
-			else
-				MOAT_IGNORE_FOV = false
-				hook.Remove("CalcView", "moat_SpectateApache")
 			end
 		end)
 	end)

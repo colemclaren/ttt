@@ -289,7 +289,7 @@ function MG_CM.TimeLeftUpdate()
     end
 end
 
-function MG_GG.PlayMusic(num)
+function MG_CM.PlayMusic(num)
     local num = num or math.random(2)
 
     sound.PlayURL("https://i.moat.gg/servers/tttsounds/chicken_song" .. num .. ".mp3", "mono", function(song)
@@ -297,7 +297,7 @@ function MG_GG.PlayMusic(num)
             song:Play()
             song:SetVolume(0.4)
         else
-            MG_GG.PlayMusic(num)
+            MG_CM.PlayMusic(num)
         end
     end)
 end
@@ -305,7 +305,7 @@ end
 function MG_CM.BeginRound()
     MG_CM.IsInfected = true
 
-    MG_GG.PlayMusic()
+    MG_CM.PlayMusic()
     MOAT_CONTAGION_ROUND_ACTIVE = true
 
     hook.Add("HUDPaint", "MG_CM_ACTIVEPAINT", MG_CM.ActivePaint)

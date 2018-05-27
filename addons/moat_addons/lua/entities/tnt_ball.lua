@@ -134,6 +134,10 @@ function ENT:PhysicsCollide( data, physobj )
 			self.Wep:SetBomb(false)
 		end
 	end)
+	if ((ply.PassedBombTo and ply.PassedBombTo == self.Owner) and (ply.PassedBombFrom and ply.PassedBombFrom == self.Owner)) then return end
+	self.Owner.PassedBombTo = ply
+	ply.PassedBombFrom = self.Owner
+
 	TNTSetBomb(ply)
 	ChangeTNTFuseTime(1)
 	self.Didthing = true

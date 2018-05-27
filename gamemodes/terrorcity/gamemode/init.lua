@@ -620,9 +620,10 @@ function SpawnWillingPlayers(dead_only)
     -- simple method, should make this a case of the other method once that has
     -- been tested.
     if wave_delay <= 0 or dead_only then
-        for k, ply in pairs(player.GetAll()) do
+        for k, ply in pairs(plys) do
             if IsValid(ply) then
                 ply:SpawnForRound(dead_only)
+				ply.JustSpawned = dead_only
             end
         end
         -- wave method
@@ -733,6 +734,8 @@ function BeginRound()
     GAMEMODE:UpdatePlayerLoadouts() -- needs to happen when round_active
     hook.Run("TTTBeginRound")
     ents.TTT.TriggerRoundStateOutputs(ROUND_BEGIN)
+
+	for k, v in ipairs(player.GetAll()) do v.JustSpawned = nil end
 end
 
 function PrintResultMessage(type)

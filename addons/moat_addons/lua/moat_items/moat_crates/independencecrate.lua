@@ -4,7 +4,7 @@ ITEM.Name = "Independence Crate"
 
 ITEM.Description = "This crate contains an item from the Independence Collection! Right click to open"
 
-ITEM.Image = "moat_inv/usa_crate64.png" 
+ITEM.Image = "https://moat.gg/assets/img/usa_crate64.png" 
 
 ITEM.Rarity = 8
 

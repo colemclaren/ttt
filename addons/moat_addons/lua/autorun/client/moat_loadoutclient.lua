@@ -853,19 +853,19 @@ end)
 net.Receive("MOAT_PLAYER_CLOAKED", function()
     local pl = net.ReadEntity()
     local c = net.ReadBool()
+    if (not IsValid(pl) or not IsValid(LocalPlayer()) or not MOAT_CLIENTSIDE_MODELS[pl]) then return end
 
-    if (not IsValid(pl)) then return end
-    if (not IsValid(LocalPlayer())) then return end
+    for k, v in ipairs(pl:GetChildren()) do
+        if (ModelsToRemove[v:GetClass()]) then
+			v:SetRenderMode(c and RENDERMODE_TRANSALPHA or RENDERMODE_NORMAL)
+			v:SetColor(Color(255, 255, 255, c and 0 or 255))
+		end
+    end
 
-    for i, v in pairs(pl:GetChildren()) do
-        if ModelsToRemove[v:GetClass()] then
-            if (c) then
-                v:SetRenderMode(RENDERMODE_TRANSALPHA)
-                v:SetColor(Color(255, 255, 255, 0))
-            else
-                v:SetRenderMode(RENDERMODE_NORMAL)
-                v:SetColor(Color(255, 255, 255, 0))
-            end
+    for k, v in ipairs(MOAT_CLIENTSIDE_MODELS[pl]) do
+        if (v and v.ModelEnt and IsValid(v.ModelEnt)) then
+			v.ModelEnt:SetRenderMode(c and RENDERMODE_TRANSALPHA or RENDERMODE_NORMAL)
+			v.ModelEnt:SetColor(Color(255, 255, 255, c and 0 or 255))
         end
     end
 end)

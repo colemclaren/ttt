@@ -46,7 +46,6 @@ local function DrawBlurScreen(amount)
 end
 
 local function moat_DrawBossHealth()
-	
 	if (GetRoundState() ~= ROUND_ACTIVE or MOAT_BOSS_ROUND_OVER or not IsValid(MOAT_CUR_BOSS)) then
 		hook.Remove("HUDPaint", "moat_DrawBossHealth")
 		hook.Remove("HUDShouldDraw", "moat_HideDamageIndicator")
@@ -77,11 +76,9 @@ local function moat_DrawBossHealth()
     local health_text = math.max(0, MOAT_CUR_BOSS:Health())
     draw.SimpleTextOutlined(MOAT_CUR_BOSS:Nick() .. ": " .. health_text, font, x + (w / 2), y + (h / 2), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
     m_DrawShadowedText(1, "Run from the stalker and collect eggs! Kill him to win!", "moat_ItemDesc", (ScrW()/2), 30, Color(200, 200, 200, 255), TEXT_ALIGN_CENTER)
-
 end
 
 local function moat_InitDrawBossHealth()
-
 	hook.Add("HUDPaint", "moat_DrawBossHealth", moat_DrawBossHealth)
 
 	sound.PlayURL("https://i.moat.gg/servers/tttsounds/stalker/stalker_music.mp3", "mono", function(siren)
@@ -304,14 +301,11 @@ local function moat_DrawBossEnd(MOAT_BOSS_LOSS)
 end
 
 local function moat_InitBossEnd(BOSS_LOSS)
-
 	hook.Add("HUDPaint", "moat_DrawBossEnd", function() moat_DrawBossEnd(BOSS_LOSS) end)
-
 	hook.Remove("TTTBeginRound", "moat_StartBoss")
-
 	MOAT_ACTIVE_BOSS = false
 
-	if (MOAT_CUR_BOSS and MOAT_CUR_BOSS:IsValid()) then
+	if (MOAT_CUR_BOSS and IsValid(MOAT_CUR_BOSS)) then
 		MOAT_CUR_BOSS:DrawShadow(true)
 	end
 end
@@ -324,25 +318,8 @@ end)
 net.Receive("MOAT_BEGIN_STALKER", function(len)
 	MOAT_CUR_BOSS = net.ReadEntity()
 
-	if (IsValid(MOAT_CUR_BOSS) and LocalPlayer() == MOAT_CUR_BOSS) then
-		hook.Add("HUDShouldDraw", "moat_HideDamageIndicator", function(element)
-			if ( element == "CHudDamageIndicator" ) then return false end
-		end)
-	end
-
-	if (MOAT_CLIENTSIDE_MODELS[MOAT_CUR_BOSS]) then
-    	for k, v in pairs(MOAT_CLIENTSIDE_MODELS) do
-   	     if (k == MOAT_CUR_BOSS and v and v.ModelEnt and v.ModelEnt:IsValid() and v.ModelEnt ~= NULL) then
-    	        v.ModelEnt:Remove()
-    	    end
-    	end
-
-		MOAT_CLIENTSIDE_MODELS[MOAT_CUR_BOSS] = {}
-	end
-	MOAT_IGNORE_FOV = true
 	hook.Add("CalcView", "moat_FocusBossView", function(ply, pos, angles, fov)
-		if (not MOAT_CUR_BOSS or not IsValid(MOAT_CUR_BOSS)) then
-			MOAT_IGNORE_FOV = false
+		if (not IsValid(MOAT_CUR_BOSS)) then
 			hook.Remove("CalcView", "moat_FocusBossView")
 			return
 		end
@@ -362,17 +339,22 @@ net.Receive("MOAT_BEGIN_STALKER", function(len)
 	end)
 
 	timer.Simple(5, function()
-		MOAT_IGNORE_FOV = false
 		hook.Remove("CalcView", "moat_FocusBossView")
 	end)
 
+	if (IsValid(MOAT_CUR_BOSS) and IsValid(LocalPlayer()) and LocalPlayer() == MOAT_CUR_BOSS) then
+		hook.Add("HUDShouldDraw", "moat_HideDamageIndicator", function(element)
+			if (element == "CHudDamageIndicator") then return false end
+		end)
+	end
+
 	if (MOAT_CUR_BOSS and IsValid(MOAT_CUR_BOSS)) then
 		MOAT_CUR_BOSS:DrawShadow(false)
+		MOAT_LOADOUT.RemoveModels(MOAT_CUR_BOSS)
 	end
 end)
 
 net.Receive("MOAT_END_STALKER", function(len)
-
 	local BOSS_LOSS = net.ReadBool()
 	local BOSS_DMG = net.ReadTable()
 	MOAT_BOSS_DMG = BOSS_DMG
@@ -381,7 +363,6 @@ net.Receive("MOAT_END_STALKER", function(len)
 	MOAT_BOSS_ROUND_OVER = true
 
 	moat_InitBossEnd(BOSS_LOSS)
-
 end)
 
 --player.GetBySteamID("STEAM_0:0:46558052"):Give("weapon_ttt_knife")

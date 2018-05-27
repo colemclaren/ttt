@@ -129,6 +129,7 @@ MG_CG.IsInfected = true
 
 function MG_CG.ThirdPersonCamera(ply, pos, ang, fov, znear, zfar)
     if (not IsValid(LocalPlayer()) or LocalPlayer():Team() == TEAM_SPEC or not MG_CG.IsInfected) then return end
+	MOAT_IGNORE_FOV = true
 
     if (not ply:Alive()) then
         local calc = {}
@@ -314,7 +315,7 @@ local music_nums = {
     290
 }
 
-function MG_GG.PlayMusic(num)
+function MG_CG.PlayMusic(num)
     num = num or math.random(#music_nums)
     local next_num = num + 1
 
@@ -330,16 +331,16 @@ function MG_GG.PlayMusic(num)
             timer.Simple(music_nums[num], function()
                 if (MG_CG.ContagionOver) then return end
 
-                MG_GG.PlayMusic(next_num)
+                MG_CG.PlayMusic(next_num)
             end)
         else
-            MG_GG.PlayMusic(num)
+            MG_CG.PlayMusic(num)
         end
     end)
 end
 
 function MG_CG.BeginRound()
-    MG_GG.PlayMusic()
+    MG_CG.PlayMusic()
     MOAT_CONTAGION_ROUND_ACTIVE = true
 
     hook.Add("HUDPaint", "MG_CG_ACTIVEPAINT", MG_CG.ActivePaint)
@@ -381,6 +382,8 @@ function MG_CG.EndRound()
     hook.Remove("PostPlayerDraw", "MG_CG.OverrideDepthEnableFalse")
     hook.Remove("PrePlayerDraw", "MG_CG.OverrideDepthEnableTrue")
     hook.Remove("Think", "MG_CG_TIMELEFTUPDATE")
+
+	MOAT_IGNORE_FOV = false
 
     hook.Add("HUDPaint", "MG_CG_ENDPAINT", MG_CG.EndPaint)
 end

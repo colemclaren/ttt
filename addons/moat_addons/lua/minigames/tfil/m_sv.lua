@@ -313,7 +313,7 @@ function MG_LAVA.Collide(a,b)
 end
 
 --MOVETYPE_LADDER
-function MG_LAVA:PrepRound(mk, pri, sec, creds)
+function MG_LAVA.PrepRound(mk, pri, sec, creds)
     TEST_lava = false
     MG_LAVA.Won = false
 	MG_LAVA.JOver = false

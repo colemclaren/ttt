@@ -393,7 +393,7 @@ function MG_FFA.PlayerDisconnected(ply)
 
 end
 
-function MG_FFA:PrepRound(mk, pri, sec, creds)
+function MG_FFA.PrepRound(mk, pri, sec, creds)
 	MG_FFA.FFAOver = false
 	MOAT_MINIGAME_OCCURING = true
 	MG_FFA.HandleDamageLogStuff(false)

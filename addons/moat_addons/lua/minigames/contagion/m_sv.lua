@@ -174,7 +174,8 @@ function MG_CG.DoEnding(survivors_win)
 
         MG_CG.ResetVars()
         MG_CG.HandleDamageLogStuff(true)
-
+		MOAT_MINIGAME_OCCURING = false
+		
         RunConsoleCommand("ttt_roundrestart")
         -- Can do this like the others or the round will actually end
         hook.Remove("TTTCheckForWin", "MG_CG_DELAYWIN")
@@ -269,7 +270,7 @@ function MG_CG.PlayerInfected(infector, infected)
     MG_CG.Survivors[infected] = nil
     MG_CG.Infected[infected] = true
 
-    MG_CG.CheckPlayerCount(ply)
+    MG_CG.CheckPlayerCount()
 
     if (MG_CG.ContagionOver) then return end
 
@@ -319,7 +320,6 @@ function MG_CG.InfectedCheck()
 end
 
 function MG_CG.PlayerDeath(vic, inf, att)
-
     if (GetRoundState() ~= ROUND_ACTIVE) then return end
     
     if (MG_CG.Players[vic:EntIndex()] and MG_CG.Players[vic:EntIndex()].survived) then
@@ -358,12 +358,27 @@ function MG_CG.TimeLeftUpdate()
     end
 end
 
-function MG_CG.CheckPlayerCount(ply)
-    if (table.Count(MG_CG.Infected) <= 0) then
-        MG_CG.DoEnding(true)
-    elseif (table.Count(MG_CG.Survivors) <= 1) then
-        MG_CG.DoEnding(false)
-    end
+function MG_CG.CheckPlayerCount()
+	local inf, infn = MG_CG.Infected, 0
+	for k, v in pairs(inf) do
+		if (not IsValid(k)) then continue end
+		infn = infn + 1
+	end
+	if (infn == 0) then MG_CG.DoEnding(true) return end
+
+	local sur, surn = MG_CG.Survivors, 0
+	for k, v in pairs(sur) do
+		if (not IsValid(k)) then continue end
+		surn = surn + 1
+	end
+	if (surn <= 1) then MG_CG.DoEnding(false) return end
+
+	local pls, plsn = MG_CG.Players, 0
+	for k, v in pairs(pls) do
+		if (not IsValid(Entity(k))) then continue end
+		plsn = plsn + 1
+	end
+	if (plsn == 0) then MG_CG.DoEnding(true) end
 end
 
 function MG_CG.PlayerDisconnected(ply)
@@ -382,12 +397,9 @@ function MG_CG.HandleDamageLogStuff(ending)
     for k, v in pairs(player.GetAll()) do
         v.IsGhost = not ending
     end
-
-    MOAT_MINIGAME_OCCURING = not ending
 end
 
 function MG_CG.BeginRound()
-
     MOAT_CONTAGION_ROUND_ACTIVE = true
 
     MG_CG.HookAdd("CanPlayerSuicide", "MG_CG_STOPSUICIDE", function(ply) return false end)
@@ -400,7 +412,7 @@ function MG_CG.BeginRound()
     net.Start("MG_CG_UPDATETIME")
     net.Broadcast()
 
-    for k, v in pairs(player.GetAll()) do
+    for k, v in RandomPairs(player.GetAll()) do
         if (v:Team() == TEAM_SPEC) then continue end
         
         MG_CG.Players[v:EntIndex()] = {survived = true, survivaltime = CurTime()}
@@ -408,23 +420,23 @@ function MG_CG.BeginRound()
         MG_CG.Survivors[v] = true
         MG_CG.GiveAmmo(v)
         v.SpeedMod = nil
-    end
 
-    for k, v in RandomPairs(MG_CG.Players) do
-        MG_CG.FirstInfected = Entity(k)
-        MG_CG.Survivors[MG_CG.FirstInfected] = nil
-        MG_CG.Infected[MG_CG.FirstInfected] = true
+		if (MG_CG.FirstInfected) then continue end
+        MG_CG.FirstInfected = v
+
+        MG_CG.Survivors[v] = nil
+        MG_CG.Infected[v] = true
 
         net.Start("MG_CG_NEWINFECTED")
-        net.WriteEntity(MG_CG.FirstInfected)
+        net.WriteEntity(v)
         net.Broadcast()
 
-        MG_CG.FirstInfected:Kill()
+        v:Kill()
 
-        MOAT_ChatBroadcast(Color(0, 255, 0), MG_CG.FirstInfected:Nick() .. " is the first infected!")
-        break
+        MOAT_ChatBroadcast(Color(0, 255, 0), v:Nick() .. " is the first infected!")
     end
 
+	MG_CG.CheckPlayerCount()
     MG_CG.HookAdd("PlayerDisconnected", "MG_CG_DISCONNECT", MG_CG.PlayerDisconnected)
 end
 
@@ -451,7 +463,7 @@ function MG_CG.PrepRound()
 
     MG_CG.ContagionOver = false
     MG_CG.HandleDamageLogStuff(false)
-
+	MOAT_MINIGAME_OCCURING = true
     MG_CG.TimeLeft = 180
     MG_CG.FirstInfected = nil
 

@@ -83,6 +83,7 @@ local moat_rarity_colors = {
     ["Cosmic"] = Color(0, 255, 0)
 }
 
+/*
 hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
     if MOAT_IGNORE_FOV then return end
     if cur_random_round then return end
@@ -121,6 +122,7 @@ hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
 
 	return view
 end)
+*/
 
 local moat_Settings = {
     {"General",

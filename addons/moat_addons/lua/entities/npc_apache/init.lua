@@ -104,12 +104,6 @@ function ENT:ControllerControls()
     	phy:AddVelocity(Angle(0, 90, 0):Up() * -(200 * velocity_speed))
     end
 
-    if (controller:KeyDown(IN_SPEED)) then
-    	velocity_speed = Lerp(FrameTime() * 10, velocity_speed, 3)
-    else
-    	velocity_speed = Lerp(FrameTime() * 10, velocity_speed, 1)
-    end
-
     if (controller:KeyDown(IN_ATTACK)) then
     	local wantedvector = self.Controller:GetAimVector()
 	    local shoot_vector = wantedvector
@@ -181,7 +175,7 @@ function ENT:ControllerControls()
         self.RocketUltimateCoolDown = CurTime() + 10
     end
 
-    self.Controller:SetPos(self:GetPos() + 100)
+    self.Controller:SetPos(self:GetPos() + Vector(0, 0, 100))
 end
 
 function ENT:Think()

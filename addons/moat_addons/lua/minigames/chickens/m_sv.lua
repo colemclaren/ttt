@@ -164,7 +164,7 @@ function MG_CM.DoEnding(survivors_win)
 
         MG_CM.ResetVars()
         MG_CM.HandleDamageLogStuff(true)
-
+		MOAT_MINIGAME_OCCURING = false
         RunConsoleCommand("ttt_roundrestart")
         -- Can do this like the others or the round will actually end
         hook.Remove("TTTCheckForWin", "MG_CM_DELAYWIN")
@@ -398,8 +398,6 @@ function MG_CM.HandleDamageLogStuff(ending)
     for k, v in pairs(player.GetAll()) do
         v.IsGhost = not ending
     end
-
-    MOAT_MINIGAME_OCCURING = not ending
 end
 
 function MG_CM.EntityTakeDamage(pl, dmginfo)
@@ -461,7 +459,7 @@ function MG_CM.PrepRound()
 
     MG_CM.ChickensOver = false
     MG_CM.HandleDamageLogStuff(false)
-
+	MOAT_MINIGAME_OCCURING = true
     MG_CM.TimeLeft = 180
     MG_CM.FirstInfected = nil
     MG_CM.ChickenSpawner = 15

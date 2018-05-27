@@ -569,7 +569,7 @@ function GM:ShouldDrawLocalPlayer(ply) return false end
 
 
 local view = {origin = vector_origin, angles = angle_zero, fov=0}
-
+local custom_fov = CreateClientConVar("moat_clfov", 0.428571429, true)
 function GM:CalcView( ply, origin, angles, fov )
 
    view.origin = origin
@@ -606,18 +606,17 @@ function GM:CalcView( ply, origin, angles, fov )
 
    end
 
-
-
-
+	view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
+    if view.fov > 175 then
+        view.fov = 175
+    end
 
    local wep = ply:GetActiveWeapon()
-
    if IsValid(wep) then
-
       local func = wep.CalcView
       view.drawviewer = false
       if func then
-         view.origin, view.angles, view.fov, view.drawviewer = func( wep, ply, origin*1, angles*1, fov )
+         view.origin, view.angles, view.fov, view.drawviewer = func( wep, ply, origin*1, angles*1, view.fov )
       end
    end
 

@@ -317,7 +317,7 @@ function MG_TNT.PlayerSpeed(ply)
 end
 
 --MOVETYPE_LADDER
-function MG_TNT:PrepRound(mk, pri, sec, creds)
+function MG_TNT.PrepRound(mk, pri, sec, creds)
     TEST_TNT = false
     MG_TNT.Won = false
 	MG_TNT.JOver = false

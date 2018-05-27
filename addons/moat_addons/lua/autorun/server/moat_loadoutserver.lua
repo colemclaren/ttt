@@ -259,7 +259,7 @@ MOAT_LOADOUT.UpdateWepCache = {}
 MOAT_LOADOUT.UpdateOtherWepCache = {}
 
 function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, powerup, tactical, is_reequip)
-    if (hook.Call("MoatInventoryShouldGiveLoadout", nil, ply)) then return end
+    if (hook.Run("MoatInventoryShouldGiveLoadout", ply)) then return end
     if (not IsValid(ply)) then return end
 
     local loadout_table = {

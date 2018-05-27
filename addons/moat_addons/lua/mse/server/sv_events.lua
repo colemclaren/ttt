@@ -13,23 +13,8 @@ util.AddNetworkString "MSE.Notify"
 util.AddNetworkString "MSE.Start"
 util.AddNetworkString "MSE.Menu"
 
-function MSE.Events.Start(pl, amt, cmd, args, cmd_name, ec)
 
-	-- recheck whether or not we can start the minigame after querying (so people can't start them a sec before round starts)
-	local halt, msg = MSE.Config.CanStartMinigame(pl)
-
-	if (halt) then
-		net_Start "MSE.Notify"
-			net_WriteString(msg)
-		net_Send(pl)
-
-		return
-	end
-
-	RunConsoleCommand(cmd, unpack(args))
-
-	MSE.Events.Active = true
-
+function MSE.Events.Started(pl, amt, cmd, args, cmd_name, ec)
 	MSE.Events.CurAmount = MSE.Events.CurAmount + 1
 
 	net_Start "MSE.Notify"
@@ -51,7 +36,6 @@ function MSE.Events.Start(pl, amt, cmd, args, cmd_name, ec)
 	end
 
 	local gp = pl:GetUserGroup()
-
 	if (amt + 1 < MSE.Ranks.Stored[gp].MaxAmount) then
 		MSE.MySQL.FormatQuery("UPDATE mse_players SET amount = amount + 1 WHERE steamid = #", pl:SteamID64())
 
@@ -65,6 +49,43 @@ function MSE.Events.Start(pl, amt, cmd, args, cmd_name, ec)
 			net_WriteString(MSE.Config.Messages.CooldownStarted:Replace("{time}", MSE.FormatTimeSingle(MSE.Ranks.Stored[gp].Cooldown)))
 		net_Send(pl)
 	end
+end
+
+
+function MSE.Events.Start(pl, amt, cmd, args, cmd_name, ec)
+
+	-- recheck whether or not we can start the minigame after querying (so people can't start them a sec before round starts)
+	local halt, msg = MSE.Config.CanStartMinigame(pl)
+
+	if (halt) then
+		net_Start "MSE.Notify"
+			net_WriteString(msg)
+		net_Send(pl)
+
+		return
+	end
+
+	MSE.Events.Active = true
+	MSE.Player = pl
+
+	RunConsoleCommand(cmd, unpack(args))
+
+	timer.Simple(0, function()
+		if (MOAT_MINIGAME_OCCURING) then
+			MSE.Events.Started(pl, amt, cmd, args, cmd_name, ec)
+			MSE.Player = nil
+			return
+		end
+
+		if (IsValid(MSE.Player)) then
+			net_Start "MSE.Notify"
+				net_WriteString("Your event did not start for some reason.")
+			net_Send(MSE.Player)
+		end
+
+		MSE.Player = nil
+		MSE.Events.Active = false
+	end)
 end
 
 function MSE.Events.CanStart(l, pl)
