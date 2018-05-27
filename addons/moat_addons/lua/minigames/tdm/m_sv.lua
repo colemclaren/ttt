@@ -359,15 +359,25 @@ function MG_TDM.GiveWeapon(ply,v)
     if not ply.TDM_Cache then ply.TDM_Cache = {} end
     net.WriteUInt(v3:EntIndex(), 16)
     if not ply.TDM_Cache[v.w] then
-        ply.TDM_Cache[v.w] = true
-        net.WriteDouble(wpn_tbl.Primary.Damage or 0)
-        net.WriteDouble(wpn_tbl.Primary.Delay or 0)
-        net.WriteDouble(wpn_tbl.Primary.ClipSize or 0)
-        net.WriteDouble(wpn_tbl.Primary.Recoil or 0)
-        net.WriteDouble(wpn_tbl.Primary.Cone or 0)
-        net.WriteDouble(wpn_tbl.PushForce or 0)
-        net.WriteDouble(wpn_tbl.Secondary.Delay or 0)
-        net.WriteDouble(ply:EntIndex())
+        ply.TDM_Cache[v.w] = {
+			wpn_tbl.Primary.Damage or 0,
+			wpn_tbl.Primary.Delay or 0,
+			wpn_tbl.Primary.ClipSize or 0,
+			wpn_tbl.Primary.Recoil or 0,
+			wpn_tbl.Primary.Cone or 0,
+			wpn_tbl.PushForce or 0,
+			wpn_tbl.Secondary.Delay or 0,
+			{}
+		}
+
+		net.WriteBool(true)
+        net.WriteDouble(ply.TDM_Cache[v.w][1] or 0)
+        net.WriteDouble(ply.TDM_Cache[v.w][2] or 0)
+        net.WriteDouble(ply.TDM_Cache[v.w][3] or 0)
+        net.WriteDouble(ply.TDM_Cache[v.w][4] or 0)
+        net.WriteDouble(ply.TDM_Cache[v.w][5] or 0)
+        net.WriteDouble(ply.TDM_Cache[v.w][6] or 0)
+        net.WriteDouble(ply.TDM_Cache[v.w][7] or 0)
 
 		local item_old = table.Copy(v.item)
         v.item = {}
@@ -380,16 +390,43 @@ function MG_TDM.GiveWeapon(ply,v)
                 v.Talents[k5] = m_GetTalentFromEnum(v5.e)
             end
         end
+		table.removeFunctions(v)
 
+		ply.TDM_Cache[v.w][8] = table.Copy(v)
         net.WriteTable(v)
+
 		v.item = item_old
-    end
+    else
+		net.WriteBool(false)
+	end
     net.Send(ply)
 
     if (wpn_tbl.Primary.Ammo and wpn_tbl.Primary.ClipSize and ply:GetAmmoCount(wpn_tbl.Primary.Ammo) < wpn_tbl.Primary.ClipSize) then
         ply:GiveAmmo(wpn_tbl.Primary.ClipSize, wpn_tbl.Primary.Ammo, true)
     end
 end
+
+util.AddNetworkString("MOAT_NO_STORED")
+
+net.Receive("MOAT_NO_STORED", function(ply)
+	local wpn = net.ReadString()
+	local indx = net.ReadUInt()
+	if (not wpn or not indx or not ply.TDM_Cache or not ply.TDM_Cache[wpn]) then return end
+	
+	net.Start("MOAT_UPDATE_WEP")
+		net.WriteString(wpn)
+		net.WriteUInt(indx, 16)
+		net.WriteBool(true)
+		net.WriteDouble(ply.TDM_Cache[wpn][1] or 0)
+    	net.WriteDouble(ply.TDM_Cache[wpn][2] or 0)
+    	net.WriteDouble(ply.TDM_Cache[wpn][3] or 0)
+    	net.WriteDouble(ply.TDM_Cache[wpn][4] or 0)
+    	net.WriteDouble(ply.TDM_Cache[wpn][5] or 0)
+    	net.WriteDouble(ply.TDM_Cache[wpn][6] or 0)
+    	net.WriteDouble(ply.TDM_Cache[wpn][7] or 0)
+    	net.WriteTable(ply.TDM_Cache[wpn][8] or {})
+	net.Send(ply)
+end)
 
 function MG_TDM.GiveWeapons(ply)
     MG_TDM.StripWeapons(ply)

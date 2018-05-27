@@ -561,45 +561,40 @@ net.Receive("MOAT_UPDATE_OTHER_WEP", MOAT_LOADOUT.UpdateOtherWep)
 function MOAT_LOADOUT.UpdateWep()
     local wep_index, wep_d, wep_f, wep_m, wep_r, wep_a, wep_v, wep_p, wep_owner, wep_stats
     
-    local store = MOAT_TDM or MOAT_FFA
+    local store  = MOAT_TDM or MOAT_FFA
     if (store) then
         local wep_class = net.ReadString()
-        if store.WepCache[wep_class] then
-            wep_index = net.ReadUInt(16)
-            local v = store.WepCache[wep_class]
-            wep_d = v[1]
-            wep_f = v[2]
-            wep_m = v[3]
-            wep_r = v[4]
-            wep_a = v[5]
-            wep_v = v[6]
-            wep_p = v[7]
-            wep_owner = v[8]
-            wep_stats = v[9]
-        else
-            wep_index = net.ReadUInt(16)
-            wep_d = net.ReadDouble()
-            wep_f = net.ReadDouble()
-            wep_m = net.ReadDouble()
-            wep_r = net.ReadDouble()
-            wep_a = net.ReadDouble()
-            wep_v = net.ReadDouble()
-            wep_p = net.ReadDouble()
-            wep_owner = net.ReadDouble()
-            wep_stats = net.ReadTable()
+		wep_index = net.ReadUInt(16)
+		if (net.ReadBool()) then
+			store.WepCache[wep_class] = {
+				[1] = net.ReadDouble(),
+            	[2] = net.ReadDouble(),
+            	[3] = net.ReadDouble(),
+            	[4] = net.ReadDouble(),
+            	[5] = net.ReadDouble(),
+            	[6] = net.ReadDouble(),
+            	[7] = net.ReadDouble(),
+            	[8] = LocalPlayer():EntIndex(),
+            	[9] = net.ReadTable()
+			}
+		elseif (not store.WepCache[wep_class]) then
+			net.Start "MOAT_NO_STORED"
+				net.WriteString(wep_class)
+				net.WriteUInt(wep_index, 16)
+			net.SendToServer()
+			return
+		end
 
-            store.WepCache[wep_class] = {
-                wep_d,
-                wep_f,
-                wep_m,
-                wep_r,
-                wep_a,
-                wep_v,
-                wep_p,
-                wep_owner,
-                wep_stats
-            }
-        end
+		local v = store.WepCache[wep_class]
+		wep_d = v[1]
+        wep_f = v[2]
+        wep_m = v[3]
+        wep_r = v[4]
+        wep_a = v[5]
+        wep_v = v[6]
+        wep_p = v[7]
+        wep_owner = v[8]
+        wep_stats = v[9]
     else
         wep_index = net.ReadUInt(16)
         wep_d = net.ReadDouble()
