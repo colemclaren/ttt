@@ -3847,7 +3847,7 @@ function m_DrawVersusPanel()
 						return
 					end
 
-					winner:SetPlayer(s and v[1] or k, 64)
+					winner:SetPlayer(sh and v[1] or k, 64)
 					sh = not sh
 				end)
 			end
@@ -3979,7 +3979,7 @@ function m_DrawVersusPanel()
 						return
 					end
 
-					winner:SetSteamID(s and v[1] or k, 64)
+					winner:SetSteamID(sh and v[1] or k, 64)
 					sh = not sh
 				end)
 			end
