@@ -13,7 +13,7 @@ TALENT.NotUnique = true
 function _space_stone(sec,att)
     att.SpaceStone = CurTime() - 0.5
     att:SetGravity(0.25)
-    att:SendLua([[chat.AddText(Color(0,255,0),"You have gained low gravity for ",Color(255,0,0),"]] .. sec .. [[",Color(0,255,0)," seconds!")]])
+	D3A.Chat.SendToPlayer2(att, Color(0, 255, 0), "You have gained low gravity for ", Color(255, 0, 0), sec or "0", Color(0, 255, 0), " seconds!")
     timer.Simple(sec,function()
         if not IsValid(att) then return end
         if CurTime() - (att.SpaceStone or 0) > sec then

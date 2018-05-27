@@ -2282,16 +2282,12 @@ function m_OpenInventory(ply2, utrade)
 
             surface_SetDrawColor(62, 62, 64, 255)
 
-            if (m_Inventory[num].c) then
+            if (m_Inventory[num].c and m_Inventory[num].item and m_Inventory[num].item.Rarity) then
                 surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2])
             end
 
             surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
             surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
-
-            if (m_Inventory[num].c) then
-                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2].r, rarity_names[m_Inventory[num].item.Rarity][2].g, rarity_names[m_Inventory[num].item.Rarity][2].b, hover_coloral / 2)
-            end
         end
 
         --  surface_DrawPoly( triangle )
