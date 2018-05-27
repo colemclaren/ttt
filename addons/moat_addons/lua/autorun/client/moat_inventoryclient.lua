@@ -4221,7 +4221,13 @@ local non_char_cap = {
 }
 
 function m_IniateUsableItem(num, itemtbl)
-    if (IsValid(M_USABLE_PNL_BG)) then M_USABLE_PNL_BG:Remove() end
+	if (not IsValid(MOAT_INV_BG)) then
+		net.Start "MOAT_END_USABLE"
+        net.SendToServer()
+		return
+	end
+
+	if (IsValid(M_USABLE_PNL_BG)) then M_USABLE_PNL_BG:Remove() end
     INV_SELECTED_ITEM = nil
     local sel_itm = nil
 

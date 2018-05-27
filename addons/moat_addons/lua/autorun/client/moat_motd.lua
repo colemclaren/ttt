@@ -58,11 +58,6 @@ function m_OpenMOTD(str)
     end
 
     local name = str or LocalPlayer():Nick()
-
-    if (not name or (name and name:len() < 2)) then
-        name = LocalPlayer():Nick()
-    end
-
     local scrw, scrh = ScrW(), ScrH()
 
     M_MOTD_BG = vgui.Create("DFrame")

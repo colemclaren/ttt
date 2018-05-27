@@ -7,7 +7,7 @@ function m_OpenCrate(tbl, fastopen)
         return
     end
 
-	if (not tbl.c) then return end
+	if (not tbl or not tbl.c) then return end
     net.Start("MOAT_VERIFY_CRATE")
     net.WriteDouble(tonumber(tbl.c))
     net.WriteBool(fastopen or false)

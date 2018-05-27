@@ -244,9 +244,15 @@ function SWEP:ShootArrow()
 	self:EmitSound("weapons/bow/skyrim_bow_shoot.mp3")
 
 	local arrow = self:GetArrow()
+	if (not IsValid(arrow)) then
+		self:CreateArrow()
+		arrow = self:GetArrow()
+		if (not IsValid(arrow)) then return end -- hopeless
+	end
+	self:CreateArrow()
+	
 	arrow:SetRenderMode(RENDERMODE_NORMAL)
 	arrow:SetModel("models/morrowind/steel/arrow/steelarrow.mdl")
-	self:CreateArrow()
 	arrow:SetAngles(self.Owner:EyeAngles())
 	local pos = self.Owner:GetShootPos()
 	pos = pos + self.Owner:GetUp() * -3
