@@ -55,6 +55,7 @@ function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
             elseif (not string.EndsWith(tostring(M_INV_DRAG.Slot), "t") and string.EndsWith(tostring(m_HoveredSlot), "t")) then
                 local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))
                 if (HVRD_SLOT > 10) then return end
+				if (isstring(M_INV_DRAG.Slot)) then return end
                 net.Start("MOAT_TRADE_ADD")
                 net.WriteDouble(HVRD_SLOT)
                 net.WriteDouble(M_INV_DRAG.Slot)
@@ -89,6 +90,7 @@ function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
                 end
             elseif (not string.EndsWith(tostring(M_INV_DRAG.Slot), "l") and string.EndsWith(tostring(m_HoveredSlot), "l")) then
                 local HVRD_SLOT = tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))
+				if (not m_Loadout[HVRD_SLOT]) then return end
                 net.Start("MOAT_SWP_INV_ITEM")
                 net.WriteString("l_slot" .. HVRD_SLOT)
                 net.WriteString("slot" .. M_INV_DRAG.Slot)
@@ -128,6 +130,8 @@ m_SlotToLoadout[1] = "Secondary"
 m_SlotToLoadout[2] = "Primary"
 
 function m_CanSwapLoadout(ITEM_TBL, DRAG_SLOT)
+	if (not ITEM_TBL) then return false end
+
     if (ITEM_TBL.c == nil) then return true end
     if (ITEM_TBL.item.Kind == "Power-Up") then return DRAG_SLOT == 4 end
     if (ITEM_TBL.item.Kind == "Other") then return DRAG_SLOT == 5 end

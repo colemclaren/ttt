@@ -1435,7 +1435,7 @@ function m_OpenInventory(ply2, utrade)
                 end
 
                 m_DrawShadowedText(1, "Trade request sent to:", "Trebuchet24", w / 2, 243, Color(255, 255, 255), TEXT_ALIGN_CENTER)
-                m_DrawShadowedText(1, v:Nick(), "Trebuchet24", w / 2, 278, Color(0, 200, 0), TEXT_ALIGN_CENTER)
+                m_DrawShadowedText(1, (IsValid(v) and v:Nick()) or "Disconnected", "Trebuchet24", w / 2, 278, Color(0, 200, 0), TEXT_ALIGN_CENTER)
                 local ava_x, ava_y = s:GetChildren()[2]:GetPos()
                 local ava_w, ava_h = s:GetChildren()[2]:GetSize()
                 --draw_RoundedBox( 0, ava_x - 2, ava_y - 2, ava_w + 4, ava_h + 4, Color( 62, 62, 64, 255 ) )
@@ -2266,7 +2266,7 @@ function m_OpenInventory(ply2, utrade)
             surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
             if (not m_Inventory[num]) then return end
 
-            if (m_Inventory[num].c) then
+            if (m_Inventory[num].c and m_Inventory[num].item and m_Inventory[num].item.Rarity) then
                 surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
                 surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
@@ -3216,7 +3216,7 @@ function m_OpenInventory(ply2, utrade)
 
     function m_InitializeTrade(ply_2, u_trade)
         if (ply_2 and u_trade) then
-            M_TRADING_PNL:SetVisible(false)
+            if (IsValid(M_TRADING_PNL)) then M_TRADING_PNL:SetVisible(false) end
             local inv_x, inv_y = MOAT_INV_BG:GetPos()
             MOAT_TRADE_BG = vgui.Create("DFrame")
             MOAT_TRADE_BG:SetTitle("")
@@ -4809,21 +4809,26 @@ function m_CreateItemMenu(num, ldt)
 
         local n = num
         m_HoveredSlot = num
-        MOAT_INV_S.ctrldown = true
+        if (IsValid(MOAT_INV_S)) then MOAT_INV_S.ctrldown = true end
         moat_imagehack = true
         hook.Add("HudPaint","Mid Framegg",function()
             m_HoveredSlot = num
-            MOAT_INV_S.AnimVal = 1
-            MOAT_INV_S.ctrldown = true
-            MOAT_INV_S:SetAlpha(255)
-            MOAT_INV_S:Think()
+			if (IsValid(MOAT_INV_S)) then
+            	MOAT_INV_S.AnimVal = 1
+            	MOAT_INV_S.ctrldown = true
+            	MOAT_INV_S:SetAlpha(255)
+            	MOAT_INV_S:Think()
+			end
             hook.Remove("HudPaint","Mid Framegg")
         end)
         hook.Add("PostRender", "Gay render capture rules", function()
-            MOAT_INV_S:Think()
+            if (IsValid(MOAT_INV_S)) then MOAT_INV_S:Think() end
 
-            local x, y = MOAT_INV_S:GetPos()
-            local w, h = MOAT_INV_S:GetSize()
+            local x, y, w, h = 0, 0, 0, 0
+			if (IsValid(MOAT_INV_S)) then
+				x, y = MOAT_INV_S:GetPos()
+				w, h = MOAT_INV_S:GetSize()
+			end
             
             local data = render.Capture({
                 format = "jpeg",
@@ -5301,7 +5306,7 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
     m_Inventory[slot] = {}
     m_Inventory[slot] = tbl
 
-    if (m_isUsingInv()) then
+    if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
         M_INV_SLOT[slot].VGUI.Item = m_Inventory[slot]
 
         if (m_Inventory[slot].item.Image) then
@@ -5749,7 +5754,7 @@ end)
 
 net.Receive("MOAT_INIT_TRADE", function(len)
     local other_int = net.ReadDouble()
-    local other_ply = ents.GetByIndex(other_int)
+    local other_ply = Entity(other_int)
     local trade_uid = net.ReadDouble()
 
     if (m_isUsingInv()) then
@@ -5767,13 +5772,33 @@ net.Receive("MOAT_INIT_TRADE", function(len)
         end)
     else
         m_OpenInventory(other_ply, trade_uid)
-        m_ChangeInventoryPanel(3)
+
+		if (not m_ChangeInventoryPanel) then
+			if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+        	if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
+			chat.AddText(Color(255, 0, 0), "Can't accept trade request because your inventory didn't load? Trying opening it before trading.")
+
+            moat_inv_cooldown = CurTime() + 1
+            m_ClearInventory()
+            net.Start("MOAT_SEND_INV_ITEM")
+            net.SendToServer()
+
+            net.Start("MOAT_RESPOND_TRADE")
+            net.WriteBool(false)
+            net.WriteDouble(other_int)
+            net.WriteDouble(trade_uid)
+            net.SendToServer()
+
+			return
+		end
+
+		m_ChangeInventoryPanel(3)
     end
 end)
 
 net.Receive("MOAT_RESPOND_TRADE", function(len)
     local accepted = net.ReadBool()
-    local other_ply = ents.GetByIndex(net.ReadDouble())
+    local other_ply = Entity(net.ReadDouble())
 
     if (not accepted) then
 		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
