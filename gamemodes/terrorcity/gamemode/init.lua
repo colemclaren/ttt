@@ -434,6 +434,10 @@ local function CleanUp()
 
     et.FixParentedPostCleanup()
 
+   	for k, v in pairs(player.GetAll()) do
+        v:StripWeapons()
+   	end
+
    -- a different kind of cleanup
     ServerLog("Function Finished\n")
 end

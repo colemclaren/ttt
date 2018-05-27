@@ -5,13 +5,13 @@ include('shared.lua')
 util.AddNetworkString("TTT_MineTurtleWarning")
 
 local validDoors = {"func_door", "func_door_rotating", "prop_door_rotating"}
-
+/*
 hook.Add("TTTPrepareRound", "MineTurtleClean", function()
 	for _, slam in pairs(ents.FindByClass("ttt_mine_turtle")) do
 		slam:Remove()
 	end
 end)
-
+*/
 local specDM = file.Exists("sh_spectator_deathmatch.lua", "LUA")
 function ENT:Think()
 	if (IsValid(self) and self:IsActive()) then
@@ -19,7 +19,7 @@ function ENT:Think()
 			local isValid
 			for _, ent in ipairs(ents.FindInSphere(self:GetPos(), self.ScanRadius)) do
 				-- Spectator Deathmatch support
-				isValid = IsValid(ent) and ent:IsPlayer() and !ent:IsSpec() and ent:GetRole() ~= ROLE_TRAITOR
+				isValid = IsValid(ent) and ent:IsPlayer() and !ent:IsSpec() and not ent:IsTraitor()
 				if (isValid and specDM) then
 					isValid = !ent:IsGhost()
 				end
@@ -49,7 +49,7 @@ end
 
 function ENT:SendWarn(armed)
 	local owner = self:GetPlacer()
-	if (!armed or (IsValid(owner) and owner:IsRole(ROLE_TRAITOR))) then
+	if (!armed or (IsValid(owner) and owner:IsTraitor())) then
 		net.Start("TTT_MineTurtleWarning")
 			net.WriteUInt(self:EntIndex(), 16)
 			net.WriteBool(armed)

@@ -13,7 +13,7 @@ function XENOMORPH.RespawnTimer(pl, rnd, rnd_now)
 	pl:SpawnForRound(true)
 	pl:SetRole(ROLE_XENOMORPH)
 
-	CustomMsg(pl, "You have been respawned as a Xenomorph!", Color(0, 249, 199))
+	CustomMsg(pl, "You have been respawned as a Phoenix!", Color(0, 249, 199))
 end
 
 InstallRoleHook("PlayerDeath", 1)

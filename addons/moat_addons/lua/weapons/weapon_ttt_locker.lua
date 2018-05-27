@@ -521,7 +521,7 @@ if SERVER then
 end
 
  
-
+/*
 hook.Add("TTTPrepareRound", "FixAllYallDoors",function()
 
         for e,f in pairs( ents.GetAll() ) do
@@ -543,3 +543,4 @@ hook.Add("TTTPrepareRound", "FixAllYallDoors",function()
         end
 
 end)
+*/

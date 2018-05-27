@@ -4,16 +4,16 @@ AddCSLuaFile("shared.lua")
 util.AddNetworkString("TTT_SLAMWarning")
 
 include('shared.lua')
-
+/*
 hook.Add("TTTPrepareRound", "SLAMClean", function()
 	for _, slam in pairs(ents.FindByClass("ttt_slam_*")) do
 		slam:Remove()
 	end
 end)
-
+*/
 function ENT:SendWarn(armed)
 	local owner = self:GetPlacer()
-	if (!armed or (IsValid(owner) and owner:IsRole(ROLE_TRAITOR))) then
+	if (!armed or (IsValid(owner) and owner:IsTraitor())) then
 		net.Start("TTT_SLAMWarning")
 			net.WriteUInt(self:EntIndex(), 16)
 			net.WriteBool(armed)

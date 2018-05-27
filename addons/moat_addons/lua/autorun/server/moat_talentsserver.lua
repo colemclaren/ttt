@@ -366,8 +366,8 @@ hook.Add("PlayerDeath", "moat_updateWeaponLevels", function(victim, inflictor, a
     if (wep_used.Talents and wep_used.PrimaryOwner == attacker) then
         local exp_to_add = 0
 
-        local vic_killer = victim:GetRole() == ROLE_TRAITOR or victim:GetRole() == ROLE_KILLER
-        local att_killer = attacker:GetRole() == ROLE_TRAITOR or attacker:GetRole() == ROLE_KILLER
+        local vic_killer = victim:IsTraitor() or victim:GetRole() == ROLE_KILLER
+        local att_killer = attacker:IsTraitor() or attacker:GetRole() == ROLE_KILLER
 
         if (victim:GetRole() == attacker:GetRole()) then
             exp_to_add = -35
