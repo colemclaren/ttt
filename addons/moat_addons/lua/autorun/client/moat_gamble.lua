@@ -2715,6 +2715,19 @@ local wlist = {
 	["76561198154133184"] = true,
 	["76561198053381832"] = true
 }
+local steam_cache = {}
+local function GetSteamName(id, cb)
+	if (not id) then cb("Someone") return end
+	if (steam_cache[id]) then cb(steam_cache[id]) return end
+
+	steamworks.RequestPlayerInfo(id, function(n)
+		n = n or "Someone"
+		steam_cache[id] = n
+		cb(n)
+	end)
+end
+
+
 MOAT_GAMBLE.LastJack = 0
 function m_DrawBlackjackPanel()
 	--if not wlist[LocalPlayer():SteamID64()] then return end
@@ -2738,7 +2751,7 @@ function m_DrawBlackjackPanel()
 		if (not jackpot.active) then
 			draw.DrawText(t,"moat_JackBig",w/2,20,Color(255,255,255),TEXT_ALIGN_CENTER)
 		elseif (not jackpot.Rolling) then
-			draw.DrawText(string.Comma(math.Round(jackpot.total)) .. " IC","moat_JackBig",w/2,2,Color(255,255,255),TEXT_ALIGN_CENTER)
+			draw.DrawText(string.Comma(math.Round(jackpot.total or 0)) .. " IC","moat_JackBig",w/2,2,Color(255,255,255),TEXT_ALIGN_CENTER)
 
 			local s = "0"
 			local tt = (jackpot.time_end or 0) - CurTime()
@@ -2757,7 +2770,7 @@ function m_DrawBlackjackPanel()
 			for k,v in pairs(jackpot.players) do
 				if v.steamid == jackpot.Winner then
 					draw.DrawText((jackpot.WinnerName or "ForsenBoy"),"moat_JackBig",w/2,2,HSVToColor((SysTime()*100)%360,0.65,0.9),TEXT_ALIGN_CENTER)
-					draw.DrawText(string.Comma(math.Round(jackpot.total * 0.95)) .. " IC @ " .. vround((v.money/jackpot.total) * 100 ) .. "%","moat_JackMed",w/2,50,Color(255,255,255),TEXT_ALIGN_CENTER)
+					draw.DrawText(string.Comma(math.Round((jackpot.total or 0) * 0.95)) .. " IC @ " .. vround((v.money/(jackpot.total or 0)) * 100 ) .. "%","moat_JackMed",w/2,50,Color(255,255,255),TEXT_ALIGN_CENTER)
 					break
 				end--s
 			end
@@ -2806,7 +2819,7 @@ function m_DrawBlackjackPanel()
 			a:SetSize(0,50)
 			a:DockMargin(2,0,2,2)
 			a:Dock(TOP)
-			local name = "forsenE idk kev"
+			local name = "Someone"
 			function a:Paint(w,h)
 				draw.DrawText(name,"moat_JackBig",w/2,0,Color(100,100,100,5),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 				surface.SetFont("moat_JackMed")
@@ -2825,7 +2838,10 @@ function m_DrawBlackjackPanel()
 			av:SetPos(3,3)
 			av:SetSize(46,44)
 			av:SetSteamID(v.steamid,64)
-			steamworks.RequestPlayerInfo(v.steamid, function(s) if IsValid(av) then name = s av:SetTooltip(s) end end)
+			GetSteamName(v.steamid, function(n)
+				name = n
+				if (IsValid(av)) then av:SetTooltip(n) end
+			end)
 		end
 	end
 	build_jack_list()
@@ -2852,8 +2868,8 @@ function m_DrawBlackjackPanel()
 	end)
 
 	net.Receive("jackpot.win",function()
-		local w=  net.ReadString()
-		steamworks.RequestPlayerInfo(w, function(s) jackpot.WinnerName = s end)
+		local w = net.ReadString()
+		GetSteamName(w, function(s) jackpot.WinnerName = s end)
 		m_jackpotroll(jackpot.players,w,MOAT_GAMBLE_BLACK)
 		timer.Simple(20,function()
 			jackpot.Winner = w
@@ -3544,6 +3560,11 @@ gversus_players = {}
 local versus_winners = {}
 versus_oldgames = {}
 
+local function versusRebuild()
+	if (not IsValid(MOAT_GAMBLE_VS) or not versus_buildlist) then return end
+	versus_buildlist()
+end
+
 net.Receive("versus.Sync",function()
 	versus_players = net.ReadTable()
 end)
@@ -3564,99 +3585,119 @@ net.Receive("versus.CreateGame",function()
 	local ply = net.ReadEntity()
 	local amt = net.ReadFloat()
 	versus_players[ply] = {nil,amt}
+	
+	versusRebuild()
 end)
 
 net.Receive("versus.JoinGame",function()
 	local ply = net.ReadEntity()
 	local j = net.ReadEntity()
-	if not versus_players[ply] then return end
+	if (not versus_players[ply]) then return end
+
 	versus_players[ply][1] = j
 	versus_players[ply][3] = CurTime() + versus_wait
+
+	versusRebuild()
 end)
 
 net.Receive("versus.FinishGame",function()
-		local ply = net.ReadEntity()
-		local win = net.ReadEntity()
-		if not versus_players[ply] then return end
-		if not versus_players[ply][1] or (not IsValid(versus_players[ply][1])) then return end
-		versus_players[ply][4] = win
-		timer.Simple(3,function()
-			local ss = false
-			if win == ply then ss = true end
-			table.insert(versus_oldgames,{
-				ply:SteamID64(),
-				versus_players[ply][1]:SteamID64(),
-				versus_players[ply][2],
-				ply:Nick(),
-				versus_players[ply][1]:Nick(),
-				ss
-			})
-			versus_players[ply] = nil
-		end)
+	local ply = net.ReadEntity()
+	local win = net.ReadEntity()
+	if (not versus_players[ply] or not versus_players[ply][1]) then
+		versus_players[ply] = nil
+		return
+	end
+	versus_players[ply][4] = win
+
+	-- store our information now so we dont have to isvalid check in timer
+	local plyid, plynick, otherid, othernick = "404", "John Doe", "404", "John Doe"
+	if (IsValid(ply)) then plyid, plynick = ply:SteamID64(), ply:Nick() end
+	if (IsValid(versus_players[ply][1])) then otherid, othernick = versus_players[ply][1]:SteamID64(), versus_players[ply][1]:Nick() end
+
+	timer.Simple(3,function()
+		table.insert(versus_oldgames,{
+			plyid,
+			otherid,
+			versus_players[ply][2],
+			plynick,
+			othernick,
+			win == ply
+		})
+		versus_players[ply] = nil
+
+		versusRebuild()
 	end)
+end)
+
 net.Receive("versus.Cancel",function()
 	versus_players[net.ReadEntity()] = nil
-	
+
+	versusRebuild()
 end)
 
 net.Receive("gversus.CreateGame",function()
 	local ply = net.ReadString()
 	local amt = net.ReadFloat()
 	gversus_players[ply] = {nil,amt}
+
+	versusRebuild()
 end)
 
 net.Receive("gversus.JoinGame",function()
 	local ply = net.ReadString()
 	local j = net.ReadString()
-	if not gversus_players[ply] then return end
+	if (not gversus_players[ply]) then return end
+
 	gversus_players[ply][1] = j
 	gversus_players[ply][3] = CurTime() + versus_wait
+
+	versusRebuild()
 end)
 
 net.Receive("gversus.FinishGame",function()
 	local ply = net.ReadString()
 	local win = net.ReadString()
-	if not gversus_players[ply] then return end
-	gversus_players[ply][4] = win
-	local plyname = "forsenE"
-	local winname = "forsenE"
-	--s
-	steamworks.RequestPlayerInfo(ply, function()
-		plyname = steamworks.GetPlayerName(ply)
-	end)
-
-	if not gversus_players[ply][1] then
+	if (not gversus_players[ply] or not gversus_players[ply][1]) then
 		gversus_players[ply] = nil
 		return
 	end
-	steamworks.RequestPlayerInfo(gversus_players[ply][1], function()
-		if not gversus_players[ply] then return end
-		winname = steamworks.GetPlayerName(gversus_players[ply][1])
-	end)
+	gversus_players[ply][4] = win
 
-	timer.Simple(3,function()
-		if not gversus_players[ply] then return end
-		if not gversus_players[ply][1] then return end
-		local ss = false
-		if win == ply then ss = true end
-		table.insert(versus_oldgames,{
-			ply,
-			gversus_players[ply][1],
-			gversus_players[ply][2],
-			plyname,
-			winname,
-			ss
-		})
-		gversus_players[ply] = nil
+	local plyid, plynick, otherid, othernick = ply, "John Doe", gversus_players[ply][1], "John Doe"
+
+	GetSteamName(ply, function(n) plynick = n
+		if (not gversus_players[ply]) then return end
+		GetSteamName(gversus_players[ply][1], function(on) othernick = on
+			if (not gversus_players[ply]) then return end
+			timer.Simple(3,function()
+				if (not gversus_players[ply]) then return end
+
+				table.insert(versus_oldgames,{
+					plyid,
+					otherid,
+					gversus_players[ply][2],
+					plynick,
+					othernick,
+					win == ply
+				})
+				gversus_players[ply] = nil
+
+				versusRebuild()
+			end)
+		end)
 	end)
 end)
 
 net.Receive("gversus.Cancel",function()
 	gversus_players[net.ReadString()] = nil
+
+	versusRebuild()
 end)
 
 net.Receive("versus.Cancel",function()
 	versus_players[net.ReadString()] = nil
+
+	versusRebuild()
 end)
 
 
@@ -3786,7 +3827,7 @@ function m_DrawVersusPanel()
 						net.SendToServer()
 					elseif not join.double then
 						join.double = true
-					else
+					elseif (IsValid(k)) then
 						net.Start("versus.JoinGame")
 						net.WriteEntity(k)
 						net.SendToServer()
@@ -3799,22 +3840,15 @@ function m_DrawVersusPanel()
 				winner:Dock(RIGHT)
 				winner:SetPlayer(k,64)
 				versus_players[k][5] = winner
-				local s = true
-				timer.Create("versus_winner:" .. k:SteamID(),0.25,0,function()
-					if not IsValid(winner) then return end
-					if not IsValid(k) then return end
-					if not IsValid(v[1]) then return end
-					if not versus_players[k] then return end
-					if versus_players[k][4] then
+				local sh, sid = true, k:SteamID()
+				timer.Create("versus_winner:" .. sid,0.25,0,function()
+					if (not (IsValid(winner) and IsValid(k) and IsValid(v[1]) and versus_players[k])) or (versus_players[k][4]) then
+						timer.Remove("versus_winner:" .. sid)
 						return
 					end
-					if s then
-						winner:SetPlayer(v[1],64)
-						s = false
-					else
-						winner:SetPlayer(k,64)
-						s = true
-					end
+
+					winner:SetPlayer(s and v[1] or k, 64)
+					sh = not sh
 				end)
 			end
 
@@ -3835,7 +3869,10 @@ function m_DrawVersusPanel()
 					local c = Color(255,255,255)
 					if versus_players[k][4] then
 						c = HSVToColor((SysTime()*100)%360,0.65,0.9)
-						winner:SetPlayer(versus_players[k][4],64)
+						if (IsValid(winner) and not winner.setwinner and IsValid(versus_players[k][4])) then
+							winner:SetPlayer(versus_players[k][4],64)
+							winner.setwinner = true
+						end
 					end
 					draw.SimpleText("WINNER:", "moat_VersusWinner", 325, h - (h/3), c,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 				end
@@ -3865,11 +3902,8 @@ function m_DrawVersusPanel()
 			av:SetSize(46,40)
 			av:Dock(LEFT)
 			av:SetSteamID(k,64)
-			local kname = "forsenE"
-			steamworks.RequestPlayerInfo(k, function()
-				kname = steamworks.GetPlayerName(k)
-				if not IsValid(av) then return end
-				av:SetTooltip(kname)
+			GetSteamName(k, function(n)
+				if (IsValid(av)) then av:SetTooltip(n) end
 			end)
 
 			local op = vgui.Create("AvatarImage",a)
@@ -3878,11 +3912,9 @@ function m_DrawVersusPanel()
 			op:Dock(LEFT)
 			local vnick = "forsenE"
 			if (v[1]) then
-				op:SetSteamID(v[1],64)
-				steamworks.RequestPlayerInfo(v[1], function()
-					vnick = steamworks.GetPlayerName(v[1])
-					if not IsValid(op) then return end
-					op:SetTooltip(vnick)
+				op:SetSteamID(v[1], 64)
+				GetSteamName(v[1], function(n)
+					if (IsValid(op)) then op:SetTooltip(n) end
 				end)
 			else
 				op:SetTooltip("Empty!")
@@ -3940,21 +3972,15 @@ function m_DrawVersusPanel()
 				winner:Dock(RIGHT)
 				winner:SetSteamID(k,64)
 				gversus_players[k][5] = winner
-				local s = true
-				timer.Create("versus_winner:" .. k,0.25,0,function()
-					if not gversus_players[k] then return end
-					if not gversus_players[k][1] then return end
-					if gversus_players[k][4] then
+				local sh, sid = true, k
+				timer.Create("versus_winner:" .. sid,0.25,0,function()
+					if (not (IsValid(winner) and gversus_players[k] and gversus_players[k][1])) or (gversus_players[k][4]) then
+						timer.Remove("versus_winner:" .. sid)
 						return
 					end
-					if not IsValid(winner) then return end
-					if s then
-						winner:SetSteamID(v[1],64)
-						s = false
-					else
-						winner:SetSteamID(k,64)
-						s = true
-					end
+
+					winner:SetSteamID(s and v[1] or k, 64)
+					sh = not sh
 				end)
 			end
 
@@ -3975,8 +4001,10 @@ function m_DrawVersusPanel()
 					local c = Color(255,255,255)
 					if gversus_players[k][4] then
 						c = HSVToColor((SysTime()*100)%360,0.65,0.9)
-						--print(versus_players[k][4])
-						winner:SetSteamID(gversus_players[k][4],64)
+						if (IsValid(winner) and not winner.setwinner) then
+							winner:SetSteamID(gversus_players[k][4], 64)
+							winner.setwinner = true
+						end
 					end
 					draw.SimpleText("WINNER:", "moat_VersusWinner", 325, h - (h/3), c,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 				end
@@ -3994,6 +4022,8 @@ function m_DrawVersusPanel()
 
 		for k,v in pairs(table.Reverse(versus_oldgames)) do
 			if k > 10 then return end
+			if (not (v[1] and v[2] and v[3] and v[4] and v[5])) then continue end
+
 			local a = vgui.Create("DPanel",game_actual)
 			a:SetSize(0,50)
 			a:DockMargin(0,0,0,5)
@@ -4041,111 +4071,6 @@ function m_DrawVersusPanel()
 
 	end
 	versus_buildlist()
-
-	net.Receive("gversus.CreateGame",function()
-		local ply = net.ReadString()
-		local amt = net.ReadFloat()
-		gversus_players[ply] = {nil,amt}
-		versus_buildlist()
-	end)
-
-	net.Receive("gversus.JoinGame",function()
-		local ply = net.ReadString()
-		local j = net.ReadString()
-		if not gversus_players[ply] then return end
-		gversus_players[ply][1] = j
-		gversus_players[ply][3] = CurTime() + versus_wait
-		versus_buildlist()
-	end)
-
-	net.Receive("gversus.FinishGame",function()
-		local ply = net.ReadString()
-		local win = net.ReadString()
-		if not gversus_players[ply] then return end
-		gversus_players[ply][4] = win
-		local plyname = "forsenE"
-		local winname = "forsenE"
-		
-		steamworks.RequestPlayerInfo(ply, function()
-			plyname = steamworks.GetPlayerName(ply)
-		end)
-		if not gversus_players[ply][1] then 
-			gversus_players[ply] = nil
-			return 
-		end
-		steamworks.RequestPlayerInfo(gversus_players[ply][1], function()
-			if not gversus_players[ply] then return end
-			winname = steamworks.GetPlayerName(gversus_players[ply][1])
-		end)
-
-		timer.Simple(3,function()
-			local ss = false
-			if win == ply then ss = true end
-			table.insert(versus_oldgames,{
-				ply,
-				gversus_players[ply][1],
-				gversus_players[ply][2],
-				plyname,
-				winname,
-				ss
-			})
-			gversus_players[ply] = nil
-			versus_buildlist()
-		end)
-	end)
-
-	net.Receive("versus.Cancel",function()
-		versus_players[net.ReadEntity()] = nil
-		versus_buildlist()
-	end)
-
-	net.Receive("gversus.Cancel",function()
-		gversus_players[net.ReadString()] = nil
-		versus_buildlist()
-	end)
-	net.Receive("versus.CreateGame",function()
-		local ply = net.ReadEntity()
-		local amt = net.ReadFloat()
-		versus_players[ply] = {nil,amt}
-		versus_buildlist()
-	end)
-
-	net.Receive("versus.JoinGame",function()
-		local ply = net.ReadEntity()
-		local j = net.ReadEntity()
-		if not versus_players[ply] then return end
-		versus_players[ply][1] = j
-		versus_players[ply][3] = CurTime() + versus_wait
-		--PrintTable(versus_players)
-		versus_buildlist()
-	end)
-
-	net.Receive("versus.FinishGame",function()
-		local ply = net.ReadEntity()
-		local win = net.ReadEntity()
-		if not versus_players[ply] then return end
-		if not versus_players[ply][1] then return end
-		versus_players[ply][4] = win
-		timer.Simple(3,function()
-			if (ply == LocalPlayer()) or (win == LocalPlayer()) then
-				inGame = false
-			end
-			local ss = false
-			if win == ply then ss = true end
-			local sid = ply:SteamID64()--s--s12321321312312d
-			if ply:IsBot() then sid = "76561198053381832" end
-			table.insert(versus_oldgames,{
-				sid,
-				versus_players[ply][1]:SteamID64(),
-				versus_players[ply][2],
-				ply:Nick(),
-				versus_players[ply][1]:Nick(),
-				ss
-			})
-			versus_players[ply] = nil
-			versus_buildlist()
-		end)
-	end)
 
 	local make_game = vgui.Create("DButton", MOAT_GAMBLE_VS)
 	make_game:SetPos(348,5)
