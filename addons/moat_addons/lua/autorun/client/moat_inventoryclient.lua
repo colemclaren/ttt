@@ -2086,23 +2086,23 @@ function m_OpenInventory(ply2, utrade)
         moat_RemoveEditPositionPanel()
 
         if (cat == 3) then
-            if (trading) then
+            if (trading and IsValid(MOAT_TRADE_BG)) then
                 local inv_x, inv_y = MOAT_INV_BG:GetPos()
                 MOAT_TRADE_BG:MoveTo(inv_x + 5, inv_y + 30, anim_time, anim_time, -1)
                 MOAT_TRADE_BG:AlphaTo(255, anim_time, anim_time)
                 MOAT_TRADE_BG:MakePopup()
-            else
+            elseif (not trading) then
                 M_TRADING_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
                 M_TRADING_PNL:AlphaTo(255, anim_time, anim_time)
                 M_TRADE_PLYS:RebuildList()
             end
         else
-            if (trading) then
+            if (trading and IsValid(MOAT_TRADE_BG)) then
                 local inv_x, inv_y = MOAT_INV_BG:GetPos()
                 MOAT_TRADE_BG:MoveTo(inv_x - MOAT_TRADE_BG:GetWide() - 5, inv_y + 30, anim_time, 0, -1)
                 MOAT_TRADE_BG:AlphaTo(0, anim_time, anim_time)
                 MOAT_TRADE_BG:MakePopup()
-            else
+            elseif (not trading) then
                 if (IsValid(M_TRADING_PNL)) then
                     M_TRADING_PNL:MoveTo(-M_TRADING_PNL:GetWide(), 0, anim_time, 0, -1)
                     M_TRADING_PNL:AlphaTo(0, anim_time)
