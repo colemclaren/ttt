@@ -5717,11 +5717,12 @@ net.Receive("MOAT_SEND_TRADE_REQ", function(len)
 
                 for k2, v2 in ipairs(M_TRADE_PLYTBL) do
                     if (v2 ~= v) then
+						if (not IsValid(v2)) then continue end
                         v2:AlphaTo(0, 0.1)
                         v2:SizeTo(0, 0, 0.2, 0)
 
                         timer.Simple(0.3, function()
-                            v2:Remove()
+							if (IsValid(v2)) then v2:Remove() end
                         end)
                     end
                 end
