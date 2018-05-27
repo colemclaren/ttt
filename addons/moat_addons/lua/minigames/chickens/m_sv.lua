@@ -176,8 +176,10 @@ end
 function MG_CM.RespawnPlayer(ply)
     if (not ply:IsValid()) then return end
 
-    timer.Create("respawn_player"..ply:EntIndex(), 0.1, 0, function()
-        if (not ply:IsValid()) then return end
+	local indx = ply:EntIndex()
+    timer.Create("respawn_player"..indx, 0.1, 0, function()
+        if (not IsValid(ply)) then timer.Remove("respawn_player"..indx) return end
+		if (MG_CM.ChickensOver) then timer.Remove("respawn_player"..indx) return end
 
         local corpse = MG_CM.FindCorpse(ply)
         if (corpse) then 
@@ -187,7 +189,7 @@ function MG_CM.RespawnPlayer(ply)
         ply:SpawnForRound(true)
         ply:SetRole(ROLE_INNOCENT)
 
-        if (ply:IsActive()) then timer.Destroy("respawn_player"..ply:EntIndex()) return end
+        if (ply:IsActive()) then timer.Remove("respawn_player"..indx) return end
     end)
 end
 

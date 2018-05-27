@@ -773,10 +773,9 @@ function jackpot_()
     versus_curgames = {}
     versus_knowngames = {}
 
-    function versus_creategame(ply,am,fun)
-        local q = db:query("INSERT INTO moat_versus (steamid, money) VALUES ('" .. ply:SteamID64() .. "','" .. am .. "');")
+    function versus_creategame(id,am,fun)
+        local q = db:query("INSERT INTO moat_versus (steamid, money) VALUES ('" .. id .. "','" .. am .. "');")
         function q:onSuccess(d)
-            removeIC(ply,am)
             fun()
         end
         q:start()
@@ -902,11 +901,18 @@ function jackpot_()
         return end
         local amount = math.floor(net.ReadFloat())
         if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
-        versus_creategame(ply,amount,function()
-            if not IsValid(ply) then return end
-            versus_curgames[ply:SteamID64()] = amount
+		local id = ply:SteamID64()
+        versus_creategame(id, amount, function()
+            if (not IsValid(ply)) then
+				local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
+            	q:start()
+				return
+			end
+
+			removeIC(ply, amount)
+            versus_curgames[id] = amount
             net.Start("gversus.CreateGame")
-            net.WriteString(ply:SteamID64())
+            net.WriteString(id)
             net.WriteFloat(amount)
             net.Broadcast()
         end)
@@ -936,6 +942,8 @@ function jackpot_()
             function q:onSuccess(d)
                 if #d < 1 then return end
                 if not IsValid(v) then return end
+				if (not MOAT_INVS[v] or not MOAT_INVS[v]["credits"]) then return end
+				
                 for i,o in pairs(d) do
                     addIC(v,o.money)
                     m_AddGambleChatPlayer(v, Color(0, 255, 0), "You won " .. string.Comma(o.money) .. " IC in versus!")

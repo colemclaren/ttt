@@ -149,9 +149,12 @@ end
 
 function MG_FFA.RespawnPlayer(ply)
     if (not ply:IsValid()) then return end
-    timer.Create("respawn_player"..ply:EntIndex(), 0.1, 0, function()
-        if (not ply:IsValid()) then return end
-        --hook.Add("Move","CheckPlayerRespawn"..ply:EntIndex())
+
+	local indx = ply:EntIndex()
+    timer.Create("respawn_player"..indx, 0.1, 0, function()
+        if (not IsValid(ply)) then timer.Remove("respawn_player"..indx) return end
+		if (not MG_FFA.InProgress) then timer.Remove("respawn_player"..indx) return end
+
         local corpse = MG_FFA.FindCorpse(ply)
         if (corpse) then 
             MG_FFA.RemoveCorpse(corpse)
@@ -160,7 +163,8 @@ function MG_FFA.RespawnPlayer(ply)
             ply:SpawnForRound(true)
             ply:SetRole(ROLE_INNOCENT)
         end
-        if (ply:IsActive()) then timer.Destroy("respawn_player"..ply:EntIndex()) return end
+
+        if (ply:IsActive()) then timer.Remove("respawn_player"..indx) return end
     end)
 end
 local item_kind_codes = {
