@@ -69,7 +69,7 @@ end
 function data:Query(q, succ, err)
     local dbq = self.mysqloo:query(q)
     if (succ) then dbq.onSuccess = function(s, d) succ(d, s) end end
-    if (err) then dbq.onError = err end
+    if (err) then dbq.onError = function(self, ...) err(...) end end
     dbq:start()
 end
 

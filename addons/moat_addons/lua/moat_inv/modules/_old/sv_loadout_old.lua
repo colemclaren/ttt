@@ -644,20 +644,17 @@ local function NetworkOtherWeapon(wep)
     if (GetRoundState() == ROUND_ACTIVE) then tbl.net = true end
 
     for _, ply in pairs(player.GetAll()) do
-        m_WriteWeaponsToPlayer(ply, {v}, function()
+        m_WriteWeaponsToPlayer(ply, {wep.ItemStats}, function()
             net.Start("MOAT_UPDATE_OTHER_WEP")
-                net.WriteUInt(v3:EntIndex(), 16)
-
-                v.item = m_GetItemFromEnum(v.u)
-
-                net.WriteUInt(tbl.info.c, 32)
+                net.WriteUInt(wep:EntIndex(), 16)
+                net.WriteUInt(wep.ItemStats.c, 32)
             net.Send(ply)
         end)
     end
 end
 
 function NetworkWeaponStats(wep)
-    if (not IsValid(wep)) then return end
+    if (not IsValid(wep) or not wep.ItemStats) then return end
 
     if (loadout_other_indexes[wep:EntIndex()]) then NetworkOtherWeapon(wep) end
     if (loadout_weapon_indexes[wep:EntIndex()]) then NetworkRegularWeapon(wep) end

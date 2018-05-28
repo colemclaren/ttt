@@ -162,6 +162,13 @@ function MOAT_INV:Blank()
     return blank
 end
 
+local function UpdateStat(self, statid, val)
+    local query = MOAT_INV:CreateQuery("REPLACE INTO mg_itemstats (value, statid, weaponid) VALUES (?, ?, ?);", val, statid, self.c)
+    MOAT_INV:SQLQuery(query, function()
+        print("saved stat for ", self)
+    end)
+end
+
 function MOAT_INV:ParseInventoryQuery(d, q)
     local inv = {["cache"] = {}}
 
@@ -187,6 +194,10 @@ function MOAT_INV:ParseInventoryQuery(d, q)
         q:getNextResults()
     end
     inv["cache"] = nil
+
+    for id, wep in pairs(inv) do
+        wep.UpdateStat = UpdateStat
+    end
 
     return inv
 end
