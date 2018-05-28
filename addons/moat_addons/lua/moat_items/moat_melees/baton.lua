@@ -3,7 +3,7 @@ ITEM.ID = 207
 
 ITEM.Name = "A Baton"
 
-ITEM.Image = "moat_inv/moat_baton.png" 
+ITEM.Image = "https://moat.gg/assets/img/moat_baton.png" 
 
 ITEM.WeaponClass = "weapon_ttt_baton"
 

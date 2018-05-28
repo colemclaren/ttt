@@ -7,7 +7,7 @@ ITEM.NameColor = Color( 0, 204, 0 )
 
 ITEM.Description = "Health is increased by +%s_ when using this power-up"
 
-ITEM.Image = "moat_inv/smithhealicon.png" 
+ITEM.Image = "https://moat.gg/assets/img/smithhealicon.png" 
 
 ITEM.Rarity = 4
 

@@ -7,7 +7,7 @@ ITEM.WeaponClass = "weapon_ttt_fists"
 
 ITEM.Rarity = 3
 
-ITEM.Image = "moat_inv/moat_fists.png"
+ITEM.Image = "https://moat.gg/assets/img/moat_fists.png"
 
 ITEM.Collection = "Spring Collection"
 

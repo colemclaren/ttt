@@ -170,6 +170,7 @@ concommand.Add("inspect", function()
 		return
 	end
 
+	if (not IsValid(LocalPlayer())) then return end
 	local wep = LocalPlayer():GetActiveWeapon()
 	if (not IsValid(wep) or not wep.ItemStats or not wep.ItemStats.item) then return end
 

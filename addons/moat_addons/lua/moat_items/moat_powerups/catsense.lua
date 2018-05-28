@@ -7,7 +7,7 @@ ITEM.NameColor = Color( 139, 0, 166 )
 
 ITEM.Description = "Fall damage is reduced by %s_ when using this power-up"
 
-ITEM.Image = "moat_inv/smithfallicon.png" 
+ITEM.Image = "https://moat.gg/assets/img/smithfallicon.png" 
 
 ITEM.Rarity = 2
 

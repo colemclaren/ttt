@@ -30,7 +30,7 @@ end
 
 function ENT:PhysicsCollide(data)
     timer.Simple(0.05, function()
-        if ((not self) or (self.Spawning)) then return end
+        if (not IsValid(self) or self.Spawning) then return end
         self.Spawning = true
 
         local pos = data.HitPos

@@ -7,7 +7,7 @@ ITEM.NameColor = Color( 255, 102, 0 )
 
 ITEM.Description = "Spawn with +%s_ more ammo in your reserves"
 
-ITEM.Image = "moat_inv/smithammoicon.png" 
+ITEM.Image = "https://moat.gg/assets/img/smithammoicon.png" 
 
 ITEM.Rarity = 4
 

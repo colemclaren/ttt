@@ -39,11 +39,15 @@ function m_CreatePaints()
         --tbl.NameColor = Color(MOAT_PAINT.Colors[i][2][1], MOAT_PAINT.Colors[i][2][2], MOAT_PAINT.Colors[i][2][3])
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 1
-        tbl.Image = "moat_inv/tint64.png"
+        tbl.Image = "https://moat.gg/assets/img/tint64.png"
         tbl.ItemCheck = 11
         function tbl:ItemUsed(pl, slot, item)
             m_TintItem(pl, slot, item, self.ID)
         end
+
+		if (tbl.Name and tbl.Name == "Pure White Tint") then
+			tbl.NotDroppable = true
+		end
 
         m_AddDroppableItem(tbl, "Usable")
 
@@ -60,7 +64,7 @@ function m_CreatePaints()
         --tbl.NameColor = Color(MOAT_PAINT.Colors[i][2][1], MOAT_PAINT.Colors[i][2][2], MOAT_PAINT.Colors[i][2][3])
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 2
-        tbl.Image = "moat_inv/paint64.png"
+        tbl.Image = "https://moat.gg/assets/img/paint64.png"
         tbl.ItemCheck = 10
         function tbl:ItemUsed(pl, slot, item)
             m_PaintItem(pl, slot, item, self.ID)
@@ -81,7 +85,7 @@ function m_CreatePaints()
         --tbl.NameColor = Color(MOAT_PAINT.Colors[i][2][1], MOAT_PAINT.Colors[i][2][2], MOAT_PAINT.Colors[i][2][3])
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 2
-        tbl.Image = "moat_inv/texture64.png"
+        tbl.Image = "https://moat.gg/assets/img/texture64.png"
         tbl.ItemCheck = 12
         function tbl:ItemUsed(pl, slot, item)
             m_TextureItem(pl, slot, item, self.ID)
@@ -221,7 +225,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
     if (not item_name_chosen) then
         for k, v in pairs(drop_table) do
             if (v.Rarity == chosen_rarity and (drop_cosmetics == nil or (((not drop_cosmetics[1] and not COSMETIC_TYPES[v.Kind]) or drop_cosmetics[1]) and ((not drop_cosmetics[2] and (v.ID < 6001 or v.ID > 6500)) or drop_cosmetics[2])))) then
-                if (v.Collection == "Holiday Collection") then continue end
+                if (v.Collection == "Holiday Collection" or v.NotDroppable) then continue end
                 
                 table.insert(items_to_drop, v)
             end
@@ -491,7 +495,7 @@ function m_GetRandomInventoryItem(arg_collection)
         items_to_drop = cached_itemstodrop[arg_collection]
     elseif (arg_collection ~= "50/50 Collection") then
         for k, v in pairs(drop_table) do
-            if (v.Collection == arg_collection) then
+            if (v.Collection == arg_collection and not v.NotDroppable) then
                 table.insert(items_to_drop, v)
             end
         end
@@ -536,7 +540,7 @@ function m_GetRandomInventoryItem(arg_collection)
             items_from_collection = cached_items[arg_collection][rarity_chosen]
         else
             for k, v in pairs(drop_table) do
-                if (v.Rarity == rarity_chosen and v.Kind ~= "Crate" and not COSMETIC_TYPES[v.Kind] and v.Collection ~= "Holiday Collection") then
+                if (v.Rarity == rarity_chosen and v.Kind ~= "Crate" and not COSMETIC_TYPES[v.Kind] and v.Collection ~= "Holiday Collection" and not v.NotDroppable) then
                     table.insert(items_from_collection, v)
                 end
             end

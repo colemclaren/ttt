@@ -78,12 +78,27 @@ end)
     config for rounds, pretty self explanitory.
 ]]
 moat_random.register("Blink","Everyone spawns with blink!",{
+    ["NOW"] = function()
+        for k, v in ipairs(player.GetAll()) do
+			if (v:Team() == TEAM_SPEC) then continue end
+
+			v:Give("weapon_vadim_blink")
+			v:SelectWeapon("weapon_vadim_blink")
+        end
+    end,
     ["TTTBeginRound"] = function()
-        timer.Simple(1,function()
-            for k,v in pairs(player.GetAll()) do
-                v:Give("weapon_vadim_blink")
-            end
-        end)
+        for k, v in ipairs(player.GetAll()) do
+			if (v:Team() == TEAM_SPEC) then continue end
+			local spn = v.JustSpawned
+
+			timer.Simple(spn and 2 or 0, function()
+				if (not IsValid(v) or v:Team() == TEAM_SPEC) then return end
+				if (v:HasWeapon("weapon_vadim_blink") and not spn) then return end
+
+				v:Give("weapon_vadim_blink")
+				v:SelectWeapon("weapon_vadim_blink")
+			end)
+        end
     end
 })
 
@@ -157,26 +172,66 @@ moat_random.register("Headshot","You can only deal damage through headshots!",{
 
 --weapon_ttt_golden_deagle
 
+local DeafultLoadout = {
+    ["weapon_ttt_unarmed"] = true,
+    ["weapon_zm_improvised"] = true,
+    ["weapon_zm_carry"] = true
+}
+
 moat_random.register("Golden Deagle","You can only use the golden deagle!",{
     ["NOW"] = function()
-        for k,v in pairs(ents.GetAll()) do
-            if v:IsWeapon() then SafeRemoveEntity(v) end
+        for k, v in piairs(ents.GetAll()) do
+			if (not IsValid(v) or not v:GetClass():StartWith("weapon_")) then continue end
+			if (DeafultLoadout[v:GetClass()] or v.Kind == WEAPON_UNARMED) then continue end
+
+			v:Remove()
+        end
+
+        for k, v in ipairs(player.GetAll()) do
+			if (v:Team() == TEAM_SPEC) then continue end
+            v:StripWeapons()
+
+			v:Give("weapon_ttt_golden_deagle")
+            v:GiveAmmo(9999, "AlyxGun", true)
+			v:SelectWeapon("weapon_ttt_golden_deagle")
         end
     end,
     ["MoatInventoryShouldGiveLoadout"] = function()
         return true
     end,
     ["TTTBeginRound"] = function()
-        for k,v in pairs(player.GetAll()) do
-            v:StripWeapons()
-            timer.Simple(1,function()
-                if not IsValid(v) then return end
-                if not v:Alive() then return end
-                v:Give("weapon_ttt_golden_deagle")
-                v:GiveAmmo(99999,"AlyxGun",true)
-            end)
+        for k, v in ipairs(ents.GetAll()) do
+			if (not IsValid(v) or not v:GetClass():StartWith("weapon_")) then continue end
+			if (DeafultLoadout[v:GetClass()] or v.Kind == WEAPON_UNARMED) then continue end
+
+			v:Remove()
         end
-    end 
+
+        for k, v in ipairs(player.GetAll()) do
+			if (v:Team() == TEAM_SPEC) then continue end
+			local spn = v.JustSpawned
+
+			timer.Simple(spn and 2 or 0, function()
+				if (not IsValid(v) or v:Team() == TEAM_SPEC) then return end
+				if (v:HasWeapon("weapon_ttt_golden_deagle") and not spn) then return end
+				v:StripWeapons()
+
+				v:Give("weapon_ttt_golden_deagle")
+                v:GiveAmmo(9999,"AlyxGun", true)
+				v:SelectWeapon("weapon_ttt_golden_deagle")
+			end)
+        end
+
+		-- just in case
+		timer.Simple(3, function()
+			for k, v in ipairs(ents.GetAll()) do
+				if (not IsValid(v) or not v:GetClass():StartWith("weapon_")) then continue end
+				if (DeafultLoadout[v:GetClass()] or v.Kind == WEAPON_UNARMED) then continue end
+
+				v:Remove()
+        	end
+		end)
+    end
 })
 
 moat_random.register("Inverted","Your movement is inverted!",{

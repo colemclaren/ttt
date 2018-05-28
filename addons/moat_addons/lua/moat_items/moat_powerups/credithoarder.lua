@@ -7,7 +7,7 @@ ITEM.NameColor = Color( 255, 255, 0 )
 
 ITEM.Description = "Start with %s extra credits as a detective/traitor when using this powerup"
 
-ITEM.Image = "moat_inv/cred_powerup64.png"
+ITEM.Image = "https://moat.gg/assets/img/cred_powerup64.png"
 
 ITEM.Rarity = 4
 

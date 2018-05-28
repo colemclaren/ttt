@@ -6,7 +6,7 @@ ITEM.NameColor = Color( 255, 60, 0 )
 
 ITEM.Description = "Fire and explosion damage is reduced by %s_ when using this powerup"
 
-ITEM.Image = "moat_inv/flame_powerup64.png" 
+ITEM.Image = "https://moat.gg/assets/img/flame_powerup64.png" 
 
 ITEM.Rarity = 3
 

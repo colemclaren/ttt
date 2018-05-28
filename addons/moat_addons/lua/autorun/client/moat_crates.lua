@@ -455,7 +455,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         end
     end
 
-    if (not custom_preview) then MOAT_ITEM_PREVIEW:Remove() end
+    if (not custom_preview and IsValid(MOAT_CRATE_PREVIEW)) then MOAT_ITEM_PREVIEW:Remove() end
 
     local MOAT_CRATE_PREVIEW = vgui.Create("MoatModelIcon", MOAT_CRATE_FRAME)
     MOAT_CRATE_PREVIEW:SetModel("models/props_borealis/bluebarrel001.mdl")
@@ -488,7 +488,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         end
     end
 
-    if (custom_preview) then MOAT_CRATE_PREVIEW:Remove() end
+    if (custom_preview and IsValid(MOAT_CRATE_PREVIEW)) then MOAT_CRATE_PREVIEW:Remove() end
 
     local function IsHovering(self, w, h, x, y)
 
@@ -538,7 +538,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         end
 
         M_ITEM.OnCursorEntered = function(s)
-            if (not custom_preview) then
+            if (not custom_preview and IsValid(MOAT_CRATE_PREVIEW)) then
                 if (s.Item.Model) then
                     MOAT_CRATE_PREVIEW.Mdl = {mdl = s.Item.Model, skn = s.Item.Skin or nil}
                 end
@@ -555,7 +555,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
             end
         end
         M_ITEM.OnCursorExited = function(s)
-            if (not custom_preview) then
+            if (not custom_preview and IsValid(MOAT_CRATE_PREVIEW)) then
                 MOAT_CRATE_PREVIEW.Mdl = {}
                 return
             end

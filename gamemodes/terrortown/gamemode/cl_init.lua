@@ -629,10 +629,11 @@ function GM:CalcView( ply, origin, angles, fov )
         		view.fov = 175
     		end
 		end
-		
+
         if func then
-            view.origin, view.angles, view.fov, view.drawviewer = func(wep, ply, origin * 1, angles * 1, view.fov)
-        end
+            local o, a, f, d = func(wep, ply, origin * 1, angles * 1, view.fov)
+			if (o) then view.origin, view.angles, view.fov, view.drawviewer = o, a, f, d end
+		end
     elseif (not cur_random_round) or (cur_random_round and cur_random_round ~= "High FOV") then
 		view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
     	if view.fov > 175 then
