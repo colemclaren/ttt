@@ -303,7 +303,7 @@ end
 
 function m_UpdateItemLevel(weapon_tbl, attacker, exp_to_add)
     local unique_item_id = weapon_tbl.UniqueItemID
-    local inv_item = nil
+    local inv_item
 
     for i = 1, 10 do
         if (MOAT_INVS[attacker]["l_slot" .. i] and MOAT_INVS[attacker]["l_slot" .. i].c) then
@@ -360,7 +360,7 @@ XP_MULTIPYER = 2
 
 hook.Add("PlayerDeath", "moat_updateWeaponLevels", function(victim, inflictor, attacker)
     if (not attacker:IsValid() or not attacker:IsPlayer() or MOAT_MINIGAME_OCCURING) then return end
-    local wep_used = attacker:GetActiveWeapon()
+    local wep_used = inflictor
     if (IsValid(inflictor) and (inflictor.MaxHoldTime or inflictor.UniqueItemID)) then wep_used = inflictor end
 
     if (wep_used.Talents and wep_used.PrimaryOwner == attacker) then

@@ -2,10 +2,13 @@ util.AddNetworkString "MOAT_INV.SendStats"
 
 function MOAT_INV:NetworkStats(pl, to)
 	net.Start "MOAT_INV.SendStats"
+
 		net.WriteEntity(pl)
-		for i = 1, self.Stats.n do
-			net.WriteUInt(self.Stats[i][pl], 32)
+		for statid, statdata in pairs(self.Stats) do
+			net.WriteByte(statid:byte(1, 1))
+			net.WriteUInt(statdata.ply_data[pl], 32)
 		end
+		net.WriteByte(0)
 
 	return to and net.Send(to) or net.Broadcast()
 end

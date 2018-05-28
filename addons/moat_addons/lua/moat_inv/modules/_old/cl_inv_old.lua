@@ -5833,7 +5833,7 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
     local item_lvl = net.ReadDouble()
     local item_exp = net.ReadDouble()
     local old_level = 0
-    local item_tbl = {}
+    local item_tbl
 
     for i = 1, LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
         if (m_Inventory[i] and m_Inventory[i].c and m_Inventory[i].c == item_id) then

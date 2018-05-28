@@ -1,84 +1,79 @@
 local PLAYER = FindMetaTable "Player"
+if (SERVER) then
+	util.AddNetworkString "MOAT_INV.Stats.Dispatch"
+end
+
 MOAT_INV.Stats = MOAT_INV.Stats or {}
-MOAT_INV.Stats.n = 0
 
-function MOAT_INV:RegisterStat(id, name, def)
-	MOAT_INV.Stats.n = MOAT_INV.Stats.n + 1
-	local pls, char = {}, MOAT_INV.Stats.n
-	local netid = "MOAT_INV.Stats." .. char
-	local smt = {
-		__index = function(s, k)
-			if (pls[k]) then return pls[k] end
+net.Receive("MOAT_INV.Stats.Dispatch", function(_, p)
+	local pl = net.ReadEntity()
+	local chr = string.char(net.ReadByte())
+	if (not MOAT_INV.Stats[chr]) then
+		p:Kick("No "..chr)
+	end
+	local name = MOAT_INV.Stats[chr].name
+	if (SERVER) then
+		if (not IsValid(pl)) then return end
 
-			if (CLIENT and IsValid(k)) then
-				pls[k] = s["default"]
-				net.Start(netid)
-					net.WriteEntity(k)
-				net.SendToServer()
+		net.Start "MOAT_INV.Stats.Dispatch"
+			net.WriteEntity(pl)
+			net.WriteUInt(pl["Get" .. name](), 32)
+		net.Send(p)
+	else
+		if (not IsValid(pl)) then return end
+		pl["Set" .. name](net.ReadUInt(32))
+	end
+end)
+
+function MOAT_INV:RegisterStat(char, name, def)
+	self.Stats[char] = self.Stats[char] or {
+		name = name,
+		ply_data = setmetatable({},	{
+			__index = function(self, k)
+				if (CLIENT) then
+					net.Start "MOAT_INV.Stats.Dispatch"
+						net.WriteEntity(k)
+						net.WriteByte(char:byte(1, 1))
+					net.SendToServer()
+				end
+				rawset(self, k, def or 0)
+				return self[k]
 			end
-
-			return s["default"]
-		end,
-		__newindex = function(s, k, v)
-			pls[k] = math.max(0, math.floor(v))
-		end
+		})
 	}
 
-	self.Stats[char] = {
-		["default"] = def or 0,
-		["char"] = id
-	}
+	local pls = self.Stats[char].ply_data
+
 	setmetatable(self.Stats[char], smt)
 
 	PLAYER["Get" .. name] = function(s)
-		return self.Stats[char][s]
+		return pls[s]
 	end
 	PLAYER["Set" .. name] = function(s, n)
-		self.Stats[char][s] = n
+		pls[s] = n
 
 		if (SERVER) then
-			self:SaveStat(s, id, self.Stats[char][s], function()
-				net.Start(netid)
+			self:SaveStat(s, char, self.Stats[char][s], function()
+				net.Start "MOAT_INV.Stats.Dispatch"
 					net.WriteEntity(s)
-					net.WriteUInt(s["Get" .. name](), 32)
+					net.WriteByte(char:byte(1, 1))
+					net.WriteUInt(s["Get" .. name](s), 32)
 				net.Broadcast()
 			end)
 		end
 	end
 	PLAYER["Add" .. name] = function(s, n)
-		n = n or 1
-		s["Set" .. name](s["Get" .. name]() + n)
+		s["Set" .. name](s, s["Get" .. name](s) + (n or 1))
 	end
 	PLAYER["Take" .. name] = function(s, n)
-		n = n or 1
-		s["Set" .. name](s["Get" .. name]() - n)
+		s["Set" .. name](s, s["Get" .. name](s) - (n or 1))
 	end
 	PLAYER["Has" .. name] = function(s, n)
-		return s["Get" .. name]() <= n
+		return s["Get" .. name](s) <= n
 	end
-	PLAYER["SetStat" .. id] = function(s, n)
-		self.Stats[char][s] = n
+	PLAYER["SetStat" .. char] = function(s, n)
+		pls[s] = n
 	end
-
-	if (SERVER) then
-		util.AddNetworkString(netid)
-		net.Receive(netid, function(_, p)
-			local pl = net.ReadEntity()
-			if (not IsValid(pl)) then return end
-
-			net.Start(netid)
-				net.WriteEntity(pl)
-				net.WriteUInt(pl["Get" .. name](), 32)
-			net.Send(p)
-		end)
-		return
-	end
-
-	net.Receive(netid, function()
-		local pl = net.ReadEntity()
-		if (not IsValid(pl)) then return end
-		pl["Set" .. name] = net.ReadUInt(32)
-	end)
 end
 
 MOAT_INV:RegisterStat("k", "Kills")
