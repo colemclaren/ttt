@@ -26,13 +26,20 @@ net.Receive("RAM_MapVoteUpdate", function(len, ply)
         end
     end
 end)
-
+/*
 if file.Exists( "mapvote/recentmaps.txt", "DATA" ) then
     recentmaps = util.JSONToTable(file.Read("mapvote/recentmaps.txt", "DATA"))
 else
     recentmaps = {}
 end
 recentmaps = {}
+*/
+
+local minutes = 70 -- Cooldown
+
+sql.Begin()
+sql.Query("CREATE TABLE IF NOT EXISTS `moat_mapcool` ( `map` STRING NOT NULL, `time_played` INT NOT NULL );")
+sql.Commit()
 
 if file.Exists( "mapvote/config.txt", "DATA" ) then
     MapVote.Config = util.JSONToTable(file.Read("mapvote/config.txt", "DATA"))
@@ -174,8 +181,6 @@ function MapVote.Start(length, current, limit, prefix, callback)
 
     hook.Run("MapVoteStarted")
 
-    ServerLog("mapvote1")
-
     local is_expression = false
 
     if not prefix then
@@ -207,12 +212,12 @@ function MapVote.Start(length, current, limit, prefix, callback)
         end
     end
 
-    ServerLog("mapvote2")
+    sql.Query("DELETE FROM `moat_mapcool` WHERE time_played < '" .. (os.time() - (minutes * 60)) .. "';")
 
     for k, map in RandomPairs(maps) do
         local mapstr = map:sub(1, -5):lower()
+        if sql.QueryRow("SELECT * FROM moat_mapcool WHERE map = " .. sql.SQLStr(mapstr) .. ";") then continue end
         if(not current and game.GetMap():lower()..".bsp" == map) then continue end
-        if(cooldown and table.HasValue(recentmaps, map)) then continue end
         if (table.HasValue(vote_maps, mapstr)) then continue end
 
 
@@ -240,8 +245,6 @@ function MapVote.Start(length, current, limit, prefix, callback)
         net.Broadcast()
     end)
 
-    ServerLog("mapvote3")
-    
     net.Start("RAM_MapVoteStart")
         net.WriteUInt(#vote_maps, 32)
         
@@ -256,13 +259,10 @@ function MapVote.Start(length, current, limit, prefix, callback)
     MapVote.CurrentMaps = vote_maps
     MapVote.Votes = {}
     
-    ServerLog("mapvote4")
 
     timer.Create("RAM_MapVote", length, 1, function()
         MapVote.Allow = false
         local map_results = {}
-
-        ServerLog("mapvote5")
         
         for k, v in pairs(MapVote.Votes) do
             if(not map_results[v]) then
@@ -271,8 +271,8 @@ function MapVote.Start(length, current, limit, prefix, callback)
             
             for k2, v2 in pairs(player.GetAll()) do
                 if(v2:SteamID() == k) then
-                    if(MapVote.HasExtraVotePower(v2)) then
-                        map_results[v] = map_results[v] + 2
+                    if(v2:GetUserGroup() ~= "user") then
+                        map_results[v] = map_results[v] + 1
                     else
                         map_results[v] = map_results[v] + 1
                     end
@@ -280,8 +280,6 @@ function MapVote.Start(length, current, limit, prefix, callback)
             end
             
         end
-
-        ServerLog("mapvote6")
         
         CoolDownDoStuff()
 
@@ -295,20 +293,18 @@ function MapVote.Start(length, current, limit, prefix, callback)
         
         local map = MapVote.CurrentMaps[winner]
 
-        ServerLog("mapvote7")
         
         timer.Simple(4, function()
-        	ServerLog("mapvote8")
+
 
             if (hook.Run("MapVoteChange", map) != false) then
-            	ServerLog("mapvote      9")
 
                 if (callback) then
-                	ServerLog("mapvote10")
                     callback(map)
                 else
-                	ServerLog("mapvote11")
-                	ServerLog(map)
+
+                    sql.Query("INSERT INTO `moat_mapcool` (map, time_played) VALUES (" .. sql.SQLStr(game.GetMap():lower()) .. ",'" .. os.time() .. "');")
+
                     local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. map .. "`"
 	                SVDiscordRelay.SendToDiscordRaw("Map bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
                     RunConsoleCommand("changelevel", map)

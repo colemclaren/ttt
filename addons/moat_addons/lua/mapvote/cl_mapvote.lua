@@ -76,15 +76,30 @@ hook.Add("OnPlayerChat", "Moat.Mapvote.Reopen", function(pl, txt)
     end
 end)
 
+local function vote_user(ply)
+    --if ply:GetUserGroup() == "user" then
+        return Material("icon16/tick.png"),Color(255,255,255),10,Color(255,255,0)
+    /*else
+        return Material("icon16/star.png"),Color(255,255,0),15,Color(255,255,0)
+    end*/
+end
+
 net.Receive("RAM_MapVoteUpdate", function()
     local update_type = net.ReadUInt(3)
     
     if(update_type == MapVote.UPDATE_VOTE) then
         local ply = net.ReadEntity()
-        
+
         if(IsValid(ply)) then
             local map_id = net.ReadUInt(32)
-            MapVote.Votes[ply:SteamID()] = map_id
+            if MapVote.Votes[ply:SteamID()] then
+                if MapVote.Votes[ply:SteamID()][1] == map_id then return end
+            end
+            local mat,name_color,am,am_color = vote_user(ply)
+
+            chat.AddText(mat,name_color,ply:Nick(),Color(255,255,255)," placed ",am_color, tostring(am),Color(255,255,255), " votes on ", Color(0,255,0), MapVote.CurrentMaps[map_id])
+
+            MapVote.Votes[ply:SteamID()] = {map_id,am}
         end
     elseif(update_type == MapVote.UPDATE_WIN) then      
         if(IsValid(MapVote.Panel)) then
@@ -268,16 +283,15 @@ function MapVote.Show()
                 url = "https://image.gametracker.com/images/maps/160x120/garrysmod/" .. map .. ".jpg"
             end 
         end,function() url = "https://moat.gg/assets/img/mg-mapvote-final.png" end)
-        
         function a:Paint(w,h)
             local votes = 0
             local mine = false
             for k,v in pairs(MapVote.Votes) do
-                if v == i then
+                if v[1] == i then
                     if k == LocalPlayer():SteamID() then
                         mine = true
                     end
-                    votes = votes + 1
+                    votes = votes + v[2]
                 end
             end
             if MapVote.Panel.Winner == i then
