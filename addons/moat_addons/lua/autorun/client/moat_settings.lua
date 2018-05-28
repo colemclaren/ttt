@@ -206,6 +206,7 @@ local function m_RebuildSliderChoice(btn, var)
     end
 
     local num = tonumber(GetConVar(var):GetString())
+	if (not num) then num = moat_convars[var] or 1 end
     btn.Slider = vgui.Create("DButton", btn)
     btn.Slider:SetPos(btn:GetWide()-210, 10)
     btn.Slider:SetSize(200, 10)

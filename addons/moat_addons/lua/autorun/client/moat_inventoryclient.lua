@@ -2516,6 +2516,30 @@ function m_OpenInventory(ply2, utrade)
         M_INV_SLOT[num] = tbl
     end
 
+    local function m_HandleLayoutSpacing(remove)
+        if (remove) then
+            if (IsValid(M_INV_L.Spacing)) then M_INV_L.Spacing:Remove() end
+            return
+        end
+
+		if (IsValid(M_INV_L)) then
+        	M_INV_L.Spacing = M_INV_L:Add("DPanel")
+        	M_INV_L.Spacing:SetSize(676, 2)
+       		M_INV_L.Spacing.Paint = nil
+		end
+    end
+
+    function m_CreateNewInvSlot(num)
+        m_HandleLayoutSpacing(true)
+		m_CreateInvSlot(num)
+        m_HandleLayoutSpacing()
+
+		if (not IsValid(M_INV_SP)) then return end
+        M_INV_SP.VBar.ScrollOnExtend = true
+        local s = M_INV_SP.VBar.CanvasSize
+        M_INV_SP.VBar.LerpTarget = s
+        M_INV_SP.VBar:SetScroll(s)
+    end
 
     local function m_CreateInventorySlots()
         for i = 1, MAX_SLOTS do
@@ -2526,11 +2550,7 @@ function m_OpenInventory(ply2, utrade)
             m_CreateInvSlot(i)
         end
 
-        for i = 1, 5 do
-            local EndSpacing = M_INV_L:Add("DPanel")
-            EndSpacing:SetSize(169, 0)
-            EndSpacing.Paint = nil
-        end
+		m_HandleLayoutSpacing()
     end
 
     if (not m_Inventory[MAX_SLOTS]) then
@@ -5284,15 +5304,16 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
     local tbl = net.ReadTable()
     local not_drop = net.ReadBool()
 
-	local max_slots = net.ReadUInt(16)
-	if (max_slots) then
+	if (net.ReadBool()) then
+		local max_slots = net.ReadUInt(16)
+		print("add", max_slots)
 		local max_slots_old = max_slots - 4
 
 		for i = max_slots_old, max_slots do
        		m_Inventory[i] = {}
 
         	if (m_isUsingInv()) then
-            	m_CreateInvSlot(i)
+            	m_CreateNewInvSlot(i)
         	end
     	end
 
@@ -6563,6 +6584,8 @@ net.Receive("MOAT_MAX_SLOTS", function(len)
             chat.AddText(Color(255, 0, 0), "Warning! Your inventory is taking a lot of time to save! Consider deconstructing items or risk losing some!")
         end
     end
+	
+	print("max", max_slots)
 
     for i = max_slots_old, max_slots do
         m_Inventory[i] = {}

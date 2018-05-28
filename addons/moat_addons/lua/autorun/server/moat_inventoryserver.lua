@@ -255,6 +255,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
 
     net.WriteTable(tbl2)
     net.WriteBool(no_chat or false)
+	net.WriteBool(upgrade)
 	if (upgrade) then net.WriteUInt(self:GetMaxSlots(), 16) end
     net.Send(self)
 

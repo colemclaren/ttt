@@ -2204,7 +2204,7 @@ function m_DrawCrashPanel()
 			a:SetSize(0,20)
 			a:Dock(TOP)
 			function a:Paint(w,h)
-			if not crash_load then return end
+				if not crash_load then return end
 				local c = Color(40,40,40)
 			--  if (o % 2 == 0) then c = Color(60,60,60) end
 				draw.RoundedBox(0,0,0,w,h,c)
@@ -2214,7 +2214,7 @@ function m_DrawCrashPanel()
 				end
 			-- surface.DrawOutlinedRect(0, 0, w, h)
 				draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_RoulettBet", w-5, h/2-1, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
-				draw.SimpleText(ply:Nick(), "moat_RoulettBet", 18 + 5, h/2-1, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+				draw.SimpleText(IsValid(ply) and ply:Nick() or "Disconnected", "moat_RoulettBet", 18 + 5, h/2-1, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 			end
 			--right:SetTall(right:GetTall() + 16)
 			local av = vgui.Create("AvatarImage",a)
@@ -2248,7 +2248,7 @@ function m_DrawCrashPanel()
 					c = Color(64,158,63)
 				end
 				draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_RoulettBet", w-5, h/2-1, c, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
-				draw.SimpleText(ply:Nick(), "moat_RoulettBet", 18 + 5, h/2-1, c, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+				draw.SimpleText(IsValid(ply) and ply:Nick() or "Disconnected", "moat_RoulettBet", 18 + 5, h/2-1, c, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 			end
 			--right:SetTall(right:GetTall() + 16)
 			local av = vgui.Create("AvatarImage",a)

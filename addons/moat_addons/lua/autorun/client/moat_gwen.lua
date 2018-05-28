@@ -2340,30 +2340,39 @@ function PANEL:GetOffset()
 end
 
 function PANEL:Think()
-        if (input.IsMouseDown(MOUSE_LEFT) and not M_INV_DRAG) then
-            self.LerpTarget = self:GetScroll()
-        end
+	if (self.ScrollOnExtend) then
+		if (self.StoredCanvas and self.StoredCanvas < self.CanvasSize and self.LerpTarget == self.StoredCanvas) then
+			self:SetScroll(self.CanvasSize)
+			self.LerpTarget = self.CanvasSize
+		end
+
+		self.StoredCanvas = self.CanvasSize
+	end
+
+    if (input.IsMouseDown(MOUSE_LEFT) and not M_INV_DRAG) then
+        self.LerpTarget = self:GetScroll()
+    end
         
-        local frac = FrameTime() * 5
+    local frac = FrameTime() * 5
 
-        if (smooth_scrolling > 0) then
-            if (math.abs(self.LerpTarget - self:GetScroll()) <= (self.CanvasSize/10)) then frac = FrameTime() * 2 end
-        else
-            frac = FrameTime() * 10
-        end
+    if (smooth_scrolling > 0) then
+        if (math.abs(self.LerpTarget - self:GetScroll()) <= (self.CanvasSize/10)) then frac = FrameTime() * 2 end
+    else
+        frac = FrameTime() * 10
+    end
         
-        local newpos = Lerp(frac, self:GetScroll(), self.LerpTarget)
-        newpos = math.Clamp(newpos, 0, self.CanvasSize)
+    local newpos = Lerp(frac, self:GetScroll(), self.LerpTarget)
+    newpos = math.Clamp(newpos, 0, self.CanvasSize)
 
-        self:SetScroll(newpos)
+    self:SetScroll(newpos)
 
-        if (self.LerpTarget < 0 and self:GetScroll() == 0) then
-            self.LerpTarget = 0
-        end
+    if (self.LerpTarget < 0 and self:GetScroll() == 0) then
+        self.LerpTarget = 0
+    end
 
-        if (self.LerpTarget > self.CanvasSize and self:GetScroll() == self.CanvasSize) then
-            self.LerpTarget = self.CanvasSize
-        end
+    if (self.LerpTarget > self.CanvasSize and self:GetScroll() == self.CanvasSize) then
+        self.LerpTarget = self.CanvasSize
+    end
 end
 
 function PANEL:Paint( w, h )
