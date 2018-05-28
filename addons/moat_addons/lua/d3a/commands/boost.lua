@@ -43,7 +43,7 @@ COMMAND.Run = function(pl, args, supp)
 
 	if (not map_found) then D3A.Chat.SendToPlayer2(pl, moat_red, "The map name " .. map_req .. " doesn't exist!") return end
 
-	if sql.QueryRow("SELECT * FROM moat_mapcool WHERE map = " .. sql.SQLStr(map_req) .. ";") or game.GetMap():lower() == map_req) then
+	if (sql.QueryRow("SELECT * FROM moat_mapcool WHERE map = " .. sql.SQLStr(map_req) .. ";") or game.GetMap():lower() == map_req) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Unable to nominate a map in the map cooldown!")
 		return
 	end
