@@ -7,7 +7,7 @@ D3A.MapBoosts = {}
 D3A.MapBoostsPls = {}
 
 COMMAND.Run = function(pl, args, supp)
-	if (#D3A.MapBoosts >= 8) then
+	if (#D3A.MapBoosts >= 10) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "There's already 10 map boosts! Please try again next map!")
 		return
 	end
@@ -43,7 +43,7 @@ COMMAND.Run = function(pl, args, supp)
 
 	if (not map_found) then D3A.Chat.SendToPlayer2(pl, moat_red, "The map name " .. map_req .. " doesn't exist!") return end
 
-	if (sql.QueryRow("SELECT * FROM moat_mapcool WHERE map = " .. sql.SQLStr(map_req) .. ";") or game.GetMap():lower() == map_req) then
+	if (table.HasValue(recentmaps, map_req .. ".bsp") or game.GetMap():lower() == map_req) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Unable to nominate a map in the map cooldown!")
 		return
 	end
