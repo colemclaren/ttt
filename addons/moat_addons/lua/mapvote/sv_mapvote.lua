@@ -47,21 +47,6 @@ else
     MapVote.Config = {}
 end
 
-function CoolDownDoStuff()
-    cooldownnum = 7
- 
-    if table.Count(recentmaps) > cooldownnum then 
-        table.remove(recentmaps)
-    end
-
-    local curmap = game.GetMap():lower()..".bsp"
-
-    if not table.HasValue(recentmaps, curmap) then
-        table.insert(recentmaps, 1, curmap)
-    end
-
-    file.Write("mapvote/recentmaps.txt", util.TableToJSON(recentmaps))
-end
 
 function GetFeedback() end
 function GiveFeedback() end
@@ -176,7 +161,6 @@ function MapVote.Start(length, current, limit, prefix, callback)
     current = current or MapVote.Config.AllowCurrentMap or false
     length = length or MapVote.Config.TimeLimit or 28
     limit = 8
-    cooldown = MapVote.Config.EnableCooldown or MapVote.Config.EnableCooldown == nil and true
     prefix = prefix or MapVote.Config.MapPrefixes
 
     hook.Run("MapVoteStarted")
@@ -281,7 +265,6 @@ function MapVote.Start(length, current, limit, prefix, callback)
             
         end
         
-        CoolDownDoStuff()
 
         local winner = table.GetWinningKey(map_results) or 1
         
