@@ -908,13 +908,11 @@ end)
 
 hook.Add("HTTPLoaded", "discordrpc_init", function()
     if (GetHostName():lower():find("dev")) then return end
-	if (cookie.GetNumber("MG_Discord", 0) == 1) then return end
-	if (cookie.GetNumber("MG_Discord_Attempts", 0) >= 5) then return end
 
 	discordrpc.Init(function(succ, err)
 		if succ then
             timer.Simple(10,function()
-                if cookie.GetNumber("MG_Discord", 0) ~= 1 then
+                if cookie.GetNumber("MG_Discord", 0) ~= 1 and cookie.GetNumber("MG_Discord_Attempts", 0) < 5 then
                     net.Receive("AmIDiscord",function()
                         local d = net.ReadBool()
                         if d then
