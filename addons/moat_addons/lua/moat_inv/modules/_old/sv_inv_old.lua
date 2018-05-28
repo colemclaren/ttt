@@ -201,15 +201,6 @@ function m_GetTalentFromEnumWithFunctions(tenum)
     return tbl
 end
 
-local function SendObtainNotif(ply, obtainer, wep)
-    m_WriteWeaponsToPlayer(ply, {wep}, function()
-        net.Start("MOAT_OBTAIN_ITEM")
-            net.WriteUInt(obtainer:EntIndex(), 32)
-            net.WriteUInt(wep.c, 32)
-        net.Send(ply)
-    end)
-end
-
 function meta:m_AddInventoryItem(tbl, _, no_chat)
     self:AddItem(tbl, function(id)
         tbl.c = id
@@ -232,14 +223,14 @@ function meta:m_AddInventoryItem(tbl, _, no_chat)
             end
         end)
 
+        local targets = no_chat and self or player.GetAll()
 
-        if (no_chat) then
-            SendObtainNotif(self, self, tbl)
-        else
-            for k,v in pairs(player.GetAll()) do
-                SendObtainNotif(v, self, tbl)
-            end
-        end
+        m_WriteWeaponsToPlayer(targets, {tbl}, function(ply)
+            net.Start("MOAT_OBTAIN_ITEM")
+                net.WriteUInt(self:EntIndex(), 32)
+                net.WriteUInt(tbl.c, 32)
+            net.Send(ply)
+        end)
     end)
 end
 

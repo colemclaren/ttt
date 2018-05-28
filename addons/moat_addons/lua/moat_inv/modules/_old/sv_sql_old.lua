@@ -393,33 +393,42 @@ local function SendWeapons(ply, weps, cb, i)
     end
 end
 
-function m_WriteWeaponsToPlayer(ply, weps, cb)
-    local needed = ply.MG_InfoSent or {
-        t = {},
-        i = {}
-    }
-    local sending = {
-        t = {},
-        i = {}
-    }
-    ply.MG_InfoSent = needed
-    for _, wep in pairs(weps) do
-        if (wep.u and not needed.i[wep.u]) then
-            needed.i[wep.u] = m_GetItemFromEnum(wep.u)
-            table.insert(sending.i, {wep.u, needed.i[wep.u]})
+function m_WriteWeaponsToPlayer(plys, weps, rcb)
+    if (type(plys) ~= "table") then
+        plys = {plys}
+    end
+    for i = 1, #plys do
+        local ply = plys[i]
+        local cb = function()
+            return rcb(ply)
         end
-        if (wep.t) then
-            for _, talent in pairs(wep.t.real_data) do
-                if (not needed.t[talent.e]) then
-                    needed.t[talent.e] = m_GetTalentFromEnum(talent.e)
-                    table.insert(sending.t, {talent.e, needed.t[talent.e]})
+        local needed = ply.MG_InfoSent or {
+            t = {},
+            i = {}
+        }
+        local sending = {
+            t = {},
+            i = {}
+        }
+        ply.MG_InfoSent = needed
+        for _, wep in pairs(weps) do
+            if (wep.u and not needed.i[wep.u]) then
+                needed.i[wep.u] = m_GetItemFromEnum(wep.u)
+                table.insert(sending.i, {wep.u, needed.i[wep.u]})
+            end
+            if (wep.t) then
+                for _, talent in pairs(wep.t.real_data) do
+                    if (not needed.t[talent.e]) then
+                        needed.t[talent.e] = m_GetTalentFromEnum(talent.e)
+                        table.insert(sending.t, {talent.e, needed.t[talent.e]})
+                    end
                 end
             end
         end
+        SendExtraInfo(ply, sending, function()
+            SendWeapons(ply, weps, cb, 1)
+        end)
     end
-    SendExtraInfo(ply, sending, function()
-        SendWeapons(ply, weps, cb, 1)
-    end)
 end
 
 local function SendWeaponInvItems(ply, datas, is_loadout, cb)
