@@ -211,21 +211,20 @@ function meta:m_AddInventoryItem(tbl, _, no_chat)
 
         ply_inv["slot" .. slot_found] = tbl
 
-        m_WriteWeaponsToPlayer(self, {tbl}, function()
-            net.Start("MOAT_ADD_INV_ITEM")
-            net.WriteUInt(tbl.c, 32)
-            net.WriteBool(no_chat or false)
-            net.Send(self)
-            if (not no_chat) then
-                net.Start("MOAT_ITEM_OBTAINED")
-                net.WriteUInt(tbl.c, 32)
-                net.Send(self)
-            end
-        end)
-
         local targets = no_chat and self or player.GetAll()
 
         m_WriteWeaponsToPlayer(targets, {tbl}, function(ply)
+            if (self == ply) then
+                net.Start("MOAT_ADD_INV_ITEM")
+                net.WriteUInt(tbl.c, 32)
+                net.WriteBool(no_chat or false)
+                net.Send(self)
+                if (not no_chat) then
+                    net.Start("MOAT_ITEM_OBTAINED")
+                    net.WriteUInt(tbl.c, 32)
+                    net.Send(self)
+                end
+            end
             net.Start("MOAT_OBTAIN_ITEM")
                 net.WriteUInt(self:EntIndex(), 32)
                 net.WriteUInt(tbl.c, 32)
