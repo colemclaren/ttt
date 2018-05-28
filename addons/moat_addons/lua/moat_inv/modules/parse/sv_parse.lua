@@ -162,6 +162,18 @@ function MOAT_INV:Blank()
     return blank
 end
 
+local buildable = {}
+function buildable:CreateStats(data)
+    self.s = new_stats(data)
+end
+function buildable:CreateTalents(data)
+    self.t = new_talents(data)
+end
+
+function MOAT_INV:Buildable()
+    return new_weapon(buildable)
+end
+
 local function UpdateStat(self, statid, val)
     local query = MOAT_INV:CreateQuery("REPLACE INTO mg_itemstats (value, statid, weaponid) VALUES (?, ?, ?);", val, statid, self.c)
     MOAT_INV:SQLQuery(query, function()

@@ -5251,19 +5251,20 @@ function m_CanAutoDeconstruct(ITEM_TBL)
 end
 
 net.Receive("MOAT_ADD_INV_ITEM", function(len)
-    local key = net.ReadString()
-    local tbl = net.ReadTable()
+    local tbl = m_ReadWeaponFromNetCache()
     local not_drop = net.ReadBool()
-    local slot = 0
-    slot = tonumber(key)
-
-    if (tbl and tbl.item and tbl.item.Kind == "Other") then
-        if (tbl.item.WeaponClass) then
-            tbl.w = tbl.item.WeaponClass
-        end    
+    local slot = #m_Inventory + 1
+    for i, w in pairs(m_Inventory) do
+        if (not w.c) then
+            slot = i
+            break
+        end
     end
 
-    m_Inventory[slot] = {}
+    if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
+        tbl.w = tbl.item.WeaponClass
+    end
+
     m_Inventory[slot] = tbl
 
     if (m_isUsingInv()) then
@@ -6427,8 +6428,7 @@ function m_DrawFoundItemAdd(item_tbl, draw_type)
 end
 
 net.Receive("MOAT_ITEM_OBTAINED", function(len)
-    local tbl = net.ReadTable()
-    table.insert(MOAT_ITEM_FOUND_QUEUE, tbl)
+    table.insert(MOAT_ITEM_FOUND_QUEUE, m_ReadWeaponFromNetCache())
 end)
 
 net.Receive("MOAT_INIT_USABLE", function()

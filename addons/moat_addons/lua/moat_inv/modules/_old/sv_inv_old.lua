@@ -201,57 +201,46 @@ function m_GetTalentFromEnumWithFunctions(tenum)
     return tbl
 end
 
-function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
-    local ply_inv = MOAT_INVS[self]
-    local slot_found = 0
+local function SendObtainNotif(ply, obtainer, wep)
+    m_WriteWeaponsToPlayer(ply, {wep}, function()
+        net.Start("MOAT_OBTAIN_ITEM")
+            net.WriteUInt(obtainer:EntIndex(), 32)
+            net.WriteUInt(wep.c, 32)
+        net.Send(ply)
+    end)
+end
 
-    for i = 1, self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
-        if (ply_inv["slot" .. i].c) then
-            continue
+function meta:m_AddInventoryItem(tbl, _, no_chat)
+    self:AddItem(tbl, function(id)
+        tbl.c = id
+
+        local ply_inv = MOAT_INVS[self]
+        local slot_found = self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") + 1
+        self:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", slot_found)
+
+        ply_inv["slot" .. slot_found] = tbl
+
+        m_WriteWeaponsToPlayer(self, {tbl}, function()
+            net.Start("MOAT_ADD_INV_ITEM")
+            net.WriteUInt(tbl.c, 32)
+            net.WriteBool(no_chat or false)
+            net.Send(self)
+            if (not no_chat) then
+                net.Start("MOAT_ITEM_OBTAINED")
+                net.WriteUInt(tbl.c, 32)
+                net.Send(self)
+            end
+        end)
+
+
+        if (no_chat) then
+            SendObtainNotif(self, self, tbl)
         else
-            slot_found = i
-            break
+            for k,v in pairs(player.GetAll()) do
+                SendObtainNotif(v, self, tbl)
+            end
         end
-    end
-
-    MOAT_INVS[self]["slot" .. slot_found] = tbl
-
-    if (delay_saving) then return end
-
-    net.Start("MOAT_ADD_INV_ITEM")
-    net.WriteString(tostring(slot_found))
-    local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
-    tbl2.item = m_GetItemFromEnum(tbl2.u)
-
-    if (tbl2.t) then
-        tbl2.Talents = {}
-
-        for k, v in ipairs(tbl2.t) do
-            tbl2.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
-
-    net.WriteTable(tbl2)
-    net.WriteBool(no_chat or false)
-    net.Send(self)
-
-
-    net.Start("MOAT_OBTAIN_ITEM")
-    net.WriteDouble(self:EntIndex())
-    net.WriteTable(tbl2)
-
-    if (not no_chat) then
-        net.Broadcast()
-        net.Start("MOAT_ITEM_OBTAINED")
-        net.WriteTable(tbl2)
-        net.Send(self)
-    else
-        net.Send(self)
-    end
-
-    if (delay_saving == nil or not delay_saving) then
-        m_SaveInventory(self)
-    end
+    end)
 end
 
 function meta:m_GetIC()

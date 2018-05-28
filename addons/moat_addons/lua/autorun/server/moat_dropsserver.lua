@@ -170,7 +170,7 @@ titan_tier_ids["1149"] = true
 titan_tier_ids["1150"] = true
 
 function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_saving, hide_chat, dev_talent_tbl)
-    local dropped_item = {}
+    local dropped_item = MOAT_INV:Buildable()
     local drop_table = table.Copy(MOAT_DROPTABLE)
     local chosen_rarity = 1
     local item_name_chosen = false
@@ -239,7 +239,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
         dropped_item.u = item_to_drop.ID
 
         if (item_to_drop.Kind == "tier" or item_to_drop.Kind == "Unique") then
-            dropped_item.s = {}
+            dropped_item:CreateStats()
             local stats_to_apply = 0
 
             if (item_to_drop.MinStats and item_to_drop.MaxStats) then
@@ -271,7 +271,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                 end
             end
 
-            dropped_item.w = ""
+            -- dropped_item.w = ""
 
             if (item_to_drop.Collection == "Pumpkin Collection" or item_to_drop.Collection == "Holiday Collection" or item_to_drop.Collection == "New Years Collection") then
                 for k, v in RandomPairs(weapons.GetList()) do
@@ -320,7 +320,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
             if (item_to_drop.MinTalents and item_to_drop.MaxTalents and item_to_drop.Talents) then
                 dropped_item.s.l = 1
                 dropped_item.s.x = 0
-                dropped_item.t = {}
+                dropped_item:CreateTalents()
                 local talents_chosen = {}
                 local talents_to_loop = dev_talent_tbl or item_to_drop.Talents
 
@@ -341,7 +341,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                 end
             end
         elseif (item_to_drop.Kind == "Melee") then
-            dropped_item.s = {}
+            dropped_item:CreateStats()
             local stats_to_apply = 0
 
             if (item_to_drop.MinStats and item_to_drop.MaxStats) then
@@ -378,7 +378,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
             if (item_to_drop.MinTalents and item_to_drop.MaxTalents and item_to_drop.Talents) then
                 dropped_item.s.l = 1
                 dropped_item.s.x = 0
-                dropped_item.t = {}
+                dropped_item:CreateTalents()
                 local talents_chosen = {}
                 local talents_to_loop = dev_talent_tbl or item_to_drop.Talents
 
@@ -399,14 +399,14 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                 end
             end
         elseif ((item_to_drop.Kind == "Power-Up" or item_to_drop.Kind == "Other" or item_to_drop.Kind == "Usable") and item_to_drop.Stats) then
-            dropped_item.s = {}
+            dropped_item:CreateStats()
 
             for i = 1, #item_to_drop.Stats do
                 dropped_item.s[i] = math.Round(math.Rand(0, 1), 3)
             end
         end
 
-        dropped_item.c = util.CRC(os.time() .. SysTime())
+        -- dropped_item.c = util.CRC(os.time() .. SysTime())
 
         hook.Run("PlayerObtainedItem", self, dropped_item)
         local dont_show_chat = false

@@ -1181,8 +1181,8 @@ local ITEM_RARITY_TO_NAME = {
 local vowels = {"a", "e", "i", "o", "u"}
 
 net.Receive("MOAT_OBTAIN_ITEM", function(len)
-    local ply = ents.GetByIndex(net.ReadDouble())
-    local tbl = net.ReadTable()
+    local ply = Entity(net.ReadUInt(32))
+    local tbl = m_ReadWeaponFromNetCache()
     local rar = GetConVar("moat_chat_obtain_rarity"):GetString()
 
     if (ply:IsValid() and IsValid(ply) and LocalPlayer():IsValid() and ply ~= LocalPlayer() and ITEM_RARITY_TO_NAME[rar] and tbl and tbl.item and tbl.item.Rarity and tbl.item.Rarity < ITEM_RARITY_TO_NAME[rar]) then

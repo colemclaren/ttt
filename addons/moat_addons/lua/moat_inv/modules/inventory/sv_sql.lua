@@ -1,3 +1,8 @@
+if (true) then
+    return -- these are all outdated functions, pls update
+end
+
+--[[
 /*
     Stats
 */
@@ -111,4 +116,4 @@ function MOAT_INV:DropItemTalents(id, cb)
     self:SQLQuery("delete from mg_itemtalents where weaponid = ?;", id, function()
         if (cb) then cb() end
     end)
-end
+end]]
