@@ -866,6 +866,10 @@ local function make_discord()
 
         DrawBlur(self, 3)
     end
+	dis_panel.OnRemove = function()
+		local num = cookie.GetNumber("MG_Discord_Attempts", 0)
+		cookie.Set("MG_Discord_Attempts", num + 1)
+	end
 
     local lbl = vgui.Create("DLabel", dis_panel)
 	lbl:SetPos(10, 30)
@@ -904,6 +908,8 @@ end)
 
 hook.Add("HTTPLoaded", "discordrpc_init", function()
     if (GetHostName():lower():find("dev")) then return end
+	if (cookie.GetNumber("MG_Discord", 0) == 1) then return end
+	if (cookie.GetNumber("MG_Discord_Attempts", 0) >= 5) then return end
 
 	discordrpc.Init(function(succ, err)
 		if succ then
