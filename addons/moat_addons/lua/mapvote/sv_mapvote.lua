@@ -223,6 +223,32 @@ function MapVote.Start(length, current, limit, prefix, callback)
         if(limit and amt >= limit) then break end
     end
 
+    if amt < limit then
+        for k, map in RandomPairs(maps) do
+            local mapstr = map:sub(1, -5):lower()
+            if(not current and game.GetMap():lower()..".bsp" == map) then continue end
+            if (table.HasValue(vote_maps, mapstr)) then continue end
+
+
+            if is_expression then
+                if(string.find(map, prefix)) then -- This might work (from gamemode.txt)
+                    vote_maps[#vote_maps + 1] = map:sub(1, -5)
+                    amt = amt + 1
+                end
+            else
+                for k, v in pairs(prefix) do
+                    if string.find(map, "^"..v) then
+                        vote_maps[#vote_maps + 1] = map:sub(1, -5)
+                        amt = amt + 1
+                        break
+                    end
+                end
+            end
+            
+            if(limit and amt >= limit) then break end
+        end
+    end
+
     GetFeedback(vote_maps,function(tbl)
         net.Start("MapVote.Feedback")
         net.WriteTable(tbl)
