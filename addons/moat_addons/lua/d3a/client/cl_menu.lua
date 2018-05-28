@@ -260,7 +260,7 @@ function MGA.HandleCommandPressed(cmd)
 end
 
 function MGA.HandlePlayerPressed(pl)
-	if (MGA.SelectedPlayer.Ent and MGA.SelectedPlayer.Ent:IsValid() and IsValid(MGA.SelectedPlayer.Ent) and MGA.SelectedPlayer.Ent == pl) then
+	if (not IsValid(pl) or (IsValid(MGA2.SelectedPlayer.Ent) and MGA2.SelectedPlayer.Ent == pl)) then
 		MGA.SelectedPlayer = {
 			Ent = nil,
 			Nick = "None",

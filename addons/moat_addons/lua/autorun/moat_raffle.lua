@@ -27,7 +27,13 @@ if SERVER then
 			end
 		
 			local plyWinner = plys[math.random(#plys)]
-			plyWinner:m_DropInventoryItem(5)
+			if (not IsValid(plyWinner)) then
+				for k, v in RandomPairs(plys) do
+					if (IsValid(v)) then plyWinner = v break end
+				end
+			end
+			
+			if (IsValid(plyWinner)) then plyWinner:m_DropInventoryItem(5) end
 
 			net.Start("moat_finishRaffle")
 				net.WriteEntity(plyWinner)

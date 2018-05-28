@@ -356,8 +356,8 @@ function PANEL:LayoutColumns()
           continue
           
       elseif ( k == 1 ) then
-         if (num_mod) then
          local num_mod = tonumber(v:GetText())
+		 if (num_mod) then
          local p_num = GetConVar("moat_scoreboard_ping"):GetInt()
 
          if (sb_w == nil) then sb_w = v:GetWide() end
@@ -393,15 +393,16 @@ function PANEL:LayoutColumns()
       elseif ( k == 4 ) then
 
          local num_mod = tonumber( v:GetText() )
-
+		 if (num_mod)then
          local text_mod = num_mod / 1150
 
          v:SetTextColor( Color( 255 - ( 255 * text_mod ), 255 * text_mod, 0 ) )
+		 end
           
       elseif ( k == 6 ) then
 
          local num_mod = tonumber( v:GetText() )
-
+		 if (num_mod) then
          local col = moat_levels[1]
 
          if (num_mod >= 100) then
@@ -427,6 +428,7 @@ function PANEL:LayoutColumns()
          end
 
          v:SetTextColor(col)
+		 end
       end
            
       v:SetPos(cx - v:GetWide()/2, (SB_ROW_HEIGHT - v:GetTall()) / 2)

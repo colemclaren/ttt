@@ -287,7 +287,7 @@ hook.Add("HUDPaint", "moat_DrawHitmarkers", function()
         hitmarker_alpha = hitmarker_alpha - (1 / 100)
     end
 
-    local hitmarker_size = hitmarker_length[GetConVar("moat_hitmarker_size"):GetInt()]
+    local hitmarker_size = hitmarker_length[GetConVar("moat_hitmarker_size"):GetInt()] or MOAT_HITREG.HitMarkerSizeDefault
 
     local hitmarker_color = {
         r = GetConVar("moat_hitmarker_color_r"):GetInt(),

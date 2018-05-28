@@ -180,7 +180,7 @@ local DeafultLoadout = {
 
 moat_random.register("Golden Deagle","You can only use the golden deagle!",{
     ["NOW"] = function()
-        for k, v in piairs(ents.GetAll()) do
+        for k, v in pairs(ents.GetAll()) do
 			if (not IsValid(v) or not v:GetClass():StartWith("weapon_")) then continue end
 			if (DeafultLoadout[v:GetClass()] or v.Kind == WEAPON_UNARMED) then continue end
 

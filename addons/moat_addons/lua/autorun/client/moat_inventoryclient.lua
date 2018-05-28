@@ -5230,6 +5230,7 @@ end)
 net.Receive("MOAT_LOCK_INV_ITEM", function(len)
     local key = net.ReadDouble()
     local locked = net.ReadBool()
+	if (not m_Inventory[key]) then return end
 
     if (locked) then
         m_Inventory[key].l = 1
@@ -5875,7 +5876,7 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
         net.SendToServer()
-        chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " has ", Color(0, 255, 0), "accepted", Color(255, 255, 255), " the trade.")
+        chat.AddText(Color(0, 200, 0), IsValid(other_ply) and other_ply:Nick() or "Player", Color(255, 255, 255), " has ", Color(0, 255, 0), "accepted", Color(255, 255, 255), " the trade.")
     end
 end)
 

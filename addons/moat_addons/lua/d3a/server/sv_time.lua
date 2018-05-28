@@ -21,7 +21,7 @@ function D3A.Time.PlayerDataLoaded(pl, data)
 		pl:SetDataVar(D3A.Time.DataVar, tonumber(data.Vars[D3A.Time.DataVar] or 0), false, true)
 	end
 end
-hook.Add("PlayerDataLoaded", "D3A.Time.PlayerDataLoaded", D3A.Time.PlayerDataLoaded)
+hook.Add("PostPlayerDataLoaded", "D3A.Time.PlayerDataLoaded", D3A.Time.PlayerDataLoaded)
 
 function D3A.Time.SaveTime(pl)
 	if (pl.Time) then

@@ -92,7 +92,7 @@ self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 		end)
 		local function EraseBoot()
 		
-			boot:Remove();
+			if (IsValid(boot)) then boot:Remove(); end
 			
 		end
 		timer.Simple( 8, EraseBoot );

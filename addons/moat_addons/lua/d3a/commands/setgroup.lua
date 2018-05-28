@@ -12,13 +12,13 @@ COMMAND.Run = function(pl, args, supp)
 	local exptime = 0
 	local newrank
 	
-	if (exptime != 0) then
+	/*if (exptime != 0) then
 		if (!args[4]) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, "When setting a duration other than permanent, please input a rank to set this user to after expiration.")
 			return
 		end
 		newrank = args[4]
-	end
+	end*/
 
 	if (tmname == "trialstaff") then
 		exptime = 43200 * 60

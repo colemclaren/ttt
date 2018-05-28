@@ -264,7 +264,7 @@ function MGA2.HandleCommandPressed(cmd)
 end
 
 function MGA2.HandlePlayerPressed(pl)
-	if (MGA2.SelectedPlayer.Ent and MGA2.SelectedPlayer.Ent:IsValid() and IsValid(MGA2.SelectedPlayer.Ent) and MGA2.SelectedPlayer.Ent == pl) then
+	if (not IsValid(pl) or (IsValid(MGA2.SelectedPlayer.Ent) and MGA2.SelectedPlayer.Ent == pl)) then
 		MGA2.SelectedPlayer = {
 			Ent = nil,
 			Nick = "None",

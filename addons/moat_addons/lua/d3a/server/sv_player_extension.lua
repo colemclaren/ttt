@@ -22,6 +22,10 @@ function meta:LoadInfo(callback)
 		newVars["lastTimeSave"] = data.last_join
 
 		if (not data.rank) then data.rank = "user" end
+		if (data.rank == "trialstaff") then
+			if (not newVars["rankexpireto"]) then newVars["rankexpireto"] = "moderator" end
+			if (not newVars["rankexpire"]) then newVars["rankexpire"] = tostring(os.time() + (43200 * 60)) end
+		end
 
 		data.Vars = newVars
 		local checkToUpdate = table.Count(data.Vars)
@@ -55,6 +59,7 @@ function meta:SaveInfo()
 	local steamid64 = self:SteamID64()
 	local steamname = D3A.MySQL.Escape(self:SteamName())
 	local ipaddress = self:IPAddress()
+	if (ipaddress) then ipaddress = string.Explode(":", ipaddress)[1] end
 
 	D3A.MySQL.Query("UPDATE player SET `name`='" .. steamname .. "' WHERE `steam_id`='" .. steamid64 .. "';")
 
@@ -73,7 +78,7 @@ function meta:SaveInfo()
 end
 
 function meta:SaveVars() -- The system will call this, you don't need to
-	if (!self:IsValid()) then return end
+	if (IsValid(self)) then return end
 	
 	local t = table.Copy(self._PersistVars or {})
 
