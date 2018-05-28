@@ -348,9 +348,9 @@ function m_UpdateItemLevel(weapon_tbl, attacker, exp_to_add)
     end
 
     net.Start("MOAT_UPDATE_EXP")
-    net.WriteString(tostring(unique_item_id))
-    net.WriteDouble(inv_item.s.l)
-    net.WriteDouble(inv_item.s.x)
+    net.WriteUInt(unique_item_id, 32)
+    net.WriteUInt(inv_item.s.l, 32)
+    net.WriteUInt(inv_item.s.x, 32)
     net.Send(attacker)
 
     if (not we_saved) then m_SaveInventory(attacker) end

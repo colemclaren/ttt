@@ -53,7 +53,7 @@ function MOAT_INV:RegisterStat(char, name, def)
 		pls[s] = n
 
 		if (SERVER) then
-			self:SaveStat(s, char, self.Stats[char][s], function()
+			self:SaveStat(s, char, n, function()
 				net.Start "MOAT_INV.Stats.Dispatch"
 					net.WriteEntity(s)
 					net.WriteByte(char:byte(1, 1))
