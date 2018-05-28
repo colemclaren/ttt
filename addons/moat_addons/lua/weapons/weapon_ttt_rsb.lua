@@ -392,7 +392,7 @@ function SWEP:RSBClear()
 
 	
 
-	self:SendWarn(false)
+	if (SERVER) then self:SendWarn(false) end
 
 	
 
@@ -422,7 +422,7 @@ function SWEP:RSBClear()
 
 	end
 
-
+	if (CLIENT) then return end
 
 	net.Start("BombBar")
 
@@ -431,8 +431,7 @@ function SWEP:RSBClear()
 	net.Send(ply)
 
 	
-
-	if (SERVER) then self:Remove() end
+	 self:Remove()
 
 end
 

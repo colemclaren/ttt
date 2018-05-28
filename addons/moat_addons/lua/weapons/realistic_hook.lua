@@ -209,6 +209,7 @@ function SWEP:DrawRope( attPos )
 	if self.Owner~=LocalPlayer() or hook.Call("ShouldDrawLocalPlayer", GAMEMODE, self.Owner) then return hk:Draw() end
 	
 	if IsValid( hk:GetTargetEnt() ) then
+		if (not hk:GetFollowBone()) then return end
 		local bpos, bang = hk:GetTargetEnt():GetBonePosition( hk:GetFollowBone() )
 		local npos, nang = hk:GetFollowOffset(), hk:GetFollowAngle()
 		if npos and nang and bpos and bang then

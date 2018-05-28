@@ -157,6 +157,7 @@ function ENT:PhysicsCollide( data, phys )
 					--print(i,data.HitEntity:TranslatePhysBoneToBone(i))
 					
 					self:SetFollowBone( data.HitEntity:TranslatePhysBoneToBone(i) )
+					if (not self:GetFollowBone()) then continue end
 					local pos, ang = data.HitEntity:GetBonePosition( self:GetFollowBone() )
 					if pos and ang then
 						self:SetFollowOffset( self:GetPos() - pos )
@@ -199,6 +200,7 @@ function ENT:Draw()
 			self:Destroyed()
 			return
 		end
+		if (not self:GetFollowBone()) then return end
 		local bpos, bang = self:GetTargetEnt():GetBonePosition( self:GetFollowBone() )
 		local npos, nang = self:GetFollowOffset(), self:GetFollowAngle()
 		if npos and nang and bpos and bang then

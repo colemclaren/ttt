@@ -19,6 +19,7 @@ end
 function methods:GetBonePositions() return self.m_bones end
 
 function methods:GetBonePosition(ID)
+	if (!ID) then return end
 	local bone = self:GetBonePositions()[ID]
 	if(!bone) then return end
 	return bone.pos,bone.ang
