@@ -1,43 +1,3 @@
---[[
-{
-    "t": [
-        {
-            "m": [1.0],
-            "l": 8.0,
-            "e": 85.0
-        },
-        {
-            "m": [1.0,1.0],
-            "l": 14.0,
-            "e": 154.0
-        },
-        {
-            "m": [1.0,1.0],
-            "l": 27.0,
-            "e": 3.0
-        }
-    ],
-    "u": 1147.0,
-    "c": "2197761330",
-    "s": {
-        "x":170.0,
-        "k":0.197,
-        "f":0.803
-        "m":0.429,
-        "w":0.682,
-        "r":0.458,
-        "l":13.0,
-        "a":0.521,
-        "d":0.183
-    },
-    "w": "weapon_ttt_te_sr25",
-    "tr": 1.0,
-    "n": "Hitregs...",
-    "l": 1.0,
-    "p": 6035.0
-}
-]]
-
 local PLAYER = FindMetaTable "Player"
 
 function PLAYER:LoadInventory(cb)
@@ -74,12 +34,26 @@ function PLAYER:AddItem(item, cb)
     end)
 end
 
+function PLAYER:OwnsItem(id, cb)
+    if (istable(id)) then id = id["c"] end
+    local query = MOAT_INV:CreateQuery("SELECT 1 FROM mg_items WHERE id = ? AND ownerid = ?;", id, self)
+    MOAT_INV:SQLQuery(query, function(d)
+        return cb(not not d[1])
+    end)
+end
+
 function PLAYER:RemoveItem(id, cb)
     if (istable(id)) then id = id["c"] end
-    if (not self.Inventory[id]) then return end
+    self:OwnsItem(id, function(does_own)
+        if (not does_own) then
+            error "item is not owned by player"
+        end
 
-    MOAT_INV:SQLQuery("call removeItem(?)", id, function(d, q)
-        if (cb) then cb() end
+        local query = MOAT_INV:CreateQuery("call removeItem(?);", id)
+
+        MOAT_INV:SQLQuery(query, function(d, q)
+            if (cb) then cb() end
+        end)
     end)
 end
 
@@ -87,7 +61,9 @@ function PLAYER:TransferItem(id, new, cb)
     if (istable(id)) then id = id["c"] end
     if (not self.Inventory[id]) then return end
 
-    MOAT_INV:SQLQuery("call transferItem(?, ?)", id, new, function(d, q)
+    local query = MOAT_INV:CreateQuery("call transferItem(?, ?);", id, new)
+
+    MOAT_INV:SQLQuery(query, function(d, q)
         if (cb) then cb() end
     end)
 end
@@ -98,11 +74,12 @@ end
 
 
 function PLAYER:LoadStats(cb)
-	MOAT_INV:SQLQuery("call selectStats(?);", self, function(d, q)
-		if (not IsValid(self)) then return end
+    local query = MOAT_INV:CreateQuery("call selectStats(?);", self)
+    MOAT_INV:SQLQuery(query, function(d, q)
+        if (not IsValid(self)) then return end
 
-		if (cb) then cb(d, q) end
-	end)
+        if (cb) then cb(d, q) end
+    end)
 end
 
 function PLAYER:CreateNewPlayer(str, inv)
@@ -118,7 +95,7 @@ end
 function PLAYER:NewPlayer()
 	self:GetOldData(function(st, inv, tbl)
 		if (not IsValid(self)) then return end
-		
+
 		local s, str = MOAT_INV.Stats, ""
 		if (inv) then
 			str = MOAT_INV:GetOldInvQuery(inv, self:ID())

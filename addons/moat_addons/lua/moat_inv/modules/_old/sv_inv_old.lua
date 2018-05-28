@@ -206,8 +206,17 @@ function meta:m_AddInventoryItem(tbl, _, no_chat)
         tbl.c = id
 
         local ply_inv = MOAT_INVS[self]
-        local slot_found = self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") + 1
-        self:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", slot_found)
+        local slot_found
+        for i = 1, self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+            if (ply_inv[i].c) then
+                slot_found = i
+                break
+            end
+        end
+        if (not slot_found) then
+            slot_found = self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") + 1
+            self:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", slot_found)
+        end
 
         ply_inv["slot" .. slot_found] = tbl
 
@@ -549,41 +558,36 @@ net.Receive("MOAT_SWP_INV_ITEM", function(len, ply)
     end
 end)
 
-function m_RemoveInventoryItem(ply, slot, class, crate)
+function m_RemoveInventoryItem(ply, _, class, crate)
+    assert(_ == nil, "slot is deprecated")
     local ply_inv = MOAT_INVS[ply]
-    local item_enum = 0
-    local items_found = 0
 
     for k, v in pairs(ply_inv) do
-        if (v.c == tostring(class)) then
-            item_enum = MOAT_INVS[ply][k].u
-            MOAT_INVS[ply][k] = {}
-            net.Start("MOAT_REM_INV_ITEM")
-            net.WriteDouble(tonumber(k:sub(5, #k)))
-            net.WriteDouble(class)
-            net.Send(ply)
-            items_found = items_found + 1
-            m_SaveInventory(ply)
+        if (type(v) == "table" and v.c == class) then
+            ply:RemoveItem(class, function()
+                local item_enum = MOAT_INVS[ply][k].u
+                ply_inv[k] = MOAT_INV:Blank()
+
+                net.Start("MOAT_REM_INV_ITEM")
+                    net.WriteUInt(class, 32)
+                net.Send(ply)
+
+                if (crate and crate == 1) then return end
+                hook.Run("PlayerDeconstructedItem", ply, item_enum)
+            end)
+            break
         end
     end
-
-    if (items_found > 1) then
-        RunConsoleCommand("mga", "ban", ply:SteamID(), "525600", "minutes", "Automated Ban: Item Duplication Exploiting Detected!")
-    end
-
-    if (crate and crate == 1) then return end
-    hook.Run("PlayerDeconstructedItem", ply, item_enum)
 end
 
 net.Receive("MOAT_REM_INV_ITEM", function(len, ply)
-    local slot = net.ReadDouble()
-    local class = net.ReadDouble()
-    local crate = net.ReadDouble()
+    local class = net.ReadUInt(32)
+    local crate = net.ReadByte()
 
     if (crate and crate == 3) then ply.Deconing = true end
     if (crate and crate == 2) then ply.Deconing = false end
 
-    m_RemoveInventoryItem(ply, slot, class, crate)
+    m_RemoveInventoryItem(ply, nil, class, crate)
 end)
 
 local function m_SendTradeReq(ply, otherply)

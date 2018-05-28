@@ -4959,8 +4959,8 @@ function m_CreateItemMenu(num, ldt)
             if (pnl_width >= 0.99) then
                 s.StopThink = true
                 net.Start("MOAT_REM_INV_ITEM")
-                net.WriteDouble(num)
-                net.WriteDouble(itemtbl.c)
+                    net.WriteUInt(itemtbl.c, 32)
+                    net.WriteByte(0)
                 net.SendToServer()
                 M_INV_MENU:Remove()
                 if (deco < 5) then moat_decon:SetInt(deco + 1) end
@@ -5163,10 +5163,18 @@ function m_CreateItemMenu(num, ldt)
 end
 
 net.Receive("MOAT_REM_INV_ITEM", function(len)
-    local key = net.ReadDouble()
-    local class = net.ReadDouble()
-    local slot = 0
-    slot = tonumber(key)
+    local c = net.ReadUInt(32)
+    local slot
+    for k, v in pairs(m_Inventory) do
+        if (v.c == c) then
+            slot = k
+            break
+        end
+    end
+    if (not slot) then
+        error("couldn't find id "..c)
+    end
+
     m_Inventory[slot] = {}
 
     if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
@@ -5290,8 +5298,8 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
 
         if (ITEM_RARITY_TO_NAME[rar] and m_Inventory[slot].item.Rarity ~= 0 and m_Inventory[slot].item.Rarity <= ITEM_RARITY_TO_NAME[rar] and m_CanAutoDeconstruct(m_Inventory[slot])) then
             net.Start("MOAT_REM_INV_ITEM")
-            net.WriteDouble(slot)
-            net.WriteDouble(m_Inventory[slot].c)
+            net.WriteUInt(m_Inventory[slot].c, 32)
+            net.WriteByte(0)
             net.SendToServer()
         end
     end
@@ -6564,13 +6572,12 @@ function m_DrawDeconButton()
                 items_decon = items_decon + 1
 
                 net.Start("MOAT_REM_INV_ITEM")
-                net.WriteDouble(i)
-                net.WriteDouble(m_Inventory[i].c)
+                net.WriteUInt(m_Inventory[i].c, 32)
 
                 if (items_decon == MOAT_ITEMS_DECON_MARKED) then
-                    net.WriteDouble(2)
+                    net.WriteByte(2)
                 else
-                    net.WriteDouble(3)
+                    net.WriteByte(3)
                 end
 
                 net.SendToServer()
