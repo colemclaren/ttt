@@ -225,7 +225,6 @@ function MOAT_INV:CreateNewSlots_CompleteRows(num, fn)
 		for i = 1, needed do
 			self:CreateNewSlot()
 		end
-		self.CachedSlots[1] = max + needed
 		fn()
 	end)
 end
@@ -242,20 +241,6 @@ function MOAT_INV:CreateNewSlot()
 			m_CreateNewInvSlot(new)
 		end
 	end)
-end
-
-function MOAT_INV:RemoveEmptySlot()
-	needs_testing()
-	local num = self:GetEmptySlot(nil, nil, true)
-	if (num == 0 or self.CachedSlots[2].s[num] ~= 0) then return end
-
-	self.CachedSlots[1] = self.CachedSlots[1] - 1
-	self.CachedSlots[2].s[num] = nil
-
-	m_Inventory[num] = nil
-	if (IsValid(MOAT_INV_BG)) then
-		m_RemoveInvSlot(num)
-	end
 end
 
 function MOAT_INV:GetEmptySlot(sn, st, r, fn)
@@ -291,7 +276,7 @@ function MOAT_INV:GetEmptySlot(sn, st, r, fn)
 	end
 end
 
-function MOAT_INV:GetSlotForID(id, fn, noadd)
+function MOAT_INV:GetSlotForID(id, fn)
 	assert(id ~= 0, "id is 0")
 	self:GetOurSlots(function(sn, st)
 		if (st.c[id]) then return fn(st.c[id]) end
@@ -303,6 +288,27 @@ function MOAT_INV:GetSlotForID(id, fn, noadd)
 			self:AddSlotItem(ns, id, function()
 				return fn(ns)
 			end)
+		end)
+	end)
+end
+
+function MOAT_INV:RemoveItemSlot(slot, fn)
+	self:GetOurSlots(function(max, cache)
+		local query = self.SQL:CreateQuery("DELETE FROM mg_slots WHERE slotid = ? AND steamid = ?", slot, steamid())
+		self.SQL:Query(query, function()
+			cache.c[cache.s[slot]] = nil
+			cache.s[slot] = 0
+
+			m_Inventory[slot] = {}
+
+			if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
+				M_INV_SLOT[slot].VGUI.Item = nil
+				M_INV_SLOT[slot].VGUI.WModel = nil
+				M_INV_SLOT[slot].VGUI.MSkin = nil
+				M_INV_SLOT[slot].VGUI.SIcon:SetVisible(false)
+				M_INV_SLOT[slot].VGUI.SIcon:SetModel("")
+			end
+			return fn()
 		end)
 	end)
 end

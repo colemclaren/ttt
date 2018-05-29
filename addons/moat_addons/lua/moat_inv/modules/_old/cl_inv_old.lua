@@ -1053,6 +1053,11 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
         end
         i = i + 1
     end
+    for k = 1, i - 1 do
+        if (not m_Inventory[k]) then
+            m_Inventory[k] = {}
+        end
+    end
 end)
 net.Receive("MOAT_ITEM_INFO", function(len)
     while (net.ReadBool()) do
@@ -2200,7 +2205,7 @@ function m_OpenInventory(ply2, utrade)
 
     function m_CreateInvSlot(num)
         local m_ItemExists = false
-
+        print(num)
         if (m_Inventory[num].c) then
             m_ItemExists = true
         end
@@ -5164,15 +5169,7 @@ net.Receive("MOAT_REM_INV_ITEM", function(len)
         error("couldn't find id "..c)
     end
 
-    m_Inventory[slot] = {}
-
-    if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
-        M_INV_SLOT[slot].VGUI.Item = nil
-        M_INV_SLOT[slot].VGUI.WModel = nil
-        M_INV_SLOT[slot].VGUI.MSkin = nil
-        M_INV_SLOT[slot].VGUI.SIcon:SetVisible(false)
-        M_INV_SLOT[slot].VGUI.SIcon:SetModel("")
-    end
+    MOAT_INV:RemoveItemSlot(slot, function() end)
 end)
 
 local function urlencode(str)
