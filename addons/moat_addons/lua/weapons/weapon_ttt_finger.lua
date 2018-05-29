@@ -103,7 +103,7 @@ SWEP.DeploySpeed = 2
 SWEP.Done = false
 
 function SWEP:Initialize()
-    self:AddHUDHelp("Primary Attack: Removes ALL DNA from a corpse.", "Secondary Attack: Changes the DNA to ANY person.", false)
+    if CLIENT then self:AddHUDHelp("Primary Attack: Removes ALL DNA from a corpse.", "Secondary Attack: Changes the DNA to ANY person.", false) end
 end
 
 function SWEP:PrimaryAttack()

@@ -367,10 +367,11 @@ end
 net.Receive("moat.logs.opent", MOAT_LOGS.Text)
 
 function MOAT_LOGS.OpenSearch()
+	local found = net.ReadBool()
+	if (not found) then MOAT_LOGS.NoMatches = CurTime() + 5 return end
+
     local logs = net.ReadTable()
-
     MOAT_LOGS.Searching = false
-
     if (not logs or #logs < 1) then MOAT_LOGS.NoMatches = CurTime() + 5 return end
 
 

@@ -258,6 +258,10 @@ function SWEP:ShootArrow()
 	pos = pos + self.Owner:GetUp() * -3
 	arrow:SetPos(pos)
 	arrow:SetOwner(self.Owner)
+	if (not IsValid(arrow) or not arrow.SetVelocity2) then
+		if (SERVER and IsValid(arrow)) then arrow:Remove() end
+		return
+	end
 	arrow:SetVelocity2(self.Owner:GetAimVector() * 6500 * ratio)
 	arrow:SetFirer(self.Owner)
 	arrow.Weapon = self		-- Used to set the arrow's killicon.

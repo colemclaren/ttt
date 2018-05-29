@@ -91,7 +91,7 @@ function SWEP:PrimaryAttack()
 
    -- The rest is done on the server
    if ( SERVER ) then
-      timer.Simple( 2, function() self:Explode() end )
+      timer.Simple( 2, function() if IsValid(self) then self:Explode() end end )
       self.Owner:EmitSound( "siege/jihad.wav" )
    end
 end

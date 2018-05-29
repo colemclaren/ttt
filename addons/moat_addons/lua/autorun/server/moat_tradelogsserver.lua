@@ -138,6 +138,7 @@ function MOAT_TRADE_LOGS.StaffSearch(str, pl)
     m_getSearchTradesStaff(src, function(data)
         if #data < 1 then
             net.Start("moat.logs.search")
+			net.WriteBool(false)
             net.Send(pl)
 
             return
@@ -158,6 +159,7 @@ function MOAT_TRADE_LOGS.StaffSearch(str, pl)
         end)
 
         net.Start("moat.logs.search")
+		net.WriteBool(true)
         net.WriteTable(logs)
         net.Send(pl)
     end)
@@ -170,6 +172,7 @@ function MOAT_TRADE_LOGS.RegularSearch(str, pl)
     m_getSearchTradesReg(src, pl:SteamID64(), function(data)
         if #data < 1 then
             net.Start("moat.logs.search")
+			net.WriteBool(false)
             net.Send(pl)
 
             return
@@ -190,6 +193,7 @@ function MOAT_TRADE_LOGS.RegularSearch(str, pl)
         end)
 
         net.Start("moat.logs.search")
+		net.WriteBool(true)
         net.WriteTable(logs)
         net.Send(pl)
     end)

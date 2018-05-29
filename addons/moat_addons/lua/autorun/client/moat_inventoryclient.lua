@@ -2894,6 +2894,8 @@ function m_OpenInventory(ply2, utrade)
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name
             end
 
+			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
                 draw_xp_lvl = 9
             else
@@ -3084,6 +3086,8 @@ function m_OpenInventory(ply2, utrade)
             else
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name
             end
+
+			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
 
             surface_SetFont("moat_Medium5")
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
@@ -3684,7 +3688,7 @@ function m_OpenInventory(ply2, utrade)
                     s:SetText("0")
                 end
 
-                if (tonumber(s:GetValue()) > tonumber(m_Credits)) then
+                if (m_Credits and tonumber(s:GetValue()) and (tonumber(s:GetValue()) > tonumber(m_Credits))) then
                     s:SetValue(m_Credits)
                     s:SetText(m_Credits)
                 end
@@ -6070,6 +6074,8 @@ function m_DrawFoundItem(tbl, s_type)
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name
             end
 
+			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
                 draw_xp_lvl = 9
             else
@@ -6223,6 +6229,8 @@ function m_DrawFoundItem(tbl, s_type)
             ITEM_NAME_FULL = ITEM_HOVERED.item.Name
         end
 
+		if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+
         surface_SetFont("moat_Medium5")
         local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
         local namew2, nameh2 = 0, 0
@@ -6338,6 +6346,8 @@ function m_DrawFoundItem(tbl, s_type)
             else
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name
             end
+
+			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
 
             surface_SetFont("moat_Medium5")
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)

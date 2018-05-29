@@ -422,7 +422,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 end
             end
 
-            net.WriteTable(v)
+            net.WriteTable(v or {})
 
             local sent = false
             if ((v.item and v.item.Rarity == 9) or v.p2 or v.p or v.p3) then
@@ -659,7 +659,7 @@ local function NetworkRegularWeapon(wep)
     net.WriteDouble(tbl.stats[6])
     net.WriteDouble(tbl.stats[7])
     net.WriteDouble(tbl.owner)
-    net.WriteTable(tbl.info)
+    net.WriteTable(tbl.info or {})
     net.Broadcast()
 end
 

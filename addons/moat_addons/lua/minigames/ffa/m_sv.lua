@@ -230,8 +230,8 @@ function MG_FFA.GiveWeapon(ply,v)
         end
 		table.removeFunctions(v)
 
-		ply.TDM_Cache[v.w][8] = table.Copy(v)
-        net.WriteTable(v)
+		ply.TDM_Cache[v.w][8] = table.Copy(v or {}) or {}
+        net.WriteTable(v or {})
 
 		v.item = item_old
     else
