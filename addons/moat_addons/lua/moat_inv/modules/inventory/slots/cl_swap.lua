@@ -67,33 +67,42 @@ local function TranslateVGUISlot(slot)
     if (isnumber(slot)) then
         return slot
     end
-    if (slot:EndsWith "l") then
+    if (slot and slot:EndsWith "l") then
         return -tonumber(slot:sub(1, -2))
     end
-    return tonumber(slot)
+    return tonumber(slot) or math.huge
 end
 
 
 function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
-    local ends = M_INV_SLOT[m_HoveredSlot]
-    if (not ends or not drag) then
+
+    if (drag.Slot == m_HoveredSlot) then
         return
     end
 
-    local islot_d, islot_e = TranslateVGUISlot(drag.Slot), TranslateVGUISlot(ends.Slot)
-    local tbl_drag, tbl_hovr = islot_d < 0 and m_Loadout or m_Inventory, islot_e < 0 and m_Loadout or m_Inventory
+    local islot_d, islot_e = TranslateVGUISlot(drag.Slot), TranslateVGUISlot(m_HoveredSlot)
+    local ends = M_INV_SLOT[m_HoveredSlot]
+    if (not ends) then
+        ends = M_LOAD_SLOT[-islot_e]
+        if (ends) then
+            drag, ends = ends, drag
+            islot_d, islot_e = islot_e, islot_d
+        else
+            return
+        end
+    end
+
 
     -- Under no circumstances it will be possible to transfer loadout to loadout
     if (islot_d < 0 and islot_e < 0) then
         return
     end
+
+    local tbl_drag, tbl_hovr = islot_d < 0 and m_Loadout or m_Inventory, m_Inventory
+
     -- Check if you can transfer loadout to regular inventory
     if ((islot_d < 0) ~= (islot_e < 0)) then
-        local loadout, non = drag, ends
-        if (islot_d >= 0) then
-            loadout, non = non, loadout
-        end
-        if (not m_CanSwapLoadout(non.VGUI.Item, -TranslateVGUISlot(loadout.Slot))) then
+        if (not m_CanSwapLoadout(ends.VGUI.Item, -islot_d)) then
             return
         end
         print "ur ok kid"
@@ -101,43 +110,39 @@ function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
     end
 
     if (INV_SELECT_MODE) then return end
-    if (m_HoveredSlot and drag.Slot and drag.Slot ~= m_HoveredSlot) then
-        MOAT_INV:SwapSlotItem(islot_d, islot_e)
+    MOAT_INV:SwapSlotItem(islot_d, islot_e)
 
-        if (drag.VGUI.WModel) then
-            if (string.EndsWith(drag.VGUI.WModel, ".mdl")) then
-                ends.VGUI.SIcon.Icon:SetAlpha(255)
-            else
-                ends.VGUI.SIcon.Icon:SetAlpha(0)
-            end
-
-            ends.VGUI.SIcon:SetModel(drag.VGUI.WModel, drag.VGUI.MSkin)
-            ends.VGUI.SIcon:SetVisible(true)
+    if (drag.VGUI.WModel) then
+        if (string.EndsWith(drag.VGUI.WModel, ".mdl")) then
+            ends.VGUI.SIcon.Icon:SetAlpha(255)
         else
-            ends.VGUI.SIcon:SetVisible(false)
+            ends.VGUI.SIcon.Icon:SetAlpha(0)
         end
 
-        if (ends.VGUI.WModel) then
-            if (string.EndsWith(ends.VGUI.WModel, ".mdl")) then
-                drag.VGUI.SIcon.Icon:SetAlpha(255)
-            else
-                drag.VGUI.SIcon.Icon:SetAlpha(0)
-            end
-
-            drag.VGUI.SIcon:SetModel(ends.VGUI.WModel, ends.VGUI.MSkin)
-            drag.VGUI.SIcon:SetVisible(true)
-        else
-            drag.VGUI.SIcon:SetVisible(false)
-        end
-
-        drag.VGUI.WModel, ends.VGUI.WModel = ends.VGUI.WModel, drag.VGUI.WModel
-        drag.VGUI.MSkin, ends.VGUI.MSkin = ends.VGUI.MSkin, drag.VGUI.MSkin
-        drag.VGUI.Item, ends.VGUI.Item = ends.VGUI.Item, drag.VGUI.Item
-        islot_d, islot_e = math.abs(islot_d), math.abs(islot_e)
-        tbl_drag[islot_d], tbl_hovr[islot_e] = tbl_hovr[islot_e], tbl_drag[islot_d]
+        ends.VGUI.SIcon:SetModel(drag.VGUI.WModel, drag.VGUI.MSkin)
+        ends.VGUI.SIcon:SetVisible(true)
     else
-        drag.VGUI.SIcon:SetVisible(true)
+        ends.VGUI.SIcon:SetVisible(false)
     end
+
+    if (ends.VGUI.WModel) then
+        if (string.EndsWith(ends.VGUI.WModel, ".mdl")) then
+            drag.VGUI.SIcon.Icon:SetAlpha(255)
+        else
+            drag.VGUI.SIcon.Icon:SetAlpha(0)
+        end
+
+        drag.VGUI.SIcon:SetModel(ends.VGUI.WModel, ends.VGUI.MSkin)
+        drag.VGUI.SIcon:SetVisible(true)
+    else
+        drag.VGUI.SIcon:SetVisible(false)
+    end
+
+    drag.VGUI.WModel, ends.VGUI.WModel = ends.VGUI.WModel, drag.VGUI.WModel
+    drag.VGUI.MSkin, ends.VGUI.MSkin = ends.VGUI.MSkin, drag.VGUI.MSkin
+    drag.VGUI.Item, ends.VGUI.Item = ends.VGUI.Item, drag.VGUI.Item
+    islot_d, islot_e = math.abs(islot_d), math.abs(islot_e)
+    tbl_drag[islot_d], tbl_hovr[islot_e] = tbl_hovr[islot_e], tbl_drag[islot_d]
 end
 
 
