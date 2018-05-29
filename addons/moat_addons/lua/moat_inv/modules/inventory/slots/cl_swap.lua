@@ -1,8 +1,15 @@
 local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
 local m_SlotToLoadout = {}
-m_SlotToLoadout[0] = "Melee"
-m_SlotToLoadout[1] = "Secondary"
-m_SlotToLoadout[2] = "Primary"
+hook.Add("Initialize", "MOAT_INV.Swap", function()
+    m_SlotToLoadout[WEAPON_MELEE] = "Melee"
+    m_SlotToLoadout[WEAPON_PISTOL] = "Secondary"
+    m_SlotToLoadout[WEAPON_HEAVY] = "Primary"
+end)
+if (WEAPON_MELEE) then
+    m_SlotToLoadout[WEAPON_MELEE] = "Melee"
+    m_SlotToLoadout[WEAPON_PISTOL] = "Secondary"
+    m_SlotToLoadout[WEAPON_HEAVY] = "Primary"
+end
 
 local function m_CanSwapLoadout(ITEM_TBL, DRAG_SLOT)
     if (ITEM_TBL.c == nil) then return true end
@@ -15,7 +22,7 @@ local function m_CanSwapLoadout(ITEM_TBL, DRAG_SLOT)
     if (ITEM_TBL.item.Kind == "Model") then return DRAG_SLOT == 10 end
     if (not ITEM_TBL.w) then return false end
 
-    return m_SlotToLoadout[weapons.Get(ITEM_TBL.w).Slot] == m_LoadoutLabels[DRAG_SLOT]
+    return m_SlotToLoadout[weapons.Get(ITEM_TBL.w).Kind] == m_LoadoutLabels[DRAG_SLOT]
 end
 
 function MOAT_INV:SwapSlotPanels(pnl1, pnl2)
@@ -111,6 +118,7 @@ function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
             if (id == 0) then
                 net.WriteByte(-islot_d)
             end
+            print("pls equip ", id)
         net.SendToServer()
     end
 

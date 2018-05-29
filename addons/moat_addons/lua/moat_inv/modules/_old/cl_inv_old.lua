@@ -1013,44 +1013,46 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
         local slot = i
         local wep = m_ReadWeaponFromNetCache()
 
-        if (wep.c) then
-            MOAT_INV:IsLocked(wep.c, function(locked)
-                wep.l = locked and 1 or nil
-            end)
-        end
-
-        if (is_loadout) then
-            m_Loadout[slot] = wep
-
-            if (slot >= 6 and slot <= 8 and m_Loadout[slot] and m_Loadout[slot].u) then
-                m_SendCosmeticPositions(m_Loadout[slot], slot)
+        MOAT_INV:GetOurSlots(function()
+            if (wep.c) then
+                MOAT_INV:IsLocked(wep.c, function(locked)
+                    wep.l = locked and 1 or nil
+                end)
             end
-        else
-            local function Internal(slot)
-                m_Inventory[slot] = wep
 
-                if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
-                    local d = nil
+            if (is_loadout) then
+                m_Loadout[slot] = wep
 
-                    if (m_Inventory[slot] and m_Inventory[slot].item) then
-                        local m = m_Inventory[slot].item
+                if (slot >= 6 and slot <= 8 and m_Loadout[slot] and m_Loadout[slot].u) then
+                    m_SendCosmeticPositions(m_Loadout[slot], slot)
+                end
+            else
+                local function Internal(slot)
+                    m_Inventory[slot] = wep
 
-                        if (m.Image) then
-                            d = m.Image
-                            if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
-                                M_INV_SLOT[slot].VGUI.WModel = d
+                    if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
+                        local d = nil
+
+                        if (m_Inventory[slot] and m_Inventory[slot].item) then
+                            local m = m_Inventory[slot].item
+
+                            if (m.Image) then
+                                d = m.Image
+                                if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
+                                    M_INV_SLOT[slot].VGUI.WModel = d
+                                end
                             end
                         end
                     end
                 end
-            end
 
-            if (wep.c) then
-                MOAT_INV:GetSlotForID(wep.c, Internal)
-            else
-                Internal(slot)
+                if (wep.c) then
+                    MOAT_INV:GetSlotForID(wep.c, Internal)
+                else
+                    Internal(slot)
+                end
             end
-        end
+        end)
         i = i + 1
     end
     for k = 1, i - 1 do
