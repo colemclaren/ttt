@@ -187,7 +187,6 @@ MOAT_INV.ColumnCount = 5
 function MOAT_INV:CreateNewSlots_CompleteRows(num)
 	self:GetOurSlots(function(max)
 		local needed = math.ceil((max + num + 1) / 5) * 5 - max
-		print(needed)
 		for i = 1, needed do
 			self:CreateNewSlot()
 		end

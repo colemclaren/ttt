@@ -2252,7 +2252,7 @@ function m_OpenInventory(ply2, utrade)
             surface_SetDrawColor(50, 50, 50, hover_coloral)
             surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
-            if (not m_Inventory[num]) then return end
+            if (not m_Inventory[num]) then print(num, "none") return end
 
             if (m_Inventory[num].c) then
                 surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)

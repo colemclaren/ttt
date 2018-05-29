@@ -1,3 +1,22 @@
+local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
+local m_SlotToLoadout = {}
+m_SlotToLoadout[0] = "Melee"
+m_SlotToLoadout[1] = "Secondary"
+m_SlotToLoadout[2] = "Primary"
+
+local function m_CanSwapLoadout(ITEM_TBL, DRAG_SLOT)
+    if (ITEM_TBL.c == nil) then return true end
+    if (ITEM_TBL.item.Kind == "Power-Up") then return DRAG_SLOT == 4 end
+    if (ITEM_TBL.item.Kind == "Other") then return DRAG_SLOT == 5 end
+    if (ITEM_TBL.item.Kind == "Hat") then return DRAG_SLOT == 6 end
+    if (ITEM_TBL.item.Kind == "Mask") then return DRAG_SLOT == 7 end
+    if (ITEM_TBL.item.Kind == "Body") then return DRAG_SLOT == 8 end
+    if (ITEM_TBL.item.Kind == "Effect") then return DRAG_SLOT == 9 end
+    if (ITEM_TBL.item.Kind == "Model") then return DRAG_SLOT == 10 end
+
+    return m_SlotToLoadout[weapons.Get(ITEM_TBL.w).Slot] == m_LoadoutLabels[DRAG_SLOT]
+end
+
 function MOAT_INV:SwapSlotPanels(pnl1, pnl2)
 	local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel
     local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot].VGUI.WModel
@@ -5,8 +24,8 @@ function MOAT_INV:SwapSlotPanels(pnl1, pnl2)
     local M_INV_SLOT2_SKIN = M_INV_SLOT[m_HoveredSlot].VGUI.MSkin
     local M_INV_SLOT1_ITEM = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.Item
     local M_INV_SLOT2_ITEM = M_INV_SLOT[m_HoveredSlot].VGUI.Item
-    local M_INV_TBL1 = table.Copy(m_Inventory[m_HoveredSlot])
-    local M_INV_TBL2 = table.Copy(m_Inventory[M_INV_DRAG.Slot])
+    local M_INV_TBL1 = m_Inventory[m_HoveredSlot]
+    local M_INV_TBL2 = m_Inventory[M_INV_DRAG.Slot]
 
     if (M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel) then
         if (string.EndsWith(M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel, ".mdl")) then
@@ -44,59 +63,83 @@ function MOAT_INV:SwapSlotPanels(pnl1, pnl2)
     m_Inventory[M_INV_DRAG.Slot] = M_INV_TBL1
 end
 
+local function TranslateVGUISlot(slot)
+    if (isnumber(slot)) then
+        return slot
+    end
+    if (slot:EndsWith "l") then
+        return -tonumber(slot:sub(1, -2))
+    end
+    return tonumber(slot)
+end
 
-function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
+
+function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
+    local ends = M_INV_SLOT[m_HoveredSlot]
+    if (not ends or not drag) then
+        return
+    end
+
+    local islot_d, islot_e = TranslateVGUISlot(drag.Slot), TranslateVGUISlot(ends.Slot)
+    local tbl_drag, tbl_hovr = islot_d < 0 and m_Loadout or m_Inventory, islot_e < 0 and m_Loadout or m_Inventory
+
+    -- Under no circumstances it will be possible to transfer loadout to loadout
+    if (islot_d < 0 and islot_e < 0) then
+        return
+    end
+    -- Check if you can transfer loadout to regular inventory
+    if ((islot_d < 0) ~= (islot_e < 0)) then
+        local loadout, non = drag, ends
+        if (islot_d >= 0) then
+            loadout, non = non, loadout
+        end
+        if (not m_CanSwapLoadout(non.VGUI.Item, -TranslateVGUISlot(loadout.Slot))) then
+            return
+        end
+        print "ur ok kid"
+        -- TODO: if you can, inform server
+    end
+
     if (INV_SELECT_MODE) then return end
-    if (m_HoveredSlot and M_INV_DRAG.Slot and M_INV_DRAG.Slot ~= m_HoveredSlot) then
-		MOAT_INV:SwapSlotItem(M_INV_DRAG.Slot, m_HoveredSlot)
+    if (m_HoveredSlot and drag.Slot and drag.Slot ~= m_HoveredSlot) then
+        MOAT_INV:SwapSlotItem(islot_d, islot_e)
 
-		local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel
-        local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot].VGUI.WModel
-        local M_INV_SLOT1_SKIN = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.MSkin
-        local M_INV_SLOT2_SKIN = M_INV_SLOT[m_HoveredSlot].VGUI.MSkin
-        local M_INV_SLOT1_ITEM = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.Item
-        local M_INV_SLOT2_ITEM = M_INV_SLOT[m_HoveredSlot].VGUI.Item
-        local M_INV_TBL1 = table.Copy(m_Inventory[m_HoveredSlot])
-        local M_INV_TBL2 = table.Copy(m_Inventory[M_INV_DRAG.Slot])
-
-        if (M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel) then
-            if (string.EndsWith(M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel, ".mdl")) then
-                M_INV_SLOT[m_HoveredSlot].VGUI.SIcon.Icon:SetAlpha(255)
+        if (drag.VGUI.WModel) then
+            if (string.EndsWith(drag.VGUI.WModel, ".mdl")) then
+                ends.VGUI.SIcon.Icon:SetAlpha(255)
             else
-                M_INV_SLOT[m_HoveredSlot].VGUI.SIcon.Icon:SetAlpha(0)
+                ends.VGUI.SIcon.Icon:SetAlpha(0)
             end
 
-            M_INV_SLOT[m_HoveredSlot].VGUI.SIcon:SetModel(M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel, M_INV_SLOT[M_INV_DRAG.Slot].VGUI.MSkin)
-            M_INV_SLOT[m_HoveredSlot].VGUI.SIcon:SetVisible(true)
+            ends.VGUI.SIcon:SetModel(drag.VGUI.WModel, drag.VGUI.MSkin)
+            ends.VGUI.SIcon:SetVisible(true)
         else
-            M_INV_SLOT[m_HoveredSlot].VGUI.SIcon:SetVisible(false)
+            ends.VGUI.SIcon:SetVisible(false)
         end
 
-        if (M_INV_SLOT[m_HoveredSlot].VGUI.WModel) then
-            if (string.EndsWith(M_INV_SLOT[m_HoveredSlot].VGUI.WModel, ".mdl")) then
-                M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon.Icon:SetAlpha(255)
+        if (ends.VGUI.WModel) then
+            if (string.EndsWith(ends.VGUI.WModel, ".mdl")) then
+                drag.VGUI.SIcon.Icon:SetAlpha(255)
             else
-                M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon.Icon:SetAlpha(0)
+                drag.VGUI.SIcon.Icon:SetAlpha(0)
             end
 
-            M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon:SetModel(M_INV_SLOT[m_HoveredSlot].VGUI.WModel, M_INV_SLOT[m_HoveredSlot].VGUI.MSkin)
-            M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon:SetVisible(true)
+            drag.VGUI.SIcon:SetModel(ends.VGUI.WModel, ends.VGUI.MSkin)
+            drag.VGUI.SIcon:SetVisible(true)
         else
-            M_INV_SLOT[M_INV_DRAG.Slot].VGUI.SIcon:SetVisible(false)
+            drag.VGUI.SIcon:SetVisible(false)
         end
 
-        M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel = M_INV_SLOT2_ICON
-        M_INV_SLOT[m_HoveredSlot].VGUI.WModel = M_INV_SLOT1_ICON
-        M_INV_SLOT[M_INV_DRAG.Slot].VGUI.MSkin = M_INV_SLOT2_SKIN
-        M_INV_SLOT[m_HoveredSlot].VGUI.MSkin = M_INV_SLOT1_SKIN
-        M_INV_SLOT[M_INV_DRAG.Slot].VGUI.Item = M_INV_SLOT2_ITEM
-        M_INV_SLOT[m_HoveredSlot].VGUI.Item = M_INV_SLOT1_ITEM
-        m_Inventory[m_HoveredSlot] = M_INV_TBL2
-        m_Inventory[M_INV_DRAG.Slot] = M_INV_TBL1
+        drag.VGUI.WModel, ends.VGUI.WModel = ends.VGUI.WModel, drag.VGUI.WModel
+        drag.VGUI.MSkin, ends.VGUI.MSkin = ends.VGUI.MSkin, drag.VGUI.MSkin
+        drag.VGUI.Item, ends.VGUI.Item = ends.VGUI.Item, drag.VGUI.Item
+        islot_d, islot_e = math.abs(islot_d), math.abs(islot_e)
+        tbl_drag[islot_d], tbl_hovr[islot_e] = tbl_hovr[islot_e], tbl_drag[islot_d]
     else
-        M_INV_DRAG.VGUI.SIcon:SetVisible(true)
+        drag.VGUI.SIcon:SetVisible(true)
     end
 end
+
 
 /*function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
     if (INV_SELECT_MODE) then return end
