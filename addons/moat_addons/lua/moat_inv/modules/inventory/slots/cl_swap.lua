@@ -76,7 +76,7 @@ end
 
 function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
 
-    if (drag.Slot == m_HoveredSlot) then
+    if (drag.Slot == m_HoveredSlot or INV_SELECT_MODE) then
         return
     end
 
@@ -101,15 +101,20 @@ function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
     local tbl_drag, tbl_hovr = islot_d < 0 and m_Loadout or m_Inventory, m_Inventory
 
     -- Check if you can transfer loadout to regular inventory
-    if ((islot_d < 0) ~= (islot_e < 0)) then
-        if (not m_CanSwapLoadout(ends.VGUI.Item, -islot_d)) then
-            return
-        end
-        print "ur ok kid"
-        -- TODO: if you can, inform server
+    if ((islot_d < 0) ~= (islot_e < 0) and ends.c and not m_CanSwapLoadout(ends.VGUI.Item, -islot_d)) then
+        return
+    end
+    if (islot_d < 0) then
+        net.Start "MOAT_INV.Swap"
+            local id = ends.VGUI.Item and ends.VGUI.Item.c or 0
+            net.WriteUInt(id, 32)
+            if (id == 0) then
+                net.WriteByte(-islot_d)
+            end
+            print(id, islot_d)
+        net.SendToServer()
     end
 
-    if (INV_SELECT_MODE) then return end
     MOAT_INV:SwapSlotItem(islot_d, islot_e)
 
     if (drag.VGUI.WModel) then

@@ -64,7 +64,14 @@ end
 function MOAT_INV:SlotExists(slot, fn)
 	local query = self.SQL:CreateQuery("SELECT c FROM mg_slots WHERE slotid = ? AND steamid = ?;", slot, steamid())
 	self.SQL:Query(query, function(d)
-		return fn(d and not not d[1] or false)
+		local function Internal()
+			return fn(d and d[1] and d[1].c ~= "0" or false)
+		end
+		if (d and d[1] and d[1].c == "0") then
+			self.SQL:Query("DELETE FROM mg_slots WHERE c = 0;", Internal)
+		else
+			Internal()
+		end
 	end)
 end
 
@@ -74,16 +81,30 @@ function MOAT_INV:SaveSlotItem(slot, id, fn)
 		local query = self.SQL:CreateQuery([[
 			INSERT INTO mg_slots (c, slotid, steamid) VALUES (?, ?, ?);
 		]], id, slot, steamid())
-		self.SQL:Query(query, fn)
+		self.SQL:Query(query, function()
+			if (not M_INV_SLOT[slot]) then
+				MOAT_INV:CreateNewSlots_CompleteRows(0, fn)
+			else
+				fn()
+			end
+		end)
 	end)
 end
 
 function MOAT_INV:SwapSlotItem(slot, slot2, fn)
 	self:GetOurSlots(function(max, cache)
 		local item1, item2 = cache.s[slot], cache.s[slot2]
-		local query = self.SQL:CreateQuery([[
+		if (item1 == 0) then
+			assert(item2 ~= 0, "never should happen")
+			return self:SwapSlotItem(slot2, slot, fn)
+		end
+		assert(item1 ~= 0, "item1 is 0")
+		local query = self.SQL:CreateQuery(item2 ~= 0 and [[
 			UPDATE mg_slots SET c = ?item2 WHERE slotid = ?slot1 AND steamid = ?steamid;
 			UPDATE mg_slots SET c = ?item1 WHERE slotid = ?slot2 AND steamid = ?steamid;
+		]] or [[
+			DELETE FROM mg_slots WHERE slotid = ?slot1 and steamid = ?steamid;
+			REPLACE INTO mg_slots (c, slotid, steamid) VALUES (?item1, ?slot2, ?steamid);
 		]], {
 			slot1 = slot,
 			slot2 = slot2,
@@ -147,36 +168,48 @@ function MOAT_INV:GetOurSlots(fn)
 
 	local query = self.SQL:CreateQuery("SELECT slotid, c FROM mg_slots WHERE steamid = ?;", steamid())
 
-	self.SQL:Query(query, function(data)
-		if (not data) then
-			data = {}
-		end
-		local cache = {
-			c = {}, -- id -> slot
-			s = {}, -- slot -> id
-		}
-		local max = self.Config.MinSlots
-		for _, dat in pairs(data) do
-			local slotid = tonumber(dat.slotid)
-			max = math.max(slotid, max)
-			cache.c[tonumber(dat.c)] = slotid
-			cache.s[slotid] = tonumber(dat.c)
-		end
-
-		for i = -10, max do
-			if (not cache.s[i]) then
-				cache.s[i] = 0
+	local function Internal()
+		self.SQL:Query(query, function(data)
+			if (not data) then
+				data = {}
 			end
-		end
-		self.CachedSlots = {
-			max,
-			cache
-		}
+			local cache = {
+				c = {}, -- id -> slot
+				s = {}, -- slot -> id
+			}
+			local max = self.Config.MinSlots
+			for _, dat in pairs(data) do
+				local slotid = tonumber(dat.slotid)
+				local id = tonumber(dat.c)
+				if (not m_ItemCache[id]) then
+					continue
+				end
+				max = math.max(slotid, max)
+				cache.c[id] = slotid
+				cache.s[slotid] = id
+			end
 
-		for i = 1, #self.SlotCache do
-			self:GetOurSlots(self.SlotCache[i])
-		end
-	end)
+			for i = -10, max do
+				if (not cache.s[i]) then
+					cache.s[i] = 0
+				end
+			end
+
+			self.CachedSlots = {
+				max,
+				cache
+			}
+
+			for i = 1, #self.SlotCache do
+				self:GetOurSlots(self.SlotCache[i])
+			end
+		end)
+	end
+	if (self.AllowSlotLoad) then
+		return Internal()
+	else
+		self.AllowSlotLoad = Internal
+	end
 end
 
 -- c = id -> slot
@@ -184,12 +217,13 @@ end
 
 MOAT_INV.ColumnCount = 5
 
-function MOAT_INV:CreateNewSlots_CompleteRows(num)
+function MOAT_INV:CreateNewSlots_CompleteRows(num, fn)
 	self:GetOurSlots(function(max)
 		local needed = math.ceil((max + num + 1) / 5) * 5 - max
 		for i = 1, needed do
 			self:CreateNewSlot()
 		end
+		fn()
 	end)
 end
 
@@ -246,7 +280,7 @@ function MOAT_INV:GetEmptySlot(sn, st, r, fn)
 	end
 end
 
-function MOAT_INV:GetSlotForID(id, fn)
+function MOAT_INV:GetSlotForID(id, fn, noadd)
 	assert(id ~= 0, "id is 0")
 	self:GetOurSlots(function(sn, st)
 		if (st.c[id]) then return fn(st.c[id]) end

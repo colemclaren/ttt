@@ -998,25 +998,15 @@ net.Receive("MOAT_DATA_INFO", function(len)
         tbl[ind] = net.ReadTable()
     end
 end)
-
-local function load_slots()
-    m_ItemsLoaded = true
-    MOAT_INV:GetOurSlots(function(n)
-        for i = 1, n do
-            m_Inventory[i] = {}
-        end
-
-        for i = 1, 10 do
-            m_Loadout[i] = {}
-        end
-    end)
-end
+net.Receive("MOAT_INV.PURGE", function()
+    if (MOAT_INV.AllowSlotLoad) then
+        MOAT_INV.AllowSlotLoad()
+    else
+        MOAT_INV.AllowSlotLoad = true
+    end
+end)
 
 net.Receive("MOAT_SEND_INV_ITEM", function(len)
-    if (not m_ItemsLoaded) then
-        load_slots()
-    end
-
     local is_loadout = net.ReadBool()
     local i = net.ReadUInt(32)
     while (net.ReadBool()) do
@@ -1037,7 +1027,6 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
             end
         else
             local function Internal(slot)
-            print("internal", slot)
                 m_Inventory[slot] = wep
 
                 if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
@@ -5186,17 +5175,6 @@ net.Receive("MOAT_REM_INV_ITEM", function(len)
     end
 end)
 
-net.Receive("MOAT_LOCK_INV_ITEM", function(len)
-    local key = net.ReadDouble()
-    local locked = net.ReadBool()
-
-    if (locked) then
-        m_Inventory[key].l = 1
-    else
-        m_Inventory[key].l = 0
-    end
-end)
-
 local function urlencode(str)
     if (str) then
         str = string.gsub(str, "\n", "\r\n")
@@ -5261,48 +5239,38 @@ end
 net.Receive("MOAT_ADD_INV_ITEM", function(len)
     local tbl = m_ReadWeaponFromNetCache()
     local not_drop = net.ReadBool()
-    local slot = #m_Inventory + 1
-    for i, w in pairs(m_Inventory) do
-        if (not w.c) then
-            slot = i
-            break
-        end
-    end
+    MOAT_INV:GetSlotForID(tbl.c, function(slot)
+        m_Inventory[slot] = tbl
+        if (m_isUsingInv()) then
+            M_INV_SLOT[slot].VGUI.Item = m_Inventory[slot]
 
-    if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
-        tbl.w = tbl.item.WeaponClass
-    end
+            if (m_Inventory[slot].item.Image) then
+                M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Image
+                M_INV_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(255)
+            elseif (m_Inventory[slot].item.Model) then
+                M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Model
+                M_INV_SLOT[slot].VGUI.MSkin = m_Inventory[slot].item.Skin
+                M_INV_SLOT[slot].VGUI.SIcon:SetModel(m_Inventory[slot].item.Model, m_Inventory[slot].item.Skin)
+            else
+                M_INV_SLOT[slot].VGUI.WModel = weapons.Get(m_Inventory[slot].w).WorldModel
+                M_INV_SLOT[slot].VGUI.SIcon:SetModel(M_INV_SLOT[slot].VGUI.WModel)
+            end
 
-    m_Inventory[slot] = tbl
-
-    if (m_isUsingInv()) then
-        M_INV_SLOT[slot].VGUI.Item = m_Inventory[slot]
-
-        if (m_Inventory[slot].item.Image) then
-            M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Image
-            M_INV_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(255)
-        elseif (m_Inventory[slot].item.Model) then
-            M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Model
-            M_INV_SLOT[slot].VGUI.MSkin = m_Inventory[slot].item.Skin
-            M_INV_SLOT[slot].VGUI.SIcon:SetModel(m_Inventory[slot].item.Model, m_Inventory[slot].item.Skin)
-        else
-            M_INV_SLOT[slot].VGUI.WModel = weapons.Get(m_Inventory[slot].w).WorldModel
-            M_INV_SLOT[slot].VGUI.SIcon:SetModel(M_INV_SLOT[slot].VGUI.WModel)
+            M_INV_SLOT[slot].VGUI.SIcon:SetVisible(true)
         end
 
-        M_INV_SLOT[slot].VGUI.SIcon:SetVisible(true)
-    end
+        if (GetConVar("moat_auto_deconstruct"):GetInt() == 1 and not not_drop and not string.find(m_Inventory[slot].item.Name, "Crate")) then
+            local rar = GetConVar("moat_auto_deconstruct_rarity"):GetString()
 
-    if (GetConVar("moat_auto_deconstruct"):GetInt() == 1 and not not_drop and not string.find(m_Inventory[slot].item.Name, "Crate")) then
-        local rar = GetConVar("moat_auto_deconstruct_rarity"):GetString()
-
-        if (ITEM_RARITY_TO_NAME[rar] and m_Inventory[slot].item.Rarity ~= 0 and m_Inventory[slot].item.Rarity <= ITEM_RARITY_TO_NAME[rar] and m_CanAutoDeconstruct(m_Inventory[slot])) then
-            net.Start("MOAT_REM_INV_ITEM")
-            net.WriteUInt(m_Inventory[slot].c, 32)
-            net.WriteByte(0)
-            net.SendToServer()
+            if (ITEM_RARITY_TO_NAME[rar] and m_Inventory[slot].item.Rarity ~= 0 and m_Inventory[slot].item.Rarity <= ITEM_RARITY_TO_NAME[rar] and m_CanAutoDeconstruct(m_Inventory[slot])) then
+                net.Start("MOAT_REM_INV_ITEM")
+                net.WriteUInt(m_Inventory[slot].c, 32)
+                net.WriteByte(0)
+                net.SendToServer()
+            end
         end
-    end
+    end)
+
 end)
 
 local function open_inv()

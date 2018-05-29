@@ -2,6 +2,7 @@ require("mysqloo")
 
 util.AddNetworkString "MOAT_ITEM_INFO"
 util.AddNetworkString "MOAT_DATA_INFO"
+util.AddNetworkString "MOAT_INV.PURGE"
 
 local DATABASE_HOST = "208.103.169.40"
 local DATABASE_PORT = 3306
@@ -10,8 +11,6 @@ local DATABASE_USERNAME = "footsies"
 local DATABASE_PASSWORD = "clkmTQF6bF@3V0NYjtUMoC6sF&17B$"
 local MINVENTORY_CONNECTED = false
 
-
-local sql_queue = {}
 MINVENTORY_MYSQL = MOAT_INV.SQL and MOAT_INV.SQL.mysqloo
 local SQL = MOAT_INV.SQL
 
@@ -20,15 +19,6 @@ hook.Add("InventoryPrepare", "MINVENTORY_MYSQL", function()
     SQL = MOAT_INV.SQL
     MINVENTORY_CONNECTED = true
     print("Connected to Database.")
-
-    for k, v in pairs(sql_queue) do
-        if (v:IsValid()) then
-            m_LoadInventoryForPlayer(v)
-            m_LoadStats(v)
-        end
-    end
-
-    sql_queue = {}
 end)
 
 hook.Add("SQLConnectionFailed", "MINVENTORY_MYSQL", function(db)
@@ -315,8 +305,8 @@ function m_WriteWeaponForPlayer(wep, ply)
     return net.BytesWritten() - written
 end
 
-local interval = engine.TickInterval()
-local max_per_interval = 30000 * interval
+local interval = engine.TickInterval() * 10
+local max_per_interval = 30000 * interval * 0.8
 
 local function SendExtraInfo(ply, sending, cb)
     if (not IsValid(ply)) then
@@ -355,7 +345,7 @@ local function SendExtraInfo(ply, sending, cb)
         net.WriteBool(false)
     net.Send(ply)
     if (overflow) then
-        timer.Simple(0, function()
+        timer.Simple(interval, function()
             SendExtraInfo(ply, sending, cb)
         end)
     else
@@ -364,8 +354,8 @@ local function SendExtraInfo(ply, sending, cb)
 end
 
 local function SendWeapons(ply, weps, cb, i)
-	if (not weps[i]) then return cb() end
-	if (not weps[i].c) then i = i + 1 return SendWeapons(ply, weps, cb, i) end
+    if (not weps[i]) then return cb() end
+    if (not weps[i].c) then i = i + 1 return SendWeapons(ply, weps, cb, i) end
 
     ply.ItemCache = ply.ItemCache or {}
     net.Start "MOAT_ITEM_INFO"
@@ -453,6 +443,13 @@ local function SendWeaponInvItems(ply, datas, is_loadout, cb)
 end
 
 function m_LoadInventoryForPlayer(ply, cb)
+    local queue = ply.m_SentInventoryQueue
+    if (queue == true) then
+        return cb()
+    elseif (queue) then
+        table.insert(queue, cb)
+    end
+    ply.m_SentInventoryQueue = {cb}
     ply:LoadInventory(function(_, inv)
         local inv_tbl = {
             ply = ply,
@@ -480,15 +477,17 @@ function m_LoadInventoryForPlayer(ply, cb)
         setmetatable(inv_tbl, {
             __newindex = function(self, k, v)
                 rawset(self, k, v)
-                print(self.ply, k, v)
-                debug.Trace()
             end
         })
 
         ply.Inventory = inv_tbl
 
         ply:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", i)
-        if (cb) then cb() end
+        local queue = ply.m_SentInventoryQueue
+        ply.m_SentInventoryQueue = true
+        for _, fn in pairs(queue) do
+            fn()
+        end
     end)
 
     --UPDATE core_members SET last_activity = 1524525387 WHERE steamid = 76561198831932398
@@ -524,6 +523,8 @@ function m_SendInventoryToPlayer(ply)
 
                 return m_WriteWeaponsToPlayer(ply, inv, function()
                     return SendWeaponInvItems(ply, inv, false, function()
+                        net.Start "MOAT_INV.PURGE"
+                        net.Send(ply)
                         MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
                         ply.Sending = false
                     end)

@@ -2,7 +2,8 @@
     MySQLOO wrapper interface
 ]]
 
-local data = {}
+local data = debug.getregistry().MYSQLOO_OBJ or {}
+debug.getregistry().MYSQLOO_OBJ = data
 local mt = {
     __index = data,
     __newindex = data

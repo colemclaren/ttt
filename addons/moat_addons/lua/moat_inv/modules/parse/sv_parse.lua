@@ -272,8 +272,8 @@ Parsing Item > SQL
 ------------------------------------]]--
 
 function MOAT_INV:QueryFromItem(i, o)
-    if (i.s and next(i.s) ~= nil) then -- weapon
-        if (i.t) then
+    if (i.s and next(i.s.real_data) ~= nil) then -- weapon
+        if (i.t and next(i.t.real_data) ~= nil) then
             return self:InsertWeaponTalents(i, o)
         else
             return self:InsertWeaponStats(i, o)
@@ -304,7 +304,7 @@ function MOAT_INV:InsertWeaponStats(tbl, ownerid)
         tbl.u,
         ownerid
     }
-    for k, v in pairs(tbl["s"]) do
+    for k, v in pairs(tbl.s.real_data) do
         data.stat_count = data.stat_count + 1
         table.insert(data, k)
         table.insert(data, v)
@@ -325,12 +325,13 @@ function MOAT_INV:InsertWeaponTalents(tbl, ownerid)
         tbl.u,
         ownerid,
     }
-    for k, v in pairs(tbl["s"]) do
+    for k, v in pairs(tbl.s.real_data) do
         table.insert(data, k)
         table.insert(data, v)
+        print(k, v)
         data.stat_count = data.stat_count + 1
     end
-    for k, v in ipairs(tbl["t"]) do
+    for k, v in ipairs(tbl.t.real_data) do
         for i = 1, #v["m"] do
             table.insert(data, v.e)
             table.insert(data, v.l)

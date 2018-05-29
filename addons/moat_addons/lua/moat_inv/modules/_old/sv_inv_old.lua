@@ -207,8 +207,8 @@ function meta:m_AddInventoryItem(tbl, _, no_chat)
 
         local ply_inv = MOAT_INVS[self]
         local slot_found
-        for i = 1, self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
-            if (ply_inv[i].c) then
+        for i = 1, self:GetMaxSlots() do
+            if (not ply_inv["slot"..i].c) then
                 slot_found = i
                 break
             end
@@ -1814,43 +1814,6 @@ hook.Add("PlayerSay", "moat_TradeCommand", function(ply, text, public)
 
         return ""
     end
-end)
-
-function m_LockInventoryItem(ply, slot, class)
-    local ply_inv = MOAT_INVS[ply]
-    local items_found = 0
-
-    for k, v in pairs(ply_inv) do
-        if (v.c == tostring(class)) then
-            if (MOAT_INVS[ply][k].l) then
-                if (MOAT_INVS[ply][k].l == 1) then
-                    MOAT_INVS[ply][k].l = 0
-                else
-                    MOAT_INVS[ply][k].l = 1
-                end
-            else
-                MOAT_INVS[ply][k].l = 1
-            end
-            net.Start("MOAT_LOCK_INV_ITEM")
-            net.WriteDouble(tonumber(k:sub(5, #k)))
-            net.WriteBool(MOAT_INVS[ply][k].l == 1)
-            net.Send(ply)
-
-            items_found = items_found + 1
-            m_SaveInventory(ply)
-        end
-    end
-
-    if (items_found > 1) then
-        RunConsoleCommand("mga", "ban", ply:SteamID(), "minutes", "525600", "Automated Ban: Exploitation Detected, Contact Moat!")
-    end
-end
-
-net.Receive("MOAT_LOCK_INV_ITEM", function(len, ply)
-    local slot = net.ReadDouble()
-    local class = net.ReadDouble()
-
-    m_LockInventoryItem(ply, slot, class, lock)
 end)
 
 function m_FinishUsableItem(pl, item)
