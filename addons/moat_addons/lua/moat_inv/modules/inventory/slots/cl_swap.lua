@@ -13,12 +13,13 @@ local function m_CanSwapLoadout(ITEM_TBL, DRAG_SLOT)
     if (ITEM_TBL.item.Kind == "Body") then return DRAG_SLOT == 8 end
     if (ITEM_TBL.item.Kind == "Effect") then return DRAG_SLOT == 9 end
     if (ITEM_TBL.item.Kind == "Model") then return DRAG_SLOT == 10 end
+    if (not ITEM_TBL.w) then return false end
 
     return m_SlotToLoadout[weapons.Get(ITEM_TBL.w).Slot] == m_LoadoutLabels[DRAG_SLOT]
 end
 
 function MOAT_INV:SwapSlotPanels(pnl1, pnl2)
-	local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel
+    local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel
     local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot].VGUI.WModel
     local M_INV_SLOT1_SKIN = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.MSkin
     local M_INV_SLOT2_SKIN = M_INV_SLOT[m_HoveredSlot].VGUI.MSkin
@@ -75,7 +76,6 @@ end
 
 
 function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
-
     if (drag.Slot == m_HoveredSlot or INV_SELECT_MODE) then
         return
     end
@@ -100,18 +100,17 @@ function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
 
     local tbl_drag, tbl_hovr = islot_d < 0 and m_Loadout or m_Inventory, m_Inventory
 
+    local id = ends.VGUI.Item and ends.VGUI.Item.c or 0
     -- Check if you can transfer loadout to regular inventory
-    if ((islot_d < 0) ~= (islot_e < 0) and ends.c and not m_CanSwapLoadout(ends.VGUI.Item, -islot_d)) then
+    if ((islot_d < 0) ~= (islot_e < 0) and id ~= 0 and not m_CanSwapLoadout(ends.VGUI.Item, -islot_d)) then
         return
     end
     if (islot_d < 0) then
         net.Start "MOAT_INV.Swap"
-            local id = ends.VGUI.Item and ends.VGUI.Item.c or 0
             net.WriteUInt(id, 32)
             if (id == 0) then
                 net.WriteByte(-islot_d)
             end
-            print(id, islot_d)
         net.SendToServer()
     end
 
