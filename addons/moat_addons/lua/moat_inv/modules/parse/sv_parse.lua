@@ -171,7 +171,7 @@ function buildable:CreateTalents(data)
 end
 
 function MOAT_INV:Buildable()
-    return new_weapon(buildable)
+    return new_weapon(table.Copy(buildable))
 end
 
 local function UpdateStat(self, statid, val)

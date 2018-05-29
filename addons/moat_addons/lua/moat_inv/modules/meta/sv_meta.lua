@@ -30,6 +30,8 @@ function PLAYER:AddItem(item, cb)
 
     MOAT_INV:SQLQuery(str, function(d, q)
         if (not d or not d[1]) then return end
+        print(d[1].cid)
+        PrintTable(d[1])
         if (cb) then cb(d[1].cid) end
     end)
 end

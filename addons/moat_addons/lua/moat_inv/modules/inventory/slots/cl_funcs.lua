@@ -83,7 +83,9 @@ function MOAT_INV:SaveSlotItem(slot, id, fn)
 		]], id, slot, steamid())
 		self.SQL:Query(query, function()
 			if (not M_INV_SLOT[slot]) then
-				MOAT_INV:CreateNewSlots_CompleteRows(0, fn)
+				self:GetOurSlots(function(max)
+					self:CreateNewSlots_CompleteRows(slot - max, fn)
+				end)
 			else
 				fn()
 			end
@@ -219,10 +221,11 @@ MOAT_INV.ColumnCount = 5
 
 function MOAT_INV:CreateNewSlots_CompleteRows(num, fn)
 	self:GetOurSlots(function(max)
-		local needed = math.ceil((max + num + 1) / 5) * 5 - max
+		local needed = math.ceil((max + num) / 5) * 5 - max
 		for i = 1, needed do
 			self:CreateNewSlot()
 		end
+		self.CachedSlots[1] = max + needed
 		fn()
 	end)
 end
@@ -269,9 +272,17 @@ function MOAT_INV:GetEmptySlot(sn, st, r, fn)
 		end
 
 		local new_max = sn + 1
-		self.CachedSlots[1] = new_max
 		st.s[new_max] = 0
-		return fn(new_max)
+
+		if (not M_INV_SLOT[new_max]) then
+			self:GetOurSlots(function(max)
+				self:CreateNewSlots_CompleteRows(new_max - max, function()
+					return fn(new_max)
+				end)
+			end)
+		else
+			return fn(new_max)
+		end
 	end
 	if (not sn or not st) then
 		return self:GetOurSlots(Internal)
