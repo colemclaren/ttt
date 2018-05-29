@@ -31,7 +31,7 @@ local icons = {
 }
 
 function dlogs:Notify(enum, msg, time, snd)
-    if (snd and GetConVar("ttt_dmglogs_enablesound"):GetBool() and (system.HasFocus() or GetConVar("ttt_dmglogs_enablesoundoutside"):GetBool())) then
+    if (snd and GetConVar("moat_dlogs_enablesound"):GetBool() and (system.HasFocus() or GetConVar("moat_dlogs_enablesoundoutside"):GetBool())) then
 		sound.PlayURL(dlogs.Config.SoundsURL .. snd)
     end
 

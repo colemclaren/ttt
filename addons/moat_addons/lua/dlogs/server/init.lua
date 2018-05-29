@@ -8,7 +8,6 @@ end
 util.AddNetworkString("dlogs.Askdlogs")
 util.AddNetworkString("dlogs.Senddlogs")
 util.AddNetworkString("dlogs.Refreshdlogs")
-util.AddNetworkString("dlogs.InformSuperAdmins")
 util.AddNetworkString("dlogs.Ded")
 util.AddNetworkString("dlogs.SendLang")
 dlogs.DamageTable = dlogs.DamageTable or {}
@@ -157,7 +156,7 @@ function dlogs:Senddlogs(ply, round)
         if not self.last_round_map then return end
 
         if not dlogs.PreviousMap then
-            if dlogs.Use_MySQL then
+            if dlogs.Config.Use_MySQL then
                 local query = self.database:query("SELECT damagelog FROM damagelog_oldlogs_v3 WHERE date = " .. self.last_round_map)
 
                 query.onSuccess = function(q)

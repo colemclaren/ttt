@@ -4,10 +4,7 @@ util.AddNetworkString("dlogs.AutoslaysLeft")
 util.AddNetworkString("dlogs.PlayerLeft")
 util.AddNetworkString("dlogs.SendJails")
 
-local mode = dlogs.ULX_AutoslayMode
-
-if mode != 1 and mode != 2 then return end
-local aslay = mode == 1
+if true then return end
 
 if not sql.TableExists("damagelog_autoslay") then
 	sql.Query([[CREATE TABLE damagelog_autoslay (
@@ -236,7 +233,7 @@ hook.Add("TTTBeginRound", "dlogs_AutoSlay", function()
 			if data then
 				if aslay then
 					timer.Simple(0.5, function()
-						hook.Run("dlogs.AslayHook", v)
+						hook.Run("dlogs_AslayHook", v)
 					end)
 					v:Kill()
 				else
@@ -326,7 +323,7 @@ hook.Add("PlayerDisconnected", "Autoslay_Message", function(ply)
 	end
 end)
 
-if dlogs.ULX_Autoslay_ForceRole then
+if false then
 
 	hook.Add("Initialize", "Autoslay_ForceRole", function()
 

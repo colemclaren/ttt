@@ -1,5 +1,5 @@
 if SERVER then
-	dlogs:EventHook("dlogs.AslayHook")
+	dlogs:EventHook("dlogs_AslayHook")
 else
 	dlogs:AddFilter("filter_show_aslays", DAMAGELOG_FILTER_BOOL, true)
 	dlogs:AddColor("colors_aslays", Color(255, 128, 128, 255))
@@ -8,7 +8,7 @@ end
 local event = {}
 event.Type = "ASLAY"
 
-function event:dlogs.AslayHook(ply)
+function event:dlogs_AslayHook(ply)
 	local tbl = {
 		[1] = ply:GetdlogsID()
 	}

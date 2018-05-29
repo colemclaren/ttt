@@ -10,15 +10,15 @@ Damagelog.SceneID = Damagelog.SceneID or 0
 local magneto_ents = {}
 
 hook.Add("TTTBeginRound", "TTTBeginRound_SpecDMRecord", function()
-	table.Empty(magneto_ents)
-	table.Empty(Damagelog.Records)
-	for k,ply in pairs(player.GetAll()) do
+	Damagelog.Records = {}
+	magneto_ents = {}
+
+	for k,ply in ipairs(player.GetAll()) do
 		ply.SpectatingLog = false
 	end
 end)
 
-timer.Create("SpecDM_Recording", 0.2, 0, function()
-
+timer.Create("SpecDM_Recording", 0.5, 0, function()
 	if not GetRoundState or GetRoundState() != ROUND_ACTIVE then return end
 
 	if #Damagelog.Records >= 50 then
@@ -27,57 +27,61 @@ timer.Create("SpecDM_Recording", 0.2, 0, function()
 	
 	local tbl = {}
 	
-	for k,v in pairs(magneto_ents) do
+	for k, v in pairs(magneto_ents) do
 		if CurTime() - v.last_saw > 15 then
 			v.record = false
 		end
 	end
 
-	for k,v in pairs(player.GetAll()) do
-		if not v:IsActive() then 
+	local pls = player.GetAll()
+	for i = 1, #pls do
+		local v = pls[i]
+		if (not IsValid(v)) then continue end
+		if (v:IsSpec()) then
 			local rag = v.server_ragdoll
-			if IsValid(rag) then
-				local pos,ang = rag:GetPos(), rag:GetAngles()
-				tbl[v:Nick()] = {
-					corpse = true,
-					pos = pos,
-					ang = ang,
-					found = CORPSE.GetFound(rag, false)
-				}
-			end
-		else
-			local wep = v:GetActiveWeapon()
+			if (not IsValid(rag)) then continue end
 			tbl[v:Nick()] = {
-				pos = v:GetPos(),
-				ang = v:GetAngles(),
-				sequence = v:GetSequence(),
-				hp = v:Health(),
-				wep = IsValid(wep) and wep:GetClass() or "<no wep>",
-				role = v:GetRole()
+				corpse = true,
+				pos = pos,
+				ang = ang,
+				found = CORPSE.GetFound(rag, false)
 			}
-			if IsValid(wep) and wep:GetClass() == "weapon_zm_carry" and IsValid(wep.EntHolding) then
-				local found = false
-				for k,v in pairs(magneto_ents) do
-					if v.ent == wep.EntHolding then
-						found = k
-						break
-					end
+
+			continue
+		end
+
+		local wep = v:GetActiveWeapon()
+		tbl[v:Nick()] = {
+			pos = v:GetPos(),
+			ang = v:GetAngles(),
+			sequence = v:GetSequence(),
+			hp = v:Health(),
+			wep = IsValid(wep) and wep:GetClass() or "<no wep>",
+			role = v:GetRole()
+		}
+		if IsValid(wep) and wep:GetClass() == "weapon_zm_carry" and IsValid(wep.EntHolding) then
+			local found = false
+			for k, v2 in pairs(magneto_ents) do
+				if v2.ent == wep.EntHolding then
+					found = k
+					break
 				end
-				if found then
-					magneto_ents[found].last_saw = CurTime()
-					magneto_ents[found].record = true
-				else
-					table.insert(magneto_ents, {
-						ent = wep.EntHolding,
-						record = true,
-						last_saw = CurTime()
-					})
-				end
+			end
+
+			if found then
+				magneto_ents[found].last_saw = CurTime()
+				magneto_ents[found].record = true
+			else
+				table.insert(magneto_ents, {
+					ent = wep.EntHolding,
+					record = true,
+					last_saw = CurTime()
+				})
 			end
 		end
 	end
 	
-	for k,v in pairs(magneto_ents) do
+	for k, v in pairs(magneto_ents) do
 		if v.record and IsValid(v.ent) then
 			table.insert(tbl, v.ent:EntIndex(), {
 				model = v.ent:GetModel(),
@@ -88,7 +92,6 @@ timer.Create("SpecDM_Recording", 0.2, 0, function()
 	end
 
 	table.insert(Damagelog.Records, tbl)
-
 end)
 
 net.Receive("DL_AskDeathScene", function(_, ply)

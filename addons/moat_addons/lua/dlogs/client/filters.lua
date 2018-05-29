@@ -1,28 +1,18 @@
-if file.Exists("damagelog/filters.txt", "DATA") then
-	file.Delete("damagelog/filters.txt")
-end
+DAMAGELOG_FILTER_BOOL = 0
+DAMAGELOG_FILTER_PLAYER = 1
 
-if file.Exists("damagelog/filters_new.txt", "DATA") and not dlogs.filter_settings then
-	local settings = file.Read("damagelog/filters_new.txt", "DATA")
-	if settings then
-		dlogs.filter_settings = util.JSONToTable(settings)
-	end
+function dlogs:AddFilter(n, t, d)
+	self.filters[n] = t
+	if (self.filter_settings[n] == nil) then self.filter_settings[n] = d end
 end
 
 function dlogs:SaveFilters()
-	local temp = table.Copy(self.filter_settings)
-	file.Write("damagelog/filters_new.txt", util.TableToJSON(temp))
+	file.Write(self.Folder .. "/filters.txt", util.TableToJSON(self.filter_settings))
+end
+
+function dlogs:GetFilters()
+	return file.Read(self.Folder .. "/filters.txt")
 end
 
 dlogs.filters = dlogs.filters or {}
-dlogs.filter_settings = dlogs.filter_settings or {}
-
-DAMAGELOG_FILTER_BOOL = 1
-DAMAGELOG_FILTER_PLAYER = 2
-
-function dlogs:AddFilter(name, filter_type, default_value)
-	self.filters[name] = filter_type
-	if self.filter_settings[name] == nil then
-		self.filter_settings[name] = default_value
-	end
-end
+dlogs.filter_settings = dlogs:GetFilters() and util.TableToJSON(dlogs:GetFilters()) or {}

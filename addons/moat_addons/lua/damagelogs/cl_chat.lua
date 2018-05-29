@@ -477,7 +477,8 @@ end
 local pressed_key = false
 
 hook.Add("Think", "Damagelog_Chat", function()
-
+	if (not Damagelog.CurrentChats or not next(Damagelog.CurrentChats)) then return end
+	
 	for k,v in pairs(buttons) do
 		if IsButtonHovered(v) and not v.cursor_set then
 			vgui.GetWorldPanel():SetCursor("hand")
@@ -531,6 +532,7 @@ end)
 	
 
 hook.Add("HUDPaint", "Damagelog_Chat", function()
+	if (not Damagelog.CurrentChats or not next(Damagelog.CurrentChats)) then return end
 
 	if IsValid(LocalPlayer()) then
 	

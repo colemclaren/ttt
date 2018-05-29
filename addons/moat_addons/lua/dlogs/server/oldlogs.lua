@@ -8,13 +8,13 @@ util.AddNetworkString("dlogs.SendOldLogRounds")
 
 dlogs.previous_reports = {}
 
-local limit = os.time() - dlogs.LogDays*24*60*60
+local limit = os.time() - dlogs.Config.LogDays*24*60*60
 
 local function GetLogsCount_SQLite()
 	return sql.QueryValue("SELECT COUNT(id) FROM damagelog_oldlogs_v3;")
 end
 
-if dlogs.Use_MySQL then
+if dlogs.Config.Use_MySQL then
 	require("mysqloo")
 	dlogs.MySQL_Error = nil
 	file.Delete("damagelog/mysql_error.txt")
@@ -151,12 +151,12 @@ hook.Add("TTTEndRound", "dlogs_EndRound", function()
 		local year = tonumber(os.date("%y"))
 		local month = tonumber(os.date("%m"))
 		local day = tonumber(os.date("%d"))
-		if dlogs.Use_MySQL and dlogs.MySQL_Connected then
+		if dlogs.Config.Use_MySQL and dlogs.MySQL_Connected then
 			local insert = string.format("INSERT INTO damagelog_oldlogs_v3(`year`, `month`, `day`, `date`, `round`, `map`, `damagelog`) VALUES(%i, %i, %i, %i, %i, \"%s\", COMPRESS(%s));",
 				year, month, day, t, dlogs.CurrentRound, game.GetMap(), sql.SQLStr(logs))
 			local query = dlogs.database:query(insert)
 			query:start()
-		elseif not dlogs.Use_MySQL then
+		elseif not dlogs.Config.Use_MySQL then
 			local insert = string.format("INSERT INTO damagelog_oldlogs_v3(`id`, `year`, `month`, `day`, `date`, `round`, `map`, `damagelog`) VALUES(%i, %i, %i, %i, %i, %i, \"%s\", %s);",
 				GetLogsCount_SQLite() + 1, year, month, day, t, dlogs.CurrentRound, game.GetMap(), sql.SQLStr(logs))
 			sql.Query(insert)
@@ -197,7 +197,7 @@ net.Receive("dlogs.AskOldLogRounds", function(_, ply)
 	local day = string.format("%02d",net.ReadUInt(32))
 	local isnewlog = net.ReadBool()
 	local _date = "20"..year.."-"..month.."-"..day
-	if dlogs.Use_MySQL and dlogs.MySQL_Connected then
+	if dlogs.Config.Use_MySQL and dlogs.MySQL_Connected then
 		local query_str = "SELECT date,map,round FROM damagelog_oldlogs_v3 WHERE date BETWEEN UNIX_TIMESTAMP(\"".._date.." 00:00:00\") AND UNIX_TIMESTAMP(\"".._date.." 23:59:59\") ORDER BY date ASC;"
 		local query = dlogs.database:query(query_str)
 		query.onSuccess = function(self)
@@ -225,7 +225,7 @@ end)
 net.Receive("dlogs.AskOldLog", function(_,ply)
 	if IsValid(ply) and ply:IsPlayer() and (ply.lastLogs == nil or (CurTime() - ply.lastLogs) > 2) then
 		local _time = net.ReadUInt(32)
-		if dlogs.Use_MySQL and dlogs.MySQL_Connected then
+		if dlogs.Config.Use_MySQL and dlogs.MySQL_Connected then
 			local query = dlogs.database:query("SELECT UNCOMPRESS(damagelog) FROM damagelog_oldlogs_v3 WHERE date = ".._time..";")
 			query.onSuccess = function(self)
 				local data = self:getData()
@@ -239,7 +239,7 @@ net.Receive("dlogs.AskOldLog", function(_,ply)
 				net.Send(ply)
 			end
 			query:start()
-		elseif not dlogs.Use_MySQL then
+		elseif not dlogs.Config.Use_MySQL then
 			local query = sql.QueryValue("SELECT damagelog FROM damagelog_oldlogs_v3 WHERE date = ".._time..";")
 			net.Start("dlogs.SendOldLog")
 			if query then

@@ -149,7 +149,7 @@ function dlogs:SetRolesListView(listview, tbl)
 	listview:Clear()
 	if not tbl then return end
 	for k,v in pairs(tbl) do
-		if not GetConVar("ttt_dmglogs_showinnocents"):GetBool() and v.role == ROLE_INNOCENT then continue end
+		if not GetConVar("moat_dlogs_showinnocents"):GetBool() and v.role == ROLE_INNOCENT then continue end
 		self:AddRoleLine(listview, v.nick, v.role)
 	end
 end

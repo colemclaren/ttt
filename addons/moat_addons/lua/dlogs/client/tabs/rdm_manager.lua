@@ -252,7 +252,7 @@ local function TakeAction()
         if IsValid(attacker) then
             Derma_StringRequest(TTTLogTranslate(GetDMGLogLang, "PrivateMessage"), string.format(TTTLogTranslate(GetDMGLogLang, "WhatToSay"), report.attacker_nick), "", function(msg)
                 if (IsValid(attacker)) then
-					RunConsoleCommand("mga", "pm", report.attacker, dlogs.PrivateMessagePrefix .. " " .. msg)
+					RunConsoleCommand("mga", "pm", report.attacker, dlogs.Config.PrivateMessagePrefix .. " " .. msg)
 				else
 					dlogs:Notify(DAMAGELOG_NOTIFY_ALERT, TTTLogTranslate(GetDMGLogLang, "ReportedDisconnected"), 2, "weapon_cant_buy.wav")
 				end
@@ -266,7 +266,7 @@ local function TakeAction()
         if IsValid(victim) then
             Derma_StringRequest(TTTLogTranslate(GetDMGLogLang, "PrivateMessage"), string.format(TTTLogTranslate(GetDMGLogLang, "WhatToSay"), report.victim_nick), "", function(msg)
                 if (IsValid(victim)) then
-					RunConsoleCommand("mga", "pm", report.victim, dlogs.PrivateMessagePrefix .. " " .. msg)
+					RunConsoleCommand("mga", "pm", report.victim, dlogs.Config.PrivateMessagePrefix .. " " .. msg)
 				else
 					dlogs:Notify(DAMAGELOG_NOTIFY_ALERT, TTTLogTranslate(GetDMGLogLang, "VictimDisconnected"), 2, "weapon_cant_buy.wav")
 				end
@@ -886,7 +886,7 @@ function PANEL:Init()
 	self.Reasons = {}
 
 	self:AddReasonRow(self.Distance/2 + self.Dimension/2, self.Distance*1.5,
-		self.Dimension, self.Dimension/2, dlogs.Autoslay_DefaultReasons)
+		self.Dimension, self.Dimension/2, dlogs.Config.Autoslay_DefaultReasons)
 
 	local DLabel = vgui.Create("DLabel", self)
 	DLabel:SetPos(self.Distance/2, self.Dimension/2.5 + 5)
@@ -1087,7 +1087,7 @@ function PANEL:Init()
 	self.Reasons = {}
 
 	self:AddReasonRow(self.Distance/2 + self.Dimension/2, self.Distance*1.5,
-		self.Dimension, self.Dimension/2, dlogs.Ban_DefaultReasons)
+		self.Dimension, self.Dimension/2, dlogs.Config.Ban_DefaultReasons)
 
 	local DLabel  = vgui.Create("DLabel", self)
 	DLabel:SetPos(self.Distance/2, self.Dimension/2.5 + 35)

@@ -1,12 +1,7 @@
 
 local function CreateCommand()
-
-	if not ulx then return end
-
-	local mode = dlogs.ULX_AutoslayMode
-
-	if mode != 1 and mode != 2 then return end
-	local aslay = mode == 1
+	if true then return end
+	local aslay = true
 
 	function ulx.autoslay(calling_ply, target, rounds, reason)
 		dlogs:SetSlays(calling_ply, target:SteamID(), rounds, reason, target)
@@ -132,10 +127,7 @@ end)
 
 if CLIENT then
 
-	local mode = dlogs.ULX_AutoslayMode
-
-	if mode != 1 and mode != 2 then return end
-	local aslay = mode == 1
+	if true then return end
 
 	function dlogs.SlayMessage()
 		chat.AddText(Color(255,128,0), "[Autoslay] ", Color(255,128,64), net.ReadString())

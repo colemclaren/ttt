@@ -1,7 +1,7 @@
 dlogs = dlogs or {
 	Config = {},
 	Version = "MDL",
-	Folder = "damagelogs"
+	Folder = "dlogs"
 }
 
 dlogs.IncludeSV = (SERVER) and include or function() end

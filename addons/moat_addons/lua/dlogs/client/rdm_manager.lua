@@ -839,7 +839,7 @@ surface.CreateFont("dlogs.PendingText", {
 })
 
 local m = 5
-local showPending = GetConVar("ttt_dmglogs_showpending")
+local showPending = GetConVar("moat_dlogs_showpending")
 local syncEnt
 hook.Add("HUDPaint", "dlogsPendingReports", function()
 

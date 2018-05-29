@@ -1,6 +1,6 @@
-CreateClientConVar("ttt_dmglogs_showinnocents", "0", true, true)
+CreateClientConVar("moat_dlogs_showinnocents", "0", true, true)
 
-cvars.AddChangeCallback("ttt_dmglogs_showinnocents", function(name, old, new)
+cvars.AddChangeCallback("moat_dlogs_showinnocents", function(name, old, new)
 	if IsValid(dlogs.Menu) then
 		dlogs:SetRolesListView(dlogs.Roles, dlogs.CurrentRoles)
 	end
@@ -239,7 +239,7 @@ function dlogs:DrawDamageTab(x, y)
 	show_innocents:SetPos(455, 3)
 	show_innocents:SetText(TTTLogTranslate(GetDMGLogLang, "ShowInnocent"))
 	show_innocents:SetTextColor(color_white)
-	show_innocents:SetConVar("ttt_dmglogs_showinnocents")
+	show_innocents:SetConVar("moat_dlogs_showinnocents")
 	show_innocents:SizeToContents()
 	table.insert(forms, self.RoleInfos)
 
@@ -334,7 +334,7 @@ function dlogs:DrawDamageTab(x, y)
 			LastChoise = LastChoise + 1
 		end
 
-		if not LocalPlayer():CanUsedlogs() or (GetConVar("ttt_dmglogs_currentround"):GetBool() or not LocalPlayer():IsActive()) then
+		if not LocalPlayer():CanUsedlogs() or (GetConVar("moat_dlogs_currentround"):GetBool() or not LocalPlayer():IsActive()) then
 			self.Round:ChooseOptionID(LastChoise)
 		else
 			self.Round:ChooseOptionID(LastChoise - 1 > 0 and LastChoise - 1 or LastChoise)

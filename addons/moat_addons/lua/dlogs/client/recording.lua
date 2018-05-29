@@ -1,6 +1,6 @@
 local mdl = Model("models/player/arctic.mdl")
-CreateClientConVar("ttt_dmglogs_slowmo", "0", FCVAR_ARCHIVE)
-CreateClientConVar("ttt_dmglogs_ds_showothers", "1", FCVAR_ARCHIVE)
+CreateClientConVar("moat_dlogs_slowmo", "0", FCVAR_ARCHIVE)
+CreateClientConVar("moat_dlogs_ds_showothers", "1", FCVAR_ARCHIVE)
 local i = 1
 local current_scene
 local roles
@@ -75,7 +75,7 @@ local function CreateShotsPanel()
 
 	local ShowOthers = vgui.Create("DCheckBoxLabel", Frame)
 	ShowOthers:SetText(TTTLogTranslate(GetDMGLogLang, "ShowAllPlayers"))
-	ShowOthers:SetConVar("ttt_dmglogs_ds_showothers")
+	ShowOthers:SetConVar("moat_dlogs_ds_showothers")
 	ShowOthers:SetPos(10, 35)
 	ShowOthers:SetTextColor(color_black)
 	ShowOthers:SizeToContents()
@@ -97,8 +97,8 @@ local function CreateShotsPanel()
 	Frame.SetInfo = function(Frame)
 		if not current_scene then return end
 		Info:Clear()
-		table.Empty(Info.LinesInfo)
-		local showAll = GetConVar("ttt_dmglogs_ds_showothers"):GetBool()
+		Info.LinesInfo = {}
+		local showAll = GetConVar("moat_dlogs_ds_showothers"):GetBool()
 		local size = #current_scene
 		local current_second = 1
 		for i=1, size do
@@ -149,7 +149,7 @@ if dlogs.DeathSceneInitialized then
 	Frame = CreateShotsPanel()
 end
 
-cvars.AddChangeCallback("ttt_dmglogs_ds_showothers", function()
+cvars.AddChangeCallback("moat_dlogs_ds_showothers", function()
 	if IsValid(Frame) then
 		Frame:SetInfo()
 	end
@@ -270,7 +270,7 @@ function dlogs:CreateDSPanel()
 
 	local slowmo = vgui.Create("DCheckBoxLabel", self.DSPanel)
 	slowmo:SetText(TTTLogTranslate(GetDMGLogLang, "EnableSlowMotion"))
-	slowmo:SetConVar("ttt_dmglogs_slowmo")
+	slowmo:SetConVar("moat_dlogs_slowmo")
 	slowmo:SetPos(w - 125, h - 30)
 	slowmo:SetTextColor(color_black)
 	slowmo:SizeToContents()
@@ -444,7 +444,7 @@ hook.Add("Think", "Think_Record", function()
 			v:SetNoDraw(true)
 		end
 
-		local slowmo = GetConVar("ttt_dmglogs_slowmo"):GetBool()
+		local slowmo = GetConVar("moat_dlogs_slowmo"):GetBool()
 
 		if not paused and not dlogs.DS_Progress:IsEditing() then
 			if slowmo then
@@ -651,8 +651,9 @@ function dlogs:StopRecording()
 		end
 	end
 
-	table.Empty(models)
-	table.Empty(props)
+	models = {}
+	props = {}
+
 	current_scene = nil
 	i = 1
 	playedsounds = {}

@@ -275,6 +275,8 @@ hook.Add("HUDPaint", "Scene_Record", function()
 end)
 
 hook.Add("Think", "Think_Record", function()
+	if (not models or not next(models)) then return end
+
 	for k,v in pairs(models) do
 		if not IsValid(v) then continue end
 		if v.move_x and v.move_y and v.spin then
@@ -429,7 +431,7 @@ hook.Add("Think", "Think_Record", function()
 						models[k].traces = {}
 					end
 					local index = table.insert(models[k].traces, v.trace)
-					timer.Simple(0.2, function()
+					timer.Simple(0.5, function()
 						if models[k] and models[k].traces then
 							models[k].traces[index] = false
 						end
@@ -460,8 +462,8 @@ function Damagelog:StopRecording()
 			v:Remove()
 		end
 	end
-	table.Empty(models)
-	table.Empty(props)
+	models = {}
+	props = {}
 	current_scene = nil
 	i = 1
 	playedsounds = {}

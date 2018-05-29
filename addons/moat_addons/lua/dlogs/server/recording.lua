@@ -11,8 +11,9 @@ local magneto_ents = {}
 local table = table
 
 hook.Add("TTTBeginRound", "TTTBeginRound_SpecDMRecord", function()
-	table.Empty(magneto_ents)
-	table.Empty(dlogs.Records)
+	magneto_ents = {}
+	dlogs.Records = {}
+
 	for k,ply in ipairs(player.GetHumans()) do
 		ply.SpectatingLog = false
 	end

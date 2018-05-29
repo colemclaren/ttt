@@ -78,7 +78,7 @@ local function moat_BossPlayerDeath(ply)
 	end
 
     timer.Simple(1, function()
-        if (IsValid(ply) and IsValid(ply.server_ragdoll)) then
+        if (type(ply) ~= "string" and IsValid(ply) and IsValid(ply.server_ragdoll)) then
             local pl = player.GetByUniqueID(ply.server_ragdoll.uqid)
             if (not IsValid(pl)) then return end
             pl:SetCleanRound(false)
