@@ -368,9 +368,9 @@ local rag_collide = CreateConVar("ttt_ragdoll_collide", "0")
 
 -- Creates client or server ragdoll depending on settings
 function CORPSE.Create(ply, attacker, dmginfo)
-    if not IsValid(ply) then return end
+    if (not IsValid(ply)) then return end
     local rag = ents.Create("prop_ragdoll")
-    if not IsValid(rag) then return nil end
+    if (not IsValid(rag)) then return nil end
     rag:SetPos(ply:GetPos())
     rag:SetModel(ply:GetModel())
     rag:SetAngles(ply:GetAngles())
@@ -381,6 +381,9 @@ function CORPSE.Create(ply, attacker, dmginfo)
     rag:Activate()
     -- nonsolid to players, but can be picked up and shot
     rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+
+	_RagdollStorageCount = _RagdollStorageCount and _RagdollStorageCount + 1 or 1
+	_RagdollStorage[_RagdollStorageCount] = rag
 
     timer.Simple(1, function()
         if IsValid(rag) then

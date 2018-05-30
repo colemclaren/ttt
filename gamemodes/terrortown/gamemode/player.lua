@@ -445,10 +445,12 @@ end
 
 -- See if we should award credits now
 local function CheckCreditAward(victim, attacker)
-    if (GetRoundState() ~= ROUND_ACTIVE or not IsValid(victim)) then return end
+    if (GetRoundState() ~= ROUND_ACTIVE) then return end
+	if (not IsValid(victim) or not IsValid(attacker)) then return end
+	if (not victim:IsPlayer() or not attacker:IsPlayer()) then return end
 
     -- DETECTIVE AWARD
-    if IsValid(attacker) and attacker:IsPlayer() and attacker:IsActiveDetective() and victim:IsTraitor() then
+    if (attacker:IsActiveDetective() and victim:IsTraitor()) then
         local amt = GetConVarNumber("ttt_det_credits_traitordead") or 1
 
         for _, ply in pairs(player.GetAll()) do
@@ -579,16 +581,16 @@ function GM:DoPlayerDeath(ply, attacker, dmginfo)
     CheckCreditAward(ply, attacker)
 
     -- Check for T killing D or vice versa
-    if IsValid(attacker) and attacker:IsPlayer() then
+    if (IsValid(attacker) and attacker:IsPlayer()) then
         local reward = 0
 
-        if attacker:IsActiveTraitor() and ply:GetDetective() then
+        if (attacker:IsActiveTraitor() and ply:GetDetective()) then
             reward = math.ceil(GetConVarNumber("ttt_credits_detectivekill"))
-        elseif attacker:IsActiveDetective() and ply:GetTraitor() then
+        elseif (attacker:IsActiveDetective() and ply:GetTraitor()) then
             reward = math.ceil(GetConVarNumber("ttt_det_credits_traitorkill"))
         end
 
-        if reward > 0 then
+        if (reward > 0) then
             attacker:AddCredits(reward)
 
             LANG.Msg(attacker, "credit_kill", {
@@ -610,10 +612,11 @@ function GM:PlayerDeath(victim, infl, attacker)
     victim:SpectateEntity(rag_ent)
     victim:Flashlight(false)
     victim:Extinguish()
+
     net.Start("TTT_PlayerDied")
     net.Send(victim)
 
-    if HasteMode() and GetRoundState() == ROUND_ACTIVE then
+    if (HasteMode() and GetRoundState() == ROUND_ACTIVE) then
         IncRoundEnd(GetConVar("ttt_haste_minutes_per_death"):GetFloat() * 60)
     end
 end

@@ -186,6 +186,21 @@ function KARMA.DecayedMultiplier(ply)
 end
 
 -- Handle karma regeneration upon the start of a new round
+function KARMA.RegenerateKarma(ply)
+    local healbonus = config.roundheal:GetFloat()
+    local cleanbonus = config.clean:GetFloat()
+
+    if ply:IsDeadTerror() and ply.death_type ~= KILL_SUICIDE or not ply:IsSpec() then
+        local bonus = healbonus + (ply:GetCleanRound() and cleanbonus or 0)
+        KARMA.GiveReward(ply, bonus)
+
+        if IsDebug() then
+            print(ply, "gets roundincr", incr)
+        end
+    end
+end
+
+-- Handle karma regeneration upon the start of a new round
 function KARMA.RoundIncrement()
     local healbonus = config.roundheal:GetFloat()
     local cleanbonus = config.clean:GetFloat()
@@ -252,6 +267,18 @@ function KARMA.RoundEnd()
                 KARMA.CheckAutoKick(ply)
             end
         end
+    end
+end
+
+function KARMA.RoundEnd(pl)
+    if (not KARMA.IsEnabled()) then return end
+    
+	KARMA.RegenerateKarma(pl)
+    pl:SetBaseKarma(pl:GetLiveKarma() or 1150)
+	KARMA.Remember(pl)
+
+    if config.autokick:GetBool() then
+        KARMA.CheckAutoKick(pl)
     end
 end
 

@@ -19,7 +19,11 @@ local function ReplaceSingle(ent, newname)
     ent:Remove()
 end
 
-local hl2_ammo_replace = {
+/*
+DO NOT EDIT THIS TABLE
+IT IS NOT USED IN MG - EDIT SV_MOAT.LUA
+*/
+hl2_ammo_replace = {
     ["item_ammo_pistol"] = "item_ammo_pistol_ttt",
     ["item_box_buckshot"] = "item_box_buckshot_ttt",
     ["item_ammo_smg1"] = "item_ammo_smg1_ttt",
@@ -61,7 +65,11 @@ local function ReplaceAmmo()
     end
 end
 
-local hl2_weapon_replace = {
+/*
+DO NOT EDIT THIS TABLE
+IT IS NOT USED IN MG - EDIT SV_MOAT.LUA
+*/
+hl2_weapon_replace = {
     ["weapon_smg1"] = "weapon_zm_mac10",
     ["weapon_shotgun"] = "weapon_zm_shotgun",
     ["weapon_ar2"] = "weapon_ttt_m16",
@@ -216,21 +224,25 @@ end
 
 -- Cache this, every ttt_random_weapon uses it in its Init
 local SpawnableSWEPs = nil
-
+local SpawnableSWEPsCount = 0
 function ents.TTT.GetSpawnableSWEPs()
-    if not SpawnableSWEPs then
-        local tbl = {}
+    if (not SpawnableSWEPs) then
+        local tbl, num = {}, 0
+		local weps = weapons.GetList()
 
-        for k, v in pairs(weapons.GetList()) do
-            if v and v.AutoSpawnable and (not WEPS.IsEquipment(v)) then
-                table.insert(tbl, v)
+		for i = 1, #weps do
+			local v = weps[i]
+			if (v and v.AutoSpawnable and (not WEPS.IsEquipment(v))) then
+				num = num + 1
+				tbl[num] = v
             end
-        end
+		end
 
         SpawnableSWEPs = tbl
+		SpawnableSWEPsCount = num
     end
 
-    return SpawnableSWEPs
+    return SpawnableSWEPs, SpawnableSWEPsCount
 end
 
 local SpawnableAmmoClasses = nil
@@ -240,7 +252,7 @@ function ents.TTT.GetSpawnableAmmo()
         local tbl = {}
 
         for k, v in pairs(scripted_ents.GetList()) do
-            if v and (v.AutoSpawnable or (v.t and v.t.AutoSpawnable)) then
+            if (v and (v.AutoSpawnable or (v.t and v.t.AutoSpawnable))) then
                 table.insert(tbl, k)
             end
         end

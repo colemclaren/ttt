@@ -234,6 +234,286 @@ function _CreateTButton(ent)
 end
 
 
+hl2_item_replace = {
+    ["item_ammo_pistol"] = "item_ammo_pistol_ttt",
+    ["item_box_buckshot"] = "item_box_buckshot_ttt",
+    ["item_ammo_smg1"] = "item_ammo_smg1_ttt",
+    ["item_ammo_357"] = "item_ammo_357_ttt",
+    ["item_ammo_357_large"] = "item_ammo_357_ttt",
+    ["item_ammo_revolver"] = "item_ammo_revolver_ttt",
+    ["item_ammo_ar2"] = "item_ammo_pistol_ttt",
+    ["item_ammo_ar2_large"] = "item_ammo_smg1_ttt",
+    ["item_ammo_smg1_grenade"] = "weapon_zm_pistol",
+    ["item_battery"] = "item_ammo_357_ttt",
+    ["item_healthkit"] = "weapon_zm_shotgun",
+    ["item_suitcharger"] = "weapon_zm_mac10",
+    ["item_ammo_ar2_altfire"] = "weapon_zm_mac10",
+    ["item_rpg_round"] = "item_ammo_357_ttt",
+    ["item_ammo_crossbow"] = "item_box_buckshot_ttt",
+    ["item_healthvial"] = "weapon_zm_molotov",
+    ["item_healthcharger"] = "item_ammo_revolver_ttt",
+    ["item_ammo_crate"] = "weapon_ttt_confgrenade",
+    ["item_item_crate"] = "ttt_random_ammo",
+    ["weapon_smg1"] = "weapon_zm_mac10",
+    ["weapon_shotgun"] = "weapon_zm_shotgun",
+    ["weapon_ar2"] = "weapon_ttt_m16",
+    ["weapon_357"] = "weapon_zm_rifle",
+    ["weapon_crossbow"] = "weapon_zm_pistol",
+    ["weapon_rpg"] = "weapon_zm_sledge",
+    ["weapon_slam"] = "item_ammo_pistol_ttt",
+    ["weapon_frag"] = "weapon_zm_revolver",
+    ["weapon_crowbar"] = "weapon_zm_molotov",
+	["weapon_zm_improvised"] = true
+}
+
+_RagdollStorage = {}
+_RagdollStorageCount = 0
+function _RemoveCorpses()
+	_RagdollStorage = _RagdollStorage or {}
+	if (_RagdollStorageCount == 0) then return end
+
+	for i = 1, _RagdollStorageCount do
+		local v = _RagdollStorage[i]
+		if (IsValid(v)) then v:Remove() end
+	end
+
+	_RagdollStorageCount = 0
+	_RagdollStorage = {}
+end
+
+function _ReplaceMapItem(e, n)
+	if (e:GetPos() == vector_origin) then return end
+	if (isbool(n)) then e:Remove() return end
+    e:SetSolid(SOLID_NONE)
+
+    local ent = ents.Create(n)
+    ent:SetPos(e:GetPos())
+    ent:SetAngles(e:GetAngles())
+    ent:Spawn()
+    ent:Activate()
+    ent:PhysWake()
+
+    e:Remove()
+end
+
+function _ReplaceOnCreated(s, ent)
+    if (not IsValid(ent)) then return end
+	if (not hl2_replace[ent:GetClass()]) then return end
+
+	_ReplaceMapItem(ent, hl2_item_replace[ent:GetClass()])
+end
+GM.OnEntityCreated = _ReplaceOnCreated
+
+
+function _SetShouldReplaceEntities(b)
+	GM.OnEntityCreated = function() end
+	if (b) then GM.OnEntityCreated = _ReplaceOnCreated end
+end
+
+
+
+
+
+
+
+local function _PlaceWeapon(swep, pos, ang)
+    local ent = ents.Create(cls)
+	if (not IsValid(ent)) then return end
+
+    pos.z = pos.z + 3
+    ent:SetPos(pos)
+    ent:SetAngles(VectorRand():Angle())
+    ent:Spawn()
+
+    -- Create some associated ammo (if any)
+    if ent.AmmoEnt then
+        for i = 1, math.random(0, 3) do
+            local ammo = ents.Create(ent.AmmoEnt)
+
+            if IsValid(ammo) then
+                pos.z = pos.z + 2
+                ammo:SetPos(pos)
+                ammo:SetAngles(VectorRand():Angle())
+                ammo:Spawn()
+                ammo:PhysWake()
+            end
+        end
+    end
+
+    return ent
+end
+
+local function _PlaceWeaponsAtEnts(s, n)
+    local weps, weps_count = ents.TTT.GetSpawnableSWEPs()
+	if (not weps or weps_count == 0) then return end
+
+    local max = GetConVar("ttt_weapon_spawn_count"):GetInt()
+    if (max == 0) then
+        max = game.MaxPlayers()
+        max = max + math.max(3, 0.33 * max)
+    end
+
+    local num, w = 0
+
+	for i = 1, n do
+		local spot = s[i]
+		if (not spot or not spot.pos or not spot.ang) then continue end
+		w = weps[math.random(weps_count)] or weps[math.random(weps_count)] or weps[math.random(weps_count)] -- 3 times the charm?? uwu
+		if (not w) then w = weps[1] end
+
+		if (util.IsInWorld(spot.pos)) then
+			local spawned = _PlaceWeapon(w, spot.pos, spot.ang)
+			num = IsValid(spawned) and num + 1 or num
+
+			if (IsValid(spawned) and spawned.IsGrenade) then
+                w = weps[math.random(weps_count)] or weps[math.random(weps_count)] or weps[math.random(weps_count)]
+
+                if (w) then
+                    _PlaceWeapon(w, spot.pos, spot.ang)
+                end
+			end
+		end
+
+		if (num > max) then return end
+	end
+end
+
+local function _PlaceExtraWeaponsForCSS()
+    MsgN("Weaponless TF2-like map detected. Placing extra guns.")
+    if (_CSSWeaponSpots) then
+		PlaceWeaponsAtEnts(_CSSWeaponSpots[1], _CSSWeaponSpots[2])
+		return
+	end
+
+	local spots_classes = {
+		["info_player_terrorist"] = true,
+		["info_player_counterterrorist"] = true,
+		["hostage_entity"] = true
+	}
+	
+	local spots, num = {}, 0
+	for i = 1, ents.MapCreatedEntsCount do
+		local v = ents.MapCreatedEnts[i]
+		if (not IsValid(v)) then continue end
+		if (spots_classes[v:GetClass()]) then
+			num = num + 1
+			spots[num] = {pos = v:GetPos(), ang = v:GetAngles()}
+		end
+	end
+
+	_CSSWeaponSpots = {}
+	_CSSWeaponSpots[1] = spots
+	_CSSWeaponSpots[2] = num
+
+	PlaceWeaponsAtEnts(spots, num)
+end
+
+local function _PlaceExtraWeaponsForTF2()
+    MsgN("Weaponless TF2-like map detected. Placing extra guns.")
+    if (_TF2WeaponSpots) then
+		PlaceWeaponsAtEnts(_TF2WeaponSpots[1], _TF2WeaponSpots[2])
+		return
+	end
+
+	local spots_classes = {
+		["info_player_teamspawn"] = true,
+		["team_control_point"] = true,
+		["team_control_point_master"] = true,
+		["team_control_point_round"] = true,
+		["item_ammopack_full"] = true,
+		["item_ammopack_medium"] = true,
+		["item_ammopack_small"] = true,
+		["item_healthkit_full"] = true,
+		["item_healthkit_medium"] = true,
+		["item_healthkit_small"] = true,
+		["item_teamflag"] = true,
+		["game_intro_viewpoint"] = true,
+		["info_observer_point"] = true
+	}
+	
+	local spots, num = {}, 0
+	for i = 1, ents.MapCreatedEntsCount do
+		local v = ents.MapCreatedEnts[i]
+		if (not IsValid(v)) then continue end
+		if (spots_classes[v:GetClass()]) then
+			num = num + 1
+			spots[num] = {pos = v:GetPos(), ang = v:GetAngles()}
+		end
+	end
+
+	_TF2WeaponSpots = {}
+	_TF2WeaponSpots[1] = spots
+	_TF2WeaponSpots[2] = num
+
+	PlaceWeaponsAtEnts(spots, num)
+end
+
+local function _WepCheck()
+	if (_WepCheckCache ~= nil) then return _WepCheckCache end
+
+	_WepCheckCache = false
+	for i = 1, ents.MapCreatedEntsCount do
+		local v = ents.MapCreatedEnts[i]
+		if (not IsValid(v)) then continue end
+		if (v.AutoSpawnable and not IsValid(v:GetOwner())) then
+			_WepCheckCache = true
+			break
+		end
+	end
+
+	return _WepCheckCache
+end
+
+local function _TTTCheck()
+	if (_TTTCheckCache ~= nil) then return _TTTCheckCache end
+
+	_TTTCheckCache = false
+	local n = _GetMapEntities("info_player_deathmatch")
+	if (n == 0) then return _TTTCheckCache end
+
+	_TTTCheckCache = true
+	return _TTTCheckCache
+end
+
+local function _CSSCheck()
+	if (_CSSCheckCache ~= nil) then return _CSSCheckCache end
+
+	_CSSCheckCache = false
+	local n = _GetMapEntities("info_player_counterterrorist")
+	if (n == 0) then return _CSSCheckCache end
+
+	_CSSCheckCache = true
+	return _CSSCheckCache
+end
+
+local function _TF2Check()
+	if (_TF2CheckCache ~= nil) then return _TF2CheckCache end
+
+	_TF2CheckCache = false
+	local n = _GetMapEntities("info_player_teamspawn")
+	if (n == 0) then return _TF2CheckCache end
+
+	_TF2CheckCache = true
+	return _TF2CheckCache
+end
+
+function _PlaceExtraWeapons(import)
+	if (import) then
+		ents.TTT.ProcessImportScript()
+		return
+	end
+
+    if (_WepCheck()) then return end
+	if (_TTTCheck()) then return end
+	if (_CSSCheck()) then
+		PlaceExtraWeaponsForCSS()
+		return
+	end
+	if (_TF2Check()) then
+		PlaceExtraWeaponsForTF2()
+	end
+end
+
 --[[
 
 CLIENT SIDE

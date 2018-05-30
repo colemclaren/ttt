@@ -455,11 +455,15 @@ end
 
 local import = ents.TTT.CanImportEntities()
 local function SpawnEntities()
-	if (import) then
-		ents.TTT.ProcessImportScript()
-	else
-		ents.TTT.ReplaceEntities()
-		ents.TTT.PlaceExtraWeapons()
+	_RemoveCorpses()
+	_PlaceExtraWeapons(import)
+
+	local pls = player.GetAll()
+	for k, v in ipairs(pls) do
+		if (not IsValid(v)) then continue end
+		KARMA.RoundBegin(v)
+        v.JustSpawned = v:SpawnForRound()
+		hook.Run("TTTPrepareRoundPlayer", v)
 	end
 end
 
@@ -560,14 +564,6 @@ function PrepareRound()
     timer.Simple(1, SendRoleReset)
     -- Tell hooks and map we started prep
     hook.Run("TTTPrepareRound")
-
-	local pls = player.GetAll()
-	for k, v in pairs(pls) do
-		if (not IsValid(v)) then continue end
-		KARMA.RoundBegin(v)
-        v.JustSpawned = v:SpawnForRound()
-		hook.Run("TTTPrepareRoundPlayer", v)
-	end
 
     _TriggerRoundStateOutputs(ROUND_PREP)
 end
@@ -741,7 +737,6 @@ end
 
 
 function EndRound(type)
-	local pls = player.GetAll()
     PrintResultMessage(type)
     -- first handle round end
     SetRoundState(ROUND_POST)
@@ -759,7 +754,6 @@ function EndRound(type)
     StopWinChecks()
     -- We may need to start a timer for a mapswitch, or start a vote
     _CheckForMapSwitch()
-    KARMA.RoundEnd()
     -- now handle potentially error prone scoring stuff
     -- register an end of round event
     SCORE:RoundComplete(type)
@@ -769,10 +763,11 @@ function EndRound(type)
     SCORE:StreamToClients()
     -- server plugins might want to start a map vote here or something
     -- these hooks are not used by TTT internally
+	local pls = player.GetAll()
     hook.Call("TTTEndRound", GAMEMODE, type, pls)
-
-	for k, v in pairs(pls) do
+	for k, v in ipairs(pls) do
 		if (not IsValid(v)) then continue end
+		KARMA.RoundEnd(v)
 		hook.Run("TTTEndRoundPlayer", type, v)
 	end
 

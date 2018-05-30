@@ -26,7 +26,5 @@ net.Receive("_SetGlobalSync", function()
 		elseif (t == "Float") then
 			TTT_GLOBALS_SAVE[str] = net.ReadFloat()
 		end
-
-		print(TTT_GLOBALS_SAVE[str])
 	end
 end)
