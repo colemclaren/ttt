@@ -23,7 +23,7 @@ function Damagelog:GetSyncEnt()
 	if SERVER then
 		return self.sync_ent
 	else
-		if (self.clientside_sync_ent) then return self.clientside_sync_ent end
+		if (IsValid(self.clientside_sync_ent)) then return self.clientside_sync_ent end
 		self.clientside_sync_ent = ents.FindByClass("dmglog_sync_ent")[1]
 		return self.clientside_sync_ent
 	end

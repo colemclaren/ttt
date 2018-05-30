@@ -20,18 +20,11 @@ end)
 
 timer.Create("SpecDM_Recording", 0.5, 0, function()
 	if not GetRoundState or GetRoundState() != ROUND_ACTIVE then return end
-
 	if #Damagelog.Records >= 50 then
 		table.remove(Damagelog.Records, 1)
 	end
 	
 	local tbl = {}
-	
-	for k, v in pairs(magneto_ents) do
-		if CurTime() - v.last_saw > 15 then
-			v.record = false
-		end
-	end
 
 	local pls = player.GetAll()
 	for i = 1, #pls do
@@ -60,34 +53,20 @@ timer.Create("SpecDM_Recording", 0.5, 0, function()
 			role = v:GetRole()
 		}
 		if IsValid(wep) and wep:GetClass() == "weapon_zm_carry" and IsValid(wep.EntHolding) then
-			local found = false
-			for k, v2 in pairs(magneto_ents) do
-				if v2.ent == wep.EntHolding then
-					found = k
-					break
-				end
-			end
-
-			if found then
-				magneto_ents[found].last_saw = CurTime()
-				magneto_ents[found].record = true
-			else
-				table.insert(magneto_ents, {
-					ent = wep.EntHolding,
-					record = true,
-					last_saw = CurTime()
-				})
-			end
+			magneto_ents[wep.EntHolding].last_saw = CurTime()
 		end
 	end
 	
 	for k, v in pairs(magneto_ents) do
-		if v.record and IsValid(v.ent) then
-			table.insert(tbl, v.ent:EntIndex(), {
-				model = v.ent:GetModel(),
-				pos = v.ent:GetPos(),
-				ang = v.ent:GetAngles()
+		if (IsValid(k) and v.last_saw > (CurTime() - 15)) then
+			table.insert(tbl, k:EntIndex(), {
+				model = k:GetModel(),
+				pos = k:GetPos(),
+				ang = k:GetAngles()
 			})
+		else
+			magneto_ents[k] = nil 
+			continue
 		end
 	end
 
