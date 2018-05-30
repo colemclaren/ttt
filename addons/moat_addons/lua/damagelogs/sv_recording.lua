@@ -53,12 +53,13 @@ timer.Create("SpecDM_Recording", 0.5, 0, function()
 			role = v:GetRole()
 		}
 		if IsValid(wep) and wep:GetClass() == "weapon_zm_carry" and IsValid(wep.EntHolding) then
+			if (not magneto_ents[wep.EntHolding]) then magneto_ents[wep.EntHolding] = {} end
 			magneto_ents[wep.EntHolding].last_saw = CurTime()
 		end
 	end
 	
 	for k, v in pairs(magneto_ents) do
-		if (IsValid(k) and v.last_saw > (CurTime() - 15)) then
+		if (IsValid(k) and v.last_saw and v.last_saw > (CurTime() - 15)) then
 			table.insert(tbl, k:EntIndex(), {
 				model = k:GetModel(),
 				pos = k:GetPos(),
