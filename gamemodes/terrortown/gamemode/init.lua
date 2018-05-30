@@ -272,8 +272,8 @@ local function EnoughPlayers(p)
     local ready = 0
 
     -- only count truly available players, ie. no forced specs
-    for _, ply in pairs(p) do
-        if IsValid(ply) and ply:ShouldSpawn() then
+    for _, ply in ipairs(p) do
+        if (IsValid(ply) and ply:ShouldSpawn()) then
             ready = ready + 1
         end
     end
@@ -461,8 +461,6 @@ local function SpawnEntities()
 		ents.TTT.ReplaceEntities()
 		ents.TTT.PlaceExtraWeapons()
 	end
-
-    SpawnWillingPlayers(player.GetAll())
 end
 
 local function StopRoundTimers()
@@ -476,8 +474,8 @@ end
 -- Make sure we have the players to do a round, people can leave during our
 -- preparations so we'll call this numerous times
 local function CheckForAbort(p)
-	if (not p) then return false end
-    if (not EnoughPlayers(p)) then
+	local pls = player.GetAll()
+    if (not EnoughPlayers(pls)) then
         LANG.Msg("round_minplayers")
         StopRoundTimers()
         WaitForPlayers()
@@ -496,8 +494,7 @@ end
 
 function PrepareRound()
     -- Check playercount
-	local pls = player.GetAll()
-    if (CheckForAbort(pls)) then return end
+    if (CheckForAbort()) then return end
     local delay_round, delay_length = hook.Call("TTTDelayRoundStartForVote", GAMEMODE)
 
     if delay_round then
@@ -513,7 +510,7 @@ function PrepareRound()
     end
 
     -- Cleanup
-    CleanUp()
+    _CleanUp()
     
 	GAMEMODE.MapWin = WIN_NONE
     GAMEMODE.AwardedCredits = false
@@ -524,7 +521,7 @@ function PrepareRound()
     -- New look. Random if no forced model set.
     GAMEMODE.playermodel = GAMEMODE.force_plymodel == "" and GetRandomPlayerModel() or GAMEMODE.force_plymodel
     GAMEMODE.playercolor = hook.Call("TTTPlayerColor", GAMEMODE, GAMEMODE.playermodel)
-    if (CheckForAbort(pls)) then return end
+    if (CheckForAbort()) then return end
     -- Schedule round start
     local ptime = GetConVar("ttt_preptime_seconds"):GetInt()
 
@@ -549,7 +546,7 @@ function PrepareRound()
 
     SetRoundState(ROUND_PREP)
     -- Delay spawning until next frame to avoid ent overload
-    timer.Simple(0.01, SpawnEntities)
+    timer.Simple(0, SpawnEntities)
 
     -- Undo the roundrestart mute, though they will once again be muted for the
     -- selectmute timer.
@@ -564,10 +561,11 @@ function PrepareRound()
     -- Tell hooks and map we started prep
     hook.Run("TTTPrepareRound")
 
+	local pls = player.GetAll()
 	for k, v in pairs(pls) do
-		if (not IsValid(pls)) then continue end
+		if (not IsValid(v)) then continue end
 		KARMA.RoundBegin(v)
-
+        v.JustSpawned = v:SpawnForRound()
 		hook.Run("TTTPrepareRoundPlayer", v)
 	end
 

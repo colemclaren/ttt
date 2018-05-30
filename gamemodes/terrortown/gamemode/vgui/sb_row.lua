@@ -99,6 +99,7 @@ local rolecolor = {
 
 function GM:TTTScoreboardColorForPlayer(ply)
     if not IsValid(ply) then return namecolor.default end
+
     return namecolor.default
 end
 

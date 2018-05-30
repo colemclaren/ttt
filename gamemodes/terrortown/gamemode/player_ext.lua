@@ -136,11 +136,15 @@ function plymeta:AddBought(id)
 end
 
 -- Strips player of all equipment
-function plymeta:StripAll()
+function plymeta:StripAll(dont_net)
     -- standard stuff
     self:StripAmmo()
     self:StripWeapons()
-    -- our stuff
+
+	-- we dont need to network things more than once
+	if (dont_net) then return end
+    
+	-- our stuff
     self:ResetEquipment()
     self:SetCredits(0)
 end
@@ -286,7 +290,7 @@ function plymeta:SpawnForRound(dead_only)
         return false
     end
 
-    if not self:ShouldSpawn() then return false end
+    if (not self:ShouldSpawn()) then return false end
     -- reset propspec state that they may have gotten during prep
     PROPSPEC.Clear(self)
 
@@ -295,7 +299,7 @@ function plymeta:SpawnForRound(dead_only)
         self:UnSpectate()
     end
 
-    self:StripAll()
+    self:StripAll(true)
     self:SetTeam(TEAM_TERROR)
     self:Spawn()
     -- tell caller that we spawned
@@ -317,7 +321,7 @@ function plymeta:InitialSpawn()
     -- Start off with clean, full karma (unless it can and should be loaded)
     self:InitKarma()
     -- We never have weapons here, but this inits our equipment state
-    self:StripAll()
+    self:StripAll(true)
 end
 
 function plymeta:KickBan(length, reason)

@@ -234,7 +234,8 @@ net.Receive("TTT_RoundState", ReceiveRoundState)
 function GM:ClearClientState()
     GAMEMODE:HUDClear()
     local client = LocalPlayer()
-    if not client.SetRole then return end -- code not loaded yet
+    if (not client.SetRole) then return end -- code not loaded yet
+
     client:SetRole(ROLE_INNOCENT)
     client.equipment_items = EQUIP_NONE
     client.equipment_credits = 0
@@ -244,7 +245,7 @@ function GM:ClearClientState()
     client.called_corpses = {}
     VOICE.InitBattery()
 
-    for _, p in pairs(player.GetAll()) do
+    for _, p in ipairs(player.GetAll()) do
         if IsValid(p) then
             p.sb_tag = nil
             p:SetRole(ROLE_INNOCENT)

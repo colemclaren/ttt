@@ -68,8 +68,8 @@ function GM:PlayerSpawn(ply)
     net.WriteBit(ply:IsSpec())
     net.Send(ply)
 
-    if ply:IsSpec() then
-        ply:StripAll()
+    if (ply:IsSpec()) then
+        ply:StripAll(true)
         ply:Spectate(OBS_MODE_ROAMING)
 
         return
@@ -445,8 +445,7 @@ end
 
 -- See if we should award credits now
 local function CheckCreditAward(victim, attacker)
-    if GetRoundState() ~= ROUND_ACTIVE then return end
-    if not IsValid(victim) then return end
+    if (GetRoundState() ~= ROUND_ACTIVE or not IsValid(victim)) then return end
 
     -- DETECTIVE AWARD
     if IsValid(attacker) and attacker:IsPlayer() and attacker:IsActiveDetective() and victim:IsTraitor() then
@@ -461,22 +460,24 @@ local function CheckCreditAward(victim, attacker)
         LANG.Msg(GetDetectiveFilter(true), "credit_det_all", {
             num = amt
         })
+
+		return
     end
 
     -- TRAITOR AWARD
     if (not victim:IsTraitor()) and (not GAMEMODE.AwardedCredits or GetConVar("ttt_credits_award_repeat"):GetBool()) then
-        local inno_alive = 0
-        local inno_dead = 0
-        local inno_total = 0
-
+        local inno_alive, inno_dead, inno_total, traters = 0, 0, 0, {}
+		
         for _, ply in pairs(player.GetAll()) do
-            if not ply:GetTraitor() then
+            if (not ply:GetTraitor()) then
                 if ply:IsTerror() then
                     inno_alive = inno_alive + 1
                 elseif ply:IsDeadTerror() then
                     inno_dead = inno_dead + 1
                 end
-            end
+            elseif (ply:IsActiveTraitor()) then
+				traters[_] = ply
+			end
         end
 
         -- we check this at the death of an innocent who is still technically
@@ -502,8 +503,8 @@ local function CheckCreditAward(victim, attacker)
                     num = amt
                 })
 
-                for _, ply in pairs(player.GetAll()) do
-                    if ply:IsActiveTraitor() then
+                for _, ply in pairs(traters) do
+                    if IsValid(ply) then
                         ply:AddCredits(amt)
                     end
                 end
@@ -516,10 +517,10 @@ local function CheckCreditAward(victim, attacker)
 end
 
 function GM:DoPlayerDeath(ply, attacker, dmginfo)
-    if ply:IsSpec() then return end
+    if (ply:IsSpec()) then return end
 
     -- Experimental: Fire a last shot if ironsighting and not headshot
-    if GetConVar("ttt_dyingshot"):GetBool() then
+    if (GetConVar("ttt_dyingshot"):GetBool()) then
         local wep = ply:GetActiveWeapon()
 
         if IsValid(wep) and wep.DyingShot and not ply.was_headshot and dmginfo:IsBulletDamage() then
@@ -549,10 +550,10 @@ function GM:DoPlayerDeath(ply, attacker, dmginfo)
     util.StartBleeding(rag, dmginfo:GetDamage(), 15)
 
     -- Score only when there is a round active.
-    if GetRoundState() == ROUND_ACTIVE then
+    if (GetRoundState() == ROUND_ACTIVE) then
         SCORE:HandleKill(ply, attacker, dmginfo)
 
-        if IsValid(attacker) and attacker:IsPlayer() then
+        if (IsValid(attacker) and attacker:IsPlayer()) then
             attacker:RecordKill(ply)
             DamageLog(Format("KILL:\t %s [%s] killed %s [%s]", attacker:Nick(), attacker:GetRoleString(), ply:Nick(), ply:GetRoleString()))
         else

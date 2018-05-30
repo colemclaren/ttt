@@ -21,7 +21,7 @@ function util.WeaponFromDamage(dmg)
         elseif inf:IsPlayer() then
             wep = inf:GetActiveWeapon()
 
-            if not IsValid(wep) then
+            if (not IsValid(wep)) then
                 -- this may have been a dying shot, in which case we need a
                 -- workaround to find the weapon because it was dropped on death
                 wep = IsValid(inf.dying_wep) and inf.dying_wep or nil

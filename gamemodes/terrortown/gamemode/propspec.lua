@@ -44,9 +44,10 @@ end
 -- Clear any propspec state a player has. Safe even if player is not currently
 -- spectating.
 function PROPSPEC.Clear(ply)
+	if (not IsValid(ply)) then return end
     local ent = (ply.propspec and ply.propspec.ent) or ply:GetObserverTarget()
 
-    if IsValid(ent) then
+    if (IsValid(ent)) then
         ent:SetNWEntity("spec_owner", nil)
     end
 

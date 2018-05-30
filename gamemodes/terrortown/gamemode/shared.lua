@@ -80,7 +80,7 @@ include("lang_shd.lua") -- uses some of util
 include("equip_items_shd.lua")
 
 function DetectiveMode()
-    return GetGlobalBool("ttt_detective", false)
+    return GetGlobalBool("ttt_detective", true)
 end
 
 function HasteMode()

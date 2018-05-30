@@ -707,7 +707,7 @@ end
 
 local function ReceiveEquipment()
     local ply = LocalPlayer()
-    if not IsValid(ply) then return end
+    if (not IsValid(ply)) then return end
     ply.equipment_items = net.ReadUInt(16)
 end
 
