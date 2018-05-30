@@ -40,10 +40,7 @@ function PANEL:Init()
     self:AddColumn(GetTranslation("sb_ping"), function(ply) return ply:Ping() end)
     self:AddColumn(GetTranslation("sb_deaths"), function(ply) return ply:Deaths() end)
     self:AddColumn(GetTranslation("sb_score"), function(ply) return ply:Frags() end)
-
-    if KARMA.IsEnabled() then
-        self:AddColumn(GetTranslation("sb_karma"), function(ply) return math.Round(ply:GetBaseKarma()) end)
-    end
+    self:AddColumn(GetTranslation("sb_karma"), function(ply) return math.Round(ply:GetBaseKarma()) end)
 
     -- Let hooks add their custom columns
     hook.Call("TTTScoreboardColumns", nil, self)
@@ -102,13 +99,6 @@ local rolecolor = {
 
 function GM:TTTScoreboardColorForPlayer(ply)
     if not IsValid(ply) then return namecolor.default end
-
-    if ply:SteamID() == "STEAM_0:0:1963640" then
-        return namecolor.dev
-    elseif ply:IsAdmin() and GetGlobalBool("ttt_highlight_admins", true) then
-        return namecolor.admin
-    end
-
     return namecolor.default
 end
 

@@ -165,10 +165,7 @@ function PANEL:Init()
     self:AddColumn(GetTranslation("sb_ping"))
     self:AddColumn(GetTranslation("sb_deaths"))
     self:AddColumn(GetTranslation("sb_score"))
-
-    if KARMA.IsEnabled() then
-        self:AddColumn(GetTranslation("sb_karma"))
-    end
+    self:AddColumn(GetTranslation("sb_karma"))
 
     -- Let hooks add their column headers (via AddColumn())
     hook.Call("TTTScoreboardColumns", nil, self)
@@ -297,7 +294,7 @@ function PANEL:ApplySchemeSettings()
 end
 
 function PANEL:UpdateScoreboard(force)
-    if not force and not self:IsVisible() then return end
+    if (not force and not self:IsVisible()) then return end
     local layout = false
 
     -- Put players where they belong. Groups will dump them as soon as they don't
