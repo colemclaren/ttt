@@ -28,13 +28,13 @@ function ENT:Initialize()
 	self:SetSolid(SOLID_VPHYSICS)
 	self:PhysicsInit(SOLID_VPHYSICS)
 	
-	timer.Create("effedfs"..self:EntIndex(),0.01,0, function()
+	/*timer.Create("effedfs"..self:EntIndex(),0.01,0, function()
 		if not IsValid(self) then return end
 		local ef = EffectData()
 		ef:SetOrigin(self:GetPos())
 		ef:SetAttachment(1)
 		util.Effect("effect_fireb_fly", ef, true, true)	
-	end)
+	end)*/
 	
 	self:SetMaterial("models/effects/splode_sheet")
 end

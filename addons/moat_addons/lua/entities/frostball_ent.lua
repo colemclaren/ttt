@@ -15,13 +15,13 @@ function ENT:Initialize()
 	self:SetSolid(SOLID_VPHYSICS)
 	self:PhysicsInit(SOLID_VPHYSICS)
 	
-	timer.Create("effedsfs"..self:EntIndex(),0.01,0, function()
+	/*timer.Create("effedsfs"..self:EntIndex(),0.01,0, function()
 		if not IsValid(self) then return end
 		local ef = EffectData()
 		ef:SetOrigin(self:GetPos())
 		ef:SetAttachment(1)
 		util.Effect("effect_frostb_fly", ef, true, true)	
-	end)
+	end)*/
 	
 	self:SetMaterial("ice/ice1")
 	self:SetColor(Color(197,227,255,255))

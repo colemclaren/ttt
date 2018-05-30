@@ -15,13 +15,14 @@ function ENT:Initialize()
 	self:SetSolid(SOLID_VPHYSICS)
 	self:PhysicsInit(SOLID_VPHYSICS)
 	
-	timer.Create("effedfs"..self:EntIndex(),0.01,0, function()
-		if not IsValid(self) then return end
+	/*local indx = self:EntIndex()
+	timer.Create("effedfs"..indx,0.01,0, function()
+		if (not IsValid(self)) then return end
 		local ef = EffectData()
 		ef:SetOrigin(self:GetPos())
 		ef:SetAttachment(1)
 		util.Effect("effect_acidb_fly", ef, true, true)	
-	end)
+	end)*/
 	
 	self:SetMaterial("acid/acid1")
 	self:SetColor(Color(0,255,0,255))

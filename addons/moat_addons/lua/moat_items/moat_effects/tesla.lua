@@ -24,7 +24,7 @@ if CLIENT then
         end
     end)
     
-    timer.Create("Tesla Effect",8,0,function()
+    timer.Create("Tesla Effect",10,0,function()
         for _,ply in ipairs(player.GetAll()) do
             if ply.Tesla and ply:Alive() and (not ply:IsSpec()) then
                 local pos = ply:EyePos()

@@ -318,7 +318,7 @@ function SWEP:Think()
 
         timer.Create(label, 0.02, 0, function()
             if not IsValid(self) then
-                timer.Destroy(label)
+                timer.Remove(label)
 
                 return
             end
@@ -326,7 +326,7 @@ function SWEP:Think()
             if self.Charge < self.MaxCharge then
                 self.Charge = math.min(self.MaxCharge, self.Charge + 0.2)
             else
-                timer.Destroy(label)
+                timer.Remove(label)
             end
         end)
 

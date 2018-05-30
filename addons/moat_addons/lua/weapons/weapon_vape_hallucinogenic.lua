@@ -19,8 +19,14 @@ SWEP.VapeTankColor = Vector(-1,-1,-1)
 SWEP.VapeID = 5
 
 if CLIENT then
+	local var_change = CurTime()
 	hook.Add("RenderScreenspaceEffects","HallucinogenicVape",function()
 		if (vapeHallucinogen or 0) > 0 then
+			if (var_change < CurTime()) then
+				vapeHallucinogen = vapeHallucinogen-1
+				var_change = CurTime() + 0.1
+			end
+
 			if vapeHallucinogen>100 then vapeHallucinogen=100 end
 			local alpha = vapeHallucinogen/100
 			DrawMotionBlur( 0.04, alpha, 0 )
@@ -30,11 +36,6 @@ if CLIENT then
 			tab[ "$pp_colour_contrast" ] = 1 + alpha
 			tab[ "$pp_colour_brightness" ] = -0.1*alpha
 			DrawColorModify(tab)
-
 		end
-	end)
-
-	timer.Create("HallucinogenicVapeCounter",0.1,0,function()
-		if (vapeHallucinogen or 0) > 0 then vapeHallucinogen = vapeHallucinogen-1 end
 	end)
 end
