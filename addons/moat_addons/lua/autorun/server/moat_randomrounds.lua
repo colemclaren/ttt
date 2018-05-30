@@ -175,7 +175,8 @@ moat_random.register("Headshot","You can only deal damage through headshots!",{
 local DeafultLoadout = {
     ["weapon_ttt_unarmed"] = true,
     ["weapon_zm_improvised"] = true,
-    ["weapon_zm_carry"] = true
+    ["weapon_zm_carry"] = true,
+	["weapon_ttt_golden_deagle"] = true
 }
 
 moat_random.register("Golden Deagle","You can only use the golden deagle!",{
