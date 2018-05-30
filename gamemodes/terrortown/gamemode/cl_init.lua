@@ -85,7 +85,7 @@ function GM:InitPostEntity()
 	net.Start "TTTPlayerLoaded"
 	net.SendToServer()
 
-    RunConsoleCommand("_ttt_request_serverlang")
+	RecvServerLang()
     RunConsoleCommand("_ttt_request_rolelist")
 end
 
@@ -110,6 +110,8 @@ function GetRoundState()
 end
 
 local function RoundStateChange(o, n)
+	local pls = player.GetAll()
+
     if n == ROUND_PREP then
         -- prep starts
         GAMEMODE:ClearClientState()
@@ -120,54 +122,45 @@ local function RoundStateChange(o, n)
             LANG.Msg("spec_mode_warning")
         end
 
-        -- reset cached server language in case it has changed
-        RunConsoleCommand("_ttt_request_serverlang")
+		hook.Run("TTTPrepareRound")
+
+		for k, v in ipairs(pls) do
+			if (not IsValid(v)) then continue end
+			v.traitor_gvoice = false
+
+			hook.Run("TTTPrepareRoundPlayer", v)
+		end
     elseif n == ROUND_ACTIVE then
         -- round starts
         VOICE.CycleMuteState(MUTE_NONE)
         CLSCORE:ClearPanel()
 
-        -- people may have died and been searched during prep
-        for _, p in pairs(player.GetAll()) do
-            p.search_result = nil
-        end
-
         -- clear blood decals produced during prep
         RunConsoleCommand("r_cleardecals")
-        GAMEMODE.StartingPlayers = #util.GetAlivePlayers()
+		if (o ~= ROUND_PREP) then return end
+		hook.Run("TTTBeginRound")
+
+		for k, v in ipairs(pls) do
+			if (not IsValid(v)) then continue end
+			v.search_result = nil
+			v.traitor_gvoice = false
+
+			hook.Run("TTTBeginRoundPlayer", v)
+		end
     elseif n == ROUND_POST then
         RunConsoleCommand("ttt_cl_traitorpopup_close")
+
+		if (o ~= ROUND_ACTIVE) then return end
+		hook.Run("TTTEndRound")
+
+		for k, v in ipairs(pls) do
+			if (not IsValid(v)) then continue end
+			v.traitor_gvoice = false
+
+			hook.Run("TTTEndRoundPlayer", v)
+		end
     end
-
-    -- stricter checks when we're talking about hooks, because this function may
-    -- be called with for example o = WAIT and n = POST, for newly connecting
-    -- players, which hooking code may not expect
-
-	local str = "UnknownState"
-    if n == ROUND_PREP then
-        -- can enter PREP from any phase due to ttt_roundrestart
-        hook.Call("TTTPrepareRound", GAMEMODE)
-		str = "TTTPrepareRound"
-    elseif (o == ROUND_PREP) and (n == ROUND_ACTIVE) then
-        hook.Call("TTTBeginRound", GAMEMODE)
-		str = "TTTBeginRound"
-    elseif (o == ROUND_ACTIVE) and (n == ROUND_POST) then
-        hook.Call("TTTEndRound", GAMEMODE)
-		str = "TTTEndRound"
-    end
-
-	local pls = player.GetAll()
-	for k, v in ipairs(pls) do
-		if (not IsValid(v)) then continue end
-		hook.Run(str .. "Player", v)
-
-		v.traitor_gvoice = false
-	end
 end
-
-concommand.Add("ttt_print_playercount", function()
-    print(GAMEMODE.StartingPlayers)
-end)
 
 --- optional sound cues on round start and end
 CreateConVar("ttt_cl_soundcues", "0", FCVAR_ARCHIVE)

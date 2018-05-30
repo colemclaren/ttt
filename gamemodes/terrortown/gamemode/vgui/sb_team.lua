@@ -126,7 +126,9 @@ function PANEL:Paint()
 end
 
 function PANEL:AddPlayerRow(ply)
-    if (IsValid(ply) and (ScoreGroup(ply) == self.group) and (not self.rows[ply])) then
+    if (IsValid(ply) and (ScoreGroup(ply) == self.group)) then
+		if (IsValid(self.rows[ply])) then self.rows[ply]:Remove() end
+
         local row = vgui.Create("TTTScorePlayerRow", self)
         row:SetPlayer(ply)
         self.rows[ply] = row
@@ -158,12 +160,10 @@ end
 
 function PANEL:UpdatePlayerData()
     local to_remove = {}
-	local already_in = {}
 
     for k, v in pairs(self.rows) do
         -- Player still belongs in this group?
-        if IsValid(v) and IsValid(v:GetPlayer()) and not already_in[v:GetPlayer()] and ScoreGroup(v:GetPlayer()) == self.group then
-			already_in[v:GetPlayer()] = true
+        if (IsValid(v) and IsValid(v:GetPlayer()) and (v:GetPlayer().sb_group == self.group)) then
             v:UpdatePlayerData()
         else
             -- can't remove now, will break pairs

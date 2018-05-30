@@ -65,15 +65,6 @@ if SERVER then
     end
 
     CreateConVar("ttt_lang_serverdefault", "english", FCVAR_ARCHIVE)
-
-    local function ServerLangRequest(ply, cmd, args)
-        if not IsValid(ply) then return end
-        net.Start("TTT_ServerLang")
-        net.WriteString(GetConVarString("ttt_lang_serverdefault"))
-        net.Send(ply)
-    end
-
-    concommand.Add("_ttt_request_serverlang", ServerLangRequest)
 else -- CLIENT
     local function RecvMsg()
         local name = net.ReadString()
@@ -94,8 +85,8 @@ else -- CLIENT
     net.Receive("TTT_LangMsg", RecvMsg)
     LANG.Msg = LANG.ProcessMsg
 
-    local function RecvServerLang()
-        local lang_name = net.ReadString()
+    function RecvServerLang()
+        local lang_name = "english"
         lang_name = lang_name and string.lower(lang_name)
 
         if LANG.Strings[lang_name] then
@@ -107,8 +98,6 @@ else -- CLIENT
             print("Server default language is:", lang_name)
         end
     end
-
-    net.Receive("TTT_ServerLang", RecvServerLang)
 end
 
 -- It can be useful to send string names as params, that the client can then

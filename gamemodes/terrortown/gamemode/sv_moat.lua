@@ -72,17 +72,9 @@ end
 util.AddNetworkString "TTTPlayerLoaded"
 function TTTPlayerLoaded(_, pl)
 	_SyncTTTGlobals(pl)
+	_GetTButtons(pl)
 end
 net.Receive("TTTPlayerLoaded", TTTPlayerLoaded)
-
-
-function _CleanUp()
-	ServerLog("Starting Cleanup Map\n")
-
-	game.CleanUpMap()
-
-	ServerLog("Clean Up Map Done\n")
-end
 
 function _CheckForMapSwitch()
            -- Check for mapswitch
@@ -108,23 +100,138 @@ end
 
 
 
+local broken_parenting_ents = {
+	["move_rope"] = true,
+	["keyframe_rope"] = true,
+	["info_target"] = true,
+	["func_brush"] = true
+}
+
+local function _GetStupidEnts()
+	_ParentedPreCleanup = {}
+	_ParentedPreCleanupCount = 0
+
+	for i = 1, ents.MapCreatedEntsCount do
+		local v = ents.MapCreatedEnts[i]
+		if (not IsValid(v)) then continue end
+		if (not broken_parenting_ents[v:GetClass()] or not (v.GetParent and IsValid(v:GetParent()))) then continue end
+
+		_ParentedPreCleanup[v] = {parent = v:GetParent(), pos = v:GetPos()}
+		_ParentedPreCleanupCount = _ParentedPreCleanupCount + 1
+	end
+end
+
+local function _FixParentedPreCleanup()
+	if (not _ParentedPreCleanup) then _GetStupidEnts() end
+	if (_ParentedPreCleanupCount and _ParentedPreCleanupCount == 0) then return end
+
+	for k, v in pairs(_ParentedPreCleanup) do
+		if (IsValid(k) and IsValid(v.parent)) then
+			k:SetParent(nil)
+		end
+	end
+end
+
+local function _FixParentedPostCleanup()
+	if (_ParentedPreCleanupCount and _ParentedPreCleanupCount == 0) then return end
+
+	for k, v in pairs(_ParentedPreCleanup) do
+		if (IsValid(k) and IsValid(v.parent)) then
+			k:SetPos(v.pos)
+			k:SetParent(v.parent)
+		end
+	end
+end
+
+function _CleanUp()
+	ServerLog("Starting Cleanup Map\n")
+
+	_FixParentedPreCleanup()
+	game.CleanUpMap()
+	_FixParentedPostCleanup()
+
+	ServerLog("Clean Up Map Done\n")
+end
+
+_MapEntityStore = _MapEntityStore or {}
+function _GetMapEntities(n)
+	if (_MapEntityStore[n]) then return _MapEntityStore[n].count, _MapEntityStore[n].ents, _MapEntityStore[n].has end
+
+	local tbl, tbl2, num = {}, {}, 0
+	for i = 1, ents.MapCreatedEntsCount do
+		local v = ents.MapCreatedEnts[i]
+		if (IsValid(v) and v:GetClass() == n) then
+			num = num + 1
+			tbl[num] = v
+			tbl2[v] = num
+		end
+	end
+
+	_MapEntityStore[n] = {}
+	_MapEntityStore[n].ents = tbl
+	_MapEntityStore[n].has = tbl2
+	_MapEntityStore[n].count = num
+
+	return num, tbl, tbl2
+end
 
 
+function _TriggerRoundStateOutputs(r, param)
+    r = r or GetRoundState()
 
+	local n, e = _GetMapEntities("ttt_map_settings")
+	if (not n or n == 0) then return end
 
+	for i = 1, n do
+		if (IsValid(e[i])) then e[i]:RoundStateTrigger(r, param) end
+	end
+end
 
+util.AddNetworkString "TTT_TraitorButton"
+util.AddNetworkString "TTT_TraitorButtons"
 
+local stb = {}
+function _GetTButtons(pl)
+	local n, e, h = _GetMapEntities("ttt_traitor_button")
+	if (next(stb)) then
+		for k, v in pairs(stb) do
+			if (not IsValid(v)) then continue end
+			if (h[v]) then continue end
 
+			n = n + 1
+			e[n] = v
 
+			stb[k] = nil
+		end
+	end
 
+	if (not n or n == 0) then return end
 
+	local amt, tbl = 0, {}
+	for i = 1, n do
+		if (IsValid(e[i])) then
+			amt = amt + 1
+			tbl[amt] = e[i]:EntIndex()
+		end
+	end
 
+	net.Start "TTT_TraitorButtons"
+		net.WriteUInt(amt, 16)
+		for i = 1, amt do
+			net.WriteUInt(tbl[i], 16)
+		end
+	return pl and net.Send(pl) or net.Broadcast()
+end
 
+function _CreateTButton(ent)
+	local n, e, h = _GetMapEntities("ttt_traitor_button")
+	if (n > 0 and h and h[ent]) then return end
+	stb[ent] = ent
 
-
-
-
-
+	net.Start "TTT_TraitorButton"
+		net.WriteEntity(ent)
+	net.Broadcast()
+end
 
 
 --[[

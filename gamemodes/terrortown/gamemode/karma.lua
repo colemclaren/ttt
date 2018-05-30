@@ -255,15 +255,11 @@ function KARMA.RoundEnd()
     end
 end
 
-function KARMA.RoundBegin()
-    KARMA.InitState()
+function KARMA.RoundBegin(pl)
+	if (not KARMA.IsEnabled()) then return end
 
-    if KARMA.IsEnabled() then
-        for _, ply in pairs(player.GetAll()) do
-            KARMA.ApplyKarma(ply)
-            KARMA.NotifyPlayer(ply)
-        end
-    end
+	KARMA.ApplyKarma(pl)
+    KARMA.NotifyPlayer(pl)
 end
 
 function KARMA.InitPlayer(ply)

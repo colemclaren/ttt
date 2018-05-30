@@ -101,23 +101,21 @@ local function DrawBlur(panel, amount)
 end
 
 function ScoreGroup(p)
-    if not IsValid(p) then return -1 end -- will not match any group panel
+    if (not IsValid(p)) then return -1 end -- will not match any group panel
     local group = hook.Call("TTTScoreGroup", nil, p)
     if group then return group end -- If that hook gave us a group, use it
 
-    if DetectiveMode() then
-        if p:IsSpec() and (not p:Alive()) then
-            if p:GetNWBool("body_found", false) then
-                return GROUP_FOUND
-            else
-                local client = LocalPlayer()
+    if (p:IsSpec() and (not p:Alive())) then
+        if (p:GetNWBool("body_found", false)) then
+            return GROUP_FOUND
+        else
+            local client = LocalPlayer()
 
-                -- To terrorists, missing players show as alive
-                if client:IsSpec() or client:IsActiveTraitor() or ((GAMEMODE.round_state ~= ROUND_ACTIVE) and client:IsTerror()) then
-                    return GROUP_NOTFOUND
-                else
-                    return GROUP_TERROR
-                end
+            -- To terrorists, missing players show as alive
+            if (IsValid(client) and client:IsSpec()) or client:IsActiveTraitor() or ((GAMEMODE.round_state ~= ROUND_ACTIVE) and client:IsTerror()) then
+                return GROUP_NOTFOUND
+            else
+                return GROUP_TERROR
             end
         end
     end
@@ -303,8 +301,9 @@ function PANEL:UpdateScoreboard(force)
         if IsValid(p) then
             local group = ScoreGroup(p)
 
-            if self.ply_groups[group] and not self.ply_groups[group]:HasPlayerRow(p) then
+            if (self.ply_groups[group] and not self.ply_groups[group]:HasPlayerRow(p)) then
                 self.ply_groups[group]:AddPlayerRow(p)
+				p.sb_group = group
                 layout = true
             end
         end

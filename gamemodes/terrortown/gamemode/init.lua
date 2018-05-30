@@ -215,6 +215,17 @@ function GM:InitCvars()
 end
 
 function GM:InitPostEntity()
+	if (not ents.MapCreatedEnts) then
+		ents.MapCreatedEnts = {}
+		local num = 0
+		for k, v in pairs(ents.GetAll()) do
+			if (not IsValid(v) or v:MapCreationID() == -1) then continue end
+			num = num + 1
+			ents.MapCreatedEnts[num] = v
+		end
+		ents.MapCreatedEntsCount = num
+	end
+
     WEPS.ForcePrecache()
 end
 
@@ -442,21 +453,15 @@ local function CleanUp()
     ServerLog("Function Finished\n")
 end
 
+local import = ents.TTT.CanImportEntities()
 local function SpawnEntities()
-    local et = ents.TTT
-    -- Spawn weapons from script if there is one
-    local import = et.CanImportEntities(game.GetMap())
+	if (import) then
+		ents.TTT.ProcessImportScript()
+	else
+		ents.TTT.ReplaceEntities()
+		ents.TTT.PlaceExtraWeapons()
+	end
 
-    if import then
-        et.ProcessImportScript(game.GetMap())
-    else
-        -- Replace HL2DM/ZM ammo/weps with our own
-        et.ReplaceEntities()
-        -- Populate CS:S/TF2 maps with extra guns
-        et.PlaceExtraWeapons()
-    end
-
-    -- Finally, get players in there
     SpawnWillingPlayers(player.GetAll())
 end
 
@@ -492,7 +497,7 @@ end
 function PrepareRound()
     -- Check playercount
 	local pls = player.GetAll()
-    if CheckForAbort(pls) then return end
+    if (CheckForAbort(pls)) then return end
     local delay_round, delay_length = hook.Call("TTTDelayRoundStartForVote", GAMEMODE)
 
     if delay_round then
@@ -509,16 +514,17 @@ function PrepareRound()
 
     -- Cleanup
     CleanUp()
-    GAMEMODE.MapWin = WIN_NONE
+    
+	GAMEMODE.MapWin = WIN_NONE
     GAMEMODE.AwardedCredits = false
     GAMEMODE.AwardedCreditsDead = 0
+	-- Update damage scaling
+	KARMA.InitState()
     SCORE:Reset()
-    -- Update damage scaling
-    KARMA.RoundBegin()
     -- New look. Random if no forced model set.
     GAMEMODE.playermodel = GAMEMODE.force_plymodel == "" and GetRandomPlayerModel() or GAMEMODE.force_plymodel
     GAMEMODE.playercolor = hook.Call("TTTPlayerColor", GAMEMODE, GAMEMODE.playermodel)
-    if CheckForAbort(pls) then return end
+    if (CheckForAbort(pls)) then return end
     -- Schedule round start
     local ptime = GetConVar("ttt_preptime_seconds"):GetInt()
 
@@ -551,13 +557,21 @@ function PrepareRound()
         MuteForRestart(false)
     end)
 
-    net.Start("TTT_ClearClientState")
-    net.Broadcast()
+    --net.Start("TTT_ClearClientState")
+    --net.Broadcast()
     -- In case client's cleanup fails, make client set all players to innocent role
     timer.Simple(1, SendRoleReset)
     -- Tell hooks and map we started prep
     hook.Run("TTTPrepareRound")
-    ents.TTT.TriggerRoundStateOutputs(ROUND_PREP)
+
+	for k, v in pairs(pls) do
+		if (not IsValid(pls)) then continue end
+		KARMA.RoundBegin(v)
+
+		hook.Run("TTTPrepareRoundPlayer", v)
+	end
+
+    _TriggerRoundStateOutputs(ROUND_PREP)
 end
 
 function SetRoundEnd(endtime)
@@ -669,7 +683,7 @@ function BeginRound()
     ServerLog("Round proper has begun...\n")
     GAMEMODE:UpdatePlayerLoadouts() -- needs to happen when round_active
     hook.Call("TTTBeginRound")
-    ents.TTT.TriggerRoundStateOutputs(ROUND_BEGIN)
+    _TriggerRoundStateOutputs(ROUND_BEGIN)
 
     for k, v in ipairs(player.GetAll()) do
         v.JustSpawned = nil
@@ -764,7 +778,7 @@ function EndRound(type)
 		hook.Run("TTTEndRoundPlayer", type, v)
 	end
 
-    ents.TTT.TriggerRoundStateOutputs(ROUND_POST, type)
+    _TriggerRoundStateOutputs(ROUND_POST, type)
 end
 
 function GM:MapTriggeredEnd(wintype)

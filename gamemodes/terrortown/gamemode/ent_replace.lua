@@ -130,8 +130,7 @@ local cls = "" -- avoid allocating
 local sub = string.sub
 
 local function ReplaceOnCreated(s, ent)
-    -- Invalid ents are of no use anyway
-    if not ent:IsValid() then return end
+    if (not IsValid(ent)) then return end
     cls = ent:GetClass()
 
     if sub(cls, 1, 4) == "item" then
@@ -435,18 +434,16 @@ local function CreateImportedEnt(cls, pos, ang, kv)
     return true
 end
 
-function ents.TTT.CanImportEntities(map)
-    if (not tostring(map)) then return false end
+function ents.TTT.CanImportEntities()
     if (not GetConVar("ttt_use_weapon_spawn_scripts"):GetBool()) then return false end
-    local fname = "maps/" .. map .. "_ttt.txt"
-
-    return file.Exists(fname, "GAME")
+    local fname = "maps/" .. game.GetMap() .. "_ttt.txt"
+    return file.Read(fname, "GAME")
 end
 
 local function ImportSettings(map)
-    if not ents.TTT.CanImportEntities(map) then return end
-    local fname = "maps/" .. map .. "_ttt.txt"
-    local buf = file.Read(fname, "GAME")
+    local buf = ents.TTT.CanImportEntities()
+	if (not buf) then return end
+
     local settings = {}
     local lines = string.Explode("\n", buf)
 
@@ -458,7 +455,7 @@ local function ImportSettings(map)
             if key and val then
                 settings[key] = val
             else
-                ErrorNoHalt("Invalid setting line " .. k .. " in " .. fname .. "\n")
+                ErrorNoHalt("Invalid setting line " .. k .. " in current setting file.\n")
             end
         end
     end
@@ -471,9 +468,9 @@ local classremap = {
 }
 
 local function ImportEntities(map)
-    if not ents.TTT.CanImportEntities(map) then return end
-    local fname = "maps/" .. map .. "_ttt.txt"
-    local buf = file.Read(fname, "GAME")
+    local buf = ents.TTT.CanImportEntities()
+	if (not buf) then return end
+
     local lines = string.Explode("\n", buf)
     local num = 0
 
@@ -509,7 +506,7 @@ local function ImportEntities(map)
             end
 
             if fail then
-                ErrorNoHalt("Invalid line " .. k .. " in " .. fname .. "\n")
+                ErrorNoHalt("Invalid line " .. k .. " in current entity file.\n")
             else
                 num = num + 1
             end
