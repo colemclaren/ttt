@@ -125,6 +125,7 @@ net.Receive("FFA_End",function()
     timer.Simple(1,function()
         for i = 1, #FFA_END.p - 3 do
             timer.Simple(0.2 * i,function()
+				if (not FFA_END) then return end
                 sound.Play(Sound("buttons/blip1.wav"),LocalPlayer():EyePos(),150,100 + (i * 2.5),1)
                 FFA_END.cur_i = FFA_END.cur_i - 1
             end)
@@ -132,6 +133,7 @@ net.Receive("FFA_End",function()
 
         for i =1, 3 do
             timer.Simple((0.2 * ((#FFA_END.p - 3) + 0.5 ) + (i * 0.7)),function()
+				if (not FFA_END) then return end
                 sound.Play(Sound("weapons/357_fire2.wav"),LocalPlayer():EyePos(),150,100 + ((i) * 5),1)
                 FFA_END.cur_i = FFA_END.cur_i - 1
             end)

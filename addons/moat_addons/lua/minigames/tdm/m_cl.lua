@@ -118,6 +118,7 @@ net.Receive("TDM_End",function()
     timer.Simple(1,function()
         for i = 1, #TDM_END.p - 3 do
             timer.Simple(0.2 * i,function()
+				if (not TDM_END) then return end
                 sound.Play(Sound("buttons/blip1.wav"),LocalPlayer():EyePos(),150,100 + (i * 2.5),1)
                 TDM_END.cur_i = TDM_END.cur_i - 1
             end)
@@ -125,6 +126,7 @@ net.Receive("TDM_End",function()
 
         for i =1, 3 do
             timer.Simple((0.2 * ((#TDM_END.p - 3) + 0.5 ) + (i * 0.7)),function()
+				if (not TDM_END) then return end
                 sound.Play(Sound("weapons/357_fire2.wav"),LocalPlayer():EyePos(),150,100 + ((i) * 5),1)
                 TDM_END.cur_i = TDM_END.cur_i - 1
             end)

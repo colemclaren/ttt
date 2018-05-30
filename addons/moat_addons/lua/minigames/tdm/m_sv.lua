@@ -202,15 +202,19 @@ function MG_TDM.ResetVars()
 end
 
 function MG_TDM.StripWeapons(ply)
+	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (not MG_TDM.DefaultLoadout[v:GetClass()]) then
+        if (IsValid(v) and not MG_TDM.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
             if (v.SetIronSights) then
                 v:SetIronsights(false)
             end
-            ply:StripWeapon(v:GetClass())
+
+            if (IsValid(ply)) then
+				ply:StripWeapon(v:GetClass())
+			end
         end
     end
 end
@@ -618,7 +622,6 @@ end
 
 function MG_TDM:PrepRound(mk, pri, sec, creds)
 	MG_TDM.TDMOver = false
-	MOAT_MINIGAME_OCCURING = true
 	MG_TDM.HandleDamageLogStuff(false)
 
     for k, v in pairs(player.GetAll()) do
@@ -630,12 +633,6 @@ function MG_TDM:PrepRound(mk, pri, sec, creds)
         if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_TDM.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
-    end
-    -- need to call this again? just for safe measures
-    for k, v in pairs(player.GetAll()) do
-        MG_TDM.StripWeapons(v)
-        v:StripAmmo()
-        v.TDM_Cache = {}
     end
 
     MG_TDM.Kills = {
@@ -662,6 +659,15 @@ function MG_TDM:PrepRound(mk, pri, sec, creds)
 
 
     hook.Add("TTTCheckForWin", "MG_TDM_DELAYWIN", function() return WIN_NONE end)
+
+    -- need to call this again? just for safe measures
+    for k, v in pairs(player.GetAll()) do
+        MG_TDM.StripWeapons(v)
+        v:StripAmmo()
+        v.TDM_Cache = {}
+    end
+
+	MOAT_MINIGAME_OCCURING = true
 end
 
 function MG_TDM.DecideTeams(pls)

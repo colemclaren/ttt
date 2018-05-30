@@ -52,18 +52,23 @@ function MG_TNT.ResetVars()
 end
 
 function MG_TNT.StripWeapons(ply)
+	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (not MG_TNT.DefaultLoadout[v:GetClass()]) then
+        if (IsValid(v) and not MG_TNT.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
             if (v.SetIronSights) then
                 v:SetIronsights(false)
             end
-            ply:StripWeapon(v:GetClass())
+
+            if (IsValid(ply)) then
+				ply:StripWeapon(v:GetClass())
+			end
         end
     end
 end
+
 
 function MG_TNT.GiveAmmo(ply)
 end
@@ -321,7 +326,6 @@ function MG_TNT.PrepRound(mk, pri, sec, creds)
     TEST_TNT = false
     MG_TNT.Won = false
 	MG_TNT.JOver = false
-	MOAT_MINIGAME_OCCURING = true
 	MG_TNT.HandleDamageLogStuff(false)
 
     for k, v in pairs(player.GetAll()) do
@@ -334,14 +338,6 @@ function MG_TNT.PrepRound(mk, pri, sec, creds)
             v:Remove()
         end
     end
-    -- need to call this again? just for safe measures
-    for k, v in pairs(player.GetAll()) do
-        MG_TNT.StripWeapons(v)
-        v.IsBomb = false
-        v.Skeleton = false
-        v.KilledByMe = false
-    end
-    
 
 	MG_TNT.HookAdd("MoatInventoryShouldGiveLoadout", MG_TNT.PreventLoadouts)
 	MG_TNT.HookAdd("TTTBeginRound", MG_TNT.BeginRound)
@@ -362,8 +358,17 @@ function MG_TNT.PrepRound(mk, pri, sec, creds)
     MG_TNT.HookAdd("TTTPlayerSpeed",MG_TNT.PlayerSpeed)
     MG_TNT.SpawnPoints = {}
 
-
     hook.Add("TTTCheckForWin", "MG_TNT_DELAYWIN", function() return WIN_NONE end)
+
+    -- need to call this again? just for safe measures
+    for k, v in pairs(player.GetAll()) do
+        MG_TNT.StripWeapons(v)
+        v.IsBomb = false
+        v.Skeleton = false
+        v.KilledByMe = false
+    end
+
+	MOAT_MINIGAME_OCCURING = true
 end
 
 function MG_TNT.RandomPlayer()

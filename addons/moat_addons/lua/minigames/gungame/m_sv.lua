@@ -307,15 +307,19 @@ function MG_GG.PlayerSpawn(ply)
 end
 
 function MG_GG.StripWeapons(ply)
+	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (not MG_GG.DeafultLoadout[v:GetClass()]) then
+        if (IsValid(v) and not MG_GG.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
             if (v.SetIronSights) then
                 v:SetIronsights(false)
             end
-            ply:StripWeapon(v:GetClass())
+
+            if (IsValid(ply)) then
+				ply:StripWeapon(v:GetClass())
+			end
         end
     end
 end
@@ -438,38 +442,43 @@ function MG_GG.KarmaStuff()
 end
 
 function MG_GG.PrepRound()
-    net.Start "MG_GG_PREP"
-    net.Broadcast()
-
     for k, v in pairs(player.GetAll()) do
         MG_GG.StripWeapons(v)
     end
 
-    for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not MG_GG.DeafultLoadout[v:GetClass()]) then
+    for k, v in pairs(ents.GetAll()) do
+        if (IsValid(v) and v:GetClass():StartWith("weapon_") and not MG_GG.DeafultLoadout[v:GetClass()]) then
             v:Remove()
         end
-    end
-    -- need to call this again? just for safe measures
-    for k, v in pairs(player.GetAll()) do
-        MG_GG.StripWeapons(v)
     end
 
     MG_GG.GunGameOver = false
     MG_GG.HandleDamageLogStuff(false)
 
-    MOAT_MINIGAME_OCCURING = true
-
+	MG_GG.HookAdd("MoatInventoryShouldGiveLoadout", "MG_GG_PL", MG_GG.PreventLoadouts)
     MG_GG.HookAdd("TTTBeginRound", "MG_GG_BEGIN", MG_GG.BeginRound)
     MG_GG.HookAdd("TTTKarmaGivePenalty", "MG_GG_PREVENTKARMA", MG_GG.KarmaStuff)
     MG_GG.HookAdd("PlayerDisconnected", "MG_GG_DISCONNECT", MG_GG.PlayerDisconnected)
-    MG_GG.HookAdd("MoatInventoryShouldGiveLoadout", "MG_GG_PL", MG_GG.PreventLoadouts)
     MG_GG.HookAdd("EntityFireBullets", "MG_GG_REMOVESPAWNPROT", MG_GG.RemoveSpawnProtection)
     MG_GG.HookAdd("PlayerShouldTakeDamage", "MG_GG_PL", MG_GG.ShouldTakeDamage)
     MG_GG.HookAdd("Think", "MG_GG_DRAWSPAWN", MG_GG.SpawnProtectionDraw)
     MG_GG.HookAdd("CanPlayerSuicide", "MG_GG_STOPSUICIDE", function(ply) return false end)
 
     hook.Add("TTTCheckForWin", "MG_GG_DELAYWIN", function() return WIN_NONE end)
+
+	SetRoundEnd(CurTime() + 30)
+    timer.Adjust("prep2begin", 30, 1, BeginRound)
+    timer.Adjust("selectmute", 29, 1, function() MuteForRestart(true) end)
+
+    -- need to call this again? just for safe measures
+    for k, v in pairs(player.GetAll()) do
+        MG_GG.StripWeapons(v)
+    end
+
+	MOAT_MINIGAME_OCCURING = true
+
+    net.Start "MG_GG_PREP"
+    net.Broadcast()
 end
 
 local allowed_ids = {
@@ -484,10 +493,6 @@ concommand.Add("moat_start_gungame", function(ply, cmd, args)
 
         return
     end
-
-    SetRoundEnd(CurTime() + 30)
-    timer.Adjust("prep2begin", 30, 1, BeginRound)
-    timer.Adjust("selectmute", 29, 1, function() MuteForRestart(true) end)
 
     MG_GG.PrepRound()
 end)

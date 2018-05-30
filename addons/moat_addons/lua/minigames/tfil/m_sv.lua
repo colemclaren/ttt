@@ -78,15 +78,19 @@ function MG_LAVA.ResetVars()
 end
 
 function MG_LAVA.StripWeapons(ply)
+	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (not MG_LAVA.DefaultLoadout[v:GetClass()]) then
+        if (IsValid(v) and not MG_LAVA.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
             if (v.SetIronSights) then
                 v:SetIronsights(false)
             end
-            ply:StripWeapon(v:GetClass())
+
+            if (IsValid(ply)) then
+				ply:StripWeapon(v:GetClass())
+			end
         end
     end
 end
@@ -317,7 +321,6 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
     TEST_lava = false
     MG_LAVA.Won = false
 	MG_LAVA.JOver = false
-	MOAT_MINIGAME_OCCURING = true
 	MG_LAVA.HandleDamageLogStuff(false)
 
     for k, v in pairs(player.GetAll()) do
@@ -330,11 +333,6 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
             v:Remove()
         end
     end
-    -- need to call this again? just for safe measures
-    for k, v in pairs(player.GetAll()) do
-        MG_LAVA.StripWeapons(v)
-    end
-    
 
 	MG_LAVA.HookAdd("MoatInventoryShouldGiveLoadout", MG_LAVA.PreventLoadouts)
 	MG_LAVA.HookAdd("TTTBeginRound", MG_LAVA.BeginRound)
@@ -356,6 +354,13 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
 
 
     hook.Add("TTTCheckForWin", "MG_LAVA_DELAYWIN", function() return WIN_NONE end)
+
+    -- need to call this again? just for safe measures
+    for k, v in pairs(player.GetAll()) do
+        MG_LAVA.StripWeapons(v)
+    end
+
+	MOAT_MINIGAME_OCCURING = true
 end
 
 

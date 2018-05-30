@@ -58,15 +58,19 @@ function MG_FFA.ResetVars()
 end
 
 function MG_FFA.StripWeapons(ply)
+	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (not MG_FFA.DefaultLoadout[v:GetClass()]) then
+        if (IsValid(v) and not MG_FFA.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
             if (v.SetIronSights) then
                 v:SetIronsights(false)
             end
-            ply:StripWeapon(v:GetClass())
+
+            if (IsValid(ply)) then
+				ply:StripWeapon(v:GetClass())
+			end
         end
     end
 end
@@ -395,7 +399,6 @@ end
 
 function MG_FFA.PrepRound(mk, pri, sec, creds)
 	MG_FFA.FFAOver = false
-	MOAT_MINIGAME_OCCURING = true
 	MG_FFA.HandleDamageLogStuff(false)
 
     for k, v in pairs(player.GetAll()) do
@@ -408,14 +411,6 @@ function MG_FFA.PrepRound(mk, pri, sec, creds)
             v:Remove()
         end
     end
-    -- need to call this again? just for safe measures
-    for k, v in pairs(player.GetAll()) do
-        MG_FFA.StripWeapons(v)
-        v:StripAmmo()
-        v.TDM_Cache = {}
-        v.FFAKills = 0
-    end
-    
 
 	MG_FFA.HookAdd("MoatInventoryShouldGiveLoadout", MG_FFA.PreventLoadouts)
 	MG_FFA.HookAdd("TTTBeginRound", MG_FFA.BeginRound)
@@ -433,8 +428,17 @@ function MG_FFA.PrepRound(mk, pri, sec, creds)
     MG_FFA.SpawnPoints = {}
     timer.Create("FFA.SpawnPoints",5,0,MG_FFA.TrackSpawnPoints)
 
-
     hook.Add("TTTCheckForWin", "MG_FFA_DELAYWIN", function() return WIN_NONE end)
+
+    -- need to call this again? just for safe measures
+    for k, v in pairs(player.GetAll()) do
+        MG_FFA.StripWeapons(v)
+        v:StripAmmo()
+        v.TDM_Cache = {}
+        v.FFAKills = 0
+    end
+
+	MOAT_MINIGAME_OCCURING = true
 end
 
 function MG_FFA.DecideTeams(pls)

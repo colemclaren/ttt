@@ -240,18 +240,21 @@ function MG_CG.PlayerSpawn(ply)
 end
 
 function MG_CG.StripWeapons(ply)
+	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (not MG_CG.DeafultLoadout[v:GetClass()]) then
+        if (IsValid(v) and not MG_CG.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
             if (v.SetIronSights) then
                 v:SetIronsights(false)
             end
-            ply:StripWeapon(v:GetClass())
+
+            if (IsValid(ply)) then
+				ply:StripWeapon(v:GetClass())
+			end
         end
     end
-    ply:SelectWeapon("weapon_ttt_unarmed")
 end
 
 function MG_CG.GiveAmmo(ply)
@@ -459,12 +462,8 @@ function MG_CG.StopFallDamage(ent, dmginfo)
 end
 
 function MG_CG.PrepRound()
-    net.Start "MG_CG_PREP"
-    net.Broadcast()
-
     MG_CG.ContagionOver = false
     MG_CG.HandleDamageLogStuff(false)
-	MOAT_MINIGAME_OCCURING = true
     MG_CG.TimeLeft = 180
     MG_CG.FirstInfected = nil
 
@@ -478,7 +477,6 @@ function MG_CG.PrepRound()
     MG_CG.HookAdd("Think", "MG_CG_TIMELEFTUPDATE", MG_CG.TimeLeftUpdate)
     MG_CG.HookAdd("Think", "MG_CG_INFECTEDCHECK", MG_CG.InfectedCheck)
 
-
     for k, v in pairs(player.GetAll()) do
         if (v:IsValid() and v:Team() ~= TEAM_SPEC) then
             v:SetCollisionGroup(COLLISION_GROUP_WEAPON)
@@ -486,6 +484,15 @@ function MG_CG.PrepRound()
     end
 
     hook.Add("TTTCheckForWin", "MG_CG_DELAYWIN", function() return WIN_NONE end)
+
+    SetRoundEnd(CurTime() + 26)
+    timer.Adjust("prep2begin", 25, 1, BeginRound)
+    timer.Adjust("selectmute", 25, 1, function() MuteForRestart(true) end)
+
+	MOAT_MINIGAME_OCCURING = true
+
+    net.Start "MG_CG_PREP"
+    net.Broadcast()
 end
 
 concommand.Add("moat_start_contagion", function(ply, cmd, args)

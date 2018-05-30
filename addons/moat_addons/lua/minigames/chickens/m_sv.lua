@@ -229,18 +229,21 @@ function MG_CM.PlayerSpawn(ply)
 end
 
 function MG_CM.StripWeapons(ply)
+	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (not MG_CM.DeafultLoadout[v:GetClass()]) then
+        if (IsValid(v) and not MG_CM.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
             if (v.SetIronSights) then
                 v:SetIronsights(false)
             end
-            ply:StripWeapon(v:GetClass())
+
+            if (IsValid(ply)) then
+				ply:StripWeapon(v:GetClass())
+			end
         end
     end
-    ply:SelectWeapon("weapon_ttt_unarmed")
 end
 
 function MG_CM.GiveAmmo(ply)
@@ -440,7 +443,6 @@ function MG_CM.BeginRound()
     MG_CM.HookAdd("Think", "MG_CM_CHICKENSPAWN", MG_CM.ChickenSpawn)
     MG_CM.HookAdd("PlayerDeath", "MG_CM_DEATH", MG_CM.PlayerDeath)
     MG_CM.HookAdd("PlayerDisconnected", "MG_CM_DISCONNECT", MG_CM.PlayerDisconnected)
-    MG_CM.HookAdd("MoatInventoryShouldGiveLoadout", "MG_CM_PL", MG_CM.PreventLoadouts)
     MG_CM.HookAdd("PlayerShouldTakeDamage", "MG_CM_PL", MG_CM.ShouldTakeDamage)
     MG_CM.HookAdd("Think", "MG_CM_TIMELEFTUPDATE", MG_CM.TimeLeftUpdate)
 end
@@ -454,12 +456,8 @@ function MG_CM.CanPickupWeapon(ply, wep)
 end
 
 function MG_CM.PrepRound()
-    net.Start "MG_CM_PREP"
-    net.Broadcast()
-
-    MG_CM.ChickensOver = false
+	MG_CM.ChickensOver = false
     MG_CM.HandleDamageLogStuff(false)
-	MOAT_MINIGAME_OCCURING = true
     MG_CM.TimeLeft = 180
     MG_CM.FirstInfected = nil
     MG_CM.ChickenSpawner = 15
@@ -467,7 +465,7 @@ function MG_CM.PrepRound()
     MG_CM.HookAdd("PlayerSpawn", "MG_CM_SPAWN", MG_CM.PlayerSpawn)
     MG_CM.HookAdd("TTTBeginRound", "MG_CM_BEGIN", MG_CM.BeginRound)
     MG_CM.HookAdd("TTTKarmaGivePenalty", "MG_CM_PREVENTKARMA", MG_CM.KarmaStuff)
-
+	MG_CM.HookAdd("MoatInventoryShouldGiveLoadout", "MG_CM_PL", MG_CM.PreventLoadouts)
 
     for k, v in pairs(player.GetAll()) do
         if (v:IsValid() and v:Team() ~= TEAM_SPEC) then
@@ -476,6 +474,15 @@ function MG_CM.PrepRound()
     end
 
     hook.Add("TTTCheckForWin", "MG_CM_DELAYWIN", function() return WIN_NONE end)
+
+    SetRoundEnd(CurTime() + 26)
+    timer.Adjust("prep2begin", 25, 1, BeginRound)
+    timer.Adjust("selectmute", 25, 1, function() MuteForRestart(true) end)
+
+	MOAT_MINIGAME_OCCURING = true
+
+    net.Start "MG_CM_PREP"
+    net.Broadcast()
 end
 
 concommand.Add("moat_start_chickens", function(ply, cmd, args)
@@ -484,9 +491,6 @@ concommand.Add("moat_start_chickens", function(ply, cmd, args)
         return
     end
 
-    SetRoundEnd(CurTime() + 26)
-    timer.Adjust("prep2begin", 25, 1, BeginRound)
-    timer.Adjust("selectmute", 25, 1, function() MuteForRestart(true) end)
     /*
     SetRoundEnd(CurTime() + 5)
     timer.Adjust("prep2begin", 5, 1, BeginRound)

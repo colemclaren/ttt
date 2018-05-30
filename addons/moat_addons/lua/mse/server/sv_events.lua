@@ -65,6 +65,14 @@ function MSE.Events.Start(pl, amt, cmd, args, cmd_name, ec)
 		return
 	end
 
+	if (MOAT_MINIGAME_OCCURING or MSE.Events.Active) then
+		net_Start "MSE.Notify"
+			net_WriteString(MSE.Config.Messages.Active)
+		net_Send(pl)
+
+		return
+	end
+
 	MSE.Events.Active = true
 	MSE.Player = pl
 

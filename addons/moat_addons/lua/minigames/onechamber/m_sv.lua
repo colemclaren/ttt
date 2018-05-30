@@ -286,15 +286,19 @@ function MG_OC.PlayerSpawn(ply)
 end
 
 function MG_OC.StripWeapons(ply)
+	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (not MG_OC.DeafultLoadout[v:GetClass()]) then
+        if (IsValid(v) and not MG_OC.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
             if (v.SetIronSights) then
                 v:SetIronsights(false)
             end
-            ply:StripWeapon(v:GetClass())
+
+            if (IsValid(ply)) then
+				ply:StripWeapon(v:GetClass())
+			end
         end
     end
 end
@@ -439,9 +443,6 @@ function MG_OC.KarmaStuff()
 end
 
 function MG_OC.PrepRound()
-    net.Start "MG_OC_PREP"
-    net.Broadcast()
-
     for k, v in pairs(player.GetAll()) do
         MG_OC.StripWeapons(v)
         v:StripAmmo()
@@ -452,16 +453,9 @@ function MG_OC.PrepRound()
             v:Remove()
         end
     end
-    -- need to call this again? just for safe measures
-    for k, v in pairs(player.GetAll()) do
-        MG_OC.StripWeapons(v)
-        v:StripAmmo()
-    end
 
     MG_OC.GunGameOver = false
     MG_OC.HandleDamageLogStuff(false)
-
-    MOAT_MINIGAME_OCCURING = true
 
     MG_OC.HookAdd("TTTBeginRound", "MG_OC_BEGIN", MG_OC.BeginRound)
     MG_OC.HookAdd("TTTKarmaGivePenalty", "MG_OC_PREVENTKARMA", MG_OC.KarmaStuff)
@@ -472,6 +466,16 @@ function MG_OC.PrepRound()
     MG_OC.HookAdd("CanPlayerSuicide", "MG_OC_STOPSUICIDE", function(ply) return false end)
 
     hook.Add("TTTCheckForWin", "MG_OC_DELAYWIN", function() return WIN_NONE end)
+
+    for k, v in pairs(player.GetAll()) do
+        MG_OC.StripWeapons(v)
+        v:StripAmmo()
+    end
+
+	MOAT_MINIGAME_OCCURING = true
+
+    net.Start "MG_OC_PREP"
+    net.Broadcast()
 end
 
 local allowed_ids = {
