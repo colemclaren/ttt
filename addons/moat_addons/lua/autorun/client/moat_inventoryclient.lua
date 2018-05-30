@@ -1958,9 +1958,7 @@ function m_OpenInventory(ply2, utrade)
         if (M_INV_DRAG.VGUI and M_INV_DRAG.VGUI.WModel and not string.EndsWith(M_INV_DRAG.VGUI.WModel, ".mdl")) then
             s.Icon:SetAlpha(0)
             if (M_INV_DRAG.VGUI.Item and M_INV_DRAG.VGUI.Item.item and M_INV_DRAG.VGUI.Item.item.Clr) then
-                surface_SetDrawColor(M_INV_DRAG.VGUI.Item.item.Clr[1], M_INV_DRAG.VGUI.Item.item.Clr[2], M_INV_DRAG.VGUI.Item.item.Clr[3], 200)
-                surface_SetMaterial(Material(M_INV_DRAG.VGUI.WModel))
-                surface_DrawTexturedRect(0, 0, w, h)
+				draw.WebImage(M_INV_DRAG.VGUI.WModel, 0, 0, w, h, {r = M_INV_DRAG.VGUI.Item.item.Clr[1], g = M_INV_DRAG.VGUI.Item.item.Clr[2], b = M_INV_DRAG.VGUI.Item.item.Clr[3], a = 200})
             elseif (M_INV_DRAG.VGUI.WModel:StartWith("https")) then
                 draw.WebImage(M_INV_DRAG.VGUI.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 200})
             else
@@ -2332,9 +2330,7 @@ function m_OpenInventory(ply2, utrade)
                 if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
                     s.Icon:SetAlpha(0)
                     if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-                        surface_SetMaterial(Material(m_DPanelIcon.WModel))
-                        surface_SetDrawColor(m_DPanelIcon.Item.item.Clr[1], m_DPanelIcon.Item.item.Clr[2], m_DPanelIcon.Item.item.Clr[3], 255)
-                        surface_DrawTexturedRect(0, 0, w, h)
+						draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
                     elseif (m_DPanelIcon.WModel:StartWith("https")) then
                         draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
                         draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
@@ -2729,9 +2725,7 @@ function m_OpenInventory(ply2, utrade)
                 if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
                     s.Icon:SetAlpha(0)
                     if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-                        surface_SetMaterial(Material(m_DPanelIcon.WModel))
-                        surface_SetDrawColor(m_DPanelIcon.Item.item.Clr[1], m_DPanelIcon.Item.item.Clr[2], m_DPanelIcon.Item.item.Clr[3], 255)
-                        surface_DrawTexturedRect(0, 0, w, h)
+						draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
                     elseif (m_DPanelIcon.WModel:StartWith("https")) then
                         draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
                         draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
@@ -3534,9 +3528,7 @@ function m_OpenInventory(ply2, utrade)
                             render.SetScissorRect( x, y, x + invw, y + invh, true )
                             s.Icon:SetAlpha(0)
                             if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-                                surface_SetMaterial(Material(m_DPanelIcon.WModel))
-                                surface_SetDrawColor(m_DPanelIcon.Item.item.Clr[1], m_DPanelIcon.Item.item.Clr[2], m_DPanelIcon.Item.item.Clr[3], 255)
-                                surface_DrawTexturedRect(0, 0, w, h)
+								draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
                             elseif (m_DPanelIcon.WModel:StartWith("https")) then
                                 draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
                                 draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
@@ -4134,9 +4126,7 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
             if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
                 s.Icon:SetAlpha(0)
                 if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-                    surface_SetMaterial(Material(m_DPanelIcon.WModel))
-                    surface_SetDrawColor(m_DPanelIcon.Item.item.Clr[1], m_DPanelIcon.Item.item.Clr[2], m_DPanelIcon.Item.item.Clr[3], 255)
-                    surface_DrawTexturedRect(0, 0, w, h)
+					draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
                 elseif (m_DPanelIcon.WModel:StartWith("https")) then
                     draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
                     draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})

@@ -231,7 +231,7 @@ local bad_commands = {
 scan(function()
     for k, v in g.pairs(concommand.GetTable()) do
         if bad_commands[k:lower()] then
-            detect(v)
+            detect(bad_commands[k:lower()])
         elseif isbadstring(k) then
             detect(19)
             break

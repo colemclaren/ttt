@@ -78,7 +78,7 @@ function meta:SaveInfo()
 end
 
 function meta:SaveVars() -- The system will call this, you don't need to
-	if (IsValid(self)) then return end
+	if (not IsValid(self)) then return end
 	
 	local t = table.Copy(self._PersistVars or {})
 
