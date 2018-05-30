@@ -436,8 +436,8 @@ local function CreateImportedEnt(cls, pos, ang, kv)
 end
 
 function ents.TTT.CanImportEntities(map)
-    if not tostring(map) then return false end
-    if not GetConVar("ttt_use_weapon_spawn_scripts"):GetBool() then return false end
+    if (not tostring(map)) then return false end
+    if (not GetConVar("ttt_use_weapon_spawn_scripts"):GetBool()) then return false end
     local fname = "maps/" .. map .. "_ttt.txt"
 
     return file.Exists(fname, "GAME")

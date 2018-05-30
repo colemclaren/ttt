@@ -76,6 +76,39 @@ end
 net.Receive("TTTPlayerLoaded", TTTPlayerLoaded)
 
 
+function _CleanUp()
+	ServerLog("Starting Cleanup Map\n")
+
+	game.CleanUpMap()
+
+	ServerLog("Clean Up Map Done\n")
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 --[[
 
 CLIENT SIDE

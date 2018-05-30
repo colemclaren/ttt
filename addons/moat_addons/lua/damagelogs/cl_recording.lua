@@ -233,6 +233,7 @@ hook.Add("HUDPaint", "Scene_Record", function()
 	if current_scene then
 		surface.SetFont("TabLarge")
 		for nick,model in pairs(models) do
+			if not IsValid(model) then continue end
 			if model.corpse then
 				local pos = model.pos:ToScreen()
 				if IsOffScreen(pos) then continue end
@@ -293,9 +294,9 @@ hook.Add("Think", "Think_Record", function()
 		local slowmo = GetConVar("ttt_death_scene_slowmo"):GetBool()
 		if not paused and not Damagelog.DS_Progress:IsEditing() then
 			if slowmo then
-				i = i + 0.03
+				i = i + 0.075
 			else
-				i = i + 0.08
+				i = i + 0.02
 			end
 		end
 		Damagelog.DS_Progress.TranslateValues = function(self, x, y)
@@ -393,7 +394,7 @@ hook.Add("Think", "Think_Record", function()
 			else
 				local vector = v.pos
 				local angle = v.ang
-				if next_scene and next_scene[k] then
+				if next_scene and next_scene[k] and next_scene[k].pos and next_scene[k].ang then
 					local percent = math.ceil(i) - i
 					vector = LerpVector(percent, next_scene[k].pos, v.pos)
 					angle = LerpAngle(percent, next_scene[k].ang, v.ang)
