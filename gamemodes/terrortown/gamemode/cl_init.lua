@@ -5,6 +5,8 @@ if (util.NetworkStringToID"ttt_enable_tc" ~= 0) then
     return
 end
 
+include("sh_moat.lua")
+include("cl_moat.lua")
 include("shared.lua")
 
 -- Define GM12 fonts for compatibility
@@ -79,6 +81,10 @@ function GM:InitPostEntity()
     end
 
     timer.Create("cache_ents", 1, 0, GAMEMODE.DoCacheEnts)
+
+	net.Start "TTTPlayerLoaded"
+	net.SendToServer()
+
     RunConsoleCommand("_ttt_request_serverlang")
     RunConsoleCommand("_ttt_request_rolelist")
 end
@@ -136,19 +142,27 @@ local function RoundStateChange(o, n)
     -- stricter checks when we're talking about hooks, because this function may
     -- be called with for example o = WAIT and n = POST, for newly connecting
     -- players, which hooking code may not expect
+
+	local str = "UnknownState"
     if n == ROUND_PREP then
         -- can enter PREP from any phase due to ttt_roundrestart
         hook.Call("TTTPrepareRound", GAMEMODE)
+		str = "TTTPrepareRound"
     elseif (o == ROUND_PREP) and (n == ROUND_ACTIVE) then
         hook.Call("TTTBeginRound", GAMEMODE)
+		str = "TTTBeginRound"
     elseif (o == ROUND_ACTIVE) and (n == ROUND_POST) then
         hook.Call("TTTEndRound", GAMEMODE)
+		str = "TTTEndRound"
     end
 
-    -- whatever round state we get, clear out the voice flags
-    for k, v in pairs(player.GetAll()) do
-        v.traitor_gvoice = false
-    end
+	local pls = player.GetAll()
+	for k, v in ipairs(pls) do
+		if (not IsValid(v)) then continue end
+		hook.Run(str .. "Player", v)
+
+		v.traitor_gvoice = false
+	end
 end
 
 concommand.Add("ttt_print_playercount", function()

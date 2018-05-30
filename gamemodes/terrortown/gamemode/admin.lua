@@ -93,7 +93,7 @@ concommand.Add("ttt_print_karma", PrintKarma)
 CreateConVar("ttt_highlight_admins", "1")
 
 local function ApplyHighlightAdmins(cv, old, new)
-    SetGlobalBool("ttt_highlight_admins", tobool(tonumber(new)))
+    _SetGlobalBool("ttt_highlight_admins", tobool(tonumber(new)))
 end
 
 cvars.AddChangeCallback("ttt_highlight_admins", ApplyHighlightAdmins)

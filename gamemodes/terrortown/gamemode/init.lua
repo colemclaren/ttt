@@ -12,6 +12,8 @@ if (file.Exists("terrorcity.txt", "MOD") or tc_ips[game.GetIPAddress()]) then
 end
 
 ---- Trouble in Terrorist Town
+AddCSLuaFile("sh_moat.lua")
+AddCSLuaFile("cl_moat.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_msgstack.lua")
@@ -49,6 +51,8 @@ AddCSLuaFile("vgui/sb_main.lua")
 AddCSLuaFile("vgui/sb_row.lua")
 AddCSLuaFile("vgui/sb_team.lua")
 AddCSLuaFile("vgui/sb_info.lua")
+include("sh_moat.lua")
+include("sv_moat.lua")
 include("shared.lua")
 include("karma.lua")
 include("entity.lua")
@@ -175,8 +179,8 @@ function GM:Initialize()
     GAMEMODE.playercolor = COLOR_WHITE
     -- Delay reading of cvars until config has definitely loaded
     GAMEMODE.cvar_init = false
-    SetGlobalFloat("ttt_round_end", -1)
-    SetGlobalFloat("ttt_haste_end", -1)
+    _SetGlobalFloat("ttt_round_end", -1)
+    _SetGlobalFloat("ttt_haste_end", -1)
     -- For the paranoid
     math.randomseed(os.time())
     WaitForPlayers()
@@ -204,7 +208,7 @@ end
 function GM:InitCvars()
     MsgN("TTT initializing convar settings...")
     -- Initialize game state that is synced with client
-    SetGlobalInt("ttt_rounds_left", GetConVar("ttt_round_limit"):GetInt())
+    _SetGlobalInt("ttt_rounds_left", GetConVar("ttt_round_limit"):GetInt())
     GAMEMODE:SyncGlobals()
     KARMA.InitState()
     self.cvar_init = true
@@ -221,16 +225,16 @@ end
 -- Convar replication is broken in gmod, so we do this.
 -- I don't like it any more than you do, dear reader.
 function GM:SyncGlobals()
-    SetGlobalBool("ttt_detective", ttt_detective:GetBool())
-    SetGlobalBool("ttt_haste", ttt_haste:GetBool())
-    SetGlobalInt("ttt_time_limit_minutes", GetConVar("ttt_time_limit_minutes"):GetInt())
-    SetGlobalBool("ttt_highlight_admins", GetConVar("ttt_highlight_admins"):GetBool())
-    SetGlobalBool("ttt_locational_voice", GetConVar("ttt_locational_voice"):GetBool())
-    SetGlobalInt("ttt_idle_limit", GetConVar("ttt_idle_limit"):GetInt())
-    SetGlobalBool("ttt_voice_drain", GetConVar("ttt_voice_drain"):GetBool())
-    SetGlobalFloat("ttt_voice_drain_normal", GetConVar("ttt_voice_drain_normal"):GetFloat())
-    SetGlobalFloat("ttt_voice_drain_admin", GetConVar("ttt_voice_drain_admin"):GetFloat())
-    SetGlobalFloat("ttt_voice_drain_recharge", GetConVar("ttt_voice_drain_recharge"):GetFloat())
+    _SetGlobalBool("ttt_detective", ttt_detective:GetBool())
+    _SetGlobalBool("ttt_haste", ttt_haste:GetBool())
+    _SetGlobalInt("ttt_time_limit_minutes", GetConVar("ttt_time_limit_minutes"):GetInt())
+    _SetGlobalBool("ttt_highlight_admins", GetConVar("ttt_highlight_admins"):GetBool())
+    _SetGlobalBool("ttt_locational_voice", GetConVar("ttt_locational_voice"):GetBool())
+    _SetGlobalInt("ttt_idle_limit", GetConVar("ttt_idle_limit"):GetInt())
+    _SetGlobalBool("ttt_voice_drain", GetConVar("ttt_voice_drain"):GetBool())
+    _SetGlobalFloat("ttt_voice_drain_normal", GetConVar("ttt_voice_drain_normal"):GetFloat())
+    _SetGlobalFloat("ttt_voice_drain_admin", GetConVar("ttt_voice_drain_admin"):GetFloat())
+    _SetGlobalFloat("ttt_voice_drain_recharge", GetConVar("ttt_voice_drain_recharge"):GetFloat())
 end
 
 function SendRoundState(state, ply)
@@ -252,11 +256,12 @@ function GetRoundState()
     return GAMEMODE.round_state
 end
 
-local function EnoughPlayers()
+local function EnoughPlayers(p)
+	if (not p) then return false end
     local ready = 0
 
     -- only count truly available players, ie. no forced specs
-    for _, ply in pairs(player.GetAll()) do
+    for _, ply in pairs(p) do
         if IsValid(ply) and ply:ShouldSpawn() then
             ready = ready + 1
         end
@@ -267,11 +272,10 @@ end
 
 -- Used to be in Think/Tick, now in a timer
 function WaitingForPlayersChecker()
-    if GetRoundState() == ROUND_WAIT then
-        if EnoughPlayers() then
-            timer.Create("wait2prep", 1, 1, PrepareRound)
-            timer.Stop("waitingforply")
-        end
+	local pls = player.GetAll()
+    if GetRoundState() == ROUND_WAIT and EnoughPlayers(pls) then
+        timer.Create("wait2prep", 1, 1, PrepareRound)
+        timer.Stop("waitingforply")
     end
 end
 
@@ -279,7 +283,7 @@ end
 function WaitForPlayers()
     SetRoundState(ROUND_WAIT)
 
-    if not timer.Start("waitingforply") then
+    if (not timer.Start("waitingforply")) then
         timer.Create("waitingforply", 2, 0, WaitingForPlayersChecker)
     end
 end
@@ -312,25 +316,24 @@ local function WinChecker()
 end
 
 local function NameChangeKick()
-    if not GetConVar("ttt_namechange_kick"):GetBool() then
+    if (not GetConVar("ttt_namechange_kick"):GetBool()) then
         timer.Remove("namecheck")
 
         return
     end
+	if GetRoundState() ~= ROUND_ACTIVE then return end
 
-    if GetRoundState() == ROUND_ACTIVE then
-        for _, ply in pairs(player.GetHumans()) do
-            if ply.spawn_nick then
-                if ply.has_spawned and ply.spawn_nick ~= ply:Nick() then
-                    ply.spawn_nick = ply:Nick()
-
-                    if (ply:Alive()) then
-                        ply:Kill()
-                    end
-                end
-            else
+    for _, ply in pairs(player.GetHumans()) do
+        if ply.spawn_nick then
+            if ply.has_spawned and ply.spawn_nick ~= ply:Nick() then
                 ply.spawn_nick = ply:Nick()
+
+                if (ply:Alive()) then
+                    ply:Kill()
+                end
             end
+        else
+            ply.spawn_nick = ply:Nick()
         end
     end
 end
@@ -343,7 +346,7 @@ function StartNameChangeChecks()
         ply.spawn_nick = ply:Nick()
     end
 
-    if not timer.Exists("namecheck") then
+    if (not timer.Exists("namecheck")) then
         timer.Create("namecheck", 3, 0, NameChangeKick)
     end
 end
@@ -454,7 +457,7 @@ local function SpawnEntities()
     end
 
     -- Finally, get players in there
-    SpawnWillingPlayers()
+    SpawnWillingPlayers(player.GetAll())
 end
 
 local function StopRoundTimers()
@@ -467,8 +470,9 @@ end
 
 -- Make sure we have the players to do a round, people can leave during our
 -- preparations so we'll call this numerous times
-local function CheckForAbort()
-    if not EnoughPlayers() then
+local function CheckForAbort(p)
+	if (not p) then return false end
+    if (not EnoughPlayers(p)) then
         LANG.Msg("round_minplayers")
         StopRoundTimers()
         WaitForPlayers()
@@ -487,7 +491,8 @@ end
 
 function PrepareRound()
     -- Check playercount
-    if CheckForAbort() then return end
+	local pls = player.GetAll()
+    if CheckForAbort(pls) then return end
     local delay_round, delay_length = hook.Call("TTTDelayRoundStartForVote", GAMEMODE)
 
     if delay_round then
@@ -513,7 +518,7 @@ function PrepareRound()
     -- New look. Random if no forced model set.
     GAMEMODE.playermodel = GAMEMODE.force_plymodel == "" and GetRandomPlayerModel() or GAMEMODE.force_plymodel
     GAMEMODE.playercolor = hook.Call("TTTPlayerColor", GAMEMODE, GAMEMODE.playermodel)
-    if CheckForAbort() then return end
+    if CheckForAbort(pls) then return end
     -- Schedule round start
     local ptime = GetConVar("ttt_preptime_seconds"):GetInt()
 
@@ -551,12 +556,12 @@ function PrepareRound()
     -- In case client's cleanup fails, make client set all players to innocent role
     timer.Simple(1, SendRoleReset)
     -- Tell hooks and map we started prep
-    hook.Call("TTTPrepareRound")
+    hook.Run("TTTPrepareRound")
     ents.TTT.TriggerRoundStateOutputs(ROUND_PREP)
 end
 
 function SetRoundEnd(endtime)
-    SetGlobalFloat("ttt_round_end", endtime)
+    _SetGlobalFloat("ttt_round_end", endtime)
 end
 
 function IncRoundEnd(incr)
@@ -599,68 +604,12 @@ function TellTraitorsAboutTraitors()
     end
 end
 
-function SpawnWillingPlayers(dead_only)
-    local plys = player.GetAll()
-    local wave_delay = GetConVar("ttt_spawn_wave_interval"):GetFloat()
-
-    -- simple method, should make this a case of the other method once that has
-    -- been tested.
-    if wave_delay <= 0 or dead_only then
-        for k, ply in pairs(plys) do
-            if IsValid(ply) then
-                ply:SpawnForRound(dead_only)
-                ply.JustSpawned = dead_only
-            end
+function SpawnWillingPlayers(pls, dead_only)
+    for k, ply in pairs(pls) do
+        if IsValid(ply) then
+            ply:SpawnForRound(dead_only)
+            ply.JustSpawned = dead_only
         end
-    else
-        -- wave method
-        local num_spawns = #GetSpawnEnts()
-        local to_spawn = {}
-
-        for _, ply in RandomPairs(plys) do
-            if IsValid(ply) and ply:ShouldSpawn() then
-                table.insert(to_spawn, ply)
-                GAMEMODE:PlayerSpawnAsSpectator(ply)
-            end
-        end
-
-        local sfn = function()
-            local c = 0
-
-            -- fill the available spawnpoints with players that need
-            -- spawning
-            while c < num_spawns and #to_spawn > 0 do
-                for k, ply in pairs(to_spawn) do
-                    if IsValid(ply) and ply:SpawnForRound() then
-                        -- a spawn ent is now occupied
-                        c = c + 1
-                    end
-
-                    -- Few possible cases:
-                    -- 1) player has now been spawned
-                    -- 2) player should remain spectator after all
-                    -- 3) player has disconnected
-                    -- In all cases we don't need to spawn them again.
-                    table.remove(to_spawn, k)
-                    -- all spawn ents are occupied, so the rest will have
-                    -- to wait for next wave
-                    if c >= num_spawns then break end
-                end
-            end
-
-            MsgN("Spawned " .. c .. " players in spawn wave.")
-
-            if #to_spawn == 0 then
-                timer.Remove("spawnwave")
-                MsgN("Spawn waves ending, all players spawned.")
-            end
-        end
-
-        MsgN("Spawn waves starting.")
-        timer.Create("spawnwave", wave_delay, 0, sfn)
-        -- already run one wave, which may stop the timer if everyone is spawned
-        -- in one go
-        sfn()
     end
 end
 
@@ -672,7 +621,7 @@ local function InitRoundEndTime()
         endtime = CurTime() + (GetConVar("ttt_haste_starting_minutes"):GetInt() * 60)
         -- this is a "fake" time shown to innocents, showing the end time if no
         -- one would have been killed, it has no gameplay effect
-        SetGlobalFloat("ttt_haste_end", endtime)
+        _SetGlobalFloat("ttt_haste_end", endtime)
     end
 
     SetRoundEnd(endtime)
@@ -680,15 +629,16 @@ end
 
 function BeginRound()
     GAMEMODE:SyncGlobals()
-    if CheckForAbort() then return end
-    AnnounceVersion()
+	local pls = player.GetAll()
+    if CheckForAbort(pls) then return end
+
     InitRoundEndTime()
-    if CheckForAbort() then return end
+    if CheckForAbort(pls) then return end
     -- Respawn dumb people who died during prep
-    SpawnWillingPlayers(true)
+    SpawnWillingPlayers(pls, true)
     -- Remove their ragdolls
     ents.TTT.RemoveRagdolls(true)
-    if CheckForAbort() then return end
+    if CheckForAbort(pls) then return end
     -- Select traitors & co. This is where things really start so we can't abort
     -- anymore.
     SelectRoles()
@@ -746,7 +696,7 @@ end
 function CheckForMapSwitch()
     -- Check for mapswitch
     local rounds_left = math.max(0, GetGlobalInt("ttt_rounds_left", 6) - 1)
-    SetGlobalInt("ttt_rounds_left", rounds_left)
+    _SetGlobalInt("ttt_rounds_left", rounds_left)
     local time_left = math.max(0, (GetConVar("ttt_time_limit_minutes"):GetInt() * 60) - CurTime())
     local switchmap = false
     local nextmap = string.upper(game.GetMapNext())
@@ -778,6 +728,7 @@ function CheckForMapSwitch()
 end
 
 function EndRound(type)
+	local pls = player.GetAll()
     PrintResultMessage(type)
     -- first handle round end
     SetRoundState(ROUND_POST)
@@ -809,7 +760,13 @@ function EndRound(type)
     SCORE:StreamToClients()
     -- server plugins might want to start a map vote here or something
     -- these hooks are not used by TTT internally
-    hook.Call("TTTEndRound", GAMEMODE, type)
+    hook.Call("TTTEndRound", GAMEMODE, type, pls)
+
+	for k, v in pairs(pls) do
+		if (not IsValid(v)) then continue end
+		hook.Run("TTTEndRoundPlayer", type, v)
+	end
+
     ents.TTT.TriggerRoundStateOutputs(ROUND_POST, type)
 end
 
@@ -993,14 +950,3 @@ function ShowVersion(ply)
 end
 
 concommand.Add("ttt_version", ShowVersion)
-
-function AnnounceVersion()
-    local text = Format("You are playing %s, version %s.\n", GAMEMODE.Name, GAMEMODE.Version)
-
-    -- announce to players
-    for k, ply in pairs(player.GetAll()) do
-        if IsValid(ply) then
-            ply:PrintMessage(HUD_PRINTTALK, text)
-        end
-    end
-end

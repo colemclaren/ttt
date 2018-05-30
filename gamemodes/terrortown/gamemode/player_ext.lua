@@ -279,7 +279,7 @@ function plymeta:SpawnForRound(dead_only)
 
     -- wrong alive status and not a willing spec who unforced after prep started
     -- (and will therefore be "alive")
-    if dead_only and self:Alive() and (not self:IsSpec()) then
+    if (dead_only and self:Alive() and (not self:IsSpec())) then
         -- if the player does not need respawn, make sure he has full health
         self:SetHealth(self:GetMaxHealth())
 

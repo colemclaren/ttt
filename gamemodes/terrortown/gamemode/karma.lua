@@ -34,7 +34,7 @@ end
 local math = math
 
 function KARMA.InitState()
-    SetGlobalBool("ttt_karma", config.enabled:GetBool())
+    _SetGlobalBool("ttt_karma", config.enabled:GetBool())
 end
 
 function KARMA.IsEnabled()
@@ -267,7 +267,7 @@ function KARMA.RoundBegin()
 end
 
 function KARMA.InitPlayer(ply)
-    local k = KARMA.Recall(ply) or config.starting:GetFloat()
+    local k = KARMA.Recall(ply) or config.starting:GetFloat() or 1150
     k = math.Clamp(k, 0, config.max:GetFloat())
     ply:SetBaseKarma(k)
     ply:SetLiveKarma(k)
@@ -282,11 +282,11 @@ function KARMA.Remember(ply)
 
     -- use sql if persistence is on
     if config.persist:GetBool() then
-        ply:SetPData("karma_stored", ply:GetLiveKarma())
+        ply:SetPData("karma_stored", ply:GetLiveKarma() or 1150)
     end
 
     -- if persist is on, this is purely a backup method
-    KARMA.RememberedPlayers[ply:SteamID()] = ply:GetLiveKarma()
+    KARMA.RememberedPlayers[ply:SteamID()] = ply:GetLiveKarma() or 1150
 end
 
 function KARMA.Recall(ply)
@@ -294,7 +294,7 @@ function KARMA.Recall(ply)
         ply.delay_karma_recall = not ply:IsFullyAuthenticated()
 
         if ply:IsFullyAuthenticated() then
-            local k = tonumber(ply:GetPData("karma_stored", nil))
+            local k = tonumber(ply:GetPData("karma_stored", 1150))
             if k then return k end
         end
     end

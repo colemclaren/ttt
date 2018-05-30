@@ -156,6 +156,7 @@ net.Receive("DL_SendDeathScene", function()
 	victim = net.ReadString()
 	attacker = net.ReadString()
 	local length = net.ReadUInt(32)
+	print(victim, attack, length)
 	local compressed = net.ReadData(length)
 	Damagelog:CreateDSPanel()
 	local encoded = util.Decompress(compressed)
@@ -275,8 +276,6 @@ hook.Add("HUDPaint", "Scene_Record", function()
 end)
 
 hook.Add("Think", "Think_Record", function()
-	if (not models or not next(models)) then return end
-
 	for k,v in pairs(models) do
 		if not IsValid(v) then continue end
 		if v.move_x and v.move_y and v.spin then
