@@ -51,8 +51,8 @@ AddCSLuaFile("vgui/sb_main.lua")
 AddCSLuaFile("vgui/sb_row.lua")
 AddCSLuaFile("vgui/sb_team.lua")
 AddCSLuaFile("vgui/sb_info.lua")
---include("sh_moat.lua")
---include("sv_moat.lua")
+include("sh_moat.lua")
+include("sv_moat.lua")
 include("shared.lua")
 include("karma.lua")
 include("entity.lua")
@@ -179,8 +179,8 @@ function GM:Initialize()
     GAMEMODE.playercolor = COLOR_WHITE
     -- Delay reading of cvars until config has definitely loaded
     GAMEMODE.cvar_init = false
-    SetGlobalFloat("ttt_round_end", -1)
-    SetGlobalFloat("ttt_haste_end", -1)
+    _SetGlobalFloat("ttt_round_end", -1)
+    _SetGlobalFloat("ttt_haste_end", -1)
     -- For the paranoid
     math.randomseed(os.time())
     WaitForPlayers()
@@ -208,7 +208,7 @@ end
 function GM:InitCvars()
     MsgN("TTT initializing convar settings...")
     -- Initialize game state that is synced with client
-    SetGlobalInt("ttt_rounds_left", GetConVar("ttt_round_limit"):GetInt())
+    _SetGlobalInt("ttt_rounds_left", GetConVar("ttt_round_limit"):GetInt())
     GAMEMODE:SyncGlobals()
     KARMA.InitState()
     self.cvar_init = true
@@ -225,16 +225,16 @@ end
 -- Convar replication is broken in gmod, so we do this.
 -- I don't like it any more than you do, dear reader.
 function GM:SyncGlobals()
-    SetGlobalBool("ttt_detective", ttt_detective:GetBool())
-    SetGlobalBool("ttt_haste", ttt_haste:GetBool())
-    SetGlobalInt("ttt_time_limit_minutes", GetConVar("ttt_time_limit_minutes"):GetInt())
-    SetGlobalBool("ttt_highlight_admins", GetConVar("ttt_highlight_admins"):GetBool())
-    SetGlobalBool("ttt_locational_voice", GetConVar("ttt_locational_voice"):GetBool())
-    SetGlobalInt("ttt_idle_limit", GetConVar("ttt_idle_limit"):GetInt())
-    SetGlobalBool("ttt_voice_drain", GetConVar("ttt_voice_drain"):GetBool())
-    SetGlobalFloat("ttt_voice_drain_normal", GetConVar("ttt_voice_drain_normal"):GetFloat())
-    SetGlobalFloat("ttt_voice_drain_admin", GetConVar("ttt_voice_drain_admin"):GetFloat())
-    SetGlobalFloat("ttt_voice_drain_recharge", GetConVar("ttt_voice_drain_recharge"):GetFloat())
+    _SetGlobalBool("ttt_detective", ttt_detective:GetBool())
+    _SetGlobalBool("ttt_haste", ttt_haste:GetBool())
+    _SetGlobalInt("ttt_time_limit_minutes", GetConVar("ttt_time_limit_minutes"):GetInt())
+    _SetGlobalBool("ttt_highlight_admins", GetConVar("ttt_highlight_admins"):GetBool())
+    _SetGlobalBool("ttt_locational_voice", GetConVar("ttt_locational_voice"):GetBool())
+    _SetGlobalInt("ttt_idle_limit", GetConVar("ttt_idle_limit"):GetInt())
+    _SetGlobalBool("ttt_voice_drain", GetConVar("ttt_voice_drain"):GetBool())
+    _SetGlobalFloat("ttt_voice_drain_normal", GetConVar("ttt_voice_drain_normal"):GetFloat())
+    _SetGlobalFloat("ttt_voice_drain_admin", GetConVar("ttt_voice_drain_admin"):GetFloat())
+    _SetGlobalFloat("ttt_voice_drain_recharge", GetConVar("ttt_voice_drain_recharge"):GetFloat())
 end
 
 function SendRoundState(state, ply)
@@ -561,7 +561,7 @@ function PrepareRound()
 end
 
 function SetRoundEnd(endtime)
-    SetGlobalFloat("ttt_round_end", endtime)
+    _SetGlobalFloat("ttt_round_end", endtime)
 end
 
 function IncRoundEnd(incr)
@@ -621,7 +621,7 @@ local function InitRoundEndTime()
         endtime = CurTime() + (GetConVar("ttt_haste_starting_minutes"):GetInt() * 60)
         -- this is a "fake" time shown to innocents, showing the end time if no
         -- one would have been killed, it has no gameplay effect
-        SetGlobalFloat("ttt_haste_end", endtime)
+        _SetGlobalFloat("ttt_haste_end", endtime)
     end
 
     SetRoundEnd(endtime)
@@ -696,7 +696,7 @@ end
 function CheckForMapSwitch()
     -- Check for mapswitch
     local rounds_left = math.max(0, GetGlobalInt("ttt_rounds_left", 6) - 1)
-    SetGlobalInt("ttt_rounds_left", rounds_left)
+    _SetGlobalInt("ttt_rounds_left", rounds_left)
     local time_left = math.max(0, (GetConVar("ttt_time_limit_minutes"):GetInt() * 60) - CurTime())
     local switchmap = false
     local nextmap = string.upper(game.GetMapNext())
@@ -727,29 +727,26 @@ function CheckForMapSwitch()
     end
 end
 
+
 function EndRound(type)
 	local pls = player.GetAll()
     PrintResultMessage(type)
     -- first handle round end
     SetRoundState(ROUND_POST)
     local ptime = math.max(5, GetConVar("ttt_posttime_seconds"):GetInt())
-
     LANG.Msg("win_showreport", {
         num = ptime
     })
-
     timer.Create("end2prep", ptime, 1, PrepareRound)
     -- Piggyback on "round end" time global var to show end of phase timer
     SetRoundEnd(CurTime() + ptime)
-
     timer.Create("restartmute", ptime - 1, 1, function()
         MuteForRestart(true)
     end)
-
     -- Stop checking for wins
     StopWinChecks()
     -- We may need to start a timer for a mapswitch, or start a vote
-    CheckForMapSwitch()
+    _CheckForMapSwitch()
     KARMA.RoundEnd()
     -- now handle potentially error prone scoring stuff
     -- register an end of round event

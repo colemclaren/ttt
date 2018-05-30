@@ -5,8 +5,8 @@ if (util.NetworkStringToID"ttt_enable_tc" ~= 0) then
     return
 end
 
---include("sh_moat.lua")
---include("cl_moat.lua")
+include("sh_moat.lua")
+include("cl_moat.lua")
 include("shared.lua")
 
 -- Define GM12 fonts for compatibility
@@ -82,8 +82,8 @@ function GM:InitPostEntity()
 
     timer.Create("cache_ents", 1, 0, GAMEMODE.DoCacheEnts)
 
-	--net.Start "TTTPlayerLoaded"
-	--net.SendToServer()
+	net.Start "TTTPlayerLoaded"
+	net.SendToServer()
 
     RunConsoleCommand("_ttt_request_serverlang")
     RunConsoleCommand("_ttt_request_rolelist")

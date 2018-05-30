@@ -34,7 +34,7 @@ end
 local math = math
 
 function KARMA.InitState()
-    SetGlobalBool("ttt_karma", config.enabled:GetBool())
+    _SetGlobalBool("ttt_karma", config.enabled:GetBool())
 end
 
 function KARMA.IsEnabled()
