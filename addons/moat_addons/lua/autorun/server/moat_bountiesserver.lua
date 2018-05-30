@@ -469,11 +469,14 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	local top_cache
 	hook.Add("PlayerInitialSpawn","Contracts",function(ply)
 		lottery_playerspawn(ply)
-		net.Start("moat.contractinfo")
-		net.WriteString(contract_loaded)
-		net.WriteString(moat_contracts[contract_loaded].desc)
-		net.WriteString(moat_contracts[contract_loaded].adj)
-		net.Send(ply)
+		timer.Simple(5, function()
+			if (not IsValid(ply)) then return end
+			net.Start("moat.contractinfo")
+			net.WriteString(contract_loaded)
+			net.WriteString(moat_contracts[contract_loaded].desc)
+			net.WriteString(moat_contracts[contract_loaded].adj)
+			net.Send(ply)
+		end)
 		
 		--[[for i =1,100 do
 			local b = db:query("INSERT INTO moat_contractplayers (steamid,score) VALUES ('" .. GetRandomSteamID() .. "'," .. i .. ");")
