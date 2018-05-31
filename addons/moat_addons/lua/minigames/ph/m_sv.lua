@@ -267,6 +267,7 @@ function MG_PH.TakeDamage(ent, dmginfo)
         att:SendLua([[chat.AddText(Color(255,0,0),"That's not a player!")]])
         if att:Health() < 0 then att:Kill() end
     end
+    if ent.t_prop and (not att.t_hunter) then return true end
     if att.t_hunter and ent.t_hunter then
         dmginfo:ScaleDamage(0)
         return true
