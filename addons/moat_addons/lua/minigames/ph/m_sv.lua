@@ -431,6 +431,7 @@ function MG_PH.BeginRound()
         end
     end
     local hunters = 0
+    BroadcastLua([[MOAT_LOADOUT.ResetClientsideModels()]])
     for i,v in RandomPairs(player.GetAll()) do
         MG_PH.StripWeapons(v)
         if (hunters <= (total_active * 0.3)) or (hunters < 3) then 
