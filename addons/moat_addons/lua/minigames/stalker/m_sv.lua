@@ -10,7 +10,7 @@ local deathclaw_voice_url = "https://i.moat.gg/servers/tttsounds/stalker/stalker
 local MOAT_DEATHCLAW_WPN = nil
 local MOAT_BOSS_HP_MULTIPLIER = 90
 local MOAT_BOSS_KNIFE = 45
-local DeafultLoadout = {
+local DefaultLoadout = {
     ["weapon_ttt_unarmed"] = true,
     ["weapon_zm_improvised"] = true,
     ["weapon_zm_carry"] = true,
@@ -175,7 +175,7 @@ local function moat_BeginRoundBossHooks()
 
         if (MOAT_DEATHCLAW_WPN) then
             for k , v in pairs(ents.GetAll()) do
-                if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DeafultLoadout[v:GetClass()]) then
+                if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                     v:Remove()
                 end
             end
@@ -209,7 +209,7 @@ local function moat_BeginRoundBossHooks()
             net.Broadcast()
 
 			for k, v in pairs(boss:GetWeapons()) do
-                if (not DeafultLoadout[v:GetClass()]) then boss:StripWeapon(v:GetClass()) end
+                if (not DefaultLoadout[v:GetClass()]) then boss:StripWeapon(v:GetClass()) end
             end
 
 			boss:SelectWeapon("weapon_ttt_knifestalker")
@@ -380,13 +380,13 @@ local function moat_BeginRoundBossHooks()
     end)
 
     hook.Add("PlayerCanPickupWeapon", "moat_RestrictWeaponPickup", function(ply, wep)
-        if (ply == MOAT_BOSS_CUR and not DeafultLoadout[wep:GetClass()]) then
+        if (ply == MOAT_BOSS_CUR and not DefaultLoadout[wep:GetClass()]) then
             return false
         end
     end)
 
     hook.Add("PlayerSwitchWeapon", "moat_RestrictWeaponSwitch", function(ply, owep, neww)
-        if (ply == MOAT_BOSS_CUR and not DeafultLoadout[neww:GetClass()]) then
+        if (ply == MOAT_BOSS_CUR and not DefaultLoadout[neww:GetClass()]) then
             return true
         end
     end)
@@ -411,7 +411,7 @@ function moat_start_stalker_round(ply, args)
         MOAT_BOSS_HP_MULTIPLIER = 350
 
         for k , v in pairs(ents.GetAll()) do
-            if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DeafultLoadout[v:GetClass()]) then
+            if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                 v:Remove()
             end	
         end

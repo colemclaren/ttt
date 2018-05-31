@@ -15,7 +15,7 @@ MG_OC.ModelPath = "models/player/arctic.mdl"--"models/player/normal.mdl"
 MG_OC.Ladder = {
     ""
 }
-MG_OC.DeafultLoadout = {
+MG_OC.DefaultLoadout = {
     ["weapon_ttt_unarmed"] = true,
     --["weapon_zm_improvised"] = true,
     --["weapon_zm_carry"] = true
@@ -288,7 +288,7 @@ end
 function MG_OC.StripWeapons(ply)
 	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (IsValid(v) and not MG_OC.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
+        if (IsValid(v) and not MG_OC.DefaultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
@@ -449,7 +449,7 @@ function MG_OC.PrepRound()
     end
 
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_OC.DeafultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_OC.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end

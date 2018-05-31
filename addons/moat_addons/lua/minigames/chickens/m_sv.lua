@@ -33,7 +33,7 @@ MG_CM.SpawnProtectionTime = 1
 MG_CM.ModelPath = "models/player/zombie_fast.mdl"
 MG_CM.TimeLeft = 0
 MG_CM.LastSpawn = CurTime()
-MG_CM.DeafultLoadout = {
+MG_CM.DefaultLoadout = {
     ["weapon_ttt_unarmed"] = true,
     ["weapon_zm_improvised"] = true
 }
@@ -231,7 +231,7 @@ end
 function MG_CM.StripWeapons(ply)
 	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (IsValid(v) and not MG_CM.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
+        if (IsValid(v) and not MG_CM.DefaultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
@@ -452,7 +452,7 @@ function MG_CM.KarmaStuff()
 end
 
 function MG_CM.CanPickupWeapon(ply, wep)
-    return MG_CM.DeafultLoadout[wep:GetClass()] or false
+    return MG_CM.DefaultLoadout[wep:GetClass()] or false
 end
 
 function MG_CM.PrepRound()

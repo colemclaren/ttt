@@ -204,7 +204,7 @@ end
 function MG_TDM.StripWeapons(ply)
 	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (IsValid(v) and not MG_TDM.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
+        if (IsValid(v) and not MG_TDM.DefaultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end

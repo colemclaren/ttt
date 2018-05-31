@@ -30,7 +30,7 @@ MG_GG.Ladder = {
     "weapon_zm_revolver",
     "weapon_ttt_cardboardknife"
 }
-MG_GG.DeafultLoadout = {
+MG_GG.DefaultLoadout = {
     ["weapon_ttt_unarmed"] = true,
     --["weapon_zm_improvised"] = true,
     --["weapon_zm_carry"] = true
@@ -309,7 +309,7 @@ end
 function MG_GG.StripWeapons(ply)
 	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (IsValid(v) and not MG_GG.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
+        if (IsValid(v) and not MG_GG.DefaultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end
@@ -447,7 +447,7 @@ function MG_GG.PrepRound()
     end
 
     for k, v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:GetClass():StartWith("weapon_") and not MG_GG.DeafultLoadout[v:GetClass()]) then
+        if (IsValid(v) and v:GetClass():StartWith("weapon_") and not MG_GG.DefaultLoadout[v:GetClass()]) then
             v:Remove()
         end
     end

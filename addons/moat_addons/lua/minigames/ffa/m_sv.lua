@@ -60,7 +60,7 @@ end
 function MG_FFA.StripWeapons(ply)
 	if (not IsValid(ply)) then return end
     for k, v in pairs(ply:GetWeapons()) do
-        if (IsValid(v) and not MG_FFA.DeafultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
+        if (IsValid(v) and not MG_FFA.DefaultLoadout[v:GetClass()] and v.Kind ~= WEAPON_UNARMED) then
             if (v.SetZoom) then
                 v:SetZoom(false)
             end

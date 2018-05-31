@@ -9,7 +9,7 @@ local MOAT_BOSS_MODEL = "models/deathclaw_player/deathclaw_player_glowing.mdl"
 local deathclaw_voice_url = "https://i.moat.gg/servers/tttsounds/deathclaw/"
 local MOAT_DEATHCLAW_WPN = nil
 local MOAT_BOSS_HP_MULTIPLIER = 500
-local DeafultLoadout = {
+local DefaultLoadout = {
     ["weapon_ttt_unarmed"] = true,
     ["weapon_zm_improvised"] = true,
     ["weapon_zm_carry"] = true
@@ -173,7 +173,7 @@ local function moat_BeginRoundBossHooks()
 
         if (MOAT_DEATHCLAW_WPN) then
             for k , v in pairs(ents.GetAll()) do
-                if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DeafultLoadout[v:GetClass()]) then
+                if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                     v:Remove()
                 end
             end
@@ -389,7 +389,7 @@ concommand.Add("moat_start_boss", function(ply, cmd, args)
         MOAT_BOSS_HP_MULTIPLIER = 350
 
         for k , v in pairs(ents.GetAll()) do
-            if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DeafultLoadout[v:GetClass()]) then
+            if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                 v:Remove()
             end	
         end
