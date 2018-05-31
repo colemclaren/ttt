@@ -105,6 +105,7 @@ function MG_PH.PlayerDeath(v, inf, att)
     if att:IsPlayer() then
         att:SetCredits(0)
     end
+    if not att.PHScore then att.PHScore = 0 end
     att.PHScore = att.PHScore + 1 
     if v.ph_prop && v.ph_prop:IsValid() then
         v.ph_prop:Remove()
