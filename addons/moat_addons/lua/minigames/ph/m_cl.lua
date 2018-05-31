@@ -55,7 +55,7 @@ net.Receive("PH_Begin",function()
         Blind = CurTime() + 20,
         TopKills = 0,
         MyKills = 0,
-        time_end = CurTime() + (#player.GetAll() * 10) + 30,
+        time_end = CurTime() + (#player.GetAll() * 12.5) + 30,
         tdm_blue = Color(90, 200, 255),
         tdm_red = Color(255, 50, 50),
         bar_width = 225,

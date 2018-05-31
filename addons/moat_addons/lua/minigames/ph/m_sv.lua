@@ -482,7 +482,7 @@ function MG_PH.BeginRound()
         end
     end
     MG_PH.InProgress = true
-    MG_PH.TimeEnd = CurTime() + (#player.GetAll() * 10) + 30
+    MG_PH.TimeEnd = CurTime() + (#player.GetAll() * 12.5) + 30
     net.Start("PH_Begin")
     net.Broadcast()
 end
