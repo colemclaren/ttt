@@ -314,7 +314,7 @@ function GM:CalcView(ply, origin, angles, fov)
     view.origin = origin
     view.angles = angles
     view.fov = fov
-    if MOAT_IGNORE_FOV then return end
+
     -- first person ragdolling
     if ply:Team() == TEAM_SPEC and ply:GetObserverMode() == OBS_MODE_IN_EYE then
         local tgt = ply:GetObserverTarget()

@@ -19,14 +19,13 @@ MOAT_MINIGAMES.AddMinigame = function(pname, dir, cmd, chance, desc)
 
 	MOAT_MINIGAMES.Minigames[#MOAT_MINIGAMES.Minigames + 1] = {pname, chance, cmd, desc}
 end
-/*
 
 MOAT_MINIGAMES.AddMinigame("Deathclaw Round", 
 	"minigames/deathclaw/", 
 	"moat_start_boss", 
 	500, 
 	"Team up with other players to defeat the boss and receive a prize only if you win!"
-)*/
+)
 MOAT_MINIGAMES.AddMinigame("Apache Round", 
 	"minigames/apache/", 
 	"moat_start_apache", 
@@ -103,14 +102,6 @@ MOAT_MINIGAMES.AddMinigame("TNT Tag",
 	0, 
 	"TNT Tag! The person holding the tnt eventually dies, and you can throw stuff at him to make him die faster!" --s
 )
-
-MOAT_MINIGAMES.AddMinigame("Prop Hunt", 
-	"minigames/ph/", 
-	"moat_start_ph", 
-	0, 
-	"Prop hunt" --s
-)
-
 /*
 MOAT_MINIGAMES.AddMinigame("Secret Santa Tag", 
 	"minigames/hot_santa/", 

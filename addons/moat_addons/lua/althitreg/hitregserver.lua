@@ -19,7 +19,6 @@ timer.Simple(1, function()
 end)
 
 hook.Add("EntityTakeDamage", "moat_HitMarkers", function(ply, dmginfo)
-    if DISABLE_HITREG then return end
     if (ply == dmginfo:GetAttacker()) then return end
 
     if (ply:IsPlayer() and dmginfo:GetDamage() > 0 and (GetRoundState() == ROUND_ACTIVE or GetRoundState() == ROUND_POST)) then
@@ -42,7 +41,6 @@ end)
 
 net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
     --local trace = net.ReadTable()
-    if DISABLE_HITREG then return end
     local trace = {}
     trace.trEnt = net.ReadUInt(16)
     trace.trHGrp = net.ReadUInt(4)
@@ -114,7 +112,7 @@ local PLAYER = FindMetaTable "Player"
 
 PLAYER.Old_FireBullets = PLAYER.Old_FireBullets or FindMetaTable "Entity".FireBullets
 function PLAYER:FireBullets(bul, supp)
-    if self:Ping() <= MOAT_HITREG.MaxPing and not m_ActiveBoss() and (not DISABLE_HITREG) then
+    if self:Ping() <= MOAT_HITREG.MaxPing and not m_ActiveBoss() then
         bul.Damage = 0
     end
     return self:Old_FireBullets(bul, supp)
