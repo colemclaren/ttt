@@ -309,6 +309,7 @@ local function moatFireBullets(ent, data)
     if (ent:IsValid() and attacker == LocalPlayer() and not MOAT_ACTIVE_BOSS) then
         data.Callback = function(att, tr, dmginfo)
             if (tr.Hit and IsValid(tr.Entity)) then
+                if MOAT_PH and tr.Entity:IsPlayer() then return end
                 local trace = {}
                 trace.trEnt = tr.Entity
                 trace.trHGrp = tr.HitGroup
@@ -327,6 +328,13 @@ local function moatFireBullets(ent, data)
                 net.SendToServer()
 
                 return true
+            end
+        end
+        if MOAT_PH then
+            local e = LocalPlayer():GetEyeTrace().Entity
+            if not IsValid(e) then return end
+            if e:IsPlayer() then
+                data.IgnoreEntity = e
             end
         end
     end
