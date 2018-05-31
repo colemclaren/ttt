@@ -22,7 +22,16 @@ end
 SWEP.Base = "weapon_tttbase"
 
 SWEP.Kind = WEAPON_EQUIP
-SWEP.CanBuy = {ROLE_TRAITOR} -- only traitors can buy
+local c4block = {}
+c4block["ttt_richland"] = true
+c4block["ttt_richland_night"] = true
+local map = game.GetMap()
+if (c4block[map]) then
+	SWEP.CanBuy = {}
+else
+	SWEP.CanBuy = {ROLE_TRAITOR} -- only traitors can buy
+end
+
 SWEP.WeaponID = AMMO_C4
 
 SWEP.UseHands			= true

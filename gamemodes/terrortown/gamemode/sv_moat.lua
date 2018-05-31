@@ -190,22 +190,13 @@ end
 util.AddNetworkString "TTT_TraitorButton"
 util.AddNetworkString "TTT_TraitorButtons"
 
-local stb = {}
+_TRAITOR_BUTTONS = {}
+_TRAITOR_BUTTONS_COUNT = 0
+
 function _GetTButtons(pl)
-	local n, e, h = _GetMapEntities("ttt_traitor_button")
-	if (next(stb)) then
-		for k, v in pairs(stb) do
-			if (not IsValid(v)) then continue end
-			if (h[v]) then continue end
-
-			n = n + 1
-			e[n] = v
-
-			stb[k] = nil
-		end
-	end
-
+	local n, e = _TRAITOR_BUTTONS_COUNT, _TRAITOR_BUTTONS
 	if (not n or n == 0) then return end
+	if (not IsValid(pl)) then return end
 
 	local amt, tbl = 0, {}
 	for i = 1, n do
@@ -224,12 +215,14 @@ function _GetTButtons(pl)
 end
 
 function _CreateTButton(ent)
-	local n, e, h = _GetMapEntities("ttt_traitor_button")
-	if (n > 0 and h and h[ent]) then return end
-	stb[ent] = ent
+	if (not IsValid(ent)) then return end
+	if (_TRAITOR_BUTTONS[ent]) then return end
+
+	_TRAITOR_BUTTONS_COUNT = _TRAITOR_BUTTONS_COUNT + 1
+	_TRAITOR_BUTTONS[ent] = ent
 
 	net.Start "TTT_TraitorButton"
-		net.WriteEntity(ent)
+		net.WriteUInt(ent:EntIndex(), 16)
 	net.Broadcast()
 end
 

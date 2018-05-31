@@ -31,6 +31,8 @@ function ENT:Initialize()
     self:SetDescription(self.RawDescription or "?")
     self.RawDelay = nil
     self.RawDescription = nil
+
+	_CreateTButton(self)
 end
 
 function ENT:KeyValue(key, value)
