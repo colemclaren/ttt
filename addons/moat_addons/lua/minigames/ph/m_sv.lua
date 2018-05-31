@@ -233,6 +233,9 @@ function MG_PH.Think()
     if p < 1 then
         MG_PH.Win(false)
     end
+    if h < 1 then
+        MG_PH.Win(true)
+    end
     if CurTime() > MG_PH.TimeEnd then
         MG_PH.Win(true)
     end
