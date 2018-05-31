@@ -357,6 +357,10 @@ function MG_PH.FireBullets(ent, data)
     end
 end
 
+function MG_PH.Loadout()
+    return false
+end
+
 --MOVETYPE_LADDER
 function MG_PH.PrepRound(mk, pri, sec, creds)
     TEST_PH = false
@@ -395,6 +399,7 @@ function MG_PH.PrepRound(mk, pri, sec, creds)
     MG_PH.HookAdd("PlayerTick",MG_PH.PlayerTick)
     MG_PH.HookAdd("PostPlayerDeath",MG_PH.PostPlayerDeath)
     MG_PH.HookAdd("TTTPlayerSpeed",MG_PH.PlayerSpeed)
+    MG_PH.HookAdd("MoatInventoryShouldGiveLoadout",MG_PH.Loadout)
     MG_PH.SpawnPoints = {}
 
     hook.Add("TTTCheckForWin", "MG_PH_DELAYWIN", function() return WIN_NONE end)
