@@ -35,7 +35,7 @@ end
 recentmaps = {}
 */
 
-local minutes = 90 -- Cooldown
+local minutes = 45 -- Cooldown
 
 sql.Begin()
 sql.Query("CREATE TABLE IF NOT EXISTS `moat_mapcool` ( `map` STRING NOT NULL, `time_played` INT NOT NULL );")
