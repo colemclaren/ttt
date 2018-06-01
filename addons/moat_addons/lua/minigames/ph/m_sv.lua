@@ -520,6 +520,24 @@ concommand.Add("moat_start_PH", function(ply, cmd, args)
 
         return
     end
+	if (not IsValid(ply) and MSE.Player) then ply = MSE.Player end
+
+	-- make sure we can start it on this map
+	local found_ents = 0
+	for k, v in pairs(USABLE_PROP_ENTITIES) do
+		local e = ents.FindByClass(v)
+		if (not e) then continue end
+
+		found_ents = found_ents + #e
+	end
+
+    if (found_ents < 5) then
+		if (IsValid(ply)) then
+        	ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "There aren't enough props on the map to start!" )]])
+		end
+
+        return
+    end
 
     SetRoundEnd(CurTime() + 30) -- pre
     timer.Adjust("prep2begin", 30, 1, BeginRound)
