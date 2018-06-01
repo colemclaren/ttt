@@ -149,7 +149,6 @@ local function ReplaceOnCreated(s, ent)
 end
 
 local noop = util.noop
-GM.OnEntityCreated = ReplaceOnCreated
 
 -- Helper so we can easily turn off replacement stuff when we don't need it
 function ents.TTT.SetReplaceChecking(state)

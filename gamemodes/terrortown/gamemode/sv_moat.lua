@@ -99,6 +99,9 @@ function _CheckForMapSwitch()
 end
 
 
+/*
+-- tested on a map with these "broken ents"
+-- clean up worked fine lol
 
 local broken_parenting_ents = {
 	["move_rope"] = true,
@@ -142,48 +145,64 @@ local function _FixParentedPostCleanup()
 		end
 	end
 end
+*/
 
+local _NOT_IN_CLEANUP_MODE = true
 function _CleanUp()
 	ServerLog("Starting Cleanup Map\n")
 
-	_FixParentedPreCleanup()
-	game.CleanUpMap()
-	_FixParentedPostCleanup()
+	_WipeReplaceMapItems()
+
+	_NOT_IN_CLEANUP_MODE = false
+	game.CleanUpMap(false, {"ttt_map_settings"})
+	_NOT_IN_CLEANUP_MODE = true
 
 	ServerLog("Clean Up Map Done\n")
 end
 
 _MapEntityStore = _MapEntityStore or {}
-function _GetMapEntities(n)
+local classcheck = function(e, n) return e.class == n end
+function _GetMapEntities(n, cf)
 	if (_MapEntityStore[n]) then return _MapEntityStore[n].count, _MapEntityStore[n].ents, _MapEntityStore[n].has end
+	if (not cf) then cf = classcheck end
 
 	local tbl, tbl2, num = {}, {}, 0
 	for i = 1, ents.MapCreatedEntsCount do
 		local v = ents.MapCreatedEnts[i]
-		if (IsValid(v) and v:GetClass() == n) then
+		if (not v) then continue end
+		if (cf(v, n)) then
 			num = num + 1
 			tbl[num] = v
-			tbl2[v] = num
+			tbl2[v.id] = num
 		end
 	end
 
 	_MapEntityStore[n] = {}
+	_MapEntityStore[n].count = num
 	_MapEntityStore[n].ents = tbl
 	_MapEntityStore[n].has = tbl2
-	_MapEntityStore[n].count = num
 
 	return num, tbl, tbl2
 end
 
+function _FireRoundStateTrigger(func, ent, r, data)
+	if (r == ROUND_PREP or r == ROUND_ACTIVE) then
+		func(ent, r == ROUND_PREP and "RoundPreparation" or "RoundStart", ent)
+	elseif (r == ROUND_POST) then
+		func(ent, "RoundEnd", ent, tostring(data))
+	end
+end
 
 function _TriggerRoundStateOutputs(r, param)
     r = r or GetRoundState()
 
-	local n, e = _GetMapEntities("ttt_map_settings")
-	if (not n or n == 0) then return end
+	local n, e = _GetMapEntities "ttt_map_settings"
+	if (n == 0) then return end
 
 	for i = 1, n do
-		if (IsValid(e[i])) then e[i]:RoundStateTrigger(r, param) end
+		if (e[i].trigger) then
+			_FireRoundStateTrigger(e[i].trigger, e[i].ent, r, param)
+		end
 	end
 end
 
@@ -274,8 +293,14 @@ function _RemoveCorpses()
 	_RagdollStorage = {}
 end
 
-function _ReplaceMapItem(e, n)
-	if (e:GetPos() == vector_origin) then return end
+
+function _ReplaceMapItem(e, n, t)
+	if (not IsValid(e)) then return end
+	if (e:GetPos() == vector_origin and not t) then
+		timer.Simple(0, function() _ReplaceMapItem(e, n, true) end)
+		return
+	end
+
 	if (isbool(n)) then e:Remove() return end
     e:SetSolid(SOLID_NONE)
 
@@ -289,28 +314,35 @@ function _ReplaceMapItem(e, n)
     e:Remove()
 end
 
-function _ReplaceOnCreated(s, ent)
-    if (not IsValid(ent)) then return end
-	if (not hl2_replace[ent:GetClass()]) then return end
+_MapItemsForReplacement = {}
+_MapItemsForReplacementCount = 0
 
-	_ReplaceMapItem(ent, hl2_item_replace[ent:GetClass()])
+function _ReplaceMapItems()
+	if (_MapItemsForReplacementCount == 0) then return end
+
+	for i = 1, _MapItemsForReplacementCount do
+		_ReplaceMapItem(_MapItemsForReplacement[i].old, _MapItemsForReplacement[i].new)
+	end
+end
+
+function _WipeReplaceMapItems()
+	_MapItemsForReplacement = {}
+	_MapItemsForReplacementCount = 0
+end
+
+function _ReplaceOnCreated(s, ent)
+	if (_NOT_IN_CLEANUP_MODE) then return end
+    if (not IsValid(ent)) then return end
+	if (not hl2_item_replace[ent:GetClass()]) then return end
+
+	_MapItemsForReplacementCount = _MapItemsForReplacementCount + 1
+	_MapItemsForReplacement[_MapItemsForReplacementCount] = {old = ent, new = hl2_item_replace[ent:GetClass()]}
 end
 GM.OnEntityCreated = _ReplaceOnCreated
 
-
-function _SetShouldReplaceEntities(b)
-	GM.OnEntityCreated = function() end
-	if (b) then GM.OnEntityCreated = _ReplaceOnCreated end
-end
-
-
-
-
-
-
-
 local function _PlaceWeapon(swep, pos, ang)
-    local ent = ents.Create(cls)
+	swep = swep.ClassName or swep.Classname or "Unknown Weapon"
+    local ent = ents.Create(swep)
 	if (not IsValid(ent)) then return end
 
     pos.z = pos.z + 3
@@ -347,7 +379,6 @@ local function _PlaceWeaponsAtEnts(s, n)
     end
 
     local num, w = 0
-
 	for i = 1, n do
 		local spot = s[i]
 		if (not spot or not spot.pos or not spot.ang) then continue end
@@ -369,141 +400,81 @@ local function _PlaceWeaponsAtEnts(s, n)
 
 		if (num > max) then return end
 	end
+
+	MsgN("Placed " .. num .. " weapon(s).")
 end
 
+local css_spot_classes = {
+	["info_player_terrorist"] = true,
+	["info_player_counterterrorist"] = true,
+	["hostage_entity"] = true
+}
 local function _PlaceExtraWeaponsForCSS()
-    MsgN("Weaponless TF2-like map detected. Placing extra guns.")
-    if (_CSSWeaponSpots) then
-		PlaceWeaponsAtEnts(_CSSWeaponSpots[1], _CSSWeaponSpots[2])
-		return
-	end
+	MsgN "Weaponless CSS-like map detected. Placing extra guns."
+	local count, spots = _GetMapEntities("_PlaceExtraWeaponsForCSS", function(e)
+		return css_spot_classes[e.class]
+	end)
+	if (not count or count == 0) then return end
 
-	local spots_classes = {
-		["info_player_terrorist"] = true,
-		["info_player_counterterrorist"] = true,
-		["hostage_entity"] = true
-	}
-	
-	local spots, num = {}, 0
-	for i = 1, ents.MapCreatedEntsCount do
-		local v = ents.MapCreatedEnts[i]
-		if (not IsValid(v)) then continue end
-		if (spots_classes[v:GetClass()]) then
-			num = num + 1
-			spots[num] = {pos = v:GetPos(), ang = v:GetAngles()}
-		end
-	end
-
-	_CSSWeaponSpots = {}
-	_CSSWeaponSpots[1] = spots
-	_CSSWeaponSpots[2] = num
-
-	PlaceWeaponsAtEnts(spots, num)
+	_PlaceWeaponsAtEnts(spots, count)
 end
 
+local tf2_spot_classes = {
+	["info_player_teamspawn"] = true,
+	["team_control_point"] = true,
+	["team_control_point_master"] = true,
+	["team_control_point_round"] = true,
+	["item_ammopack_full"] = true,
+	["item_ammopack_medium"] = true,
+	["item_ammopack_small"] = true,
+	["item_healthkit_full"] = true,
+	["item_healthkit_medium"] = true,
+	["item_healthkit_small"] = true,
+	["item_teamflag"] = true,
+	["game_intro_viewpoint"] = true,
+	["info_observer_point"] = true
+}
 local function _PlaceExtraWeaponsForTF2()
-    MsgN("Weaponless TF2-like map detected. Placing extra guns.")
-    if (_TF2WeaponSpots) then
-		PlaceWeaponsAtEnts(_TF2WeaponSpots[1], _TF2WeaponSpots[2])
-		return
-	end
+    MsgN "Weaponless TF2-like map detected. Placing extra guns."
+	local count, spots = _GetMapEntities("_PlaceExtraWeaponsForTF2", function(e)
+		return tf2_spot_classes[e.class]
+	end)
+	if (not count or count == 0) then return end
 
-	local spots_classes = {
-		["info_player_teamspawn"] = true,
-		["team_control_point"] = true,
-		["team_control_point_master"] = true,
-		["team_control_point_round"] = true,
-		["item_ammopack_full"] = true,
-		["item_ammopack_medium"] = true,
-		["item_ammopack_small"] = true,
-		["item_healthkit_full"] = true,
-		["item_healthkit_medium"] = true,
-		["item_healthkit_small"] = true,
-		["item_teamflag"] = true,
-		["game_intro_viewpoint"] = true,
-		["info_observer_point"] = true
-	}
-	
-	local spots, num = {}, 0
-	for i = 1, ents.MapCreatedEntsCount do
-		local v = ents.MapCreatedEnts[i]
-		if (not IsValid(v)) then continue end
-		if (spots_classes[v:GetClass()]) then
-			num = num + 1
-			spots[num] = {pos = v:GetPos(), ang = v:GetAngles()}
-		end
-	end
-
-	_TF2WeaponSpots = {}
-	_TF2WeaponSpots[1] = spots
-	_TF2WeaponSpots[2] = num
-
-	PlaceWeaponsAtEnts(spots, num)
+	_PlaceWeaponsAtEnts(spots, count)
 end
 
 local function _WepCheck()
-	if (_WepCheckCache ~= nil) then return _WepCheckCache end
-
-	_WepCheckCache = false
-	for i = 1, ents.MapCreatedEntsCount do
-		local v = ents.MapCreatedEnts[i]
-		if (not IsValid(v)) then continue end
-		if (v.AutoSpawnable and not IsValid(v:GetOwner())) then
-			_WepCheckCache = true
-			break
-		end
-	end
-
-	return _WepCheckCache
+	return _WE_HAVE_MAP_WEAPONS
 end
 
 local function _TTTCheck()
-	if (_TTTCheckCache ~= nil) then return _TTTCheckCache end
-
-	_TTTCheckCache = false
-	local n = _GetMapEntities("info_player_deathmatch")
-	if (n == 0) then return _TTTCheckCache end
-
-	_TTTCheckCache = true
-	return _TTTCheckCache
+	return (_GetMapEntities("info_player_deathmatch") > 0)
 end
 
 local function _CSSCheck()
-	if (_CSSCheckCache ~= nil) then return _CSSCheckCache end
-
-	_CSSCheckCache = false
-	local n = _GetMapEntities("info_player_counterterrorist")
-	if (n == 0) then return _CSSCheckCache end
-
-	_CSSCheckCache = true
-	return _CSSCheckCache
+	return (_GetMapEntities("info_player_counterterrorist") > 0)
 end
 
 local function _TF2Check()
-	if (_TF2CheckCache ~= nil) then return _TF2CheckCache end
-
-	_TF2CheckCache = false
-	local n = _GetMapEntities("info_player_teamspawn")
-	if (n == 0) then return _TF2CheckCache end
-
-	_TF2CheckCache = true
-	return _TF2CheckCache
+	return (_GetMapEntities("info_player_teamspawn") > 0)
 end
 
 function _PlaceExtraWeapons(import)
 	if (import) then
-		ents.TTT.ProcessImportScript()
+		MsgN "Import file detected. Attempting to run it."
+		ents.TTT.ProcessImportScript() -- will optimize later
 		return
 	end
 
-    if (_WepCheck()) then return end
-	if (_TTTCheck()) then return end
+    if (_WepCheck()) then MsgN "Weapons detected. Not placing any extra." return end
+	if (_TTTCheck()) then MsgN "TTT spawn points detected. Not placing any extra weapons." return end
 	if (_CSSCheck()) then
-		PlaceExtraWeaponsForCSS()
+		_PlaceExtraWeaponsForCSS()
 		return
 	end
 	if (_TF2Check()) then
-		PlaceExtraWeaponsForTF2()
+		_PlaceExtraWeaponsForTF2()
 	end
 end
 

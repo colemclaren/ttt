@@ -214,15 +214,37 @@ function GM:InitCvars()
     self.cvar_init = true
 end
 
+local broken_parenting_ents = {
+	["move_rope"] = true,
+	["keyframe_rope"] = true,
+	["info_target"] = true,
+	["func_brush"] = true
+}
+
+_WE_HAVE_MAP_WEAPONS = false
 function GM:InitPostEntity()
 	if (not ents.MapCreatedEnts) then
 		ents.MapCreatedEnts = {}
+
 		local num = 0
-		for k, v in pairs(ents.GetAll()) do
-			if (not IsValid(v) or v:MapCreationID() == -1) then continue end
+		for k, v in ipairs(ents.GetAll()) do
+			if (not IsValid(v) or not v:CreatedByMap()) then continue end
 			num = num + 1
-			ents.MapCreatedEnts[num] = v
+
+			ents.MapCreatedEnts[num] = {
+				pos = v:GetPos(),
+				ang = v:GetAngles(),
+				class = v:GetClass(),
+				id = v:MapCreationID(),
+				trigger = v.TriggerOutput,
+				name = v:GetName(),
+				ent = v
+			}
+
+			if (_WE_HAVE_MAP_WEAPONS) then continue end
+			_WE_HAVE_MAP_WEAPONS = (v.AutoSpawnable and not IsValid(v:GetOwner()))
 		end
+
 		ents.MapCreatedEntsCount = num
 	end
 
@@ -457,7 +479,8 @@ local import = ents.TTT.CanImportEntities()
 local function SpawnEntities()
 	_RemoveCorpses()
 	_PlaceExtraWeapons(import)
-
+	_ReplaceMapItems()
+	
 	local pls = player.GetAll()
 	for k, v in ipairs(pls) do
 		if (not IsValid(v)) then continue end
