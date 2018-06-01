@@ -457,6 +457,7 @@ function MG_PH.BeginRound()
             v:SetRole(ROLE_TRAITOR)
             v:Give("weapon_ttt_m16")
             v:Give("weapon_virustnt")
+            v:Give("weapon_flakgun")
             timer.Simple(0,function()
                 for i,o in pairs(v:GetWeapons()) do
                     function o:PreDrop()
