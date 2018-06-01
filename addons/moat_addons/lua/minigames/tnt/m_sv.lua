@@ -126,9 +126,10 @@ function MG_TNT.PlayerSpawn(ply)
     ply:SetRole(ROLE_INNOCENT)
     ply:ResetEquipment()
     ply:SetCredits(0)
-    ply:StripWeapons()
+	MG_TNT.StripWeapons(ply)
     timer.Simple(1,function()
-        ply:StripWeapons()
+		if (not IsValid(ply)) then return end
+        MG_TNT.StripWeapons(ply)
         ply:Give("tnt_fists")
         ply:SelectWeapon("tnt_fists")
         ply:ShouldDropWeapon(false)
@@ -137,6 +138,7 @@ function MG_TNT.PlayerSpawn(ply)
     ply:CollisionRulesChanged()
     if ply.Skeleton then
         timer.Simple(1.1,function()
+			if (not IsValid(ply)) then return end
             ply:SetModel("models/player/skeleton.mdl")
         end)
     end
@@ -410,7 +412,7 @@ function MG_TNT.BeginRound()
         if v.Skeleton then v.Skeleton = false v:Spawn() end
         v:SetRole(ROLE_INNOCENT)
         v.TNTScore = 0
-        v:StripWeapons()
+        MG_TNT.StripWeapons(v)
         v:SetModel("models/player/leet.mdl")
         v:Give("tnt_fists")
         v:ShouldDropWeapon(false)

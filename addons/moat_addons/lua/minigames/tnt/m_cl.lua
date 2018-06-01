@@ -256,7 +256,7 @@ net.Receive("TNT.Skeleton",function()
     net.ReadEntity().Skeleton = true
 end)
 
-hook.Add("HUDPaint", "moat.test.L", function()
+hook.Add("HUDPaint", "moat.test.LTNT", function()
     if not istable(MOAT_TNT) then return end
     local w,h = ScrW(),ScrH()
     local f = string.FormattedTime(MOAT_TNT.time_end - CurTime())

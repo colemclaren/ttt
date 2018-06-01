@@ -443,11 +443,9 @@ function MG_PH.BeginRound()
         end
     end
     local hunters = 0
-    BroadcastLua([[MOAT_LOADOUT.ResetClientsideModels()]])
     for i,v in RandomPairs(player.GetAll()) do
         MG_PH.StripWeapons(v)
         if (hunters <= (total_active * 0.3)) or (hunters < 3) then 
-            
             v.t_hunter = true
             net.Start("PH.Role")
             net.WriteBool(true)
@@ -484,9 +482,7 @@ function MG_PH.BeginRound()
                 v.SpeedMod = 1
             end)
             v.t_prop = true
-            net.Start("moat.hide.cosmetics")
-            net.WriteEntity(v)
-            net.Broadcast()
+			v:DrawShadow(false)
             v:SetRenderMode( RENDERMODE_TRANSALPHA )
             v:SetColor( Color(255, 255, 255, 0))
             v.ph_prop = ents.Create("ph_prop")

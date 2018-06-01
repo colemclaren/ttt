@@ -62,10 +62,14 @@ end)
 
 net.Receive("PH_Begin",function()
     for k,v in ipairs(player.GetAll()) do
+		MOAT_LOADOUT.RemoveModels(v)
         v.Skeleton = false
         v.NoTarget = true
+		v:DrawShadow(false)
     end
+
     MOAT_MINIGAME_OCCURING = true
+
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_PH = {
         goal = 100,
@@ -388,7 +392,7 @@ surface.CreateFont("PH.Small",{
     antialias = true,
     blursize = 0
 })
-hook.Add("HUDPaint", "moat.test.L", function()
+hook.Add("HUDPaint", "moat.test.LPH", function()
     if not istable(MOAT_PH) then return end
     if MOAT_PH.Blind > CurTime() then
         if LocalPlayer().t_hunter then

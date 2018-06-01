@@ -93,7 +93,7 @@ function MSE.Menu:BuildEventOptions(n)
 	for i = 1, #self.o do
 		if (IsValid(self.o[i])) then self.o[i]:Remove() end
 	end
-
+	
 	local cmd_tbl = MSE.Commands.Stored[n]
 
 	self.d = vgui.Create("DLabel", self.f)
@@ -175,6 +175,8 @@ function MSE.Menu:Open()
 	self.SelectedArgs = {}
 	self.o = {}
 
+	if (ScrH() < 900) then self.tiny = true else self.tiny = false end
+
 	self.f = vgui.Create("DFrame")
 	self.f:SetPos(0, 0)
 	self.f:SetSize(0, ScrH())
@@ -219,7 +221,7 @@ function MSE.Menu:Open()
 	self.n:DockMargin(0, 0, 0, 10)
 
 	self.c = vgui.Create("DButton", self.p)
-	self.c:SetTall(40)
+	self.c:SetTall(self.tiny and 24 or 40)
 	self.c:Dock(BOTTOM)
 	self.c:SetText("")
 	self.c.hl = 0
@@ -229,7 +231,7 @@ function MSE.Menu:Open()
 		surface_SetDrawColor(255, 50, 50)
         surface_DrawOutlinedRect(0, 0, w, h)
 
-		draw_SimpleText("Close", "Trebuchet24", w/2, h/2, Color(255, 50 + (205 * s.hl), 50 + (205 * s.hl)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		draw_SimpleText("Close", self.tiny and "Trebuchet18" or "Trebuchet24", w/2, h/2, Color(255, 50 + (205 * s.hl), 50 + (205 * s.hl)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	end
 	self.c.Think = function(s) self:ButtonThink(s) end
     self.c.DoClick = function(s)
@@ -238,8 +240,8 @@ function MSE.Menu:Open()
 
     for k, v in pairs(MSE.Commands.Stored) do
     	self.b = vgui.Create("DButton", self.p)
-		self.b:SetTall(40)
-		self.b:DockMargin(0, 0, 0, 10)
+		self.b:SetTall(self.tiny and 24 or 40)
+		self.b:DockMargin(0, 0, 0, self.tiny and 5 or 10)
 		self.b:Dock(TOP)
 		self.b:SetText("")
 		self.b.hl = 0
@@ -249,7 +251,7 @@ function MSE.Menu:Open()
 			surface_SetDrawColor(51, 153, 255)
         	surface_DrawOutlinedRect(0, 0, w, h)
 
-			draw_SimpleText(k, "Trebuchet24", w/2, h/2, Color(51 + (204 * s.hl), 153 + (102 * s.hl), 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw_SimpleText(k, self.tiny and "Trebuchet18" or "Trebuchet24", w/2, h/2, Color(51 + (204 * s.hl), 153 + (102 * s.hl), 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 		end
 		self.b.Think = function(s) self:ButtonThink(s, k) end
     	self.b.DoClick = function(s)
