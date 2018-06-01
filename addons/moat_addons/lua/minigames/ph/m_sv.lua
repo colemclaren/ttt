@@ -109,7 +109,7 @@ function MG_PH.PlayerDeath(v, inf, att)
         net.Start("PH_Kill")
         net.WriteEntity(attacker)
         net.WriteString(v:Nick())
-        net.Send(att)
+        net.Broadcast()
         att:SetHealth(att:Health() + 10)
     end
     if v.ph_prop && v.ph_prop:IsValid() then

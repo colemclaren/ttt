@@ -44,7 +44,7 @@ function ENT:OnTakeDamage(dmg)
 			net.Start("PH_Kill")
 			net.WriteEntity(attacker)
 			net.WriteString(pl:Nick())
-			net.Send(attacker)
+			net.Broadcast()
 			attacker:SetHealth(attacker:Health() + 10)
 			timer.Simple(0,function() self:Remove() end)
 
