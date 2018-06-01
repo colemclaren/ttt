@@ -55,7 +55,7 @@ net.Receive("PH_Kill",function()
             if killer:IsPlayer() then
                 k = killer:Nick()
             end
-            chat.AddText(Color(0,255,0),k," killed ",ply,tostring(props)," props remain!")
+            chat.AddText(Color(0,255,0),k," killed ",ply,", ",tostring(props)," props remain!")
         end
     end)
 end)
