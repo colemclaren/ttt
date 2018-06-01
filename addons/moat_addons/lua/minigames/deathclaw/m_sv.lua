@@ -15,14 +15,6 @@ local DefaultLoadout = {
     ["weapon_zm_carry"] = true
 }
 
-function m_ActiveBoss()
-    return MOAT_ACTIVE_BOSS
-end
-
-function m_GetActiveBoss()
-    return MOAT_BOSS_CUR
-end
-
 local function moat_EndRoundBossHooks()
     -- Remove our hooks
     hook.Remove("TTTBeginRound", "moat_BossBeginRound")
@@ -49,10 +41,9 @@ end
 function GetAlivePlayers()
     local num = 0
 
-    for k, v in pairs(player.GetAll()) do
-        if (v:Alive() and not v:IsSpec()) then
-            num = num + 1
-        end
+    for k, v in ipairs(player.GetAll()) do
+        if (not IsValid(v) or v:Team() == TEAM_SPEC) then continue end
+        num = num + 1
     end
 
     return num
@@ -69,27 +60,36 @@ end
 local rarity_to_placing = {[1] = math.random(5,6), [2] = 5, [3] = 4, [4] = 4, [5] = 4}
 
 local function moat_BossPlayerDeath(ply)
-	if (GetRoundState() ~= ROUND_ACTIVE) then return end
-    local IS_BOSS = MOAT_BOSS_CUR and MOAT_BOSS_CUR == ply
-	if (type(ply) == "string" and ply == "boss") then IS_BOSS = true end
+	if (MOAT_ROUND_OVER or GetRoundState() ~= ROUND_ACTIVE) then return end
+	local IS_BOSS, ALIVE = false, GetAlivePlayers()
+	if (type(ply) == "string" and ply == "boss") then
+		IS_BOSS = true
+	else
+		IS_BOSS = IsValid(MOAT_BOSS_CUR) and MOAT_BOSS_CUR == ply
+	end
+
+	if (IS_BOSS or ALIVE <= 1) then
+		MOAT_ROUND_OVER = true
+	end
 
 	if (IsValid(MOAT_BOSS_CUR)) then
 		MOAT_BOSS_CUR:SetCredits(0)
 	end
 
-    timer.Simple(1, function()
-        if (type(ply) ~= "string" and IsValid(ply) and IsValid(ply.server_ragdoll)) then
-            local pl = player.GetByUniqueID(ply.server_ragdoll.uqid)
+	if (not MOAT_ROUND_OVER) then
+		timer.Simple(1, function()
+			if (not IsValid(ply) or not IsValid(ply.server_ragdoll)) then return end
+
+            local pl = player.GetBySteamID(ply.server_ragdoll.sid)
             if (not IsValid(pl)) then return end
             pl:SetCleanRound(false)
             pl:SetNWBool("body_found", true)
             CORPSE.SetFound(ply.server_ragdoll, true)
             ply.server_ragdoll:Remove()
-        end
-    end)
+    	end)
 
-    if (GetRoundState() == ROUND_PREP or (GetAlivePlayers() > 1 and not IS_BOSS) or MOAT_ROUND_OVER) then return end
-    MOAT_ROUND_OVER = true
+		return
+	end
 
     net.Start("moat.damage.reset")
     net.Broadcast()
@@ -316,6 +316,8 @@ local function moat_BeginRoundBossHooks()
 		
 		local tmr = MOAT_BOSS_CUR:EntIndex()
 		timer.Create("moat_check_boss" .. tmr, 0.1, 0, function()
+			if (MOAT_ROUND_OVER) then timer.Remove("moat_check_boss" .. tmr) return end
+
 			if (not IsValid(MOAT_BOSS_CUR)) then
 				moat_BossPlayerDeath("boss")
 				timer.Remove("moat_check_boss" .. tmr)

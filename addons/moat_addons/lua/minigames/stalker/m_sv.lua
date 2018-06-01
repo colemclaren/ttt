@@ -52,18 +52,6 @@ local function moat_EndRoundBossHooks()
     hook.Remove("TTTCheckForWin", "moat_BossDelayWin")
 end
 
-function GetAlivePlayers()
-    local num = 0
-
-    for k, v in pairs(player.GetAll()) do
-        if (v:Alive() and not v:IsSpec()) then
-            num = num + 1
-        end
-    end
-
-    return num
-end
-
 local function moat_EndRoundHandler()
     moat_EndRoundBossHooks()
 end
@@ -71,27 +59,36 @@ end
 local rarity_to_placing = {[1] = math.random(5,6), [2] = 5, [3] = 4, [4] = 4, [5] = 4}
 
 local function moat_BossPlayerDeath(ply)
-	if (GetRoundState() ~= ROUND_ACTIVE) then return end
-    local IS_BOSS = MOAT_BOSS_CUR and MOAT_BOSS_CUR == ply
-	if (type(ply) == "string" and ply == "boss") then IS_BOSS = true end
+	if (MOAT_ROUND_OVER or GetRoundState() ~= ROUND_ACTIVE) then return end
+	local IS_BOSS, ALIVE = false, GetAlivePlayers()
+	if (type(ply) == "string" and ply == "boss") then
+		IS_BOSS = true
+	else
+		IS_BOSS = IsValid(MOAT_BOSS_CUR) and MOAT_BOSS_CUR == ply
+	end
+
+	if (IS_BOSS or ALIVE <= 1) then
+		MOAT_ROUND_OVER = true
+	end
 
 	if (IsValid(MOAT_BOSS_CUR)) then
 		MOAT_BOSS_CUR:SetCredits(0)
 	end
 
-    timer.Simple(1, function()
-        if (type(ply) ~= "string" and IsValid(ply) and IsValid(ply.server_ragdoll)) then
-            local pl = player.GetByUniqueID(ply.server_ragdoll.uqid)
+	if (not MOAT_ROUND_OVER) then
+		timer.Simple(1, function()
+			if (not IsValid(ply) or not IsValid(ply.server_ragdoll)) then return end
+
+            local pl = player.GetBySteamID(ply.server_ragdoll.sid)
             if (not IsValid(pl)) then return end
             pl:SetCleanRound(false)
             pl:SetNWBool("body_found", true)
             CORPSE.SetFound(ply.server_ragdoll, true)
             ply.server_ragdoll:Remove()
-        end
-    end)
+    	end)
 
-    if (GetRoundState() == ROUND_PREP or (GetAlivePlayers() > 1 and not IS_BOSS) or MOAT_ROUND_OVER) then return end
-    MOAT_ROUND_OVER = true
+		return
+	end
 
     net.Start("moat.damage.reset")
     net.Broadcast()
@@ -365,7 +362,7 @@ local function moat_BeginRoundBossHooks()
     end)
 
     hook.Add("PlayerDeath", "moat_BossKnife", function(ply, inf, att)
-        if(att == MOAT_BOSS_CUR and GetRoundState() == ROUND_ACTIVE) then
+        if(att == MOAT_BOSS_CUR and not MOAT_ROUND_OVER) then
 			if (not MOAT_EASTER.SpawnPositions) then return end
             local pos = MOAT_EASTER.SpawnPositions[math.random(1, #MOAT_EASTER.SpawnPositions)]
             if (not pos or not isvector(pos)) then return end

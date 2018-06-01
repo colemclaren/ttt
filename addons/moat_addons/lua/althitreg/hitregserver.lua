@@ -112,7 +112,7 @@ local PLAYER = FindMetaTable "Player"
 
 PLAYER.Old_FireBullets = PLAYER.Old_FireBullets or FindMetaTable "Entity".FireBullets
 function PLAYER:FireBullets(bul, supp)
-    if self:Ping() <= MOAT_HITREG.MaxPing and not m_ActiveBoss() then
+    if self:Ping() <= MOAT_HITREG.MaxPing and not MOAT_ACTIVE_BOSS then
         bul.Damage = 0
     end
     return self:Old_FireBullets(bul, supp)

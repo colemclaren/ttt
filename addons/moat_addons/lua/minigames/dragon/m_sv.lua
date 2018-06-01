@@ -41,18 +41,6 @@ local function moat_EndRoundBossHooks()
     hook.Remove("TTTCheckForWin", "moat_BossDelayWin")
 end
 
-function GetAlivePlayers()
-    local num = 0
-
-    for k, v in pairs(player.GetAll()) do
-        if (v:Alive() and not v:IsSpec()) then
-            num = num + 1
-        end
-    end
-
-    return num
-end
-
 local function moat_EndRoundHandler()
     moat_EndRoundBossHooks()
 end
