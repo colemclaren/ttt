@@ -210,6 +210,11 @@ MSE.Commands.Register "Free For All"
 		end
 	})
 
+MSE.Commands.Register "Prop Hunt"
+	:SetCommand "moat_start_ph"
+	:SetDescription "Classic prop hunt! Randomly be a prop or a hunter, only one team can win!"
+	:SetMinPlayers "8"
+
 MSE.Commands.Register "Apache Round"
 	:SetCommand "moat_start_apache"
 	:SetDescription "Team up with every player to defeat the boss for a prize!"

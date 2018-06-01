@@ -477,6 +477,7 @@ function MG_PH.BeginRound()
                     v:Freeze(false)
                 end
             end)
+            v.SpeedMod = 1.2
         else
             v.SpeedMod = 1.4
             timer.Simple(25,function()
