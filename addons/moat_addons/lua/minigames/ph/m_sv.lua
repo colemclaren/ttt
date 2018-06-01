@@ -107,6 +107,7 @@ function MG_PH.PlayerDeath(v, inf, att)
         if not att.PHScore then att.PHScore = 0 end
         att.PHScore = att.PHScore + 1 
         net.Start("PH_Kill")
+        net.WriteEntity(attacker)
         net.WriteString(v:Nick())
         net.Send(att)
         att:SetHealth(att:Health() + 10)
@@ -460,7 +461,7 @@ function MG_PH.BeginRound()
                 v:Lock()
                 v:Freeze(true)
             end)
-            timer.Simple(20,function()
+            timer.Simple(25,function()
                 if IsValid(v) then
                     v:UnLock()
                     v:Freeze(false)

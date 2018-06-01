@@ -44,7 +44,20 @@ local stats_spawn = GetConVar("moat_showstats_spawn")
 local stats_spawn_old = false
 
 net.Receive("PH_Kill",function()
-    chat.AddText(Color(0,255,0),"You just killed " .. net.ReadString() .. " and have been awarded 10 HP!")
+    local killer = net.ReadEntity()
+    local ply = net.ReadString()
+    timer.Simple(1,function()
+        local props = #ents.FindByClass("ph_prop")
+        if killer == LocalPlayer() then
+            chat.AddText(Color(0,255,0),"You killed " .. ply .. " and got 10 HP! ",tostring(props)," props left!")
+        else
+            local k = "Something"
+            if killer:IsPlayer() then
+                k = killer:Nick()
+            end
+            chat.AddText(Color(0,255,0),k," killed ",ply,tostring(props)," props remain!")
+        end
+    end)
 end)
 
 net.Receive("PH_Begin",function()
@@ -56,7 +69,7 @@ net.Receive("PH_Begin",function()
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_PH = {
         goal = 100,
-        Blind = CurTime() + 20,
+        Blind = CurTime() + 25,
         TopKills = 0,
         MyKills = 0,
         time_end = CurTime() + (#player.GetAll() * 13) + 30,

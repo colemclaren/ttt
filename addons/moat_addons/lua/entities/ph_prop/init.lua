@@ -42,6 +42,7 @@ function ENT:OnTakeDamage(dmg)
 
 			attacker.PHScore = attacker.PHScore + 1
 			net.Start("PH_Kill")
+			net.WriteEntity(attacker)
 			net.WriteString(pl:Nick())
 			net.Send(attacker)
 			attacker:SetHealth(attacker:Health() + 10)
