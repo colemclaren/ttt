@@ -636,7 +636,7 @@ function TellTraitorsAboutTraitors()
 end
 
 function SpawnWillingPlayers(pls, dead_only)
-    for k, ply in pairs(pls) do
+    for k, ply in ipairs(pls) do
         if IsValid(ply) then
             ply:SpawnForRound(dead_only)
             ply.JustSpawned = dead_only
@@ -699,12 +699,16 @@ function BeginRound()
     LANG.Msg("round_started")
     ServerLog("Round proper has begun...\n")
     GAMEMODE:UpdatePlayerLoadouts() -- needs to happen when round_active
-    hook.Call("TTTBeginRound")
+    
+	hook.Call("TTTBeginRound")
     _TriggerRoundStateOutputs(ROUND_BEGIN)
 
     for k, v in ipairs(player.GetAll()) do
         v.JustSpawned = nil
+		hook.Run("TTTBeginRoundPlayer", v)
     end
+
+	_GetTButtons()
 end
 
 function PrintResultMessage(type)

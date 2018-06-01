@@ -5,6 +5,7 @@ local math = math
 local abs = math.abs
 TBHUD = TBHUD or {}
 TBHUD.storedbuttons = TBHUD.storedbuttons or {}
+TBHUD.storedbuttons_count = TBHUD.storedbuttons_count or 0
 TBHUD.buttons = {}
 TBHUD.buttons_count = 0
 TBHUD.focus_ent = nil
@@ -18,16 +19,16 @@ function TBHUD:Clear()
 end
 
 function TBHUD:CacheEnts()
-	if (not IsValid(LocalPlayer()) or not LocalPlayer():IsActiveTraitor()) then return end
 	self.buttons = {}
 	self.buttons_count = 0
 
-	for k, v in pairs(TBHUD.storedbuttons) do
-		local ent = Entity(k)
-		if (IsValid(ent)) then
-			self.buttons[k] = ent
-			self.buttons_count = self.buttons_count + 1
-		end
+	if (not IsValid(LocalPlayer()) or not LocalPlayer():IsActiveTraitor()) then return end
+	for i = 1, TBHUD.storedbuttons_count do
+		local ent = Entity(TBHUD.storedbuttons[i])
+		if (not IsValid(ent)) then continue end
+
+		self.buttons_count = self.buttons_count + 1
+		self.buttons[self.buttons_count] = ent
 	end
 end
 
@@ -66,7 +67,7 @@ local GetTranslation = LANG.GetTranslation
 local GetPTranslation = LANG.GetParamTranslation
 
 function TBHUD:Draw(client)
-    if self.buttons_count == 0 then return end
+    if (self.buttons_count == 0) then return end
     surface.SetTexture(tbut_normal)
     -- we're doing slowish distance computation here, so lots of probably
     -- ineffective micro-optimization
@@ -78,11 +79,12 @@ function TBHUD:Draw(client)
     local focus_d, focus_scrpos_x, focus_scrpos_y = 0, midscreen_x, midscreen_y
 
     -- draw icon on HUD for every button within range
-    for k, but in pairs(self.buttons) do
-        if not IsValid(but) or not but.IsUsable then continue end
+	for i = 1, self.buttons_count do
+		local but = self.buttons[i]
+        if (not IsValid(but) or not but.IsUsable) then continue end
         pos = but:GetPos()
         scrpos = pos:ToScreen()
-        if (IsOffScreen(scrpos)) or not but:IsUsable() then continue end
+        if (IsOffScreen(scrpos) or not but:IsUsable()) then continue end
         d = pos - plypos
         d = d:Dot(d) / (but:GetUsableRange() ^ 2)
         -- draw if this button is within range, with alpha based on distance
@@ -138,11 +140,15 @@ end
 function TBHUD.AddButton()
 	local indx = net.ReadUInt(16)
 	if (not indx) then return end
-	TBHUD.storedbuttons[indx] = Entity(indx)
+	TBHUD.storedbuttons_count = TBHUD.storedbuttons_count + 1
+	TBHUD.storedbuttons[TBHUD.storedbuttons_count] = indx
 end
 net.Receive("TTT_TraitorButton", TBHUD.AddButton)
 net.Receive("TTT_TraitorButtons", function()
 	local n = net.ReadUInt(16)
 	if (not n) then return end
+	TBHUD.storedbuttons = {}
+	TBHUD.storedbuttons_count = 0
+
 	for i = 1, n do TBHUD.AddButton() end
 end)

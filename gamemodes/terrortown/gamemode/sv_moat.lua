@@ -214,8 +214,7 @@ _TRAITOR_BUTTONS_COUNT = 0
 
 function _GetTButtons(pl)
 	local n, e = _TRAITOR_BUTTONS_COUNT, _TRAITOR_BUTTONS
-	if (not n or n == 0) then return end
-	if (not IsValid(pl)) then return end
+	if (n == 0) then return end
 
 	local amt, tbl = 0, {}
 	for i = 1, n do
@@ -230,19 +229,22 @@ function _GetTButtons(pl)
 		for i = 1, amt do
 			net.WriteUInt(tbl[i], 16)
 		end
-	return pl and net.Send(pl) or net.Broadcast()
+	return IsValid(pl) and net.Send(pl) or net.Broadcast()
 end
 
 function _CreateTButton(ent)
 	if (not IsValid(ent)) then return end
 	if (_TRAITOR_BUTTONS[ent]) then return end
-
 	_TRAITOR_BUTTONS_COUNT = _TRAITOR_BUTTONS_COUNT + 1
-	_TRAITOR_BUTTONS[ent] = ent
+	_TRAITOR_BUTTONS[_TRAITOR_BUTTONS_COUNT] = ent
 
-	net.Start "TTT_TraitorButton"
-		net.WriteUInt(ent:EntIndex(), 16)
-	net.Broadcast()
+	if (GetRoundState() == ROUND_ACTIVE) then
+		net.Start "TTT_TraitorButton"
+			net.WriteUInt(ent:EntIndex(), 16)
+		net.Broadcast()
+	
+		return
+	end
 end
 
 
@@ -328,6 +330,9 @@ end
 function _WipeReplaceMapItems()
 	_MapItemsForReplacement = {}
 	_MapItemsForReplacementCount = 0
+
+	_TRAITOR_BUTTONS = {}
+	_TRAITOR_BUTTONS_COUNT = 0
 end
 
 function _ReplaceOnCreated(s, ent)
