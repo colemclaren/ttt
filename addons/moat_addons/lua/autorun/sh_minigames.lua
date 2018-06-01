@@ -117,6 +117,12 @@ MOAT_MINIGAMES.AddMinigame("Secret Santa FFA",
 	""
 )*/
 
+MOAT_MINIGAMES.AddMinigame("Prop Hunt", 
+	"minigames/ph/", 
+	"moat_start_ph", 
+	0, 
+	"Prop hunt" --s
+)
 
 if (CLIENT) then
 --s
