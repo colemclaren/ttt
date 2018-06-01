@@ -478,6 +478,10 @@ function MG_PH.BeginRound()
                 end
             end)
         else
+            v.SpeedMod = 1.4
+            timer.Simple(25,function()
+                v.SpeedMod = 1
+            end)
             v.t_prop = true
             net.Start("moat.hide.cosmetics")
             net.WriteEntity(v)
