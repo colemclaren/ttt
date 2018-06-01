@@ -452,10 +452,19 @@ function MG_PH.BeginRound()
             net.Start("PH.Role")
             net.WriteBool(true)
             net.Send(v)
+            v:DrawShadow(false)
             hunters = hunters + 1
             v:SetRole(ROLE_TRAITOR)
             v:Give("weapon_ttt_m16")
             v:Give("weapon_virustnt")
+            timer.Simple(0,function()
+                for i,o in pairs(v:GetWeapons()) do
+                    function o:PreDrop()
+                        self:Remove()
+                    end
+                    o.AllowDrop = false
+                end
+            end)
             MG_PH.GiveAmmo(v)
             timer.Simple(1,function()
                 v:Lock()
