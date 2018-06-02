@@ -50,13 +50,13 @@ net.Receive("PH_Kill",function()
 		if (not IsValid(killer)) then return end
         local props = #ents.FindByClass("ph_prop")
         if killer == LocalPlayer() then
-            chat.AddText(Color(0,255,0),"You killed " .. ply .. " and got 10 HP! ",tostring(props)," props left!")
+            chat.AddText(Color(255,0,0),"You",Color(255,255,255)," killed ",Color(0,255,0), ply,Color(255,255,255), " and got 10 HP! ",tostring(props)," props left!")
         else
             local k = "Something"
             if killer:IsPlayer() then
                 k = killer:Nick()
             end
-            chat.AddText(Color(0,255,0),k," killed ",ply,", ",tostring(props)," props remain!")
+            chat.AddText(Color(255,0,0),k,Color(255,255,255)," killed ",Color(0,255,0),ply,Color(255,255,255),", ",tostring(props)," props remain!")
         end
     end)
 end)
