@@ -100,9 +100,9 @@ end
 
 function MG_PH.DoKill(ply)
 end
-
+MG_PH.DeadProps = {}
 function MG_PH.PlayerDeath(v, inf, att)
-    if att:IsPlayer() then
+    if att:IsPlayer() and att.t_hunter then
         att:SetCredits(0)
         if not att.PHScore then att.PHScore = 0 end
         att.PHScore = att.PHScore + 1 
@@ -111,6 +111,9 @@ function MG_PH.PlayerDeath(v, inf, att)
         net.WriteString(v:Nick())
         net.Broadcast()
         att:SetHealth(att:Health() + 10)
+    end
+    if v.t_prop then
+        table.insert(MG_PH.DeadProps,v)
     end
     if v.ph_prop && v.ph_prop:IsValid() then
         v.ph_prop:Remove()
@@ -161,6 +164,13 @@ function MG_PH.Win(props)
     --print("WIN:",team)
     net.Start("PH_End")
     local t = {}
+    if props then
+        for k,v in pairs(MG_PH.DeadProps) do
+            if not IsValid(v) then continue end
+            if (not v:IsSpec()) then continue end --?
+            table.insert(t,{v,k})
+        end
+    end
     for k,v in pairs(player.GetAll()) do
         v:SetModelScale(1,0)
         v:ResetHull()
@@ -169,8 +179,6 @@ function MG_PH.Win(props)
         if not v.PHScore then v.PHScore = 0 end
         if props and v.t_prop then
             if (not v:IsSpec()) then
-                table.insert(t,{v,math.Round(v.PHScore + v:Health())})
-            else
                 table.insert(t,{v,math.Round(v.PHScore)})
             end
         elseif (not props) and v.t_hunter then
@@ -183,6 +191,7 @@ function MG_PH.Win(props)
             v.ph_prop = nil
         end
     end
+    MG_PH.DeadProps = {}
     table.sort(t,function(a,b) return a[2] > b[2] end)
     net.WriteBool(props or false)
     net.WriteTable(t)
@@ -235,7 +244,7 @@ function MG_PH.Think()
             if not v.PHScore then v.PHScore = 0 end
             if v.t_prop then
                 p = p + 1
-                v.PHScore = v.PHScore + 1 
+                v.PHScore = v.PHScore + (v:Health())
             elseif v.t_hunter then
                 h = h + 1
             end 
@@ -432,6 +441,7 @@ end
 
 
 function MG_PH.BeginRound()
+    MG_PH.DeadProps = {}
     SetRoundEnd(CurTime() + 900)
     for k , v in pairs(ents.GetAll()) do
         if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_PH.DefaultLoadout[v:GetClass()]))) then
