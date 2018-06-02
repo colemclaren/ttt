@@ -168,7 +168,7 @@ function MG_PH.Win(props)
         v.SpeedMod = 1
         if not v.PHScore then v.PHScore = 0 end
         if props and v.t_prop then
-            table.insert(t,{v,math.Round(v.PHScore)})
+            table.insert(t,{v,math.Round(v.PHScore + v:Health())})
         elseif (not props) and v.t_hunter then
             table.insert(t,{v,math.Round(v.PHScore)})
         end

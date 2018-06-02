@@ -497,11 +497,11 @@ net.Receive("PH_Prep",function()
         "",
         "As a prop:",
         "Press " .. string.upper(input.LookupBinding("+use")) .. " on outlined green props to turn into them, prop size changes your health.",
-        "Hide until the timer runs out for the best items!",
+        "Hide to win! Bigger props give you better items!",
         "",
         "As a hunter:",
-        "Hunt down all the props! Kill them for the best items",
-        "Shooting non-players will make you take damage"
+        "Shooting non-players will make you take damage.",
+        "Hunt down all the props, kill them for the best items!",
     }
 
     hook.Add("HUDPaint", "MG_PH_PREPPAINT", function()
