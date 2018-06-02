@@ -162,6 +162,7 @@ function MG_PH.Win(props)
     net.Start("PH_End")
     local t = {}
     for k,v in pairs(player.GetAll()) do
+        v:SetModelScale(1,0)
         v:ResetHull()
         v:SetColor( Color(255, 255, 255, 255))
         v.SpeedMod = 1
@@ -450,7 +451,6 @@ function MG_PH.BeginRound()
             net.Start("PH.Role")
             net.WriteBool(true)
             net.Send(v)
-            v:DrawShadow(false)
             hunters = hunters + 1
             v:SetRole(ROLE_TRAITOR)
             v:Give("weapon_ttt_m16")
@@ -482,7 +482,7 @@ function MG_PH.BeginRound()
                 v.SpeedMod = 1
             end)
             v.t_prop = true
-			v:DrawShadow(false)
+			v:SetModelScale(0,0)
             v:SetRenderMode( RENDERMODE_TRANSALPHA )
             v:SetColor( Color(255, 255, 255, 0))
             v.ph_prop = ents.Create("ph_prop")

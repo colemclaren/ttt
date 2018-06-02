@@ -66,7 +66,6 @@ net.Receive("PH_Begin",function()
 		MOAT_LOADOUT.RemoveModels(v)
         v.Skeleton = false
         v.NoTarget = true
-		v:DrawShadow(false)
     end
 
     MOAT_MINIGAME_OCCURING = true
