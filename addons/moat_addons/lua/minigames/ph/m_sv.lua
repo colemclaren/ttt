@@ -167,7 +167,7 @@ function MG_PH.Win(props)
     if props then
         for k,v in pairs(MG_PH.DeadProps) do
             if not IsValid(v) then continue end
-            if (not v:IsSpec()) then continue end --?
+            if (not v:IsSpec()) and (v:Alive()) then continue end --?
             table.insert(t,{v,k})
         end
     end
@@ -178,7 +178,7 @@ function MG_PH.Win(props)
         v.SpeedMod = 1
         if not v.PHScore then v.PHScore = 0 end
         if props and v.t_prop then
-            if (not v:IsSpec()) then
+            if (not v:IsSpec()) and (v:Alive()) then
                 table.insert(t,{v,math.Round(v.PHScore)})
             end
         elseif (not props) and v.t_hunter then
