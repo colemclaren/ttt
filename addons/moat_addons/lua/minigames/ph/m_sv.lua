@@ -277,7 +277,7 @@ end
 
 function MG_PH.TakeDamage(ent, dmginfo)
     local att = dmginfo:GetAttacker()
-    if ent && table.HasValue(USABLE_PROP_ENTITIES, ent:GetClass())  && !ent:IsPlayer() && att && att:IsPlayer() && att.t_hunter && att:Alive() then
+    if ent && ent:GetClass() ~= "ph_prop" && !ent:IsPlayer() && att && att:IsPlayer() && att.t_hunter && att:Alive() then
         if not ent.LastHitp then ent.LastHitp = {} end
         if (ent.LastHitp[att] or 0) > CurTime() then return end
         ent.LastHitp[att] = CurTime() + 0.1
