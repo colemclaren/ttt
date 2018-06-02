@@ -531,7 +531,7 @@ concommand.Add("moat_start_PH", function(ply, cmd, args)
 		found_ents = found_ents + #e
 	end
 
-    if (found_ents < 5) then
+    if (found_ents < 10) then
 		if (IsValid(ply)) then
         	ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "There aren't enough props on the map to start!" )]])
 		end
