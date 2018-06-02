@@ -35,7 +35,10 @@ end
 recentmaps = {}
 */
 
-local minutes = 90 -- Cooldown
+local minutes = 45 -- Cooldown
+if GetHostName():lower():match("minecraft") or GetHostName():lower():match("mc") then
+    minutes = 90
+end
 
 sql.Begin()
 sql.Query("CREATE TABLE IF NOT EXISTS `moat_mapcool` ( `map` STRING NOT NULL, `time_played` INT NOT NULL );")
