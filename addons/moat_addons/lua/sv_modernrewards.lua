@@ -192,3 +192,29 @@ local function FindGroupNameFromURL()
 	else return (parts[#parts]) end
 end
 REWARDS.Settings.GroupName = FindGroupNameFromURL()
+
+/*
+-- we need to make an api on moat.gg
+-- do you know a better way than this shit?
+
+idlist = {}
+function pageLoop(link)
+	http.Fetch(link, function(body, len, headers, code)
+		if code==200 then
+		local results = XMLToTable(body)
+		if not results or not results.memberList or not results.memberList.members or not results.memberList.members.steamID64 then print(link, "members") return end
+		for k,v in pairs(results.memberList.members.steamID64) do
+			table.insert(idlist, v)
+		end
+			if (results.memberList.nextPageLink) then
+				pageLoop(results.memberList.nextPageLink)
+				print("next page", results.memberList.nextPageLink)
+			end
+		else
+			print(link, "failed " .. tostring(code))
+		end
+	end)
+end
+
+pageLoop("https://steamcommunity.com/gid/103582791435280029/memberslistxml/?xml=1&p=1")
+*/
