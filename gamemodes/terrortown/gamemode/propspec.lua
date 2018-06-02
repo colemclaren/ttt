@@ -38,6 +38,7 @@ function PROPSPEC.Target(ply, ent)
     -- normally only specific whitelisted ent classes can be possessed, but
     -- custom ents can mark themselves possessable as well
     if (not ent.AllowPropspec) and (not IsWhitelistedClass(ent:GetClass())) then return end
+    if MOAT_PH or (MG_PH or {}).InProgress then return end
     PROPSPEC.Start(ply, ent)
 end
 
