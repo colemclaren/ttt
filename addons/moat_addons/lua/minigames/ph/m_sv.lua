@@ -244,7 +244,7 @@ function MG_PH.Think()
             if not v.PHScore then v.PHScore = 0 end
             if v.t_prop then
                 p = p + 1
-                v.PHScore = v.PHScore + (v:Health())
+                v.PHScore = v.PHScore + (v:Health()) + 1
             elseif v.t_hunter then
                 h = h + 1
             end 
