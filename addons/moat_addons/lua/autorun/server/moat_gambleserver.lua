@@ -799,20 +799,26 @@ function jackpot_()
     local versus_queue = {}
     function versus_cancel(ply)
         versus_getgame(ply:SteamID64(),function(d)
+            if #d < 1 then 
             versus_queue[ply] = nil
-            if #d < 1 then return end
+            return end
             d = d[1]
             if d.winner or d.other then 
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined the game!")
+                versus_queue[ply] = nil
                 return
             end
             local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. ply:SteamID64().. "';")
             function q:onSuccess()
+                versus_queue[ply] = nil
                 addIC(ply,d.money)
                 versus_curgames[ply:SteamID64()] = nil
                 net.Start("gversus.Cancel")
                 net.WriteString(ply:SteamID64())
                 net.Broadcast()
+            end
+            function q:onError()
+                versus_queue[ply] = nil
             end
             q:start()
         end)
