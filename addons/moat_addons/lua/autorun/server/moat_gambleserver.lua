@@ -796,9 +796,10 @@ function jackpot_()
         end
         q:start()
     end
-
+    local versus_queue = {}
     function versus_cancel(ply)
         versus_getgame(ply:SteamID64(),function(d)
+            versus_queue[ply] = nil
             if #d < 1 then return end
             d = d[1]
             if d.winner or d.other then 
@@ -819,8 +820,10 @@ function jackpot_()
 
     net.Receive("gversus.CancelGame",function(l,ply)
         if (ply.VersCool or 0) > CurTime() then return end
+        if versus_queue[ply] then return end
         ply.VersCool = CurTime() + 2.5
         versus_joins[ply:SteamID64()] = CurTime() + 0.5
+        versus_queue[ply] = true
         versus_cancel(ply)
     end)
 
