@@ -82,7 +82,7 @@ local function TranslateVGUISlot(slot)
 end
 
 
-function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
+function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid, no_internal)
     if (drag.Slot == m_HoveredSlot or INV_SELECT_MODE) then
         return
     end
@@ -122,7 +122,9 @@ function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid)
         net.SendToServer()
     end
 
-    MOAT_INV:SwapSlotItem(islot_d, islot_e)
+    if (not no_internal) then
+        MOAT_INV:SwapSlotItem(islot_d, islot_e)
+    end
 
     if (drag.VGUI.WModel) then
         if (string.EndsWith(drag.VGUI.WModel, ".mdl")) then

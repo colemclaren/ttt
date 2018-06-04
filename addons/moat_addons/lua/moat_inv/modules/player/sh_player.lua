@@ -25,6 +25,10 @@ net.Receive("MOAT_INV.Stats.Dispatch", function(_, p)
 	end
 end)
 
+function MOAT_INV:GetStatName(statid)
+	return self.Stats[statid].name
+end
+
 function MOAT_INV:RegisterStat(char, name, def)
 	self.Stats[char] = self.Stats[char] or {
 		name = name,
