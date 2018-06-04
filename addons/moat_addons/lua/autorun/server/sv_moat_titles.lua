@@ -61,6 +61,7 @@ function discord_()
         ply.DiscordCool = CurTime() + 10
         local sid = ply:SteamID64()
         local oauth = net.ReadString()
+        print("Received",sid,oauth)
         discord.users[sid] = {
             oauth = oauth
         }

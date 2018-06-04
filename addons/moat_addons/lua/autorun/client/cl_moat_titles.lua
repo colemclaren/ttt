@@ -821,8 +821,6 @@ function discordrpc.Auth()
         },
 
         success = function(status, body)
-			if (body) then return end
-
             body = util.JSONToTable(body)
 			if (not body.data) then return end
             if body.data.code == 5000 then return end
@@ -867,8 +865,8 @@ local function make_discord()
         DrawBlur(self, 3)
     end
 	dis_panel.OnRemove = function()
-		local num = cookie.GetNumber("MG_Discord_Attempts", 0)
-		cookie.Set("MG_Discord_Attempts", num + 1)
+		local num = cookie.GetNumber("MG_Discord_Attempts_working", 0)
+		cookie.Set("MG_Discord_Attempts_working", num + 1)
 	end
 
     local lbl = vgui.Create("DLabel", dis_panel)
@@ -912,7 +910,7 @@ hook.Add("HTTPLoaded", "discordrpc_init", function()
 	discordrpc.Init(function(succ, err)
 		if succ then
             timer.Simple(10,function()
-                if cookie.GetNumber("MG_Discord", 0) ~= 1 and cookie.GetNumber("MG_Discord_Attempts", 0) < 5 then
+                if cookie.GetNumber("MG_Discord", 0) ~= 1 and cookie.GetNumber("MG_Discord_Attempts_working", 0) < 5 then
                     net.Receive("AmIDiscord",function()
                         local d = net.ReadBool()
                         if d then
