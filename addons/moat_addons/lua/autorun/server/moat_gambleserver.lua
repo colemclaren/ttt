@@ -755,6 +755,7 @@ util.AddNetworkString("gversus.JoinGame")
 util.AddNetworkString("gversus.Cancel")
 util.AddNetworkString("gversus.CancelGame")
 util.AddNetworkString("gversus.Sync")
+util.AddNetworkString("gversus.FullGame")
 
 
 util.AddNetworkString("jackpot.players")
@@ -805,6 +806,9 @@ function jackpot_()
             d = d[1]
             if d.winner or d.other then 
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined the game!")
+                net.Start("gversus.FullGame")
+                net.WriteString(ply:SteamID64())
+                net.Broadcast()
                 versus_queue[ply] = nil
                 return
             end
@@ -838,11 +842,17 @@ function jackpot_()
             if not IsValid(ply) then return end
             if #d < 1 then 
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player cancelled that game!")
+                net.Start("gversus.Cancel")
+                net.WriteString(sid)
+                net.SendToServer()
                 return 
             end
             d = d[1]
             if d.winner then 
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined that game!")
+                net.Start("gversus.FullGame")
+                net.WriteString(sid)
+                net.Broadcast()
                 return
             end
             if not ply:m_HasIC(d.money) then
@@ -971,7 +981,7 @@ function jackpot_()
             for k,v in pairs(d) do
                 games[v.steamid] = v.money
                 if versus_curgames[v.steamid] then
-                    if (versus_curgames[v.steamid] ~= v.money) then
+                    if (tonumber(versus_curgames[v.steamid]) ~= tonumber(v.money)) and (not v.winner) then
                         net.Start("gversus.CreateGame")
                         net.WriteString(v.steamid)
                         net.WriteFloat(v.money)
@@ -988,7 +998,7 @@ function jackpot_()
                     net.Broadcast()
                 end
                 if not v.winner then continue end
-                if v.winner and ((versus_knowngames[v.steamid] or 0) < CurTime()) and (os.time() - v.time) < 15 then
+                if v.winner and ((versus_knowngames[v.steamid] or 0) < CurTime()) and ((os.time() - v.time) < 15) then
                     versus_knowngames[v.steamid] = CurTime() + versus_wait + 5
                     net.Start("gversus.JoinGame")
                     net.WriteString(v.steamid)
@@ -1003,9 +1013,12 @@ function jackpot_()
                         net.Broadcast()
                         versus_curgames[v.steamid] = nil
                     end)
-                elseif (os.time() - v.time) > 15 then
+                elseif ((os.time() - v.time) > 15) and (v.winner) then
                     local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. v.steamid .. "';")
                     q:start()
+                    net.Start("gversus.Cancel")
+                    net.WriteString(v.steamid)
+                    net.Broadcast()
                 end
             end
             for k,v in pairs(versus_curgames) do

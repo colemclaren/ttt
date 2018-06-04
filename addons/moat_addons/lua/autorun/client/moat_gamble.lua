@@ -3643,6 +3643,12 @@ net.Receive("gversus.CreateGame",function()
 	versusRebuild()
 end)
 
+net.Receive("gversus.FullGame",function()
+	local ply = net.ReadString()
+	if (not gversus_players[ply]) then return end
+	gversus_players[ply]["fullgame"] = true
+end)
+
 net.Receive("gversus.JoinGame",function()
 	local ply = net.ReadString()
 	local j = net.ReadString()
@@ -3943,17 +3949,25 @@ function m_DrawVersusPanel()
 						surface.DrawOutlinedRect(0,0,w,h)
 						draw.SimpleText("CANCEL GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 					else
+						if v["fullgame"] then
+							c = Color(255,0,0)
+						end
 						draw.RoundedBox(0,0,0,w,h,c)
 						surface.SetDrawColor(0,255,0,a * 0.7)
 						surface.DrawOutlinedRect(0,0,w,h)
-						if not self.double then
-							draw.SimpleText("JOIN GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+						if v["fullgame"] then
+							draw.SimpleText("GAME FULL", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 						else
-							draw.SimpleText("CONFIRM JOIN", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+							if not self.double then
+								draw.SimpleText("JOIN GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+							else
+								draw.SimpleText("CONFIRM JOIN", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+							end
 						end
 					end
 				end
 				function join.DoClick()
+					if v["fullgame"] then return end
 					if k == LocalPlayer():SteamID64() then
 						net.Start("gversus.CancelGame")
 						net.SendToServer()
