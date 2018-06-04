@@ -23,6 +23,27 @@ function MOAT_INV:SortTest()
             end
             return v1 > v2
         end)
+
+        local i = 2
+        local last_tier, last_slot
+        local function should_fill(item)
+            local ltier, lslot = last_tier, last_slot
+            last_tier, last_slot = item.tier, item.slot
+            return ltier ~= last_tier or lslot ~= last_slot
+        end
+
+        should_fill(tbl[1])
+        while (tbl[i]) do
+            local item = tbl[i]
+            if (should_fill(item)) then
+                local pos = (i - 1) % 5 + 1
+                for _ = pos, 5 do
+                    table.insert(tbl, i, empty)
+                    i = i + 1
+                end
+            end
+            i = i + 1
+        end
     end
 
     self:SortSlots(sort, function(tbl)
@@ -42,25 +63,26 @@ function MOAT_INV:SortTest()
                 slotwep[i] = item.id
                 needed[item.id] = nil
             end
-            local it = table.Copy(items)
-            for slot, id in pairs(slotwep) do
-                -- since we don't update sql we don't need a callback
-                local from, to = it.c[id], slot
-                if (from == to) then
-                    continue
-                end
-                m_SwapInventorySlots(M_INV_SLOT[from], to, nil, true)
+            self:CreateNewSlots_CompleteRows(#tbl - max, function()
+                local it = table.Copy(items)
+                for slot, id in pairs(slotwep) do
+                    -- since we don't update sql we don't need a callback
+                    local from, to = it.c[id], slot
+                    if (from == to) then
+                        continue
+                    end
+                    m_SwapInventorySlots(M_INV_SLOT[from], to, nil, true)
 
-                local fid, tid = it.s[from], it.s[to]
-                it.s[to], it.s[from] = fid, tid
-                it.c[fid] = to
-                if (tid ~= 0) then
-                    it.c[tid] = from
+                    local fid, tid = it.s[from], it.s[to]
+                    it.s[to], it.s[from] = fid, tid
+                    it.c[fid] = to
+                    if (tid ~= 0) then
+                        it.c[tid] = from
+                    end
                 end
-            end
-            self:MassSwapInventory(slotwep, function()
-                -- internals updated, modify memes
-                print "done"
+                self:MassSwapInventory(slotwep, function()
+                    print "done"
+                end)
             end)
         end)
     end)

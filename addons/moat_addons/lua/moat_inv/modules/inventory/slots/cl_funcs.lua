@@ -249,7 +249,7 @@ function MOAT_INV:SortSlots(sort, callback)
 
 			table.insert(sorting_table, friendly)
 		end
-		local empty = setmetatable({}, {__newindex = {}, __index  = {c = 0}})
+		local empty = setmetatable({}, {__newindex = {}, __index  = {id = 0}})
 		sort(sorting_table, empty)
 
 		callback(sorting_table)
@@ -320,17 +320,17 @@ end
 MOAT_INV.ColumnCount = 5
 
 function MOAT_INV:CreateNewSlots_CompleteRows(num, fn)
-	self:GetOurSlots(function(max)
+	return self:GetOurSlots(function(max)
 		local needed = math.ceil((max + num) / 5) * 5 - max
 		for i = 1, needed do
 			self:CreateNewSlot()
 		end
-		fn()
+		return fn()
 	end)
 end
 
 function MOAT_INV:CreateNewSlot()
-	self:GetOurSlots(function(max, cache)
+	return self:GetOurSlots(function(max, cache)
 		local new = max + 1
 		self:ClearSlotItem(num)
 		self.CachedSlots[1] = math.max(max, new)
