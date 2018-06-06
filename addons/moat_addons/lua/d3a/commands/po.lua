@@ -26,7 +26,7 @@ COMMAND.Run = function(pl, args, supp)
 		if ((Bans.Current and Bans.Current.staff_name) or Bans.Past[1] or Bans.Removed[1]) then
 			bans_found = true
 		end
-		print(pl:IsValid())
+
 		if (not bans_found) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, "This user has no previous bans on record.") 
 		elseif pl:IsValid() then
