@@ -15,6 +15,6 @@ COMMAND.Run = function(pl, args, supp)
 	elseif (not ret) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Ran Lua: ", moat_white, da_lua)
 	else
-		D3A.Chat.SendToPlayer2(pl, moat_red, "Lua returned var: ", moat_white, ret)
+		D3A.Chat.SendToPlayer2(pl, moat_red, "Lua returned var: ", moat_white, tostring(ret))
 	end
 end
