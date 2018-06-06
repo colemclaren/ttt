@@ -41,6 +41,7 @@ function MOAT_RCON:ProcessCommand(d)
 	if (d.steamid and d.steamid:StartWith("STEAM_0")) then d.args[1] = d.steamid end
 
 	local admin = MOAT_RCON.Player(d.staff_name, d.staff_steamid, d.staff_rank, d.id)
+	if d.command == "po2" then d.command = "po" end
 	D3A.Commands.Parse(admin, d.command, d.args or {})
 
 	self.RanCommands[d.id] = true
