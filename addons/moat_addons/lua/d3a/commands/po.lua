@@ -91,7 +91,9 @@ COMMAND.Run = function(pl, args, supp)
 			pl:PrintMessage(HUD_PRINTCONSOLE, "End of Past Offences")
 			pl:PrintMessage(HUD_PRINTCONSOLE, "---------------------------")
 		else
-			local s = ""
+			D3A.Chat.SendToPlayer2(pl, moat_red, "Check #staff-logs")
+
+			local s = (pl.Nick and pl:Nick() or "CONSOLE") .. " (" .. (pl.SteamID and pl:SteamID() or "CONSOLE") .. ") got past offences for " .. sid ..":\n```"
 			s = s .. ("---------------------------\n")
 			s = s .. ("Past Offences for: " .. sid .. "\n")
 			s = s .. ("---------------------------\n")
@@ -149,8 +151,8 @@ COMMAND.Run = function(pl, args, supp)
 
 			s = s .. ( "---------------------------\n")
 			s = s ..( "End of Past Offences\n")
-			s = s .. ("---------------------------\n")
-			D3A.Chat.SendToPlayer2(pl, moat_red, s)
+			s = s .. ("---------------------------```")
+			SVDiscordRelay.SendToDiscordRaw("PO Bot",false,s,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
 		end
 	end)
 end
