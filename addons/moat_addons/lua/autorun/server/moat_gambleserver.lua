@@ -872,6 +872,7 @@ function jackpot_()
             net.WriteString(sid)
             net.WriteString(ply:SteamID64())
             net.Broadcast()
+            local orig_loss = d.money * -1
             local am = d.money * 2
             if am > 50 then am = math.floor(am * 0.99) end
             timer.Simple(versus_wait,function()
@@ -880,6 +881,11 @@ function jackpot_()
                 net.WriteString(winner)
                 net.Broadcast()
                 versus_curgames[sid] = nil
+                local other = plyz
+                if other == winner then other = sid end
+                if orig_loss > 0 then orig_loss = orig_loss * -1 end -- just incase (?)
+                local q = db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(other) .. "','" .. tostring(orig_loss) .. "');")
+                q:start()
                 for k,v in ipairs(player.GetAll()) do
                     if winner == v:SteamID64() then
                         addIC(v,am)
@@ -964,8 +970,13 @@ function jackpot_()
 				if (not MOAT_INVS[v] or not MOAT_INVS[v]["credits"]) then return end
 				
                 for i,o in pairs(d) do
-                    addIC(v,o.money)
-                    m_AddGambleChatPlayer(v, Color(0, 255, 0), "You won " .. string.Comma(o.money) .. " IC in versus!")
+                    o.money = tonumber(o.money)
+                    if o.money > 0 then
+                        addIC(v,o.money)
+                        m_AddGambleChatPlayer(v, Color(0, 255, 0), "You won " .. string.Comma(o.money) .. " IC in versus!")
+                    else
+                        m_AddGambleChatPlayer(v, Color(255, 0, 0), "You lost your " .. string.Comma(o.money * -1) .. " IC versus!")
+                    end
                 end
                 local b = db:query("DELETE FROM moat_vswinners WHERE steamid = '" .. v:SteamID64() .. "';")
                 b:start()
