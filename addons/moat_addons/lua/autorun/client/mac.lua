@@ -88,7 +88,7 @@ g.rawset(_G.debug, "setupvalue", function() end)
 g.rawset(_G, "RunStringEx", function() end)
 //g.rawset(_G, "CompileString", function() end)
 g.rawset(_G, "CompileFile", function() end)
-g.rawset(_G, "rawset", function() end)
+//g.rawset(_G, "rawset", function() end)
 //g.rawset(_G, "rawget", function() end)
 
 local function hashfunc(func)

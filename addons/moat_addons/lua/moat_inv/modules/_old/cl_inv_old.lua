@@ -873,14 +873,37 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
 end
 
+local insurance = {}
+
+function insurance:__newindex(k, v)
+    assert(type(v) ~= "nil", "value is nil")
+
+    if (isnumber(k)) then
+        for i = 1, k - 1 do
+        print(i, self[i])
+            if (not self[i]) then
+                rawset(self, i, {})
+            end
+        print(i, self[i])
+        end
+        self.len = math.max(k, self.len)
+    end
+
+    rawset(self, k, v)
+end
+
 function CreateSlots(num)
-    local tbl = {}
+    local tbl = {len = num}
+
     for i = 1, num do
         tbl[i] = {}
     end
 
+    setmetatable(tbl, insurance)
+
     return tbl
 end
+
 
 m_Inventory = m_Inventory or CreateSlots(40)
 m_Loadout = m_Loadout or CreateSlots(10)
@@ -1054,11 +1077,6 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
             end
         end)
         i = i + 1
-    end
-    for k = 1, i - 1 do
-        if (not m_Inventory[k]) then
-            m_Inventory[k] = {}
-        end
     end
 end)
 net.Receive("MOAT_ITEM_INFO", function(len)
@@ -2204,10 +2222,9 @@ function m_OpenInventory(ply2, utrade)
         CAT_BAR.new_cat = cat
     end
 
-
-    function m_CreateInvSlot(num)
+    local function m_CreateInvSlotInternal(num)
         local m_ItemExists = false
-        print(num)
+
         if (m_Inventory[num].c) then
             m_ItemExists = true
         end
@@ -2248,7 +2265,7 @@ function m_OpenInventory(ply2, utrade)
             surface_SetDrawColor(50, 50, 50, hover_coloral)
             surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
-            if (not m_Inventory[num]) then print(num, "none") return end
+            if (not m_Inventory[num]) then return end
 
             if (m_Inventory[num].c) then
                 surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
@@ -2502,6 +2519,19 @@ function m_OpenInventory(ply2, utrade)
         tbl.Slot = num
         tbl.Panel = m_DPanel
         M_INV_SLOT[num] = tbl
+    end
+
+    function m_CreateInvSlot(num)
+        num = math.ceil(num / 5) * 5
+
+        for i = #M_INV_SLOT + 1, num do
+            if (not m_Inventory[i]) then
+                m_Inventory[i] = {}
+            end
+            if (not M_INV_SLOT[i]) then
+                m_CreateInvSlotInternal(i)
+            end
+        end
     end
 
     local function m_HandleLayoutSpacing(remove)
