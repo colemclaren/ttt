@@ -1,7 +1,9 @@
 mlogs = mlogs or {
 	cfg = {},
 	Version = "MDL",
-	Folder = "mlogs"
+	Folder = "mlogs",
+	Database = "moat_logs",
+	ip = GetConVarString("ip") .. ":" .. GetConVarString("hostport")
 }
 
 mlogs.IncludeSV = (SERVER) and include or function() end
@@ -10,6 +12,7 @@ mlogs.IncludeSH = function(path) mlogs.IncludeSV(path) mlogs.IncludeCL(path) end
 
 mlogs.IncludeSH "util.lua"
 mlogs.IncludeSH(mlogs.Folder .. "/config/config.lua")
+mlogs.IncludeSH(mlogs.Folder .. "/shared/net.lua")
 
 mlogs.Print "\nmlogs loading files.\n"
 
@@ -35,6 +38,8 @@ end
 mlogs.Print "parsing shared files"
 Files, Folders = file.Find(mlogs.Folder .. "/shared/*.lua", "LUA")
 for k, v in ipairs(Files) do
+	if (v == "sql_mysqloo.lua") then continue end
+
 	mlogs.Print(" | " .. v)
 	mlogs.IncludeSH(mlogs.Folder .. "/shared/" .. v)
 end
