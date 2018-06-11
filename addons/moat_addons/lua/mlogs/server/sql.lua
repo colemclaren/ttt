@@ -1,4 +1,12 @@
-local ORM = include "sql_mysqloo.lua" -- ill change this to include inv2 one once it's on this branch
+local ORM = include "mysql/sql_mysqloo.lua"
+
+function mlogs:query(str, succ, err)
+	str = str:Replace("{database}", self.Database)
+
+    mlogs.sql:Query(str, succ, err or function(q, er)
+		mlogs:Print("Query Error: " .. tostring(er) .. " | With Query: " .. tostring(str))
+    end)
+end
 
 function mlogs:q(str, ...)
     local args = {n = select("#", ...), ...}
@@ -8,15 +16,18 @@ function mlogs:q(str, ...)
 		args.n = args.n - (err and 2 or 1)
 	end
 
-    mlogs.sql:Query(self.sql:CreateQuery(str:Replace("{database}", self.Database), unpack(args, 1, args.n)), succ, err or function(er)
-		mlogs.Print("Query Error: " .. er .. " | With Query: " .. str)
-    end)
+	str = self.sql:CreateQuery(str, unpack(args, 1, args.n))
+    self:query(str, succ, err)
+end
+
+function mlogs:qq(str, succ, err)
+	self:query(str, false, false)
 end
 
 mlogs:hook("SQLConnected", function(db)
 	mlogs.sql = ORM(db)
-	hook.Run("mlogs.sql")
-	mlogs.Print "established connection to sql"
+	hook.Run("mlogs.sql", mlogs)
+	mlogs:Print "established connection to sql"
 end)
 
 
@@ -48,7 +59,7 @@ CREATE TABLE moat_logs.mlogs_servers (
 DROP TABLE IF EXISTS moat_logs.mlogs_maps;
 CREATE TABLE moat_logs.mlogs_maps (
 	mid smallint unsigned not null AUTO_INCREMENT,
-	map varchar(50) not null,
+	map varchar(50) not null unique,
 	PRIMARY KEY (mid)
 );
 
@@ -56,15 +67,17 @@ DROP TABLE IF EXISTS moat_logs.mlogs_weapons;
 CREATE TABLE moat_logs.mlogs_weapons (
     wid smallint unsigned not null AUTO_INCREMENT,
 	class varchar(32) not null unique,
-	name varchar(255) not null unique,
+	name varchar(255) default null,
     PRIMARY KEY (wid)
 );
 
 DROP TABLE IF EXISTS moat_logs.mlogs_hooks;
 CREATE TABLE moat_logs.mlogs_hooks (
 	hid tinyint unsigned not null AUTO_INCREMENT,
-	hook_name varchar(16) not null unique,
+	hook_name varchar(32) not null unique,
+	hook_type varchar(6) not null,
 	hook_display varchar(255) not null,
+	hook_keys tinyint unsigned not null,
 	PRIMARY KEY(hid)
 );
 
@@ -108,6 +121,7 @@ CREATE TABLE moat_logs.mlogs_events_damage (
 	attacker_id int unsigned not null,
 	victim_id int unsigned not null,
 	weapon_id smallint unsigned not null,
+	damage smallint unsigned not null,
 	CONSTRAINT FOREIGN KEY (events_id) REFERENCES moat_logs.mlogs_events(eid) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (attacker_id) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (victim_id) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
@@ -125,6 +139,29 @@ CREATE TABLE moat_logs.mlogs_events_shots (
 	CONSTRAINT FOREIGN KEY (events_id) REFERENCES moat_logs.mlogs_events(eid) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (player_id) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (weapon_id) REFERENCES moat_logs.mlogs_weapons(wid) ON DELETE CASCADE,
+	PRIMARY KEY (events_id)
+);
+
+DROP TABLE IF EXISTS moat_logs.mlogs_events_player;
+CREATE TABLE moat_logs.mlogs_events_player (
+	events_id bigint unsigned not null,
+	player_id int unsigned not null,
+	player_val varchar(255) default null,
+	CONSTRAINT FOREIGN KEY (events_id) REFERENCES moat_logs.mlogs_events(eid) ON DELETE CASCADE,
+	CONSTRAINT FOREIGN KEY (player_id) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
+	PRIMARY KEY (events_id)
+);
+
+DROP TABLE IF EXISTS moat_logs.mlogs_events_players;
+CREATE TABLE moat_logs.mlogs_events_players (
+	events_id bigint unsigned not null,
+	player_id1 int unsigned not null,
+	player_id2 int unsigned not null,
+	player_val1 varchar(255) default null,
+	player_val2 varchar(255) default null,
+	CONSTRAINT FOREIGN KEY (events_id) REFERENCES moat_logs.mlogs_events(eid) ON DELETE CASCADE,
+	CONSTRAINT FOREIGN KEY (player_id1) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
+	CONSTRAINT FOREIGN KEY (player_id2) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
 	PRIMARY KEY (events_id)
 );
 
@@ -228,7 +265,7 @@ BEGIN
 		INSERT IGNORE INTO moat_logs.mlogs_players (steam_id, name) VALUES (steamid64, nick) ON DUPLICATE KEY UPDATE name = VALUES(name);
 	end if;
 
-	SELECT p.pid as player_id, s.slay_id, s.staff_id, si.name as staff_name, s.amount, s.served, s.reason, s.date 
+	SELECT p.pid as player_id, s.slay_id, s.staff_id, si.name as staff_name, CAST(si.steam_id AS char) as staff_steamid, s.amount, s.served, s.reason, UNIX_TIMESTAMP(s.date) as slay_date
 	FROM moat_logs.mlogs_players as p 
     	LEFT JOIN moat_logs.mlogs_autoslays as s
         	ON s.player_id = p.pid 
@@ -242,7 +279,7 @@ DROP PROCEDURE IF EXISTS moat_logs.GetAutoSlays;
 DELIMITER $$
 CREATE PROCEDURE moat_logs.GetAutoSlays(in playerid int) 
 BEGIN
-	SELECT s.slay_id, s.player_id, pi.name as player_name, s.staff_id, si.name as staff_name, s.amount, s.served, s.reason, s.date 
+	SELECT s.slay_id, s.player_id, pi.name as player_name, s.staff_id, si.name as staff_name, CAST(si.steam_id AS char) as staff_steamid, s.amount, s.served, s.reason, UNIX_TIMESTAMP(s.date) as slay_date
 	FROM moat_logs.mlogs_autoslays as s 
     	LEFT JOIN moat_logs.mlogs_players as pi 
         	ON s.player_id = pi.pid 
