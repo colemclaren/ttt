@@ -174,6 +174,10 @@ local function moat_BeginRoundBossHooks()
 			MOAT_BOSS_CUR = chosen
 		end
 
+		net.Start("MOAT_BEGIN_BOSS")
+        net.WriteEntity(MOAT_BOSS_CUR)
+        net.Broadcast()
+
         if (MOAT_DEATHCLAW_WPN) then
             for k , v in pairs(ents.GetAll()) do
                 if (IsValid(v) and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
@@ -231,10 +235,6 @@ local function moat_BeginRoundBossHooks()
 				end
 			end)
         end
-
-        net.Start("MOAT_BEGIN_BOSS")
-        net.WriteEntity(boss)
-        net.Broadcast()
 
         timer.Simple(1, function()
             MuteForRestart(true)
