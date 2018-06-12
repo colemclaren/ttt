@@ -189,6 +189,8 @@ function MG_OC.DoEnding()
     end
 
     timer.Simple(20, function()
+		if (MOAT_MINIGAMES.CantEnd()) then return end
+
         for k, v in pairs(MG_OC.Hooks) do
             hook.Remove(v[1], v[2])
         end

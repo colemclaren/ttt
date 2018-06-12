@@ -4,6 +4,9 @@ MOAT_MINIGAME_OCCURING = false
 MOAT_MINIGAMES.Print = function(s)
 	MsgC(Color(0, 0, 0), "[", Color(255, 0, 0), "Moat Minigames", Color(0, 0, 0), "]", Color(0, 255, 255), s, "\n" )
 end
+MOAT_MINIGAMES.CantEnd = function()
+	return (GetRoundState() == ROUND_PREP)
+end
 MOAT_MINIGAMES.AddMinigame = function(pname, dir, cmd, chance, desc)
 	if (SERVER) then
 		AddCSLuaFile(dir .. "m_cl.lua")

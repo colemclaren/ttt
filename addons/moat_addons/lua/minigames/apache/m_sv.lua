@@ -21,6 +21,8 @@ function m_GetActiveBoss()
 end
 
 local function moat_EndRoundBossHooks()
+	if (MOAT_MINIGAMES.CantEnd()) then return end
+
     -- Remove our hooks
     hook.Remove("TTTBeginRound", "moat_BossBeginRound")
     hook.Remove("EntityTakeDamage", "moat_BossSaveDamage")
@@ -30,6 +32,7 @@ local function moat_EndRoundBossHooks()
     hook.Remove("TTTKarmaGivePenalty", "moat_BossPreventKarmaLoss")
     hook.Remove("MoatInventoryShouldGiveLoadout", "moat_BossPreventLoadout")
     hook.Remove("PlayerDisconnected", "moat_BossDisconnect")
+	hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
 
     MOAT_ACTIVE_BOSS = false
     MOAT_BOSS_CUR_PLY = nil
@@ -337,6 +340,10 @@ local function moat_BeginRoundBossHooks()
     hook.Add("TTTKarmaGivePenalty", "moat_BossPreventKarmaLoss", function(ply, penalty, vic)
         return true
     end)
+
+	hook.Add("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents", function(att, vic)
+		return att:GetRole() == vic:GetRole()
+	end)
 
     hook.Add("PostPlayerDeath", "moat_BossDeath", moat_BossPlayerDeath)
 end

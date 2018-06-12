@@ -37,6 +37,8 @@ function MG_PH.RemoveHooks()
 end
 
 function MG_PH:DoEnding(force)
+	if (MOAT_MINIGAMES.CantEnd()) then return end
+
     for k,v in ipairs(player.GetAll()) do
         if v.ph_prop && v.ph_prop:IsValid() then
             v.ph_prop:Remove()

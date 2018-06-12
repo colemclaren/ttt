@@ -48,6 +48,8 @@ SWEP.IsSilent = true
 -- Pull out faster than standard guns
 SWEP.DeploySpeed = 2
 
+SWEP.AllowDrop = false
+
 function SWEP:PrimaryAttack()
    self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
    self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )

@@ -62,6 +62,8 @@ function MG_LAVA.RemoveHooks()
 end
 
 function MG_LAVA:DoEnding(force)
+	if (MOAT_MINIGAMES.CantEnd()) then return end
+
     MG_LAVA.RemoveHooks()
     MG_LAVA.ResetVars()
     MG_LAVA.HandleDamageLogStuff(true)

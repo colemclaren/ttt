@@ -40,6 +40,8 @@ function MG_FFA.RemoveHooks()
 end
 
 function MG_FFA:DoEnding(force)
+	if (MOAT_MINIGAMES.CantEnd()) then return end
+
     MG_FFA.RemoveHooks()
     MG_FFA.ResetVars()
     MG_FFA.HandleDamageLogStuff(true)

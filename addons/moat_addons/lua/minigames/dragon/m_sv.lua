@@ -21,6 +21,8 @@ function m_GetActiveBoss()
 end
 
 local function moat_EndRoundBossHooks()
+	if (MOAT_MINIGAMES.CantEnd()) then return end
+
     -- Remove our hooks
     hook.Remove("TTTBeginRound", "moat_BossBeginRound")
     hook.Remove("EntityTakeDamage", "moat_BossSaveDamage")

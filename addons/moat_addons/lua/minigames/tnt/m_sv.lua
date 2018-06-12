@@ -36,6 +36,8 @@ function MG_TNT.RemoveHooks()
 end
 
 function MG_TNT:DoEnding(force)
+	if (MOAT_MINIGAMES.CantEnd()) then return end
+
     MG_TNT.RemoveHooks()
     MG_TNT.ResetVars()
     MG_TNT.HandleDamageLogStuff(true)

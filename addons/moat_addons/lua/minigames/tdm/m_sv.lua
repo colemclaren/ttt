@@ -176,6 +176,8 @@ function MG_TDM.RemoveHooks()
 end
 
 function MG_TDM:DoEnding(force)
+	if (MOAT_MINIGAMES.CantEnd()) then return end
+
     MG_TDM.RemoveHooks()
     MG_TDM.ResetVars()
     MG_TDM.HandleDamageLogStuff(true)

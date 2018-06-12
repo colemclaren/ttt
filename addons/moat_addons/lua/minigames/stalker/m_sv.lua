@@ -18,6 +18,8 @@ local DefaultLoadout = {
 }
 
 local function moat_EndRoundBossHooks()
+	if (MOAT_MINIGAMES.CantEnd()) then return end
+
     if (MOAT_BOSS_CUR and MOAT_BOSS_CUR:IsValid()) then
         MOAT_BOSS_CUR:SetColor(Color(255, 255, 255, 255))
         MOAT_BOSS_CUR:DrawShadow(true)
@@ -40,6 +42,7 @@ local function moat_EndRoundBossHooks()
     hook.Remove("Think", "moat_JetpackVelocity")
     hook.Remove("PlayerDisconnected", "moat_BossDisconnect")
 	hook.Remove("PlayerFootstep", "moat_ScreenShake")
+	hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
     
     MOAT_ACTIVE_BOSS = false
     MOAT_BOSS_CUR = nil
@@ -170,9 +173,13 @@ local function moat_BeginRoundBossHooks()
 			MOAT_BOSS_CUR = chosen
 		end
 
+        net.Start("MOAT_BEGIN_STALKER")
+        net.WriteEntity(MOAT_BOSS_CUR)
+        net.Broadcast()
+
         if (MOAT_DEATHCLAW_WPN) then
             for k , v in pairs(ents.GetAll()) do
-                if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
+                if (IsValid(v) and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                     v:Remove()
                 end
             end
@@ -185,7 +192,7 @@ local function moat_BeginRoundBossHooks()
         end
 		boss:SetCredits(0)
 
-        timer.Simple(boss.JustSpawned and 2 or 0, function()
+        timer.Simple(3, function()
             local hp = (#pls) * MOAT_BOSS_HP_MULTIPLIER
             boss:SetModel(MOAT_BOSS_MODEL)
             boss:SetHealth(hp)
@@ -245,10 +252,6 @@ local function moat_BeginRoundBossHooks()
 				end
 			end)
         end
-
-        net.Start("MOAT_BEGIN_STALKER")
-        net.WriteEntity(boss)
-        net.Broadcast()
 
         timer.Simple(1, function()
             MuteForRestart(true)
@@ -387,6 +390,10 @@ local function moat_BeginRoundBossHooks()
             return true
         end
     end)
+
+	hook.Add("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents", function(att, vic)
+		return att:GetRole() == vic:GetRole()
+	end)
 
 	hook.Add("PostPlayerDeath", "moat_BossDeath", moat_BossPlayerDeath)
 end

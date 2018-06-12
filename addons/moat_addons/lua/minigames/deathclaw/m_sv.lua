@@ -16,6 +16,8 @@ local DefaultLoadout = {
 }
 
 local function moat_EndRoundBossHooks()
+	if (MOAT_MINIGAMES.CantEnd()) then return end
+
     -- Remove our hooks
     hook.Remove("TTTBeginRound", "moat_BossBeginRound")
     hook.Remove("EntityTakeDamage", "moat_BossSaveDamage")
@@ -26,6 +28,7 @@ local function moat_EndRoundBossHooks()
     hook.Remove("MoatInventoryShouldGiveLoadout", "moat_BossPreventLoadout")
     hook.Remove("PlayerDisconnected", "moat_BossDisconnect")
 	hook.Remove("PlayerFootstep", "moat_ScreenShake")
+	hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
 
     MOAT_ACTIVE_BOSS = false
     MOAT_BOSS_CUR = nil
@@ -173,7 +176,7 @@ local function moat_BeginRoundBossHooks()
 
         if (MOAT_DEATHCLAW_WPN) then
             for k , v in pairs(ents.GetAll()) do
-                if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
+                if (IsValid(v) and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                     v:Remove()
                 end
             end
@@ -186,10 +189,10 @@ local function moat_BeginRoundBossHooks()
         end
 		boss:SetCredits(0)
 
-        timer.Simple(boss.JustSpawned and 2 or 0, function()
+        timer.Simple(3, function()
             local hp = (#pls) * MOAT_BOSS_HP_MULTIPLIER
             boss:SetModel(MOAT_BOSS_MODEL)
-            boss:SetModelScale(2, 2)
+            boss:SetModelScale(2, 1)
             boss:SetHealth(hp)
             boss:SetMaxHealth(hp)
             boss:GodDisable()
@@ -365,6 +368,10 @@ local function moat_BeginRoundBossHooks()
     hook.Add("TTTKarmaGivePenalty", "moat_BossPreventKarmaLoss", function(ply, penalty, vic)
         return true
     end)
+
+	hook.Add("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents", function(att, vic)
+		return att:GetRole() == vic:GetRole()
+	end)
 
     hook.Add("PostPlayerDeath", "moat_BossDeath", moat_BossPlayerDeath)
 end

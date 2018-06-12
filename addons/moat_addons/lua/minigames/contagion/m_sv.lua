@@ -170,6 +170,8 @@ function MG_CG.DoEnding(survivors_win)
     MG_CG.Infected = {}
 
     timer.Simple(20, function()
+		if (MOAT_MINIGAMES.CantEnd()) then return end
+
         for k, v in pairs(MG_CG.Hooks) do
             hook.Remove(v[1], v[2])
         end
@@ -476,6 +478,9 @@ function MG_CG.PrepRound()
     MG_CG.HookAdd("EntityTakeDamage", "MG_CG_ETG", MG_CG.StopFallDamage)
     MG_CG.HookAdd("Think", "MG_CG_TIMELEFTUPDATE", MG_CG.TimeLeftUpdate)
     MG_CG.HookAdd("Think", "MG_CG_INFECTEDCHECK", MG_CG.InfectedCheck)
+	MG_CG.HookAdd("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents", function(att, vic)
+		return att:GetRole() == vic:GetRole()
+	end)
 
     for k, v in pairs(player.GetAll()) do
         if (v:IsValid() and v:Team() ~= TEAM_SPEC) then

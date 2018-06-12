@@ -171,11 +171,13 @@ hook.Add("PlayerDeath", "moat_ApplyDeathTalents", function(vic, inf, att)
 end)
 
 function m_ApplyTalentsToWeaponDuringDamage(dmginfo, victim, attacker, talent_tbl)
+	if (hook.Run("m_ShouldPreventWeaponHitTalent", attacker, victim)) then return end
+
     local talent_enum = talent_tbl.e
     local talent_mods = talent_tbl.m or {}
     local talent_servertbl = m_GetTalentFromEnumWithFunctions(talent_enum)
 
-    if (talent_servertbl.OnPlayerHit and not hook.Run("m_ShouldPreventWeaponHitTalent", attacker, victim)) then
+    if (talent_servertbl.OnPlayerHit) then
         talent_servertbl:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
     end
 end
@@ -194,6 +196,8 @@ hook.Add("EntityTakeDamage", "moat_ApplyDamageMods", function(ent, dmginfo)
     if (not ent:IsValid() or not ent:IsPlayer()) then return end
     local attacker = dmginfo:GetAttacker()
     if (not attacker:IsValid() or not attacker:IsPlayer() or not dmginfo:IsBulletDamage()) then return end
+	if (dmginfo:GetDamage() < 1 or GetRoundState() == ROUND_PREP) then return end
+
     local weapon_tbl = attacker:GetActiveWeapon()
     if (not weapon_tbl.Talents) then return end
     local weapon_lvl = weapon_tbl.level
