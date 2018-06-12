@@ -1011,7 +1011,7 @@ function jackpot_()
         end
     end)
     timer.Create("Versus.Rewards",20,0,function()
-		local pls, str = 0, "SELECT ID, steamid, money FROM moat_vswinners WHERE steamid = '"
+		/*local pls, str = 0, "SELECT ID, steamid, money FROM moat_vswinners WHERE steamid = '"
 		for k, v in ipairs(player.GetAll()) do
 			if (not v:SteamID64()) then continue end -- bots gay
 			if (versus_suspense[v:SteamID64()] or 0) > CurTime() then continue end
@@ -1047,7 +1047,7 @@ function jackpot_()
 			b:start()
 		end
 
-		rq:start()
+		rq:start()*/
 
 		/*
         for k,v in ipairs(player.GetAll()) do
