@@ -46,3 +46,26 @@ end
 mlogs:hook("mlogs.sql", function(s)
 	s:getweps()
 end)
+
+function mlogs.WeaponClassID(c)
+	return mlogs.weps[c]
+end
+
+function mlogs.WeaponID(w)
+	if (not IsValid(w)) then return false end
+	w = w:GetClass()
+	return mlogs.weps[w]
+end
+
+function mlogs.WepFromID(wid, cb)
+	if (mlogs.weps[wid]) then
+		cb(mlogs.weps[wid])
+		return
+	end
+
+	mlogs:q("SELECT class FROM {database}.mlogs_weapons WHERE wid = ?;", wid, function(r)
+		if (not r or not r[1]) then r = {[1] = {class = "Unknown Weapon"}} end
+		mlogs.weps[wid] = r[1].class
+		cb(r[1].class)
+	end)
+end

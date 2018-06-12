@@ -1,3 +1,17 @@
+MLOG_DAMAGE 		= 0
+MLOG_OTHER 			= 1
+MLOG_SHOTS 			= 2
+MLOG_PLAYER 		= 3
+MLOG_PLAYERS 		= 4
+MLOG_WITNESS 		= 5
+
+
+MLOGS_WITNESS 		= 0
+MLOGS_SWITCH_TO 	= 1
+MLOGS_SWITCH_FROM	= 2
+MLOGS_FIRE			= 3
+
+/*
 local e = {}
 e.EVENT_PLY_WITNESS 	= 0
 e.EVENT_PLY_SWITCH 		= 1
@@ -54,4 +68,4 @@ e.EVENT_PLY_HANG		= 39
 e.EVENT_PLY_THROW		= 40
 
 
-mlogs.eventids = e
+mlogs.eventids = e*/

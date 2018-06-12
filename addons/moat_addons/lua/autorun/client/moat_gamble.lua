@@ -937,10 +937,17 @@ end
 local bomb_sounds = {
     ["win"] = "https://moat.gg/assets/sounds/sweeper_win.mp3",
     ["boom"] = "https://moat.gg/assets/sounds/sweeper_boom.mp3",
-    ["end"] = "https://moat.gg/assets/sounds/sweeper_end.mp3"
+    ["end"] = "https://moat.gg/assets/sounds/sweeper_end.mp3",
+	["versus_win"] = "https://moat.gg/assets/sounds/moat_versus_win.mp3",
+	[1] = "https://moat.gg/assets/sounds/moat_pop1.mp3",
+	[2] = "https://moat.gg/assets/sounds/moat_pop2.mp3",
 }
 
 local function PlayMinesSound(var)
+    sound.PlayURL(bomb_sounds[var], "mono", function(s) if (IsValid(s)) then s:Play() end end)
+end
+
+local function PlayVersusSound(var)
     sound.PlayURL(bomb_sounds[var], "mono", function(s) if (IsValid(s)) then s:Play() end end)
 end
 
@@ -3671,6 +3678,15 @@ net.Receive("gversus.FinishGame",function()
 
 	local plyid, plynick, otherid, othernick = ply, "John Doe", gversus_players[ply][1], "John Doe"
 
+	if (IsValid(LocalPlayer())) then
+		local lid = LocalPlayer():SteamID64()
+		if (lid == win) then
+			PlayVersusSound "versus_win"
+		elseif (lid == ply) then
+			PlayVersusSound "end"
+		end
+	end
+
 	GetSteamName(ply, function(n) plynick = n
 		if (not gversus_players[ply]) then return end
 		GetSteamName(gversus_players[ply][1], function(on) othernick = on
@@ -3751,7 +3767,7 @@ function m_DrawVersusPanel()
 		draw.SimpleText("GAME AMOUNT:", "moat_GambleTitle", 10, 20, Color(255,255,255),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 		surface.SetDrawColor(86, 86, 86)
 		surface.DrawLine(0,h-20,w,h-20)
-		draw.DrawText("Versus is cross-server! There are 11 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
+		draw.DrawText("Versus is cross-server! There are 14 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
     end
 	local game_panel = vgui.Create("DPanel",MOAT_GAMBLE_VS)
 	game_panel:SetSize(495,407)
@@ -3984,16 +4000,24 @@ function m_DrawVersusPanel()
 				winner:DockMargin(0,3,20,3)
 				winner:SetSize(46,40)
 				winner:Dock(RIGHT)
-				winner:SetSteamID(k,64)
+				--winner:SetSteamID(k,64)
 				gversus_players[k][5] = winner
 				local sh, sid = true, k
 				timer.Create("versus_winner:" .. sid,0.25,0,function()
-					if (not (IsValid(winner) and gversus_players[k] and gversus_players[k][1])) or (gversus_players[k][4]) then
+					if (not (IsValid(winner) and gversus_players[k] and gversus_players[k][1])) then
+						timer.Remove("versus_winner:" .. sid)
+						return
+					end
+
+					if (gversus_players[k][4]) then
+						winner:SetSteamID(gversus_players[k][4], 64)
+						winner.setwinner = true
 						timer.Remove("versus_winner:" .. sid)
 						return
 					end
 
 					winner:SetSteamID(sh and v[1] or k, 64)
+					PlayVersusSound(sh and 1 or 2)
 					sh = not sh
 				end)
 			end
@@ -4163,10 +4187,13 @@ function m_DrawVersusPanel()
 		return false
 	end
 	MOAT_DICE_BET.OnEnter = function(s)
-		if (s:GetText() == "") then s:SetText("0") end
-		
-		MOAT_GAMBLE.VersusAmount = math.max(math.Round(tonumber(s:GetText() or 0), 2), 1)
-		print(math.Round(tonumber(s:GetText() or 0), 2))
+		local num = s:GetText()
+		if (s:GetText() == "") then s:SetText("0") num = 0 end
+		num = tonumber(num) or 0
+		num = math.max(math.Round(num, 2), 1)
+
+		MOAT_GAMBLE.VersusAmount = num
+		print(num)
 	end
 	MOAT_DICE_BET.OnLoseFocus = function(s)
 		s:OnEnter()
@@ -4230,19 +4257,24 @@ function m_RemoveGamblePanel()
 	end)
 end
 
+
+local function safeChatStr(str)
+	return str:Replace("\n", "n")
+end
 function m_AddGambleChatMessage(...)
 	if (not IsValid(MOAT_GAMBLE_CHAT)) then return end
-	local args = {...}
-
 	MOAT_GAMBLE_CHAT:AppendText("\n")
 
-	for i = 1, #args do
+	local args = {n = select("#", ...), ...}
+	for i = 1, args.n do
 		if (IsColor(args[i])) then
 			MOAT_GAMBLE_CHAT:InsertColorChange(args[i].r, args[i].g, args[i].b, 255)
 		elseif (isstring(args[i])) then
-    		MOAT_GAMBLE_CHAT:AppendText(args[i])
+    		MOAT_GAMBLE_CHAT:AppendText(safeChatStr(args[i]))
     	end
 	end
+
+	MOAT_GAMBLE_CHAT:InsertColorChange(255, 255, 255, 255)
 end
 
 net.Receive("MOAT_GAMBLE_CHAT", function(len)
@@ -4269,7 +4301,7 @@ net.Receive("MOAT_GAMBLE_GLOBAL",function()
 	if #MOAT_GAMBLE.GlobalTable >= 250 then
 		table.remove(MOAT_GAMBLE.GlobalTable, 1)
 	end
-	local tbl = {Color(100,100,100,100),"[",time,"] ",Color(0,255,0),name,Color(255,255,255),": ",msg}
+	local tbl = {Color(100,100,100),"[",time,"] ",Color(0,255,0),name,Color(255,255,255),": ",msg}
 
 	table.insert(MOAT_GAMBLE.GlobalTable,tbl)
 

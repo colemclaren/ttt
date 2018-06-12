@@ -4,7 +4,13 @@ util.AddNetworkString("Moat.GlobalAnnouncement")
 util.AddNetworkString("Moat.JackpotWin")
 util.AddNetworkString("Moat.PlanetaryDrop")
 util.AddNetworkString("Moat.LotteryChat")
-local MOAT_GAMBLE_CATS = {{"Mines", Color(150, 0, 255)}, {"Roulette", Color(255, 0, 50)}, {"Crash", Color(255, 255, 0)}, {"Jackpot", Color(0, 255, 0)}, {"Versus", Color(0, 255, 255)}}
+local MOAT_GAMBLE_CATS = {
+	{"Mines", Color(150, 0, 255)}, 
+	{"Roulette", Color(255, 0, 50)}, 
+	{"Crash", Color(255, 255, 0)}, 
+	{"Jackpot", Color(0, 255, 0)}, 
+	{"Versus", Color(0, 255, 255)}
+}
 
 local function DiscordGamble(msg)
     SVDiscordRelay.SendToDiscordRaw("Gamble Log",false,msg,"https://discordapp.com/api/webhooks/393120753593221130/bPZTXCj5fjQgHJCOKDPbUj4Btq5EtqkZSKV-ewwaLwESwZEEc7fBHBWuIbe8np2FG8Jn")
@@ -84,7 +90,14 @@ function m_GambleRollDice(ply, amt, bet, under)
         ply:m_GiveIC(won_amt)
         local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
-    m_AddGambleChat(Color(255,255,255),"[",room[2],room[1]:sub(1,1):upper(),Color(255,255,255),"]",Color(0, 150, 0), "+" .. won_amt .. " ", Color(180, 180, 180), ply:Nick())
+    	m_AddGambleChat(
+			Color(255,255,255), "[",
+			room[2], room[1][1],
+			Color(255,255,255), "]",
+			Color(0, 150, 0), "+" .. won_amt .. " ",
+			Color(180, 180, 180), ply:Nick()
+		)
+
         if (won_amt > 2000) then
             moat_rigged[ply:SteamID()] = math.Round(won_amt/amt) + 1
         end
@@ -92,7 +105,13 @@ function m_GambleRollDice(ply, amt, bet, under)
         ply:m_TakeIC(math.Round(amt, 2))
         local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
-    m_AddGambleChat(Color(255,255,255),"[",room[2],room[1]:sub(1,1):upper(),Color(255,255,255),"]",Color(150, 0, 0), "-" .. amt .. " ", Color(180, 180, 180), ply:Nick())
+    	m_AddGambleChat(
+			Color(255,255,255), "[",
+			room[2], room[1][1],
+			Color(255,255,255), "]",
+			Color(150, 0, 0), "-" .. amt .. " ", 
+			Color(180, 180, 180), ply:Nick()
+		)
     end
 
     net.Start("MOAT_GAMBLE_DICE")
@@ -149,7 +168,13 @@ function m_GambleBlackjackDraw(ply)
 
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
-    m_AddGambleChat(Color(255,255,255),"[",room[2],room[1]:sub(1,1):upper(),Color(255,255,255),"]",Color(150, 150, 0), "+-" .. amt .. " ", Color(180, 180, 180), ply:Nick())
+    m_AddGambleChat(
+		Color(255,255,255), "[",
+		room[2], room[1][1],
+		Color(255,255,255), "]",
+		Color(150, 150, 0), "+-" .. amt .. " ", 
+		Color(180, 180, 180), ply:Nick()
+	)
 
     net.Start("MOAT_GAMBLE_BLACKOVER")
     net.WriteUInt(3, 2)
@@ -168,7 +193,13 @@ function m_GambleBlackjackWon(ply, blackjack)
     ply:m_GiveIC(won_amt)
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
-    m_AddGambleChat(Color(255,255,255),"[",room[2],room[1]:sub(1,1):upper(),Color(255,255,255),"]",Color(0, 150, 0), "+" .. won_amt .. " ", Color(180, 180, 180), ply:Nick())
+    m_AddGambleChat(
+		Color(255,255,255), "[",
+		room[2], room[1][1], 
+		Color(255,255,255), "]",
+		Color(0, 150, 0), "+" .. won_amt .. " ", 
+		Color(180, 180, 180), ply:Nick()
+	)
 
     net.Start("MOAT_GAMBLE_BLACKOVER")
     net.WriteUInt(2, 2)
@@ -290,7 +321,13 @@ function m_GambleNewBlackjack(ply, amt)
     ply:m_TakeIC(amt)
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
-    m_AddGambleChat(Color(255,255,255),"[",room[2],room[1]:sub(1,1):upper(),Color(255,255,255),"]",Color(150, 0, 0), "-" .. amt .. " ", Color(180, 180, 180), ply:Nick())
+    m_AddGambleChat(
+		Color(255,255,255), "[",
+		room[2], room[1][1],
+		Color(255,255,255), "]",
+		Color(150, 0, 0), "-" .. amt .. " ", 
+		Color(180, 180, 180), ply:Nick()
+	)
 
     m_GambleBlackjackNewCard(ply, false)
     timer.Simple(0.5, function()
@@ -364,7 +401,13 @@ net.Receive("MOAT_GAMBLE_NEW_CHAT", function(len, ply)
     local text = net.ReadString()
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
-    m_AddGambleChat(Color(255,255,255),"[",room[2],room[1]:sub(1,1):upper(),Color(255,255,255),"]", Color(0, 255, 0), ply:Nick(), Color(255, 255, 255), ": " .. text:Trim())
+    m_AddGambleChat(
+		Color(255,255,255), "[",
+		room[2], room[1][1],
+		Color(255,255,255),"]", 
+		Color(0, 255, 0), ply:Nick(), 
+		Color(255, 255, 255), ": " .. text:Trim()
+	)
 end)
 
 
@@ -390,14 +433,26 @@ local function addIC(ply,amount)
     ply:m_GiveIC(round(amount))
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
-    m_AddGambleChat(Color(255,255,255),"[",room[2],room[1]:sub(1,1):upper(),Color(255,255,255),"]",Color(0, 150, 0), "+" .. round(amount) .. " ", Color(180, 180, 180), ply:Nick())
+    m_AddGambleChat(
+		Color(255,255,255), "[",
+		room[2], room[1][1],
+		Color(255,255,255), "]",
+		Color(0, 150, 0), "+" .. round(amount) .. " ", 
+		Color(180, 180, 180), ply:Nick()
+	)
 end
 
 local function removeIC(ply,amount)
     ply:m_TakeIC(round(amount))
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
-    m_AddGambleChat(Color(255,255,255),"[",room[2],room[1]:sub(1,1):upper(),Color(255,255,255),"]",Color(150, 0, 0), "-" .. round(amount) .. " ", Color(180, 180, 180), ply:Nick())
+    m_AddGambleChat(
+		Color(255,255,255), "[",
+		room[2], room[1][1],
+		Color(255,255,255), "]",
+		Color(150, 0, 0), "-" .. round(amount) .. " ", 
+		Color(180, 180, 180), ply:Nick()
+	)
 end
 
 local roulette_spinterval = 20 -- How many seconds between spins
@@ -791,7 +846,7 @@ function jackpot_()
     end
 
     function versus_getgames(fun)
-        local q = db:query("SELECT * FROM moat_versus;")
+        local q = db:query("SELECT *, UNIX_TIMESTAMP() AS curtime FROM moat_versus;")
         function q:onSuccess(d)
             fun(d)
         end
@@ -841,7 +896,7 @@ function jackpot_()
         versus_getgame(sid,function(d)
             if not IsValid(ply) then return end
             if #d < 1 then 
-                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player cancelled that game!")
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player canceled that game!")
                 net.Start("gversus.Cancel")
                 net.WriteString(sid)
                 net.SendToServer()
@@ -865,7 +920,7 @@ function jackpot_()
                 winner = sid
             end	
             local plyz = ply:SteamID64()
-            local q = db:query("UPDATE moat_versus SET winner = '" .. db:escape(winner) .. "', other = '" .. plyz .. "', time = '" .. os.time() .. "' WHERE steamid = '" .. db:escape(sid) .. "';")
+            local q = db:query("UPDATE moat_versus SET winner = '" .. db:escape(winner) .. "', other = '" .. plyz .. "', time = UNIX_TIMESTAMP() WHERE steamid = '" .. db:escape(sid) .. "';")
             q:start()
             versus_knowngames[sid] = CurTime() + versus_wait + 5
             net.Start("gversus.JoinGame")
@@ -889,6 +944,7 @@ function jackpot_()
                 local q = db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');")
                 q:start()
             end)
+
             timer.Simple(versus_wait - 2,function()
                 if am < 100 then return end
                 local other = plyz
@@ -955,6 +1011,45 @@ function jackpot_()
         end
     end)
     timer.Create("Versus.Rewards",20,0,function()
+		local pls, str = 0, "SELECT ID, steamid, money FROM moat_vswinners WHERE steamid = '"
+		for k, v in ipairs(player.GetAll()) do
+			if (not v:SteamID64()) then continue end -- bots gay
+			if (versus_suspense[v:SteamID64()] or 0) > CurTime() then continue end
+			if (pls > 0) then str = str .. " OR steamid = '" end
+
+			str = str .. v:SteamID64() .. "'"
+			pls = pls + 1
+		end
+
+		if (pls == 0) then return end
+		str = str .. ";"
+
+		local rq = db:query(str)
+		function rq:onSuccess(d)
+			if (not d or not d[1]) then return end
+			local bq = ""
+
+			for i = 1, #d do
+				local v = player.GetBySteamID64(d[i].steamid)
+				if (not IsValid(v)) then continue end
+				if (not MOAT_INVS[v] or not MOAT_INVS[v]["credits"]) then continue end
+				d[i].money = tonumber(d[i].money)
+
+				addIC(v, d[i].money)
+				m_AddGambleChatPlayer(v, Color(0, 255, 0), "You won " .. string.Comma(o.money) .. " IC in versus!")
+
+				bq = bq .. "DELETE FROM moat_vswinners WHERE ID = " .. d[i].ID .. ";"
+			end
+
+			if (bq == "") then return end
+
+			local b = db:query(bq)
+			b:start()
+		end
+
+		rq:start()
+
+		/*
         for k,v in ipairs(player.GetAll()) do
             if (versus_suspense[v:SteamID64()] or 0) > CurTime() then continue end
             local q = db:query("SELECT * FROM moat_vswinners WHERE steamid = '" .. v:SteamID64() .. "';")
@@ -973,7 +1068,9 @@ function jackpot_()
             end
             q:start()
         end
+		*/
     end)
+
     timer.Create("Versus.Watchdog",10,0,function()
         if GG_DISABLE:GetBool() then return false end
         if not GetHostName():lower():match("moat") then return end
@@ -999,7 +1096,7 @@ function jackpot_()
                     net.Broadcast()
                 end
                 if not v.winner then continue end
-                if v.winner and ((versus_knowngames[v.steamid] or 0) < CurTime()) and ((os.time() - v.time) < 15) then
+                if v.winner and ((versus_knowngames[v.steamid] or 0) < CurTime()) and ((v.curtime - v.time) < 15) then
                     versus_knowngames[v.steamid] = CurTime() + versus_wait + 5
                     net.Start("gversus.JoinGame")
                     net.WriteString(v.steamid)
@@ -1014,7 +1111,7 @@ function jackpot_()
                         net.Broadcast()
                         versus_curgames[v.steamid] = nil
                     end)
-                elseif ((os.time() - v.time) > 15) and (v.winner) then
+                elseif ((v.curtime - v.time) > 15) and (v.winner) then
                     local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. v.steamid .. "';")
                     q:start()
                     net.Start("gversus.Cancel")
@@ -1245,7 +1342,13 @@ function jackpot_()
                     vp:m_GiveIC(v.money)
                     player_found = true
                     local room = MOAT_GAMBLE_CATS[vp.MoatGambleCat or 1]
-                    m_AddGambleChat(Color(255,255,255),"[",room[2],room[1]:sub(1,1):upper(),Color(255,255,255),"]",Color(0, 150, 0),"+" .. math.Round(v.money) .. " ",Color(180, 180, 180), vp:Nick())
+                    m_AddGambleChat(
+						Color(255,255,255), "[", 
+						room[2], room[1][1],
+						Color(255,255,255),"]",
+						Color(0, 150, 0),"+" .. math.Round(v.money) .. " ",
+						Color(180, 180, 180), vp:Nick()
+					)
                     
                     local b = db:query("DELETE FROM moat_jpwinners WHERE steamid = '" .. v.steamid .. "';")
                     b:start()

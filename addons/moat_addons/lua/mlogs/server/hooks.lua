@@ -22,6 +22,7 @@ end
 
 mlogs:hook("TTTBeginRound", function()
 	mlogs.HookQuery = ""
+	mlogs.round.start()
 
 	hook.Run("mlogs.begin", mlogs)
 	mlogs.hookplayers("begin")
@@ -48,6 +49,7 @@ end)
 
 mlogs:hook("TTTEndRound", function(r)
 	mlogs.HookQuery = ""
+	mlogs.round.stop()
 
 	hook.Run("mlogs.end", r, mlogs)
 	mlogs.hookplayers("end", r)

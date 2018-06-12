@@ -1,5 +1,14 @@
 local ORM = include "mysql/sql_mysqloo.lua"
 
+function mlogs:LastInsertID()
+    return "LAST_INSERT_ID()" --mlogs.sql:Function("LAST_INSERT_ID")
+end
+
+function mlogs:qf(str, ...)
+	local args = {n = select("#", ...), ...}
+	return self.sql:CreateQuery(str, unpack(args, 1, args.n))
+end
+
 function mlogs:query(str, succ, err)
 	str = str:Replace("{database}", self.Database)
 
