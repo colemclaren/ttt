@@ -87,6 +87,7 @@ end
 local rarity_to_placing = {[1] = math.random(5,6), [2] = 5, [3] = 4, [4] = 4, [5] = 4}
 
 local function moat_BossPlayerDeath(ply)
+	if (not MOAT_ACTIVE_BOSS) then return end
 	if (MOAT_ROUND_OVER or GetRoundState() ~= ROUND_ACTIVE) then return end
 	local IS_BOSS, ALIVE = false, GetAlivePlayers()
 	if (type(ply) == "string" and ply == "boss") then
