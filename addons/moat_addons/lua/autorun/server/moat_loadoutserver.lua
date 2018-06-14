@@ -45,9 +45,13 @@ function MOAT_LOADOUT.ResetPowerupAbilities(ply)
     
     ply:SetJumpPower(160)
     ply.JumpHeight = 160
-    ply:SetMaxHealth(100)
-    ply.MaxHealth = 100
-    ply:SetHealth(100)
+	local max = 100
+	if (os.time() < 1529046000) then max = 150 end -- June 15th, 2018 12:00 AM PST
+
+    ply:SetMaxHealth(max)
+    ply.MaxHealth = max
+    ply:SetHealth(max)
+
     ply.ExtraXP = 1
 end
 
