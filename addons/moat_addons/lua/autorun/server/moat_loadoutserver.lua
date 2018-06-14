@@ -46,7 +46,18 @@ function MOAT_LOADOUT.ResetPowerupAbilities(ply)
     ply:SetJumpPower(160)
     ply.JumpHeight = 160
 	local max = 100
-	if (os.time() < 1529046000) then max = 150 end -- June 15th, 2018 12:00 AM PST
+	if (os.time() < 1529046000) then
+		D3A.Chat.SendToPlayer2(ply, 
+		Color(255, 0, 255), "[Head's up!]", 
+		Color(255, 255, 255), " Base health is ", 
+		Color(0, 255, 0), "150", 
+		Color(255, 255, 255), " for ", 
+		Color(0, 255, 255), "today only", 
+		Color(255, 255, 255), "!", 
+		Color(255, 255, 0), " (testing ends in " .. D3A.FormatTime(1529046000) .. ")")
+
+		max = 150 
+	end -- June 15th, 2018 12:00 AM PST
 
     ply:SetMaxHealth(max)
     ply.MaxHealth = max
