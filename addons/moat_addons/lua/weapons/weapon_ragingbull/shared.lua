@@ -116,6 +116,7 @@ SWEP.Primary.Cone = 0.02
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.ClipMax = 36
 SWEP.Primary.DefaultClip = 8
+SWEP.HeadshotMultiplier = 3
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "AlyxGun"
 SWEP.AutoSpawnable = false
