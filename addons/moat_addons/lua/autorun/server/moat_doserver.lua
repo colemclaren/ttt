@@ -91,7 +91,11 @@ hook.Add("PlayerDeath", "AutoBanRDM", function(vic, inf, att)
     if (MOAT_MINIGAME_OCCURING) then return end
     if (inf.Avoidable or not IsValid(att) or not att:IsPlayer() or att == vic) then return end
     if (GetRoundState() ~= ROUND_ACTIVE) then return end
-    if (att:GetRole() == vic:GetRole()) then
+	local roles = {[ROLE_DETECTIVE] = 1, [ROLE_INNOCENT] = 1, [ROLE_TRAITOR] = 2}
+	local attr = roles[att:GetRole()]
+	local vicr = roles[vic:GetRole()]
+
+    if ((attr and vicr and attr == vicr) or (att:GetRole() == vic:GetRole())) then
         if (not pl_kills[att:SteamID()]) then pl_kills[att:SteamID()] = 0 end
         pl_kills[att:SteamID()] = pl_kills[att:SteamID()] + 1
 
@@ -101,8 +105,8 @@ hook.Add("PlayerDeath", "AutoBanRDM", function(vic, inf, att)
             att:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color(255, 100, 100), "WARNING: You will be banned from the server if you kill 2 more teammates!")]])
         elseif (pl_kills[att:SteamID()] == 4) then
             att:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color(255, 100, 100), "WARNING: You will be banned from the server if you kill 1 more teammates!")]])
-        elseif (pl_kills[att:SteamID()] >= 5) then
-            RunConsoleCommand("mga", "ban", att:SteamID(), "60", "minutes", "Automated Ban: Too Many Teammate Kills!")
+        elseif (pl_kills[att:SteamID()] >= max_kills) then
+            RunConsoleCommand("mga", "ban", att:SteamID(), "240", "minutes", "Too Many Teammate Kills! [Automated]")
         end
     end
 end)
