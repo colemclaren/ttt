@@ -32,7 +32,7 @@ SWEP.Primary.DefaultClip = 20
 SWEP.Primary.Sound = Sound("Weapon_SG550.Single")
 SWEP.Secondary.Delay = 0.3
 SWEP.Secondary.Sound = Sound("Default.Zoom")
-SWEP.HeadshotMultiplier = 4
+SWEP.HeadshotMultiplier = 5
 
 --[[Model settings]]--
 SWEP.HoldType = "ar2"

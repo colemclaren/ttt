@@ -717,7 +717,7 @@ SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 12 -- keep mirrored to ammo
 SWEP.Primary.DefaultClip = 6
 
-SWEP.HeadshotMultiplier = 4
+SWEP.HeadshotMultiplier = 5
 
 SWEP.AutoSpawnable      = false
 SWEP.AmmoEnt = "item_ammo_357_ttt"

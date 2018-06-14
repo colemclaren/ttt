@@ -32,7 +32,7 @@ SWEP.Primary.Recoil				= 7
 SWEP.AmmoEnt 					= "item_ammo_revolver_ttt"
 SWEP.Primary.Automatic			= false		-- Automatic = true; Semi Auto = false
 SWEP.Primary.Ammo			= "AlyxGun"
-SWEP.HeadshotMultiplier 	= 4
+SWEP.HeadshotMultiplier 	= 5
 SWEP.AutoSpawnable 		= true
 
 SWEP.Secondary.IronFOV			= 38		-- How much you 'zoom' in. Less is more! 	

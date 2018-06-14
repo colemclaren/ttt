@@ -45,7 +45,7 @@ SWEP.ViewModelFOV		= 54
 SWEP.ViewModel			= "models/weapons/cstrike/c_smg_ump45.mdl"
 SWEP.WorldModel			= "models/weapons/w_smg_ump45.mdl"
 
-SWEP.HeadshotMultiplier = 4.5 -- brain fizz
+SWEP.HeadshotMultiplier = 5 -- brain fizz
 
 SWEP.IronSightsPos = Vector(-8.735, -10, 4.039)
 SWEP.IronSightsAng = Vector(-1.201, -0.201, -2)
