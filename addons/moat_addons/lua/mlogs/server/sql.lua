@@ -185,11 +185,62 @@ CREATE TABLE moat_logs.mlogs_events_other (
 
 DROP TABLE IF EXISTS moat_logs.mlogs_events_witness;
 CREATE TABLE moat_logs.mlogs_events_witness (
-    events_id bigint unsigned not null,
+	events_id bigint unsigned not null,
 	player_ids varbinary(32) not null,
 	CONSTRAINT FOREIGN KEY (events_id) REFERENCES moat_logs.mlogs_events(eid) ON DELETE CASCADE,
     PRIMARY KEY (events_id)
 );
+
+
+DROP TABLE IF EXISTS moat_logs.mlogs_event;
+CREATE TABLE moat_logs.mlogs_event (
+	eid bigint unsigned not null AUTO_INCREMENT,
+    round_id bigint unsigned not null,
+	round_time int unsigned not null,
+	hook_id tinyint unsigned not null,
+	player_id1 int unsigned default null,
+	player_id2 int unsigned default null,
+	weapon_id1 smallint unsigned default null,
+	weapon_id2 smallint unsigned default null,
+	num_info int unsigned default null,
+	str_info varchar(255) default null,
+	CONSTRAINT FOREIGN KEY (round_id) REFERENCES moat_logs.mlogs_rounds(rid) ON DELETE CASCADE,
+	CONSTRAINT FOREIGN KEY (hook_id) REFERENCES moat_logs.mlogs_hooks(hid) ON DELETE CASCADE,
+	FOREIGN KEY (player_id1) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
+	FOREIGN KEY (player_id2) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
+	FOREIGN KEY (weapon_id1) REFERENCES moat_logs.mlogs_weapons(wid) ON DELETE CASCADE,
+	FOREIGN KEY (weapon_id2) REFERENCES moat_logs.mlogs_weapons(wid) ON DELETE CASCADE,
+	PRIMARY KEY (eid), INDEX(round_id)
+);
+
+DROP TABLE IF EXISTS moat_logs.mlogs_event;
+CREATE TABLE moat_logs.mlogs_event (
+	eid bigint unsigned not null AUTO_INCREMENT,
+    round_id bigint unsigned not null,
+	round_time int unsigned not null,
+	event_id tinyint unsigned not null,
+	player_id1 int unsigned default null,
+	player_id2 int unsigned default null,
+	weapon_id smallint unsigned default null,
+	num_info int unsigned default null,
+	str_info varchar(255) default null,
+	CONSTRAINT FOREIGN KEY (round_id) REFERENCES moat_logs.mlogs_rounds(rid) ON DELETE CASCADE,
+	FOREIGN KEY (player_id1) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
+	FOREIGN KEY (player_id2) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
+	FOREIGN KEY (weapon_id) REFERENCES moat_logs.mlogs_weapons(wid) ON DELETE CASCADE,
+	PRIMARY KEY (eid), INDEX(round_id)
+);
+
+DROP TABLE IF EXISTS moat_logs.mlogs_event_witness;
+CREATE TABLE moat_logs.mlogs_event_witness (
+	event_id bigint unsigned not null,
+	player_id int unsigned not null,
+	CONSTRAINT FOREIGN KEY (event_id) REFERENCES moat_logs.mlogs_event(eid) ON DELETE CASCADE,
+	CONSTRAINT FOREIGN KEY (player_id) REFERENCES moat_logs.mlogs_players(pid) ON DELETE CASCADE,
+	PRIMARY KEY(event_id, player_id), INDEX(event_id)
+);
+
+
 
 DROP TABLE IF EXISTS moat_logs.mlogs_roles;
 CREATE TABLE moat_logs.mlogs_roles (
@@ -277,10 +328,10 @@ BEGIN
 	SELECT p.pid as player_id, s.slay_id, s.staff_id, si.name as staff_name, CAST(si.steam_id AS char) as staff_steamid, s.amount, s.served, s.reason, UNIX_TIMESTAMP(s.date) as slay_date
 	FROM moat_logs.mlogs_players as p 
     	LEFT JOIN moat_logs.mlogs_autoslays as s
-        	ON s.player_id = p.pid 
+        	ON s.player_id = p.pid AND amount > served 
     	LEFT JOIN moat_logs.mlogs_players as si
         	ON si.pid = s.staff_id 
-    	WHERE p.steam_id = steamid64 AND amount > served GROUP BY slay_id;
+    	WHERE p.steam_id = steamid64 GROUP BY slay_id;
 END; $$
 DELIMITER ;
 
@@ -291,10 +342,10 @@ BEGIN
 	SELECT s.slay_id, s.player_id, pi.name as player_name, s.staff_id, si.name as staff_name, CAST(si.steam_id AS char) as staff_steamid, s.amount, s.served, s.reason, UNIX_TIMESTAMP(s.date) as slay_date
 	FROM moat_logs.mlogs_autoslays as s 
     	LEFT JOIN moat_logs.mlogs_players as pi 
-        	ON s.player_id = pi.pid 
+        	ON s.player_id = pi.pid AND amount > served 
     	LEFT JOIN moat_logs.mlogs_players as si 
         	ON s.staff_id = si.pid 
-    	WHERE s.player_id = playerid AND amount > served GROUP BY slay_id;
+    	WHERE s.player_id = playerid GROUP BY slay_id;
 END; $$
 DELIMITER ;
 

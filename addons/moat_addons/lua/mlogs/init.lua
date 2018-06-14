@@ -51,9 +51,3 @@ mlogs:Print "parsing shared files"
 mlogs.IncludeFolder "shared"
 
 mlogs:PrintH "mlogs loaded core files"
-
-mlogs:hook("mlogs.init", function(s)
-	mlogs:PrintH "mlogs loading event files"
-	s.loadevents()
-	mlogs:PrintH "mlogs loaded event files"
-end)

@@ -96,6 +96,20 @@ function mlogs.DontSlay()
 	return (MOAT_MINIGAME_OCCURING)
 end
 
+function mlogs.GetRoles()
+	local pls, roles, n = player.GetAll(), {}, 0
+
+	for i = 1, #pls do
+		if (not IsValid(pls[i])) then continue end
+		if (pls[i]:Team() == TEAM_SPEC) then continue end
+
+		n = n + 1
+		roles[n] = {mlogs.PlayerID(pls[i]), pls[i]:GetRole() or 0}
+	end
+
+	return n, roles
+end
+
 function mlogs.FormatNameID(name, steamid)
 	return tostring(name or "???") .. " (" .. (util.SteamIDFrom64(tostring(steamid)) or "???") .. ")"
 end

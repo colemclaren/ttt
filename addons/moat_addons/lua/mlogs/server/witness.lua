@@ -18,17 +18,17 @@ end
 
 function mlogs.GetWitnesses(pos)
 	if (mlogs.AlivePlayers.num == 0) then return end
-	if (mlogs.DontLog) then return end
+	if (mlogs.DontLog()) then return end
 
-	local t = ""
+	local t, n = {}, 0
 	for i = 1, mlogs.AlivePlayers.num do
 		if (not IsValid(mlogs.AlivePlayers[i])) then continue end
 		if (mlogs.AlivePlayers[i]:Team() == TEAM_SPEC) then continue end
-		if (mlogs.PlayerCantSee(mlogs.AlivePlayers[i]:GetPos(), pos)) then continue end
-
-		t = t .. (mlogs.AlivePlayers[i]:PlayerID() or "") .. " "
+		if (mlogs.PlayerCantSee(mlogs.AlivePlayers[i]:EyePos(), pos)) then continue end
+		n = n + 1
+		t[n] = mlogs.PlayerID(mlogs.AlivePlayers[i])
 	end
-	if (t == "") then t = false end
+	if (n == 0) then t = false end
 
-	return t
+	return t, n
 end

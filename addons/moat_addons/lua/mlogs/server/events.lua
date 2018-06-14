@@ -1,13 +1,76 @@
 mlogs.log = mlogs.log or {}
-MLOG_DAMAGE 		= 0
-MLOG_OTHER 			= 1
-MLOG_SHOTS 			= 2
-MLOG_PLAYER 		= 3
-MLOG_PLAYERS 		= 4
-MLOG_WITNESS 		= 5
+mlogs.logtype = {}
 
+function mlogs.log.event(id, info, witness_pos)
+	assert(mlogs.EventExists(id), "tried to log nil event")
+	
+	Msg("\n\n")
+	print(id)
+	PrintTable(info)
+	print(witness_pos)
+	Msg("\n\n")
+
+	local qstr, tbl, args = "INSERT INTO {database}.mlogs_event (round_id, round_time, event_id", {}, 3
+	tbl[1] = mlogs.roundid
+	tbl[2] = mlogs.time
+	tbl[3] = id
+
+	if (info.player_id1) then
+		qstr = qstr .. ", player_id1"
+		args = args + 1
+		tbl[args] = info.player_id1
+	end
+
+	if (info.player_id2) then
+		qstr = qstr .. ", player_id2"
+		args = args + 1
+		tbl[args] = info.player_id2
+	end
+
+	if (info.weapon_id) then
+		qstr = qstr .. ", weapon_id"
+		args = args + 1
+		tbl[args] = info.weapon_id
+	end
+
+	if (info.num_info) then
+		qstr = qstr .. ", num_info"
+		args = args + 1
+		tbl[args] = info.num_info
+	end
+
+	if (info.str_info) then
+		qstr = qstr .. ", str_info"
+		args = args + 1
+		tbl[args] = info.str_info
+	end
+
+	qstr = qstr .. ") VALUES (?, ?, ?"
+
+	if (args > 3) then
+		qstr = qstr .. string.rep(", ?", args - 3)
+	end
+
+	qstr = qstr .. ");"
+	qstr = mlogs:qf(qstr, tbl)
+
+	--local qstr = mlogs:qf("INSERT INTO {database}.mlogs_event (round_id, round_time, event_id, player_id1, weapon_id) VALUES (?, ?, ?, ?, ?);", mlogs.roundid, mlogs.time, id, info[1], info[2])
+
+	if (witness_pos) then
+		local w, wn = mlogs.GetWitnesses(witness_pos)
+		if (w) then
+			local ws = "INSERT INTO {database}.mlogs_event_witness VALUES " .. string.rep("(LAST_INSERT_ID(), ?)", wn, ",") .. ";"
+			qstr = qstr .. mlogs:qf(ws, w)
+		end
+	end
+
+	mlogs.log_str = mlogs.log_str .. qstr
+end
+
+
+/*
 local eq = "INSERT INTO {database}.mlogs_events (round_id, round_time, hook_id) VALUES (?, ?, ?);"
-mlogs.event.logtype[MLOG_PLAYER] = function(id, args, witness)
+mlogs.logtype[MLOG_PLAYER] = function(id, args, witness)
 	local qstr = mlogs:qf(eq, mlogs.roundid, mlogs.time, id)
 	qstr = qstr .. mlogs:qf("INSERT INTO {database}.mlogs_events_player (events_id, player_id, player_val) VALUES (LAST_INSERT_ID(), ?, ?);", args[1], args[2])
 
@@ -16,6 +79,10 @@ mlogs.event.logtype[MLOG_PLAYER] = function(id, args, witness)
 	end
 
 	mlogs:qq(qstr)
+end
+
+function mlogs.event.logme(id, args, witness)
+	-- gay
 end
 
 function mlogs.event.log(id, info, witness_pos)
@@ -32,7 +99,7 @@ end
 function mlogs.log.time()
 
 end
-
+*/
 
 
 /*

@@ -1,7 +1,12 @@
 mlogs.events = mlogs.events or {}
+
+function mlogs.events.hook(name, cb)
+	hook.Remove(name, "mlogs.events")
+	hook.Add(name, "mlogs.events", cb)
+end
+
 function mlogs.events.register(id, info)
 	assert(id, "mlogs event1")
-	assert(mlogs.events.stored[id] ~= nil, "mlogs event2")
 
 	local e = {}
 	e.id = id
@@ -21,12 +26,16 @@ end
 function mlogs:loadevents()
 	mlogs.events.stored = mlogs.events.stored or {}
 
-	local _, types = file.Find(mlogs.Folder .. "/events/", "LUA")
+	mlogs.IncludeSH "/events/sh_events.lua"
+	mlogs.IncludeFolderSV "events/hooks"
+	/*
+	local _, types = file.Find(mlogs.Folder .. "/events/*", "LUA")
 	for k, v in ipairs(types) do
 		mlogs.mytype = v
-		mlogs.IncludeFolder("events/" .. v .. "/")
+		mlogs.IncludeFolder("events/" .. v)
 		mlogs.mytype = "nil"
 	end
+	*/
 end
 
 mlogs:hook("mlogs.init", function(s)
@@ -35,7 +44,11 @@ mlogs:hook("mlogs.init", function(s)
 	mlogs:PrintH "mlogs loaded event files"
 end)
 
-
+concommand.Add("_reloadevents", function()
+	mlogs:PrintH "mlogs loading event files"
+	mlogs:loadevents()
+	mlogs:PrintH "mlogs loaded event files"
+end)
 
 function mlogs.GetEvent(id)
 	return mlogs.events.stored[id]

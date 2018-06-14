@@ -1,4 +1,4 @@
-local me = "dmg"
+/*local me = "dmg"
 
 mlogs.events.register(mlogs.eventids.EVENT_PLY_HURT, {
 	name = "Damaged Player",
@@ -14,4 +14,4 @@ mlogs.events.register(mlogs.eventids.EVENT_PLY_HURT_TEAM, {
 	display = mlogs.str.DamagedPlayer,
 	log = mlogs.enums.LOG_DAMAGE,
 	witness = true
-})
+})*/
