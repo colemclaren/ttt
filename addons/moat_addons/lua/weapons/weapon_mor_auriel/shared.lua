@@ -17,7 +17,7 @@ SWEP.ViewModelFlip	= true
 SWEP.ViewModel      = "models/morrowind/ariel/longbow/v_ariel_longbow.mdl"
 SWEP.WorldModel   = "models/morrowind/ariel/longbow/w_ariel_longbow.mdl"
 
-SWEP.Primary.Damage		= 100
+SWEP.Primary.Damage		= 150
 SWEP.Primary.Velocity 		= 3000
 
 SWEP.Primary.ClipSize = 5
