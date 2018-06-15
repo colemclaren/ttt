@@ -15,25 +15,6 @@ local cur_max = 0
 local playersjoined = {}
 local math_Clamp = math.Clamp
 
-local function raise_cur()
-    cur_max = math_Clamp(cur_max + 1, 0, max)
-end
-
-local function lower_cur()
-    cur_max = math_Clamp(cur_max - 1, 0, max)
-end
-
-hook.Add("PlayerAuthed","ReservedSlotsAuthed",function(ply)
-    if not playersjoined[ply:SteamID64()] then
-        raise_cur()
-    end
-end)
-
-gameevent.Listen("player_disconnect")
-hook.Add("player_disconnect","ReservedSlotsDisconnect",function()
-    lower_cur()
-end)
-
 local staff_slots = {}
 staff_slots["moderator"] = true
 staff_slots["trialstaff"] = true
@@ -44,7 +25,8 @@ staff_slots["communitylead"] = true
 
 
 function D3A.Player.CheckReserved(steamid, rank)
-	if (cur_max < max) then return end
+	local cnt = player.GetCount() + 1
+	if (cnt < max) then return end
 	if (staff_slots[rank]) then return end
 	local pls = player.GetAll()
 	local staff_found = false
@@ -88,12 +70,9 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	end -- only need to return cause they get kicked anyways if they're still joining
 
 	--players_connecting[SteamID] = CurTime() + 1
-	local SteamID32 = util.SteamIDFrom64(SteamID)	
-
-    raise_cur()
-    playersjoined[SteamID] = true
 	players_connecting[SteamID] = {}
 	players_connecting[SteamID][1] = 0
+
 	-- Check if banned
 	D3A.Bans.IsBanned(SteamID32, function(isbanned, data)
 		if isbanned then
@@ -143,12 +122,12 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 					local t2 = util.JSONToTable(t)
 					if (t2) then
 						local lvl = t2.l
-						if (lvl and tonumber(lvl) >= 15) then return end
+						if (lvl and tonumber(lvl) >= 10) then return end
 					end
 				end
 			end
 			players_connecting[SteamID][5] = true
-			game.KickID(SteamID32, "This is the Moat.GG Terror City server. You must be at least level 15 to join, as it's a bit more advanced than regular TTT. Please join one of our regular servers, sorry!")
+			game.KickID(SteamID32, "This is the Moat.GG Terror City server. You must be at least level 10 to join, as it's a bit more advanced than regular TTT. Please join one of our regular servers, sorry!")
 		end)
 	end
 

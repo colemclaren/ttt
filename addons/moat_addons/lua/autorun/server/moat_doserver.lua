@@ -96,17 +96,23 @@ hook.Add("PlayerDeath", "AutoBanRDM", function(vic, inf, att)
 	local vicr = roles[vic:GetRole()]
 
     if ((attr and vicr and attr == vicr) or (att:GetRole() == vic:GetRole())) then
-        if (not pl_kills[att:SteamID()]) then pl_kills[att:SteamID()] = 0 end
-        pl_kills[att:SteamID()] = pl_kills[att:SteamID()] + 1
+        if (not pl_kills[att:SteamID()]) then
+			if (att:GetNWInt("MOAT_STATS_LVL", 1) >= 10) then
+				pl_kills[att:SteamID()] = 15
+			else
+				pl_kills[att:SteamID()] = 5
+			end
+		end
 
-        if (pl_kills[att:SteamID()] == 2) then
+        pl_kills[att:SteamID()] = pl_kills[att:SteamID()] - 1
+        if (pl_kills[att:SteamID()] == 3) then
             att:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color(255, 100, 100), "WARNING: You will be banned from the server if you kill 3 more teammates!")]])
-        elseif (pl_kills[att:SteamID()] == 3) then
+        elseif (pl_kills[att:SteamID()] == 2) then
             att:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color(255, 100, 100), "WARNING: You will be banned from the server if you kill 2 more teammates!")]])
-        elseif (pl_kills[att:SteamID()] == 4) then
+        elseif (pl_kills[att:SteamID()] == 1) then
             att:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color(255, 100, 100), "WARNING: You will be banned from the server if you kill 1 more teammates!")]])
-        elseif (pl_kills[att:SteamID()] >= max_kills) then
-            RunConsoleCommand("mga", "ban", att:SteamID(), "240", "minutes", "Too Many Teammate Kills! [Automated]")
+        elseif (pl_kills[att:SteamID()] <= 0) then
+            RunConsoleCommand("mga", "ban", att:SteamID(), "240", "minutes", "[Automated] Too Many Teammate Kills!")
         end
     end
 end)

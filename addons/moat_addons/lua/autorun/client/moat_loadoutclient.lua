@@ -436,6 +436,7 @@ function PLAYER:RenderModel(v)
     if (v.Attachment) then return end
     if (not v.Kind or (v.Kind and (v.Kind == "Effect" and (GetConVar("moat_EnableEffects"):GetInt() == 0)))) then return end
     if (not IsValid(v.ModelEnt)) then return end
+	if (v.Hide) then return end
     
     local pos = Vector()
     local ang = Angle()
@@ -857,15 +858,13 @@ net.Receive("MOAT_PLAYER_CLOAKED", function()
 
     for k, v in ipairs(pl:GetChildren()) do
         if (ModelsToRemove[v:GetClass()]) then
-			v:SetRenderMode(c and RENDERMODE_TRANSALPHA or RENDERMODE_NORMAL)
-			v:SetColor(Color(255, 255, 255, c and 0 or 255))
+			v:SetNoDraw(c)
 		end
     end
 
     for k, v in ipairs(MOAT_CLIENTSIDE_MODELS[pl]) do
         if (v and v.ModelEnt and IsValid(v.ModelEnt)) then
-			v.ModelEnt:SetRenderMode(c and RENDERMODE_TRANSALPHA or RENDERMODE_NORMAL)
-			v.ModelEnt:SetColor(Color(255, 255, 255, c and 0 or 255))
+			v.Hide = c
         end
     end
 end)

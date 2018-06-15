@@ -439,6 +439,8 @@ local function SetDisguise(ply, cmd, args)
 
     if ply:HasEquipmentItem(EQUIP_DISGUISE) then
         local state = #args == 1 and tobool(args[1])
+		if hook.Run("TTTToggleDisguiser", ply, state) then return end
+
         ply:SetNWBool("disguised", state)
         LANG.Msg(ply, state and "disg_turned_on" or "disg_turned_off")
     end
