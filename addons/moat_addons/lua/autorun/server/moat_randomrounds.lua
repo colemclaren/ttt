@@ -260,12 +260,8 @@ moat_random.register("Invisible Traitors","The traitors are invisible! And every
                     net.WriteEntity(v)
                     net.WriteBool(true)
                     net.Broadcast()
-                    
-                    net.Start("moat.hide.cosmetics")
-                    net.WriteEntity(v)
-                    net.Broadcast()
                 end)
-            else 
+            else
                 v:SetRole(ROLE_DETECTIVE)
             end
         end
