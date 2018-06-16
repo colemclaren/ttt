@@ -33,7 +33,7 @@ local function disabled_disguise(pl)
 end
 
 hook.Add("TTTToggleDisguiser", "Moat.Toggle.Disguiser", function(pl, state)
-	if (cur_random_round == "Invisible Traitors") then return end
+	if (cur_random_round and cur_random_round == "Invisible Traitors") then return end
 
 	if (state) then
 		enabled_disguise(pl)
