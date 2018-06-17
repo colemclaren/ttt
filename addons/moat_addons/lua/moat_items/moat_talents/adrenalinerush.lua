@@ -17,7 +17,7 @@ TALENT.Modifications[1] = { min = 5, max = 15 } // Percent damage is increased b
 
 TALENT.Modifications[2] = { min = 3, max = 7 } // Damage time
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

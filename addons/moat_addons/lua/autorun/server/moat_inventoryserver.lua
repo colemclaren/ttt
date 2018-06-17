@@ -536,7 +536,7 @@ function m_RemoveInventoryItem(ply, slot, class, crate)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "ban", ply:SteamID(), "525600", "minutes", "Automated Ban: Item Duplication Exploiting Detected!")
+        RunConsoleCommand("mga", "perma", ply:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 
     if (crate and crate == 1) then return end
@@ -1815,7 +1815,7 @@ function m_LockInventoryItem(ply, slot, class)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "ban", ply:SteamID(), "minutes", "525600", "Automated Ban: Exploitation Detected, Contact Moat!")
+        RunConsoleCommand("mga", "perma", ply:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 end
 
@@ -1858,7 +1858,8 @@ function m_UseUsableItem(pl, slot, class, wep_slot, wep_class, str)
     if (item.ItemCheck) then
         if (not wep_slot or not wep_class) then return end
 
-        item_chosen = m_GetItemFromEnumWithFunctions(ply_inv["slot" .. wep_slot].u)
+        item_chosen = table.Copy(ply_inv["slot" .. wep_slot])
+		item_chosen.item = m_GetItemFromEnumWithFunctions(ply_inv["slot" .. wep_slot].u)
         if (not item_chosen) then return end
 
         if (MOAT_ITEM_CHECK and MOAT_ITEM_CHECK[item.ItemCheck]) then
@@ -1981,7 +1982,7 @@ net.Receive("MOAT_REM_NAME_MUTATOR", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "ban", pl:SteamID(), "525600", "minutes", "Automated Ban: Item Duplication Exploiting Detected!")
+        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 
     m_SaveInventory(pl)
@@ -2014,7 +2015,7 @@ net.Receive("MOAT_INIT_USABLE", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "ban", pl:SteamID(), "525600", "minutes", "Automated Ban: Exploitation Detected, Contact Moat! Er 0x82F3")
+        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
         return
     end
 
@@ -2191,7 +2192,7 @@ net.Receive("MOAT_REM_TINT", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "ban", pl:SteamID(), "525600", "minutes", "Automated Ban: Item Duplication Exploiting Detected!")
+        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 
     m_SaveInventory(pl)
@@ -2223,7 +2224,7 @@ net.Receive("MOAT_REM_PAINT", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "ban", pl:SteamID(), "525600", "minutes", "Automated Ban: Item Duplication Exploiting Detected!")
+        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 
     m_SaveInventory(pl)
@@ -2255,7 +2256,7 @@ net.Receive("MOAT_REM_TEXTURE", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "ban", pl:SteamID(), "525600", "minutes", "Automated Ban: Item Duplication Exploiting Detected!")
+        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 
     m_SaveInventory(pl)

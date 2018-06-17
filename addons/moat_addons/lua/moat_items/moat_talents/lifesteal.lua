@@ -9,7 +9,7 @@ TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 5, max = 15}
 TALENT.Modifications[2] = {min = 15, max = 40}
 TALENT.Modifications[3] = {min = 30, max = 50}
-TALENT.Melee = false
+TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerHit(victim, att, dmginfo, talent_mods)

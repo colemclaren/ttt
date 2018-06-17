@@ -15,7 +15,7 @@ TALENT.Modifications = {}
 
 TALENT.Modifications[1] = { min = 11, max = 25 } // Amount headshot is increased
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

@@ -15,7 +15,7 @@ TALENT.Modifications = {}
 
 TALENT.Modifications[1] = { min = 15, max = 40 } // Amount health is increased
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

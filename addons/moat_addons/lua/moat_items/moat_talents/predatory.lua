@@ -7,7 +7,7 @@ TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 10, max = 35}
 TALENT.Modifications[2] = {min = 10, max = 35}
-TALENT.Melee = false
+TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)

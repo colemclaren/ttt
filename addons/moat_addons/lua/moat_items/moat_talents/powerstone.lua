@@ -6,7 +6,7 @@ TALENT.Tier = 3
 TALENT.LevelRequired = {min = 25, max = 30}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 1, max = 4}
-TALENT.Melee = false
+TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods )

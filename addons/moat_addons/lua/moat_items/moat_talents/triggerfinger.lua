@@ -15,7 +15,7 @@ TALENT.Modifications = {}
 
 TALENT.Modifications[1] = { min = 8, max = 25 } // Amount firerate is increased
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

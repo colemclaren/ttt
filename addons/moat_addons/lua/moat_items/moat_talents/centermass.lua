@@ -6,7 +6,7 @@ TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 TALENT.Modifications = {}
 TALENT.Modifications[1] = { min = 15, max = 30 } // Amount headshot is increased
-TALENT.Melee = false
+TALENT.Melee = true
 TALENT.NotUnique = true
 
 local da_hitgroups = {

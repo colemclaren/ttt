@@ -379,12 +379,23 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                 dropped_item.w = item_to_drop.WeaponClass
             end
 
-            if (item_to_drop.MinTalents and item_to_drop.MaxTalents and item_to_drop.Talents) then
+            if (math.random(2) == 1) then
                 dropped_item.s.l = 1
                 dropped_item.s.x = 0
                 dropped_item.t = {}
                 local talents_chosen = {}
-                local talents_to_loop = dev_talent_tbl or item_to_drop.Talents
+                local talents_to_loop = {"random"}
+				
+				if (math.random(3) == 1) then
+					table.insert(talents_to_loop, "random")
+					if (math.random(5) == 1) then
+						table.insert(talents_to_loop, "random")
+					end
+				end
+
+				if (dev_talent_tbl) then
+					talents_to_loop = dev_talent_tbl
+				end
 
                 for k, v in ipairs(talents_to_loop) do
                     talents_chosen[k] = m_GetRandomTalent(k, v, true)
@@ -765,17 +776,27 @@ end
 
 function m_ResetTalents(pl, wep_slot, itemtbl)
     local ply_item = MOAT_INVS[pl]["slot" .. wep_slot]
+	itemtbl = itemtbl.item
 
-    if (itemtbl.MinTalents and itemtbl.MaxTalents and itemtbl.Talents) then
-        ply_item.s.l = 1
+    if ((itemtbl.MinTalents and itemtbl.MaxTalents and itemtbl.Talents) or (itemtbl.Kind and itemtbl.Kind == "Melee")) then
+        local old_talents = #ply_item.t
+
+		ply_item.s.l = 1
         ply_item.s.x = 0
         ply_item.t = {}
 
         local talents_chosen = {}
         local talents_to_loop = itemtbl.Talents
 
+		if (itemtbl.Kind and itemtbl.Kind == "Melee") then
+			talents_to_loop = {}
+			for i = 1, old_talents do
+				table.insert(talents_to_loop, "random")
+			end
+		end
+
         for k, v in ipairs(talents_to_loop) do
-            talents_chosen[k] = m_GetRandomTalent(k, v, false)
+            talents_chosen[k] = m_GetRandomTalent(k, v, (itemtbl.Kind and itemtbl.Kind == "Melee"))
         end
 
         for i = 1, table.Count(talents_chosen) do
@@ -823,6 +844,7 @@ end
 
 function m_ResetStats(pl, wep_slot, itemtbl)
     local ply_item = MOAT_INVS[pl]["slot" .. wep_slot]
+	itemtbl = itemtbl.item
 
     if (itemtbl.Kind == "tier" or itemtbl.Kind == "Unique") then
         local saved_level = nil

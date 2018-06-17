@@ -23,7 +23,7 @@ TALENT.Modifications[3] = { min = 25, max = 50 } // Frozen Speed time
 
 TALENT.Modifications[4] = { min = 5, max = 8 } // Frozen Damage Delay
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

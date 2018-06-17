@@ -19,7 +19,7 @@ TALENT.Modifications[2] = { min = 5, max = 10 } // tesla reps
 TALENT.Modifications[3] = { min = 3, max = 5 } // tesla damage
 TALENT.Modifications[4] = { min = 3, max = 6 } // tesla delay
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

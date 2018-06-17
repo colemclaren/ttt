@@ -8,7 +8,7 @@ TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 10, max = 40}
 TALENT.Modifications[2] = {min = 10, max = 100}
 TALENT.Modifications[3] = {min = 3, max = 10}
-TALENT.Melee = false
+TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)

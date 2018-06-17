@@ -15,7 +15,7 @@ TALENT.Modifications = {}
 
 TALENT.Modifications[1] = {min = 1, max = 3} -- Seconds
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

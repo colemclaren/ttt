@@ -16,7 +16,7 @@ TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 5, max = 15} -- speed percent
 TALENT.Modifications[2] = {min = 5, max = 15} -- seconds
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

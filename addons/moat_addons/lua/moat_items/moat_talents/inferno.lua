@@ -19,7 +19,7 @@ TALENT.Modifications[1] = { min = 5, max = 10 } // Chance to ignite
 
 TALENT.Modifications[2] = { min = 4, max = 8 } // Ignite time
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

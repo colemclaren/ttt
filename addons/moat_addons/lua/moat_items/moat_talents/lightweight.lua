@@ -15,7 +15,7 @@ TALENT.Modifications = {}
 
 TALENT.Modifications[1] = {min = -5, max = -15} -- weight
 
-TALENT.Melee = false
+TALENT.Melee = true
 
 TALENT.NotUnique = true
 

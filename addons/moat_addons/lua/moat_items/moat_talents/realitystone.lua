@@ -7,7 +7,7 @@ TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 10, max = 20}
 TALENT.Modifications[2] = {min = 5, max = 20}
-TALENT.Melee = false
+TALENT.Melee = true
 TALENT.NotUnique = true
 
 function _reality_stone(sec,att)
