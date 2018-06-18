@@ -143,6 +143,7 @@ function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
         moat_fourth_talent = true
     end
 
+
     if (talent_name ~= "random") then
         for k, v in pairs(MOAT_TALENTS) do
             if (talent_name == v.Name) then
@@ -152,7 +153,8 @@ function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
         end
     else
         for k, v in RandomPairs(MOAT_TALENTS) do
-            if (talent_lvl == v.Tier and v.Melee == talent_melee and v.NotUnique) then
+            if (talent_lvl == v.Tier and v.NotUnique) then
+				if (talent_melee and not v.Melee) then continue end
                 talent_tbl = table.Copy(v)
                 break
             end
