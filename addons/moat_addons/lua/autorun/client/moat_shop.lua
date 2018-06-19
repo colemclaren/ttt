@@ -341,13 +341,17 @@ function m_PopulateShop(pnl)
         end
     end
 
+	table.sort(MOAT_SHOP, function(a, b)
+        return a.ID > b.ID
+    end)
+
     table.sort(MOAT_SHOP, function(a, b)
         return a.Rarity < b.Rarity
     end)
 
     for i = 1, #MOAT_SHOP do
-        m_AddShopItem(MOAT_SHOP[i])
-    end
+		m_AddShopItem(MOAT_SHOP[i])
+	end
 
     local function m_AddShopItemCommand(name, name2, color, price, img, item_cmd)
         local name_col = color
