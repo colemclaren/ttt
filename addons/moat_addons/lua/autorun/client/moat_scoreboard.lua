@@ -14,6 +14,7 @@ MOAT_RANKS[ "communitylead" ] = { "Community Lead", Color( 255, 0, 0 ), true, tr
 local operation_leads = {}
 operation_leads["STEAM_0:1:39556387"] = true
 operation_leads["STEAM_0:1:69138364"] = true
+operation_leads["STEAM_0:1:24643024"] = true
 
 local tech_leads = {}
 tech_leads["STEAM_0:0:96933728"] = true
