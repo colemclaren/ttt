@@ -495,8 +495,9 @@ function GM:PlayerStartVoice(ply)
 
     pnl.Paint = function(s, w, h)
         if not IsValid(s.ply) then return end
-        draw.RoundedBox(4, 0, 0, w, h, s.Color)
-        draw.RoundedBox(4, 1, 1, w - 2, h - 2, shade)
+        s.Color.a = ((s.ply:VoiceVolume() * 2) * 255) + 100
+        draw.RoundedBox(0, 0, 0, w, h, s.Color)
+        draw.RoundedBox(0, 1, 1, w - 2, h - 2, shade)
     end
 
     if client:IsActiveTraitor() then
