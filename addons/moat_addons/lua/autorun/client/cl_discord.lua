@@ -37,23 +37,7 @@ function discordrpc.Init(callback)
 					validPort = port
 					discordrpc.port = validPort
 
-					discordrpc.SetActivity({ details = GetHostName(), state = game.GetIPAddress() }, function(body, err)
-						print(body)
-						print "a"
-						if body == false then
-							discordrpc.Print("First SetActivity test was unsuccessful, error: " .. err)
-							if err:match("Not authenticated or invalid scope") then
-								discordrpc.Print("Make sure you're using Discord Canary!")
-							end
-						else
-							discordrpc.Print("First SetActivity test was successful, should be ready to work!")
-						end
-						discordrpc.Print(body, err)
-
-						if callback then -- idk if we should cancel calling the call back if we error
-							callback(body, err)
-						end
-					end)
+					callback(true,nil)
 				end
 			end
 			local failed = function(...)
@@ -247,8 +231,8 @@ local function make_discord()
         DrawBlur(self, 3)
     end
 	dis_panel.OnRemove = function()
-		local num = cookie.GetNumber("MG_Discord_Attempts_working", 0)
-		cookie.Set("MG_Discord_Attempts_working", num + 1)
+		local num = cookie.GetNumber("MG_Discord_Attempts_working0", 0)
+		cookie.Set("MG_Discord_Attempts_working0", num + 1)
 	end
 
     local lbl = vgui.Create("DLabel", dis_panel)
@@ -281,22 +265,21 @@ net.Receive("discord.OAuth",function()
 	if (not IsValid(p)) then return end
 
     if p == LocalPlayer() then
-        cookie.Set("MG_Discord",1)
+        cookie.Set("MG_DiscordZ",1)
     end
-    chat.AddText(Color(255,255,255),"[",Color(75,0,130),"DISCORD",Color(255,255,255),"] ",Color(0,255,0),p:Nick(),Color(255,255,255)," Just joined our discord and got ",Color(255,255,0),"3,000 IC!!!")
+    chat.AddText(Color(255,255,255),"[",Color(75,0,130),"!DISCORD",Color(255,255,255),"] ",Color(0,255,0),p:Nick(),Color(255,255,255)," Just joined our discord and got ",Color(255,255,0),"3,000 IC!!!")
 end)
 
 hook.Add("HTTPLoaded", "discordrpc_init", function()
     --if (GetHostName():lower():find("dev")) then return end
-
 	discordrpc.Init(function(succ, err)
 		if succ then
-            timer.Simple(10,function()
-                if cookie.GetNumber("MG_Discord", 0) ~= 1 and cookie.GetNumber("MG_Discord_Attempts_working", 0) < 5 then
+            timer.Simple(0,function()
+                if cookie.GetNumber("MG_DiscordZ", 0) ~= 1 and cookie.GetNumber("MG_Discord_Attempts_working0", 0) < 5 then
                     net.Receive("AmIDiscord",function()
                         local d = net.ReadBool()
                         if d then
-                            cookie.Set("MG_Discord",1)
+                            cookie.Set("MG_DiscordZ",1)
                         else
                             make_discord()
                         end
@@ -305,7 +288,7 @@ hook.Add("HTTPLoaded", "discordrpc_init", function()
                     net.SendToServer()
                 end
             end)
-			discordrpc.SetActivity(discordrpc.GetActivity(), print)
+			--[[discordrpc.SetActivity(discordrpc.GetActivity(), print)
             hook.Add("ShutDown","Discord",function()
                 HTTP{
                     method = "POST",
@@ -327,7 +310,7 @@ hook.Add("HTTPLoaded", "discordrpc_init", function()
             end)
             timer.Create("discordrpc", 20, 0, function()
                 discordrpc.SetActivity(discordrpc.GetActivity(), discordrpc.Print)
-            end)
+            end)]]
 		end
 	end)
 end)

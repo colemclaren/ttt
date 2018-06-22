@@ -53,7 +53,7 @@ local moat_Adverts = {
 	{ Color( 255, 255, 0 ), "Want some free credits? Type !rewards in the chat to open the rewards menu!" },
 	{ Color( 255, 255, 0 ), "Someone causing problems with no staff online? Make a player complaint on our forums." },
 	{ Color( 255, 255, 0 ), "Have a suggestion for the server? Make a post on the forums!" },
-	{ Color( 255, 255, 0 ), "Join our discord for access to exclusive announcements and updates." },
+	{ Color( 255, 255, 0 ), "Join our discord (!discord) for access to exclusive announcements and updates." },
 }
 
 
