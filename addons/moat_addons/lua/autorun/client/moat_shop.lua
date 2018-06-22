@@ -158,6 +158,67 @@ function m_PopulateHomeShop(pnl)
     end
 end
 
+function make_modelpanel(itemtbl,ITEM_BG)
+    local m_WClass = {} 
+    if (itemtbl.Image) then
+        m_WClass.WorldModel = itemtbl.Image
+    elseif (itemtbl.Model) then
+        m_WClass.WorldModel = itemtbl.Model
+        m_WClass.ModelSkin = itemtbl.Skin
+    else
+        m_WClass = weapons.Get(itemtbl.WeaponClass)
+    end
+
+    local m_DPanelIcon = {}
+    m_DPanelIcon.SIcon = vgui.Create("MoatModelIcon", ITEM_BG)
+    m_DPanelIcon.SIcon:SetPos(52.5, 58)
+    m_DPanelIcon.SIcon:SetSize(64, 64)
+    m_DPanelIcon.SIcon:SetTooltip(nil)
+
+    m_DPanelIcon.SIcon.Think = function(s)
+        s:SetTooltip(nil)
+    end
+
+    m_DPanelIcon.SIcon:SetVisible(false)
+
+    if (m_WClass) then
+        if (not string.EndsWith(tostring(m_WClass.WorldModel), ".mdl")) then
+            if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
+            m_DPanelIcon.SIcon.Icon:SetAlpha(0)
+        end
+
+        m_DPanelIcon.SIcon:SetModel(m_WClass.WorldModel, m_WClass.ModelSkin)
+        m_DPanelIcon.SIcon:SetVisible(true)
+    end
+
+    m_DPanelIcon.WModel = nil
+    m_DPanelIcon.Item = nil
+    m_DPanelIcon.MSkin = nil
+
+    if (m_WClass) then
+        m_DPanelIcon.WModel = m_WClass.WorldModel
+        m_DPanelIcon.Item = itemtbl
+        if (m_WClass.ModelSkin) then
+            m_DPanelIcon.MSkin = m_WClass.ModelSkin
+        end
+    end
+
+    m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
+        if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
+            s.Icon:SetAlpha(0)
+            if (m_DPanelIcon.WModel:StartWith("https")) then
+                draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+            else
+                surface.SetDrawColor(255, 255, 255, 255)
+                surface.SetMaterial(Material(m_DPanelIcon.WModel))
+                surface.DrawTexturedRect(0, 0, w, h)
+            end
+        else
+            s.Icon:SetAlpha(255)
+        end
+    end
+end
+
 local circ_gradient = "https://i.moat.gg/8WkHz.png"
 
 function m_PopulateShop(pnl)
@@ -169,6 +230,7 @@ function m_PopulateShop(pnl)
 
     function m_AddShopItem(itemtbl)
         local name_col = itemtbl.NameColor or rarity_names[itemtbl.Rarity][2]
+        if itemtbl.LimitedShop then name_col = Color(255, 128, 0) end
         local item_name = string.Explode(" ", itemtbl.Name)
         if (item_name[1] == "Urban") then item_name[1] = "Urban Style" end
         local item_price = "IC: " .. string.Comma(itemtbl.Price)
@@ -177,7 +239,26 @@ function m_PopulateShop(pnl)
         local ITEM_BG = M_SHOP_LIST:Add("DPanel")
         ITEM_BG:SetSize(item_panel_w, item_panel_h)
         ITEM_BG.Qty = 1
+        if itemtbl.LimitedShop then
+            itemtbl.Preview = false
+            local id = tostring(ITEM_BG) .. math.random()
+            timer.Create(id,5,0,function()
+                if not IsValid(ITEM_BG) then
+                    timer.Destroy(id)
+                    return
+                end
+                ITEM_BG.Sweet = (not ITEM_BG.Sweet)
+            end)
+            make_modelpanel(itemtbl,ITEM_BG)
+        end
         ITEM_BG.Paint = function(s, w, h)
+            if itemtbl.LimitedShop then
+                if itemtbl.LimitedShop < os.time() then
+                    ITEM_BG:Remove()
+                    M_SHOP_LIST:InvalidateLayout()
+                    return
+                end
+            end
             draw.RoundedBox(0, 0, 0, w, h, name_col)
             draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 100))
 
@@ -200,13 +281,34 @@ function m_PopulateShop(pnl)
             surface.SetMaterial(Material("vgui/gradient-u"))
             surface.DrawTexturedRect(1, 1, w - 2, h - 2)*/
 
-            if (itemtbl.CrateShopOverride) then
+            if (itemtbl.CrateShopOverride or itemtbl.LimitedShop) then
                 if (itemtbl.CrateShopOverride == "50/50") then
                     m_DrawEnchantedText(itemtbl.CrateShopOverride, "moat_Trebuchet24", (w / 2) - 35, 5, name_col, Color(0, 0, 255))
                     m_DrawEnchantedText("Crate", "moat_Trebuchet24", (w / 2) - 29, 25, name_col, Color(0, 0, 255))
                 elseif (itemtbl.CrateShopOverride == "Gift") then
                     m_DrawShadowedText(1, "Empty Gift", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
                     m_DrawShadowedText(1, "Package", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
+                elseif (itemtbl.LimitedShop) then
+                    m_DrawShadowedText(1, itemtbl.Name, "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                    surface.SetFont("moat_ItemDescLarge3")
+                    local ss = "Limited Time!"
+                    if not s.Sweet then 
+                        m_DrawShadowedText(1, itemtbl.Name, "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                        surface.SetFont("moat_ItemDescLarge3")
+                        local tw = surface.GetTextSize(ss)
+                        DrawShadowedText(1, ss, "moat_ItemDescLarge3", (w/2) - (tw/2), 25, Color(0, 0, 0))
+                        DrawEnchantedText(1, ss, "moat_ItemDescLarge3", (w/2) - (tw/2), 25, name_col, Color(255,0,0))
+                    else
+                        local time = os.date("!*t", (itemtbl.LimitedShop - os.time()))
+                        local h,m,sec = time.hour,time.min,time.sec
+                        if (#tostring(h)) == 1 then h = "0" .. h end
+                        if (#tostring(m)) == 1 then m = "0" .. m end
+                        if (#tostring(sec)) == 1 then sec = "0" .. sec end
+                        ss = h .. ":" .. m .. ":" .. sec .. " left!"
+                        local tw = surface.GetTextSize(ss)
+                        DrawShadowedText(1, ss, "moat_ItemDescLarge3", (w/2) - (tw/2), 25, Color(0, 0, 0))
+                        DrawEnchantedText(5, ss, "moat_ItemDescLarge3", (w/2) - (tw/2), 25, name_col, Color(255,0,0))
+                    end
                 else
                     m_DrawEnchantedText(itemtbl.CrateShopOverride, "moat_Trebuchet24", w / 2, 5, name_col, Color(255, 0, 255))
                     m_DrawEnchantedText("Crate", "moat_Trebuchet24", w / 2, 25, name_col, Color(255, 0, 255))
@@ -216,16 +318,16 @@ function m_PopulateShop(pnl)
                 m_DrawShadowedText(1, "Crate", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
             end
 
-            local img = Material(itemtbl.Image)
-            if (itemtbl.Image:StartWith("https")) then img = fetch_asset(itemtbl.Image) end
-                    
-
-            surface.SetDrawColor(0, 0, 0, 100)
-            surface.SetMaterial(img)
-            surface.DrawTexturedRect((w / 2) - 35, ((h - 50) / 2) - 35 + image_y_off, 70, 70)
-            surface.SetDrawColor(255, 255, 255, 255)
-            surface.SetMaterial(img)
-            surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
+            if itemtbl.Image then
+                local img = Material(itemtbl.Image)
+                if (itemtbl.Image:StartWith("https")) then img = fetch_asset(itemtbl.Image) end
+                surface.SetDrawColor(0, 0, 0, 100)
+                surface.SetMaterial(img)
+                surface.DrawTexturedRect((w / 2) - 35, ((h - 50) / 2) - 35 + image_y_off, 70, 70)
+                surface.SetDrawColor(255, 255, 255, 255)
+                surface.SetMaterial(img)
+                surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
+            end
             m_DrawShadowedText(1, item_price, "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255), TEXT_ALIGN_CENTER)
             surface.SetMaterial(Material("icon16/coins_delete.png"))
             surface.SetDrawColor(Color(255, 255, 255))
@@ -350,6 +452,13 @@ function m_PopulateShop(pnl)
     end)
 
     for i = 1, #MOAT_SHOP do
+		if MOAT_SHOP[i].LimitedShop then
+            m_AddShopItem(MOAT_SHOP[i]) -- Always at top 
+        end
+	end
+
+    for i = 1, #MOAT_SHOP do
+        if MOAT_SHOP[i].LimitedShop then continue end
 		m_AddShopItem(MOAT_SHOP[i])
 	end
 

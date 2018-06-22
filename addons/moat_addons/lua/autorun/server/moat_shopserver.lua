@@ -21,7 +21,7 @@ function m_GetActiveCrates()
 end
 
 local active_crates2 = {}
-
+local limiteds = {}
 function m_GetActiveCratesShop()
     if (active_crates2[1]) then
         return active_crates2
@@ -30,6 +30,11 @@ function m_GetActiveCratesShop()
     active_crates2 = {}
 
     for k, v in pairs(MOAT_DROPTABLE) do
+        if (v.LimitedShop) and (v.LimitedShop > os.time()) then
+            limiteds[v.ID] = v
+            table.insert(active_crates2, v)
+            continue
+        end
         if (v.Kind ~= "Crate" and v.Kind ~= "Usable") then continue end
 
         if (v.Active) then
@@ -39,7 +44,7 @@ function m_GetActiveCratesShop()
 
     return active_crates2
 end
-
+m_GetActiveCratesShop()
 local crate_by_id = {}
 
 function m_GetCrateByID(crate_id)
@@ -84,12 +89,21 @@ end)
 net.Receive("MOAT_BUY_ITEM", function(len, ply)
     local crate_id = net.ReadDouble()
     local crate_amt = math.Clamp(net.ReadUInt(8), 1, 50)
-    local crate_tbl = m_GetCrateByID(crate_id)
+    local crate_tbl = {}
+    if limiteds[crate_id] then
+        crate_tbl = limiteds[crate_id]
+        if crate_tbl.LimitedShop < os.time() then
+            ply:SendLua([[chat.AddText( Color( 255, 0, 0 ), "That item is no longer on sale." )]])
+            return
+        end
+    else
+        crate_tbl = m_GetCrateByID(crate_id)
 
-    if (crate_tbl == {}) then
-        ply:SendLua([[chat.AddText( Color( 255, 0, 0 ), "Error verifying item in shop." )]])
+        if (crate_tbl == {}) then
+            ply:SendLua([[chat.AddText( Color( 255, 0, 0 ), "Error verifying item in shop." )]])
 
-        return
+            return
+        end
     end
 
     if (not crate_tbl.Price or not crate_amt) then return end
