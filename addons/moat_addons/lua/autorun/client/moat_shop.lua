@@ -244,7 +244,7 @@ function m_PopulateShop(pnl)
             local id = tostring(ITEM_BG) .. math.random()
             timer.Create(id,5,0,function()
                 if not IsValid(ITEM_BG) then
-                    timer.Destroy(id)
+                    timer.Remove(id)
                     return
                 end
                 ITEM_BG.Sweet = (not ITEM_BG.Sweet)

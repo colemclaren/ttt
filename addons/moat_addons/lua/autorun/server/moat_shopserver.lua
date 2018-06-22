@@ -11,6 +11,7 @@ function m_GetActiveCrates()
 
     for k, v in pairs(MOAT_DROPTABLE) do
         if (v.Kind ~= "Crate" and v.Kind ~= "Usable") then continue end
+		if (v.LimitedShop) and (v.LimitedShop <= os.time()) then continue end
 
         if (v.Active and v.Name ~= "Pumpkin Crate" and v.Name ~= "Santa's Present" and v.Name ~= "Holiday Crate" and v.Name ~= "Empty Gift Package") then
             table.insert(active_crates, v)
@@ -44,7 +45,7 @@ function m_GetActiveCratesShop()
 
     return active_crates2
 end
-m_GetActiveCratesShop()
+
 local crate_by_id = {}
 
 function m_GetCrateByID(crate_id)
@@ -92,14 +93,14 @@ net.Receive("MOAT_BUY_ITEM", function(len, ply)
     local crate_tbl = {}
     if limiteds[crate_id] then
         crate_tbl = limiteds[crate_id]
-        if crate_tbl.LimitedShop < os.time() then
+        if ((crate_tbl.LimitedShop and crate_tbl.LimitedShop < os.time()) or (not crate_tbl.LimitedShop)) then
             ply:SendLua([[chat.AddText( Color( 255, 0, 0 ), "That item is no longer on sale." )]])
             return
         end
     else
         crate_tbl = m_GetCrateByID(crate_id)
 
-        if (crate_tbl == {}) then
+        if (not next(crate_tbl)) then
             ply:SendLua([[chat.AddText( Color( 255, 0, 0 ), "Error verifying item in shop." )]])
 
             return
