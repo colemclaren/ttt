@@ -158,6 +158,24 @@ function m_PopulateHomeShop(pnl)
     end
 end
 
+local droppable_cache_count, droppable_cache = 0, {}
+local function GetDroppableWeapons()
+    if (droppable_cache[1]) then return droppable_cache, droppable_cache_count end
+
+    for k, v in ipairs(weapons.GetList()) do
+        if (v.AutoSpawnable and v.Base == "weapon_tttbase") then
+            droppable_cache_count = droppable_cache_count + 1
+
+            droppable_cache[droppable_cache_count] = {
+                ClassName = v.ClassName,
+                WeaponTable = weapons.Get(v.ClassName)
+            }
+        end
+    end
+
+    return droppable_cache, droppable_cache_count
+end
+
 function make_modelpanel(itemtbl,ITEM_BG)
     local m_WClass = {} 
     if (itemtbl.Image) then
@@ -166,7 +184,7 @@ function make_modelpanel(itemtbl,ITEM_BG)
         m_WClass.WorldModel = itemtbl.Model
         m_WClass.ModelSkin = itemtbl.Skin
     elseif (itemtbl.Kind == "tier") then
-        m_WClass = weapons.Get(table.Random(weapons.GetList()).ClassName)
+        m_WClass = table.Random(GetDroppableWeapons()).WeaponTable
     else
         m_WClass = weapons.Get(itemtbl.WeaponClass)
     end
