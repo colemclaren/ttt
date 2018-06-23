@@ -56,6 +56,7 @@ net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
 
     trace.dmgDmg = 0
     if (IsValid(trace.dmgInf) and trace.dmgInf:IsWeapon()) then
+        if trace.dmgInf ~= ply:GetActiveWeapon() then return end
         if (trace.dmgInf.Primary and trace.dmgInf.Primary.Damage) then
             trace.dmgDmg = trace.dmgInf.Primary.Damage
         end
