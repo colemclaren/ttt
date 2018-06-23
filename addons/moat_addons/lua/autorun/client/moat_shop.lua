@@ -165,9 +165,12 @@ function make_modelpanel(itemtbl,ITEM_BG)
     elseif (itemtbl.Model) then
         m_WClass.WorldModel = itemtbl.Model
         m_WClass.ModelSkin = itemtbl.Skin
+    elseif (itemtbl.Kind == "tier") then
+        m_WClass = weapons.Get(table.Random(weapons.GetList()).ClassName)
     else
         m_WClass = weapons.Get(itemtbl.WeaponClass)
     end
+    
 
     local m_DPanelIcon = {}
     m_DPanelIcon.SIcon = vgui.Create("MoatModelIcon", ITEM_BG)
@@ -217,6 +220,7 @@ function make_modelpanel(itemtbl,ITEM_BG)
             s.Icon:SetAlpha(255)
         end
     end
+    return m_DPanelIcon.SIcon
 end
 
 local circ_gradient = "https://i.moat.gg/8WkHz.png"
@@ -240,6 +244,9 @@ function m_PopulateShop(pnl)
         ITEM_BG:SetSize(item_panel_w, item_panel_h)
         ITEM_BG.Qty = 1
         if itemtbl.LimitedShop then
+            if itemtbl.ShopDesc then
+                ITEM_BG:SetTooltip(itemtbl.ShopDesc)
+            end
             itemtbl.Preview = false
             local id = tostring(ITEM_BG) .. math.random()
             timer.Create(id,5,0,function()
@@ -248,8 +255,12 @@ function m_PopulateShop(pnl)
                     return
                 end
                 ITEM_BG.Sweet = (not ITEM_BG.Sweet)
+                if itemtbl.Kind == "tier" then
+                    ITEM_BG.Modelk:Remove()
+                    ITEM_BG.Modelk = make_modelpanel(itemtbl,ITEM_BG)
+                end
             end)
-            make_modelpanel(itemtbl,ITEM_BG)
+            ITEM_BG.Modelk = make_modelpanel(itemtbl,ITEM_BG)
         end
         ITEM_BG.Paint = function(s, w, h)
             if itemtbl.LimitedShop then
@@ -289,11 +300,14 @@ function m_PopulateShop(pnl)
                     m_DrawShadowedText(1, "Empty Gift", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
                     m_DrawShadowedText(1, "Package", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
                 elseif (itemtbl.LimitedShop) then
-                    m_DrawShadowedText(1, itemtbl.Name, "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                    if (itemtbl.Kind == "tier") then
+                        m_DrawShadowedText(1, itemtbl.Name .. " Weapon", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                    else
+                        m_DrawShadowedText(1, itemtbl.Name, "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                    end
                     surface.SetFont("moat_ItemDescLarge3")
                     local ss = "Limited Time!"
                     if not s.Sweet then 
-                        m_DrawShadowedText(1, itemtbl.Name, "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
                         surface.SetFont("moat_ItemDescLarge3")
                         local tw = surface.GetTextSize(ss)
                         DrawShadowedText(1, ss, "moat_ItemDescLarge3", (w/2) - (tw/2), 25, Color(0, 0, 0))
@@ -301,6 +315,10 @@ function m_PopulateShop(pnl)
                     else
                         local time = os.date("!*t", (itemtbl.LimitedShop - os.time()))
                         local h,m,sec = time.hour,time.min,time.sec
+                        local days = time.day - 1
+                        if days > 0 then
+                            h = h + (days * 24)
+                        end
                         if (#tostring(h)) == 1 then h = "0" .. h end
                         if (#tostring(m)) == 1 then m = "0" .. m end
                         if (#tostring(sec)) == 1 then sec = "0" .. sec end
