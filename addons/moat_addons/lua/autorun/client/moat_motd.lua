@@ -38,7 +38,7 @@ MOTD.Tabs = {
     {"Home", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"},
     {"Tutorial", "https://i.moat.gg/servers/ttt/motd/help.php"},
     {"Errors", "https://moat.gg/ttt/motd/content.php", true},
-    {"Changelog", "https://i.moat.gg/servers/ttt/motd/changelog.php"},
+    {"Changes", "https://moat.gg/changes/", true},
     {"Forums", "https://moat.gg/forums/", true},
     {"Donate", "https://moat.gg/store/", true},
     {"Leaderboard", "https://moat.gg/players", true},
