@@ -105,6 +105,16 @@ function D3A.Commands.Parse(pl, cmd, args) -- cmd is the actual command here
 			D3A.Chat.SendToPlayer2(pl, moat_red, "Unknown command: " .. cmd)
 		end
 	end
+
+	local sid, name = "0", "Console"
+	local command, jargs = cmd or "", util.TableToJSON(args or {}) or ""
+	
+	if ((pl and pl.rcon) or IsValid(pl)) then
+		sid = pl:SteamID64()
+		name = pl:Nick()
+	end
+
+	D3A.MySQL.FormatQuery("INSERT INTO player_logs (steam_id, name, cmd, args) VALUES (#, #, #, #);", sid, name, command, jargs)
 end
 
 local function parseQuotes(args)

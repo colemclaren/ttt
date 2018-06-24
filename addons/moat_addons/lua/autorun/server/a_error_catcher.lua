@@ -47,9 +47,10 @@ end
 
 local error_cache = {}
 local pl_error_cache = {}
-local function catchError(pl, err, _, _, _, stack)
+local function catchError(pl, err, src, _, _, stack)
 	if (not err or error_cache[err]) then return end
 	error_cache[err] = true
+	if (not src or not src:find("moat_addons")) then return end
 
 	pl = type(pl) == "Player" and pl:SteamID64() or nil
 	if (pl and pl_error_cache[pl]) then

@@ -91,21 +91,28 @@ function fetch_asset(url)
 	end
 end
 
-local function fetchAvatarAsset( id64, size )
+local default_avatar = "https://moat.gg/assets/img/mg-logo2.jpg"
+function fetchAvatarAsset(id64, size, cb)
 	id64 = id64 or "BOT"
 	size = size == "medium" and "medium" or size == "small" and "" or size == "large" and "full" or ""
 
-	if fetchedavatars[ id64 .. " " .. size ] then
-		return fetchedavatars[ id64 .. " " .. size ]
+	if (fetchedavatars[id64 .. size]) then
+		if (cb) then cb(fetchedavatars[id64 .. size]) end
+		return
 	end
 
-	fetchedavatars[ id64 .. " " .. size ] = id64 == "BOT" and "http://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/09962d76e5bd5b91a94ee76b07518ac6e240057a_full.jpg" or "http://i.imgur.com/uaYpdq7.png"
-	if id64 == "BOT" then return end
-	fetch("http://steamcommunity.com/profiles/" .. id64 .. "/?xml=1",function( body )
-		local link = body:match("http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/.-jpg")
-		if not link then return end
+	fetchedavatars[id64 .. size] = default_avatar
+	if (not id64 or id64 == "BOT") then 
+		if (cb) then cb(fetchedavatars[id64 .. size]) end
+		return 
+	end
 
-		fetchedavatars[ id64 .. " " .. size ] = link:Replace( ".jpg", ( size ~= "" and "_" .. size or "") .. ".jpg")
+	fetch("https://steamcommunity.com/profiles/" .. id64 .. "/?xml=1",function(body)
+		local link = body:match("https://steamcdn%-a%.akamaihd%.net/steamcommunity/public/images/avatars/.-jpg")
+		if (not link) then return end
+
+		fetchedavatars[id64 .. size] = link:Replace(".jpg", (size ~= "" and "_" .. size or "") .. ".jpg")
+		if (cb) then cb(fetchedavatars[id64 .. size]) end
 	end)
 end
 
@@ -138,8 +145,10 @@ function draw.SeamlessWebImage( url, parentwidth, parentheight, xrep, yrep, colo
 	end
 end
 
-function draw.SteamAvatar( avatar, res, x, y, width, height, color, ang, corner )
-	draw.WebImage( fetchAvatarAsset( avatar, res ), x, y, width, height, color, ang, corner )
+function draw.SteamAvatar(avatar, res, x, y, width, height, color, ang, corner)
+	fetchAvatarAsset(avatar, res, function(url)
+		draw.WebImage(url, x, y, width, height, color, ang, corner)
+	end)
 end
 
 function sound.PlayURL(url, flags, cb)

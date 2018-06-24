@@ -118,14 +118,13 @@ function D3A.WordWrap(font, text, width)
 	return ret
 end
 
--- Moat Edits
-
 function D3A.FormatTime(x, y)
 	x = x or os.time()
 	y = y or os.time()
 
-	local diff = x - y
+	local diff = math.max(0, x - y)
 	local str = " second"
+	if (diff == 0) then return " a moment" end
 
 	if (diff < 60) then
 		return diff .. ((str and diff == 1) or (str .. "s"))
@@ -146,33 +145,15 @@ function D3A.FormatTime(x, y)
 		return days .. ((days == 1 and str) or (str .. "s"))
 	end
 
-	return "idk"
+	return " a moment"
 end
 
 function D3A.FormatTimeSingle(x)
-	local diff = x
-	local str = " second"
+	return D3A.FormatTime(x, 0)
+end
 
-	if (diff < 60) then
-		return diff .. ((str and diff == 1) or (str .. "s"))
-	elseif (diff < 3600) then
-		local mins = math.Round(diff/60)
-		str = " minute"
-
-		return mins .. ((mins == 1 and str) or (str .. "s"))
-	elseif (diff < 86400) then
-		local hrs = math.Round(diff/3600)
-		str = " hour"
-
-		return hrs .. ((hrs == 1 and str) or (str .. "s"))
-	else
-		local days = math.Round(diff/86400)
-		str = " day"
-
-		return days .. ((days == 1 and str) or (str .. "s"))
-	end
-
-	return "idk"
+function D3A.FormatTimeNow(y)
+	return D3A.FormatTime(os.time(), y)
 end
 
 moat_white = Color(255, 255, 255, 255)
@@ -181,3 +162,18 @@ moat_blue = Color(51, 153, 255, 255)
 moat_cyan = Color(0, 200, 255, 255)
 moat_pink = Color(255, 0, 255, 255)
 moat_red = Color(255, 0, 0, 255)
+
+function D3A.ParseSteamID(str)
+	if (str:StartWith("7656")) then
+		return str
+	end
+
+	str = str:upper()
+	if (not str:StartWith("STEAM_")) then
+		return false
+	end
+
+	str:Replace("STEAM_1", "STEAM_0")
+	str = util.SteamIDTo64(str)
+	return str
+end

@@ -8,9 +8,7 @@ if (SERVER) then
 
 	--resource.AddWorkshop("621565420")
 
-	AddCSLuaFile( "shared.lua" )
-
-	AddCSLuaFile( "gamemodes/terrortown/entities/entities/entity_doorbuster/cl_init.lua" )
+	AddCSLuaFile()
 
 	SWEP.Weight				= 5
 

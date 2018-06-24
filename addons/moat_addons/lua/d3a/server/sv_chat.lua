@@ -6,7 +6,7 @@ util.AddNetworkString("D3A.Chat2")
 
 function D3A.Chat.AdminChat(pl, Text)
 	if (!pl:HasAccess(D3A.Config.StaffChat)) then
-		if (hook.Call("NonAdminChatted", GAMEMODE, pl, Text) == true) then -- true to suppress, anything else obviously to not
+		if (hook.Run("NonAdminChatted", pl, Text) == true) then -- true to suppress, anything else obviously to not
 			return
 		end
 	end

@@ -7,7 +7,7 @@ COMMAND.Run = function(pl, args, supp)
 	if (D3A.VoteActive) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "There's already a vote active! Please try later!")
 
-		return
+		--return
 	end
 
 	local staff_found = false
@@ -24,20 +24,20 @@ COMMAND.Run = function(pl, args, supp)
 	if (staff_found) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "There is one or more staff members currently on the server! Please ask them for help rather than taking the situation into your own hands!")
 
-		return
+		--return
 	end
 
 	if (#player.GetAll() < 4) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "There are not enough people on to start a vote kick!")
 
-		return
+		--return
 	end
 
 	local plynum = #player.GetAll()
 	local targ = supp[1]:SteamID()
 	local plname = pl:Name()
 
-	D3A.StartVote(pl, "Votekick " .. supp[1]:Name() .. "?", {"Yes", "No"}, function(res, votes)
+	D3A.StartVote(pl, "Votekick " .. supp[1]:Name() .. "?", {"Yes", "No"}, supp[1], function(res, votes)
 		local msgtbl = {}
 		table.sort(res, function(a, b) return a[2] > b[2] end)
 
@@ -69,6 +69,4 @@ COMMAND.Run = function(pl, args, supp)
 			D3A.Chat.Broadcast2(moat_red, "Votekick Failed. (Not Enough Votes)")
 		end
 	end)
-
-	D3A.Chat.Broadcast2(moat_cyan, pl:Name(), moat_white, " has started a vote to kick: ", moat_green, supp[1]:Name(), moat_white, ".")
 end

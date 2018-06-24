@@ -1,84 +1,60 @@
-D3A.Time = {
-	NextSave = SysTime() + 30,
-	Cache = {}
-}
+D3A.Time = D3A.Time or {}
+D3A.Time.Joins = D3A.Time.Joins or {}
 
-function D3A.Time.PlayerDataLoaded(pl, data)
-	pl.Time = {
-		Played = data.playtime or 0,
-		Offset = math.Round(CurTime()),
-		LastSave = math.Round(CurTime())
-	}
-	
-	pl:SetDataVar("joinTime", pl.Time.Offset, false, true)
-	pl:SetDataVar("timePlayed", data.playtime or 0, false, true)
-	
-	if (D3A.Time.DataVar == nil) then
-		D3A.Time.DataVar = hook.Call("ServerTimeVar", GAMEMODE)
+function D3A.Time.GetQueryString(id, pl)
+	local c = D3A.Time.Joins[id]
+	if (not c) then return end
+	local add, fq = math.max(1, SysTime() - c)
+	add = math.Round(add) or 1
+
+	if (MOAT_INVS and MOAT_INVS[pl] and MOAT_INVS[pl]["credits"] and MOAT_INVS[pl]["credits"].c) then
+		fq = D3A.MySQL.FormatQueryString("UPDATE player SET last_join = UNIX_TIMESTAMP(), playtime = playtime + #, inventory_credits = # WHERE steam_id = #;", add, id, tostring(MOAT_INVS[pl]["credits"].c))
+    else
+		fq = D3A.MySQL.FormatQueryString("UPDATE player SET last_join = UNIX_TIMESTAMP(), playtime = playtime + # WHERE steam_id = #;", add, id)
 	end
-	
-	if (D3A.Time.DataVar) then
-		pl:SetDataVar(D3A.Time.DataVar, tonumber(data.Vars[D3A.Time.DataVar] or 0), false, true)
-	end
-end
-hook.Add("PostPlayerDataLoaded", "D3A.Time.PlayerDataLoaded", D3A.Time.PlayerDataLoaded)
 
-function D3A.Time.SaveTime(pl)
-	if (pl.Time) then
-		local timeSinceSave = CurTime() - pl.Time.LastSave;
-		
-		pl.Time.Played = pl.Time.Played + (CurTime() - pl.Time.Offset)
-		pl.Time.LastSave = CurTime();
-
-		D3A.MySQL.Query("UPDATE `player` set `playtime`='" .. pl.Time.Played .. "' where `steam_id`='" .. pl:SteamID64() .. "'")
-		
-		if (D3A.Time.DataVar) then
-			pl:SetDataVar(D3A.Time.DataVar, math.floor((pl:GetDataVar(D3A.Time.DataVar) or 0) + (CurTime() - pl.Time.Offset)), true, false)
-		end
-		
-		pl:SetDataVar("lastTimeSave", tostring(os.time()), true, false);
-
-		if (MOAT_INVS and MOAT_INVS[pl] and MOAT_INVS[pl]["credits"] and MOAT_INVS[pl]["credits"].c) then
-        	pl:SetDataVar("IC", tostring(MOAT_INVS[pl]["credits"].c), true, false)
-    	end
-
-		-- PlayerTimeSaved(pl, timeSinceSave)
-		hook.Call("PlayerTimeSaved", GAMEMODE, pl, timeSinceSave);
-		
-		pl.Time.Offset = math.Round(CurTime())
-	end
+	D3A.Time.Joins[id] = nil
+	return fq
 end
 
-function D3A.Time.AddTime(pl, amt)
-	if (pl.Time) then
-		pl.Time.Offset = pl.Time.Offset - amt;
-		pl:SetDataVar("joinTime", pl:GetDataVar("joinTime") - amt, false, true);
-		
-		D3A.Time.SaveTime(pl);
-	end
+function D3A.Time.LoadPlayer(pl, time)
+	pl:SetDataVar("timePlayed", tonumber(time) or 0, false, true)
+
+	local id = pl:SteamID64()
+	if (not id) then return end
+
+	D3A.Time.Joins[id] = SysTime()
 end
 
-function D3A.Time.PlayerDisconnected(pl)
-	if (pl.Time) then
-		D3A.Time.SaveTime(pl)
-	end
-end
-hook.Add("PlayerDisconnected", "D3A.Time.PlayerDisconnected", D3A.Time.PlayerDisconnected)
 
-function D3A.Time.SaveTimes()
-	if (D3A.Time.Cache[1]) then
-		local pl = D3A.Time.Cache[1]
-		
-		if (pl:IsValid()) then D3A.Time.SaveTime(pl) end
-		
-		table.remove(D3A.Time.Cache, 1)
-	else
-		if (D3A.Time.NextSave <= SysTime()) then
-			for k, v in ipairs(player.GetAll()) do
-				table.insert(D3A.Time.Cache, v)
-			end
-			D3A.Time.NextSave = SysTime() + #D3A.Time.Cache + 60
-		end
-	end
+function D3A.Time.SaveTimeDisconnect(info)
+	local steamid64 = util.SteamIDTo64(info.networkid)
+	if (not steamid64) then return end
+	local qstr = D3A.Time.GetQueryString(steamid64)
+	if (not qstr) then return end
+
+	D3A.MySQL.Query(qstr)
 end
-timer.Create("D3A.Time.SaveTimes", 1, 0, D3A.Time.SaveTimes)
+gameevent.Listen "player_disconnect"
+hook.Add("player_disconnect", "D3A.Time.SaveTimeDisconnect", D3A.Time.SaveTimeDisconnect)
+
+
+function D3A.Time.SaveAllTimes()
+	local pls, qstr = player.GetAll(), ""
+
+	for k = 1, #pls do
+		local v = pls[k]
+		if (not IsValid(v)) then continue end
+		local id = v:SteamID64()
+		if (not id) then continue end
+
+		local pstr = D3A.Time.GetQueryString(id)
+		if (not pstr) then continue end
+
+		qstr = qstr .. pstr
+	end
+
+	if (qstr == "") then return end
+	D3A.MySQL.Query(qstr)
+end
+hook.Add("ShutDown", "D3A.Time.SaveTimes", D3A.Time.SaveAllTimes)

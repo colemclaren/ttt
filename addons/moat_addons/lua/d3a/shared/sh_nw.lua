@@ -144,9 +144,9 @@ end
 function nw_mt:_CallHook(index, value)
 	if (self.Hook) then
 		if (index != 0) then
-			hook.Call(self.Hook, GAMEMODE, Entity(index), value)
+			hook.Run(self.Hook, Entity(index), value)
 		else
-			hook.Call(self.Hook, GAMEMODE, value)
+			hook.Run(self.Hook, value)
 		end
 	end
 end
@@ -221,7 +221,7 @@ if (SERVER) then
 
 	net.Receive('D3A.NW.PlayerSync', function(len, pl)
 		if (pl.EntityCreated ~= true) then
-			hook.Call('PlayerEntityCreated', GAMEMODE, pl)
+			hook.Run('PlayerEntityCreated', pl)
 
 			pl.EntityCreated = true
 

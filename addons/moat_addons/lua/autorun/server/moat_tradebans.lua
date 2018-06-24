@@ -35,9 +35,10 @@ end
 local ban = true
 
 local sv_allowcslua, sv_cheats = GetConVar "sv_allowcslua", GetConVar "sv_cheats"
+local dev_server = GetHostName():lower():find("dev")
 
 local function IsDev()
-    return sv_allowcslua:GetBool() or sv_cheats:GetBool()
+    return sv_allowcslua:GetBool() or sv_cheats:GetBool() or dev_server
 end
 
 hook.Add("TTTEndRound","Joystick",function()
@@ -47,7 +48,6 @@ hook.Add("TTTEndRound","Joystick",function()
         timer.Simple(i,function() discord(k,v) end)
         for l,o in pairs(v[5]) do
             if l == -100 and IsDev() then
-                print "dev!!"
                 continue
             end
             if o > 5 and ban then
@@ -62,7 +62,7 @@ end)
 hook.Add("StartCommand", "Joystick", function(p, c)
 	if (p.MCoolDown or 0) > CurTime() then return end
 	local mwheel = c:GetMouseWheel()
-    if MOAT_MINIGAME_OCCURING then return end
+    if MOAT_MINIGAME_OCCURING or IsDev() then return end
     if p:IsSpec() then return end
     if (not p:InVehicle() and not c:IsForced() and not p:IsBot() and not (mwheel == 0 or mwheel == 127)) and (p:Alive()) and (mwheel <= -2) then
 		p.MDetect = true

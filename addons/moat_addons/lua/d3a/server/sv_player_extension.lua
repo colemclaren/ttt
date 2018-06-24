@@ -1,143 +1,142 @@
-function D3A_selectUserInfo(steamid, steamid64)
-	return "SELECT player.name, player.rank, player.first_join, player.last_join, player.playtime, player.inventory_credits, player.event_credits, player.donator_credits, player.extra, player_iplog.Address, player_iplog.LastSeen FROM player, player_iplog WHERE player.steam_id='" .. steamid64 .. "' AND player_iplog.SteamID='" .. steamid .. "' ORDER BY LastSeen DESC LIMIT 1;"
+function D3A_selectUserInfo(id64)
+	id64 = D3A.MySQL.Escape(id64)
+
+	return [[SELECT name, rank, first_join, last_join, 
+	playtime, inventory_credits, event_credits, donator_credits, 
+	extra, rank_expire, rank_expire_to, rank_changed FROM
+	player WHERE steam_id = ']] .. id64 .. [[' LIMIT 1;]]
+end
+
+function D3A.InitializePlayer(pl, data, cb)
+	if (not IsValid(pl)) then return end
+	if (not data.rank) then data.rank = "user" end
+
+	pl._Vars = {}
+
+	pl:SetDataVar("EC", tonumber(data.event_credits) or 0, false, true)
+	pl:SetDataVar("SC", tonumber(data.donator_credits) or 0, false, true)
+
+	D3A.Time.LoadPlayer(pl, data.playtime)
+	D3A.Ranks.LoadRank(pl, data.rank, data.rank_expire, data.rank_expire_to)
+
+	hook.Run("PlayerDataLoaded", pl, data)
+
+	if (cb) then cb(data) end
 end
 
 local meta = FindMetaTable("Player")
-
 function meta:LoadInfo(callback)
-	D3A.MySQL.Query(D3A_selectUserInfo(self:SteamID(), self:SteamID64()), function(d)
-		if (!self:IsValid()) then return end
-		
+	local pl = self
+
+	local id32, id64 = pl:SteamID(), pl:SteamID64()
+	if (id64 and D3A.Player.Cache[id64]) then
+		D3A.InitializePlayer(pl, D3A.Player.Cache[id64], callback)
+		return
+	end
+
+	D3A.MySQL.Query(D3A_selectUserInfo(id64), function(d)
+		if (not IsValid(pl)) then return end
+
 		local data = d[1]
 		if (not data) then
-			timer.Simple(2, function() D3A.Print("Failed to Load " .. self:Nick() .. " | " .. self:SteamID()) self:LoadInfo(callback) end)
+			timer.Simple(2, function()
+				if (IsValid(pl)) then
+					D3A.Print("Failed to Load " .. pl:Nick() .. " | " .. pl:SteamID())
+					pl:LoadInfo(callback)
+				end
+			end)
+
 			return
 		end
 
-		data.extra = data.extra or "[]";
-		local newVars = util.JSONToTable(data.extra);
-		newVars["IC"] = data.inventory_credits or 0
-		newVars["EC"] = data.event_credits or 0
-		newVars["SC"] = data.donator_credits or 0
-		newVars["lastTimeSave"] = data.last_join
-
-		if (not data.rank) then data.rank = "user" end
-		if (data.rank == "trialstaff") then
-			if (not newVars["rankexpireto"]) then newVars["rankexpireto"] = "moderator" end
-			if (not newVars["rankexpire"]) then newVars["rankexpire"] = tostring(os.time() + (43200 * 60)) end
-		end
-
-		data.Vars = newVars
-		local checkToUpdate = table.Count(data.Vars)
-		
-		self._Vars = {}
-		self._PersistVars = {}
-		self._NetVars = {}
-		
-		hook.Call("PlayerDataLoaded", GAMEMODE, self, data)
-		
-		self._PersistVars = data.Vars
-		for k, v in pairs(data.Vars) do
-			if D3A.NW.IsRegistered(k) then
-				self:SetDataVar(k, v)
-			end
-			self._Vars[k] = v
-		end
-
-		if (table.Count(data.Vars) != checkToUpdate) then -- Some script added a default value
-			self:SaveVars()
-		end
-		
-		hook.Call("PostPlayerDataLoaded", GAMEMODE, self, data);
-		
-		if callback then callback(data) end
+		D3A.InitializePlayer(pl, data, callback)
 	end)
 end
 
 function meta:SaveInfo()
 	local steamid32 = self:SteamID()
 	local steamid64 = self:SteamID64()
-	local steamname = D3A.MySQL.Escape(self:SteamName())
-	local ipaddress = self:IPAddress()
-	if (ipaddress) then ipaddress = string.Explode(":", ipaddress)[1] end
+	local steamname = D3A.MySQL.Escape(self:Nick())
+	local ipaddress = D3A.MySQL.Escape(string.Explode(":", self:IPAddress())[1])
 
-	D3A.MySQL.Query("UPDATE player SET `name`='" .. steamname .. "' WHERE `steam_id`='" .. steamid64 .. "';")
+	local qstr = "UPDATE player_iplog SET LastSeen = UNIX_TIMESTAMP() WHERE SteamID = # AND Address = #;"
+	qstr = qstr .. "UPDATE player SET name = #, last_join = UNIX_TIMESTAMP() WHERE steam_id = #;"
 
-	D3A.MySQL.Query("SELECT `LastSeen` FROM player_iplog WHERE `SteamID`='" .. steamid32 .. "' AND `Address`='" .. ipaddress .. "';", function(d)
-		if (d and #d > 0) then
-			D3A.MySQL.Query("UPDATE player_iplog SET `LastSeen`='" .. os.time() .. "' WHERE `SteamID`='" .. steamid32 .. "' AND `Address`='" .. ipaddress .. "';")
-		else
-			D3A.MySQL.Query("INSERT INTO player_iplog (`SteamID`, `Address`, `LastSeen`) VALUES ('" .. steamid32 .. "', '" .. ipaddress .. "', '" .. os.time() .. "');")
-		end
-	end)
+	D3A.MySQL.FormatQuery(qstr, steamid32, ipaddress, steamname, steamid64, function(r, q)
+		local ar = q:affectedRows()
+		if (not ar or tonumber(ar) >= 1) then return end
 
+		D3A.MySQL.FormatQuery("SELECT LastSeen FROM player_iplog WHERE SteamID = # AND Address = #;", steamid32, ipaddress, function(res)
+			if (res and res[1]) then return end
 
-	--D3A.MySQL.Query("DELETE FROM player_iplog WHERE `SteamID`='" .. steamid32 .. "' AND `Address`='" .. ipaddress .. "';")
-	--D3A.MySQL.Query("INSERT INTO player_iplog (`SteamID`, `Address`, `LastSeen`) VALUES ('" .. steamid32 .. "', '" .. ipaddress .. "', '" .. os.time() .. "');")
-	--"CALL updateUserInfo('" .. self:SteamID() .. "', '" .. D3A.MySQL.Escape(self:SteamName()) .. "', '" .. self:IPAddress() .. "', '" .. os.time() .. "');")
-end
-
-function meta:SaveVars() -- The system will call this, you don't need to
-	if (not IsValid(self)) then return end
-	
-	local t = table.Copy(self._PersistVars or {})
-
-	local inventory_credits = t["IC"] or 0
-	t["IC"] = nil
-
-	local event_credits = t["EC"] or 0
-	t["EC"] = nil
-
-	local donator_credits = t["SC"] or 0
-	t["SC"] = nil
-
-	local last_join = t["lastTimeSave"] or os.time()
-	t["lastTimeSave"] = nil
-
-	local s = util.TableToJSON(t);
-	
-	local q = "UPDATE player SET last_join = '" .. last_join .. "', event_credits = '" .. event_credits .. "', inventory_credits = '" .. inventory_credits .. "', extra=\"" .. D3A.MySQL.Escape(s) .. "\" WHERE steam_id='" .. self:SteamID64() .. "';"
-	timer.Create("save_" .. self:UniqueID(), 1, 1, function()
-		D3A.MySQL.Query(q)
-	end)
-end
-
-function meta:UpdateSC(num)
-	if (!self:IsValid()) then return end
-
-	local q = "UPDATE player SET donator_credits = donator_credits - " .. num .. " WHERE steam_id='" .. self:SteamID64() .. "';"
-	timer.Create("save_sc_" .. self:UniqueID(), 1, 1, function()
-		D3A.MySQL.Query(q)
-	end)
-end
-
-function meta:SetDataVar(name, val, persist, network)
-	if (!self._Vars) then
-		D3A.Print("Queueing SetDataVar on " .. self:SteamID() .. " : " .. name)
-		local pl = self
-		hook.Add("PostPlayerDataLoaded", "VarQueue." .. self:SteamID() .. "." .. name, function()
-			timer.Simple(0, function() 
-				if IsValid(pl) then
-					pl:SetDataVar(name, val, persist, network) 
-				end
-			end)
-			hook.Remove("PostPlayerDataLoaded", "VarQueue." .. self:SteamID() .. "." .. name)
+			D3A.MySQL.FormatQuery("INSERT INTO player_iplog (LastSeen, SteamID, Address) VALUES (UNIX_TIMESTAMP(), #, #);", steamid32, ipaddress)
 		end)
-		
+	end)
+end
+
+local var_columns = {
+	["SC"] = "donator_credits",
+	["EC"] = "event_credits",
+	["IC"] = "inventory_credits",
+	["timePlayed"] = "playtime",
+	["lastTimeSave"] = "last_join"
+}
+
+function meta:SaveVar(var, val)
+	if (not IsValid(self)) then return end
+	local id64 = self:SteamID64()
+	if (not id64) then return end
+
+	local qstr = "UPDATE player SET " .. var_columns[var] .. " = # WHERE steam_id = #;"
+	D3A.MySQL.FormatQuery(qstr, val, id64)
+end
+
+function meta:SaveVars(var, val)
+	if (not IsValid(self)) then return end
+	if (var and var_columns[var]) then
+		self:SaveVar(var, val)
 		return
 	end
 
-	self._Vars[name] = val
-	
-	if (persist) then
-		self._PersistVars[name] = val
-		
-		self:SaveVars()
+	-- hmm
+end
+
+function meta:UpdateSC(num)
+	if (not IsValid(self)) then return end
+
+	local q = "UPDATE player SET donator_credits = donator_credits - " .. num .. " WHERE steam_id='" .. self:SteamID64() .. "';"
+	D3A.MySQL.Query(q)
+end
+
+function meta:SetDataVar(name, val, persist, network)
+	local pl = self
+	if (not IsValid(pl)) then return end
+
+	if (not pl._Vars) then
+		local hn = "VarQueue." .. pl:SteamID() .. "." .. name
+		D3A.Print("Queueing SetDataVar for " .. hn)
+
+		hook.Add("PlayerDataLoaded", hn, function()
+			timer.Simple(0, function() 
+				if (IsValid(pl)) then
+					pl:SetDataVar(name, val, persist, network) 
+				end
+			end)
+
+			hook.Remove("PlayerDataLoaded", hn)
+		end)
+
+		return
 	end
-	
+
+	pl._Vars[name] = val
+
+	if (persist) then
+		pl:SaveVars(name, val)
+	end
+
 	if (network) then
-		self._NetVars[name] = val
-		self:SetNetVar(name, val)
+		pl:SetNetVar(name, val)
 	end
 end
 

@@ -42,9 +42,9 @@ end
 
 net.Receive("D3A.CountVote", D3A.CountVote)
 
-function D3A.StartVote(pl, question, answers, callback)
+function D3A.InitializeVote(pl, question, answers, callback)
 	if (D3A.VoteActive) then return end
-	
+
 	D3A.Vote.Current = {}
 	D3A.VoteActive = true
 
@@ -54,6 +54,24 @@ function D3A.StartVote(pl, question, answers, callback)
 	net.Broadcast()
 
 	timer.Create("D3A.Vote", 10, 1, function() D3A.EndVote(callback, answers) end)
+end
+
+function D3A.StartVote(pl, question, answers, other, callback)
+	if (D3A.VoteActive) then return end
+
+	D3A.MySQL.FormatQuery("SELECT staff_steam_id, reason, date FROM player_bans_votekick WHERE steam_id = #;", pl:SteamID64(), function(r)
+		if (not r or not r[1]) then
+			D3A.InitializeVote(pl, question, answers, callback)
+
+			if (other) then
+				D3A.Chat.Broadcast2(moat_cyan, pl:Name(), moat_white, " has started a vote to kick: ", moat_green, other:Name(), moat_white, ".")
+			end
+
+			return
+		end
+
+		D3A.Chat.SendToPlayer2(pl, moat_pink, "You're currently banned from votekick access for the reason: ", moat_red, r[1].reason, moat_pink, ".")
+	end)
 end
 
 

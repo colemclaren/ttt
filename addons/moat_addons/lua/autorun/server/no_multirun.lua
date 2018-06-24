@@ -30,18 +30,6 @@ end
 function nomr:onConnected()
 	self.serverid = "'" .. self.db:escape(self.serverid) .. "'"
 
-	/*local checksession 	= self.db:prepare('SELECT steamid64, server FROM player_sessions WHERE steamid64=? AND time >= (UNIX_TIMESTAMP() - 0.5) AND server != ' .. self.serverid .. ';')
-	local updatesession = self.db:prepare('REPLACE INTO player_sessions(steamid64, time, server, name, rank, level, team_kills, slays) VALUES(?, UNIX_TIMESTAMP(), ' .. self.serverid .. ', ?, ?, ?, 0, 0);')
-	local deletesession = self.db:prepare('DELETE FROM player_sessions WHERE steamid64=? AND server = ' .. self.serverid .. ';')*/
-
-	/*hook.Add('CheckPassword', 'nomr.CheckPassword', function(steamid64)
-		nomr:Query('SELECT steamid64, server FROM player_sessions WHERE steamid64=' .. steamid64 .. ' AND time >= (UNIX_TIMESTAMP() - 2) AND server != ' .. self.serverid .. ';', function(d)
-			if (d and #d > 0) then
-				game.KickID(util.SteamIDFrom64(steamid64), 'Active session on another server detected') -- if we create your session here you wont be able to join other servers if you lose connection before you're authed
-			end
-		end)
-	end)*/
-
 	hook.Add('PlayerStatsLoaded', 'nomr.PlayerStatsLoaded', function(pl, stats)
 		nomr:Query('SELECT steamid64, server FROM player_sessions WHERE steamid64=' .. pl:SteamID64() .. ' AND time >= (UNIX_TIMESTAMP() - 2) AND server != ' .. self.serverid .. ';', function(d)
 			if IsValid(pl) then
@@ -56,11 +44,34 @@ function nomr:onConnected()
 		end)
 	end)
 
-	hook.Add('PlayerDisconnected', 'nomr.PlayerDisconnected', function(pl)
-		nomr:Query('DELETE FROM player_sessions WHERE steamid64=' .. pl:SteamID64() .. ' AND server = ' .. self.serverid .. ';')
+	-- apparently the regular PlayerDisconnected hook is unreliable? idk
+	local session_antispam = {}
+	local session_queue = {}
+	local function delete_session(player_id)
+		if (session_antispam[player_id] and session_antispam[player_id] > CurTime()) then 
+			if (not session_queue[player_id]) then
+				session_queue[player_id] = true
+				timer.Simple(2, function()
+					session_queue[player_id] = nil
+					delete_session(player_id)
+				end)
+			end
+
+			return 
+		end
+
+		nomr:Query('DELETE FROM player_sessions WHERE steamid64=' .. player_id .. ' AND server = ' .. nomr.serverid .. ';')
+		session_antispam[player_id] = CurTime() + 1
+	end
+
+	gameevent.Listen("player_disconnect")
+	hook.Add("player_disconnect", "nomr.PlayerDisconnected", function(info)
+		local steamid64 = util.SteamIDTo64(info.networkid)
+		if (not steamid64) then return end
+		
+		delete_session(steamid64)
 	end)
 
-	--local updatesessions = self.db:prepare('UPDATE player_sessions SET time = UNIX_TIMESTAMP() WHERE server = ' .. self.serverid .. ';')
 	timer.Create('nomr.UpdateSessions', 1, 0, function()
 		nomr:Query('UPDATE player_sessions SET time = UNIX_TIMESTAMP() WHERE server = ' .. self.serverid .. ';')
 	end)

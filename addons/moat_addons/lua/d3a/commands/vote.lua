@@ -23,7 +23,7 @@ COMMAND.Run = function(pl, args, supp)
 		return
 	end
 
-	D3A.StartVote(pl, args[1], ans, function(res, votes)
+	D3A.StartVote(pl, args[1], ans, nil, function(res, votes)
 		local msgtbl = {}
 		table.sort(res, function(a, b) return a[2] > b[2] end)
 
@@ -49,6 +49,4 @@ COMMAND.Run = function(pl, args, supp)
 
 		D3A.Chat.Broadcast2(unpack(msgtbl))
 	end)
-
-	D3A.Chat.Broadcast2(moat_cyan, pl:Name(), moat_white, " has started a vote: ", moat_green, args[1], moat_white, ".")
 end

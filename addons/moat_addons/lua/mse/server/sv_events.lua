@@ -242,10 +242,12 @@ function give_ec(pl, num)
 	pl:SetDataVar("EC", ec + tonumber(num), true, true)
 end
 
+/*
 function MSE.SendEvents(pl, data)
 	pl:SetDataVar("EC", data.Vars.EC or 0, true, true)
 end
 hook.Add("PlayerDataLoaded", "MSE.PlayerDataLoaded", MSE.SendEvents)
+*/
 
 
 hook.Add("PostPlayerDeath", "moat_fix_ragdolls", function(ply)

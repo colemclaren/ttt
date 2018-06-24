@@ -36,11 +36,10 @@ D3A.Print("This server runs a heavily modified version of D3A " .. D3A.Version .
 
 if (SERVER) then
 	D3A.IncludeSV "d3a_configs/mysql.lua"
-	if D3A.Config.hostname == "1.2.3.4" then -- for the dev server
-		D3A.IncludeSV "d3a_mysql_dev.lua"
-	end
 	D3A.IncludeSV "d3a/server/mysql/sv_init.lua"
 end
+
+D3A.IncludeSH "d3a/shared/sh_player_extension.lua"
 
 local Files, Folders
 if (SERVER) then

@@ -8,7 +8,7 @@ MOAT_DONATE = MOAT_DONATE or {}
 MOAT_DONATE.Packages = {
 	[1] = {},
 	[2] = {1500, function(pl)
-		moat_makevip(pl)
+		moat_makevip(pl:SteamID64())
 		m_AddCreditsToSteamID(pl:SteamID(), 10000)
 
 		net.Start "D3A.Chat2"
@@ -145,12 +145,12 @@ function PLAYER:GetSC()
 	return sc
 end
 
-
+/*
 function MOAT_DONATE.SendSupportCredits(pl, data)
 	pl:SetDataVar("SC", data.Vars.SC or 0, true, true)
 end
 hook.Add("PlayerDataLoaded", "MOAT_DONATE.PlayerDataLoaded", MOAT_DONATE.SendSupportCredits)
-
+*/
 
 /*
 	Name rewards
