@@ -15,16 +15,18 @@ TALENT.Modifications[1] = {min = 15, max = 30} // Percent damage is increased by
 util.AddNetworkString "Talents.BostonBasher"
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
     if (GetRoundState() ~= ROUND_ACTIVE and GetRoundState() ~= ROUND_POST) then return end
+	local dmg = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
 
 	dmginfo.Callback = function(att, tr, dmginfo)
 		if (not IsValid(tr.Entity)) then
-			local dmg = att:GetActiveWeapon().Primary.Damage
-			att:TakeDamage(dmg, att, att:GetActiveWeapon())
+			att:TakeDamage(dmg, att, wep)
 			
 			net.Start "Talents.BostonBasher"
 			net.Send(att)
 		end
 	end
+
+	return true
 end
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
