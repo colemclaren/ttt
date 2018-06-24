@@ -111,6 +111,7 @@ end)
 function MOAT_DONATE.Purchase(l, pl)
 	if pl then
 		pl:SendLua([[chat.AddText(Color(255,0,0),"Purchases are currently disabled due to a bug. We are looking into it to keep your SC safe! (Check discord for more updates)")]])
+		pl:SendLua([[surface.PlaySound("common/warning.wav")]])
 		return
 	end
 	
