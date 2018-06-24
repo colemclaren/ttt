@@ -275,7 +275,7 @@ hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
     local weapon_lvl = weapon_tbl.level
 
     for k, v in ipairs(weapon_tbl.Talents) do
-        if (true) then --if (weapon_lvl >= v.l) then
+        if (weapon_lvl >= v.l) then
 			m_ApplyTalentsToWeaponOnFire(ent, weapon_tbl, dmginfo, v)
         end
     end
