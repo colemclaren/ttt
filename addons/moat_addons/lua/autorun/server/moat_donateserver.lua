@@ -109,7 +109,10 @@ end)
 
 
 function MOAT_DONATE.Purchase(l, pl)
-	pl:SendLua([[chat.AddText(Color(255,0,0),"Purchases are currently disabled due to a bug. We are looking into it to keep your SC safe! (Check discord for more updates)")]])
+	if pl then
+		pl:SendLua([[chat.AddText(Color(255,0,0),"Purchases are currently disabled due to a bug. We are looking into it to keep your SC safe! (Check discord for more updates)")]])
+		return
+	end
 	
 	if (pl.SupportShopCooldown and pl.SupportShopCooldown > CurTime()) then return end
 	pl.SupportShopCooldown = CurTime() + 1
