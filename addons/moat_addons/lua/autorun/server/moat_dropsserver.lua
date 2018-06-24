@@ -97,6 +97,15 @@ function m_CreatePaints()
     end
 end
 
+local COSMETIC_TYPES = {
+    ["Hat"] = true,
+    ["Mask"] = true, 
+    ["Model"] = true, 
+    ["Effect"] = true, 
+    ["Body"] = true, 
+    ["Melee"] = true
+}
+
 function m_InitializeItems()
     for type, folder in pairs(MOAT_ITEM_FOLDERS) do
         for _, filename in pairs(file.Find(MOAT_ITEM_FOLDER .. "/" .. folder .. "/*.lua", "LUA")) do
@@ -110,29 +119,34 @@ function m_InitializeItems()
     m_CreatePaints()
     -- boom beep items loooooaded
 end
-
 m_InitializeItems()
 
-local COSMETIC_TYPES = {
-    ["Hat"] = true,
-    ["Mask"] = true, 
-    ["Model"] = true, 
-    ["Effect"] = true, 
-    ["Body"] = true, 
-    ["Melee"] = true
-}
+concommand.Add("_reloaditems", function(pl)
+	if (IsValid(pl)) then return end
+	m_InitializeTalents()
+end)
+
+
 MOAT_TALENTS = {}
 
 function m_AddTalent(talent_tbl)
     MOAT_TALENTS[talent_tbl.ID] = talent_tbl
 end
 
-for k, v in pairs(file.Find("moat_items/moat_talents/*.lua", "LUA")) do
-    TALENT = {}
-    include("moat_items/moat_talents/" .. v)
-    MsgC(Color(255, 255, 0), "[mInventory] Loaded Talent: " .. TALENT.Name .. "\n")
-    m_AddTalent(TALENT)
+function m_InitializeTalents()
+	for k, v in pairs(file.Find("moat_items/moat_talents/*.lua", "LUA")) do
+    	TALENT = {}
+    	include("moat_items/moat_talents/" .. v)
+    	MsgC(Color(255, 255, 0), "[mInventory] Loaded Talent: " .. TALENT.Name .. "\n")
+    	m_AddTalent(TALENT)
+	end
 end
+m_InitializeTalents()
+
+concommand.Add("_reloadtalents", function(pl)
+	if (IsValid(pl)) then return end
+	m_InitializeTalents()
+end)
 
 function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
     local talent_tbl = {}

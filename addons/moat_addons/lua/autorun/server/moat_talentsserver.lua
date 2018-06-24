@@ -256,16 +256,16 @@ hook.Add("ScalePlayerDamage", "moat_ApplyScaleDamageMods", function(ply, hitgrou
     end
 end)
 
-function m_ApplyTalentsToWeaponOnFire(attacker, dmginfo, talent_tbl)
+function m_ApplyTalentsToWeaponOnFire(attacker, weapon_tbl, dmginfo, talent_tbl)
     local talent_enum = talent_tbl.e
     local talent_mods = talent_tbl.m or {}
     local talent_servertbl = m_GetTalentFromEnumWithFunctions(talent_enum)
 
     if (talent_servertbl.OnWeaponFired) then
-        return talent_servertbl:OnWeaponFired(attacker, dmginfo, talent_mods)
+		local t = talent_servertbl:OnWeaponFired(attacker, weapon_tbl, dmginfo, talent_mods)
+		if (t == nil) then return end
+		return t
     end
-
-    return true
 end
 
 hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
@@ -275,16 +275,8 @@ hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
     local weapon_lvl = weapon_tbl.level
 
     for k, v in ipairs(weapon_tbl.Talents) do
-        if (weapon_lvl >= v.l) then
-
-            local talent_enum = v.e
-            local talent_mods = v.m or {}
-            local talent_servertbl = m_GetTalentFromEnumWithFunctions(talent_enum)
-
-            if (talent_servertbl.OnWeaponFired) then
-                if (talent_servertbl:OnWeaponFired(ent, dmginfo, talent_mods)) then
-                end
-            end
+        if (true) then --if (weapon_lvl >= v.l) then
+			m_ApplyTalentsToWeaponOnFire(ent, weapon_tbl, dmginfo, v)
         end
     end
 end)
@@ -364,6 +356,8 @@ XP_MULTIPYER = 2
 
 hook.Add("PlayerDeath", "moat_updateWeaponLevels", function(victim, inflictor, attacker)
     if (not attacker:IsValid() or not attacker:IsPlayer() or MOAT_MINIGAME_OCCURING) then return end
+	if (attacker == victim) then return end
+
     local wep_used = attacker:GetActiveWeapon()
     if (IsValid(inflictor) and (inflictor.MaxHoldTime or inflictor.UniqueItemID)) then wep_used = inflictor end
 
