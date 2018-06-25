@@ -135,6 +135,7 @@ local moat_Settings = {
         {"Disable Multicore Rendering (Might Fix Crashes)", {"Multi"}, "moat_multicore"}
     },
     {"Gameplay",
+        {"Automatically Bunny-hop", {"Multi"}, "moat_bunny_hop"},
         {"Traitor Buddy Outline(FPS IMPACT)", {"Multi"}, "moat_OutlineTBuddies"},
         {"Inventory Cosmetics Visible", {"Multi"}, "moat_EnableCosmetics"},
         {"Inventory Effects Visible", {"Multi"}, "moat_EnableEffects"},
