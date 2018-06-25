@@ -1008,6 +1008,7 @@ function m_InitTradeAccept(trade_id)
     if (not offer_player2.ChatMuted) then
         net.Start("MOAT_TRADED_ITEMS")
         net.WriteEntity(offer_player2)
+        net.WriteInt(offer_table1_ic,32)
         net.WriteTable(t or {})
         net.Broadcast()
     end
@@ -1027,6 +1028,7 @@ function m_InitTradeAccept(trade_id)
     if (not offer_player1.ChatMuted) then
         net.Start("MOAT_TRADED_ITEMS")
         net.WriteEntity(offer_player1)
+        net.WriteInt(offer_table2_ic,32)
         net.WriteTable(offer_table2_items or {})
         net.Broadcast()
     end
