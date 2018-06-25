@@ -116,6 +116,7 @@ function MOAT_TITLES.OpenTitleMenu()
     local MOAT_WRITE_TITLE = vgui.Create("DTextEntry", MOAT_TITLES_BG)
     MOAT_WRITE_TITLE:SetPos((MOAT_TITLES_BG:GetWide()/2) - 150, 90)
     MOAT_WRITE_TITLE:SetSize(300, 20)
+    MOAT_WRITE_TITLE:SetFont("Default")
     MOAT_WRITE_TITLE.MaxChars = 30
     MOAT_WRITE_TITLE.OnTextChanged = function(s)
         local txt = s:GetValue()
@@ -146,6 +147,12 @@ function MOAT_TITLES.OpenTitleMenu()
     local MOAT_COLOR = vgui.Create("DColorMixer", MOAT_TITLES_BG)
     MOAT_COLOR:SetPos(5 + 55, 130)
     MOAT_COLOR:SetSize(settings.w - 10 - 110, settings.h - 148)
+    if not MOAT_COLOR.oUpdateColor then MOAT_COLOR.oUpdateColor = MOAT_COLOR.UpdateColor end
+    function MOAT_COLOR:UpdateColor(c)
+        MOAT_WRITE_TITLE:SetTextColor(Color(c.r,c.g,c.b))
+        self:oUpdateColor(c)
+    end
+    MOAT_WRITE_TITLE:SetTextColor(MOAT_COLOR:GetColor())
 
 	local hover_coloral = 0
 	local btn_hovered = 1
@@ -298,6 +305,7 @@ function MOAT_TITLES.OpenSelfTitleMenu()
     MOAT_WRITE_TITLE:SetPos((MOAT_TITLES_BG:GetWide()/2) - 150, 90)
     MOAT_WRITE_TITLE:SetSize(300, 20)
     MOAT_WRITE_TITLE.MaxChars = 30
+    MOAT_WRITE_TITLE:SetFont("Default")
     MOAT_WRITE_TITLE.OnTextChanged = function(s)
         local txt = s:GetValue()
         local amt = string.len(txt)
@@ -327,6 +335,12 @@ function MOAT_TITLES.OpenSelfTitleMenu()
     local MOAT_COLOR = vgui.Create("DColorMixer", MOAT_TITLES_BG)
     MOAT_COLOR:SetPos(5 + 55, 130)
     MOAT_COLOR:SetSize(settings.w - 10 - 110, settings.h - 148)
+    if not MOAT_COLOR.oUpdateColor then MOAT_COLOR.oUpdateColor = MOAT_COLOR.UpdateColor end
+    function MOAT_COLOR:UpdateColor(c)
+        MOAT_WRITE_TITLE:SetTextColor(Color(c.r,c.g,c.b))
+        self:oUpdateColor(c)
+    end
+    MOAT_WRITE_TITLE:SetTextColor(MOAT_COLOR:GetColor())
 
 	local hover_coloral = 0
 	local btn_hovered = 1
