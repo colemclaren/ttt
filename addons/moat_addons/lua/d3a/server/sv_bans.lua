@@ -106,7 +106,7 @@ function D3A.Bans.BanPlayer(steamid, a_steamid, len, unit, reason, override, cb)
 	local id = D3A.ParseSteamID(steamid)
 	if (not id) then
 		D3A.Chat.SendToPlayer2(banningply, moat_red, "Unknown player: " .. steamid)
-		--return
+		return
 	end
 
 	a_steamid = util.SteamIDTo64(a_steamid)
