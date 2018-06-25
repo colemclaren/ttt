@@ -56,31 +56,18 @@ units["week"] = 604800
 units["month"] = 2419200
 units["year"] = 29030400
 
-function D3A.Bans.BanPlayer(steamid, a_steamid, len, unit, reason, override, cb)
+function D3A.Bans.Ban(steamid, a_steamid, daname, daname2, len, unit, reason, override, cb)
 	local banlen = len * units[unit]
-	local daname = "John Doe"
-	local daname2 = "Console"
 
-	local bannedply = player.GetBySteamID(steamid)
-	local banningply = player.GetBySteamID(a_steamid)
-
-	if (bannedply) then
-		daname = D3A.MySQL.Escape(bannedply:Nick())
-	end
-
-	if (banningply) then
-		daname2 = D3A.MySQL.Escape(banningply:Nick())
-	end
-	
 	if (override) then
-		D3A.MySQL.Query("UPDATE player_bans SET time = UNIX_TIMESTAMP(), staff_steam_id='" .. util.SteamIDTo64(a_steamid) .. "', length='" .. banlen .. "', reason='" .. D3A.MySQL.Escape(reason) .. "' WHERE time='" .. override .. "' AND steam_id='" .. util.SteamIDTo64(steamid) .. "'", function()
+		D3A.MySQL.Query("UPDATE player_bans SET time = UNIX_TIMESTAMP(), staff_steam_id='" .. a_steamid .. "', length='" .. banlen .. "', reason='" .. D3A.MySQL.Escape(reason) .. "' WHERE time='" .. override .. "' AND steam_id='" .. steamid .. "'", function()
 			if (cb) then cb() end
 		end)
 
 		return
 	end
 
-	D3A.MySQL.Query("INSERT INTO player_bans (time, steam_id, staff_steam_id, name, staff_name, length, reason) VALUES (UNIX_TIMESTAMP(), '" .. util.SteamIDTo64(steamid) .. "', '" .. util.SteamIDTo64(a_steamid) .. "', '" .. daname .. "', '" .. daname2 .. "', '" .. banlen .. "', '" .. D3A.MySQL.Escape(reason) .. "')", function()
+	D3A.MySQL.Query("INSERT INTO player_bans (time, steam_id, staff_steam_id, name, staff_name, length, reason) VALUES (UNIX_TIMESTAMP(), '" .. steamid .. "', '" .. a_steamid .. "', '" .. daname .. "', '" .. daname2 .. "', '" .. banlen .. "', '" .. D3A.MySQL.Escape(reason) .. "')", function()
 		local pl = D3A.FindPlayer(a_steamid)
 		local tg = D3A.FindPlayer(steamid)
 		local nm = (pl and pl:Name()) or "Console"
@@ -98,6 +85,41 @@ function D3A.Bans.BanPlayer(steamid, a_steamid, len, unit, reason, override, cb)
 		end
 
 		if (cb) then cb() end
+	end)
+end
+
+function D3A.Bans.BanPlayer(steamid, a_steamid, len, unit, reason, override, cb)
+	local daname = "John Doe"
+	local daname2 = "Console"
+
+	local bannedply = player.GetBySteamID(steamid)
+	local banningply = player.GetBySteamID(a_steamid)
+
+	if (bannedply) then
+		daname = D3A.MySQL.Escape(bannedply:Nick())
+	end
+
+	if (banningply) then
+		daname2 = D3A.MySQL.Escape(banningply:Nick())
+	end
+
+	local id = D3A.ParseSteamID(steamid)
+	if (not id) then
+		D3A.Chat.SendToPlayer2(banningply, moat_red, "Unknown player: " .. steamid)
+		--return
+	end
+
+	a_steamid = util.SteamIDTo64(a_steamid)
+	steamid = D3A.MySQL.Escape(id)
+
+	D3A.MySQL.Query("SELECT name FROM player WHERE steam_id = '" .. steamid .. "';", function(r)
+		if (not r or not r[1]) then
+			D3A.Chat.SendToPlayer2(banningply, moat_red, "No players exist with SteamID provided.")
+			return
+		end
+
+		local n = r[1].name or daname
+		D3A.Bans.Ban(steamid, a_steamid, D3A.MySQL.Escape(n), daname2, len, unit, reason, override, cb)
 	end)
 end
 
