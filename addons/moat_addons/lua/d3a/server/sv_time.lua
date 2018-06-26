@@ -1,14 +1,14 @@
 D3A.Time = D3A.Time or {}
 D3A.Time.Joins = D3A.Time.Joins or {}
 
-function D3A.Time.GetQueryString(id, pl)
+function D3A.Time.GetQueryString(id)
 	local c = D3A.Time.Joins[id]
 	if (not c) then return end
 	local add, fq = math.max(1, SysTime() - c)
 	add = math.Round(add) or 1
 
-	if (MOAT_INVS and MOAT_INVS[pl] and MOAT_INVS[pl]["credits"] and MOAT_INVS[pl]["credits"].c) then
-		fq = D3A.MySQL.FormatQueryString("UPDATE player SET last_join = UNIX_TIMESTAMP(), playtime = playtime + #, inventory_credits = # WHERE steam_id = #;", add, id, tostring(MOAT_INVS[pl]["credits"].c))
+	if (MOAT_CREDSAVE and MOAT_CREDSAVE[id]) then
+		fq = D3A.MySQL.FormatQueryString("UPDATE player SET last_join = UNIX_TIMESTAMP(), playtime = playtime + #, inventory_credits = # WHERE steam_id = #;", add, MOAT_CREDSAVE[id], id)
     else
 		fq = D3A.MySQL.FormatQueryString("UPDATE player SET last_join = UNIX_TIMESTAMP(), playtime = playtime + # WHERE steam_id = #;", add, id)
 	end

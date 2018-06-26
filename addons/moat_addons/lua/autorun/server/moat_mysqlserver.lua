@@ -63,7 +63,7 @@ function m_InventoryTable(db)
 end
 
 local sql_queue = {}
-MINVENTORY_MYSQL = nil
+MINVENTORY_MYSQL = MINVENTORY_MYSQL or nil
 
 hook.Add("SQLConnected", "MINVENTORY_MYSQL", function(db)
     MINVENTORY_MYSQL = db
@@ -493,11 +493,15 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len, ply)
     m_SendInventoryToPlayer_NoRollSaveCheck(ply)
 end)
 
+MOAT_CREDSAVE = MOAT_CREDSAVE or {}
 function m_SendCreditsToPlayer(ply)
     local ply_creds = table.Copy(MOAT_INVS[ply]["credits"])
     net.Start("MOAT_SEND_CREDITS")
     net.WriteDouble(ply_creds.c)
     net.Send(ply)
+
+	if (not ply:SteamID64()) then return end
+	MOAT_CREDSAVE[ply:SteamID64()] = ply_creds.c
 end
 
 function m_SaveCredits(ply)
@@ -519,6 +523,9 @@ function m_SaveCredits(ply)
     end
 
     m_SendCreditsToPlayer(ply)
+
+	if (not ply:SteamID64()) then return end
+	MOAT_CREDSAVE[ply:SteamID64()] = ply_creds.c
 end
 
 function m_SetCreditsSteamID(_credits, _steamid)
