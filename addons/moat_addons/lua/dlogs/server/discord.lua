@@ -17,13 +17,13 @@ local function post(embed)
 		reset = headers["X-RateLimit-Reset"]
 	end
 
-	HTTP({
+	/*HTTP({
 		method = "POST",
 		url = "http://107.191.51.43:3000/rdm",
 		body = util.TableToJSON(embed),
 		type = "application/json",
 		success = cb
-	})
+	})*/
 end
 
 local srvr = string.Explode("]", string.Explode("Moat ", GetHostName())[2])[1]:Trim()

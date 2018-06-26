@@ -854,8 +854,18 @@ function MOAT_BOUNTIES:HighEndChance(tier)
 	return false
 end
 
+bounty_rewarded_players = bounty_rewarded_players or {}
 function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 	if (not ply:IsValid()) then return end
+	if (not bounty_rewarded_players[ply]) then
+		bounty_rewarded_players[ply] = {}
+	elseif (bounty_rewarded_players[ply] and bounty_rewarded_players[ply][bounty_id]) then
+		return
+	end
+
+	bounty_rewarded_players[ply][bounty_id] = true
+
+
 	local rewards = self.Bounties[bounty_id].rewardtbl
 
 	if (rewards.ic) then
