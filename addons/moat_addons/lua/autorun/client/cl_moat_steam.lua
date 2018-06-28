@@ -149,7 +149,7 @@ local function GiveRewards()
 	gui.OpenURL "https://steamcommunity.com/groups/moatgaming"
 end
 
-local function OpenRewards()
+function OpenRewards()
 	RewardsMainWindow = vgui.Create("DFrame")
 	RewardsMainWindow:SetSize(465, 200)
 	RewardsMainWindow:SetDraggable(true)
