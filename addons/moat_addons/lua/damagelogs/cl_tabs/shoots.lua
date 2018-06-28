@@ -12,7 +12,7 @@ function Damagelog:DrawShootsTab()
 		self.ReceivingST = true
 		self.ShootsList:Clear()
 		self.ShootsList:AddLine("Loading...")
-		net.Start("DL_AskShootLogs")
+		net.Start("M_DL_AskShootLogs")
 		net.WriteUInt(self.SelectedRound, 8)
 		net.SendToServer()
 	end
@@ -27,7 +27,7 @@ function Damagelog:DrawShootsTab()
 
 end
 
-net.Receive("DL_SendShootLogs", function()
+net.Receive("M_DL_SendShootLogs", function()
 	if not Damagelog.ReceivingST then return end
 	local t = net.ReadUInt(32)
 	local tbl = net.ReadTable()

@@ -48,12 +48,12 @@ if Damagelog.RDM_Manager_Enabled then
 	resource.AddFile("sound/ui/vote_yes.wav")*/
 end
 
-util.AddNetworkString("DL_AskDamagelog")
-util.AddNetworkString("DL_SendDamagelog")
-util.AddNetworkString("DL_SendRoles")
-util.AddNetworkString("DL_RefreshDamagelog")
-util.AddNetworkString("DL_InformSuperAdmins")
-util.AddNetworkString("DL_Ded")
+util.AddNetworkString("M_DL_AskDamagelog")
+util.AddNetworkString("M_DL_SendDamagelog")
+util.AddNetworkString("M_DL_SendRoles")
+util.AddNetworkString("M_DL_RefreshDamagelog")
+util.AddNetworkString("M_DL_InformSuperAdmins")
+util.AddNetworkString("M_DL_Ded")
 
 Damagelog.DamageTable = Damagelog.DamageTable or {}
 Damagelog.old_tables = Damagelog.old_tables or {}
@@ -192,12 +192,12 @@ function Damagelog:SendDamagelog(ply, round)
 end
 
 function Damagelog:TransferLogs(damage_send, ply, round, roles, current)
-	net.Start("DL_SendRoles")
+	net.Start("M_DL_SendRoles")
 	net.WriteTable(roles or {})
 	net.Send(ply)
 	local count = #damage_send
 	for k,v in ipairs(damage_send) do
-		net.Start("DL_SendDamagelog")
+		net.Start("M_DL_SendDamagelog")
 		if v == "empty" then
 			net.WriteUInt(1, 1)
 		elseif v == "ignore" then
@@ -221,13 +221,13 @@ function Damagelog:TransferLogs(damage_send, ply, round, roles, current)
 		end
 	end
 	if current and ply:IsActive() then
-		net.Start("DL_InformSuperAdmins")
+		net.Start("M_DL_InformSuperAdmins")
 		net.WriteString(ply:Nick())
 		net.Send(self.AbuseMessageMode == 1 and superadmins or self.AbuseMessageMode == 2 and player.GetAll() or {})
 	end
 end
 
-net.Receive("DL_AskDamagelog", function(_, ply)
+net.Receive("M_DL_AskDamagelog", function(_, ply)
 	Damagelog:SendDamagelog(ply, net.ReadInt(32))
 end)
 

@@ -1,15 +1,15 @@
-surface.CreateFont("DL_ChatCategory", {
+surface.CreateFont("M_DL_ChatCategory", {
 	font = "DermaDefault",
 	size = 17,
 	weight = 700
 })
 
-surface.CreateFont("DL_ChatFont", {
+surface.CreateFont("M_DL_ChatFont", {
 	font = "DermaDefault",
 	size = 17
 })
 
-surface.CreateFont("DL_ChatPlayer", {
+surface.CreateFont("M_DL_ChatPlayer", {
 	font = "DermaDefault",
 	size = 16,
 	weight = 600
@@ -42,10 +42,10 @@ end
 
 function PANEL:Paint(w, h)
 	surface.SetTextColor(color_black)
-	surface.SetFont("DL_ChatPlayer")
+	surface.SetFont("M_DL_ChatPlayer")
 	surface.SetTextPos(40, 0)
 	surface.DrawText(self.PlayerName)
-	surface.SetFont("DL_ChatPlayer")
+	surface.SetFont("M_DL_ChatPlayer")
 	surface.SetTextPos(40, 16)
 	if self.PlayerValid then
 		if self.PlayerType == DAMAGELOG_REPORTED then
@@ -64,7 +64,7 @@ function PANEL:Paint(w, h)
 	end
 end
 
-vgui.Register("DL_ChatPlayer", PANEL, "DPanel")
+vgui.Register("M_DL_ChatPlayer", PANEL, "DPanel")
 
 local PANEL = {}
 
@@ -80,7 +80,7 @@ function PANEL:SetCategoryName(name)
 end
 
 function PANEL:AddPlayer(ply, playertype)
-	local panel = vgui.Create("DL_ChatPlayer", self)
+	local panel = vgui.Create("M_DL_ChatPlayer", self)
 	panel:SetHeight(30)
 	panel:SetPlayer(ply, playertype)
 	self.List:AddItem(panel)
@@ -93,21 +93,21 @@ end
 
 function PANEL:Paint()
 	if not self.Name then return end
-	surface.SetFont("DL_ChatCategory")
+	surface.SetFont("M_DL_ChatCategory")
 	surface.SetTextColor(Color(150, 150, 150))
 	surface.SetTextPos(5, 5)
 	surface.DrawText(self.Name)
 end
 
-vgui.Register("DL_ChatCategory", PANEL, "DPanel")
+vgui.Register("M_DL_ChatCategory", PANEL, "DPanel")
 
 local PANEL = {}
 
 function PANEL:Init()
 	self:EnableVerticalScrollbar(true)
-	self.Normal = vgui.Create("DL_ChatCategory", self)
+	self.Normal = vgui.Create("M_DL_ChatCategory", self)
 	self.Normal:SetCategoryName("Players")
-	self.Admins = vgui.Create("DL_ChatCategory", self)
+	self.Admins = vgui.Create("M_DL_ChatCategory", self)
 	self.Admins:SetCategoryName("Administrators")
 end
 
@@ -150,7 +150,7 @@ function PANEL:Paint(w, h)
 	draw.RoundedBox(4, 0, h-12, w-8, 12, background)
 end
 
-vgui.Register("DL_ChatList", PANEL, "DPanelList")
+vgui.Register("M_DL_ChatList", PANEL, "DPanelList")
 
 Damagelog.CurrentChats = Damagelog.CurrentChats or {}
 
@@ -174,7 +174,7 @@ function Damagelog:StartChat(report, admins, victim, attacker, players, history)
 		end
 	end
 	
-	local List = vgui.Create("DL_ChatList", Chat)
+	local List = vgui.Create("M_DL_ChatList", Chat)
 	List:SetPos(2, 26)
 	List:SetSize(152, Chat:GetTall() - 57)
 	for k,v in ipairs(admins) do
@@ -268,7 +268,7 @@ function Damagelog:StartChat(report, admins, victim, attacker, players, history)
 			button.DoClick = function()
 				if IsValid(cur_selected) and IsValid(cur_selected.pl) then
 					local ply = cur_selected.pl
-					net.Start("DL_AddChatPlayer")
+					net.Start("M_DL_AddChatPlayer")
 					net.WriteUInt(Chat.RID, 32)
 					net.WriteEntity(ply)
 					net.SendToServer()
@@ -277,7 +277,7 @@ function Damagelog:StartChat(report, admins, victim, attacker, players, history)
 			end			
 		end):SetImage("icon16/user_add.png")
 		menu:AddOption("Close chat", function()
-			net.Start("DL_CloseChat")
+			net.Start("M_DL_CloseChat")
 			net.WriteUInt(Chat.RID, 32)
 			net.SendToServer()
 		end):SetImage("icon16/disconnect.png")
@@ -308,8 +308,8 @@ function Damagelog:StartChat(report, admins, victim, attacker, players, history)
 	RichText:SetPos(5, 10)
 	RichText:SetSize(Sheet:GetWide() - 25, Sheet:GetTall() - 78)
 	RichText.AddText = function(self, nick, color, text)
-		self.m_FontName = "DL_ChatFont"
-		self:SetFontInternal("DL_ChatFont")	
+		self.m_FontName = "M_DL_ChatFont"
+		self:SetFontInternal("M_DL_ChatFont")	
 		self:InsertColorChange(color.r, color.g, color.b, color.a or 255)
 		self:AppendText(nick.. ": ")
 		self:InsertColorChange(255, 255, 255, 255)
@@ -328,15 +328,15 @@ function Damagelog:StartChat(report, admins, victim, attacker, players, history)
 	end
 	
 	Chat.AddMessage = function(self, msg)
-		RichText.m_FontName = "DL_ChatFont"
-		RichText:SetFontInternal("DL_ChatFont")	
+		RichText.m_FontName = "M_DL_ChatFont"
+		RichText:SetFontInternal("M_DL_ChatFont")	
 		RichText:InsertColorChange(230, 62, 99, 255)
 		RichText:AppendText(msg.."\n")
 	end
 	
 	local function SendMessage(msg)
 		if #msg == 0 or #msg > 200 then return end
-		net.Start("DL_SendChatMessage")
+		net.Start("M_DL_SendChatMessage")
 		net.WriteUInt(report, 32)
 		net.WriteString(msg)
 		net.SendToServer()
@@ -369,7 +369,7 @@ function Damagelog:StartChat(report, admins, victim, attacker, players, history)
 	
 end
 
-net.Receive("DL_BroadcastMessage", function()
+net.Receive("M_DL_BroadcastMessage", function()
 	local id = net.ReadUInt(32)
 	local ply = net.ReadEntity()
 	local color = net.ReadColor()
@@ -390,7 +390,7 @@ net.Receive("DL_BroadcastMessage", function()
 	end
 end)
 
-net.Receive("DL_OpenChat", function()
+net.Receive("M_DL_OpenChat", function()
 
 	local report = net.ReadUInt(32)
 	local admin = net.ReadEntity()
@@ -416,7 +416,7 @@ net.Receive("DL_OpenChat", function()
 
 end)
 
-net.Receive("DL_JoinChatCL", function()
+net.Receive("M_DL_JoinChatCL", function()
 
 	local is_joining = net.ReadUInt(1) == 1
 	
@@ -505,7 +505,7 @@ hook.Add("Think", "Damagelog_Chat", function()
 
 end)
 
-net.Receive("DL_StopChat", function()
+net.Receive("M_DL_StopChat", function()
 
 	local id = net.ReadUInt(32)
 	local forced = net.ReadUInt(1) == 1
@@ -578,7 +578,7 @@ hook.Add("HUDPaint", "Damagelog_Chat", function()
 			surface.DrawLine(w - wr/2, h + hr/2, w - wr/2, h - hr/2)
 			
 			surface.SetTextColor(color_black)
-			surface.SetFont("DL_ChatCategory")
+			surface.SetFont("M_DL_ChatCategory")
 			local text = tostring(#Damagelog.CurrentChats).." active chat(s)"
 			local wt, ht = surface.GetTextSize(text)
 			surface.SetTextPos(w - wr/2 + 10, h - ht/2)
@@ -596,7 +596,7 @@ hook.Add("HUDPaint", "Damagelog_Chat", function()
 				surface.SetDrawColor(Color(92, 127, 183))
 				Damagelog.DrawCircle(w + wr/2, h-hr/2, 13, 50)
 				
-				surface.SetFont("DL_ChatCategory")
+				surface.SetFont("M_DL_ChatCategory")
 				surface.SetTextPos(w + wr/2 - 4, h-hr/2 - 8)
 				surface.SetTextColor(color_white)
 				surface.DrawText(tostring(missing_messages))
@@ -609,7 +609,7 @@ hook.Add("HUDPaint", "Damagelog_Chat", function()
 			
 				local i = h - hr
 				
-				surface.SetFont("DL_ChatPlayer")
+				surface.SetFont("M_DL_ChatPlayer")
 				
 				local max_w = 0
 				for k,v in pairs(Damagelog.CurrentChats) do
@@ -680,7 +680,7 @@ hook.Add("HUDPaint", "Damagelog_Chat", function()
 					Damagelog.DrawCircle(_x + max_w - 15, _y + 15, 10, 20)
 					
 					surface.SetTextColor(color_white)
-					surface.SetFont("DL_ChatPlayer")
+					surface.SetFont("M_DL_ChatPlayer")
 					local count = v.MissingMessages or 0
 					local count_x = count >= 10 and 22 or 18
 					surface.SetTextPos(_x + max_w - count_x, _y + 7)

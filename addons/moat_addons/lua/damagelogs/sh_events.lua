@@ -33,7 +33,7 @@ function Damagelog:AddEvent(event, f)
 				table.insert(recip, v)
 			end
 		end
-		net.Start("DL_RefreshDamagelog")
+		net.Start("M_DL_RefreshDamagelog")
 		net.WriteTable(infos)
 		net.Send(recip)
 		

@@ -9,13 +9,15 @@ local function parseBans(data)
 		Removed = {}
 	}
 	
+	local curunix = os.time()
 	for k, v in pairs(data) do
 		if (v.unban_reason and string.len(v.unban_reason) > 1) then
 			table.insert(Bans.Removed, v)
 			continue
 		end
 
-		if (tonumber(v.length) != 0) and (tonumber(v.time) + tonumber(v.length) <= os.time()) then
+		if (tonumber(v.length) != 0) and (tonumber(v.time) + tonumber(v.length) <= curunix) then
+			if (v.time - curunix) then end
 			table.insert(Bans.Past, v)
 			continue
 		else

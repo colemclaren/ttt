@@ -1,20 +1,20 @@
 
-util.AddNetworkString("DL_AllowReport")
-util.AddNetworkString("DL_ReportPlayer")
-util.AddNetworkString("DL_UpdateReports")
-util.AddNetworkString("DL_UpdateReport")
-util.AddNetworkString("DL_NewReport")
-util.AddNetworkString("DL_UpdateStatus")
-util.AddNetworkString("DL_SendReport")
-util.AddNetworkString("DL_SendAnswer")
-util.AddNetworkString("DL_SendForgive")
-util.AddNetworkString("DL_GetForgive")
-util.AddNetworkString("DL_Death")
-util.AddNetworkString("DL_Answering")
-util.AddNetworkString("DL_Answering_global")
-util.AddNetworkString("DL_ForceRespond")
-util.AddNetworkString("DL_StartReport")
-util.AddNetworkString("DL_Conclusion")
+util.AddNetworkString("M_DL_AllowReport")
+util.AddNetworkString("M_DL_ReportPlayer")
+util.AddNetworkString("M_DL_UpdateReports")
+util.AddNetworkString("M_DL_UpdateReport")
+util.AddNetworkString("M_DL_NewReport")
+util.AddNetworkString("M_DL_UpdateStatus")
+util.AddNetworkString("M_DL_SendReport")
+util.AddNetworkString("M_DL_SendAnswer")
+util.AddNetworkString("M_DL_SendForgive")
+util.AddNetworkString("M_DL_GetForgive")
+util.AddNetworkString("M_DL_Death")
+util.AddNetworkString("M_DL_Answering")
+util.AddNetworkString("M_DL_Answering_global")
+util.AddNetworkString("M_DL_ForceRespond")
+util.AddNetworkString("M_DL_StartReport")
+util.AddNetworkString("M_DL_Conclusion")
 
 Damagelog.Reports = Damagelog.Reports or { Current = {} }
 
@@ -55,7 +55,7 @@ function Player:UpdateReports()
 	if not tbl then return end
 	local compressed = util.Compress(tbl)
 	if not compressed then return end
-	net.Start("DL_UpdateReports")
+	net.Start("M_DL_UpdateReports")
 	net.WriteUInt(#compressed, 32)
 	net.WriteData(compressed, #compressed)
 	net.Send(self)
@@ -63,7 +63,7 @@ end
 
 function Player:NewReport(report)
 	if not self:CanUseRDMManager() then return end
-	net.Start("DL_NewReport")
+	net.Start("M_DL_NewReport")
 	net.WriteTable(report)
 	net.Send(self)
 end
@@ -72,7 +72,7 @@ function Player:UpdateReport(previous, index)
 	if not self:CanUseRDMManager() then return end
 	local tbl = previous and Damagelog.Reports.Previous[index] or Damagelog.Reports.Current[index]
 	if not tbl then return end
-	net.Start("DL_UpdateReport")
+	net.Start("M_DL_UpdateReport")
 	net.WriteUInt(previous and 1 or 0, 1)
 	net.WriteUInt(index, 8)
 	net.WriteTable(tbl)
@@ -81,7 +81,7 @@ end
 
 function Player:SendReport(tbl)
 	if tbl.chat_opened then return end
-	net.Start("DL_SendReport")
+	net.Start("M_DL_SendReport")
 	net.WriteTable(tbl)
 	net.Send(self)
 end
@@ -92,7 +92,7 @@ hook.Add("PlayerSay", "Damagelog_RDMManager", function(ply, text, teamOnly)
 			Damagelog:StartReport(ply)
 			return ""
 		elseif (Damagelog.Respond_Command and string.Left(string.lower(text), #Damagelog.Respond_Command) == Damagelog.Respond_Command) then
-			net.Start("DL_Death")
+			net.Start("M_DL_Death")
 			net.Send(ply)
 		end
 	end
@@ -107,7 +107,7 @@ hook.Add("TTTBeginRound", "Damagelog_RDMManger", function()
 	end
 end)
 
-net.Receive("DL_StartReport", function(length, ply)
+net.Receive("M_DL_StartReport", function(length, ply)
 	Damagelog:StartReport(ply)
 end)
 
@@ -131,7 +131,7 @@ function Damagelog:StartReport(ply)
 		if remaining_reports <= 0 then
 			ply:Damagelog_Notify(DAMAGELOG_NOTIFY_ALERT, "You can only report twice per round!", 4, "buttons/weapon_cant_buy.wav")
 		else
-			net.Start("DL_AllowReport")
+			net.Start("M_DL_AllowReport")
 			if ply.DeathDmgLog and ply.DeathDmgLog[Damagelog.CurrentRound] then
 				net.WriteUInt(1, 1)
 				net.WriteTable(ply.DeathDmgLog[Damagelog.CurrentRound])
@@ -143,7 +143,7 @@ function Damagelog:StartReport(ply)
 	end
 end
 
-net.Receive("DL_ReportPlayer", function(_len, ply)
+net.Receive("M_DL_ReportPlayer", function(_len, ply)
 	if (ply.NextReportTime and ply.NextReportTime > CurTime()) then
 		return
 	end
@@ -152,6 +152,10 @@ net.Receive("DL_ReportPlayer", function(_len, ply)
 	
 	local attacker = net.ReadEntity()
 	local message = net.ReadString()
+	if (not message or string.len(message) > 300) then
+		return
+	end
+
 	if ply:RemainingReports() <= 0 or not ply.CanReport then return end
 	if attacker == ply then return end
 	if not IsValid(attacker) then 
@@ -200,7 +204,7 @@ net.Receive("DL_ReportPlayer", function(_len, ply)
 	UpdatePreviousReports()
 end)
 
-net.Receive("DL_UpdateStatus", function(_len, ply)
+net.Receive("M_DL_UpdateStatus", function(_len, ply)
 	local previous = net.ReadUInt(1) == 1
 	local index = net.ReadUInt(16)
 	local status = net.ReadUInt(4)
@@ -234,7 +238,7 @@ net.Receive("DL_UpdateStatus", function(_len, ply)
 	UpdatePreviousReports()
 end)
 
-net.Receive("DL_Conclusion", function(_len, ply)
+net.Receive("M_DL_Conclusion", function(_len, ply)
 	local notify = net.ReadUInt(1) == 0
 	local previous = net.ReadUInt(1) == 1
 	local index = net.ReadUInt(16)
@@ -271,20 +275,20 @@ hook.Add("PlayerAuthed", "RDM_Manager", function(ply)
 end)
 
 hook.Add("PlayerDeath", "RDM_Manager", function(ply)
-	net.Start("DL_Death")
+	net.Start("M_DL_Death")
 	net.Send(ply)
 end)
 
 hook.Add("TTTEndRound", "RDM_Manager", function()
 	for k,v in pairs(player.GetAll()) do
-		net.Start("DL_Death")
+		net.Start("M_DL_Death")
 		net.Send(v)
 	end
 end)
 
 local waiting_forgive = {}
 
-net.Receive("DL_SendAnswer", function(_, ply)
+net.Receive("M_DL_SendAnswer", function(_, ply)
 	local previous = net.ReadUInt(1) != 1
 	local text = net.ReadString()
 	local index = net.ReadUInt(16)
@@ -292,6 +296,10 @@ net.Receive("DL_SendAnswer", function(_, ply)
 	if not tbl then return end
 	if tbl.chat_opened then return end
 	if ply:SteamID() != tbl.attacker then return end
+	if (not text or string.len(text) > 300) then
+		return
+	end
+
 	tbl.response = text
 	tbl.status = RDM_MANAGER_WAITING_FOR_VICTIM
 	for k,v in pairs(player.GetHumans()) do
@@ -302,7 +310,7 @@ net.Receive("DL_SendAnswer", function(_, ply)
 	end
 	local victim = GetBySteamID(tbl.victim)
 	if IsValid(victim) then
-		net.Start("DL_SendForgive")
+		net.Start("M_DL_SendForgive")
 		net.WriteUInt(previous and 1 or 0, 1)
 		net.WriteUInt(index, 16)
 		net.WriteString(tbl.attacker_nick)
@@ -312,7 +320,7 @@ net.Receive("DL_SendAnswer", function(_, ply)
 	UpdatePreviousReports()
 end)
 
-net.Receive("DL_GetForgive", function(_, ply)
+net.Receive("M_DL_GetForgive", function(_, ply)
 	local forgive = net.ReadUInt(1) == 1
 	local previous = net.ReadUInt(1) == 1
 	local index = net.ReadUInt(16)
@@ -362,19 +370,19 @@ net.Receive("DL_GetForgive", function(_, ply)
 	hook.Call( "TTTDLog_Decide", nil, ply, IsValid( attacker ) and attacker or tbl.attacker, forgive, index )
 end)
 
-net.Receive("DL_Answering", function(_len, ply)
+net.Receive("M_DL_Answering", function(_len, ply)
 	if (ply.NextAnswerTime and ply.NextAnswerTime > CurTime()) then
 		return
 	end
 
 	ply.NextAnswerTime = CurTime() + 1
 
-	net.Start("DL_Answering_global")
+	net.Start("M_DL_Answering_global")
 	net.WriteString(ply:Nick())
 	net.Broadcast()
 end)
 
-net.Receive("DL_ForceRespond", function(_len, ply)
+net.Receive("M_DL_ForceRespond", function(_len, ply)
 	local index = net.ReadUInt(16)
 	local previous = net.ReadUInt(1) == 1
 	if not ply:CanUseRDMManager() then return end
@@ -383,7 +391,7 @@ net.Receive("DL_ForceRespond", function(_len, ply)
 	if not tbl.response then
 		local attacker = GetBySteamID(tbl.attacker)
 		if IsValid(attacker) then
-			net.Start("DL_Death")
+			net.Start("M_DL_Death")
 			net.Send(attacker)
 		end
 	end

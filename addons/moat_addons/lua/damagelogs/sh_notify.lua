@@ -6,10 +6,10 @@ DAMAGELOG_NOTIFY_INFO = 2
 
 if SERVER then
 
-	util.AddNetworkString("DL_Notify")
+	util.AddNetworkString("M_DL_Notify")
 	
 	function Player:Damagelog_Notify(msg_type, msg, _time, sound)
-		net.Start("DL_Notify")
+		net.Start("M_DL_Notify")
 		net.WriteUInt(msg_type, 4)
 		net.WriteString(msg)
 		net.WriteUInt(_time, 4)
@@ -53,7 +53,7 @@ else
 		});
 	end
 	
-	net.Receive("DL_Notify", function()
+	net.Receive("M_DL_Notify", function()
 		Damagelog:Notify(net.ReadUInt(4), net.ReadString(), net.ReadUInt(4), net.ReadString())
 	end)
 

@@ -1,21 +1,21 @@
 
-surface.CreateFont("DL_RDM_Manager", {
+surface.CreateFont("M_DL_RDM_Manager", {
 	font = "DermaLarge",
 	size = 20
 })
 
-surface.CreateFont("DL_Conclusion", {
+surface.CreateFont("M_DL_Conclusion", {
 	font = "DermaLarge",
 	size = 18,
 	weight = 600
 })
 
-surface.CreateFont("DL_ConclusionText", {
+surface.CreateFont("M_DL_ConclusionText", {
 	font = "DermaLarge",
 	size = 18
 })
 
-surface.CreateFont("DL_ResponseDisabled", {
+surface.CreateFont("M_DL_ResponseDisabled", {
 	font = "DermaLarge",
 	size = 16
 })
@@ -92,7 +92,7 @@ local function TakeAction()
 		end
 		Derma_StringRequest("Conclusion", "Please write the conclusion for this report", "", function(txt)
 			if #txt > 0 and #txt < 200 then
-				net.Start("DL_Conclusion")
+				net.Start("M_DL_Conclusion")
 				net.WriteUInt(0,1)
 				net.WriteUInt(report.previous and 1 or 0, 1)
 				net.WriteUInt(report.index, 16)
@@ -104,7 +104,7 @@ local function TakeAction()
 	if report.status == RDM_MANAGER_WAITING_FOR_ATTACKER then
 		menuPanel:AddOption("Force the reported player to respond", function()
 			if IsValid(attacker) then
-				net.Start("DL_ForceRespond")
+				net.Start("M_DL_ForceRespond")
 				net.WriteUInt(report.index, 16)
 				net.WriteUInt(current and 0 or 1, 1)
 				net.SendToServer()
@@ -116,7 +116,7 @@ local function TakeAction()
 	if report.status == RDM_MANAGER_PROGRESS then
 		if not report.chat_open then
 			menuPanel:AddOption(report.chat_opened and "Reopen chat" or "Open chat", function()
-				net.Start("DL_StartChat")
+				net.Start("M_DL_StartChat")
 				net.WriteUInt(report.index, 32)
 				net.SendToServer()
 				if not report.response then
@@ -125,7 +125,7 @@ local function TakeAction()
 			end):SetImage("icon16/application_view_list.png")
 		else
 			menuPanel:AddOption("Join chat", function()
-				net.Start("DL_JoinChat")
+				net.Start("M_DL_JoinChat")
 				net.WriteUInt(report.index, 32)
 				net.SendToServer()
 			end):SetImage("icon16/application_go.png")
@@ -137,7 +137,7 @@ local function TakeAction()
 			if v.type == "KILL" then
 				local infos = v.infos
 				if infos[6] == report.victim and infos[7] == report.attacker then
-					net.Start("DL_AskDeathScene")
+					net.Start("M_DL_AskDeathScene")
 					net.WriteUInt(infos[8], 32)
 					net.WriteString(report.victim)
 					net.WriteString(report.attacker)
@@ -161,7 +161,7 @@ local function TakeAction()
 			slaynr_pnl:SetImage("icon16/lightning_go.png")
 			menuPanel:AddPanel(slaynr_pnl)
 			local function SetConclusion(ply, num, reason)
-				net.Start("DL_Conclusion")
+				net.Start("M_DL_Conclusion")
 				net.WriteUInt(1,1)
 				net.WriteUInt(report.previous and 1 or 0, 1)
 				net.WriteUInt(report.index, 16)
@@ -434,7 +434,7 @@ end
 
 vgui.Register("RDM_Manager_ListView", PANEL, "DListView")
 
-net.Receive("DL_NewReport", function()
+net.Receive("M_DL_NewReport", function()
 	local tbl = net.ReadTable()
 	local index = table.insert(Damagelog.Reports.Current, tbl)
 	Damagelog.Reports.Current[index].index = index
@@ -443,7 +443,7 @@ net.Receive("DL_NewReport", function()
 	end
 end)
 
-net.Receive("DL_UpdateReport", function()
+net.Receive("M_DL_UpdateReport", function()
 	local previous = net.ReadUInt(1) == 1
 	local index = net.ReadUInt(8)
 	local updated = net.ReadTable()
@@ -469,7 +469,7 @@ net.Receive("DL_UpdateReport", function()
 	end
 end)
 
-net.Receive("DL_UpdateReports", function()
+net.Receive("M_DL_UpdateReports", function()
 	Damagelog.SelectedReport = nil
 	local size = net.ReadUInt(32)
 	local data = net.ReadData(size)
@@ -487,7 +487,7 @@ end)
 
 local function DrawStatusMenuOption(id, menu)
 	menu:AddOption(status[id], function()
-		net.Start("DL_UpdateStatus")
+		net.Start("M_DL_UpdateStatus")
 		net.WriteUInt(Damagelog.SelectedReport.previous and 1 or 0, 1)
 		net.WriteUInt(Damagelog.SelectedReport.index, 16)
 		net.WriteUInt(id, 4)
@@ -572,10 +572,10 @@ function Damagelog:DrawRDMManager(x,y)
 			local bar_height = 27
 			surface.SetDrawColor(30, 200, 30)
 			surface.DrawRect(0, 0, (w/2), bar_height)
-			draw.SimpleText("Victim's report", "DL_RDM_Manager", w/4, bar_height/2, Color(0,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw.SimpleText("Victim's report", "M_DL_RDM_Manager", w/4, bar_height/2, Color(0,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			surface.SetDrawColor(220, 30, 30)
 			surface.DrawRect((w/2)+1, 0, (w/2), bar_height)
-			draw.SimpleText("Reported player's response", "DL_RDM_Manager", (w/2) + 1 + (w/4), bar_height/2, Color(0,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw.SimpleText("Reported player's response", "M_DL_RDM_Manager", (w/2) + 1 + (w/4), bar_height/2, Color(0,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			surface.SetDrawColor(0, 0, 0)
 			surface.DrawOutlinedRect(0, 0, w, h)
 			surface.DrawLine(w/2, 0, w/2, h)
@@ -601,7 +601,7 @@ function Damagelog:DrawRDMManager(x,y)
 			if self.DisableR then
 				surface.SetDrawColor(Color(0, 0, 0, 240))
 				surface.DrawRect(0, 0, w, h)
-				surface.SetFont("DL_ResponseDisabled")
+				surface.SetFont("M_DL_ResponseDisabled")
 				local text = "Chat opened, player's response disabled"
 				local wt, ht = surface.GetTextSize(text)
 				wt = wt
@@ -623,7 +623,7 @@ function Damagelog:DrawRDMManager(x,y)
 		local VictimLogsForm
 		
 		local Conclusion = vgui.Create("DPanel")
-		surface.SetFont("DL_Conclusion")
+		surface.SetFont("M_DL_Conclusion")
 		local cx,cy = surface.GetTextSize("Conclusion :")
 		local cm = 5
 		Conclusion.PaintOver = function(panel, w, h)
@@ -633,11 +633,11 @@ function Damagelog:DrawRDMManager(x,y)
 			surface.DrawLine(w-1, 0, w-1, h-1)
 			surface.DrawLine(w-1, h-1, 0, h-1)
 			surface.DrawLine(0, h-1, 0, 0)
-			surface.SetFont("DL_Conclusion")
+			surface.SetFont("M_DL_Conclusion")
 			surface.SetTextPos(cm, panel.t2 and (h/3 - cy/2) or (h/2 - cy/2))
 			surface.SetTextColor(Color(0, 255, 255))
 			surface.DrawText("Conclusion : ")
-			surface.SetFont("DL_ConclusionText")
+			surface.SetFont("M_DL_ConclusionText")
 			surface.SetTextColor(color_white)
 			local tx1, ty1 = surface.GetTextSize(panel.t1)
 			surface.SetTextPos(cx + 2*cm, panel.t2 and (h/3 - ty1/2) or h/2 - ty1/2)
@@ -650,7 +650,7 @@ function Damagelog:DrawRDMManager(x,y)
 		end
 		Conclusion.SetText = function(pnl, t)
 			pnl.Text = t
-			local t1, t2 = AdjustText(t, "DL_ConclusionText", pnl:GetWide() - cx - cm*3)
+			local t1, t2 = AdjustText(t, "M_DL_ConclusionText", pnl:GetWide() - cx - cm*3)
 			pnl.t1 = t1
 			pnl.t2 = nil
 			if t2 then

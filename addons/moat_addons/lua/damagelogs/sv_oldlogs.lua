@@ -1,10 +1,10 @@
 
-util.AddNetworkString("DL_AskLogsList")
-util.AddNetworkString("DL_AskOldLog")
-util.AddNetworkString("DL_SendOldLog")
-util.AddNetworkString("DL_SendLogsList")
-util.AddNetworkString("DL_AskOldLogRounds")
-util.AddNetworkString("DL_SendOldLogRounds")
+util.AddNetworkString("M_DL_AskLogsList")
+util.AddNetworkString("M_DL_AskOldLog")
+util.AddNetworkString("M_DL_SendOldLog")
+util.AddNetworkString("M_DL_SendLogsList")
+util.AddNetworkString("M_DL_AskOldLogRounds")
+util.AddNetworkString("M_DL_SendOldLogRounds")
 
 Damagelog.previous_reports = {}
 
@@ -120,8 +120,8 @@ hook.Add("ShutDown", "Damagelog_EndRound", function()
 	end
 end)
 
-net.Receive("DL_AskLogsList", function(_,ply)
-	net.Start("DL_SendLogsList")
+net.Receive("M_DL_AskLogsList", function(_,ply)
+	net.Start("M_DL_SendLogsList")
 	if Damagelog.OlderDate and Damagelog.LatestDate then
 		net.WriteUInt(1, 1)
 		net.WriteUInt(Damagelog.OlderDate, 32)
@@ -133,7 +133,7 @@ net.Receive("DL_AskLogsList", function(_,ply)
 end)
 
 local function SendLogs(ply, compressed, cancel)
-	net.Start("DL_SendOldLog")
+	net.Start("M_DL_SendOldLog")
 	if cancel then
 		net.WriteUInt(0,1)
 	else
@@ -144,7 +144,7 @@ local function SendLogs(ply, compressed, cancel)
 	net.Send(ply)
 end
 
-net.Receive("DL_AskOldLogRounds", function(_, ply)
+net.Receive("M_DL_AskOldLogRounds", function(_, ply)
 	local id = net.ReadUInt(32)
 	local year = net.ReadUInt(32)
 	local month = string.format("%02d",net.ReadUInt(32))
@@ -156,7 +156,7 @@ net.Receive("DL_AskOldLogRounds", function(_, ply)
 		query.onSuccess = function(self)
 			if not IsValid(ply) then return end
 			local data = self:getData()
-			net.Start("DL_SendOldLogRounds")
+			net.Start("M_DL_SendOldLogRounds")
 			net.WriteUInt(id, 32)
 			net.WriteTable(data)
 			net.Send(ply)
@@ -166,20 +166,20 @@ net.Receive("DL_AskOldLogRounds", function(_, ply)
 		local query_str = "SELECT date,map FROM damagelog_oldlogs WHERE date BETWEEN strftime(\"%s\", \"".._date.." 00:00:00\") AND strftime(\"%s\", \"".._date.." 23:59:59\") ORDER BY date ASC;"
 		local result = sql.Query(query_str)
 		if not result then result = {} end
-		net.Start("DL_SendOldLogRounds")
+		net.Start("M_DL_SendOldLogRounds")
 		net.WriteUInt(id, 32)
 		net.WriteTable(result)
 		net.Send(ply)		
 	end
 end)
 
-net.Receive("DL_AskOldLog", function(_,ply)
+net.Receive("M_DL_AskOldLog", function(_,ply)
 	local _time = net.ReadUInt(32)
 	if Damagelog.Use_MySQL and Damagelog.MySQL_Connected then
 		local query = Damagelog.database:query("SELECT UNCOMPRESS(damagelog) FROM damagelog_oldlogs WHERE date = ".._time..";")
 		query.onSuccess = function(self)
 			local data = self:getData()
-			net.Start("DL_SendOldLog")
+			net.Start("M_DL_SendOldLog")
 			if data[1] and data[1]["UNCOMPRESS(damagelog)"] then
 				local compressed = util.Compress(data[1]["UNCOMPRESS(damagelog)"])
 				SendLogs(ply, compressed, false)
@@ -191,7 +191,7 @@ net.Receive("DL_AskOldLog", function(_,ply)
 		query:start()
 	elseif not Damagelog.Use_MySQL then
 		local query = sql.QueryValue("SELECT damagelog FROM damagelog_oldlogs WHERE date = ".._time..";")
-		net.Start("DL_SendOldLog")
+		net.Start("M_DL_SendOldLog")
 		if query then
 			SendLogs(ply, util.Compress(query), false)
 		else
