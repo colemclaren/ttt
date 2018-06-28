@@ -143,6 +143,16 @@ function m_InitializeTalents()
 end
 m_InitializeTalents()
 
+concommand.Add("moat_finditemid",function(ply)
+    if (IsValid(ply)) then return end
+    for i = 1,10000 do
+        if (not MOAT_DROPTABLE[i]) then
+            print("Unused: ITEM.ID = " .. i)
+            break
+        end
+    end
+end)
+
 concommand.Add("_reloadtalents", function(pl)
 	if (IsValid(pl)) then return end
 	m_InitializeTalents()
