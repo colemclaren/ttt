@@ -1,9 +1,9 @@
 
-util.AddNetworkString("DL_AskWeaponTable")
-util.AddNetworkString("DL_SendWeaponTable")
-util.AddNetworkString("DL_AddWeapon")
-util.AddNetworkString("DL_RemoveWeapon")
-util.AddNetworkString("DL_WeaponTableDefault")
+util.AddNetworkString("M_DL_AskWeaponTable")
+util.AddNetworkString("M_DL_SendWeaponTable")
+util.AddNetworkString("M_DL_AddWeapon")
+util.AddNetworkString("M_DL_RemoveWeapon")
+util.AddNetworkString("M_DL_WeaponTableDefault")
 	
 function Damagelog:SaveWeaponTable(callback)
 	if Damagelog.Use_MySQL and Damagelog.MySQL_Connected then
@@ -81,19 +81,19 @@ function Damagelog:GetWepTable()
 end
 
 hook.Add("PlayerInitialSpawn", "Damagelog_PlayerInitialSpawn", function(ply)
-	net.Start("DL_SendWeaponTable")
+	net.Start("M_DL_SendWeaponTable")
 	net.WriteUInt(1,1)
 	net.WriteTable(Damagelog.weapon_table)
 	net.Send(ply)
 end)
 
-net.Receive("DL_AddWeapon", function(_, ply)
+net.Receive("M_DL_AddWeapon", function(_, ply)
 	if not ply:IsSuperAdmin() then return end
 	local class = net.ReadString()
 	local name = net.ReadString()
 	if class and name then
 		Damagelog.weapon_table[class] = name
-		net.Start("DL_SendWeaponTable")
+		net.Start("M_DL_SendWeaponTable")
 		net.WriteUInt(0,1)
 		net.WriteString(class)
 		net.WriteString(name)
@@ -102,25 +102,25 @@ net.Receive("DL_AddWeapon", function(_, ply)
 	end
 end)
 
-net.Receive("DL_RemoveWeapon", function(_,ply)
+net.Receive("M_DL_RemoveWeapon", function(_,ply)
 	if not ply:IsSuperAdmin() then return end
 	local classes = net.ReadTable()
 	for k,v in pairs(classes) do
 		Damagelog.weapon_table[v] = nil
 	end
 	Damagelog:SaveWeaponTable(function()
-		net.Start("DL_SendWeaponTable")
+		net.Start("M_DL_SendWeaponTable")
 		net.WriteUInt(1,1)
 		net.WriteTable(Damagelog.weapon_table)
 		net.Broadcast()
 	end)
 end)
 
-net.Receive("DL_WeaponTableDefault", function(_,ply)
+net.Receive("M_DL_WeaponTableDefault", function(_,ply)
 	if not ply:IsSuperAdmin() then return end
 	Damagelog.weapon_table = Damagelog.weapon_table_default
 	Damagelog:SaveWeaponTable(function()
-		net.Start("DL_SendWeaponTable")
+		net.Start("M_DL_SendWeaponTable")
 		net.WriteUInt(1,1)
 		net.WriteTable(Damagelog.weapon_table)
 		net.Broadcast()

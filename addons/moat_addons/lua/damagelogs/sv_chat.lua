@@ -1,13 +1,13 @@
 
-util.AddNetworkString("DL_StartChat")
-util.AddNetworkString("DL_OpenChat")
-util.AddNetworkString("DL_JoinChat")
-util.AddNetworkString("DL_SendChatMessage")
-util.AddNetworkString("DL_BroadcastMessage")
-util.AddNetworkString("DL_JoinChatCL")
-util.AddNetworkString("DL_StopChat")
-util.AddNetworkString("DL_AddChatPlayer")
-util.AddNetworkString("DL_CloseChat")
+util.AddNetworkString("M_DL_StartChat")
+util.AddNetworkString("M_DL_OpenChat")
+util.AddNetworkString("M_DL_JoinChat")
+util.AddNetworkString("M_DL_SendChatMessage")
+util.AddNetworkString("M_DL_BroadcastMessage")
+util.AddNetworkString("M_DL_JoinChatCL")
+util.AddNetworkString("M_DL_StopChat")
+util.AddNetworkString("M_DL_AddChatPlayer")
+util.AddNetworkString("M_DL_CloseChat")
 
 local COLOR_VICTIM = Color(18, 190, 29)
 local COLOR_ATTACKER = Color(190, 18, 29)
@@ -50,7 +50,7 @@ local function IsAllowed(ply, chat)
 end
 	
 
-net.Receive("DL_StartChat", function(_len, ply)
+net.Receive("M_DL_StartChat", function(_len, ply)
 
 	local report_index = net.ReadUInt(32)
 
@@ -101,7 +101,7 @@ net.Receive("DL_StartChat", function(_len, ply)
 		Damagelog.ChatHistory[report_index] = {}
 	end
 	
-	net.Start("DL_OpenChat")
+	net.Start("M_DL_OpenChat")
 	net.WriteUInt(report_index, 32)
 	net.WriteEntity(ply)
 	net.WriteEntity(victim)
@@ -153,7 +153,7 @@ local function AddToChat(id, report, ply)
 		category = DAMAGELOG_OTHER
 	end
 	
-	net.Start("DL_JoinChatCL")
+	net.Start("M_DL_JoinChatCL")
 	net.WriteUInt(1, 1)
 	net.WriteUInt(id, 32)
 	net.WriteUInt(#compressed, 32)
@@ -161,7 +161,7 @@ local function AddToChat(id, report, ply)
 	net.WriteTable(report.chat_open)
 	net.Send(ply)
 		
-	net.Start("DL_JoinChatCL")
+	net.Start("M_DL_JoinChatCL")
 	net.WriteUInt(0, 1)
 	net.WriteUInt(id, 32)
 	net.WriteEntity(ply)
@@ -175,7 +175,7 @@ local function AddToChat(id, report, ply)
 	end	
 end
 
-net.Receive("DL_JoinChat", function(_len, ply)
+net.Receive("M_DL_JoinChat", function(_len, ply)
 
 	local id = net.ReadUInt(32)
 		
@@ -188,7 +188,7 @@ net.Receive("DL_JoinChat", function(_len, ply)
 	
 end)
 
-net.Receive("DL_SendChatMessage", function(_len, ply)
+net.Receive("M_DL_SendChatMessage", function(_len, ply)
 	
 	local id = net.ReadUInt(32)
 	local message = net.ReadString()
@@ -210,7 +210,7 @@ net.Receive("DL_SendChatMessage", function(_len, ply)
 		msg = message
 	})
 	
-	net.Start("DL_BroadcastMessage")
+	net.Start("M_DL_BroadcastMessage")
 	net.WriteUInt(id, 32)
 	net.WriteEntity(ply)
 	net.WriteColor(color)
@@ -228,7 +228,7 @@ hook.Add("PlayerDisconnected", "Damagelog_Chat", function(ply)
 			if table.HasValue(v.admins, ply) then
 				table.RemoveByValue(v.admins, ply)
 				if #v.admins == 1 then
-					net.Start("DL_StopChat")
+					net.Start("M_DL_StopChat")
 					net.WriteUInt(k, 32)
 					net.WriteUInt(0, 1)
 					net.Send(GetFilter(v.chat_open))
@@ -248,7 +248,7 @@ hook.Add("PlayerDisconnected", "Damagelog_Chat", function(ply)
 	end
 end)
 
-net.Receive("DL_AddChatPlayer", function(_len, ply)
+net.Receive("M_DL_AddChatPlayer", function(_len, ply)
 	
 	local id = net.ReadUInt(32)
 	local to_add = net.ReadEntity()
@@ -264,7 +264,7 @@ net.Receive("DL_AddChatPlayer", function(_len, ply)
 
 end)
 
-net.Receive("DL_CloseChat", function(_len, ply)
+net.Receive("M_DL_CloseChat", function(_len, ply)
 	
 	local id = net.ReadUInt(32)
 	local to_add = net.ReadEntity()
@@ -275,7 +275,7 @@ net.Receive("DL_CloseChat", function(_len, ply)
 	if not report then return end
 	
 	if report.chat_open then
-		net.Start("DL_StopChat")
+		net.Start("M_DL_StopChat")
 		net.WriteUInt(id, 32)
 		net.WriteUInt(1, 1)
 		net.WriteEntity(ply)

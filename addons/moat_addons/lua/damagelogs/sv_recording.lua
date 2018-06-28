@@ -1,7 +1,7 @@
 
-util.AddNetworkString("DL_AskDeathScene")
-util.AddNetworkString("DL_SendDeathScene")
-util.AddNetworkString("DL_UpdateLogEnt")
+util.AddNetworkString("M_DL_AskDeathScene")
+util.AddNetworkString("M_DL_SendDeathScene")
+util.AddNetworkString("M_DL_UpdateLogEnt")
 
 Damagelog.Records = Damagelog.Records or {}
 Damagelog.Death_Scenes = Damagelog.Death_Scenes or {}
@@ -74,7 +74,7 @@ timer.Create("SpecDM_Recording", 0.5, 0, function()
 	table.insert(Damagelog.Records, tbl)
 end)
 
-net.Receive("DL_AskDeathScene", function(_, ply)
+net.Receive("M_DL_AskDeathScene", function(_, ply)
 	local ID = net.ReadUInt(32)
 	local ply1 = net.ReadString()
 	local ply2 = net.ReadString()
@@ -82,7 +82,7 @@ net.Receive("DL_AskDeathScene", function(_, ply)
 	if scene then
 		local encoded = util.TableToJSON(scene)
 		local compressed = util.Compress(encoded)
-		net.Start("DL_SendDeathScene")
+		net.Start("M_DL_SendDeathScene")
 		net.WriteString(ply1)
 		net.WriteString(ply2)
 		net.WriteUInt(#compressed, 32)

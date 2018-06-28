@@ -1,8 +1,8 @@
 
-util.AddNetworkString("DL_AskDamageInfos")
-util.AddNetworkString("DL_SendDamageInfos")
-util.AddNetworkString("DL_AskShootLogs")
-util.AddNetworkString("DL_SendShootLogs")
+util.AddNetworkString("M_DL_AskDamageInfos")
+util.AddNetworkString("M_DL_SendDamageInfos")
+util.AddNetworkString("M_DL_AskShootLogs")
+util.AddNetworkString("M_DL_SendShootLogs")
 
 function Damagelog:shootCallback(weapon)
 	if not self.Time then return end
@@ -81,7 +81,7 @@ function Damagelog:SendDamageInfos(ply, t, att, victim, round)
 	end
 	local beg = t - 10
 	if found then
-		net.Start("DL_SendDamageInfos")
+		net.Start("M_DL_SendDamageInfos")
 		net.WriteUInt(0,1)
 		net.WriteUInt(beg, 32)
 		net.WriteUInt(t, 32)
@@ -90,7 +90,7 @@ function Damagelog:SendDamageInfos(ply, t, att, victim, round)
 		net.WriteString(att)
 		net.Send(ply)
 	else 
-		net.Start("DL_SendDamageInfos")
+		net.Start("M_DL_SendDamageInfos")
 		net.WriteUInt(1,1)
 		net.WriteUInt(beg, 32)
 		net.WriteUInt(t, 32)
@@ -100,7 +100,7 @@ function Damagelog:SendDamageInfos(ply, t, att, victim, round)
     end
 end 
 
-net.Receive("DL_AskDamageInfos", function(_, ply)
+net.Receive("M_DL_AskDamageInfos", function(_, ply)
 	local time = net.ReadUInt(32)
 	local attacker = net.ReadString()
 	local victim = net.ReadString()
@@ -109,7 +109,7 @@ net.Receive("DL_AskDamageInfos", function(_, ply)
 end)
 
 local orderedPairs = Damagelog.orderedPairs
-net.Receive("DL_AskShootLogs", function(_, ply)
+net.Receive("M_DL_AskShootLogs", function(_, ply)
 	local round = net.ReadUInt(8)
 	if not ply:CanUseDamagelog() and round == Damagelog:GetSyncEnt():GetPlayedRounds() then return end
 	local data = Damagelog.ShootTables[round]
@@ -118,7 +118,7 @@ net.Receive("DL_AskShootLogs", function(_, ply)
 	local count = table.Count(data)
 	local i = 0
 	if count <= 0 then
-		net.Start("DL_SendShootLogs")
+		net.Start("M_DL_SendShootLogs")
 		net.WriteUInt(0, 32)
 		net.WriteTable({"empty"})
 		net.WriteUInt(1, 1)
@@ -126,7 +126,7 @@ net.Receive("DL_AskShootLogs", function(_, ply)
 	else
 		for k,v in orderedPairs(data) do
 			i = i + 1
-			net.Start("DL_SendShootLogs")
+			net.Start("M_DL_SendShootLogs")
 			net.WriteUInt(k, 32)
 			net.WriteTable(v)
 			net.WriteUInt(i == count and 1 or 0, 1)

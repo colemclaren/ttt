@@ -38,7 +38,7 @@ local function BuildReportFrame(report)
 		end
 		if not found then return end
 		
-		net.Start("DL_Answering")
+		net.Start("M_DL_Answering")
 		net.SendToServer()
 	
 		ReportFrame = vgui.Create("DFrame")
@@ -75,11 +75,51 @@ local function BuildReportFrame(report)
 			MessageEntry:SetText(report.message or "")
 			MessageEntry:SetDisabled(true)
 			MessageEntry:SetEditable(false)
+			MessageEntry.MaxChars = 300
+    		MessageEntry.OnTextChanged = function(s)
+        		local txt = s:GetValue()
+        		local amt = string.len(txt)
+
+        		if (amt > s.MaxChars) then
+            		if (s.OldText == nil) then
+                		s:SetText("")
+                		s:SetValue("")
+                		s:SetCaretPos(string.len(""))
+            		else
+                		s:SetText(s.OldText)
+                		s:SetValue(s.OldText)
+                		s:SetCaretPos(string.len(s.OldText))
+            		end
+        		else
+            		s.OldText = txt
+        		end
+    		end
+
 			PanelList:AddItem(MessageEntry)
 
 			local TextEntry = vgui.Create("DTextEntry")
 			TextEntry:SetMultiline(true)
 			TextEntry:SetHeight(150)
+			TextEntry.MaxChars = 300
+    		TextEntry.OnTextChanged = function(s)
+        		local txt = s:GetValue()
+        		local amt = string.len(txt)
+
+        		if (amt > s.MaxChars) then
+            		if (s.OldText == nil) then
+                		s:SetText("")
+                		s:SetValue("")
+                		s:SetCaretPos(string.len(""))
+            		else
+                		s:SetText(s.OldText)
+                		s:SetValue(s.OldText)
+                		s:SetCaretPos(string.len(s.OldText))
+            		end
+        		else
+            		s.OldText = txt
+        		end
+    		end
+
 			PanelList:AddItem(TextEntry)
 
 			local Button = vgui.Create("DButton")
@@ -104,7 +144,7 @@ local function BuildReportFrame(report)
 					Button:SetDisabled(true)
 					Info:SetText("Your response has been submitted!")
 					Info:SetInfoColor("orange")
-					net.Start("DL_SendAnswer")
+					net.Start("M_DL_SendAnswer")
 					net.WriteUInt(current and 1 or 0, 1)
 					net.WriteString(text)
 					net.WriteUInt(report.index, 16)
@@ -217,7 +257,7 @@ function Damagelog:ReportWindow(tbl)
 			cur_selected = ply
 		end
 	end
-	local killer = LocalPlayer():GetNWEntity("DL_Killer")
+	local killer = LocalPlayer():GetNWEntity("M_DL_Killer")
 	if IsValid(killer) then
 		UserList:AddPlayer(killer, true)
 	end
@@ -235,6 +275,25 @@ function Damagelog:ReportWindow(tbl)
 	Entry:SetPos(210, 47)
 	Entry:SetSize(370, 145)
 	Entry:SetMultiline(true)
+	Entry.MaxChars = 300
+    Entry.OnTextChanged = function(s)
+        local txt = s:GetValue()
+        local amt = string.len(txt)
+
+        if (amt > s.MaxChars) then
+            if (s.OldText == nil) then
+                s:SetText("")
+                s:SetValue("")
+                s:SetCaretPos(string.len(""))
+            else
+                s:SetText(s.OldText)
+                s:SetValue(s.OldText)
+                s:SetCaretPos(string.len(s.OldText))
+            end
+        else
+            s.OldText = txt
+        end
+    end
 	
 	local Submit = vgui.Create("DButton", ReportPanel)
 	Submit:SetText("Submit")
@@ -249,7 +308,7 @@ function Damagelog:ReportWindow(tbl)
 	Submit.DoClick = function(self)
 		local ply = cur_selected.pl
 		if not IsValid(ply) then return end
-		net.Start("DL_ReportPlayer")
+		net.Start("M_DL_ReportPlayer")
 		net.WriteEntity(ply)
 		net.WriteString(Entry:GetText())
 		net.SendToServer()
@@ -275,7 +334,7 @@ function Damagelog:ReportWindow(tbl)
 	
 end
 
-net.Receive("DL_AllowReport", function()
+net.Receive("M_DL_AllowReport", function()
 	local got_tbl, tbl = net.ReadUInt(1) == 1, false
 	if got_tbl then
 		tbl = net.ReadTable()
@@ -283,7 +342,7 @@ net.Receive("DL_AllowReport", function()
 	Damagelog:ReportWindow(tbl)
 end)
 
-net.Receive("DL_SendReport", function()
+net.Receive("M_DL_SendReport", function()
 	local report = net.ReadTable()
 	table.insert(Damagelog.ReportsQueue, report)
 	if not LocalPlayer().IsActive or not LocalPlayer():IsActive() then
@@ -291,11 +350,11 @@ net.Receive("DL_SendReport", function()
 	end
 end)
 
-net.Receive("DL_Death", function()
+net.Receive("M_DL_Death", function()
 	BuildReportFrame()
 end)
 
-net.Receive("DL_SendForgive", function()
+net.Receive("M_DL_SendForgive", function()
 	local previous = net.ReadUInt(1) == 1
 	local index = net.ReadUInt(16)
 	local nick = net.ReadString()
@@ -312,12 +371,32 @@ net.Receive("DL_SendForgive", function()
 	message:SetText(text)
 	message:SetEditable(false)
 	message:SetMultiline(true)
+	message.MaxChars = 300
+    message.OnTextChanged = function(s)
+        local txt = s:GetValue()
+        local amt = string.len(txt)
+
+        if (amt > s.MaxChars) then
+            if (s.OldText == nil) then
+                s:SetText("")
+                s:SetValue("")
+                s:SetCaretPos(string.len(""))
+            else
+                s:SetText(s.OldText)
+                s:SetValue(s.OldText)
+                s:SetCaretPos(string.len(s.OldText))
+            end
+        else
+            s.OldText = txt
+        end
+    end
+
 	local forgive = vgui.Create("DButton", answer)
 	forgive:SetText("Forgive")
 	forgive:SetPos(3, 235)
 	forgive:SetSize(195, 30)
 	forgive.DoClick = function(self)
-		net.Start("DL_GetForgive")
+		net.Start("M_DL_GetForgive")
 		net.WriteUInt(1,1)
 		net.WriteUInt(previous and 1 or 0, 1)
 		net.WriteUInt(index, 16)
@@ -329,7 +408,7 @@ net.Receive("DL_SendForgive", function()
 	nope:SetPos(205, 235)
 	nope:SetSize(188, 30)
 	nope.DoClick = function(self)
-		net.Start("DL_GetForgive")
+		net.Start("M_DL_GetForgive")
 		net.WriteUInt(0,1)
 		net.WriteUInt(previous and 1 or 0, 1)
 		net.WriteUInt(index, 16)
@@ -338,7 +417,7 @@ net.Receive("DL_SendForgive", function()
 	end
 end)
 
-net.Receive("DL_Answering_global", function(_len)
+net.Receive("M_DL_Answering_global", function(_len)
 	local nick = net.ReadString()
 	local ply = LocalPlayer()
 	if IsValid(ply) and not ply:IsActive() then

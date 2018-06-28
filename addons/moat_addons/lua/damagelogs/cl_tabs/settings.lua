@@ -64,7 +64,7 @@ function Damagelog:DrawSettings(x, y)
 		if not LocalPlayer():IsSuperAdmin() then return end
 		Derma_StringRequest("Weapon ID", "Weapon name/ID (example: weapon_ttt_deagle):", "weapon_", function(class)
 			Derma_StringRequest("Weapon display name", "Weapon display name (example: a Deagle):", "", function(name)
-				net.Start("DL_AddWeapon")
+				net.Start("M_DL_AddWeapon")
 				net.WriteString(class)
 				net.WriteString(name)
 				net.SendToServer()
@@ -81,7 +81,7 @@ function Damagelog:DrawSettings(x, y)
 		for k,v in pairs(self.WepListview:GetSelected()) do
 			table.insert(classes, v:GetValue(1))
 		end
-		net.Start("DL_RemoveWeapon")
+		net.Start("M_DL_RemoveWeapon")
 		net.WriteTable(classes)
 		net.SendToServer()
 	end
@@ -92,7 +92,7 @@ function Damagelog:DrawSettings(x, y)
 	self.DefautTable.DoClick = function()
 		if not LocalPlayer():IsSuperAdmin() then return end
 		Derma_Query("Reset to defaults?", "Are you sure?", "Yes", function()
-			net.Start("DL_WeaponTableDefault")
+			net.Start("M_DL_WeaponTableDefault")
 			net.SendToServer()
 		end, "No", function() end)
 	end
@@ -125,7 +125,7 @@ function Damagelog:DrawSettings(x, y)
 
 end
 
-net.Receive("DL_SendWeaponTable", function()
+net.Receive("M_DL_SendWeaponTable", function()
 	local full = net.ReadUInt(1) == 1
 	if full then
 		Damagelog.weapon_table = net.ReadTable()

@@ -152,7 +152,7 @@ function Damagelog:CreateDSPanel()
 
 end
 
-net.Receive("DL_SendDeathScene", function()
+net.Receive("M_DL_SendDeathScene", function()
 	victim = net.ReadString()
 	attacker = net.ReadString()
 	local length = net.ReadUInt(32)
@@ -349,7 +349,7 @@ hook.Add("Think", "Think_Record", function()
 			changed = true
 		end
 		if changed and current_spec == 0 then
-			net.Start("DL_UpdateLogEnt")
+			net.Start("M_DL_UpdateLogEnt")
 			net.WriteUInt(0,1)
 			net.SendToServer()
 		end	
@@ -449,7 +449,7 @@ end
 
 function Damagelog:StopRecording()
 	self.DSPanel:Remove()
-	net.Start("DL_UpdateLogEnt")
+	net.Start("M_DL_UpdateLogEnt")
 	net.WriteUInt(0, 1)
 	net.SendToServer()
 	for k,v in pairs(models) do

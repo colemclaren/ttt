@@ -1,8 +1,8 @@
 
-util.AddNetworkString("DL_SlayMessage")
-util.AddNetworkString("DL_AutoSlay")
-util.AddNetworkString("DL_AutoslaysLeft")
-util.AddNetworkString("DL_PlayerLeft")
+util.AddNetworkString("M_DL_SlayMessage")
+util.AddNetworkString("M_DL_AutoSlay")
+util.AddNetworkString("M_DL_AutoslaysLeft")
+util.AddNetworkString("M_DL_PlayerLeft")
 
 if not sql.TableExists("damagelog_autoslay") then
 	sql.Query([[CREATE TABLE damagelog_autoslay (
@@ -44,7 +44,7 @@ function Damagelog:GetName(steamid)
 end
 
 function Damagelog.SlayMessage(ply, message)
-	net.Start("DL_SlayMessage")
+	net.Start("M_DL_SlayMessage")
 	net.WriteString(message)
 	net.Send(ply)
 end
@@ -90,7 +90,7 @@ local function NetworkSlays(steamid, number)
 	for k,v in pairs(player.GetAll()) do
 		if v:SteamID() == steamid then
 			v.AutoslaysLeft = number
-			net.Start("DL_AutoslaysLeft")
+			net.Start("M_DL_AutoslaysLeft")
 			net.WriteEntity(v)
 			net.WriteUInt(number, 32)
 			net.Broadcast()
@@ -194,7 +194,7 @@ hook.Add("TTTBeginRound", "Damagelog_AutoSlay", function()
 					end
 				end
 				local list = Damagelog:CreateSlayList(admins)
-				net.Start("DL_AutoSlay")
+				net.Start("M_DL_AutoSlay")
 				net.WriteEntity(v)
 				net.WriteString(list)
 				net.WriteString(reason)
@@ -215,7 +215,7 @@ end)
 
 hook.Add("PlayerDisconnected", "Autoslay_Message", function(ply)
 	if tonumber(ply.AutoslaysLeft) and ply.AutoslaysLeft > 0 then
-		net.Start("DL_PlayerLeft")
+		net.Start("M_DL_PlayerLeft")
 		net.WriteString(ply:Nick())
 		net.WriteString(ply:SteamID())
 		net.WriteUInt(ply.AutoslaysLeft, 32)

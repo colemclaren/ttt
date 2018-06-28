@@ -13,7 +13,7 @@ local monthnames = {
 	"December"
 }
 
-surface.CreateFont("DL_OldLogsFont", {
+surface.CreateFont("M_DL_OldLogsFont", {
 	font = "DermaLarge",
 	size = 20
 })
@@ -23,7 +23,7 @@ local function LoadLogs(node)
 	if node.received or node.receiving then return end
 	node.receiving = true
 	local id = table.insert(loading, node)
-	net.Start("DL_AskOldLogRounds")
+	net.Start("M_DL_AskOldLogRounds")
 	net.WriteUInt(id, 32)
 	net.WriteUInt(node.year, 32)
 	net.WriteUInt(node.month, 32)
@@ -31,7 +31,7 @@ local function LoadLogs(node)
 	net.SendToServer()
 end
 
-net.Receive("DL_SendOldLogRounds", function()
+net.Receive("M_DL_SendOldLogRounds", function()
 	local id = net.ReadUInt(32)
 	local list = net.ReadTable()
 	local node = loading[id]
@@ -184,13 +184,13 @@ function Damagelog:DrawOldLogs()
 	end
 	
 	local date = vgui.Create("DLabel", date_panel)
-	date:SetFont("DL_OldLogsFont")
+	date:SetFont("M_DL_OldLogsFont")
 	date:SetText("Select a date:")
 	date:SizeToContents()
 	date:SetPos(20, 7)
 
 	local round = vgui.Create("DLabel", date_panel)
-	round:SetFont("DL_OldLogsFont")
+	round:SetFont("M_DL_OldLogsFont")
 	round:SetText("Select a round:")
 	round:SizeToContents()
 	round:SetPos(320, 7)
@@ -232,7 +232,7 @@ function Damagelog:DrawOldLogs()
 				Derma_Message("Please select only one round!", "Error", "OK")
 				return
 			end
-			net.Start("DL_AskOldLog")
+			net.Start("M_DL_AskOldLog")
 			net.WriteUInt(self.RoundChoice:GetSelected()[1].time, 32)
 			net.SendToServer()
 			panel.MoveTop = true
@@ -287,12 +287,12 @@ function Damagelog:DrawOldLogs()
 	
 	self.Tabs:AddSheet("Old logs", self.OldLogs, "icon16/calendar_view_week.png", false, false)
 	
-	net.Start("DL_AskLogsList")
+	net.Start("M_DL_AskLogsList")
 	net.SendToServer()
 	
 end
 
-net.Receive("DL_SendLogsList", function()
+net.Receive("M_DL_SendLogsList", function()
 	local received = net.ReadUInt(1) == 1
 	if not received then return end
 	Damagelog.OlderDate = net.ReadUInt(32)
@@ -302,7 +302,7 @@ net.Receive("DL_SendLogsList", function()
 	end
 end)
 
-net.Receive("DL_SendOldLog", function()
+net.Receive("M_DL_SendOldLog", function()
 	local exists = net.ReadUInt(1) == 1
 	if exists then
 		local size = net.ReadUInt(32)

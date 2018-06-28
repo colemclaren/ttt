@@ -7,7 +7,7 @@ cvars.AddChangeCallback("ttt_dmglogs_showinnocents", function(name, old, new)
 	end
 end)
 
-surface.CreateFont("DL_Highlight", {
+surface.CreateFont("M_DL_Highlight", {
 	font = "Verdana",
 	size = 13
 })
@@ -16,7 +16,7 @@ local PANEL = {}
 
 function PANEL:SetPlayer(nick)
 	self.Text = nick
-	surface.SetFont("DL_Highlight")
+	surface.SetFont("M_DL_Highlight")
 	local xtext, ytext = surface.GetTextSize(self.Text)
 	self:SetSize(xtext+25, ytext+4)
 	self.Close = vgui.Create("TipsButton", self)
@@ -55,13 +55,13 @@ function PANEL:Paint(w,h)
 	surface.DrawLine(w-1, 0, w-1, h-1)
 	surface.DrawLine(w-1, h-1, 0, h-1)
 	surface.DrawLine(0, h-1, 0, 0)
-	surface.SetFont("DL_Highlight")
+	surface.SetFont("M_DL_Highlight")
 	surface.SetTextColor(color_black)
 	surface.SetTextPos(3, 1)
 	surface.DrawText(self.Text)
 end
 
-derma.DefineControl("DL_FiltersPlayer", "", PANEL, "DPanel")
+derma.DefineControl("M_DL_FiltersPlayer", "", PANEL, "DPanel")
 
 local cur_selected
 
@@ -75,7 +75,7 @@ function Damagelog:DrawDamageTab(x, y)
 		self.Damagelog:AddLine("", "", "Loading...")
 		self.loading = {}
 		self.receiving = true
-		net.Start("DL_AskDamagelog")
+		net.Start("M_DL_AskDamagelog")
 		net.WriteInt(self.SelectedRound, 32)
 		net.SendToServer()
 	end
@@ -136,11 +136,11 @@ function Damagelog:DrawDamageTab(x, y)
 		table.Empty(self.Panels)
 		if #Damagelog.Highlighted > 0 then
 			Damagelog.PS_Label:SetText(Damagelog.PS_Label.Text)
-			surface.SetFont("DL_Highlight")
+			surface.SetFont("M_DL_Highlight")
 			local x = surface.GetTextSize(Damagelog.PS_Label.Text)
 			x = x + 10
 			for k,v in ipairs(Damagelog.Highlighted) do
-				local ply = vgui.Create("DL_FiltersPlayer", self)
+				local ply = vgui.Create("M_DL_FiltersPlayer", self)
 				table.insert(self.Panels, ply)
 				ply:SetPlayer(v)
 				ply:SetPos(x, 8)
@@ -153,7 +153,7 @@ function Damagelog:DrawDamageTab(x, y)
 	
 	self.PS_Label = vgui.Create("DLabel", self.PlayerSelect)
 	self.PS_Label.Text = "Currently highlighted players:"
-	self.PS_Label:SetFont("DL_Highlight")
+	self.PS_Label:SetFont("M_DL_Highlight")
 	self.PS_Label:SetText(self.PS_Label.Text.." none")
 	self.PS_Label:SetPos(5, 10)
 	self.PS_Label:SizeToContents()
@@ -363,7 +363,7 @@ function Damagelog:ReceiveLogs(empty, tbl, last)
 		end
 	end
 end
-net.Receive("DL_SendDamagelog", function()
+net.Receive("M_DL_SendDamagelog", function()
 	local empty = net.ReadUInt(1) == 1
 	if empty then
 		Damagelog:ReceiveLogs(true)
@@ -384,7 +384,7 @@ function Damagelog:ReceiveRoles(tbl)
 	self.CurrentRoles = tbl
 	self:SetRolesListView(self.Roles, tbl)
 end
-net.Receive("DL_SendRoles", function()
+net.Receive("M_DL_SendRoles", function()
 	local tbl = net.ReadTable()
 	Damagelog.RoleNicks = {}
 	for k,v in pairs(player.GetAll()) do
@@ -402,7 +402,7 @@ net.Receive("DL_SendRoles", function()
 	Damagelog.RoleEnts = {}
 end)
 
-net.Receive("DL_SendDamageInfos", function()
+net.Receive("M_DL_SendDamageInfos", function()
 	local empty = net.ReadUInt(1) == 1
 	local beg = net.ReadUInt(32)
 	local t = net.ReadUInt(32)
@@ -415,7 +415,7 @@ net.Receive("DL_SendDamageInfos", function()
 	Damagelog:SetDamageInfosLV(Damagelog.DamageInfo, att, victim, beg, t, result)
 end)
 
-net.Receive("DL_RefreshDamagelog", function()
+net.Receive("M_DL_RefreshDamagelog", function()
 	local tbl = net.ReadTable()
 	if not IsValid(LocalPlayer()) then return end -- sometimes happens while joining
 	if not LocalPlayer().CanUseDamagelog then return end

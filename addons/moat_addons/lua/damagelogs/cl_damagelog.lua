@@ -161,14 +161,14 @@ function Damagelog:StrRole(role)
 	return LANG.GetRawTranslation(role_strings[role] or "innocent")
 end
 
-net.Receive("DL_InformSuperAdmins", function()
+net.Receive("M_DL_InformSuperAdmins", function()
 	local nick = net.ReadString()
 	if nick then
 		chat.AddText(Color(255,62,62), nick, color_white, " is alive and has loaded the logs of the current round.")
 	end
 end)
 
-net.Receive("DL_Ded", function()
+net.Receive("M_DL_Ded", function()
 --	if (true) then return end
 	
 	if Damagelog.RDM_Manager_Enabled and cvars.Bool("ttt_dmglogs_rdmpopups") and net.ReadUInt(1,1) == 1 then
@@ -195,7 +195,7 @@ net.Receive("DL_Ded", function()
 		report:SetSize(240, 25)
 		report:SetText("Open the report menu")
 		report.DoClick = function()
-			net.Start("DL_StartReport")
+			net.Start("M_DL_StartReport")
 			net.SendToServer()
 			frame:Close()
 		end

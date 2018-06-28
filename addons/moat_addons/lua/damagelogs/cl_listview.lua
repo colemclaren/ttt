@@ -66,7 +66,7 @@ function Damagelog:SetLineMenu(item, infos, tbl, text, old_logs)
 					self:SetDamageInfosLV(self.OldDamageInfo, tbl.ply1, tbl.ply2, tbl.time, tbl.time-10, found and result)
 					self.DamageInfoForm:Toggle()
 				else
-					net.Start("DL_AskDamageInfos")
+					net.Start("M_DL_AskDamageInfos")
 					net.WriteUInt(tbl.time, 32)
 					net.WriteString(item.ply1)
 					net.WriteString(item.ply2)
@@ -78,7 +78,7 @@ function Damagelog:SetLineMenu(item, infos, tbl, text, old_logs)
 		if item.DeathScene then
 			menu:AddOption("Show Death Scene", function()
 				if not item.sceneid then return end
-				net.Start("DL_AskDeathScene")
+				net.Start("M_DL_AskDeathScene")
 				net.WriteUInt(item.sceneid, 32)
 				net.WriteString(item.ply1)
 				net.WriteString(item.ply2)

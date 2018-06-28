@@ -34,7 +34,7 @@ function event:DoPlayerDeath(ply, attacker, dmginfo)
 			end)
 		end
 		if GetRoundState() == ROUND_ACTIVE then
-			net.Start("DL_Ded")
+			net.Start("M_DL_Ded")
 			if tbl[2] == ROLE_TRAITOR and (tbl[4] == ROLE_INNOCENT or tbl[4] == ROLE_DETECTIVE) then
 				net.WriteUInt(0,1)
 			else
@@ -42,7 +42,7 @@ function event:DoPlayerDeath(ply, attacker, dmginfo)
 				net.WriteString(tbl[1])
 			end
 			net.Send(ply)
-			ply:SetNWEntity("DL_Killer", attacker)
+			ply:SetNWEntity("M_DL_Killer", attacker)
 		end
 	end
 end

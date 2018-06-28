@@ -72,9 +72,9 @@ if CLIENT then
 	function Damagelog.SlayMessage()
 		chat.AddText(Color(255,128,0), "[Autoslay] ", Color(255,128,64), net.ReadString())
 	end
-	net.Receive("DL_SlayMessage", Damagelog.SlayMessage)
+	net.Receive("M_DL_SlayMessage", Damagelog.SlayMessage)
 	
-	net.Receive("DL_AutoSlay", function()
+	net.Receive("M_DL_AutoSlay", function()
 		local ply = net.ReadEntity()
 		local list = net.ReadString()
 		local reason = net.ReadString()
@@ -83,14 +83,14 @@ if CLIENT then
 		chat.AddText(Color(255, 62, 62), ply:Nick(), color_white, " has been autoslain by ",  Color(98, 176, 255), list.." ", color_white, _time.." ago with the reason: '"..reason.."'.")
 	end)
 	
-	net.Receive("DL_AutoSlaysLeft", function()
+	net.Receive("M_DL_AutoSlaysLeft", function()
 		local ply = net.ReadEntity()
 		local slays = net.ReadUInt(32)
 		if not IsValid(ply) or not slays then return end
 		ply.AutoslaysLeft = slays
 	end)
 	
-	net.Receive("DL_PlayerLeft", function()
+	net.Receive("M_DL_PlayerLeft", function()
 		local nick = net.ReadString()
 		local steamid = net.ReadString()
 		local slays = net.ReadUInt(32)
