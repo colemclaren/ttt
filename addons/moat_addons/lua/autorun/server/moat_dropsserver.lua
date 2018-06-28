@@ -143,7 +143,7 @@ function m_InitializeTalents()
 end
 m_InitializeTalents()
 
-concommand.Add("moat_finditemid",function(ply)
+concommand.Add("moat_finditemid",function(ply) --commit comment
     if (IsValid(ply)) then return end
     for i = 1,10000 do
         if (not MOAT_DROPTABLE[i]) then
