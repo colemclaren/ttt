@@ -10,7 +10,7 @@ ITEM.Collection = "Limited Collection"
 ITEM.MinStats = 6
 
 ITEM.MaxStats = 7
-
+--s
 ITEM.Stats = {
 
 	Damage = { min = 10, max = 20 },
