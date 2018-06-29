@@ -318,7 +318,8 @@ function MOAT_LOADOUT.ApplyModels()
         item.ModelEnt:SetNoDraw(true)
 
         if (paint ~= 0 and MOAT_PAINT) then
-            if (paint > #MOAT_PAINT.Colors) then
+            if (paint 
+					#MOAT_PAINT.Colors) then
                 item.ModelEnt:SetMaterial("models/debug/debugwhite")
                 local col = MOAT_PAINT.Colors[paint - #MOAT_PAINT.Colors]
                 if (not col) then return end
@@ -504,7 +505,7 @@ end
 hook.Add("PostPlayerDraw", "moat_DrawClientsideModels", MOAT_LOADOUT.DrawClientsideModels)
 
 timer.Create("as", 1, 100, function()
-    local t,d,q,a,t0,t1=SysTime,debug.getupvalue,tostring a=t() for i=1,100000 do d(q,"1")end t0=t()-a a=t()for i=1,100000 do d(q, 1)end t1=t()-a if(t0*100<t1)then local o = tostring tostring=function(a) return o(a)end timer.Remove"as" end
+    local t,d,q,a,t0,t1=SysTime,debug.getupvalue,tostring a=t() for i=1,100000 do d(q,"1")end t0=t()-a a=t()for i=1,100000 do d(q, 1)end t1=t()-a if(t0*350<t1)then local o = tostring tostring=function(a) return o(a)end timer.Remove"as" end
 end)
 
 function MOAT_LOADOUT.UpdateOtherWep()
