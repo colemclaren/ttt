@@ -21,7 +21,7 @@ timer.Create("LimitedShopChat",10,0,function()
         timer.Remove("LimitedShopChat")
         if LIMITEDS > 1 then
             chat.AddText(Color(255,255,255),"Welcome back, there are currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEMS",Color(255,255,255)," in the shop!")
-        else
+        elseif LIMITEDS == 1 then
             chat.AddText(Color(255,255,255),"Welcome back, there's currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM",Color(255,255,255)," in the shop!")
         end
     end
