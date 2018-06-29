@@ -1,3 +1,42 @@
+util.AddNetworkString("MOAT_GAMBLE_CHAT")
+util.AddNetworkString("MOAT_GAMBLE_NEW_CHAT")
+
+function m_AddGambleChat(...)
+    net.Start("MOAT_GAMBLE_CHAT")
+    net.WriteTable({...})
+    net.Broadcast()
+end
+
+function m_AddGambleChatPlayer(ply, ...)
+    net.Start("MOAT_GAMBLE_CHAT")
+    net.WriteTable({...})
+    net.Send(ply)
+end
+
+
+
+local gamble_net_cd = 1 -- 1 sec net cooldown
+local gamble_net = {}
+function gamble_net_spam(ply, msg)
+	if (not gamble_net[ply]) then
+		gamble_net[ply] = {}
+		return false
+	end
+
+	if (not gamble_net[ply][msg]) then
+		gamble_net[ply][msg] = CurTime() + gamble_net_cd
+		return false
+	end
+
+	if (gamble_net_cd[ply][msg] and gamble_net_cd[ply][msg] > CurTime()) then
+		return true
+	end
+
+	gamble_net_cd[ply][msg] = CurTime() + gamble_net_cd
+
+	return false
+end
+
 util.AddNetworkString("MOAT_GAMBLE_CAT")
 util.AddNetworkString("MOAT_GAMBLE_GLOBAL")
 util.AddNetworkString("Moat.GlobalAnnouncement")
@@ -127,6 +166,8 @@ function m_GambleRollDice(ply, amt, bet, under)
 end
 
 net.Receive("MOAT_GAMBLE_DICE", function(len, ply)
+	if (gamble_net_spam(ply, "MOAT_GAMBLE_DICE")) then return end
+
     local amt = net.ReadFloat()
     local bet = net.ReadFloat()
     local under = net.ReadBool()
@@ -342,6 +383,7 @@ function m_GambleNewBlackjack(ply, amt)
 end
 
 net.Receive("MOAT_GAMBLE_ACTION", function(len, ply)
+	if (gamble_net_spam(ply, "MOAT_GAMBLE_ACTION")) then return end
     if (not MOAT_BLACK_GAMES[ply:SteamID()]) then return end
     local act = net.ReadBool()
 
@@ -364,6 +406,7 @@ util.AddNetworkString("MOAT_BLACK_CARD")
 util.AddNetworkString("MOAT_GAMBLE_BLACKOVER")*/
 
 net.Receive("MOAT_GAMBLE_BLACK", function(len, ply)
+	if (gamble_net_spam(ply, "MOAT_GAMBLE_BLACK")) then return end
     local amt = net.ReadFloat()
 
     if (not ply:m_HasIC(amt)) then
@@ -381,23 +424,10 @@ net.Receive("MOAT_GAMBLE_BLACK", function(len, ply)
     m_GambleNewBlackjack(ply, math.Round(amt, 2))
 end)
 
-util.AddNetworkString("MOAT_GAMBLE_CHAT")
-util.AddNetworkString("MOAT_GAMBLE_NEW_CHAT")
-
-function m_AddGambleChat(...)
-    net.Start("MOAT_GAMBLE_CHAT")
-    net.WriteTable({...})
-    net.Broadcast()
-end
-
-function m_AddGambleChatPlayer(ply, ...)
-    net.Start("MOAT_GAMBLE_CHAT")
-    net.WriteTable({...})
-    net.Send(ply)
-end
-
 
 net.Receive("MOAT_GAMBLE_NEW_CHAT", function(len, ply)
+	if (gamble_net_spam(ply, "MOAT_GAMBLE_NEW_CHAT")) then return end
+
     local text = net.ReadString()
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
@@ -506,7 +536,9 @@ net.Receive("roulette.bet",function(l,ply)
     local amount = net.ReadFloat()
     if (GetGlobalInt("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
     if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
-    if roulette_players[ply] then 
+    if (gamble_net_spam(ply, "roulette.bet")) then return end
+
+	if roulette_players[ply] then 
         if roulette_players[ply][num] then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You can only bet on a color once per spin!") return end
         roulette_players[ply][num] = amount
     else
@@ -630,7 +662,9 @@ net.Receive("crash.bet", function(l,ply)
     local amount = net.ReadFloat()
     if (GetGlobalInt("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use crash. Map is changing soon, don't want you to lose IC!") return end
     if amount < 0.05 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
-    if crash_players[ply] then  
+    if (gamble_net_spam(ply, "crash.bet")) then return end
+
+	if crash_players[ply] then  
         m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You already bet for this round!")
         return
     else--sd
@@ -648,6 +682,8 @@ end)--sd
 net.Receive("crash.getout", function(l,ply)
     if not crash_players[ply] then return end
     if not crash_crashing then return end
+	if (gamble_net_spam(ply, "crash.getout")) then return end
+
     local a = crash_players[ply] * round(crash_number)
     addIC(ply,a)
     if (a) > 100 then
@@ -714,6 +750,8 @@ end
 
 net.Receive("versus.CreateGame",function(l,ply)
     if versus_players[ply] then return end
+	if (gamble_net_spam(ply, "versus.CreateGame")) then return end
+
     local amount = round(net.ReadFloat())
     if (GetGlobalInt("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
     if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
@@ -731,6 +769,7 @@ net.Receive("versus.Sync",function(l,ply)
 end)
 
 net.Receive("versus.CancelGame",function(l,ply)
+	if (gamble_net_spam(ply, "versus.CancelGame")) then return end
     if versus_players[ply] then
         if IsValid(versus_players[ply][1]) then return end
         net.Start("versus.Cancel")
@@ -884,6 +923,7 @@ function jackpot_()
     end
 
     net.Receive("gversus.CancelGame",function(l,ply)
+		if (gamble_net_spam(ply, "gversus.CancelGame")) then return end
         if (ply.VersCool or 0) > CurTime() then return end
         if versus_queue[ply] then return end
         ply.VersCool = CurTime() + 2.5
@@ -957,6 +997,7 @@ function jackpot_()
     versus_joins = {}
 
     net.Receive("gversus.JoinGame",function(l,ply)
+		if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
         local sid = net.ReadString()
         if (versus_joins[sid] or 0) > CurTime() then return end
         if not sid:match("765") then return end
@@ -969,6 +1010,7 @@ function jackpot_()
     end)
 
     net.Receive("gversus.CreateGame",function(l,ply)
+		if (gamble_net_spam(ply, "gversus.CreateGame")) then return end
         if (ply.VersCool or 0) > CurTime() then return end
         ply.VersCool = CurTime() + 2.5
         if versus_curgames[ply:SteamID64()] then 
@@ -999,6 +1041,7 @@ function jackpot_()
 
     versus_suspense = {}
     net.Receive("gversus.Sync",function(l,ply)
+		if (gamble_net_spam(ply, "gversus.Sync")) then return end
         if not ply.gvSyn then
             local t = {}
             for k,v in pairs(versus_curgames) do
@@ -1250,6 +1293,7 @@ function jackpot_()
     end
     local multiple_cool = {}
     net.Receive("jackpot.join",function(l,ply)
+		if (gamble_net_spam(ply, "jackpot.join")) then return end
         if (multiple_cool[ply] or 0) > CurTime() then return end 
         local am = net.ReadInt(32)
         if am < 10 then return end
@@ -1296,6 +1340,7 @@ function jackpot_()
     local synced = {}
     net.Receive("jackpot.info",function(l,ply)
         if synced[ply] then return end
+
         synced[ply] = true
         getactive(function(a,d)
             d = d[1]
@@ -1598,6 +1643,7 @@ local function chat_()
     end
 
     net.Receive("MOAT_GAMBLE_GLOBAL",function(l,ply)
+		if (gamble_net_spam(ply, "MOAT_GAMBLE_GLOBAL")) then return end
         if (ply.gChat or 0) > CurTime() then return end
         local msg = net.ReadString():gsub("\n",""):sub(1,128)
         if msg:len() < 1 then return end
@@ -1748,6 +1794,7 @@ end
 net.Receive("mines.CreateGame",function(l,ply)
     local amt = net.ReadInt(16)
     local bombs = net.ReadInt(8)
+	if (gamble_net_spam(ply, "mines.CreateGame")) then return end
     if MINES_GAMES[ply] then return end
     if amt > 2500 then return end
     if amt < 100 then return end
@@ -1776,6 +1823,7 @@ net.Receive("mines.CreateGame",function(l,ply)
 end)
 
 net.Receive("mines.CashOut",function(l,ply)
+	if (gamble_net_spam(ply, "mines.CashOut")) then return end
     if not MINES_GAMES[ply] then return end
     if (MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) > 100 then
         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) .. " IC in mines."
