@@ -7,10 +7,24 @@ surface.CreateFont("moat_Trebuchet24", {
 local MOAT_SHOP = {}
 net.Start("MOAT_GET_SHOP")
 net.SendToServer()
-
+local LIMITEDS = 0
 net.Receive("MOAT_GET_SHOP", function(len)
     local tbl = net.ReadTable()
     table.insert(MOAT_SHOP, tbl)
+    if (tbl.LimitedShop or 0) > os.time() then
+        LIMITEDS = LIMITEDS + 1
+    end
+end)
+
+timer.Create("LimitedShopChat",10,0,function()
+    if MOAT_SHOP[1] then
+        timer.Remove("LimitedShopChat")
+        if LIMITEDS > 1 then
+            chat.AddText(Color(255,255,255),"Welcome back, there are currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEMS",Color(255,255,255)," in the shop!")
+        else
+            chat.AddText(Color(255,255,255),"Welcome back, there's currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM",Color(255,255,255)," in the shop!")
+        end
+    end
 end)
 
 local item_panel_w = 169
@@ -315,13 +329,13 @@ function m_PopulateShop(pnl)
                     m_DrawEnchantedText(itemtbl.CrateShopOverride, "moat_Trebuchet24", (w / 2) - 35, 5, name_col, Color(0, 0, 255))
                     m_DrawEnchantedText("Crate", "moat_Trebuchet24", (w / 2) - 29, 25, name_col, Color(0, 0, 255))
                 elseif (itemtbl.CrateShopOverride == "Gift") then
-                    m_DrawShadowedText(1, "Empty Gift", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
-                    m_DrawShadowedText(1, "Package", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
+                    m_DrawShadowedText(1, "Empty Gift", "moat_Medium5", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                    m_DrawShadowedText(1, "Package", "moat_Medium5", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
                 elseif (itemtbl.LimitedShop) then
                     if (itemtbl.Kind == "tier") then
-                        m_DrawShadowedText(1, itemtbl.Name .. " Weapon", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                        m_DrawShadowedText(1, itemtbl.Name .. " Weapon", "moat_Medium5", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
                     else
-                        m_DrawShadowedText(1, itemtbl.Name, "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                        m_DrawShadowedText(1, itemtbl.Name, "moat_Medium5", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
                     end
                     surface.SetFont("moat_ItemDescLarge3")
                     local ss = "Limited Time!"
