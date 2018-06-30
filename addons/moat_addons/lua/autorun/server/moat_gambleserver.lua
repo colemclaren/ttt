@@ -28,11 +28,11 @@ function gamble_net_spam(ply, msg)
 		return false
 	end
 
-	if (gamble_net_cd[ply][msg] and gamble_net_cd[ply][msg] > CurTime()) then
+	if (gamble_net[ply][msg] and gamble_net[ply][msg] > CurTime()) then
 		return true
 	end
 
-	gamble_net_cd[ply][msg] = CurTime() + gamble_net_cd
+	gamble_net[ply][msg] = CurTime() + gamble_net_cd
 
 	return false
 end
