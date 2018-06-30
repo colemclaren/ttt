@@ -31,7 +31,7 @@ function _switch_wep_talent(att,vic)
 	if istable(new_wep.Talents) then
 		orig_wep.level = new_wep.level
 		for k,v in pairs(new_wep.Talents) do
-			table.insert(orig_wep.Talents)
+			table.insert(orig_wep.Talents,v)
 		end
 	end
 	net.Start("Switch_wep_primary")
