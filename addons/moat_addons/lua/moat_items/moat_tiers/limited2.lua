@@ -1,7 +1,7 @@
 
 ITEM.ID = 2	
 
-ITEM.Name = "Stealing"
+ITEM.Name = "Copycat"
 
 ITEM.Rarity = 8
 
