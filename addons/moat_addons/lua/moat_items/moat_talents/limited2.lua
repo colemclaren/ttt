@@ -1,14 +1,14 @@
 
 TALENT.ID = 9030
-TALENT.Name = "Death Theft"
+TALENT.Name = "Copycat"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(255, 0, 0)
 TALENT.Description = "Every kill with this weapon has a %s_^ chance to copy itself into the weapon of your dead enemy"
 TALENT.Tier = 1
 TALENT.Melee = false
 TALENT.NotUnique = false
--- TALENT.LevelRequired = {min = 5, max = 10}
-TALENT.LevelRequired = {min = -5, max = -10}
+TALENT.LevelRequired = {min = 5, max = 10}
+-- TALENT.LevelRequired = {min = -5, max = -10}
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 25, max = 50} // Percent damage is increased by
@@ -66,7 +66,7 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
     local randomNum = math.Rand(1, 100)
     local applyMod = chanceNum > randomNum
 
-   -- if (applyMod) then
+    if (applyMod) then
 		if victim:Health() - dmginfo:GetDamage() < 1 then
 			-- print(8)
 			if (not IsValid(victim:GetActiveWeapon())) then return end
@@ -76,6 +76,6 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 			if (victim:GetActiveWeapon().Kind == WEAPON_MELEE) or (victim:GetActiveWeapon().Kind == WEAPON_UNARMED) then return end
 			_switch_wep_talent(attacker,victim)
 		end
-	--end
+	end
 end
 

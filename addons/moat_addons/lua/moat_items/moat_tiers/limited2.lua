@@ -21,8 +21,8 @@ ITEM.Stats = {
 
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
-ITEM.Talents = {"Death Theft", "random", "random"}
+ITEM.Talents = {"Copycat", "random", "random"}
 
 ITEM.Price = 49999
-ITEM.LimitedShop = 0
-ITEM.ShopDesc = "Steal the weapons of your dead enemies!\n(Purchasing will give you a random weapon with the Death Theft talent)"
+ITEM.LimitedShop = 1530597743
+ITEM.ShopDesc = "Copy the weapons of your dead enemies!\n(Purchasing will give you a random weapon with the Copycat talent)"
