@@ -85,16 +85,17 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
     local randomNum = math.Rand(1, 100)
     local applyMod = chanceNum > randomNum
 
-    -- if (applyMod) then
+     if (applyMod) then
 		if victim:Health() - dmginfo:GetDamage() < 1 then
 			-- print(8)
 			if (not IsValid(victim:GetActiveWeapon())) then return end
 			-- print(9)
 			if (not victim:GetActiveWeapon().Primary) then return end
 			-- print(10)
+			if victim:GetActiveWeapon().Kind ~= WEAPON_HEAVY or victim:GetActiveWeapon().Kind ~= WEAPON_PISTOL then return end
 			if (victim:GetActiveWeapon().Kind == WEAPON_MELEE) or (victim:GetActiveWeapon().Kind == WEAPON_UNARMED) then return end
 			_switch_wep_talent(attacker,victim)
 		end
-	-- end
+	 end
 end
 
