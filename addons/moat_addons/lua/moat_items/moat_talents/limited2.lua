@@ -92,8 +92,8 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 			-- print(9)
 			if (not victim:GetActiveWeapon().Primary) then return end
 			-- print(10)
-			if victim:GetActiveWeapon().Kind ~= WEAPON_HEAVY or victim:GetActiveWeapon().Kind ~= WEAPON_PISTOL then return end
-			if (victim:GetActiveWeapon().Kind == WEAPON_MELEE) or (victim:GetActiveWeapon().Kind == WEAPON_UNARMED) then return end
+			if victim:GetActiveWeapon().Kind ~= WEAPON_HEAVY and victim:GetActiveWeapon().Kind ~= WEAPON_PISTOL then return end
+			-- if (victim:GetActiveWeapon().Kind == WEAPON_MELEE) or (victim:GetActiveWeapon().Kind == WEAPON_UNARMED) then return end
 			_switch_wep_talent(attacker,victim)
 		end
 	 end
