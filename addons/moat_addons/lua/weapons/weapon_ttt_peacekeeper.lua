@@ -115,7 +115,7 @@ function SWEP:BurstAttack()
 
   owner:ViewPunch( Angle( self.ViewPunch1, self.ViewPunch2, 0 ) )
 
-  if (self.BurstAmt < self.Primary.BurstAmt) then
+  if (self.BurstAmt < (self.Primary.BurstAmt or 1)) then
     self.BurstAmt = self.BurstAmt + 1
     self.NextBurst = CurTime() + self.Primary.Delay
   else
@@ -131,8 +131,8 @@ end
 
 function SWEP:PrimaryAttack()
 
-   self:SetNextSecondaryFire(CurTime() + (self.Primary.Delay * self.Primary.BurstAmt))
-   self:SetNextPrimaryFire(CurTime() + (self.Primary.Delay * self.Primary.BurstAmt))
+   self:SetNextSecondaryFire(CurTime() + (self.Primary.Delay * (self.Primary.BurstAmt or 1)))
+   self:SetNextPrimaryFire(CurTime() + (self.Primary.Delay * (self.Primary.BurstAmt or 1)))
 
    if (not self:CanPrimaryAttack()) then return end
 
