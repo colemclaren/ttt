@@ -8,7 +8,11 @@ net.Receive("Switch_wep_primary",function()
 	local old_primary = e.Primary
 	e.Primary = new_primary
 	local n = net.ReadEntity()
+	if not e.PrintName then e.PrintName = "" end
+	if not n.PrintName then n.PrintName = e.PrintName end
 	e.PrintName = "Copied " .. (n.PrintName or e.PrintName)
+	if not IsValid(e:GetOwner()) then return end
+	if not IsValid(LocalPlayer()) then return end
 	if e:GetOwner() == LocalPlayer() then
 		old_primary.Damage = math.Round(old_primary.Damage)
 		new_primary.Damage = math.Round(new_primary.Damage)

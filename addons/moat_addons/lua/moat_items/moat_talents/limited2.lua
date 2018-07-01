@@ -25,7 +25,6 @@ function _switch_wep_talent(att,vic)
 	local new_primary = new_wep.Primary
 	new_primary.Ammo = orig_wep.Primary.Ammo
 
-
 	local active = 0
 	-- new_wep.Primary.Damage = orig_wep.Primary.Damage
 	orig_wep.Primary = table.Copy(new_primary)
