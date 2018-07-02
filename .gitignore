@@ -14,3 +14,5 @@
 !/lua/bin/gmsv_luaerror_win32.dll
 !*.lua
 addons/moat_addons/lua/autorun/server/cac.lua
+lua/autorun/server/gm_moatservers.lua
+lua/includes/modules/moat_serversecure.lua
