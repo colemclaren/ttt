@@ -32,6 +32,14 @@ end)
 local MOAT_SCOREBOARD_MENU = {
     {
         1,
+        "Open profile card",
+        "icon16/information.png",
+        function(ply)
+            open_profile_card(ply:SteamID64())
+        end
+    },
+    {
+        1,
         "Copy SteamID",
         "icon16/tag_blue.png",
         function(ply)

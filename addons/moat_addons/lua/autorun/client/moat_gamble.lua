@@ -2845,6 +2845,12 @@ function m_DrawBlackjackPanel()
 			av:SetPos(3,3)
 			av:SetSize(46,44)
 			av:SetSteamID(v.steamid,64)
+			local butt = vgui.Create("DButton",av)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(v.steamid)
+			end
 			GetSteamName(v.steamid, function(n)
 				name = n
 				if (IsValid(av)) then av:SetTooltip(n) end
@@ -3798,6 +3804,12 @@ function m_DrawVersusPanel()
 			av:Dock(LEFT)
 			av:SetPlayer(k,64)
 			av:SetTooltip(k:Nick())
+			local butt = vgui.Create("DButton",av)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(k)
+			end
 
 			local op = vgui.Create("AvatarImage",a)
 			op:DockMargin(0,3,5,3)
@@ -3927,6 +3939,12 @@ function m_DrawVersusPanel()
 			GetSteamName(k, function(n)
 				if (IsValid(av)) then av:SetTooltip(n) end
 			end)
+			local butt = vgui.Create("DButton",av)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(k)
+			end
 
 			local op = vgui.Create("AvatarImage",a)
 			op:DockMargin(0,3,5,3)
@@ -3940,6 +3958,12 @@ function m_DrawVersusPanel()
 				end)
 			else
 				op:SetTooltip("Empty!")
+			end
+			local butt = vgui.Create("DButton",op)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				if v[1] then open_profile_card(v[1]) end
 			end
 --a
 			local s = true
@@ -4073,6 +4097,12 @@ function m_DrawVersusPanel()
 			av:Dock(LEFT)
 			av:SetSteamID(v[1],64)
 			av:SetTooltip(v[4])
+			local butt = vgui.Create("DButton",av)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(v[1])
+			end
 
 			local op = vgui.Create("AvatarImage",a)
 			op:DockMargin(0,3,5,3)
@@ -4080,6 +4110,12 @@ function m_DrawVersusPanel()
 			op:Dock(LEFT)
 			op:SetSteamID(v[2],64)
 			op:SetTooltip(v[5])
+			local butt = vgui.Create("DButton",op)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(v[2])
+			end
 
 			winner = vgui.Create("AvatarImage",a)
 			winner:DockMargin(0,3,20,3)

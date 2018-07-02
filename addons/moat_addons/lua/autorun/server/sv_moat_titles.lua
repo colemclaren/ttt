@@ -262,3 +262,67 @@ net.Receive("Moat.TTS",function(l,ply)
         ply:m_GiveIC(ic)
     end)
 end)
+
+util.AddNetworkString("player_card")
+local cooldown = {}
+net.Receive("player_card",function(l,ply)
+    local sid = net.ReadString()
+    if ply.cardlocked then return end
+    ply.cardlocked = true
+    for k,v in pairs(player.GetAll()) do
+        if v:SteamID64() == sid then
+            local info = {
+                name = v:Nick(),
+                steamid = sid,
+                rank = v:GetUserGroup(),
+                ic = MOAT_INVS[v]["credits"].c,
+                lastonline = 0,
+                playtime = v:GetDataVar("timePlayed")
+            }
+            net.Start("player_card")
+            net.WriteTable(info)
+            net.Send(ply)
+            ply.cardlocked = false
+            return
+        end
+    end
+
+    local q = mdb:query("SELECT credits from moat_inventories WHERE steamid = '" .. mdb:escape(util.SteamIDFrom64(sid)) .. "';")
+    local info = {
+        steamid = sid
+    }
+    function q:onSuccess(d)
+        if #d < 1 then if IsValid(ply) then ply.cardlocked = false end return end
+        info.ic = util.JSONToTable(d[1].credits).c
+
+        local q2 = mdb:query("SELECT name, rank, last_join, playtime FROM player WHERE steam_id = '" .. mdb:escape(sid) .. "';")
+		function q2:onSuccess(data)
+			if (data and #data > 0) then
+				if (not IsValid(ply)) then return end
+                data = data[1]
+
+				info.name = data.name
+                info.rank = data.rank
+                info.playtime = data.playtime
+                info.lastonline = tonumber(os.time() - data.last_join)
+
+				net.Start("player_card")
+                net.WriteTable(info)
+                net.Send(ply)
+                if IsValid(ply) then ply.cardlocked = false end
+			else
+                if IsValid(ply) then ply.cardlocked = false end
+            end
+		end
+
+		function q2:onError()
+			if IsValid(ply) then ply.cardlocked = false end
+		end
+
+		q2:start()
+    end
+    function q:onError(d)
+        if IsValid(ply) then ply.cardlocked = false end
+    end
+    q:start()
+end)

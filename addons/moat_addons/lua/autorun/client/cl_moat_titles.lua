@@ -599,3 +599,200 @@ net.Receive("Moat.TTS",function()
         end
     end)
 end)
+
+/*
+    Profile cards
+*/
+
+surface.CreateFont("profile.name", {
+    font = "DermaLarge",
+    italic = true,
+    size = 40,
+    shadow = true
+})
+
+surface.CreateFont("profile.steamid", {
+    font = "DermaLarge",
+    italic = false,
+    size = 20,
+    shadow = true
+})
+
+
+local function GetScoreboardGroup(info)
+	local r, id = info.rank, info.steamid
+	if (id and OPERATION_LEADS[id]) then r = "operationslead" end
+	if (id and TECH_LEADS[id]) then r = "techlead" end
+
+	return MOAT_RANKS[r] or MOAT_RANKS["user"]
+end
+
+function populate_profile_card(MOAT_PROFILE,info)
+    local profile = vgui.Create("AvatarImage",MOAT_PROFILE)
+    profile:SetSize(128,128)
+    profile:SetPos(5,30)
+    profile:SetSteamID(info.steamid,128)
+    local rank = GetScoreboardGroup(info)
+    -- Name
+    local name = vgui.Create("DButton",MOAT_PROFILE)
+    name:SetPos(138,30)
+    name:SetSize(355,40)
+    name:SetText("")
+    name.info = info.name
+    function name:Paint(w,h)
+        draw.DrawText(name.info,"profile.name",w/2,0,rank[2],TEXT_ALIGN_CENTER)
+    end
+    function name:DoClick()
+        SetClipboardText(self.info)
+        self.info = "Copied to clipboard!"
+        timer.Simple(0.5,function()
+            self.info = info.name
+        end)
+    end
+
+    -- SteamID
+    local name = vgui.Create("DButton",MOAT_PROFILE)
+    name:SetPos(138,75)
+    name:SetSize(200,30)
+    name:SetText("")
+    name.info = util.SteamIDFrom64(info.steamid)
+    function name:Paint(w,h)
+        draw.DrawText(name.info,"profile.steamid",6,0,Color(255,255,255))
+    end
+    function name:DoClick()
+        SetClipboardText(self.info)
+        self.info = "Copied to clipboard!"
+        timer.Simple(0.5,function()
+            self.info = util.SteamIDFrom64(info.steamid)
+        end)
+    end
+
+    -- Rank
+    local name = vgui.Create("DButton",MOAT_PROFILE)
+    name:SetPos(348,75)
+    name:SetSize(145,30)
+    name:SetText("")
+    name.info = rank[1]
+    function name:Paint(w,h)
+        draw.DrawText(self.info,"profile.steamid",w,0,rank[2],TEXT_ALIGN_RIGHT)
+    end
+    function name:DoClick()
+        SetClipboardText(self.info)
+        self.info = "Copied to clipboard!"
+        timer.Simple(0.5,function()
+            self.info = rank[1]
+        end)
+    end
+
+    -- IC
+    local name = vgui.Create("DButton",MOAT_PROFILE)
+    name:SetPos(138,105)
+    name:SetSize(200,30)
+    name:SetText("")
+    name.info = string.Comma(info.ic)
+    function name:Paint(w,h)
+        draw.DrawText(name.info,"profile.steamid",6,0,Color(255,255,255))
+        local tw = surface.GetTextSize(name.info)
+        if self.copying then return end
+        draw.DrawText("IC","profile.steamid",tw + 12,0,Color(255,255,0))
+    end
+    function name:DoClick()
+        SetClipboardText(self.info)
+        self.info = "Copied to clipboard!"
+        self.copying = true
+        timer.Simple(0.5,function()
+            self.copying = false
+            self.info = string.Comma(info.ic)
+        end)
+    end
+
+    -- Playtime
+    local name = vgui.Create("DButton",MOAT_PROFILE)
+    name:SetPos(328,105)
+    name:SetSize(165,30)
+    name:SetText("")
+    name.info = D3A.FormatTimeSingle(info.playtime)
+    function name:Paint(w,h)
+        -- draw.DrawText(name.info,"profile.steamid",6,0,Color(255,255,255))
+        -- local tw = surface.GetTextSize(name.info)
+        -- if self.copying then return end
+        -- draw.DrawText("IC","profile.steamid",tw + 12,0,Color(255,255,0))
+        if not self.copying then
+            draw.DrawText("of playtime","profile.steamid",w,0,Color(0,255,255,100),TEXT_ALIGN_RIGHT)
+        end
+        local tw = surface.GetTextSize("of playtime")
+        if self.copying then tw = -6 end
+        draw.DrawText(name.info,"profile.steamid",w - (tw + 6),0,Color(255,255,255),TEXT_ALIGN_RIGHT)
+    end
+    function name:DoClick()
+        SetClipboardText(self.info)
+        self.info = "Copied to clipboard!"
+        self.copying = true
+        timer.Simple(0.5,function()
+            self.copying = false
+            self.info = D3A.FormatTimeSingle(info.playtime)
+        end)
+    end
+
+    -- last online
+    local name = vgui.Create("DButton",MOAT_PROFILE)
+    name:SetPos(138,135)
+    name:SetSize(355,40)
+    name:SetText("")
+    if info.lastonline == 0 then
+        name.info = "Online now!"
+    else
+        name.info = "Last online " .. D3A.FormatTimeSingle(info.lastonline) .. " ago"
+    end
+    function name:Paint(w,h)
+        draw.DrawText(name.info,"profile.steamid",w/2,0,Color(255,255,255),TEXT_ALIGN_CENTER)
+    end
+    function name:DoClick()
+        SetClipboardText(self.info)
+        self.info = "Copied to clipboard!"
+        timer.Simple(0.5,function()
+            if info.lastonline == 0 then
+                self.info = "Online now!"
+            else
+                self.info = "Last online " .. D3A.FormatTimeSingle(info.lastonline) .. " ago"
+            end
+        end)
+    end
+
+end
+
+function make_profile_card(info)
+    if IsValid(MOAT_PROFILE) then 
+        MOAT_PROFILE:Remove()
+    end
+    MOAT_PROFILE = vgui.Create("DFrame")
+    local w,h = 500,164
+    if ScrW() < w then w = ScrW() end
+    if ScrH() < h then h = ScrH() end
+    MOAT_PROFILE:SetSize(w,h)
+    MOAT_PROFILE:SetPos(ScrW(),(ScrH()/2) - (h/2))
+    MOAT_PROFILE:MoveTo(ScrW()-w,(ScrH()/2) - (h/2),0.1,0,-1,function()
+        MOAT_PROFILE:MakePopup()
+    end)
+    function MOAT_PROFILE:Close()
+        MOAT_PROFILE:MoveTo(ScrW(),(ScrH()/2) - (h/2),0.1,0,-1,function()
+            MOAT_PROFILE:Remove()
+        end)
+    end
+    MOAT_PROFILE:SetTitle(info.name .. " (" .. util.SteamIDFrom64(info.steamid) .. ") | Click to copy")
+    populate_profile_card(MOAT_PROFILE,info)
+end
+
+function open_profile_card(steamid)
+    net.Start("player_card")
+    net.WriteString(steamid)
+    net.SendToServer()
+end
+
+net.Receive("player_card",function()
+    make_profile_card(net.ReadTable())
+end)
+
+concommand.Add("profile_card_test",function()
+    open_profile_card("76561198059864637")
+end)
