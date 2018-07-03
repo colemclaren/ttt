@@ -110,7 +110,7 @@ local surface_DrawCircle = surface.DrawCircle
 local gradient_u = Material("vgui/gradient-u")
 local gradient_d = Material("vgui/gradient-d")
 local gradient_r = Material("vgui/gradient-r")
-local moat_inv_cooldown = 0
+moat_inv_cooldown = 0
 
 function m_isUsingInv()
     return IsValid(MOAT_INV_BG)
@@ -985,6 +985,7 @@ function m_GetESlots()
     return eslots
 end
 
+OPEN_ON_SEND = false
 net.Receive("MOAT_SEND_INV_ITEM", function(len)
     local key = net.ReadString()
     local tbl = net.ReadTable()
@@ -1024,6 +1025,12 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
             end
         end
     end
+
+	if (OPEN_ON_SEND and #m_Inventory >= NUMBER_OF_SLOTS) then
+		OPEN_ON_SEND = false
+
+		--m_OpenInventory()
+	end
 end)
 
 MsgC(Color(255, 0, 0), "Requesting Inventory from Server!")
@@ -1256,11 +1263,37 @@ INV_SELECT_MODE = false
 INV_SELECTED_ITEM = nil
 
 local disable_freeic = CreateClientConVar("moat_forum_rewards", 0, true, false)
+local handled_send = false
+function m_HandleSending()
+	if (not handled_send) then
+		handled_send = true
+		next_send = CurTime() + 30
+		return
+	end
+
+	if (next_send and next_send > CurTime()) then return end
+	OPEN_ON_SEND = true
+	
+	net.Start("MOAT_SEND_INV_ITEM")
+	net.SendToServer()
+
+	next_send = CurTime() + 30
+end
 
 function m_OpenInventory(ply2, utrade)
     moat_inv_cooldown = CurTime() + 1
 
     if (#m_Inventory < NUMBER_OF_SLOTS) then
+		m_HandleSending()
+
+		if (IsValid(ply2) and utrude) then
+			net.Start("MOAT_RESPOND_TRADE")
+        	net.WriteBool(false)
+        	net.WriteDouble(m_ply2:EntIndex())
+        	net.WriteDouble(m_utrade)
+        	net.SendToServer()
+		end
+
         chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
 
         return
@@ -1268,6 +1301,7 @@ function m_OpenInventory(ply2, utrade)
 
     for i = 1, #m_Inventory do
         if (m_Inventory[i] and #m_Inventory[i] > 0 and not m_Inventory[i].c) then
+			m_HandleSending()
             chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
 
             return
@@ -1276,6 +1310,8 @@ function m_OpenInventory(ply2, utrade)
             m_Inventory[i].decon = false
         end
     end
+
+	handled_send = true
 
     MOAT_ITEMS_DECON_MARKED = 0
     MOAT_DECONSTRUCT_ITEMS_START = 0

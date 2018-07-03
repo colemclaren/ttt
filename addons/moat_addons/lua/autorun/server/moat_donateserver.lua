@@ -1,5 +1,4 @@
 -- ahhhh
-
 util.AddNetworkString("moat.donate.update")
 util.AddNetworkString("moat.donate.purchase")
 
@@ -27,15 +26,13 @@ MOAT_DONATE.Packages = {
 
 		local crates = m_GetActiveCrates()
 
-		for i = 1, amt do
+		moat_DropIndependence(pl, 1)
+		for i = 1, 15 do
 			local crate = crates[math.random(1, #crates)].Name
         	pl:m_DropInventoryItem(crate, "hide_chat_obtained", false, true)
-        	if (i == amt) then 
-				m_SaveInventory(pl)
-        	end
     	end
 
-		moat_DropIndependence(pl, 1)
+		m_SaveInventory(pl)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,000 ", Color(255, 255, 255), "Support Credits for the 5,000 IC Package!"})
@@ -47,6 +44,8 @@ MOAT_DONATE.Packages = {
 		pl:Drop20()
 		moat_DropIndependence(pl, 2)
 
+		m_SaveInventory(pl)
+
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "2,000 ", Color(255, 255, 255), "Support Credits for the 12,000 IC Package!"})
 		net.Send(pl)
@@ -56,6 +55,8 @@ MOAT_DONATE.Packages = {
 		give_ec(pl, 3)
 		pl:Drop50()
 		moat_DropIndependence(pl, 6)
+
+		m_SaveInventory(pl)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 40,000 IC Package!"})
@@ -67,12 +68,15 @@ MOAT_DONATE.Packages = {
 		pl:Drop100()
 		moat_DropIndependence(pl, 13)
 
+		m_SaveInventory(pl)
+
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "10,000 ", Color(255, 255, 255), "Support Credits for the 100,000 IC Package!"})
 		net.Send(pl)
 	end},
 	[8] = {5000, function(pl)
 		pl:m_DropInventoryItem("Dola Effect", "hide_chat_obtained", false, false)
+		m_SaveInventory(pl)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 2,500 IC Package!"})

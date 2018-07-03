@@ -439,6 +439,10 @@ function MOAT_DONATE:RebuildSelection(num)
 		net.WriteUInt(pkg[3], 8)
 		net.SendToServer()
 
+		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+        moat_inv_cooldown = CurTime() + 3
+        m_ClearInventory()
+
 		surface.PlaySound("buttons/button3.wav")
 	end
 end
