@@ -24,15 +24,18 @@ MOAT_DONATE.Packages = {
 	end},
 	[4] = {1000, function(pl)
 		m_AddCreditsToSteamID(pl:SteamID(), 6500)
-		
+
 		local crates = m_GetActiveCrates()
 
-		for i = 1, 15 do
-        	local crate = crates[math.random(1, #crates)].Name
-        	pl:m_DropInventoryItem(crate, "hide_chat_obtained", false, false)
-		end
+		for i = 1, amt do
+			local crate = crates[math.random(1, #crates)].Name
+        	pl:m_DropInventoryItem(crate, "hide_chat_obtained", false, true)
+        	if (i == amt) then 
+				m_SaveInventory(pl)
+        	end
+    	end
 
-		m_DropEasterBasket(pl, 1)
+		moat_DropIndependence(pl, 1)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,000 ", Color(255, 255, 255), "Support Credits for the 5,000 IC Package!"})
@@ -42,7 +45,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 15000)
 		give_ec(pl, 1)
 		pl:Drop20()
-		m_DropEasterBasket(pl, 2)
+		moat_DropIndependence(pl, 2)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "2,000 ", Color(255, 255, 255), "Support Credits for the 12,000 IC Package!"})
@@ -52,7 +55,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 50000)
 		give_ec(pl, 3)
 		pl:Drop50()
-		m_DropEasterBasket(pl, 6)
+		moat_DropIndependence(pl, 6)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 40,000 IC Package!"})
@@ -62,7 +65,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 125000)
 		give_ec(pl, 7)
 		pl:Drop100()
-		m_DropEasterBasket(pl, 13)
+		moat_DropIndependence(pl, 13)
 
 		net.Start "D3A.Chat2"
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "10,000 ", Color(255, 255, 255), "Support Credits for the 100,000 IC Package!"})

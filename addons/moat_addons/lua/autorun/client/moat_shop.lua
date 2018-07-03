@@ -354,7 +354,7 @@ function m_PopulateShop(pnl)
                         if (#tostring(h)) == 1 then h = "0" .. h end
                         if (#tostring(m)) == 1 then m = "0" .. m end
                         if (#tostring(sec)) == 1 then sec = "0" .. sec end
-                        ss = h .. ":" .. m .. ":" .. sec .. " left!"
+                        ss = D3A.FormatTimeSingle(itemtbl.LimitedShop - os.time()) .. " left!" --h .. ":" .. m .. ":" .. sec .. " left!"
                         local tw = surface.GetTextSize(ss)
                         DrawShadowedText(1, ss, "moat_ItemDescLarge3", (w/2) - (tw/2), 25, Color(0, 0, 0))
                         DrawEnchantedText(5, ss, "moat_ItemDescLarge3", (w/2) - (tw/2), 25, name_col, Color(255,0,0))

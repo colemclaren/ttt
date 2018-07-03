@@ -1181,6 +1181,7 @@ local ITEM_RARITY_TO_NAME = {
 local vowels = {"a", "e", "i", "o", "u"}
 
 net.Receive("MOAT_OBTAIN_ITEM", function(len)
+	local v = net.ReadBool()
     local ply = ents.GetByIndex(net.ReadDouble())
     local tbl = net.ReadTable()
     local rar = GetConVar("moat_chat_obtain_rarity"):GetString()
@@ -1251,6 +1252,7 @@ net.Receive("MOAT_OBTAIN_ITEM", function(len)
             end
 
             net.Start("MOAT_CHAT_OBTAINED_VERIFY")
+			net.WriteBool(v or false)
             net.WriteString(ply:Nick() .. " (" .. ply:SteamID() .. ") has obtained" .. grammar .. ITEM_NAME_FULL)
             net.WriteTable(tbl)
             net.WriteString(wpn)

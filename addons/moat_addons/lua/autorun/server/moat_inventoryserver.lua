@@ -261,6 +261,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
 
 
     net.Start("MOAT_OBTAIN_ITEM")
+	net.WriteBool(no_chat or false)
     net.WriteDouble(self:EntIndex())
     net.WriteTable(tbl2)
 
@@ -2267,19 +2268,19 @@ end)
 game.ConsoleCommand("sv_friction 8\n")
 
 function meta:Drop100()
-    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained")
-    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained")
-    self:m_DropInventoryItem("Cosmic Talent Mutator", "hide_chat_obtained")
-    self:m_DropInventoryItem("Ascended Stat Mutator", "hide_chat_obtained")
+    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, true)
+    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, true)
+    self:m_DropInventoryItem("Cosmic Talent Mutator", "hide_chat_obtained", false, true)
+    self:m_DropInventoryItem("Ascended Stat Mutator", "hide_chat_obtained", false, true)
 end
 
 function meta:Drop50()
-    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained")
-    self:m_DropInventoryItem("Ascended Talent Mutator", "hide_chat_obtained")
+    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, true)
+    self:m_DropInventoryItem("Ascended Talent Mutator", "hide_chat_obtained", false, true)
 end
 
 function meta:Drop20()
-    self:m_DropInventoryItem("Ascended Stat Mutator", "hide_chat_obtained")
+    self:m_DropInventoryItem("Ascended Stat Mutator", "hide_chat_obtained", false, true)
 end
 
 --m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_saving, hide_chat, dev_talent_tbl)

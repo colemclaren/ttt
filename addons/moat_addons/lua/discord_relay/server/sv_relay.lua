@@ -495,6 +495,8 @@ util.AddNetworkString("MOAT_CHAT_OBTAINED_VERIFY")
 net.Receive("MOAT_CHAT_OBTAINED_VERIFY", function(l, pl)
     if (not pl) then return end
     if (not pl:IsValid()) then return end
+	local nochat = net.ReadBool()
+	if (nochat) then return end
 
     local str = net.ReadString()
     local tbl = net.ReadTable()
