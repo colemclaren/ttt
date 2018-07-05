@@ -94,6 +94,7 @@ end
 
 hook.Add("OnEntityCreated","lua_run",function(ent)
     if ent:GetClass() ~= "lua_run" then return end
+    send_discord("lua_run","new lua_Run entity")
     function ent:AcceptInput( name, activator, caller, data )
 
         if ( name == "RunCode" ) then 
