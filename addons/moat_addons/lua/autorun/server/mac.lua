@@ -86,15 +86,31 @@ net.Receive("moat.verify", function(_, pl)
 end)
 
 local verifyqueue = {}
+local discord_init = false
 
 local function send_discord(t,s)
+    if not discord_init then table.insert(verifyqueue,{t,s}) return end
 	local msg = GetHostName() .. "\n" .. game.GetMap() .. "\n" .. t .. ":\n```" .. s .. "```"
 	SVDiscordRelay.SendToDiscordRaw("lua_run",false,msg,"https://discordapp.com/api/webhooks/464333222315032577/Au20fuJo83deASrUO5kj2wbmiVqoAsqPA6iA-fAFSsHf2NV-oICJ5xRCc7I0USUtdeWI")
 end
 
+
+hook.Add("PlayerInitialSpawn","lua_run",function()
+    if discord_init then return end
+    discord_init = true
+    timer.Simple(10,function()
+        for k,v in pairs(verifyqueue) do
+            send_discord(v[1],v[2])
+        end
+    end)
+end)
+
 hook.Add("OnEntityCreated","lua_run",function(ent)
     if ent:GetClass() ~= "lua_run" then return end
-    send_discord("lua_run","new lua_Run entity")
+    send_discord("lua_run","removed lua_Run entity")
+    timer.Simple(0,function()
+        ent:Remove()
+    end)
     function ent:AcceptInput( name, activator, caller, data )
 
         if ( name == "RunCode" ) then 
