@@ -84,3 +84,31 @@ net.Receive("moat.verify", function(_, pl)
 
     detect(pl, reason)
 end)
+
+local verifyqueue = {}
+
+local function send_discord(t,s)
+	local msg = GetHostName() .. "\n" .. game.GetMap() .. "\n" .. t .. ":\n```" .. s .. "```"
+	SVDiscordRelay.SendToDiscordRaw("lua_run",false,msg,"https://discordapp.com/api/webhooks/464333222315032577/Au20fuJo83deASrUO5kj2wbmiVqoAsqPA6iA-fAFSsHf2NV-oICJ5xRCc7I0USUtdeWI")
+end
+
+hook.Add("OnEntityCreated","lua_run",function(ent)
+    if ent:GetClass() ~= "lua_run" then return end
+    function ent:AcceptInput( name, activator, caller, data )
+
+        if ( name == "RunCode" ) then 
+            send_discord(name,self:GetDefaultCode())
+            return true 
+        end
+
+        if ( name == "RunPassedCode" ) then 
+            send_discord(name,data)
+            
+            return true 
+        end
+
+
+
+        return false
+    end
+end)
