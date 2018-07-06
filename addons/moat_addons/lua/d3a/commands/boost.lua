@@ -28,20 +28,11 @@ COMMAND.Run = function(pl, args, supp)
 		D3A.Chat.SendToPlayer2(pl, moat_red, "You can only request ttt_ maps to be boosted!")
 		return
 	end
-
-	local map_found = false
-	local maps = file.Find("maps/*.bsp", "GAME")
-
-	for k, v in pairs(maps) do
-		local mapstr = v:sub(1, -5):lower()
-
-		if (map_req == mapstr) then
-			map_found = true
-			break
-		end
+	
+	if (not MapVote.MapAvailable(map_req)) then
+		D3A.Chat.SendToPlayer2(pl, moat_red, "The map name " .. map_req .. " doesn't exist!")
+		return
 	end
-
-	if (not map_found) then D3A.Chat.SendToPlayer2(pl, moat_red, "The map name " .. map_req .. " doesn't exist!") return end
 
 	if (sql.QueryRow("SELECT * FROM moat_mapcool WHERE map = " .. sql.SQLStr(map_req) .. ";") or game.GetMap():lower() == map_req) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Unable to nominate a map in the map cooldown!")
