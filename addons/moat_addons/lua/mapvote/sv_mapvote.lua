@@ -9,6 +9,28 @@ local MAP_BLACKLIST = {
     ["ttt_complex_fix4_ws"] = true
 }
 
+local MAP_AVAILABLE = {}
+function MapVote.MapAvailable(map_str)
+	if (MAP_AVAILABLE[map_str] ~= nil) then return MAP_AVAILABLE[map_str] end
+
+	local map_good = false
+	local maps = file.Find("maps/*.bsp", "GAME")
+
+	for k, v in pairs(maps) do
+		local mapstr = v:sub(1, -5):lower()
+		if (MAP_BLACKLIST[mapstr]) then continue end
+		
+		if (map_str == mapstr) then
+			map_good = true
+			break
+		end
+	end
+
+	MAP_AVAILABLE[map_str] = map_good
+
+	return map_good
+end
+
 net.Receive("RAM_MapVoteUpdate", function(len, ply)
     if(MapVote.Allow) then
         if(IsValid(ply)) then
@@ -207,11 +229,10 @@ function MapVote.Start(length, current, limit, prefix, callback)
 
     for k, map in RandomPairs(maps) do
         local mapstr = map:sub(1, -5):lower()
-        if MAP_BLACKLIST[mapstr] then return end
         if sql.QueryRow("SELECT * FROM moat_mapcool WHERE map = " .. sql.SQLStr(mapstr) .. ";") then continue end
         if(not current and game.GetMap():lower()..".bsp" == map) then continue end
         if (table.HasValue(vote_maps, mapstr)) then continue end
-
+	if (not MapVote.MapAvailable(mapstr)) then continue end
 
         if is_expression then
             if(string.find(map, prefix)) then -- This might work (from gamemode.txt)
@@ -236,7 +257,7 @@ function MapVote.Start(length, current, limit, prefix, callback)
             local mapstr = map:sub(1, -5):lower()
             if(not current and game.GetMap():lower()..".bsp" == map) then continue end
             if (table.HasValue(vote_maps, mapstr)) then continue end
-
+	    if (not MapVote.MapAvailable(mapstr)) then continue end
 
             if is_expression then
                 if(string.find(map, prefix)) then -- This might work (from gamemode.txt)
