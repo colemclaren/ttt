@@ -5,6 +5,10 @@ util.AddNetworkString("RTV_Delay")
 
 MapVote.Continued = false
 
+local MAP_BLACKLIST = {
+    ["ttt_complex_fix4_ws"] = true
+}
+
 net.Receive("RAM_MapVoteUpdate", function(len, ply)
     if(MapVote.Allow) then
         if(IsValid(ply)) then
@@ -203,6 +207,7 @@ function MapVote.Start(length, current, limit, prefix, callback)
 
     for k, map in RandomPairs(maps) do
         local mapstr = map:sub(1, -5):lower()
+        if MAP_BLACKLIST[mapstr] then return end
         if sql.QueryRow("SELECT * FROM moat_mapcool WHERE map = " .. sql.SQLStr(mapstr) .. ";") then continue end
         if(not current and game.GetMap():lower()..".bsp" == map) then continue end
         if (table.HasValue(vote_maps, mapstr)) then continue end
