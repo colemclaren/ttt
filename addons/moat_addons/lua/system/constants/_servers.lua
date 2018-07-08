@@ -194,6 +194,6 @@ MOAT_SERVERS.Register("208.103.169.205:27019", {
 })
 
 -- if we aren't on a registered server, automatically assume we're on a dev server
-if (not MOAT_SERVERS.ServersIP[SERVER_IP]) then
+if (SERVER and not MOAT_SERVERS.ServersIP[SERVER_IP]) then
 	SERVER_ISDEV = true
 end
