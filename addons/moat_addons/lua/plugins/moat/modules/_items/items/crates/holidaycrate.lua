@@ -1,0 +1,9 @@
+ITEM.ID = 2002
+ITEM.Name = "Holiday Crate"
+ITEM.Description = "This crate contains an item from the Holiday Collection! Right click to open"
+ITEM.Image = "https://moat.gg/assets/img/holiday_crate64.png" 
+ITEM.Rarity = 4
+ITEM.Collection = "Holiday Collection"
+ITEM.Active = false
+ITEM.Stackable = true
+ITEM.Price = 2000

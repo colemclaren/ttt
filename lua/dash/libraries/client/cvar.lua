@@ -18,7 +18,7 @@ CVAR.__index = CVAR
 
 debug.getregistry().Cvar = CVAR
 
-local data_directory = 'cvar'
+local data_directory = 'moat/cvar'
 local staged_cvars = {}
 local function load()
 	if (not file.IsDir(data_directory, 'DATA')) then

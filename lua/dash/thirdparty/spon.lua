@@ -1,1 +1,0 @@
-spon = dash.IncludeSH 'dash/submodules/spon/lua/includes/modules/spon.lua'
