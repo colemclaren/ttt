@@ -102,6 +102,16 @@ MOAT_SERVERS.Register("208.103.169.43:27016", {
 	id = "ttt-mc3"
 })
 
+MOAT_SERVERS.Register("208.103.169.54:27016", {
+	name = "TTT Minecraft #4",
+	id = "ttt-mc4",
+})
+
+MOAT_SERVERS.Register("208.103.169.54:27019", {
+	name = "TTT Minecraft #5",
+	id = "ttt-mc5",
+})
+
 MOAT_SERVERS.Register("208.103.169.43:27018", {
 	name = "TTC Terror City Beta",
 	id = "beta"
@@ -117,43 +127,38 @@ MOAT_SERVERS.Register("208.103.169.204:27021", {
 	id = "ttt-eu"
 })
 
-
+/*
 -- US03
 MOAT_SERVERS.Register("208.103.169.54:27015", {
 	name = "TTT #9",
 	id = "ttt9",
-	status = "Coming Soon"
 })
 
 MOAT_SERVERS.Register("208.103.169.54:27017", {
 	name = "TTT #10",
 	id = "ttt10",
-	status = "Coming Soon"
 })
 
 MOAT_SERVERS.Register("208.103.169.54:27018", {
 	name = "TTT #11",
 	id = "ttt11",
-	status = "Coming Soon"
 })
 
 MOAT_SERVERS.Register("208.103.169.54:27020", {
 	name = "TTT #12",
 	id = "ttt12",
-	status = "Coming Soon"
 })
 
 MOAT_SERVERS.Register("208.103.169.54:27016", {
 	name = "TTT Minecraft #4",
 	id = "ttt-mc4",
-	status = "Coming Soon"
 })
 
 MOAT_SERVERS.Register("208.103.169.54:27019", {
 	name = "TTT Minecraft #5",
 	id = "ttt-mc5",
-	status = "Coming Soon"
 })
+*/
 
 
 -- UK01
