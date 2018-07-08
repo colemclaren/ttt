@@ -1,3 +1,5 @@
+AddCSLuaFile()
+
 MOAT_PAINT = MOAT_PAINT or {}
 
 MOAT_PAINT.Colors = {

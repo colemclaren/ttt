@@ -95,6 +95,11 @@ for k, v in pairs(file.Find(itemdir .. "effects/*.lua", "LUA")) do
     end
 end
 
+if (SERVER) then
+	include(itemdir .. "paints/load.lua")
+end
+include(itemdir .. "paints/load.lua")
+
 moat_TerroristModels = {}
 moat_TerroristModels["models/player/arctic.mdl"] = ""
 moat_TerroristModels["models/player/guerilla.mdl"] = ""
