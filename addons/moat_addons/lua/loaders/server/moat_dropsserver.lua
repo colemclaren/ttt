@@ -115,7 +115,7 @@ function m_InitializeItems()
         end
     end
 
-    include("autorun/moat_paintshared.lua")
+    include "loaders/moat_paintshared.lua"
     m_CreatePaints()
     -- boom beep items loooooaded
 end

@@ -2495,8 +2495,8 @@ derma.DefineControl( "DVScrollBar", "A Scrollbar", PANEL, "Panel" )
 	end
 end
 
-AddCSLuaFile "autorun/client/moat_util.lua"
-include "autorun/client/moat_util.lua"
+AddCSLuaFile "loaders/client/moat_util.lua"
+include "loaders/client/moat_util.lua"
 
 local e = Material("error")
 local function pd()

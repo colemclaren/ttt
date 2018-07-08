@@ -11,7 +11,7 @@ end)
 if (SERVER) then
 	util.AddNetworkString "moat.damage"
 	util.AddNetworkString "moat.damage.reset"
-	AddCSLuaFile "autorun/moat_damage.lua"
+	AddCSLuaFile()
 
 	util.AddNetworkString "moat.reset.anims.taunts"
 	hook.Add("PlayerSpawn", "moat.reset.anims.taunts", function(pl)

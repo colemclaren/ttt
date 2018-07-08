@@ -1,11 +1,11 @@
 AddCSLuaFile()
 
 if SERVER then
-	resource.AddFile( "materials/models/hands/hands_color.vmt")
+	/*resource.AddFile( "materials/models/hands/hands_color.vmt")
 	resource.AddFile( "materials/models/hands/hands_color_jive.vmt")
 	resource.AddFile( "materials/models/hands/pimp_body_color.vmt")
 	resource.AddFile( "materials/models/hands/sleeves.vmt")
-	resource.AddFile( "models/v_me_fists.mdl")
+	resource.AddFile( "models/v_me_fists.mdl")*/
 else
     WebElements = {}
     WebElements.Edge 			= ( ScrH()*0.005 ):ceil()

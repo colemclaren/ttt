@@ -1,5 +1,5 @@
 if (SERVER) then
-    AddCSLuaFile("autorun/moat_chat.lua")
+    AddCSLuaFile()
 
     return
 end

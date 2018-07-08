@@ -868,11 +868,3 @@ net.Receive("MOAT_PLAYER_CLOAKED", function()
         end
     end
 end)
-
-/*
-
-[ERROR] addons/a_server_addons/lua/autorun/client/moat_loadoutclient.lua:498: attempt to index local 'e' (a nil value)
-  1. reset_visibility - addons/a_server_addons/lua/autorun/client/moat_loadoutclient.lua:498
-   2. v - addons/a_server_addons/lua/autorun/client/moat_loadoutclient.lua:517
-    3. unknown - lua/includes/modules/hook.lua:84
-*/
