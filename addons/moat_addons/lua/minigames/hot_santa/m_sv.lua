@@ -99,7 +99,7 @@ function MG_HS.PlayerDeath(vic, inf, att)
 end
 
 function MG_HS.FindCorpse(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
     
     for k, v in pairs(ents.FindByClass("prop_ragdoll")) do
         if (v.uqid == ply:UniqueID() and IsValid(v)) then
@@ -245,7 +245,7 @@ function MG_HS:PrepRound(mk, pri, sec, creds)
     end
 
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_HS.DefaultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_HS.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end
@@ -278,7 +278,7 @@ end
 function MG_HS.BeginRound()
     SetRoundEnd(CurTime() + 490)
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_HS.DefaultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_HS.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end

@@ -95,7 +95,7 @@ local function moat_BeginRoundBossHooks()
 
         if (MOAT_DEATHCLAW_WPN) then
             for k , v in pairs(ents.GetAll()) do
-                if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DeafultLoadout[v:GetClass()]) then
+                if (IsValid(v) and v:GetClass():StartWith("weapon_") and not DeafultLoadout[v:GetClass()]) then
                     v:Remove()
                 end
             end
@@ -103,7 +103,7 @@ local function moat_BeginRoundBossHooks()
 
         local boss = MOAT_BOSS_CUR_PLY
 
-        if (boss and boss:IsValid()) then
+        if (boss and IsValid(boss)) then
 
             boss:GodEnable() -- so fucks dont kill him before all the health
 
@@ -180,7 +180,7 @@ local function moat_BeginRoundBossHooks()
     end)
 
     hook.Add("PlayerSpawn", "moat_PlayerRespawn", function(ply)
-        if (MOAT_BOSS_CUR and MOAT_BOSS_CUR:IsValid() and ply == MOAT_BOSS_CUR) then
+        if (MOAT_BOSS_CUR and IsValid(MOAT_BOSS_CUR) and ply == MOAT_BOSS_CUR) then
             MOAT_BOSS_CUR:GodEnable()
         end
         
@@ -190,7 +190,7 @@ local function moat_BeginRoundBossHooks()
 
             local boss = MOAT_BOSS_CUR_PLY
 
-            if (boss and boss:IsValid() and ply == boss) then
+            if (boss and IsValid(boss) and ply == boss) then
                 if (boss:GetRole() ~= ROLE_TRAITOR) then
                     boss:SetRole(ROLE_TRAITOR)
                     boss:AddCredits(GetConVarNumber("ttt_credits_starting"))
@@ -242,7 +242,7 @@ local function moat_BeginRoundBossHooks()
     hook.Add("PlayerShouldTakeDamage", "moat_BossPreventDamage", function(ply, ent)
         if (ent:IsPlayer() and ply:GetRole() == ROLE_INNOCENT and ent:GetRole() == ROLE_INNOCENT) then
             return false
-        elseif (ent:GetOwner() and ent:GetOwner():IsValid()) then
+        elseif (IsValid(ent) and ent:GetOwner() and IsValid(ent:GetOwner())) then
             if (ent:GetOwner():IsPlayer() and ply:GetRole() == ROLE_INNOCENT and ent:GetOwner():GetRole() == ROLE_INNOCENT) then
                 return false
             end
@@ -296,7 +296,7 @@ local function moat_BeginRoundBossHooks()
         net.Broadcast()
 
         for k, v in pairs(player.GetAll()) do
-            if (v:IsValid() and v.BossDamage and v.BossDamage > 1) then
+            if (IsValid(v) and v.BossDamage and v.BossDamage > 1) then
                 table.insert(MOAT_BOSS_DMG, {v:Nick(), v.BossDamage, v:EntIndex()})
             end
         end
@@ -318,7 +318,7 @@ local function moat_BeginRoundBossHooks()
 
         if (not IS_BOSS) then
             --BroadcastLua("sound.PlayURL('" .. tostring(deathclaw_voice_url .. "_loss_smith.mp3") .. "', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end )") 
-            if (MOAT_BOSS_CUR_PLY:IsValid()) then
+            if (IsValid(MOAT_BOSS_CUR_PLY)) then
                 MOAT_BOSS_CUR_PLY:m_DropInventoryItem(math.random(5,6))
             end
             return
@@ -329,7 +329,7 @@ local function moat_BeginRoundBossHooks()
         local ply_tbl = {}
 
         for k, v in pairs(player.GetAll()) do
-            if (v:IsValid() and v.BossDamage and v.BossDamage > 1) then
+            if (IsValid(v) and v.BossDamage and v.BossDamage > 1) then
                 table.insert(ply_tbl, {v, v.BossDamage})
             end
         end
@@ -378,7 +378,7 @@ concommand.Add("moat_start_dragon", function(ply, cmd, args)
         MOAT_BOSS_HP_MULTIPLIER = 500
 
         for k , v in pairs(ents.GetAll()) do
-            if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DeafultLoadout[v:GetClass()]) then
+            if (IsValid(v) and v:GetClass():StartWith("weapon_") and not DeafultLoadout[v:GetClass()]) then
                 v:Remove()
             end
         end
@@ -404,7 +404,7 @@ concommand.Add("moat_start_dragon", function(ply, cmd, args)
         return
     end
 
-    if (type(chosen) == "string" or chosen == NULL or not chosen:IsValid()) then
+    if (type(chosen) == "string" or chosen == NULL or not IsValid(chosen)) then
         ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "No player found with steamid provided." )]])
 
         return

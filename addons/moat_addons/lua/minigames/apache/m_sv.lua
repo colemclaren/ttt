@@ -81,6 +81,7 @@ function moat_InitializeApacheBoss(ply)
     net.Start("MOAT_BEGIN_APACHE")
     net.WriteEntity(MOAT_APACHE_ENT)
     net.WriteEntity(ply)
+	net.WriteVector(ply:GetPos())
     net.Broadcast()
 end
 
@@ -124,7 +125,7 @@ local function moat_BossPlayerDeath(ply)
     net.Broadcast()
 
     for k, v in pairs(player.GetAll()) do
-        if (v:IsValid() and v.BossDamage and v.BossDamage > 1) then
+        if (IsValid(v) and v.BossDamage and v.BossDamage > 1) then
             table.insert(MOAT_BOSS_DMG, {v:Nick(), v.BossDamage, v:EntIndex()})
         end
     end
@@ -157,7 +158,7 @@ local function moat_BossPlayerDeath(ply)
 
     local ply_tbl = {}
     for k, v in pairs(player.GetAll()) do
-        if (v:IsValid() and v.BossDamage and v.BossDamage > 1) then
+        if (IsValid(v) and v.BossDamage and v.BossDamage > 1) then
             table.insert(ply_tbl, {v, v.BossDamage})
         end
     end
@@ -210,7 +211,7 @@ local function moat_BeginRoundBossHooks()
 
         if (MOAT_DEATHCLAW_WPN) then
             for k , v in pairs(ents.GetAll()) do
-                if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
+                if (IsValid(v) and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                     v:Remove()
                 end
             end
@@ -371,7 +372,7 @@ concommand.Add("moat_start_apache", function(ply, cmd, args)
         MOAT_BOSS_HP_MULTIPLIER = 350
 
         for k , v in pairs(ents.GetAll()) do
-            if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
+            if (IsValid(v) and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                 v:Remove()
             end	
         end

@@ -294,7 +294,7 @@ function MG_CG.InfectedHalos()
     local dem_halos = {}
     local red_halos = {}
     for k, v in pairs(MG_CG.InfectedPlayers) do
-        if (k:IsValid() and k:Team() ~= TEAM_SPEC) then
+        if (IsValid(k) and k:Team() ~= TEAM_SPEC) then
         	if (MG_CG.FirstInfected and k == MG_CG.FirstInfected) then
         		table.insert(red_halos, k)
 

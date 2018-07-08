@@ -74,7 +74,7 @@ function MG_GG.PreventLoadouts(ply)
 end
 
 function MG_GG.UpdatePlayerTop(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
     local top = true
     local lad = MG_GG.Players[ply:EntIndex()]["ladder"]
@@ -93,7 +93,7 @@ function MG_GG.UpdatePlayerTop(ply)
 end
 
 function MG_GG.CheckForWin(ply)
-    if (not ply:IsValid()) then return false end
+    if (not IsValid(ply)) then return false end
     
     if (MG_GG.Players[ply:EntIndex()] and MG_GG.Players[ply:EntIndex()]["ladder"] > #MG_GG.Ladder and not MG_GG.GunGameOver) then
         MG_GG.DoEnding()
@@ -124,7 +124,7 @@ function MG_GG.GiveCorrectWeapon(ply)
 end
 
 function MG_GG.FindCorpse(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
     
     for k, v in pairs(ents.FindByClass("prop_ragdoll")) do
         if (v.uqid == ply:UniqueID() and IsValid(v)) then
@@ -147,7 +147,7 @@ function MG_GG.DoEnding()
 
     for k, v in pairs(MG_GG.Players) do
         local ply = Entity(k)
-        if (ply:IsValid() and v.kills and v.kills > 0) then
+        if (IsValid(ply) and v.kills and v.kills > 0) then
             table.insert(tbl, {ply:Nick(), v.kills, k})
         end
     end
@@ -160,7 +160,7 @@ function MG_GG.DoEnding()
 
     for k, v in pairs(MG_GG.Players) do
         local ply = Entity(k)
-        if (ply:IsValid() and v.kills and v.kills > 0) then
+        if (IsValid(ply) and v.kills and v.kills > 0) then
             table.insert(ply_tbl, {ply, v.kills})
         end
     end
@@ -206,7 +206,7 @@ function MG_GG.DoEnding()
 end
 
 function MG_GG.GiveNextWeapon(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
     MG_GG.StripWeapons(ply)
 
@@ -227,7 +227,7 @@ function MG_GG.GiveNextWeapon(ply)
 end
 
 function MG_GG.RespawnPlayer(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
 	local indx = ply:EntIndex()
     timer.Create("respawn_player"..indx, 0.1, 0, function()
@@ -251,7 +251,7 @@ function MG_GG.StartSpawnProtection(ply)
 end
 
 function MG_GG.RemoveSpawnProtection(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
     local prot = ply:GetNWInt("MG_GG_SPAWNPROTECTION")
 
@@ -297,13 +297,13 @@ function MG_GG.SpawnProtectionDraw()
 end
 
 function MG_GG.PlayerSpawn(ply)
-    if (not ply:IsValid() or not MG_GG.Players[ply:EntIndex()]) then return end
+    if (not IsValid(ply) or not MG_GG.Players[ply:EntIndex()]) then return end
 
     MG_GG.GiveCorrectWeapon(ply)
     MG_GG.StartSpawnProtection(ply)
 
     timer.Simple(1, function()
-        if (not ply:IsValid() or not ply:IsActive()) then return end
+        if (not IsValid(ply) or not ply:IsActive()) then return end
         ply:SetModel(MG_GG.ModelPath)
     end)
 end
@@ -337,7 +337,7 @@ function MG_GG.UpTable(index, key)
 end
 
 function MG_GG.CheckShouldGiveNextWeapon(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
     local pl = ply:EntIndex()
 
@@ -354,12 +354,11 @@ function MG_GG.CheckShouldGiveNextWeapon(ply)
 end
 
 function MG_GG.PlayerDeath(vic, inf, att)
-
     timer.Simple(5, function()
         MG_GG.RespawnPlayer(vic)
     end)
 
-    if (not vic:IsValid() or not att:IsValid()) then return end
+    if (not IsValid(vic) or not IsValid(att)) then return end
 
     local wpn = att:GetActiveWeapon()
 

@@ -19,7 +19,7 @@ local ClipTab = {}
 local hullz = 80
 // Resets the player hull
 function ResetHull(um)
-	if LocalPlayer() && LocalPlayer():IsValid() then
+	if LocalPlayer() && IsValid(LocalPlayer()) then
 		LocalPlayer():ResetHull()
 		hullz = 80
 	end
@@ -231,6 +231,7 @@ net.Receive("PH_End",function()
     kills = {}
     PH_END = {}
     timer.Create("J END TIMER",21,1,function()
+		if (not PH_END) then PH_END = nil return end
         for k,v in pairs(PH_END.av) do
             v:Remove()
         end
@@ -246,15 +247,20 @@ net.Receive("PH_End",function()
     end)
 
     timer.Simple(1,function()
+		if (not PH_END) then return end
         for i = 1, #PH_END.p - 3 do
+			if (not PH_END) then continue end
             timer.Simple(0.2 * i,function()
+				if (not PH_END) then return end
                 sound.Play(Sound("buttons/blip1.wav"),LocalPlayer():EyePos(),150,100 + (i * 2.5),1)
                 PH_END.cur_i = PH_END.cur_i - 1
             end)
         end
 
         for i =1, 3 do
+			if (not PH_END) then continue end
             timer.Simple((0.2 * ((#PH_END.p - 3) + 0.5 ) + (i * 0.7)),function()
+				if (not PH_END) then return end
                 sound.Play(Sound("weapons/357_fire2.wav"),LocalPlayer():EyePos(),150,100 + ((i) * 5),1)
                 PH_END.cur_i = PH_END.cur_i - 1
             end)

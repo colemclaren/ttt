@@ -110,6 +110,7 @@ net.Receive("LAVA_End",function()
     kills = {}
     LAVA_END = {}
     timer.Create("J END TIMER",21,1,function()
+		if (not LAVA_END) then LAVA_END = nil return end
         for k,v in pairs(LAVA_END.av) do
             v:Remove()
         end
@@ -125,15 +126,20 @@ net.Receive("LAVA_End",function()
     end)
 
     timer.Simple(1,function()
+		if (not LAVA_END) then return end
         for i = 1, #LAVA_END.p - 3 do
+			if (not LAVA_END) then continue end
             timer.Simple(0.2 * i,function()
+				if (not LAVA_END) then return end
                 sound.Play(Sound("buttons/blip1.wav"),LocalPlayer():EyePos(),150,100 + (i * 2.5),1)
                 LAVA_END.cur_i = LAVA_END.cur_i - 1
             end)
         end
 
         for i =1, 3 do
+			if (not LAVA_END) then continue end
             timer.Simple((0.2 * ((#LAVA_END.p - 3) + 0.5 ) + (i * 0.7)),function()
+				if (not LAVA_END) then return end
                 sound.Play(Sound("weapons/357_fire2.wav"),LocalPlayer():EyePos(),150,100 + ((i) * 5),1)
                 LAVA_END.cur_i = LAVA_END.cur_i - 1
             end)

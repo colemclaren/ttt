@@ -338,7 +338,7 @@ function MG_TNT.PrepRound(mk, pri, sec, creds)
     end
 
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_TNT.DefaultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_TNT.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end
@@ -406,7 +406,7 @@ end
 function MG_TNT.BeginRound()
     SetRoundEnd(CurTime() + 900)
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_TNT.DefaultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_TNT.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end

@@ -58,7 +58,7 @@ function MG_OC.PreventLoadouts(ply)
 end
 
 function MG_OC.UpdatePlayerTop(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
     local top = true
     local lad = MG_OC.Players[ply:EntIndex()]["kills"]
@@ -77,7 +77,7 @@ function MG_OC.UpdatePlayerTop(ply)
 end
 
 function MG_OC.CheckForWin(ply)
-    --if (not ply:IsValid()) then return false end
+    --if (not IsValid(ply)) then return false end
 
     local alive = 0
     local alivetbl = {}
@@ -122,7 +122,7 @@ function MG_OC.GiveCorrectWeapon(ply)
 end
 
 function MG_OC.FindCorpse(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
     
     for k, v in pairs(ents.FindByClass("prop_ragdoll")) do
         if (v.uqid == ply:UniqueID() and IsValid(v)) then
@@ -145,7 +145,7 @@ function MG_OC.DoEnding()
 
     for k, v in pairs(MG_OC.Players) do
         local ply = Entity(k)
-        if (ply:IsValid() and v.kills and v.kills > 0) then
+        if (IsValid(ply) and v.kills and v.kills > 0) then
             table.insert(tbl, {ply:Nick(), v.kills, k})
         end
     end
@@ -158,7 +158,7 @@ function MG_OC.DoEnding()
 
     for k, v in pairs(MG_OC.Players) do
         local ply = Entity(k)
-        if (ply:IsValid() and v.kills and v.kills > 0) then
+        if (IsValid(ply) and v.kills and v.kills > 0) then
             table.insert(ply_tbl, {ply, v.kills})
         end
     end
@@ -206,7 +206,7 @@ function MG_OC.DoEnding()
 end
 
 function MG_OC.RespawnPlayer(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
 	local indx = ply:EntIndex()
     timer.Create("respawn_player"..indx, 0.1, 0, function()
@@ -230,7 +230,7 @@ function MG_OC.StartSpawnProtection(ply)
 end
 
 function MG_OC.RemoveSpawnProtection(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
     local prot = ply:GetNWInt("MG_OC_SPAWNPROTECTION")
 
@@ -276,13 +276,13 @@ function MG_OC.SpawnProtectionDraw()
 end
 
 function MG_OC.PlayerSpawn(ply)
-    if (not ply:IsValid() or not MG_OC.Players[ply:EntIndex()]) then return end
+    if (not IsValid(ply) or not MG_OC.Players[ply:EntIndex()]) then return end
 
     MG_OC.GiveCorrectWeapon(ply)
     MG_OC.StartSpawnProtection(ply)
 
     timer.Simple(1, function()
-        if (not ply:IsValid() or not ply:IsActive()) then return end
+        if (not IsValid(ply) or not ply:IsActive()) then return end
         ply:SetModel(MG_OC.ModelPath)
     end)
 end
@@ -316,7 +316,7 @@ function MG_OC.UpTable(index, key)
 end
 
 function MG_OC.CheckShouldGiveNextWeapon(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
     local pl = ply:EntIndex()
 
@@ -349,7 +349,7 @@ function MG_OC.PlayerDeath(vic, inf, att)
         end)
     end
 
-    if (att:IsValid()) then
+    if (IsValid(att)) then
         net.Start("MG_OC_KILLS")
         net.Send(att)
     end
@@ -358,7 +358,7 @@ function MG_OC.PlayerDeath(vic, inf, att)
     net.Send(vic)
 
     --att:SetHealth(100)
-    if (att:IsValid() and att:IsPlayer()) then
+    if (IsValid(att) and att:IsPlayer()) then
         local attindex = att:EntIndex()
         MG_OC.UpTable(attindex, "kills")
 
@@ -395,7 +395,7 @@ function MG_OC.PlayerDeath(vic, inf, att)
         end
     end
 
-    if (att:IsValid()) then
+    if (IsValid(att)) then
         MG_OC.UpdatePlayerTop(att)
         MG_OC.CheckShouldGiveNextWeapon(att)
     end
@@ -451,7 +451,7 @@ function MG_OC.PrepRound()
     end
 
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_OC.DefaultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_OC.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end

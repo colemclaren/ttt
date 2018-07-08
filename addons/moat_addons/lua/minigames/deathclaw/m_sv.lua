@@ -53,7 +53,7 @@ function GetAlivePlayers()
 end
 
 local function moat_EndRoundHandler()
-    if (MOAT_BOSS_CUR and MOAT_BOSS_CUR:IsValid()) then
+    if (MOAT_BOSS_CUR and IsValid(MOAT_BOSS_CUR)) then
         MOAT_BOSS_CUR:SetModelScale(1, 0)
     end
 
@@ -99,7 +99,7 @@ local function moat_BossPlayerDeath(ply)
     net.Broadcast()
 
     for k, v in pairs(player.GetAll()) do
-        if (v:IsValid() and v.BossDamage and v.BossDamage > 1) then
+        if (IsValid(v) and v.BossDamage and v.BossDamage > 1) then
             table.insert(MOAT_BOSS_DMG, {v:Nick(), v.BossDamage, v:EntIndex()})
         end
     end
@@ -124,7 +124,7 @@ local function moat_BossPlayerDeath(ply)
 
     local ply_tbl = {}
     for k, v in pairs(player.GetAll()) do
-        if (v:IsValid() and v.BossDamage and v.BossDamage > 1) then
+        if (IsValid(v) and v.BossDamage and v.BossDamage > 1) then
             table.insert(ply_tbl, {v, v.BossDamage})
         end
     end
@@ -278,7 +278,7 @@ local function moat_BeginRoundBossHooks()
                             timer.Remove("moat_BossInvisDmg".. ply:EntIndex())
                             return
                         end
-                        if (ply:IsValid()) then
+                        if (IsValid(ply)) then
                             if ((ply:Health() - #pls) <= 0) then
                                 ply:Kill()
                                 timer.Remove("moat_BossInvisDmg".. ply:EntIndex())
@@ -287,7 +287,7 @@ local function moat_BeginRoundBossHooks()
                             end
                         end
                     end)
-                elseif(old:IsValid() and old.Kind == WEAPON_UNARMED) then
+                elseif(IsValid(old) and old.Kind == WEAPON_UNARMED) then
 					net.Start("MOAT_PLAYER_CLOAKED")
                     net.WriteEntity(ply)
                     net.WriteBool(false)
@@ -399,7 +399,7 @@ concommand.Add("moat_start_boss", function(ply, cmd, args)
         MOAT_BOSS_HP_MULTIPLIER = 350
 
         for k , v in pairs(ents.GetAll()) do
-            if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
+            if (IsValid(v) and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                 v:Remove()
             end	
         end

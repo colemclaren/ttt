@@ -131,7 +131,7 @@ function MG_FFAS.PlayerDeath(vic, inf, att)
 end
 
 function MG_FFAS.FindCorpse(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
     
     for k, v in pairs(ents.FindByClass("prop_ragdoll")) do
         if (v.uqid == ply:UniqueID() and IsValid(v)) then
@@ -152,7 +152,7 @@ function MG_FFAS.Move(ply,mv)
 end
 
 function MG_FFAS.RespawnPlayer(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
 	local indx = ply:EntIndex()
     timer.Create("respawn_player"..indx, 0.1, 0, function()
@@ -324,7 +324,7 @@ function MG_FFAS:PrepRound(mk, pri, sec, creds)
     end
 
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_FFAS.DefaultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_FFAS.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end
@@ -370,7 +370,7 @@ end
 function MG_FFAS.BeginRound()
     SetRoundEnd(CurTime() + 900)
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_FFAS.DefaultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_FFAS.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end

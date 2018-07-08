@@ -40,7 +40,7 @@ function MG_PH:DoEnding(force)
 	if (MOAT_MINIGAMES.CantEnd()) then return end
 
     for k,v in ipairs(player.GetAll()) do
-        if v.ph_prop && v.ph_prop:IsValid() then
+        if v.ph_prop && IsValid(v.ph_prop) then
             v.ph_prop:Remove()
             v.ph_prop = nil
         end
@@ -117,7 +117,7 @@ function MG_PH.PlayerDeath(v, inf, att)
     if v.t_prop then
         table.insert(MG_PH.DeadProps,v)
     end
-    if v.ph_prop && v.ph_prop:IsValid() then
+    if v.ph_prop && IsValid(v.ph_prop) then
         v.ph_prop:Remove()
         v.ph_prop = nil
     end
@@ -188,7 +188,7 @@ function MG_PH.Win(props)
         end
         v.t_hunter = nil
         v.t_prop = nil
-        if v.ph_prop && v.ph_prop:IsValid() then
+        if v.ph_prop && IsValid(v.ph_prop) then
             v.ph_prop:Remove()
             v.ph_prop = nil
         end
@@ -358,10 +358,11 @@ end
 
 function MG_PH.PlayerUse(pl, ent)
     if not pl.t_prop then return end
+	if (not IsValid(pl) or not IsValid(ent)) then return end
     if pl:IsSpec() or (not pl:Alive()) then return end
     if (pl.prop_cool or 0) > CurTime() then return end
     if table.HasValue(USABLE_PROP_ENTITIES, ent:GetClass()) && ent:GetModel() then
-        if ent:GetPhysicsObject():IsValid() && pl.ph_prop:GetModel() != ent:GetModel() then
+        if IsValid(ent:GetPhysicsObject()) && pl.ph_prop:GetModel() != ent:GetModel() then
             PH_PROP(pl,ent)
         end
     end
@@ -404,7 +405,7 @@ function MG_PH.PrepRound(mk, pri, sec, creds)
     end
 
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_PH.DefaultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_PH.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end
@@ -446,7 +447,7 @@ function MG_PH.BeginRound()
     MG_PH.DeadProps = {}
     SetRoundEnd(CurTime() + 900)
     for k , v in pairs(ents.GetAll()) do
-        if (IsValid(v) and v:IsValid() and v ~= NULL and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_PH.DefaultLoadout[v:GetClass()]))) then
+        if (IsValid(v) and (v:GetClass():find("ammo") or (v:GetClass():StartWith("weapon_") and not MG_PH.DefaultLoadout[v:GetClass()]))) then
             v:Remove()
         end
     end

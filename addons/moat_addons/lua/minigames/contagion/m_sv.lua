@@ -103,7 +103,7 @@ function MG_CG.GiveCorrectWeapon(ply)
 end
 
 function MG_CG.FindCorpse(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
     
     for k, v in pairs(ents.FindByClass("prop_ragdoll")) do
         if (v.uqid == ply:UniqueID() and IsValid(v)) then
@@ -134,7 +134,7 @@ function MG_CG.DoEnding(survivors_win)
 
     for k, v in pairs(MG_CG.Players) do
         local ply = Entity(k)
-        if (ply:IsValid()) then
+        if (IsValid(ply)) then
             if (v.survived) then
                 table.insert(ply_tbl, {ply, 99999999})
             elseif (v.survivaltime) then
@@ -189,7 +189,7 @@ function MG_CG.DoEnding(survivors_win)
 end
 
 function MG_CG.RespawnPlayer(ply)
-    if (not ply:IsValid()) then return end
+    if (not IsValid(ply)) then return end
 
 	local indx = ply:EntIndex()
     timer.Create("respawn_player"..indx, 0.1, 0, function()
@@ -214,7 +214,7 @@ function MG_CG.ShouldTakeDamage(ply, ent)
 end
 
 function MG_CG.PlayerSpawn(ply)
-    if (not ply:IsValid() or not MG_CG.Players[ply:EntIndex()]) then return end
+    if (not IsValid(ply) or not MG_CG.Players[ply:EntIndex()]) then return end
 
     ply:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
@@ -223,7 +223,7 @@ function MG_CG.PlayerSpawn(ply)
     if (MG_CG.Infected[ply]) then
         ply.SpeedMod = 2
         timer.Simple(1, function()
-            if (not ply:IsValid() or ply:Team() == TEAM_SPEC) then return end
+            if (not IsValid(ply) or ply:Team() == TEAM_SPEC) then return end
             ply:SetModel(MG_CG.ModelPath)
             MG_CG.StripWeapons(ply)
             ply:Give("realistic_hook")
@@ -342,7 +342,7 @@ function MG_CG.PlayerDeath(vic, inf, att)
         MG_CG.RespawnPlayer(vic)
     end)
 
-    if (not vic:IsValid() or not att:IsValid()) then return end
+    if (not IsValid(vic) or not IsValid(att)) then return end
     if (not att:IsPlayer()) then return end
 
     if (vic == att) then
@@ -483,7 +483,7 @@ function MG_CG.PrepRound()
 	end)
 
     for k, v in pairs(player.GetAll()) do
-        if (v:IsValid() and v:Team() ~= TEAM_SPEC) then
+        if (IsValid(v) and v:Team() ~= TEAM_SPEC) then
             v:SetCollisionGroup(COLLISION_GROUP_WEAPON)
         end
     end

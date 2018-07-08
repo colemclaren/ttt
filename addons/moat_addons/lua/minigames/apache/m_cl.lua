@@ -337,13 +337,15 @@ net.Receive("MOAT_BEGIN_APACHE", function(len)
 
 	local ent = net.ReadEntity()
 	local ply = net.ReadEntity()
+	local bosspos = net.ReadVector()
+
 	MOAT_CUR_BOSS = ent
 	MOAT_CUR_BOSS_PLY = ply
 	MOAT_CUR_APACHE_BOSS = true
 
 	moat_InitDrawBossHealth()
 
-	local the_pos = MOAT_CUR_BOSS_PLY:GetPos() + Vector(0, 0, 400)
+	local the_pos = bosspos + Vector(0, 0, 400)
 	hook.Add("CalcView", "moat_FocusBossView", function(ply, pos, angles, fov)
 		local view = {}
 		local angles = Angle(0, 0, 0)

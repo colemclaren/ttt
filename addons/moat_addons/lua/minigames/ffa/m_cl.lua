@@ -109,6 +109,8 @@ net.Receive("FFA_End",function()
     FFA_END = {}
     timer.Create("FFA END TIMER",21,1,function()
 		MOAT_FFA = nil
+		if (not FFA_END) then FFA_END = nil return end
+
         for k,v in pairs(FFA_END.av) do
             v:Remove()
         end
@@ -132,6 +134,7 @@ net.Receive("FFA_End",function()
         end
 
         for i =1, 3 do
+			if (not FFA_END) then continue end
             timer.Simple((0.2 * ((#FFA_END.p - 3) + 0.5 ) + (i * 0.7)),function()
 				if (not FFA_END) then return end
                 sound.Play(Sound("weapons/357_fire2.wav"),LocalPlayer():EyePos(),150,100 + ((i) * 5),1)

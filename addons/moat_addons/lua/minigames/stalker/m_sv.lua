@@ -20,7 +20,7 @@ local DefaultLoadout = {
 local function moat_EndRoundBossHooks()
 	if (MOAT_MINIGAMES.CantEnd()) then return end
 
-    if (MOAT_BOSS_CUR and MOAT_BOSS_CUR:IsValid()) then
+    if (MOAT_BOSS_CUR and IsValid(MOAT_BOSS_CUR)) then
         MOAT_BOSS_CUR:SetColor(Color(255, 255, 255, 255))
         MOAT_BOSS_CUR:DrawShadow(true)
         MOAT_BOSS_CUR:SetNWBool("disguised", false)
@@ -98,7 +98,7 @@ local function moat_BossPlayerDeath(ply)
     net.Broadcast()
 
     for k, v in pairs(player.GetAll()) do
-        if (v:IsValid() and v.BossDamage and v.BossDamage > 1) then
+        if (IsValid(v) and v.BossDamage and v.BossDamage > 1) then
             table.insert(MOAT_BOSS_DMG, {v:Nick(), v.BossDamage, v:EntIndex()})
         end
     end
@@ -123,7 +123,7 @@ local function moat_BossPlayerDeath(ply)
 
     local ply_tbl = {}
     for k, v in pairs(player.GetAll()) do
-        if (v:IsValid() and v.BossDamage and v.BossDamage > 1) then
+        if (IsValid(v) and v.BossDamage and v.BossDamage > 1) then
             table.insert(ply_tbl, {v, v.BossDamage})
         end
     end
@@ -292,7 +292,7 @@ local function moat_BeginRoundBossHooks()
         end)
 
         hook.Add("Think", "moat_JetpackVelocity", function()
-            if (MOAT_BOSS_CUR and MOAT_BOSS_CUR:IsValid() and MOAT_BOSS_CUR:Team() ~= TEAM_SPEC and MOAT_BOSS_CUR:KeyDown(IN_JUMP)) then
+            if (MOAT_BOSS_CUR and IsValid(MOAT_BOSS_CUR) and MOAT_BOSS_CUR:Team() ~= TEAM_SPEC and MOAT_BOSS_CUR:KeyDown(IN_JUMP)) then
                 MOAT_BOSS_CUR:SetVelocity(MOAT_BOSS_CUR:GetUp() * 25)
             end
         end)
@@ -416,7 +416,7 @@ function moat_start_stalker_round(ply, args)
         MOAT_BOSS_HP_MULTIPLIER = 350
 
         for k , v in pairs(ents.GetAll()) do
-            if (IsValid(v) and v:IsValid() and v ~= NULL and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
+            if (IsValid(v) and v:GetClass():StartWith("weapon_") and not DefaultLoadout[v:GetClass()]) then
                 v:Remove()
             end	
         end

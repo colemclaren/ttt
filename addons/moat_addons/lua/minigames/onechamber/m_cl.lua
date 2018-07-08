@@ -165,7 +165,7 @@ function MG_OC.DrawHalos()
 	local pls = {}
 
 	for i = 1, #MG_OC.HaloPlayers do
-		if (MG_OC.HaloPlayers[i]:IsValid() and MG_OC.HaloPlayers[i]:Team() ~= TEAM_SPEC) then
+		if (IsValid(MG_OC.HaloPlayers[i]) and MG_OC.HaloPlayers[i]:Team() ~= TEAM_SPEC) then
 			local plyspn = MG_OC.HaloPlayers[i]:GetNWInt("MG_OC_SPAWNPROTECTION")
 
     		if (plyspn and plyspn > CurTime()) then
