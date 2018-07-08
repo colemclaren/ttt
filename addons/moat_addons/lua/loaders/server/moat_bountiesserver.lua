@@ -1,3 +1,5 @@
+include "loaders/shigbeards_discord_relay.lua"
+
 moat_contracts = {}
 util.AddNetworkString("moat.contracts")
 util.AddNetworkString("moat.contractinfo")
