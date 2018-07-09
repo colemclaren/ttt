@@ -420,7 +420,7 @@ util.AddNetworkString("MOAT_NO_STORED")
 
 net.Receive("MOAT_NO_STORED", function(_, ply)
 	local wpn = net.ReadString()
-	local indx = net.ReadUInt()
+	local indx = net.ReadUInt(16)
 	if (not wpn or not indx or not ply.TDM_Cache or not ply.TDM_Cache[wpn]) then return end
 	
 	net.Start("MOAT_UPDATE_WEP")

@@ -87,6 +87,26 @@ MOAT_SERVERS.Register("208.103.169.43:27020", {
 	id = "ttt8"
 })
 
+MOAT_SERVERS.Register("208.103.169.54:27015", {
+	name = "TTT #9",
+	id = "ttt9",
+})
+
+MOAT_SERVERS.Register("208.103.169.54:27017", {
+	name = "TTT #10",
+	id = "ttt10",
+})
+
+MOAT_SERVERS.Register("208.103.169.54:27018", {
+	name = "TTT #11",
+	id = "ttt11",
+})
+
+MOAT_SERVERS.Register("208.103.169.54:27020", {
+	name = "TTT #12",
+	id = "ttt12",
+})
+
 MOAT_SERVERS.Register("208.103.169.29:27015", {
 	name = "TTT Minecraft #1",
 	id = "ttt-mc"

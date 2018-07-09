@@ -859,6 +859,7 @@ util.AddNetworkString("jackpot.win")
 
 local jpl = false
 jp = {}
+local versus_rewarded = {}
 function jackpot_()
     if jpl then return end jpl = true
     local db = MINVENTORY_MYSQL
@@ -975,14 +976,14 @@ function jackpot_()
                 net.WriteString(winner)
                 net.Broadcast()
                 versus_curgames[sid] = nil
-                for k,v in ipairs(player.GetAll()) do
-                    if winner == v:SteamID64() then
-                        addIC(v,am)
-                        return
-                    end
-                end
-                local q = db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');")
-                q:start()
+
+				local v = player.GetBySteamID64(winner)
+				if (IsValid(v)) then
+					addIC(v,am)
+					return
+				end
+
+                db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');"):start()
             end)
 
             timer.Simple(versus_wait - 2,function()
@@ -1078,10 +1079,15 @@ function jackpot_()
 				if (not MOAT_INVS[v] or not MOAT_INVS[v]["credits"]) then continue end
 				d[i].money = tonumber(d[i].money)
 
-				addIC(v, d[i].money)
-				m_AddGambleChatPlayer(v, Color(0, 255, 0), "You won " .. string.Comma(d[i].money) .. " IC in versus!")
+				local id = d[i].ID
+
+				if (not versus_rewarded[id]) then
+					addIC(v, d[i].money)
+					m_AddGambleChatPlayer(v, Color(0, 255, 0), "You won " .. string.Comma(d[i].money) .. " IC in versus!")
+					versus_rewarded[id] = true
+				end
 				
-				bq = bq .. "DELETE FROM moat_vswinners WHERE ID = " .. d[i].ID .. ";"
+				bq = bq .. "DELETE FROM moat_vswinners WHERE ID = " .. id .. ";"
 			end
 
 			if (bq == "") then return end
