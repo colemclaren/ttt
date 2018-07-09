@@ -104,7 +104,22 @@ function MG_GG.CheckForWin(ply)
     return false
 end
 
+function MG_GG.RemoveWeaponDrop(ply)
+	timer.Simple(0,function()
+		if (not IsValid(ply)) then return end
+        for k, v in pairs(ply:GetWeapons()) do
+			if (not IsValid(v)) then continue end
+            function v:PreDrop()
+                self:Remove()
+            end
+            v.AllowDrop = false
+        end
+    end)
+end
+
 function MG_GG.GiveCorrectWeapon(ply)
+	if (not IsValid(ply)) then return end
+
     MG_GG.StripWeapons(ply)
 
     MG_GG.UpdatePlayerTop(ply)
@@ -120,6 +135,7 @@ function MG_GG.GiveCorrectWeapon(ply)
         ply:Give(wpn)
         ply:SelectWeapon(wpn)
         MG_GG.GiveAmmo(ply)
+		MG_GG.RemoveWeaponDrop(ply)
     end
 end
 
@@ -223,6 +239,7 @@ function MG_GG.GiveNextWeapon(ply)
         ply:Give(wpn)
         ply:SelectWeapon(wpn)
         MG_GG.GiveAmmo(ply)
+		MG_GG.RemoveWeaponDrop(ply)
     end
 end
 
