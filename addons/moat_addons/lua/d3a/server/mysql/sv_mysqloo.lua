@@ -107,7 +107,7 @@ function D3A.MySQL.FormatQuery(str, ...)
 			timer.Simple(1, function() r = D3A.MySQL.FormatQuery(str, succ) end)
 		else
 			D3A.Print("MySQL error: " .. err)
-			D3A.Print(" | Query: " .. query)
+			D3A.Print(" | Query: " .. str)
 		end
     end
 

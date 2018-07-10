@@ -53,34 +53,14 @@ SWEP.Primary.Ammo = "Harpoon"
 SWEP.Icon = "vgui/ttt/tttharpoonicon.png"
 -- pistol, 357, smg1, ar2, buckshot, slam, SniperPenetratedRound, AirboatGun
 -- Pistol, buckshot, and slam always ricochet. Use AirboatGun for a metal peircing shotgun slug
-SWEP.Primary.Round = ("m9k_thrown_harpoon") --NAME OF ENTITY GOES HERE
+SWEP.Primary.Round = "m9k_thrown_harpoon" --NAME OF ENTITY GOES HERE
 SWEP.Secondary.IronFOV = 60 -- How much you 'zoom' in. Less is more!
 SWEP.Primary.NumShots = 0 -- How many bullets to shoot per trigger pull
 SWEP.Primary.Damage = 0 -- Base damage per bullet
 SWEP.Primary.Spread = 0 -- Define from-the-hip accuracy (1 is terrible, .0001 is exact)
 SWEP.Primary.IronAccuracy = 0 -- Ironsight accuracy, should be the same for shotguns
 
---none of this matters for IEDs and other ent-tossing sweps
--- Enter iron sight info and bone mod info below
---[[
-
-SWEP.IronSightsPos = Vector(0, 0, -2.951)
-
-SWEP.IronSightsAng = Vector(64.835, 0, 0)
-
-SWEP.SightsPos = Vector(0, -12.952, -2.951)
-
-SWEP.SightsAng = Vector(64.835, 0, 0)
-
-SWEP.RunSightsPos = Vector(0, 12.295, 10.656)
-
-SWEP.RunSightsAng = Vector(-145, 3.5, 0)
-
---]]
--- SWEP.WElements = {
--- ["harpoon"] = { type = "Model", model = "models/props_junk/harpoon002a.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(4.413, 5.945, -0.894), angle = Angle(-5.52, -71.026, -122.169), size = Vector(0.578, 0.578, 0.578), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
--- }
-if file.Exists("models/weapons/v_knife_t.mdl", "GAME") then
+/*if file.Exists("models/weapons/v_knife_t.mdl", "GAME") then
     SWEP.ViewModel = "models/weapons/v_knife_t.mdl" -- Weapon view model
 
     SWEP.VElements = {
@@ -122,7 +102,7 @@ if file.Exists("models/weapons/v_knife_t.mdl", "GAME") then
             angle = Angle(0, 0, 0)
         }
     }
-else
+else*/
     SWEP.ViewModel = "models/weapons/v_invisib.mdl" -- Weapon view model
 
     SWEP.VElements = {
@@ -175,50 +155,8 @@ else
             angle = Angle(-47.502, -5.645, 0.551)
         }
     }
-end
+--end
 
---[[
-
-/********************************************************
-
-	SWEP Construction Kit base code
-
-		Created by Clavus
-
-	Available for public use, thread at:
-
-	   facepunch.com/threads/1032378
-
-
-
-
-
-	DESCRIPTION:
-
-		This script is meant for experienced scripters
-
-		that KNOW WHAT THEY ARE DOING. Don't come to me
-
-		with basic Lua questions.
-
-
-
-		Just copy into your SWEP or SWEP base of choice
-
-		and merge with your own code.
-
-
-
-		The SWEP.VElements, SWEP.WElements and
-
-		SWEP.ViewModelBoneMods tables are all optional
-
-		and only have to be visible to the client.
-
-********************************************************/
-
---]]
---
 SWEP.ViewModelFOV = 70.733668341709
 SWEP.WorldModel = "models/props_junk/harpoon002a.mdl"
 
@@ -238,6 +176,8 @@ SWEP.WElements = {
         bodygroup = {}
     }
 }
+
+SWEP.ShowViewModel = false
 
 function SWEP:Initialize()
     -- other initialize code goes here
@@ -642,14 +582,6 @@ if CLIENT then
         end
     end
 
-    --[[*************************
-
-		Global utility code
-
-	*************************]]
-    -- Fully copies the table, meaning all tables inside this table are copied too and so on (normal table.Copy copies only their reference).
-    -- Does not copy entities of course, only copies their reference.
-    -- WARNING: do not use on tables that contain themselves somewhere down the line or you'll get an infinite loop
     function table.FullCopy(tab)
         if (not tab) then return nil end
         local res = {}
@@ -704,18 +636,6 @@ function SWEP:FireRocket()
 end
 
 function SWEP:CheckWeaponsAndAmmo()
-    if SERVER and self.Weapon ~= nil and ((gmod.GetGamemode().Name == "Murderthon 9000") or GetConVar("DebugM9K"):GetBool()) then
-        timer.Simple(.1, function()
-            if SERVER then
-                if not IsValid(self) then return end
-                if self.Owner == nil then return end
-                self.Owner:StripWeapon(self.Gun)
-            end
-        end)
-
-        return
-    end
-
     if SERVER and self.Weapon ~= nil then
         if self.Weapon:Clip1() == 0 and self.Owner:GetAmmoCount(self.Weapon:GetPrimaryAmmoType()) == 0 then
             timer.Simple(.1, function()

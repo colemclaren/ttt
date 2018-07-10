@@ -243,6 +243,8 @@ function MG_TDM.HandleDamageLogStuff(ending)
 end
 
 function MG_TDM.DoKill(ply)
+	if (not ply.KillStreak) then ply.KillStreak = 0 end
+
     ply.KillStreak = ply.KillStreak + 1
     if not MG_TDM.Killstreaks then return end
     if MG_TDM.Killstreaks_r[ply.KillStreak] then
