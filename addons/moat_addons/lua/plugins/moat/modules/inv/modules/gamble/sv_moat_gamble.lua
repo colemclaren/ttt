@@ -955,6 +955,15 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
                 return
             end
+            if tonumber(versus_curgames[sid]) ~= tonumber(d.money) then
+                net.Start("gversus.CreateGame")
+                net.WriteString(sid)
+                net.WriteFloat(d.money)
+                net.Broadcast()
+                versus_curgames[sid] = d.money
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That game changed amount!")
+                return
+            end
             removeIC(ply,d.money)
             local winner = ply:SteamID64()
             if math.random() > 0.5 then
