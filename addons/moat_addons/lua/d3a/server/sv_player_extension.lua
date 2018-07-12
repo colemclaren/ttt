@@ -37,7 +37,7 @@ function meta:LoadInfo(callback)
 	D3A.MySQL.Query(D3A_selectUserInfo(id64), function(d)
 		if (not IsValid(pl)) then return end
 
-		local data = d[1]
+		local data = d and d[1]
 		if (not data) then
 			timer.Simple(2, function()
 				if (IsValid(pl)) then

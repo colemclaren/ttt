@@ -27,11 +27,11 @@ function D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, AvatarU
 	AvatarURL = AvatarURL or default_avatar
 	local qstr = "INSERT INTO player "
 	qstr = qstr .. "(steam_id, name, rank, first_join, last_join, avatar_url, playtime, inventory_credits, event_credits, donator_credits)"
-	qstr = qstr .. " VALUES (#, #, NULL, UNIX_TIMESTAMP(), NULL, #, 0, 0, 0, 0);"
+	qstr = qstr .. " VALUES (?, ?, NULL, UNIX_TIMESTAMP(), NULL, ?, 0, 0, 0, 0);"
 
-	qstr = qstr .. "INSERT INTO player_iplog (SteamID, Address, LastSeen) VALUES (#, #, UNIX_TIMESTAMP());"
+	qstr = qstr .. "INSERT INTO player_iplog (SteamID, Address, LastSeen) VALUES (?, ?, UNIX_TIMESTAMP());"
 
-	D3A.MySQL.FormatQuery(qstr, SteamID, Name, AvatarURL, SteamID, IP, function()
+	moat.sql:q(qstr, SteamID, Name, AvatarURL, SteamID, IP, function()
 		http.Fetch("https://moat.gg/api/steam/avatar/" .. SteamID)
 	end)
 

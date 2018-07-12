@@ -13,9 +13,9 @@ if (not moat.sql.db) then
 end
 
 moat.sql.db.onConnected = function(db)
-	if (db.setCharacterSet) then
+	/*if (db.setCharacterSet) then
 		db:setCharacterSet "utf8mb4"
-	end
+	end*/
 
 	moat.print("sql connected")
 	hook.Run("SQLConnected", db)
@@ -62,8 +62,8 @@ function moat:sqlquery(str, ...)
 		args.n = args.n - (err and 2 or 1)
 	end
 
-	self.mysql:Query(self.mysql:CreateQuery(str, unpack(args, 1, args.n)), succ, err or function(er)
-		MOAT_INV.Print("Query Error: " .. er .. " | With Query: " .. str, true)
+	self.sql.mysql:Query(self.sql.mysql:CreateQuery(str, unpack(args, 1, args.n)), succ, err or function(er)
+		moat.print("Query Error: " .. er .. " | With Query: " .. str, true)
     end)
 end
 
