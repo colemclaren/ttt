@@ -882,6 +882,9 @@ function jackpot_()
         function q:onSuccess(d)
             fun(d)
         end
+        function q:onErorr(d)
+            fun({})
+        end
         q:start()
     end
 
@@ -936,6 +939,7 @@ function jackpot_()
     function versus_joingame(ply,sid,fun)
         versus_getgame(sid,function(d)
             if not IsValid(ply) then return end
+            ply.VersT[sid] = false
             if #d < 1 then 
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player canceled that game!")
                 net.Start("gversus.Cancel")
@@ -1013,8 +1017,8 @@ function jackpot_()
         if not sid:match("765") then return end
         if sid == ply:SteamID64() then return end
         if (not ply.VersT) then ply.VersT = {} end
-        if (ply.VersT[sid] or 0) > CurTime() then return end
-        ply.VersT[sid] = CurTime() + 2
+        if (ply.VersT[sid]) then return end
+        ply.VersT[sid] = true
         versus_joins[sid] = CurTime() + 0.25
         versus_joingame(ply,sid)
     end)
