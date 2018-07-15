@@ -80,7 +80,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
             detections[p:SteamID()][5][mwheel] = 1
         else
             detections[p:SteamID()][5][mwheel] = detections[p:SteamID()][5][mwheel] + 1
-            if detections[p:SteamID()][5][mwheel] > 4 and (not p.v_snapped) then
+            if detections[p:SteamID()][5][mwheel] > 15 and (not p.v_snapped) then
                 if mwheel == -100 then return end
                 net.Start("moat-ab")
 			    net.Send(p)
