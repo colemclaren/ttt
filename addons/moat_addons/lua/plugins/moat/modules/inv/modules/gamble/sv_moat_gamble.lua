@@ -898,6 +898,7 @@ function jackpot_()
     local versus_queue = {}
     function versus_cancel(ply)
         versus_getgame(ply:SteamID64(),function(d)
+            versus_joins[ply:SteamID64()] = false
             if #d < 1 then 
             versus_queue[ply] = nil
             return end
@@ -931,7 +932,7 @@ function jackpot_()
         if (ply.VersCool or 0) > CurTime() then return end
         if versus_queue[ply] then return end
         ply.VersCool = CurTime() + 2.5
-        versus_joins[ply:SteamID64()] = CurTime() + 0.5
+        versus_joins[ply:SteamID64()] = true
         versus_queue[ply] = true
         versus_cancel(ply)
     end)
@@ -940,6 +941,7 @@ function jackpot_()
         versus_getgame(sid,function(d)
             if not IsValid(ply) then return end
             ply.VersT[sid] = false
+            versus_joins[sid] = false
             if #d < 1 then 
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player canceled that game!")
                 net.Start("gversus.Cancel")
@@ -1013,13 +1015,13 @@ function jackpot_()
     net.Receive("gversus.JoinGame",function(l,ply)
 		if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
         local sid = net.ReadString()
-        if (versus_joins[sid] or 0) > CurTime() then return end
+        if (versus_joins[sid]) then return end
         if not sid:match("765") then return end
         if sid == ply:SteamID64() then return end
         if (not ply.VersT) then ply.VersT = {} end
         if (ply.VersT[sid]) then return end
         ply.VersT[sid] = true
-        versus_joins[sid] = CurTime() + 0.25
+        versus_joins[sid] = true
         versus_joingame(ply,sid)
     end)
 
