@@ -6,7 +6,13 @@ util.AddNetworkString("RTV_Delay")
 MapVote.Continued = false
 
 local MAP_BLACKLIST = {
-    ["ttt_complex_fix4_ws"] = true
+	["ttt_complex_fix4_ws"] = true,
+	["ttt_drybonesvillage_v3"] = true,
+	["ttt_bf3_scrapmetal"] = true,
+	["ttt_dust2minecrafttestfixed"] = true,
+	["ttt_fezvillage"] = true,
+	["ttt_cyberpunk"] = true,
+	["ttt_mysteryshack"] = true
 }
 
 local MAP_AVAILABLE = {}
