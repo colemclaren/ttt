@@ -50,7 +50,7 @@ hook.Add("TTTEndRound","Joystick",function()
             if l == -100 and IsDev() then
                 continue
             end
-            if o > 5 and ban then
+            if o > 15 and ban then
                 RunConsoleCommand("mga","perma",k,"Cheating")
                 break
             end
