@@ -9,7 +9,7 @@ MapVoteConfigDefault = {
     EnableCooldown = true,
     MapsBeforeRevote = 3,
     RTVPlayerCount = 3,
-    MapPrefixes = {"ttt_","TTT_", "zs_"}
+    MapPrefixes = {"ttt_","TTT_", "xmas_"}
     }
 --Default Config
 

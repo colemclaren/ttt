@@ -212,7 +212,6 @@ maps[ "ttt_hugeproblem_rc2" ] = 368827592
 maps[ "ttt_bbicotka" ] = 176877591
 maps[ "ttt_blockcity_dd_a7" ] = 591971446
 maps[ "ttt_change_apartments" ] = 421604986
-maps[ "ttt_drybonesvillage_v3" ] = 665797799
 maps[ "ttt_familyguy_v6" ] = 370988345
 maps[ "ttt_fezvillage" ] = 466322841
 maps[ "ttt_go_glassian_a2" ] = 554264749
@@ -257,7 +256,6 @@ maps["ttt_ukiliptus"] = 877178454
 maps["ttt_jelly_airways_b01"] = 579441776
 maps["ttt_rivercliff"] = 573496701
 maps["ttt_brokentown"] = 852260909
-maps["ttt_canvas_r198"] = 731330193
 maps["ttt_cipher"] = 909728557
 maps["ttt_egypt"] = 1086549404
 maps["ttt_experimental_shapes"] = 966396062
@@ -314,6 +312,121 @@ maps["ttt_mc_plaza_v4"] = 508316711
 maps["ttt_minecraftmanor"] = 577194263
 maps["ttt_mc_island17"] = 1233896083
 maps["ttt_minecraft_village_city_fixed"] = 1088905885
+
+
+
+/*
+
+	7/21/2018 Update
+
+*/
+
+-- mc maps
+maps["ttt_mc_darkdungeon_a2"] = 358726225
+maps["ttt_drybonesvillage_v3"] = 665797799
+maps["ttt_mc_survival_v2"] = 501033520
+maps["ttt_mc_port_labile_v3"] = 507829262
+maps["ttt_mc_dust2_r"] = 1323450772
+maps["ttt_mc_fiskarna_mini_v1"] = 1205729247
+maps["ttt_mc_treehouse"] = 1121889859
+maps["ttt_mc_wooden_fortress"] = 1309075705
+maps["ttt_mc_island17"] = 1233896083
+maps["ttt_mc_dolls_r"] = 1430130259
+maps["ttt_mc_frozen_cargo"] = 899699347
+maps["ttt_mc_mountain_fortress"] = 735851876
+maps["ttt_mc_monasteryisland"] = 919571466
+maps["ttt_mc_slenderman"] = 516444851
+maps["ttt_mc_island_r"] = 1371054043
+maps["ttt_mc_moonbase"] = 1232486046
+maps["ttt_mc_nightclub"] = 918334293
+maps["ttt_mc_tcannon"] = 931182576
+maps["ttt_mc_hillside"] = 1216223633
+maps["ttt_mc_ice"] = 944273114
+maps["ttt_mc_dorf"] = 934626280
+maps["ttt_mc_kitchen"] = 1250874826
+maps["ttt_mc_street_v1"] = 916373879
+maps["ttt_mc_pool_b2"] = 1392883426
+maps["ttt_mc_delfino"] = 915083452
+maps["ttt_mc_poseidon"] = 487050614
+maps["ttt_mc_plains"] = 733250513
+maps["ttt_mcskyblocks02"] = 266604242
+maps["ttt_mcmagmaplateu"] = 1399845030
+maps["ttt_mc_bonfire"] = 944549068
+maps["ttt_mc_warehouse"] = 1118799068
+maps["ttt_mc_caldwell"] = 922367453
+maps["ttt_mc_seriouscraft_b6"] = 492448364
+maps["ttt_mc_teenroom_b2_a2"] = 1353826096
+maps["ttt_mc_frozen"] = 376770067
+
+
+-- regular maps
+maps["ttt_amnis"] = 202348349
+maps["ttt_avalon"] = 284613511
+maps["ttt_bb_canalwarehousev2_r3"] = 117743323
+maps["ttt_bluesky_v3"] = 284613630
+maps["ttt_borealis"] = 1220184368
+maps["ttt_buttclown_redux"] = 197308905
+maps["ttt_camel_v3_2"] = 471237597
+maps["ttt_canvas_r219"] = 731330193
+maps["ttt_cellblock-d_b2"] = 448410275
+maps["ttt_cod4_vacant"] = 176894422
+maps["ttt_coder"] = 608187556
+maps["ttt_comancher_ultra_a1"] = 939670009
+maps["ttt_community_pool_2017_b10"] = 936764744
+maps["ttt_community_pool_overhaul_b3"] = 611750056
+maps["ttt_crisis_v1"] = 504118357
+maps["ttt_dankcavern_2015"] = 317567617
+maps["ttt_devruins"] = 769885228
+maps["ttt_experiment2_b5"] = 512148564
+maps["ttt_fg_sexy_render_v6a"] = 204775675
+maps["ttt_freddy_the_ship_v3"] = 119889220
+maps["ttt_grovestreet_a13"] = 867635838
+maps["ttt_horrorisland"] = 182669661
+maps["ttt_hotwireslum2016"] = 683062611
+maps["ttt_icarus_r1_a2"] = 188009247
+maps["ttt_infini_b5"] = 198450869
+maps["ttt_innocentmotel_v1"] = 285372790
+maps["ttt_intergalactic"] = 163297949
+maps["ttt_kingswoodmanor_001_d"] = 138999316
+maps["ttt_kosovos"] = 370834753
+maps["ttt_labyrinth_v2"] = 302436967
+maps["ttt_leetwood"] = 370847289
+maps["ttt_lockout"] = 265201154
+maps["ttt_lookatthatview"] = 505696414
+maps["ttt_lumos"] = 109414736
+maps["ttt_mario_b1"] = 158435820
+maps["ttt_museum_heist_v6"] = 472909258
+maps["ttt_mw2_scrapyard"] = 294363438
+maps["ttt_nuclear_power_v4_fix"] = 1198663315
+maps["ttt_nuke_a1"] = 284614962
+maps["ttt_oldruins"] = 1299035924
+maps["ttt_pattaya_f4"] = 404114138
+maps["ttt_playing with portals_v9"] = 1277985135
+maps["ttt_ravine_a2"] = 299637006
+maps["ttt_secluded_v2"] = 229861690
+maps["ttt_shippingcenter_b1"] = 228510529
+maps["ttt_silence_v3"] = 534296455
+maps["ttt_silk_road_v-1-0-1"] = 299325283
+maps["ttt_skybreak_v2"] = 1419089916
+maps["ttt_stardestroyer_v1"] = 1294606759
+maps["ttt_starfish_island_v1_2"] = 301598300
+maps["ttt_street_light_v7"] = 400160018
+maps["ttt_submarine"] = 949158837
+maps["ttt_suburb_beta15a"] = 264985131
+maps["ttt_summit"] = 344953351
+maps["ttt_tarnish_v1"] = 551416188
+maps["ttt_torre_entel"] = 234637188
+maps["ttt_towers_a3"] = 541891360
+maps["ttt_urban_ruins_v1"] = 106545993
+maps["ttt_waterworld_remastered"] = 1293781407
+maps["ttt_whitehouse_b2_d11"] = 285878671
+maps["ttt_winter_v4"] = 378091855
+maps["ttt_woodedwidow"] = 149011418
+maps["ttt_yucatan"] = 282469668
+maps["xmas_nipperhouse"] = 163350462
+maps["ttt_abandon_mall_v2"] = 274532987
+
+
 
 
 
