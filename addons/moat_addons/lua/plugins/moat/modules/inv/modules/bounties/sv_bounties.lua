@@ -1,5 +1,3 @@
-include "loaders/shigbeards_discord_relay.lua"
-
 moat_contracts = {}
 util.AddNetworkString("moat.contracts")
 util.AddNetworkString("moat.contractinfo")
@@ -219,7 +217,7 @@ local function _contracts()
 					end
 					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
 					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\nThere was **no** winner!\n**" .. string.Comma(lottery_stats.amount * 0.75) .. "** IC has rolled over to today's pot!"
-					SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
+					moat.discord.send("challenges", s, "lottery")
 					return 
 				end
 				local each = math.floor((lottery_stats.amount * 0.9)/#plys)
@@ -229,7 +227,7 @@ local function _contracts()
 					gglobalchat_real("Yesterday's lottery lucky number with an amount of " .. string.Comma(each) .. " was " .. winner .. " and " .. nick .. " (" .. util.SteamIDFrom64(steamid) .. ") won all of it with his number!")
 					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
 					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\n**" .. nick .. " (" .. util.SteamIDFrom64(steamid) .. ")** won all of it!" 
-					SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
+					moat.discord.send("challenges", s, "lottery")
 				else
 					local s = "Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " IC was " .. winner .. " and "
 					local ps = ""
@@ -247,7 +245,7 @@ local function _contracts()
 					gglobalchat_real(s)
 					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
 					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\n**" .. ps .. "**won **" ..  string.Comma(each) .. "** IC each!"
-					SVDiscordRelay.SendToDiscordRaw("Lottery",nil,s,url)
+					moat.discord.send("challenges", s, "lottery")
 				end
 
 				print("Each winner gets " .. each)
@@ -256,7 +254,7 @@ local function _contracts()
 					local q = db:query("INSERT INTO moat_lottery_winners (steamid,amount) VALUES ('" .. v.steamid .. "'," .. each .. ");")
 						timer.Simple(k,function()
 							local msg = v.name .. " (" .. util.SteamIDFrom64(v.steamid) .. ") won **" .. string.Comma(each) .. " IC** in the lottery!"
-							SVDiscordRelay.SendToDiscordRaw("Lottery bot",false,msg,"https://discordapp.com/api/webhooks/393120753593221130/bPZTXCj5fjQgHJCOKDPbUj4Btq5EtqkZSKV-ewwaLwESwZEEc7fBHBWuIbe8np2FG8Jn")
+							moat.discord.send("logs", msg, "lottery")
 						end)
 						if k == #plys then
 							function q:onSuccess()
@@ -296,7 +294,7 @@ local function _contracts()
 		local s = "|\nDaily contract of **" .. os.date("%B %d, %Y",os.time()) .. "**:```"
 		s = s .. [[]] .. name .. "\n---------------------\n" .. c.desc .. "\n---------------------\n\n\n\n"
 		s = s .. "```"
-		SVDiscordRelay.SendToDiscordRaw("Contracts",nil,s,url)
+		moat.discord.send("challenges", s, "contracts")
 		contract_loaded = name
 		local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
 		function q:onSuccess(b)
@@ -324,7 +322,7 @@ local function _contracts()
 				local s = "|\nDaily contract of **" .. os.date("%B %d, %Y",os.time()) .. "**:```"
 				s = s .. [[]] .. name .. "\n---------------------\n" .. c.desc .. "\n---------------------\n\n\n\n"
 				s = s .. "```"
-				SVDiscordRelay.SendToDiscordRaw("Contracts",nil,s,url)
+				moat.discord.send("challenges", s, "constracts")
 				contract_loaded = name
 				local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
 				function q:onSuccess(b)
@@ -1811,7 +1809,7 @@ function MOAT_BOUNTIES.ResetBounties()
 		
 	end
 	s = s .. "```"
-	SVDiscordRelay.SendToDiscordRaw("Bounties",nil,s,url)
+	moat.discord.send("challenges", s, "bounties")
 end
 
 function MOAT_BOUNTIES.InitializeBounties()

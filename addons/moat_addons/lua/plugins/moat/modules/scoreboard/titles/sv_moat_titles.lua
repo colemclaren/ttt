@@ -252,7 +252,7 @@ net.Receive("Moat.TTS",function(l,ply)
             send(urlencode(txt),alive)
             ply:ConCommand("say [TTS] " .. otxt)
 			local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") Used TTS Success: " .. otxt
-			SVDiscordRelay.SendToDiscordRaw("Generic bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+			moat.discord.send("staff", msg, "TTS")
         else
 			D3A.Chat.SendToPlayer2(ply, Color(255, 0, 0), "There was an error with the TTS and your IC was returned. (" .. c .. ")")
            ply:m_GiveIC(ic)

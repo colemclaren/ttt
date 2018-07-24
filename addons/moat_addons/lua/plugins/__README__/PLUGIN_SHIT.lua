@@ -13,7 +13,7 @@
 		- files that do not end with .lua will be never be included
 		- ./init.lua will be included shared before any other folder or file inside
 		- ./init/ will be included shared before any other folder inside (if init.lua is in same dir, it will be called before the folder)
-		- ./utils/ will be included shared after any init file or folders
+		- ./utils.lua > ./utils/ will be included shared after any init file or folders
 		- starts with "dev_" will only include if SERVER_ISDEV is true (it's automatically set if you aren't on a master server - no convar needed)
 			- if a plugin root folder starts with dev_ you do not have to set folder/filenames to dev_
 			- you can still set the realm after dev_ if you want, examples:

@@ -58,8 +58,8 @@ function moat.include_(p, pf, ps, pfp)
 	moat.includesh(p)
 end
 
-moat.includepathsv = function(p) moat.includepath(p, true) end
-moat.includepathcl = function(p) moat.includepath(p, false) end
+moat.includepathsv = function(p) moat.includepath(p) end
+moat.includepathcl = function(p) moat.includepath(p) end
 function moat.includepath_(p)
 	assert(type(p) == "string", "moat.includepath_ couldn't include path!!!")
 	if (p:StartWith "_") then return end
@@ -68,11 +68,11 @@ function moat.includepath_(p)
 	moat.includepath(p)
 end
 
-function moat.includecheck(p)
-	return (not p) or (p:StartWith "_") or (moat.dontincludelist[p]) or (p:StartWith "dev_" and not SERVER_ISDEV)
+function moat.includecheck(p, d)
+	return (not p) or (p:StartWith "_") or (moat.dontincludelist[p]) or (p:StartWith "dev_" and not SERVER_ISDEV) or (p:StartWith "initdone" and not d)
 end
 
-function moat.includepath(p)
+function moat.includepath(p, d)
 	moat.debug(p, cl)
 	assert(type(p) == "string", "moat.includepath couldn't include path!!!")
 	p = p:EndsWith("/") and p or p .. "/"
@@ -84,25 +84,30 @@ function moat.includepath(p)
 	local ps, fs = file.Find(p .. "*", "LUA")
 	if (not ps and not fs) then return end
 
-	if (ps and file.Exists(p .. "init.lua", "LUA")) then
-		moat.include_(p .. "init.lua")
-	end
+	if (ps and file.Exists(p .. "init.lua", "LUA")) then moat.include_(p .. "init.lua") end
+	if (fs and file.Exists(p .. "init", "LUA")) then moat.includepath(p .. "init") end
 
-	if (fs and file.Exists(p .. "init", "LUA")) then
-		moat.includepath(p .. "init")
-	end
+	if (ps and file.Exists(p .. "utils.lua", "LUA")) then moat.include_(p .. "utils.lua") end
+	if (fs and file.Exists(p .. "utils", "LUA")) then moat.includepath(p .. "utils") end
+
+	if (fs and file.Exists(p .. "server", "LUA")) then moat.includepath(p .. "server") end
+	if (fs and file.Exists(p .. "client", "LUA")) then moat.includepath(p .. "client") end
+	if (fs and file.Exists(p .. "shared", "LUA")) then moat.includepath(p .. "shared") end
 
 	if (fs) then
 		for _, fn in ipairs(fs) do
-			if (moat.includecheck(fn)) then continue end
-			moat.includepath_(p .. fn)
+			if (moat.includecheck(fn, d)) then continue end
+			moat.includepath(p .. fn)
 		end
 	end
 
 	if (ps) then
 		for _, pn in ipairs(ps) do
-			if (moat.includecheck(pn)) then continue end
+			if (moat.includecheck(pn, d)) then continue end
 			moat.include_(p .. pn, pn)
 		end
 	end
+
+	if (ps and file.Exists(p .. "initdone.lua", "LUA")) then moat.include_(p .. "initdone.lua") end
+	if (fs and file.Exists(p .. "initdone", "LUA")) then moat.includepath(p .. "initdone", true) end
 end

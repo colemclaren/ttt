@@ -1,1 +1,0 @@
-hook.Remove("PlayerTick", "TickWidgets")

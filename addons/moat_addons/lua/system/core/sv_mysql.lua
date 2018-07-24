@@ -33,7 +33,7 @@ timer.Create("moat.sql.no.disconnecto", 180, 0, function()
 		:start()
 end)
 
-moat.sql.mysql = include "system/libs/meepen/sql/sql_mysqloo.lua" (moat.sql.db)
+moat.sql.mysql = include "system/libs/meepen/sql/_mysqloo.lua" (moat.sql.db)
 function moat.sql:LastInsertID()
     return "LAST_INSERT_ID()"
 end

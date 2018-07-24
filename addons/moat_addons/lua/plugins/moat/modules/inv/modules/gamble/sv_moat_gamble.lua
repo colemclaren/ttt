@@ -52,7 +52,7 @@ local MOAT_GAMBLE_CATS = {
 }
 
 local function DiscordGamble(msg)
-    SVDiscordRelay.SendToDiscordRaw("Gamble Log",false,msg,"https://discordapp.com/api/webhooks/393120753593221130/bPZTXCj5fjQgHJCOKDPbUj4Btq5EtqkZSKV-ewwaLwESwZEEc7fBHBWuIbe8np2FG8Jn")
+	moat.discord.send("logs", msg, "gamble")
 end
 
 GG_DISABLE = CreateConVar("moat_disable_sv_gamble",0)
@@ -594,7 +594,8 @@ hook.Add("Think","Roulette think",function()
             addIC(k,v*m)
             if (v*m) > 100 then
                 local msg = k:Nick() .. " (" .. k:SteamID() .. ") won " .. round(v*m) .. " IC in roulette."
-                SVDiscordRelay.SendToDiscordRaw("Gamble Log", false, msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+
+				moat.discord.send("staff", msg, "gamble")
             end
             if roulette_number < 1 then
                 DiscordGamble(k:Nick() .. " (" .. k:SteamID() .. ") won **" .. round(v*m) .. "** IC on Green in Roulette.")
@@ -688,8 +689,8 @@ net.Receive("crash.getout", function(l,ply)
     addIC(ply,a)
     if (a) > 100 then
         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(a) .. " IC in crash."
-        SVDiscordRelay.SendToDiscordRaw("Gamble Log", false, msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
-    end
+		moat.discord.send("staff", msg, "gamble")
+	end
     crash_players[ply] = nil
     net.Start("crash.player")
     net.WriteEntity(ply)
@@ -832,7 +833,7 @@ net.Receive("versus.JoinGame",function(l,ply)
             end
             if winamt > 100 then
                 local msg = winner:Nick() .. " (" .. winner:SteamID() .. ") won " .. round(winamt) .. " IC in versus from " .. other:Nick() .. " (" .. other:SteamID() .. ")"
-                SVDiscordRelay.SendToDiscordRaw("Gamble bot",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+				moat.discord.send("staff", msg, "gamble")
             end
         end
     end)
@@ -1006,7 +1007,7 @@ function jackpot_()
                 local other = plyz
                 if other == winner then other = sid end
                 local msg = util.SteamIDFrom64(winner) .. " won " .. am .. " IC from " .. util.SteamIDFrom64(other)
-                SVDiscordRelay.SendToDiscordRaw("Gamble Log",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+                moat.discord.send("staff", msg, "gamble")
             end)
         end)
     end
@@ -1419,8 +1420,7 @@ function jackpot_()
                     local b = db:query("DELETE FROM moat_jpwinners WHERE steamid = '" .. v.steamid .. "';")
                     b:start()
                     local msg = "Rewarding " .. vp:Nick() .. " " .. vp:SteamID() .. " jackpot: " .. v.money .. " IC (" .. game.GetIP() .. ")"
-		            SVDiscordRelay.SendToDiscordRaw("Gamble bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
-		
+					moat.discord.send("nsa", msg, "gamble")
                 end
             end
         end
@@ -1520,7 +1520,7 @@ function jackpot_()
                                         d = d[1]
                                         gglobalchat_jack(d.name,math.Round(jp_tt * 0.95),round((p[i].money/jp_tt) * 100 ))
                                         local msg = d.name .. " (" .. util.SteamIDFrom64(jp_w) .. ") won **" .. string.Comma(math.Round(jp_tt * 0.95)) .. "** IC (" .. round((p[i].money/jp_tt) * 100 ) .."%) in Jackpot."
-                                        SVDiscordRelay.SendToDiscordRaw("Gamble Log",false,msg,"https://discordapp.com/api/webhooks/393120753593221130/bPZTXCj5fjQgHJCOKDPbUj4Btq5EtqkZSKV-ewwaLwESwZEEc7fBHBWuIbe8np2FG8Jn")
+                                        moat.discord.send("logs", msg, "gamble")
                                     end
                                     q:start()
                                     
@@ -1604,8 +1604,8 @@ local function chat_()
         local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('" .. ply:SteamID64() .. "','" .. os.time() .. "','" .. db:escape(ply:Nick()) .. "','" .. db:escape(msg) .. "');")
         q:start()
         local msg = "" .. ply:Nick() .. " (" .. ply:SteamID() .. ") said in global gamble: " .. msg
-		SVDiscordRelay.SendToDiscordRaw("Gamble Chat",false,msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
-        ply.gChat = CurTime() + 3
+		moat.discord.send("staff", msg, "Gamble Chat")
+		ply.gChat = CurTime() + 3
     end
 
     function gglobalchat_real(msg)
@@ -1617,7 +1617,8 @@ local function chat_()
         elseif msg == "[EndRound]" then
             s = "Forced all servers to change maps at the end of their rounds."
         end
-		SVDiscordRelay.SendToDiscordRaw("MG",false,s,"https://discordapp.com/api/webhooks/426168857531777032/eYz9auMRlmVfdKtXvlHJnjx3wY5KwHaLJ5TkwBF31jeuCgtn3DQb_DNw7yMeaXBZ2J7x")
+
+		moat.discord.send("general", s, "Moat TTT", true)
     end
 
 
@@ -1848,7 +1849,7 @@ net.Receive("mines.CashOut",function(l,ply)
     if not MINES_GAMES[ply] then return end
     if (MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) > 100 then
         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) .. " IC in mines."
-        SVDiscordRelay.SendToDiscordRaw("Gamble Log", false, msg,"https://discordapp.com/api/webhooks/443280941037912064/HrTLiALn7ggtDSomZA45VlxbQsxiZsx2Wazs7qqofHc77DLIQSe-CE40F4ai4qLGvhS7")
+    	moat.discord.send("staff", msg, "gamble")
     end
     if MINES_GAMES[ply][1]> 10000 then
         DiscordGamble(ply:Nick() .. " (" .. ply:SteamID() .. ") won **" .. string.Comma(round(MINES_GAMES[ply][1])) .. "** IC in Mines.")

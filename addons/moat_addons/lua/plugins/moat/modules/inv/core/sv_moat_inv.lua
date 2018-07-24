@@ -889,7 +889,7 @@ function m_InitTradeAccept(trade_id)
 
         trade_tbl = nil
 
-        SVDiscordRelay.SendToDiscordRaw(false, false, "Hey, " .. offer_player1:SteamID() .. " tried to trade IC they don't have with " .. offer_player2:SteamID() .. "! <@207612500450082816>")
+        moat.discord.send("nsa", "Hey, " .. offer_player1:SteamID() .. " tried to trade IC they don't have with " .. offer_player2:SteamID() .. "! <@207612500450082816>", "trade")
         MOAT_TRADES[trade_id] = nil
         return
     end
@@ -908,7 +908,7 @@ function m_InitTradeAccept(trade_id)
 
         trade_tbl = nil
 
-        SVDiscordRelay.SendToDiscordRaw(false, false, "Hey, " .. offer_player2:SteamID() .. " tried to trade IC they don't have with " .. offer_player1:SteamID() .. "! <@207612500450082816>")
+        moat.discord.send("nsa", "Hey, " .. offer_player2:SteamID() .. " tried to trade IC they don't have with " .. offer_player1:SteamID() .. "! <@207612500450082816>", "trade")
         MOAT_TRADES[trade_id] = nil
         return
     end
@@ -1037,9 +1037,9 @@ function m_InitTradeAccept(trade_id)
 
     if (MOAT_TRADE_BANNED and (MOAT_TRADE_BANNED[offer_player1:SteamID()] or MOAT_TRADE_BANNED[offer_player2:SteamID()])) then
         if (MOAT_TRADE_BANNED[offer_player1:SteamID()]) then
-            SVDiscordRelay.SendToDiscordRaw(false, false, "Hey, " .. offer_player1:SteamID() .. " traded with " .. offer_player2:SteamID() .. " when they're not supposed to! <@207612500450082816>")
+            moat.discord.send("nsa", "Hey, " .. offer_player1:SteamID() .. " traded with " .. offer_player2:SteamID() .. " when they're not supposed to! <@207612500450082816>", "trade")
         else
-            SVDiscordRelay.SendToDiscordRaw(false, false, "Hey, " .. offer_player2:SteamID() .. " traded with " .. offer_player1:SteamID() .. " when they're not supposed to! <@207612500450082816>")
+            moat.discord.send("nsa", "Hey, " .. offer_player2:SteamID() .. " traded with " .. offer_player1:SteamID() .. " when they're not supposed to! <@207612500450082816>", "trade")
         end
     end
 
@@ -1199,8 +1199,8 @@ net.Receive("MOAT_TRADE_CREDITS", function(len, ply)
 
     if (credits ~= credits) or (trade_id ~= trade_id) then
         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") Tried to add nan IC to trade. <@150809682318065664> <@135912347389788160>"
-		SVDiscordRelay.SendToDiscordRaw("Trade bot",false,msg,"https://discordapp.com/api/webhooks/381964496136306688/d-s9h8MLL6Xbxa7XLdh9q1I1IAcJ3cniQAXnZczqFT0wLsc3PypyO6fMNlrtxV3C4hUK")
-        RunConsoleCommand("mga", "ban", att:SteamID(), "0", "minutes", "6Meme")
+		moat.discord.send("nsa", msg, "trade")
+		RunConsoleCommand("mga", "ban", att:SteamID(), "0", "minutes", "6Meme")
         return
     end
     local ver_credits = credits

@@ -19,10 +19,10 @@ moat.includecl "autorun/dev_env/realms/client.lua"
 moat.includesh "autorun/dev_env/realms/shared.lua"
 
 moat.includepath "system/constants/"
+moat.includepath "system/libs/"
 moat.includepath "system/core/"
 
-moat.includepath "loaders"
-
+moat.includepath "plugins"
 
 if (SERVER and SERVER_ISDEV) then
 	util.AddNetworkString "moat.init.dev"
