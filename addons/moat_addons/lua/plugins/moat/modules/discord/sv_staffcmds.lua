@@ -130,7 +130,15 @@ local function post(tbl)
 
 	HTTP({
 		method = "POST",
-		url = "http://107.191.51.43:3000/serverrcon",
+		url = moat.cfg.oldwebhook .. "serverrcon",
+		body = util.TableToJSON(tbl),
+		type = "application/json",
+		success = cb
+	})
+
+	HTTP({
+		method = "POST",
+		url = moat.cfg.webhook .. "serverrconmoon",
 		body = util.TableToJSON(tbl),
 		type = "application/json",
 		success = cb

@@ -1,3 +1,7 @@
+-- for discord webhooks
+moat.cfg.webhook = "http://208.103.169.40:5069/"
+moat.cfg.oldwebhook = "http://107.191.51.43:3000/"
+
 -- for sql config
 moat.cfg.sql = moat.cfg.sql or {
 	host = "gamedb.moat.gg",

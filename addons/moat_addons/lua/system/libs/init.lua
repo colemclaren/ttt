@@ -54,7 +54,7 @@ function mt:setup()
 	if (type(self.autopath) == "string") then
 		moat.includepath_("libs/" .. self.name .. "/" .. self.autopath)
 	elseif (type(self.autopath) == "table") then
-		for i = 1, #self.autofile do
+		for i = 1, #self.autopath do
 			moat.includepath_("libs/" .. self.name .. "/" .. self.autopath[i])
 		end
 	end

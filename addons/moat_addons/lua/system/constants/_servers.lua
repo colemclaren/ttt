@@ -1,26 +1,29 @@
--- global server ips cause configs and constants and stuff rely on it
+moat.includesh "_mt/servers.lua"
+
+-- constant server ip/info cause configs and constants and stuff rely on it
 SERVER_SHORTIP = GetConVarString "ip"
 SERVER_PORT = GetConVarString "hostport"
 SERVER_IP = SERVER_SHORTIP .. ":" .. SERVER_PORT
 SERVER_ISDEV = false -- we set/decide this at the end of this file
 
-MOAT_SERVERS = MOAT_SERVERS or {}
-MOAT_SERVERS.Servers = {}
-MOAT_SERVERS.ServersIP = {}
-MOAT_SERVERS.Count = 0
-MOAT_SERVERS.QuickLink = "{id}.moat.gg"
-MOAT_SERVERS.GetCache = {}
-MOAT_SERVERS.Get = function(str)
+-- network of mg servers
+moat.servers = moat.servers or {}
+moat.servers.list = {}
+moat.servers.listip = {}
+moat.servers.count = 0
+moat.servers.url = "{id}.moat.gg"
+moat.servers.getcache = {}
+moat.servers.get = function(str)
 	-- just return the table if no search string
-	if (not str) then return MOAT_SERVERS.Servers end
+	if (not str) then return moat.servers.list end
 
 	-- use cache if we have it
-	if (MOAT_SERVERS.GetCache[str]) then return MOAT_SERVERS.GetCache[str] end
+	if (moat.servers.getcache[str]) then return moat.servers.list[str] end
 
 	local t
-	for i = 1, MOAT_SERVERS.Count do
-		if (not MOAT_SERVERS.Servers[i]) then continue end
-		local srv = MOAT_SERVERS.Servers[i]
+	for i = 1, moat.servers.count do
+		if (not moat.servers.list[i]) then continue end
+		local srv = moat.servers.list[i]
 
 		if (srv.id == str) then t = srv break end
 		if (srv.ip == str) then t = srv break end
@@ -28,197 +31,127 @@ MOAT_SERVERS.Get = function(str)
 		if (srv.url == str) then t = srv break end
 	end
 
-	MOAT_SERVERS.GetCache[str] = t
+	-- just use the first server's info
+	if (not t) then t = moat.servers.list[1] end
+	moat.servers.getcache[str] = t
 	return t
 end
 
-MOAT_SERVERS.Register = function(ip, info)
-	local server = {}
-	server["ip"] = ip
-	server["shortip"] = string.Explode(":", ip)[1]
-	server["port"] = string.Explode(":", ip)[2]
-	server["id"] = info.id
-	server["name"] = info.name
-	server["status"] = info.status or false
-	server["url"] = MOAT_SERVERS.QuickLink:Replace("{id}", info.id)
+moat.server "208.103.169.30:27015"
+	:nick "TTT #1"
+	:mid "ttt"
 
-	MOAT_SERVERS.Count = MOAT_SERVERS.Count + 1
-	MOAT_SERVERS.Servers[MOAT_SERVERS.Count] = server
-	MOAT_SERVERS.ServersIP[ip] = server
-end
+moat.server "208.103.169.31:27015"
+	:nick "TTT #2"
+	:mid "ttt2"
 
-MOAT_SERVERS.Register("208.103.169.30:27015", {
-	name = "TTT #1",
-	id = "ttt"
-})
+moat.server "208.103.169.28:27015"
+	:nick "TTT #3"
+	:mid "ttt3"
 
-MOAT_SERVERS.Register("208.103.169.31:27015", {
-	name = "TTT #2",
-	id = "ttt2"
-})
+moat.server "208.103.169.31:27017"
+	:nick "TTT #4"
+	:mid "ttt4"
 
-MOAT_SERVERS.Register("208.103.169.28:27015", {
-	name = "TTT #3",
-	id = "ttt3"
-})
+moat.server "208.103.169.43:27015"
+	:nick "TTT #5"
+	:mid "ttt5"
 
-MOAT_SERVERS.Register("208.103.169.31:27017", {
-	name = "TTT #4",
-	id = "ttt4"
-})
+moat.server "208.103.169.43:27017"
+	:nick "TTT #6"
+	:mid "ttt6"
 
-MOAT_SERVERS.Register("208.103.169.43:27015", {
-	name = "TTT #5",
-	id = "ttt5"
-})
+moat.server "208.103.169.43:27019"
+	:nick "TTT #7"
+	:mid "ttt7"
 
-MOAT_SERVERS.Register("208.103.169.43:27017", {
-	name = "TTT #6",
-	id = "ttt6"
-})
+moat.server "208.103.169.43:27020"
+	:nick "TTT #8"
+	:mid "ttt8"
 
-MOAT_SERVERS.Register("208.103.169.43:27019", {
-	name = "TTT #7",
-	id = "ttt7"
-})
+moat.server "208.103.169.54:27015"
+	:nick "TTT #9"
+	:mid "ttt9"
 
-MOAT_SERVERS.Register("208.103.169.43:27020", {
-	name = "TTT #8",
-	id = "ttt8"
-})
+moat.server "208.103.169.54:27017"
+	:nick "TTT #10"
+	:mid "ttt10"
 
-MOAT_SERVERS.Register("208.103.169.54:27015", {
-	name = "TTT #9",
-	id = "ttt9",
-})
+moat.server "208.103.169.54:27018"
+	:nick "TTT #11"
+	:mid "ttt11"
 
-MOAT_SERVERS.Register("208.103.169.54:27017", {
-	name = "TTT #10",
-	id = "ttt10",
-})
+moat.server "208.103.169.54:27020"
+	:nick "TTT #12"
+	:mid "ttt12"
 
-MOAT_SERVERS.Register("208.103.169.54:27018", {
-	name = "TTT #11",
-	id = "ttt11",
-})
+moat.server "208.103.169.29:27015"
+	:nick "TTT Minecraft #1"
+	:mid "ttt-mc"
 
-MOAT_SERVERS.Register("208.103.169.54:27020", {
-	name = "TTT #12",
-	id = "ttt12",
-})
+moat.server "208.103.169.31:27016"
+	:nick "TTT Minecraft #2"
+	:mid "ttt-mc2"
 
-MOAT_SERVERS.Register("208.103.169.29:27015", {
-	name = "TTT Minecraft #1",
-	id = "ttt-mc"
-})
+moat.server "208.103.169.43:27016"
+	:nick "TTT Minecraft #3"
+	:mid "ttt-mc3"
 
-MOAT_SERVERS.Register("208.103.169.31:27016", {
-	name = "TTT Minecraft #2",
-	id = "ttt-mc2"
-})
+moat.server "208.103.169.54:27016"
+	:nick "TTT Minecraft #4"
+	:mid "ttt-mc4"
 
-MOAT_SERVERS.Register("208.103.169.43:27016", {
-	name = "TTT Minecraft #3",
-	id = "ttt-mc3"
-})
+moat.server "208.103.169.54:27019"
+	:nick "TTT Minecraft #5"
+	:mid "ttt-mc5"
 
-MOAT_SERVERS.Register("208.103.169.54:27016", {
-	name = "TTT Minecraft #4",
-	id = "ttt-mc4",
-})
+moat.server "208.103.169.43:27018"
+	:nick "TTC Terror City Beta"
+	:mid "beta"
 
-MOAT_SERVERS.Register("208.103.169.54:27019", {
-	name = "TTT Minecraft #5",
-	id = "ttt-mc5",
-})
+moat.server "64.94.101.132:27015"
+	:nick "TTT LA"
+	:mid "ttt-la"
 
-MOAT_SERVERS.Register("208.103.169.43:27018", {
-	name = "TTC Terror City Beta",
-	id = "beta"
-})
-
-MOAT_SERVERS.Register("64.94.101.132:27015", {
-	name = "TTT LA",
-	id = "ttt-la"
-})
-
-MOAT_SERVERS.Register("208.103.169.204:27021", {
-	name = "TTT EU",
-	id = "ttt-eu"
-})
-
-/*
--- US03
-MOAT_SERVERS.Register("208.103.169.54:27015", {
-	name = "TTT #9",
-	id = "ttt9",
-})
-
-MOAT_SERVERS.Register("208.103.169.54:27017", {
-	name = "TTT #10",
-	id = "ttt10",
-})
-
-MOAT_SERVERS.Register("208.103.169.54:27018", {
-	name = "TTT #11",
-	id = "ttt11",
-})
-
-MOAT_SERVERS.Register("208.103.169.54:27020", {
-	name = "TTT #12",
-	id = "ttt12",
-})
-
-MOAT_SERVERS.Register("208.103.169.54:27016", {
-	name = "TTT Minecraft #4",
-	id = "ttt-mc4",
-})
-
-MOAT_SERVERS.Register("208.103.169.54:27019", {
-	name = "TTT Minecraft #5",
-	id = "ttt-mc5",
-})
-*/
+moat.server "208.103.169.204:27021"
+	:nick "TTT EU"
+	:mid "ttt-eu"
 
 
 -- UK01
-MOAT_SERVERS.Register("208.103.169.205:27015", {
-	name = "TTT EU #1",
-	id = "ttt-eu1",
-	status = "Coming Soon"
-})
+moat.server "208.103.169.205:27015"
+	:nick "TTT EU #1"
+	:mid "ttt-eu1"
+	:state "Coming Soon"
 
-MOAT_SERVERS.Register("208.103.169.205:27017", {
-	name = "TTT EU #2",
-	id = "ttt-eu2",
-	status = "Coming Soon"
-})
+moat.server "208.103.169.205:27017"
+	:nick "TTT EU #2"
+	:mid "ttt-eu2"
+	:state "Coming Soon"
 
-MOAT_SERVERS.Register("208.103.169.205:27018", {
-	name = "TTT EU #3",
-	id = "ttt-eu3",
-	status = "Coming Soon"
-})
+moat.server "208.103.169.205:27018"
+	:nick "TTT EU #3"
+	:mid "ttt-eu3"
+	:state "Coming Soon"
 
-MOAT_SERVERS.Register("208.103.169.205:27020", {
-	name = "TTT EU #4",
-	id = "ttt-eu4",
-	status = "Coming Soon"
-})
+moat.server "208.103.169.205:27020"
+	:nick "TTT EU #4"
+	:mid "ttt-eu4"
+	:state "Coming Soon"
 
-MOAT_SERVERS.Register("208.103.169.205:27016", {
-	name = "TTT EU Minecraft #1",
-	id = "ttt-eumc1",
-	status = "Coming Soon"
-})
+moat.server "208.103.169.205:27016"
+	:nick "TTT EU Minecraft #1"
+	:mid "ttt-eumc1"
+	:state "Coming Soon"
 
-MOAT_SERVERS.Register("208.103.169.205:27019", {
-	name = "TTT EU Minecraft #2",
-	id = "ttt-eumc2",
-	status = "Coming Soon"
-})
+moat.server "208.103.169.205:27019"
+	:nick "TTT EU Minecraft #2"
+	:mid "ttt-eumc2"
+	:state "Coming Soon"
 
--- if we aren't on a registered server, automatically assume we're on a dev server
-if (SERVER and not MOAT_SERVERS.ServersIP[SERVER_IP]) then
-	SERVER_ISDEV = true
+for i = 1, moat.servers.count do
+	if (not moat.servers.list[i] or not moat.servers.list[i].ip) then continue end
+	moat.servers.listip[moat.servers.list[i].ip] = true
 end
+
+SERVER_ISDEV = SERVER and not moat.servers.listip[SERVER_IP]

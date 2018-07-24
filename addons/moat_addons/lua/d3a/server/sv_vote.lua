@@ -78,28 +78,14 @@ end
 util.AddNetworkString("MGA.SendMaps")
 
 local sentmaps = {}
-local all_maps = nil
-
 net.Receive("MGA.SendMaps", function(_, pl)
 	if (sentmaps[pl]) then return end
-	
-	if (all_maps == nil) then
-		all_maps = {}
-		local maps = file.Find("maps/*.bsp", "GAME")
-		local num = 1
 
-		for k, v in pairs(maps) do
-			local mapstr = v:sub(1, -5):lower()
-
-			all_maps[num] = mapstr
-			num = num + 1
-		end
-	end
-
+	local maps, count = MapVote.GetAvailableMaps()
 	net.Start("MGA.SendMaps")
-	net.WriteUInt(#all_maps, 9)
-	for i = 1, #all_maps do
-		net.WriteString(all_maps[i])
+	net.WriteUInt(count, 16)
+	for i = 1, count do
+		net.WriteString(maps[i])
 	end
 	net.Send(pl)
 

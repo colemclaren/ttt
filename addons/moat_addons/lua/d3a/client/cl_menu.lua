@@ -909,9 +909,7 @@ end
 net.Receive("MGA.SendMaps", function()
 	MGA.Maps = {}
 
-	local num = net.ReadUInt(9)
-
-	for i = 1, num do
+	for i = 1, net.ReadUInt(16) do
 		MGA.Maps[i] = net.ReadString()
 	end
 

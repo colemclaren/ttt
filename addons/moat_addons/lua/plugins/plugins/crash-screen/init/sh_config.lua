@@ -3,10 +3,8 @@ aCrashScreen.config = aCrashScreen.config or {}
 
 if (SERVER) then return end
 
-local _this = aCrashScreen.config
+local _this, ourserver = aCrashScreen.config, moat.servers.get(SERVER_IP)
 ---------------------------------
-local ourserver = MOAT_SERVERS.Get(SERVER_IP)
-if (not ourserver) then ourserver = MOAT_SERVERS.Get("208.103.169.30:27015") end
 -- Chat ID, useful for multiple servers
 -- Not case sensitive only letters, numbers and underscores are allowed
 _this.chatID = "server_" .. ourserver.id
@@ -106,8 +104,8 @@ _this.buttons = {
 	-- "Button text", function or server ip:port to connect to
 }
 
-for i = 1, #MOAT_SERVERS.Servers do
-	local srv = MOAT_SERVERS.Servers[i]
+for i = 1, #moat.servers.list do
+	local srv = moat.servers.list[i]
 	if (not srv.name or not srv.ip or srv.status) then continue end
 
 	table.insert(_this.buttons, {"Join - " .. srv.name, srv.ip})

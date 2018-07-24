@@ -5,16 +5,6 @@ util.AddNetworkString("RTV_Delay")
 
 MapVote.Continued = false
 
-local MAP_BLACKLIST = {
-	["ttt_complex_fix4_ws"] = true,
-	["ttt_drybonesvillage_v3"] = true,
-	["ttt_bf3_scrapmetal"] = true,
-	["ttt_dust2minecrafttestfixed"] = true,
-	["ttt_fezvillage"] = true,
-	["ttt_cyberpunk"] = true,
-	["ttt_mysteryshack"] = true
-}
-
 local MAP_AVAILABLE = {}
 function MapVote.MapAvailable(map_str)
 	if (MAP_AVAILABLE[map_str] ~= nil) then return MAP_AVAILABLE[map_str] end
@@ -35,6 +25,25 @@ function MapVote.MapAvailable(map_str)
 	MAP_AVAILABLE[map_str] = map_good
 
 	return map_good
+end
+
+function MapVote.GetAvailableMaps()
+	if (MapVote.AvailableMaps and MapVote.AvailableMapsCount) then
+		return MapVote.AvailableMaps, MapVote.AvailableMapsCount
+	end
+
+	MapVote.AvailableMaps = {}
+	local maps, num = file.Find("maps/*.bsp", "GAME"), 0
+	for k, v in pairs(maps) do
+		local mapstr = v:sub(1, -5):lower()
+		if (MAP_BLACKLIST[mapstr]) then continue end
+
+		num = num + 1
+		MapVote.AvailableMaps[num] = mapstr
+	end
+
+	MapVote.AvailableMapsCount = num
+	return MapVote.AvailableMaps, num
 end
 
 net.Receive("RAM_MapVoteUpdate", function(len, ply)
@@ -219,7 +228,7 @@ function MapVote.Start(length, current, limit, prefix, callback)
         end
     end
     
-    local maps = file.Find("maps/*.bsp", "GAME")
+    local maps = MapVote.GetAvailableMaps()
     
     local vote_maps = {}
     local amt = 0
@@ -234,7 +243,7 @@ function MapVote.Start(length, current, limit, prefix, callback)
     sql.Query("DELETE FROM `moat_mapcool` WHERE time_played < '" .. (os.time() - (minutes * 60)) .. "';")
 
     for k, map in RandomPairs(maps) do
-        local mapstr = map:sub(1, -5):lower()
+        local mapstr = map
         if sql.QueryRow("SELECT * FROM moat_mapcool WHERE map = " .. sql.SQLStr(mapstr) .. ";") then continue end
         if(not current and game.GetMap():lower()..".bsp" == map) then continue end
         if (table.HasValue(vote_maps, mapstr)) then continue end
@@ -242,13 +251,13 @@ function MapVote.Start(length, current, limit, prefix, callback)
 
         if is_expression then
             if(string.find(map, prefix)) then -- This might work (from gamemode.txt)
-                vote_maps[#vote_maps + 1] = map:sub(1, -5)
+                vote_maps[#vote_maps + 1] = map
                 amt = amt + 1
             end
         else
             for k, v in pairs(prefix) do
                 if string.find(map, "^"..v) then
-                    vote_maps[#vote_maps + 1] = map:sub(1, -5)
+                    vote_maps[#vote_maps + 1] = map
                     amt = amt + 1
                     break
                 end
@@ -260,20 +269,20 @@ function MapVote.Start(length, current, limit, prefix, callback)
 
     if amt < limit then
         for k, map in RandomPairs(maps) do
-            local mapstr = map:sub(1, -5):lower()
+            local mapstr = map
             if(not current and game.GetMap():lower()..".bsp" == map) then continue end
             if (table.HasValue(vote_maps, mapstr)) then continue end
 	    if (not MapVote.MapAvailable(mapstr)) then continue end
 
             if is_expression then
                 if(string.find(map, prefix)) then -- This might work (from gamemode.txt)
-                    vote_maps[#vote_maps + 1] = map:sub(1, -5)
+                    vote_maps[#vote_maps + 1] = map
                     amt = amt + 1
                 end
             else
                 for k, v in pairs(prefix) do
                     if string.find(map, "^"..v) then
-                        vote_maps[#vote_maps + 1] = map:sub(1, -5)
+                        vote_maps[#vote_maps + 1] = map
                         amt = amt + 1
                         break
                     end
