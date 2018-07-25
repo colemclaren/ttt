@@ -4,8 +4,7 @@ if SERVER then
 	util.AddNetworkString('moat_startRaffle')
 	util.AddNetworkString "moat_finishRaffle"
 	local allowedSteamUsers = {
-		'76561198053381832', -- Moat
-		'76561197996924066', -- Nook
+		'76561198053381832' -- Moat
 	}
 
 	--[[
