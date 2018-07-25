@@ -2,7 +2,7 @@ local max_kills = 5
 local pl_kills = {}
 
 hook.Add("PlayerDeath", "AutoBanRDM", function(vic, inf, att)
-    if (MOAT_MINIGAME_OCCURING) then return end
+    if (MOAT_MINIGAME_OCCURING or SERVER_ISDEV) then return end
     if (inf.Avoidable or not IsValid(att) or not att:IsPlayer() or att == vic) then return end
     if (GetRoundState() ~= ROUND_ACTIVE) then return end
 	local roles = {[ROLE_DETECTIVE] = 1, [ROLE_INNOCENT] = 1, [ROLE_TRAITOR] = 2}

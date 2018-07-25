@@ -84,6 +84,8 @@ function moat.includepath(p, d)
 	local ps, fs = file.Find(p .. "*", "LUA")
 	if (not ps and not fs) then return end
 
+	if (ps and file.Exists(p .. "ignore.lua", "LUA")) then moat.include_(p .. "ignore.lua") return end
+
 	if (ps and file.Exists(p .. "init.lua", "LUA")) then moat.include_(p .. "init.lua") end
 	if (fs and file.Exists(p .. "init", "LUA")) then moat.includepath(p .. "init") end
 
