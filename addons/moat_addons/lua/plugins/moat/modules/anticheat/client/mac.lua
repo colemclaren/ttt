@@ -84,7 +84,7 @@ local hash = readonly{
     SHA256 = _G.hash.SHA256
 }
 
-g.rawset(_G, "_SCRIPT", "Poop")
+g.rawset(_G, "_SCRIPT", "Soup")
 g.rawset(_G.debug, "setlocal", function() end)
 g.rawset(_G.debug, "getlocal", function() end)
 g.rawset(_G.debug, "setupvalue", function() end)
