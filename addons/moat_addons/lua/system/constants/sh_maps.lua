@@ -7,5 +7,6 @@ MAP_BLACKLIST = {
 	["ttt_cyberpunk"] = true,
 	["ttt_mysteryshack"] = true,
 	["ttt_horrorisland"] = true,
-	["ttt_skybreak_v2"] = true -- re-add the map when krazy is finished
+	["ttt_skybreak_v2"] = true, -- re-add the map when krazy is finished
+	["ttt_mc_bonfire"] = true -- player collisions on spawn causes death
 }
