@@ -37,6 +37,6 @@ ITEM.MaxTalents = 2
 
 ITEM.Talents = { "random", "Assassin" }
 
-ITEM.Price = 23999
+ITEM.Price = 22999
 ITEM.LimitedShop = 1532971845
 ITEM.ShopDesc = "Destroy the bodies of the people you kill with this limited time talent!\n(Purchasing will give you a random weapon with the Assassin talent)"
