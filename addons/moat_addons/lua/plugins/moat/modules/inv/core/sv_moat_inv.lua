@@ -1268,6 +1268,30 @@ net.Receive("MOAT_TRADE_ADD", function(len, ply)
     local slot1_c = net.ReadString()
     local slot2_c = net.ReadString()
     local trade_id = net.ReadDouble()
+
+    local trade_table = {}
+    local player_2 = nil
+
+    for k, v in pairs(MOAT_TRADES) do
+        if (v.player1.index == ply:EntIndex() or v.player2.index == ply:EntIndex()) then
+            if (tostring(k) == tostring(trade_id)) then
+                if (v.player1.index == ply:EntIndex()) then
+                    trade_table = v.player1.offers.items
+                    player_2 = Entity(v.player2.index)
+                else
+                    trade_table = v.player2.offers.items
+                    player_2 = Entity(v.player1.index)
+                end
+            end
+        end
+    end
+
+    for k,v in pairs(trade_table) do
+        if v.c then
+            if v.c == slot2_c then return end
+        end
+    end
+
     local inv_slot1 = {}
 
     for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
@@ -1288,22 +1312,20 @@ net.Receive("MOAT_TRADE_ADD", function(len, ply)
         end
     end
 
-    local trade_table = {}
-    local player_2 = nil
 
-    for k, v in pairs(MOAT_TRADES) do
-        if (v.player1.index == ply:EntIndex() or v.player2.index == ply:EntIndex()) then
-            if (tostring(k) == tostring(trade_id)) then
-                if (v.player1.index == ply:EntIndex()) then
-                    trade_table = v.player1.offers.items
-                    player_2 = Entity(v.player2.index)
-                else
-                    trade_table = v.player2.offers.items
-                    player_2 = Entity(v.player1.index)
-                end
-            end
-        end
-    end
+    -- for k, v in pairs(MOAT_TRADES) do
+    --     if (v.player1.index == ply:EntIndex() or v.player2.index == ply:EntIndex()) then
+    --         if (tostring(k) == tostring(trade_id)) then
+    --             if (v.player1.index == ply:EntIndex()) then
+    --                 trade_table = v.player1.offers.items
+    --                 player_2 = Entity(v.player2.index)
+    --             else
+    --                 trade_table = v.player2.offers.items
+    --                 player_2 = Entity(v.player1.index)
+    --             end
+    --         end
+    --     end
+    -- end
 
     local trade_slot = table.Copy(trade_table["slot" .. trade_slot_num])
 
@@ -1438,6 +1460,12 @@ net.Receive("MOAT_TRADE_SWAP", function(len, ply)
                     player_2 = Entity(v.player1.index)
                 end
             end
+        end
+    end
+
+    for k,v in pairs(trade_table) do
+        if v.c then
+            if v.c == slot2_c then print("Bad move2") return end
         end
     end
 
