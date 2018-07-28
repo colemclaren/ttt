@@ -238,6 +238,8 @@ end
 concommand.Add("ttt_dropweapon", DropActiveWeapon)
 
 local function DropActiveAmmo(ply)
+    if cur_random_round then return end
+    if MOAT_MINIGAME_OCCURING then return end
     if not IsValid(ply) then return end
     local wep = ply:GetActiveWeapon()
     if not IsValid(wep) then return end
