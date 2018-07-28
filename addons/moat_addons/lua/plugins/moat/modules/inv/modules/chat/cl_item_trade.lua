@@ -15,7 +15,7 @@ net.Receive("MOAT_TRADED_ITEMS", function(len)
     end
     if (#items < 1) and (ic == 0) then return end
     if not GetConVar("moat_showtrades"):GetBool() then return end
-
+`
     local tab = {}
     table.insert(tab, Color(20, 255, 20))
     local has = " traded for "
