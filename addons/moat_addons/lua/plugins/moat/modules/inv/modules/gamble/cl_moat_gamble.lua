@@ -3909,6 +3909,7 @@ function m_DrawVersusPanel()
 			
 			if k == LocalPlayer():SteamID64() then inGame = true end
 			if v[1] == LocalPlayer():SteamID64() then inGame = true end
+			if not v[2] then v[2] = 0 end
 			--for i = 1,5 do--
 			local a = vgui.Create("DPanel",game_actual)
 			a:SetSize(0,50)
