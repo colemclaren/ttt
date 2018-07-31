@@ -3609,6 +3609,7 @@ function m_versusroll(owner,other,winner)
     end
 	Roll.middle = 0
     Roll.PaintOver = function(s, w, h)
+		if not IsValid(Roll) then return end
 		if not Roll.middle then Roll.middle = 0 end
         draw.RoundedBox(0, Roll.middle - 1, 0, 2, h, Color(255, 128, 0))
     end
@@ -4042,6 +4043,7 @@ function m_DrawVersusPanel()
 
 			function a:Paint(w,h)
 				if not gversus_players[k] then a:Remove() return end
+				if not v[2] then v[2] = 0 end
 				if not (v[1]) then
 					if IsValid(op) then
 						op:SetSteamID("BOT",64)
