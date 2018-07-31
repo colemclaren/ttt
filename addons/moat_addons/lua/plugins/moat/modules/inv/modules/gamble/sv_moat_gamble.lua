@@ -1162,7 +1162,7 @@ function jackpot_()
                     net.Broadcast()
                 end
                 if not v.winner then continue end
-                if v.winner and ((versus_knowngames[v.steamid] or 0) < CurTime()) and ((v.curtime - v.time) < 15) then
+                if v.winner and ((versus_knowngames[v.steamid] or 0) < CurTime()) and ((v.curtime - v.time) < 20) then
                     versus_knowngames[v.steamid] = CurTime() + versus_wait + 5
                     net.Start("gversus.JoinGame")
                     net.WriteString(v.steamid)
@@ -1178,7 +1178,7 @@ function jackpot_()
                         net.Broadcast()
                         versus_curgames[v.steamid] = nil
                     end)
-                elseif ((v.curtime - v.time) > 15) and (v.winner) then
+                elseif ((v.curtime - v.time) > 20) and (v.winner) then
                     local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. v.steamid .. "';")
                     q:start()
                     net.Start("gversus.Cancel")
