@@ -31,6 +31,14 @@ local function m_GetFontWidth(font, txt)
 	return surface.GetTextSize(txt)
 end
 
+local gamble_help = {
+	["Mines"] = "In the Mines gamemode, you make money by trying to uncover tiles that don't have mines in them.\nIf you uncover a tile with a bomb however, you lose all your money.\nYou can cashout your earnings anytime.",
+	["Roulette"] = "Welcome to Roulette!\nYou can bet for what color the spinner is going to be and win 2x that amount if it's black or red\nor 14x the amount if it's green!",
+	["Crash"] = "Place a bet and watch the multiplier go up!\nIf the multiplier 'Crashes' before you cash out then you lose all your money.\nThe multiplier can crash at 0x as well.",
+	["Jackpot"] = "Everyone places their money into a big pot and the winner get's all of it.\nYour chance of winning what percentage of the pot you are.\n(There is a 5% tax on the winnings from jackpot)\nJackpot is connected to multiple servers!",
+	["Versus"] = "Versus is like coinflip.\nYou can make a game and others can join it,\nIt is also cross-server like jackpot.\nALL GAMES ARE 50% CHANCE!\n\nEveryone has the same chance of winning.\nGood luck!"
+}
+
 function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 	if (IsValid(MOAT_GAMBLE_BG)) then return end
 	MOAT_GAMBLE.LocalChat = true
@@ -217,16 +225,31 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
         	if (i == MOAT_GAMBLE.CurCat) then return end
 
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
-
             net.Start("MOAT_GAMBLE_CAT")
             net.WriteUInt(i, 4)
             net.SendToServer()
+
+			if gamble_help[MOAT_GAMBLE_CATS[i][1]] then
+				if cookie.GetString("mGambleHelp" .. MOAT_GAMBLE_CATS[i][1],"") ~= gamble_help[MOAT_GAMBLE_CATS[i][1]] then
+					-- check the string so it pops up again if we change it
+					Derma_Message(gamble_help[MOAT_GAMBLE_CATS[i][1]], MOAT_GAMBLE_CATS[i][1] .. " Info", "Got it!")
+					cookie.Set("mGambleHelp" .. MOAT_GAMBLE_CATS[i][1],gamble_help[MOAT_GAMBLE_CATS[i][1]])
+				end
+			end
         end
 
         MOAT_GAMBLE_CAT_BTN.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
 
         CAT_WIDTHS = CAT_WIDTHS + 83
     end
+
+	if gamble_help[MOAT_GAMBLE_CATS[1][1]] then
+		if cookie.GetString("mGambleHelp" .. MOAT_GAMBLE_CATS[1][1],"") ~= gamble_help[MOAT_GAMBLE_CATS[1][1]] then
+			-- check the string so it pops up again if we change it
+			Derma_Message(gamble_help[MOAT_GAMBLE_CATS[1][1]], MOAT_GAMBLE_CATS[1][1] .. " Info", "Got it!")
+			cookie.Set("mGambleHelp" .. MOAT_GAMBLE_CATS[1][1],gamble_help[MOAT_GAMBLE_CATS[1][1]])
+		end
+	end
 
     MOAT_GAMBLE_CHAT = vgui.Create("RichText", MOAT_GAMBLE_BG)
     MOAT_GAMBLE_CHAT:SetPos(1, 46 + 25)
