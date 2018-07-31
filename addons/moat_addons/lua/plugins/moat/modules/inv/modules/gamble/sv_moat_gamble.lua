@@ -962,12 +962,12 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
                 return
             end
-            if tonumber(versus_curgames[sid]) ~= tonumber(d.money) then
+            if tonumber(versus_curgames[sid][1]) ~= tonumber(d.money) then
                 net.Start("gversus.CreateGame")
                 net.WriteString(sid)
                 net.WriteFloat(d.money)
                 net.Broadcast()
-                versus_curgames[sid] = d.money
+                versus_curgames[sid][1] = d.money
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That game changed amount!")
                 return
             end
@@ -979,7 +979,7 @@ function jackpot_()
             local plyz = ply:SteamID64()
             local q = db:query("UPDATE moat_versus SET winner = '" .. db:escape(winner) .. "', other = '" .. plyz .. "', time = UNIX_TIMESTAMP() WHERE steamid = '" .. db:escape(sid) .. "';")
             q:start()
-            versus_knowngames[sid] = CurTime() + versus_wait + 5
+            versus_knowngames[sid] = true
             net.Start("gversus.JoinGame")
             net.WriteString(sid)
             net.WriteString(ply:SteamID64())
@@ -987,12 +987,14 @@ function jackpot_()
             net.Broadcast()
             local am = d.money * 2
             if am > 50 then am = math.floor(am * 0.99) end
+            versus_curgames[sid].rolled = true
             timer.Simple(versus_wait,function()
+                versus_knowngames[sid] = false
                 net.Start("gversus.FinishGame")
                 net.WriteString(sid)
                 net.WriteString(winner)
                 net.Broadcast()
-                versus_curgames[sid] = nil
+                versus_curgames[sid] = {rolled = true}
 
 				local v = player.GetBySteamID64(winner)
 				if (IsValid(v)) then
@@ -1031,9 +1033,6 @@ function jackpot_()
 		if (gamble_net_spam(ply, "gversus.CreateGame")) then return end
         if (ply.VersCool or 0) > CurTime() then return end
         ply.VersCool = CurTime() + 2.5
-        if versus_curgames[ply:SteamID64()] then 
-            m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait a second (You already have a match up?)")
-        return end
         local amount = math.floor(net.ReadFloat())
         if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
 		local id = ply:SteamID64()
@@ -1045,7 +1044,8 @@ function jackpot_()
 			end
 
 			removeIC(ply, amount)
-            versus_curgames[id] = amount
+            versus_curgames[id] = {}
+            versus_curgames[id][1] = amount
             net.Start("gversus.CreateGame")
             net.WriteString(id)
             net.WriteFloat(amount)
@@ -1063,7 +1063,7 @@ function jackpot_()
         if not ply.gvSyn then
             local t = {}
             for k,v in pairs(versus_curgames) do
-                t[k] = {nil,v}
+                t[k] = {nil,v[1]}
             end
             net.Start("gversus.Sync")
             net.WriteTable(t)
@@ -1142,56 +1142,68 @@ function jackpot_()
         if not GetHostName():lower():match("moat") then return end
         versus_getgames(function(d)
             local games = {}
+            -- PrintTable(d)
             for k,v in pairs(d) do
                 games[v.steamid] = v.money
                 if versus_curgames[v.steamid] then
-                    if (tonumber(versus_curgames[v.steamid]) ~= tonumber(v.money)) and (not v.winner) then
+                    if (tonumber(versus_curgames[v.steamid][1]) ~= tonumber(v.money)) and (not v.winner) then
                         net.Start("gversus.CreateGame")
                         net.WriteString(v.steamid)
                         net.WriteFloat(v.money)
                         net.Broadcast()
-                        versus_curgames[v.steamid] = v.money
+                        versus_curgames[v.steamid][1] = v.money
                     end
                 end
                 
-                if (not v.winner) and (not versus_curgames[v.steamid]) then
-                    versus_curgames[v.steamid] = v.money
+                if (not versus_curgames[v.steamid]) then
+                    versus_curgames[v.steamid] = {}
+                    versus_curgames[v.steamid][1] = v.money
                     net.Start("gversus.CreateGame")
                     net.WriteString(v.steamid)
                     net.WriteFloat(v.money)
                     net.Broadcast()
                 end
                 if not v.winner then continue end
-                if v.winner and ((versus_knowngames[v.steamid] or 0) < CurTime()) and ((v.curtime - v.time) < 25) then
-                    versus_knowngames[v.steamid] = CurTime() + versus_wait + 5
+                if v.winner and (not (versus_knowngames[v.steamid])) and (not versus_curgames[v.steamid].rolled) and ((v.curtime - v.time) < 25) then
+                    versus_knowngames[v.steamid] = true
                     net.Start("gversus.JoinGame")
                     net.WriteString(v.steamid)
                     net.WriteString(v.other)
                     net.WriteString(v.winner)
                     net.Broadcast()
+                    versus_curgames[v.steamid].rolled = true
+                    -- print("Joingame 1",v.steamid)
                     versus_suspense[v.winner] = CurTime() + versus_wait
                     timer.Simple(versus_wait,function()
+                        versus_knowngames[v.steamid] = false
                         versus_suspense[v.winner] = nil
+                        -- print("Finishgame 1",v.steamid)
                         net.Start("gversus.FinishGame")
                         net.WriteString(v.steamid)
                         net.WriteString(v.winner)
                         net.Broadcast()
-                        versus_curgames[v.steamid] = nil
+                        versus_curgames[v.steamid] = {rolled = true}
                     end)
                 elseif ((v.curtime - v.time) > 25) and (v.winner) then
                     local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. v.steamid .. "';")
                     q:start()
+                    -- print("Cancel 1 delete",v.steamid)
                     net.Start("gversus.Cancel")
                     net.WriteString(v.steamid)
                     net.Broadcast()
+                    versus_curgames[v.steamid] = nil
                 end
             end
             for k,v in pairs(versus_curgames) do
                 if (not games[k]) and (not v.winner) then
+                    -- print("Cancel 2")
+                    -- print("Sid: " .. k)
                     versus_curgames[k] = nil
+                    --PrintTable(games[k])
                     net.Start("gversus.Cancel")
                     net.WriteString(k)
                     net.Broadcast()
+                    --PrintTable(versus_curgames[k])
                 end
             end
         end)
