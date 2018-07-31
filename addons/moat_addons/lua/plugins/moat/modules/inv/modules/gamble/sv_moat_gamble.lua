@@ -1137,7 +1137,7 @@ function jackpot_()
 		*/
     end)
 
-    timer.Create("Versus.Watchdog",10,0,function()
+    timer.Create("Versus.Watchdog",5,0,function()
         if GG_DISABLE:GetBool() then return false end
         if not GetHostName():lower():match("moat") then return end
         versus_getgames(function(d)
