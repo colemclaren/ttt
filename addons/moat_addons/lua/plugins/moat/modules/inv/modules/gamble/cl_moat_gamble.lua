@@ -3573,6 +3573,79 @@ gversus_players = {}
 local versus_winners = {}
 versus_oldgames = {}
 
+function m_versusroll(owner,other,winner)
+	math.randomseed(tonumber(winner))-- so everyone sees the same thing no matter what server they are on
+
+	local pp = {owner,other}
+    Roll = vgui.Create("DPanel")
+    Roll:SetPos(-1000,-1000)
+    Roll:SetSize(358, 73)
+
+    Roll.Paint = function(s, w, h)
+        draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 50))
+    end
+	Roll.middle = 0
+    Roll.PaintOver = function(s, w, h)
+		
+        draw.RoundedBox(0, Roll.middle - 1, 0, 2, h, Color(255, 128, 0))
+    end
+
+    local spacing = 3
+    local icon_wide = 46
+    local contents_wide = (spacing + icon_wide) * 100
+    local MOAT_ROLL_CONTENTS = vgui.Create("DPanel", Roll)
+    MOAT_ROLL_CONTENTS:SetSize(contents_wide, 73)
+    MOAT_ROLL_CONTENTS:SetPos(contents_wide * -1, 0)
+    MOAT_ROLL_CONTENTS.Paint = function(s, w, h) end
+    local item_value = 0
+    for i = 1, 100 do
+		local Item_Panel = vgui.Create("AvatarImage", MOAT_ROLL_CONTENTS)
+        Item_Panel:SetSize(46,40)
+        Item_Panel:SetPos((spacing + icon_wide) * (i - 1), 3)
+		if i == 4 then
+			Roll.middle = Item_Panel:GetPos()
+			Item_Panel:SetSteamID(winner,64)
+		else
+			if not pp then continue end
+			local s = table.Random(pp)
+			Item_Panel:SetSteamID(s,64)
+		end
+    end
+	-- if not gversus_players[owner].roll_contents then
+    -- 	roll_contents_x = MOAT_ROLL_CONTENTS:GetPos()
+	-- else
+	-- 	roll_contents_x = gversus_players[owner].roll_contents
+	-- end
+	local roll_y = 0
+	if not (gversus_players[owner].roll_contents_x) then
+		gversus_players[owner].roll_contents_x = MOAT_ROLL_CONTENTS:GetPos()
+	end
+
+    local roll_to = gversus_players[owner].rollto
+	-- 203
+
+	-- local to_add = w - 203
+	-- roll_to = roll_to - to_add
+	-- print(roll_to,to_add)
+    MOAT_ROLL_CONTENTS.Think = function(s, w, h)
+		if not IsValid(Roll) then return end
+        if (math.abs(gversus_players[owner].roll_contents_x - roll_to) < 1) then return end
+
+        if (math.floor(gversus_players[owner].roll_contents_x / 71) ~= item_value) then
+			if IsValid(MOAT_GAMBLE_VS) then
+            	LocalPlayer():EmitSound("moatsounds/pop1.wav")
+			end
+        end
+
+        s:SetPos(gversus_players[owner].roll_contents_x, roll_y)
+        item_value = math.floor(gversus_players[owner].roll_contents_x / 71)
+
+    end
+
+
+	return Roll
+end
+
 local function versusRebuild()
 	if (not IsValid(MOAT_GAMBLE_VS) or not versus_buildlist) then return end
 	versus_buildlist()
@@ -3665,10 +3738,28 @@ end)
 net.Receive("gversus.JoinGame",function()
 	local ply = net.ReadString()
 	local j = net.ReadString()
+	local winner = net.ReadString()
 	if (not gversus_players[ply]) then return end
 
 	gversus_players[ply][1] = j
 	gversus_players[ply][3] = CurTime() + versus_wait
+
+	gversus_players[ply][10] = winner
+	
+	math.randomseed(tonumber(winner)) -- so everyone sees the same thing no matter what server they are on
+
+	gversus_players[ply].rollto = math.random(0,-32)
+	gversus_players[ply].roll_contents_x = -4900
+
+	hook.Add("Think","BackGroundRollVersus." .. ply,function()
+		if not gversus_players[ply] then hook.Remove("Think","BackGroundRollVersus." .. ply) return end
+		if (math.abs(gversus_players[ply].roll_contents_x - gversus_players[ply].rollto) > 1500) then
+			gversus_players[ply].roll_contents_x = math.Approach(gversus_players[ply].roll_contents_x, gversus_players[ply].rollto, 1500 * FrameTime())
+		else
+			gversus_players[ply].roll_contents_x = Lerp(0.9 * FrameTime(), gversus_players[ply].roll_contents_x, gversus_players[ply].rollto)
+		end
+	end)
+	-- gversus_players[ply]["roll"] = m_versusroll(ply,j,winner)
 
 	versusRebuild()
 end)
@@ -3676,6 +3767,7 @@ end)
 net.Receive("gversus.FinishGame",function()
 	local ply = net.ReadString()
 	local win = net.ReadString()
+	hook.Remove("Think","BackGroundRollVersus." .. ply)
 	if (not gversus_players[ply] or not gversus_players[ply][1]) then
 		gversus_players[ply] = nil
 		return
@@ -3787,142 +3879,9 @@ function m_DrawVersusPanel()
 		inGame = false 
 		if not IsValid(game_panel) then return end
 		game_actual:Clear()
-		--PrintTable(versus_players)
-		for k,v in pairs(versus_players) do
-			if not IsValid(k) then versus_players[k] = nil continue end
-			if k == LocalPlayer() then inGame = true end
-			if v[1] == LocalPlayer() then inGame = true end
-			--for i = 1,5 do--
-			local a = vgui.Create("DPanel",game_actual)
-			a:SetSize(0,50)
-			a:DockMargin(0,0,0,5)
-			a:Dock(TOP)
-			
-			local av = vgui.Create("AvatarImage",a)
-			av:DockMargin(2,3,40,3)
-			av:SetSize(46,40)
-			av:Dock(LEFT)
-			av:SetPlayer(k,64)
-			av:SetTooltip(k:Nick())
-			local butt = vgui.Create("DButton",av)
-			butt:SetText("")
-			butt:Dock(FILL) function butt:Paint() end
-			function butt:DoClick()
-				open_profile_card(k)
-			end
-
-			local op = vgui.Create("AvatarImage",a)
-			op:DockMargin(0,3,5,3)
-			op:SetSize(46,40)
-			op:Dock(LEFT)
-			if IsValid(v[1]) then
-				op:SetPlayer(v[1],64)
-				op:SetTooltip(v[1]:Nick())
-			else
-				op:SetTooltip("Empty!")
-			end
---a
-			local s = true
-			local winner
-			if not IsValid(v[1]) then
-				local join = vgui.Create("DButton",a)
-				join:SetSize(148,0)
-				join:DockMargin(5,5,5,5)
-				join:Dock(RIGHT)
-				join:SetText("")
-				function join:Paint(w,h)
-					local a = 255
-					if self:IsHovered() then a = 175 end
-					local c = Color(10,200,10,a)
-					if (v[2] > MOAT_INVENTORY_CREDITS)then
-						c = Color(86,86,86)
-						a = 10
-					end
-					if (k == LocalPlayer()) then
-						c = Color(200,10,10)
-						draw.RoundedBox(0,0,0,w,h,c)
-						surface.SetDrawColor(0,255,0,a * 0.7)
-						surface.DrawOutlinedRect(0,0,w,h)
-						draw.SimpleText("CANCEL GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-					else
-						draw.RoundedBox(0,0,0,w,h,c)
-						surface.SetDrawColor(0,255,0,a * 0.7)
-						surface.DrawOutlinedRect(0,0,w,h)
-						if not self.double then
-							draw.SimpleText("JOIN GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-						else
-							draw.SimpleText("CONFIRM JOIN", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-						end
-					end
-				end
-				function join.DoClick()
-					if k == LocalPlayer() then
-						net.Start("versus.CancelGame")
-						net.SendToServer()
-					elseif not join.double then
-						join.double = true
-					elseif (IsValid(k)) then
-						net.Start("versus.JoinGame")
-						net.WriteEntity(k)
-						net.SendToServer()
-					end
-				end
-			else
-				winner = vgui.Create("AvatarImage",a)
-				winner:DockMargin(0,3,20,3)
-				winner:SetSize(46,40)
-				winner:Dock(RIGHT)
-				winner:SetPlayer(k,64)
-				versus_players[k][5] = winner
-				local sh, sid = true, k:SteamID()
-				timer.Create("versus_winner:" .. sid,0.25,0,function()
-					if (not (IsValid(winner) and IsValid(k) and IsValid(v[1]) and versus_players[k])) or (versus_players[k][4]) then
-						timer.Remove("versus_winner:" .. sid)
-						return
-					end
-
-					winner:SetPlayer(sh and v[1] or k, 64)
-					sh = not sh
-				end)
-			end
-
-
-
-			function a:Paint(w,h)
-				if not versus_players[k] then a:Remove() return end
-				if not IsValid(v[1]) then
-					op:SetSteamID("BOT",64)
-					draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_VersusTitle", 240, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-				else
-					if not v[3] then v[3] = CurTime() + versus_wait end
-					local t = v[3] - CurTime()
-					local a = t/versus_wait
-					--print(a)
-					draw.RoundedBox(0,0,0,w*a,h,Color(175,175,175))
-					draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_VersusTitle", 145,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
-					local c = Color(255,255,255)
-					if versus_players[k][4] then
-						c = HSVToColor((SysTime()*100)%360,0.65,0.9)
-						if (IsValid(winner) and not winner.setwinner and IsValid(versus_players[k][4])) then
-							winner:SetPlayer(versus_players[k][4],64)
-							winner.setwinner = true
-						end
-					end
-					draw.SimpleText("WINNER:", "moat_VersusWinner", 325, h - (h/3), c,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
-				end
-				draw.SimpleText("VS", "moat_GambleTitle", 68, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-				surface.SetDrawColor(200, 200, 200, 255)
-				if (k == LocalPlayer() or v[1] == LocalPlayer()) then
-					surface.SetDrawColor(0,255,0,255)
-				end
-				surface.DrawOutlinedRect(0,0,w,h)
-			end
-
-
-			--end--
-		end
 
 		for k,v in pairs(gversus_players) do
+			
 			if k == LocalPlayer():SteamID64() then inGame = true end
 			if v[1] == LocalPlayer():SteamID64() then inGame = true end
 			--for i = 1,5 do--
@@ -3930,7 +3889,7 @@ function m_DrawVersusPanel()
 			a:SetSize(0,50)
 			a:DockMargin(0,0,0,5)
 			a:Dock(TOP)
-			
+
 			local av = vgui.Create("AvatarImage",a)
 			av:DockMargin(2,3,40,3)
 			av:SetSize(46,40)
@@ -3965,7 +3924,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				if v[1] then open_profile_card(v[1]) end
 			end
---a
+	--a
 			local s = true
 			local winner
 			if not (v[1]) then
@@ -4019,31 +3978,40 @@ function m_DrawVersusPanel()
 						net.SendToServer()
 					end
 				end
-			else
-				winner = vgui.Create("AvatarImage",a)
-				winner:DockMargin(0,3,20,3)
-				winner:SetSize(46,40)
-				winner:Dock(RIGHT)
-				--winner:SetSteamID(k,64)
-				gversus_players[k][5] = winner
-				local sh, sid = true, k
-				timer.Create("versus_winner:" .. sid,0.25,0,function()
-					if (not (IsValid(winner) and gversus_players[k] and gversus_players[k][1])) then
-						timer.Remove("versus_winner:" .. sid)
-						return
-					end
+			else --midgame
+				surface.SetFont("moat_VersusTitle")
+				local w = surface.GetTextSize(string.Comma(round(v[2])) .." IC")
+				w = w + 10 + 145
+				if not IsValid(v.roll) then
+					v.roll = m_versusroll(k,v[1],v[10])
+				end
+				v.roll:SetParent(a)
+				v.roll:SetPos(w,1)
+				v.roll:SetWide(493 - w)
+				-- winner = vgui.Create("AvatarImage",a)
+				-- winner:DockMargin(0,3,20,3)
+				-- winner:SetSize(46,40)
+				-- winner:Dock(RIGHT)
+				-- --winner:SetSteamID(k,64)
+				-- gversus_players[k][5] = winner
+				-- local sh, sid = true, k
+				-- timer.Create("versus_winner:" .. sid,0.25,0,function()
+				-- 	if (not (IsValid(winner) and gversus_players[k] and gversus_players[k][1])) then
+				-- 		timer.Remove("versus_winner:" .. sid)
+				-- 		return
+				-- 	end
 
-					if (gversus_players[k][4]) then
-						winner:SetSteamID(gversus_players[k][4], 64)
-						winner.setwinner = true
-						timer.Remove("versus_winner:" .. sid)
-						return
-					end
+				-- 	if (gversus_players[k][4]) then
+				-- 		winner:SetSteamID(gversus_players[k][4], 64)
+				-- 		winner.setwinner = true
+				-- 		timer.Remove("versus_winner:" .. sid)
+				-- 		return
+				-- 	end
 
-					winner:SetSteamID(sh and v[1] or k, 64)
-					PlayVersusSound(sh and 1 or 2)
-					sh = not sh
-				end)
+				-- 	winner:SetSteamID(sh and v[1] or k, 64)
+				-- 	PlayVersusSound(sh and 1 or 2)
+				-- 	sh = not sh
+				-- end)
 			end
 
 
@@ -4051,24 +4019,27 @@ function m_DrawVersusPanel()
 			function a:Paint(w,h)
 				if not gversus_players[k] then a:Remove() return end
 				if not (v[1]) then
-					op:SetSteamID("BOT",64)
-					draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_VersusTitle", 240, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-				else
-					if not v[3] then v[3] = CurTime() + versus_wait end
-					local t = v[3] - CurTime()
-					local a = t/versus_wait
-					--print(a)
-					draw.RoundedBox(0,0,0,w*a,h,Color(175,175,175))
-					draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_VersusTitle", 145,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
-					local c = Color(255,255,255)
-					if gversus_players[k][4] then
-						c = HSVToColor((SysTime()*100)%360,0.65,0.9)
-						if (IsValid(winner) and not winner.setwinner) then
-							winner:SetSteamID(gversus_players[k][4], 64)
-							winner.setwinner = true
-						end
+					if IsValid(op) then
+						op:SetSteamID("BOT",64)
 					end
-					draw.SimpleText("WINNER:", "moat_VersusWinner", 325, h - (h/3), c,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+					draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_VersusTitle", 240, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+					draw.SimpleText("VS", "moat_GambleTitle", 68, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+				else
+					-- if not v[3] then v[3] = CurTime() + versus_wait end
+					-- local t = v[3] - CurTime()
+					-- local a = t/versus_wait
+					-- --print(a)
+					-- draw.RoundedBox(0,0,0,w*a,h,Color(175,175,175))
+					draw.SimpleText(string.Comma(round(v[2])) .." IC", "moat_VersusTitle", 145 ,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+					-- local c = Color(255,255,255)
+					-- if gversus_players[k][4] then
+					-- 	c = HSVToColor((SysTime()*100)%360,0.65,0.9)
+					-- 	if (IsValid(winner) and not winner.setwinner) then
+					-- 		winner:SetSteamID(gversus_players[k][4], 64)
+					-- 		winner.setwinner = true
+					-- 	end
+					-- end
+					-- draw.SimpleText("WINNER:", "moat_VersusWinner", 325, h - (h/3), c,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 				end
 				draw.SimpleText("VS", "moat_GambleTitle", 68, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 				surface.SetDrawColor(200, 200, 200, 255)

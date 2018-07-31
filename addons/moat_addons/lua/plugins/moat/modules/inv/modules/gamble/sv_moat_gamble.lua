@@ -737,7 +737,7 @@ util.AddNetworkString("versus.CancelGame")
 
 local versus_players = {}--s
 
-local versus_wait = 5
+local versus_wait = 10
 --a
 function versus_opponent(ply)
     for k,v in pairs(versus_players) do
@@ -947,7 +947,7 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player canceled that game!")
                 net.Start("gversus.Cancel")
                 net.WriteString(sid)
-                net.SendToServer()
+                net.Broadcast()
                 return 
             end
             d = d[1]
@@ -983,6 +983,7 @@ function jackpot_()
             net.Start("gversus.JoinGame")
             net.WriteString(sid)
             net.WriteString(ply:SteamID64())
+            net.WriteString(winner)
             net.Broadcast()
             local am = d.money * 2
             if am > 50 then am = math.floor(am * 0.99) end
@@ -1166,6 +1167,7 @@ function jackpot_()
                     net.Start("gversus.JoinGame")
                     net.WriteString(v.steamid)
                     net.WriteString(v.other)
+                    net.WriteString(v.winner)
                     net.Broadcast()
                     versus_suspense[v.winner] = CurTime() + versus_wait
                     timer.Simple(versus_wait,function()
