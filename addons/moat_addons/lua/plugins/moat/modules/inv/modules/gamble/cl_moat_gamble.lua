@@ -3586,7 +3586,7 @@ function m_versusroll(owner,other,winner)
     end
 	Roll.middle = 0
     Roll.PaintOver = function(s, w, h)
-		
+		if not Roll.middle then Roll.middle = 0 end
         draw.RoundedBox(0, Roll.middle - 1, 0, 2, h, Color(255, 128, 0))
     end
 
@@ -3753,6 +3753,7 @@ net.Receive("gversus.JoinGame",function()
 
 	hook.Add("Think","BackGroundRollVersus." .. ply,function()
 		if not gversus_players[ply] then hook.Remove("Think","BackGroundRollVersus." .. ply) return end
+		if not gversus_players[ply].roll_contents_x then gversus_players[ply].roll_contents_x = -4900 end
 		if (math.abs(gversus_players[ply].roll_contents_x - gversus_players[ply].rollto) > 1500) then
 			gversus_players[ply].roll_contents_x = math.Approach(gversus_players[ply].roll_contents_x, gversus_players[ply].rollto, 1500 * FrameTime())
 		else
