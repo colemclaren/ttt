@@ -3900,7 +3900,7 @@ function m_DrawVersusPanel()
 
 	local game_actual = vgui.Create("DScrollPanel",game_panel)
 	game_actual:SetSize(495,385)
-	game_actual:GetVBar():SetWide(3)
+	game_actual:GetVBar():SetWide(4)
 	function versus_buildlist()
 		inGame = false 
 		if not IsValid(game_panel) then return end
@@ -4082,7 +4082,7 @@ function m_DrawVersusPanel()
 		end
 
 		for k,v in pairs(table.Reverse(versus_oldgames)) do
-			if k > 10 then return end
+			if k > 20 then return end
 			if (not (v[1] and v[2] and v[3] and v[4] and v[5])) then continue end
 
 			local a = vgui.Create("DPanel",game_actual)

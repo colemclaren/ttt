@@ -1030,7 +1030,27 @@ function jackpot_()
         if (ply.VersT[sid]) then return end
         ply.VersT[sid] = true
         versus_joins[sid] = true
-        versus_joingame(ply,sid)
+        versus_getgame(sid,function(d)
+            if not IsValid(ply) then return end
+            ply.VersT[sid] = false
+            versus_joins[sid] = false
+            if #d < 1 then 
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player canceled that game!")
+                net.Start("gversus.Cancel")
+                net.WriteString(sid)
+                net.Broadcast()
+                return 
+            end
+            d = d[1]
+            if d.winner then 
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined that game!")
+                net.Start("gversus.FullGame")
+                net.WriteString(sid)
+                net.Broadcast()
+                return
+            end
+            versus_joingame(ply,sid)
+        end)
     end)
 
     net.Receive("gversus.CreateGame",function(l,ply)
@@ -1040,20 +1060,23 @@ function jackpot_()
         local amount = math.floor(net.ReadFloat())
         if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
 		local id = ply:SteamID64()
-        versus_creategame(id, amount, function()
-            if (not IsValid(ply)) then
-				local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
-            	q:start()
-				return
-			end
+        versus_getgame(id,function(d)
+            if #d > 0 then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You already have a game up!") return end
+            versus_creategame(id, amount, function()
+                if (not IsValid(ply)) then
+                    local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
+                    q:start()
+                    return
+                end
 
-			removeIC(ply, amount)
-            versus_curgames[id] = {}
-            versus_curgames[id][1] = amount
-            net.Start("gversus.CreateGame")
-            net.WriteString(id)
-            net.WriteFloat(amount)
-            net.Broadcast()
+                removeIC(ply, amount)
+                versus_curgames[id] = {}
+                versus_curgames[id][1] = amount
+                net.Start("gversus.CreateGame")
+                net.WriteString(id)
+                net.WriteFloat(amount)
+                net.Broadcast()
+            end)
         end)
     end)
 
