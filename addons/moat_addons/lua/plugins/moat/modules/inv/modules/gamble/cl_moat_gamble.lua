@@ -3778,6 +3778,7 @@ net.Receive("gversus.JoinGame",function()
 	hook.Add("Think","BackGroundRollVersus." .. ply,function()
 		if not gversus_players[ply] then hook.Remove("Think","BackGroundRollVersus." .. ply) return end
 		if not gversus_players[ply].roll_contents_x then gversus_players[ply].roll_contents_x = -4900 end
+		if not gversus_players[ply].rollto then gversus_players[ply].rollto = 0 end
 		if (math.abs(gversus_players[ply].roll_contents_x - gversus_players[ply].rollto) > 1500) then
 			gversus_players[ply].roll_contents_x = math.Approach(gversus_players[ply].roll_contents_x, gversus_players[ply].rollto, 1500 * FrameTime())
 		else
