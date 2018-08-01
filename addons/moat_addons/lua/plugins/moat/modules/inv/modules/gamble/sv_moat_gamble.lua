@@ -1015,8 +1015,12 @@ function jackpot_()
         end)
     end
     versus_joins = {}
-
+    local versus_block = false
+    hook.Add("MapVoteStarted","Disable Versus",function()
+        versus_block = true
+    end)
     net.Receive("gversus.JoinGame",function(l,ply)
+        if versus_block then return end
 		if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
         local sid = net.ReadString()
         if (versus_joins[sid]) then return end
