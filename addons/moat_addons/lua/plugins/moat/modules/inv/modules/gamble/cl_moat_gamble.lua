@@ -4164,12 +4164,7 @@ function m_DrawVersusPanel()
 		surface.DrawOutlinedRect(0,0,w,h)
 		draw.SimpleText("MAKE GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 	end
-	function make_game.DoClick()
-		if (MOAT_GAMBLE.VersusAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.VersusAmount < 1)) or (versus_players[LocalPlayer()]) or (inGame) then return end
-		net.Start("gversus.CreateGame")
-		net.WriteFloat(MOAT_GAMBLE.VersusAmount)
-		net.SendToServer()
-	end
+	
 	local MOAT_DICE_BET = vgui.Create("DTextEntry", MOAT_GAMBLE_VS)
 	MOAT_DICE_BET:SetPos(160, 5)
 	MOAT_DICE_BET:SetSize(180, 30)
@@ -4185,6 +4180,19 @@ function m_DrawVersusPanel()
     MOAT_DICE_BET:SetValue("1")
     MOAT_DICE_BET:SetText("1")
     MOAT_DICE_BET.MaxChars = 12
+
+	function make_game.DoClick()
+		local num = MOAT_DICE_BET:GetText()
+		if (MOAT_DICE_BET:GetText() == "") then MOAT_DICE_BET:SetText("0") num = 0 end
+		num = tonumber(num) or 0
+		num = math.max(math.Round(num, 2), 1)
+		MOAT_GAMBLE.VersusAmount = num
+		if (MOAT_GAMBLE.VersusAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.VersusAmount < 1)) or (versus_players[LocalPlayer()]) or (inGame) then return end
+		net.Start("gversus.CreateGame")
+		net.WriteFloat(MOAT_GAMBLE.VersusAmount)
+		net.SendToServer()
+	end
+	
     MOAT_DICE_BET.Think = function(s)
     	if (not s:IsEditing() and MOAT_GAMBLE.VersusAmount ~= tonumber(s:GetText())) then
     		s:SetText(MOAT_GAMBLE.VersusAmount)
