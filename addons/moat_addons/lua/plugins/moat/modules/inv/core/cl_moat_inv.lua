@@ -6605,6 +6605,9 @@ net.Receive("MOAT_INIT_USABLE", function()
     if (itemtbl.item.ItemCheck) then
         m_IniateUsableItem(num, itemtbl)
     else
+        if (itemtbl.item.ID == 10 or itemtbl.item.ID == 13) and (GetRoundState() ~= 2 or #player.GetAll() < 8) then 
+            Derma_Message("This must be used while the round is preparing, and there must be 8 players on.", "Unusable at the moment", "Ok")
+        return end
         net.Start("MOAT_USE_USABLE")
         net.WriteDouble(num)
         net.WriteDouble(itemtbl.c)
