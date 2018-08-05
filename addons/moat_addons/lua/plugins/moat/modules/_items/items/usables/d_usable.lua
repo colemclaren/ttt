@@ -1,11 +1,12 @@
 ITEM.ID = 13
 ITEM.Name = "Detective Token"
-ITEM.Description = "Use this item during the preparation phase with atleast 8 players online to be guaranteed to be a Detective next round. (Unless you're a traitor)"
+ITEM.Description = "Use this item during the preparation phase with atleast 8 players online to be guaranteed to be a Detective next round. (Unless you're a Traitor, which will make you a Detective the round after your T one)"
 ITEM.Rarity = 8
 ITEM.Active = false
 
 ITEM.Price = 75000
-ITEM.ShopDesc = "Become a Detective on the next round!"
+ITEM.ShopDesc = "Become a Detective on the next round!\n(Purchasing will give you a Detective Token usable)"
+ITEM.LimitedShop = 1533793101
 
 ITEM.Collection = "Limited Collection"
 ITEM.Image = "https://i.moat.gg/18-08-04-38B.png"
