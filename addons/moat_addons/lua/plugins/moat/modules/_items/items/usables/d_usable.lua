@@ -5,7 +5,7 @@ ITEM.Rarity = 8
 ITEM.Active = false
 
 ITEM.Price = 100000
-ITEM.ShopDesc = "Become a Detective on the next round!\n(Purchasing will give you a Detective Token usable)"
+ITEM.ShopDesc = "Become a Detective on the next round!\n(Purchasing will give you a one-time Detective Token usable)"
 ITEM.LimitedShop = 1533707286
 
 ITEM.Collection = "Limited Collection"
