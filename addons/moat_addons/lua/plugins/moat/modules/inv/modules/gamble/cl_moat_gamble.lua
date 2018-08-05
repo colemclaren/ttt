@@ -4000,9 +4000,17 @@ function m_DrawVersusPanel()
 					elseif not join.double then
 						join.double = true
 					else
-						net.Start("gversus.JoinGame")
-						net.WriteString(k)
-						net.SendToServer()
+						if v[2] > (MOAT_INVENTORY_CREDITS * 0.25) then
+							Derma_Query("Are you sure you want to gamble more than 25% of your IC?\nNever gamble anything you can't afford to lose.", "Are you sure?", "Yes", function() 
+								net.Start("gversus.JoinGame")
+								net.WriteString(k)
+								net.SendToServer()
+							end, "No")
+						else
+							net.Start("gversus.JoinGame")
+							net.WriteString(k)
+							net.SendToServer()
+						end
 					end
 				end
 			else --midgame
@@ -4188,9 +4196,17 @@ function m_DrawVersusPanel()
 		num = math.max(math.Round(num, 2), 1)
 		MOAT_GAMBLE.VersusAmount = num
 		if (MOAT_GAMBLE.VersusAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.VersusAmount < 1)) or (versus_players[LocalPlayer()]) or (inGame) then return end
-		net.Start("gversus.CreateGame")
-		net.WriteFloat(MOAT_GAMBLE.VersusAmount)
-		net.SendToServer()
+		if MOAT_GAMBLE.VersusAmount > (MOAT_INVENTORY_CREDITS * 0.25) then
+			Derma_Query("Are you sure you want to gamble more than 25% of your IC?\nNever gamble anything you can't afford to lose.", "Are you sure?", "Yes", function() 
+				net.Start("gversus.CreateGame")
+				net.WriteFloat(MOAT_GAMBLE.VersusAmount)
+				net.SendToServer()
+			end, "No")
+		else
+			net.Start("gversus.CreateGame")
+			net.WriteFloat(MOAT_GAMBLE.VersusAmount)
+			net.SendToServer()
+		end
 	end
 	
     MOAT_DICE_BET.Think = function(s)
