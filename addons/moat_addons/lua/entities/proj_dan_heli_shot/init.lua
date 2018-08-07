@@ -11,7 +11,7 @@ function ENT:Initialize()
 		self.CanExplode = true;
 	end
 
-	math.randomseed(CurTime())
+	--math.randomseed(CurTime())
 
 	self.firesound = CreateSound(self,"weapons/rpg/rocket1.wav")
 
