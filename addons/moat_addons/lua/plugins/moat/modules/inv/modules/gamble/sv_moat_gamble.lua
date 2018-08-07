@@ -1002,6 +1002,7 @@ function jackpot_()
                     net.Broadcast()
                     local am = d.money * 2
                     if am > 100 then am = math.floor(am * 0.985) end
+                    if not versus_curgames[sid] then versus_curgames[sid] = {} end
                     versus_curgames[sid].rolled = true
                     timer.Simple(versus_wait,function()
                         versus_knowngames[sid] = false
