@@ -50,6 +50,7 @@ net.Receive("weapon.UpdateTalents",function()
 		timer.Create(s,0.1,0,function()
 			if not IsValid(wep) then timer.Destroy(s) return end
 			if wep.ItemStats then
+				if not wep.ItemStats.Talents then return end
 				talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier)
 				wep.ItemStats.Talents[tier] = talent
 				wep.ItemStats.t[tier] = t_
