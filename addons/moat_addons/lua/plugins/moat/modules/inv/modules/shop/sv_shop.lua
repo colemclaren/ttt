@@ -118,7 +118,11 @@ net.Receive("MOAT_BUY_ITEM", function(len, ply)
     ply:m_TakeIC(crate_tbl.Price * crate_amt)
     for i = 1, crate_amt do
         if (not ply:IsValid()) then return end
-        ply:m_DropInventoryItem(crate_tbl.Name, "hide_chat_obtained", false, crate_amt > 1)
+        if limiteds[crate_id] then
+            ply:m_DropInventoryItem(crate_tbl.Name, "", false, crate_amt > 1)
+        else
+            ply:m_DropInventoryItem(crate_tbl.Name, "hide_chat_obtained", false, crate_amt > 1)
+        end
         if (i == crate_amt and crate_amt > 1) then 
             ply:SendLua([[chat.AddText( Material( "icon16/exclamation.png" ), Color( 0, 255, 0 ), "Successfully purchased ]] .. crate_amt .. [[ ]] .. crate_tbl.Name .. [['s from the shop!")]])
             m_SaveInventory(ply)

@@ -34,5 +34,5 @@ ITEM.MaxTalents = 2
 ITEM.Talents = { "Wildcard: Tier 1", "Wildcard: Tier 2", "Wildcard: Tier 3" }
 
 ITEM.Price = 49999
-ITEM.LimitedShop = 10
+ITEM.LimitedShop = 1535181956
 ITEM.ShopDesc = "Get random talents every round!\n(Purchasing will give you a random Wildcard tier weapon)"
