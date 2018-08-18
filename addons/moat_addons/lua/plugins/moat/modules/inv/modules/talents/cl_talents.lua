@@ -26,6 +26,7 @@ net.Receive("Ass_talent",function()
 end)
 
 local function talent_chat(wep,old,new,v,tier)
+	if wep:GetOwner() ~= LocalPlayer() then return end
 	local talent_desc = new.Description
 	local talent_desctbl = string.Explode("^", talent_desc)
 	for i = 1, table.Count(v.m) do
