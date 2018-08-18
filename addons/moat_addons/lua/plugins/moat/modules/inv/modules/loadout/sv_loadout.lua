@@ -216,7 +216,7 @@ function MOAT_LOADOUT.ApplyOtherModifications(tbl, loadout_tbl)
     end
 end
 
-local loadout_weapon_indexes = {}
+loadout_weapon_indexes = {}
 local loadout_other_indexes = {}
 local loadout_cosmetic_indexes = {}
 MOAT_MODEL_EDIT_POS = MOAT_MODEL_EDIT_POS or {}
@@ -663,7 +663,7 @@ local function NetworkRegularWeapon(wep)
     local tbl = loadout_weapon_indexes[wep:EntIndex()]
     if (tbl.net) then return end
     if (GetRoundState() == ROUND_ACTIVE) then tbl.net = true end
-    
+
     net.Start("MOAT_UPDATE_WEP")
     net.WriteUInt(wep:EntIndex(), 16)
     net.WriteDouble(tbl.stats[1])

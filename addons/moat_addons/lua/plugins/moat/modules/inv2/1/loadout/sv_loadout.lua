@@ -187,7 +187,7 @@ function MOAT_LOADOUT.ApplyOtherModifications(tbl, loadout_tbl)
     end
 end
 
-local loadout_weapon_indexes = {}
+loadout_weapon_indexes = {}
 local loadout_other_indexes = {}
 local loadout_cosmetic_indexes = {}
 MOAT_MODEL_EDIT_POS = MOAT_MODEL_EDIT_POS or {}

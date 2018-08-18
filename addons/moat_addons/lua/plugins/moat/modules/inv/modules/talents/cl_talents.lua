@@ -24,3 +24,40 @@ end)
 net.Receive("Ass_talent",function()
 	chat.AddText(Material("icon16/arrow_refresh.png"),"The body of ",net.ReadString()," is now gone!")
 end)
+
+local function talent_chat(wep,old,new,v,tier)
+	local talent_desc = new.Description
+	local talent_desctbl = string.Explode("^", talent_desc)
+	for i = 1, table.Count(v.m) do
+		local mod_num = math.Round(new.Modifications[i].min + ((new.Modifications[i].max - new.Modifications[i].min) * v.m[i]), 1)
+
+		talent_desctbl[i] = string.format(talent_desctbl[i], tostring(mod_num))
+	end
+	talent_desc = string.Implode("", talent_desctbl)
+    talent_desc = string.Replace(talent_desc, "_", "%")
+	chat.AddText(Material("icon16/arrow_refresh.png"),"Your ", Color(100,100,255), "Wildcard: Tier " .. tostring(tier),Color(255,255,255)," turned into ",Color(255,0,0),new.Name,Color(255,255,255),": ",Color(0,255,0),talent_desc,Color(255,255,255),"!")
+end
+
+net.Receive("weapon.UpdateTalents",function()
+	local wep = net.ReadEntity()
+	local tier = net.ReadInt(8)											
+	local talent = net.ReadTable()
+	local t_ = net.ReadTable()
+	
+	if not wep.ItemStats then
+		local s = "TalentUpdate" .. wep:EntIndex() .. tier
+		timer.Create(s,0.1,0,function()
+			if not IsValid(wep) then timer.Destroy(s) return end
+			if wep.ItemStats then
+				talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier)
+				wep.ItemStats.Talents[tier] = talent
+				wep.ItemStats.t[tier] = t_
+				timer.Destroy(s)
+			end
+		end)
+	else
+		talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier)
+		wep.ItemStats.Talents[tier] = talent
+		wep.ItemStats.t[tier] = t_
+	end
+end) 
