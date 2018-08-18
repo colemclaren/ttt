@@ -9,31 +9,13 @@ TALENT.Modifications = {}
 TALENT.Melee = false
 TALENT.NotUnique = false
 
--- if (item_to_drop.MinTalents and item_to_drop.MaxTalents and item_to_drop.Talents) then
---     dropped_item.s.l = 1
---     dropped_item.s.x = 0
---     dropped_item.t = {}
---     local talents_chosen = {}
---     local talents_to_loop = dev_talent_tbl or item_to_drop.Talents
-
---     for k, v in ipairs(talents_to_loop) do
---         talents_chosen[k] = m_GetRandomTalent(k, v, false)
---     end
-
---     for i = 1, table.Count(talents_chosen) do
---         local talent_tbl = talents_chosen[i]
---         dropped_item.t[i] = {}
---         dropped_item.t[i].e = talent_tbl.ID
---         dropped_item.t[i].l = math.random(talent_tbl.LevelRequired.min, talent_tbl.LevelRequired.max)
---         dropped_item.t[i].m = {}
-
---         for k, v in ipairs(talent_tbl.Modifications) do
---             dropped_item.t[i].m[k] = math.Round(math.Rand(0, 1), 2)
---         end
---     end
--- end
-
 util.AddNetworkString("weapon.UpdateTalents")
+
+wildcard_prep_cache = {}
+
+hook.Add("TTTBeginRound","ClearWildcard",function()
+    wildcard_prep_cache = {}
+end)
 
 local tier = 1
 local id = TALENT.ID
@@ -51,8 +33,8 @@ function wildcard_t1(weapon,talent_mods)
         end 
     end
 
-    local talent = table.Random(talents)
-   
+    local talent, tk = table.Random(talents)
+
     local t = {
         e = talent.ID,
         l = weapon.Talents[tier].l,
@@ -61,6 +43,25 @@ function wildcard_t1(weapon,talent_mods)
 
     for k,v in pairs(talent.Modifications) do
         t.m[k] = math.Round(math.Rand(0, 1), 2)
+    end
+
+    local wep = weapon.Weapon
+    if GetRoundState() == ROUND_PREP then 
+        if wildcard_prep_cache[wep:GetOwner()] then
+            if wildcard_prep_cache[wep:GetOwner()][tier] then
+                if wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] then
+                    talent = talents[wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][1]]
+                    t = wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][2]
+                end
+            end
+        end
+        if not wildcard_prep_cache[wep:GetOwner()] then
+            wildcard_prep_cache[wep:GetOwner()] = {}
+        end
+        if not wildcard_prep_cache[wep:GetOwner()][tier] then
+            wildcard_prep_cache[wep:GetOwner()][tier] = {}
+        end
+        wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] = {tk,t}
     end
 
     weapon.Weapon.Talents[tier] = t

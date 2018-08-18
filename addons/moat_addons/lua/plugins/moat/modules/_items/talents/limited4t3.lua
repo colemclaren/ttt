@@ -51,7 +51,7 @@ function wildcard_t3(weapon,talent_mods)
         end 
     end
 
-    local talent = table.Random(talents)
+    local talent,tk = table.Random(talents)
    
     local t = {
         e = talent.ID,
@@ -61,6 +61,25 @@ function wildcard_t3(weapon,talent_mods)
 
     for k,v in pairs(talent.Modifications) do
         t.m[k] = math.Round(math.Rand(0, 1), 2)
+    end
+
+    local wep = weapon.Weapon
+    if GetRoundState() == ROUND_PREP then 
+        if wildcard_prep_cache[wep:GetOwner()] then
+            if wildcard_prep_cache[wep:GetOwner()][tier] then
+                if wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] then
+                    talent = talents[wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][1]]
+                    t = wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][2]
+                end
+            end
+        end
+        if not wildcard_prep_cache[wep:GetOwner()] then
+            wildcard_prep_cache[wep:GetOwner()] = {}
+        end
+        if not wildcard_prep_cache[wep:GetOwner()][tier] then
+            wildcard_prep_cache[wep:GetOwner()][tier] = {}
+        end
+        wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] = {tk,t}
     end
 
     weapon.Weapon.Talents[tier] = t
