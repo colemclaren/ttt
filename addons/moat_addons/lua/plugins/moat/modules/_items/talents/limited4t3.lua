@@ -80,6 +80,15 @@ function wildcard_t3(weapon,talent_mods)
             wildcard_prep_cache[wep:GetOwner()][tier] = {}
         end
         wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] = {tk,t}
+    else
+        if wildcard_prep_cache[wep:GetOwner()] then
+            if wildcard_prep_cache[wep:GetOwner()][tier] then
+                if wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] then
+                    talent = talents[wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][1]]
+                    t = wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][2]
+                end
+            end
+        end
     end
 
     weapon.Weapon.Talents[tier] = t

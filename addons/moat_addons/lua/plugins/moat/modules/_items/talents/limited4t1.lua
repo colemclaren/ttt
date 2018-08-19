@@ -14,7 +14,7 @@ util.AddNetworkString("weapon.UpdateTalents")
 wildcard_prep_cache = {}
 
 hook.Add("TTTBeginRound","ClearWildcard",function()
-    timer.Simple(15,function()
+    timer.Simple(5,function()
         wildcard_prep_cache = {}
     end)
 end)
@@ -64,7 +64,17 @@ function wildcard_t1(weapon,talent_mods)
             wildcard_prep_cache[wep:GetOwner()][tier] = {}
         end
         wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] = {tk,t}
+    else
+        if wildcard_prep_cache[wep:GetOwner()] then
+            if wildcard_prep_cache[wep:GetOwner()][tier] then
+                if wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] then
+                    talent = talents[wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][1]]
+                    t = wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][2]
+                end
+            end
+        end
     end
+
 
     weapon.Weapon.Talents[tier] = t
     weapon.Weapon.ItemStats.t[tier] = t
