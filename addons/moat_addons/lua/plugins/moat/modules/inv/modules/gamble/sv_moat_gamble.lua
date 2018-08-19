@@ -1046,11 +1046,19 @@ function jackpot_()
     end)
     net.Receive("gversus.JoinGame",function(l,ply)
         if versus_block then return end
-		if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
+	if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
         local sid = net.ReadString()
         if (versus_joins[sid]) then return end
         if not sid:match("765") then return end
         if sid == ply:SteamID64() then return end
+
+	if (ply.VersCool and ply.VersCool > CurTime()) then
+		m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
+		return
+	end
+        	
+	ply.VersCool = CurTime() + 5
+
         if (not ply.VersT) then ply.VersT = {} end
         if (ply.VersT[sid]) then return end
         ply.VersT[sid] = true
@@ -1059,14 +1067,28 @@ function jackpot_()
     end)
 
     net.Receive("gversus.CreateGame",function(l,ply)
-		if (gamble_net_spam(ply, "gversus.CreateGame")) then return end
-        if (ply.VersCool or 0) > CurTime() then return end
-        ply.VersCool = CurTime() + 2.5
+	if (gamble_net_spam(ply, "gversus.CreateGame")) then return end						
         local amount = math.floor(net.ReadFloat())
-        if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
-		local id = ply:SteamID64()
+
+        if amount < 1 or not ply:m_HasIC(amount) then
+		m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
+		return
+	end
+	
+	local id = ply:SteamID64()
         versus_getgame(id,function(d)
-            if #d > 0 then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You already have a game up!") return end
+		if #d > 0 then
+			m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You already have a game up!")
+			return
+		end
+
+		if (ply.VersCool and ply.VersCool > CurTime()) then
+			m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
+			return
+		end
+        	
+		ply.VersCool = CurTime() + 5
+											
             versus_creategame(id, amount, function()
                 if (not IsValid(ply)) then
                     local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
