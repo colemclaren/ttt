@@ -14,7 +14,7 @@ util.AddNetworkString("weapon.UpdateTalents")
 wildcard_prep_cache = {}
 
 hook.Add("TTTBeginRound","ClearWildcard",function()
-    timer.Simple(5,function()
+    timer.Simple(15,function()
         wildcard_prep_cache = {}
     end)
 end)
