@@ -929,10 +929,15 @@ function jackpot_()
     end
 
     net.Receive("gversus.CancelGame",function(l,ply)
-		if (gamble_net_spam(ply, "gversus.CancelGame")) then return end
-        if (ply.VersCool or 0) > CurTime() then return end
+	if (gamble_net_spam(ply, "gversus.CancelGame")) then return end
         if versus_queue[ply] then return end
-        ply.VersCool = CurTime() + 2.5
+        if (ply.VersCool and ply.VersCool > CurTime()) then
+		m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
+		return
+	end
+        	
+	ply.VersCool = CurTime() + 10
+
         versus_joins[ply:SteamID64()] = true
         versus_queue[ply] = true
         versus_cancel(ply)
@@ -1057,7 +1062,7 @@ function jackpot_()
 		return
 	end
         	
-	ply.VersCool = CurTime() + 5
+	ply.VersCool = CurTime() + 10
 
         if (not ply.VersT) then ply.VersT = {} end
         if (ply.VersT[sid]) then return end
@@ -1087,7 +1092,7 @@ function jackpot_()
 			return
 		end
         	
-		ply.VersCool = CurTime() + 5
+		ply.VersCool = CurTime() + 10
 											
             versus_creategame(id, amount, function()
                 if (not IsValid(ply)) then
