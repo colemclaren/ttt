@@ -1001,6 +1001,7 @@ function jackpot_()
                     if not ply:m_HasIC(amount) then
                         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join versus with not enough money"
                         moat.discord.send("staff", msg, "Exploit")
+                        RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:j)")
                         return
                     end
                     removeIC(ply,d.money)
@@ -1110,6 +1111,7 @@ function jackpot_()
                     q:start()
                     local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to create versus with not enough money"
                     moat.discord.send("staff", msg, "Exploit")
+                    RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:c)")
                     return
                 end
 
