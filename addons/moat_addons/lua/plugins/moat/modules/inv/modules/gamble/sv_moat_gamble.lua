@@ -998,7 +998,7 @@ function jackpot_()
                         net.Broadcast()
                         return
                     end
-                    if not ply:m_HasIC(amount) then
+                    if not ply:m_HasIC(d.money) then
                         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join versus with not enough money"
                         moat.discord.send("staff", msg, "Exploit")
                         RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:j)")
