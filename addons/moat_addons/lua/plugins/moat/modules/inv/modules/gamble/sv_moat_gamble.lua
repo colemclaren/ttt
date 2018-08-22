@@ -998,6 +998,11 @@ function jackpot_()
                         net.Broadcast()
                         return
                     end
+                    if not ply:m_HasIC(amount) then
+                        local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join versus with not enough money"
+                        moat.discord.send("staff", msg, "Exploit")
+                        return
+                    end
                     removeIC(ply,d.money)
                     versus_knowngames[sid] = true
                     net.Start("gversus.JoinGame")
@@ -1072,32 +1077,39 @@ function jackpot_()
     end)
 
     net.Receive("gversus.CreateGame",function(l,ply)
-	if (gamble_net_spam(ply, "gversus.CreateGame")) then return end						
-        local amount = math.floor(net.ReadFloat())
+        if (gamble_net_spam(ply, "gversus.CreateGame")) then return end						
+            local amount = math.floor(net.ReadFloat())
 
-        if amount < 1 or not ply:m_HasIC(amount) then
-		m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
-		return
-	end
-	
-	local id = ply:SteamID64()
+            if amount < 1 or not ply:m_HasIC(amount) then
+            m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
+            return
+        end
+        
+        local id = ply:SteamID64()
+
         versus_getgame(id,function(d)
-		if #d > 0 then
-			m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You already have a game up!")
-			return
-		end
+            if #d > 0 then
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You already have a game up!")
+                return
+            end
 
-		if (ply.VersCool and ply.VersCool > CurTime()) then
-			m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
-			return
-		end
-        	
-		ply.VersCool = CurTime() + 10
-											
+            if (ply.VersCool and ply.VersCool > CurTime()) then
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
+                return
+            end
+                
+            ply.VersCool = CurTime() + 10
             versus_creategame(id, amount, function()
                 if (not IsValid(ply)) then
                     local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
                     q:start()
+                    return
+                end
+                if not ply:m_HasIC(amount) then
+                    local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
+                    q:start()
+                    local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to create versus with not enough money"
+                    moat.discord.send("staff", msg, "Exploit")
                     return
                 end
 
