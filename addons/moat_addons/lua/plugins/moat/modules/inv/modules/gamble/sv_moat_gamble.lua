@@ -1031,12 +1031,38 @@ function jackpot_()
 
                         db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');"):start()
                     end)
+                    local plyz_name = "?"
+                    if IsValid(player.GetBySteamID64(plyz)) then
+                        plyz_name = player.GetBySteamID64(plyz):Nick()
+                    else
+                        http.Fetch("https://steamcommunity.com/profiles/" .. plyz .. "/?xml=1",function(d)
+                            if d:match("%<steamID%>%<%!%[CDATA%[(.*)%]%]%>%<%/steamID%>") then
+                                plyz_name = d:match("%<steamID%>%<%!%[CDATA%[(.*)%]%]%>%<%/steamID%>")
+                            end
+                        end)
+                    end
 
+                    local sid_name = "?"
+                    if IsValid(player.GetBySteamID64(sid)) then
+                        sid_name = player.GetBySteamID64(sid):Nick()
+                    else
+                        http.Fetch("https://steamcommunity.com/profiles/" .. sid .. "/?xml=1",function(d)
+                            if d:match("%<steamID%>%<%!%[CDATA%[(.*)%]%]%>%<%/steamID%>") then
+                                sid_name = d:match("%<steamID%>%<%!%[CDATA%[(.*)%]%]%>%<%/steamID%>")
+                            end
+                        end)
+                    end
                     timer.Simple(versus_wait - 2,function()
                         if am < 100 then return end
                         local other = plyz
-                        if other == winner then other = sid end
-                        local msg = util.SteamIDFrom64(winner) .. " won " .. am .. " IC from " .. util.SteamIDFrom64(other)
+                        local other_nick = plyz_name
+                        local win_nick = sid_name
+                        if other == winner then 
+                            other = sid 
+                            other_nick = sid_name
+                            win_nick = plyz_name
+                        end
+                        local msg = "[Versus] (" .. win_nick .. ") " .. util.SteamIDFrom64(winner) .. " won " .. am .. " IC from " .. util.SteamIDFrom64(other) .. " (" .. other_nick .. ")"
                         moat.discord.send("staff", msg, "gamble")
                     end)
                 end)
