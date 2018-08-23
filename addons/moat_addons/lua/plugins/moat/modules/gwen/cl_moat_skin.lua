@@ -2501,13 +2501,25 @@ derma.DefineControl( "DVScrollBar", "A Scrollbar", PANEL, "Panel" )
 	end
 end
 
-local e = Material("error")
-local function pd()
-	local c = fetch_asset("https://moat.gg/assets/img/moat_derma.png")
-	if (not c or c == e) then timer.Simple(1, pd) return end
-	
-	look_how_long_this_function_is("Default", c)
-	look_how_long_this_function_is("moat", c)
+file.CreateDir "moat_assets"
+function check_derma_skin()
+	if (file.Exists("moat_assets/vgui.png", "DATA")) then
+		timer.Remove "moat.load.derma"
+
+		local m = Material "data/moat_assets/vgui.png"
+		look_how_long_this_function_is("Default", m)
+		look_how_long_this_function_is("moat", m)
+
+		return
+	end
+
+	http.Fetch("https://cdn.moat.gg/f/zgnBb5.png", function(b)
+		file.Write("moat_assets/vgui.png", b)
+	end)
 end
 
-hook.Add("InitPostEntity", "moat.load.derma", pd)
+hook.Add("InitPostEntity", "moat.load.derma", function()
+	check_derma_skin()
+
+	timer.Create("moat.load.derma", 3, 0, check_derma_skin)
+end)
