@@ -105,12 +105,10 @@ function ENT:Think()
 	end
 end
 
-if (CLIENT) then
-	net.Receive("SendPumpkinEffect", function()
-		local pos = net.ReadVector()
-		local effect = EffectData()
-		effect:SetOrigin(pos)
-		effect:SetMagnitude(1)
-		util.Effect("eff_pumpkin_grab", effect)
-	end)
-end
+net.Receive("SendPumpkinEffect", function()
+	local pos = net.ReadVector()
+	local effect = EffectData()
+	effect:SetOrigin(pos)
+	effect:SetMagnitude(1)
+	util.Effect("eff_pumpkin_grab", effect)
+end)
