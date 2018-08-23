@@ -9,7 +9,8 @@ net.Receive("MOAT_VERIFY_CRATE", function(len, ply)
     local crate_id = 0
     local found_item = false
     local slot_found = 0
-
+    if (ply.CrateWait or 0) > CurTime() then return end
+    ply.CrateWait = CurTime() + 1
     for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
         if (MOAT_INVS[ply]["slot" .. i] and MOAT_INVS[ply]["slot" .. i].c) then
             if (tonumber(MOAT_INVS[ply]["slot" .. i].c) == item_class) then
@@ -54,6 +55,8 @@ net.Receive("MOAT_VERIFY_CRATE", function(len, ply)
 end)
 
 net.Receive("MOAT_INIT_CRATE", function(len, ply)
+    if (ply.CrateWaits or 0) > CurTime() then return end
+    ply.CrateWaits = CurTime() + 1
     local crate_id = MOAT_CRATES[ply]
     local crate_collection = m_GetItemFromEnum(crate_id).Collection
 
@@ -77,6 +80,8 @@ net.Receive("MOAT_INIT_CRATE", function(len, ply)
 end)
 
 net.Receive("MOAT_CRATE_OPEN", function(len, ply)
+    if (ply.CrateWaitz or 0) > CurTime() then return end
+    ply.CrateWaitz = CurTime() + 1
 	local slot = net.ReadDouble()
     local class = net.ReadDouble()
     local crate = net.ReadDouble()
@@ -104,6 +109,8 @@ net.Receive("MOAT_CRATE_OPEN", function(len, ply)
 end)
 
 net.Receive("MOAT_CRATE_DONE", function(len, ply)
+    if (ply.CrateWaitf or 0) > CurTime() then return end
+    ply.CrateWaitf = CurTime() + 1
     local itemtbl = {}
 
     if (MOAT_CRATESAVE[ply]) then

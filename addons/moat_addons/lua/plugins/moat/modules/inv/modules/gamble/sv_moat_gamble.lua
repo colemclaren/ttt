@@ -999,7 +999,7 @@ function jackpot_()
                         return
                     end
                     if not ply:m_HasIC(d.money) then
-                        local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join versus with not enough money"
+                        local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join versus with not enough money (" .. d.money .. "). Exploit"
                         moat.discord.send("staff", msg, "Exploit")
                         RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:j)")
                         return
@@ -1449,6 +1449,12 @@ function jackpot_()
                     }
                 })
                 net.Broadcast()
+                if not ply:m_HasIC(am) then
+                    local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join jackpot with not enough money (" .. am .. "). Exploit"
+                    moat.discord.send("staff", msg, "Exploit")
+                    RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (j:j)")
+                    return
+                end
                 jp.joingame(ply,am) 
                 removeIC(ply,am) 
                 return 
@@ -1466,6 +1472,12 @@ function jackpot_()
                     if v.steamid == ply:SteamID64() then
                         pendingply[ply] = nil
                     end
+                end
+                if not ply:m_HasIC(am) then
+                    local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join jackpot with not enough money (" .. am .. "). Exploit"
+                    moat.discord.send("staff", msg, "Exploit")
+                    RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (j:j)")
+                    return
                 end
                 jp.joingame(ply,am)
                 removeIC(ply,am)
