@@ -38,7 +38,7 @@ function net.Receive( name, _func )
             limit.starttick = engine.TickCount()
             limit.notified = false
         -- calculate if this person is hogging the cpu with this request
-        elseif (limit.calls > 10 and (engine.TickCount() - limit.starttick + 1) * engine.TickInterval() / (now - limit.starttime) < 1.2) then
+        elseif (limit.calls > 10 and (engine.TickCount() - limit.starttick + 1) * engine.TickInterval() / (now - limit.starttime) < 0.75) then
             if (not limit.notified) then
                 print(string.format("%s <%s> triggered net limiter for %s", p:Nick(), p:IPAddress(), name))
                 limit.notified = true
@@ -52,7 +52,7 @@ function net.Receive( name, _func )
 
         if (not s) then
             limit.errors = limit.errors + 1
-            hook.Run("LuaError", e[1], e[2], e[3], e[4], e[5], e[6])
+            hook.Run("ClientLuaError", e[1], e[2], e[3], e[4], e[5], e[6])
         end
 
 ::endpoint::
