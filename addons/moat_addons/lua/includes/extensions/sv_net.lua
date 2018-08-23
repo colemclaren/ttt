@@ -3,6 +3,12 @@ NET_LIMITS = NET_LIMITS or {}
 local LIMITS = NET_LIMITS
 local time = SysTime
 
+if (not engine.TickCount) then
+    function engine.TickCount()
+        return CurTime() / engine.TickInterval()
+    end
+end
+
 net.ReceiveNoLimit = net.ReceiveNoLimit or net.Receive
 function net.Receive( name, _func )
     LIMITS[name] = {}
