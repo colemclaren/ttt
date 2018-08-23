@@ -4,10 +4,6 @@ MOAT_CRATESAVE = {}
 MOAT_CRATEROLLED = {}
 
 net.Receive("MOAT_VERIFY_CRATE", function(len, ply)
-    if (ply.CrateWait or 0) > CurTime() then return end
-    ply.CrateWait = CurTime() + 1
-
-
     local item_class = net.ReadDouble()
     local fast_open = net.ReadBool()
     local crate_id = 0
@@ -57,9 +53,6 @@ net.Receive("MOAT_VERIFY_CRATE", function(len, ply)
 end)
 
 net.Receive("MOAT_INIT_CRATE", function(len, ply)
-    if (ply.CrateWaits or 0) > CurTime() then return end
-    ply.CrateWaits = CurTime() + 1
-
     local crate_id = MOAT_CRATES[ply]
 
     if (not crate_id) then
@@ -89,9 +82,6 @@ net.Receive("MOAT_INIT_CRATE", function(len, ply)
 end)
 
 net.Receive("MOAT_CRATE_OPEN", function(len, ply)
-    if (ply.CrateWaitz or 0) > CurTime() then return end
-    ply.CrateWaitz = CurTime() + 1
-
     local slot = net.ReadDouble()
     local class = net.ReadDouble()
     local crate = net.ReadDouble()
@@ -119,8 +109,6 @@ net.Receive("MOAT_CRATE_OPEN", function(len, ply)
 end)
 
 net.Receive("MOAT_CRATE_DONE", function(len, ply)
-    if (ply.CrateWaitf or 0) > CurTime() then return end
-    ply.CrateWaitf = CurTime() + 1
     local itemtbl = {}
 
     if (MOAT_CRATESAVE[ply]) then

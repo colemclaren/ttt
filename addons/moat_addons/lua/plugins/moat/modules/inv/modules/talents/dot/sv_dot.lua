@@ -46,7 +46,7 @@ function pl:IncreaseDOTTimer(dmgtype, dmg, att, delay, reps, onhit, onstart, one
 
     net.Start("moat.dot.adjust")
     net.WriteString(id)
-    net.WriteUInt(newreps * deay, 16)
+    net.WriteUInt(newreps * delay, 16)
     net.Send(self)
 
     timer.Adjust(id, delay, newreps, function()
