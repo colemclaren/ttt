@@ -587,7 +587,14 @@ end
 net.Receive("MOAT_SEND_TRADE_REQ", function(len, ply)
     local otherply = net.ReadDouble()
 
-    if (ply.trade_spam and ply.trade_spam > CurTime()) then return end
+    local _otherply = Entity(otherply)
+    if (not IsValid(_otherply) or _otherply:IsActive()) then
+        return
+    end
+
+    if (ply.trade_spam and ply.trade_spam > CurTime()) then
+        return
+    end
 
     m_SendTradeReq(ply, otherply)
     ply.trade_spam = CurTime() + 1
