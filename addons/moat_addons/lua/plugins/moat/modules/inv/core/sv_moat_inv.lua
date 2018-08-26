@@ -597,7 +597,7 @@ net.Receive("MOAT_SEND_TRADE_REQ", function(len, ply)
     end
 
     m_SendTradeReq(ply, otherply)
-    ply.trade_spam = CurTime() + 1
+    ply.trade_spam = CurTime() + 10
 end)
 
 local trade_key_stored = 1
