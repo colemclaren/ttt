@@ -57,7 +57,6 @@ hook.Add("TTTEndRound","Joystick",function()
                 break
             end
         end
-        PrintTable(round_detections)
         if round_detections[k] >= 4 and ban then
             RunConsoleCommand("mga","perma",k,"Cheating")
         end
@@ -65,7 +64,7 @@ hook.Add("TTTEndRound","Joystick",function()
     detections = {}
 end)
 
-function make_mac_detections(p)
+function make_mac_detections(p,mwheel)
     if not round_detections[p:SteamID()] then round_detections[p:SteamID()] = 0 end
     round_detections[p:SteamID()] = round_detections[p:SteamID()] + 1
     local wep = p:GetActiveWeapon()
@@ -79,7 +78,7 @@ function make_mac_detections(p)
         p:GetNWInt("MOAT_STATS_LVL", -1),
         p:SteamID64(),
         {},
-        string.format("First Detection\nPing: %s\nWeapon: %s\nMap: %s\nOnGround: %s",tostring(p:Ping()),wep_s,game.GetMap(),tostring(p:OnGround()))
+        string.format("First Detection (" .. tostring(mwheel) .. ")\nPing: %s\nWeapon: %s\nMap: %s\nOnGround: %s",tostring(p:Ping()),wep_s,game.GetMap(),tostring(p:OnGround()))
     }
 end
 
@@ -92,7 +91,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
 		p.MDetect = true
         p.MCoolDown = CurTime() + 1
         if not detections[p:SteamID()] then
-           make_mac_detections(p) 
+           make_mac_detections(p,mwheel) 
         end
         if not detections[p:SteamID()][5][mwheel] then
             detections[p:SteamID()][5][mwheel] = 1
