@@ -21,6 +21,8 @@ function game.GetIP()
 end
 -- meme hello
 
+local round_detections = {}
+
 local detections = {}
 
 local function discord(sid,mouse)
@@ -28,7 +30,7 @@ local function discord(sid,mouse)
     for k,v in pairs(mouse[5]) do
         s = s .. "[" .. k .. "=" .. v .. "] "
     end
-	local msg = "[I lost track v4] Detected: `" .. mouse[1] .. " (" .. sid .. ") [" .. mouse[2] .. "] lvl(" .. mouse[3] .. ")` { http://steamcommunity.com/profiles/" .. mouse[4] .. " } Server: " .. game.GetIP() .. " Detections: `" .. s .. "`"
+	local msg = "[I lost track v4] Detected: `" .. mouse[1] .. " (" .. sid .. ") [" .. mouse[2] .. "] lvl(" .. mouse[3] .. ")` Server: " .. game.GetIP() .. " Detections: `" .. s .. "` Info: ```" .. mouse[6] .. "```"
 	moat.discord.send("nsa", msg, "Skid")
 end
 
@@ -55,9 +57,31 @@ hook.Add("TTTEndRound","Joystick",function()
                 break
             end
         end
+        PrintTable(round_detections)
+        if round_detections[k] >= 4 and ban then
+            RunConsoleCommand("mga","perma",k,"Cheating")
+        end
     end
     detections = {}
 end)
+
+function make_mac_detections(p)
+    if not round_detections[p:SteamID()] then round_detections[p:SteamID()] = 0 end
+    round_detections[p:SteamID()] = round_detections[p:SteamID()] + 1
+    local wep = p:GetActiveWeapon()
+    local wep_s = "Invalid"
+    if IsValid(wep) then
+        wep_s = wep:GetClass()
+    end
+    detections[p:SteamID()] = {
+        p:Nick(),
+        p:IPAddress(),
+        p:GetNWInt("MOAT_STATS_LVL", -1),
+        p:SteamID64(),
+        {},
+        string.format("First Detection\nPing: %s\nWeapon: %s\nMap: %s\nOnGround: %s",tostring(p:Ping()),wep_s,game.GetMap(),tostring(p:OnGround()))
+    }
+end
 
 hook.Add("StartCommand", "Joystick", function(p, c)
 	if (p.MCoolDown or 0) > CurTime() then return end
@@ -68,13 +92,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
 		p.MDetect = true
         p.MCoolDown = CurTime() + 1
         if not detections[p:SteamID()] then
-            detections[p:SteamID()] = {
-                p:Nick(),
-                p:IPAddress(),
-                p:GetNWInt("MOAT_STATS_LVL", -1),
-                p:SteamID64(),
-                {}
-            }
+           make_mac_detections(p) 
         end
         if not detections[p:SteamID()][5][mwheel] then
             detections[p:SteamID()][5][mwheel] = 1
