@@ -936,7 +936,7 @@ function jackpot_()
 		return
 	end
         	
-	ply.VersCool = CurTime() + 10
+	ply.VersCool = CurTime() + 2
 
         versus_joins[ply:SteamID64()] = true
         versus_queue[ply] = true
@@ -1094,7 +1094,7 @@ function jackpot_()
 		return
 	end
         	
-	ply.VersCool = CurTime() + 10
+	ply.VersCool = CurTime() + 2
 
         if (not ply.VersT) then ply.VersT = {} end
         if (ply.VersT[sid]) then return end
@@ -1125,7 +1125,7 @@ function jackpot_()
                 return
             end
                 
-            ply.VersCool = CurTime() + 10
+            ply.VersCool = CurTime() + 2
             versus_creategame(id, amount, function()
                 if (not IsValid(ply)) then
                     local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
