@@ -31,13 +31,13 @@ if (SERVER) then
     end
 
     function BroadcastLua(lua)
-        net.Start "umsg.SendLua"
+        net.Start "D3A.LuaRunCL"
         net.WriteString(lua)
         net.Broadcast()
     end
 
     debug.getregistry().Player.SendLua = function(s, lua)
-        net.Start "umsg.SendLua"
+        net.Start "D3A.LuaRunCL"
         net.WriteString(lua)
         net.Send(s)
     end
