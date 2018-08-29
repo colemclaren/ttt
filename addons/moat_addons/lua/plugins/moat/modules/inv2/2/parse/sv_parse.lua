@@ -1,7 +1,7 @@
-local SQL = MOAT_INV.SQL
-hook.Add("InventoryPrepare", "MOAT_INV.Prepare", function(sql)
+local SQL = mi.SQL
+hook.Add("InventoryPrepare", "mi.Prepare", function(sql)
     print"\n\n\n\n\n\n\n\n\n\n\n\n\n"
-    SQL = MOAT_INV.SQL
+    SQL = mi.SQL
 end)
 --[[-----------------------------------
 Parsing SQL > Table
@@ -158,7 +158,7 @@ local function new_weapon(init)
 end
 
 local blank = new_weapon {}
-function MOAT_INV:Blank()
+function mi:Blank()
     return blank
 end
 
@@ -170,18 +170,18 @@ function buildable:CreateTalents(data)
     self.t = new_talents(data)
 end
 
-function MOAT_INV:Buildable()
+function mi:Buildable()
     return new_weapon(table.Copy(buildable))
 end
 
 local function UpdateStat(self, statid, val)
-    local query = MOAT_INV:CreateQuery("REPLACE INTO mg_itemstats (value, statid, weaponid) VALUES (?, ?, ?);", val, statid, self.c)
-    MOAT_INV:SQLQuery(query, function()
+    local query = mi:CreateQuery("REPLACE INTO mg_itemstats (value, statid, weaponid) VALUES (?, ?, ?);", val, statid, self.c)
+    mi:SQLQuery(query, function()
         print("saved stat for ", self)
     end)
 end
 
-function MOAT_INV:ParseInventoryQuery(d, q)
+function mi:ParseInventoryQuery(d, q)
     local inv = {["cache"] = {}}
 
     for i = 1, #d do
@@ -214,7 +214,7 @@ function MOAT_INV:ParseInventoryQuery(d, q)
     return inv
 end
 
-function MOAT_INV:ParseItemStatsQuery(d, inv)
+function mi:ParseItemStatsQuery(d, inv)
     for i = 1, #d do
         local r = d[i]
         local wep = inv[r["id"]]
@@ -225,7 +225,7 @@ function MOAT_INV:ParseItemStatsQuery(d, inv)
     end
 end
 
-function MOAT_INV:ParseItemTalentsQuery(d, inv)
+function mi:ParseItemTalentsQuery(d, inv)
     for i = 1, #d do
         local r = d[i]
         local wep = inv[r["id"]]
@@ -252,14 +252,14 @@ function MOAT_INV:ParseItemTalentsQuery(d, inv)
     end
 end
 
-function MOAT_INV:ParseItemPaintsQuery(d, inv)
+function mi:ParseItemPaintsQuery(d, inv)
     for i = 1, #d do
         local r = d[i]
         inv[r["id"]]["p" .. r["type"]] = r["paintid"]
     end
 end
 
-function MOAT_INV:ParseItemNamesQuery(d, inv)
+function mi:ParseItemNamesQuery(d, inv)
     for i = 1, #d do
         local r = d[i]
         inv[r["id"]]["n"] = r["nickname"]
@@ -271,7 +271,7 @@ end
 Parsing Item > SQL
 ------------------------------------]]--
 
-function MOAT_INV:QueryFromItem(i, o)
+function mi:QueryFromItem(i, o)
     if (i.s and next(i.s.real_data) ~= nil) then -- weapon
         if (i.t and next(i.t.real_data) ~= nil) then
             return self:InsertWeaponTalents(i, o)
@@ -287,16 +287,16 @@ function MOAT_INV:QueryFromItem(i, o)
     end
 end
 
-function MOAT_INV:InsertItem(tbl, ownerid)
+function mi:InsertItem(tbl, ownerid)
     return SQL:CreateQuery("call insertItem(?, ?!, ?);", tbl.u, ownerid, tbl.slot)
 end
 
 
-function MOAT_INV:InsertWeapon(tbl, ownerid)
+function mi:InsertWeapon(tbl, ownerid)
     return SQL:CreateQuery("call insertWeapon(?, ?!, ?, ?);", tbl.u, ownerid, tbl.slot, tbl.w)
 end
 
-function MOAT_INV:InsertWeaponStats(tbl, ownerid)
+function mi:InsertWeaponStats(tbl, ownerid)
     local data = {
         stat_count = 0,
         slot = tbl.slot,
@@ -316,7 +316,7 @@ function MOAT_INV:InsertWeaponStats(tbl, ownerid)
     return SQL:CreateQuery("call insertWeapon?stat_countStats(?, ?!, ?slot, ?class_name"..string.rep(", ?, ?", data.stat_count)..");", data)
 end
 
-function MOAT_INV:InsertWeaponTalents(tbl, ownerid)
+function mi:InsertWeaponTalents(tbl, ownerid)
     local data = {
         stat_count = 0,
         talent_count = 0,
@@ -343,23 +343,23 @@ function MOAT_INV:InsertWeaponTalents(tbl, ownerid)
     return SQL:CreateQuery("call insertWeapon?stat_countStats?talent_countTalents(?, ?!, ?slot, ?class_name"..string.rep(", ?", data.stat_count * 2 + data.talent_count * 4)..");", data)
 end
 
-function MOAT_INV:LastInsertID()
+function mi:LastInsertID()
     return SQL:Function("LAST_INSERT_ID")
 end
 
-function MOAT_INV:Raw(s)
+function mi:Raw(s)
     return SQL:Raw(s)
 end
 
-function MOAT_INV:QueryForName(n, u)
+function mi:QueryForName(n, u)
     return SQL:CreateQuery("call insertItemName(?, ?);", u, n)
 end
 
-function MOAT_INV:CreateQuery(...)
+function mi:CreateQuery(...)
     return SQL:CreateQuery(...)
 end
 
-function MOAT_INV:QueryForPaint(i, u)
+function mi:QueryForPaint(i, u)
     local query = {}
     if (i["p"]) then
         table.insert(query, SQL:CreateQuery("call insertItemPaint(?, ?, ?);", u, 1, i.p))
@@ -376,24 +376,24 @@ function MOAT_INV:QueryForPaint(i, u)
     return table.concat(query, "")
 end
 
-function MOAT_INV:GetOldInvQuery(inv, id)
-    local LAST_INSERT_ID = MOAT_INV:LastInsertID()
+function mi:GetOldInvQuery(inv, id)
+    local LAST_INSERT_ID = mi:LastInsertID()
     local qstr = ""
     for k, v in pairs(inv) do
         if (not v.u) then continue end
         v["slot"] = k:StartWith("l") and -tonumber(k:TrimLeft("l_slot")) or tonumber(k:TrimLeft("slot"))
         if (v["tr"] and v["s"]) then v["s"]["tr"] = nil v["s"]["j"] = "1" end
 
-        local str = MOAT_INV:QueryFromItem(v, id)
-        local var = MOAT_INV:Raw "@cid"
-        str = str .. MOAT_INV:CreateQuery("set ? = ?;", var, LAST_INSERT_ID)
+        local str = mi:QueryFromItem(v, id)
+        local var = mi:Raw "@cid"
+        str = str .. mi:CreateQuery("set ? = ?;", var, LAST_INSERT_ID)
 
         if (v.n) then
-            str = str .. MOAT_INV:QueryForName(v.n, var)
+            str = str .. mi:QueryForName(v.n, var)
         end
 
         if (v.p or v.p2 or v.p3) then
-            str = str .. MOAT_INV:QueryForPaint(v, var)
+            str = str .. mi:QueryForPaint(v, var)
         end
 
         qstr = qstr .. str

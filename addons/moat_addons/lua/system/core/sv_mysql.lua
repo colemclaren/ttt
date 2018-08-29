@@ -1,14 +1,14 @@
 require "mysqloo"
-if (not moat.cfg or not moat.cfg.sql) then return end
+if (not moat.c or not moat.c.sql) then return end
 
 moat.sql = moat.sql or {}
 if (not moat.sql.db) then
 	moat.sql.db = mysqloo.connect(
-		moat.cfg.sql.host,
-		moat.cfg.sql.username,
-		moat.cfg.sql.password,
-		moat.cfg.sql.database,
-		moat.cfg.sql.port
+		moat.c.sql.host,
+		moat.c.sql.username,
+		moat.c.sql.password,
+		moat.c.sql.database,
+		moat.c.sql.port
 	)
 end
 
@@ -33,7 +33,7 @@ timer.Create("moat.sql.no.disconnecto", 180, 0, function()
 		:start()
 end)
 
-moat.sql.mysql = include "system/libs/meepen/sql/_mysqloo.lua" (moat.sql.db)
+moat.sql.mysql = moat.libs.sql "mysqloo.lua" (moat.sql.db)
 function moat.sql:LastInsertID()
     return "LAST_INSERT_ID()"
 end

@@ -1,6 +1,6 @@
-util.AddNetworkString "MOAT_INV.Swap"
+util.AddNetworkString "mi.Swap"
 local m_SlotToLoadout = {}
-hook.Add("Initialize", "MOAT_INV.Swap", function()
+hook.Add("Initialize", "mi.Swap", function()
     m_SlotToLoadout[WEAPON_MELEE] = 3
     m_SlotToLoadout[WEAPON_PISTOL] = 2
     m_SlotToLoadout[WEAPON_HEAVY] = 1
@@ -26,7 +26,7 @@ local function m_GetLoadoutSlot(ITEM_TBL)
     return m_SlotToLoadout[weapons.Get(ITEM_TBL.w).Kind]
 end
 
-net.Receive("MOAT_INV.Swap", function(len, pl)
+net.Receive("mi.Swap", function(len, pl)
     local new_wep = net.ReadUInt(32)
     local inv = MOAT_INVS[pl]
     local index, w
@@ -55,12 +55,12 @@ net.Receive("MOAT_INV.Swap", function(len, pl)
 
     slotid = -slotid
 
-    local query = MOAT_INV:CreateQuery("UPDATE mg_items SET slotid = NULL WHERE slotid = ? AND ownerid = ?;", slotid, pl)
+    local query = mi:CreateQuery("UPDATE mg_items SET slotid = NULL WHERE slotid = ? AND ownerid = ?;", slotid, pl)
     if (new_wep ~= 0) then
-        query = query .. MOAT_INV:CreateQuery("UPDATE mg_items SET slotid = ? WHERE ownerid = ? AND id = ?;", slotid, pl, new_wep)
+        query = query .. mi:CreateQuery("UPDATE mg_items SET slotid = ? WHERE ownerid = ? AND id = ?;", slotid, pl, new_wep)
     end
 
-    MOAT_INV:SQLQuery(query, function(data)
+    mi:SQLQuery(query, function(data)
         -- empty the loadout slot
         if (not w) then
             local slot_found
@@ -75,7 +75,7 @@ net.Receive("MOAT_INV.Swap", function(len, pl)
                 self:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", slot_found)
             end
 
-            inv["l_slot"..-slotid] = MOAT_INV:Blank()
+            inv["l_slot"..-slotid] = mi:Blank()
             inv["slot"..slot_found] = w
             return
         end

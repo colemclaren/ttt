@@ -52,7 +52,7 @@ local MOAT_GAMBLE_CATS = {
 }
 
 local function DiscordGamble(msg)
-	moat.discord.send("logs", msg, "gamble")
+	discord.Send("Gamble Win", msg)
 end
 
 GG_DISABLE = CreateConVar("moat_disable_sv_gamble",0)
@@ -595,7 +595,7 @@ hook.Add("Think","Roulette think",function()
             if (v*m) > 100 then
                 local msg = k:Nick() .. " (" .. k:SteamID() .. ") won " .. round(v*m) .. " IC in roulette."
 
-				moat.discord.send("staff", msg, "gamble")
+				discord.Send("Gamble", msg)
             end
             if roulette_number < 1 then
                 DiscordGamble(k:Nick() .. " (" .. k:SteamID() .. ") won **" .. round(v*m) .. "** IC on Green in Roulette.")
@@ -689,7 +689,7 @@ net.Receive("crash.getout", function(l,ply)
     addIC(ply,a)
     if (a) > 100 then
         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(a) .. " IC in crash."
-		moat.discord.send("staff", msg, "gamble")
+		discord.Send("Gamble", msg)
 	end
     crash_players[ply] = nil
     net.Start("crash.player")
@@ -833,7 +833,7 @@ net.Receive("versus.JoinGame",function(l,ply)
             end
             if winamt > 100 then
                 local msg = winner:Nick() .. " (" .. winner:SteamID() .. ") won " .. round(winamt) .. " IC in versus from " .. other:Nick() .. " (" .. other:SteamID() .. ")"
-				moat.discord.send("staff", msg, "gamble")
+				discord.Send("Gamble", msg)
             end
         end
     end)
@@ -1000,7 +1000,7 @@ function jackpot_()
                     end
                     if not ply:m_HasIC(d.money) then
                         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join versus with not enough money (" .. d.money .. "). Exploit"
-                        moat.discord.send("staff", msg, "Exploit")
+                        discord.Send("Anti Cheat", msg)
                         RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:j)")
                         return
                     end
@@ -1063,7 +1063,7 @@ function jackpot_()
                             win_nick = plyz_name
                         end
                         local msg = "[Versus] (" .. win_nick .. ") " .. util.SteamIDFrom64(winner) .. " won " .. am .. " IC from " .. util.SteamIDFrom64(other) .. " (" .. other_nick .. ")"
-                        moat.discord.send("staff", msg, "gamble")
+                        discord.Send("Gamble", msg)
                     end)
                 end)
             end
@@ -1136,7 +1136,7 @@ function jackpot_()
                     local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
                     q:start()
                     local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to create versus with not enough money"
-                    moat.discord.send("staff", msg, "Exploit")
+                    discord.Send("Anti Cheat", msg)
                     RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:c)")
                     return
                 end
@@ -1451,7 +1451,7 @@ function jackpot_()
                 net.Broadcast()
                 if not ply:m_HasIC(am) then
                     local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join jackpot with not enough money (" .. am .. "). Exploit"
-                    moat.discord.send("staff", msg, "Exploit")
+                    discord.Send("Anti Cheat", msg)
                     RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (j:j)")
                     return
                 end
@@ -1475,7 +1475,7 @@ function jackpot_()
                 end
                 if not ply:m_HasIC(am) then
                     local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join jackpot with not enough money (" .. am .. "). Exploit"
-                    moat.discord.send("staff", msg, "Exploit")
+                    discord.Send("Anti Cheat", msg)
                     RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (j:j)")
                     return
                 end
@@ -1545,7 +1545,7 @@ function jackpot_()
                     local b = db:query("DELETE FROM moat_jpwinners WHERE steamid = '" .. v.steamid .. "';")
                     b:start()
                     local msg = "Rewarding " .. vp:Nick() .. " " .. vp:SteamID() .. " jackpot: " .. v.money .. " IC (" .. game.GetIP() .. ")"
-					moat.discord.send("nsa", msg, "gamble")
+					discord.Send("Gamble Log", msg)
                 end
             end
         end
@@ -1645,7 +1645,7 @@ function jackpot_()
                                         d = d[1]
                                         gglobalchat_jack(d.name,math.Round(jp_tt * 0.95),round((p[i].money/jp_tt) * 100 ))
                                         local msg = d.name .. " (" .. util.SteamIDFrom64(jp_w) .. ") won **" .. string.Comma(math.Round(jp_tt * 0.95)) .. "** IC (" .. round((p[i].money/jp_tt) * 100 ) .."%) in Jackpot."
-                                        moat.discord.send("logs", msg, "gamble")
+                                        discord.Send("Gamble Win", msg)
                                     end
                                     q:start()
                                     
@@ -1729,21 +1729,28 @@ local function chat_()
         local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('" .. ply:SteamID64() .. "','" .. os.time() .. "','" .. db:escape(ply:Nick()) .. "','" .. db:escape(msg) .. "');")
         q:start()
         local msg = "" .. ply:Nick() .. " (" .. ply:SteamID() .. ") said in global gamble: " .. msg
-		moat.discord.send("staff", msg, "Gamble Chat")
+		discord.Send("Gamble Chat", msg)
 		ply.gChat = CurTime() + 3
     end
 
     function gglobalchat_real(msg)
         local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-1337','" .. os.time() .. "','Console','" .. db:escape(msg) .. "');")
         q:start()
-        local s = "Global Announcement: **" .. msg .. "**"
+
         if msg == "[MapVote]" then
-            s = "Forced all servers to change maps."
+            msg = "Developers have instructed all servers to change maps! Sorry!"
         elseif msg == "[EndRound]" then
-            s = "Forced all servers to change maps at the end of their rounds."
+            msg = "Developers have instructed all servers to change maps at the end of their rounds!"
         end
 
-		moat.discord.send("general", s, "Moat TTT", true)
+		discord.Send("Moat TTT Announcement", markdown.WrapBold(
+				string (":satellite_orbital::satellite: ",
+					markdown.Bold "Global TTT Announcement",
+					" :satellite::satellite_orbital:",
+					markdown.LineStart(":construction_worker::loudspeaker: " .. msg)
+				)
+			)
+		)
     end
 
 
@@ -1974,7 +1981,7 @@ net.Receive("mines.CashOut",function(l,ply)
     if not MINES_GAMES[ply] then return end
     if (MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) > 100 then
         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) .. " IC in mines."
-    	moat.discord.send("staff", msg, "gamble")
+    	discord.Send("Gamble", msg)
     end
     if MINES_GAMES[ply][1]> 10000 then
         DiscordGamble(ply:Nick() .. " (" .. ply:SteamID() .. ") won **" .. string.Comma(round(MINES_GAMES[ply][1])) .. "** IC in Mines.")

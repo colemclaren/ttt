@@ -1005,11 +1005,11 @@ net.Receive("MOAT_DATA_INFO", function(len)
         tbl[ind] = net.ReadTable()
     end
 end)
-net.Receive("MOAT_INV.PURGE", function()
-    if (MOAT_INV.AllowSlotLoad) then
-        MOAT_INV.AllowSlotLoad()
+net.Receive("mi.PURGE", function()
+    if (mi.AllowSlotLoad) then
+        mi.AllowSlotLoad()
     else
-        MOAT_INV.AllowSlotLoad = true
+        mi.AllowSlotLoad = true
     end
 end)
 
@@ -1020,9 +1020,9 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
         local slot = i
         local wep = m_ReadWeaponFromNetCache()
 
-        MOAT_INV:GetOurSlots(function()
+        mi:GetOurSlots(function()
             if (wep.c) then
-                MOAT_INV:IsLocked(wep.c, function(locked)
+                mi:IsLocked(wep.c, function(locked)
                     wep.l = locked and 1 or nil
                 end)
             end
@@ -1054,7 +1054,7 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
                 end
 
                 if (wep.c) then
-                    MOAT_INV:GetSlotForID(wep.c, Internal)
+                    mi:GetSlotForID(wep.c, Internal)
                 else
                     Internal(slot)
                 end
@@ -4850,12 +4850,12 @@ function m_CreateItemMenu(num, ldt)
 
     M_INV_MENU:AddOption(lock_text, function()
         if (itemtbl.l and itemtbl.l == 1) then
-            MOAT_INV:RemoveLocked(itemtbl.c)
+            mi:RemoveLocked(itemtbl.c)
             itemtbl.l = nil
             return
         end
 
-        MOAT_INV:AddLocked(itemtbl.c)
+        mi:AddLocked(itemtbl.c)
         itemtbl.l = 1
     end):SetIcon("icon16/lock" .. lock_image .. ".png")
 
@@ -5288,7 +5288,7 @@ net.Receive("MOAT_REM_INV_ITEM", function(len)
         error("couldn't find id "..c)
     end
 
-    MOAT_INV:RemoveItemSlot(slot, function() end)
+    mi:RemoveItemSlot(slot, function() end)
 end)
 
 local function urlencode(str)
@@ -5355,7 +5355,7 @@ end
 net.Receive("MOAT_ADD_INV_ITEM", function(len)
     local tbl = m_ReadWeaponFromNetCache()
     local not_drop = net.ReadBool()
-    MOAT_INV:GetSlotForID(tbl.c, function(slot)
+    mi:GetSlotForID(tbl.c, function(slot)
         m_Inventory[slot] = tbl
         if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
             M_INV_SLOT[slot].VGUI.Item = m_Inventory[slot]
@@ -6591,7 +6591,7 @@ net.Receive("MOAT_INIT_USABLE", function()
     if (itemtbl.item.ItemCheck) then
         m_IniateUsableItem(num, itemtbl)
     else
-        if (itemtbl.item.ID == 10 or itemtbl.item.ID == 13) and (GetRoundState() ~= 2 or #player.GetAll() < 8) then 
+		if (itemtbl.item.ID == 10 or itemtbl.item.ID == 13) and (GetRoundState() ~= 2 or #player.GetAll() < 8) then 
             Derma_Message("This must be used while the round is preparing, and there must be 8 players on.", "Unusable at the moment", "Ok")
         return end
         net.Start("MOAT_USE_USABLE")

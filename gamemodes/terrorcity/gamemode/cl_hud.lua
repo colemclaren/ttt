@@ -321,6 +321,9 @@ local hud_convar = GetConVar("moat_DisableCustomHUD")
 -- Paints player status HUD element in the bottom left
 function GM:HUDPaint()
    local client = LocalPlayer()
+	if (hud_convar:GetInt() > 1) then
+		return
+	end
 
    if (draw.WebImage) then draw.WebImage("https://i.moat.gg/d6xf3.png", 10, 10, 256, 256, Color(255, 255, 255, 100)) end
 

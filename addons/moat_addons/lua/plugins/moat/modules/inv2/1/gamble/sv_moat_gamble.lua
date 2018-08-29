@@ -52,7 +52,7 @@ local MOAT_GAMBLE_CATS = {
 }
 
 local function DiscordGamble(msg)
-	moat.discord.send("logs", msg, "gamble")
+	discord.Send("Gamble Win", msg)
 end
 
 GG_DISABLE = CreateConVar("moat_disable_sv_gamble",0)
@@ -460,27 +460,27 @@ end -- used in crash too -- Versus too
 ]]
 
 local function addIC(ply,amount)
-    ply:m_GiveIC(round(amount))
+    ply:m_GiveIC(math.floor(amount))
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
     m_AddGambleChat(
 		Color(255,255,255), "[",
 		room[2], room[1][1],
 		Color(255,255,255), "]",
-		Color(0, 150, 0), "+" .. round(amount) .. " ", 
+		Color(0, 150, 0), "+" .. math.floor(amount) .. " ", 
 		Color(180, 180, 180), ply:Nick()
 	)
 end
 
 local function removeIC(ply,amount)
-    ply:m_TakeIC(round(amount))
+    ply:m_TakeIC(math.floor(amount))
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
     m_AddGambleChat(
 		Color(255,255,255), "[",
 		room[2], room[1][1],
 		Color(255,255,255), "]",
-		Color(150, 0, 0), "-" .. round(amount) .. " ", 
+		Color(150, 0, 0), "-" .. math.floor(amount) .. " ", 
 		Color(180, 180, 180), ply:Nick()
 	)
 end
@@ -595,7 +595,7 @@ hook.Add("Think","Roulette think",function()
             if (v*m) > 100 then
                 local msg = k:Nick() .. " (" .. k:SteamID() .. ") won " .. round(v*m) .. " IC in roulette."
 
-				moat.discord.send("staff", msg, "gamble")
+				discord.Send("Gamble", msg)
             end
             if roulette_number < 1 then
                 DiscordGamble(k:Nick() .. " (" .. k:SteamID() .. ") won **" .. round(v*m) .. "** IC on Green in Roulette.")
@@ -689,7 +689,7 @@ net.Receive("crash.getout", function(l,ply)
     addIC(ply,a)
     if (a) > 100 then
         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(a) .. " IC in crash."
-		moat.discord.send("staff", msg, "gamble")
+		discord.Send("Gamble", msg)
 	end
     crash_players[ply] = nil
     net.Start("crash.player")
@@ -737,7 +737,7 @@ util.AddNetworkString("versus.CancelGame")
 
 local versus_players = {}--s
 
-local versus_wait = 5
+local versus_wait = 10
 --a
 function versus_opponent(ply)
     for k,v in pairs(versus_players) do
@@ -833,7 +833,7 @@ net.Receive("versus.JoinGame",function(l,ply)
             end
             if winamt > 100 then
                 local msg = winner:Nick() .. " (" .. winner:SteamID() .. ") won " .. round(winamt) .. " IC in versus from " .. other:Nick() .. " (" .. other:SteamID() .. ")"
-				moat.discord.send("staff", msg, "gamble")
+				discord.Send("Gamble", msg)
             end
         end
     end)
@@ -947,7 +947,7 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player canceled that game!")
                 net.Start("gversus.Cancel")
                 net.WriteString(sid)
-                net.SendToServer()
+				net.Broadcast()
                 return 
             end
             d = d[1]
@@ -962,58 +962,90 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
                 return
             end
-            if tonumber(versus_curgames[sid]) ~= tonumber(d.money) then
+            if tonumber(versus_curgames[sid][1]) ~= tonumber(d.money) then
                 net.Start("gversus.CreateGame")
                 net.WriteString(sid)
                 net.WriteFloat(d.money)
                 net.Broadcast()
-                versus_curgames[sid] = d.money
+                versus_curgames[sid][1] = d.money
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That game changed amount!")
                 return
             end
-            removeIC(ply,d.money)
             local winner = ply:SteamID64()
             if math.random() > 0.5 then
                 winner = sid
             end	
             local plyz = ply:SteamID64()
-            local q = db:query("UPDATE moat_versus SET winner = '" .. db:escape(winner) .. "', other = '" .. plyz .. "', time = UNIX_TIMESTAMP() WHERE steamid = '" .. db:escape(sid) .. "';")
-            q:start()
-            versus_knowngames[sid] = CurTime() + versus_wait + 5
-            net.Start("gversus.JoinGame")
-            net.WriteString(sid)
-            net.WriteString(ply:SteamID64())
-            net.Broadcast()
-            local am = d.money * 2
-            if am > 50 then am = math.floor(am * 0.99) end
-            timer.Simple(versus_wait,function()
-                net.Start("gversus.FinishGame")
+            local qs = "UPDATE moat_versus SET winner = '" .. db:escape(winner) .. "', other = '" .. plyz .. "', time = UNIX_TIMESTAMP() WHERE steamid = '" .. db:escape(sid) .. "' AND winner IS NULL;"
+            local q = db:query(qs)
+            function q:onSuccess(qd)
+                versus_getgame(sid,function(d)
+                    if not IsValid(ply) then
+                        local q = db:query("UPDATE moat_versus SET winner = NULL, other = NULL, time = NULL WHERE steamid = '" .. db:escape(sid) .. "';")
+                        q:start()
+                        return
+                    end
+                    d = d[1]
+                    if d.other ~= plyz then 
+                        m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined that game!")
+                        net.Start("gversus.FullGame")
+                        net.WriteString(sid)
+                        net.Broadcast()
+                        return
+                    end
+                    removeIC(ply,d.money)
+                    versus_knowngames[sid] = true
+                    net.Start("gversus.JoinGame")
+                    net.WriteString(sid)
+                    net.WriteString(ply:SteamID64())
+                    net.WriteString(winner)
+                    net.Broadcast()
+                    local am = d.money * 2
+                    if am > 100 then am = math.floor(am * 0.985) end
+                    if not versus_curgames[sid] then versus_curgames[sid] = {} end
+                    versus_curgames[sid].rolled = true
+                    timer.Simple(versus_wait,function()
+                        versus_knowngames[sid] = false
+                        net.Start("gversus.FinishGame")
+                        net.WriteString(sid)
+                        net.WriteString(winner)
+                        net.Broadcast()
+                        versus_curgames[sid] = {rolled = true}
+
+                        local v = player.GetBySteamID64(winner)
+                        if (IsValid(v)) then
+                            addIC(v,am)
+                            return
+                        end
+
+                        db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');"):start()
+                    end)
+
+                    timer.Simple(versus_wait - 2,function()
+                        if am < 100 then return end
+                        local other = plyz
+                        if other == winner then other = sid end
+                        local msg = util.SteamIDFrom64(winner) .. " won " .. am .. " IC from " .. util.SteamIDFrom64(other)
+                        discord.Send("Gamble", msg)
+                    end)
+                end)
+            end
+            function q:onError(e)
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined that game!")
+                net.Start("gversus.FullGame")
                 net.WriteString(sid)
-                net.WriteString(winner)
                 net.Broadcast()
-                versus_curgames[sid] = nil
-
-				local v = player.GetBySteamID64(winner)
-				if (IsValid(v)) then
-					addIC(v,am)
-					return
-				end
-
-                db:query("INSERT INTO moat_vswinners (steamid, money) VALUES ('" .. db:escape(winner) .. "','" .. am .. "');"):start()
-            end)
-
-            timer.Simple(versus_wait - 2,function()
-                if am < 100 then return end
-                local other = plyz
-                if other == winner then other = sid end
-                local msg = util.SteamIDFrom64(winner) .. " won " .. am .. " IC from " .. util.SteamIDFrom64(other)
-                moat.discord.send("staff", msg, "gamble")
-            end)
+            end
+            q:start()
         end)
     end
     versus_joins = {}
-
+	local versus_block = false
+    hook.Add("MapVoteStarted","Disable Versus",function()
+        versus_block = true
+    end)
     net.Receive("gversus.JoinGame",function(l,ply)
+		if versus_block then return end
 		if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
         local sid = net.ReadString()
         if (versus_joins[sid]) then return end
@@ -1036,19 +1068,23 @@ function jackpot_()
         local amount = math.floor(net.ReadFloat())
         if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
 		local id = ply:SteamID64()
-        versus_creategame(id, amount, function()
-            if (not IsValid(ply)) then
-				local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
-            	q:start()
-				return
-			end
+        versus_getgame(id,function(d)
+            if #d > 0 then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You already have a game up!") return end
+            versus_creategame(id, amount, function()
+                if (not IsValid(ply)) then
+                    local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
+                    q:start()
+                    return
+                end
 
-			removeIC(ply, amount)
-            versus_curgames[id] = amount
-            net.Start("gversus.CreateGame")
-            net.WriteString(id)
-            net.WriteFloat(amount)
-            net.Broadcast()
+                removeIC(ply, amount)
+                versus_curgames[id] = {}
+                versus_curgames[id][1] = amount
+                net.Start("gversus.CreateGame")
+                net.WriteString(id)
+                net.WriteFloat(amount)
+                net.Broadcast()
+            end)
         end)
     end)
 
@@ -1062,7 +1098,7 @@ function jackpot_()
         if not ply.gvSyn then
             local t = {}
             for k,v in pairs(versus_curgames) do
-                t[k] = {nil,v}
+                t[k] = {nil,v[1]}
             end
             net.Start("gversus.Sync")
             net.WriteTable(t)
@@ -1136,60 +1172,73 @@ function jackpot_()
 		*/
     end)
 
-    timer.Create("Versus.Watchdog",10,0,function()
+    timer.Create("Versus.Watchdog",5,0,function()
         if GG_DISABLE:GetBool() then return false end
         if not GetHostName():lower():match("moat") then return end
         versus_getgames(function(d)
             local games = {}
+            -- PrintTable(d)
             for k,v in pairs(d) do
                 games[v.steamid] = v.money
                 if versus_curgames[v.steamid] then
-                    if (tonumber(versus_curgames[v.steamid]) ~= tonumber(v.money)) and (not v.winner) then
+                    if (tonumber(versus_curgames[v.steamid][1]) ~= tonumber(v.money)) and (not v.winner) then
                         net.Start("gversus.CreateGame")
                         net.WriteString(v.steamid)
                         net.WriteFloat(v.money)
                         net.Broadcast()
-                        versus_curgames[v.steamid] = v.money
+                        versus_curgames[v.steamid][1] = v.money
                     end
                 end
                 
-                if (not v.winner) and (not versus_curgames[v.steamid]) then
-                    versus_curgames[v.steamid] = v.money
+                if (not versus_curgames[v.steamid]) then
+                    versus_curgames[v.steamid] = {}
+                    versus_curgames[v.steamid][1] = v.money
                     net.Start("gversus.CreateGame")
                     net.WriteString(v.steamid)
                     net.WriteFloat(v.money)
                     net.Broadcast()
                 end
                 if not v.winner then continue end
-                if v.winner and ((versus_knowngames[v.steamid] or 0) < CurTime()) and ((v.curtime - v.time) < 15) then
-                    versus_knowngames[v.steamid] = CurTime() + versus_wait + 5
+                if v.winner and (not (versus_knowngames[v.steamid])) and (not versus_curgames[v.steamid].rolled) and ((v.curtime - v.time) < 25) then
+                    versus_knowngames[v.steamid] = true
                     net.Start("gversus.JoinGame")
                     net.WriteString(v.steamid)
                     net.WriteString(v.other)
+                    net.WriteString(v.winner)
                     net.Broadcast()
+                    versus_curgames[v.steamid].rolled = true
+                    -- print("Joingame 1",v.steamid)
                     versus_suspense[v.winner] = CurTime() + versus_wait
                     timer.Simple(versus_wait,function()
+                        versus_knowngames[v.steamid] = false
                         versus_suspense[v.winner] = nil
+                        -- print("Finishgame 1",v.steamid)
                         net.Start("gversus.FinishGame")
                         net.WriteString(v.steamid)
                         net.WriteString(v.winner)
                         net.Broadcast()
-                        versus_curgames[v.steamid] = nil
+                        versus_curgames[v.steamid] = {rolled = true}
                     end)
-                elseif ((v.curtime - v.time) > 15) and (v.winner) then
+                elseif ((v.curtime - v.time) > 25) and (v.winner) then
                     local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. v.steamid .. "';")
                     q:start()
+                    -- print("Cancel 1 delete",v.steamid)
                     net.Start("gversus.Cancel")
                     net.WriteString(v.steamid)
                     net.Broadcast()
+                    versus_curgames[v.steamid] = nil
                 end
             end
             for k,v in pairs(versus_curgames) do
-                if (not games[k]) then
+                if (not games[k]) and (not v.winner) then
+                    -- print("Cancel 2")
+                    -- print("Sid: " .. k)
                     versus_curgames[k] = nil
+                    --PrintTable(games[k])
                     net.Start("gversus.Cancel")
                     net.WriteString(k)
                     net.Broadcast()
+                    --PrintTable(versus_curgames[k])
                 end
             end
         end)
@@ -1420,7 +1469,7 @@ function jackpot_()
                     local b = db:query("DELETE FROM moat_jpwinners WHERE steamid = '" .. v.steamid .. "';")
                     b:start()
                     local msg = "Rewarding " .. vp:Nick() .. " " .. vp:SteamID() .. " jackpot: " .. v.money .. " IC (" .. game.GetIP() .. ")"
-					moat.discord.send("nsa", msg, "gamble")
+					discord.Send("Gamble Log", msg)
                 end
             end
         end
@@ -1520,7 +1569,8 @@ function jackpot_()
                                         d = d[1]
                                         gglobalchat_jack(d.name,math.Round(jp_tt * 0.95),round((p[i].money/jp_tt) * 100 ))
                                         local msg = d.name .. " (" .. util.SteamIDFrom64(jp_w) .. ") won **" .. string.Comma(math.Round(jp_tt * 0.95)) .. "** IC (" .. round((p[i].money/jp_tt) * 100 ) .."%) in Jackpot."
-                                        moat.discord.send("logs", msg, "gamble")
+                                        
+										discord.Send("Gamble Win", msg)
                                     end
                                     q:start()
                                     
@@ -1604,21 +1654,28 @@ local function chat_()
         local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('" .. ply:SteamID64() .. "','" .. os.time() .. "','" .. db:escape(ply:Nick()) .. "','" .. db:escape(msg) .. "');")
         q:start()
         local msg = "" .. ply:Nick() .. " (" .. ply:SteamID() .. ") said in global gamble: " .. msg
-		moat.discord.send("staff", msg, "Gamble Chat")
+		discord.Send("Gamble Chat", msg)
 		ply.gChat = CurTime() + 3
     end
 
     function gglobalchat_real(msg)
         local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-1337','" .. os.time() .. "','Console','" .. db:escape(msg) .. "');")
         q:start()
-        local s = "Global Announcement: **" .. msg .. "**"
+
         if msg == "[MapVote]" then
-            s = "Forced all servers to change maps."
+            msg = "Developers have instructed all servers to change maps! Sorry!"
         elseif msg == "[EndRound]" then
-            s = "Forced all servers to change maps at the end of their rounds."
+            msg = "Developers have instructed all servers to change maps at the end of their rounds!"
         end
 
-		moat.discord.send("general", s, "Moat TTT", true)
+		discord.Send("Moat TTT Announcement", markdown.WrapBold(
+				string (":satellite_orbital::satellite: ",
+					markdown.Bold "Global TTT Announcement",
+					" :satellite::satellite_orbital:",
+					markdown.LineStart(":construction_worker::loudspeaker: " .. msg)
+				)
+			)
+		)
     end
 
 
@@ -1849,7 +1906,7 @@ net.Receive("mines.CashOut",function(l,ply)
     if not MINES_GAMES[ply] then return end
     if (MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) > 100 then
         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") won " .. round(MINES_GAMES[ply][1] - MINES_GAMES[ply][0]) .. " IC in mines."
-    	moat.discord.send("staff", msg, "gamble")
+    	discord.Send("Gamble", msg)
     end
     if MINES_GAMES[ply][1]> 10000 then
         DiscordGamble(ply:Nick() .. " (" .. ply:SteamID() .. ") won **" .. string.Comma(round(MINES_GAMES[ply][1])) .. "** IC in Mines.")

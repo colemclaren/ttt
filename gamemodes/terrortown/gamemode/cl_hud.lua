@@ -304,6 +304,10 @@ local hud_convar = GetConVar("moat_DisableCustomHUD")
 
 -- Paints player status HUD element in the bottom left
 function GM:HUDPaint()
+	if (hud_convar:GetInt() > 1) then
+		return
+	end
+
     local client = LocalPlayer()
     --if hook.Call( "HUDShouldDraw", GAMEMODE, "TTTTargetID" ) then
     hook.Call("HUDDrawTargetID", GAMEMODE)

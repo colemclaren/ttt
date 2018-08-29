@@ -1,4 +1,6 @@
 -- Remote Sticky Bomb
+RSB = RSB or {}
+
 if SERVER then
     AddCSLuaFile()
 end
@@ -411,6 +413,7 @@ if CLIENT then
     local function RSBResetValues()
         Active = 0
         RSB.bombs = {}
+		RSB.hud = false
         local target = ""
     end
 
@@ -420,13 +423,17 @@ if CLIENT then
         --if(!IsValid(RSB.bombs)) then RSB.bombs = {} end
         local armed = net.ReadBool()
         local ent = net.ReadEntity()
+		if (not IsValid(ent)) then return end
         local idx = ent:EntIndex()
 
         if armed then
-            RSB.bombs[idx] = idx
+			RSB.bombs[idx] = true
         else
-            RSB.bombs[idx] = nil
+            RSB.bombs[idx] = false
         end
+
+		RSB.hud = true
+		hook.Add("PostDrawHUD", "drawRSBIcon", drawRSBIcon)
     end)
 
     net.Receive("RSBTarget", function(length, client)
@@ -445,12 +452,21 @@ if CLIENT then
     local c4warn = surface.GetTextureID("vgui/ttt/icon_c4warn")
 
     function drawRSBIcon()
+		if (not RSB.hud) then
+			hook.Remove("PostDrawHUD", "drawRSBIcon")
+			return
+		end
+
+		RSB.hud = false
+	
         for k, v in pairs(RSB.bombs) do
-            if not IsValid(Entity(v)) then
-                RSB.bombs[v] = nil
+			local tgt = Entity(k)
+            if (not IsValid(tgt)) then
+                RSB.bombs[k] = false
+				continue
             end
 
-            local tgt = Entity(v)
+			RSB.hud = true
 
             if (IsValid(tgt)) then
                 local ang = LocalPlayer():EyeAngles()
@@ -483,8 +499,6 @@ if CLIENT then
             end
         end
     end
-
-    hook.Add("PostDrawHUD", "drawRSBIcon", drawRSBIcon)
 
     function SWEP:DrawHUD()
         if not Finished and not DrawReady and LocalPlayer():Alive() and Active == 1 then

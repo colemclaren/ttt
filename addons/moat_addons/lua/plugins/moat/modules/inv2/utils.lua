@@ -1,16 +1,16 @@
-function MOAT_INV.Log(str, err)
+function mi.Log(str, err)
 	if (not str) then MsgC(Color(0, 255, 0), "[MOAT] " .. "----------------------------------\n") return end
 	if (SERVER and err) then ServerLog("[MOAT" .. ((err and " Failure!") or "") .. "] " .. str .. "\n") end
 	MsgC(((err and Color(255, 0, 0)) or Color(0, 255, 0)), "[MOAT" .. ((err and " Failure!") or "") .. "] " .. str .. "\n")
 end
 
-function MOAT_INV:BigLog(str)
+function mi:BigLog(str)
 	self.Log()
 	self.Log(str)
 	self.Log()
 end
 
-function MOAT_INV.Print(str, b)
+function mi.Print(str, b)
     MsgC(b and Color(255, 0, 0) or Color(255, 255, 0), "MOAT | " .. str .. "\n")
 end
 
@@ -27,7 +27,7 @@ local PLAYER = FindMetaTable "Player"
 function PLAYER:ID()
 	if (self:IsBot()) then return "76561198050165746" end
 
-	return MOAT_INV.Config.Tester.plySpoof or self:SteamID64()
+	return mi.Config.Tester.plySpoof or self:SteamID64()
     //return self.SteamID64 and self:SteamID64() or "BOT"
 end
 

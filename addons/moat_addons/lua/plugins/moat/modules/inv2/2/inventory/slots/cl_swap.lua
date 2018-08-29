@@ -1,6 +1,6 @@
 local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
 local m_SlotToLoadout = {}
-hook.Add("Initialize", "MOAT_INV.Swap", function()
+hook.Add("Initialize", "mi.Swap", function()
     m_SlotToLoadout[WEAPON_MELEE] = "Melee"
     m_SlotToLoadout[WEAPON_PISTOL] = "Secondary"
     m_SlotToLoadout[WEAPON_HEAVY] = "Primary"
@@ -25,7 +25,7 @@ local function m_CanSwapLoadout(ITEM_TBL, DRAG_SLOT)
     return m_SlotToLoadout[weapons.Get(ITEM_TBL.w).Kind] == m_LoadoutLabels[DRAG_SLOT]
 end
 
-function MOAT_INV:SwapSlotPanels(pnl1, pnl2)
+function mi:SwapSlotPanels(pnl1, pnl2)
     local M_INV_SLOT1_ICON = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.WModel
     local M_INV_SLOT2_ICON = M_INV_SLOT[m_HoveredSlot].VGUI.WModel
     local M_INV_SLOT1_SKIN = M_INV_SLOT[M_INV_DRAG.Slot].VGUI.MSkin
@@ -113,7 +113,7 @@ function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid, no_internal)
         return
     end
     if (islot_d < 0) then
-        net.Start "MOAT_INV.Swap"
+        net.Start "mi.Swap"
             net.WriteUInt(id, 32)
             if (id == 0) then
                 net.WriteByte(-islot_d)
@@ -123,7 +123,7 @@ function m_SwapInventorySlots(drag, m_HoveredSlot, m_tid, no_internal)
     end
 
     if (not no_internal) then
-        MOAT_INV:SwapSlotItem(islot_d, islot_e)
+        mi:SwapSlotItem(islot_d, islot_e)
     end
 
     if (drag.VGUI.WModel) then

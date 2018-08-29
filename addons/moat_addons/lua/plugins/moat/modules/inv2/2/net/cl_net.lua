@@ -1,3 +1,3 @@
-net.Receive("MOAT_INV.Load", function()
+net.Receive("mi.Load", function()
 
 end)

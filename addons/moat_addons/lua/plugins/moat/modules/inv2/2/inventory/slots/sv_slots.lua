@@ -1,8 +1,8 @@
-util.AddNetworkString "MOAT_INV.CreateSlots"
-util.AddNetworkString "MOAT_INV.UpdateSlots"
+util.AddNetworkString "mi.CreateSlots"
+util.AddNetworkString "mi.UpdateSlots"
 
-function MOAT_INV:PlayerCreateSlots(pl, tbl)
-	net.Start "MOAT_INV.CreateSlots"
+function mi:PlayerCreateSlots(pl, tbl)
+	net.Start "mi.CreateSlots"
 	if (not tbl) then net.Send(pl) return end
 
 	net.WriteUInt(tbl.n, 16)
@@ -16,7 +16,7 @@ function MOAT_INV:PlayerCreateSlots(pl, tbl)
 end
 
 
-function MOAT_INV:SendUpdatedSlots(pl, cb)
+function mi:SendUpdatedSlots(pl, cb)
 	self:SQLQuery("select id, slotid from mg_items where ownerid = ?", pl, function(d)
 		if (not IsValid(pl)) then return end
 		if (not d or not d[1]) then cb() return end
@@ -30,7 +30,7 @@ function MOAT_INV:SendUpdatedSlots(pl, cb)
 
 		if (num == 0) then cb() return end
 
-		net.Start "MOAT_INV.UpdateSlots"
+		net.Start "mi.UpdateSlots"
 			net.WriteUInt(num, 16)
 			for k, v in pairs(tbl) do
 				net.WriteUInt(k, 16)

@@ -3,14 +3,14 @@ aCrashScreen.config = aCrashScreen.config or {}
 
 if (SERVER) then return end
 
-local _this, ourserver = aCrashScreen.config, moat.servers.get(SERVER_IP)
+local _this = aCrashScreen.config
 ---------------------------------
 -- Chat ID, useful for multiple servers
 -- Not case sensitive only letters, numbers and underscores are allowed
-_this.chatID = "server_" .. ourserver.id
+_this.chatID = "server_" .. (Server.ID or "Default")
 
 -- Your community name
-_this.communityName = "Moat.GG - " .. ourserver.name .. " has Crashed!"
+_this.communityName = "Moat.GG - " .. (Server.Name or "TTT") .. " has Crashed!"
 
 -- The web-based server status checker
 -- This will check if the server is online, if it is it will automatically reconnect
@@ -26,8 +26,8 @@ _this.reconnectingTime = 200
 
 -- THIS server's IP address and Port
 -- Only needed if you use serverStatusURL
-_this.serverIP = SERVER_SHORTIP
-_this.serverPort = SERVER_PORT
+_this.serverIP = Server.ShortIP or "0.0.0.0"
+_this.serverPort = Server.Port or "00000"
 
 -- Background image(s), must give the correct image width and height
 -- Animated images won't work
@@ -104,11 +104,13 @@ _this.buttons = {
 	-- "Button text", function or server ip:port to connect to
 }
 
-for i = 1, #moat.servers.list do
-	local srv = moat.servers.list[i]
-	if (not srv.name or not srv.ip or srv.status) then continue end
+for i = 1, Servers.n do
+	local srv = Servers.Roster[i]
+	if (not srv.Name or not srv.IP or srv.State) then
+		continue
+	end
 
-	table.insert(_this.buttons, {"Join - " .. srv.name, srv.ip})
+	table.insert(_this.buttons, {"Join - " .. srv.Name, srv.IP})
 end
 
 -- If you want to adjust the looks of the crash menu find file 'cl_menu.lua'

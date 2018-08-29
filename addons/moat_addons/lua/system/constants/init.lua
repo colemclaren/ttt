@@ -1,0 +1,1 @@
+moat.c = moat.c or {}

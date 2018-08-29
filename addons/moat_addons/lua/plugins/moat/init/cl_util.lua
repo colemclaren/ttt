@@ -76,11 +76,16 @@ local function write_sound(crc, url)
 end
 
 function fetch_asset(url)
-	if not url then return _error end
+	if (not url) then return _error end
 
-	if assets[url] then
+	if (assets[url]) then
 		return assets[url]
 	end
+
+	if (not http or not http.Loaded) then
+		return _error
+	end
+
 
 	local crc = crc(url)
 
@@ -120,7 +125,7 @@ function draw.WebImage( url, x, y, width, height, color, angle, cornerorigin )
 	color = color or white
 
 	local img = fetch_asset(url)
-	if (img == _error) then return end
+	if (not img or img == _error) then return end
 
 	surface_SetDrawColor( color.r, color.g, color.b, color.a )
 	surface_SetMaterial(img)

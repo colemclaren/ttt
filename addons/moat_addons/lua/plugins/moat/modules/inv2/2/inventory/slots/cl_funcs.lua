@@ -2,13 +2,13 @@ local steamid, needs_testing, ck = function()
 	return LocalPlayer():SteamID64()
 end, function()
 	return error("function needs testing")
-end, MOAT_INV.Config.CacheKey
+end, mi.Config.CacheKey
 
 /*
     Item Slots
 */
 
-function MOAT_INV:GetSlotForItem(id, fn)
+function mi:GetSlotForItem(id, fn)
 	needs_testing()
 	local query = self.SQL:CreateQuery("SELECT slotid FROM "..ck.." WHERE c = ? AND steamid = ?!;", id, steamid())
 	self.SQL:Query(query, function(succ)
@@ -16,49 +16,49 @@ function MOAT_INV:GetSlotForItem(id, fn)
 	end)
 end
 
-function MOAT_INV:Item(slot, fn)
+function mi:Item(slot, fn)
 	local query = self.SQL:CreateQuery("SELECT c FROM "..ck.." WHERE slotid = ? AND steamid = ?!;", slot, steamid())
 	self.SQL:Query(query, function(succ)
 		return fn(succ and tonumber(succ.c) or nil)
 	end)
 end
 
-function MOAT_INV:ItemL(slot, fn)
+function mi:ItemL(slot, fn)
 	assert(slot < 0, "Loadout slot incorrect value")
 	self:Item(slot, fn)
 end
 
-function MOAT_INV:SaveItemLSlot(id, slot, fn)
+function mi:SaveItemLSlot(id, slot, fn)
 	assert(slot < 0, "Loadout slot incorrect value")
 	self:SaveItemSlot(id, slot, fn)
 end
 
 
-function MOAT_INV:SaveItemSlot(id, slot, fn)
+function mi:SaveItemSlot(id, slot, fn)
 	local query = self.SQL:CreateQuery("REPLACE INTO "..ck.." (slotid, c, steamid) values (?, ?, ?!)", slot, id, steamid())
 	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:SwapItemSlot(id, id2, fn)
+function mi:SwapItemSlot(id, id2, fn)
 	self:GetOurItems(function(sn, cache)
 		self:SwapSlotItem(cache.c[id], cache.c[id2])
 	end)
 end
 
-function MOAT_INV:ClearItemSlot(id, fn)
+function mi:ClearItemSlot(id, fn)
 	needs_testing()
 	local query = self.SQL:CreateQuery("DELETE FROM "..ck.." WHERE c = ? AND steamid = ?!;", id, steamid())
 	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:GetItemForSlot(slot, fn)
+function mi:GetItemForSlot(slot, fn)
 	local query = self.SQL:CreateQuery("SELECT c FROM "..ck.." WHERE slotid = ? AND steamid = ?!;", slot, steamid())
 	self.SQL:Query(query, function(d)
 		return fn(d and tonumber(d.c) or 0)
 	end)
 end
 
-function MOAT_INV:SlotExists(slot, fn)
+function mi:SlotExists(slot, fn)
 	local query = self.SQL:CreateQuery("SELECT c FROM "..ck.." WHERE slotid = ? AND steamid = ?!;", slot, steamid())
 	self.SQL:Query(query, function(d)
 		local function Internal()
@@ -72,7 +72,7 @@ function MOAT_INV:SlotExists(slot, fn)
 	end)
 end
 
-function MOAT_INV:SaveSlotItem(slot, id, fn)
+function mi:SaveSlotItem(slot, id, fn)
 	return self:SlotExists(slot, function(exists)
 		assert(not exists, "slot already exists!")
 		local query = self.SQL:CreateQuery([[
@@ -90,7 +90,7 @@ function MOAT_INV:SaveSlotItem(slot, id, fn)
 	end)
 end
 
-function MOAT_INV:MassSwapInventory(new_slots, fn)
+function mi:MassSwapInventory(new_slots, fn)
 	return self:GetOurSlots(function(max, cache)
 		for k in pairs(cache.s) do
 			cache.s[k] = new_slots[k] or 0
@@ -116,7 +116,7 @@ function MOAT_INV:MassSwapInventory(new_slots, fn)
 	end)
 end
 
-function MOAT_INV:SwapSlotItem(slot, slot2, fn)
+function mi:SwapSlotItem(slot, slot2, fn)
 	return self:GetOurSlots(function(max, cache)
 		local item1, item2 = cache.s[slot], cache.s[slot2]
 		if (item1 == 0) then
@@ -146,39 +146,39 @@ function MOAT_INV:SwapSlotItem(slot, slot2, fn)
 	end)
 end
 
-function MOAT_INV:ClearSlotItem(slot, fn)
+function mi:ClearSlotItem(slot, fn)
 	local query = self.SQL:CreateQuery("DELETE FROM "..ck.." WHERE slotid = ? AND steamid = ?!;", slot, steamid())
 	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:AddSlotItem(slot, id, fn)
+function mi:AddSlotItem(slot, id, fn)
 	self:SaveSlotItem(slot, id, fn)
 end
 
-function MOAT_INV:SaveSlotItemL(slot, id, fn)
+function mi:SaveSlotItemL(slot, id, fn)
 	assert(slot < 0)
 	self:SaveSlotItem(slot, id, fn)
 end
 
 
-function MOAT_INV:AddLocked(id, fn)
+function mi:AddLocked(id, fn)
 	local query = self.SQL:CreateQuery("UPDATE "..ck.." SET locked = 1 WHERE c = ? AND steamid = ?!;", id, steamid())
 	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:RemoveLocked(id, fn)
+function mi:RemoveLocked(id, fn)
 	local query = self.SQL:CreateQuery("UPDATE "..ck.." SET locked = 0 WHERE c = ? AND steamid = ?!;", id, steamid())
 	self.SQL:Query(query, fn)
 end
 
-function MOAT_INV:IsLocked(id, fn)
+function mi:IsLocked(id, fn)
 	local query = self.SQL:CreateQuery("SELECT locked FROM "..ck.." WHERE c = ? AND steamid = ?!;", id, steamid())
 	self.SQL:Query(query, function(d)
 		fn(d and d[1] and d[1].locked == "1" or false)
 	end)
 end
 local m_SlotToLoadout = {}
-hook.Add("Initialize", "MOAT_INV.Swap", function()
+hook.Add("Initialize", "mi.Swap", function()
 	m_SlotToLoadout[WEAPON_MELEE] = 3
 	m_SlotToLoadout[WEAPON_PISTOL] = 2
 	m_SlotToLoadout[WEAPON_HEAVY] = 1
@@ -205,7 +205,7 @@ local function m_GetLoadoutSlot(ITEM_TBL)
 	return m_SlotToLoadout[weapons.Get(ITEM_TBL.w).Kind]
 end
 
-function MOAT_INV:SortSlots(sort, callback)
+function mi:SortSlots(sort, callback)
 	self:GetOurSlots(function(_, items)
 		local sorting_table = {}
 
@@ -253,7 +253,7 @@ function MOAT_INV:SortSlots(sort, callback)
 	end)
 end
 
-function MOAT_INV:GetOurSlots(fn)
+function mi:GetOurSlots(fn)
 	if (self.CachedSlots and self.CachedSlots[1] and self.CachedSlots[2]) then
 		return fn(self.CachedSlots[1], self.CachedSlots[2])
 	end
@@ -314,9 +314,9 @@ end
 -- c = id -> slot
 -- s = slot -> id
 
-MOAT_INV.ColumnCount = 5
+mi.ColumnCount = 5
 
-function MOAT_INV:CreateNewSlots_CompleteRows(num, fn)
+function mi:CreateNewSlots_CompleteRows(num, fn)
 	return self:GetOurSlots(function(max)
 		local needed = math.ceil((max + num) / 5) * 5 - max
 		for i = 1, needed do
@@ -326,7 +326,7 @@ function MOAT_INV:CreateNewSlots_CompleteRows(num, fn)
 	end)
 end
 
-function MOAT_INV:CreateNewSlot()
+function mi:CreateNewSlot()
 	return self:GetOurSlots(function(max, cache)
 		local new = max + 1
 		self:ClearSlotItem(num)
@@ -340,7 +340,7 @@ function MOAT_INV:CreateNewSlot()
 	end)
 end
 
-function MOAT_INV:GetEmptySlot(sn, st, r, fn)
+function mi:GetEmptySlot(sn, st, r, fn)
 	local function Internal(sn, st)
 		local starts, ends, step = 1, sn, 1
 		if (r) then
@@ -373,7 +373,7 @@ function MOAT_INV:GetEmptySlot(sn, st, r, fn)
 	end
 end
 
-function MOAT_INV:GetSlotForID(id, fn)
+function mi:GetSlotForID(id, fn)
 	assert(id ~= 0, "id is 0")
 	self:GetOurSlots(function(sn, st)
 		if (st.c[id]) then return fn(st.c[id]) end
@@ -389,7 +389,7 @@ function MOAT_INV:GetSlotForID(id, fn)
 	end)
 end
 
-function MOAT_INV:RemoveItemSlot(slot, fn)
+function mi:RemoveItemSlot(slot, fn)
 	self:GetOurSlots(function(max, cache)
 		local query = self.SQL:CreateQuery("DELETE FROM "..ck.." WHERE slotid = ? AND steamid = ?!", slot, steamid())
 		self.SQL:Query(query, function()

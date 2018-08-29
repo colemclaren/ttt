@@ -1,12 +1,12 @@
 util.AddNetworkString("discord.OAuth")
 
-discord = {}
-discord.clientID = "430843529510649897"
-discord.clientSecret = "RGv7dtTRQt0TJAeBuy4GmE6IMH2oM5aQ"
-discord.botToken = "NDMyMjg2MjU3NTMyNjMzMDk5.DarFxg.0BQ-eCKMMHnAXv2iTDMu03wCrQw"
-discord.botClientID = "432286257532633099"
-discord.botClientSecret = "i696pb2jZgFGY5ZhJ_-CkO0qs86BPeb_"
-discord.users = {}
+moat.discord = {}
+moat.discord.clientID = "430843529510649897"
+moat.discord.clientSecret = "RGv7dtTRQt0TJAeBuy4GmE6IMH2oM5aQ"
+moat.discord.botToken = "NDMyMjg2MjU3NTMyNjMzMDk5.DarFxg.0BQ-eCKMMHnAXv2iTDMu03wCrQw"
+moat.discord.botClientID = "432286257532633099"
+moat.discord.botClientSecret = "i696pb2jZgFGY5ZhJ_-CkO0qs86BPeb_"
+moat.discord.users = {}
 
 
 local function AuthedGet(bearer,url,succ,fail)
@@ -57,15 +57,15 @@ function discord_(db)
         local sid = ply:SteamID64()
         local oauth = net.ReadString()
         print("Received",sid,oauth)
-        discord.users[sid] = {
+        moat.discord.users[sid] = {
             oauth = oauth
         }
         HTTP({
             method = "POST",
             url = "https://discordapp.com/api/v6/oauth2/token",
             parameters = {
-                client_id = discord.botClientID,
-                client_secret = discord.botClientSecret,
+                client_id = moat.discord.botClientID,
+                client_secret = moat.discord.botClientSecret,
                 code = oauth,
                 grant_type = "authorization_code",
                 redirect_uri = "http://localhost/"
@@ -75,13 +75,13 @@ function discord_(db)
                 print("Succ",s,body)
                 if s == 200 then
                     body = util.JSONToTable(body)
-                    discord.users[ply:SteamID64()].bearer = body.access_token
+                    moat.discord.users[ply:SteamID64()].bearer = body.access_token
                     print("Got bearer token for " .. ply:Nick() .. ": " .. body.access_token)
                     local token = body.access_token
                     AuthedGet(token,"/users/@me",function(code,body)
                         if code == 200 then
                             body = util.JSONToTable(body)
-                            discord.users[sid].user = body
+                            moat.discord.users[sid].user = body
                             print("Got user info for " .. ply:Nick() .. " :: " .. body.username .. "#" .. body.discriminator)
                             --/guilds/{guild.id}/members/{user.id}
                             local id = body.id
@@ -89,7 +89,7 @@ function discord_(db)
                                 method = "PUT",
                                 url = "https://discordapp.com/api/v6/guilds/256324969842081793/members/" .. body.id,
                                 headers = {
-                                    ["Authorization"] = "Bot " .. discord.botToken
+                                    ["Authorization"] = "Bot " .. moat.discord.botToken
                                 },
                                 type = "application/json",
                                 body = util.TableToJSON({

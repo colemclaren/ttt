@@ -468,7 +468,7 @@ local LP
 
 local function moat_CustomHUD()
 	LP = LocalPlayer()
-	if (GetConVar("moat_DisableCustomHUD"):GetInt() == 1) then return end
+	if (GetConVar("moat_DisableCustomHUD"):GetInt() ~= 0) then return end
 
 	--if (false) then moat_hud2.DrawHUD(LP) return end
 	if ((not LP:Alive()) or LP:Team() == TEAM_SPEC) then return end
@@ -864,7 +864,7 @@ end
 hook.Add("HUDPaint", "moat_DrawCustomHUD", moat_CustomHUD)
 
 concommand.Add("moat_edithud", function()
-	if (GetConVar("moat_DisableCustomHUD"):GetInt() == 1) then return end
+	if (GetConVar("moat_DisableCustomHUD"):GetInt() ~= 0) then return end
 
 	if (MOAT_EDITING_HUD) then
 		MOAT_EDITING_HUD = false
@@ -876,7 +876,7 @@ concommand.Add("moat_edithud", function()
 end)
 
 concommand.Add("moat_resethud", function()
-	if (GetConVar("moat_DisableCustomHUD"):GetInt() == 1) then return end
+	if (GetConVar("moat_DisableCustomHUD"):GetInt() ~= 0) then return end
 	local panel_values = {"x", "y", "w", "h"}
 
 	local FRAME_INFO = {
@@ -946,7 +946,7 @@ end)
 local moat_hud_cooldown = CurTime()
 
 hook.Add("Think", "moat_EditHudHook", function()
-	if (GetConVar("moat_DisableCustomHUD"):GetInt() == 1) then return end
+	if (GetConVar("moat_DisableCustomHUD"):GetInt() ~= 0) then return end
 
 	if (input.IsKeyDown(KEY_F6) and moat_hud_cooldown <= CurTime()) then
 		MOAT_EDITING_HUD = not MOAT_EDITING_HUD

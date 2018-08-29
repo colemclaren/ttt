@@ -2,14 +2,14 @@ require("mysqloo")
 
 util.AddNetworkString "MOAT_ITEM_INFO"
 util.AddNetworkString "MOAT_DATA_INFO"
-util.AddNetworkString "MOAT_INV.PURGE"
+util.AddNetworkString "mi.PURGE"
 
-MINVENTORY_MYSQL = MOAT_INV.SQL and MOAT_INV.SQL.mysqloo
-local SQL = MOAT_INV.SQL
+MINVENTORY_MYSQL = mi.SQL and mi.SQL.mysqloo
+local SQL = mi.SQL
 
 hook.Add("InventoryPrepare", "MINVENTORY_MYSQL", function()
-    MINVENTORY_MYSQL = MOAT_INV.SQL.mysqloo -- TODO: REMOVE!!!
-    SQL = MOAT_INV.SQL
+    MINVENTORY_MYSQL = mi.SQL.mysqloo -- TODO: REMOVE!!!
+    SQL = mi.SQL
     MINVENTORY_CONNECTED = true
     print("Connected to Database.")
 end)
@@ -454,7 +454,7 @@ function m_LoadInventoryForPlayer(ply, cb)
         MOAT_INVS[ply] = inv_tbl
 
         for i = 1, 10 do
-            inv_tbl["l_slot"..i] = MOAT_INV:Blank()
+            inv_tbl["l_slot"..i] = mi:Blank()
         end
         local i = 0
         for uid, wep in pairs(inv) do
@@ -516,7 +516,7 @@ function m_SendInventoryToPlayer(ply)
 
                 return m_WriteWeaponsToPlayer(ply, inv, function()
                     return SendWeaponInvItems(ply, inv, false, function()
-                        net.Start "MOAT_INV.PURGE"
+                        net.Start "mi.PURGE"
                         net.Send(ply)
                         MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
                         ply.Sending = false

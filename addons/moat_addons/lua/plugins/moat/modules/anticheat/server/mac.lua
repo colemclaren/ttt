@@ -29,7 +29,7 @@ local detections_ac = {}
 
 local function discord(sid, mouse)
 	local msg = "[Anti Cheat] Detected: `" .. mouse[1] .. " (" .. sid .. ") [" .. mouse[2] .. "] lvl(" .. mouse[3] .. ")` { http://steamcommunity.com/profiles/" .. mouse[4] .. " } Server: " .. game.GetIP() .. " Detections: `" .. mouse[5] .. "`"
-	moat.discord.send("nsa", msg, "skid")
+	discord.Send("Skid", msg)
 end
 
 hook.Add("TTTEndRound","anti.cheat.end.round",function()
@@ -85,48 +85,9 @@ net.Receive("moat.verify", function(_, pl)
     detect(pl, reason)
 end)
 
-local verifyqueue = {}
-local discord_init = false
-
-local function send_discord(t,s)
-	if (true) then return end
-    if not discord_init then table.insert(verifyqueue,{t,s}) return end
-	local msg = GetHostName() .. "\n" .. game.GetMap() .. "\n" .. t .. ":\n```" .. s .. "```"
-	moat.discord.send("lua", msg, "Map lua_run")
-end
-
-
-hook.Add("PlayerInitialSpawn","lua_run",function()
-    if discord_init then return end
-    discord_init = true
-    timer.Simple(10,function()
-        for k,v in pairs(verifyqueue) do
-            send_discord(v[1],v[2])
-        end
-    end)
-end)
-
-hook.Add("OnEntityCreated","lua_run",function(ent)
-    if ent:GetClass() ~= "lua_run" then return end
-    timer.Simple(0,function()
-		send_discord("lua_run","removed lua_Run entity")
-        ent:Remove()
-    end)
-    function ent:AcceptInput( name, activator, caller, data )
-
-        if ( name == "RunCode" ) then 
-            send_discord(name,self:GetDefaultCode())
-            return true 
-        end
-
-        if ( name == "RunPassedCode" ) then 
-            send_discord(name,data)
-            
-            return true 
-        end
-
-
-
-        return false
-    end
+ents.Created({["lua_run"] = true}, false, false, function(ent, class)
+	function ent:AcceptInput() return true end
+	timer.Tick(function()
+		ent:Remove()
+	end)
 end)

@@ -1,5 +1,5 @@
 MOAT_VERSION = "1.7.1"
-MOAT_BG_URL = "https://moat.gg/assets/img/bg-main.png"
+MOAT_BG_URL = "https://cdn.moat.gg/f/AngryProfuseCottontail.png"
 
 surface.CreateFont("moat_Medium11", {
     font = "Trebuchet24",

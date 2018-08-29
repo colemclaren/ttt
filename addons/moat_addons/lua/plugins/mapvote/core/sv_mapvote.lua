@@ -355,7 +355,7 @@ function MapVote.Start(length, current, limit, prefix, callback)
                     sql.Query("INSERT INTO `moat_mapcool` (map, time_played) VALUES (" .. sql.SQLStr(game.GetMap():lower()) .. ",'" .. os.time() .. "');")
                     local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. map .. "`"
 	            	
-					moat.discord.send("staff", msg, "map")
+					discord.Send("Server", msg)
 
 					RunConsoleCommand("changelevel", map)
                 end

@@ -3,7 +3,7 @@ if (SERVER) then
     return
 end
 
-MOAT_INV.SQL = include "sql_sqlite.lua"()
+mi.SQL = include "sql_sqlite.lua"()
 
 timer.Simple(0, function()
     hook.Run "InventoryPrepare"

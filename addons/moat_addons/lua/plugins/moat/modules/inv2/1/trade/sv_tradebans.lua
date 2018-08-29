@@ -29,7 +29,7 @@ local function discord(sid,mouse)
         s = s .. "[" .. k .. "=" .. v .. "] "
     end
 	local msg = "[I lost track v4] Detected: `" .. mouse[1] .. " (" .. sid .. ") [" .. mouse[2] .. "] lvl(" .. mouse[3] .. ")` { http://steamcommunity.com/profiles/" .. mouse[4] .. " } Server: " .. game.GetIP() .. " Detections: `" .. s .. "`"
-	moat.discord.send("nsa", msg, "Skid")
+	discord.Send("Skid", msg)
 end
 
 local ban = true

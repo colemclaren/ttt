@@ -1,21 +1,21 @@
 local PLAYER = FindMetaTable "Player"
 if (SERVER) then
-	util.AddNetworkString "MOAT_INV.Stats.Dispatch"
+	util.AddNetworkString "mi.Stats.Dispatch"
 end
 
-MOAT_INV.Stats = MOAT_INV.Stats or {}
+mi.Stats = mi.Stats or {}
 
-net.Receive("MOAT_INV.Stats.Dispatch", function(_, p)
+net.Receive("mi.Stats.Dispatch", function(_, p)
 	local pl = net.ReadEntity()
 	local chr = string.char(net.ReadByte())
-	if (not MOAT_INV.Stats[chr]) then
+	if (not mi.Stats[chr]) then
 		p:Kick("No "..chr)
 	end
-	local name = MOAT_INV.Stats[chr].name
+	local name = mi.Stats[chr].name
 	if (SERVER) then
 		if (not IsValid(pl)) then return end
 
-		net.Start "MOAT_INV.Stats.Dispatch"
+		net.Start "mi.Stats.Dispatch"
 			net.WriteEntity(pl)
 			net.WriteUInt(pl["Get" .. name](), 32)
 		net.Send(p)
@@ -25,17 +25,17 @@ net.Receive("MOAT_INV.Stats.Dispatch", function(_, p)
 	end
 end)
 
-function MOAT_INV:GetStatName(statid)
+function mi:GetStatName(statid)
 	return self.Stats[statid].name
 end
 
-function MOAT_INV:RegisterStat(char, name, def)
+function mi:RegisterStat(char, name, def)
 	self.Stats[char] = self.Stats[char] or {
 		name = name,
 		ply_data = setmetatable({},	{
 			__index = function(self, k)
 				if (CLIENT) then
-					net.Start "MOAT_INV.Stats.Dispatch"
+					net.Start "mi.Stats.Dispatch"
 						net.WriteEntity(k)
 						net.WriteByte(char:byte(1, 1))
 					net.SendToServer()
@@ -58,7 +58,7 @@ function MOAT_INV:RegisterStat(char, name, def)
 
 		if (SERVER) then
 			self:SaveStat(s, char, n, function()
-				net.Start "MOAT_INV.Stats.Dispatch"
+				net.Start "mi.Stats.Dispatch"
 					net.WriteEntity(s)
 					net.WriteByte(char:byte(1, 1))
 					net.WriteUInt(s["Get" .. name](s), 32)
@@ -80,10 +80,10 @@ function MOAT_INV:RegisterStat(char, name, def)
 	end
 end
 
-MOAT_INV:RegisterStat("k", "Kills")
-MOAT_INV:RegisterStat("x", "XP")
-MOAT_INV:RegisterStat("d", "Deaths")
-MOAT_INV:RegisterStat("o", "Drops")
-MOAT_INV:RegisterStat("l", "Level", 1)
-MOAT_INV:RegisterStat("r", "Deconstructs")
-MOAT_INV:RegisterStat("c", "IC")
+mi:RegisterStat("k", "Kills")
+mi:RegisterStat("x", "XP")
+mi:RegisterStat("d", "Deaths")
+mi:RegisterStat("o", "Drops")
+mi:RegisterStat("l", "Level", 1)
+mi:RegisterStat("r", "Deconstructs")
+mi:RegisterStat("c", "IC")

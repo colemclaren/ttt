@@ -98,8 +98,18 @@ MOAT_DONATE.Packages = {
 		end
 		XP_MULTIPYER = 8
 
-		local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") started map event '**" .. MG_cur_event .. "**' on server: " .. GetHostName() .. " (" .. game.GetIP() .. ")"
-		moat.discord.send("ttt", msg, "Event")
+		local msg = ply:NameID() .. " started map event '" .. MG_cur_event:Bold() .. "' on server: " .. string.Extra(Server.Nick, Server.IP)
+
+		discord.Send("Event", markdown.WrapBold(
+				string (":satellite_orbital::satellite: ",
+					markdown.Bold "Global TTT Announcement",
+					" :satellite::satellite_orbital:",
+					markdown.LineStart(":construction_worker::loudspeaker: " .. msg)
+				)
+			)
+		)
+
+		discord.Send("Event", msg)
 	end}
 }
 

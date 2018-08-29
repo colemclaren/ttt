@@ -1,4 +1,4 @@
-function MOAT_INV:CreateSlotFiles(num, lids)
+function mi:CreateSlotFiles(num, lids)
 	for i = 1, num do
 		local str = ""
 		self:SaveSlotItem(i, str)
@@ -10,10 +10,10 @@ function MOAT_INV:CreateSlotFiles(num, lids)
 	end
 end
 
-function MOAT_INV.ShouldCreateSlots()
+function mi.ShouldCreateSlots()
 	local amt = net.ReadUInt(16)
 	if (not amt) then
-		MOAT_INV:CreateSlotFiles(MOAT_INV.Config.DefaultSlots)
+		mi:CreateSlotFiles(mi.Config.DefaultSlots)
 		return
 	end
 
@@ -22,22 +22,22 @@ function MOAT_INV.ShouldCreateSlots()
 		lids[net.ReadUInt(16)] = true
 	end
 
-	MOAT_INV:CreateSlotFiles(amt, lids)
+	mi:CreateSlotFiles(amt, lids)
 end
-net.Receive("MOAT_INV.CreateSlots", MOAT_INV.ShouldCreateSlots)
+net.Receive("mi.CreateSlots", mi.ShouldCreateSlots)
 
 
 
-function MOAT_INV.UpdateSlots()
+function mi.UpdateSlots()
 	local tbl = {}
 	for i = 1, net.ReadUInt(16) do
 		tbl[net.ReadUInt(16)] = net.ReadUInt(32)
 	end
 
 	for k, v in pairs(tbl) do
-		MOAT_INV:SaveSlotItem(k, v)
+		mi:SaveSlotItem(k, v)
 	end
 
-	MOAT_INV:HandleSlotLocks()
+	mi:HandleSlotLocks()
 end
-net.Receive("MOAT_INV.UpdateSlots", MOAT_INV.UpdateSlots)
+net.Receive("mi.UpdateSlots", mi.UpdateSlots)

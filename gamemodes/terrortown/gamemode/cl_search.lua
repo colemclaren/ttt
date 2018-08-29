@@ -447,15 +447,21 @@ local dis = {
     ["CHudDamageIndicator"] = true
 }
 
+local badred = GetConVar("moat_red_screen")
+local badredoff = true
+
 hook.Add("HUDShouldDraw", "DamageMeme", function(txt)
-    if GetConVar("moat_red_screen"):GetInt() == 1 and dis[txt] then return false end
+	if (not badred or badredoff) then return end
+    if dis[txt] then return false end
 end)
 
 local damage_m = 0
 local oldhp = 0
 
 hook.Add("HUDPaint", "DamageMeme", function()
-    if GetConVar("moat_red_screen"):GetInt() ~= 1 then return end
+	if (not badred or badred:GetInt() == 0) then badredoff = true return end
+	badredoff = false
+
     if not LocalPlayer():Alive() then return end
 
     -- healing

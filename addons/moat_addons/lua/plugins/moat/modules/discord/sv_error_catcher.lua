@@ -17,7 +17,7 @@ local function post(tbl)
 
 	HTTP({
 		method = "POST",
-		url = moat.cfg.oldwebhook .. "servererrors",
+		url = moat.c.oldwebhook .. "servererrors",
 		body = util.TableToJSON(tbl),
 		type = "application/json",
 		success = cb
@@ -25,7 +25,7 @@ local function post(tbl)
 
 	HTTP({
 		method = "POST",
-		url = moat.cfg.webhook .. "servererrorsmoon",
+		url = moat.c.webhook .. "servererrorsmoon",
 		body = util.TableToJSON(tbl),
 		type = "application/json",
 		success = cb

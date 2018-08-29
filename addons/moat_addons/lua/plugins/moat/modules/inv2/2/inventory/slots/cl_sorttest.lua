@@ -1,4 +1,4 @@
-function MOAT_INV:SortTest()
+function mi:SortTest()
     local function sort(tbl, empty)
         local function value(item)
             -- slotid is from 0 to 10

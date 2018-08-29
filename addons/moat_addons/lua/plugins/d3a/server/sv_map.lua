@@ -26,7 +26,7 @@ function D3A.CheckMissingMap(forced)
 		if (forced) then rs = "map name not in download list (name was updated on workshop?)" end
 		local msg = (GetHostName() or "") .. " had to changelevel due to " .. rs .. " for `" .. game.GetMap() .. "` <@207612500450082816>"
 
-		moat.discord.send("nsa", msg, "Map Detector")
+		discord.Send("Bad Map", msg)
 		
 		RunConsoleCommand("mga", "map", default_map)
 	end

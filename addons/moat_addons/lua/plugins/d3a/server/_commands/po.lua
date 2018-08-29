@@ -153,7 +153,7 @@ COMMAND.Run = function(pl, args, supp)
 			s = s ..( "End of Past Offences\n")
 			s = s .. ("---------------------------```")
 
-			moat.discord.send("staff", s, "PO")
+			discord.Send("Past Offences", s)
 		end
 	end)
 end

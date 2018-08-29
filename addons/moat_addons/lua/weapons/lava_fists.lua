@@ -8,7 +8,6 @@ if SERVER then
 	resource.AddFile( "models/v_me_fists.mdl")*/
 else
     WebElements = {}
-    WebElements.Edge 			= ( ScrH()*0.005 ):ceil()
     WebElements.CircleOutline	= "http://i.imgur.com/WhK77op.png"
     WebElements.Circle 	  		= "http://i.imgur.com/YmbEJWD.png"
     WebElements.Lava 	  		= "http://i.imgur.com/swJIriB.jpg"

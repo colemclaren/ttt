@@ -1,4 +1,6 @@
 -- Remote Sticky Bomb
+RSB = RSB or {}
+
 if SERVER then
     AddCSLuaFile()
 end
@@ -24,7 +26,7 @@ SWEP.ViewModel = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel = "models/weapons/w_defuser.mdl"
 SWEP.Kind = WEAPON_EQUIP2
 
-if (GetConVar("RSB_EnableDefuser"):GetBool()) then
+if (true) then
     SWEP.CanBuy = {ROLE_DETECTIVE}
 else
     SWEP.CanBuy = {}

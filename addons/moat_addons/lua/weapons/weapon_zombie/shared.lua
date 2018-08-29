@@ -1,11 +1,5 @@
 AddCSLuaFile()
 
-if SERVER then
-	--resource.AddFile("models/weapons/c_arms_citizen.mdl")
-	--resource.AddFile("models/weapons/c_arms_citizen/c_arms_citizen_hands.vmt")
-	--resource.AddFile("materials/models/weapons/zombiehand/hand.vmt")
-end
-
 SWEP.Author 				= "jmoak3"
 SWEP.Contact 				= "mrjmoak3@gmail.com"
 SWEP.Purpose 				= "BRAINS"
@@ -25,7 +19,7 @@ SWEP.DrawAmmo = true
 SWEP.ViewModelFOV  = 70
 SWEP.ViewModelFlip = true
 SWEP.Primary.Automatic = false
-SWEP.Damage = InfectConfig.ZombieDamage
+SWEP.Damage = 10
 SWEP.Category 				= "jmoak3"
 
 SWEP.DrawCrosshair = false

@@ -195,7 +195,6 @@ local function _contracts()
 			function q:onSuccess(plys)
 
 				if #plys < 1 then
-					gglobalchat_real("Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " was " .. winner .. " and there were no winners! " .. string.Comma(lottery_stats.amount * 0.75) .. " IC has rolled over to today's pot.")
 					if (not l_test) then
 						local c = db:query("UPDATE moat_lottery SET amount = '" .. lottery_stats.amount * 0.75 .. "'")
 						c:start()
@@ -215,37 +214,74 @@ local function _contracts()
 						function e:onError(d) print(d) end
 						e:start()
 					end
-					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
-					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\nThere was **no** winner!\n**" .. string.Comma(lottery_stats.amount * 0.75) .. "** IC has rolled over to today's pot!"
-					moat.discord.send("challenges", s, "lottery")
+					
+					local msg = markdown.WrapBoldLine(
+						string (":tada: ",
+							"The " .. markdown.BoldUnderline(string.Comma(lottery_stats.amount) .. " IC"),
+							" Lottery for " .. markdown.Bold(util.NiceDate(-1)),
+							" was unlucky number " .. markdown.Bold(winner) .. "!",
+							markdown.NewLine(":see_no_evil: There was " .. markdown.Bold("no") .. " winner!")
+						)
+					) .. markdown.BoldEnd(
+						string (":moneybag: ",
+							markdown.BoldUnderline(string.Comma(lottery_stats.amount * 0.75) .. " IC"),
+							" :money_with_wings:",
+							" has rolled over to today's pot!"
+						)
+					)
+
+					discord.Send("Lottery Announcement", msg)
+					discord.Send("Lottery", msg)
+
 					return 
 				end
 				local each = math.floor((lottery_stats.amount * 0.9)/#plys)
 				if #plys == 1 then
 					local nick = plys[1].name
 					local steamid = plys[1].steamid
-					gglobalchat_real("Yesterday's lottery lucky number with an amount of " .. string.Comma(each) .. " was " .. winner .. " and " .. nick .. " (" .. util.SteamIDFrom64(steamid) .. ") won all of it with his number!")
-					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
-					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\n**" .. nick .. " (" .. util.SteamIDFrom64(steamid) .. ")** won all of it!" 
-					moat.discord.send("challenges", s, "lottery")
+
+					local msg = markdown.WrapBoldLine(
+						string (":tada: ",
+							"The " .. markdown.BoldUnderline(string.Comma(each) .. " IC"),
+							" Lottery for " .. markdown.Bold(util.NiceDate(-1)),
+							" was lucky number " .. markdown.Bold(winner) .. "!",
+							markdown.NewLine(":hear_no_evil: There was " .. markdown.Bold("ONE") .. " winner! :scream:")
+						)
+					) .. markdown.BoldEnd(
+						string (":moneybag: ",
+							"Congratulations to ",
+							markdown.Bold(string.Extra(nick, util.SteamIDFrom64(steamid))),
+							" for winning it all! :clap::clap:"
+						)
+					)
+					
+					discord.Send("Lottery Announcement", msg)
+					discord.Send("Lottery", msg)
 				else
-					local s = "Yesterday's lottery lucky number with an amount of " .. string.Comma(lottery_stats.amount) .. " IC was " .. winner .. " and "
-					local ps = ""
-					for k,v in pairs(plys) do
-						ps = ps .. v.name
-						if k == #plys - 1 then
-							ps = ps .. ", and "
-						elseif k ~= #plys then
-							ps = ps .. ", "
-						else
-							ps = ps  .. " "
-						end
+					local ps, pc = "", #plys
+					for i = 1, pc do
+						local n = markdown.Bold(plys[i].name)
+						ps = ps .. Either(i == pc, "and " .. n, n .. ", ")
 					end
-					s = s .. ps .. "won " .. string.Comma(each) .. " IC each!"
-					gglobalchat_real(s)
-					local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
-					local s = "|\nLottery number of **" .. os.date("%B %d, %Y",os.time() - 86400) .. "** was **" .. winner .. "** with **" .. string.Comma(lottery_stats.amount) .. " IC**\n**" .. ps .. "**won **" ..  string.Comma(each) .. "** IC each!"
-					moat.discord.send("challenges", s, "lottery")
+
+					local str_rep = math.min(pc, 5)
+					local msg = markdown.WrapBoldLine(
+						string (":tada: ",
+							"The " .. markdown.BoldUnderline(string.Comma(lottery_stats.amount) .. " IC"),
+							" Lottery for " .. markdown.Bold(util.NiceDate(-1)),
+							" was lucky number " .. markdown.Bold(winner) .. "!",
+							markdown.NewLine(":hear_no_evil: There were " .. markdown.Bold(pc) .. " winners" .. string.rep("!", str_rep) .. " :flushed:")
+						)
+					) .. markdown.BoldEnd(
+						string (":moneybag: ",
+							"Winning " .. markdown.BoldUnderline(string.Comma(each) .. " IC") .. " each, ",
+							"congrats to " .. ps .. string.rep("!", str_rep) .. " ",
+							string.rep(":clap:", math.min(pc, 5))
+						)
+					)
+
+					discord.Send("Lottery Announcement", msg)
+					discord.Send("Lottery", msg)
 				end
 
 				print("Each winner gets " .. each)
@@ -254,7 +290,8 @@ local function _contracts()
 					local q = db:query("INSERT INTO moat_lottery_winners (steamid,amount) VALUES ('" .. v.steamid .. "'," .. each .. ");")
 						timer.Simple(k,function()
 							local msg = v.name .. " (" .. util.SteamIDFrom64(v.steamid) .. ") won **" .. string.Comma(each) .. " IC** in the lottery!"
-							moat.discord.send("logs", msg, "lottery")
+							
+							discord.Send("Lottery Win", msg)
 						end)
 						if k == #plys then
 							function q:onSuccess()
@@ -290,11 +327,11 @@ local function _contracts()
 		local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
 		q:start()
 		c.runfunc()
-		local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
-		local s = "|\nDaily contract of **" .. os.date("%B %d, %Y",os.time()) .. "**:```"
-		s = s .. [[]] .. name .. "\n---------------------\n" .. c.desc .. "\n---------------------\n\n\n\n"
-		s = s .. "```"
-		moat.discord.send("challenges", s, "contracts")
+
+		local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
+		s = s .. markdown.Code(name .. markdown.WrapLine(c.desc))
+		discord.Send("Contracts", s)
+
 		contract_loaded = name
 		local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
 		function q:onSuccess(b)
@@ -318,11 +355,11 @@ local function _contracts()
 				local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
 				q:start()
 				c.runfunc()
-				local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
-				local s = "|\nDaily contract of **" .. os.date("%B %d, %Y",os.time()) .. "**:```"
-				s = s .. [[]] .. name .. "\n---------------------\n" .. c.desc .. "\n---------------------\n\n\n\n"
-				s = s .. "```"
-				moat.discord.send("challenges", s, "constracts")
+
+				local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
+				s = s .. markdown.Code(name .. markdown.WrapLine(c.desc))
+				discord.Send("Contracts", s)
+
 				contract_loaded = name
 				local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
 				function q:onSuccess(b)
@@ -1795,21 +1832,37 @@ function MOAT_BOUNTIES.ResetBounties()
 
 	MOAT_BOUNTIES:LoadBounties()
 
-	local url = "https://discordapp.com/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD"
-	local s = "|\nDaily bounties of **" .. os.date("%B %d, %Y",os.time()) .. "**:\nServer: **" .. GetHostName() .. "** ( steam://connect/" .. game.GetIP() .. " )\n```"
-	for i = 1,3 do
+	local bstr, medals = "", {":third_place:", ":second_place:", ":first_place:"}
+	for i = 1, 3 do
 		local bounty = MOAT_BOUNTIES.ActiveBounties[i].bnty
 		local mods = MOAT_BOUNTIES.ActiveBounties[i].mods
 		local bounty_desc = bounty.desc
-		local c = 0
-		for i = 1, #mods do
-			bounty_desc = bounty_desc:gsub("#", function() c = c + 1 return mods[c] end)
+
+		local n = 0
+		for _ = 1, #mods do
+			bounty_desc = bounty_desc:gsub("#", function() n = n + 1 return markdown.Bold(mods[n]) end)
 		end
-		s = s .. [[]] .. bounty.name .. "\n---------------------\n" .. bounty_desc .. "\n---------------------\nRewards: " .. bounty.rewards .. "\n\n\n\n"
-		
+
+		bstr = string (bstr, medals[i],
+			" " .. markdown.Bold(bounty.name) .. " | " .. markdown.EndLine(bounty_desc),
+			markdown.Highlight("Rewards: " .. bounty.rewards)
+		)
+
+		if (i < 3) then
+			bstr = markdown.EndLine(
+				markdown.EndLine(bstr)
+			)
+		end
 	end
-	s = s .. "```"
-	moat.discord.send("challenges", s, "bounties")
+
+	discord.Send("Bounties", markdown.Code(" ") .. markdown.WrapBold(
+			string (":calendar_spiral: ",
+				"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
+				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. Server.IP)),
+				markdown.LineStart(bstr)
+			)
+		)
+	)
 end
 
 function MOAT_BOUNTIES.InitializeBounties()

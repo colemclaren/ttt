@@ -1,1 +1,0 @@
-moat.libs = moat.libs or {}

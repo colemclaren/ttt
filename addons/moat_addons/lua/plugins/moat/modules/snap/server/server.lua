@@ -67,10 +67,10 @@ net.Receive("moat-ab",function(l,ply)
 			s = util.JSONToTable(s)
 			local link = s.data.link
 			local msg = "Cheating: " .. ply:Nick() .. " ( http://steamcommunity.com/profiles/" .. ply:SteamID64() .. " ): " .. link
-			moat.discord.send("staff", msg, "Snap")
+			discord.Send("Anti Cheat", msg)
 		else
 			local msg = "Cheating: " .. ply:Nick() .. " ( http://steamcommunity.com/profiles/" .. ply:SteamID64() .. " ) and got ERROR : ```" .. s .. "```"
-			moat.discord.send("staff", msg, "Snap")
+			discord.Send("Anti Cheat", msg)
 		end
 		ply.snapper = nil
 		return
@@ -80,10 +80,10 @@ net.Receive("moat-ab",function(l,ply)
 			s = util.JSONToTable(s)
 			local link = s.data.link
 			local msg = "Console snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. link
-			moat.discord.send("nsa", msg, "Snap")
+			discord.Send("Snap", msg)
 		else
 			local msg = "Console snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
-			moat.discord.send("nsa", msg, "Snap")
+			discord.Send("Snap", msg)
 		end
 		ply.snapper = nil
 		return
@@ -93,13 +93,13 @@ net.Receive("moat-ab",function(l,ply)
 		local link = s.data.link
 		ply.snapper:SendLua('gui.OpenURL([[' .. link:gsub("%]%]","") .. ']])')
 		local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. link
-		moat.discord.send("staff", msg, "Snap")
+		discord.Send("Anti Cheat", msg)
 		snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s", Color(255, 255, 255), " snap: " .. link})
 	else
 		local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
 		ply.snapper:ChatPrint("Snap could not be finished due to serverside error. Please tell velkon or moat.")
 		snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s", Color(255, 255, 255), " snap: Snap could not be finished due to serverside error. Please tell velkon or moat."})
-		moat.discord.send("staff", msg, "Snap")
+		discord.Send("Anti Cheat", msg)
 	end
 	ply.snapper = nil
 end)

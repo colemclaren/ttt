@@ -27,38 +27,6 @@ for k, v in pairs(DiscordRelay.FileLocations) do
     DiscordRelay[k] = util.JSONToTable(file.Read(v, "DATA") or "") or {}
 end
 
-http.Loaded = false
-
-local function checkhtml()
-    http.Post("https://google.com", {}, function()
-        http.Loaded = true
-    end, function()
-        http.Loaded = true
-    end)
-end
-
-timer.Create("HTTPLoadedCheck", 3, 0, function()
-    if not http.Loaded then
-        checkhtml()
-    else
-        hook.Call("HTTPLoaded", GAMEMODE)
-        timer.Remove("HTTPLoadedCheck")
-    end
-end)
-
---[[Thanks Author. for this bypass. Need to know when HTTP loads so we can gather some info about the bot and shit]]
-hook.Add("HTTPLoaded", "GetSelf", function()
-    HTTP({
-        failed = function(err)
-            MsgC(Color(255, 0, 0), "HTTP error at line 50: " .. err .. "\n")
-        end,
-        success = function(code, body, headers)
-            DiscordRelay.Self = util.JSONToTable(body)
-        end,
-        url = "https://discordapp.com/api/users/@me"
-    })
-end)
-
 local errcodes = {
     [50001] = "Your bot cannot read the channel! Please ensure the bot has 'Read Messages' permission for the channel.",
     [50010] = "Your bot hasn't got an account! Please go back and make one!"
@@ -655,7 +623,7 @@ function SVDiscordRelay.PrintToChat(code, body, headers)
 
         if string.len(body[i].content) > 126 then
             if not gotitalready then
-                moat.discord.send("ttt", "Sorry " .. body[i].author.username .. ", but that message was too long and wasn't relayed.")
+                discord.Send("ttt", "Sorry " .. body[i].author.username .. ", but that message was too long and wasn't relayed.")
             end
 
             table.insert(DiscordRelay.ReceivedMessages, {
@@ -799,16 +767,5 @@ hook.Add("InitPostEntity", "CreateAFuckingBot", function()
     end
 
     hook.Remove("CreateAFuckingBot")
-end)
-
-local LastThink = CurTime()
-
-hook.Add("Think", "CanWeHTTP", function()
-    if CurTime() >= LastThink + 2 then
-        if checkhtml() then
-            hook.Remove("Think", "CanWeHTTP")
-        end
-    end
-    LastThink = CurTime()
 end)
 --This script is version 1.2.8 (Hotfix 3) and is free!

@@ -49,7 +49,7 @@ COMMAND.Run = function(pl, args, supplement)
 				D3A.Chat.Broadcast2(pl, moat_cyan, targstid .. "'s", moat_white, " ban was updated by ", moat_cyan, plname, moat_white, " to ", moat_green, "permanent", moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ")'s *ban was updated* by " .. plname .. " (" .. plstid .. ") to permanent. Reason: " .. reason .. "."
 
-				moat.discord.send("logs", msg, "ban")
+				discord.Send("Player Banned", msg)
 			end)
 		else
 			local reason = table.concat(args, " ", 2)
@@ -57,7 +57,8 @@ COMMAND.Run = function(pl, args, supplement)
 			D3A.Bans.BanPlayer(targstid, plstid, 1, "perm", reason, false, function()
 				D3A.Chat.Broadcast2(pl, moat_cyan, ((targpl and targpl:Name()) or targstid), moat_white, " was banned permanently by ", moat_cyan, plname, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ") was *banned permanently* by " .. plname .. " (" .. plstid .. "). Reason: " .. reason .. "."
-				moat.discord.send("logs", msg, "ban")
+				
+				discord.Send("Player Banned", msg)
 			end)
 		end
 	end)

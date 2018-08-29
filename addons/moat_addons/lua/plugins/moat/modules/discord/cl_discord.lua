@@ -148,26 +148,6 @@ discordrpc.clientID = "430843529510649897"
 discordrpc.BotclientID = "432286257532633099"
 discordrpc.state = "" 
 
-http.Loaded = http.Loaded and http.Loaded or false
-if http.Loaded then hook.Run("HTTPLoaded") end
-local function checkHTTP()
-	http.Fetch("http://google.com", function()
-		http.Loaded = true
-	end, function()
-		http.Loaded = true
-	end)
-end
-if not http.Loaded then
-	timer.Create("HTTPLoadedCheck", 3, 0, function()
-		if not http.Loaded then
-			checkHTTP()
-		else
-			hook.Run("HTTPLoaded")
-			timer.Remove("HTTPLoadedCheck")
-		end
-	end)
-end
-
 function discordrpc.Auth()
     HTTP({
         method = "POST",

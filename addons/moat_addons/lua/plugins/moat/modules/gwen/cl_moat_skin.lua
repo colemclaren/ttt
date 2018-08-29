@@ -2319,15 +2319,8 @@ function PANEL:SetScroll( scrll )
 end
 
 function PANEL:AnimateTo( scrll, length, delay, ease )
-
-    local anim = self:NewAnimation( length, delay, ease )
-    anim.StartPos = self.Scroll
-    anim.TargetPos = scrll
-    anim.Think = function( anim, pnl, fraction )
-
-        pnl:SetScroll( Lerp( fraction, anim.StartPos, anim.TargetPos ) )
-
-    end
+	
+	self.LerpTarget = scrll
 
 end
 
