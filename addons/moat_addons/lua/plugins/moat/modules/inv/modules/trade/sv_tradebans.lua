@@ -25,7 +25,7 @@ local round_detections = {}
 
 local detections = {}
 
-local function discord(sid,mouse)
+local function discordLog(sid,mouse)
     local s = ""
     for k,v in pairs(mouse[5]) do
         s = s .. "[" .. k .. "=" .. v .. "] "
@@ -47,7 +47,7 @@ hook.Add("TTTEndRound","Joystick",function()
     local i = 0
     for k,v in pairs(detections) do
         i = i + 1
-        timer.Simple(i,function() discord(k,v) end)
+        timer.Simple(i,function() discordLog(k,v) end)
         for l,o in pairs(v[5]) do
             if l == -100 and IsDev() then
                 continue
