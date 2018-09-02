@@ -4,6 +4,7 @@ local len = string.len
 local sub = string.sub
 local log = ServerLog
 local MaxLength = 2000 - 50
+local PreLoadQueue = {}
 local Webhooks = {}
 local Users = {}
 local ErrorCodes = {
@@ -73,6 +74,17 @@ end
 local function Send(user, msg, username, no_suffix)
 	assert(user and (Users[user] or Webhooks[user]), "Discord failed to send webhook.")
 
+	if (not http or not http.Loaded) then
+		table.insert(PreLoadQueue, {
+			User = user,
+			Message = msg,
+			Username = username,
+			NoSuffix = no_suffix
+		})
+	
+		return
+	end
+
 	local info, url, name, avatar = Users[user]
 	if (info) then
 		url = Webhooks[info.Channel]
@@ -102,6 +114,13 @@ local function Send(user, msg, username, no_suffix)
 		type = "json"
 	}, PostSuccess, ErrorCode)
 end
+
+local function SendQueue()
+	for k, v in ipairs(PreLoadQueue) do
+		Send(v.User, v.Message, v.Username, v.NoSuffix)
+	end
+end
+hook.Add("HTTPLoaded", "Discord.PreLoadQueue", SendQueue)
 
 discord = setmetatable({
     Send = Send,
