@@ -27,7 +27,7 @@ local detection_reasons = {
 
 local detections_ac = {}
 
-local function discord(sid, mouse)
+local function discordLog(sid, mouse)
 	local msg = "[Anti Cheat] Detected: `" .. mouse[1] .. " (" .. sid .. ") [" .. mouse[2] .. "] lvl(" .. mouse[3] .. ")` { http://steamcommunity.com/profiles/" .. mouse[4] .. " } Server: " .. game.GetIP() .. " Detections: `" .. mouse[5] .. "`"
 	discord.Send("Skid", msg)
 end
@@ -36,7 +36,7 @@ hook.Add("TTTEndRound","anti.cheat.end.round",function()
     local i = 0
     for k, v in pairs(detections_ac) do
         i = i + 1
-        timer.Simple(i, function() discord(k, v) end)
+        timer.Simple(i, function() discordLog(k, v) end)
         RunConsoleCommand("mga","perma",k,"Cheating")
     end
     detections_ac = {}
