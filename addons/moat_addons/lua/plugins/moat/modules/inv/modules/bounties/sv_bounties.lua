@@ -1855,14 +1855,28 @@ function MOAT_BOUNTIES.ResetBounties()
 		end
 	end
 
-	discord.Send("Bounties", markdown.Code(" ") .. markdown.WrapBold(
-			string (":calendar_spiral: ",
-				"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
-				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. Server.IP)),
-				markdown.LineStart(bstr)
+	if (http and http.Loaded) then
+		discord.Send("Bounties", markdown.Code(" ") .. markdown.WrapBold(
+				string (":calendar_spiral: ",
+					"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
+					" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. Server.IP)),
+					markdown.LineStart(bstr)
+				)
 			)
 		)
-	)
+		return
+	end
+
+	hook("HTTPLoaded", function()
+		discord.Send("Bounties", markdown.Code(" ") .. markdown.WrapBold(
+				string (":calendar_spiral: ",
+					"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
+					" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. Server.IP)),
+					markdown.LineStart(bstr)
+				)
+			)
+		)
+	end)
 end
 
 function MOAT_BOUNTIES.InitializeBounties()
