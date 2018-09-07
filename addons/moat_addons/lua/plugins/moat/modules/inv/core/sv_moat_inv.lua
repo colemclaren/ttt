@@ -1579,7 +1579,8 @@ net.Receive("MOAT_TRADE_STATUS", function(len, ply)
     local accept_num = net.ReadDouble()
     local trade_id = net.ReadDouble()
     local empty_slots = net.ReadDouble()
-
+    if (ply.tradestatuscool or 0) > CurTime() then return end
+    ply.tradestatuscool = CurTime() + 1
     if (accept_num < 0 or accept_num > 2) then
         accept_num = 0
     end
