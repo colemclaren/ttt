@@ -1591,7 +1591,9 @@ end)
 local moat_link_cooldowns = {}
 
 net.Receive("MOAT_LINK_ITEM", function(len, ply)
-    local num = net.ReadDouble()
+    if (ply.netlinkitemcool or 0) > CurTime() then return end
+    ply.netlinkitemcool = CurTime() + 1
+    local num = net.ReadDouble() 
     local ldt = net.ReadBool()
     local wpnstr = net.ReadString()
     local slotstr = "slot" .. num
