@@ -570,7 +570,7 @@ local function m_SendTradeReq(ply, otherply)
 
         return
     end
-
+    ent.PendingResponse = true
     net.Start("MOAT_SEND_TRADE_REQ")
     net.WriteBool(true)
     net.WriteBool(true)
@@ -666,7 +666,8 @@ end
 net.Receive("MOAT_RESPOND_TRADE_REQ", function(len, ply)
     local accepted = net.ReadBool()
     local other_ply = net.ReadDouble()
-
+    if not ply.PendingResponse then return end
+    ply.PendingResponse = false
     if (ply:m_isTrading()) then
         return
     end
