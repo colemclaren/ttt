@@ -3597,7 +3597,7 @@ local versus_winners = {}
 versus_oldgames = {}
 
 function m_versusroll(owner,other,winner)
-	math.randomseed(tonumber(winner + gversus_players[owner][2]))-- so everyone sees the same thing no matter what server they are on
+	math.randomseed(tonumber(owner + other + gversus_players[owner][2]))-- so everyone sees the same thing no matter what server they are on
 
 	local pp = {owner,other}
     Roll = vgui.Create("DPanel")
