@@ -7,7 +7,8 @@ mlib.i "_dev/"
 mlib.i "/system/" {
 	"constants/",
 	"libs/",
-	"core/"
+	"core/",
+	"detours/"
 }
 
 mlib.i "plugins/"

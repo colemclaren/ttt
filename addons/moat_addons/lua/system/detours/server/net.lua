@@ -40,7 +40,9 @@ function net.Receive( name, _func )
         -- calculate if this person is hogging the cpu with this request
         elseif (limit.calls > 10 and (engine.TickCount() - limit.starttick + 1) * engine.TickInterval() / (now - limit.starttime) < 0.75) then
             if (not limit.notified) then
-                print(string.format("%s <%s> triggered net limiter for %s", p:Nick(), p:IPAddress(), name))
+                local msg = string.format("`%s (%s) [%s]` triggered net limiter for `%s` (`%i` calls over `%0.2f` seconds) server: `%s`", p:Nick(), p:SteamID(), p:IPAddress(), name, limit.calls, now - limit.starttime, game.GetIPAddress())
+                ServerLog(msg)
+                discord.Send("Skid", "<@135912347389788160> <@150809682318065664> "..msg)
                 limit.notified = true
             end
             goto endpoint
