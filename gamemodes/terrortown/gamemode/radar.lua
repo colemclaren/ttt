@@ -1,6 +1,6 @@
 -- Traitor radar functionality
 -- should mirror client
-local chargetime = 30
+local chargetime = 10
 local math = math
 
 local function RadarScan(ply, cmd, args)
