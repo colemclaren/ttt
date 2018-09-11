@@ -70,8 +70,10 @@ hook.Add("TTTPrepareRound","RandomRound",function()
         cur_random_round = false
     end
     if wacky_round == GetGlobalInt("ttt_rounds_left") then
-        local b,c = table.Random(moat_random.rounds)
-        moat_random.start_round(c)
+        if math.random() > 0.5 then
+            local b,c = table.Random(moat_random.rounds)
+            moat_random.start_round(c)
+        end
     end
 end)
 --[[
