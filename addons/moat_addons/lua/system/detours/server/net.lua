@@ -42,7 +42,9 @@ function net.Receive( name, _func )
             if (not limit.notified) then
                 local msg = string.format("`%s (%s) [%s]` triggered net limiter for `%s` (`%i` calls over `%0.2f` seconds) server: `%s`", p:Nick(), p:SteamID(), p:IPAddress(), name, limit.calls, now - limit.starttime, game.GetIPAddress())
                 ServerLog(msg)
-                discord.Send("Skid", "<@135912347389788160> <@150809682318065664> "..msg)
+                if (not name:match("MOAT_REM_INV_ITEM")) and (not name:match("moatBulletTrace")) then
+                    discord.Send("Skid", "<@135912347389788160> <@150809682318065664> "..msg)
+                end
                 limit.notified = true
             end
             goto endpoint
