@@ -360,9 +360,12 @@ local function NameChangeKick()
         if ply.spawn_nick then
             if ply.has_spawned and ply.spawn_nick ~= ply:Nick() then
                 ply.spawn_nick = ply:Nick()
-
                 if (ply:Alive()) then
                     ply:Kill()
+                end
+                local h, i = contains_hateful(ply:Nick())
+                if h then
+                    RunConsoleCommand("mga","kick",ply:SteamID(),"Change your name to be more friendly [" .. i .. "]")
                 end
             end
         else

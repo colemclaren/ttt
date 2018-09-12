@@ -1,5 +1,38 @@
 util.AddNetworkString "moat.verify"
 
+local hate_list = {
+    "nigger",
+    "faggot",
+    "test"
+}
+
+local replace_list = {}
+
+function contains_hateful(s)
+    for k,v in ipairs(hate_list) do
+        if s:lower():match(v:lower()) then
+            return true, k
+        end
+    end
+    return false
+end
+
+hook.Add("PlayerInitialSpawn","Automatic Hate kicking",function(ply)
+    local h, i = contains_hateful(ply:Nick())
+    if h then
+        RunConsoleCommand("mga","kick",ply:SteamID(),"Change your name to be more friendly [" .. i .. "]")
+    end
+end)
+
+hook.Add("PlayerSay","Automatic Hateful Conduct Ban",function(ply,txt)
+    local h,i = contains_hateful(txt)
+    if h then
+        RunConsoleCommand("mga","kick",ply:SteamID(),"Hateful conduct [" .. i .. "]")
+    end
+    return "I hope you all have a beautiful day! <3"
+end)
+
+
 local detection_reasons = {
     [1] = "Aimware",
     [2] = "Scripthook",

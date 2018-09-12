@@ -95,7 +95,7 @@ function D3A.Player.CheckIfBanned(SteamID, SteamID32)
 	D3A.Bans.IsBanned(SteamID32, function(isbanned, data)
 		if (not isbanned) then return end
 		local time, length, reason = tonumber(data.Current.time), tonumber(data.Current.length), data.Current.reason
-		local exp = length == 0 and "permanently" or tostring(math.Round(((time + length) - os.time())/60, 2) .. " minutes")
+		local exp = (length == 0 and "permanently") or tostring(string.NiceTime(length))
 		if (not reason) then reason = "Visit https://moat.gg/bans." end
 
 		players_connecting[SteamID][2] = true
