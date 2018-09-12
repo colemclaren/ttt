@@ -2,8 +2,7 @@ util.AddNetworkString "moat.verify"
 
 local hate_list = {
     "nigger",
-    "faggot",
-    "test"
+    "faggot"
 }
 
 local replace_list = {}
