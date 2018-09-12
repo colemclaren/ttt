@@ -27,8 +27,8 @@ hook.Add("PlayerSay","Automatic Hateful Conduct Ban",function(ply,txt)
     local h,i = contains_hateful(txt)
     if h then
         RunConsoleCommand("mga","kick",ply:SteamID(),"Hateful conduct [" .. i .. "]")
+        return "I hope you all have a beautiful day! <3"
     end
-    return "I hope you all have a beautiful day! <3"
 end)
 
 
