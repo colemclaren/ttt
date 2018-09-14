@@ -61,13 +61,13 @@ function perspective_post(nick,sid,message,ply)
                     end
                 end
             elseif (not body:match("does not support request languages")) then
-                discord.Send("Toxic","[Error] (" .. sid .. ") `" .. GetHostName() .. "`: Got other code: `" .. code .. "," .. body .. ",(" .. message ..")`")
+                discord.Send("Developer","[Error] (" .. sid .. ") `" .. GetHostName() .. "`: Got other code: `" .. code .. "," .. body .. ",(" .. message ..")`")
             end
         end,
         failed = function(s)
             if cached_err[s] then return end
             cached_err[s] = true
-            discord.Send("Toxic","[Error] (" .. sid .. ") `" .. GetHostName() .. "`: Got error: `" .. s .. "`")
+            discord.Send("Developer","[Error] (" .. sid .. ") `" .. GetHostName() .. "`: Got error: `" .. s .. "`")
         end
     })
 end
