@@ -42,7 +42,8 @@ function perspective_post(nick,sid,message)
         },
         body = util.TableToJSON({
             comment = message,
-            sessionId = ""
+            sessionId = "",
+            languages = {"en"}
         }),
         type = "application/json",
         success = function (code,body)
