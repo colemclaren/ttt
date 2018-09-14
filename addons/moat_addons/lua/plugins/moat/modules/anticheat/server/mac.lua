@@ -18,7 +18,7 @@ end
 
 local cached_toxic = {}
 local cached_err = {}
-function perspective_post(nick,sid,message)
+function perspective_post(nick,sid,message,ply)
     -- testing if this gets rate limited or something since it doesn't even seem to check sessionID (?)
     -- I applied for api key anyways
     if #message < 10 then return end
@@ -51,10 +51,9 @@ function perspective_post(nick,sid,message)
                 local t = (util.JSONToTable(body))
                 local v = t.attributeScores.TOXICITY.summaryScore.value
                 if v > 0.95 then
-                    discord.Send("Toxic","**[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message .. "**")
+                    discord.Send("Toxic","**[" .. math.Round(v * 100, 2) .. "% toxic]** (" .. sid .. ") " .. nick .. ": **" .. message .. "**")
                 elseif v > 0.875 then
                     discord.Send("Toxic","[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
-                    -- print("[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
                 else
                     if (Server and Server.IsDev) then
                         print("[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
@@ -81,11 +80,7 @@ end)
 
 hook.Add("PlayerSay","Automatic Hateful Conduct Ban",function(ply,txt)
     local h,i = contains_hateful(txt)
-    perspective_post(ply:Nick(),ply:SteamID(),txt)
-    if h then
-        RunConsoleCommand("mga","kick",ply:SteamID(),"Hateful conduct [" .. i .. "]")
-        return "I hope you all have a beautiful day! <3"
-    end
+    perspective_post(ply:Nick(),ply:SteamID(),txt,ply)
 end)
 
 
