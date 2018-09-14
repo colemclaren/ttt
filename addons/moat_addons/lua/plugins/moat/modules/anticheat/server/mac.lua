@@ -58,8 +58,6 @@ function perspective_post(nick,sid,message)
                     end
                 end
             else
-                if cached_err[code] then return end
-                cached_err[code] = true
                 discord.Send("Toxic","[Error] (" .. sid .. ") `" .. GetHostName() .. "`: Got other code: `" .. code .. "," .. body .. ",(" .. message ..")`")
             end
         end,
