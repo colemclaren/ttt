@@ -14,5 +14,6 @@ COMMAND.Run = function(pl, args, supp)
 
 	D3A.MySQL.FormatQuery("DELETE FROM player_bans_votekick WHERE steam_id = #;", sid, function(r)
 		D3A.Chat.SendToPlayer2(pl, moat_green, "Removed " .. tostring(args[1]) .. "'s votekick ban.")
+		D3A.Commands.Discord("votekickunban", (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console, args[1])
 	end)
 end

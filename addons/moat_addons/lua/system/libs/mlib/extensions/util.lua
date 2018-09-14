@@ -37,3 +37,7 @@ function util.NiceDate(days)
 
 	return DateCache[days]
 end
+
+function util.UTCTime()
+	return os.date("!%r", os.time())
+end

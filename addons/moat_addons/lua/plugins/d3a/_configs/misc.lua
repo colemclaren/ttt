@@ -89,3 +89,6 @@ D3A.Config.Commands = {
 	Tele 		= "a",
 	Unban 		= "s"
 }
+
+-- Used for commands ran by Server Console
+D3A.Console = "Console (CONSOLE)"

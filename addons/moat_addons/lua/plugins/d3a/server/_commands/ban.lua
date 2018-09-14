@@ -23,8 +23,8 @@ COMMAND.Run = function(pl, args, supplement)
 		return
 	end
 
-	local plname = (((pl and pl.rcon) or pl:IsValid()) and pl:Name()) or "Console"
-	local plstid = (((pl and pl.rcon) or pl:IsValid()) and pl:SteamID()) or "CONSOLE"
+	local plname = (((pl and pl.rcon) or IsValid(pl)) and pl:Name()) or "Console"
+	local plstid = (((pl and pl.rcon) or IsValid(pl)) and pl:SteamID()) or "CONSOLE"
 	
 	local targ = args[1]:upper()
 	local time = supplement[1]
@@ -40,7 +40,7 @@ COMMAND.Run = function(pl, args, supplement)
 	units2["year"] = 29030400
 	local banlen = time * units2[unit]
 
-	if (pl:IsValid() and pl:IsUserGroup("trialstaff") and banlen > 604800) then
+	if (IsValid(pl) and pl:IsUserGroup("trialstaff") and banlen > 604800) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Trial Staff can only ban a maximum of 1 week!")
 		return
 	end
@@ -69,14 +69,14 @@ COMMAND.Run = function(pl, args, supplement)
 		end
 	end
 
-	if (((pl and pl.rcon) or pl:IsValid()) and (pl:SteamID() == targstid) and !pl:HasAccess("*")) then
+	if (((pl and pl.rcon) or IsValid(pl)) and (pl:SteamID() == targstid) and !pl:HasAccess("*")) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "You can't ban yourself.")
 		return false
 	end
 	
 	D3A.Bans.GetBans(targstid, function(Bans)
 		if (Bans.Current) then
-			if (pl:IsValid() and !pl:HasAccess("A")) then
+			if (IsValid(pl) and !pl:HasAccess("A")) then
 				D3A.Chat.SendToPlayer2(pl, moat_red, targstid .. " is already banned (Administrator access required to update a ban)")
 				return
 			end
@@ -88,7 +88,7 @@ COMMAND.Run = function(pl, args, supplement)
 				D3A.Chat.Broadcast2(pl, moat_cyan, targstid .. "'s", moat_white, " ban was updated by ", moat_cyan, plname, moat_white, " to ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ")'s *ban was updated* by " .. plname .. " (" .. plstid .. ") to " .. time .. " " .. useunit .. ". Reason: " .. reason .. "."
 
-				discord.Send("Player Banned", msg)
+				D3A.Commands.Discord("ban_update", (IsValid(targpl) and targpl:NameID()) or targstid, plname .. " (" .. plstid .. ")", time .. " " .. useunit, reason)
 			end)
 		else
 			local useunit = (time != 1 and unit .. "s") or unit
@@ -98,7 +98,7 @@ COMMAND.Run = function(pl, args, supplement)
 				D3A.Chat.Broadcast2(pl, moat_cyan, ((targpl and targpl:Name()) or targstid), moat_white, " was banned by ", moat_cyan, plname, moat_white, " for ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ") was *banned* by " .. plname .. " (" .. plstid .. ") for " .. time .. " " .. useunit .. ". Reason: " .. reason .. "."
 
-				discord.Send("Player Banned", msg)
+				D3A.Commands.Discord("ban", (IsValid(targpl) and targpl:NameID()) or targstid, plname .. " (" .. plstid .. ")", time .. " " .. useunit, reason)
 			end)
 		end
 	end)

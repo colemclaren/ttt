@@ -56,7 +56,7 @@ COMMAND.CheckArgs = function(pl, cmd, args)
 end
 
 COMMAND.Run = function(pl, args, supplement)
-	local plname = (((pl and pl.rcon) or pl:IsValid()) and pl:Name()) or "Console"
+	local plname = (((pl and pl.rcon) or IsValid(pl)) and pl:Name()) or "Console"
 	
 	local targ = supplement[1]
 	local rounds = tonumber(args[2]) or 1
@@ -68,7 +68,9 @@ COMMAND.Run = function(pl, args, supplement)
 	
 	if (rounds >= 1) then
 		D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has added ", moat_green, tostring(rounds), moat_white, " autoslays to ", moat_green, targ:Name(), moat_white, " with the reason: ", moat_green, reason, moat_white, ".")
+		D3A.Commands.Discord("aslay", (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console, rounds, IsValid(targ) and targ:NameID() or "Unknown (???)", reason)
 	else
 		D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has removed the autoslays of ", moat_green, targ:Name(), moat_white, ".")
+		D3A.Commands.Discord("removeslays", (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console, IsValid(targ) and targ:NameID() or "Unknown (???)")
 	end
 end

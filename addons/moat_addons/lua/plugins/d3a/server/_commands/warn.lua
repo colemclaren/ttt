@@ -5,8 +5,8 @@ COMMAND.CheckRankWeight = true
 COMMAND.Args = {{"string", "Name/SteamID"}, {"string", "Reason"}}
 
 COMMAND.Run = function(pl, args, supplement)
-	local plname = (((pl and pl.rcon) or pl:IsValid()) and pl:Name()) or "Console"
-	local plstid = (((pl and pl.rcon) or pl:IsValid()) and pl:SteamID64()) or "0"
+	local plname = (((pl and pl.rcon) or IsValid(pl)) and pl:Name()) or "Console"
+	local plstid = (((pl and pl.rcon) or IsValid(pl)) and pl:SteamID64()) or "0"
 	local targ = args[1]:upper()
 	local targpl = supplement[1] or D3A.FindPlayer(targ)
 	local targstid
@@ -25,7 +25,7 @@ COMMAND.Run = function(pl, args, supplement)
 		end
 	end
 
-	if (((pl and pl.rcon) or pl:IsValid()) and (pl:SteamID() == targstid) and !pl:HasAccess("*")) then
+	if (((pl and pl.rcon) or IsValid(pl)) and (pl:SteamID() == targstid) and !pl:HasAccess("*")) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "You can't ban yourself.")
 		return false
 	end

@@ -18,10 +18,12 @@ COMMAND.Run = function(pl, args, supp)
 		if (not r or not r[1]) then
 			D3A.MySQL.FormatQuery("INSERT INTO player_bans_votekick (steam_id, staff_steam_id, reason) VALUES (#, #, #);", sid, pid, rsn)
 			D3A.Chat.SendToPlayer2(pl, moat_green, "Added " .. tostring(args[1]) .. " to the votekick ban list for: " .. tostring(rsn) .. ".")
+			D3A.Commands.Discord("votekickban", (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console, args[1], rsn)
 			return
 		end
 
 		D3A.MySQL.FormatQuery("UPDATE player_bans_votekick SET staff_steam_id = #, reason = # WHERE steam_id = #;", pid, rsn, sid)
 		D3A.Chat.SendToPlayer2(pl, moat_green, "Updated " .. tostring(args[1]) .. "'s votekick ban reason.")
+		D3A.Commands.Discord("votekickban_update", args[1], (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console, rsn)
 	end)
 end

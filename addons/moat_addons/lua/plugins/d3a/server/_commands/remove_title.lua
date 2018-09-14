@@ -25,6 +25,7 @@ COMMAND.Run = function(pl, args, supp)
 
 		D3A.MySQL.FormatQuery("UPDATE titles SET title = '', color = '' WHERE steamid = #;", sid, function()
 			D3A.Chat.SendToPlayer2(pl, moat_green, "Removed " .. tostring(args[1]) .. "'s title, which was changed by " .. util.SteamIDFrom64(r[1].changerid) .. ".")
+			D3A.Commands.Discord("removetitle", (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console, tostring(args[1]), util.SteamIDFrom64(r[1].changerid))
 		end)
 	end)
 end

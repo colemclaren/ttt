@@ -7,8 +7,8 @@ COMMAND.CheckRankWeight = true
 COMMAND.Args = {{"string", "Name/SteamID"}, {"string", "Reason"}}
 
 COMMAND.Run = function(pl, args, supplement)
-	local plname = (((pl and pl.rcon) or pl:IsValid()) and pl:Name()) or "Console"
-	local plstid = (((pl and pl.rcon) or pl:IsValid()) and pl:SteamID()) or "CONSOLE"
+	local plname = (((pl and pl.rcon) or IsValid(pl)) and pl:Name()) or "Console"
+	local plstid = (((pl and pl.rcon) or IsValid(pl)) and pl:SteamID()) or "CONSOLE"
 
 	local targ = args[1]:upper()
 	
@@ -31,14 +31,14 @@ COMMAND.Run = function(pl, args, supplement)
 		end
 	end
 
-	if (((pl and pl.rcon) or pl:IsValid()) and (pl:SteamID() == targstid) and !pl:HasAccess("*")) then
+	if (((pl and pl.rcon) or IsValid(pl)) and (pl:SteamID() == targstid) and !pl:HasAccess("*")) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "You can't ban yourself.")
 		return false
 	end
 
 	D3A.Bans.GetBans(targstid, function(Bans)
 		if (Bans.Current) then
-			if (pl:IsValid() and !pl:HasAccess("A")) then
+			if (IsValid(pl) and !pl:HasAccess("A")) then
 				D3A.Chat.SendToPlayer2(pl, moat_red, targstid .. " is already banned (Administrator access required to update a ban)")
 				return
 			end
@@ -49,7 +49,7 @@ COMMAND.Run = function(pl, args, supplement)
 				D3A.Chat.Broadcast2(pl, moat_cyan, targstid .. "'s", moat_white, " ban was updated by ", moat_cyan, plname, moat_white, " to ", moat_green, "permanent", moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ")'s *ban was updated* by " .. plname .. " (" .. plstid .. ") to permanent. Reason: " .. reason .. "."
 
-				discord.Send("Player Banned", msg)
+				D3A.Commands.Discord("ban_update", (IsValid(targpl) and targpl:NameID()) or targstid, plname .. " (" .. plstid .. ")", "permanent", reason)
 			end)
 		else
 			local reason = table.concat(args, " ", 2)
@@ -58,7 +58,7 @@ COMMAND.Run = function(pl, args, supplement)
 				D3A.Chat.Broadcast2(pl, moat_cyan, ((targpl and targpl:Name()) or targstid), moat_white, " was banned permanently by ", moat_cyan, plname, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ") was *banned permanently* by " .. plname .. " (" .. plstid .. "). Reason: " .. reason .. "."
 				
-				discord.Send("Player Banned", msg)
+				D3A.Commands.Discord("ban", (IsValid(targpl) and targpl:NameID()) or targstid, plname .. " (" .. plstid .. ")", "permanent", reason)
 			end)
 		end
 	end)

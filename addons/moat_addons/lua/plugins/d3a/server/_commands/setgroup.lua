@@ -6,7 +6,7 @@ COMMAND.Flag = D3A.Config.Commands.SetGroup
 COMMAND.Args = {{"string", "Name/SteamID"}, {"string", "Rank"}}
 
 COMMAND.Run = function(pl, args, supp)
-	local plname = (((pl and pl.rcon) or pl:IsValid()) and pl:Name()) or "Console"
+	local plname = (((pl and pl.rcon) or IsValid(pl)) and pl:Name()) or "Console"
 	local tmname = args[2]:lower()
 
 	if (not D3A.Ranks.Stored[tmname]) then
@@ -43,6 +43,8 @@ COMMAND.Run = function(pl, args, supp)
 		
 		D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has set the rank of ", moat_green, d.name, 
 		moat_white, " (", moat_green, util.SteamIDFrom64(sid), moat_white, ") to ", moat_green, tmname, moat_white, ".")
+
+		D3A.Commands.Discord("setgroup", (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console, (IsValid(targ) and targ:NameID()) or (d.name .. " (" .. util.SteamIDFrom64(d.steam_id) .. ")"), tmname)
 	end,
 	function()
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Could not find player by SteamID: " .. sid .. ".")

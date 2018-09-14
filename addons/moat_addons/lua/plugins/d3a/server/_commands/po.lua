@@ -29,7 +29,7 @@ COMMAND.Run = function(pl, args, supp)
 
 		if (not bans_found) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, "This user has no previous bans on record.") 
-		elseif pl:IsValid() then
+		elseif IsValid(pl) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, "Check Console")
 
 			pl:PrintMessage(HUD_PRINTCONSOLE, "---------------------------")

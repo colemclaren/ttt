@@ -23,4 +23,6 @@ COMMAND.Run = function(pl, args, supp)
 			D3A.Chat.SendToPlayer2(v, moat_red, pl:Name() .. " went to " .. targ:Name() .. ".")
 		end
 	end
+
+	D3A.Commands.Discord("goto", (IsValid(pl) and pl:NameID()) or D3A.Console, IsValid(targ) and targ:NameID())
 end

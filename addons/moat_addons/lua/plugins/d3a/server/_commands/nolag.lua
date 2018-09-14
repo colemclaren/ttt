@@ -13,4 +13,5 @@ COMMAND.Run = function(pl, args, supp)
     end
 	
 	D3A.Chat.Broadcast2(pl, moat_cyan, pl:Name(), moat_white, " has frozen everything.")
+	D3A.Commands.Discord("nolag", (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console)
 end
