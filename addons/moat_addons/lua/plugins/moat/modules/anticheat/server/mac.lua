@@ -47,6 +47,7 @@ function perspective_post(nick,sid,message,ply)
         }),
         type = "application/json",
         success = function (code,body)
+            message = message:gsub("*","\\*")
             if code == 200 then
                 local t = (util.JSONToTable(body))
                 local v = t.attributeScores.TOXICITY.summaryScore.value
