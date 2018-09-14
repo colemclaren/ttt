@@ -57,7 +57,7 @@ function perspective_post(nick,sid,message)
                         print("[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
                     end
                 end
-            else
+            elseif (not body:match("does not support request languages")) then
                 discord.Send("Toxic","[Error] (" .. sid .. ") `" .. GetHostName() .. "`: Got other code: `" .. code .. "," .. body .. ",(" .. message ..")`")
             end
         end,
