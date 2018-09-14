@@ -49,7 +49,7 @@ function perspective_post(nick,sid,message)
             if code == 200 then
                 local t = (util.JSONToTable(body))
                 local v = t.attributeScores.TOXICITY.summaryScore.value
-                if v > 0.8 then
+                if v > 0.9 then
                     discord.Send("Toxic","[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
                     -- print("[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
                 else
