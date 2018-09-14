@@ -14,7 +14,8 @@ discord.AddChannels{
     ["staff-logs"] = "https://discordapp.com/api/webhooks/485986045117202451/sTPNhnVFDKsR7JMZrH2ItOTkowzAAGFmOG9OW_vGY3tZhCEUU3C6OFTgslVHDiVDI1xl",
     ["boss-logs"] = "https://discordapp.com/api/webhooks/485986362751975424/0Wz9xsI3mBDsE1XvE-r0MlmHOrxSUBPxERXoEJpZoQOr-eSgFKhc2Z10f5CsO67Trm1w",
     ["duty-logs"] = "https://discordapp.com/api/webhooks/485986697906094090/ZEkaEa4Pedyys8UPgm5UIbEy6WqMR_MuSxiCKj0xs6dFSYW_jJp188_Y-VhiiQOgGRnw",
-    ["testing"] = "https://discordapp.com/api/webhooks/473470257940529164/yfdjULAY0_5_fyLODicLr89ICPFoJ3hRT9U3jqt5AvbMN-_ffnwUUiV5OwY6KUeHXcsX"
+    ["testing"] = "https://discordapp.com/api/webhooks/473470257940529164/yfdjULAY0_5_fyLODicLr89ICPFoJ3hRT9U3jqt5AvbMN-_ffnwUUiV5OwY6KUeHXcsX",
+    ["dev-server-logs"] = "https://discordapp.com/api/webhooks/489951089588699136/PUhbSqO9nTOeDj__f3bBTQlTesFVKHjxdpVGFC-OB2dUx1_zyjiuBTZekBlMpIC191xD"
 }
 
 discord.AddUsers("general", {"Moat TTT Announcement", "Lottery Announcement"}, true)
@@ -24,3 +25,4 @@ discord.AddUsers("ttt-logs", {"Player Unbanned", "Player Banned", "Lottery Win",
 discord.AddUsers("staff-logs", {"Anti Cheat", "Past Offences", "Gamble Chat", "Gamble", "Server", "TTS"})
 discord.AddUsers("boss-logs", {"Snap", "Skid", "Gamble Log", "Trade", "Bad Map"})
 discord.AddUsers("duty-logs", {"Command Log"}, true)
+discord.AddUsers("dev-server-logs",{"Toxic"})

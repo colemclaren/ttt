@@ -102,7 +102,7 @@ local function Send(user, msg, username, no_suffix)
 	end
 
 	if (Server and Server.IsDev) then
-		url = "https://discordapp.com/api/webhooks/473470257940529164/yfdjULAY0_5_fyLODicLr89ICPFoJ3hRT9U3jqt5AvbMN-_ffnwUUiV5OwY6KUeHXcsX"
+		url = "https://discordapp.com/api/webhooks/489951089588699136/PUhbSqO9nTOeDj__f3bBTQlTesFVKHjxdpVGFC-OB2dUx1_zyjiuBTZekBlMpIC191xD"
 	end
 
 	post(url, {

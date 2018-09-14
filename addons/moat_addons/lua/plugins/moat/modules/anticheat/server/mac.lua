@@ -16,6 +16,61 @@ function contains_hateful(s)
     return false
 end
 
+local cached_toxic = {}
+local cached_err = {}
+function perspective_post(nick,sid,message)
+    -- testing if this gets rate limited or something since it doesn't even seem to check sessionID (?)
+    -- I applied for api key anyways
+    if #message < 10 then return end
+    if cached_toxic[message] then return end -- avoid short term spam
+    cached_toxic[message] = true
+    if message:match("^[!/]") then return end -- comman d
+    HTTP({
+        method = "POST",
+        url = "https://www.perspectiveapi.com/check",
+        headers = {
+            ["path"]="/check",
+            ["origin"]="https://www.perspectiveapi.com",
+            ["accept-encoding"]="gzip, deflate, br",
+            ["accept-language"]="en-GB,en-US;q=0.9,en;q=0.8",
+            ["user-agent"]="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
+            ["accept"]="application/json, text/plain, */*",
+            ["referer"]="https://www.perspectiveapi.com/",
+            ["authority"]="www.perspectiveapi.com",
+            ["scheme"]="https",
+            ["method"]="POST"
+        },
+        body = util.TableToJSON({
+            comment = message,
+            sessionId = ""
+        }),
+        type = "application/json",
+        success = function (code,body)
+            if code == 200 then
+                local t = (util.JSONToTable(body))
+                local v = t.attributeScores.TOXICITY.summaryScore.value
+                if v > 0.5 then
+                    discord.Send("Toxic","[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
+                    -- print("[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
+                else
+                    if (Server and Server.IsDev) then
+                        print("[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
+                    end
+                end
+            else
+                if cached_err[code] then return end
+                cached_err[code] = true
+                discord.Send("Toxic","[Error] (" .. sid .. ") `" .. GetHostName() .. "`: Got other code: `" .. code .. "," .. body .. "`")
+            end
+        end,
+        failed = function(s)
+            if cached_err[s] then return end
+            cached_err[s] = true
+            discord.Send("Toxic","[Error] (" .. sid .. ") `" .. GetHostName() .. "`: Got error: `" .. s .. "`")
+        end
+    })
+end
+
 hook.Add("PlayerInitialSpawn","Automatic Hate kicking",function(ply)
     local h, i = contains_hateful(ply:Nick())
     if h then
@@ -25,6 +80,7 @@ end)
 
 hook.Add("PlayerSay","Automatic Hateful Conduct Ban",function(ply,txt)
     local h,i = contains_hateful(txt)
+    perspective_post(ply:Nick(),ply:SteamID(),txt)
     if h then
         RunConsoleCommand("mga","kick",ply:SteamID(),"Hateful conduct [" .. i .. "]")
         return "I hope you all have a beautiful day! <3"
