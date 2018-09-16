@@ -54,7 +54,7 @@ function perspective_post(nick,sid,message,ply)
                 if v > 0.95 then
                     discord.Send("Toxic","**[" .. math.Round(v * 100, 2) .. "%]** {" .. (Server and Server.Name or GetHostName()) .. "} (" .. sid .. ") " .. nick .. ": **" .. message .. "**")
                 elseif v > 0.875 then
-                    discord.Send("Toxic","**[" .. math.Round(v * 100, 2) .. "%]** {" .. (Server and Server.Name or GetHostName()) .. "} (" .. sid .. ") " .. nick .. ": " .. message)
+                    discord.Send("Toxic","[" .. math.Round(v * 100, 2) .. "%] {" .. (Server and Server.Name or GetHostName()) .. "} (" .. sid .. ") " .. nick .. ": " .. message)
                 else
                     if (Server and Server.IsDev) then
                         print("[" .. math.Round(v * 100, 2) .. "% toxic] (" .. sid .. ") " .. nick .. ": " .. message)
