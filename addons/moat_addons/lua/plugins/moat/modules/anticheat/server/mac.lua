@@ -81,7 +81,7 @@ end)
 
 hook.Add("PlayerSay","Automatic Hateful Conduct Ban",function(ply,txt)
     local h,i = contains_hateful(txt)
-    perspective_post(ply:Nick(),ply:SteamID(),txt,ply)
+    -- perspective_post(ply:Nick(),ply:SteamID(),txt,ply)
 end)
 
 
