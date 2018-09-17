@@ -25,7 +25,8 @@ local requestedAttributes = {
     ["SEVERE_TOXICITY"] = {}
 }
 local custom_min = {
-    -- SEVERE_TOXICITY = 0.9
+    SEVERE_TOXICITY = 0.9,
+    INSULT = 0.9
 }
 function perspective_post(nick,sid,message,ply)
     if #message < 10 then return end
