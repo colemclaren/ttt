@@ -11,7 +11,7 @@ TALENT.Melee = false
 TALENT.NotUnique = true
 
 util.AddNetworkString("Talents.Silenced")
-
+--s
 function silence_weapon_talent(weapon)
 	net.Start("Talents.Silenced")
 	net.WriteEntity(weapon)
