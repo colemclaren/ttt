@@ -5037,11 +5037,22 @@ function m_CreateItemMenu(num, ldt)
 
             if (pnl_width >= 0.99) then
                 s.StopThink = true
-                net.Start("MOAT_REM_INV_ITEM")
-                net.WriteDouble(num)
-                net.WriteDouble(itemtbl.c)
-                net.SendToServer()
-                M_INV_MENU:Remove()
+                if (itemtbl.item.Rarity > 4) and cookie.GetNumber("moat.deconstruct.highdd", 0) < 16 then
+                    Derma_Query("Are you sure you want to deconstruct your high rarity item?\nThis action is PERMANENT and will REMOVE your item\nYou will receive a random amount of IC between ".. dec_min .. " to " .. dec_max .." IC\n\n(This message will show up " ..(15 - cookie.GetNumber("moat.deconstruct.highdd", 0)) .. " more times)" , "Are you sure?", "Yes", function()
+                        net.Start("MOAT_REM_INV_ITEM")
+                        net.WriteDouble(num)
+                        net.WriteDouble(itemtbl.c)
+                        net.SendToServer()
+                        M_INV_MENU:Remove()
+                        cookie.Set("moat.deconstruct.highdd", cookie.GetNumber("moat.deconstruct.highdd", 0) + 1)
+                    end, "Nevermind")
+                else
+                    net.Start("MOAT_REM_INV_ITEM")
+                    net.WriteDouble(num)
+                    net.WriteDouble(itemtbl.c)
+                    net.SendToServer()
+                    M_INV_MENU:Remove()
+                end
                 if (deco < 5) then moat_decon:SetInt(deco + 1) end
             end
         end
