@@ -2,7 +2,9 @@ local equipables = {
     ["tier"] = true, 
     ["unique"] = true, 
     ["melee"] = true, 
-    ["powerup"] = true, 
+    ["powerup"] = true,
+	["power-up"] = true,
+	["hat"] = true, 
     ["other"] = true, 
     ["head"] = true, 
     ["mask"] = true, 
@@ -42,7 +44,7 @@ local mdl_check_cache = {}
 
 MOAT_ITEM_CHECK = {}
 MOAT_ITEM_CHECK[1] = {function(i)
-	return i.item and equipables[i.item.Kind:lower()] or i.Kind and equipables[i.Kind:lower()]
+	return (i.item and equipables[i.item.Kind:lower()]) or (i.Kind and equipables[i.Kind:lower()])
 end, "Item must be equippable!"}
 MOAT_ITEM_CHECK[2] = {function(i)
 	return (((i.Rarity and i.Rarity == 7) or (i.item and i.item.Rarity and i.item.Rarity == 7)) and (i.Talents or i.t or (i.item and i.item.Talents)))
