@@ -20,9 +20,9 @@ timer.Create("LimitedShopChat",10,0,function()
     if MOAT_SHOP[1] then
         timer.Remove("LimitedShopChat")
         if LIMITEDS > 1 then
-            chat.AddText(Color(255,255,255),"Welcome back, there are currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEMS",Color(255,255,255)," in the shop!")
+            chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, there are currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEMS",Color(255,255,255)," in the shop!")
         elseif LIMITEDS == 1 then
-            chat.AddText(Color(255,255,255),"Welcome back, there's currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM",Color(255,255,255)," in the shop!")
+            chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, there's currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM",Color(255,255,255)," in the shop!")
         end
     end
 end)
@@ -294,8 +294,15 @@ function m_PopulateShop(pnl)
             end)
             ITEM_BG.Modelk = make_modelpanel(itemtbl,ITEM_BG)
         end
+        local checked_hover = false
         ITEM_BG.Paint = function(s, w, h)
             if itemtbl.LimitedShop then
+                if s:IsHovered() and (not checked_hover) then
+                    checked_hover = true
+                    if (itemtbl.ShopDesc) then
+                        Derma_Message(itemtbl.ShopDesc, "Limited time item: " .. itemtbl.Name, "Got it, thanks!")
+                    end
+                end
                 if itemtbl.LimitedShop < os.time() then
                     ITEM_BG:Remove()
                     M_SHOP_LIST:InvalidateLayout()
