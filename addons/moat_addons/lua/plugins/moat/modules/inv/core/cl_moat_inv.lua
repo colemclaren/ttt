@@ -5038,7 +5038,7 @@ function m_CreateItemMenu(num, ldt)
             if (pnl_width >= 0.99) then
                 s.StopThink = true
                 if (itemtbl.item.Rarity > 4) and cookie.GetNumber("moat.deconstruct.highdd", 0) < 16 then
-                    Derma_Query("Are you sure you want to deconstruct your high rarity item?\nThis action is PERMANENT and will REMOVE your item\nYou will receive a random amount of IC between ".. dec_min .. " to " .. dec_max .." IC\n\nNOTE: You can probably TRADE your item for a higher amount of IC!\nMake sure to check it's price (like in our Discord) first.\n\n(This message will show up " ..(14 - cookie.GetNumber("moat.deconstruct.highdd", 0)) .. " more times)" , "Are you sure?", "Yes", function()
+                    Derma_Query("Are you sure you want to deconstruct your high rarity item?\nThis action is PERMANENT and will REMOVE your item\nYou will receive a random amount of IC between ".. dec_min .. " to " .. dec_max .." IC\n\nNOTE: You can probably TRADE your item for a higher amount of IC!\nMake sure to check its price (like in our Discord) first.\n\n(This message will show up " ..(14 - cookie.GetNumber("moat.deconstruct.highdd", 0)) .. " more times)" , "Are you sure?", "Yes", function()
                         net.Start("MOAT_REM_INV_ITEM")
                         net.WriteDouble(num)
                         net.WriteDouble(itemtbl.c)
