@@ -6,7 +6,7 @@ TALENT.Description = "Your weapon has a %s_^ chance to become silenced each roun
 TALENT.Tier = 1
 TALENT.LevelRequired = {min = 5, max = 10}
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 45, max = 65}
+TALENT.Modifications[1] = {min = 35, max = 60}
 TALENT.Melee = false
 TALENT.NotUnique = true
 
