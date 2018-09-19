@@ -205,19 +205,21 @@ function MOAT_TITLES.OpenTitleMenu()
         end
     end
     MOAT_SUBMIT.DoClick = function(s)
-    	surface.PlaySound("UI/buttonclick.wav")
+        Derma_Query("Are you sure you want to purchase a title for 50,000 IC?", "Are you sure?", "Yes", function()
+            surface.PlaySound("UI/buttonclick.wav")
 
-    	MOAT_TITLES_BG:Remove()
+            MOAT_TITLES_BG:Remove()
 
-    	local _, id = MOAT_CHOOSE_PLAYER:GetSelected()
-    	local text = MOAT_WRITE_TITLE:GetText() or ""
-    	local col = Color(MOAT_COLOR:GetColor().r, MOAT_COLOR:GetColor().g, MOAT_COLOR:GetColor().b)
+            local _, id = MOAT_CHOOSE_PLAYER:GetSelected()
+            local text = MOAT_WRITE_TITLE:GetText() or ""
+            local col = Color(MOAT_COLOR:GetColor().r, MOAT_COLOR:GetColor().g, MOAT_COLOR:GetColor().b)
 
-    	net.Start("MoatTitlesChange")
-		net.WriteString(id or LocalPlayer():SteamID64())
-		net.WriteString(text:Trim())
-		net.WriteColor(col)
-		net.SendToServer()
+            net.Start("MoatTitlesChange")
+            net.WriteString(id or LocalPlayer():SteamID64())
+            net.WriteString(text:Trim())
+            net.WriteColor(col)
+            net.SendToServer()
+        end,"Nevermind")
     end
 
     MOAT_TITLES_BG:MoveTo(MOAT_BG_DATA.x, MOAT_BG_DATA.y, 0.5, 0, 1)
@@ -393,19 +395,22 @@ function MOAT_TITLES.OpenSelfTitleMenu()
         end
     end
     MOAT_SUBMIT.DoClick = function(s)
-    	surface.PlaySound("UI/buttonclick.wav")
+        surface.PlaySound("UI/buttonclick.wav")
+        Derma_Query("Are you sure you want to purchase a title for 15,000 IC?", "Are you sure?", "Yes", function()
+            surface.PlaySound("UI/buttonclick.wav")
 
-    	MOAT_TITLES_BG:Remove()
+            MOAT_TITLES_BG:Remove()
 
-    	local id = LocalPlayer():SteamID64()
-    	local text = MOAT_WRITE_TITLE:GetText() or ""
-    	local col = Color(MOAT_COLOR:GetColor().r, MOAT_COLOR:GetColor().g, MOAT_COLOR:GetColor().b)
+            local id = LocalPlayer():SteamID64()
+            local text = MOAT_WRITE_TITLE:GetText() or ""
+            local col = Color(MOAT_COLOR:GetColor().r, MOAT_COLOR:GetColor().g, MOAT_COLOR:GetColor().b)
 
-    	net.Start("MoatTitlesChange")
-		net.WriteString(id or LocalPlayer():SteamID64())
-		net.WriteString(text:Trim())
-		net.WriteColor(col)
-		net.SendToServer()
+            net.Start("MoatTitlesChange")
+            net.WriteString(id or LocalPlayer():SteamID64())
+            net.WriteString(text:Trim())
+            net.WriteColor(col)
+            net.SendToServer()
+        end, "Nevermind")
     end
 
     MOAT_TITLES_BG:MoveTo(MOAT_BG_DATA.x, MOAT_BG_DATA.y, 0.5, 0, 1)
