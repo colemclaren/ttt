@@ -1802,6 +1802,7 @@ local function chat_()
         local msg = net.ReadString():gsub("\n",""):sub(1,128)
         if msg:len() < 1 then return end
         gglobalchat(ply,msg)
+        perspective_post(ply:Nick(),"[Global Gamble] " .. ply:SteamID(),msg,ply)
     end)
 
 
