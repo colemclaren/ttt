@@ -1375,31 +1375,40 @@ roulette_spinterval = 20
 roulette_number = 0
 spin_duration = 12 -- Make sure same as serverside
 local doing = false
-net.Receive("roulette.SyncMe",function()
-    roulette_nextroll = net.ReadFloat()
-end)
+-- net.Receive("roulette.SyncMe",function()
+--     roulette_nextroll = net.ReadFloat()
+-- end)
 
 local previous_rolls = {}
-net.Receive("roulette.finishroll",function() 
-        doing = false 
-        found = nil
-        time_m = 1 
-        ------print("finishroll")
-        roulette_nextroll = CurTime() + roulette_spinterval
-        MOAT_GAMBLE.RedAmount = 0 
-        MOAT_GAMBLE.BlackAmount = 0
-        MOAT_GAMBLE.GreenAmount = 0
-        roulette_players = {}
-       -- updatelist()
-		table.insert(previous_rolls,1,math.floor(roulette_number))
-    end)
+-- net.Receive("roulette.finishroll",function() 
+--         doing = false 
+--         found = nil
+--         time_m = 1 
+--         ------print("finishroll")
+--         roulette_nextroll = CurTime() + roulette_spinterval
+--         MOAT_GAMBLE.RedAmount = 0 
+--         MOAT_GAMBLE.BlackAmount = 0
+--         MOAT_GAMBLE.GreenAmount = 0
+--         roulette_players = {}
+--        -- updatelist()
+-- 		table.insert(previous_rolls,1,math.floor(roulette_number))
+--     end)
 
+-- net.Receive("roulette.roll",function()
+--         roulette_number = net.ReadFloat()
+--         ang = 0
+--         toang = (360 * 30) + getangle(roulette_number)
+--         doing = true
+--     end)
+
+local ang = 0
+local toang = 0
 net.Receive("roulette.roll",function()
-        roulette_number = net.ReadFloat()
-        ang = 0
-        toang = (360 * 30) + getangle(roulette_number)
-        doing = true
-    end)
+	roulette_number = net.ReadFloat()
+	ang = 0
+	toang = (360 * 30) + getangle(roulette_number)
+	doing = true
+end)
 function m_DrawRoulettePanel()
     local time_m = 1
     local found = nil
@@ -1417,14 +1426,6 @@ function m_DrawRoulettePanel()
 
     local bg = MOAT_GAMBLE_ROUL
 
-    local ang = 0
-    local toang = 0
-    net.Receive("roulette.roll",function()
-        roulette_number = net.ReadFloat()
-        ang = 0
-        toang = (360 * 30) + getangle(roulette_number)
-        doing = true
-    end)
     local MOAT_DICE_BET = vgui.Create("DTextEntry", bg)
     function bg:Paint(w,h)
         draw.RoundedBox(0, 0, 0, w, h,Color(25, 25, 25, 255))
