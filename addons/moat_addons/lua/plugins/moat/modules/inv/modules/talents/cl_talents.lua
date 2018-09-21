@@ -5,8 +5,8 @@ end)
 net.Receive("Talents.Silenced",function()
 	local e = net.ReadEntity()
 	if not e.Primary then return end
+	e.Primary.Sound = Sound( "weapons/usp/usp1.wav" )
 	if e:GetOwner() == LocalPlayer() then
-		e.Primary.Sound = Sound( "weapons/usp/usp1.wav" )
 		chat.AddText(Material("icon16/arrow_refresh.png"),Color(255,255,255),"Your weapon (  ",Color(255,0,0)," " .. e.PrintName .. " ",Color(255,255,255), "  ) is now silenced!")
 	end
 end)
