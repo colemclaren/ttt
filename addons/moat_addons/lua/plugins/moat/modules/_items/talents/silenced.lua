@@ -21,6 +21,7 @@ function silence_weapon_talent(weapon)
 	net.Start("Talents.Silenced")
 	net.WriteEntity(weapon)
 	net.Broadcast()
+	weapon.Primary.Sound = Sound( "weapons/usp/usp1.wav" )
 end
 
 function TALENT:ModifyWeapon( weapon, talent_mods )
