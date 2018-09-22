@@ -396,7 +396,7 @@ function SWEP:DrawHUD()
 	local Size = ScrH() / 12
 
 	for i = 1, self:GetEggs() do
-		draw.WebImage("https://images.emojiterra.com/emojione/v2/512px/1f95a.png", ScrW() - Size * (0.3 * i) - Size, ScrH() - Size * 1.5, Size, Size, nil, i == self:GetEggs() and (CurTime() * 5):sin() * 15 or -15, true)
+		draw.WebImage("https://i.moat.gg/18-09-21-z0K.png", ScrW() - Size * (0.3 * i) - Size, ScrH() - Size * 1.5, Size, Size, nil, i == self:GetEggs() and (CurTime() * 5):sin() * 15 or -15, true)
 	end
 
 	CrosshairPos[1], CrosshairPos[2] = tosc.x, tosc.y
