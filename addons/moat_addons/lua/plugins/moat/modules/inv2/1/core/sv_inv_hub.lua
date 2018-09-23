@@ -483,7 +483,7 @@ function m_RemoveInventoryItem(ply, _, class, crate)
     end
 end
 
-net.Receive("MOAT_REM_INV_ITEM", function(len, ply)
+net.ReceiveNoLimit("MOAT_REM_INV_ITEM", function(len, ply)
     local class = net.ReadUInt(32)
     local crate = net.ReadByte()
 

@@ -544,7 +544,7 @@ function m_RemoveInventoryItem(ply, slot, class, crate)
     hook.Run("PlayerDeconstructedItem", ply, item_enum)
 end
 
-net.Receive("MOAT_REM_INV_ITEM", function(len, ply)
+net.ReceiveNoLimit("MOAT_REM_INV_ITEM", function(len, ply)
     local slot = net.ReadDouble()
     local class = net.ReadDouble()
     local crate = net.ReadDouble()
