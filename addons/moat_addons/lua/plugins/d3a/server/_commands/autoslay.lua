@@ -11,7 +11,7 @@ COMMAND.Args = {{"player", "Name/SteamID"}, {"number", "Rounds/0 to Cancel"}, {"
 COMMAND.Run = function(pl, args, supplement)
 	local plname = (((pl and pl.rcon) or IsValid(pl)) and pl:Name()) or "Console"
 	
-	local targ = supplement[1]
+	local targ = D3A.FindPlayer(args[1])
 	local rounds = tonumber(args[2]) or 1
 	local reason = table.concat(args, " ", 3)
 
