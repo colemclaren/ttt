@@ -29,7 +29,7 @@ local custom_min = {
     INSULT = 0.9
 }
 function perspective_post(nick,sid,message,ply)
-    if #message < 10 then return end
+    if #message < 3 then return end
     if cached_toxic[message] then return end -- avoid short term spam
     cached_toxic[message] = true
     if message:match("^[!/]") then return end -- comman d
@@ -83,7 +83,6 @@ hook.Add("PlayerInitialSpawn","Automatic Hate kicking",function(ply)
 end)
 
 hook.Add("PlayerSay","Automatic Hateful Conduct Ban",function(ply,txt)
-    local h,i = contains_hateful(txt)
     perspective_post(ply:Nick(),ply:SteamID(),txt,ply)
 end)
 
