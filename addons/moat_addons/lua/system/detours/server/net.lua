@@ -40,8 +40,13 @@ function net.Receive( name, _func )
         -- calculate if this person is hogging the cpu with this request
         elseif (limit.calls > 10 and (engine.TickCount() - limit.starttick + 1) * engine.TickInterval() / (now - limit.starttime) < 0.75) then
             if (not limit.notified) then
-                local msg = string.format("`%s (%s) [%s]` triggered net limiter for `%s` (`%i` calls over `%0.2f` seconds) server: `%s`", p:Nick(), p:SteamID(), p:IPAddress(), name, limit.calls, now - limit.starttime, game.GetIPAddress())
-                ServerLog(msg)
+                local msg = string(":warning: ", 
+					style.Code(name), style.Dot(style.BoldUnderline(limit.calls) .. " Calls"), style.Dot(style.BoldUnderline(now - limit.starttime) .. " Seconds"),
+					style.NewLine(style.Pipe("Net Limiter for ")), style.Code(p:Nick()), style.Dot(style.Code(p:SteamID())), style.Dot(style.Code(p:IPAddress())), style.Dot(p:SteamURL()),
+					style.NewLine(style.Pipe("Playing on ")), style.Extra(GetServerName(), GetServerURL())
+				)
+				
+				ServerLog(msg .. "\n")
                 if (not name:match("MOAT_REM_INV_ITEM")) and (not name:match("moatBulletTrace")) then
                     discord.Send("Skid", "<@135912347389788160> <@150809682318065664> "..msg)
                 end

@@ -98,13 +98,17 @@ MOAT_DONATE.Packages = {
 		end
 		XP_MULTIPYER = 8
 
-		local msg = ply:NameID() .. " started map event '" .. MG_cur_event:Bold() .. "' on server: " .. string.Extra(Server.Nick, Server.IP)
+		local msg = string(
+			":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()),
+			":tada: Launched " .. style.BoldUnderline("Quadra XP") .. " Map Event on " .. style.Extra(GetServerName(), GetServerURL())
+		)
 
-		discord.Send("Event", markdown.WrapBold(
+
+		discord.Send("Moat TTT Announcement", markdown.WrapBold(
 				string (":satellite_orbital::satellite: ",
 					markdown.Bold "Global TTT Announcement",
 					" :satellite::satellite_orbital:",
-					markdown.LineStart(":construction_worker::loudspeaker: " .. msg)
+					markdown.LineStart(msg)
 				)
 			)
 		)
