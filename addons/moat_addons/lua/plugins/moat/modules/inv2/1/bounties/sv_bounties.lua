@@ -329,7 +329,7 @@ local function _contracts()
 		c.runfunc()
 
 		local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
-		s = s .. markdown.Code(name .. markdown.WrapLine(c.desc))
+		s = s .. markdown.Block(name .. markdown.WrapLine(c.desc))
 		discord.Send("Contracts", s)
 
 		contract_loaded = name
@@ -357,7 +357,7 @@ local function _contracts()
 				c.runfunc()
 
 				local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
-				s = s .. markdown.Code(name .. markdown.WrapLine(c.desc))
+				s = s .. markdown.Block(name .. markdown.WrapLine(c.desc))
 				discord.Send("Contracts", s)
 
 				contract_loaded = name
@@ -1855,7 +1855,7 @@ function MOAT_BOUNTIES.ResetBounties()
 		end
 	end
 
-	discord.Send("Bounties", markdown.Code(" ") .. markdown.WrapBold(
+	discord.Send("Bounties", markdown.Block(" ") .. markdown.WrapBold(
 			string (":calendar_spiral: ",
 				"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
 				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. Server.IP)),

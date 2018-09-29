@@ -54,6 +54,14 @@ local md = {
 	Line = Line
 }
 
+function md.Dot(str)
+	return " • " .. str
+end
+
+function md.Pipe(str)
+	return " | " .. str
+end
+
 function md.Bold(str)
 	return "**" .. str .. "**"
 end
@@ -84,10 +92,12 @@ md.UnderlineItalics = md.ItalicsUnderline
 function md.Highlight(str)
 	return "`" .. str .. "`"
 end
+md.Code = md.Highlight
 
-function md.Code(str, lang)
+function md.CodeBlock(str, lang)
 	return "```" .. (lang or "") .. SplitLine(str) .. "```"
 end
+md.Block = md.CodeBlock
 
 function md.WrapBold(str, n)
 	return NewLine(BoldLine, n) .. NewLine(str) .. NewLine(BoldLine)
@@ -121,12 +131,14 @@ function md.BoldEnd(str, n)
 	return NewLine(str, n) .. NewLine(BoldLine)
 end
 
+-- hypothetically, you can use this yes
+-- but you gotta be careful if the string is fukd u kno
 for k, v in pairs(md) do
 	string_table[k] = v
 end
 
 markdown = md
-
+style = md
 
 ----------------------
 -- String Utilities --
