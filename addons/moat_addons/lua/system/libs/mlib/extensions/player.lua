@@ -22,8 +22,12 @@ local function SteamID64(pl)
 	return IsValid(pl) and pl:SteamID64()
 end
 
+local function IPAddress(pl)
+	return IsValid(pl) and pl:IPAddress() or "0.0.0.0"
+end
+
 function Name(ply)
-	return IsValid(ply) and ply:Name() or "Player"
+	return IsValid(ply) and ply:Nick() or "Player"
 end
 
 function PLAYER:NameInfo(str, split)
@@ -44,4 +48,12 @@ end
 
 function PLAYER:NameID64(split)
 	return NameInfo(self, SteamID64(self), split)
+end
+
+function PLAYER:SteamURL()
+	return "https://steamcommunity.com/profiles/" .. SteamID64(self)
+end
+
+function PLAYER:GetIP()
+	return (":"):Explode(IPAddress(self))[1]
 end

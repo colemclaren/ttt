@@ -23,6 +23,31 @@ Server = Server or {
 	IsDev = true
 }
 
+----
+-- our server's nick name, ex:
+-- TTT Minecraft #2
+----
+GetServerName = function()
+	return Server.Name or GetHostName()
+end
+
+----
+-- our server's full ip, ex:
+-- 208.103.169.28:27015
+----
+GetServerIP = function()
+	return Server.IP or "hewwo server ip ?? uwu"
+end
+
+----
+-- our server's steam connect url, ex:
+-- steam://connect/ttt-mc2.moat.gg:27016
+----
+GetServerURL = function()
+	return Server.ConnectURL or (Servers.SteamURL .. Server.IP)
+end
+
+
 local servers = {
 	n = 0,
 	List = {
