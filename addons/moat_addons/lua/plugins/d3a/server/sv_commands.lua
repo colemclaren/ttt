@@ -207,41 +207,41 @@ concommand.Add(D3A.Alias, D3A.Commands.ConCommand)
 concommand.Add(string.sub(D3A.Alias, 1, 1), D3A.Commands.ConCommand)
 
 D3A.DiscordLogs = {
-	["afk"] = {"Player AFK", "``%s`` has afk'd ``%s``."},
-	["unafk"] = {"Player AFK", "``%s`` has unafk'd ``%s``."},
-	["aslay"] = {"Player ASlay", "``%s`` has added **%s** autoslays to ``%s`` with the reason: **%s**."},
-	["removeslays"] = {"Player ASlay", "``%s`` has removed the autoslays of ``%s``."},
-	["block"] = {"Player Blocked", "``%s`` blocked communications with ``%s``."},
-	["unblock"] = {"Player Blocked", "``%s`` has unblocked communications with ``%s``."},
-	["bring"] = {"Player Teleported", "``%s`` has teleported ``%s`` to them."},
-	["cleardecals"] = {"Cleared Decals", "``%s`` has cleared the decals."},
-	["forcemotd"] = {"Forced MOTD", "``%s`` has forced the MOTD to open on ``%s``."},
-	["goto"] = {"Player Teleported", "``%s`` has teleported to ``%s``."},
-	["kick"] = {"Player Kicked", "``%s`` has kicked ``%s``. Reason: **%s**."},
-	["map"] = {"Map Forced", "``%s`` has changed the map to **%s**."},
-	["mute"] = {"Player Muted", "``%s`` has muted ``%s``'s chat."},
-	["unmute"] = {"Player Muted", "``%s`` has unmuted ``%s``'s chat."},
-	["gag"] = {"Player Gagged", "``%s`` has gagged ``%s``'s voice."},
-	["ungag"] = {"Player Gagged", "``%s`` has ungagged ``%s``'s voice."},
-	["noinvis"] = {"Invisible Players", "``%s`` has fixed any invisible players."},
-	["nolag"] = {"Lag Prevention", "``%s`` has frozen everything to prevent server lag."},
-	["pa"] = {"PA to Players", "``%s`` wrote: **[STAFF]** ``%s``."},
-	["reconnect"] = {"Player Reconnected", "``%s`` has forced ``%s`` to reconnect."},
-	["removetitle"] = {"Player Title", "``%s`` has removed the scoreboard title of ``%s``, which was changed by **%s**."},
-	["return"] = {"Player Teleported", "``%s`` has returned ``%s``."},
-	["setgroup"] = {"Player Rank", "``%s`` has set the rank of ``%s`` to **%s**."},
-	["slay"] = {"Player Slain", "``%s`` has slain ``%s``."},
-	["votekick"] = {"Votekick Started", "``%s`` has started a votekick on ``%s``."},
-	["votekick_pass"] = {"Votekick Passed", "``%s`` has been votekicked by ``%s``."},
-	["tele"] = {"Player Teleported", "``%s`` has teleported ``%s``."},
-	["votekickban"] = {"Player Votekick Banned", "``%s`` has added ``%s`` to the votekick ban list. Reason: **%s**."},
-	["votekickban_update"] = {"Player Votekick Banned", "``%s``'s votekick ban was updated by ``%s``. Reason: **%s**."},
-	["votekickunban"] = {"Player Votekick Unbanned", "``%s`` has removed the votekick ban for ``%s``."},
-	["unban"] = {"Player Unbanned", "``%s`` has unbanned ``%s``. Reason: **%s**."},
-	["ban"] = {"Player Banned", "``%s`` was banned by ``%s`` for **%s**. Reason: **%s**."},
-	["ban_update"] = {"Player Banned [Updated]", "``%s``'s ban was updated by ``%s`` to **%s**. Reason: **%s**."},
-	["voicebattery"] = {"Voice Battery", "``%s`` has **enabled** the voice battery."},
-	["novoicebattery"] = {"Voice Battery", "``%s`` has **disabled** the voice battery."}
+	["afk"] = {"Player AFK", "``%s`` has afk'd ``%s``.", "🛌"},
+	["unafk"] = {"Player AFK", "``%s`` has unafk'd ``%s``.", "🏃‍"},
+	["aslay"] = {"Player ASlay", "``%s`` has added **%s** autoslays to ``%s`` with the reason: **%s**.", "☠"},
+	["removeslays"] = {"Player ASlay", "``%s`` has removed the autoslays of ``%s``.", "😇"},
+	["block"] = {"Player Blocked", "``%s`` blocked communications with ``%s``.", "✋"},
+	["unblock"] = {"Player Blocked", "``%s`` has unblocked communications with ``%s``.", "👌"},
+	["bring"] = {"Player Teleported", "``%s`` has teleported ``%s`` to them.", "⬇"},
+	["cleardecals"] = {"Cleared Decals", "``%s`` has cleared the decals.", "🌪"},
+	["forcemotd"] = {"Forced MOTD", "``%s`` has forced the MOTD to open on ``%s``.", "📖"},
+	["goto"] = {"Player Teleported", "``%s`` has teleported to ``%s``.", "➡"},
+	["kick"] = {"Player Kicked", "``%s`` has kicked ``%s``. Reason: **%s**.", "💃"},
+	["map"] = {"Map Forced", "``%s`` has changed the map to **%s**.", "🌎"},
+	["mute"] = {"Player Muted", "``%s`` has muted ``%s``'s chat.", "🙈"},
+	["unmute"] = {"Player Muted", "``%s`` has unmuted ``%s``'s chat.", "🙉"},
+	["gag"] = {"Player Gagged", "``%s`` has gagged ``%s``'s voice.", "🙊"},
+	["ungag"] = {"Player Gagged", "``%s`` has ungagged ``%s``'s voice.", "🙉"},
+	["noinvis"] = {"Invisible Players", "``%s`` has fixed any invisible players.", "🥋"},
+	["nolag"] = {"Lag Prevention", "``%s`` has frozen everything to prevent server lag.", "☃"},
+	["pa"] = {"PA to Players", "``%s`` wrote: ``[STAFF] %s``", "📢"},
+	["reconnect"] = {"Player Reconnected", "``%s`` has forced ``%s`` to reconnect.", "♻"},
+	["removetitle"] = {"Player Title", "``%s`` has removed the scoreboard title of ``%s``, which was changed by **%s**.", "✏"},
+	["return"] = {"Player Teleported", "``%s`` has returned ``%s``.", "⬅"},
+	["setgroup"] = {"Player Rank", "``%s`` has set the rank of ``%s`` to **%s**.", "💇‍"},
+	["slay"] = {"Player Slain", "``%s`` has slain ``%s``.", "💀"},
+	["votekick"] = {"Votekick Started", "``%s`` has started a votekick on ``%s``.", "⛳"},
+	["votekick_pass"] = {"Votekick Passed", "``%s`` has been votekicked by ``%s``.", "🏌️‍", "votekick"},
+	["tele"] = {"Player Teleported", "``%s`` has teleported ``%s``.", "↗"},
+	["votekickban"] = {"Player Votekick Banned", "``%s`` has added ``%s`` to the votekick ban list. Reason: **%s**.", "😒", "votekickban"},
+	["votekickban_update"] = {"Player Votekick Banned", "``%s``'s votekick ban was updated by ``%s``. Reason: **%s**.", "😒"},
+	["votekickunban"] = {"Player Votekick Unbanned", "``%s`` has removed the votekick ban for ``%s``.", "🤨"},
+	["unban"] = {"Player Unbanned", "``%s`` has unbanned ``%s``. Reason: **%s**.", "🌈"},
+	["ban"] = {"Player Banned", "``%s`` was banned by ``%s`` for **%s**. Reason: **%s**.", "🌩"},
+	["ban_update"] = {"Player Banned [Updated]", "``%s``'s ban was updated by ``%s`` to **%s**. Reason: **%s**.", "🌧", "ban"},
+	["voicebattery"] = {"Voice Battery", "``%s`` has **enabled** the voice battery.", "🤐"},
+	["novoicebattery"] = {"Voice Battery", "``%s`` has **disabled** the voice battery.", "🙂"}
 }
 
 function D3A.Commands.Discord(...)
@@ -251,11 +251,19 @@ function D3A.Commands.Discord(...)
 	end
 
 	local msg = D3A.DiscordLogs[args[1]]
-	local str, header = msg[2], "``[" .. util.UTCTime() .. "]`` • " .. msg[1] .. " • **!" .. args[1] .. "** • ``" .. (Server and Server.Name or GetHostName()) .. "``"
+	if (not msg) then
+		return
+	end
 
+	local str, emoji = msg[2], msg[3] or "🙂"
+	if (msg[4]) then
+		args[1] = msg[4]
+	end
+
+	local header = emoji .. " ``[" .. util.UTCTime() .. "]`` • " .. msg[1] .. " • **!" .. args[1] .. "** • ``" .. GetServerName() .. "``"
 	if (args[2]) then
 		str = string.format(str, unpack(args, 2))
 	end
 
-	discord.Send("MGA Log", header .. "\n" .. str)
+	discord.Send("MGA Log", header .. "\n | " .. str)
 end
