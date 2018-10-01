@@ -51,6 +51,7 @@ local md = {
 	NewLine = NewLine,
 	SplitLine = SplitLine,
 	BoldLine = BoldLine,
+	LineCode = LineCode,
 	Line = Line
 }
 
