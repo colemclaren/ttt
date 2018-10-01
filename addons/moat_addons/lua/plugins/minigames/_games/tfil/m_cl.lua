@@ -30,7 +30,8 @@ local SmoothLevel = -32000
 local MapScale = 1
 local SkyboxScale = 1
 local ClipTab = {}
-
+local c_CurrentColor = Color( 255, 0, 0 )
+local c_DesiredColor = CurrentColor
 
 local kills = {}
 

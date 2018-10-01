@@ -20,9 +20,23 @@ local player_manager = player_manager
 local CurTime = CurTime
 local m_UnderDescentAmount = 16 * 1.5
 
+local PLAYER = FindMetaTable("Player")
 
+function PLAYER:CheckHullCollision()
+	local tR = util.TraceHull{
+		filter = self,
+		start = self:GetPos(),
+		endpos = self:GetPos(),
+		mins = self:OBBMins(),
+		maxs = self:OBBMaxs(),
+	}
 
+	if self:GetMoveType() ~= 9 and tR.Entity and (tR.Entity:IsWorld() or IsValid(tR.Entity) or tR.StartSolid or tR.AllSolid ) then
+		return IsValid(tR.Entity), tR.Entity
+	end
 
+	return false
+end
 
 util.AddNetworkString("LAVA_I_Just_Joined")
 util.AddNetworkString("lava_Begin")
@@ -167,6 +181,7 @@ function MG_LAVA.Win()
     net.Start("LAVA_End")
     local t = {}
     for k,v in pairs(player.GetAll()) do
+        v:SetCustomCollisionCheck(false)
         if not IsValid(v) then continue end
         if not v.LavaScore then v.LavaScore = 0 end
         table.insert(t,{v,math.Round(v.LavaScore)})
@@ -265,7 +280,24 @@ local SoundsList = {"vo/npc/male01/help01.wav", "ambient/voices/m_scream1.wav", 
 
 
 function MG_LAVA.PlayerTick(Player)
+    if Player:OnGround() and Player.GroundSkippy then
+        Player.GroundSkippy = false
+    elseif Player:OnGround() then
+        Player.CanSkippy = true
+    end
     if Player:Alive() and Player:GetPos().z <= Lava.CurrentLevel and not Player:IsSpec() then
+        if not Player:OnGround() and Player.CanSkippy then
+            Player.CanSkippy = false
+            Player.GroundSkippy = true
+            Player:SetGroundEntity( Entity( 0 ) )
+            local plyv = Player:GetAimVector()
+            plyv.z = 1.5
+            plyv = plyv * ( Player:GetVelocity():Length()*0.75 )
+            timer.Simple(0,function()
+                Player:SetPos(Player:GetPos() + Vector(0, 0, 5))
+                Player:SetVelocity( plyv )
+            end)
+        end
         if Player:WaterLevel() > 0 then Player:Kill() end
 		Player:Ignite(0.1, 0)
 		Player.m_NextScreamSoundTime = Player.m_NextScreamSoundTime or CurTime()
@@ -294,6 +326,8 @@ function MG_LAVA.TakeDamage(ply, dmginfo)
             dmginfo:ScaleDamage(5)
         elseif dmginfo:IsDamageType(DMG_CRUSH) then
             dmginfo:ScaleDamage(0)
+        elseif dmginfo:IsDamageType(DMG_FALL) then
+            dmginfo:ScaleDamage(0.25)
         end
     end
 end
@@ -312,10 +346,9 @@ function MG_LAVA.PlayerDisconnected(ply)
 end
 
 function MG_LAVA.Collide(a,b)
-    /*if a:IsPlayer() and b:IsPlayer() and (a:GetMoveType() == MOVETYPE_LADDER or b:GetMoveType() == MOVETYPE_LADDER) then
+    if (a:IsPlayer() and b:IsPlayer()) and (a:GetMoveType() == MOVETYPE_LADDER or b:GetMoveType() == MOVETYPE_LADDER) then
         return false
     end
-    return true*/
 end
 
 --MOVETYPE_LADDER
@@ -352,6 +385,7 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
     MG_LAVA.HookAdd("PlayerTick",MG_LAVA.PlayerTick)
     MG_LAVA.HookAdd("PostPlayerDeath",MG_LAVA.PostPlayerDeath)
     MG_LAVA.HookAdd("ShouldCollide",MG_LAVA.Collide)
+
     MG_LAVA.SpawnPoints = {}
 
 
@@ -373,9 +407,23 @@ function MG_LAVA.BeginRound()
             v:Remove()
         end
     end
+    timer.Create("Lava.Unstuck",5,0,function()
+        if not MG_LAVA.InProgress then timer.Destroy("Lava.Unstuck") return end
+        for k,v in ipairs(player.GetAll()) do
+            if v:Alive() and (not v:IsSpec()) then
+                local a,b = v:CheckHullCollision()
+                if a and (b:IsPlayer()) and (not v:GetMoveType() == 9) then
+                    v:SetPos(v._lastValidPos)
+                else
+                    v._lastValidPos = v:GetPos()
+                end
+            end
+        end
+    end)
     for k,v in pairs(player.GetAll()) do
         v:Spawn()
         v:SetRole(ROLE_INNOCENT)
+        v:SetCustomCollisionCheck(true)
         v:Give("lava_fists")
         v:Give("weapon_ttt_unarmed")
         timer.Simple(1,function()

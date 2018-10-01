@@ -57,6 +57,10 @@ local util = util
 local Vector = Vector
 local m_HasDispatchedEgg
 
+local c_CurrentColor = Color( 255, 0, 0 )
+local c_DesiredColor = Color(255,0,0)
+
+
 function SWEP:Initialize()
 	self:SetHoldType("normal")
 	self:SetEggs(6)
@@ -367,6 +371,23 @@ local c_CValue = 1
 local pColor = pColor
 local vgui = vgui
 local CrosshairPos = {}
+local function EyeTraceEntity()
+	local t = LocalPlayer():GetEyeTrace().Entity
+	if IsValid( t ) and type( t ) == "Player" then
+		return Color(0,255,0)
+	end
+end
+if CLIENT then
+	local cmeta = debug.getregistry().Color
+	local ma = math.Approach
+	local lp = Lerp
+	function cmeta:Lerp(b, n)
+		return Color(lp(n, self.r, b.r), lp(n, self.g, b.g), lp(n, self.b, b.b), lp(n, self.a, b.a))
+	end
+	function cmeta:Alpha(n)
+		return Color(self.r, self.g, self.b, n)
+	end
+end
 
 function SWEP:DrawHUD()
 	if vgui.CursorVisible() then return end
@@ -390,9 +411,15 @@ function SWEP:DrawHUD()
 		c_CValue = c_CValue:Clamp(10, ScrH() / 20)
 	end
 
+	c_DesiredColor = EyeTraceEntity() or Color(255,0,0)
+	c_CurrentColor = c_CurrentColor:Lerp( c_DesiredColor, FrameTime() * 3 ):Alpha(255 - c_CValue)
+
+
 	local xE, xT = (ScrH() / 100 + c_CValue), (c_CValue * ScrH() / 300)
-	draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
-	draw.WebImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
+	-- draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
+	-- draw.WebImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
+	draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5 * 2, xE / 2 + (CurTime() * 10):sin() * 5 * 2, c_CurrentColor, (c_CValue / 5):sin() * 180)
+	draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 5):sin() * 5 * 5 * 2, xE / 2 + (CurTime() * 5):sin() * 5 * 5 * 2, c_CurrentColor, (c_CValue / 5):sin() * 180)
 	local Size = ScrH() / 12
 
 	for i = 1, self:GetEggs() do
