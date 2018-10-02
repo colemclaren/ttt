@@ -513,41 +513,6 @@ local function StoreSearchResult(search)
     end
 end
 
-local dis = {
-    ["CHudDamageIndicator"] = true
-}
-
-hook.Add("HUDShouldDraw", "DamageMeme", function(txt)
-    if GetConVar("moat_red_screen"):GetInt() == 1 and dis[txt] then return false end
-end)
-
-local damage_m = 0
-local oldhp = 0
-
-hook.Add("HUDPaint", "DamageMeme", function()
-    if GetConVar("moat_red_screen"):GetInt() ~= 1 then return end
-    if not LocalPlayer():Alive() then return end
-
-    if oldhp < LocalPlayer():Health() then
-        oldhp = LocalPlayer():Health()
-    end
-
-    -- healing
-    if oldhp > LocalPlayer():Health() then
-        damage_m = CurTime() + 0.2
-        oldhp = LocalPlayer():Health()
-    end
-
-    if damage_m > CurTime() then
-        local redd = Color(255, 0, 0, 200 - math.min(100, LocalPlayer():Health()))
-        local w, h = ScrW(), ScrH()
-        draw.RoundedBox(0, 0, 0, w * 0.05, h, redd)
-        draw.RoundedBox(0, w * 0.95, 0, w * 0.05, h, redd)
-        draw.RoundedBox(0, w * 0.05, 0, w * 0.9, h * 0.05, redd)
-        draw.RoundedBox(0, w * 0.05, h * 0.95, w * 0.9, h * 0.05, redd)
-    end
-end)
-
 local function bitsRequired(num)
     local bits, max = 0, 1
 
@@ -644,3 +609,43 @@ local function pd()
 end
 
 hook.Add("InitPostEntity", "moat.load.custom.roles", pd)
+
+local dis = {
+    ["CHudDamageIndicator"] = true
+}
+
+local badred = GetConVar("moat_red_screen")
+local badredoff = true
+
+hook.Add("HUDShouldDraw", "DamageMeme", function(txt)
+	if (not badred or badredoff) then return end
+    if dis[txt] then return false end
+end)
+
+local damage_m = 0
+local oldhp = 0
+
+hook.Add("HUDPaint", "DamageMeme", function()
+	if (not badred or badred:GetInt() == 0) then badredoff = true return end
+	badredoff = false
+    if not LocalPlayer():Alive() then return end
+
+    if oldhp < LocalPlayer():Health() then
+        oldhp = LocalPlayer():Health()
+    end
+
+    -- healing
+    if oldhp > LocalPlayer():Health() then
+        damage_m = CurTime() + 0.2
+        oldhp = LocalPlayer():Health()
+    end
+
+    if damage_m > CurTime() then
+        local redd = Color(255, 0, 0, 200 - math.min(100, LocalPlayer():Health()))
+        local w, h = ScrW(), ScrH()
+        draw.RoundedBox(0, 0, 0, w * 0.05, h, redd)
+        draw.RoundedBox(0, w * 0.95, 0, w * 0.05, h, redd)
+        draw.RoundedBox(0, w * 0.05, 0, w * 0.9, h * 0.05, redd)
+        draw.RoundedBox(0, w * 0.05, h * 0.95, w * 0.9, h * 0.05, redd)
+    end
+end)

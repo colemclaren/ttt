@@ -441,13 +441,13 @@ end
 
 local v = Vector()
 
-if not file.Exists("moat_lava.jpg","DATA") then
+if not file.Exists("moat_lavad.jpg","DATA") then
     http.Fetch("http://i.imgur.com/swJIriB.jpg",function(a)
-        file.Write("moat_lava.jpg",a)
-        LavaTexture = Material("data/moat_lava.jpg","noclamp")
+        file.Write("moat_lavad.jpg",a)
+        LavaTexture = Material("data/moat_lavad.jpg","noclamp")
     end)
 else
-    LavaTexture = Material("data/moat_lava.jpg","noclamp")
+    LavaTexture = Material("data/moat_lavad.jpg","noclamp")
 end
 local dirs = {
 	right = Vector(1, 0, 0),

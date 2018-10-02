@@ -280,9 +280,9 @@ local SoundsList = {"vo/npc/male01/help01.wav", "ambient/voices/m_scream1.wav", 
 
 
 function MG_LAVA.PlayerTick(Player)
-    if Player:OnGround() and Player.GroundSkippy then
+    if Player:OnGround() and Player.GroundSkippy and (not (Player:GetPos().z <= Lava.CurrentLevel)) then
         Player.GroundSkippy = false
-    elseif Player:OnGround() then
+    elseif Player:OnGround() and (not (Player:GetPos().z <= Lava.CurrentLevel)) then
         Player.CanSkippy = true
     end
     if Player:Alive() and Player:GetPos().z <= Lava.CurrentLevel and not Player:IsSpec() then
