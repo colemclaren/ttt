@@ -414,7 +414,7 @@ function MG_LAVA.BeginRound()
                 local a,b = v:CheckHullCollision()
                 if a and (b:IsPlayer()) and (not v:GetMoveType() == 9) then
                     v:SetPos(v._lastValidPos)
-                else
+                elseif (not v:GetMoveType() == 9) then
                     v._lastValidPos = v:GetPos()
                 end
             end
