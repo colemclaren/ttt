@@ -38,6 +38,14 @@ local kills = {}
 local stats_spawn = GetConVar("moat_showstats_spawn")
 local stats_spawn_old = false
 net.Receive("lava_Begin",function()
+    if not file.Exists("moat_lavad.jpg","DATA") then
+        http.Fetch("https://i.moat.gg/18-10-02-75S.jpg",function(a)
+            file.Write("moat_lavad.jpg",a)
+            LavaTexture = Material("data/moat_lavad.jpg","noclamp")
+        end)
+    else
+        LavaTexture = Material("data/moat_lavad.jpg","noclamp")
+    end
     MOAT_MINIGAME_OCCURING = true
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_LAVA = {
@@ -441,14 +449,6 @@ end
 
 local v = Vector()
 
-if not file.Exists("moat_lavad.jpg","DATA") then
-    http.Fetch("http://i.imgur.com/swJIriB.jpg",function(a)
-        file.Write("moat_lavad.jpg",a)
-        LavaTexture = Material("data/moat_lavad.jpg","noclamp")
-    end)
-else
-    LavaTexture = Material("data/moat_lavad.jpg","noclamp")
-end
 local dirs = {
 	right = Vector(1, 0, 0),
 	frwd = Vector(0, 1, 0)
