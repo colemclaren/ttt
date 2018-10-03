@@ -35,6 +35,16 @@ end
 function MOAT_PUMPKIN.SpawnRandom()
 	if (#MOAT_PUMPKIN.SpawnPositions < 1 or GetRoundState() ~= ROUND_ACTIVE) then return end
 	local p = player.GetAll()
+	local a = 0
+	local d = 0
+	for k,v in ipairs(p) do
+		if v:Alive() and (not v:IsSpec()) then
+			a = a + 1
+		else
+			d = d + 1
+		end
+	end
+	if d > a then return end
 	local pos = table.Random(MOAT_PUMPKIN.SpawnPositions)
 	for k,v in RandomPairs(MOAT_PUMPKIN.SpawnPositions) do
 		local stop = false
