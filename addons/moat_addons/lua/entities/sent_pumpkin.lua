@@ -71,6 +71,7 @@ function ENT:Think()
 			for k, v in pairs(pls) do
 				if (IsValid(v) and (v:GetPos():Distance(self:GetPos()) <= 58) and v:Alive() and v:Team() ~= TEAM_SPEC and (not MOAT_BOSS_CUR or (MOAT_BOSS_CUR and v ~= MOAT_BOSS_CUR))) then
 					-- give item
+					if self.Grabbed then return end
 					self.Grabbed = true
 					v:m_DropInventoryItem("Pumpkin Crate")
 					
