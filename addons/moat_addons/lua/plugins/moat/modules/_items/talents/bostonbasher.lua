@@ -14,7 +14,7 @@ TALENT.Modifications[1] = {min = 15, max = 30} // Percent damage is increased by
 
 util.AddNetworkString "Talents.BostonBasher"
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
-    if (GetRoundState() ~= ROUND_ACTIVE and GetRoundState() ~= ROUND_POST) then return end
+    if (GetRoundState() ~= ROUND_ACTIVE and GetRoundState() ~= ROUND_POST) or MOAT_MINIGAME_OCCURING then return end
 
 	dmginfo.Callback = function(att, tr, dmginfo)
 		if (not IsValid(tr.Entity)) then
