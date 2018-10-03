@@ -49,7 +49,7 @@ function MOAT_PUMPKIN.SpawnRandom()
 	if (MOAT_PUMPKIN.Debug) then ServerLog "Spawned Egg" end
 end
 
-/*
+
 hook.Add("TTTBeginRound", "moat_record_easter", function()
 	if (GetGlobalInt("ttt_rounds_left") ~= 8) then return end
 	--if (not MOAT_PUMPKIN.Record) then return end
@@ -62,7 +62,7 @@ hook.Add("TTTBeginRound", "moat_record_easter", function()
 
 		MOAT_PUMPKIN.RecordPositions()
 	end)
-end)*/
+end)
 
 concommand.Add("moat_record_pos", function()
 	if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
