@@ -25,16 +25,31 @@ MOAT_PUMPKIN.Debug = false
 function MOAT_PUMPKIN.RecordPositions()
 	if (MOAT_PUMPKIN.Debug) then ServerLog "Recorded Positions" end
 	
-	for k, v in pairs(player.GetAll()) do
-		if (v:Team() ~= TEAM_SPEC) then
+	for k, v in ipairs(player.GetAll()) do
+		if (v:Team() ~= TEAM_SPEC) and (v:OnGround()) then
 			table.insert(MOAT_PUMPKIN.SpawnPositions, v:GetPos())
 		end
 	end
 end
 
 function MOAT_PUMPKIN.SpawnRandom()
-	if (#MOAT_EASTER.SpawnPositions < 1 or GetRoundState() ~= ROUND_ACTIVE) then return end
-	local pos = MOAT_EASTER.SpawnPositions[math.random(1, #MOAT_EASTER.SpawnPositions)]
+	if (#MOAT_PUMPKIN.SpawnPositions < 1 or GetRoundState() ~= ROUND_ACTIVE) then return end
+	local p = player.GetAll()
+	local pos = table.Random(MOAT_PUMPKIN.SpawnPositions)
+	for k,v in RandomPairs(MOAT_PUMPKIN.SpawnPositions) do
+		local stop = false
+		for i,o in ipairs(p) do
+			if o:IsSpec() then continue end
+			if o:GetPos():Distance(v) < 300 then 
+				stop = true
+				break 
+			end
+		end
+		if not stop then
+			pos = v
+			break
+		end
+	end
 
 	local ent = ents.Create("sent_pumpkin")
     ent:SetPos(pos + Vector(math.random(-48, 48), math.random(-48, 48), 16))
@@ -49,19 +64,22 @@ function MOAT_PUMPKIN.SpawnRandom()
 	if (MOAT_PUMPKIN.Debug) then ServerLog "Spawned Egg" end
 end
 
-
 hook.Add("TTTBeginRound", "moat_record_easter", function()
-	if (GetGlobalInt("ttt_rounds_left") ~= 8) then return end
 	--if (not MOAT_PUMPKIN.Record) then return end
 	
 	MOAT_PUMPKIN.RecordPositions()
 
-	timer.Create("moat_easter_egg_record", 15, 0, function()
+	timer.Simple(15,function()	
+		MOAT_PUMPKIN.RecordPositions() 
+	end)
+
+	timer.Create("moat_easter_egg_record", 30, 0, function()
 		--if (not MOAT_PUMPKIN.Record) then timer.Remove("moat_easter_egg_record") return end
-		if (GetGlobalInt("ttt_rounds_left") ~= 8) then timer.Remove("moat_easter_egg_record") return end
+		-- if (GetGlobalInt("ttt_rounds_left") ~= 8) then timer.Remove("moat_easter_egg_record") return end
 
 		MOAT_PUMPKIN.RecordPositions()
 	end)
+	hook.Remove("TTTBeginRound", "moat_record_easter")
 end)
 
 concommand.Add("moat_record_pos", function()
