@@ -27,7 +27,7 @@ MOAT_DONATE.Packages = {
 		local crates = m_GetActiveCrates()
 
 		-- moat_DropIndependence(pl, 1)
-		ply:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, true)
+		pl:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, true)
 
 		for i = 1, 15 do
 			local crate = crates[math.random(1, #crates)].Name
@@ -46,7 +46,7 @@ MOAT_DONATE.Packages = {
 		pl:Drop20()
 		-- moat_DropIndependence(pl, 2)
 		for i = 1, 2 do
-			ply:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, true)
+			pl:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, true)
 		end
 
 		m_SaveInventory(pl)
@@ -61,7 +61,7 @@ MOAT_DONATE.Packages = {
 		pl:Drop50()
 		-- moat_DropIndependence(pl, 6)
 		for i = 1, 6 do
-			ply:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, true)
+			pl:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, true)
 		end
 
 		m_SaveInventory(pl)
@@ -76,7 +76,7 @@ MOAT_DONATE.Packages = {
 		pl:Drop100()
 		-- moat_DropIndependence(pl, 13)
 		for i = 1, 13 do
-			ply:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, true)
+			pl:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, true)
 		end
 
 		m_SaveInventory(pl)
