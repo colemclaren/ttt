@@ -432,6 +432,9 @@ function MG_LAVA.BeginRound()
         --v:SetCustomCollisionCheck(true)
         --v:CollisionRulesChanged()
         v.LavaScore = 0
+        timer.Simple(5,function()
+            v:SetJumpPower(160)
+        end)
     end
     MG_LAVA.InProgress = true
     MG_LAVA.TimeEnd = CurTime() + (60 * 10)
