@@ -407,12 +407,13 @@ function MG_LAVA.BeginRound()
             v:Remove()
         end
     end
+    MG_LAVA.InProgress = true
     timer.Create("Lava.Unstuck",5,0,function()
         if not MG_LAVA.InProgress then timer.Destroy("Lava.Unstuck") return end
         for k,v in ipairs(player.GetAll()) do
             if v:Alive() and (not v:IsSpec()) then
                 local a,b = v:CheckHullCollision()
-                if a and (b:IsPlayer()) and (not v:GetMoveType() == 9) then
+                if a and (b:IsPlayer()) then
                     v:SetPos(v._lastValidPos)
                 elseif (not v:GetMoveType() == 9) then
                     v._lastValidPos = v:GetPos()
@@ -436,7 +437,6 @@ function MG_LAVA.BeginRound()
             v:SetJumpPower(160)
         end)
     end
-    MG_LAVA.InProgress = true
     MG_LAVA.TimeEnd = CurTime() + (60 * 10)
     net.Start("lava_Begin")
     net.Broadcast()
