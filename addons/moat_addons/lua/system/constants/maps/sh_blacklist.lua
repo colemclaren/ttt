@@ -11,5 +11,6 @@ MAP_BLACKLIST = {
 	["ttt_mc_bonfire"] = true, -- player collisions on spawn causes death
 	["ttt_castillo_de_fenrir"] = true, -- removed from workshop?
 	["ttt_mc_kitchen"] = true, -- updated on workshop
-	["ttt_mario_b1"] = true -- https://i.imgur.com/hNGjcKd.png
+	["ttt_mario_b1"] = true, -- https://i.imgur.com/hNGjcKd.png
+	["ttt_playground"] = true, -- updated on workshop
 }
