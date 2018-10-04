@@ -440,6 +440,18 @@ function MG_LAVA.BeginRound()
     MG_LAVA.TimeEnd = CurTime() + (60 * 10)
     net.Start("lava_Begin")
     net.Broadcast()
+    timer.Simple(1,function()
+        for k,v in ipairs(player.GetAll()) do
+            if v:Alive() and (not v:IsSpec()) then
+                local a,b = v:CheckHullCollision()
+                if a and (b:IsPlayer()) then
+                    v:SetPos(v._lastValidPos)
+                elseif (not v:GetMoveType() == 9) then
+                    v._lastValidPos = v:GetPos()
+                end
+            end
+        end
+    end)
 
 end
 
