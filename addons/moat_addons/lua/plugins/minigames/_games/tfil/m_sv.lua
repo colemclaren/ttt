@@ -444,7 +444,7 @@ function MG_LAVA.BeginRound()
         for k,v in ipairs(player.GetAll()) do
             if v:Alive() and (not v:IsSpec()) then
                 local a,b = v:CheckHullCollision()
-                if a and (b:IsPlayer()) then
+                if a and (b:IsPlayer()) and v._lastValidPos then
                     v:SetPos(v._lastValidPos)
                 elseif (not v:GetMoveType() == 9) then
                     v._lastValidPos = v:GetPos()
