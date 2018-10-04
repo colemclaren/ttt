@@ -459,6 +459,17 @@ end
 
 local PlayerVoicePanels = {}
 
+local group_images = {
+   ["vip"] = "icon16/heart.png",
+   ["credibleclub"] = "icon16/star.png",
+   ["trialstaff"] = "icon16/shield.png",
+   ["moderator"] = "icon16/shield.png",
+   ["admin"] = "icon16/user_orange.png",
+   ["senioradmin"] = "icon16/user_red.png",
+   ["headadmin"] = "icon16/user_suit.png",
+   ["communitylead"] = "icon16/user_gray.png"
+}
+
 function GM:PlayerStartVoice(ply)
     local client = LocalPlayer()
     if not IsValid(g_VoicePanelList) or not IsValid(client) then return end
@@ -490,13 +501,17 @@ function GM:PlayerStartVoice(ply)
         oldThink(self)
         VoiceNotifyThink(self)
     end
-
+    local group_icon = Material(group_images[ply:GetUserGroup()] or "icon16/group.png")
     local shade = Color(0, 0, 0, 150)
-
     pnl.Paint = function(s, w, h)
         if not IsValid(s.ply) then return end
         s.Color.a = ((s.ply:VoiceVolume() * 2) * 255) + 100
         draw.RoundedBox(0, 0, 0, w, h, s.Color)
+        DisableClipping(true)
+        surface.SetDrawColor(255, 255, 255, 255)
+        surface.SetMaterial(group_icon)
+        surface.DrawTexturedRect(-20, (h/2) - 8, 16, 16)
+        DisableClipping(false)
         draw.RoundedBox(0, 1, 1, w - 2, h - 2, shade)
     end
 
