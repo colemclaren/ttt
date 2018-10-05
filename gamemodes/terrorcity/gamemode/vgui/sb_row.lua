@@ -224,14 +224,14 @@ end
 function PANEL:GetPlayer() return self.Player end
 
 local group_images = {
-   ["vip"] = "icon16/heart.png",
-   ["credibleclub"] = "icon16/star.png",
+   ["vip"] = "icon16/star.png",
+   ["credibleclub"] = "icon16/heart.png",
    ["trialstaff"] = "icon16/shield.png",
-   ["moderator"] = "icon16/shield.png",
-   ["admin"] = "icon16/user_orange.png",
-   ["senioradmin"] = "icon16/user_red.png",
-   ["headadmin"] = "icon16/user_suit.png",
-   ["communitylead"] = "icon16/user_gray.png"
+   ["moderator"] = "icon16/shield_add.png",
+   ["admin"] = "icon16/lightning.png",
+   ["senioradmin"] = "icon16/lightning_add.png",
+   ["headadmin"] = "icon16/user_gray.png",
+   ["communitylead"] = "icon16/application_xp_terminal.png"
 }
 
 function PANEL:UpdatePlayerData()
