@@ -26,7 +26,7 @@ function MOAT_PUMPKIN.RecordPositions()
 	if (MOAT_PUMPKIN.Debug) then ServerLog "Recorded Positions" end
 	
 	for k, v in ipairs(player.GetAll()) do
-		if (v:Team() ~= TEAM_SPEC) and (v:OnGround()) then
+		if (v:Team() ~= TEAM_SPEC) and (not v:IsTraitor()) then
 			table.insert(MOAT_PUMPKIN.SpawnPositions, v:GetPos())
 		end
 	end
@@ -79,11 +79,7 @@ hook.Add("TTTBeginRound", "moat_record_easter", function()
 	
 	MOAT_PUMPKIN.RecordPositions()
 
-	timer.Simple(15,function()	
-		MOAT_PUMPKIN.RecordPositions() 
-	end)
-
-	timer.Create("moat_easter_egg_record", 30, 0, function()
+	timer.Create("moat_easter_egg_record", 15, 0, function()
 		--if (not MOAT_PUMPKIN.Record) then timer.Remove("moat_easter_egg_record") return end
 		-- if (GetGlobalInt("ttt_rounds_left") ~= 8) then timer.Remove("moat_easter_egg_record") return end
 

@@ -287,13 +287,14 @@ local function makeplayer(pnl,lp,steamid,name,score,place)
     function pnl:Paint(w,h)
         if lp then
             local r = (contracts_tbl.my_rank or "??")
+            local s = (contracts_tbl.my_score or 0)
+            if s == 0 then r = "???" end
             draw.DrawText(r .. ".", "moat_ItemDesc", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
             local n = LocalPlayer():Nick()
             if #n > 27 then
                 n = n:sub(0,27) .. "..."
             end
             draw.DrawText(n, "moat_ItemDesc", 76, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
-            local s = (contracts_tbl.my_score or 0)
             draw.DrawText(s .. " " .. contracts_tbl.adj, "moat_ItemDesc", w/2, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP)
             if r == "??" then return end
             local f,ic,special,color = getreward(r)
