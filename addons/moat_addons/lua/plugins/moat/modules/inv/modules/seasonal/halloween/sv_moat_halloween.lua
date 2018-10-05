@@ -16,7 +16,7 @@ end)
 
 MOAT_PUMPKIN = MOAT_PUMPKIN or {}
 MOAT_PUMPKIN.MaxEggs = 3
-MOAT_PUMPKIN.SpawnChance = 10
+MOAT_PUMPKIN.SpawnChance = 7
 MOAT_PUMPKIN.CurEggs = 0
 MOAT_PUMPKIN.SpawnPositions = {}
 MOAT_PUMPKIN.Record = false
