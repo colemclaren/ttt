@@ -5,8 +5,6 @@ if (util.NetworkStringToID"ttt_enable_tc" ~= 0) then
     return
 end
 
-include("sh_moat.lua")
-include("cl_moat.lua")
 include("shared.lua")
 
 -- Define GM12 fonts for compatibility

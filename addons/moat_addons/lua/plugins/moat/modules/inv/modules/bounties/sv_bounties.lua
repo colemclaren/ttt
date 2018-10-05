@@ -1909,7 +1909,7 @@ function MOAT_BOUNTIES.InitializeBounties()
     	MOAT_BOUNTIES:LoadBounties()
     end
 
-    SetGlobalFloat("moat_bounties_refresh_next", false)
+    SetGlobalBool("moat_bounties_refresh_next", false)
 
     local datime = os.date("!*t", (os.time() - 21600 - 3600))
     
@@ -1920,7 +1920,7 @@ function MOAT_BOUNTIES.InitializeBounties()
     local sec = 60 - datime.sec
 
     if (hr == 0 and min == 0 and sec == 1) then
-    	SetGlobalFloat("moat_bounties_refresh_next", true)
+    	SetGlobalBool("moat_bounties_refresh_next", true)
     end
 	local checked_contract = false
     timer.Create("moat_bounties_refresh_check", 1, 0, function()
@@ -1933,7 +1933,7 @@ function MOAT_BOUNTIES.InitializeBounties()
     	local sec = 60 - datime.sec
 
     	if (hr == 0 and min == 0 and sec == 1) then
-    		SetGlobalFloat("moat_bounties_refresh_next", true)
+    		SetGlobalBool("moat_bounties_refresh_next", true)
     	end
 
 		local dattime = os.date("!*t", (os.time() - 21600 - 3600))

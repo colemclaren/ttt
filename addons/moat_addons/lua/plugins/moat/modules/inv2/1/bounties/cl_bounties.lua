@@ -182,7 +182,7 @@ function m_MakeLotteryPanel()
         local timestring = hr .. ":" .. min .. ":" .. sec
 
         -- Time Left
-        if (GetGlobalFloat("moat_bounties_refresh_next")) then
+        if (GetGlobalBool("moat_bounties_refresh_next")) then
             draw.SimpleTextOutlined("Will be determined on Map Change!", "DermaLarge", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
         else
             draw.SimpleTextOutlined("Time Until Draw: " .. timestring, "DermaLarge", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
@@ -400,7 +400,7 @@ function m_MakeContractsPanel()
         local timestring = hr .. ":" .. min .. ":" .. sec
 
         -- Time Left
-        if (GetGlobalFloat("moat_bounties_refresh_next")) then
+        if (GetGlobalBool("moat_bounties_refresh_next")) then
             draw.SimpleTextOutlined("Will be Refreshed on Map Change!", "DermaLarge", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
         else
             draw.SimpleTextOutlined("Time Left: " .. timestring, "DermaLarge", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
@@ -514,7 +514,7 @@ function m_MakeBountiesPanel()
         local timestring = hr .. ":" .. min .. ":" .. sec
 
         -- Time Left
-        if (GetGlobalFloat("moat_bounties_refresh_next")) then
+        if (GetGlobalBool("moat_bounties_refresh_next")) then
             draw.SimpleTextOutlined("Will be Refreshed on Map Change!", "DermaLarge", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
         else
             draw.SimpleTextOutlined("Time Left: " .. timestring, "DermaLarge", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))

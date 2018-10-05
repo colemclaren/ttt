@@ -38,7 +38,7 @@ function MapPrevent.ReplaceDefaults()
 		GetConVar("ttt_rounds_left"):SetInt(MapPrevent.RoundsAlways)
 		GetConVar("ttt_time_limit_minutes"):SetInt(MapPrevent.TimeAlways)
 
-		local setg = _SetGlobalInt or SetGlobalInt
+		local setg = SetGlobalInt
 		setg("ttt_rounds_left", MapPrevent.RoundsAlways)
 		setg("ttt_time_limit_minutes", MapPrevent.TimeAlways)
 	end

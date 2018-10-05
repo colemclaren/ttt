@@ -10,26 +10,26 @@ local function post(tbl)
 		timer.Simple(reset - now, tcb)
 	end
 
-	local function cb(_, _, headers)
-		limit = headers["X-RateLimit-Remaining"]
-		reset = headers["X-RateLimit-Reset"]
+	local msg = Either(tbl.rlm == 1, ":orange_book: Client Error", ":blue_book: Server Error")
+	msg = msg .. style.Dot(player.GetCount() .. "/" .. game.MaxPlayers()) 
+		.. style.Dot(math.max(0, GetGlobalInt("ttt_rounds_left", 6)) .. " Rounds Left")
+		.. style.Dot(game.GetMap())
+		.. style.Dot(string.Extra(GetServerName(), GetServerURL()))
+
+
+	if (tbl.rlm == 1 and tbl.pl) then
+		local p = player.GetBySteamID64(tbl.pl)
+
+		msg = msg .. style.NewLine(style.Pipe("Error for ")) 
+			.. style.Code(IsValid(p) and p:Nick() or "Unknown Player") 
+			.. style.Dot(style.Code(IsValid(p) and p:SteamID() or "???")) 
+			.. style.Dot(style.Code(IsValid(p) and p:GetIP() or "???")) 
+			.. style.Dot(IsValid(p) and p:SteamURL() or tbl.pl)
 	end
 
-	HTTP({
-		method = "POST",
-		url = moat.c.oldwebhook .. "servererrors",
-		body = util.TableToJSON(tbl),
-		type = "application/json",
-		success = cb
-	})
+	msg = msg .. style.NewLine(style.CodeBlock("[ERROR] " .. tbl.err))
 
-	HTTP({
-		method = "POST",
-		url = moat.c.webhook .. "servererrorsmoon",
-		body = util.TableToJSON(tbl),
-		type = "application/json",
-		success = cb
-	})
+	discord.Send("Error Report", msg)
 end
 
 require "luaerror"
@@ -37,12 +37,12 @@ luaerror.EnableRuntimeDetour(true)
 luaerror.EnableCompiletimeDetour(true)
 luaerror.EnableClientDetour(true)
 
-sql.Query [[CREATE TABLE IF NOT EXISTS server_errors (
+sql.Query [[CREATE TABLE IF NOT EXISTS error_reports (
 	error VARCHAR NOT NULL PRIMARY KEY,
 	stack TEXT DEFAULT NULL
 );]]
 
-local log_str = "INSERT INTO rcon_errors (error, serverip, realm, stack, steamid) VALUES (#, #, #, #, #);"
+local log_str = "INSERT INTO moat_errors (error, serverip, realm, stack, steamid) VALUES (#, #, #, #, #);"
 local function logerror(report, error, serverip, realm, stack, steamid)
 	MOAT_RCON:Query(log_str, error, serverip, realm, stack or "NULL", steamid or "NULL", function(d, q)
 		if (not report) then return end
@@ -59,7 +59,7 @@ local function catchError(pl, err, src, _, _, stack)
 	if (not err or error_cache[err]) then return end
 	if (not MOAT_RCON or not MOAT_RCON.DBHandle) then return end -- sql not loaded yet
 	error_cache[err] = true
-	if (not src or not src:find("moat_addons")) then return end
+	--if (not src or not src:find("moat_addons")) then return end
 
 	pl = type(pl) == "Player" and pl:SteamID64() or nil
 	if (pl and pl_error_cache[pl]) then
@@ -69,7 +69,7 @@ local function catchError(pl, err, src, _, _, stack)
 		pl_error_cache[pl] = 1
 	end
 
-	local row = sql.QueryRow("SELECT stack FROM server_errors WHERE error = " .. sql.SQLStr(err))
+	local row = sql.QueryRow("SELECT stack FROM error_reports WHERE error = " .. sql.SQLStr(err))
 	if (row) then return end
 	if (report_errors:GetInt() ~= 1) then return end
 
@@ -82,9 +82,9 @@ local function catchError(pl, err, src, _, _, stack)
 	end
 
 	st = util.TableToJSON(st)
-	sql.Query("INSERT INTO server_errors (error, stack) VALUES (" .. sql.SQLStr(err) .. ", " .. sql.SQLStr(st) .. ");")
+	sql.Query("INSERT INTO error_reports (error, stack) VALUES (" .. sql.SQLStr(err) .. ", " .. sql.SQLStr(st) .. ");")
 
-	MOAT_RCON:Query("SELECT serverip FROM rcon_errors WHERE error = #", err, function(d)
+	MOAT_RCON:Query("SELECT serverip FROM moat_errors WHERE error = #", err, function(d)
 		logerror((not d or not d[1]), err, MOAT_RCON.Server, pl and 1 or 0, st, pl)
 	end)
 end

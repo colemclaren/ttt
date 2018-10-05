@@ -1,77 +1,5 @@
-util.AddNetworkString "_SetGlobalSync"
-util.AddNetworkString "_SetGlobalFloat"
-util.AddNetworkString "_SetGlobalInt"
-util.AddNetworkString "_SetGlobalBool"
-
-function _SetGlobalFloat(str, val)
-	assert(TTT_GLOBALS[str], "need to add global to whitelist in sh_moat")
-	if (TTT_GLOBALS_SAVE[str] == val) then return end
-	TTT_GLOBALS_SAVE[str] = val
-
-	net.Start "_SetGlobalFloat"
-		net.WriteString(str)
-		net.WriteFloat(val)
-	net.Broadcast()
-end
-
-function _SetGlobalInt(str, val)
-	assert(TTT_GLOBALS[str], "need to add global to whitelist in sh_moat")
-	if (TTT_GLOBALS_SAVE[str] == val) then return end
-	TTT_GLOBALS_SAVE[str] = val
-
-	net.Start "_SetGlobalInt"
-		net.WriteString(str)
-		net.WriteInt(val, 32)
-	net.Broadcast()
-end
-
-function _SetGlobalBool(str, val)
-	assert(TTT_GLOBALS[str], "need to add global to whitelist in sh_moat")
-	if (TTT_GLOBALS_SAVE[str] == val) then return end
-	TTT_GLOBALS_SAVE[str] = val
-
-	net.Start "_SetGlobalBool"
-		net.WriteString(str)
-		net.WriteBool(val)
-	net.Broadcast()
-end
-
-function _SyncTTTGlobals(pl)
-	if (not IsValid(pl)) then return end
-
-	net.Start "_SetGlobalSync"
-
-	for k, v in pairs(TTT_GLOBALS) do
-		net.WriteString(k)
-
-		if (TTT_GLOBALS_SAVE[k] == nil) then
-			net.WriteBool(false)
-			continue
-		end
-
-		if (v == "Bool") then
-			net.WriteBool(true)
-			net.WriteBool(TTT_GLOBALS_SAVE[k])
-			continue
-		elseif (v == "Int") then
-			net.WriteBool(true)
-			net.WriteInt(TTT_GLOBALS_SAVE[k], 32)
-			continue
-		elseif (v == "Float") then
-			net.WriteBool(true)
-			net.WriteFloat(TTT_GLOBALS_SAVE[k])
-			continue
-		end
-
-		net.WriteBool(false)
-	end
-
-	net.Send(pl)
-end
-
 util.AddNetworkString "TTTPlayerLoaded"
 function TTTPlayerLoaded(_, pl)
-	_SyncTTTGlobals(pl)
 	_GetTButtons(pl)
 end
 net.Receive("TTTPlayerLoaded", TTTPlayerLoaded)
@@ -79,7 +7,7 @@ net.Receive("TTTPlayerLoaded", TTTPlayerLoaded)
 function _CheckForMapSwitch()
            -- Check for mapswitch
     local rounds_left = math.max(0, GetGlobalInt("ttt_rounds_left", 6) - 1)
-    _SetGlobalInt("ttt_rounds_left", rounds_left)
+    SetGlobalInt("ttt_rounds_left", rounds_left)
  
     local time_left = math.max(0, (GetConVar("ttt_time_limit_minutes"):GetInt() * 60) - CurTime())
     local switchmap = false

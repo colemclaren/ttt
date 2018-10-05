@@ -30,3 +30,4 @@ discord.AddUsers("boss-logs", {"Snap", "Skid", "Gamble Log", "Trade", "Bad Map"}
 discord.AddUsers("mga-logs", {"MGA Log"}, true)
 discord.AddUsers("dev-logs", {"Developer"})
 discord.AddUsers("toxic-logs", {"Toxic"})
+discord.AddUsers("error-logs", {"Error Report"}, true)

@@ -12,8 +12,6 @@ if (file.Exists("terrorcity.txt", "MOD") or tc_ips[game.GetIPAddress()]) then
 end
 
 ---- Trouble in Terrorist Town
-AddCSLuaFile("sh_moat.lua")
-AddCSLuaFile("cl_moat.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_msgstack.lua")
@@ -51,7 +49,6 @@ AddCSLuaFile("vgui/sb_main.lua")
 AddCSLuaFile("vgui/sb_row.lua")
 AddCSLuaFile("vgui/sb_team.lua")
 AddCSLuaFile("vgui/sb_info.lua")
-include("sh_moat.lua")
 include("sv_moat.lua")
 include("shared.lua")
 include("karma.lua")
@@ -179,8 +176,8 @@ function GM:Initialize()
     GAMEMODE.playercolor = COLOR_WHITE
     -- Delay reading of cvars until config has definitely loaded
     GAMEMODE.cvar_init = false
-    _SetGlobalFloat("ttt_round_end", -1)
-    _SetGlobalFloat("ttt_haste_end", -1)
+    SetGlobalFloat("ttt_round_end", -1)
+    SetGlobalFloat("ttt_haste_end", -1)
     -- For the paranoid
     math.randomseed(os.time())
     WaitForPlayers()
@@ -208,7 +205,7 @@ end
 function GM:InitCvars()
     MsgN("TTT initializing convar settings...")
     -- Initialize game state that is synced with client
-    _SetGlobalInt("ttt_rounds_left", GetConVar("ttt_round_limit"):GetInt())
+    SetGlobalInt("ttt_rounds_left", GetConVar("ttt_round_limit"):GetInt())
     GAMEMODE:SyncGlobals()
     KARMA.InitState()
     self.cvar_init = true
@@ -258,16 +255,16 @@ end
 -- Convar replication is broken in gmod, so we do this.
 -- I don't like it any more than you do, dear reader.
 function GM:SyncGlobals()
-    _SetGlobalBool("ttt_detective", ttt_detective:GetBool())
-    _SetGlobalBool("ttt_haste", ttt_haste:GetBool())
-    _SetGlobalInt("ttt_time_limit_minutes", GetConVar("ttt_time_limit_minutes"):GetInt())
-    _SetGlobalBool("ttt_highlight_admins", GetConVar("ttt_highlight_admins"):GetBool())
-    _SetGlobalBool("ttt_locational_voice", GetConVar("ttt_locational_voice"):GetBool())
-    _SetGlobalInt("ttt_idle_limit", GetConVar("ttt_idle_limit"):GetInt())
-    _SetGlobalBool("ttt_voice_drain", GetConVar("ttt_voice_drain"):GetBool())
-    _SetGlobalFloat("ttt_voice_drain_normal", GetConVar("ttt_voice_drain_normal"):GetFloat())
-    _SetGlobalFloat("ttt_voice_drain_admin", GetConVar("ttt_voice_drain_admin"):GetFloat())
-    _SetGlobalFloat("ttt_voice_drain_recharge", GetConVar("ttt_voice_drain_recharge"):GetFloat())
+    SetGlobalBool("ttt_detective", ttt_detective:GetBool())
+    SetGlobalBool("ttt_haste", ttt_haste:GetBool())
+    SetGlobalInt("ttt_time_limit_minutes", GetConVar("ttt_time_limit_minutes"):GetInt())
+    SetGlobalBool("ttt_highlight_admins", GetConVar("ttt_highlight_admins"):GetBool())
+    SetGlobalBool("ttt_locational_voice", GetConVar("ttt_locational_voice"):GetBool())
+    SetGlobalInt("ttt_idle_limit", GetConVar("ttt_idle_limit"):GetInt())
+    SetGlobalBool("ttt_voice_drain", GetConVar("ttt_voice_drain"):GetBool())
+    SetGlobalFloat("ttt_voice_drain_normal", GetConVar("ttt_voice_drain_normal"):GetFloat())
+    SetGlobalFloat("ttt_voice_drain_admin", GetConVar("ttt_voice_drain_admin"):GetFloat())
+    SetGlobalFloat("ttt_voice_drain_recharge", GetConVar("ttt_voice_drain_recharge"):GetFloat())
 end
 
 function SendRoundState(state, ply)
@@ -595,7 +592,7 @@ function PrepareRound()
 end
 
 function SetRoundEnd(endtime)
-    _SetGlobalFloat("ttt_round_end", endtime)
+    SetGlobalFloat("ttt_round_end", endtime)
 end
 
 function IncRoundEnd(incr)
@@ -655,7 +652,7 @@ local function InitRoundEndTime()
         endtime = CurTime() + (GetConVar("ttt_haste_starting_minutes"):GetInt() * 60)
         -- this is a "fake" time shown to innocents, showing the end time if no
         -- one would have been killed, it has no gameplay effect
-        _SetGlobalFloat("ttt_haste_end", endtime)
+        SetGlobalFloat("ttt_haste_end", endtime)
     end
 
     SetRoundEnd(endtime)
@@ -734,7 +731,7 @@ end
 function CheckForMapSwitch()
     -- Check for mapswitch
     local rounds_left = math.max(0, GetGlobalInt("ttt_rounds_left", 6) - 1)
-    _SetGlobalInt("ttt_rounds_left", rounds_left)
+    SetGlobalInt("ttt_rounds_left", rounds_left)
     local time_left = math.max(0, (GetConVar("ttt_time_limit_minutes"):GetInt() * 60) - CurTime())
     local switchmap = false
     local nextmap = string.upper(game.GetMapNext())
