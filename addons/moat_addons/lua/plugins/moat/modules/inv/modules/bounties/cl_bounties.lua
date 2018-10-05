@@ -286,7 +286,7 @@ local function makeplayer(pnl,lp,steamid,name,score,place)
     end
     function pnl:Paint(w,h)
         if lp then
-            local r = (contracts_tbl.my_rank or "??")
+            local r = (contracts_tbl.my_rank or "???")
             local s = (contracts_tbl.my_score or 0)
             if s == 0 then r = "???" end
             draw.DrawText(r .. ".", "moat_ItemDesc", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
@@ -296,7 +296,7 @@ local function makeplayer(pnl,lp,steamid,name,score,place)
             end
             draw.DrawText(n, "moat_ItemDesc", 76, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
             draw.DrawText(s .. " " .. contracts_tbl.adj, "moat_ItemDesc", w/2, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP)
-            if r == "??" then return end
+            if r == "???" then return end
             local f,ic,special,color = getreward(r)
             if ic < 0 then return end
             surface.SetFont("moat_ItemDesc")
