@@ -111,7 +111,7 @@ MOAT_DONATE.Packages = {
 
 		local msg = string(
 			":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()),
-			":tada: Launched " .. style.BoldUnderline("Quadra XP") .. " Map Event on " .. string.Extra(GetServerName(), GetServerURL())
+			style.NewLine(":tada: Launched ") .. style.BoldUnderline("Quadra XP") .. " Map Event on " .. string.Extra(GetServerName(), GetServerURL())
 		)
 
 
