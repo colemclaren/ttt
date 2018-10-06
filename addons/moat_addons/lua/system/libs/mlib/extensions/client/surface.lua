@@ -15,6 +15,7 @@ do
     end
 	
 	function surface.GetTextSize(text)
+		if (not text) then return 0, 0 end
 		if (not cache[font]) then
 			cache[font] = {}
 		end
