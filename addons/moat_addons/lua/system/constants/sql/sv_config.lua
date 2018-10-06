@@ -34,7 +34,11 @@ mysql.directlink = {
 	["208.103.169.54:27020"] = true, -- TTT #12
 }
 
-if (mysql.directlink[Server.IP]) then
+if (not Server.IP) then
+	Server.BuildAddress()
+end
+
+if (Server.IP and mysql.directlink[Server.IP]) then
 	mysql.host = "direct-link-web"
 end
 

@@ -219,7 +219,7 @@ function PANEL:Init()
 	end
 	
 	-- Community name
-	self.communityName = _this.config.communityName
+	self.communityName = "Moat.GG - " .. (GetServerName() or "TTT") .. " has Crashed!"
 	
 	self.backgroundColor = _this.config.backgroundColor
 	

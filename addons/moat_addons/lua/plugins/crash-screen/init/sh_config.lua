@@ -7,10 +7,10 @@ local _this = aCrashScreen.config
 ---------------------------------
 -- Chat ID, useful for multiple servers
 -- Not case sensitive only letters, numbers and underscores are allowed
-_this.chatID = "server_" .. (Server.ID or "Default")
+_this.chatID = "server_Default"
 
 -- Your community name
-_this.communityName = "Moat.GG - " .. (Server.Name or "TTT") .. " has Crashed!"
+_this.communityName = "Moat.GG - TTT has Crashed!"
 
 -- The web-based server status checker
 -- This will check if the server is online, if it is it will automatically reconnect
@@ -26,8 +26,8 @@ _this.reconnectingTime = 200
 
 -- THIS server's IP address and Port
 -- Only needed if you use serverStatusURL
-_this.serverIP = Server.ShortIP or "0.0.0.0"
-_this.serverPort = Server.Port or "00000"
+_this.serverIP = Server and Server.ShortIP or "208.103.169.30"
+_this.serverPort = Server and Server.Port or "27015"
 
 -- Background image(s), must give the correct image width and height
 -- Animated images won't work

@@ -50,7 +50,7 @@ concommand.Add("test_discord", function()
 	discord.Send("testing", markdown.Code(" ") .. markdown.WrapBold(
 			string (":calendar_spiral: ",
 				"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
-				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. Server.IP)),
+				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. GetServerIP())),
 				markdown.LineStart(bstr)
 			)
 		)

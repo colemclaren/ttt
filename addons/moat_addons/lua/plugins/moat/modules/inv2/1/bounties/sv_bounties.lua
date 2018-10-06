@@ -1858,7 +1858,7 @@ function MOAT_BOUNTIES.ResetBounties()
 	discord.Send("Bounties", markdown.Block(" ") .. markdown.WrapBold(
 			string (":calendar_spiral: ",
 				"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
-				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. Server.IP)),
+				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. GetServerIP())),
 				markdown.LineStart(bstr)
 			)
 		)

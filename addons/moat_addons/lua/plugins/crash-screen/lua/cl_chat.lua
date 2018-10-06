@@ -5,7 +5,7 @@ local PANEL = {}
 function PANEL:Init()
 	
 	local chatURL = _this.config.chatURL
-	local chatID = _this.config.chatID
+	local chatID = "server_" .. (Server and Server.ID or "Default")
 	local nick = LocalPlayer():Nick()
 	local steamID = LocalPlayer():SteamID64()
 	local nickColor, canUseNoticableErrors = _this.config.getUserProperties( LocalPlayer() )
