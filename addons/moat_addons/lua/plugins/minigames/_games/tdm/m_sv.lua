@@ -646,7 +646,7 @@ function MG_TDM:PrepRound(mk, pri, sec, creds)
     
 
 	MG_TDM.HookAdd("MoatInventoryShouldGiveLoadout", MG_TDM.PreventLoadouts)
-	MG_TDM.HookAdd("TTTBeginRound", MG_TDM.BeginRound)
+	MG_TDM.HookAdd("tt.BeginRound", MG_TDM.BeginRound)
 	MG_TDM.HookAdd("CanPlayerSuicide", function(ply) return true end)
     MG_TDM.HookAdd("PlayerDeath",MG_TDM.PlayerDeath)
     MG_TDM.HookAdd("PlayerSpawn",MG_TDM.PlayerSpawn)
@@ -811,9 +811,7 @@ concommand.Add("moat_start_tdm", function(ply, cmd, args)
 
     MG_TDM.Killstreaks = creds
 
-    SetRoundEnd(CurTime() + 30) -- pre
-    timer.Adjust("prep2begin", 30, 1, BeginRound)
-    timer.Adjust("selectmute", 29, 1, function() MuteForRestart(true) end)
+    tt.ExtendPrep()
 
     net.Start("TDM_Prep")
     net.WriteInt(max_kills,8)

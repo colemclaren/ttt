@@ -356,7 +356,7 @@ function StopWinChecks()
 end
 
 local mc_server = GetHostName():lower():find("minecraft")
-local function CleanUp()
+function CleanUp()
 	ServerLog("Starting Cleanup\n")
    local et = ents.TTT
 

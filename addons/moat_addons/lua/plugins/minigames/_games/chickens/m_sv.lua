@@ -444,7 +444,7 @@ function MG_CM.PrepRound()
     MG_CM.ChickenSpawner = 15
 
     MG_CM.HookAdd("PlayerSpawn", "MG_CM_SPAWN", MG_CM.PlayerSpawn)
-    MG_CM.HookAdd("TTTBeginRound", "MG_CM_BEGIN", MG_CM.BeginRound)
+    MG_CM.HookAdd("tt.BeginRound", "MG_CM_BEGIN", MG_CM.BeginRound)
     MG_CM.HookAdd("TTTKarmaGivePenalty", "MG_CM_PREVENTKARMA", MG_CM.KarmaStuff)
 	MG_CM.HookAdd("MoatInventoryShouldGiveLoadout", "MG_CM_PL", MG_CM.PreventLoadouts)
 
@@ -456,9 +456,7 @@ function MG_CM.PrepRound()
 
     hook.Add("TTTCheckForWin", "MG_CM_DELAYWIN", function() return WIN_NONE end)
 
-    SetRoundEnd(CurTime() + 26)
-    timer.Adjust("prep2begin", 25, 1, BeginRound)
-    timer.Adjust("selectmute", 25, 1, function() MuteForRestart(true) end)
+    tt.ExtendPrep()
 
 	MOAT_MINIGAME_OCCURING = true
 
@@ -471,11 +469,8 @@ concommand.Add("moat_start_chickens", function(ply, cmd, args)
 
         return
     end
-
-    /*
-    SetRoundEnd(CurTime() + 5)
-    timer.Adjust("prep2begin", 5, 1, BeginRound)
-    timer.Adjust("selectmute", 4, 1, function() MuteForRestart(true) end)*/
+	
+	tt.ExtendPrep()
 
     MG_CM.PrepRound()
 end)

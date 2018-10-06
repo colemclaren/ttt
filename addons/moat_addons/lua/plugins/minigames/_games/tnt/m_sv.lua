@@ -344,7 +344,7 @@ function MG_TNT.PrepRound(mk, pri, sec, creds)
     end
 
 	MG_TNT.HookAdd("MoatInventoryShouldGiveLoadout", MG_TNT.PreventLoadouts)
-	MG_TNT.HookAdd("TTTBeginRound", MG_TNT.BeginRound)
+	MG_TNT.HookAdd("tt.BeginRound", MG_TNT.BeginRound)
 	MG_TNT.HookAdd("CanPlayerSuicide", function(ply) return true end)
     MG_TNT.HookAdd("PlayerDeath",MG_TNT.PlayerDeath)
     MG_TNT.HookAdd("PlayerSpawn",MG_TNT.PlayerSpawn)
@@ -445,9 +445,7 @@ concommand.Add("moat_start_TNT", function(ply, cmd, args)
         return
     end
 
-    SetRoundEnd(CurTime() + 30) -- pre
-    timer.Adjust("prep2begin", 30, 1, BeginRound)
-    timer.Adjust("selectmute", 4, 1, function() MuteForRestart(true) end)
+    tt.ExtendPrep()
 
     net.Start("TNT_Prep")
     net.Broadcast()

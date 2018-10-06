@@ -257,7 +257,7 @@ function MG_HS:PrepRound(mk, pri, sec, creds)
     end
 
 	MG_HS.HookAdd("MoatInventoryShouldGiveLoadout", MG_HS.PreventLoadouts)
-	MG_HS.HookAdd("TTTBeginRound", MG_HS.BeginRound)
+	MG_HS.HookAdd("tt.BeginRound", MG_HS.BeginRound)
 	MG_HS.HookAdd("CanPlayerSuicide", function(ply) return false end)
     MG_HS.HookAdd("PlayerDeath",MG_HS.PlayerDeath)
     MG_HS.HookAdd("PlayerSpawn",MG_HS.PlayerSpawn)
@@ -319,10 +319,8 @@ concommand.Add("moat_start_hs", function(ply, cmd, args)
 
         return
     end
-    print(1373)
-    SetRoundEnd(CurTime() + 30) -- pre
-    timer.Adjust("prep2begin", 30, 1, BeginRound)
-    timer.Adjust("selectmute", 29, 1, function() MuteForRestart(true) end)
+
+    tt.ExtendPrep()
 
     MG_HS.PrepRound()
 end)

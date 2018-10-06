@@ -24,7 +24,7 @@ local function moat_EndRoundBossHooks()
 	if (MOAT_MINIGAMES.CantEnd()) then return end
 
     -- Remove our hooks
-    hook.Remove("TTTBeginRound", "moat_BossBeginRound")
+    hook.Remove("tt.BeginRound", "moat_BossBeginRound")
     hook.Remove("EntityTakeDamage", "moat_BossSaveDamage")
     hook.Remove("PostPlayerDeath", "moat_BossDeath")
     hook.Remove("PlayerShouldTakeDamage", "moat_BossPreventDamage")
@@ -90,7 +90,7 @@ end
 local rarity_to_placing = {[1] = math.random(5,6), [2] = 5, [3] = 4, [4] = 4, [5] = 4}
 
 local function moat_BeginRoundBossHooks()
-    hook.Add("TTTBeginRound", "moat_BossBeginRound", function()
+    hook.Add("tt.BeginRound", "moat_BossBeginRound", function()
 
 
         if (MOAT_DEATHCLAW_WPN) then
@@ -428,9 +428,7 @@ concommand.Add("moat_start_dragon", function(ply, cmd, args)
 
     MuteForRestart(true)
 
-    SetRoundEnd(CurTime() + 30)
-    timer.Adjust("prep2begin", 30, 1, BeginRound)
-    timer.Adjust("selectmute", 29, 1, function() MuteForRestart(true) end)
+    tt.ExtendPrep()
 
     MOAT_APACHE_INITIALIZED = false
     MOAT_APACHE_ENT = NULL

@@ -1,4 +1,3 @@
-local GetGlobalFloat = GetGlobalFloat
 Lava = Lava or {}
 
 Lava.SetLevel = function( n ) Lava.CurrentLevel = n end
@@ -21,7 +20,6 @@ local CurTime = CurTime
 local math = math
 local drawOverlay = DrawMaterialOverlay
 local drawColor = DrawBloom
-local GetGlobalVector = GetGlobalVector
 local LocalPlayer = LocalPlayer
 local surface = surface
 local tem2 = 0
@@ -506,7 +504,7 @@ hook.Add("PostDrawTranslucentRenderables", "DrawLava", function(a, b)
 	if b then
 		cam.Wrap3D2D(function()
 			surface.DrawTexturedRectUV(-MapScale / 2, -MapScale / 2, MapScale, MapScale, 0, 0, MapScale / 5000 * SkyboxScale, MapScale / 5000 * SkyboxScale)
-		end, GetGlobalVector("$skycampos") + (LavaLevel / SkyboxScale), Ang, 1)
+		end, Vector(0, 0, 0) + (LavaLevel / SkyboxScale), Ang, 1)
 	end
 
 end)

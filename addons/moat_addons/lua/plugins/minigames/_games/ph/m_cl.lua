@@ -7,7 +7,6 @@ local CurTime = CurTime
 local math = math
 local drawOverlay = DrawMaterialOverlay
 local drawColor = DrawBloom
-local GetGlobalVector = GetGlobalVector
 local LocalPlayer = LocalPlayer
 local surface = surface
 local tem2 = 0

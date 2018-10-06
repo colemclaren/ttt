@@ -415,7 +415,7 @@ function MG_FFA.PrepRound(mk, pri, sec, creds)
     end
 
 	MG_FFA.HookAdd("MoatInventoryShouldGiveLoadout", MG_FFA.PreventLoadouts)
-	MG_FFA.HookAdd("TTTBeginRound", MG_FFA.BeginRound)
+	MG_FFA.HookAdd("tt.BeginRound", MG_FFA.BeginRound)
 	MG_FFA.HookAdd("CanPlayerSuicide", function(ply) return true end)
     MG_FFA.HookAdd("PlayerDeath",MG_FFA.PlayerDeath)
     MG_FFA.HookAdd("PlayerSpawn",MG_FFA.PlayerSpawn)
@@ -560,9 +560,7 @@ concommand.Add("moat_start_FFA", function(ply, cmd, args)
 
     MG_FFA.Loadout.sec = sec_wep
 
-    SetRoundEnd(CurTime() + 30) -- pre
-    timer.Adjust("prep2begin", 30, 1, BeginRound)
-    timer.Adjust("selectmute", 29, 1, function() MuteForRestart(true) end)
+    tt.ExtendPrep()
 
     net.Start("FFA_Prep")
     net.WriteInt(max_kills,8)

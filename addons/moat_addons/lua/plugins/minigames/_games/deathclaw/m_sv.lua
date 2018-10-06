@@ -19,7 +19,7 @@ local function moat_EndRoundBossHooks()
 	if (MOAT_MINIGAMES.CantEnd()) then return end
 
     -- Remove our hooks
-    hook.Remove("TTTBeginRound", "moat_BossBeginRound")
+    hook.Remove("tt.BeginRound", "moat_BossBeginRound")
     hook.Remove("EntityTakeDamage", "moat_BossSaveDamage")
     hook.Remove("PostPlayerDeath", "moat_BossDeath")
     hook.Remove("EntityTakeDamage", "moat_BossPreventDamage")
@@ -156,7 +156,7 @@ local function moat_BeginRoundBossHooks()
         hook.Run("PostPlayerDeath", pl)
     end)
 
-    hook.Add("TTTBeginRound", "moat_BossBeginRound", function()
+    hook.Add("tt.BeginRound", "moat_BossBeginRound", function()
 		local pls = player.GetAll()
 		if (not IsValid(MOAT_BOSS_CUR)) then
 			local chosen
@@ -451,9 +451,7 @@ concommand.Add("moat_start_boss", function(ply, cmd, args)
     net.Start("MOAT_PREP_BOSS")
     net.Broadcast()
 
-    SetRoundEnd(CurTime() + 30)
-    timer.Adjust("prep2begin", 30, 1, BeginRound)
-    timer.Adjust("selectmute", 29, 1, function() MuteForRestart(true) end)
+    tt.ExtendPrep()
 
     MOAT_ACTIVE_BOSS = true
     MOAT_BOSS_CUR = chosen

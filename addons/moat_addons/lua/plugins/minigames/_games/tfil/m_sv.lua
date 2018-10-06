@@ -1,4 +1,3 @@
-local GetGlobalFloat = GetGlobalFloat
 Lava = Lava or {}
 
 Lava.SetLevel = function( n ) Lava.CurrentLevel = n end
@@ -10,7 +9,6 @@ Lava.GetLevel = function()
 end
 
 -- end of sh
-local SetGlobalFloat = SetGlobalFloat
 local table = table
 local Lava = Lava
 local Values = Values
@@ -370,7 +368,7 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
     end
 
 	MG_LAVA.HookAdd("MoatInventoryShouldGiveLoadout", MG_LAVA.PreventLoadouts)
-	MG_LAVA.HookAdd("TTTBeginRound", MG_LAVA.BeginRound)
+	MG_LAVA.HookAdd("tt.BeginRound", MG_LAVA.BeginRound)
 	MG_LAVA.HookAdd("CanPlayerSuicide", function(ply) return true end)
     MG_LAVA.HookAdd("PlayerDeath",MG_LAVA.PlayerDeath)
     MG_LAVA.HookAdd("PlayerSpawn",MG_LAVA.PlayerSpawn)
@@ -467,9 +465,7 @@ concommand.Add("moat_start_lava", function(ply, cmd, args)
         return
     end
 
-    SetRoundEnd(CurTime() + 30) -- pre
-    timer.Adjust("prep2begin", 30, 1, BeginRound)
-    timer.Adjust("selectmute", 14, 1, function() MuteForRestart(true) end)
+	tt.ExtendPrep()
 
     net.Start("lava_Prep")
     net.Broadcast()
