@@ -5,7 +5,7 @@ ITEM.Name = "Cosmetic Crate"
 
 ITEM.Description = "This crate contains an item from the Cosmetic Collection! Right click to open"
 
-ITEM.Image = "https://moat.gg/assets/img/cosmetic_crate64.png" 
+ITEM.Image = "https://cdn.moat.gg/f/SmrFpqNJJXbfArfUzFfyo3JLAul9.png"
 
 ITEM.Rarity = 3
 

@@ -5,7 +5,7 @@ ITEM.Name = "Easter Egg"
 
 ITEM.Description = "This egg contains an item from the Easter 2017 Collection! Right click to open"
 
-ITEM.Image = "https://moat.gg/assets/img/easter_egg64.png" 
+ITEM.Image = "https://cdn.moat.gg/f/kQnq1sDO21snVEF0nX7vuk1zmtoU.png" 
 
 ITEM.Rarity = 8
 

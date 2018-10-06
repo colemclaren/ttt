@@ -1,7 +1,7 @@
 ITEM.ID = 6000
 ITEM.Name = "Paint Crate"
 ITEM.Description = "This crate contains an item from the Paint Collection! Right click to open"
-ITEM.Image = "https://moat.gg/assets/img/paint_crate64.png"
+ITEM.Image = "https://cdn.moat.gg/f/vc0YQ6pW2e7ifimTXGHEf1yMxqLp.png"
 ITEM.Rarity = 3
 ITEM.Collection = "Paint Collection"
 ITEM.Active = true

@@ -7,7 +7,7 @@ ITEM.NameColor = Color( 255, 0, 255 )
 
 ITEM.Description = "Gain %s_ more weapon XP after a rightfull kill when using this powerup"
 
-ITEM.Image = "https://moat.gg/assets/img/xp_powerup64.png" 
+ITEM.Image = "https://cdn.moat.gg/f/mxwUSGlgZEJ8UhjgcTEW6N2tXu2Y.png" 
 
 ITEM.Rarity = 5
 

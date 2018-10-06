@@ -126,27 +126,14 @@ end
 function MG_GG.PrepRound()
 	MG_GG.ResetVars()
 
-	sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-		else
-			print("nope")
-		end
-	end)
+	cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
 	hook.Add("HUDPaint", "MG_GG_PREPPAINT", MG_GG.PrepPaint)
 	hook.Add("TTTBeginRound", "MG_GG_BEGINHOOK", MG_GG.BeginRound)
 end
 
 function MG_GG.BeginRound()
-	sound.PlayURL("https://i.moat.gg/servers/tttsounds/stayin_alive.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-			siren:SetVolume(0.8)
-		else
-			print("nope")
-		end
-	end)
+	cdn.PlayURL("https://cdn.moat.gg/f/eHMjnVJ0JpEHXVOHZ9lFUXdNFcjc.mp3")
 
 	hook.Add("HUDPaint", "MG_GG_ACTIVEPAINT", MG_GG.ActivePaint)
 	hook.Remove("TTTBeginRound", "MG_GG_BEGINHOOK")

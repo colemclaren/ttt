@@ -5,7 +5,7 @@ ITEM.Name = "50/50 Crate"
 
 ITEM.Description = "This crate has a 50/50 chance of returning a terrible item, or a great item! Right click to open"
 
-ITEM.Image = "https://moat.gg/assets/img/fiftyfifty_crate64.png" 
+ITEM.Image = "https://cdn.moat.gg/f/Po473i0jlwewqan8JfV6Rn38ErxM.png" 
 
 ITEM.Rarity = 4
 

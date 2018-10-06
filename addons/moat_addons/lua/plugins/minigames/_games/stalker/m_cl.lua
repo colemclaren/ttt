@@ -81,15 +81,7 @@ end
 local function moat_InitDrawBossHealth()
 	hook.Add("HUDPaint", "moat_DrawBossHealth", moat_DrawBossHealth)
 
-	sound.PlayURL("https://i.moat.gg/servers/tttsounds/stalker/stalker_music.mp3", "mono", function(siren)
-	--sound.PlayURL("http://moatgaming.net/ttt/boss_sexy.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-			siren:SetVolume(1)
-		else
-			print("nope")
-		end
-	end)
+	cdn.PlayURL("https://cdn.moat.gg/f/NGXYOFybBEyBYEJ4vyOEp8XZxMWT.mp3")
 end
 
 local moat_BossWarningLabel = "YOU'RE GOING TO DIE!!!"
@@ -123,14 +115,8 @@ local function moat_PrepareBoss()
 	MOAT_BOSS_ROUND_OVER = false
 	MOAT_ACTIVE_BOSS = true
 
-	sound.PlayURL("https://i.moat.gg/servers/tttsounds/stalker/stalker_preround.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-		else
-			print("nope")
-		end
-	end)
-
+	cdn.PlayURL("https://cdn.moat.gg/f/1hTOlX4OJq4VtfrSgk9ywh8yBDPE.mp3")
+	
 	hook.Add("HUDPaint", "moat_PrepareBoss", moat_DrawBossWarning)
 	hook.Add("TTTBeginRound", "moat_StartBoss", moat_InitDrawBossHealth)
 

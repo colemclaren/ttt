@@ -267,14 +267,7 @@ function MG_CM.PrepRound()
     MG_CM.ResetVars()
     MOAT_DISABLE_BUNNY_HOP = true
 
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-        if(IsValid(siren))then
-            siren:SetVolume(0.3)
-            siren:Play()
-        else
-            print("nope")
-        end
-    end)
+	cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3", 0.3)
 
     hook.Add("HUDPaint", "MG_CM_PREPPAINT", MG_CM.PrepPaint)
     hook.Add("TTTBeginRound", "MG_CM_BEGINHOOK", MG_CM.BeginRound)
@@ -290,16 +283,10 @@ function MG_CM.TimeLeftUpdate()
 end
 
 function MG_CM.PlayMusic(num)
-    local num = num or math.random(2)
-
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/chicken_song" .. num .. ".mp3", "mono", function(song)
-        if (IsValid(song)) then
-            song:Play()
-            song:SetVolume(0.4)
-        else
-            MG_CM.PlayMusic(num)
-        end
-    end)
+	cdn.PlayURL(table.Random({
+		"https://cdn.moat.gg/f/mOXl8oKTvgdnO1y2YKN74qSKMQpZ.mp3", 
+		"https://cdn.moat.gg/f/tBihKZLoSMqvqbwDarIjNKZ7LOIw.mp3"
+	}), 0.4)
 end
 
 function MG_CM.BeginRound()

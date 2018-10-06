@@ -242,7 +242,7 @@ function make_modelpanel(itemtbl,ITEM_BG)
         if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
             s.Icon:SetAlpha(0)
             if (m_DPanelIcon.WModel:StartWith("https")) then
-                draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+                cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
             else
                 surface.SetDrawColor(255, 255, 255, 255)
                 surface.SetMaterial(Material(m_DPanelIcon.WModel))
@@ -255,7 +255,7 @@ function make_modelpanel(itemtbl,ITEM_BG)
     return m_DPanelIcon.SIcon
 end
 
-local circ_gradient = "https://i.moat.gg/8WkHz.png"
+local circ_gradient = "https://cdn.moat.gg/f/iPh1NAYV3xKjP8lkN2n16nkZySE0.png"
 
 function m_PopulateShop(pnl)
     local M_SHOP_LIST = vgui.Create("DIconLayout", pnl)
@@ -312,11 +312,10 @@ function m_PopulateShop(pnl)
             draw.RoundedBox(0, 0, 0, w, h, name_col)
             draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 100))
 
-            surface.SetMaterial(fetch_asset(circ_gradient))
             surface.SetDrawColor(0, 0, 0, 150)
             surface.DrawRect(1, 1, w-2, h-2)
-            surface.SetDrawColor(0, 0, 0, 255)
-            surface.DrawTexturedRect(1, 1, w-2, h-2)
+
+			cdn.DrawImage(circ_gradient, 1, 1, w-2, h-2, Color(0, 0, 0, 255))
 
             /*
             draw.RoundedBox(0, 1, 1, w - 2, h - 2, Color(50, 50, 50, 200))
@@ -532,11 +531,10 @@ function m_PopulateShop(pnl)
             draw.RoundedBox(0, 0, 0, w, h, name_col)
             draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 100))
 
-            surface.SetMaterial(fetch_asset(circ_gradient))
             surface.SetDrawColor(0, 0, 0, 150)
             surface.DrawRect(1, 1, w-2, h-2)
-            surface.SetDrawColor(0, 0, 0, 255)
-            surface.DrawTexturedRect(1, 1, w-2, h-2)
+
+			cdn.DrawImage(circ_gradient, 1, 1, w-2, h-2, Color(0, 0, 0, 255))
 
             /*draw.RoundedBox(0, 1, 1, w - 2, h - 2, Color(50, 50, 50, 200))
             surface.SetDrawColor(62, 62, 64, 255)

@@ -7,7 +7,7 @@ ITEM.NameEffectMods = {Color(255, 0, 0)}
 
 ITEM.Description = "This crate contains an item from the Independence Collection! Right click to open"
 
-ITEM.Image = "https://moat.gg/assets/img/usa_crate64.png"
+ITEM.Image = "https://cdn.moat.gg/f/oiIB2xI11UNrNMjOCfYmiLvKFXV2.png"
 
 ITEM.Rarity = 8
 

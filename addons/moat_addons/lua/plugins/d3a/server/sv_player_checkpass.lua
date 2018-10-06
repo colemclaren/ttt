@@ -14,7 +14,7 @@ vip["vip"] = true
 
 local max_players, hostname = GetConVarNumber("maxplayers"), GetHostName():lower()
 local beta_server, maintenance_server = hostname:find("beta"), hostname:find("maintenance")
-local default_avatar = "https://moat.gg/assets/img/mg-logo2.jpg"
+local default_avatar = "https://cdn.moat.gg/f/bYtLdLXsVCE3jAR6KxcYyrh2mXYc.png"
 
 local players_connecting = {}
 local kick_reasons = {}

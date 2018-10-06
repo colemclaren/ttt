@@ -8,16 +8,16 @@ if SERVER then
 	resource.AddFile( "models/v_me_fists.mdl")*/
 else
     WebElements = {}
-    WebElements.CircleOutline	= "http://i.imgur.com/WhK77op.png"
-    WebElements.Circle 	  		= "http://i.imgur.com/YmbEJWD.png"
-    WebElements.Lava 	  		= "http://i.imgur.com/swJIriB.jpg"
-    WebElements.BandedCircle		= "http://i.imgur.com/OQpzdFx.png"
-    WebElements.HeartOutline		= "http://i.imgur.com/OFaYwW7.png"
-    WebElements.ClockHand		= "http://i.imgur.com/jQyeVXt.png"
-    WebElements.QuadCircle		= "http://i.imgur.com/8uMN5HY.png"
-    WebElements.PlusSign			= "http://i.imgur.com/N78SHA0.png"
-    WebElements.SpeechBubble		= "https://i.imgur.com/rrSZw9C.png"
-    WebElements.PowerMeter		= "https://i.imgur.com/AB6fK9L.png"
+    WebElements.CircleOutline	= "https://cdn.moat.gg/f/8IyaugdkU2ofps69WOpSpNEOJphr.png"
+    WebElements.Circle 	  		= "https://cdn.moat.gg/f/m3d4nPegJ54TRsJce7ohIuLYi2mM.png"
+    WebElements.Lava 	  		= "https://cdn.moat.gg/f/V8AViRgPo77b4TZPEarHK8zsW8Wz.jpg"
+    WebElements.BandedCircle		= "https://cdn.moat.gg/f/r6eme6X9oUamu7I8kljtArKa9ZJ7.png"
+    WebElements.HeartOutline		= "https://cdn.moat.gg/f/lmsokk8XWStmiccOupNlOdGkdF1h.png"
+    WebElements.ClockHand		= "https://cdn.moat.gg/f/V7L3I0oJvhILX3fpbeXRVnGEPWLi.png"
+    WebElements.QuadCircle		= "https://cdn.moat.gg/f/mEeGzSHefrWCmWvY5CAup4TrOBhX.png"
+    WebElements.PlusSign			= "https://cdn.moat.gg/f/yrUmejBbXZyInphLh7qJyRLMRaQA.png"
+    WebElements.SpeechBubble		= "https://cdn.moat.gg/f/hBPdWU7GV9eAwx7T74VyjWPAzFVf.png"
+    WebElements.PowerMeter		= "https://cdn.moat.gg/f/ltKuiDtsnxDUnv5DVLImH6uTQwZA.png"
 
 
 end
@@ -150,7 +150,6 @@ end
 
 function SWEP:Reload()
 end
-print(77798)
 
 if SERVER then
 	util.AddNetworkString("TNT.IsBomb")
@@ -439,11 +438,11 @@ function SWEP:DrawHUD()
 	local xE, xT = (ScrH() / 100 + c_CValue), (c_CValue * ScrH() / 300)
 	local t = LocalPlayer().IsBomb
 	if not t then
-		draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
-		draw.WebImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
+		cdn.DrawImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
+		cdn.DrawImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
 	else
-		draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), (c_CValue / 5):sin() * 180)
-		draw.WebImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), 0)
+		cdn.DrawImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), (c_CValue / 5):sin() * 180)
+		cdn.DrawImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), 0)
 	end
 	local Size = ScrH() / 12
 

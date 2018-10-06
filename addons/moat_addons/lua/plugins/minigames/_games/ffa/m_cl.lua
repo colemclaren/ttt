@@ -42,19 +42,16 @@ net.Receive("FFA_Begin",function()
         blue_save = 0,
     }
     local songs = {
-        "https://i.moat.gg/18-04-26-48t.mp3",
-        "https://i.moat.gg/18-04-26-77y.mp3"
+        "https://cdn.moat.gg/f/MzU6q95FEr1e1vjKLB5iCeLCk6Ma.mp3",
+        "https://cdn.moat.gg/f/vDXBQkOEv4cvwxAoZMqkrIyNNL6i.mp3"
         }
     math.randomseed(_SEED)
-    sound.PlayURL(table.Random(songs),"",function(station)
-        if IsValid(station) then
-            station:SetVolume(0.5)
-            station:Play()
-            hook.Add("Think","FFA Music",function()
-                if not MOAT_FFA then station:Stop() hook.Remove("Think","FFA Music") end
-            end)
-        end
+    cdn.PlayURL(table.Random(songs), 0.5, function(station)
+        hook.Add("Think","FFA Music",function()
+            if not MOAT_FFA then station:Stop() hook.Remove("Think","FFA Music") end
+        end)
     end)
+
     kills = {}
 end)
 
@@ -98,12 +95,7 @@ net.Receive("FFA_End",function()
     local players = net.ReadTable()
     local red = net.ReadBool()
     MOAT_MINIGAME_OCCURING = false
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/forsen_end.mp3","",function(s)
-        if IsValid(s) then
-            s:SetVolume(0.5)
-            s:Play()
-        end
-    end)
+    cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
 
     kills = {}
     FFA_END = {}
@@ -386,11 +378,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("FFA_Prep",function()
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-		end
-	end)
+    cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
     local desc = {
         "Each player will spawn with the same weapons!",

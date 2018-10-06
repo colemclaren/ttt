@@ -20,18 +20,25 @@ local function getYCoordinate(currentPerkID)
 end
 
 local yCoordinate = defaultY
+local hermes_boots = false
 -- best performance, but the has about 0.5 seconds delay to the HasEquipmentItem() function
 hook.Add("TTTBoughtItem", "TTTHermesBoots", function()
 	if (LocalPlayer():HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
 		yCoordinate = getYCoordinate(EQUIP_HERMES_BOOTS)
+		hermes_boots = true
 	end
 end)
 
 -- draw the HUD icon
 local material = Material("vgui/ttt/perks/hermes_boots_hud.png")
 hook.Add("HUDPaint", "TTTHermesBoots", function()
-	if (LocalPlayer():HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
-		draw.WebImage("https://moat.gg/assets/img/hermes_boots_hud.png", 20, yCoordinate, 64, 64, Color(255, 255, 255))
+	if (hermes_boots) then
+		if (not LocalPlayer():HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
+			hermes_boots = false
+			return
+		end
+
+		cdn.DrawImage("https://cdn.moat.gg/f/iDYy12j3U82sD75i0HEVDLPL7r0D.png", 20, yCoordinate, 64, 64)
 	end
 end)
 

@@ -958,20 +958,20 @@ function aaaam_DrawDicePanel()
 end
 
 local bomb_sounds = {
-    ["win"] = "https://moat.gg/assets/sounds/sweeper_win.mp3",
-    ["boom"] = "https://moat.gg/assets/sounds/sweeper_boom.mp3",
-    ["end"] = "https://moat.gg/assets/sounds/sweeper_end.mp3",
-	["versus_win"] = "https://moat.gg/assets/sounds/moat_versus_win.mp3",
-	[1] = "https://moat.gg/assets/sounds/moat_pop1.mp3",
-	[2] = "https://moat.gg/assets/sounds/moat_pop2.mp3",
+    ["win"] = "https://cdn.moat.gg/f/9PIiSvHopONR7egMCMSzWCbhgzTo.mp3",
+    ["boom"] = "https://cdn.moat.gg/f/f0VWNHpOfBrTK8SzNu4OP6Qqaj2w.mp3",
+    ["end"] = "https://cdn.moat.gg/f/oa2TST8otq3qoHg1VzfNkbJmu4OZ.mp3",
+	["versus_win"] = "https://cdn.moat.gg/f/aeweEsa49N1rzd6XqEZ8PPLb3eCC.mp3",
+	[1] = "https://cdn.moat.gg/f/HFYN4ZEEuObwgbs7yoO7UmvgUG9B.mp3",
+	[2] = "https://cdn.moat.gg/f/JLbZfNntpdmPOrcRcdRnWDdEG5iU.mp3",
 }
 
 local function PlayMinesSound(var)
-    sound.PlayURL(bomb_sounds[var], "mono", function(s) if (IsValid(s)) then s:Play() end end)
+	cdn.PlayURL(bomb_sounds[var])
 end
 
 local function PlayVersusSound(var)
-    sound.PlayURL(bomb_sounds[var], "mono", function(s) if (IsValid(s)) then s:Play() end end)
+    cdn.PlayURL(bomb_sounds[var])
 end
 
 function m_DrawDicePanel()
@@ -1183,7 +1183,7 @@ function m_DrawDicePanel()
 					draw.SimpleText("" .. math.toK(mines[s.i]), "moat_ItemDesc", w/2, h/2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 				elseif mines[s.i] == -1 then
 					draw.RoundedBox(0,0,0,w,h,Color(235, 84, 36))
-                    draw.WebImage("https://moat.gg/assets/img/mg_bomb.png", 0, 0, 64, 64, Color(255, 255, 255))
+                    cdn.DrawImage("https://cdn.moat.gg/f/j5oxJXNDe06LcffIaKYsy2gqXU3X.png", 0, 0, 64, 64)
 				end
 				--draw.SimpleText(bombs[i], "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
@@ -1317,27 +1317,14 @@ surface.CreateFont("moat_RoulettBet", {
 local bg = Color(86, 86, 86)
 local fsize = 505, 460
 local mats = {
-    wheel = "https://i.moat.gg/18-04-12-l4h.png",
-    mat_green_normal = "https://i.moat.gg/18-04-12-k7h.png",
-    mat_green_red = "https://i.moat.gg/18-04-12-y1i.png",
-    mat_green_black = "https://i.moat.gg/18-04-12-62k.png",
-    mat_green_normal_hover = "https://i.moat.gg/18-04-12-D4O.png",
-    mat_green_black_hover = "https://i.moat.gg/18-04-12-b2J.png",
-    mat_green_red_hover = "https://i.moat.gg/18-04-12-J16.png"
+    wheel = "https://cdn.moat.gg/f/KrsoP3vZn2GJoyHK2yidAT4roLe5.png",
+    mat_green_normal = "https://cdn.moat.gg/f/hMJafIYykyzKw2daM8zXwICHN4Kq.png",
+    mat_green_red = "https://cdn.moat.gg/f/m1z4PprRigdVQIZ3yNg7pUUgM69P.png",
+    mat_green_black = "https://cdn.moat.gg/f/91DaxiCjyvv7ACrgUT7di8IzOD0I.png",
+    mat_green_normal_hover = "https://cdn.moat.gg/f/WJhJgSHgT3Yh6q42SZwdcoBtyVg1.png",
+    mat_green_black_hover = "https://cdn.moat.gg/f/jECkhuCfEbRiuACRvPXr3FWoHMfi.png",
+    mat_green_red_hover = "https://cdn.moat.gg/f/7oKAmGxFqozCePoq8EiRbkxYyoxT.png"
 }
-if not file.Exists("moat_assets2/wheel.png","DATA") then
-    file.CreateDir("moat_assets2")
-    for k,v in pairs(mats) do
-        http.Fetch(v,function(a)
-            file.Write("moat_assets2/" .. k ..".png",a)
-            mats[k] = Material("data/moat_assets2/" .. k .. ".png","noclamp smooth")
-        end)
-    end
-else
-    for k,v in pairs(mats) do
-        mats[k] = Material("data/moat_assets2/" .. k .. ".png","noclamp smooth")
-    end
-end
 
 MOAT_GAMBLE.RouletteAmount = 0
 MOAT_GAMBLE.RouletteMax = 5000
@@ -1447,14 +1434,10 @@ function m_DrawRoulettePanel()
 
         draw.RoundedBox(0,260,80,170,170,Color(32,32,34))
 
-        surface.SetDrawColor(255, 255, 255, 255)
-		if not isstring(mats["wheel"]) then
-        	surface.SetMaterial(mats["wheel"])
-		end
         if doing then
             ang = Lerp(FrameTime()*time_m,ang,toang)
         end
-        surface.DrawTexturedRectRotated(w/4*2.75,h/3*1.1, 250, 250, ang )
+		cdn.SmoothImageRotated(mats["wheel"], w/4*2.75,h/3*1.1, 250, 250, Color(255, 255, 255, 255), ang)
 		draw.NoTexture()
 		for k,v in pairs(previous_rolls) do
 			if k > 6 then continue end
@@ -1661,11 +1644,9 @@ function m_DrawRoulettePanel()
     moat_roulette_place:SetText("")
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
-        surface.SetDrawColor(255,255,255,255)
-		if not isstring(mats["mat_green_red" .. (self:IsHovered() and "_hover" or "")]) then
-        	surface.SetMaterial(mats["mat_green_red" .. (self:IsHovered() and "_hover" or "")])
-		end
-        surface.DrawTexturedRect(0,0,w,h)
+
+		cdn.SmoothImage(mats["mat_green_red" .. (self:IsHovered() and "_hover" or "")], 0, 0, w, h)
+
         surface.SetDrawColor(86,86,86,255)
         surface.DrawOutlinedRect(0, 0, w, h)
         if found and doing and MOAT_GAMBLE.RedAmount > 0 then
@@ -1692,11 +1673,9 @@ function m_DrawRoulettePanel()
     moat_roulette_place:SetText("")
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
-        surface.SetDrawColor(255,255,255,255)
-		if not isstring(mats["mat_green_normal" .. (self:IsHovered() and "_hover" or "")]) then
-        	surface.SetMaterial(mats["mat_green_normal" .. (self:IsHovered() and "_hover" or "")])
-		end
-        surface.DrawTexturedRect(0,0,w,h)
+
+		cdn.SmoothImage(mats["mat_green_normal" .. (self:IsHovered() and "_hover" or "")], 0, 0, w, h)
+
         surface.SetDrawColor(86,86,86,255)
         surface.DrawOutlinedRect(0, 0, w, h)
         if found and doing and MOAT_GAMBLE.GreenAmount > 0 then
@@ -1723,11 +1702,9 @@ function m_DrawRoulettePanel()
     moat_roulette_place:SetText("")
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
-        surface.SetDrawColor(255,255,255,255)
-		if not isstring(mats["mat_green_black" .. (self:IsHovered() and "_hover" or "")]) then
-        	surface.SetMaterial(mats["mat_green_black" .. (self:IsHovered() and "_hover" or "")])
-		end
-        surface.DrawTexturedRect(0,0,w,h)
+
+		cdn.SmoothImage(mats["mat_green_black" .. (self:IsHovered() and "_hover" or "")], 0, 0, w, h)
+
         surface.SetDrawColor(86,86,86,255)
         surface.DrawOutlinedRect(0, 0, w, h)
         if found and doing and MOAT_GAMBLE.BlackAmount > 0 then

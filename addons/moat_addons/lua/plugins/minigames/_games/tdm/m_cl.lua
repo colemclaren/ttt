@@ -39,14 +39,11 @@ net.Receive("TDM_Begin",function()
         blue_save = 0,
         time_end = CurTime() + (60) * 10
     }
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/tdmsong.mp3","",function(station)
-        if IsValid(station) then
-            station:SetVolume(0.5)
-            station:Play()
-            hook.Add("Think","TDM Music",function()
-                if not MOAT_TDM then station:Stop() hook.Remove("Think","TDM Music") end
-            end)
-        end
+
+	cdn.PlayURL("https://cdn.moat.gg/f/bX6HQ3kQtHOiLniM7ev7ff7Faoye.mp3", 0.5, function(station)
+        hook.Add("Think","TDM Music",function()
+            if not MOAT_TDM then station:Stop() hook.Remove("Think","TDM Music") end
+        end)
     end)
     kills = {}
 end)
@@ -91,12 +88,7 @@ net.Receive("TDM_End",function()
     local players = net.ReadTable()
     local red = net.ReadBool()
     MOAT_MINIGAME_OCCURING = false
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/forsen_end.mp3","",function(s)
-        if IsValid(s) then
-            s:SetVolume(0.5)
-            s:Play()
-        end
-    end)
+    cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
 
     kills = {}
     TDM_END = {}
@@ -426,11 +418,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("TDM_Prep",function()
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-		end
-	end)
+    cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
     local desc = {
         "Each player will be on one of two teams",

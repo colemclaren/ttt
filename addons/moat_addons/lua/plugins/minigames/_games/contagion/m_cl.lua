@@ -264,14 +264,7 @@ end
 function MG_CG.PrepRound()
     MG_CG.ResetVars()
 
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/virus/prepare.mp3", "mono", function(siren)
-        if(IsValid(siren))then
-            siren:Play()
-            siren:SetVolume(1)
-        else
-            print("nope")
-        end
-    end)
+	cdn.PlayURL("https://cdn.moat.gg/f/wDOhylZkywTpfAZBURHTtFjV86BY.mp3")
 
     hook.Add("HUDPaint", "MG_CG_PREPPAINT", MG_CG.PrepPaint)
     hook.Add("TTTBeginRound", "MG_CG_BEGINHOOK", MG_CG.BeginRound)
@@ -308,6 +301,12 @@ function MG_CG.InfectedHalos()
     halo.Add(red_halos, Color(255, 0, 0), 0, 0, 1, true, false)
 end
 
+local music_urls = {
+	"https://cdn.moat.gg/f/baLvGPsFx8x51CFeOS3ClNcu7p2g.mp3",
+	"https://cdn.moat.gg/f/UtZsZ08NaXZGIKEMTCSg046f2znE.mp3",
+	"https://cdn.moat.gg/f/xRoQMBl4Y5V04r4qtnuR9GQvMLgP.mp3",
+	"https://cdn.moat.gg/f/mupaDtP9j8t7Y9nOgSc80FlF4M4h.mp3"
+}
 local music_nums = {
     288,
     256,
@@ -323,19 +322,11 @@ function MG_CG.PlayMusic(num)
         next_num = 1
     end
 
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/virus/song" .. num .. ".mp3", "mono", function(song)
-        if (IsValid(song)) then
-            song:Play()
-            song:SetVolume(1)
+	cdn.PlayURL(music_urls[num])
+	timer.Simple(music_nums[num], function()
+        if (MG_CG.ContagionOver) then return end
 
-            timer.Simple(music_nums[num], function()
-                if (MG_CG.ContagionOver) then return end
-
-                MG_CG.PlayMusic(next_num)
-            end)
-        else
-            MG_CG.PlayMusic(num)
-        end
+        MG_CG.PlayMusic(next_num)
     end)
 end
 

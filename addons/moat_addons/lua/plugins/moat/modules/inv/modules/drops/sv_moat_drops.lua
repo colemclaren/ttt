@@ -40,7 +40,7 @@ function m_CreatePaints()
         --tbl.NameColor = Color(MOAT_PAINT.Colors[i][2][1], MOAT_PAINT.Colors[i][2][2], MOAT_PAINT.Colors[i][2][3])
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 1
-        tbl.Image = "https://moat.gg/assets/img/tint64.png"
+        tbl.Image = "https://cdn.moat.gg/f/V1nF1EWK8QFL2Uwc87wla1ERPQLo.png"
         tbl.ItemCheck = 11
         function tbl:ItemUsed(pl, slot, item)
             m_TintItem(pl, slot, item, self.ID)
@@ -65,7 +65,7 @@ function m_CreatePaints()
         --tbl.NameColor = Color(MOAT_PAINT.Colors[i][2][1], MOAT_PAINT.Colors[i][2][2], MOAT_PAINT.Colors[i][2][3])
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 2
-        tbl.Image = "https://moat.gg/assets/img/paint64.png"
+        tbl.Image = "https://cdn.moat.gg/f/3KvQGWvW2Rkb3u9oC3zZWsyRE0wt.png"
         tbl.ItemCheck = 10
         function tbl:ItemUsed(pl, slot, item)
             m_PaintItem(pl, slot, item, self.ID)
@@ -86,7 +86,7 @@ function m_CreatePaints()
         --tbl.NameColor = Color(MOAT_PAINT.Colors[i][2][1], MOAT_PAINT.Colors[i][2][2], MOAT_PAINT.Colors[i][2][3])
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 2
-        tbl.Image = "https://moat.gg/assets/img/texture64.png"
+        tbl.Image = "https://cdn.moat.gg/f/O3DkFrSx6C66U4XBvbGm7aYm4xDV.png"
         tbl.ItemCheck = 12
         function tbl:ItemUsed(pl, slot, item)
             m_TextureItem(pl, slot, item, self.ID)
@@ -464,13 +464,13 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
 
         if (dropped_item and dropped_item.u and item_to_drop and item_to_drop.Rarity) then
             if (item_to_drop.Rarity == 6) then
-                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/ascended.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
+				cdn.PlayURL "https://cdn.moat.gg/f/jNtvxfzegrrhSzpFi2ldjPLFVCuL.mp3"
             elseif (item_to_drop.Rarity == 7) then
-                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/cosmic.wav', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
-                BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)")
+				cdn.PlayURL "https://cdn.moat.gg/f/CUuOaURrcDiexrntlVjs9famksuK.wav"
+				BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)")
             elseif (item_to_drop.Rarity == 9) then
-                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/planetary.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:SetVolume(0.5) song:Play()  end end)") 
-                BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 25, 25, 15, 5000)")
+                cdn.PlayURL "https://cdn.moat.gg/f/1ePlkeSBwT6xXxcUJ7frbSUzT1BW.mp3"
+				BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 25, 25, 15, 5000)")
                 local ITEM_HOVERED = item_to_drop
                 local wpnstr = item_to_drop.Name
                 local ITEM_NAME_FULL = ""
@@ -488,8 +488,8 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                 end
                 gglobalchat_planetary(self:Nick(),ITEM_NAME_FULL)
             elseif (tonumber(dropped_item.u) == 912 or titan_tier_ids[tostring(dropped_item.u)]) then
-                BroadcastLua("sound.PlayURL('https://i.moat.gg/servers/tttsounds/drops/shockwave.mp3', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end)") 
-            end
+                cdn.PlayURL "https://cdn.moat.gg/f/u8diZ6qyoxuJPbwHOlLC25SdC3jY.mp3"
+			end
         end
 
         self:m_AddInventoryItem(dropped_item, delay_le_saving, dont_show_chat)

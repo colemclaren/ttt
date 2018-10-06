@@ -1165,6 +1165,7 @@ end
 function PANEL:SetModel(mdl, iSkin, BodyGroups)
 	if ( !mdl ) then debug.Trace() return end
 	if (not mdl:EndsWith(".mdl")) then
+		if (self.ModelPanel) then self.ModelPanel:Remove() end
 		return
 	end
 
@@ -1176,11 +1177,11 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
     end
 
     self.m_strBodyGroups = BodyGroups
+	local mdls = tostring(mdl)
 
-	if (not IsValid(self.Icon)) then self:CreateIcon(true) end
-    self.Icon:SetModel(mdl, iSkin, BodyGroups)
-
-    local mdls = tostring(mdl)
+	if (not IsValid(self.Icon)) then
+		self:CreateIcon(true)
+	end
 
     if (self.ModelPanel) then self.ModelPanel:Remove() end
     if (MOAT_MODEL_POS[mdls]) then
@@ -1207,10 +1208,10 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
             --ent:SetAngles(Angle(0, 45, 0))
             --ent:SetPos(Vector(0, 0, 35))
         end
-    else
+	else
+		self.Icon:SetModel(mdl, iSkin, BodyGroups)
         self.Icon:SetVisible(true)
     end
-
 end
 
 function PANEL:RebuildSpawnIcon()

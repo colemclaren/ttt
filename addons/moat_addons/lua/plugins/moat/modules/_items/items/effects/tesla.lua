@@ -11,7 +11,7 @@ ITEM.Bone = "ValveBiped.Bip01_Spine4"
 
 ITEM.NameEffect = "electric"
 
-ITEM.Image = "https://i.moat.gg/18-04-17-S56.png"
+ITEM.Image = "https://cdn.moat.gg/f/Ka4fVU0Qg61sagg9ILNyXsVr0SZL.png"
 local particle = "TeslaHitBoxes"
 if CLIENT then
     net.Receive("TeslaEffect",function()

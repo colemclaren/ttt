@@ -191,7 +191,7 @@ function MapVote.Show()
 
         DrawBlur(self, 3)
 
-        draw.WebImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 245))
+        cdn.DrawImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 245))
 
         surface.SetDrawColor(183, 183, 183)
         DisableClipping(true)
@@ -218,7 +218,7 @@ function MapVote.Show()
     like:SetPos(270,5)
     like:SetText("")
     function like:Paint(w,h)
-        draw.WebImage("https://i.imgur.com/jjSSaMy.png",0,0,w,h,Color(0,255,0,50))
+        cdn.DrawImage("https://cdn.moat.gg/f/E3Fa8uDCgNzzL6iAoITcNk4nUDye.png",0,0,w,h,Color(0,255,0,50))
     end
     function like:DoClick()
         hasvoted = true
@@ -233,7 +233,7 @@ function MapVote.Show()
     like:SetPos(320,5)
     like:SetText("")
     function like:Paint(w,h)
-        draw.WebImage("https://i.imgur.com/QFKkVtt.png",0,0,w,h,Color(255,0,0,50),180,50)
+        cdn.DrawImageRotated("https://cdn.moat.gg/f/unE9uyhsKtr835pF3Zigc71KozFU.png",0,0,w,h,Color(255,0,0,50),180,50)
     end
     function like:DoClick()
         hasvoted = true
@@ -274,16 +274,16 @@ function MapVote.Show()
             a:DockMargin(0,0,4,0)
         end
         a:Dock(LEFT)
-        local url = "https://moat.gg/assets/img/mg-mapvote-final.png"
+        local url = "https://cdn.moat.gg/f/pd99nktaEEWliljIWuKfDQGYJFoB.png"
         a:SetText("")
         local ispic = false
         http.Fetch("https://image.gametracker.com/images/maps/160x120/garrysmod/" .. map .. ".jpg",function(_,_,_,c) 
             if not tostring(c):match("^2") then 
-                url = "https://moat.gg/assets/img/mg-mapvote-final.png" 
+                url = "https://cdn.moat.gg/f/pd99nktaEEWliljIWuKfDQGYJFoB.png"
             else
                 url = "https://image.gametracker.com/images/maps/160x120/garrysmod/" .. map .. ".jpg"
             end 
-        end,function() url = "https://moat.gg/assets/img/mg-mapvote-final.png" end)
+        end,function() url = "https://cdn.moat.gg/f/pd99nktaEEWliljIWuKfDQGYJFoB.png" end)
         function a:Paint(w,h)
             local votes = 0
             local mine = false
@@ -304,10 +304,10 @@ function MapVote.Show()
             surface.DrawLine(1,147,w-2,147)
             surface.DrawLine(1,187,w-2,187)
 
-            if (url == "https://moat.gg/assets/img/mg-mapvote-final.png") then
-                draw.WebImage(url,5,5,256,256)
+            if (url == "https://cdn.moat.gg/f/pd99nktaEEWliljIWuKfDQGYJFoB.png") then
+                cdn.DrawImage(url,5,5,256,256)
             else
-                draw.WebImage(url,5,5,w-10,120)
+                cdn.DrawImage(url,5,5,w-10,120)
             end
 
             surface.SetDrawColor(62, 62, 64, 255)

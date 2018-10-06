@@ -174,21 +174,21 @@ local function createFestive(pnl, x, y, w, h)
     end*/
 end
 
-local spooky_url = "https://i.moat.gg/servers/images/halloween/"
+local halloween_bg = "https://cdn.moat.gg/f/SoZyySAqPRjKPwE0TV1uAawYAwrh.png"
 local spooks = {
-    [1] = {"1left.png", 0, 0, 0},
-    [2] = {"2left.png", 0, 0, 0},
-    [3] = {"3left.png", 0, 0, 0},
-    [4] = {"1right.png", 0, 0, 0},
-    [5] = {"2right.png", 0, 0, 0},
-    [6] = {"3right.png", 0, 0, 0}
+    [1] = {"1left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/IV6DToCJh1yBx4PE79yunv7sgW8r.png"},
+    [2] = {"2left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/NEXxgLRgDwaUWVtcIOAscgLqZ3g9.png"},
+    [3] = {"3left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/sgNcfH6QswvM0meOTnN1Rla7U0Kl.png"},
+    [4] = {"1right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/r0o2bTYtLVrajvIRWqw5BiQ1yxtN.png"},
+    [5] = {"2right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/am4eZAV7ytuNUbEaFSZfooiZm1kh.png"},
+    [6] = {"3right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/4UrXPnEHVHhCUohIWCf2AJ6zdjG6.png"}
 }
 local next_spook = CurTime()
 local current_spook = 1
 local currently_spook = false
 
 local function DrawSpooky(s, w, h)
-    draw.WebImage(spooky_url .. "halloween3.png", 0, 0, w, h, Color(255, 255, 255))
+    cdn.DrawImage(halloween_bg, 0, 0, w, h)
 
     if (next_spook <= CurTime()) then
         current_spook = math.random(1, 6)
@@ -208,7 +208,7 @@ local function DrawSpooky(s, w, h)
     elseif (currently_spook) then
         local da_spook = spooks[current_spook]
 
-        draw.WebImage(spooky_url .. da_spook[1], da_spook[2], da_spook[3] - (math.sin(RealTime() * 3) * 25), da_spook[4], da_spook[4], Color(255, 255, 255))
+        cdn.DrawImage(da_spook.url, da_spook[2], da_spook[3] - (math.sin(RealTime() * 3) * 25), da_spook[4], da_spook[4], Color(255, 255, 255))
 
         if (da_spook[1]:EndsWith("right.png")) then
             da_spook[2] = da_spook[2] + (FrameTime() * 120)
@@ -237,12 +237,12 @@ end
 
 
 
-local spring_url = "https://moat.gg/assets/img/spring/"
+local spring_bg_url = "https://cdn.moat.gg/f/pPpwGWD2ojJm3lHIxKQ1n24i9Xc6.png"
 local springs = {
-    [1] = {"butterfly1.png", 0, 0, 0},
-    [2] = {"butterfly2.png", 0, 0, 0},
-    [3] = {"butterfly3.png", 0, 0, 0},
-    [4] = {"butterfly4.png", 0, 0, 0}
+    [1] = {"butterfly1.png", 0, 0, 0, url = "https://cdn.moat.gg/f/5G8ewLLO4NwCXMtB5BWd3HaHLIbk.png"},
+    [2] = {"butterfly2.png", 0, 0, 0, url = "https://cdn.moat.gg/f/NstfX8BF83G9SJE8FSUoQuuSDc2n.png"},
+    [3] = {"butterfly3.png", 0, 0, 0, url = "https://cdn.moat.gg/f/frIdjb0CUHePAd31uMBj3S1tnnKT.png"},
+    [4] = {"butterfly4.png", 0, 0, 0, url = "https://cdn.moat.gg/f/yRSv5NZHkcPqJ2eyo5dmrsXqRIkC.png"}
 }
 local next_spring = CurTime()
 local current_spring = 1
@@ -250,7 +250,7 @@ local left_or_right = 1
 local currently_spring = false
 
 local function DrawSpring(s, w, h)
-    draw.WebImage(spring_url .. "spring_bg.png", 0, 0, 1024, 1024, Color(255, 255, 255, 50))
+    cdn.DrawImage(spring_bg_url, 0, 0, 1024, 1024, Color(255, 255, 255, 50))
 
     if (next_spring <= CurTime()) then
         current_spring = math.random(1, 4)
@@ -270,7 +270,7 @@ local function DrawSpring(s, w, h)
         next_spring = CurTime() + 20
     elseif (currently_spring) then
         local da_spring = springs[current_spring]
-        draw.WebImage(spring_url .. da_spring[1], da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
+        cdn.DrawImage(da_spring[1].url, da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
 
         if (left_or_right == 2) then
             da_spring[2] = da_spring[2] + (FrameTime() * 120)
@@ -1994,15 +1994,15 @@ function m_OpenInventory(ply2, utrade)
         if (M_INV_DRAG.VGUI and M_INV_DRAG.VGUI.WModel and not string.EndsWith(M_INV_DRAG.VGUI.WModel, ".mdl")) then
             s.Icon:SetAlpha(0)
             if (M_INV_DRAG.VGUI.Item and M_INV_DRAG.VGUI.Item.item and M_INV_DRAG.VGUI.Item.item.Clr) then
-				draw.WebImage(M_INV_DRAG.VGUI.WModel, 0, 0, w, h, {r = M_INV_DRAG.VGUI.Item.item.Clr[1], g = M_INV_DRAG.VGUI.Item.item.Clr[2], b = M_INV_DRAG.VGUI.Item.item.Clr[3], a = 200})
+				cdn.DrawImage(M_INV_DRAG.VGUI.WModel, 0, 0, w, h, {r = M_INV_DRAG.VGUI.Item.item.Clr[1], g = M_INV_DRAG.VGUI.Item.item.Clr[2], b = M_INV_DRAG.VGUI.Item.item.Clr[3], a = 200})
             elseif (M_INV_DRAG.VGUI.WModel:StartWith("https")) then
-                draw.WebImage(M_INV_DRAG.VGUI.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 200})
+                cdn.DrawImage(M_INV_DRAG.VGUI.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 200})
             else
                 surface_SetDrawColor(255, 255, 255, 200)
                 surface_SetMaterial(Material(M_INV_DRAG.VGUI.WModel))
                 surface_DrawTexturedRect(0, 0, w, h)
             end
-        else
+		else
             s.Icon:SetAlpha(200)
         end
     end
@@ -2366,10 +2366,10 @@ function m_OpenInventory(ply2, utrade)
                 if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
                     s.Icon:SetAlpha(0)
                     if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-						draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
+						cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
                     elseif (m_DPanelIcon.WModel:StartWith("https")) then
-                        draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
-                        draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+                        cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
+                        cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                     else
                         surface_SetDrawColor(255, 255, 255, 100)
                         surface_SetMaterial(Material(m_DPanelIcon.WModel))
@@ -2761,10 +2761,10 @@ function m_OpenInventory(ply2, utrade)
                 if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
                     s.Icon:SetAlpha(0)
                     if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-						draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
+						cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
                     elseif (m_DPanelIcon.WModel:StartWith("https")) then
-                        draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
-                        draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+                        cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
+                        cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                     else
                         surface_SetDrawColor(255, 255, 255, 100)
                         surface_SetMaterial(Material(m_DPanelIcon.WModel))
@@ -3564,10 +3564,10 @@ function m_OpenInventory(ply2, utrade)
                             render.SetScissorRect( x, y, x + invw, y + invh, true )
                             s.Icon:SetAlpha(0)
                             if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-								draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
+								cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
                             elseif (m_DPanelIcon.WModel:StartWith("https")) then
-                                draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
-                                draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+                                cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
+                                cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                             else
                                 surface_SetDrawColor(255, 255, 255, 100)
                                 surface_SetMaterial(Material(m_DPanelIcon.WModel))
@@ -4162,10 +4162,10 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
             if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
                 s.Icon:SetAlpha(0)
                 if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-					draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
+					cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
                 elseif (m_DPanelIcon.WModel:StartWith("https")) then
-                    draw.WebImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
-                    draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+                    cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
+                    cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                 else
                     surface_SetDrawColor(255, 255, 255, 100)
                     surface_SetMaterial(Material(m_DPanelIcon.WModel))
@@ -6760,17 +6760,13 @@ net.Receive("MOAT_DECON_NOTIFY", function()
 
     local s = mul == true and "s" or ""
 
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/decon.mp3", "mono", function(snd)
-        if (IsValid(snd)) then snd:Play() snd:SetVolume(1) end
-    end)
+    cdn.PlayURL "https://cdn.moat.gg/f/tcTmdMRKmTamobA5mrj5aFs6siOm.mp3"
 
     chat.AddText(Material("icon16/information.png"), Color(255, 255, 0), "You received ", Color(0, 255, 0), string.Comma(amt), Color(255, 255, 0), " IC from deconstructing your item" .. s .. "!")
 end)
 
 net.Receive("MOAT_DECON_MUTATOR", function()
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/achievement1.wav", "mono", function(snd)
-        if (IsValid(snd)) then snd:Play() snd:SetVolume(1) end
-    end)
+    cdn.PlayURL "https://cdn.moat.gg/f/L7mju69BFW8gJxWTkdDCszvIoWWe.wav"
 end)
 
 -- thank you MPan1 for the rainbow library https://github.com/Mysterypancake1/GMod-Rainbows/blob/master/rainbow.lua

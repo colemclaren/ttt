@@ -181,7 +181,7 @@ local function m_StartCrateRoll(crate_slot, crate_class, parent_pnl)
                 if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
                     s.Icon:SetAlpha(0)
                     if (m_DPanelIcon.WModel:StartWith("https")) then
-                        draw.WebImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+                        cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                     else
                         surface.SetDrawColor(255, 255, 255, 255)
                         surface.SetMaterial(Material(m_DPanelIcon.WModel))
@@ -336,7 +336,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         surface.DrawOutlinedRect(0, 0, w, h)
         
         if (itemtbl.item.Image:StartWith("https")) then
-            draw.WebImage(itemtbl.item.Image, 2, 2, 64, 64, {r = 255, g = 255, b = 255, a = 255})
+            cdn.DrawImage(itemtbl.item.Image, 2, 2, 64, 64, {r = 255, g = 255, b = 255, a = 255})
         else
             surface.SetDrawColor(255, 255, 255, 255)
             surface.SetMaterial(Material(itemtbl.item.Image))

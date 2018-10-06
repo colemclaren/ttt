@@ -36,7 +36,7 @@ _this.serverPort = Server and Server.Port or "27015"
 -- Set backgroundUrls to false to use backgroundColor instead
 _this.backgroundUrls = {
 	{ 
-		"https://moat.gg/assets/img/bg-main.png", -- Image URL
+		"https://cdn.moat.gg/f/4Mp1eri4NCAy2nSNkpaJKQlOVciM.png", -- Image URL
 		1500, 1080, -- Width, Height
 		false -- true is Fill, false is Stretch. Fill and Stretch explained: http://i.imgur.com/jlzYCvT.png
 	}

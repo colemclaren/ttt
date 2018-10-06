@@ -88,16 +88,7 @@ end
 local function moat_InitDrawBossHealth()
 	hook.Add("HUDPaint", "moat_DrawBossHealth", moat_DrawBossHealth)
 
-	sound.PlayURL("https://i.moat.gg/servers/tttsounds/apache/american_music.mp3", "mono", function(siren)
-	--sound.PlayURL("http://moatgaming.net/ttt/boss_sexy.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-			siren:SetVolume(0.5)
-		else
-			print("nope")
-		end
-	end)
-
+	cdn.PlayURL("https://cdn.moat.gg/f/ceogjNPMcV4i5UNRrY8OQnyDgPLP.mp3", 0.5)
 end
 
 local moat_BossWarningLabel = "INCOMING BOSS ROUND!!!"
@@ -131,23 +122,8 @@ local function moat_PrepareBoss()
 	MOAT_BOSS_ROUND_OVER = false
 	MOAT_ACTIVE_BOSS = true
 
-	sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:SetVolume(0.3)
-			siren:Play()
-		else
-			print("nope")
-		end
-	end)
-
-	sound.PlayURL("https://i.moat.gg/servers/tttsounds/apache/apache1smith.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:SetVolume(2)
-			siren:Play()
-		else
-			print("nope")
-		end
-	end)
+	cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3", 0.3)
+	cdn.PlayURL("https://cdn.moat.gg/f/gazK2zz1fWnNVn11Vn238xN5pcMX.mp3", 2)
 
 	hook.Add("HUDPaint", "moat_PrepareBoss", moat_DrawBossWarning)
 	--hook.Add("TTTBeginRound", "moat_StartBoss", moat_InitDrawBossHealth)

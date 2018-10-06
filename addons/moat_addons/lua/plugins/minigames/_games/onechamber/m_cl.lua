@@ -144,13 +144,7 @@ end
 function MG_OC.PrepRound()
 	MG_OC.ResetVars()
 
-	sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-		else
-			print("nope")
-		end
-	end)
+	cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
 	hook.Add("HUDPaint", "MG_OC_PREPPAINT", MG_OC.PrepPaint)
 	hook.Add("TTTBeginRound", "MG_OC_BEGINHOOK", MG_OC.BeginRound)
@@ -180,14 +174,7 @@ function MG_OC.DrawHalos()
 end
 
 function MG_OC.BeginRound()
-	sound.PlayURL("https://i.moat.gg/servers/tttsounds/happy.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-			siren:SetVolume(2)
-		else
-			print("nope")
-		end
-	end)
+	cdn.PlayURL("https://cdn.moat.gg/f/FAn4dfZehs8Qd9Uj8ZCLtgnDZrD7.mp3")
 
 	hook.Add("HUDPaint", "MG_OC_ACTIVEPAINT", MG_OC.ActivePaint)
 	hook.Remove("TTTBeginRound", "MG_OC_BEGINHOOK")

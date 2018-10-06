@@ -9,7 +9,7 @@ ITEM.ShopDesc = "Become a Detective on the next round!\n(Purchasing will give yo
 ITEM.LimitedShop = 1533707286
 
 ITEM.Collection = "Limited Collection"
-ITEM.Image = "https://i.moat.gg/18-08-04-38B.png"
+ITEM.Image = "https://cdn.moat.gg/f/4Cf2vezj6BNhBLTQ7pP2smE87BVm.png"
 
 ROLE_TOKEN_PLAYERS = {}
 

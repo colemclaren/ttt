@@ -23,7 +23,7 @@ local drawColor = DrawBloom
 local LocalPlayer = LocalPlayer
 local surface = surface
 local tem2 = 0
-local LavaTexture = Material("error")
+local LavaTexture = false
 local SmoothLevel = -32000
 local MapScale = 1
 local SkyboxScale = 1
@@ -36,14 +36,8 @@ local kills = {}
 local stats_spawn = GetConVar("moat_showstats_spawn")
 local stats_spawn_old = false
 net.Receive("lava_Begin",function()
-    if not file.Exists("moat_lavad.jpg","DATA") then
-        http.Fetch("https://i.moat.gg/18-10-02-75S.jpg",function(a)
-            file.Write("moat_lavad.jpg",a)
-            LavaTexture = Material("data/moat_lavad.jpg","noclamp")
-        end)
-    else
-        LavaTexture = Material("data/moat_lavad.jpg","noclamp")
-    end
+	LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img) LavaTexture = img end)
+
     MOAT_MINIGAME_OCCURING = true
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_LAVA = {
@@ -59,15 +53,13 @@ net.Receive("lava_Begin",function()
         red_save = 0,
         blue_save = 0,
     }
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/pirates.mp3","",function(station)
-        if IsValid(station) then
-            station:SetVolume(0.5)
-            station:Play()
-            hook.Add("Think","J Music",function()
-                if not MOAT_LAVA then station:Stop() hook.Remove("Think","J Music") end
-            end)
-        end
+
+	cdn.PlayURL("https://cdn.moat.gg/f/Qqhb45sVoo5CKPNK1KmSX65GoD4z.mp3", 0.5, function(station)
+        hook.Add("Think","J Music",function()
+            if not MOAT_LAVA then station:Stop() hook.Remove("Think","J Music") end
+        end)
     end)
+
     kills = {}
 end)
 
@@ -107,12 +99,7 @@ end
 net.Receive("LAVA_End",function()
     local players = net.ReadTable()
     MOAT_MINIGAME_OCCURING = false
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/forsen_end.mp3","",function(s)
-        if IsValid(s) then
-            s:SetVolume(0.5)
-            s:Play()
-        end
-    end)
+    cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
     MOAT_LAVA = nil
     kills = {}
     LAVA_END = {}
@@ -304,11 +291,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("lava_Prep",function()
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-		end
-	end)
+    cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
     local desc = {
         "Try to be the last one alive by climbing away from the lava!",
@@ -484,6 +467,11 @@ hook.Add("PostDrawTranslucentRenderables", "DrawLava", function(a, b)
 	local Ang = Angle(0, CurTime(), 0)
 
 	render.Clip(ClipTab, function()
+		if (not LavaTexture) then
+			LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img) LavaTexture = img end)
+			return
+		end
+
 		local x = 220 + (CurTime():sin() * 35):abs()
 		surface.SetDrawColor(x, x, x)
 		surface.SetMaterial(LavaTexture)

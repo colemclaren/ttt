@@ -354,7 +354,7 @@ else
 		end
 
 		if m_ShouldPlus then
-			draw.WebImage(WebElements.PlusSign, ScrW() * 0.925 + (CurTime() * 3):sin() * 15, m_Position, 50, 50, Color(255,255,255,m_Position / 5))
+			cdn.DrawImage(WebElements.PlusSign, ScrW() * 0.925 + (CurTime() * 3):sin() * 15, m_Position, 50, 50, Color(255,255,255,m_Position / 5))
 			m_Position = m_Position - FrameTime() * 255
 
 			if m_Position < ScrH() / 3 then
@@ -416,14 +416,14 @@ function SWEP:DrawHUD()
 
 
 	local xE, xT = (ScrH() / 100 + c_CValue), (c_CValue * ScrH() / 300)
-	-- draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
-	-- draw.WebImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
-	draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5 * 2, xE / 2 + (CurTime() * 10):sin() * 5 * 2, c_CurrentColor, (c_CValue / 5):sin() * 180)
-	draw.WebImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 5):sin() * 5 * 5 * 2, xE / 2 + (CurTime() * 5):sin() * 5 * 5 * 2, c_CurrentColor, (c_CValue / 5):sin() * 180)
+	-- cdn.DrawImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
+	-- cdn.DrawImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
+	cdn.DrawImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5 * 2, xE / 2 + (CurTime() * 10):sin() * 5 * 2, c_CurrentColor, (c_CValue / 5):sin() * 180)
+	cdn.DrawImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 5):sin() * 5 * 5 * 2, xE / 2 + (CurTime() * 5):sin() * 5 * 5 * 2, c_CurrentColor, (c_CValue / 5):sin() * 180)
 	local Size = ScrH() / 12
 
 	for i = 1, self:GetEggs() do
-		draw.WebImage("https://i.moat.gg/18-09-21-z0K.png", ScrW() - Size * (0.3 * i) - Size, ScrH() - Size * 1.5, Size, Size, nil, i == self:GetEggs() and (CurTime() * 5):sin() * 15 or -15, true)
+		cdn.DrawImage("https://cdn.moat.gg/f/zR6uvYHt9q4NOpquQKZIupjuVH2m.png", ScrW() - Size * (0.3 * i) - Size, ScrH() - Size * 1.5, Size, Size, nil, i == self:GetEggs() and (CurTime() * 5):sin() * 15 or -15, true)
 	end
 
 	CrosshairPos[1], CrosshairPos[2] = tosc.x, tosc.y

@@ -38,15 +38,13 @@ net.Receive("FFAS_Begin",function()
         red_save = 0,
         blue_save = 0,
     }
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/FFASsong.mp3","",function(station)
-        if IsValid(station) then
-            station:SetVolume(0.5)
-            station:Play()
-            hook.Add("Think","FFAS Music",function()
-                if not MOAT_FFAS then station:Stop() hook.Remove("Think","FFAS Music") end
-            end)
-        end
-    end)
+
+	cdn.PlayURL("https://cdn.moat.gg/f/jP1HrpBGomxf85gxkWdAkP31mky2.mp3", 0.5, function(station)
+		hook.Add("Think","FFAS Music",function()
+            if not MOAT_FFAS then station:Stop() hook.Remove("Think","FFAS Music") end
+        end)
+	end)
+
     kills = {}
 end)
 
@@ -90,12 +88,7 @@ net.Receive("FFAS_End",function()
     local players = net.ReadTable()
     local red = net.ReadBool()
     MOAT_MINIGAME_OCCURING = false
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/forsen_end.mp3","",function(s)
-        if IsValid(s) then
-            s:SetVolume(0.5)
-            s:Play()
-        end
-    end)
+	cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
     MOAT_FFAS = nil
     kills = {}
     FFAS_END = {}
@@ -370,11 +363,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("FFAS_Prep",function()
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-		end
-	end)
+    cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
     local desc = {
         "Each player will spawn with a snowball",

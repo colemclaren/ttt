@@ -5,7 +5,30 @@ MOAT_ACTIVE_BOSS = false
 local MOAT_BOSS_CUR_PLY = nil
 local MOAT_BOSS_DMG = {}
 local MOAT_ROUND_OVER = false
-local deathclaw_voice_url = "https://i.moat.gg/servers/tttsounds/apache/apache"
+local death_voices = {
+	"https://cdn.moat.gg/f/u4QUxAtoqhJMNdLKoCDFnfFJOgfj.mp3",
+	"https://cdn.moat.gg/f/DuUQdR6b6IPLuDBoUffUb3GcO7kF.mp3",
+	"https://cdn.moat.gg/f/o66GU9avCtjwXkEWnrKZTRpj0A7A.mp3",
+	"https://cdn.moat.gg/f/es1VgqnzB8rkdFbbvjxrpjpXmAmM.mp3",
+	"https://cdn.moat.gg/f/HNGJ1QHKrDFgxEKezZwDqDnHCGKu.mp3",
+	"https://cdn.moat.gg/f/3TjV4QhosYjCyGjhTHuaOBYCEYW3.mp3",
+	"https://cdn.moat.gg/f/Zy6k5NHOUkbWXWlRqjFZU5ovMkVs.mp3",
+	"https://cdn.moat.gg/f/vXHWudEuRy7azKDjfN3rP6LUIwZU.mp3",
+	"https://cdn.moat.gg/f/ABOKrPTwS5ctIr0rcfa9r5FzheSo.mp3",
+	"https://cdn.moat.gg/f/BnEx3kkGamjarHGak9ZY6TsdMQc4.mp3",
+	"https://cdn.moat.gg/f/vOdDwekeqfqY7jHpvzHaoeFY4uih.mp3"
+}
+local boss_voices = {
+	"https://cdn.moat.gg/f/FQ8Ki3DI1iwz7COGvb3lJDGNjvqi.mp3",
+	"https://cdn.moat.gg/f/d498NmYGCidzOhk5eKIwjCZnLiG1.mp3",
+	"https://cdn.moat.gg/f/AlbmDVfwYncLe73Cy4NbTBiOdtzQ.mp3",
+	"https://cdn.moat.gg/f/VLnfWX6R7qms2nXqixIb8MpHKfYz.mp3",
+	"https://cdn.moat.gg/f/2C8JVERC0wo61c57IUYfesggbNI8.mp3",
+	"https://cdn.moat.gg/f/WWKrz7PvhSNnMKpl8BZWHhzp6sK9.mp3",
+	"https://cdn.moat.gg/f/VSh7wIfUcx7tD9Pp7kJJ2uXQolro.mp3",
+	"https://cdn.moat.gg/f/XUk6mFPFkFr4eL9B3fJ7I9iLY17b.mp3",
+	"https://cdn.moat.gg/f/vHJAQrx7C07ykA4stEeglMN8SjWN.mp3"
+}
 local MOAT_DEATHCLAW_WPN = nil
 local MOAT_APACHE_ENT = NULL
 local MOAT_APACHE_INITIALIZED = false
@@ -117,7 +140,7 @@ local function moat_BossPlayerDeath(ply)
             ply.server_ragdoll:Remove()
     	end)
 
-		BroadcastLua("sound.PlayURL('" .. tostring(deathclaw_voice_url .. "_death" .. math.random(1, 11) .. "smith.mp3") .. "', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end )")
+		cdn.PlayURL(table.Random(death_voices))
 		return
 	end
 
@@ -147,13 +170,13 @@ local function moat_BossPlayerDeath(ply)
     end)
 
     if (not IS_BOSS) then
-        BroadcastLua("sound.PlayURL('" .. tostring(deathclaw_voice_url .. "_loss_smith.mp3") .. "', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end )") 
-        if (IsValid(MOAT_BOSS_CUR_PLY)) then
+       	cdn.PlayURL("https://cdn.moat.gg/f/ubbd7fKB9WdDWbk5J1QMC3iM81GG.mp3", 2)
+		if (IsValid(MOAT_BOSS_CUR_PLY)) then
             MOAT_BOSS_CUR_PLY:m_DropInventoryItem(math.random(5,6))
         end
         return
     else
-        BroadcastLua("sound.PlayURL('" .. tostring(deathclaw_voice_url .. "_won_smith.mp3") .. "', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) end end )") 
+		cdn.PlayURL("https://cdn.moat.gg/f/9582v2jF3CQSP5fOM44CuAE3TMVr.mp3", 2)
     end
 
     local ply_tbl = {}
@@ -266,11 +289,11 @@ local function moat_BeginRoundBossHooks()
 
         timer.Simple(1, function()
             MuteForRestart(true)
-            BroadcastLua("sound.PlayURL('" .. tostring(deathclaw_voice_url .. "_america" .. math.random(1, 2) .. "smith.mp3") .. "', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) timer.Simple( 20, function() song:Stop() end ) end end )")
+			cdn.PlayURL(table.Random({"https://cdn.moat.gg/f/tFU5O424OaHTrU16ayw6NJz3x4Lz.mp3", "https://cdn.moat.gg/f/q5ZZXsMohK3L3b0lnaKQ88SUPOUZ.mp3"}), 2)
         end)
 
         timer.Create("moat_boss_voices", 30, 0, function()
-            BroadcastLua("sound.PlayURL('" .. tostring(deathclaw_voice_url .. math.random(2, 10) .. "smith.mp3") .. "', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) timer.Simple( 20, function() song:Stop() end ) end end )") 
+			cdn.PlayURL(table.Random(boss_voices))
         end)
 
         timer.Simple(5, function()

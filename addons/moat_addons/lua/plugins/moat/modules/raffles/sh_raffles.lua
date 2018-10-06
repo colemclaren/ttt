@@ -72,7 +72,7 @@ else
 	local playerAvatarRoulette, playerRaffleNick = nil, ''
 	local avatarSize, margin = 128, 25
 	local finalizedRaffle = false
-	local raffleSong, raffleStation = 'https://i.moat.gg/servers/tttsounds/rafflesong.mp3', nil
+	local raffleSong, raffleStation = "https://cdn.moat.gg/f/dZN0RWkvywngq3oKjUE04NFYV0vu.mp3", nil
 
 	net.Receive("moat_finishRaffle", function()
 		local winningPly = net.ReadEntity()
@@ -97,11 +97,8 @@ else
 			playerAvatarRoulette:SetVisible(true)
 		end
 		
-		sound.PlayURL(raffleSong, '', function(station)
-			if (IsValid(station)) then
-				station:Play()
-				raffleStation = station
-			end
+		cdn.PlayURL(raffleSong, 1, function(station)
+			raffleStation = station
 		end)
 		
 		chat.AddText(Color(197, 179, 88), 'A raffle has started!')

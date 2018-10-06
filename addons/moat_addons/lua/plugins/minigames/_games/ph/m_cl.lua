@@ -141,15 +141,13 @@ net.Receive("PH_Begin",function()
         return view 
     end)
     MOAT_DISABLE_BUNNY_HOP = true
-    sound.PlayURL("https://i.moat.gg/18-05-30-T4F.mp3","",function(station)
-        if IsValid(station) then
-            station:SetVolume(0.8)
-            station:Play()
-            hook.Add("Think","J Music",function()
-                if not MOAT_PH then station:Stop() hook.Remove("Think","J Music") end
-            end)
-        end
+
+	cdn.PlayURL("https://cdn.moat.gg/f/ezTBmgl929drvkag1LcK2uFgPNiY.mp3", 0.8, function(station)
+        hook.Add("Think","J Music",function()
+            if not MOAT_PH then station:Stop() hook.Remove("Think","J Music") end
+        end)
     end)
+
     kills = {}
 end)
 
@@ -220,12 +218,7 @@ net.Receive("PH_End",function()
     props_w = net.ReadBool()
     local players = net.ReadTable()
     MOAT_MINIGAME_OCCURING = false
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/forsen_end.mp3","",function(s)
-        if IsValid(s) then
-            s:SetVolume(0.5)
-            s:Play()
-        end
-    end)
+    cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
     MOAT_PH = nil
     kills = {}
     PH_END = {}
@@ -421,7 +414,7 @@ hook.Add("HUDPaint", "moat.test.LPH", function()
     end
     draw.SimpleTextOutlined(f .. " left", "PH.Big", w/2, 64, col, TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP, 1, Color(0,0,0))
     
-    draw.WebImage("https://i.moat.gg/18-03-04-s5l.png", (w/2) - (32), 0, 64, 64, Color(255, 255, 255, 225))
+    cdn.DrawImage("https://cdn.moat.gg/f/MaUmSSziOxewOLgyvLQ967CEEt4k.png", (w/2) - (32), 0, 64, 64, Color(255, 255, 255, 225))
 
     if (not LocalPlayer():Alive()) or (LocalPlayer():IsSpec()) then return end
 
@@ -469,7 +462,7 @@ hook.Add("HUDPaint", "moat.test.LPH", function()
     draw.SimpleTextOutlined(left, "PH.Small", (w/2) - (38), h - txh - 94, col, TEXT_ALIGN_RIGHT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
 
 
-    draw.WebImage("https://i.moat.gg/18-03-04-D2P.png", (w/2) - (32), h - txh - 124, 64, 64, Color(255, 255, 255, 225))*/
+    cdn.DrawImage("https://cdn.moat.gg/f/jnlPyDmSerPSksH3gfvhDGl4wZRF.png", (w/2) - (32), h - txh - 124, 64, 64, Color(255, 255, 255, 225))*/
 end)
 
 
@@ -492,11 +485,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("PH_Prep",function()
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-		end
-	end)
+    cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
     local desc = {
         "Everyone will be on one of two teams!",

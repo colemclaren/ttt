@@ -213,7 +213,7 @@ function PANEL:Paint()
     DrawBlur(self, 3)
     --[[surface_SetDrawColor(0, 0, 0, 150)
    surface_DrawRect(0, 0, w, h)]]
-    draw.WebImage(MOAT_BG_URL, math.min((w/2) - (1500/2), 0), math.min((h/2) - (1080/2), 0), math.max(1500, h), math.max(1080, w), Color(255, 255, 255, 230))
+    cdn.DrawImage(MOAT_BG_URL, math.min((w/2) - (1500/2), 0), math.min((h/2) - (1080/2), 0), math.max(1500, h), math.max(1080, w), Color(255, 255, 255, 230))
     surface_SetDrawColor(183, 183, 183)
     DisableClipping(true)
     surface_DrawLine(0, -4, w, -4)
@@ -225,9 +225,9 @@ function PANEL:Paint()
     surface_SetTexture(logo)
     surface_SetDrawColor(255, 255, 255, 255)
     surface_DrawTexturedRect(5, 0, 256, 256)
-    draw.WebImage("https://moat.gg/assets/img/moat-gg-sb.png", w - 256, 0, 256, 256)
+    cdn.SmoothImage("https://cdn.moat.gg/f/pDtGRzDxnGiHYrqzqJALlPCs6kCW.png", w - 256, 0, 256, 256)
     local img_w, img_h = ScrH() / 2.2, ScrH() / 2.2
-    draw.WebImage("https://moat.gg/assets/img/mglogoglow1024.png", w / 2 - (img_w / 2), 0, img_w, img_h)
+	cdn.SmoothImage("https://cdn.moat.gg/f/CS56E7V11Ki6y6TwOJR9Dg0e68Ul.png", w/2 - (img_w/2), 0, img_w, img_h)
 end
 
 function PANEL:PerformLayout()

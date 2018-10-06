@@ -7,15 +7,13 @@ net.Receive("HS_Begin",function()
     MOAT_HS = {
         nextdie = CurTime() + 20
     }
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/HSsong.mp3","",function(station)
-        if IsValid(station) then
-            station:SetVolume(0.5)
-            station:Play()
-            hook.Add("Think","HS Music",function()
-                if not MOAT_HS then station:Stop() hook.Remove("Think","HS Music") end
-            end)
-        end
-    end)
+
+	cdn.PlayURL("https://cdn.moat.gg/f/eHMjnVJ0JpEHXVOHZ9lFUXdNFcjc.mp3", 0.5, function(station)
+		hook.Add("Think","HS Music",function()
+            if not MOAT_HS then station:Stop() hook.Remove("Think","HS Music") end
+        end)
+	end)
+	
     kills = {}
 end)
 
@@ -64,12 +62,7 @@ net.Receive("HS_End",function()
     local players = net.ReadTable()
     local red = net.ReadBool()
     MOAT_MINIGAME_OCCURING = false
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/forsen_end.mp3","",function(s)
-        if IsValid(s) then
-            s:SetVolume(0.5)
-            s:Play()
-        end
-    end)
+    cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
     MOAT_HS = nil
     kills = {}
     HS_END = {}
@@ -227,11 +220,7 @@ hook.Add("HUDPaint", "moat.test.HS", function()
 end)
 
 net.Receive("HS_Prep",function()
-    sound.PlayURL("https://i.moat.gg/servers/tttsounds/bosswarning.mp3", "mono", function(siren)
-		if(IsValid(siren))then
-			siren:Play()
-		end
-	end)
+    cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
     local desc = {
         "Someone random will receive a snowball after this countdown",

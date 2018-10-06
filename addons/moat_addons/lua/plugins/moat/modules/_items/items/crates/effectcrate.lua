@@ -5,7 +5,7 @@ ITEM.Name = "Effect Crate"
 
 ITEM.Description = "This crate contains an item from the Effect Collection! Right click to open"
 
-ITEM.Image = "https://moat.gg/assets/img/effect_crate64.png" 
+ITEM.Image = "https://cdn.moat.gg/f/NJGw8ZNeDfESPnIDvdewX1eGFTP0.png" 
 
 ITEM.Rarity = 5
 

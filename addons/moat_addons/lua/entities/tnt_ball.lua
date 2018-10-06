@@ -156,20 +156,13 @@ function ENT:Use( activator, caller )
 end
 
 if ( SERVER ) then return end -- We do NOT want to execute anything below in this FILE on SERVER
-local matBall = Material( "sprites/sent_ball" )
-if not file.Exists("moat_tntt.jpg","DATA") then
-    http.Fetch("https://i.moat.gg/18-03-04-D2P.png",function(a)
-        file.Write("moat_tntt.jpg",a)
-        matBall = Material("data/moat_tntt.jpg","noclamp")
-    end)
-else
-    matBall = Material("data/moat_tntt.jpg","noclamp")
-end
-print(matBall)
+local matBall = Material("sprites/sent_ball")
 
 function ENT:Draw()
+	local img = cdn.Image("https://cdn.moat.gg/f/dC8UlmnQIwBB1lrxWnhoRQ8mfj8w.png")
+	if (not img) then return end
 
-	render.SetMaterial( matBall )
+	render.SetMaterial( img )
 
 	local pos = self:GetPos()
 	local lcolor = render.ComputeLighting( pos, Vector( 0, 0, 1 ) )

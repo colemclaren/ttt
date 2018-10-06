@@ -6,7 +6,6 @@ MOAT_BOSS_CUR = nil
 local MOAT_BOSS_DMG = {}
 local MOAT_ROUND_OVER = false
 local MOAT_BOSS_MODEL = "models/player/zombie_fast.mdl"
-local deathclaw_voice_url = "https://i.moat.gg/servers/tttsounds/stalker/stalker_"
 local MOAT_DEATHCLAW_WPN = nil
 local MOAT_BOSS_HP_MULTIPLIER = 90
 local MOAT_BOSS_KNIFE = 45
@@ -256,8 +255,8 @@ local function moat_BeginRoundBossHooks()
 
         timer.Simple(1, function()
             MuteForRestart(true)
-            BroadcastLua("sound.PlayURL('" .. tostring(deathclaw_voice_url .. "taunt1" .. ".mp3") .. "', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) timer.Simple( 20, function() song:Stop() end ) end end )")
-        end)
+            cdn.PlayURL("https://cdn.moat.gg/f/ZVDY7pgLG2mO5Ng6J7n1w34HsFxc.mp3")
+		end)
 
         timer.Simple(10, function()
 			if (not MOAT_EASTER.SpawnPositions) then return end
@@ -269,7 +268,22 @@ local function moat_BeginRoundBossHooks()
             ent:Spawn()
 
             BroadcastLua([[chat.AddText(Material("icon16/information.png"), Color(255, 255, 0),"AN EASTER EGG HAS SPAWNED ON THE MAP!!!" )]])
-            BroadcastLua("sound.PlayURL('" .. tostring(deathclaw_voice_url .. "easteregg" .. ".mp3") .. "', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) timer.Simple( 20, function() song:Stop() end ) end end )")
+			cdn.PlayURL("https://cdn.moat.gg/f/iya1iVZUlaQ1Avk5utKAG5sDDYWK.mp3")
+        end)
+
+		timer.Create("moat_boss_voices", 30, 0, function()
+			cdn.PlayURL(table.Random({
+				"https://cdn.moat.gg/f/5MnAyFuGMrtKEOor7w4tPlu6kUNW.mp3",
+				"https://cdn.moat.gg/f/Rvfsr3FtFbPqSPjSDSmXECAwB4DK.mp3",
+				"https://cdn.moat.gg/f/ShPUrOpRB1TB9vbVWDQz1RsHhqHE.mp3",
+				"https://cdn.moat.gg/f/kjgmqvQYBvz4ZIGCzbOIbfPxeDI0.mp3",
+				"https://cdn.moat.gg/f/o8m16bhSKgLDU2JbEMPjBgH6Ryc4.mp3",
+				"https://cdn.moat.gg/f/Kj8ccQk38xxyanrJFAoYLniInZo8.mp3",
+				"https://cdn.moat.gg/f/qfZ8yc8bXib4IGSGPR9OpxqGA4iW.mp3",
+				"https://cdn.moat.gg/f/0qp3bbCTOpzxfFmXZkF5LSsMPQJs.mp3",
+				"https://cdn.moat.gg/f/oJxuubbhtXSh3zsaRBiZBJhPocAY.mp3",
+				"https://cdn.moat.gg/f/xSdBIKe4r533e4d1IY2LZIuEijgV.mp3"
+			}), 2)
         end)
 
         timer.Simple(5, function()
@@ -376,7 +390,7 @@ local function moat_BeginRoundBossHooks()
             ent:Spawn()
 
             BroadcastLua([[chat.AddText(Material("icon16/information.png"), Color(255, 255, 0),"AN EASTER EGG HAS SPAWNED ON THE MAP!!!" )]])
-            BroadcastLua("sound.PlayURL('" .. tostring(deathclaw_voice_url .. "easteregg" .. ".mp3") .. "', 'noblock', function( song ) if ( IsValid( song ) ) then song:Play() song:SetVolume(2) timer.Simple( 20, function() song:Stop() end ) end end )")
+           	cdn.PlayURL("https://cdn.moat.gg/f/iya1iVZUlaQ1Avk5utKAG5sDDYWK.mp3")
         end
     end)
 

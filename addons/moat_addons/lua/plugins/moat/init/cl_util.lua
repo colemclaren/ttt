@@ -96,7 +96,7 @@ function fetch_asset(url)
 	end
 end
 
-local default_avatar = "https://moat.gg/assets/img/mg-logo2.jpg"
+local default_avatar = "https://cdn.moat.gg/f/bYtLdLXsVCE3jAR6KxcYyrh2mXYc.png"
 function fetchAvatarAsset(id64, size, cb)
 	id64 = id64 or "BOT"
 	size = size == "medium" and "medium" or size == "small" and "" or size == "large" and "full" or ""

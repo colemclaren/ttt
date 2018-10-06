@@ -325,7 +325,9 @@ function GM:HUDPaint()
 		return
 	end
 
-   if (draw.WebImage) then draw.WebImage("https://i.moat.gg/d6xf3.png", 10, 10, 256, 256, Color(255, 255, 255, 100)) end
+   	if (cdn.DrawImage) then
+   		cdn.DrawImage("https://cdn.moat.gg/f/i4MlcHY16TYkFY8bJ9sPoB2KCKXl.png", 10, 10, 256, 256, Color(255, 255, 255, 75))
+	end
 
 
    --if hook.Call( "HUDShouldDraw", GAMEMODE, "TTTTargetID" ) then

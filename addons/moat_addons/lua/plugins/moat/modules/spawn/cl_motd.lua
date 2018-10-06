@@ -78,14 +78,14 @@ function m_OpenMOTD(str)
     p:Dock(FILL)
     p.Paint = function(s, w, h)
         DrawBlur(s, 3)
-        draw.WebImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 230))
+        cdn.DrawImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 230))
     end
 
     local c = vgui.Create("DPanel", p)
     c:Dock(LEFT)
     c:SetWide(250)
     c.Paint = function(s, w, h)
-        draw.WebImage("https://moat.gg/assets/img/moat-gg-motd2.png", 35, 35, 256, 256)
+        cdn.DrawImage("https://cdn.moat.gg/f/JoVQapGqtskHBJkPCLbEaoIOosuF.png", 35, 35, 256, 256)
     end
 
     MOTD.w = vgui.Create("DHTML", p)
