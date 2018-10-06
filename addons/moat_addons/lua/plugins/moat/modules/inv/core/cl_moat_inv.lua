@@ -270,7 +270,7 @@ local function DrawSpring(s, w, h)
         next_spring = CurTime() + 20
     elseif (currently_spring) then
         local da_spring = springs[current_spring]
-        cdn.DrawImage(da_spring[1].url, da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
+        cdn.DrawImage(da_spring.url, da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
 
         if (left_or_right == 2) then
             da_spring[2] = da_spring[2] + (FrameTime() * 120)
