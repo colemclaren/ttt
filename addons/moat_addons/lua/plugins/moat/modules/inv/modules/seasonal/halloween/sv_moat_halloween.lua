@@ -10,13 +10,13 @@ concommand.Add("moat_halloween_pumpkin", function(ply, cmd, args)
    	ent:SetSkin(tonumber(args[1]) or math.random(1, 5))
 
    	net.Start("moat_halloween_pumpkin")
-   	net.WriteUInt(math.random(1, 5), 4)
+   	net.WriteUInt(math.random(1, 17), 8)
    	net.Broadcast()
 end)
 
 MOAT_PUMPKIN = MOAT_PUMPKIN or {}
 MOAT_PUMPKIN.MaxEggs = 3
-MOAT_PUMPKIN.SpawnChance = 7
+MOAT_PUMPKIN.SpawnChance = 6
 MOAT_PUMPKIN.CurEggs = 0
 MOAT_PUMPKIN.SpawnPositions = {}
 MOAT_PUMPKIN.Record = false
@@ -66,7 +66,7 @@ function MOAT_PUMPKIN.SpawnRandom()
    	ent:Spawn()
 
    	net.Start("moat_halloween_pumpkin")
-   	net.WriteUInt(math.random(1, 5), 4)
+   	net.WriteUInt(math.random(1, 17), 8)
    	net.Broadcast()
 
    	MOAT_PUMPKIN.CurEggs = MOAT_PUMPKIN.CurEggs + 1

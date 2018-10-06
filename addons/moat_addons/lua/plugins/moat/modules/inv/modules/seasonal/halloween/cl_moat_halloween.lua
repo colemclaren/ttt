@@ -4,7 +4,7 @@ MOAT_HALLOWEEN.Frame = {
 	w = 800,
 	h = 100
 }
-MOAT_HALLOWEEN.Message = "A PUMPKIN CRATE HAS SPAWNED SOMEWHERE ON THE MAP!!!"
+MOAT_HALLOWEEN.Message = "A PUMPKIN CRATE HAS SPAWNED ON THE MAP!!!"
 
 local audio_sound = nil
 local max_height = 1200
@@ -12,8 +12,9 @@ local audio_width = (ScrW() / 256) * 2
 local sound_cache = {}
 local audio_color = Color(0, 255, 255)
 local audio_beat = 0
-local moat_URL = "https://i.moat.gg/servers/tttsounds/easteregg"
-local moat_Songs = 55
+local moat_URL = "https://cdn.moat.gg/ttt/halloween/"
+local moat_Songs = 17
+
 
 function m_ChooseRandomSongH(song_num)
     local song_url = moat_URL .. song_num .. ".mp3"
@@ -33,11 +34,11 @@ local color2 = Color(0, 0, 0)
 local color_delay = CurTime()
 
 function moat_FFTFuncH(music_id)
-    local music_url = "https://i.moat.gg/servers/tttsounds/laugh.mp3" --m_ChooseRandomSongH(music_id)
+    local music_url = moat_URL .. music_id .. ".mp3"
 
     sound.PlayURL(music_url, "mono", function(song, error, errorstring)
         if (IsValid(song)) then
-            --audio_sound = song
+            audio_sound = song
             song:Play()
             song:SetVolume(1)
 
@@ -160,7 +161,7 @@ end
 hook.Add("HUDPaint", "moatFFTPaint_Halloween", moat_PaintFFTH)
 
 function MOAT_HALLOWEEN.EggSpawned()
-	local music_num = net.ReadUInt(4)
+	local music_num = net.ReadUInt(8)
 	moat_FFTFuncH(music_num)
 
 	local opx, opy = (ScrW()/2) - (MOAT_HALLOWEEN.Frame.w/2), -MOAT_HALLOWEEN.Frame.h

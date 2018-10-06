@@ -47,7 +47,7 @@ end
 
 function cdn.Fetch(id, ext, key, params, cache, save)
 	local object = cdn.Folder .. "/" .. id .. "/" .. hash.MD5(key) .. ext
-	print(object, ext, key, cache, save)
+	--print(object, ext, key, cache, save)
 
 	if (exists(object, "DATA")) then
 		cdn.Cache[key] = Either(id == 1, Material("data/" .. object, params), "data/" .. object)
@@ -64,8 +64,6 @@ function cdn.Fetch(id, ext, key, params, cache, save)
 	fetch(key, function(data)
 		save(object, data)
 		cache(object)
-
-		print(object, data)
 	end)
 
 	return false
