@@ -100,7 +100,12 @@ function tt.PrepareRound()
     timer.Simple(1, SendRoleReset)
     -- Tell hooks and map we started prep
     hook.Run("TTTPrepareRound")
-    _TriggerRoundStateOutputs(ROUND_PREP)
+
+	if (_TriggerRoundStateOutputs) then
+    	_TriggerRoundStateOutputs(ROUND_PREP)
+	else
+		ents.TTT.TriggerRoundStateOutputs(ROUND_PREP)
+	end
 end
 
 hook("PostGamemodeLoaded", function()
