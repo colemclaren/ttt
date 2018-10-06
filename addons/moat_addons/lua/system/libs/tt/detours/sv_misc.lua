@@ -14,6 +14,21 @@ function tt.SpawnEntities()
 	end
 end
 
+function tt.TTCSpawnEntities()
+    local et = ents.TTT
+    -- Spawn weapons from script if there is one
+    local import = et.CanImportEntities(game.GetMap())
+
+    if (import) then
+        et.ProcessImportScript(game.GetMap())
+    else
+        et.ReplaceEntities()
+        et.PlaceExtraWeapons()
+    end
+
+    SpawnWillingPlayers()
+end
+
 function tt.EnoughPlayers(p)
 	if (not p) then return false end
     local ready = 0

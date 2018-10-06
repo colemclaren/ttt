@@ -85,7 +85,12 @@ function tt.PrepareRound()
 
 	tt.SetPrepareTime(ptime)
     -- Delay spawning until next frame to avoid ent overload
-    timer.Simple(0, tt.SpawnEntities)
+
+	if (_PlaceExtraWeapons) then
+		timer.Simple(0, tt.SpawnEntities)
+	else
+		timer.Simple(0, tt.TTCSpawnEntities)
+    end
 
     -- Undo the roundrestart mute, though they will once again be muted for the
     -- selectmute timer.
