@@ -1,4 +1,5 @@
 print("Server Hit Reg Loaded")
+
 local moat_val = tostring("m" .. string.char(math.random(97, 122)) .. math.Rand(-999999, 999999) .. string.char(math.random(97, 122)) .. string.char(math.random(97, 122)))
 util.AddNetworkString("moatBulletTrace" .. moat_val)
 util.AddNetworkString("moat_value")
@@ -38,7 +39,7 @@ hook.Add("EntityTakeDamage", "moat_HitMarkers", function(ply, dmginfo)
     end
 end)
 
-
+if true then return end
 net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
     --local trace = net.ReadTable()
     local trace = {}

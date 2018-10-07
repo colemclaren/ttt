@@ -3,7 +3,6 @@ surface.CreateFont("moat_LabelFont", {
     size = 16,
     weight = 1200
 })
-
 local function moat_BoolToNum(bool)
     local num = 0
 
@@ -302,6 +301,9 @@ hook.Add("HUDPaint", "moat_DrawHitmarkers", function()
     surface.DrawLine((ScrW() / 2) - hitmarker_size, (ScrH() / 2) + hitmarker_size, (ScrW() / 2) - 8, (ScrH() / 2) + 8)
     surface.DrawLine((ScrW() / 2) + hitmarker_size, (ScrH() / 2) - hitmarker_size, (ScrW() / 2) + 8, (ScrH() / 2) - 8)
 end)
+
+if true then return end
+
 
 local function moatFireBullets(ent, data)
     local attacker = data.Attacker

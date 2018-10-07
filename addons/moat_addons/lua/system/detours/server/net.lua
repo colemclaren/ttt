@@ -46,8 +46,8 @@ function net.Receive( name, _func )
 				.. style.NewLine(style.Pipe("Playing on ")) .. string.Extra(GetServerName(), GetServerURL())
 
 				ServerLog(msg .. "\n")
-                if (not name:match("MOAT_REM_INV_ITEM")) and (not name:match("moatBulletTrace")) then
-                    discord.Send("Skid", msg)
+                if (not name:match("MOAT_REM_INV_ITEM")) then
+                    discord.Send("Skid", "<@135912347389788160> " .. msg)
                 end
 
                 limit.notified = true
