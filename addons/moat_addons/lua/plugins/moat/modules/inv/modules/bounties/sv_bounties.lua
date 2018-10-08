@@ -740,9 +740,10 @@ addcontract("Rightful Slayer",{
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
-				inf = att:GetActiveWeapon()
-			end
+			if not IsValid(att) then return end
+			if not att:IsPlayer() then return end
+			local inf = att:GetActiveWeapon()
+			if not IsValid(inf) then return end
 
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
 				contract_increase(att,1)
@@ -756,13 +757,10 @@ addcontract("Crouching Hunters",{
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
-			if not inf:IsWeapon() then 
-					if inf:IsPlayer() then
-						inf = inf:GetActiveWeapon()
-					end
-				end
-			local att = inf:GetOwner()
+			if not IsValid(att) then return end
 			if not att:IsPlayer() then return end
+			local inf = att:GetActiveWeapon()
+			if not IsValid(inf) then return end
 
 			if (not att:Crouching()) then return end
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
@@ -778,13 +776,10 @@ addcontract("Melee Hunter",{
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
-			if not inf:IsWeapon() then 
-				if inf:IsPlayer() then
-					inf = inf:GetActiveWeapon()
-				end
-			end
-			local att = inf:GetOwner()
+			if not IsValid(att) then return end
 			if not att:IsPlayer() then return end
+			local inf = att:GetActiveWeapon()
+			if not IsValid(inf) then return end
 			--print("C12367")
 		--	print(inf,inf.Weapon.Kind,inf.Weapon.Kind == WEAPON_MELEE,att:IsPlayer(),inf:IsWeapon(),WasRightfulKill(att, ply))
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and inf.Weapon.Kind and inf.Weapon.Kind == WEAPON_MELEE and WasRightfulKill(att, ply)) then
@@ -800,13 +795,10 @@ addcontract("Secondary Hunter",{
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
-			if not inf:IsWeapon() then 
-				if inf:IsPlayer() then
-					inf = inf:GetActiveWeapon()
-				end
-			end
-			local att = inf:GetOwner()
+			if not IsValid(att) then return end
 			if not att:IsPlayer() then return end
+			local inf = att:GetActiveWeapon()
+			if not IsValid(inf) then return end
 
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and inf.Weapon.Kind and inf.Weapon.Kind == WEAPON_PISTOL and WasRightfulKill(att, ply)) then
 				contract_increase(att,1)
