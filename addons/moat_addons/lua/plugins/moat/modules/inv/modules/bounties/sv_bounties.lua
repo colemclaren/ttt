@@ -723,13 +723,8 @@ for k,v in pairs(weapon_challenges) do
 	adj = "Kills",
 	runfunc = function()
 			hook.Add("PlayerDeath", "RightfulContract" .. k, function(ply, inf, att)
-				if not inf:IsWeapon() then 
-					if inf:IsPlayer() then
-						inf = inf:GetActiveWeapon()
-					end
-				end
-				local att = inf:GetOwner()
 				if not att:IsPlayer() then return end
+				local inf = att:GetActiveWeapon()
 
 				if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) and inf.ClassName and inf.ClassName == v[1] then
 					contract_increase(att,1)
