@@ -66,6 +66,10 @@ net.Receive("moat-ab",function(l,ply)
 		if b then
 			s = util.JSONToTable(s)
 			local link = s.data.link
+			if not isstring(link) then link = "player provided no link, probably cheating" end
+			if not (link:match("^https:%/%/i.imgur.com")) then 
+				link = "PLAYER PROVIDED FALSE LINK: " .. link .. " PROBABLY CHEATING."
+			end
 			local msg = "Cheating: " .. ply:Nick() .. " ( http://steamcommunity.com/profiles/" .. ply:SteamID64() .. " ): " .. link
 			discord.Send("Anti Cheat", msg)
 		else
@@ -79,6 +83,10 @@ net.Receive("moat-ab",function(l,ply)
 		if b then
 			s = util.JSONToTable(s)
 			local link = s.data.link
+			if not isstring(link) then link = "player provided no link, probably cheating" end
+			if not (link:match("^https:%/%/i.imgur.com")) then 
+				link = "PLAYER PROVIDED FALSE LINK: " .. link .. " PROBABLY CHEATING."
+			end
 			local msg = "Console snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. link
 			discord.Send("Snap", msg)
 		else
@@ -91,14 +99,18 @@ net.Receive("moat-ab",function(l,ply)
 	if b then
 		s = util.JSONToTable(s)
 		local link = s.data.link
+		if not isstring(link) then link = "player provided no link, probably cheating" end
+		if not (link:match("^https:%/%/i.imgur.com")) then 
+			link = "PLAYER PROVIDED FALSE LINK, PROBABLY CHEATING: " .. link
+		end
 		ply.snapper:SendLua('gui.OpenURL([[' .. link:gsub("%]%]","") .. ']])')
 		local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. link
 		discord.Send("Anti Cheat", msg)
 		snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s", Color(255, 255, 255), " snap: " .. link})
 	else
 		local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
-		ply.snapper:ChatPrint("Snap could not be finished due to serverside error. Please tell velkon or moat.")
-		snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s", Color(255, 255, 255), " snap: Snap could not be finished due to serverside error. Please tell velkon or moat."})
+		ply.snapper:ChatPrint("Snap could not be finished due to error. Please tell velkon or moat.")
+		snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s", Color(255, 255, 255), " snap: Snap could not be finished due to error. Please tell velkon or moat."})
 		discord.Send("Anti Cheat", msg)
 	end
 	ply.snapper = nil
