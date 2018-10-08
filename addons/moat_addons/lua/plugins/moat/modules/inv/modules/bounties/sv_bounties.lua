@@ -723,7 +723,11 @@ for k,v in pairs(weapon_challenges) do
 	adj = "Kills",
 	runfunc = function()
 			hook.Add("PlayerDeath", "RightfulContract" .. k, function(ply, inf, att)
-				if not inf:IsWeapon() then return end
+				if not inf:IsWeapon() then 
+					if inf:IsPlayer() then
+						inf = inf:GetActiveWeapon()
+					end
+				end
 				local att = inf:GetOwner()
 				if not att:IsPlayer() then return end
 
@@ -756,7 +760,11 @@ addcontract("Crouching Hunters",{
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
-			if not inf:IsWeapon() then return end
+			if not inf:IsWeapon() then 
+					if inf:IsPlayer() then
+						inf = inf:GetActiveWeapon()
+					end
+				end
 			local att = inf:GetOwner()
 			if not att:IsPlayer() then return end
 
@@ -774,7 +782,11 @@ addcontract("Melee Hunter",{
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
-			if not inf:IsWeapon() then return end
+			if not inf:IsWeapon() then 
+				if inf:IsPlayer() then
+					inf = inf:GetActiveWeapon()
+				end
+			end
 			local att = inf:GetOwner()
 			if not att:IsPlayer() then return end
 			--print("C12367")
@@ -792,7 +804,11 @@ addcontract("Secondary Hunter",{
 	adj = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
-			if not inf:IsWeapon() then return end
+			if not inf:IsWeapon() then 
+				if inf:IsPlayer() then
+					inf = inf:GetActiveWeapon()
+				end
+			end
 			local att = inf:GetOwner()
 			if not att:IsPlayer() then return end
 
