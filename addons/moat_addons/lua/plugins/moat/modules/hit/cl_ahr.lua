@@ -302,48 +302,6 @@ hook.Add("HUDPaint", "moat_DrawHitmarkers", function()
     surface.DrawLine((ScrW() / 2) + hitmarker_size, (ScrH() / 2) - hitmarker_size, (ScrW() / 2) + 8, (ScrH() / 2) - 8)
 end)
 
-if true then return end
-
-
-local function moatFireBullets(ent, data)
-    local attacker = data.Attacker
-
-    if (ent:IsValid() and attacker == LocalPlayer() and not MOAT_ACTIVE_BOSS) then
-        data.Callback = function(att, tr, dmginfo)
-            if (tr.Hit and IsValid(tr.Entity)) then
-                if MOAT_PH and tr.Entity:IsPlayer() then return end
-                local trace = {}
-                trace.trEnt = tr.Entity
-                trace.trHGrp = tr.HitGroup
-                trace.trAtt = att
-                trace.dmgFor = dmginfo:GetDamageForce()
-                trace.dmgPos = dmginfo:GetDamagePosition()
-                trace.dmgType = dmginfo:GetDamageType()
-                trace.dmgInf = att:GetActiveWeapon()
-                net.Start("moatBulletTrace" .. moat_val)
-                net.WriteUInt(trace.trEnt:EntIndex(), 16)
-                net.WriteUInt(trace.trHGrp, 4)
-                net.WriteVector(trace.dmgFor)
-                net.WriteVector(trace.dmgPos)
-                net.WriteUInt(trace.dmgType, 32)
-                net.WriteUInt(trace.dmgInf:EntIndex(), 16)
-                net.SendToServer()
-
-                return true
-            end
-        end
-        if MOAT_PH then
-            local e = LocalPlayer():GetEyeTrace().Entity
-            if not IsValid(e) then return end
-            if e:IsPlayer() then
-                data.IgnoreEntity = e
-            end
-        end
-    end
-end
-
-hook.Add("EntityFireBullets", "moatFireBullets", moatFireBullets)
-
 hook.Add("CreateMove", "moat_DisableCombatCrouch", function(cmd)
     if (cmd:KeyDown(IN_DUCK) and CurTime() <= LocalPlayer():GetNWInt("moat_JumpCooldown") and not LocalPlayer():IsOnGround()) then
         --print(LocalPlayer():GetNWInt("moat_JumpCooldown") - CurTime())
@@ -437,3 +395,44 @@ net.Receive("moat_damage_number", function()
 
     MOAT_DMGNUMS.CreateDamageNumber(dmg, grp, pos)
 end)
+
+--[[
+local function moatFireBullets(ent, data)
+    local attacker = data.Attacker
+
+    if (ent:IsValid() and attacker == LocalPlayer() and not MOAT_ACTIVE_BOSS) then
+        data.Callback = function(att, tr, dmginfo)
+            if (tr.Hit and IsValid(tr.Entity)) then
+                if MOAT_PH and tr.Entity:IsPlayer() then return end
+                local trace = {}
+                trace.trEnt = tr.Entity
+                trace.trHGrp = tr.HitGroup
+                trace.trAtt = att
+                trace.dmgFor = dmginfo:GetDamageForce()
+                trace.dmgPos = dmginfo:GetDamagePosition()
+                trace.dmgType = dmginfo:GetDamageType()
+                trace.dmgInf = att:GetActiveWeapon()
+                net.Start("moatBulletTrace" .. moat_val)
+                net.WriteUInt(trace.trEnt:EntIndex(), 16)
+                net.WriteUInt(trace.trHGrp, 4)
+                net.WriteVector(trace.dmgFor)
+                net.WriteVector(trace.dmgPos)
+                net.WriteUInt(trace.dmgType, 32)
+                net.WriteUInt(trace.dmgInf:EntIndex(), 16)
+                net.SendToServer()
+
+                return true
+            end
+        end
+        if MOAT_PH then
+            local e = LocalPlayer():GetEyeTrace().Entity
+            if not IsValid(e) then return end
+            if e:IsPlayer() then
+                data.IgnoreEntity = e
+            end
+        end
+    end
+end
+
+hook.Add("EntityFireBullets", "moatFireBullets", moatFireBullets)
+]]
