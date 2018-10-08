@@ -723,6 +723,7 @@ for k,v in pairs(weapon_challenges) do
 	adj = "Kills",
 	runfunc = function()
 			hook.Add("PlayerDeath", "RightfulContract" .. k, function(ply, inf, att)
+				if not IsValid(att) then return end
 				if not att:IsPlayer() then return end
 				local inf = att:GetActiveWeapon()
 				if not IsValid(inf) then return end
