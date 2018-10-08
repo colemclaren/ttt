@@ -36,7 +36,7 @@ local kills = {}
 local stats_spawn = GetConVar("moat_showstats_spawn")
 local stats_spawn_old = false
 net.Receive("lava_Begin",function()
-	LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img) LavaTexture = img end)
+	LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img) LavaTexture = img end, "noclamp")
 
     MOAT_MINIGAME_OCCURING = true
     SmoothLevel = Entity(0):GetModelRenderBounds().z
@@ -468,7 +468,9 @@ hook.Add("PostDrawTranslucentRenderables", "DrawLava", function(a, b)
 
 	render.Clip(ClipTab, function()
 		if (not LavaTexture) then
-			LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img) LavaTexture = img end)
+			LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img)
+				LavaTexture = img
+			end, "noclamp")
 			return
 		end
 

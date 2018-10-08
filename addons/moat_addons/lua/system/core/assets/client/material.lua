@@ -1,16 +1,11 @@
-/*
-if (not _Material) then
-	_Material = Material
-end
-
-local mat_cache = {}
+local Mats = {}
+local _Material = Material
 function Material(n, p)
 	p = p or ""
-	
-	if (not mat_cache[n .. p]) then
-		mat_cache[n .. p] = _Material(n, p)
+
+	if (not Mats[n .. p]) then
+		Mats[n .. p] = _Material(n, Either(type(p) == "string", p, false))
 	end
 
-	return mat_cache[n .. p]
+	return Mats[n .. p]
 end
-*/

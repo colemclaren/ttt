@@ -169,21 +169,6 @@ function sound.PlayURL(url, flags, cb)
 	end
 end
 
-if (not _Material) then
-	_Material = Material
-end
-
-local mat_cache = {}
-function Material(n, p)
-	p = p or ""
-	
-	if (not mat_cache[n .. p]) then
-		mat_cache[n .. p] = _Material(n, p)
-	end
-
-	return mat_cache[n .. p]
-end
-
 --This code can be improved alot.
 --Feel free to improve, use or modify in anyway altough credit would be apreciated.
  

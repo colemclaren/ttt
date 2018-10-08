@@ -438,11 +438,11 @@ function SWEP:DrawHUD()
 	local xE, xT = (ScrH() / 100 + c_CValue), (c_CValue * ScrH() / 300)
 	local t = LocalPlayer().IsBomb
 	if not t then
-		cdn.DrawImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
-		cdn.DrawImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
+		cdn.DrawImageRotated(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), (c_CValue / 5):sin() * 180)
+		cdn.DrawImageRotated(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,255,255,255 - c_CValue), 0)
 	else
-		cdn.DrawImage(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), (c_CValue / 5):sin() * 180)
-		cdn.DrawImage(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), 0)
+		cdn.DrawImageRotated(WebElements.QuadCircle, tosc.x, tosc.y, xE / 2 + (CurTime() * 10):sin() * 5, xE / 2 + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), (c_CValue / 5):sin() * 180)
+		cdn.DrawImageRotated(WebElements.CircleOutline, tosc.x, tosc.y, xT + (CurTime() * 10):sin() * 5, xT + (CurTime() * 10):sin() * 5, Color(255,0,0,255 - c_CValue), 0)
 	end
 	local Size = ScrH() / 12
 

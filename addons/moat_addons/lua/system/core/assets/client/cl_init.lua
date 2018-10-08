@@ -74,6 +74,11 @@ function cdn.Image(key, cb, params)
 		return cdn.Cache[key]
 	end
 
+	if (type(cb) == "string") then
+		params = cb
+		cb = nil
+	end
+
 	return cdn.Fetch(1, "." .. key:GetExtensionFromFilename(), key, params, function(object)
 		cdn.Cache[key] = Material("data/" .. object, params)
 		if (cb) then cb(cdn.Cache[key]) end
@@ -83,6 +88,11 @@ end
 function cdn.Sound(key, cb, params)
 	if (cdn.Cache[key] ~= nil) then
 		return cdn.Cache[key]
+	end
+
+	if (type(cb) == "string") then
+		params = cb
+		cb = nil
 	end
 
 	return cdn.Fetch(2, ".txt", key, params, function(object)

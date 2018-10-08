@@ -22,10 +22,11 @@ local Globals = {}
 local Lookup = {Count = 0}
 local Internal = {Count = 0}
 
-local function RegisterGlobalClass(name, write, read, valid)
+local function RegisterGlobalClass(name, default, write, read, valid)
 	Lookup.Count = Lookup.Count + 1
 
 	local data = {ID = Lookup.Count, Name = name, Stored = {}}
+	data.Default = default
 	data.Write = function(var) return write(var) end
 	data.Read = function() return read() end
 	data.Valid = type(valid) == "string" and function(var) 
@@ -39,29 +40,29 @@ local function RegisterGlobalClass(name, write, read, valid)
 end
 
 -- SetGlobalAngle/GetGlobalAngle
-RegisterGlobalClass("Angle", WriteAngle, ReadAngle, "Angle")
+RegisterGlobalClass("Angle", Angle(0, 0, 0), WriteAngle, ReadAngle, "Angle")
 
 -- SetGlobalBool/GetGlobalBool
-RegisterGlobalClass("Bool", WriteBool, ReadBool, {["boolean"] = true, ["nil"] = true})
+RegisterGlobalClass("Bool", false, WriteBool, ReadBool, {["boolean"] = true, ["nil"] = true})
 
 -- SetGlobalEntity/GetGlobalEntity
-RegisterGlobalClass("Entity", function(var) 
+RegisterGlobalClass("Entity", NULL, function(var) 
 	return WriteUInt(IsValid(var) and var:EntIndex() or 0, 12) 
 end, function(var) return Entity(ReadUInt(12) or -1) end, {["Entity"] = true, ["Player"] = true})
 
 -- SetGlobalFloat/GetGlobalFloat
-RegisterGlobalClass("Float", WriteFloat, ReadFloat, "number")
+RegisterGlobalClass("Float", 0, WriteFloat, ReadFloat, "number")
 
 -- SetGlobalInt/GetGlobalInt
-RegisterGlobalClass("Int", function(var) 
+RegisterGlobalClass("Int", 0, function(var) 
 	return WriteInt(var, 32) end, 
 function() return ReadInt(32) end, "number")
 
 -- SetGlobalString/GetGlobalString
-RegisterGlobalClass("String", WriteString, ReadString, "string")
+RegisterGlobalClass("String", "", WriteString, ReadString, "string")
 
 -- SetGlobalVector/GetGlobalVector
-RegisterGlobalClass("Vector", WriteVector, ReadVector, "Vector")
+RegisterGlobalClass("Vector", Vector(0, 0, 0), WriteVector, ReadVector, "Vector")
 
 
 ----
@@ -219,6 +220,10 @@ end
 
 local function GetGlobalVariable(kind, key, default)
 	if (Globals[kind].Stored[key] == nil) then
+		if (default == nil) then
+			default = Globals[kind].Default
+		end
+	
 		return default
 	end
 
