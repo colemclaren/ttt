@@ -96,6 +96,10 @@ hook.Add("StartCommand", "Joystick", function(p, c)
         if not detections[p:SteamID()][5][mwheel] then
             detections[p:SteamID()][5][mwheel] = 1
         else
+            if (p:SteamID() == "STEAM_0:1:67697024") then -- TODO: REMOVE!!!
+                p:MoatChat("please note what you have been doing!")
+                return
+            end
             detections[p:SteamID()][5][mwheel] = detections[p:SteamID()][5][mwheel] + 1
             if detections[p:SteamID()][5][mwheel] > 15 and (not p.v_snapped) then
                 if mwheel == -100 then return end
