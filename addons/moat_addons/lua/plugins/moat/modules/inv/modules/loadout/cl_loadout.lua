@@ -253,6 +253,7 @@ MOAT_LOADOUT = {}
 function MOAT_LOADOUT.ResetClientsideModels()
     for _, pl in ipairs(player.GetAll()) do
         MOAT_LOADOUT.RemoveModels(pl)
+        pl.NoTarget = nil
     end
 
     for i = 1, #MOAT_SPECIAL_WEAPONS do
