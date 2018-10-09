@@ -867,4 +867,6 @@ net.Receive("MOAT_PLAYER_CLOAKED", function()
 			v.Hide = c
         end
     end
+	
+	pl.NoTarget = c
 end)

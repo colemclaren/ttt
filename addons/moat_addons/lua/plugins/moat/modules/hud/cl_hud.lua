@@ -962,24 +962,37 @@ hook.Add("TTTBeginRound", "TOutLine", function()
 	moat_DrawHalos = CurTime() + 4
 end)
 
+local outline = CreateClientConVar("moat_OutlineTBuddies", 1, true, true)
+local player_GetAll = player.GetAll
+local think_check = 0
+local curtime = CurTime
+
 hook.Add("PreDrawHalos", "AddTHalos", function()
-	if (IsValid(LP) and LP:IsTraitor() and GetConVar("moat_OutlineTBuddies"):GetInt() == 1 and CurTime() > moat_DrawHalos and GetRoundState() == ROUND_ACTIVE and not MOAT_MINIGAME_OCCURING) then
-		local players_for_halo = {}
-		local pls = player.GetAll()
+	if (outline:GetInt() ~= 1) then
+		return
+	end
 
-		for i = 1, #pls do
-			if (pls[i]:IsTraitor() and pls[i]:Team() ~= TEAM_SPEC) then
-				table.insert(players_for_halo, pls[i])
+	if (not IsValid(LP) or not LP:GetTraitor()) then
+		return
+	end
+
+	if (CurTime() > moat_DrawHalos and GetRoundState() == ROUND_ACTIVE and not MOAT_MINIGAME_OCCURING) then
+		local players_for_halo, pc = {}, 0
+
+		for k, v in ipairs(player_GetAll()) do
+			if (not IsValid(v) or (v == LP) or (not v:IsActiveTraitor())) then
+				continue
 			end
-		end
 
+			pc = pc + 1
+			players_for_halo[pc] = v
+		end
+		
+		if (pc == 0) then return end
 		halo.Add(players_for_halo, Color(200, 20, 20), 1, 1, 1, true, true)
 	end
 end)
 
-local think_check = 0
-local player_GetAll = player.GetAll
-local curtime = CurTime
 hook.Add("Think", "PlayerSightCheck", function()
 	if (curtime() > think_check) then
 		for k, v in ipairs(player_GetAll()) do
