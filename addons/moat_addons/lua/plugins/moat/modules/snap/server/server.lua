@@ -58,6 +58,7 @@ concommand.Add("v_snap",function(a,b,c,d)
 end)
 
 net.Receive("moat-ab",function(l,ply)
+	if true then return end
 	local b = net.ReadBool()
 	local s = net.ReadString()
 	if not ply.snapper then return end
