@@ -33,7 +33,7 @@ function snapper.notify(client, contents)
 		return
 	end
 
-	local default = {Color(0, 0, 0), "[", Color(255, 0, 0), "MoatSnap 1.0", Color(0, 0, 0), "] ", Color(255, 255, 255)}
+	local default = {Color(0, 0, 0), "[", Color(255, 0, 0), "MoatSnap 2.0", Color(0, 0, 0), "] ", Color(255, 255, 255)}
 
 	for k, v in pairs(contents) do
 		table.insert(default, v)
@@ -58,74 +58,111 @@ concommand.Add("v_snap",function(a,b,c,d)
 end)
 
 net.Receive("moat-ab",function(l,ply)
-	if true then return end
 	local b = net.ReadBool()
 	local s = net.ReadString()
 	if not ply.snapper then return end
 	snapper.capturing = false
-	if ply.snapper == "clua" then
+	if ply.snapper:IsPlayer() then
 		if b then
 			s = util.JSONToTable(s)
-			local link = s.data.link
-			if not isstring(link) then link = "player provided no link, probably cheating" end
-			if not (link:match("^https:%/%/i.imgur.com")) then 
-				link = "PLAYER PROVIDED FALSE LINK: " .. link .. " PROBABLY CHEATING."
+			if not s.data then
+				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided false info, BAN FOR CHEATING."})
+				ply.snapper:ConCommand("mga ban " .. sid .. " 0 days Cheating")
+				return
 			end
-			local msg = "Cheating: " .. ply:Nick() .. " ( http://steamcommunity.com/profiles/" .. ply:SteamID64() .. " ): " .. link
-			discord.Send("Anti Cheat", msg)
-		else
-			local msg = "Cheating: " .. ply:Nick() .. " ( http://steamcommunity.com/profiles/" .. ply:SteamID64() .. " ) and got ERROR : ```" .. s .. "```"
-			discord.Send("Anti Cheat", msg)
-		end
-		ply.snapper = nil
-		return
-	end
-	if ply.snapper == "c" then
-		if b then
-			s = util.JSONToTable(s)
 			local link = s.data.link
-			if not isstring(link) then link = "player provided no link, probably cheating" end
-			if not (link:match("^https:%/%/i.imgur.com")) then 
-				link = "PLAYER PROVIDED FALSE LINK: " .. link .. " PROBABLY CHEATING."
+
+			if not isstring(link) then link = "forsenCD Transparent link" end
+			if not (link:match("^https:%/%/i%.imgur%.com(.*)jpg$")) then 
+				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided a link that wasn't an imgur link or jpg, BAN FOR CHEATING."})
+				ply.snapper:ConCommand("mga ban " .. sid .. " 0 days Cheating")
+				return
 			end
-			local msg = "Console snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. link
-			discord.Send("Snap", msg)
+
+			if not (isstring(s.data.id)) then
+				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided false info, BAN FOR CHEATING."})
+				ply.snapper:ConCommand("mga ban " .. sid .. " 0 days Cheating")
+				return
+			end
+
+			local snapp = ply.snapper
+			local name = ply:Name()
+			local sid = ply:SteamID()
+			HTTP({
+				url = "https://api.imgur.com/3/image/" .. s.data.id,
+				method = "GET",
+				headers = {
+					["Authorization"] = "Client-ID 2201ae44ef37cfc"
+				},
+				success = function(_,b,_,_)
+					b = util.JSONToTable(b)
+					if tonumber(b.status) == 200 then
+						if ply.snap_time > tonumber(b.data.datetime) then
+							snapper.notify(snapp, { Color(255, 0, 0), name .. "'s ", Color(255, 255, 255), " snap: Player provided old imgur link, BAN FOR CHEATING."})
+							snapp:ConCommand("mga ban " .. sid .. " 0 days Cheating")
+							-- D3A.Commands.Parse(snapp,"ban",{sid,0,"days","Cheating"})
+						else
+							snapp:SendLua('gui.OpenURL([[' .. link:gsub("%]%]","") .. ']])')
+							snapper.notify(snapp, { Color(255, 0, 0), name .. "'s ", Color(255, 255, 255), " snap: " .. link})
+						end
+					else
+						snapper.notify(snapp, { Color(255, 0, 0), name .. "'s ", Color(255, 255, 255), " link verification failed, I would ban for cheating."})
+					end
+				end,
+				failed = function(b) 
+					snapper.notify(snapp, { Color(255, 0, 0), name .. "'s ", Color(255, 255, 255), " link verification failed, I would ban for cheating."})
+				end
+			})
+
 		else
-			local msg = "Console snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
-			discord.Send("Snap", msg)
+			snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Client claimed error uploading. I would ban for cheating if they're not lagging, then tell velkon."})
+			local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
+			discord.Send("Anti Cheat", msg)
 		end
-		ply.snapper = nil
-		return
-	end
-	if b then
-		s = util.JSONToTable(s)
-		local link = s.data.link
-		if not isstring(link) then link = "player provided no link, probably cheating" end
-		if not (link:match("^https:%/%/i.imgur.com")) then 
-			link = "PLAYER PROVIDED FALSE LINK, PROBABLY CHEATING: " .. link
-		end
-		ply.snapper:SendLua('gui.OpenURL([[' .. link:gsub("%]%]","") .. ']])')
-		local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. link
-		discord.Send("Anti Cheat", msg)
-		snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s", Color(255, 255, 255), " snap: " .. link})
-	else
-		local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
-		ply.snapper:ChatPrint("Snap could not be finished due to error. Please tell velkon or moat.")
-		snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s", Color(255, 255, 255), " snap: Snap could not be finished due to error. Please tell velkon or moat."})
-		discord.Send("Anti Cheat", msg)
 	end
 	ply.snapper = nil
 end)
 
+
+-- Probably won't need to use this again, keeping here for now though.
+-- if ply.snapper == "clua" then
+-- 		if b then
+-- 			s = util.JSONToTable(s)
+-- 			local link = s.data.link
+-- 			if not isstring(link) then link = "player provided no link, probably cheating" end
+-- 			if not (link:match("^https:%/%/i.imgur.com")) then 
+-- 				link = "PLAYER PROVIDED FALSE LINK: " .. link .. " PROBABLY CHEATING."
+-- 			end
+-- 			local msg = "Cheating: " .. ply:Nick() .. " ( http://steamcommunity.com/profiles/" .. ply:SteamID64() .. " ): " .. link
+-- 			discord.Send("Anti Cheat", msg)
+-- 		else
+-- 			local msg = "Cheating: " .. ply:Nick() .. " ( http://steamcommunity.com/profiles/" .. ply:SteamID64() .. " ) and got ERROR : ```" .. s .. "```"
+-- 			discord.Send("Anti Cheat", msg)
+-- 		end
+-- 		ply.snapper = nil
+-- 		return
+-- 	end
+-- 	if ply.snapper == "c" then
+-- 		if b then
+-- 			s = util.JSONToTable(s)
+-- 			local link = s.data.link
+-- 			if not isstring(link) then link = "player provided no link, probably cheating" end
+-- 			if not (link:match("^https:%/%/i.imgur.com")) then 
+-- 				link = "PLAYER PROVIDED FALSE LINK: " .. link .. " PROBABLY CHEATING."
+-- 			end
+-- 			local msg = "Console snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. link
+-- 			discord.Send("Snap", msg)
+-- 		else
+-- 			local msg = "Console snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
+-- 			discord.Send("Snap", msg)
+-- 		end
+-- 		ply.snapper = nil
+-- 		return
+-- 	end
 function snapper.snap(caller, victim, quality)
 
 	if not snapper.can(caller) then
 		snapper.notify(caller, {"Sorry, but you're lacking the right permissions to perform this command."})
-		return
-	end
-
-	if true then
-		snapper.notify(caller, {"Disabled for now, check velkon."})
 		return
 	end
 
@@ -135,11 +172,12 @@ function snapper.snap(caller, victim, quality)
 		return
 	end
 
-	snapper.notify(caller, {"Breaching ", Color(255, 0, 0), victim:Name() .. "'s", Color(255, 255, 255), " privacy..."})
+	snapper.notify(caller, {"Snapping ", Color(255, 0, 0), victim:Name() .. "'s", Color(255, 255, 255), " screen..."})
 
 	snapper.capturing = caller
 	snapper.started = CurTime()
 	victim.snapper = caller
+	victim.snap_time = os.time() - 10
 
 	net.Start("moat-ab")
 	net.Send(victim)
