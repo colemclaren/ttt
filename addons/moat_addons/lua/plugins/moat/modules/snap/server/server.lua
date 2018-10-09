@@ -117,8 +117,14 @@ net.Receive("moat-ab",function(l,ply)
 end)
 
 function snapper.snap(caller, victim, quality)
+
 	if not snapper.can(caller) then
 		snapper.notify(caller, {"Sorry, but you're lacking the right permissions to perform this command."})
+		return
+	end
+
+	if true then
+		snapper.notify(caller, {"Disabled for now, check velkon."})
 		return
 	end
 
