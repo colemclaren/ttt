@@ -52,32 +52,112 @@ function SWEP:ShouldDropOnDie()
 end
 
 function SWEP:InitializeTaunt()
-	local seq = self.Owner:SelectWeightedSequence(self.TauntAnimation)
-	local len = self.Owner:SequenceDuration(seq)
-
-	if SERVER then
-		self.Owner:AnimRestartGesture(GESTURE_SLOT_GRENADE, self.TauntAnimation, false)
-		self.TauntOver = CurTime() + 99999
+	if (SERVER) then
+		self:CreateRagdoll()
 		self:SetTauntActive(true)
+	end
+end
 
-		net.Start("MOAT_RESET_ANIMATION")
-		net.WriteEntity(self.Owner)
-		net.WriteUInt(9, 8)
-		net.Broadcast()
+function SWEP:CreateRagdoll()
+	if (not IsValid(self.Owner)) then return end
+	local pl = self.Owner
+	SafeRemoveEntity(pl.PlayDead)
+	local rag = ents.Create "prop_ragdoll"
+	if (not IsValid(rag)) then return end
+	self.PlayDead = rag
+	pl.PlayDead = rag
+	rag:SetOwner(pl)
+	rag:SetDTEntity(CORPSE.dti.ENT_PLAYER, pl)
+	rag:SetDTBool(CORPSE.dti.BOOL_FOUND, true)
+	rag:SetPos(pl:GetPos())
+	rag:SetModel(pl:GetModel())
+	rag:SetAngles(pl:GetAngles())
+
+	local col = pl:GetPlayerColor()
+	rag.GetPlayerColor = function() return col end
+	rag:SetColor(pl:GetColor())
+
+	rag:SetCustomCollisionCheck(true)
+	rag.CheckThisShit = true
+	rag.IsPlayDead = true
+	rag.CanPickup = false
+	rag:Spawn()
+	rag:Activate()
+
+	local phys = rag:GetPhysicsObject()
+	if (IsValid(phys)) then
+		phys:AddGameFlag(FVPHYSICS_PLAYER_HELD)
+	end	
+
+	timer.Tick(function()
+		if (IsValid(rag)) then rag:CollisionRulesChanged() end
+	end)
+
+	local num = rag:GetPhysicsObjectCount() - 1
+    for i = 0, num do
+        local bone = rag:GetPhysicsObjectNum(i)
+		if (not IsValid(bone)) then continue end
+        local bp, ba = pl:GetBonePosition(rag:TranslatePhysBoneToBone(i))
+
+        if (bp and ba) then
+            bone:SetPos(bp)
+            bone:SetAngles(ba)
+        end
+    end
+
+	self.HookName = pl:EntIndex() .. "RagdollTakeDamage"
+	hook.Add("EntityTakeDamage", self.HookName, function(ent, dmg)
+		if (ent.PlayDead) then
+			self:EndTaunt()
+			return
+		end
+		
+		if (not ent.IsPlayDead) then
+			return
+		end
+
+		local d = DamageInfo()
+		d:SetDamage(dmg:GetDamage())
+		d:SetAttacker(dmg:GetAttacker())
+		d:SetInflictor(dmg:GetInflictor())
+
+		local p = ent:GetOwner()
+		self:EndTaunt()
+
+		if (IsValid(p)) then
+			p:TakeDamageInfo(d)
+		end
+	end)
+
+	pl:SetNoDraw(true)
+
+	net.Start "MOAT_PLAYER_CLOAKED"
+	net.WriteEntity(pl)
+	net.WriteBool(true)
+	net.Broadcast()
+
+	if (tt.PlayDeathSound) then
+		tt.PlayDeathSound(pl)
 	end
 end
 
 function SWEP:EndTaunt()
-	if (not IsValid(self.Owner)) then return end
-
-	self.Owner:AnimResetGestureSlot(GESTURE_SLOT_GRENADE)
 	if (CLIENT) then return end
-	
-	self:SetTauntActive(false)
 
-	net.Start("MOAT_RESET_ANIMATION")
+	hook.Remove("EntityTakeDamage", self.HookName)
+
+	SafeRemoveEntity(self.PlayDead)
+	self:SetTauntActive(false)
+	
+	if (not IsValid(self.Owner)) then
+		return
+	end
+
+	self.Owner:SetNoDraw(false)
+
+	net.Start "MOAT_PLAYER_CLOAKED"
 	net.WriteEntity(self.Owner)
-	net.WriteUInt(0, 8)
+	net.WriteBool(false)
 	net.Broadcast()
 end
 
@@ -89,6 +169,7 @@ end
 
 function SWEP:PrimaryAttack()
 	if (self:GetNextPrimaryFire() > CurTime() or not IsFirstTimePredicted() or self:GetTauntActive()) then return end
+	if (not self.Owner:OnGround()) then return end
 
 	self:SetNextPrimaryFire(CurTime() + 1)
 
@@ -107,18 +188,18 @@ end
 
 function SWEP:Think()
 	if (SERVER and self:GetTauntActive()) then
-		local own = self.Owner
-
-		if (self.TauntOver < CurTime()) then
-			self:EndTaunt()
-
-			return
+		local pl = self.Owner
+		if (not IsValid(pl)) then
+			return self:EndTaunt()
 		end
 
-		if (own:KeyDown(IN_BACK) or own:KeyDown(IN_DUCK) or own:KeyDown(IN_FORWARD) or own:KeyDown(IN_JUMP) or own:KeyDown(IN_MOVELEFT) or own:KeyDown(IN_MOVERIGHT) or own:KeyDown(IN_RELOAD) or own:KeyDown(IN_WALK) or own:KeyDown(IN_USE)) then
-			self:EndTaunt()
+		if (pl:MoveKeysDown()) then
+			return self:EndTaunt()
+		end
 
-			return
+		if (IsValid(self.PlayDead) and self.PlayDead:GetPos():DistToSqr(pl:GetPos()) > 3184) then
+			self:SetNextPrimaryFire(CurTime() + 5)
+			return self:EndTaunt()
 		end
 	end
 end

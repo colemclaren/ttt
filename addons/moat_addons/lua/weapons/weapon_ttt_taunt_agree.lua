@@ -108,7 +108,7 @@ function SWEP:Think()
 			return
 		end
 
-		if (own:KeyDown(IN_BACK) or own:KeyDown(IN_DUCK) or own:KeyDown(IN_FORWARD) or own:KeyDown(IN_JUMP) or own:KeyDown(IN_MOVELEFT) or own:KeyDown(IN_MOVERIGHT) or own:KeyDown(IN_RELOAD) or own:KeyDown(IN_WALK) or own:KeyDown(IN_USE)) then
+		if (own:MoveKeysDown()) then
 			self:EndTaunt()
 
 			return

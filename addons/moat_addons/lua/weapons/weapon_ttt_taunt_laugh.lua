@@ -100,15 +100,9 @@ end
 
 function SWEP:Think()
 	if (SERVER and self:GetTauntActive()) then
-		local own = self.Owner
+		local pl = self.Owner
 
-		if (self.TauntOver < CurTime()) then
-			self:EndTaunt()
-
-			return
-		end
-
-		if (own:KeyDown(IN_BACK) or own:KeyDown(IN_DUCK) or own:KeyDown(IN_FORWARD) or own:KeyDown(IN_JUMP) or own:KeyDown(IN_MOVELEFT) or own:KeyDown(IN_MOVERIGHT) or own:KeyDown(IN_RELOAD) or own:KeyDown(IN_WALK) or own:KeyDown(IN_USE)) then
+		if (self.TauntOver < CurTime() or pl:MoveKeysDown()) then
 			self:EndTaunt()
 
 			return
