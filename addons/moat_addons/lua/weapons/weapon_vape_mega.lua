@@ -7,6 +7,23 @@ if CLIENT then
 	include('weapon_vape/cl_init.lua')
 else
 	include('weapon_vape/shared.lua')
+	function SWEP:SecondaryAttack()
+		if GetConVar("vape_block_sounds"):GetBool() then return end
+
+		if (self.SecondaryAttackWait and self.SecondaryAttackWait > CurTime()) then return end
+		self.SecondaryAttackWait = CurTime() + 5
+		
+		local pitch = 100 + (self.SoundPitchMod or 0) + (self.Owner:Crouching() and 40 or 0)
+		local s = "vapegogreen.wav"
+		if math.random() > 0.5 then s = "vapenaysh.wav" end
+		self:EmitSound(s, 80, pitch + math.Rand(-5,5))
+		if SERVER then
+			net.Start("VapeTalking")
+			net.WriteEntity(self.Owner)
+			net.WriteFloat(CurTime() + (0.6*100/pitch))
+			net.Broadcast()
+		end
+	end
 end
 
 SWEP.PrintName = "Mega Vape"
@@ -36,3 +53,17 @@ function SWEP:PrimaryAttack()
 	--Takes slightly longer to breathe
 	self.Weapon:SetNextPrimaryFire(CurTime() + 0.15)
 end
+
+-- local price = 500
+
+-- function SWEP:Reload()
+-- 	if (self.relcool or 0) > CurTime() then return end
+-- 	self.relcool = CurTime() + 1
+-- 	if CLIENT then
+-- 		local sc = (LocalPlayer():GetDataVar("SC") or 0)
+-- 		Derma_Query("Are you sure?", "Are you sure you want to purchase 5 mega vape puffs for " .. price .. " SC?\n(You have " .. string.Comma(sc) .. " SC availabe)", "Yes", function() 
+-- 			net.Start("Megavape_purchase")
+-- 			net.SendToServer()
+-- 		end, "Nevermind")
+-- 	end
+-- end
