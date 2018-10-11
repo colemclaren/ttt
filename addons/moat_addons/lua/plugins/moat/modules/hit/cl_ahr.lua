@@ -396,7 +396,7 @@ net.Receive("moat_damage_number", function()
     MOAT_DMGNUMS.CreateDamageNumber(dmg, grp, pos)
 end)
 
---[[
+
 local function moatFireBullets(ent, data)
     local attacker = data.Attacker
 
@@ -435,4 +435,3 @@ local function moatFireBullets(ent, data)
 end
 
 hook.Add("EntityFireBullets", "moatFireBullets", moatFireBullets)
-]]

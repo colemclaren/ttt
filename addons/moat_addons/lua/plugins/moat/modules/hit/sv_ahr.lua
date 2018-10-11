@@ -47,7 +47,7 @@ hook.Add("PlayerSay", "moat_ChatCommand", function(ply, text, team)
     end
 end)
 
---[[
+
 net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
     --local trace = net.ReadTable()
     local trace = {}
@@ -126,4 +126,4 @@ function PLAYER:FireBullets(bul, supp)
         bul.Damage = 0
     end
     return self:Old_FireBullets(bul, supp)
-end]]
+end
