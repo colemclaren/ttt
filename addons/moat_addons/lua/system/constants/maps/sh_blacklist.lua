@@ -13,4 +13,5 @@ MAP_BLACKLIST = {
 	["ttt_mc_kitchen"] = true, -- updated on workshop
 	["ttt_mario_b1"] = true, -- https://i.imgur.com/hNGjcKd.png
 	["ttt_playground"] = true, -- updated on workshop
+	["ttt_mc_dust2_r"] = true
 }
