@@ -75,7 +75,7 @@ c.b=c.SetButtons end function c:SetButtons(a)self:b(a)b=q==b&&self:GetButtons()
 c:SetSideMove(a)self:s(t(a,sm))s=self:GetSideMove()end function c:
 SetForwardMove(a)self:f(t(a,fm))f=self:GetForwardMove()end function c:SetUpMove
 (a)self:u(t(a,um))u=self:GetUpMove()end hook.Add("IMA\r","joystick",function(c,
-...)if(A||v)~=K():EyeAngles()&&!g then o=-1 end c:SetMouseWheel(L()&&-100||o)if
+...)if!g&&(A||v)~=K():EyeAngles()then o=-1 end c:SetMouseWheel(L()&&-100||o)if
 a:GetBool()then RunConsoleCommand("joystick","0")end g=0==c:TickCount()s=c:
 GetSideMove()f=c:GetForwardMove()u=c:GetUpMove()q=c return l("InputMouseApply",
 c,...)end)hook.Add("SC\r","joystick",function(c)c:SetMouseWheel(L()&&-100||o)o=
