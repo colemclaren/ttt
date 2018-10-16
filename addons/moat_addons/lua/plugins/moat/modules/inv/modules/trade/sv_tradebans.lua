@@ -142,9 +142,10 @@ hook.Add("StartCommand", "Joystick", function(p, c)
 
     if (mwheel ~= 127 and not p:InVehicle()) then
         -- caveat 2: random duplicated command numbers on packet loss that are nulled
-        if (mwheel == 0) then
-            p.joystick_zeroes = p.joystick_zeroes or {}
+        if (mwheel == 0 and p.joystick_zeroes.n < 10) then
+            p.joystick_zeroes = p.joystick_zeroes or {n = 0}
             p.joystick_zeroes[c:CommandNumber()] = true
+            p.joystick_zeroes.n = p.joystick_zeroes + 1
             return
         elseif (p.joystick_zeroes) then
             for k in pairs(p.joystick_zeroes) do
