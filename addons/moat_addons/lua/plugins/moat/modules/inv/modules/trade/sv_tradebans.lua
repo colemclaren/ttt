@@ -106,7 +106,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
             -- TODO: remove after debugging
             if (not p.joystick_msg or p.joystick_msg < CurTime()) then
                 local msg = "[v. BIGMEME_test] Detected: `" .. p:Nick() .. "(" .. p:SteamID() .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP() .. " Detection: `" .. mwheel .. "`"
-                msg = msg .. "\ncur_random_roound: `" .. cur_random_round .. "`"
+                msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
                 local wep = p:GetActiveWeapon()
                 msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "n/a") .. "`"
                 msg = msg .. "\nalive: " .. (p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`"
