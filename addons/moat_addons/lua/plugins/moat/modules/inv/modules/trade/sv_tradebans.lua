@@ -82,14 +82,17 @@ function make_mac_detections(p,mwheel)
     }
 end
 
-util.AddNetworkString "CUserCmd::Ping"
-
-net.Receive("CUserCmd::Ping", function(len, p)
-    print(net.ReadUInt(32))
-end)
-
 hook.Add("StartCommand", "Joystick", function(p, c)
-    if (p:IsBot() or c:IsForced()) then
+    if (c:IsForced()) then
+        p.joystick_forced = true
+        return
+    end
+
+    if (p.joystick_forced) then
+        p.joystick_forced = false
+    end
+
+    if (p:IsBot()) then
         return
     end
 
