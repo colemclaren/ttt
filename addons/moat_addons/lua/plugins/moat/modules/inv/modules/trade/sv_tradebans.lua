@@ -128,18 +128,15 @@ hook.Add("StartCommand", "Joystick", function(p, c)
     end
 
     local mwheel = c:GetMouseWheel()
+    -- caveat 3: spawning
+    if (not p.joystick_triggered and mwheel == 0 and c:GetForwardMove() == 0 and c:GetButtons() == 0) then
+        return
+    end
+    p.joystick_triggered = true
+
     -- caveat 1
     if (c:TickCount() == 0 and mwheel == 0) then
         p.joystick_ignore = true
-        return
-    end
-
-    if (not p.joystick_on) then
-        p.joystick_on = CurTime() + 1
-        return
-    end
-
-    if (p.joystick_on > CurTime()) then
         return
     end
 
