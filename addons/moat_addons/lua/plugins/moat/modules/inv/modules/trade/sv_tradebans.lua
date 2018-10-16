@@ -93,7 +93,7 @@ local detection_names = {
 }
 local function joystick_detect(p, detect, c)
     if (IsDev() or not p.joystick_msg or p.joystick_msg < CurTime()) then
-        local msg = "[v. BIGMEME_test] Detected: `" .. p:Nick() .. "(" .. p:SteamID() .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP()
+        local msg = "[v. BIGMEME_test2] Detected: `" .. p:Nick() .. "(" .. p:SteamID() .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP()
         msg = msg .. "\nDetection: `" .. (detection_names[detect] or detect) .. "`"
         msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
         local wep = p:GetActiveWeapon()
