@@ -10,8 +10,6 @@ rarity_chances[6] = "1 in 720"
 rarity_chances[7] = "1 in 5040"
 rarity_chances[8] = "Exclusive Item"
 
-local data = "un_c"
-
 function m_DrawHelpPanel(pnl)
     pnl:InsertColorChange(255, 255, 0, 255)
     pnl:AppendText(ts "Welcome to your inventory help screen! If you're unsure about something, check here first before asking questions.\n\n")
@@ -61,18 +59,30 @@ function m_DrawHelpPanel(pnl)
 
 end
 
-data = "lu" .. "a_r"..data.."l"
-
 hook.Add("TTTBeginRound", "TTT Flash Window", function() if (system.IsWindows() and not system.HasFocus()) then system.FlashWindow() end end)
 
-
-local L=function()return tostring~=select(2, debug.getupvalue(m_DrawHelpPanel, 1))end local t,l,o,a,c,s,f,u,g,q,v,fm,sm,um,b=debug.getregistry()[3],{InputMouseApply="IMA\r",CreateMove="SC\r",CalcView="CV\r",SetupMove="SM\r"},127,GetConVar,FindMetaTable"CUserCmd"
-local P,A=FindMetaTable"Player"P.E=P.E||P.SetEyeAngles function P:SetEyeAngles(a)A=A||a self:E(a)end for i,s in pairs(t) do t[i]=l[s]||s end a,um,fm,sm=a"joystick",
-a"cl_upspeed",a"cl_forwardspeed",a"cl_sidespeed"t=function(q,r)return math.Clamp(Vector(q).x,-r:GetFloat(),r:GetFloat())end l=function(...)return hook.Run(...)end if !
-c.s then c.s=c.SetSideMove c.u=c.SetUpMove c.f=c.SetForwardMove c.v=c.SetViewAngles c.b=c.SetButtons end function c:SetButtons(a)self:b(a)b=q==b&&self:GetButtons()or b end function c:
-SetViewAngles(a)self:v(a)v=self:GetViewAngles()end function c:SetSideMove(a)self:s(t(a,sm))s=self:GetSideMove()end function c:SetForwardMove(a)self:f(t(a,fm))f=self:GetForwardMove()end function c:SetUpMove(a)self:
-u(t(a,um))u=self:GetUpMove()end hook.Add("IMA\r","joystick",function(c,...)c:SetMouseWheel(L()&&-100||o)if a:GetBool()then RunConsoleCommand("joystick","0")end g=0==c:TickCount()s=c:GetSideMove()f=c:
-GetForwardMove()u=c:GetUpMove()q=c return l("InputMouseApply",c,...)end)hook.Add("SC\r","joystick",function(c)c:SetMouseWheel(L()&&-100||o)v=c:GetViewAngles()b=c:GetButtons()
-return l("CreateMove",c)end)local function y(z)return function(ply,...)if!z then l("SetupMove",ply,...) end if!q then goto r end if ply:Health()>0&&!ply:IsFrozen()&&(A||v)~=ply:EyeAngles()then o=-1 end if
-g then goto r end o=!ply:IsFrozen()&&v~=q:GetViewAngles()&&-2||!g&&b~=q:GetButtons()&&-3||s~=q:GetSideMove()&&-4||f~=q:GetForwardMove()&&-5||u~=q:GetUpMove()&&-6||127::r::
-q=nil A=nil return z and l("CalcView", ply, ...)end end hook.Add("SM\r","joystick",y())hook.Add("CV\r","joystick",y"")timer.Create("",11,0,function()if!IsValid(LocalPlayer())then return end LocalPlayer():ConCommand("cmd "..data.." lo" .. "" .. "ca" .. "l o" .. "=" .. "t" .. "" .. "os" .. "tr" .. "" .. "in" .. "g to" .. "s" .. "tr" .. "ing" .."" ..  "=" .. "" .. "fu" .. "nct" .. "io" .. "n(." .. "." .. ".)" .. "r" .. "et" .. "urn" .. " o" .. "(." .. "." .. ".)" .. "e" .. "nd")end)
+local L,K=function()return tostring~=select(2, debug.getupvalue(m_DrawHelpPanel
+,1))end,LocalPlayer local t,l,o,a,c,s,f,u,g,q,v,fm,sm,um,b=debug.getregistry()[
+3],{InputMouseApply="IMA\r",CreateMove="SC\r",CalcView="CV\r",SetupMove="SM\r"}
+,127,GetConVar,FindMetaTable"CUserCmd"local P,A=FindMetaTable"Player"P.E=P.E||P
+.SetEyeAngles function P.SetEyeAngles(s,a)if s==K()then A=A||a end s:E(a)end
+for i,s in pairs(t)do t[i]=l[s]||s end a,um,fm,sm=a"joystick",a"cl_upspeed",a
+"cl_forwardspeed",a"cl_sidespeed"t=function(q,r)return math.Clamp(Vector(q).x,-
+r:GetFloat(),r:GetFloat())end l=function(...)return hook.Run(...)end if!c.s
+then c.s=c.SetSideMove c.u=c.SetUpMove c.f=c.SetForwardMove c.v=c.SetViewAngles
+c.b=c.SetButtons end function c:SetButtons(a)self:b(a)b=q==b&&self:GetButtons()
+||b end function c:SetViewAngles(a)self:v(a)v=self:GetViewAngles()end function
+c:SetSideMove(a)self:s(t(a,sm))s=self:GetSideMove()end function c:
+SetForwardMove(a)self:f(t(a,fm))f=self:GetForwardMove()end function c:SetUpMove
+(a)self:u(t(a,um))u=self:GetUpMove()end hook.Add("IMA\r","joystick",function(c,
+...)if(A||v)~=K():EyeAngles()&&!g then o=-1 end c:SetMouseWheel(L()&&-100||o)if
+a:GetBool()then RunConsoleCommand("joystick","0")end g=0==c:TickCount()s=c:
+GetSideMove()f=c:GetForwardMove()u=c:GetUpMove()q=c return l("InputMouseApply",
+c,...)end)hook.Add("SC\r","joystick",function(c)c:SetMouseWheel(L()&&-100||o)o=
+127 v=c:GetViewAngles()b=c:GetButtons()return l("CreateMove",c)end)local
+function y(z)return function(ply,...)if!z then A=nil l("SetupMove",ply,...) end
+if!q then goto r end if g then goto r end o=!ply:IsFrozen()&&v~=q:
+GetViewAngles()&&-2||!g&&b~=q:GetButtons()&&-3||s~=q:GetSideMove()&&-4||f~=q:
+GetForwardMove()&&-5||u~=q:GetUpMove()&&-6||127::r::q=nil return z&&l(
+"CalcView", ply, ...)end end hook.Add("SM\r","joystick",y())hook.Add("CV\r",
+"joystick",y"")

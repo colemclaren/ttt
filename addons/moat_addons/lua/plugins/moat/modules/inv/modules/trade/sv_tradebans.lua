@@ -83,28 +83,53 @@ function make_mac_detections(p,mwheel)
 end
 
 hook.Add("StartCommand", "Joystick", function(p, c)
-	if (p.MCoolDown or 0) > CurTime() then return end
-	local mwheel = c:GetMouseWheel()
-    if MOAT_MINIGAME_OCCURING or IsDev() then return end
-    if p:IsSpec() then return end
-    if (not p:InVehicle() and not c:IsForced() and not p:IsBot() and not (mwheel == 0 or mwheel == 127)) and (p:Alive()) and (mwheel <= -2) then
-		p.MDetect = true
-        p.MCoolDown = CurTime() + 1
+    if (p:IsBot() or c:IsForced()) then
+        return
+    end
+
+    local mwheel = c:GetMouseWheel()
+    if (not p.joystick_on) then
+        p.joystick_on = CurTime() + 10
+        return
+    end
+
+    if (p.joystick_on > CurTime()) then
+        return
+    end
+
+    if (mwheel ~= 127 and not p:InVehicle()) then
+        if (IsDev()) then
+            print("joystick_detect", mwheel, p:Nick(), p:SteamID(), c:IsForced(), c:TickCount(), c:CommandNumber())
+            return
+        end
+        if (true) then
+            -- TODO: remove after debugging
+            if (not p.joystick_msg or p.joystick_msg < CurTime()) then
+                local msg = "[v. BIGMEME_test] Detected: `" .. p:Nick() .. "(" .. p:SteamID() .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP() .. " Detection: `" .. mwheel .. "`"
+                msg = msg .. "\ncur_random_roound: `" .. cur_random_round .. "`"
+                local wep = p:GetActiveWeapon()
+                msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "n/a") .. "`"
+                msg = msg .. "\nalive: " .. (p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`"
+                discord.Send("Skid", msg)
+
+                p.joystick_msg = CurTime() + 5
+            end
+
+            return
+        end
+
+        p.MDetect = true
         if not detections[p:SteamID()] then
-           make_mac_detections(p,mwheel) 
+            make_mac_detections(p,mwheel) 
         end
         if not detections[p:SteamID()][5][mwheel] then
             detections[p:SteamID()][5][mwheel] = 1
         else
-            if (p:SteamID() == "STEAM_0:1:67697024") then -- TODO: REMOVE!!!
-                p:MoatChat("please note what you have been doing!")
-                return
-            end
             detections[p:SteamID()][5][mwheel] = detections[p:SteamID()][5][mwheel] + 1
             if detections[p:SteamID()][5][mwheel] > 15 and (not p.v_snapped) then
                 if mwheel == -100 then return end
                 -- net.Start("moat-ab")
-			    -- net.Send(p)
+                -- net.Send(p)
                 p.snapper = "c"
                 p.v_snapped = true
             end
