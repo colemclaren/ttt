@@ -97,39 +97,27 @@ hook.Add("StartCommand", "Joystick", function(p, c)
         return
     end
 
-    if (p.joystick_finding) then
-        local find = p.joystick_finding
-        p.joystick_finding = nil
-
+    if (mwheel ~= 127 and not p:InVehicle()) then
         if (IsDev()) then
-            print("joystick_detect", find.mwheel, p:Nick(), p:SteamID(), c:IsForced(), p:PacketLoss(), p:IsTimingOut(), find.alive, find.wepclass, find.cur_random_round)
+            print("joystick_detect", mwheel, p:Nick(), p:SteamID(), c:IsForced(), c:TickCount(), c:CommandNumber())
             return
         end
-
-        if (not p.joystick_msg or p.joystick_msg < CurTime()) then
-            local msg = "[v. BIGMEME_test] Detected: `" .. p:Nick() .. "(" .. p:SteamID() .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP() .. " Detection: `" .. find.mwheel .. "`"
-            msg = msg .. "\ncur_random_roound: `" .. tostring(find.cur_random_round) .. "`"
-            msg = msg .. "\nweapon class: `" .. find.wepclass .. "`"
-            msg = msg .. "\nalive: " .. find.alive
-            msg = msg .. "\nPacketLoss: `" .. tostring(p:PacketLoss()) .. "`"
-            msg = msg .. "\nTimingOut: `" .. tostring(p:IsTimingOut()) .. "`"
-            discord.Send("Skid", msg)
-
-            p.joystick_msg = CurTime() + 5
-        end
-    end
-
-
-    if (mwheel ~= 127 and not p:InVehicle()) then
         if (true) then
-            local wep = p:GetActiveWeapon()
-            p.joystick_finding = {
-                wepclass = IsValid(wep) and wep:GetClass() or "n/a",
-                alive = (p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`",
-                mwheel = mwheel,
-                cur_random_round = cur_random_round
-            }
             -- TODO: remove after debugging
+            if (not p.joystick_msg or p.joystick_msg < CurTime()) then
+                local msg = "[v. BIGMEME_test] Detected: `" .. p:Nick() .. "(" .. p:SteamID() .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP() .. " Detection: `" .. mwheel .. "`"
+                msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
+                local wep = p:GetActiveWeapon()
+                msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "n/a") .. "`"
+                msg = msg .. "\nalive: " .. ((p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`")
+                timer.Simple(1, function()
+                    msg = msg .. "\nPacketLoss: `" .. tostring(p:PacketLoss()) .. "`"
+                    msg = msg .. "\nTimingOut: `" .. tostring(p:IsTimingOut()) .. "`"
+                    discord.Send("Skid", msg)
+                end)
+
+                p.joystick_msg = CurTime() + 5
+            end
 
             return
         end
