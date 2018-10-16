@@ -82,14 +82,23 @@ function make_mac_detections(p,mwheel)
     }
 end
 
+util.AddNetworkString "CUserCmd::Ping"
+
+net.Receive("CUserCmd::Ping", function(len, p)
+    print(net.ReadUInt(32))
+end)
+
 hook.Add("StartCommand", "Joystick", function(p, c)
     if (p:IsBot() or c:IsForced()) then
         return
     end
 
-    local mwheel = c:GetMouseWheel()
+    if (c:TickCount() == 0) then -- wtf is this
+        p.joystick_on = nil
+    end
+
     if (not p.joystick_on) then
-        p.joystick_on = CurTime() + 10
+        p.joystick_on = CurTime() + 1
         return
     end
 
@@ -97,6 +106,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
         return
     end
 
+    local mwheel = c:GetMouseWheel()
     if (mwheel ~= 127 and not p:InVehicle()) then
         if (IsDev()) then
             print("joystick_detect", mwheel, p:Nick(), p:SteamID(), c:IsForced(), c:TickCount(), c:CommandNumber())
@@ -110,11 +120,11 @@ hook.Add("StartCommand", "Joystick", function(p, c)
                 local wep = p:GetActiveWeapon()
                 msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "n/a") .. "`"
                 msg = msg .. "\nalive: " .. ((p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`")
-                timer.Simple(1, function()
-                    msg = msg .. "\nPacketLoss: `" .. tostring(p:PacketLoss()) .. "`"
-                    msg = msg .. "\nTimingOut: `" .. tostring(p:IsTimingOut()) .. "`"
-                    discord.Send("Skid", msg)
-                end)
+                msg = msg .. "\nPacketLoss: `" .. tostring(p:PacketLoss()) .. "`"
+                msg = msg .. "\nTimingOut: `" .. tostring(p:IsTimingOut()) .. "`"
+
+
+                discord.Send("Skid", msg)
 
                 p.joystick_msg = CurTime() + 5
             end
