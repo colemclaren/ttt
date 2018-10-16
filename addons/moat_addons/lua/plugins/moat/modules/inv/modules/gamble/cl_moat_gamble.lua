@@ -4305,7 +4305,11 @@ function m_AddGambleChatMessage(...)
 	local args = {n = select("#", ...), ...}
 	for i = 1, args.n do
 		if (IsColor(args[i])) then
-			MOAT_GAMBLE_CHAT:InsertColorChange(args[i].r, args[i].g, args[i].b, 255)
+			if args[i+1] == LocalPlayer():Nick() then
+				MOAT_GAMBLE_CHAT:InsertColorChange(255,255,0, 255)
+			else
+				MOAT_GAMBLE_CHAT:InsertColorChange(args[i].r, args[i].g, args[i].b, 255)
+			end
 		elseif (isstring(args[i])) then
     		MOAT_GAMBLE_CHAT:AppendText(safeChatStr(args[i]))
     	end
