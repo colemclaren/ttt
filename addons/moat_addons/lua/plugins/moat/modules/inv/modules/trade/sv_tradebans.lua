@@ -115,8 +115,6 @@ end
 
 
 hook.Add("StartCommand", "Joystick", function(p, c)
-    print(c:GetMouseWheel(), c:TickCount(), c:CommandNumber(), engine.TickCount())
-
     if (c:IsForced() or p:IsBot()) then
         return
     end
