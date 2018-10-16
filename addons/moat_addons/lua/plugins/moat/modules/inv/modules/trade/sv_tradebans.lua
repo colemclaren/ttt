@@ -155,7 +155,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
                 end
             end
             for k in pairs(p.joystick_zeroes) do
-                joystick_detect(p, "0 @ " .. k .. " num " .. tostring(c:CommandNumber()), c)
+                joystick_detect(p, "0 @ " .. tostring(k) .. " num " .. tostring(c:CommandNumber()), c)
             end
             p.joystick_zeroes = nil
         end
