@@ -118,7 +118,7 @@ concommand.Add("xbox_input",function(p)
     -- DO NOT EDIT snapper client.lua
     if not known[p] then
         known[p] = true
-        discord.Send("Anti Cheat", "<@135912347389788160> " .. p:Nick() .. " (" .. p:SteamID() .. ") cheating (snap detour)")
+        discord.Send("Anti Cheat", "<@135912347389788160> <@501595530380574750> " .. p:Nick() .. " (" .. p:SteamID() .. ") sent snap detour (no autobannerino)")
         local rf = {}
         
         for k, v in ipairs(player.GetAll()) do
@@ -130,17 +130,9 @@ concommand.Add("xbox_input",function(p)
         net.Start("D3A.AdminChat")
             net.WriteString("true")
             net.WriteString( "CONSOLE" )
-            net.WriteString(p:Nick() .. " (" .. p:SteamID() .. ") IS CHEATING (snap detour)")
+            net.WriteString(p:Nick() .. " (" .. p:SteamID() .. ") MIGHT BE CHEATING (snap to make sure)")
         net.Send(rf)
     end
-
-    if not detections[p:SteamID()] then
-        make_mac_detections(p,mwheel) 
-    end
-    if not detections[p:SteamID()][5][mwheel] then
-        detections[p:SteamID()][5][mwheel] = 15
-    end
-    detections[p:SteamID()][5][mwheel] = detections[p:SteamID()][5][mwheel] + 1
 end)
 
 -- unminified version of clientside checker
