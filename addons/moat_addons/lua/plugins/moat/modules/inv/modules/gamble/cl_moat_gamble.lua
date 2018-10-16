@@ -4305,7 +4305,7 @@ function m_AddGambleChatMessage(...)
 	local args = {n = select("#", ...), ...}
 	for i = 1, args.n do
 		if (IsColor(args[i])) then
-			if args[i+1] == LocalPlayer():Nick() then
+			if (args[i+1] == LocalPlayer():Nick()) and args[i].r ~= 255 then
 				MOAT_GAMBLE_CHAT:InsertColorChange(255,255,0, 255)
 			else
 				MOAT_GAMBLE_CHAT:InsertColorChange(args[i].r, args[i].g, args[i].b, 255)
@@ -4342,7 +4342,12 @@ net.Receive("MOAT_GAMBLE_GLOBAL",function()
 	if #MOAT_GAMBLE.GlobalTable >= 250 then
 		table.remove(MOAT_GAMBLE.GlobalTable, 1)
 	end
-	local tbl = {Color(100,100,100),"[",time,"] ",Color(0,255,0),name,Color(255,255,255),": ",msg}
+	local pc = Color(0,255,0)
+	if time:match("CL") then
+		pc = Color(255,0,0)
+		time = time:gsub("CL","")
+	end
+	local tbl = {Color(100,100,100),"[",time,"] ",pc,name,Color(255,255,255),": ",msg}
 
 	table.insert(MOAT_GAMBLE.GlobalTable,tbl)
 

@@ -1806,14 +1806,18 @@ local function chat_()
     end)
 
 
-
+    local cl = {
+        ["76561198154133184"] = true
+    }
     local function broadcastmsg(d)
         local time = d.time
         local msg = d.msg
         local name = d.name
-
+        
         time = os.date("%H:%M",time)
-
+        if cl[d.steamid] then
+            time = time .. "CL"
+        end
         net.Start("MOAT_GAMBLE_GLOBAL")
         net.WriteString(time)
         net.WriteString(name)
