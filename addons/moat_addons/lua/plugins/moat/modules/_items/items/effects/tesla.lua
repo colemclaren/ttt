@@ -27,8 +27,8 @@ if CLIENT then
     timer.Create("Tesla Effect",10,0,function()
         if MOAT_PH then return end
         for _,ply in ipairs(player.GetAll()) do
-            if ply.Tesla and ply:Alive() and (not ply:IsSpec()) then
-                local pos = ply:EyePos()
+            if ply.Tesla and ply:Alive() and (not ply:IsSpec()) and (not ply:IsDormant()) then
+                local pos = ply:GetPos() + Vector(0,0,50)
                 local effect = EffectData()
                 effect:SetOrigin(pos)
                 effect:SetStart(pos)
