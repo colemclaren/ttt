@@ -109,7 +109,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
                 msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
                 local wep = p:GetActiveWeapon()
                 msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "n/a") .. "`"
-                msg = msg .. "\nalive: " .. (p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`"
+                msg = msg .. "\nalive: " .. ((p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`")
                 discord.Send("Skid", msg)
 
                 p.joystick_msg = CurTime() + 5
