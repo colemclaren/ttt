@@ -47,9 +47,33 @@ hook.Add("PlayerSay", "moat_ChatCommand", function(ply, text, team)
     end
 end)
 
+local function clean_hqueue(ply)
+    -- local t = ply._hqueue
+    -- if not t then return end
+    -- for w, o in pairs(t) do
+    --     if not IsValid(Entity(w)) then ply._hqueue[w] = nil continue end
+    --     for k,v in pairs(o) do
+    --         if v[2] < CurTime() then 
+    --             ply._hqueue[w][k] = nil
+    --             continue
+    --         end
+    --     end
+    -- end
+    --print("Cleaned hqueue for",ply)
+    ply._hqueue = {}
+end
 
-net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
-    --local trace = net.ReadTable()
+hook.Add("TTTEndRound","Cleanhqueue",function()
+    for k,v in pairs(player.GetAll()) do
+        clean_hqueue(v)
+        v.fasthq = 0
+    end
+end)
+
+net.ReceiveNoLimit("moatBulletTrace" .. moat_val, function(len, ply)
+    if (ply.fasthq or 0) < 1 then return end
+    ply.fasthq = ply.fasthq - 1 --  hence the no limit
+    -- print("Fast check remaining: ",ply.fasthq)
     local trace = {}
     trace.trEnt = net.ReadUInt(16)
     trace.trHGrp = net.ReadUInt(4)
@@ -64,6 +88,13 @@ net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
     trace.dmgInf = Entity(trace.dmgInf)
 
     trace.dmgDmg = 0
+    if not IsValid(trace.dmgInf) then
+        trace.dmgInf = ply:GetActiveWeapon()
+    end
+    if not ply._hqueue then return end
+    if (not ply._hqueue[trace.dmgInf:EntIndex()]) then
+        return
+    end
     if (IsValid(trace.dmgInf) and trace.dmgInf:IsWeapon()) then
         if trace.dmgInf ~= ply:GetActiveWeapon() then return end
         if (trace.dmgInf.Primary and trace.dmgInf.Primary.Damage) then
@@ -73,6 +104,20 @@ net.Receive("moatBulletTrace" .. moat_val, function(len, ply)
             return
         end
     end
+
+    --print("Net message")
+    local f = false
+    for k,v in pairs(ply._hqueue[trace.dmgInf:EntIndex()]) do
+        if (v[2] > CurTime()) and (v[1] > 0) and (not f) then
+            ply._hqueue[trace.dmgInf:EntIndex()][k][1] = v[1] - 1
+            f = true
+            break
+        end
+    end
+    if not f then return end
+    -- if not f then print("No bullets found curtime:",CurTime()) PrintTable(ply._hqueue) return end
+
+    --print("After hqueue")
 
     if (trace.trEnt:IsValid() and trace.trAtt:IsValid() and trace.trAtt:Ping() <= MOAT_HITREG.MaxPing) then
         local ent = trace.trEnt
@@ -122,6 +167,17 @@ local PLAYER = FindMetaTable "Player"
 
 PLAYER.Old_FireBullets = PLAYER.Old_FireBullets or FindMetaTable "Entity".FireBullets
 function PLAYER:FireBullets(bul, supp)
+    
+    local num = bul.Num or 1
+    local wep = self:GetActiveWeapon()
+    self.fasthq = (self.fasthq or 0) + num
+    if wep.Kind and wep.Kind ~= WEAPON_MELEE then
+        if not self._hqueue then self._hqueue = {} end
+        wep = wep:EntIndex()
+        if not self._hqueue[wep] then self._hqueue[wep] = {} end
+        self._hqueue[wep][#self._hqueue[wep] + 1] = {num,CurTime() + 1}
+    end
+    --print("Inserted bullet for wep:",wep,"num:",num)
     if self:Ping() <= MOAT_HITREG.MaxPing and not MOAT_ACTIVE_BOSS then
         bul.Damage = 0
     end
