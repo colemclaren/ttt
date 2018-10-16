@@ -105,7 +105,7 @@ local function joystick_detect(p, detect, c)
 
         if (IsDev()) then
             print(msg)
-        else
+        elseif detect ~= -1 then -- It's SPAMMING HELP
             discord.Send("Skid", msg)
         end
 
