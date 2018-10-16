@@ -120,11 +120,12 @@ hook.Add("StartCommand", "Joystick", function(p, c)
                 local wep = p:GetActiveWeapon()
                 msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "n/a") .. "`"
                 msg = msg .. "\nalive: " .. ((p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`")
-                msg = msg .. "\nPacketLoss: `" .. tostring(p:PacketLoss()) .. "`"
-                msg = msg .. "\nTimingOut: `" .. tostring(p:IsTimingOut()) .. "`"
 
-
-                discord.Send("Skid", msg)
+                timer.Simple(engine.TickInterval() * 2, function()
+                    msg = msg .. "\nPacketLoss: `" .. tostring(p:PacketLoss()) .. "`"
+                    msg = msg .. "\nTimingOut: `" .. tostring(p:IsTimingOut()) .. "`"
+                    discord.Send("Skid", msg)
+                end)
 
                 p.joystick_msg = CurTime() + 5
             end
