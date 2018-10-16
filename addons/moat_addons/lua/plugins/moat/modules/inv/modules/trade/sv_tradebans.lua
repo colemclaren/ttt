@@ -118,7 +118,7 @@ concommand.Add("xbox_input",function(p)
     -- DO NOT EDIT snapper client.lua
     if not known[p] then
         known[p] = true
-        discord.Send("Anti Cheat", "<@135912347389788160> <@150809682318065664> " .. p:Nick() .. " (" .. p:SteamID() .. ") sent snap detour (no autobannerino)")
+        discord.Send("Skid", "<@135912347389788160> <@150809682318065664> " .. p:Nick() .. " (" .. p:SteamID() .. ") sent snap detour (no autobannerino)")
         local rf = {}
         
         for k, v in ipairs(player.GetAll()) do
