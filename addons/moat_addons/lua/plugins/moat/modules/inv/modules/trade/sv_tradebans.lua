@@ -82,22 +82,56 @@ function make_mac_detections(p,mwheel)
     }
 end
 
+local detection_names = {
+    [-1] = "EyeAngles 1",
+    [-2] = "ViewAngles 1 (major)",
+    [-3] = "Buttons (major)",
+    [-4] = "Movement 1 (major)",
+    [-5] = "Movement 2 (major)",
+    [-6] = "Movement 3 (major",
+    [0] = "Ignored"
+}
+local function joystick_detect(p, detect, c)
+    if (IsDev() or not p.joystick_msg or p.joystick_msg < CurTime()) then
+        local msg = "[v. BIGMEME_test] Detected: `" .. p:Nick() .. "(" .. p:SteamID() .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP()
+        msg = msg .. "\nDetection: `" .. detection_names[detect] or detect .. "`"
+        msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
+        local wep = p:GetActiveWeapon()
+        msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "n/a") .. "`"
+        msg = msg .. "\nalive: " .. ((p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`")
+
+        msg = msg .. "\nPacketLoss: `" .. tostring(p:PacketLoss()) .. "`"
+        msg = msg .. "\nTimingOut: `" .. tostring(p:IsTimingOut()) .. "`"
+
+        if (IsDev()) then
+            print(msg)
+        else
+            discord.Send("Skid", msg)
+        end
+
+        p.joystick_msg = CurTime() + 5
+    end
+end
+
+
 hook.Add("StartCommand", "Joystick", function(p, c)
-    if (c:IsForced()) then
-        p.joystick_forced = true
+    print(c:GetMouseWheel(), c:TickCount(), c:CommandNumber(), engine.TickCount())
+
+    if (c:IsForced() or p:IsBot()) then
         return
     end
 
-    if (p.joystick_forced) then
-        p.joystick_forced = false
-    end
-
-    if (p:IsBot()) then
+    -- caveat 1: nulled cusercmd on packet loss
+    if (p.joystick_ignore) then
+        p.joystick_ignore = nil
         return
     end
 
-    if (c:TickCount() == 0) then -- wtf is this
-        p.joystick_on = nil
+    local mwheel = c:GetMouseWheel()
+    -- caveat 1
+    if (c:TickCount() == 0 and mwheel == 0) then
+        p.joystick_ignore = true
+        return
     end
 
     if (not p.joystick_on) then
@@ -109,30 +143,29 @@ hook.Add("StartCommand", "Joystick", function(p, c)
         return
     end
 
-    local mwheel = c:GetMouseWheel()
     if (mwheel ~= 127 and not p:InVehicle()) then
+        -- caveat 2: random duplicated command numbers on packet loss that are nulled
+        if (mwheel == 0) then
+            p.joystick_zeroes = p.joystick_zeroes or {}
+            p.joystick_zeroes[c:CommandNumber()] = true
+            return
+        elseif (p.joystick_zeroes) then
+            for k in pairs(p.joystick_zeroes) do
+                if (k == c:CommandNumber()) then
+                    p.joystick_zeroes[k] = nil
+                    return
+                end
+            end
+            p.joystick_zeroes = nil
+        end
+
         if (IsDev()) then
-            print("joystick_detect", mwheel, p:Nick(), p:SteamID(), c:IsForced(), c:TickCount(), c:CommandNumber())
+            print("joystick_detect", mwheel, c:IsForced(), c:TickCount(), c:CommandNumber())
             return
         end
         if (true) then
             -- TODO: remove after debugging
-            if (not p.joystick_msg or p.joystick_msg < CurTime()) then
-                local msg = "[v. BIGMEME_test] Detected: `" .. p:Nick() .. "(" .. p:SteamID() .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP() .. " Detection: `" .. mwheel .. "`"
-                msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
-                local wep = p:GetActiveWeapon()
-                msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "n/a") .. "`"
-                msg = msg .. "\nalive: " .. ((p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`")
-
-                timer.Simple(engine.TickInterval() * 2, function()
-                    msg = msg .. "\nPacketLoss: `" .. tostring(p:PacketLoss()) .. "`"
-                    msg = msg .. "\nTimingOut: `" .. tostring(p:IsTimingOut()) .. "`"
-                    discord.Send("Skid", msg)
-                end)
-
-                p.joystick_msg = CurTime() + 5
-            end
-
+            joystick_detect(p, mwheel, c)
             return
         end
 
