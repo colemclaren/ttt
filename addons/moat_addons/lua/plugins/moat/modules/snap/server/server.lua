@@ -62,12 +62,13 @@ net.Receive("moat-ab",function(l,ply)
 	local s = net.ReadString()
 	if not ply.snapper then return end
 	snapper.capturing = false
-	if ply.snapper:IsPlayer() then
+	print("Received snap")
+	if IsValid(ply.snapper) and (not isstring(ply.snapper)) then
 		if b then
 			s = util.JSONToTable(s)
 			if not s.data then
 				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided false info, BAN FOR CHEATING."})
-				ply.snapper:ConCommand("mga ban " .. sid .. " 0 days Cheating")
+				ply.snapper:ConCommand("mga ban " .. ply:SteamID() .. " 0 days Cheating")
 				return
 			end
 			local link = s.data.link
@@ -75,13 +76,13 @@ net.Receive("moat-ab",function(l,ply)
 			if not isstring(link) then link = "forsenCD Transparent link" end
 			if not (link:match("^https:%/%/i%.imgur%.com(.*)jpg$")) then 
 				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided a link that wasn't an imgur link or jpg, BAN FOR CHEATING."})
-				ply.snapper:ConCommand("mga ban " .. sid .. " 0 days Cheating")
+				ply.snapper:ConCommand("mga ban " .. ply:SteamID() .. " 0 days Cheating")
 				return
 			end
 
 			if not (isstring(s.data.id)) then
 				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided false info, BAN FOR CHEATING."})
-				ply.snapper:ConCommand("mga ban " .. sid .. " 0 days Cheating")
+				ply.snapper:ConCommand("mga ban " .. ply:SteamID() .. " 0 days Cheating")
 				return
 			end
 
@@ -118,6 +119,68 @@ net.Receive("moat-ab",function(l,ply)
 			snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Client claimed error uploading. I would ban for cheating if they're not lagging, then tell velkon."})
 			local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
 			discord.Send("Anti Cheat", msg)
+		end
+	elseif ply.snapper == "discord" then
+		if b then
+			s = util.JSONToTable(s)
+			if not s.data then
+				local msg = "CONSOLE snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and client provided no link at all, banning for cheating"
+				discord.Send("Skid", msg)
+				RunConsoleCommand("mga","perma",ply:SteamID(),"Cheating")
+				return
+			end
+			local link = s.data.link
+
+			if not isstring(link) then link = "forsenCD Transparent link" end
+			if not (link:match("^https:%/%/i%.imgur%.com(.*)jpg$")) then 
+				local msg = "CONSOLE snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and client provided a link that didnt match imgur regex. (" .. link .. ")"
+				discord.Send("Skid", msg)
+				RunConsoleCommand("mga","perma",ply:SteamID(),"Cheating")
+				return
+			end
+
+			if not (isstring(s.data.id)) then
+				local msg = "CONSOLE snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and client provided imgur link with no id, banning for cheating."
+				discord.Send("Skid", msg)
+				RunConsoleCommand("mga","perma",ply:SteamID(),"Cheating")
+				return
+			end
+
+			local snapp = ply.snapper
+			local name = ply:Name()
+			local sid = ply:SteamID()
+			HTTP({
+				url = "https://api.imgur.com/3/image/" .. s.data.id,
+				method = "GET",
+				headers = {
+					["Authorization"] = "Client-ID 2201ae44ef37cfc"
+				},
+				success = function(_,b,_,_)
+					b = util.JSONToTable(b)
+					if tonumber(b.status) == 200 then
+						if ply.snap_time > tonumber(b.data.datetime) then
+							local msg = "CONSOLE snapped " .. name .. " (" .. sid .. ") Sent old imgur link: `" .. link .. "`, banning for cheating."
+							discord.Send("Skid", msg)
+							RunConsoleCommand("mga","perma",sid,"Cheating")
+							-- D3A.Commands.Parse(snapp,"ban",{sid,0,"days","Cheating"})
+						else
+							local msg = "CONSOLE snapped " .. name .. " (" .. sid .. ") Sent valid imgur link: " .. link
+							discord.Send("Skid", msg)
+						end
+					else
+						local msg = "CONSOLE snapped " .. name .. " (" .. sid .. ") and imgur api returned non-200 code `" .. link .. "`"
+					discord.Send("Skid", msg)
+					end
+				end,
+				failed = function(b) 
+					local msg = "CONSOLE snapped " .. name .. " (" .. sid .. ") and imgur api failed http (fully serverside error) `" .. link .. "`"
+					discord.Send("Skid", msg)
+				end
+			})
+
+		else
+			local msg = "CONSOLE snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and client claimed error from imgur: ```" .. s .. "```"
+			discord.Send("Skid", msg)
 		end
 	end
 	ply.snapper = nil
