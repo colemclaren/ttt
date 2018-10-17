@@ -143,7 +143,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
         if (mwheel == 0 and (not p.joystick_zeroes or p.joystick_zeroes.n < 10)) then
             p.joystick_zeroes = p.joystick_zeroes or {n = 0}
             p.joystick_zeroes[c:CommandNumber()] = true
-            p.joystick_zeroes.n = p.joystick_zeroes + 1
+            p.joystick_zeroes.n = p.joystick_zeroes.n + 1
             return
         elseif (p.joystick_zeroes) then
             for k in pairs(p.joystick_zeroes) do
