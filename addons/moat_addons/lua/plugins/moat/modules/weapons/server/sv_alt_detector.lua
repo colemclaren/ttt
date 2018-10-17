@@ -1,5 +1,38 @@
 util.AddNetworkString "MOAT_INIT_WEPS"
 
+local nvidia_asn = {
+	[11414] = true,
+	[60977] = true,
+	[38834] = true,
+	[38564] = true
+}
+
+local function Query_Error(q, err, sql)
+	print("error on query `" .. sql .. "`: " .. err)
+end
+
+function QueryIP(ipv4, cb)
+	local db = SERVER_SITE_DATA
+	if (db) then
+		local a, b, c, d = ipv4:match("^(%d+)%.(%d+)%.(%d+)%.(%d+)")
+		local ipu32 = a * 2^24 + b * 2^16 + c * 2^8 + d
+		local q = db:query("SELECT AS_number, AS_description FROM `ip_info` WHERE range_start <= " .. ipu32 .. " AND " .. ipu32 .. " <= range_end;");
+		q.onError = function(q, err, sql)
+			Query_Error(q, err, sql)
+			cb(false)
+		end
+		function q:onSuccess(data)
+			if (not data or not data[1]) then
+				cb(false)
+			end
+			cb(data)
+		end
+		q:start()
+	else
+		return cb(false)
+	end
+end
+
 local function alts_query(str, cb)
 	local q = MINVENTORY_MYSQL:query(str)
 	function q:onError(err)
@@ -116,12 +149,54 @@ local function moat_alts()
     	);
     ]]
 
-    net.Receive("MOAT_INIT_WEPS", function(_, pl)
+	net.Receive("MOAT_INIT_WEPS", function(_, pl)
+		if (pl.AltsInitiated) then
+			return
+		end
+		pl.AltsInitiated = true
+
 		local a = net.ReadString()
+
+		if (not tonumber(a)) then
+			pl:Kick("Failure to adhere to circumstances.")
+			return
+		end
+
 		local b = net.ReadString()
+
+		if (b ~= "blunt" and not tonumber(b)) then
+			pl:Kick("Failure to adhere to circumstances.(2)")
+			return
+		end
+
 		local c = net.ReadString()
 
-		check_if_insert_alts(db, a, b, c, pl:SteamID64())
+		if (not tonumber(c)) then
+			pl:Kick("Failure to adhere to circumstances.(3)")
+			return
+		end
+
+		local ip = pl:IPAddress()
+
+		QueryIP(ip, function(data)
+			if (not IsValid(pl)) then
+				return
+			end
+
+			if (data) then
+				for i, asn in ipairs(data) do
+					if (nvidia_asn[asn.AS_number]) then
+						discord.Send("ASN Check", string.format("`%s` connected from `%s` with ASN from `%s` (`%i`) -  ignored", pl:SteamID64(), pl:IPAddress(), asn.AS_description, asn.AS_number))
+						return
+					end
+				end
+				print(pl:Nick() .. " <" .. pl:IPAddress() .. "> connected from " .. data[1].AS_description)
+			elseif (not Server.IsDev) then
+				discord.Send("ASN Check", string.format("`%s` connected from `%s` with no ASN", pl:SteamID64(), pl:IPAddress()))
+			end
+
+			check_if_insert_alts(db, a, b, c, pl:SteamID64())
+		end)
 	end)
 end
 
