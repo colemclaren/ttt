@@ -7,6 +7,81 @@ util.AddNetworkString("Vape")
 util.AddNetworkString("VapeArm")
 util.AddNetworkString("VapeTalking")
 
+local hours = 12
+mega_vape_cache = {}
+local function _megasql()
+	local db = MINVENTORY_MYSQL
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_megavape` ( `itemid` varchar(255) NOT NULL, `time` INT NOT NULL, PRIMARY KEY (itemid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    q:start()
+
+	function mega_vape_use(itemid,fun)
+		local q = db:query("SELECT *, UNIX_TIMESTAMP() AS curtime FROM moat_megavape WHERE itemid = '" .. db:escape(itemid) .. "';")
+		function q:onSuccess(d)
+			if d[1] then 
+				mega_vape_cache[itemid] = d
+				if d[1].curtime > d[1].time then
+					local b = db:query("UPDATE moat_megavape SET time = UNIX_TIMESTAMP() + (60 * 60 * " .. hours .. ") WHERE itemid = '" .. db:escape(itemid) .. "';")
+					function b:onSuccess(c)
+						fun(d,true)
+					end
+					b:start()
+				else
+					fun(d,false)
+				end
+			else
+				local b = db:query("INSERT INTO moat_megavape (itemid, time) VALUES ( '" .. db:escape(itemid) .. "', UNIX_TIMESTAMP() + (60 * 60 * " .. hours .. "));")
+				function b:onSuccess(c)
+					fun(c or {},true)
+				end
+				b:start()
+			end
+		end
+		function q:onError()
+			fun({},false)
+		end
+		q:start()
+	end
+
+	function mega_vape_gettime(itemid,fun)
+		if mega_vape_cache[itemid] then fun(mega_vape_cache[itemid]) return end
+		local q = db:query("SELECT *, UNIX_TIMESTAMP() AS curtime FROM moat_megavape WHERE itemid = '" .. db:escape(itemid) .. "';")
+		function q:onSuccess(d)
+			if d[1] then 
+				mega_vape_cache[itemid] = d
+				fun(d) 
+			else 
+				fun() 
+			end
+		end
+		q:start()
+	end
+
+end
+
+local function c()
+    return MINVENTORY_MYSQL and MINVENTORY_MYSQL:status() == mysqloo.DATABASE_CONNECTED
+end
+
+if MINVENTORY_MYSQL then
+    if c() then
+        _megasql()
+    end
+end
+
+hook.Add("InitPostEntity","_megasql",function()
+    if not c() then 
+        timer.Create("Check_megasql",1,0,function()
+            if c() then
+                _megasql()
+                timer.Destroy("Check_megasql")
+            end
+        end)
+    else
+        _megasql()
+    end
+
+end)
+
 function VapeUpdate(ply, vapeID)
 	if not ply.vapeCount then ply.vapeCount = 0 end
 	if not ply.cantStartVape then ply.cantStartVape=false end
@@ -22,7 +97,6 @@ function VapeUpdate(ply, vapeID)
 			ply:SendLua("vapeHallucinogen=(vapeHallucinogen or 0)+3")
 		end
 	end
-	
 	ply.vapeID = vapeID
 	ply.vapeCount = ply.vapeCount + 1
 	if ply.vapeCount == 1 then
@@ -44,21 +118,87 @@ hook.Add("KeyRelease","DoVapeHook",function(ply, key)
 		ply.cantStartVape=false
 	end
 end)
+local mega_vape_used = false
+hook.Add("TTTEndRound","Reset mega vape use",function() mega_vape_used = false end)
+hook.Add("PlayerSwitchWeapon","Mega Vape Message",function(ply,_,new)
+	if not new:GetClass() == "weapon_vape_mega" then return end
+	if not new.c then return end
+	mega_vape_gettime(new.c,function(d)
+		if not IsValid(ply) then return end
+		if d then
+			ply:MoatChat("Your Mega Vape's BIG smoke will be available in " .. string.NiceTime((d[1].time or 0) - os.time() ) .. "!")
+		else
+			ply:MoatChat("Your Mega Vape has BIG smoke available!")
+		end
+	end)
 
+end)
 function ReleaseVape(ply)
 	if not ply.vapeCount then ply.vapeCount = 0 end
 	if IsValid(ply:GetActiveWeapon()) and ply:GetActiveWeapon():GetClass():sub(1,11) == "weapon_vape" then
-		if ply.vapeCount >= 5 then
+		if ply:GetActiveWeapon().VapeID == 2 and ply:GetActiveWeapon():GetTable().c and (not mega_vape_used) and (ply.vapeCount >= 5) then
+			if not mega_vape_cache[ply:GetActiveWeapon():GetTable().c] then
+				mega_vape_use(ply:GetActiveWeapon():GetTable().c,function(_,d)
+					local v = (d and 2 or 1)
+					if v == 2 then 
+						mega_vape_used = true
+						ply:MoatChat("You've used the BIG smoke! It will be available in " .. hours .. " hours!")
+					else
+						ply:MoatChat("Your Mega Vape's BIG smoke will be available in " .. string.NiceTime((_[1].time or 0) - os.time() ) .. "!")
+					end
+					net.Start("Vape")
+					net.WriteEntity(ply)
+					net.WriteInt(math.min(25,ply.vapeCount), 8)
+					net.WriteInt(v, 8)
+					net.Broadcast()
+					ply.vapeCount=0 
+				end)
+			else
+				local d = mega_vape_cache[ply:GetActiveWeapon():GetTable().c][1]
+				if d.time > os.time() then
+					ply:MoatChat("Your Mega Vape's BIG smoke will be available in " .. string.NiceTime((d.time or 0) - os.time() ) .. "!")
+					net.Start("Vape")
+					net.WriteEntity(ply)
+					net.WriteInt(math.min(25,ply.vapeCount), 8)
+					net.WriteInt(1, 8)
+					net.SendPVS(ply:EyePos())
+					ply.vapeCount=0
+				else
+					mega_vape_use(ply:GetActiveWeapon():GetTable().c,function(dd)
+						local v = (dd[1].time < os.time() and 2 or 1)
+						if v == 2 then 
+							mega_vape_used = true 
+							ply:MoatChat("You've used the BIG smoke! It will be available in " .. hours .. " hours!")
+						else
+							ply:MoatChat("Your Mega Vape's BIG smoke will be available in " .. string.NiceTime((dd[1].time or 0) - os.time() ) .. "!")
+						end
+						net.Start("Vape")
+						net.WriteEntity(ply)
+						net.WriteInt(math.min(25,ply.vapeCount), 8)
+						net.WriteInt(v, 8)
+						net.Broadcast()
+						ply.vapeCount=0 
+					end)
+				end
+			end
+		elseif ply:GetActiveWeapon().VapeID == 2 and (ply.vapeCount >= 5) and (mega_vape_used) then
+			net.Start("Vape")
+			net.WriteEntity(ply)
+			net.WriteInt(ply.vapeCount, 8)
+			net.WriteInt(1, 8)
+			net.SendPVS(ply:EyePos())
+			ply:MoatChat("Someone already used their mega vape this round!")
+			ply.vapeCount=0 
+		elseif (ply.vapeCount >= 5) then
 			net.Start("Vape")
 			net.WriteEntity(ply)
 			net.WriteInt(ply.vapeCount, 8)
 			net.WriteInt(ply.vapeID + (ply:GetActiveWeapon().juiceID or 0), 8)
-			if (ply.vapeID == 2) or (ply.vapeID == 6) then --mega & dragon vapes always send
-				net.Broadcast()
-			else
-				net.SendPVS(ply:EyePos())
-			end
+			net.SendPVS(ply:EyePos())
+			ply.vapeCount=0 
 		end
+	else
+		ply.vapeCount=0 
 	end
 	if ply.vapeArm then
 		ply.vapeArm = false
@@ -67,7 +207,6 @@ function ReleaseVape(ply)
 		net.WriteBool(false)
 		net.Broadcast() --Always send the vape arm going down so it doesn't get stuck
 	end
-	ply.vapeCount=0 
 end
 
 function SetVapeHelium(ply, helium)
@@ -88,16 +227,6 @@ function SetVapeHelium(ply, helium)
 end
 
 util.AddNetworkString("DragonVapeIgnite")
-
-net.Receive("DragonVapeIgnite", function(len, ply)
-	local ent = net:ReadEntity()
-	if !IsValid(ent) then return end
-	if !ply:HasWeapon("weapon_vape_dragon") then return end
-	if !ent:IsSolid() then return end
-	if ent:GetPos():Distance(ply:GetPos()) > 500 then return end
-	--I hope there's no exploits
-	ent:Ignite(10,0)
-end)
 
 function m_DropVapeItem(ply, amt)
 	if (amt == 1) then

@@ -382,6 +382,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 loadout_other_indexes[v3:EntIndex()] = {owner = ply:EntIndex(), info = v}
 
                 v.item = item_old
+                v3.c = v.c
             end
 
             continue

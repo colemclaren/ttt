@@ -53,17 +53,3 @@ function SWEP:PrimaryAttack()
 	--Takes slightly longer to breathe
 	self.Weapon:SetNextPrimaryFire(CurTime() + 0.15)
 end
-
--- local price = 500
-
--- function SWEP:Reload()
--- 	if (self.relcool or 0) > CurTime() then return end
--- 	self.relcool = CurTime() + 1
--- 	if CLIENT then
--- 		local sc = (LocalPlayer():GetDataVar("SC") or 0)
--- 		Derma_Query("Are you sure?", "Are you sure you want to purchase 5 mega vape puffs for " .. price .. " SC?\n(You have " .. string.Comma(sc) .. " SC availabe)", "Yes", function() 
--- 			net.Start("Megavape_purchase")
--- 			net.SendToServer()
--- 		end, "Nevermind")
--- 	end
--- end
