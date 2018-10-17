@@ -130,9 +130,8 @@ function GM:HUDDrawTargetID()
     local trace = client:GetEyeTrace(MASK_SHOT)
     local ent = trace.Entity
     if (not IsValid(ent)) or ent.NoTarget then return end
-print"A"
+
     if (ent:GetClass() == "prop_ragdoll" and IsValid(ent:GetDTEntity(10))) then
-        print(ent)
         ent = ent:GetDTEntity(10)
     end
 
