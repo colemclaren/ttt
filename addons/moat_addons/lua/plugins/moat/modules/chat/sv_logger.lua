@@ -22,7 +22,7 @@ end
 local function Insert(log)
     if (SQL.connected) then
         local db = CHAT_LOGGER.DB
-        local q = db:query("INSERT INTO `chat_log` (`time`, `steam_id`, `message`, `server`, `name`) VALUES ("..log.time..", "..db:escape(log.authorid64)..", \""..db:escape(log.message).."\", \""..db:escape(game.GetIP()).."\", \""..db:escape(log.name).."\");");
+        local q = db:query("INSERT INTO `chat_log` (`time`, `steam_id`, `message`, `server`) VALUES ("..log.time..", "..db:escape(log.authorid64)..", \""..db:escape(log.message).."\", \""..db:escape(game.GetIP()).."\");");
         q.onError = Query_Error
         q:start()
     else
@@ -34,6 +34,8 @@ if (not CHAT_LOGGER.DB) then
     local db = mysqloo.connect(SQL.Config.host, SQL.Config.user, SQL.Config.pass, SQL.Config.database, SQL.Config.port)
 
     CHAT_LOGGER.DB = db
+
+    SERVER_SITE_DATA = db
 
     db:connect()
 
