@@ -179,7 +179,9 @@ local function moat_alts()
 
 		local ip = pl:IPAddress()
 
-		QueryIP(ip, function(data)
+		local tries_left = 5
+
+		local function got_data(data)
 			if (not IsValid(pl)) then
 				return
 			end
@@ -193,11 +195,20 @@ local function moat_alts()
 				end
 				print(pl:Nick() .. " <" .. pl:IPAddress() .. "> connected from " .. data[1].AS_description)
 			elseif (not Server.IsDev) then
-				discord.Send("ASN Check", string.format("`%s` connected from `%s` with no ASN", pl:SteamID64(), pl:IPAddress()))
+				tries_left = tries_left - 1
+				if (tries_left < 0) then
+					discord.Send("ASN Check", string.format("`%s` connected from `%s` with no ASN", pl:SteamID64(), pl:IPAddress()))
+					return
+				else
+					QueryIP(ip, data)
+					return
+				end
 			end
 
 			check_if_insert_alts(db, a, b, c, pl:SteamID64())
-		end)
+		end
+
+		QueryIP(ip, got_data)
 	end)
 end
 
