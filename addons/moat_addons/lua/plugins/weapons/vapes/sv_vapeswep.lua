@@ -121,7 +121,7 @@ end)
 local mega_vape_used = false
 hook.Add("TTTEndRound","Reset mega vape use",function() mega_vape_used = false end)
 hook.Add("PlayerSwitchWeapon","Mega Vape Message",function(ply,_,new)
-	if not new:GetClass() == "weapon_vape_mega" then return end
+	if new:GetClass() ~= "weapon_vape_mega" then return end
 	if not new.c then return end
 	mega_vape_gettime(new.c,function(d)
 		if not IsValid(ply) then return end
