@@ -259,8 +259,9 @@ function GM:HUDDrawTargetID()
    local ent = trace.Entity
    if (not IsValid(ent)) or ent.NoTarget then return end
 
-   if (ent:GetClass() == "prop_ragdoll" and IsValid(ent:GetDTEntity(63))) then
-      ent = ent:GetDTEntity(63)
+   if (ent:GetClass() == "prop_ragdoll" and IsValid(ent:GetDTEntity(10))) then
+      ent = ent:GetDTEntity(10)
+      print(ent)
    end
 
    -- some bools for caching what kind of ent we are looking at
