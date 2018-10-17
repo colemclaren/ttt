@@ -70,7 +70,7 @@ function SWEP:PrimaryAttack(worldsnd)
 			sound.Play(self.Primary.Sound, self:GetPos())
 		end
 
-		self:ShootBullet(self.Primary.Damage, self.Primary.NumShots, self.Primary.Cone)
+		self:ShootBullet(self.Primary.Damage, self.Primary.NumShots, 1, self.Primary.Cone)
 		self:TakePrimaryAmmo(1)
 
 		if (IsValid(owner) and !owner:IsNPC() and owner.ViewPunch) then
