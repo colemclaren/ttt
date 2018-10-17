@@ -61,14 +61,15 @@ end
 function SWEP:CreateRagdoll()
 	if (not IsValid(self.Owner)) then return end
 	local pl = self.Owner
-	SafeRemoveEntity(pl.PlayDead)
+	SafeRemoveEntity(pl.Ragdoll)
 	local rag = ents.Create "prop_ragdoll"
 	if (not IsValid(rag)) then return end
-	self.PlayDead = rag
+	self.Ragdoll = rag
 	pl.PlayDead = rag
 	rag:SetOwner(pl)
 	rag:SetDTEntity(CORPSE.dti.ENT_PLAYER, pl)
 	rag:SetDTBool(CORPSE.dti.BOOL_FOUND, true)
+	rag:SetNWEntity(63, pl)
 	rag:SetPos(pl:GetPos())
 	rag:SetModel(pl:GetModel())
 	rag:SetAngles(pl:GetAngles())
@@ -87,47 +88,30 @@ function SWEP:CreateRagdoll()
 	local phys = rag:GetPhysicsObject()
 	if (IsValid(phys)) then
 		phys:AddGameFlag(FVPHYSICS_PLAYER_HELD)
-	end	
+	end
 
 	timer.Tick(function()
 		if (IsValid(rag)) then rag:CollisionRulesChanged() end
 	end)
 
+	local ang = pl:GetAngles()
+	ang.p = 0
+
 	local num = rag:GetPhysicsObjectCount() - 1
-    for i = 0, num do
-        local bone = rag:GetPhysicsObjectNum(i)
+	for i = 0, num do
+		local bone = rag:GetPhysicsObjectNum(i)
 		if (not IsValid(bone)) then continue end
-        local bp, ba = pl:GetBonePosition(rag:TranslatePhysBoneToBone(i))
+		local bp, ba = pl:GetBonePosition(rag:TranslatePhysBoneToBone(i))
 
-        if (bp and ba) then
-            bone:SetPos(bp)
-            bone:SetAngles(ba)
-        end
-    end
-
-	self.HookName = pl:EntIndex() .. "RagdollTakeDamage"
-	hook.Add("EntityTakeDamage", self.HookName, function(ent, dmg)
-		if (ent.PlayDead) then
-			self:EndTaunt()
-			return
+		bp, ba = WorldToLocal(bp - pl:OBBCenter(), ba, pl:GetPos(), ang)
+		bp, ba = LocalToWorld(bp, ba, pl:GetPos(), Angle(90, ang.y + 180, 180))
+		bp = bp + Vector(0, 0, 20)
+		if (bp and ba) then
+			bone:SetPos(bp)
+			bone:SetAngles(ba)
 		end
-		
-		if (not ent.IsPlayDead) then
-			return
-		end
+	end
 
-		local d = DamageInfo()
-		d:SetDamage(dmg:GetDamage())
-		d:SetAttacker(dmg:GetAttacker())
-		d:SetInflictor(dmg:GetInflictor())
-
-		local p = ent:GetOwner()
-		self:EndTaunt()
-
-		if (IsValid(p)) then
-			p:TakeDamageInfo(d)
-		end
-	end)
 
 	pl:SetNoDraw(true)
 
@@ -135,20 +119,31 @@ function SWEP:CreateRagdoll()
 	net.WriteEntity(pl)
 	net.WriteBool(true)
 	net.Broadcast()
-
-	if (tt.PlayDeathSound) then
-		tt.PlayDeathSound(pl)
-	end
 end
+
+hook.Add("EntityTakeDamage", "Play Dead Taunt", function(ent, dmg)
+	if (ent:IsPlayer() and IsValid(ent.PlayDead)) then
+		return true
+	end
+
+	if (not ent.IsPlayDead or dmg:GetDamageType() == DMG_CRUSH and dmg:GetAttacker() == game.GetWorld()) then
+		return
+	end
+
+	local p = ent:GetOwner()
+
+	if (IsValid(p)) then
+		p:GetActiveWeapon():EndTaunt()
+		p:TakeDamageInfo(dmg)
+	end
+end)
 
 function SWEP:EndTaunt()
 	if (CLIENT) then return end
 
-	hook.Remove("EntityTakeDamage", self.HookName)
-
-	SafeRemoveEntity(self.PlayDead)
+	SafeRemoveEntity(self.Ragdoll)
 	self:SetTauntActive(false)
-	
+
 	if (not IsValid(self.Owner)) then
 		return
 	end
@@ -197,8 +192,8 @@ function SWEP:Think()
 			return self:EndTaunt()
 		end
 
-		if (IsValid(self.PlayDead) and self.PlayDead:GetPos():DistToSqr(pl:GetPos()) > 3184) then
-			self:SetNextPrimaryFire(CurTime() + 5)
+		if (IsValid(self.Ragdoll) and self.Ragdoll:GetPos():DistToSqr(pl:GetPos()) > 3184) then
+			self:SetNextPrimaryFire(CurTime() + 1)
 			return self:EndTaunt()
 		end
 	end
