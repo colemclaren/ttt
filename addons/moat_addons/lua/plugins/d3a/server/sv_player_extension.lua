@@ -56,8 +56,8 @@ end
 function meta:SaveInfo()
 	local steamid32 = self:SteamID()
 	local steamid64 = self:SteamID64()
-	local steamname = D3A.MySQL.Escape(self:Nick())
-	local ipaddress = D3A.MySQL.Escape(string.Explode(":", self:IPAddress())[1])
+	local steamname = self:Nick()
+	local ipaddress = string.Explode(":", self:IPAddress())[1]
 
 	local qstr = "UPDATE player_iplog SET LastSeen = UNIX_TIMESTAMP() WHERE SteamID = # AND Address = #;"
 	qstr = qstr .. "UPDATE player SET name = #, last_join = UNIX_TIMESTAMP() WHERE steam_id = #;"
