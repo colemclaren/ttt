@@ -24,6 +24,7 @@ function QueryIP(ipv4, cb)
 		function q:onSuccess(data)
 			if (not data or not data[1]) then
 				cb(false)
+				return
 			end
 			cb(data)
 		end
