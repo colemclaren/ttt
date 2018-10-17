@@ -495,6 +495,9 @@ end
 
 
 function MOAT_LOADOUT.DrawClientsideModels(ply)
+    if (ply:IsDormant()) then
+        return
+    end
     if (MOAT_MINIGAME_OCCURING or ply:Team() == TEAM_SPEC or not MOAT_CLIENTSIDE_MODELS[ply] or (GetConVar("moat_EnableCosmetics"):GetInt() == 0) or (not ply.PlayerVisible)) then return end
 
     if (MOAT_CLIENTSIDE_MODELS[ply][1]) then ply:RenderModel(MOAT_CLIENTSIDE_MODELS[ply][1]) end
