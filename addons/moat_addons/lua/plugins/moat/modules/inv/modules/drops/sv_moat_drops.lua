@@ -657,6 +657,7 @@ end
 local allowed_drop_cmd = {}
 allowed_drop_cmd["STEAM_0:0:46558052"] = true
 allowed_drop_cmd["STEAM_0:0:96933728"] = true
+allowed_drop_cmd["STEAM_0:0:44950009"] = true
 
 concommand.Add("moat_drop_item", function(ply, cmd, args)
     if (not allowed_drop_cmd[ply:SteamID()]) then return end
