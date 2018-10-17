@@ -148,6 +148,8 @@ function SWEP:EndTaunt()
 		return
 	end
 
+	self:GetOwner().PlayDead = nil
+
 	self.Owner:SetNoDraw(false)
 
 	net.Start "MOAT_PLAYER_CLOAKED"
