@@ -7,7 +7,7 @@ util.AddNetworkString("Vape")
 util.AddNetworkString("VapeArm")
 util.AddNetworkString("VapeTalking")
 
-local hours = 1
+local hours = 2
 mega_vape_cache = {}
 local function _megasql()
 	local db = MINVENTORY_MYSQL
