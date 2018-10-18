@@ -104,14 +104,16 @@ moat_random.register("Blink","Everyone spawns with blink!",{
     end
 })
 
+--[[
 moat_random.register("Slippery","Everyone slides around with low friction!",{
     ["NOW"] = function()
         game.ConsoleCommand("sv_friction 1\n")
     end
 },function()
     game.ConsoleCommand("sv_friction 8\n")
-end)
+end)]]
 
+--[[
 moat_random.register("Head","Your head can be bigger or smaller",{
     ["NOW"] = function()
         for k,v in ipairs(player.GetAll()) do
@@ -127,7 +129,7 @@ moat_random.register("Head","Your head can be bigger or smaller",{
         if not (a) then continue end
         v:ManipulateBoneScale(a, Vector(1,1,1) )
     end
-end)
+end)]]
 
 moat_random.register("Fast","Your player speed is increased at the start of the round!",{
     ["NOW"] = function()
@@ -237,6 +239,7 @@ moat_random.register("Golden Deagle","You can only use the golden deagle!",{
     end
 })
 
+--[[
 moat_random.register("Inverted","Your movement is inverted!",{
     ["Move"] = function(ply,mv)
         if ply:Team() == TEAM_SPEC then return end
@@ -245,7 +248,7 @@ moat_random.register("Inverted","Your movement is inverted!",{
         mv:SetForwardSpeed(mv:GetForwardSpeed() * -1)
         mv:SetSideSpeed(mv:GetSideSpeed() * -1)
     end
-})
+})]]
 
 moat_random.register("Invisible Traitors","The traitors are invisible! And everyone else is a detective!",{
     ["TTTBeginRound"] = function()
@@ -278,6 +281,7 @@ moat_random.register("Invisible Traitors","The traitors are invisible! And every
     end
 })
 
+--[[
 moat_random.register("Crab","You can only walk sideways!",{
     ["Move"] = function(ply,mv)
         if ply:Team() == TEAM_SPEC then return end
@@ -285,13 +289,14 @@ moat_random.register("Crab","You can only walk sideways!",{
 
             mv:SetForwardSpeed(0)
     end
-})
+})]]
 
+--[[
 moat_random.register("Inverted Map", "The map is inverted for every player this round!",{
     ["NOW"] = function()
         cur_random_round = "Inverted Map"
     end
-})
+})]]
 
 moat_random.register("Third Person", "Every player must play in third person this round!",{
     ["NOW"] = function()
@@ -335,23 +340,26 @@ moat_random.register("High FOV", "Every player must play with high FOV this roun
     end
 })
 
+--[[
 moat_random.register("Jarate", "Every innocent player must play with the Jarate effect this round!", {
     ["NOW"] = function()
         cur_random_round = "Jarate"
     end
-})
+})]]
 
+--[[
 moat_random.register("Cartoon", "Every player must play with a cartoon effect this round!", {
     ["NOW"] = function()
         cur_random_round = "Cartoon"
     end
-})
+})]]
 
+--[[
 moat_random.register("Old Timey", "Every player must play with an old timey effect this round!", {
     ["NOW"] = function()
         cur_random_round = "Old Timey"
     end
-})
+})]]
 
 local plm = FindMetaTable("Player")
 
