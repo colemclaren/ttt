@@ -42,7 +42,7 @@ hook.Add("PlayerAuthed", "D3A.Player.PlayerAuthed", D3A.Player.PlayerAuthed)
 
 function D3A.Player.PlayerDisconnected(pl)
 	local id = pl:SteamID64()
-	--if (id) then D3A.Player.Cache[id] = nil end
+	if (id) then D3A.Player.Cache[id] = nil end
 
 	D3A.Chat.Broadcast2(moat_cyan, pl:SteamName(), moat_white, " has disconnected. (", moat_green, pl:SteamID(), moat_white, ")")
 end
@@ -78,7 +78,7 @@ function D3A.Player.DisconnectEvent(info)
 	local steamid64 = util.SteamIDTo64(info.networkid)
 	if (not steamid64) then return end
 
-	--D3A.Player.Cache[steamid64] = nil
+	D3A.Player.Cache[steamid64] = nil
 end
 
 gameevent.Listen "player_disconnect"
