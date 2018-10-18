@@ -126,7 +126,11 @@ hook.Add("PlayerSwitchWeapon","Mega Vape Message",function(ply,_,new)
 	mega_vape_gettime(new.c,function(d)
 		if not IsValid(ply) then return end
 		if d then
-			ply:MoatChat("Your Mega Vape's BIG smoke will be available in " .. string.NiceTime((d[1].time or 0) - os.time() ) .. "!")
+			if d[1].time < os.time() then
+				ply:MoatChat("Your Mega Vape has BIG smoke available!")
+			else
+				ply:MoatChat("Your Mega Vape's BIG smoke will be available in " .. string.NiceTime((d[1].time or 0) - os.time() ) .. "!")
+			end
 		else
 			ply:MoatChat("Your Mega Vape has BIG smoke available!")
 		end

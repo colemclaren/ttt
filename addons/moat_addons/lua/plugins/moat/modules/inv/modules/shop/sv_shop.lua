@@ -86,7 +86,14 @@ end
 net.Receive("MOAT_GET_SHOP", function(len, ply)
     m_SendShop(ply)
 end)
-
+local vapes = {"Golden Vape", "White Vape", "Medicinal Vape", "Helium Vape", "Hallucinogenic Vape", "Butterfly Vape", "Custom Vape"}
+local function randomvape()
+    local vape = table.Random(vapes)
+    if math.random() < 0.06 then
+        vape = "Mega Vape"
+    end
+    return vape
+end
 net.Receive("MOAT_BUY_ITEM", function(len, ply)
     local crate_id = net.ReadDouble()
     local crate_amt = math.Clamp(net.ReadUInt(8), 1, 50)
@@ -119,7 +126,11 @@ net.Receive("MOAT_BUY_ITEM", function(len, ply)
     for i = 1, crate_amt do
         if (not ply:IsValid()) then return end
         if limiteds[crate_id] then
-            ply:m_DropInventoryItem(crate_tbl.Name, "", false, crate_amt > 1)
+            if crate_id == 969 then
+                ply:m_DropInventoryItem(randomvape(), "", false, crate_amt > 1)
+            else
+                ply:m_DropInventoryItem(crate_tbl.Name, "", false, crate_amt > 1)
+            end
         else
             ply:m_DropInventoryItem(crate_tbl.Name, "hide_chat_obtained", false, crate_amt > 1)
         end
