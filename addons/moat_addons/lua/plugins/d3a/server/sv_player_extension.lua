@@ -29,10 +29,12 @@ function meta:LoadInfo(callback)
 	local pl = self
 
 	local id32, id64 = pl:SteamID(), pl:SteamID64()
-	if (id64 and D3A.Player.Cache[id64]) then
+
+	-- bugs out donations
+	--[[if (id64 and D3A.Player.Cache[id64]) then
 		D3A.InitializePlayer(pl, D3A.Player.Cache[id64], callback)
 		return
-	end
+	end]]
 
 	D3A.MySQL.Query(D3A_selectUserInfo(id64), function(d)
 		if (not IsValid(pl)) then return end
