@@ -8,4 +8,4 @@ ITEM.WeaponClass = "weapon_ttt_unarmed"
 
 ITEM.Price = 59999
 ITEM.LimitedShop = 1540438149
-ITEM.ShopDesc = "For a limited time, you can purchase a random vape!\nYou also have a CHANCE TO GET A MEGA VAPE!\n\n(Normal Vapes can be used unlimited times whenever you want,\nMega vapes are the same but make BIG smoke every 12 hours)"
+ITEM.ShopDesc = "For a limited time, you can purchase a random vape!\nYou also have a chance to get a Mega Vape!"
