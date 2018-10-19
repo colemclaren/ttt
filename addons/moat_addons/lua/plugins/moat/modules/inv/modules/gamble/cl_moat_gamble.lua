@@ -122,6 +122,8 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 
 		if MOAT_GAMBLE.LocalChat then
     		draw.SimpleText("Say something..", "moat_ItemDesc", 13, h-47, Color(255, 255, 255, MOAT_GAMBLE_CHAT_COL))
+		elseif (MOAT_GAMBLE.GlobalBlock or 0) > CurTime() then
+			draw.SimpleText("Please wait " .. string.NiceTime((MOAT_GAMBLE.GlobalBlock+1) - CurTime()), "moat_ItemDesc", 13, h-47, Color(255, 255, 255, MOAT_GAMBLE_CHAT_COL))
 		else
 			draw.SimpleText("Say.. (There will be a delay)", "moat_ItemDesc", 13, h-47, Color(255, 255, 255, MOAT_GAMBLE_CHAT_COL))
 		end
@@ -327,6 +329,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
     end
 
     MOAT_GAMBLE_CHAT_ENTRY.OnKeyCodeTyped = function(s, k)
+		if ((MOAT_GAMBLE.GlobalBlock or 0) > CurTime()) and (not MOAT_GAMBLE.LocalChat) then return true end
     	if (k == KEY_ENTER) then
     		s:OnEnter()
 			return true
@@ -336,6 +339,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
     MOAT_GAMBLE_CHAT_ENTRY.MaxChars = 192
 
     MOAT_GAMBLE_CHAT_ENTRY.OnTextChanged = function(s)
+		if ((MOAT_GAMBLE.GlobalBlock or 0) > CurTime()) and (not MOAT_GAMBLE.LocalChat) then s:SetText("") return end
         local txt = s:GetValue()
         local amt = string.len(txt)
 
