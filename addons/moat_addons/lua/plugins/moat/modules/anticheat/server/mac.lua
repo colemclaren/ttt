@@ -18,7 +18,7 @@ end
 
 local cached_toxic = {}
 local cached_err = {}
-local api_key = "AIzaSyDIDKIR27BvGQGjQg7_B-JMd15mnSImRx8"
+local api_key = "AIzaSyCs45XuL0kh2rSto-vkQsbRUj70RmXA98w"
 local requestedAttributes = {
     ["IDENTITY_ATTACK"] = {},
     ["INSULT"] =  {},
