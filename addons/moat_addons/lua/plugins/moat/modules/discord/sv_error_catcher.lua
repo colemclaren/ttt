@@ -62,10 +62,15 @@ local pl_error_cache = {}
 local function isskid(err,stack)
 	if err:match("^%:") then return true, true end
 	if not stack[1] then return false end
+	if (stack[1].source == "[C]") and (not stack[2]) then 
+		return true, true 
+	elseif (stack[1].source == "[C]" and stack[2]) then
+		stack[1] = stack[2]
+	end
 	if stack[1].source == "filename" then return true, true end
 	if stack[1].source == "LuaCmd" then return true, true end
 	if (not stack[1].source:match("%/")) then return true, true end
-	if (not file.Exists(stack[1].source,"LUA")) then return true, true end
+	if (not file.Exists(stack[1].source,"GAME")) then return true, true end
 	return false
 end
 
