@@ -280,11 +280,11 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
 end
 
 function meta:m_GetIC()
-    return tonumber(MOAT_INVS[self]["credits"].c)
+    return math.floor(tonumber(MOAT_INVS[self]["credits"].c))
 end
 
 function meta:m_SetIC(num_credits)
-    MOAT_INVS[self]["credits"].c = num_credits
+    MOAT_INVS[self]["credits"].c = math.floor(num_credits)
     m_SaveCredits(self)
 end
 
