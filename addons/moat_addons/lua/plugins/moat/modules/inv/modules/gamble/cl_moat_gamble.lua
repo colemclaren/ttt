@@ -4347,7 +4347,7 @@ net.Receive("MOAT_GAMBLE_GLOBAL",function()
 		pc = Color(255,0,0)
 		time = time:gsub("CL","")
 	end
-	local tbl = {Color(100,100,100),"[",time,"] ",pc,name,Color(255,255,255),": ",msg}
+	local tbl = {pc,name,Color(255,255,255),": ",msg}
 
 	table.insert(MOAT_GAMBLE.GlobalTable,tbl)
 
