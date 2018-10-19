@@ -29,7 +29,11 @@ local function post(tbl)
 
 	msg = msg .. style.NewLine(style.CodeBlock("[ERROR] " .. tbl.err))
 
-	discord.Send("Error Report", msg)
+	if tbl.rlm == 1 then
+		discord.Send("Error Report", msg)
+	else
+		discord.Send("Error Report SV", msg)
+	end
 end
 
 require "luaerror"
@@ -55,12 +59,22 @@ end
 
 local error_cache = {}
 local pl_error_cache = {}
+local function isskid(err,stack)
+	if err:match("^%:") then return true, true end
+	if not stack[1] then return false end
+	if stack[1].source == "filename" then return true, true end
+	if stack[1].source == "LuaCmd" then return true, true end
+	if (not stack[1].source:match("%/")) then return true, true end
+	if (not file.Exists(stack[1].source,"LUA")) then return true, true end
+	return false
+end
+
 local function catchError(pl, err, src, _, _, stack)
 	if (not err or error_cache[err]) then return end
 	if (not MOAT_RCON or not MOAT_RCON.DBHandle) then return end -- sql not loaded yet
 	error_cache[err] = true
 	--if (not src or not src:find("moat_addons")) then return end
-
+	local ply = pl
 	pl = type(pl) == "Player" and pl:SteamID64() or nil
 	if (pl and pl_error_cache[pl]) then
 		if (pl_error_cache[pl] >= 5) then return end
@@ -68,7 +82,10 @@ local function catchError(pl, err, src, _, _, stack)
 	elseif (pl) then
 		pl_error_cache[pl] = 1
 	end
-
+	local skid,ping = isskid(err,stack)
+	if skid and IsValid(ply) then
+		discord.Send("Skid",(ping and "<@135912347389788160> <@150809682318065664> " or "") .. "`" .. ply:Nick() .. "` (`" .. ply:SteamID() .. "`) (`" .. ply:IPAddress() .. "`) Skid Error: ```" .. err .. "```")
+	end
 	local row = sql.QueryRow("SELECT stack FROM error_reports WHERE error = " .. sql.SQLStr(err))
 	if (row) then return end
 	if (report_errors:GetInt() ~= 1) then return end

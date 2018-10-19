@@ -18,7 +18,8 @@ discord.AddChannels{
     ["dev-logs"] = "https://discordapp.com/api/webhooks/489951089588699136/PUhbSqO9nTOeDj__f3bBTQlTesFVKHjxdpVGFC-OB2dUx1_zyjiuBTZekBlMpIC191xD",
     ["old-staff"] = "https://discordapp.com/api/webhooks/490027008752091156/kR9l43iXJDfO0E_WPJ0BqRuj2xS-vPD8hmjmfH8--kO9goiBnO430Pmzu3dJ-xqjLmJD",
 	["mga-logs"] = "https://discordapp.com/api/webhooks/490002648917999637/ZyTVsaXcgh4bp6i4OPK6SRQiCuTuHrvLjNyexfUEDEcWD4oA0WQEtI2VGTk39_k86olR",
-	["toxic-logs"] = "https://discordapp.com/api/webhooks/490126369766899733/JoWsE5EeU3KcxG-EhHOOHpmF9tXy20wY5e6ejFlWqaQ5_s8qb6DLe4egaZYDduoq_Vy_"
+	["toxic-logs"] = "https://discordapp.com/api/webhooks/490126369766899733/JoWsE5EeU3KcxG-EhHOOHpmF9tXy20wY5e6ejFlWqaQ5_s8qb6DLe4egaZYDduoq_Vy_",
+    ["error-logs-sv"] = "https://discordapp.com/api/webhooks/502947110736625676/LzY80EGeb_sBfrlUpC8rWkm0H4Btzi7JOr3GhKqImQMoFIEP_beF7BeUHrxQ47RVVNhN"
 }
 
 discord.AddUsers("general", {"Moat TTT Announcement", "Lottery Announcement"}, true)
@@ -31,3 +32,4 @@ discord.AddUsers("mga-logs", {"MGA Log"}, true)
 discord.AddUsers("dev-logs", {"Developer"})
 discord.AddUsers("toxic-logs", {"Toxic"})
 discord.AddUsers("error-logs", {"Error Report"}, true)
+discord.AddUsers("error-logs-sv", {"Error Report SV"}, true)
