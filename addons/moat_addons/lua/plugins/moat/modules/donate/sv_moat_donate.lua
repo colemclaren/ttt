@@ -330,11 +330,13 @@ local function namerewards()
 		ply.namecooldownr = true -- should only be rewarded once per session when they first join anyways
 		if not ply.pendingname then return end
 		ply:m_GiveIC(ply.pendingname[1])
-		ply:ChangeSC(ply.pendingname[2])
 		local q = db:query("UPDATE moat_namerewards SET pending_ic = '0',pending_sc = '0' WHERE steamid = '" .. ply:SteamID64() .. "';")
 		q:start()
 		ply.pendingname = nil
-		local q = db:query("UPDATE player SET donator_credits = " .. ply:GetSC() .. " WHERE steam_id='" .. ply:SteamID64() .. "';")
+		local q = db:query("UPDATE player SET donator_credits = donator_credits " .. ply.pendingname[2] .. " WHERE steam_id='" .. ply:SteamID64() .. "';")
+		function q:onSuccess(d)
+			PrintTable(d)
+		end
 		q:start()
 		ply:SendLua("chat.AddText('You have collected your points! Thanks for supporting Moat Gaming <3')")
 	end)
