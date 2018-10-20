@@ -237,7 +237,7 @@ end
 
 
 
-local spring_bg_url = "https://cdn.moat.gg/f/pPpwGWD2ojJm3lHIxKQ1n24i9Xc6.png"
+local spring_bg_url = "https://cdn.moat.gg/f/4Mp1eri4NCAy2nSNkpaJKQlOVciM.png"
 local springs = {
     [1] = {"butterfly1.png", 0, 0, 0, url = "https://cdn.moat.gg/f/5G8ewLLO4NwCXMtB5BWd3HaHLIbk.png"},
     [2] = {"butterfly2.png", 0, 0, 0, url = "https://cdn.moat.gg/f/NstfX8BF83G9SJE8FSUoQuuSDc2n.png"},
@@ -250,38 +250,38 @@ local left_or_right = 1
 local currently_spring = false
 
 local function DrawSpring(s, w, h)
-    cdn.DrawImage(spring_bg_url, 0, 0, 1024, 1024, Color(255, 255, 255, 50))
+    cdn.DrawImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 225))
 
-    if (next_spring <= CurTime()) then
-        current_spring = math.random(1, 4)
-        left_or_right = math.random(1, 2)
+    -- if (next_spring <= CurTime()) then
+    --     current_spring = math.random(1, 4)
+    --     left_or_right = math.random(1, 2)
 
-        local da_spring = springs[current_spring]
-        if (left_or_right == 2) then
-            da_spring[2] = -100
-        else
-            da_spring[2] = w + 100
-        end
+    --     local da_spring = springs[current_spring]
+    --     if (left_or_right == 2) then
+    --         da_spring[2] = -100
+    --     else
+    --         da_spring[2] = w + 100
+    --     end
 
-        da_spring[3] = math.random(100, h - 200)
-        da_spring[4] = math.random(50, 100)
+    --     da_spring[3] = math.random(100, h - 200)
+    --     da_spring[4] = math.random(50, 100)
 
-        currently_spring = true
-        next_spring = CurTime() + 20
-    elseif (currently_spring) then
-        local da_spring = springs[current_spring]
-        cdn.DrawImage(da_spring.url, da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
+    --     currently_spring = true
+    --     next_spring = CurTime() + 20
+    -- elseif (currently_spring) then
+    --     local da_spring = springs[current_spring]
+    --     cdn.DrawImage(da_spring.url, da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
 
-        if (left_or_right == 2) then
-            da_spring[2] = da_spring[2] + (FrameTime() * 120)
+    --     if (left_or_right == 2) then
+    --         da_spring[2] = da_spring[2] + (FrameTime() * 120)
 
-            if (da_spring[2] > w) then currently_spring = false end
-        else
-            da_spring[2] = da_spring[2] - (FrameTime() * 120)
+    --         if (da_spring[2] > w) then currently_spring = false end
+    --     else
+    --         da_spring[2] = da_spring[2] - (FrameTime() * 120)
 
-            if (da_spring[2] < -100) then currently_spring = false end
-        end
-    end
+    --         if (da_spring[2] < -100) then currently_spring = false end
+    --     end
+    -- end
 end
 
 local moat_spring_theme = CreateClientConVar("moat_spring_theme", 1, true, false)
@@ -292,7 +292,7 @@ local function createSpring(pnl, x, y, w, h)
     pnl.springpanel:SetSize(w,h)
     pnl.springpanel:SetPos(x,y)
     pnl.springpanel.Paint = function(s,w,h)
-        if (moat_spring_theme:GetInt() < 1) then return end
+        -- if (moat_spring_theme:GetInt() < 1) then return end
         
         DrawSpring(s, w, h)
     end

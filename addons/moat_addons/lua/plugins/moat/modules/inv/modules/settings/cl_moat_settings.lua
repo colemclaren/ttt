@@ -165,7 +165,7 @@ local moat_Settings = {
         {"Enable Custom Model Preview when Using Crates", {"Multi"}, "moat_model_preview"},
         {"Disable Lighting in Inventory Model Preview", {"Multi"}, "moat_inventory_lighting"},
         {"Inventory Model Smoke", {"Multi"}, "moat_model_smoke"},
-        {"Spring Inventory Theme", {"Multi"}, "moat_spring_theme"}
+        -- {"Spring Inventory Theme", {"Multi"}, "moat_spring_theme"}
     },
     {"Item Drops",
         {"Drop Cosmetic Items from End Round Drops", {"Multi"}, "moat_dropcosmetics"},
