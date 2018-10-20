@@ -12,6 +12,7 @@ if (file.Exists("terrorcity.txt", "MOD") or tc_ips[game.GetIPAddress()]) then
 end
 
 ---- Trouble in Terrorist Town
+AddCSLuaFile()
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_msgstack.lua")
@@ -45,6 +46,7 @@ AddCSLuaFile("vgui/ColoredBox.lua")
 AddCSLuaFile("vgui/SimpleIcon.lua")
 AddCSLuaFile("vgui/ProgressBar.lua")
 AddCSLuaFile("vgui/ScrollLabel.lua")
+AddCSLuaFile "ttt_vgui/cmenu.lua"
 AddCSLuaFile("vgui/sb_main.lua")
 AddCSLuaFile("vgui/sb_row.lua")
 AddCSLuaFile("vgui/sb_team.lua")

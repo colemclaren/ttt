@@ -25,8 +25,6 @@ sql.Query([[
     )
 ]])
 
-print(sql.LastError())
-
 local function SetRadial(role, item, inside)
     if (not inside) then
         sql.Query("DELETE FROM `ttt_menu_radial` WHERE `id` = "..sql.SQLStr(tostring(item)).." AND `steamid` = "..LocalPlayer():SteamID64().." AND `role` = "..role..";")
@@ -164,6 +162,31 @@ function PANEL:Init()
     self.ItemPanels = {}
 
     BetterEQ.CreateFavTable()
+
+    local ply = LocalPlayer()
+
+    -- Item control
+    if ply:HasEquipmentItem(EQUIP_RADAR) then
+       local dradar = RADAR.CreateMenu(self.Sheet, self)
+       self.Sheet:AddSheet(GetTranslation("radar_name"), dradar, "icon16/magnifier.png", false,false, "Radar control")
+    end
+ 
+    if ply:HasEquipmentItem(EQUIP_DISGUISE) then
+       local ddisguise = DISGUISE.CreateMenu(self.Sheet)
+       self.Sheet:AddSheet(GetTranslation("disg_name"), ddisguise, "icon16/user.png", false,false, "Disguise control")
+    end
+ 
+    -- Weapon/item control
+    if IsValid(ply.radio) or ply:HasWeapon("weapon_ttt_radio") then
+       local dradio = TRADIO.CreateMenu(self.Sheet)
+       self.Sheet:AddSheet(GetTranslation("radio_name"), dradio, "icon16/transmit.png", false,false, "Radio control")
+    end
+ 
+    -- Credit transferring
+    if ply:GetCredits() > 0 then
+       local dtransfer = CreateTransferMenu(self.Sheet)
+       self.Sheet:AddSheet(GetTranslation("xfer_name"), dtransfer, "icon16/group_gear.png", false,false, "Transfer credits")
+    end
 end
 
 function PANEL:FavoritesUpdate(added, id)
@@ -677,6 +700,9 @@ function PANEL:Init()
 
     local innerdist = fulllength / 4
 
+    self.LongEdges = {}
+    self.ShortEdges = {}
+
     for edge = 0, edges - 1 do
         local tmp  = math.rad((edge + 0.5) / edges * 360)
         local c, s = math.cos(tmp), math.sin(tmp)
@@ -687,6 +713,10 @@ function PANEL:Init()
         if (lastsmall) then
             -- surrounded
             self:MakeTriangles(triangles, nowcollide, lastcollide, lastsmall, nowsmall, GetUV(edge + 1))
+            self.ShortEdges[edge] = {
+                close = lastcollide,
+                far = nowcollide
+            }
             -- center
             table.insert(triangles, {
                 pos = middle,
@@ -714,6 +744,10 @@ function PANEL:Init()
         if (lastbig) then
             -- outside
             self:MakeTriangles(triangles, lastsmall, lastbig, nowbig, nowsmall, GetUV(edges + edge + 1))
+            self.LongEdges[edge] = {
+                close = lastbig,
+                far = nowbig
+            }
         end
         if (not firstbig) then
             firstbig = nowbig
@@ -745,8 +779,16 @@ function PANEL:Init()
 
     -- outside
     self:MakeTriangles(triangles, lastsmall, lastbig, firstbig, firstsmall, GetUV(edges + 1))
+    self.LongEdges[0] = {
+        close = lastbig,
+        far = firstbig
+    }
     -- surrounded
     self:MakeTriangles(triangles, firstcollide, lastcollide, lastsmall, firstsmall, GetUV(1))
+    self.ShortEdges[0] = {
+        close = lastcollide,
+        far = firstcollide
+    }
     -- center
     table.insert(triangles, {
         pos = middle,
@@ -784,14 +826,11 @@ end
 function PANEL:SetRole(role)
     self.Role = role
 
-    self.Items = GetRadialItems(role)
+    self.Items = GetRadialItems(role) or {}
     self.ItemIcons = {}
     local w, h = self:GetSize()
 
-    PrintTable(self.Items)
-
     for edge = 0, math.min(#self.Items, 8) - 1, 1 do
-        vgui.Create("LayeredIcon", self)
         local p = vgui.Create("DImage", self)
         p:SetImage(self.Items[edge + 1].material)
 
@@ -803,17 +842,46 @@ function PANEL:SetRole(role)
     end
 end
 
+local function Intersect(A, B, C, D)
+    local a1 = B.y - A.y
+    local b1 = A.x - B.x
+    local c1 = a1 * A.x + b1 * A.y
+
+    local a2 = D.y - C.y
+    local b2 = C.x - D.x
+    local c2 = a2 * C.x + b2 * C.x
+
+    local d = a1 * b2 - a2 * b1
+
+    if (d ~= 0) then
+        local x = (b2 * c1 - b1 * c2) / d
+        local y = (a1 * c2 - a2 * c1) / d
+        return Vector(x, y)
+    end
+end
+
 function PANEL:InsideWhere()
     local w, h = self:GetSize()
     local edge = self:GetHoveredSide()
-    local far  = math.rad((edge + 0.5) / 8 * 360)
-    local fc, fs = math.cos(far), math.sin(far)
-    local close  = math.rad((edge - 0.5) / 8 * 360)
-    local cc, cs = math.cos(close), math.sin(close)
+    local short = self.ShortEdges[edge]
+    local long = self.LongEdges[edge]
+    local mid = Vector(w / 2, h / 2)
+    local cursor = Vector(self:ScreenToLocal(gui.MousePos()))
 
-    local farleft, farright
-
-    farleft = Vector()
+    local close = Intersect(short.close, short.far, mid, cursor)
+    if (not close) then
+        return 0
+    end
+    close = close:DistToSqr(mid)
+    local far = Intersect(long.close, long.far, mid, cursor):DistToSqr(mid)
+    local cur = cursor:DistToSqr(mid)
+    if (cur < close) then
+        return 0
+    elseif (cur < far) then
+        return 1, edge
+    else
+        return -1
+    end
 end
 
 
@@ -829,15 +897,8 @@ function PANEL:GetHoveredSide()
 end
 
 function PANEL:Paint(w, h)
-    local mat = Matrix()
-    mat:Translate(Vector(self:LocalToScreen(0, 0)))
-    cam.PushModelMatrix(mat)
-    render.SetMaterial(ttt_radial_colors_mat)
-    self.Circle:Draw()
-    cam.PopModelMatrix()
-
-    local hovered = self:GetHoveredSide()
-    if (hovered ~= self.LastHovered) then
+    local where, edge = self:InsideWhere()
+    if (where == 1 and edge ~= self.LastHovered) then
         if (self.LastHovered) then
             SetPixels({
                 [self.LastHovered + 1] = self.NotSelectedColor,
@@ -845,24 +906,55 @@ function PANEL:Paint(w, h)
             })
         end
         SetPixels({
-            [hovered + 1] = self.SelectedColor,
-            [hovered + 9] = self.SelectedOutline
+            [edge + 1] = self.SelectedColor,
+            [edge + 9] = self.SelectedOutline
         })
-        self.LastHovered = hovered
+        self.LastHovered = edge
+    elseif (edge ~= self.LastHovered) then
+        SetPixels({
+            [self.LastHovered + 1] = self.NotSelectedColor,
+            [self.LastHovered + 9] = self.NotSelectedOutline
+        })
+        self.LastHovered = nil
     end
-        
+
+    local mat = Matrix()
+    mat:Translate(Vector(self:LocalToScreen(0, 0)))
+    cam.PushModelMatrix(mat)
+    render.SetMaterial(ttt_radial_colors_mat)
+    self.Circle:Draw()
+    cam.PopModelMatrix()
+
+end
+
+function PANEL:OnMousePressed(code)
+    if (code == MOUSE_LEFT) then
+        local where, edge = self:InsideWhere()
+        self:Remove()
+        if (not edge) then
+            return
+        end
+        local item = self.Items[edge + 1]
+        if (not item) then
+            return
+        end
+        RunConsoleCommand("ttt_order_equipment", item.id)
+    end
+end
+
+function PANEL:Finish()
+    self:Remove()
+    local where, edge = self:InsideWhere()
+    if (where == 0) then
+        local eqframe = vgui.Create("EquipmentMenu")
+        eqframe:SetSize(ScrW() / 2, ScrH() / 2)
+        eqframe:Center()
+
+        eqframe:SetRole(LocalPlayer():GetRole())
+        eqframe:MakePopup()
+        eqframe:SetKeyboardInputEnabled(false)
+        return eqframe
+    end
 end
 
 vgui.Register("TTTRadialMenu", PANEL, "EditablePanel")
-
-
-concommand.Add("test_new_equip", function()
-    if (IsValid(NEW_EQUIP)) then
-        NEW_EQUIP:Remove()
-    end
-
-    NEW_EQUIP = vgui.Create("TTTRadialMenu")
-    NEW_EQUIP:SetRole(ROLE_TRAITOR)
-
-    NEW_EQUIP:MakePopup()
-end)

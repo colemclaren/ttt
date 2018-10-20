@@ -30,7 +30,6 @@ include("vgui/ColoredBox.lua")
 include("vgui/SimpleIcon.lua")
 include("vgui/ProgressBar.lua")
 include("vgui/ScrollLabel.lua")
-include "vgui/cmenu.lua"
 include "vgui/tutorial.lua"
 include "vgui/changelog.lua"
 include("cl_radio.lua")

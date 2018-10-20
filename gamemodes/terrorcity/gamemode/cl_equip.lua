@@ -1,6 +1,7 @@
 ---- Traitor equipment menu
 local GetTranslation = LANG.GetTranslation
 local GetPTranslation = LANG.GetParamTranslation
+include "ttt_vgui/cmenu.lua"
 
 -- create ClientConVars
 local numColsVar = CreateClientConVar("ttt_moat_bem_cols", 4, true, false, "Sets the number of columns in the Traitor/Detective menu's item list.")
@@ -715,15 +716,19 @@ function GM:OnContextMenuOpen()
    if IsValid(eqframe) then
       eqframe:Close()
    elseif (IsValid(ply) and ply:IsActiveSpecial()) then
-    eqframe = vgui.Create("EquipmentMenu")
-    eqframe:SetSize(ScrW() / 2, ScrH() / 2)
-    eqframe:Center()
-
+    eqframe = vgui.Create("TTTRadialMenu")
     eqframe:SetRole(LocalPlayer():GetRole())
     eqframe:MakePopup()
     eqframe:SetKeyboardInputEnabled(false)
    end
 end
+
+function GM:OnContextMenuClose()
+    if (IsValid(eqframe) and eqframe.Finish) then
+        eqframe = eqframe:Finish()
+    end
+end
+
 
 local function ReceiveEquipment()
    local ply = LocalPlayer()

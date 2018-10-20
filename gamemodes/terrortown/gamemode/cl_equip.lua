@@ -1,6 +1,7 @@
 ---- Traitor equipment menu
 local GetTranslation = LANG.GetTranslation
 local GetPTranslation = LANG.GetParamTranslation
+include "ttt_vgui/cmenu.lua"
 -- create ClientConVars
 local numColsVar = CreateClientConVar("ttt_moat_bem_cols", 4, true, false, "Sets the number of columns in the Traitor/Detective menu's item list.")
 local numRowsVar = CreateClientConVar("ttt_moat_bem_rows", 5, true, false, "Sets the number of rows in the Traitor/Detective menu's item list.")
@@ -689,21 +690,29 @@ concommand.Add("ttt_cl_traitorpopup_close", ForceCloseTraitorMenu)
 
 function GM:OnContextMenuOpen()
     local r = GetRoundState()
-
     if r == ROUND_ACTIVE and not (LocalPlayer():GetTraitor() or LocalPlayer():GetDetective()) then
-        return
+       return
     elseif r == ROUND_POST or r == ROUND_PREP then
-        CLSCORE:Toggle()
-
-        return
+         CLSCORE:Toggle()
+       return
     end
-
+ 
+    local ply = LocalPlayer()
     if IsValid(eqframe) then
-        eqframe:Close()
-    else
-        RunConsoleCommand("ttt_cl_traitorpopup")
+       eqframe:Close()
+    elseif (IsValid(ply) and ply:IsActiveSpecial()) then
+     eqframe = vgui.Create("TTTRadialMenu")
+     eqframe:SetRole(LocalPlayer():GetRole())
+     eqframe:MakePopup()
+     eqframe:SetKeyboardInputEnabled(false)
     end
-end
+ end
+ 
+ function GM:OnContextMenuClose()
+     if (IsValid(eqframe) and eqframe.Finish) then
+         eqframe = eqframe:Finish()
+     end
+ end
 
 local function ReceiveEquipment()
     local ply = LocalPlayer()
