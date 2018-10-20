@@ -415,7 +415,7 @@ local function moatFireBullets(ent, data)
                 local s = tostring(trace)
                 local i = CurTime()
                 hook.Add("Think",s,function()
-                    if CurTime() - i < 0.06 then return end
+                    if CurTime() - i < 0.04 then return end
                     hook.Remove("Think",s)
                     net.Start("moatBulletTrace" .. moat_val)
                     net.WriteUInt(trace.trEnt:EntIndex(), 16)
