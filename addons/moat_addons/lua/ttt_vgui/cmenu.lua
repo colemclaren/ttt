@@ -239,18 +239,14 @@ function PANEL:FavoritesUpdate(added, id)
 
     local panel = self.ItemPanels[id]
     local cat
-    if (added) then
-        cat = self:GetEquipmentCategory "Favorites"
-    else
-        cat = self:GetEquipmentCategory(self:GetCategoryForItem(panel.Item))
-    end
+    cat, panel.SortPriority = self:GetCategoryForItem(panel.Item)
+    cat = self:GetEquipmentCategory(cat)
 
     local cur = panel:GetParent()
     panel:SetParent(cat)
     panel:UpdateFavorite()
     cur:Layout()
     cat:Layout()
-
 end
 
 function PANEL:GetEquipmentCategory(category)
@@ -287,9 +283,14 @@ function PANEL:EquipmentSelected(pnl)
 end
 
 function PANEL:GetCategoryForItem(item)
-    local cat
+    local cat, extra = nil, 0
     if (BetterEQ.IsFavorite(self.Favorites, item.id)) then
         cat = "Favorites"
+        for i, _item in pairs(self.Favorites) do
+            if (_item.weapon_id == tostring(item.id)) then
+                extra = _item.rowid
+            end
+        end
     elseif (Passives[item.type]) then
         cat = "Passives"
     elseif (ClassCategories[item.id]) then
@@ -297,26 +298,14 @@ function PANEL:GetCategoryForItem(item)
     else
         cat = "Items"
     end
-    return cat
+    return cat, extra
 end
 
 function PANEL:SetRole(role)
     self.Favorites = BetterEQ.GetFavorites(LocalPlayer():SteamID(), role)
     self.Role = role
 
-    self:GetEquipmentCategory "Favorites".Sort = function(a, b)
-        local i1, i2
-        for _, item in ipairs(self.Favorites) do
-            if (tostring(a.Item.id) == item.weapon_id) then
-                i1 = _
-            end
-            if (tostring(b.Item.id) == item.weapon_id) then
-                i2 = _
-            end
-        end
-
-        return i1 > i2
-    end
+    self:GetEquipmentCategory "Favorites"
     self:GetEquipmentCategory "Passives"
     self:GetEquipmentCategory(au)
 
@@ -325,11 +314,12 @@ function PANEL:SetRole(role)
     local selected = function(ic) self:EquipmentSelected(ic) end
 
     for _, item in ipairs(items) do
-        local cat_name = self:GetCategoryForItem(item)
+        local cat_name, sort = self:GetCategoryForItem(item)
         local cat = self:GetEquipmentCategory(cat_name)
 
         local icon
         icon = cat:Add("EquipmentIcon")
+        icon.SortPriority = sort
         icon.Root = self
         icon:SetIcon(item.material)
         icon:SetIconSize(itemSizeVar:GetInt())
@@ -641,27 +631,20 @@ vgui.Register("EquipmentItemInfo", PANEL, "DPanel")
 local PANEL = {}
 
 local function sort(a, b)
-    if (a:IsFavorite() ~= b:IsFavorite()) then
-        return a:IsFavorite()
+    if (a.SortPriority ~= b.SortPriority) then
+        return a.SortPriority > b.SortPriority
     end
-    if ((a.SortPriority or 0) < (b.SortPriority or 0)) then
-        return true
-    end
-    if (SafeTranslate(a.Item.name) < SafeTranslate(b.Item.name)) then
-        return true
-    end
-    return false
+    return SafeTranslate(a.Item.name) < SafeTranslate(b.Item.name)
 end
 
 function PANEL:Init()
     self._GetChildren = self.GetChildren
     self.GetChildren = self.OverrideGetChildren
-    self.Sort = sort
 end
 
 function PANEL:OverrideGetChildren()
     local children = self:_GetChildren()
-    table.sort(children, self.Sort)
+    table.sort(children, sort)
     return children
 end
 
