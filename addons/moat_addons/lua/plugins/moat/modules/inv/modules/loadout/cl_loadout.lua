@@ -371,6 +371,10 @@ function MOAT_LOADOUT.ApplyModels()
             item.ModelEnt:SetLocalAngles(ang)
         end
 
+		if (item.Skin) then
+			item.ModelEnt:SetSkin(item.Skin)
+		end
+		
         table.insert(MOAT_CLIENTSIDE_MODELS[ply], item)
     end
 end

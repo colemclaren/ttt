@@ -7,23 +7,27 @@ surface.CreateFont("moat_Trebuchet24", {
 local MOAT_SHOP = {}
 net.Start("MOAT_GET_SHOP")
 net.SendToServer()
-local LIMITEDS = 0
+local LIMITEDS, NEWITEMS = 0, 0
 net.Receive("MOAT_GET_SHOP", function(len)
     local tbl = net.ReadTable()
     table.insert(MOAT_SHOP, tbl)
     if (tbl.LimitedShop or 0) > os.time() then
         LIMITEDS = LIMITEDS + 1
     end
+
+	if (tbl.NewItem or 0) > os.time() then
+        NEWITEMS = NEWITEMS + 1
+    end
 end)
 
 timer.Create("LimitedShopChat",10,0,function()
     if MOAT_SHOP[1] then
         timer.Remove("LimitedShopChat")
-        if LIMITEDS > 1 then
-            chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, there are currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEMS",Color(255,255,255)," in the shop!")
-        elseif LIMITEDS == 1 then
-            chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, there's currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM",Color(255,255,255)," in the shop!")
-        end
+		if (LIMITEDS >= 1) then
+			chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, " .. Either(LIMITEDS == 1, "there's", "there are") .. " currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM" .. Either(LIMITEDS > 1, "S", ""),Color(255,255,255)," in the shop!")
+		elseif (NEWITEMS >= 1) then
+			chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, " .. Either(NEWITEMS == 1, "there's", "there are") .. " currently ",Color(0,255,0),tostring(NEWITEMS),Color(0,255,255)," New Crate" .. Either(NEWITEMS > 1, "S", ""),Color(255,255,255)," in the shop!")
+		end
     end
 end)
 
@@ -330,13 +334,20 @@ function m_PopulateShop(pnl)
             surface.SetMaterial(Material("vgui/gradient-u"))
             surface.DrawTexturedRect(1, 1, w - 2, h - 2)*/
 
-            if (itemtbl.CrateShopOverride or itemtbl.LimitedShop) then
+            if (itemtbl.CrateShopOverride or itemtbl.LimitedShop or itemtbl.NewItem) then
                 if (itemtbl.CrateShopOverride == "50/50") then
                     m_DrawEnchantedText(itemtbl.CrateShopOverride, "moat_Trebuchet24", (w / 2) - 35, 5, name_col, Color(0, 0, 255))
                     m_DrawEnchantedText("Crate", "moat_Trebuchet24", (w / 2) - 29, 25, name_col, Color(0, 0, 255))
                 elseif (itemtbl.CrateShopOverride == "Gift") then
-                    m_DrawShadowedText(1, "Empty Gift", "moat_Medium5", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
-                    m_DrawShadowedText(1, "Package", "moat_Medium5", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
+                    m_DrawShadowedText(1, "Empty Gift", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                    m_DrawShadowedText(1, "Package", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
+				elseif (itemtbl.NewItem) then
+					surface.SetFont("moat_Trebuchet24")
+					local tw = surface.GetTextSize(item_name[1])
+
+					m_DrawEnchantedText(item_name[1], "moat_Trebuchet24", (w / 2) - (tw/2) - 1, 5, name_col, Color(0, 255, 255))
+                    m_DrawEnchantedText("Crate", "moat_Trebuchet24", (w / 2) - 29, 25, name_col, Color(0, 255, 255))
+					cdn.SmoothImageRotated("https://cdn.moat.gg/f/cbf0f.png", 6, 6, 32, 32, nil, math.sin(CurTime())*15,true)
                 elseif (itemtbl.LimitedShop) then
                     if (itemtbl.Kind == "tier") then
                         m_DrawShadowedText(1, itemtbl.Name .. " Weapon", "moat_Medium5", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
@@ -513,8 +524,15 @@ function m_PopulateShop(pnl)
         end
 	end
 
+	for i = 1, #MOAT_SHOP do
+		if MOAT_SHOP[i].NewItem then
+            m_AddShopItem(MOAT_SHOP[i]) -- Always at top 
+        end
+	end
+
     for i = 1, #MOAT_SHOP do
-        if MOAT_SHOP[i].LimitedShop then continue end
+        if MOAT_SHOP[i].LimitedShop or MOAT_SHOP[i].NewItem then continue end
+		if (MOAT_SHOP[i].Name and MOAT_SHOP[i].Name == "Empty Gift Package") then continue end
 		m_AddShopItem(MOAT_SHOP[i])
 	end
 
@@ -639,6 +657,12 @@ function m_PopulateShop(pnl)
     m_AddShopItemCommand("Self Title", "Change", Color(255, 205, 0), 15000, "icon16/tag_yellow.png", "moat_selftitles")
     m_AddShopItemCommand("Other's Title", "Change", Color(0, 255, 0), 50000, "icon16/tag_pink.png", "moat_titles")
     m_AddShopItemCommand("Send a TTS", "Message", Color(255, 0, 0), 100, "icon16/music.png", "moat_ttsmenu")
+
+	for i = 1, #MOAT_SHOP do
+		if (MOAT_SHOP[i].Name and MOAT_SHOP[i].Name == "Empty Gift Package") then
+			m_AddShopItem(MOAT_SHOP[i])
+		end
+	end
 
     local EndSpacing = M_SHOP_LIST:Add("DPanel")
     EndSpacing:SetSize(169, 0)

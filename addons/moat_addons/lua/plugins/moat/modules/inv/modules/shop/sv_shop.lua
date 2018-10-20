@@ -12,6 +12,7 @@ function m_GetActiveCrates()
     for k, v in pairs(MOAT_DROPTABLE) do
         if (v.Kind ~= "Crate" and v.Kind ~= "Usable") then continue end
 		if (v.LimitedShop) and (v.LimitedShop <= os.time()) then continue end
+		if (v.NewItem and v.NewItem <= os.time()) then v.NewItem = nil end
 
         if (v.Active and v.Name ~= "Pumpkin Crate" and v.Name ~= "Santa's Present" and v.Name ~= "Holiday Crate" and v.Name ~= "Empty Gift Package") then
             table.insert(active_crates, v)
@@ -37,6 +38,7 @@ function m_GetActiveCratesShop()
             continue
         end
         if (v.Kind ~= "Crate" and v.Kind ~= "Usable") then continue end
+		if (v.NewItem and v.NewItem <= os.time()) then v.NewItem = nil end
 
         if (v.Active) then
             table.insert(active_crates2, v)

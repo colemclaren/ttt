@@ -130,6 +130,10 @@ function PANEL:AddModel(item_enum, item_tbl)
     tbl.ModelEnt = ClientsideModel(tbl.Model, RENDERGROUP_OPAQUE)
     tbl.ModelEnt:SetNoDraw(true)
 
+	if (tbl.Skin) then
+		tbl.ModelEnt:SetSkin(tbl.Skin)
+	end
+	
     if (MOAT_PAINT and item_tbl and (item_tbl.p or item_tbl.p2)) then
         if (item_tbl.p2) then
             tbl.ModelEnt:SetMaterial("models/debug/debugwhite")
