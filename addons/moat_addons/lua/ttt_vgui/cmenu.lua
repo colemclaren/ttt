@@ -113,7 +113,6 @@ local function CanBuy(item)
     return not (ItemIsWeapon(item) and (not CanCarryWeapon(item)) or not ItemIsWeapon(item) and LocalPlayer():HasEquipmentItem(item.id) or item.limited and LocalPlayer():HasBought(tostring(item.id)))
 end
 
-
 DEFINE_BASECLASS "DFrame"
 
 local PANEL = {}
@@ -260,7 +259,7 @@ function PANEL:GetEquipmentCategory(category)
         pnl:SetLabel(category)
         pnl:Dock(TOP)
 
-        pnl.ItemList = vgui.Create("DSortableIconLayout")
+        pnl.ItemList = vgui.Create("DSortableIconLayout", pnl)
         pnl.ItemList:SetSpaceY(5)
         pnl.ItemList:SetSpaceX(5)
         pnl.ItemList:Dock(TOP)
@@ -291,6 +290,7 @@ function PANEL:GetCategoryForItem(item)
                 extra = _item.rowid
             end
         end
+        print(item.id, extra)
     elseif (Passives[item.type]) then
         cat = "Passives"
     elseif (ClassCategories[item.id]) then
@@ -298,6 +298,7 @@ function PANEL:GetCategoryForItem(item)
     else
         cat = "Items"
     end
+    print(item.id)
     return cat, extra
 end
 
@@ -423,6 +424,10 @@ function PANEL:TTTSearchUpdated(search)
 end
 
 function PANEL:OnMousePressed(code)
+    if (code == MOUSE_LEFT and (input.IsKeyDown(KEY_LSHIFT) or input.IsKeyDown(KEY_LCONTROL))) then
+        RunConsoleCommand("ttt_order_equipment", self.Item.id)
+    end
+
     if (code == MOUSE_RIGHT) then
         self:OnMousePressed(MOUSE_LEFT)
         if (IsValid(self.Root.Dropdown)) then
@@ -881,8 +886,19 @@ function PANEL:SetRole(role)
     label:SetText "Open Menu"
     label:SetFont "TabLarge"
     label:SizeToContents()
-    label:SetPos(w / 2 - label:GetWide() / 2, h / 2 - label:GetTall() / 2 + 20)
+    surface.SetFont "TabLarge"
+    local tw, th = surface.GetTextSize(label:GetText())
+    label:SetPos(w / 2 - tw / 2, h / 2 - th / 2 + 20)
     label:SetColor(color_white)
+
+    local credits = vgui.Create("DLabel", self)
+    credits:SetText(LocalPlayer():GetCredits() .. " credits")
+    credits:SetFont "TabLarge"
+    credits:SizeToContents()
+    surface.SetFont "TabLarge"
+    tw, th = surface.GetTextSize(credits:GetText())
+    credits:SetPos(w / 2 - tw / 2, h / 2 - th / 2 - 20)
+    credits:SetColor(LocalPlayer():GetCredits() > 0 and color_good or color_bad)
 
     local note = vgui.Create("DLabel", self)
     note:SetText "Add items by right clicking and selecting \"Add to Quick Menu\""
@@ -971,8 +987,13 @@ function PANEL:Paint(w, h)
             })
         end
 
+        local canbuy = true
+        if (self.Items[edge + 1]) then
+            canbuy = CanBuy(self.Items[edge + 1]) and LocalPlayer():GetCredits() > 1
+        end
+
         SetPixels({
-            [edge + 1] = self.SelectedColor,
+            [edge + 1] = canbuy and self.SelectedColor or color_bad,
             [edge + 9] = self.SelectedOutline
         })
         self.LastHovered = edge
