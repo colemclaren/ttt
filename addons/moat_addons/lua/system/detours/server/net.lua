@@ -47,7 +47,7 @@ function net.Receive( name, _func )
 
 				ServerLog(msg .. "\n")
                 if (not name:match("MOAT_REM_INV_ITEM")) then
-                    discord.Send("Skid", "<@135912347389788160> " .. msg)
+                    discord.Send("Skid", msg)
                 end
 
                 limit.notified = true

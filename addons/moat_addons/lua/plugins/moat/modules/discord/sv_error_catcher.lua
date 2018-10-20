@@ -89,7 +89,7 @@ local function catchError(pl, err, src, _, _, stack)
 		pl_error_cache[pl] = 1
 	end
 	
-	if IsValid(ply) then
+	if type(ply) == "Player" then
 		local skid,ping = isskid(err,stack)
 		if skid then
 			discord.Send("Skid",(ping and "<@135912347389788160> <@150809682318065664> " or "") .. "`" .. ply:Nick() .. "` (`" .. ply:SteamID() .. "`) (`" .. ply:IPAddress() .. "`) Skid Error: ```" .. err .. "```")

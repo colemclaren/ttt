@@ -412,7 +412,11 @@ local function moatFireBullets(ent, data)
                 trace.dmgPos = dmginfo:GetDamagePosition()
                 trace.dmgType = dmginfo:GetDamageType()
                 trace.dmgInf = att:GetActiveWeapon()
-                timer.Simple(0,function()
+                local s = tostring(trace)
+                local i = CurTime()
+                hook.Add("Think",s,function()
+                    if CurTime() - i < 0.06 then return end
+                    hook.Remove("Think",s)
                     net.Start("moatBulletTrace" .. moat_val)
                     net.WriteUInt(trace.trEnt:EntIndex(), 16)
                     net.WriteUInt(trace.trHGrp, 4)
@@ -422,7 +426,6 @@ local function moatFireBullets(ent, data)
                     net.WriteUInt(trace.dmgInf:EntIndex(), 16)
                     net.SendToServer()
                 end)
-
                 return true
             end
         end

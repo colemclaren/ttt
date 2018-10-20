@@ -47,25 +47,8 @@ hook.Add("PlayerSay", "moat_ChatCommand", function(ply, text, team)
     end
 end)
 
-local function clean_hqueue(ply)
-    -- local t = ply._hqueue
-    -- if not t then return end
-    -- for w, o in pairs(t) do
-    --     if not IsValid(Entity(w)) then ply._hqueue[w] = nil continue end
-    --     for k,v in pairs(o) do
-    --         if v[2] < CurTime() then 
-    --             ply._hqueue[w][k] = nil
-    --             continue
-    --         end
-    --     end
-    -- end
-    --print("Cleaned hqueue for",ply)
-    ply._hqueue = {}
-end
-
 hook.Add("TTTEndRound","Cleanhqueue",function()
     for k,v in pairs(player.GetAll()) do
-        clean_hqueue(v)
         v.fasthq = 0
         v.hqtime = 0
     end
@@ -74,8 +57,7 @@ end)
 net.ReceiveNoLimit("moatBulletTrace" .. moat_val, function(len, ply)
     if (ply.fasthq or 0) < 1 then return end
     if (ply.hqtime or 0) < CurTime() then ply.fasthq = 0 return end
-    ply.fasthq = ply.fasthq - 1 --  hence the no limit
-    -- print("Fast check remaining: ",ply.fasthq)
+    ply.fasthq = ply.fasthq - 1
     local trace = {}
     trace.trEnt = net.ReadUInt(16)
     trace.trHGrp = net.ReadUInt(4)
@@ -92,10 +74,6 @@ net.ReceiveNoLimit("moatBulletTrace" .. moat_val, function(len, ply)
     trace.dmgDmg = 0
     if not IsValid(trace.dmgInf) then
         trace.dmgInf = ply:GetActiveWeapon()
-    end
-    if not ply._hqueue then return end
-    if (not ply._hqueue[trace.dmgInf:EntIndex()]) then
-        return
     end
     if (IsValid(trace.dmgInf) and trace.dmgInf:IsWeapon()) then
         if trace.dmgInf ~= ply:GetActiveWeapon() then return end
@@ -155,12 +133,15 @@ local PLAYER = FindMetaTable "Player"
 
 PLAYER.Old_FireBullets = PLAYER.Old_FireBullets or FindMetaTable "Entity".FireBullets
 function PLAYER:FireBullets(bul, supp)
-    
     local num = bul.Num or 1
+
     local wep = self:GetActiveWeapon()
+
+    if (self.hqtime or 0) < CurTime() then self.fasthq = 0 end
+
     self.fasthq = (self.fasthq or 0) + num
-    self.hqtime = CurTime() + 0.325
-    --print("Inserted bullet for wep:",wep,"num:",num)
+    self.hqtime = CurTime() + 0.37
+
     if self:Ping() <= MOAT_HITREG.MaxPing and not MOAT_ACTIVE_BOSS then
         bul.Damage = 0
     end
