@@ -53,6 +53,7 @@ local gma = game.MountGMA
 local exist = file.Exists
 local moat_dl = {}
 moat_dl.cur = 1
+/*
 moat_dl.ids = {
 	[1] = "785934793",
 	[2] = "847230994",
@@ -64,8 +65,16 @@ moat_dl.ids = {
 	[8] = "1239007209",
 	[9] = "1343169881"
 }
-
 moat_dl.num_of_dls = 9
+*/
+moat_dl.ids = {
+	[1] = "1542685010",
+	[2] = "1542687639",
+	[3] = "1542690513",
+	[4] = "1542693501"
+}
+moat_dl.num_of_dls = 4
+
 moat_dl.name = ""
 moat_dl.done = false
 moat_dl.start = 0
