@@ -701,7 +701,12 @@ function GM:OnContextMenuOpen()
     if IsValid(eqframe) then
        eqframe:Close()
     elseif (IsValid(ply) and ply:IsActiveSpecial()) then
-     eqframe = vgui.Create("TTTRadialMenu")
+        print(cookie.GetNumber("quickmenu_disable", 0) )
+     if (cookie.GetNumber("quickmenu_disable", 0) == 0) then
+         eqframe = vgui.Create("TTTRadialMenu")
+     else
+        eqframe = vgui.Create("EquipmentMenu")
+     end
      eqframe:SetRole(LocalPlayer():GetRole())
      eqframe:MakePopup()
      eqframe:SetKeyboardInputEnabled(false)
@@ -714,20 +719,23 @@ function GM:OnContextMenuOpen()
      end
  end
 
-local function ReceiveEquipment()
-    local ply = LocalPlayer()
-    if (not IsValid(ply)) then return end
-    ply.equipment_items = net.ReadUInt(16)
-end
 
+local function ReceiveEquipment()
+   local ply = LocalPlayer()
+   if not IsValid(ply) then return end
+
+   ply.equipment_items = net.ReadUInt(16)
+   hook.Run("OnEquipmentReceived", ply.equipment_items)
+end
 net.Receive("TTT_Equipment", ReceiveEquipment)
 
 local function ReceiveCredits()
-    local ply = LocalPlayer()
-    if not IsValid(ply) then return end
-    ply.equipment_credits = net.ReadUInt(8)
-end
+   local ply = LocalPlayer()
+   if not IsValid(ply) then return end
 
+   ply.equipment_credits = net.ReadUInt(8)
+   hook.Run("OnEquipmentCreditsChanged", ply.equipment_credits)
+end
 net.Receive("TTT_Credits", ReceiveCredits)
 local r = 0
 

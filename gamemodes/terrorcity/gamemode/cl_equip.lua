@@ -704,24 +704,29 @@ end
 concommand.Add("ttt_cl_traitorpopup_close", ForceCloseTraitorMenu)
 
 function GM:OnContextMenuOpen()
-   local r = GetRoundState()
-   if r == ROUND_ACTIVE and not (LocalPlayer():GetTraitor() or LocalPlayer():GetDetective()) then
-      return
-   elseif r == ROUND_POST or r == ROUND_PREP then
-        CLSCORE:Toggle()
-      return
-   end
-
-   local ply = LocalPlayer()
-   if IsValid(eqframe) then
-      eqframe:Close()
-   elseif (IsValid(ply) and ply:IsActiveSpecial()) then
-    eqframe = vgui.Create("TTTRadialMenu")
-    eqframe:SetRole(LocalPlayer():GetRole())
-    eqframe:MakePopup()
-    eqframe:SetKeyboardInputEnabled(false)
-   end
-end
+    local r = GetRoundState()
+    if r == ROUND_ACTIVE and not (LocalPlayer():GetTraitor() or LocalPlayer():GetDetective()) then
+       return
+    elseif r == ROUND_POST or r == ROUND_PREP then
+         CLSCORE:Toggle()
+       return
+    end
+ 
+    local ply = LocalPlayer()
+    if IsValid(eqframe) then
+       eqframe:Close()
+    elseif (IsValid(ply) and ply:IsActiveSpecial()) then
+        print(cookie.GetNumber("quickmenu_disable", 0) )
+     if (cookie.GetNumber("quickmenu_disable", 0) == 0) then
+         eqframe = vgui.Create("TTTRadialMenu")
+     else
+        eqframe = vgui.Create("EquipmentMenu")
+     end
+     eqframe:SetRole(LocalPlayer():GetRole())
+     eqframe:MakePopup()
+     eqframe:SetKeyboardInputEnabled(false)
+    end
+ end
 
 function GM:OnContextMenuClose()
     if (IsValid(eqframe) and eqframe.Finish) then

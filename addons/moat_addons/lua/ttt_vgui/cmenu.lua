@@ -140,6 +140,12 @@ function PANEL:Init()
     hook.Add("TTTFavoritesChanged", self, self.FavoritesUpdate)
     self:SetTitle "Equipment Shop"
 
+    self:SetSize(cookie.GetNumber("equipment_menu_w", ScrW() / 2), cookie.GetNumber("equipment_menu_h", ScrH() / 2))
+    if (cookie.GetNumber("equipment_menu_x")) then
+        self:SetPos(cookie.GetNumber("equipment_menu_x", 0), cookie.GetNumber("equipment_menu_y", 0))
+    else
+        self:Center()
+    end
     self.Sheet = vgui.Create("DPropertySheet", self)
     self.Sheet:Dock(FILL)
     self.Sheet:DockPadding(5, 5, 5, 5)
@@ -170,22 +176,36 @@ function PANEL:Init()
        local dradar = RADAR.CreateMenu(self.Sheet, self)
        self.Sheet:AddSheet(GetTranslation("radar_name"), dradar, "icon16/magnifier.png", false,false, "Radar control")
     end
- 
+
     if ply:HasEquipmentItem(EQUIP_DISGUISE) then
        local ddisguise = DISGUISE.CreateMenu(self.Sheet)
        self.Sheet:AddSheet(GetTranslation("disg_name"), ddisguise, "icon16/user.png", false,false, "Disguise control")
     end
- 
+
     -- Weapon/item control
     if IsValid(ply.radio) or ply:HasWeapon("weapon_ttt_radio") then
        local dradio = TRADIO.CreateMenu(self.Sheet)
        self.Sheet:AddSheet(GetTranslation("radio_name"), dradio, "icon16/transmit.png", false,false, "Radio control")
     end
- 
+
     -- Credit transferring
     if ply:GetCredits() > 0 then
        local dtransfer = CreateTransferMenu(self.Sheet)
        self.Sheet:AddSheet(GetTranslation("xfer_name"), dtransfer, "icon16/group_gear.png", false,false, "Transfer credits")
+    end
+
+    local settings = vgui.Create("DPanel", self.Sheet)
+    self.Settings = settings
+    self.Settings:DockPadding(10, 10, 10, 10)
+    self.Sheet:AddSheet("Settings", settings, "icon16/plugin.png", false,false, "Settings")
+
+    local disable = vgui.Create("DCheckBoxLabel", self.Settings)
+    self.Settings.DisableQuickMenu = disable
+    disable:SetText("Disable Quick Menu")
+    disable:Dock(TOP)
+    disable:SetValue(cookie.GetNumber("quickmenu_disable", 0))
+    function disable:OnChange(v)
+        cookie.Set("quickmenu_disable", v and 1 or 0)
     end
 end
 
@@ -298,6 +318,13 @@ function PANEL:OnRemove()
     if (IsValid(self.Dropdown)) then
         self.Dropdown:Remove()
     end
+
+    local x, y = self:GetPos()
+    local w, h = self:GetSize()
+    cookie.Set("equipment_menu_x", x)
+    cookie.Set("equipment_menu_y", y)
+    cookie.Set("equipment_menu_w", w)
+    cookie.Set("equipment_menu_h", h)
 end
 
 vgui.Register("EquipmentMenu", PANEL, "DFrame")
@@ -330,7 +357,7 @@ function PANEL:PaintOver(w, h)
         surface.SetDrawColor(0, 0, 0, 220)
         surface.DrawRect(0, 0, w, h)
     elseif (self.Dark) then
-        surface.SetDrawColor(0, 0, 0, 127)
+        surface.SetDrawColor(0, 0, 0, 180)
         surface.DrawRect(0, 0, w, h)
     end
 end
@@ -947,12 +974,11 @@ function PANEL:Finish()
     local where, edge = self:InsideWhere()
     if (where == 0) then
         local eqframe = vgui.Create("EquipmentMenu")
-        eqframe:SetSize(ScrW() / 2, ScrH() / 2)
-        eqframe:Center()
 
         eqframe:SetRole(LocalPlayer():GetRole())
         eqframe:MakePopup()
         eqframe:SetKeyboardInputEnabled(false)
+        eqframe:SetSizable(true)
         return eqframe
     end
 end
