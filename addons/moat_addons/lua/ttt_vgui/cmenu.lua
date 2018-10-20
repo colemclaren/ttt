@@ -909,7 +909,6 @@ function PANEL:SetRole(role)
 
     for edge = 0, math.min(#self.Items, 8) - 1, 1 do
         local p = vgui.Create("DImage", self)
-        PrintTable(self.Items)
         p:SetImage(self.Items[edge + 1].material)
 
         local tmp  = math.rad(edge / 8 * 360)
