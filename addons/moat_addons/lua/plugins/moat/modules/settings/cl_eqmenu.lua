@@ -49,8 +49,6 @@ function BetterEQ.CreateFavTable()
 	if !(sql.TableExists("ttt_bem_fav")) then
     query = "CREATE TABLE ttt_bem_fav (guid TEXT, role TEXT, weapon_id TEXT)"
 		result = sql.Query(query)
-	else
-		print("ALREADY EXISTS")
 	end
 end
 
@@ -72,6 +70,9 @@ end
 
 -- looks for weapon id in favorites table (result of GetFavorites)
 function BetterEQ.IsFavorite(favorites, weapon_id)
+  if (not favorites) then
+    return false
+  end
 	for _, value in pairs(favorites) do
 		local dbid = value["weapon_id"]
   	if (dbid == tostring(weapon_id)) then

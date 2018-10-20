@@ -33,6 +33,7 @@ AddCSLuaFile("vgui/ColoredBox.lua")
 AddCSLuaFile("vgui/SimpleIcon.lua")
 AddCSLuaFile("vgui/ProgressBar.lua")
 AddCSLuaFile("vgui/ScrollLabel.lua")
+AddCSLuaFile "vgui/cmenu.lua"
 AddCSLuaFile("vgui/sb_main.lua")
 AddCSLuaFile("vgui/sb_row.lua")
 AddCSLuaFile("vgui/sb_team.lua")

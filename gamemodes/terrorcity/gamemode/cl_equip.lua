@@ -711,10 +711,17 @@ function GM:OnContextMenuOpen()
       return
    end
 
+   local ply = LocalPlayer()
    if IsValid(eqframe) then
       eqframe:Close()
-   else
-      RunConsoleCommand("ttt_cl_traitorpopup")
+   elseif (IsValid(ply) and ply:IsActiveSpecial()) then
+    eqframe = vgui.Create("EquipmentMenu")
+    eqframe:SetSize(ScrW() / 2, ScrH() / 2)
+    eqframe:Center()
+
+    eqframe:SetRole(LocalPlayer():GetRole())
+    eqframe:MakePopup()
+    eqframe:SetKeyboardInputEnabled(false)
    end
 end
 
@@ -723,6 +730,7 @@ local function ReceiveEquipment()
    if not IsValid(ply) then return end
 
    ply.equipment_items = net.ReadUInt(16)
+   hook.Run("OnEquipmentReceived", ply.equipment_items)
 end
 net.Receive("TTT_Equipment", ReceiveEquipment)
 
@@ -731,6 +739,7 @@ local function ReceiveCredits()
    if not IsValid(ply) then return end
 
    ply.equipment_credits = net.ReadUInt(8)
+   hook.Run("OnEquipmentCreditsChanged", ply.equipment_credits)
 end
 net.Receive("TTT_Credits", ReceiveCredits)
 
