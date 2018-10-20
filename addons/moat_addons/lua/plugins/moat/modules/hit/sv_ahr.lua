@@ -67,11 +67,13 @@ hook.Add("TTTEndRound","Cleanhqueue",function()
     for k,v in pairs(player.GetAll()) do
         clean_hqueue(v)
         v.fasthq = 0
+        v.hqtime = 0
     end
 end)
 
 net.ReceiveNoLimit("moatBulletTrace" .. moat_val, function(len, ply)
     if (ply.fasthq or 0) < 1 then return end
+    if (ply.hqtime or 0) < CurTime() then ply.fasthq = 0 return end
     ply.fasthq = ply.fasthq - 1 --  hence the no limit
     -- print("Fast check remaining: ",ply.fasthq)
     local trace = {}
@@ -104,20 +106,6 @@ net.ReceiveNoLimit("moatBulletTrace" .. moat_val, function(len, ply)
             return
         end
     end
-
-    --print("Net message")
-    local f = false
-    for k,v in pairs(ply._hqueue[trace.dmgInf:EntIndex()]) do
-        if (v[2] > CurTime()) and (v[1] > 0) and (not f) then
-            ply._hqueue[trace.dmgInf:EntIndex()][k][1] = v[1] - 1
-            f = true
-            break
-        end
-    end
-    if not f then return end
-    -- if not f then print("No bullets found curtime:",CurTime()) PrintTable(ply._hqueue) return end
-
-    --print("After hqueue")
 
     if (trace.trEnt:IsValid() and trace.trAtt:IsValid() and trace.trAtt:Ping() <= MOAT_HITREG.MaxPing) then
         local ent = trace.trEnt
@@ -171,12 +159,7 @@ function PLAYER:FireBullets(bul, supp)
     local num = bul.Num or 1
     local wep = self:GetActiveWeapon()
     self.fasthq = (self.fasthq or 0) + num
-    if wep.Kind and wep.Kind ~= WEAPON_MELEE then
-        if not self._hqueue then self._hqueue = {} end
-        wep = wep:EntIndex()
-        if not self._hqueue[wep] then self._hqueue[wep] = {} end
-        self._hqueue[wep][#self._hqueue[wep] + 1] = {num,CurTime() + 1}
-    end
+    self.hqtime = CurTime() + 0.325
     --print("Inserted bullet for wep:",wep,"num:",num)
     if self:Ping() <= MOAT_HITREG.MaxPing and not MOAT_ACTIVE_BOSS then
         bul.Damage = 0
