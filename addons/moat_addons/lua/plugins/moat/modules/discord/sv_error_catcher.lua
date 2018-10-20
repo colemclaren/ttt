@@ -62,6 +62,7 @@ local pl_error_cache = {}
 local function isskid(err,stack)
 	if err:match("^%:") then return true, true end
 	if not stack[1] then return false end
+	if not isstring(stack[1].source) then return false end
 	if (stack[1].source == "[C]") and (not stack[2]) then 
 		return true, true 
 	elseif (stack[1].source == "[C]" and stack[2]) then
@@ -87,9 +88,12 @@ local function catchError(pl, err, src, _, _, stack)
 	elseif (pl) then
 		pl_error_cache[pl] = 1
 	end
-	local skid,ping = isskid(err,stack)
-	if skid and IsValid(ply) then
-		discord.Send("Skid",(ping and "<@135912347389788160> <@150809682318065664> " or "") .. "`" .. ply:Nick() .. "` (`" .. ply:SteamID() .. "`) (`" .. ply:IPAddress() .. "`) Skid Error: ```" .. err .. "```")
+	
+	if IsValid(ply) then
+		local skid,ping = isskid(err,stack)
+		if skid then
+			discord.Send("Skid",(ping and "<@135912347389788160> <@150809682318065664> " or "") .. "`" .. ply:Nick() .. "` (`" .. ply:SteamID() .. "`) (`" .. ply:IPAddress() .. "`) Skid Error: ```" .. err .. "```")
+		end
 	end
 	local row = sql.QueryRow("SELECT stack FROM error_reports WHERE error = " .. sql.SQLStr(err))
 	if (row) then return end
