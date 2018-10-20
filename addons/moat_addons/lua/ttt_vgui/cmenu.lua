@@ -10,6 +10,9 @@ local function Passthrough(what)
     return passthroughs[what]
 end
 
+local itemSizeVar = CreateClientConVar("ttt_moat_bem_size", 64, true, false, "Sets the item size in the Traitor/Detective menu's item list.")
+local quickMenuClickBuy = CreateClientConVar("ttt_moat_quickmenu_click", 1, true, false, "Sets whether you must click or not in the quick menu.")
+
 sql.Query([[
     CREATE TABLE IF NOT EXISTS `ttt_menu_collapsed` (
         `role` INT UNSIGNED NOT NULL,
@@ -34,7 +37,6 @@ local function SetRadial(role, item, inside)
             ]]..LocalPlayer():SteamID64()..[[,
             ]]..sql.SQLStr(tostring(item))..[[
         )]])
-        print(sql.LastError())
     end
 end
 
@@ -62,7 +64,7 @@ function GetRadialItems(role)
             end
         end
         if (not istable(entries[i])) then
-            table.remove(items, i)
+            table.remove(entries, i)
         end
     end
 
@@ -79,7 +81,6 @@ local function SetCollapsed(category, role, collapsed)
             ]]..sql.SQLStr(category)..[[
         );]])
     end
-    print(sql.LastError())
 end
 
 
@@ -207,6 +208,30 @@ function PANEL:Init()
     function disable:OnChange(v)
         cookie.Set("quickmenu_disable", v and 1 or 0)
     end
+
+    local clickbuy = vgui.Create("DCheckBoxLabel", self.Settings)
+    self.Settings.ClickBuy = clickbuy
+    clickbuy:SetText("Disable Quick Buy for Quick Menu (no clicking)")
+    clickbuy:Dock(TOP)
+    clickbuy:SetConVar "ttt_moat_quickmenu_click"
+    clickbuy:DockMargin(0, 5, 0, 0)
+
+    local size = vgui.Create("DNumSlider", self.Settings)
+    self.IconSize = size
+    size:Dock(TOP)
+    size:SetZPos(-1)
+    size:SetText "Icon Size (reopen to change)"
+    size:SetMin(32)
+    size:SetMax(128)
+    size:SetDecimals(0)
+    size:SetConVar "ttt_moat_bem_size"
+
+    local resizenote = vgui.Create("DLabel", self.Settings)
+
+    resizenote:SetText"You can resize this window by dragging the bottom right corner."
+    resizenote:SetZPos(-2)
+    resizenote:Dock(TOP)
+
 end
 
 function PANEL:FavoritesUpdate(added, id)
@@ -279,7 +304,18 @@ function PANEL:SetRole(role)
     self.Favorites = BetterEQ.GetFavorites(LocalPlayer():SteamID(), role)
     self.Role = role
 
-    self:GetEquipmentCategory "Favorites"
+    self:GetEquipmentCategory "Favorites".Sort = function(a, b)
+        local i1, i2
+        for _, item in ipairs(self.Favorites) do
+            if (tostring(a.Item.id) == item.weapon_id) then
+                i1 = _
+            elseif (tostring(b.Item.id) == item.weapon_id) then
+                i2 = _
+            end
+        end
+
+        return i1 > i2
+    end
     self:GetEquipmentCategory "Passives"
     self:GetEquipmentCategory(au)
 
@@ -295,15 +331,14 @@ function PANEL:SetRole(role)
         icon = cat:Add("EquipmentIcon")
         icon.Root = self
         icon:SetIcon(item.material)
-        icon:SetSize(64, 64)
+        icon:SetIconSize(itemSizeVar:GetInt())
         icon.DoClick = selected
         icon:SetRole(role)
         icon:SetArbitrator(self)
         icon:SetItem(item)
 
         if (not self.Selected) then
-            icon:OnMousePressed(MOUSE_LEFT, true)
-            icon:OnMousePressed(MOUSE_LEFT, false)
+            icon:OnMousePressed(MOUSE_LEFT)
         end
 
         self.ItemPanels[item.id] = icon
@@ -604,11 +639,6 @@ vgui.Register("EquipmentItemInfo", PANEL, "DPanel")
 
 local PANEL = {}
 
-function PANEL:Init()
-    self._GetChildren = self.GetChildren
-    self.GetChildren = self.OverrideGetChildren
-end
-
 local function sort(a, b)
     if (a:IsFavorite() ~= b:IsFavorite()) then
         return a:IsFavorite()
@@ -622,9 +652,15 @@ local function sort(a, b)
     return false
 end
 
+function PANEL:Init()
+    self._GetChildren = self.GetChildren
+    self.GetChildren = self.OverrideGetChildren
+    self.Sort = sort
+end
+
 function PANEL:OverrideGetChildren()
     local children = self:_GetChildren()
-    table.sort(children, sort)
+    table.sort(children, self.Sort)
     return children
 end
 
@@ -837,7 +873,7 @@ function PANEL:Init()
     self.NotSelectedColor = Color(0, 0, 0, 130)
     self.SelectedOutline = Color(0, 100, 200, 200)
     self.NotSelectedOutline = Color(30, 30, 10, 255)
-    local default_colors = {[0] = self.SelectedColor}
+    local default_colors = {[0] = self.NotSelectedColors}
     for i = 1, 8 do
         default_colors[i] = self.NotSelectedColor
     end
@@ -857,8 +893,23 @@ function PANEL:SetRole(role)
     self.ItemIcons = {}
     local w, h = self:GetSize()
 
+    local label = vgui.Create("DLabel", self)
+    label:SetText "Open Menu"
+    label:SetFont "TabLarge"
+    label:SizeToContents()
+    label:SetPos(w / 2 - label:GetWide() / 2, h / 2 - label:GetTall() / 2 + 20)
+    label:SetColor(color_white)
+
+    local note = vgui.Create("DLabel", self)
+    note:SetText "Add items by right clicking and selecting \"Add to Quick Menu\""
+    note:SetFont "TabLarge"
+    note:SizeToContents()
+    note:SetPos(w / 2 - note:GetWide() / 2, 0)
+    note:SetColor(color_white)
+
     for edge = 0, math.min(#self.Items, 8) - 1, 1 do
         local p = vgui.Create("DImage", self)
+        PrintTable(self.Items)
         p:SetImage(self.Items[edge + 1].material)
 
         local tmp  = math.rad(edge / 8 * 360)
@@ -931,7 +982,12 @@ function PANEL:Paint(w, h)
                 [self.LastHovered + 1] = self.NotSelectedColor,
                 [self.LastHovered + 9] = self.NotSelectedOutline
             })
+        else
+            SetPixels({
+                [0] = self.SelectedColor,
+            })
         end
+
         SetPixels({
             [edge + 1] = self.SelectedColor,
             [edge + 9] = self.SelectedOutline
@@ -945,6 +1001,15 @@ function PANEL:Paint(w, h)
         self.LastHovered = nil
     end
 
+    if (self.LastPosition ~= where) then
+        SetPixels({
+            [0] = where == 0 and self.SelectedOutline or self.SelectedColor,
+        })
+    end
+
+    self.LastPosition = where
+
+
     local mat = Matrix()
     mat:Translate(Vector(self:LocalToScreen(0, 0)))
     cam.PushModelMatrix(mat)
@@ -957,6 +1022,9 @@ end
 function PANEL:OnMousePressed(code)
     if (code == MOUSE_LEFT) then
         local where, edge = self:InsideWhere()
+        if (where ~= 1) then
+            return
+        end
         self:Remove()
         if (not edge) then
             return
@@ -970,8 +1038,8 @@ function PANEL:OnMousePressed(code)
 end
 
 function PANEL:Finish()
-    self:Remove()
     local where, edge = self:InsideWhere()
+    self:Remove()
     if (where == 0) then
         local eqframe = vgui.Create("EquipmentMenu")
 
@@ -980,6 +1048,8 @@ function PANEL:Finish()
         eqframe:SetKeyboardInputEnabled(false)
         eqframe:SetSizable(true)
         return eqframe
+    elseif (where == 1 and not quickMenuClickBuy:GetBool()) then
+        self:OnMousePressed(MOUSE_LEFT)
     end
 end
 

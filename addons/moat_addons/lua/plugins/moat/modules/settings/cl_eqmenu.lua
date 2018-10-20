@@ -63,7 +63,7 @@ function BetterEQ.RemoveFavorite(guid, role, weapon_id)
 end
 
 function BetterEQ.GetFavorites(guid, role)
-  query = "SELECT weapon_id FROM ttt_bem_fav WHERE guid = '" .. guid .. "' AND role = '" .. role .. "'"
+  query = "SELECT weapon_id FROM ttt_bem_fav WHERE guid = '" .. guid .. "' AND role = '" .. role .. "' ORDER BY `_rowid_`"
   result = sql.Query(query)
   return result
 end
