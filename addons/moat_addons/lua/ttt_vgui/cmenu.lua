@@ -309,7 +309,8 @@ function PANEL:SetRole(role)
         for _, item in ipairs(self.Favorites) do
             if (tostring(a.Item.id) == item.weapon_id) then
                 i1 = _
-            elseif (tostring(b.Item.id) == item.weapon_id) then
+            end
+            if (tostring(b.Item.id) == item.weapon_id) then
                 i2 = _
             end
         end
