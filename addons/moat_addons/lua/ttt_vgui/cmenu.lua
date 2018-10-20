@@ -859,7 +859,7 @@ function PANEL:SetRole(role)
 
     for edge = 0, math.min(#self.Items, 8) - 1, 1 do
         local p = vgui.Create("DImage", self)
-        --p:SetImage(self.Items[edge + 1].material)
+        p:SetImage(self.Items[edge + 1].material)
 
         local tmp  = math.rad(edge / 8 * 360)
         local c, s = math.cos(tmp), math.sin(tmp)
