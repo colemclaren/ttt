@@ -290,7 +290,6 @@ function PANEL:GetCategoryForItem(item)
                 extra = _item.rowid
             end
         end
-        print(item.id, extra)
     elseif (Passives[item.type]) then
         cat = "Passives"
     elseif (ClassCategories[item.id]) then
@@ -298,7 +297,6 @@ function PANEL:GetCategoryForItem(item)
     else
         cat = "Items"
     end
-    print(item.id)
     return cat, extra
 end
 
@@ -424,7 +422,7 @@ function PANEL:TTTSearchUpdated(search)
 end
 
 function PANEL:OnMousePressed(code)
-    if (code == MOUSE_LEFT and (input.IsKeyDown(KEY_LSHIFT) or input.IsKeyDown(KEY_LCONTROL))) then
+    if (code == MOUSE_LEFT and input.IsKeyDown(KEY_LCONTROL)) then
         RunConsoleCommand("ttt_order_equipment", self.Item.id)
     end
 
