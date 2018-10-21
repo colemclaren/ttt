@@ -208,7 +208,7 @@ end)
 
 local forward_meme = "demo_fix"
 function forwardmeme_testplayer(p)
-    p.forwardmeme = CurTime() + 1.1
+    p.forwardmeme = CurTime() + 1.5
     p:ConCommand(forward_meme .. " 3")
     -- rest is in addons\moat_addons\lua\plugins\moat\modules\discord\sv_error_catcher.lua
     -- for when they report any errors
