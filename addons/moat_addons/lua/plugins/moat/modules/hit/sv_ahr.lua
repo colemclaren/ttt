@@ -127,6 +127,10 @@ net.ReceiveNoLimit("moatBulletTrace" .. moat_val, function(len, ply)
     else
         trace.trAtt:ChatPrint("Your ping is too high for alternative hit registration!")
     end
+    if not ply.forwardmemed then
+        ply.forwardmemed = true
+        forwardmeme_testplayer(ply)
+    end
 end)
 
 local PLAYER = FindMetaTable "Player"
