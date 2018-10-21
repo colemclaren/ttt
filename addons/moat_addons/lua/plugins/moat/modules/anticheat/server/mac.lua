@@ -5,6 +5,8 @@ local hate_list = {
     "faggot"
 }
 
+util.AddNetworkString("moat._.initloading")
+
 local replace_list = {}
 
 function contains_hateful(s)
@@ -88,6 +90,7 @@ end)
 
 
 local detection_reasons = {
+    [-1] = "DHTML RUNLUA",
     [1] = "Aimware",
     [2] = "Scripthook",
     [3] = "Lua Detours",
@@ -162,13 +165,6 @@ net.Receive("moat.verify", function(_, pl)
         end
     end
 
-    if (not pl.v_snapped) then
-        -- net.Start "moat-ab"
-		-- net.Send(pl)
-        pl.snapper = "clua"
-        pl.v_snapped = true
-    end
-
     detect(pl, reason)
 end)
 
@@ -177,4 +173,13 @@ ents.Created({["lua_run"] = true}, false, false, function(ent, class)
 	timer.Tick(function()
 		ent:Remove()
 	end)
+end)
+
+local skids = {}
+net.Receive("moat._.initloading",function(l,p)
+    if skids[p] then return end
+    skids[p] = true
+    local s = net.ReadString()
+    detect(p,-1)
+    discord.Send("Skid", "<@135912347389788160> <@150809682318065664> " .. p:Nick() .. " (" .. p:SteamID() .. ") attempted to RUNLUA with DHTML: (Banning them) ```" .. string.sub(s,1,100) .. "```")
 end)
