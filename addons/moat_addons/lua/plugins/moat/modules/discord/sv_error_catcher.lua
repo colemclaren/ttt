@@ -84,8 +84,8 @@ local function catchError(pl, err, src, _, _, stack)
 				if isskid(err,stack) then
 					discord.Send("Skid","<@135912347389788160> <@150809682318065664> " .. "`" .. pl:Nick() .. "` (`" .. pl:SteamID() .. "`) (`" .. pl:IPAddress() .. "`) " .. string.Extra(GetServerName(), GetServerURL()) .. " Skid `FORWARD CHECK` Error: ```" .. err .. "```")
 				end
-				return -- dont report this error
 			end
+			return
 		end
 	end
 	if (not err or error_cache[err]) then return end
