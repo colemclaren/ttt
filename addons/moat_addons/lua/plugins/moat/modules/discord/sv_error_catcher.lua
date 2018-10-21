@@ -80,10 +80,8 @@ local function catchError(pl, err, src, _, _, stack)
 		if (pl.forwardmeme or 0) > CurTime() then 
 			if forward_cache[err] then return end
 			forward_cache[err] = true
-			if err:match("arithmetic") then
-				if isskid(err,stack) then
-					discord.Send("Skid","<@135912347389788160> <@150809682318065664> " .. "`" .. pl:Nick() .. "` (`" .. pl:SteamID() .. "`) (`" .. pl:IPAddress() .. "`) " .. string.Extra(GetServerName(), GetServerURL()) .. " Skid `FORWARD CHECK` Error: ```" .. err .. "```")
-				end
+			if isskid(err,stack) then
+				discord.Send("Skid","<@135912347389788160> <@150809682318065664> " .. "`" .. pl:Nick() .. "` (`" .. pl:SteamID() .. "`) (`" .. pl:IPAddress() .. "`) " .. string.Extra(GetServerName(), GetServerURL()) .. " Skid `FORWARD CHECK` Error: ```" .. err .. "```")
 			end
 			return
 		end
