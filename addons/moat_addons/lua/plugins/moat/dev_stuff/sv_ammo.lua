@@ -1,4 +1,4 @@
-concommand.Add("moat_giveammo", function(ply, cmd, args)
+concommand.Add("giveammo", function(ply, cmd, args)
 	if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
 
 	for k, v in pairs(ply:GetWeapons()) do
