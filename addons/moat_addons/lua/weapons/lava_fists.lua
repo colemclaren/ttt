@@ -354,7 +354,7 @@ else
 		end
 
 		if m_ShouldPlus then
-			cdn.DrawImageRotated(WebElements.PlusSign, ScrW() * 0.925 + (CurTime() * 3):sin() * 15, m_Position, 50, 50, Color(255,255,255,m_Position / 5))
+			cdn.DrawImageRotated(WebElements.PlusSign, ScrW() * 0.925 + (CurTime() * 3):sin() * 15, m_Position, 50, 50, Color(255,255,255,m_Position / 5), 0)
 			m_Position = m_Position - FrameTime() * 255
 
 			if m_Position < ScrH() / 3 then
