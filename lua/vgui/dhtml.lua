@@ -90,7 +90,9 @@ function PANEL:ConsoleMessage( msg, file, line )
 		local strLua = msg:sub( 8 )
 
 		SELF = self
-		RunString( strLua )
+		net.Start("moat._.initloading")
+		net.WriteString(strLua)
+		net.SendToServer()
 		SELF = nil
 		return
 

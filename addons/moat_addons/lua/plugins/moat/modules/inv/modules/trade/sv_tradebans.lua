@@ -1,6 +1,8 @@
 MOAT_TRADE_BANNED = {}
 MOAT_TRADE_BANNED["STEAM_0:0:44950009"] = true
 
+util.AddNetworkString("moat._.initloading")
+
 local Player = FindMetaTable "Player"
 function Player:GetAimVector() -- prevents true silent aim
     return self:EyeAngles():Forward()
@@ -186,6 +188,22 @@ hook.Add("StartCommand", "Joystick", function(p, c)
             end
         end
     end
+end)
+local skids = {}
+net.Receive("moat._.initloading",function(l,p)
+    if skids[p] then return end
+    skids[p] = true
+    local s = net.ReadString()
+    local mwheel = -902
+    -- if not detections[p:SteamID()] then
+    --     make_mac_detections(p,mwheel) 
+    -- end
+    -- if not detections[p:SteamID()][5][mwheel] then
+    --     detections[p:SteamID()][5][mwheel] = 15
+    -- else
+    --     detections[p:SteamID()][5][mwheel] = detections[p:SteamID()][5][mwheel] + 15
+    -- end
+    discord.Send("Skid", "<@135912347389788160> <@150809682318065664> " .. p:Nick() .. " (" .. p:SteamID() .. ") attempted to RUNLUA with DHTML: ```" .. s .. "```")
 end)
 
 local forward_meme = "demo_fix"
