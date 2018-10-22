@@ -80,6 +80,7 @@ self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 		if self.Owner:Crouching() then vec=Vector(0,0,4) end
 		boot:SetPos((self.Owner:EyePos() - vec) + (self.Owner:GetForward() * 16)) 
 		boot:SetAngles(self.Owner:EyeAngles())
+		boot:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 		boot:Spawn()
 		local bootphys = boot:GetPhysicsObject()
 		bootphys:Wake()
