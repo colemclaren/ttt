@@ -27,14 +27,13 @@ end
 
 local ENTITY = FindMetaTable "Entity"
 function ENTITY:HitRegCheck()
-	return false -- self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:PacketLoss() <= 10 and self:Ping() < 234
+	return self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:Ping() < 234
 end
 
 function SHR:PrepareForHit(time, num, p, dmg, dir, src, tr, cb)
 	SHR.Players[p] = SHR.Players[p] or {}
 	local t = SHR.Players[p]
-	t[time] = t[time] or {}
-	t[time][num] = {
+	table.insert(t, {
 		p = p,
 		dmg = dmg,
 		dir = dir,
@@ -42,9 +41,11 @@ function SHR:PrepareForHit(time, num, p, dmg, dir, src, tr, cb)
 		wep = p:GetActiveWeapon(),
 		num = num,
 		cb = cb
-	}
-	if (self.Callbacks[p] and self.Callbacks[p][time] and self.Callbacks[p][time][num]) then
-		self.Callbacks[p][time][num]()
+	})
+	if (self.Callbacks[p] and self.Callbacks[p][1]) then
+		local element = self.Callbacks[p][1]
+		table.remove(self.Callbacks[p], 1)
+		element()
 	end
 end
 
@@ -54,7 +55,7 @@ hook.Add("EntityFireBullets", "SHR.FireBullets", function(e, t)
 		local cb = t.Callback
 
 		local num = 1
-		local time = CurTime()
+		local time = e:GetCurrentCommand():TickCount()
 		local dmg = t.Damage
 
 		t.Callback = function(a, tr, d)
@@ -72,31 +73,37 @@ hook.Add("EntityFireBullets", "SHR.FireBullets", function(e, t)
 end)
 
 function SHR:InvalidPosition(eye, pl, pos, ent, tr)
-	local d1, d2 = eye:DistToSqr(tr.StartPos) > 5184, pos:DistToSqr(ent:GetPos()) > 5184
-	if (d1 or d2) then return true end
-
-	return util.TraceLine({start = eye, endpos = pos, filter = {pl, ent}}).HitWorld
+	return util.TraceLine({start = eye, endpos = pos, filter = {pl, ent, pl:GetActiveWeapon(), ent:GetActiveWeapon()}, mask = MASK_SHOT}).HitWorld
 end
 
-function SHR:WeHit(shooter, ent, time, eye, pos, dmgfrc, hg, shotnum)
+function SHR:WeHit(shooter, hit, ent, eye, pos, dmgfrc, hg, shotnum)
 	local k = self.Players[shooter]
-	if (not k or not k[time] or not k[time][shotnum]) then
+	if (not k or not k[1]) then
 		self.Callbacks[shooter] = self.Callbacks[shooter] or {}
-		self.Callbacks[shooter][time] = self.Callbacks[shooter][time] or {}
-		self.Callbacks[shooter][time][shotnum] = function()
-			self:WeHit(shooter, ent, time, eye, pos, dmgfrc, hg, shotnum)
-		end
-		timer.Simple(self.Config.MaxWait, function()
-			if (self.Callbacks[shooter][time]) then
-				self.Callbacks[shooter][time][shotnum] = nil
-				if (self.Callbacks[shooter][time] and not next(self.Callbacks[shooter][time])) then
-					self.Callbacks[shooter][time] = nil
-				end
+		local done = false
+		table.insert(self.Callbacks[shooter], function()
+			if (done) then
+				return
 			end
+			done = true
+			self:WeHit(shooter, hit, ent, eye, pos, dmgfrc, hg, shotnum)
+		end)
+		timer.Simple(self.Config.MaxWait, function()
+			if (done) then
+				return
+			end
+			done = true
+			table.remove(self.Callbacks[shooter], 1)
 		end)
 		return
 	end
-	k = k[time][shotnum]
+
+	k = k[1]
+	table.remove(self.Players[shooter], 1)
+
+	if (not hit) then
+		return
+	end
 
 	--[[ k = {
 		p = p,
@@ -106,7 +113,7 @@ function SHR:WeHit(shooter, ent, time, eye, pos, dmgfrc, hg, shotnum)
 		wep = p:GetActiveWeapon(),
 		num = num
 	}]]
-	if (not ent:IsPlayer() or ent:GetObserverMode() ~= OBS_MODE_NONE) then return end
+	if (not IsValid(ent) or not ent:IsPlayer() or ent:GetObserverMode() ~= OBS_MODE_NONE) then return end
 	if (self.Config.WallChecks and self:InvalidPosition(eye, shooter, pos, ent, k.tr)) then return end
 
 	local dmginfo = DamageInfo()
@@ -133,12 +140,7 @@ function SHR:WeHit(shooter, ent, time, eye, pos, dmgfrc, hg, shotnum)
 	k.cb(shooter, k.tr, dmginfo)
 	k.tr.AltHitreg = nil
 
-	if (self.Callbacks[shooter] and self.Callbacks[shooter][time]) then
-		self.Callbacks[shooter][time][shotnum] = nil
-		if (self.Callbacks[shooter][time] and not next(self.Callbacks[shooter][time])) then
-			self.Callbacks[shooter][time] = nil
-		end
-	end
+	dmginfo:SetDamageCustom(0)
 end
 
 local function takedamage(gm, targ, dmg)
@@ -148,7 +150,11 @@ local function takedamage(gm, targ, dmg)
 	if (IsValid(att) and att:IsPlayer() and tobool(att:GetInfo("moat_showdamagenumbers")) and GetRoundState() ~= ROUND_PREP and dmg:GetDamage() > 0) then
 		net.Start("moat_damage_number")
 			net.WriteUInt(dmg:GetDamage(), 32)
-			net.WriteUInt(dmg:GetDamageCustom(), 4)
+			if (dmg:GetDamageCustom() ~= 0) then
+				net.WriteUInt(targ:LastHitGroup(), 4)
+			else
+				net.WriteUInt(dmg:GetDamageCustom(), 4)
+			end
 			net.WriteVector(dmg:GetDamagePosition())
 		net.Send(att)
 	end
@@ -161,11 +167,11 @@ local function register(GM)
 	GM.EntityTakeDamage = takedamage
 
 	net.ReceiveNoLimit("shr", function(_, pl)
-		if (not pl:HitRegCheck() or pl:GetObserverMode() ~= OBS_MODE_NONE or net.ReadUInt(32) ~= SHR_Val) then
+		if (not pl:HitRegCheck() or pl:GetObserverMode() ~= OBS_MODE_NONE or net.ReadUInt(32) ~= SHR_Val or MOAT_ACTIVE_BOSS) then
 			return
 		end
 
-		SHR:WeHit(pl, net.ReadEntity(), net.ReadFloat(), net.ReadVector(), net.ReadVector(), net.ReadVector(), net.ReadUInt(4), net.ReadUInt(8))
+		SHR:WeHit(pl, net.ReadBool(), net.ReadEntity(), net.ReadVector(), net.ReadVector(), net.ReadVector(), net.ReadUInt(4), net.ReadUInt(8))
 	end)
 end
 

@@ -1,3 +1,4 @@
+
 local c = GetConVar "moat_alt_hitreg"
 local b
 
@@ -9,14 +10,12 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
     local cb = t.Callback
 
     local num = 1
-    local time = CurTime()
-
     t.Callback = function(a, tr, d)
         if (d and tr.HitGroup and IsValid(tr.Entity)) then
             net.Start "shr"
                 net.WriteUInt(b, 32)
+                net.WriteBool(true)
                 net.WriteEntity(tr.Entity)
-                net.WriteFloat(time)
 
                 net.WriteVector(tr.StartPos)
                 net.WriteVector(tr.HitPos)
@@ -25,7 +24,13 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
                 net.WriteUInt(tr.HitGroup, 4)
                 net.WriteUInt(num, 8)
             net.SendToServer()
+        else
+            net.Start "shr"
+                net.WriteUInt(b, 32)
+                net.WriteBool(false)
+            net.SendToServer()
         end
+
         num = num + 1
 
         if (cb) then
