@@ -41,6 +41,9 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
             exp:Fire("Explode", 0, 0)
         else
             dmginfo.Callback = function(att, tr, dmginfo)
+                if (tr.AltHitreg) then
+                    return
+                end
                 local exp = ents.Create("env_explosion")
                 exp:SetOwner(attacker)
                 exp:SetPos(tr.HitPos)

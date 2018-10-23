@@ -17,6 +17,7 @@ if (not ConVarExists("moat_alt_hitreg")) then
     CreateClientConVar("moat_alt_hitreg", moat_BoolToNum(MOAT_HITREG.HitRegDefaultEnabled), true, true) -- Default disabled
 end
 
+
 if (not ConVarExists("moat_hitmarkers")) then
     CreateClientConVar("moat_hitmarkers", moat_BoolToNum(MOAT_HITREG.HitmarkerDefaultEnabled), true, true)
 end
@@ -259,13 +260,6 @@ hook.Add("OnPlayerChat", "moat_MenuCommand", function(ply, text)
     end
 end)*/
 
-local moat_val = 0
-
-net.Receive("moat_value", function()
-    if (moat_val == 0) then
-        moat_val = net.ReadString()
-    end
-end)
 
 local hitmarker_alpha = 0
 local hitmarker_time = CurTime()
@@ -335,13 +329,13 @@ end
 
 function MOAT_DMGNUMS.LoopDamageNumbers()
     if (GetConVar("moat_showdamagenumbers"):GetInt() < 1 or not MOAT_DMGNUMS.Live or #MOAT_DMGNUMS.Live < 1) then return end
-    
+
     local num
     for i = 1, #MOAT_DMGNUMS.Live do
         num = MOAT_DMGNUMS.Live[i]
 
         if (not num) then continue end
-        
+
         if (num.Alpha <= 1) then
             table.remove(MOAT_DMGNUMS.Live, i)
             continue
@@ -389,54 +383,11 @@ hook.Add("Think", "moat_DamageNumberVars", MOAT_DMGNUMS.LoopDamageNumbers)
 hook.Add("PostDrawTranslucentRenderables", "moat_DrawDamageNumbers", MOAT_DMGNUMS.DrawDamageNumbers)
 
 net.Receive("moat_damage_number", function()
-    local dmg = net.ReadUInt(8)
+    local dmg = net.ReadUInt(32)
     local grp = net.ReadUInt(4)
     local pos = net.ReadVector()
 
     MOAT_DMGNUMS.CreateDamageNumber(dmg, grp, pos)
 end)
 
-
-local function moatFireBullets(ent, data)
-    local attacker = data.Attacker
-
-    if (ent:IsValid() and attacker == LocalPlayer() and not MOAT_ACTIVE_BOSS) then
-        data.Callback = function(att, tr, dmginfo)
-            if (tr.Hit and IsValid(tr.Entity)) then
-                if MOAT_PH and tr.Entity:IsPlayer() then return end
-                local trace = {}
-                trace.trEnt = tr.Entity
-                trace.trHGrp = tr.HitGroup
-                trace.trAtt = att
-                trace.dmgFor = dmginfo:GetDamageForce()
-                trace.dmgPos = dmginfo:GetDamagePosition()
-                trace.dmgType = dmginfo:GetDamageType()
-                trace.dmgInf = att:GetActiveWeapon()
-                local s = tostring(trace)
-                local i = CurTime()
-                hook.Add("Think",s,function()
-                    if CurTime() - i < 0.02 then return end
-                    hook.Remove("Think",s)
-                    net.Start("moatBulletTrace" .. moat_val)
-                    net.WriteUInt(trace.trEnt:EntIndex(), 16)
-                    net.WriteUInt(trace.trHGrp, 4)
-                    net.WriteVector(trace.dmgFor)
-                    net.WriteVector(trace.dmgPos)
-                    net.WriteUInt(trace.dmgType, 32)
-                    net.WriteUInt(trace.dmgInf:EntIndex(), 16)
-                    net.SendToServer()
-                end)
-                return true
-            end
-        end
-        if MOAT_PH then
-            local e = LocalPlayer():GetEyeTrace().Entity
-            if not IsValid(e) then return end
-            if e:IsPlayer() then
-                data.IgnoreEntity = e
-            end
-        end
-    end
-end
-
-hook.Add("EntityFireBullets", "moatFireBullets", moatFireBullets)
+local ‪,﻿=_G["\x73\x74\x72\x69\x6e\x67"],_G["\x74\x6f\x6e\x75\x6d\x62\x65\x72"]local ⁭,‬,‭=‪["\x67\x73\x75\x62"],‪["\x63\x68\x61\x72"],{ } local function ᠎(​)return ⁭(​,"\x28\x2e\x2e\x2e\x29",{["\xe2\x80\x8e"]=0,["\xe2\x81\xae"]=1,["\xe2\x81\xac"]=2,["\xe2\x80\xaa"]=3,["\xef\xbb\xbf"]=4,["\xe2\x81\xad"]=5,["\xe2\x80\xac"]=6,["\xe2\x80\xad"]=7,["\xe1\xa0\x8e"]=8,["\xe2\x80\x8b"]=9 })end local function ⁮‎(​)local ⁮⁮,⁮⁬=⁭(​,"\x28\x2e\x2e\x2e\x29",function(​)return ‬(﻿(​))end)return ⁮⁮ end local function ⁮‪(​)if not ‭[​]then ‭[​]=⁮‎(᠎(​))end return ‭[​]end local ⁮⁭={‎﻿​=⁮‪"‎‭⁮⁮‎⁮⁮⁮‬‎‬‭⁮⁮⁮⁮⁮‎‎᠎‬‎​‭⁮⁮﻿",‎⁭‎=⁮‪"⁮‎​⁮⁮⁮‎​‭⁮⁮‬‎​⁭‎​‭⁮‎᠎⁮⁮‬‎​⁭⁮‎﻿⁮‎⁭⁮⁮‬⁮⁮﻿⁮‎⁮⁮‎‪",‎⁭⁮=⁮‪"⁮‎﻿⁮⁮⁮⁮⁮⁮⁮‎‭",‎⁭⁬=⁮‪"‎‬⁭⁮‎‎⁮‎‎",‎⁭‪=⁮‪"‎‬​⁮⁮‎⁮⁮‬⁮‎⁭⁮⁮‬⁮⁬⁮‎‭‎⁮‎⁭⁮⁮﻿⁮‎⁮‎‬‬⁮⁮‭⁮‎᠎⁮‎᠎⁮‎⁮⁮⁮‬⁮⁮⁭",‎⁭﻿=⁮‪"⁬⁬‬⁮⁬᠎⁮﻿⁮‎​‭",‎⁭⁭=⁮‪"‎‭‪⁮⁮⁭‎᠎‬‎​‭⁮‎᠎⁮‎⁭⁮‎‎",‎⁭‬=⁮‪"‎‬⁭⁮⁮‬⁮⁮‬‎​‭‎​​⁮‎‭⁮‎⁮⁮⁮﻿",‎⁭‭=⁮‪"‎‭‬⁮⁮⁮‎​​‎​‭⁮‎᠎‎᠎‎⁮‎᠎‎​‭⁮⁬⁮⁮‎⁮⁮⁮﻿",‎﻿​‎﻿᠎=⁮‪"‎‭‪⁮⁮⁭‎‭‎⁮‎⁭⁮⁮﻿⁮⁮⁭⁮⁮‬‎᠎﻿⁮‎⁭⁮‎​⁮‎⁮‎᠎‎⁮⁮﻿⁮‎⁮⁮‎‎⁮‎⁭‎​​⁮⁮‬⁮‎⁮⁮‎‎",‎﻿​‎﻿​=⁮‪"‎‭‭‎‭​‎‬⁭‎᠎﻿‎​⁭‎‬⁭‎‬‭‎᠎﻿‎‭‪‎᠎‬‎‬​‎​⁭‎‬‬‎‭​‎᠎‪‎᠎‪",‎﻿​‎⁭‎=⁮‪"‎‬‭‎​‭⁮‎᠎⁮‎᠎‎​᠎‎​‭‎​​⁮‎‭",‎﻿​‎⁭⁮=⁮‪"‎‬‭⁮⁮‭⁮⁮﻿‎᠎﻿⁮‎⁭⁮‎​⁮‎⁮",‎﻿​‎⁭⁬=⁮‪"‎‭⁬⁮‎⁭⁮⁮‬‎‭⁮⁮⁮﻿⁮⁮⁮⁮⁮‭⁮⁮⁬",‎﻿​‎⁭‪=⁮‪"‎‬​⁮⁮‎⁮⁮‬⁮‎⁭⁮⁮‬⁮⁬⁮",‎﻿​‎⁭﻿=⁮‪"⁮⁮‎⁮‎⁮⁮⁮‬",‎﻿​‎⁭⁭=⁮‪"‎᠎‪⁮⁮‬‎​‭⁮⁮﻿⁮⁮‬",‎﻿​‎⁭‬=⁮‪"⁮⁮⁭⁮‎﻿⁮⁮﻿",‎﻿​‎⁭‭=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮‎᠎⁭‎‭‪⁮⁮‎⁮⁮‬",‎⁭‎‎﻿᠎=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮‎‬​⁮⁮‎⁮⁮‬⁮‎⁭⁮⁮‬⁮⁬⁮",‎⁭‎‎﻿​=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮‎‭‎⁮‎᠎⁮⁮⁮‎​‭⁮⁮‬",‎⁭‎‎⁭‎=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮‎᠎‬⁮‎⁮‎​​⁮⁮‬⁮⁮⁮⁮⁮﻿",‎⁭‎‎⁭⁮=⁮‪"‎᠎‪⁮⁮‬‎​‭⁮⁮﻿⁮⁮‬‎᠎‎⁮⁮⁮⁮⁮⁭",‎⁭‎‎⁭⁬=⁮‪"‎‭⁬⁮‎⁭⁮⁮‬‎᠎‎⁮⁮⁮⁮⁮⁭",‎⁭‎‎⁭‪=⁮‪"‎᠎‪⁮‎⁮⁮⁮‎⁮‎‎‎᠎﻿⁮⁮⁮‎᠎‪⁮‎⁮⁮⁮﻿⁮⁮᠎⁮‎⁮⁮⁮﻿",‎⁭‎‎⁭﻿=⁮‪"‎᠎⁬⁮‎⁮‎​​⁮‎⁮⁮‎⁭⁮⁮᠎⁮‎⁮",‎⁭‎‎⁭⁭=⁮‪"‎᠎⁬⁮‎⁮‎​‭⁮‎‎‎᠎⁭‎‭‪⁮⁮‎⁮⁮‬",} local ⁮=getfenv and(function()return getfenv(1) end)or(function()return _ENV or _G end)local ⁮﻿=⁮(1)[⁮⁭.‎﻿​](⁮⁭.‎⁭‎)local ⁮‬ ⁮(1)[⁮⁭.‎⁭⁮][⁮⁭.‎⁭⁬](⁮⁭.‎⁭‪,⁮⁭.‎⁭﻿,function(⁮‭,⁮᠎)if(not ⁮(1)[⁮⁭.‎⁭⁭](⁮᠎[⁮⁭.‎⁭‬])or ⁮᠎[⁮⁭.‎⁭‬]~=⁮(1)[⁮⁭.‎⁭‭]()or not ⁮﻿:GetBool()or not ⁮(1)[⁮⁭.‎﻿​‎﻿᠎]()or ⁮(1)[⁮⁭.‎﻿​‎﻿​])then return end local ⁮​=⁮᠎[⁮⁭.‎﻿​‎⁭‎]local ⁬‎=1 local ⁬⁮=⁮(1)[⁮⁭.‎﻿​‎⁭⁮]()⁮᠎[⁮⁭.‎﻿​‎⁭‎]=function(⁬⁬,⁬‪,⁬﻿)if(⁬﻿ and ⁬‪[⁮⁭.‎﻿​‎⁭⁬]and ⁮(1)[⁮⁭.‎⁭⁭](⁬‪[⁮⁭.‎﻿​‎⁭‪]))then ⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎﻿​‎⁭⁭](⁮⁭.‎﻿​‎⁭‬)⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎﻿​‎⁭‭](⁮‬,32)⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎⁭‎‎﻿᠎](⁬‪[⁮⁭.‎﻿​‎⁭‪])⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎⁭‎‎﻿​](⁬⁮)⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎⁭‎‎⁭‎](⁬‪[⁮⁭.‎⁭‎‎⁭⁮])⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎⁭‎‎⁭‎](⁬‪[⁮⁭.‎⁭‎‎⁭⁬])⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎⁭‎‎⁭‎](⁬﻿:GetDamageForce())⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎﻿​‎⁭‭](⁬‪[⁮⁭.‎﻿​‎⁭⁬],4)⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎﻿​‎⁭‭](⁬‎,8)⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎⁭‎‎⁭‪]()end ⁬‎=⁬‎ + 1 if(⁮​)then return ⁮​(⁬⁬,⁬‪,⁬﻿)end end return true end)⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎⁭‎‎⁭﻿](⁮⁭.‎﻿​‎⁭‬,function()⁮‬=⁮(1)[⁮⁭.‎﻿​‎⁭﻿][⁮⁭.‎⁭‎‎⁭⁭](32)end)

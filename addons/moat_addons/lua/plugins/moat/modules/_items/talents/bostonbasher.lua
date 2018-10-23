@@ -17,6 +17,9 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
     if (GetRoundState() ~= ROUND_ACTIVE and GetRoundState() ~= ROUND_POST) or MOAT_MINIGAME_OCCURING then return end
 
 	dmginfo.Callback = function(att, tr, dmginfo)
+		if (tr.AltHitreg) then
+			return
+		end
 		if (not IsValid(tr.Entity)) then
 			local dmg = att:GetActiveWeapon().Primary.Damage
 			att:TakeDamage(dmg, att, att:GetActiveWeapon())

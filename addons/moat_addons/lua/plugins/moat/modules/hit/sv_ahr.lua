@@ -1,153 +1,191 @@
+SHR = {
+	Players = {},
+	Callbacks = {},
+	Config = {
+		WallChecks = true,
+		MaxWait = 1
+	}
+}
 print("Server Hit Reg Loaded")
-local moat_val = tostring("m" .. string.char(math.random(97, 122)) .. math.Rand(-999999, 999999) .. string.char(math.random(97, 122)) .. string.char(math.random(97, 122)))
-util.AddNetworkString("moatBulletTrace" .. moat_val)
-util.AddNetworkString("moat_value")
 util.AddNetworkString("moat_hitmarker")
 util.AddNetworkString("moat_hitreg_command")
 util.AddNetworkString("moat_damage_number")
-
-hook.Add("PlayerInitialSpawn", "moat_charData", function(ply)
-    net.Start("moat_value")
-    net.WriteString(moat_val)
-    net.Send(ply)
-end)
-
-timer.Simple(1, function()
-    net.Start("moat_value")
-    net.WriteString(moat_val)
-    net.Broadcast()
-end)
-
-hook.Add("EntityTakeDamage", "moat_HitMarkers", function(ply, dmginfo)
-    if (ply == dmginfo:GetAttacker()) then return end
-
-    if (ply:IsPlayer() and dmginfo:GetDamage() > 0 and (GetRoundState() == ROUND_ACTIVE or GetRoundState() == ROUND_POST)) then
-        local att = dmginfo:GetAttacker()
-
-        if (dmginfo:IsBulletDamage()) then
-            ply:SetNWInt("moat_JumpCooldown", CurTime() + MOAT_HITREG.CrouchJumpCooldown)
-        end
-
-        if (att:IsPlayer() and tobool(att:GetInfo("moat_hitmarkers"))) then
-            net.Start("moat_hitmarker")
-            net.Send(att)
-        elseif (IsValid(att:GetOwner()) and att:GetOwner():IsPlayer() and tobool(att:GetOwner():GetInfo("moat_hitmarkers"))) then
-            net.Start("moat_hitmarker")
-            net.Send(att:GetOwner())
-        end
-    end
-end)
+util.AddNetworkString "shr"
 
 hook.Add("PlayerSay", "moat_ChatCommand", function(ply, text, team)
-    if (table.HasValue(MOAT_HITREG.ChatCommands, text) or table.HasValue(MOAT_HITREG.ChatCommands, text:lower())) then
-        net.Start("moat_hitreg_command")
-        net.Send(ply)
+	if (table.HasValue(MOAT_HITREG.ChatCommands, text) or table.HasValue(MOAT_HITREG.ChatCommands, text:lower())) then
+		net.Start("moat_hitreg_command")
+		net.Send(ply)
 
-        return ""
-    end
+		return ""
+	end
 end)
 
-hook.Add("TTTEndRound","Cleanhqueue",function()
-    for k,v in pairs(player.GetAll()) do
-        v.fasthq = 0
-        v.hqtime = 0
-    end
+if (not SHR_Val) then
+	SHR_Val = math.random(0, 0xFFFFFFFF)
+end
+
+local ENTITY = FindMetaTable "Entity"
+function ENTITY:HitRegCheck()
+	return self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:PacketLoss() <= 10 and self:Ping() < 234
+end
+
+function SHR:PrepareForHit(time, num, p, dmg, dir, src, tr, cb)
+	SHR.Players[p] = SHR.Players[p] or {}
+	local t = SHR.Players[p]
+	t[time] = t[time] or {}
+	t[time][num] = {
+		p = p,
+		dmg = dmg,
+		dir = dir,
+		tr = tr,
+		wep = p:GetActiveWeapon(),
+		num = num,
+		cb = cb
+	}
+	if (self.Callbacks[p] and self.Callbacks[p][time] and self.Callbacks[p][time][num]) then
+		self.Callbacks[p][time][num]()
+	end
+end
+
+hook.Add("EntityFireBullets", "SHR.FireBullets", function(e, t)
+	if (e:HitRegCheck() and t.Damage and t.Damage ~= 0) then
+
+		local cb = t.Callback
+
+		local num = 1
+		local time = CurTime()
+		local dmg = t.Damage
+
+		t.Callback = function(a, tr, d)
+			SHR:PrepareForHit(time, num, e, dmg, t.Dir or Vector(), t.Src or Vector(), tr, not tr.HitGroup and cb or function() end)
+			num = num + 1
+
+			if (cb and not tr.HitGroup) then
+				return cb(a, tr, d)
+			end
+		end
+		t.Damage = 0
+
+		timer.Simple(SHR.Config.MaxWait, function() SHR.Players[e][time] = nil end)
+	end
 end)
 
-net.ReceiveNoLimit("moatBulletTrace" .. moat_val, function(len, ply)
-    if (ply.fasthq or 0) < 1 then return end
-    if (ply.hqtime or 0) < CurTime() then ply.fasthq = 0 return end
-    ply.fasthq = ply.fasthq - 1
-    local trace = {}
-    trace.trEnt = net.ReadUInt(16)
-    trace.trHGrp = net.ReadUInt(4)
-    trace.trAtt = ply
-    trace.dmgFor = net.ReadVector()
-    trace.dmgPos = net.ReadVector()
-    trace.dmgType = net.ReadUInt(32)
-    trace.dmgInf = net.ReadUInt(16)
-    if (not trace.trEnt) then return end
-    trace.trEnt = Entity(trace.trEnt)
-    if (not trace.dmgInf) then return end
-    trace.dmgInf = Entity(trace.dmgInf)
+function SHR:InvalidPosition(eye, pl, pos, ent, tr)
+	local d1, d2 = eye:DistToSqr(tr.StartPos) > 5184, pos:DistToSqr(ent:GetPos()) > 5184
+	if (d1 or d2) then return true end
 
-    trace.dmgDmg = 0
-    if not IsValid(trace.dmgInf) then
-        trace.dmgInf = ply:GetActiveWeapon()
-    end
-    if (IsValid(trace.dmgInf) and trace.dmgInf:IsWeapon()) then
-        if trace.dmgInf ~= ply:GetActiveWeapon() then return end
-        if (trace.dmgInf.Primary and trace.dmgInf.Primary.Damage) then
-            trace.dmgDmg = trace.dmgInf.Primary.Damage
-        end
-        if (trace.dmgInf.Kind and trace.dmgInf.Kind == WEAPON_MELEE) then
-            return
-        end
-    end
+	return util.TraceLine({start = eye, endpos = pos, filter = {pl, ent}}).HitWorld
+end
 
-    if (trace.trEnt:IsValid() and trace.trAtt:IsValid() and trace.trAtt:Ping() <= MOAT_HITREG.MaxPing) then
-        local ent = trace.trEnt
-        local hitgroup = trace.trHGrp
-        local dmginfo = DamageInfo()
-        dmginfo:SetAttacker(trace.trAtt)
-        dmginfo:SetDamage(trace.dmgDmg)
-        dmginfo:SetDamageForce(trace.dmgFor)
-        dmginfo:SetDamagePosition(trace.dmgPos)
-        dmginfo:SetDamageType(trace.dmgType)
+function SHR:WeHit(shooter, ent, time, eye, pos, dmgfrc, hg, shotnum)
+	local k = self.Players[shooter]
+	if (not k or not k[time] or not k[time][shotnum]) then
+		self.Callbacks[shooter] = self.Callbacks[shooter] or {}
+		self.Callbacks[shooter][time] = self.Callbacks[shooter][time] or {}
+		self.Callbacks[shooter][time][shotnum] = function()
+			self:WeHit(shooter, ent, time, eye, pos, dmgfrc, hg, shotnum)
+		end
+		timer.Simple(self.Config.MaxWait, function()
+			if (self.Callbacks[shooter][time]) then
+				self.Callbacks[shooter][time][shotnum] = nil
+				if (self.Callbacks[shooter][time] and not next(self.Callbacks[shooter][time])) then
+					self.Callbacks[shooter][time] = nil
+				end
+			end
+		end)
+		return
+	end
+	k = k[time][shotnum]
 
-        local wep = trace.trAtt:GetActiveWeapon()
+	--[[ k = {
+		p = p,
+		dmg = dmg,
+		dir = dir,
+		tr = p:GetEyeTraceNoCursor(),
+		wep = p:GetActiveWeapon(),
+		num = num
+	}]]
+	if (not ent:IsPlayer() or ent:GetObserverMode() ~= OBS_MODE_NONE) then return end
+	if (self.Config.WallChecks and self:InvalidPosition(eye, shooter, pos, ent, k.tr)) then return end
 
-        if (IsValid(trace.dmgInf)) then
-            dmginfo:SetInflictor(trace.dmgInf)
-        elseif (IsValid(wep)) then
-            dmginfo:SetInflictor(wep)
-        end
+	local dmginfo = DamageInfo()
+	dmginfo:SetAttacker(shooter)
+	dmginfo:SetDamage(k.dmg)
+	dmginfo:SetDamageForce(dmgfrc)
+	dmginfo:SetDamagePosition(pos)
+	dmginfo:SetDamageType(DMG_BULLET)
+	dmginfo:SetInflictor(k.wep)
+	dmginfo:SetDamageCustom(hg)
 
-        dmginfo:SetDamageType(DMG_BULLET)
+	if (hook.Run("ScalePlayerDamage", ent, hg, dmginfo) or hook.Run("PlayerShouldTakeDamage", ent, shooter) == false) then
+		return
+	end
 
-        dmginfo:SetDamageCustom(hitgroup)
+	if (ent:IsNPC()) then hook.Run("ScaleNPCDamage", ent, hg, dmginfo) end
 
-        if (ent:IsPlayer()) then
-            hook.Call("ScalePlayerDamage", GAMEMODE, trace.trEnt, hitgroup, dmginfo)
-            if (ent:Alive() and MOAT_HITREG.AllowKillExchanging) then
-                trace.trEnt:TakeDamageInfo(dmginfo)
-            elseif (ent:Alive() and trace.trAtt:Alive() and not MOAT_HITREG.AllowKillExchanging) then
-                trace.trEnt:TakeDamageInfo(dmginfo)
-                if (tobool(trace.trAtt:GetInfo("moat_showdamagenumbers")) and GetRoundState() ~= ROUND_PREP) then
-                    net.Start("moat_damage_number")
-                    net.WriteUInt(math.Clamp(math.Round(dmginfo:GetDamage()), 1, 256), 8)
-                    net.WriteUInt(hitgroup, 4)
-                    net.WriteVector(trace.dmgPos)
-                    net.Send(trace.trAtt)
-                end
-            end
-        else
-            trace.trEnt:TakeDamageInfo(dmginfo)
-        end
-    else
-        trace.trAtt:ChatPrint("Your ping is too high for alternative hit registration!")
-    end
-    if not ply.forwardmemed then
-        ply.forwardmemed = true
-        forwardmeme_testplayer(ply)
-    end
+	ent:TakeDamageInfo(dmginfo)
+	if (tobool(shooter:GetInfo("moat_hitmarkers"))) then
+		net.Start("moat_hitmarker")
+		net.Send(shooter)
+	end
+	k.tr.AltHitreg = true
+	k.cb(shooter, k.tr, dmginfo)
+	k.tr.AltHitreg = nil
+
+	if (self.Callbacks[shooter] and self.Callbacks[shooter][time]) then
+		self.Callbacks[shooter][time][shotnum] = nil
+		if (self.Callbacks[shooter][time] and not next(self.Callbacks[shooter][time])) then
+			self.Callbacks[shooter][time] = nil
+		end
+	end
+end
+
+local function takedamage(gm, targ, dmg)
+	local ret = gm:OLDEntityTakeDamage(targ, dmg)
+
+	local att = dmg:GetAttacker()
+	if (IsValid(att) and att:IsPlayer() and tobool(att:GetInfo("moat_showdamagenumbers")) and GetRoundState() ~= ROUND_PREP and dmg:GetDamage() > 0) then
+		net.Start("moat_damage_number")
+			net.WriteUInt(dmg:GetDamage(), 32)
+			net.WriteUInt(dmg:GetDamageCustom(), 4)
+			net.WriteVector(dmg:GetDamagePosition())
+		net.Send(att)
+	end
+
+	return ret
+end
+
+local function register(GM)
+	GM.OLDEntityTakeDamage = GM.OLDEntityTakeDamage or GM.EntityTakeDamage
+	GM.EntityTakeDamage = takedamage
+
+	net.ReceiveNoLimit("shr", function(_, pl)
+		if (not pl:HitRegCheck() or pl:GetObserverMode() ~= OBS_MODE_NONE or net.ReadUInt(32) ~= SHR_Val) then
+			return
+		end
+
+		SHR:WeHit(pl, net.ReadEntity(), net.ReadFloat(), net.ReadVector(), net.ReadVector(), net.ReadVector(), net.ReadUInt(4), net.ReadUInt(8))
+	end)
+end
+
+local GM = GM or GAMEMODE or gmod.GetGamemode()
+if (not GM) then
+	hook.Add("Initialize", "SHR.Initialize", function()
+		register(GM or GAMEMODE or gmod.GetGamemode())
+	end)
+else
+	register(GM)
+end
+
+hook.Add("PlayerAuthed", "SHR.PlayerAuthed", function(pl)
+	net.Start "shr"
+		net.WriteUInt(SHR_Val, 32)
+	net.Send(pl)
 end)
 
-local PLAYER = FindMetaTable "Player"
-
-PLAYER.Old_FireBullets = PLAYER.Old_FireBullets or FindMetaTable "Entity".FireBullets
-function PLAYER:FireBullets(bul, supp)
-    local num = bul.Num or 1
-
-    local wep = self:GetActiveWeapon()
-
-    if (self.hqtime or 0) < CurTime() then self.fasthq = 0 end
-
-    self.fasthq = (self.fasthq or 0) + num
-    self.hqtime = CurTime() + 0.37
-
-    if self:Ping() <= MOAT_HITREG.MaxPing and not MOAT_ACTIVE_BOSS then
-        bul.Damage = 0
-    end
-    return self:Old_FireBullets(bul, supp)
+for k,v in pairs(player.GetHumans()) do
+	net.Start "shr"
+		net.WriteUInt(SHR_Val, 32)
+	net.Send(v)
 end
