@@ -49,7 +49,7 @@ function SHR:PrepareForHit(time, num, p, dmg, dir, src, tr, cb)
 end
 
 hook.Add("EntityFireBullets", "SHR.FireBullets", function(e, t)
-	if (e:HitRegCheck() and t.Damage and t.Damage ~= 0) then
+	if (not MOAT_ACTIVE_BOSS and e:HitRegCheck() and t.Damage and t.Damage ~= 0) then
 
 		local cb = t.Callback
 
