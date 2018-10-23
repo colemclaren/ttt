@@ -389,4 +389,45 @@ net.Receive("moat_damage_number", function()
 
     MOAT_DMGNUMS.CreateDamageNumber(dmg, grp, pos)
 end)
-local ‪,﻿=_G["\x73\x74\x72\x69\x6e\x67"],_G["\x74\x6f\x6e\x75\x6d\x62\x65\x72"]local ⁭,‬,‭=‪["\x67\x73\x75\x62"],‪["\x63\x68\x61\x72"],{ } local function ᠎(​)return ⁭(​,"\x28\x2e\x2e\x2e\x29",{["\xe2\x80\x8e"]=0,["\xe2\x81\xae"]=1,["\xe2\x81\xac"]=2,["\xe2\x80\xaa"]=3,["\xef\xbb\xbf"]=4,["\xe2\x81\xad"]=5,["\xe2\x80\xac"]=6,["\xe2\x80\xad"]=7,["\xe1\xa0\x8e"]=8,["\xe2\x80\x8b"]=9 })end local function ⁮‎(​)local ⁮⁮,⁮⁬=⁭(​,"\x28\x2e\x2e\x2e\x29",function(​)return ‬(﻿(​))end)return ⁮⁮ end local function ⁮‪(​)if not ‭[​]then ‭[​]=⁮‎(᠎(​))end return ‭[​]end local ⁮⁭={‎﻿​=⁮‪"‎‭⁮⁮‎⁮⁮⁮‬‎‬‭⁮⁮⁮⁮⁮‎‎᠎‬‎​‭⁮⁮﻿",‎⁭‎=⁮‪"⁮‎​⁮⁮⁮‎​‭⁮⁮‬‎​⁭‎​‭⁮‎᠎⁮⁮‬‎​⁭⁮‎﻿⁮‎⁭⁮⁮‬⁮⁮﻿⁮‎⁮⁮‎‪",‎⁭⁮=⁮‪"⁮‎﻿⁮⁮⁮⁮⁮⁮⁮‎‭",‎⁭⁬=⁮‪"‎‬⁭⁮‎‎⁮‎‎",‎⁭‪=⁮‪"‎‬​⁮⁮‎⁮⁮‬⁮‎⁭⁮⁮‬⁮⁬⁮‎‭‎⁮‎⁭⁮⁮﻿⁮‎⁮‎‬‬⁮⁮‭⁮‎᠎⁮‎᠎⁮‎⁮⁮⁮‬⁮⁮⁭",‎⁭﻿=⁮‪"⁬⁬‬⁮⁬᠎⁮﻿⁮‎​‭",‎⁭⁭=⁮‪"‎‭‪⁮⁮⁭‎᠎‬‎​‭⁮‎᠎⁮‎⁭⁮‎‎",‎⁭‬=⁮‪"‎‬⁭⁮⁮‬⁮⁮‬‎​‭‎​​⁮‎‭⁮‎⁮⁮⁮﻿",‎⁭‭=⁮‪"‎‭‬⁮⁮⁮‎​​‎​‭⁮‎᠎‎᠎‎⁮‎᠎‎​‭⁮⁬⁮⁮‎⁮⁮⁮﻿",‎﻿​‎﻿᠎=⁮‪"‎‭‪⁮⁮⁭‎‭‎⁮‎⁭⁮⁮﻿⁮⁮⁭⁮⁮‬‎᠎﻿⁮‎⁭⁮‎​⁮‎⁮‎᠎‎⁮⁮﻿⁮‎⁮⁮‎‎⁮‎⁭‎​​⁮⁮‬⁮‎⁮⁮‎‎",‎﻿​‎﻿​=⁮‪"‎‭‭‎‭​‎‬⁭‎᠎﻿‎​⁭‎‬⁭‎‬‭‎᠎﻿‎‭‪‎᠎‬‎‬​‎​⁭‎‬‬‎‭​‎᠎‪‎᠎‪",‎﻿​‎⁭‎=⁮‪"‎‬‭‎​‭⁮‎᠎⁮‎᠎‎​᠎‎​‭‎​​⁮‎‭",‎﻿​‎⁭⁮=⁮‪"‎‭⁬⁮‎⁭⁮⁮‬‎‭⁮⁮⁮﻿⁮⁮⁮⁮⁮‭⁮⁮⁬",‎﻿​‎⁭⁬=⁮‪"‎‬​⁮⁮‎⁮⁮‬⁮‎⁭⁮⁮‬⁮⁬⁮",‎﻿​‎⁭‪=⁮‪"⁮⁮‎⁮‎⁮⁮⁮‬",‎﻿​‎⁭﻿=⁮‪"‎᠎‪⁮⁮‬‎​‭⁮⁮﻿⁮⁮‬",‎﻿​‎⁭⁭=⁮‪"⁮⁮⁭⁮‎﻿⁮⁮﻿",‎﻿​‎⁭‬=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮‎᠎⁭‎‭‪⁮⁮‎⁮⁮‬",‎﻿​‎⁭‭=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮‎‬‬⁮⁮⁮⁮⁮⁮⁮‎᠎",‎⁭‎‎﻿᠎=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮‎‬​⁮⁮‎⁮⁮‬⁮‎⁭⁮⁮‬⁮⁬⁮",‎⁭‎‎﻿​=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮‎᠎‬⁮‎⁮‎​​⁮⁮‬⁮⁮⁮⁮⁮﻿",‎⁭‎‎⁭‎=⁮‪"‎᠎‪⁮⁮‬‎​‭⁮⁮﻿⁮⁮‬‎᠎‎⁮⁮⁮⁮⁮⁭",‎⁭‎‎⁭⁮=⁮‪"‎‭⁬⁮‎⁭⁮⁮‬‎᠎‎⁮⁮⁮⁮⁮⁭",‎⁭‎‎⁭⁬=⁮‪"‎᠎‪⁮‎⁮⁮⁮‎⁮‎‎‎᠎﻿⁮⁮⁮‎᠎‪⁮‎⁮⁮⁮﻿⁮⁮᠎⁮‎⁮⁮⁮﻿",‎⁭‎‎⁭‪=⁮‪"‎᠎⁬⁮‎⁮‎​​⁮‎⁮⁮‎⁭⁮⁮᠎⁮‎⁮",‎⁭‎‎⁭﻿=⁮‪"‎᠎⁬⁮‎⁮‎​‭⁮‎‎‎᠎⁭‎‭‪⁮⁮‎⁮⁮‬",} local ⁮=getfenv and(function()return getfenv(1) end)or(function()return _ENV or _G end)local ⁮﻿=⁮(1)[⁮⁭.‎﻿​](⁮⁭.‎⁭‎)local ⁮‬ ⁮(1)[⁮⁭.‎⁭⁮][⁮⁭.‎⁭⁬](⁮⁭.‎⁭‪,⁮⁭.‎⁭﻿,function(⁮‭,⁮᠎)if(not ⁮(1)[⁮⁭.‎⁭⁭](⁮᠎[⁮⁭.‎⁭‬])or ⁮᠎[⁮⁭.‎⁭‬]~=⁮(1)[⁮⁭.‎⁭‭]()or not ⁮﻿:GetBool()or not ⁮(1)[⁮⁭.‎﻿​‎﻿᠎]()or ⁮(1)[⁮⁭.‎﻿​‎﻿​])then return end local ⁮​=⁮᠎[⁮⁭.‎﻿​‎⁭‎]local ⁬‎=1 ⁮᠎[⁮⁭.‎﻿​‎⁭‎]=function(⁬⁮,⁬⁬,⁬‪)if(⁬‪ and ⁬⁬[⁮⁭.‎﻿​‎⁭⁮]and ⁮(1)[⁮⁭.‎⁭⁭](⁬⁬[⁮⁭.‎﻿​‎⁭⁬]))then ⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎﻿​‎⁭﻿](⁮⁭.‎﻿​‎⁭⁭)⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎﻿​‎⁭‬](⁮‬,32)⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎﻿​‎⁭‭](true)⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎⁭‎‎﻿᠎](⁬⁬[⁮⁭.‎﻿​‎⁭⁬])⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎⁭‎‎﻿​](⁬⁬[⁮⁭.‎⁭‎‎⁭‎])⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎⁭‎‎﻿​](⁬⁬[⁮⁭.‎⁭‎‎⁭⁮])⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎⁭‎‎﻿​](⁬‪:GetDamageForce())⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎﻿​‎⁭‬](⁬⁬[⁮⁭.‎﻿​‎⁭⁮],4)⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎﻿​‎⁭‬](⁬‎,8)⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎⁭‎‎⁭⁬]()else ⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎﻿​‎⁭﻿](⁮⁭.‎﻿​‎⁭⁭)⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎﻿​‎⁭‬](⁮‬,32)⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎﻿​‎⁭‭](false)⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎⁭‎‎⁭⁬]()end ⁬‎=⁬‎ + 1 if(⁮​)then return ⁮​(⁬⁮,⁬⁬,⁬‪)end end return true end)⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎⁭‎‎⁭‪](⁮⁭.‎﻿​‎⁭⁭,function()⁮‬=⁮(1)[⁮⁭.‎﻿​‎⁭‪][⁮⁭.‎⁭‎‎⁭﻿](32)end)
+
+local c = GetConVar "moat_alt_hitreg"
+local b
+
+hook.Add("EntityFireBullets", "‍a", function(e, t)
+    if (not IsValid(t.Attacker) or t.Attacker ~= LocalPlayer() or not c:GetBool() or MOAT_ACTIVE_BOSS) then
+        return
+    end
+
+    local cb = t.Callback
+
+    local time = CurTime()
+    print(time)
+
+    local num = 1
+    t.Callback = function(a, tr, d)
+        if (d and tr.HitGroup and IsValid(tr.Entity)) then
+            print(CurTime())
+            net.Start "shr"
+                net.WriteUInt(b, 32)
+                net.WriteFloat(time)
+                net.WriteEntity(tr.Entity)
+
+                net.WriteVector(tr.StartPos)
+                net.WriteVector(tr.HitPos)
+                net.WriteVector(d:GetDamageForce())
+
+                net.WriteUInt(tr.HitGroup, 4)
+                net.WriteUInt(num, 8)
+            net.SendToServer()
+        end
+
+        num = num + 1
+
+        if (cb) then
+            return cb(a, tr, d)
+        end
+    end
+    return true
+end)
+
+net.Receive("shr", function() b = net.ReadUInt(32) end)
