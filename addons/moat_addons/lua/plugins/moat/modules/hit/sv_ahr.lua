@@ -27,7 +27,7 @@ end
 
 local ENTITY = FindMetaTable "Entity"
 function ENTITY:HitRegCheck()
-	return self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:PacketLoss() <= 10 and self:Ping() < 234
+	return false -- self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:PacketLoss() <= 10 and self:Ping() < 234
 end
 
 function SHR:PrepareForHit(time, num, p, dmg, dir, src, tr, cb)
