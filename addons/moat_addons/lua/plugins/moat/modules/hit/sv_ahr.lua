@@ -33,7 +33,6 @@ end
 function SHR:PrepareForHit(time, num, p, dmg, dir, src, tr, cb)
 	SHR.Players[p] = SHR.Players[p] or {}
 	SHR.Players[p][time] = SHR.Players[p][time] or {}
-	print(time, num)
 
 	SHR.Players[p][time][num] = {
 		p = p,
@@ -93,9 +92,7 @@ end
 
 function SHR:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum)
 	local k = self.Players[shooter]
-	print(1)
 	if (not k or not k[time] or not k[time][shotnum]) then
-		print(3)
 		self.Callbacks[shooter] = self.Callbacks[shooter] or {}
 		self.Callbacks[shooter][time] = self.Callbacks[shooter][time] or {}
 		self.Callbacks[shooter][time][shotnum] = function()
@@ -119,11 +116,8 @@ function SHR:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum)
 		wep = p:GetActiveWeapon(),
 		num = num
 	}]]
-	print(2)
 	if (not IsValid(ent) or not ent:IsPlayer() or ent:GetObserverMode() ~= OBS_MODE_NONE) then return end
-	print(2)
 	if (self.Config.WallChecks and self:InvalidPosition(eye, shooter, pos, ent, k.tr)) then return end
-	print(2)
 
 	local dmginfo = DamageInfo()
 	dmginfo:SetAttacker(shooter)
