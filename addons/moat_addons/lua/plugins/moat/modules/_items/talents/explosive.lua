@@ -51,8 +51,6 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
                 exp:SetKeyValue("iMagnitude", tostring(dmg / 2))
                 exp:Fire("Explode", 0, 0)
             end
-
-            return true
         end
     end
 end

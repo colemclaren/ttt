@@ -51,6 +51,13 @@ function SHR:PrepareForHit(time, num, p, dmg, dir, src, tr, cb)
 	end
 end
 
+hook.Add("ScalePlayerDamage", "SHR.ScalePlayerDamage", function(victim, hg, dmg)
+	local att = dmg:GetAttacker()
+	if (IsValid(att) and att:IsPlayer() and att:HitRegCheck() and dmg:GetDamageCustom() == 0) then
+		return true
+	end
+end)
+
 hook.Add("EntityFireBullets", "SHR.FireBullets", function(e, t)
 	if (not MOAT_ACTIVE_BOSS and e:HitRegCheck()) then
 
@@ -64,7 +71,7 @@ hook.Add("EntityFireBullets", "SHR.FireBullets", function(e, t)
 			SHR:PrepareForHit(time, num, e, dmg, t.Dir or Vector(), t.Src or Vector(), tr, not tr.HitGroup and cb or function() end)
 			num = num + 1
 
-			if (cb and not tr.HitGroup) then
+			if (cb) then
 				return cb(a, tr, d)
 			end
 		end
@@ -90,8 +97,8 @@ function SHR:Remove(t, shooter, time, shotnum)
 	end
 end
 
-function SHR:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum)
-	local k = self.Players[shooter]
+function SHR:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum, dmgn)
+	--[[local k = self.Players[shooter]
 	if (not k or not k[time] or not k[time][shotnum]) then
 		self.Callbacks[shooter] = self.Callbacks[shooter] or {}
 		self.Callbacks[shooter][time] = self.Callbacks[shooter][time] or {}
@@ -104,7 +111,6 @@ function SHR:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum)
 		return
 	end
 
-
 	k = k[time][shotnum]
 	self:Remove(self.Players, shooter, time, shotnum)
 
@@ -115,17 +121,18 @@ function SHR:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum)
 		tr = p:GetEyeTraceNoCursor(),
 		wep = p:GetActiveWeapon(),
 		num = num
-	}]]
+	}
 	if (not IsValid(ent) or not ent:IsPlayer() or ent:GetObserverMode() ~= OBS_MODE_NONE) then return end
-	if (self.Config.WallChecks and self:InvalidPosition(eye, shooter, pos, ent, k.tr)) then return end
+	if (self.Config.WallChecks and self:InvalidPosition(eye, shooter, pos, ent, k.tr)) then return end]]
 
+	print(dmgn)
 	local dmginfo = DamageInfo()
 	dmginfo:SetAttacker(shooter)
-	dmginfo:SetDamage(k.dmg)
+	dmginfo:SetDamage(dmgn)
 	dmginfo:SetDamageForce(dmgfrc)
 	dmginfo:SetDamagePosition(pos)
 	dmginfo:SetDamageType(DMG_BULLET)
-	dmginfo:SetInflictor(k.wep)
+	dmginfo:SetInflictor(shooter:GetActiveWeapon())
 	dmginfo:SetDamageCustom(hg)
 
 	if (hook.Run("ScalePlayerDamage", ent, hg, dmginfo) or hook.Run("PlayerShouldTakeDamage", ent, shooter) == false) then
@@ -140,9 +147,7 @@ function SHR:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum)
 		net.Send(shooter)
 	end
 
-	k.tr.AltHitreg = true
-	k.cb(shooter, k.tr, dmginfo)
-	k.tr.AltHitreg = nil
+	--k.cb(shooter, k.tr, dmginfo)
 
 	dmginfo:SetDamageCustom(0)
 end
@@ -185,7 +190,7 @@ net.ReceiveNoLimit("shr", function(_, pl)
 		return
 	end
 
-	SHR:WeHit(pl, net.ReadFloat(), net.ReadEntity(), net.ReadVector(), net.ReadVector(), net.ReadVector(), net.ReadUInt(4), net.ReadUInt(8))
+	SHR:WeHit(pl, net.ReadFloat(), net.ReadEntity(), net.ReadVector(), net.ReadVector(), net.ReadVector(), net.ReadUInt(4), net.ReadUInt(8), net.ReadFloat())
 end)
 
 hook.Add("PlayerAuthed", "SHR.PlayerAuthed", function(pl)

@@ -401,7 +401,7 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
     local cb = t.Callback
 
     local time = CurTime()
-    print(time)
+    local dmg = t.Damage
 
     local num = 1
     t.Callback = function(a, tr, d)
@@ -418,6 +418,7 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
 
                 net.WriteUInt(tr.HitGroup, 4)
                 net.WriteUInt(num, 8)
+                net.WriteFloat(dmg)
             net.SendToServer()
         end
 

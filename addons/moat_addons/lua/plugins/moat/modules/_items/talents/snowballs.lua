@@ -39,7 +39,5 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
                 Physics:ApplyForceCenter(Front:Angle():Forward() * 25000)
             end
         end
-
-        return true
     end
 end
