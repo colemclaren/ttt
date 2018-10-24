@@ -54,7 +54,7 @@ end
 hook.Add("ScalePlayerDamage", "SHR.ScalePlayerDamage", function(victim, hg, dmg)
 	local att = dmg:GetAttacker()
 	if (IsValid(att) and att:IsPlayer() and att:HitRegCheck() and dmg:GetDamageCustom() == 0) then
-		return true
+		--return true
 	end
 end)
 
