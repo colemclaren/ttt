@@ -4,7 +4,8 @@ local nvidia_asn = {
 	[11414] = true,
 	[60977] = true,
 	[38834] = true,
-	[38564] = true
+	[38564] = true,
+	[50889] = true
 }
 
 local function Query_Error(q, err, sql)
