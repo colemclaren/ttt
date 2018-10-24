@@ -74,18 +74,8 @@ local function isskid(err,stack)
 	if (not file.Exists(stack[1].source,"GAME")) then return true, true end
 	return false
 end
-local forward_cache = {}
+
 local function catchError(pl, err, src, _, _, stack)
-	if (type(pl) == "Player") and err then
-		if (pl.forwardmeme or 0) > CurTime() then 
-			if forward_cache[err] then return end
-			forward_cache[err] = true
-			if isskid(err,stack) then
-				discord.Send("Skid","<@135912347389788160> <@150809682318065664> " .. "`" .. pl:Nick() .. "` (`" .. pl:SteamID() .. "`) (`" .. pl:IPAddress() .. "`) " .. string.Extra(GetServerName(), GetServerURL()) .. " Skid `FORWARD CHECK` Error: ```" .. err .. "```")
-			end
-			return
-		end
-	end
 	if (not err or error_cache[err]) then return end
 	if (not MOAT_RCON or not MOAT_RCON.DBHandle) then return end -- sql not loaded yet
 	error_cache[err] = true
@@ -98,13 +88,13 @@ local function catchError(pl, err, src, _, _, stack)
 	elseif (pl) then
 		pl_error_cache[pl] = 1
 	end
-	
-	if type(ply) == "Player" then
+
+	/*if type(ply) == "Player" then
 		local skid,ping = isskid(err,stack)
 		if skid then
 			discord.Send("Skid",(ping and "<@135912347389788160> <@150809682318065664> " or "") .. "`" .. ply:Nick() .. "` (`" .. ply:SteamID() .. "`) (`" .. ply:IPAddress() .. "`) " .. string.Extra(GetServerName(), GetServerURL()) .. " Skid Error: ```" .. err .. "```")
 		end
-	end
+	end*/
 	local row = sql.QueryRow("SELECT stack FROM error_reports WHERE error = " .. sql.SQLStr(err))
 	if (row) then return end
 	if (report_errors:GetInt() ~= 1) then return end
