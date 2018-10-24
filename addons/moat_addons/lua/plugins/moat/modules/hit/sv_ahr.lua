@@ -71,11 +71,14 @@ hook.Add("EntityFireBullets", "SHR.FireBullets", function(e, t)
 			SHR:PrepareForHit(time, num, e, dmg, t.Dir or Vector(), t.Src or Vector(), tr, not tr.HitGroup and cb or function() end)
 			num = num + 1
 
+			if (IsValid(tr.Entity) and tr.Entity:IsPlayer()) then
+				d:SetDamage(0)
+			end
+
 			if (cb) then
 				return cb(a, tr, d)
 			end
 		end
-		t.Damage = 0
 
 		timer.Simple(SHR.Config.MaxWait, function() 
 			SHR.Players[e][time] = nil
