@@ -405,8 +405,7 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
 
     local num = 1
     t.Callback = function(a, tr, d)
-        if (d and tr.HitGroup and IsValid(tr.Entity)) then
-            print(CurTime())
+        if (d and tr.HitGroup and IsValid(tr.Entity) and tr.Entity:IsPlayer()) then
             net.Start "shr"
                 net.WriteUInt(b, 32)
                 net.WriteFloat(time)
