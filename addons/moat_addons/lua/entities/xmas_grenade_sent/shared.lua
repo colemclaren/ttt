@@ -16,7 +16,7 @@ AddCSLuaFile( "shared.lua" )
 function ENT:Initialize()
 
 	self.Owner = self.Entity.Owner
-
+	self.timeleft = CurTime() + 3
 	self.Entity:SetModel("models/roblox/holiday_owl.mdl")
 	self.Entity:PhysicsInit( SOLID_VPHYSICS )
 	self.Entity:SetMoveType( MOVETYPE_VPHYSICS )
@@ -28,12 +28,7 @@ function ENT:Initialize()
 	if (phys:IsValid()) then
 	phys:Wake()
 	end
-	
-	if (gmod.GetGamemode().Name == "Murderthon 9000") or GetConVar("DebugM9K"):GetBool() then
-		self.timeleft = CurTime() + 1.5
-	else
-		self.timeleft = CurTime() + 3
-	end
+
 	self:Think()
 	self.CanTool = false
 end
@@ -43,12 +38,8 @@ end
 	if not IsValid(self) then return end
 	if not IsValid(self.Entity) then return end
 	
-	if self.timeleft < CurTime() then
-		if (gmod.GetGamemode().Name == "Murderthon 9000") or GetConVar("DebugM9K"):GetBool() then 
-			self:OtherExplosion()
-		else
-			self:Explosion()	
-		end
+	if (not self.timeleft or (self.timeleft <= CurTime())) then
+		self:Explosion()	
 	end
 
 	self.Entity:NextThink( CurTime() )
