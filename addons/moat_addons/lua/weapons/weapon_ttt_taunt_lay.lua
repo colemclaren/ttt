@@ -123,7 +123,12 @@ end
 
 hook.Add("EntityTakeDamage", "Play Dead Taunt", function(ent, dmg)
 	if (ent:IsPlayer() and IsValid(ent.PlayDead)) then
-		return true
+		local wep = ent:GetActiveWeapon()
+		if (IsValid(wep)) then
+			wep:EndTaunt()
+		end
+
+		return
 	end
 
 	if (not ent.IsPlayDead or dmg:GetDamageType() == DMG_CRUSH and dmg:GetAttacker() == game.GetWorld()) then
