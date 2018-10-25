@@ -34,7 +34,7 @@ MG_CM.FirstInfected = nil
 MOAT_CONTAGION_ROUND_ACTIVE = false
 
 function MG_CM.ResetVars()
-    MOAT_DISABLE_BUNNY_HOP = false
+    //MOAT_DISABLE_BUNNY_HOP = false
     MG_CM.IsInfected = false
     MG_CM.PlayerInfo = {}
     MG_CM.InfectedPlayers = {}
@@ -265,7 +265,7 @@ end
 
 function MG_CM.PrepRound()
     MG_CM.ResetVars()
-    MOAT_DISABLE_BUNNY_HOP = true
+    //MOAT_DISABLE_BUNNY_HOP = true
 
 	cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3", 0.3)
 
