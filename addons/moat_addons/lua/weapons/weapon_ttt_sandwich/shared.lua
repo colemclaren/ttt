@@ -60,14 +60,7 @@ SWEP.AmmoEnt = "none"
 
 -- CanBuy is a table of ROLE_* entries like ROLE_TRAITOR and ROLE_DETECTIVE. If
 -- a role is in this table, those players can buy this.
-SWEP.CanBuy = {}
-
-if (GetConVar("ttt_sandwich_detective"):GetBool()) then
-	table.insert(SWEP.CanBuy, ROLE_DETECTIVE)
-end
-if (GetConVar("ttt_sandwich_traitor"):GetBool()) then
-	table.insert(SWEP.CanBuy, ROLE_TRAITOR)
-end
+SWEP.CanBuy = {ROLE_DETECTIVE, ROLE_TRAITOR}
 
 -- If LimitedStock is true, you can only buy one per round.
 SWEP.LimitedStock = true

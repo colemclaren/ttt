@@ -29,26 +29,18 @@ SWEP.WorldModel	= Model("models/weapons/zaratusa/mine_turtle/w_mine_turtle.mdl")
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
 -- Matching SWEP.Slot values: 0      1       2     3      4      6       7        8
-SWEP.Kind = !detectiveEnabled:GetBool() and !traitorEnabled:GetBool() and WEAPON_NADE or WEAPON_EQUIP1
+SWEP.Kind = WEAPON_EQUIP1
 
 -- If AutoSpawnable is true and SWEP.Kind is not WEAPON_EQUIP1/2,
 -- then this gun can be spawned as a random weapon.
-SWEP.AutoSpawnable = !detectiveEnabled:GetBool() and !traitorEnabled:GetBool()
+SWEP.AutoSpawnable = false
 
 -- The AmmoEnt is the ammo entity that can be picked up when carrying this gun.
 SWEP.AmmoEnt = "none"
 
 -- CanBuy is a table of ROLE_* entries like ROLE_TRAITOR and ROLE_DETECTIVE. If
 -- a role is in this table, those players can buy this.
-SWEP.CanBuy = {}
-
-if (detectiveEnabled:GetBool()) then
-	table.insert(SWEP.CanBuy, ROLE_DETECTIVE)
-end
-if (traitorEnabled:GetBool()) then
-	table.insert(SWEP.CanBuy, ROLE_TRAITOR)
-end
-
+SWEP.CanBuy = {ROLE_TRAITOR}
 -- If LimitedStock is true, you can only buy one per round.
 SWEP.LimitedStock = true
 

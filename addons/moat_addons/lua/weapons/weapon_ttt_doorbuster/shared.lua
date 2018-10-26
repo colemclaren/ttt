@@ -164,19 +164,7 @@ SWEP.Primary.Automatic		= false
 
 SWEP.Primary.Ammo			= "slam"
 
-SWEP.CanBuy = {}
-
-if (detectiveEnabled:GetBool()) then
-
-	table.insert(SWEP.CanBuy, ROLE_DETECTIVE)
-
-end
-
-if (traitorEnabled:GetBool()) then
-
-	table.insert(SWEP.CanBuy, ROLE_TRAITOR)
-
-end
+SWEP.CanBuy = {ROLE_TRAITOR, ROLE_DETECTIVE}
 
 SWEP.LimitedStock = false
 
