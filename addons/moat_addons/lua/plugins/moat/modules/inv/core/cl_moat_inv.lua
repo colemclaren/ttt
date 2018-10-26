@@ -4902,39 +4902,62 @@ function m_CreateItemMenu(num, ldt)
 
             moat_imagehack = false
             MOAT_UPLOADING = true
-            
             HTTP({
-                url = "https://api.imgur.com/3/image",
+                url = "https://api.imgur.com/3/album",
                 method = "post",
                 headers = {
                     ["Authorization"] = "Client-ID 2201ae44ef37cfc"
                 },
-                success = function(_,b,_,_)
-                    local ob = b
-                    b = util.JSONToTable(b)
-                    if b.success then
-                        local l = b.data.link
-                        Derma_Message("Your picture of your stats has been uploaded and copied to your clipboard! (" .. l .. ")\nYou can now simply paste it into any text channel like the #trading-room in our Discord!", "Upload success", "Thanks!")
-                        SetClipboardText(l)
-                        local x = 0
-                        if itemtbl.s then
-                            x = itemtbl.s.x or 0
-                        end
-                        MOAT_CACHED_PICS[itemtbl.c] = {
-                            x,
-                            l
-                        }
-                    else
-                        Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. ob, "Upload failed", "Thanks")
+                success = function(_,c,_,_)
+                    local album = util.JSONToTable(c)
+                    if not album.success then
+                        Derma_Message("Your upload was not successful (-2)! Please show this to velkon: " .. a, "Upload failed", "Thanks")
+                        MOAT_UPLOADING = false
+                        return
                     end
-                    MOAT_UPLOADING = false
+                    HTTP({
+                        url = "https://api.imgur.com/3/image",
+                        method = "post",
+                        headers = {
+                            ["Authorization"] = "Client-ID 2201ae44ef37cfc"
+                        },
+                        success = function(_,b,_,_)
+                            local ob = b
+                            b = util.JSONToTable(b)
+                            if b.success then
+                                local l = "https://imgur.com/a/" .. album.data.id
+                                Derma_Message("Your picture of your stats has been uploaded and copied to your clipboard! (" .. l .. ")\nYou can now simply paste it into any text channel like the #trading-room in our Discord!", "Upload success", "Thanks!")
+                                SetClipboardText(l)
+                                local x = 0
+                                if itemtbl.s then
+                                    x = itemtbl.s.x or 0
+                                end
+                                MOAT_CACHED_PICS[itemtbl.c] = {
+                                    x,
+                                    l--s
+                                }
+                            else
+                                Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. ob, "Upload failed", "Thanks")
+                            end
+                            MOAT_UPLOADING = false
+                        end,
+                        failed = function(a) 
+                            Derma_Message("Your upload was not successful (2)! Please show this to velkon: " .. a, "Upload failed", "Thanks")
+                            MOAT_UPLOADING = false
+                        end,
+                        parameters = {
+                            image = util.Base64Encode(data),
+                            album = album.data.deletehash
+                        },
+                    })
                 end,
                 failed = function(a) 
-                    Derma_Message("Your upload was not successful (2)! Please show this to velkon: " .. a, "Upload failed", "Thanks")
+                    Derma_Message("Your upload was not successful (-1)! Please show this to velkon: " .. a, "Upload failed", "Thanks")
                     MOAT_UPLOADING = false
                 end,
                 parameters = {
-                    image = util.Base64Encode(data)
+                    title = (itemtbl.item.Name or "Unknown Item") .. " || " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") || " .. (GetServerName() or "moat.gg"),
+                    description = (itemtbl.item.Name or "Unknown Item") .. "\nOwned by " .. LocalPlayer():Nick() .. " ( https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. " )\nCaptured on " .. (GetServerName() or "moat.gg") .. "\n\nCheck out our website at https://moat.gg/\nOr #trading-chat in our Discord at http://discord.gg/moatgaming!"
                 },
             })
             m_HoveredSlot = nil
