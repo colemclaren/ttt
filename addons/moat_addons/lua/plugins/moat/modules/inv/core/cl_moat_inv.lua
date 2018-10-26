@@ -4883,6 +4883,7 @@ function m_CreateItemMenu(num, ldt)
             hook.Remove("HudPaint","Mid Framegg")
         end)
         hook.Add("PostRender", "Gay render capture rules", function()
+            hook.Remove("PostRender", "Gay render capture rules")
             if (IsValid(MOAT_INV_S)) then MOAT_INV_S:Think() end
 
             local x, y, w, h = 0, 0, 0, 0
@@ -4902,6 +4903,11 @@ function m_CreateItemMenu(num, ldt)
 
             moat_imagehack = false
             MOAT_UPLOADING = true
+            -- local item_name = (itemtbl.item.Name or "Unknown Item")
+            -- if itemtbl.s then
+            --     item_name = (itemtbl.item.Name or "Unknown ???? ") .. " " .. (weapons.Get(itemtbl.w).PrintName or "????")
+            -- end
+            local item_name = m_GetFullItemName(itemtbl)
             HTTP({
                 url = "https://api.imgur.com/3/album",
                 method = "post",
@@ -4956,12 +4962,11 @@ function m_CreateItemMenu(num, ldt)
                     MOAT_UPLOADING = false
                 end,
                 parameters = {
-                    title = (itemtbl.item.Name or "Unknown Item") .. " || " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") || " .. (GetServerName() or "moat.gg"),
-                    description = (itemtbl.item.Name or "Unknown Item") .. "\nOwned by " .. LocalPlayer():Nick() .. " ( https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. " )\nCaptured on " .. (GetServerName() or "moat.gg") .. "\n\nCheck out our website at https://moat.gg/\nOr #trading-chat in our Discord at http://discord.gg/moatgaming!"
+                    title = (item_name) .. " || " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") || " .. (GetServerName() or "moat.gg"),
+                    description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nCaptured on " .. (GetServerName() or "moat.gg") .. "\n\nCheck out our website at https://moat.gg/\nOr #trading-chat in our Discord at http://discord.gg/moatgaming!"
                 },
             })
             m_HoveredSlot = nil
-            hook.Remove("PostRender", "Gay render capture rules")
         end)
         render.Spin()
     end):SetIcon("icon16/camera_add.png")
