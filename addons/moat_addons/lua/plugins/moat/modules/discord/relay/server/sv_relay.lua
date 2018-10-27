@@ -491,7 +491,7 @@ function SVDiscordRelay.LinkItem(ply, tbl, wpnstr, msg)
 
     text = text .. moat_GetItemStats(tbl, wpnstr) or "Unknown Item"
 
-    SVDiscordRelay.SendToDiscord(ply, false, text, false)
+    discord.Send("Drop", text)
 
     /*
     http.Fetch("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=" .. DiscordRelay.SteamWebAPIKey .. "&steamids=" .. ply:SteamID64() .. "&format=json", function(body, size, headers, code)
