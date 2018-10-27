@@ -34,7 +34,7 @@ SWEP.EquipMenuData = {
 
 SWEP.Base = "weapon_tttbase"
 SWEP.Kind = WEAPON_EQUIP2
-SWEP.CanBuy = {}
+SWEP.CanBuy = {ROLE_TRAITOR}
 SWEP.InLoadoutFor = nil
 SWEP.LimitedStock = false
 SWEP.AllowDrop = true
@@ -153,7 +153,8 @@ else*/
             scale = Vector(1, 1, 1),
             pos = Vector(0, 0, 0),
             angle = Angle(-47.502, -5.645, 0.551)
-        }
+        },
+		["Da Machete"] = {scale = Vector(0.009, 0.009, 0.009), pos = Vector(0, 0, 0), angle = Angle(0, 0, 0)}
     }
 --end
 
@@ -195,17 +196,6 @@ function SWEP:Initialize()
 
             if IsValid(vm) then
                 self:ResetBonePositions(vm)
-
-                -- Init viewmodel visibility
-                if (self.ShowViewModel == nil or self.ShowViewModel) then
-                    vm:SetColor(Color(255, 255, 255, 255))
-                else
-                    -- we set the alpha to 1 instead of 0 because else ViewModelDrawn stops being called
-                    vm:SetColor(Color(255, 255, 255, 1))
-                    -- ^ stopped working in GMod 13 because you have to do Entity:SetRenderMode(1) for translucency to kick in
-                    -- however for some reason the view model resets to render mode 0 every frame so we just apply a debug material to prevent it from drawing
-                    vm:SetMaterial("Debug/hsv")
-                end
             end
         end
     end

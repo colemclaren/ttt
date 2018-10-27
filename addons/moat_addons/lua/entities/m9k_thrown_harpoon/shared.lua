@@ -92,12 +92,10 @@ if SERVER then
 
         pain = (data.Speed / 4)
 
-        if (gmod.GetGamemode().Name == "Murderthon 9000") or GetConVar("DebugM9K"):GetBool() then
-            pain = 900
-        end
-
         local Ent = data.HitEntity
-        if not (Ent:IsValid() or Ent:IsWorld()) then return end
+		if (not IsValid(Ent) or Ent:IsWorld()) then
+			return
+		end
 
         if Ent:IsWorld() and self.InFlight then
             if data.Speed > 500 then
@@ -129,6 +127,10 @@ if SERVER then
                 Ent:TakeDamage(pain, damager, self.Entity)
             end
         end
+
+		if (Ent:IsPlayer()) then
+			self:Remove()
+		end
 
         self.Entity:SetOwner(NUL)
     end
