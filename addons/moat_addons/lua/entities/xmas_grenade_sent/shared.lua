@@ -16,7 +16,7 @@ AddCSLuaFile( "shared.lua" )
 function ENT:Initialize()
 
 	self.Owner = self.Entity.Owner
-	self.timeleft = CurTime() + 3
+	self.timeleft = CurTime() + 1.5
 	self.Entity:SetModel("models/roblox/holiday_owl.mdl")
 	self.Entity:PhysicsInit( SOLID_VPHYSICS )
 	self.Entity:SetMoveType( MOVETYPE_VPHYSICS )
