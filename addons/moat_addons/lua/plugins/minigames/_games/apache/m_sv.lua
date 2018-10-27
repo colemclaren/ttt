@@ -269,7 +269,9 @@ local function moat_BeginRoundBossHooks()
 				D3A.Chat.SendToPlayer2(v, Color(255, 255, 0), v:Nick(), Color(255, 255, 255), " has a ", Color(0, 255, 0), "health station", Color(255, 255, 255), "!")
             end
 
-			timer.Simple(v.JustSpawned and 2 or 0, function()
+			local function HandleWeaponsAndAmmo()
+				if (not IsValid(v)) then return end
+
 				if (MOAT_DEATHCLAW_WPN) then
                 	v:Give(MOAT_DEATHCLAW_WPN)
                 	v:SelectWeapon(MOAT_DEATHCLAW_WPN)
@@ -284,7 +286,10 @@ local function moat_BeginRoundBossHooks()
 				if (healer) then
 					v:Give("weapon_ttt_health_station")
 				end
-			end)
+			end
+
+			timer.Simple(0, HandleWeaponsAndAmmo)
+			timer.Simple(2, HandleWeaponsAndAmmo)
         end
 
         timer.Simple(1, function()
