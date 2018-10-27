@@ -199,7 +199,8 @@ SWEP.ViewModelBoneMods = {
 	["v_weapon.Root16"] = { scale = Vector(1, 1, 1), pos = Vector(0, 0, 0), angle = Angle(0.293, 0, 0) },
 	["v_weapon.Left_Thumb03"] = { scale = Vector(1, 1, 1), pos = Vector(0, 0, 0), angle = Angle(-9.509, 4.019, -0.26) },
 	["v_weapon.Left_Thumb01"] = { scale = Vector(1, 1, 1), pos = Vector(-0.362, 0, 0), angle = Angle(0.465, 15.345, 9.413) },
-	["v_weapon.Root17"] = { scale = Vector(1, 1, 1), pos = Vector(0, 0, 0), angle = Angle(0.423, 12.668, 1.228) }
+	["v_weapon.Root17"] = { scale = Vector(1, 1, 1), pos = Vector(0, 0, 0), angle = Angle(0.423, 12.668, 1.228) },
+	["v_weapon.Flashbang_Parent"] = { scale = Vector(0.009, 0.009, 0.009), pos = Vector(0, 0, 0), angle = Angle(0, 0, 0) }
 }
 
 SWEP.DrawCrosshair      = false

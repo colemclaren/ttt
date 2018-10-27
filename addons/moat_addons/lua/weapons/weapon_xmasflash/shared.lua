@@ -120,7 +120,8 @@ SWEP.ViewModelBoneMods = {
     ["v_weapon.Root16"] = { scale = Vector(1, 1, 1), pos = Vector(0, 0, 0), angle = Angle(0.293, 0, 0) },
     ["v_weapon.Left_Thumb03"] = { scale = Vector(1, 1, 1), pos = Vector(0, 0, 0), angle = Angle(-9.509, 4.019, -0.26) },
     ["v_weapon.Left_Thumb01"] = { scale = Vector(1, 1, 1), pos = Vector(-0.362, 0, 0), angle = Angle(0.465, 15.345, 9.413) },
-    ["v_weapon.Root17"] = { scale = Vector(1, 1, 1), pos = Vector(0, 0, 0), angle = Angle(0.423, 12.668, 1.228) }
+    ["v_weapon.Root17"] = { scale = Vector(1, 1, 1), pos = Vector(0, 0, 0), angle = Angle(0.423, 12.668, 1.228) },
+	["v_weapon.Flashbang_Parent"] = { scale = Vector(0.009, 0.009, 0.009), pos = Vector(0, 0, 0), angle = Angle(0, 0, 0) }
 }
 SWEP.VElements = {
     ["pinguin"] = { type = "Model", model = "models/roblox/festive_penguin.mdl", bone = "v_weapon.Flashbang_Parent", rel = "", pos = Vector(0.554, -1.607, 0.158), angle = Angle(72.736, 86.638, 0), size = Vector(0.5, 0.5, 0.5), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
