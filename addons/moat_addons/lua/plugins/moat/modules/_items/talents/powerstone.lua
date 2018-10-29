@@ -7,7 +7,7 @@ TALENT.LevelRequired = {min = 25, max = 30}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 1, max = 4}
 TALENT.Melee = true
-TALENT.NotUnique = true
+TALENT.NotUnique = false
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods )
 	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then return end
