@@ -6,8 +6,8 @@ TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 10, max = 25}
-TALENT.Melee = false
-TALENT.NotUnique = false
+TALENT.Melee = true
+TALENT.NotUnique = true
 
 util.AddNetworkString("Ass_talent")
 function _ass_talent(vic,att)
