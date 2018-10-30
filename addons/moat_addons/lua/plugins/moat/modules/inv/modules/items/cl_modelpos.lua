@@ -215,8 +215,6 @@ timer.Simple(5, function()
     end)*/
 end)
 
-local max_rounds = GetConVarNumber("ttt_round_limit")
-
 hook.Add("TTTBeginRound", "moat_NewRoundNotify", function()
     local cur_round = (GetConVarNumber("ttt_round_limit")-GetGlobalInt("ttt_rounds_left")) + 1
     chat.AddText(Material("icon16/information.png"), Color(0, 255, 255), "Round ",Color(255,255,255), "#" .. cur_round, Color(0, 255, 255), " has begun!")
