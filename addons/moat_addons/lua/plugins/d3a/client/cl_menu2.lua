@@ -100,7 +100,9 @@ MGA2.CommandList = {
 		{"UnBlock", "Unblocks a player in game.", false},
 	}},
 	{5, "VIP & Credible Club", Color(255, 128, 0, 255), {
-		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true},
+		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
+			{"Drop", "Choose Reason", {"Mic spamming","Purposeful Mass RDM","Attempted Mass RDM","Chat Spamming","Hateful Conduct"}, "Reason required..."}
+		}},
 		{"Boost", "Boosts a map for the next map vote.", "None", {
 			{"Drop", "Choose Map", {"Loading Maps...", "Loading Maps...", "Loading Maps..."}, "No Map Choosen"}
 		}}
@@ -374,7 +376,9 @@ function MGA2.InsertCommandList(index, pnl)
 		end
 		btn.DoClick = function(s)
 			surface.PlaySound("ui/buttonclickrelease.wav")
-
+			if cmdlist[i][1] == "Votekick" then
+				Derma_Message("Make sure to CALL FOR STAFF IN DISCORD FIRST.\nAbuse of votekick will result in a ban from the servers.","Warning", "Ok")
+			end
 			MGA2.HandleCommandPressed(cmdlist[i])
 		end
 	end

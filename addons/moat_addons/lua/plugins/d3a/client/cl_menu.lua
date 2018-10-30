@@ -373,7 +373,7 @@ function MGA.InsertCommandList(index, pnl)
 		btn.DoClick = function(s)
 			surface.PlaySound("ui/buttonclickrelease.wav")
 			if cmdlist[i][1] == "Votekick" then
-				Derma_Message("Make sure to CALL FOR STAFF IN DISCORD FIRST.\nAbusal of votekick will result in punishment.","Warning", "Ok")
+				Derma_Message("Make sure to CALL FOR STAFF IN DISCORD FIRST.\nAbuse of votekick will result in a ban from the servers.","Warning", "Ok")
 			end
 			MGA.HandleCommandPressed(cmdlist[i])
 		end
