@@ -97,7 +97,7 @@ MGA.CommandList = {
 	}},
 	{5, "VIP & Credible Club", Color(255, 128, 0, 255), {
 		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
-			{"Drop", "Choose Reason", {"Mic spamming","Purposeful Mass RDM","Attempted Mass RDM","Chat Spamming","Hateful Conduct"}, "Reason required..."}
+			{"Drop", "Choose Reason", {"Mic Spamming","Purposeful Mass RDM","Attempted Mass RDM","Chat Spamming","Hateful Conduct"}, "Reason required..."}
 		}},
 		{"Boost", "Boosts a map for the next map vote.", "None", {
 			{"Drop", "Choose Map", {"Loading Maps...", "Loading Maps...", "Loading Maps..."}, "No Map Choosen"}

@@ -3,7 +3,7 @@ COMMAND.Flag = "C"
 COMMAND.CheckRankWeight = true
 COMMAND.Args = {{"player", "Name/SteamID"}, {"string", "Reason"}}
 local reasons = {
-	"Mic spamming",
+	"Mic Spamming",
 	"Purposeful Mass RDM",
 	"Attempted Mass RDM",
 	"Chat Spamming",
