@@ -1,16 +1,28 @@
 COMMAND.Name = "Votekick"
 COMMAND.Flag = "C"
 COMMAND.CheckRankWeight = true
-COMMAND.Args = {{"player", "Name/SteamID"}}
-
+COMMAND.Args = {{"player", "Name/SteamID"}, {"string", "Reason"}}
+local reasons = {
+	"Mic spamming",
+	"Purposeful Mass RDM",
+	"Attempted Mass RDM",
+	"Chat Spamming",
+	"Hateful Conduct"
+} -- not sent to client, found in addons\moat_addons\lua\plugins\d3a\client\cl_menu.lua:100
 COMMAND.Run = function(pl, args, supp)
 	if (D3A.VoteActive) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "There's already a vote active! Please try later!")
 
-		--return
+		-- return
 	end
-
+	local reason = supp[2] or args[2]
 	local staff_found = false
+
+	if (not table.HasValue(reasons, reason)) then
+		D3A.Chat.SendToPlayer2(pl, moat_red, "Please choose a valid reason for votekicking this person! (!menu)")
+
+		return
+	end
 
 	for k, v in ipairs(player.GetAll()) do
 		local rank = v:GetUserGroup()
@@ -24,20 +36,20 @@ COMMAND.Run = function(pl, args, supp)
 	if (staff_found) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "There is one or more staff members currently on the server! Please ask them for help rather than taking the situation into your own hands!")
 
-		--return
+		-- return
 	end
 
 	if (#player.GetAll() < 4) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "There are not enough people on to start a vote kick!")
 
-		--return
+		-- return
 	end
 
 	local plynum = #player.GetAll()
 	local targ, targid, plid = supp[1]:SteamID(), IsValid(supp[1]) and supp[1]:NameID(), (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console
 	local plname = pl:Name()
 
-	D3A.StartVote(pl, "Votekick " .. supp[1]:Name() .. "?", {"Yes", "No"}, supp[1], function(res, votes)
+	D3A.StartVote(pl, "Votekick " .. supp[1]:Name() .. "? (" .. reason .. ")", {"Yes", "No"}, supp[1], function(res, votes)
 		local msgtbl = {}
 		table.sort(res, function(a, b) return a[2] > b[2] end)
 
@@ -64,7 +76,7 @@ COMMAND.Run = function(pl, args, supp)
 		D3A.Chat.Broadcast2(unpack(msgtbl))
 
 		if (res[1][1] == "Yes" and (plynum/2) <= res[1][2]) then
-			game.ConsoleCommand('mga ban "' .. targ .. '" "30" "minutes" "Votekicked by ' .. pl:NameID() .. '"\n')
+			game.ConsoleCommand('mga ban "' .. targ .. '" "30" "minutes" "Votekicked by ' .. pl:NameID():gsub('"',"") .. ' (' .. reason:gsub('"',"") .. ')"\n')
 			D3A.Commands.Discord("votekick_pass", targid, plid)
 		else
 			D3A.Chat.Broadcast2(moat_red, "Votekick Failed. (Not Enough Votes)")
