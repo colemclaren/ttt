@@ -146,34 +146,20 @@ function MOAT_DONATE.Purchase(l, pl)
 	local id = net.ReadUInt(8)
 	if (not MOAT_DONATE.Packages[id]) then return end
 	if (not MOAT_DONATE.Packages[id][1]) then return end
+	if (pl.StoreBusy) then return end
 
 	local pkg = MOAT_DONATE.Packages[id]
 	local sc = pl:GetSC()
 
 	if (sc and tonumber(sc) >= pkg[1]) then
-		pl:ChangeSC(-pkg[1])
-
-		pkg[2](pl)
+		pl:TakeSC(pkg[1], function()
+			pkg[2](pl)
+		end)
 
 		MoatLog(pl:SteamID() .. " purchased package #" .. id .. " for " .. pkg[1] .. " Support Credits")
 	end
 end
 net.Receive("moat.donate.purchase", MOAT_DONATE.Purchase)
-
-local PLAYER = FindMetaTable("Player")
-function PLAYER:ChangeSC(num)
-	local sc = self:GetDataVar("SC")
-	if (not sc) then sc = 0 end
-
-	self:SetDataVar("SC", sc + tonumber(num), true, true)
-end
-
-function PLAYER:GetSC()
-	local sc = self:GetDataVar("SC")
-	if (not sc) then sc = 0 end
-
-	return sc
-end
 
 /*
 function MOAT_DONATE.SendSupportCredits(pl, data)

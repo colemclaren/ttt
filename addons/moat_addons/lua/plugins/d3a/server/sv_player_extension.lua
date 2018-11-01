@@ -4,7 +4,7 @@ function D3A_selectUserInfo(id64)
 	return [[SELECT name, rank, first_join, last_join, 
 	playtime, inventory_credits, event_credits, donator_credits, 
 	extra, rank_expire, rank_expire_to, rank_changed FROM
-	player WHERE steam_id = ']] .. id64 .. [[' LIMIT 1;]]
+	player WHERE steam_id = ]] .. id64 .. [[ LIMIT 1;]]
 end
 
 function D3A.InitializePlayer(pl, data, cb)
@@ -101,11 +101,44 @@ function meta:SaveVars(var, val)
 	-- hmm
 end
 
+function meta:GetSC()
+	local sc = self:GetDataVar("SC")
+	if (not sc) then sc = 0 end
+
+	return sc
+end
+
 function meta:UpdateSC(num)
 	if (not IsValid(self)) then return end
 
 	local q = "UPDATE player SET donator_credits = donator_credits - " .. num .. " WHERE steam_id='" .. self:SteamID64() .. "';"
 	D3A.MySQL.Query(q)
+end
+
+/*
+DROP PROCEDURE IF EXISTS TakeDonatorCredits;
+DELIMITER $$
+CREATE PROCEDURE TakeDonatorCredits(in steamid64 bigint, in credits int)
+BEGIN
+	UPDATE player SET donator_credits = donator_credits - credits WHERE steam_id = steamid64;
+    SELECT donator_credits FROM player WHERE steam_id = steamid64;
+END; $$
+DELIMITER ;
+
+call TakeDonatorCredits(76561198053381832, 2);
+*/
+
+function meta:TakeSC(num, cb)
+	if (self.StoreBusy) then return end
+	self.StoreBusy = true
+
+	moat.sql:q("call TakeDonatorCredits(?, ?);", self:SteamID64(), num, function(r)
+		if (r and r[1] and r[1].donator_credits) then
+			self:SetDataVar("SC", r[1].donator_credits, false, true)
+			self.StoreBusy = false
+			if (cb) then cb() end
+		end
+	end)
 end
 
 function meta:SetDataVar(name, val, persist, network)

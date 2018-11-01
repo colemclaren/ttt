@@ -51,13 +51,13 @@ D3A.NW.Register "EC"
 	:SetPlayer()
 
 D3A.NW.Register "SC"
-	:Write(net.WriteUInt, 16)
-	:Read(net.ReadUInt, 16)
+	:Write(net.WriteUInt, 32)
+	:Read(net.ReadUInt, 32)
 	:SetPlayer()
 
 D3A.NW.Register "rank_expire"
-	:Write(net.WriteUInt, 16)
-	:Read(net.ReadUInt, 16)
+	:Write(net.WriteUInt, 32)
+	:Read(net.ReadUInt, 32)
 	:SetPlayer()
 
 D3A.NW.Register "rank_expire_to"
