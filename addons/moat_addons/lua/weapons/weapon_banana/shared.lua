@@ -376,6 +376,7 @@ function SWEP:PrimaryAttack()
 
 
 
+				Banana:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 				Banana.BananaType = 1;
 
 				Banana.Spawner = self.Owner;
