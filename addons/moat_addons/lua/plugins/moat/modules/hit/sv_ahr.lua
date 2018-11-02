@@ -106,8 +106,6 @@ function SHR:WeHit(shooter, ent, wpn, eye, localposx, localposy, localposz, dmgf
 
 	if (ent:IsNPC()) then hook.Run("ScaleNPCDamage", ent, hg, dmginfo) end
 
-	ent:TakeDamageInfo(dmginfo)
-
 	if (shot.Callback) then
 		local tr = {
 			Entity = ent,
@@ -131,6 +129,8 @@ function SHR:WeHit(shooter, ent, wpn, eye, localposx, localposy, localposz, dmgf
 		}
 		shot.Callback(shooter, tr, dmginfo)
 	end
+
+	ent:TakeDamageInfo(dmginfo)
 
 	dmginfo:SetDamageCustom(0)
 end
