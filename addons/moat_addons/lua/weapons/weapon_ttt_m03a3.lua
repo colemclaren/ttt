@@ -59,39 +59,14 @@ function SWEP:PrimaryAttack(worldsnd)
    owner:ViewPunch( Angle( math.Rand(-0.2,-0.1) * self.Primary.Recoil, math.Rand(-0.1,0.1) *self.Primary.Recoil, 0 ) )
 end*/
 
-function SWEP:ReBolt()
-  if (not IsValid(self)) then return end
-  
-  if (self.FireEnd == 1) then
-    self.Weapon:SendWeaponAnim(ACT_VM_SECONDARYATTACK)
-  end
-
-  if (self.FireEnd == 1) and (bIron) then
-    self.Weapon:SendWeaponAnim(ACT_VM_RELOAD_DEPLOYED)
-  end
-
-  self.FireEnd = 0
-end
-
 
 function SWEP:PrimaryAttack(worldsnd)
     if (not self:CanPrimaryAttack()) or not (self.Sprint == 0) then return end
 
     self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
-    self.FireEnd = 1
-
-    local rnda = self.Primary.Recoil * -1
-    local rndb = self.Primary.Recoil * math.random(-1, 1)
-
-    if self.Weapon:GetNetworkedBool("Ironsights", true) then
-        self.Weapon:SendWeaponAnim(ACT_VM_PRIMARYATTACK_DEPLOYED)
-    end
-
-    if (self.FireEnd == 1) then
-        timer.Simple(0.3, function()
-			if (IsValid(self)) then self:ReBolt() end
-        end)
+    if self:GetNWBool("Ironsights", true) then
+        self:SendWeaponAnim(ACT_VM_PRIMARYATTACK_DEPLOYED)
     end
 
     if not worldsnd then
@@ -107,14 +82,12 @@ function SWEP:PrimaryAttack(worldsnd)
    local owner = self.Owner
    if not IsValid(owner) or owner:IsNPC() or (not owner.ViewPunch) then return end
 
-    owner:ViewPunch( Angle( math.Rand(-0.2,-0.1) * self.Primary.Recoil, math.Rand(-0.1,0.1) *self.Primary.Recoil, 0 ) )
-
-    self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
+    owner:ViewPunch( Angle( math.Rand(-0.2,-0.1) * self.Primary.Recoil, math.Rand(-0.1,0.1) * self.Primary.Recoil, 0 ) )
 end
 
 function SWEP:Deploy()
-    self:SetNextPrimaryFire(CurTime() + self.Owner:GetViewModel():SequenceDuration())
-    self.Weapon:SendWeaponAnim(ACT_VM_DRAW)
+    self:SetNextPrimaryFire(math.max(self:GetNextPrimaryFire(), CurTime() + self.Owner:GetViewModel():SequenceDuration()))
+    self:SendWeaponAnim(ACT_VM_DRAW)
     self.Sprint = 0
     self.FireEnd = 0
     self.NextSecondaryAttack = 0
