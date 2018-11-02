@@ -7,7 +7,6 @@ SHR = {
 	}
 }
 print("Server Hit Reg Loaded")
-util.AddNetworkString("moat_hitmarker")
 util.AddNetworkString("moat_hitreg_command")
 util.AddNetworkString("moat_damage_number")
 util.AddNetworkString "shr"
@@ -30,113 +29,76 @@ function ENTITY:HitRegCheck()
 	return self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:Ping() < 234
 end
 
-function SHR:PrepareForHit(time, num, p, dmg, dir, src, tr, cb)
-	SHR.Players[p] = SHR.Players[p] or {}
-	SHR.Players[p][time] = SHR.Players[p][time] or {}
-
-	SHR.Players[p][time][num] = {
-		p = p,
-		dmg = dmg,
-		dir = dir,
-		tr = tr,
-		wep = p:GetActiveWeapon(),
-		num = num,
-		cb = cb
-	}
-
-
-	if (self.Callbacks[p] and self.Callbacks[p][time] and self.Callbacks[p][time][num]) then
-		self.Callbacks[p][time][num]()
-		self:Remove(self.Callbacks, p, time, num)
+function SHR:CreateShot(wpn, shotnum, firenum)
+	firenum = firenum or wpn:GetDTInt(28)
+	local owner = wpn:GetOwner()
+	local t = SHR.Players[owner]
+	if (not t) then
+		t = {}
+		SHR.Players[owner] = t
 	end
-end
-
-hook.Add("ScalePlayerDamage", "SHR.ScalePlayerDamage", function(victim, hg, dmg)
-	local att = dmg:GetAttacker()
-	if (IsValid(att) and att:IsPlayer() and att:HitRegCheck() and dmg:GetDamageCustom() == 0) then
-		--return true
+	local t1 = t[wpn]
+	if (not t1) then
+		t1 = {}
+		t[wpn] = t1
 	end
-end)
+	local t2 = t1[firenum]
+	if (not t2) then
+		t2 = {}
+		t1[firenum] = t2
+	end
+	local t3 = t2[shotnum]
+	if (not t3) then
+		t3 = {}
+		t2[shotnum] = t3
 
-hook.Add("EntityFireBullets", "SHR.FireBullets", function(e, t)
-	if (not MOAT_ACTIVE_BOSS and e:HitRegCheck()) then
-
-		local cb = t.Callback
-
-		local num = 1
-		local time = e:GetActiveWeapon():LastShootTime()
-		local dmg = t.Damage
-
-		t.Callback = function(a, tr, d)
-			SHR:PrepareForHit(time, num, e, dmg, t.Dir or Vector(), t.Src or Vector(), tr, not tr.HitGroup and cb or function() end)
-			num = num + 1
-
-			if (IsValid(tr.Entity) and tr.Entity:IsPlayer()) then
-				d:SetDamage(0)
+		timer.Simple(SHR.Config.MaxWait, function()
+			t2[shotnum] = nil
+			if (not next(t2)) then
+				t1[firenum] = nil
 			end
-
-			if (cb) then
-				return cb(a, tr, d)
-			end
-		end
-
-		timer.Simple(SHR.Config.MaxWait, function() 
-			SHR.Players[e][time] = nil
 		end)
 	end
-end)
-
-function SHR:InvalidPosition(eye, pl, pos, ent, tr)
-	return util.TraceLine({start = eye, endpos = pos, filter = {pl, ent, pl:GetActiveWeapon(), ent:GetActiveWeapon()}, mask = MASK_SHOT}).HitWorld
+	return t3
 end
 
-function SHR:Remove(t, shooter, time, shotnum)
-	if (not t[shooter][time]) then
-		return
-	end
-	t[shooter][time][shotnum] = nil
-	if (not next(t[shooter][time])) then
-		t[shooter][time] = nil
-	end
-end
-
-function SHR:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum, dmgn)
-	--[[local k = self.Players[shooter]
-	if (not k or not k[time] or not k[time][shotnum]) then
-		self.Callbacks[shooter] = self.Callbacks[shooter] or {}
-		self.Callbacks[shooter][time] = self.Callbacks[shooter][time] or {}
-		self.Callbacks[shooter][time][shotnum] = function()
-			self:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum)
-		end
-		timer.Simple(self.Config.MaxWait, function()
-			self:Remove(self.Callbacks, shooter, time, shotnum)
-		end)
+function SHR:WeHit(shooter, ent, wpn, eye, localposx, localposy, localposz, dmgfrc, hg, fire_num, shot_num)
+	if (shooter:GetObserverMode() ~= OBS_MODE_NONE or wpn:GetOwner() ~= shooter or not IsValid(ent) or not ent:IsPlayer() or ent:GetObserverMode() ~= OBS_MODE_NONE) then
 		return
 	end
 
-	k = k[time][shotnum]
-	self:Remove(self.Players, shooter, time, shotnum)
+	local localpos = Vector(localposx, localposy, localposz)
 
-	--[[ k = {
-		p = p,
-		dmg = dmg,
-		dir = dir,
-		tr = p:GetEyeTraceNoCursor(),
-		wep = p:GetActiveWeapon(),
-		num = num
-	}
-	if (not IsValid(ent) or not ent:IsPlayer() or ent:GetObserverMode() ~= OBS_MODE_NONE) then return end
-	if (self.Config.WallChecks and self:InvalidPosition(eye, shooter, pos, ent, k.tr)) then return end]]
+	local mins, maxs = ent:OBBMins(), ent:OBBMaxs()
+	if (localpos:DistToSqr((mins + maxs) / 2) > mins:DistToSqr(maxs)) then
+		return
+	end
 
-	print(dmgn)
+	local pos = ent:LocalToWorld(localpos)
+
+	local shot = self:CreateShot(wpn, shot_num, fire_num)
+
+	if (shot.Done) then
+		return
+	end
+
+	if (not shot.Damage) then
+		shot.WaitingCallback = function()
+			self:WeHit(shooter, ent, wpn, eye, localposx, localposy, localposz, dmgfrc, hg, fire_num, shot_num)
+		end
+		return
+	end
+
+	shot.Done = true
+
 	local dmginfo = DamageInfo()
 	dmginfo:SetAttacker(shooter)
-	dmginfo:SetDamage(dmgn)
+	dmginfo:SetDamage(shot.Damage)
 	dmginfo:SetDamageForce(dmgfrc)
 	dmginfo:SetDamagePosition(pos)
 	dmginfo:SetDamageType(DMG_BULLET)
-	dmginfo:SetInflictor(shooter:GetActiveWeapon())
-	dmginfo:SetDamageCustom(hg)
+	dmginfo:SetInflictor(wpn)
+	dmginfo:SetDamageCustom(hg + 1)
 
 	if (hook.Run("ScalePlayerDamage", ent, hg, dmginfo) or hook.Run("PlayerShouldTakeDamage", ent, shooter) == false) then
 		return
@@ -145,12 +107,30 @@ function SHR:WeHit(shooter, time, ent, eye, pos, dmgfrc, hg, shotnum, dmgn)
 	if (ent:IsNPC()) then hook.Run("ScaleNPCDamage", ent, hg, dmginfo) end
 
 	ent:TakeDamageInfo(dmginfo)
-	if (tobool(shooter:GetInfo("moat_hitmarkers"))) then
-		net.Start("moat_hitmarker")
-		net.Send(shooter)
-	end
 
-	--k.cb(shooter, k.tr, dmginfo)
+	if (shot.Callback) then
+		local tr = {
+			Entity = ent,
+			Fraction = 1,
+			FractionLeftSolid = 0,
+			Hit = true,
+			HitBox = 0,
+			HitGroup = hg,
+			HitNoDraw = false,
+			HitNonWorld = false,
+			HitNormal = Vector(1, 0, 0), -- bad, redo
+			HitPos = pos,
+			HitSky = false,
+			HitWorld = false,
+			MatType = 0,
+			Normal = (pos - eye):GetNormalized(),
+			PhysicsBone = 0,
+			SurfaceProps = 0,
+			StartSolid = false,
+			AllSolid = false
+		}
+		shot.Callback(shooter, tr, dmginfo)
+	end
 
 	dmginfo:SetDamageCustom(0)
 end
@@ -159,13 +139,13 @@ local function takedamage(gm, targ, dmg)
 	local ret = gm:OLDEntityTakeDamage(targ, dmg)
 
 	local att = dmg:GetAttacker()
-	if (IsValid(att) and att:IsPlayer() and tobool(att:GetInfo("moat_showdamagenumbers")) and GetRoundState() ~= ROUND_PREP and dmg:GetDamage() > 0) then
+	if (IsValid(targ) and targ:IsPlayer() and IsValid(att) and att:IsPlayer() and tobool(att:GetInfo("moat_showdamagenumbers")) and GetRoundState() ~= ROUND_PREP and dmg:GetDamage() > 0) then
 		net.Start("moat_damage_number")
 			net.WriteUInt(dmg:GetDamage(), 32)
 			if (dmg:GetDamageCustom() ~= 0) then
 				net.WriteUInt(targ:LastHitGroup(), 4)
 			else
-				net.WriteUInt(dmg:GetDamageCustom(), 4)
+				net.WriteUInt(dmg:GetDamageCustom() - 1, 4)
 			end
 			net.WriteVector(dmg:GetDamagePosition())
 		net.Send(att)
@@ -173,10 +153,57 @@ local function takedamage(gm, targ, dmg)
 
 	return ret
 end
+local function entityfirebullets(gm, e, t)
+	if (e:IsPlayer()) then
+		local wpn = e:GetActiveWeapon()
+		wpn:SetDTInt(28, wpn:GetDTInt(28) + 1)
+	end
+
+	if (gm.OldEntityFireBullets) then
+		gm:OldEntityFireBullets(e, t)
+	end
+	if (not MOAT_ACTIVE_BOSS and e:HitRegCheck()) then
+		local cb = t.Callback
+
+		local num = 1
+
+		local wpn = e:GetActiveWeapon()
+		local dmg = t.Damage
+
+		t.Callback = function(a, tr, d)
+
+
+			if (not (IsValid(tr.Entity) and tr.Entity:IsPlayer())) then
+				local shot = SHR:CreateShot(wpn, num)
+				if (not shot.Done) then
+					shot.Callback = cb
+					shot.Damage = dmg
+					shot.Trace = tr
+				end
+				if (shot.WaitingCallback) then
+					shot.WaitingCallback()
+					shot.WaitingCallback = nil
+					shot.Done = true
+				end
+			end
+
+			num = num + 1
+			if (cb) then
+				return cb(a, tr, d)
+			end
+		end
+	end
+
+	return true
+end
 
 local function register(GM)
 	GM.OLDEntityTakeDamage = GM.OLDEntityTakeDamage or GM.EntityTakeDamage
 	GM.EntityTakeDamage = takedamage
+	if (GM.OldEntityFireBullets == nil) then
+		GM.OldEntityFireBullets = GM.EntityFirebullets or false
+	end
+	GM.EntityFireBullets = entityfirebullets
 end
 
 local GM = GM or GAMEMODE or gmod.GetGamemode()
@@ -193,7 +220,12 @@ net.ReceiveNoLimit("shr", function(_, pl)
 		return
 	end
 
-	SHR:WeHit(pl, net.ReadFloat(), net.ReadEntity(), net.ReadVector(), net.ReadVector(), net.ReadVector(), net.ReadUInt(4), net.ReadUInt(8), net.ReadFloat())
+	SHR:WeHit(pl, net.ReadEntity(), net.ReadEntity(), 
+		net.ReadVector(),
+		net.ReadFloat(), net.ReadFloat(), net.ReadFloat(), 
+		net.ReadVector(),
+		net.ReadUInt(4), net.ReadUInt(32), net.ReadUInt(8)
+	)
 end)
 
 hook.Add("PlayerAuthed", "SHR.PlayerAuthed", function(pl)

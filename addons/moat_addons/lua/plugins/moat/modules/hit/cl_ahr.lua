@@ -17,10 +17,7 @@ if (not ConVarExists("moat_alt_hitreg")) then
     CreateClientConVar("moat_alt_hitreg", moat_BoolToNum(MOAT_HITREG.HitRegDefaultEnabled), true, true) -- Default disabled
 end
 
-
-if (not ConVarExists("moat_hitmarkers")) then
-    CreateClientConVar("moat_hitmarkers", moat_BoolToNum(MOAT_HITREG.HitmarkerDefaultEnabled), true, true)
-end
+local moat_hitmarkers = CreateClientConVar("moat_hitmarkers", moat_BoolToNum(MOAT_HITREG.HitmarkerDefaultEnabled), true, true)
 
 if (not ConVarExists("moat_hitmarker_sound")) then
     CreateClientConVar("moat_hitmarker_sound", moat_BoolToNum(MOAT_HITREG.HitMarkerSoundDefaultEnabled), true, false)
@@ -264,15 +261,6 @@ end)*/
 local hitmarker_alpha = 0
 local hitmarker_time = CurTime()
 
-net.Receive("moat_hitmarker", function(len)
-    hitmarker_alpha = 1
-    hitmarker_time = CurTime() + 0.5
-    local hitmarker_sound = Sound("npc/antlion/shell_impact2.wav")
-    local hs = CreateSound(LocalPlayer(), hitmarker_sound)
-    hs:ChangeVolume(1, 1)
-    hs:Play()
-end)
-
 local hitmarker_length = {10, 12, 16}
 
 hook.Add("HUDPaint", "moat_DrawHitmarkers", function()
@@ -388,36 +376,53 @@ net.Receive("moat_damage_number", function()
     local pos = net.ReadVector()
 
     MOAT_DMGNUMS.CreateDamageNumber(dmg, grp, pos)
+
+    if (moat_hitmarkers:GetBool()) then
+        hitmarker_alpha = 1
+        hitmarker_time = CurTime() + 0.5
+        local hitmarker_sound = Sound("npc/antlion/shell_impact2.wav")
+        local hs = CreateSound(LocalPlayer(), hitmarker_sound)
+        hs:ChangeVolume(1, 1)
+        hs:Play()
+    end
 end)
 
 local c = GetConVar "moat_alt_hitreg"
 local b
 
 hook.Add("EntityFireBullets", "‍a", function(e, t)
+    if (e == LocalPlayer()) then
+        local wep = e:GetActiveWeapon()
+        local fire_num = wep:GetDTInt(28)
+        wep:SetDTInt(28, fire_num + 1)
+    end
+
     if (not IsValid(t.Attacker) or t.Attacker ~= LocalPlayer() or not c:GetBool() or MOAT_ACTIVE_BOSS) then
         return
     end
 
     local cb = t.Callback
 
-    local time = CurTime()
-    local dmg = t.Damage
+    local wpn = e:GetActiveWeapon()
 
     local num = 1
     t.Callback = function(a, tr, d)
-        if (d and tr.HitGroup and IsValid(tr.Entity) and tr.Entity:IsPlayer()) then
+        if (d and IsValid(tr.Entity) and tr.Entity:IsPlayer()) then
             net.Start "shr"
                 net.WriteUInt(b, 32)
-                net.WriteFloat(time)
                 net.WriteEntity(tr.Entity)
+                net.WriteEntity(wpn)
 
                 net.WriteVector(tr.StartPos)
-                net.WriteVector(tr.HitPos)
+                local pos = tr.Entity:WorldToLocal(tr.HitPos)
+                net.WriteFloat(pos.x)
+                net.WriteFloat(pos.y)
+                net.WriteFloat(pos.z)
                 net.WriteVector(d:GetDamageForce())
 
                 net.WriteUInt(tr.HitGroup, 4)
+                net.WriteUInt(wpn:GetDTInt(28), 32)
                 net.WriteUInt(num, 8)
-                net.WriteFloat(dmg)
             net.SendToServer()
         end
 
@@ -427,7 +432,6 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
             return cb(a, tr, d)
         end
     end
-    return true
 end)
 
 net.Receive("shr", function() b = net.ReadUInt(32) end)
