@@ -239,7 +239,6 @@ function SWEP:Trace()
     local own = self.Owner
     local mins, maxs = own:GetHull()
 
-
     local t = {
         start = own:EyePos(),
         endpos = own:EyePos() + own:GetAimVector() * range:GetFloat(),
@@ -251,25 +250,15 @@ function SWEP:Trace()
 
     local tr = util.TraceLine(t)
 
-    t.endpos = t.start
-    t.start = tr.HitPos
-    local start, endpos = t.start, t.endpos
-    tr = util.TraceHull(t)
+    local diff = tr.HitPos - t.start
 
-    t.start = own:GetPos()
-    t.endpos = own:GetPos() + own:GetAimVector() * range:GetFloat()
-    local tr2 = util.TraceHull(t)
-
-    local final
-    if (tr.AllSolid) then
-        final = tr2.HitPos
-    elseif (tr.StartSolid) then
-        final = start + (endpos - start) * tr.FractionLeftSolid
-    else
-        final = tr.StartPos
+    for i = 0, 100 do
+        t.start = own:EyePos() + diff * (i / 100)
+        tr = util.TraceHull(t)
+        if (not tr.StartSolid) then
+            return tr.HitPos, tr.HitNormal
+        end
     end
-
-    return final, tr.HitNormal
 end
 
 function SWEP:Holster()
