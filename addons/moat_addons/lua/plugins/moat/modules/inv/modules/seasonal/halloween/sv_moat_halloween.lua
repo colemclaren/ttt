@@ -94,6 +94,7 @@ concommand.Add("moat_record_pos", function()
 	MOAT_PUMPKIN.Record = not MOAT_PUMPKIN.Record
 end)
 
+--[[
 hook.Add("TTTBeginRound", "moat_spawn_pumpkins", function()
 	MOAT_PUMPKIN.CurEggs = 0
 
@@ -108,6 +109,7 @@ hook.Add("TTTBeginRound", "moat_spawn_pumpkins", function()
 		MOAT_PUMPKIN.SpawnRandom()
 	end)
 end)
+]]
 
 function m_DropPumpkin(ply, amt)
 	for i = 1, amt do
