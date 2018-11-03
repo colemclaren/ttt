@@ -236,24 +236,30 @@ end
 
 -- trace mechanics
 function SWEP:Trace()
-    local own = self.Owner
+    local own = self:GetOwner()
     local mins, maxs = own:GetHull()
 
+    local start = own:EyePos()
+
     local t = {
-        start = own:EyePos(),
+        start = start,
         endpos = own:EyePos() + own:GetAimVector() * range:GetFloat(),
         mins = mins,
         maxs = maxs,
         mask = MASK_PLAYERSOLID,
         filter = own,
+        output = {}
     }
 
     local tr = util.TraceLine(t)
 
     local diff = tr.HitPos - t.start
+    t.endpos = tr.HitPos
+    start = own:GetPos()
+    t.start = start
 
-    for i = 0, 100 do
-        t.start = own:EyePos() + diff * (i / 100)
+    for i = 100, 0, -1 do
+        t.start = start + diff * (i / 100)
         tr = util.TraceHull(t)
         if (not tr.StartSolid) then
             return tr.HitPos, tr.HitNormal
