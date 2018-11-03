@@ -44,7 +44,6 @@ SWEP.ViewModel = "models/weapons/c_slam.mdl"
 SWEP.WorldModel = "models/weapons/w_slam.mdl"
 SWEP.AutoSpawnable = false
 SWEP.NoSights = true
-SWEP.Ghost = nil
 -- content loading
 local aim = {Sound("vadim_blink/aim1.mp3"), Sound("vadim_blink/aim2.mp3")}
 local tpl = {Sound("vadim_blink/teleport1.mp3"), Sound("vadim_blink/teleport2.mp3")}
@@ -138,7 +137,7 @@ function SWEP:PrimaryAttack()
     end
     self:SetAttacking(true)
     self:SetBlinkTime(CurTime())
-    if CLIENT then
+    if (CLIENT and IsValid(self.Ghost)) then
         self.Ghost:SetSequence(self:GetOwner():GetSequence())
     end
 
@@ -350,7 +349,7 @@ end
 function SWEP:ViewModelDrawn()
     render.SetBlend(1)
 
-    if self:GetAttacking() then
+    if self:GetAttacking() and IsValid(self.Ghost) then
         local pos, _ = self:Trace()
         self.Ghost:SetPos(pos)
         self.Ghost:SetAngles(self.Owner:GetAngles())
