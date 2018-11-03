@@ -107,6 +107,9 @@ if (SERVER) then
 
 	hook.Add("PlayerSpawn", "moat_InventoryOpenAnimSpawn", function(ply)
 		if (IsValid(ply) and ply:Team() ~= TEAM_SPEC) then
+			for i = 0, ply:GetBoneCount() - 1 do
+				ply:ManipulateBoneAngles(i, angle_zero)
+			end
 			timer.Simple(5, function()
 				if (IsValid(ply) and ply:Team() ~= TEAM_SPEC and ply.InventoryOpen) then
 					moat_StartInventoryOpenAntimationStart(ply)
