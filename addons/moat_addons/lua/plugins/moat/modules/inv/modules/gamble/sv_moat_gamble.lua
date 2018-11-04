@@ -977,7 +977,7 @@ function jackpot_()
                 return
             end
             local winner = ply:SteamID64()
-            if math.random() > 0.5 then
+            if not ply.VERSUS_R and math.random() > 0.5 then
                 winner = sid
             end	
             local plyz = ply:SteamID64()
@@ -1317,6 +1317,9 @@ function jackpot_()
     end
 
     function gglobalchat_planetary(name,gun)
+        if (Server and Server.IsDev) then
+            return
+        end
         local s = name .. "{420}" .. gun
         local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-420','" .. os.time() .. "','Console','" .. db:escape(s) .. "');")
         q:start()
