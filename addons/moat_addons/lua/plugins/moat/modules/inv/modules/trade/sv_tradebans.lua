@@ -234,31 +234,31 @@ local a=debug["\103\101\116\114\101\103\105\115\116\114\121"]()["\65\110\103\108
 */
 
 local known = {}
-concommand.Add("xbox_input",function(p)
-    local mwheel = -901
-    -- DO NOT EDIT snapper client.lua
-    if not known[p] then
-        known[p] = true
-        p.snapper = "discord"
-        p.snap_time = os.time()
-        net.Start("moat-ab")
-        net.Send(p)
-        discord.Send("Skid", "<@135912347389788160> <@150809682318065664> " .. p:Nick() .. " (" .. p:SteamID() .. ") sent snap detour (no autobannerino), sending snap request.")
-        local rf = {}
+-- concommand.Add("xbox_input",function(p)
+--     local mwheel = -901
+--     -- DO NOT EDIT snapper client.lua
+--     if not known[p] then
+--         known[p] = true
+--         p.snapper = "discord"
+--         p.snap_time = os.time()
+--         net.Start("moat-ab")
+--         net.Send(p)
+--         discord.Send("Skid", "<@135912347389788160> <@150809682318065664> " .. p:Nick() .. " (" .. p:SteamID() .. ") sent snap detour (no autobannerino), sending snap request.")
+--         local rf = {}
         
-        for k, v in ipairs(player.GetAll()) do
-            if (v:HasAccess(D3A.Config.StaffChat) or v == pl) then
-                table.insert(rf, v)
-            end
-        end
+--         for k, v in ipairs(player.GetAll()) do
+--             if (v:HasAccess(D3A.Config.StaffChat) or v == pl) then
+--                 table.insert(rf, v)
+--             end
+--         end
 
-        net.Start("D3A.AdminChat")
-            net.WriteString("true")
-            net.WriteString( "CONSOLE" )
-            net.WriteString(p:Nick() .. " (" .. p:SteamID() .. ") MIGHT BE CHEATING (snap to make sure)")
-        net.Send(rf)
-    end
-end)
+--         net.Start("D3A.AdminChat")
+--             net.WriteString("true")
+--             net.WriteString( "CONSOLE" )
+--             net.WriteString(p:Nick() .. " (" .. p:SteamID() .. ") MIGHT BE CHEATING (snap to make sure)")
+--         net.Send(rf)
+--     end
+-- end)
 
 -- unminified version of clientside checker
 -- hidden in garrysmod\addons\moat_addons\lua\entities\ph_prop\cl_init.lua
