@@ -41,3 +41,7 @@ end
 function util.UTCTime()
 	return os.date("!%r", os.time())
 end
+
+function util.SafeSteamID(str)
+	return string.gsub(str or '', '[^%w:_]', '') or ''
+end

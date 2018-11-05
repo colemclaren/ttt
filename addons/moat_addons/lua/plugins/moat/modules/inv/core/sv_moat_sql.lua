@@ -7,7 +7,8 @@ local DATABASE_PASSWORD = "clkmTQF6bF@3V0NYjtUMoC6sF&17B$"
 local MINVENTORY_CONNECTED = false
 
 function m_InventoryTable(db)
-    local comma = ","
+    /*
+	local comma = ","
     local fs = ""
 
     for i = 1, 10 do
@@ -60,6 +61,7 @@ function m_InventoryTable(db)
     end
 
     dq:start()
+	*/
 end
 
 local sql_queue = {}
@@ -87,7 +89,7 @@ hook.Add("SQLConnectionFailed", "MINVENTORY_MYSQL", function(db)
 end)
 
 function m_InsertCompTicket(c, cb, cbf)
-    local q = MINVENTORY_MYSQL:query("INSERT INTO moat_comps ( time, steamid, admin, link, ic, ec, item, class, talent1, talent2, talent3, talent4, comment, approved ) VALUES ( UNIX_TIMESTAMP(), '" .. MINVENTORY_MYSQL:escape(c.steamid) .. "', '" .. MINVENTORY_MYSQL:escape(c.admin) .. "', '" .. MINVENTORY_MYSQL:escape(c.ticket) .. "', '" .. MINVENTORY_MYSQL:escape(c.ic) .. "', '" .. MINVENTORY_MYSQL:escape(c.ec) .. "', '" .. MINVENTORY_MYSQL:escape(c.item) .. "', '" .. MINVENTORY_MYSQL:escape(c.class) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent1) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent2) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent3) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent4) .. "', '" .. MINVENTORY_MYSQL:escape(c.comments) .. "', '0')")
+    local q = MINVENTORY_MYSQL:query("INSERT INTO moat_comps ( time, steamid, admin, link, ic, ec, item, class, talent1, talent2, talent3, talent4, comment, approved ) VALUES ( UNIX_TIMESTAMP(), '" .. MINVENTORY_MYSQL:escape(util.SafeSteamID(c.steamid)) .. "', '" .. MINVENTORY_MYSQL:escape(c.admin) .. "', '" .. MINVENTORY_MYSQL:escape(c.ticket) .. "', '" .. MINVENTORY_MYSQL:escape(c.ic) .. "', '" .. MINVENTORY_MYSQL:escape(c.ec) .. "', '" .. MINVENTORY_MYSQL:escape(c.item) .. "', '" .. MINVENTORY_MYSQL:escape(c.class) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent1) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent2) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent3) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent4) .. "', '" .. MINVENTORY_MYSQL:escape(c.comments) .. "', '0')")
 
     function q:onSuccess(data)
         cb(data)
@@ -125,7 +127,7 @@ function MoatLog(msg)
 end
 
 function m_CheckCompTickets(pl)
-    local q = MINVENTORY_MYSQL:query("SELECT * FROM moat_comps WHERE (steamid = '" .. MINVENTORY_MYSQL:escape(pl:SteamID()).. "' AND approved = '2')")
+    local q = MINVENTORY_MYSQL:query("SELECT * FROM `moat_comps` WHERE (REGEXP_REPLACE(`steamid`, '[^a-z0-9_:]+', '') LIKE '" .. MINVENTORY_MYSQL:escape(pl:SteamID()).. "' AND `approved` LIKE '2')")
     function q:onSuccess(d)
         if (#d > 0) then
 
@@ -137,7 +139,7 @@ function m_CheckCompTickets(pl)
                         give_ec(pl, tonumber(tbl.ec))
 
                         net.Start("moat.comp.chat")
-                        net.WriteString("You have received " .. tbl.ec .. " event credits from a compensation ticket!")
+                        net.WriteString("You have received " .. tbl.ec .. " event credit(s) from a compensation ticket! <3")
                         net.WriteBool(false)
                         net.Send(pl)
 
@@ -181,13 +183,13 @@ function m_CheckCompTickets(pl)
                 if (tbl.item and #tbl.item > 1) then
                     pl:m_DropInventoryItem(tbl.item, class, true, false, true, talents)
 
-                    comp_msg = "You have received a " .. tbl.item .. " " .. class .. " from a compensation ticket!"
+                    comp_msg = "You have received a " .. tbl.item .. " " .. class .. " from a compensation ticket! <3"
                 end
 
                 if (tbl.ic and #tbl.ic > 0) then
                     pl:m_GiveIC(tonumber(tbl.ic))
 
-                    comp_msg = "You have received " .. tbl.ic .. " inventory credits from a compensation ticket!"
+                    comp_msg = "You have received " .. tbl.ic .. " inventory credits from a compensation ticket! <3"
                 end
                 
                 m_SaveInventory(pl)
