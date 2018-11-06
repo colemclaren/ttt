@@ -63,7 +63,7 @@ function SHR:CreateShot(wpn, shotnum, firenum)
 end
 
 function SHR:WeHit(shooter, ent, wpn, eye, localposx, localposy, localposz, dmgfrc, hg, fire_num, shot_num)
-	if (shooter:GetObserverMode() ~= OBS_MODE_NONE or wpn:GetOwner() ~= shooter or not IsValid(ent) or not ent:IsPlayer() or ent:GetObserverMode() ~= OBS_MODE_NONE) then
+	if (shooter:GetObserverMode() ~= OBS_MODE_NONE or wpn:GetOwner() ~= shooter or not IsValid(ent) or (ent:IsPlayer() and ent:GetObserverMode() ~= OBS_MODE_NONE)) then
 		return
 	end
 
@@ -100,7 +100,7 @@ function SHR:WeHit(shooter, ent, wpn, eye, localposx, localposy, localposz, dmgf
 	dmginfo:SetInflictor(wpn)
 	dmginfo:SetDamageCustom(hg + 1)
 
-	if (hook.Run("ScalePlayerDamage", ent, hg, dmginfo) or hook.Run("PlayerShouldTakeDamage", ent, shooter) == false) then
+	if (ent:IsPlayer() and (hook.Run("ScalePlayerDamage", ent, hg, dmginfo) or hook.Run("PlayerShouldTakeDamage", ent, shooter) == false))then
 		return
 	end
 
@@ -135,21 +135,31 @@ function SHR:WeHit(shooter, ent, wpn, eye, localposx, localposy, localposz, dmgf
 	dmginfo:SetDamageCustom(0)
 end
 
+function SHR:SendHitEffects(pl, num, pos)
+	net.Start "moat_damage_number"
+		net.WriteUInt(num, 32)
+		net.WriteVector(pos)
+	net.Send(pl)
+end
+
 local function takedamage(gm, targ, dmg)
 	local ret = gm:OLDEntityTakeDamage(targ, dmg)
 
-	local att = dmg:GetAttacker()
-	if (IsValid(targ) and targ:IsPlayer() and IsValid(att) and att:IsPlayer() and tobool(att:GetInfo("moat_showdamagenumbers")) and GetRoundState() ~= ROUND_PREP and dmg:GetDamage() > 0) then
-		net.Start("moat_damage_number")
-			net.WriteUInt(dmg:GetDamage(), 32)
-			if (dmg:GetDamageCustom() ~= 0) then
-				net.WriteUInt(targ:LastHitGroup(), 4)
-			else
-				net.WriteUInt(dmg:GetDamageCustom() - 1, 4)
-			end
-			net.WriteVector(dmg:GetDamagePosition())
-		net.Send(att)
+	if (GetRoundState() == ROUND_PREP or dmg:GetDamage() <= 0) then
+		return
 	end
+
+	local att = dmg:GetAttacker()
+	if (not IsValid(targ) or not IsValid(att) or not att:IsPlayer()) then
+		return
+	end
+
+	local apache = (IsValid(MOAT_APACHE_ENT) and MOAT_APACHE_ENT == targ) or (IsValid(MOAT_BOSS_CUR_PLY) and MOAT_BOSS_CUR_PLY == targ)
+	if (not targ:IsPlayer() and not apache) then
+		return
+	end
+
+	SHR:SendHitEffects(att, dmg:GetDamage(), dmg:GetDamagePosition())
 
 	return ret
 end
@@ -162,7 +172,7 @@ local function entityfirebullets(gm, e, t)
 	if (gm.OldEntityFireBullets) then
 		gm:OldEntityFireBullets(e, t)
 	end
-	if (not MOAT_ACTIVE_BOSS and e:HitRegCheck()) then
+	if (e:HitRegCheck()) then
 		local cb = t.Callback
 
 		local num = 1
@@ -216,7 +226,7 @@ else
 end
 
 net.ReceiveNoLimit("shr", function(_, pl)
-	if (not pl:HitRegCheck() or pl:GetObserverMode() ~= OBS_MODE_NONE or net.ReadUInt(32) ~= SHR_Val or MOAT_ACTIVE_BOSS) then
+	if (not pl:HitRegCheck() or pl:GetObserverMode() ~= OBS_MODE_NONE or net.ReadUInt(32) ~= SHR_Val) then
 		return
 	end
 

@@ -3,24 +3,16 @@ surface.CreateFont("moat_LabelFont", {
     size = 16,
     weight = 1200
 })
-local function moat_BoolToNum(bool)
-    local num = 0
 
-    if (tostring(bool) == "true") then
-        num = 1
-    end
-
-    return num
-end
+local moat_hitmarkers = CreateClientConVar("moat_hitmarkers", 1, true, true)
+local moat_damage_numbers = CreateClientConVar("moat_damage_numbers", 1, true, true)
 
 if (not ConVarExists("moat_alt_hitreg")) then
-    CreateClientConVar("moat_alt_hitreg", moat_BoolToNum(MOAT_HITREG.HitRegDefaultEnabled), true, true) -- Default disabled
+    CreateClientConVar("moat_alt_hitreg", 1, true, true)
 end
 
-local moat_hitmarkers = CreateClientConVar("moat_hitmarkers", moat_BoolToNum(MOAT_HITREG.HitmarkerDefaultEnabled), true, true)
-
 if (not ConVarExists("moat_hitmarker_sound")) then
-    CreateClientConVar("moat_hitmarker_sound", moat_BoolToNum(MOAT_HITREG.HitMarkerSoundDefaultEnabled), true, false)
+    CreateClientConVar("moat_hitmarker_sound", 1, true, false)
 end
 
 if (not ConVarExists("moat_hitmarker_size")) then
@@ -295,7 +287,7 @@ end)
 MOAT_DMGNUMS = MOAT_DMGNUMS or {}
 MOAT_DMGNUMS.Live = {}
 
-function MOAT_DMGNUMS.CreateDamageNumber(dmg, grp, pos)
+function MOAT_DMGNUMS.CreateDamageNumber(dmg, pos)
 
     local randnum = math.Rand(-0.4, 0.4)
 
@@ -306,9 +298,9 @@ function MOAT_DMGNUMS.CreateDamageNumber(dmg, grp, pos)
     NumTable.Alpha = 255
     NumTable.Col = Color(255, 255, 255)
 
-    if (grp == 1) then
-        NumTable.Col = Color(255, 51, 51)
-    elseif (grp == 2 or grp == 3) then
+	if (dmg >= 80) then
+		NumTable.Col = Color(255, 51, 51)
+   	elseif (dmg >= 40) then
         NumTable.Col = Color(255, 153, 51)
     end
 
@@ -316,7 +308,7 @@ function MOAT_DMGNUMS.CreateDamageNumber(dmg, grp, pos)
 end
 
 function MOAT_DMGNUMS.LoopDamageNumbers()
-    if (GetConVar("moat_showdamagenumbers"):GetInt() < 1 or not MOAT_DMGNUMS.Live or #MOAT_DMGNUMS.Live < 1) then return end
+    if (not moat_damage_numbers:GetBool() or not MOAT_DMGNUMS.Live or #MOAT_DMGNUMS.Live < 1) then return end
 
     local num
     for i = 1, #MOAT_DMGNUMS.Live do
@@ -345,7 +337,7 @@ surface.CreateFont("moat_HitNumberFont", {
 })
 
 function MOAT_DMGNUMS.DrawDamageNumbers()
-    if (GetConVar("moat_showdamagenumbers"):GetInt() < 1 or not MOAT_DMGNUMS.Live or #MOAT_DMGNUMS.Live < 1) then return end
+    if (not moat_damage_numbers:GetBool() or not MOAT_DMGNUMS.Live or #MOAT_DMGNUMS.Live < 1) then return end
 
     local observer = (LocalPlayer():GetViewEntity() or LocalPlayer())
     local ang = observer:EyeAngles()
@@ -372,12 +364,9 @@ hook.Add("PostDrawTranslucentRenderables", "moat_DrawDamageNumbers", MOAT_DMGNUM
 
 net.Receive("moat_damage_number", function()
     local dmg = net.ReadUInt(32)
-    local grp = net.ReadUInt(4)
-    local pos = net.ReadVector()
+	local pos = net.ReadVector()
 
-    MOAT_DMGNUMS.CreateDamageNumber(dmg, grp, pos)
-
-    if (moat_hitmarkers:GetBool()) then
+	if (moat_hitmarkers:GetBool()) then
         hitmarker_alpha = 1
         hitmarker_time = CurTime() + 0.5
         local hitmarker_sound = Sound("npc/antlion/shell_impact2.wav")
@@ -385,6 +374,14 @@ net.Receive("moat_damage_number", function()
         hs:ChangeVolume(1, 1)
         hs:Play()
     end
+
+	if (dmg <= 0 or not pos) then
+		return
+	end
+
+	if (moat_damage_numbers:GetBool()) then
+		MOAT_DMGNUMS.CreateDamageNumber(dmg, pos)
+	end
 end)
 
 local c = GetConVar "moat_alt_hitreg"
@@ -397,7 +394,7 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
         wep:SetDTInt(28, fire_num + 1)
     end
 
-    if (not IsValid(t.Attacker) or t.Attacker ~= LocalPlayer() or not c:GetBool() or MOAT_ACTIVE_BOSS) then
+    if (not IsValid(t.Attacker) or t.Attacker ~= LocalPlayer() or not c:GetBool()) then
         return
     end
 
@@ -407,7 +404,7 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
 
     local num = 1
     t.Callback = function(a, tr, d)
-        if (d and IsValid(tr.Entity) and tr.Entity:IsPlayer()) then
+        if (d and IsValid(tr.Entity)) then
             net.Start "shr"
                 net.WriteUInt(b, 32)
                 net.WriteEntity(tr.Entity)
