@@ -125,7 +125,7 @@ function _this:stopSong()
 	currentSong = nil
 	
 end
-
+/*
 local nextTick = 0
 hook.Add( 'Tick', 'aCrashScreen-song', function()
 	
@@ -157,7 +157,7 @@ timer.Simple( 2, function()
 	end
 	
 end)
-
+*/
 --[[//////////////////////////////////////////////////////////////////
 		Background
 ////////////////////////////////////////////////////////////////////]]
@@ -200,6 +200,6 @@ end
 
 -- Load a single background, so we won't have to wait
 -- for our background to load when the crash screen appears
-timer.Simple(5, function()
+/*timer.Simple(5, function()
 	_this:getRandomBackground(function() end)
-end)
+end)*/

@@ -32,6 +32,20 @@ function Server.BuildAddress()
 end
 Server.BuildAddress()
 
+local servers = {
+	n = 0,
+	List = {
+		IP = {},
+		Name = {},
+		ID = {}
+	},
+	Roster = {},
+	DefaultPort = 27015,
+	Name = "Moat TTT",
+	URL = ".moat.gg",
+	SteamURL = "steam://connect/"
+}
+
 ----
 -- our server's nick name, ex:
 -- TTT Minecraft #2
@@ -59,21 +73,6 @@ end
 GetServerURL = function()
 	return Server.ConnectURL or (Servers.SteamURL .. GetServerIP())
 end
-
-
-local servers = {
-	n = 0,
-	List = {
-		IP = {},
-		Name = {},
-		ID = {}
-	},
-	Roster = {},
-	DefaultPort = 27015,
-	Name = "Moat TTT",
-	URL = ".moat.gg",
-	SteamURL = "steam://connect/"
-}
 
 function servers.Get(str)
 	if (not str) then
@@ -114,18 +113,22 @@ function servers.Register(address)
 	end
 
 	local ip_split = str_split(address, ":")
-	local self = setmetatable({
+	local mt = setmetatable({
 		Index = servers.n,
 		IP = ip_split[1] .. ":" .. ip_split[2],
 		ShortIP = ip_split[1],
 		Port = ip_split[2],
 		Status = false,
 		ThisServer = (GetServerIP() and GetServerIP() == address),
-		URL = servers.URL .. (ip_split[2] == "27015" and "" or ":" .. ip_split[2])
+		URL = servers.URL .. (ip_split[2] == "27015" and "" or ":" .. ip_split[2]),
+		ConnectURL = "retry",
+		State = false, -- active
+		Name = "TTT",
+		ID = "ttt"
 	}, sv_mt)
 
-	servers.Roster[servers.n] = self
-	return self:UpdateList()
+	servers.Roster[servers.n] = mt
+	return mt:UpdateList()
 end
 
 function sv_mt:SetName(str)
@@ -176,3 +179,27 @@ end
 Servers = setmetatable(servers, {
 	__call = function(self, ...) return self.Register(...) end
 })
+
+if (CLIENT) then
+	net.Receive("ServerInfo", function()
+		Server.Name = net.ReadString()
+		Server.IP = net.ReadString()
+		Server.ID = net.ReadString()
+		Server.URL = Server.ID .. Servers.URL
+		Server.ConnectURL = Servers.SteamURL .. Server.URL
+		local ip = str_split(Server.IP or "", ":")
+		if (ip and ip[1] and ip[2]) then
+			Server.ShortIP = ip[1]
+			Server.Port = ip[2]
+		end
+	end)
+else
+	util.AddNetworkString "ServerInfo"
+	hook.Add("PlayerAuthed", "ServerInfo", function(pl)
+		net.Start "ServerInfo"
+			net.WriteString(GetServerName())
+			net.WriteString(GetServerIP())
+			net.WriteString(Server and Server.ID or "dev")
+		net.Send(pl)
+	end)
+end

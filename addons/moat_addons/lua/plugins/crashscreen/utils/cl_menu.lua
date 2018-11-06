@@ -22,11 +22,11 @@ surface.CreateFont( 'acrashscreen_big', {
 local buttonPaint = function( pnl, w, h )
 	
 	if pnl:IsDown() then
-		surface.SetDrawColor( 70, 70, 70, 255 )
+		surface.SetDrawColor( 60, 70, 80, 255 )
 	elseif pnl:IsHovered() then
-		surface.SetDrawColor( 80, 80, 80, 255 )
+		surface.SetDrawColor( 80, 90, 100, 255 )
 	else
-		surface.SetDrawColor( 40, 40, 40, 255 )
+		surface.SetDrawColor( 40, 43, 48, 255 )
 	end
 	surface.DrawRect( 0, 0, w, h )
 	
@@ -55,7 +55,7 @@ function PANEL:Init()
 	self.reconnectButton:SetSize( 280, 46 )
 	self.reconnectButton:SetPos( ScrW()*0.5 - 140, 150 )
 	self.reconnectButton:SetFont( 'acrashscreen_medium' )
-	self.reconnectButton:SetText( "Reconnect now" )
+	self.reconnectButton:SetText( "Reconnect Now" )
 	
 	-- Disconnect button
 	self.disconnectButton = vgui.Create( 'DButton', self )
@@ -144,31 +144,73 @@ function PANEL:Init()
 		b2.DoClick = function( pnl ) frame:Remove() end
 		
 	end
-	
-	-- Create custom buttons
-	local buttonsTable = _this.config.buttons
-	local height = 22 * #buttonsTable - 20
-	for n, button in pairs( buttonsTable ) do
-		
-		local buttonText = button[ 1 ]
-		local buttonFunc = button[ 2 ]
-		
-		local button = vgui.Create( 'DButton', self )
-		button:SetSize( 280, 20 )
-		button:SetPos( ScrW() - 280 - 2, ScrH()*0.5 - height*0.5 + 22*(n-1) )
-		button:SetFont( 'DermaDefault' )
-		button:SetText( buttonText )
-		
-		button.Paint = buttonPaint
-		button.UpdateColours = buttonUpdateColours
-		
-		if isstring( buttonFunc ) then
-			button.DoClick = function( pnl ) LocalPlayer():ConCommand( 'connect ' .. buttonFunc ) end
-		elseif isfunction( buttonFunc ) then
-			button.DoClick = function( pnl ) buttonFunc() end
+
+	http.Fetch("https://moat.gg/api/servers", function(b) 
+		local b = util.JSONToTable(b)
+		if (not b and b.servers) then return end
+
+		local amt = 0
+		for i = 1, Servers.n do
+			local srv = Servers.Roster[i]
+			if (not srv or not srv.ID or not srv.Name) then
+				continue
+			end
+
+			local n = srv.ID .. ".moat.gg"
+			local v = b.servers[n]
+			if (not v or not v.players) then
+				continue
+			end
+
+			amt = amt + 1
 		end
+
+		if (amt == 0) then
+			return
+		end
+
+		local height, num = 20 * amt - 20, 0
+		for i = 1, Servers.n do
+			local srv = Servers.Roster[i]
+			if (not srv or not srv.ID or not srv.Name) then
+				continue
+			end
+
+			local n = srv.ID .. ".moat.gg"
+			local v = b.servers[n]
+			if (not v or not v.players) then
+				continue
+			end
+
+			local buttonFunc = srv.IP
+			num = num + 1
+
+			local button = vgui.Create( 'DButton', self )
+			button:SetSize( 280, 20 )
+			button:SetPos( ScrW() - 280 - 2, ScrH()*0.5 - height*0.5 + 20*(num-1) )
+			button:SetText ""
 		
-	end
+			button.Paint = buttonPaint
+			button.UpdateColours = buttonUpdateColours
+			button.even = (num % 2 == 0) 
+			button.PaintOver = function(s, w, h)
+				if (s.even) then
+					surface.SetDrawColor(125, 130, 140, 50)
+					surface.DrawRect(1, 1, w-2, h-2)
+				end
+
+				draw.DrawText("        - " .. srv.Name, "DermaDefault", 5, 2, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+				draw.DrawText("Join", "DermaDefault", 5, 2, Color(76, 175, 80), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+				draw.DrawText((v.players or "0") .. "/" .. (v.maxPlayers or "28") .." Players", "DermaDefault", w - 5, 2, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+			end
+
+			if isstring( buttonFunc ) then
+				button.DoClick = function( pnl ) LocalPlayer():ConCommand( 'connect ' .. buttonFunc ) end
+			elseif isfunction( buttonFunc ) then
+				button.DoClick = function( pnl ) buttonFunc() end
+			end
+		end
+	end, function(e) print(e) end)
 	
 	-- Volume slider
 	/*self.volumeSliderContainer = vgui.Create( 'DPanel', self )

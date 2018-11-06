@@ -2,17 +2,13 @@ local _this = aCrashScreen
 _this.menu = _this.menu or nil
 
 -- Set the client's timeout to 900 ( 15 minutes ), so the client doesn't disconnect after 45 seconds ( that would make this feature useless )
-RunConsoleCommand( 'cl_timeout', '9000' )
-
--- Set it back to 45
-hook.Add( 'ShutDown', 'aCrashScreen', function()
-	RunConsoleCommand( 'cl_timeout', '45' )
+RunConsoleCommand( 'cl_timeout', 9000 )
+hook.Add( 'InitPostEntity', 'crashscreen_time', function()
+	RunConsoleCommand('cl_timeout', 9000)
 end)
 
--- Start ahead so the screen doesn't pop up when you join the server.
--- If server crashes at this time it's most likely stuck at the 'Sending client info' anyway
-local lastPing, lastProcessTick = SysTime() + 9999, SysTime()
-local isChangingMaps = false
+local LastPing, JoinBuffer, LastProcessTick = SysTime() + 600, SysTime() + 60, SysTime()
+local MapChanging = false
 
 -- 0 = determining, 1 = reconnecting when server is online, 2 = Delayed reconnection
 local TYPE_DETERMINING, TYPE_WAITFORSERVER, TYPE_DELAYED = 0, 1, 2
@@ -27,7 +23,6 @@ local errorStatusAmount = 0
 local startProcess, stopProcess, processTick
 
 function startProcess()
-	
 	-- Set process to active
 	isProcessActive = true
 	
@@ -39,16 +34,13 @@ function startProcess()
 	errorStatusAmount = 0
 	
 	if not _this.config.serverStatusURL then
-		
 		reconnectingType = TYPE_DELAYED
 		reconnectingTime = _this.config.reconnectingTime or 40
 		
 	else
-		
 		-- Determine whether we are going to use auto reconnect after a certain time or when the server is back up
 		-- If the site isn't working we still want this to be functional
 		_this:isServerOnline( function( status )
-			
 			if not isProcessActive then return end
 			
 			if status == 'online' or status == 'offline' then
@@ -58,28 +50,24 @@ function startProcess()
 				reconnectingType = TYPE_DELAYED -- Delayed reconnection
 				reconnectingTime = _this.config.reconnectingTime or 40
 			end
-			
+
 			processTick()
-			lastProcessTick = SysTime()
-			
+			LastProcessTick = SysTime()
 		end)
 		
 	end
-	
+
 	-- Remove menu if already exists
 	if IsValid( _this.menu ) then
+
 		_this.menu:Remove()
 		_this.menu = nil
 	end
-	
+
 	-- Create menu
 	local menu = vgui.Create( 'aCrashScreen-menu' )
-	menu:SetVisible(false)
+	menu:SetVisible(true)
 
-	timer.Simple(8, function()
-		if (IsValid(menu)) then menu:SetVisible(true) end
-	end)
-	
 	_this.menu = menu
 	
 	-- Set the background
@@ -91,8 +79,8 @@ function startProcess()
 	
 	-- On terminated
 	menu.onTerminated = function( pnl )
-		lastPing = SysTime() + 9999 -- Just set the lastPing way ahead
-		SetGlobalInt( 'acrashscreen_ping', 99999999 )
+
+		LastPing = SysTime() + 9999 -- Just set the lastPing way ahead
 	end
 	
 	if _this.config.songUrls then
@@ -111,14 +99,12 @@ function startProcess()
 	else
 		menu:setVolumeSliderEnabled( false )
 	end
-	
 end
 
 function stopProcess()
 	
 	-- Set the process inactive
 	isProcessActive = false
-	
 	-- Remove the menu
 	if IsValid( _this.menu ) then
 		_this.menu:Remove()
@@ -126,12 +112,11 @@ function stopProcess()
 	end
 	
 	-- Stop the song
-	_this:stopSong()
+	-- _this:stopSong()
 	
 end
 
 function processTick()
-	
 	-- Start process if not active ( on first tick )
 	if not isProcessActive then
 		startProcess()
@@ -148,14 +133,11 @@ function processTick()
 	
 	if reconnectingType == TYPE_DETERMINING then
 		-- Do nothing when we are determining the type
-		
 	elseif reconnectingType == TYPE_DELAYED then
 		
 		-- Subtract one from reconnectingTime each tick
 		reconnectingTime = reconnectingTime - 1
-	
 	elseif reconnectingType == TYPE_WAITFORSERVER then
-		
 		if isServerOnline then
 			-- Subtract one from reconnectingTime each tick when the server is online
 			reconnectingTime = reconnectingTime - 1
@@ -166,16 +148,12 @@ function processTick()
 		
 		-- Check each second whether the server is online or not
 		if not isServerOnline or ( isServerOnline and reconnectingTime%2 == 0 ) then
-			
 			-- Check if server online
 			_this:isServerOnline( function( status )
-				
 				if not isProcessActive then return end
-				
 				-- What if the site decides to shit itself after we checked once before?
 				-- we check 3 more times, if it's higher than 3 we go over to the auto reconnect
 				if status == 'error' then
-					
 					errorStatusAmount = errorStatusAmount + 1
 					
 					if errorStatusAmount >= 3 then
@@ -190,7 +168,6 @@ function processTick()
 				end
 				
 				if status == 'online' then
-					
 					serverOnlineAttempts = serverOnlineAttempts + 1
 					
 					-- We want to make sure the server is fully online, if the server is starting it will sometimes show as online
@@ -211,45 +188,40 @@ function processTick()
 	
 end
 
-net.Receive( 'acrashscreen_ping', function( len )
-	
-	-- Once the map changes ignore the crash screen
-	if net.ReadBit() == 1 then
-		isChangingMaps = true
-		stopProcess() -- To make sure
-	end
-	
-	-- Wait for the player to load in, so the crash screen doesn't appear while joining
-	if IsValid( LocalPlayer() ) then
-		lastPing = SysTime()
-	end
-	
-end)
+net.Receive("crashscreen_ping", function()
+	LastPing = SysTime() + Either(map, 60, 15)
 
-local function tick()
-	
-	-- Do nothing when we're changing maps
-	if isChangingMaps then return end
-	
-	-- If the server didn't ping for 5 seconds it most likely crashed
-	-- This is about the same time when the 'server not responding' text comes up
-	if SysTime() - lastPing > 10 and CurTime() - GetGlobalInt( 'acrashscreen_ping', 99999999 ) > 10 then
-		
-		-- Call this each second when the server is not responding
-		if SysTime() - lastProcessTick >= 1 then
-			processTick()
-			lastProcessTick = SysTime()
-		end
-		
-	-- End the process
-	elseif isProcessActive then
+	if (net.ReadBool()) then
+		MapChanging = true
+	end
+
+	if (isProcessActive) then
 		stopProcess()
 	end
-	
-end
-hook.Add( 'Tick', 'aCrashScreen', tick ) -- Timers don't work when the server is not responding
+end)
 
-concommand.Add( 'acrashscreen_debug', function()
+hook.Add("Think", "crashscreen_check", function()
+	if (MapChanging) then
+		return
+	end
+
+	if (not JoinBuffer or JoinBuffer > SysTime()) then
+		return
+	end
+
+	if (LastPing and LastPing < SysTime()) then
+		if (SysTime() - LastProcessTick >= 1) then
+			processTick()
+			LastProcessTick = SysTime()
+		end
+	elseif (isProcessActive) then
+		stopProcess()
+	end
+end)
+
+
+/*
+concommand.Add( '__acrashscreen_debug', function()
 	
 	if isProcessActive then
 		print( "[aCrashScreen] Can not debug while the original crash screen is active." )
@@ -297,3 +269,4 @@ concommand.Add( 'acrashscreen_debug', function()
 	end
 	
 end)
+*/

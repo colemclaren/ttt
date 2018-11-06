@@ -1,13 +1,11 @@
 aCrashScreen = aCrashScreen or {}
 aCrashScreen.config = aCrashScreen.config or {}
 
-if (SERVER) then return end
-
 local _this = aCrashScreen.config
 ---------------------------------
 -- Chat ID, useful for multiple servers
 -- Not case sensitive only letters, numbers and underscores are allowed
-_this.chatID = "server_Default"
+_this.chatID = "server_default"
 
 -- Your community name
 _this.communityName = "Moat.GG - TTT has Crashed!"
@@ -22,7 +20,7 @@ _this.serverStatusURL = false
 _this.serverOnlineReconnectingTime = 15
 
 -- Only if serverStatusURL is false, this will auto reconnect after x amount of seconds
-_this.reconnectingTime = 200
+_this.reconnectingTime = 90
 
 -- THIS server's IP address and Port
 -- Only needed if you use serverStatusURL
@@ -103,27 +101,3 @@ end
 _this.buttons = {
 	-- "Button text", function or server ip:port to connect to
 }
-
-for i = 1, Servers.n do
-	local srv = Servers.Roster[i]
-	if (not srv.Name or not srv.IP or srv.State) then
-		continue
-	end
-
-	table.insert(_this.buttons, {"Join - " .. srv.Name, srv.IP})
-end
-
--- If you want to adjust the looks of the crash menu find file 'cl_menu.lua'
--- To enable readable error messages go to 'sh_start.lua'
--- Obviously this will require you to have some GLua knowledge
--- If you do manage to break something while editing this file do not ask for support, revert the changes instead
-
---[[////////////////////////// Contact & Support /////////////////////////////////
-//                                                                              //
-//        If you find any bugs or have a problem feel free to contact me:       //
-//                    http://steamcommunity.com/id/ikefi                        //
-//                     As my profile description states:                        //
-//               i might not add you right away or not at all.                  //
-//              it'll be better to just create a ticket instead.                //
-//                                                                              //
-////////////////////////////////////////////////////////////////////////////////]]
