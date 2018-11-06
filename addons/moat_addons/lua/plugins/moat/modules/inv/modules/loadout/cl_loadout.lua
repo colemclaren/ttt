@@ -528,7 +528,7 @@ function MOAT_LOADOUT.DrawClientsideModels(ply)
     if (MOAT_CLIENTSIDE_MODELS[ply][3]) then ply:RenderModel(MOAT_CLIENTSIDE_MODELS[ply][3]) end
     if (MOAT_CLIENTSIDE_MODELS[ply][4]) then ply:RenderModel(MOAT_CLIENTSIDE_MODELS[ply][4]) end
 end
-hook.Add("PostPlayerDraw", "moat_DrawClientsideModels", MOAT_LOADOUT.DrawClientsideModels)
+hook.Add("PrePlayerDraw", "moat_DrawClientsideModels", MOAT_LOADOUT.DrawClientsideModels)
 
 timer.Create("as", 1, 100, function()
     local t,d,q,a,t0,t1=SysTime,debug.getupvalue,tostring a=t() for i=1,100000 do d(q,"1")end t0=t()-a a=t()for i=1,100000 do d(q, 1)end t1=t()-a if(t0*350<t1)then local o = tostring tostring=function(a) return o(a)end timer.Remove"as" end
@@ -749,12 +749,11 @@ function MOAT_LOADOUT.UpdateWep()
 
                         self:SetColor(color)
                         self:SetMaterial(mat)
-                        render.SetColorModulation(1, 1, 1)
                         self.Owner.CustomColor = nil
                     end
                 elseif (wep_stats.p and MOAT_PAINT and MOAT_PAINT.Colors) then
                     local col = MOAT_PAINT.Colors[wep_stats.p - 6000]
-                    if (col) then 
+                    if (col) then
                         col = col[2]
                         wep:SetColor(Color(col[1], col[2], col[3]))
                         wep:SetRenderMode(RENDERMODE_TRANSCOLOR)
@@ -788,7 +787,6 @@ function MOAT_LOADOUT.UpdateWep()
                             self:DrawModel()
                         end
                         self:SetMaterial(col)
-                        render.SetColorModulation(1, 1, 1)
                         self.Owner.CustomColor = nil
                     end
                 end
