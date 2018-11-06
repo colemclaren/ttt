@@ -161,7 +161,7 @@ function PrePaintViewModel(wpn)
         else
             local mdl = ClientsideModel(vm, RENDERGROUP_OPAQUE)
             if (not mdl) then return end
-            
+
             mdl:SetNoDraw(true)
             mats_cache[vm] = getmats(mdl)
             mdl:Remove()
@@ -288,12 +288,13 @@ function MOAT_LOADOUT.RemoveModels(pl)
 end
 
 function MOAT_LOADOUT.ApplyModels()
-    if (GetConVar("moat_EnableCosmetics"):GetInt() == 0) then return end
-    
+    if (not GetConVar("moat_EnableCosmetics"):GetBool()) then
+        return
+    end
+
     local ply = Entity(net.ReadUInt(16))
-    if (ply == LP) then return end
     if (not IsValid(ply)) then return end
-    
+
     local item_id = net.ReadUInt(16)
     local paint = net.ReadUInt(8)
     local custom_pos = net.ReadBool()
@@ -315,7 +316,7 @@ function MOAT_LOADOUT.ApplyModels()
     if (item and item.Model) then
         item.ModelEnt = ClientsideModel(item.Model, RENDERGROUP_OPAQUE)
         if (not item.ModelEnt) then return end
-        
+
         item.ModelEnt:SetNoDraw(true)
 
         if (paint ~= 0 and MOAT_PAINT) then
@@ -347,12 +348,13 @@ function MOAT_LOADOUT.ApplyModels()
             if (not att_id) then return end
             local attach = ply:GetAttachment(att_id)
             if (not attach) then return end
-            item.ModelEnt:SetNoDraw(false)
+            item.ModelEnt.Attachment = item.Attachment
 
             local pos = Vector()
             local ang = Angle()
 
             item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
+
 
             if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
             if (item.custompos) then
@@ -438,11 +440,10 @@ local default_ang = Angle()
 local default_pos = Vector()
 
 function PLAYER:RenderModel(v)
-    if (v.Attachment) then return end
-    if (not v.Kind or (v.Kind and (v.Kind == "Effect" and (GetConVar("moat_EnableEffects"):GetInt() == 0)))) then return end
+    if (not v.Kind or (v.Kind and v.Kind == "Effect" and not GetConVar("moat_EnableEffects"):GetBool())) then return end
     if (not IsValid(v.ModelEnt)) then return end
-	if (v.Hide) then return end
-    
+    if (v.Hide) then return end
+
     local pos = Vector()
     local ang = Angle()
 
@@ -481,6 +482,7 @@ function PLAYER:RenderModel(v)
     v.ModelEnt:SetRenderOrigin(pos)
     v.ModelEnt:SetRenderAngles(ang)
     v.ModelEnt:SetupBones()
+    local r, g, b = render.GetColorModulation()
     if (v.ModelEnt.Col) then
         render.SetColorModulation(v.ModelEnt.Col.r/255, v.ModelEnt.Col.g/255, v.ModelEnt.Col.b/255)
         v.ModelEnt:DrawModel()
@@ -492,17 +494,34 @@ function PLAYER:RenderModel(v)
     else
         v.ModelEnt:DrawModel()
     end
+    render.SetColorModulation(r, g, b)
     v.ModelEnt:SetRenderOrigin()
     v.ModelEnt:SetRenderAngles()
 end
 
-
-
 function MOAT_LOADOUT.DrawClientsideModels(ply)
-    if (ply:IsDormant()) then
+    if (not GetConVar("moat_EnableCosmetics"):GetBool()) then
         return
     end
-    if (MOAT_MINIGAME_OCCURING or ply:Team() == TEAM_SPEC or not MOAT_CLIENTSIDE_MODELS[ply] or (GetConVar("moat_EnableCosmetics"):GetInt() == 0) or (not ply.PlayerVisible)) then return end
+
+    if (ply:GetNoDraw()) then
+        return
+    end
+
+    if (ply:IsDormant() or MOAT_MINIGAME_OCCURING or ply:Team() == TEAM_SPEC or not MOAT_CLIENTSIDE_MODELS[ply]) then
+        return
+    end
+
+    local LP = LocalPlayer()
+
+    if (LP == ply and not ply:ShouldDrawLocalPlayer()) then
+        return
+    end
+
+    local obs = LP:GetObserverMode()
+    if (obs == OBS_MODE_IN_EYE and LP:GetObserverTarget() == ply) then
+        return
+    end
 
     if (MOAT_CLIENTSIDE_MODELS[ply][1]) then ply:RenderModel(MOAT_CLIENTSIDE_MODELS[ply][1]) end
     if (MOAT_CLIENTSIDE_MODELS[ply][2]) then ply:RenderModel(MOAT_CLIENTSIDE_MODELS[ply][2]) end
@@ -712,7 +731,7 @@ function MOAT_LOADOUT.UpdateWep()
                     if (col) then 
                         col = col[2]
                         wep:SetColor(Color(col[1], col[2], col[3], 255))
-                        wep:SetRenderMode(RENDERGROUP_OPAQUE)
+                        wep:SetRenderMode(RENDERMODE_TRANSADDFRAMEBLEND)
                         wep:SetMaterial("models/debug/debugwhite")
                     end
 
@@ -738,6 +757,7 @@ function MOAT_LOADOUT.UpdateWep()
                     if (col) then 
                         col = col[2]
                         wep:SetColor(Color(col[1], col[2], col[3]))
+                        wep:SetRenderMode(RENDERMODE_TRANSCOLOR)
                     end
 
                     color = Color(col[1], col[2], col[3])
@@ -745,12 +765,10 @@ function MOAT_LOADOUT.UpdateWep()
                     if (not wep_stats.p3) then
                         function wep:DrawWorldModel(c)
                             if (self.OldDrawWorldModel and not c) then
-                                self.OldDrawWorldModel(self, true)
+                                self:OldDrawWorldModel(true)
                             else
                                 self:DrawModel()
                             end
-
-                            self:SetColor(color)
                         end
                     end
                 end
@@ -799,22 +817,28 @@ hook.Add("NotifyShouldTransmit", "aaa", function(e, inpvs)
         if (not inpvs) then
             child_store[e] = {}
             for k, v in pairs(e:GetChildren()) do
-                child_store[e][v] = {v:GetParentAttachment(), v:GetLocalPos(), v:GetLocalAngles()}
+                local attach = v:GetParentAttachment()
+                for _, att in pairs(e:GetAttachments()) do
+                    if (att.id == attach) then
+                        attach = attach.name
+                    end
+                end
+                child_store[e][v] = {attach, v:GetLocalPos(), v:GetLocalAngles()}
             end
         elseif (child_store[e]) then
             for k, v in pairs(child_store[e]) do
                 if (IsValid(k) and ModelsToRemove[k:GetClass()]) then
+                    local attach = v[1]
+                    if (type(attach) == "string") then
+                        attach = e:LookupAttachment(attach)
+                    end
                     k:SetParent(e, v[1])
                     k:SetLocalPos(v[2])
                     k:SetLocalAngles(v[3])
                 end
             end
         end
-        
-        for k,v in pairs(e:GetChildren()) do 
-            v:SetNoDraw(not inpvs)
-        end 
-    end 
+    end
 end)
 
 hook.Add("EntityRemoved", "aasdasdasd", function(ent)
@@ -827,38 +851,6 @@ hook.Add("EntityRemoved", "aasdasdasd", function(ent)
     end
 end)
 
-local cached_target
-local function reset_visibility(e, how)
-    for i, v in pairs(e:GetChildren()) do
-        if ModelsToRemove[v:GetClass()] then
-            v:SetNoDraw(how)
-        end
-    end
-end
-hook.Add("Think", "asasd", function()
-    if LP:GetObserverMode() == OBS_MODE_IN_EYE then
-        local target = LP:GetObserverTarget()
-
-        if target == cached_target then
-            return
-        end
-        
-        if IsValid(cached_target) then
-            reset_visibility(cached_target, cached_target:IsDormant())
-        end
-        if IsValid(target) then
-            cached_target = target
-            reset_visibility(target, true)
-        else
-            cached_target = nil
-        end
-
-    elseif IsValid(cached_target) then
-        reset_visibility(cached_target, cached_target:IsDormant())
-        cached_target = nil
-    end
-end)
-
 net.Receive("MOAT_PLAYER_CLOAKED", function()
     local pl = net.ReadEntity()
     local c = net.ReadBool()
@@ -866,15 +858,15 @@ net.Receive("MOAT_PLAYER_CLOAKED", function()
 
     for k, v in ipairs(pl:GetChildren()) do
         if (ModelsToRemove[v:GetClass()]) then
-			v:SetNoDraw(c)
-		end
+            v:SetNoDraw(c)
+        end
     end
 
     for k, v in ipairs(MOAT_CLIENTSIDE_MODELS[pl]) do
         if (v and v.ModelEnt and IsValid(v.ModelEnt)) then
-			v.Hide = c
+            v.Hide = c
         end
     end
-	
-	pl.NoTarget = c
+
+    pl.NoTarget = c
 end)
