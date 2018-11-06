@@ -29,8 +29,7 @@ function ENT:OnTakeDamage(dmg)
 		self.health = self.health - dmg:GetDamage()
 		pl:SetHealth(self.health)
 
-		net.Start("moat_hitmarker")
-        net.Send(attacker)
+		SHR:SendHitEffects(attacker, dmg:GetDamage(), dmg:GetDamagePosition())
 
 		if self.health <= 0 then
 			pl:Kill()
