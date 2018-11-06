@@ -362,11 +362,13 @@ local function moat_BeginRoundBossHooks()
                 att.BossDamage = 0
             end
 
-            net.Start("moat.damage")
-            net.WriteUInt(math.Round(dmginfo:GetDamage()), 16)
-            net.Send(att)
-
             att.BossDamage = att.BossDamage + dmginfo:GetDamage()
+
+			SHR:SendHitEffects(att, dmginfo:GetDamage(), dmginfo:GetDamagePosition())
+
+			net.Start("moat.damage")
+            net.WriteUInt(dmginfo:GetDamage(), 16)
+            net.Send(att)
         end
     end)
 
