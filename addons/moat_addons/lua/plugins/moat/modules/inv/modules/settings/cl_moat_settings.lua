@@ -19,7 +19,6 @@ local moat_convars = {
     ["moat_EnableChristmasTheme"] = 1,
     ["moat_Theme"] = "Blur",
     ["moat_gangsta"] = 0,
-    ["moat_showdamagenumbers"] = 0,
     ["moat_dropcosmetics"] = 0,
     ["moat_auto_deconstruct"] = 0,
     ["moat_auto_deconstruct_rarity"] = "Worn",
@@ -148,7 +147,7 @@ local moat_Settings = {
         {"Revert to Default HUD", {"Multi"}, "moat_DisableCustomHUD"},
         {"Show Weapon Stats on Spawn", {"Multi"}, "moat_showstats_spawn"},
         {"Show Weapon Stats on Pickup", {"Multi"}, "moat_showstats_pickup"},
-        {"Damage Numbers", {"Multi"}, "moat_showdamagenumbers"},
+        {"Enable Damage Numbers", {"Multi"}, "moat_damage_numbers"},
         {"Show Killer info card on Death", {"Multi"}, "moat_enable_deathcard"},
         {"Enable Custom Red Screen when Damaged", {"Multi"}, "moat_red_screen"},
         {"Display Numbers for Ping on Scoreboard", {"Multi"}, "moat_scoreboard_ping"}
