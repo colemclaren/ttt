@@ -817,31 +817,66 @@ net.Receive("MOAT_UPDATE_WEP", MOAT_LOADOUT.UpdateWep)
 
 local child_store = {}
 
-hook.Add("NotifyShouldTransmit", "aaa", function(e, inpvs) 
-    if e:IsPlayer() then
-        if (not inpvs) then
-            child_store[e] = {}
-            for k, v in pairs(e:GetChildren()) do
-                local attach = v:GetParentAttachment()
-                for _, att in pairs(e:GetAttachments()) do
-                    if (att.id == attach) then
-                        attach = attach.name
-                    end
-                end
-                child_store[e][v] = {attach, v:GetLocalPos(), v:GetLocalAngles()}
+hook.Add("NotifyShouldTransmit", "aaa", function(ply, inpvs)
+    if (not ply:IsPlayer() or not inpvs or not MOAT_CLIENTSIDE_MODELS[ply]) then
+        return
+    end
+    for _, item in pairs(MOAT_CLIENTSIDE_MODELS[ply]) do
+        if (item.Attachment) then
+            local att_id = ply:LookupAttachment(item.Attachment)
+            if (not att_id) then return end
+
+            local pos = Vector()
+            local ang = Angle()
+
+            if (item.ModifyClientsideModel) then
+                item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
             end
-        elseif (child_store[e]) then
-            for k, v in pairs(child_store[e]) do
-                if (IsValid(k) and ModelsToRemove[k:GetClass()]) then
-                    local attach = v[1]
-                    if (type(attach) == "string") then
-                        attach = e:LookupAttachment(attach)
-                    end
-                    k:SetParent(e, v[1])
-                    k:SetLocalPos(v[2])
-                    k:SetLocalAngles(v[3])
-                end
+
+            if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
+            if (item.custompos) then
+                item.ModelEnt:SetModelScale(item.ModelSizeCache * item.custompostbl[3], 0)
+                pos = pos + (ang:Forward() * item.custompostbl[4])
+                pos = pos + (ang:Right() * -item.custompostbl[5])
+                pos = pos + (ang:Up() * item.custompostbl[6])
+                ang:RotateAroundAxis(ang:Right(), -item.custompostbl[1])
+                ang:RotateAroundAxis(ang:Up(), item.custompostbl[2])
             end
+
+            item.ModelEnt:SetParent(ply, att_id)
+            --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
+            item.ModelEnt:SetTransmitWithParent(true)
+            item.ModelEnt:SetLocalPos(pos)
+            item.ModelEnt:SetLocalAngles(ang)
+        elseif (item.Bone) then
+            local att_id = ply:LookupBone(item.Bone)
+            if (not att_id) then return end
+
+            local pos = Vector()
+            local ang = Angle()
+
+            if (item.ModifyClientsideModel) then
+                item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
+            end
+
+            if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
+            if (item.custompos) then
+                item.ModelEnt:SetModelScale(item.ModelSizeCache * item.custompostbl[3], 0)
+                pos = pos + (ang:Forward() * item.custompostbl[4])
+                pos = pos + (ang:Right() * -item.custompostbl[5])
+                pos = pos + (ang:Up() * item.custompostbl[6])
+                ang:RotateAroundAxis(ang:Right(), -item.custompostbl[1])
+                ang:RotateAroundAxis(ang:Up(), item.custompostbl[2])
+            end
+
+            item.ModelEnt:FollowBone(ply, att_id)
+            --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
+            item.ModelEnt:SetTransmitWithParent(true)
+            item.ModelEnt:SetLocalPos(pos)
+            item.ModelEnt:SetLocalAngles(ang)
+        end
+        if (item.Skin) then
+            item.ModelEnt:SetSkin(item.Skin)
         end
     end
 end)
