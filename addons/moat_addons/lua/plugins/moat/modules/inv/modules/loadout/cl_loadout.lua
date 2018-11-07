@@ -346,15 +346,13 @@ function MOAT_LOADOUT.ApplyModels()
         if (item.Attachment) then
             local att_id = ply:LookupAttachment(item.Attachment)
             if (not att_id) then return end
-            local attach = ply:GetAttachment(att_id)
-            if (not attach) then return end
-            item.ModelEnt.Attachment = item.Attachment
 
             local pos = Vector()
             local ang = Angle()
 
-            item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
-
+            if (item.ModifyClientsideModel) then
+                item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
+            end
 
             if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
             if (item.custompos) then
@@ -367,6 +365,32 @@ function MOAT_LOADOUT.ApplyModels()
             end
 
             item.ModelEnt:SetParent(ply, att_id)
+            --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
+            item.ModelEnt:SetTransmitWithParent(true)
+            item.ModelEnt:SetLocalPos(pos)
+            item.ModelEnt:SetLocalAngles(ang)
+        elseif (item.Bone) then
+            local att_id = ply:LookupBone(item.Bone)
+            if (not att_id) then return end
+
+            local pos = Vector()
+            local ang = Angle()
+
+            if (item.ModifyClientsideModel) then
+                item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
+            end
+
+            if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
+            if (item.custompos) then
+                item.ModelEnt:SetModelScale(item.ModelSizeCache * item.custompostbl[3], 0)
+                pos = pos + (ang:Forward() * item.custompostbl[4])
+                pos = pos + (ang:Right() * -item.custompostbl[5])
+                pos = pos + (ang:Up() * item.custompostbl[6])
+                ang:RotateAroundAxis(ang:Right(), -item.custompostbl[1])
+                ang:RotateAroundAxis(ang:Up(), item.custompostbl[2])
+            end
+
+            item.ModelEnt:FollowBone(ply, att_id)
             --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
             item.ModelEnt:SetTransmitWithParent(true)
             item.ModelEnt:SetLocalPos(pos)
@@ -444,60 +468,42 @@ function PLAYER:RenderModel(v)
     if (not IsValid(v.ModelEnt)) then return end
     if (v.Hide) then return end
 
-    local pos = Vector()
-    local ang = Angle()
-
-    if (v.Attachment) then
-        if (not v.AttachmentID) then v.AttachmentID = self:LookupAttachment(v.Attachment) end
-        if (not v.AttachmentID) then return end
-        local attach = self:GetAttachment(v.AttachmentID)
-        if (not attach) then return end
-        pos = attach.Pos
-        ang = attach.Ang
-    else
-        if (not v.BoneID) then v.BoneID = self:LookupBone(v.Bone) end
-        if (not v.BoneID) then return end
-        pos, ang = self:GetBonePosition(v.BoneID)
+    if (v.DynamicModifyClientsideModel) then
+        local pos = Vector()
+        local ang = Angle()
+        v.ModelEnt, pos, ang = v:DynamicModifyClientsideModel(self, v.ModelEnt, pos, ang)
+        if (not v.ModelSizeCache) then v.ModelSizeCache = v.ModelEnt:GetModelScale() end
+        if (v.custompos and v.ModelSizeCache) then
+            v.ModelEnt:SetModelScale(v.ModelSizeCache * v.custompostbl[3], 0)
+            pos = pos + (ang:Forward() * v.custompostbl[4])
+            pos = pos + (ang:Right() * -v.custompostbl[5])
+            pos = pos + (ang:Up() * v.custompostbl[6])
+            ang:RotateAroundAxis(ang:Right(), -v.custompostbl[1])
+            ang:RotateAroundAxis(ang:Up(), v.custompostbl[2])
+        end
+        v.ModelEnt:SetRenderOrigin(pos)
+        v.ModelEnt:SetRenderAngles(ang)
     end
 
-    if (not ang or not pos) then return end
-    if (ang == default_ang) then return end
-    if (pos == default_pos) then return end
 
-    v.ModelEnt, pos, ang = v:ModifyClientsideModel(self, v.ModelEnt, pos, ang)
-        
-    if (not v.ModelSizeCache) then v.ModelSizeCache = v.ModelEnt:GetModelScale() end
-
-    if (v.custompos and v.ModelSizeCache) then
-        v.ModelEnt:SetModelScale(v.ModelSizeCache * v.custompostbl[3], 0)
-        pos = pos + (ang:Forward() * v.custompostbl[4])
-        pos = pos + (ang:Right() * -v.custompostbl[5])
-        pos = pos + (ang:Up() * v.custompostbl[6])
-        ang:RotateAroundAxis(ang:Right(), -v.custompostbl[1])
-        ang:RotateAroundAxis(ang:Up(), v.custompostbl[2])
+    if (v.EffectColor and GetConVar "moat_EnableEffectHalos":GetBool()) then
+        halo.Add({v.ModelEnt}, v.EffectColor, v.EffectBlur or 6.5, v.EffectBlur or 6.5, 1)
     end
 
-    v.ModelEnt:SetPos(pos)
-    v.ModelEnt:SetAngles(ang)
-    v.ModelEnt:SetRenderOrigin(pos)
-    v.ModelEnt:SetRenderAngles(ang)
-    v.ModelEnt:SetupBones()
-    local r, g, b = render.GetColorModulation()
     if (v.ModelEnt.Col) then
-        render.SetColorModulation(v.ModelEnt.Col.r/255, v.ModelEnt.Col.g/255, v.ModelEnt.Col.b/255)
+        local r, g, b = render.GetColorModulation()
+        local col = v.ModelEnt.Col
+        render.SetColorModulation(col.r/255, col.g/255, col.b/255)
         v.ModelEnt:DrawModel()
         if (self.CustomColor) then
             render.SetColorModulation(self.CustomColor.r/255, self.CustomColor.g/255, self.CustomColor.b/255)
         else
             render.SetColorModulation(1, 1, 1)
         end
+        render.SetColorModulation(r, g, b)
     else
         v.ModelEnt:DrawModel()
     end
-    render.SetColorModulation(r, g, b)
-    v.ModelEnt:SetRenderOrigin()
-    v.ModelEnt:SetRenderAngles()
-    v.ModelEnt:SetNoDraw(true)
 end
 
 function MOAT_LOADOUT.DrawClientsideModels(ply)
