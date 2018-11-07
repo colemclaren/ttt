@@ -62,11 +62,11 @@ local function moat_InitializeConvars()
             CreateClientConVar(k, v, true, true)
         end
     end
-    if (GetConVar "moat_EnableEffectHalos":GetBool()) then
-        chat.AddText("You seem to have Effect Halos enabled, if you have low FPS try disabling it in Gameplay Options in Inventory!")
-    end
 end
 
+if (GetConVar "moat_EnableEffectHalos":GetBool()) then
+    chat.AddText("You seem to have Effect Halos enabled, if you have low FPS try disabling it in Gameplay Options in Inventory!")
+end
 
 moat_InitializeConvars()
 
