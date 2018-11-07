@@ -106,14 +106,10 @@ moat_TerroristModels["models/player/guerilla.mdl"] = ""
 moat_TerroristModels["models/player/leet.mdl"] = ""
 moat_TerroristModels["models/player/phoenix.mdl"] = ""
 
+local v2 = Vector(0, 0, 2)
+
 function m_IsTerroristModel(mdl)
-    local pos = Vector(0, 0, 0)
-
-    if (moat_TerroristModels[mdl]) then
-        pos = Vector(0, 0, 2)
-    end
-
-    return pos
+    return moat_TerroristModels[mdl] and v2 or vector_origin
 end
 
 if (SERVER) then
