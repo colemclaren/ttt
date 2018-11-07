@@ -287,7 +287,11 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
 
     if (not is_reequip) then
         MOAT_LOADOUT.ResetPowerupAbilities(ply)
-        local cos_head, cos_mask, cos_body, cos_effect, cos_model = MOAT_LOADOUT.GetCosmetics(ply)
+        local l_ply = ply
+        if (l_ply:IsBot()) then
+            l_ply = player.GetHumans()[1] or l_ply
+        end
+        local cos_head, cos_mask, cos_body, cos_effect, cos_model = MOAT_LOADOUT.GetCosmetics(l_ply)
 
         local cosmetic_table = {
             ["Hat"] = cos_head,
@@ -316,7 +320,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                     MOAT_LOADOUT.SetPlayerModel(ply, v)
                     continue
                 end
-                    
+
                 net.Start("MOAT_APPLY_MODELS")
                 net.WriteUInt(ply:EntIndex(), 16)
                 net.WriteUInt(v.u, 16)
@@ -406,7 +410,14 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
 
             wpn_tbl = v3:GetTable()
             MOAT_LOADOUT.ApplyWeaponMods(wpn_tbl, v)
-            v3:SetClip1(wpn_tbl.Primary.DefaultClip)
+            local clipsize = wpn_tbl.Primary.ClipSize
+            local defaultclip = wpn_tbl.Primary.DefaultClip
+            local add_ammo = clipsize
+            if (defaultclip > clipsize) then
+                add_ammo = add_ammo + defaultclip - clipsize
+                defaultclip = clipsize
+            end
+            v3:SetClip1(defaultclip)
             wpn_tbl.UniqueItemID = v.c
             wpn_tbl.PrimaryOwner = ply
 
@@ -464,7 +475,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             }
 
             if (wpn_tbl.Primary.Ammo and wpn_tbl.Primary.ClipSize and ply:GetAmmoCount(wpn_tbl.Primary.Ammo) < wpn_tbl.Primary.ClipSize) then
-                ply:GiveAmmo(wpn_tbl.Primary.ClipSize, wpn_tbl.Primary.Ammo, true)
+                ply:GiveAmmo(add_ammo, wpn_tbl.Primary.Ammo, true)
             end
 
             v.item = item_old
@@ -479,7 +490,6 @@ end
 function MOAT_LOADOUT.GiveLoadout(ply)
     if (ply:IsSpec()) then return end
     if (GetRoundState() == ROUND_WAIT) then return end
-    local pri_wep, sec_wep, melee_wep, powerup, tactical = m_GetLoadout(ply)
 
     net.Start("MOAT_NET_SPAWN")
     net.Send(ply)
@@ -488,7 +498,12 @@ function MOAT_LOADOUT.GiveLoadout(ply)
     timer.Create("moat_CheckLoadoutSpawn" .. idx, 1, 0, function()
         if (not IsValid(ply)) then timer.Remove("moat_CheckLoadoutSpawn" .. idx) return end
 
-        local pri_wep, sec_wep, melee_wep, powerup, tactical = m_GetLoadout(ply)
+        local l_ply = ply
+        if (l_ply:IsBot()) then
+            l_ply = player.GetHumans()[1] or l_ply
+        end
+
+        local pri_wep, sec_wep, melee_wep, powerup, tactical = m_GetLoadout(l_ply)
 
         if (pri_wep and sec_wep and melee_wep and powerup and tactical) then
             m_GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, powerup, tactical)
