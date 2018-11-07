@@ -5,8 +5,8 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props_c17/playgroundtick-tack-toe_block01a.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-ITEM.EffectColor = Color(129,189,244)
-ITEM.EffectSize = 4.3
+
+
 
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.600,0.600,0.600)
@@ -32,6 +32,15 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
+
+	if ( tobool(GetConVar("moat_EnableEffectHalos"):GetInt()) and (ply ~= LocalPlayer()) ) then
+	halo.Add( {model},
+	Color(129,189,244),
+	4.3,
+	4.3,
+	1)
+	end
+
 
 	return model, pos, ang
 end

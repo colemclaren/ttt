@@ -5,8 +5,8 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/gibs/strider_gib3.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-ITEM.EffectColor = Color(255,97,0)
-ITEM.EffectSize = 3.7
+
+
 
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.200,0.200,0.200)
@@ -32,6 +32,15 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
+
+	if ( tobool(GetConVar("moat_EnableEffectHalos"):GetInt()) and (ply ~= LocalPlayer()) ) then
+	halo.Add( {model},
+	Color(255,97,0),
+	3.7,
+	3.7,
+	1)
+	end
+
 
 	return model, pos, ang
 end

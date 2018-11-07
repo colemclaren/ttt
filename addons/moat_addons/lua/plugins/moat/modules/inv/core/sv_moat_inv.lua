@@ -121,9 +121,6 @@ function m_GetItemFromEnum(ienum)
 
     item_tbl.OnPlayerSpawn = nil
     item_tbl.ModifyClientsideModel = nil
-    item_tbl.DynamicModifyClientsideModel = nil
-    item_tbl.EffectColor = nil
-    item_tbl.EffectSize = nil
     item_tbl.OnDamageTaken = nil
     item_tbl.OnBeginRound = nil
     item_tbl.ScalePlayerDamage = nil

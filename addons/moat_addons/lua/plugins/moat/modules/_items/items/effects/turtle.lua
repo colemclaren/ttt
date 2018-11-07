@@ -5,7 +5,7 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props/de_tides/vending_turtle.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-ITEM.EffectColor = Color(122,230,86)
+
 
 
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
@@ -23,6 +23,15 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
+
+	if ( tobool(GetConVar("moat_EnableEffectHalos"):GetInt()) and (ply ~= LocalPlayer()) ) then
+	halo.Add( {model},
+	Color(122,230,86),
+	6.5,
+	6.5,
+	1)
+	end
+
 
 	return model, pos, ang
 end
