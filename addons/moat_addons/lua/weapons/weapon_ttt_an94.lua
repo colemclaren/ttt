@@ -7,7 +7,7 @@ if CLIENT then
    SWEP.Icon = "vgui/ttt/peacekeeper.png"
 end
 
-SWEP.HoldType 				= "ar2"	
+SWEP.HoldType 				= "ar2"
 
 SWEP.ViewModelFOV			= 70
 SWEP.ViewModelFlip			= false
