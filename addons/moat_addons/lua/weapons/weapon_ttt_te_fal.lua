@@ -88,15 +88,15 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_M16
 
 SWEP.Primary.Ammo = "SMG1"
-SWEP.Primary.Delay = 0.1
+SWEP.Primary.Delay = 0.14
 SWEP.Primary.Recoil = 0.9
 SWEP.Primary.Cone = 0.02
 SWEP.Primary.Damage = 29
 SWEP.HeadshotMultiplier = 2
 SWEP.Primary.Automatic = true
-SWEP.Primary.ClipSize = 30
-SWEP.Primary.ClipMax = 60
-SWEP.Primary.DefaultClip = 30
+SWEP.Primary.ClipSize = 24
+SWEP.Primary.ClipMax = 48
+SWEP.Primary.DefaultClip = 24
 SWEP.AutoSpawnable      = false
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 
