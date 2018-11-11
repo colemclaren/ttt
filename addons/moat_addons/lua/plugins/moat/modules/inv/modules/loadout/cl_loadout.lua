@@ -373,7 +373,8 @@ function MOAT_LOADOUT.ApplyModels()
             local att_id = ply:LookupBone(item.Bone)
             if (not att_id) then return end
 
-            local pos, ang = ply:GetBonePosition(att_id)
+            local pos = Vector()
+            local ang = Angle()
 
             if (item.ModifyClientsideModel) then
                 item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
@@ -392,8 +393,8 @@ function MOAT_LOADOUT.ApplyModels()
             item.ModelEnt:FollowBone(ply, att_id)
             --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
             item.ModelEnt:SetTransmitWithParent(true)
-            item.ModelEnt:SetPos(pos)
-            item.ModelEnt:SetAngles(ang)
+            item.ModelEnt:SetLocalPos(pos)
+            item.ModelEnt:SetLocalAngles(ang)
         end
 
 		if (item.Skin) then
@@ -820,12 +821,10 @@ hook.Add("NotifyShouldTransmit", "aaa", function(ply, inpvs)
     if (not ply:IsPlayer() or not inpvs or not MOAT_CLIENTSIDE_MODELS[ply] or ply:Team() == TEAM_SPEC) then
         return
     end
-
     for _, item in pairs(MOAT_CLIENTSIDE_MODELS[ply]) do
         if (not IsValid(item.ModelEnt)) then
             return
         end
-
         if (item.Attachment) then
             local att_id = ply:LookupAttachment(item.Attachment)
             if (not att_id) then return end
@@ -856,7 +855,8 @@ hook.Add("NotifyShouldTransmit", "aaa", function(ply, inpvs)
             local att_id = ply:LookupBone(item.Bone)
             if (not att_id) then return end
 
-            local pos, ang = ply:GetBonePosition(att_id)
+            local pos = Vector()
+            local ang = Angle()
 
             if (item.ModifyClientsideModel) then
                 item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
@@ -875,8 +875,8 @@ hook.Add("NotifyShouldTransmit", "aaa", function(ply, inpvs)
             item.ModelEnt:FollowBone(ply, att_id)
             --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
             item.ModelEnt:SetTransmitWithParent(true)
-            item.ModelEnt:SetPos(pos)
-            item.ModelEnt:SetAngles(ang)
+            item.ModelEnt:SetLocalPos(pos)
+            item.ModelEnt:SetLocalAngles(ang)
         end
         if (item.Skin) then
             item.ModelEnt:SetSkin(item.Skin)
