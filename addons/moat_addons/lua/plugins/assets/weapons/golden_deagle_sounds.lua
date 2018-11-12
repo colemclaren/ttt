@@ -4,7 +4,7 @@ sound.Add({
     channel = CHAN_WEAPON,
     volume = 0.8,
     pitch = {95, 105},
-    sound = ")weapons/golden_deagle/deagle-1.wav"
+    sound = {")weapons/golden_deagle/deagle-1.wav", ")weapons/golden_deagle/deagle-1.wav", ")weapons/golden_deagle/deagle-1.wav", ")weapons/golden_deagle/deagle-1.wav"}
 })
 sound.Add({
 	name = "Golden_Deagle.Clipout",

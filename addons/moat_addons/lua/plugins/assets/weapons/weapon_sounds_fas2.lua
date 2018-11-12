@@ -718,7 +718,7 @@ sound.Add({
 	channel = CHAN_WEAPON,
     volume = 1.0,
 	pitch = {95, 105},
-	sound = ")weapons/sniper_sr25/sr25_fire1.wav"
+	sound = {")weapons/sniper_sr25/sr25_fire1.wav", ")weapons/sniper_sr25/sr25_fire1.wav", ")weapons/sniper_sr25/sr25_fire1.wav", ")weapons/sniper_sr25/sr25_fire1.wav"}
 })
 
 local fastbl = {}

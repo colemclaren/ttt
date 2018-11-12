@@ -152,8 +152,7 @@ end
 
 AddCSLuaFile()
 
-if CLIENT then
-   SWEP.PrintName = "Silent Sterling"      
+if CLIENT then  
    SWEP.Slot = 2
    SWEP.Icon = "vgui/ttt/icon_mp5"
    SWEP.IconLetter = "x"
@@ -176,8 +175,10 @@ SWEP.Primary.Sound = Sound("Weapof_Beretta92fss.Shoot")
 
 SWEP.ViewModelFlip = false
 SWEP.ViewModelFOV = 60
-SWEP.ViewModel			= "models/weapons/a_sterling_sil.mdl"
-SWEP.WorldModel			= "models/weapons/b_sterling_sil.mdl"
+--SWEP.ViewModel			= "models/weapons/a_sterling_sil.mdl"
+-- SWEP.WorldModel			= "models/weapons/b_sterling_sil.mdl"
+SWEP.ViewModel			= "models/weapons/a_sterling.mdl"
+SWEP.WorldModel			= "models/weapons/b_sterling.mdl"
 
 SWEP.IronSightsPos = Vector (-2.9803, -3.001, 1.8269)
 SWEP.IronSightsAng = Vector (0.0683, 0.004, 0)
@@ -188,3 +189,31 @@ SWEP.AmmoEnt = "item_ammo_pistol_ttt"
 SWEP.AllowDrop = true
 SWEP.IsSilent = false
 SWEP.NoSights = false
+
+SWEP.ReloadSound = "Weapof_STERLING.Reload"
+function SWEP:Reload()
+	local Reload = Either(self:Clip1() == 0,
+		{Anim = ACT_VM_RELOAD_EMPTY, Sound = "Weapof_STERLING.ReloadEmpty"},
+		{Anim = ACT_VM_RELOAD, Sound = "Weapof_STERLING.Reload"})
+
+	self.ReloadAnim = Reload.Anim
+	if (not self.BaseClass.Reload(self)) then
+		return
+	end
+
+	local ReloadTime = CurTime()
+	self.ReloadTime = ReloadTime
+	timer.Simple(0.5, function()
+		if (self.ReloadTime ~= ReloadTime) then return end
+
+		self.ReloadSound = Reload.Sound
+		self:EmitSound(self.ReloadSound)
+	end)
+end
+
+function SWEP:Holster()
+	if (self.ReloadTime) then self.ReloadTime = 0 end
+	if (self.ReloadSound) then self:StopSound(self.ReloadSound) end
+
+	return true
+end

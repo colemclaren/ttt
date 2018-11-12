@@ -383,17 +383,6 @@ sound.Add({
 })
 
 local fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "100"
-fastbl["CompatibilityAttenuation"] = "0.4"
-fastbl["volume"] = "1.0"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/pistol_beretta92fs/m9_silenced_fire1.wav"
-fastbl["name"] = "Weapof_Beretta92fss.Shoot"
-
-sound.Add(fastbl)
-
-local fastbl = {}
 fastbl["channel"] = "3"
 fastbl["level"] = "75"
 fastbl["volume"] = "1.0"
@@ -597,6 +586,14 @@ fastbl["sound"] = "weapons/sub_sterling/reload_empty.mp3"
 fastbl["name"] = "Weapof_STERLING.ReloadEmpty"
 
 sound.Add(fastbl)
+
+sound.Add({
+	name = "Weapof_Beretta92fss.Shoot",
+	channel = CHAN_WEAPON,
+    volume = 1.0,
+	pitch = {95, 105},
+	sound = {")weapons/pistol_beretta92fs/m9_silenced_fire1.wav", ")weapons/pistol_beretta92fs/m9_silenced_fire1.wav", ")weapons/pistol_beretta92fs/m9_silenced_fire1.wav", ")weapons/pistol_beretta92fs/m9_silenced_fire1.wav"}
+})
 
 // *********************************
 // *********************************

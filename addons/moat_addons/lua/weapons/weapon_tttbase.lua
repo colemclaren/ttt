@@ -439,9 +439,14 @@ function SWEP:Deploy()
 end
 
 function SWEP:Reload()
-   if ( self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount( self.Primary.Ammo ) <= 0 ) then return end
-   self:DefaultReload(self.ReloadAnim)
-   self:SetIronsights( false )
+	if (self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0) then
+		return false
+	end
+
+   	self:DefaultReload(self.ReloadAnim)
+   	self:SetIronsights(false)
+
+	return true
 end
 
 

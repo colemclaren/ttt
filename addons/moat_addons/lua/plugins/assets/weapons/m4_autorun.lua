@@ -32,7 +32,7 @@ sound.Add({
     channel = CHAN_WEAPON,
     volume = 0.8,
     pitch = {95, 105},
-    sound = ")weapons/cod4_m4/fire.wav"
+    sound = {")weapons/cod4_m4/fire.wav", ")weapons/cod4_m4/fire.wav", ")weapons/cod4_m4/fire.wav", ")weapons/cod4_m4/fire.wav"}
 })
 sound.Add({
 	name = 			"Weapon_CM4.Magout",
