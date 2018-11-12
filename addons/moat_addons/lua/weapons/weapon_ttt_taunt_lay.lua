@@ -122,6 +122,10 @@ function SWEP:CreateRagdoll()
 end
 
 hook.Add("EntityTakeDamage", "Play Dead Taunt", function(ent, dmg)
+	if (dmg:GetDamageType() == DMG_CRUSH and dmg:GetAttacker() == game.GetWorld()) then
+		return
+	end
+
 	if (ent:IsPlayer() and IsValid(ent.PlayDead)) then
 		local wep = ent:GetActiveWeapon()
 		if (IsValid(wep)) then
@@ -131,7 +135,7 @@ hook.Add("EntityTakeDamage", "Play Dead Taunt", function(ent, dmg)
 		return
 	end
 
-	if (not ent.IsPlayDead or dmg:GetDamageType() == DMG_CRUSH and dmg:GetAttacker() == game.GetWorld()) then
+	if (not ent.IsPlayDead) then
 		return
 	end
 
