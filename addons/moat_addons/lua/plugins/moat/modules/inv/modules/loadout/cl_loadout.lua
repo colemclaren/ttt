@@ -1,3 +1,4 @@
+local propspec_outline 		= Material("models/props_combine/portalball001_sheet")
 local EnableCosmetics 		= CreateClientConVar("moat_EnableCosmetics", 1, true, true)
 local EnableEffects 		= CreateClientConVar("moat_EnableEffects", 1, true, true)
 local PLAYER 				= FindMetaTable("Player")
@@ -64,7 +65,7 @@ hook.Add("RenderScene", "EnsurePlayerVisibility", function()
             and not ply:GetNoDraw() and not ply:IsDormant()
             and not MOAT_MINIGAME_OCCURING and ply:Team() ~= TEAM_SPEC
             and (LP ~= ply and true or ply:ShouldDrawLocalPlayer())
-            and (obs ~= OBS_MODE_IN_EYE and true or LP:GetObserverTarget() == ply)
+            and (obs ~= OBS_MODE_IN_EYE and true or LP:GetObserverTarget() ~= ply)
 
         for _, item in pairs(items) do
 			if (IsValid(item.ModelEnt)) then
@@ -348,7 +349,7 @@ function PostPaintViewModel(wpn)
 end
 
 if (not MOAT_CLIENTSIDE_MODELS) then MOAT_CLIENTSIDE_MODELS = {} end
-MOAT_SPECIAL_WEAPONS = {}
+MOAT_PLANETARY = {Weapons = {}, Effects = {Count = 0}}
 MOAT_LOADOUT = {}
 
 function MOAT_LOADOUT.ResetClientsideModels()
@@ -357,16 +358,15 @@ function MOAT_LOADOUT.ResetClientsideModels()
         pl.NoTarget = nil
     end
 
-    for i = 1, #MOAT_SPECIAL_WEAPONS do
-        local wep = MOAT_SPECIAL_WEAPONS[i]
+	MOAT_CLIENTSIDE_MODELS = {}
 
-        if (wep and wep:IsValid() and IsValid(wep) and wep.SheetEffect and wep.SheetEffect:IsValid() and wep.SheetEffect ~= NULL) then
-            wep.SheetEffect:Remove()
-        end
-    end
-
-    MOAT_CLIENTSIDE_MODELS = {}
-    MOAT_SPECIAL_WEAPONS = {}
+	for i = 1, MOAT_PLANETARY.Effects.Count do
+		if (IsValid(MOAT_PLANETARY.Effects[i])) then
+			MOAT_PLANETARY.Effects[i]:Remove()
+		end
+	end
+	
+	MOAT_PLANETARY = {Weapons = {}, Effects = {Count = 0}}
 end
 hook.Add("TTTPrepareRound", "moat_resetClientsideModels", MOAT_LOADOUT.ResetClientsideModels)
 
@@ -643,11 +643,6 @@ function MOAT_LOADOUT.UpdateWep()
                 
                 wep.Weapon.ItemStats = wep_stats
 
-                if (wep_stats.item and wep_stats.item.Rarity and wep_stats.item.Rarity == 9) then
-                    table.insert(MOAT_SPECIAL_WEAPONS, wep)
-                    MOAT_SPECIAL_WEAPONS[wep] = true
-                end
-
                 local color = nil
 
                 if (wep.WElements or wep.Offset) then
@@ -729,6 +724,36 @@ function MOAT_LOADOUT.UpdateWep()
                         PostPaintViewModel(wpn)
                     end
                 end
+
+				if (wep_stats.item and wep_stats.item.Rarity and wep_stats.item.Rarity == 9) then
+					if (not wep.LastDrawWorldModel) then
+						wep.LastDrawWorldModel = wep.DrawWorldModel
+					end
+
+					function wep:DrawWorldModel(c)
+						if (self.LastDrawWorldModel and not c) then
+							self.LastDrawWorldModel(self, true)
+						end
+						
+						if (not rarity_names) then
+							return
+						end
+
+						render.MaterialOverride(propspec_outline)
+    					render.SuppressEngineLighting(true)
+    					render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
+
+        				self:SetModelScale(1.05, 0)
+        				self:DrawModel()
+
+    					render.SetColorModulation(1, 1, 1)
+    					render.SuppressEngineLighting(false)
+    					render.MaterialOverride(nil)
+					end
+
+					MOAT_PLANETARY.Weapons[wep] = true
+					wep.Planetary = true
+                end
             end
 
             timer.Remove("moat_StatRefresh" .. wep_index)
@@ -736,6 +761,35 @@ function MOAT_LOADOUT.UpdateWep()
     end)
 end
 net.Receive("MOAT_UPDATE_WEP", MOAT_LOADOUT.UpdateWep)
+
+hook.Add("PostDrawViewModel", "Render.Planetary.Effects", function(ent, pl, wpn)
+    if (wpn.Planetary or MOAT_PLANETARY.Weapons[wpn]) then
+        if (not IsValid(wpn.SheetEffect)) then
+            wpn.SheetEffect = ClientsideModel(wpn:GetWeaponViewModel(), RENDERGROUP_TRANSLUCENT)
+            wpn.SheetEffect:AddEffects(EF_BONEMERGE)
+			wpn.SheetEffect:SetParent(ent)
+			wpn.SheetEffect:SetNoDraw(true)
+
+			MOAT_PLANETARY.Effects.Count = MOAT_PLANETARY.Effects.Count + 1
+			MOAT_PLANETARY.Effects[MOAT_PLANETARY.Effects.Count] = wpn.SheetEffect
+        end
+
+		if (not rarity_names) then
+			return
+		end
+
+        wpn.SheetEffect:SetCycle(ent:GetCycle())
+        wpn.SheetEffect:SetSequence(ent:GetSequence())
+
+        render.MaterialOverride(propspec_outline)
+        render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
+
+        wpn.SheetEffect:DrawModel()
+
+        render.SetColorModulation(1, 1, 1)
+        render.MaterialOverride(nil)
+    end
+end)
 
 local child_store = {}
 

@@ -632,6 +632,18 @@ function PANEL:Init()
 	self.Platform:SetModelScale(0.4, 0)]]
 end
 
+function PANEL:OnRemove()
+	if (IsValid(self.PlayerModel)) then
+		self.PlayerModel:Remove()
+	end
+
+	for k, v in pairs(self.ClientsideModels) do
+		if (IsValid(v.ModelEnt)) then
+			v.ModelEnt:Remove()
+		end
+	end
+end
+
 local ActIndex = {
     [ "pistol" ]        = ACT_HL2MP_IDLE_PISTOL,
     [ "smg" ]           = ACT_HL2MP_IDLE_SMG1,
