@@ -118,3 +118,4 @@ SWEP.WorldModel			= "models/weapons/b_deserteagle.mdl"
 
 SWEP.IronSightsPos = Vector (-3.0537, -3.0001, 0.7817)
 SWEP.IronSightsAng = Vector (0.702, -0.0077, 0)
+SWEP.ReloadLength = 2.05

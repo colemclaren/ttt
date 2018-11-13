@@ -217,6 +217,7 @@ SWEP.Primary.Sound                      = Sound( "Weapon_Flak.Fire" )
 
 SWEP.IronSightsPos = Vector( 5.65, 0, 0 )
 SWEP.IronSightsAng = Vector( 0, 0, 0 )
+SWEP.ReloadLength = 2.23
 
 
 -- The shotgun's headshot damage multiplier is based on distance. The closer it

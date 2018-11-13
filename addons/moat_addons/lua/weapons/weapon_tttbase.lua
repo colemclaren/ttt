@@ -285,27 +285,32 @@ end
 
 -- Shooting functions largely copied from weapon_cs_base
 function SWEP:PrimaryAttack(worldsnd)
+	self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
-   self:SetNextSecondaryFire( CurTime() + self.Primary.Delay )
-   self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
+	if (not self:CanPrimaryAttack()) then
+		return
+	end
+	
+	if (self.ReloadTime and self.ReloadTime > CurTime()) then
+		return
+	end
 
-   if not self:CanPrimaryAttack() then return end
+	if (not worldsnd) then
+		self:EmitSound(self.Primary.Sound, self.Primary.SoundLevel)
+	elseif (SERVER) then
+		sound.Play(self.Primary.Sound, self:GetPos(), self.Primary.SoundLevel)
+	end
 
-   if not worldsnd then
-      self:EmitSound( self.Primary.Sound, self.Primary.SoundLevel )
-   elseif SERVER then
-      sound.Play(self.Primary.Sound, self:GetPos(), self.Primary.SoundLevel)
-   end
+	self:ShootBullet(self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone())
+	self:TakePrimaryAmmo(1)
 
-   self:ShootBullet( self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone() )
+	if (not IsValid(self.Owner) or not self.Owner.ViewPunch) then
+		return
+	end
 
-   self:TakePrimaryAmmo( 1 )
-
-   local owner = self.Owner
-   if not IsValid(owner) or owner:IsNPC() or (not owner.ViewPunch) then return end
-
-   owner:ViewPunch( Angle( util.SharedRandom(self:GetClass(),-0.2,-0.1,0) * self.Primary.Recoil, util.SharedRandom(self:GetClass(),-0.1,0.1,1) * self.Primary.Recoil, 0 ) )
-   --owner:ViewPunch( Angle( math.Rand(-0.2,-0.1) * self.Primary.Recoil, math.Rand(-0.1,0.1) *self.Primary.Recoil, 0 ) )
+	--todo: fucking redo this stupid shit viewpunch
+	self.Owner:ViewPunch(Angle(util.SharedRandom(self:GetClass(),-0.2,-0.1,0) * self.Primary.Recoil, util.SharedRandom(self:GetClass(),-0.1,0.1,1) * self.Primary.Recoil, 0))
 end
 
 function SWEP:DryFire(setnext)
@@ -444,6 +449,10 @@ end
 function SWEP:Reload()
 	if (self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0) then
 		return false
+	end
+
+	if (self.ReloadLength) then
+		self.ReloadTime = CurTime() + self.ReloadLength
 	end
 
    	self:DefaultReload(self.ReloadAnim)
