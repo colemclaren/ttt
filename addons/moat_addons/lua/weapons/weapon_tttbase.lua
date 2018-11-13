@@ -390,6 +390,9 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
       self.Owner:SetEyeAngles( eyeang )
    end
 
+	if (self.Shots) then
+		self.Shots = self.Shots + 1
+	end
 end
 
 function SWEP:GetPrimaryCone()

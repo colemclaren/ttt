@@ -3,7 +3,7 @@ sound.Add({
     channel = CHAN_WEAPON,
     volume = 1.0,
     pitch = {95, 105},
-    sound = ")weapons/peacekeeper/fire.wav"
+    sound = {")weapons/peacekeeper/fire.wav", ")weapons/peacekeeper/fire.wav", ")weapons/peacekeeper/fire.wav", ")weapons/peacekeeper/fire.wav"}
 })
 sound.Add({
 	name = "BO2_PEACE_FIRE_SILENCED",
