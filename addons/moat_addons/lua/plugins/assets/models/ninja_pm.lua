@@ -1,1 +1,0 @@
-player_manager.AddValidModel( "Ninja", "models/vinrax/player/ninja_player.mdl" );

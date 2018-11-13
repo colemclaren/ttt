@@ -1,1 +1,0 @@
-player_manager.AddValidModel( "Arkham Origins Blackmask", "models/player/bobert/AOBlackmask.mdl" ) list.Set( "PlayerOptionsModel",  "Arkham Origins Blackmask",                     "models/player/bobert/AOBlackmask.mdl" ) 
