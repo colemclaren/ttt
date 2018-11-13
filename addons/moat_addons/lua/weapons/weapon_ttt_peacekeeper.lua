@@ -24,7 +24,7 @@ SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Delay = 0.083 -- 0.105
 SWEP.Primary.Recoil = 0.4 -- 0.9
 SWEP.Primary.Cone = 0.03 -- 0.01
-SWEP.Primary.Damage = 22
+SWEP.Primary.Damage = 24
 SWEP.HeadshotMultiplier = 2
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30
@@ -60,10 +60,12 @@ function SWEP:Reload()
 	self:SetNextPrimaryFire(CurTime() + 0.8)
 	self:SetBurstRound(-1)
 	timer.Simple(0.4, function()
+		if (not self.ReloadSound) then return end
 		self.ReloadSound.Active = self.ReloadSound[1]
 		self:EmitSound(self.ReloadSound.Active)
 
 		timer.Simple(0.8, function()
+			if (not self.ReloadSound) then return end
 			self.ReloadSound.Active = self.ReloadSound[2]
 			self:EmitSound(self.ReloadSound[2])
 		end)
@@ -76,7 +78,10 @@ function SWEP:Initialize()
 end
 
 function SWEP:Holster()
-	if (self.ReloadSound.Active) then self:StopSound(self.ReloadSound.Active) end
+	if (self.ReloadSound and self.ReloadSound.Active) then
+		self:StopSound(self.ReloadSound.Active)
+	end
+
 	self:SetBurstRound(-1)
 
 	return true
@@ -88,7 +93,7 @@ function SWEP:Think()
 	if (self:GetBurstRound() >= 0 and self:GetBurstRound() < 2 and self:GetNextBurstFire() <= CurTime()) then
 		if (not self.Owner:KeyDown(IN_ATTACK)) then
 			self:SetBurstRound(-1)
-			self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 3)
+			self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 			return
 		end
 
@@ -116,7 +121,7 @@ function SWEP:FireABullet()
 end
 
 function SWEP:PrimaryAttack()
-	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 6)
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 3)
 
 	if (not self:CanPrimaryAttack()) then
 		return
