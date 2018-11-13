@@ -574,11 +574,9 @@ if CLIENT then
     function SWEP:RemoveModels(tab)
         if (!tab) then return end
         for k, v in pairs( tab ) do
-            if (v.type == "Model" and v.model and v.model != "" and (IsValid(v.modelEnt))) then
-                if (IsValid(v.modelEnt)) then
-                    v.modelEnt:Remove()
-                    v.modelEnt = nil
-                end
+            if (IsValid(v.modelEnt)) then
+                v.modelEnt:Remove()
+                v.modelEnt = nil
             end
         end
     end

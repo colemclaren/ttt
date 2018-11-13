@@ -427,22 +427,21 @@ end
 
 
 
-function SWEP:OnRemove()
-	if (self.VElements) then
-		for k, v in pairs(self.VElements) do
-			if (v.modelEnt and IsValid(v.modelEnt)) then
-				v.modelEnt:Remove()
-			end
-		end
-	end
+function SWEP:RemoveModels(tab)
+    if (!tab) then return end
+    for k, v in pairs( tab ) do
+        if (IsValid(v.modelEnt)) then
+            v.modelEnt:Remove()
+            v.modelEnt = nil
+        end
+    end
+end
 
-	if (self.WElements) then
-		for k, v in pairs(self.VElements) do
-			if (v.modelEnt and IsValid(v.modelEnt)) then
-				v.modelEnt:Remove()
-			end
-		end
-	end
+function SWEP:OnRemove()
+	if (CLIENT) then
+    	self:RemoveModels(self.VElements)
+    	self:RemoveModels(self.WElements)
+    end
 
 	self:Holster()
 end

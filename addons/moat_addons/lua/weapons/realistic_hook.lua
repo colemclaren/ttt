@@ -514,6 +514,23 @@ function SWEP:CreateModels( tab )
 	end
 end
 
+function SWEP:RemoveModels(tab)
+    if (!tab) then return end
+    for k, v in pairs( tab ) do
+        if (IsValid(v.modelEnt)) then
+            v.modelEnt:Remove()
+            v.modelEnt = nil
+        end
+    end
+end
+
+function SWEP:OnRemove()
+	if (CLIENT) then
+    	self:RemoveModels(self.VElements)
+    	self:RemoveModels(self.WElements)
+    end
+end
+
 function table.FullCopy( tab )
 	if (!tab) then return nil end
 	local res = {}

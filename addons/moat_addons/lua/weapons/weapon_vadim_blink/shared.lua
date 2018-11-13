@@ -226,6 +226,13 @@ if (CLIENT) then
     end
 end
 
+function SWEP:OnRemove()
+	if IsValid(self.Ghost) then
+        self.Ghost:Remove()
+		self.Ghost = nil
+    end
+end
+
 function SWEP:OnDrop()
     self.FOV = nil
 
