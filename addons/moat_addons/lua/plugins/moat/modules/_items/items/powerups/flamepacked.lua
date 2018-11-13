@@ -22,7 +22,7 @@ local dmg_prot = {
 }
 
 function ITEM:OnDamageTaken(ply, dmginfo, powerup_mods)
-	if (dmg_prot[dmginfo:GetDamageType()] == true) then
+	if (dmg_prot[dmginfo:GetDamageType()]) then
 		local damage_scale = 1 + ((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * powerup_mods[1])) / 100 )
 		dmginfo:ScaleDamage(damage_scale)
 	end
