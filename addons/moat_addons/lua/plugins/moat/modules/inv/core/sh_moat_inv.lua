@@ -1,10 +1,6 @@
 MOAT_VIP = {"vip", "credibleclub", "trialstaff", "moderator", "admin", "senioradmin", "headadmin", "communitylead"}
 local pl = FindMetaTable("Player")
 
-function pl:IsStaff()
-    return table.HasValue(MOAT_VIP, self:GetUserGroup()) and self:GetUserGroup() ~= "vip" and self:GetUserGroup() ~= "credibleclub"
-end
-
 if (CLIENT) then
     COSMETIC_ITEMS = {}
 
