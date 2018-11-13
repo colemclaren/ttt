@@ -60,9 +60,6 @@ local function moat_InitializeConvars()
             CreateClientConVar(k, v, true, true)
         end
     end
-    if (GetConVar "moat_EnableEffectHalos":GetBool()) then
-        chat.AddText("You seem to have Effect Halos enabled, if you have low FPS try disabling it in Gameplay Options in Inventory!")
-    end
 end
 
 
@@ -137,10 +134,10 @@ local moat_Settings = {
     },
     {"Gameplay",
         {"Automatically Bunny-hop", {"Multi"}, "moat_bunny_hop"},
-        {"Traitor Buddy Outline(FPS IMPACT)", {"Multi"}, "moat_OutlineTBuddies"},
+        {"Traitor Buddy Outline (FPS IMPACT)", {"Multi"}, "moat_OutlineTBuddies"},
         {"Inventory Cosmetics Visible", {"Multi"}, "moat_EnableCosmetics"},
         {"Inventory Effects Visible", {"Multi"}, "moat_EnableEffects"},
-        {"Inventory Effects Halos Visible", {"Multi"}, "moat_EnableEffectHalos"},
+        {"Inventory Effects Halos Visible (FPS IMPACT)", {"Multi"}, "moat_EnableEffectHalos"},
         {"Flip Weapon View Models", {"Multi"}, "moat_ViewModelFlip"},
         {"Disable 3D Skybox (Can Increase FPS)", {"Multi"}, "moat_skybox"},
         {"Display Item Stats when Inspecting Weapons", {"Multi"}, "moat_inspect_stats"},
