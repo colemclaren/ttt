@@ -121,7 +121,7 @@ function SWEP:FireABullet()
 end
 
 function SWEP:PrimaryAttack()
-	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 4.5)
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 5)
 
 	if (not self:CanPrimaryAttack()) then
 		return

@@ -93,7 +93,7 @@ function SWEP:Think()
 	if (self:GetBurstRound() >= 0 and self:GetBurstRound() < 2 and self:GetNextBurstFire() <= CurTime()) then
 		if (not self.Owner:KeyDown(IN_ATTACK)) then
 			self:SetBurstRound(-1)
-			self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
+			self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 2)
 			return
 		end
 
@@ -121,7 +121,7 @@ function SWEP:FireABullet()
 end
 
 function SWEP:PrimaryAttack()
-	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 3)
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 5)
 
 	if (not self:CanPrimaryAttack()) then
 		return
