@@ -25,7 +25,7 @@ net.Receive("FFA_Begin",function()
     for k,v in pairs(player.GetAll()) do
         v.NoTarget = true
     end
-    MOAT_MINIGAME_OCCURING = true
+    MOAT_MINIGAME_OCCURING = "Free For All"
     local goal = net.ReadInt(8)
     MOAT_FFA = {
         WepCache = {},

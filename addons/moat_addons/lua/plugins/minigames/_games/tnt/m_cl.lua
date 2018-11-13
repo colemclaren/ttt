@@ -26,7 +26,7 @@ net.Receive("TNT_Begin",function()
     for k,v in ipairs(player.GetAll()) do
         v.Skeleton = false
     end
-    MOAT_MINIGAME_OCCURING = true
+    MOAT_MINIGAME_OCCURING = "TNT Tag"
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_TNT = {
         goal = 100,

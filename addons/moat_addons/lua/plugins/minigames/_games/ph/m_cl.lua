@@ -68,7 +68,7 @@ net.Receive("PH_Begin",function()
         v.NoTarget = true
     end
 
-    MOAT_MINIGAME_OCCURING = true
+    MOAT_MINIGAME_OCCURING = "Prop Hunt"
 
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_PH = {

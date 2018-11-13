@@ -491,7 +491,7 @@ function MG_GG.PrepRound()
         MG_GG.StripWeapons(v)
     end
 
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "Gun Game"
 
     net.Start "MG_GG_PREP"
     net.Broadcast()

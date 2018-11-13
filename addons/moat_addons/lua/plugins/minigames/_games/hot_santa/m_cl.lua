@@ -3,7 +3,7 @@
 local kills = {}
 
 net.Receive("HS_Begin",function()
-    MOAT_MINIGAME_OCCURING = true
+    MOAT_MINIGAME_OCCURING = "Hot Santa"
     MOAT_HS = {
         nextdie = CurTime() + 20
     }

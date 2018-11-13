@@ -440,7 +440,7 @@ function MG_FFA.PrepRound(mk, pri, sec, creds)
         v.FFAKills = 0
     end
 
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "Free For All"
 end
 
 function MG_FFA.DecideTeams(pls)

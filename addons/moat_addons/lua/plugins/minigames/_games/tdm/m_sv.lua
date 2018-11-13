@@ -671,7 +671,7 @@ function MG_TDM:PrepRound(mk, pri, sec, creds)
         v.TDM_Cache = {}
     end
 
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "Team Deathmatch"
 end
 
 function MG_TDM.DecideTeams(pls)

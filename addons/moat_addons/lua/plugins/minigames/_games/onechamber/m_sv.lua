@@ -474,7 +474,7 @@ function MG_OC.PrepRound()
         v:StripAmmo()
     end
 
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "One in the Chamber"
 
     net.Start "MG_OC_PREP"
     net.Broadcast()

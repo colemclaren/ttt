@@ -23,7 +23,7 @@ net.Receive("FFAS_Begin",function()
     for k,v in pairs(player.GetAll()) do
         v.NoTarget = true
     end
-    MOAT_MINIGAME_OCCURING = true
+    MOAT_MINIGAME_OCCURING = "FFA Santa"
     local goal = net.ReadInt(8)
     MOAT_FFAS = {
         goal = goal,

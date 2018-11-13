@@ -315,7 +315,7 @@ end
 
 function MG_FFAS:PrepRound(mk, pri, sec, creds)
 	MG_FFAS.FFASOver = false
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "FFA Santa"
 	MG_FFAS.HandleDamageLogStuff(false)
 
     for k, v in pairs(player.GetAll()) do

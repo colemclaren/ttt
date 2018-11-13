@@ -25,7 +25,7 @@ net.Receive("TDM_Begin",function()
     for k,v in pairs(player.GetAll()) do
         v.NoTarget = true
     end
-    MOAT_MINIGAME_OCCURING = true
+    MOAT_MINIGAME_OCCURING = "Team Deathmatch"
     local goal = net.ReadInt(8)
     MOAT_TDM = {
         WepCache = {},

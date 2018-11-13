@@ -492,7 +492,7 @@ function MG_CG.PrepRound()
 
     tt.ExtendPrep()
 
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "Contagion"
 
     net.Start "MG_CG_PREP"
     net.Broadcast()

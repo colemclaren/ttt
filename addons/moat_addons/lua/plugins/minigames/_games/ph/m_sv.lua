@@ -439,7 +439,7 @@ function MG_PH.PrepRound(mk, pri, sec, creds)
         v.KilledByMe = false
     end
 
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "Prop Hunt"
 end
 
 

@@ -458,7 +458,7 @@ function MG_CM.PrepRound()
 
     tt.ExtendPrep()
 
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "Explosive Chickens"
 
     net.Start "MG_CM_PREP"
     net.Broadcast()

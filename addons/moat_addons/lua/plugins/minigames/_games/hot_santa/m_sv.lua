@@ -236,7 +236,7 @@ function MG_HS:PrepRound(mk, pri, sec, creds)
     net.Broadcast()
     MG_HS.Players = {}
     MG_HS.DeadPlayers = {}
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "Hot Santa"
 	MG_HS.HandleDamageLogStuff(false)
     MG_HS.NextDie = CurTime() + 9000;
     for k, v in pairs(player.GetAll()) do

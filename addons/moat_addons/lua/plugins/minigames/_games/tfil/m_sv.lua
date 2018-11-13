@@ -394,7 +394,7 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
         MG_LAVA.StripWeapons(v)
     end
 
-	MOAT_MINIGAME_OCCURING = true
+	MOAT_MINIGAME_OCCURING = "The Floor is Lava"
 end
 
 

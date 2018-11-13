@@ -1,7 +1,7 @@
 snapper = snapper or {}
 snapper.config = snapper.config or {
 	allowed_groups = function(ply)
-		return IsValid(ply) and ply:IsStaff()
+		return IsValid(ply) and ply.IsStaff
 	end,
 	command = "!snap",
 	menucommand = "!snapper",

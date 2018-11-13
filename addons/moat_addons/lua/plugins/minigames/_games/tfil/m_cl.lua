@@ -38,7 +38,7 @@ local stats_spawn_old = false
 net.Receive("lava_Begin",function()
 	LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img) LavaTexture = img end, "noclamp")
 
-    MOAT_MINIGAME_OCCURING = true
+    MOAT_MINIGAME_OCCURING = "The Floor is Lava"
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_LAVA = {
         goal = 100,

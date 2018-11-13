@@ -461,7 +461,7 @@ concommand.Add("moat_start_apache", function(ply, cmd, args)
     MOAT_BOSS_CUR_PLY = chosen
     MOAT_BOSS_DMG = {}
     MOAT_ROUND_OVER = false
-    MOAT_MINIGAME_OCCURING = true
+    MOAT_MINIGAME_OCCURING = "Apache Boss"
     for k, v in pairs(player.GetAll()) do
         v.BossDamage = 0
     end

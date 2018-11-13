@@ -495,7 +495,7 @@ function moat_start_stalker_round(ply, args)
     MOAT_BOSS_CUR = chosen
     MOAT_BOSS_DMG = {}
     MOAT_ROUND_OVER = false
-    MOAT_MINIGAME_OCCURING = true
+    MOAT_MINIGAME_OCCURING = "Stalker Boss"
     for k, v in pairs(player.GetAll()) do
         v.BossDamage = 0
     end

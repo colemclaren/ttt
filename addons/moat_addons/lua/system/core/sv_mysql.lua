@@ -54,6 +54,7 @@ function moat.sql:query(str, succ, err)
 end
 
 function moat.sql:q(str, ...) moat:sqlquery(str, ...) end
+function moat.mysql(str, ...) moat:sqlquery(str, ...) end
 function moat:sqlquery(str, ...)
     local args = {n = select("#", ...), ...}
     local succ, err = isfunction(args[args.n]), isfunction(args[args.n - 1])
