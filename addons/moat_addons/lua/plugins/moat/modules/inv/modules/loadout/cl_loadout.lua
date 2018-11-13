@@ -49,6 +49,10 @@ end)
 
 local function RenderOverride(self)
     local ply = self:GetParent()
+    if (not IsValid(ply)) then
+        self:Remove()
+        return
+    end
     if (not EnableCosmetics:GetBool()) then
         return
     end
