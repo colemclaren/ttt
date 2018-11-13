@@ -52,7 +52,9 @@ hook.Add("RenderScene", "EnsurePlayerVisibility", function()
     for ply, items in pairs(MOAT_CLIENTSIDE_MODELS) do
         if (not IsValid(ply)) then
             for _, item in pairs(items) do
-                item.ModelEnt:Remove()
+                if (IsValid(item.ModelEnt)) then
+					item.ModelEnt:Remove()
+				end
             end
             MOAT_CLIENTSIDE_MODELS[ply] = nil
             continue
@@ -65,10 +67,13 @@ hook.Add("RenderScene", "EnsurePlayerVisibility", function()
             and (obs ~= OBS_MODE_IN_EYE and true or LP:GetObserverTarget() == ply)
 
         for _, item in pairs(items) do
-            if (item.Kind == "Effect" and not EnableEffects:GetBool() or item.Hide) then 
-                item.ModelEnt:SetNoDraw(true)
-            end
-            item.ModelEnt:SetNoDraw(not should_draw)
+			if (IsValid(item.ModelEnt)) then
+				if (item.Kind and item.Kind == "Effect" and not EnableEffects:GetBool() or item.Hide) then 
+					item.ModelEnt:SetNoDraw(true)
+				else
+					item.ModelEnt:SetNoDraw(not should_draw)
+				end
+			end
         end
     end
 end)
@@ -123,7 +128,7 @@ function LayoutItem(ply, item, attmpt)
                     LayoutItem(ply, item, attmpt)
                 end)
             else
-                error("Bone " .. item.Bone .. " can not be used with FollowBone on model " .. ply:GetModel())
+                -- error("Bone " .. item.Bone .. " can not be used with FollowBone on model " .. ply:GetModel())
             end
         end
     elseif (item.Attachment) then
@@ -735,7 +740,7 @@ net.Receive("MOAT_UPDATE_WEP", MOAT_LOADOUT.UpdateWep)
 local child_store = {}
 
 hook.Add("NotifyShouldTransmit", "aaa", function(ply, inpvs)
-    if (not ply:IsPlayer() or not inpvs or not MOAT_CLIENTSIDE_MODELS[ply] or ply:Team() == TEAM_SPEC) then
+    if (not IsValid(ply) or not ply:IsPlayer() or not inpvs or not MOAT_CLIENTSIDE_MODELS[ply] or ply:Team() == TEAM_SPEC) then
         return
     end
     for _, item in pairs(MOAT_CLIENTSIDE_MODELS[ply]) do
