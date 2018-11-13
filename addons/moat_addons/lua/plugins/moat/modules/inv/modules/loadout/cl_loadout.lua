@@ -118,6 +118,12 @@ local function LayoutItem(ply, item, attmpt)
 
     if (item.Bone) then
         item.BoneID = ply:LookupBone(item.Bone)
+
+        if (not item.BoneID or item.BoneID == -1) then
+            print("warning: bone " .. item.Bone .. " does not exist on model " .. ply:GetModel())
+            return
+        end
+
         item.ModelEnt:FollowBone(ply, item.BoneID)
 
         if (ply:GetBoneParent(item.BoneID) <= 0 or not ply:BoneHasFlag(item.BoneID, BONE_USED_BY_VERTEX_LOD0)) then
