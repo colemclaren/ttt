@@ -1,6 +1,8 @@
-local PLAYER = FindMetaTable("Player")
-local ENTITY = FindMetaTable("Entity")
-local VECTOR = FindMetaTable("Vector")
+local EnableCosmetics 		= CreateClientConVar("moat_EnableCosmetics", 1, true, true)
+local EnableEffects 		= CreateClientConVar("moat_EnableEffects", 1, true, true)
+local PLAYER 				= FindMetaTable("Player")
+local ENTITY 				= FindMetaTable("Entity")
+local VECTOR 				= FindMetaTable("Vector")
 local LocalPlayer           = LocalPlayer 
 local GetPos                = ENTITY.GetPos
 local EyePos                = ENTITY.EyePos
@@ -47,7 +49,7 @@ end)
 
 local function RenderOverride(self)
     local ply = self:GetParent()
-    if (not GetConVar("moat_EnableCosmetics"):GetBool()) then
+    if (not EnableCosmetics:GetBool()) then
         return
     end
 
@@ -67,7 +69,7 @@ local function RenderOverride(self)
     end
 
     local v = self.item
-    if (not v.Kind or (v.Kind and v.Kind == "Effect" and not GetConVar("moat_EnableEffects"):GetBool())) then return end
+    if (not v.Kind or (v.Kind and v.Kind == "Effect" and not EnableEffects:GetBool())) then return end
     if (v.Hide) then return end
     if (self.Col) then
         local r, g, b = render.GetColorModulation()
@@ -378,7 +380,7 @@ function MOAT_LOADOUT.RemoveModels(pl)
 end
 
 function MOAT_LOADOUT.ApplyModels()
-    if (not GetConVar("moat_EnableCosmetics"):GetBool()) then
+    if (not EnableCosmetics:GetBool()) then
         return
     end
 
