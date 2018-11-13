@@ -3,8 +3,7 @@ local EnableEffects 		= CreateClientConVar("moat_EnableEffects", 1, true, true)
 local PLAYER 				= FindMetaTable("Player")
 local ENTITY 				= FindMetaTable("Entity")
 local VECTOR 				= FindMetaTable("Vector")
-local LocalPlayer           = LocalPlayer 
-local GetPos                = ENTITY.GetPos
+local LocalPlayer           = LocalPlayer
 local EyePos                = ENTITY.EyePos
 local DistToSqr             = VECTOR.DistToSqr
 local IsLineOfSightClear    = ENTITY.IsLineOfSightClear
@@ -36,7 +35,7 @@ local function load_sight_func()
         trace.endpos    = EyePos(self)
         trace.filter[2] = self
 
-        return (not util_TraceLine(trace).Hit)
+        return not util_TraceLine(trace).Hit
     end
 
     hook.Remove("Think", "CanSeePlayer")
@@ -46,51 +45,43 @@ hook.Add("Think", "CanSeePlayer", function()
     if (IsValid(LocalPlayer())) then load_sight_func() end
 end)
 
-
-local function RenderOverride(self)
-    local ply = self:GetParent()
-    if (not IsValid(ply)) then
-        self:Remove()
-        return
-    end
-    if (not EnableCosmetics:GetBool()) then
-        return
-    end
-
-    if (ply:GetNoDraw() or ply:IsDormant() or MOAT_MINIGAME_OCCURING or ply:Team() == TEAM_SPEC) then
-        return
-    end
-
+hook.Add("RenderScene", "EnsurePlayerVisibility", function()
     local LP = LocalPlayer()
-
-    if (LP == ply and not ply:ShouldDrawLocalPlayer()) then
-        return
-    end
-
     local obs = LP:GetObserverMode()
-    if (obs == OBS_MODE_IN_EYE and LP:GetObserverTarget() == ply) then
-        return
-    end
 
-    local v = self.item
-    if (not v.Kind or (v.Kind and v.Kind == "Effect" and not EnableEffects:GetBool())) then return end
-    if (v.Hide) then return end
-    if (self.Col) then
-        local r, g, b = render.GetColorModulation()
-        local col = self.Col
-        render.SetColorModulation(col.r / 255, col.g / 255, col.b / 255)
-        self:DrawModel()
-        if (self.CustomColor) then
-            render.SetColorModulation(self.CustomColor.r / 255, self.CustomColor.g / 255, self.CustomColor.b / 255)
-        else
-            render.SetColorModulation(r, g, b)
+    for ply, items in pairs(MOAT_CLIENTSIDE_MODELS) do
+        if (not IsValid(ply)) then
+            for _, item in pairs(items) do
+                item.ModelEnt:Remove()
+            end
+            MOAT_CLIENTSIDE_MODELS[ply] = nil
+            continue
         end
-    else
-        self:DrawModel()
+
+        local should_draw = EnableCosmetics:GetBool()
+            and not ply:GetNoDraw() and not ply:IsDormant()
+            and not MOAT_MINIGAME_OCCURING and ply:Team() ~= TEAM_SPEC
+            and (LP ~= ply and true or ply:ShouldDrawLocalPlayer())
+            and (obs ~= OBS_MODE_IN_EYE and true or LP:GetObserverTarget() == ply)
+
+        for _, item in pairs(items) do
+            if (item.Kind == "Effect" and not EnableEffects:GetBool() or item.Hide) then 
+                item.ModelEnt:SetNoDraw(true)
+            end
+            item.ModelEnt:SetNoDraw(not should_draw)
+        end
     end
+end)
+
+
+local function RenderOverrideColor(self)
+    local col = self.Col
+    render.SetColorModulation(col.r / 255, col.g / 255, col.b / 255)
+    self:DrawModel()
+    render.SetColorModulation(1, 1, 1)
 end
 
-local function LayoutItem(ply, item, attmpt)
+function LayoutItem(ply, item, attmpt)
     attmpt = (attmpt or 0) + 1
     if (not IsValid(ply) or not IsValid(item.ModelEnt)) then
         return
@@ -128,7 +119,7 @@ local function LayoutItem(ply, item, attmpt)
 
         if (ply:GetBoneParent(item.BoneID) <= 0 or not ply:BoneHasFlag(item.BoneID, BONE_USED_BY_VERTEX_LOD0)) then
             if (attmpt < 5) then
-                timer.Simple(1, function()
+                timer.Simple(3, function()
                     LayoutItem(ply, item, attmpt)
                 end)
             else
@@ -143,7 +134,10 @@ local function LayoutItem(ply, item, attmpt)
     item.ModelEnt:SetLocalAngles(ang)
     item.ModelEnt:SetMoveType(MOVETYPE_NONE)
     item.ModelEnt.item = item
-    item.ModelEnt.RenderOverride = RenderOverride
+    if (item.Col) then
+        item.ModelEnt.Col = item.Col
+        item.ModelEnt.RenderOverride = RenderOverrideColor
+    end
 end
 
 /*MOAT_PAINT = MOAT_PAINT or {}
