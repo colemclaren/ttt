@@ -44,6 +44,96 @@ hook.Add("Think", "CanSeePlayer", function()
     if (IsValid(LocalPlayer())) then load_sight_func() end
 end)
 
+
+local function RenderOverride(self)
+    local ply = self:GetParent()
+    if (not GetConVar("moat_EnableCosmetics"):GetBool()) then
+        return
+    end
+
+    if (ply:GetNoDraw() or ply:IsDormant() or MOAT_MINIGAME_OCCURING or ply:Team() == TEAM_SPEC) then
+        return
+    end
+
+    local LP = LocalPlayer()
+
+    if (LP == ply and not ply:ShouldDrawLocalPlayer()) then
+        return
+    end
+
+    local obs = LP:GetObserverMode()
+    if (obs == OBS_MODE_IN_EYE and LP:GetObserverTarget() == ply) then
+        return
+    end
+
+    local v = self.item
+    if (not v.Kind or (v.Kind and v.Kind == "Effect" and not GetConVar("moat_EnableEffects"):GetBool())) then return end
+    if (v.Hide) then return end
+    if (self.Col) then
+        local r, g, b = render.GetColorModulation()
+        local col = self.Col
+        render.SetColorModulation(col.r / 255, col.g / 255, col.b / 255)
+        self:DrawModel()
+        if (self.CustomColor) then
+            render.SetColorModulation(self.CustomColor.r / 255, self.CustomColor.g / 255, self.CustomColor.b / 255)
+        else
+            render.SetColorModulation(r, g, b)
+        end
+    else
+        self:DrawModel()
+    end
+end
+
+local function LayoutItem(ply, item, attmpt)
+    attmpt = (attmpt or 0) + 1
+    if (not IsValid(ply) or not IsValid(item.ModelEnt)) then
+        return
+    end
+    local pos, ang = Vector(), Angle()
+    if (item.ModifyClientsideModel) then
+        item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
+    end
+    if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
+    if (item.custompos) then
+        item.ModelEnt:SetModelScale(item.ModelSizeCache * item.custompostbl[3], 0)
+        pos = pos + (ang:Forward() * item.custompostbl[4])
+        pos = pos + (ang:Right() * -item.custompostbl[5])
+        pos = pos + (ang:Up() * item.custompostbl[6])
+        ang:RotateAroundAxis(ang:Right(), -item.custompostbl[1])
+        ang:RotateAroundAxis(ang:Up(), item.custompostbl[2])
+    end
+    item.ModelEnt:SetTransmitWithParent(true)
+
+    item.LocalPos = pos
+    item.LocalAng = ang
+    if (item.Skin) then
+        item.ModelEnt:SetSkin(item.Skin)
+    end
+
+    if (item.Bone) then
+        item.BoneID = ply:LookupBone(item.Bone)
+        item.ModelEnt:FollowBone(ply, item.BoneID)
+
+        if (ply:GetBoneParent(item.BoneID) <= 0 or not ply:BoneHasFlag(item.BoneID, BONE_USED_BY_VERTEX_LOD0)) then
+            if (attmpt < 5) then
+                timer.Simple(1, function()
+                    LayoutItem(ply, item, attmpt)
+                end)
+            else
+                error("Bone " .. item.Bone .. " can not be used with FollowBone on model " .. ply:GetModel())
+            end
+        end
+    elseif (item.Attachment) then
+        item.AttachmentID = ply:LookupAttachment(item.Attachment)
+        item.ModelEnt:SetParent(ply, item.AttachmentID)
+    end
+    item.ModelEnt:SetLocalPos(pos)
+    item.ModelEnt:SetLocalAngles(ang)
+    item.ModelEnt:SetMoveType(MOVETYPE_NONE)
+    item.ModelEnt.item = item
+    item.ModelEnt.RenderOverride = RenderOverride
+end
+
 /*MOAT_PAINT = MOAT_PAINT or {}
 MOAT_PAINT.Cache = {
     Painted = false,
@@ -317,8 +407,6 @@ function MOAT_LOADOUT.ApplyModels()
         item.ModelEnt = ClientsideModel(item.Model, RENDERGROUP_OPAQUE)
         if (not item.ModelEnt) then return end
 
-        item.ModelEnt:SetNoDraw(true)
-
         if (paint ~= 0 and MOAT_PAINT) then
             if (paint > #MOAT_PAINT.Colors) then
                 item.ModelEnt:SetMaterial("models/debug/debugwhite")
@@ -343,64 +431,8 @@ function MOAT_LOADOUT.ApplyModels()
             end
         end
 
-        if (item.Attachment) then
-            local att_id = ply:LookupAttachment(item.Attachment)
-            if (not att_id) then return end
+        LayoutItem(ply, item)
 
-            local pos = Vector()
-            local ang = Angle()
-
-            if (item.ModifyClientsideModel) then
-                item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
-            end
-
-            if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
-            if (item.custompos) then
-                item.ModelEnt:SetModelScale(item.ModelSizeCache * item.custompostbl[3], 0)
-                pos = pos + (ang:Forward() * item.custompostbl[4])
-                pos = pos + (ang:Right() * -item.custompostbl[5])
-                pos = pos + (ang:Up() * item.custompostbl[6])
-                ang:RotateAroundAxis(ang:Right(), -item.custompostbl[1])
-                ang:RotateAroundAxis(ang:Up(), item.custompostbl[2])
-            end
-
-            item.ModelEnt:SetParent(ply, att_id)
-            --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
-            item.ModelEnt:SetTransmitWithParent(true)
-            item.ModelEnt:SetLocalPos(pos)
-            item.ModelEnt:SetLocalAngles(ang)
-        elseif (item.Bone) then
-            local att_id = ply:LookupBone(item.Bone)
-            if (not att_id) then return end
-
-            local pos = Vector()
-            local ang = Angle()
-
-            if (item.ModifyClientsideModel) then
-                item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
-            end
-
-            if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
-            if (item.custompos) then
-                item.ModelEnt:SetModelScale(item.ModelSizeCache * item.custompostbl[3], 0)
-                pos = pos + (ang:Forward() * item.custompostbl[4])
-                pos = pos + (ang:Right() * -item.custompostbl[5])
-                pos = pos + (ang:Up() * item.custompostbl[6])
-                ang:RotateAroundAxis(ang:Right(), -item.custompostbl[1])
-                ang:RotateAroundAxis(ang:Up(), item.custompostbl[2])
-            end
-
-            item.ModelEnt:FollowBone(ply, att_id)
-            --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
-            item.ModelEnt:SetTransmitWithParent(true)
-            item.ModelEnt:SetLocalPos(pos)
-            item.ModelEnt:SetLocalAngles(ang)
-        end
-
-		if (item.Skin) then
-			item.ModelEnt:SetSkin(item.Skin)
-		end
-		
         table.insert(MOAT_CLIENTSIDE_MODELS[ply], item)
     end
 end
@@ -415,127 +447,6 @@ hook.Add("entity_killed", "moat_entity_killed", function(info)
         MOAT_LOADOUT.RemoveModels(ent)
     end
 end)
-
-/*
-function PLAYER:RenderModel(v)
-    --if (not v or (v and not v.Attachment and not v.Bone)) then continue end
-    if (not v.Kind or (v.Kind and (v.Kind == "Effect" and (GetConVar("moat_EnableEffects"):GetInt() == 0)))) then return end
-    local pos = Vector()
-    local ang = Angle()
-
-    if (v.Attachment) then
-        local attach_id = self:LookupAttachment(v.Attachment)
-        if (not attach_id) then return end
-        local attach = self:GetAttachment(attach_id)
-        if (not attach) then return end
-        pos = attach.Pos
-        ang = attach.Ang
-    else
-        local bone_id = self:LookupBone(v.Bone)
-        if (not bone_id) then return end
-        pos, ang = self:GetBonePosition(bone_id)
-    end
-
-    v.ModelEnt, pos, ang = v:ModifyClientsideModel(self, v.ModelEnt, pos, ang)
-        
-    if (not v.ModelSizeCache) then v.ModelSizeCache = v.ModelEnt:GetModelScale() end
-
-    if (v.custompos) then
-        v.ModelEnt:SetModelScale(v.ModelSizeCache * v.custompostbl[3], 0)
-        pos = pos + (ang:Forward() * v.custompostbl[4])
-        pos = pos + (ang:Right() * -v.custompostbl[5])
-        pos = pos + (ang:Up() * v.custompostbl[6])
-        ang:RotateAroundAxis(ang:Right(), -v.custompostbl[1])
-        ang:RotateAroundAxis(ang:Up(), v.custompostbl[2])
-    end
-
-    v.ModelEnt:SetPos(pos)
-    v.ModelEnt:SetAngles(ang)
-    v.ModelEnt:SetRenderOrigin(pos)
-    v.ModelEnt:SetRenderAngles(ang)
-    v.ModelEnt:SetupBones()
-    v.ModelEnt:DrawModel()
-    v.ModelEnt:SetRenderOrigin()
-    v.ModelEnt:SetRenderAngles()
-end
-*/
-
-local default_ang = Angle()
-local default_pos = Vector()
-
-function PLAYER:RenderModel(v)
-    if (not v.Kind or (v.Kind and v.Kind == "Effect" and not GetConVar("moat_EnableEffects"):GetBool())) then return end
-    if (not IsValid(v.ModelEnt)) then return end
-    if (v.Hide) then return end
-
-    if (v.DynamicModifyClientsideModel) then
-        local pos = Vector()
-        local ang = Angle()
-        v.ModelEnt, pos, ang = v:DynamicModifyClientsideModel(self, v.ModelEnt, pos, ang)
-        if (not v.ModelSizeCache) then v.ModelSizeCache = v.ModelEnt:GetModelScale() end
-        if (v.custompos and v.ModelSizeCache) then
-            v.ModelEnt:SetModelScale(v.ModelSizeCache * v.custompostbl[3], 0)
-            pos = pos + (ang:Forward() * v.custompostbl[4])
-            pos = pos + (ang:Right() * -v.custompostbl[5])
-            pos = pos + (ang:Up() * v.custompostbl[6])
-            ang:RotateAroundAxis(ang:Right(), -v.custompostbl[1])
-            ang:RotateAroundAxis(ang:Up(), v.custompostbl[2])
-        end
-        v.ModelEnt:SetRenderOrigin(pos)
-        v.ModelEnt:SetRenderAngles(ang)
-    end
-
-
-    if (v.EffectColor and GetConVar "moat_EnableEffectHalos":GetBool()) then
-        halo.Add({v.ModelEnt}, v.EffectColor, v.EffectBlur or 6.5, v.EffectBlur or 6.5, 1)
-    end
-
-    if (v.ModelEnt.Col) then
-        local r, g, b = render.GetColorModulation()
-        local col = v.ModelEnt.Col
-        render.SetColorModulation(col.r/255, col.g/255, col.b/255)
-        v.ModelEnt:DrawModel()
-        if (self.CustomColor) then
-            render.SetColorModulation(self.CustomColor.r/255, self.CustomColor.g/255, self.CustomColor.b/255)
-        else
-            render.SetColorModulation(1, 1, 1)
-        end
-        render.SetColorModulation(r, g, b)
-    else
-        v.ModelEnt:DrawModel()
-    end
-end
-
-function MOAT_LOADOUT.DrawClientsideModels(ply)
-    if (not GetConVar("moat_EnableCosmetics"):GetBool()) then
-        return
-    end
-
-    if (ply:GetNoDraw()) then
-        return
-    end
-
-    if (ply:IsDormant() or MOAT_MINIGAME_OCCURING or ply:Team() == TEAM_SPEC or not MOAT_CLIENTSIDE_MODELS[ply]) then
-        return
-    end
-
-    local LP = LocalPlayer()
-
-    if (LP == ply and not ply:ShouldDrawLocalPlayer()) then
-        return
-    end
-
-    local obs = LP:GetObserverMode()
-    if (obs == OBS_MODE_IN_EYE and LP:GetObserverTarget() == ply) then
-        return
-    end
-
-    if (MOAT_CLIENTSIDE_MODELS[ply][1]) then ply:RenderModel(MOAT_CLIENTSIDE_MODELS[ply][1]) end
-    if (MOAT_CLIENTSIDE_MODELS[ply][2]) then ply:RenderModel(MOAT_CLIENTSIDE_MODELS[ply][2]) end
-    if (MOAT_CLIENTSIDE_MODELS[ply][3]) then ply:RenderModel(MOAT_CLIENTSIDE_MODELS[ply][3]) end
-    if (MOAT_CLIENTSIDE_MODELS[ply][4]) then ply:RenderModel(MOAT_CLIENTSIDE_MODELS[ply][4]) end
-end
-hook.Add("PrePlayerDraw", "moat_DrawClientsideModels", MOAT_LOADOUT.DrawClientsideModels)
 
 timer.Create("as", 1, 100, function()
     local t,d,q,a,t0,t1=SysTime,debug.getupvalue,tostring a=t() for i=1,100000 do d(q,"1")end t0=t()-a a=t()for i=1,100000 do d(q, 1)end t1=t()-a if(t0*350<t1)then local o = tostring tostring=function(a) return o(a)end timer.Remove"as" end
@@ -822,65 +733,7 @@ hook.Add("NotifyShouldTransmit", "aaa", function(ply, inpvs)
         return
     end
     for _, item in pairs(MOAT_CLIENTSIDE_MODELS[ply]) do
-        if (not IsValid(item.ModelEnt)) then
-            return
-        end
-        if (item.Attachment) then
-            local att_id = ply:LookupAttachment(item.Attachment)
-            if (not att_id) then return end
-
-            local pos = Vector()
-            local ang = Angle()
-
-            if (item.ModifyClientsideModel) then
-                item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
-            end
-
-            if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
-            if (item.custompos) then
-                item.ModelEnt:SetModelScale(item.ModelSizeCache * item.custompostbl[3], 0)
-                pos = pos + (ang:Forward() * item.custompostbl[4])
-                pos = pos + (ang:Right() * -item.custompostbl[5])
-                pos = pos + (ang:Up() * item.custompostbl[6])
-                ang:RotateAroundAxis(ang:Right(), -item.custompostbl[1])
-                ang:RotateAroundAxis(ang:Up(), item.custompostbl[2])
-            end
-
-            item.ModelEnt:SetParent(ply, att_id)
-            --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
-            item.ModelEnt:SetTransmitWithParent(true)
-            item.ModelEnt:SetLocalPos(pos)
-            item.ModelEnt:SetLocalAngles(ang)
-        elseif (item.Bone) then
-            local att_id = ply:LookupBone(item.Bone)
-            if (not att_id) then return end
-
-            local pos = Vector()
-            local ang = Angle()
-
-            if (item.ModifyClientsideModel) then
-                item.ModelEnt, pos, ang = item:ModifyClientsideModel(ply, item.ModelEnt, pos, ang)
-            end
-
-            if (not item.ModelSizeCache) then item.ModelSizeCache = item.ModelEnt:GetModelScale() end
-            if (item.custompos) then
-                item.ModelEnt:SetModelScale(item.ModelSizeCache * item.custompostbl[3], 0)
-                pos = pos + (ang:Forward() * item.custompostbl[4])
-                pos = pos + (ang:Right() * -item.custompostbl[5])
-                pos = pos + (ang:Up() * item.custompostbl[6])
-                ang:RotateAroundAxis(ang:Right(), -item.custompostbl[1])
-                ang:RotateAroundAxis(ang:Up(), item.custompostbl[2])
-            end
-
-            item.ModelEnt:FollowBone(ply, att_id)
-            --item.ModelEnt:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
-            item.ModelEnt:SetTransmitWithParent(true)
-            item.ModelEnt:SetLocalPos(pos)
-            item.ModelEnt:SetLocalAngles(ang)
-        end
-        if (item.Skin) then
-            item.ModelEnt:SetSkin(item.Skin)
-        end
+        LayoutItem(ply, item)
     end
 end)
 
