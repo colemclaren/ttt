@@ -4,6 +4,7 @@ MOAT_POWERUPTABLE = {}
 
 
 function m_ApplyPowerUp( ply, powerup_tbl )
+	MOAT_LOADOUT.ResetPowerupAbilities(ply)
 
 	local powerup_mods = powerup_tbl.s or {}
 	local powerup_servertbl = powerup_tbl.item
@@ -11,7 +12,6 @@ function m_ApplyPowerUp( ply, powerup_tbl )
 		powerup_servertbl:OnPlayerSpawn( ply, powerup_mods )
 	end
 
-	MOAT_POWERUPTABLE[ply] = {}
 	MOAT_POWERUPTABLE[ply] = powerup_tbl
 end
 

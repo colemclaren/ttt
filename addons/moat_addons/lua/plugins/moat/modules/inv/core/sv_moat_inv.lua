@@ -402,11 +402,13 @@ end)
 function m_ReEquipLoadout(ply, slot1, slot2)
     if (ply:IsSpec() or GetRoundState() ~= ROUND_PREP) then return end
 
-    if (GetGlobalFloat("ttt_round_end", 0) - CurTime() > 27) then
+    /* Disabled to see if it fixes something or allows a problem
+	if (GetGlobalFloat("ttt_round_end", 0) - CurTime() > 27) then
         ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "Re-Equipping too early! Please try again!" )]])
 
         return
     end
+	*/
 
     local load_slot = slot1
 
@@ -415,7 +417,7 @@ function m_ReEquipLoadout(ply, slot1, slot2)
     end
 
     local slot_num = tonumber(string.sub(load_slot, 7, #load_slot))
-    if (slot_num > 3 and slot_num ~= 5) then return end
+    if (slot_num > 5) then return end
     local pri_wep, sec_wep, melee_wep, powerup, tactical = m_GetLoadout(ply)
     local load_tbl = {pri_wep, sec_wep, melee_wep, powerup, tactical}
     local load_tbl_num = 0
