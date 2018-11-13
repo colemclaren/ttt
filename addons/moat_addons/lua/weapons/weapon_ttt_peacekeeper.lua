@@ -2,9 +2,9 @@ AddCSLuaFile()
 
 SWEP.PrintName = "Peacekeeper"
 if CLIENT then
-   SWEP.PrintName = "Peacekeeper"
-   SWEP.Slot = 2
-   SWEP.Icon = "vgui/ttt/peacekeeper.png"
+	SWEP.PrintName = "Peacekeeper"
+	SWEP.Slot = 2
+	SWEP.Icon = "vgui/ttt/peacekeeper.png"
 end
 
 SWEP.HoldType 				= "ar2"
@@ -15,6 +15,7 @@ SWEP.ViewModel				= "models/weapons/v_bo2r_peacekeeper.mdl"
 SWEP.WorldModel				= "models/weapons/w_bo2_peacekeeper.mdl"
 SWEP.ShowWorldModel			= false
 SWEP.Base = "weapon_tttbase"
+DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= false
 
@@ -40,71 +41,69 @@ SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 SWEP.AutoSpawnable = true
 SWEP.Kind = WEAPON_HEAVY
 
-SWEP.NextBurst = CurTime()
 SWEP.IronSightsPos = Vector(-3.78, -3.161, 0.615)
 SWEP.IronSightsAng = Angle(-0.141, 0, 0)
+
+function SWEP:SetupDataTables()
+	BaseClass.SetupDataTables(self)
+	self:NetworkVar("Float", 0, "NextBurstFire")
+	self:NetworkVar("Int", 0, "BurstRound")
+end
 
 SWEP.ReloadSound = {"BO2_PEACE_MAGOUT", "BO2_PEACE_MAGIN"}
 function SWEP:Reload()
 	self.ReloadAnim = Either(self:Clip1() == 0, ACT_VM_RELOAD_EMPTY, ACT_VM_RELOAD)
-	if (not self.BaseClass.Reload(self)) then
+	if (not BaseClass.Reload(self)) then
 		return
 	end
 
-	local ReloadTime = CurTime()
-	self.ReloadTime = ReloadTime
-	self.Reloading = true
+	self:SetNextPrimaryFire(CurTime() + 0.8)
+	self:SetBurstRound(-1)
 	timer.Simple(0.4, function()
-		if (self.ReloadTime ~= ReloadTime) then return end
 		self.ReloadSound.Active = self.ReloadSound[1]
 		self:EmitSound(self.ReloadSound.Active)
 
 		timer.Simple(0.8, function()
-			if (self.ReloadTime ~= ReloadTime) then return end
 			self.ReloadSound.Active = self.ReloadSound[2]
 			self:EmitSound(self.ReloadSound[2])
-			self.Reloading = false
 		end)
 	end)
 end
 
+function SWEP:Initialize()
+	BaseClass.Initialize(self)
+	self:SetBurstRound(-1)
+end
+
 function SWEP:Holster()
-	if (self.ReloadTime) then self.ReloadTime = 0 end
 	if (self.ReloadSound.Active) then self:StopSound(self.ReloadSound.Active) end
-	self.Reloading = false
+	self:SetBurstRound(-1)
 
 	return true
 end
 
 function SWEP:Think()
-	self.BaseClass.Think(self)
+	BaseClass.Think(self)
 
-	if (self.BurstAmount and self.Shots and self.Shots > 0 and not self.Owner:KeyDown(IN_ATTACK)) then
-		self:SetNextPrimaryFire(CurTime() + (self.Primary.Delay * 3))
-		self.Shots = 0
+	if (self:GetBurstRound() >= 0 and self:GetBurstRound() < 2 and self:GetNextBurstFire() <= CurTime()) then
+		if (not self.Owner:KeyDown(IN_ATTACK)) then
+			self:SetBurstRound(-1)
+			self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 3)
+			return
+		end
+
+		self:SetBurstRound(self:GetBurstRound() + 1)
+		self:SetNextBurstFire(CurTime() + self.Primary.Delay)
+		self:FireABullet()
 	end
 end
 
-function SWEP:PrimaryAttack(worldsnd)
-	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-
+function SWEP:FireABullet()
 	if (not self:CanPrimaryAttack()) then
 		return
 	end
 
-	if (self.BurstAmount and self.Shots and self.Shots >= self.BurstAmount) then
-		return
-	end
-
-	if (self.Reloading) then
-		return
-	end
-
-	if (not worldsnd) then
-		self:EmitSound(self.Primary.Sound, self.Primary.SoundLevel)
-	elseif (SERVER) then
-		sound.Play(self.Primary.Sound, self:GetPos(), self.Primary.SoundLevel)
-	end
+	self:EmitSound(self.Primary.Sound, self.Primary.SoundLevel)
 
 	self:ShootBullet(self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone())
 	self:TakePrimaryAmmo(1)
@@ -114,4 +113,17 @@ function SWEP:PrimaryAttack(worldsnd)
 	end
 
 	self.Owner:ViewPunch(Angle(-self.Primary.Recoil, 0, 0))
+end
+
+function SWEP:PrimaryAttack()
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 6)
+
+	if (not self:CanPrimaryAttack()) then
+		return
+	end
+
+	self:SetBurstRound(0)
+	self:SetNextBurstFire(CurTime() + self.Primary.Delay)
+
+	self:FireABullet()
 end
