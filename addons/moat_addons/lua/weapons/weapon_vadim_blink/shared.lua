@@ -358,9 +358,11 @@ function SWEP:ViewModelDrawn()
 
     if self:GetAttacking() and IsValid(self.Ghost) then
         local pos, _ = self:Trace()
-        self.Ghost:SetPos(pos)
-        self.Ghost:SetAngles(self.Owner:GetAngles())
-        self.Ghost:DrawModel()
+		if (pos) then
+        	self.Ghost:SetPos(pos)
+			self.Ghost:SetAngles(self.Owner:GetAngles())
+        	self.Ghost:DrawModel()
+		end
     end
 end
 

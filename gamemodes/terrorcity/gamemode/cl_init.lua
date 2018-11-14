@@ -309,11 +309,11 @@ local view = {
     angles = angle_zero,
     fov = 0
 }
+
 local custom_fov = CreateClientConVar("moat_clfov", 0.428571429, true)
 function GM:CalcView(ply, origin, angles, fov)
     view.origin = origin
     view.angles = angles
-    view.fov = fov
 
     -- first person ragdolling
     if ply:Team() == TEAM_SPEC and ply:GetObserverMode() == OBS_MODE_IN_EYE then
@@ -331,39 +331,49 @@ function GM:CalcView(ply, origin, angles, fov)
         end
     end
 
-    local wep, sights = ply:GetActiveWeapon()
-    if IsValid(wep) then
-		if (wep.GetTauntActive) then
-			if (wep:GetTauntActive()) then sights = true end
-		end
+    local wep, sights, changed = ply:GetActiveWeapon()
 
-		if (wep.GetIronsights) then
-			if (wep:GetIronsights()) then sights = true end
-		end
+    if (IsValid(wep)) then
+        if (wep.GetTauntActive) then
+            if (wep:GetTauntActive()) then
+                sights = true
+            end
+        end
 
-		if (cur_random_round) then
-			if cur_random_round == "High FOV" then sights = true end
-		end
+        if (wep.GetIronsights) then
+            if (wep:GetIronsights()) then
+                sights = true
+            end
+        end
+
+        if (cur_random_round) then
+            if cur_random_round == "High FOV" then
+                sights = true
+            end
+        end
 
         local func = wep.CalcView
         view.drawviewer = false
 
-		if (not sights) then
-			view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
-    		if view.fov > 175 then
-        		view.fov = 175
-    		end
-		end
+        if (not sights) then
+            view.fov = Lerp(FrameTime() * 10, view.fov, math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35)))
+			changed = true
+        end
 
         if func then
             local o, a, f, d = func(wep, ply, origin * 1, angles * 1, view.fov)
-			if (o) then view.origin, view.angles, view.fov, view.drawviewer = o, a, f, d end
-		end
+
+            if (o) then
+                view.origin, view.angles, view.fov, view.drawviewer = o, a, f, d
+            end
+        end
     elseif (not cur_random_round) or (cur_random_round and cur_random_round ~= "High FOV") then
-		view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
-    	if view.fov > 175 then
-        	view.fov = 175
-    	end
+        view.fov = Lerp(FrameTime() * 10, view.fov, math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35)))
+		changed = true
+    end
+
+	if (not changed) then
+		view.fov = Lerp(FrameTime() * 10, view.fov, fov)
 	end
 
     return view

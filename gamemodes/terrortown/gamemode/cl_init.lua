@@ -309,11 +309,9 @@ local view = {
 }
 
 local custom_fov = CreateClientConVar("moat_clfov", 0.428571429, true)
-
 function GM:CalcView(ply, origin, angles, fov)
     view.origin = origin
     view.angles = angles
-    view.fov = fov
 
     -- first person ragdolling
     if ply:Team() == TEAM_SPEC and ply:GetObserverMode() == OBS_MODE_IN_EYE then
@@ -331,9 +329,9 @@ function GM:CalcView(ply, origin, angles, fov)
         end
     end
 
-    local wep, sights = ply:GetActiveWeapon()
+    local wep, sights, changed = ply:GetActiveWeapon()
 
-    if IsValid(wep) then
+    if (IsValid(wep)) then
         if (wep.GetTauntActive) then
             if (wep:GetTauntActive()) then
                 sights = true
@@ -356,11 +354,8 @@ function GM:CalcView(ply, origin, angles, fov)
         view.drawviewer = false
 
         if (not sights) then
-            view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
-
-            if view.fov > 175 then
-                view.fov = 175
-            end
+            view.fov = Lerp(FrameTime() * 10, view.fov, math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35)))
+			changed = true
         end
 
         if func then
@@ -371,12 +366,13 @@ function GM:CalcView(ply, origin, angles, fov)
             end
         end
     elseif (not cur_random_round) or (cur_random_round and cur_random_round ~= "High FOV") then
-        view.fov = 75 + (math.min(custom_fov:GetFloat(), 3) * 35)
-
-        if view.fov > 175 then
-            view.fov = 175
-        end
+        view.fov = Lerp(FrameTime() * 10, view.fov, math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35)))
+		changed = true
     end
+
+	if (not changed) then
+		view.fov = Lerp(FrameTime() * 10, view.fov, fov)
+	end
 
     return view
 end
