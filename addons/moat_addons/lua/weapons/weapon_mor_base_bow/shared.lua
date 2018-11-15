@@ -110,6 +110,9 @@ SWEP.HoldType     = "Pistol"
 SWEP.QuickFireRatio		= .6			// Changes quickfire damage/velocity, a ratio of normal damage/velocity.
 SWEP.MaxHoldTime		= 2				// Must let go after this time. Determines damage/velocity based on time held.
 
+SWEP.IronSightsPos      = Vector( 5, -15, -2 )
+SWEP.IronSightsAng      = Vector( 2.6, 1.37, 3.5 )
+
 function SWEP:Precache()
 	util.PrecacheSound("sound/weapons/bow/skyrim_bow_draw.mp3")
 	util.PrecacheSound("sound/weapons/bow/skyrim_bow_pull.mp3")
@@ -140,6 +143,24 @@ function SWEP:GetHeadshotMultiplier(ply, dmginfo)
 	return 3
 end
 
+function SWEP:SetZoom(state)
+   	if (not IsValid(self.Owner)) then
+   		return
+	end
+    
+	if state then
+        self.Owner:SetFOV(20, 0.3)
+    else
+        self.Owner:SetFOV(0, 0.2)
+    end
+end
+
+function SWEP:PreDrop()
+   self:SetZoom(false)
+   self:SetIronsights(false)
+   return self.BaseClass.PreDrop(self)
+end
+
 function SWEP:Deploy()
 	self:EmitSound("weapons/bow/skyrim_bow_draw.mp3")
 	self:SetNextPrimaryFire(CurTime())
@@ -153,10 +174,9 @@ function SWEP:Deploy()
 end
 
 function SWEP:Holster()
-	self:SetZoomed(false)
-	if SERVER then
-		self.Owner:SetFOV( 0, 0.3 ) -- Setting to 0 resets the FOV
-	end
+	self:SetIronsights(false)
+   	self:SetZoom(false)
+
 	return true
 end
 
@@ -282,7 +302,7 @@ end
    Name: SWEP:SecondaryAttack()
    Desc: +attack1 has been pressed.
 ---------------------------------------------------------*/
-function SWEP:SecondaryAttack()
+/*function SWEP:SecondaryAttack()
 	 if not self:GetZoomed() then -- The player is not zoomed in.
 		self:SetZoomed(true)
 		self.Owner:SetFOV( 35, 0.3 )
@@ -290,13 +310,24 @@ function SWEP:SecondaryAttack()
 		self:SetZoomed(false)
 		self.Owner:SetFOV( 0, 0.3 ) -- Setting to 0 resets the FOV
 	end
+end*/
+
+function SWEP:SecondaryAttack()
+   if not self.IronSightsPos then return end
+   if self:GetNextSecondaryFire() > CurTime() then return end
+
+   local bIronsights = not self:GetIronsights()
+
+   self:SetIronsights( bIronsights )
+   self:SetZoom(bIronsights)
+
+   self:SetNextSecondaryFire( CurTime() + 0.3)
 end
 
 function SWEP:Reload()
 	if (self:Clip1() >= self.Primary.ClipSize or self.Owner:GetAmmoCount( self.Primary.Ammo ) <= 0) then return end
 	self:DefaultReload(0)
-	self:SetZoomed(false)
-	self.Owner:SetFOV( 0, 0.3 ) -- Setting to 0 resets the FOV
+	self:SetZoom(false)
 end
 
 function MorBowArrow(ent, ragdoll)
