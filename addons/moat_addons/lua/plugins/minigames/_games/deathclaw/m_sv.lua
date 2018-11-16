@@ -235,6 +235,11 @@ local function moat_BeginRoundBossHooks()
 				if (healer) then
 					v:Give("weapon_ttt_health_station")
 				end
+
+				if (v ~= boss) then
+					v:SetHealth(300)
+					v:SetMaxHealth(300)
+				end
 			end
 
 			timer.Simple(0, HandleWeaponsAndAmmo)
