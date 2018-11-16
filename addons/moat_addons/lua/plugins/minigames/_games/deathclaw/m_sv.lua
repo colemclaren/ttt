@@ -237,8 +237,8 @@ local function moat_BeginRoundBossHooks()
 				end
 
 				if (v ~= boss) then
-					v:SetHealth(300)
-					v:SetMaxHealth(300)
+					v:SetHealth(150)
+					v:SetMaxHealth(150)
 				end
 			end
 
