@@ -18,6 +18,10 @@ function MOAT_LEVELS.OpenTitleMenu()
         MOAT_LEVELS_BG:Remove()
     end
 
+	if (LocalPlayer():GetNWInt("MOAT_STATS_LVL", 1) < 100) then
+		return
+	end
+
     local MOAT_BG_DATA = {
         x = (ScrW() / 2) - 200,
         y = (ScrH() / 2) - 225

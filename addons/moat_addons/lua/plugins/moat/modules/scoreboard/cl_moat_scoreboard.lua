@@ -32,14 +32,6 @@ end)
 local MOAT_SCOREBOARD_MENU = {
     {
         1,
-        "Open profile card",
-        "icon16/information.png",
-        function(ply)
-            open_profile_card(ply:SteamID64())
-        end
-    },
-    {
-        1,
         "Copy SteamID",
         "icon16/tag_blue.png",
         function(ply)
@@ -60,6 +52,14 @@ local MOAT_SCOREBOARD_MENU = {
         "icon16/world.png",
         function(ply)
             ply:ShowProfile()
+        end
+    },
+	{
+        1,
+        "Profile Card",
+        "icon16/information.png",
+        function(ply)
+            open_profile_card(ply:SteamID64())
         end
     },
     {
@@ -124,6 +124,11 @@ local function moat_TTTScoreboardMenu(menu)
     local rank = LocalPlayer():GetUserGroup()
     local ply = menu.Player
 
+	if (menu.Player == LocalPlayer() and LocalPlayer():GetNWInt("MOAT_STATS_LVL", 1) >= 100) then
+		menu:AddOption("Change Level", MOAT_LEVELS.OpenTitleMenu):SetIcon("icon16/color_wheel.png")
+		menu:AddSpacer()
+	end
+
     for k, v in ipairs(MOAT_SCOREBOARD_MENU) do
         if (MOAT_RANKS[rank][2 + v[1]]) then
             local old_tbl = MOAT_SCOREBOARD_MENU[k - 1]
@@ -161,7 +166,8 @@ local function moat_TTTScoreboardMenu(menu)
             end):SetImage(v[3])
         end
     end
-
+	
+	hook.Remove("Think", "moat_TTTSCoreboardMenuClose")
     hook.Add("Think", "moat_TTTSCoreboardMenuClose", function()
         if (not input.IsKeyDown(KEY_TAB)) then
             hook.Remove("Think", "moat_TTTSCoreboardMenuClose")

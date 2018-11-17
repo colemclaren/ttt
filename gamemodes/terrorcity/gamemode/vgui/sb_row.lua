@@ -436,6 +436,7 @@ function PANEL:LayoutColumns()
 						draw_x = draw_x - (txw/2)
 						draw_y = draw_y - (txh/2)
 
+						DisableClipping(true)
 						if (tfx == "Glow") then
 							m_DrawGlowingText(false, text_str, font, draw_x, draw_y, col)
 						elseif (tfx == "Fire") then
@@ -455,6 +456,7 @@ function PANEL:LayoutColumns()
 
 							draw.SimpleText(text_str, font, w/2, h/2, col, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 						end
+						DisableClipping(false)
 					end
          elseif (num_mod >= 90) then
             col = moat_levels[10]

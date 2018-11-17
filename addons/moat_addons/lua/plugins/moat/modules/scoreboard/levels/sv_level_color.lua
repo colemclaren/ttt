@@ -29,6 +29,10 @@ net.Receive("Moat.LevelChange", function(_, pl)
 		return
 	end
 
+	if (pl:GetNWInt("MOAT_STATS_LVL", 1) < 100) then
+		return
+	end
+
 	color.r = math.Clamp(math.Round(color.r, 0), 0, 255)
 	color.g = math.Clamp(math.Round(color.g, 0), 0, 255)
 	color.b = math.Clamp(math.Round(color.b, 0), 0, 255)
