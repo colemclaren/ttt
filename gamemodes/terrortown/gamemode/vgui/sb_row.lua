@@ -353,26 +353,47 @@ function PANEL:LayoutColumns()
                 v:SetTextColor(Color(255 - (255 * text_mod), 255 * text_mod, 0))
             end
         elseif (k == 6) then
-            local num_mod = tonumber(v:GetText())
+            local num_mod = tonumber( v:GetText() )
+			if (num_mod) then
+				local col = moat_levels[1]
 
-            if (num_mod) then
-                local col = moat_levels[1]
-
-                if (num_mod >= 100) then
-                    //col = moat_levels[11]	
+				if (num_mod >= 100) then
 					col = Color(0, 0, 0, 0)
 					v:SetWide(50)
+					v.Ply = self:GetPlayer()
 					v.Paint = function(s, w, h)
-						local c = moat_levels[11]
+						local text_str, font, draw_x, draw_y, col, tfx = s:GetText(), "treb_small", w/2, h/2, Color(255, 255, 255), "Normal"
 
-						if (rarity_names and rarity_names[9] and rarity_names[9][2]) then
-							c = rarity_names[9][2]
+						if (IsValid(s.Ply)) then
+							col.r = s.Ply:GetNW2Int("Moat.Level.R", 255)
+							col.g = s.Ply:GetNW2Int("Moat.Level.G", 255)
+							col.b = s.Ply:GetNW2Int("Moat.Level.B", 255)
+							tfx = MOAT_LEVELS.Effects[s.Ply:GetNW2Int("Moat.Level.Effect", 1)]
 						end
 
-						if (DrawGlowingText) then
-							DrawGlowingText(true, v:GetText() or "", "treb_small", w/2, h/2, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+						surface.SetFont(font)
+						local txw, txh = surface.GetTextSize(text_str)
+						draw_x = draw_x - (txw/2)
+						draw_y = draw_y - (txh/2)
+
+						if (tfx == "Glow") then
+							m_DrawGlowingText(false, text_str, font, draw_x, draw_y, col)
+						elseif (tfx == "Fire") then
+							m_DrawFireText(7, text_str, font, draw_x, draw_y, col)
+						elseif (tfx == "Bounce") then
+							m_DrawBouncingText(text_str, font, draw_x, draw_y, col)
+						elseif (tfx == "Enchanted") then
+							m_DrawEnchantedText(text_str, font, draw_x, draw_y, col, Color(127, 0, 255))
+						elseif (tfx == "Electric") then
+							m_DrawElecticText(text_str, font, draw_x, draw_y, col)
+						elseif (tfx == "Frost") then
+							DrawFrostingText(10, 1.5, text_str, font, draw_x, draw_y, col, Color(255, 255, 255))
 						else
-							draw.SimpleText(v:GetText() or "", "treb_small", w/2, h/2, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+							if (tfx == "Rainbow") then
+								col = rarity_names[9][2]
+							end
+
+							draw.SimpleText(text_str, font, w/2, h/2, col, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 						end
 					end
                 elseif (num_mod >= 90) then
