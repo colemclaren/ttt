@@ -418,7 +418,21 @@ function PANEL:LayoutColumns()
          local col = moat_levels[1]
 
          if (num_mod >= 100) then
-            col = moat_levels[11]
+			col = Color(0, 0, 0, 0)
+			v:SetWide(50)
+			v.Paint = function(s, w, h)
+				local c = moat_levels[11]
+
+				if (rarity_names and rarity_names[9] and rarity_names[9][2]) then
+					c = rarity_names[9][2]
+				end
+
+				if (DrawGlowingText) then
+					DrawGlowingText(true, v:GetText() or "", "treb_small", w/2, h/2, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				else
+					draw.SimpleText(v:GetText() or "", "treb_small", w/2, h/2, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				end
+			end
          elseif (num_mod >= 90) then
             col = moat_levels[10]
          elseif (num_mod >= 80) then
