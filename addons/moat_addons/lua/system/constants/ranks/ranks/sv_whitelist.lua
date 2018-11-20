@@ -2,7 +2,7 @@ local wl, u = {}, {
 	["motato"] = "76561198053381832",
 	["meepen"] = "76561198050165746",
 	["velkon"] = "76561198154133184",
-	["footsies"] = "76561198106061489",
+	-- ["footsies"] = "76561198106061489",
 	["poke"] = "76561198009551777",
 	["dante"] = "76561198098542457",
 	["george"] = "76561198039378503",
@@ -15,14 +15,14 @@ wl[100] = {
 	[u["motato"]] = true,
 	[u["meepen"]] = true,
 	[u["velkon"]] = true,
-	[u["footsies"]] = true
+	-- [u["footsies"]] = true
 }
 
 -- techlead
 wl[95] = {
 	[u["meepen"]] = true,
 	[u["velkon"]] = true,
-	[u["footsies"]] = true
+	-- [u["footsies"]] = true
 }
 
 -- operationslead
