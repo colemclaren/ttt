@@ -8,8 +8,8 @@ CHAT_LOGGER.SQL = CHAT_LOGGER.SQL or {
         database = "server_site_data",
         host = "gamedb.moat.gg",
         port = 3306,
-        user = "footsies",
-        pass = "clkmTQF6bF@3V0NYjtUMoC6sF&17B$"
+        user = "ttt",
+        pass = "wP$EDteT2U0akLV0Jf%&"
     }
 }
 

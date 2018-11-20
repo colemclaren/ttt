@@ -1,10 +1,4 @@
 require("mysqloo")
-local DATABASE_HOST = "208.103.169.40"
-local DATABASE_PORT = 3306
-local DATABASE_NAME = "forum"
-local DATABASE_USERNAME = "footsies"
-local DATABASE_PASSWORD = "clkmTQF6bF@3V0NYjtUMoC6sF&17B$"
-local MINVENTORY_CONNECTED = false
 
 function m_InventoryTable(db)
     /*
