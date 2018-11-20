@@ -515,9 +515,7 @@ function SWEP:PinRagdoll()
       -- coordinates
       bonepos = bonephys:WorldToLocal(bonepos)
 
-      constraint.Rope(rag, tr.Entity, bone, 0, bonepos, attachpos,
-                      length, length * 0.1, 6000,
-                      1, "cable/rope", false)
+      bonephys:EnableMotion(false)
 
       rag.is_pinned = true
       rag.OnPinnedDamage = RagdollPinnedTakeDamage
