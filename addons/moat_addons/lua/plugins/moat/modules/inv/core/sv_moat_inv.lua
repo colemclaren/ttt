@@ -519,7 +519,8 @@ net.Receive("MOAT_SWP_INV_ITEM", function(len, ply)
     MOAT_INVS[ply][slot2] = inv_slot1
 
     if (string.StartWith(slot2, "l") or string.StartWith(slot1, "l")) then
-        m_ReEquipLoadout(ply, slot1, slot2)
+		m_ReEquipLoadout(ply, slot1, slot2)
+		m_SaveInventory(ply)
     end
 end)
 
