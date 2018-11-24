@@ -66,7 +66,7 @@ net.Receive("weapon.UpdateTalents",function()
 				timer.Destroy(s)
 			end
 		end)
-	else
+	elseif (wep.ItemStats and wep.ItemStats.Talents) then
 		talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier)
 		wep.ItemStats.Talents[tier] = talent
 		wep.ItemStats.t[tier] = t_
