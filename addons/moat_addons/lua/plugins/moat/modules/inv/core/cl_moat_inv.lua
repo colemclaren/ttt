@@ -2775,6 +2775,26 @@ function m_OpenInventory(ply2, utrade)
                 else
                     s.Icon:SetAlpha(255)
                 end
+
+				local locked = false
+
+                if (m_Loadout[num].l and m_Loadout[num].l == 1) then
+                    locked = true
+                    surface_SetDrawColor(255, 255, 255)
+                    surface_SetMaterial(mat_lock)
+                    surface_DrawTexturedRect(1, 1, 16, 16)
+                end
+
+                if (m_Loadout[num].p or m_Loadout[num].p2 or m_Loadout[num].p3) then
+                    surface_SetDrawColor(255, 255, 255)
+                    surface_SetMaterial(mat_paint)
+                    surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
+                end
+
+                if (m_Loadout[num].decon) then
+                    surface_SetDrawColor(150, 0, 0, 200)
+                    surface_DrawRect(0, 0, w, h)
+                end
             end
         end
 
@@ -3579,6 +3599,26 @@ function m_OpenInventory(ply2, utrade)
                         else
                             s.Icon:SetAlpha(255)
                         end
+
+						local locked = false
+
+						if (m_Trade[num].l and m_Trade[num].l == 1) then
+							locked = true
+							surface_SetDrawColor(255, 255, 255)
+							surface_SetMaterial(mat_lock)
+							surface_DrawTexturedRect(1, 1, 16, 16)
+						end
+
+						if (m_Trade[num].p or m_Trade[num].p2 or m_Trade[num].p3) then
+							surface_SetDrawColor(255, 255, 255)
+							surface_SetMaterial(mat_paint)
+							surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
+						end
+
+						if (m_Trade[num].decon) then
+							surface_SetDrawColor(150, 0, 0, 200)
+							surface_DrawRect(0, 0, w, h)
+						end
                     end
                 end
 
