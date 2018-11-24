@@ -1187,7 +1187,7 @@ function m_PaintVBar(sbar)
     end
     local VBARP = MT[CurTheme].VBAR_PAINT
 
-    local smooth_scrolling = GetConVar("moat_smooth_scrolling"):GetInt()
+    local smooth_scrolling = GetConVar("moat_momentum_scrolling"):GetInt()
 
     sbar.LerpTarget = 0
 
