@@ -1814,9 +1814,9 @@ end
 hook.Add("PlayerSay", "moat_TradeCommand", function(ply, text, public)
     local txt = text:lower()
 
-    if (txt:sub(1, 7) == "!trade ") then
-        if (ply:Team() ~= TEAM_SPEC) then
-            ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "You can't use this command while alive!" )]])
+    if (txt:sub(1, 7) == "!trade " or txt:sub(1, 7) == "/trade ") then
+        if (ply:Team() ~= TEAM_SPEC and GetRoundState() == ROUND_ACTIVE) then
+            ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "You can't trade while alive in an active round!" )]])
 
             return
         end
@@ -1825,7 +1825,7 @@ hook.Add("PlayerSay", "moat_TradeCommand", function(ply, text, public)
         local players = FindPlayer(txt:sub(8, #txt))
 
         if (#pl < 1 or #players < 1) then
-            ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "Couldn't find dead player to send trade to!" )]])
+            ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "Couldn't find a player to send trade to!" )]])
         else
             m_SendTradeReq(ply, players[1]:EntIndex())
         end
