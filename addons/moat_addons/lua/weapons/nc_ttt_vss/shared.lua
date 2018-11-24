@@ -24,6 +24,7 @@ SWEP.Primary.ClipMax = 20 -- keep mirrored to ammo
 SWEP.Primary.DefaultClip = 10
 SWEP.CanBuy = nil
 SWEP.IsSilent = true
+SWEP.Scope = true
 
 SWEP.EquipMenuData = {
    type = "Weapon",

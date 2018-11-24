@@ -62,6 +62,7 @@ SWEP.ViewModel = "models/weapons/v_crossbow.mdl"
 SWEP.WorldModel = "models/weapons/w_crossbow.mdl"
 SWEP.ViewModelFlip = false
 SWEP.ViewModelFOV = 65
+SWEP.Scope = true
 
 SWEP.Primary.Reload	= Sound( "Weapon_Crossbow.Reload" )
 SWEP.Primary.Sound = Sound ("Weapon_Crossbow.Single")

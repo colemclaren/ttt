@@ -44,6 +44,7 @@ SWEP.WeaponID = AMMO_BINOCULARS
 
 
 SWEP.AllowDrop = true
+SWEP.Scope = true
 
 SWEP.ZoomLevels = {
    0,

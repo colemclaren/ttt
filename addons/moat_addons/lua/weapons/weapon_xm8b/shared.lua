@@ -240,6 +240,7 @@ SWEP.Primary.Sound = Sound( "Weapon_XM.fire" )
 
 SWEP.IronSightsPos = Vector( 5, -15, -2 )
 SWEP.IronSightsAng = Vector( 2.6, 1.37, 3.5 )
+SWEP.Scope = true
 
 SWEP.Offset = {
         Pos = {

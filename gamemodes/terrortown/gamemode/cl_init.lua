@@ -329,9 +329,13 @@ function GM:CalcView(ply, origin, angles, fov)
         end
     end
 
-    local wep, sights, changed = ply:GetActiveWeapon()
+    local wep, lerp, sights, changed = ply:GetActiveWeapon(), true
 
     if (IsValid(wep)) then
+		if (wep.Scope) then
+			lerp = false
+		end
+
         if (wep.GetTauntActive) then
             if (wep:GetTauntActive()) then
                 sights = true
@@ -354,7 +358,7 @@ function GM:CalcView(ply, origin, angles, fov)
         view.drawviewer = false
 
         if (not sights) then
-            view.fov = Lerp(FrameTime() * 10, view.fov, math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35)))
+            view.fov = lerp and Lerp(FrameTime() * 10, view.fov, math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35))) or math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35))
 			changed = true
         end
 
@@ -366,12 +370,12 @@ function GM:CalcView(ply, origin, angles, fov)
             end
         end
     elseif (not cur_random_round) or (cur_random_round and cur_random_round ~= "High FOV") then
-        view.fov = Lerp(FrameTime() * 10, view.fov, math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35)))
+		view.fov = lerp and Lerp(FrameTime() * 10, view.fov, math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35))) or math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35))
 		changed = true
     end
 
 	if (not changed) then
-		view.fov = Lerp(FrameTime() * 10, view.fov, fov)
+		view.fov = lerp and Lerp(FrameTime() * 10, view.fov, fov) or fov
 	end
 
     return view

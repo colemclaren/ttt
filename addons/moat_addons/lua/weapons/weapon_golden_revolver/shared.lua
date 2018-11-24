@@ -121,7 +121,7 @@ SWEP.HeadshotMultiplier = 5
 SWEP.Primary.Ammo = "AlyxGun"
 SWEP.AutoSpawnable = false
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"
-
+SWEP.Scope = true
 SWEP.IronSightsPos = Vector(2.75, 0, 0.52)
 
 SWEP.Offset = {

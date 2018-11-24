@@ -31,6 +31,7 @@ SWEP.ViewModelFlip = false
 SWEP.ViewModelFOV = 59
 SWEP.ViewModel = Model( "models/weapons/cstrike/c_rif_sg552.mdl" )
 SWEP.WorldModel = Model( "models/weapons/w_rif_sg552.mdl" )
+SWEP.Scope = true
 
 SWEP.IronSightsPos = Vector( 5, -15, -2 )
 SWEP.IronSightsAng = Vector( 2.6, 1.37, 3.5 )

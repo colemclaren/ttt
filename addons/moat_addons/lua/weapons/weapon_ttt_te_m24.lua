@@ -735,6 +735,7 @@ SWEP.Secondary.Sound = Sound("Default.Zoom")
 SWEP.IronSightsPos      = Vector( 5, -15, -2 )
 SWEP.IronSightsAng      = Vector( 2.6, 1.37, 3.5 )
 SWEP.IsZoomed = 0
+SWEP.Scope = true
 
 function SWEP:SetZoom(state)
 	if not (IsValid(self.Owner) and self.Owner:IsPlayer()) then return end

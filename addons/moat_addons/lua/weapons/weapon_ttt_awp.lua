@@ -24,6 +24,7 @@ SWEP.Primary.ClipMax = 2
 SWEP.Primary.DefaultClip = 2
 SWEP.Primary.Sound = Sound( "Weapon_M4A1.Silenced" )
 SWEP.Secondary.Sound = Sound( "Default.Zoom" )
+SWEP.Scope = true
 
 -- Model properties
 SWEP.UseHands = true

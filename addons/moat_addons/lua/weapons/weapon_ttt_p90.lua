@@ -37,6 +37,7 @@ SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 SWEP.AllowDrop = true
 SWEP.IsSilent = false
 SWEP.NoSights = false
+SWEP.Scope = true
 
 function SWEP:SetZoom( state )
    if IsValid( self.Owner ) and self.Owner:IsPlayer() then

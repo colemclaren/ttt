@@ -28,6 +28,7 @@ SWEP.Primary.ClipMax = 60
 SWEP.Primary.DefaultClip = 30
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
+SWEP.Scope = true
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false
