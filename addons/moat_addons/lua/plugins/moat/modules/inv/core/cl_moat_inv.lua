@@ -1430,9 +1430,16 @@ function m_OpenInventory(ply2, utrade)
     M_TRADE_PLYS:SetSize(368, MOAT_INV_BG:GetTall() - 54)
     M_TRADE_PLYS:SetSpaceX(0)
     M_TRADE_PLYS:SetSpaceY(3)
+	M_TRADE_PLYS.Waiting = false
     M_TRADE_PLYTBL = {}
 
     function m_AddPlayerTradeList(v)
+		for k, pnl in ipairs(M_TRADE_PLYTBL) do
+			if (IsValid(pnl) and pnl.Ply == v) then
+				return
+			end
+		end
+
         local hover_coloral = 0
         local random_color_m = {math.random(255), math.random(255), math.random(255)}
         local M_LINE = M_TRADE_PLYS:Add("DPanel")
@@ -1442,7 +1449,6 @@ function m_OpenInventory(ply2, utrade)
         M_LINE.Timer = 30
         M_LINE.CurTimer = 1
         M_LINE.TimerActive = false
-
         M_LINE.Paint = function(s, w, h)
             surface_SetDrawColor(0, 0, 0, 150)
             surface_DrawRect(0, 0, w, h)
@@ -1456,18 +1462,18 @@ function m_OpenInventory(ply2, utrade)
             end
 
             if (s.Stage == 1) then
-                if (M_LINE.TimerActive) then
-                    if (M_LINE.CurTimer <= CurTime()) then
-                        M_LINE.CurTimer = CurTime() + 1
+                if (M_LINE.TimerActive and M_LINE.CurTimer <= CurTime()) then
+                    M_LINE.CurTimer = CurTime() + 1
 
-                        if (M_LINE.Timer <= 0) then
-                            M_TRADE_PLYS:RebuildList()
+                    if (M_LINE.Timer <= 0) then
+						M_TRADE_PLYS.Waiting = false
+						M_TRADE_PLYS.RequestSent = true
+                        M_TRADE_PLYS:RebuildList()
 
-                            return
-                        end
-
-                        M_LINE.Timer = M_LINE.Timer - 1
+                        return
                     end
+
+                    M_LINE.Timer = M_LINE.Timer - 1
                 end
 
                 m_DrawShadowedText(1, "Trade request sent to:", "Trebuchet24", w / 2, 243, Color(255, 255, 255), TEXT_ALIGN_CENTER)
@@ -1556,6 +1562,8 @@ function m_OpenInventory(ply2, utrade)
 
         M_LINE_BTN.OnMousePressed = function(s, key)
             if (key == MOUSE_LEFT and M_LINE.Stage == 0) then
+				M_TRADE_PLYS.Waiting = true
+
                 net.Start("MOAT_SEND_TRADE_REQ")
                 net.WriteDouble(v:EntIndex())
                 net.SendToServer()
@@ -1566,30 +1574,16 @@ function m_OpenInventory(ply2, utrade)
         M_LINE_BTN.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
         --surface.PlaySound( "UI/buttonrollover.wav" )
         table.insert(M_TRADE_PLYTBL, M_LINE)
-
-        if (table.Count(M_TRADE_PLYTBL) == #player.GetAll()) then
-            local pnl = M_TRADE_PLYS:Add("DPanel")
-            pnl:SetSize(M_TRADE_PLYS:GetWide(), 1)
-            pnl.Paint = nil
-            pnl.Ply = {}
-            table.insert(M_TRADE_PLYTBL, pnl)
-        end
     end
 
     local lp = LocalPlayer()
 
-    for k, v in SortedPairs(player.GetAll()) do
-        if (v == lp) then continue end
-        
-        if ((lp:Team() == TEAM_SPEC and v:Team() == TEAM_SPEC) or (GetRoundState() ~= ROUND_ACTIVE)) then
-            m_AddPlayerTradeList(v)
-        end
-    end
-
     function m_CheckNumPlayersList(max)
-        if (#M_TRADE_PLYTBL > max) then
+        if (IsValid(M_TRADE_PLYS) and #M_TRADE_PLYTBL > max) then
             for k, v in pairs(M_TRADE_PLYTBL) do
-                v:SetWide(M_TRADE_PLYS:GetWide() - 23)
+            	if (IsValid(v) and IsValid(M_TRADE_PLYS)) then
+					v:SetWide(M_TRADE_PLYS:GetWide() - 23)
+				end
             end
         end
     end
@@ -1597,11 +1591,19 @@ function m_OpenInventory(ply2, utrade)
     function M_TRADE_PLYS:RebuildList()
         M_TRADE_LBL:SetText("Click on a player below to send them a trade request.")
 
-        for k, v in pairs(M_TRADE_PLYTBL) do
-            v:Remove()
-        end
+		if (M_TRADE_PLYS.Waiting) then
+			return
+		end
 
-        M_TRADE_PLYTBL = {}
+		if (M_TRADE_PLYS.RequestSent) then
+			for _, pnl in ipairs(M_TRADE_PLYTBL) do
+				if (IsValid(pnl)) then
+					pnl:Remove()
+				end
+			end
+			
+			M_TRADE_PLYS.RequestSent = false
+		end
 
         for k, v in SortedPairs(player.GetAll()) do
             if (v == lp) then continue end
@@ -1609,9 +1611,37 @@ function m_OpenInventory(ply2, utrade)
             if ((lp:Team() == TEAM_SPEC and v:Team() == TEAM_SPEC) or (GetRoundState() ~= ROUND_ACTIVE)) then
                 m_AddPlayerTradeList(v)
                 m_CheckNumPlayersList(13)
-            end
+            else
+				local MarkedForRemove
+
+				for _, pnl in ipairs(M_TRADE_PLYTBL) do
+					if (IsValid(pnl) and pnl.Ply == v) then
+						MarkedForRemove = _
+						pnl:Remove()
+					end
+				end
+
+				if (MarkedForRemove) then
+					table.remove(M_TRADE_PLYTBL, MarkedForRemove)
+				end
+
+				m_CheckNumPlayersList(13)
+			end
         end
     end
+	
+	M_TRADE_PLYS:RebuildList()
+
+	M_TRADE_PLYS.NextThink = 0
+	M_TRADE_PLYS.Think = function(s)
+		if ((s.NextThink > CurTime()) or (M_INV_CAT and M_INV_CAT ~= 3) or (IsValid(MOAT_TRADE_BG))) then
+			return
+		end
+
+		s:RebuildList()
+
+		s.NextThink = CurTime() + 0.1
+	end
 
     --[[M_CRAFT_PNL = vgui.Create( "DPanel", MOAT_INV_BG )
 
@@ -5834,6 +5864,8 @@ net.Receive("MOAT_RESPOND_TRADE_REQ", function(len)
 	if (not IsValid(Entity(other_ply))) then
         chat.AddText(Color(255, 0, 0), "The trade request failed because the player left.")
         if (IsValid(M_TRADE_PLYS)) then
+			M_TRADE_PLYS.Waiting = false
+			M_TRADE_PLYS.RequestSent = true
             M_TRADE_PLYS:RebuildList()
         end
 
@@ -5843,6 +5875,8 @@ net.Receive("MOAT_RESPOND_TRADE_REQ", function(len)
     if (not accepted) then
         chat.AddText(Color(0, 200, 0), Entity(other_ply):Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " your trade request.")
         if (IsValid(M_TRADE_PLYS)) then
+			M_TRADE_PLYS.Waiting = false
+			M_TRADE_PLYS.RequestSent = true
             M_TRADE_PLYS:RebuildList()
         end
 
@@ -5859,14 +5893,20 @@ net.Receive("MOAT_SEND_TRADE_REQ", function(len)
     local other_ply = Entity(ply_index)
 
 	if (not IsValid(other_ply)) then
+		if (IsValid(M_TRADE_PLYS)) then M_TRADE_PLYS.Waiting = false end
 		chat.AddText(Color(255, 0, 0), "The player you sent a trade request to left the server.")
 		return
 	end
 
     if (not passed) then
+		if (IsValid(M_TRADE_PLYS)) then M_TRADE_PLYS.Waiting = false end
         chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " is ", Color(255, 0, 0), "busy", Color(255, 255, 255), " at the moment.")
         return
     end
+
+	if (IsValid(M_TRADE_PLYS)) then
+		M_TRADE_PLYS.Waiting = true
+	end
 
     if (ply_sent) then
         for k, v in pairs(M_TRADE_PLYTBL) do
