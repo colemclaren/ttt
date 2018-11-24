@@ -32,7 +32,7 @@ print [[
 
 
 print "\n\n"
-D3A.Print("This server runs a heavily modified version of D3A " .. D3A.Version .. " titled MGA. Original D3A was coded by KingofBeast & updated by aStonedPenguin. Heavily modded for MoatGaming TTT by Moat.\n\n")
+D3A.Print("This server runs a custom admin mod " .. D3A.Version .. " titled MGA by moat.\n\n")
 
 D3A.IncludeSV "server/_mysql.lua"
 D3A.IncludeSH "shared/sh_player_extension.lua"

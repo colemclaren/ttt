@@ -17,11 +17,6 @@ MOAT_MINIGAMES.AddMinigame = function(pname, dir, cmd, chance, desc)
 		include(dir .. "m_cl.lua")
 	end
 
-	MOAT_MINIGAMES.Print(pname)
-	MOAT_MINIGAMES.Print(desc)
-	MOAT_MINIGAMES.Print("1 in " .. chance .. " Chance")
-	MOAT_MINIGAMES.Print("-----------------------------------------")
-
 	MOAT_MINIGAMES.Minigames[#MOAT_MINIGAMES.Minigames + 1] = {pname, chance, cmd, desc}
 end
 
@@ -153,9 +148,4 @@ MOAT_MINIGAMES.Chat = function(ply, str)
 	end
 end
 
--- this is just a way to not log damage during minigames
--- causes people to crash after one has finished and a player opens them
--- due to sending too much data
--- just set IsGhost to true on players and set back to false when minigame is over
-
--- random starting will be here, haven't added it yet lol
+MOAT_MINIGAMES.Print "Loaded successfully."
