@@ -66,13 +66,13 @@ local function DrawBlur(panel, amount, disable)
     end
 end
 
-surface.CreateFont("DermaLargeSmall", {
+surface.CreateFont("DermaLargeSmall_", {
 	font = "DermaLarge",
 	size = 18,
 	weight = 800
 })
 
-surface.CreateFont("DermaLargeSmall2", {
+surface.CreateFont("DermaLargeSmall2_", {
 	font = "DermaLarge",
 	size = 16,
 	weight = 800
@@ -296,7 +296,7 @@ function MGA2.InsertCommandList(index, pnl)
 		surface_SetDrawColor(listcolor)
 		surface_DrawRect(0, 0, w, h)
 
-		draw_SimpleTextOutlined(cmdtitle, "DermaLargeSmall", w/2, h/2, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
+		draw_SimpleTextOutlined(cmdtitle, "DermaLargeSmall_", w/2, h/2, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
 	end
 	MGA2L.ListBtn.AnimationActive = false
 	MGA2L.ListBtn.Closed = false
@@ -369,7 +369,7 @@ function MGA2.InsertCommandList(index, pnl)
 			surface_SetDrawColor(51 * s.LerpNum, 153 * s.LerpNum, 255 * s.LerpNum, ((btn.SweetLine and 125) or 50) + (50 * s.LerpNum))
 			surface_DrawRect(0, 0, w, h)
 
-			draw_SimpleTextOutlined(s.Cmd, "DermaLargeSmall", w/2, h/2, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
+			draw_SimpleTextOutlined(s.Cmd, "DermaLargeSmall_", w/2, h/2, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
 		end
 		btn.OnCursorEntered = function(s)
 			surface.PlaySound("ui/buttonrollover.wav")
@@ -405,11 +405,11 @@ function MGA2.RebuildPlayerList(pnl, ignore)
 		btn:SetSize(MGA2.PlyConf.w, 20)
 		if (ignore == "SteamID") then
 			btn.Paint = function(s, w, h)
-				draw_SimpleTextOutlined("Use SteamID", "DermaLargeSmall2", w/2, h/2, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
+				draw_SimpleTextOutlined("Use SteamID", "DermaLargeSmall2_", w/2, h/2, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
 			end
 		else
 			btn.Paint = function(s, w, h)
-				draw_SimpleTextOutlined("No Player Needed", "DermaLargeSmall2", w/2, h/2, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
+				draw_SimpleTextOutlined("No Player Needed", "DermaLargeSmall2_", w/2, h/2, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
 			end
 		end
 
@@ -489,14 +489,14 @@ function MGA2.RebuildPlayerList(pnl, ignore)
 		lbl1:SetSize(MGA2.PlyConf.w - 26, 16)
 		lbl1:SetPos(30, -1)
 		lbl1:SetTextColor(Color(255, 255, 255))
-		lbl1:SetFont("DermaLargeSmall")
+		lbl1:SetFont("DermaLargeSmall_")
 		lbl1:SetText(btn.PlayerInfo.Nick)
 
 		local lbl2 = vgui.Create("DLabel", btn)
 		lbl2:SetSize(MGA2.PlyConf.w - 26, 20)
 		lbl2:SetPos(30, 10)
 		lbl2:SetTextColor(Color(150, 150, 150))
-		lbl2:SetFont("DermaLargeSmall2")
+		lbl2:SetFont("DermaLargeSmall2_")
 		lbl2:SetText(btn.PlayerInfo.SteamID)
 
 		if (minimilist) then
@@ -542,7 +542,7 @@ function MGA2.RebuildCommandArguments(pnl, cmdd)
 	for i = 1, #cmd do
 		local lbl = pnl:Add("DLabel")
 		lbl:SetSize(MGA2.SubConf.w - 10, 20)
-		lbl:SetFont("DermaLargeSmall")
+		lbl:SetFont("DermaLargeSmall_")
 		lbl:SetTextColor(MGA2.Colors.White)
 		lbl:SetText(cmd[i][2] .. ":")
 		table.insert(MGA2.ArgumentListLabels, lbl)
@@ -558,7 +558,7 @@ function MGA2.RebuildCommandArguments(pnl, cmdd)
 			entry.OnLoseFocus = function(s)
 				MGA2.Frame:SetKeyboardInputEnabled(false)
 			end
-            entry:SetFont("DermaLargeSmall")
+            entry:SetFont("DermaLargeSmall_")
             entry:SetTextColor(Color(255, 255, 255))
             entry:SetCursorColor(Color(255, 255, 255))
             entry:SetEnterAllowed(true)
@@ -593,9 +593,9 @@ function MGA2.RebuildCommandArguments(pnl, cmdd)
 				surface_DrawOutlinedRect(0, 0, w, h)
 
 				if (s.ExampleOverride) then
-					draw_SimpleText(s.ExampleOverride, "DermaLargeSmall", 3, 3, Color(255, 255, 255, s.ExampleColor))
+					draw_SimpleText(s.ExampleOverride, "DermaLargeSmall_", 3, 3, Color(255, 255, 255, s.ExampleColor))
 				else
-					draw_SimpleText(s.DefaultEntry, "DermaLargeSmall", 3, 3, Color(255, 255, 255, s.ExampleColor))
+					draw_SimpleText(s.DefaultEntry, "DermaLargeSmall_", 3, 3, Color(255, 255, 255, s.ExampleColor))
 				end
 
 				s:DrawTextEntryText(MGA2.Colors.White, Color(30, 130, 255), MGA2.Colors.White)
@@ -643,7 +643,7 @@ function MGA2.RebuildCommandArguments(pnl, cmdd)
 	if (#cmd == 0) then
 		local lbl = pnl:Add("DLabel")
 		lbl:SetSize(MGA2.SubConf.w - 10, 20)
-		lbl:SetFont("DermaLargeSmall")
+		lbl:SetFont("DermaLargeSmall_")
 		lbl:SetTextColor(MGA2.Colors.White)
 		lbl:SetText("No Arguments Needed")
 		lbl:SetContentAlignment(5)
@@ -664,7 +664,7 @@ function MGA2.RebuildCommandArguments(pnl, cmdd)
 		surface_SetDrawColor(51 * s.LerpNum, 153 * s.LerpNum, 255 * s.LerpNum, 150 + (50 * s.LerpNum))
 		surface_DrawRect(0, 0, w, h)
 
-		draw_SimpleTextOutlined(cmdd[1], "DermaLargeSmall", w/2, h/2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+		draw_SimpleTextOutlined(cmdd[1], "DermaLargeSmall_", w/2, h/2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
 	end
 	sub.OnCursorEntered = function(s)
 		surface.PlaySound("ui/buttonrollover.wav")
@@ -804,26 +804,26 @@ function MGA2.OpenMenu()
 		surface_DrawRect(0, 0, w, h)
 		DrawBlur(s, 2, shoulddisableblur)
 
-		draw_SimpleTextOutlined(LocalNick, "DermaLargeSmall", 52, 8, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
-		draw_SimpleTextOutlined(MGA2.PrettyRank[LocalRank][1], "DermaLargeSmall", 52, 24, MGA2.PrettyRank[LocalRank][2], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
+		draw_SimpleTextOutlined(LocalNick, "DermaLargeSmall_", 52, 8, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
+		draw_SimpleTextOutlined(MGA2.PrettyRank[LocalRank][1], "DermaLargeSmall_", 52, 24, MGA2.PrettyRank[LocalRank][2], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
 
-		surface_SetFont("DermaLargeSmall")
+		surface_SetFont("DermaLargeSmall_")
 
 		local cmdup = (MGA2.WarnCommands[MGA2.SelectedCommand] and MGA2.SelectedCommand:upper()) or MGA2.SelectedCommand
 		local tw = surface_GetTextSize("Selected Command: " .. cmdup)
-		local tw2 = draw_SimpleTextOutlined("Selected Command: ", "DermaLargeSmall", w - 10 - tw, 8, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
-		draw_SimpleTextOutlined(cmdup, "DermaLargeSmall", w - 10 - tw + tw2, 8, (MGA2.WarnCommands[MGA2.SelectedCommand] and MGA2.Colors.Red) or MGA2.Colors.MGA2Blue, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
+		local tw2 = draw_SimpleTextOutlined("Selected Command: ", "DermaLargeSmall_", w - 10 - tw, 8, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
+		draw_SimpleTextOutlined(cmdup, "DermaLargeSmall_", w - 10 - tw + tw2, 8, (MGA2.WarnCommands[MGA2.SelectedCommand] and MGA2.Colors.Red) or MGA2.Colors.MGA2Blue, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
 
 		local plyup = MGA2.SelectedPlayer.Nick
 		local tw = surface_GetTextSize("Selected Player: " .. plyup)
-		local tw2 = draw_SimpleTextOutlined("Selected Player: ", "DermaLargeSmall", w - 10 - tw, 24, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
-		draw_SimpleTextOutlined(plyup, "DermaLargeSmall", w - 10 - tw + tw2, 24,  (MGA2.SelectedPlayer.Nick ~= "None" and MGA2.Colors.Yellow) or MGA2.Colors.MGA2Blue, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
+		local tw2 = draw_SimpleTextOutlined("Selected Player: ", "DermaLargeSmall_", w - 10 - tw, 24, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
+		draw_SimpleTextOutlined(plyup, "DermaLargeSmall_", w - 10 - tw + tw2, 24,  (MGA2.SelectedPlayer.Nick ~= "None" and MGA2.Colors.Yellow) or MGA2.Colors.MGA2Blue, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
 
 		local plist = 0
 		if (MGA2.PlayerList) then
 			plist = #MGA2.PlayerList
 		end
-		draw_SimpleTextOutlined("Player List(" .. plist .. ")", "DermaLargeSmall2", MGA2.PlyConf.x + (MGA2.PlyConf.w/2), 41, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
+		draw_SimpleTextOutlined("Player List(" .. plist .. ")", "DermaLargeSmall2_", MGA2.PlyConf.x + (MGA2.PlyConf.w/2), 41, MGA2.Colors.White, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, MGA2.Colors.Shadow)
 	end
 
 	/*---------------------------------------------------------------------------

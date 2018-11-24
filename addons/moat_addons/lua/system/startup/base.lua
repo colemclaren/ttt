@@ -51,3 +51,42 @@ function moat.debug(...)
 	MsgC(unpack(msgt))
 	MsgC "\n"
 end
+
+
+if (CLIENT) then
+	if (not _SCF) then _SCF = surface.CreateFont end
+	THE_FONTS = {}
+	function surface.CreateFont(name, tbl)
+		/*
+		table.insert(THE_FONTS, {Name = name, Tbl = tbl})
+		_SCF(name, tbl)
+		*/
+	end
+
+	concommand.Add("list_fonts", function()
+		local fs = ""
+		for i = 1, #THE_FONTS do
+			local f = THE_FONTS[i]
+			if (not f.Name or not f.Tbl) then continue end
+			local s = "surface.CreateFont('" .. f.Name .. "', {"
+			if (f.Tbl.font) then s = s .. "font = '" .. f.Tbl.font .. "'," end
+			if (f.Tbl.extended) then s = s .. "extended = true," end
+			if (f.Tbl.size) then s = s .. "size = " .. f.Tbl.size .. "," end
+			if (f.Tbl.weight) then s = s .. "weight = " .. f.Tbl.weight .. "," end
+			if (f.Tbl.blursize) then s = s .. "blursize = " .. f.Tbl.blursize .. "," end
+			if (f.Tbl.scanlines) then s = s .. "scanlines = " .. f.Tbl.scanlines .. "," end
+			if (f.Tbl.antialias != nil and f.Tbl.antialias == false) then s = s .. "antialias = false," end
+			if (f.Tbl.underline) then s = s .. "underline = true," end
+			if (f.Tbl.italic) then s = s .. "italic = true," end
+			if (f.Tbl.strikeout) then s = s .. "strikeout = true," end
+			if (f.Tbl.symbol) then s = s .. "symbol = true," end
+			if (f.Tbl.rotary) then s = s .. "rotary = true," end
+			if (f.Tbl.shadow) then s = s .. "shadow = true," end
+			if (f.Tbl.additive) then s = s .. "additive = true," end
+			if (f.Tbl.outline) then s = s .. "outline = true," end
+			fs = fs .. string.TrimRight(s, ',') .. "})\n"
+		end
+
+		file.Write("fonts.txt", fs)
+	end)
+end

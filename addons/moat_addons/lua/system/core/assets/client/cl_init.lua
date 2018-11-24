@@ -50,7 +50,11 @@ function cdn.Fetch(id, ext, key, params, cache, save)
 	--print(object, ext, key, cache, save)
 
 	if (exists(object, "DATA")) then
-		cdn.Cache[key] = Either(id == 1, Material("data/" .. object, params), "data/" .. object)
+		if (id == 1) then
+			cdn.Cache[key] = Material("../data/" .. object, params)
+		else
+			cdn.Cache[key] = "data/" .. object
+		end
 
 		return cdn.Cache[key]
 	end
@@ -80,7 +84,7 @@ function cdn.Image(key, cb, params)
 	end
 
 	return cdn.Fetch(1, "." .. key:GetExtensionFromFilename(), key, params, function(object)
-		cdn.Cache[key] = Material("data/" .. object, params)
+		cdn.Cache[key] = Material("../data/" .. object, params)
 		if (cb) then cb(cdn.Cache[key]) end
 	end, function(object, data) write(object, data) end)
 end
