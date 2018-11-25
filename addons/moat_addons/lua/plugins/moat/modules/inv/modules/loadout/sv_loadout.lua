@@ -131,7 +131,7 @@ function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
 	end
 
     if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
-        local col = MOAT_PAINT.Colors[MOAT_INVS[ply]["l_slot10"].p2 - (#MOAT_PAINT.Colors) - 6000][2]
+        local col = MOAT_PAINT.Paints[MOAT_INVS[ply]["l_slot10"].p2][2]
         ply:SetColor(Color(col[1], col[2], col[3], 255))
         ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
     end
@@ -651,7 +651,7 @@ hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
         ply:SetColor(COLOR_WHITE)
 
         if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
-            local col = MOAT_PAINT.Colors[MOAT_INVS[ply]["l_slot10"].p2 - (#MOAT_PAINT.Colors) - 6000][2]
+            local col = MOAT_PAINT.Paints[MOAT_INVS[ply]["l_slot10"].p2][2]
             ply:SetColor(Color(col[1], col[2], col[3], 255))
             ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
         end
@@ -660,7 +660,7 @@ hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
     function GAMEMODE:TTTPlayerSetColor(ply)
         local clr = COLOR_WHITE
         if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
-            local col = MOAT_PAINT.Colors[MOAT_INVS[ply]["l_slot10"].p2 - (#MOAT_PAINT.Colors) - 6000][2]
+            local col = MOAT_PAINT.Paints[MOAT_INVS[ply]["l_slot10"].p2][2]
             ply:SetColor(Color(col[1], col[2], col[3], 255))
             ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
         else

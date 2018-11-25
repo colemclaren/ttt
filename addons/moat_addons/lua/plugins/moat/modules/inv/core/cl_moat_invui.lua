@@ -703,11 +703,11 @@ function PANEL:AddModel(item_enum, item_tbl)
     if (MOAT_PAINT and item_tbl and (item_tbl.p or item_tbl.p2)) then
         if (item_tbl.p2) then
             tbl.ModelEnt:SetMaterial("models/debug/debugwhite")
-            local col = MOAT_PAINT.Colors[item_tbl.p2 - #MOAT_PAINT.Colors - 6000]
+            local col = MOAT_PAINT.Paints[item_tbl.p2]
             if (not col) then return end
             tbl.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
         else
-            local col = MOAT_PAINT.Colors[item_tbl.p - 6000]
+            local col = MOAT_PAINT.Tints[item_tbl.p]
             if (not col) then return end
             tbl.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
         end

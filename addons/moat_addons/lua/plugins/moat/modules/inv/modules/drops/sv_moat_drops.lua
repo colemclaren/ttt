@@ -29,15 +29,13 @@ local MOAT_ITEM_FOLDERS = {
 }
 
 function m_CreatePaints()
-    local last_id = 6001
-    for i = 1, #MOAT_PAINT.Colors do
-        local tbl = {}
-        tbl.Name = MOAT_PAINT.Colors[i][1] .. " Tint"
-        tbl.ID = last_id
-        tbl.Description = "Right click a weapon to use this it on it"
-        tbl.Rarity = MOAT_PAINT.Colors[i][3]
-        tbl.Clr = MOAT_PAINT.Colors[i][2]
-        --tbl.NameColor = Color(MOAT_PAINT.Colors[i][2][1], MOAT_PAINT.Colors[i][2][2], MOAT_PAINT.Colors[i][2][3])
+	for k , v in pairs(MOAT_PAINT.Tints) do
+		local tbl = {}
+        tbl.Name = v[1]
+        tbl.ID = k
+        tbl.Description = "Right click a weapon to use this tint on it"
+        tbl.Rarity = v[3]
+        tbl.Clr = v[2]
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 1
         tbl.Image = "https://cdn.moat.gg/f/V1nF1EWK8QFL2Uwc87wla1ERPQLo.png"
@@ -51,18 +49,15 @@ function m_CreatePaints()
 		end
 
         m_AddDroppableItem(tbl, "Usable")
+	end
 
-        last_id = last_id + 1
-    end
-
-    for i = 1, #MOAT_PAINT.Colors do
-        local tbl = {}
-        tbl.Name = MOAT_PAINT.Colors[i][1] .. " Paint"
-        tbl.ID = last_id
-        tbl.Description = "Right click a item to use this paint on it"
-        tbl.Rarity = MOAT_PAINT.Colors[i][3]
-        tbl.Clr = MOAT_PAINT.Colors[i][2]
-        --tbl.NameColor = Color(MOAT_PAINT.Colors[i][2][1], MOAT_PAINT.Colors[i][2][2], MOAT_PAINT.Colors[i][2][3])
+	for k, v in pairs(MOAT_PAINT.Paints) do
+		local tbl = {}
+        tbl.Name = v[1]
+        tbl.ID = k
+        tbl.Description = "Right click an item to use this paint on it"
+        tbl.Rarity = v[3]
+        tbl.Clr = v[2]
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 2
         tbl.Image = "https://cdn.moat.gg/f/3KvQGWvW2Rkb3u9oC3zZWsyRE0wt.png"
@@ -72,18 +67,15 @@ function m_CreatePaints()
         end
 
         m_AddDroppableItem(tbl, "Usable")
+	end
 
-        last_id = last_id + 1
-    end
-
-    for i = 1, #MOAT_PAINT.Textures do
+	for k, v in pairs(MOAT_PAINT.Textures) do
         local tbl = {}
-        tbl.Name = MOAT_PAINT.Textures[i][1] .. " Texture"
-        tbl.ID = last_id
+        tbl.Name = v[1]
+        tbl.ID = k
         tbl.Description = "Right click a weapon to use this texture on it"
-        tbl.Rarity = MOAT_PAINT.Textures[i][3]
-        tbl.Texture = MOAT_PAINT.Textures[i][2]
-        --tbl.NameColor = Color(MOAT_PAINT.Colors[i][2][1], MOAT_PAINT.Colors[i][2][2], MOAT_PAINT.Colors[i][2][3])
+        tbl.Rarity = v[3]
+        tbl.Texture = v[2]
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 2
         tbl.Image = "https://cdn.moat.gg/f/O3DkFrSx6C66U4XBvbGm7aYm4xDV.png"
@@ -93,8 +85,6 @@ function m_CreatePaints()
         end
 
         m_AddDroppableItem(tbl, "Usable")
-
-        last_id = last_id + 1
     end
 end
 

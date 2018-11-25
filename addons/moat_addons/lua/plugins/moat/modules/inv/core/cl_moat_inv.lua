@@ -1134,9 +1134,7 @@ rarity_names[0] = {
 hook.Add("Think", "moat_InventoryHSV", function()
     rarity_names = { { "Worn", Color(204, 204, 255), { min = 10, max = 20 } }, { "Standard", Color(0, 0, 255), { min = 20, max = 40 } }, { "Specialized", Color(127, 0, 255), { min = 60, max = 120 } }, { "Superior", Color(255, 0, 255), { min = 240, max = 480 } }, { "High-End", Color(255, 0, 0), { min = 1200, max = 2400 } }, { "Ascended", Color(255, 205, 0), { min = 7200, max = 14400 } }, { "Cosmic", Color(0, 255, 0), { min = 25200, max = 50400 } }, { "Extinct", Color(255, 128, 0), { min = 2, max = 5000 } }, { "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } }
     rarity_names[9][2] = HSVToColor( CurTime() * 70 % 360, 1, 1 )
-/*    if (MOAT_PAINT and MOAT_PAINT.Colors) then
-        MOAT_PAINT.Colors[58][2] = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
-    end*/
+
     rarity_names[0] = {
         "Stock",
         Color(74, 73, 68),
@@ -4410,7 +4408,7 @@ function m_IniateUsableItem(num, itemtbl)
                 draw_SimpleText("Racist or Harassing names will result in punishment. Please be nice :)", "DermaDefault", w/2, h - 120, Color(200, 200, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 
                 --draw_SimpleText("WWWWWWWWWWWWWWWWWWWW", "GModNotify", w/2, h - 109, Color(200, 200, 200, 100), TEXT_ALIGN_CENTER)
-            elseif (itemtbl.u > 6000 and (itemtbl.u <= (6000 + (#MOAT_PAINT.Colors * 2) + (#MOAT_PAINT.Textures)))) then
+            elseif (ItemPaints(itemtbl.u)) then
                 draw_SimpleText("Click the icon above to preview.", "DermaDefault", w/2, h - 120, Color(200, 200, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
             end
         end
@@ -4549,18 +4547,22 @@ function m_IniateUsableItem(num, itemtbl)
                 M_REQ_A:SetDisabled(true)
             end
 
-            if !(itemtbl.u > 6000 and (itemtbl.u <= (6000 + (#MOAT_PAINT.Colors * 2) + (#MOAT_PAINT.Textures)))) then return end
+            if (not ItemPaints(itemtbl.u)) then return end
 
             selected_pnl_btn.DoClick = function()
                 local tint, paint, texture = nil, nil, nil
 
-                if (itemtbl.u > 6000 and (itemtbl.u <= (6000 + #MOAT_PAINT.Colors))) then
+                if (ItemIsTint(itemtbl.u)) then
                     tint = itemtbl.u
-                elseif (itemtbl.u >= (6000 + #MOAT_PAINT.Colors) and (itemtbl.u <= (6000 + (#MOAT_PAINT.Colors * 2)))) then
+                elseif (ItemIsPaint(itemtbl.u)) then
                     paint = itemtbl.u
-                else
+                elseif (ItemIsTexture(itemtbl.u)) then
                     texture = itemtbl.u
                 end
+
+				if (not tint and not paint and not texture) then
+					return
+				end
 
                 if (sel_itm and sel_itm.item and sel_itm.item.Model) then
                     moat_view_paint_preview(sel_itm.item.Model, true, tint, paint, texture)
@@ -5052,22 +5054,22 @@ function m_CreateItemMenu(num, ldt)
 
     local p1txt = nil
     if (itemtbl.p) then
-        p1txt = MOAT_PAINT.Colors[itemtbl.p - 6000][1]
-        M_INV_MENU:AddOption("Remove " .. p1txt .. " Tint", function()
+        p1txt = MOAT_PAINT.Tints[itemtbl.p][1]
+        M_INV_MENU:AddOption("Remove " .. p1txt, function()
         end):SetIcon("icon16/palette.png")
     end
 
     local p2txt = nil
     if (itemtbl.p2) then
-        p2txt = MOAT_PAINT.Colors[itemtbl.p2 - #MOAT_PAINT.Colors - 6000][1]
-        M_INV_MENU:AddOption("Remove " .. p2txt .. " Paint", function()
+        p2txt = MOAT_PAINT.Paints[itemtbl.p2][1]
+        M_INV_MENU:AddOption("Remove " .. p2txt, function()
         end):SetIcon("icon16/paintcan.png")
     end
 
     local p3txt = nil
     if (itemtbl.p3) then
-        p3txt = MOAT_PAINT.Textures[itemtbl.p3 - (#MOAT_PAINT.Colors * 2) - 6000][1]
-        M_INV_MENU:AddOption("Remove " .. p3txt .. " Texture", function()
+        p3txt = MOAT_PAINT.Textures[itemtbl.p3][1]
+        M_INV_MENU:AddOption("Remove " .. p3txt, function()
         end):SetIcon("icon16/paintbrush.png")
     end
 
@@ -5215,7 +5217,7 @@ function m_CreateItemMenu(num, ldt)
         local pnl = nil
 
         for i = 1, 15 do
-            if (M_INV_MENU:GetChild(i) and M_INV_MENU:GetChild(i):GetText() == "Remove " .. p1txt .. " Tint") then
+            if (M_INV_MENU:GetChild(i) and M_INV_MENU:GetChild(i):GetText() == "Remove " .. p1txt) then
                 pnl = M_INV_MENU:GetChild(i)
             end
         end

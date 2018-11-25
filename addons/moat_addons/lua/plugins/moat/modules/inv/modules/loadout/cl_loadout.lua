@@ -273,9 +273,9 @@ function PrePaintViewModel(wpn)
     if (not wpn.cache.p) then 
         wpn.cache.p = 255
         if (wpn.ItemStats.p2) then
-            wpn.cache.p = MOAT_PAINT.Colors[(wpn.ItemStats.p2 - #MOAT_PAINT.Colors) - 6000][2]
+            wpn.cache.p = MOAT_PAINT.Paints[wpn.ItemStats.p2][2]
         elseif (wpn.ItemStats.p) then
-            wpn.cache.p = MOAT_PAINT.Colors[wpn.ItemStats.p - 6000][2]
+            wpn.cache.p = MOAT_PAINT.Tints[wpn.ItemStats.p][2]
         end
     end
     if (not wpn.cache.n) then wpn.cache.n = #wpn.cache.m end
@@ -314,7 +314,7 @@ function PrePaintViewModel(wpn)
         --if (not wpn.cache.mats[i].envmap2) then wpn.cache.mats[i].envmap2 = wpn.cache.mats[i].mat:GetTexture("$envmapmask") end
 
         if (wpn.ItemStats.p3) then
-            if (not wpn.cache.t) then wpn.cache.t = MOAT_PAINT.Textures[(wpn.ItemStats.p3 - (#MOAT_PAINT.Colors * 2)) - 6000] end
+            if (not wpn.cache.t) then wpn.cache.t = MOAT_PAINT.Textures[wpn.ItemStats.p3] end
 
             wpn.cache.mats[i].mat:SetTexture("$basetexture", wpn.cache.t[2])
             --wpn.cache.mats[i].mat:SetTexture("$envmapmask", wpn.cache.t[2])
@@ -419,15 +419,15 @@ function MOAT_LOADOUT.ApplyModels()
         if (not item.ModelEnt) then return end
 
         if (paint ~= 0 and MOAT_PAINT) then
-            if (paint > #MOAT_PAINT.Colors) then
+            if (ItemIsPaint(paint)) then
                 item.ModelEnt:SetMaterial("models/debug/debugwhite")
-                local col = MOAT_PAINT.Colors[paint - #MOAT_PAINT.Colors]
+                local col = MOAT_PAINT.Paints[paint]
                 if (not col) then return end
                 item.ModelEnt.Col = Color(col[2][1], col[2][2], col[2][3], 255)
                 item.ModelEnt:SetRenderMode(RENDERMODE_TRANSALPHA)
                 item.ModelEnt:SetColor(Color(col[2][1], col[2][2], col[2][3], 255))
             else
-                local col = MOAT_PAINT.Colors[paint]
+                local col = MOAT_PAINT.Tints[paint]
                 if (not col) then return end
                 item.ModelEnt:SetRenderMode(RENDERMODE_TRANSALPHA)
                 item.ModelEnt:SetColor(Color(col[2][1], col[2][2], col[2][3], 255))
@@ -649,9 +649,8 @@ function MOAT_LOADOUT.UpdateWep()
                     wep.OldDrawWorldModel = wep.DrawWorldModel
                 end
 
-                if (wep_stats.p2 and MOAT_PAINT and MOAT_PAINT.Colors) then
-                    local num = wep_stats.p2 - #MOAT_PAINT.Colors
-                    local col = MOAT_PAINT.Colors[num - 6000]
+                if (wep_stats.p2 and MOAT_PAINT and MOAT_PAINT.Paints) then
+                    local col = MOAT_PAINT.Paints[wep_stats.p2]
                     if (col) then 
                         col = col[2]
                         wep:SetColor(Color(col[1], col[2], col[3], 255))
@@ -675,8 +674,8 @@ function MOAT_LOADOUT.UpdateWep()
                         self:SetMaterial(mat)
                         self.Owner.CustomColor = nil
                     end
-                elseif (wep_stats.p and MOAT_PAINT and MOAT_PAINT.Colors) then
-                    local col = MOAT_PAINT.Colors[wep_stats.p - 6000]
+                elseif (wep_stats.p and MOAT_PAINT and MOAT_PAINT.Tints) then
+                    local col = MOAT_PAINT.Tints[wep_stats.p]
                     if (col) then
                         col = col[2]
                         wep:SetColor(Color(col[1], col[2], col[3]))
@@ -697,8 +696,7 @@ function MOAT_LOADOUT.UpdateWep()
                 end
 
                 if (wep_stats.p3 and MOAT_PAINT and MOAT_PAINT.Textures) then
-                    local num = wep_stats.p3 - (#MOAT_PAINT.Colors * 2)
-                    local col = MOAT_PAINT.Textures[num - 6000][2]
+                    local col = MOAT_PAINT.Textures[wep_stats.p3][2]
                     if (col) then
                         wep:SetMaterial(col)
                     end

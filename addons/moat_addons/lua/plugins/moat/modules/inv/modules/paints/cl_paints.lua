@@ -289,7 +289,7 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 	m:SetCamPos(Vector( -40, 0, 40 ))
 
 	if (pm and paint_id2) then
-		local col = MOAT_PAINT.Colors[paint_id2 - (6000 + #MOAT_PAINT.Colors)][2]
+		local col = MOAT_PAINT.Paints[paint_id2][2]
 		function m.Entity:GetPlayerColor() return Vector(col[1]/255, col[2]/255, col[3]/255) end
 
 		function m:PreDrawModel(e)
@@ -314,9 +314,8 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
         wep.OldDrawWorldModel = wep.DrawWorldModel
     end
 
-    if (paint_id2 and MOAT_PAINT and MOAT_PAINT.Colors) then
-        local num = paint_id2 - #MOAT_PAINT.Colors
-        local col = MOAT_PAINT.Colors[num - 6000]
+    if (paint_id2 and MOAT_PAINT and MOAT_PAINT.Paints) then
+        local col = MOAT_PAINT.Paints[paint_id2]
         if (col) then 
             col = col[2]
             wep:SetColor(Color(col[1], col[2], col[3], 255))
@@ -334,8 +333,8 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
         function m:PostDrawModel(e)
             render.SetColorModulation(1, 1, 1)
         end
-    elseif (paint_id and MOAT_PAINT and MOAT_PAINT.Colors) then
-        local col = MOAT_PAINT.Colors[paint_id - 6000]
+    elseif (paint_id and MOAT_PAINT and MOAT_PAINT.Tints) then
+        local col = MOAT_PAINT.Tints[paint_id]
         if (col) then 
         	col = col[2]
             wep:SetColor(Color(col[1], col[2], col[3]))
@@ -355,8 +354,7 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
     end
 
     if (paint_id3 and MOAT_PAINT and MOAT_PAINT.Textures) then
-        local num = paint_id3 - (#MOAT_PAINT.Colors * 2)
-        local col = MOAT_PAINT.Textures[num - 6000][2]
+        local col = MOAT_PAINT.Textures[paint_id3][2]
         if (col) then
             wep:SetMaterial(col)
         end
