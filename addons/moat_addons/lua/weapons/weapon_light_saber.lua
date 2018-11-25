@@ -8,7 +8,7 @@ if CLIENT then
 
    SWEP.Slot				= 0
 
-   SWEP.Icon = "vgui/ttt/icon_cbar"   
+   SWEP.Icon = "vgui/ttt/icon_cbar"
    SWEP.ViewModelFOV = 54
 end
 
@@ -78,6 +78,15 @@ local function CrowbarCanUnlock(t)
    return not GAMEMODE.crowbar_unlocks or GAMEMODE.crowbar_unlocks[t]
 end
 
+DEFINE_BASECLASS "weapon_tttbase"
+
+function SWEP:Initialize()
+   if (BaseClass.Initialize) then
+      BaseClass.Initialize(self)
+   end
+   Material "materials/models/oggmix/fx2ogg.vmt":SetInt("vertexalpha", 0)
+end
+
 -- will open door AND return what it did
 function SWEP:OpenEnt(hitEnt)
    -- Get ready for some prototype-quality code, all ye who read this
@@ -119,7 +128,7 @@ function SWEP:OpenEnt(hitEnt)
 end
 
 function SWEP:PrimaryAttack()
-   self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
+   self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 
    if not IsValid(self.Owner) then return end
 
@@ -133,10 +142,10 @@ function SWEP:PrimaryAttack()
    local tr_main = util.TraceLine({start=spos, endpos=sdest, filter=self.Owner, mask=MASK_SHOT_HULL})
    local hitEnt = tr_main.Entity
 
-   self.Weapon:EmitSound("weapons/ls/lightsaber_swing.wav")
+   self:EmitSound("weapons/ls/lightsaber_swing.wav")
 
    if IsValid(hitEnt) or tr_main.HitWorld then
-      self.Weapon:SendWeaponAnim( ACT_VM_HITCENTER )
+      self:SendWeaponAnim( ACT_VM_HITCENTER )
 
       if not (CLIENT and (not IsFirstTimePredicted())) then
          local edata = EffectData()
@@ -163,7 +172,7 @@ function SWEP:PrimaryAttack()
          end
       end
    else
-      self.Weapon:SendWeaponAnim( ACT_VM_MISSCENTER )
+      self:SendWeaponAnim( ACT_VM_MISSCENTER )
    end
 
 
@@ -174,7 +183,7 @@ function SWEP:PrimaryAttack()
       -- Do another trace that sees nodraw stuff like func_button
       local tr_all = nil
       tr_all = util.TraceLine({start=spos, endpos=sdest, filter=self.Owner})
-      
+
       self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
       if hitEnt and hitEnt:IsValid() then
@@ -218,8 +227,8 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:SecondaryAttack()
-   self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
-   self.Weapon:SetNextSecondaryFire( CurTime() + 0.1 )
+   self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
+   self:SetNextSecondaryFire( CurTime() + 0.1 )
 
    if self.Owner.LagCompensation then
       self.Owner:LagCompensation(true)
@@ -242,21 +251,21 @@ function SWEP:SecondaryAttack()
          ply.was_pushed = {att=self.Owner, t=CurTime(), wep=self:GetClass()} --, infl=self}
       end
 
-      self.Weapon:EmitSound(sound_single)      
-      self.Weapon:SendWeaponAnim( ACT_VM_HITCENTER )
+      self:EmitSound(sound_single)      
+      self:SendWeaponAnim( ACT_VM_HITCENTER )
 
-      self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )
+      self:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )
    end
-   
+
    if self.Owner.LagCompensation then
       self.Owner:LagCompensation(false)
    end
 end
 
 function SWEP:GetClass()
-	return "weapon_light_saber"
+   return "weapon_light_saber"
 end
 
 function SWEP:OnDrop()
-	self:Remove()
+   self:Remove()
 end
