@@ -11,6 +11,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 10000)
 
 		net.Start "D3A.Chat2"
+			net.WriteBool(false)
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for the VIP Package!"})
 		net.Send(pl)
 	end},
@@ -18,6 +19,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 2500)
 
 		net.Start "D3A.Chat2"
+		net.WriteBool(false)
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "500 ", Color(255, 255, 255), "Support Credits for the 2,000 IC Package!"})
 		net.Send(pl)
 	end},
@@ -37,6 +39,7 @@ MOAT_DONATE.Packages = {
 		m_SaveInventory(pl)
 
 		net.Start "D3A.Chat2"
+			net.WriteBool(false)
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,000 ", Color(255, 255, 255), "Support Credits for the 5,000 IC Package!"})
 		net.Send(pl)
 	end},
@@ -52,6 +55,7 @@ MOAT_DONATE.Packages = {
 		m_SaveInventory(pl)
 
 		net.Start "D3A.Chat2"
+			net.WriteBool(false)
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "2,000 ", Color(255, 255, 255), "Support Credits for the 12,000 IC Package!"})
 		net.Send(pl)
 	end},
@@ -67,6 +71,7 @@ MOAT_DONATE.Packages = {
 		m_SaveInventory(pl)
 
 		net.Start "D3A.Chat2"
+			net.WriteBool(false)
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 40,000 IC Package!"})
 		net.Send(pl)
 	end},
@@ -82,6 +87,7 @@ MOAT_DONATE.Packages = {
 		m_SaveInventory(pl)
 
 		net.Start "D3A.Chat2"
+			net.WriteBool(false)
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "10,000 ", Color(255, 255, 255), "Support Credits for the 100,000 IC Package!"})
 		net.Send(pl)
 	end},
@@ -90,6 +96,7 @@ MOAT_DONATE.Packages = {
 		m_SaveInventory(pl)
 
 		net.Start "D3A.Chat2"
+			net.WriteBool(false)
 			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 2,500 IC Package!"})
 		net.Send(pl)
 	end},
