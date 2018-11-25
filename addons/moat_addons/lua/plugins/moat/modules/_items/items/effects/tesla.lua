@@ -15,7 +15,13 @@ ITEM.Image = "https://cdn.moat.gg/f/Ka4fVU0Qg61sagg9ILNyXsVr0SZL.png"
 local particle = "TeslaHitBoxes"
 if CLIENT then
     net.Receive("TeslaEffect",function()
-        net.ReadEntity().Tesla = true
+		local ent = net.ReadEntity()
+
+		if (IsValid(LocalPlayer()) and ent == LocalPlayer()) then
+			return
+		end
+
+        ent.Tesla = true
     end)
 
     hook.Add("TTTEndRound","ClearTesla",function()
