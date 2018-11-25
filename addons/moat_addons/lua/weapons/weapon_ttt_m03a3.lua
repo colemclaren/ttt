@@ -33,35 +33,9 @@ SWEP.ViewModelFlip = false
 SWEP.IronSightsPos = Vector(-2.56, 0, 1.32)
 SWEP.IronSightsAng = Vector(0, 0, 0)
 SWEP.Primary.Sound = Sound("Weapon_Springfield.Shoot")
-SWEP.Sprint = 0
-SWEP.FireEnd = 0
-/*
-function SWEP:PrimaryAttack(worldsnd)
-
-   self:SetNextSecondaryFire( CurTime() + self.Primary.Delay )
-   self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
-
-   if not self:CanPrimaryAttack() then return end
-
-   if not worldsnd then
-      self:EmitSound( self.Primary.Sound, self.Primary.SoundLevel )
-   elseif SERVER then
-      sound.Play(self.Primary.Sound, self:GetPos(), self.Primary.SoundLevel)
-   end
-
-   self:ShootBullet( self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone() )
-
-   self:TakePrimaryAmmo( 1 )
-
-   local owner = self.Owner
-   if not IsValid(owner) or owner:IsNPC() or (not owner.ViewPunch) then return end
-
-   owner:ViewPunch( Angle( math.Rand(-0.2,-0.1) * self.Primary.Recoil, math.Rand(-0.1,0.1) *self.Primary.Recoil, 0 ) )
-end*/
-
 
 function SWEP:PrimaryAttack(worldsnd)
-    if (not self:CanPrimaryAttack()) or not (self.Sprint == 0) then return end
+    if (not self:CanPrimaryAttack()) then return end
 
     self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
@@ -82,29 +56,26 @@ function SWEP:PrimaryAttack(worldsnd)
    local owner = self.Owner
    if not IsValid(owner) or owner:IsNPC() or (not owner.ViewPunch) then return end
 
-    owner:ViewPunch( Angle( math.Rand(-0.2,-0.1) * self.Primary.Recoil, math.Rand(-0.1,0.1) * self.Primary.Recoil, 0 ) )
+    owner:ViewPunch( Angle( util.SharedRandom(self:GetClass(), -0.2, -0.1, 0) * self.Primary.Recoil, util.SharedRandom(self:GetClass(), -0.1, 0.1, 1) * self.Primary.Recoil, 0 ) )
 end
 
 function SWEP:Deploy()
     self:SetNextPrimaryFire(math.max(self:GetNextPrimaryFire(), CurTime() + self.Owner:GetViewModel():SequenceDuration()))
     self:SendWeaponAnim(ACT_VM_DRAW)
-    self.Sprint = 0
-    self.FireEnd = 0
-    self.NextSecondaryAttack = 0
     self:SetIronsights(false)
 
     return true
 end
 
 function SWEP:OnRestore()
-    self.NextSecondaryAttack = 0
     self:SetIronsights(false)
 end
 
 function SWEP:Reload()
-    self.Weapon:DefaultReload(ACT_VM_RELOAD)
-    self.NextSecondaryAttack = 0
+    if (self:Clip1() == self.Primary.ClipSize or
+        self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0) then
+        return
+    end
+    self:DefaultReload(ACT_VM_RELOAD)
     self:SetIronsights(false)
-    self.Sprint = 0
-    self.FireEnd = 0
 end
