@@ -62,11 +62,11 @@ MOAT_PAINT.Colors = {
   {"Pure White", {255, 255, 255}, 6},
   {"George's Surprise", {115, 34, 136}, 7},
 }
-
+/*
 MOAT_PAINT.Textures = {
   {"Flesh", "models/flesh", 7}
 }
-
+*/
 MOAT_PAINT.Tints = {
 	[6001] = {'Mint Green Tint', {3, 255, 171}, 6},
 	[6002] = {'Joker Green Tint', {2, 153, 57}, 3},
@@ -190,7 +190,8 @@ MOAT_PAINT.Paints = {
 }
 
 MOAT_PAINT.Textures = {
-	[6117] = {'Flesh Texture', 'models/flesh', 7}
+	[6117] = {'Flesh Texture', 'models/flesh', 7},
+	--[6119] = {'Lit Blood Texture', 'models/camo_blood', 8}
 }
 
 function ItemIsPaint(id)

@@ -353,7 +353,7 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
         end
     end
 
-    if (paint_id3 and MOAT_PAINT and MOAT_PAINT.Textures) then
+    if (paint_id3 and MOAT_PAINT and MOAT_PAINT.Textures and MOAT_PAINT.Textures[paint_id3]) then
         local col = MOAT_PAINT.Textures[paint_id3][2]
         if (col) then
             wep:SetMaterial(col)
