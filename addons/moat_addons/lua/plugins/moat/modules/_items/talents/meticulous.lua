@@ -5,7 +5,7 @@ TALENT.Name = 'Meticulous'
 
 TALENT.NameColor = Color(205, 127, 50)
 
-TALENT.Description = "After killing a target with this weapon, the magzine has a %s_^ chance to refill completely"
+TALENT.Description = "After killing a target with this weapon, the magazine has a %s_^ chance to refill completely"
 
 TALENT.Tier = 2
 
