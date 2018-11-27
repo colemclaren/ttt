@@ -5263,7 +5263,7 @@ function m_CreateItemMenu(num, ldt)
         local pnl = nil
 
         for i = 1, 15 do
-            if (M_INV_MENU:GetChild(i) and M_INV_MENU:GetChild(i):GetText() == "Remove " .. p2txt .. " Paint") then
+            if (M_INV_MENU:GetChild(i) and M_INV_MENU:GetChild(i):GetText() == "Remove " .. p2txt) then
                 pnl = M_INV_MENU:GetChild(i)
             end
         end
@@ -5309,7 +5309,7 @@ function m_CreateItemMenu(num, ldt)
         local pnl = nil
 
         for i = 1, 15 do
-            if (M_INV_MENU:GetChild(i) and M_INV_MENU:GetChild(i):GetText() == "Remove " .. p3txt .. " Texture") then
+            if (M_INV_MENU:GetChild(i) and M_INV_MENU:GetChild(i):GetText() == "Remove " .. p3txt) then
                 pnl = M_INV_MENU:GetChild(i)
             end
         end
