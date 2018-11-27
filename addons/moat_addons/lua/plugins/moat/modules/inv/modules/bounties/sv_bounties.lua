@@ -1,4 +1,7 @@
 moat_contracts = {}
+wpn_contracts = {}
+kill_contracts = {}
+
 util.AddNetworkString("moat.contracts")
 util.AddNetworkString("moat.contractinfo")
 util.AddNetworkString("moat.contracts.chat")
@@ -24,8 +27,8 @@ function contract_increase(ply,am)
 end
 
 local function _contracts()
-	local dev_server = GetHostName():lower():find("dev")
-	if (dev_server) then return end
+	/*local dev_server = GetHostName():lower():find("dev")
+	if (dev_server) then return end*/
 	local db = MINVENTORY_MYSQL
 	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(255) NOT NULL, `start_time` INT NOT NULL, `active` INT NOT NULL, `refresh_next` INT, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
 	function dq:onError(err)
@@ -322,8 +325,21 @@ local function _contracts()
 		c:start()
 	end
 
-	local function loadnew()
-		local c,name = table.Random(moat_contracts)
+	local function nextcontract(wpns, kills)
+		local wpn, sun = true, os.date("!*t", (os.time() - 21600 - 3600)).wday == 1
+
+		if (sun) then
+			kills, wpn = (kill_contracts[kills + 1]) and kills + 1 or 1, false
+		else
+			wpns = (wpn_contracts[wpns + 1]) and wpns + 1 or 1
+		end
+
+		local upnext = wpn and wpn_contracts[wpns] or kill_contracts[1] /*kill_contracts[kills]*/
+		if (not upnext) then
+			upnext = kill_contracts[1]
+		end
+
+		local name, c = upnext[1], upnext[2]
 		local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
 		q:start()
 		c.runfunc()
@@ -339,6 +355,18 @@ local function _contracts()
 		end
 		q:start()
 		lottery_finish()
+
+		moat.sql("UPDATE moat_contract_cache SET wpns = ?, kills = ? WHERE id = 1", wpns, kills)
+	end
+
+	local function loadnew()
+		moat.sql("SELECT wpns, kills FROM moat_contract_cache WHERE id = 1", function(d)
+			if (not d or not d[1]) then
+				d = {{wpns = 1, kills = 1}}
+			end
+
+			nextcontract(d[1].wpns, d[1].kills)
+		end)
 	end
 
 	function newcontract()
@@ -630,8 +658,16 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	print("Loaded contracts")
 end
 
-function addcontract(name,contract)
+function addcontract(name,contract, type)
 	moat_contracts[name] = contract
+
+	if (type) then
+		if (type == "wpn") then
+			table.insert(wpn_contracts, {name, contract})
+		elseif (type == "kill") then
+			table.insert(kill_contracts, {name, contract})
+		end
+	end
 end
 
 local function WasRightfulKill(att, vic)
@@ -732,7 +768,7 @@ for k,v in pairs(weapon_challenges) do
 				end
 			end)
 		end
-	})
+	}, "wpn")
 end
 
 addcontract("Rightful Slayer",{
@@ -750,7 +786,7 @@ addcontract("Rightful Slayer",{
 			end
 		end)
 	end
-})
+}, "kill")
 
 addcontract("Crouching Hunters",{
 	desc = "Kill as many terrorists as you can rightfully while YOU are crouching.",
@@ -768,7 +804,7 @@ addcontract("Crouching Hunters",{
 			end
 		end)
 	end
-})
+}, "kill")
 
 
 addcontract("Melee Hunter",{
@@ -805,7 +841,7 @@ addcontract("Secondary Hunter",{
 			end
 		end)
 	end
-})
+}, "kill")
 
 
 

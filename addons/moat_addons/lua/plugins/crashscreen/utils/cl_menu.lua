@@ -145,7 +145,7 @@ function PANEL:Init()
 		
 	end
 
-	http.Fetch("https://moat.gg/api/servers", function(b) 
+	http.Fetch("https://moat.gg/api/servers/current", function(b) 
 		local b = util.JSONToTable(b)
 		if (not b and b.servers) then return end
 
