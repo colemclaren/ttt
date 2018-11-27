@@ -5,7 +5,7 @@ ITEM.Name = "Obama Model"
 
 ITEM.Description = "I was better than Trump"
 
-ITEM.Model = "models/obama/obama.mdl"
+ITEM.Model = "models/moat/player/obama.mdl"
 
 ITEM.Rarity = 5
 

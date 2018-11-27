@@ -5,7 +5,7 @@ ITEM.Name = "Normal Model"
 
 ITEM.Description = "This isn't a Normal Model. A Normal Model is Gigi Hadid"
 
-ITEM.Model = "models/player/normal.mdl"
+ITEM.Model = "models/moat/player/normal.mdl"
 
 ITEM.Rarity = 7
 

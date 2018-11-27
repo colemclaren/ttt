@@ -5,7 +5,7 @@ ITEM.Name = "Masked Breen Model"
 
 ITEM.Description = "It's got to be said. There's something very BDSM about this Model"
 
-ITEM.Model = "models/player/sunabouzu.mdl"
+ITEM.Model = "models/moat/player/sunabouzu.mdl"
 
 ITEM.Rarity = 5
 

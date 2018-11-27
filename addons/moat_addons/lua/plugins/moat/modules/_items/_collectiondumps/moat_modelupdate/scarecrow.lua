@@ -5,7 +5,7 @@ ITEM.Name = "Scarecrow Model"
 
 ITEM.Description = "Now you have a Model to match Yourself. Someone who scares off Birds"
 
-ITEM.Model = "models/player/scarecrow.mdl"
+ITEM.Model = "models/moat/player/scarecrow.mdl"
 
 ITEM.Rarity = 6
 

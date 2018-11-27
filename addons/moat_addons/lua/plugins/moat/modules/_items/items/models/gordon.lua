@@ -5,7 +5,7 @@ ITEM.Name = "Gordon Freeman Model"
 
 ITEM.Description = "Before I actually played the game, I thought Morgan Freeman played Gordon Freeman"
 
-ITEM.Model = "models/player/gordon.mdl"
+ITEM.Model = "models/moat/player/gordon.mdl"
 
 ITEM.Rarity = 4
 

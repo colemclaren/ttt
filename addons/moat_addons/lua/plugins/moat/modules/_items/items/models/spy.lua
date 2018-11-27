@@ -5,7 +5,7 @@ ITEM.Name = "TF2 Spy Model"
 
 ITEM.Description = "Everyone's favourite Back Stabbing, Invisible, Rage Inducing Frenchman"
 
-ITEM.Model = "models/player/drpyspy/spy.mdl"
+ITEM.Model = "models/moat/player/spy.mdl"
 
 ITEM.Rarity = 5
 

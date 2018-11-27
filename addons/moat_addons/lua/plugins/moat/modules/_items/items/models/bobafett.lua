@@ -5,7 +5,7 @@ ITEM.Name = "Boba Fett Model"
 
 ITEM.Description = "Unfortunatley your Jetpack is out of fuel on this model"
 
-ITEM.Model = "models/player/bobafett.mdl"
+ITEM.Model = "models/moat/player/bobafett.mdl"
 
 ITEM.Rarity = 6
 

@@ -5,7 +5,7 @@ ITEM.Name = "Ninja Model"
 
 ITEM.Description = "Hide in the shadows comrade"
 
-ITEM.Model = "models/vinrax/player/ninja_player.mdl"
+ITEM.Model = "models/moat/player/ninja_player.mdl"
 
 ITEM.Rarity = 4
 

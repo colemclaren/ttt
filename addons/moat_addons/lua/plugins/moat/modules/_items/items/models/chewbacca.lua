@@ -5,7 +5,7 @@ ITEM.Name = "Chewbacca Model"
 
 ITEM.Description = "WUUH HUUGUUGHGHG HUURH UUH UGGGUH"
 
-ITEM.Model = "models/player/chewbacca.mdl"
+ITEM.Model = "models/moat/player/chewbacca.mdl"
 
 ITEM.Rarity = 5
 

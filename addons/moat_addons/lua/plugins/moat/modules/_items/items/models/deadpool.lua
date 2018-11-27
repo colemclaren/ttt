@@ -5,7 +5,7 @@ ITEM.Name = "Inferno Armor Model"
 
 ITEM.Description = "Now you can survive a wild volcano attack"
 
-ITEM.Model = "models/mass effect 2/player/inferno_armour.mdl"
+ITEM.Model = "models/moat/player/inferno_armour.mdl"
 
 ITEM.Rarity = 6
 
