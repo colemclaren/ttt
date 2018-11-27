@@ -25,14 +25,14 @@ end
 net.Receive("moat_block", D3A.Block)
 net.Receive("moat_unblock", D3A.Unblock)
 
-hook.Add("OnPlayerChat", "D3A.Chat.Block", function(pl, txt)
-	if (IsValid(pl) and pl:IsValid() and IsValid(LocalPlayer()) and LocalPlayer():IsValid() and cookie.GetNumber("moat_block" .. pl:SteamID(), 0) == 1) then
+hook.Add("PrePlayerChat", "D3A.Chat.Block", function(pl, txt)
+	if (IsValid(pl) and cookie.GetNumber("moat_block" .. pl:SteamID(), 0) == 1) then
 		return true
 	end
 end)
 
 hook.Add("PlayerStartVoice", "D3A.Voice.Block", function(pl)
-	if (IsValid(pl) and pl:IsValid() and IsValid(LocalPlayer()) and LocalPlayer():IsValid() and cookie.GetNumber("moat_block" .. pl:SteamID(), 0) == 1) then
+	if (IsValid(pl) and cookie.GetNumber("moat_block" .. pl:SteamID(), 0) == 1) then
 		pl:SetMuted(true)
 	end
 end)

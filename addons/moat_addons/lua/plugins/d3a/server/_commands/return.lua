@@ -15,6 +15,6 @@ COMMAND.Run = function(pl, args, supp)
 	supp[1]:SetPos(supp[1].LastPos)
 	supp[1].LastPos = nil
 
-	D3A.Chat.BroadcastStaff2(moat_cyan, pl:Name(), moat_white, " has returned ", moat_green, supp[1]:Name(), moat_white, ".")
-	D3A.Commands.Discord("return", (IsValid(pl) and pl:NameID()) or D3A.Console, IsValid(supp[1]) and supp[1]:NameID())
+	D3A.Chat.BroadcastStaff2(moat_cyan, D3A.Commands.Name(pl), moat_white, " has returned ", moat_green, supp[1]:Name(), moat_white, ".")
+	D3A.Commands.Discord("return", D3A.Commands.NameID(pl), IsValid(supp[1]) and supp[1]:NameID())
 end

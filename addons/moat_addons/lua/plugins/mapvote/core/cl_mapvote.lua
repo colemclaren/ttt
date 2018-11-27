@@ -66,8 +66,8 @@ local map_vote = {
     ["/mv"] = true
 }
 
-hook.Add("OnPlayerChat", "Moat.Mapvote.Reopen", function(pl, txt)
-    if (pl and pl:IsValid() and pl == LocalPlayer() and map_vote[txt]) then
+hook.Add("PrePlayerChat", "Moat.Mapvote.Reopen", function(pl, txt)
+    if (IsValid(pl) and pl == LocalPlayer() and map_vote[txt]) then
         if (IsValid(MapVote.Panel)) then
             MapVote.Show()
         end

@@ -7,7 +7,7 @@ COMMAND.CheckRankWeight = true
 COMMAND.Args = {{"string", "Name/SteamID"}, {"string", "Reason"}}
 
 COMMAND.Run = function(pl, args, supplement)
-	local plname = (((pl and pl.rcon) or IsValid(pl)) and pl:Name()) or "Console"
+	local plname = D3A.Commands.Name(pl)
 	local plstid = (((pl and pl.rcon) or IsValid(pl)) and pl:SteamID()) or "CONSOLE"
 
 	local targ = args[1]:upper()

@@ -19,7 +19,7 @@ local reload_mats = {
     ["/m"] = true
 }
 
-hook.Add("OnPlayerChat", "Moat.ReloadMaterials", function(pl, txt)
+hook.Add("PrePlayerChat", "Moat.ReloadMaterials", function(pl, txt)
     if (pl and IsValid(pl) and pl == LocalPlayer() and reload_mats[txt]) then
     	RunConsoleCommand("mat_reloadmaterial", "/")
 

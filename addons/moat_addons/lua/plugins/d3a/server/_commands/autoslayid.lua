@@ -7,7 +7,7 @@ COMMAND.CheckRankWeight = true
 COMMAND.Args = {{"string", "SteamID"}, {"number", "Rounds/0 to Cancel"}, {"string", "Reason"}}
 
 COMMAND.Run = function(pl, args, supplement)
-	local plname = (((pl and pl.rcon) or IsValid(pl)) and pl:Name()) or "Console"
+	local plname = D3A.Commands.Name(pl)
 	
 	local targ = args[1]
 	local rounds = tonumber(args[2]) or 1
@@ -19,9 +19,9 @@ COMMAND.Run = function(pl, args, supplement)
 	
 	if (rounds >= 1) then
 		D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has added ", moat_green, tostring(rounds), moat_white, " autoslays to ", moat_green, targ, moat_white, " with the reason: ", moat_green, reason, moat_white, ".")
-		D3A.Commands.Discord("aslay", (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console, rounds, "Offline Player (" .. targ .. ")", reason)
+		D3A.Commands.Discord("aslay", D3A.Commands.NameID(pl), rounds, "Offline Player (" .. targ .. ")", reason)
 	else
 		D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has removed the autoslays of ", moat_green, targ, moat_white, ".")
-		D3A.Commands.Discord("removeslays", (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console, "Offline Player (" .. targ .. ")")
+		D3A.Commands.Discord("removeslays", D3A.Commands.NameID(pl), "Offline Player (" .. targ .. ")")
 	end
 end

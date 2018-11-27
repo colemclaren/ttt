@@ -46,8 +46,8 @@ COMMAND.Run = function(pl, args, supp)
 	end
 
 	local plynum = #player.GetAll()
-	local targ, targid, plid = supp[1]:SteamID(), IsValid(supp[1]) and supp[1]:NameID(), (((pl and pl.rcon) or IsValid(pl)) and pl:NameID()) or D3A.Console
-	local plname = pl:Name()
+	local targ, targid, plid = supp[1]:SteamID(), IsValid(supp[1]) and supp[1]:NameID(), D3A.Commands.NameID(pl)
+	local plname = D3A.Commands.Name(pl)
 
 	D3A.StartVote(pl, "Votekick " .. supp[1]:Name() .. "? (" .. reason .. ")", {"Yes", "No"}, supp[1], function(res, votes)
 		local msgtbl = {}
@@ -76,12 +76,12 @@ COMMAND.Run = function(pl, args, supp)
 		D3A.Chat.Broadcast2(unpack(msgtbl))
 
 		if (res[1][1] == "Yes" and (plynum/2) <= res[1][2]) then
-			game.ConsoleCommand('mga ban "' .. targ .. '" "30" "minutes" "Votekicked by ' .. pl:NameID():gsub('"',"") .. ' (' .. reason:gsub('"',"") .. ')"\n')
+			game.ConsoleCommand('mga ban "' .. targ .. '" "30" "minutes" "Votekicked by ' .. D3A.Commands.NameID(pl):gsub('"',"") .. ' (' .. reason:gsub('"',"") .. ')"\n')
 			D3A.Commands.Discord("votekick_pass", targid, plid)
 		else
 			D3A.Chat.Broadcast2(moat_red, "Votekick Failed. (Not Enough Votes)")
 		end
 	end)
 
-	D3A.Commands.Discord("votekick", (IsValid(pl) and pl:NameID()) or D3A.Console, IsValid(supp[1]) and supp[1]:NameID())
+	D3A.Commands.Discord("votekick", D3A.Commands.NameID(pl), IsValid(supp[1]) and supp[1]:NameID())
 end

@@ -15,14 +15,14 @@ COMMAND.Run = function(pl, args, supp)
 	pl:SetPos(pos)
 	
 	if !targ:HasAccess("M") then
-		D3A.Chat.SendToPlayer2(targ, moat_red, pl:Name() .. " went to you.")
+		D3A.Chat.SendToPlayer2(targ, moat_red, D3A.Commands.Name(pl) .. " went to you.")
 	end
 	
 	for k, v in pairs(player.GetAll()) do
 		if v:HasAccess("M") then
-			D3A.Chat.SendToPlayer2(v, moat_red, pl:Name() .. " went to " .. targ:Name() .. ".")
+			D3A.Chat.SendToPlayer2(v, moat_red, D3A.Commands.Name(pl) .. " went to " .. targ:Name() .. ".")
 		end
 	end
 
-	D3A.Commands.Discord("goto", (IsValid(pl) and pl:NameID()) or D3A.Console, IsValid(targ) and targ:NameID())
+	D3A.Commands.Discord("goto", D3A.Commands.NameID(pl), IsValid(targ) and targ:NameID())
 end

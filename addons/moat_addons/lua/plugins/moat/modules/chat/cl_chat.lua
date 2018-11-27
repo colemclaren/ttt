@@ -26,6 +26,8 @@ local blur = Material("pp/blurscreen")
 local gradient_u = Material("vgui/gradient-u")
 local gradient_r = Material("vgui/gradient-r")
 local gradient_d = Material("vgui/gradient-d")
+local terror_color = Color(0, 200, 0, 255)
+local spec_color = Color(200, 200, 0, 255)
 local default_x, default_y = chat.GetChatBoxPos()
 
 if (moat_chat and moat_chat.BG) then
@@ -441,9 +443,6 @@ function moat_chat.InitChat()
     mc.MOVE:SetPos(mcc.w - 18, 2)
     mc.MOVE:SetSize(16, 16)
     mc.MOVE:SetText("")
-    mc.MOVE.Paint = function(s, w, h)
-        cdn.DrawImage("https://cdn.moat.gg/f/GmWANsE13CI9hqB9X3rVO0bMjCZt.png", 0, 0, 16, 16, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
-    end
     mc.MOVE.Moving = false
     mc.MOVE.MovingX = 0
     mc.MOVE.MovingY = 0
@@ -475,6 +474,9 @@ function moat_chat.InitChat()
 
             mc.BG:SetPos(mx - s.MovingX, my - s.MovingY)
         end
+    end
+	mc.MOVE.Paint = function(s, w, h)
+        cdn.DrawImage("https://cdn.moat.gg/f/GmWANsE13CI9hqB9X3rVO0bMjCZt.png", 0, 0, 16, 16, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
     end
     mc.MOVE:SetToolTip("Hold left click to drag around, Right click to reset")
 
@@ -537,7 +539,9 @@ function moat_chat.InitChat()
             for i = 1, #chatc do
                 itemSize = chatc[i - 1] and chatc[i - 1]:GetTall() + 3 or 0
                 curPos = curPos + itemSize
-                chatc[i]:SetPos(0, curPos)
+                if (IsValid(chatc[i])) then
+					chatc[i]:SetPos(0, curPos)
+				end
             end
 
             --rebuild positions
@@ -672,9 +676,13 @@ function moat_chat.InitChat()
     end
 end
 
-timer.Simple(0, moat_chat.InitChat)
+hook("InitPostEntity", moat_chat.InitChat)
+
 
 function moat_chat.OpenChat()
+	if (not IsValid(moat_chat.ENTRY)) then
+		return
+	end
 
     local MT = MOAT_THEME.Themes
     local CurTheme = GetConVar("moat_Theme"):GetString()
@@ -689,6 +697,7 @@ function moat_chat.OpenChat()
 
     local mc = moat_chat
     local mcc = moat_chat.config
+
     mc.ENTRY:SetSize(mcc.w - 60, 20)
     mc.ENTRY:SetPos(55, mcc.h - 25)
 
@@ -717,25 +726,25 @@ function moat_chat.DrawText(self, texte, texttbl, a)
 
     surface_SetFont("moat_ChatFont")
 
-    if (texttbl.IsItem) then
-        local item_tbl = texttbl.item_tbl
+    if (texttbl.IsItem and texttbl.item_tbl and texttbl.item_tbl.item) then
+        local itemtbl = texttbl.item_tbl
         local ITEM_NAME_FULL = texttbl[1]--texttbl.ItemName
         local name_font = "moat_ChatFont"
         local draw_name_x = 4 + texttbl[2]
         local draw_name_y = texttbl[3]
-        local name_col = texttbl["item_tbl"].item.NameColor or rarity_names[texttbl["item_tbl"].item.Rarity][2]
+        local name_col = itemtbl.item.NameColor or rarity_names[itemtbl.item.Rarity][2]
 
-        if (item_tbl.item.NameEffect) then
-            local tfx = item_tbl.item.NameEffect
+        if (itemtbl.item.NameEffect) then
+            local tfx = itemtbl.item.NameEffect
 
             if (tfx == "glow") then
                 m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "fire") then
-                m_DrawFireText(item_tbl.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                m_DrawFireText(itemtbl.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "bounce") then
                 m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "enchanted") then
-                m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, item_tbl.item.NameEffectMods[1])
+                m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, itemtbl.item.NameEffectMods[1])
             elseif (tfx == "electric") then
                 m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "frost") then
@@ -764,7 +773,7 @@ function moat_chat.DrawText(self, texte, texttbl, a)
             surface_DrawLine(text_x, text_y + text_h - 1, text_x + text_w, text_y + text_h - 1)
 
             if (input.IsMouseDown(MOUSE_LEFT) and moat_chat.click <= CurTime()) then
-                m_DrawFoundItem(item_tbl, "chat")
+                m_DrawFoundItem(itemtbl, "chat")
                 moat_chat.click = CurTime() + 1
             end
         end
@@ -865,31 +874,38 @@ function moat_chat.ChatObjectPaint(self)
             continue
         end
 
-        local texte = string.Explode(" ", self.Text[i][1])
+        local texte = string.Explode(" ", self.Text[i] and self.Text[i][1] or "")
+		if (not texte) then
+			return
+		end
 
         moat_chat.DrawText(self, texte or "", self.Text[i], a)
     end
 end
 
+moat_chat.Queue, moat_chat.CheckQueue = {}, 0
+hook.Add("Think", "Moat.Chat.Queue", function()
+	if (moat_chat.CheckQueue <= CurTime() and next(moat_chat.Queue)) then
+		if (not IsValid(moat_chat.BG) or not IsValid(moat_chat.SPNL)) then
+			return
+		end
+
+		for k, v in ipairs(moat_chat.Queue) do
+			chat.AddText(unpack(v))
+			moat_chat.Queue[k] = nil
+		end
+
+		moat_chat.CheckQueue = CurTime() + 0.1
+	end
+end)
+
 function chat.AddText(...)
-    if (not moat_chat or (moat_chat and (not moat_chat.BG or not moat_chat.SPNL))) then
-        local cur = CurTime()
-        local args = {...}
-
-        -- create a timer to retry the func when our chatbox wasn't initialized
-        timer.Create("moat_chatretry" .. cur, 0.1, 0, function()
-            if (moat_chat and moat_chat.BG and moat_chat.SPNL) then
-                chat.AddText(unpack(args))
-                timer.Remove("moat_chatretry" .. cur)
-
-                return
-            end
-        end)
+	if (not IsValid(moat_chat.BG) or not IsValid(moat_chat.SPNL)) then
+        table.insert(moat_chat.Queue, {...})
 
         return
     end
 
-    local mc = moat_chat
     local TextTable, TextPosX, TextPosY, icon = {...}, 0, 0
     local type1 = type(TextTable[1])
 
@@ -899,15 +915,40 @@ function chat.AddText(...)
         table.remove(TextTable, 1)
     end
 
-    local TextTableNum = #TextTable
+    local TextTableNum, OnPlayerChatBlocked = #TextTable, false
 
     for i = 1, TextTableNum do
         local t = type(TextTable[i])
 
         if t == "Player" then
+			if (IsValid(TextTable[i])) then
+				local block = hook.Run("PrePlayerChat", TextTable[i])
+
+				if (block and isbool(block) and block == true) then
+					OnPlayerChatBlocked = true
+
+					break
+				end
+			else
+				OnPlayerChatBlocked = true
+
+				break
+			end
+
+			if (TextTable[i - 1] and IsColor(TextTable[i - 1])) then
+				TextTable[i] = TextTable[i]:Nick()
+
+				continue
+			end
+
             table.insert(TextTable, i + 1, TextTable[i]:Nick())
             TextTableNum = TextTableNum + 1
-            TextTable[i] = team.GetColor(TextTable[i]:Team())
+
+			if (TextTable[i]:Team() == TEAM_SPEC or (isstring(TextTable[2]) and TextTable[2] == "*DEAD* ")) then
+				TextTable[i] = spec_color
+			else
+				TextTable[i] = terror_color
+			end
         elseif t ~= "string" and t ~= "table" and (not TextTable[i].IsItem) then
             if TextTable[i].IsValid and TextTable[i]:IsValid() then
                 TextTable[i] = TextTable[i]:GetClass()
@@ -916,6 +957,16 @@ function chat.AddText(...)
             end
         end
     end
+
+	if (OnPlayerChatBlocked) then
+		return
+	end
+
+	return moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
+end
+
+function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
+	local mc = moat_chat
 
     local FinalText = {}
     local windowSizeX = 486
@@ -1036,8 +1087,6 @@ function chat.AddText(...)
     pack[a + 1] = "\n"
     MsgC(unpack(pack))
 end
-
-hook.Remove("PlayerBindPress", "moat_OpenChat")
 
 hook.Add("PlayerBindPress", "moat_OpenChat", function(ply, bind, pressed)
     if (string.sub(bind, 1, 11) == "messagemode") then

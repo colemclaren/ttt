@@ -5054,21 +5054,21 @@ function m_CreateItemMenu(num, ldt)
 
     local p1txt = nil
     if (itemtbl.p) then
-        p1txt = MOAT_PAINT.Tints[itemtbl.p] and MOAT_PAINT.Tints[itemtbl.p][1] or "Tint"
+        p1txt = MOAT_PAINT.Tints[itemtbl.p] and MOAT_PAINT.Tints[itemtbl.p][1] or "ERROR: Unknown Tint"
         M_INV_MENU:AddOption("Remove " .. p1txt, function()
         end):SetIcon("icon16/palette.png")
     end
 
     local p2txt = nil
     if (itemtbl.p2) then
-        p2txt = MOAT_PAINT.Paints[itemtbl.p2] and MOAT_PAINT.Paints[itemtbl.p2][1] or "Paint"
+        p2txt = MOAT_PAINT.Paints[itemtbl.p2] and MOAT_PAINT.Paints[itemtbl.p2][1] or "ERROR: Unknown Paint"
         M_INV_MENU:AddOption("Remove " .. p2txt, function()
         end):SetIcon("icon16/paintcan.png")
     end
 
     local p3txt = nil
     if (itemtbl.p3) then
-        p3txt = MOAT_PAINT.Textures[itemtbl.p3] and MOAT_PAINT.Textures[itemtbl.p3][1] or "Texture"
+        p3txt = MOAT_PAINT.Textures[itemtbl.p3] and MOAT_PAINT.Textures[itemtbl.p3][1] or "ERROR: Unknown Texture"
         M_INV_MENU:AddOption("Remove " .. p3txt, function()
         end):SetIcon("icon16/paintbrush.png")
     end

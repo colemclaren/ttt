@@ -1,6 +1,14 @@
 D3A.Commands = {}
 D3A.Commands.Stored = {} 
 
+function D3A.Commands.Name(pl)
+	return ((pl and pl.rcon) or IsValid(pl)) and pl:Nick() or "Console"
+end
+
+function D3A.Commands.NameID(pl)
+	return ((pl and pl.rcon) or IsValid(pl)) and pl:NameID() or "Console (CONSOLE)"
+end
+
 function D3A.Commands.Load()
 	local files, folders = file.Find(D3A.Config.Path .. "server/_commands/*.lua", "LUA")
 	for k, v in pairs(files) do

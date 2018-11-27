@@ -60,7 +60,7 @@ COMMAND.Run = function(pl, args, supp)
 	
 	if (trace.HitSky) then return end
 	
-	local str, log = pl:Name() .. " has teleported ", ""
+	local str, log = D3A.Commands.Name(pl) .. " has teleported ", ""
 	
 	for k, targ in ipairs(supp) do
 		local pos = D3A.FindEmptyPos(trace.HitPos, {targ}, 600, 30, Vector(16, 16, 64))
@@ -80,21 +80,21 @@ COMMAND.Run = function(pl, args, supp)
 		
 		if (supp[k+2]) then
 			str = str .. targ:Name() .. ", "
-			log = log .. ((IsValid(pl) and pl:NameID()) or D3A.Console) .. ", "
+			log = log .. D3A.Commands.NameID(pl) .. ", "
 		elseif (supp[k+1]) then
 			str = str .. targ:Name() .. " and "
-			log = log .. ((IsValid(pl) and pl:NameID()) or D3A.Console) .. " and "
+			log = log .. D3A.Commands.NameID(pl) .. " and "
 		else
 			str = str .. targ:Name() .. "."
-			log = log .. ((IsValid(pl) and pl:NameID()) or D3A.Console)
+			log = log .. D3A.Commands.NameID(pl)
 		end
 		
-		D3A.Chat.SendToPlayer2(targ, moat_red, pl:Name() .. " has teleported you.")
+		D3A.Chat.SendToPlayer2(targ, moat_red, D3A.Commands.Name(pl) .. " has teleported you.")
 	end
 	
 	local rf = {}
 	for _, v in pairs(player.GetAll()) do if (v:HasAccess("M")) then table.insert(rf, v) end end
 	D3A.Chat.SendToPlayer2(rf, moat_red, str)
 
-	D3A.Commands.Discord("tele", (IsValid(pl) and pl:NameID()) or D3A.Console, log)
+	D3A.Commands.Discord("tele", D3A.Commands.NameID(pl), log)
 end
