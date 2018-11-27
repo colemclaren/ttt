@@ -16,11 +16,6 @@ local particle = "TeslaHitBoxes"
 if CLIENT then
     net.Receive("TeslaEffect",function()
 		local ent = net.ReadEntity()
-
-		if (IsValid(LocalPlayer()) and ent == LocalPlayer()) then
-			return
-		end
-
         ent.Tesla = true
     end)
 
@@ -33,7 +28,7 @@ if CLIENT then
     timer.Create("Tesla Effect",10,0,function()
         if MOAT_PH then return end
         for _,ply in ipairs(player.GetAll()) do
-            if ply.Tesla and ply:Alive() and (not ply:IsSpec()) and (not ply:IsDormant()) then
+            if (ply.Tesla and IsValid(LocalPlayer()) and ply ~= LocalPlayer() and ply:Team() ~= TEAM_SPEC and not ply:IsDormant()) then
                 local pos = ply:GetPos() + Vector(0,0,50)
                 local effect = EffectData()
                 effect:SetOrigin(pos)
@@ -43,9 +38,10 @@ if CLIENT then
                 effect:SetEntity(ply)
                 for i =1,15 do
                     timer.Simple(0.09 * i,function()
-                        if not IsValid(ply) then return end
-                        if not ply:Alive() then return end
-                        if ply:IsSpec() then return end
+                        if (not IsValid(ply) or ply:Team() == TEAM_SPEC) then
+							return
+						end
+
                         effect:SetOrigin(pos - Vector((i) * math.random(-1,1),i * math.random(-1,1),i))
                         util.Effect("TeslaHitBoxes",effect)
                     end)
