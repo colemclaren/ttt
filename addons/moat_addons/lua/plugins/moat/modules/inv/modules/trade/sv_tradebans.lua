@@ -22,7 +22,7 @@ end
 -- meme hello
 
 local round_detections = {}
-
+local banned = {}
 local detections = {}
 
 local function discordLog(sid,mouse)
@@ -53,12 +53,16 @@ hook.Add("TTTEndRound","Joystick",function()
                 continue
             end
             if o > 15 and ban then
-                RunConsoleCommand("mga","perma",k,"Cheating")
+				if (not banned[k]) then
+                	RunConsoleCommand("mga","perma",k,"Cheating")
+					banned[k] = true
+				end
                 break
             end
         end
-        if round_detections[k] >= 4 and ban then
+        if round_detections[k] >= 4 and ban and not banned[k] then
             RunConsoleCommand("mga","perma",k,"Cheating")
+			banned[k] = true
         end
     end
     detections = {}
@@ -110,7 +114,10 @@ local function joystick_detect(p, detect, c)
         elseif (detect ~= -1) and (detect ~= 0) then -- It's SPAMMING HELP
             discord.Send("Skid", msg)
 			timer.Simple(30, function()
-				RunConsoleCommand("mga","perma", sid,"Cheating")
+				if (not banned[sid]) then
+					RunConsoleCommand("mga","perma", sid,"Cheating")
+					banned[sid] = true
+				end
 			end)
         end
 

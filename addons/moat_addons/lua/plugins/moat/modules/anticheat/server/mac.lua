@@ -122,12 +122,16 @@ local function discordLog(sid, mouse)
 	discord.Send("Skid", msg)
 end
 
+local banned = {}
 hook.Add("TTTEndRound","anti.cheat.end.round",function()
     local i = 0
     for k, v in pairs(detections_ac) do
         i = i + 1
         timer.Simple(i, function() discordLog(k, v) end)
-        RunConsoleCommand("mga","perma",k,"Cheating")
+		if (not banned[k]) then
+        	RunConsoleCommand("mga","perma",k,"Cheating")
+			banned[k] = true
+		end
     end
     detections_ac = {}
 end)
