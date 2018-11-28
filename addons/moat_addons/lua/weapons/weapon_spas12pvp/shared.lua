@@ -152,6 +152,14 @@ function SWEP:SetupDataTables()
    return BaseClass.SetupDataTables(self)
 end
 
+function SWEP:Initialize()
+	if (CLIENT) then
+		self:SetLOD(0)
+	end
+
+	return BaseClass.Initialize(self)
+end
+
 function SWEP:Reload()
 
    --if self:GetNetworkedBool( "reloading", false ) then return end
