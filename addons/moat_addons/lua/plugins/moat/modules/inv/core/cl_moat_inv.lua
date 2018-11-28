@@ -1033,8 +1033,6 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
 	end
 end)
 
-MsgC(Color(255, 0, 0), "Requesting Inventory from Server!")
-
 net.Start("MOAT_SEND_INV_ITEM")
 net.SendToServer()
 local m_Credits = 0
@@ -6896,18 +6894,3 @@ local function ConsolePrintRainbow( text )
     MsgC( unpack( tab ) )
     
 end
-
-ConsolePrintRainbow([[  
-======================================================================
-Version ]] .. MOAT_VERSION .. [[ Loaded Successfully
-======================================================================
-
- __  __  ___   _ _____   ___ _  ___   _____ _  _ _____ ___  _____   __
-|  \/  |/ _ \ /_\_   _| |_ _| \| \ \ / / __| \| |_   _/ _ \| _ \ \ / /
-| |\/| | (_) / _ \| |    | || .` |\ V /| _|| .` | | || (_) |   /\ V / 
-|_|  |_|\___/_/ \_\_|   |___|_|\_| \_/ |___|_|\_| |_| \___/|_|_\ |_|  
-                                                                       
-======================================================================
-By https://steamcommunity.com/id/moat_
-======================================================================
-]])

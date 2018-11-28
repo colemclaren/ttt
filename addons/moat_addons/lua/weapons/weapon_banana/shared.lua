@@ -126,7 +126,7 @@ if CLIENT then
 
 	//selection icon
 
-	SWEP.WepSelectIcon = surface.GetTextureID("weapons/bananaicon");
+
 
 	
 
@@ -136,17 +136,6 @@ if CLIENT then
 
 	
 
-	--Kill Icon
-
-	if(file.Exists("banana_killicon.vmt","../materials/weapons")) then         --if(file.Exists("../materials/weapons/banana_killicon.vmt")) then
-
-
-
-		killicon.Add("smod_banana","weapons/banana_killicon",Color(255,255,255));
-
-
-
-	end 
 
 
 

@@ -1,5 +1,9 @@
 local f = {}
-f.default = system.IsLinux() and "DejaVu Sans" or "Arial"
+f.default = "Tahoma"
+if (system.IsLinux()) then
+	f.default = "DejaVu Sans"
+end
+
 f.custom = file.Exists("download/resource/fonts/lato-regular.ttf", "MOD")
 f.base = {
 	light = {font = f.custom and "Lato Light" or f.default, weight = 300, antialias = true},

@@ -121,7 +121,7 @@ function DefineControl( strName, strDescription, strTable, strBase )
 	_G[ strName ] = strTable
 
 	if ( bReloading ) then
-		Msg( "Reloaded Control: ", strName, "\n" )
+		-- Msg( "Reloaded Control: ", strName, "\n" )
 		ReloadClass( strName )
 	end
 

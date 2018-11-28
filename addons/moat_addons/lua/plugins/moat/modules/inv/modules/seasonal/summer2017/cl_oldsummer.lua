@@ -1,4 +1,4 @@
-print "events loaded"
+
 
 surface.CreateFont("moat_ChatFont2", {
     font = "DermaLarge",

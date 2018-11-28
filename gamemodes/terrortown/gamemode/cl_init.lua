@@ -58,7 +58,7 @@ include("cl_equip.lua")
 include("cl_voice.lua")
 
 function GM:Initialize()
-    MsgN("TTT Client initializing...")
+    -- MsgN("TTT Client initializing...")
     GAMEMODE.round_state = ROUND_WAIT
     LANG.Init()
     self.BaseClass:Initialize()
@@ -66,7 +66,7 @@ function GM:Initialize()
 end
 
 function GM:InitPostEntity()
-    MsgN("TTT Client post-init...")
+    -- MsgN("TTT Client post-init...")
 
     if not game.SinglePlayer() then
         timer.Create("idlecheck", 5, 0, CheckIdle)

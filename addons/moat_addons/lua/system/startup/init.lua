@@ -1,9 +1,13 @@
 AddCSLuaFile()
-/*
-if (not Server) then
-	return error "OOPSIE WOOPSIE!! Uwu We made a fucky wucky!! A wittle fucko boingo! The code monkeys at our headquarters are working VEWY HAWD to fix this!"
-end
-*/
+
+----
+-- hey welcome to the codebase of moat.gg
+-- hope u enjoy ur stay
+----
+-- careful, there's ghosts
+-- u know what that means uwu
+----
+
 mlib.i "base"
 mlib.i "roster"
 mlib.i "_dev/"

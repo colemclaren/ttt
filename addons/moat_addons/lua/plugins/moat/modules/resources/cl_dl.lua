@@ -1,4 +1,4 @@
-print "downloads loaded"
+
 
 surface.CreateFont("moat_wdl", {
 	font = "DermaLarge",
@@ -195,14 +195,14 @@ function moat_dl:DownloadID(id, t)
 		if (not c) then
 			if (tries < 10) then self:DownloadAddon(self.cur) return end
 
-			MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Download Resource " .. self.ids[self.cur] .. ".\n")
+			-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Download Resource " .. self.ids[self.cur] .. ".\n")
 			self:NextAddon()
 
 			return
 		end
 
 		gma(c)
-		MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. self.ids[self.cur] .. ".\n")
+		-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. self.ids[self.cur] .. ".\n")
 
 		if (t) then
 			timer.Simple(5, function() self:NextAddon() end)
@@ -225,7 +225,7 @@ function moat_dl:DownloadAddon(n)
 		if (not r) then
 			if (tries < 10) then self:DownloadAddon(self.cur) return end
 
-			MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Load Resource " .. self.ids[self.cur] .. ".\n")
+			-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Load Resource " .. self.ids[self.cur] .. ".\n")
 			self:NextAddon()
 
 			return
@@ -251,7 +251,7 @@ end
 
 function moat_dl:FinishDownloads()
 	self.done = true
-	MsgC(Color(0, 255, 255), "[MG Content] ", Color(0, 255, 0), "Finished Mounting all Addons!\n")
+	-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(0, 255, 0), "Finished Mounting all Addons!\n")
 end
 
 local disable_downloads = CreateClientConVar("disable_downloads", 0, true, false)

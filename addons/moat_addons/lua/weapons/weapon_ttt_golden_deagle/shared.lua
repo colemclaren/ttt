@@ -53,7 +53,7 @@ function SWEP:Initialize()
 		self:SetHoldType(self.HoldType or "pistol")
 	end
 
-	PrecacheParticleSystem("smoke_trail")
+	-- PrecacheParticleSystem("smoke_trail")
 end
 
 function SWEP:PrimaryAttack(worldsnd)
@@ -77,7 +77,7 @@ function SWEP:PrimaryAttack(worldsnd)
 			owner:ViewPunch(Angle(util.SharedRandom("weapon_ttt_golden_deagle", -0.2, -0.1, 1) * self.Primary.Recoil, util.SharedRandom("weapon_ttt_golden_deagle", -0.1, 0.1, 2) * self.Primary.Recoil, 0))
 		end
 
-		timer.Simple(0.5, function() if (IsValid(self) and IsValid(self.Owner)) then ParticleEffectAttach("smoke_trail", PATTACH_POINT_FOLLOW, self.Owner:GetViewModel(), 1) end end)
+		-- timer.Simple(0.5, function() if (IsValid(self) and IsValid(self.Owner)) then ParticleEffectAttach("smoke_trail", PATTACH_POINT_FOLLOW, self.Owner:GetViewModel(), 1) end end)
 	end
 end
 

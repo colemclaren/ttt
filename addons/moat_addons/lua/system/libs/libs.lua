@@ -9,7 +9,7 @@ function moat.lib(n)
 		canload = true,
 		static = false,
 		loaded = function(s)
-			print("| | Loaded Lib: " .. s.name)
+			-- print("| | Loaded Lib: " .. s.name)
 			
 			/*if (s.desc) then
 				print(" | Description: " .. s.desc)

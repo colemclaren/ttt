@@ -14,7 +14,7 @@ for _, fname in pairs(files) do
     -- filter out directories and temp files (like .lua~)
     if string.Right(fname, 3) == "lua" then
         util.IncludeClientFile(path)
-        MsgN("Included TTT language file: " .. fname)
+        -- MsgN("Included TTT language file: " .. fname)
     end
 end
 
@@ -95,7 +95,7 @@ else -- CLIENT
             end
 
             LANG.ServerLanguage = lang_name
-            print("Server default language is:", lang_name)
+            -- print("Server default language is:", lang_name)
         end
     end
 end

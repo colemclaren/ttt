@@ -56,7 +56,7 @@ include "role_hooks.lua"
 
 function GM:Initialize()
     self.InitializeRoles()
-    MsgN("TTT Client initializing...")
+    -- MsgN("TTT Client initializing...")
     GAMEMODE.round_state = ROUND_WAIT
     LANG.Init()
     BaseClass.Initialize(self)
@@ -64,7 +64,7 @@ function GM:Initialize()
 end
 
 function GM:InitPostEntity()
-    MsgN("TTT Client post-init...")
+    -- MsgN("TTT Client post-init...")
 
     if not game.SinglePlayer() then
         timer.Create("idlecheck", 5, 0, CheckIdle)

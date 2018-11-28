@@ -1,4 +1,3 @@
-print("position loaded")
 local cookie_prefix = "moatbeta_pos"
 
 MOAT_MODEL_POS_EDITS = {}

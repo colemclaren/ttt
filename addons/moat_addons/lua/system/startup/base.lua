@@ -4,8 +4,8 @@ function moat.print(...)
 	local args = {n = select("#", ...), ...}
 	if (args.n <= 0) then return end
 	local msgt, msgc = {}, 3
-	msgt[1] = Color(0, 255, 255)
-	msgt[2] = "moat | "
+	msgt[1] = Color(0, 255, 0)
+	msgt[2] = "[MOAT.GG] "
 	msgt[3] = Color(255, 255, 255)
 
 	for i = 1, args.n do
@@ -15,6 +15,12 @@ function moat.print(...)
 
 	MsgC(unpack(msgt))
 	MsgC "\n"
+end
+
+function moat.spacer(n)
+	for i = 1, n or 2 do
+		moat.print "---------------------------------------------------------------------------------------"
+	end
 end
 
 function moat.debug(...)
@@ -90,3 +96,93 @@ if (CLIENT) then
 		file.Write("fonts.txt", fs)
 	end)
 end
+/*
+moat.spacer()
+
+for k, v in ipairs({"\n\n",
+[[                        .-'''-.                                             ]],
+[[                       '   _    \                                           ]],
+[[     __  __   ___    /   /` '.   \                                          ]],
+[[    |  |/  `.'   `. .   |     \  '                        .--./)   .--./)   ]],
+[[    |   .-.  .-.   '|   '      |  '           .|         /.''\\   /.''\\    ]],
+[[    |  |  |  |  |  |\    \     / /  __      .' |_       | |  | | | |  | |   ]],
+[[    |  |  |  |  |  | `.   ` ..' /.:--.'.  .'     |       \`-' /   \`-' /    ]],
+[[    |  |  |  |  |  |    '-...-'`/ |   \ |'--.  .-'       /("'`    /("'`     ]],
+[[    |  |  |  |  |  |            `" __ | |   |  |   ,.--. \ '---.  \ '---.   ]],
+[[    |__|  |__|  |__|             .'.''| |   |  |  //    \ /'""'.\  /'""'.\  ]],
+[[                                / /   | |_  |  '.'\\    /||     ||||     || ]],
+[[                                \ \._,\ '/  |   /  `'--' \'. __// \'. __//  ]],
+[[                                 `--'  `"   `'-'          `'---'   `'---'   ]]
+,"\n\n"}) do MsgC(Color(103, 152, 235), v .. "\n") end
+
+moat.spacer()
+*/
+for k, v in ipairs({"\n\n",
+[[            yyyhhdddmmmNNNM                                              MNNNmmmdddhhyyy        ]],
+[[          /mMMMMMMMMMMMMMMMMm.                                        .mMMMMMMMMMMMMMMMNy`      ]],
+[[        `:NMMMMMMMMMMMMMMMMMMms/.                                  ./smMMMMMMMMMMMMMMMMMMd:`    ]],
+[[      -yNMMMMMMMMMMMMMMMMMMMMMMMNd/                              /dNMMMMMMMMMMMMMMMMMMMMMMMNy-  ]],
+[[     sNMMMMMMMMMMMMMMMMMMMMMMMMMMMMh.                          .hMMMMMMMMMMMMMMMMMMMMMMMMMMMMNs ]],
+[[    sMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMN+`                      `+NMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMs]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMd-                    :dMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNs`                `sNMMMMMMMMMMMMMMMMMMh/--/hMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMNNNNMMMMMMMMMMMMMMMMMMMMMm/              /mMMMMMMMMMMMMMMMMMMMy     `hMMMMMMMMMM]],
+[[    MMMMMMMMMms::::::odMMMMMMMMMMMMMMMMMMMMy.          .yMMMMMMMMMMMMMMMMMMMMMh`    `dMMMMMMMMMM]],
+[[    MMMMMMMNo.+dmNNmdo./NMMMMMMMMMMMMMMMMMMMN+`      `+NMMMMMMMMMMMMMMMMMmddNMMd+::+dMMmddmMMMMM]],
+[[    MMMMMMMo hMMMMMMMMm`/MMMMMMMMMMMMMMMMMMMMMd-    :dMMMMMMMMMMMMMMMMMm:.``.oMMMMMMMM+.``./NMMM]],
+[[    MMMMMMM.-MMMMMMMMMM/ NMMMMMMMMMMMMMMMMMMMMMNs  sNMMMMMMMMMMMMMMMMMM+      dMMMMMMh      oMMM]],
+[[    MMMMMMM+`dMMMMMMMMN.-MMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMd-`  `/NMMMMMMN:`  `-mMMM]],
+[[    MMMMMMMN/.smNMMNmy--mMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMNdyhdMMms++ymMMdhydNMMMM]],
+[[    MMMMMMMMMh/:////:/yNMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMd.    .dMMMMMMMMMM]],
+[[    MMMMMMMMMMMNmddmNMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMy      yMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMs-..-sMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMNyoyMMMMMMMMMMMMNMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMNMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMM+   +MMMMMMMMMMM:oMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMo:MMMMMMMMMMho:--:ohMMMMMMMMMM]],
+[[    MMMMMMMMMMMM/   /MMMMMMMMMMM: .hMMMMMMMMMMMMM..MMMMMMMMMMMMMd- :MMMMMMMMs.:ymNNmy:.yMMMMMMMM]],
+[[    MMMMMMMddddd-   -ddddmMMMMMM:   /NMMMMMMMMMMM..MMMMMMMMMMMN+   :MMMMMMMo hMMMMMMMMy sMMMMMMM]],
+[[    MMMMMN.`             `oMMMMM:    `yMMMMMMMMMM..MMMMMMMMMMy.    :MMMMMMM`:MMMMMMMMMM-`MMMMMMM]],
+[[    MMMMMN/.````     ````-hMMMMM:      :dMMMMMMMM..MMMMMMMMm:      :MMMMMMM-.NMMMMMMMMN.-MMMMMMM]],
+[[    MMMMMMMNNNNN:   /NNNNNMMMMMM:       `oNMMMMMM..MMMMMMNo`       :MMMMMMMd.:dMMMMMMd:.mMMMMMMM]],
+[[    MMMMMMMMMMMM/   /MMMMMMMMMMM:         -hMMMMM..MMMMMh-         :MMMMMMMMNo:-/oo/-:sNMMMMMMMM]],
+[[    MMMMMMMMMMMMy.`.hMMMMMMMMMMM:          `+mMMM..MMMm+`          :MMMMMMMMMMNmdyydmNMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMNmNMMMMMMMMMMMM:            .yMM..MMy.            :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:              :d..d:              :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:               `  `               :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
+[[    NMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMN]],
+[[    oMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMo]],
+[[     yMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  -MMMMMMMMMMMMMMMMMMMMMMMMMMy ]],
+[[      oNMMMMMMMMMMMMMMMMMMMMMMMM.                                  `NMMMMMMMMMMMMMMMMMMMMMMMNo  ]],
+[[       .yNMMMMMMMMMMMMMMMMMMMMN+                                    /NMMMMMMMMMMMMMMMMMMMMNy.   ]],
+[[         `/yNMMMMMMMMMMMMMMMNy-                                      .yNMMMMMMMMMMMMMMMNy/`     ]]
+,"\n\n"}) do MsgC(Color(255, 255, 255), v .. "\n") end
+
+moat.spacer()
+moat.print "|"
+moat.print "| Welcome to Moat TTT! (づ｡◕‿‿◕｡)づ"
+moat.print "|"
+moat.print "| We're changing the way people play and experience TTT together. We'd love your help."
+moat.print "|"
+moat.spacer()
+moat.print "| Moat TTT's God Squad Development Team (¬‿¬)" 
+moat.print "|"
+moat.print "| Meepen > https://steamcommunity.com/profiles/76561198154133184"
+moat.print "| Motato > https://steamcommunity.com/profiles/76561198053381832"
+moat.print "| Velkon > https://steamcommunity.com/profiles/76561198154133184"
+moat.spacer()
+moat.print "| Need to report a bug? We'd love to talk with you! <3<3<3"
+moat.print [[| The best way to contact us is on our partnered Discord server. \ (•◡•) /]]
+moat.print "|"
+for i = 1, 3 do moat.print "| > https://discord.gg/moatgaming" end
+moat.spacer()

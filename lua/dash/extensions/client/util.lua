@@ -1,3 +1,10 @@
+/*
+Requesting texture value from var "$startexture" which is not a texture value (material: skybox/paintedrt)
+Requesting texture value from var "$startexture" which is not a texture value (material: skybox/paintedlf)
+Requesting texture value from var "$startexture" which is not a texture value (material: skybox/paintedbk)
+Requesting texture value from var "$startexture" which is not a texture value (material: skybox/paintedft)
+
+
 local name = GetConVar('sv_skyname'):GetString()
 local areas = {'lf', 'ft', 'rt', 'bk', 'dn', 'up'}
 local maerials = {
@@ -14,3 +21,4 @@ function util.SetSkybox(skybox) -- Thanks someone from some fp post I cant find
 		maerials[i]:SetTexture('$basetexture', Material('skybox/' .. skybox .. areas[i]):GetTexture('$basetexture'))
 	end
 end	
+*/

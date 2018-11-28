@@ -31,7 +31,7 @@ local function HTTPInit(msg)
 	http.Loaded = true
 	Loaded = true
 	hook_Run "HTTPLoaded"
-	MsgC(Color(0, 255, 0), "HTTP Initialized!\n")
+	-- MsgC(Color(255, 255, 255), "HTTP Initialized\n")
 end
 
 timer_Create("HTTPLoadedCheck", 2, 0, function()

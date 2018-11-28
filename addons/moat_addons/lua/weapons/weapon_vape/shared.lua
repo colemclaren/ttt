@@ -19,7 +19,6 @@ SWEP.NoSights = true
 
 SWEP.ViewModelFOV = 62 --default
 
-SWEP.WepSelectIcon = surface and surface.GetTextureID("vape_icon")
 SWEP.BounceWeaponIcon = false
 
 SWEP.ViewModel = "models/swamponions/vape.mdl"

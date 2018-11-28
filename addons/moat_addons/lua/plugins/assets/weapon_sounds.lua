@@ -219,7 +219,7 @@ sound.Add({
 	sound = "weapons/golden_deagle/slideforward.wav"
 })
 
-game.AddParticles("particles/smoke_trail.pcf")
+-- game.AddParticles("particles/smoke_trail.pcf")
 
 sound.Add({
 	name = "Weapof_357Golden.Shoot",
@@ -264,7 +264,7 @@ local icol = Color(255, 255, 255, 255)
 
 --
 if CLIENT then
-    killicon.Add("m9k_thrown_harpoon", "vgui/hud/m9k_harpoon", icol)
+	-- killicon.Add("m9k_thrown_harpoon", "vgui/hud/m9k_harpoon", icol)
     language.Add("Harpoon_ammo", "Harpoon")
 end
 
@@ -435,32 +435,26 @@ sound.Add({
 
 if GetConVar("pspak_weapon_stripping") == nil then
 	CreateConVar("pspak_weapon_stripping", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Allow empty weapon stripping? 1 for true, 0 for false.")
-	print("Weapon Strip con var created")
 end
 	
 if GetConVar("pspak_disable_penetration_ricochet") == nil then
 	CreateConVar("pspak_disable_penetration_ricochet", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Disable Penetration and Ricochets? 1 for true, 0 for false.")
-	print("Penetration/ricochet con var created")
 end
 	
 if GetConVar("pspak_dynamic_recoil") == nil then
 	CreateConVar("pspak_dynamic_recoil", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Use Aim-modifying recoil? 1 for true, 0 for false.")
-	print("Recoil con var created")
 end
 	
 if GetConVar("pspak_unique_slots") == nil then
 	CreateConVar("pspak_unique_slots", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Give the SWEPs unique slots? 1 for true, 2 for false. A map change may be required.")
-	print("Unique Slots con var created")
 end
 	
 if GetConVar("pspak_disable_holstering") == nil then
 	CreateConVar("pspak_disable_holstering", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Disable m9k's totally worthless and broken holster system? It won't hurt the creator's feelings anyway. 1 for true, 2 for false. A map change may be required.")
-	print("Holster Disable con var created")
 end
 	
 if GetConVar("pspak_ammo_detonation") == nil then
 	CreateConVar("pspak_ammo_detonation", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Enable detonatable m9k ammo crates? 1 for true, 0 for false.")
-	print("Ammo crate detonation con var created")
 end
 
 if GetConVar("pspak_debug_weaponry") == nil then
@@ -472,14 +466,12 @@ if !game.SinglePlayer() then
 	if CLIENT then
 		if GetConVar("pspak_gas_effect") == nil then
 			CreateClientConVar("pspak_gas_effect", "1", true, true)
-			print("Client-side Gas Effect Con Var created")
 		end
 	end
 
 else
 	if GetConVar("pspak_gas_effect") == nil then
 		CreateConVar("pspak_gas_effect", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Use gas effect when shooting? 1 for true, 0 for false")
-		print("Gas effect con var created")
 	end
 end
 
@@ -1301,7 +1293,7 @@ sound.Add({
 local icol = Color( 255, 255, 255, 255 ) 
 if CLIENT then
 
-	killicon.Add(  "test_rifle",		"vgui/hud/test_rifle", icol  )
+	-- killicon.Add(  "test_rifle",		"vgui/hud/test_rifle", icol  )
 	--			weapon name			location of weapon's kill icon, I just used the hud icon
 
 end
@@ -1841,7 +1833,7 @@ sound.Add({
 local icol = Color( 255, 255, 255, 255 ) 
 if CLIENT then
 
-	killicon.Add(  "test_rifle",		"vgui/hud/test_rifle", icol  )
+	-- killicon.Add(  "test_rifle",		"vgui/hud/test_rifle", icol  )
 	--			weapon name			location of weapon's kill icon, I just used the hud icon
 
 end
