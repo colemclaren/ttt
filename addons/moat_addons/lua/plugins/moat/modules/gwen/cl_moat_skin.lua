@@ -4,6 +4,15 @@ if (SERVER) then
 end
 include "plugins/moat/init/cl_util.lua"
 
+local MenuColors = {
+	Text = Color(154, 156, 160, 255),
+	Disabled = Color(128, 128, 128, 255),
+	Border = Color(42, 43, 46, 255),
+	Menu = Color(24, 25, 28, 255),
+	Hover = Color(4, 4, 5, 255),
+	TextHover = Color(246, 246, 246, 255)
+}
+
 local function look_how_long_this_function_is(dtype, mat)
 
 
@@ -190,7 +199,7 @@ SKIN.tex.Scroller.DownButton_Down		= GWEN.CreateTextureBorder( 464,		272 + 48, 1
 SKIN.tex.Scroller.DownButton_Disabled	= GWEN.CreateTextureBorder( 480 + 48,	272 + 48, 15, 15, 2, 2, 2, 2 )
 
 SKIN.tex.Menu = {}
-SKIN.tex.Menu.RightArrow = GWEN.CreateTextureNormal( 464, 112, 15, 15 )
+SKIN.tex.Menu.RightArrow = GWEN.CreateTextureNormal( 468, 113, 12, 12 )
 
 SKIN.tex.Input = {}
 
@@ -489,7 +498,7 @@ end
 -----------------------------------------------------------]]
 function SKIN:PaintMenuSpacer( panel, w, h )
 
-	surface.SetDrawColor( Color( 0, 0, 0, 100 ) )
+	surface.SetDrawColor( MenuColors.Border )
 	surface.DrawRect( 0, 0, w, h )
 
 end
@@ -990,6 +999,265 @@ derma.DefineSkin( dtype, "Made to look like regular VGUI", SKIN )
 
 
 --[[-------------------------------------------------------------------------
+DMenu Overwrite
+---------------------------------------------------------------------------]]
+
+
+local PANEL = {}
+AccessorFunc(PANEL, "m_bBorder", "DrawBorder")
+AccessorFunc(PANEL, "m_bDeleteSelf", "DeleteSelf")
+AccessorFunc(PANEL, "m_iMinimumWidth", "MinimumWidth")
+AccessorFunc(PANEL, "m_bDrawColumn", "DrawColumn")
+AccessorFunc(PANEL, "m_iMaxHeight", "MaxHeight")
+AccessorFunc(PANEL, "m_pOpenSubMenu", "OpenSubMenu")
+
+function PANEL:Init()
+    self:SetIsMenu(true)
+    self:SetDrawBorder(true)
+    self:SetPaintBackground(true)
+    self:SetMinimumWidth(170)
+    self:SetDrawOnTop(true)
+    self:SetMaxHeight(ScrH() * 0.9)
+    self:SetDeleteSelf(true)
+    self:SetPadding(0)
+    -- Automatically remove this panel when menus are to be closed
+    RegisterDermaMenuForClose(self)
+end
+
+function PANEL:AddPanel(pnl)
+    self:AddItem(pnl)
+    pnl.ParentMenu = self
+end
+
+function PANEL:AddOption(strText, funcFunction)
+    local pnl = vgui.Create("DMenuOption", self)
+    pnl:SetMenu(self)
+    pnl:SetText(strText)
+
+    if (funcFunction) then
+        pnl.DoClick = funcFunction
+    end
+
+    self:AddPanel(pnl)
+
+    return pnl
+end
+
+function PANEL:AddCVar(strText, convar, on, off, funcFunction)
+    local pnl = vgui.Create("DMenuOptionCVar", self)
+    pnl:SetMenu(self)
+    pnl:SetText(strText)
+
+    if (funcFunction) then
+        pnl.DoClick = funcFunction
+    end
+
+    pnl:SetConVar(convar)
+    pnl:SetValueOn(on)
+    pnl:SetValueOff(off)
+    self:AddPanel(pnl)
+
+    return pnl
+end
+
+function PANEL:AddSpacer(strText, funcFunction)
+    local pnl = vgui.Create("DPanel", self)
+
+    pnl.Paint = function(p, w, h)
+        derma.SkinHook("Paint", "MenuSpacer", p, w, h)
+    end
+
+    pnl:SetTall(1)
+    self:AddPanel(pnl)
+
+    return pnl
+end
+
+function PANEL:AddSubMenu(strText, funcFunction)
+    local pnl = vgui.Create("DMenuOption", self)
+    local SubMenu = pnl:AddSubMenu(strText, funcFunction)
+    pnl:SetText(strText)
+
+    if (funcFunction) then
+        pnl.DoClick = funcFunction
+    end
+
+    self:AddPanel(pnl)
+
+    return SubMenu, pnl
+end
+
+function PANEL:Hide()
+    local openmenu = self:GetOpenSubMenu()
+
+    if (openmenu) then
+        openmenu:Hide()
+    end
+
+    self:SetVisible(false)
+    self:SetOpenSubMenu(nil)
+end
+
+function PANEL:OpenSubMenu(item, menu)
+    -- Do we already have a menu open?
+    local openmenu = self:GetOpenSubMenu()
+
+    if (IsValid(openmenu) and openmenu:IsVisible()) then
+        -- Don't open it again!
+        if (menu and openmenu == menu) then return end
+        -- Close it!
+        self:CloseSubMenu(openmenu)
+    end
+
+    if (not IsValid(menu)) then return end
+    local x, y = item:LocalToScreen(self:GetWide(), 0)
+    menu:Open(x - 3, y, false, item)
+    self:SetOpenSubMenu(menu)
+end
+
+function PANEL:CloseSubMenu(menu)
+    menu:Hide()
+    self:SetOpenSubMenu(nil)
+end
+
+function PANEL:Paint(w, h)
+    if (not self:GetPaintBackground()) then return end
+    derma.SkinHook("Paint", "Menu", self, w, h)
+
+    return true
+end
+
+function PANEL:ChildCount()
+    return #self:GetCanvas():GetChildren()
+end
+
+function PANEL:GetChild(num)
+    return self:GetCanvas():GetChildren()[num]
+end
+
+function PANEL:PerformLayout()
+    local w = self:GetMinimumWidth()
+
+    -- Find the widest one
+    for k, pnl in pairs(self:GetCanvas():GetChildren()) do
+        pnl:PerformLayout()
+        w = math.max(w, pnl:GetWide())
+    end
+
+    self:SetWide(w)
+    local y = 0 -- for padding
+
+    for k, pnl in pairs(self:GetCanvas():GetChildren()) do
+        pnl:SetWide(w)
+        pnl:SetPos(0, y)
+        pnl:InvalidateLayout(true)
+        y = y + pnl:GetTall()
+    end
+
+    y = math.min(y, self:GetMaxHeight())
+    self:SetTall(y)
+    derma.SkinHook("Layout", "Menu", self)
+    DScrollPanel.PerformLayout(self)
+end
+
+--[[---------------------------------------------------------
+	Open - Opens the menu.
+	x and y are optional, if they're not provided the menu
+		will appear at the cursor.
+-----------------------------------------------------------]]
+function PANEL:Open(x, y, skipanimation, ownerpanel)
+    RegisterDermaMenuForClose(self)
+    local maunal = x and y
+    x = x or gui.MouseX()
+    y = y or gui.MouseY()
+    local OwnerHeight = 0
+    local OwnerWidth = 0
+
+    if (ownerpanel) then
+        OwnerWidth, OwnerHeight = ownerpanel:GetSize()
+    end
+
+    self:PerformLayout()
+    local w = self:GetWide()
+    local h = self:GetTall()
+    self:SetSize(w, h)
+
+    if (y + h > ScrH()) then
+        y = ((maunal and ScrH()) or (y + OwnerHeight)) - h
+    end
+
+    if (x + w > ScrW()) then
+        x = ((maunal and ScrW()) or x) - w
+    end
+
+    if (y < 1) then
+        y = 1
+    end
+
+    if (x < 1) then
+        x = 1
+    end
+
+    self:SetPos(x, y)
+    -- Popup!
+    self:MakePopup()
+    -- Make sure it's visible!
+    self:SetVisible(true)
+    -- Keep the mouse active while the menu is visible.
+    self:SetKeyboardInputEnabled(false)
+end
+
+--
+-- Called by DMenuOption
+--
+function PANEL:OptionSelectedInternal(option)
+    self:OptionSelected(option, option:GetText())
+end
+
+function PANEL:OptionSelected(option, text)
+    -- For override
+end
+
+function PANEL:ClearHighlights()
+    for k, pnl in pairs(self:GetCanvas():GetChildren()) do
+        pnl.Highlight = nil
+    end
+end
+
+function PANEL:HighlightItem(item)
+    for k, pnl in pairs(self:GetCanvas():GetChildren()) do
+        if (pnl == item) then
+            pnl.Highlight = true
+        end
+    end
+end
+
+function PANEL:GenerateExample(ClassName, PropertySheet, Width, Height)
+    local MenuItemSelected = function()
+        Derma_Message("Choosing a menu item worked!")
+    end
+
+    local ctrl = vgui.Create("Button")
+    ctrl:SetText("Test Me!")
+
+    ctrl.DoClick = function()
+        local menu = DermaMenu()
+        menu:AddOption("Option One", MenuItemSelected)
+        menu:AddOption("Option 2", MenuItemSelected)
+        local submenu = menu:AddSubMenu("Option Free")
+        submenu:AddOption("Submenu 1", MenuItemSelected)
+        submenu:AddOption("Submenu 2", MenuItemSelected)
+        menu:AddOption("Option For", MenuItemSelected)
+        menu:Open()
+    end
+
+    PropertySheet:AddSheet(ClassName, ctrl, nil, true, true)
+end
+
+derma.DefineControl("DMenu", "A Menu", PANEL, "DScrollPanel")
+
+
+--[[-------------------------------------------------------------------------
 DMenuOption Overwrite
 ---------------------------------------------------------------------------]]
 
@@ -1003,10 +1271,11 @@ AccessorFunc( PANEL, "m_bCheckable", "IsCheckable" )
 function PANEL:Init()
 
 	self:SetContentAlignment( 4 )
-	self:SetTextInset( 30, 0 )			-- Room for icon on left
-	self:SetTextColor(Color(180, 180, 180))
+	self:SetTextInset( 30, 0 )
+	self:SetTextColor(MenuColors.Text)
 	self:SetChecked( false )
-	self:SetFont("moat_ItemDesc")
+	self:SetFont("moat_MenuFont")
+
 end
 
 function PANEL:SetSubMenu( menu )
@@ -1025,8 +1294,8 @@ end
 function PANEL:AddSubMenu()
 
 	local SubMenu = DermaMenu( self )
-		SubMenu:SetVisible( false )
-		SubMenu:SetParent( self )
+	SubMenu:SetVisible( false )
+	SubMenu:SetParent( self )
 
 	self:SetSubMenu( SubMenu )
 
@@ -1035,8 +1304,7 @@ function PANEL:AddSubMenu()
 end
 
 function PANEL:OnCursorEntered()
-
-	self:SetTextColor(Color(255, 255, 255))
+	self:SetTextColor(MenuColors.TextHover)
 
 	if ( IsValid( self.ParentMenu ) ) then
 		self.ParentMenu:OpenSubMenu( self, self.SubMenu )
@@ -1050,7 +1318,7 @@ function PANEL:OnCursorEntered()
 end
 
 function PANEL:OnCursorExited()
-	self:SetTextColor(Color(180, 180, 180))
+	self:SetTextColor(MenuColors.Text)
 end
 
 function PANEL:Paint( w, h )
@@ -1124,11 +1392,11 @@ function PANEL:PerformLayout()
 
 	local w = math.max( self:GetParent():GetWide(), self:GetWide() )
 
-	self:SetSize( w, 30 )
+	self:SetSize( w, 32 )
 
 	if ( self.SubMenuArrow ) then
 
-		self.SubMenuArrow:SetSize( 15, 15 )
+		self.SubMenuArrow:SetSize( 12, 12 )
 		self.SubMenuArrow:CenterVertical()
 		self.SubMenuArrow:AlignRight( 4 )
 
@@ -1136,6 +1404,9 @@ function PANEL:PerformLayout()
 
 	DButton.PerformLayout( self )
 
+	if (self.m_Image) then
+		self.m_Image:SetPos(8, 8)
+	end
 end
 
 function PANEL:GenerateExample()
@@ -2496,18 +2767,18 @@ end
 
 file.CreateDir "moat_assets"
 function check_derma_skin()
-	if (file.Exists("moat_assets/vgui.png", "DATA")) then
+	if (file.Exists("moat_assets/gwen2.png", "DATA")) then
 		timer.Remove "moat.load.derma"
 
-		local m = Material "data/moat_assets/vgui.png"
+		local m = Material "data/moat_assets/gwen2.png"
 		look_how_long_this_function_is("Default", m)
 		look_how_long_this_function_is("moat", m)
 
 		return
 	end
 
-	http.Fetch("https://cdn.moat.gg/f/zgnBb5.png", function(b)
-		file.Write("moat_assets/vgui.png", b)
+	http.Fetch("https://cdn.moat.gg/f/b2683.png", function(b)
+		file.Write("moat_assets/gwen2.png", b)
 	end)
 end
 

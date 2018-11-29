@@ -29,153 +29,194 @@ hook.Add("TTTScoreboardColorForPlayer", "moat_TTTScoreboardColor", function(ply)
 	return rank_info[2] or Color(255, 255, 255)
 end)
 
-local MOAT_SCOREBOARD_MENU = {
-    {
-        1,
-        "Copy SteamID",
-        "icon16/tag_blue.png",
-        function(ply)
-            SetClipboardText(ply:SteamID())
-        end
-    },
-    {
-        1,
-        "Copy Name",
-        "icon16/user_edit.png",
-        function(ply)
-            SetClipboardText(ply:Nick())
-        end
-    },
-    {
-        1,
-        "View Profile",
-        "icon16/world.png",
-        function(ply)
-            ply:ShowProfile()
-        end
-    },
-	{
-        1,
-        "Profile Card",
-        "icon16/information.png",
-        function(ply)
-            open_profile_card(ply:SteamID64())
-        end
-    },
-    {
-        1,
-        "Block",
-        "icon16/delete.png",
-        function(ply)
-            RunConsoleCommand("mga", "block", ply:SteamID())
-        end
-    },
-    {
-        1,
-        "Unblock",
-        "icon16/accept.png",
-        function(ply)
-            RunConsoleCommand("mga", "unblock", ply:SteamID())
-        end
-    },
-    {
-        2,
-        "Votekick",
-        "icon16/door_in.png",
-        function(ply)
-            RunConsoleCommand("mga", "votekick", ply:SteamID())
-        end
-    },
-    {
-        3,
-        "AFK",
-        "icon16/user_delete.png",
-        function(ply)
-            RunConsoleCommand("mga", "afk", ply:SteamID())
-        end
-    },
-    {
-        3,
-        "Mute/UnMute",
-        "icon16/sound_delete.png",
-        function(ply)
-            RunConsoleCommand("mga", "mute", ply:SteamID())
-        end
-    },
-    {
-        3,
-        "Gag/UnGag",
-        "icon16/transmit_delete.png",
-        function(ply)
-            RunConsoleCommand("mga", "gag", ply:SteamID())
-        end
-    },
-    {
-        3,
-        "Bring",
-        "icon16/arrow_undo.png",
-        function(ply)
-            RunConsoleCommand("mga", "bring", ply:SteamID())
-        end
-    }
+local function RemoveTTTScoreboard()
+	if (IsValid(sboard_panel)) then
+		sboard_panel:Remove()
+		sboard_panel = nil
+	end
+end
+
+local MGACommandMenu = {
+	Votekick = {"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
+		{"Drop", "Choose Reason", {"Mic Spamming","Purposeful Mass RDM","Attempted Mass RDM","Chat Spamming","Hateful Conduct"}, "Reason required..."}
+	}},
+	Ban = {"Ban", "Bans a player or SteamID from the server.", true, {
+			{"Entry", "SteamID", "STEAM_0:0:"},
+			{"Entry", "Length", "1"},
+			{"Drop", "Time Units", {"Minutes", "Hours", "Days", "Weeks", "Months", "Years"}, "Minutes"},
+			{"Entry", "Reason", "Breaking Rules"}
+	}},
+	Kick = {"Kick", "Kicks a player from the server.", true, {
+		{"Entry", "Reason", "Breaking Rules"}
+	}},
+	PM = {"PM", "Sends a private message to a player.", false, {
+			{"Entry", "Message", "Say Something..."}
+	}},
+	AFK = {"AFK", "Forces a player into spectator mode.", true},
+	UnAFK = {"UnAFK", "Forces a player out of spectator mode.", true}
 }
+
+local function OpenMGAMenu(cmd, ply)
+	if (not IsValid(ply) or not MGACommandMenu[cmd]) then
+		return
+	end
+
+	RemoveTTTScoreboard()
+
+	MGA.OpenMenu()
+	MGA.SelectedPlayer = {Ent = ply, Nick = ply:Nick(), SteamID = ply:SteamID()}
+	MGA.HandleCommandPressed(MGACommandMenu[cmd])
+end
 
 local function moat_TTTScoreboardMenu(menu)
     local rank = LocalPlayer():GetUserGroup()
     local ply = menu.Player
 
-	if (menu.Player == LocalPlayer() and LocalPlayer():GetNWInt("MOAT_STATS_LVL", 1) >= 100) then
-		menu:AddOption("Change Level", MOAT_LEVELS.OpenTitleMenu):SetIcon("icon16/color_wheel.png")
+	local function MenuAdd(txt, icon, func)
+		return menu:AddOption(txt, function()
+        	if (not IsValid(ply)) then
+            	chat.AddText(Color(255, 0, 0), "Couldn't " .. txt .. " because the player left.")
+
+            	return
+        	end
+
+        	func(ply)
+    	end):SetImage(icon)
+	end
+
+	local function MenuPlayers(txt, icon, func, swap)
+		if (IsValid(ply) and LocalPlayer() == ply and not swap) then
+			return
+		elseif (swap and IsValid(ply) and LocalPlayer() ~= ply) then
+			return
+		end
+
+		return MenuAdd(txt, icon, func)
+	end
+
+	local function HandleClose()
+		menu:AddSpacer()
+
+		MenuAdd("Copy Name", "icon16/attach.png", function(p)
+			SetClipboardText(p:Nick())
+		end)
+
+		MenuAdd("Copy ID", "icon16/attach.png", function(p)
+			SetClipboardText(p:SteamID())
+		end)
+
+		if (rank == "communitylead") then
+			MenuAdd("Copy Player", "icon16/application_xp_terminal.png", function(p)
+				SetClipboardText("Player(" .. p:UserID() .. ")")
+			end)
+		end
+
+		hook.Remove("Think", "moat_TTTSCoreboardMenuClose")
+		hook.Add("Think", "moat_TTTSCoreboardMenuClose", function()
+			if (not input.IsKeyDown(KEY_TAB)) then
+				hook.Remove("Think", "moat_TTTSCoreboardMenuClose")
+
+				if (IsValid(menu)) then
+					menu:Remove()
+				end
+
+				return
+			end
+		end)
+	end
+
+	MenuAdd("Profile", "icon16/vcard.png", function(p)
+		open_profile_card(p:SteamID64())
+	end)
+
+	MenuAdd("Steam", "icon16/joystick.png", function(p)
+		p:ShowProfile()
+	end)
+
+	MenuAdd("Message", "icon16/user_comment.png", function(p)
+		OpenMGAMenu("PM", p)
+	end)
+
+
+	if (LocalPlayer():GetNWInt("MOAT_STATS_LVL", 1) >= 100) then
+		menu:AddSpacer()
+
+		MenuPlayers("Edit Level", "icon16/color_wheel.png", MOAT_LEVELS.OpenTitleMenu, true)
+	elseif (IsValid(ply) and LocalPlayer() ~= ply) then
 		menu:AddSpacer()
 	end
 
-    for k, v in ipairs(MOAT_SCOREBOARD_MENU) do
-        if (MOAT_RANKS[rank][2 + v[1]]) then
-            local old_tbl = MOAT_SCOREBOARD_MENU[k - 1]
+	if (cookie.GetNumber("moat_mute" .. ply:SteamID(), 0) == 1) then
+		MenuPlayers("Unmute", "icon16/sound_mute.png", function(p)
+			cookie.Set("moat_mute" .. p:SteamID(), "0")
+			p:SetMuted(false)
+		end)
+	else
+		MenuPlayers("Mute", "icon16/sound.png", function(p)
+			cookie.Set("moat_mute" .. p:SteamID(), "1")
+			p:SetMuted(true)
+		end)
+	end
 
-            if (old_tbl and old_tbl[1] ~= v[1]) then
-                menu:AddSpacer()
-            end
+	if (cookie.GetNumber("moat_block" .. ply:SteamID(), 0) == 1) then
+		MenuPlayers("Unblock", "icon16/shield_delete.png", function(p)
+			RunConsoleCommand("mga","unblock",p:SteamID())
+		end)
+	else
+		MenuPlayers("Block", "icon16/shield_add.png", function(p)
+			RunConsoleCommand("mga","block",p:SteamID())
+		end)
+	end
 
-            if (v[2] == "Votekick") then
-                local submenu, parent = menu:AddSubMenu(v[2])
-                parent:SetImage(v[3])
+	if (IsValid(ply) and LocalPlayer() ~= ply and (rank and rank ~= "user")) then
+		menu:AddSpacer()
 
-                submenu:AddOption("Yes I'm sure.", function()
-                    if (not IsValid(ply)) then
-                        chat.AddText(Color(255, 0, 0), "Couldn't " .. v[2] .. " because the player left.")
+		if (rank == "vip" or rank == "credibleclub") then
+			local sub, btn = menu:AddSubMenu "Votekick"
+			btn:SetImage("icon16/door_open.png")
+			sub:AddOption("Yes I'm sure", function()
+				OpenMGAMenu("Votekick", ply)
+			end):SetIcon("icon16/tick.png")
+			sub:AddOption("Cancel"):SetIcon("icon16/cross.png")
 
-                        return
-                    end
+			return HandleClose()
+		end
 
-                    v[4](ply)
-                end):SetIcon("icon16/tick.png")
+		local afkm, afk = menu:AddSubMenu "AFK"
+		afk:SetImage("icon16/user_orange.png")
+        afkm:AddOption("Force AFK", function()
+			OpenMGAMenu("AFK", ply)
+        end):SetIcon("icon16/user_green.png")
+		afkm:AddOption("Undo AFK", function()
+			OpenMGAMenu("UnAFK", ply)
+		end):SetIcon("icon16/user_red.png")
 
-                submenu:AddOption("Cancel."):SetIcon("icon16/cross.png")
-                continue
-            end
+		MenuPlayers("Kick", "icon16/door_in.png", function(p)
+			OpenMGAMenu("Kick", p)
+		end)
 
-            menu:AddOption(v[2], function()
-                if (not IsValid(ply)) then
-                    chat.AddText(Color(255, 0, 0), "Couldn't " .. v[2] .. " because the player left.")
+		MenuPlayers("Ban", "icon16/lightning.png", function(p)
+			OpenMGAMenu("Ban", p)
+		end)
 
-                    return
-                end
+		if (rank == "trialstaff") then
+			return HandleClose()
+		end
 
-                v[4](ply)
-            end):SetImage(v[3])
-        end
-    end
-	
-	hook.Remove("Think", "moat_TTTSCoreboardMenuClose")
-    hook.Add("Think", "moat_TTTSCoreboardMenuClose", function()
-        if (not input.IsKeyDown(KEY_TAB)) then
-            hook.Remove("Think", "moat_TTTSCoreboardMenuClose")
-            menu:Remove()
+		MenuPlayers("Bring", "icon16/arrow_down.png", function(p)
+			RunConsoleCommand("mga","bring",p:SteamID())
+		end)
 
-            return
-        end
-    end)
+		if (rank == "moderator") then
+			return HandleClose()
+		end
+
+		MenuPlayers("Teleport", "icon16/eye.png", function(p)
+			RunConsoleCommand("mga","tele",p:SteamID())
+		end)
+	end
+
+	return HandleClose()
 end
 
 hook.Add("TTTScoreboardMenu", "moat_TTTScoreboardMenu", moat_TTTScoreboardMenu)
