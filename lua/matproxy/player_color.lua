@@ -36,7 +36,7 @@ matproxy.Add( {
 		end
 
 		if (CSModel[ent:GetClass()] and MOAT_PAINT and m_Loadout and m_Loadout[10] and m_Loadout[10].p2 and m_Loadout[10].item and m_Loadout[10].item.Model == ent:GetModel()) then
-			local col = MOAT_PAINT.Colors[m_Loadout[10].p2 - #MOAT_PAINT.Colors - 6000][2]
+			local col = MOAT_PAINT.Paints[m_Loadout[10].p2][2]
 
 			mat:SetVector(self.ResultTo, Vector(col[1]/255, col[2]/255, col[3]/255))
 		end

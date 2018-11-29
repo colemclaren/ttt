@@ -397,7 +397,7 @@ function MOAT_LOADOUT.ApplyModels()
     if (not IsValid(ply)) then return end
 
     local item_id = net.ReadUInt(16)
-    local paint = net.ReadUInt(8)
+    local paint = net.ReadUInt(32)
     local custom_pos = net.ReadBool()
 
     local cuspos = {0, 0, 1, 0, 0, 0}

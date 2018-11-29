@@ -311,8 +311,8 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             end
             if (v.c) then
                 local paint = 0
-                if (v.p) then paint = v.p - 6000 end
-                if (v.p2) then paint = v.p2 - 6000 end
+                if (v.p) then paint = v.p end
+                if (v.p2) then paint = v.p2 end
 
                 table.insert(loadout_cosmetic_indexes, {ply:EntIndex(), v.u, paint})
 
@@ -324,7 +324,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 net.Start("MOAT_APPLY_MODELS")
                 net.WriteUInt(ply:EntIndex(), 16)
                 net.WriteUInt(v.u, 16)
-                net.WriteUInt(paint, 8)
+                net.WriteUInt(paint, 32)
 
                 if (MOAT_MODEL_EDIT_POS[ply] and MOAT_MODEL_EDIT_POS[ply][v.u]) then
                     net.WriteBool(true)
