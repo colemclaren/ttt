@@ -386,3 +386,5 @@ _SCF('C4ModelTimer', {font = df,size = 13,weight = 0,antialias = false})
 _SCF('C4Timer', {font = df,size = 30,weight = 750})
 _SCF("ttc_tutorial_id", {font = 'Arial',size = 40})
 _SCF("ttc_tutorial_lbl", {font = 'Arial',size = 15,weight = 1000})
+
+_SCF('moat_MenuFont', {font = 'Lato Bold',size = 15,weight = 800})

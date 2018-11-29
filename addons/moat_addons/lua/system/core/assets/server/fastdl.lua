@@ -1,0 +1,8 @@
+resource.AddSingleFile'resource/fonts/Lato-LightItalic.ttf'
+resource.AddSingleFile'resource/fonts/Lato-Black.ttf'
+resource.AddSingleFile'resource/fonts/Lato-BlackItalic.ttf'
+resource.AddSingleFile'resource/fonts/Lato-BoldItalic.ttf'
+resource.AddSingleFile'resource/fonts/Lato-Italic.ttf'
+resource.AddSingleFile'resource/fonts/Lato-Bold.ttf'
+resource.AddSingleFile'resource/fonts/Lato-Light.ttf'
+resource.AddSingleFile'resource/fonts/Lato-Regular.ttf'
