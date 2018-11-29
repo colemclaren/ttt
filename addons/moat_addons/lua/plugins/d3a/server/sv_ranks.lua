@@ -43,6 +43,7 @@ function D3A.Ranks.Parse(pl)
 
 	pl:SetDataVar("rank", {Name = tm.Name, Weight = tm.Weight, Flags = tm.Flags, FlagsString = tm.FlagsString}, false, true)
 	pl.IsStaff = (tm.Weight and tm.Weight >= 15)
+	pl.IsVIP = (tm.Weight and tm.Weight >= 5)
 end
 
 function D3A.Ranks.ChangeRank(id, rank, expire, expire_to)

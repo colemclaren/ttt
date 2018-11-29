@@ -378,6 +378,7 @@ local function EyeTraceEntity()
 	end
 end
 if CLIENT then
+	/*
 	local cmeta = debug.getregistry().Color
 	local ma = math.Approach
 	local lp = Lerp
@@ -387,6 +388,7 @@ if CLIENT then
 	function cmeta:Alpha(n)
 		return Color(self.r, self.g, self.b, n)
 	end
+	*/
 end
 
 function SWEP:DrawHUD()
