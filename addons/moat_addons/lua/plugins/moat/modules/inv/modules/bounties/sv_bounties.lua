@@ -406,7 +406,7 @@ local function _contracts()
 			contract_transferall()
 			local q = db:query("UPDATE moat_contracts SET active ='0', refresh_next = '0';")
 			q:start()
-			newcontract()
+			loadnew()
 			contract_starttime = os.time()
 		else
 			local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
@@ -435,6 +435,8 @@ local function _contracts()
 	function moat_contract_refresh()
 		local q = db:query("UPDATE moat_contracts SET active = '0', refresh_next = '1';")
 		q:start()
+
+		loadnew()
 	end
 
 	local datime = os.date("!*t", (os.time() - 21600 - 3600))
@@ -564,6 +566,11 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		contract_top(function(top)
 			top_cache = top
 			contract_getplace(ply,function(p)
+				if (not contract_loaded) then
+					loadnew()
+					return
+				end
+
 				net.Start("moat.contracts")
 				net.WriteBool(true)
 				net.WriteString(contract_loaded)
