@@ -7,7 +7,7 @@ hook.Add( 'InitPostEntity', 'crashscreen_time', function()
 	RunConsoleCommand('cl_timeout', 9000)
 end)
 
-local LastPing, JoinBuffer, LastProcessTick = SysTime() + 600, SysTime() + 60, SysTime()
+local LastPing, JoinBuffer, LastProcessTick = SysTime() + 600, SysTime() + 90, SysTime()
 local MapChanging = false
 
 -- 0 = determining, 1 = reconnecting when server is online, 2 = Delayed reconnection
