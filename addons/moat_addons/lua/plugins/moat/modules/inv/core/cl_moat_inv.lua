@@ -5157,12 +5157,10 @@ function m_CreateItemMenu(num, ldt)
 
         pnl.Paint = function(s, w, h)
             if (s:IsHovered()) then
-                surface_SetDrawColor(255, 100, 100, 100)
-                surface_DrawRect(2, 2, w - 4, h - 4)
+				draw.RoundedBox(5, 2, 2, w - 4, h - 4, Color(255, 100, 100, 50))
             end
 
-            surface_SetDrawColor(255, 150, 0, 150)
-            surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
+			draw.RoundedBox(5, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 225 * pnl_width))
         end
     end
 
@@ -5202,12 +5200,10 @@ function m_CreateItemMenu(num, ldt)
 
         pnl.Paint = function(s, w, h)
             if (s:IsHovered()) then
-                surface_SetDrawColor(255, 100, 100, 100)
-                surface_DrawRect(2, 2, w - 4, h - 4)
+				draw.RoundedBox(5, 2, 2, w - 4, h - 4, Color(255, 100, 100, 50))
             end
 
-            surface_SetDrawColor(255, 150, 0, 150)
-            surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
+			draw.RoundedBox(5, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 225 * pnl_width))
         end
     end
 
@@ -5247,12 +5243,10 @@ function m_CreateItemMenu(num, ldt)
 
             pnl.Paint = function(s, w, h)
                 if (s:IsHovered()) then
-                    surface_SetDrawColor(255, 100, 100, 100)
-                    surface_DrawRect(2, 2, w - 4, h - 4)
-                end
+					draw.RoundedBox(5, 2, 2, w - 4, h - 4, Color(255, 100, 100, 50))
+            	end
 
-                surface_SetDrawColor(255, 150, 0, 150)
-                surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
+				draw.RoundedBox(5, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 225 * pnl_width))
             end
         end
     end
@@ -5292,13 +5286,11 @@ function m_CreateItemMenu(num, ldt)
             end
 
             pnl.Paint = function(s, w, h)
-                if (s:IsHovered()) then
-                    surface_SetDrawColor(255, 100, 100, 100)
-                    surface_DrawRect(2, 2, w - 4, h - 4)
-                end
+				if (s:IsHovered()) then
+					draw.RoundedBox(5, 2, 2, w - 4, h - 4, Color(255, 100, 100, 50))
+            	end
 
-                surface_SetDrawColor(255, 150, 0, 150)
-                surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
+				draw.RoundedBox(5, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 225 * pnl_width))
             end
         end
     end
@@ -5338,13 +5330,11 @@ function m_CreateItemMenu(num, ldt)
             end
 
             pnl.Paint = function(s, w, h)
-                if (s:IsHovered()) then
-                    surface_SetDrawColor(255, 100, 100, 100)
-                    surface_DrawRect(2, 2, w - 4, h - 4)
-                end
+				if (s:IsHovered()) then
+					draw.RoundedBox(5, 2, 2, w - 4, h - 4, Color(255, 100, 100, 50))
+            	end
 
-                surface_SetDrawColor(255, 150, 0, 150)
-                surface_DrawRect(1, 1, (w * pnl_width) - 2, h - 2)
+				draw.RoundedBox(5, 1, 1, (w * pnl_width) - 2, h - 2, Color(255, 150, 0, 225 * pnl_width))
             end
         end
     end
