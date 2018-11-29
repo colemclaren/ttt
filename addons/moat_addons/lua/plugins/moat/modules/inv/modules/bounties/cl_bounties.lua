@@ -100,7 +100,7 @@ lottery = lottery or {}
 net.Receive("lottery.firstjoin",function()
     lottery = net.ReadTable()
     timer.Simple(60,function()
-        chat.AddText(Material("icon16/information.png"),"Welcome back! Today's lottery is currently at ",Color(255,255,0),string.Comma(lottery.amount)," IC",Color(255,255,255),"! (Dailies tab)")
+        chat.AddText(Material("icon16/coins.png"),"Welcome back! Today's lottery is currently at ",Color(255,255,0),string.Comma(lottery.amount)," IC",Color(255,255,255),"! (Dailies tab)")
     end)
     if net.ReadBool() then
         lottery.mine = net.ReadInt(32)
@@ -239,6 +239,8 @@ contracts_tbl = {
     name = "Rightful slayer",
     desc = "Eliminate as many terrorists as you can, rightfully.",
     adj = "Kills",
+	short = "Kills",
+	others = 2024,
     players = {}
 }
 
@@ -248,22 +250,15 @@ net.Receive("moat.contractinfo",function()
     contracts_tbl.desc = net.ReadString()
     contracts_tbl.adj = net.ReadString()
 end)
-net.Receive("moat.contracts",function()
-    contracts_tbl.my_rank = net.ReadInt(32)
-    timer.Simple(5,function()
-        if tonumber(contracts_tbl.my_rank) ~= cookie.GetNumber("mg_ncontract", 1) then
-            cookie.Set("mg_ncontract",contracts_tbl.my_rank)
-            chat.AddText(Material("icon16/medal_gold_3.png"), Color(255, 255, 0), "[", Color(0, 255, 255), "M", Color(255, 255, 255), "G ", Color(255, 255, 0), "Contracts", Color(255, 255, 0), "] ", Color(255,255,255), "You are now rank #" .. contracts_tbl.my_rank .. " on the daily contract!")
-        end
-    end)
-    contracts_tbl.my_score = net.ReadInt(32)
-	if (net.ReadBool()) then return end
-    local p = net.ReadTable()
-    contracts_tbl.players = {}
-    for k,v in pairs(p) do
-        table.insert(contracts_tbl.players,{v.steamid,"Loading name..",v.score})
-    end
-end)
+
+
+moat_white = Color(255, 255, 255, 255)
+moat_green = Color(0, 255, 0, 255)
+moat_blue = Color(51, 153, 255, 255)
+moat_cyan = Color(0, 200, 255, 255)
+moat_pink = Color(255, 0, 255, 255)
+moat_red = Color(255, 0, 0, 255)
+moat_yellow = Color(255, 255, 0)
 
 local function getreward(place)
     if place == 1 then 
@@ -275,6 +270,113 @@ local function getreward(place)
     end
 end
 
+local contract_cache = contracts_tbl
+net.Receive("moat.contracts",function()
+	if (net.ReadBool()) then
+		contracts_tbl.active = true
+		contracts_tbl.name = net.ReadString()
+		contracts_tbl.desc = net.ReadString()
+		contracts_tbl.adj = net.ReadString()
+		contracts_tbl.short = net.ReadString()
+	end
+
+	contracts_tbl.others = net.ReadInt(32)
+    contracts_tbl.my_rank = net.ReadInt(32)
+	contracts_tbl.my_score = net.ReadInt(32)
+
+	if (not net.ReadBool()) then
+		local p = net.ReadTable()
+		contracts_tbl.players = {}
+		for k,v in pairs(p) do
+			table.insert(contracts_tbl.players,{v.steamid,"Loading name..",v.score})
+		end
+	end
+
+	if (contracts_tbl.my_rank > 50) then
+		timer.Simple(0, function()
+			local old_rank, old_score = cookie.GetNumber("moat_constants_rank", 0), cookie.GetNumber("moat_constants_score", 0)
+			if (tonumber(contracts_tbl.my_rank) ~= old_rank or contracts_tbl.my_score ~= old_score) then
+				cookie.Set("moat_constants_rank", contracts_tbl.my_rank)
+				cookie.Set("moat_constants_score", contracts_tbl.my_score)
+
+				local datime = os.date("!*t", (os.time() - 21600))
+				if (datime.hour == 0) then datime.hour = 24 end
+				local unix = ((24 - datime.hour) * 3600) + ((60 - datime.min) * 60) + (60 - datime.sec)
+
+				local clr, arrow, diff = moat_green, [[↓]], "(-"..old_rank - contracts_tbl.my_rank..")"
+				if (contracts_tbl.my_rank > old_rank) then
+					diff = "(+"..contracts_tbl.my_rank - old_rank..")"
+					clr, arrow = moat_red, [[↑]]
+				elseif (contracts_tbl.my_rank == old_rank) then
+					arrow, diff = "", ""
+				end
+
+				chat.AddText(moat_blue, "| ", moat_yellow, "Daily Contract", moat_blue, " | ", moat_cyan, contracts_tbl.name, moat_blue, " | ", moat_green, util.Upper(util.FormatTimeSingle(unix, 0)) .. " Left")
+				if (contracts_tbl.my_score < 1) then
+					chat.AddText(moat_blue, "| ", moat_red, "You need a contract kill for a rank placing.", moat_blue, " | ", moat_white, "The top ", moat_pink, "50 Players", moat_white, " get rewards!")
+				else
+					chat.AddText(moat_blue, "| ", moat_white, "You are now ",
+						clr, arrow, moat_pink, "Rank " .. string.Comma(contracts_tbl.my_rank), clr, arrow, 
+						moat_blue, " | ", moat_red, string.Comma(contracts_tbl.my_score) .. " Kill" .. (contracts_tbl.my_score == 1 and "" or "s"))
+				end
+			end
+		end)
+	else
+		timer.Simple(0, function()
+			local old_rank, old_score = cookie.GetNumber("moat_constants_rank", 0), cookie.GetNumber("moat_constants_score", 0)
+			if (tonumber(contracts_tbl.my_rank) == old_rank and tonumber(contracts_tbl.my_score) == old_score) then
+				return
+			end
+
+			cookie.Set("moat_constants_rank", contracts_tbl.my_rank)
+			cookie.Set("moat_constants_score", contracts_tbl.my_score)
+
+			local datime = os.date("!*t", (os.time() - 21600))
+			if (datime.hour == 0) then datime.hour = 24 end
+			local unix = ((24 - datime.hour) * 3600) + ((60 - datime.min) * 60) + (60 - datime.sec)
+
+			local clr, arrow, diff = moat_green, [[↓]], "(-"..old_rank - contracts_tbl.my_rank..")"
+			if (contracts_tbl.my_rank > old_rank) then
+				diff = "(+"..contracts_tbl.my_rank - old_rank..")"
+				clr, arrow = moat_red, [[↑]]
+			elseif (contracts_tbl.my_rank == old_rank) then
+				arrow, diff = "", ""
+			end
+
+			local nextupid = 1
+			local nextup = contracts_tbl.players[contracts_tbl.my_rank - nextupid]
+			if (nextup and nextup[3]) then
+				while (nextup and nextup[3] and nextup[3] == contracts_tbl.my_score) do
+					if (not contracts_tbl.players[contracts_tbl.my_rank - nextupid]) then
+						nextup = contracts_tbl.players[contracts_tbl.my_rank - nextupid + 1]
+						break
+					end
+				
+					nextupid = nextupid + 1
+					nextup = contracts_tbl.players[contracts_tbl.my_rank - nextupid]
+				end
+				
+				nextup = nextup[3] - contracts_tbl.my_score
+			end
+
+			local behind = contracts_tbl.players[contracts_tbl.my_rank + 1]
+			if (behind and behind[3]) then
+				behind = contracts_tbl.my_score - behind[3]
+			end
+
+			local msg = {
+				moat_blue, "| ", moat_yellow, contracts_tbl.short .. " Contract", moat_blue, " | ", 
+				moat_green, util.Upper(util.FormatTimeSingle(unix, 0)) .. " Left", moat_blue, " | ", 
+				clr, arrow, moat_pink, "Rank " .. string.Comma(contracts_tbl.my_rank), clr, arrow, moat_blue, " | ", 
+				moat_red, contracts_tbl.my_score .. " Kill" .. (contracts_tbl.my_score == 1 and "" or "s"), moat_blue, " | ", 
+				moat_cyan, nextup and (nextup .. " Kill" .. (nextup == 1 and "" or "s") .. " for Rank " .. string.Comma(math.max(1, contracts_tbl.my_rank - 1))) or "Relax"/*, moat_blue, " | ", 
+				behind and (behind .. " Ahead") or "Go Faster"*/
+			}
+
+			chat.AddText(unpack(msg))
+		end)
+	end
+end)
 
 local clr = HSVToColor(math.random(1,200) * 1000 % 360, 1, 1)
 clr.a = 50

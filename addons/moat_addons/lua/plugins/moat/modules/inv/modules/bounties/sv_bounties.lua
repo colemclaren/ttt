@@ -536,11 +536,11 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		lottery_playerspawn(ply)
 		timer.Simple(5, function()
 			if (not IsValid(ply)) then return end
-			net.Start("moat.contractinfo")
+			/*net.Start("moat.contractinfo")
 			net.WriteString(contract_loaded)
 			net.WriteString(moat_contracts[contract_loaded].desc)
 			net.WriteString(moat_contracts[contract_loaded].adj)
-			net.Send(ply)
+			net.Send(ply)*/
 		end)
 		
 		--[[for i =1,100 do
@@ -565,6 +565,12 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			top_cache = top
 			contract_getplace(ply,function(p)
 				net.Start("moat.contracts")
+				net.WriteBool(true)
+				net.WriteString(contract_loaded)
+				net.WriteString(moat_contracts[contract_loaded].desc)
+				net.WriteString(moat_contracts[contract_loaded].adj)
+				net.WriteString(moat_contracts[contract_loaded].short)
+				net.WriteInt(p.players,32)
 				net.WriteInt(p.position,32)
 				net.WriteInt(p.myscore,32)
 				net.WriteBool(false)
@@ -631,6 +637,8 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 						if (not data) then continue end
 
 						net.Start("moat.contracts")
+						net.WriteBool(false)
+						net.WriteInt(d[1].players,32)
 						net.WriteInt(data.position,32)
 						net.WriteInt(data.score,32)
 						net.WriteBool(true)
@@ -757,6 +765,7 @@ for k,v in pairs(weapon_challenges) do
 	addcontract("Global " .. v[3] .. " Killer",{
 	desc = "Get as many kills as you can with " .. v[2] .. ", rightfully.",
 	adj = "Kills",
+	short = v[3],
 	runfunc = function()
 			hook.Add("PlayerDeath", "RightfulContract" .. k, function(ply, inf, att)
 				if not IsValid(att) then return end
@@ -774,6 +783,7 @@ end
 addcontract("Rightful Slayer",{
 	desc = "Eliminate as many terrorists as you can, rightfully.",
 	adj = "Kills",
+	short = "Kills",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
 			if not IsValid(att) then return end
@@ -791,6 +801,7 @@ addcontract("Rightful Slayer",{
 addcontract("Crouching Hunters",{
 	desc = "Kill as many terrorists as you can rightfully while YOU are crouching.",
 	adj = "Kills",
+	short = "Crouching",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
 			if not IsValid(att) then return end
@@ -810,6 +821,7 @@ addcontract("Crouching Hunters",{
 addcontract("Melee Hunter",{
 	desc = "Rightfully kill as many terrorists as you can with a melee weapon.",
 	adj = "Kills",
+	short = "Melees",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
 			if not IsValid(att) then return end
@@ -829,6 +841,7 @@ addcontract("Melee Hunter",{
 addcontract("Secondary Hunter",{
 	desc = "Rightfully kill as many terrorists as you can with a secondary.",
 	adj = "Kills",
+	short = "Secondaries",
 	runfunc = function()
 		hook.Add("PlayerDeath", "RightfulContract", function(ply, inf, att)
 			if not IsValid(att) then return end
@@ -1152,7 +1165,6 @@ MOAT_BOUNTIES:AddBounty("Marathon Walker", {
 	rewardtbl = tier1_rewards
 })
 
-MOAT_BOUNTIES:AddBounty("Close Quaters Combat", {
 MOAT_BOUNTIES:AddBounty("Close Quarters Combat", {
 	tier = 1,
 	desc = "Eliminate # terrorists, rightfully, while being close to your target. Can be completed as any role.",
