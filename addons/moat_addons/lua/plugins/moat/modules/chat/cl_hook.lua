@@ -14,6 +14,10 @@ local function OnPlayerChat(gm, pl, str, isteam, isdead, ignore_block)
 		end
 	end
 
+	str = string.Replace(str, "/tableflip", [[(╯°□°）╯︵ ┻━┻]])
+	str = string.Replace(str, "/unflip", [[┬─┬ノ( º _ ºノ)]])
+	str = string.Replace(str, "/shrug", [[¯\_(ツ)_/¯]])
+
 	-- PrePlayerChat should be used instead of OnPlayerChat
 	-- return true to supress message
 	if (hook.Run("PrePlayerChat", ignore_block or pl, str, isteam, isdead or Dead, ValidPlayer)) then

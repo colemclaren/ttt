@@ -49,7 +49,10 @@ D3A.Config.IgnoreChatCommands = {
 	"materials",
 	"textures",
 	"m",
-	"rtv"
+	"rtv",
+	"shrug",
+	"tableflip",
+	"unflip"
 }
 
 --[[
