@@ -1153,6 +1153,7 @@ MOAT_BOUNTIES:AddBounty("Marathon Walker", {
 })
 
 MOAT_BOUNTIES:AddBounty("Close Quaters Combat", {
+MOAT_BOUNTIES:AddBounty("Close Quarters Combat", {
 	tier = 1,
 	desc = "Eliminate # terrorists, rightfully, while being close to your target. Can be completed as any role.",
 	vars = {
