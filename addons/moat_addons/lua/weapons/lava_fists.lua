@@ -326,7 +326,7 @@ else
 			DrawMaterialOverlay("models/props_lab/tank_glass001", m_EggRefract)
 			DrawMaterialOverlay("effects/water_warp01", m_EggRefract)
 			DrawMaterialOverlay("models/shadertest/shader3", m_EggRefract)
-			m_EggRefract = m_EggRefract:lerp(0, FrameTime())
+			m_EggRefract = m_EggRefract:BadLerp(0, FrameTime())
 
 			if m_EggRefract < 0.01 then
 				m_AmEgged = nil
@@ -378,17 +378,15 @@ local function EyeTraceEntity()
 	end
 end
 if CLIENT then
-	/*
 	local cmeta = debug.getregistry().Color
 	local ma = math.Approach
 	local lp = Lerp
-	function cmeta:Lerp(b, n)
+	function cmeta:BadLerp(b, n)
 		return Color(lp(n, self.r, b.r), lp(n, self.g, b.g), lp(n, self.b, b.b), lp(n, self.a, b.a))
 	end
-	function cmeta:Alpha(n)
+	function cmeta:BadAlpha(n)
 		return Color(self.r, self.g, self.b, n)
 	end
-	*/
 end
 
 function SWEP:DrawHUD()
@@ -402,7 +400,7 @@ function SWEP:DrawHUD()
 		tosc = tr.HitPos:ToScreen()
 	end)
 
-	c_CValue = c_CValue:lerp(Player:GetVelocity():Length() / 5)
+	c_CValue = c_CValue:BadLerp(Player:GetVelocity():Length() / 5)
 
 	if tVal then
 		c_CValue = c_CValue + ScrH() / 20
@@ -414,7 +412,7 @@ function SWEP:DrawHUD()
 	end
 
 	c_DesiredColor = EyeTraceEntity() or Color(255,0,0)
-	c_CurrentColor = c_CurrentColor:Lerp( c_DesiredColor, FrameTime() * 3 ):Alpha(255 - c_CValue)
+	c_CurrentColor = c_CurrentColor:BadLerp( c_DesiredColor, FrameTime() * 3 ):BadAlpha(255 - c_CValue)
 
 
 	local xE, xT = (ScrH() / 100 + c_CValue), (c_CValue * ScrH() / 300)
