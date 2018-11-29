@@ -313,7 +313,7 @@ net.Receive("moat.contracts",function()
 
 				chat.AddText(moat_blue, "| ", moat_yellow, "Daily Contract", moat_blue, " | ", moat_cyan, contracts_tbl.name, moat_blue, " | ", moat_green, util.Upper(util.FormatTimeSingle(unix, 0)) .. " Left")
 				if (contracts_tbl.my_score < 1) then
-					chat.AddText(moat_blue, "| ", moat_red, "You need a contract kill for a rank placing.", moat_blue, " | ", moat_white, "The top ", moat_pink, "50 Players", moat_white, " get rewards!")
+					chat.AddText(moat_blue, "| ", moat_red, "You need a contract kill for a rank placing", moat_blue, " | ", moat_pink, "Top 50 Players get rewards!")
 				else
 					chat.AddText(moat_blue, "| ", moat_white, "You are now ",
 						clr, arrow, moat_pink, "Rank " .. string.Comma(contracts_tbl.my_rank), clr, arrow, 
@@ -355,8 +355,12 @@ net.Receive("moat.contracts",function()
 					nextupid = nextupid + 1
 					nextup = contracts_tbl.players[contracts_tbl.my_rank - nextupid]
 				end
-				
-				nextup = nextup[3] - contracts_tbl.my_score
+
+				if (not nextup or not nextup[3]) then
+					return
+				end
+
+				nextup = math.max(1, nextup[3] - contracts_tbl.my_score)
 			end
 
 			local behind = contracts_tbl.players[contracts_tbl.my_rank + 1]

@@ -356,11 +356,11 @@ local function _contracts()
 		q:start()
 		lottery_finish()
 
-		moat.sql("UPDATE moat_contract_cache SET wpns = ?, kills = ? WHERE id = 1", wpns, kills)
+		moat.mysql("UPDATE moat_contract_cache SET wpns = ?, kills = ? WHERE id = 1", wpns, kills)
 	end
 
 	local function loadnew()
-		moat.sql("SELECT wpns, kills FROM moat_contract_cache WHERE id = 1", function(d)
+		moat.mysql("SELECT wpns, kills FROM moat_contract_cache WHERE id = 1", function(d)
 			if (not d or not d[1]) then
 				d = {{wpns = 1, kills = 1}}
 			end
