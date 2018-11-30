@@ -396,7 +396,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
 
                 net.Start("MOAT_UPDATE_OTHER_WEP")
                 net.WriteUInt(v3:EntIndex(), 16)
-				net.WriteString(v.PrintName)
+				net.WriteString(wpn_tbl.PrintName or "")
                 net.WriteDouble(ply:EntIndex())
 
                 local item_old = table.Copy(v.item)
