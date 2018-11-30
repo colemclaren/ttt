@@ -326,7 +326,7 @@ else
 			DrawMaterialOverlay("models/props_lab/tank_glass001", m_EggRefract)
 			DrawMaterialOverlay("effects/water_warp01", m_EggRefract)
 			DrawMaterialOverlay("models/shadertest/shader3", m_EggRefract)
-			m_EggRefract = m_EggRefract:BadLerp(0, FrameTime())
+			m_EggRefract = m_EggRefract:lerp(0, FrameTime())
 
 			if m_EggRefract < 0.01 then
 				m_AmEgged = nil
@@ -400,7 +400,7 @@ function SWEP:DrawHUD()
 		tosc = tr.HitPos:ToScreen()
 	end)
 
-	c_CValue = c_CValue:BadLerp(Player:GetVelocity():Length() / 5)
+	c_CValue = c_CValue:lerp(Player:GetVelocity():Length() / 5)
 
 	if tVal then
 		c_CValue = c_CValue + ScrH() / 20
