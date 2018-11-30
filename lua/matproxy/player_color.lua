@@ -32,7 +32,7 @@ matproxy.Add( {
 				mat:SetVector( self.ResultTo, col )
 			end
 		else
-			mat:SetVector( self.ResultTo, Vector( 62 / 255, 88 / 255, 106 / 255 ) )
+			mat:SetVector( self.ResultTo, Vector( 1, 1, 1 ) )
 		end
 
 		if (CSModel[ent:GetClass()] and MOAT_PAINT and m_Loadout and m_Loadout[10] and m_Loadout[10].p2 and m_Loadout[10].item and m_Loadout[10].item.Model == ent:GetModel()) then
