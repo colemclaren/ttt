@@ -11,6 +11,7 @@ if CLIENT then
 end
 
 SWEP.UseHands			= true
+SWEP.RenderGroup = RENDERGROUP_TRANSLUCENT
 SWEP.Base				= "weapon_tttbase"
 SWEP.ViewModel			= "models/weapons/v_crewbar.mdl"
 SWEP.WorldModel			= "models/weapons/v_crewbar.mdl"

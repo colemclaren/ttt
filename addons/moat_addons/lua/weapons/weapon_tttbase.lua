@@ -83,7 +83,6 @@ if CLIENT then
 end
 
 SWEP.Base = "weapon_base"
-SWEP.RenderGroup = RENDERGROUP_TRANSLUCENT
 SWEP.Category           = "TTT"
 SWEP.Spawnable          = false
 
