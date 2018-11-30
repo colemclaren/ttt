@@ -211,9 +211,17 @@ function m_ApplyWeaponMods(tbl, loadout_tbl, item_tbl)
     return MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, item_tbl)
 end
 
-function MOAT_LOADOUT.ApplyOtherModifications(tbl, loadout_tbl)
+function MOAT_LOADOUT.ApplyOtherModifications(tbl, loadout_tbl, item)
     local wep = tbl
     local itemtbl = table.Copy(loadout_tbl)
+
+	if (item and item.Name and wep.PrintName and wep.ClassName and wep.PrintName == util.GetWeaponName(wep.ClassName)) then
+		if (item.Kind and item.Kind == "tier") then
+			wep.PrintName = string(item.Name, " ", wep.PrintName)
+		else
+			wep.PrintName = item.Name
+		end
+	end
 
     if (itemtbl and itemtbl.item and itemtbl.item.Stats and itemtbl.s and #itemtbl.s > 0) then
         wep.InventoryModifications = {}
@@ -391,17 +399,15 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
 
                 local v3 = ply:Give(v.w)
                 local wpn_tbl = v3:GetTable()
+				local item_old = table.Copy(v.item)
+                v.item = m_GetItemFromEnum(v.u)
 
-                MOAT_LOADOUT.ApplyOtherModifications(wpn_tbl, v)
+                MOAT_LOADOUT.ApplyOtherModifications(wpn_tbl, v, v.item)
 
                 net.Start("MOAT_UPDATE_OTHER_WEP")
                 net.WriteUInt(v3:EntIndex(), 16)
 				net.WriteString(wpn_tbl.PrintName or "")
                 net.WriteDouble(ply:EntIndex())
-
-                local item_old = table.Copy(v.item)
-                v.item = m_GetItemFromEnum(v.u)
-
                 net.WriteTable(v)
                 net.Send(ply)
 
