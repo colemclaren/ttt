@@ -85,12 +85,12 @@ SWEP.HoldType = "pistol"
 
 
 if CLIENT then
-   SWEP.PrintName = "Beretta M9"
    SWEP.Slot = 1
 
    SWEP.Icon = "vgui/ttt/icon_pistol"
    SWEP.IconLetter = "u"
 end
+
 SWEP.PrintName = "Beretta M9"
 SWEP.Kind = WEAPON_PISTOL
 SWEP.WeaponID = AMMO_PISTOL

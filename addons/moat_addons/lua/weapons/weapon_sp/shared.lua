@@ -88,9 +88,8 @@ SWEP.Offset = {
 AddCSLuaFile()
 
 SWEP.HoldType = "pistol"
-
+SWEP.PrintName = "Stealth Pistol"
 if CLIENT then
-   SWEP.PrintName = "Stealth Pistol"
    SWEP.Slot = 1
 
    SWEP.Icon = "vgui/hud/weapon_sp"

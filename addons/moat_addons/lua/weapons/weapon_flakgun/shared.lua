@@ -180,14 +180,11 @@ end
 AddCSLuaFile()
 
 SWEP.HoldType                   = "pistol"
-
+SWEP.PrintName = "Flak-28"
 if CLIENT then
-   SWEP.PrintName = "Flak-28"
-
    SWEP.Slot = 1
    SWEP.Icon = "vgui/hud/weapon_flakgun"
 end
-SWEP.PrintName = "Flak-28"
 
 SWEP.Base                               = "weapon_tttbase"
 SWEP.Spawnable = true

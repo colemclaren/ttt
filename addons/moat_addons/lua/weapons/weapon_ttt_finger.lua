@@ -6,13 +6,9 @@ AddCSLuaFile()
 
 SWEP.HoldType = "unarmed"
 
-
+SWEP.PrintName    = "DNA Eradicator"
 
 if CLIENT then
-
-
-
-   SWEP.PrintName    = "DNA Eradicator"
 
    SWEP.Slot         = 6
 

@@ -287,15 +287,13 @@ end
 AddCSLuaFile()
 
 SWEP.HoldType			= "shotgun"
+SWEP.PrintName = "Benelli TE"
 
 if CLIENT then
-   SWEP.PrintName = "Benelli TE"
-
    SWEP.Slot = 2
    SWEP.Icon = "vgui/ttt/icon_shotgun"
    SWEP.IconLetter = "B"
 end
-SWEP.PrintName = "Benelli TE"
 
 SWEP.Base				= "weapon_tttbase"
 SWEP.Spawnable = true

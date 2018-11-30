@@ -4,7 +4,6 @@ if( SERVER ) then
 end
 
 if( CLIENT ) then
-	SWEP.PrintName = "Rifle"
 	SWEP.Slot = 2
 	SWEP.DrawAmmo = true
 	SWEP.DrawCrosshair = false
@@ -74,7 +73,7 @@ if( CLIENT ) then
 	end
 end
 
-SWEP.PrintName = "Morrowind Bow"
+SWEP.PrintName = "Steel Bow"
 
 SWEP.Base = "weapon_tttbase"
 SWEP.AutoSpawnable = false

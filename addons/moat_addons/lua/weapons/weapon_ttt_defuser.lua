@@ -3,9 +3,9 @@ AddCSLuaFile()
 
 
 SWEP.HoldType			= "slam"
+SWEP.PrintName = "Defuser"
 
 if CLIENT then
-   SWEP.PrintName = "defuser_name"
    SWEP.Slot = 7
 
    SWEP.ViewModelFOV = 10

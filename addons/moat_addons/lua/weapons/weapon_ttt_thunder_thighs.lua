@@ -1,8 +1,7 @@
 AddCSLuaFile()
 SWEP.HoldType = "normal"
-
+SWEP.PrintName = "Thunder Thighs"
 if CLIENT then
-    SWEP.PrintName = "Thunder Thighs"
     SWEP.Slot = 7
     id = speed
     SWEP.DrawAmmo = true

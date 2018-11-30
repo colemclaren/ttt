@@ -82,13 +82,12 @@ AddCSLuaFile()
 SWEP.HoldType = "ar2"
 
 if CLIENT then
-
-   SWEP.PrintName = "MAC10 FE"
    SWEP.Slot = 2
 
    SWEP.Icon = "vgui/ttt/icon_mac"
    SWEP.IconLetter = "l"
 end
+
 SWEP.PrintName = "MAC10 FE"
 
 SWEP.Base = "weapon_tttbase"

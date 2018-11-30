@@ -2,9 +2,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "normal"
+SWEP.PrintName = "Holstered"
 
 if CLIENT then
-   SWEP.PrintName = "unarmed_name"
    SWEP.Slot      = 5
 
    SWEP.ViewModelFOV = 10

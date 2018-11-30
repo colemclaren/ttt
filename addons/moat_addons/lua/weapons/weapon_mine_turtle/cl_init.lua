@@ -1,6 +1,5 @@
 include('shared.lua')
 
-SWEP.PrintName = "Mine Turtle"
 SWEP.Slot = 4
 
 SWEP.DrawAmmo = false

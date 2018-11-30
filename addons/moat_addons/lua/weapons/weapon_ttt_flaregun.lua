@@ -2,10 +2,8 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "pistol"
-
+SWEP.PrintName = "Flare Gun"
 if CLIENT then
-
-   SWEP.PrintName = "flare_name"
    SWEP.Slot = 6
 
    SWEP.ViewModelFOV  = 54

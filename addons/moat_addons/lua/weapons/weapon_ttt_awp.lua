@@ -1,7 +1,6 @@
 AddCSLuaFile()
 
 if CLIENT then
-   SWEP.PrintName = "Silenced AWP"
    SWEP.Slot = 6
    SWEP.Icon = "vgui/ttt/icon_awp"
    SWEP.IconLetter = "r"
@@ -9,7 +8,7 @@ end
 
 -- Always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
-
+SWEP.PrintName = "Silenced AWP"
 -- Standard GMod values
 SWEP.HoldType = "ar2"
 

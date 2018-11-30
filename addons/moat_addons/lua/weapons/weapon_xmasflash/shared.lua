@@ -94,11 +94,10 @@ end
 if (CLIENT) then --the init.lua stuff goes in here
 
     SWEP.Category = "X-mas"
-    SWEP.PrintName = "Christmas Flash"
     SWEP.SlotPos = 2
 
 end
-
+SWEP.PrintName = "Christmas Flash"
 SWEP.Grenade = "xmas_flash_sent"
 SWEP.HoldType                   = "grenade"
 local here = true

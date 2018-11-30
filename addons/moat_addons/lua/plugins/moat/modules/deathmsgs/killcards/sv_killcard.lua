@@ -58,10 +58,11 @@ local function moat_send_killcard(pl, att, dmg)
 	net.WriteString(dmg_str)
 
 	if (inf and IsValid(inf) and inf:IsWeapon()) then
-		local wep = dmg:GetInflictor()
-		net.WriteEntity(wep)
-		if (wep.ItemStats and wep.ItemStats.s) then
-			net.WriteUInt(2, 1)
+		net.WriteEntity(inf)
+		if (inf.ItemStats and inf.ItemStats.s) then
+			net.WriteBool(true)
+		else
+			net.WriteBool(false)
 		end
 	else
 		if (wep_dmgs[dt] and IsValid(att) and att:IsPlayer()) then
@@ -69,13 +70,17 @@ local function moat_send_killcard(pl, att, dmg)
 			if (IsValid(wep)) then
 				net.WriteEntity(wep)
 				if (wep.ItemStats and wep.ItemStats.s) then
-					net.WriteUInt(2, 1)
+					net.WriteBool(true)
+				else
+					net.WriteBool(false)
 				end
 			end
 		else
 			net.WriteEntity(Entity(0))
+			net.WriteBool(false)
 		end
 	end
+
 	net.Send(pl)
 end
 

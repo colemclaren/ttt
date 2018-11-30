@@ -4,7 +4,7 @@ SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
 -- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
-
+SWEP.PrintName = "Predator Blade"
 --[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 0.6

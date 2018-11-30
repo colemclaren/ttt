@@ -1,8 +1,7 @@
 AddCSLuaFile()
 SWEP.Base = "weapon_tttbase"
-
+SWEP.PrintName = "Position Swapper"
 if CLIENT then
-    SWEP.PrintName = "Position Swapper"
     SWEP.Slot = 7
     SWEP.Icon = "VGUI/ttt/icon_posswitch"
     SWEP.DrawAmmo = false

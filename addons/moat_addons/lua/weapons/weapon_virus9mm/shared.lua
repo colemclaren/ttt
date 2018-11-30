@@ -88,9 +88,8 @@ SWEP.Offset = {
 AddCSLuaFile()
 
 SWEP.HoldType = "pistol"
-
+SWEP.PrintName = "TAC-45"
 if CLIENT then
-   SWEP.PrintName = "TAC-45"
    SWEP.Slot = 1
 
    SWEP.Icon = "vgui/hud/weapon_virus9mm"

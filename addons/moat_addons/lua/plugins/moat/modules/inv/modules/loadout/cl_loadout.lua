@@ -465,6 +465,7 @@ end)
 
 function MOAT_LOADOUT.UpdateOtherWep()
     local wep_index = net.ReadUInt(16)
+	local wep_name = net.ReadString()
     local wep_owner = net.ReadDouble()
     local wep_stats = net.ReadTable()
 
@@ -480,7 +481,11 @@ function MOAT_LOADOUT.UpdateOtherWep()
         local wep = Entity(wep_index)
 
         if (wep.Weapon) then
-            if (wep.Weapon.PrintName) then
+            if (wep.Weapon.PrintName and wep_name) then
+				wep.Weapon.PrintName = wep_name
+
+				/*
+
                 local ITEM_NAME_FULL = ""
 
                 if (wep_stats.item.Kind == "tier") then
@@ -501,6 +506,8 @@ function MOAT_LOADOUT.UpdateOtherWep()
                 end
 
                 wep.Weapon.PrintName = ITEM_NAME_FULL
+
+				*/
             end
 
             if (wep_stats) then
@@ -516,7 +523,7 @@ end
 net.Receive("MOAT_UPDATE_OTHER_WEP", MOAT_LOADOUT.UpdateOtherWep)
 
 function MOAT_LOADOUT.UpdateWep()
-    local wep_index, wep_d, wep_f, wep_m, wep_r, wep_a, wep_v, wep_p, wep_owner, wep_stats
+    local wep_index, wep_name, wep_d, wep_f, wep_m, wep_r, wep_a, wep_v, wep_p, wep_owner, wep_stats
     
     local store  = MOAT_TDM or MOAT_FFA
     if (store) then
@@ -524,6 +531,7 @@ function MOAT_LOADOUT.UpdateWep()
 		wep_index = net.ReadUInt(16)
 		if (net.ReadBool()) then
 			store.WepCache[wep_class] = {
+				[0] = net.ReadString(),
 				[1] = net.ReadDouble(),
             	[2] = net.ReadDouble(),
             	[3] = net.ReadDouble(),
@@ -543,6 +551,7 @@ function MOAT_LOADOUT.UpdateWep()
 		end
 
 		local v = store.WepCache[wep_class]
+		wep_name = v[0]
 		wep_d = v[1]
         wep_f = v[2]
         wep_m = v[3]
@@ -554,6 +563,7 @@ function MOAT_LOADOUT.UpdateWep()
         wep_stats = v[9]
     else
         wep_index = net.ReadUInt(16)
+		wep_name = net.ReadString()
         wep_d = net.ReadDouble()
         wep_f = net.ReadDouble()
         wep_m = net.ReadDouble()
@@ -615,7 +625,11 @@ function MOAT_LOADOUT.UpdateWep()
                 wep.Weapon.Secondary.Delay = wep_p
             end
 
-            if (wep.Weapon.PrintName and wep_stats and wep_stats.item) then
+            if (wep.Weapon.PrintName and wep_name) then
+				wep.Weapon.PrintName = wep_name
+
+				/*
+
                 local ITEM_NAME_FULL = ""
 
                 if (wep_stats.item.Kind == "tier") then
@@ -636,6 +650,8 @@ function MOAT_LOADOUT.UpdateWep()
                 end
 
                 wep.Weapon.PrintName = ITEM_NAME_FULL
+
+				*/
             end
 
             if (wep_stats) then

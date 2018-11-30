@@ -1,9 +1,8 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "pistol"
-
+SWEP.PrintName			= "M1911"
 if CLIENT then
-   SWEP.PrintName			= "M1911"			
    SWEP.Author				= "TTT"
 
    SWEP.Slot				= 1

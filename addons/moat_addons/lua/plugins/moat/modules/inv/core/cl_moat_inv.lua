@@ -2954,7 +2954,7 @@ function m_OpenInventory(ply2, utrade)
             local ITEM_NAME_FULL = ""
 
             if (ITEM_HOVERED.item.Kind == "tier") then
-                local ITEM_NAME = weapons.Get(ITEM_HOVERED.w).PrintName
+                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
 
                 if (string.EndsWith(ITEM_NAME, "_name")) then
                     ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
@@ -3147,7 +3147,7 @@ function m_OpenInventory(ply2, utrade)
             local ITEM_NAME_FULL = ""
 
             if (ITEM_HOVERED.item.Kind == "tier") then
-                local ITEM_NAME = weapons.Get(ITEM_HOVERED.w).PrintName
+                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
 
                 if (string.EndsWith(ITEM_NAME, "_name")) then
                     ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
@@ -4848,7 +4848,7 @@ function m_CreateItemMenu(num, ldt)
 
         local wpn = ""
         if (itemtbl.w) then
-            wpn = weapons.Get(itemtbl.w).PrintName or ""
+            wpn = util.GetWeaponName(itemtbl.w) or ""
         end
 
         net.WriteString(wpn)
@@ -6119,7 +6119,7 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
         local ITEM_NAME_FULL = ""
 
         if (item_tbl.item.Kind == "tier") then
-            local ITEM_NAME = weapons.Get(item_tbl.w).PrintName
+            local ITEM_NAME = util.GetWeaponName(item_tbl.w)
 
             if (string.EndsWith(ITEM_NAME, "_name")) then
                 ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
@@ -6193,7 +6193,7 @@ function m_DrawFoundItem(tbl, s_type)
             local ITEM_NAME_FULL = ""
 
             if (ITEM_HOVERED.item.Kind == "tier") then
-                local ITEM_NAME = weapons.Get(ITEM_HOVERED.w).PrintName
+                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
 
                 if (string.EndsWith(ITEM_NAME, "_name")) then
                     ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
@@ -6348,7 +6348,7 @@ function m_DrawFoundItem(tbl, s_type)
         local ITEM_NAME_FULL = ""
 
         if (ITEM_HOVERED.item.Kind == "tier") then
-            local ITEM_NAME = weapons.Get(ITEM_HOVERED.w).PrintName
+            local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
 
             if (string.EndsWith(ITEM_NAME, "_name")) then
                 ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
@@ -6466,7 +6466,7 @@ function m_DrawFoundItem(tbl, s_type)
             local ITEM_NAME_FULL = ""
 
             if (ITEM_HOVERED.item.Kind == "tier") then
-                local ITEM_NAME = weapons.Get(ITEM_HOVERED.w).PrintName
+                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
 
                 if (string.EndsWith(ITEM_NAME, "_name")) then
                     ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)

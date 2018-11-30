@@ -2,10 +2,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "normal"
-
+SWEP.PrintName = "Health Station"
 
 if CLIENT then
-   SWEP.PrintName = "hstation_name"
    SWEP.Slot = 6
 
    SWEP.ViewModelFOV = 10

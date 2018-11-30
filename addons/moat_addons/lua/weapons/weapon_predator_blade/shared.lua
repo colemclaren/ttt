@@ -1,7 +1,7 @@
 --- Author informations ---
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
-
+SWEP.PrintName = "Predator Blade"
 --- Default GMod values ---
 SWEP.Base = "weapon_base"
 SWEP.Category = "Other"

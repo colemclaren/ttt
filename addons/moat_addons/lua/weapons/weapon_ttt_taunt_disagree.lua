@@ -1,9 +1,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "normal"
+SWEP.PrintName = "Disagree Taunt"
 
 if CLIENT then
-   SWEP.PrintName = "Disagree Taunt"
    SWEP.Slot      = 5
    SWEP.Icon = "moat_inv/moat_taunt.png"
 

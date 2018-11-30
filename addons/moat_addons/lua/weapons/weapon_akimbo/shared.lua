@@ -85,11 +85,11 @@ AddCSLuaFile()
 SWEP.HoldType = "duel"
 
 if CLIENT then
-   SWEP.PrintName = "Akimbo Pistols"
    SWEP.Slot = 1
 
    SWEP.Icon = "vgui/hud/weapon_akimbo"
 end
+SWEP.PrintName = "Akimbo Pistols"
 SWEP.Kind = WEAPON_PISTOL
 SWEP.WeaponID = AMMO_GLOCK
 

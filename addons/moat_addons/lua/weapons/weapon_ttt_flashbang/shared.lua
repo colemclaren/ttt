@@ -4,15 +4,13 @@ if (SERVER) then --the init.lua stuff goes in here
 
 end
 
-
+SWEP.PrintName = "Flashbang"
 
 if (CLIENT) then --the init.lua stuff goes in here
 
 
 
 
-
-	SWEP.PrintName = "Flashbang"
 
 	SWEP.SlotPos = 2
 

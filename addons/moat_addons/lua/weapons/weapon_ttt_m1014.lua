@@ -6,12 +6,11 @@ DEFINE_BASECLASS "weapon_tttbase"
 SWEP.HoldType			= "shotgun"
 
 if CLIENT then
-   SWEP.PrintName = "M1014"
-
    SWEP.Slot = 2
    SWEP.Icon = "vgui/ttt/m1014_icon"
 end
 
+SWEP.PrintName = "M1014"
 SWEP.Gun = ("weapon_ttt_m1014")
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_SHOTGUN

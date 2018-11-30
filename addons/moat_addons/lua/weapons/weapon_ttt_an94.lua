@@ -2,7 +2,6 @@ AddCSLuaFile()
 
 SWEP.PrintName = "Peacekeeper"
 if CLIENT then
-	SWEP.PrintName = "Peacekeeper"
 	SWEP.Slot = 2
 	SWEP.Icon = "vgui/ttt/peacekeeper.png"
 end

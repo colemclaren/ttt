@@ -8,11 +8,9 @@ SWEP.HoldType = "slam"
 
 --resource.AddFile("materials/vgui/ttt/icon_pigeon.vtf");
 
+SWEP.PrintName    = "Pigeon Bomb"
+
 if CLIENT then
-
-
-
-   SWEP.PrintName    = "Pigeon Bomb"
 
    SWEP.Slot         = 6
 

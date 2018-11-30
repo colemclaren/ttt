@@ -91,12 +91,12 @@ end
 AddCSLuaFile()
 
 if CLIENT then
-   SWEP.PrintName     = "M4A1"
    SWEP.Slot        = 2
 
    SWEP.Icon = "vgui/ttt/icon_m16"
    SWEP.IconLetter = "w"
 end
+
 SWEP.PrintName      = "M4A1"
 SWEP.Base       = "weapon_tttbase"
 SWEP.Spawnable = true

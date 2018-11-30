@@ -2,8 +2,8 @@ if( SERVER ) then
 	AddCSLuaFile( "shared.lua" )
 end
 
+SWEP.PrintName = "Auriel Bow"
 if( CLIENT ) then
-	SWEP.PrintName = "Rifle"
 	SWEP.DrawAmmo = true
 	SWEP.DrawCrosshair = false
 	SWEP.Icon = "vgui/ttt/icon_scout"

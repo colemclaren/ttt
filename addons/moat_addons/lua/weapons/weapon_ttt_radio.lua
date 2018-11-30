@@ -4,9 +4,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "normal"
+SWEP.PrintName			= "Radio"
 
 if CLIENT then
-   SWEP.PrintName			= "radio_name"
    SWEP.Slot				= 7
 
    SWEP.ViewModelFOV = 10

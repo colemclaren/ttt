@@ -87,3 +87,23 @@ end
 function util.Upper(str)
 	return string.gsub(" " .. str, "%W%l", string.upper):sub(2)
 end
+
+local wep_names = {}
+function util.GetWeaponName(str)
+	if (not str) then
+		return str
+	end
+
+	if (wep_names[str]) then
+		return wep_names[str]
+	end
+
+	local wep = weapons.Get(str)
+	if (not wep) then
+		return str
+	end
+
+	wep_names[str] = wep and wep.PrintName or str
+	
+	return wep_names[str]
+end

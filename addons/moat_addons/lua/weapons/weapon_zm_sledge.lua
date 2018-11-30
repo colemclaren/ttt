@@ -2,10 +2,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "crossbow"
-
+SWEP.PrintName			= "H.U.G.E-249"
 
 if CLIENT then
-   SWEP.PrintName			= "H.U.G.E-249"
    SWEP.Slot				= 2
 
    SWEP.ViewModelFlip		= false
@@ -13,7 +12,6 @@ if CLIENT then
    SWEP.Icon = "vgui/ttt/icon_m249"
    SWEP.IconLetter = "z"
 end
-SWEP.PrintName			= "H.U.G.E-249"
 
 SWEP.Base				= "weapon_tttbase"
 

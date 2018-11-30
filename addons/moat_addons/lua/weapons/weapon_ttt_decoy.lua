@@ -2,9 +2,8 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "normal"
-
+SWEP.PrintName			= "Decoy"
 if CLIENT then
-   SWEP.PrintName			= "decoy_name"
    SWEP.Slot				= 7
 
    SWEP.ViewModelFOV = 10

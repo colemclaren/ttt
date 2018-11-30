@@ -183,10 +183,8 @@ SWEP.BlockMinimum = 0.98
 AddCSLuaFile()
 
 SWEP.HoldType			= "melee"
-
+SWEP.PrintName			= "Smart Pen"
 if CLIENT then
-   SWEP.PrintName			= "Smart Pen"
-
    SWEP.Slot				= 0
 
    SWEP.Icon = "vgui/ttt/icon_cbar"   

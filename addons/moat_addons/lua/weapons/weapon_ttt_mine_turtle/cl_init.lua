@@ -3,7 +3,6 @@ include('shared.lua')
 LANG.AddToLanguage("english", "mine_turtle_name", "Mine Turtle")
 LANG.AddToLanguage("english", "mine_turtle_desc", "HELLO!\n\nNOTE: Can be shot and destroyed by everyone.")
 
-SWEP.PrintName = "mine_turtle_name"
 SWEP.Slot = (!GetConVar("ttt_mineturtle_detective"):GetBool() and !GetConVar("ttt_mineturtle_traitor"):GetBool()) and 3 or 6
 SWEP.Icon = "vgui/ttt/icon_mine_turtle"
 

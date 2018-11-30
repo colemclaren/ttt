@@ -12,11 +12,9 @@ if CLIENT then
 
    ENT.Icon = "vgui/ttt/icon_radio"
 
-   ENT.PrintName = "radio_name"
-
 end
 
-
+ENT.PrintName = "Radio"
 
 ENT.Type = "anim"
 

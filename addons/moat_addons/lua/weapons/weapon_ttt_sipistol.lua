@@ -2,9 +2,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "pistol"
+SWEP.PrintName = "Silenced Pistol"
 
 if CLIENT then
-   SWEP.PrintName = "sipistol_name"
    SWEP.Slot = 6
 
    SWEP.EquipMenuData = {

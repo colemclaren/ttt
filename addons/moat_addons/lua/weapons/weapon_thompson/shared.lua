@@ -88,14 +88,12 @@ SWEP.Offset = {
 AddCSLuaFile()
 
 SWEP.HoldType                   = "ar2"
-
+SWEP.PrintName                       = "Tommy Gun"
 if CLIENT then
-   SWEP.PrintName                       = "Tommy Gun"
    SWEP.Slot                            = 2
 
    SWEP.Icon = "vgui/hud/weapon_thompson"
 end
-SWEP.PrintName                  = "Tommy Gun"
 SWEP.Base                               = "weapon_tttbase"
 SWEP.Spawnable = true
 

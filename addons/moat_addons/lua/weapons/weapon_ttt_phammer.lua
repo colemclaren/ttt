@@ -4,9 +4,9 @@ AddCSLuaFile()
 DEFINE_BASECLASS "weapon_tttbase"
 
 SWEP.HoldType			= "ar2"
+SWEP.PrintName = "Poltergeist"
 
 if CLIENT then
-   SWEP.PrintName = "Poltergeist"
    SWEP.Slot = 7
 
    SWEP.ViewModelFlip = false

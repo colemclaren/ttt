@@ -2,10 +2,8 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "melee"
-
+SWEP.PrintName			= "Fish"
 if CLIENT then
-   SWEP.PrintName			= "Fish"
-
    SWEP.Slot				= 0
 
    SWEP.Icon = "vgui/ttt/icon_cbar"   

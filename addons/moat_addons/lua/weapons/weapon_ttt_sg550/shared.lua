@@ -6,7 +6,6 @@ if SERVER then
 	AddCSLuaFile()
 else
 
-	SWEP.PrintName = "SG550"
 	SWEP.Slot = 2
 	SWEP.Icon = "vgui/ttt/icon_sg550"
 
@@ -18,7 +17,7 @@ end
 
 -- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
-
+SWEP.PrintName = "SG550"
 --[[Default GMod values]]--
 SWEP.Primary.Ammo = "357"
 SWEP.Primary.Delay = 0.5

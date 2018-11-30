@@ -2,9 +2,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "grenade"
+SWEP.PrintName = "Smoke Grenade"
 
 if CLIENT then
-   SWEP.PrintName = "grenade_smoke"
    SWEP.Slot = 3
 
    SWEP.Icon = "vgui/ttt/icon_nades"

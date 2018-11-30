@@ -3,8 +3,7 @@ AddCSLuaFile( "shared.lua" )
 
 end
 
-if ( CLIENT ) then
-SWEP.PrintName          = "Health Grenade"          
+if ( CLIENT ) then   
 SWEP.Slot               = 3
 SWEP.SlotPos            = 0
 
@@ -13,6 +12,7 @@ SWEP.SlotPos            = 0
       desc = [[Heals health over time (2 per second) in an area.]]
    };
 end
+SWEP.PrintName          = "Health Grenade"
 SWEP.Icon = "VGUI/ttt/icon_nades"
 SWEP.Base				= "weapon_tttbasegrenade"
 SWEP.Kind               = WEAPON_NADE

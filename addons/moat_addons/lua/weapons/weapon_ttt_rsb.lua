@@ -6,9 +6,9 @@ if SERVER then
 end
 
 SWEP.HoldType = "slam"
+SWEP.PrintName = "Remote Sticky Bomb"
 
 if CLIENT then
-    SWEP.PrintName = "Remote Sticky Bomb"
     SWEP.Slot = 6
 
     SWEP.EquipMenuData = {

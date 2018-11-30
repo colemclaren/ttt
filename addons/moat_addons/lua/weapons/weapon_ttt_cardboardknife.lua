@@ -2,16 +2,15 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "melee"
+SWEP.PrintName			= "Cardboard Knife"
 
 if CLIENT then
-   SWEP.PrintName			= "Cardboard Knife"
-
    SWEP.Slot				= 0
 
    SWEP.Icon = "vgui/ttt/icon_cbar"   
    SWEP.ViewModelFOV = 54
 end
-SWEP.PrintName       = "Cardboard Knife"
+
 SWEP.UseHands			= true
 SWEP.Base				= "weapon_tttbase"
 SWEP.ViewModel			= "models/weapons/v_cardboard_t.mdl"

@@ -14,11 +14,9 @@ end
 
 SWEP.HoldType			= "slam"
 
-
+SWEP.PrintName			= "Proximity Mine"
 
 if CLIENT then
-
-   SWEP.PrintName			= "Proximity Mine"
 
    SWEP.Slot				= 6
 

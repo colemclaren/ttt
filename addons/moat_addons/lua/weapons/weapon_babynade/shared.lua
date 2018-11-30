@@ -69,8 +69,8 @@ AddCSLuaFile()
 
 SWEP.HoldType                   = "grenade"
 
+SWEP.PrintName = "Babynade"
 if CLIENT then
-   SWEP.PrintName = "Babynade"
    SWEP.Slot = 3
 
    SWEP.Icon = "vgui/hud/weapon_babynade"

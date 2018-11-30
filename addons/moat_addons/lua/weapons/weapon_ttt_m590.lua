@@ -3,7 +3,6 @@ AddCSLuaFile()
 DEFINE_BASECLASS "weapon_tttbase"
 
 if CLIENT then
-   SWEP.PrintName = "Mossberg"
    SWEP.Slot = 2
    SWEP.Icon = "vgui/ttt/m590_icon"
 end

@@ -11,7 +11,6 @@ else
 	LANG.AddToLanguage("english", "sandwich_name", "Sandwich")
 	LANG.AddToLanguage("english", "sandwich_desc", "Have a snack\nand heal yourself or others.\nBe careful when you throw it\non the ground, it can spoil.")
 
-	SWEP.PrintName = "sandwich_name"
 	SWEP.Slot = 7
 	SWEP.Icon = "vgui/ttt/icon_sandwich"
 
@@ -29,7 +28,7 @@ end
 
 -- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
-
+SWEP.PrintName = "Sandwich"
 --[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 2

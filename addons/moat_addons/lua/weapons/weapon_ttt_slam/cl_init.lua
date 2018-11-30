@@ -3,7 +3,6 @@ include('shared.lua')
 LANG.AddToLanguage("english", "slam_name", "M4 SLAM")
 LANG.AddToLanguage("english", "slam_desc", "A Mine which can be manually detonated\nor sticked on a wall as a tripmine.\n\nNOTE: Can be shot and destroyed by everyone.")
 
-SWEP.PrintName = "slam_name"
 SWEP.Slot = 6
 SWEP.Icon = "vgui/ttt/icon_tripmine"
 

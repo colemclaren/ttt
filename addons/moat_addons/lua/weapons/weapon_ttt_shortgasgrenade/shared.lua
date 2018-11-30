@@ -3,8 +3,7 @@ AddCSLuaFile( "shared.lua" )
 
 end
 
-if ( CLIENT ) then
-SWEP.PrintName          = "Gas Grenade"          
+if ( CLIENT ) then      
 SWEP.Slot               = 3
 SWEP.SlotPos            = 0
 
@@ -14,6 +13,7 @@ SWEP.SlotPos            = 0
 
    };
 end
+SWEP.PrintName          = "Gas Grenade"      
 SWEP.Icon = "VGUI/ttt/icon_nades"
 SWEP.Base				= "weapon_tttbasegrenade"
 SWEP.Kind               = WEAPON_NADE

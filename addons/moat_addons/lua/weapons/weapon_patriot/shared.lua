@@ -121,9 +121,7 @@ SWEP.Offset = {
 AddCSLuaFile()
 
 SWEP.HoldType                   = "ar2"
-
 if CLIENT then
-   SWEP.PrintName                       = "The Patriot"
    SWEP.Slot                            = 2
 
    SWEP.Icon = "vgui/hud/weapon_patriot"

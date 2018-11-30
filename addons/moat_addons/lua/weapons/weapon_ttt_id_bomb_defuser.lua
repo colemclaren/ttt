@@ -14,8 +14,6 @@ if CLIENT then
 
    include("weapon_ttt_id_bomb.lua")
 
-   SWEP.PrintName = "Identification Bomb Defuser"
-
    SWEP.Slot      = 6
 
 
@@ -27,7 +25,7 @@ if CLIENT then
 end
 
 
-
+SWEP.PrintName = "Identification Bomb Defuser"
 
 
 SWEP.Base				= "weapon_tttbase"

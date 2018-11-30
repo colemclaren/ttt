@@ -1,8 +1,7 @@
 AddCSLuaFile()
 SWEP.HoldType = "unarmed"
-
+SWEP.PrintName = "High Jump"
 if CLIENT then
-    SWEP.PrintName = "High Jump"
     SWEP.Slot = 7
     SWEP.ViewModelFOV = 10
 

@@ -2,10 +2,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "grenade"
-
+SWEP.PrintName = "Discombobulator"
 
 if CLIENT then
-   SWEP.PrintName = "Discombobulator"
    SWEP.Slot = 3
    SWEP.SlotPos	= 0
 

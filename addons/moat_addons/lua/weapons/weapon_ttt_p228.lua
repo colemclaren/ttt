@@ -1,8 +1,9 @@
 if CLIENT then
-   SWEP.PrintName = "P228"
    SWEP.Slot = 1
    SWEP.Icon = "vgui/ttt/p228_icon"
 end
+
+SWEP.PrintName = "P228"
 -- Variables that are used on both client and server
 SWEP.Gun = ("weapon_ttt_p226") -- must be the name of your swep but NO CAPITALS!
 SWEP.HoldType               = "pistol"  

@@ -19,13 +19,8 @@ end
 include("hooks.lua")
 
 
-
+SWEP.PrintName = "Death Faker"
 if CLIENT then
-
-
-
-   SWEP.PrintName = "Death Faker"
-
    SWEP.Slot				= 6
 
 

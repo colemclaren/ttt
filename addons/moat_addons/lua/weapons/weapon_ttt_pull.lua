@@ -4,9 +4,9 @@ AddCSLuaFile()
 DEFINE_BASECLASS "weapon_tttbase"
 
 SWEP.HoldType = "physgun"
+SWEP.PrintName = "Newton Puller"
 
 if CLIENT then
-   SWEP.PrintName = "Newton Puller"
    SWEP.Slot = 7
 
    SWEP.EquipMenuData = {

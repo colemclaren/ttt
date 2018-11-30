@@ -1,13 +1,12 @@
 AddCSLuaFile()
 
 if CLIENT then
-   SWEP.PrintName = "The Deliverer"
    SWEP.Slot = 1
    SWEP.Icon = "vgui/ttt/king_deliverer_icon"
 end
 
 SWEP.Gun = ("ttt_king_deliverer")
-
+SWEP.PrintName = "The Deliverer"
 SWEP.HoldType 				= "pistol"	
 
 SWEP.ShowWorldModel			= false

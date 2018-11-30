@@ -169,12 +169,7 @@ function MOAT_KILLCARDS:DrawDeathCard(role, id, name, wpn, hp, max_hp, rnd_state
 
     local weapon_str, weapon_col, weapon_eff, weapon_rainbow = isstring(wpn) and wpn or "Unknown Cause of Death", Color(255, 255, 255)
 	if (not isstring(wpn)) then
-		weapon_str = wpn.PrintName or wpn:GetPrintName()
-
-		if (weapon_str:EndsWith("_name")) then
-        	weapon_str = string.sub(weapon_str, 1, weapon_str:len() - 5)
-        	weapon_str = string.upper(string.sub(weapon_str, 1, 1)) .. string.sub(weapon_str, 2, weapon_str:len())
-    	end
+		weapon_str = wpn.PrintName or wpn:GetPrintName() or "Something Strange"
 
 		if (wpn.ItemStats and wpn.ItemStats.item) then
 			weapon_col = wpn.ItemStats.item.NameColor or rarity_names[wpn.ItemStats.item.Rarity][2]
@@ -264,13 +259,15 @@ function MOAT_KILLCARDS.ReceiveDeath(l)
 
 	info.wpn = net.ReadString()
 	local wpn = net.ReadEntity()
-	if (wpn and wpn:IsWeapon()) then
+	local stats = net.ReadBool()
+
+	if (wpn and IsValid(wpn) and wpn:IsWeapon()) then
 		info.wpn = wpn
-		local stats = net.ReadUInt(1)
-		if ((stats and stats == 2) and not wpn.ItemStats) then
+		if (stats and not wpn.ItemStats) then
 			local indx = wpn:EntIndex()
 			timer.Create("stat_wait_" .. indx, 0.5, 6, function()
 				if (wpn.ItemStats) then
+					info.wpn = wpn
 					MOAT_KILLCARDS:DrawDeathCard(info.role, info.id, info.name, info.wpn, info.hp, info.max_hp)
 					timer.Remove("stat_wait_" .. indx)
 				end

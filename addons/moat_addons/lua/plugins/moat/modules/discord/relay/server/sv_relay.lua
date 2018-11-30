@@ -400,7 +400,7 @@ function moat_GetItemStats(tbl, wpnstr)
         local ITEM_NAME_FULL = ""
 
         if (ITEM_HOVERED.item.Kind == "tier") then
-            local ITEM_NAME = weapons.Get(ITEM_HOVERED.w).PrintName or wpnstr
+            local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w) or wpnstr
 
             if (string.EndsWith(ITEM_NAME, "_name")) then
                 ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)

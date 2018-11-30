@@ -1,11 +1,12 @@
 if CLIENT then
-   SWEP.PrintName			= "Revolver"			
    SWEP.Author				= "TTT"
 
    SWEP.Slot				= 1
 
    SWEP.Icon = "vgui/ttt/mr96_icon"
 end
+
+SWEP.PrintName			= "Revolver"
 SWEP.Gun = ("weapon_ttt_mr96") -- must be the name of your swep but NO CAPITALS!
 SWEP.Spawnable = true
 SWEP.Kind = WEAPON_PISTOL

@@ -14,12 +14,9 @@ if SERVER then
 
 end
 
-
+SWEP.PrintName			= "Boomerang"
 
 if CLIENT then
-
-	SWEP.PrintName			= "Boomerang"
-
 	SWEP.Author			= "TheBroomer"
 
 	SWEP.Slot			= 1

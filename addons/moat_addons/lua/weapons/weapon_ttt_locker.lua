@@ -8,8 +8,6 @@ end
 
 if CLIENT then
 
-    SWEP.PrintName = "Door Locker"
-
     SWEP.Slot = 7
 
     SWEP.DrawAmmo = true
@@ -32,7 +30,7 @@ if CLIENT then
 
 end
 
- 
+SWEP.PrintName = "Door Locker"
 
 SWEP.Author                              = "Exho"
 

@@ -48,7 +48,7 @@ if (SERVER) then
 
 end
 
-
+SWEP.PrintName			= "Door Buster"
 
 if ( CLIENT ) then
 
@@ -65,9 +65,7 @@ if ( CLIENT ) then
 	
 
 	
-
-	SWEP.PrintName			= "Door Buster"			
-
+	
 	SWEP.Author				= "dante vi almark"
 
 	SWEP.Slot				= 6

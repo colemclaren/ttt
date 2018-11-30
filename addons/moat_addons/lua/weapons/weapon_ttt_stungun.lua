@@ -2,9 +2,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "ar2"
+SWEP.PrintName = "UMP Prototype"
 
 if CLIENT then
-   SWEP.PrintName = "UMP Prototype"
    SWEP.Slot      = 6
 
    SWEP.ViewModelFOV = 72

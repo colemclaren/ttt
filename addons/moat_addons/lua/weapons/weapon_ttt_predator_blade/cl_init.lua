@@ -3,7 +3,6 @@ include('shared.lua')
 LANG.AddToLanguage("english", "predator_blade_name", "Predator Blade")
 LANG.AddToLanguage("english", "predator_blade_desc", "Awaken the predator in you.\nInstant kill everyone without body armor.")
 
-SWEP.PrintName = "predator_blade_name"
 SWEP.Slot = 6
 SWEP.Icon = "vgui/ttt/icon_predator_blade"
 

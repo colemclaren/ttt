@@ -1,9 +1,8 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "pistol"
-
+SWEP.PrintName = "Glock-17"
 if CLIENT then
-   SWEP.PrintName = "Glock-17"
    SWEP.Slot = 1
 
    SWEP.Icon = "vgui/hud/weapon_semiauto"

@@ -1,6 +1,7 @@
 --- Author informations ---
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
+SWEP.PrintName = "Mine Turtle"
 
 --- Default GMod values ---
 SWEP.Base = "weapon_base"

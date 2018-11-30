@@ -4,9 +4,8 @@ if SERVER then
 
     util.AddNetworkString("MOAT_PLAYER_CLOAKED")
 end
-
+SWEP.PrintName = "Cloaking Device"
 if (CLIENT) then
-    SWEP.PrintName = "Cloaking Device"
     SWEP.Slot = 7
     SWEP.DrawAmmo = false
     SWEP.DrawCrosshair = false

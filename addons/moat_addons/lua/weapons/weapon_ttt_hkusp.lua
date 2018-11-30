@@ -1,10 +1,9 @@
 AddCSLuaFile()
  
 SWEP.HoldType = "pistol"
-   
+SWEP.PrintName = "HK USP"
 
 if CLIENT then
-   SWEP.PrintName = "Usp45"
    SWEP.Slot = 1
 
    SWEP.Icon = "vgui/ttt/hkusp_icon"

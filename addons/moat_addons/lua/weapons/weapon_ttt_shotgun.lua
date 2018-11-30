@@ -3,15 +3,13 @@ AddCSLuaFile()
 DEFINE_BASECLASS "weapon_tttbase"
 
 SWEP.HoldType        = "shotgun"
+SWEP.PrintName = "Shotgun"
 
 if CLIENT then
-   SWEP.PrintName = "Shotgun"
-
    SWEP.Slot = 2
    SWEP.Icon = "vgui/ttt/icon_m3s90"
    SWEP.IconLetter = "B"
 end
-SWEP.PrintName = "Shotgun"
 
 SWEP.Base            = "weapon_tttbase"
 SWEP.Spawnable = true

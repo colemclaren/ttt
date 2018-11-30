@@ -47,10 +47,8 @@ SWEP.Primary.NumShots = 0
 SWEP.CanBuy = { ROLE_TRAITOR }
 
 SWEP.DrawAmmo = true
-
+SWEP.PrintName = "Banana Bomb"
 if CLIENT then
-
-  SWEP.PrintName = "Banana Bomb"
 
   SWEP.Slot = 12
 

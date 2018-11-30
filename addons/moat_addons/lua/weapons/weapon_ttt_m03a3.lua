@@ -1,11 +1,10 @@
 AddCSLuaFile()
 
 if CLIENT then
-    SWEP.PrintName = "Springfield"
     SWEP.Slot = 2
     SWEP.Icon = "vgui/ttt/king_m03a3_icon"
 end
-
+SWEP.PrintName = "Springfield"
 SWEP.HoldType = "ar2"
 SWEP.ShowWorldModel = false
 SWEP.Base = "weapon_tttbase"

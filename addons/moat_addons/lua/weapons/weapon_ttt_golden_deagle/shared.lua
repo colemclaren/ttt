@@ -5,9 +5,9 @@ SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 if SERVER then
 	AddCSLuaFile()
 else
-	SWEP.PrintName = "Golden Deagle"
 	SWEP.Slot = 1
 end
+SWEP.PrintName = "Golden Deagle"
 
 --- Default GMod values ---
 SWEP.Base = "weapon_tttbase"

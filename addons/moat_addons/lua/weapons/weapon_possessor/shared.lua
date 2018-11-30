@@ -1,3 +1,5 @@
+SWEP.PrintName = "Possessor"
+
 SWEP.Author = "Silverlan"
 SWEP.Contact = "Silverlan@gmx.de"
 SWEP.Purpose = "Take control over a NPC"

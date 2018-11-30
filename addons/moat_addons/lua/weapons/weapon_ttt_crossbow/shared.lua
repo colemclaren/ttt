@@ -16,10 +16,8 @@ BOLT_SKIN_GLOW		= 1
 
 CROSSBOW_GLOW_SPRITE	= "sprites/light_glow02_noz.vmt"
 CROSSBOW_GLOW_SPRITE2	= "sprites/blueflare1.vmt"
-
-if CLIENT then
-   
-   SWEP.PrintName          = "Silenced Crossbow"           
+SWEP.PrintName          = "Silenced Crossbow"
+if CLIENT then 
    SWEP.Author             = "Urban"
    SWEP.Slot               = 6
    SWEP.SlotPos            = 1

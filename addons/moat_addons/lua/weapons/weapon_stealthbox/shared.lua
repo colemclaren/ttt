@@ -125,9 +125,8 @@ SWEP.Offset = {
 AddCSLuaFile()
 
 SWEP.HoldType = "camera"
-
+SWEP.PrintName = "Stealth Box"
 if CLIENT then
-   SWEP.PrintName = "Stealth Box"
    SWEP.Slot      = 5
 
    SWEP.Icon = "vgui/hud/weapon_stealthbox"

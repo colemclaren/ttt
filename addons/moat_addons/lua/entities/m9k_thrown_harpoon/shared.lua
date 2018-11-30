@@ -1,5 +1,5 @@
 ENT.Type = "anim"
-ENT.PrintName = ""
+ENT.PrintName = "Harpoon"
 ENT.Author = ""
 ENT.Contact = ""
 ENT.Purpose = ""

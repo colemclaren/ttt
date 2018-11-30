@@ -6,9 +6,8 @@
 AddCSLuaFile()
 SWEP.HoldType = "knife"
 SWEP.LimitedStock = true
-
+SWEP.PrintName = "Blink"
 if CLIENT then
-    SWEP.PrintName = "Blink"
     SWEP.Slot = 7
     SWEP.ViewModelFOV = 67
     SWEP.DrawCrosshair = false

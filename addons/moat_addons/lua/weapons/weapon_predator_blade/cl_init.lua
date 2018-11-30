@@ -1,6 +1,5 @@
 include('shared.lua')
 
-SWEP.PrintName = "Predator Blade"
 SWEP.Slot = 0
 
 function SWEP:DrawHUD()

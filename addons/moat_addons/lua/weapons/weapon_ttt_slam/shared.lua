@@ -7,7 +7,7 @@ CreateConVar("ttt_slam_bought", 2, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCV
 
 -- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
-
+SWEP.PrintName = "M4 SLAM"
 --[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 1.25

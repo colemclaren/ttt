@@ -2,10 +2,8 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "knife"
-
+SWEP.PrintName    = "Knife"
 if CLIENT then
-
-   SWEP.PrintName    = "knife_name"
    SWEP.Slot         = 6
 
    SWEP.ViewModelFlip = false

@@ -10,9 +10,8 @@
 --AddCSLuaFile()
 
 SWEP.HoldType = "normal"
-
+SWEP.PrintName			= "Beacon"
 if CLIENT then
-   SWEP.PrintName			= "Beacon"
    SWEP.Slot				= 6
    SWEP.SlotPos			= 0
 

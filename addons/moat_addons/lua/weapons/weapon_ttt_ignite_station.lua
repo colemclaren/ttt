@@ -12,8 +12,6 @@ SWEP.HoldType = "normal"
 
 if CLIENT then
 
-   SWEP.PrintName = "Ignite Station"
-
    SWEP.Slot = 6
 
 
@@ -42,7 +40,7 @@ end
 
 SWEP.Base = "weapon_tttbase"
 
-
+SWEP.PrintName = "Ignite Station"
 
 SWEP.ViewModel          = "models/weapons/v_crowbar.mdl"
 

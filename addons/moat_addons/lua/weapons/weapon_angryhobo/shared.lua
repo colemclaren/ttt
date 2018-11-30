@@ -11,8 +11,7 @@ end
  
 if (CLIENT) then --the cl_init.lua stuff goes in here
  
- 
-   SWEP.PrintName = "Angry Shoe"
+
    SWEP.Slot = 7;
    SWEP.SlotPos = 7;
    SWEP.DrawAmmo = false;

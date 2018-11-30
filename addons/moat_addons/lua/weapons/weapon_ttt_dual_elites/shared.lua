@@ -1,11 +1,10 @@
 --[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
-
+SWEP.PrintName = "Dual Elites"
 if SERVER then
 	AddCSLuaFile()
 else
-	SWEP.PrintName = "Dual Elites"
 	SWEP.Slot = 1
 	SWEP.Icon = "vgui/ttt/icon_dual_elites"
 

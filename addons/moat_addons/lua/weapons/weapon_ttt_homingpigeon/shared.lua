@@ -8,9 +8,8 @@ if SERVER then
 end
 
 SWEP.HoldType = "grenade"
-
+SWEP.PrintName = "Homing Pigeon"
 if CLIENT then
-    SWEP.PrintName = "Homing Pigeon"
     SWEP.Slot = 6
     SWEP.ViewModelFlip = false
 

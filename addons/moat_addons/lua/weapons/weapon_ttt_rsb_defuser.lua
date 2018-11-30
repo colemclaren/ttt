@@ -6,9 +6,9 @@ if SERVER then
 end
 
 SWEP.HoldType = "slam"
+SWEP.PrintName = "RSB Defuser"
 
 if CLIENT then
-    SWEP.PrintName = "RSB Defuser"
     SWEP.Slot = 7
 
     SWEP.EquipMenuData = {

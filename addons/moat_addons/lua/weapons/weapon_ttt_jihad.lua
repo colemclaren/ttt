@@ -1,7 +1,6 @@
 AddCSLuaFile()
 
 if CLIENT then
-   SWEP.PrintName = "Jihad Bomb"
    SWEP.Slot = 6
    SWEP.Icon = "vgui/ttt/icon_jihad"
    SWEP.IconLetter = "I"
@@ -9,7 +8,7 @@ end
 
 -- Always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
-
+SWEP.PrintName = "Jihad Bomb"
 -- Standard GMod values
 SWEP.HoldType = "slam"
 

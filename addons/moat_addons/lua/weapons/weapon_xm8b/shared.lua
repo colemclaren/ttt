@@ -202,14 +202,12 @@ end
 AddCSLuaFile()
 
 SWEP.HoldType			= "ar2"
-
+SWEP.PrintName			= "M8A1"
 if CLIENT then
-   SWEP.PrintName			= "M8A1"
    SWEP.Slot				= 2
 
    SWEP.Icon = "vgui/hud/weapon_xm8b"
 end
-SWEP.PrintName			= "M8A1"
 SWEP.Base				= "weapon_tttbase"
 SWEP.Spawnable = true
 

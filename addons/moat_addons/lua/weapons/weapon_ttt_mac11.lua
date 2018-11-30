@@ -2,10 +2,9 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "ar2"
+SWEP.PrintName = "MAC11"
 
 if CLIENT then
-
-   SWEP.PrintName = "MAC11"
    SWEP.Slot = 2
 
    SWEP.Icon = "vgui/ttt/mac11_icon"

@@ -157,6 +157,7 @@ if CLIENT then
    SWEP.Icon = "vgui/ttt/icon_mp5"
    SWEP.IconLetter = "x"
 end
+
 SWEP.PrintName      = "Sterling Silver"
 SWEP.Base = "weapon_tttbase"
 SWEP.HoldType = "ar2"

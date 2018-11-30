@@ -4,9 +4,8 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "slam"
-
+SWEP.PrintName			= "C4"
 if CLIENT then
-   SWEP.PrintName			= "C4"
    SWEP.Slot				= 6
 
    SWEP.EquipMenuData = {

@@ -2,16 +2,13 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "melee2"
-
+SWEP.PrintName			= "A Baton"
 if CLIENT then
-   SWEP.PrintName			= "A Baton"
-
    SWEP.Slot				= 0
 
    SWEP.Icon = "vgui/ttt/icon_cbar"   
    SWEP.ViewModelFOV = 54
 end
-SWEP.PrintName       = "A Baton"
 SWEP.UseHands			= true
 SWEP.Base				= "weapon_tttbase"
 SWEP.ViewModel      = "models/weapons/v_gamma_baton.mdl"

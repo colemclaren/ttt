@@ -2,16 +2,13 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "melee"
-
+SWEP.PrintName       = "Meat Cleaver"
 if CLIENT then
-   SWEP.PrintName			= "Meat Cleaver"
-
    SWEP.Slot				= 0
 
    SWEP.Icon = "vgui/ttt/icon_cbar"   
    SWEP.ViewModelFOV = 54
 end
-SWEP.PrintName       = "Meat Cleaver"
 SWEP.UseHands			= true
 SWEP.Base				= "weapon_tttbase"
 SWEP.ViewModel			= "models/weapons/v_cleaver_t.mdl"

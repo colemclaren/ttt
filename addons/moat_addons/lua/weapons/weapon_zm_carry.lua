@@ -6,9 +6,9 @@ AddCSLuaFile()
 DEFINE_BASECLASS "weapon_tttbase"
 
 SWEP.HoldType           = "pistol"
+SWEP.PrintName       = "Magneto Stick"
 
 if CLIENT then
-   SWEP.PrintName       = "magnet_name"
    SWEP.Slot            = 4
 end
 

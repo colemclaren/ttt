@@ -83,9 +83,8 @@ SWEP.Offset = {
 AddCSLuaFile()
 
 SWEP.HoldType = "duel"
-
+SWEP.PrintName = "Duel Silencers"
 if CLIENT then
-   SWEP.PrintName = "Duel Silencers"
    SWEP.Slot = 1
 
    SWEP.Icon = "vgui/hud/weapon_virussil"

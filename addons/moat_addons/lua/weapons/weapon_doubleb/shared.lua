@@ -112,8 +112,6 @@ DEFINE_BASECLASS "weapon_tttbase"
 SWEP.HoldType                   = "shotgun"
 
 if CLIENT then
-   SWEP.PrintName = "Double Barrel"
-
    SWEP.Slot = 2
    SWEP.Icon = "vgui/hud/weapon_doubleb"
 end

@@ -97,12 +97,12 @@ AddCSLuaFile()
 SWEP.HoldType     = "ar2"
 
 if CLIENT then
-   SWEP.PrintName     = "G36C"
    SWEP.Slot        = 2
 
    SWEP.Icon = "vgui/ttt/icon_m16"
    SWEP.IconLetter = "w"
 end
+
 SWEP.PrintName      = "G36C"
 SWEP.Base       = "weapon_tttbase"
 SWEP.Spawnable = true

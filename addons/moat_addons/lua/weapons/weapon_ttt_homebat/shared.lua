@@ -2,7 +2,6 @@ if SERVER then
     AddCSLuaFile()
     util.AddNetworkString("Bat Primary Hit")
 else
-    SWEP.PrintName = "Homerun Bat"
     SWEP.Author = "Gamefreak"
     SWEP.Slot = 7
     SWEP.ViewModelFOV = 70
@@ -42,6 +41,7 @@ else
     }
 end
 
+SWEP.PrintName = "Homerun Bat"
 SWEP.Base = "weapon_tttbase"
 SWEP.ViewModel = Model("models/weapons/gamefreak/v_nessbat.mdl")
 SWEP.WorldModel = Model("models/weapons/gamefreak/w_nessbat.mdl")

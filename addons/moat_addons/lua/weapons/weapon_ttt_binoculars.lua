@@ -4,9 +4,8 @@ AddCSLuaFile()
 SWEP.HoldType = "normal"
 
 DEFINE_BASECLASS("weapon_tttbase")
-
+SWEP.PrintName = "Binoculars"
 if CLIENT then
-   SWEP.PrintName = "binoc_name"
    SWEP.Slot = 7
 
    SWEP.ViewModelFOV = 10

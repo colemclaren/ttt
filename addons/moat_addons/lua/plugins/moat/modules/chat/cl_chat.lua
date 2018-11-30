@@ -70,8 +70,7 @@ moat_chat.TextSize = {
     w = 0,
     h = 0
 }
-surface_SetFont("moat_ChatFont")
-moat_chat.TextSize.w, moat_chat.TextSize.h = surface_GetTextSize("AbC1230")
+
 moat_chat.click = CurTime()
 moat_chat.SelectedMessage = nil
 moat_chat.HighlightColor = Color(255, 255, 255, 100)
@@ -111,12 +110,12 @@ end
 function m_GetFullItemName(itemtbl)
     local ITEM_NAME_FULL = ""
 
-    if (itemtbl.n) then
+    if (itemtbl and itemtbl.n) then
         return "\"" .. itemtbl.n:Replace("''", "'") .. "\""
     end
 
-    if (itemtbl.item.Kind == "tier") then
-        local ITEM_NAME = weapons.Get(itemtbl.w).PrintName
+    if (itemtbl and itemtbl.item and itemtbl.item.Kind == "tier") then
+        local ITEM_NAME = util.GetWeaponName(itemtbl.w)
 
         if (string.EndsWith(ITEM_NAME, "_name")) then
             ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
@@ -128,8 +127,8 @@ function m_GetFullItemName(itemtbl)
         if (itemtbl.item.Rarity == 0) then
             ITEM_NAME_FULL = ITEM_NAME
         end
-    else
-        ITEM_NAME_FULL = itemtbl.item.Name
+    elseif (itemtbl) then
+        ITEM_NAME_FULL = itemtbl.item and itemtbl.item.Name or ""
     end
 
     return ITEM_NAME_FULL
@@ -364,7 +363,10 @@ concommand.Add("moat_resetchat", function()
 end)
 
 function moat_chat.InitChat()
-    local mc = moat_chat
+	surface_SetFont("moat_ChatFont")
+	moat_chat.TextSize.w, moat_chat.TextSize.h = surface_GetTextSize("AbC1230")
+
+	local mc = moat_chat
     local mcc = mc.config
 
     mc.BG = vgui.Create("DFrame")

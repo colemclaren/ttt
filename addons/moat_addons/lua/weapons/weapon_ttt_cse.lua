@@ -2,9 +2,8 @@
 AddCSLuaFile()
 
 SWEP.HoldType = "normal"
-
+SWEP.PrintName = "Visualizer"
 if CLIENT then
-   SWEP.PrintName = "vis_name"
    SWEP.Slot = 6
 
    SWEP.ViewModelFOV = 10

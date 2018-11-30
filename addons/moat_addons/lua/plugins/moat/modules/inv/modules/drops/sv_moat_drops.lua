@@ -465,7 +465,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                 local wpnstr = item_to_drop.Name
                 local ITEM_NAME_FULL = ""
                 if (ITEM_HOVERED.Kind == "tier") then
-                    local ITEM_NAME = weapons.Get(dropped_item.w).PrintName or wpnstr
+                    local ITEM_NAME = util.GetWeaponName(dropped_item.w) or wpnstr
 
                     if (string.EndsWith(ITEM_NAME, "_name")) then
                         ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)

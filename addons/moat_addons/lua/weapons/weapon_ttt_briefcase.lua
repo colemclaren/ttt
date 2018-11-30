@@ -11,12 +11,10 @@ end
 SWEP.HoldType = "normal"
 
 
-
+SWEP.PrintName = "Briefcase"
 
 
 if CLIENT then
-
-   SWEP.PrintName = "Briefcase"
 
    SWEP.Slot = 6
 

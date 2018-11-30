@@ -5,10 +5,9 @@ SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 if SERVER then
 	AddCSLuaFile()
 elseif CLIENT then
-	SWEP.PrintName = "Sandwich"
 	SWEP.Slot = 5
 end
-
+SWEP.PrintName = "Sandwich"
 --- Default GMod values ---
 SWEP.Base = "weapon_base"
 SWEP.Category = "Food"

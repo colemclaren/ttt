@@ -6,13 +6,9 @@ AddCSLuaFile()
 
 SWEP.HoldType = "pistol"
 
-
+SWEP.PrintName = "Freeze Gun"
 
 if CLIENT then
-
-
-
-   SWEP.PrintName = "Freeze Gun"
 
    SWEP.Slot = 6
 

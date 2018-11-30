@@ -192,9 +192,10 @@ function MG_FFA.GiveWeapon(ply,v)
 
     local v3 = ply:Give(v.w)
     local wpn_tbl = v3:GetTable()
+	local item_old = table.Copy(v.item)
+    v.item = m_GetItemFromEnum(v.u)
 
-    wpn_tbl = v3:GetTable()
-    m_ApplyWeaponMods(wpn_tbl, v)
+    m_ApplyWeaponMods(wpn_tbl, v, v.item)
     v3:SetClip1(wpn_tbl.Primary.DefaultClip)
     wpn_tbl.UniqueItemID = v.c
     wpn_tbl.PrimaryOwner = ply
@@ -204,6 +205,7 @@ function MG_FFA.GiveWeapon(ply,v)
     net.WriteUInt(v3:EntIndex(), 16)
     if not ply.TDM_Cache[v.w] then
         ply.TDM_Cache[v.w] = {
+			name = wpn_tbl.PrintName or "",
 			wpn_tbl.Primary.Damage or 0,
 			wpn_tbl.Primary.Delay or 0,
 			wpn_tbl.Primary.ClipSize or 0,
@@ -215,6 +217,7 @@ function MG_FFA.GiveWeapon(ply,v)
 		}
 
 		net.WriteBool(true)
+		net.WriteString(ply.TDM_Cache[v.w].name or "NAME_ERROR")
         net.WriteDouble(ply.TDM_Cache[v.w][1] or 0)
         net.WriteDouble(ply.TDM_Cache[v.w][2] or 0)
         net.WriteDouble(ply.TDM_Cache[v.w][3] or 0)
@@ -222,10 +225,6 @@ function MG_FFA.GiveWeapon(ply,v)
         net.WriteDouble(ply.TDM_Cache[v.w][5] or 0)
         net.WriteDouble(ply.TDM_Cache[v.w][6] or 0)
         net.WriteDouble(ply.TDM_Cache[v.w][7] or 0)
-
-		local item_old = table.Copy(v.item)
-        v.item = {}
-        v.item = m_GetItemFromEnum(v.u)
 
         if (v.t) then
             v.Talents = {}

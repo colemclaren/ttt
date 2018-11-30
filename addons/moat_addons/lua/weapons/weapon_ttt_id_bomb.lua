@@ -18,8 +18,6 @@ end
 
 if CLIENT then
 
-   SWEP.PrintName = "Identification Bomb"
-
    SWEP.Slot      = 6
 
    SWEP.ViewModelFOV  = 54
@@ -29,7 +27,7 @@ if CLIENT then
 end
 
 
-
+SWEP.PrintName = "Identification Bomb"
 
 
 SWEP.Base				= "weapon_tttbase"

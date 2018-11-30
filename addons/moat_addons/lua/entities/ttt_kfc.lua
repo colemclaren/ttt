@@ -14,8 +14,6 @@ if CLIENT then
 
    ENT.Icon = "vgui/ttt/icon_gpi_kfc"
 
-   ENT.PrintName = "KFC (Nomnomnom)"
-
 end
 
 

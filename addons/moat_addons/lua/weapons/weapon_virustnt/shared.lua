@@ -56,9 +56,8 @@ end
 AddCSLuaFile()
 
 SWEP.HoldType			= "grenade"
-
+SWEP.PrintName = "TNT"
 if CLIENT then
-   SWEP.PrintName = "TNT"
    SWEP.Slot = 3
 
    SWEP.Icon = "vgui/hud/weapon_virustnt"

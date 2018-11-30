@@ -6,7 +6,7 @@
 
 SWEP.Base 				= "weapon_tttbase"
 
-
+SWEP.PrintName			= "Minigun"
 
 SWEP.ViewModel				= "models/weapons/v_minigun.mdl"
 

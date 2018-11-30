@@ -80,16 +80,15 @@ end]]
 AddCSLuaFile()
 
 SWEP.HoldType = "pistol"
-
+SWEP.PrintName = "M1911"
 
 if CLIENT then
-   SWEP.PrintName = "M1911"
    SWEP.Slot = 1
 
    SWEP.Icon = "vgui/ttt/icon_pistol"
    SWEP.IconLetter = "u"
 end
-SWEP.PrintName = "M1911"
+
 SWEP.Kind = WEAPON_PISTOL
 SWEP.WeaponID = AMMO_PISTOL
 

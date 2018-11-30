@@ -1,12 +1,11 @@
 AddCSLuaFile()
 
 if CLIENT then
-   SWEP.PrintName = "Famas"
    SWEP.Slot = 2
    SWEP.Icon = "vgui/ttt/icon_famas"
    SWEP.IconLetter = "t"
 end
-
+SWEP.PrintName = "Famas"
 SWEP.Base = "weapon_tttbase"
 SWEP.HoldType = "ar2"
 

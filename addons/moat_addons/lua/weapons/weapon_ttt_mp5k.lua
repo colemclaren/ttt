@@ -1,11 +1,10 @@
 AddCSLuaFile()
 
-if CLIENT then
-   SWEP.PrintName = "MP5k"			
+if CLIENT then			
    SWEP.Slot = 2
    SWEP.Icon = "vgui/ttt/mp5k_icon"
 end
-
+SWEP.PrintName = "MP5K"
 SWEP.Gun = ("weapon_ttt_mp5k") -- must be the name of your swep but NO CAPITALS!
 
 SWEP.HoldType 				= "ar2"	

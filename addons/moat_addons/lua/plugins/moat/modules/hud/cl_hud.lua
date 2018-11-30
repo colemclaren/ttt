@@ -534,7 +534,7 @@ local function moat_CustomHUD()
 
 		if (wpn.ItemStats and wpn.ItemStats.item) then
 			local wpn_stats = wpn.ItemStats
-			local ITEM_NAME_FULL = wpn.PrintName
+			local ITEM_NAME_FULL = TryTranslation(wpn.PrintName or "Holstered")
 
 			if (wpn_stats.s and wpn_stats.s.l) then
 				draw_xp_lvl = 9

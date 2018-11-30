@@ -6,10 +6,9 @@ DEFINE_BASECLASS "weapon_tttbase"
 
 SWEP.HoldReady = "grenade"
 SWEP.HoldNormal = "slam"
+SWEP.PrintName			= "Incendiary grenade"
 
 if CLIENT then
-
-   SWEP.PrintName			= "Incendiary grenade"
    SWEP.Instructions		= "Burn."
    SWEP.Slot				= 3
    SWEP.SlotPos			= 0

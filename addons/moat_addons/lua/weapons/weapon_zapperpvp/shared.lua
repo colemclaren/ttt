@@ -86,9 +86,8 @@ SWEP.Offset = {
 AddCSLuaFile()
 
 SWEP.HoldType = "pistol"
-
+SWEP.PrintName = "NES Zapper"
 if CLIENT then
-   SWEP.PrintName = "NES Zapper"
    SWEP.Slot = 1
 
    SWEP.Icon = "vgui/hud/weapon_zapperpvp"

@@ -2,12 +2,11 @@
 CreateConVar("ttt_jetpack_force", 12, {FCVAR_ARCHIVE}, "Change the upward force of the jetpack (default 12, can't fly below 11)")
 
 if SERVER then
-    AddCSLuaFile("shared.lua")
+    -- AddCSLuaFile("shared.lua")
     --   resource.AddFile("materials/VGUI/ttt/lykrast/icon_jetpack.vmt")
 end
 
 if (CLIENT) then
-    SWEP.PrintName = "Jet Pack"
     SWEP.Slot = 7
     SWEP.DrawAmmo = false
     SWEP.DrawCrosshair = false
@@ -18,7 +17,7 @@ if (CLIENT) then
         desc = "Select it and press Jump to propel upward.\n\nBeware the landing."
     }
 end
-
+SWEP.PrintName = "Jet Pack"
 SWEP.Author = "Lykrast"
 SWEP.Base = "weapon_tttbase"
 SWEP.Spawnable = false

@@ -196,14 +196,12 @@ end
 AddCSLuaFile()
 
 SWEP.HoldType			= "ar2"
-
+SWEP.PrintName			= "RCP-120"
 if CLIENT then
-   SWEP.PrintName			= "RCP-120"
    SWEP.Slot				= 2
 
    SWEP.Icon = "vgui/hud/weapon_rcp120"
 end
-SWEP.PrintName			= "RCP-120"
 SWEP.Base				= "weapon_tttbase"
 SWEP.Spawnable = true
 

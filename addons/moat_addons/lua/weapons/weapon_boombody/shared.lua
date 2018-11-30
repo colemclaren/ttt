@@ -55,10 +55,8 @@ SWEP.Kind = WEAPON_EQUIP
 SWEP.CanBuy = { ROLE_TRAITOR }
 
 
-
+SWEP.PrintName 	= "Boom Body"
 if CLIENT then
-
-   SWEP.PrintName 	= "Boom Body"
 
    SWEP.Slot		= 6
 

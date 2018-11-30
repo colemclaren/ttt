@@ -1,15 +1,13 @@
 AddCSLuaFile()
 
 if CLIENT then
-   SWEP.PrintName = "SG552"
    SWEP.Slot = 2
    SWEP.Icon = "vgui/ttt/icon_sg552"
    SWEP.IconLetter = "A"
 end
-SWEP.PrintName = "SG552"
 -- Always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
-
+SWEP.PrintName = "SG552"
 -- Standard GMod values
 SWEP.HoldType = "ar2"
 

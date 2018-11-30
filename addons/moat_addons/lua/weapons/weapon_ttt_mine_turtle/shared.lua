@@ -9,7 +9,7 @@ CreateConVar("ttt_mineturtle_bought", 2, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIV
 
 -- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
-
+SWEP.PrintName = "Mine Turtle"
 --[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 1.5
