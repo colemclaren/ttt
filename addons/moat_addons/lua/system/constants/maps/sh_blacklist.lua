@@ -17,5 +17,6 @@ MAP_BLACKLIST = {
 	["ttt_mc_island_r"] = true,
 	["ttt_mc_dust2_r"] = true,
 	["ttt_mttresort"] = true,
-	["ttt_minecraftmotel_b2"] = true
+	["ttt_minecraftmotel_b2"] = true,
+	["ttt_mc_seriouscraft_b6 "] = true
 }
