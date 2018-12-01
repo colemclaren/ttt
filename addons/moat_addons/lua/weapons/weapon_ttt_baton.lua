@@ -2,15 +2,15 @@
 AddCSLuaFile()
 
 SWEP.HoldType			= "melee2"
-SWEP.PrintName			= "A Baton"
 if CLIENT then
    SWEP.Slot				= 0
 
    SWEP.Icon = "vgui/ttt/icon_cbar"   
    SWEP.ViewModelFOV = 54
 end
-SWEP.UseHands			= true
+SWEP.UseHands			= false
 SWEP.Base				= "weapon_tttbase"
+SWEP.PrintName			= "A Baton"
 SWEP.ViewModel      = "models/weapons/v_gamma_baton.mdl"
 SWEP.WorldModel     = "models/weapons/w_gamma_baton.mdl"
 SWEP.Weight			= 5
@@ -73,6 +73,46 @@ end
 
 local function CrowbarCanUnlock(t)
    return not GAMEMODE.crowbar_unlocks or GAMEMODE.crowbar_unlocks[t]
+end
+
+function SWEP:Deploy()
+	local vm = self.Owner:GetViewModel()
+	if (IsValid(vm)) then
+		self:ResetBonePositions(vm, 0)
+	end
+
+	return true
+end
+
+function SWEP:Holster()
+	if (CLIENT and IsValid(self.Owner)) then
+        local vm = self.Owner:GetViewModel()
+        if (IsValid(vm)) then
+            self:ResetBonePositions(vm, 1)
+        end
+    end
+
+	return true
+end
+
+local bones = {
+	["ValveBiped.Bip01"] = true,
+	["ValveBiped.Bip01_R_Clavicle"] = true,
+	["ValveBiped.Bip01_R_UpperArm"] = true,
+	["ValveBiped.Bip01_R_Forearm"] = true,
+	["ValveBiped.Bip01_R_Hand"] = true,
+	["ValveBiped.HandControlRotR"] = true
+}
+
+function SWEP:ResetBonePositions(vm, scale)
+	if (!vm:GetBoneCount()) then return end
+	for i=0, vm:GetBoneCount() do
+		if (bones[vm:GetBoneName(i)]) then
+			continue
+		end
+
+		vm:ManipulateBoneScale(i, Vector(scale, scale, scale))
+    end
 end
 
 -- will open door AND return what it did
