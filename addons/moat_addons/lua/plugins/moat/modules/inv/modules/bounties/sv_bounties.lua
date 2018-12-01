@@ -339,24 +339,34 @@ local function _contracts()
 			upnext = kill_contracts[1]
 		end
 
-		local name, c = upnext[1], upnext[2]
-		local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
-		q:start()
-		c.runfunc()
-
-		local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
-		s = s .. markdown.Block(name .. markdown.WrapLine(c.desc))
-		discord.Send("Contracts", s)
-
-		contract_loaded = name
 		local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
 		function q:onSuccess(b)
-			contract_id = b[1].ID
+			if (b and b[1]) then
+				contract_loaded = b[1].contract
+				contract_id = b[1].ID
+			else
+				local name, c = upnext[1], upnext[2]
+				
+				local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
+				q:start()
+				c.runfunc()
+
+				local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
+				s = s .. markdown.Block(name .. markdown.WrapLine(c.desc))
+				discord.Send("Contracts", s)
+
+				contract_loaded = name
+				local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
+				function q:onSuccess(b)
+					contract_id = b[1].ID
+				end
+				q:start()
+				lottery_finish()
+
+				moat.mysql("UPDATE moat_contract_cache SET wpns = ?, kills = ? WHERE id = 1", wpns, kills)
+			end
 		end
 		q:start()
-		lottery_finish()
-
-		moat.mysql("UPDATE moat_contract_cache SET wpns = ?, kills = ? WHERE id = 1", wpns, kills)
 	end
 
 	local function loadnew()
