@@ -74,6 +74,9 @@ end
 local function Send(user, msg, username, no_suffix)
 	assert(user and (Users[user] or Webhooks[user]), "Discord failed to send webhook.")
 
+	string.Replace(msg, "@everyone", "everyone")
+	string.Replace(msg, "@here", "here")
+	
 	if (not http or not http.Loaded) then
 		table.insert(PreLoadQueue, {
 			User = user,
