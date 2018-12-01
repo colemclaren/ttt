@@ -36,6 +36,7 @@ local function moat_send_killcard(pl, att, dmg)
 	net.Start("moat_killcard_kill")
 	if (not IsValid(att)) then att = pl end
 	net.WriteEntity(att)
+	net.WriteUInt(GetRoundState() or 1, 4)
 
 	if (att:IsPlayer()) then
 		local role = att:GetRole()

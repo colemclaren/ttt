@@ -93,7 +93,7 @@ local function DrawBlur(panel, amount)
     end
 end
 
-function MOAT_KILLCARDS:DrawDeathCard(role, id, name, wpn, hp, max_hp, rnd_state)
+function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp)
 	self.CardInfo.x = (scrw / 2) - (self.CardInfo.w / 2)
 	self.CardInfo.y = scrh
 
@@ -112,13 +112,15 @@ function MOAT_KILLCARDS:DrawDeathCard(role, id, name, wpn, hp, max_hp, rnd_state
 
 	local role_color = GetRoleColor(role) or Color(255, 255, 255)
 	role_color.a = 255
+
+	local inactive, round_str = rnd_state ~= ROUND_ACTIVE, rnd_state == ROUND_PREP and "Killed During Preparing" or "Killed After Round"
 	self.CurCard.Paint = function(s, w, h)
 		surface_SetDrawColor(180, 180, 180, 200)
 		surface_DrawLine(0, 30, w, 30)
 		surface_DrawLine(0, h-11, w, h-11)
 
-		if (rnd_state ~= ROUND_ACTIVE) then 
-			draw_SimpleTextOutlined(rnd_state == ROUND_PREP and "Killed During Preparing" or "Killed After Round", "moat_Trebuchet", 0, 0, self.Colors.white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, self.Colors.shadow)
+		if (inactive) then 
+			draw_SimpleTextOutlined(round_str, "moat_Trebuchet", 0, 0, self.Colors.white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, self.Colors.shadow)
 			return
 		end
 
@@ -240,7 +242,8 @@ function MOAT_KILLCARDS.ReceiveDeath(l)
 	if (not LocalPlayer() or not IsValid(LocalPlayer())) then return end
 	local info = {role = "Something?", id = LocalPlayer():SteamID64(), name = LocalPlayer():Nick(), wpn = "Unknown Weapon", hp = 0, max_hp = 0}
 	local att = net.ReadEntity()
-
+	local round_state = net.ReadUInt(4)
+	
 	if (l and l == "testing") then att = LocalPlayer() end
 	if (not IsValid(att)) then return end
 
@@ -268,7 +271,7 @@ function MOAT_KILLCARDS.ReceiveDeath(l)
 			timer.Create("stat_wait_" .. indx, 0.5, 6, function()
 				if (wpn.ItemStats) then
 					info.wpn = wpn
-					MOAT_KILLCARDS:DrawDeathCard(info.role, info.id, info.name, info.wpn, info.hp, info.max_hp)
+					MOAT_KILLCARDS:DrawDeathCard(round_state, info.role, info.id, info.name, info.wpn, info.hp, info.max_hp)
 					timer.Remove("stat_wait_" .. indx)
 				end
 			end)
@@ -278,7 +281,7 @@ function MOAT_KILLCARDS.ReceiveDeath(l)
 
 	if (info.hp > 999999999) then info.hp = 0 end
 	
-	MOAT_KILLCARDS:DrawDeathCard(info.role, info.id, info.name, info.wpn, info.hp, info.max_hp, GetRoundState())
+	MOAT_KILLCARDS:DrawDeathCard(round_state, info.role, info.id, info.name, info.wpn, info.hp, info.max_hp)
 end
 net.Receive("moat_killcard_kill", MOAT_KILLCARDS.ReceiveDeath)
 
