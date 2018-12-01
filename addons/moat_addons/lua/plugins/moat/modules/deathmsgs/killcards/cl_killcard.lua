@@ -171,7 +171,7 @@ function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp
 
     local weapon_str, weapon_col, weapon_eff, weapon_rainbow = isstring(wpn) and wpn or "Unknown Cause of Death", Color(255, 255, 255)
 	if (not isstring(wpn)) then
-		weapon_str = wpn.PrintName or wpn:GetPrintName() or "Something Strange"
+		weapon_str = wpn.ItemName or wpn.PrintName or wpn:GetPrintName() or "Something Strange"
 
 		if (wpn.ItemStats and wpn.ItemStats.item) then
 			weapon_col = wpn.ItemStats.item.NameColor or rarity_names[wpn.ItemStats.item.Rarity][2]
