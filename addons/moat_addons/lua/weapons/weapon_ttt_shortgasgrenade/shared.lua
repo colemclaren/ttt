@@ -18,7 +18,7 @@ SWEP.Icon = "VGUI/ttt/icon_nades"
 SWEP.Base				= "weapon_tttbasegrenade"
 SWEP.Kind               = WEAPON_NADE
 SWEP.HoldType           = "grenade"
-
+SWEP.PrintName          = "Gas Grenade"     
 SWEP.Spawnable			= true
 SWEP.AdminSpawnable		= true
 

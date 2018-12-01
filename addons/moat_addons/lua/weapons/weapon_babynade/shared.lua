@@ -68,16 +68,17 @@ SWEP.Offset = {
 AddCSLuaFile()
 
 SWEP.HoldType                   = "grenade"
-
 SWEP.PrintName = "Babynade"
+
 if CLIENT then
    SWEP.Slot = 3
 
    SWEP.Icon = "vgui/hud/weapon_babynade"
 end
 
-SWEP.Base                               = "weapon_tttbasegrenade"
+SWEP.Base = "weapon_tttbasegrenade"
 
+SWEP.PrintName = "Babynade"
 SWEP.Spawnable = true
 SWEP.AutoSpawnable = false
 

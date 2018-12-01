@@ -28,7 +28,7 @@ end
 
 SWEP.Base				= "weapon_tttbasegrenade"
 
-
+SWEP.PrintName = "Combobulator"
 
 --SWEP.WeaponID = AMMO_COMB
 

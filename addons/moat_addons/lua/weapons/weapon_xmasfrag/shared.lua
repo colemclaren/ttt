@@ -177,6 +177,7 @@ SWEP.Author = "Nogitsu"
 SWEP.Spawnable = true
 SWEP.AdminSpawnable = true
 SWEP.Base = "weapon_tttbasegrenade"
+SWEP.PrintName = "Christmas Frag"
 
 SWEP.ViewModelFOV           = 70
 SWEP.ViewModelFlip          = true

@@ -4,8 +4,8 @@ SWEP.Instructions		= "Left click to throw, right click to toss."
 SWEP.Category			= "TTT"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
-
 SWEP.Base				= "weapon_tttbasegrenade"
+SWEP.PrintName			= "Plasma Grenade"	
 SWEP.Kind				= WEAPON_NADE
 SWEP.CanBuy 			= { ROLE_TRAITOR, ROLE_DETECTIVE }
 SWEP.InLoadoutFor 		= nil

@@ -469,49 +469,20 @@ function MOAT_LOADOUT.UpdateOtherWep()
     local wep_owner = net.ReadDouble()
     local wep_stats = net.ReadTable()
 
-    /*if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
-        if (GetConVar("moat_showstats_spawn"):GetInt() == 1) then
-            if (wep_stats.item and wep_stats.item.Kind ~= "Melee") then
-                m_DrawFoundItemAdd(wep_stats, "pickup")
-            end
-        end
-    end*/
-
     timer.Create("moat_StatRefresh" .. wep_index, 0.1, 0, function()
         local wep = Entity(wep_index)
 
         if (wep.Weapon) then
             if (wep.Weapon.PrintName and wep_name) then
 				wep.Weapon.PrintName = wep_name
-
-				/*
-
-                local ITEM_NAME_FULL = ""
-
-                if (wep_stats.item.Kind == "tier") then
-                    local ITEM_NAME = wep.Weapon.PrintName
-
-                    if (string.EndsWith(ITEM_NAME, "_name")) then
-                        ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                        ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-                    end
-
-                    ITEM_NAME_FULL = wep_stats.item.Name .. " " .. ITEM_NAME
-
-                    if (wep_stats.item.Name == "Stock") then
-                        ITEM_NAME_FULL = ITEM_NAME
-                    end
-                else
-                    ITEM_NAME_FULL = wep_stats.item.Name
-                end
-
-                wep.Weapon.PrintName = ITEM_NAME_FULL
-
-				*/
+				wep.Weapon.ItemName = wep_name
             end
 
             if (wep_stats) then
-                if (wep_stats.n) then wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\"" end
+                if (wep_stats.n) then
+					wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\""
+					wep.Weapon.ItemName = wep.Weapon.PrintName
+				end
                 
                 wep.Weapon.ItemStats = wep_stats
             end
@@ -627,35 +598,14 @@ function MOAT_LOADOUT.UpdateWep()
 
             if (wep.Weapon.PrintName and wep_name) then
 				wep.Weapon.PrintName = wep_name
-
-				/*
-
-                local ITEM_NAME_FULL = ""
-
-                if (wep_stats.item.Kind == "tier") then
-                    local ITEM_NAME = wep.Weapon.PrintName
-
-                    if (string.EndsWith(ITEM_NAME, "_name")) then
-                        ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                        ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-                    end
-
-                    ITEM_NAME_FULL = wep_stats.item.Name .. " " .. ITEM_NAME
-
-                    if (wep_stats.item.Name == "Stock") then
-                        ITEM_NAME_FULL = ITEM_NAME
-                    end
-                else
-                    ITEM_NAME_FULL = wep_stats.item.Name
-                end
-
-                wep.Weapon.PrintName = ITEM_NAME_FULL
-
-				*/
+				wep.Weapon.ItemName = wep_name
             end
 
             if (wep_stats) then
-                if (wep_stats.n) then wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\"" end
+                if (wep_stats.n) then
+					wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\""
+					wep.Weapon.ItemName = wep.Weapon.PrintName
+				end
                 
                 wep.Weapon.ItemStats = wep_stats
 

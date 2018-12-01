@@ -13,6 +13,7 @@ end
 
 SWEP.Base				= "weapon_tttbasegrenade"
 SWEP.Spawnable = true
+SWEP.PrintName	 = "Molotov"
 
 SWEP.Kind = WEAPON_NADE
 SWEP.WeaponID = AMMO_MOLOTOV

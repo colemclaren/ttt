@@ -52,7 +52,7 @@ SWEP.AdminSpawnable = false
 
 SWEP.Base = "weapon_tttbasegrenade"
 
-
+SWEP.PrintName = "Flashbang"
 
 SWEP.ViewModel			= "models/weapons/v_eq_flashbang.mdl"
 

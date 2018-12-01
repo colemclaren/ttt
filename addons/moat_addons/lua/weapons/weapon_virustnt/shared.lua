@@ -64,6 +64,7 @@ if CLIENT then
 end
 
 SWEP.Base				= "weapon_tttbasegrenade"
+SWEP.PrintName = "TNT"
 
 SWEP.Spawnable = true
 SWEP.AutoSpawnable = false

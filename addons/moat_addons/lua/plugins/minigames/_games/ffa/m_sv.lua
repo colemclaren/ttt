@@ -205,7 +205,7 @@ function MG_FFA.GiveWeapon(ply,v)
     net.WriteUInt(v3:EntIndex(), 16)
     if not ply.TDM_Cache[v.w] then
         ply.TDM_Cache[v.w] = {
-			name = wpn_tbl.PrintName or "",
+			name = wpn_tbl.ItemName or wpn_tbl.PrintName or "",
 			wpn_tbl.Primary.Damage or 0,
 			wpn_tbl.Primary.Delay or 0,
 			wpn_tbl.Primary.ClipSize or 0,
@@ -217,7 +217,7 @@ function MG_FFA.GiveWeapon(ply,v)
 		}
 
 		net.WriteBool(true)
-		net.WriteString(ply.TDM_Cache[v.w].name or "NAME_ERROR")
+		net.WriteString(ply.TDM_Cache[v.w].name or "NAME_ERROR6")
         net.WriteDouble(ply.TDM_Cache[v.w][1] or 0)
         net.WriteDouble(ply.TDM_Cache[v.w][2] or 0)
         net.WriteDouble(ply.TDM_Cache[v.w][3] or 0)

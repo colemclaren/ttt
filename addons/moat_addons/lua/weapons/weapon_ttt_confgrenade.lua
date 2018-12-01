@@ -12,8 +12,9 @@ if CLIENT then
    SWEP.IconLetter = "h"
 end
 
-SWEP.Base				= "weapon_tttbasegrenade"
+SWEP.Base = "weapon_tttbasegrenade"
 
+SWEP.PrintName = "Discombobulator"
 SWEP.WeaponID = AMMO_DISCOMB
 SWEP.Kind = WEAPON_NADE
 
