@@ -108,11 +108,11 @@ end
 function sv.UpdateRows()
 	sv.RefreshCounts()
 
-	moat.mysql([[UPDATE player_servers SET map = ?, players = ?, staff = ?, hostname = ?, max_players = ?, 
+	moat.mysql([[UPDATE player_servers SET map = ?, staff = ?, hostname = ?, max_players = ?, 
 	rounds_left = ?, round_state = ?, time_left = ?, map_time_left = ?, 
 	traitors_alive = ?, innocents_alive = ?, others_alive = ?, spectators = ?, traitor_wins = ?, innocent_wins = ?, 
 	top_player_steamid = ?, top_player_name = ?, top_player_score = ?, special_round = ?, map_event = ?, map_changed = ? WHERE id = ?]], 
-	sv.Map(), sv.PlayerCount(), sv.StaffCount(), GetHostName(), sv.MaxPlayers(), 
+	sv.Map(), sv.StaffCount(), GetHostName(), sv.MaxPlayers(), 
 	sv.RoundsLeft(), sv.RoundState(), sv.RoundTimeLeft(), sv.MapTimeLeft(),
 	sv.TraitorsAlive(), sv.InnocentsAlive(), sv.OthersAlive(), sv.SpectatorCount(), sv.TraitorWins(), sv.InnocentWins(),
 	sv.TopPlayerSteamID(), sv.TopPlayerName(), sv.TopPlayerScore(), sv.SpecialRound(), sv.MapEvent(), CurTime(), sv.ID)
