@@ -7,7 +7,7 @@ SWEP.PrintName = "Holstered"
 if CLIENT then
    SWEP.Slot      = 5
 
-   SWEP.ViewModelFOV = 10
+   SWEP.ViewModelFOV = 0
 end
 
 SWEP.Base = "weapon_tttbase"
@@ -68,4 +68,7 @@ function SWEP:DrawWorldModel()
 end
 
 function SWEP:DrawWorldModelTranslucent()
+end
+
+function SWEP:DrawViewModel()
 end

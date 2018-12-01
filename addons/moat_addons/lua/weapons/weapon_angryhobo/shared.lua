@@ -21,10 +21,10 @@ if (CLIENT) then --the cl_init.lua stuff goes in here
    SWEP.Icon = "vgui/ttt/icon_angryhoboswep"
 
 end
-SWEP.PrintName = "Angry Shoe"
 
 SWEP.Kind = WEAPON_EQUIP1
 SWEP.Base = "weapon_tttbase"
+SWEP.PrintName = "Angry Shoe"
 SWEP.Author = "Legend of Robbo";
 SWEP.Contact = "";
 SWEP.Purpose = "Allows hobos to express their frustration";
