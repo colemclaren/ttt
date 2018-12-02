@@ -7,7 +7,7 @@ AddCSLuaFile()
 DEFINE_BASECLASS "weapon_tttbase"
 
 SWEP.HoldType = "normal"
-SWEP.PrintName = "DNA Scanner"``
+SWEP.PrintName = "DNA Scanner"
 
 if CLIENT then
    SWEP.Slot = 8
