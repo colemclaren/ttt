@@ -3,7 +3,7 @@ SWEP.HoldType = "unarmed"
 SWEP.PrintName = "High Jump"
 if CLIENT then
     SWEP.Slot = 7
-    SWEP.ViewModelFOV = 10
+    SWEP.ViewModelFOV = 0
 
     SWEP.EquipMenuData = {
         type = "item_weapon",

@@ -12,7 +12,7 @@ if CLIENT then
 
    SWEP.Slot         = 6
 
-   SWEP.ViewModelFOV = 10
+   SWEP.ViewModelFOV = 0
 
 
 

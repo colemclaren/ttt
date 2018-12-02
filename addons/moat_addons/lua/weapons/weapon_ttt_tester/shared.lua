@@ -20,7 +20,7 @@ if CLIENT then
 
 
 
-   SWEP.ViewModelFOV = 10
+   SWEP.ViewModelFOV = 0
 
 
 

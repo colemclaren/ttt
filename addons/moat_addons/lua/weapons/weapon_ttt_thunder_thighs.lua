@@ -6,7 +6,7 @@ if CLIENT then
     id = speed
     SWEP.DrawAmmo = true
     SWEP.DrawCrosshair = false
-    SWEP.ViewModelFOV = 10
+    SWEP.ViewModelFOV = 0
 
     SWEP.EquipMenuData = {
         type = "Active Use Item",

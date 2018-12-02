@@ -130,7 +130,7 @@ if CLIENT then
    SWEP.Slot      = 5
 
    SWEP.Icon = "vgui/hud/weapon_stealthbox"
-   SWEP.ViewModelFOV = 10
+   SWEP.ViewModelFOV = 0
 end
 
 SWEP.Base = "weapon_tttbase"

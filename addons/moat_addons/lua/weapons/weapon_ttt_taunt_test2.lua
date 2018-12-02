@@ -7,7 +7,7 @@ if CLIENT then
    SWEP.Slot      = 5
    SWEP.Icon = "moat_inv/moat_taunt.png"
 
-   SWEP.ViewModelFOV = 10
+   SWEP.ViewModelFOV = 0
 end
 
 SWEP.Base = "weapon_tttbase"
