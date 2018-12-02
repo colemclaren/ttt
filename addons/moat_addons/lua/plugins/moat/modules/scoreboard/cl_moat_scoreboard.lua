@@ -229,7 +229,7 @@ local function moat_UpdateDefaultTTTShit()
 
     function WSWITCH:DrawWeapon(x, y, c, wep)
         if not IsValid(wep) then return false end
-        local name = wep.ItemName or wep.PrintName or "...")
+        local name = wep.ItemName or wep.PrintName or "..."
         local cl1, am1 = wep:Clip1(), wep:Ammo1()
         local ammo = false
 
