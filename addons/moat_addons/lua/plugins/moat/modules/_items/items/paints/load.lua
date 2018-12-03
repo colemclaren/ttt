@@ -189,9 +189,11 @@ MOAT_PAINT.Paints = {
 	[6116] = {'George\'s Surprise Paint', {115, 34, 136}, 7}
 }
 
-MOAT_PAINT.Textures = {
-	[6117] = {'Flesh Texture', 'models/flesh', 7},
-	--[6119] = {'Lit Blood Texture', 'models/camo_blood', 8}
+MOAT_PAINT.Skins = {
+	[6117] = {'Flesh Skin', 'models/flesh', 7},
+	--[6119] = {'Lit Blood Skin', 'models/camo_blood', 8},
+	--[6120] = {'Puppy Skin', 'https://cdn.moat.gg/f/dbd23.png', 8}, --'https://cdn.moat.gg/f/91548.png', 8},
+	--[6121] = {'Dev Team Stalker Skin', 'https://cdn.moat.gg/f/b8271.png', 8}
 }
 
 function ItemIsPaint(id)
@@ -202,12 +204,20 @@ function ItemIsTint(id)
 	return id and MOAT_PAINT.Tints[id]
 end
 
-function ItemIsTexture(id)
-	return id and MOAT_PAINT.Textures[id]
+function ItemIsSkin(id)
+	return id and MOAT_PAINT.Skins[id]
 end
 
 function ItemPaints(id)
-	return id and (MOAT_PAINT.Paints[id] or MOAT_PAINT.Tints[id] or MOAT_PAINT.Textures[id])
+	return id and (MOAT_PAINT.Paints[id] or MOAT_PAINT.Tints[id] or MOAT_PAINT.Skins[id])
+end
+
+MOAT_PAINT.SkinCache = {}
+function LoadSkin(id, cb)
+	if (MOAT_PAINT.SkinCache[id]) then
+		return cb(MOAT_PAINT.SkinCache[id])
+	end
+	
 end
 
 concommand.Add("moat_paint", function()
@@ -222,8 +232,8 @@ concommand.Add("moat_paint", function()
 		last_id = last_id + 1
     end
 
-	for i = 1, #MOAT_PAINT.Textures do
-		print("    ", "[" .. last_id .. "] = {'" .. MOAT_PAINT.Textures[i][1] .. " Texture', '" .. MOAT_PAINT.Textures[i][2] .. "', " .. MOAT_PAINT.Colors[i][3] .. "}")
+	for i = 1, #MOAT_PAINT.Skins do
+		print("    ", "[" .. last_id .. "] = {'" .. MOAT_PAINT.Skins[i][1] .. " Texture', '" .. MOAT_PAINT.Skins[i][2] .. "', " .. MOAT_PAINT.Colors[i][3] .. "}")
 		last_id = last_id + 1
     end
 end)

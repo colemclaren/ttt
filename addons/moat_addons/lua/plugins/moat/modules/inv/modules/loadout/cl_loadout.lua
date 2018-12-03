@@ -309,22 +309,32 @@ function PrePaintViewModel(wpn)
             continue
         end
 
-        if (not wpn.cache.mats[i].texture) then wpn.cache.mats[i].texture = wpn.cache.mats[i].mat:GetTexture("$basetexture") end
-        --if (not wpn.cache.mats[i].envmap) then wpn.cache.mats[i].envmap = wpn.cache.mats[i].mat:GetTexture("$envmap") end
-        --if (not wpn.cache.mats[i].envmap2) then wpn.cache.mats[i].envmap2 = wpn.cache.mats[i].mat:GetTexture("$envmapmask") end
+        if (not wpn.cache.mats[i].texture) then
+			wpn.cache.mats[i].texture = wpn.cache.mats[i].mat:GetTexture("$basetexture")
+		end
 
         if (wpn.ItemStats.p3) then
-            if (not wpn.cache.t and MOAT_PAINT.Textures[wpn.ItemStats.p3]) then wpn.cache.t = MOAT_PAINT.Textures[wpn.ItemStats.p3] end
+            if (not wpn.cache.t and MOAT_PAINT.Skins[wpn.ItemStats.p3]) then
+				wpn.cache.t = MOAT_PAINT.Skins[wpn.ItemStats.p3]
+			end
 
-            wpn.cache.mats[i].mat:SetTexture("$basetexture", wpn.cache.t[2])
-            --wpn.cache.mats[i].mat:SetTexture("$envmapmask", wpn.cache.t[2])
-            --wpn.cache.mats[i].mat:SetTexture("$envmap", wpn.cache.t[2])
+			if (wpn.cache.t[2]:match "^http") then
+				local cdn_mat = cdn.Image(wpn.cache.t[2], function(m)
+					if (m) then
+						wpn.cache.mats[i].mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
+					end
+				end)
+
+				if (cdn_mat) then
+					wpn.cache.mats[i].mat:SetTexture("$basetexture", cdn_mat:GetTexture "$basetexture")
+				end
+			else
+				wpn.cache.mats[i].mat:SetTexture("$basetexture", wpn.cache.t[2])
+			end
         end
 
         if (wpn.ItemStats.p2) then
             wpn.cache.mats[i].mat:SetTexture("$basetexture", "models/debug/debugwhite")
-            --wpn.cache.mats[i].mat:SetTexture("$envmapmask", "models/debug/debugwhite")
-            --wpn.cache.mats[i].mat:SetTexture("$envmap", "models/debug/debugwhite")
 
             set_vector(wpn.cache.mats[i].mat, "$color2", vector(wpn.cache.p[1]/255, wpn.cache.p[2]/255, wpn.cache.p[3]/255))
         elseif (wpn.ItemStats.p) then
@@ -342,7 +352,9 @@ function PostPaintViewModel(wpn)
 
         set_vector(wpn.cache.mats[i].mat, "$color2", reg)
 
-        if (wpn.cache.mats[i].texture) then wpn.cache.mats[i].mat:SetTexture("$basetexture", wpn.cache.mats[i].texture) end
+        if (wpn.cache.mats[i].texture) then
+			wpn.cache.mats[i].mat:SetTexture("$basetexture", wpn.cache.mats[i].texture)
+		end
         --if (wpn.cache.mats[i].envmap) then wpn.cache.mats[i].mat:SetTexture("$envmap", wpn.cache.mats[i].envmap) end
         --if (wpn.cache.mats[i].envmap2) then wpn.cache.mats[i].mat:SetTexture("$envmapmask", wpn.cache.mats[i].envmap2) end
     end
@@ -661,20 +673,34 @@ function MOAT_LOADOUT.UpdateWep()
                     end
                 end
 
-                if (wep_stats.p3 and MOAT_PAINT and MOAT_PAINT.Textures and MOAT_PAINT.Textures[wep_stats.p3]) then
-                    local col = MOAT_PAINT.Textures[wep_stats.p3][2]
-                    if (col) then
-                        wep:SetMaterial(col)
-                    end
+                if (wep_stats.p3 and MOAT_PAINT and MOAT_PAINT.Skins and MOAT_PAINT.Skins[wep_stats.p3]) then
+					local mat_str = MOAT_PAINT.Skins[wep_stats.p3][2]
+					local cdn_mat = mat_str:match "^http" and cdn.Image(mat_str, function(m)
+						if (m and IsValid(wep)) then
+							wep.Skin = m:GetTexture "$basetexture"
+							wep:SetMaterial(wep.Skin)
+						end
+					end)
 
-                    function wep:DrawWorldModel(c)
+					wep.Skin = mat_str:match "^http" and (cdn_mat and cdn_mat:GetTexture "$basetexture") or mat_str
+
+					if (wep.Skin) then
+						wep:SetMaterial(wep.Skin)
+					end
+	
+					function wep:DrawWorldModel(c)
                         self.Owner.CustomColor = color
+
                         if (self.OldDrawWorldModel and not c) then
-                            self.OldDrawWorldModel(self, true)
+                        	self.OldDrawWorldModel(self, true)
                         else
-                            self:DrawModel()
+                        	self:DrawModel()
                         end
-                        self:SetMaterial(col)
+
+						if (self.Skin) then
+                        	self:SetMaterial(self.Skin)
+						end
+
                         self.Owner.CustomColor = nil
                     end
                 end

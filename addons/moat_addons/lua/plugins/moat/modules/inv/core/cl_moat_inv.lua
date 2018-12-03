@@ -4554,7 +4554,7 @@ function m_IniateUsableItem(num, itemtbl)
                     tint = itemtbl.u
                 elseif (ItemIsPaint(itemtbl.u)) then
                     paint = itemtbl.u
-                elseif (ItemIsTexture(itemtbl.u)) then
+                elseif (ItemIsSkin(itemtbl.u)) then
                     texture = itemtbl.u
                 end
 

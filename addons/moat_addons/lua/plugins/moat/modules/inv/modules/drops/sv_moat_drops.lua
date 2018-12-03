@@ -69,11 +69,11 @@ function m_CreatePaints()
         m_AddDroppableItem(tbl, "Usable")
 	end
 
-	for k, v in pairs(MOAT_PAINT.Textures) do
+	for k, v in pairs(MOAT_PAINT.Skins) do
         local tbl = {}
         tbl.Name = v[1]
         tbl.ID = k
-        tbl.Description = "Right click a weapon to use this texture on it"
+        tbl.Description = "Right click a weapon to use this skin on it"
         tbl.Rarity = v[3]
         tbl.Texture = v[2]
         tbl.Collection = "Paint Collection"
