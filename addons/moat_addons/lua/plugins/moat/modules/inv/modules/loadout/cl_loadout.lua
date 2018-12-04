@@ -251,18 +251,33 @@ local getmats = ENTITY.GetMaterials
 local reg = vector(1, 1, 1)
 local mats_cache = {}
 
-function PrePaintViewModel(wpn)
-    if (not MOAT_PAINT) then return end
-    if (not wpn or not wpn.ItemStats) then return end
-    if (not wpn.ItemStats.p and not wpn.ItemStats.p2 and not wpn.ItemStats.p3) then return end
-    if (not wpn.cache) then wpn.cache = {} end
+function PrePaintViewModel(wpn, preview)
+    if (not MOAT_PAINT or not wpn or (not preview and not wpn.ItemStats)) then
+		return
+	end
+
+    if (wpn.ItemStats and (not wpn.ItemStats.p and not wpn.ItemStats.p2 and not wpn.ItemStats.p3 and not preview)) then
+		return
+	end
+
+    if (not wpn.cache) then
+		wpn.cache = {}
+	end
+
+	if (preview and not wpn.cache.m) then
+		wpn.cache.m = getmats(wpn)
+	end
+
     if (not wpn.cache.m) then
         local vm = wpn:GetWeaponViewModel()
+
         if (mats_cache[vm]) then 
             wpn.cache.m = mats_cache[vm]
         else
             local mdl = ClientsideModel(vm, RENDERGROUP_OPAQUE)
-            if (not mdl) then return end
+            if (not mdl) then
+				return
+			end
 
             mdl:SetNoDraw(true)
             mats_cache[vm] = getmats(mdl)
@@ -270,7 +285,8 @@ function PrePaintViewModel(wpn)
             wpn.cache.m = mats_cache[vm]
         end
     end
-    if (not wpn.cache.p) then 
+
+    if (not wpn.cache.p and not preview) then 
         wpn.cache.p = 255
         if (wpn.ItemStats.p2) then
             wpn.cache.p = MOAT_PAINT.Paints[wpn.ItemStats.p2][2]
@@ -278,13 +294,23 @@ function PrePaintViewModel(wpn)
             wpn.cache.p = MOAT_PAINT.Tints[wpn.ItemStats.p][2]
         end
     end
-    if (not wpn.cache.n) then wpn.cache.n = #wpn.cache.m end
-    if (not wpn.cache.mats) then wpn.cache.mats = {} end
+
+    if (not wpn.cache.n) then
+		wpn.cache.n = #wpn.cache.m
+	end
+
+    if (not wpn.cache.mats) then
+		wpn.cache.mats = {}
+	end
 
     for i = 1, wpn.cache.n do
-        if (not wpn.cache.mats[i]) then wpn.cache.mats[i] = {} end
-        if (not wpn.cache.mats[i].mat) then wpn.cache.mats[i].mat = mat(wpn.cache.m[i]) end
-
+        if (not wpn.cache.mats[i]) then
+			wpn.cache.mats[i] = {}
+		end
+	
+        if (not wpn.cache.mats[i].mat) then
+			wpn.cache.mats[i].mat = mat(wpn.cache.m[i])
+		end
 
         if (wpn.cache.mats[i].skip == nil) then 
             if ((wpn.cache.m[i]:find("hand") and not wpn.cache.m[i]:EndsWith("eu_handgun") and not wpn.cache.m[i]:StartWith("models/weapons/v_models/9mmhandgun")) or 
@@ -313,9 +339,9 @@ function PrePaintViewModel(wpn)
 			wpn.cache.mats[i].texture = wpn.cache.mats[i].mat:GetTexture("$basetexture")
 		end
 
-        if (wpn.ItemStats.p3) then
-            if (not wpn.cache.t and MOAT_PAINT.Skins[wpn.ItemStats.p3]) then
-				wpn.cache.t = MOAT_PAINT.Skins[wpn.ItemStats.p3]
+        if (preview or (wpn.ItemStats and wpn.ItemStats.p3)) then
+            if (not wpn.cache.t and (preview or MOAT_PAINT.Skins[wpn.ItemStats.p3])) then
+				wpn.cache.t = preview and MOAT_PAINT.Skins[preview] or MOAT_PAINT.Skins[wpn.ItemStats.p3]
 			end
 
 			if (wpn.cache.t[2]:match "^http") then
@@ -332,6 +358,10 @@ function PrePaintViewModel(wpn)
 				wpn.cache.mats[i].mat:SetTexture("$basetexture", wpn.cache.t[2])
 			end
         end
+		
+		if (preview or not wpn.ItemStats) then
+			return
+		end
 
         if (wpn.ItemStats.p2) then
             wpn.cache.mats[i].mat:SetTexture("$basetexture", "models/debug/debugwhite")
@@ -343,20 +373,25 @@ function PrePaintViewModel(wpn)
     end
 end
 
-function PostPaintViewModel(wpn)
-    if (not wpn or not wpn.ItemStats) then return end
-    if (not wpn.cache or not wpn.cache.n) then return end
-    
+function PostPaintViewModel(wpn, preview)
+    if (not wpn or (not preview and not wpn.ItemStats)) then
+		return
+	end
+
+    if (not wpn.cache or not wpn.cache.n) then
+		return
+	end
+
     for i = 1, wpn.cache.n do
-        if (not wpn.cache.mats[i] or wpn.cache.mats[i].skip or not wpn.cache.mats[i].mat) then continue end
+        if (not wpn.cache.mats[i] or wpn.cache.mats[i].skip or not wpn.cache.mats[i].mat) then
+			continue
+		end
 
         set_vector(wpn.cache.mats[i].mat, "$color2", reg)
 
         if (wpn.cache.mats[i].texture) then
 			wpn.cache.mats[i].mat:SetTexture("$basetexture", wpn.cache.mats[i].texture)
 		end
-        --if (wpn.cache.mats[i].envmap) then wpn.cache.mats[i].mat:SetTexture("$envmap", wpn.cache.mats[i].envmap) end
-        --if (wpn.cache.mats[i].envmap2) then wpn.cache.mats[i].mat:SetTexture("$envmapmask", wpn.cache.mats[i].envmap2) end
     end
 end
 
@@ -674,35 +709,128 @@ function MOAT_LOADOUT.UpdateWep()
                 end
 
                 if (wep_stats.p3 and MOAT_PAINT and MOAT_PAINT.Skins and MOAT_PAINT.Skins[wep_stats.p3]) then
-					local mat_str = MOAT_PAINT.Skins[wep_stats.p3][2]
-					local cdn_mat = mat_str:match "^http" and cdn.Image(mat_str, function(m)
-						if (m and IsValid(wep)) then
-							wep.Skin = m:GetTexture "$basetexture"
-							wep:SetMaterial(wep.Skin)
+					local mat_str, name_str, new_mat = MOAT_PAINT.Skins[wep_stats.p3][2], MOAT_PAINT.Skins[wep_stats.p3][1]
+
+					if (mat_str:match "^http") then
+						new_mat = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
+							["$model"] = 1,
+                			["$alphatest"] = 1,
+                			["$vertexcolor"] = 1,
+                			["$basetexture"] = "error"
+            			})
+
+						local function set(m)
+							new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
 						end
-					end)
 
-					wep.Skin = mat_str:match "^http" and (cdn_mat and cdn_mat:GetTexture "$basetexture") or mat_str
-
-					if (wep.Skin) then
-						wep:SetMaterial(wep.Skin)
+						local m = cdn.Image(mat_str, set)
+						if (m) then
+							set(m)
+						end
+					else
+						wep:SetMaterial(mat_str)
 					end
-	
-					function wep:DrawWorldModel(c)
-                        self.Owner.CustomColor = color
 
-                        if (self.OldDrawWorldModel and not c) then
-                        	self.OldDrawWorldModel(self, true)
-                        else
-                        	self:DrawModel()
-                        end
+					if (wep.OldDrawWorldModel) then
+						function wep:DrawWorldModel(c)
+							self.Owner.CustomColor = color
 
-						if (self.Skin) then
-                        	self:SetMaterial(self.Skin)
+							if (new_mat) then
+								render.MaterialOverride(new_mat)
+								render.SetColorModulation(1, 1, 1)
+								render.SetBlend(1)
+							end
+
+							if (self.Offset) then
+								local hand, offset, rotate
+    							local pl = self:GetOwner()
+
+    							if (IsValid(pl) and pl.SetupBones) then
+        							pl:SetupBones()
+        							pl:InvalidateBoneCache()
+        							self:InvalidateBoneCache()
+								end
+
+    							if (IsValid(pl)) then
+        							local boneIndex = pl:LookupBone("ValveBiped.Bip01_R_Hand")
+
+        							if (boneIndex) then
+            							local pos, ang
+
+            							local mat = pl:GetBoneMatrix(boneIndex)
+										if (mat) then
+											pos, ang = mat:GetTranslation(), mat:GetAngles()
+										else
+											pos, ang = pl:GetBonePosition( handBone )
+										end
+
+            							pos = pos + ang:Forward() * self.Offset.Pos.Forward + ang:Right() * self.Offset.Pos.Right + ang:Up() * self.Offset.Pos.Up
+            							ang:RotateAroundAxis(ang:Up(), self.Offset.Ang.Up)
+            							ang:RotateAroundAxis(ang:Right(), self.Offset.Ang.Right)
+										ang:RotateAroundAxis(ang:Forward(), self.Offset.Ang.Forward)
+										self:SetRenderOrigin(pos)
+										self:SetRenderAngles(ang)
+										self:DrawModel()
+									end
+        						else
+									self:SetRenderOrigin(nil)
+        							self:SetRenderAngles(nil)
+        							self:DrawModel()
+								end
+							else
+								self:DrawModel()
+							end
+
+							if (new_mat) then
+								render.MaterialOverride(nil)
+								render.SetColorModulation(1, 1, 1)
+							else
+								self:SetMaterial(mat_str)
+							end
+							/*
+							local m = cdn.Image(mat_str)
+							if (m and not self.SetMeme) then
+								self.SetMeme = true
+								new_mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
+								self:SetSubMaterial(0, "!"..new_mat:GetName())
+							else
+								self:SetMaterial(mat_str)
+							end
+							*/
+							self.Owner.CustomColor = nil
 						end
+					else
+						wep.RenderGroup = RENDERGROUP_TRANSLUCENT
+						function wep:DrawWorldModelTranslucent(c)
+							self.Owner.CustomColor = color
+							if (self.OldDrawWorldModel and not c) then
+								render.MaterialOverride(new_mat)
+								render.SetColorModulation(1, 1, 1)
+								render.SetBlend(1)
+								self.OldDrawWorldModel(self, true)
+								render.MaterialOverride(nil)
+							elseif (new_mat) then
+								render.MaterialOverride(new_mat)
+								render.SetColorModulation(1, 1, 1)
+								render.SetBlend(1)
+								self:DrawModel()
+								render.MaterialOverride(nil)
+							else
+								self:DrawModel()
+							end
 
-                        self.Owner.CustomColor = nil
-                    end
+							local m = cdn.Image(mat_str)
+							if (m and not self.SetMeme) then
+								self.SetMeme = true
+								new_mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
+								self:SetSubMaterial(0, "!"..new_mat:GetName())
+							else
+								self:SetMaterial(mat_str)
+							end
+
+							self.Owner.CustomColor = nil
+						end
+					end
                 end
 
                 if (wep_stats.p or wep_stats.p2 or wep_stats.p3) then

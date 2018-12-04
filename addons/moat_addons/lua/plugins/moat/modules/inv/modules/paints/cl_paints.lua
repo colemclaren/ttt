@@ -258,8 +258,8 @@ end)
 
 function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 	local frame = vgui.Create("DFrame")
-	frame:SetTitle("Paint Preview")
-	frame:SetSize(400, 300)
+	frame:SetTitle("Paint Preview with your weapon's VIEW MODEL (not world model)")
+	frame:SetSize(500, 450)
 	frame:MakePopup()
 	frame:Center()
 	frame:DoModal(true)
@@ -354,13 +354,33 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
     end
 
     if (paint_id3 and MOAT_PAINT and MOAT_PAINT.Skins and MOAT_PAINT.Skins[paint_id3]) then
-        local col = MOAT_PAINT.Skins[paint_id3][2]
-        if (col) then
-            wep:SetMaterial(col)
+		local mat_str, name_str, new_mat = MOAT_PAINT.Skins[paint_id3][2], MOAT_PAINT.Skins[paint_id3][1]
+		if (mat_str:match "^http") then
+			new_mat = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
+				["$model"] = 1,
+                ["$alphatest"] = 1,
+                ["$vertexcolor"] = 1,
+                ["$basetexture"] = "error"
+            })
+
+			local function set(im)
+				new_mat:SetTexture("$basetexture", im:GetTexture("$basetexture"))
+			end
+
+			local im = cdn.Image(mat_str, set)
+			if (im) then
+				set(im)
+			end
+		else
+			new_mat = Material(mat_str)
+		end
+
+		function m:PreDrawModel(e)
+			PrePaintViewModel(e, paint_id3)
         end
 
         function m:PostDrawModel(e)
-            e:SetMaterial(col)
+			PostPaintViewModel(e, paint_id3)
         end
-    end
+	end
 end

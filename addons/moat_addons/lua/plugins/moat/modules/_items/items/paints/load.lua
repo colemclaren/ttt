@@ -189,9 +189,36 @@ MOAT_PAINT.Paints = {
 	[6116] = {'George\'s Surprise Paint', {115, 34, 136}, 7}
 }
 
+local holidays = 'Holiday Collection'
 MOAT_PAINT.Skins = {
 	[6117] = {'Flesh Skin', 'models/flesh', 7},
-	--[6119] = {'Lit Blood Skin', 'models/camo_blood', 8},
+	[6119] = {'Test Skin', 'https://cdn.moat.gg/f/b4573.png', 8, nil, 'Testing Collection'},
+	[6120] = {'Merry Poops', 'https://cdn.moat.gg/f/b09a5.png', 2, 'https://cdn.moat.gg/f/b70cb.png', holidays},
+	[6123] = {'Blizzard Skin', 'https://cdn.moat.gg/f/37c4d.jpg', 4, 'https://cdn.moat.gg/f/2391e.png', holidays},
+	[6127] = {'Pokemon Skin', 'https://cdn.moat.gg/f/442e1.jpg', 4, 'https://cdn.moat.gg/f/52336.png', holidays},
+	[6128] = {'Playful Skin', 'https://cdn.moat.gg/f/058a0.jpg', 4, 'https://cdn.moat.gg/f/bb884.png', holidays},
+	[6129] = {'Xmas Skin', 'https://cdn.moat.gg/f/63027.jpg', 5, 'https://cdn.moat.gg/f/86c64.png', holidays},
+	[6131] = {'Stickers Skin', 'https://cdn.moat.gg/f/772c4.jpg', 5, 'https://cdn.moat.gg/f/0a0a7.png', holidays},
+	[6132] = {'Warrior Skin', 'https://cdn.moat.gg/f/6d68e.png', 5, 'https://cdn.moat.gg/f/20ba2.png', holidays},
+	[6133] = {'Scales Skin','https://cdn.moat.gg/f/a0a1b.png', 5, 'https://cdn.moat.gg/f/87d35.png', holidays},
+	[6151] = {'Pokadot Skin', 'https://cdn.moat.gg/f/92147.png', 5, 'https://cdn.moat.gg/f/07241.png', holidays},
+	[6140] = {'Flourish Skin', 'https://cdn.moat.gg/f/6026a.png', 6, 'https://cdn.moat.gg/f/b75ae.png', holidays},
+	[6136] = {'Riptide Skin', 'https://cdn.moat.gg/f/93061.png', 5, 'https://cdn.moat.gg/f/76abb.png', holidays},
+	[6135] = {'Lightning Skin', 'https://cdn.moat.gg/f/eda6c.png', 6, 'https://cdn.moat.gg/f/a3745.png', holidays},
+	[6137] = {'Magma Skin', 'https://cdn.moat.gg/f/46309.jpg', 6, 'https://cdn.moat.gg/f/6dc06.png', holidays},
+	[6138] = {'Polygon Skin', 'https://cdn.moat.gg/f/a3915.png', 6, 'https://cdn.moat.gg/f/c250a.png', holidays},
+	[6139] = {'Comic Skin', 'https://cdn.moat.gg/f/d2a02.png', 5, 'https://cdn.moat.gg/f/d7571.png', holidays},
+	[6141] = {'Zebra Skin', 'https://cdn.moat.gg/f/e9d1e.png', 6, 'https://cdn.moat.gg/f/c5e26.png', holidays},
+	[6130] = {'Hype Skin', 'https://cdn.moat.gg/f/8e7d6.jpg', 6, 'https://cdn.moat.gg/f/1a72a.png', holidays},
+	[6142] = {'Sherbert Skin', 'https://cdn.moat.gg/f/b4573.png', 7, 'https://cdn.moat.gg/f/50c8d.png', holidays},
+	[6143] = {'Trippin Skin', 'https://cdn.moat.gg/f/89c31.png', 7, 'https://cdn.moat.gg/f/554a0.png', holidays},
+	[6134] = {'Holo Skin', 'https://cdn.moat.gg/f/d5dc9.png', 7, 'https://cdn.moat.gg/f/ec9d7.png', holidays},
+	[6144] = {'Gold Skin', 'https://cdn.moat.gg/f/84cae.png', 7, 'https://cdn.moat.gg/f/b1664.png', holidays},
+	[6149] = {'Skrilla Skin', 'https://cdn.moat.gg/f/49737.png', 7, 'https://cdn.moat.gg/f/a3326.png', holidays},
+	[6145] = {'Hotline Skin', 'https://cdn.moat.gg/f/5d256.jpg', 9, 'https://cdn.moat.gg/f/be68b.png', holidays},
+	[6146] = {'Galaxy Skin', 'https://cdn.moat.gg/f/9a16b.jpg', 9, 'https://cdn.moat.gg/f/c009c.png', holidays},
+	[6154] = {'Elevate Skin', 'https://cdn.moat.gg/f/bad8d.png', 7, 'https://cdn.moat.gg/f/9ccd6.png', holidays}
+	-- https://cdn.moat.gg/f/8e376.png
 	--[6120] = {'Puppy Skin', 'https://cdn.moat.gg/f/dbd23.png', 8}, --'https://cdn.moat.gg/f/91548.png', 8},
 	--[6121] = {'Dev Team Stalker Skin', 'https://cdn.moat.gg/f/b8271.png', 8}
 }

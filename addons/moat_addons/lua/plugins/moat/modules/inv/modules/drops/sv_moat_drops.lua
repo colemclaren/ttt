@@ -33,7 +33,7 @@ function m_CreatePaints()
 		local tbl = {}
         tbl.Name = v[1]
         tbl.ID = k
-        tbl.Description = "Right click a weapon to use this tint on it"
+        tbl.Description = "Right click this tint to use it on a weapon"
         tbl.Rarity = v[3]
         tbl.Clr = v[2]
         tbl.Collection = "Paint Collection"
@@ -55,7 +55,7 @@ function m_CreatePaints()
 		local tbl = {}
         tbl.Name = v[1]
         tbl.ID = k
-        tbl.Description = "Right click an item to use this paint on it"
+        tbl.Description = "Right click this paint to use it on an item"
         tbl.Rarity = v[3]
         tbl.Clr = v[2]
         tbl.Collection = "Paint Collection"
@@ -73,12 +73,12 @@ function m_CreatePaints()
         local tbl = {}
         tbl.Name = v[1]
         tbl.ID = k
-        tbl.Description = "Right click a weapon to use this skin on it"
+        tbl.Description = "Right click this skin to use it on a weapon"
         tbl.Rarity = v[3]
         tbl.Texture = v[2]
-        tbl.Collection = "Paint Collection"
+        tbl.Collection = v[5] or "Paint Collection"
         tbl.PaintVer = 2
-        tbl.Image = "https://cdn.moat.gg/f/O3DkFrSx6C66U4XBvbGm7aYm4xDV.png"
+        tbl.Image = v[4] or "https://cdn.moat.gg/f/O3DkFrSx6C66U4XBvbGm7aYm4xDV.png"
         tbl.ItemCheck = 12
         function tbl:ItemUsed(pl, slot, item)
             m_TextureItem(pl, slot, item, self.ID)
