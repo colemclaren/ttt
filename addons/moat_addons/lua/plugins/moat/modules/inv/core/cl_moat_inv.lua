@@ -5066,7 +5066,7 @@ function m_CreateItemMenu(num, ldt)
 
     local p3txt = nil
     if (itemtbl.p3) then
-        p3txt = MOAT_PAINT.Textures[itemtbl.p3] and MOAT_PAINT.Textures[itemtbl.p3][1] or "ERROR: Unknown Texture"
+        p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "ERROR: Unknown Skin"
         M_INV_MENU:AddOption("Remove " .. p3txt, function()
         end):SetIcon("icon16/paintbrush.png")
     end
