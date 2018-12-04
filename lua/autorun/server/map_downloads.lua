@@ -221,6 +221,7 @@ maps[ "ttt_mcnpcvillage_2016" ] = 644073837
 maps[ "ttt_mc_cave" ] = 620778376
 maps[ "ttt_mc_port_labile_v3" ] = 507829262
 maps[ "ttt_minecraftmotel_b2" ] = 644815396
+maps[ "ttt_minecraftmotel_b2u" ] = 644815396
 maps[ "ttt_dust2minecrafttestfixed" ] = 608504798
 maps[ "ttt_minecraft_village_v1m6" ] = 538202001
 maps[ "ttt_sectorfour_v1c" ] = 897190324
