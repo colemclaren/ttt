@@ -73,11 +73,11 @@ Servers "208.103.169.43:27018"
 	:SetID "beta"
 
 Servers "64.94.101.132:27015"
-	:SetName "TTT LA"
+	:SetName "TTT West"
 	:SetID "ttt-la"
 
 Servers "208.103.169.204:27021"
-	:SetName "TTT EU"
+	:SetName "TTT Europe"
 	:SetID "ttt-eu"
 
 
@@ -85,29 +85,23 @@ Servers "208.103.169.204:27021"
 Servers "208.103.169.205:27015"
 	:SetName "TTT EU #1"
 	:SetID "ttt-eu1"
-	:SetState "Coming Soon"
 
 Servers "208.103.169.205:27017"
 	:SetName "TTT EU #2"
 	:SetID "ttt-eu2"
-	:SetState "Coming Soon"
 
 Servers "208.103.169.205:27018"
 	:SetName "TTT EU #3"
 	:SetID "ttt-eu3"
-	:SetState "Coming Soon"
 
 Servers "208.103.169.205:27020"
 	:SetName "TTT EU #4"
 	:SetID "ttt-eu4"
-	:SetState "Coming Soon"
 
 Servers "208.103.169.205:27016"
-	:SetName "TTT EU Minecraft #1"
+	:SetName "TTT Minecraft EU #1"
 	:SetID "ttt-eumc1"
-	:SetState "Coming Soon"
 
 Servers "208.103.169.205:27019"
-	:SetName "TTT EU Minecraft #2"
+	:SetName "TTT Minecraft EU #2"
 	:SetID "ttt-eumc2"
-	:SetState "Coming Soon"
