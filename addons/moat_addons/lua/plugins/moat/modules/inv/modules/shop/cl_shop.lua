@@ -24,9 +24,9 @@ timer.Create("LimitedShopChat",10,0,function()
     if MOAT_SHOP[1] then
         timer.Remove("LimitedShopChat")
 		if (LIMITEDS >= 1) then
-			chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, " .. Either(LIMITEDS == 1, "there's", "there are") .. " currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM" .. Either(LIMITEDS > 1, "S", ""),Color(255,255,255)," in the shop!")
+			chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, " .. Either(LIMITEDS == 1, "there's", "there are") .. " currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM" .. Either(LIMITEDS > 1, "s", ""),Color(255,255,255)," in the shop!")
 		elseif (NEWITEMS >= 1) then
-			chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, " .. Either(NEWITEMS == 1, "there's", "there are") .. " currently ",Color(0,255,0),tostring(NEWITEMS),Color(0,255,255)," New Crate" .. Either(NEWITEMS > 1, "S", ""),Color(255,255,255)," in the shop!")
+			chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, " .. Either(NEWITEMS == 1, "there's", "there are") .. " currently ",Color(0,255,0),tostring(NEWITEMS),Color(0,255,255)," New Crate" .. Either(NEWITEMS > 1, "s", ""),Color(255,255,255)," in the shop!")
 		end
     end
 end)
