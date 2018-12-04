@@ -60,14 +60,14 @@ MOAT_DONATE.Packages = {
 	{"5,000 IC", Material("icon16/coins.png"), 4, 1000, "1,500 Bonus", {
 		{Color(255, 255, 0), "6,500", "Total Inventory Credits", ""},
 		{Color(255, 0, 255), "15", "Random Crates from the Shop", ""},
-		{Color(255, 0, 0), "[LIMITED TIME]", "1 Pumpkin Crate!", ""},
+		{Color(255, 0, 0), "[LIMITED TIME]", "1 Holiday Crate!", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
 	}},
 	{"12,000 IC", Material("icon16/coins.png"), 5, 2000, "3,000 Bonus", {
 		{Color(255, 255, 0), "15,000", "Total Inventory Credits", ""},
 		{Color(0, 125, 255), "1", "Event Credit", ""},
 		{Color(255, 205, 0), "1", "Ascended Stat Mutator", ""},
-		{Color(255, 0, 0), "[LIMITED TIME]", "2 Pumpkin Crates!", ""},
+		{Color(255, 0, 0), "[LIMITED TIME]", "2 Holiday Crates!", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
 	}},
 	{"40,000 IC", Material("icon16/coins.png"), 6, 5000, "10,000 Bonus", {
@@ -75,7 +75,7 @@ MOAT_DONATE.Packages = {
 		{Color(0, 125, 255), "3", "Event Credits", ""},
 		{Color(255, 125, 0), "1", "Name Mutator", ""},
 		{Color(255, 205, 0), "1", "Ascended Talent Mutator", ""},
-		{Color(255, 0, 0), "[LIMITED TIME]", "6 Pumpkin Crates!", ""},
+		{Color(255, 0, 0), "[LIMITED TIME]", "6 Holiday Crates + 1 Santa Crate!", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
 	}},
 	{"100,000 IC", Material("icon16/coins.png"), 7, 10000, "25,000 Bonus", {
@@ -84,7 +84,7 @@ MOAT_DONATE.Packages = {
 		{Color(255, 125, 0), "2", "Name Mutators", ""},
 		{Color(255, 205, 0), "1", "Ascended Stat Mutator", ""},
 		{Color(0, 255, 0), "1", "Cosmic Talent Mutator", ""},
-		{Color(255, 0, 0), "[LIMITED TIME]", "13 Pumpkin Crates!", ""},
+		{Color(255, 0, 0), "[LIMITED TIME]", "13 Holiday Crates + 2 Santa Crates!", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
 	}},
 	{"Dola Effect", Material("icon16/money.png"), 8, 5000, "", {
