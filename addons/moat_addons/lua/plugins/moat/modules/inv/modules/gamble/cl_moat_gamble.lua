@@ -34,7 +34,7 @@ end
 local gamble_help = {
 	["Mines"] = "In the Mines gamemode, you make money by trying to uncover tiles that don't have mines in them.\nIf you uncover a tile with a bomb however, you lose all your money.\nYou can cashout your earnings anytime.",
 	["Roulette"] = "Welcome to Roulette!\nYou can bet for what color the spinner is going to be and win 2x that amount if it's black or red\nor 14x the amount if it's green!",
-	["Crash"] = "Place a bet and watch the multiplier go up!\nIf the multiplier 'Crashes' before you cash out then you lose all your money.\nThe multiplier can crash at 0x as well.",
+	-- ["Crash"] = "Place a bet and watch the multiplier go up!\nIf the multiplier 'Crashes' before you cash out then you lose all your money.\nThe multiplier can crash at 0x as well.",
 	["Jackpot"] = "Everyone places their money into a big pot and the winner get's all of it.\nYour chance of winning what percentage of the pot you are.\n(There is a 5% tax on the winnings from jackpot)\nJackpot is connected to multiple servers!\nYou can also click on people's pictures to view info about them!!",
 	["Versus"] = "Versus is like coinflip.\nYou can make a game and others can join it,\nIt is also cross-server like jackpot.\nALL GAMES ARE 50% CHANCE!\n\nEveryone has the same chance of winning.\nYou can also click on people's pictures to view info about them!\nGood luck!"
 }
@@ -2092,490 +2092,510 @@ hook.Add("Think","AutoCashOut",function()
 	end
 end)
 
+-- function m_DrawCrashPanel()
+-- 	net.Start("crash.syncme")
+-- 	net.SendToServer()
+-- 	MOAT_GAMBLE_CRASH = vgui.Create("DPanel", MOAT_GAMBLE_BG)
+-- 	MOAT_GAMBLE_CRASH:SetPos(230, 50)
+-- 	MOAT_GAMBLE_CRASH:SetSize(505, 460)
+-- 	MOAT_GAMBLE_CRASH.Paint = function(s, w, h)
+-- 		if not crash_load then return end
+-- 		draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
+-- 		--draw.SimpleText("Crash is Under Construction", "moat_ItemDesc", w/2, h/2, Color(255, 0, 0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 		draw.RoundedBox(0, 0, 0, w, h,Color(25, 25, 25, 255))
+-- 		draw.RoundedBox(0,0,0,w,(h/2)/6,Color(40,40,40))
+--         surface.SetDrawColor(86, 86, 86)
+--         surface.DrawOutlinedRect(0, 0, w, h)
+-- 		surface.DrawOutlinedRect(0, 0, w/2, h)
+-- 		surface.DrawOutlinedRect(0, 0, w/2, h/2)
+-- 		surface.DrawOutlinedRect(0, 0, w, (h/2)/6)
+-- 		for k,v in pairs(crash_games) do
+-- 			if k > 5 then continue end
+-- 			draw.SimpleText(v .. "x","Trebuchet18",-24 + (k*50),((h/2)/6/2),Color(255,255,255,255 - (k*40)),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+-- 		end
+-- 		draw.SimpleText("Player","moat_crashTime",w/2 + 2,((h/2)/6/2),Color(255,255,255,255),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+-- 		draw.SimpleText("Bet / Net Profit","moat_crashTime",w - 2,((h/2)/6/2),Color(255,255,255,255),TEXT_ALIGN_RIGHT,TEXT_ALIGN_CENTER)
+-- 		local s = crash_number
+-- 		if tostring(s):match("%..$") then
+-- 			s = s .. "0"
+-- 		elseif not tostring(s):match("%...$") then
+-- 			s = s .. ".00"
+-- 		end
+-- 		draw.SimpleText("BET AMOUNT", "moat_GambleTitle", 15, 240, Color(255, 255, 255))
+-- 		draw.SimpleText("AUTO CASHOUT", "moat_GambleTitle", 15, 332, Color(255, 255, 255))
+-- 		--Trebuchet18
+-- 		draw.SimpleText("(0 to disable)", "Trebuchet18", 160 , 336, Color(60, 60, 60))
+-- 		if (MOAT_GAMBLE.CrashAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.CrashAmount < 0.01)) then
+--     		surface.SetDrawColor(255, 0, 0)
+--     	else
+--     		surface.SetDrawColor(86, 86, 86)
+--     	end
+--     	draw.NoTexture()
+--     	surface.DrawPoly(MOAT_GAMBLE.TextEntryPolyOutlineC)
+-- 		surface.SetDrawColor(86, 86, 86)
+-- 		surface.DrawPoly(MOAT_GAMBLE.TextEntryPolyOutlineCA)
+
+--     	surface.SetDrawColor(20, 20, 20)
+--     	draw.NoTexture()
+--     	surface.DrawPoly(MOAT_GAMBLE.TextEntryPolyC)
+-- 		surface.DrawPoly(MOAT_GAMBLE.TextEntryPolyCA)
+		
+-- 		h = h + (h/2)/6
+-- 		if crash_crashing then
+-- 			draw.SimpleText("CRASHING...","moat_crash", w/4, (h/2) / 3, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 			draw.SimpleText(s .. "x", "moat_crashRoll", w/4, (h/4),HSVToColor((SysTime()*50)%360,0.65,0.9), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 		else
+-- 			draw.SimpleText("CRASHED @","moat_crash", w/4, (h/2) / 3, Color(255,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 			draw.SimpleText(s .. "x", "moat_crashRoll", w/4, (h/4), Color(255,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 			local t = crash_nextcrash - CurTime()
+-- 			if t > 0 then
+-- 				t = string.format("%.1f", t)
+-- 				draw.SimpleText("Next round in " .. t .. "s","moat_crashTime", w/4, ((h/2) / 3) * 2, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 			end
+-- 		end
+-- 	end
+
+-- 	local bcore = vgui.Create("DScrollPanel",MOAT_GAMBLE_CRASH)
+-- 	bcore:SetSize(505/2,460 - ((460/2)/6))
+-- 	bcore:SetPos(505/2,((460/2)/6))
+-- 	bcore:GetVBar():SetWide(0)
+-- 	function bcore:Paint() end
+
+-- 	local highscore = vgui.Create("DPanel",bcore)
+-- 	highscore:Dock(FILL)
+-- 	function highscore:Paint() end
+
+-- 	/*for k,v in pairs(player.GetAll()) do
+-- 		crash_players[v] =  {0,math.random()*1000}
+-- 	end--s*/
+
+-- 	local function updatelist()
+-- 		if not IsValid(highscore) then return end
+-- 		for k,v in pairs(highscore:GetChildren()) do
+-- 			v:Remove()
+-- 		end
+
+-- 		local p = {}
+-- 		local d = {}
+-- 		for k,v in pairs(crash_players) do
+-- 			if v[1] == 1 then
+-- 				table.insert(d,{k,v[2]})
+-- 			else
+-- 				table.insert(p,{k,v[2]})
+-- 			end
+-- 			/*for i =1,10 do
+-- 			if math.random() > 0.5 then
+-- 				table.insert(p,{k,v[2]})
+-- 			else
+-- 				if math.random() > 0.5 then
+-- 					table.insert(d,{k,v[2] * -1})
+-- 				else
+-- 					table.insert(d,{k,v[2]})
+-- 				end
+-- 			end
+-- 			end*/
+-- 		end
+
+-- 		table.sort(p, function(a,b)
+-- 			return a[2] > b[2]
+-- 		end)
+
+
+-- 		table.sort(d,function(a,b)
+-- 			return a[2] > b[2]
+-- 		end)
+
+-- 		local i = 0
+
+-- 		for k,v in pairs(p) do
+-- 			local ply = v[1]
+-- 			if not IsValid(ply) then continue end
+-- 			i = i + 1
+-- 			local o = i -- localize for drawing
+-- 			local a = vgui.Create("DPanel",highscore)
+-- 			a:SetSize(0,20)
+-- 			a:Dock(TOP)
+-- 			function a:Paint(w,h)
+-- 				if not crash_load then return end
+-- 				local c = Color(40,40,40)
+-- 			--  if (o % 2 == 0) then c = Color(60,60,60) end
+-- 				draw.RoundedBox(0,0,0,w,h,c)
+-- 				if o%2 == 0 then
+-- 					surface.SetDrawColor(90,90,90, 90)
+-- 					surface.DrawRect(0, 0, w, h)
+-- 				end
+-- 			-- surface.DrawOutlinedRect(0, 0, w, h)
+-- 				draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_RoulettBet", w-5, h/2-1, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+-- 				draw.SimpleText(IsValid(ply) and ply:Nick() or "Disconnected", "moat_RoulettBet", 18 + 5, h/2-1, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+-- 			end
+-- 			--right:SetTall(right:GetTall() + 16)
+-- 			local av = vgui.Create("AvatarImage",a)
+-- 			av:SetSize(18,18)
+-- 			av:DockMargin(2,2,2,2)
+-- 			av:Dock(LEFT)
+-- 			av:SetPlayer(ply,64)
+-- 			av:SetTooltip(ply:Nick())
+-- 		end
+
+-- 		for k,v in pairs(d) do
+-- 			local ply = v[1]
+-- 			if not IsValid(ply) then continue end
+-- 			i = i + 1
+-- 			local o = i -- localize for drawing
+-- 			local a = vgui.Create("DPanel",highscore)
+-- 			a:SetSize(0,20)
+-- 			a:Dock(TOP)
+-- 			function a:Paint(w,h)
+-- 			if not crash_load then return end
+-- 				local c = Color(40,40,40)
+-- 			--  if (o % 2 == 0) then c = Color(60,60,60) end
+-- 				draw.RoundedBox(0,0,0,w,h,c)
+-- 				if o%2 == 0 then
+-- 					surface.SetDrawColor(90,90,90, 90)
+-- 					surface.DrawRect(0, 0, w, h)
+-- 				end
+-- 			-- surface.DrawOutlinedRect(0, 0, w, h)
+-- 				local c = Color(206,46,37)
+-- 				if v[2] > 0 then
+-- 					c = Color(64,158,63)
+-- 				end
+-- 				draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_RoulettBet", w-5, h/2-1, c, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+-- 				draw.SimpleText(IsValid(ply) and ply:Nick() or "Disconnected", "moat_RoulettBet", 18 + 5, h/2-1, c, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+-- 			end
+-- 			--right:SetTall(right:GetTall() + 16)
+-- 			local av = vgui.Create("AvatarImage",a)
+-- 			av:SetSize(18,18)
+-- 			av:DockMargin(2,2,2,2)
+-- 			av:Dock(LEFT)
+-- 			av:SetPlayer(ply,64)
+-- 			av:SetTooltip(ply:Nick())
+-- 		end
+
+-- 	end
+-- 	updatelist()
+-- 	net.Receive("crash.player",function()
+-- 		local ply = net.ReadEntity()
+-- 		if ply == LocalPlayer() then crash_inside = true end
+-- 		local e = net.ReadBool()
+-- 		if not crash_players then crash_players = {} end
+-- 		if crash_waitingfor then
+-- 			crash_players = {}
+-- 			updatelist()
+-- 			crash_waitingfor = false
+-- 		end
+-- 		if not e then
+-- 			crash_players[ply] = {0,net.ReadFloat()}
+-- 		else
+-- 			if ply == LocalPlayer() then crash_inside = false end
+-- 			crash_players[ply] = {1,net.ReadFloat()}
+-- 		end
+-- 		updatelist()
+-- 	end)	
+-- 	net.Receive("crash.finish",function()
+-- 		crash_inside = false
+-- 		crash_crashing = false
+-- 		crash_number = round(net.ReadFloat())
+-- 		crash_nextcrash = CurTime() + crash_delay
+-- 		table.insert(crash_games,1,crash_number)
+-- 		for k,v in pairs(crash_players) do
+-- 			if v[1] ~= 1 then
+-- 				crash_players[k] = {1,v[2] * -1}
+-- 			end
+-- 		end
+-- 		updatelist()
+-- 		crash_waitingfor = true
+-- 		timer.Simple(5,function()
+-- 			if crash_waitingfor then
+-- 				crash_players = {}
+-- 				updatelist()
+-- 			end
+-- 		end)
+-- 	end)
+
+-- 	local MOAT_DICE_BET = vgui.Create("DTextEntry", MOAT_GAMBLE_CRASH)
+-- 	MOAT_DICE_BET:SetPos(22, 267)
+-- 	MOAT_DICE_BET:SetSize(180, 30)
+-- 	MOAT_DICE_BET:SetFont("moat_GambleTitle")
+--     MOAT_DICE_BET:SetTextColor(Color(255, 255, 255))
+--     MOAT_DICE_BET:SetCursorColor(Color(255, 255, 255))
+--     MOAT_DICE_BET:SetEnterAllowed(true)
+--     MOAT_DICE_BET:SetNumeric(true)
+--     MOAT_DICE_BET:SetDrawBackground(false)
+--     MOAT_DICE_BET:SetMultiline(false)
+--     MOAT_DICE_BET:SetVerticalScrollbarEnabled(false)
+--     MOAT_DICE_BET:SetEditable(true)
+--     MOAT_DICE_BET:SetValue("1")
+--     MOAT_DICE_BET:SetText("1")
+--     MOAT_DICE_BET.MaxChars = 7
+--     MOAT_DICE_BET.Think = function(s)
+--     	if (not s:IsEditing() and MOAT_GAMBLE.CrashAmount ~= tonumber(s:GetText())) then
+--     		s:SetText(MOAT_GAMBLE.CrashAmount)
+--     	end
+--     end
+--     MOAT_DICE_BET.OnGetFocus = function(s)
+--         if (tostring(s:GetValue()) == "0") then
+--             s:SetValue("")
+--             s:SetText("")
+--         end
+--     end
+--     MOAT_DICE_BET.OnTextChanged = function(s)
+--         local txt = s:GetValue()
+--         local amt = string.len(txt)
+
+--         if (amt > s.MaxChars) then
+--             if (s.OldText == nil) then
+--                 s:SetText("")
+--                 s:SetValue("")
+--                 s:SetCaretPos(string.len(""))
+--             else
+--                 s:SetText(s.OldText)
+--                 s:SetValue(s.OldText)
+--                 s:SetCaretPos(string.len(s.OldText))
+--             end
+--         else
+--             s.OldText = txt
+--         end
+--     end
+-- 	function MOAT_DICE_BET:CheckNumeric(strValue)
+-- 		if (not string.find("1234567890.", strValue, 1, true)) then
+-- 			return true
+-- 		end
+
+-- 		return false
+-- 	end
+-- 	MOAT_DICE_BET.OnEnter = function(s)
+-- 		if (s:GetText() == "") then s:SetText("0") end
+		
+-- 		MOAT_GAMBLE.CrashAmount = math.Clamp(math.Round(tonumber(s:GetText() or 0), 2), 0.05, 5000)
+-- 	end
+-- 	MOAT_DICE_BET.OnLoseFocus = function(s)
+-- 		s:OnEnter()
+-- 	end
+
+-- 	local MOAT_DICE_BET = vgui.Create("DTextEntry", MOAT_GAMBLE_CRASH)
+-- 	MOAT_DICE_BET:SetPos(22, 359)
+-- 	MOAT_DICE_BET:SetSize(180, 30)
+-- 	MOAT_DICE_BET:SetFont("moat_GambleTitle")
+--     MOAT_DICE_BET:SetTextColor(Color(255, 255, 255))
+--     MOAT_DICE_BET:SetCursorColor(Color(255, 255, 255))
+--     MOAT_DICE_BET:SetEnterAllowed(true)
+--     MOAT_DICE_BET:SetNumeric(true)
+--     MOAT_DICE_BET:SetDrawBackground(false)
+--     MOAT_DICE_BET:SetMultiline(false)
+--     MOAT_DICE_BET:SetVerticalScrollbarEnabled(false)
+--     MOAT_DICE_BET:SetEditable(true)
+--     MOAT_DICE_BET:SetValue("1")
+--     MOAT_DICE_BET:SetText("1")
+--     MOAT_DICE_BET.MaxChars = 7
+--     MOAT_DICE_BET.Think = function(s)
+--     	if (not s:IsEditing() and MOAT_GAMBLE.AutoCashOut ~= tonumber(s:GetText())) then
+--     		s:SetText(MOAT_GAMBLE.AutoCashOut)
+--     	end
+--     end
+--     MOAT_DICE_BET.OnGetFocus = function(s)
+--         if (tostring(s:GetValue()) == "0") then
+--             s:SetValue("")
+--             s:SetText("")
+--         end
+--     end
+--     MOAT_DICE_BET.OnTextChanged = function(s)
+--         local txt = s:GetValue()
+--         local amt = string.len(txt)
+
+--         if (amt > s.MaxChars) then
+--             if (s.OldText == nil) then
+--                 s:SetText("")
+--                 s:SetValue("")
+--                 s:SetCaretPos(string.len(""))
+--             else
+--                 s:SetText(s.OldText)
+--                 s:SetValue(s.OldText)
+--                 s:SetCaretPos(string.len(s.OldText))
+--             end
+--         else
+--             s.OldText = txt
+--         end
+--     end
+-- 	function MOAT_DICE_BET:CheckNumeric(strValue)
+-- 		if (not string.find("1234567890.", strValue, 1, true)) then
+-- 			return true
+-- 		end
+
+-- 		return false
+-- 	end
+-- 	MOAT_DICE_BET.OnEnter = function(s)
+-- 		if (s:GetText() == "") then s:SetText("0") end
+		
+-- 		MOAT_GAMBLE.AutoCashOut = math.Clamp(math.Round(tonumber(s:GetText() or 0), 2), 0, 5000)
+-- 	end
+-- 	MOAT_DICE_BET.OnLoseFocus = function(s)
+-- 		s:OnEnter()
+-- 	end
+
+-- 	MOAT_DICE_ROLL = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+-- 	MOAT_DICE_ROLL:SetPos(5, 460-62)
+-- 	MOAT_DICE_ROLL:SetSize(505/2-10, 56)
+-- 	MOAT_DICE_ROLL:SetText("")
+-- 	MOAT_DICE_ROLL.Rolling = false
+-- 	MOAT_DICE_ROLL.Output = false
+-- 	MOAT_DICE_ROLL.Won = false
+-- 	MOAT_DICE_ROLL.OutputRoll = 0
+-- 	MOAT_DICE_ROLL.OutputNum = 0
+-- 	MOAT_DICE_ROLL.Paint = function(s, w, h)
+-- 	if not crash_load then return end
+-- 		local btndown = 0
+-- 		local btncolor = Color(64, 165, 71)
+-- 		if (s:IsHovered()) then
+-- 			btncolor = Color(44, 145, 51)
+-- 		end
+-- 		if not crash_crashing and crash_nextcrash - CurTime() > (crash_delay - 0.5 ) then
+-- 			btncolor = Color(150,0,0)
+-- 			draw.RoundedBox(4, 0, 5, w, 51, Color(170,0,0, 255))
+-- 			draw.RoundedBox(4, 0, btndown, w, 51, Color(170, 0,0))
+-- 			draw.RoundedBox(4, 1, btndown + 1, w-2, 51-2, btncolor)
+-- 		else
+-- 			if (s:IsDown()) then
+-- 				btndown = 2
+-- 			end
+-- 			draw.RoundedBox(4, 0, 5, w, 51, Color(0, 131, 61, 255))
+-- 			draw.RoundedBox(4, 0, btndown, w, 51, Color(170, 170, 170))
+-- 			draw.RoundedBox(4, 1, btndown + 1, w-2, 51-2, btncolor)
+-- 		end
+
+--     	surface.SetDrawColor(200, 200, 200, 25)
+--         surface.SetMaterial(Material("vgui/gradient-u"))
+--         surface.DrawTexturedRect(0, btndown, w, 51)
+-- 		if not crash_crashing and not crash_inside then
+--     		draw.SimpleText("BET!", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 		elseif not crash_crashing and crash_inside then
+-- 			draw.SimpleText("Waiting for round..", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 		elseif crash_crashing and crash_inside then
+-- 			local s = crash_number
+-- 			if tostring(s):match("%..$") then
+-- 				s = s .. "0"
+-- 			elseif not tostring(s):match("%...$") then
+-- 				s = s .. ".00"
+-- 			end
+-- 			draw.SimpleText("Cash out @ " .. s .. "x", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 		else
+-- 			draw.SimpleText("Waiting for next round..", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+-- 		end
+-- 	end
+-- 	MOAT_DICE_ROLL.DoClick = function(s)
+-- 		if not crash_crashing then
+-- 			net.Start("crash.bet")
+-- 			net.WriteFloat(MOAT_GAMBLE.CrashAmount)
+-- 			net.SendToServer()
+-- 		elseif crash_crashing and crash_inside then
+-- 			net.Start("crash.getout")
+-- 			net.SendToServer()
+-- 		end
+-- 	end
+
+-- 	 local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+--     BTN2:SetPos(14, 309)
+--     BTN2:SetSize(50, 20)
+--     BTN2:SetText("")
+--     BTN2.Paint = function(s, w, h)
+-- 	if not crash_load then return end
+--         local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
+
+--         if (s:IsHovered()) then
+--             cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
+--         end
+
+--         draw.RoundedBox(4, 0, 0, w, h, cols[1])
+--         draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
+
+--         draw.SimpleText("2x", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+--     end
+--     BTN2.DoClick = function(s, w, h)
+--         MOAT_GAMBLE.CrashAmount = math.min(MOAT_GAMBLE.CrashAmount * 2, MOAT_GAMBLE.CrashMax)
+--     end
+
+--     local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+--     BTN2:SetPos(66, 309)
+--     BTN2:SetSize(50, 20)
+--     BTN2:SetText("")
+--     BTN2.Paint = function(s, w, h)
+-- 	if not crash_load then return end
+--         local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
+
+--         if (s:IsHovered()) then
+--             cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
+--         end
+
+--         draw.RoundedBox(4, 0, 0, w, h, cols[1])
+--         draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
+
+--         draw.SimpleText("1/2", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+--     end
+--     BTN2.DoClick = function(s, w, h)
+--         MOAT_GAMBLE.CrashAmount = math.max(MOAT_GAMBLE.CrashAmount / 2, 0.05)
+--     end
+
+--     local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+--     BTN2:SetPos(118, 309)
+--     BTN2:SetSize(47, 20)
+--     BTN2:SetText("")
+--     BTN2.Paint = function(s, w, h)
+-- 	if not crash_load then return end
+--         local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
+
+--         if (s:IsHovered()) then
+--             cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
+--         end
+
+--         draw.RoundedBox(4, 0, 0, w, h, cols[1])
+--         draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
+
+--         draw.SimpleText("Min", "Trebuchet18", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+--     end
+--     BTN2.DoClick = function(s, w, h)
+--         MOAT_GAMBLE.CrashAmount = 0.05
+--     end
+
+--     local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+--     BTN2:SetPos(168, 309)
+--     BTN2:SetSize(47, 20)
+--     BTN2:SetText("")
+--     BTN2.Paint = function(s, w, h)
+-- 	if not crash_load then return end
+--         local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
+
+--         if (s:IsHovered()) then
+--             cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
+--         end
+
+--         draw.RoundedBox(4, 0, 0, w, h, cols[1])
+--         draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
+
+--         draw.SimpleText("Max", "Trebuchet18", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+--     end
+--     BTN2.DoClick = function(s, w, h)
+--         MOAT_GAMBLE.CrashAmount = math.Clamp(MOAT_INVENTORY_CREDITS, 0.05, 5000)
+--     end
+
+-- end
+
 function m_DrawCrashPanel()
-	net.Start("crash.syncme")
-	net.SendToServer()
-	MOAT_GAMBLE_CRASH = vgui.Create("DPanel", MOAT_GAMBLE_BG)
+	MOAT_GAMBLE_CRASH = vgui.Create("DButton", MOAT_GAMBLE_BG)
 	MOAT_GAMBLE_CRASH:SetPos(230, 50)
 	MOAT_GAMBLE_CRASH:SetSize(505, 460)
+	MOAT_GAMBLE_CRASH:SetText("")
 	MOAT_GAMBLE_CRASH.Paint = function(s, w, h)
-		if not crash_load then return end
-		draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
-		--draw.SimpleText("Crash is Under Construction", "moat_ItemDesc", w/2, h/2, Color(255, 0, 0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		draw.RoundedBox(0, 0, 0, w, h,Color(25, 25, 25, 255))
-		draw.RoundedBox(0,0,0,w,(h/2)/6,Color(40,40,40))
-        surface.SetDrawColor(86, 86, 86)
-        surface.DrawOutlinedRect(0, 0, w, h)
-		surface.DrawOutlinedRect(0, 0, w/2, h)
-		surface.DrawOutlinedRect(0, 0, w/2, h/2)
-		surface.DrawOutlinedRect(0, 0, w, (h/2)/6)
-		for k,v in pairs(crash_games) do
-			if k > 5 then continue end
-			draw.SimpleText(v .. "x","Trebuchet18",-24 + (k*50),((h/2)/6/2),Color(255,255,255,255 - (k*40)),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
-		end
-		draw.SimpleText("Player","moat_crashTime",w/2 + 2,((h/2)/6/2),Color(255,255,255,255),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
-		draw.SimpleText("Bet / Net Profit","moat_crashTime",w - 2,((h/2)/6/2),Color(255,255,255,255),TEXT_ALIGN_RIGHT,TEXT_ALIGN_CENTER)
-		local s = crash_number
-		if tostring(s):match("%..$") then
-			s = s .. "0"
-		elseif not tostring(s):match("%...$") then
-			s = s .. ".00"
-		end
-		draw.SimpleText("BET AMOUNT", "moat_GambleTitle", 15, 240, Color(255, 255, 255))
-		draw.SimpleText("AUTO CASHOUT", "moat_GambleTitle", 15, 332, Color(255, 255, 255))
-		--Trebuchet18
-		draw.SimpleText("(0 to disable)", "Trebuchet18", 160 , 336, Color(60, 60, 60))
-		if (MOAT_GAMBLE.CrashAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.CrashAmount < 0.01)) then
-    		surface.SetDrawColor(255, 0, 0)
-    	else
-    		surface.SetDrawColor(86, 86, 86)
-    	end
-    	draw.NoTexture()
-    	surface.DrawPoly(MOAT_GAMBLE.TextEntryPolyOutlineC)
-		surface.SetDrawColor(86, 86, 86)
-		surface.DrawPoly(MOAT_GAMBLE.TextEntryPolyOutlineCA)
-
-    	surface.SetDrawColor(20, 20, 20)
-    	draw.NoTexture()
-    	surface.DrawPoly(MOAT_GAMBLE.TextEntryPolyC)
-		surface.DrawPoly(MOAT_GAMBLE.TextEntryPolyCA)
-		
-		h = h + (h/2)/6
-		if crash_crashing then
-			draw.SimpleText("CRASHING...","moat_crash", w/4, (h/2) / 3, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			draw.SimpleText(s .. "x", "moat_crashRoll", w/4, (h/4),HSVToColor((SysTime()*50)%360,0.65,0.9), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		else
-			draw.SimpleText("CRASHED @","moat_crash", w/4, (h/2) / 3, Color(255,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			draw.SimpleText(s .. "x", "moat_crashRoll", w/4, (h/4), Color(255,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			local t = crash_nextcrash - CurTime()
-			if t > 0 then
-				t = string.format("%.1f", t)
-				draw.SimpleText("Next round in " .. t .. "s","moat_crashTime", w/4, ((h/2) / 3) * 2, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			end
-		end
+		draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 255))
+    	surface.SetDrawColor(86, 86, 86)
+    	surface.DrawOutlinedRect(0, 0, w, h)
+		draw.SimpleText("We're currently working on replacing Crash!","moat_GambleTitle", (w/2), 40, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		draw.SimpleText("You can click on me to suggest a replacement :)","moat_GambleTitle", (w/2), 80, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		draw.SimpleText("We hope that everyone had a fun time with Crash.","moat_GambleTitle", (w/2), 120, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		draw.DrawText("<3","moat_JackBig",w/2,h- 90,HSVToColor((SysTime()*100)%360,0.65,0.9),TEXT_ALIGN_CENTER)
 	end
-
-	local bcore = vgui.Create("DScrollPanel",MOAT_GAMBLE_CRASH)
-	bcore:SetSize(505/2,460 - ((460/2)/6))
-	bcore:SetPos(505/2,((460/2)/6))
-	bcore:GetVBar():SetWide(0)
-	function bcore:Paint() end
-
-	local highscore = vgui.Create("DPanel",bcore)
-	highscore:Dock(FILL)
-	function highscore:Paint() end
-
-	/*for k,v in pairs(player.GetAll()) do
-		crash_players[v] =  {0,math.random()*1000}
-	end--s*/
-
-	local function updatelist()
-		if not IsValid(highscore) then return end
-		for k,v in pairs(highscore:GetChildren()) do
-			v:Remove()
-		end
-
-		local p = {}
-		local d = {}
-		for k,v in pairs(crash_players) do
-			if v[1] == 1 then
-				table.insert(d,{k,v[2]})
-			else
-				table.insert(p,{k,v[2]})
-			end
-			/*for i =1,10 do
-			if math.random() > 0.5 then
-				table.insert(p,{k,v[2]})
-			else
-				if math.random() > 0.5 then
-					table.insert(d,{k,v[2] * -1})
-				else
-					table.insert(d,{k,v[2]})
-				end
-			end
-			end*/
-		end
-
-		table.sort(p, function(a,b)
-			return a[2] > b[2]
-		end)
-
-
-		table.sort(d,function(a,b)
-			return a[2] > b[2]
-		end)
-
-		local i = 0
-
-		for k,v in pairs(p) do
-			local ply = v[1]
-			if not IsValid(ply) then continue end
-			i = i + 1
-			local o = i -- localize for drawing
-			local a = vgui.Create("DPanel",highscore)
-			a:SetSize(0,20)
-			a:Dock(TOP)
-			function a:Paint(w,h)
-				if not crash_load then return end
-				local c = Color(40,40,40)
-			--  if (o % 2 == 0) then c = Color(60,60,60) end
-				draw.RoundedBox(0,0,0,w,h,c)
-				if o%2 == 0 then
-					surface.SetDrawColor(90,90,90, 90)
-					surface.DrawRect(0, 0, w, h)
-				end
-			-- surface.DrawOutlinedRect(0, 0, w, h)
-				draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_RoulettBet", w-5, h/2-1, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
-				draw.SimpleText(IsValid(ply) and ply:Nick() or "Disconnected", "moat_RoulettBet", 18 + 5, h/2-1, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-			end
-			--right:SetTall(right:GetTall() + 16)
-			local av = vgui.Create("AvatarImage",a)
-			av:SetSize(18,18)
-			av:DockMargin(2,2,2,2)
-			av:Dock(LEFT)
-			av:SetPlayer(ply,64)
-			av:SetTooltip(ply:Nick())
-		end
-
-		for k,v in pairs(d) do
-			local ply = v[1]
-			if not IsValid(ply) then continue end
-			i = i + 1
-			local o = i -- localize for drawing
-			local a = vgui.Create("DPanel",highscore)
-			a:SetSize(0,20)
-			a:Dock(TOP)
-			function a:Paint(w,h)
-			if not crash_load then return end
-				local c = Color(40,40,40)
-			--  if (o % 2 == 0) then c = Color(60,60,60) end
-				draw.RoundedBox(0,0,0,w,h,c)
-				if o%2 == 0 then
-					surface.SetDrawColor(90,90,90, 90)
-					surface.DrawRect(0, 0, w, h)
-				end
-			-- surface.DrawOutlinedRect(0, 0, w, h)
-				local c = Color(206,46,37)
-				if v[2] > 0 then
-					c = Color(64,158,63)
-				end
-				draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_RoulettBet", w-5, h/2-1, c, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
-				draw.SimpleText(IsValid(ply) and ply:Nick() or "Disconnected", "moat_RoulettBet", 18 + 5, h/2-1, c, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-			end
-			--right:SetTall(right:GetTall() + 16)
-			local av = vgui.Create("AvatarImage",a)
-			av:SetSize(18,18)
-			av:DockMargin(2,2,2,2)
-			av:Dock(LEFT)
-			av:SetPlayer(ply,64)
-			av:SetTooltip(ply:Nick())
-		end
-
+	function MOAT_GAMBLE_CRASH.DoClick()
+		gui.OpenURL("https://moat.gg/forums/topic/22188-crash-gambling-replacement-2-electric-boogaloo/")
+		MOAT_INV_BG:Remove() -- inventory pops up infront of the popup???? Should fix
 	end
-	updatelist()
-	net.Receive("crash.player",function()
-		local ply = net.ReadEntity()
-		if ply == LocalPlayer() then crash_inside = true end
-		local e = net.ReadBool()
-		if not crash_players then crash_players = {} end
-		if crash_waitingfor then
-			crash_players = {}
-			updatelist()
-			crash_waitingfor = false
-		end
-		if not e then
-			crash_players[ply] = {0,net.ReadFloat()}
-		else
-			if ply == LocalPlayer() then crash_inside = false end
-			crash_players[ply] = {1,net.ReadFloat()}
-		end
-		updatelist()
-	end)	
-	net.Receive("crash.finish",function()
-		crash_inside = false
-		crash_crashing = false
-		crash_number = round(net.ReadFloat())
-		crash_nextcrash = CurTime() + crash_delay
-		table.insert(crash_games,1,crash_number)
-		for k,v in pairs(crash_players) do
-			if v[1] ~= 1 then
-				crash_players[k] = {1,v[2] * -1}
-			end
-		end
-		updatelist()
-		crash_waitingfor = true
-		timer.Simple(5,function()
-			if crash_waitingfor then
-				crash_players = {}
-				updatelist()
-			end
-		end)
-	end)
-
-	local MOAT_DICE_BET = vgui.Create("DTextEntry", MOAT_GAMBLE_CRASH)
-	MOAT_DICE_BET:SetPos(22, 267)
-	MOAT_DICE_BET:SetSize(180, 30)
-	MOAT_DICE_BET:SetFont("moat_GambleTitle")
-    MOAT_DICE_BET:SetTextColor(Color(255, 255, 255))
-    MOAT_DICE_BET:SetCursorColor(Color(255, 255, 255))
-    MOAT_DICE_BET:SetEnterAllowed(true)
-    MOAT_DICE_BET:SetNumeric(true)
-    MOAT_DICE_BET:SetDrawBackground(false)
-    MOAT_DICE_BET:SetMultiline(false)
-    MOAT_DICE_BET:SetVerticalScrollbarEnabled(false)
-    MOAT_DICE_BET:SetEditable(true)
-    MOAT_DICE_BET:SetValue("1")
-    MOAT_DICE_BET:SetText("1")
-    MOAT_DICE_BET.MaxChars = 7
-    MOAT_DICE_BET.Think = function(s)
-    	if (not s:IsEditing() and MOAT_GAMBLE.CrashAmount ~= tonumber(s:GetText())) then
-    		s:SetText(MOAT_GAMBLE.CrashAmount)
-    	end
-    end
-    MOAT_DICE_BET.OnGetFocus = function(s)
-        if (tostring(s:GetValue()) == "0") then
-            s:SetValue("")
-            s:SetText("")
-        end
-    end
-    MOAT_DICE_BET.OnTextChanged = function(s)
-        local txt = s:GetValue()
-        local amt = string.len(txt)
-
-        if (amt > s.MaxChars) then
-            if (s.OldText == nil) then
-                s:SetText("")
-                s:SetValue("")
-                s:SetCaretPos(string.len(""))
-            else
-                s:SetText(s.OldText)
-                s:SetValue(s.OldText)
-                s:SetCaretPos(string.len(s.OldText))
-            end
-        else
-            s.OldText = txt
-        end
-    end
-	function MOAT_DICE_BET:CheckNumeric(strValue)
-		if (not string.find("1234567890.", strValue, 1, true)) then
-			return true
-		end
-
-		return false
-	end
-	MOAT_DICE_BET.OnEnter = function(s)
-		if (s:GetText() == "") then s:SetText("0") end
-		
-		MOAT_GAMBLE.CrashAmount = math.Clamp(math.Round(tonumber(s:GetText() or 0), 2), 0.05, 5000)
-	end
-	MOAT_DICE_BET.OnLoseFocus = function(s)
-		s:OnEnter()
-	end
-
-	local MOAT_DICE_BET = vgui.Create("DTextEntry", MOAT_GAMBLE_CRASH)
-	MOAT_DICE_BET:SetPos(22, 359)
-	MOAT_DICE_BET:SetSize(180, 30)
-	MOAT_DICE_BET:SetFont("moat_GambleTitle")
-    MOAT_DICE_BET:SetTextColor(Color(255, 255, 255))
-    MOAT_DICE_BET:SetCursorColor(Color(255, 255, 255))
-    MOAT_DICE_BET:SetEnterAllowed(true)
-    MOAT_DICE_BET:SetNumeric(true)
-    MOAT_DICE_BET:SetDrawBackground(false)
-    MOAT_DICE_BET:SetMultiline(false)
-    MOAT_DICE_BET:SetVerticalScrollbarEnabled(false)
-    MOAT_DICE_BET:SetEditable(true)
-    MOAT_DICE_BET:SetValue("1")
-    MOAT_DICE_BET:SetText("1")
-    MOAT_DICE_BET.MaxChars = 7
-    MOAT_DICE_BET.Think = function(s)
-    	if (not s:IsEditing() and MOAT_GAMBLE.AutoCashOut ~= tonumber(s:GetText())) then
-    		s:SetText(MOAT_GAMBLE.AutoCashOut)
-    	end
-    end
-    MOAT_DICE_BET.OnGetFocus = function(s)
-        if (tostring(s:GetValue()) == "0") then
-            s:SetValue("")
-            s:SetText("")
-        end
-    end
-    MOAT_DICE_BET.OnTextChanged = function(s)
-        local txt = s:GetValue()
-        local amt = string.len(txt)
-
-        if (amt > s.MaxChars) then
-            if (s.OldText == nil) then
-                s:SetText("")
-                s:SetValue("")
-                s:SetCaretPos(string.len(""))
-            else
-                s:SetText(s.OldText)
-                s:SetValue(s.OldText)
-                s:SetCaretPos(string.len(s.OldText))
-            end
-        else
-            s.OldText = txt
-        end
-    end
-	function MOAT_DICE_BET:CheckNumeric(strValue)
-		if (not string.find("1234567890.", strValue, 1, true)) then
-			return true
-		end
-
-		return false
-	end
-	MOAT_DICE_BET.OnEnter = function(s)
-		if (s:GetText() == "") then s:SetText("0") end
-		
-		MOAT_GAMBLE.AutoCashOut = math.Clamp(math.Round(tonumber(s:GetText() or 0), 2), 0, 5000)
-	end
-	MOAT_DICE_BET.OnLoseFocus = function(s)
-		s:OnEnter()
-	end
-
-	MOAT_DICE_ROLL = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
-	MOAT_DICE_ROLL:SetPos(5, 460-62)
-	MOAT_DICE_ROLL:SetSize(505/2-10, 56)
-	MOAT_DICE_ROLL:SetText("")
-	MOAT_DICE_ROLL.Rolling = false
-	MOAT_DICE_ROLL.Output = false
-	MOAT_DICE_ROLL.Won = false
-	MOAT_DICE_ROLL.OutputRoll = 0
-	MOAT_DICE_ROLL.OutputNum = 0
-	MOAT_DICE_ROLL.Paint = function(s, w, h)
-	if not crash_load then return end
-		local btndown = 0
-		local btncolor = Color(64, 165, 71)
-		if (s:IsHovered()) then
-			btncolor = Color(44, 145, 51)
-		end
-		if not crash_crashing and crash_nextcrash - CurTime() > (crash_delay - 0.5 ) then
-			btncolor = Color(150,0,0)
-			draw.RoundedBox(4, 0, 5, w, 51, Color(170,0,0, 255))
-			draw.RoundedBox(4, 0, btndown, w, 51, Color(170, 0,0))
-			draw.RoundedBox(4, 1, btndown + 1, w-2, 51-2, btncolor)
-		else
-			if (s:IsDown()) then
-				btndown = 2
-			end
-			draw.RoundedBox(4, 0, 5, w, 51, Color(0, 131, 61, 255))
-			draw.RoundedBox(4, 0, btndown, w, 51, Color(170, 170, 170))
-			draw.RoundedBox(4, 1, btndown + 1, w-2, 51-2, btncolor)
-		end
-
-    	surface.SetDrawColor(200, 200, 200, 25)
-        surface.SetMaterial(Material("vgui/gradient-u"))
-        surface.DrawTexturedRect(0, btndown, w, 51)
-		if not crash_crashing and not crash_inside then
-    		draw.SimpleText("BET!", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		elseif not crash_crashing and crash_inside then
-			draw.SimpleText("Waiting for round..", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		elseif crash_crashing and crash_inside then
-			local s = crash_number
-			if tostring(s):match("%..$") then
-				s = s .. "0"
-			elseif not tostring(s):match("%...$") then
-				s = s .. ".00"
-			end
-			draw.SimpleText("Cash out @ " .. s .. "x", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		else
-			draw.SimpleText("Waiting for next round..", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		end
-	end
-	MOAT_DICE_ROLL.DoClick = function(s)
-		if not crash_crashing then
-			net.Start("crash.bet")
-			net.WriteFloat(MOAT_GAMBLE.CrashAmount)
-			net.SendToServer()
-		elseif crash_crashing and crash_inside then
-			net.Start("crash.getout")
-			net.SendToServer()
-		end
-	end
-
-	 local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
-    BTN2:SetPos(14, 309)
-    BTN2:SetSize(50, 20)
-    BTN2:SetText("")
-    BTN2.Paint = function(s, w, h)
-	if not crash_load then return end
-        local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
-
-        if (s:IsHovered()) then
-            cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
-        end
-
-        draw.RoundedBox(4, 0, 0, w, h, cols[1])
-        draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
-
-        draw.SimpleText("2x", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-    end
-    BTN2.DoClick = function(s, w, h)
-        MOAT_GAMBLE.CrashAmount = math.min(MOAT_GAMBLE.CrashAmount * 2, MOAT_GAMBLE.CrashMax)
-    end
-
-    local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
-    BTN2:SetPos(66, 309)
-    BTN2:SetSize(50, 20)
-    BTN2:SetText("")
-    BTN2.Paint = function(s, w, h)
-	if not crash_load then return end
-        local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
-
-        if (s:IsHovered()) then
-            cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
-        end
-
-        draw.RoundedBox(4, 0, 0, w, h, cols[1])
-        draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
-
-        draw.SimpleText("1/2", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-    end
-    BTN2.DoClick = function(s, w, h)
-        MOAT_GAMBLE.CrashAmount = math.max(MOAT_GAMBLE.CrashAmount / 2, 0.05)
-    end
-
-    local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
-    BTN2:SetPos(118, 309)
-    BTN2:SetSize(47, 20)
-    BTN2:SetText("")
-    BTN2.Paint = function(s, w, h)
-	if not crash_load then return end
-        local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
-
-        if (s:IsHovered()) then
-            cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
-        end
-
-        draw.RoundedBox(4, 0, 0, w, h, cols[1])
-        draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
-
-        draw.SimpleText("Min", "Trebuchet18", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-    end
-    BTN2.DoClick = function(s, w, h)
-        MOAT_GAMBLE.CrashAmount = 0.05
-    end
-
-    local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
-    BTN2:SetPos(168, 309)
-    BTN2:SetSize(47, 20)
-    BTN2:SetText("")
-    BTN2.Paint = function(s, w, h)
-	if not crash_load then return end
-        local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
-
-        if (s:IsHovered()) then
-            cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
-        end
-
-        draw.RoundedBox(4, 0, 0, w, h, cols[1])
-        draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
-
-        draw.SimpleText("Max", "Trebuchet18", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-    end
-    BTN2.DoClick = function(s, w, h)
-        MOAT_GAMBLE.CrashAmount = math.Clamp(MOAT_INVENTORY_CREDITS, 0.05, 5000)
-    end
-
 end
 
 
