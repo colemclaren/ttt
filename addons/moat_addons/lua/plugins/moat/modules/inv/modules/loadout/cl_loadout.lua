@@ -146,103 +146,6 @@ function LayoutItem(ply, item, attmpt)
     end
 end
 
-/*MOAT_PAINT = MOAT_PAINT or {}
-MOAT_PAINT.Cache = {
-    Painted = false,
-    Wpn = nil,
-    Mats = {},
-    Skip = {},
-    MatNum = 0
-}
-
-local ENTITY = FindMetaTable("Entity")
-local IMATERIAL = FindMetaTable("IMaterial")
-local vector = Vector
-local set_vector = IMATERIAL.SetVector
-local mat = Material
-local getmats = ENTITY.GetMaterials
-local reg = vector(1, 1, 1)
-
-function MOAT_PAINT:UnPaint()
-    for i = 1, self.Cache.MatNum do
-        if (self.Cache.Skip[i]) then continue end
-        if (not self.Cache.Mats[i] or not self.Cache.Mats[i].Mat) then continue end
-
-        set_vector(self.Cache.Mats[i].Mat, "$color2", reg)
-
-        if (self.Cache.Mats[i].Texture) then self.Cache.Mats[i].Mat:SetTexture("$basetexture", self.Cache.Mats[i].Texture) end
-        if (self.Cache.Mats[i].EnvMap) then self.Cache.Mats[i].Mat:SetTexture("$envmap", self.Cache.Mats[i].EnvMap) end
-        if (self.Cache.Mats[i].EnvMap2) then self.Cache.Mats[i].Mat:SetTexture("$envmapmask", self.Cache.Mats[i].EnvMap2) end
-    end
-
-    self.Cache.Mats = {}
-    self.Cache.Skip = {}
-    self.Cache.MatNum = 0
-    self.Cache.Painted = false
-    self.Cache.Wpn = nil
-end
-
-function MOAT_PAINT.ApplyPaint(vm, pl, wpn)
-    if (not MOAT_PAINT) then return end
-    if (MOAT_PAINT.Cache.Painted) then
-        if (wpn and MOAT_PAINT.Cache.Wpn ~= wpn) then
-            MOAT_PAINT:UnPaint()
-        end
-
-        return
-    end
-
-    if (not wpn or not wpn.ItemStats) then return end
-    if (not wpn.ItemStats.p and not wpn.ItemStats.p2 and not wpn.ItemStats.p3) then return end
-
-    local m = getmats(wpn)
-    local p = 255
-
-
-    if (wpn.ItemStats.p2) then
-        p = MOAT_PAINT.Colors[(wpn.ItemStats.p2 - #MOAT_PAINT.Colors) - 6000][2]
-    elseif (wpn.ItemStats.p) then
-        p = MOAT_PAINT.Colors[wpn.ItemStats.p - 6000][2]
-    end
-    
-
-    local n = #m
-
-    MOAT_PAINT.Cache.MatNum = n
-    for i = 1, n do
-        MOAT_PAINT.Cache.Mats[i] = {}
-        MOAT_PAINT.Cache.Mats[i].Mat = mat(m[i])
-        if (m[i]:find("hand") or m[i]:find("scope") or m[i]:find("accessories") or 
-            m[i]:find("arrow") or m[i]:find("box") or m[i]:find("belt") or
-            m[i]:find("stock") or m[i]:find("shell") or m[i]:find("screen") or m[i]:find("error") or m[i]:find("12gauge")) then MOAT_PAINT.Cache.Skip[i] = true continue end
-
-        MOAT_PAINT.Cache.Mats[i].Texture = MOAT_PAINT.Cache.Mats[i].Mat:GetTexture("$basetexture")
-        MOAT_PAINT.Cache.Mats[i].EnvMap = MOAT_PAINT.Cache.Mats[i].Mat:GetTexture("$envmap")
-        MOAT_PAINT.Cache.Mats[i].EnvMap2 = MOAT_PAINT.Cache.Mats[i].Mat:GetTexture("$envmapmask")
-
-        if (wpn.ItemStats.p3) then
-            local t = MOAT_PAINT.Textures[(wpn.ItemStats.p3 - (#MOAT_PAINT.Colors * 2)) - 6000]
-            MOAT_PAINT.Cache.Mats[i].Mat:SetTexture("$basetexture", t[2])
-            MOAT_PAINT.Cache.Mats[i].Mat:SetTexture("$envmapmask", t[2])
-            MOAT_PAINT.Cache.Mats[i].Mat:SetTexture("$envmap", t[2])
-        end
-
-        if (wpn.ItemStats.p2) then
-            MOAT_PAINT.Cache.Mats[i].Mat:SetTexture("$basetexture", "models/debug/debugwhite")
-            MOAT_PAINT.Cache.Mats[i].Mat:SetTexture("$envmapmask", "models/debug/debugwhite")
-            MOAT_PAINT.Cache.Mats[i].Mat:SetTexture("$envmap", "models/debug/debugwhite")
-
-            set_vector(MOAT_PAINT.Cache.Mats[i].Mat, "$color2", vector(p[1]/255, p[2]/255, p[3]/255))
-        elseif (wpn.ItemStats.p) then
-            set_vector(MOAT_PAINT.Cache.Mats[i].Mat, "$color2", vector(p[1]/255, p[2]/255, p[3]/255))
-        end
-    end
-    MOAT_PAINT.Cache.Wpn = wpn.Weapon
-    MOAT_PAINT.Cache.Painted = true
-end
-hook.Add("PreDrawViewModel", "MOAT_PAINT.ApplyPaint", MOAT_PAINT.ApplyPaint)*/
-
-local ENTITY = FindMetaTable("Entity")
 local IMATERIAL = FindMetaTable("IMaterial")
 local vector = Vector
 local set_vector = IMATERIAL.SetVector
@@ -845,10 +748,10 @@ function MOAT_LOADOUT.UpdateWep()
 
 				if (wep_stats.item and wep_stats.item.Rarity and wep_stats.item.Rarity == 9) then
 					if (not wep.LastDrawWorldModel) then
-						wep.LastDrawWorldModel = wep.DrawWorldModel
+						wep.LastDrawWorldModel = wep.RenderGroup == RENDERGROUP_TRANSLUCENT and wep.DrawWorldModelTranslucent or wep.DrawWorldModel
 					end
 
-					function wep:DrawWorldModel(c)
+					wep[wep.RenderGroup == RENDERGROUP_TRANSLUCENT and "DrawWorldModelTranslucent" or "DrawWorldModel"] = function(self, c)
 						if (self.LastDrawWorldModel and not c) then
 							self.LastDrawWorldModel(self, true)
 						end

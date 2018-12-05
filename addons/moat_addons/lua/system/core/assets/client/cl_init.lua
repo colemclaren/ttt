@@ -83,7 +83,7 @@ function cdn.Image(key, cb, params)
 		cb = nil
 	end
 
-	return cdn.Fetch(1, "." .. key:GetExtensionFromFilename(), key, params, function(object)
+	return cdn.Fetch(1, string(".", key:GetExtensionFromFilename()), key, params, function(object)
 		cdn.Cache[key] = Material("../data/" .. object, params)
 		if (cb) then cb(cdn.Cache[key]) end
 	end, function(object, data) write(object, data) end)
