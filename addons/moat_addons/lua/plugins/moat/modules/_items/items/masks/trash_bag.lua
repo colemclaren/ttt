@@ -1,5 +1,5 @@
 ITEM.ID = 8532
-ITEM.Rarity = 2
+ITEM.Rarity = 3
 ITEM.Name = "Santa's Trash"
 ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click while in loadout to customize position or size."
 ITEM.Collection = "Holiday Collection"

@@ -6,5 +6,5 @@ ITEM.Rarity = 4
 ITEM.Collection = "Holiday Collection"
 ITEM.Active = true
 ITEM.Stackable = true
-ITEM.Price = 2000
+ITEM.Price = 2250
 ITEM.NewItem = 1546128000
