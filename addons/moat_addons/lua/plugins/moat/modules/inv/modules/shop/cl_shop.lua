@@ -279,10 +279,10 @@ function m_PopulateShop(pnl)
         local ITEM_BG = M_SHOP_LIST:Add("DPanel")
         ITEM_BG:SetSize(item_panel_w, item_panel_h)
         ITEM_BG.Qty = 1
+        if itemtbl.ShopDesc then
+            ITEM_BG:SetTooltip(itemtbl.ShopDesc)
+        end
         if itemtbl.LimitedShop then
-            if itemtbl.ShopDesc then
-                ITEM_BG:SetTooltip(itemtbl.ShopDesc)
-            end
             itemtbl.Preview = false
             local id = tostring(ITEM_BG) .. math.random()
             timer.Create(id,5,0,function()
@@ -300,13 +300,13 @@ function m_PopulateShop(pnl)
         end
         local checked_hover = false
         ITEM_BG.Paint = function(s, w, h)
-            if itemtbl.LimitedShop then
-                if s:IsHovered() and (not checked_hover) then
-                    checked_hover = true
-                    if (itemtbl.ShopDesc) then
-                        Derma_Message(itemtbl.ShopDesc, "Limited time item: " .. itemtbl.Name, "Got it, thanks!")
-                    end
+            if s:IsHovered() and (not checked_hover) then
+                checked_hover = true
+                if (itemtbl.ShopDesc) then
+                    Derma_Message(itemtbl.ShopDesc, "Some quick info: " .. itemtbl.Name, "Got it, thanks!")
                 end
+            end
+            if itemtbl.LimitedShop then
                 if itemtbl.LimitedShop < os.time() then
                     ITEM_BG:Remove()
                     M_SHOP_LIST:InvalidateLayout()

@@ -1,6 +1,7 @@
 ITEM.ID = 7101
 ITEM.Name = "Santa's Crate"
-ITEM.Description = "Every player will receive a holiday crate when this item is used"
+ITEM.Description = "Every player will receive a Holiday Crate when this item is used"
+ITEM.ShopDesc = "Every player on the server will receive a Holiday Crate when this is used!\nOnly buy this if you are sure that you want to do that!\n<3<3<3<3"
 ITEM.Rarity = 8
 ITEM.Active = true
 ITEM.Preview = false
