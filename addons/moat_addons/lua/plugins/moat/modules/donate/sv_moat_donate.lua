@@ -65,7 +65,7 @@ MOAT_DONATE.Packages = {
 		pl:Drop50()
 		-- moat_DropIndependence(pl, 6)
 
-		pl:m_DropInventoryItem("Santa's Crate", "hide_chat_obtained", false, true)
+		pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, true)
 
 		for i = 1, 6 do
 			pl:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained", false, true)
@@ -84,8 +84,8 @@ MOAT_DONATE.Packages = {
 		pl:Drop100()
 		-- moat_DropIndependence(pl, 13)
 
-		pl:m_DropInventoryItem("Santa's Crate", "hide_chat_obtained", false, true)
-		pl:m_DropInventoryItem("Santa's Crate", "hide_chat_obtained", false, true)
+		pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, true)
+		pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, true)
 
 		for i = 1, 13 do
 			pl:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained", false, true)

@@ -273,15 +273,16 @@ function m_PopulateShop(pnl)
         if itemtbl.LimitedShop then name_col = Color(255, 128, 0) end
         local item_name = string.Explode(" ", itemtbl.Name)
         if (item_name[1] == "Urban") then item_name[1] = "Urban Style" end
+		if (item_name[1] == "Santa's") then item_name[2] = "Present" end
         local item_price = "IC: " .. string.Comma(itemtbl.Price)
         surface.SetFont("moat_ItemDesc")
         local price_width, price_height = surface.GetTextSize(item_price)
         local ITEM_BG = M_SHOP_LIST:Add("DPanel")
         ITEM_BG:SetSize(item_panel_w, item_panel_h)
         ITEM_BG.Qty = 1
-        if itemtbl.ShopDesc then
+        /*if itemtbl.ShopDesc then
             ITEM_BG:SetTooltip(itemtbl.ShopDesc)
-        end
+        end*/
         if itemtbl.LimitedShop then
             itemtbl.Preview = false
             local id = tostring(ITEM_BG) .. math.random()
@@ -302,9 +303,6 @@ function m_PopulateShop(pnl)
         ITEM_BG.Paint = function(s, w, h)
             if s:IsHovered() and (not checked_hover) then
                 checked_hover = true
-                if (itemtbl.ShopDesc) then
-                    Derma_Message(itemtbl.ShopDesc, "Some quick info: " .. itemtbl.Name, "Got it, thanks!")
-                end
             end
             if itemtbl.LimitedShop then
                 if itemtbl.LimitedShop < os.time() then
@@ -344,9 +342,10 @@ function m_PopulateShop(pnl)
 				elseif (itemtbl.NewItem) then
 					surface.SetFont("moat_Trebuchet24")
 					local tw = surface.GetTextSize(item_name[1])
+					local tw2 = surface.GetTextSize(item_name[2] or "")
 
 					m_DrawEnchantedText(item_name[1], "moat_Trebuchet24", (w / 2) - (tw/2) - 1, 5, name_col, Color(0, 255, 255))
-                    m_DrawEnchantedText("Crate", "moat_Trebuchet24", (w / 2) - 29, 25, name_col, Color(0, 255, 255))
+                    m_DrawEnchantedText(item_name[2], "moat_Trebuchet24", (w / 2) - (tw2/2) - 1, 25, name_col, Color(0, 255, 255))
 					cdn.SmoothImageRotated("https://cdn.moat.gg/f/cbf0f.png", 6, 6, 32, 32, nil, math.sin(CurTime())*15,true)
                 elseif (itemtbl.LimitedShop) then
                     if (itemtbl.Kind == "tier") then
@@ -409,9 +408,14 @@ function m_PopulateShop(pnl)
             ITEM_PREVIEW:SetSize(70, 70)
             ITEM_PREVIEW:SetPos(49, 50)
             ITEM_PREVIEW:SetText("")
-            ITEM_PREVIEW:SetTooltip("Preview Crate")
+            ITEM_PREVIEW:SetTooltip(itemtbl.ShopDesc and "Click for Info" or "Preview Crate")
             ITEM_PREVIEW.Paint = nil
             ITEM_PREVIEW.DoClick = function(s)
+				if (itemtbl.ShopDesc) then
+                    Derma_Message(itemtbl.ShopDesc, itemtbl.Name, "Got it, thanks!")
+					return
+                end
+
                if (moat_crate_previews[itemtbl.ID]) then 
                     m_PreviewCrate(moat_crate_previews[itemtbl.ID])
                     return

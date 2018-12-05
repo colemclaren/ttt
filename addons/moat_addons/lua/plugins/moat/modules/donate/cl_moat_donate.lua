@@ -75,7 +75,7 @@ MOAT_DONATE.Packages = {
 		{Color(0, 125, 255), "3", "Event Credits", ""},
 		{Color(255, 125, 0), "1", "Name Mutator", ""},
 		{Color(255, 205, 0), "1", "Ascended Talent Mutator", ""},
-		{Color(255, 0, 0), "[LIMITED TIME]", "6 Holiday Crates + 1 Santa Crate!", ""},
+		{Color(255, 0, 0), "[LIMITED TIME]", "6 Holiday Crates + 1 Santa Present!", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
 	}},
 	{"100,000 IC", Material("icon16/coins.png"), 7, 10000, "25,000 Bonus", {
@@ -84,7 +84,7 @@ MOAT_DONATE.Packages = {
 		{Color(255, 125, 0), "2", "Name Mutators", ""},
 		{Color(255, 205, 0), "1", "Ascended Stat Mutator", ""},
 		{Color(0, 255, 0), "1", "Cosmic Talent Mutator", ""},
-		{Color(255, 0, 0), "[LIMITED TIME]", "13 Holiday Crates + 2 Santa Crates!", ""},
+		{Color(255, 0, 0), "[LIMITED TIME]", "13 Holiday Crates + 2 Santa Presents!", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
 	}},
 	{"Dola Effect", Material("icon16/money.png"), 8, 5000, "", {

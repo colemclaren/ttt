@@ -8,7 +8,7 @@
 inv.Item(7101)
 	:SetRarity (10)
 	:SetType "Usable"
-	:SetName "Santa's Crate"
+	:SetName "Santa's Present"
 	:SetDesc "Every player will receive a holiday crate when this item is used"
 	:SetImage "https://moat.gg/assets/img/gift_usable64.png"
 	:SetCollection "Santa's Collection"
