@@ -36,7 +36,7 @@ local gamble_help = {
 	["Roulette"] = "Welcome to Roulette!\nYou can bet for what color the spinner is going to be and win 2x that amount if it's black or red\nor 14x the amount if it's green!",
 	-- ["Crash"] = "Place a bet and watch the multiplier go up!\nIf the multiplier 'Crashes' before you cash out then you lose all your money.\nThe multiplier can crash at 0x as well.",
 	["Jackpot"] = "Everyone places their money into a big pot and the winner get's all of it.\nYour chance of winning what percentage of the pot you are.\n(There is a 5% tax on the winnings from jackpot)\nJackpot is connected to multiple servers!\nYou can also click on people's pictures to view info about them!!",
-	["Versus"] = "Versus is like coinflip.\nYou can make a game and others can join it,\nIt is also cross-server like jackpot.\nALL GAMES ARE 50% CHANCE!\n\nEveryone has the same chance of winning.\nYou can also click on people's pictures to view info about them!\nGood luck!"
+	["Versus"] = "Versus is like coinflip.\nYou create or join a game and have a 50% chance of winning.\nThere is a tax on winnings as well."
 }
 
 function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
@@ -191,7 +191,8 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
     MOAT_GAMBLE_AVA:SetSize(17, 17)
     MOAT_GAMBLE_AVA:SetPlayer(LocalPlayer(), 32)
 
-    local MOAT_GAMBLE_CATS = {{"Mines", Color(150, 0, 255)}, {"Roulette", Color(255, 0, 50)}, {"Crash", Color(255, 255, 0)}, {"Jackpot", Color(0, 255, 0)}, {"Versus", Color(0, 255, 255)}}
+    -- local MOAT_GAMBLE_CATS = {{"Mines", Color(150, 0, 255)}, {"Roulette", Color(255, 0, 50)}, {"Crash", Color(255, 255, 0)}, {"Jackpot", Color(0, 255, 0)}, {"Versus", Color(0, 255, 255)}}
+	local MOAT_GAMBLE_CATS = {{"Versus", Color(0, 255, 255)},{"Roulette", Color(255, 0, 50)},{"Jackpot", Color(0, 255, 0)},{"Mines", Color(150, 0, 255)},{"Crash", Color(255, 255, 0)}}
     local CAT_WIDTHS = 0
 
     for i = 1, #MOAT_GAMBLE_CATS do
@@ -358,7 +359,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
         end
     end
 
-    m_DrawDicePanel()
+    m_DrawVersusPanel()
 
     MOAT_GAMBLE_BG:AlphaTo(255, 0.15, 0.15)
 end
@@ -4276,10 +4277,10 @@ function m_ChangeGambleCategory()
 
 
 	if (num == 1) then
-		m_DrawDicePanel()
-	else
-		m_RemoveDicePanel()
-	end
+        m_DrawVersusPanel()
+    else
+        m_RemoveVersusPanel()
+    end
 
 	if (num == 2) then
 		m_DrawRoulettePanel()
@@ -4288,22 +4289,22 @@ function m_ChangeGambleCategory()
 	end
 
 	if (num == 3) then
-		m_DrawCrashPanel()
-	else
-		m_RemoveCrashPanel()
-	end
-
-	if (num == 4) then
 		m_DrawBlackjackPanel()
 	else
 		m_RemoveBlackjackPanel()
 	end
 
-    if (num == 5) then
-        m_DrawVersusPanel()
-    else
-        m_RemoveVersusPanel()
-    end
+	if (num == 4) then
+		m_DrawDicePanel()
+	else
+		m_RemoveDicePanel()
+	end
+
+	if (num == 5) then
+		m_DrawCrashPanel()
+	else
+		m_RemoveCrashPanel()
+	end
 
 	MOAT_GAMBLE.CurCat = num
 end
