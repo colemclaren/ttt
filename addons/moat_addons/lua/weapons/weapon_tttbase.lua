@@ -167,7 +167,8 @@ if CLIENT then
 
       local x = math.floor(ScrW() / 2)
       local y = math.floor(ScrH() / 2)
-      local scale = crosshair_weaponscale:GetBool() and self:GetPrimaryCone() or 0
+      local scalex = crosshair_weaponscale:GetBool() and self:GetPrimaryCone() or 0
+      local scaley = crosshair_weaponscale:GetBool() and self:GetPrimaryConeY() or 0
 
       local timescale = 1
       if not crosshair_static:GetBool() then
@@ -183,19 +184,30 @@ if CLIENT then
 
       local alpha = sights and sights_opacity:GetFloat() or crosshair_opacity:GetFloat()
       local bright = crosshair_brightness:GetFloat() or 1
-      local gap = enable_gap_crosshair:GetBool() and (timescale * crosshair_gap:GetFloat())
+      local gapx = enable_gap_crosshair:GetBool() and (timescale * crosshair_gap:GetFloat())
+      local gapy = gapx
       local thickness = math.Round(crosshair_thickness:GetFloat() - 1) * 2 + 1
       local outline = math.Round(crosshair_outlinethickness:GetFloat())
       local fov = client:GetFOV()
       -- 1.5 is because of size_float
-      local length = math.max(8, math.deg(scale) * 3 / 4 / fov * ScrW() / 1.5) * timescale * size_float
+      local lengthx = math.max(8, math.deg(scalex) * 3 / 4 / fov * ScrW() / 1.5) * timescale * size_float
       if (not gap) then
-        gap = length / 4
-        length = gap * 3
+        gapx = lengthx / 4
+        lengthx = gapx * 3
       else
-        length = length * 3 / 4 + gap
+        lengthx = lengthx * 3 / 4 + gapx
       end
-      length, gap = math.Round(length), math.Round(gap)
+      lengthx, gapx = math.Round(lengthx), math.Round(gapx)
+
+      local lengthy = math.max(8, math.deg(scaley) * 3 / 4 / fov * ScrW() / 1.5) * timescale * size_float
+      if (not gapy) then
+        gapy = lengthy / 4
+        lengthy = gapy * 3
+      else
+        lengthy = lengthy * 3 / 4 + gapy
+      end
+      lengthy, gapy = math.Round(lengthy), math.Round(gapy)
+
 
       local offset = thickness / 2
 
@@ -203,11 +215,13 @@ if CLIENT then
       if outline > 0 then
         surface.SetDrawColor(0, 0, 0, 255 * alpha)
 
-        surface.DrawRect(x - length - 1 - outline, y - offset - outline, length - gap + outline * 2, thickness + outline * 2)
-        surface.DrawRect(x - offset - outline, y - length - 1 - outline, thickness + outline * 2, length - gap + outline * 2)
-  
-        surface.DrawRect(x + gap - outline, y - offset - outline, length - gap + outline * 2, thickness + outline * 2)
-        surface.DrawRect(x - offset - outline, y + gap - outline, thickness + outline * 2, length - gap + outline * 2)
+        -- x
+        surface.DrawRect(x - lengthx - 1 - outline, y - offset - outline, lengthx - gapx + outline * 2, thickness + outline * 2)
+        surface.DrawRect(x + gapx - outline, y - offset - outline, lengthx - gapx + outline * 2, thickness + outline * 2)
+
+        -- y
+        surface.DrawRect(x - offset - outline, y - lengthy - 1 - outline, thickness + outline * 2, lengthy - gapy + outline * 2)
+        surface.DrawRect(x - offset - outline, y + gapy - outline, thickness + outline * 2, lengthy - gapy + outline * 2)
       end
 
       if enable_color_crosshair:GetBool() then
@@ -227,11 +241,13 @@ if CLIENT then
       end
 
 
-      surface.DrawRect( x - length - 1, y - offset, length - gap, thickness )
-      surface.DrawRect( x - offset, y - length - 1, thickness, length - gap )
+      -- x
+      surface.DrawRect( x - lengthx - 1, y - offset, lengthx - gapx, thickness )
+      surface.DrawRect( x + gapx, y - offset, lengthx - gapx, thickness )
 
-      surface.DrawRect( x + gap, y - offset, length - gap, thickness )
-      surface.DrawRect( x - offset, y + gap, thickness, length - gap )
+      -- y
+      surface.DrawRect( x - offset, y - lengthy - 1, thickness, lengthy - gapy )
+      surface.DrawRect( x - offset, y + gapy, thickness, lengthy - gapy )
    end
 
    local GetPTranslation = LANG.GetParamTranslation
@@ -301,7 +317,7 @@ function SWEP:PrimaryAttack(worldsnd)
 		sound.Play(self.Primary.Sound, self:GetPos(), self.Primary.SoundLevel)
 	end
 
-	self:ShootBullet(self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone())
+	self:ShootBullet(self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone(), self:GetPrimaryConeY())
 	self:TakePrimaryAmmo(1)
 
 	if (not IsValid(self.Owner) or not self.Owner.ViewPunch) then
@@ -351,7 +367,7 @@ local function Sparklies(attacker, tr, dmginfo)
    end
 end
 
-function SWEP:ShootBullet( dmg, recoil, numbul, cone )
+function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
 
    self:SendWeaponAnim(self.PrimaryAnim)
 
@@ -362,14 +378,15 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
 
    local sights = self:GetIronsights()
 
-   numbul = numbul or 1
-   cone   = cone   or 0.01
+   numbul  = numbul or 1
+   conex   = conex   or 0.01
+   coney   = coney or conex
 
    local bullet = {}
    bullet.Num    = numbul
    bullet.Src    = self.Owner:GetShootPos()
    bullet.Dir    = self.Owner:GetAimVector()
-   bullet.Spread = Vector( cone, cone, 0 )
+   bullet.Spread = Vector( conex, coney, 0 )
    bullet.Tracer = 4
    bullet.TracerName = self.Tracer or "Tracer"
    bullet.Force  = 10
@@ -400,7 +417,13 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
 end
 
 function SWEP:GetPrimaryCone()
-   local cone = self.Primary.Cone or 0.2
+   local cone = self.Primary.ConeX or self.Primary.Cone or 0.2
+   -- 10% accuracy bonus when sighting
+   return self:GetIronsights() and (cone * 0.85) or cone
+end
+
+function SWEP:GetPrimaryConeY()
+   local cone = self.Primary.ConeY or self.Primary.Cone or 0.2
    -- 10% accuracy bonus when sighting
    return self:GetIronsights() and (cone * 0.85) or cone
 end

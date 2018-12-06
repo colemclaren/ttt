@@ -147,19 +147,19 @@ function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, item)
     local wep = tbl
     local itemtbl = table.Copy(loadout_tbl)
 
-	if (wep.ItemName) then
-		wep.PrintName = wep.ItemName
-	end
-	
-	if (item and item.Name and wep.PrintName and wep.ClassName and wep.PrintName == util.GetWeaponName(wep.ClassName)) then
-		if (item.Kind and item.Kind == "tier") then
-			wep.PrintName = string(item.Name, " ", wep.PrintName)
-		else
-			wep.PrintName = item.Name
-		end
+    if (wep.ItemName) then
+        wep.PrintName = wep.ItemName
+    end
 
-		wep.ItemName = wep.PrintName
-	end
+    if (item and item.Name and wep.PrintName and wep.ClassName and wep.PrintName == util.GetWeaponName(wep.ClassName)) then
+        if (item.Kind and item.Kind == "tier") then
+            wep.PrintName = string(item.Name, " ", wep.PrintName)
+        else
+            wep.PrintName = item.Name
+        end
+
+        wep.ItemName = wep.PrintName
+    end
 
     if (itemtbl.s) then
         if (itemtbl.s.d) then
@@ -177,7 +177,19 @@ function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, item)
         end
 
         if (itemtbl.s.a) then
-            wep.Primary.Cone = wep.Primary.Cone * (1 - ((itemtbl.item.Stats.Accuracy.min + ((itemtbl.item.Stats.Accuracy.max - itemtbl.item.Stats.Accuracy.min) * itemtbl.s.a)) / 100))
+            local mult = 1 - ((itemtbl.item.Stats.Accuracy.min + ((itemtbl.item.Stats.Accuracy.max - itemtbl.item.Stats.Accuracy.min) * itemtbl.s.a)) / 100)
+            local pri = wep.Primary
+            if (pri) then
+                if (pri.Cone) then
+                    pri.Cone = pri.Cone * mult
+                end
+                if (pri.ConeX) then
+                    pri.ConeX = pri.ConeX * mult
+                end
+                if (pri.ConeY) then
+                    pri.ConeY = pri.ConeY * mult
+                end
+            end
         end
 
         if (itemtbl.s.k) then
@@ -213,27 +225,27 @@ function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, item)
     return wep
 end
 
-function m_ApplyWeaponMods(tbl, loadout_tbl, item_tbl)
-    return MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, item_tbl)
+function m_ApplyWeaponMods(tbl, loadout_tbl, item)
+    return MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, item)
 end
 
 function MOAT_LOADOUT.ApplyOtherModifications(tbl, loadout_tbl, item)
     local wep = tbl
     local itemtbl = table.Copy(loadout_tbl)
 
-	if (wep.ItemName) then
-		wep.PrintName = wep.ItemName
-	end
+    if (wep.ItemName) then
+        wep.PrintName = wep.ItemName
+    end
 
-	if (item and item.Name and wep.PrintName and wep.ClassName and wep.PrintName == util.GetWeaponName(wep.ClassName)) then
-		if (item.Kind and item.Kind == "tier") then
-			wep.PrintName = string(item.Name, " ", wep.PrintName)
-		else
-			wep.PrintName = item.Name
-		end
+    if (item and item.Name and wep.PrintName and wep.ClassName and wep.PrintName == util.GetWeaponName(wep.ClassName)) then
+        if (item.Kind and item.Kind == "tier") then
+            wep.PrintName = string(item.Name, " ", wep.PrintName)
+        else
+            wep.PrintName = item.Name
+        end
 
-		wep.ItemName = wep.PrintName
-	end
+        wep.ItemName = wep.PrintName
+    end
 
     if (itemtbl and itemtbl.item and itemtbl.item.Stats and itemtbl.s and #itemtbl.s > 0) then
         wep.InventoryModifications = {}
@@ -300,19 +312,6 @@ end )]]
 
 MOAT_LOADOUT.UpdateWepCache = {}
 MOAT_LOADOUT.UpdateOtherWepCache = {}
-
-local rarity_colors = {
-	[0] = Color(74, 73, 68),
-    [1] = Color(204, 204, 255),
-    [2] = Color(0, 0, 255),
-    [3] = Color(127, 0, 255),
-    [4] = Color(255, 0, 255),
-    [5] = Color(255, 0, 0),
-    [6] = Color(255, 205, 0),
-    [7] = Color(0, 255, 0),
-    [8] = Color(255, 128, 0),
-    [9] = Color(0, 255, 255)
-}
 
 function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, powerup, tactical, is_reequip)
     if (hook.Run("MoatInventoryShouldGiveLoadout", ply)) then return end
@@ -411,15 +410,15 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
 
                 local v3 = ply:Give(v.w)
                 local wpn_tbl = v3:GetTable()
-				local item_old = table.Copy(v.item)
+                local item_old = table.Copy(v.item)
                 v.item = m_GetItemFromEnum(v.u)
 
                 MOAT_LOADOUT.ApplyOtherModifications(wpn_tbl, v, v.item)
 
                 net.Start("MOAT_UPDATE_OTHER_WEP")
                 net.WriteUInt(v3:EntIndex(), 16)
-				net.WriteString(wpn_tbl.ItemName or wpn_tbl.PrintName or "NAME_ERROR0")
-                net.WriteDouble(ply:EntIndex())
+                net.WriteString(wpn_tbl.ItemName or wpn_tbl.PrintName or "NAME_ERROR0")
+
                 net.WriteTable(v)
                 net.Send(ply)
 
@@ -446,12 +445,11 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             end
 
             local v3 = ply:Give(v.w)
-			local wpn_tbl = v3:GetTable()
-			local item_old = table.Copy(v.item)
+            local wpn_tbl = v3:GetTable()
+            local item_old = table.Copy(v.item)
             v.item = m_GetItemFromEnum(v.u)
 
             MOAT_LOADOUT.ApplyWeaponMods(wpn_tbl, v, v.item)
-
             local clipsize = wpn_tbl.Primary.ClipSize
             local defaultclip = wpn_tbl.Primary.DefaultClip
             local add_ammo = clipsize
@@ -465,15 +463,14 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
 
             net.Start("MOAT_UPDATE_WEP")
             net.WriteUInt(v3:EntIndex(), 16)
-			net.WriteString(wpn_tbl.ItemName or wpn_tbl.PrintName or "NAME_ERROR1")
-            net.WriteDouble(wpn_tbl.Primary.Damage or 0)
-            net.WriteDouble(wpn_tbl.Primary.Delay or 0)
-            net.WriteDouble(wpn_tbl.Primary.ClipSize or 0)
-            net.WriteDouble(wpn_tbl.Primary.Recoil or 0)
-            net.WriteDouble(wpn_tbl.Primary.Cone or 0)
-            net.WriteDouble(wpn_tbl.PushForce or 0)
-            net.WriteDouble(wpn_tbl.Secondary.Delay or 0)
-            net.WriteDouble(ply:EntIndex())
+            net.WriteString(wpn_tbl.ItemName or wpn_tbl.PrintName or "NAME_ERROR1")
+            net.WriteFloat(wpn_tbl.Primary.Damage or 0)
+            net.WriteFloat(wpn_tbl.Primary.Delay or 0)
+            net.WriteFloat(wpn_tbl.Primary.ClipSize or 0)
+            net.WriteFloat(wpn_tbl.Primary.Recoil or 0)
+            net.WriteFloat(wpn_tbl.Primary.Cone or 0)
+            net.WriteFloat(wpn_tbl.PushForce or 0)
+            net.WriteFloat(wpn_tbl.Secondary.Delay or 0)
 
             if (v.t) then
                 v.Talents = {}
@@ -484,6 +481,8 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             end
 
             net.WriteTable(v or {})
+            net.WriteFloat(wpn_tbl.Primary.ConeX or 0)
+            net.WriteFloat(wpn_tbl.Primary.ConeY or 0)
 
             local sent = false
             if ((v.item and v.item.Rarity == 9) or v.p2 or v.p or v.p3) then
@@ -494,7 +493,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             end
 
             loadout_weapon_indexes[v3:EntIndex()] = {
-				name = wpn_tbl.ItemName or wpn_tbl.PrintName,
+                name = wpn_tbl.ItemName or wpn_tbl.PrintName,
                 stats = {
                     wpn_tbl.Primary.Damage or 0,
                     wpn_tbl.Primary.Delay or 0,
@@ -502,7 +501,9 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                     wpn_tbl.Primary.Recoil or 0,
                     wpn_tbl.Primary.Cone or 0,
                     wpn_tbl.PushForce or 0,
-                    wpn_tbl.Secondary.Delay or 0
+                    wpn_tbl.Secondary.Delay or 0,
+                    wpn_tbl.Primary.ConeX or 0,
+                    wpn_tbl.Primary.ConeY or 0,
                 },
                 owner = ply:EntIndex(),
                 info = v,
@@ -717,16 +718,17 @@ local function NetworkRegularWeapon(wep)
 
     net.Start("MOAT_UPDATE_WEP")
     net.WriteUInt(wep:EntIndex(), 16)
-	net.WriteString(tbl.name or "NAME_ERROR2")
-    net.WriteDouble(tbl.stats[1])
-    net.WriteDouble(tbl.stats[2])
-    net.WriteDouble(tbl.stats[3])
-    net.WriteDouble(tbl.stats[4])
-    net.WriteDouble(tbl.stats[5])
-    net.WriteDouble(tbl.stats[6])
-    net.WriteDouble(tbl.stats[7])
-    net.WriteDouble(tbl.owner)
+    net.WriteString(tbl.name or "NAME_ERROR2")
+    net.WriteFloat(tbl.stats[1])
+    net.WriteFloat(tbl.stats[2])
+    net.WriteFloat(tbl.stats[3])
+    net.WriteFloat(tbl.stats[4])
+    net.WriteFloat(tbl.stats[5])
+    net.WriteFloat(tbl.stats[6])
+    net.WriteFloat(tbl.stats[7])
     net.WriteTable(tbl.info or {})
+    net.WriteFloat(tbl.stats[8])
+    net.WriteFloat(tbl.stats[9])
     net.Broadcast()
 end
 
@@ -737,8 +739,7 @@ local function NetworkOtherWeapon(wep)
 
     net.Start("MOAT_UPDATE_OTHER_WEP")
     net.WriteUInt(wep:EntIndex(), 16)
-	net.WriteString(tbl.name or "NAME_ERROR3")
-    net.WriteDouble(tbl.owner)
+    net.WriteString(tbl.name or "NAME_ERROR3")
     net.WriteTable(tbl.info)
     net.Broadcast()
 end

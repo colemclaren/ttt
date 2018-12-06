@@ -213,18 +213,20 @@ function MG_FFA.GiveWeapon(ply,v)
 			wpn_tbl.Primary.Cone or 0,
 			wpn_tbl.PushForce or 0,
 			wpn_tbl.Secondary.Delay or 0,
-			{}
+            {},
+            wpn_tbl.Primary.ConeX or 0,
+            wpn_tbl.Primary.ConeY or 0,
 		}
 
 		net.WriteBool(true)
 		net.WriteString(ply.TDM_Cache[v.w].name or "NAME_ERROR6")
-        net.WriteDouble(ply.TDM_Cache[v.w][1] or 0)
-        net.WriteDouble(ply.TDM_Cache[v.w][2] or 0)
-        net.WriteDouble(ply.TDM_Cache[v.w][3] or 0)
-        net.WriteDouble(ply.TDM_Cache[v.w][4] or 0)
-        net.WriteDouble(ply.TDM_Cache[v.w][5] or 0)
-        net.WriteDouble(ply.TDM_Cache[v.w][6] or 0)
-        net.WriteDouble(ply.TDM_Cache[v.w][7] or 0)
+        net.WriteFloat(ply.TDM_Cache[v.w][1] or 0)
+        net.WriteFloat(ply.TDM_Cache[v.w][2] or 0)
+        net.WriteFloat(ply.TDM_Cache[v.w][3] or 0)
+        net.WriteFloat(ply.TDM_Cache[v.w][4] or 0)
+        net.WriteFloat(ply.TDM_Cache[v.w][5] or 0)
+        net.WriteFloat(ply.TDM_Cache[v.w][6] or 0)
+        net.WriteFloat(ply.TDM_Cache[v.w][7] or 0)
 
         if (v.t) then
             v.Talents = {}
@@ -237,6 +239,8 @@ function MG_FFA.GiveWeapon(ply,v)
 
 		ply.TDM_Cache[v.w][8] = table.Copy(v or {}) or {}
         net.WriteTable(v or {})
+        net.WriteFloat(ply.TDM_Cache[v.w][9] or 0)
+        net.WriteFloat(ply.TDM_Cache[v.w][10] or 0)
 
 		v.item = item_old
     else

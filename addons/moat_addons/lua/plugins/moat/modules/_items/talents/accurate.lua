@@ -21,10 +21,16 @@ TALENT.NotUnique = true
 
 function TALENT:ModifyWeapon( weapon, talent_mods )
 
-	if ( weapon.Primary.Cone ) then
-
-		weapon.Primary.Cone = weapon.Primary.Cone * ( 1 - ( ( self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] ) ) / 100 ) )
-		
+	local pri = weapon.Primary
+	local mult = 1 - ( ( self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] ) ) / 100 )
+	if (pri.Cone) then
+		pri.Cone = pri.Cone * mult
+	end
+	if (pri.ConeX) then
+		pri.ConeX = pri.ConeX * mult
+	end
+	if (pri.ConeY) then
+		pri.ConeY = pri.ConeY * mult
 	end
 
 end

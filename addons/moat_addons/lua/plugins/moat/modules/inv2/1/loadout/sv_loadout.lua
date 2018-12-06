@@ -134,7 +134,17 @@ function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl)
         end
 
         if (itemtbl.s.a) then
-            wep.Primary.Cone = wep.Primary.Cone * (1 - ((itemtbl.item.Stats.Accuracy.min + ((itemtbl.item.Stats.Accuracy.max - itemtbl.item.Stats.Accuracy.min) * itemtbl.s.a)) / 100))
+            local pri = wep.Primary
+            local mult = 1 - ((itemtbl.item.Stats.Accuracy.min + ((itemtbl.item.Stats.Accuracy.max - itemtbl.item.Stats.Accuracy.min) * itemtbl.s.a)) / 100)
+            if (pri.Cone) then
+                pri.Cone = pri.Cone * mult
+            end
+            if (pri.ConeX) then
+                pri.ConeX = pri.ConeX * mult
+            end
+            if (pri.ConeY) then
+                pri.ConeY = pri.ConeY * mult
+            end
         end
 
         if (itemtbl.s.k) then

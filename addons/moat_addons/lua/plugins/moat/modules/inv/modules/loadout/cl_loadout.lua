@@ -416,7 +416,6 @@ end)
 function MOAT_LOADOUT.UpdateOtherWep()
     local wep_index = net.ReadUInt(16)
 	local wep_name = net.ReadString()
-    local wep_owner = net.ReadDouble()
     local wep_stats = net.ReadTable()
 
     timer.Create("moat_StatRefresh" .. wep_index, 0.1, 0, function()
@@ -444,36 +443,39 @@ end
 net.Receive("MOAT_UPDATE_OTHER_WEP", MOAT_LOADOUT.UpdateOtherWep)
 
 function MOAT_LOADOUT.UpdateWep()
-    local wep_index, wep_name, wep_d, wep_f, wep_m, wep_r, wep_a, wep_v, wep_p, wep_owner, wep_stats
-    
+    local wep_index, wep_name, wep_d, wep_f, wep_m, wep_r, wep_a, wep_v, wep_p, wep_stats
+    local wep_a_y, wep_a_x
+
     local store  = MOAT_TDM or MOAT_FFA
     if (store) then
         local wep_class = net.ReadString()
-		wep_index = net.ReadUInt(16)
-		if (net.ReadBool()) then
-			store.WepCache[wep_class] = {
-				[0] = net.ReadString(),
-				[1] = net.ReadDouble(),
-            	[2] = net.ReadDouble(),
-            	[3] = net.ReadDouble(),
-            	[4] = net.ReadDouble(),
-            	[5] = net.ReadDouble(),
-            	[6] = net.ReadDouble(),
-            	[7] = net.ReadDouble(),
-            	[8] = LocalPlayer():EntIndex(),
-            	[9] = net.ReadTable()
-			}
-		elseif (not store.WepCache[wep_class]) then
-			net.Start "MOAT_NO_STORED"
-				net.WriteString(wep_class)
-				net.WriteUInt(wep_index, 16)
-			net.SendToServer()
-			return
-		end
+        wep_index = net.ReadUInt(16)
+        if (net.ReadBool()) then
+            store.WepCache[wep_class] = {
+                [0] = net.ReadString(),
+                [1] = net.ReadFloat(),
+                [2] = net.ReadFloat(),
+                [3] = net.ReadFloat(),
+                [4] = net.ReadFloat(),
+                [5] = net.ReadFloat(),
+                [6] = net.ReadFloat(),
+                [7] = net.ReadFloat(),
+                [8] = LocalPlayer():EntIndex(),
+                [9] = net.ReadTable(),
+                [10] = net.ReadFloat(),
+                [11] = net.ReadFloat()
+            }
+        elseif (not store.WepCache[wep_class]) then
+            net.Start "MOAT_NO_STORED"
+                net.WriteString(wep_class)
+                net.WriteUInt(wep_index, 16)
+            net.SendToServer()
+            return
+        end
 
-		local v = store.WepCache[wep_class]
-		wep_name = v[0]
-		wep_d = v[1]
+        local v = store.WepCache[wep_class]
+        wep_name = v[0]
+        wep_d = v[1]
         wep_f = v[2]
         wep_m = v[3]
         wep_r = v[4]
@@ -482,18 +484,21 @@ function MOAT_LOADOUT.UpdateWep()
         wep_p = v[7]
         wep_owner = v[8]
         wep_stats = v[9]
+        wep_a_x = v[10]
+        wep_a_y = v[11]
     else
         wep_index = net.ReadUInt(16)
-		wep_name = net.ReadString()
-        wep_d = net.ReadDouble()
-        wep_f = net.ReadDouble()
-        wep_m = net.ReadDouble()
-        wep_r = net.ReadDouble()
-        wep_a = net.ReadDouble()
-        wep_v = net.ReadDouble()
-        wep_p = net.ReadDouble()
-        wep_owner = net.ReadDouble()
+        wep_name = net.ReadString()
+        wep_d = net.ReadFloat()
+        wep_f = net.ReadFloat()
+        wep_m = net.ReadFloat()
+        wep_r = net.ReadFloat()
+        wep_a = net.ReadFloat()
+        wep_v = net.ReadFloat()
+        wep_p = net.ReadFloat()
         wep_stats = net.ReadTable()
+        wep_a_x = net.ReadFloat()
+        wep_a_y = net.ReadFloat()
     end
 
     /*if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
@@ -508,7 +513,7 @@ function MOAT_LOADOUT.UpdateWep()
         local wep = Entity(wep_index)
 
         if (wep.Weapon) then
-			local prim = wep.Weapon.Primary
+            local prim = wep.Weapon.Primary
 
             if (prim and prim.Damage) then
                 wep.Weapon.Primary.Damage = wep_d
@@ -534,8 +539,16 @@ function MOAT_LOADOUT.UpdateWep()
                 wep.Weapon.Primary.Recoil = wep_r
             end
 
-            if (prim and prim.Cone) then
-                wep.Weapon.Primary.Cone = wep_a
+            if (prim) then
+                if (prim.Cone) then
+                    prim.Cone = wep_a
+                end
+                if (prim.ConeX) then
+                    prim.ConeX = wep_a_x
+                end
+                if (prim.ConeY) then
+                    prim.ConeY = wep_a_y
+                end
             end
 
             if (wep.Weapon.PushForce) then

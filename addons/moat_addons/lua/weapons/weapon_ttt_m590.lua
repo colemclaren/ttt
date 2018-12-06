@@ -29,8 +29,12 @@ SWEP.Primary.Sound			= Sound("gunshot_moss_590")		-- script that calls the prima
 SWEP.Primary.Ammo = "Buckshot"
 SWEP.Primary.Delay = 1.1 + 0.5
 SWEP.Primary.Recoil = 10
-SWEP.Primary.Cone = 0.19
-SWEP.Primary.Damage = 16
+-- Cone controls distance for damage falloff
+SWEP.Primary.Cone = 0.5
+-- If these exist: 
+SWEP.Primary.ConeY = 0.18
+SWEP.Primary.ConeX = 0.13
+SWEP.Primary.Damage = 17
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 28
