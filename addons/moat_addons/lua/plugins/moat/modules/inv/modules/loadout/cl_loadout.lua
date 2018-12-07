@@ -193,10 +193,20 @@ function PrePaintViewModel(wpn, preview)
         wpn.cache.p = 255
         if (wpn.ItemStats.p2) then
             wpn.cache.p = MOAT_PAINT.Paints[wpn.ItemStats.p2][2]
+			wpn.cache.dream = MOAT_PAINT.Paints[wpn.ItemStats.p2].Dream
         elseif (wpn.ItemStats.p) then
             wpn.cache.p = MOAT_PAINT.Tints[wpn.ItemStats.p][2]
+			wpn.cache.dream = MOAT_PAINT.Tints[wpn.ItemStats.p].Dream
         end
+
+		if (not wpn.cache.p or not istable(wpn.cache.p)) then
+			return
+		end
     end
+
+	if (wpn.cache.p and wpn.cache.dream) then
+		wpn.cache.p = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
+	end
 
     if (not wpn.cache.n) then
 		wpn.cache.n = #wpn.cache.m
@@ -572,7 +582,7 @@ function MOAT_LOADOUT.UpdateWep()
                 
                 wep.Weapon.ItemStats = wep_stats
 
-                local color = nil
+                local color, dream = nil
 
                 if (wep.WElements or wep.Offset) then
                     wep.OldDrawWorldModel = wep.DrawWorldModel
@@ -580,8 +590,14 @@ function MOAT_LOADOUT.UpdateWep()
 
                 if (wep_stats.p2 and MOAT_PAINT and MOAT_PAINT.Paints and MOAT_PAINT.Paints[wep_stats.p2]) then
                     local col = MOAT_PAINT.Paints[wep_stats.p2]
-                    if (col) then 
-                        col = col[2]
+                    if (col) then
+						if (col.Dream) then
+							dream = true
+							col = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
+						else
+                        	col = col[2]
+						end
+
                         wep:SetColor(Color(col[1], col[2], col[3], 255))
                         wep:SetRenderMode(RENDERMODE_TRANSADDFRAMEBLEND)
                         wep:SetMaterial("models/debug/debugwhite")
@@ -599,14 +615,25 @@ function MOAT_LOADOUT.UpdateWep()
                             self:DrawModel()
                         end
 
-                        self:SetColor(color)
+                        if (dream) then
+                        	self:SetColor(Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b))
+						else
+							self:SetColor(color)
+						end
+
                         self:SetMaterial(mat)
                         self.Owner.CustomColor = nil
                     end
                 elseif (wep_stats.p and MOAT_PAINT and MOAT_PAINT.Tints and MOAT_PAINT.Tints[wep_stats.p]) then
                     local col = MOAT_PAINT.Tints[wep_stats.p]
                     if (col) then
-                        col = col[2]
+                        if (col.Dream) then
+							dream = true
+							col = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
+						else
+							col = col[2]
+						end
+
                         wep:SetColor(Color(col[1], col[2], col[3]))
                         wep:SetRenderMode(RENDERMODE_TRANSCOLOR)
                     end
@@ -620,6 +647,12 @@ function MOAT_LOADOUT.UpdateWep()
                             else
                                 self:DrawModel()
                             end
+							
+							if (dream) then
+                        		self:SetColor(Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b))
+							else
+								self:SetColor(color)
+							end
                         end
                     end
                 end
@@ -654,6 +687,15 @@ function MOAT_LOADOUT.UpdateWep()
 							if (new_mat) then
 								render.MaterialOverride(new_mat)
 								render.SetColorModulation(1, 1, 1)
+
+								if (dream) then
+									render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
+								elseif (color) then
+									render.SetColorModulation(color.r / 255, color.g / 255, color.b / 255)
+								else
+									render.SetColorModulation(1, 1, 1)
+								end
+
 								render.SetBlend(1)
 							end
 
@@ -721,13 +763,29 @@ function MOAT_LOADOUT.UpdateWep()
 							self.Owner.CustomColor = color
 							if (self.OldDrawWorldModel and not c) then
 								render.MaterialOverride(new_mat)
-								render.SetColorModulation(1, 1, 1)
+
+								if (dream) then
+									render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
+								elseif (color) then
+									render.SetColorModulation(color.r / 255, color.g / 255, color.b / 255)
+								else
+									render.SetColorModulation(1, 1, 1)
+								end
+
 								render.SetBlend(1)
 								self.OldDrawWorldModel(self, true)
 								render.MaterialOverride(nil)
 							elseif (new_mat) then
 								render.MaterialOverride(new_mat)
-								render.SetColorModulation(1, 1, 1)
+
+								if (dream) then
+									render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
+								elseif (color) then
+									render.SetColorModulation(color.r / 255, color.g / 255, color.b / 255)
+								else
+									render.SetColorModulation(1, 1, 1)
+								end
+
 								render.SetBlend(1)
 								self:DrawModel()
 								render.MaterialOverride(nil)
