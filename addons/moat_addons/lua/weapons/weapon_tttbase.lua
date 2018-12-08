@@ -165,10 +165,10 @@ if CLIENT then
 
       local sights = (not self.NoSights) and self:GetIronsights()
 
-      local x = math.floor(ScrW() / 2)
-      local y = math.floor(ScrH() / 2)
-      local scalex = crosshair_weaponscale:GetBool() and self:GetPrimaryCone() or 0
-      local scaley = crosshair_weaponscale:GetBool() and self:GetPrimaryConeY() or 0
+      	local x = math.floor(ScrW() / 2)
+      	local y = math.floor(ScrH() / 2)
+      	local scalex = crosshair_weaponscale:GetBool() and self:GetPrimaryCone() or 0
+      	local scaley = crosshair_weaponscale:GetBool() and self:GetPrimaryConeY() or 0
 
       local timescale = 1
       if not crosshair_static:GetBool() then
@@ -208,20 +208,18 @@ if CLIENT then
       end
       lengthy, gapy = math.Round(lengthy), math.Round(gapy)
 
-
-      local offset = thickness / 2
+      local offset, length, gap = thickness / 2, math.max(lengthy, lengthx), math.max(gapx, gapy)
 
 
       if outline > 0 then
         surface.SetDrawColor(0, 0, 0, 255 * alpha)
 
         -- x
-        surface.DrawRect(x - lengthx - 1 - outline, y - offset - outline, lengthx - gapx + outline * 2, thickness + outline * 2)
-        surface.DrawRect(x + gapx - outline, y - offset - outline, lengthx - gapx + outline * 2, thickness + outline * 2)
+		surface.DrawRect(x - length - 1 - outline, y - offset - outline, length - gap + outline * 2, thickness + outline * 2)
+		surface.DrawRect(x - offset - outline, y - length - 1 - outline, thickness + outline * 2, length - gap + outline * 2)
 
-        -- y
-        surface.DrawRect(x - offset - outline, y - lengthy - 1 - outline, thickness + outline * 2, lengthy - gapy + outline * 2)
-        surface.DrawRect(x - offset - outline, y + gapy - outline, thickness + outline * 2, lengthy - gapy + outline * 2)
+		surface.DrawRect(x + gap - outline, y - offset - outline, length - gap + outline * 2, thickness + outline * 2)
+		surface.DrawRect(x - offset - outline, y + gap - outline, thickness + outline * 2, length - gap + outline * 2)
       end
 
       if enable_color_crosshair:GetBool() then
@@ -242,12 +240,11 @@ if CLIENT then
 
 
       -- x
-      surface.DrawRect( x - lengthx - 1, y - offset, lengthx - gapx, thickness )
-      surface.DrawRect( x + gapx, y - offset, lengthx - gapx, thickness )
+	  surface.DrawRect( x - length - 1, y - offset, length - gap, thickness )
+	  surface.DrawRect( x - offset, y - length - 1, thickness, length - gap )
 
-      -- y
-      surface.DrawRect( x - offset, y - lengthy - 1, thickness, lengthy - gapy )
-      surface.DrawRect( x - offset, y + gapy, thickness, lengthy - gapy )
+	  surface.DrawRect( x + gap, y - offset, length - gap, thickness )
+	  surface.DrawRect( x - offset, y + gap, thickness, length - gap )
    end
 
    local GetPTranslation = LANG.GetParamTranslation
