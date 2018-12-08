@@ -13,7 +13,7 @@ COMMAND.Run = function(pl, args, supp)
 	end
 
 	if (D3A.MapBoostsPls[pl:SteamID()]) then
-		D3A.Chat.SendToPlayer2(pl, moat_red, "You've alrady boosted a map this map! Please try again next map!")
+		D3A.Chat.SendToPlayer2(pl, moat_red, "You've already boosted a map this map! Please try again next map!")
 		return
 	end
 
