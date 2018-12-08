@@ -344,7 +344,7 @@ local function _contracts()
 			if (b and b[1]) then
 				contract_loaded = b[1].contract
 				contract_id = b[1].ID
-			else
+			elseif GetServerIP() == "208.103.169.28:27015" then
 				local name, c = upnext[1], upnext[2]
 				
 				local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
