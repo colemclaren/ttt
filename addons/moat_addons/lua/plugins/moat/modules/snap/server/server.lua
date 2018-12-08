@@ -67,8 +67,8 @@ net.Receive("moat-ab",function(l,ply)
 		if b then
 			s = util.JSONToTable(s)
 			if not s.data then
-				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided false info, BAN FOR CHEATING."})
-				ply.snapper:ConCommand("mga ban " .. ply:SteamID() .. " 0 days Cheating")
+				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided false info, ban for cheating or retry."})
+				-- ply.snapper:ConCommand("mga ban " .. ply:SteamID() .. " 0 days Cheating")
 				return
 			end
 			local link = s.data.link
@@ -76,13 +76,13 @@ net.Receive("moat-ab",function(l,ply)
 			if not isstring(link) then link = "forsenCD Transparent link" end
 			if not (link:match("^https:%/%/i%.imgur%.com(.*)jpg$")) then 
 				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided a link that wasn't an imgur link or jpg, BAN FOR CHEATING."})
-				ply.snapper:ConCommand("mga ban " .. ply:SteamID() .. " 0 days Cheating")
+				-- ply.snapper:ConCommand("mga ban " .. ply:SteamID() .. " 0 days Cheating")
 				return
 			end
 
 			if not (isstring(s.data.id)) then
-				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided false info, BAN FOR CHEATING."})
-				ply.snapper:ConCommand("mga ban " .. ply:SteamID() .. " 0 days Cheating")
+				snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Player provided false info, BAN FOR CHEATING or retry."})
+				-- ply.snapper:ConCommand("mga ban " .. ply:SteamID() .. " 0 days Cheating")
 				return
 			end
 
@@ -116,7 +116,7 @@ net.Receive("moat-ab",function(l,ply)
 			})
 
 		else
-			snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Client claimed error uploading. I would ban for cheating if they're not lagging, then tell velkon."})
+			snapper.notify(ply.snapper, { Color(255, 0, 0), ply:Name() .. "'s ", Color(255, 255, 255), " snap: Client claimed error uploading. retry or ban for cheating if its just them and they're not lagging"})
 			local msg = ply.snapper:Nick() .. " (" .. ply.snapper:SteamID() .. ") snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and got ERROR : ```" .. s .. "```"
 			discord.Send("Anti Cheat", msg)
 		end
@@ -124,9 +124,9 @@ net.Receive("moat-ab",function(l,ply)
 		if b then
 			s = util.JSONToTable(s)
 			if not s.data then
-				local msg = "CONSOLE snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and client provided no link at all, banning for cheating"
+				local msg = "CONSOLE snapped " .. ply:Nick() .. " (" .. ply:SteamID() .. ") and client provided no link at all, retry or ban for cheating"
 				discord.Send("Skid", msg)
-				RunConsoleCommand("mga","perma",ply:SteamID(),"Cheating")
+				-- RunConsoleCommand("mga","perma",ply:SteamID(),"Cheating")
 				return
 			end
 			local link = s.data.link
