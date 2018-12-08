@@ -23,7 +23,7 @@ SWEP.Secondary.Sound = Sound( "Default.Zoom" )
 
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 60
+SWEP.ViewModelFOV = 55
 SWEP.ViewModel = Model( "models/weapons/cstrike/c_smg_p90.mdl" )
 SWEP.WorldModel = Model( "models/weapons/w_smg_p90.mdl" )
 

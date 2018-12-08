@@ -29,7 +29,7 @@ SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 
 SWEP.UseHands     = true
 SWEP.ViewModelFlip    = true
-SWEP.ViewModelFOV   = 72
+SWEP.ViewModelFOV   = 55
 SWEP.ViewModel  = "models/weapons/v_rif_ak47.mdl"
 SWEP.WorldModel = "models/weapons/w_rif_ak47.mdl"
 
