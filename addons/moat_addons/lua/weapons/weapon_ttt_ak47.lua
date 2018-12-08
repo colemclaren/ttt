@@ -35,7 +35,7 @@ SWEP.WorldModel = "models/weapons/w_rif_ak47.mdl"
 
 SWEP.Primary.Sound = Sound( "Weapon_AK47.Single" )
 
-SWEP.IronSightsPos = Vector (3.0151, -3.3774, 1.5024)
+SWEP.IronSightsPos = Vector (3.0151, -3.3774, 3.5024)
 SWEP.IronSightsAng = Vector (0, 0, 0)
 
 
