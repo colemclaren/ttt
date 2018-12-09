@@ -29,13 +29,13 @@ SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 
 SWEP.UseHands     = true
 SWEP.ViewModelFlip    = true
-SWEP.ViewModelFOV   = 55
+SWEP.ViewModelFOV   = 72
 SWEP.ViewModel  = "models/weapons/v_rif_ak47.mdl"
 SWEP.WorldModel = "models/weapons/w_rif_ak47.mdl"
 
 SWEP.Primary.Sound = Sound( "Weapon_AK47.Single" )
 
-SWEP.IronSightsPos = Vector (3.0151, -3.3774, 3.5024)
+SWEP.IronSightsPos = Vector (2.0151, 5.3774, 1.5024)
 SWEP.IronSightsAng = Vector (0, 0, 0)
 
 
