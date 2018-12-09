@@ -34,7 +34,7 @@ SWEP.Primary.Cone = 0.5
 -- If these exist: 
 SWEP.Primary.ConeY = 0.18
 SWEP.Primary.ConeX = 0.13
-SWEP.Primary.Damage = 17
+SWEP.Primary.Damage = 25
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 28
