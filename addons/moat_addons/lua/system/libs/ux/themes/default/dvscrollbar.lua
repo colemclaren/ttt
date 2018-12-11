@@ -93,7 +93,7 @@ function PANEL:OnMouseWheeled( dlta )
 
 end
 
-local smooth_scrolling = GetConVar("moat_smooth_scrolling"):GetInt()
+local smooth_scrolling = GetConVar("moat_momentum_scrolling"):GetInt()
 
 function PANEL:AddScroll(dlta)
         local OldScroll = self.LerpTarget or self:GetScroll()
@@ -289,4 +289,4 @@ function PANEL:PerformLayout()
 
 end
 
-derma.DefineControl( "DVScrollBar", "A Scrollbar", PANEL, "Panel" )
+--derma.DefineControl( "DVScrollBar", "A Scrollbar", PANEL, "Panel")
