@@ -904,7 +904,7 @@ end
 
 local particles = CreateConVar("moat_model_smoke", "0", FCVAR_ARCHIVE)
 function PANEL:CreateParticles(pos)
-	if (particles:GetInt() ~= 1) then return end
+	if (true) then return end --if (particles:GetInt() ~= 1) then return end
 	
 	self.SmokeEffect = ParticleEmitter(pos, true)
 	self.SmokeEffect:SetNoDraw(true)
