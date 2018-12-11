@@ -147,7 +147,8 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	IP = IP and string.Explode(":", IP)[1] or "0.0.0.0"
 
 	if (sv_Pass != "") and (cl_Pass != sv_Pass) then
-		return false, "Invalid password: " .. cl_Pass
+		D3A.Print((IP or "0.0.0.0") .. " | " ..(Name or "Player") .. " (" .. (SteamID .. "PLAYER") .. ") | " .. (cl_Pass .. ""))
+		return false, "Invalid password: " .. (cl_Pass .. "")
 	end
 
 	-- Check if joining too fast
