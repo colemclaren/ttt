@@ -529,7 +529,7 @@ function m_DrawItemDescLevel(text, font, x, y, w, alpha)
             chars_y = chars_y + 1
         end
 
-        local char_col = Color(255, 255, 255, alpha)
+        local char_col = Color(alpha, alpha, alpha, 255)
 
         for i = 0, 9 do
             if (string.find(char, tostring(i))) then
@@ -537,14 +537,14 @@ function m_DrawItemDescLevel(text, font, x, y, w, alpha)
             end
         end
 
-        draw_SimpleText(char, font, x + chars_x + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
+        -- draw_SimpleText(char, font, x + chars_x + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
         draw_SimpleText(char, font, x + chars_x, y + (chars_y * 15), char_col)
         chars_x = chars_x + charw
 
         if (i == #texte) then
             local charw2, charh2 = surface_GetTextSize(" ")
-            draw_SimpleText(".", font, x + chars_x - charw2 + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
-            draw_SimpleText(".", font, x + chars_x - charw2, y + (chars_y * 15), Color(255, 255, 255, alpha))
+            -- draw_SimpleText(".", font, x + chars_x - charw2 + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
+            draw_SimpleText(".", font, x + chars_x - charw2, y + (chars_y * 15), Color(alpha, alpha, alpha, 255))
         end
     end
 end
@@ -913,7 +913,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 
             if (itemtbl.s.l < talent_level) then
                 talent_col2 = Color(100, 100, 100)
-                talent_alpha = 20
+                talent_alpha = 100
             end
 
             m_DrawShadowedText(1, " | Level " .. talent_level .. "", font, 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_col2)
@@ -947,7 +947,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     end
 
     local collection_y = y + stats_y_add + (talents_y_add - 2) - talents_collection
-    m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
+    m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(100, 100, 100, 255))
 end
 
 m_Inventory = m_Inventory or {}
