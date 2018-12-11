@@ -577,7 +577,7 @@ local function moat_CustomHUD()
 				surface_SetDrawColor(Color(0, 0, 0, 100))
 				surface_DrawLine(x + 6, y + 23 + draw_xp_lvl, x + w - 6, y + 23 + draw_xp_lvl)
 				surface_DrawLine(x + 6, y + 44 + draw_xp_lvl, x + w - 6, y + 44 + draw_xp_lvl)
-				surface_SetDrawColor(rarity_names[wpn_stats.item.Rarity][2])
+				surface_SetDrawColor(rarity_names[wpn_stats.item.Rarity][2].r, rarity_names[wpn_stats.item.Rarity][2].g, rarity_names[wpn_stats.item.Rarity][2].b, 200)
 				local grad_x = x + 1
 				local grad_y = y + 25 + draw_xp_lvl
 				local grad_w = (w - 2) / 2
@@ -599,7 +599,8 @@ local function moat_CustomHUD()
 					RARITY_TEXT = rarity_names[wpn_stats.item.Rarity][1] .. " " .. m_LoadoutTypes[wpn.Slot]
 				end
 
-				m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", x + grad_w, grad_y2 - 1, Color(rarity_names[wpn_stats.item.Rarity][2].r + 50, rarity_names[wpn_stats.item.Rarity][2].g + 50, rarity_names[wpn_stats.item.Rarity][2].b + 50), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4s", x + grad_w + 1, grad_y2, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", x + grad_w, grad_y2 - 1, rarity_accents[wpn_stats.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
 
 			local draw_name_x = x + 7
