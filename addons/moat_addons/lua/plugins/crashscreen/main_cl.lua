@@ -211,7 +211,12 @@ hook.Add("Think", "crashscreen_check", function()
 
 	if (LastPing and LastPing < SysTime()) then
 		if (SysTime() - LastProcessTick >= 1) then
-			processTick()
+			if (Server and Server.IsDev) then
+				print("Crashing!", SysTime())
+			else
+				processTick()
+			end
+
 			LastProcessTick = SysTime()
 		end
 	elseif (isProcessActive) then

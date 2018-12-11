@@ -10,6 +10,15 @@ hook.Add("HUDShouldDraw", "moat_DisableDefaultElements", function(element)
 	if (disabled_elements[element]) then return false end
 end)*/
 
+local MenuColors = {
+	Text = Color(154, 156, 160, 255),
+	Disabled = Color(128, 128, 128, 255),
+	Border = Color(42, 43, 46, 255),
+	Menu = Color(24, 25, 28, 255),
+	Hover = Color(4, 4, 5, 255),
+	TextHover = Color(246, 246, 246, 255)
+}
+
 local surface = surface
 local draw = draw
 local math = math
@@ -534,7 +543,7 @@ local function moat_CustomHUD()
 
 		if (wpn.ItemStats and wpn.ItemStats.item) then
 			local wpn_stats = wpn.ItemStats
-			local ITEM_NAME_FULL = TryTranslation(wpn.PrintName or "Holstered")
+			local ITEM_NAME_FULL = TryTranslation(wpn.ItemName or wpn.PrintName or "Holstered")
 
 			if (wpn_stats.s and wpn_stats.s.l) then
 				draw_xp_lvl = 9
@@ -645,7 +654,7 @@ local function moat_CustomHUD()
 			local draw_name_y = y + 3
 			local name_col = Color(255, 255, 255)
 			local name_font = "moat_Medium5"
-			local name = TryTranslation(wpn.PrintName or "Holstered")
+			local name = TryTranslation(wpn.ItemName or wpn.PrintName or "Holstered")
 			m_DrawShadowedText(1, name, name_font, draw_name_x, draw_name_y, name_col)
 		end
 
@@ -815,19 +824,19 @@ local function moat_CustomHUD()
 		y = y - 1
 	end
 
-	local roletext_color = Color(255, 255, 255, 255)
+	local roletext_color = Color(255, 255, 255)
 
 	if (GetConVar("moat_HUDRoleColor"):GetString() == "true") then
 		roletext_color = Color(role_color.r, role_color.g, role_color.b, 255)
 	end
 
-	draw_SimpleTextOutlined(role_text, "TimeLeft", x + 10, y + (h / 2), roletext_color, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+	draw.SimpleText(role_text, "TimeLeft", x + 10, y + (h / 2), roletext_color, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 	local is_haste = HasteMode() and GAMEMODE.round_state == ROUND_ACTIVE
 	local is_traitor = LP:IsActiveTraitor()
 	local endtime = (GetRoundEnd and GetRoundEnd() or GetGlobalFloat("ttt_round_end", 0)) - CurTime()
 	local text
 	local font = "TimeLeft"
-	local color = Color(255, 255, 255)
+	local color =  Color(255, 255, 255)
 
 	if (is_haste) then
 		local hastetime = (GetHasteEnd and GetHasteEnd() or GetGlobalFloat("ttt_haste_end", 0)) - CurTime()
@@ -858,7 +867,7 @@ local function moat_CustomHUD()
 		text = util.SimpleTime(math.max(0, endtime), "%02i:%02i")
 	end
 
-	draw_SimpleTextOutlined(text, "TimeLeft", x + w - 10, y + (h / 2), color, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+	draw.SimpleText(text, "TimeLeft", x + w - 10, y + (h / 2), color, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 end
 
 hook.Add("HUDPaint", "moat_DrawCustomHUD", moat_CustomHUD)

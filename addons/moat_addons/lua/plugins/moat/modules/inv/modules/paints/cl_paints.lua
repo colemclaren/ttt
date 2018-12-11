@@ -110,6 +110,86 @@ local function DrawBlur(panel, amount)
 end
 
 if (IsValid(MOAT_INSPECT_BG)) then MOAT_INSPECT_BG:Remove() end
+
+-- lua_run_cl vm = LocalPlayer():GetViewModel() for k, v in pairs(vm:GetAttachments()) do print(v.name, v.id) PrintTable(vm:GetAttachment(k)) end
+local inspect_attach, att_cache = {1, 2, 3, "muzzle", "muzzle_flash"}
+local inspecting_weapon, inspecting_flip, inspecting_stats = false, false
+hook.Add("HUDPaint", "Inspect.Paint", function()
+	if (inspecting_weapon and inspecting_stats and IsValid(MOAT_ITEM_STATS) and MOAT_ITEM_STATS.StatTbl and MOAT_ITEM_STATS.StatTbl == inspecting_stats) then
+		local vm = LocalPlayer():GetViewModel()
+		if (not IsValid(vm)) then
+			return
+		end
+
+		local att = att_cache and vm:GetAttachment(att_cache)
+		if (not att) then
+			for k, v in ipairs(inspect_attach) do
+				local num = isstring(v) and vm:LookupAttachment(v) or v
+				if (vm:GetAttachment(num)) then
+					att = vm:GetAttachment(num)
+					att_cache = num
+
+					break
+				end
+			end
+		end
+
+		if (not att) then
+			return
+		end
+
+		local pw, ph = MOAT_ITEM_STATS:GetSize()
+		local cx, cy = MOAT_ITEM_STATS:GetPos()
+		local af, ar, au, p, a = 0, 0, 0, att.Pos, att.Ang
+
+		p = p - (a:Forward() * 0) + (a:Right() * 0) + (a:Up() * 0)
+		p = p:ToScreen()
+		p.y = p.y - ph
+
+		--p.x = math.Clamp(p.x, 0, ScrW())
+		--p.y = math.Clamp(p.y, 0, ScrH() - ph)
+
+		if (not MOAT_ITEM_STATS.Inspect) then
+			MOAT_ITEM_STATS.Inspect = {p.x, p.y, p.x, p.y, 1, 1}
+			MOAT_ITEM_STATS:SetPos(p.x, p.y)
+			return
+		else
+			MOAT_ITEM_STATS.Inspect[5] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[5], MOAT_ITEM_STATS.Inspect[1]/p.x)
+			MOAT_ITEM_STATS.Inspect[6] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[6], MOAT_ITEM_STATS.Inspect[2]/p.y)
+			
+			MOAT_ITEM_STATS.Inspect[1] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[1], p.x)
+			MOAT_ITEM_STATS.Inspect[2] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[2], p.y)
+
+			MOAT_ITEM_STATS.Inspect[3] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[3], 100)
+			MOAT_ITEM_STATS.Inspect[4] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[4], 100)
+		end
+
+		local sx, sy = MOAT_ITEM_STATS.Inspect[3] + (math.Clamp(1 - MOAT_ITEM_STATS.Inspect[5], -1, 1) * 50), MOAT_ITEM_STATS.Inspect[4] + (math.Clamp(1 - MOAT_ITEM_STATS.Inspect[6], -1, 1) * 50)
+		MOAT_ITEM_STATS:SetPos(sx, sy)
+		print(MOAT_ITEM_STATS.Inspect[5], MOAT_ITEM_STATS.Inspect[6])
+		--print(MOAT_ITEM_STATS.Inspect[1], MOAT_ITEM_STATS.Inspect[2], MOAT_ITEM_STATS.Inspect[3], MOAT_ITEM_STATS.Inspect[4], MOAT_ITEM_STATS.Inspect[5], MOAT_ITEM_STATS.Inspect[6], sx, sy)
+
+		/*
+		local p, off = {
+			{x = sx, y = sy},
+			{x = sx + pw, y = sy},
+			{x = px, y = py},
+			{x = sx, y = sy + ph},
+			a = MOAT_ITEM_STATS:GetAlpha()
+		}, 0
+		
+		surface.SetDrawColor(22, 25, 30, 200 * (p.a/255))
+		draw.NoTexture()
+		surface.DrawPoly({
+			{x = sx + off, y = sy + off},
+			{x = sx + pw - off, y = sy + off},
+			{x = px - off, y = py - off},
+			{x = sx + off, y = sy + ph - off}
+		})
+		*/
+	end
+end)
+
 local function create_inspect_bg(tbl)
 	MOAT_INSPECT_BG = vgui.Create("DFrame")
 	MOAT_INSPECT_BG:SetTitle("")
@@ -118,12 +198,31 @@ local function create_inspect_bg(tbl)
 	MOAT_INSPECT_BG:SetSize(275 + 30, 150 + 30)
 	MOAT_INSPECT_BG.Think = function(s, w, h)
 		if (IsValid(MOAT_ITEM_STATS) and MOAT_ITEM_STATS.StatTbl and MOAT_ITEM_STATS.StatTbl == tbl) then
-			local px, py = MOAT_ITEM_STATS:GetPos()
 			local pw, ph = MOAT_ITEM_STATS:GetSize()
-			MOAT_ITEM_STATS:SetPos(ScrW() - pw - 50, 50)
+			local sx, sy = MOAT_ITEM_STATS:GetPos()
+			local px, py = pw - ScrW(), 50
+			local vm = LocalPlayer():GetViewModel()
+			s:SetSize(pw + 30, ph + 30)
+	
+			if (vm) then
+				local b = vm:GetAttachment(1) or vm:GetAttachment("1") or vm:GetAttachment(2) or vm:GetAttachment(vm:LookupAttachment "muzzle") or vm:GetAttachment(vm:LookupAttachment "muzzle_flash")
+				if (b) then
+					local pos, ang = b.Pos, b.Ang
+					pos = (pos - (ang:Forward() * 0) + ang:Right() * 0 + ang:Up() * 0)
+					pos = pos:ToScreen()
+
+					px = pos.x
+					py = pos.y - ph
+				end
+			end
+
+			if (MOAT_ITEM_STATS:GetAlpha() >= 245) then
+				MOAT_ITEM_STATS:SetPos(Lerp(FrameTime() * 10, sx, px), Lerp(FrameTime() * 10, sy, py))
+			else
+				MOAT_ITEM_STATS:SetPos(Lerp(FrameTime() * 30, sx, px), Lerp(FrameTime() * 30, sy, py))
+			end
 
 			s:SetPos(px - 15, py - 15)
-			s:SetSize(pw + 30, ph + 30)
 		else
 			MOAT_INSPECT_BG:Remove()
 			return
@@ -158,11 +257,12 @@ local function create_inspect_bg(tbl)
 	end
 end
 
-inspecting_weapon = false
 concommand.Add("inspect", function()
 	inspecting_weapon = not inspecting_weapon
 
-	if (GetConVar("moat_inspect_stats"):GetInt() ~= 1) then return end
+	if (GetConVar("moat_inspect_stats"):GetInt() ~= 1) then
+		return
+	end
 
 	if (not inspecting_weapon) then
 		m_DrawFoundItem({}, "remove_inspect")
@@ -174,56 +274,38 @@ concommand.Add("inspect", function()
 	local wep = LocalPlayer():GetActiveWeapon()
 	if (not IsValid(wep) or not wep.ItemStats or not wep.ItemStats.item) then return end
 
-	create_inspect_bg(wep.ItemStats)
+	inspecting_stats = wep.ItemStats
+	inspecting_flip = wep.ViewModelFlip
+
 	m_DrawFoundItem(wep.ItemStats, "inspect")
 end)
 
 local inspect_vars = {0, 0, 0, 0}
+local AnimInfo = {
+	Current = {0, 0, 0, 0},
+	Step = 1,
+	[1] = {
+		{-45, 15, -13, -7},
+		{45, 10, 10, -5}
+	}
+}
 
 hook.Add("CalcViewModelView", "Moat.Inspect", function(wep, vm, oldpos, oldang, pos, ang)
-	lerp_var = FrameTime() * 5
-	local newang = ang
-	local newpos = pos
+	local na, np, flip, lv = ang, pos, wep.ViewModelFlip and 1 or 2, FrameTime() * 5
 
-	if (inspecting_weapon) then
-		if (wep.ViewModelFlip) then
-			inspect_vars = {
-				Lerp(lerp_var, inspect_vars[1], -45),
-				Lerp(lerp_var, inspect_vars[2], 15),
-				Lerp(lerp_var, inspect_vars[3], -13),
-				Lerp(lerp_var, inspect_vars[4], -7),
-			}
-
-			newang:RotateAroundAxis(newang:Up(), inspect_vars[1])
-			newang:RotateAroundAxis(newang:Right(), inspect_vars[2])
-			newpos = newpos + newang:Right() * inspect_vars[3] + newang:Forward() * inspect_vars[4]
-		else
-			inspect_vars = {
-				Lerp(lerp_var, inspect_vars[1], 45),
-				Lerp(lerp_var, inspect_vars[2], 10),
-				Lerp(lerp_var, inspect_vars[3], 10),
-				Lerp(lerp_var, inspect_vars[4], -5),
-			}
-
-			newang:RotateAroundAxis(newang:Up(), inspect_vars[1])
-			newang:RotateAroundAxis(newang:Right(), inspect_vars[2])
-			newpos = newpos + newang:Right() * inspect_vars[3] + newang:Forward() * inspect_vars[4]
-		end
-
-		return newpos, newang
-	elseif (inspect_vars[1] > 0.001 or inspect_vars[2] > 0.001 or inspect_vars[3] > 0.01 or inspect_vars[4] > 0.001) then
-		inspect_vars = {
-			Lerp(lerp_var, inspect_vars[1], 0),
-			Lerp(lerp_var, inspect_vars[2], 0),
-			Lerp(lerp_var, inspect_vars[3], 0),
-			Lerp(lerp_var, inspect_vars[4], 0),
+	if (inspecting_weapon or AnimInfo.Current[1] > 0.001 or AnimInfo.Current[2] > 0.001 or AnimInfo.Current[3] > 0.001 or AnimInfo.Current[4] > 0.001) then
+		AnimInfo.Current = {
+			Lerp(lv, AnimInfo.Current[1], inspecting_weapon and AnimInfo[AnimInfo.Step][flip][1] or 0),
+			Lerp(lv, AnimInfo.Current[2], inspecting_weapon and AnimInfo[AnimInfo.Step][flip][2] or 0),
+			Lerp(lv, AnimInfo.Current[3], inspecting_weapon and AnimInfo[AnimInfo.Step][flip][3] or 0),
+			Lerp(lv, AnimInfo.Current[4], inspecting_weapon and AnimInfo[AnimInfo.Step][flip][4] or 0)
 		}
 
-		newang:RotateAroundAxis(newang:Up(), inspect_vars[1])
-		newang:RotateAroundAxis(newang:Right(), inspect_vars[2])
-		newpos = newpos + newang:Right() * inspect_vars[3] + newang:Forward() * inspect_vars[4]
+		na:RotateAroundAxis(na:Up(), AnimInfo.Current[1])
+		na:RotateAroundAxis(na:Right(), AnimInfo.Current[2])
+		np = np + na:Right() * AnimInfo.Current[3] + na:Forward() * AnimInfo.Current[4]
 
-		return newpos, newang
+		return np, na
 	end
 end)
 

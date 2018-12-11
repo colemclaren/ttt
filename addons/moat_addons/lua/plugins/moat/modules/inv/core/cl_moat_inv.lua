@@ -302,21 +302,12 @@ end
 
 
 
-local pmeta = FindMetaTable("Panel")
-
-function pmeta:SetFestive(x, y, w, h)
-
-    /*
-    if (not IsValid(self.festivepanel) and tobool(GetConVar("moat_EnableChristmasTheme"):GetInt())) then
-        createFestive(self, x, y, w, h)
-    end*/
-end
 
 function m_DrawShadowedText(shadow, text, font, x, y, color, xalign, yalign)
-    local xalign = xalign or TEXT_ALIGN_LEFT
+    /*local xalign = xalign or TEXT_ALIGN_LEFT
     local yalign = yalign or TEXT_ALIGN_TOP
     local color = color or Color(255, 255, 255, 255)
-    draw_SimpleText(text, font, x + shadow, y + shadow, Color(0, 0, 0, color.a or 255), xalign, yalign)
+    draw_SimpleText(text, font, x + shadow, y + shadow, Color(0, 0, 0, color.a or 255), xalign, yalign)*/
     draw_SimpleText(text, font, x, y, color, xalign, yalign)
 end
 
@@ -753,7 +744,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
                 end
 
                 if (stat_num ~= 0) then
-                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "%", font_small, x1 + 28, y + small_y, stat_color)
+                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "%", font_small, x1 + 30, y + small_y, stat_color)
                 end
             end
         elseif (v == "RPM") then
@@ -777,7 +768,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
                 end
 
                 if (stat_num ~= 0) then
-                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "%", font_small, x2 + 28, y + small_y, stat_color)
+                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "%", font_small, x2 + 30, y + small_y, stat_color)
                 end
             end
         elseif (v == "MAG") then
@@ -803,7 +794,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
                 end
 
                 if (stat_num ~= 0) then
-                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "", font_small, x3 + 28, y + small_y, stat_color)
+                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "", font_small, x3 + 30, y + small_y, stat_color)
                 end
             end
         end
@@ -1045,102 +1036,47 @@ net.Receive("MOAT_SEND_CREDITS", function(len)
     MOAT_INVENTORY_CREDITS = m_Credits
 end)
 
-rarity_names = {
-    {
-        "Worn",
-        Color(204, 204, 255),
-        {
-            min = 10,
-            max = 20
-        }
-    },
-    {
-        "Standard",
-        Color(0, 0, 255),
-        {
-            min = 20,
-            max = 40
-        }
-    },
-    {
-        "Specialized",
-        Color(127, 0, 255),
-        {
-            min = 60,
-            max = 120
-        }
-    },
-    {
-        "Superior",
-        Color(255, 0, 255),
-        {
-            min = 240,
-            max = 480
-        }
-    },
-    {
-        "High-End",
-        Color(255, 0, 0),
-        {
-            min = 1200,
-            max = 2400
-        }
-    },
-    {
-        "Ascended",
-        Color(255, 205, 0),
-        {
-            min = 7200,
-            max = 14400
-        }
-    },
-    {
-        "Cosmic",
-        Color(0, 255, 0),
-        {
-            min = 25200,
-            max = 50400
-        }
-    },
-    {
-        "Extinct",
-        Color(255, 128, 0),
-        {
-            min = 2,
-            max = 5000
-        }
-    },
-    {
-        "Planetary",
-        Color(0, 0, 0),
-        {
-            min = 25200,
-            max = 50400
-        }
-    }
+rarity_names = { 
+	{ "Worn", Color(185, 190, 196), { min = 10, max = 20 } }, 
+	{ "Standard", Color(78, 168, 242), { min = 20, max = 40 } }, 
+	{ "Specialized", Color(185, 36, 240), { min = 60, max = 120 } }, 
+	{ "Superior", Color(255, 76, 255), { min = 240, max = 480 } }, 
+	{ "High-End", Color(242, 52, 76), { min = 1200, max = 2400 } }, 
+	{ "Ascended", Color(255, 204, 76), { min = 7200, max = 14400 } }, 
+	{ "Cosmic", Color(0, 200, 76), { min = 25200, max = 50400 } }, 
+	{ "Extinct", Color(255, 146, 37), { min = 2, max = 5000 } }, 
+	{ "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } 
 }
+rarity_names[0] = {"Stock", Color(96, 110, 136), {min = 10, max = 20}}
 
-rarity_names[0] = {
-    "Stock",
-    Color(74, 73, 68),
-    {
-        min = 10,
-        max = 20
-    }
+rarity_accents = {
+	[0] = Color(200, 197, 237),
+	[1] = Color(255, 255, 255),
+	[2] = Color(150, 225, 255),
+	[3] = Color(202, 125, 255),
+	[4] = Color(255, 155, 255),
+	[5] = Color(255, 125, 125),
+    [6] = Color(255, 255, 125),
+    [7] = Color(150, 255, 150),
+    [8] = Color(255 + 25, 178 + 25, 100 + 25),
+    [9] = Color(0 + 25, 0 + 25, 0 + 25)
 }
 
 hook.Add("Think", "moat_InventoryHSV", function()
-    rarity_names = { { "Worn", Color(204, 204, 255), { min = 10, max = 20 } }, { "Standard", Color(0, 0, 255), { min = 20, max = 40 } }, { "Specialized", Color(127, 0, 255), { min = 60, max = 120 } }, { "Superior", Color(255, 0, 255), { min = 240, max = 480 } }, { "High-End", Color(255, 0, 0), { min = 1200, max = 2400 } }, { "Ascended", Color(255, 205, 0), { min = 7200, max = 14400 } }, { "Cosmic", Color(0, 255, 0), { min = 25200, max = 50400 } }, { "Extinct", Color(255, 128, 0), { min = 2, max = 5000 } }, { "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } }
-    rarity_names[9][2] = HSVToColor( CurTime() * 70 % 360, 1, 1 )
-
-    rarity_names[0] = {
-        "Stock",
-        Color(74, 73, 68),
-        {
-            min = 10,
-            max = 20
-        }
-    }
+    rarity_names = { 
+		{ "Worn", Color(185, 190, 196), { min = 10, max = 20 } }, 
+		{ "Standard", Color(78, 168, 242), { min = 20, max = 40 } }, 
+		{ "Specialized", Color(185, 36, 240), { min = 60, max = 120 } }, 
+		{ "Superior", Color(255, 76, 255), { min = 240, max = 480 } }, 
+		{ "High-End", Color(242, 52, 76), { min = 1200, max = 2400 } }, 
+		{ "Ascended", Color(255, 204, 76), { min = 7200, max = 14400 } }, 
+		{ "Cosmic", Color(0, 200, 76), { min = 25200, max = 50400 } }, 
+		{ "Extinct", Color(255, 146, 37), { min = 2, max = 5000 } }, 
+		{ "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } 
+	}
+    rarity_names[9][2] = HSVToColor(CurTime() * 70 % 360, 0.5, 0.75)
+	rarity_accents[9] = HSVToColor(CurTime() * 70 % 360, 0.35, 1)
+    rarity_names[0] = {"Stock", Color(96, 110, 136), {min = 10, max = 20}}
 end)
 
 local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
@@ -1377,7 +1313,7 @@ function m_OpenInventory(ply2, utrade)
         net.WriteBool(false)
         net.SendToServer()
     end
-    createSpring(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
+    --createSpring(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
 
     M_TRADING_PNL = vgui.Create("DPanel", MOAT_INV_BG)
     M_TRADING_PNL:SetSize(385, MOAT_INV_BG:GetTall())
@@ -3022,7 +2958,7 @@ function m_OpenInventory(ply2, utrade)
                 RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
-            m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, Color(rarity_names[ITEM_HOVERED.item.Rarity][2].r + 50, rarity_names[ITEM_HOVERED.item.Rarity][2].g + 50, rarity_names[ITEM_HOVERED.item.Rarity][2].b + 50), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
             local draw_name_x = 7
             local draw_name_y = 3
             local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]
@@ -4565,7 +4501,7 @@ function m_IniateUsableItem(num, itemtbl)
                 if (sel_itm and sel_itm.item and sel_itm.item.Model) then
                     moat_view_paint_preview(sel_itm.item.Model, true, tint, paint, texture)
                 elseif (sel_itm and sel_itm.w) then
-                    local m = weapons.Get(sel_itm.w).WorldModel
+                    local m = weapons.Get(sel_itm.w).ViewModel
                     moat_view_paint_preview(m, false, tint, paint, texture)
                 end
             end
@@ -6171,6 +6107,7 @@ function m_DrawFoundItem(tbl, s_type)
         MOAT_ITEM_IS_BEING_DRAWN = false
         if (s_type == "remove_chat" or s_type == "remove_inspect") then return end
     end
+	
 
     MOAT_ITEM_IS_BEING_DRAWN = true
     MOAT_ITEM_STATS = vgui.Create("DPanel")
@@ -6257,7 +6194,7 @@ function m_DrawFoundItem(tbl, s_type)
                 RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
-            m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, Color(rarity_names[ITEM_HOVERED.item.Rarity][2].r + 50, rarity_names[ITEM_HOVERED.item.Rarity][2].g + 50, rarity_names[ITEM_HOVERED.item.Rarity][2].b + 50), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
             local draw_name_x = 7
             local draw_name_y = 3
             local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]
@@ -6582,10 +6519,37 @@ function m_DrawFoundItem(tbl, s_type)
     end
 
     if (s_type == "inspect") then
-        MOAT_ITEM_STATS:SetPos(ScrW() - MOAT_ITEM_STATS:GetWide() - 50, 50)
+		local vm = LocalPlayer():GetViewModel()
+		if (not vm) then
+			return
+		end
 
+		local inspect_attach, att_cache = {1, 2, 3, "muzzle", "muzzle_flash"}
+		for k, v in ipairs(inspect_attach) do
+			local num = isstring(v) and vm:LookupAttachment(v) or v
+			if (vm:GetAttachment(num)) then
+				att = vm:GetAttachment(num)
+				att_cache = num
+
+				break
+			end
+		end
+
+		if (not att_cache) then
+			return
+		end
+
+		local pw, ph = MOAT_ITEM_STATS:GetSize()
+		local p, a = att.Pos, att.Ang
+
+		p = p - (a:Forward() * 0) + (a:Right() * 0) + (a:Up() * 0)
+		p = p:ToScreen()
+		p.x = math.Clamp(p.x, 0, ScrW())
+		p.y = math.Clamp(p.y - ph, 0, ScrH())
+
+		MOAT_ITEM_STATS:SetPos(p.x - pw, p.y - ph)
         MOAT_ITEM_STATS:SetAlpha(0)
-        MOAT_ITEM_STATS:AlphaTo(255, 0.5, 0)
+        MOAT_ITEM_STATS:AlphaTo(255, 1, 0)
 
         return
     end
