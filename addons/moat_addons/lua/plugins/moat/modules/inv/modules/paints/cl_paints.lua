@@ -166,7 +166,6 @@ hook.Add("HUDPaint", "Inspect.Paint", function()
 
 		local sx, sy = MOAT_ITEM_STATS.Inspect[3] + (math.Clamp(1 - MOAT_ITEM_STATS.Inspect[5], -1, 1) * 50), MOAT_ITEM_STATS.Inspect[4] + (math.Clamp(1 - MOAT_ITEM_STATS.Inspect[6], -1, 1) * 50)
 		MOAT_ITEM_STATS:SetPos(sx, sy)
-		print(MOAT_ITEM_STATS.Inspect[5], MOAT_ITEM_STATS.Inspect[6])
 		--print(MOAT_ITEM_STATS.Inspect[1], MOAT_ITEM_STATS.Inspect[2], MOAT_ITEM_STATS.Inspect[3], MOAT_ITEM_STATS.Inspect[4], MOAT_ITEM_STATS.Inspect[5], MOAT_ITEM_STATS.Inspect[6], sx, sy)
 
 		/*
