@@ -29,49 +29,6 @@ local gradient_d = Material("vgui/gradient-d")
 local gradient_r = Material("vgui/gradient-r")
 local moat_inv_cooldown = 0
 
-local function DrawSnow(pnl, w, h, amt)
-    local snowtbl = pnl.snowtbl
-    for i = 1, amt do
-        snowtbl[i] = snowtbl[i] or {}
-        if (not snowtbl[i][1]) then snowtbl[i][1] = math.random(-h*1.5, 0) end
-        if (snowtbl[i][1] >= h) then
-            snowtbl[i][5] = snowtbl[i][5] - (70 * FrameTime())
-            snowtbl[i][3] = Lerp(1 * FrameTime(), snowtbl[i][3], 0)
-            if (snowtbl[i][5] <= 0) then
-                snowtbl[i][1] = math.random(-h*1.5, 0)
-                snowtbl[i][2] = math.random(w)
-                snowtbl[i][3] = math.random(2,5)
-                snowtbl[i][4] = math.random(6,9)
-                snowtbl[i][5] = 100
-            end
-        else
-            snowtbl[i][1] = math.Approach(snowtbl[i][1], h, 80 * FrameTime())
-            snowtbl[i][2] = snowtbl[i][2] or math.random(w)
-            snowtbl[i][3] = snowtbl[i][3] or math.random(3,5)
-            snowtbl[i][4] = snowtbl[i][4] or math.random(5,8)
-            snowtbl[i][5] = snowtbl[i][5] or 100
-        end
-        surface_SetDrawColor(230, 230, 250, 200)
-        draw.NoTexture()
-        draw.Circle( snowtbl[i][2], snowtbl[i][1], snowtbl[i][3], snowtbl[i][4] )
-    end
-    surface_SetDrawColor(230, 230, 250, 200)
-    draw.NoTexture()
-    draw.Circle( 0, h + (w / 2) - 35, w / 2, 20 )
-end
-
-local function createFestive(pnl, x, y, w, h)
-    pnl.festivepanel = vgui.Create("DPanel",pnl)
-    pnl.festivepanel:SetSize(w,h)
-    pnl.festivepanel:SetPos(x,y)
-    pnl.festivepanel.snowtbl = {}
-    pnl.festivepanel.Paint = function(s,w,h)
-        if (tobool(GetConVar("moat_EnableChristmasTheme"):GetInt())) then
-            DrawSnow(s, w, h, 50)
-        end
-    end
-end
-
 local spooky_url = "https://i.moat.gg/servers/images/halloween/"
 local spooks = {
     [1] = {"1left.png", 0, 0, 0},
@@ -132,15 +89,6 @@ local function createSpooky(pnl, x, y, w, h)
     end
 end
 
-
-local pmeta = FindMetaTable("Panel")
-
-function pmeta:SetFestive(x, y, w, h)
-    /*if (not IsValid(self.festivepanel) and tobool(GetConVar("moat_EnableChristmasTheme"):GetInt())) then
-        createFestive(self, x, y, w, h)
-    end*/
-end
-
 local blur = Material("pp/blurscreen")
 local mat_coins = Material("icon16/coins.png")
 local mat_lock = Material("icon16/lock.png")
@@ -166,7 +114,7 @@ local circ_gradient = "https://i.moat.gg/8WkHz.png"
 MOAT_THEME = MOAT_THEME or {}
 MOAT_THEME.Cooldown = CurTime()
 MOAT_THEME.FrameSize = {750, 550}
-MOAT_THEME.Themes = {}
+MOAT_THEME.Themes = MOAT_THEME.Themes or {}
 
 MOAT_THEME.Themes["Original"] = {
     TextColor = Color(255, 255, 255),
@@ -691,185 +639,6 @@ MOAT_THEME.Themes["Dark"] = {
         Open_Background = true
     }
 }
-
-MOAT_THEME.Themes["Blur"] = {
-    Background = Color(0, 0, 0, 50),
-    Header = Color(46, 49, 54),
-    TextColor = Color(255, 255, 255),
-    TextShadow = false,
-    TradePlayerColor = {0, 200, 0},
-    BG_PAINT = function(s, w, h)
-        DrawBlur(s, 5)
-        draw_RoundedBox(0, 0, 0, w, h, s.Theme.Background)
-        draw_RoundedBox(0, 1, 1, w - 2, h - 2, s.Theme.Background)
-    end,
-    INV_PANEL_PAINT = function(s, w, h)
-        --draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2, 0, s.Theme.TextColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
-        local m_DrawCredits = "Inventory Credits: " .. string.Comma(MOAT_INVENTORY_CREDITS)
-        surface_SetFont("moat_ItemDesc")
-        local cred_w, cred_h = surface_GetTextSize(m_DrawCredits)
-        draw_SimpleTextOutlined(m_DrawCredits, "moat_ItemDesc", w, 10, s.Theme.TextColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
-        surface_SetMaterial(mat_coins)
-        surface_SetDrawColor(255, 255, 255)
-        surface_DrawTexturedRect(w - cred_w - 5 - 16, 9, 16, 16)
-    end,
-    CloseB = {727, 3, 20, 20},
-    CLOSE_PAINT = function(s, w, h)
-        draw_SimpleTextOutlined("r", "marlett", 10, 9, Color(157, 157, 157, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
-
-        if (s:IsHovered()) then
-            draw_SimpleTextOutlined("r", "marlett", 10, 9, Color(255, 255, 255, 50), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
-        end
-
-        if (s:IsDown()) then
-            draw_SimpleTextOutlined("r", "marlett", 10, 9, Color(255, 255, 255, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
-        end
-    end,
-    CatSpacing = 0,
-    CatInfo = {0, 90, 26},
-    CAT_PAINT = function(s, w, h, cur_cat)
-        if (cur_cat == s.CAT_NUM) then
-            draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
-        else
-            draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
-        end
-
-        draw_SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        draw_SimpleText(s.CatLabel, "moat_Medium4", w / 2 + 1, h / 2 + 1, Color(0, 0, 0, 25), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-    end,
-    CATBAR_PAINT = function(s, w, h)
-        if (s.cur_cat ~= s.new_cat) then
-            s.cur_cat = Lerp(FrameTime() * 10, s.cur_cat, s.new_cat)
-        end
-
-        local ww = w / s.cat_num
-        draw_RoundedBox(0, (ww * s.cur_cat) - ww, h - 2, ww, 2, HSVToColor(s.cur_cat * 65 % 360, 1, 1))
-    end,
-    VBAR_PAINT = {
-        PAINT = function(s, w, h)
-            draw_RoundedBox(0, 0, 4, 11, h - 8, Color(0, 0, 0, 100))
-        end,
-        GRIP = function(s, w, h, sbar)
-            local draw_color = Color(150, 150, 150, 50)
-
-            if (not input.IsMouseDown(MOUSE_LEFT) and sbar.moving) then
-                sbar.moving = false
-            end
-
-            if (s:IsHovered()) then
-                draw_color = Color(150, 150, 150, 100)
-
-                if (input.IsMouseDown(MOUSE_LEFT)) then
-                    sbar.moving = true
-                end
-
-                s:SetCursor("hand")
-            end
-
-            if (sbar.moving) then
-                s:SetCursor("hand")
-                draw_color = Color(200, 200, 200, 100)
-                sbar.LerpTarget = sbar:GetScroll()
-            end
-
-            draw_RoundedBox(0, 0, 0, 11, h, draw_color)
-        end,
-        UP = function(s, w, h)
-            local draw_color = Color(150, 150, 150)
-
-            if (s:IsHovered()) then
-                draw_color = Color(255, 255, 255)
-            end
-
-            surface_SetDrawColor(draw_color)
-            surface_DrawLine(1, 4 + 6, 6, 5)
-            surface_DrawLine(9, 4 + 6, 4, 5)
-            surface_DrawLine(2, 4 + 6, 6, 6)
-            surface_DrawLine(8, 4 + 6, 4, 6)
-        end,
-        DOWN = function(s, w, h)
-            local draw_color = Color(150, 150, 150)
-
-            if (s:IsHovered()) then
-                draw_color = Color(255, 255, 255)
-            end
-
-            surface_SetDrawColor(draw_color)
-            surface_DrawLine(1, 4, 6, 4 + 5)
-            surface_DrawLine(9, 4, 4, 4 + 5)
-            surface_DrawLine(2, 4, 6, 4 + 4)
-            surface_DrawLine(8, 4, 4, 4 + 4)
-        end
-    },
-    CHAT = {
-        CHAT_BG = function(s, w, h, mc, b)
-            b(s, 5)
-            draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 50 * mc.alpha))
-            draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(0, 0, 0, 50 * mc.alpha))
-            surface_SetDrawColor(150, 150, 150, 50 * mc.alpha)
-            surface_DrawRect(0, 0, w, 21)
-            draw_DrawText(mc.header, mc.font, 6, 2, Color(255, 255, 255, 255 * mc.alpha))
-            local chat_str = "Say :"
-            local chat_type = 1
-
-            if (#mc.chattype > 1) then
-                chat_str = "Say (TEAM) :"
-                chat_type = 2
-            end
-
-            draw_DrawText(chat_str, mc.font, 10, mc.config.h - 24, Color(255, 255, 255, 255 * mc.alpha))
-        end,
-        CHAT_PANEL = function(s, w, h, mc) end,
-        CHAT_ENTRY = function(s, w, h, mc)
-            surface_SetDrawColor(150, 150, 150, 50 * mc.alpha)
-            surface_DrawRect(0, 0, w, h)
-            s:DrawTextEntryText(Color(255, 255, 255, 255), s:GetHighlightColor(), Color(255, 255, 255, 255))
-        end,
-        DefaultColor = Color(255, 255, 255, 255)
-    },
-    TradeRequest = {
-        BG = function(s, w, h)
-            DrawBlur(s, 5)
-            draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 50))
-            draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(0, 0, 0, 50))
-            local other_cols = (200 / 30) * s.Timer
-            draw_SimpleText("has requested to trade.", "GModNotify", w / 2, 195, Color(200, 200, 200, 255), TEXT_ALIGN_CENTER)
-            local timer_vis = (w - 2) * ((s.TimerVis - CurTime()) / 30)
-            draw_RoundedBox(0, 1, h - 4, w - 2, 3, Color(0, 0, 0, 100))
-            draw_RoundedBox(0, 1, h - 4, timer_vis, 3, Color(255, 255, 255, 255))
-        end,
-        Close = false,
-        Background = true
-    },
-    Crate = {
-        BG = function(s, w, h, itemtbl)
-            DrawBlur(s, 5)
-            draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 50))
-            draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(0, 0, 0, 50))
-            m_DrawShadowedText(1, itemtbl.item.Name, "GModNotify", w / 2, 26, Color(255, 255, 255), TEXT_ALIGN_CENTER)
-            m_DrawShadowedText(1, s.TitleText, "moat_ItemDesc", 13, 5, Color(255, 255, 255))
-        end,
-        Panel = function(s, w, h, crate_contents)
-            draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 50))
-            draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(0, 0, 0, 50))
-            m_DrawShadowedText(1, "This crate contains one of the following " .. #crate_contents .. " items:", "moat_ItemDesc", 5, 2, Color(200, 200, 200))
-        end,
-        CloseB = {23, 3, 20, 20},
-        CLOSE_PAINT = function(s, w, h)
-            draw_SimpleTextOutlined("r", "marlett", 10, 9, Color(157, 157, 157, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
-
-            if (s:IsHovered()) then
-                draw_SimpleTextOutlined("r", "marlett", 10, 9, Color(255, 255, 255, 50), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
-            end
-
-            if (s:IsDown()) then
-                draw_SimpleTextOutlined("r", "marlett", 10, 9, Color(255, 255, 255, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
-            end
-        end,
-        Open_Background = true
-    }
-}
-
 MOAT_THEME.Themes["Clear"] = {
     Background = Color(0, 0, 0, 100),
     Header = Color(46, 49, 54),
