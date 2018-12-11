@@ -111,6 +111,8 @@ _SCF('moat_Trebuchet', lato(2, 24))
 _SCF('moat_Medium9', {font = df,size = 13,weight = 800})
 _SCF('moat_Medium10', {font = df,size = 15,weight = 800})
 _SCF('moat_Medium4', {font = df,size = 18,weight = 800})
+_SCF('moat_Medium4s', {font = df,size = 18,weight = 800, blursize = 3})
+
 _SCF('moat_Medium5', {font = df,size = 20,weight = 800})
 _SCF('moat_Medium3', {font = df,size = 16,weight = 700})
 _SCF('moat_ItemDesc', lato(2, 15))

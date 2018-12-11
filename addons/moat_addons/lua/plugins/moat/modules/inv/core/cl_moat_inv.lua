@@ -1035,7 +1035,7 @@ net.Receive("MOAT_SEND_CREDITS", function(len)
     m_Credits = math.Round(net.ReadDouble(), 2)
     MOAT_INVENTORY_CREDITS = m_Credits
 end)
-
+/*
 rarity_names = { 
 	{ "Worn", Color(185, 190, 196), { min = 10, max = 20 } }, 
 	{ "Standard", Color(78, 168, 242), { min = 20, max = 40 } }, 
@@ -1074,9 +1074,64 @@ hook.Add("Think", "moat_InventoryHSV", function()
 		{ "Extinct", Color(255, 146, 37), { min = 2, max = 5000 } }, 
 		{ "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } 
 	}
-    rarity_names[9][2] = HSVToColor(CurTime() * 70 % 360, 0.5, 0.75)
-	rarity_accents[9] = HSVToColor(CurTime() * 70 % 360, 0.35, 1)
+    rarity_names[9][2] = HSVToColor(CurTime() * 70 % 360, 1, 1)
+	rarity_accents[9] = HSVToColor(CurTime() * 70 % 360, 1, 1)
     rarity_names[0] = {"Stock", Color(96, 110, 136), {min = 10, max = 20}}
+end)
+*/
+
+rarity_names = { 
+	{ "Worn", Color(204, 204, 255), { min = 10, max = 20 } }, 
+	{ "Standard",  Color(0, 0, 255), { min = 20, max = 40 } }, 
+	{ "Specialized", Color(127, 0, 255), { min = 60, max = 120 } }, 
+	{ "Superior", Color(255, 0, 255), { min = 240, max = 480 } }, 
+	{ "High-End", Color(255, 0, 0), { min = 1200, max = 2400 } }, 
+	{ "Ascended", Color(255, 205, 0), { min = 7200, max = 14400 } }, 
+	{ "Cosmic", Color(0, 255, 0), { min = 25200, max = 50400 } }, 
+	{ "Extinct", Color(255, 128, 0), { min = 2, max = 5000 } }, 
+	{ "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } 
+}
+rarity_names[0] = {"Stock", Color(96, 110, 136), {min = 10, max = 20}}
+
+rarity_accents = {
+	[0] = Color(204, 204, 255),
+	[1] = Color(204, 204, 255),
+	[2] = Color(0, 0, 255),
+	[3] = Color(127, 0, 255),
+	[4] = Color(255, 0, 255),
+	[5] = Color(255, 0, 0),
+    [6] = Color(255, 205, 0),
+    [7] = Color(0, 255, 0),
+    [8] = Color(255, 128, 0),
+    [9] = Color(0, 0, 0)
+}
+
+hook.Add("Think", "moat_InventoryHSV", function()
+	rarity_names = { 
+		{ "Worn", Color(204, 204, 255), { min = 10, max = 20 } }, 
+		{ "Standard",  Color(0, 0, 255), { min = 20, max = 40 } }, 
+		{ "Specialized", Color(127, 0, 255), { min = 60, max = 120 } }, 
+		{ "Superior", Color(255, 0, 255), { min = 240, max = 480 } }, 
+		{ "High-End", Color(255, 0, 0), { min = 1200, max = 2400 } }, 
+		{ "Ascended", Color(255, 205, 0), { min = 7200, max = 14400 } }, 
+		{ "Cosmic", Color(0, 255, 0), { min = 25200, max = 50400 } }, 
+		{ "Extinct", Color(255, 128, 0), { min = 2, max = 5000 } }, 
+		{ "Planetary", HSVToColor(CurTime() * 70 % 360, 1, 1), { min = 25200, max = 50400 } } 
+	}
+	rarity_names[0] = {"Stock", Color(96, 110, 136), {min = 10, max = 20}}
+
+	rarity_accents = {
+		[0] = Color(204, 204, 255),
+		[1] = Color(204 + 50, 204 + 50, 255 + 50),
+		[2] = Color(0 + 50, 0 + 50, 255 + 50),
+		[3] = Color(127 + 50, 0 + 50, 255 + 50),
+		[4] = Color(255 + 50, 0 + 50, 255 + 50),
+		[5] = Color(255 + 50, 0 + 50, 0 + 50),
+    	[6] = Color(255 + 50, 205 + 50, 0 + 50),
+    	[7] = Color(0 + 50, 255 + 50, 0 + 50),
+    	[8] = Color(255 + 50, 128 + 50, 0 + 50),
+    	[9] = Color(rarity_names[9][2].r + 50, rarity_names[9][2].g + 50, rarity_names[9][2].b + 50)
+	}
 end)
 
 local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
@@ -2936,7 +2991,7 @@ function m_OpenInventory(ply2, utrade)
             surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawLine(6, 23 + draw_xp_lvl, w - 6, 23 + draw_xp_lvl)
             surface_DrawLine(6, 44 + draw_xp_lvl, w - 6, 44 + draw_xp_lvl)
-            surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2])
+            surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2].r, rarity_names[ITEM_HOVERED.item.Rarity][2].g, rarity_names[ITEM_HOVERED.item.Rarity][2].b, 200)
             local grad_x = 1
             local grad_y = 25 + draw_xp_lvl
             local grad_w = (w - 2) / 2
@@ -2958,7 +3013,9 @@ function m_OpenInventory(ply2, utrade)
                 RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
-            m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4s", grad_w + 1, grad_y2, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
             local draw_name_x = 7
             local draw_name_y = 3
             local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]
@@ -6175,7 +6232,7 @@ function m_DrawFoundItem(tbl, s_type)
             surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawLine(6, 23 + draw_xp_lvl, w - 6, 23 + draw_xp_lvl)
             surface_DrawLine(6, 44 + draw_xp_lvl, w - 6, 44 + draw_xp_lvl)
-            surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2])
+			surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2].r, rarity_names[ITEM_HOVERED.item.Rarity][2].g, rarity_names[ITEM_HOVERED.item.Rarity][2].b, 200)
             local grad_x = 1
             local grad_y = 25 + draw_xp_lvl
             local grad_w = (w - 2) / 2
@@ -6194,7 +6251,9 @@ function m_DrawFoundItem(tbl, s_type)
                 RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
-            m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4s", grad_w + 1, grad_y2, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		
             local draw_name_x = 7
             local draw_name_y = 3
             local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]
