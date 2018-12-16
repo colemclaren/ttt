@@ -247,7 +247,7 @@ net.Receive("discord.OAuth",function()
     if p == LocalPlayer() then
         cookie.Set("MG_DiscordZ",1)
     end
-    chat.AddText(Color(255,255,255),"[",Color(75,0,130),"!DISCORD",Color(255,255,255),"] ",Color(0,255,0),p:Nick(),Color(255,255,255)," Just joined our discord and got ",Color(255,255,0),"3,000 IC!!!")
+    chat.AddText(Color(255,255,255),"[",Color(114,137,218),"!discord",Color(255,255,255),"] ",Color(0,255,0),p:Nick(),Color(255,255,255)," Just joined our discord and got ",Color(255,255,0),"3,000 IC!!!")
 end)
 
 hook.Add("HTTPLoaded", "discordrpc_init", function()
