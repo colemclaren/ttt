@@ -80,12 +80,12 @@ local function DrawPropSpecLabels(client)
     surface.SetFont("TabLarge")
     local tgt = nil
     local scrpos = nil
-    local text = nil
+    local text, text_color = nil, Color(220, 200, 0, 120)
     local w = 0
 
     for _, ply in pairs(player.GetAll()) do
         if ply:IsSpec() then
-            surface.SetTextColor(220, 200, 0, 120)
+            text_color = Color(220, 200, 0, 120)
             tgt = ply:GetObserverTarget()
 
             if IsValid(tgt) and tgt:GetNWEntity("spec_owner", nil) == ply then
@@ -95,7 +95,7 @@ local function DrawPropSpecLabels(client)
             end
         else
             local _, healthcolor = util.HealthToString(ply:Health())
-            surface.SetTextColor(clr(healthcolor))
+            text_color = healthcolor
             scrpos = ply:EyePos()
             scrpos.z = scrpos.z + 20
             scrpos = scrpos:ToScreen()
@@ -104,6 +104,11 @@ local function DrawPropSpecLabels(client)
         if scrpos and (not IsOffScreen(scrpos)) then
             text = ply:Nick()
             w, _ = surface.GetTextSize(text)
+			surface.SetTextPos((scrpos.x - w / 2) + 1, (scrpos.y) + 1)
+			surface.SetTextColor(0, 0, 0, 255)
+            surface.DrawText(text)
+
+			surface.SetTextColor(text_color.r, text_color.g, text_color.b, 255)
             surface.SetTextPos(scrpos.x - w / 2, scrpos.y)
             surface.DrawText(text)
         end
