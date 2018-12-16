@@ -323,7 +323,7 @@ function MapVote.Start(length, current, limit, prefix, callback)
             for k2, v2 in pairs(player.GetAll()) do
                 if(v2:SteamID() == k) then
                     if(v2:GetUserGroup() ~= "user") then
-                        map_results[v] = map_results[v] + 1
+                        map_results[v] = map_results[v] + 2
                     else
                         map_results[v] = map_results[v] + 1
                     end

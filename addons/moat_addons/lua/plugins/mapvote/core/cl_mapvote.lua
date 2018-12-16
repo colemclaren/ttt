@@ -76,12 +76,21 @@ hook.Add("PrePlayerChat", "Moat.Mapvote.Reopen", function(pl, txt)
     end
 end)
 
+local group_images = {
+   ["vip"] = "icon16/star.png",
+   ["credibleclub"] = "icon16/heart.png",
+   ["trialstaff"] = "icon16/shield.png",
+   ["moderator"] = "icon16/shield_add.png",
+   ["admin"] = "icon16/lightning.png",
+   ["senioradmin"] = "icon16/lightning_add.png",
+   ["headadmin"] = "icon16/user_gray.png",
+   ["communitylead"] = "icon16/application_xp_terminal.png"
+}
+
 local function vote_user(ply)
-    --if ply:GetUserGroup() == "user" then
-        return Material("icon16/tick.png"),Color(255,255,255),10,Color(255,255,0)
-    /*else
-        return Material("icon16/star.png"),Color(255,255,0),15,Color(255,255,0)
-    end*/
+	local info = MOAT_RANKS[ply:GetUserGroup()] or {"User", Color(255, 255, 255)}
+
+    return Material(group_images[ply:GetUserGroup()] or "icon16/group.png"), info[2], ply:GetUserGroup() ~= "user" and 2 or 1, ply:GetUserGroup() ~= "user" and Color(0, 255, 255) or Color(255, 255, 0) 	
 end
 
 net.Receive("RAM_MapVoteUpdate", function()
@@ -96,8 +105,11 @@ net.Receive("RAM_MapVoteUpdate", function()
                 if MapVote.Votes[ply:SteamID()][1] == map_id then return end
             end
             local mat,name_color,am,am_color = vote_user(ply)
-
-            chat.AddText(mat,name_color,ply:Nick(),Color(255,255,255)," placed ",am_color, tostring(am),Color(255,255,255), " votes on ", Color(0,255,0), MapVote.CurrentMaps[map_id])
+			chat.AddText(moat_blue, "| ", moat_cyan, ply:Nick(), moat_white," placed ", 
+			am == 1 and moat_green or moat_pink, tostring(am), 
+			moat_white, " vote" .. (am == 1 and "" or "s") .. " on ", 
+			moat_green, MapVote.CurrentMaps[map_id], moat_white, ".")
+			--chat.AddText(mat,name_color,ply:Nick(),Color(255,255,255)," placed ",am_color, tostring(am),Color(255,255,255), " vote" .. (am == 1 and "" or "s") .. " on ", Color(0,255,0), MapVote.CurrentMaps[map_id])
 
             MapVote.Votes[ply:SteamID()] = {map_id,am}
         end
