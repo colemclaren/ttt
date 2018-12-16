@@ -502,7 +502,11 @@ function m_GetRandomRarity(min, max)
             chosen_rarity = MOAT_RARITIES[i].ID
             break
         end
-    end
+	end
+
+	if (chosen_rarity == 8 and max == 9) then
+		chosen_rarity = 9
+	end
 
     return chosen_rarity
 end
@@ -532,7 +536,7 @@ function m_GetRandomInventoryItem(arg_collection)
     end
 
     -- Make sure all the rarities from the collection are set
-    local min_rarity = 8
+    local min_rarity = 9
     local max_rarity = 1
 
     if (cached_rarities[arg_collection]) then

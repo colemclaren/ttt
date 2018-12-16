@@ -34,6 +34,6 @@ m_AddInventoryRarity( "Ascended", { min = 7200, max = 14400 }, 6, 6 )
 
 m_AddInventoryRarity( "Cosmic", { min = 25200, max = 50400 }, 7, 7 )
 
-m_AddInventoryRarity( "Extinct", { min = 2, max = 5000 }, 999999999, 8 )
+m_AddInventoryRarity( "Extinct", { min = 2, max = 5000 }, 8, 8 )
 
 m_AddInventoryRarity( "Planetary", { min = 25200, max = 50400 }, 9999999999, 9 )
