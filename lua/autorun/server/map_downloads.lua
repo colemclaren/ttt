@@ -427,7 +427,7 @@ maps["ttt_yucatan"] = 282469668
 maps["xmas_nipperhouse"] = 163350462
 maps["ttt_abandon_mall_v2"] = 274532987
 
-
+maps["ttt_traitormotel_reloaded_b1"] = 785493468
 
 
 
