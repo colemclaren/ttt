@@ -51,7 +51,7 @@ function cdn.Fetch(id, ext, key, params, cache, save)
 
 	if (exists(object, "DATA")) then
 		if (id == 1) then
-			cdn.Cache[key] = Material("../data/" .. object, params)
+			cdn.Cache[key] = ext ~= ".vtf" and Material("../data/" .. object, params) or "../data/" .. object
 		else
 			cdn.Cache[key] = "data/" .. object
 		end
@@ -119,4 +119,15 @@ function cdn.ModelIcon(key, cb)
 	if (cdn.Cache[key] and cb) then
 		return cb(cdn.Cache[key])
 	end
+end
+
+function cdn.Texture(key, cb)
+	if (cdn.Cache[key] ~= nil) then
+		return cdn.Cache[key]
+	end
+
+	return cdn.Fetch(1, ".vtf", key, nil, function(object)
+		cdn.Cache[key] = "../data/" .. object
+		if (cb) then cb(cdn.Cache[key]) end
+	end, function(object, data) write(object, data) end)
 end

@@ -153,6 +153,24 @@ local mat = Material
 local getmats = ENTITY.GetMaterials
 local reg = vector(1, 1, 1)
 local mats_cache = {}
+-- for k, v in pairs(weapons.GetList()) do if (v.ClassName:StartWith("weapon_ttt_te_") or v.AutoSpawnable) then me():m_DropInventoryItem("Soft", v.ClassName) end end
+
+SKIN_IGNORE = {}
+SKIN_IGNORE["models/weapons/v_models/slayer's_msbs/msbs"] = true
+SKIN_IGNORE["models/weapons/v_models/slayer's_msbs/naboj"] = true
+SKIN_IGNORE["models/weapons/v_models/hands/sleeve_diffuse"] = true
+SKIN_IGNORE["models/weapons/v_models/zaratusa.golden.deagle/grip"] = true
+SKIN_IGNORE["models/weapons/v_models/zaratusa.golden.deagle/no_phong_frame"] = true
+SKIN_IGNORE["models/weapons/v_models/zaratusa.golden.deagle/no_phong_front"] = true
+SKIN_IGNORE["models/weapons/v_models/virflakhg/bullets"] = true
+SKIN_IGNORE["models/weapons/bo2r_peacekeeper/peacekeeper_d2"] = true
+SKIN_IGNORE["models/weapons/v_models/m4/accyuv"] = true
+
+SKIN_PASS = {}
+SKIN_PASS["models/weapons/v_models/g3a3/stockbit"] = true
+SKIN_PASS["models/weapons/v_models/vollmer/box"] = true
+SKIN_PASS["models/weapons/v_models/pvpxm8model/scope"] = true
+SKIN_PASS["models/weapons/v_models/ak47/stockmap"] = true
 
 function PrePaintViewModel(wpn, preview)
     if (not MOAT_PAINT or not wpn or (not preview and not wpn.ItemStats)) then
@@ -225,7 +243,7 @@ function PrePaintViewModel(wpn, preview)
 			wpn.cache.mats[i].mat = mat(wpn.cache.m[i])
 		end
 
-        if (wpn.cache.mats[i].skip == nil) then 
+        if (wpn.cache.mats[i].skip == nil and not SKIN_PASS[wpn.cache.m[i]]) then 
             if ((wpn.cache.m[i]:find("hand") and not wpn.cache.m[i]:EndsWith("eu_handgun") and not wpn.cache.m[i]:StartWith("models/weapons/v_models/9mmhandgun")) or 
             wpn.cache.m[i]:find("scope") or 
             wpn.cache.m[i]:find("accessories") or 
@@ -238,7 +256,7 @@ function PrePaintViewModel(wpn, preview)
             wpn.cache.m[i]:find("error") or 
             wpn.cache.m[i]:find("12gauge") or
             wpn.cache.m[i] == "models/weapons/v_models/9mmhandgun/line" or
-            wpn.cache.m[i]:EndsWith("red_dot")) then
+            wpn.cache.m[i]:EndsWith("red_dot") or SKIN_IGNORE[wpn.cache.m[i]]) then
                 wpn.cache.mats[i].skip = true
                 continue
             else
@@ -258,14 +276,26 @@ function PrePaintViewModel(wpn, preview)
 			end
 
 			if (wpn.cache.t[2]:match "^http") then
-				local cdn_mat = cdn.Image(wpn.cache.t[2], function(m)
-					if (m) then
-						wpn.cache.mats[i].mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
-					end
-				end)
+				if (wpn.cache.t[2]:match "vtf$") then
+					local cdn_vtf = cdn.Texture(wpn.cache.t[2], function(m)
+						if (m) then
+							wpn.cache.mats[i].mat:SetTexture("$basetexture", m)
+						end
+					end)
 
-				if (cdn_mat) then
-					wpn.cache.mats[i].mat:SetTexture("$basetexture", cdn_mat:GetTexture "$basetexture")
+					if (cdn_vtf) then
+						wpn.cache.mats[i].mat:SetTexture("$basetexture", cdn_vtf)
+					end
+				else
+					local cdn_mat = cdn.Image(wpn.cache.t[2], function(m)
+						if (m) then
+							wpn.cache.mats[i].mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
+						end
+					end)
+
+					if (cdn_mat) then
+						wpn.cache.mats[i].mat:SetTexture("$basetexture", cdn_mat:GetTexture "$basetexture")
+					end
 				end
 			else
 				wpn.cache.mats[i].mat:SetTexture("$basetexture", wpn.cache.t[2])
@@ -668,13 +698,24 @@ function MOAT_LOADOUT.UpdateWep()
                 			["$basetexture"] = "error"
             			})
 
-						local function set(m)
-							new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
-						end
+						if (mat_str:match "vtf$") then
+							local function set(m)
+								new_mat:SetTexture("$basetexture", m)
+							end
 
-						local m = cdn.Image(mat_str, set)
-						if (m) then
-							set(m)
+							local m = cdn.Texture(mat_str, set)
+							if (m) then
+								set(m)
+							end
+						else
+							local function set(m)
+								new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+							end
+
+							local m = cdn.Image(mat_str, set)
+							if (m) then
+								set(m)
+							end
 						end
 					else
 						wep:SetMaterial(mat_str)
@@ -793,11 +834,20 @@ function MOAT_LOADOUT.UpdateWep()
 								self:DrawModel()
 							end
 
-							local m = cdn.Image(mat_str)
-							if (m and not self.SetMeme) then
-								self.SetMeme = true
-								new_mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
-								self:SetSubMaterial(0, "!"..new_mat:GetName())
+							if (mat_str:match "vtf$" and not self.SetMeme) then
+								local m = cdn.Texture(mat_str)
+								if (m and not self.SetMeme) then
+									self.SetMeme = true
+									new_mat:SetTexture("$basetexture", m)
+									self:SetSubMaterial(0, "!"..new_mat:GetName())
+								end
+							elseif (mat_str:match "^http" and not self.SetMeme) then
+								local m = cdn.Image(mat_str)
+								if (m and not self.SetMeme) then
+									self.SetMeme = true
+									new_mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
+									self:SetSubMaterial(0, "!"..new_mat:GetName())
+								end
 							else
 								self:SetMaterial(mat_str)
 							end
