@@ -38,7 +38,7 @@ function m_CreatePaints()
         tbl.Clr = v[2]
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 1
-        tbl.Image = "https://cdn.moat.gg/f/V1nF1EWK8QFL2Uwc87wla1ERPQLo.png"
+        tbl.Image = v[4] or "https://cdn.moat.gg/f/V1nF1EWK8QFL2Uwc87wla1ERPQLo.png"
         tbl.ItemCheck = 11
         function tbl:ItemUsed(pl, slot, item)
             m_TintItem(pl, slot, item, self.ID)
@@ -60,7 +60,7 @@ function m_CreatePaints()
         tbl.Clr = v[2]
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 2
-        tbl.Image = "https://cdn.moat.gg/f/3KvQGWvW2Rkb3u9oC3zZWsyRE0wt.png"
+        tbl.Image = v[4] or "https://cdn.moat.gg/f/3KvQGWvW2Rkb3u9oC3zZWsyRE0wt.png"
         tbl.ItemCheck = 10
         function tbl:ItemUsed(pl, slot, item)
             m_PaintItem(pl, slot, item, self.ID)

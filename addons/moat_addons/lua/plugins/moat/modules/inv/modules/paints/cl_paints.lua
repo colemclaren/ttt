@@ -396,9 +396,14 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
     end
 
     if (paint_id2 and MOAT_PAINT and MOAT_PAINT.Paints) then
-        local col = MOAT_PAINT.Paints[paint_id2]
-        if (col) then 
+        local col, dream = MOAT_PAINT.Paints[paint_id2]
+        if (col) then
+			if (col.Dream) then
+				dream = true
+			end
+
             col = col[2]
+
             wep:SetColor(Color(col[1], col[2], col[3], 255))
             wep:SetRenderMode(RENDERGROUP_OPAQUE)
             wep:SetMaterial("models/debug/debugwhite")
@@ -408,25 +413,39 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
         local mat = "models/debug/debugwhite"
 
         function m:PreDrawModel(e)
-            render.SetColorModulation(col[1]/255, col[2]/255, col[3]/255)
+            if (dream) then
+				render.SetColorModulation(rarity_names[9][2].r/255, rarity_names[9][2].g/255, rarity_names[9][2].b/255)
+			else
+				render.SetColorModulation(col[1]/255, col[2]/255, col[3]/255)
+			end
         end
 
         function m:PostDrawModel(e)
             render.SetColorModulation(1, 1, 1)
         end
     elseif (paint_id and MOAT_PAINT and MOAT_PAINT.Tints) then
-        local col = MOAT_PAINT.Tints[paint_id]
-        if (col) then 
-        	col = col[2]
-            wep:SetColor(Color(col[1], col[2], col[3]))
+        local col, dream = MOAT_PAINT.Tints[paint_id]
+        if (col) then
+			if (col.Dream) then
+				dream = true
+				col = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
+			else
+				col = col[2]
+			end
+
+			wep:SetColor(Color(col[1], col[2], col[3]))
         end
 
         color = Color(col[1], col[2], col[3])
 
         if (not paint_id3) then
             function m:PreDrawModel(e)
-            	render.SetColorModulation(col[1]/255, col[2]/255, col[3]/255)
-        	end
+				if (dream) then
+					render.SetColorModulation(rarity_names[9][2].r/255, rarity_names[9][2].g/255, rarity_names[9][2].b/255)
+				else
+					render.SetColorModulation(col[1]/255, col[2]/255, col[3]/255)
+				end
+			end
 
         	function m:PostDrawModel(e)
             	render.SetColorModulation(1, 1, 1)
