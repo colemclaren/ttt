@@ -126,7 +126,7 @@ MOAT_PAINT.Tints = {
 	[6056] = {'Neon Lime Tint', {0, 150, 45}, 4},
 	[6057] = {'Pure White Tint', {255, 255, 255}, 6},
 	[6058] = {'George\'s Surprise Tint', {115, 34, 136}, 7},
-	[6566] = {'Moat\'s XXX Tint', {255, 0, 0}, 9, Dream = true}
+	[6566] = {'Infinity Tint', {255, 0, 0}, 9, Dream = true}
 }
 
 MOAT_PAINT.Paints = {
@@ -188,7 +188,7 @@ MOAT_PAINT.Paints = {
 	[6114] = {'Neon Lime Paint', {0, 150, 45}, 4},
 	[6115] = {'Pure White Paint', {255, 255, 255}, 6},
 	[6116] = {'George\'s Surprise Paint', {115, 34, 136}, 7},
-	[6565] = {'Moat\'s XXX Paint', {255, 0, 0}, 9, Dream = true}
+	[6565] = {'Infinity Paint', {255, 0, 0}, 9, Dream = true}
 }
 
 local holidays = 'Holiday Collection'
