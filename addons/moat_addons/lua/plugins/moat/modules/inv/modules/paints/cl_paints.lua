@@ -436,7 +436,7 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 
     if (paint_id3 and MOAT_PAINT and MOAT_PAINT.Skins and MOAT_PAINT.Skins[paint_id3]) then
 		local mat_str, name_str, new_mat = MOAT_PAINT.Skins[paint_id3][2], MOAT_PAINT.Skins[paint_id3][1]
-		if (mat_str:match "^http") then
+		/*if (mat_str:match "^http") then
 			new_mat = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
 				["$model"] = 1,
                 ["$alphatest"] = 1,
@@ -451,6 +451,37 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 			local im = cdn.Image(mat_str, set)
 			if (im) then
 				set(im)
+			end
+		else
+			new_mat = Material(mat_str)
+		end*/
+
+		if (mat_str:match "^http") then
+			new_mat = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
+				["$model"] = 1,
+                ["$alphatest"] = 1,
+                ["$vertexcolor"] = 1,
+                ["$basetexture"] = "error"
+            })
+
+			if (mat_str:match "vtf$") then
+				local function set(m)
+					new_mat:SetTexture("$basetexture", m)
+				end
+
+				local m = cdn.Texture(mat_str, set)
+				if (m) then
+					set(m)
+				end
+			else
+				local function set(m)
+					new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+				end
+
+				local m = cdn.Image(mat_str, set)
+				if (m) then
+					set(m)
+				end
 			end
 		else
 			new_mat = Material(mat_str)
