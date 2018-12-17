@@ -164,7 +164,6 @@ SKIN_IGNORE["models/weapons/v_models/zaratusa.golden.deagle/no_phong_frame"] = t
 SKIN_IGNORE["models/weapons/v_models/zaratusa.golden.deagle/no_phong_front"] = true
 SKIN_IGNORE["models/weapons/v_models/virflakhg/bullets"] = true
 SKIN_IGNORE["models/weapons/bo2r_peacekeeper/peacekeeper_d2"] = true
-SKIN_IGNORE["models/weapons/v_models/m4/accyuv"] = true
 
 SKIN_PASS = {}
 SKIN_PASS["models/weapons/v_models/g3a3/stockbit"] = true
