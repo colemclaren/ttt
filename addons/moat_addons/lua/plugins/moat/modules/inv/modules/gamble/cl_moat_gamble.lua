@@ -4093,7 +4093,10 @@ function m_DrawVersusPanel()
 		end
 
 		for k,v in pairs(table.Reverse(versus_oldgames)) do
-			if k > 20 then return end
+			if k > 15 then 
+				versus_oldgames[k] = nil
+				return 
+			end
 			if (not (v[1] and v[2] and v[3] and v[4] and v[5])) then continue end
 
 			local a = vgui.Create("DPanel",game_actual)
