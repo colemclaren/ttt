@@ -136,7 +136,7 @@ MOAT_THEME.Themes["Original"] = {
         surface_SetDrawColor(0, 0, 0, 100)
         surface_DrawLine(0, 26, s:GetWide(), 26)
         DisableClipping(true)
-        m_DrawShadowedText(1, "Moat Inventory " .. MOAT_VERSION, "moat_ItemDesc", w, h, Color(200, 200, 200, 255), TEXT_ALIGN_RIGHT)
+        m_DrawShadowedText(1, "Moat Inventory " .. MOAT_VERSION .. " - http://moat.gg/", "moat_ItemDesc", w, h, Color(200, 200, 200, 255), TEXT_ALIGN_RIGHT)
         DisableClipping(false)
     end,
     INV_PANEL_PAINT = function(s, w, h)
