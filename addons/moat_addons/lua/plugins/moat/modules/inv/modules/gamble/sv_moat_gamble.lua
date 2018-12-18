@@ -44,12 +44,13 @@ util.AddNetworkString("Moat.JackpotWin")
 util.AddNetworkString("Moat.PlanetaryDrop")
 util.AddNetworkString("Moat.LotteryChat")
 local MOAT_GAMBLE_CATS = {
-	{"Mines", Color(150, 0, 255)}, 
-	{"Roulette", Color(255, 0, 50)}, 
-	{"Crash", Color(255, 255, 0)}, 
-	{"Jackpot", Color(0, 255, 0)}, 
-	{"Versus", Color(0, 255, 255)}
+	{"Versus", Color(0, 255, 255)},
+    {"Roulette", Color(255, 0, 50)},
+    {"Jackpot", Color(0, 255, 0)}, 
+    {"Mines", Color(150, 0, 255)}, 
+    {"Crash", Color(255, 255, 0)}
 }
+
 
 local function DiscordGamble(msg)
 	discord.Send("Gamble Win", msg)
