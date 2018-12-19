@@ -35,7 +35,7 @@ local gamble_help = {
 	["Mines"] = "In the Mines gamemode, you make money by trying to uncover tiles that don't have mines in them.\nIf you uncover a tile with a bomb however, you lose all your money.\nYou can cashout your earnings anytime.",
 	["Roulette"] = "Welcome to Roulette!\nYou can bet for what color the spinner is going to be and win 2x that amount if it's black or red\nor 14x the amount if it's green!",
 	-- ["Crash"] = "Place a bet and watch the multiplier go up!\nIf the multiplier 'Crashes' before you cash out then you lose all your money.\nThe multiplier can crash at 0x as well.",
-	["Blackjack"] = "Welcome to Blackjack!\nThe goal is to not go over 21,\nand to have a higher number than the dealer!\nGood luck!",
+	["Blackjack"] = "Welcome to Blackjack!\nThe goal is to not go over 21,\nand to have a higher number than the dealer!\nMake sure to practice with small bets.\nGood luck!",
 	["Jackpot"] = "Everyone places their money into a big pot and the winner get's all of it.\nYour chance of winning what percentage of the pot you are.\n(There is a 5% tax on the winnings from jackpot)\nJackpot is connected to multiple servers!\nYou can also click on people's pictures to view info about them!!",
 	["Versus"] = "Versus is like coinflip.\nYou create or join a game and have a 50% chance of winning.\nThere is a tax on winnings as well."
 }
