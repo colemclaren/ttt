@@ -35,6 +35,7 @@ local gamble_help = {
 	["Mines"] = "In the Mines gamemode, you make money by trying to uncover tiles that don't have mines in them.\nIf you uncover a tile with a bomb however, you lose all your money.\nYou can cashout your earnings anytime.",
 	["Roulette"] = "Welcome to Roulette!\nYou can bet for what color the spinner is going to be and win 2x that amount if it's black or red\nor 14x the amount if it's green!",
 	-- ["Crash"] = "Place a bet and watch the multiplier go up!\nIf the multiplier 'Crashes' before you cash out then you lose all your money.\nThe multiplier can crash at 0x as well.",
+	["Blackjack"] = "Welcome to Blackjack!\nThe goal is to not go over 21,\nand to have a higher number than the dealer!\nGood luck!",
 	["Jackpot"] = "Everyone places their money into a big pot and the winner get's all of it.\nYour chance of winning what percentage of the pot you are.\n(There is a 5% tax on the winnings from jackpot)\nJackpot is connected to multiple servers!\nYou can also click on people's pictures to view info about them!!",
 	["Versus"] = "Versus is like coinflip.\nYou create or join a game and have a 50% chance of winning.\nThere is a tax on winnings as well."
 }
@@ -192,7 +193,13 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
     MOAT_GAMBLE_AVA:SetPlayer(LocalPlayer(), 32)
 
     -- local MOAT_GAMBLE_CATS = {{"Mines", Color(150, 0, 255)}, {"Roulette", Color(255, 0, 50)}, {"Crash", Color(255, 255, 0)}, {"Jackpot", Color(0, 255, 0)}, {"Versus", Color(0, 255, 255)}}
-	local MOAT_GAMBLE_CATS = {{"Versus", Color(0, 255, 255)},{"Roulette", Color(255, 0, 50)},{"Jackpot", Color(0, 255, 0)},{"Mines", Color(150, 0, 255)},{"Crash", Color(255, 255, 0)}}
+	local MOAT_GAMBLE_CATS = {
+		{"Versus", Color(0, 255, 255)},
+		{"Blackjack", Color(255, 255, 0)},
+		{"Roulette", Color(255, 0, 50)},
+		{"Jackpot", Color(0, 255, 0)},
+		{"Mines", Color(150, 0, 255)}
+	}
     local CAT_WIDTHS = 0
 
     for i = 1, #MOAT_GAMBLE_CATS do
@@ -478,7 +485,7 @@ function m_oldDrawDicePanel()
     	surface.DrawLine(0, 115, w, 115)
 
     	draw.SimpleText("PROFIT ON WIN", "moat_GambleTitle", w-15, 15, Color(0, 150, 0), TEXT_ALIGN_RIGHT)
-    	draw.SimpleText(math.Round((MOAT_GAMBLE.DiceBetAmount * multiplier) - MOAT_GAMBLE.DiceBetAmount, 2), "moat_DiceWin", w-85, 40, Color(255, 255, 255), TEXT_ALIGN_CENTER)
+    	draw.SimpleText(math.Round((MOAT_GAMBLE.DiceBetAmount * multiplier) - MOAT_GAMBLE.DiceBetAmount, 2) .. " IC", "moat_DiceWin", w-85, 40, Color(255,255,102), TEXT_ALIGN_CENTER)
 
 		--[[Win Chance & Multiplier]]
     	draw.SimpleText("WIN CHANCE", "moat_GambleTitle", 15, 150, Color(255, 255, 255))
@@ -2580,22 +2587,549 @@ end)
 -- end
 
 function m_DrawCrashPanel()
-	MOAT_GAMBLE_CRASH = vgui.Create("DButton", MOAT_GAMBLE_BG)
+	MOAT_GAMBLE_CRASH = vgui.Create("DPanel", MOAT_GAMBLE_BG)
 	MOAT_GAMBLE_CRASH:SetPos(230, 50)
 	MOAT_GAMBLE_CRASH:SetSize(505, 460)
-	MOAT_GAMBLE_CRASH:SetText("")
 	MOAT_GAMBLE_CRASH.Paint = function(s, w, h)
+		--[[Background & Outline]]
 		draw.RoundedBox(0, 0, 0, w, h, Color(25, 25, 25, 255))
     	surface.SetDrawColor(86, 86, 86)
     	surface.DrawOutlinedRect(0, 0, w, h)
-		draw.SimpleText("We're currently working on replacing Crash!","moat_GambleTitle", (w/2), 40, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		draw.SimpleText("You can click on me to suggest a replacement :)","moat_GambleTitle", (w/2), 80, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		draw.SimpleText("We hope that everyone had a fun time with Crash.","moat_GambleTitle", (w/2), 120, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		draw.DrawText("<3","moat_JackBig",w/2,h- 90,HSVToColor((SysTime()*100)%360,0.65,0.9),TEXT_ALIGN_CENTER)
+
+    	--[[Bet Amount]]
+    	draw.SimpleText("BET AMOUNT", "moat_GambleTitle", 15, 35, Color(255, 255, 255))
+
+    	if (MOAT_GAMBLE.BlackBetAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.BlackBetAmount < 10)) then
+    		surface.SetDrawColor(255, 0, 0)
+    	else
+    		surface.SetDrawColor(86, 86, 86)
+    	end
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_GAMBLE.TextEntryPolyOutline)
+
+    	surface.SetDrawColor(20, 20, 20)
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_GAMBLE.TextEntryPoly)
+
+    	--[[Profit On Win]]
+    	surface.SetDrawColor(46, 46, 46)
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_GAMBLE.DiceProfitPoly)
+
+    	surface.SetDrawColor(86, 86, 86)
+    	surface.DrawLine(290, 0, 345, 100)
+    	surface.DrawLine(345, 100, 505, 100)
+    	surface.DrawLine(0, 115, w, 115)
+
+    	draw.SimpleText("CREDITS ON WIN", "moat_GambleTitle", w-15, 15, Color(0, 150, 0), TEXT_ALIGN_RIGHT)
+    	draw.SimpleText(string.Comma((math.Round(MOAT_GAMBLE.BlackBetAmount * 1.5))) .. " IC", "moat_DiceWin", w-85, 40, Color(255,255,102), TEXT_ALIGN_CENTER)
+
+    	--[[Dealer Shit]]
+
+    	local starting_x, card_w, card_h = 15, 32, 32
+    	local dealer_total = 0
+    	local dealer_or_total = 0
+
+    	for i = 1, #MOAT_GAMBLE.DealerCards do
+    		local x_pos, y_pos = ((starting_x + card_w) * i) - card_w, 245
+
+    		draw.RoundedBox(4, x_pos, y_pos, card_w, card_h, Color(146, 146, 146))
+    		draw.RoundedBox(4, x_pos + 1, y_pos + 1, card_w - 2, card_h - 2, Color(46, 46, 46))
+
+    		local draw_text = tostring(MOAT_GAMBLE.DealerCards[i])
+
+    		if (draw_text == "0") then
+    			draw_text = "XX"
+    		end
+
+    		draw.SimpleText(draw_text, "ChatFont", x_pos + (card_w/2), y_pos + (card_h/2), Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
+    		if (MOAT_GAMBLE.DealerCards[i] == "ACE") then
+    			dealer_or_total = dealer_or_total + 1
+
+    			dealer_total = dealer_total + 1
+    			continue
+    		end
+
+    		dealer_total = dealer_total + MOAT_GAMBLE.DealerCards[i]
+    	end
+
+    	draw.SimpleText("DEALER'S CARDS", "moat_GambleTitle", 15, 150, Color(255, 255, 255))
+
+    	surface.SetDrawColor(86, 86, 86)
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_GAMBLE.TextEntryPoly2Outline)
+
+    	surface.SetDrawColor(20, 20, 20)
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_GAMBLE.TextEntryPoly2)
+
+    	if (dealer_or_total == 0) then
+    		draw.SimpleText(dealer_total, "moat_GambleTitle", 25, 197, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	else
+    		local or_total = dealer_total - dealer_or_total + (dealer_or_total * 11)
+
+    		draw.SimpleText(dealer_total .. " OR " .. or_total, "moat_GambleTitle", 25, 197, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	end
+
+    	--[[Player Shit]]
+
+    	local starting_x = w-15
+    	local player_total = 0
+    	local player_or_total = 0
+
+    	for i = 1, #MOAT_GAMBLE.PlayerCards do
+    		local x_pos, y_pos = starting_x - ((card_w + 15) * i) + 15, 245
+
+    		draw.RoundedBox(4, x_pos, y_pos, card_w, card_h, Color(146, 146, 146))
+    		draw.RoundedBox(4, x_pos + 1, y_pos + 1, card_w - 2, card_h - 2, Color(46, 46, 46))
+
+    		draw.SimpleText(MOAT_GAMBLE.PlayerCards[i], "ChatFont", x_pos + (card_w/2), y_pos + (card_h/2), Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
+    		if (MOAT_GAMBLE.PlayerCards[i] == "ACE") then
+    			player_or_total = player_or_total + 1
+
+    			player_total = player_total + 1
+    			continue
+    		end
+
+    		player_total = player_total + MOAT_GAMBLE.PlayerCards[i]
+    	end
+
+    	draw.SimpleText("YOUR CARDS", "moat_GambleTitle", 342, 150, Color(255, 255, 255))
+
+    	surface.SetDrawColor(86, 86, 86)
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_GAMBLE.TextEntryPoly3Outline)
+
+    	surface.SetDrawColor(20, 20, 20)
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_GAMBLE.TextEntryPoly3)
+
+    	if (player_or_total == 0) then
+    		draw.SimpleText(player_total, "moat_GambleTitle", 352, 197, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	else
+    		local or_total = player_total + (player_or_total * 10)
+
+    		draw.SimpleText(player_total .. " OR " .. or_total, "moat_GambleTitle", 352, 197, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	end
+
+		--[[Blackjack info shit things]]
+        draw.RoundedBox(0, 1, 300, w-2, 50, Color(20, 20, 20, 255))
+        surface.SetDrawColor(20, 20, 20)
+    	draw.NoTexture()
+    	surface.DrawPoly(MOAT_GAMBLE.DiceArrowPoly)
+
+
+    	draw.RoundedBox(4, (w/2)+5, 310, (w-30)/2, 30, Color(65, 65, 70))
+    	draw.RoundedBox(4, (w/2)+6, 311, (w-34)/2, 28, Color(35, 35, 40))
+    	local text = "BLACKJACK PAYS 2 TO 1"
+    	local textpos = (w/2)+5 + (((w-30)/2)/2)
+    	local rollpos = m_GetFontWidth("moat_GambleTitle", text)
+    	local daw, dah = draw.SimpleText("BLACKJACK PAYS ", "moat_GambleTitle", textpos - (rollpos/2), 325, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	local da2w, da2h = draw.SimpleText("2", "moat_GambleTitle", textpos - (rollpos/2) + daw, 325, Color(0, 150, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	local da3w, da3h = draw.SimpleText(" TO ", "moat_GambleTitle", textpos - (rollpos/2) + daw + da2w, 325, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	draw.SimpleText("1", "moat_GambleTitle", textpos - (rollpos/2) + daw + da2w + da3w, 325, Color(0, 150, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
+    	draw.RoundedBox(4, 10, 310, (w-30)/2, 30, Color(65, 65, 70))
+    	draw.RoundedBox(4, 11, 311, (w-34)/2, 28, Color(35, 35, 40))
+
+    	local text = "DEALER STANDS ON 17"
+    	local textpos = 10 + (((w-30)/2)/2)
+    	local rollpos = m_GetFontWidth("moat_GambleTitle", text)
+    	local daw, dah = draw.SimpleText("DEALER ", "moat_GambleTitle", textpos - (rollpos/2), 325, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	local da2w, da2h = draw.SimpleText("STANDS", "moat_GambleTitle", textpos - (rollpos/2) + daw, 325, Color(0, 150, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	local da3w, da3h = draw.SimpleText(" ON ", "moat_GambleTitle", textpos - (rollpos/2) + daw + da2w, 325, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    	draw.SimpleText("17", "moat_GambleTitle", textpos - (rollpos/2) + daw + da2w + da3w, 325, Color(0, 150, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 	end
-	function MOAT_GAMBLE_CRASH.DoClick()
-		gui.OpenURL("https://moat.gg/forums/topic/22188-crash-gambling-replacement-2-electric-boogaloo/")
-		MOAT_INV_BG:Remove() -- inventory pops up infront of the popup???? Should fix
+
+	local MOAT_DICE_BET = vgui.Create("DTextEntry", MOAT_GAMBLE_CRASH)
+	MOAT_DICE_BET:SetPos(22, 67)
+	MOAT_DICE_BET:SetSize(100, 30)
+	MOAT_DICE_BET:SetFont("moat_GambleTitle")
+    MOAT_DICE_BET:SetTextColor(Color(255, 255, 255))
+    MOAT_DICE_BET:SetCursorColor(Color(255, 255, 255))
+    MOAT_DICE_BET:SetEnterAllowed(true)
+    MOAT_DICE_BET:SetNumeric(true)
+    MOAT_DICE_BET:SetDrawBackground(false)
+    MOAT_DICE_BET:SetMultiline(false)
+    MOAT_DICE_BET:SetVerticalScrollbarEnabled(false)
+    MOAT_DICE_BET:SetEditable(true)
+    MOAT_DICE_BET:SetValue("1")
+    MOAT_DICE_BET:SetText("1")
+    MOAT_DICE_BET.MaxChars = 7
+    MOAT_DICE_BET.Think = function(s)
+    	if (not s:IsEditing() and MOAT_GAMBLE.BlackBetAmount ~= tonumber(s:GetText())) then
+    		s:SetText(MOAT_GAMBLE.BlackBetAmount)
+    	end
+    end
+    MOAT_DICE_BET.OnGetFocus = function(s)
+        if (tostring(s:GetValue()) == "0") then
+            s:SetValue("")
+            s:SetText("")
+        end
+    end
+    MOAT_DICE_BET.OnTextChanged = function(s)
+        local txt = s:GetValue()
+        local amt = string.len(txt)
+
+        if (amt > s.MaxChars) then
+            if (s.OldText == nil) then
+                s:SetText("")
+                s:SetValue("")
+                s:SetCaretPos(string.len(""))
+            else
+                s:SetText(s.OldText)
+                s:SetValue(s.OldText)
+                s:SetCaretPos(string.len(s.OldText))
+            end
+        else
+            s.OldText = txt
+        end
+    end
+	function MOAT_DICE_BET:CheckNumeric(strValue)
+		if (not string.find("1234567890.", strValue, 1, true)) then
+			return true
+		end
+
+		return false
+	end
+	MOAT_DICE_BET.OnEnter = function(s)
+		if (s:GetText() == "") then s:SetText("0") end
+		
+		MOAT_GAMBLE.BlackBetAmount = math.Clamp(math.Round(tonumber(s:GetText() or 0), 2), 10, 5000)
+	end
+	MOAT_DICE_BET.OnLoseFocus = function(s)
+		s:OnEnter()
+	end
+
+	local BTN1 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+	BTN1:SetPos(178, 15)
+	BTN1:SetSize(50, 40)
+	BTN1:SetText("")
+	BTN1.Paint = function(s, w, h)
+		local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
+
+		if (s:IsHovered()) then
+			cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
+		end
+
+		draw.RoundedBox(4, 0, 0, w, h, cols[1])
+		draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
+
+		draw.SimpleText("1/2", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	end
+	BTN1.DoClick = function(s, w, h)
+		MOAT_GAMBLE.BlackBetAmount = math.max(MOAT_GAMBLE.BlackBetAmount/2, 10)
+	end
+
+	local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+	BTN2:SetPos(178+55, 15)
+	BTN2:SetSize(50, 40)
+	BTN2:SetText("")
+	BTN2.Paint = function(s, w, h)
+		local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
+
+		if (s:IsHovered()) then
+			cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
+		end
+
+		draw.RoundedBox(4, 0, 0, w, h, cols[1])
+		draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
+
+		draw.SimpleText("2x", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	end
+	BTN2.DoClick = function(s, w, h)
+		MOAT_GAMBLE.BlackBetAmount = math.min(MOAT_GAMBLE.BlackBetAmount * 2, 5000)
+	end
+
+	local BTN3 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+	BTN3:SetPos(178, 15+45)
+	BTN3:SetSize(50, 40)
+	BTN3:SetText("")
+	BTN3.Paint = function(s, w, h)
+		local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
+
+		if (s:IsHovered()) then
+			cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
+		end
+
+		draw.RoundedBox(4, 0, 0, w, h, cols[1])
+		draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
+
+		draw.SimpleText("Min", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	end
+	BTN3.DoClick = function(s, w, h)
+		MOAT_GAMBLE.BlackBetAmount = 10
+	end
+
+	local BTN4 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+	BTN4:SetPos(178+55, 15+45)
+	BTN4:SetSize(50, 40)
+	BTN4:SetText("")
+	BTN4.Paint = function(s, w, h)
+		local cols = {Color(65, 65, 70), Color(35, 35, 40), Color(86, 86, 86)}
+
+		if (s:IsHovered()) then
+			cols = {Color(65, 65, 70), Color(45, 45, 50), Color(200, 200, 200)}
+		end
+
+		draw.RoundedBox(4, 0, 0, w, h, cols[1])
+		draw.RoundedBox(4, 1, 1, w-2, h-2, cols[2])
+
+		draw.SimpleText("Max", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	end
+	BTN4.DoClick = function(s, w, h)
+		MOAT_GAMBLE.BlackBetAmount = math.Clamp(MOAT_INVENTORY_CREDITS, 10, 5000)
+	end
+
+	MOAT_BLACK_HIT = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+	MOAT_BLACK_HIT:SetPos(10, 460-75)
+	MOAT_BLACK_HIT:SetSize(237.5, 65)
+	MOAT_BLACK_HIT:SetText("")
+	MOAT_BLACK_HIT.Think = function(s)
+		if (MOAT_GAMBLE.BlackDealing or not MOAT_GAMBLE.BlackGameActive or (IsValid(MOAT_BLACK_DEAL) and MOAT_GAMBLE_BLACKJACK.Output)) then
+			s:SetAlpha(0)
+			s:SetDisabled(true)
+		else
+			s:SetAlpha(255)
+			s:SetDisabled(false)
+		end
+	end
+	MOAT_BLACK_HIT.Paint = function(s, w, h)
+		local btndown = 0
+		if (s:IsDown()) then
+			btndown = 2
+		end
+		local btncolor = Color(64, 165, 71)
+		if (s:IsHovered()) then
+			btncolor = Color(44, 145, 51)
+		end
+		draw.RoundedBox(4, 0, 5, w, 60, Color(0, 131, 61, 255))
+		draw.RoundedBox(4, 0, btndown, w, 60, Color(170, 170, 170))
+    	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
+
+    	surface.SetDrawColor(200, 200, 200, 25)
+        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.DrawTexturedRect(0, btndown, w, 60)
+
+    	draw.SimpleText("HIT", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	end
+	MOAT_BLACK_HIT.DoClick = function(s)
+		if (MOAT_GAMBLE.BlackDealing) then return end
+		
+		MOAT_GAMBLE.BlackDealing = true
+
+		net.Start("MOAT_GAMBLE_ACTION")
+		net.WriteBool(true)
+		net.SendToServer()
+	end
+
+	MOAT_BLACK_STAND = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+	MOAT_BLACK_STAND:SetPos(258, 460-75)
+	MOAT_BLACK_STAND:SetSize(238, 65)
+	MOAT_BLACK_STAND:SetText("")
+	MOAT_BLACK_STAND.Think = function(s)
+		if (MOAT_GAMBLE.BlackDealing or not MOAT_GAMBLE.BlackGameActive or (IsValid(MOAT_BLACK_DEAL) and MOAT_GAMBLE_BLACKJACK.Output)) then
+			s:SetAlpha(0)
+			s:SetDisabled(true)
+		else
+			s:SetAlpha(255)
+			s:SetDisabled(false)
+		end
+	end
+	MOAT_BLACK_STAND.Paint = function(s, w, h)
+		local btndown = 0
+		if (s:IsDown()) then
+			btndown = 2
+		end
+		local btncolor = Color(238, 185, 52)
+		if (s:IsHovered()) then
+			btncolor = Color(218, 165, 32)
+		end
+		draw.RoundedBox(4, 0, 5, w, 60, Color(184, 134, 11))
+		draw.RoundedBox(4, 0, btndown, w, 60, Color(170, 170, 170))
+    	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
+
+    	surface.SetDrawColor(200, 200, 200, 25)
+        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.DrawTexturedRect(0, btndown, w, 60)
+
+    	draw.SimpleText("STAND", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	end
+	MOAT_BLACK_STAND.DoClick = function(s)
+		if (MOAT_GAMBLE.BlackStand or 0) > CurTime() then return end
+
+		-- MOAT_GAMBLE.BlackDealing = true
+		MOAT_GAMBLE.BlackStand = CurTime() + 0.1
+
+		net.Start("MOAT_GAMBLE_ACTION")
+		net.WriteBool(false)
+		net.SendToServer()
+	end
+
+	MOAT_BLACK_DEAL = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
+	MOAT_BLACK_DEAL:SetPos(10, 385)
+	MOAT_BLACK_DEAL:SetSize(505-20, 65)
+	MOAT_BLACK_DEAL:SetText("")
+	MOAT_BLACK_DEAL.Dealing = false
+	MOAT_BLACK_DEAL.Output = false
+	MOAT_BLACK_DEAL.OutputWon = 0
+	MOAT_BLACK_DEAL.OutputNum = 0
+	MOAT_BLACK_DEAL.Think = function(s)
+		if (not MOAT_GAMBLE.BlackDealing and not MOAT_GAMBLE_BLACKJACK.Output and MOAT_GAMBLE.BlackGameActive) then
+			s:SetAlpha(0)
+			s:SetDisabled(true)
+			s:SetPos(10, 600)
+		else
+			s:SetAlpha(255)
+			s:SetDisabled(false)
+			s:SetPos(10, 385)
+		end
+	end
+	MOAT_BLACK_DEAL.Paint = function(s, w, h)
+		if (MOAT_GAMBLE_BLACKJACK.Output and MOAT_GAMBLE_BLACKJACK.OutputWon == 2) then
+			local btndown = 0
+			if (s:IsDown()) then
+				btndown = 2
+			end
+
+			local btncolor = Color(64, 165, 71)
+			if (s:IsHovered()) then
+				btncolor = Color(44, 145, 51)
+			end
+
+			draw.RoundedBox(4, 0, 5, w, 60, Color(0, 131, 61, 255))
+			draw.RoundedBox(4, 0, btndown, w, 60, Color(170, 170, 170))
+    		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
+
+    		surface.SetDrawColor(200, 200, 200, 25)
+        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.DrawTexturedRect(0, btndown, w, 60)
+
+    		draw.SimpleText("YOU WON " .. string.Comma(math.Round(MOAT_GAMBLE_BLACKJACK.OutputNum, 2)) .. " IC!", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
+			return
+		elseif (MOAT_GAMBLE_BLACKJACK.Output and MOAT_GAMBLE_BLACKJACK.OutputWon == 1) then
+			local btndown = 0
+			if (s:IsDown()) then
+				btndown = 2
+			end
+
+			local btncolor = Color(165, 30, 30)
+			if (s:IsHovered()) then
+				btncolor = Color(145, 10, 10)
+			end
+
+			draw.RoundedBox(4, 0, 5, w, 60, Color(131, 0, 0, 255))
+			draw.RoundedBox(4, 0, btndown, w, 60, Color(170, 170, 170))
+    		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
+
+    		surface.SetDrawColor(200, 200, 200, 25)
+        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.DrawTexturedRect(0, btndown, w, 60)
+
+    		draw.SimpleText("You've lost " .. math.Round(MOAT_GAMBLE_BLACKJACK.OutputNum, 2) .. " IC", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
+			return
+		elseif (MOAT_GAMBLE_BLACKJACK.Output and MOAT_GAMBLE_BLACKJACK.OutputWon == 3) then
+			local btndown = 0
+			if (s:IsDown()) then
+				btndown = 2
+			end
+
+			local btncolor = Color(238, 185, 52)
+			if (s:IsHovered()) then
+				btncolor = Color(218, 165, 32)
+			end
+
+			draw.RoundedBox(4, 0, 5, w, 60, Color(184, 134, 11))
+			draw.RoundedBox(4, 0, btndown, w, 60, Color(170, 170, 170))
+    		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
+
+    		surface.SetDrawColor(200, 200, 200, 25)
+        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.DrawTexturedRect(0, btndown, w, 60)
+
+    		draw.SimpleText("You've tied with the dealer", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
+			return
+		end
+
+		if (MOAT_GAMBLE.BlackDealing) then
+			draw.RoundedBox(4, 0, 5, w, 60, Color(67, 68, 67))
+    		draw.RoundedBox(4, 0, 0, w, 60, Color(128, 128, 128))
+
+    		draw.SimpleText("Dealing...", "Trebuchet24", w/2, h/2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			return
+		end
+		if (MOAT_GAMBLE.BlackBetAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.BlackBetAmount < 10)) then
+			draw.RoundedBox(4, 0, 5, w, 60, Color(67, 68, 67))
+    		draw.RoundedBox(4, 0, 0, w, 60, Color(128, 128, 128))
+
+    		draw.SimpleText("Not enough IC!", "Trebuchet24", w/2, h/2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			return
+    	end
+
+		local btndown = 0
+		if (s:IsDown()) then
+			btndown = 2
+		end
+		local btncolor = Color(64, 165, 71)
+		if (s:IsHovered()) then
+			btncolor = Color(44, 145, 51)
+		end
+		draw.RoundedBox(4, 0, 5, w, 60, Color(0, 131, 61, 255))
+		draw.RoundedBox(4, 0, btndown, w, 60, Color(170, 170, 170))
+    	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
+
+    	surface.SetDrawColor(200, 200, 200, 25)
+        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.DrawTexturedRect(0, btndown, w, 60)
+
+    	draw.SimpleText("DEAL", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	end
+	MOAT_BLACK_DEAL.DoClick = function(s)
+		if (MOAT_GAMBLE.BlackBetAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.BlackBetAmount < 10)) then
+			if (MOAT_GAMBLE_BLACKJACK.Output) then
+				MOAT_GAMBLE_BLACKJACK.Output = false
+				MOAT_GAMBLE_BLACKJACK.OutputNum = 0
+
+				MOAT_GAMBLE.BlackStand = false
+				MOAT_GAMBLE.BlackDealing = false
+				MOAT_GAMBLE.BlackGameActive = false
+				MOAT_GAMBLE.PlayerCards = {}
+				MOAT_GAMBLE.DealerCards = {}
+
+				return
+			end
+
+			MOAT_GAMBLE_BLACKJACK.Output = false
+			return
+		end
+		if (MOAT_GAMBLE.BlackDealing) then
+			return
+		end
+
+		if (MOAT_GAMBLE_BLACKJACK.Output) then
+			MOAT_GAMBLE_BLACKJACK.Output = false
+			MOAT_GAMBLE_BLACKJACK.OutputNum = 0
+
+			MOAT_GAMBLE.BlackStand = false
+			MOAT_GAMBLE.BlackDealing = false
+			MOAT_GAMBLE.BlackGameActive = false
+			MOAT_GAMBLE.PlayerCards = {}
+			MOAT_GAMBLE.DealerCards = {}
+
+			return
+		end
+
+		MOAT_GAMBLE_BLACKJACK.Output = false
+		MOAT_GAMBLE.BlackDealing = true
+
+		net.Start("MOAT_GAMBLE_BLACK")
+		net.WriteUInt(MOAT_GAMBLE.BlackBetAmount,32)
+		net.SendToServer()
 	end
 end
 
@@ -3544,6 +4078,15 @@ function m_DrawBlackjackPanel()
 	end*/
 end
 
+local BlackSounds = {
+	Place = {
+		"https://i.moat.gg/18-12-19-44j.mp3",
+		"https://i.moat.gg/18-12-19-n21.mp3",
+		"https://i.moat.gg/18-12-19-X1h.mp3",
+		"https://i.moat.gg/18-12-19-t87.mp3"
+	}
+}
+
 net.Receive("MOAT_GAMBLE_BLACK", function(len, ply)
 	MOAT_GAMBLE_BLACKJACK.Output = false
 	MOAT_GAMBLE.BlackDealing = false
@@ -3551,6 +4094,13 @@ end)
 
 net.Receive("MOAT_GAMBLE_BLACKOVER", function(len, ply)
 	local outcome = net.ReadUInt(2)
+	if outcome == 2 then
+		PlayMinesSound("win")
+	elseif outcome == 3 then
+		PlayMinesSound("end")
+	else
+		PlayMinesSound("boom")
+	end
 	local amt = net.ReadFloat()
 
 	MOAT_GAMBLE.BlackDealing = false
@@ -3582,6 +4132,7 @@ net.Receive("MOAT_BLACK_CARD", function(len, ply)
 	if (not MOAT_GAMBLE.BlackStand and #MOAT_GAMBLE.PlayerCards > 1 and #MOAT_GAMBLE.DealerCards > 1) then
 		MOAT_GAMBLE.BlackDealing = false
 	end
+	cdn.PlayURL(table.Random(BlackSounds.Place))
 end)
 
 function m_RemoveBlackjackPanel()
@@ -4285,27 +4836,27 @@ function m_ChangeGambleCategory()
     end
 
 	if (num == 2) then
+		m_DrawCrashPanel() -- Blackjack
+	else
+		m_RemoveCrashPanel()
+	end
+
+	if (num == 3) then
 		m_DrawRoulettePanel()
 	else
 		m_RemoveRoulettePanel()
 	end
 
-	if (num == 3) then
-		m_DrawBlackjackPanel()
+	if (num == 4) then
+		m_DrawBlackjackPanel() -- Jackpot
 	else
 		m_RemoveBlackjackPanel()
 	end
 
-	if (num == 4) then
-		m_DrawDicePanel()
+	if (num == 5) then
+		m_DrawDicePanel() -- Mines
 	else
 		m_RemoveDicePanel()
-	end
-
-	if (num == 5) then
-		m_DrawCrashPanel()
-	else
-		m_RemoveCrashPanel()
 	end
 
 	MOAT_GAMBLE.CurCat = num

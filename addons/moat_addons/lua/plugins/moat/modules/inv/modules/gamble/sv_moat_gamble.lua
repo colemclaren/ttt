@@ -44,11 +44,11 @@ util.AddNetworkString("Moat.JackpotWin")
 util.AddNetworkString("Moat.PlanetaryDrop")
 util.AddNetworkString("Moat.LotteryChat")
 local MOAT_GAMBLE_CATS = {
-	{"Versus", Color(0, 255, 255)},
+    {"Versus", Color(0, 255, 255)},
+    {"Blackjack", Color(255, 255, 0)},
     {"Roulette", Color(255, 0, 50)},
-    {"Jackpot", Color(0, 255, 0)}, 
-    {"Mines", Color(150, 0, 255)}, 
-    {"Crash", Color(255, 255, 0)}
+    {"Jackpot", Color(0, 255, 0)},
+    {"Mines", Color(150, 0, 255)}
 }
 
 
@@ -196,6 +196,12 @@ concommand.Add("moat_rollthecrate", function(ply, cmd, args)
     moat_rigged[steamid] = tonumber(number)
 end)
 
+
+
+-- Blackjack
+
+
+
 MOAT_BLACK_GAMES = {}
 
 function m_GambleBlackjackRemoveGame(ply)
@@ -206,7 +212,7 @@ end
 hook.Add("PlayerDisconnected", "moat_BlackjackDisconnect", m_GambleBlackjackRemoveGame)
 
 function m_GambleBlackjackDraw(ply)
-    local amt = MOAT_BLACK_GAMES[ply:SteamID()].bet
+    local amt = math.Round(MOAT_BLACK_GAMES[ply:SteamID()].bet * 0.9)
 
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
@@ -214,7 +220,7 @@ function m_GambleBlackjackDraw(ply)
 		Color(255,255,255), "[",
 		room[2], room[1][1],
 		Color(255,255,255), "]",
-		Color(150, 150, 0), "+-" .. amt .. " ", 
+		Color(150, 150, 0), "+" .. amt .. " ", 
 		Color(180, 180, 180), ply:Nick()
 	)
 
@@ -228,9 +234,9 @@ end
 
 function m_GambleBlackjackWon(ply, blackjack)
     local amt = MOAT_BLACK_GAMES[ply:SteamID()].bet
-    local won_amt = math.Round(amt * 1.5, 2)
+    local won_amt = math.Round(amt * 1.5)
     if (blackjack) then
-        won_amt = amt
+        won_amt = math.Round(amt * 1.75)
     end
     ply:m_GiveIC(won_amt)
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
@@ -359,6 +365,7 @@ function m_GambleNewBlackjack(ply, amt)
         plycards = {},
         plystand = false
     }
+    ply.BlackDealing = true
 
     ply:m_TakeIC(amt)
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
@@ -380,14 +387,15 @@ function m_GambleNewBlackjack(ply, amt)
     end)
     timer.Simple(1.5, function()
         m_GambleBlackjackNewCard(ply, true, true)
+        ply.BlackDealing = false
     end)
 end
 
 net.Receive("MOAT_GAMBLE_ACTION", function(len, ply)
-	if (gamble_net_spam(ply, "MOAT_GAMBLE_ACTION")) then return end
+	-- if (gamble_net_spam(ply, "MOAT_GAMBLE_ACTION")) then return end
     if (not MOAT_BLACK_GAMES[ply:SteamID()]) then return end
+    if ply.BlackDealing then return end
     local act = net.ReadBool()
-
     if (act) then
         m_GambleBlackjackNewCard(ply, false)
     else
@@ -401,15 +409,18 @@ net.Receive("MOAT_GAMBLE_ACTION", function(len, ply)
     end
 end)
 
-/*util.AddNetworkString("MOAT_GAMBLE_ACTION")
+util.AddNetworkString("MOAT_GAMBLE_ACTION")
 util.AddNetworkString("MOAT_GAMBLE_BLACK")
 util.AddNetworkString("MOAT_BLACK_CARD")
-util.AddNetworkString("MOAT_GAMBLE_BLACKOVER")*/
+util.AddNetworkString("MOAT_GAMBLE_BLACKOVER")
 
 net.Receive("MOAT_GAMBLE_BLACK", function(len, ply)
 	if (gamble_net_spam(ply, "MOAT_GAMBLE_BLACK")) then return end
-    local amt = net.ReadFloat()
-
+    local amt = net.ReadUInt(32)
+    if amt < 10 then
+        m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You must bet atleast 10 IC!")
+        return
+    end
     if (not ply:m_HasIC(amt)) then
         m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
 
@@ -417,7 +428,7 @@ net.Receive("MOAT_GAMBLE_BLACK", function(len, ply)
         net.Send(ply)
         return
     elseif (MOAT_BLACK_GAMES[ply:SteamID()]) then
-        m_AddGambleChatPlayer(ply, Color(255, 0, 0), "For some reason, you're already in a blackjack game.")
+        m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You're already in a blackjack game!")
 
         return
     end
@@ -610,12 +621,12 @@ end)
 --[[
     Crash section
 ]]
-util.AddNetworkString("crash.bet")
-util.AddNetworkString("crash.syncme")
-util.AddNetworkString("crash.player")
-util.AddNetworkString("crash.start")
-util.AddNetworkString("crash.finish")
-util.AddNetworkString("crash.getout")
+-- util.AddNetworkString("crash.bet")
+-- util.AddNetworkString("crash.syncme")
+-- util.AddNetworkString("crash.player")
+-- util.AddNetworkString("crash.start")
+-- util.AddNetworkString("crash.finish")
+-- util.AddNetworkString("crash.getout")
 
 local crash_delay = 20
 
@@ -700,30 +711,30 @@ net.Receive("crash.getout", function(l,ply)
     net.Broadcast()
 end)
 
-hook.Add("Think","Crash think",function()
-    --print(crash_nextcrash,CurTime())
-    if crash_nextcrash < CurTime() and not crash_crashing then
-        crash_tocrash = getcrashnumber()
-        --print("Started crashing: " .. crash_tocrash)
-        crash_crashing = true
-        crash_number = 1
-        crash_startcrash = CurTime()
-        net.Start("crash.start")
-        net.Broadcast()
-    elseif crash_nextcrash < CurTime() and crash_crashing then
-        crash_number = round((CurTime() - crash_startcrash) * 0.1) + 1
-        if crash_number >= crash_tocrash then
-            crash_tocrash = round(crash_tocrash)
-            crash_players = {}
-            crash_nextcrash = CurTime() + crash_delay
-            crash_crashing = false
-            --print("crashed @ " .. crash_tocrash .. "x")
-            net.Start("crash.finish")
-            net.WriteFloat(crash_tocrash)
-            net.Broadcast()
-        end
-    end
-end)
+-- hook.Add("Think","Crash think",function()
+--     --print(crash_nextcrash,CurTime())
+--     if crash_nextcrash < CurTime() and not crash_crashing then
+--         crash_tocrash = getcrashnumber()
+--         --print("Started crashing: " .. crash_tocrash)
+--         crash_crashing = true
+--         crash_number = 1
+--         crash_startcrash = CurTime()
+--         net.Start("crash.start")
+--         net.Broadcast()
+--     elseif crash_nextcrash < CurTime() and crash_crashing then
+--         crash_number = round((CurTime() - crash_startcrash) * 0.1) + 1
+--         if crash_number >= crash_tocrash then
+--             crash_tocrash = round(crash_tocrash)
+--             crash_players = {}
+--             crash_nextcrash = CurTime() + crash_delay
+--             crash_crashing = false
+--             --print("crashed @ " .. crash_tocrash .. "x")
+--             net.Start("crash.finish")
+--             net.WriteFloat(crash_tocrash)
+--             net.Broadcast()
+--         end
+--     end
+-- end)
 
 --[[
     Versus

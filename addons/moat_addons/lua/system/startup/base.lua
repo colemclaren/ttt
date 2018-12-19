@@ -117,6 +117,14 @@ for k, v in ipairs({"\n\n",
 
 moat.spacer()
 */
+
+local developers = {
+	{"Motato","76561198053381832"},
+	{"Meepen", "76561198050165746"},
+	{"Velkon", "76561198154133184"}
+}
+
+
 for k, v in ipairs({"\n\n",
 [[            yyyhhdddmmmNNNM                                              MNNNmmmdddhhyyy        ]],
 [[          /mMMMMMMMMMMMMMMMMm.                                        .mMMMMMMMMMMMMMMMNy`      ]],
@@ -177,9 +185,9 @@ moat.print "|"
 moat.spacer()
 moat.print "| Moat TTT's God Squad Development Team (¬‿¬)" 
 moat.print "|"
-moat.print "| Meepen > https://steamcommunity.com/profiles/76561198154133184"
-moat.print "| Motato > https://steamcommunity.com/profiles/76561198053381832"
-moat.print "| Velkon > https://steamcommunity.com/profiles/76561198154133184"
+for k,v in RandomPairs(developers) do
+	moat.print ("| " .. v[1] .. " > https://steamcommunity.com/profiles/" .. v[2])
+end
 moat.spacer()
 moat.print "| Need to report a bug? We'd love to talk with you! <3<3<3"
 moat.print [[| The best way to contact us is on our partnered Discord server. \ (•◡•) /]]
