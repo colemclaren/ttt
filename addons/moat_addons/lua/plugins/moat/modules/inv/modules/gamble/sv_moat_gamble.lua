@@ -212,9 +212,11 @@ end
 hook.Add("PlayerDisconnected", "moat_BlackjackDisconnect", m_GambleBlackjackRemoveGame)
 
 function m_GambleBlackjackDraw(ply)
-    local amt = math.Round(MOAT_BLACK_GAMES[ply:SteamID()].bet * 0.9)
+    local amt = math.floor(MOAT_BLACK_GAMES[ply:SteamID()].bet)
 
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
+
+    ply:m_GiveIC(amt)
 
     m_AddGambleChat(
 		Color(255,255,255), "[",
