@@ -218,7 +218,7 @@ function m_GambleBlackjackDraw(ply)
 
     ply:m_GiveIC(amt)
 
-    m_AddGambleChat(
+    m_AddGambleChat(--a
 		Color(255,255,255), "[",
 		room[2], room[1][1],
 		Color(255,255,255), "]",
