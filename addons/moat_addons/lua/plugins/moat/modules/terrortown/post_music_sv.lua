@@ -18,9 +18,10 @@ function m_ChooseRandomChristmas()
 end
 
 hook.Add("TTTEndRound", "moat_PlayEndMusic", function()
-	local music_url = m_ChooseRandomSong()
+	local music_url, christmas_url = m_ChooseRandomSong(), m_ChooseRandomChristmas()
 
 	net.Start "Moat.PostRoundMusic"
 		net.WriteString(music_url)
+		net.WriteString(christmas_url)
 	net.Broadcast()
 end)

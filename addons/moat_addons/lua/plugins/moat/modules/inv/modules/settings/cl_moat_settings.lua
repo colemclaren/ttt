@@ -50,7 +50,7 @@ local moat_convars = {
     ["moat_scoreboard_ping"] = 0,
     ["moat_skybox"] = 0,
     ["moat_droppaint"] = 0,
-    ["moat_round_music_christmas"] = 1,
+    ["moat_music_christmas"] = 1,
     ["moat_inspect_stats"] = 1
 }
 
@@ -127,7 +127,7 @@ local moat_Settings = {
         {"End Round Music", {"Multi"}, "moat_round_music"},
         {"End Round Music Volume", {"Slider", 0, 1}, "moat_round_music_volume"},
         {"FOV (75 to 110)", {"Slider", 0, 1}, "moat_clfov"},
-        {"Christmas End Round Music", {"Multi"}, "moat_round_music_christmas"},
+        {"Christmas End Round Music", {"Multi"}, "moat_music_christmas"},
         {"Disable MOTD on Join", {"Multi"}, "moat_disable_motd"},
         {"Invert Map [BETA]", {"Multi"}, "moat_map_invert"},
         {"Disable Multicore Rendering (Might Fix Crashes)", {"Multi"}, "moat_multicore"}
