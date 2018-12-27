@@ -1125,7 +1125,7 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 
 		hook.Add("ScalePlayerDamage", "moat_track_1tap", function(ply, hitgroup, dmginfo)
 			local att = dmginfo:GetAttacker()
-            if not GetRoundState() == ROUND_ACTIVE then return end
+            if GetRoundState() ~= ROUND_ACTIVE then return end
 
 
             if (not att.attacked) then

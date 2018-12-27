@@ -193,7 +193,7 @@ MOAT_PAINT.Paints = {
 
 local holidays = 'Holiday Collection'
 MOAT_PAINT.Skins = {
-	[6117] = {'Flesh Skin', 'https://cdn.moat.gg/f/68dd2.vtf', 7, 'https://cdn.moat.gg/f/eba71.png'},
+	[6117] = {'Flesh Skin', 'https://cdn.moat.gg/f/1998b.vtf', 7, 'https://cdn.moat.gg/f/86cc6.png'},
 	[6119] = {'Test Skin', 'https://cdn.moat.gg/f/b4573.vtf', 8, nil, 'Testing Collection'},
 	[6120] = {'Merry Poops', 'https://cdn.moat.gg/f/209a2.vtf', 3, 'https://cdn.moat.gg/f/b70cb.png', holidays},
 	[6123] = {'Blizzard Skin', 'https://cdn.moat.gg/f/37c4d.vtf', 4, 'https://cdn.moat.gg/f/2391e.png', holidays},
