@@ -3,7 +3,7 @@ ITEM.ID = 530
 
 ITEM.Name = "Classy Gentleman Model"
 
-ITEM.Description = "Only for the Most Dapper of Tea-Sipping Gentelmen"
+ITEM.Description = "Only for the Most Dapper of Tea-Sipping Gentlemen"
 
 ITEM.Model = "models/player/macdguy.mdl"
 
