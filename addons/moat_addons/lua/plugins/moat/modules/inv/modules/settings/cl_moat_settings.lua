@@ -184,7 +184,7 @@ local moat_Settings = {
         {"Auto-Deconstruct filter Model Cosmetics", {"Multi"}, "moat_auto_deconstruct_model"}
     },
     {"Chat",
-        {"Diplay Jackpot wins in chat", {"Multi"}, "moat_chatjackpot"},
+        {"Display Jackpot wins in chat", {"Multi"}, "moat_chatjackpot"},
         {"Display Planetary drops in chat", {"Multi"}, "moat_chatplanetary"},
         {"Display trades in chat", {"Multi"}, "moat_showtrades"},
         {"Gangsta Speech Mode", {"Multi"}, "moat_gangsta"},
