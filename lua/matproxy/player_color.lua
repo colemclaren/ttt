@@ -37,6 +37,9 @@ matproxy.Add( {
 
 		if (CSModel[ent:GetClass()] and MOAT_PAINT and m_Loadout and m_Loadout[10] and m_Loadout[10].p2 and m_Loadout[10].item and m_Loadout[10].item.Model == ent:GetModel()) then
 			local col = MOAT_PAINT.Paints[m_Loadout[10].p2][2]
+			if (MOAT_PAINT.Paints[m_Loadout[10].p2].Dream) then
+				col = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
+			end
 
 			mat:SetVector(self.ResultTo, Vector(col[1]/255, col[2]/255, col[3]/255))
 		end

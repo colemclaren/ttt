@@ -706,10 +706,16 @@ function PANEL:AddModel(item_enum, item_tbl)
             local col = MOAT_PAINT.Paints[item_tbl.p2]
             if (not col) then return end
             tbl.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
+			if (col.Dream) then
+				tbl.Dream = true
+			end
         else
             local col = MOAT_PAINT.Tints[item_tbl.p]
             if (not col) then return end
             tbl.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
+			if (col.Dream) then
+				tbl.Dream = true
+			end
         end
     end
 
@@ -816,7 +822,9 @@ function PANEL:DrawClientsideModels()
         end
         v.ModelEnt:SetPos(pos)
         v.ModelEnt:SetAngles(ang)
-        if (v.Colors) then
+		if (v.Dream) then
+			render.SetColorModulation(rarity_names[9][2].r/255, rarity_names[9][2].g/255, rarity_names[9][2].b/255)
+		elseif (v.Colors) then
             render.SetColorModulation(v.Colors[1], v.Colors[2], v.Colors[3])
         end
         v.ModelEnt:DrawModel()

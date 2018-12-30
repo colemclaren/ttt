@@ -82,6 +82,10 @@ end)
 
 local function RenderOverrideColor(self)
     local col = self.Col
+	if (self.Dream) then
+		col = rarity_names[9][2]
+	end
+
     render.SetColorModulation(col.r / 255, col.g / 255, col.b / 255)
     self:DrawModel()
     render.SetColorModulation(1, 1, 1)
@@ -140,8 +144,10 @@ function LayoutItem(ply, item, attmpt)
     item.ModelEnt:SetLocalAngles(ang)
     item.ModelEnt:SetMoveType(MOVETYPE_NONE)
     item.ModelEnt.item = item
+
     if (item.Col) then
         item.ModelEnt.Col = item.Col
+		item.ModelEnt.Dream = item.Dream
         item.ModelEnt.RenderOverride = RenderOverrideColor
     end
 end
@@ -153,7 +159,7 @@ local mat = Material
 local getmats = ENTITY.GetMaterials
 local reg = vector(1, 1, 1)
 local mats_cache = {}
--- for k, v in pairs(weapons.GetList()) do if (v.ClassName:StartWith("weapon_ttt_te_") or v.AutoSpawnable) then me():m_DropInventoryItem("Soft", v.ClassName) end end
+-- lua_run for k, v in pairs(weapons.GetList()) do if (v.ClassName:StartWith("weapon_ttt_te_") or v.AutoSpawnable) then me():m_DropInventoryItem("Soft", v.ClassName) end end
 
 SKIN_IGNORE = {}
 SKIN_IGNORE["models/weapons/v_models/slayer's_msbs/msbs"] = true
@@ -415,11 +421,21 @@ function MOAT_LOADOUT.ApplyModels()
                 item.ModelEnt.Col = Color(col[2][1], col[2][2], col[2][3], 255)
                 item.ModelEnt:SetRenderMode(RENDERMODE_TRANSALPHA)
                 item.ModelEnt:SetColor(Color(col[2][1], col[2][2], col[2][3], 255))
+
+				if (col.Dream) then
+					item.Col = Color(255, 255, 255)
+					item.Dream = true
+				end
             else
                 local col = MOAT_PAINT.Tints[paint]
                 if (not col) then return end
                 item.ModelEnt:SetRenderMode(RENDERMODE_TRANSALPHA)
                 item.ModelEnt:SetColor(Color(col[2][1], col[2][2], col[2][3], 255))
+
+				if (col.Dream) then
+					item.Col = Color(255, 255, 255)
+					item.Dream = true
+				end
             end
         end
 
