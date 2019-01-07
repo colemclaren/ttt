@@ -42,7 +42,7 @@ if SERVER then
 end
 
 SWEP.Primary.Sound			= Sound( "Weapon_CM4.Single" )		-- Script that calls the primary fire sound
-SWEP.Primary.Delay			= 60 / 700
+SWEP.Primary.Delay			= 60 / 650
 SWEP.Primary.ClipSize			= 30		-- Size of a clip
 SWEP.Primary.ClipMax			= 90
 SWEP.Primary.DefaultClip		= 30		-- Bullets you start with
