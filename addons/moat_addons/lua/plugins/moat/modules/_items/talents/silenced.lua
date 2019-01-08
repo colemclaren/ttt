@@ -6,7 +6,7 @@ TALENT.Description = "Each round, your weapon has a %s_^ chance to become silenc
 TALENT.Tier = 1
 TALENT.LevelRequired = {min = 5, max = 10}
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 35, max = 60}
+TALENT.Modifications[1] = {min = 100, max = 200}
 TALENT.Melee = false
 TALENT.NotUnique = true
 
@@ -26,7 +26,7 @@ end
 
 function TALENT:ModifyWeapon( weapon, talent_mods )
     local chanceNum = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
-    local randomNum = math.Rand(1, 100)
+    local randomNum = math.random() * 100
     local applyMod = chanceNum > randomNum
 	if not silence_prep_cache[weapon.Weapon:GetOwner()] then
 		silence_prep_cache[weapon.Weapon:GetOwner()] = {}
