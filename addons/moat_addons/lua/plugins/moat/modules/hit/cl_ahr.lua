@@ -113,6 +113,12 @@ local function moatCreateSettingDropDown(pnl, x, y, settings_tbl)
     end
 end
 
+local ping
+
+net.Receive("AHR_MaxPing", function()
+    ping = net.ReadUInt(32)
+end)
+
 local MOAT_BG
 
 local function moatHitRegSettings()
@@ -148,7 +154,7 @@ local function moatHitRegSettings()
         surface.DrawLine(0, 25, w, 25)
         surface.SetDrawColor(Color(0, 0, 0, 100))
         surface.DrawLine(0, 26, w, 26)
-        draw.SimpleTextOutlined("Alternative Hit Registration Settings - By Moat", "moat_LabelFont", 10, 12, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 20))
+        draw.SimpleTextOutlined("Alternative Hit Registration Settings - By Moat ("..ping.."ms)", "moat_LabelFont", 10, 12, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 20))
     end
 
     local MOAT_CLOSE = vgui.Create("DButton", MOAT_BG)

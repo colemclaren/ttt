@@ -24,9 +24,27 @@ if (not SHR_Val) then
 	SHR_Val = math.random(0, 0xFFFFFFFF)
 end
 
+local MAX_Ping = 125 -- changes
+
+util.AddNetworkString "AHR_MaxPing"
+
+timer.Create("AHR_PingCheck", 5, 0, function()
+	local avg_ping = 0
+	local ply_count = player.GetCount()
+
+	for _, ply in pairs(player.GetAll()) do
+		avg_ping = avg_ping + ply:Ping() / ply_count
+	end
+
+	MAX_Ping = math.floor(0.5 + math.max(150, avg_ping + 40))
+	net.Start "AHR_MaxPing"
+		net.WriteUInt(MAX_Ping, 32)
+	net.Broadcast()
+end)
+
 local ENTITY = FindMetaTable "Entity"
 function ENTITY:HitRegCheck()
-	return self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:Ping() < 125
+	return self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:Ping() < MAX_Ping
 end
 
 function SHR:CreateShot(wpn, shotnum, firenum)
