@@ -27,6 +27,7 @@ c4block["ttt_richland_night"] = true
 c4block["ttt_minecraftmotel_b2u"] = true
 c4block["ttt_innocentmotel_v1"] = true
 c4block["ttt_clue_se"] = true
+c4block["ttt_mcdonalds_mds_v2"] = true
 local map = game.GetMap()
 if (c4block[map]) then
 	SWEP.CanBuy = {}
