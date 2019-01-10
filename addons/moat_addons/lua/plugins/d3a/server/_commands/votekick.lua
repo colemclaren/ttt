@@ -6,7 +6,6 @@ local reasons = {
 	"Mic Spamming",
 	"Purposeful Mass RDM",
 	"Attempted Mass RDM",
-	"Chat Spamming",
 	"Hateful Conduct"
 } -- not sent to client, found in addons\moat_addons\lua\plugins\d3a\client\cl_menu.lua:100
 COMMAND.Run = function(pl, args, supp)
