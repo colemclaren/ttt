@@ -7,13 +7,22 @@ MOAT_DONATE = MOAT_DONATE or {}
 MOAT_DONATE.Packages = {
 	[1] = {},
 	[2] = {1500, function(pl)
-		moat_makevip(pl:SteamID64())
-		m_AddCreditsToSteamID(pl:SteamID(), 10000)
+		if pl:GetUserGroup() ~= "user" then
+			pl:m_DropInventoryItem("VIP Token")
 
-		net.Start "D3A.Chat2"
-			net.WriteBool(false)
-			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for the VIP Package!"})
-		net.Send(pl)
+			net.Start "D3A.Chat2"
+				net.WriteBool(false)
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for a VIP Token!"})
+			net.Send(pl)
+		else
+			moat_makevip(pl:SteamID64())
+			m_AddCreditsToSteamID(pl:SteamID(), 10000)
+
+			net.Start "D3A.Chat2"
+				net.WriteBool(false)
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for the VIP Package!"})
+			net.Send(pl)
+		end
 	end},
 	[3] = {500, function(pl)
 		m_AddCreditsToSteamID(pl:SteamID(), 2500)

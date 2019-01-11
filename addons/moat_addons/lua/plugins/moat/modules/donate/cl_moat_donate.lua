@@ -364,7 +364,11 @@ function MOAT_DONATE:RebuildSelection(num)
 		surface.DrawOutlinedRect(0, 0, w, 45)
 
 		if (pkg[6]) then
-			draw.SimpleText("This Package Includes:", "moat_Derma7", w/2, 85, Color(0, 255, 255), TEXT_ALIGN_CENTER)
+			if (pkg[3] == 2 and LocalPlayer():GetUserGroup() ~= "user") then
+				draw.SimpleText("This Tradeable VIP Token Includes:", "moat_Derma7", w/2, 85, Color(0, 255, 255), TEXT_ALIGN_CENTER)
+			else
+				draw.SimpleText("This Package Includes:", "moat_Derma7", w/2, 85, Color(0, 255, 255), TEXT_ALIGN_CENTER)
+			end
 
 			local y = 130
 			for i = 1, #pkg[6] do
@@ -434,20 +438,34 @@ function MOAT_DONATE:RebuildSelection(num)
 			surface.PlaySound("buttons/button10.wav")
 			return
 		end
+		if (pkg[3] == 2 and LocalPlayer():GetUserGroup() ~= "user") then
+			Derma_Query("Are you sure you want to purchase a VIP Token that you cannot redeem?\n(Can be traded/gifted to other players to give them VIP)", "Are you sure?", "Yes", function() 
+				net.Start("moat.donate.purchase")
+				net.WriteUInt(pkg[3], 8)
+				net.SendToServer()
 
-		net.Start("moat.donate.purchase")
-		net.WriteUInt(pkg[3], 8)
-		net.SendToServer()
+				if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+				moat_inv_cooldown = CurTime() + 3
+				m_ClearInventory()
+			end, "No")
+		else 
+			net.Start("moat.donate.purchase")
+			net.WriteUInt(pkg[3], 8)
+			net.SendToServer()
 
-		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
-        moat_inv_cooldown = CurTime() + 3
-        m_ClearInventory()
+			if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+			moat_inv_cooldown = CurTime() + 3
+			m_ClearInventory()
+		end
 
 		surface.PlaySound("buttons/button3.wav")
 	end
 end
 
 function MOAT_DONATE:OpenWindow()
+	if LocalPlayer():GetUserGroup() ~= "user" then
+		MOAT_DONATE.Packages[3][1] = "VIP Token"
+	end
 	self.FrameW = 650
 	self.FrameH = 450
 	self.CurCat = 1
