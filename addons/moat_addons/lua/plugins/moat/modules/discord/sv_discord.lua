@@ -48,7 +48,7 @@ function discord_(db)
         q:start()
     end)
 
-    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_discord` ( `steamid` varchar(255) NOT NULL, `oauth` TEXT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_discord` ( `steamid` varchar(32) NOT NULL, `oauth` TEXT NOT NULL, PRIMARY KEY (steamid) ) ")
     q:start()
 
     net.Receive("discord.OAuth",function(l,ply)

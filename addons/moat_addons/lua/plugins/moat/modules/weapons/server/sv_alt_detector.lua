@@ -17,7 +17,7 @@ function QueryIP(ipv4, cb)
 	if (db) then
 		local a, b, c, d = ipv4:match("^(%d+)%.(%d+)%.(%d+)%.(%d+)")
 		local ipu32 = a * 2^24 + b * 2^16 + c * 2^8 + d
-		local q = db:query("SELECT AS_number, AS_description FROM `ip_info` WHERE range_start <= " .. ipu32 .. " AND " .. ipu32 .. " <= range_end;");
+		local q = db:query("SELECT AS_number, AS_description FROM server_site_data.ip_info WHERE range_start <= " .. ipu32 .. " AND " .. ipu32 .. " <= range_end;");
 		q.onError = function(q, err, sql)
 			Query_Error(q, err, sql)
 			cb(false)

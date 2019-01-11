@@ -98,7 +98,7 @@ function GiveFeedback() end
 local function loadSQL()
     local db = MINVENTORY_MYSQL
 
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_feedback` ( `vote` int NOT NULL, `map` VARCHAR(255) NOT NULL, `steamid` VARCHAR(255) NOT NULL ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_feedback` ( `vote` int NOT NULL, `map` VARCHAR(100) NOT NULL, `steamid` VARCHAR(255) NOT NULL )")
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
     end

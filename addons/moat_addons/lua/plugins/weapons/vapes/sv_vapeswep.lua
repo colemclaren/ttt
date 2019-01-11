@@ -11,7 +11,7 @@ local hours = 2
 mega_vape_cache = {}
 local function _megasql()
 	local db = MINVENTORY_MYSQL
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_megavape` ( `itemid` varchar(255) NOT NULL, `time` INT NOT NULL, PRIMARY KEY (itemid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_megavape` ( `itemid` varchar(100) NOT NULL, `time` INT NOT NULL, PRIMARY KEY (itemid) )")
     q:start()
 
 	function mega_vape_use(itemid,fun)

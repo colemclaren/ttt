@@ -12,19 +12,38 @@ if (not moat.sql.db) then
 	)
 end
 
+local function ReplaceQuery(db)
+	if (not db.query_internal) then
+		db.query_internal = db.query
+	end
+
+
+	function db:query(sql)
+		moat.sql.db.query_queued = true
+		return self:query_internal(sql)
+	end
+end
+
 moat.sql.db.onConnected = function(db)
-	/*if (db.setCharacterSet) then
+	ReplaceQuery(db)
+
+	if (not moat.sql.db.query_queued and db.setCharacterSet) then
 		db:setCharacterSet "utf8mb4"
-	end*/
+	else
+		moat.print "sql query queued before charset" 
+	end
 
 	moat.print("sql connected")
 	hook.Run("SQLConnected", db)
 end
 moat.sql.db.onConnectionFailed = function(db, err)
+	moat.sql.db.query_queued = false
 	moat.print("sql failed", db, err)
 	hook.Run("SQLConnectionFailed", db, err)
 end
+
 if (not moat.sql.db.status or (moat.sql.db.status and moat.sql.db:status() == mysqloo.DATABASE_NOT_CONNECTED)) then
+	ReplaceQuery(moat.sql.db)
 	moat.sql.db:connect()
 end
 

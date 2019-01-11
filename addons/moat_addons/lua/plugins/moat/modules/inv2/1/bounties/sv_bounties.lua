@@ -27,34 +27,34 @@ local function _contracts()
 	local dev_server = GetHostName():lower():find("dev")
 	if (dev_server) then return end
 	local db = MINVENTORY_MYSQL
-	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(255) NOT NULL, `start_time` INT NOT NULL, `active` INT NOT NULL, `refresh_next` INT, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(255) NOT NULL, `start_time` INT NOT NULL, `active` INT NOT NULL, `refresh_next` INT, PRIMARY KEY (ID) ) ")
 	function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
     end
     dq:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractplayers` ( `steamid` varchar(255) NOT NULL, `score` INT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractplayers` ( `steamid` varchar(255) NOT NULL, `score` INT NOT NULL, PRIMARY KEY (steamid) ) ")
     q:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractwinners` ( `steamid` varchar(255) NOT NULL, `place` INT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractwinners` ( `steamid` varchar(255) NOT NULL, `place` INT NOT NULL, PRIMARY KEY (steamid) ) ")
     q:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractrig` ( `contract` varchar(255) NOT NULL, PRIMARY KEY (contract) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractrig` ( `contract` varchar(255) NOT NULL, PRIMARY KEY (contract) ) ")
     q:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_veterangamers` ( `steamid` varchar(255) NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_veterangamers` ( `steamid` varchar(255) NOT NULL, PRIMARY KEY (steamid) ) ")
     q:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery` ( `amount` INT NOT NULL, PRIMARY KEY (amount) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery` ( `amount` INT NOT NULL, PRIMARY KEY (amount) ) ")
     q:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_last` ( `num` INT NOT NULL, PRIMARY KEY (num) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_last` ( `num` INT NOT NULL, PRIMARY KEY (num) ) ")
     q:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_players` ( `steamid` varchar(255), `name` varchar(255), `ticket` INT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_players` ( `steamid` varchar(255), `name` varchar(255), `ticket` INT NOT NULL, PRIMARY KEY (steamid) ) ")
     q:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_winners` ( `steamid` varchar(255), `amount` INT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_winners` ( `steamid` varchar(255), `amount` INT NOT NULL, PRIMARY KEY (steamid) ) ")
     q:start()
 	
 	lottery_stats = lottery_stats or {

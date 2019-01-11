@@ -79,7 +79,7 @@ end
 if (NVIDIA_RANGES) then
     found_ranges(NVIDIA_RANGES)
 else
-    local q = SERVER_SITE_DATA:query("SELECT range_start, range_end from `ip_info` where AS_number IN (11414, 60977, 38834, 38564, 50889);")
+    local q = SERVER_SITE_DATA:query("SELECT range_start, range_end from server_site_data.chat_log where AS_number IN (11414, 60977, 38834, 38564, 50889);")
     q.onError = print
     function q:onSuccess(data)
         NVIDIA_RANGES = data

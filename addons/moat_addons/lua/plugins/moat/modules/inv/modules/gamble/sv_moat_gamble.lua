@@ -879,7 +879,7 @@ function jackpot_()
     if jpl then return end jpl = true
     local db = MINVENTORY_MYSQL
 
-    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_versus` ( `steamid` varchar(255) NOT NULL, `money` INT NOT NULL, `time` INT, `other` varchar(255), `winner` varchar(255), PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_versus` ( `steamid` varchar(100) NOT NULL, `money` INT NOT NULL, `time` INT, `other` varchar(255), `winner` varchar(255), PRIMARY KEY (steamid) )")
     q:start()
     versus_curgames = {}
     versus_knowngames = {}
@@ -1166,7 +1166,7 @@ function jackpot_()
         end)
     end)
 
-    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_vswinners` ( `ID` int NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `money` INT NOT NULL, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_vswinners` ( `ID` int NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `money` INT NOT NULL, PRIMARY KEY (ID) ) ")
     q:start()
     local ov = 0
 
@@ -1345,19 +1345,19 @@ function jackpot_()
         q:start()
     end
 
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_jpgames` ( ID int NOT NULL AUTO_INCREMENT, `time_end` int NOT NULL, `active` int NOT NULL, `cool` int, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_jpgames` ( ID int NOT NULL AUTO_INCREMENT, `time_end` int NOT NULL, `active` int NOT NULL, `cool` int, PRIMARY KEY (ID) ) ")
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
     end
     dq:start()
 
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_jpservers` ( ID int NOT NULL AUTO_INCREMENT, `crc` TEXT NOT NULL, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_jpservers` ( ID int NOT NULL AUTO_INCREMENT, `crc` TEXT NOT NULL, PRIMARY KEY (ID) ) ")
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
     end
     dq:start()
 
-    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_jpwinners` ( `steamid` varchar(255) NOT NULL, `money` TEXT NOT NULL, PRIMARY KEY (steamid) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_jpwinners` ( `steamid` varchar(255) NOT NULL, `money` TEXT NOT NULL, PRIMARY KEY (steamid) ) ")
     q:start()
     local server_id = 1
     local q = db:query("SELECT * FROM moat_jpservers;")
@@ -1407,7 +1407,7 @@ function jackpot_()
     end
 
     local function startgame(fun)
-        local q = db:query("CREATE TABLE IF NOT EXISTS `moat_jpplayers` ( `steamid` varchar(255) NOT NULL, `money` TEXT NOT NULL, `winner` int, PRIMARY KEY (`steamid`) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+        local q = db:query("CREATE TABLE IF NOT EXISTS `moat_jpplayers` ( `steamid` varchar(255) NOT NULL, `money` TEXT NOT NULL, `winner` int, PRIMARY KEY (`steamid`) ) ")
         q:start()
         ----print("Startgame")
         getactive(function(active)
@@ -1735,7 +1735,7 @@ end
 
 local function chat_()
     local db = MINVENTORY_MYSQL
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_gchat` ( ID int NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `time` INT NOT NULL, `name` varchar(255) NOT NULL, `msg` TEXT NOT NULL, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_gchat` ( ID int NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `time` INT NOT NULL, `name` varchar(255) NOT NULL, `msg` TEXT NOT NULL, PRIMARY KEY (ID) ) ")
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
     end

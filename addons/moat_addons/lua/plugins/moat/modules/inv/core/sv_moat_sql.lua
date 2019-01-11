@@ -10,29 +10,21 @@ function m_InventoryTable(db)
     end
 
     fs = fs .. " inventory TEXT"
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_inventories` ( `steamid` varchar(255) NOT NULL, `max_slots` int(255) NOT NULL, `credits` TEXT NOT NULL, " .. fs .. ", PRIMARY KEY (`steamid`) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_inventories` ( `steamid` varchar(255) NOT NULL, `max_slots` int(255) NOT NULL, `credits` TEXT NOT NULL, " .. fs .. ", PRIMARY KEY (`steamid`) ) ")
 
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
     end
 
     dq:start()
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_rollsave` ( `id` int(255) NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `item_tbl` TEXT NOT NULL, PRIMARY KEY (`id`) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_rollsave` ( `id` int(255) NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `item_tbl` TEXT NOT NULL, PRIMARY KEY (`id`) ) ")
 
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
     end
 
     dq:start()
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_stats` ( `steamid` varchar(255) NOT NULL, `stats_tbl` TEXT NOT NULL, PRIMARY KEY (`steamid`) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
-
-    function dq:onError(err)
-        ServerLog("[mInventory] Error with creating table: " .. err)
-    end
-
-    dq:start()
-
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_trades` ( ID int NOT NULL AUTO_INCREMENT, `time` int NOT NULL, `my_steamid` VARCHAR(30) NOT NULL, `their_steamid` VARCHAR(30) NOT NULL,`my_nick` TEXT NOT NULL, `their_nick` TEXT NOT NULL, `trade_tbl` TEXT NOT NULL, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_stats` ( `steamid` varchar(255) NOT NULL, `stats_tbl` TEXT NOT NULL, PRIMARY KEY (`steamid`) ) ")
 
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
@@ -40,7 +32,7 @@ function m_InventoryTable(db)
 
     dq:start()
 
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_comps` ( ID int NOT NULL AUTO_INCREMENT, `time` int NOT NULL, `steamid` varchar(255) NOT NULL, `admin` TEXT NOT NULL, `link` TEXT NOT NULL, `ic` TEXT NOT NULL, `ec` TEXT NOT NULL, `item` TEXT NOT NULL, `class` TEXT NOT NULL, `talent1` TEXT NOT NULL, `talent2` TEXT NOT NULL, `talent3` TEXT NOT NULL, `talent4` TEXT NOT NULL, `comment` TEXT NOT NULL, `approved` TEXT NOT NULL, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_trades` ( ID int NOT NULL AUTO_INCREMENT, `time` int NOT NULL, `my_steamid` VARCHAR(30) NOT NULL, `their_steamid` VARCHAR(30) NOT NULL,`my_nick` TEXT NOT NULL, `their_nick` TEXT NOT NULL, `trade_tbl` TEXT NOT NULL, PRIMARY KEY (ID) ) ")
 
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
@@ -48,7 +40,15 @@ function m_InventoryTable(db)
 
     dq:start()
 
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_logs` ( ID int NOT NULL AUTO_INCREMENT, `time` int NOT NULL, `message` TEXT NOT NULL, PRIMARY KEY (ID) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_comps` ( ID int NOT NULL AUTO_INCREMENT, `time` int NOT NULL, `steamid` varchar(255) NOT NULL, `admin` TEXT NOT NULL, `link` TEXT NOT NULL, `ic` TEXT NOT NULL, `ec` TEXT NOT NULL, `item` TEXT NOT NULL, `class` TEXT NOT NULL, `talent1` TEXT NOT NULL, `talent2` TEXT NOT NULL, `talent3` TEXT NOT NULL, `talent4` TEXT NOT NULL, `comment` TEXT NOT NULL, `approved` TEXT NOT NULL, PRIMARY KEY (ID) ) ")
+
+    function dq:onError(err)
+        ServerLog("[mInventory] Error with creating table: " .. err)
+    end
+
+    dq:start()
+
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_logs` ( ID int NOT NULL AUTO_INCREMENT, `time` int NOT NULL, `message` TEXT NOT NULL, PRIMARY KEY (ID) ) ")
 
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)

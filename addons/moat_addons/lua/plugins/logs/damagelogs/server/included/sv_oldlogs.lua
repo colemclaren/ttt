@@ -32,7 +32,7 @@ hook.Add("SQLConnected", "damagelogsSQL", function(db)
 		]])
 	create_table1:start()
 	local create_table2 = db:query([[CREATE TABLE IF NOT EXISTS damagelog_weapons (
-		class varchar(255) NOT NULL,
+		class varchar(100) NOT NULL,
 		name varchar(255) NOT NULL,
 		PRIMARY KEY (class));
 	]])

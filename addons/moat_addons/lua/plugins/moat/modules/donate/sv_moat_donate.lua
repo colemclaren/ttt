@@ -212,7 +212,7 @@ util.AddNetworkString("NameRewards.Time")
 
 local function namerewards()
 	local db = MINVENTORY_MYSQL
-	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_namerewards` ( `steamid` varchar(255) NOT NULL,`last_name` int NOT NULL, `last_reward` int NOT NULL, `pending_ic` int NOT NULL, `pending_sc` int NOT NULL, PRIMARY KEY (`steamid`) ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")
+	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_namerewards` ( `steamid` varchar(32) NOT NULL,`last_name` int NOT NULL, `last_reward` int NOT NULL, `pending_ic` int NOT NULL, `pending_sc` int NOT NULL, PRIMARY KEY (`steamid`) ) ")
 
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
