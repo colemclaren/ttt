@@ -44,7 +44,7 @@ end)
 
 local ENTITY = FindMetaTable "Entity"
 function ENTITY:HitRegCheck()
-	return self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:Ping() < MAX_Ping
+	return self:IsPlayer() and self:GetInfoNum("moat_alt_hitreg", 1) == 1 and self:Ping() < 300 --MAX_Ping
 end
 
 function SHR:CreateShot(wpn, shotnum, firenum)
