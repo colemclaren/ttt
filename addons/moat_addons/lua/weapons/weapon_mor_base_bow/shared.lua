@@ -37,6 +37,7 @@ SWEP.Primary.DefaultClip	= 10
 SWEP.Primary.Velocity		= 2800					// Arrow speed.
 SWEP.Primary.Automatic		= false				// Automatic/Semi Auto
 SWEP.Primary.Ammo			= "357"
+SWEP.Secondary.Ammo			= "none"
 
 SWEP.AmmoEnt = "item_ammo_357_ttt"
 

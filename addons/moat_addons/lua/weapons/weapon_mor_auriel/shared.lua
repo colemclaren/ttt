@@ -15,3 +15,6 @@ SWEP.Primary.ClipSize		= 5
 SWEP.Primary.ClipMax		= 15
 SWEP.Primary.DefaultClip	= 5
 --SWEP.Primary.Automatic	= false				// Automatic/Semi Auto
+SWEP.Primary.Ammo			= "357"
+SWEP.AmmoEnt				= "item_ammo_357_ttt"
+SWEP.Secondary.Ammo			= "none"
