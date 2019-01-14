@@ -1,33 +1,17 @@
-if( SERVER ) then
-	AddCSLuaFile( "shared.lua" )
-end
+
+AddCSLuaFile()
 
 SWEP.PrintName = "Bonemold Bow"
-if( CLIENT ) then
-	SWEP.DrawAmmo = true
-	SWEP.DrawCrosshair = false
-	SWEP.Icon = "vgui/ttt/icon_scout"
-end
 
 SWEP.Base			= "weapon_mor_base_bow"
-
-SWEP.ViewModelFOV	= 72
-SWEP.ViewModelFlip	= true
 
 SWEP.ViewModel      = "models/morrowind/bonemold/longbow/v_bonemold_longbow.mdl"
 SWEP.WorldModel   = "models/morrowind/bonemold/longbow/w_bonemold_longbow.mdl"
 
 SWEP.Primary.Damage		= 100
-SWEP.Primary.Velocity 		= 3000
+SWEP.Primary.Velocity	= 3000
 
-SWEP.Primary.ClipSize = 10
-SWEP.Primary.ClipMax = 30 -- keep mirrored to ammo
-SWEP.Primary.DefaultClip = 10
-SWEP.Primary.Automatic		= true				// Automatic/Semi Auto
-SWEP.Primary.Ammo			= "357"
-SWEP.Crosshair				= true
-SWEP.AmmoEnt = "item_ammo_357_ttt"
-SWEP.Secondary.ClipSize		= -1					// Size of a clip
-SWEP.Secondary.DefaultClip	= -1					// Default number of bullets in a clip
-SWEP.Secondary.Automatic	= false				// Automatic/Semi Auto
-SWEP.Secondary.Ammo		= "none"
+SWEP.Primary.ClipSize		= 10
+SWEP.Primary.ClipMax		= 30 -- keep mirrored to ammo
+SWEP.Primary.DefaultClip	= 10
+--SWEP.Primary.Automatic	= true				// Automatic/Semi Auto
