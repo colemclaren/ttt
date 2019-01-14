@@ -20,7 +20,7 @@ SWEP.AutoSpawnable = false
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_RIFLE
 
-SWEP.ViewModelFOV	= 72
+SWEP.ViewModelFOV	= 92
 SWEP.ViewModelFlip	= true
 
 SWEP.Spawnable			= false
