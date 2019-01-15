@@ -641,33 +641,55 @@ Custom Model Positioning
 ---------------------------------------------------------------------------]]
 
 util.AddNetworkString("MOAT_UPDATE_MODEL_POS")
+util.AddNetworkString("MOAT_UPDATE_MODEL_POS_SINGLE")
+
+local clamp_table = {
+	[1] = { -180, 180 },
+	[2] = { -180, 180 },
+	[3] = {  0.8, 1.2 },
+	[4] = { -2.5, 2.5 },
+	[5] = { -2.5, 2.5 },
+	[6] = { -2.5, 2.5 }
+}
 
 function MOAT_LOADOUT.UpdateModelPos(_, ply)
-    local item_id = net.ReadUInt(16)
-    local pos_table = {
-        [1] = math.Clamp(net.ReadDouble(), -180, 180),
-        [2] = math.Clamp(net.ReadDouble(), -180, 180),
-        [3] = math.Clamp(net.ReadDouble(), 0.8, 1.2),
-        [4] = math.Clamp(net.ReadDouble(), -2.5, 2.5),
-        [5] = math.Clamp(net.ReadDouble(), -2.5, 2.5),
-        [6] = math.Clamp(net.ReadDouble(), -2.5, 2.5)
-    }
+	local item_id = net.ReadUInt(16)
+	local pos_table = {}
+	
+	for i = 1, #clamp_table do
+		pos_table[i] = math.Clamp(net.ReadDouble(), clamp_table[i][1], clamp_table[i][2])
+	end
 
-    if (not MOAT_MODEL_EDIT_POS[ply]) then
-        MOAT_MODEL_EDIT_POS[ply] = {}
-    end
+	if (not MOAT_MODEL_EDIT_POS[ply]) then
+		MOAT_MODEL_EDIT_POS[ply] = {}
+	end
 
-    MOAT_MODEL_EDIT_POS[ply][item_id] = {
-        pos_table[1],
-        pos_table[2],
-        pos_table[3],
-        pos_table[4],
-        pos_table[5],
-        pos_table[6]
-    }
+	MOAT_MODEL_EDIT_POS[ply][item_id] = {
+		pos_table[1],
+		pos_table[2],
+		pos_table[3],
+		pos_table[4],
+		pos_table[5],
+		pos_table[6]
+	}
 end
 net.Receive("MOAT_UPDATE_MODEL_POS", MOAT_LOADOUT.UpdateModelPos)
 
+
+function MOAT_LOADOUT.UpdateModelPosSingle(_, ply)
+	local item_id = net.ReadUInt(16)
+	local slider_id = net.ReadUInt(8)
+	if (slider_id > #clamp_table or slider_id == 0) then return end
+
+	local item_pos = math.Clamp(net.ReadDouble(), clamp_table[slider_id][1], clamp_table[slider_id][2])
+
+	if (not MOAT_MODEL_EDIT_POS[ply]) then
+		MOAT_MODEL_EDIT_POS[ply] = {}
+	end
+
+	MOAT_MODEL_EDIT_POS[ply][item_id][slider_id] = item_pos
+end
+net.Receive("MOAT_UPDATE_MODEL_POS_SINGLE", MOAT_LOADOUT.UpdateModelPosSingle)
 
 --[[-------------------------------------------------------------------------
 Gamemode Fixes

@@ -10,7 +10,7 @@ MOAT_MODEL_POS_EDITS_DEFAULTS = {
 	0
 }
 
-local rotate_labels = {"Left/Right", "Up/Down", "Size"}
+local rotate_labels = {"Up/Down", "Left/Right", "Size"}
 local pos_labels = {"X Postion", "Y Postion", "Z Postion"}
 
 function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
@@ -45,13 +45,13 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
     	POS_SLIDER:SetText("")
     	POS_SLIDER.Value = 0.5
 
-    	if (i == 3 and cur_edits and cur_edits[3]) then
-            POS_SLIDER.Value = (cur_edits[3] - 0.8)/0.4
-        elseif (i == 2 and cur_edits and cur_edits[1]) then
-        	POS_SLIDER.Value = ((cur_edits[1]/180)/2) + 0.5
-        elseif (i == 1 and cur_edits and cur_edits[2]) then
-        	POS_SLIDER.Value = ((cur_edits[2]/180)/2) + 0.5
-        end
+		if (cur_edits and cur_edits[i]) then
+			if (i == 3) then
+				POS_SLIDER.Value = (cur_edits[i] - 0.8)/0.4
+			else
+				POS_SLIDER.Value = ((cur_edits[i]/180)/2) + 0.5
+			end
+		end
 
     	POS_SLIDER.HoverVal = 0
     	POS_SLIDER.Paint = function(s, w, h)
@@ -71,13 +71,12 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
             	if (not MOAT_MODEL_POS_EDITS[item_enum]) then
             		MOAT_MODEL_POS_EDITS[item_enum] = {}
             	end
+
             	if (i == 3) then
             		MOAT_MODEL_POS_EDITS[item_enum][3] = 0.8 + (s.Value * 0.4)
-            	elseif (i == 2) then
-            		MOAT_MODEL_POS_EDITS[item_enum][1] = (s.Value - 0.5) * 360
-            	elseif (i == 1) then
-            		MOAT_MODEL_POS_EDITS[item_enum][2] = (s.Value - 0.5) * 360
-            	end
+            	else
+            		MOAT_MODEL_POS_EDITS[item_enum][i] = (s.Value - 0.5) * 360
+				end
         	end
 
         	if (input.IsMouseDown(MOUSE_LEFT) and s:IsHovered() and not slider_moving) then
@@ -86,6 +85,7 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
         	elseif (input.IsMouseDown(MOUSE_LEFT) and s.Moving) then
         		return
         	elseif (s.Moving) then
+				moat_SaveItemPosition(item_enum, i)
             	s.Moving = false
             	slider_moving = false
         	end
@@ -100,13 +100,10 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
     	POS_SLIDER:SetText("")
     	POS_SLIDER.HoverVal = 0
     	POS_SLIDER.Value = 0.5
-
-    	if (i == 3 and cur_edits and cur_edits[6]) then
-            POS_SLIDER.Value = ((cur_edits[6]/2.5)/2) + 0.5
-        elseif (i == 2 and cur_edits and cur_edits[5]) then
-        	POS_SLIDER.Value = ((cur_edits[5]/2.5)/2) + 0.5
-        elseif (i == 1 and cur_edits and cur_edits[4]) then
-        	POS_SLIDER.Value = ((cur_edits[4]/2.5)/2) + 0.5
+		
+		
+		if (cur_edits and cur_edits[i + 3]) then
+			POS_SLIDER.Value = ((cur_edits[i + 3]/2.5)/2) + 0.5
         end
 
     	POS_SLIDER.Paint = function(s, w, h)
@@ -126,13 +123,8 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
             	if (not MOAT_MODEL_POS_EDITS[item_enum]) then
             		MOAT_MODEL_POS_EDITS[item_enum] = {}
             	end
-            	if (i == 3) then
-            		MOAT_MODEL_POS_EDITS[item_enum][6] = (s.Value - 0.5) * 5
-            	elseif (i == 2) then
-            		MOAT_MODEL_POS_EDITS[item_enum][5] = (s.Value - 0.5) * 5
-            	elseif (i == 1) then
-            		MOAT_MODEL_POS_EDITS[item_enum][4] = (s.Value - 0.5) * 5
-            	end
+				
+				MOAT_MODEL_POS_EDITS[item_enum][i + 3] = (s.Value - 0.5) * 5
         	end
 
         	if (input.IsMouseDown(MOUSE_LEFT) and s:IsHovered() and not slider_moving) then
@@ -141,6 +133,7 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
         	elseif (input.IsMouseDown(MOUSE_LEFT) and s.Moving) then
         		return
         	elseif (s.Moving) then
+				moat_SaveItemPosition(item_enum, i + 3)
             	s.Moving = false
             	slider_moving = false
         	end
@@ -268,6 +261,22 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
     	end
     	surface.PlaySound("UI/buttonclick.wav")
     end
+end
+
+function moat_SaveItemPosition(item_enum, slider_id)
+	local val = MOAT_MODEL_POS_EDITS_DEFAULTS[slider_id]
+	if (MOAT_MODEL_POS_EDITS[item_enum] and MOAT_MODEL_POS_EDITS[item_enum][slider_id]) then
+		val = MOAT_MODEL_POS_EDITS[item_enum][slider_id]
+	end
+
+	local cookie_name = cookie_prefix .. item_enum .. slider_id
+	cookie.Set(cookie_name, val)
+
+	net.Start("MOAT_UPDATE_MODEL_POS_SINGLE")
+    net.WriteUInt(item_enum, 16)
+	net.WriteUInt(slider_id, 8)
+	net.WriteDouble(val)
+	net.SendToServer()
 end
 
 function moat_UpdateItemPositions(enum, vals)
