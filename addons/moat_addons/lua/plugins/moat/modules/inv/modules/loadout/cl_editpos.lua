@@ -192,11 +192,14 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
         end
     end
     EDIT_RESET.DoClick = function(s)
-    	surface.PlaySound("UI/buttonclick.wav")
     	for i = 1, #edit_sliders do
     		edit_sliders[i].Value = 0.5
     	end
-    	MOAT_MODEL_POS_EDITS[item_enum] = nil
+
+    	MOAT_MODEL_POS_EDITS[item_enum] = table.Copy(MOAT_MODEL_POS_EDITS_DEFAULTS)
+		moat_UpdateItemPositions(item_enum)
+
+		surface.PlaySound("UI/buttonclick.wav")
     end
 
 	local hover_coloral = 0
@@ -249,18 +252,15 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
             end
         end
     end
-    EDIT_SAVE.DoClick = function(s)
-    	local vals = {}
-    	for i = 1, 6 do
-    		table.insert(vals, edit_sliders[i].Value)
-    	end
-    	moat_UpdateItemPositions(item_enum, vals)
-    	moat_RemoveEditPositionPanel()
-    	if (IsValid(M_INV_PMDL)) then
-    		M_INV_PMDL:ResetZoom()
-    	end
-    	surface.PlaySound("UI/buttonclick.wav")
-    end
+	EDIT_SAVE.DoClick = function(s)
+		moat_UpdateItemPositions(item_enum)
+		moat_RemoveEditPositionPanel()
+		if (IsValid(M_INV_PMDL)) then
+			M_INV_PMDL:ResetZoom()
+		end
+
+		surface.PlaySound("UI/buttonclick.wav")
+	end
 end
 
 function moat_SaveItemPosition(item_enum, slider_id)
@@ -279,8 +279,8 @@ function moat_SaveItemPosition(item_enum, slider_id)
 	net.SendToServer()
 end
 
-function moat_UpdateItemPositions(enum, vals)
-	local begining = cookie_prefix .. enum
+function moat_UpdateItemPositions(enum)
+	local beginning = cookie_prefix .. enum
 
 	net.Start("MOAT_UPDATE_MODEL_POS")
     net.WriteUInt(enum, 16)
@@ -289,8 +289,9 @@ function moat_UpdateItemPositions(enum, vals)
 		if (MOAT_MODEL_POS_EDITS[enum] and MOAT_MODEL_POS_EDITS[enum][i]) then
 			val = MOAT_MODEL_POS_EDITS[enum][i]
 		end
+
 		net.WriteDouble(val)
-		cookie.Set(begining .. i, val)
+		cookie.Set(beginning .. i, val)
 	end
     net.SendToServer()
 end
