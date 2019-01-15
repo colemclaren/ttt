@@ -26,8 +26,8 @@ local function moat_EndRoundBossHooks()
     hook.Remove("TTTKarmaGivePenalty", "moat_BossPreventKarmaLoss")
     hook.Remove("MoatInventoryShouldGiveLoadout", "moat_BossPreventLoadout")
     hook.Remove("PlayerDisconnected", "moat_BossDisconnect")
-	hook.Remove("PlayerFootstep", "moat_ScreenShake")
-	hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
+    hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
+    hook.Remove("SetupPlayerVisibility", "moat_BossVisibility")
 
     MOAT_ACTIVE_BOSS = false
     MOAT_BOSS_CUR = nil
@@ -276,13 +276,8 @@ local function moat_BeginRoundBossHooks()
             MuteForRestart(false)
         end)
 
-        hook.Add("PlayerFootstep", "moat_ScreenShake", function(ply, pos, foot, sound, vol, rf)
-            if (IsValid(MOAT_BOSS_CUR) and ply == MOAT_BOSS_CUR) then
-                util.ScreenShake(pos, 5, 5, 0.5, 1500)
-            end
-            if (GetRoundState() ~= ROUND_ACTIVE) then
-                hook.Remove("PlayerFootstep", "moat_ScreenShake")
-            end
+        hook.Add("SetupPlayerVisibility", "moat_BossVisibility", function()
+            AddOriginToPVS(MOAT_BOSS_CUR:GetPos())
         end)
 
         hook.Add("PlayerSwitchWeapon", "moat_HolsteredHide", function(ply, old, new)

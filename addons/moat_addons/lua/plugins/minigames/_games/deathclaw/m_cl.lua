@@ -284,6 +284,7 @@ local function moat_InitBossEnd(BOSS_LOSS)
 	hook.Add("HUDPaint", "moat_DrawBossEnd", function() moat_DrawBossEnd(BOSS_LOSS) end)
 	hook.Remove("TTTBeginRound", "moat_StartBoss")
 	hook.Remove("HUDShouldDraw", "moat_HideDamageIndicator")
+	hook.Remove("PlayerFootstep", "moat_ScreenShake")
 	MOAT_ACTIVE_BOSS = false
 end
 
@@ -314,6 +315,20 @@ net.Receive("MOAT_BEGIN_BOSS", function(len)
 		view.drawviewer = true
 
 		return view
+	end)
+
+
+	hook.Add("PlayerFootstep", "moat_ScreenShake", function(ply, pos, foot, sound, vol, rf)
+		if (LocalPlayer() == ply) then
+			return
+		end
+
+		if (IsValid(MOAT_CUR_BOSS) and ply == MOAT_CUR_BOSS) then
+			util.ScreenShake(pos, 5, 5, 0.5, 1500)
+		end
+		if (GetRoundState() ~= ROUND_ACTIVE) then
+			hook.Remove("PlayerFootstep", "moat_ScreenShake")
+		end
 	end)
 
 	timer.Simple(5, function()
