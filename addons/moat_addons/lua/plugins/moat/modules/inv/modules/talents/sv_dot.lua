@@ -1,7 +1,3 @@
-util.AddNetworkString("moat.dot.init")
-util.AddNetworkString("moat.dot.adjust")
-util.AddNetworkString("moat.dot.end")
-
 
 local pl = FindMetaTable("Player")
 
