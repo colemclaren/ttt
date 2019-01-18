@@ -4,13 +4,13 @@ self.__index = self
 
 function self:Invoke(data, time, pl)
 	if (IsValid(data.Player)) then
-        self:SetPlayer(data.Player)
-    end
-	
+		self:SetPlayer(data.Player)
+	end
+
 	self.Id = self.Name .. CurTime()
 
-    self:Init(data)
-	
+	self:Init(data)
+
 	if (isnumber(time) and (istable(pl) or IsValid(pl))) then
 		self:SendNotification(time, pl)
 	end
@@ -18,7 +18,7 @@ end
 
 function self:SetPlayer(pl)
 	if (not IsValid(pl)) then return end
-	
+
 	self.Player = pl
 end
 
@@ -29,19 +29,21 @@ function self:SendNotification(time, pl)
 	if (not isstring(self.Material)) then return end
 
 	net.Start("moat.status.init")
-        net.WriteString(self.Message)
-        net.WriteUInt(CurTime() + time, 16)
-        net.WriteString(self.Material)
-        net.WriteColor(self.Color)
-        net.WriteString(self.Id)
-    net.Send(pl)
+		net.WriteString(self.Message)
+		net.WriteFloat(CurTime() + time)
+		net.WriteString(self.Material)
+		net.WriteColor(self.Color)
+		net.WriteString(self.Id)
+		net.WriteFloat(CurTime())
+	net.Send(pl)
 end
 
 function self:CreateTimer(time, amt, tickfn, data)	
-	timer.Create(self.Id, time/amt, amt, function()
-		if (isfunction(tickfn)) then
-			tickfn(self, data)
-		end
+	if (not isfunction(tickfn)) then
+		error("tickfn is not a function")
+	end
+	timer.Create(self.Id, time / amt, amt, function()
+		tickfn(self, data)
 	end)
 end
 

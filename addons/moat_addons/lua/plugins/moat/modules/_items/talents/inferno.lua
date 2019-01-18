@@ -15,9 +15,9 @@ TALENT.LevelRequired = { min = 25, max = 30 }
 
 TALENT.Modifications = {}
 
-TALENT.Modifications[1] = { min = 5, max = 10 } // Chance to ignite
+TALENT.Modifications[1] = { min = 5, max = 10 } -- Chance to ignite
 
-TALENT.Modifications[2] = { min = 4, max = 8 } // Ignite time
+TALENT.Modifications[2] = { min = 4, max = 8 } -- Ignite time
 
 TALENT.Melee = true
 
@@ -42,10 +42,10 @@ function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
 		victim.ignite_info = {att = dmginfo:GetAttacker(), infl = dmginfo:GetInflictor()}
 
 		timer.Simple(ignite_time + 0.1, function()
-            if IsValid(victim) then
-                victim.ignite_info = nil
-            end
-        end)
+			if IsValid(victim) then
+				victim.ignite_info = nil
+			end
+		end)
 
 	end
 

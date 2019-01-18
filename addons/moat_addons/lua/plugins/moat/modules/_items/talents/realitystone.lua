@@ -29,7 +29,7 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
     if (GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS or MOAT_MINIGAME_OCCURING) then return end
 
     local chanceNum = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
-    local randomNum = math.Rand(1, 100)
+    local randomNum = math.random() * 100
     local applyMod = chanceNum > randomNum
 
     if (applyMod) then

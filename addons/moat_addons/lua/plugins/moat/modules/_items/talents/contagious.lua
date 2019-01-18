@@ -23,46 +23,61 @@ TALENT.Melee = true
 
 TALENT.NotUnique = true
 
-function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
 
+local STATUS = status.Create "Contagion"
+function STATUS:Invoke(data)
+	self:CreateEffect "Infected":Invoke(data, data.Time, data.Player)
+end
+
+local EFFECT = STATUS:CreateEffect "Infected"
+EFFECT.Message = "Infected"
+EFFECT.Color = TALENT.NameColor
+EFFECT.Material = "icon16/bug.png"
+function EFFECT:Init(data)
+	self:CreateTimer(data.Time, data.Amount, self.Callback, data)
+end
+
+local screams = {
+	"vo/npc/male01/pain07.wav",
+	  "vo/npc/male01/pain08.wav",
+	  "vo/npc/male01/pain09.wav",
+	  "vo/npc/male01/no02.wav"
+}
+
+function EFFECT:Callback(data)
+	local vic = data.Player
+	if (not IsValid(vic)) then return end
+	if (vic:Team() == TEAM_SPEC) then return end
+	if (GetRoundState() ~= ROUND_ACTIVE) then return end
+
+	local dmg = DamageInfo()
+	dmg:SetInflictor(data.Weapon)
+	dmg:SetAttacker(data.Attacker)
+	dmg:SetDamage(data.Damage)
+	dmg:SetDamageType(DMG_ACID)
+
+	vic:TakeDamageInfo(dmg)
+
+	vic:EmitSound(screams[math.random(1, #screams)])
+end
+
+function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
 	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then return end
 
 	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 
-	local random_num = math.Rand( 1, 100 )
-
-	local apply_mod = chance > random_num
-
-	if ( apply_mod ) then
-
+	if (chance > math.random() * 100) then
 		local tesla_reps = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * talent_mods[2] )
 		local tesla_dmg = self.Modifications[3].min + ( ( self.Modifications[3].max - self.Modifications[3].min ) * talent_mods[3] )
 		local tesla_delay = self.Modifications[4].min + ( ( self.Modifications[4].max - self.Modifications[4].min ) * talent_mods[4] )
 
-		victim:ApplyDOT( "poison", tesla_dmg, attacker, tesla_delay, tesla_reps, function(vic, att)
-			local screams = {
-				"vo/npc/male01/pain07.wav",
-      			"vo/npc/male01/pain08.wav",
-      			"vo/npc/male01/pain09.wav",
-      			"vo/npc/male01/no02.wav"
-			}
-
-			vic:EmitSound(screams[math.random(1, #screams)])
-
-		end, function(vic, att)
-			vic:SendLua([[chat.AddText(Material("icon16/bug.png"),Color(0,150,0),"You have been infected! Prepare for pain!")]])
-
-			net.Start("moat.dot.init")
-			net.WriteString("Infected")
-			net.WriteUInt(tesla_delay * tesla_reps, 16)
-			net.WriteString("icon16/bug.png")
-			net.WriteColor(Color(0, 150, 0))
-			net.WriteString(tostring("poison" .. vic:EntIndex() .. att:EntIndex()))
-			net.Send(vic)
-		end, function(vic, att)
-			vic:SendLua([[chat.AddText(Material("icon16/bug.png"),Color(255,255,0),"You feel better now.")]])
-		end)
-
+		status.Inflict("Contagion", {
+			Time = tesla_delay * tesla_reps,
+			Amount = tesla_reps,
+			Damage = tesla_dmg,
+			Weapon = attacker:GetActiveWeapon(),
+			Attacker = attacker,
+			Player = victim
+		})
 	end
-
 end
