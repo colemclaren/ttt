@@ -81,6 +81,10 @@ function SHR:CreateShot(wpn, shotnum, firenum)
 end
 
 function SHR:WeHit(shooter, ent, wpn, eye, localposx, localposy, localposz, dmgfrc, hg, fire_num, shot_num)
+	if (not IsValid(wpn) or not IsValid(ent) or not IsValid(shooter)) then
+		return
+	end
+
 	if (shooter:GetObserverMode() ~= OBS_MODE_NONE or wpn:GetOwner() ~= shooter or not IsValid(ent) or (ent:IsPlayer() and ent:GetObserverMode() ~= OBS_MODE_NONE)) then
 		return
 	end
