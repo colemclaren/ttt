@@ -28,6 +28,7 @@ local function moat_EndRoundBossHooks()
     hook.Remove("PlayerDisconnected", "moat_BossDisconnect")
     hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
     hook.Remove("SetupPlayerVisibility", "moat_BossVisibility")
+    hook.Remove("PlayerShouldTakeDamage", "moat_BossPreventDamage")
 
     MOAT_ACTIVE_BOSS = false
     MOAT_BOSS_CUR = nil
@@ -372,21 +373,25 @@ local function moat_BeginRoundBossHooks()
         end
     end)
 
+    hook.Add("PlayerShouldTakeDamage", "moat_BossPreventDamage", function(pl1, pl2)
+        if (pl1:IsPlayer() and pl2:IsPlayer() and pl1:GetRole() == pl2:GetRole()) then
+            return false
+        end
+    end)
+
     hook.Add("EntityTakeDamage", "moat_BossPreventDamage", function(ent, dmg)
 		if (not IsValid(ent) or not ent:IsPlayer()) then return end
 		if (not IsValid(MOAT_BOSS_CUR) or ent == MOAT_BOSS_CUR) then return end
-		if (dmg:IsBulletDamage() or dmg:IsExplosionDamage()) then
-			if (dmg:IsExplosionDamage()) then dmg:SetDamage(0) return true end
+        if (dmg:IsExplosionDamage()) then dmg:SetDamage(0) return true end
 
-			local att = dmg:GetAttacker()
-			if (not IsValid(att)) then return end
-			att = (not att:IsPlayer() and att:GetOwner() and IsValid(att:GetOwner())) and att:GetOwner() or att
+        local att = dmg:GetAttacker()
+        if (not IsValid(att)) then return end
+        att = (not att:IsPlayer() and att:GetOwner() and IsValid(att:GetOwner())) and att:GetOwner() or att
 
-			if (IsValid(att) and att:IsPlayer() and att:GetRole() == ent:GetRole()) then
-				dmg:SetDamage(0)
-				return true
-			end
-		end
+        if (IsValid(att) and att:IsPlayer() and att:GetRole() == ent:GetRole()) then
+            dmg:SetDamage(0)
+            return true
+        end
     end)
 
     hook.Add("TTTKarmaGivePenalty", "moat_BossPreventKarmaLoss", function(ply, penalty, vic)
