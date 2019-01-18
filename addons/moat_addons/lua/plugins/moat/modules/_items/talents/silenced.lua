@@ -5,29 +5,24 @@ TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "Each round, your weapon has a %s_^ chance to become silenced"
 TALENT.Tier = 1
 TALENT.LevelRequired = {min = 5, max = 10}
+
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 100, max = 200}
+TALENT.Modifications[1] = {min = 100, max = 200} -- Chance to trigger
+
 TALENT.Melee = false
 TALENT.NotUnique = true
 
 util.AddNetworkString("Talents.Silenced")
---s
+
 silence_prep_cache = {}
 hook.Add("TTTBeginRound","ClearSilenced",function()
 	silence_prep_cache = {}
 end)
 
-function silence_weapon_talent(weapon)
-	net.Start("Talents.Silenced")
-	net.WriteEntity(weapon)
-	net.Broadcast()
-	weapon.Primary.Sound = Sound( "weapons/usp/usp1.wav" )
-end
-
 function TALENT:ModifyWeapon( weapon, talent_mods )
-    local chanceNum = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
-    local randomNum = math.random() * 100
-    local applyMod = chanceNum > randomNum
+    local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+    local shouldApply = chance > math.random() * 100
+	
 	if not silence_prep_cache[weapon.Weapon:GetOwner()] then
 		silence_prep_cache[weapon.Weapon:GetOwner()] = {}
 	end
@@ -39,6 +34,10 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 	end
 
     if (applyMod) then
-    	silence_weapon_talent(weapon.Weapon)
+    	net.Start("Talents.Silenced")
+			net.WriteEntity(weapon)
+		net.Broadcast()
+		
+		weapon.Primary.Sound = Sound("weapons/usp/usp1.wav")
     end
 end

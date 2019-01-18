@@ -1,3 +1,4 @@
+
 TALENT.ID = 10
 TALENT.Name = "Frost"
 TALENT.NameColor = Color( 100, 100, 255 )
@@ -5,11 +6,13 @@ TALENT.NameEffect = "frost"
 TALENT.Description = "Each hit has a %s_^ chance to freeze the target for %s seconds, slowing their speed by ^%s_ percent, and applying 2 damage every ^%s seconds"
 TALENT.Tier = 3
 TALENT.LevelRequired = { min = 25, max = 30 }
+
 TALENT.Modifications = {}
-TALENT.Modifications[1] = { min = 5, max = 10 } // Chance to freeze
-TALENT.Modifications[2] = { min = 15, max = 30 } // Freeze time
-TALENT.Modifications[3] = { min = 25, max = 50 } // Frozen Speed time
-TALENT.Modifications[4] = { min = 5, max = 8 } // Frozen Damage Delay
+TALENT.Modifications[1] = { min = 5 , max = 10 }	-- Chance to freeze
+TALENT.Modifications[2] = { min = 15, max = 30 }	-- Freeze time
+TALENT.Modifications[3] = { min = 25, max = 50 }	-- Frozen Speed time
+TALENT.Modifications[4] = { min = 5 , max = 8 }		-- Frozen Damage Delay
+
 TALENT.Melee = true
 TALENT.NotUnique = true
 
@@ -30,14 +33,15 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	end
 end
 
+
 local STATUS = status.Create "Frost"
 function STATUS:Invoke(data)
 	self:CreateEffect "Frozen":Invoke(data, data.Time, data.Player)
-	self:CreateEffect "Freezing":Invoke(data, data.Time, data.Player)
+	self:CreateEffect "Freezing":Invoke(data, false)
 end
 
 local EFFECT = STATUS:CreateEffect "Frozen"
-EFFECT.Message = "Freezing"
+EFFECT.Message = "Frozen"
 EFFECT.Color = TALENT.NameColor
 EFFECT.Material = "icon16/weather_snow.png"
 function EFFECT:Init(data)
@@ -62,11 +66,9 @@ end
 
 
 local EFFECT = STATUS:CreateEffect "Freezing"
-EFFECT.Message = "Frozen"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/weather_snow.png"
 function EFFECT:Init(data)
 	local ply = data.Player
+	if (not ply:canBeMoatFrozen()) then return end
 
 	ply.moatFrozen = true
 	ply.moatFrozenSpeed = data.Speed
@@ -76,6 +78,7 @@ end
 
 function EFFECT:Callback(data)
 	local ply = data.Player
+	
 	ply.moatFrozen = false
 	ply.moatFrozenSpeed = 1
 	ply:SetNWBool("moatFrozen", false)

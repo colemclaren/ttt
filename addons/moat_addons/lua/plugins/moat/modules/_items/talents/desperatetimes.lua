@@ -1,22 +1,16 @@
+
 TALENT.ID = 21
-
 TALENT.Name = 'Desperate Times'
-
 TALENT.NameColor = Color(255,99,71)
-
 TALENT.Description = 'Your weapon will do %s_^ more damage if you are under %s health'
-
 TALENT.Tier = 1
-
 TALENT.LevelRequired = {min = 5, max = 10}
 
 TALENT.Modifications = {}
-
 TALENT.Modifications[1] = {min = 5, max = 20} -- Damage last bullet can do
 TALENT.Modifications[2] = {min = 25, max = 40} -- Health
 
 TALENT.Melee = true
-
 TALENT.NotUnique = true
 
 function TALENT:ScalePlayerDamage(victim, attacker, dmginfo, hitgroup, talent_mods)

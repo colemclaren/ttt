@@ -3,12 +3,12 @@ local self = {}
 self.__index = self
 
 function self:Invoke(data, time, pl)
+	self.Id = self.Name .. SysTime()
+	
 	if (IsValid(data.Player)) then
 		self:SetPlayer(data.Player)
 	end
-
-	self.Id = self.Name .. CurTime()
-
+	
 	self:Init(data)
 
 	if (isnumber(time) and (istable(pl) or IsValid(pl))) then
@@ -20,6 +20,16 @@ function self:SetPlayer(pl)
 	if (not IsValid(pl)) then return end
 
 	self.Player = pl
+	
+	self.Id = self.Id .. "_" .. pl:EntIndex()
+end
+
+function self:SetOnEnd(onendfn)
+	if (not isfunction(onendfn)) then
+		error("onendfn is not a function")
+	end
+	
+	self.OnEnd = onendfn
 end
 
 
@@ -42,9 +52,28 @@ function self:CreateTimer(time, amt, tickfn, data)
 	if (not isfunction(tickfn)) then
 		error("tickfn is not a function")
 	end
-	timer.Create(self.Id, time / amt, amt, function()
+	
+	local id = self.Id
+	
+	timer.Create(id, time / amt, amt, function()
 		tickfn(self, data)
+		
+		local doRemove = self.ShouldRemove
+		local reps = timer.RepsLeft(id)
+		if (doRemove or ((isnumber(reps) and (reps < 1)))) then
+			if (isfunction(self.OnEnd)) then
+				self:OnEnd(data)
+			end
+		end
+		
+		if (doRemove) then
+			timer.Remove(id)
+		end
 	end)
+end
+
+function self:Reset()
+	self.ShouldRemove = true
 end
 
 EFFECT_BASE = self
