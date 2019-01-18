@@ -29,13 +29,9 @@ end
 --function status.
 
 function status.Reset()
-	--[[for _, status in pairs(status.StatusList) do
-		--status:Reset()
-	end]]
-
-	--[[for _, pl in pairs(player.GetAll()) do
-		pl.ActiveEffects = {}
-	end]]
+	for _, status in pairs(status.StatusList) do
+		status:Reset()
+	end
 end
 
 hook.Add("TTTEndRound", "moat.status.round.end", status.Reset)

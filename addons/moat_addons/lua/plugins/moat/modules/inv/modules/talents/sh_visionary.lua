@@ -31,7 +31,9 @@ local function moat_drawvisionary(f, n)
 		for i = 1, #plys do
 			if (not plys[i]:IsValid() or plys[i]:Team() == TEAM_SPEC) then continue end
 			if (lclpl:GetRole() == ROLE_TRAITOR and plys[i]:GetRole() == ROLE_TRAITOR) then continue end
-			if (plys[i]:GetPos():Distance(lclpl:GetPos()) > f * 25) then continue end
+			
+			local dist = f * 25
+			if (plys[i]:GetPos():DistToSqr(lclpl:GetPos()) > (dist * dist)) then continue end
 
 			table.insert(visn, plys[i])
 		end
@@ -43,8 +45,6 @@ end
 net.Receive("Moat.Talents.Visionary", function()
 	local n = net.ReadDouble()
 	local f = net.ReadDouble()
-
-	print(n, f)
 
 	moat_drawvisionary(f, n)
 end)

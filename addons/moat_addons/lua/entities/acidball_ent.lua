@@ -48,34 +48,21 @@ function ENT:PhysicsCollide(data, physobj)
 	self:EmitSound("ambient/water/water_splash"..math.random(1,3)..".wav", 400)
 
 	for k, v in pairs(ents.FindInSphere(data.HitPos, 80)) do
-		if (v:IsValid() and v:IsPlayer() and v:Team() ~= TEAM_SPEC) then
-			local tesla_reps = self.InventoryModifications[3]
+		if (IsValid(v) and v:IsPlayer() and v:Team() ~= TEAM_SPEC) then
 			local tesla_dmg = self.InventoryModifications[1]
 			local tesla_delay = self.InventoryModifications[2]
+			local tesla_reps = self.InventoryModifications[3]
+			
+			print("inflicting", v)
 
-			v:ApplyDOT( "poison", tesla_dmg, self.Owner, tesla_delay, tesla_reps, function(vic, att)
-				local screams = {
-					"vo/npc/male01/pain07.wav",
-      				"vo/npc/male01/pain08.wav",
-      				"vo/npc/male01/pain09.wav",
-      				"vo/npc/male01/no02.wav"
-				}
-
-				vic:EmitSound(screams[math.random(1, #screams)])
-			end, function(vic, att)
-				vic:SendLua([[chat.AddText(Material("icon16/bug.png"),Color(0,150,0),"You have been infected! Prepare for pain!")]])
-
-				net.Start("moat.dot.init")
-				net.WriteString("Infected")
-				net.WriteUInt(tesla_delay * tesla_reps, 16)
-				net.WriteString("icon16/bug.png")
-				net.WriteColor(Color(0, 150, 0))
-				net.WriteString(tostring("poison" .. vic:EntIndex() .. att:EntIndex()))
-				net.Send(vic)
-			end, function(vic, att)
-				vic:SendLua([[chat.AddText(Material("icon16/bug.png"),Color(255,255,0),"You feel better now.")]])
-			end)
-
+			status.Inflict("Contagion", {
+				Time = tesla_delay * tesla_reps,
+				Amount = tesla_reps,
+				Damage = tesla_dmg,
+				Weapon = self.Owner:GetActiveWeapon(),
+				Attacker = self.Owner,
+				Player = v
+			})
 		end
 	end
 	

@@ -1,3 +1,4 @@
+
 TALENT.ID = 32
 TALENT.Name = "Wildcard: Tier 2"
 TALENT.NameEffect = "enchanted"
@@ -5,7 +6,9 @@ TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "When this talent is unlocked, it will morph into a different talent every round"
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
+
 TALENT.Modifications = {}
+
 TALENT.Melee = false
 TALENT.NotUnique = false
 

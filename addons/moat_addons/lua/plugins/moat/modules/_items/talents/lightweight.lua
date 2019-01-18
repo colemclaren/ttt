@@ -1,22 +1,15 @@
 
 TALENT.ID = 24
-
 TALENT.Name = 'Lightweight'
-
 TALENT.NameColor = Color(175,238,238)
-
 TALENT.Description = "Weight is reduced by %s_^"
-
 TALENT.Tier = 1
-
 TALENT.LevelRequired = {min = 5, max = 10}
 
 TALENT.Modifications = {}
-
 TALENT.Modifications[1] = {min = -5, max = -15} -- weight
 
 TALENT.Melee = true
-
 TALENT.NotUnique = true
 
 function TALENT:ModifyWeapon( weapon, talent_mods )

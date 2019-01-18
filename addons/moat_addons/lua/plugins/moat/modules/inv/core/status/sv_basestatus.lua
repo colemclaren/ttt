@@ -3,6 +3,7 @@ local self = {}
 self.__index = self
 
 self.Effects = {}
+self.ActiveEffects = {}
 
 function self:Invoke() end
 
@@ -10,7 +11,13 @@ function self:CreateEffect(name)
 	assert(isstring(name), "bad argument #1 to 'CreateEffect' (string expected, got " .. type(name) .. ")")
 	
 	if (self.Effects[name]) then
-		return setmetatable({}, self.Effects[name])
+		local effect = {}
+		effect.__index = effect
+		
+		setmetatable(effect, self.Effects[name])
+		table.insert(self.ActiveEffects, effect)
+		
+		return effect
 	else
 		local effect = {}
 		effect.__index = effect
@@ -25,11 +32,11 @@ function self:CreateEffect(name)
 end
 
 function self:Reset()
-	--[[for _, effect in pairs(self.Effects) do
+	for _, effect in pairs(self.ActiveEffects) do
 		effect:Reset()
 	end
 	
-	self.InvokedList = {}]]
+	self.ActiveEffects = {}
 end
 
 STATUS_BASE = self

@@ -1,38 +1,48 @@
+
 TALENT.ID = 100
 TALENT.Name = "Space Stone"
 TALENT.NameColor = Color(0, 50, 255)
 TALENT.Description = "You have a %s_^ chance to have low gravity for %s seconds after killing someone with this weapon"
 TALENT.Tier = 1
 TALENT.LevelRequired = {min = 5, max = 10}
+
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 10, max = 20}
-TALENT.Modifications[2] = {min = 5, max = 20}
+TALENT.Modifications[1] = {min = 10, max = 20}	-- Chance to trigger
+TALENT.Modifications[2] = {min = 5 , max = 20}	-- Effect duration
+
 TALENT.Melee = true
 TALENT.NotUnique = false
-
-function _space_stone(sec,att)
-    att.SpaceStone = CurTime() - 0.5
-    att:SetGravity(0.25)
-	D3A.Chat.SendToPlayer2(att, Color(0, 255, 0), "You have gained low gravity for ", Color(255, 0, 0), sec or "0", Color(0, 255, 0), " seconds!")
-    timer.Simple(sec,function()
-        if not IsValid(att) then return end
-        if CurTime() - (att.SpaceStone or 0) > sec then
-            att:SetGravity(1)
-            att:SendLua([[chat.AddText(Color(255,0,0),"You have lost your low gravity!")]])
-        end
-    end)
-end
 
 function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
     if (GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS) then return end
 
-    local chanceNum = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
-    local randomNum = math.Rand(1, 100)
-    local applyMod = chanceNum > randomNum
-
-    if (applyMod) then
+    local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+    if (chance > math.random() * 100) then
         local sec = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
-        _space_stone(sec,att)
-        
+        status.Inflict("Space Stone", {Time = sec, Player = att})
     end
 end
+
+local STATUS = status.Create "Space Stone"
+function STATUS:Invoke(data)
+	self:CreateEffect "Low Gravity":Invoke(data, data.Time, data.Player)
+end
+
+local EFFECT = STATUS:CreateEffect "Low Gravity"
+EFFECT.Message = "Low Gravity"
+EFFECT.Color = TALENT.NameColor
+EFFECT.Material = "icon16/arrow_up.png"
+function EFFECT:Init(data)
+	local att = data.Player
+	att:SetGravity(0.25)
+	
+	self:CreateTimer(data.Time, 1, self.Callback, data)
+end
+
+function EFFECT:Callback(data)
+	if (not IsValid(data.Player)) then return end
+	
+	local att = data.Player
+	att:SetGravity(1)
+end
+

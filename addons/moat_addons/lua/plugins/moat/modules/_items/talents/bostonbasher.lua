@@ -10,7 +10,7 @@ TALENT.NotUnique = false
 TALENT.LevelRequired = {min = 5, max = 10}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 15, max = 30} // Percent damage is increased by
+TALENT.Modifications[1] = {min = 15, max = 30} -- Percent damage is increased by
 
 util.AddNetworkString "Talents.BostonBasher"
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)

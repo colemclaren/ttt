@@ -1,11 +1,14 @@
+
 TALENT.ID = 85
 TALENT.Name = "Center Mass"
 TALENT.NameColor = Color(255, 0, 0)
 TALENT.Description = "Torso damage is increased by %s_ when using this weapon"
 TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
+
 TALENT.Modifications = {}
-TALENT.Modifications[1] = { min = 15, max = 30 } // Amount headshot is increased
+TALENT.Modifications[1] = { min = 15, max = 30 } -- Amount headshot is increased
+
 TALENT.Melee = true
 TALENT.NotUnique = true
 
