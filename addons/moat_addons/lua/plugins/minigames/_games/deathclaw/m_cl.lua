@@ -324,7 +324,9 @@ net.Receive("MOAT_BEGIN_BOSS", function(len)
 		end
 
 		if (IsValid(MOAT_CUR_BOSS) and ply == MOAT_CUR_BOSS) then
-			util.ScreenShake(pos, 5, 5, 0.5, 1500)
+			-- client doesn't follow distance checks in screenshake
+			local dist = pos:Distance(LocalPlayer():GetPos())
+			util.ScreenShake(pos, 5 * math.max(0, 1 - (dist / 1500)), 5, 0.5, 1500)
 		end
 		if (GetRoundState() ~= ROUND_ACTIVE) then
 			hook.Remove("PlayerFootstep", "moat_ScreenShake")
