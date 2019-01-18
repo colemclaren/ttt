@@ -12,29 +12,39 @@ TALENT.Modifications[3] = {min = 30, max = 50}
 TALENT.Melee = true
 TALENT.NotUnique = true
 
+
+local PREDATORY = status.Create "Leech"
+function PREDATORY:Invoke(data)
+	self:CreateEffect "Leech":Invoke(data, data.Time, data.Player)
+end
+
+local EFFECT = PREDATORY:CreateEffect "Leech"
+EFFECT.Message = "Healing"
+EFFECT.Color = Color(0, 255, 0)
+EFFECT.Material = "icon16/heart_add.png"
+function EFFECT:Init(data)
+	self.HealTimer = self:CreateTimer(data.Time, data.Amount, self.HealCallback, data)
+end
+function EFFECT:HealCallback(data)
+	local att = data.Player
+	if (not IsValid(att)) then return end
+	if (att:Team() == TEAM_SPEC) then return end
+	if (GetRoundState() ~= ROUND_ACTIVE) then return end
+
+	att:SetHealth(math.Clamp(att:Health() + 1, 0, att:GetMaxHealth()))
+end
+
+
 function TALENT:OnPlayerHit(victim, att, dmginfo, talent_mods)
 	if (GetRoundState() ~= ROUND_ACTIVE) then return end
 
 	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
-    local random_num = math.random() * 100
-    local apply_mod = chance > random_num
+	local random_num = math.random() * 100
 
-    if (apply_mod) then
-    	local amt = math.Round(self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]))
-    	local sec = math.Round(self.Modifications[3].min + ((self.Modifications[3].max - self.Modifications[3].min) * talent_mods[3]))
+	if (chance > random_num) then
+		local amt = math.Round(self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]))
+		local sec = math.Round(self.Modifications[3].min + ((self.Modifications[3].max - self.Modifications[3].min) * talent_mods[3]))
 
-    	net.Start("Moat.Talents.Notify")
-    	net.WriteUInt(2, 8)
-    	net.WriteString("Leech activated on hit!")
-    	net.Send(att)
-
-    	local da_name = "leech" .. att:EntIndex() .. SysTime()
-
-    	timer.Create(da_name, sec/amt, amt, function()
-        	if (not att:IsValid() or (att:IsValid() and att:Team() == TEAM_SPEC)) then return end
-        	if (GetRoundState() ~= ROUND_ACTIVE) then timer.Remove(da_name) return end
-
-        	att:SetHealth(math.Clamp(att:Health() + 1, 0, att:GetMaxHealth()))
-    	end)
+		status.Inflict("Leech", {Time = sec, Amount = amt, Player = att})
 	end
 end

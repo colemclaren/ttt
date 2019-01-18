@@ -16,7 +16,7 @@ function PREDATORY:Invoke(data)
 end
 
 local EFFECT = PREDATORY:CreateEffect "Predatory"
-EFFECT.Message = "Predatory Healing"
+EFFECT.Message = "Healing"
 EFFECT.Color = Color(221, 101, 101)
 EFFECT.Material = "icon16/heart_add.png"
 function EFFECT:Init(data)
@@ -25,17 +25,17 @@ end
 
 function EFFECT:HealCallback(data)
     local att = data.Player
-	if (not IsValid(att)) then return end
-	if (att:Team() == TEAM_SPEC) then return end
-	if (GetRoundState() ~= ROUND_ACTIVE) then return end
-	
-	att:SetHealth(math.Clamp(att:Health() + 1, 0, att:GetMaxHealth()))
+    if (not IsValid(att)) then return end
+    if (att:Team() == TEAM_SPEC) then return end
+    if (GetRoundState() ~= ROUND_ACTIVE) then return end
+
+    att:SetHealth(math.Clamp(att:Health() + 1, 0, att:GetMaxHealth()))
 end
 
 
 --function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
-function TALENT:OnPlayerHit(vic, att, dmginfo, talent_mods )
-    if (GetRoundState() ~= ROUND_ACTIVE) then return end
+function TALENT:OnPlayerHit(vic, att, dmginfo, talent_mods)
+    if (GetRoundState() ~= ROUND_ACTIVE or (vic:Health() - dmginfo:GetDamage() > 0) ) then return end
 
     local amt = math.Round(self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1]))
     local sec = math.Round(self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]))
