@@ -63,8 +63,6 @@ net.Receive("moat.status.init", function()
 	local status = {}
 
 	status.Message = net.ReadString()
-
-
 	status.EndTime = net.ReadFloat()
 	status.Material = Material(net.ReadString())
 	status.Color = net.ReadColor()
@@ -74,18 +72,22 @@ net.Receive("moat.status.init", function()
 	table.insert(MOAT_STATUS.StatusList, status)
 end)
 
---[[
+
 net.Receive("moat.status.adjust", function()
 	local id = net.ReadString()
-	local new = net.ReadUInt(16)
+	local new = net.ReadFloat()
+	local start = new - net.ReadFloat()
+	
+	print("start", start)
+	print("new", new)
 
 	for i = 1, #MOAT_STATUS.StatusList do
-		if (MOAT_STATUS.StatusList[i][5] == id) then
-			MOAT_STATUS.StatusList[i][2] = CurTime() + new
-			MOAT_STATUS.StatusList[i][6] = new
+		if (MOAT_STATUS.StatusList[i].ID == id) then
+			MOAT_STATUS.StatusList[i].EndTime = new
+			MOAT_STATUS.StatusList[i].StartTime = start
 		end
 	end
-end)]]
+end)
 
 --[[
 net.Receive("moat.status.end", function()

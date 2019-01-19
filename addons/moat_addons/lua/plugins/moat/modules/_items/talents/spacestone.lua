@@ -25,7 +25,12 @@ end
 
 local STATUS = status.Create "Space Stone"
 function STATUS:Invoke(data)
-	self:CreateEffect "Low Gravity":Invoke(data, data.Time, data.Player)
+	local effect = self:GetEffectFromPlayer("Low Gravity", data.Player)
+	if (effect) then
+		effect:AddTime(data.Time)
+	else
+		self:CreateEffect "Low Gravity":Invoke(data, data.Time, data.Player)
+	end
 end
 
 local EFFECT = STATUS:CreateEffect "Low Gravity"
@@ -36,10 +41,10 @@ function EFFECT:Init(data)
 	local att = data.Player
 	att:SetGravity(0.25)
 	
-	self:CreateTimer(data.Time, 1, self.Callback, data)
+	self:CreateEndTimer(data.Time, data)
 end
 
-function EFFECT:Callback(data)
+function EFFECT:OnEnd(data)
 	if (not IsValid(data.Player)) then return end
 	
 	local att = data.Player
