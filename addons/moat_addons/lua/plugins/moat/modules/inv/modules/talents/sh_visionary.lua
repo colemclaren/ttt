@@ -23,7 +23,8 @@ local function moat_drawvisionary(f, n)
 		hook.Remove("PreDrawHalos", "Moat.Talents.DrawVisionary")
 		timer.Remove "Moat.Talents.Visionary"
 	end)
-
+	
+	local dist = f * f
 	hook.Add("PreDrawHalos", "Moat.Talents.DrawVisionary", function()
 		local plys, lclpl = player.GetAll(), LocalPlayer()
 		local visn = {}
@@ -31,9 +32,7 @@ local function moat_drawvisionary(f, n)
 		for i = 1, #plys do
 			if (not plys[i]:IsValid() or plys[i]:Team() == TEAM_SPEC) then continue end
 			if (lclpl:GetRole() == ROLE_TRAITOR and plys[i]:GetRole() == ROLE_TRAITOR) then continue end
-			
-			local dist = f * 25
-			if (plys[i]:GetPos():DistToSqr(lclpl:GetPos()) > (dist * dist)) then continue end
+			if (plys[i]:GetPos():DistToSqr(lclpl:GetPos()) > dist) then continue end
 
 			table.insert(visn, plys[i])
 		end
@@ -46,7 +45,7 @@ net.Receive("Moat.Talents.Visionary", function()
 	local n = net.ReadDouble()
 	local f = net.ReadDouble()
 
-	moat_drawvisionary(f, n)
+	moat_drawvisionary(f * 25, n)
 end)
 
 
