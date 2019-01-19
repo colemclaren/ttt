@@ -43,12 +43,11 @@ function EFFECT:Init(data)
 
 	curWeapon.AdrenalineStacks = (curWeapon.AdrenalineStacks or 0) + 1
 	curWeapon.Damage = curWeapon.BaseDamage + (curWeapon.AdrenalineStacks * data.Percent)
-
-	self:SetEndCallback(self.Callback)	-- If we force the effect to end earlier, it can clean up properly.
-	self:CreateTimer(data.Time, 1, function() end, data)
+	
+	self:CreateEndTimer(data.Time, data)
 end
 
-function EFFECT:Callback(data)
+function EFFECT:OnEnd(data)
 	if (not IsValid(data.Weapon)) then return end
 
 	local curWeapon = data.Weapon.Primary

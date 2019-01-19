@@ -23,10 +23,14 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
     end
 end
 
-
 local STATUS = status.Create "Reality Stone"
 function STATUS:Invoke(data)
-	self:CreateEffect "Transparent":Invoke(data, data.Time, data.Player)
+	local effect = self:GetEffectFromPlayer("Transparent", data.Player)
+	if (effect) then
+		effect:AddTime(data.Time)
+	else
+		self:CreateEffect "Transparent":Invoke(data, data.Time, data.Player)
+	end
 end
 
 local EFFECT = STATUS:CreateEffect "Transparent"
@@ -38,10 +42,10 @@ function EFFECT:Init(data)
 	att:SetRenderMode(RENDERMODE_TRANSALPHA)
     att:SetColor(Color(255,255,255,50))
 	
-	self:CreateTimer(data.Time, 1, self.Callback, data)
+	self:CreateEndTimer(data.Time, data)
 end
 
-function EFFECT:Callback(data)
+function EFFECT:OnEnd(data)
 	if (not IsValid(data.Player)) then return end
 	
 	local att = data.Player

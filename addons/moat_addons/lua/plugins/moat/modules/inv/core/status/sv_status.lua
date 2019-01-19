@@ -1,6 +1,6 @@
 
 util.AddNetworkString("moat.status.init")
---util.AddNetworkString("moat.status.adjust")
+util.AddNetworkString("moat.status.adjust")
 --util.AddNetworkString("moat.status.end")
 util.AddNetworkString("moat.status.reset")
 
@@ -26,11 +26,13 @@ function status.Inflict(name, data)
 	status.StatusList[name]:Invoke(data)
 end
 
---function status.
-
 function status.Reset()
 	for _, status in pairs(status.StatusList) do
 		status:Reset()
+	end
+	
+	for _, pl in pairs(player.GetAll()) do
+		pl.ActiveEffects = {}
 	end
 end
 

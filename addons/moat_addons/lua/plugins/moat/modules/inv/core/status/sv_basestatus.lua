@@ -8,7 +8,9 @@ self.ActiveEffects = {}
 function self:Invoke() end
 
 function self:CreateEffect(name)
-	assert(isstring(name), "bad argument #1 to 'CreateEffect' (string expected, got " .. type(name) .. ")")
+	if (not isstring(name)) then
+		error("bad argument #1 to 'CreateEffect' (string expected, got " .. type(name) .. ")")
+	end
 	
 	if (self.Effects[name]) then
 		local effect = {}
@@ -30,6 +32,20 @@ function self:CreateEffect(name)
 		self.Effects[name] = effect
 	
 		return effect
+	end
+end
+
+function self:GetEffectFromPlayer(name, pl)
+	if (not isstring(name)) then
+		error("bad argument #1 to 'GetEffectFromPlayer' (string expected, got " .. type(name) .. ")")
+	end
+	
+	if (not pl.ActiveEffects) then return end
+	
+	for _, effect in pairs(pl.ActiveEffects) do
+		if (effect.Name == name and effect.Active) then
+			return effect
+		end
 	end
 end
 
