@@ -15,6 +15,8 @@ function self:CreateEffect(name)
 		effect.__index = effect
 		
 		setmetatable(effect, self.Effects[name])
+		
+		effect.Id = effect.Name .. SysTime()
 		table.insert(self.ActiveEffects, effect)
 		
 		return effect
