@@ -15,8 +15,8 @@ TALENT.NotUnique = true
 function TALENT:OnWeaponSwitch(ply, wep, isto, talent_mods)
 	local timer_speed = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 	
+	local id = "moat_medicality" .. ply:EntIndex()
 	if (isto) then
-		local id = "moat_medicality" .. ply:EntIndex()
 		timer.Create(id, timer_speed, 0, function()
 			if (not IsValid(ply)) then timer.Remove(id) return end
 			if (not IsValid(wep)) then timer.Remove(id) return end
