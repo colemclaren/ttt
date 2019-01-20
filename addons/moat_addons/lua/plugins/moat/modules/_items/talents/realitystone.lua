@@ -1,54 +1,58 @@
-
 TALENT.ID = 101
 TALENT.Name = "Reality Stone"
 TALENT.NameColor = Color(255, 50, 50)
 TALENT.Description = "You have a %s_^ chance to go transparent for %s seconds after killing someone with this weapon"
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
-
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 10, max = 20}	-- Chance to trigger
-TALENT.Modifications[2] = {min = 5 , max = 20}	-- Transparent time
-
+TALENT.Modifications[1] = {min = 10, max = 20}
+TALENT.Modifications[2] = {min = 5, max = 20}
 TALENT.Melee = true
 TALENT.NotUnique = false
 
-function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
-    if (GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS or MOAT_MINIGAME_OCCURING) then return end
-
-    local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
-    if (chance > math.random() * 100) then
-        local sec = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
-		status.Inflict("Reality Stone", {Time = sec, Player = att})
-    end
-end
 
 local STATUS = status.Create "Reality Stone"
 function STATUS:Invoke(data)
-	local effect = self:GetEffectFromPlayer("Transparent", data.Player)
+	local effect = self:GetEffectFromPlayer("Invisible", data.Player)
 	if (effect) then
 		effect:AddTime(data.Time)
 	else
-		self:CreateEffect "Transparent":Invoke(data, data.Time, data.Player)
+		self:CreateEffect "Invisible":Invoke(data, data.Time, data.Player)
 	end
 end
 
-local EFFECT = STATUS:CreateEffect "Transparent"
-EFFECT.Message = "Transparent"
+local EFFECT = STATUS:CreateEffect "Invisible"
+EFFECT.Message = "Invisible"
 EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/layers.png"
+EFFECT.Material = "icon16/bug.png"
 function EFFECT:Init(data)
+	self:CreateEndTimer(data.Time, data)
 	local att = data.Player
 	att:SetRenderMode(RENDERMODE_TRANSALPHA)
-    att:SetColor(Color(255,255,255,50))
-	
-	self:CreateEndTimer(data.Time, data)
+	att:SetColor(Color(255,255,255,50))
+	att.RealityStone = CurTime() - 0.5
+	D3A.Chat.SendToPlayer2(att, Color(0, 255, 0), "You are now transparent for ", Color(255, 0, 0), sec or "0", Color(0, 255, 0), " seconds!")
 end
 
 function EFFECT:OnEnd(data)
-	if (not IsValid(data.Player)) then return end
-	
 	local att = data.Player
-	att:SetRenderMode(RENDERMODE_NORMAL)
-	att:SetColor(Color(255,255,255,255))
+	if not IsValid(att) then return end
+	if CurTime() - (att.RealityStone or 0) > sec then
+		att:SetRenderMode(RENDERMODE_NORMAL)
+		att:SetColor(Color(255,255,255,255))
+		att:SendLua([[chat.AddText(Color(255,0,0),"You are no longer transparent!")]])
+	end
+end
+
+function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
+	if (GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS or MOAT_MINIGAME_OCCURING) then return end
+
+	local chanceNum = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+
+	if (chanceNum > math.random() * 100) then
+		status.Inflict("Reality Stone", {
+			Time = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]),
+			Player = att
+		})
+	end
 end

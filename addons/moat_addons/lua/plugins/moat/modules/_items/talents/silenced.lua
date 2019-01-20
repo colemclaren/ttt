@@ -20,9 +20,9 @@ hook.Add("TTTBeginRound","ClearSilenced",function()
 end)
 
 function TALENT:ModifyWeapon( weapon, talent_mods )
-    local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
-    local shouldApply = chance > math.random() * 100
-	
+	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+	local shouldApply = chance > math.random() * 100
+
 	if not silence_prep_cache[weapon.Weapon:GetOwner()] then
 		silence_prep_cache[weapon.Weapon:GetOwner()] = {}
 	end
@@ -33,11 +33,11 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 		silence_prep_cache[weapon.Weapon:GetOwner()][weapon.Weapon:GetClass()] = applyMod
 	end
 
-    if (applyMod) then
-    	net.Start("Talents.Silenced")
+	if (applyMod) then
+		net.Start("Talents.Silenced")
 			net.WriteEntity(weapon)
 		net.Broadcast()
-		
+
 		weapon.Primary.Sound = Sound("weapons/usp/usp1.wav")
-    end
+	end
 end

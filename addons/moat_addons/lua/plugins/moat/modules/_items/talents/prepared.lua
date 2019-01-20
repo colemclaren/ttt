@@ -19,7 +19,6 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 
 	if (victim:GetPos():DistToSqr(attacker:GetPos()) >= (max_dist * max_dist)) then
 		local damageIncrease = (self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])) / 100
-		local damageToAdd = dmginfo:GetDamage() * damageIncrease
 		dmginfo:ScaleDamage(1 + damageIncrease)
 	end
 end

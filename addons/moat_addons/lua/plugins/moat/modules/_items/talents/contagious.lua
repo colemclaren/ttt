@@ -53,9 +53,9 @@ end
 
 local screams = {
 	"vo/npc/male01/pain07.wav",
-	  "vo/npc/male01/pain08.wav",
-	  "vo/npc/male01/pain09.wav",
-	  "vo/npc/male01/no02.wav"
+	"vo/npc/male01/pain08.wav",
+	"vo/npc/male01/pain09.wav",
+	"vo/npc/male01/no02.wav"
 }
 
 function EFFECT:Callback(data)

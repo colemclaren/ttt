@@ -1,6 +1,6 @@
 
 TALENT.ID = 24
-TALENT.Name = 'Lightweight'
+TALENT.Name = "Lightweight"
 TALENT.NameColor = Color(175,238,238)
 TALENT.Description = "Weight is reduced by %s_^"
 TALENT.Tier = 1

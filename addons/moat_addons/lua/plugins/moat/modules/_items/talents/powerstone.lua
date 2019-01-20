@@ -14,9 +14,9 @@ TALENT.NotUnique = false
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods )
 	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then return end
-	
+
 	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 	if (chance > math.random() * 100) then
-        dmginfo:ScaleDamage(2)
+		dmginfo:ScaleDamage(2)
 	end
 end

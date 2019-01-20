@@ -13,7 +13,7 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
-	if (weapon.Primary.Dela ) then
+	if (weapon.Primary.Delay) then
 		weapon.Primary.Delay = weapon.Primary.Delay * ( 1 - ( ( self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] ) ) / 100 ) )
 	end
 end
