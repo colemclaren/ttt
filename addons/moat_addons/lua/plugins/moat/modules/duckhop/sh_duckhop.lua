@@ -1,7 +1,6 @@
 local v36 = Vector(0, 0, 36)
 
 local cv = CreateConVar("test_hop_enabled", "0", FCVAR_REPLICATED)
-local limiter = CreateConVar("test_hop_limiter", "0.2", FCVAR_REPLICATED)
 
 if (SERVER) then
     local allowed = {
@@ -18,15 +17,17 @@ if (SERVER) then
 end
 
 hook.Add("Move", "test_hop_limiter", function(ply, mv)
-    local last = ply:GetNW2Float("LastCrouch", 0)
+    local prevent = ply:GetNW2Bool("PreventCrouch", false)
 
-    if (not ply:IsOnGround()) then
-        if (mv:KeyPressed(IN_DUCK) and IN_DUCK ~= bit.band(IN_DUCK, mv:GetOldButtons())) then
-            if (last > CurTime() - limiter:GetFloat()) then
-                mv:SetButtons(bit.band(bit.bnot(IN_DUCK), mv:GetButtons()))
-            end
-        elseif (mv:KeyReleased(IN_DUCK)) then
-            ply:SetNW2Float("LastCrouch", CurTime())
+    if (ply:IsOnGround()) then
+        if (prevent) then
+            ply:SetNW2Bool("PreventCrouch", false)
+        end
+    else
+        if (mv:KeyReleased(IN_DUCK)) then
+            ply:SetNW2Bool("PreventCrouch", true)
+        elseif (mv:KeyPressed(IN_DUCK) and prevent) then
+            mv:SetButtons(bit.band(bit.bnot(IN_DUCK), mv:GetButtons()))
         end
     end
 
