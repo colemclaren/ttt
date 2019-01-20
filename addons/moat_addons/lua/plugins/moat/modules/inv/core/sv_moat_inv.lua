@@ -324,7 +324,7 @@ function meta:m_HasIC(num_credits)
 end
 
 concommand.Add("moat_ic", function(ply, cmd, args)
-    if (ply:SteamID() == "STEAM_0:0:46558052" or ply:SteamID64() == "76561198154133184") then
+    if (moat.isdev(ply)) then
         local pl = ply
         if (args[3]) then
             pl = player.GetBySteamID(args[3])

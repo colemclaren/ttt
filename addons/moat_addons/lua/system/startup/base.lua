@@ -96,33 +96,6 @@ if (CLIENT) then
 		file.Write("fonts.txt", fs)
 	end)
 end
-/*
-moat.spacer()
-
-for k, v in ipairs({"\n\n",
-[[                        .-'''-.                                             ]],
-[[                       '   _    \                                           ]],
-[[     __  __   ___    /   /` '.   \                                          ]],
-[[    |  |/  `.'   `. .   |     \  '                        .--./)   .--./)   ]],
-[[    |   .-.  .-.   '|   '      |  '           .|         /.''\\   /.''\\    ]],
-[[    |  |  |  |  |  |\    \     / /  __      .' |_       | |  | | | |  | |   ]],
-[[    |  |  |  |  |  | `.   ` ..' /.:--.'.  .'     |       \`-' /   \`-' /    ]],
-[[    |  |  |  |  |  |    '-...-'`/ |   \ |'--.  .-'       /("'`    /("'`     ]],
-[[    |  |  |  |  |  |            `" __ | |   |  |   ,.--. \ '---.  \ '---.   ]],
-[[    |__|  |__|  |__|             .'.''| |   |  |  //    \ /'""'.\  /'""'.\  ]],
-[[                                / /   | |_  |  '.'\\    /||     ||||     || ]],
-[[                                \ \._,\ '/  |   /  `'--' \'. __// \'. __//  ]],
-[[                                 `--'  `"   `'-'          `'---'   `'---'   ]]
-,"\n\n"}) do MsgC(Color(103, 152, 235), v .. "\n") end
-
-moat.spacer()
-*/
-
-local developers = {
-	{"Motato","76561198053381832"},
-	{"Meepen", "76561198050165746"},
-	{"Velkon", "76561198154133184"}
-}
 
 
 for k, v in ipairs({"\n\n",
@@ -185,8 +158,8 @@ moat.print "|"
 moat.spacer()
 moat.print "| Moat TTT's God Squad Development Team (¬‿¬)" 
 moat.print "|"
-for k,v in RandomPairs(developers) do
-	moat.print ("| " .. v[1] .. " > https://steamcommunity.com/profiles/" .. v[2])
+for k,v in ipairs(Devs) do
+	moat.print ("| " .. v.Name .. " > https://steamcommunity.com/profiles/" .. v.SteamID64)
 end
 moat.spacer()
 moat.print "| Need to report a bug? We'd love to talk with you! <3<3<3"

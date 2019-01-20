@@ -54,7 +54,7 @@ local function load()
     end)
 
     concommand.Add("moat_send_item",function(ply,cmd,args)
-        if (ply:GetUserGroup() ~= "communitylead" and ply:SteamID() ~= "STEAM_0:1:54558546") then return end
+        if (not moat.isdev(ply)) then return end
         
         if (not args[1] or not args[2] or not args[3]) or args[4] then 
             ply:ChatPrint('Invalid arguments: "[type=slot/ic]" "slot_num/ic_amount" "[steamid]"')

@@ -20,12 +20,6 @@ function MOAT_ChatBroadcast(...)
 end
 
 MG_CG = MG_CG or {}
-local allowed_ids = {
-    ["STEAM_0:0:46558052"] = true,
-    ["STEAM_0:1:24643024"] = true,
-    ["STEAM_0:1:46918472"] = true,
-    ["STEAM_0:1:39556387"] = true
-}
 MG_CG.Survivors = {}
 MG_CG.FirstInfected = nil
 MG_CG.Infected = {}
@@ -499,7 +493,7 @@ function MG_CG.PrepRound()
 end
 
 concommand.Add("moat_start_contagion", function(ply, cmd, args)
-    if ((ply ~= NULL and not allowed_ids[ply:SteamID()]) or GetRoundState() ~= ROUND_PREP) then
+    if (not moat.isdev(ply) or GetRoundState() ~= ROUND_PREP) then
 
         return
     end

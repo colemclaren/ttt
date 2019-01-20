@@ -3,7 +3,7 @@ util.AddNetworkString("moat_easter_egg_found")
 util.AddNetworkString("moat_easter_basket_found")
 
 concommand.Add("moat_easter_egg", function(ply, cmd, args)
-	if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+	if (not moat.isdev(ply)) then return end
 
 	local ent = ents.Create("sent_egg")
     ent:SetPos(ply:GetEyeTrace().HitPos + Vector(math.random(-48, 48), math.random(-48, 48), 16))
@@ -17,7 +17,7 @@ end)
 
 
 concommand.Add("moat_easter_basket", function(ply, cmd, args)
-	if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+	if (not moat.isdev(ply)) then return end
 
 	local ent = ents.Create("sent_egg_basket")
     ent:SetPos(ply:GetEyeTrace().HitPos + Vector(math.random(-48, 48), math.random(-48, 48), 16))
@@ -93,7 +93,7 @@ hook.Add("TTTBeginRound", "moat_record_easter", function()
 end)
 
 concommand.Add("moat_record_pos", function()
-	if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+	if (not moat.isdev(ply)) then return end
 
 	MOAT_EASTER.Record = not MOAT_EASTER.Record
 end)
@@ -127,7 +127,7 @@ function m_DropEasterEgg(ply, amt)
 end
 
 concommand.Add("moat_easter_egg_random", function(ply, cmd, args)
-	if (ply ~= NULL and ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+	if (not moat.isdev(ply)) then return end
 	MOAT_EASTER.SpawnRandomEgg()
 end)
 

@@ -7,7 +7,6 @@ util.AddNetworkString "MG_OC_DEATHS"
 util.AddNetworkString "MG_OC_HALOS"
 
 MG_OC = MG_OC or {}
-MG_OC.SteamID = "STEAM_0:0:46558052"
 MG_OC.Players = {}
 MG_OC.ReqKills = 1
 MG_OC.SpawnProtectionTime = 5
@@ -480,15 +479,8 @@ function MG_OC.PrepRound()
     net.Broadcast()
 end
 
-local allowed_ids = {
-    ["STEAM_0:0:46558052"] = true,
-    ["STEAM_0:1:24643024"] = true,
-    ["STEAM_0:1:46918472"] = true,
-    ["STEAM_0:1:39556387"] = true
-}
-
 concommand.Add("moat_start_onechamber", function(ply, cmd, args)
-    if ((ply ~= NULL and not allowed_ids[ply:SteamID()]) or GetRoundState() ~= ROUND_PREP) then
+    if (not moat.isdev(ply) or GetRoundState() ~= ROUND_PREP) then
 
         return
     end

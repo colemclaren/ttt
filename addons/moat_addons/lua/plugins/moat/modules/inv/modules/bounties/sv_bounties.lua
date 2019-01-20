@@ -344,7 +344,7 @@ local function _contracts()
 			if (b and b[1]) then
 				contract_loaded = b[1].contract
 				contract_id = b[1].ID
-			elseif GetServerIP() == "208.103.169.28:27015" then--s
+			elseif true then--s
 				local name, c = upnext[1], upnext[2]
 				
 				local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
@@ -2071,7 +2071,7 @@ net.Receive("moat_bounty_reload", function(l, ply)
 end)
 
 concommand.Add("moat_reset_bounties", function(ply, cmd, args)
-	if (ply ~= NULL and ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+	if (not moat.isdev(ply)) then return end
 
 	MOAT_BOUNTIES.ResetBounties()
 end)

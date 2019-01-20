@@ -229,7 +229,7 @@ end
 hook.Add("TTTBeginRound", "MSE.EventGoing", MSE.Events.EventGoing)
 
 concommand.Add("moat_ec", function(pl, cmd, args)
-	if (pl:SteamID() ~= "STEAM_0:0:46558052") then return end
+	if (not moat.isdev(pl)) then return end
 
 	pl:SetDataVar("EC", tonumber(args[1]), true, true)
 end)

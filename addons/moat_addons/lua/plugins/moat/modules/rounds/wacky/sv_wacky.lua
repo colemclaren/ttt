@@ -39,7 +39,7 @@ net.Receive("randomround.late", function(_, pl)
 end)
 
 concommand.Add("moat_start_wacky",function(a,b,c,d)
-    if a:SteamID64() ~= "76561198154133184" then return end
+    if not moat.isdev(a) then return end
     if moat_random.rounds[d] then
         moat_random.start_round(d)
     end

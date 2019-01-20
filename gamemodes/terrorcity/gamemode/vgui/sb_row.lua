@@ -126,14 +126,9 @@ local rolecolor = {
 }
 
 function GM:TTTScoreboardColorForPlayer(ply)
-   if not IsValid(ply) then return namecolor.default end
+    if not IsValid(ply) then return namecolor.default end
 
-   if ply:SteamID() == "STEAM_0:0:1963640" then
-      return namecolor.dev
-   elseif ply:IsAdmin() and GetGlobalBool("ttt_highlight_admins", true) then
-      return namecolor.admin
-   end
-   return namecolor.default
+    return namecolor.default
 end
 
 function GM:TTTScoreboardRowColorForPlayer(ply)

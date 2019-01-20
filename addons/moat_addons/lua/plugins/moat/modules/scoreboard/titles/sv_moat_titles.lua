@@ -142,11 +142,9 @@ net.Receive("MoatTitlesChange", function(len, ply)
 		return
 	end
 
-    if (not ply:m_HasIC(titleprice) or (id == "76561198053381832" and ply ~= otherply) or title:len() > 30) then
+    if (not ply:m_HasIC(titleprice) or title:len() > 30) then
     	if (title:len() > 30) then
     		MOAT_TITLES.ChatPrint(true, ply, "That title is too long! Max characters allowed is 30.")
-    	elseif (id == "76561198053381832" and ply ~= otherply) then
-    		MOAT_TITLES.ChatPrint(true, ply, "You're not allowed to change Moat's title.")
     	elseif (titleprice == 50000) then
     		MOAT_TITLES.ChatPrint(true, ply, "You don't have enough IC to change " .. otherply:Nick() .."'s' title!")
     	else

@@ -1,7 +1,3 @@
---- Author informations ---
-ENT.Author = "Zaratusa"
-ENT.Contact = "http://steamcommunity.com/profiles/76561198032479768"
-
 ENT.Type = "anim"
 
 ENT.Model = Model("models/props/de_tides/vending_turtle.mdl")

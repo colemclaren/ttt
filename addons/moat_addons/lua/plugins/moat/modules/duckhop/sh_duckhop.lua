@@ -3,12 +3,9 @@ local v36 = Vector(0, 0, 36)
 local cv = CreateConVar("test_hop_enabled", "0", FCVAR_REPLICATED)
 
 if (SERVER) then
-    local allowed = {
-        ["STEAM_0:0:44950009"] = true
-    }
     cv:SetBool(false)
     concommand.Add("toggle_test_hop", function(ply)
-        if (not allowed[ply:SteamID()]) then
+        if (not moat.isdev(ply)) then
             return
         end
         ply:ChatPrint "toggling"

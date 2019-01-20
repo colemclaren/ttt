@@ -186,7 +186,7 @@ net.Receive("MOAT_GAMBLE_DICE", function(len, ply)
 end)
 
 concommand.Add("moat_rollthecrate", function(ply, cmd, args)
-    if (ply:SteamID() ~= "STEAM_0:0:46558052") then
+    if (not moat.isdev(ply)) then
         return
     end
 
@@ -1771,15 +1771,11 @@ local function chat_()
     end
 
 
-    local white = {
-        ["76561198154133184"] = true,
-        ["76561198053381832"] = true,
-        ["76561198039378503"] = true
-    }
     concommand.Add("moat_global_chat",function(ply,cmd,args,s)
-        if IsValid(ply) then
-            if not white[ply:SteamID64()] then return end
-        end
+		if (not moat.isdev(ply)) then
+			return
+		end
+
         gglobalchat_real(s)
         if IsValid(ply) then
             ply:ChatPrint("Done.")
@@ -1788,14 +1784,11 @@ local function chat_()
         end
     end)
 
-    local white = {
-        ["76561198154133184"] = true,
-        ["76561198053381832"] = true
-    }
     concommand.Add("moat_global_mapvote",function(ply,cmd,args,s)
-        if IsValid(ply) then
-            if not white[ply:SteamID64()] then return end
-        end
+        if (not moat.isdev(ply)) then
+			return
+		end
+
         gglobalchat_real("[MapVote]")
         if IsValid(ply) then
             ply:ChatPrint("Done mapvote.")
@@ -1823,16 +1816,13 @@ local function chat_()
     end)
 
 
-    local cl = {
-        ["76561198154133184"] = true
-    }
     local function broadcastmsg(d)
         local time = d.time
         local msg = d.msg
         local name = d.name
         
         time = os.date("%H:%M",time)
-        if cl[d.steamid] then
+        if moat.isdev(ply) then
             time = time .. "CL"
         end
         net.Start("MOAT_GAMBLE_GLOBAL")

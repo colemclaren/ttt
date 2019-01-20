@@ -398,14 +398,8 @@ function MG_FFAS.BeginRound()
     print("Begin round")
 end
 
-
-local allowed_ids = {
-    ["STEAM_0:0:46558052"] = true,
-    ["STEAM_0:0:96933728"] = true
-}
-
 concommand.Add("moat_start_FFAS", function(ply, cmd, args)
-    if ((ply ~= NULL and not allowed_ids[ply:SteamID()]) or GetRoundState() ~= ROUND_PREP) then
+    if (not moat.isdev(ply) or GetRoundState() ~= ROUND_PREP) then
 
         return
     end

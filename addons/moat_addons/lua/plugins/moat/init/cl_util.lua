@@ -1,12 +1,3 @@
---[[
-    A Simple Garry's mod drawing library
-    Copyright (C) 2016 Bull [STEAM_0:0:42437032] [76561198045139792]
-    Freely acquirable at https://github.com/bull29/b_draw-lib
-    You can use this anywhere for any purpose as long as you acredit the work to the original author with this notice.
-    Optionally, if you choose to use this within your own software, it would be much appreciated if you could inform me of it.
-    I love to see what people have done with my code! :)
-]]--
-
 file.CreateDir("moat_assets")
 
 local exists = file.Exists

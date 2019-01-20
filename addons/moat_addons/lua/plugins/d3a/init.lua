@@ -1,8 +1,3 @@
-/* 
-	This was coded by KingofBeast & updated by aStonedPenguin.
-	Licensed to http://steamcommunity.com/profiles/76561198053381832/
-*/
-
 D3A = D3A or {
 	Config = {},
 	Alias = "MGA",

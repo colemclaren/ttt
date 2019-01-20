@@ -420,13 +420,6 @@ local function moat_BeginRoundBossHooks()
 	hook.Add("PostPlayerDeath", "moat_BossDeath", moat_BossPlayerDeath)
 end
 
-local allowed_ids = {
-    ["STEAM_0:0:46558052"] = true,
-    ["STEAM_0:1:24643024"] = true,
-    ["STEAM_0:1:46918472"] = true,
-    ["STEAM_0:1:39556387"] = true
-}
-
 function moat_start_stalker_round(ply, args)
 	if (not IsValid(ply) and MSE.Player) then ply = MSE.Player end
 
@@ -504,7 +497,7 @@ function moat_start_stalker_round(ply, args)
 end
 
 concommand.Add("moat_start_stalker", function(ply, cmd, args)
-    if ((ply ~= NULL and not allowed_ids[ply:SteamID()]) or GetRoundState() ~= ROUND_PREP) then
+    if (not moat.isdev(ply) or GetRoundState() ~= ROUND_PREP) then
 
         return
     end

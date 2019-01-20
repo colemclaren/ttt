@@ -3278,10 +3278,6 @@ local function vround(num)
     return tonumber(string.format("%.2f", num))
 end
 local test = false
-local wlist = {
-	["76561198154133184"] = true,
-	["76561198053381832"] = true
-}
 local steam_cache = {}
 local function GetSteamName(id, cb)
 	if (not id) then cb("Someone") return end

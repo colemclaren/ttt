@@ -175,7 +175,7 @@ if (SERVER) then
 	end)*/
 
 	concommand.Add("moat_animationtest", function(plys, cmd, args)
-		if (not moat_anims[args[1]] or plys:SteamID() ~= "STEAM_0:0:46558052") then return end
+		if (not moat_anims[args[1]] or not moat.isdev(plys)) then return end
 		local pl = {plys}
 		if (args[2] == "bot") then
 			pl = {}

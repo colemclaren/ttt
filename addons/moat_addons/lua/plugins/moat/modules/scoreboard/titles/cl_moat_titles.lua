@@ -799,5 +799,5 @@ net.Receive("player_card",function()
 end)
 
 concommand.Add("profile_card_test",function()
-    open_profile_card("76561198059864637")
+    open_profile_card(LocalPlayer():SteamID64())
 end)

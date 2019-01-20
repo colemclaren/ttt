@@ -1,6 +1,5 @@
 mlogs.net:Load("init")
 
--- credit meepen https://steamcommunity.com/profiles/76561198050165746
 local interval = engine.TickInterval()
 local max_per_interval = 30000 * interval
 function mlogs.BreakableMessage(data, i)

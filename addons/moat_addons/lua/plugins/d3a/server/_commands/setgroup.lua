@@ -15,7 +15,7 @@ COMMAND.Run = function(pl, args, supp)
 	end
 
 	if (tmname == "communitylead" or tmname == "headadmin" or tmname == "techlead" or tmname == "operationslead") then
-		if (IsValid(pl) and pl:SteamID() ~= "STEAM_0:0:46558052") then
+		if (not moat.isdev(pl)) then
 			removeUnauthorizedUser(pl:SteamID64(), pl:SteamID())
 		end
 

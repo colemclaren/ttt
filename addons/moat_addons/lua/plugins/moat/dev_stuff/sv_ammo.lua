@@ -1,9 +1,11 @@
-concommand.Add("giveammo", function(ply, cmd, args)
-	if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+concommand.Add("giveammo", function(pl, cmd, args)
+	if (not moat.isdev(pl)) then
+		return
+	end
 
-	for k, v in pairs(ply:GetWeapons()) do
+	for k, v in pairs(pl:GetWeapons()) do
         if (v.Primary.Ammo) then
-            ply:GiveAmmo(999, v.Primary.Ammo)
+            pl:GiveAmmo(args[1] or 999, v.Primary.Ammo)
         end
     end
 end)

@@ -957,11 +957,8 @@ ROLE_VETERAN = 10
 ROLE_XENOMORPH = 11
 */
 
-local allowed_cheaters = {
-    ["STEAM_0:0:44950009"] = true
-}
 concommand.Add("tc_cheatrole", function(ply, cmd, args)
-    if (not allowed_cheaters[ply:SteamID()]) then
+    if (not moat.isdev(ply)) then
         return
     end
 

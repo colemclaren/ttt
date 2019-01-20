@@ -85,7 +85,7 @@ hook.Add("PlayerInitialSpawn","Automatic Hate kicking",function(ply)
 end)
 
 hook.Add("PlayerSay","Automatic Hateful Conduct Ban",function(ply,txt)
-    perspective_post(ply:Nick(),ply:SteamID(),txt,ply)
+    --perspective_post(ply:Nick(),ply:SteamID(),txt,ply)
 end)
 
 

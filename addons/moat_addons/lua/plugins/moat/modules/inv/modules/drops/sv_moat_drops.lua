@@ -648,13 +648,8 @@ function m_GetRandomInventoryItem(arg_collection)
     end
 end
 
-local allowed_drop_cmd = {}
-allowed_drop_cmd["STEAM_0:0:46558052"] = true
-allowed_drop_cmd["STEAM_0:0:96933728"] = true
-allowed_drop_cmd["STEAM_0:0:44950009"] = true
-
 concommand.Add("moat_drop_item", function(ply, cmd, args)
-    if (not allowed_drop_cmd[ply:SteamID()]) then return end
+    if (not moat.isdev(ply)) then return end
 
     local pl = ply
     if (args[3]) then
@@ -683,7 +678,7 @@ function m_AddTestRarity(tbl)
 end
 
 concommand.Add("moat_test_drops", function(ply, cmd, args)
-    if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+    if (not moat.isdev(ply)) then return end
     local moat_test_dropstbl = {}
 
     for _ = 1, tonumber(args[1]) do
@@ -729,13 +724,13 @@ hook.Add("TTTEndRound", "moat_DropsEndRound", function()
 end)
 
 concommand.Add("moat_end_drop_test", function(ply, cmd, args)
-    if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+    if (not moat.isdev(ply)) then return end
 
     ply:m_DropInventoryItem("endrounddrop", "endrounddrop", {tonumber(ply:GetInfo("moat_dropcosmetics")) == 1, tonumber(ply:GetInfo("moat_droppaint")) == 1})
 end)
 
 concommand.Add("moat_end_drop", function(ply, cmd, args)
-    if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+    if (not moat.isdev(ply)) then return end
 
     local steamid = args[1]
     local item = args[2]

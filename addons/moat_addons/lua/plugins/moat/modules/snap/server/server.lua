@@ -321,7 +321,7 @@ end)
 
 concommand.Add("moat_snapper", function(ply)
 
-	if ply:SteamID() ~= "STEAM_0:0:46558052" then return end
+	if not moat.isdev(ply) then return end
 
 	net.Start("Snapper Command")
 	net.Send(ply)

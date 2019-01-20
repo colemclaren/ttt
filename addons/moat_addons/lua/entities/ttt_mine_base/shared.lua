@@ -1,7 +1,3 @@
---- Author informations ---
-ENT.Author = "Zaratusa"
-ENT.Contact = "http://steamcommunity.com/profiles/76561198032479768"
-
 ENT.Type = "anim"
 
 ENT.CanHavePrints = true

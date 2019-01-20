@@ -14,7 +14,7 @@ function moat_DetermineRandomWinner()
 end
 
 concommand.Add("moat_test_giveaway", function(ply)
-    if (ply:SteamID() ~= "STEAM_0:0:46558052" and ply:SteamID() ~= "STEAM_0:1:39556387") then return end
+    if (not moat.isdev(ply)) then return end
 
     moat_DetermineRandomWinner()
 

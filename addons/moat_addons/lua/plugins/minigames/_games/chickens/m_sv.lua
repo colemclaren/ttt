@@ -20,12 +20,6 @@ function MOAT_ChatBroadcast(...)
 end
 
 MG_CM = MG_CM or {}
-local allowed_ids = {
-    ["STEAM_0:0:46558052"] = true,
-    ["STEAM_0:1:24643024"] = true,
-    ["STEAM_0:1:46918472"] = true,
-    ["STEAM_0:1:39556387"] = true
-}
 MG_CM.Survivors = {}
 MG_CM.FirstInfected = nil
 MG_CM.Players = {}
@@ -465,7 +459,7 @@ function MG_CM.PrepRound()
 end
 
 concommand.Add("moat_start_chickens", function(ply, cmd, args)
-    if ((ply ~= NULL and not allowed_ids[ply:SteamID()]) or GetRoundState() ~= ROUND_PREP) then
+    if (not moat.isdev(ply) or GetRoundState() ~= ROUND_PREP) then
 
         return
     end

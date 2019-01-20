@@ -2,7 +2,7 @@ util.AddNetworkString("moat_halloween_pumpkin")
 util.AddNetworkString("moat_halloween_pumpkin_found")
 
 concommand.Add("moat_halloween_pumpkin", function(ply, cmd, args)
-	if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+	if (not moat.isdev(ply)) then return end
 
 	local ent = ents.Create("sent_pumpkin")
     ent:SetPos(ply:GetEyeTrace().HitPos + Vector(math.random(-48, 48), math.random(-48, 48), 16))
@@ -89,7 +89,7 @@ hook.Add("TTTBeginRound", "moat_record_easter", function()
 end)
 
 concommand.Add("moat_record_pos", function()
-	if (ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+	if (not moat.isdev(ply)) then return end
 
 	MOAT_PUMPKIN.Record = not MOAT_PUMPKIN.Record
 end)
@@ -118,7 +118,7 @@ function m_DropPumpkin(ply, amt)
 end
 
 concommand.Add("moat_pumpkin_random", function(ply, cmd, args)
-	if (ply ~= NULL and ply:SteamID() ~= "STEAM_0:0:46558052") then return end
+	if (not moat.isdev(ply)) then return end
 	MOAT_PUMPKIN.SpawnRandom()
 end)
 
