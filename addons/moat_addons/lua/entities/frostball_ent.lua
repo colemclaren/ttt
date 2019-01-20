@@ -44,29 +44,32 @@ end
 
 function ENT:PhysicsCollide(data, physobj)
 	timer.Simple(0, function()
-
-	local ef = EffectData()
-	ef:SetOrigin(self:GetPos())
-	ef:SetAttachment(1)
-	util.Effect("effect_frostball_impact", ef, true, true)
-	
-	for i = 1,2 do self:EmitSound("physics/glass/glass_impact_bullet"..math.random(1,4)..".wav", 400) end
-	
-	for k, v in pairs(ents.FindInSphere(data.HitPos, 80)) do
-
-		if (v:IsValid() and v:IsPlayer() and v:Team() ~= TEAM_SPEC) then
-			local frozenTime = self.InventoryModifications[1]
-			local frozenSpeed = self.InventoryModifications[2] / 100
-			local frozenDelay = self.InventoryModifications[3]
+		local ef = EffectData()
+		ef:SetOrigin(self:GetPos())
+		ef:SetAttachment(1)
+		util.Effect("effect_frostball_impact", ef, true, true)
 		
-			v.frozenInfo = {att = self.Owner, infl = self}
-			v:moatFreeze(frozenTime, frozenSpeed, frozenDelay)
+		for i = 1,2 do self:EmitSound("physics/glass/glass_impact_bullet"..math.random(1,4)..".wav", 400) end
+		
+		for k, v in pairs(ents.FindInSphere(data.HitPos, 80)) do
+			if (IsValid(v) and v:IsPlayer() and v:Team() ~= TEAM_SPEC) then
+				local frozenTime = self.InventoryModifications[1]
+				local frozenSpeed = self.InventoryModifications[2] / 100
+				local frozenDelay = self.InventoryModifications[3]
 
-			v:Extinguish()
+				status.Inflict("Frost", {
+					Player = v,
+					Time = frozenTime,
+					Speed = frozenSpeed,
+					DamageDelay = frozenDelay,
+					Weapon = self.Owner:GetActiveWeapon(),
+					Attacker = self.Owner
+				})
+
+				v:Extinguish()
+			end
 		end
-	end
 
-	self:Remove()
-
+		self:Remove()
 	end)
 end
