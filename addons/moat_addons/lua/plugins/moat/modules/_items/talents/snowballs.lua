@@ -19,12 +19,12 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
     local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
     if (chance > math.random() * 100) then
         local ply = dmginfo.Attacker
-		if (not IsValid(ply)) then return end
+        if (not IsValid(ply)) then return end
 
     	local dmg = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
         local Front = ply:GetAimVector()
-	    local Up = ply:EyeAngles():Up()
-		
+        local Up = ply:EyeAngles():Up()
+
         local ball = ents.Create("ent_snowball");
         if IsValid(ball) then
             ball:SetPos(ply:GetShootPos() + Front * 10 + Up * 10 * -1)

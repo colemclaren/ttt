@@ -31,8 +31,8 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
             ammo_ent:PhysWake()
 
             net.Start("Moat.Talents.Notify")
-				net.WriteUInt(1, 8)
-				net.WriteString("Scavenger activated on kill!")
+                net.WriteUInt(1, 8)
+                net.WriteString("Scavenger activated on kill!")
             net.Send(att)
         end
     end

@@ -21,12 +21,12 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
         if (not IsValid(wep)) then
             return
         end
-		
+
         if (not wep.Primary or not wep.Primary.Delay) then
             attacker:PrintMessage(HUD_PRINTCENTER, "Your gun does not have valid stats for Explosive.")
             return
         end
-		
+
         local rps = (wep.Primary.NumShots or 1) / wep.Primary.Delay
         chance = math.min(chance * 4 / rps, 25) -- 4 = quarter second
     end

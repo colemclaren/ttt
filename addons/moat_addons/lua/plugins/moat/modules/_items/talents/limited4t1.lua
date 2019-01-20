@@ -25,7 +25,6 @@ end)
 local tier = 1
 local id = TALENT.ID
 function wildcard_t1(weapon,talent_mods)
-    local talents_chosen = {}
     local talents = table.Copy(MOAT_TALENTS)
 
     local active = weapon.Talents[tier].l <= weapon.level
@@ -52,13 +51,9 @@ function wildcard_t1(weapon,talent_mods)
 
     local wep = weapon.Weapon
     if GetRoundState() == ROUND_PREP then 
-        if wildcard_prep_cache[wep:GetOwner()] then
-            if wildcard_prep_cache[wep:GetOwner()][tier] then
-                if wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] then
-                    talent = talents[wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][1]]
-                    t = wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][2]
-                end
-            end
+        if wildcard_prep_cache[wep:GetOwner()] and wildcard_prep_cache[wep:GetOwner()][tier] and wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()] then
+            talent = talents[wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][1]]
+            t = wildcard_prep_cache[wep:GetOwner()][tier][wep:GetClass()][2]
         end
         if not wildcard_prep_cache[wep:GetOwner()] then
             wildcard_prep_cache[wep:GetOwner()] = {}

@@ -16,6 +16,6 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 	if (weapon.Primary.ClipSize and weapon.Primary.DefaultClip and weapon.Primary.ClipMax) then
 		weapon.Primary.ClipSize = math.Round( weapon.Primary.ClipSize * ( 1 + ( ( self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] ) ) / 100 ) ) )
 		weapon.Primary.DefaultClip = weapon.Primary.ClipSize
-		weapon.Primary.ClipMax = ( weapon.Primary.DefaultClip * 3 )	
+		weapon.Primary.ClipMax = weapon.Primary.DefaultClip * 3
 	end
 end

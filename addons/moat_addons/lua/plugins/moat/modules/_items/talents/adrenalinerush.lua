@@ -36,14 +36,14 @@ EFFECT.Color = TALENT.NameColor
 EFFECT.Material = "icon16/anchor.png"
 function EFFECT:Init(data)
 	local curWeapon = data.Weapon.Primary
-	
+
 	if (not curWeapon.BaseDamage) then
 		curWeapon.BaseDamage = curWeapon.Damage
 	end
 
 	curWeapon.AdrenalineStacks = (curWeapon.AdrenalineStacks or 0) + 1
 	curWeapon.Damage = curWeapon.BaseDamage + (curWeapon.AdrenalineStacks * data.Percent)
-	
+
 	self:CreateEndTimer(data.Time, data)
 end
 
@@ -51,7 +51,7 @@ function EFFECT:OnEnd(data)
 	if (not IsValid(data.Weapon)) then return end
 
 	local curWeapon = data.Weapon.Primary
-	
+
 	curWeapon.AdrenalineStacks = math.max(curWeapon.AdrenalineStacks - 1, 0)
-	curWeapon.Damage = curWeapon.BaseDamage + (curWeapon.AdrenalineStacks * data.Percent)
+	curWeapon.Damage = curWeapon.BaseDamage + (data.Percent ^ curWeapon.AdrenalineStacks)
 end

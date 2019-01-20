@@ -25,7 +25,7 @@ local function _ass_talent(vic,att)
                     net.WriteString(vic:Nick())
                     net.Send(att)
                 end
-				
+
                 v:SetName("diss_" .. v:EntIndex())
                 dissolver:Spawn()
                 dissolver:Activate()
@@ -34,7 +34,7 @@ local function _ass_talent(vic,att)
                 dissolver:SetPos(v:GetPos())
                 dissolver:Fire("Dissolve", v:GetName(), 0)
                 dissolver:Fire("Kill", "", 0.1)
-				
+
                 timer.Simple(0.1,function()
                     dissolver:Remove()
                 end)

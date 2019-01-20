@@ -64,9 +64,9 @@ function EFFECT:Callback(data)
 	dmg:SetDamageType(DMG_SHOCK)
 
 	vic:TakeDamageInfo(dmg)
-	
+
 	local n = math.random(11)
-	vic:EmitSound("ambient/energy/newspark" .. (n<10 and "0" or "").. n .. ".wav")
+	vic:EmitSound("ambient/energy/newspark" .. (n < 10 and "0" or "") .. n .. ".wav")
 end
 
 local EFFECT = STATUS:CreateEffect "Zapped"
@@ -86,6 +86,6 @@ function EFFECT:Callback(data)
 	effectdata:SetMagnitude(10)
 	effectdata:SetScale(3)
 	util.Effect("TeslaHitBoxes", effectdata)
-	
+
 	vic:SendLua("util.ScreenShake(Vector(0, 0, 0), 50, 100, 0.5, 100)")
 end

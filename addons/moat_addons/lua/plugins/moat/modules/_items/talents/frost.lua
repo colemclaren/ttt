@@ -65,7 +65,7 @@ function EFFECT:Callback(data)
 end
 
 
-local EFFECT = STATUS:CreateEffect "Freezing"
+EFFECT = STATUS:CreateEffect "Freezing"
 function EFFECT:Init(data)
 	local ply = data.Player
 	if (not ply:canBeMoatFrozen()) then return end
@@ -73,12 +73,12 @@ function EFFECT:Init(data)
 	ply.moatFrozen = true
 	ply.moatFrozenSpeed = data.Speed
 	ply:SetNWBool("moatFrozen", true)
-	self.Timer = self:CreateTimer(data.Time, 1, self.Callback, data)
+	self:CreateEndTimer(data.Time, data)
 end
 
-function EFFECT:Callback(data)
+function EFFECT:OnEnd(data)
 	local ply = data.Player
-	
+
 	ply.moatFrozen = false
 	ply.moatFrozenSpeed = 1
 	ply:SetNWBool("moatFrozen", false)
