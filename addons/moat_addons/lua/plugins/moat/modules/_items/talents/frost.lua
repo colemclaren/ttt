@@ -27,8 +27,7 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 			Speed = (self.Modifications[3].min + ((self.Modifications[3].max - self.Modifications[3].min) * talent_mods[3])) / 100,
 			DamageDelay = self.Modifications[4].min + ((self.Modifications[4].max - self.Modifications[4].min) * talent_mods[4]),
 			Weapon = attacker:GetActiveWeapon(),
-			Attacker = attacker,
-			Percent = 1 + ((self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])) / 100)
+			Attacker = attacker
 		})
 	end
 end
@@ -65,6 +64,9 @@ function EFFECT:Callback(data)
 end
 
 
+util.AddNetworkString("FrozenPlayer")
+local frozen_players = 0
+
 EFFECT = STATUS:CreateEffect "Freezing"
 function EFFECT:Init(data)
 	local ply = data.Player
@@ -74,6 +76,11 @@ function EFFECT:Init(data)
 	ply.moatFrozenSpeed = data.Speed
 	ply:SetNWBool("moatFrozen", true)
 	self:CreateEndTimer(data.Time, data)
+	
+	frozen_players = frozen_players + 1
+	net.Start("FrozenPlayer")
+		net.WriteUInt(frozen_players, 8)
+	net.Broadcast()
 end
 
 function EFFECT:OnEnd(data)
@@ -82,4 +89,9 @@ function EFFECT:OnEnd(data)
 	ply.moatFrozen = false
 	ply.moatFrozenSpeed = 1
 	ply:SetNWBool("moatFrozen", false)
+	
+	frozen_players = frozen_players - 1
+	net.Start("FrozenPlayer")
+		net.WriteUInt(frozen_players, 8)
+	net.Broadcast()
 end
