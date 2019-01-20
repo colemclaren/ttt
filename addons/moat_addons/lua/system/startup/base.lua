@@ -167,5 +167,3 @@ moat.print [[| The best way to contact us is on our partnered Discord server. \ 
 moat.print "|"
 for i = 1, 3 do moat.print "| > https://discord.gg/moatgaming" end
 moat.spacer()
-
--- webhook test
