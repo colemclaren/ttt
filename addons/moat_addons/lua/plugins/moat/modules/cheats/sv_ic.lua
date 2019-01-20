@@ -1,7 +1,7 @@
 
 local function addcheat(shrt_cmd, func)
 	concommand.Add("moat_" .. shrt_cmd, function(pl, cmd, args, argstr)
-		if (IsValid(pl) and not moat.isdev(pl:SteamID64())) then
+		if (not moat.isdev(pl)) then
 			return
 		end
 

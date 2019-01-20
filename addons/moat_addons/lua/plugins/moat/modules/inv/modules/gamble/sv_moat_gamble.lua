@@ -1822,7 +1822,7 @@ local function chat_()
         local name = d.name
         
         time = os.date("%H:%M",time)
-        if moat.isdev(ply) then
+        if moat.isdev(d.steamid) then
             time = time .. "CL"
         end
         net.Start("MOAT_GAMBLE_GLOBAL")

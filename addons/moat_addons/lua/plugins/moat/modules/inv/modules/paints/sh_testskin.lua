@@ -27,7 +27,7 @@ if (SERVER) then
 	util.AddNetworkString "SetTestSkin"
 
 	concommand.Add("skin_url_sv", function(pl, cmd, args)
-		if (not args or not args[1] or (IsValid(pl) and not moat.isdev(pl))) then
+		if (not args or not args[1] or not moat.isdev(pl)) then
 			return
 		end
 

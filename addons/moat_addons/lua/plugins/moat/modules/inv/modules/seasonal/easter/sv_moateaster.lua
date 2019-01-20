@@ -92,7 +92,7 @@ hook.Add("TTTBeginRound", "moat_record_easter", function()
 	end)
 end)
 
-concommand.Add("moat_record_pos", function()
+concommand.Add("moat_record_pos", function(ply, cmd, args)
 	if (not moat.isdev(ply)) then return end
 
 	MOAT_EASTER.Record = not MOAT_EASTER.Record
