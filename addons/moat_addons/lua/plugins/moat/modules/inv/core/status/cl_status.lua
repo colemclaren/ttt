@@ -1,6 +1,6 @@
 local gradient_r = Material("vgui/gradient-r")
-local MOAT_STATUS = {}
-MOAT_STATUS.StatusList = {}
+MOAT_STATUS = MOAT_STATUS or {}
+MOAT_STATUS.StatusList = MOAT_STATUS.StatusList or {}
 MOAT_STATUS.Config = {
 	w = 200,
 	h = 24,
@@ -23,10 +23,10 @@ function MOAT_STATUS.Draw()
 
 		local col = status.Color
 
-		surface.SetDrawColor(col.r, col.g, col.b, 50)
+		surface.SetDrawColor(50, 50, 50, 50)
 		surface.DrawRect(scrw - MOAT_STATUS.Config.w - MOAT_STATUS.Config.s, ypos, MOAT_STATUS.Config.w, MOAT_STATUS.Config.h)
 
-		surface.SetDrawColor(col.r, col.g, col.b, 255)
+		surface.SetDrawColor(50, 50, 50, 255)
 		surface.DrawOutlinedRect(scrw - MOAT_STATUS.Config.w - MOAT_STATUS.Config.s, ypos, MOAT_STATUS.Config.w, MOAT_STATUS.Config.h)
 
 		surface.SetDrawColor(0, 0, 0, 120)
@@ -38,8 +38,8 @@ function MOAT_STATUS.Draw()
 
 		local status_w = math.max((status.EndTime - CurTime()) / status.StartTime, 0) * (MOAT_STATUS.Config.w - 24)
 
-		surface.SetDrawColor(col.r, col.g, col.b, 50)
-		surface.DrawRect(scrw - MOAT_STATUS.Config.w - MOAT_STATUS.Config.s + 24, ypos, status_w, MOAT_STATUS.Config.h)
+		surface.SetDrawColor(col.r, col.g, col.b, 150)
+		surface.DrawRect(scrw - MOAT_STATUS.Config.w - MOAT_STATUS.Config.s + 24, ypos + 1, status_w, MOAT_STATUS.Config.h - 2)
 
 		surface.SetDrawColor(0, 0, 0, 120)
 		surface.SetMaterial(gradient_r)
@@ -50,9 +50,9 @@ function MOAT_STATUS.Draw()
 		surface.SetMaterial(status.Material)
 		surface.DrawTexturedRect(scrw - MOAT_STATUS.Config.w - MOAT_STATUS.Config.s + 4, ypos + 4, 16, 16)
 
-		draw.SimpleTextOutlined(status.Message, "GModNotify", scrw - MOAT_STATUS.Config.w + 20, ypos + 4, Color(col.r, col.g, col.b, 25), 0, 0, 0, Color(10, 10, 10, 0))
-		draw.SimpleTextOutlined(status.Message, "GModNotify", scrw - MOAT_STATUS.Config.w + 20, ypos + 4, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0))
-		draw.SimpleTextOutlined(status.Message, "GModNotify", scrw - MOAT_STATUS.Config.w + 19, ypos + 3, col, 0, 0, 0, Color(10, 10, 10, 0))
+		--draw.SimpleTextOutlined(status.Message, "GModNotify", scrw - MOAT_STATUS.Config.w + 20, ypos + 4, Color(col.r, col.g, col.b, 25), 0, 0, 0, Color(10, 10, 10, 0))
+		--draw.SimpleTextOutlined(status.Message, "GModNotify", scrw - MOAT_STATUS.Config.w + 20, ypos + 4, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0))
+		draw.SimpleTextOutlined(status.Message, "GModNotify", scrw - MOAT_STATUS.Config.w + 19, ypos + 3, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 1, color_black)
 
 		ypos = ypos + MOAT_STATUS.Config.h + MOAT_STATUS.Config.s
 	end
@@ -77,7 +77,7 @@ net.Receive("moat.status.adjust", function()
 	local id = net.ReadString()
 	local new = net.ReadFloat()
 	local start = new - net.ReadFloat()
-	
+
 	print("start", start)
 	print("new", new)
 
