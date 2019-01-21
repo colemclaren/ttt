@@ -34,7 +34,7 @@ function PREDATORY:Invoke(data)
 end
 
 local EFFECT = PREDATORY:CreateEffect "Leech"
-EFFECT.Message = "Healing"
+EFFECT.Message = "Leeching"
 EFFECT.Color = Color(0, 255, 0)
 EFFECT.Material = "icon16/heart_add.png"
 function EFFECT:Init(data)

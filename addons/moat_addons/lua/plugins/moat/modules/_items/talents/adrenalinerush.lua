@@ -53,5 +53,5 @@ function EFFECT:OnEnd(data)
 	local curWeapon = data.Weapon.Primary
 
 	curWeapon.AdrenalineStacks = math.max(curWeapon.AdrenalineStacks - 1, 0)
-	curWeapon.Damage = curWeapon.BaseDamage + (data.Percent ^ curWeapon.AdrenalineStacks)
+	curWeapon.Damage = curWeapon.BaseDamage * (data.Percent ^ curWeapon.AdrenalineStacks)
 end
