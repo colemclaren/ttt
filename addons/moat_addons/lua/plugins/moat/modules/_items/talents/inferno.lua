@@ -14,20 +14,43 @@ TALENT.Modifications[2] = { min = 4, max = 8 }	-- Ignite time
 TALENT.Melee = true
 TALENT.NotUnique = true
 
-function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
+function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then return end
 
 	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 	if (chance > math.random() * 100) then
-		local ignite_time = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * talent_mods[2] )
-
-		victim:Ignite(ignite_time)
-		victim.ignite_info = {att = dmginfo:GetAttacker(), infl = dmginfo:GetInflictor()}
-
-		timer.Simple(ignite_time + 0.1, function()
-			if IsValid(victim) then
-				victim.ignite_info = nil
-			end
-		end)
+		status.Inflict("Inferno", {
+			Victim = victim,
+			Attacker = dmginfo:GetAttacker(),
+			Inflictor = dmginfo:GetInflictor(),
+			Time = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * talent_mods[2] )
+		})
 	end
+end
+
+local STATUS = status.Create "Inferno"
+function STATUS:Invoke(data)
+	self:CreateEffect "Inferno":Invoke(data, data.Time, data.Victim)
+end
+
+local EFFECT = STATUS:CreateEffect "Inferno"
+EFFECT.Message = "On Fire"
+EFFECT.Color = TALENT.NameColor
+EFFECT.Material = "icon16/weather_sun.png"
+function EFFECT:Init(data)
+	local victim = data.Victim
+	local radius = data.Radius or 0
+	
+	victim:Ignite(data.Time, radius)
+	victim.ignite_info = {att = Attacker, infl = Inflictor}
+	self:CreateEndTimer(data.Time, data)
+end
+
+function EFFECT:OnEnd(data)
+	if (not IsValid(data.Victim)) then return end
+
+	local victim = data.Victim
+
+	victim:Extinguish()
+	victim.ignite_info = nil
 end

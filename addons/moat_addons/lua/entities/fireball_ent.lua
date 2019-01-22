@@ -57,21 +57,13 @@ function ENT:PhysicsCollide(data, physobj)
 	self:EmitSound("ambient/explosions/explode_8.wav", 400)
 
 	for k, v in pairs(ents.FindInSphere(data.HitPos, 80)) do
-		if (v:IsValid() and v:IsPlayer() and v:Team() ~= TEAM_SPEC) then
-			local ignite_time = self.InventoryModifications[1]
-
-			v:Ignite(ignite_time)
-
-        	v.ignite_info = {
-            	att = self.Owner,
-            	infl = self
-        	}
-
-        	timer.Simple(ignite_time + 0.1, function()
-            	if IsValid(v) then
-                	v.ignite_info = nil
-            	end
-        	end)
+		if (IsValid(v) and v:IsPlayer() and v:Team() ~= TEAM_SPEC) then
+			status.Inflict("Inferno", {
+				Victim = v,
+				Attacker = self.Owner,
+				Inflictor = self,
+				Time = self.InventoryModifications[1]
+			})
 		end
 	end
 
