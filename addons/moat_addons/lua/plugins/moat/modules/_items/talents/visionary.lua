@@ -55,7 +55,7 @@ end
 function EFFECT:OnEnd(data)
 	if (not IsValid(data.Player)) then return end
 	
-	local att = data.Player
+	local inf = data.Player
 	
 	net.Start("Moat.Talents.Visionary")
 		net.WriteDouble(0)
