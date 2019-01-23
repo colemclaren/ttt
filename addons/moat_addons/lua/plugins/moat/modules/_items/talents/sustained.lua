@@ -13,7 +13,7 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath( victim, inf, attacker, talent_mods )
-	if (not GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS) then return end
+	if (GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS) then return end
 
 	local health_to_add = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 	attacker:SetHealth(math.Clamp(attacker:Health() + health_to_add, 0, attacker:GetMaxHealth()))
