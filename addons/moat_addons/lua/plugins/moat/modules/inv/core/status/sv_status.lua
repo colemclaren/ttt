@@ -45,7 +45,6 @@ function status.Remove(pl)
 	end
 
 	net.Start("moat.status.reset")
-	net.WriteString(self.Id)
 	net.Send(pl)
 end
 hook.Add("PostPlayerDeath", "moat.status.playerdeath", status.Remove)
