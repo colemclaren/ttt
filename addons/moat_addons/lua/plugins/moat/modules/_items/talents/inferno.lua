@@ -30,7 +30,12 @@ end
 
 local STATUS = status.Create "Inferno"
 function STATUS:Invoke(data)
-	self:CreateEffect "Inferno":Invoke(data, data.Time, data.Victim)
+	local effect = self:GetEffectFromPlayer("Inferno", data.Victim)
+	if (effect) then
+		effect:AddTime(data.Time)
+	else
+		self:CreateEffect "Inferno":Invoke(data, data.Time, data.Victim)
+	end
 end
 
 local EFFECT = STATUS:CreateEffect "Inferno"
@@ -40,9 +45,9 @@ EFFECT.Material = "icon16/weather_sun.png"
 function EFFECT:Init(data)
 	local victim = data.Victim
 	local radius = data.Radius or 0
-	
+
 	victim:Ignite(data.Time, radius)
-	victim.ignite_info = {att = Attacker, infl = Inflictor}
+	victim.ignite_info = {att = data.Attacker, infl = data.Inflictor}
 	self:CreateEndTimer(data.Time, data)
 end
 
