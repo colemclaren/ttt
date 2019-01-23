@@ -39,7 +39,7 @@ EFFECT.Color = TALENT.NameColor
 EFFECT.Material = "icon16/group_go.png"
 function EFFECT:Init(data)
 	local att = data.Player
-	att.speedforce = Data.Speed
+	att.speedforce = data.Speed
 	
 	self:CreateEndTimer(data.Time, data)
 end
