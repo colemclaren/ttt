@@ -34,10 +34,11 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 	end
 
 	if (applyMod) then
+		local _weapon = weapon.Weapon
 		net.Start("Talents.Silenced")
-			net.WriteEntity(weapon)
+			net.WriteEntity(_weapon)
 		net.Broadcast()
 
-		weapon.Primary.Sound = Sound("weapons/usp/usp1.wav")
+		_weapon.Primary.Sound = Sound("weapons/usp/usp1.wav")
 	end
 end
