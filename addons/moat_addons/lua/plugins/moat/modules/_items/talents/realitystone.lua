@@ -31,7 +31,7 @@ function EFFECT:Init(data)
 	att:SetRenderMode(RENDERMODE_TRANSALPHA)
 	att:SetColor(Color(255,255,255,50))
 	att.RealityStone = CurTime() - 0.5
-	D3A.Chat.SendToPlayer2(att, Color(0, 255, 0), "You are now transparent for ", Color(255, 0, 0), sec or "0", Color(0, 255, 0), " seconds!")
+	D3A.Chat.SendToPlayer2(att, Color(0, 255, 0), "You are now transparent for ", Color(255, 0, 0), data.Time or "0", Color(0, 255, 0), " seconds!")
 end
 
 function EFFECT:OnEnd(data)
