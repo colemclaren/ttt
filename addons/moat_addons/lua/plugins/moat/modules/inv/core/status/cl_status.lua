@@ -33,7 +33,7 @@ function MOAT_STATUS.Draw()
 		surface.DrawRect(scrw - MOAT_STATUS.Config.w - MOAT_STATUS.Config.s, ypos, MOAT_STATUS.Config.h, MOAT_STATUS.Config.h)
 
 		--[[
-			Showing Time Left
+		Showing Time Left
 		]]
 
 		local status_w = math.max((status.EndTime - CurTime()) / status.StartTime, 0) * (MOAT_STATUS.Config.w - 24)
@@ -86,14 +86,6 @@ net.Receive("moat.status.adjust", function()
 	end
 end)
 
-
-net.Receive("moat.status.end", function()
-	local id = net.ReadString()
-
-	for k, v in ipairs(MOAT_STATUS.StatusList) do
-		if (v.ID == id) then table.remove(MOAT_STATUS.StatusList, k) end
-	end
-end)
 
 function MOAT_STATUS.Reset()
 	MOAT_STATUS.StatusList = {}
