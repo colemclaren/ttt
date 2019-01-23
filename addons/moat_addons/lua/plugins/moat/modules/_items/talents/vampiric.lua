@@ -1,4 +1,4 @@
-TALENT.ID = 156
+TALENT.ID = 16
 TALENT.Name = "Vampiric"
 TALENT.NameColor = Color(0, 255, 0)
 TALENT.Description = "Each hit has a %s_^ chance to steal %s_^ of the damage you deal"
