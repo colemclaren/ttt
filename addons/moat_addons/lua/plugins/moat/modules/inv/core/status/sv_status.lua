@@ -1,7 +1,7 @@
 
 util.AddNetworkString("moat.status.init")
 util.AddNetworkString("moat.status.adjust")
---util.AddNetworkString("moat.status.end")
+util.AddNetworkString("moat.status.end")
 util.AddNetworkString("moat.status.reset")
 
 status = {}
@@ -39,6 +39,12 @@ end
 hook.Add("TTTEndRound", "moat.status.round.end", status.Reset)
 hook.Add("TTTPrepareRound", "moat.status.round.begin", status.Reset)
 
+function status.Remove(pl)
+	for _, effect in pairs(pl.ActiveEffects) do
+		effect:Reset()
+	end
+end
+hook.Add("PostPlayerDeath", "moat.status.playerdeath", status.Remove)
 
 local pl = FindMetaTable("Player")
 function pl:ClearEffects()

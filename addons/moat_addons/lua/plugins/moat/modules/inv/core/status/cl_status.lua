@@ -78,9 +78,6 @@ net.Receive("moat.status.adjust", function()
 	local new = net.ReadFloat()
 	local start = new - net.ReadFloat()
 
-	print("start", start)
-	print("new", new)
-
 	for i = 1, #MOAT_STATUS.StatusList do
 		if (MOAT_STATUS.StatusList[i].ID == id) then
 			MOAT_STATUS.StatusList[i].EndTime = new
@@ -89,14 +86,14 @@ net.Receive("moat.status.adjust", function()
 	end
 end)
 
---[[
+
 net.Receive("moat.status.end", function()
 	local id = net.ReadString()
 
 	for k, v in ipairs(MOAT_STATUS.StatusList) do
-		if (v[5] == id) then table.remove(MOAT_STATUS.StatusList, k) end
+		if (v.ID == id) then table.remove(MOAT_STATUS.StatusList, k) end
 	end
-end)]]
+end)
 
 function MOAT_STATUS.Reset()
 	MOAT_STATUS.StatusList = {}

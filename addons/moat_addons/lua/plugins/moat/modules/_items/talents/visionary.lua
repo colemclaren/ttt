@@ -22,7 +22,7 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
 		local feet = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
 		local secs = self.Modifications[3].min + ((self.Modifications[3].max - self.Modifications[3].min) * talent_mods[3])
 
-		status.Inflict("Visionary", {Time = secs, Player = inf, Radius = feet})
+		status.Inflict("Visionary", {Time = secs, Player = att, Radius = feet})
 	end
 end
 
@@ -42,12 +42,12 @@ EFFECT.Message = "Visionary"
 EFFECT.Color = TALENT.NameColor
 EFFECT.Material = "icon16/eye.png"
 function EFFECT:Init(data)
-	local inf = data.Player
+	local att = data.Player
 
 	net.Start("Moat.Talents.Visionary")
 	net.WriteDouble(data.Time)
 	net.WriteDouble(data.Radius)
-	net.Send(inf)
+	net.Send(att)
 
 	self:CreateEndTimer(data.Time, data)
 end
@@ -55,10 +55,10 @@ end
 function EFFECT:OnEnd(data)
 	if (not IsValid(data.Player)) then return end
 
-	local inf = data.Player
+	local att = data.Player
 
 	net.Start("Moat.Talents.Visionary")
 	net.WriteDouble(0)
 	net.WriteDouble(0)
-	net.Send(inf)
+	net.Send(att)
 end

@@ -123,6 +123,12 @@ function self:Reset()
 	if (isfunction(self.OnEnd)) then
 		self.OnEnd(self, self.Data)
 	end
+	
+	if (self.Player) then
+		net.Start("moat.status.end")
+			net.WriteString(self.Id)
+		net.Send(self.Player)
+	end
 end
 
 EFFECT_BASE = self
