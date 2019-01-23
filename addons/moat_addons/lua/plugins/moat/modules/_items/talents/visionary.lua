@@ -43,22 +43,22 @@ EFFECT.Color = TALENT.NameColor
 EFFECT.Material = "icon16/eye.png"
 function EFFECT:Init(data)
 	local inf = data.Player
-	
+
 	net.Start("Moat.Talents.Visionary")
-		net.WriteDouble(data.Time)
-		net.WriteDouble(data.Radius)
+	net.WriteDouble(data.Time)
+	net.WriteDouble(data.Radius)
 	net.Send(inf)
-	
+
 	self:CreateEndTimer(data.Time, data)
 end
 
 function EFFECT:OnEnd(data)
 	if (not IsValid(data.Player)) then return end
-	
+
 	local inf = data.Player
-	
+
 	net.Start("Moat.Talents.Visionary")
-		net.WriteDouble(0)
-		net.WriteDouble(0)
+	net.WriteDouble(0)
+	net.WriteDouble(0)
 	net.Send(inf)
 end
