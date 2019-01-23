@@ -19,26 +19,31 @@ hook.Add("TTTBeginRound","ClearSilenced",function()
 	silence_prep_cache = {}
 end)
 
+local silencedSound = Sound("weapons/usp/usp1.wav")
+
 function TALENT:ModifyWeapon( weapon, talent_mods )
 	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
 	local applyMod = chance > math.random() * 100
 
-	if not silence_prep_cache[weapon.Weapon:GetOwner()] then
-		silence_prep_cache[weapon.Weapon:GetOwner()] = {}
+	local _weapon = weapon.Weapon
+	local _owner = _weapon:GetOwner()
+	local _class = _weapon:GetClass()
+
+	if not silence_prep_cache[_owner] then
+		silence_prep_cache[_owner] = {}
 	end
 
-	if silence_prep_cache[weapon.Weapon:GetOwner()][weapon.Weapon:GetClass()] then
-		applyMod = silence_prep_cache[weapon.Weapon:GetOwner()][weapon.Weapon:GetClass()]
+	if silence_prep_cache[_owner][_class] then
+		applyMod = silence_prep_cache[_owner][_class]
 	else
-		silence_prep_cache[weapon.Weapon:GetOwner()][weapon.Weapon:GetClass()] = applyMod
+		silence_prep_cache[_owner][_class] = applyMod
 	end
 
 	if (applyMod) then
-		local _weapon = weapon.Weapon
 		net.Start("Talents.Silenced")
 			net.WriteEntity(_weapon)
 		net.Broadcast()
 
-		_weapon.Primary.Sound = Sound("weapons/usp/usp1.wav")
+		_weapon.Primary.Sound = silencedSound
 	end
 end
