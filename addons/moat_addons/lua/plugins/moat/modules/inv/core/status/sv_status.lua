@@ -30,7 +30,7 @@ function status.Reset()
 	for _, status in pairs(status.StatusList) do
 		status:Reset()
 	end
-	
+
 	for _, pl in pairs(player.GetAll()) do
 		pl.ActiveEffects = {}
 	end
@@ -43,6 +43,10 @@ function status.Remove(pl)
 	for _, effect in pairs(pl.ActiveEffects) do
 		effect:Reset()
 	end
+
+	net.Start("moat.status.reset")
+	net.WriteString(self.Id)
+	net.Send(pl)
 end
 hook.Add("PostPlayerDeath", "moat.status.playerdeath", status.Remove)
 
