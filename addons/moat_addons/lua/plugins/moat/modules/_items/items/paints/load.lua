@@ -192,6 +192,15 @@ MOAT_PAINT.Paints = {
 }
 
 local holidays = 'Holiday Collection'
+local function skin(name, ext, rarity)
+	if (rarity == nil) then
+		rarity = ext
+		ext = nil
+	end
+	local url  = name:lower():gsub(" ", "%%20")
+	return {name .. ' Skin', 'https://cdn.moat.gg/f/' .. url .. '.vtf', rarity, 'https://cdn.moat.gg/f/' .. url .. '.' .. (ext or 'jpg'), 'Skin Collection'}
+end
+
 MOAT_PAINT.Skins = {
 	[6117] = {'Flesh Skin', 'https://cdn.moat.gg/f/1998b.vtf', 7, 'https://cdn.moat.gg/f/86cc6.png'},
 	[6119] = {'Test Skin', 'https://cdn.moat.gg/f/b4573.vtf', 8, nil, 'Testing Collection'},
@@ -219,7 +228,56 @@ MOAT_PAINT.Skins = {
 	[6149] = {'Skrilla Skin', 'https://cdn.moat.gg/f/49737.vtf', 7, 'https://cdn.moat.gg/f/a3326.png', holidays},
 	[6145] = {'Hotline Skin', 'https://cdn.moat.gg/f/5d256.vtf', 9, 'https://cdn.moat.gg/f/be68b.png', holidays},
 	[6146] = {'Galaxy Skin', 'https://cdn.moat.gg/f/9a16b.vtf', 9, 'https://cdn.moat.gg/f/c009c.png', holidays},
-	[6154] = {'Elevate Skin', 'https://cdn.moat.gg/f/bad8d.vtf', 7, 'https://cdn.moat.gg/f/9ccd6.png', holidays}
+	[6154] = {'Elevate Skin', 'https://cdn.moat.gg/f/bad8d.vtf', 7, 'https://cdn.moat.gg/f/9ccd6.png', holidays},
+
+	[6200] = skin('Blurred Neon', 5),
+	[6201] = skin('Bubbles', 'png', 5),
+	[6202] = skin('Butterflies', 4),
+	[6203] = skin('Camo', 3),
+	[6204] = skin('Caution', 5),
+	[6205] = skin('Cheetah', 4),
+	[6206] = skin('Dew', 4),
+	[6207] = skin('Electric Current', 5),
+	[6208] = skin('Encrypted', 'png', 6),
+	[6209] = skin('Energy Flower', 5),
+	[6210] = skin('Energy', 4),
+	[6211] = skin('Fantasy', 'png', 7),
+	[6212] = skin('Glitch', 'png', 7),
+	[6213] = skin('Hairy Dragon', 6),
+	[6214] = skin('Halo', 4),
+	[6215] = skin('Heatwave', 'png', 5),
+	[6216] = skin('Hyperdrive', 6),
+	[6217] = skin('Hypno', 5),
+	[6218] = skin('Illusion', 5),
+	[6219] = skin('Kaleidoscope', 5),
+	[6220] = skin('Kali', 5),
+	[6221] = skin('Lava Lamp', 4),
+	[6222] = skin('Light Show', 'png', 6),
+	[6223] = skin('Loofa', 5),
+	[6224] = skin('Lunar', 'png', 6),
+	[6225] = skin('Magikarp', 7),
+	[6226] = skin('Mirrored', 3),
+	[6227] = skin('Missing Green', 5),
+	[6228] = skin('Mosaic', 'png', 5),
+	[6229] = skin('Motherboard', 'png', 5),
+	[6230] = skin('Neon Rider', 'png', 6),
+	[6231] = skin('Pattern', 6),
+	[6232] = skin('Penguins', 'png', 5),
+	[6233] = skin('Refraction', 6),
+	[6234] = skin('Splat', 4),
+	[6235] = skin('Starry', 6),
+	[6236] = skin('Stem', 6),
+	[6237] = skin('Sunflower', 4),
+	[6238] = skin('Sunset', 6),
+	[6239] = skin('Swirls', 6),
+	[6240] = skin('Techno', 6),
+	[6241] = skin('Tiles', 4),
+	[6242] = skin('Triangles', 5),
+	[6243] = skin('Void', 6),
+	[6244] = skin('Watery Night', 5),
+	[6245] = skin('Yellow Bricks', 3),
+	[6246] = skin('Yellow Flower', 3),
+
 	-- https://cdn.moat.gg/f/8e376.png
 	--[6120] = {'Puppy Skin', 'https://cdn.moat.gg/f/dbd23.png', 8}, --'https://cdn.moat.gg/f/91548.png', 8},
 	--[6121] = {'Dev Team Stalker Skin', 'https://cdn.moat.gg/f/b8271.png', 8}
