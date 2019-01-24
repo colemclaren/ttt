@@ -4,10 +4,10 @@ TALENT.Name = 'Provident'
 TALENT.NameColor = Color(0, 123, 181)
 TALENT.Description = 'Each bullet has a 20_ chance to do %s_^ more damage'
 TALENT.Tier = 1
-TALENT.LevelRequired = {min = 15, max = 25}
+TALENT.LevelRequired = {min = 5, max = 10}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 10, max = 20} -- Damage last bullet can do
+TALENT.Modifications[1] = {min = 15, max = 25} -- Damage last bullet can do
 
 TALENT.Melee = false
 TALENT.NotUnique = true
