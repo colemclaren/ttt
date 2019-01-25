@@ -1,4 +1,4 @@
-moat_contracts = {}
+moat_contracts_v2 = {}
 wpn_contracts = {}
 kill_contracts = {}
 
@@ -30,36 +30,36 @@ local function _contracts()
 	/*local dev_server = GetHostName():lower():find("dev")
 	if (dev_server) then return end*/
 	local db = MINVENTORY_MYSQL
-	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(255) NOT NULL, `start_time` INT NOT NULL, `active` INT NOT NULL, `refresh_next` INT, PRIMARY KEY (ID) ) ")
+	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts_v2` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(64) NOT NULL, `start_time` TIMESTAMP NOT NULL, `updating_server` VARCHAR(32), PRIMARY KEY (ID) ) ")
 	function dq:onError(err)
-        ServerLog("[mInventory] Error with creating table: " .. err)
-    end
-    dq:start()
+		ServerLog("[mInventory] Error with creating table: " .. err)
+	end
+	dq:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractplayers` ( `steamid` varchar(100) NOT NULL, `score` INT NOT NULL, PRIMARY KEY (steamid) ) ")
-    q:start()
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractplayers_v2` ( `steamid` varchar(100) NOT NULL, `score` INT NOT NULL, PRIMARY KEY (steamid) ) ")
+	q:start()
 
-	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractwinners` ( `steamid` varchar(32) NOT NULL, `place` INT NOT NULL, PRIMARY KEY (steamid) ) ")
-    q:start()
+	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractwinners_v2` ( `steamid` bigint unsigned NOT NULL, `place` INT unsigned NOT NULL, PRIMARY KEY (steamid) ) ")
+	q:start()
 
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_contractrig` ( `contract` varchar(100) NOT NULL, PRIMARY KEY (contract) ) ")
-    q:start()
+	q:start()
 
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_veterangamers` ( `steamid` varchar(20) NOT NULL, PRIMARY KEY (steamid) ) ")
-    q:start()
+	q:start()
 
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery` ( `amount` INT NOT NULL, PRIMARY KEY (amount) ) ")
-    q:start()
+	q:start()
 
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_last` ( `num` INT NOT NULL, PRIMARY KEY (num) ) ")
-    q:start()
+	q:start()
 
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_players` ( `steamid` varchar(32), `name` varchar(255), `ticket` INT NOT NULL, PRIMARY KEY (steamid) ) ")
-    q:start()
+	q:start()
 
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_winners` ( `steamid` varchar(32), `amount` INT NOT NULL, PRIMARY KEY (steamid) ) ")
-    q:start()
-	
+	q:start()
+
 	lottery_stats = lottery_stats or {
 		amount = 10000,
 		players = 0,
@@ -101,7 +101,7 @@ local function _contracts()
 	function lottery_updatetotal()
 		local q = db:query("SELECT COUNT(*) AS num FROM moat_lottery_players;")
 		function q:onSuccess(d)
-			lottery_stats.loaded = true			
+			lottery_stats.loaded = true
 			lottery_stats.players = d[1].num
 			net.Start("lottery.updatetotal")
 			net.WriteInt(d[1].num or 0,32)
@@ -139,7 +139,7 @@ local function _contracts()
 				lottery_updatetotal()
 				lottery_updateamount()
 				lottery_updatepopular()
-				
+
 				lottery_updatelast()
 			end
 		end
@@ -184,7 +184,7 @@ local function _contracts()
 		end
 		q:start()
 	end)
-	
+
 	local l_test = false
 	function lottery_finish()
 		for i =1,7 do math.random() end
@@ -207,7 +207,7 @@ local function _contracts()
 								lottery_updatetotal()
 								lottery_updateamount()
 								lottery_updatepopular()
-								
+
 								lottery_updatelast()
 								net.Start("lottery.Purchase")
 								net.WriteInt(-1,32)
@@ -217,7 +217,7 @@ local function _contracts()
 						function e:onError(d) print(d) end
 						e:start()
 					end
-					
+
 					local msg = markdown.WrapBoldLine(
 						string (":tada: ",
 							"The " .. markdown.BoldUnderline(string.Comma(lottery_stats.amount) .. " IC"),
@@ -236,7 +236,7 @@ local function _contracts()
 					discord.Send("Lottery Announcement", msg)
 					discord.Send("Lottery", msg)
 
-					return 
+					return
 				end
 				local each = math.floor((lottery_stats.amount * 0.9)/#plys)
 				if #plys == 1 then
@@ -257,7 +257,7 @@ local function _contracts()
 							" for winning it all! :clap::clap:"
 						)
 					)
-					
+
 					discord.Send("Lottery Announcement", msg)
 					discord.Send("Lottery", msg)
 				else
@@ -293,12 +293,12 @@ local function _contracts()
 					local q = db:query("INSERT INTO moat_lottery_winners (steamid,amount) VALUES ('" .. v.steamid .. "'," .. each .. ");")
 						timer.Simple(k,function()
 							local msg = v.name .. " (" .. util.SteamIDFrom64(v.steamid) .. ") won **" .. string.Comma(each) .. " IC** in the lottery!"
-							
+
 							discord.Send("Lottery Win", msg)
 						end)
 						if k == #plys then
 							function q:onSuccess()
-								local c = db:query("UPDATE moat_lottery SET amount = '5000';")
+								local c = db:query("UPDATE moat_lottery SET amount = 5000;")
 								c:start()
 								local e = db:query("DELETE FROM moat_lottery_players;")
 								function e:onSuccess()
@@ -306,7 +306,7 @@ local function _contracts()
 										lottery_updatetotal()
 										lottery_updateamount()
 										lottery_updatepopular()
-										
+
 										lottery_updatelast()
 									end)
 								end
@@ -325,142 +325,100 @@ local function _contracts()
 		c:start()
 	end
 
-	local function nextcontract(wpns, kills)
-		local wpn, sun = true, os.date("!*t", (os.time() - 21600 - 3600)).wday == 1
-
-		if (sun) then
-			kills, wpn = (kill_contracts[kills + 1]) and kills + 1 or 1, false
-		else
-			wpns = (wpn_contracts[wpns + 1]) and wpns + 1 or 1
-		end
-
-		local upnext = wpn and wpn_contracts[wpns] or kill_contracts[1] /*kill_contracts[kills]*/
-		if (not upnext) then
-			upnext = kill_contracts[1]
-		end
-
-		local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
-		function q:onSuccess(b)
-			if (b and b[1]) then
-				contract_loaded = b[1].contract
-				contract_id = b[1].ID
-			elseif true then--s
-				local name, c = upnext[1], upnext[2]
-				
-				local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
-				q:start()
-				c.runfunc()
-
-				local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
-				s = s .. markdown.Block(name .. markdown.WrapLine(c.desc))
-				discord.Send("Contracts", s)
-
-				contract_loaded = name
-				local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
-				function q:onSuccess(b)
-					contract_id = b[1].ID
-				end
-				q:start()
-				lottery_finish()
-
-				moat.mysql("UPDATE moat_contract_cache SET wpns = ?, kills = ? WHERE id = 1", wpns, kills)
-			end
-		end
-		q:start()
-	end
-
-	local function loadnew()
-		moat.mysql("SELECT wpns, kills FROM moat_contract_cache WHERE id = 1", function(d)
-			if (not d or not d[1]) then
-				d = {{wpns = 1, kills = 1}}
-			end
-
-			nextcontract(d[1].wpns, d[1].kills)
-		end)
-	end
-
-	function newcontract()
-		local q = db:query("SELECT * FROM moat_contractrig;")
-		function q:onSuccess(da)
-			if #da < 1 then
-				loadnew()
-			else
-				local q = db:query("DELETE FROM moat_contractrig WHERE contract = '" .. da[1].contract .. "';")
-				q:start()
-				local name = da[1].contract
-				local c = moat_contracts[name]
-				if not istable(c) then loadnew() return end
-				local q = db:query("INSERT INTO moat_contracts (contract,start_time,active) VALUES ('" .. db:escape(name) .. "','" .. os.time() .. "',1);")
-				q:start()
-				c.runfunc()
-
-				local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
-				s = s .. markdown.Block(name .. markdown.WrapLine(c.desc))
-				discord.Send("Contracts", s)
-
-				contract_loaded = name
-				local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
-				function q:onSuccess(b)
-					contract_id = b[1].ID
-				end
-				q:start()
-			end
-		end
-		q:start()
-	end
-
-	local q = db:query("SELECT * FROM moat_contracts WHERE refresh_next = '1';")
-	function q:onSuccess(d)
-		if contract_loaded then return end
-		if (#d > 0) then
-			contract_transferall()
-			local q = db:query("UPDATE moat_contracts SET active ='0', refresh_next = '0';")
-			q:start()
-			loadnew()
-			contract_starttime = os.time()
-		else
-			local q = db:query("SELECT * FROM moat_contracts WHERE active ='1';")
-			function q:onSuccess(b)
-				print("Loading active contract: " .. b[1].contract)
-				moat_contracts[b[1].contract].runfunc()
-				contract_starttime = b[1].start_time
-				contract_loaded = b[1].contract
-				contract_id = b[1].ID
-			end
-			q:start()
-		end
-	end
-	q:start()
-
 	function contract_getcurrent(fun)
-		local q = db:query("SELECT * FROM moat_contracts WHERE active = '1';")
+		local q = db:query("SELECT * FROM moat_contracts_v2 WHERE `updating_server` is not null;")
 		function q:onSuccess(d)
-            fun(d[1])
-        end
-        function q:onError(err)
-        end
-        q:start()
-	end
-
-	function moat_contract_refresh()
-		local q = db:query("UPDATE moat_contracts SET active = '0', refresh_next = '1';")
+			fun(d[1])
+		end
+		function q:onError(err)
+		end
 		q:start()
-
-		loadnew()
 	end
 
-	local datime = os.date("!*t", (os.time() - 21600 - 3600))
-	if datime.hour == 0 then
-		contract_getcurrent(function(c)
-			if (os.time() - c.start_time > 43200 and (not c.refresh_next)) then
-				moat_contract_refresh()
-				print("REfreshingf contract",os.time() - c.start_time,(not c.refresh_next))
+
+	local function get_contracts()
+		print "Retrieving contracts"
+		local q = db:query(
+			"SELECT TIMESTAMPDIFF(SECOND, start_time, CURRENT_TIMESTAMP) as diff_seconds, contract, ID FROM moat_contracts_v2 WHERE updating_server IS NOT NULL;"
+			.. "UPDATE moat_contracts_v2 SET updating_server = '" .. db:escape(game.GetIP()) .. "' WHERE updating_server IS NOT NULL;"
+		)
+		function q:onSuccess(data)
+			data = data[1]
+			if (not data) then
+				return timer.Simple(10, get_contracts)
 			end
-		end)
+
+			local refresh_in = 60 * 60 * 24 - data.diff_seconds -- seconds
+			print("needs refreshing in " .. refresh_in .. " seconds")
+
+			timer.Create("moat_contract_refresh", refresh_in, 1, function()
+				print "Trying to refresh contract"
+				local q = db:query(
+					"SELECT id, DAYOFWEEK(CURRENT_TIMESTAMP) as day_of_week, contract from moat_contracts_v2 where updating_server = '" .. db:escape(game.GetIP()) .. "';"
+					.. "UPDATE moat_contracts_v2 SET updating_server = null WHERE updating_server = '" .. db:escape(game.GetIP()) .. "';"
+				)
+				function q:onSuccess(data)
+					print "Refreshing contract"
+					data = data[1]
+					if (not data) then
+						print "Cannot update, server does not own contract"
+						return
+					end
+
+					contract_transferall()
+
+					local upnext = kill_contracts[1]
+
+					if (data.day_of_week ~= 1) then
+						-- todo: get next weapon contract
+					end
+
+					local name, c = upnext[1], upnext[2]
+
+					local q = db:query("INSERT INTO moat_contracts_v2 (contract,start_time,`updating_server`) VALUES ('" .. db:escape(name) .. "', CURRENT_TIMESTAMP, '" .. db:escape(game.GetIP()) .. "');")
+					function q:onSuccess()
+						local q = db:query("SELECT ID FROM moat_contracts_v2 WHERE `updating_server` is not null;")
+						function q:onSuccess(b)
+							contract_id = b[1].ID
+						end
+						q:start()
+					end
+					q:start()
+					c.runfunc()
+
+					local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
+					s = s .. markdown.Block(name .. markdown.WrapLine(c.desc))
+					discord.Send("Contracts", s)
+					lottery_finish()
+
+					contract_loaded = name
+				end
+				function q:onError(err)
+					print(err)
+					debug.Trace()
+				end
+				q:start()
+			end)
+
+
+			moat_contracts_v2[data.contract].runfunc()
+			contract_starttime = os.time() - data.diff_seconds
+			contract_loaded = data.contract
+			contract_id = data.ID
+		end
+
+		function q:onError(err)
+			print(err)
+			debug.Trace()
+		end
+
+		q:start()
 	end
+
+	get_contracts()
 
 	function contract_top(fun)
-		local q = db:query("SELECT * FROM moat_contractplayers ORDER BY score DESC LIMIT 50")
+		local q = db:query("SELECT * FROM moat_contractplayers_v2 ORDER BY score DESC LIMIT 50")
 		function q:onSuccess(d)
 			fun(d)
 		end
@@ -468,7 +426,7 @@ local function _contracts()
 	end
 
 	function contract_getply(ply,fun)
-		local q = db:query("SELECT * FROM moat_contractplayers WHERE steamid = '" .. ply:SteamID64() .. "';")
+		local q = db:query("SELECT * FROM moat_contractplayers_v2 WHERE steamid = '" .. ply:SteamID64() .. "';")
 		function q:onSuccess(d)
 			fun(d[1])
 		end
@@ -485,9 +443,9 @@ local function _contracts()
 		/*
 		contract_getply(ply,function(d)
 			local q = db:query([[SELECT `score`,
-       (SELECT COUNT(*) FROM `moat_contractplayers` WHERE `score` >= ']] .. d.score .. [[') AS `position`,
+       (SELECT COUNT(*) FROM `moat_contractplayers_v2` WHERE `score` >= ']] .. d.score .. [[') AS `position`,
        `steamid`
-FROM `moat_contractplayers`
+FROM `moat_contractplayers_v2`
 WHERE `steamid` = ']] .. d.steamid .. [[']])
 		function q:onSuccess(d)
 			fun(d[1])
@@ -501,10 +459,10 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		contract_top(function(d)
 			for k,v in pairs(d) do
 				timer.Simple(0.1*k,function()
-					local q = db:query("INSERT INTO moat_contractwinners (steamid, place) VALUES ('" .. v.steamid .. "','" .. k .. "');")
+					local q = db:query("INSERT INTO moat_contractwinners_v2 (steamid, place) VALUES (" .. v.steamid .. "," .. k .. ");")
 					if k == #d then
 						function q:onSuccess()
-							local b = db:query("DROP TABLE moat_contractplayers;")
+							local b = db:query("DROP TABLE moat_contractplayers_v2;")
 							b:start()
 						end
 					end
@@ -550,20 +508,20 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			if (not IsValid(ply)) then return end
 			/*net.Start("moat.contractinfo")
 			net.WriteString(contract_loaded)
-			net.WriteString(moat_contracts[contract_loaded].desc)
-			net.WriteString(moat_contracts[contract_loaded].adj)
+			net.WriteString(moat_contracts_v2[contract_loaded].desc)
+			net.WriteString(moat_contracts_v2[contract_loaded].adj)
 			net.Send(ply)*/
 		end)
 		
 		--[[for i =1,100 do
-			local b = db:query("INSERT INTO moat_contractplayers (steamid,score) VALUES ('" .. GetRandomSteamID() .. "'," .. i .. ");")
+			local b = db:query("INSERT INTO moat_contractplayers_v2 (steamid,score) VALUES ('" .. GetRandomSteamID() .. "'," .. i .. ");")
 			b:start()
 		end]]
 		
-		local q = db:query("SELECT * FROM moat_contractplayers WHERE steamid = '" .. ply:SteamID64() .. "';")
+		local q = db:query("SELECT * FROM moat_contractplayers_v2 WHERE steamid = '" .. ply:SteamID64() .. "';")
 		function q:onSuccess(d)
 			if not d[1] then
-				local b = db:query("INSERT INTO moat_contractplayers (steamid,score) VALUES ('" .. ply:SteamID64() .. "',0);")
+				local b = db:query("INSERT INTO moat_contractplayers_v2 (steamid,score) VALUES ('" .. ply:SteamID64() .. "',0);")
 				b:start()
 				ply.contract_score = 0--s
 				ply.contract_loaded = true
@@ -577,16 +535,16 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			top_cache = top
 			contract_getplace(ply,function(p)
 				if (not contract_loaded) then
-					loadnew()
+					-- loadnew()
 					return
 				end
 
 				net.Start("moat.contracts")
 				net.WriteBool(true)
 				net.WriteString(contract_loaded)
-				net.WriteString(moat_contracts[contract_loaded].desc)
-				net.WriteString(moat_contracts[contract_loaded].adj)
-				net.WriteString(moat_contracts[contract_loaded].short)
+				net.WriteString(moat_contracts_v2[contract_loaded].desc)
+				net.WriteString(moat_contracts_v2[contract_loaded].adj)
+				net.WriteString(moat_contracts_v2[contract_loaded].short)
 				net.WriteInt(p.players,32)
 				net.WriteInt(p.position,32)
 				net.WriteInt(p.myscore,32)
@@ -596,14 +554,14 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			end)
 		end)
 
-		local q = db:query("SELECT * FROM moat_contractwinners WHERE steamid = '" .. ply:SteamID64() .. "';")
+		local q = db:query("SELECT place FROM moat_contractwinners_v2 WHERE steamid = " .. ply:SteamID64() .. ";")
 		function q:onSuccess(d)
 			if #d < 1 then return end
 			timer.Simple(30,function()
 				if not IsValid(ply) then return end
 				-- wait for data to load and chat message
 				reward_ply(ply,d[1].place)
-				local b = db:query("DELETE FROM moat_contractwinners WHERE steamid = '" .. ply:SteamID64() .. "';")
+				local b = db:query("DELETE FROM moat_contractwinners_v2 WHERE steamid = " .. ply:SteamID64() .. ";")
 				b:start()
 			end)
 		end--ss
@@ -611,11 +569,11 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		timer.Simple(30,function()
 			if not IsValid(ply) then return end
 			if ply:GetNWInt("MOAT_STATS_LVL", -1) < 100 then return end
-			local q = db:query("SELECT * FROM moat_veterangamers WHERE steamid = '" .. ply:SteamID64() .. "';")
+			local q = db:query("SELECT steamid FROM moat_veterangamers WHERE steamid = " .. ply:SteamID64() .. ";")
 			function q:onSuccess(d)
 				if #d > 0 then return end
 				ply:m_DropInventoryItem("Tesla Effect")
-				local q = db:query("INSERT INTO moat_veterangamers (steamid) VALUES ('" .. ply:SteamID64() .. "');")
+				local q = db:query("INSERT INTO moat_veterangamers (steamid) VALUES (" .. ply:SteamID64() .. ");")
 				q:start()
 			end
 			q:start()
@@ -630,7 +588,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		contract_getcurrent(function(c)
 			if contract_id ~= tonumber(c.ID) then return end -- check if other servers already refresh contract
 			ply.contract_score = (ply.contract_score or 0) + am
-			local q = db:query("UPDATE moat_contractplayers SET score = '" .. (ply.contract_score) .. "' WHERE steamid = '" .. ply:SteamID64() .. "';")
+			local q = db:query("UPDATE moat_contractplayers_v2 SET score = '" .. (ply.contract_score) .. "' WHERE steamid = '" .. ply:SteamID64() .. "';")
 			q:start()
 		end)
 	end
@@ -678,13 +636,10 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			//end)
 		end)
 	end)
-
-
-	print("Loaded contracts")
 end
 
 function addcontract(name,contract, type)
-	moat_contracts[name] = contract
+	moat_contracts_v2[name] = contract
 
 	if (type) then
 		if (type == "wpn") then
