@@ -230,7 +230,7 @@ function SWEP:SecondaryAttack()
 
       local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())
 
-      src = src + (vfw * 1) + (vrt * 3)
+      src = src - ply:GetAimVector() * 10
 
       local thr = vfw * vel + ply:GetVelocity()
 
