@@ -426,7 +426,7 @@ local function _contracts()
 	end
 
 	function contract_getply(ply,fun)
-		local q = db:query("SELECT * FROM moat_contractplayers_v2 WHERE steamid = '" .. ply:SteamID64() .. "';")
+		local q = db:query("SELECT * FROM moat_contractplayers_v2 WHERE steamid = " .. ply:SteamID64() .. ";")
 		function q:onSuccess(d)
 			fun(d[1])
 		end
@@ -504,6 +504,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	local top_cache
 	hook.Add("PlayerInitialSpawn","Contracts",function(ply)
 		lottery_playerspawn(ply)
+		db:query("INSERT INTO moat_contractplayers_v2 (steamid, score) VALUES (" .. ply:SteamID64() .. ", 0) ON DUPLICATE KEY UPDATE score=score;"):start()
 		timer.Simple(5, function()
 			if (not IsValid(ply)) then return end
 			/*net.Start("moat.contractinfo")
@@ -512,25 +513,12 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			net.WriteString(moat_contracts_v2[contract_loaded].adj)
 			net.Send(ply)*/
 		end)
-		
+
 		--[[for i =1,100 do
 			local b = db:query("INSERT INTO moat_contractplayers_v2 (steamid,score) VALUES ('" .. GetRandomSteamID() .. "'," .. i .. ");")
 			b:start()
 		end]]
-		
-		local q = db:query("SELECT * FROM moat_contractplayers_v2 WHERE steamid = '" .. ply:SteamID64() .. "';")
-		function q:onSuccess(d)
-			if not d[1] then
-				local b = db:query("INSERT INTO moat_contractplayers_v2 (steamid,score) VALUES ('" .. ply:SteamID64() .. "',0);")
-				b:start()
-				ply.contract_score = 0--s
-				ply.contract_loaded = true
-			else
-				ply.contract_score = d[1].score
-				ply.contract_loaded = true
-			end
-		end
-		q:start()
+
 		contract_top(function(top)
 			top_cache = top
 			contract_getplace(ply,function(p)
@@ -581,14 +569,13 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	end)
 
 	function contract_increase(ply,am)
-		if not ply.contract_loaded then return end
+		if not contract_loaded then return end
 		if MOAT_MINIGAME_OCCURING then return end
 		if #player.GetAll() < 8 then return end
 		if (os.time() - contract_starttime) > 86400 then return end -- Contract already over, wait for next map 
 		contract_getcurrent(function(c)
 			if contract_id ~= tonumber(c.ID) then return end -- check if other servers already refresh contract
-			ply.contract_score = (ply.contract_score or 0) + am
-			local q = db:query("UPDATE moat_contractplayers_v2 SET score = '" .. (ply.contract_score) .. "' WHERE steamid = '" .. ply:SteamID64() .. "';")
+			local q = db:query("UPDATE moat_contractplayers_v2 SET score = score + " .. am .. " WHERE steamid = " .. ply:SteamID64() .. ";")
 			q:start()
 		end)
 	end
@@ -598,42 +585,30 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			lottery_updatetotal()
 			lottery_updateamount()
 			lottery_updatepopular()
-			//contract_top(function(top)
-				local q = db:query("call selectContracts('" .. db:escape(MOAT_RCON.Server) .. "');")
-				function q:onSuccess(d)
-					if (not d or not d[1]) then return end
-					local pls = {}
-					for i = 1, #d do
-						pls[tostring(d[i].steamid)] = {score = d[i].myscore, position = d[i].position}
+			contract_top(function(top)
+				top_cache = top
+				for _, ply in pairs(player.GetAll()) do
+					if (ply:IsBot()) then
+						continue
 					end
 
-					for k,v in ipairs(player.GetAll()) do
-						local data = pls[v:SteamID64()]
-						if (not data) then continue end
-
+					contract_getplace(ply,function(p)
 						net.Start("moat.contracts")
-						net.WriteBool(false)
-						net.WriteInt(d[1].players,32)
-						net.WriteInt(data.position,32)
-						net.WriteInt(data.score,32)
 						net.WriteBool(true)
-						net.Send(v)
-					end
-				end
-				q:start()
-
-				/*
-				for k,v in ipairs(player.GetAll()) do
-					contract_getplace(v,function(p)
-						net.Start("moat.contracts")
+						net.WriteString(contract_loaded)
+						net.WriteString(moat_contracts_v2[contract_loaded].desc)
+						net.WriteString(moat_contracts_v2[contract_loaded].adj)
+						net.WriteString(moat_contracts_v2[contract_loaded].short)
+						net.WriteInt(p.players,32)
 						net.WriteInt(p.position,32)
-						net.WriteInt(p.score,32)
+						net.WriteInt(p.myscore,32)
+						net.WriteBool(false)
 						net.WriteTable(top)
-						net.Send(v)
+						net.Send(ply)
 					end)
 				end
-				*/
-			//end)
+			end)
+
 		end)
 	end)
 end
@@ -1707,9 +1682,9 @@ MOAT_BOUNTIES:AddBounty("Bunny Roleplayer", {
 				pl.BJumps = pl.BJumps + 1
 			end
 
-            if pl.BJumps == mods[2] then
-                MOAT_BOUNTIES:IncreaseProgress(pl, bountyid, mods[1])
-            end
+			if pl.BJumps == mods[2] then
+				MOAT_BOUNTIES:IncreaseProgress(pl, bountyid, mods[1])
+			end
 		end)
 	end,
 	rewards = tier1_rewards_str,
@@ -1751,7 +1726,7 @@ function MOAT_BOUNTIES:LoadBounties()
 	local bounties = sql.Query("SELECT * FROM bounties_current" .. self.DatabasePrefix)
 
 	if (not bounties) then return end
-	
+
 	local bounties_row = bounties[1]
 
 	for i = 1, 3 do
@@ -1825,16 +1800,16 @@ end
 
 function game.GetIP()
 
-    local hostip = GetConVarString( "hostip" ) -- GetConVarNumber is inaccurate
-    hostip = tonumber( hostip )
+	local hostip = GetConVarString( "hostip" ) -- GetConVarNumber is inaccurate
+	hostip = tonumber( hostip )
 
-    local ip = {}
-    ip[ 1 ] = bit.rshift( bit.band( hostip, 0xFF000000 ), 24 )
-    ip[ 2 ] = bit.rshift( bit.band( hostip, 0x00FF0000 ), 16 )
-    ip[ 3 ] = bit.rshift( bit.band( hostip, 0x0000FF00 ), 8 )
-    ip[ 4 ] = bit.band( hostip, 0x000000FF )
+	local ip = {}
+	ip[ 1 ] = bit.rshift( bit.band( hostip, 0xFF000000 ), 24 )
+	ip[ 2 ] = bit.rshift( bit.band( hostip, 0x00FF0000 ), 16 )
+	ip[ 3 ] = bit.rshift( bit.band( hostip, 0x0000FF00 ), 8 )
+	ip[ 4 ] = bit.band( hostip, 0x000000FF )
 
-    return table.concat( ip, "." ) .. ":" .. GetConVarString("hostport")
+	return table.concat( ip, "." ) .. ":" .. GetConVarString("hostport")
 end
 
 function MOAT_BOUNTIES.ResetBounties()
@@ -1972,13 +1947,13 @@ function MOAT_BOUNTIES:SendBountyToPlayer(ply, bounty, mods, current_progress)
 		bounty_desc = bounty_desc:gsub("#", function() c = c + 1 return mods[c] end)
 	end
 
-    net.Start("moat_bounty_send")
-    net.WriteUInt(bounty.tier, 4)
-    net.WriteString(bounty.name)
-    net.WriteString(bounty_desc)
-    net.WriteString(bounty.rewards)
-    net.WriteUInt(current_progress, 16)
-    net.WriteUInt(mods[1], 16)
+	net.Start("moat_bounty_send")
+	net.WriteUInt(bounty.tier, 4)
+	net.WriteString(bounty.name)
+	net.WriteString(bounty_desc)
+	net.WriteString(bounty.rewards)
+	net.WriteUInt(current_progress, 16)
+	net.WriteUInt(mods[1], 16)
 	net.Send(ply)
 end
 
