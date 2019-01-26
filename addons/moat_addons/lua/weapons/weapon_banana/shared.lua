@@ -370,7 +370,7 @@ function SWEP:PrimaryAttack()
 
 
 
-				Banana:SetPos(self.Owner:GetShootPos() + self.Owner:GetAimVector() * 30);
+				Banana:SetPos(self.Owner:GetShootPos());
 
 				Banana:Spawn();
 
