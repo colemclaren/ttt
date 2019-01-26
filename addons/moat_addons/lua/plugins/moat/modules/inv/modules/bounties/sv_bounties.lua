@@ -1915,63 +1915,51 @@ function MOAT_BOUNTIES.InitializeBounties()
 
 	local datime = os.date("!*t", (os.time() - 21600 - 3600))
 
-    local hr = 24 - datime.hour
-    local load_bounties = true
+	local hr = 24 - datime.hour
+	local load_bounties = true
 
-    -- pray to god the server doesn't die
-    if (hr >= 8) then
-    	if (check[1].shouldrefresh == "true") then
-    		load_bounties = false
-    		MOAT_BOUNTIES.ResetBounties()
-    	end
-    else
-    	if (check[1].shouldrefresh == "false") then
-    		sql.Query("UPDATE bounties_refresh" .. MOAT_BOUNTIES.DatabasePrefix .. " SET shouldrefresh = 'true'")
-    	end
-    end
-
-    if (load_bounties) then
-    	MOAT_BOUNTIES:LoadBounties()
-    end
-
-    SetGlobalBool("moat_bounties_refresh_next", false)
-
-    local datime = os.date("!*t", (os.time() - 21600 - 3600))
-    
-    if (datime.hour == 0) then datime.hour = 24 end
-
-    local hr = 24 - datime.hour
-    local min = 60 - datime.min
-    local sec = 60 - datime.sec
-
-    if (hr == 0 and min == 0 and sec == 1) then
-    	SetGlobalBool("moat_bounties_refresh_next", true)
-    end
-	local checked_contract = false
-    timer.Create("moat_bounties_refresh_check", 1, 0, function()
-    	local datime = os.date("!*t", (os.time() - 21600 - 3600))
-
-    	if (datime.hour == 0) then datime.hour = 24 end
-
-    	local hr = 24 - datime.hour
-    	local min = 60 - datime.min
-    	local sec = 60 - datime.sec
-
-    	if (hr == 0 and min == 0 and sec == 1) then
-    		SetGlobalBool("moat_bounties_refresh_next", true)
-    	end
-
-		local dattime = os.date("!*t", (os.time() - 21600 - 3600))
-		if dattime.hour == 0 and (not checked_contract) then
-			contract_getcurrent(function(c)
-				if (os.time() - c.start_time > 43200 and (not c.refresh_next)) then
-					moat_contract_refresh()
-					print("REfreshingf contract",os.time() - c.start_time,(not c.refresh_next))
-				end
-			end)
-			checked_contract = true
+	-- pray to god the server doesn't die
+	if (hr >= 8) then
+		if (check[1].shouldrefresh == "true") then
+			load_bounties = false
+			MOAT_BOUNTIES.ResetBounties()
 		end
-    end)
+	else
+		if (check[1].shouldrefresh == "false") then
+			sql.Query("UPDATE bounties_refresh" .. MOAT_BOUNTIES.DatabasePrefix .. " SET shouldrefresh = 'true'")
+		end
+	end
+
+	if (load_bounties) then
+		MOAT_BOUNTIES:LoadBounties()
+	end
+
+	SetGlobalBool("moat_bounties_refresh_next", false)
+
+	local datime = os.date("!*t", (os.time() - 21600 - 3600))
+
+	if (datime.hour == 0) then datime.hour = 24 end
+
+	local hr = 24 - datime.hour
+	local min = 60 - datime.min
+	local sec = 60 - datime.sec
+
+	if (hr == 0 and min == 0 and sec == 1) then
+		SetGlobalBool("moat_bounties_refresh_next", true)
+	end
+	timer.Create("moat_bounties_refresh_check", 1, 0, function()
+		local datime = os.date("!*t", (os.time() - 21600 - 3600))
+
+		if (datime.hour == 0) then datime.hour = 24 end
+
+		local hr = 24 - datime.hour
+		local min = 60 - datime.min
+		local sec = 60 - datime.sec
+
+		if (hr == 0 and min == 0 and sec == 1) then
+			SetGlobalBool("moat_bounties_refresh_next", true)
+		end
+	end)
 end
 MOAT_BOUNTIES.InitializeBounties()
 
