@@ -624,7 +624,8 @@ function SWEP:FireRocket()
         local rocket = ents.Create(self.Primary.Round)
         if not rocket:IsValid() then return false end
         rocket:SetAngles(self.Owner:GetAimVector():Angle())
-        rocket:SetPos(pos)
+        print"a"
+        rocket:SetPos(pos - self.Owner:GetAimVector() * 50)
         rocket:SetOwner(self.Owner)
         rocket:Spawn()
         rocket.Owner = self.Owner
