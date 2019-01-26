@@ -61,8 +61,7 @@ function ENT:Explode()
     effect:SetOrigin(pos)
     util.Effect("Explosion", effect, true, true)
     local dmgowner = self:GetPlacer()
-    self:SphereDamage(dmgowner, pos, 250)
-    util.BlastDamage(self, dmgowner, pos, 250, 100)
+    self:SphereDamage(dmgowner, pos, 280)
     util.EquipmentDestroyed(self:GetPos())
     self:Remove()
 end
@@ -72,32 +71,50 @@ function ENT:SphereDamage(dmgowner, center, radius)
     -- in the radius, whereas there exist only ~16 players. Hence it is more
     -- efficient to cycle through all those players and do a Lua-side distance
     -- check.
-    local r = radius ^ 2 -- square so we can compare with dotproduct directly
-    -- pre-declare to avoid realloc
-    local d = 0.0
-    local diff = nil
-    local dmg = 0
+    local r = radius ^ 2
 
-    for _, ent in pairs(player.GetAll()) do
-        if IsValid(ent) and ent:Team() == TEAM_TERROR then
-            -- dot of the difference with itself is distance squared
-            diff = center - ent:GetPos()
-            d = diff:DotProduct(diff)
+    for _, ent in pairs(ents.FindInSphere(self:GetPos(), radius)) do
+        -- deadly up to a certain range, then a quick falloff within 100 units
+        local distance = ent:GetPos():Distance(self:GetPos()) 
+        local dmg = 350 * math.min(1, 1.5 - distance / radius)
 
-            if d < r then
-                -- deadly up to a certain range, then a quick falloff within 100 units
-                d = math.max(0, math.sqrt(d) - 490)
-                dmg = -0.01 * (d ^ 2) + 125
-                local dmginfo = DamageInfo()
-                dmginfo:SetDamage(dmg)
-                dmginfo:SetAttacker(dmgowner)
-                dmginfo:SetInflictor(self.Entity)
-                dmginfo:SetDamageType(DMG_BLAST)
-                dmginfo:SetDamageForce(center - ent:GetPos())
-                dmginfo:SetDamagePosition(ent:GetPos())
-                ent:TakeDamageInfo(dmginfo)
-            end
+
+        -- test from hitpos to other entity to scale damage through walls
+        local tr = util.TraceLine {
+            start = self:GetPos(),
+            endpos = ent:GetPos(),
+            mask = MASK_SHOT,
+            filter = {self, ent},
+            collisiongroup = COLLISION_GROUP_WEAPON
+        }
+
+        if (tr.Hit and ent:IsPlayer()) then
+            local tr2 = util.TraceLine{
+                endpos = self:GetPos(),
+                start = ent:GetPos(),
+                mask = MASK_SHOT,
+                filter = {self, ent},
+                collisiongroup = COLLISION_GROUP_WEAPON
+            }
+
+            local cont1, cont2 = util.GetSurfaceData(tr.SurfaceProps), util.GetSurfaceData(tr2.SurfaceProps)
+
+            local walldist = tr2.HitPos:Distance(tr.HitPos)
+
+            print("damage before: ", dmg)
+            local mult = 1 - (walldist * (cont1.hardnessFactor + cont2.hardnessFactor)) / radius
+            dmg = dmg * mult
+            print(cont1.hardnessFactor, cont2.hardnessFactor, walldist)
+            print("damage after: ", dmg, mult)
         end
+        local dmginfo = DamageInfo()
+        dmginfo:SetDamage(dmg)
+        dmginfo:SetAttacker(dmgowner)
+        dmginfo:SetInflictor(self)
+        dmginfo:SetDamageType(DMG_BLAST)
+        dmginfo:SetDamageForce(center - ent:GetPos())
+        dmginfo:SetDamagePosition(ent:GetPos())
+        ent:TakeDamageInfo(dmginfo)
     end
 end
 
