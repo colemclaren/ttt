@@ -7,7 +7,7 @@ TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = { min = 8, max = 25 } -- Amount firerate is increased
+TALENT.Modifications[1] = { min = 8, max = 24.99 } -- Amount firerate is increased
 
 TALENT.Melee = true
 TALENT.NotUnique = true
