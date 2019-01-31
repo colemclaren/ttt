@@ -17,7 +17,7 @@ function TALENT:OnPlayerHit(victim, att, dmginfo, talent_mods)
 
 	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
 	if (chance > math.random() * 100) then
-		local pct = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]) / 100
+		local pct = (self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])) / 100
 
 		att:SetHealth(math.Clamp(att:Health() + math.max(victim:Health(), dmginfo:GetDamage()) * pct, 0, att:GetMaxHealth()))
 	end
