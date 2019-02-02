@@ -30,6 +30,8 @@ function self:SetPlayer(pl)
 end
 
 function self:SendNotification(time, pl)
+	if (pl:GetInfo("moat_enable_effects") ~= "1") then return end
+
 	if (not isstring(self.Message)) then return end
 	if (not IsColor(self.Color)) then return end
 	if (not isstring(self.Material)) then return end

@@ -34,6 +34,7 @@ local moat_convars = {
     ["moat_auto_deconstruct_model"] = 0,
     ["moat_chat_obtain_rarity"] = "Worn",
     ["moat_enable_deathcard"] = 1,
+	["moat_enable_effects"] = 1,
     ["moat_mga_lowend"] = 0,
     ["moat_mga_playerlist"] = 0,
     ["moat_mga_animation"] = 1,
@@ -149,7 +150,8 @@ local moat_Settings = {
         {"Enable Damage Numbers", {"Multi"}, "moat_damage_numbers"},
         {"Show Killer info card on Death", {"Multi"}, "moat_enable_deathcard"},
         {"Enable Custom Red Screen when Damaged", {"Multi"}, "moat_red_screen"},
-        {"Display Numbers for Ping on Scoreboard", {"Multi"}, "moat_scoreboard_ping"}
+        {"Display Numbers for Ping on Scoreboard", {"Multi"}, "moat_scoreboard_ping"},
+		{"Enable Status Effect Notifications", {"Multi"}, "moat_enable_effects"}
     },
     {"Inventory",
         {"Automatically Decline All Trade Requests", {"Multi"}, "moat_autodecline"},
