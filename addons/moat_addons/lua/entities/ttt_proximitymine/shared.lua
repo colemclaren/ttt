@@ -41,27 +41,33 @@ end
 function ENT:Use(ply)
 end
 
-ENT.Dying = 0
+ENT.Dying = false
+ENT.Warmup = 15
+ENT.Armed = false
+ENT.ActivationRadius = 225
+ENT.DamageRadius = 280
 
 -- traditional equipment destruction effects
 function ENT:OnTakeDamage(dmginfo)
     self:TakePhysicsDamage(dmginfo)
     self:SetHealth(self:Health() - dmginfo:GetDamage())
 
-    if self:Health() < 0 and self.Dying == 0 then
+    if self:Health() < 0 and not self.Dying then
         self:Explode()
     end
 end
 
 function ENT:Explode()
-    self.Dying = 1
+    self.Dying = true
     local effect = EffectData()
     local pos = self:GetPos()
     effect:SetStart(pos)
     effect:SetOrigin(pos)
     util.Effect("Explosion", effect, true, true)
+
     local dmgowner = self:GetPlacer()
-    self:SphereDamage(dmgowner, pos, 280)
+    self:SphereDamage(dmgowner, pos, self.DamageRadius)
+
     util.EquipmentDestroyed(self:GetPos())
     self:Remove()
 end
@@ -101,12 +107,10 @@ function ENT:SphereDamage(dmgowner, center, radius)
 
             local walldist = tr2.HitPos:Distance(tr.HitPos)
 
-            print("damage before: ", dmg)
             local mult = 1 - (walldist * (cont1.hardnessFactor + cont2.hardnessFactor)) / radius
             dmg = dmg * mult
-            print(cont1.hardnessFactor, cont2.hardnessFactor, walldist)
-            print("damage after: ", dmg, mult)
         end
+
         local dmginfo = DamageInfo()
         dmginfo:SetDamage(dmg)
         dmginfo:SetAttacker(dmgowner)
@@ -118,8 +122,6 @@ function ENT:SphereDamage(dmgowner, center, radius)
     end
 end
 
-ENT.Warmup = 15
-ENT.armed = 0
 local beep = Sound("npc/roller/mine/rmine_blades_out1.wav")
 
 if SERVER then
@@ -136,17 +138,17 @@ if SERVER then
                 local targetpos = self:GetPos()
                 local distance = victimpos:Distance(targetpos)
 
-                if distance < 225 then
+                if distance < self.ActivationRadius then
                     playersnear = playersnear + 1
 
-                    if self.armed == 1 then
+                    if self.Armed then
                         self:Explode()
                     end
                 end
             end
 
-            if playersnear == 0 and self.armed == 0 then
-                self.armed = 1
+            if playersnear == 0 and not self.Armed and not self.Dying then
+                self.Armed = true
 
                 if SERVER then
                     sound.Play(beep, self:GetPos(), 75, 100)
