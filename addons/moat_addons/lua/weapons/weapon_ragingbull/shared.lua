@@ -121,7 +121,7 @@ SWEP.Primary.Ammo = "AlyxGun"
 SWEP.AutoSpawnable = false
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"
 
-SWEP.IronSightsPos = Vector(2.75, 0, 0.52)
+SWEP.IronSightsPos = Vector(2.746, 0, 2.525)
 
 SWEP.Offset = {
         Pos = {
@@ -136,6 +136,27 @@ SWEP.Offset = {
         },
                 Scale = 1
 }
+
+function SWEP:SetZoom(state)
+    if not (IsValid(self.Owner) and self.Owner:IsPlayer()) then return end
+    if state then
+        self.Owner:SetFOV(55, 0.5)
+    else
+        self.Owner:SetFOV(0, 0.2)
+    end
+end
+
+-- Add some zoom to ironsights for this gun
+function SWEP:SecondaryAttack()
+    if (not self.IronSightsPos) then return end
+    if (self:GetNextSecondaryFire() > CurTime()) then return end
+
+    local bIronsights = not self:GetIronsights()
+    self:SetIronsights(bIronsights)
+    self:SetZoom(bIronsights)
+
+    self:SetNextSecondaryFire( CurTime() + 0.3 )
+end
 
 function SWEP:DrawWorldModel()
     local hand, offset, rotate
