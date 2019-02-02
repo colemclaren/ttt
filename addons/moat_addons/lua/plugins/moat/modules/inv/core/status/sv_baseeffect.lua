@@ -66,7 +66,8 @@ function self:CreateTimer(time, amt, tickfn, data)
 
 		tickfn(self, data)
 
-		if (timer.RepsLeft(id) < 1) then
+		local _reps = timer.RepsLeft(id)
+		if (isnumber(_reps) and _reps < 1) then
 			self.Active = false
 
 			self.OnEnd(self, data)
@@ -86,7 +87,10 @@ function self:CreateEndTimer(time, data)
 
 	local function timerCallback()
 		if (not self.Active) then return end
-		if (timer.RepsLeft(id) >= 1) then return end
+
+		local _reps = timer.RepsLeft(id)
+		if (not isnumber(_reps)) then return end
+		if (_reps >= 1) then return end
 
 		self.Active = false
 		self.OnEnd(self, data)
