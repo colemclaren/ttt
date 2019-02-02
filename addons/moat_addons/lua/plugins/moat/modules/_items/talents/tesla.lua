@@ -54,7 +54,7 @@ end
 function EFFECT:Callback(data)
 	local vic = data.Player
 	if (not IsValid(vic)) then return end
-	if (vic:Team() == TEAM_SPEC) then return end
+	if (not vic:Alive()) then return end
 	if (GetRoundState() ~= ROUND_ACTIVE) then return end
 
 	local dmg = DamageInfo()
@@ -77,7 +77,7 @@ end
 function EFFECT:Callback(data)
 	local vic = data.Player
 	if (not IsValid(vic)) then return end
-	if (vic:Team() == TEAM_SPEC) then return end
+	if (not vic:Alive()) then return end
 	if (GetRoundState() ~= ROUND_ACTIVE) then return end
 
 	local effectdata = EffectData()
