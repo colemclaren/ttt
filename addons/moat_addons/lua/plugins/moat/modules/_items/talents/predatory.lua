@@ -14,7 +14,7 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
-    if (GetRoundState() ~= ROUND_ACTIVE) then return end
+    if (GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS) then return end
 
     local amt = math.Round(self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1]))
     local sec = math.Round(self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]))

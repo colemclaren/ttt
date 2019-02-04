@@ -13,7 +13,9 @@ TALENT.Modifications[2] = { min = 8, max = 13 } -- Amount of feet
 TALENT.Melee = false
 TALENT.NotUnique = true
 
-function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
+function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
+	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then return end
+
 	local increase = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 	local range = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * talent_mods[2] )
 	local max_dist = range * 50
