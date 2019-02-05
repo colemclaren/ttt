@@ -30,7 +30,7 @@ local function _contracts()
 	/*local dev_server = GetHostName():lower():find("dev")
 	if (dev_server) then return end*/
 	local db = MINVENTORY_MYSQL
-	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts_v2` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(64) NOT NULL, `start_time` TIMESTAMP NOT NULL, `updating_server` VARCHAR(32), PRIMARY KEY (ID) ) ")
+	local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts_v2` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(64) NOT NULL, `start_time` TIMESTAMP NOT NULL, `contract_id` int, `updating_server` VARCHAR(32), PRIMARY KEY (ID) ) ")
 	function dq:onError(err)
 		ServerLog("[mInventory] Error with creating table: " .. err)
 	end
@@ -354,7 +354,7 @@ local function _contracts()
 			timer.Create("moat_contract_refresh", refresh_in, 1, function()
 				print "Trying to refresh contract"
 				local q = db:query(
-					"SELECT id, DAYOFWEEK(CURRENT_TIMESTAMP) as day_of_week, contract from moat_contracts_v2 where updating_server = '" .. db:escape(game.GetIP()) .. "';"
+					"SELECT id, DAYOFWEEK(CURRENT_TIMESTAMP) as day_of_week, contract, contract_id from moat_contracts_v2 where updating_server = '" .. db:escape(game.GetIP()) .. "';"
 					.. "UPDATE moat_contracts_v2 SET updating_server = null WHERE updating_server = '" .. db:escape(game.GetIP()) .. "';"
 				)
 				function q:onSuccess(data)
@@ -367,15 +367,17 @@ local function _contracts()
 
 					contract_transferall()
 
+					local next_contract_id = data.contract_id or 1 -- id for weapon contracts
 					local upnext = kill_contracts[math.random(#kill_contracts)]
 
 					if (data.day_of_week ~= 1) then
-						upnext = wpn_contracts[(data.id % #wpn_contracts) + 1]
+						next_contract_id = (next_contract_id % #wpn_contracts) + 1
+						upnext = wpn_contracts[next_contract_id]
 					end
 
 					local name, c = upnext[1], upnext[2]
 
-					local q = db:query("INSERT INTO moat_contracts_v2 (contract,start_time,`updating_server`) VALUES ('" .. db:escape(name) .. "', CURRENT_TIMESTAMP, '" .. db:escape(game.GetIP()) .. "');")
+					local q = db:query("INSERT INTO moat_contracts_v2 (contract,start_time,`updating_server`,`contract_id`) VALUES ('" .. db:escape(name) .. "', CURRENT_TIMESTAMP, '" .. db:escape(game.GetIP()) .. "', " .. next_contract_id .. ");")
 					function q:onSuccess()
 						local q = db:query("SELECT ID FROM moat_contracts_v2 WHERE `updating_server` is not null;")
 						function q:onSuccess(b)
