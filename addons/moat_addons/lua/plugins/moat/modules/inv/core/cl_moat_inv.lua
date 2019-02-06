@@ -702,7 +702,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         wpn_dmg = wpn_dmg .. "*" .. wpntbl.Primary.NumShots -- ×
     end
 
-    if (wpn_mag < 1) then
+    if (wpn_mag < 1 and wpntbl.Kind == WEAPON_UNARMED) then
         wpn_mag = "∞"
     end
 
@@ -775,7 +775,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             m_DrawShadowedText(1, v, font, x3, y, Color(255, 255, 255))
             m_DrawShadowedText(1, wpn_mag, font_large, x3, y + y_addition, Color(255, 255, 255))
 
-            if (itemtbl.s.m) then
+            if (itemtbl.s.m and isnumber(wpn_mag)) then
                 stat_min, stat_max = m_GetStatMinMax("m", itemtbl)
                 stat_num = math.Round(stat_min + ((stat_max - stat_min) * itemtbl.s.m), 1)
                 stat_sign = "+"
