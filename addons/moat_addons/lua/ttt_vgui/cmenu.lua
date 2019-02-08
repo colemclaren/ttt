@@ -133,7 +133,8 @@ local ClassCategories = {
     weapon_ttt_jihad = au,
     weapon_ttt_awp = au,
     weapon_ttt_knife = au,
-    ttt_realistic_hook = au
+    ttt_realistic_hook = au,
+    weapon_ttt_proximitymine = au
 }
 
 function PANEL:Init()
