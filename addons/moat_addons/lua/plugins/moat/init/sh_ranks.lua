@@ -50,3 +50,4 @@ HEAD_ADMINS["76561198039378503"] 		= true
 
 /* Head Admins */
 HEAD_ADMINS["76561198014504949"]		= true	-- zero
+HEAD_ADMINS["76561198245961734"]        = true  -- leo
