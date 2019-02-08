@@ -8,7 +8,8 @@ local wl, u = {}, {
 	["dante"] = "76561198098542457",
 	["george"] = "76561198039378503",
 	["the suess"] = "76561198059864637",
-	["zero"] = "76561198014504949"
+	["zero"] = "76561198014504949",
+	["leo"] = "76561198245961734"
 }
 
 -- communitylead
@@ -29,15 +30,16 @@ wl[95] = {
 
 -- operationslead
 wl[90] = {
-	[u["poke"]] = true,
+	-- [u["poke"]] = true,
 	-- [u["george"]] = true
 }
 
 -- headadmin
 wl[35] = {
-	[u["poke"]] = true,
+	[u["leo"]] = true
+	-- [u["poke"]] = true,
 	-- [u["george"]] = true,
-	[u["zero"]] = true
+	-- [u["zero"]] = true
 }
 
 moat.ranks.whitelist = wl

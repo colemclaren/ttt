@@ -19,5 +19,6 @@ MAP_BLACKLIST = {
 	["ttt_mttresort"] = true,
 	["ttt_minecraftmotel_b2"] = true,
 	["ttt_mc_seriouscraft_b6"] = true,
-	["ttt_rats_kitchen_noboom"] = true
+	["ttt_rats_kitchen_noboom"] = true,
+	["ttt_waterworld_remastered"] = true
 }
