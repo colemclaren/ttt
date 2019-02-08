@@ -37,7 +37,7 @@ end
 local EFFECT = STATUS:CreateEffect "Invisible"
 EFFECT.Message = "Invisible"
 EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/bug.png"
+EFFECT.Material = "icon16/contrast_low.png"
 function EFFECT:Init(data)
 	self:CreateEndTimer(data.Time, data)
 	local att = data.Player
