@@ -2,7 +2,7 @@ local wl, u = {}, {
 	["motato"] = "76561198053381832",
 	["meepen"] = "76561198050165746",
 	["velkon"] = "76561198154133184",
-	-- ["footsies"] = "76561198106061489",
+	["footsies"] = "76561198106061489",
 	["ling"] = "76561198044542936",
 	["poke"] = "76561198009551777",
 	["dante"] = "76561198098542457",
@@ -30,13 +30,13 @@ wl[95] = {
 -- operationslead
 wl[90] = {
 	[u["poke"]] = true,
-	[u["george"]] = true
+	-- [u["george"]] = true
 }
 
 -- headadmin
 wl[35] = {
 	[u["poke"]] = true,
-	[u["george"]] = true,
+	-- [u["george"]] = true,
 	[u["zero"]] = true
 }
 
