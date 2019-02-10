@@ -14,6 +14,11 @@ function ENT:Think()
 
 		for i = 1, table.Count(Players) do
 			local ply = Players[i]
+
+			if (not ply:Alive()) then
+				continue
+			end
+
 			local victimpos = ply:GetPos()
 			local targetpos = self:GetPos()
 			local distance = victimpos:Distance(targetpos)
