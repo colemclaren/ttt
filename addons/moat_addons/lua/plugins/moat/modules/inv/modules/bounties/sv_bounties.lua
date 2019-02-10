@@ -368,7 +368,7 @@ local function _contracts()
 					contract_transferall()
 
 					local next_contract_id = data.contract_id or 1 -- id for weapon contracts
-					local upnext = kill_contracts[math.random(#kill_contracts)]
+					local upnext = kill_contracts[1]
 
 					if (data.day_of_week ~= 1) then
 						next_contract_id = (next_contract_id % #wpn_contracts) + 1
