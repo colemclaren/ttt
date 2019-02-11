@@ -14,8 +14,6 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath( victim, inf, attacker, talent_mods )
-	if (GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS) then return end
-
 	local speed = 1 + ((self.Modifications[1].min + (( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1]))/100)
 	local sec = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
 

@@ -12,9 +12,7 @@ TALENT.Modifications[1] = {min = 1, max = 5}	-- Chance to trigger
 TALENT.Melee = true
 TALENT.NotUnique = false
 
-function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods )
-	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then return end
-
+function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 	if (chance > math.random() * 100) then
 		dmginfo:ScaleDamage(2)

@@ -82,6 +82,9 @@ function m_ApplyTalentsToWeaponOnDeath(vic, inf, att, talent_tbl)
 end
 
 hook.Add("PlayerDeath", "moat_ApplyDeathTalents", function(vic, inf, att)
+	if (vic == att) then
+		return
+	end
     if (not vic:IsValid() or not (att and att:IsValid() and att:IsPlayer())) then return end
     if (not inf:IsValid() or not (inf and inf:IsValid())) then return end
     if (not inf:IsWeapon()) then inf = att:GetActiveWeapon() end
@@ -96,8 +99,19 @@ hook.Add("PlayerDeath", "moat_ApplyDeathTalents", function(vic, inf, att)
     end
 end)
 
+hook.Add("PlayerShouldTakeDamage", "godmode", function(vic)
+    if (vic:HasGodMode() or not gmod.GetGamemode():AllowPVP()) then
+        return false
+    end
+end)
+
 function m_ApplyTalentsToWeaponDuringDamage(dmginfo, victim, attacker, talent_tbl)
-	if (hook.Run("m_ShouldPreventWeaponHitTalent", attacker, victim)) then return end
+    if (not hook.Run("PlayerShouldTakeDamage", victim, attacker)) then
+        return
+    end
+    if (hook.Run("m_ShouldPreventWeaponHitTalent", attacker, victim)) then
+        return
+    end
 
     local talent_enum = talent_tbl.e
     local talent_mods = talent_tbl.m or {}

@@ -14,8 +14,6 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath(victim, _, attacker, talent_mods)
-	if (GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS) then return end
-
 	status.Inflict("Adrenaline Rush", {
 		Player = attacker,
 		Weapon = attacker:GetActiveWeapon(),

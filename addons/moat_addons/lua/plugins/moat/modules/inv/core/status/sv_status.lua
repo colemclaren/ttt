@@ -36,10 +36,14 @@ function status.Reset()
 	end
 end
 
-hook.Add("TTTEndRound", "moat.status.round.end", status.Reset)
+-- hook.Add("TTTEndRound", "moat.status.round.end", status.Reset)
 hook.Add("TTTPrepareRound", "moat.status.round.begin", status.Reset)
 
 function status.Remove(pl)
+	if (not pl.ActiveEffects) then
+		return
+	end
+
 	for _, effect in pairs(pl.ActiveEffects) do
 		effect:Reset()
 	end

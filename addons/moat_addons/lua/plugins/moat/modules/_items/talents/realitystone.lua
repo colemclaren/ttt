@@ -11,8 +11,6 @@ TALENT.Melee = true
 TALENT.NotUnique = false
 
 function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
-	if (GetRoundState() ~= ROUND_ACTIVE or MOAT_ACTIVE_BOSS) then return end
-
 	local chanceNum = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
 
 	if (chanceNum > math.random() * 100) then

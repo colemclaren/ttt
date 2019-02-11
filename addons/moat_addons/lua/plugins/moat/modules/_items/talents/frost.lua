@@ -17,7 +17,6 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
-	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then return end
 	local chanceNum = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
 
 	if (chanceNum > math.random() * 100) then

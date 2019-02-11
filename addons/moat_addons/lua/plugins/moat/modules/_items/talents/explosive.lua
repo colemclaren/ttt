@@ -14,7 +14,7 @@ TALENT.Melee = false
 TALENT.NotUnique = true
 
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
-    if (GetRoundState() ~= ROUND_ACTIVE) then return end
+    if (not gmod.GetGamemode():AllowPVP()) then return end
     local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
 
     if (not is_bow) then
