@@ -702,7 +702,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         wpn_dmg = wpn_dmg .. "*" .. wpntbl.Primary.NumShots -- ×
     end
 
-    if (wpn_mag < 1 and wpntbl.Kind == WEAPON_UNARMED) then
+    if (wpn_mag < 1) then
         wpn_mag = "∞"
     end
 
