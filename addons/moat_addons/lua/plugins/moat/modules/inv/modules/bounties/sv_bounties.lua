@@ -882,7 +882,16 @@ function MOAT_BOUNTIES:AddBounty(name_, tbl)
 	bounty_id = bounty_id + 1
 end
 
-local chances = {[1] = 10, [2] = 5, [3] = 2}
+function MOAT_BOUNTIES.Rewards(a, b)
+	local d = os.date("!*t", (os.time() - 21600 - 3600))
+
+	return (d.yday == 43 and d.year == 2019) and b or a
+end
+
+local chances = MOAT_BOUNTIES.Rewards(
+	{[1] = 10, [2] = 5, [3] = 2}, 
+	{[1] = 50, [2] = 25, [3] = 10}
+)
 function MOAT_BOUNTIES:HighEndChance(tier)
 	local c = chances[tier]
 	if (not c) then return false end
@@ -918,14 +927,33 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 	local t = self.Bounties[bounty_id].tier
 
 	if (t and self:HighEndChance(t)) then
-		ply:m_DropInventoryItem(5)
+		local rarity = 5
+		if (t > 1) then
+			rarity = MOAT_BOUNTIES.Rewards(5, t == 2 and 6 or 7)
+		end
+
+		ply:m_DropInventoryItem(rarity)
 	end
+
+	rewards.drop = MOAT_BOUNTIES.Rewards(false, {
+		"High-End Stat Mutator",
+		"High-End Stat Mutator",
+		"High-End Stat Mutator",
+		"High-End Talent Mutator",
+		"High-End Talent Mutator",
+		"High-End Talent Mutator",
+		"Ascended Stat Mutator",
+		"AscendedTalent Mutator",
+		"Cosmic Stat Mutator",
+		"Cosmic Talent Mutator",
+		"Planetary Stat Mutator",
+		"Planetary Talent Mutator",
+		"Name Mutator"
+	})
 
 	if (rewards.drop) then
 		if (istable(rewards.drop)) then
-			for i = 1, #rewards.drop do
-				ply:m_DropInventoryItem(rewards.drop[i])
-			end
+			ply:m_DropInventoryItem(table.Random(rewards.drop))
 		else
 			ply:m_DropInventoryItem(rewards.drop)
 		end
@@ -967,25 +995,23 @@ function MOAT_BOUNTIES:IncreaseProgress(ply, bounty_id, max)
 	end
 end
 
-local tier1_rewards = {
-	ic = 2000,
-	exp = 2500,
-}
-local tier1_rewards_str = "2,000 Inventory Credits + 2,500 Player Experience + 1 in 10 Chance for High-End"
+local tier1_rewards = MOAT_BOUNTIES.Rewards({ic = 2000, exp = 2500}, {exp = 5000})
+local tier1_rewards_str = MOAT_BOUNTIES.Rewards(
+	"2,000 Inventory Credits + 2,500 Player Experience + 1 in 5 Chance for High-End",
+	"Any Random Mutator + 5,000 Player Experience + 1 in 25 Chance for Ascended"
+)
 
+local tier2_rewards = MOAT_BOUNTIES.Rewards({ic = 3500, exp = 5500}, {exp = 11000})
+local tier2_rewards_str = MOAT_BOUNTIES.Rewards(
+	"3,500 Inventory Credits + 5,500 Player Experience + 1 in 10 Chance for High-End",
+	"Any Random Mutator + 11,000 Player Experience + 1 in 15 Chance for Ascended+"
+)
 
-local tier2_rewards = {
-	ic = 3500,
-	exp = 5500,
-}
-local tier2_rewards_str = "3,500 Inventory Credits + 5,500 Player Experience + 1 in 5 Chance for High-End"
-
-
-local tier3_rewards = {
-	ic = 5000,
-	exp = 8500
-}
-local tier3_rewards_str = "5,000 Inventory Credits + 8,500 Player Experience + 1 in 2 Chance for High-End"
+local tier3_rewards = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 8500}, {exp = 17000})
+local tier3_rewards_str = MOAT_BOUNTIES.Rewards(
+	"5,000 Inventory Credits + 8,500 Player Experience + 1 in 2 Chance for High-End",
+	"Any Random Mutator + 17,000 Player Experience + 1 in 10 for Cosmic+"
+)
 
 
 
@@ -1340,8 +1366,8 @@ MOAT_BOUNTIES:AddBounty("Equipment User", {
 			end
 		end)
 	end,
-	rewards = "5,000 Inventory Credits + 5,500 Player Experience + 1 in 5 Chance for High-End",
-	rewardtbl = {ic = 5000, exp = 5500}
+	rewards = MOAT_BOUNTIES.Rewards("5,000 Inventory Credits + 5,500 Player Experience + 1 in 5 Chance for High-End", tier2_rewards_str),
+	rewardtbl = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 5500}, tier2_rewards)
 })
 
 MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
@@ -1357,8 +1383,8 @@ MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
 			end
 		end)
 	end,
-	rewards = "5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End",
-	rewardtbl = {ic = 5000, exp = 10500}
+	rewards = MOAT_BOUNTIES.Rewards("5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End", tier2_rewards_str),
+	rewardtbl = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 10500}, tier2_rewards)
 })
 
 MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
@@ -1390,8 +1416,8 @@ MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
 			end
 		end)
 	end,
-	rewards = "5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End",
-	rewardtbl = {ic = 5000, exp = 10500}
+	rewards = MOAT_BOUNTIES.Rewards("5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End", tier2_rewards_str),
+	rewardtbl = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 10500}, tier2_rewards)
 })
 
 
@@ -1833,7 +1859,10 @@ function MOAT_BOUNTIES.ResetBounties()
 	sql.Query("UPDATE bounties_refresh" .. MOAT_BOUNTIES.DatabasePrefix .. " SET shouldrefresh = 'false'")
 
 	MOAT_BOUNTIES:LoadBounties()
+	MOAT_BOUNTIES.DiscordBounties()
+end
 
+function MOAT_BOUNTIES.DiscordBounties()
 	local bstr, medals = "", {":third_place:", ":second_place:", ":first_place:"}
 	for i = 1, 3 do
 		local bounty = MOAT_BOUNTIES.ActiveBounties[i].bnty
