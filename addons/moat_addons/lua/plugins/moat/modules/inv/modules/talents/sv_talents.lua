@@ -100,7 +100,7 @@ hook.Add("PlayerDeath", "moat_ApplyDeathTalents", function(vic, inf, att)
 end)
 
 hook.Add("PlayerShouldTakeDamage", "godmode", function(vic, att)
-    if (IsValid(att) and att:IsPlayer() and att ~= vic and vic:HasGodMode() or not gmod.GetGamemode():AllowPVP()) then
+    if (IsValid(att) and att:IsPlayer() and att ~= vic and (vic:HasGodMode() or not gmod.GetGamemode():AllowPVP())) then
         return false
     end
 end)
