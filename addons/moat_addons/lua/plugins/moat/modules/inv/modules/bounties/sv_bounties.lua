@@ -937,9 +937,9 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 	end
 
 	local mutator = {"High-End Stat Mutator", "High-End Talent Mutator"}
-	if (math.random(50) == 1) then
+	if (math.random(500) == 1) then
 		mutator = {"Planetary Stat Mutator", "Planetary Talent Mutator"}
-	elseif (math.random(25) == 1) then
+	elseif (math.random(250) == 1) then
 		mutator = {"Cosmic Talent Mutator", "Cosmic Stat Mutator"}
 	elseif (math.random(10) == 1) then
 		mutator = {"Ascended Talent Mutator", "Ascended Stat Mutator"}
