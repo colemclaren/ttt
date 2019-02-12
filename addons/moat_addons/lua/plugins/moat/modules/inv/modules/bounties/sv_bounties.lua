@@ -941,7 +941,7 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 		mutator = {"Planetary Stat Mutator", "Planetary Talent Mutator"}
 	elseif (math.random(250) == 1) then
 		mutator = {"Cosmic Talent Mutator", "Cosmic Stat Mutator"}
-	elseif (math.random(10) == 1) then
+	elseif (math.random(20) == 1) then
 		mutator = {"Ascended Talent Mutator", "Ascended Stat Mutator"}
 	elseif (math.random(5) == 1) then
 		mutator = {"Name Mutator", "Name Mutator"}
