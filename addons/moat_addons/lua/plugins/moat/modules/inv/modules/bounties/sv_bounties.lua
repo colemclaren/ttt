@@ -892,6 +892,7 @@ local chances = MOAT_BOUNTIES.Rewards(
 	{[1] = 10, [2] = 5, [3] = 2}, 
 	{[1] = 50, [2] = 25, [3] = 10}
 )
+
 function MOAT_BOUNTIES:HighEndChance(tier)
 	local c = chances[tier]
 	if (not c) then return false end
