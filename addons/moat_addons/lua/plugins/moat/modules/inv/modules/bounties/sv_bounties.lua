@@ -936,22 +936,20 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 		ply:m_DropInventoryItem(rarity)
 	end
 
-	rewards.drop = MOAT_BOUNTIES.Rewards(false, {
-		"High-End Stat Mutator",
-		"High-End Stat Mutator",
-		"High-End Stat Mutator",
-		"High-End Talent Mutator",
-		"High-End Talent Mutator",
-		"High-End Talent Mutator",
-		"Ascended Stat Mutator",
-		"AscendedTalent Mutator",
-		"Cosmic Stat Mutator",
-		"Cosmic Talent Mutator",
-		"Planetary Stat Mutator",
-		"Planetary Talent Mutator",
-		"Name Mutator"
-	})
-
+	local mutator = {"High-End Stat Mutator", "High-End Talent Mutator"}
+	if (math.random(50) == 1) then
+		mutator = {"Planetary Stat Mutator", "Planetary Talent Mutator"}
+	elseif (math.random(25) == 1) then
+		mutator = {"Cosmic Talent Mutator", "Cosmic Stat Mutator"}
+	elseif (math.random(10) == 1) then
+		mutator = {"Ascended Talent Mutator", "Ascended Stat Mutator"}
+	elseif (math.random(5) == 1) then
+		mutator = {"Name Mutator", "Name Mutator"}
+	end
+	
+	mutator = mutator[math.random(2)]
+	rewards.drop = MOAT_BOUNTIES.Rewards(false, mutator)
+	
 	if (rewards.drop) then
 		if (istable(rewards.drop)) then
 			ply:m_DropInventoryItem(table.Random(rewards.drop))
