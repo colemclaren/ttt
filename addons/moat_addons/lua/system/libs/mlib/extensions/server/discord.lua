@@ -71,7 +71,7 @@ local function PostSuccess(msg, body, length, headers, code)
 	return true
 end
 
-local function Send(user, msg, username, no_suffix)
+local function Send(user, msg, userName, no_suffix)
 	assert(user and (Users[user] or Webhooks[user]), "Discord failed to send webhook.")
 
 	string.Replace(msg, "@everyone", "everyone")
@@ -81,46 +81,52 @@ local function Send(user, msg, username, no_suffix)
 		table.insert(PreLoadQueue, {
 			User = user,
 			Message = msg,
-			Username = username,
+			UserName = userName,
 			NoSuffix = no_suffix
 		})
 	
 		return
 	end
 
-	local info, url, name, avatar = Users[user]
-	if (info) then
-		url = Webhooks[info.Channel]
-		name = info.Name
-		avatar = info.Avatar
+	local Info, URL, Name, Avatar = Users[user]
+	if (Info) then
+		URL = Webhooks[Info.Channel]
+		Name = Info.Name
+		Avatar = Info.Avatar
 	else
-		AddUser(user, username or user, no_suffix)
+		AddUser(user, userName or user, no_suffix)
 		return Send(user, msg)
 	end
 
-	assert(url and msg, "Discord failed to get webhook url or msg.")
+	assert(URL and msg, "Discord failed to get webhook URL or msg.")
 
 	if (len(msg) > MaxLength) then
 		msg = sub(msg, 1, MaxLength)
 	end
 
 	if (Server and Server.IsDev) then
-		url = "https://discordapp.com/api/webhooks/489951089588699136/PUhbSqO9nTOeDj__f3bBTQlTesFVKHjxdpVGFC-OB2dUx1_zyjiuBTZekBlMpIC191xD"
+		URL = "https://discord.moat.gg/api/webhooks/489951089588699136/PUhbSqO9nTOeDj__f3bBTQlTesFVKHjxdpVGFC-OB2dUx1_zyjiuBTZekBlMpIC191xD"
 	end
 
-	post(url, {
-		parameters = {
+	HTTP({
+		url = URL,
+		method = 'POST',
+		headers = {
+			['Content-Type'] = 'application/json'
+		},
+		body = util.TableToJSON {
 			content = msg,
 			username = name,
 			avatar_url = avatar
 		},
-		type = "json"
-	}, PostSuccess, ErrorCode)
+		success = PostSuccess,
+		failed = ErrorCode
+	})
 end
 
 local function SendQueue()
 	for k, v in ipairs(PreLoadQueue) do
-		Send(v.User, v.Message, v.Username, v.NoSuffix)
+		Send(v.User, v.Message, v.UserName, v.NoSuffix)
 	end
 end
 hook.Add("HTTPLoaded", "Discord.PreLoadQueue", SendQueue)

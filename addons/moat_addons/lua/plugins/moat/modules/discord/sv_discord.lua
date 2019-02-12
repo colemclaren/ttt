@@ -12,7 +12,7 @@ moat.discord.users = {}
 local function AuthedGet(bearer,url,succ,fail)
     HTTP({
         method = "GET",
-        url = "http://discordapp.com/api/v6" .. url,
+        url = "http://discord.moat.gg/api/v6" .. url,
         headers = {
             ["Authorization"] = "Bearer " .. bearer
         },
@@ -62,15 +62,17 @@ function discord_(db)
         }
         HTTP({
             method = "POST",
-            url = "https://discordapp.com/api/v6/oauth2/token",
-            parameters = {
+            url = "https://discord.moat.gg/api/v6/oauth2/token",
+           	body = util.TableToJSON {
                 client_id = moat.discord.botClientID,
                 client_secret = moat.discord.botClientSecret,
                 code = oauth,
                 grant_type = "authorization_code",
                 redirect_uri = "http://localhost/"
-            },
-
+			},
+			headers = {
+				['Content-Type'] = 'application/json'
+			},
             success = function(s,body)
                 print("Succ",s,body)
                 if s == 200 then
@@ -87,9 +89,10 @@ function discord_(db)
                             local id = body.id
                             HTTP({
                                 method = "PUT",
-                                url = "https://discordapp.com/api/v6/guilds/256324969842081793/members/" .. body.id,
+                                url = "https://discord.moat.gg/api/v6/guilds/256324969842081793/members/" .. body.id,
                                 headers = {
-                                    ["Authorization"] = "Bot " .. moat.discord.botToken
+                                    ["Authorization"] = "Bot " .. moat.discord.botToken,
+									['Content-Type'] = 'application/json'
                                 },
                                 type = "application/json",
                                 body = util.TableToJSON({
