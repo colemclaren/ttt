@@ -1,5 +1,6 @@
 local wl, u = {}, {
 	["motato"] = "76561198053381832",
+	["jerry"] = "76561198109932241",
 	["meepen"] = "76561198050165746",
 	["velkon"] = "76561198154133184",
 	["footsies"] = "76561198106061489",
@@ -15,6 +16,7 @@ local wl, u = {}, {
 -- communitylead
 wl[100] = {
 	[u["motato"]] = true,
+	[u["jerry"]] = true,
 	[u["meepen"]] = true,
 	[u["velkon"]] = true,
 	[u["ling"]] = true

@@ -25,6 +25,7 @@ HEAD_ADMINS 		= 	HEAD_ADMINS or {}
 
 /* Community Leads */
 COMMUNITY_LEADS["76561198053381832"] 	= true 	-- motato
+COMMUNITY_LEADS["76561198109932241"] 	= true 	-- jerry
 
 
 /* Tech Leads */
