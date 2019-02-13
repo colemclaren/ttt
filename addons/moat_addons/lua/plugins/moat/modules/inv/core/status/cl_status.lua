@@ -86,6 +86,15 @@ net.Receive("moat.status.adjust", function()
 	end
 end)
 
+net.Receive("moat.status.end", function()
+	local id = net.ReadString()
+
+	for i = 1, #MOAT_STATUS.StatusList do
+		if (MOAT_STATUS.StatusList[i].ID == id) then
+			table.remove(MOAT_STATUS.StatusList, i)
+		end
+	end
+end)
 
 function MOAT_STATUS.Reset()
 	MOAT_STATUS.StatusList = {}

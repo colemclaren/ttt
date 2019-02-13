@@ -121,7 +121,7 @@ function self:AddTime(time)
 	end
 end
 
-function self:Reset()
+function self:Reset(suppressMessage)
 	if (not self.Active) then return end
 	self.Active = false
 
@@ -129,6 +129,12 @@ function self:Reset()
 	if (isfunction(self.OnEnd)) then
 		self.OnEnd(self, self.Data)
 	end
+	
+	if (suppressMessage) then return end
+	
+	net.Start("moat.status.end")
+	net.WriteString(self.Id)
+	net.Send(self.Player)
 end
 
 EFFECT_BASE = self

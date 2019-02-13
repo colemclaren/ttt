@@ -45,7 +45,7 @@ function status.Remove(pl)
 	end
 
 	for _, effect in pairs(pl.ActiveEffects) do
-		effect:Reset()
+		effect:Reset(true)
 	end
 
 	net.Start("moat.status.reset")
