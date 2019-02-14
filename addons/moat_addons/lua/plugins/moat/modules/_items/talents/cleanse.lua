@@ -7,7 +7,7 @@ TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 50 , max = 100}	-- Chance to cleanse
+TALENT.Modifications[1] = {min = 25 , max = 75}	-- Chance to cleanse
 
 TALENT.Melee = true
 TALENT.NotUnique = true
