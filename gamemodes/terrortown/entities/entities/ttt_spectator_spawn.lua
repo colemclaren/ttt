@@ -1,3 +1,3 @@
-
-ENT.Type = "point"
-ENT.Base = "base_point"
+
+ENT.Type = "point"
+ENT.Base = "base_point"

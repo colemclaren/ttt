@@ -93,7 +93,6 @@ end
 function ENT:UseOverride(activator)
    if IsValid(activator) and activator:IsPlayer() then
       -- Traitors not allowed to disarm other traitor's C4 until he is dead
-
       local owner = self:GetOwner()
       if self:GetArmed() and owner != activator and activator:GetTraitor() and (IsValid(owner) and owner:Alive() and owner:GetTraitor()) then
          LANG.Msg(activator, "c4_no_disarm")
@@ -200,6 +199,7 @@ end
 
 local c4boom = Sound("c4.explode")
 function ENT:Explode(tr)
+   hook.Call("TTTC4Explode", nil, self)
    if SERVER then
       self:SetNoDraw(true)
       self:SetSolid(SOLID_NONE)
@@ -547,7 +547,7 @@ if SERVER then
          else
             local prints = bomb.fingerprints or {}
 
-            hook.Call("TTTC4Pickup", nil, ply, bomb)
+            hook.Call("TTTC4Pickup", nil, bomb, ply)
 
             local wep = ply:Give("weapon_ttt_c4")
             if IsValid(wep) then
