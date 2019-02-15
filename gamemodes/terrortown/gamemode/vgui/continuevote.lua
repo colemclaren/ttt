@@ -125,7 +125,7 @@ function PANEL:Think()
 end
 
 local bgcolor = Color(0, 0, 10, 200)
-
+ 
 function PANEL:Paint()
     draw.RoundedBox(4, 0, 0, self:GetWide(), self:GetTall(), bgcolor)
 end
