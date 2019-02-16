@@ -7,7 +7,7 @@ TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 50, max = 80} -- Percent damage reduction
+TALENT.Modifications[1] = {min = 50, max = 80} -- Chance to trigger
 TALENT.Modifications[2] = {min = 5,  max = 10} -- Percent damage reduction
 TALENT.Modifications[3] = {min = 5,  max = 20} -- Duration
 
