@@ -40,7 +40,7 @@ EFFECT.Color = TALENT.NameColor
 EFFECT.Material = "icon16/shield.png"
 function EFFECT:Init(data)
 	local att = data.Player
-	att.Fortified = data.Percent
+	att.Fortified = 1 - data.Percent
 
 	self:CreateEndTimer(data.Time, data)
 end
