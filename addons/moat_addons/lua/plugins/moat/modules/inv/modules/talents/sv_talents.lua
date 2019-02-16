@@ -149,7 +149,7 @@ hook.Add("EntityTakeDamage", "moat_ApplyDamageMods", function(ent, dmginfo)
     end
 	
 	if (ent.Fortified) then
-		dmginfo:SetDamage(dmginfo:GetDamage() * (1 - ent.Fortified))
+		dmginfo:SetDamage(dmginfo:GetDamage() * ent.Fortified)
 	end
 end)
 
