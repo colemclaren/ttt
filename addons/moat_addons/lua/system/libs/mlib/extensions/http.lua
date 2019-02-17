@@ -7,6 +7,22 @@ local Loaded = http.Loaded
 local Haste = http.Haste
 local Struct = http.Structure
 
+function http.UrlEncode(data, body)
+	body = body or {}
+
+	for k, v in pairs(data) do
+		table.insert(body, string.gsub(k, "[^%w%-_%.%!%~%*%'%(%)]", function(c)
+			return string.format("%%%02X", string.byte(c, 1, 1))
+		end) .. "=" .. string.gsub(v, "[^%w%-_%.%!%~%*%'%(%)]", function(c)
+			return string.format("%%%02X", string.byte(c, 1, 1))
+		end))
+	end
+
+	body = table.concat(body, "&")
+
+	return body
+end
+
 local function HTTPLoad(num)
 	num = num or 1
 
