@@ -294,7 +294,7 @@ L.item_weapon     = "Arma"
 L.item_armor      = "Armadura"
 L.item_armor_desc = [[
 Reduz o dano recebido por balas em
-30% quando atingido.
+35% quando atingido.
 
 Equipamento padrão de Detetives.]]
 

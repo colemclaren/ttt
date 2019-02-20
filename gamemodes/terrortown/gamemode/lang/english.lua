@@ -587,7 +587,7 @@ L.item_weapon     = "Weapon"
 L.item_armor      = "Body Armor"
 
 L.item_armor_desc = [[
-Reduces bullet damage by 30% when you get hit.
+Reduces bullet damage by 35% when you get hit.
 
 Default equipment for Detectives.]]
 

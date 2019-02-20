@@ -294,7 +294,7 @@ L.item_weapon     = "武器 "
 L.item_armor      = "身體裝甲 "
 L.item_armor_desc = [[
 擁有它，
-您將減少30%的射擊傷害。
+您將減少35%的射擊傷害。
 探長的預設裝備。]]
 
 L.item_radar      = "雷達 "

@@ -292,7 +292,7 @@ L.item_weapon     = "Waffe"
 
 L.item_armor      = "Körperrüstung"
 L.item_armor_desc = [[
-Verringere den Schaden durch Kugeln um 30%.
+Verringere den Schaden durch Kugeln um 35%.
 
 Standardausrüstung für Detektive.]]
 

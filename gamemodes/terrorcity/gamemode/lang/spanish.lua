@@ -291,7 +291,7 @@ L.item_weapon     = "Arma"
 
 L.item_armor      = "Antibalas"
 L.item_armor_desc = [[
-Reduce el daño de bala en un 30%
+Reduce el daño de bala en un 35%
 al recibir impactos.
 
 Predeterminado para detectives.]]

@@ -291,7 +291,7 @@ L.item_weapon     = "Vapen"
 
 L.item_armor      = "Kroppsrustning"
 L.item_armor_desc = [[
-Reducerar skottskador med 30% när
+Reducerar skottskador med 35% när
 du blir träffad.
 
 Standard-verktyg för Detektiver.]]
