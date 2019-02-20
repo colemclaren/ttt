@@ -30,17 +30,25 @@ util.AddNetworkString "MOAT_GET_PLAYER_INFO_FAILED"
 
 net.Receive("MOAT_GET_PLAYER_INFO", function(_, pl)
 	if (pl.LastPlayerInfo and pl.LastPlayerInfo > CurTime()) then return end
+
 	local id = net.ReadString()
-	local q = MOATSQL:query("SELECT name, rank, last_join, playtime FROM player WHERE steam_id = '" .. MOATSQL:escape(id) .. "';")
+	local id32 = util.SteamIDFrom64(id)
+	if (id32 == "STEAM_0:0:0") then
+		net.Start "MOAT_GET_PLAYER_INFO_FAILED"
+		net.Send(pl)
+	end
+
+	local q = MINVENTORY_MYSQL:query("SELECT name, rank, last_join, playtime FROM player WHERE steam_id = '" .. MINVENTORY_MYSQL:escape(id) .. "';")
 	function q:onSuccess(d)
 		if (not d or #d <= 0) then
 			if (not IsValid(pl)) then return end
+
 			net.Start "MOAT_GET_PLAYER_INFO_FAILED"
 			net.Send(pl)
 			return
 		end
-		
-		local q2 = MOATSQL:query("SELECT stats_tbl FROM moat_stats WHERE steamid = '" .. MOATSQL:escape(util.SteamIDFrom64(id)) .. "';")
+
+		local q2 = MINVENTORY_MYSQL:query("SELECT stats_tbl FROM moat_stats WHERE steamid = '" .. MINVENTORY_MYSQL:escape(id32) .. "';")
 		function q2:onSuccess(data)
 			if (data and #data > 0) then
 				if (not IsValid(pl)) then return end
@@ -60,6 +68,7 @@ net.Receive("MOAT_GET_PLAYER_INFO", function(_, pl)
 
 			else
 				if (not IsValid(pl)) then return end
+
 				net.Start "MOAT_GET_PLAYER_INFO_FAILED"
 				net.Send(pl)
 			end
@@ -67,6 +76,7 @@ net.Receive("MOAT_GET_PLAYER_INFO", function(_, pl)
 
 		function q2:onError()
 			if (not IsValid(pl)) then return end
+
 			net.Start "MOAT_GET_PLAYER_INFO_FAILED"
 			net.Send(pl)
 		end
@@ -76,6 +86,7 @@ net.Receive("MOAT_GET_PLAYER_INFO", function(_, pl)
 
 	function q:onError()
 		if (not IsValid(pl)) then return end
+
 		net.Start "MOAT_GET_PLAYER_INFO_FAILED"
 		net.Send(pl)
 	end
