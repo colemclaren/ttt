@@ -206,7 +206,7 @@ function m_GetTalentFromEnumWithFunctions(tenum)
     return tbl
 end
 
-function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
+function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
     local ply_inv = table.Copy(MOAT_INVS[self])
     local slot_found, upgrade = 0, false
 
@@ -267,6 +267,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat)
 	net.WriteBool(no_chat or false)
     net.WriteDouble(self:EntIndex())
     net.WriteTable(tbl2)
+	net.WriteBool(gift or false)
 
     if (not no_chat) then
         net.Broadcast()

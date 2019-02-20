@@ -20,6 +20,7 @@ net.Receive("MOAT_OBTAIN_ITEM", function(len)
 	local v = net.ReadBool()
 	local ply = Entity(net.ReadDouble())
 	local tbl = net.ReadTable()
+	local gift = net.ReadBool()
 
 	if (not IsValid(ply) or not IsValid(LocalPlayer())) then
 		return
@@ -55,6 +56,14 @@ net.Receive("MOAT_OBTAIN_ITEM", function(len)
 		IsItem = true,
 		item_tbl = tbl
 	})
+
+	if (gift) then
+		table.insert(tab, Color(255, 255, 255))
+		table.insert(tab, " as a ")
+
+		table.insert(tab, Color(255, 255, 0))
+		table.insert(tab, "gift")
+	end
 
 	chat.AddText(Material("icon16/new.png"), unpack(tab))
 	if (not islp) then return end

@@ -14,5 +14,5 @@ ITEM.ItemUsed = function(pl, slot, item)
 	if (not i) then return end
 	if (not i.g) then return end
 
-	pl:m_AddInventoryItem(i.g)
+	pl:m_AddInventoryItem(i.g, false, false, true)
 end
