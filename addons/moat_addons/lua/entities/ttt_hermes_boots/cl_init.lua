@@ -1,7 +1,7 @@
 include('shared.lua')
 
 LANG.AddToLanguage("english", "hermes_boots_name", "Hermes Boots")
-LANG.AddToLanguage("english", "hermes_boots_desc", "Press C to toggle. Increases your movement speed.")
+LANG.AddToLanguage("english", "hermes_boots_desc", "Press G to toggle. Increases your movement speed.")
 
 -- feel for to use this function for your own perk, but please credit me
 -- your perk needs a "hud = true" in the table, to work properly
