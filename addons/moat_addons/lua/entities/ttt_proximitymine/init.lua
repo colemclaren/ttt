@@ -81,6 +81,8 @@ function ENT:SphereDamage(dmgowner, center, radius)
     local r = radius ^ 2
 
     for _, ent in pairs(ents.FindInSphere(self:GetPos(), radius)) do
+		if (ent:IsPlayer() and not ent:Alive()) then continue end
+
         -- deadly up to a certain range, then a quick falloff within 100 units
         local distance = ent:GetPos():Distance(self:GetPos()) 
         local dmg = 350 * math.min(1, 1.5 - distance / radius)
@@ -95,7 +97,7 @@ function ENT:SphereDamage(dmgowner, center, radius)
             collisiongroup = COLLISION_GROUP_WEAPON
         }
 
-        if (tr.Hit and ent:IsPlayer() and ent:Alive()) then
+        if (tr.Hit and ent:IsPlayer()) then
             local tr2 = util.TraceLine{
 				start = ent:GetPos(),
                 endpos = self:GetPos(),
