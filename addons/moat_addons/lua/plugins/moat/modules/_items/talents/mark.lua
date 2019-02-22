@@ -18,7 +18,7 @@ function TALENT:OnPlayerHit(vic, att, dmginfo, talent_mods)
 	if (chance > math.random() * 100) then
 		local secs = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
 
-		status.Inflict("Mark", {Time = secs, Player = att, Victim = vic})
+		status.Inflict("Mark", {Time = secs, Player = vic, Attacker = att})
 	end
 end
 
@@ -42,35 +42,39 @@ local markColor = {
 
 local EFFECT = STATUS:CreateEffect "Mark"
 function EFFECT:Init(data)
-	local att = data.Player
-	
+	local att = data.Attacker
+
 	local color = markColor[att:GetRole() or ROLE_INNOCENT]
 
 	net.Start("Moat.Talents.Mark")
-	net.WriteEntity(data.Victim)
+	net.WriteEntity(data.Player)
 	net.WriteColor(color)
 	
 	if (att:GetTraitor()) then
 		net.Send(GetTraitorFilter())
-	else
+	elseif (att:GetDetective()) then
 		net.Broadcast()
+	else
+		net.Send(att)
 	end
 
 	self:CreateEndTimer(data.Time, data)
 end
 
 function EFFECT:OnEnd(data)
+	if (not IsValid(data.Attacker)) then return end
 	if (not IsValid(data.Player)) then return end
-	if (not IsValid(data.Victim)) then return end
 
-	local att = data.Player
+	local att = data.Attacker
 
 	net.Start("Moat.Talents.Mark.End")
-	net.WriteEntity(data.Victim)
+	net.WriteEntity(data.Player)
 	
 	if (att:GetTraitor()) then
 		net.Send(GetTraitorFilter())
-	else
+	elseif (att:GetDetective()) then
 		net.Broadcast()
+	else
+		net.Send(att)
 	end
 end
