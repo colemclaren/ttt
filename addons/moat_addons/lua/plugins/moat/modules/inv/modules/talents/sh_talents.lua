@@ -2,6 +2,14 @@
 if (SERVER) then
 	util.AddNetworkString("Moat.Talents.Mark")
 	util.AddNetworkString("Moat.Talents.Mark.End")
+	util.AddNetworkString("Moat.Talents.Shake")
+
+	local meta = FindMetaTable("Player")
+	function meta:ScreenShake(pow)
+		net.Start("Moat.Talents.Shake")
+		net.WriteUInt(pow, 16)
+		net.Send(self)
+	end
 else
 	local markedPlayers = {}
 
@@ -17,7 +25,7 @@ else
 		
 		markedPlayers[vic] = color
 	end)
-	
+
 	net.Receive("Moat.Talents.Mark.End", function()
 		local vic = net.ReadEntity()
 		if (not IsValid(vic)) then return end
@@ -25,7 +33,7 @@ else
 		
 		markedPlayers[vic] = nil
 	end)
-	
+
 	hook.Add("PreDrawHalos", "Moat.Talents.Mark", function()
 		local colors = {}
 		
@@ -45,5 +53,12 @@ else
 		for color, players in pairs(colors) do
 			halo.Add(players, color, 2, 2, 1, true, true)
 		end
+	end)
+
+	local vec0 = Vector(0, 0, 0)
+	net.Receive("Moat.Talents.Shake", function()
+		local pow = net.ReadUInt(16)
+
+		util.ScreenShake(vec0 pow, 100, 0.5, 100)
 	end)
 end
