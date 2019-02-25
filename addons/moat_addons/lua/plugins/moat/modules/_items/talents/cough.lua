@@ -39,13 +39,6 @@ function EFFECT:Init(data)
 	self:CreateTimer(1.5, amount, self.Callback, data)
 end
 
-local screams = {
-	"vo/npc/male01/pain07.wav",
-	"vo/npc/male01/pain08.wav",
-	"vo/npc/male01/pain09.wav",
-	"vo/npc/male01/no02.wav"
-}
-
 function EFFECT:Callback(data)
 	local vic = data.Player
 	if (not IsValid(vic)) then return end
