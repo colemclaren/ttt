@@ -872,6 +872,8 @@ util.AddNetworkString("jackpot.info")
 util.AddNetworkString("jackpot.join")
 util.AddNetworkString("jackpot.win")
 
+local dev_suffix = ""
+
 local jpl = false
 jp = {}
 local versus_rewarded = {}
@@ -879,13 +881,13 @@ function jackpot_()
     if jpl then return end jpl = true
     local db = MINVENTORY_MYSQL
 
-    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_versus` ( `steamid` varchar(100) NOT NULL, `money` INT NOT NULL, `time` INT, `other` varchar(255), `winner` varchar(255), PRIMARY KEY (steamid) )")
+    local q = db:query("CREATE TABLE IF NOT EXISTS `moat_versus" .. dev_suffix .. "` ( `steamid` varchar(100) NOT NULL, `money` INT NOT NULL, `time` INT, `other` varchar(255), `winner` varchar(255), `rewarded` BOOLEAN, PRIMARY KEY (steamid) )")
     q:start()
     versus_curgames = {}
     versus_knowngames = {}
 
     function versus_creategame(id,am,fun)
-        local q = db:query("INSERT INTO moat_versus (steamid, money) VALUES ('" .. id .. "','" .. am .. "');")
+        local q = db:query("INSERT INTO moat_versus" .. dev_suffix .. " (steamid, money) VALUES ('" .. id .. "','" .. am .. "');")
         function q:onSuccess(d)
             fun()
         end
@@ -893,7 +895,7 @@ function jackpot_()
     end
 
     function versus_getgame(sid,fun)
-        local q = db:query("SELECT * FROM moat_versus WHERE steamid = '" .. db:escape(sid) .. "';")
+        local q = db:query("SELECT * FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. db:escape(sid) .. "';")
         function q:onSuccess(d)
             fun(d)
         end
@@ -904,7 +906,7 @@ function jackpot_()
     end
 
     function versus_getgames(fun)
-        local q = db:query("SELECT *, UNIX_TIMESTAMP() AS curtime FROM moat_versus;")
+        local q = db:query("SELECT *, UNIX_TIMESTAMP() AS curtime FROM moat_versus" .. dev_suffix .. ";")
         function q:onSuccess(d)
             fun(d)
         end
@@ -926,7 +928,7 @@ function jackpot_()
                 versus_queue[ply] = nil
                 return
             end
-            local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. ply:SteamID64().. "';")
+            local q = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. ply:SteamID64().. "';")
             function q:onSuccess()
                 versus_queue[ply] = nil
                 addIC(ply,d.money)
@@ -956,6 +958,27 @@ function jackpot_()
         versus_queue[ply] = true
         versus_cancel(ply)
     end)
+
+	function versus_forcedelete(sid,fun) -- not really force but to double check with uncached results
+		local q = db:query("SELECT * FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. db:escape(sid) .. "';")
+		function q:onSuccess(d)
+			-- PrintTable(d)
+			if #d < 1 then
+				fun(true) -- already deleted
+				return
+			end
+			d = d[1]
+			if (not tobool(d.rewarded)) then fun(false) return end 
+			if d.rewarded then
+				local b = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. sid .. "';")
+				function b:onSuccess()
+					fun(true)
+				end
+                b:start()
+			end
+		end
+		q:start()
+	end
 
     function versus_joingame(ply,sid,fun)
         versus_getgame(sid,function(d)
@@ -995,12 +1018,12 @@ function jackpot_()
                 winner = sid
             end	
             local plyz = ply:SteamID64()
-            local qs = "UPDATE moat_versus SET winner = '" .. db:escape(winner) .. "', other = '" .. plyz .. "', time = UNIX_TIMESTAMP() WHERE steamid = '" .. db:escape(sid) .. "' AND winner IS NULL;"
+            local qs = "UPDATE moat_versus" .. dev_suffix .. " SET winner = '" .. db:escape(winner) .. "', other = '" .. plyz .. "', time = UNIX_TIMESTAMP() WHERE steamid = '" .. db:escape(sid) .. "' AND winner IS NULL;"
             local q = db:query(qs)
             function q:onSuccess(qd)
                 versus_getgame(sid,function(d)
                     if not IsValid(ply) then
-                        local q = db:query("UPDATE moat_versus SET winner = NULL, other = NULL, time = NULL WHERE steamid = '" .. db:escape(sid) .. "';")
+                        local q = db:query("UPDATE moat_versus" .. dev_suffix .. " SET winner = NULL, other = NULL, time = NULL WHERE steamid = '" .. db:escape(sid) .. "';")
                         q:start()
                         return
                     end
@@ -1036,6 +1059,9 @@ function jackpot_()
                         net.WriteString(winner)
                         net.Broadcast()
                         versus_curgames[sid] = {rolled = true}
+
+						local q = db:query("UPDATE moat_versus" .. dev_suffix .. " SET rewarded = 1 WHERE steamid = '" .. db:escape(sid) .. "';")
+                        q:start()
 
                         local v = player.GetBySteamID64(winner)
                         if (IsValid(v)) then
@@ -1142,12 +1168,12 @@ function jackpot_()
             ply.VersCool = CurTime() + 2
             versus_creategame(id, amount, function()
                 if (not IsValid(ply)) then
-                    local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
+                    local q = db:query("DELETE FROM " .. dev_suffix .. " WHERE steamid = '" .. id.. "';")
                     q:start()
                     return
                 end
                 if not ply:m_HasIC(amount) then
-                    local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. id.. "';")
+                    local q = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. id.. "';")
                     q:start()
                     local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to create versus with not enough money"
                     discord.Send("Anti Cheat", msg)
@@ -1298,13 +1324,16 @@ function jackpot_()
                         versus_curgames[v.steamid] = {rolled = true}
                     end)
                 elseif ((v.curtime - v.time) > 25) and (v.winner) then
-                    local q = db:query("DELETE FROM moat_versus WHERE steamid = '" .. v.steamid .. "';")
-                    q:start()
-                    -- print("Cancel 1 delete",v.steamid)
-                    net.Start("gversus.Cancel")
-                    net.WriteString(v.steamid)
-                    net.Broadcast()
-                    versus_curgames[v.steamid] = nil
+					-- print("attempting force delete")
+					versus_forcedelete(v.steamid,function(s)
+						-- print("Force delete: " .. tostring(s))
+						if s then
+							net.Start("gversus.Cancel")
+							net.WriteString(v.steamid)
+							net.Broadcast()
+							versus_curgames[v.steamid] = nil
+						end
+					end)
                 end
             end
             for k,v in pairs(versus_curgames) do
