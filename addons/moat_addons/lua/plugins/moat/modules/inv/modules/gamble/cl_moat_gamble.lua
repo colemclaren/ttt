@@ -3307,7 +3307,7 @@ function m_DrawBlackjackPanel()
 		surface.DrawLine(0,134,w,134)
 		surface.DrawLine(0,h-20,w,h-20)
 		if not test then
-			draw.DrawText("Jackpot is cross-server! There are 20 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
+			draw.DrawText("Jackpot is cross-server! There are 26 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
 		end
 		local t = "Waiting for players"
 		jackpot.CanDeposit = true
@@ -4441,7 +4441,7 @@ function m_DrawVersusPanel()
 		draw.SimpleText("GAME AMOUNT:", "moat_GambleTitle", 10, 20, Color(255,255,255),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 		surface.SetDrawColor(86, 86, 86)
 		surface.DrawLine(0,h-20,w,h-20)
-		draw.DrawText("Versus is cross-server! There are 20 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
+		draw.DrawText("Versus is cross-server! There are 26 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
     end
 	local game_panel = vgui.Create("DPanel",MOAT_GAMBLE_VS)
 	game_panel:SetSize(495,407)
