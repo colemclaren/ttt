@@ -581,11 +581,21 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		if MOAT_MINIGAME_OCCURING then return end
 		if #player.GetAll() < 8 then return end
 		if (os.time() - contract_starttime) > 86400 then return end -- Contract already over, wait for next map 
-		contract_getcurrent(function(c)
-			if contract_id ~= tonumber(c.ID) then return end -- check if other servers already refresh contract
+
+		if (os.time() - contract_starttime) > 83000 then
+
+			contract_getcurrent(function(c)
+				if contract_id ~= tonumber(c.ID) then return end -- check if other servers already refresh contract
+				local q = db:query("UPDATE moat_contractplayers_v2 SET score = score + " .. am .. " WHERE steamid = " .. ply:SteamID64() .. ";")
+				q:start()
+			end)
+
+		else
+
 			local q = db:query("UPDATE moat_contractplayers_v2 SET score = score + " .. am .. " WHERE steamid = " .. ply:SteamID64() .. ";")
 			q:start()
-		end)
+
+		end
 	end
 
 	hook.Add("TTTEndRound","Contracts", function()
