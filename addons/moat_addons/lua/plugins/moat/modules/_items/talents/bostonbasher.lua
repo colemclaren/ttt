@@ -31,6 +31,7 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
 end
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
+	if MOAT_MINIGAME_OCCURING then return end
 	if (weapon.Primary.Damage) then
 		weapon.Primary.Damage = weapon.Primary.Damage * (1 + ((self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])) / 100))
 	end
