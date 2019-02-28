@@ -262,14 +262,16 @@ moat_yellow = Color(255, 255, 0)
 
 local function getreward(place)
     if place == 1 then 
-        return true,8000,"Event Credit + High End Item", HSVToColor(CurTime() * 50 % 360, 1, 1)
+        return true,10000,"Event Credit + Ascended Item", HSVToColor(CurTime() * 50 % 360, 1, 1)
+    elseif place < 6 then
+        return true, math.Round((51 - place) * 200), "Ascended Item", Color(255,255,0)
     elseif place < 11 then
-        return true,math.Round((51 - place) * 160),"High End Item",Color(255,0,0)
+        return true,math.Round((51 - place) * 200),"High End Item",Color(255,0,0)
     else
-        return false,math.Round((51 - place) * 160)
+        return false,math.Round((51 - place) * 200)
     end
 end
-
+ 
 local contract_cache = contracts_tbl
 net.Receive("moat.contracts",function()
 	if (net.ReadBool()) then

@@ -480,22 +480,28 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 
 	local function reward_ply(ply,place)
 		if place == 1 then
-			ply:m_GiveIC(8000)
+			ply:m_GiveIC(10000)
 			give_ec(ply,1)
-			ply:m_DropInventoryItem(5)
+			ply:m_DropInventoryItem(6)
 			net.Start("moat.contracts.chat")
-			net.WriteString("You got 1st place on the last contract and have received 8,000 IC and a random High End Item and an EVENT CREDIT!")
+			net.WriteString("You got 1st place on the last contract and have received 8,000 IC and a random Ascended Item and an EVENT CREDIT!")
+			net.Send(ply)
+		elseif place < 6 then
+			ply:m_GiveIC(math.Round((51 - place) * 200))
+			ply:m_DropInventoryItem(6)
+			net.Start("moat.contracts.chat")
+			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 200)) .. " IC and a Random Ascended Item!")
 			net.Send(ply)
 		elseif place < 11 then
-			ply:m_GiveIC(math.Round((51 - place) * 160))
+			ply:m_GiveIC(math.Round((51 - place) * 200))
 			ply:m_DropInventoryItem(5)
 			net.Start("moat.contracts.chat")
-			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 160)) .. " IC and a Random High End Item!")
+			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 200)) .. " IC and a Random High End Item!")
 			net.Send(ply)
 		elseif place < 51 then
-			ply:m_GiveIC(math.Round((51 - place) * 160))
+			ply:m_GiveIC(math.Round((51 - place) * 200))
 			net.Start("moat.contracts.chat")
-			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 160)) .. " IC!")
+			net.WriteString("You got place #" .. place .. " on the last contract and have received " .. string.Comma(math.Round((51 - place) * 200)) .. " IC!")
 			net.Send(ply)
 		end
 	end
