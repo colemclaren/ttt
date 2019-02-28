@@ -193,7 +193,7 @@ local function GetDroppableWeapons()
 
     return droppable_cache, droppable_cache_count
 end
-
+local seenhelp = {}
 function make_modelpanel(itemtbl,ITEM_BG)
     local m_WClass = {} 
     if (itemtbl.Image) then
@@ -243,6 +243,12 @@ function make_modelpanel(itemtbl,ITEM_BG)
     end
 
     m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
+        if itemtbl.LimitedShop then
+            if s:IsHovered() and (not seenhelp[itemtbl.Name]) and (itemtbl.ShopDesc) then
+                Derma_Message(itemtbl.ShopDesc,"Info about the " .. itemtbl.Name .. " Weapon","Got it!")
+                seenhelp[itemtbl.Name] = true
+            end
+        end
         if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
             s.Icon:SetAlpha(0)
             if (m_DPanelIcon.WModel:StartWith("https")) then
@@ -505,7 +511,11 @@ function m_PopulateShop(pnl)
             end
         end
 
-        ITEM_BUY.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+        ITEM_BUY.OnCursorEntered = function() 
+            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then 
+                LocalPlayer():EmitSound("moatsounds/pop2.wav") 
+            end 
+        end
 
         ITEM_BUY.DoClick = function()
             m_CreateBuyConfirmation(itemtbl, ITEM_BG.Qty)

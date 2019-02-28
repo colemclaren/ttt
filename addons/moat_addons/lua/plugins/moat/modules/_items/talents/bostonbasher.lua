@@ -3,14 +3,14 @@ TALENT.ID = 69
 TALENT.Name = "Boston Basher"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(255, 0, 0)
-TALENT.Description = "Damage is increased by %s_^, unless you miss. Which makes you hit yourself instead"
+TALENT.Description = "Damage is increased by %s_^, unless you miss. Which makes you hit yourself instead, you silly sod"
 TALENT.Tier = 1
 TALENT.Melee = false
 TALENT.NotUnique = false
 TALENT.LevelRequired = {min = 5, max = 10}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 15, max = 30} -- Percent damage is increased by
+TALENT.Modifications[1] = {min = 20, max = 40} -- Percent damage is increased by
 
 util.AddNetworkString "Talents.BostonBasher"
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)

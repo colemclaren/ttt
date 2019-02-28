@@ -399,9 +399,6 @@ local function makeplayer(pnl,lp,steamid,name,score,place)
             if s == 0 then r = "???" end
             draw.DrawText(r .. ".", "moat_ItemDesc", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
             local n = LocalPlayer():Nick()
-            if #n > 27 then
-                n = n:sub(0,27) .. "..."
-            end
             draw.DrawText(n, "moat_ItemDesc", 76, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
             draw.DrawText(s .. " " .. contracts_tbl.adj, "moat_ItemDesc", w/2, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP)
             if r == "???" then return end
@@ -425,9 +422,6 @@ local function makeplayer(pnl,lp,steamid,name,score,place)
             local r = place
             draw.DrawText(r .. ".", "moat_ItemDesc", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
             local n = name
-            if #n > 20 then
-                n = n:sub(0,23) .. "..."
-            end
             draw.DrawText(n, "moat_ItemDesc", 46, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT,TEXT_ALIGN_TOP)
             local s = score
             draw.DrawText(s .. " " .. contracts_tbl.adj, "moat_ItemDesc", w/2, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP)
@@ -485,7 +479,7 @@ function m_MakeContractsPanel()
         -- Description
         draw.SimpleTextOutlined("This is the daily contracts menu. Each day you compete for a high score for rewards", "moat_ItemDesc", w/2, 10, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
         draw.SimpleTextOutlined("Only people in the top 50 get rewards though!", "moat_ItemDesc", w/2, 30, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined("Contracts refresh every day, and require 8 players to be active.", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("Contracts refresh every day, and require 8 players on your server to be active.", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
 
         local datime = os.date("!*t", (os.time() - 21600))
 

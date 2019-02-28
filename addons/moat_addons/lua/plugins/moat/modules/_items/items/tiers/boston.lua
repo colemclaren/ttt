@@ -1,7 +1,7 @@
 
 ITEM.ID = 89
 
-ITEM.Name = "Boston"
+ITEM.Name = "Boston" -- Boston Bashing was too long PepeHands
 
 ITEM.Rarity = 8
 
@@ -10,7 +10,7 @@ ITEM.Collection = "Limited Collection"
 ITEM.MinStats = 6
 
 ITEM.MaxStats = 7
---s
+
 ITEM.Stats = {
 
 	Damage = { min = 10, max = 20 },
@@ -29,10 +29,10 @@ ITEM.Stats = {
 
 }
 
-ITEM.MinTalents = 1
-ITEM.MaxTalents = 1
-ITEM.Talents = {"Boston Basher"}
+ITEM.MinTalents = 2
+ITEM.MaxTalents = 2
+ITEM.Talents = {"Boston Basher", "random"}
 
-ITEM.Price = 44999
-ITEM.LimitedShop = 1530004205
-ITEM.ShopDesc = "Deal extra damage unless you miss!\nWhich makes you take it instead.\n(Purchasing will give you a random weapon)"
+ITEM.Price = 79999
+ITEM.LimitedShop = 1552069379
+ITEM.ShopDesc = "Deal extra damage unless you miss!\nWhich makes you hit yourself with it instead.\n(Purchasing will give you a random weapon with the Boston Basher talent)"
