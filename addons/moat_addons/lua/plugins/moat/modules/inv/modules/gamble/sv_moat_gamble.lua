@@ -1053,7 +1053,7 @@ function jackpot_()
                         am = math.floor(am * 0.99) 
                     elseif am > 10000 then
                         am = math.floor(am * 0.985)
-                    elseif am > 100000 then 
+                    elseif am > 99999 then 
                         am = math.floor(am * 0.95) 
                     end
                     if not versus_curgames[sid] then versus_curgames[sid] = {} end
