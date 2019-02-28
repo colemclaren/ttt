@@ -651,31 +651,31 @@ end
 
 
 local weapon_challenges = {
-    {"weapon_zm_shotgun", "an XM1014", "XM1014"},
-    {"weapon_zm_mac10", "a MAC10", "MAC10"},
-    {"weapon_ttt_p90", "an FN P90", "FN P90"},
-    {"weapon_ttt_aug", "an AUG", "AUG"},
-    {"weapon_ttt_ak47", "an AK47", "AK47"},
-    {"weapon_ttt_mr96", "a Revolver", "Revolver"},
-    {"weapon_zm_pistol", "a Pistol", "Pistol"},
-    {"weapon_ttt_sg550", "an SG550", "SG550"},
-    {"weapon_ttt_m16", "an M16", "M16"},
-    {"weapon_zm_sledge", "a H.U.G.E-249", "H.U.G.E-249"},
+    {"weapon_zm_shotgun", "XM1014", "XM1014"},
+    {"weapon_zm_mac10", "MAC10", "MAC10"},
+    {"weapon_ttt_p90", "FN P90", "FN P90"},
+    {"weapon_ttt_aug", "AUG", "AUG"},
+    {"weapon_ttt_ak47", "AK47", "AK47"},
+    {"weapon_ttt_mr96", "Revolver", "Revolver"},
+    {"weapon_zm_pistol", "Pistol", "Pistol"},
+    {"weapon_ttt_sg550", "SG550", "SG550"},
+    {"weapon_ttt_m16", "M16", "M16"},
+    {"weapon_zm_sledge", "H.U.G.E-249", "H.U.G.E-249"},
     {"weapon_ttt_dual_elites", "Dual Elites", "Dual Elites"},
-    {"weapon_zm_revolver", "a Deagle", "Deagle"},
-    {"weapon_ttt_ump45", "an UMP-45", "UMP-45"},
-    {"weapon_ttt_msbs", "a MSBS", "MSBS"},
-    {"weapon_ttt_shotgun", "a Shotgun", "Shotgun"},
-    {"weapon_xm8b", "an M8A1", "M8A1"},
-    {"weapon_zm_rifle", "a Rifle", "Rifle"},
-    {"weapon_ttt_galil", "a Galil", "Galil"},
-    {"weapon_ttt_sg552", "an SG552", "SG552"},
-    {"weapon_ttt_m590", "a Mossberg", "Mossberg"},
-    {"weapon_flakgun", "a Flak-28", "Flak-28"},
-    {"weapon_thompson", "a Tommy Gun", "Tommy Gun"},
-    {"weapon_ttt_famas", "a Famas", "Famas"},
-    {"weapon_ttt_glock", "a Glock", "Glock"},
-    {"weapon_ttt_mp5", "an MP5", "MP5"}
+    {"weapon_zm_revolver", "Deagle", "Deagle"},
+    {"weapon_ttt_ump45", "UMP-45", "UMP-45"},
+    {"weapon_ttt_msbs", "MSBS", "MSBS"},
+    {"weapon_ttt_shotgun", "Shotgun", "Shotgun"},
+    {"weapon_xm8b", "M8A1", "M8A1"},
+    {"weapon_zm_rifle", "Rifle", "Rifle"},
+    {"weapon_ttt_galil", "Galil", "Galil"},
+    {"weapon_ttt_sg552", "SG552", "SG552"},
+    {"weapon_ttt_m590", "Mossberg", "Mossberg"},
+    {"weapon_flakgun", "Flak-28", "Flak-28"},
+    {"weapon_thompson", "Tommy Gun", "Tommy Gun"},
+    {"weapon_ttt_famas", "Famas", "Famas"},
+    {"weapon_ttt_glock", "Glock", "Glock"},
+    {"weapon_ttt_mp5", "MP5", "MP5"}
 }
 
 local chal_prefix = {
@@ -718,7 +718,7 @@ local chal_suffix = {
 
 for k,v in pairs(weapon_challenges) do
 	addcontract("Global " .. v[3] .. " Killer",{
-	desc = "Get as many kills as you can with " .. v[2] .. ", rightfully.",
+	desc = 'Get as many kills as you can with the "' .. v[2] .. '", rightfully.',
 	adj = "Kills",
 	short = v[3],
 	runfunc = function()
