@@ -34,5 +34,5 @@ ITEM.MaxTalents = 2
 ITEM.Talents = {"Boston Basher", "random"}
 
 ITEM.Price = 79999
-ITEM.LimitedShop = 1552069379
+ITEM.LimitedShop = 1551725434
 ITEM.ShopDesc = "Deal extra damage unless you miss!\nWhich makes you hit yourself with it instead.\n(Purchasing will give you a random weapon with the Boston Basher talent)"
