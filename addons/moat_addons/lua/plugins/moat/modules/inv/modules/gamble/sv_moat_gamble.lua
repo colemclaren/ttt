@@ -1049,8 +1049,11 @@ function jackpot_()
                     net.WriteString(winner)
                     net.Broadcast()
                     local am = d.money * 2
-                    if am > 1000 then am = math.floor(am * 0.985) end
-                    if am > 100000 then am = math.floor(am * 0.95) end
+                    if am > 1000 then 
+                        am = math.floor(am * 0.985) 
+                    elseif am > 100000 then 
+                        am = math.floor(am * 0.95) 
+                    end
                     if not versus_curgames[sid] then versus_curgames[sid] = {} end
                     versus_curgames[sid].rolled = true
                     timer.Simple(versus_wait,function()
