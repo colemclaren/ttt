@@ -89,9 +89,7 @@ net.Receive("lava_Begin",function()
     hook.Add("SetupSkyboxFog", "tfil.SkyboxFog", RenderFog)
 
     hook.Add("PostDraw2DSkyBox", "tfil.FogSkyUnity", function()
-
         render.Clear(255 * fDensity, 128 * fDensity, 0, 0, false, true)
-
     end)
 
     hook.Add("RenderScreenspaceEffects","tfil.LavaColorModify",function()
