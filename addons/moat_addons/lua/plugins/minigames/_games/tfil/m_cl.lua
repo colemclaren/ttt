@@ -124,7 +124,6 @@ net.Receive("lava_Begin",function()
         end
     end)
     hook.Add("ShouldCollide","TFIL",function(a,b)
-
         if (a:GetClass() == "prop_physics") then
             if (a:GetModel() == "models/props_phx/misc/egg.mdl") then
                 return false
