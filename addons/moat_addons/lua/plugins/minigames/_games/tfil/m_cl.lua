@@ -11,6 +11,8 @@ end
 
 -- end of sh
 
+LAVA_EX = false
+
 local hook = hook
 local cam = cam
 local draw = draw
@@ -172,6 +174,7 @@ end
 
 
 net.Receive("LAVA_End",function()
+    LAVA_EX = false
     hook.Remove("SetupWorldFog", "tfil.WorldFog")
     hook.Remove("SetupSkyboxFog", "tfil.SkyboxFog")
     hook.Remove("PostDraw2DSkyBox", "tfil.FogSkyUnity")
@@ -376,6 +379,7 @@ surface.CreateFont("moat_GunGameLarge", {
 
 net.Receive("lava_Prep",function()
     local explosive = net.ReadBool()
+    LAVA_EX = explosive
     cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
     local desc = {

@@ -424,7 +424,9 @@ function SWEP:DrawHUD()
 	local Size = ScrH() / 12
 
 	for i = 1, self:GetEggs() do
-		cdn.DrawImageRotated("https://cdn.moat.gg/f/zR6uvYHt9q4NOpquQKZIupjuVH2m.png", ScrW() - Size * (0.3 * i) - Size, ScrH() - Size * 1.5, Size, Size, nil, i == self:GetEggs() and (CurTime() * 5):sin() * 15 or -15, true)
+		if not LAVA_EX then
+			cdn.DrawImageRotated("https://cdn.moat.gg/f/zR6uvYHt9q4NOpquQKZIupjuVH2m.png", ScrW() - Size * (0.3 * i) - Size, ScrH() - Size * 1.5, Size, Size, nil, i == self:GetEggs() and (CurTime() * 5):sin() * 15 or -15, true)
+		end
 	end
 
 	CrosshairPos[1], CrosshairPos[2] = tosc.x, tosc.y
