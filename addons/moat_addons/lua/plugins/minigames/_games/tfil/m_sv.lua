@@ -411,6 +411,10 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
         end
         return true
     end)
+    MG_LAVA.HookAdd("PlayerCanSeePlayersChat",function(txt, team, listener, talker)
+        if talker.ChatMuted then return false end
+        return true
+    end)
     if MG_LAVA.explosive then
         MG_LAVA.HookAdd("Lava.PlayerEggDispatched",function(Player, Weapon, Egg)
             Egg:Ignite( 500, 0 )
