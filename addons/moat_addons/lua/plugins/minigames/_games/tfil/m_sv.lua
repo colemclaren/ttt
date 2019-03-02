@@ -287,14 +287,16 @@ function MG_LAVA.PlayerTick(Player)
         if not Player:OnGround() and Player.CanSkippy then
             Player.CanSkippy = false
             Player.GroundSkippy = true
-            Player:SetGroundEntity( Entity( 0 ) )
-            local plyv = Player:GetAimVector()
-            plyv.z = 1.5
-            plyv = plyv * ( Player:GetVelocity():Length()*0.75 )
-            timer.Simple(0,function()
-                Player:SetPos(Player:GetPos() + Vector(0, 0, 5))
-                Player:SetVelocity( plyv )
-            end)
+            if (not MG_LAVA.explosive) then
+                Player:SetGroundEntity( Entity( 0 ) )
+                local plyv = Player:GetAimVector()
+                plyv.z = 1.5
+                plyv = plyv * ( Player:GetVelocity():Length()*0.75 )
+                timer.Simple(0,function()
+                    Player:SetPos(Player:GetPos() + Vector(0, 0, 5))
+                    Player:SetVelocity( plyv )
+                end)
+            end
         end
         if Player:WaterLevel() > 0 then Player:Kill() end
 		Player:Ignite(0.1, 0)
@@ -328,9 +330,26 @@ function MG_LAVA.TakeDamage(ply, dmginfo)
             dmginfo:ScaleDamage(0.25)
         end
     end
+    if MG_LAVA.explosive then
+        if ply:GetModel() == "models/props_phx/misc/egg.mdl" then
+            if dmginfo:GetInflictor():IsValid() and dmginfo:GetInflictor():GetClass() == "entityflame" then
+                return true
+            end
+        end
+
+        if ply:IsPlayer() and (dmginfo:IsFallDamage() or dmginfo:IsExplosionDamage()) then
+            return true
+        end
+    end
 end
 
 function MG_LAVA.PlayerShouldTakeDamage(ply,ent)
+    if MG_LAVA.explosive then
+        if ent:IsValid() and ent:GetClass() == "env_explosion" then
+            ply:SetVelocity( ( ply:GetPos() - ent:GetPos() ) * 10 + Vector( 0, 0, 200 ))
+            return false
+        end
+    end
     if ent:GetClass() == "prop_physics" then return false end
     if ply:IsPlayer() and ent:IsPlayer() then return false end -- ?
 end
@@ -345,6 +364,9 @@ end
 
 function MG_LAVA.Collide(a,b)
     if (a:IsPlayer() and b:IsPlayer()) and (a:GetMoveType() == MOVETYPE_LADDER or b:GetMoveType() == MOVETYPE_LADDER) then
+        return false
+    end
+    if (a.m_EggParent == b) or (b.m_EggParent == a) then
         return false
     end
 end
@@ -383,6 +405,39 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
     MG_LAVA.HookAdd("PlayerTick",MG_LAVA.PlayerTick)
     MG_LAVA.HookAdd("PostPlayerDeath",MG_LAVA.PostPlayerDeath)
     MG_LAVA.HookAdd("ShouldCollide",MG_LAVA.Collide)
+    MG_LAVA.HookAdd("PlayerCanHearPlayersVoice",function(listener, talker)
+        if talker.VoiceMuted then 
+            return false
+        end
+        return true
+    end)
+    if MG_LAVA.explosive then
+        MG_LAVA.HookAdd("Lava.PlayerEggDispatched",function(Player, Weapon, Egg)
+            Egg:Ignite( 500, 0 )
+		    Weapon:SetEggs( Weapon:GetEggs() + 1 )
+        end)
+
+        MG_LAVA.HookAdd("PropBreak",function(Player, Entity)
+            if SERVER then
+                if Entity:GetModel() == "models/props_phx/misc/egg.mdl" then
+                    -- print("Break owner: ", Player)
+                    if IsValid(Player) then
+                        if Player:IsPlayer() then
+                            Player:SetVelocity( ( Player:GetPos() - Entity:GetPos() ) * 100 + Vector( 0, 0, 200 ))
+                        end
+                    end
+                    local Explosion = ents.Create("env_explosion")
+                    Explosion:SetPos( Entity:GetPos() )
+                    Explosion:SetOwner( Player )
+                    Explosion:SetKeyValue( "iMagnitude", 200 )
+                    Explosion:SetKeyValue( "iRadiusOverride", 200 )
+                    Explosion:Fire( "Explode", 0, 0 )
+                    Explosion:EmitSound( "weapon_AWP.Single", 400, 400 )
+                end
+            end
+        end)
+
+    end
 
     MG_LAVA.SpawnPoints = {}
 
@@ -461,7 +516,10 @@ concommand.Add("moat_start_lava", function(ply, cmd, args)
 
 	tt.ExtendPrep()
 
+    MG_LAVA.explosive = tobool(args[1] or false)
+
     net.Start("lava_Prep")
+    net.WriteBool(MG_LAVA.explosive)
     net.Broadcast()
 
     MG_LAVA.PrepRound(max_kills)

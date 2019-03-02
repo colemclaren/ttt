@@ -302,6 +302,12 @@ MSE.Commands.Register "The Floor is Lava"
 	:SetCommand "moat_start_lava"
 	:SetDescription "The floor is lava! Be the last alive to win!!"
 	:SetMinPlayers "8"
+	:CommandArguments({
+		function(ply)
+			local a = {"false", "true"}
+			return "Explosive eggs", false, a
+		end
+	})
 
 MSE.Commands.Register "TNT-Tag"
 	:SetCommand "moat_start_tnt"

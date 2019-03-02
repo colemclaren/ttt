@@ -182,6 +182,7 @@ function SWEP:SecondaryAttack()
 		egg:GetPhysicsObject():AddAngleVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
 		egg:GetPhysicsObject():AddVelocity(self.Owner:GetAimVector() * (m_Vel or 1024))
 		egg.m_Velocity = egg:GetVelocity()
+		egg:SetCustomCollisionCheck(true)
 
 		if m_Vel == false then
 			egg:Remove()

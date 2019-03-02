@@ -33,6 +33,28 @@ local c_DesiredColor = CurrentColor
 
 local kills = {}
 
+local bTab = { 
+    [ "$pp_colour_addr" ] = 0.02, 
+    [ "$pp_colour_addg" ] = 0.02, 
+    [ "$pp_colour_addb" ] = 0, 
+    [ "$pp_colour_brightness" ] = 0, 
+    [ "$pp_colour_contrast" ] = 1, 
+    [ "$pp_colour_colour" ] = 2, 
+    [ "$pp_colour_mulr" ] = 0, 
+    [ "$pp_colour_mulg" ] = 0.02, 
+    [ "$pp_colour_mulb" ] = 0 
+}
+local fDensity = 0
+local RenderFog = function(f)
+	fDensity = fDensity:lerp( 0.9, FrameTime()/3 )
+	render.FogStart(5)
+	render.FogColor(255, 128, 0)
+	render.FogMode(MATERIAL_FOG_LINEAR)
+	render.FogMaxDensity(fDensity)
+	render.FogEnd( (5000 - (1500*fDensity) )* ( f or 1 ) )
+	return true
+end
+
 local stats_spawn = GetConVar("moat_showstats_spawn")
 local stats_spawn_old = false
 net.Receive("lava_Begin",function()
@@ -61,7 +83,63 @@ net.Receive("lava_Begin",function()
     end)
 
     kills = {}
+
+    hook.Add("SetupWorldFog", "tfil.WorldFog", RenderFog)
+
+    hook.Add("SetupSkyboxFog", "tfil.SkyboxFog", RenderFog)
+
+    hook.Add("PostDraw2DSkyBox", "tfil.FogSkyUnity", function()
+
+        render.Clear(255 * fDensity, 128 * fDensity, 0, 0, false, true)
+
+    end)
+
+    hook.Add("RenderScreenspaceEffects","tfil.LavaColorModify",function()
+        DrawColorModify( bTab )
+    end)
+
+    hook.Add("Lava.PostRound", "tfil.ResetFoglerp", function()
+        fDensity = 0
+    end)
+
+    hook.Add("Lava.PlayerEggDispatched", "TFIL", function(Player, Weapon, Egg)
+        Egg:Ignite( 500, 0 )
+        Weapon:SetEggs( Weapon:GetEggs() + 1 )
+    end)
+
+    hook.Add("EntityTakeDamage", "TFIL", function(Entity, Damage)
+        if Entity:GetModel() == "models/props_phx/misc/egg.mdl" then
+            if Damage:GetInflictor():IsValid() and Damage:GetInflictor():GetClass() == "entityflame" then
+                return true
+            end
+        end
+
+        if Entity:IsPlayer() and (Damage:IsFallDamage() or Damage:IsExplosionDamage()) then
+            return true
+        end
+    end)
+
+    hook.Add("PlayerShouldTakeDamage", "TFIL", function(Player, Attacker)
+        if Attacker:IsValid() and Attacker:GetClass() == "env_explosion" then
+            Player:SetVelocity( ( Player:GetPos() - Attacker:GetPos() ) * 10 + Vector( 0, 0, 200 ))
+            return false
+        end
+    end)
+    hook.Add("ShouldCollide","TFIL",function(a,b)
+
+        if (a:GetClass() == "prop_physics") then
+            if (a:GetModel() == "models/props_phx/misc/egg.mdl") then
+                return false
+            end
+        elseif (b:GetClass() == "prop_physics") then
+            if (b:GetModel() == "models/props_phx/misc/egg.mdl") then
+                return false
+            end
+        end
+    end)
 end)
+
+
 
 local blur = Material("pp/blurscreen")
 
@@ -97,6 +175,15 @@ end
 
 
 net.Receive("LAVA_End",function()
+    hook.Remove("SetupWorldFog", "tfil.WorldFog")
+    hook.Remove("SetupSkyboxFog", "tfil.SkyboxFog")
+    hook.Remove("PostDraw2DSkyBox", "tfil.FogSkyUnity")
+    hook.Remove("RenderScreenspaceEffects","tfil.LavaColorModify")
+    hook.Remove("Lava.PostRound", "tfil.ResetFoglerp")
+    hook.Remove("Lava.PlayerEggDispatched", "TFIL")
+    hook.Remove("EntityTakeDamage", "TFIL")
+    hook.Remove("PlayerShouldTakeDamage", "TFIL")
+
     local players = net.ReadTable()
     MOAT_MINIGAME_OCCURING = false
     cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
@@ -291,6 +378,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("lava_Prep",function()
+    local explosive = net.ReadBool()
     cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
 
     local desc = {
@@ -302,6 +390,19 @@ net.Receive("lava_Prep",function()
         "Right click to throw eggs to blind people",
         "Headshotting someone with an egg will give you another egg back"
     }
+    if explosive then
+        desc = {
+            "<EXPLOSIVE EGGS>",
+            "Right click to throw infinite explosive eggs!",
+            "Falldamage is turned off!",
+            "",
+            "Try to be the last one alive by climbing away from the lava!",
+            "Falling into the lava will make you burn until you die!",
+            "Only players that stay alive the longest get the best items!",
+            "",
+            "Left click to shove people"
+        }
+    end
 
     hook.Add("HUDPaint", "MG_LAVA_PREPPAINT", function()
         if (GetRoundState() ~= ROUND_PREP) then
@@ -326,6 +427,7 @@ net.Receive("lava_Prep",function()
         local oi = 1
         for i = 1, #desc do
             local c = Color(255,255,255,255)
+            if explosive and i < 4 then c = Color(255,0,0) end
             if desc[i]:match("items") then c = Color(255,255,0,255) end
             draw.SimpleTextOutlined(desc[i], "moat_GunGameMedium", x, y + (i * 23), c, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))
             oi = i + 1
