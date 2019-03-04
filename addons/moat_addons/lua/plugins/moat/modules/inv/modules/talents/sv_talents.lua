@@ -151,6 +151,10 @@ hook.Add("EntityTakeDamage", "moat_ApplyDamageMods", function(ent, dmginfo)
 	if (ent.Fortified) then
 		dmginfo:SetDamage(dmginfo:GetDamage() * ent.Fortified)
 	end
+	
+	if (ent.Weaken) then
+		dmginfo:SetDamage(dmginfo:GetDamage() * ent.Weaken)
+	end
 end)
 
 function m_ApplyTalentsToWeaponDuringSwitch(ply, wep, talent_tbl, isto)
