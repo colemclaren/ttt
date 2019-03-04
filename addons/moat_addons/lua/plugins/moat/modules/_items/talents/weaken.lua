@@ -3,8 +3,8 @@ TALENT.ID = 28
 TALENT.Name = 'Weaken'
 TALENT.NameColor = Color(124, 124, 124)
 TALENT.Description = 'Each hit has a %s_^ chance to make your target take %s_^ more damage for %s^ seconds'
-TALENT.Tier = 2
-TALENT.LevelRequired = {min = 15, max = 20}
+TALENT.Tier = 3
+TALENT.LevelRequired = {min = 25, max = 35}
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 50, max = 80} -- Chance to trigger
