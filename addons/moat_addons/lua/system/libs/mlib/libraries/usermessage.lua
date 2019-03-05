@@ -118,10 +118,11 @@ end
 
 usermessage = {}
 local hooks = {}
-
-net.Receive("umsg.SendLua", function()
-    RunString(net.ReadString())
-end)
+if CLIENT then
+    net.Receive("umsg.SendLua", function()
+        RunString(net.ReadString())
+    end)
+end
 
 net.Receive("umsg.UnPooled", function(len, ...)
     usermessage.IncomingMessage(net.ReadString())
