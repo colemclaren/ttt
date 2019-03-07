@@ -886,6 +886,20 @@ function jackpot_()
     versus_curgames = {}
     versus_knowngames = {}
 
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_versuslogs` ( ID int NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `other` varchar(255) NOT NULL, `winner` varchar(255) NOT NULL, `amount` INT NOT NULL, `time` INT NOT NULL, PRIMARY KEY (ID) ) ")
+    function dq:onError(err)
+        ServerLog("[mInventory] Error with creating table: " .. err)
+    end
+    dq:start()
+
+    function versus_log(steamid,other,winner, amount)
+        local q = db:query("INSERT INTO moat_versuslogs (steamid,other,winner,amount,time) VALUES ('" .. db:escape(steamid) .. "', '" .. db:escape(other) .. "', '" .. db:escape(winner) .. "', '" .. amount .. "', UNIX_TIMESTAMP() );")
+        function q:onError(s)
+            print(s)
+        end
+        q:start()
+    end
+
     function versus_creategame(id,am,fun)
         local q = db:query("INSERT INTO moat_versus" .. dev_suffix .. " (steamid, money) VALUES ('" .. id .. "','" .. am .. "');")
         function q:onSuccess(d)
@@ -1068,6 +1082,8 @@ function jackpot_()
 
 						local q = db:query("UPDATE moat_versus" .. dev_suffix .. " SET rewarded = 1 WHERE steamid = '" .. db:escape(sid) .. "';")
                         q:start()
+                        print("Versus Log:",sid,plyz,winner,d.money)
+                        versus_log(sid,plyz,winner,d.money)
 
                         local v = player.GetBySteamID64(winner)
                         if (IsValid(v)) then
@@ -1775,6 +1791,7 @@ local function chat_()
         ServerLog("[mInventory] Error with creating table: " .. err)
     end
     dq:start()
+
 
     function gglobalchat(ply,msg)
         if (ply.gChat or 0) > CurTime() then return end
