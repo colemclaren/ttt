@@ -1038,7 +1038,7 @@ function jackpot_()
                     if not ply:m_HasIC(d.money) then
                         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join versus with not enough money (" .. d.money .. "). Exploit"
                         discord.Send("Anti Cheat", msg)
-                        RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:j)")
+                        -- RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:j)")
                         return
                     end
                     removeIC(ply,d.money)
@@ -1183,7 +1183,7 @@ function jackpot_()
                     q:start()
                     local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to create versus with not enough money"
                     discord.Send("Anti Cheat", msg)
-                    RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:c)")
+                    -- RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (v:c)")
                     return
                 end
 
@@ -1504,7 +1504,7 @@ function jackpot_()
                 if not ply:m_HasIC(am) then
                     local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join jackpot with not enough money (" .. am .. "). Exploit"
                     discord.Send("Anti Cheat", msg)
-                    RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (j:j)")
+                    -- RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (j:j)")
                     return
                 end
                 jp.joingame(ply,am) 
