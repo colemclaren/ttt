@@ -894,9 +894,6 @@ function jackpot_()
 
     function versus_log(steamid,other,winner, amount)
         local q = db:query("INSERT INTO moat_versuslogs (steamid,other,winner,amount,time) VALUES ('" .. db:escape(steamid) .. "', '" .. db:escape(other) .. "', '" .. db:escape(winner) .. "', '" .. amount .. "', UNIX_TIMESTAMP() );")
-        function q:onError(s)
-            print(s)
-        end
         q:start()
     end
 
