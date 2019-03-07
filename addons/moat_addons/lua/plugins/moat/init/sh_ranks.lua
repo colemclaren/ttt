@@ -52,3 +52,4 @@ COMMUNITY_LEADS["76561198044542936"] 	= true
 /* Head Admins */
 -- HEAD_ADMINS["76561198014504949"]		= true	-- zero
 HEAD_ADMINS["76561198245961734"]        = true  -- leo
+HEAD_ADMINS["76561198127043333"]        = true  -- jam
