@@ -22,6 +22,20 @@ MOAT_GAMBLE.TitlePoly = {
 	{x = 170, y = 45},
 	{x = 1, y = 45}
 }
+local blur = Material("pp/blurscreen")
+local function DrawBlur(panel, amount)
+    local x, y = panel:LocalToScreen(0, 0)
+    local scrW, scrH = ScrW(), ScrH()
+    surface.SetDrawColor(255, 255, 255)
+    surface.SetMaterial(blur)
+
+    for i = 1, 3 do
+        blur:SetFloat("$blur", (i / 3) * (amount or 6))
+        blur:Recompute()
+        render.UpdateScreenEffectTexture()
+        surface.DrawTexturedRect(x * -1, y * -1, scrW, scrH)
+    end
+end
 
 function m_PopulateGambleMenu(pnl)
 end
@@ -4437,8 +4451,8 @@ function m_DrawVersusPanel()
     	else
     		surface.SetDrawColor(86, 86, 86)
     	end
-		surface.DrawOutlinedRect(160,5,180,31)
-		draw.SimpleText("GAME AMOUNT:", "moat_GambleTitle", 10, 20, Color(255,255,255),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+		surface.DrawOutlinedRect(128,5,100,31)
+		draw.SimpleText("VS AMOUNT:", "moat_GambleTitle", 10, 20, Color(255,255,255),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 		surface.SetDrawColor(86, 86, 86)
 		surface.DrawLine(0,h-20,w,h-20)
 		draw.DrawText("Versus is cross-server! There are 26 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
@@ -4706,7 +4720,7 @@ function m_DrawVersusPanel()
 	versus_buildlist()
 
 	local make_game = vgui.Create("DButton", MOAT_GAMBLE_VS)
-	make_game:SetPos(348,5)
+	make_game:SetPos(233,5)
 	make_game:SetSize(148,31)
 	make_game:SetText("")
 	function make_game:Paint(w,h)
@@ -4724,10 +4738,170 @@ function m_DrawVersusPanel()
 		surface.DrawOutlinedRect(0,0,w,h)
 		draw.SimpleText("MAKE GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 	end
+
+	local history = vgui.Create("DButton", MOAT_GAMBLE_VS)
+	history:SetPos(386,5)
+	history:SetSize(113,31)
+	history:SetText("")
+	function history:Paint(w,h)
+		local a = 150
+		if self:IsHovered() then a = 50 end
+		local c = Color(116,185,255,a)
+		draw.RoundedBox(0,0,0,w,h,c)
+		surface.SetDrawColor(116,185,255,a)
+		surface.DrawOutlinedRect(0,0,w,h)
+		draw.SimpleText("HISTORY", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+	end
+
+	function history.DoClick() 
+		if (historycool or 0) > CurTime() then return end
+		historycool = CurTime() + 1
+		MOAT_INV_BG:Remove()
+		net.Start("versus.logs")
+		net.WriteInt(0,32)
+		net.SendToServer()
+	end
+
+	versus_logs_games = {}
+
+	function make_versus_history(games,last)
+		if not IsValid(versus_logs_actual) then
+			versus_logs = vgui.Create("DFrame")
+			versus_logs:SetSize(495, 550)
+			versus_logs:SetTitle("")
+			versus_logs:Center()
+			versus_logs:MakePopup()
+			versus_logs.Title = LocalPlayer():Nick() .. "'s versus history"
+			versus_logs.Paint = function(s, w, h)
+				DrawBlur(s, 5)
+
+				draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 100))
+				draw.RoundedBox(0, 1, 1, w-2, h-2, Color(0, 0, 0, 100))
+
+				surface.SetDrawColor(150, 150, 150, 50)
+				surface.DrawRect(0, 0, w, 21)
+
+				draw.SimpleText(s.Title, "GModNotify", 4, 1, Color(255, 255, 255))
+			end
+
+			versus_logs_actual = vgui.Create("DScrollPanel",versus_logs)
+			versus_logs_actual:Dock(FILL)
+			versus_logs_actual:GetVBar():SetWide(4)
+		end
+		versus_logs_actual:Clear()
+		versus_id = nil
+		for k,v in SortedPairs(games, true) do
+			if not versus_id then versus_id = k end
+			if k < versus_id then versus_id = k end
+			local a = vgui.Create("DPanel",versus_logs_actual)
+			a:SetSize(0,50)
+			a:DockMargin(0,0,0,5)
+			a:Dock(TOP)
+			
+			local av = vgui.Create("AvatarImage",a)
+			av:DockMargin(2,3,40,3)
+			av:SetSize(46,40)
+			av:Dock(LEFT)
+			av:SetSteamID(v.steamid,64)
+			steamworks.RequestPlayerInfo(v.steamid,function(name)
+				av:SetTooltip(name)
+			end)
+			local butt = vgui.Create("DButton",av)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(v.steamid)
+			end
+
+			local op = vgui.Create("AvatarImage",a)
+			op:DockMargin(0,3,5,3)
+			op:SetSize(46,40)
+			op:Dock(LEFT)
+			op:SetSteamID(v.other,64)
+			steamworks.RequestPlayerInfo(v.other,function(name)
+				op:SetTooltip(name)
+			end)
+			local butt = vgui.Create("DButton",op)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(v.other)
+			end
+
+			winner = vgui.Create("AvatarImage",a)
+			winner:DockMargin(0,3,20,3)
+			winner:SetSize(46,40)
+			winner:Dock(RIGHT)
+			winner:SetSteamID(v.winner,64)
+			steamworks.RequestPlayerInfo(v.winner,function(name) -- cached internally
+				winner:SetTooltip(name)
+			end)
+			local butt = vgui.Create("DButton",winner)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(v.winner)
+			end
+
+			function a:Paint(w,h)
+				draw.RoundedBox(0,0,0,w,h,Color(18,18,18))
+				draw.SimpleText(string.Comma(round(v.amount)) .. " IC", "moat_VersusTitle", 145,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+				local c = Color(255,255,255)
+				draw.SimpleText(string.NiceTime(os.time() - v.time) .. " ago", "moat_ItemDesc", 405, 15, c, TEXT_ALIGN_RIGHT,TEXT_ALIGN_CENTER)
+				draw.SimpleText("WINNER:", "moat_VersusWinner", 325, h - (h/3), c,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+				draw.SimpleText("VS", "moat_GambleTitle", 68, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+				surface.SetDrawColor(86,86,86, 255)
+				surface.DrawOutlinedRect(0,0,w,h)
+			end
+		end
+		if last then return end
+		local a = vgui.Create("DButton",versus_logs_actual)
+		a:SetSize(0,50)
+		a:DockMargin(0,0,0,5)
+		a:Dock(TOP)
+		a:SetText("")
+		function a:Paint(w,h)
+			local a = 255
+			if self:IsHovered() then a = 175 end
+			local c = Color(10,200,10,a)
+			if (historycool or 0) > CurTime() then
+				c = Color(86,86,86)
+				a = 10
+			end
+			draw.RoundedBox(0,0,0,w,h,c)
+			surface.SetDrawColor(0,255,0,a)
+			surface.DrawOutlinedRect(0,0,w,h)
+			draw.SimpleText("LOAD MORE GAMES", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+		end
+		function a.DoClick()
+			if (historycool or 0) > CurTime() then return end
+			historycool = CurTime() + 1
+			net.Start("versus.logs")
+			net.WriteInt(versus_id,32)
+			net.SendToServer()
+		end
+	end
+
+	net.Receive("versus.logs",function()
+		local last = false
+		if net.ReadBool() then
+			versus_logs_games = {}
+			for k,v in pairs(net.ReadTable()) do
+				versus_logs_games[v.ID] = v
+			end
+		else
+			local t = net.ReadTable() 
+			if #t < 1 then last = true end
+			for k,v in pairs(t) do
+				versus_logs_games[v.ID] = v
+			end
+		end
+		make_versus_history(versus_logs_games,last)
+	end)
 	
 	local MOAT_DICE_BET = vgui.Create("DTextEntry", MOAT_GAMBLE_VS)
-	MOAT_DICE_BET:SetPos(160, 5)
-	MOAT_DICE_BET:SetSize(180, 30)
+	MOAT_DICE_BET:SetPos(130, 5)
+	MOAT_DICE_BET:SetSize(95, 30)
 	MOAT_DICE_BET:SetFont("moat_GambleTitle")
     MOAT_DICE_BET:SetTextColor(Color(255, 255, 255))
     MOAT_DICE_BET:SetCursorColor(Color(255, 255, 255))
@@ -4791,6 +4965,7 @@ function m_DrawVersusPanel()
         end
     end
 	function MOAT_DICE_BET:CheckNumeric(strValue)
+		if #(self:GetText()) + 1 > 9 then return true end
 		if (not string.find("1234567890.", strValue, 1, true)) then
 			return true
 		end
@@ -4804,7 +4979,6 @@ function m_DrawVersusPanel()
 		num = math.max(math.Round(num, 2), 1)
 
 		MOAT_GAMBLE.VersusAmount = num
-		print(num)
 	end
 	MOAT_DICE_BET.OnLoseFocus = function(s)
 		s:OnEnter()

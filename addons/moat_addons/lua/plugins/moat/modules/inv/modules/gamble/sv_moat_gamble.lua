@@ -872,6 +872,15 @@ util.AddNetworkString("jackpot.info")
 util.AddNetworkString("jackpot.join")
 util.AddNetworkString("jackpot.win")
 
+util.AddNetworkString("versus.logs")
+
+net.Receive("versus.logs",function(l,ply)
+    if (ply.vlogs_cool or 0) > CurTime() then return end
+    ply.vlogs_cool = CurTime() + 1
+    local id = net.ReadInt(32)
+    versus_getlogs(ply,id)
+end)
+
 local dev_suffix = ""
 
 local jpl = false
@@ -895,6 +904,28 @@ function jackpot_()
     function versus_log(steamid,other,winner, amount)
         local q = db:query("INSERT INTO moat_versuslogs (steamid,other,winner,amount,time) VALUES ('" .. db:escape(steamid) .. "', '" .. db:escape(other) .. "', '" .. db:escape(winner) .. "', '" .. amount .. "', UNIX_TIMESTAMP() );")
         q:start()
+    end
+
+    function versus_getlogs(ply,id)
+        if not id then id = 0 end
+        local limit = 50
+        if id == 0 then
+            id = ""
+        else
+            id = "AND (ID < " .. id .. ")"
+        end
+        local q = db:query("SELECT * FROM moat_versuslogs WHERE (steamid = '" .. ply:SteamID64() .. "' OR other = '" .. ply:SteamID64() .. "') " .. id .. " ORDER BY time DESC LIMIT " .. limit .. ";")
+        function q:onSuccess(d)
+            if not IsValid(ply) then return end
+            net.Start("versus.logs")
+            net.WriteBool(id == 0)
+            net.WriteTable(d)
+            net.Send(ply)
+        end
+        function q:onError(s)
+        end
+        q:start()
+
     end
 
     function versus_creategame(id,am,fun)

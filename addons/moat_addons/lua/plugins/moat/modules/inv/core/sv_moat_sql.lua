@@ -293,7 +293,7 @@ function m_saveTrade(steamid, mynick, theirsid, theirnick, tbl)
     mynick = mynick:lower()
     theirnick = theirnick:lower()
 	-- secret santa's steamid64 to stop people from using trade logs to search the account's trade history and spoil the gifts
-	if (steamid == "76561198069382821" or theirsid == "76561198069382821") then return end
+	-- if (steamid == "76561198069382821" or theirsid == "76561198069382821") then return end
     local trade = MINVENTORY_MYSQL:escape(util.TableToJSON(tbl), true)
 
     sq = MINVENTORY_MYSQL:query("INSERT INTO moat_trades ( time, my_steamid, my_nick, their_steamid, their_nick, trade_tbl ) VALUES ( UNIX_TIMESTAMP(), '" .. steamid .. "', '" .. MINVENTORY_MYSQL:escape(mynick) .. "', '" .. theirsid .. "', '" .. MINVENTORY_MYSQL:escape(theirnick) .. "', '" .. trade .. "' )")
