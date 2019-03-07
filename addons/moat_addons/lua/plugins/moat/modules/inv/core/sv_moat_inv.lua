@@ -1690,11 +1690,10 @@ local function initiateItemMessage(ply, str, public)
     local loadout = str:lower():match("%{loadout%}")
     local s = ""
     if loadout then
-        print("lll")
         for k,v in pairs(chatlinks) do
             local t = getItemFromLink("{" .. v .. "}",ply)
             if isstring(t) then continue end
-            s = s .. "{" .. v .. "} "
+            s = s .. "{" .. v .. "} | "
         end
     end
 
