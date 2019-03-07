@@ -4655,7 +4655,8 @@ function m_DrawVersusPanel()
 
 		for k,v in pairs(table.Reverse(versus_oldgames)) do
 			if k > 15 then 
-				return 
+				versus_oldgames[k] = nil
+				continue
 			end
 			if (not (v[1] and v[2] and v[3] and v[4] and v[5])) then continue end
 
@@ -4786,7 +4787,7 @@ function m_DrawVersusPanel()
 
 			versus_logs_actual = vgui.Create("DScrollPanel",versus_logs)
 			versus_logs_actual:Dock(FILL)
-			versus_logs_actual:GetVBar():SetWide(4)
+			versus_logs_actual:GetVBar():SetWide(10)
 		end
 		versus_logs_actual:Clear()
 		versus_id = nil
