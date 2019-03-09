@@ -914,7 +914,7 @@ function jackpot_()
         else
             id = "AND (ID < " .. id .. ")"
         end
-        local q = db:query("SELECT * FROM moat_versuslogs WHERE (steamid = '" .. ply:SteamID64() .. "' OR other = '" .. ply:SteamID64() .. "') " .. id .. " ORDER BY time DESC LIMIT " .. limit .. ";")
+        local q = db:query("SELECT * FROM moat_versuslogs WHERE (steamid = '" .. ply:SteamID64() .. "' OR other = '" .. ply:SteamID64() .. "') AND (winner = '" .. ply:SteamID64() .. "') " .. id .. " ORDER BY time DESC LIMIT " .. limit .. ";")
         function q:onSuccess(d)
             if not IsValid(ply) then return end
             net.Start("versus.logs")

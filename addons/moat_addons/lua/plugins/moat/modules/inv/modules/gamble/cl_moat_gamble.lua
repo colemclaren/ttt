@@ -4411,7 +4411,7 @@ net.Receive("versus.Cancel",function()
 end)
 
 
-MOAT_GAMBLE.VersusAmount = 0
+MOAT_GAMBLE.VersusAmount = 1
 
 surface.CreateFont("moat_VersusTitle", {
     font = "DermaLarge",
@@ -4751,7 +4751,7 @@ function m_DrawVersusPanel()
 		draw.RoundedBox(0,0,0,w,h,c)
 		surface.SetDrawColor(116,185,255,a)
 		surface.DrawOutlinedRect(0,0,w,h)
-		draw.SimpleText("HISTORY", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+		draw.SimpleText("YOUR WINS", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 	end
 
 	function history.DoClick() 
@@ -4772,7 +4772,7 @@ function m_DrawVersusPanel()
 			versus_logs:SetTitle("")
 			versus_logs:Center()
 			versus_logs:MakePopup()
-			versus_logs.Title = LocalPlayer():Nick() .. "'s versus history"
+			versus_logs.Title = LocalPlayer():Nick() .. "'s versus wins"
 			versus_logs.Paint = function(s, w, h)
 				DrawBlur(s, 5)
 
