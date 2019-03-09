@@ -4655,7 +4655,6 @@ function m_DrawVersusPanel()
 
 		for k,v in pairs(table.Reverse(versus_oldgames)) do
 			if k > 15 then 
-				versus_oldgames[k] = nil
 				continue
 			end
 			if (not (v[1] and v[2] and v[3] and v[4] and v[5])) then continue end
