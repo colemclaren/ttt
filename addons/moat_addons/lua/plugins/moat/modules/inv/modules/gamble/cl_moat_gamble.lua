@@ -4760,6 +4760,8 @@ function m_DrawVersusPanel()
 		net.Start("versus.logs")
 		net.WriteInt(0,32)
 		net.SendToServer()
+		net.Start("versus.total")
+		net.SendToServer()
 	end
 
 	versus_logs_games = {}
@@ -4790,6 +4792,18 @@ function m_DrawVersusPanel()
 		end
 		versus_logs_actual:Clear()
 		versus_id = nil
+		local a = vgui.Create("DPanel",versus_logs_actual)
+		a:SetSize(0,50)
+		a:DockMargin(0,0,0,5)
+		a:Dock(TOP)
+		function a:Paint(w,h)
+			draw.RoundedBox(0,0,0,w,h,Color(18,18,18))
+			draw.SimpleText("YOUR TOTAL WINNINGS", "moat_GambleTitle", w/2, 13, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+			draw.SimpleText(string.Comma(round(versus_wintotal or 0)) .. " IC", "moat_VersusTitle", w/2,h * 0.7, Color(255,255,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+			local c = Color(255,255,255)
+			surface.SetDrawColor(86,86,86, 255)
+			surface.DrawOutlinedRect(0,0,w,h)
+		end
 		for k,v in SortedPairs(games, true) do
 			if not versus_id then versus_id = k end
 			if k < versus_id then versus_id = k end
@@ -4881,6 +4895,11 @@ function m_DrawVersusPanel()
 			net.SendToServer()
 		end
 	end
+
+	net.Receive("versus.total",function()
+		local t = net.ReadTable()
+		versus_wintotal = t[1].total
+	end)
 
 	net.Receive("versus.logs",function()
 		local last = false

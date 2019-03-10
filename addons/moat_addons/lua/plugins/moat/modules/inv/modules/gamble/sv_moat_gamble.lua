@@ -873,12 +873,20 @@ util.AddNetworkString("jackpot.join")
 util.AddNetworkString("jackpot.win")
 
 util.AddNetworkString("versus.logs")
+util.AddNetworkString("versus.total")
+
 
 net.Receive("versus.logs",function(l,ply)
     if (ply.vlogs_cool or 0) > CurTime() then return end
     ply.vlogs_cool = CurTime() + 1
     local id = net.ReadInt(32)
     versus_getlogs(ply,id)
+end)
+
+net.Receive("versus.total",function(l,ply)
+    if (ply.vtot_cool or 0) > CurTime() then return end
+    ply.vtot_cool = CurTime() + 1
+    versus_gettotal(ply)
 end)
 
 local dev_suffix = ""
@@ -925,7 +933,17 @@ function jackpot_()
         function q:onError(s)
         end
         q:start()
+    end
 
+    function versus_gettotal(ply)
+        local q = db:query("SELECT SUM(amount) as total FROM moat_versuslogs WHERE (steamid = '" .. ply:SteamID64() .. "' OR other = '" .. ply:SteamID64() .. "') AND (winner = '" .. ply:SteamID64() .. "') LIMIT 1;")
+        function q:onSuccess(d)
+            if not IsValid(ply) then return end
+            net.Start("versus.total")
+            net.WriteTable(d)
+            net.Send(ply)
+        end
+        q:start()
     end
 
     function versus_creategame(id,am,fun)
