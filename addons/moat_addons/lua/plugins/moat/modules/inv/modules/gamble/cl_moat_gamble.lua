@@ -60,7 +60,6 @@ versus_stats = {
 }
 net.Receive("versus.stats",function()
 	versus_stats = net.ReadTable()
-	PrintTable(versus_stats)
 end)
 
 function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
@@ -4664,7 +4663,7 @@ function m_DrawVersusPanel()
 			--end--
 		end
 		local streak_name = "Velkon"
-		steamworks.RequestPlayerInfo(versus_stats.top.winner or "0", function(name)
+		steamworks.RequestPlayerInfo(versus_stats.streak.steamid or "0", function(name)
 			streak_name = name
 		end)
 		local a = vgui.Create("DPanel",game_actual)
