@@ -874,7 +874,7 @@ util.AddNetworkString("jackpot.win")
 
 util.AddNetworkString("versus.logs")
 util.AddNetworkString("versus.total")
-
+util.AddNetworkString("versus.stats")
 
 net.Receive("versus.logs",function(l,ply)
     if (ply.vlogs_cool or 0) > CurTime() then return end
@@ -887,6 +887,18 @@ net.Receive("versus.total",function(l,ply)
     if (ply.vtot_cool or 0) > CurTime() then return end
     ply.vtot_cool = CurTime() + 1
     versus_gettotal(ply)
+end)
+
+versus_stats = {
+    top = {}
+}
+
+net.Receive("versus.stats",function(l,ply)
+    if (ply.stats_cool or 0) > CurTime() then return end
+    ply.stats_cool = CurTime() + 1
+    net.Start("versus.stats")
+    net.WriteTable(versus_stats)
+    net.Send(ply)
 end)
 
 local dev_suffix = ""
@@ -945,6 +957,23 @@ function jackpot_()
         end
         q:start()
     end
+
+    function versus_updatestats()
+        local q = db:query([[SELECT SUM(amount) AS total,winner 
+        FROM moat_versuslogs 
+        WHERE time > (UNIX_TIMESTAMP() - 86400) 
+        GROUP BY winner 
+        ORDER BY SUM(amount) DESC
+        LIMIT 1]])
+        function q:onSuccess(d)
+            versus_stats.top = d[1]
+            net.Start("versus.stats")
+            net.WriteTable(versus_stats)
+            net.Broadcast()
+        end
+        q:start()
+    end
+    versus_updatestats()
 
     function versus_creategame(id,am,fun)
         local q = db:query("INSERT INTO moat_versus" .. dev_suffix .. " (steamid, money) VALUES ('" .. id .. "','" .. am .. "');")
@@ -1343,6 +1372,8 @@ function jackpot_()
         end
 		*/
     end)
+
+    timer.Create("Fun Versus Stats",120,0,versus_updatestats)
 
     timer.Create("Versus.Watchdog",5,0,function()
         if GG_DISABLE:GetBool() then return false end

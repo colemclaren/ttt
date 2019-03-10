@@ -54,6 +54,13 @@ local gamble_help = {
 	["Versus"] = "Versus is like coinflip.\nYou create or join a game and have a 50% chance of winning.\nThere is a tax on winnings as well."
 }
 
+versus_stats = {
+	top = {}
+}
+net.Receive("versus.stats",function()
+	versus_stats = net.ReadTable()
+end)
+
 function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 	if (IsValid(MOAT_GAMBLE_BG)) then return end
 	MOAT_GAMBLE.LocalChat = true
@@ -4245,6 +4252,8 @@ end)
 timer.Simple(0,function()
 	net.Start("versus.Sync")
 	net.SendToServer()
+	net.Start("versus.stats")
+	net.SendToServer()
 end)
 
 net.Receive("gversus.Sync",function()
@@ -4653,6 +4662,38 @@ function m_DrawVersusPanel()
 			--end--
 		end
 
+		local totwinner_name = "Velkon"
+		steamworks.RequestPlayerInfo(versus_stats.top.winner or "0", function(name)
+			totwinner_name = name
+		end)
+		local a = vgui.Create("DPanel",game_actual)
+		a:SetSize(0,50)
+		a:DockMargin(0,0,0,5)
+		a:Dock(TOP)
+		function a:Paint(w,h)
+			-- draw.RoundedBox(0,0,0,w,h,Color(18,18,18))
+			draw.SimpleText("MOST IC WON IN THE LAST 24 HOURS", "moat_GambleTitle", w/2, 13, Color(116,185,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+			-- draw.SimpleText(string.upper(totwinner_name), "moat_VersusTitle", w * 0.25,(h * 0.7) - 3, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+			draw.SimpleText(string.Comma(round(versus_stats.top.total or 1337)) .. " IC", "moat_VersusTitle", w * 0.5,(h * 0.7) - 3, Color(255,255,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+			local c = Color(255,255,255)
+			surface.SetDrawColor(116,185,255, 255)
+			surface.DrawOutlinedRect(0,0,w,h)
+		end
+		for i =1,2 do
+			local av = vgui.Create("AvatarImage",a)
+			av:DockMargin(2,3,2,3)
+			av:SetSize(46,40)
+			av:Dock(i == 1 and LEFT or RIGHT)
+			av:SetSteamID(versus_stats.top.winner or "0",64)
+			av:SetTooltip(totwinner_name)
+			local butt = vgui.Create("DButton",av)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(versus_stats.top.winner)
+			end
+		end
+
 		for k,v in pairs(table.Reverse(versus_oldgames)) do
 			if k > 15 then 
 				continue
@@ -4900,6 +4941,8 @@ function m_DrawVersusPanel()
 		local t = net.ReadTable()
 		versus_wintotal = t[1].total
 	end)
+
+	
 
 	net.Receive("versus.logs",function()
 		local last = false
