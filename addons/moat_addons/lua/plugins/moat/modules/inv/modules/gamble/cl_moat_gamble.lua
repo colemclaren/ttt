@@ -55,10 +55,12 @@ local gamble_help = {
 }
 
 versus_stats = {
-	top = {}
+	top = {},
+	streak = {}
 }
 net.Receive("versus.stats",function()
 	versus_stats = net.ReadTable()
+	PrintTable(versus_stats)
 end)
 
 function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
@@ -4660,6 +4662,36 @@ function m_DrawVersusPanel()
 
 
 			--end--
+		end
+		local streak_name = "Velkon"
+		steamworks.RequestPlayerInfo(versus_stats.top.winner or "0", function(name)
+			streak_name = name
+		end)
+		local a = vgui.Create("DPanel",game_actual)
+		a:SetSize(0,50)
+		a:DockMargin(0,0,0,5)
+		a:Dock(TOP)
+		function a:Paint(w,h)
+			-- draw.RoundedBox(0,0,0,w,h,Color(18,18,18))
+			draw.SimpleText("LUCKIEST PLAYER TODAY", "moat_GambleTitle", w/2, 13, Color(116,185,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+			draw.SimpleText(string.Comma(round(versus_stats.streak.streak or 2)) .. " WINS IN A ROW", "moat_VersusTitle", w * 0.5,(h * 0.7) - 3, Color(255,255,0),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+			local c = Color(255,255,255)
+			surface.SetDrawColor(116,185,255, 255)
+			surface.DrawOutlinedRect(0,0,w,h)
+		end
+		for i =1,2 do
+			local av = vgui.Create("AvatarImage",a)
+			av:DockMargin(2,3,2,3)
+			av:SetSize(46,40)
+			av:Dock(i == 1 and LEFT or RIGHT)
+			av:SetSteamID(versus_stats.streak.steamid or "0",64)
+			av:SetTooltip(streak_name)
+			local butt = vgui.Create("DButton",av)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(versus_stats.streak.steamid)
+			end
 		end
 
 		local totwinner_name = "Velkon"

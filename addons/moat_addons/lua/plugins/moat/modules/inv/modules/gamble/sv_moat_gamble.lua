@@ -890,7 +890,8 @@ net.Receive("versus.total",function(l,ply)
 end)
 
 versus_stats = {
-    top = {}
+    top = {},
+    streak = {}
 }
 
 net.Receive("versus.stats",function(l,ply)
@@ -916,6 +917,18 @@ function jackpot_()
     versus_knowngames = {}
 
     local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_versuslogs` ( ID int NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `other` varchar(255) NOT NULL, `winner` varchar(255) NOT NULL, `amount` INT NOT NULL, `time` INT NOT NULL, PRIMARY KEY (ID) ) ")
+    function dq:onError(err)
+        ServerLog("[mInventory] Error with creating table: " .. err)
+    end
+    dq:start()
+
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_versusstreaks` ( `steamid` varchar(100) NOT NULL, `streak` INT NOT NULL, PRIMARY KEY (steamid) ) ")
+    function dq:onError(err)
+        ServerLog("[mInventory] Error with creating table: " .. err)
+    end
+    dq:start()
+
+    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_versusstreaks_history` ( ID int NOT NULL AUTO_INCREMENT, `steamid` varchar(255) NOT NULL, `streak` INT NOT NULL, `time` INT NOT NULL, PRIMARY KEY (ID) ) ")
     function dq:onError(err)
         ServerLog("[mInventory] Error with creating table: " .. err)
     end
@@ -966,10 +979,18 @@ function jackpot_()
         ORDER BY SUM(amount) DESC
         LIMIT 1]])
         function q:onSuccess(d)
-            versus_stats.top = d[1]
-            net.Start("versus.stats")
-            net.WriteTable(versus_stats)
-            net.Broadcast()
+            versus_stats.top = d[1] or {}
+            local b = db:query([[SELECT steamid,streak FROM moat_versusstreaks_history
+            WHERE time > (UNIX_TIMESTAMP() - 86400) 
+            ORDER BY streak DESC
+            LIMIT 1]])
+            function b:onSuccess(c)
+                versus_stats.streak = c[1] or {}
+                net.Start("versus.stats")
+                net.WriteTable(versus_stats)
+                net.Broadcast()
+            end
+            b:start()
         end
         q:start()
     end
@@ -1155,10 +1176,25 @@ function jackpot_()
                         net.Broadcast()
                         versus_curgames[sid] = {rolled = true}
 
-						local q = db:query("UPDATE moat_versus" .. dev_suffix .. " SET rewarded = 1 WHERE steamid = '" .. db:escape(sid) .. "';")
+                        local q = db:query("UPDATE moat_versus" .. dev_suffix .. " SET rewarded = 1 WHERE steamid = '" .. db:escape(sid) .. "';")
                         q:start()
                         print("Versus Log:",sid,plyz,winner,d.money)
                         versus_log(sid,plyz,winner,d.money)
+
+                        local q = db:query([[INSERT INTO moat_versusstreaks (steamid,streak) VALUES(']] .. db:escape(winner) .. [[', 1) ON DUPLICATE KEY UPDATE streak = streak + 1]])
+                        q:start()
+                        local other = sid
+                        if other == winner then other = plyz end
+                        local q = db:query("SELECT * FROM moat_versusstreaks WHERE steamid = '" .. db:escape(other) .. "';")
+                        function q:onSuccess(d)
+                            if d[1] then
+                                local q = db:query("DELETE FROM moat_versusstreaks WHERE steamid = '" .. db:escape(other) .. "';")
+                                q:start()
+                                local q = db:query("INSERT INTO moat_versusstreaks_history (steamid,streak,time) VALUES ('" .. db:escape(other) .. "','" .. d[1].streak .. "',UNIX_TIMESTAMP());")
+                                q:start()
+                            end
+                        end
+                        q:start()
 
                         local v = player.GetBySteamID64(winner)
                         if (IsValid(v)) then
