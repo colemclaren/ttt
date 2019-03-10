@@ -1190,8 +1190,10 @@ function jackpot_()
                             if d[1] then
                                 local q = db:query("DELETE FROM moat_versusstreaks WHERE steamid = '" .. db:escape(other) .. "';")
                                 q:start()
-                                local q = db:query("INSERT INTO moat_versusstreaks_history (steamid,streak,time) VALUES ('" .. db:escape(other) .. "','" .. d[1].streak .. "',UNIX_TIMESTAMP());")
-                                q:start()
+                                if d[1].streak > 1 then
+                                    local q = db:query("INSERT INTO moat_versusstreaks_history (steamid,streak,time) VALUES ('" .. db:escape(other) .. "','" .. d[1].streak .. "',UNIX_TIMESTAMP());")
+                                    q:start()
+                                end
                             end
                         end
                         q:start()
