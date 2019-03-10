@@ -1373,7 +1373,7 @@ function jackpot_()
 		*/
     end)
 
-    timer.Create("Fun Versus Stats",120,0,versus_updatestats)
+    timer.Create("Fun Versus Stats",60,0,versus_updatestats)
 
     timer.Create("Versus.Watchdog",5,0,function()
         if GG_DISABLE:GetBool() then return false end
