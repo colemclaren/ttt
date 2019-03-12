@@ -13,13 +13,13 @@ Devs = {
 		DiscordTag = "motato#0001", 
 		DiscordID = "207612500450082816"
 	},
-	{
-		Name = "Meepen", 
-		SteamID = "STEAM_0:0:44950009", 
-		SteamID64 = "76561198050165746", 
-		DiscordTag = 'Meepen#0073', 
-		DiscordID = '150809682318065664'
-	},
+	-- {
+	-- 	Name = "Meepen", 
+	-- 	SteamID = "STEAM_0:0:44950009", 
+	-- 	SteamID64 = "76561198050165746", 
+	-- 	DiscordTag = 'Meepen#0073', 
+	-- 	DiscordID = '150809682318065664'
+	-- },
 	{
 		Name = "Velkon", 
 		SteamID = "STEAM_0:0:96933728", 

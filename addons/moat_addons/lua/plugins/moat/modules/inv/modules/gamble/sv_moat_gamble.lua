@@ -1258,7 +1258,7 @@ function jackpot_()
     end)
     net.Receive("gversus.JoinGame",function(l,ply)
         if versus_block then return end
-	if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
+	    if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
         local sid = net.ReadString()
         if (versus_joins[sid]) then return end
         if not sid:match("765") then return end
@@ -1659,7 +1659,7 @@ function jackpot_()
                 if not ply:m_HasIC(am) then
                     local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") attempted to join jackpot with not enough money (" .. am .. "). Exploit"
                     discord.Send("Anti Cheat", msg)
-                    RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (j:j)")
+                    -- RunConsoleCommand("mga","ban",ply:SteamID(),"12","hours","Exploiting (j:j)")
                     return
                 end
                 jp.joingame(ply,am)

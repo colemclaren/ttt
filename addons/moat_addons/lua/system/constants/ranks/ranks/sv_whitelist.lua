@@ -17,7 +17,7 @@ local wl, u = {}, {
 wl[100] = {
 	[u["motato"]] = true,
 	[u["jerry"]] = true,
-	[u["meepen"]] = true,
+	-- [u["meepen"]] = true,
 	[u["velkon"]] = true,
 	[u["ling"]] = true
 
@@ -25,7 +25,7 @@ wl[100] = {
 
 -- techlead
 wl[95] = {
-	[u["meepen"]] = true,
+	-- [u["meepen"]] = true,
 	[u["velkon"]] = true,
 	[u["ling"]] = true
 }

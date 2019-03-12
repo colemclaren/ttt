@@ -161,6 +161,8 @@ moat.print "|"
 for k,v in ipairs(Devs) do
 	moat.print ("| " .. v.Name .. " > https://steamcommunity.com/profiles/" .. v.SteamID64)
 end
+moat.print "|"
+moat.print ("| Special thanks to Meepen")
 moat.spacer()
 moat.print "| Need to report a bug? We'd love to talk with you! <3<3<3"
 moat.print [[| The best way to contact us is on our partnered Discord server. \ (•◡•) /]]
