@@ -80,8 +80,6 @@ Servers "208.103.169.204:27021"
 	:SetName "TTT Europe"
 	:SetID "ttt-eu"
 
-
--- UK01
 Servers "208.103.169.205:27015"
 	:SetName "TTT EU #1"
 	:SetID "ttt-eu1"

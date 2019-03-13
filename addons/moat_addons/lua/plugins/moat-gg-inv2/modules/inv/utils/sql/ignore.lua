@@ -1,0 +1,1 @@
+-- ignore.lua file stops directory including

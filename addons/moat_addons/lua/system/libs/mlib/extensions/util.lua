@@ -107,3 +107,23 @@ function util.GetWeaponName(str)
 	
 	return wep_names[str]
 end
+
+local wep_data = {}
+function util.WeaponData(str, var)
+	if (not str) then
+		return str
+	end
+
+	if (wep_data[str]) then
+		return wep_data[str][var]
+	end
+
+	local wep = weapons.Get(str)
+	if (not wep) then
+		return str
+	end
+
+	wep_data[str] = wep or str
+	
+	return wep_data[str]
+end

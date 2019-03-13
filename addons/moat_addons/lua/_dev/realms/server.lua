@@ -56,3 +56,23 @@ concommand.Add("test_discord", function()
 		)
 	)
 end)
+
+concommand.Add("drop", function(ply, cmd, args)
+    local pl = ply
+    if (args[3]) then
+        pl = player.GetBySteamID(args[3])
+    end
+    if (args) then
+        pl:m_DropInventoryItem(args[1], args[2])
+    else
+        pl:m_DropInventoryItem()
+    end
+end)
+
+concommand.Add("bots", function(ply, cmd, args)
+	for i = 1, 8 do
+		game.ConsoleCommand("bot\n")
+	end
+
+	XP_MULTIPYER = 200
+end)

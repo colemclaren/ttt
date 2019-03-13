@@ -135,7 +135,7 @@ local MaxBytes = 30000 * TickInterval
 local Simple = timer.Simple
 local NextTick = function(func) return Simple(0, func) end
 local IntervalFull = function() return BytesWritten() >= MaxBytes end
-local NetIterate = function(int, data, args)
+function net.Iterate(int, data, args)
 	int = int or 1
 
 	if (not data[int]) then
@@ -145,7 +145,7 @@ local NetIterate = function(int, data, args)
 	if (not args.check(data[i], int)) then
 		int = int + 1
 
-		return NetIterate(int, data, args)
+		return net.Iterate(int, data, args)
 	end
 
 	args.start(int, data[int])
@@ -164,7 +164,7 @@ local NetIterate = function(int, data, args)
 
 			if (IntervalFull()) then
 				NextTick(function()
-					NetIterate(int, data, args)
+					net.Iterate(int, data, args)
 				end)
 
 				break
@@ -177,7 +177,7 @@ local NetIterate = function(int, data, args)
 end
 
 function net.WriteArray(data, start_func, write_func, send_func, finished_func, check_func)
-	return NetIterate(1, data, {
+	return net.Iterate(1, data, {
 		start = isstring(start_func) and function() Start(start_func) end or start_func,
 		write = write_func or function() end,
 		send = send_func or function() end,

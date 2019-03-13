@@ -6,8 +6,9 @@ it.order = {
 	includer = "include",
 	before = {
 		"init",
+		"classes",
 		"utils",
-		"core"
+		"core",
 	},
 	priority = {
 		"server",
