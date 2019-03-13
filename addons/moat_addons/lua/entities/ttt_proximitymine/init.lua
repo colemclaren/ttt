@@ -15,7 +15,7 @@ function ENT:Think()
 		for i = 1, table.Count(Players) do
 			local ply = Players[i]
 
-			if (not ply:Alive()) then
+			if (not ply:Alive() or ply:IsTraitor()) then
 				continue
 			end
 
