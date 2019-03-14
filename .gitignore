@@ -16,3 +16,4 @@
 addons/moat_addons/lua/autorun/server/cac.lua
 lua/autorun/server/gm_moatservers.lua
 lua/includes/modules/moat_serversecure.lua
+addons/moat_addons/lua/autorun/lol.lua
