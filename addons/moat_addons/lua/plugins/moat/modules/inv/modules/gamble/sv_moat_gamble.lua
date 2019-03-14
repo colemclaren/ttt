@@ -1592,7 +1592,7 @@ function jackpot_()
             if not IsValid(ply) then return end
             local q = db:query("INSERT INTO `moat_jpplayers` (steamid, money) VALUES ('" .. ply:SteamID64() .. "','" .. am .. "') ON DUPLICATE KEY UPDATE money = money + '" .. am .. "';")
             q:start()
-            if am > 99 then
+            if am > 999 then
                 local q = db:query([[UPDATE moat_jpgames SET time_end = UNIX_TIMESTAMP() + 45 WHERE active = 1 AND ((time_end - UNIX_TIMESTAMP()) < 45) AND time_end != 0;]])
                 q:start()
             end
