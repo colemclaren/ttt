@@ -3475,7 +3475,7 @@ function m_DrawBlackjackPanel()
 		local a = 255
 		if self:IsHovered() then a = 175 end
 		local c = Color(10,200,10,a)
-		if (MOAT_GAMBLE.JackAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.JackAmount < 10)) or (jackpot.Rolling) or (not jackpot.CanDeposit) or (MOAT_GAMBLE.LastJack > CurTime()) then
+		if (MOAT_GAMBLE.JackAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.JackAmount < 1)) or (jackpot.Rolling) or (not jackpot.CanDeposit) or (MOAT_GAMBLE.LastJack > CurTime()) then
 			c = Color(86,86,86)
 			a = 10
 		end
@@ -3495,17 +3495,17 @@ function m_DrawBlackjackPanel()
 
 	function make_game.DoClick()
 		if MOAT_GAMBLE.LastJack > CurTime() then return end
-		if (MOAT_GAMBLE.JackAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.JackAmount < 10)) or jackpot.Rolling or (not jackpot.CanDeposit) then return end
+		if (MOAT_GAMBLE.JackAmount > MOAT_INVENTORY_CREDITS or (MOAT_GAMBLE.JackAmount < 1)) or jackpot.Rolling or (not jackpot.CanDeposit) then return end
 		if (make_game.cool or 0) > CurTime() then return end
 		if MOAT_GAMBLE.JackAmount > (MOAT_INVENTORY_CREDITS * 0.25) then
 			Derma_Query("Are you sure you want to gamble more than 25% of your IC?\nNever gamble anything you can't afford to lose.", "Are you sure?", "Yes", function() 
-				MOAT_GAMBLE.LastJack = CurTime() + 20
+				MOAT_GAMBLE.LastJack = CurTime() + 1
 				net.Start("jackpot.join")
 				net.WriteInt(MOAT_GAMBLE.JackAmount,32)
 				net.SendToServer()
 			end, "No")
 		else
-			MOAT_GAMBLE.LastJack = CurTime() + 20
+			MOAT_GAMBLE.LastJack = CurTime() + 1
 			net.Start("jackpot.join")
 			net.WriteInt(MOAT_GAMBLE.JackAmount,32)
 			net.SendToServer()

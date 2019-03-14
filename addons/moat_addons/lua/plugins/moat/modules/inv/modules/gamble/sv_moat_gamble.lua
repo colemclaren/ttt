@@ -1592,6 +1592,10 @@ function jackpot_()
             if not IsValid(ply) then return end
             local q = db:query("INSERT INTO `moat_jpplayers` (steamid, money) VALUES ('" .. ply:SteamID64() .. "','" .. am .. "') ON DUPLICATE KEY UPDATE money = money + '" .. am .. "';")
             q:start()
+            if am > 99 then
+                local q = db:query([[UPDATE moat_jpgames SET time_end = UNIX_TIMESTAMP() + 45 WHERE active = 1 AND ((time_end - UNIX_TIMESTAMP()) < 45) AND time_end != 0;]])
+                q:start()
+            end
             pendingply[ply] = nil
             getplayers(function(p)
                 net.Start("jackpot.players")
@@ -1614,14 +1618,14 @@ function jackpot_()
 		if (gamble_net_spam(ply, "jackpot.join")) then return end
         if (multiple_cool[ply] or 0) > CurTime() then return end 
         local am = net.ReadInt(32)
-        if am < 10 then return end
+        if am < 1 then return end
         ----print(ply)
         if not ply:m_HasIC(am) then return end
         ----print(1)
         if pendingply[ply] then return end
         ----print(2)
         pendingply[ply] = true
-        multiple_cool[ply] = CurTime() + 20
+        multiple_cool[ply] = CurTime() + 1
         getactive(function(a,b)
             if not a then 
                 net.Start("jackpot.players")
@@ -1780,13 +1784,13 @@ function jackpot_()
                                 ----print("Setting JPT")
                                 jp_down = true
                             end
-                            if (s.time_end ~= 0 )and (not jp_broad) then
+                            if (s.time_end ~= 0 ) and (jp_broad ~= s.time_end) then
                                 net.Start("jackpot.info")
                                 net.WriteBool(true)
                                 local f = s.time_end - os.time()
                                 net.WriteInt(CurTime() + f,32)
                                 net.Broadcast()
-                                jp_broad = true
+                                jp_broad = s.time_end
                             end
                             if (s.time_end ~= 0) and (not jp_know) then
                                 --print("Jackpot rolling in " .. math.Round(s.time_end - os.time()))
