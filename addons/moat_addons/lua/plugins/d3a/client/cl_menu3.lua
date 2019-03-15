@@ -1,6 +1,6 @@
 mga = mga or {
 	cfg = {}
-}
+} --
 
 mga.CommandList, mga.WarnCommands, mga.MapList = {
 	{0, "User", Color(125, 125, 125, 255), {
