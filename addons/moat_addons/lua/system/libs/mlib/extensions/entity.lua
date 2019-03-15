@@ -40,7 +40,7 @@ local function HookEvent(event, Add, Remove, Classes, Callback)
 	Classes, Callback,
 	Add or false,
 	Remove or false
-		
+
 
 	if (add) then
 		hook_Add(add, id, function()

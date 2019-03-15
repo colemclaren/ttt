@@ -1,3 +1,9 @@
+------------------------------------
+--
+-- 	Moat.GG Servers
+--	
+------------------------------------
+
 Servers.Setup("Moat TTT", ".moat.gg")
 
 Servers "208.103.169.30:27015"
@@ -48,6 +54,22 @@ Servers "208.103.169.54:27020"
 	:SetName "TTT #12"
 	:SetID "ttt12"
 
+Servers "208.103.169.205:27015"
+	:SetName "TTT EU #1"
+	:SetID "ttt-eu1"
+
+Servers "208.103.169.205:27017"
+	:SetName "TTT EU #2"
+	:SetID "ttt-eu2"
+
+Servers "208.103.169.205:27018"
+	:SetName "TTT EU #3"
+	:SetID "ttt-eu3"
+
+Servers "208.103.169.205:27020"
+	:SetName "TTT EU #4"
+	:SetID "ttt-eu4"
+
 Servers "208.103.169.29:27015"
 	:SetName "TTT Minecraft #1"
 	:SetID "ttt-mc"
@@ -68,9 +90,13 @@ Servers "208.103.169.54:27019"
 	:SetName "TTT Minecraft #5"
 	:SetID "ttt-mc5"
 
-Servers "208.103.169.43:27018"
-	:SetName "TTC Terror City Beta"
-	:SetID "beta"
+Servers "208.103.169.205:27016"
+	:SetName "TTT Minecraft EU #1"
+	:SetID "ttt-eumc1"
+
+Servers "208.103.169.205:27019"
+	:SetName "TTT Minecraft EU #2"
+	:SetID "ttt-eumc2"
 
 Servers "64.94.101.132:27015"
 	:SetName "TTT West"
@@ -80,28 +106,6 @@ Servers "208.103.169.204:27021"
 	:SetName "TTT Europe"
 	:SetID "ttt-eu"
 
-
--- UK01
-Servers "208.103.169.205:27015"
-	:SetName "TTT EU #1"
-	:SetID "ttt-eu1"
-
-Servers "208.103.169.205:27017"
-	:SetName "TTT EU #2"
-	:SetID "ttt-eu2"
-
-Servers "208.103.169.205:27018"
-	:SetName "TTT EU #3"
-	:SetID "ttt-eu3"
-
-Servers "208.103.169.205:27020"
-	:SetName "TTT EU #4"
-	:SetID "ttt-eu4"
-
-Servers "208.103.169.205:27016"
-	:SetName "TTT Minecraft EU #1"
-	:SetID "ttt-eumc1"
-
-Servers "208.103.169.205:27019"
-	:SetName "TTT Minecraft EU #2"
-	:SetID "ttt-eumc2"
+Servers "208.103.169.43:27018"
+	:SetName "TTC Terror City Beta"
+	:SetID "beta"

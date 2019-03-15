@@ -76,7 +76,7 @@ local function Send(user, msg, userName, no_suffix)
 
 	string.Replace(msg, "@everyone", "everyone")
 	string.Replace(msg, "@here", "here")
-	
+
 	if (not http or not http.Loaded) then
 		table.insert(PreLoadQueue, {
 			User = user,
@@ -84,7 +84,7 @@ local function Send(user, msg, userName, no_suffix)
 			UserName = userName,
 			NoSuffix = no_suffix
 		})
-	
+
 		return
 	end
 
@@ -132,13 +132,13 @@ end
 hook.Add("HTTPLoaded", "Discord.PreLoadQueue", SendQueue)
 
 discord = setmetatable({
-    Send = Send,
+	Send = Send,
 	AddChannel = AddChannel,
 	AddChannels = AddChannels,
 	AddUser = AddUser,
 	AddUsers = AddUsers
 }, {
-    __call = function(self, ...)
+	__call = function(self, ...)
 		return self.Send(...)
 	end
 })

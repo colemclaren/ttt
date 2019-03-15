@@ -1,38 +1,71 @@
 D3A.Bans = {}
 
-local function parseBans(data)
-	data = data or {}
-	
-	local Bans = {
-		Current = nil,
+local function ParseBans(data)
+	local bans = {All = {},
 		Past = {},
-		Removed = {}
+		Recent = {},
+		Active = {},
+		Unbanned = {}
 	}
-	
-	local curunix = os.time()
-	for k, v in pairs(data) do
-		if (v.unban_reason and string.len(v.unban_reason) > 1) then
-			table.insert(Bans.Removed, v)
+
+	for _, b in ipairs(data) do
+		if (not b.status) then
 			continue
 		end
 
-		if (tonumber(v.length) != 0) and (tonumber(v.time) + tonumber(v.length) <= curunix) then
-			if (v.time - curunix) then end
-			table.insert(Bans.Past, v)
-			continue
-		else
-			Bans.Current = v
-		end
+		local ban = {
+			name = tostring(b.name),
+			steam_id = tostring(b.steam_id),
+			avatar_url = tostring(b.avatar_url):StartWith("http") and tostring(b.avatar_url) or D3A.DefaultAvatar,
+			length = tonumber(b.length),
+			reason = tostring(b.reason),
+			staff_name = tostring(b.staff_name),
+			staff_steam_id = tostring(b.staff_steam_id),
+			staff_avatar_url = tostring(b.staff_avatar_url):StartWith("http") and tostring(b.staff_avatar_url) or D3A.DefaultAvatar,
+			time = tonumber(b.time),
+			time_date = tostring(b.time_date),
+			date = tostring(b.time_date):Explode(" @ ")[1] or "???",
+			unban_reason = b.unban_reason,
+			status = tostring(b.status)
+		}
+
+		bans[ban.status] = bans[ban.status] or {}
+		table.insert(bans[ban.status], ban)
+		table.insert(bans.All, ban)
 	end
-	
-	return Bans
+
+	bans.Count = #bans.All
+	return bans
 end
 
-function D3A.Bans.GetBans(steamid, cb)
+function D3A.Bans.Get(steamid, staff, start, length, cb)
 	local id64 = util.SteamIDTo64(steamid)
-	if (not id64 or id64:len() == 1) then id64 = steamid end
+	if (not id64 or id64:len() == 1) then
+		id64 = steamid
+	end
+
+	moat.mysql(string(
+		"SELECT time, FROM_UNIXTIME(time, '%c/%d/%Y @ %I:%i %p') AS time_date, length, reason, unban_reason,",
+		" IF(unban_reason IS NOT NULL AND LENGTH(unban_reason) > 1, 'Unbanned', IF(length != 0 AND time + length <= UNIX_TIMESTAMP() - 5184000, 'Past', IF(length != 0 AND time + length <= UNIX_TIMESTAMP(), 'Recent', 'Active'))) AS status,",
+		" CAST(b.steam_id AS CHAR) AS steam_id, CAST(staff_steam_id AS CHAR) AS staff_steam_id,",
+		" p.name AS name, s.name AS staff_name, p.avatar_url AS avatar_url, s.avatar_url AS staff_avatar_url ",
+		"FROM forum.player_bans AS b LEFT JOIN forum.player AS p ON b.steam_id = p.steam_id LEFT JOIN forum.player AS s ON b.staff_steam_id = s.steam_id ",
+		"WHERE ", staff and "b.staff_steam_id" or "b.steam_id", " = ? ORDER BY b.time DESC ",
+		length and ("LIMIT " .. start or 1 .. "," .. length or 50) or ""
+	), id64, function(data)
+		if (cb) then cb(ParseBans(data or {}), data) end
+	end)
+end
+
+function D3A.Bans.GetBans(steamid, staffid, start, length, cb)
+	local id64 = util.SteamIDTo64(steamid)
+	if (not id64 or id64:len() == 1) then
+		id64 = steamid
+	end
+
 	id64 = D3A.MySQL.Escape(id64)
 
+	moat.mysql()
 	local q = "SELECT time, CAST(steam_id AS CHAR) AS steam_id, CAST(staff_steam_id AS CHAR) AS staff_steam_id, name, staff_name, length, reason, unban_reason FROM player_bans WHERE steam_id = #;"
 	local Bans = {}
 	D3A.MySQL.FormatQuery(q, id64, function(data)
@@ -43,8 +76,9 @@ function D3A.Bans.GetBans(steamid, cb)
 end
 
 function D3A.Bans.IsBanned(steamid, callback)
-	D3A.Bans.GetBans(steamid, function(data)
-		callback(data.Current ~= nil, data)
+	D3A.Bans.Get(steamid, false, nil, nil, function(data)
+		data.Current = data.Active and data.Active[1] or nil
+		callback(data.Active and data.Active[1], data)
 	end)
 end
 
@@ -73,14 +107,14 @@ function D3A.Bans.Ban(steamid, a_steamid, daname, daname2, len, unit, reason, ov
 		local pl = D3A.FindPlayer(a_steamid)
 		local tg = D3A.FindPlayer(steamid)
 		local nm = (pl and pl:Name()) or "Console"
-			
+
 		if (tg) then
 			local exp
-				
+
 			if (type(len) == "boolean") then
 				len = (len and tonumber(1)) or tonumber(0); -- idk why boolean is being implied
 			end
-				
+
 			if (unit == "perm") then exp = "permanently"
 			else exp = "for " .. len .. " " .. unit .. (((len != 1) and "s") or "") end
 			tg:Kick("Banned by " .. nm .. " " .. exp .. ". Reason: " .. reason)

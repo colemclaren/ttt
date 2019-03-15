@@ -177,7 +177,7 @@ MGA2.CommandList = {
 	{35, "Head Administrator", Color(51, 0, 51, 255), {
 		{"SetGroup", "Sets the group of a player.", true, {
 			{"Entry", "SteamID", "STEAM_0:0:"},
-			{"Drop", "Group", {"user", "vip", "credibleclub", "trialstaff", "moderator", "admin", "senioradmin", "headadmin"}, "user"}
+			{"Drop", "Group", moat.Ranks.Table(), "user"}
 		}},
 	}},
 	{100, "Community Lead", Color(255, 0, 0, 255), {
@@ -198,17 +198,6 @@ MGA2.CommandList = {
 	}},
 }
 
-MGA2.PrettyRank = {
-	["communitylead"] = {"Community Leader", Color(255, 0, 0)},
-	["headadmin"] = {"Head Administrator", Color(51, 0, 51)},
-	["senioradmin"] = {"Senior Administrator", Color(102, 0, 102)},
-	["admin"] = {"Administrator", Color(102, 0, 204)},
-	["moderator"] = {"Moderator", Color(0, 102, 0)},
-	["trialstaff"] = {"Trial Staff", Color(51, 204, 255)},
-	["credibleclub"] = {"Credible Club", Color(255, 51, 255)},
-	["vip"] = {"VIP", Color(0, 255, 0)},
-	["user"] = {"User", Color(255, 255, 255)}
-}
 MGA2.Colors = {
 	Shadow = Color(0, 0, 0, 35),
 	White = Color(255, 255, 255, 255),
@@ -805,7 +794,7 @@ function MGA2.OpenMenu()
 		DrawBlur(s, 2, shoulddisableblur)
 
 		draw_SimpleTextOutlined(LocalNick, "DermaLargeSmall_", 52, 8, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
-		draw_SimpleTextOutlined(MGA2.PrettyRank[LocalRank][1], "DermaLargeSmall_", 52, 24, MGA2.PrettyRank[LocalRank][2], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
+		draw_SimpleTextOutlined(moat.Ranks.Get(LocalRank, "Name"), "DermaLargeSmall_", 52, 24, moat.Ranks.Get(LocalRank, "Color"), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, MGA2.Colors.Shadow)
 
 		surface_SetFont("DermaLargeSmall_")
 

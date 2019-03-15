@@ -55,7 +55,7 @@ function util.FormatTime(x, y)
 	if (diff == 0) then return "a moment" end
 
 	if (diff < 60) then
-		return diff .. ((str and diff == 1) or (str .. "s"))
+		return diff .. ((diff == 1 and str) or (str .. "s"))
 	elseif (diff < 3600) then
 		local mins = math.Round(diff/60)
 		str = " minute"
@@ -77,11 +77,11 @@ function util.FormatTime(x, y)
 end
 
 function util.FormatTimeSingle(x)
-	return D3A.FormatTime(x, 0)
+	return util.FormatTime(x, 0)
 end
 
 function util.FormatTimeNow(y)
-	return D3A.FormatTime(os.time(), y)
+	return util.FormatTime(os.time(), y)
 end
 
 function util.Upper(str)
@@ -104,6 +104,6 @@ function util.GetWeaponName(str)
 	end
 
 	wep_names[str] = wep and wep.PrintName or str
-	
+
 	return wep_names[str]
 end

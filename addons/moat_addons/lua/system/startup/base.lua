@@ -1,5 +1,11 @@
 AddCSLuaFile()
 
+------------------------------------
+--
+-- Run sum shit b4 main startup
+--	
+------------------------------------
+
 function moat.print(...)
 	local args = {n = select("#", ...), ...}
 	if (args.n <= 0) then return end
@@ -59,6 +65,15 @@ function moat.debug(...)
 end
 
 
+
+------------------------------------
+--
+-- Here is surface.CreateFont detoured super early
+-- Fonts should go in system/constants/fonts
+-- (u shouldnt use surface.createfont anywhere)
+--	
+------------------------------------
+
 if (CLIENT) then
 	if (not _SCF) then _SCF = surface.CreateFont end
 	THE_FONTS = {}
@@ -98,76 +113,270 @@ if (CLIENT) then
 end
 
 
-for k, v in ipairs({"\n\n",
-[[            yyyhhdddmmmNNNM                                              MNNNmmmdddhhyyy        ]],
-[[          /mMMMMMMMMMMMMMMMMm.                                        .mMMMMMMMMMMMMMMMNy`      ]],
-[[        `:NMMMMMMMMMMMMMMMMMMms/.                                  ./smMMMMMMMMMMMMMMMMMMd:`    ]],
-[[      -yNMMMMMMMMMMMMMMMMMMMMMMMNd/                              /dNMMMMMMMMMMMMMMMMMMMMMMMNy-  ]],
-[[     sNMMMMMMMMMMMMMMMMMMMMMMMMMMMMh.                          .hMMMMMMMMMMMMMMMMMMMMMMMMMMMMNs ]],
-[[    sMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMN+`                      `+NMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMs]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMd-                    :dMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNs`                `sNMMMMMMMMMMMMMMMMMMh/--/hMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMNNNNMMMMMMMMMMMMMMMMMMMMMm/              /mMMMMMMMMMMMMMMMMMMMy     `hMMMMMMMMMM]],
-[[    MMMMMMMMMms::::::odMMMMMMMMMMMMMMMMMMMMy.          .yMMMMMMMMMMMMMMMMMMMMMh`    `dMMMMMMMMMM]],
-[[    MMMMMMMNo.+dmNNmdo./NMMMMMMMMMMMMMMMMMMMN+`      `+NMMMMMMMMMMMMMMMMMmddNMMd+::+dMMmddmMMMMM]],
-[[    MMMMMMMo hMMMMMMMMm`/MMMMMMMMMMMMMMMMMMMMMd-    :dMMMMMMMMMMMMMMMMMm:.``.oMMMMMMMM+.``./NMMM]],
-[[    MMMMMMM.-MMMMMMMMMM/ NMMMMMMMMMMMMMMMMMMMMMNs  sNMMMMMMMMMMMMMMMMMM+      dMMMMMMh      oMMM]],
-[[    MMMMMMM+`dMMMMMMMMN.-MMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMd-`  `/NMMMMMMN:`  `-mMMM]],
-[[    MMMMMMMN/.smNMMNmy--mMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMNdyhdMMms++ymMMdhydNMMMM]],
-[[    MMMMMMMMMh/:////:/yNMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMd.    .dMMMMMMMMMM]],
-[[    MMMMMMMMMMMNmddmNMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMy      yMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMs-..-sMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMNyoyMMMMMMMMMMMMNMMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMMNMMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMM+   +MMMMMMMMMMM:oMMMMMMMMMMMMMMM..MMMMMMMMMMMMMMMo:MMMMMMMMMMho:--:ohMMMMMMMMMM]],
-[[    MMMMMMMMMMMM/   /MMMMMMMMMMM: .hMMMMMMMMMMMMM..MMMMMMMMMMMMMd- :MMMMMMMMs.:ymNNmy:.yMMMMMMMM]],
-[[    MMMMMMMddddd-   -ddddmMMMMMM:   /NMMMMMMMMMMM..MMMMMMMMMMMN+   :MMMMMMMo hMMMMMMMMy sMMMMMMM]],
-[[    MMMMMN.`             `oMMMMM:    `yMMMMMMMMMM..MMMMMMMMMMy.    :MMMMMMM`:MMMMMMMMMM-`MMMMMMM]],
-[[    MMMMMN/.````     ````-hMMMMM:      :dMMMMMMMM..MMMMMMMMm:      :MMMMMMM-.NMMMMMMMMN.-MMMMMMM]],
-[[    MMMMMMMNNNNN:   /NNNNNMMMMMM:       `oNMMMMMM..MMMMMMNo`       :MMMMMMMd.:dMMMMMMd:.mMMMMMMM]],
-[[    MMMMMMMMMMMM/   /MMMMMMMMMMM:         -hMMMMM..MMMMMh-         :MMMMMMMMNo:-/oo/-:sNMMMMMMMM]],
-[[    MMMMMMMMMMMMy.`.hMMMMMMMMMMM:          `+mMMM..MMMm+`          :MMMMMMMMMMNmdyydmNMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMNmNMMMMMMMMMMMM:            .yMM..MMy.            :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:              :d..d:              :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:               `  `               :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    MMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMM]],
-[[    NMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMN]],
-[[    oMMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  :MMMMMMMMMMMMMMMMMMMMMMMMMMMo]],
-[[     yMMMMMMMMMMMMMMMMMMMMMMMMMM:                                  -MMMMMMMMMMMMMMMMMMMMMMMMMMy ]],
-[[      oNMMMMMMMMMMMMMMMMMMMMMMMM.                                  `NMMMMMMMMMMMMMMMMMMMMMMMNo  ]],
-[[       .yNMMMMMMMMMMMMMMMMMMMMN+                                    /NMMMMMMMMMMMMMMMMMMMMNy.   ]],
-[[         `/yNMMMMMMMMMMMMMMMNy-                                      .yNMMMMMMMMMMMMMMMNy/`     ]]
-,"\n\n"}) do MsgC(Color(255, 255, 255), v .. "\n") end
 
-moat.spacer()
-moat.print "|"
-moat.print "| Welcome to Moat TTT! (づ｡◕‿‿◕｡)づ"
-moat.print "|"
-moat.print "| We're changing the way people play and experience TTT together. We'd love your help."
-moat.print "|"
-moat.spacer()
-moat.print "| Moat TTT's God Squad Development Team (¬‿¬)" 
-moat.print "|"
-for k,v in ipairs(Devs) do
-	moat.print ("| " .. v.Name .. " > https://steamcommunity.com/profiles/" .. v.SteamID64)
+------------------------------------
+--
+-- Build the moat.Ranks metatable
+--	
+------------------------------------
+
+local ranks, mt = setmetatable({
+	UserInfo = {Count = 0, Cache = {}},
+	BackwardsCompatibile = {},
+	LocalPlayer = "user",
+	Roster = setmetatable({}, {
+		__call = function(s) return s end
+	}), Count = 0
+}, {
+	__call = function(s, ...) return s.Get(...) end
+}), {}
+mt.__index = mt
+mt.__newindex = mt
+
+ranks.GetCache = {}
+function ranks.Get(data, key)
+	if (ranks.GetCache[data] != nil) then
+		if (key and ranks.GetCache[data][key] != nil) then
+			return ranks.GetCache[data][key]
+		elseif (not key) then
+			return ranks.GetCache[data]
+		end
+	end
+
+	local ret = ranks.Roster[data] or (ranks.BackwardsCompatibile[data] and ranks.Roster[ranks.BackwardsCompatibile[data]])
+	if (key and ret[key] != nil) then
+		ret = ret[key]
+
+		ranks.GetCache[data] = ranks.GetCache[data] or {}
+		ranks.GetCache[data][key] = ret
+		return ret
+	end
+
+	ranks.GetCache[data] = ret
+	return ret
 end
-moat.print "|"
-moat.print ("| Special thanks to Meepen")
-moat.spacer()
-moat.print "| Need to report a bug? We'd love to talk with you! <3<3<3"
-moat.print [[| The best way to contact us is on our partnered Discord server. \ (•◡•) /]]
-moat.print "|"
-for i = 1, 3 do moat.print "| > https://discord.gg/moatgaming" end
-moat.spacer()
 
--- webhook testerino
+ranks.TableCache = {}
+function ranks.Table(key)
+	key = key or "String"
+
+	if (ranks.TableCache[key] != nil) then
+		return ranks.TableCache[key]
+	end
+
+	local ret, c = {}, 0
+	for k, v in ipairs(ranks.Roster) do
+		if (v[key]) then
+			c = c + 1
+			ret[c] = v[key]
+		end
+	end
+
+	ranks.TableCache[key] = ret
+	return ret
+end
+
+function ranks.Register(id, short, name)
+	local str = name and short or short:Replace(" ", ""):lower()
+	assert(id and str and ranks.Roster[id] == nil and ranks.BackwardsCompatibile[str] == nil,
+		"Failed on ranks.Register call attempt!\n	id: " .. tostring(id)
+			.. "\n	str: " .. tostring(short)
+			.. "\n	name: " .. tostring(name)
+		)
+
+	ranks.BackwardsCompatibile[str] = id
+	ranks.Count = ranks.Count + 1
+
+	return setmetatable({
+		ID = id,
+		Name = name or short,
+		String = str,
+		Color = Color(255, 255, 255),
+		FlagsString = "",
+		Flags = {},
+		Weight = 0,
+		VIP = false,
+		Staff = false,
+		Hancho = false,
+		Dev = false,
+		ForumID = 0,
+		Icon = false,
+		Whitelist = {Active = false, Index = {}, UserInfo = {}}
+	}, mt):Rank()
+end
+
+function ranks.AddUser(rankid, name, steamid64, steamid, discord, discordid, forumid, alts)
+	assert(rankid and name and steamid64 and steamid and discord and discordid and forumid,
+		"Missing some user info on ranks AddWhitelist call attempt!\n	rankid: " .. tostring(rankid)
+			.. "\n	name: " .. tostring(name)
+			.. "\n	steamid64: " .. tostring(steamid64)
+			.. "\n	steamid: " .. tostring(steamid)
+			.. "\n	discord: " .. tostring(discord)
+			.. "\n	discordid: " .. tostring(discordid)
+			.. "\n	forumid: " .. tostring(forumid)
+		)
+
+	local rank = ranks.Get(rankid)
+	if (not rank) then
+		return
+	end
+
+	ranks.Roster[rank.ID]:AddWhitelist(name, steamid64, steamid, discord, discordid, forumid, alts)
+end
+
+function ranks.CheckWhitelist(rankid, steamid64)
+	local rank = ranks.Get(rankid)
+	if (not rank) then
+		return false
+	end
+
+	if (not rank.Whitelist.Active) then
+		return true
+	end
+
+	return rank.Whitelist.Index[steamid64]
+end
+
+function ranks.CheckWeight(pl, targ)
+	if (type(pl) == "Player" or (istable(pl) and pl.rcon)) then
+		pl = pl:GetUserGroup()
+	elseif (type(pl) == "Entity") then
+		return true
+	end
+
+	targ = (type(targ) == "Player" or (istable(targ) and targ.rcon)) and targ:GetUserGroup() or targ
+	return (not ranks.Get(pl) or not ranks.Get(targ)) or ranks.Get(pl, "Flags")["*"] or (ranks.Get(pl, "Weight") >= ranks.Get(targ, "Weight"))
+end
+
+function mt:Rank()
+	ranks.BackwardsCompatibile[self.String] = self.ID
+	ranks.Roster[self.ID] = self
+
+	return self
+end
+
+function mt:SetName(name)
+	self.Name = name
+
+	return self:Rank()
+end
+
+function mt:ForumSync(gid)
+	self.ForumID = gid
+
+	return self:Rank()
+end
+
+function mt:SetIcon(img)
+	self.Icon = img
+
+	return self:Rank()
+end
+
+function mt:SetColor(r, g, b, a)
+	if (istable(r)) then
+		self.Color = Color(r[1] or r.r or 0, r[2] or r.g or 0, r[3] or r.b or 0, r[4] or r.a or 255)
+	elseif (isnumber(r)) then
+		self.Color = Color(r or 0, g or 0, b or 0, a or 255)
+	else
+		self.Color = r
+	end
+
+	return self:Rank()
+end
+
+function mt:SetWeight(num)
+	self.Weight = num
+
+	self.VIP = num > 1
+	self.Staff = num > 30
+	self.Hancho = num > 70
+	self.Dev = num == 100
+
+	return self:Rank()
+end
+
+function mt:SetFlags(flags)
+	local t = {}
+	for i = 1, #flags do
+		t[flags[i]:lower()] = true
+	end
+
+	self.FlagsString = flags
+	self.Flags = t
+
+	return self:Rank()
+end
+
+function mt:AddWhitelist(name, steamid64, steamid, discord, discordid, forumid, alts)
+	self.Whitelist.Index[steamid64] = true
+	self.Whitelist.Active = true
+
+	local userinfo = {
+		Name = name,
+		SteamID = steamid,
+		SteamID64 = steamid64,
+		DiscordTag = discord,
+		DiscordID = discordid,
+		ForumID = forumid,
+		Alts = alts,
+		Rank = self
+	}
+
+	if (self.Weight >= 100) then
+		table.insert(Devs, userinfo)
+	end
+
+	ranks.UserInfo.Count = ranks.UserInfo.Count + 1
+	ranks.UserInfo[ranks.UserInfo.Count] = userinfo
+
+	if (not alts) then
+		return self:Rank()
+	end
+
+	for k, v in pairs(alts) do
+		self.Whitelist.Index[v] = true
+	end
+
+	return self:Rank()
+end
+
+moat.Ranks, Devs = ranks, {}
+
+
+
+------------------------------------
+--
+-- Developer tools for whitelisted devs
+--	
+------------------------------------
+
+moat.isdev, moat.isdev_cache = function(lookup, can_null)
+	if (moat.isdev_cache[lookup] != nil) then
+		return moat.isdev_cache[lookup]
+	end
+
+	if (lookup == nil) then
+		error("moat.isdev called with nil lookup")
+		return false
+	end
+
+	if (lookup == NULL and not can_null) then
+		return true
+	end
+
+	if (IsValid(lookup) and not lookup:IsPlayer() and IsValid(lookup:GetOwner()) and lookup:GetOwner():IsPlayer()) then
+		lookup = lookup:GetOwner()
+	end
+
+	lookup = (IsValid(lookup) and lookup:IsPlayer()) and lookup:SteamID64() or lookup
+	for k, v in ipairs(Devs) do
+		if (v.SteamID == lookup or v.SteamID64 == lookup) then
+			moat.isdev_cache[lookup] = true
+			return true
+		end
+	end
+
+	moat.isdev_cache[lookup] = false
+	return false
+end, {}

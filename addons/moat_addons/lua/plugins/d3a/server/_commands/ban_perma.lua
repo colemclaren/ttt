@@ -24,7 +24,7 @@ COMMAND.Run = function(pl, args, supplement)
 	else
 		targstid = targpl:SteamID()
 		
-		if (!D3A.Ranks.CheckWeight(pl, targpl)) then
+		if (not moat.Ranks.CheckWeight(pl, targpl)) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, "Player's rank is equal or greater weight than yours!")
 			D3A.Chat.SendToPlayer2(targpl, moat_red, plname .. " (" .. plstid .. ") attempted to use Ban on you.")
 			return false
@@ -36,8 +36,8 @@ COMMAND.Run = function(pl, args, supplement)
 		return false
 	end
 
-	D3A.Bans.GetBans(targstid, function(Bans)
-		if (Bans.Current) then
+	D3A.Bans.IsBanned(targstid, function(Banned, Bans)
+		if (Banned and Bans.Current) then
 			if (IsValid(pl) and !pl:HasAccess("A")) then
 				D3A.Chat.SendToPlayer2(pl, moat_red, targstid .. " is already banned (Administrator access required to update a ban)")
 				return

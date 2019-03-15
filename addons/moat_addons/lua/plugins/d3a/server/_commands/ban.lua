@@ -61,8 +61,8 @@ COMMAND.Run = function(pl, args, supplement)
 		targstid = targ
 	else
 		targstid = targpl:SteamID()
-		
-		if (!D3A.Ranks.CheckWeight(pl, targpl)) then
+
+		if (not moat.Ranks.CheckWeight(pl, targpl)) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, "Player's rank is equal or greater weight than yours!")
 			D3A.Chat.SendToPlayer2(targpl, moat_red, plname .. " (" .. plstid .. ") attempted to use Ban on you.")
 			return false
@@ -73,17 +73,17 @@ COMMAND.Run = function(pl, args, supplement)
 		D3A.Chat.SendToPlayer2(pl, moat_red, "You can't ban yourself.")
 		return false
 	end
-	
-	D3A.Bans.GetBans(targstid, function(Bans)
-		if (Bans.Current) then
+
+	D3A.Bans.IsBanned(targstid, function(Banned, Bans)
+		if (Banned and Bans.Current) then
 			if (IsValid(pl) and !pl:HasAccess("A")) then
 				D3A.Chat.SendToPlayer2(pl, moat_red, targstid .. " is already banned (Administrator access required to update a ban)")
 				return
 			end
-			
+
 			local useunit = (time != 1 and unit .. "s") or unit
 			local reason = table.concat(args, " ", 4)
-			
+
 			D3A.Bans.BanPlayer(targstid, plstid, time, unit, reason, Bans.Current.time, function()
 				D3A.Chat.Broadcast2(pl, moat_cyan, targstid .. "'s", moat_white, " ban was updated by ", moat_cyan, plname, moat_white, " to ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ")'s *ban was updated* by " .. plname .. " (" .. plstid .. ") to " .. time .. " " .. useunit .. ". Reason: " .. reason .. "."
@@ -93,7 +93,7 @@ COMMAND.Run = function(pl, args, supplement)
 		else
 			local useunit = (time != 1 and unit .. "s") or unit
 			local reason = table.concat(args, " ", 4)
-		
+
 			D3A.Bans.BanPlayer(targstid, plstid, time, unit, reason, false, function()
 				D3A.Chat.Broadcast2(pl, moat_cyan, ((targpl and targpl:Name()) or targstid), moat_white, " was banned by ", moat_cyan, plname, moat_white, " for ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ") was *banned* by " .. plname .. " (" .. plstid .. ") for " .. time .. " " .. useunit .. ". Reason: " .. reason .. "."

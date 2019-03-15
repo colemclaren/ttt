@@ -1,13 +1,9 @@
-local meta = FindMetaTable("Player")
+local meta = FindMetaTable "Player"
 
 function meta:HasAccess(Flag)
-	if (Flag == "") then return true end
-	
-	Flag = Flag:lower()
+	local flags = moat.Ranks.Get(self:GetDataVar("rank") or "user", "Flags")
 
-	local flags = self:GetDataVar("rank") and self:GetDataVar("rank").Flags
-
-	return (flags ~= nil) and ((flags["*"] or flags[Flag]) == true)
+	return Flag == "" or flags[Flag:lower()] or flags["*"]
 end
 
 function meta:GetDataVar(name)
@@ -15,29 +11,28 @@ function meta:GetDataVar(name)
 end
 
 function meta:GetGroupWeight()
-	return self:GetDataVar("rank") and self:GetDataVar("rank").Weight or 0
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Weight") or 0
 end
 
 function meta:IsAdmin()
-	return self:HasAccess(D3A.Config.IsAdmin)
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Staff")
 end
 
 function meta:IsSuperAdmin()
-	return self:HasAccess(D3A.Config.IsSuperAdmin)
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Dev")
 end
 
 function meta:GetUserGroup()
-	return self:GetDataVar("rank") and self:GetDataVar("rank").Name or "user"
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "String")
 end
 
 function meta:IsUserGroup(group)
-	return self:GetUserGroup():lower() == group:lower()
+	local rank = moat.Ranks.Get(self:GetDataVar("rank") or "user")
+	return (isnumber(group) and rank.ID == group) or rank.String:lower() == group:lower() or rank.Name:lower() == group:lower()
 end
 
-function meta:SetUserGroup() ErrorNoHalt("PLAYER:SetUserGroup() is not supported\n") end
-
-function meta:NameID()
-	return self:Name() .. " (" .. self:SteamID() .. ")"
+function meta:SetUserGroup()
+	discord.Send((GetHostName() or "") .. " just ran SetUserGroup for `" .. self:NameID() .. "` <@207612500450082816>")
 end
 
 hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")

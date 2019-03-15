@@ -1,8 +1,18 @@
+function D3A.MySQL.GetPlayer(id64, res, empty)
+	return moat.mysql("SELECT * FROM player WHERE steam_id = ? LIMIT 1;", id64, function(d)
+		if (d and d[1]) then
+			return res and res()
+		else
+			return empty and empty()
+		end
+	end)
+end
+
 D3A.Player = D3A.Player or {}
 D3A.Player.Cache = D3A.Player.Cache or {}
 
 function D3A.Player.CanTarget(pl1, pl2)
-	return D3A.Ranks.CheckWeight(pl1:GetUserGroup(), pl2:GetUserGroup())
+	return moat.Ranks.CheckWeight(pl1:GetUserGroup(), pl2:GetUserGroup())
 end
 
 function D3A.Player.PlayerAuthed(pl)
@@ -33,7 +43,7 @@ function D3A.Player.PlayerAuthed(pl)
 		table.insert(msg_tbl, ".")
 
 		D3A.Chat.Broadcast2(unpack(msg_tbl))
-		
+
 		pl:SaveInfo()
 		D3A.Ranks.IPBSync(pl)
 	end)
@@ -66,7 +76,7 @@ end
 hook.Add("PhysgunDrop", "D3A.Player.PhysgunDrop", D3A.Player.PhysgunDrop)
 
 function D3A.Player.PlayerNoClip(pl)
-	if pl:HasAccess(D3A.Config.PlayerNoClip) then
+	if (pl:HasAccess(D3A.Config.PlayerNoClip)) then
 		return true
 	end
 end

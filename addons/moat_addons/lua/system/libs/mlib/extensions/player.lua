@@ -15,11 +15,11 @@ function PLAYER:__index(k)
 end
 
 local function SteamID(pl)
-	return IsValid(pl) and pl:SteamID()
+	return IsValid(pl) and pl:SteamID() or "???"
 end
 
 local function SteamID64(pl)
-	return IsValid(pl) and pl:SteamID64()
+	return IsValid(pl) and pl:SteamID64() or "???"
 end
 
 local function IPAddress(pl)
@@ -55,5 +55,5 @@ function PLAYER:SteamURL()
 end
 
 function PLAYER:GetIP()
-	return (":"):Explode(IPAddress(self))[1]
+	return (":"):Explode(self:IPAddress() or "0.0.0.0")[1]
 end

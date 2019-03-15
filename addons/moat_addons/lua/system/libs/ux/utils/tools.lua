@@ -11,8 +11,8 @@ ux.Active = function()
 	return (x ~= 0 or y ~= 0)
 end
 
-ux.CenterX = function(w) return ux.Center(w, uxW) end
-ux.CenterY = function(h) return ux.Center(h, uxH) end
+ux.CenterX = function(w) return ux.Center(w, ScrW()) end
+ux.CenterY = function(h) return ux.Center(h, ScrH()) end
 ux.Center = function(child, parent)
 	parent = parent / 2
 

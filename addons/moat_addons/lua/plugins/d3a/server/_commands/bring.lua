@@ -25,7 +25,7 @@ COMMAND.CheckArgs = function(pl, cmd, args)
 			local targ = D3A.FindPlayer(v)
 			if (targ) then
 				if (cmd.CheckRankWeight) then
-					if (!D3A.Ranks.CheckWeight(pl, targ)) then
+					if (not moat.Ranks.CheckWeight(pl, targ)) then
 						D3A.Chat.SendToPlayer2(pl, moat_red, "Player's rank is equal or greater weight than yours!")
 						D3A.Chat.SendToPlayer2(targ, moat_red, pl:Name() .. " (" .. pl:SteamID() .. ") attempted to use " .. cmd.Name .. " on you.")
 						continue

@@ -9,7 +9,7 @@ COMMAND.Run = function(pl, args, supp)
 	local plname = D3A.Commands.Name(pl)
 	local tmname = args[2]:lower()
 
-	if (not D3A.Ranks.Stored[tmname]) then
+	if (not moat.Ranks.Get(tmname)) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Unknown rank name: " .. tmname .. ".")
 		return
 	end
@@ -34,13 +34,13 @@ COMMAND.Run = function(pl, args, supp)
 	end
 
 	D3A.LoadSteamID(sid, function(d)
-		if (not D3A.Ranks.CheckWeight(pl, d.rank)) then
+		if (not moat.Ranks.CheckWeight(pl, d.rank)) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, "Player's rank is equal or greater weight than yours!")
 			return
 		end
 
 		D3A.Ranks.ChangeRank(sid, tmname)
-		
+
 		D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has set the rank of ", moat_green, d.name, 
 		moat_white, " (", moat_green, util.SteamIDFrom64(sid), moat_white, ") to ", moat_green, tmname, moat_white, ".")
 

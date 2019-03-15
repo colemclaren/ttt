@@ -1,5 +1,5 @@
 COMMAND.Name = "Boost"
-COMMAND.Flag = "C"
+COMMAND.Flag = "+"
 COMMAND.CheckRankWeight = true
 COMMAND.Args = {{"string", "Map"}}
 

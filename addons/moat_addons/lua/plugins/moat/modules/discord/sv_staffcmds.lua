@@ -84,7 +84,7 @@ function MOAT_RCON.Player(name, steamid, rank, id)
 	function pl:GetUserGroup() return self.rcon.Rank end
 	function pl:IsUserGroup(r) return self:GetUserGroup() == r end
 
-	local tm = D3A.Ranks.Stored[pl.rcon.Rank] or D3A.Ranks.Stored["user"]
+	local tm = moat.Ranks.Get(pl.rcon.Rank) or moat.Ranks.Get "user"
 	function pl:GetRank() return {Name = tm.Name, Weight = tm.Weight, Flags = tm.Flags, FlagsString = tm.FlagsString} end
 	function pl:HasAccess(Flag)
 		if (Flag == "") then return true end

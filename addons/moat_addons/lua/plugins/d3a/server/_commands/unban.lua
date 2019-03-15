@@ -13,8 +13,8 @@ COMMAND.Run = function(pl, args, supp)
 		return
 	end
 
-	D3A.Bans.GetBans(sid, function(Bans)
-		if (!Bans.Current) then
+	D3A.Bans.IsBanned(sid, function(Banned, Bans)
+		if (not Banned or not Bans.Current) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, sid .. " is not banned!")
 		else
 			local reason = table.concat(args, " ", 2)

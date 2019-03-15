@@ -18,8 +18,8 @@ COMMAND.Run = function(pl, args, supplement)
 		targstid = targ
 	else
 		targstid = targpl:SteamID()
-		
-		if (!D3A.Ranks.CheckWeight(pl, targpl)) then
+
+		if (not moat.Ranks.CheckWeight(pl, targpl)) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, "Player's rank is equal or greater weight than yours!")
 			return false
 		end

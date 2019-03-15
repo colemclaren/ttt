@@ -1,12 +1,3 @@
-function D3A_selectUserInfo(id64)
-	id64 = D3A.MySQL.Escape(id64)
-
-	return [[SELECT name, rank, first_join, last_join, 
-	playtime, inventory_credits, event_credits, donator_credits, 
-	extra, rank_expire, rank_expire_to, rank_changed FROM
-	player WHERE steam_id = ]] .. id64 .. [[ LIMIT 1;]]
-end
-
 function D3A.InitializePlayer(pl, data, cb)
 	if (not IsValid(pl)) then return end
 	if (not data.rank) then data.rank = "user" end
@@ -25,31 +16,26 @@ function D3A.InitializePlayer(pl, data, cb)
 end
 
 local meta = FindMetaTable("Player")
-function meta:LoadInfo(callback)
+function meta:LoadInfo(cb)
 	local pl = self
 
 	local id32, id64 = pl:SteamID(), pl:SteamID64()
 	if (id64 and D3A.Player.Cache[id64]) then
-		D3A.InitializePlayer(pl, D3A.Player.Cache[id64], callback)
+		D3A.InitializePlayer(pl, D3A.Player.Cache[id64], cb)
 		return
 	end
 
-	D3A.MySQL.Query(D3A_selectUserInfo(id64), function(d)
-		if (not IsValid(pl)) then return end
-
-		local data = d and d[1]
-		if (not data) then
-			timer.Simple(2, function()
-				if (IsValid(pl)) then
-					D3A.Print("Failed to Load " .. pl:Nick() .. " | " .. pl:SteamID())
-					pl:LoadInfo(callback)
-				end
-			end)
-
-			return
+	D3A.Player.LoadPlayerInfo(id64, function(data)
+		if (IsValid(pl)) then
+			D3A.InitializePlayer(pl, data, cb)
 		end
-
-		D3A.InitializePlayer(pl, data, callback)
+	end, function(...)
+		timer.Simple(2, function()
+			if (IsValid(pl)) then
+				D3A.Print("Failed to Load " .. pl:Nick() .. " | " .. pl:SteamID())
+				pl:LoadInfo(cb)
+			end
+		end)
 	end)
 end
 

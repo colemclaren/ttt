@@ -27,7 +27,7 @@ function D3A.CheckMissingMap(forced)
 		local msg = (GetHostName() or "") .. " had to changelevel due to " .. rs .. " for `" .. game.GetMap() .. "` <@207612500450082816>"
 
 		discord.Send("Bad Map", msg)
-		
+
 		RunConsoleCommand("mga", "map", default_map)
 	end
 end

@@ -1,16 +1,17 @@
 MOAT_RANKS = MOAT_RANKS or {}
-MOAT_RANKS["guest"] = {"", Color(255, 255, 255), true, false, false}
+MOAT_RANKS["guest"] = {"", Color(185, 187, 190), true, false, false}
 MOAT_RANKS["user"] = {"", Color(255, 255, 255), true, false, false}
 MOAT_RANKS["vip"] = {"VIP", Color(0, 255, 0), true, true, false}
-MOAT_RANKS["credibleclub"] = {"Credible Club", Color(255, 128, 0), true, true, false}
-MOAT_RANKS["trialstaff"] = {"Trial Staff", Color(51, 204, 255), true, true, true}
-MOAT_RANKS["moderator"] = {"Moderator", Color(0, 102, 0), true, true, true}
-MOAT_RANKS["admin"] = {"Administrator", Color(102, 0, 204), true, true, true}
-MOAT_RANKS["senioradmin"] = {"Senior Administrator", Color(102, 0, 102), true, true, true}
-MOAT_RANKS["headadmin"] = {"Head Administrator", Color(51, 0, 51), true, true, true}
-MOAT_RANKS["operationslead"] = {"Operations Lead", Color(255, 0, 0), true, true, true}
-MOAT_RANKS["techlead"] = {"Tech Lead", Color(255, 0, 0), true, true, true}
-MOAT_RANKS["communitylead"] = {"Community Lead", Color(255, 0, 0), true, true, true}
+MOAT_RANKS["mvp"] = {"MVP", Color(255, 249, 30), true, true, false}
+MOAT_RANKS["credibleclub"] = {"Credible Club", Color(255, 115, 26), true, true, false}
+MOAT_RANKS["trialstaff"] = {"Trial Staff", Color(0, 182, 255), true, true, true}
+MOAT_RANKS["moderator"] = {"Moderator", Color(31, 139, 76), true, true, true}
+MOAT_RANKS["admin"] = {"Administrator", Color(155, 61, 255), true, true, true}
+MOAT_RANKS["senioradmin"] = {"Senior Administrator", Color(203, 61, 255), true, true, true}
+MOAT_RANKS["headadmin"] = {"Head Administrator", Color(255, 51, 148), true, true, true}
+MOAT_RANKS["operationslead"] = {"Operations Lead", Color(255, 51, 148), true, true, true}
+MOAT_RANKS["techlead"] = {"Tech Lead", Color(255, 51, 51), true, true, true}
+MOAT_RANKS["communitylead"] = {"Community Lead", Color(255, 51, 51), true, true, true}
 
 MOAT_RANKS["communitylead"].check = true
 MOAT_RANKS["techlead"].check = true

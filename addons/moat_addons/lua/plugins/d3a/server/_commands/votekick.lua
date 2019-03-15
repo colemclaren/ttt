@@ -1,5 +1,5 @@
 COMMAND.Name = "Votekick"
-COMMAND.Flag = "C"
+COMMAND.Flag = "+"
 COMMAND.CheckRankWeight = true
 COMMAND.Args = {{"player", "Name/SteamID"}, {"string", "Reason"}}
 local reasons = {

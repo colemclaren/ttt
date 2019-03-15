@@ -1,17 +1,14 @@
 function D3A.LoadSteamID(id, succ, err)
-	D3A.MySQL.Query(D3A_selectUserInfo(id), function(d)
-		if (d and d[1]) then
-			local r = d[1]
-			
-			if (not r.rank) then r.rank = "user" end
-			if (r.rank_expire and r.rank_expire <= os.time()) then
-				r.rank = r.rank_expire_to or "user"
-			end
+	D3A.Player.LoadPlayerInfo(id, function(r)
+		r.rank = r.rank or "user"
 
-			if (succ) then succ(r) end
-		else
-			if (err) then err() end
+		if (r.rank_expire and r.rank_expire <= os.time()) then
+			r.rank = r.rank_expire_to or "user"
 		end
+
+		if (succ) then succ(r) end
+	end, function()
+		if (err) then err() end
 	end)
 end
 

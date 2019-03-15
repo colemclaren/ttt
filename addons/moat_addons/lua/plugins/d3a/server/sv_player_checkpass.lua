@@ -8,13 +8,8 @@ staff["senioradmin"] = true
 staff["headadmin"] = true
 staff["communitylead"] = true
 
-local vip = {}
-vip["credibleclub"] = true
-vip["vip"] = true
-
 local max_players, hostname = GetConVarNumber("maxplayers"), GetHostName():lower()
 local beta_server, maintenance_server = hostname:find("beta"), hostname:find("maintenance")
-local default_avatar = "https://cdn.moat.gg/f/bYtLdLXsVCE3jAR6KxcYyrh2mXYc.png"
 
 local players_connecting = {}
 local kick_reasons = {}
@@ -24,7 +19,7 @@ kick_reasons["ttc"] = "This is the Moat.GG Terror City server.\n\nYou must be at
 kick_reasons["maintenance"] = "Maintenance mode is active on this server! Sit tight while we work on things. Please try again later <3"
 
 function D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, AvatarURL)
-	AvatarURL = AvatarURL or default_avatar
+	AvatarURL = AvatarURL or D3A.DefaultAvatar
 	local qstr = "INSERT INTO player "
 	qstr = qstr .. "(steam_id, name, rank, first_join, last_join, avatar_url, playtime, inventory_credits, event_credits, donator_credits)"
 	qstr = qstr .. " VALUES (?, ?, NULL, UNIX_TIMESTAMP(), NULL, ?, 0, 0, 0, 0);"
@@ -43,6 +38,17 @@ function D3A.Player.KickID(steamid32, type, ...)
 	str = str:gsub("#", function() arg = arg + 1 return tostring(args[arg]) end)
 
 	game.KickID(steamid32, tostring(str))
+end
+
+
+function D3A.Player.LoadPlayerInfo(id64, res, empty)
+	return moat.mysql("SELECT * FROM player WHERE steam_id = ? LIMIT 1;", id64, function(d)
+		if (d and d[1]) then
+			return res and res(d[1])
+		else
+			return empty and empty(d)
+		end
+	end)
 end
 
 function D3A.Player.CheckReserved(steamid, rank)
@@ -128,17 +134,15 @@ function D3A.Player.CheckBetaAccess(SteamID, SteamID32)
 	end)
 end
 
-function D3A.Player.LoadPlayerInfo(SteamID, SteamID32, Name, IP)
-	D3A.MySQL.Query(D3A_selectUserInfo(SteamID), function(d)
-		if (d and d[1]) then
-			D3A.Player.Cache[SteamID] = d[1]
+function D3A.Player.Initialize(SteamID, SteamID32, Name, IP)
+	D3A.Player.LoadPlayerInfo(SteamID, function(data)
+		D3A.Player.Cache[SteamID] = data
 
-			D3A.Print(SteamID32 .. " | Connecting")
-			D3A.Player.CheckReserved(SteamID32, d[1].rank or "user")
-		else
-			D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name)
-			D3A.Player.CheckReserved(SteamID32, "user")
-		end
+		D3A.Print(SteamID32 .. " | Connecting")
+		D3A.Player.CheckReserved(SteamID32, data.rank or "user")
+	end, function()
+		D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name)
+		D3A.Player.CheckReserved(SteamID32, "user")
 	end)
 end
 
@@ -158,7 +162,7 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	D3A.Player.CheckIfBanned(SteamID, SteamID32)
 
 	-- Load or create player data
-	D3A.Player.LoadPlayerInfo(SteamID, SteamID32, Name, IP)
+	D3A.Player.Initialize(SteamID, SteamID32, Name, IP)
 
 	if (beta_server) then
 		D3A.Player.CheckBetaAccess(SteamID, SteamID32)
