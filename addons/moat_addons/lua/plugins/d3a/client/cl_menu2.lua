@@ -99,15 +99,15 @@ MGA2.CommandList = {
 		{"Block", "Blocks a player in game.", false},
 		{"UnBlock", "Unblocks a player in game.", false},
 	}},
-	{5, "VIP & Credible Club", Color(255, 128, 0, 255), {
+	{10, "VIP & Credible Club", Color(255, 128, 0, 255), {
 		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
-			{"Drop", "Choose Reason", {"Mic Spamming","Purposeful Mass RDM","Attempted Mass RDM","Chat Spamming","Hateful Conduct"}, "Reason required..."}
+			{"Drop", "Choose Reason", {"Purposeful Mass RDM","Attempted Mass RDM","Hateful Conduct"}, "Reason required..."}
 		}},
 		{"Boost", "Boosts a map for the next map vote.", "None", {
 			{"Drop", "Choose Map", {"Loading Maps...", "Loading Maps...", "Loading Maps..."}, "No Map Choosen"}
 		}}
 	}},
-	{15, "Trial Staff", Color(41, 194, 245, 255), {
+	{40, "Trial Staff", Color(41, 194, 245, 255), {
 		{"AFK", "Forces a player into spectator mode.", true},
 		{"UnAFK", "Forces a player out of spectator mode.", true},
 		{"ASlay", "Marks a player to be slain next round.", true, {
@@ -139,7 +139,7 @@ MGA2.CommandList = {
 			{"Entry", "Reason", "Breaking Rules"}
 		}},
 	}},
-	{20, "Moderator", Color(0, 102, 0, 255),  {
+	{50, "Moderator", Color(0, 102, 0, 255),  {
 		{"VoiceBattery", "Enables the voice battery serverwide.", "None"},
 		{"Bring", "Brings a player to your location.", true},
 		{"Slay", "Slays a player immediately.", true},
@@ -151,7 +151,7 @@ MGA2.CommandList = {
 			{"Entry", "Reason", "Breaking Rules"}
 		}},
 	}},
-	{25, "Administrator", Color(102, 0, 204, 255), {
+	{60, "Administrator", Color(102, 0, 204, 255), {
 		{"NoInvis", "Fixes any invisible players.", "None"},
 		{"NoLag", "Freezes all physics objects on the server.", "None"},
 		{"Tele", "Teleports a player to where you are looking.", true},
@@ -163,7 +163,7 @@ MGA2.CommandList = {
 		{"Reconnect", "Forces a player to reconnect.", true},
 		{"StopSounds", "Runs stopsound on every player.", "None"},
 	}},
-	{30, "Senior Administrator", Color(102, 0, 102, 255),  {
+	{70, "Senior Administrator", Color(102, 0, 102, 255),  {
 		{"Unban", "Unbans a SteamID from the server.", "SteamID", {
 			{"Entry", "SteamID", "STEAM_0:0:"},
 			{"Entry", "Reason", "Breaking Rules"}
@@ -174,10 +174,10 @@ MGA2.CommandList = {
 		{"Reload", "Forces the map to reload.", "None"},
 		{"Return", "Returns a player to their position before being teleported.", false}
 	}},
-	{35, "Head Administrator", Color(51, 0, 51, 255), {
+	{80, "Head Administrator", Color(51, 0, 51, 255), {
 		{"SetGroup", "Sets the group of a player.", true, {
 			{"Entry", "SteamID", "STEAM_0:0:"},
-			{"Drop", "Group", moat.Ranks.Table(), "user"}
+			{"Drop", "Group", {}, "user"}
 		}},
 	}},
 	{100, "Community Lead", Color(255, 0, 0, 255), {
