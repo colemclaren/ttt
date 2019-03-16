@@ -10,7 +10,10 @@ local map_disconnect_reasons = {
 local map_disconnect_limit, map_disconnects = 15, 0
 function D3A.CheckMissingMap(forced)
 	local c = player.GetCount()
-	if (c >= 3 and not forced) then return end
+	if (c >= 3 and not forced or Server.IsDev) then
+		return
+	end
+
 	map_disconnects = map_disconnects + 1
 
 	if (forced or map_disconnects >= map_disconnect_limit) then
