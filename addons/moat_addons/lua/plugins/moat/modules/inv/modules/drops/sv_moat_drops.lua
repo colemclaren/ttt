@@ -457,10 +457,10 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
 				cdn.PlayURL "https://cdn.moat.gg/f/jNtvxfzegrrhSzpFi2ldjPLFVCuL.mp3"
             elseif (item_to_drop.Rarity == 7) then
 				cdn.PlayURL "https://cdn.moat.gg/f/CUuOaURrcDiexrntlVjs9famksuK.wav"
-				BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)")
+				util.GlobalScreenShake(5, 5, 10, 5000)
             elseif (item_to_drop.Rarity == 9) then
                 cdn.PlayURL "https://cdn.moat.gg/f/1ePlkeSBwT6xXxcUJ7frbSUzT1BW.mp3"
-				BroadcastLua("util.ScreenShake(LocalPlayer():GetPos(), 25, 25, 15, 5000)")
+				util.GlobalScreenShake(25, 25, 15, 5000)
                 local ITEM_HOVERED = item_to_drop
                 local wpnstr = item_to_drop.Name
                 local ITEM_NAME_FULL = ""

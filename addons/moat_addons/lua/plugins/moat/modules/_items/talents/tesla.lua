@@ -85,5 +85,5 @@ function EFFECT:Callback(data)
 	effectdata:SetScale(3)
 	util.Effect("TeslaHitBoxes", effectdata)
 
-	victim:ScreenShake(50)
+	victim:ScreenShake(50, 100, 0.5, 100)
 end
