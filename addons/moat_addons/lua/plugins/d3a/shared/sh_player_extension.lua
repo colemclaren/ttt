@@ -28,7 +28,7 @@ end
 
 function meta:IsUserGroup(group)
 	local rank = moat.Ranks.Get(self:GetDataVar("rank") or "user")
-	return (isnumber(group) and rank.ID == group) or rank.String:lower() == group:lower() or rank.Name:lower() == group:lower()
+	return (isnumber(group) and rank.ID == group) or (rank.String or "user"):lower() == group:lower() or (rank.Name or "user"):lower() == group:lower()
 end
 
 function meta:SetUserGroup()
