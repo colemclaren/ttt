@@ -238,6 +238,7 @@ D3A.DiscordLogs = {
 	["removetitle"] = {"Player Title", "``%s`` has removed the scoreboard title of ``%s``, which was changed by **%s**.", "✏"},
 	["return"] = {"Player Teleported", "``%s`` has returned ``%s``.", "⬅"},
 	["setgroup"] = {"Player Rank", "``%s`` has set the rank of ``%s`` to **%s**.", "💇‍"},
+	["wipe"] = {"Player Wiped", "``%s`` has wiped **%s**.", "☢️"},
 	["slay"] = {"Player Slain", "``%s`` has slain ``%s``.", "💀"},
 	["votekick"] = {"Votekick Started", "``%s`` has started a votekick on ``%s``.", "⛳"},
 	["votekick_pass"] = {"Votekick Passed", "``%s`` has been votekicked by ``%s``.", "🏌️‍", "votekick"},

@@ -175,6 +175,9 @@ MGA.CommandList = {
 			{"Entry", "SteamID", "STEAM_0:0:"},
 			{"Drop", "Group", {}, "user"}
 		}},
+		{"Wipe", "Wipes a player", true, {
+			{"Entry", "SteamID", "STEAM_0:0:"}
+		}},
 	}},
 	{100, "Community Lead", Color(255, 0, 0, 255), {
 		{"CrashBan", "Crash bans a user and permanently bans them.", false, {
