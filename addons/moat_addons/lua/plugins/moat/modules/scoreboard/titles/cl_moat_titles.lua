@@ -745,9 +745,9 @@ function populate_profile_card(MOAT_PROFILE,info)
     name:SetSize(355,40)
     name:SetText("")
     if info.lastonline == 0 then
-        name.info = "Online now!"
+        name.info = "Online on this server!"
     else
-        name.info = "Last online " .. D3A.FormatTimeSingle(info.lastonline) .. " ago"
+        name.info = "Last seen " .. D3A.FormatTimeSingle(info.lastonline) .. " ago"
     end
     function name:Paint(w,h)
         draw.DrawText(name.info,"profile.steamid",w/2,0,Color(255,255,255),TEXT_ALIGN_CENTER)
@@ -757,9 +757,9 @@ function populate_profile_card(MOAT_PROFILE,info)
         self.info = "Copied to clipboard!"
         timer.Simple(0.5,function()
             if info.lastonline == 0 then
-                self.info = "Online now!"
+                self.info = "Online on this server!"
             else
-                self.info = "Last online " .. D3A.FormatTimeSingle(info.lastonline) .. " ago"
+                self.info = "Last seen " .. D3A.FormatTimeSingle(info.lastonline) .. " ago"
             end
         end)
     end
