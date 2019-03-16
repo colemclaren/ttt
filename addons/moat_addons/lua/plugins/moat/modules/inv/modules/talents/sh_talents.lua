@@ -59,6 +59,6 @@ else
 	net.Receive("Moat.Talents.Shake", function()
 		local pow = net.ReadUInt(16)
 
-		util.ScreenShake(vec0 pow, 100, 0.5, 100)
+		util.ScreenShake(vec0, pow, 100, 0.5, 100)
 	end)
 end
