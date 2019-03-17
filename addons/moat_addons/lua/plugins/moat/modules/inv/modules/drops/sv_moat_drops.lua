@@ -604,7 +604,7 @@ function m_GetRandomInventoryItem(arg_collection)
         if (item_to_drop.Kind == "tier" or item_to_drop.Kind == "Unique") then
             dropped_item.w = ""
 
-            if (item_to_drop.Collection == "Pumpkin Collection"or item_to_drop.Collection == "Holiday Collection" or v.Collection == "Meme Collection") then
+            if (item_to_drop.Collection == "Pumpkin Collection"or item_to_drop.Collection == "Holiday Collection" or item_to_drop.Collection == "Meme Collection") then
                 for k, v in RandomPairs(cached_weapons) do
                     if (v.Base == "weapon_tttbase" and (v.AutoSpawnable or v.ClassName:StartWith("weapon_ttt_te_"))) then
                         dropped_item.w = v.ClassName
