@@ -1,4 +1,4 @@
-ITEM.ID = 9999
+ITEM.ID = 9199
 ITEM.Name = "Don't Say"
 ITEM.Rarity = 2
 ITEM.Collection = "Meme Collection"

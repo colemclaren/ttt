@@ -10,9 +10,11 @@ local FriedLocalPlayer, FriedPlayers, FriedScreen = CurTime(), {Count = 0, Delet
 	["$pp_colour_mulb"] = 0
 }
 
-net.ReceivePlayer("Moat.Talents.DeepFried", function(pl)
+net.Receive("Moat.Talents.DeepFried", function()
+	local pl = net.ReadPlayer()
+	if (not IsValid(pl)) then return end
 	local t = net.ReadDouble()
-	print(pl, t)
+
 	if (IsValid(LocalPlayer()) and pl == LocalPlayer()) then
 		FriedLocalPlayer = FriedLocalPlayer > CurTime() and FriedLocalPlayer + t or CurTime() + t
 
@@ -37,8 +39,6 @@ net.ReceivePlayer("Moat.Talents.DeepFried", function(pl)
 			if (v.Start == now) then FriedPlayers[k].Sound = s end
 		end
 	end, "3d noplay")
-
-	PrintTable(FriedPlayers)
 end)
 
 hook("RenderScreenspaceEffects", function()
