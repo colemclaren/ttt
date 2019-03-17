@@ -46,6 +46,10 @@ hook("RenderScreenspaceEffects", function()
 		return
 	end
 
+	if (not LocalPlayer():IsActive()) then
+		return
+	end
+
 	DrawSharpen(3.49, 5)
 	DrawSobel(0.68)
 	DrawColorModify(FriedScreen)
