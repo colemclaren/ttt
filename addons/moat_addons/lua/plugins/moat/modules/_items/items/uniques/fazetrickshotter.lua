@@ -1,6 +1,6 @@
 
 ITEM.ID = 7973
-ITEM.Name = "Next FaZe Pro Player"
+ITEM.Name = "FaZe Pro Player"
 ITEM.Rarity = 7
 ITEM.Collection = "Meme Collection"
 ITEM.MinStats = 5

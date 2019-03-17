@@ -7,6 +7,5 @@ ITEM.Rarity = 4
 ITEM.Collection = "Meme Collection"
 ITEM.Active = true
 ITEM.Stackable = true
-ITEM.Price = 1200
+ITEM.Price = 1420
 ITEM.NewItem = 1555398000
-ITEM.ShopDesc = "Hold tight... the crate is about to be available"

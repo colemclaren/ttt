@@ -98,7 +98,6 @@ local function randomvape()
 end
 net.Receive("MOAT_BUY_ITEM", function(len, ply)
     local crate_id = net.ReadDouble()
-	if (crate_id == 9990) then return end
     local crate_amt = math.Clamp(net.ReadUInt(8), 1, 50)
     local crate_tbl = {}
     if limiteds[crate_id] then

@@ -307,7 +307,7 @@ function m_PopulateShop(pnl)
         end
         local checked_hover = false
 
-		local Soon = (itemtbl.Name and itemtbl.Name == "Meme Crate")
+		local Soon = false --(itemtbl.Name and itemtbl.Name == "Meme Crate")
         ITEM_BG.Paint = function(s, w, h)
             if s:IsHovered() and (not checked_hover) then
                 checked_hover = true
