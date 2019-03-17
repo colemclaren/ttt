@@ -70,6 +70,12 @@ function SWEP:PrimaryAttack()
         ent:GetPhysicsObject():SetVelocity(owner:GetAimVector() * 600 + owner:GetVelocity())
         ent.OnRemove = function(s) self.Balls = self.Balls - 1 end
         ent.Use = function(s) s:Remove() end
+		
+		timer.Simple(10, function()
+			if (IsValid(ent)) then
+				ent:Remove()
+			end
+		end)
     end
 
     self:SetNextPrimaryFire(CurTime() + 0.5)
