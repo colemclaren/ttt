@@ -40,9 +40,7 @@ end
 hook.Add("TTTPrepareRound", "moat.status.round.begin", status.Reset)
 
 function status.Remove(pl)
-	if (not pl.ActiveEffects) then
-		return
-	end
+	if (not pl.ActiveEffects) then return end
 
 	for _, effect in pairs(pl.ActiveEffects) do
 		effect:Reset()
@@ -57,8 +55,8 @@ local pl = FindMetaTable("Player")
 function pl:ClearEffects()
 	if (not self.ActiveEffects) then return end
 
-	for id, state in pairs(self.ActiveEffects) do
-		state.DoRemove = true
+	for _, effect in pairs(self.ActiveEffects) do
+		effect:Reset()
 	end
 
 	net.Start("moat.status.reset")

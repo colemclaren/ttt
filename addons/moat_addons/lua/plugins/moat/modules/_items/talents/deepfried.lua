@@ -29,8 +29,8 @@ end
 
 util.AddNetworkString "Moat.Talents.DeepFried"
 
-local FRIED = status.Create "Fried"
-function FRIED:Invoke(data)
+local STATUS = status.Create "Fried"
+function STATUS:Invoke(data)
 	local effect = self:GetEffectFromPlayer("Deep Fried", data.Player)
 	if (effect) then
 		effect:AddTime(data.Time)
@@ -39,18 +39,10 @@ function FRIED:Invoke(data)
 	end
 end
 
-local EFFECT = FRIED:CreateEffect "Deep Fried"
+local EFFECT = STATUS:CreateEffect "Deep Fried"
 EFFECT.Message = "Deep Fried"
 EFFECT.Color = TALENT.NameColor
 EFFECT.Material = "icon16/eye.png"
-function EFFECT:Callback(data)
-	if (not IsValid(data.Player) or not data.Player:IsActive()) then
-		return
-	end
-
-	data.Player:SendLua("util.ScreenShake(Vector(0, 0, 0), 50, 100, 0.5, 100)")
-end
-
 function EFFECT:Init(data)
 	net.Start "Moat.Talents.DeepFried"
 		net.WritePlayer(data.Player)
@@ -60,4 +52,9 @@ function EFFECT:Init(data)
 	self:CreateTimer(math.floor(data.Time), math.floor(data.Time) * 2, self.Callback, data)
 end
 
-FRIED.Effects["Deep Fried"] = EFFECT
+function EFFECT:Callback(data)
+	local victim = data.Player
+	if (not IsValid(victim) or not victim:Alive()) then return end
+
+	victim:ScreenShake(50, 100, 0.5, 100)
+end
