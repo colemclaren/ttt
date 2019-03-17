@@ -19,6 +19,10 @@ hook("EntityTakeDamage", function(pl, dmg)
 
 	local att = dmg:GetAttacker()
 	if (IsValid(pl) and pl:IsPlayer() and pl:IsActiveTraitor() and IsValid(att) and att:IsPlayer() and att:GetRole() == ROLE_TRAITOR) then
+		if (pl == att and dmg:GetDamageType() == DMG_BLAST) then
+			return
+		end
+
 		return true
 	end
 end)
