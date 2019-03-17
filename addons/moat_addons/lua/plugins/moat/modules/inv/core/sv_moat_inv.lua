@@ -206,6 +206,19 @@ function m_GetTalentFromEnumWithFunctions(tenum)
     return tbl
 end
 
+concommand.Add("moat_reload", function(pl)
+	if (not moat.isdev(pl)) then return end
+
+	crate_cache = {}
+	item_cache = {}
+	talent_cache = {}
+	item_cache2 = {}
+	talent_cache2 = {}
+
+	m_InitializeItems()
+	m_InitializeTalents()
+end)
+
 function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
     local ply_inv = table.Copy(MOAT_INVS[self])
     local slot_found, upgrade = 0, false

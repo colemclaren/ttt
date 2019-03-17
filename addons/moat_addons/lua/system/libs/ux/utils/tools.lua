@@ -24,11 +24,11 @@ ux.Center = function(child, parent)
 end
 
 local blur = Material "pp/blurscreen"
-ux.Blur = function(p, n)
+ux.Blur = function(p, n, a)
 	local x, y = p:LocalToScreen(0, 0)
 	local scrw, scrh = ScrW(), ScrH()
 
-	surface.SetDrawColor(255, 255, 255)
+	surface.SetDrawColor(255, 255, 255, a or 255)
 	surface.SetMaterial(blur)
 
 	for i = 1, 3 do

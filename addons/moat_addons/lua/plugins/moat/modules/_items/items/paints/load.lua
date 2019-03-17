@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 MOAT_PAINT = MOAT_PAINT or {}
 
-MOAT_PAINT.Colors = {
+MOAT_PAINT.Colors = MOAT_PAINT.Colors or {
   {"Mint Green", {3, 255, 171}, 6},
   {"Joker Green", {2, 153, 57}, 3},
   {"Pindel Pink", {247, 136, 206}, 5},
@@ -67,7 +67,7 @@ MOAT_PAINT.Textures = {
   {"Flesh", "models/flesh", 7}
 }
 */
-MOAT_PAINT.Tints = {
+MOAT_PAINT.Tints = MOAT_PAINT.Tints or {
 	[6001] = {'Mint Green Tint', {3, 255, 171}, 6},
 	[6002] = {'Joker Green Tint', {2, 153, 57}, 3},
 	[6003] = {'Pindel Pink Tint', {247, 136, 206}, 5},
@@ -129,7 +129,7 @@ MOAT_PAINT.Tints = {
 	[6566] = {'Infinity Tint', {255, 255, 255}, 9, 'https://cdn.moat.gg/f/paint_rainbow.png', Dream = true}
 }
 
-MOAT_PAINT.Paints = {
+MOAT_PAINT.Paints = MOAT_PAINT.Paints or {
 	[6059] = {'Mint Green Paint', {3, 255, 171}, 6},
 	[6060] = {'Joker Green Paint', {2, 153, 57}, 3},
 	[6061] = {'Pindel Pink Paint', {247, 136, 206}, 5},
@@ -192,7 +192,7 @@ MOAT_PAINT.Paints = {
 }
 
 local holidays = 'Holiday Collection'
-MOAT_PAINT.Skins = {
+MOAT_PAINT.Skins = MOAT_PAINT.Skins or {
 	[6117] = {'Flesh Skin', 'https://cdn.moat.gg/f/1998b.vtf', 7, 'https://cdn.moat.gg/f/86cc6.png'},
 	[6119] = {'Test Skin', 'https://cdn.moat.gg/f/b4573.vtf', 8, nil, 'Testing Collection'},
 	[6120] = {'Merry Poops', 'https://cdn.moat.gg/f/209a2.vtf', 3, 'https://cdn.moat.gg/f/b70cb.png', holidays},

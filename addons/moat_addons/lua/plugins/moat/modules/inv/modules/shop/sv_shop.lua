@@ -14,7 +14,7 @@ function m_GetActiveCrates()
 		if (v.LimitedShop) and (v.LimitedShop <= os.time()) then continue end
 		if (v.NewItem and v.NewItem <= os.time()) then v.NewItem = nil end
 
-        if (v.Active and v.Name ~= "Pumpkin Crate" and v.Name ~= "Santa's Present" and v.Name ~= "Holiday Crate" and v.Name ~= "Empty Gift Package") then
+        if (v.Active and v.Name ~= "Meme Crate" and v.Name ~= "Pumpkin Crate" and v.Name ~= "Santa's Present" and v.Name ~= "Holiday Crate" and v.Name ~= "Empty Gift Package") then
             table.insert(active_crates, v)
         end
     end
@@ -98,6 +98,7 @@ local function randomvape()
 end
 net.Receive("MOAT_BUY_ITEM", function(len, ply)
     local crate_id = net.ReadDouble()
+	if (crate_id == 9990) then return end
     local crate_amt = math.Clamp(net.ReadUInt(8), 1, 50)
     local crate_tbl = {}
     if limiteds[crate_id] then

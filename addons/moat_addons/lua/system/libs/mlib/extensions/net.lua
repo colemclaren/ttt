@@ -19,6 +19,11 @@ local Receivers = net.Receivers or {}
 
 function net.Receive(name, func)
 	Receivers[name] = func
+
+	local id = util.NetworkStringToID(name)
+	if (id) then
+		Receivers[id] = func
+	end
 end
 
 function net.Incoming(len, pl)

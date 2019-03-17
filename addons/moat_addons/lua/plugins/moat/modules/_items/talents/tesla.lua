@@ -85,5 +85,5 @@ function EFFECT:Callback(data)
 	effectdata:SetScale(3)
 	util.Effect("TeslaHitBoxes", effectdata)
 
-	vic:SendLua("util.ScreenShake(Vector(0, 0, 0), 50, 100, 0.5, 100)")
+	vic:ScreenShake(50, 100, 0.5, 100)
 end

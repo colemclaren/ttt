@@ -136,7 +136,7 @@ hook.Add("EntityTakeDamage", "moat_ApplyDamageMods", function(ent, dmginfo)
     if (not ent:IsValid() or not ent:IsPlayer()) then return end
     local attacker = dmginfo:GetAttacker()
     if (not attacker:IsValid() or not attacker:IsPlayer() or not dmginfo:IsBulletDamage()) then return end
-	if (dmginfo:GetDamage() < 1 or GetRoundState() == ROUND_PREP) then return end
+	if (dmginfo:GetAmmoType() < 0 or GetRoundState() == ROUND_PREP) then return end
 
     local weapon_tbl = attacker:GetActiveWeapon()
     if (not weapon_tbl.Talents) then return end

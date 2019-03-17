@@ -1,5 +1,6 @@
 ux = ux or {
-	defaults = {}
+	defaults = {},
+	cache = {}
 }
 
 function ux.Create(...)

@@ -306,6 +306,8 @@ function m_PopulateShop(pnl)
             ITEM_BG.Modelk = make_modelpanel(itemtbl,ITEM_BG)
         end
         local checked_hover = false
+
+		local Soon = (itemtbl.Name and itemtbl.Name == "Meme Crate")
         ITEM_BG.Paint = function(s, w, h)
             if s:IsHovered() and (not checked_hover) then
                 checked_hover = true
@@ -440,6 +442,10 @@ function m_PopulateShop(pnl)
             m_DrawShadowedText(1, ">", "moat_ItemDesc", w/2, h/2, s:IsHovered() and Color(0, 255, 0) or Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
         ITEM_BUY_INC.DoClick = function(s)
+			if (Soon) then
+				return
+			end
+
             local num = input.IsKeyDown(KEY_LSHIFT) and 10 or 1
             ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty + num, 1, 50)
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
@@ -453,6 +459,10 @@ function m_PopulateShop(pnl)
             m_DrawShadowedText(1, "<", "moat_ItemDesc", w/2, h/2, s:IsHovered() and Color(255, 0, 0) or Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
         ITEM_BUY_DEC.DoClick = function(s)
+			if (Soon) then
+				return
+			end
+
             local num = input.IsKeyDown(KEY_LSHIFT) and 10 or 1
             ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty - num, 1, 50)
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
@@ -467,6 +477,18 @@ function m_PopulateShop(pnl)
             draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
             surface.SetDrawColor(50, 50, 50, 100)
             surface.DrawOutlinedRect(0, 0, w, h)
+
+			if (Soon) then
+ 				surface.SetDrawColor(100, 100, 100, 20 + hover_coloral / 5)
+            	surface.DrawRect(1, 1, w - 2, h - 2)
+            	surface.SetDrawColor(150, 150, 150, 20 + hover_coloral / 5)
+        		surface.SetMaterial(Material("vgui/gradient-d"))
+            	surface.DrawTexturedRect(1, 1, w - 2, h - 2)
+            	m_DrawShadowedText(1, "Available Soon", "Trebuchet24", w / 2, h / 2, Color(200, 200, 200), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
+				return 
+			end
+
             surface.SetDrawColor(0, 200, 0, 20 + hover_coloral / 5)
             surface.DrawRect(1, 1, w - 2, h - 2)
             surface.SetDrawColor(0, 255, 0, 20 + hover_coloral / 5)
@@ -518,6 +540,10 @@ function m_PopulateShop(pnl)
         end
 
         ITEM_BUY.DoClick = function()
+			if (Soon) then
+				return
+			end
+
             m_CreateBuyConfirmation(itemtbl, ITEM_BG.Qty)
 
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
