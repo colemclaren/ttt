@@ -7,13 +7,16 @@ DEFINE_BASECLASS("weapon_tttbase")
 
 if CLIENT then
    SWEP.PrintName = "Bouncy Ball Maker"
-   SWEP.Slot = 5
+   SWEP.Slot = 3
 
    SWEP.ViewModelFOV = 10
 end
 
 SWEP.Base = "weapon_tttbase"
 SWEP.CanDrop = false
+SWEP.AutoSpawnable = false
+SWEP.WeaponID = AMMO_SMOKE
+SWEP.Kind = WEAPON_NADE
 
 SWEP.ViewModel          = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel         = "models/props/cs_office/paper_towels.mdl"
