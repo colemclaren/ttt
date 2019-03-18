@@ -68,7 +68,7 @@ function SWEP:PrimaryAttack()
         ent:Spawn()
         ent:Activate()
         ent:SetVelocity(owner:GetAimVector() * 600 + owner:GetVelocity())
-		ent:SetCollisionGroup(COLLISION_GROUP_NONE)
+		ent:SetCollisionGroup(COLLISION_GROUP_WEAPON)
         ent.OnRemove = function(s) self.Balls = self.Balls - 1 end
         ent.Use = function(s) s:Remove() end
 		
