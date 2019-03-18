@@ -966,22 +966,21 @@ hook.Add("Think", "moat_EditHudHook", function()
 	end
 end)
 
+
+
 local moat_DrawHalos = CurTime() + 5
 
 hook.Add("TTTBeginRound", "TOutLine", function()
 	moat_DrawHalos = CurTime() + 4
 end)
 
-local outline = CreateClientConVar("moat_OutlineTBuddies", 1, true, true)
+
 local player_GetAll = player.GetAll
 local think_check = 0
 local curtime = CurTime
-
-hook.Add("PreDrawHalos", "AddTHalos", function()
-	if (outline:GetInt() ~= 1) then
-		return
-	end
-
+local traitorColor = Color(200, 20, 20)
+local modTraitorColor = Color(traitorColor.r / 255, traitorColor.g / 255, traitorColor.b / 255)
+local function Moat_HUD_AddTHalos()
 	if (not IsValid(LP) or not LP:GetTraitor()) then
 		return
 	end
@@ -999,9 +998,86 @@ hook.Add("PreDrawHalos", "AddTHalos", function()
 		end
 		
 		if (pc == 0) then return end
-		halo.Add(players_for_halo, Color(200, 20, 20), 1, 1, 1, true, true)
+		halo.Add(players_for_halo, traitorColor, 1, 1, 1, true, true)
+	end
+end
+
+local function complementColor(color, add)
+	return color + add <= 255 and color + add or color + add - 255
+end
+
+local mat = CreateMaterial("Moat.HUD.Mat", "VertexLitGeneric", {["$basetexture"] = "models/debug/debugwhite", ["$model"] = 1, ["$ignorez"] = 1})
+local function Moat_HUD_AddTChams()
+	if (not IsValid(LP) or not LP:GetTraitor()) then
+		return
+	end
+	
+	if (GetRoundState() == ROUND_ACTIVE and not MOAT_MINIGAME_OCCURING) then
+		cam.Start3D()
+			for k, v in pairs(player_GetAll()) do
+				if (not IsValid(v) or (v == LP) or (not v:IsActiveTraitor())) then
+					continue
+				end
+				
+				render.SuppressEngineLighting(true)
+
+				render.SetColorModulation(modTraitorColor.r, modTraitorColor.g, modTraitorColor.b)
+				render.MaterialOverride(mat)
+				v:DrawModel()
+
+				if (IsValid(v:GetActiveWeapon())) then
+					render.SetColorModulation(complementColor(traitorColor.r, 150) / 255, complementColor(traitorColor.g, 150) / 255, complementColor(traitorColor.b, 150) / 255)
+					v:GetActiveWeapon():DrawModel()
+				end
+				
+				render.SetColorModulation(modTraitorColor.r, modTraitorColor.g, modTraitorColor.b)
+				render.MaterialOverride()
+				render.SetModelLighting(BOX_TOP, modTraitorColor.r, modTraitorColor.g, modTraitorColor.b)
+				v:DrawModel()
+
+				render.SuppressEngineLighting(false)
+			end
+		cam.End3D()
+	end
+end
+
+
+local function Moat_DrawPreDrawHalos()
+	Moat_HUD_AddTHalos()
+	Moat_Talents_PreDrawHalos()
+end
+
+local function Moat_DrawRenderScreenspaceEffects()
+	Moat_HUD_AddTChams()
+	Moat_Talents_RenderScreenspaceEffects()
+end
+
+
+local function Moat_DrawOutline(new)
+	hook.Remove("PreDrawHalos", "Moat_DrawOutline")
+	hook.Remove("RenderScreenspaceEffects", "Moat_DrawOutline")
+	
+	if (new == "Halos") then
+		hook.Add("PreDrawHalos", "Moat_DrawOutline", Moat_DrawPreDrawHalos)
+	elseif (new == "Chams") then
+		hook.Add("RenderScreenspaceEffects", "Moat_DrawOutline", Moat_DrawRenderScreenspaceEffects)
+	end
+end
+
+cvars.AddChangeCallback("moat_OutlineTBuddies", function(cvar, old, new)
+	Moat_DrawOutline(new)
+end)
+-- idk if this is needed but just to be sure
+timer.Simple(5, function()
+	local c = GetConVar("moat_OutlineTBuddies")
+	if (IsValid(c)) then
+		if (c:GetString() == "0" or c:GetString() == "1") then
+			c:SetString("Halos")
+		end
 	end
 end)
+
+
 
 hook.Add("Think", "PlayerSightCheck", function()
 	if (curtime() > think_check) then

@@ -43,8 +43,7 @@ function EFFECT:Init(data)
 	local att = data.Player
 
 	net.Start("Moat.Talents.Visionary")
-	net.WriteDouble(data.Time)
-	net.WriteDouble(data.Radius)
+		net.WriteDouble(data.Radius)
 	net.Send(att)
 
 	self:CreateEndTimer(data.Time, data)
@@ -52,11 +51,8 @@ end
 
 function EFFECT:OnEnd(data)
 	if (not IsValid(data.Player)) then return end
-
 	local att = data.Player
 
-	net.Start("Moat.Talents.Visionary")
-	net.WriteDouble(0)
-	net.WriteDouble(0)
+	net.Start("Moat.Talents.Visionary.End")
 	net.Send(att)
 end
