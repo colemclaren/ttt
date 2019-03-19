@@ -7,9 +7,9 @@ TALENT.Tier = 3
 TALENT.LevelRequired = {min = 25, max = 35}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 50, max = 80} -- Chance to trigger
+TALENT.Modifications[1] = {min = 15, max = 30} -- Chance to trigger
 TALENT.Modifications[2] = {min = 5,  max = 10} -- Percent damage increase
-TALENT.Modifications[3] = {min = 5,  max = 20} -- Duration
+TALENT.Modifications[3] = {min = 1,  max = 5} -- Duration
 
 TALENT.Melee = true
 TALENT.NotUnique = true
