@@ -12,125 +12,6 @@ mga.CommandList, mga.WarnCommands, mga.MapList = {
 		{"Block", "Blocks a player in game.", false},
 		{"UnBlock", "Unblocks a player in game.", false},
 	}},
-	{10, "VIP & Credible Club", Color(255, 128, 0, 255), {
-		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
-			{"Drop", "Choose Reason", {"Purposeful Mass RDM","Attempted Mass RDM","Hateful Conduct"}, "Reason required..."}
-		}},
-		{"Boost", "Boosts a map for the next map vote.", "None", {
-			{"Drop", "Choose Map", {"Loading Maps...", "Loading Maps...", "Loading Maps..."}, "No Map Choosen"}
-		}}
-	}},
-	{40, "Trial Staff", Color(41, 194, 245, 255), {
-		{"AFK", "Forces a player into spectator mode.", true},
-		{"UnAFK", "Forces a player out of spectator mode.", true},
-		{"ASlay", "Marks a player to be slain next round.", true, {
-			{"Entry", "Rounds", "1"},
-			{"Entry", "Reason", "Breaking Rules"}
-		}},
-		{"ASlayID", "Marks a SteamID to be slain next round.", "SteamID", {
-			{"Entry", "SteamID", "STEAM_0:0:"},
-			{"Entry", "Rounds", "1"},
-			{"Entry", "Reason", "Breaking Rules"}
-		}},
-		{"RemoveSlays", "Removes the autoslays from a player.", true},
-		{"PA", "Announces a message to the entire server.", "None", {
-			{"Entry", "Message", "Testing..."}
-		}},
-		{"ForceMOTD", "Forces a player to open the MOTD.", true},
-		{"Mute", "Mutes a player's text chat.", true},
-		{"Gag", "Mutes a player's voice chat.", true},
-		{"Kick", "Kicks a player from the server.", true, {
-			{"Entry", "Reason", "Breaking Rules"}
-		}},
-		{"PO", "Prints any past offences (bans) that the player has.", false, {
-			{"Entry", "SteamID", "STEAM_0:0:"},
-		}},
-		{"Ban", "Bans a player or SteamID from the server.", true, {
-			{"Entry", "SteamID", "STEAM_0:0:"},
-			{"Entry", "Length", "1"},
-			{"Drop", "Time Units", {"Minutes", "Hours", "Days", "Weeks", "Months", "Years"}, "Minutes"},
-			{"Entry", "Reason", "Breaking Rules"}
-		}},
-	}},
-	{50, "Moderator", Color(0, 102, 0, 255),  {
-		{"VoiceBattery", "Enables the voice battery serverwide.", "None"},
-		{"Bring", "Brings a player to your location.", true},
-		{"Slay", "Slays a player immediately.", true},
-		{"ClearDecals", "Clears the decals on the map.", "None"},
-		{"Ban", "Bans a player or SteamID from the server.", true, {
-			{"Entry", "SteamID", "STEAM_0:0:"},
-			{"Entry", "Length", "1"},
-			{"Drop", "Time Units", {"Minutes", "Hours", "Days", "Weeks", "Months", "Years"}, "Minutes"},
-			{"Entry", "Reason", "Breaking Rules"}
-		}},
-	}},
-	{60, "Administrator", Color(102, 0, 204, 255), {
-		{"NoInvis", "Fixes any invisible players.", "None"},
-		{"NoLag", "Freezes all physics objects on the server.", "None"},
-		{"Tele", "Teleports a player to where you are looking.", true},
-		{"Goto", "Teleports you to a player.", true},
-		{"Perma", "Bans a player PERMANENTLY from the server.", true, {
-			{"Entry", "SteamID", "STEAM_0:0:"},
-			{"Entry", "Reason", "Breaking Rules"}
-		}},
-		{"Reconnect", "Forces a player to reconnect.", true},
-		{"StopSounds", "Runs stopsound on every player.", "None"},
-	}},
-	{70, "Senior Administrator", Color(102, 0, 102, 255),  {
-		{"Unban", "Unbans a SteamID from the server.", "SteamID", {
-			{"Entry", "SteamID", "STEAM_0:0:"},
-			{"Entry", "Reason", "Breaking Rules"}
-		}},
-		{"Map", "Changes the map.", "None", {
-			{"Entry", "Map Name", "ttt_clue_se"}
-		}},
-		{"Reload", "Forces the map to reload.", "None"},
-		{"Return", "Returns a player to their position before being teleported.", false}
-	}},
-	{80, "Head Administrator", Color(51, 0, 51, 255), {
-		{"SetGroup", "Sets the group of a player.", true, {
-			{"Entry", "SteamID", "STEAM_0:0:"},
-			{"Drop", "Group", {}, "user"}
-		}},
-		{"Wipe", "Wipes a player", true, {
-			{"Entry", "SteamID", "STEAM_0:0:"}
-		}},
-	}},
-	{100, "Community Lead", Color(255, 0, 0, 255), {
-		{"CrashBan", "Crash bans a user and permanently bans them.", false, {
-			{"Entry", "Reason", "Can't function here."}
-		}},
-		{"Freeze", "Freezes a player.", false},
-		{"Respawn", "Respawns a player.", false},
-		{"Lua", "Runs Lua serverside.", "None", {
-			{"Entry", "The Lua", "print 'test'"}
-		}},
-		{"LuaCL", "Runs clientside Lua on a player.", false, {
-			{"Entry", "The Lua", "print 'test'"}
-		}},
-		{"RCON", "Runs a command through RCON.", "None", {
-			{"Entry", "The Lua", "sv_friction 5"}
-		}}
-	}},
-}, {
-	["Kick"] = true,
-	["Votekick"] = true,
-	["Ban"] = true,
-	["Slay"] = true,
-	["Perma"] = true,
-	["SetGroup"] = true,
-}, mga.MapList or {}
-
-mga.CommandList, mga.WarnCommands, mga.MapList = {
-	{0, "User", Color(125, 125, 125, 255), {
-		{"Playtime", "Prints a player's playtime to your chat.", false},
-		{"PM", "Sends a private message to a player.", false, {
-			{"Entry", "Message", "Say Something..."}
-		}},
-		{"MOTD", "Opens the MOTD.", "None"},
-		{"Block", "Blocks a player in game.", false},
-		{"UnBlock", "Unblocks a player in game.", false},
-	}},
 	{5, "VIP & Credible Club", Color(255, 128, 0, 255), {
 		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
 			{"Drop", "Choose Reason", {"Purposeful Mass RDM","Attempted Mass RDM","Hateful Conduct"}, "Reason required..."}
@@ -211,9 +92,9 @@ mga.CommandList, mga.WarnCommands, mga.MapList = {
 			{"Entry", "SteamID", "STEAM_0:0:"},
 			{"Drop", "Group", {}, "user"}
 		}},
-		{"Wipe", "Wipes a player", true, {
+		{"Wipe", "Wipes a player.", true, {
 			{"Entry", "SteamID", "STEAM_0:0:"}
-		}},
+		}}
 	}},
 	{100, "Community Lead", Color(255, 0, 0, 255), {
 		{"CrashBan", "Crash bans a user and permanently bans them.", false, {
@@ -238,6 +119,7 @@ mga.CommandList, mga.WarnCommands, mga.MapList = {
 	["Slay"] = true,
 	["Perma"] = true,
 	["SetGroup"] = true,
+	["Wipe"] = true
 }, mga.MapList or {}
 
 mga.Colors = {
@@ -886,7 +768,7 @@ function mga.RebuildCommandArguments(pnl, cmdd)
 				end
 			end
 
-			table.insert(mga.ArgumentList, bg)
+			table.insert(mga.ArgumentList, entry)
 		elseif (cmd[i][1] == "Drop") then
 			if (cmd[i][2] == "Group") then
 				cmd[i][3] = moat.Ranks.Table()
