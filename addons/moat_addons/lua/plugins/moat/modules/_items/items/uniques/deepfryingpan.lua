@@ -1,6 +1,6 @@
 ITEM.ID = 17699
 
-ITEM.Name = "Deep Frying Pan"
+ITEM.Name = "Deep Frying Ban"
 
 ITEM.WeaponClass = "weapon_ttt_fryingpan"
 
