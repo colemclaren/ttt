@@ -96,6 +96,8 @@ local detection_names = {
     [0] = "Ignored"
 }
 local function joystick_detect(p, detect, c)
+    if (detect == -5) then return end -- disable "Movement 2 (major)" detection because false positives and no meep to fix it
+
     if (IsDev() or not p.joystick_msg or p.joystick_msg < CurTime()) then
 		local sid = p:SteamID()
 	
