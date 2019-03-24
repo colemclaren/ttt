@@ -13,7 +13,7 @@ TALENT.Modifications[2] = {min = 25, max = 75} -- Health
 TALENT.Melee = true
 TALENT.NotUnique = true
 
-function TALENT:ScalePlayerDamage(victim, attacker, dmginfo, hitgroup, talent_mods)
+function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	local health_required = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * talent_mods[2] )
 
 	if (attacker and attacker:Health() <= health_required) then
