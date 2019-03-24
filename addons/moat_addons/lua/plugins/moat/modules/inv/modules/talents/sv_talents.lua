@@ -138,22 +138,22 @@ local allowedDmgTypes = {
 }
 
 function m_CheckDamageMods(ent, dmginfo)
-	if (not IsValid(ent) or not ent:IsPlayer()) then return false end
-	local attacker = dmginfo:GetAttacker()
+    if (not IsValid(ent) or not ent:IsPlayer()) then return false end
+    local attacker = dmginfo:GetAttacker()
 
     if (not IsValid(attacker) or not attacker:IsPlayer()) then return false end
-	if (not allowedDmgTypes[dmginfo:GetDamageType()]) then return false end
-	if (GetRoundState() == ROUND_PREP) then return false end
+    if (not allowedDmgTypes[dmginfo:GetDamageType()]) then return false end
+    if (GetRoundState() == ROUND_PREP) then return false end
 	
-	if (not IsValid(attacker:GetActiveWeapon())) then return false end
+    if (not IsValid(attacker:GetActiveWeapon())) then return false end
 	
-	return true
+    return true
 end
 
 hook.Add("EntityTakeDamage", "moat_ApplyDamageMods", function(ent, dmginfo)
-	if (not m_CheckDamageMods(ent, dmginfo)) then return end
+    if (not m_CheckDamageMods(ent, dmginfo)) then return end
 
-	local attacker = dmginfo:GetAttacker()
+    local attacker = dmginfo:GetAttacker()
     local weapon_tbl = attacker:GetActiveWeapon()
     if (not weapon_tbl.Talents) then return end
     local weapon_lvl = weapon_tbl.level
@@ -202,9 +202,9 @@ hook.Add("PlayerSwitchWeapon", "moat_ApplySwitchMods", function(ply, oldw, neww)
 end)
 
 hook.Add("ScalePlayerDamage", "moat_ApplyScaleDamageMods", function(ply, hitgroup, dmginfo)
-    if (not m_CheckDamageMods(ent, dmginfo)) then return end
+    if (not m_CheckDamageMods(ply, dmginfo)) then return end
 
-	local attacker = dmginfo:GetAttacker()
+    local attacker = dmginfo:GetAttacker()
     local weapon_tbl = attacker:GetActiveWeapon()
     if (not weapon_tbl.Talents) then return end
     local weapon_lvl = weapon_tbl.level
