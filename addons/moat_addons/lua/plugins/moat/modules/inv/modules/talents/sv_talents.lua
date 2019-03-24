@@ -152,8 +152,8 @@ hook.Add("EntityTakeDamage", "moat_ApplyDamageMods", function(ent, dmginfo)
 		dmginfo:SetDamage(dmginfo:GetDamage() * ent.Fortified)
 	end
 	
-	if (ent.Weaken) then
-		dmginfo:SetDamage(dmginfo:GetDamage() * ent.Weaken)
+	if (ent.Soften) then
+		dmginfo:SetDamage(dmginfo:GetDamage() * ent.Soften)
 	end
 end)
 
