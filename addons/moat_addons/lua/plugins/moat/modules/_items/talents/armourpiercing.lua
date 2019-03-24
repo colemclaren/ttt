@@ -18,4 +18,3 @@ function TALENT:ScalePlayerDamage(victim, attacker, dmginfo, hitgroup, talent_mo
 		victim.ArmourPierced = true -- Will ignore the armour check later
 	end
 end
-
