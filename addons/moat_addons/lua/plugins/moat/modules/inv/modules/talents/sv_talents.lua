@@ -133,8 +133,8 @@ function m_ApplyTalentsToWeaponScalingDamage(dmginfo, victim, attacker, hitgroup
 end
 
 local allowedDmgTypes = {
-	[DMG_BULLET] = true,
-	[DMG_CLUB] = true
+	DMG_BULLET,
+	DMG_CLUB
 }
 
 function m_CheckDamageMods(ent, dmginfo)
@@ -142,8 +142,17 @@ function m_CheckDamageMods(ent, dmginfo)
     local attacker = dmginfo:GetAttacker()
 
     if (not IsValid(attacker) or not attacker:IsPlayer()) then return false end
-    if (not allowedDmgTypes[dmginfo:GetDamageType()]) then return false end
     if (GetRoundState() == ROUND_PREP) then return false end
+
+    -- Check damage types
+    local goodType = false
+    for _, type in pairs(allowedDmgTypes) do
+        if (dmginfo:IsDamageType(type)) then
+            goodType = true
+            break
+        end
+    end
+    if (not goodType) then return false end
 	
     if (not IsValid(attacker:GetActiveWeapon())) then return false end
 	
