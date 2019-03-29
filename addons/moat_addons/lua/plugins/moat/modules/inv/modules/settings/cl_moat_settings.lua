@@ -1,4 +1,5 @@
 local moat_convars = {
+    ["moat_headshot_sound"] = 1,
     ["moat_round_music"] = 1,
     ["moat_round_music_volume"] = 0.75,
     ["moat_clfov"] = 0.428571429,
@@ -131,7 +132,8 @@ local moat_Settings = {
         {"Christmas End Round Music", {"Multi"}, "moat_music_christmas"},
         {"Disable MOTD on Join", {"Multi"}, "moat_disable_motd"},
         {"Invert Map [BETA]", {"Multi"}, "moat_map_invert"},
-        {"Disable Multicore Rendering (Might Fix Crashes)", {"Multi"}, "moat_multicore"}
+        {"Disable Multicore Rendering (Might Fix Crashes)", {"Multi"}, "moat_multicore"},
+        {"Enable Headshot soundeffect", {"Multi"}, "moat_headshot_sound"},
     },
     {"Gameplay",
         {"Automatically Bunny-hop", {"Multi"}, "moat_bunny_hop"},
