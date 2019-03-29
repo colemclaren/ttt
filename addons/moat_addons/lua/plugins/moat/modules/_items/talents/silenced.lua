@@ -2,7 +2,7 @@
 TALENT.ID = 9040
 TALENT.Name = "Silenced"
 TALENT.NameColor = Color(0, 255,0)
-TALENT.Description = "Your weapons is always silenced"
+TALENT.Description = "Every shot will be silenced."
 TALENT.Tier = 1
 TALENT.LevelRequired = {min = 5, max = 10}
 
