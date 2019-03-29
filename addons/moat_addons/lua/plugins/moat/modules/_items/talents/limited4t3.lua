@@ -49,7 +49,7 @@ function wildcard_t3(weapon,talent_mods)
 
 
     for k,v in pairs(talents) do 
-        if v.Tier ~= tier or v.ID == id or (v.ID == 154) then 
+        if v.Tier ~= tier or v.ID == id or (v.ID == 154) or (not v.NotUnique) or (v.Melee) then 
             talents[k] = nil 
         end 
     end
