@@ -123,7 +123,6 @@ local function loadSQL()
     end
 
     local function feedback(sid,map,type)
-        print("Feedback",sid,map,type)
         local q = db:query("SELECT * FROM moat_feedback WHERE steamid = '" .. sid .. "' AND `map` = '" .. db:escape(map) .. "';")
         function q:onSuccess(d)
             if #d < 1 then
