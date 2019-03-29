@@ -134,6 +134,8 @@ local moat_Settings = {
         {"Invert Map [BETA]", {"Multi"}, "moat_map_invert"},
         {"Disable Multicore Rendering (Might Fix Crashes)", {"Multi"}, "moat_multicore"},
         {"Enable Headshot soundeffect", {"Multi"}, "moat_headshot_sound"},
+        {"Enable Hitmarkers", {"Multi"}, "moat_hitmarkers"},
+        {"Enable Damage Numbers", {"Multi"}, "moat_damage_numbers"},
     },
     {"Gameplay",
         {"Automatically Bunny-hop", {"Multi"}, "moat_bunny_hop"},
