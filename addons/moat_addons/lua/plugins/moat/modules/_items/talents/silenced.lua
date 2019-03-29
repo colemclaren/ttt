@@ -2,7 +2,7 @@
 TALENT.ID = 9040
 TALENT.Name = "Silenced"
 TALENT.NameColor = Color(0, 255,0)
-TALENT.Description = "Every shot will be silenced."
+TALENT.Description = "Every shot is silenced"
 TALENT.Tier = 1
 TALENT.LevelRequired = {min = 5, max = 10}
 
@@ -22,6 +22,8 @@ end)
 local silencedSound = Sound("weapons/usp/usp1.wav")
 
 function TALENT:ModifyWeapon( weapon, talent_mods )
+	local _weapon = weapon.Weapon
+
 	net.Start("Talents.Silenced")
 		net.WriteEntity(_weapon)
 	net.Broadcast()
