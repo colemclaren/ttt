@@ -69,17 +69,17 @@ function SWEP:PrimaryAttack()
         ent:Activate()
         ent:GetPhysicsObject():SetVelocity(owner:GetAimVector() * 600 + owner:GetVelocity())
 		ent:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-        ent.OnRemove = function(s) self.Balls = self.Balls - 1 end
+        -- ent.OnRemove = function(s) self.Balls = self.Balls - 1 end
         ent.Use = function(s) s:Remove() end
 		
-		timer.Simple(30, function()
+		timer.Simple(10, function()
 			if (IsValid(ent)) then
 				ent:Remove()
 			end
 		end)
     end
 
-    self:SetNextPrimaryFire(CurTime() + 0.5)
+    self:SetNextPrimaryFire(CurTime() + 2)
 end
 
 function SWEP:SecondaryAttack()
