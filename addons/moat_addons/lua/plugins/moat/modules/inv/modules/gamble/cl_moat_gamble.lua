@@ -4879,6 +4879,7 @@ function m_DrawVersusPanel()
 			surface.DrawOutlinedRect(0,0,w,h)
 		end
 		local v = games["last"]
+		local last_game_id
 		if istable(v) then
 			local a = vgui.Create("DPanel",versus_logs_actual)
 			a:SetSize(0,50)
@@ -4941,11 +4942,15 @@ function m_DrawVersusPanel()
 				surface.SetDrawColor(0,255,0, 255)
 				surface.DrawOutlinedRect(0,0,w,h)
 			end
+			last_game_id = v.ID
 		end
 		games["last"] = nil
 		for k,v in SortedPairs(games, true) do
 			if not versus_id then versus_id = k end
 			if k < versus_id then versus_id = k end
+			if last_game_id then
+				if last_game_id == k then continue end
+			end
 			local a = vgui.Create("DPanel",versus_logs_actual)
 			a:SetSize(0,50)
 			a:DockMargin(0,0,0,5)
