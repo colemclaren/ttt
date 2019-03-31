@@ -168,7 +168,7 @@ local moat_Settings = {
         {"Enable Momentum Smooth Scrolling", {"Multi"}, "moat_momentum_scrolling"},
         {"Enable Custom Model Preview when Using Crates", {"Multi"}, "moat_model_preview"},
         {"Disable Lighting in Inventory Model Preview", {"Multi"}, "moat_inventory_lighting"},
-		{"Holiday Inventory Theme", {"Multi"}, "moat_holiday_theme"}
+		{"Holiday Inventory Theme", {"Multi"}, "moat_holiday_theme_2019"}
         -- {"Inventory Model Smoke", {"Multi"}, "moat_model_smoke"},
         -- {"Spring Inventory Theme", {"Multi"}, "moat_spring_theme"}
     },

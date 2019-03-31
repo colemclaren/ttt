@@ -52,7 +52,7 @@ local function DrawSnow(pnl, w, h, amt)
 	cdn.SmoothImage("https://cdn.moat.gg/f/60c23.png", 0, h - 256, 256, 256, Color(230, 230, 250, 255))
 end
 
-local holiday = CreateClientConVar("moat_holiday_theme", 1, true, true)
+local holiday = CreateClientConVar("moat_holiday_theme_2019", 0, true, true)
 local function createFestive(pnl, x, y, w, h)
     pnl.festivepanel = vgui.Create("DPanel",pnl)
     pnl.festivepanel:SetSize(w,h)
