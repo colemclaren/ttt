@@ -4834,6 +4834,8 @@ function m_DrawVersusPanel()
 		net.SendToServer()
 		net.Start("versus.total")
 		net.SendToServer()
+		net.Start("versus.last")
+		net.SendToServer()
 	end
 
 	versus_logs_games = {}
@@ -4876,6 +4878,71 @@ function m_DrawVersusPanel()
 			surface.SetDrawColor(86,86,86, 255)
 			surface.DrawOutlinedRect(0,0,w,h)
 		end
+		local v = games["last"]
+		if istable(v) then
+			local a = vgui.Create("DPanel",versus_logs_actual)
+			a:SetSize(0,50)
+			a:DockMargin(0,0,0,5)
+			a:Dock(TOP)
+			
+			local av = vgui.Create("AvatarImage",a)
+			av:DockMargin(2,3,40,3)
+			av:SetSize(46,40)
+			av:Dock(LEFT)
+			av:SetSteamID(v.steamid,64)
+			steamworks.RequestPlayerInfo(v.steamid,function(name)
+				av:SetTooltip(name)
+			end)
+			local butt = vgui.Create("DButton",av)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(v.steamid)
+			end
+
+			local op = vgui.Create("AvatarImage",a)
+			op:DockMargin(0,3,5,3)
+			op:SetSize(46,40)
+			op:Dock(LEFT)
+			op:SetSteamID(v.other,64)
+			steamworks.RequestPlayerInfo(v.other,function(name)
+				op:SetTooltip(name)
+			end)
+			local butt = vgui.Create("DButton",op)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(v.other)
+			end
+
+			winner = vgui.Create("AvatarImage",a)
+			winner:DockMargin(0,3,20,3)
+			winner:SetSize(46,40)
+			winner:Dock(RIGHT)
+			winner:SetSteamID(v.winner,64)
+			steamworks.RequestPlayerInfo(v.winner,function(name) -- cached internally
+				winner:SetTooltip(name)
+			end)
+			local butt = vgui.Create("DButton",winner)
+			butt:SetText("")
+			butt:Dock(FILL) function butt:Paint() end
+			function butt:DoClick()
+				open_profile_card(v.winner)
+			end
+
+			function a:Paint(w,h)
+				draw.RoundedBox(0,0,0,w,h,Color(18,18,18))
+				draw.SimpleText(string.Comma(round(v.amount)) .. " IC", "moat_VersusTitle", 145,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+				local c = Color(255,255,255)
+				draw.SimpleText(string.NiceTime(os.time() - v.time) .. " ago", "moat_ItemDesc", 405, 15, c, TEXT_ALIGN_RIGHT,TEXT_ALIGN_CENTER)
+				draw.SimpleText("YOUR LAST MATCH", "moat_ItemDesc", w/2, 10, c, TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+				draw.SimpleText("WINNER:", "moat_VersusWinner", 325, h - (h/3), c,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+				draw.SimpleText("VS", "moat_GambleTitle", 68, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+				surface.SetDrawColor(0,255,0, 255)
+				surface.DrawOutlinedRect(0,0,w,h)
+			end
+		end
+		games["last"] = nil
 		for k,v in SortedPairs(games, true) do
 			if not versus_id then versus_id = k end
 			if k < versus_id then versus_id = k end
@@ -4990,6 +5057,11 @@ function m_DrawVersusPanel()
 			end
 		end
 		make_versus_history(versus_logs_games,last)
+	end)
+
+	net.Receive("versus.last",function()
+		versus_logs_games["last"] = net.ReadTable()[1]
+		make_versus_history(versus_logs_games)
 	end)
 	
 	local MOAT_DICE_BET = vgui.Create("DTextEntry", MOAT_GAMBLE_VS)

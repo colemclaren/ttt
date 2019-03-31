@@ -873,6 +873,7 @@ util.AddNetworkString("jackpot.join")
 util.AddNetworkString("jackpot.win")
 
 util.AddNetworkString("versus.logs")
+util.AddNetworkString("versus.last")
 util.AddNetworkString("versus.total")
 util.AddNetworkString("versus.stats")
 
@@ -881,6 +882,12 @@ net.Receive("versus.logs",function(l,ply)
     ply.vlogs_cool = CurTime() + 1
     local id = net.ReadInt(32)
     versus_getlogs(ply,id)
+end)
+
+net.Receive("versus.last",function(l,ply)
+    if (ply.vlogs_last or 0) > CurTime() then return end
+    ply.vlogs_last = CurTime() + 1
+    versus_getlast(ply)
 end)
 
 net.Receive("versus.total",function(l,ply)
@@ -952,6 +959,19 @@ function jackpot_()
             if not IsValid(ply) then return end
             net.Start("versus.logs")
             net.WriteBool(id == 0)
+            net.WriteTable(d)
+            net.Send(ply)
+        end
+        function q:onError(s)
+        end
+        q:start()
+    end
+
+    function versus_getlast(ply)
+        local q = db:query("SELECT * FROM moat_versuslogs WHERE (steamid = '" .. ply:SteamID64() .. "' OR other = '" .. ply:SteamID64() .. "') ORDER BY time DESC LIMIT 1;")
+        function q:onSuccess(d)
+            if not IsValid(ply) then return end
+            net.Start("versus.last")
             net.WriteTable(d)
             net.Send(ply)
         end
