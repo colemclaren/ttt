@@ -1005,7 +1005,10 @@ function jackpot_()
             ORDER BY streak DESC
             LIMIT 1]])
             function b:onSuccess(c)
-                versus_stats.streak = c[1] or {}
+                versus_stats.streak = c[1] or {
+                    steamid = "76561198154133184",
+                    streak = 2
+                }
                 net.Start("versus.stats")
                 net.WriteTable(versus_stats)
                 net.Broadcast()
