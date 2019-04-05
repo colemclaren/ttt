@@ -971,9 +971,11 @@ function jackpot_()
         local q = db:query("SELECT * FROM moat_versuslogs WHERE (steamid = '" .. ply:SteamID64() .. "' OR other = '" .. ply:SteamID64() .. "') ORDER BY time DESC LIMIT 1;")
         function q:onSuccess(d)
             if not IsValid(ply) then return end
-            net.Start("versus.last")
-            net.WriteTable(d)
-            net.Send(ply)
+            if (#d > 0) then
+                net.Start("versus.last")
+                net.WriteTable(d)
+                net.Send(ply)
+            end
         end
         function q:onError(s)
         end
@@ -994,7 +996,7 @@ function jackpot_()
     function versus_updatestats()
         local q = db:query([[SELECT SUM(amount) AS total,winner 
         FROM moat_versuslogs 
-        WHERE time > (UNIX_TIMESTAMP() - 86400) 
+        WHERE time > (UNIX_TIMESTAMP() - 3600) 
         GROUP BY winner 
         ORDER BY SUM(amount) DESC
         LIMIT 1]])
