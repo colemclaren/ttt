@@ -1001,7 +1001,10 @@ function jackpot_()
         ORDER BY SUM(amount) DESC
         LIMIT 1]])
         function q:onSuccess(d)
-            versus_stats.top = d[1] or {}
+            versus_stats.top = d[1] or {
+                steamid = "76561198154133184",
+                total = 1
+            }
             local b = db:query([[SELECT steamid,streak FROM moat_versusstreaks_history
             WHERE time > (UNIX_TIMESTAMP() - 3600) 
             ORDER BY streak DESC
