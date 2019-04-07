@@ -4605,7 +4605,7 @@ function m_DrawVersusPanel()
 				end
 				v.roll:SetParent(a)
 				v.roll:SetPos(w,1)
-				v.roll:SetWide(493 - w)
+				v.roll:SetWide(493 - w - 2)
 				-- winner = vgui.Create("AvatarImage",a)
 				-- winner:DockMargin(0,3,20,3)
 				-- winner:SetSize(46,40)
