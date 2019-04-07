@@ -1296,12 +1296,12 @@ function jackpot_()
         if not sid:match("765") then return end
         if sid == ply:SteamID64() then return end
 
-	if (ply.VersCool and ply.VersCool > CurTime()) then
-		m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
-		return
-	end
-        	
-	ply.VersCool = CurTime() + 2
+        if (ply.VersCool and ply.VersCool > CurTime()) then
+            m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
+            return
+        end
+                
+        ply.VersCool = CurTime() + 0.3
 
         if (not ply.VersT) then ply.VersT = {} end
         if (ply.VersT[sid]) then return end
