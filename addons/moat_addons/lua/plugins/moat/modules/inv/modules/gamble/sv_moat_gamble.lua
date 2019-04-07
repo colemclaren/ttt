@@ -13,7 +13,16 @@ function m_AddGambleChatPlayer(ply, ...)
     net.Send(ply)
 end
 
-
+function versus_tax(am)
+    if am > 1000 then 
+        am = math.floor(am * 0.99) 
+    elseif am > 9999 then
+        am = math.floor(am * 0.975)
+    elseif am > 99999 then 
+        am = math.floor(am * 0.95) 
+    end
+    return am
+end
 
 local gamble_net_cd = 1 -- 1 sec net cooldown
 local gamble_net = {}
@@ -941,8 +950,8 @@ function jackpot_()
     end
     dq:start()
 
-    function versus_log(steamid,other,winner, amount)
-        local q = db:query("INSERT INTO moat_versuslogs (steamid,other,winner,amount,time) VALUES ('" .. db:escape(steamid) .. "', '" .. db:escape(other) .. "', '" .. db:escape(winner) .. "', '" .. amount .. "', UNIX_TIMESTAMP() );")
+    function versus_log(steamid,other,winner, amount, tax)
+        local q = db:query("INSERT INTO moat_versuslogs (steamid,other,winner,amount,time,tax) VALUES ('" .. db:escape(steamid) .. "', '" .. db:escape(other) .. "', '" .. db:escape(winner) .. "', '" .. tonumber(amount) .. "', UNIX_TIMESTAMP(), '" .. tonumber(tax) .. "' );")
         q:start()
     end
 
@@ -1187,13 +1196,8 @@ function jackpot_()
                     net.WriteString(winner)
                     net.Broadcast()
                     local am = d.money * 2
-                    if am > 1000 then 
-                        am = math.floor(am * 0.99) 
-                    elseif am > 10000 then
-                        am = math.floor(am * 0.985)
-                    elseif am > 99999 then 
-                        am = math.floor(am * 0.95) 
-                    end
+                    am = versus_tax(am)
+                    -- versus tax
                     if not versus_curgames[sid] then versus_curgames[sid] = {} end
                     versus_curgames[sid].rolled = true
                     timer.Simple(versus_wait,function()
@@ -1206,8 +1210,8 @@ function jackpot_()
 
                         local q = db:query("UPDATE moat_versus" .. dev_suffix .. " SET rewarded = 1 WHERE steamid = '" .. db:escape(sid) .. "';")
                         q:start()
-                        print("Versus Log:",sid,plyz,winner,d.money)
-                        versus_log(sid,plyz,winner,d.money)
+                        print("Versus Log:",d.money,(d.money*2) - am)
+                        versus_log(sid,plyz,winner,d.money,(d.money*2) - am)
 
                         local q = db:query([[INSERT INTO moat_versusstreaks (steamid,streak) VALUES(']] .. db:escape(winner) .. [[', 1) ON DUPLICATE KEY UPDATE streak = streak + 1]])
                         q:start()
