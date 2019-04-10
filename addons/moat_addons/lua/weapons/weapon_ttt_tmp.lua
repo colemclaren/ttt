@@ -1,0 +1,36 @@
+
+AddCSLuaFile()
+
+SWEP.HoldType = "ar2"
+SWEP.PrintName = "Steyr TMP"
+
+SWEP.Slot = 2
+SWEP.Base = "weapon_tttbase"
+
+SWEP.Kind = WEAPON_HEAVY
+SWEP.ENUM = 7
+
+SWEP.Primary.Damage      = 8
+SWEP.Primary.Delay       = 0.04
+SWEP.Primary.Cone        = 0.025
+SWEP.Primary.ClipSize    = 30
+SWEP.Primary.ClipMax     = 60
+SWEP.Primary.DefaultClip = 30
+SWEP.Primary.Automatic   = true
+SWEP.Primary.Ammo        = "smg1"
+SWEP.Primary.Recoil      = 1.2
+SWEP.Primary.Sound       = Sound( "Weapon_TMP.Single" )
+
+SWEP.AutoSpawnable = true
+
+SWEP.AmmoEnt = "item_ammo_smg1_ttt"
+
+SWEP.UseHands			= true
+SWEP.ViewModelFlip		= false
+SWEP.ViewModelFOV		= 54
+SWEP.ViewModel  = "models/weapons/cstrike/c_smg_tmp.mdl"
+SWEP.WorldModel = "models/weapons/w_smg_tmp.mdl"
+
+SWEP.DeploySpeed = 3
+
+SWEP.HeadshotMultiplier = 1.2
