@@ -192,7 +192,7 @@ function ENT:GiveAmmo(ply)
 
 		-- Randomizes the ammo type and sets it to a variable
 
-		local ammotypes = {"item_box_buckshot_ttt", "item_ammo_357_ttt", "item_ammo_pistol_ttt", "item_ammo_smg1_ttt" }
+		local ammotypes = {"item_ammo_revolver_ttt", "item_box_buckshot_ttt", "item_ammo_357_ttt", "item_ammo_pistol_ttt", "item_ammo_smg1_ttt" }
 
 		local ammochoice = table.Random(ammotypes)
 
