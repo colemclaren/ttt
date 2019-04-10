@@ -8,7 +8,7 @@ TALENT.LevelRequired = { min = 5, max = 10 }
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = { min = 5, max = 15 } -- Percent damage is increased by
-TALENT.Modifications[2] = { min = 3, max = 7 }	-- Damage time
+TALENT.Modifications[2] = { min = 9, max = 12 }	-- Damage time
 
 TALENT.Melee = true
 TALENT.NotUnique = true
