@@ -511,6 +511,9 @@ function m_GetRandomRarity(min, max)
     return chosen_rarity
 end
 
+local forced_weapon_drops = {
+    ["Meme Collection"] = 0.33 -- 33% of the time, force weapons
+}
 
 local cached_droptable
 local cached_itemstodrop = {}
@@ -564,7 +567,7 @@ function m_GetRandomInventoryItem(arg_collection)
         rarity_chosen = m_GetRandomRarity(min_rarity, max_rarity)
     end
     
-    local items_from_collection = {}
+    local items_from_collection = {Weapons = {}}
     if (arg_collection == "50/50 Collection") then
         rarity_chosen = math.random(1, 100) <= 50 and 5 or 1
 
@@ -591,9 +594,29 @@ function m_GetRandomInventoryItem(arg_collection)
             end
 
             if (not cached_items[arg_collection]) then cached_items[arg_collection] = {} end
+
+            items_from_collection.Weapons = {}
+
+            for _, v in ipairs(items_from_collection) do
+                if (v.Kind == "tier" or v.Kind == "Unique") then
+                    table.insert(items_from_collection.Weapons, v)
+                end
+            end
+
             cached_items[arg_collection][rarity_chosen] = items_from_collection
         end
     end
+
+    if (items_from_collection.Weapons and #items_from_collection.Weapons == 0) then
+        items_from_collection.Weapons = nil
+    end
+
+    local pct = forced_weapon_drops[arg_collection] or 0
+    if (items_from_collection.Weapons and math.random() < pct) then
+        items_from_collection = items_from_collection.Weapons
+        print "Forced weapon"
+    end
+
     
     if (#items_from_collection > 0) then
         local item_to_drop = items_from_collection[math.random(#items_from_collection)]
