@@ -17,13 +17,13 @@ SWEP.Primary.ClipSize    = 30
 SWEP.Primary.ClipMax     = 60
 SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Automatic   = true
-SWEP.Primary.Ammo        = "smg1"
+SWEP.Primary.Ammo        = "pistol"
 SWEP.Primary.Recoil      = 1.2
 SWEP.Primary.Sound       = Sound( "Weapon_TMP.Single" )
 
 SWEP.AutoSpawnable = true
 
-SWEP.AmmoEnt = "item_ammo_smg1_ttt"
+SWEP.AmmoEnt = "item_ammo_pistol_ttt"
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false
