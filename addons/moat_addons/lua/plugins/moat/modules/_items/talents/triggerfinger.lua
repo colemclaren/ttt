@@ -7,13 +7,13 @@ TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = { min = 8, max = 25.01 } -- Amount firerate is increased
+TALENT.Modifications[1] = { min = 7.99, max = 25 } -- Amount firerate is increased
 
 TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
 	if (weapon.Primary.Delay) then
-		weapon.Primary.Delay = weapon.Primary.Delay * ( 1 - ( ( self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] ) ) / 100 ) )
+		weapon.Primary.Delay = weapon.Primary.Delay - math.min(0.11, weapon.Primary.Delay) * ((self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])) / 100)
 	end
 end
