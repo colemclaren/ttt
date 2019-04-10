@@ -85,18 +85,18 @@ SWEP.Spawnable = true
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_AK47
 
-SWEP.Primary.Delay      = 0.1
+SWEP.Primary.Delay      = 0.09
 SWEP.Primary.Recoil     = 1.9
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "SMG1"
-SWEP.Primary.Cone = 0.03
+SWEP.Primary.Cone = 0.035
 SWEP.Primary.Damage = 19
-SWEP.HeadshotMultiplier = 2
 SWEP.Primary.ClipSize = 35
 SWEP.Primary.ClipMax = 70
 SWEP.Primary.DefaultClip = 35
 SWEP.AutoSpawnable      = false
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
+SWEP.HeadshotMultiplier = 2.4
 
 SWEP.ViewModelFlip    = false
 SWEP.ViewModelFOV = 60
