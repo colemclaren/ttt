@@ -12,30 +12,6 @@ TALENT.Modifications = {}
 TALENT.Melee = false
 TALENT.NotUnique = false
 
--- if (item_to_drop.MinTalents and item_to_drop.MaxTalents and item_to_drop.Talents) then
---     dropped_item.s.l = 1
---     dropped_item.s.x = 0
---     dropped_item.t = {}
---     local talents_chosen = {}
---     local talents_to_loop = dev_talent_tbl or item_to_drop.Talents
-
---     for k, v in ipairs(talents_to_loop) do
---         talents_chosen[k] = m_GetRandomTalent(k, v, false)
---     end
-
---     for i = 1, table.Count(talents_chosen) do
---         local talent_tbl = talents_chosen[i]
---         dropped_item.t[i] = {}
---         dropped_item.t[i].e = talent_tbl.ID
---         dropped_item.t[i].l = math.random(talent_tbl.LevelRequired.min, talent_tbl.LevelRequired.max)
---         dropped_item.t[i].m = {}
-
---         for k, v in ipairs(talent_tbl.Modifications) do
---             dropped_item.t[i].m[k] = math.Round(math.Rand(0, 1), 2)
---         end
---     end
--- end
-
 util.AddNetworkString("weapon.UpdateTalents")
 
 local tier = 3
@@ -113,6 +89,7 @@ function wildcard_t3(weapon,talent_mods)
 
     timer.Simple(1,function()
         net.Start("weapon.UpdateTalents")
+        net.WriteBool(false)
         net.WriteEntity(weapon.Weapon)
         net.WriteInt(tier,8)
         net.WriteTable(talent)

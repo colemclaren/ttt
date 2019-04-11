@@ -34,7 +34,7 @@ net.Receive("Ass_talent",function()
 	chat.AddText(Material("icon16/arrow_refresh.png"),"The body of ",net.ReadString()," is now gone!")
 end)
 
-local function talent_chat(wep,old,new,v,tier)
+local function talent_chat(wep,old,new,v,tier,wild)
 	if wep:GetOwner() ~= LocalPlayer() then return end
 	local talent_desc = new.Description
 	local talent_desctbl = string.Explode("^", talent_desc)
@@ -45,10 +45,11 @@ local function talent_chat(wep,old,new,v,tier)
 	end
 	talent_desc = string.Implode("", talent_desctbl)
     talent_desc = string.Replace(talent_desc, "_", "%")
-	chat.AddText(Material("icon16/arrow_refresh.png"),"Your ", Color(100,100,255), "Wildcard: Tier " .. tostring(tier),Color(255,255,255)," turned into ",Color(255,0,0),new.Name,Color(255,255,255),": ",Color(0,255,0),talent_desc,Color(255,255,255),"!")
+	chat.AddText(Material("icon16/arrow_refresh.png"),"Your ", Color(100,100,255), ( wild and "Wild: Tier " or "Wildcard: Tier ") .. tostring(tier),Color(255,255,255)," turned into ",Color(255,0,0),new.Name,Color(255,255,255),": ",Color(0,255,0),talent_desc,Color(255,255,255),"!")
 end
 
 net.Receive("weapon.UpdateTalents",function()
+	local wild = net.ReadBool()
 	local wep = net.ReadEntity()
 	local tier = net.ReadInt(8)											
 	local talent = net.ReadTable()
@@ -67,7 +68,7 @@ net.Receive("weapon.UpdateTalents",function()
 			end
 		end)
 	elseif (wep.ItemStats and wep.ItemStats.Talents) then
-		talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier)
+		talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier,wild)
 		wep.ItemStats.Talents[tier] = talent
 		wep.ItemStats.t[tier] = t_
 	end

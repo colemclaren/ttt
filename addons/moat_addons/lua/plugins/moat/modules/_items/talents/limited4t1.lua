@@ -93,6 +93,7 @@ function wildcard_t1(weapon,talent_mods)
 
     timer.Simple(1,function()
         net.Start("weapon.UpdateTalents")
+        net.WriteBool(false)
         net.WriteEntity(weapon.Weapon)
         net.WriteInt(tier,8)
         net.WriteTable(talent)
