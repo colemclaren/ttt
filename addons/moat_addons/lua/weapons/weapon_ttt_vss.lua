@@ -144,6 +144,7 @@ if CLIENT then
 	  return (self:GetIronsights() and 0.2) or nil
    end
 end
+
 SWEP.Pos = Vector(0, 0, 1)
 SWEP.Ang = Angle(175, 0, 180)
 function SWEP:CreateWorldModel()
@@ -153,23 +154,29 @@ function SWEP:CreateWorldModel()
 	   self.WModel:SetBodygroup(1, 1)
 	end
 	return self.WModel
- end
+end
  
- function SWEP:DrawWorldModel()
+function SWEP:DrawWorldModel()
 	local wm = self:CreateWorldModel()
-	
-	local bone = self.Owner:LookupBone("ValveBiped.Bip01_R_Hand")
-	local pos, ang = self.Owner:GetBonePosition(bone)
-		 
-	if bone then
-	   ang:RotateAroundAxis(ang:Right(), self.Ang.p)
-	   ang:RotateAroundAxis(ang:Forward(), self.Ang.y)
-	   ang:RotateAroundAxis(ang:Up(), self.Ang.r)
-	   wm:SetRenderOrigin(pos + ang:Right() * self.Pos.x + ang:Forward() * self.Pos.y + ang:Up() * self.Pos.z)
-	   wm:SetRenderAngles(ang)
-	   wm:DrawModel()
+
+	if (IsValid(self.Owner)) then
+		local bone = self.Owner:LookupBone("ValveBiped.Bip01_R_Hand")
+		local pos, ang = self.Owner:GetBonePosition(bone)
+				
+		if bone then
+			ang:RotateAroundAxis(ang:Right(), self.Ang.p)
+			ang:RotateAroundAxis(ang:Forward(), self.Ang.y)
+			ang:RotateAroundAxis(ang:Up(), self.Ang.r)
+			wm:SetRenderOrigin(pos + ang:Right() * self.Pos.x + ang:Forward() * self.Pos.y + ang:Up() * self.Pos.z)
+			wm:SetRenderAngles(ang)
+			wm:DrawModel()
+		end
+	else
+		wm:SetRenderOrigin(self:GetPos())
+		wm:SetRenderAngles(self:GetAngles())
+		wm:DrawModel()
 	end
- end
+end
 
 DEFINE_BASECLASS "weapon_tttbase"
 function SWEP:SetupDataTables()
