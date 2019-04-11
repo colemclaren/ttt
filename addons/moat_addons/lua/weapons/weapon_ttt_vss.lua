@@ -35,7 +35,7 @@ SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false
 SWEP.ViewModelFOV		= 90
 SWEP.ViewModel          = Model "models/weapons/v_vss_sg552.mdl"
-SWEP.WorldModel         = Model  "models/weapons/w_vss_sg552.mdl"
+SWEP.WorldModel         = Model "models/weapons/w_vss_sg552.mdl"
 
 SWEP.Primary.Sound = Sound("Weapoz_vss.Single")
 
@@ -144,6 +144,32 @@ if CLIENT then
 	  return (self:GetIronsights() and 0.2) or nil
    end
 end
+SWEP.Pos = Vector(0, 0, 1)
+SWEP.Ang = Angle(175, 0, 180)
+function SWEP:CreateWorldModel()
+	if not self.WModel then
+	   self.WModel = ClientsideModel(self.WorldModel, RENDERGROUP_OPAQUE)
+	   self.WModel:SetNoDraw(true)
+	   self.WModel:SetBodygroup(1, 1)
+	end
+	return self.WModel
+ end
+ 
+ function SWEP:DrawWorldModel()
+	local wm = self:CreateWorldModel()
+	
+	local bone = self.Owner:LookupBone("ValveBiped.Bip01_R_Hand")
+	local pos, ang = self.Owner:GetBonePosition(bone)
+		 
+	if bone then
+	   ang:RotateAroundAxis(ang:Right(), self.Ang.p)
+	   ang:RotateAroundAxis(ang:Forward(), self.Ang.y)
+	   ang:RotateAroundAxis(ang:Up(), self.Ang.r)
+	   wm:SetRenderOrigin(pos + ang:Right() * self.Pos.x + ang:Forward() * self.Pos.y + ang:Up() * self.Pos.z)
+	   wm:SetRenderAngles(ang)
+	   wm:DrawModel()
+	end
+ end
 
 DEFINE_BASECLASS "weapon_tttbase"
 function SWEP:SetupDataTables()
@@ -161,6 +187,7 @@ function SWEP:GetCurrentInaccacuracy()
 end
 
 function SWEP:Initialize()
+	self:SetHoldType "ar2"
 	BaseClass.Initialize(self)
 	self:SetInaccuracyTime(0)
 	self:SetInaccuracyPercent(0)
@@ -182,6 +209,6 @@ end
 
 function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
 	BaseClass.ShootBullet(self, dmg, recoil, numbul, self:ModifySpreadBasedOnShots(conex, coney))
-	self:SetInaccuracyPercent(math.min(1, self:GetCurrentInaccacuracy() + 0.4))
+	self:SetInaccuracyPercent(math.min(1, self:GetCurrentInaccacuracy() + 0.5))
 	self:SetInaccuracyTime(CurTime())
 end
