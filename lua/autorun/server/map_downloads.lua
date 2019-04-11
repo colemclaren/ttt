@@ -430,6 +430,7 @@ maps["ttt_abandon_mall_v2"] = 274532987
 maps["ttt_traitormotel_reloaded_b1"] = 785493468 --removed
 maps["ttt_traitormotel_final"] = 196720543
 
+maps["ttt_farmhouse_test"] = 1702740592
 
 
 local map = game.GetMap()
