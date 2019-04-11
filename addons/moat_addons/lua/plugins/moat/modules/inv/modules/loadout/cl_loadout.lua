@@ -888,7 +888,6 @@ function MOAT_LOADOUT.UpdateWep()
 					end
 
                     wep[wep.RenderGroup == RENDERGROUP_TRANSLUCENT and "DrawWorldModelTranslucent" or "DrawWorldModel"] = function(self, c)
-                        print "meme"
 						if (self.LastDrawWorldModel and not c) then
 							self:LastDrawWorldModel(true)
 						end
