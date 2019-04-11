@@ -901,7 +901,7 @@ function MOAT_LOADOUT.UpdateWep()
     					render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
 
         				self:SetModelScale(1.05, 0)
-        				self:LastDrawWorldModel(true)
+        				self:DrawModel()
 
     					render.SetColorModulation(1, 1, 1)
     					render.SuppressEngineLighting(false)
