@@ -44,6 +44,7 @@ SWEP.Secondary.Sound = Sound("Default.Zoom")
 SWEP.IronSightsPos = Vector( 5, -15, -2 )
 SWEP.IronSightsAng = Vector( 2.6, 1.37, 3.5 )
 
+
 function SWEP:SetZoom(state)
 	if IsValid(self.Owner) and self.Owner:IsPlayer() then
 	   if state then
@@ -145,37 +146,55 @@ if CLIENT then
    end
 end
 
-SWEP.Pos = Vector(0, 0, 1)
-SWEP.Ang = Angle(175, 0, 180)
-function SWEP:CreateWorldModel()
-	if not self.WModel then
-	   self.WModel = ClientsideModel(self.WorldModel, RENDERGROUP_OPAQUE)
-	   self.WModel:SetNoDraw(true)
-	   self.WModel:SetBodygroup(1, 1)
-	end
-	return self.WModel
-end
- 
+SWEP.Offset = {
+	Pos = {
+		Up = 1,
+		Right = 0,
+		Forward = 0,
+	},
+	Ang = {
+		Up = 180,
+		Right =  -170,
+		Forward = 0
+	},
+	Scale = 1
+}
 function SWEP:DrawWorldModel()
-	local wm = self:CreateWorldModel()
+    local hand, offset, rotate
+    local pl = self:GetOwner()
 
-	if (IsValid(self.Owner)) then
-		local bone = self.Owner:LookupBone("ValveBiped.Bip01_R_Hand")
-		local pos, ang = self.Owner:GetBonePosition(bone)
-				
-		if bone then
-			ang:RotateAroundAxis(ang:Right(), self.Ang.p)
-			ang:RotateAroundAxis(ang:Forward(), self.Ang.y)
-			ang:RotateAroundAxis(ang:Up(), self.Ang.r)
-			wm:SetRenderOrigin(pos + ang:Right() * self.Pos.x + ang:Forward() * self.Pos.y + ang:Up() * self.Pos.z)
-			wm:SetRenderAngles(ang)
-			wm:DrawModel()
-		end
-	else
-		wm:SetRenderOrigin(self:GetPos())
-		wm:SetRenderAngles(self:GetAngles())
-		wm:DrawModel()
-	end
+    if IsValid(pl) and pl.SetupBones then
+        pl:SetupBones()
+        pl:InvalidateBoneCache()
+        self:InvalidateBoneCache()
+    end
+
+    if IsValid(pl) then
+        local boneIndex = pl:LookupBone("ValveBiped.Bip01_R_Hand")
+
+        if boneIndex then
+            local pos, ang
+
+            local mat = pl:GetBoneMatrix(boneIndex)
+            if mat then
+                pos, ang = mat:GetTranslation(), mat:GetAngles()
+            else
+                pos, ang = pl:GetBonePosition( handBone )
+            end
+
+            pos = pos + ang:Forward() * self.Offset.Pos.Forward + ang:Right() * self.Offset.Pos.Right + ang:Up() * self.Offset.Pos.Up
+            ang:RotateAroundAxis(ang:Up(), self.Offset.Ang.Up)
+            ang:RotateAroundAxis(ang:Right(), self.Offset.Ang.Right)
+            ang:RotateAroundAxis(ang:Forward(), self.Offset.Ang.Forward)
+            self:SetRenderOrigin(pos)
+            self:SetRenderAngles(ang)
+            self:DrawModel()
+        end
+    else
+        self:SetRenderOrigin(nil)
+        self:SetRenderAngles(nil)
+        self:DrawModel()
+    end
 end
 
 DEFINE_BASECLASS "weapon_tttbase"

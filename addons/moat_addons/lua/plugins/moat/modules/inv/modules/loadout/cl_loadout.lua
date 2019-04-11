@@ -887,9 +887,10 @@ function MOAT_LOADOUT.UpdateWep()
 						wep.LastDrawWorldModel = wep.RenderGroup == RENDERGROUP_TRANSLUCENT and wep.DrawWorldModelTranslucent or wep.DrawWorldModel
 					end
 
-					wep[wep.RenderGroup == RENDERGROUP_TRANSLUCENT and "DrawWorldModelTranslucent" or "DrawWorldModel"] = function(self, c)
+                    wep[wep.RenderGroup == RENDERGROUP_TRANSLUCENT and "DrawWorldModelTranslucent" or "DrawWorldModel"] = function(self, c)
+                        print "meme"
 						if (self.LastDrawWorldModel and not c) then
-							self.LastDrawWorldModel(self, true)
+							self:LastDrawWorldModel(true)
 						end
 						
 						if (not rarity_names) then
@@ -901,7 +902,7 @@ function MOAT_LOADOUT.UpdateWep()
     					render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
 
         				self:SetModelScale(1.05, 0)
-        				self:DrawModel()
+        				self:LastDrawWorldModel(true)
 
     					render.SetColorModulation(1, 1, 1)
     					render.SuppressEngineLighting(false)
