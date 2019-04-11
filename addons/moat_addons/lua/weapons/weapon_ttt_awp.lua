@@ -8,7 +8,7 @@ end
 
 -- Always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
-SWEP.PrintName = "Silenced AWP"
+SWEP.PrintName = "AWP"
 -- Standard GMod values
 SWEP.HoldType = "ar2"
 
@@ -21,7 +21,7 @@ SWEP.Primary.Automatic = false
 SWEP.Primary.ClipSize = 2
 SWEP.Primary.ClipMax = 2
 SWEP.Primary.DefaultClip = 2
-SWEP.Primary.Sound = Sound( "Weapon_M4A1.Silenced" )
+SWEP.Primary.Sound = Sound( "Weapon_AWP.Single" )
 SWEP.Secondary.Sound = Sound( "Default.Zoom" )
 SWEP.Scope = true
 
