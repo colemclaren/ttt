@@ -53,6 +53,7 @@ net.Receive("weapon.UpdateTalents",function()
 	local wep = net.ReadEntity()
 	local tier = net.ReadInt(8)											
 	local talent = net.ReadTable()
+	talent.Description = talent.Description or ""
 	local t_ = net.ReadTable()
 	
 	if not wep.ItemStats then
