@@ -792,7 +792,11 @@ function MOAT_LOADOUT.UpdateWep()
         							self:DrawModel()
 								end
 							else
-								self:DrawModel()
+                                if (self.OldDrawWorldModel and not c) then
+                                    self.OldDrawWorldModel(self, true)
+                                else
+                                    self:DrawModel()
+                                end
 							end
 
 							if (new_mat) then
