@@ -62,7 +62,9 @@ function wild_t2(weapon,talent_mods)
     end
 
 
-
+    if talent.OnWeaponSwitch then
+        talent:OnWeaponSwitch(weapon:GetOwner(), weapon, true, t.m)
+    end
     m_ApplyTalentsToWeapon(weapon.Weapon,t)
 
     for k,v in pairs(talent) do

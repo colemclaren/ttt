@@ -57,7 +57,9 @@ function wild_t1(weapon,talent_mods)
         -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents[tier] = talent
     end
 
-
+    if talent.OnWeaponSwitch then
+        talent:OnWeaponSwitch(weapon:GetOwner(), weapon, true, t.m)
+    end
     m_ApplyTalentsToWeapon(weapon.Weapon,t)
 
     for k,v in pairs(talent) do
