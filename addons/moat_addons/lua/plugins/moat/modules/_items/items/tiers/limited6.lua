@@ -1,7 +1,7 @@
 
 ITEM.ID = 35
 
-ITEM.Name = "Wild!"
+ITEM.Name = "Wild"
 
 ITEM.Rarity = 8
 
