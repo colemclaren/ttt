@@ -25,7 +25,7 @@ function wild_t1(weapon,talent_mods)
 
 
     for k,v in pairs(talents) do 
-        if v.Tier ~= tier or v.ID == id or (v.ID == 154) or ((v.Collection or "") == "Meme Collection") then 
+        if v.Tier ~= tier or v.ID == id or (v.ID == 154) or (v.ID == 31) or ((v.Collection or "") == "Meme Collection") then 
             talents[k] = nil 
         end 
     end
