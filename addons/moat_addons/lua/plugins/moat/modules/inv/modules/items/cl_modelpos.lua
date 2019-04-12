@@ -41,6 +41,8 @@ MOAT_MODEL_POS["models/weapons/w_tak_mp5.mdl"] = {1.9, Angle(0, 0, 10), Vector(-
 MOAT_MODEL_POS["models/weapons/zaratusa/golden_deagle/w_golden_deagle.mdl"] = {1.8, Angle(-10, 100, 0), Vector(-9, -3, 0)}
 MOAT_MODEL_POS["models/weapons/m4a1/w_m4a1.mdl"] = {1.5, Angle(0, 0, 100), Vector(-13, 0, 0)}
 
+MOAT_MODEL_POS["models/weapons/w_vss_sg552.mdl"] = {1.07, Angle(11,0,0),Vector(-3.7,2,2.4)}
+
 MOAT_MODEL_POS["models/weapons/w_diamond_mc_pickaxe.mdl"] = {1.8, Angle(35, -20, 30), Vector(-3, 0, 0)}
 MOAT_MODEL_POS["models/weapons/w_diamond_mc_sword.mdl"] = {1.8, Angle(15, -125, -50), Vector(3, -5, -8)}
 MOAT_MODEL_POS["models/weapons/w_knife_f.mdl"] = {0.8, Angle(-25, 15, -10), Vector(7, 2, 3.5)}
