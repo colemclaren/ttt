@@ -70,7 +70,7 @@ hook.Add("TTTPrepareRound","RandomRound",function()
         cur_random_round = false
     end
     if wacky_round == GetGlobalInt("ttt_rounds_left") then
-        if math.random() > 0.5 then
+        if math.random() > 0.3 then
             local b,c = table.Random(moat_random.rounds)
             moat_random.start_round(c)
         end
@@ -250,36 +250,36 @@ moat_random.register("Inverted","Your movement is inverted!",{
     end
 })]]
 
-moat_random.register("Invisible Traitors","The traitors are invisible! And everyone else is a detective!",{
-    ["TTTBeginRound"] = function()
-        for k,v in pairs(player.GetAll()) do
-            if (not v:IsValid()) then continue end
+-- moat_random.register("Invisible Traitors","The traitors are invisible! And everyone else is a detective!",{
+--     ["TTTBeginRound"] = function()
+--         for k,v in pairs(player.GetAll()) do
+--             if (not v:IsValid()) then continue end
             
-            if v:IsTraitor() then
-                v:SetRenderMode(RENDERMODE_TRANSALPHA)
-                v:SetColor(Color(0, 0, 0, 0))
-                v:DrawShadow(false)
+--             if v:IsTraitor() then
+--                 v:SetRenderMode(RENDERMODE_TRANSALPHA)
+--                 v:SetColor(Color(0, 0, 0, 0))
+--                 v:DrawShadow(false)
                 
-                timer.Simple(1, function()
-                    net.Start("MOAT_PLAYER_CLOAKED")
-                    net.WriteEntity(v)
-                    net.WriteBool(true)
-                    net.Broadcast()
-                end)
-            else
-                v:SetRole(ROLE_DETECTIVE)
-            end
-        end
-    end,
-    ["TTTEndRound"] = function()
-        for k, v in pairs(player.GetAll()) do
-            if (not v:IsValid()) then continue end
+--                 timer.Simple(1, function()
+--                     net.Start("MOAT_PLAYER_CLOAKED")
+--                     net.WriteEntity(v)
+--                     net.WriteBool(true)
+--                     net.Broadcast()
+--                 end)
+--             else
+--                 v:SetRole(ROLE_DETECTIVE)
+--             end
+--         end
+--     end,
+--     ["TTTEndRound"] = function()
+--         for k, v in pairs(player.GetAll()) do
+--             if (not v:IsValid()) then continue end
             
-            v:SetColor(255, 255, 255, 255)
-            v:SetRenderMode(RENDERMODE_NORMAL)
-        end
-    end
-})
+--             v:SetColor(255, 255, 255, 255)
+--             v:SetRenderMode(RENDERMODE_NORMAL)
+--         end
+--     end
+-- })
 
 --[[
 moat_random.register("Crab","You can only walk sideways!",{
