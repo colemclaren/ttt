@@ -35,5 +35,5 @@ ITEM.Talents = { "Wild: Tier 1", "Wild: Tier 2", "Wild: Tier 3" }
 -- ITEM.Talents = { "Wild: Tier 1", "random", "random" }
 
 ITEM.Price = 59999
-ITEM.LimitedShop = 1555443868 -- wrong commit messsage just making this comment so i can update it lol
+-- ITEM.LimitedShop = 1555443868 -- wrong commit messsage just making this comment so i can update it lol
 ITEM.ShopDesc = "Get a random talent after you get a kill!\n(Purchasing will give you a random \"Wild\" tier weapon)"
