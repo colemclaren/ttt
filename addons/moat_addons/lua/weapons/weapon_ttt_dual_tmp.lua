@@ -33,6 +33,7 @@ SWEP.ViewModel  = "models/weapons/cstrike/c_smg_tmp.mdl"
 SWEP.WorldModel = "models/weapons/w_smg_tmp.mdl"
 
 SWEP.DeploySpeed = 3
+SWEP.WElements = true
 
 SWEP.HeadshotMultiplier = 1.2
 
@@ -57,8 +58,6 @@ end
 if (CLIENT) then
     local WorldModel = ClientsideModel( SWEP.WorldModel )
 
-    -- Settings...
-    WorldModel:SetSkin( 1 )
     WorldModel:SetNoDraw( true )
 
     function SWEP:DrawWorldModel()
@@ -80,12 +79,13 @@ if (CLIENT) then
             WorldModel:SetPos( newPos )
             WorldModel:SetAngles( newAng )
 
-            WorldModel:SetupBones()
         else
-            WorldModel:SetPos( self:GetPos() )
+            WorldModel:SetPos( self:GetPos() + self:GetAngles():Right() * 5)
             WorldModel:SetAngles( self:GetAngles() )
         end
 
+
+        WorldModel:SetupBones()
         WorldModel:DrawModel()
         self:DrawModel()
     end
