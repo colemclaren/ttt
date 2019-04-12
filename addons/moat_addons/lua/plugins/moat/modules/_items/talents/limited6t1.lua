@@ -1,6 +1,6 @@
 
 TALENT.ID = 34
-TALENT.Name = "Wild - Tier 1"
+TALENT.Name = "Wild! - Tier 1"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "After a kill, you have a %s_^ chance to add a random Tier 1 talent to your gun with its lowest stats possible"
