@@ -45,7 +45,7 @@ local function talent_chat(wep,old,new,v,tier,wild)
 	end
 	talent_desc = string.Implode("", talent_desctbl)
     talent_desc = string.Replace(talent_desc, "_", "%")
-	chat.AddText(Material("icon16/arrow_refresh.png"),"Your ", Color(100,100,255), ( wild and "Wild: Tier " or "Wildcard: Tier ") .. tostring(tier),Color(255,255,255)," turned into ",Color(255,0,0),new.Name,Color(255,255,255),": ",Color(0,255,0),talent_desc,Color(255,255,255),"!")
+	chat.AddText(Material("icon16/arrow_refresh.png"),"Your ", Color(100,100,255), ( wild and "Wild! - Tier " or "Wildcard: Tier ") .. tostring(tier),Color(255,255,255),(wild and " added " or " turned into "),Color(255,0,0),new.Name,Color(255,255,255),": ",Color(0,255,0),talent_desc,Color(255,255,255),(wild and " to your gun " or "!"))
 end
 
 net.Receive("weapon.UpdateTalents",function()
@@ -62,14 +62,18 @@ net.Receive("weapon.UpdateTalents",function()
 			if wep.ItemStats then
 				if not wep.ItemStats.Talents then return end
 				talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier)
-				wep.ItemStats.Talents[tier] = talent
-				wep.ItemStats.t[tier] = t_
+				table.insert(wep.ItemStats.Talents,talent)
+				-- wep.ItemStats.Talents[tier] = talent
+				table.insert(wep.ItemStats.t,t_)
+				-- wep.ItemStats.t[tier] = t_
 				timer.Destroy(s)
 			end
 		end)
 	elseif (wep.ItemStats and wep.ItemStats.Talents) then
 		talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier,wild)
-		wep.ItemStats.Talents[tier] = talent
-		wep.ItemStats.t[tier] = t_
+		table.insert(wep.ItemStats.Talents,talent)
+		-- wep.ItemStats.Talents[tier] = talent
+		table.insert(wep.ItemStats.t,t_)
+		-- wep.ItemStats.t[tier] = t_
 	end
 end) 

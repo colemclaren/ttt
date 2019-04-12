@@ -1,9 +1,9 @@
 
 TALENT.ID = 36
-TALENT.Name = "Wild: Tier 3"
+TALENT.Name = "Wild! - Tier 3"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255,0)
-TALENT.Description = "After a kill, this talent has a %s_^ chance to morph into a random talent"
+TALENT.Description = "After a kill, you have a %s_^ chance to add a random Tier 3 talent to your gun with its lowest stats possible"
 TALENT.Tier = 3
 -- TALENT.LevelRequired = {min = -5, max = -10}
 TALENT.LevelRequired = {min = 20, max = 30}
@@ -41,19 +41,26 @@ function wild_t3(weapon,talent_mods)
     }
 
     for k,v in pairs(talent.Modifications) do
-        t.m[k] = math.Round(math.Rand(0, 1), 2)
+        t.m[k] = 0
     end
 
 
-    weapon.Weapon.Talents[tier] = t
-    weapon.Weapon.ItemStats.t[tier] = t
-    weapon.Weapon.ItemStats.Talents[tier] = talent
+    table.insert(weapon.Weapon.Talents,t)
+    table.insert(weapon.Weapon.ItemStats.t,t)
+    table.insert(weapon.Weapon.ItemStats.Talents,talent)
+    -- weapon.Weapon.Talents[tier] = t
+    -- weapon.Weapon.ItemStats.t[tier] = t
+    -- weapon.Weapon.ItemStats.Talents[tier] = talent
 
     if loadout_weapon_indexes[weapon.Weapon:EntIndex()] then
-        loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents[tier] = t
-        loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.t[tier] = t
-        loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents[tier] = talent
+        table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents,t)
+        -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents[tier] = t
+        table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.t,t)
+        -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.t[tier] = t
+        table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents,talent)
+        -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents[tier] = talent
     end
+
 
 
     m_ApplyTalentsToWeapon(weapon.Weapon,t)
