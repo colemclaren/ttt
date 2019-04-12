@@ -54,64 +54,66 @@ function SWEP:ViewModelDrawn(vm)
     self.InsideDraw = false
 end
 
-local WorldModel = ClientsideModel( SWEP.WorldModel )
+if (CLIENT) then
+    local WorldModel = ClientsideModel( SWEP.WorldModel )
 
--- Settings...
-WorldModel:SetSkin( 1 )
-WorldModel:SetNoDraw( true )
+    -- Settings...
+    WorldModel:SetSkin( 1 )
+    WorldModel:SetNoDraw( true )
 
-function SWEP:DrawWorldModel()
-    local _Owner = self:GetOwner()
+    function SWEP:DrawWorldModel()
+        local _Owner = self:GetOwner()
 
-    if ( IsValid( _Owner ) ) then
-        -- Specify a good position
-        local offsetVec = Vector(6.5, -1.5, -5)
-        local offsetAng = Angle(-5, -10, 0)
+        if ( IsValid( _Owner ) ) then
+            -- Specify a good position
+            local offsetVec = Vector(6.5, -1.5, -5)
+            local offsetAng = Angle(-5, -10, 0)
 
-        local boneid = _Owner:LookupBone "ValveBiped.Bip01_L_Hand" -- Right Hand
-        if not boneid then return end
+            local boneid = _Owner:LookupBone "ValveBiped.Bip01_L_Hand" -- Right Hand
+            if not boneid then return end
 
-        local matrix = _Owner:GetBoneMatrix( boneid )
-        if !matrix then return end
+            local matrix = _Owner:GetBoneMatrix( boneid )
+            if !matrix then return end
 
-        local newPos, newAng = LocalToWorld( offsetVec, offsetAng, matrix:GetTranslation(), matrix:GetAngles() )
+            local newPos, newAng = LocalToWorld( offsetVec, offsetAng, matrix:GetTranslation(), matrix:GetAngles() )
 
-        WorldModel:SetPos( newPos )
-        WorldModel:SetAngles( newAng )
+            WorldModel:SetPos( newPos )
+            WorldModel:SetAngles( newAng )
 
-        WorldModel:SetupBones()
-    else
-        WorldModel:SetPos( self:GetPos() )
-        WorldModel:SetAngles( self:GetAngles() )
+            WorldModel:SetupBones()
+        else
+            WorldModel:SetPos( self:GetPos() )
+            WorldModel:SetAngles( self:GetAngles() )
+        end
+
+        WorldModel:DrawModel()
+        self:DrawModel()
     end
 
-    WorldModel:DrawModel()
-    self:DrawModel()
-end
+    function SWEP:FireAnimationEvent( pos, ang, event, options )
+        if (not self.CSMuzzleFlashes) then return end
+        if (not IsValid(self.Owner)) then return end
 
-function SWEP:FireAnimationEvent( pos, ang, event, options )
-	if (not self.CSMuzzleFlashes) then return end
-    if (not IsValid(self.Owner)) then return end
+        -- CS Muzzle flashes
+        if ( event == 5001 or event == 5011 or event == 5021 or event == 5031 ) then
 
-	-- CS Muzzle flashes
-	if ( event == 5001 or event == 5011 or event == 5021 or event == 5031 ) then
+            local data = EffectData()
+            data:SetFlags( 0 )
+            data:SetEntity( self.Owner:GetViewModel() )
+            data:SetAttachment( math.floor( ( event - 4991 ) / 10 ) )
+            data:SetScale( 1 )
 
-		local data = EffectData()
-		data:SetFlags( 0 )
-		data:SetEntity( self.Owner:GetViewModel() )
-		data:SetAttachment( math.floor( ( event - 4991 ) / 10 ) )
-		data:SetScale( 1 )
+            if ( self.CSMuzzleX ) then
+                util.Effect( "CS_MuzzleFlash_X", data )
+            else
+                util.Effect( "CS_MuzzleFlash", data )
+            end
+            
+            self.ViewModelFlip = not self.ViewModelFlip
+            
 
-		if ( self.CSMuzzleX ) then
-			util.Effect( "CS_MuzzleFlash_X", data )
-		else
-			util.Effect( "CS_MuzzleFlash", data )
+            return true
         end
-        
-        self.ViewModelFlip = not self.ViewModelFlip
-        
 
-		return true
-	end
-
+    end
 end
