@@ -78,3 +78,139 @@ net.Receive("weapon.UpdateTalents",function()
 		-- wep.ItemStats.t[tier] = t_
 	end
 end) 
+
+local MEME = {}
+local WORLDMODELS = {}
+
+function MEME:ViewModelDrawn(old, vm)
+    if (self.InsideDraw) then
+        return
+    end
+
+    self.InsideDraw = true
+
+	vm:DrawModel()
+    self.ViewModelFlip = not self.ViewModelFlip
+    vm:SetupBones()
+	vm:DrawModel()
+
+    self.InsideDraw = false
+end
+
+function MEME:DrawWorldModel(old)
+    local WorldModel = WORLDMODELS[self.WorldModel]
+    local _Owner = self:GetOwner()
+
+    local lp = LocalPlayer()
+    if (lp ~= _Owner) then
+        if (lp:GetObserverMode() == OBS_MODE_IN_EYE and lp:GetObserverTarget() == _Owner) then
+            return
+        end
+    end
+
+    if (old) then
+        old(self)
+    else
+        self:DrawModel()
+	end
+	
+    if (IsValid(_Owner)) then
+		-- Specify a good position
+		
+		local boneid = _Owner:LookupBone "ValveBiped.Bip01_L_Hand" -- Right Hand
+		local b3 = WorldModel:LookupBone "ValveBiped.Bip01_R_Hand"
+        if not boneid or not b3 then return end
+
+		local matrix = _Owner:GetBoneMatrix(boneid)
+		local mpos, mang
+		local m3 = WorldModel:GetBoneMatrix(b3)
+		if (m3) then
+			mpos, mang = m3:GetTranslation(), m3:GetAngles()
+		else
+			mpos, mang = WorldModel:GetBonePosition(b3)
+		end
+
+		if not matrix or not mpos then return end
+		
+		local pos, ang = LocalToWorld(vector_origin, Angle(0, 0, 180), matrix:GetTranslation(), matrix:GetAngles())
+		local lpos, lang = WorldToLocal(WorldModel:GetPos(), WorldModel:GetAngles(), mpos, mang)
+		pos, ang = LocalToWorld(lpos, lang, pos, ang)
+
+		if (self.Offset) then
+			pos = pos + ang:Forward() * self.Offset.Pos.Forward + ang:Right() * self.Offset.Pos.Right + ang:Up() * self.Offset.Pos.Up
+			ang:RotateAroundAxis(ang:Up(), self.Offset.Ang.Up)
+			ang:RotateAroundAxis(ang:Right(), self.Offset.Ang.Right)
+			ang:RotateAroundAxis(ang:Forward(), self.Offset.Ang.Forward)
+			ang:RotateAroundAxis(ang:Forward(), 180)
+		end
+
+		local offsetVec = Vector(0, -5, 0)
+		local offsetAng = Angle(-5, -10, 0)
+
+		pos, ang = LocalToWorld(offsetVec, offsetAng, pos, ang)
+
+		WorldModel:SetPos(pos)
+		WorldModel:SetAngles(ang)
+        WorldModel:SetupBones()
+
+    else
+        WorldModel:SetPos(self:GetPos() + self:GetAngles():Right() * 5)
+        WorldModel:SetAngles(self:GetAngles())
+    end
+
+    WorldModel:DrawModel()
+end
+
+function MEME:Think(old)
+    if (old) then
+        old(self)
+    end
+    
+    self.ViewModelFlip = not self.ViewModelFlip
+end
+
+local needed = {}
+
+local function doweapon(wep)
+	wep.UseHands = false
+	wep.HoldType = "duel"
+	wep.IronSightsPos = nil
+	wep.IronSightsAng = nil
+	wep:SetHoldType "duel"
+	if (not WORLDMODELS[wep.WorldModel]) then
+		WORLDMODELS[wep.WorldModel] = ClientsideModel(wep.WorldModel)
+		WORLDMODELS[wep.WorldModel]:SetNoDraw(true)
+	end
+	
+	wep.Tracer = 3
+	
+	for k, fn in pairs(MEME) do
+		local old = wep[k]
+		wep[k] = function(self, ...)
+			fn(self, old, ...)
+		end
+	end
+end
+
+hook.Add("TTTEndRound", "moat_talents.Dual", function()
+	needed = {}
+end)
+
+
+hook.Add("OnEntityCreated", "moat_talents.Dual", function(ent)
+	if (needed[ent:EntIndex()]) then
+		needed[ent:EntIndex()] = nil
+		timer.Simple(0, function()
+			doweapon(ent)
+		end)
+	end
+end)
+
+net.Receive("moat_talents.Dual", function()
+	local wep = net.ReadUInt(32)
+	if (IsValid(Entity(wep))) then
+		doweapon(Entity(wep))
+		return
+	end
+	needed[wep] = true
+end)
