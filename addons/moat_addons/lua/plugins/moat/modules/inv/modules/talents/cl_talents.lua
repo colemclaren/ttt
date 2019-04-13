@@ -34,8 +34,7 @@ net.Receive("Ass_talent",function()
 	chat.AddText(Material("icon16/arrow_refresh.png"),"The body of ",net.ReadString()," is now gone!")
 end)
 
-local function talent_chat(wep,old,new,v,tier,wild)
-	if wep:GetOwner() ~= LocalPlayer() then return end
+local function talent_chat(new,v,tier,wild)
 	local talent_desc = new.Description
 	local talent_desctbl = string.Explode("^", talent_desc)
 	for i = 1, table.Count(v.m) do
@@ -55,27 +54,29 @@ net.Receive("weapon.UpdateTalents",function()
 	local talent = net.ReadTable()
 	talent.Description = talent.Description or ""
 	local t_ = net.ReadTable()
-	
-	if not wep.ItemStats then
-		local s = "TalentUpdate" .. wep:EntIndex() .. tier
-		timer.Create(s,0.1,0,function()
-			if not IsValid(wep) then timer.Destroy(s) return end
-			if wep.ItemStats then
-				if not wep.ItemStats.Talents then return end
-				talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier)
-				table.insert(wep.ItemStats.Talents,talent)
-				-- wep.ItemStats.Talents[tier] = talent
-				table.insert(wep.ItemStats.t,t_)
-				-- wep.ItemStats.t[tier] = t_
-				timer.Destroy(s)
-			end
-		end)
-	elseif (wep.ItemStats and wep.ItemStats.Talents) then
-		talent_chat(wep,wep.ItemStats.Talents[tier],talent,t_,tier,wild)
-		table.insert(wep.ItemStats.Talents,talent)
-		-- wep.ItemStats.Talents[tier] = talent
-		table.insert(wep.ItemStats.t,t_)
-		-- wep.ItemStats.t[tier] = t_
+	timer.Simple(1,function()
+		if not wep.ItemStats then
+			local s = "TalentUpdate" .. wep:EntIndex() .. tier
+			timer.Create(s,0.1,0,function()
+				if not IsValid(wep) then timer.Destroy(s) return end
+				if wep.ItemStats then
+					if not wep.ItemStats.Talents then return end
+					table.insert(wep.ItemStats.Talents,talent)
+					-- wep.ItemStats.Talents[tier] = talent
+					table.insert(wep.ItemStats.t,t_)
+					-- wep.ItemStats.t[tier] = t_
+					timer.Destroy(s)
+				end
+			end)
+		elseif (wep.ItemStats and wep.ItemStats.Talents) then
+			table.insert(wep.ItemStats.Talents,talent)
+			-- wep.ItemStats.Talents[tier] = talent
+			table.insert(wep.ItemStats.t,t_)
+			-- wep.ItemStats.t[tier] = t_
+		end
+	end)
+	if (wep:GetOwner() == LocalPlayer()) then
+		talent_chat(talent,t_,tier,wild)
 	end
 end) 
 
