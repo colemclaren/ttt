@@ -66,15 +66,13 @@ function wild_t1(weapon,talent_mods)
         if isfunction(v) then talent[k] = nil end
     end
 
-    timer.Simple(1,function()
-        net.Start("weapon.UpdateTalents")
-        net.WriteBool(true)
-        net.WriteEntity(weapon.Weapon)
-        net.WriteInt(tier,8)
-        net.WriteTable(talent)
-        net.WriteTable(t)
-        net.Broadcast()
-    end)
+    net.Start("weapon.UpdateTalents")
+    net.WriteBool(true)
+    net.WriteEntity(weapon.Weapon)
+    net.WriteInt(tier,8)
+    net.WriteTable(talent)
+    net.WriteTable(t)
+    net.Broadcast()
 
 end
 
