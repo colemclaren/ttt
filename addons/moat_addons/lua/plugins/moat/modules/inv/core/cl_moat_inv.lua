@@ -917,6 +917,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             end
 
             m_DrawShadowedText(1, " | Level " .. talent_level .. "", font, 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_col2)
+            talent_desc = talent_desc or ""
             local talent_desctbl = string.Explode("^", talent_desc)
 
             for i = 1, table.Count(v.m) do
