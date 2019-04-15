@@ -508,7 +508,7 @@ local function getiteminfo(ITEM_HOVERED,embed)
 
         item_desc = string.Replace(item_desc, "_", "%")
 
-        embed.description = ITEM_NAME_FULL .. "\n\n" .. item_desc .. ""
+        embed.description = ITEM_NAME_FULL .. "\n" .. item_desc .. ""
     end
     embed.footer = {
         text = "From the " .. ITEM_HOVERED.item.Collection .. ""
