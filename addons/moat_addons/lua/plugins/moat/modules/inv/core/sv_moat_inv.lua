@@ -322,7 +322,7 @@ local function addstats(itemtbl,embed)
                     stat_sign = ""
                 end
 
-                dmg_ = stat_sign .. stat_num .. "%"
+                dmg_ = stat_sign .. stat_num .. "%" 
 
             else
                 dmg_ = "+-0%"
@@ -390,14 +390,15 @@ local function addstats(itemtbl,embed)
         if (string.StartWith(tostring(stat_num), "-")) then
             stat_sign = ""
         end
-
+        
         local stat_str = stats_full[tostring(k)]
+        local plus = math.Round(math.Remap(stat_num,stat_min,stat_max,1,20)) or 1
 
         if (not table.HasValue(default_stats, stat_str) and not table.HasValue(level_stats, stat_str)) then
             table.insert(embed.fields,{
-                name = stat_str,
-                value = "```diff\n" .. stat_sign .. stat_num .. "%\n```" ,
-                inline = true
+                name = stat_str .. ": " .. stat_sign .. stat_num .. "% `(" .. stat_min .. " to " .. stat_max .. ")`",
+                value = ("[▰](http://moat.gg)"):rep(plus) .. ("▱"):rep(20 - plus)  ,
+                inline = false
             })
         end
     end
@@ -514,7 +515,7 @@ local function getiteminfo(ITEM_HOVERED,embed)
         text = "From the " .. ITEM_HOVERED.item.Collection .. ""
     }
     embed.author.name = string.format(embed.author.name,"@","#")
-    embed.timestamp = os.date("%Y-%m-%dT%H:%M:%S.000Z",os.time())
+    embed.timestamp = os.date("!%Y-%m-%dT%H:%M:%S.000Z",os.time())
     embed.color = rarity_names[ITEM_HOVERED.item.Rarity][2] or 0
     return embed
 end
