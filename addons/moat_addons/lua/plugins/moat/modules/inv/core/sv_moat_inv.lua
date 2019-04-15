@@ -396,7 +396,7 @@ local function addstats(itemtbl,embed)
         if (not table.HasValue(default_stats, stat_str) and not table.HasValue(level_stats, stat_str)) then
             table.insert(embed.fields,{
                 name = stat_str,
-                value = "`diff\n" .. stat_sign .. stat_num .. "%\n`" ,
+                value = "```diff\n" .. stat_sign .. stat_num .. "%\n```" ,
                 inline = true
             })
         end
