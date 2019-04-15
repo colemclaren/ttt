@@ -251,7 +251,7 @@ local rarity_names = {
     },
     {
         "a Planetary",
-        16777215
+        16711680
     }
 }
 
