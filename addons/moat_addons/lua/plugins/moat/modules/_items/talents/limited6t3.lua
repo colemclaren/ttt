@@ -20,6 +20,7 @@ util.AddNetworkString("weapon.UpdateTalents")
 local tier = 3
 local id = TALENT.ID
 function wild_t3(weapon,talent_mods)
+    if MOAT_MINIGAME_OCCURING then return end
     local talents = table.Copy(MOAT_TALENTS)
 
     local active = weapon.Talents[tier].l <= weapon.level
