@@ -279,7 +279,6 @@ local function addstats(itemtbl,embed)
     local wpn_dmg = math.Round(wpntbl.Primary.Damage, 1)
     local wpn_rpm = math.Round(60 * (1 / wpntbl.Primary.Delay))
     local wpn_mag = math.Round(wpntbl.Primary.ClipSize)
-    local stats_text = "```diff\n"
 
     if (itemtbl.s) then
         if (itemtbl.s.d) then
@@ -423,9 +422,6 @@ local function addstats(itemtbl,embed)
             talent_name = itemtbl.Talents[k].Name
             talent_desc = itemtbl.Talents[k].Description
             talent_level = v.l
-
-            stats_text = stats_text .. "----------\n"
-            stats_text = stats_text .. talent_name .. " | Level " .. talent_level .. "\n"
 
             local talent_desctbl = string.Explode("^", talent_desc)
 
