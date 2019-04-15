@@ -460,20 +460,20 @@ function moat_GetItemStats(tbl, wpnstr)
     return item_str
 end
 
-util.AddNetworkString("MOAT_CHAT_OBTAINED_VERIFY")
+-- util.AddNetworkString("MOAT_CHAT_OBTAINED_VERIFY")
 
-net.Receive("MOAT_CHAT_OBTAINED_VERIFY", function(l, pl)
-    if (not pl) then return end
-    if (not pl:IsValid()) then return end
-	local nochat = net.ReadBool()
-	if (nochat) then return end
+-- net.Receive("MOAT_CHAT_OBTAINED_VERIFY", function(l, pl)
+--     if (not pl) then return end
+--     if (not pl:IsValid()) then return end
+-- 	local nochat = net.ReadBool()
+-- 	if (nochat) then return end
 
-    local str = net.ReadString()
-    local tbl = net.ReadTable()
-    local wpnstr = net.ReadString()
+--     local str = net.ReadString()
+--     local tbl = net.ReadTable()
+--     local wpnstr = net.ReadString()
 
-    SVDiscordRelay.LinkItem(pl, tbl, wpnstr, str)
-end)
+--     SVDiscordRelay.LinkItem(pl, tbl, wpnstr, str)
+-- end)
 
 function SVDiscordRelay.LinkItem(ply, tbl, wpnstr, msg)
     if not tbl then return end
@@ -492,22 +492,6 @@ function SVDiscordRelay.LinkItem(ply, tbl, wpnstr, msg)
     text = text .. moat_GetItemStats(tbl, wpnstr) or "Unknown Item"
 
     discord.Send("Drop", text)
-
-    /*
-    http.Fetch("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=" .. DiscordRelay.SteamWebAPIKey .. "&steamids=" .. ply:SteamID64() .. "&format=json", function(body, size, headers, code)
-        local response = util.JSONToTable(body).response
-        local plyInfo
-        local image
-
-        if not response.players[1] then
-            image = false
-        else
-            plyInfo = response.players[1]
-            image = plyInfo.avatarfull
-        end
-
-        SVDiscordRelay.SendToDiscord(ply, image, text, false)
-    end)*/
 end
 
 function SVDiscordRelay.SendToDiscord(ply, s_image, s_text, teamchat)

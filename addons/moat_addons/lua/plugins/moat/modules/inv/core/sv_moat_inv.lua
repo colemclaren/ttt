@@ -219,6 +219,343 @@ concommand.Add("moat_reload", function(pl)
 	m_InitializeTalents()
 end)
 
+local rarity_names = {
+    {
+        "a Worn",
+        13421823
+    },
+    {
+        "a Standard",
+
+    },
+    {
+        "a Specialized",
+    },
+    {
+        "a Superior",
+    },
+    {
+        "a High-End",
+    },
+    {
+        "an Ascended",
+        16764160
+    },
+    {
+        "a Cosmic",
+        65280
+    },
+    {
+        "an Extinct",
+        16744448
+    },
+    {
+        "a Planetary",
+        16777215
+    }
+}
+
+rarity_names[0] = {
+    "a Stock",
+}
+
+local stats_full = {}
+stats_full["d"] = "DMG"
+stats_full["f"] = "RPM"
+stats_full["m"] = "MAG"
+stats_full["a"] = "Accuracy"
+stats_full["k"] = "Kick"
+stats_full["r"] = "Range"
+stats_full["w"] = "Weight"
+stats_full["x"] = "XP"
+stats_full["l"] = "Level"
+stats_full["p"] = "Push Delay"
+stats_full["v"] = "Push Force"
+
+local function addstats(itemtbl,embed)
+    local wpntbl = weapons.Get(itemtbl.w)
+    local stat_sign = "+"
+    local stat_color = m_color_green
+    local wpn_dmg = math.Round(wpntbl.Primary.Damage, 1)
+    local wpn_rpm = math.Round(60 * (1 / wpntbl.Primary.Delay))
+    local wpn_mag = math.Round(wpntbl.Primary.ClipSize)
+    local stats_text = "```diff\n"
+
+    if (itemtbl.s) then
+        if (itemtbl.s.d) then
+            wpn_dmg = math.Round(wpntbl.Primary.Damage * (1 + ((itemtbl.item.Stats.Damage.min + ((itemtbl.item.Stats.Damage.max - itemtbl.item.Stats.Damage.min) * itemtbl.s.d)) / 100)), 1)
+        end
+
+        if (itemtbl.s.f) then
+            wpn_rpm = math.Round((60 * (1 / wpntbl.Primary.Delay)) * (1 + ((itemtbl.item.Stats.Firerate.min + ((itemtbl.item.Stats.Firerate.max - itemtbl.item.Stats.Firerate.min) * itemtbl.s.f)) / 100)))
+        end
+
+        if (itemtbl.s.m) then
+            wpn_mag = math.Round(wpntbl.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * itemtbl.s.m)) / 100)))
+        end
+    end
+
+    local stat_num = 0
+    local small_y = 0
+    local stats_y_add = 40
+    local stats_y_multi = 25
+
+    if (wpntbl.Primary.NumShots and wpntbl.Primary.NumShots > 1) then
+        wpn_dmg = wpn_dmg .. "*" .. wpntbl.Primary.NumShots -- ×
+    end
+
+    if (wpn_mag < 1) then
+        wpn_mag = "∞"
+    end
+
+    local default_stats = {"DMG", "RPM", "MAG"}
+    local level_stats = {"XP", "Level"}
+    local dmg_,rpm_,mag_ = "","",""
+    for k, v in SortedPairs(default_stats) do
+        if (v == "DMG") then
+
+            if (itemtbl.s.d) then
+                stat_min, stat_max = m_GetStatMinMax("d", itemtbl)
+                stat_num = math.Round(stat_min + ((stat_max - stat_min) * itemtbl.s.d), 1)
+                stat_sign = "+ "
+
+                if (string.StartWith(tostring(stat_num), "-")) then
+                    stat_sign = ""
+                end
+
+                dmg_ = stat_sign .. stat_num .. "%"
+
+            else
+                dmg_ = "+-0%"
+            end
+        elseif (v == "RPM") then
+
+            if (itemtbl.s.f) then
+                stat_min, stat_max = m_GetStatMinMax("f", itemtbl)
+                stat_num = math.Round(stat_min + ((stat_max - stat_min) * itemtbl.s.f), 1)
+                stat_sign = "+ "
+
+                if (string.StartWith(tostring(stat_num), "-")) then
+                    stat_sign = ""
+                end
+
+
+                rpm_ = stat_sign .. stat_num .. "%"
+
+            else
+                rpm_ = "+-0%"
+            end
+        elseif (v == "MAG") then
+
+            if (itemtbl.s.m) then
+                stat_min, stat_max = m_GetStatMinMax("m", itemtbl)
+                stat_num = math.Round(stat_min + ((stat_max - stat_min) * itemtbl.s.m), 1)
+                stat_sign = "+ "
+
+                if (string.StartWith(tostring(stat_num), "-")) then
+                    stat_sign = ""
+                end
+
+                stat_num = wpn_mag - wpntbl.Primary.ClipSize
+
+                mag_ = stat_sign .. stat_num
+            else
+                mag_ = "+-0"
+            end
+        end
+    end
+
+    embed.fields = {
+        {
+            name = "**DMG: " .. wpn_dmg .. "**",
+            value = "*" .. dmg_ .. "*",
+            inline = true
+        },
+        {
+            name = "**RPM: " .. wpn_rpm .. "**",
+            value = "*" .. rpm_ .. "*",
+            inline = true
+        },
+        {
+            name = "**MAG: " .. wpn_mag .. "**",
+            value = "*" .. mag_ .. "*",
+            inline = true
+        }
+    }
+    for k, v in SortedPairs(itemtbl.s) do
+        local stat_min, stat_max = m_GetStatMinMax(k, itemtbl)
+        local stat_num = math.Round(stat_min + ((stat_max - stat_min) * v), 1)
+        stat_sign = "+"
+
+        if (string.StartWith(tostring(stat_num), "-")) then
+            stat_sign = ""
+        end
+
+        local stat_str = stats_full[tostring(k)]
+
+        if (not table.HasValue(default_stats, stat_str) and not table.HasValue(level_stats, stat_str)) then
+            table.insert(embed.fields,{
+                name = stat_str,
+                value = stat_sign .. stat_num .. "%" ,
+                inline = true
+            })
+        end
+    end
+
+    if (itemtbl.t) then
+        local talents_s = "s"
+        local num_talents = table.Count(itemtbl.t)
+
+        if (num_talents == 1) then
+            talents_s = ""
+        end
+
+        table.insert(embed.fields,{
+            name = "<:MoatIcon2:485900473761660939>",
+            value = "**" .. num_talents .. " Talent" .. talents_s .. "**"
+        })
+
+        local talent_name = ""
+        local talent_desc = ""
+        local talent_level = 0
+
+        for k, v in ipairs(itemtbl.t) do
+            talent_name = itemtbl.Talents[k].Name
+            talent_desc = itemtbl.Talents[k].Description
+            talent_level = v.l
+
+            stats_text = stats_text .. "----------\n"
+            stats_text = stats_text .. talent_name .. " | Level " .. talent_level .. "\n"
+
+            local talent_desctbl = string.Explode("^", talent_desc)
+
+            for i = 1, table.Count(v.m) do
+                local mod_num = "[" .. math.Round(itemtbl.Talents[k].Modifications[i].min + ((itemtbl.Talents[k].Modifications[i].max - itemtbl.Talents[k].Modifications[i].min) * v.m[i]), 1) .. "](http://moat.gg)"
+                talent_desctbl[i] = string.format(talent_desctbl[i], tostring(mod_num))
+            end
+
+            talent_desc = string.Implode("", talent_desctbl)
+            talent_desc = string.Replace(talent_desc, "_", "%")
+            table.insert(embed.fields,{
+                name = talent_name .. " | Level " .. talent_level,
+                value = talent_desc
+            })
+        end
+    end
+
+    
+
+end
+
+local function getiteminfo(ITEM_HOVERED,embed)
+    local m_LoadoutTypes = {}
+    m_LoadoutTypes[1] = "Melee"
+    m_LoadoutTypes[2] = "Secondary"
+    m_LoadoutTypes[3] = "Primary"
+    local ITEM_NAME_FULL = ""
+    if (ITEM_HOVERED and ITEM_HOVERED.c) then
+
+        if (ITEM_HOVERED.item.Kind == "tier") then
+            local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w) or wpnstr
+
+            if (string.EndsWith(ITEM_NAME, "_name")) then
+                ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+            end
+
+            ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
+
+            if (ITEM_HOVERED.item.Rarity == 0) then
+                ITEM_NAME_FULL = ITEM_NAME
+            end
+        else
+            ITEM_NAME_FULL = ITEM_HOVERED.item.Name
+        end
+        ITEM_NAME_FULL = "**" .. ITEM_NAME_FULL .. "**"
+        ITEM_NAME_FULL = string.format(ITEM_NAME_FULL, "@", "#")
+    end
+
+    if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
+        -- item_str = item_str .. " - LVL **" .. ITEM_HOVERED.s.l .. "** - XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100)
+        ITEM_NAME_FULL = ITEM_NAME_FULL .. " - LVL **" .. ITEM_HOVERED.s.l .. "** - XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100)
+    end
+
+    local RARITY_TEXT = ""
+
+    if (ITEM_HOVERED.item.Kind ~= "tier") then
+        RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
+    else
+        RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Kind]
+    end
+
+    embed.author.name = embed.author.name .. " has obtained " .. RARITY_TEXT .. "!"
+
+    embed.description = ITEM_NAME_FULL
+
+    if ITEM_HOVERED.item.Image then
+        embed.thumbnail = {
+            url = ITEM_HOVERED.item.Image
+        }
+    end
+
+    if (ITEM_HOVERED.s and (ITEM_HOVERED.item.Kind == "tier" or ITEM_HOVERED.item.Kind == "Unique" or ITEM_HOVERED.item.Kind == "Melee")) then
+        addstats(ITEM_HOVERED,embed)
+    else
+        local item_desc = ITEM_HOVERED.item.Description
+
+        if (ITEM_HOVERED.s) then
+            for i = 1, #ITEM_HOVERED.s do
+                local item_stat = ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i])
+                item_desc = string.format(item_desc, math.Round(item_stat, 2))
+            end
+        end
+
+        item_desc = string.Replace(item_desc, "_", "%")
+
+        embed.description = ITEM_NAME_FULL .. "\n```" .. item_desc .. "```"
+    end
+    embed.footer = {
+        text = "From the " .. ITEM_HOVERED.item.Collection .. ""
+    }
+    embed.author.name = string.format(embed.author.name,"@","#")
+    embed.timestamp = os.date("%Y-%m-%dT%H:%M:%S.000Z",os.time())
+    embed.color = rarity_names[ITEM_HOVERED.item.Rarity][2] or 0
+    return embed
+end
+
+local function discord_post(ply,item,image,gift)
+    local embed = {
+        author = {
+            name = ply:Nick() .. " (" .. ply:SteamID() .. ")",
+            icon_url = image,
+            url = "https://steamcommunity.com/profiles/" .. ply:SteamID64()
+        },
+        fields = {}
+    }
+    if not gift then
+        embed = getiteminfo(item,embed)
+    end
+    discord.Embed("Drop",embed)
+end
+
+local function discord_drop(ply,item,gift)
+    http.Fetch("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=" .. DiscordRelay.SteamWebAPIKey .. "&steamids=" .. ply:SteamID64() .. "&format=json", function(body, size, headers, code)
+        local response = util.JSONToTable(body).response
+        local plyInfo
+        local image
+        if istable(response) then
+            if response.players[1] then
+                plyInfo = response.players[1]
+                image = plyInfo.avatarfull
+            end
+        end
+
+        discord_post(ply,item,image or false,gift)
+    end,function(error) -- steam down
+        discord_post(ply,item,false,gift)
+    end)
+end
+
 function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
     local ply_inv = table.Copy(MOAT_INVS[self])
     local slot_found, upgrade = 0, false
@@ -281,9 +618,11 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
     net.WriteDouble(self:EntIndex())
     net.WriteTable(tbl2)
 	net.WriteBool(gift or false)
-
     if (not no_chat) then
         net.Broadcast()
+        if tbl2.item.Rarity > 5 then
+            discord_drop(self,tbl2,gift)
+        end
         net.Start("MOAT_ITEM_OBTAINED")
         net.WriteTable(tbl2)
         net.Send(self)
@@ -295,6 +634,10 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
         m_SaveInventory(self)
     end
 end
+
+-- concommand.Add("m_testdrop",function()
+--     discord_drop(Entity(1),test_memetable,false)
+-- end)
 
 function meta:m_GetIC()
     return math.floor(tonumber(MOAT_INVS[self]["credits"].c))

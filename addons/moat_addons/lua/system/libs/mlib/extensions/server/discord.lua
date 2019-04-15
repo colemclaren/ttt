@@ -123,6 +123,44 @@ local function Send(user, msg, userName, no_suffix)
 	})
 end
 
+local function Embed(user, msg, userName, no_suffix)
+	assert(user and (Users[user] or Webhooks[user]), "Discord failed to send webhook.")
+
+	-- msg = string.Replace(msg, "@", "#")
+	-- Since the embeds are in tables we will need to check everything manually before sending
+
+	local Info, URL, Name, Avatar = Users[user]
+	if (Info) then
+		URL = Webhooks[Info.Channel]
+		Name = Info.Name
+		Avatar = Info.Avatar
+	else
+		AddUser(user, userName or user, no_suffix)
+		return Embed(user, msg)
+	end
+
+	assert(URL and msg, "Discord failed to get webhook URL or msg.")
+
+	-- if (len(msg) > MaxLength) then
+	-- 	msg = sub(msg, 1, MaxLength)
+	-- end
+	-- Since the embeds are in tables we will need to check everything manually before sending
+
+	if (Server and Server.IsDev) then
+		URL = "https://discord.moat.gg/api/webhooks/489951089588699136/PUhbSqO9nTOeDj__f3bBTQlTesFVKHjxdpVGFC-OB2dUx1_zyjiuBTZekBlMpIC191xD"
+	end
+	HTTP({
+		url = URL,
+		method = 'POST',
+		headers = {
+			['Content-Type'] = 'application/json'
+		},
+		body = '{"embeds": [' .. util.TableToJSON(msg, true) .. "]}", -- tabletojson doesn't work because it doesn't include the square brackets??
+		success = PostSuccess,
+		failed = ErrorCode
+	})
+end
+
 local function SendQueue()
 	for k, v in ipairs(PreLoadQueue) do
 		Send(v.User, v.Message, v.UserName, v.NoSuffix)
@@ -132,6 +170,7 @@ hook.Add("HTTPLoaded", "Discord.PreLoadQueue", SendQueue)
 
 discord = setmetatable({
 	Send = Send,
+	Embed = Embed,
 	AddChannel = AddChannel,
 	AddChannels = AddChannels,
 	AddUser = AddUser,
