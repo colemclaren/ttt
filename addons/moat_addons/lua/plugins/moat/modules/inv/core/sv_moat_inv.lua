@@ -410,7 +410,7 @@ local function addstats(itemtbl,embed)
         end
 
         table.insert(embed.fields,{
-            name = "<:mg:411203820505399297>",
+            name = "\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_",
             value = "**" .. num_talents .. " Talent" .. talents_s .. "**"
         })
 
