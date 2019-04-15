@@ -367,20 +367,21 @@ local function addstats(itemtbl,embed)
     embed.fields = {
         {
             name = "**DMG: " .. wpn_dmg .. "**",
-            value = "*" .. dmg_ .. "*",
+            value = "```diff\n" .. dmg_ .. "```",
             inline = true
         },
         {
             name = "**RPM: " .. wpn_rpm .. "**",
-            value = "*" .. rpm_ .. "*",
+            value = "```diff\n" .. rpm_ .. "```",
             inline = true
         },
         {
             name = "**MAG: " .. wpn_mag .. "**",
-            value = "*" .. mag_ .. "*",
+            value = "```diff\n" .. mag_ .. "```",
             inline = true
         }
     }
+    local i = 0
     for k, v in SortedPairs(itemtbl.s) do
         local stat_min, stat_max = m_GetStatMinMax(k, itemtbl)
         local stat_num = math.Round(stat_min + ((stat_max - stat_min) * v), 1)
@@ -395,12 +396,11 @@ local function addstats(itemtbl,embed)
         if (not table.HasValue(default_stats, stat_str) and not table.HasValue(level_stats, stat_str)) then
             table.insert(embed.fields,{
                 name = stat_str,
-                value = stat_sign .. stat_num .. "%" ,
+                value = "```diff\n" .. stat_sign .. stat_num .. "%\n```" ,
                 inline = true
             })
         end
     end
-
     if (itemtbl.t) then
         local talents_s = "s"
         local num_talents = table.Count(itemtbl.t)
