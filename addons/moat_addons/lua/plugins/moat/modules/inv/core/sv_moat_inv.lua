@@ -410,7 +410,7 @@ local function addstats(itemtbl,embed)
         end
 
         table.insert(embed.fields,{
-            name = "<:MoatIcon2:485900473761660939>",
+            name = "<:mg:411203820505399297>",
             value = "**" .. num_talents .. " Talent" .. talents_s .. "**"
         })
 
