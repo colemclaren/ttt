@@ -512,7 +512,7 @@ function m_MakeContractsPanel()
         -- Description
         draw.SimpleTextOutlined("This is the daily contracts menu. Each day you compete for a high score for rewards", "moat_ItemDesc", w/2, 10, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
         draw.SimpleTextOutlined("Only people in the top 50 get rewards though!", "moat_ItemDesc", w/2, 30, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined("Contracts refresh every day, and require 4 players on your server for the kills to count.", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("Contracts refresh every day, and require 8 players on your server for the kills to count.", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
 
         local datime = os.date("!*t", (os.time() - 21600))
 
@@ -639,7 +639,7 @@ function m_MakeBountiesPanel()
 
         -- Description
         draw.SimpleTextOutlined("This is the daily bounty menu. Each day you can complete up to 12 bounties for rewards.", "moat_ItemDesc", w/2, 30, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined("All bounties are refreshed when a new day starts, and require 8 players to be active.", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("All bounties are refreshed when a new day starts, and require 4 players to be active.", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
 
         local datime = os.date("!*t", (os.time() - 21600))
 
