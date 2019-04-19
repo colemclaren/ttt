@@ -4487,7 +4487,7 @@ function m_DrawVersusPanel()
 		if not IsValid(game_panel) then return end
 		game_actual:Clear()
 
-		for k,v in pairs(gversus_players) do
+		for k,v in SortedPairsByMemberValue(gversus_players,2,true) do
 			
 			if k == LocalPlayer():SteamID64() then inGame = true end
 			if v[1] == LocalPlayer():SteamID64() then inGame = true end
