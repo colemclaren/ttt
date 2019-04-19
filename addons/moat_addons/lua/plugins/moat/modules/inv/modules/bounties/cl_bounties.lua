@@ -18,6 +18,12 @@ local gradient_rtbl = {
     h = 20
 }
 
+local gradient_ttbl = {
+    x = 0,
+    y = 10,
+    w = 360,
+    h = 20
+}
 
 bounty_tbl = bounty_tbl or {}
 
@@ -28,21 +34,48 @@ net.Receive("moat_bounty_send", function()
     local rewards_ = net.ReadString()
     local progress_cur_ = net.ReadUInt(16)
     local progress_max_ = net.ReadUInt(16)
-
-    bounty_tbl[tier_] = {
+    -- print("Received bounty",name_,progress_cur_,progress_max_,desc_)
+    table.insert(bounty_tbl,{
+        tier = tier_,
         name = name_,
         desc = desc_,
         rewards = rewards_,
         progress_cur = progress_cur_,
-        progress_max = progress_max_   
-    }
+        progress_max = progress_max_,
+        id = net.ReadUInt(16)
+    })
+end)
+local update = {}
+
+net.Receive("bounty.refresh",function()
+    bounty_tbl = {}
+end)
+net.Receive("moat_bounty_update", function()
+    local tier_ = net.ReadUInt(16)
+    local progress_cur_ = net.ReadUInt(16)
+    for k,v in pairs(bounty_tbl) do
+        if v.id == tier_ then
+            bounty_tbl[k].progress_cur = progress_cur_
+            update[k] = true
+        end
+    end
 end)
 
-net.Receive("moat_bounty_update", function()
-    local tier_ = net.ReadUInt(4)
-    local progress_cur_ = net.ReadUInt(16)
+local chat_color_tiers = {
+    Color(255, 255, 255),
+    Color(200, 0, 255),
+    Color(0, 255, 0),
+    Color(255, 0, 0)
+}
 
-    bounty_tbl[tier_].progress_cur = progress_cur_
+hook.Add("TTTEndRound","BountyUpdate",function()
+    timer.Simple(2,function()
+        for k,v in pairs(update) do
+            update[k] = nil
+            if bounty_tbl[k].progress_cur == bounty_tbl[k].progress_max then continue end
+            chat.AddText(Color(255, 255, 0),"[", Color(0, 255, 255),"M", Color(255, 255, 255), "G ", Color(255, 255, 0), "Bounties", Color(255, 255, 0), "] ", Color(255,255,255),"Your progress on ", chat_color_tiers[bounty_tbl[k].tier or 1],bounty_tbl[k].name,  Color(255,255,255), " has increased! [",Color(255,0,0),tostring(bounty_tbl[k].progress_cur), Color(255,255,255),"/",Color(0,255,0),tostring(bounty_tbl[k].progress_max) ,Color(255,255,255),"]")
+        end
+    end)
 end)
 
 function m_DrawBountyDesc(text, font, x, y, w)
@@ -573,13 +606,26 @@ end
 function m_RemoveBountiesPanel()
     MOAT_BOUNTY:Remove()
 end
+-- 111
+-- dock top 10
+-- 10 each side
+local colors = {
+    {Color(175, 175, 175, 50), Color(175, 175, 175, 50), Color(200, 200, 200, 100)},
+    {Color(175, 175, 175, 50), Color(255, 50, 255, 50), Color(200, 50, 255, 100)},
+    {Color(0, 255, 0, 50), Color(175, 175, 175, 50), Color(0, 200, 0, 100)}
+}
 
 function m_MakeBountiesPanel()
-    MOAT_BOUNTY = vgui.Create("DPanel", MOAT_CHALL_BG)
+    MOAT_BOUNTY = vgui.Create("DScrollPanel", MOAT_CHALL_BG)
 	MOAT_BOUNTY:SetPos(1, 50)
 	MOAT_BOUNTY:SetSize(738, 463)
     MOAT_BOUNTY.Paint = function(s, w, h)
         draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
+    end
+    local top = vgui.Create("DPanel",MOAT_BOUNTY)
+    top:SetSize(0,111)
+    top:Dock(TOP)
+    function top:Paint(w,h)
 
         if (#bounty_tbl < 3) then
             draw.SimpleTextOutlined("Please wait while bounties are loading...", "DermaLarge", w/2, h/2, HSVColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
@@ -592,8 +638,8 @@ function m_MakeBountiesPanel()
         --draw.RoundedBox(0, (w/2) - ((w/3)/2), 35 + 20, w/3, 1, HSVColor)
 
         -- Description
-        draw.SimpleTextOutlined("This is the daily bounty menu. Each day you can complete up to 3 bounties for rewards.", "moat_ItemDesc", w/2, 30, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined("All bounties are refreshed when a new day starts.", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("This is the daily bounty menu. Each day you can complete up to 12 bounties for rewards.", "moat_ItemDesc", w/2, 30, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("All bounties are refreshed when a new day starts, and require 8 players to be active.", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(0, 0, 0, 35))
 
         local datime = os.date("!*t", (os.time() - 21600))
 
@@ -622,160 +668,72 @@ function m_MakeBountiesPanel()
         else
             draw.SimpleTextOutlined("Time Left: " .. timestring, "DermaLarge", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
         end
-
-        -- First Bounty
-        surface.SetDrawColor(175, 175, 175, 50)
-        surface.DrawOutlinedRect(10, bounties_y, w-20, 100)
-        draw.RoundedBox(0, 10, bounties_y, w-20, 100, Color(0, 0, 0, 100))
-
-        surface.SetDrawColor(175, 175, 175, 50)
-        surface.DrawOutlinedRect(10, bounties_y, w-20, 100)
-        draw.RoundedBox(0, 10, bounties_y, w-20, 100, Color(0, 0, 0, 100))
-
-
-        surface.SetDrawColor(175, 175, 175, 50)
-        surface.DrawOutlinedRect(10, bounties_y, w-20, 100)
-
-        surface.DrawLine(15, bounties_y + 5, w-15, bounties_y + 5)
-        surface.DrawLine(15, bounties_y + 34, w-15, bounties_y + 34)
-        surface.DrawLine(15, bounties_y + 54, w-15, bounties_y + 54)
-
-        draw.RoundedBox(0, 10, bounties_y, w-20, 100, Color(0, 0, 0, 100))
-
-
-        surface.SetDrawColor(200, 200, 200, 100)
-        surface.SetMaterial(gradient_r)
-        surface.DrawTexturedRect(gradient_rtbl.x, gradient_rtbl.y, gradient_rtbl.w, gradient_rtbl.h)
-        surface.SetMaterial(gradient_l)
-        surface.DrawTexturedRect(gradient_rtbl.x + gradient_rtbl.w, gradient_rtbl.y, gradient_rtbl.w, gradient_rtbl.h)
-
-        m_DrawShadowedText(1, bounty_tbl[1].name, "GModNotify", w/2, gradient_rtbl.y + 9, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        
-        m_DrawBountyDesc(bounty_tbl[1].desc, "moat_ItemDesc", 16, gradient_rtbl.y + 27, w - 32)
-
-        draw.SimpleTextOutlined("Rewards:", "moat_ItemDesc", 15, gradient_rtbl.y + 47, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined(bounty_tbl[1].rewards, "moat_ItemDesc", 75, gradient_rtbl.y + 47, Color(255, 255, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-
-        local progress_width = math.Round(bounty_tbl[1].progress_cur/bounty_tbl[1].progress_max, 2)
-
-        draw.SimpleTextOutlined("Progress: " .. bounty_tbl[1].progress_cur .. "/" .. bounty_tbl[1].progress_max, "moat_ItemDesc", 15, gradient_rtbl.y + 62, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-
-        if (progress_width == 1) then
-            draw.SimpleTextOutlined("Fully Completed! Nice work!", "moat_ItemDesc", w - 15, gradient_rtbl.y + 62, Color(0, 255, 0), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-        else
-            draw.SimpleTextOutlined(progress_width * 100 .. "% Completed", "moat_ItemDesc", w - 15, gradient_rtbl.y + 62, Color(0, 255, 0), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-        end
-
-
-        draw.RoundedBox(0, 15 + 1, gradient_rtbl.y + 64 + 15 + 1, w - 30, 5, Color(0, 0, 0, 200))
-        draw.RoundedBox(0, 15, gradient_rtbl.y + 64 + 15, w - 30, 5, Color(40, 255, 40, 25))
-        draw.RoundedBox(0, 15, gradient_rtbl.y + 64 + 15, (w - 30) * progress_width, 5, Color(40, 255, 40, 25))
-
-        surface.SetDrawColor(40, 255, 40)
-        surface.SetMaterial(gradient_r)
-        surface.DrawTexturedRect(15, gradient_rtbl.y + 64 + 15, (w - 30) * progress_width + 1, 5)
-
-
-
-
-
-        -- Second Bounty
-        surface.SetDrawColor(175, 175, 175, 50)
-        surface.DrawOutlinedRect(10, bounties_y + 110, w-20, 100)
-        draw.RoundedBox(0, 10, bounties_y + 110, w-20, 100, Color(0, 0, 0, 100))
-
-
-        surface.SetDrawColor(255, 50, 255, 50)
-        surface.DrawOutlinedRect(10, bounties_y + 110, w-20, 100)
-
-        surface.SetDrawColor(175, 175, 175, 50)
-        surface.DrawLine(15, bounties_y + 110 + 5, w-15, bounties_y + 110 + 5)
-        surface.DrawLine(15, bounties_y + 110 + 34, w-15, bounties_y + 110 + 34)
-        surface.DrawLine(15, bounties_y + 110 + 54, w-15, bounties_y + 110 + 54)
-
-        draw.RoundedBox(0, 10, bounties_y + 110, w-20, 100, Color(0, 0, 0, 100))
-
-
-        surface.SetDrawColor(200, 50, 255, 100)
-        surface.SetMaterial(gradient_r)
-        surface.DrawTexturedRect(gradient_rtbl.x, gradient_rtbl.y + 110, gradient_rtbl.w, gradient_rtbl.h)
-        surface.SetMaterial(gradient_l)
-        surface.DrawTexturedRect(gradient_rtbl.x + gradient_rtbl.w, gradient_rtbl.y + 110, gradient_rtbl.w, gradient_rtbl.h)
-
-        m_DrawShadowedText(1, bounty_tbl[2].name, "GModNotify", w/2, gradient_rtbl.y + 119, Color(255, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        
-        m_DrawBountyDesc(bounty_tbl[2].desc, "moat_ItemDesc", 16, gradient_rtbl.y + 137, w - 32)
-
-        draw.SimpleTextOutlined("Rewards:", "moat_ItemDesc", 15, gradient_rtbl.y + 157, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined(bounty_tbl[2].rewards, "moat_ItemDesc", 75, gradient_rtbl.y + 157, Color(255, 255, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-
-        local progress_width = math.Round(bounty_tbl[2].progress_cur/bounty_tbl[2].progress_max, 2)
-
-        draw.SimpleTextOutlined("Progress: " .. bounty_tbl[2].progress_cur .. "/" .. bounty_tbl[2].progress_max, "moat_ItemDesc", 15, gradient_rtbl.y + 172, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-
-        if (progress_width == 1) then
-            draw.SimpleTextOutlined("Fully Completed! Nice work!", "moat_ItemDesc", w - 15, gradient_rtbl.y + 172, Color(0, 255, 0), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-        else
-            draw.SimpleTextOutlined(progress_width * 100 .. "% Completed", "moat_ItemDesc", w - 15, gradient_rtbl.y + 172, Color(0, 255, 0), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-        end
-
-
-        draw.RoundedBox(0, 15 + 1, gradient_rtbl.y + 174 + 15 + 1, w - 30, 5, Color(0, 0, 0, 200))
-        draw.RoundedBox(0, 15, gradient_rtbl.y + 174 + 15, w - 30, 5, Color(40, 255, 40, 25))
-        draw.RoundedBox(0, 15, gradient_rtbl.y + 174 + 15, (w - 30) * progress_width, 5, Color(40, 255, 40, 25))
-
-        surface.SetDrawColor(40, 255, 40)
-        surface.SetMaterial(gradient_r)
-        surface.DrawTexturedRect(15, gradient_rtbl.y + 174 + 15, (w - 30) * progress_width + 1, 5)
-
-
-
-
-
-
-        -- Third Bounty
-        surface.SetDrawColor(0, 255, 0, 50)
-        surface.DrawOutlinedRect(10, bounties_y + 220, w-20, 100)
-
-        surface.SetDrawColor(175, 175, 175, 50)
-        surface.DrawLine(15, bounties_y + 220 + 5, w-15, bounties_y + 220 + 5)
-        surface.DrawLine(15, bounties_y + 220 + 34, w-15, bounties_y + 220 + 34)
-        surface.DrawLine(15, bounties_y + 220 + 54, w-15, bounties_y + 220 + 54)
-
-        draw.RoundedBox(0, 10, bounties_y + 220, w-20, 100, Color(0, 0, 0, 100))
-
-
-        surface.SetDrawColor(0, 200, 0, 100)
-        surface.SetMaterial(gradient_r)
-        surface.DrawTexturedRect(gradient_rtbl.x, gradient_rtbl.y + 220, gradient_rtbl.w, gradient_rtbl.h)
-        surface.SetMaterial(gradient_l)
-        surface.DrawTexturedRect(gradient_rtbl.x + gradient_rtbl.w, gradient_rtbl.y + 220, gradient_rtbl.w, gradient_rtbl.h)
-
-        m_DrawShadowedText(1, bounty_tbl[3].name, "GModNotify", w/2, gradient_rtbl.y + 229, Color(0, 255, 0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        
-        m_DrawBountyDesc(bounty_tbl[3].desc, "moat_ItemDesc", 16, gradient_rtbl.y + 247, w - 32)
-
-        draw.SimpleTextOutlined("Rewards:", "moat_ItemDesc", 15, gradient_rtbl.y + 267, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined(bounty_tbl[3].rewards, "moat_ItemDesc", 75, gradient_rtbl.y + 267, Color(255, 255, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-
-        local progress_width = math.Round(bounty_tbl[3].progress_cur/bounty_tbl[3].progress_max, 2)
-
-        draw.SimpleTextOutlined("Progress: " .. bounty_tbl[3].progress_cur .. "/" .. bounty_tbl[3].progress_max, "moat_ItemDesc", 15, gradient_rtbl.y + 282, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-
-        if (progress_width == 1) then
-            draw.SimpleTextOutlined("Fully Completed! Nice work!", "moat_ItemDesc", w - 15, gradient_rtbl.y + 282, Color(0, 255, 0), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-        else
-            draw.SimpleTextOutlined(progress_width * 100 .. "% Completed", "moat_ItemDesc", w - 15, gradient_rtbl.y + 282, Color(0, 255, 0), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
-        end
-
-        draw.RoundedBox(0, 15 + 1, gradient_rtbl.y + 284 + 15 + 1, w - 30, 5, Color(0, 0, 0, 200))
-        draw.RoundedBox(0, 15, gradient_rtbl.y + 284 + 15, w - 30, 5, Color(40, 255, 40, 25))
-        draw.RoundedBox(0, 15, gradient_rtbl.y + 284 + 15, (w - 30) * progress_width, 5, Color(40, 255, 40, 25))
-
-        surface.SetDrawColor(40, 255, 40)
-        surface.SetMaterial(gradient_r)
-        surface.DrawTexturedRect(15, gradient_rtbl.y + 284 + 15, (w - 30) * progress_width + 1, 5)
     end
+
+    for k,v in pairs(bounty_tbl) do
+        local a = vgui.Create("DPanel",MOAT_BOUNTY)
+        a:SetSize(0,100)
+        a:DockMargin(10,10,10,0)
+        a:Dock(TOP)
+        function a:Paint(w,h)
+            surface.SetDrawColor(colors[v.tier][1])
+            surface.DrawOutlinedRect(0, 0, w, 100)
+            draw.RoundedBox(0, 0, 0, w, 100, Color(0, 0, 0, 100))
+
+            surface.SetDrawColor(colors[v.tier][2])
+            surface.DrawOutlinedRect(0, 0, w, 100)
+            draw.RoundedBox(0, 0, 0, w, 100, Color(0, 0, 0, 100))
+
+
+            surface.SetDrawColor(colors[v.tier][1])
+            surface.DrawOutlinedRect(0, 0, w, 100)
+
+            surface.DrawLine(5, 5, w-5, 5)
+            surface.DrawLine(5, 34, w-5, 34)
+            surface.DrawLine(5, 54, w-5, 54)
+
+            draw.RoundedBox(0, 0, 0, w, 100, Color(0, 0, 0, 100))
+
+
+            surface.SetDrawColor(colors[v.tier][3])
+            surface.SetMaterial(gradient_r)
+            surface.DrawTexturedRect(gradient_ttbl.x, gradient_ttbl.y, gradient_ttbl.w, gradient_ttbl.h)
+            surface.SetMaterial(gradient_l)
+            surface.DrawTexturedRect(gradient_ttbl.x + gradient_ttbl.w, gradient_ttbl.y, gradient_ttbl.w, gradient_ttbl.h)
+
+            m_DrawShadowedText(1, v.name, "GModNotify", w/2, gradient_ttbl.y + 9, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            
+            m_DrawBountyDesc(v.desc, "moat_ItemDesc", 6, gradient_ttbl.y + 27, w - 32)
+
+            draw.SimpleTextOutlined("Rewards:", "moat_ItemDesc", 5, gradient_ttbl.y + 47, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
+            draw.SimpleTextOutlined(v.rewards, "moat_ItemDesc", 65, gradient_ttbl.y + 47, Color(255, 255, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
+
+            local progress_width = math.Round(v.progress_cur/v.progress_max, 2)
+
+            draw.SimpleTextOutlined("Progress: " .. v.progress_cur .. "/" .. v.progress_max, "moat_ItemDesc", 5, gradient_ttbl.y + 62, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
+
+            if (progress_width == 1) then
+                draw.SimpleTextOutlined("Fully Completed! Nice work!", "moat_ItemDesc", w - 5, gradient_ttbl.y + 62, Color(0, 255, 0), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
+            else
+                draw.SimpleTextOutlined(progress_width * 100 .. "% Completed", "moat_ItemDesc", w - 5, gradient_ttbl.y + 62, Color(0, 255, 0), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 35))
+            end
+
+
+            draw.RoundedBox(0, 5 + 1, gradient_ttbl.y + 64 + 15 + 1, w - 30, 5, Color(0, 0, 0, 200))
+            draw.RoundedBox(0, 5, gradient_ttbl.y + 64 + 15, w - 10, 5, Color(40, 255, 40, 25))
+            draw.RoundedBox(0, 5, gradient_ttbl.y + 64 + 15, (w - 10) * progress_width, 5, Color(40, 255, 40, 25))
+
+            surface.SetDrawColor(40, 255, 40)
+            surface.SetMaterial(gradient_r)
+            surface.DrawTexturedRect(5, gradient_ttbl.y + 64 + 15, (w - 10) * progress_width + 1, 5)
+        end
+    end
+
+    local a = vgui.Create("DPanel",MOAT_BOUNTY)
+    a:SetSize(0,10)
+    function a:Paint() end
+    a:Dock(TOP) -- stupid padding
+
 end
 
 
@@ -939,13 +897,6 @@ local chat_icons = {
     Material("icon16/medal_silver_3.png"),
     Material("icon16/medal_gold_3.png"),
     Material("icon16/information.png")
-}
-
-local chat_color_tiers = {
-    Color(255, 255, 255),
-    Color(200, 0, 255),
-    Color(0, 255, 0),
-    Color(255, 0, 0)
 }
 
 net.Receive("moat_bounty_chat", function()

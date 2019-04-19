@@ -14,6 +14,38 @@ util.AddNetworkString("lottery.firstjoin")
 util.AddNetworkString("lottery.Win")
 util.AddNetworkString("lottery.last")
 
+util.AddNetworkString "moat_bounty_send"
+util.AddNetworkString "moat_bounty_update"
+util.AddNetworkString "moat_bounty_chat"
+util.AddNetworkString "moat_bounty_reload"
+util.AddNetworkString("bounty.refresh")
+
+MOAT_BOUNTIES = MOAT_BOUNTIES or {}
+MOAT_BOUNTIES.DatabasePrefix = "live1"
+MOAT_BOUNTIES.Bounties = {}
+MOAT_BOUNTIES.ActiveBounties = {}
+
+function MOAT_BOUNTIES.CreateTable(name, create)
+	if (not sql.TableExists(name)) then
+		sql.Query(create)
+		MsgC(Color(0, 255, 0), "Created SQL Table: " .. name .. "\n")
+	end
+end
+
+function MOAT_BOUNTIES:BroadcastChat(tier, str)
+	net.Start("moat_bounty_chat")
+	net.WriteUInt(tier, 4)
+	net.WriteString(str)
+	net.Broadcast()
+end
+
+function MOAT_BOUNTIES:SendChat(tier, str, ply)
+	net.Start("moat_bounty_chat")
+	net.WriteUInt(tier, 4)
+	net.WriteString(str)
+	net.Send(ply)
+end
+
 contract_starttime = os.time()
 contract_id = 0
 contract_loaded = false
@@ -59,6 +91,12 @@ local function _contracts()
 
 	local q = db:query("CREATE TABLE IF NOT EXISTS `moat_lottery_winners` ( `steamid` varchar(32), `amount` INT NOT NULL, PRIMARY KEY (steamid) ) ")
 	q:start()
+	
+	local q = db:query("CREATE TABLE IF NOT EXISTS `bounties_current` (ID int NOT NULL AUTO_INCREMENT, bounties TEXT NOT NULL, PRIMARY KEY (ID))")
+	q:start()
+
+	local q = db:query("CREATE TABLE IF NOT EXISTS `bounties_players` ( `steamid` varchar(100) NOT NULL, `score` TEXT NOT NULL, PRIMARY KEY (steamid) )")
+	q:start()
 
 	lottery_stats = lottery_stats or {
 		amount = 10000,
@@ -67,6 +105,149 @@ local function _contracts()
 		popular_ply = 0,
 		loaded = false
 	}
+
+	function global_bounties_reward()
+		for k,v in ipairs(player.GetAll()) do
+			if not v.Bounties then continue end
+			if v.Bounties.ID ~= MOAT_BOUNTIES.ActiveBounties.ID then continue end
+			for i,o in pairs(v.Bounties) do
+				if o.d then
+					MOAT_BOUNTIES:RewardPlayer(v, i)
+					v.Bounties[i].d = nil
+				end
+			end
+			local s = db:escape(util.TableToJSON(v.Bounties))
+			local q = db:query("INSERT INTO bounties_players (steamid, score) VALUES (" .. v:SteamID64() .. ", '" .. s .. "') ON DUPLICATE KEY UPDATE score='" .. s .. "';"):start()
+		end
+	end
+
+	function global_bounties_refresh()
+		local id = (MOAT_BOUNTIES.ActiveBounties or {ID = 0}).ID
+		local bounties = {}
+		local used = {}
+		for i = 1,4 do
+			bounties[i] = MOAT_BOUNTIES:GetRandomBounty(1)
+		end
+		for i = 5,8 do
+			bounties[i] = MOAT_BOUNTIES:GetRandomBounty(2)
+		end
+		for i = 9,12 do
+			bounties[i] = MOAT_BOUNTIES:GetRandomBounty(3)
+		end
+
+		local q = db:query("INSERT INTO bounties_current (bounties) VALUES ('" .. db:escape(util.TableToJSON(bounties)) .. "');")
+		q:start()
+		local d = bounties
+		PrintTable(d)
+
+		for k,v in pairs(d) do
+			d[k] = util.JSONToTable(v)
+			d[k].bnty = MOAT_BOUNTIES.Bounties[d[k].id]
+			d[k].bnty.id = d[k].id
+			if (d[k].bnty.runfunc) then
+				d[k].bnty.runfunc(d[k].mods, d[k].id, id + 1)
+			end
+			MsgC(Color(0, 255, 0), "Global Bounty with ID " .. d[k].id .. d[k].bnty.name .. " has Loaded.\n")
+		end
+		
+		MOAT_BOUNTIES.ActiveBounties = table.Copy(d)
+		MOAT_BOUNTIES.ActiveBounties.ID = id + 1
+		MOAT_BOUNTIES.DiscordBounties()
+		if #player.GetAll() > 0 then
+			net.Start("bounty.refresh")
+			net.Broadcast()
+			for _,ply in ipairs(player.GetAll()) do
+				for k,v in pairs(MOAT_BOUNTIES.ActiveBounties) do
+					if not isnumber(k) then continue end
+					MOAT_BOUNTIES:SendBountyToPlayer(ply, v.bnty, v.mods, 0)
+				end
+			end
+		end
+	end
+
+	function global_bounties_get()
+		local q = db:query("SELECT * FROM bounties_current ORDER BY ID DESC LIMIT 1;")
+		function q:onSuccess(d)
+			local idd = d[1].ID
+			d = util.JSONToTable(d[1].bounties)
+	
+			for k,v in pairs(d) do
+				d[k] = util.JSONToTable(v)
+				d[k].bnty = MOAT_BOUNTIES.Bounties[d[k].id]
+				d[k].bnty.id = d[k].id
+				if (d[k].bnty.runfunc) then
+					d[k].bnty.runfunc(d[k].mods, d[k].id, idd)
+				end
+				MsgC(Color(0, 255, 0), "Global Bounty with ID " .. d[k].id .. d[k].bnty.name .. " has Loaded.\n")
+			end
+			MOAT_BOUNTIES.ActiveBounties = table.Copy(d)
+			MOAT_BOUNTIES.ActiveBounties.ID = idd
+		end
+		q:start()
+	end
+
+	function MOAT_BOUNTIES:IncreaseProgress(ply, bounty_id, max, idd)
+		if #player.GetAll() < 8 then return end
+		if idd ~= MOAT_BOUNTIES.ActiveBounties.ID then return end -- old bounty from before the refresh
+		if (not ply:IsValid()) then return end
+		local tier = bounty_id
+		local id = ply:SteamID64()
+		if MOAT_MINIGAME_OCCURING then return end
+		if (not tier or not id) then return end
+		if (not ply.Bounties) then 
+			ply.Bounties = {
+				ID = MOAT_BOUNTIES.ActiveBounties.ID
+			}
+		end
+		if (ply.Bounties.ID or 0) ~= MOAT_BOUNTIES.ActiveBounties.ID then 
+			ply.Bounties = {
+				ID = MOAT_BOUNTIES.ActiveBounties.ID
+			} -- saved from last day of bounties
+		end
+		
+		if not istable(ply.Bounties[tier]) then
+			ply.Bounties[tier] = {0}
+		end
+		local cur_num = tonumber(ply.Bounties[tier][1])
+		
+		if (cur_num < max) then
+			ply.Bounties[tier][1] = cur_num + 1
+
+			net.Start("moat_bounty_update")
+			net.WriteUInt(tier, 16)
+			net.WriteUInt(cur_num + 1, 16)
+			net.Send(ply)
+
+			if (self.Bounties[bounty_id].name == "Marathon Walker") then
+				MOAT_BOUNTIES:SendChat(1, "You have completed a round of the marathon walker bounty!", ply)
+			end
+
+			if (cur_num + 1 == max) then
+				ply.Bounties[tier].d = true
+			end
+		end
+	end
+
+	function global_bounties_initplayerspawn(ply)
+		local q = db:query("SELECT score FROM bounties_players WHERE steamid = '" .. ply:SteamID64() .. "';")
+		function q:onSuccess(d)
+			if #d > 0 then
+				ply.Bounties = util.JSONToTable(d[1].score)
+			end
+			
+			for k,v in pairs(MOAT_BOUNTIES.ActiveBounties) do
+				if not isnumber(k) then continue end
+				local cur_progress = 0
+				if istable(ply.Bounties) then
+					if ply.Bounties[v.id] and ply.Bounties.ID == MOAT_BOUNTIES.ActiveBounties.ID then
+						cur_progress = ply.Bounties[v.id][1]
+					end
+				end
+				MOAT_BOUNTIES:SendBountyToPlayer(ply, v.bnty, v.mods, cur_progress)
+			end
+		end
+		q:start()
+	end
 
 	function lottery_updateamount()
 		local q = db:query("SELECT amount from moat_lottery;")
@@ -127,7 +308,7 @@ local function _contracts()
 		local q = db:query("SELECT * FROM moat_lottery_players WHERE steamid = '" .. ply:SteamID64() .. "';")
 		function q:onSuccess(d)
 
-			print("GOt lottery player")
+
 			net.Start("lottery.firstjoin")
 			net.WriteTable(lottery_stats)
 			net.WriteBool(#d > 0)
@@ -352,6 +533,7 @@ local function _contracts()
 			print("needs refreshing in " .. refresh_in .. " seconds")
 
 			timer.Create("moat_contract_refresh", refresh_in, 1, function()
+				if Server.IsDev then return end
 				print "Trying to refresh contract"
 				local q = db:query(
 					"SELECT id, DAYOFWEEK(CURRENT_TIMESTAMP) as day_of_week, contract, contract_id from moat_contracts_v2 where updating_server = '" .. db:escape(game.GetIP()) .. "';"
@@ -394,6 +576,7 @@ local function _contracts()
 					lottery_finish()
 
 					contract_loaded = name
+					global_bounties_refresh()
 				end
 				function q:onError(err)
 					print(err)
@@ -407,6 +590,8 @@ local function _contracts()
 			contract_starttime = os.time() - data.diff_seconds
 			contract_loaded = data.contract
 			contract_id = data.ID
+
+			global_bounties_get()
 		end
 
 		function q:onError(err)
@@ -513,19 +698,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 	hook.Add("PlayerInitialSpawn","Contracts",function(ply)
 		lottery_playerspawn(ply)
 		db:query("INSERT INTO moat_contractplayers_v2 (steamid, score) VALUES (" .. ply:SteamID64() .. ", 0) ON DUPLICATE KEY UPDATE score=score;"):start()
-		timer.Simple(5, function()
-			if (not IsValid(ply)) then return end
-			/*net.Start("moat.contractinfo")
-			net.WriteString(contract_loaded)
-			net.WriteString(moat_contracts_v2[contract_loaded].desc)
-			net.WriteString(moat_contracts_v2[contract_loaded].adj)
-			net.Send(ply)*/
-		end)
-
-		--[[for i =1,100 do
-			local b = db:query("INSERT INTO moat_contractplayers_v2 (steamid,score) VALUES ('" .. GetRandomSteamID() .. "'," .. i .. ");")
-			b:start()
-		end]]
+		global_bounties_initplayerspawn(ply)
 
 		contract_top(function(top)
 			top_cache = top
@@ -603,6 +776,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 			lottery_updatetotal()
 			lottery_updateamount()
 			lottery_updatepopular()
+			global_bounties_reward()
 			contract_top(function(top)
 				top_cache = top
 				for _, ply in pairs(player.GetAll()) do
@@ -845,41 +1019,6 @@ hook.Add("InitPostEntity","Contracts",function()
 end)
 
 
-util.AddNetworkString "moat_bounty_send"
-util.AddNetworkString "moat_bounty_update"
-util.AddNetworkString "moat_bounty_chat"
-util.AddNetworkString "moat_bounty_reload"
-
-MOAT_BOUNTIES = MOAT_BOUNTIES or {}
-MOAT_BOUNTIES.DatabasePrefix = "live1"
-MOAT_BOUNTIES.Bounties = {}
-MOAT_BOUNTIES.ActiveBounties = {}
-
-function MOAT_BOUNTIES.CreateTable(name, create)
-	if (not sql.TableExists(name)) then
-		sql.Query(create)
-		MsgC(Color(0, 255, 0), "Created SQL Table: " .. name .. "\n")
-	end
-end
-
-function MOAT_BOUNTIES:BroadcastChat(tier, str)
-	net.Start("moat_bounty_chat")
-	net.WriteUInt(tier, 4)
-	net.WriteString(str)
-	net.Broadcast()
-end
-
-function MOAT_BOUNTIES:SendChat(tier, str, ply)
-	net.Start("moat_bounty_chat")
-	net.WriteUInt(tier, 4)
-	net.WriteString(str)
-	net.Send(ply)
-end
-
-MOAT_BOUNTIES.CreateTable("bounties_refresh" .. MOAT_BOUNTIES.DatabasePrefix, "CREATE TABLE IF NOT EXISTS bounties_refresh" .. MOAT_BOUNTIES.DatabasePrefix .. " (shouldrefresh TEXT NOT NULL)")
-MOAT_BOUNTIES.CreateTable("bounties_current" .. MOAT_BOUNTIES.DatabasePrefix, "CREATE TABLE IF NOT EXISTS bounties_current" .. MOAT_BOUNTIES.DatabasePrefix .. " (bounty1 TEXT NOT NULL, bounty2 TEXT NOT NULL, bounty3 TEXT NOT NULL)")
-MOAT_BOUNTIES.CreateTable("bounties_save" .. MOAT_BOUNTIES.DatabasePrefix, "CREATE TABLE IF NOT EXISTS bounties_save" .. MOAT_BOUNTIES.DatabasePrefix .. " (steamid VARCHAR(30) NOT NULL PRIMARY KEY, bounty1 INTEGER NOT NULL, bounty2 INTEGER NOT NULL, bounty3 INTEGER NOT NULL)")
-
 local bounty_id = 1
 
 function MOAT_BOUNTIES:AddBounty(name_, tbl)
@@ -905,7 +1044,7 @@ function MOAT_BOUNTIES.Rewards(a, b)
 end
 
 local chances = MOAT_BOUNTIES.Rewards(
-	{[1] = 10, [2] = 5, [3] = 2}, 
+	{[1] = 5, [2] = 2, [3] = 1}, 
 	{[1] = 50, [2] = 25, [3] = 10}
 )
 
@@ -953,15 +1092,6 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 	end
 
 	local mutator = {"High-End Stat Mutator", "High-End Talent Mutator"}
-	if (math.random(500) == 1) then
-		mutator = {"Planetary Stat Mutator", "Planetary Talent Mutator"}
-	elseif (math.random(250) == 1) then
-		mutator = {"Cosmic Talent Mutator", "Cosmic Stat Mutator"}
-	elseif (math.random(20) == 1) then
-		mutator = {"Ascended Talent Mutator", "Ascended Stat Mutator"}
-	elseif (math.random(5) == 1) then
-		mutator = {"Name Mutator", "Name Mutator"}
-	end
 	
 	mutator = mutator[math.random(2)]
 	rewards.drop = MOAT_BOUNTIES.Rewards(false, mutator)
@@ -979,52 +1109,21 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 	self:SendChat(level, "You have completed the " .. self.Bounties[bounty_id].name .. " Bounty and have been rewarded " .. self.Bounties[bounty_id].rewards .. ".", ply)
 end
 
-function MOAT_BOUNTIES:IncreaseProgress(ply, bounty_id, max)
-	if (not ply:IsValid()) then return end
-	local tier = self.Bounties[bounty_id].tier
-	local id = ply:SteamID64()
-	if MOAT_MINIGAME_OCCURING then return end
-	if (not tier or not id) then return end
-
-	local cur_progress = sql.Query(string.format("SELECT bounty" .. tier .. " FROM bounties_save" .. MOAT_BOUNTIES.DatabasePrefix .. " WHERE steamid = %s", id))
-
-	if (not cur_progress) then return end
-	
-	local cur_num = tonumber(cur_progress[1]["bounty" .. tier])
-
-	if (cur_num < max) then
-		sql.Query(string.format("UPDATE bounties_save" .. MOAT_BOUNTIES.DatabasePrefix .. " SET bounty" .. tier .. " = bounty" .. tier .. " + 1 WHERE steamid = %s", id))
-
-		net.Start("moat_bounty_update")
-		net.WriteUInt(tier, 4)
-		net.WriteUInt(cur_num + 1, 16)
-		net.Send(ply)
-
-		if (self.Bounties[bounty_id].name == "Marathon Walker") then
-			MOAT_BOUNTIES:SendChat(1, "You have completed a round of the marathon walker bounty!", ply)
-		end
-
-		if (cur_num + 1 == max) then
-			self:RewardPlayer(ply, bounty_id)
-		end
-	end
-end
-
 local tier1_rewards = MOAT_BOUNTIES.Rewards({ic = 2000, exp = 2500}, {exp = 5000})
 local tier1_rewards_str = MOAT_BOUNTIES.Rewards(
 	"2,000 Inventory Credits + 2,500 Player Experience + 1 in 5 Chance for High-End",
 	"Any Random Mutator + 5,000 Player Experience + 1 in 25 Chance for Ascended"
 )
 
-local tier2_rewards = MOAT_BOUNTIES.Rewards({ic = 3500, exp = 5500}, {exp = 11000})
+local tier2_rewards = MOAT_BOUNTIES.Rewards({ic = 3000, exp = 5500}, {exp = 11000})
 local tier2_rewards_str = MOAT_BOUNTIES.Rewards(
-	"3,500 Inventory Credits + 5,500 Player Experience + 1 in 10 Chance for High-End",
+	"3,000 Inventory Credits + 5,500 Player Experience + 1 in 2 Chance for High-End",
 	"Any Random Mutator + 11,000 Player Experience + 1 in 15 Chance for Ascended+"
 )
 
-local tier3_rewards = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 8500}, {exp = 17000})
+local tier3_rewards = MOAT_BOUNTIES.Rewards({ic = 3500, exp = 8500}, {exp = 17000})
 local tier3_rewards_str = MOAT_BOUNTIES.Rewards(
-	"5,000 Inventory Credits + 8,500 Player Experience + 1 in 2 Chance for High-End",
+	"3,500 Inventory Credits + 8,500 Player Experience + 1 High-End item",
 	"Any Random Mutator + 17,000 Player Experience + 1 in 10 for Cosmic+"
 )
 
@@ -1044,14 +1143,14 @@ for i = 1, #weapon_challenges do
 		vars = {
 			math.random(35, 65),
 		},
-		runfunc = function(mods, bountyid)
+		runfunc = function(mods, bountyid, idd)
 			hook.Add("PlayerDeath", "moat_weapon_challenges_1_" .. wpntbl[1], function(ply, inf, att)
 				if (att:IsValid() and att:IsPlayer()) then
 					inf = att:GetActiveWeapon()
 				end
 
 				if (att:IsValid() and att:IsPlayer() and ply ~= att and inf and inf.ClassName and inf.ClassName == wpntbl[1] and WasRightfulKill(att, ply)) then
-					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 				end
 			end)
 		end,
@@ -1067,14 +1166,14 @@ MOAT_BOUNTIES:AddBounty("Detective Hunter", {
 	vars = {
 		math.random(5,15)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_death_dethunt", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer()) then
 				inf = att:GetActiveWeapon()
 			end
 
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_DETECTIVE) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1089,7 +1188,7 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 	vars = {
 		math.random(35, 65),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
         hook.Add("TTTBeginRound", "moat_reset_1tap", function()
 			for k, v in pairs(player.GetAll()) do
 				v.attacked = {}
@@ -1115,7 +1214,7 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 		hook.Add("PlayerDeath", "moat_headshot_expert", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and WasRightfulKill(att, ply) and att.attacked and att.attacked[ply] and att.attacked[ply][1]) then
                 if att.attacked[ply][1] > 1 then return end
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1132,7 +1231,7 @@ MOAT_BOUNTIES:AddBounty("Marathon Walker", {
 		math.random(250, 350)
         -- Should probably be higher idk
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
         hook.Add("TTTBeginRound", "moat_reset_steps", function()
 			for k, v in pairs(player.GetAll()) do
 				v.cSteps = 0
@@ -1147,7 +1246,7 @@ MOAT_BOUNTIES:AddBounty("Marathon Walker", {
             ply.cSteps = ply.cSteps + 1
             
             if ply.cSteps == mods[2] then
-                MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1])
+                MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
             end
 		end)
 	end,
@@ -1161,12 +1260,12 @@ MOAT_BOUNTIES:AddBounty("Close Quarters Combat", {
 	vars = {
 		math.random(35, 65),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_close_quaters_combat", function(ply, inf, att)
 			local vic_pos = ply:GetPos()
 
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and vic_pos:Distance(att:GetPos()) < 500 and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1180,12 +1279,12 @@ MOAT_BOUNTIES:AddBounty("Longshot Killer", {
 	vars = {
 		math.random(35, 65),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_longshot_killer", function(ply, inf, att)
 			local vic_pos = ply:GetPos()
 
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and vic_pos:Distance(att:GetPos()) > 1000 and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1199,7 +1298,7 @@ MOAT_BOUNTIES:AddBounty("Headshot Expert", {
 	vars = {
 		math.random(35, 65),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("ScalePlayerDamage", "moat_headshot_expert_scale", function(ply, hitgroup, dmginfo)
 			local att = dmginfo:GetAttacker()
 
@@ -1216,7 +1315,7 @@ MOAT_BOUNTIES:AddBounty("Headshot Expert", {
 			end
 
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and (att.lasthead and att.lasthead == ply) and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1237,10 +1336,10 @@ MOAT_BOUNTIES:AddBounty("Demolition Expert", {
 	vars = {
 		math.random(25, 35),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("DoPlayerDeath", "moat_demo_expert", function(ply, att, dmg)
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and dmg:IsExplosionDamage() and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1255,7 +1354,7 @@ MOAT_BOUNTIES:AddBounty("Anti-Traitor Force", {
 		1,
 		math.random(3, 5)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBeginRound", "moat_reset_antitraitor_force", function()
 			for k, v in pairs(player.GetAll()) do
 				v.antitforce = 0
@@ -1271,7 +1370,7 @@ MOAT_BOUNTIES:AddBounty("Anti-Traitor Force", {
 				att.antitforce = att.antitforce + 1
 
 				if (att.antitforce == mods[2]) then
-					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 				end
 			end
 		end)
@@ -1286,19 +1385,19 @@ MOAT_BOUNTIES:AddBounty("Knife Addicted", {
 	vars = {
 		math.random(10, 20),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_knife_addicted", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer()) then
 				inf = att:GetActiveWeapon()
 			end
 
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf.ClassName and ((inf:IsWeapon() and inf.ClassName == "weapon_ttt_knife") or (inf.ClassName == "ttt_knife_proj")) and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
-	rewards = "5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End",
-	rewardtbl = {ic = 5000, exp = 10500}
+	rewards = tier2_rewards_str,
+	rewardtbl = tier2_rewards
 })
 
 MOAT_BOUNTIES:AddBounty("DNA Addicted", {
@@ -1307,7 +1406,7 @@ MOAT_BOUNTIES:AddBounty("DNA Addicted", {
 	vars = {
 		math.random(7, 12),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 
 		hook.Add("TTTBeginRound", "moat_reset_dna", function()
 			for k, v in pairs(player.GetAll()) do
@@ -1319,7 +1418,7 @@ MOAT_BOUNTIES:AddBounty("DNA Addicted", {
 			if (ply:IsValid() and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_DETECTIVE and dna_owner:IsValid() and dna_owner:GetRole() == ROLE_TRAITOR and not table.HasValue(ply.dnatbl, ent)) then
 				table.insert(ply.dnatbl, ent)
 				
-				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1333,10 +1432,10 @@ MOAT_BOUNTIES:AddBounty("Body Searcher", {
 	vars = {
 		math.random(50, 100),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBodyFound", "moat_body_searcher", function(ply, dead, rag)
 			if (ply:IsValid() and GetRoundState() == ROUND_ACTIVE) then
-				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1351,7 +1450,7 @@ MOAT_BOUNTIES:AddBounty("Health Station Addicted", {
 		1,
 		math.random(100, 200)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTPlayerUsedHealthStation", "moat_health_station_addict", function(ply, ent_station, healed)
 			if (not ply.healthaddict) then
 				ply.healthaddict = 0
@@ -1360,7 +1459,7 @@ MOAT_BOUNTIES:AddBounty("Health Station Addicted", {
 			ply.healthaddict = ply.healthaddict + healed
 
 			if (ply:IsValid() and GetRoundState() == ROUND_ACTIVE and ply.healthaddict >= mods[2]) then
-				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1374,15 +1473,15 @@ MOAT_BOUNTIES:AddBounty("Equipment User", {
 	vars = {
 		math.random(25, 55)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTOrderedEquipment", "moat_order_equip", function(ply, equipment, is_item)
 			if (ply:IsValid() and GetRoundState() == ROUND_ACTIVE and (ply:GetRole() == ROLE_TRAITOR or ply:GetRole() == ROLE_DETECTIVE)) then
-				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
 			end
 		end)
 	end,
-	rewards = MOAT_BOUNTIES.Rewards("5,000 Inventory Credits + 5,500 Player Experience + 1 in 5 Chance for High-End", tier2_rewards_str),
-	rewardtbl = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 5500}, tier2_rewards)
+	rewards = tier2_rewards_str,
+	rewardtbl = tier2_rewards
 })
 
 MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
@@ -1391,15 +1490,15 @@ MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
 	vars = {
 		math.random(25, 35),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_traitor_assassin", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:Health() >= att:GetMaxHealth() and ply:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
-	rewards = MOAT_BOUNTIES.Rewards("5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End", tier2_rewards_str),
-	rewardtbl = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 10500}, tier2_rewards)
+	rewards = tier2_rewards_str,
+	rewardtbl = tier2_rewards
 })
 
 MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
@@ -1408,13 +1507,13 @@ MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
 	vars = {
 		math.random(7, 14),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTEndRound", "moat_no_equipments_allowed_end", function(res)
 			for k, v in pairs(player.GetAll()) do
 				if (res == WIN_TRAITOR and v:GetRole() == ROLE_TRAITOR and v.noequipments) then
-					MOAT_BOUNTIES:IncreaseProgress(v, bountyid, mods[1])
+					MOAT_BOUNTIES:IncreaseProgress(v, bountyid, mods[1], idd)
 				elseif ((res == WIN_INNOCENT or res == WIN_TIMELIMIT) and v:GetRole() == ROLE_DETECTIVE and v.noequipments) then
-					MOAT_BOUNTIES:IncreaseProgress(v, bountyid, mods[1])
+					MOAT_BOUNTIES:IncreaseProgress(v, bountyid, mods[1], idd)
 				end
 			end
 		end)
@@ -1431,8 +1530,8 @@ MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
 			end
 		end)
 	end,
-	rewards = MOAT_BOUNTIES.Rewards("5,000 Inventory Credits + 10,500 Player Experience + 1 in 5 Chance for High-End", tier2_rewards_str),
-	rewardtbl = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 10500}, tier2_rewards)
+	rewards = tier2_rewards_str,
+	rewardtbl = tier2_rewards
 })
 
 
@@ -1450,7 +1549,7 @@ MOAT_BOUNTIES:AddBounty("Quickswitching killer", {
         math.random(5, 10),
 		math.random(3, 5),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
         hook.Add("TTTBeginRound", "QuickSwitch_",function()
             for k,v in pairs(player.GetAll()) do
                 v.QuickSwitch_ = {}
@@ -1473,7 +1572,7 @@ MOAT_BOUNTIES:AddBounty("Quickswitching killer", {
 				    att.Quick_Kills = att.Quick_Kills + 1
                 end
                 if att.Quick_Kills >= mods[2] and #att.QuickSwitch_ >= mods[3] then
-                    MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+                    MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
                 end
 			end
 		end)
@@ -1489,7 +1588,7 @@ MOAT_BOUNTIES:AddBounty("Professional Traitor", {
 		1,
 		math.random(8, 11)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBeginRound", "moat_reset_prof_traitor", function()
 			for k, v in pairs(player.GetAll()) do
 				v.proftraitor = 0
@@ -1501,7 +1600,7 @@ MOAT_BOUNTIES:AddBounty("Professional Traitor", {
 				att.proftraitor = att.proftraitor + 1
 
 				if (att.proftraitor == mods[2]) then
-					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 				end
 			end
 		end)
@@ -1516,7 +1615,7 @@ MOAT_BOUNTIES:AddBounty("Bloodthirsty Traitor", {
 	vars = {
 		math.random(7, 14)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBeginRound", "moat_reset_blood_traitor", function()
 			for k, v in pairs(player.GetAll()) do
 				v.bloodtraitor = 0
@@ -1528,7 +1627,7 @@ MOAT_BOUNTIES:AddBounty("Bloodthirsty Traitor", {
 				att.bloodtraitor = att.bloodtraitor + 1
 
 				if (att.bloodtraitor == 5) then
-					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 				end
 			end
 		end)
@@ -1543,14 +1642,14 @@ MOAT_BOUNTIES:AddBounty("Melee Maniac", {
 	vars = {
 		math.random(25, 35)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_melee_addicted", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer()) then
 				inf = att:GetActiveWeapon()
 			end
 
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and inf.Weapon.Kind and inf.Weapon.Kind == WEAPON_MELEE and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1564,7 +1663,7 @@ MOAT_BOUNTIES:AddBounty("Double Killer", {
 	vars = {
 		math.random(15, 25)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_double_killer", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer()) then
 				inf = att:GetActiveWeapon()
@@ -1574,7 +1673,7 @@ MOAT_BOUNTIES:AddBounty("Double Killer", {
 				local not_applied_progress = true
 
 				if (att.lastkilltime and ((CurTime() - 5) < att.lastkilltime)) then
-					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 					att.lastkilltime = 0
 					not_applied_progress = false
 				end
@@ -1595,14 +1694,14 @@ MOAT_BOUNTIES:AddBounty("Airborn Assassin", {
 	vars = {
 		math.random(20, 35)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_airborn_assassin", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer()) then
 				inf = att:GetActiveWeapon()
 			end
 
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and not att:IsOnGround() and att:WaterLevel() == 0 and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1616,13 +1715,13 @@ MOAT_BOUNTIES:AddBounty("The A Team", {
 	vars = {
 		math.random(3, 5),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		local traitor_died = false
 
 		hook.Add("TTTEndRound", "moat_a_team_end", function(res)
 			for k, v in pairs(player.GetAll()) do
 				if (res == WIN_TRAITOR and v:GetRole() == ROLE_TRAITOR and not traitor_died) then
-					MOAT_BOUNTIES:IncreaseProgress(v, bountyid, mods[1])
+					MOAT_BOUNTIES:IncreaseProgress(v, bountyid, mods[1], idd)
 				end
 			end
 		end)
@@ -1654,10 +1753,10 @@ MOAT_BOUNTIES:AddBounty("Innocent Exterminator", {
 	vars = {
 		math.random(20, 30),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_innocent_exterminator", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1671,7 +1770,7 @@ MOAT_BOUNTIES:AddBounty("Clutch Master", {
 	vars = {
 		math.random(3, 5),
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		local traitor_died = false
 
 		hook.Add("TTTEndRound", "moat_a_team_end", function(res)
@@ -1688,7 +1787,7 @@ MOAT_BOUNTIES:AddBounty("Clutch Master", {
 			end
 
 			if (traitors == 1 and traitor) then
-				MOAT_BOUNTIES:IncreaseProgress(traitor, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(traitor, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1703,7 +1802,7 @@ MOAT_BOUNTIES:AddBounty("Bunny Roleplayer", {
 		1,
 		math.random(200, 300)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
         hook.Add("TTTBeginRound", "moat_reset_steps", function()
 			for k, v in pairs(player.GetAll()) do
 				v.BJumps = 0
@@ -1726,7 +1825,7 @@ MOAT_BOUNTIES:AddBounty("Bunny Roleplayer", {
 			end
 
 			if pl.BJumps == mods[2] then
-				MOAT_BOUNTIES:IncreaseProgress(pl, bountyid, mods[1])
+				MOAT_BOUNTIES:IncreaseProgress(pl, bountyid, mods[1], idd)
 			end
 		end)
 	end,
@@ -1741,7 +1840,7 @@ MOAT_BOUNTIES:AddBounty("An Explosive Ending", {
 		1,
 		math.random(4, 6)
 	},
-	runfunc = function(mods, bountyid)
+	runfunc = function(mods, bountyid, idd)
 		hook.Add("EntityTakeDamage", "moat_explosive_ending", function(targ, dmg)
 			local att = dmg:GetAttacker()
 
@@ -1751,7 +1850,7 @@ MOAT_BOUNTIES:AddBounty("An Explosive Ending", {
 					att.TotalExplosiveKills = att.TotalExplosiveKills + 1
 
 					if (att.TotalExplosiveKills >= mods[2]) then
-						MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1])
+						MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 					end
 				else
 					att.TotalExplosiveKills = 1
@@ -1765,27 +1864,6 @@ MOAT_BOUNTIES:AddBounty("An Explosive Ending", {
 	rewardtbl = tier3_rewards
 })
 
-function MOAT_BOUNTIES:LoadBounties()
-	local bounties = sql.Query("SELECT * FROM bounties_current" .. self.DatabasePrefix)
-
-	if (not bounties) then return end
-
-	local bounties_row = bounties[1]
-
-	for i = 1, 3 do
-		local tbl = util.JSONToTable(bounties_row["bounty" .. i])
-		local bounty = self.Bounties[tbl.id]
-
-		if (bounty.runfunc) then
-			bounty.runfunc(tbl.mods, tbl.id)
-		end
-
-		self.ActiveBounties[i] = {bnty = bounty, mods = tbl.mods}
-
-		MsgC(Color(0, 255, 0), "Daily Bounty with ID " .. tbl.id .. " has Loaded.\n")
-	end
-end
-
 function MOAT_BOUNTIES:GetBountyVariables(bounty_id)
 	local tbl = {}
 	local possible_vars = self.Bounties[bounty_id].vars
@@ -1796,44 +1874,26 @@ function MOAT_BOUNTIES:GetBountyVariables(bounty_id)
 
 	return tbl
 end
-
+local used = {}
 function MOAT_BOUNTIES:GetRandomBounty(tier_)
 	local bounty_tbl = {}
 
 	if (tier_ ~= 1) then
 		for k, v in RandomPairs(self.Bounties) do
-			if (v.tier == tier_) then 
+			if (v.tier == tier_) and (not used[k]) then 
 				bounty_tbl.id = k
 				bounty_tbl.mods = self:GetBountyVariables(k)
-
+				used[k] = true
 				break
 			end
 		end
 	else
-		local tier1_bounty = math.random(1, 2)
-
-		if (tier1_bounty == 1) then
-			for k, v in RandomPairs(self.Bounties) do
-				if (v.tier == tier_) then 
-					bounty_tbl.id = k
-					bounty_tbl.mods = self:GetBountyVariables(k)
-
-					break
-				end
-			end
-		else
-			local random_num = math.random(1, 3)
-
-			if (random_num == 1) then
-				bounty_tbl.id = 26
-				bounty_tbl.mods = self:GetBountyVariables(26)
-
-			elseif (random_num == 2) then
-				bounty_tbl.id = 27
-				bounty_tbl.mods = self:GetBountyVariables(27)
-			else
-				bounty_tbl.id = 28
-				bounty_tbl.mods = self:GetBountyVariables(28)
+		for k, v in RandomPairs(self.Bounties) do
+			if (v.tier == tier_) and (not used[k]) then 
+				bounty_tbl.id = k
+				bounty_tbl.mods = self:GetBountyVariables(k)
+				used[k] = true
+				break
 			end
 		end
 	end
@@ -1856,60 +1916,57 @@ function game.GetIP()
 end
 
 function MOAT_BOUNTIES.ResetBounties()
-	sql.Query("DROP TABLE bounties_current" .. MOAT_BOUNTIES.DatabasePrefix)
-	sql.Query("DROP TABLE bounties_save" .. MOAT_BOUNTIES.DatabasePrefix)
-
-	MOAT_BOUNTIES.CreateTable("bounties_current" .. MOAT_BOUNTIES.DatabasePrefix, "CREATE TABLE IF NOT EXISTS bounties_current" .. MOAT_BOUNTIES.DatabasePrefix .. " (bounty1 TEXT NOT NULL, bounty2 TEXT NOT NULL, bounty3 TEXT NOT NULL)")
-	MOAT_BOUNTIES.CreateTable("bounties_save" .. MOAT_BOUNTIES.DatabasePrefix, "CREATE TABLE IF NOT EXISTS bounties_save" .. MOAT_BOUNTIES.DatabasePrefix .. " (steamid VARCHAR(30) NOT NULL PRIMARY KEY, bounty1 INTEGER NOT NULL, bounty2 INTEGER NOT NULL, bounty3 INTEGER NOT NULL)")
-
-
-	local bounty1 = MOAT_BOUNTIES:GetRandomBounty(1)
-	local bounty2 = MOAT_BOUNTIES:GetRandomBounty(2)
-	local bounty3 = MOAT_BOUNTIES:GetRandomBounty(3)
-
-	for i = 1, 3 do
-		sql.Query(string.format("INSERT INTO bounties_current" .. MOAT_BOUNTIES.DatabasePrefix .. " (bounty1, bounty2, bounty3) VALUES ('%s', '%s', '%s')", bounty1, bounty2, bounty3))
-	end
-
-	sql.Query("UPDATE bounties_refresh" .. MOAT_BOUNTIES.DatabasePrefix .. " SET shouldrefresh = 'false'")
-
-	MOAT_BOUNTIES:LoadBounties()
-	MOAT_BOUNTIES.DiscordBounties()
+	
 end
 
 function MOAT_BOUNTIES.DiscordBounties()
-	local bstr, medals = "", {":third_place:", ":second_place:", ":first_place:"}
-	for i = 1, 3 do
+	local bstr, medals = "", {"https://i.moat.gg/19-04-19-Z0A.png", "https://i.moat.gg/19-04-19-L8r.png", "https://i.moat.gg/19-04-19-10j.png"}
+	local dailies = {}
+	local colors = {16740864,13421772,16768616}
+	for i = 1, 12 do
 		local bounty = MOAT_BOUNTIES.ActiveBounties[i].bnty
 		local mods = MOAT_BOUNTIES.ActiveBounties[i].mods
 		local bounty_desc = bounty.desc
 
 		local n = 0
 		for _ = 1, #mods do
-			bounty_desc = bounty_desc:gsub("#", function() n = n + 1 return markdown.Bold(mods[n]) end)
+			bounty_desc = bounty_desc:gsub("#", function() n = n + 1 return "[" .. (mods[n]) .. "](http://moat.gg)" end)
 		end
+		local embed = {
+			author = {
+				name = bounty.name .. " | " .. util.NiceDate() .. " | Global Daily Bounty",
+				icon_url = medals[bounty.tier],
+				url = "https://moat.gg/"
+			},
+			color = colors[bounty.tier],
+			description = bounty_desc,
+			footer = {
+				text = bounty.rewards
+			}
+		}
 
-		bstr = string (bstr, medals[i],
-			" " .. markdown.Bold(bounty.name) .. " | " .. markdown.EndLine(bounty_desc),
-			markdown.Highlight("Rewards: " .. bounty.rewards)
-		)
-
-		if (i < 3) then
-			bstr = markdown.EndLine(
-				markdown.EndLine(bstr)
-			)
+		if (http and http.Loaded) then
+			timer.Simple(0.5 * i,function()
+				discord.Embed("Bounties",embed)
+			end)
+		else
+			hook("HTTPLoaded", function()
+				timer.Simple(0.5 * i,function()
+					discord.Embed("Bounties",embed)
+				end)
+			end)
 		end
 	end
 
 	if (http and http.Loaded) then
-		discord.Send("Bounties", markdown.Block(" ") .. markdown.WrapBold(
-				string (":calendar_spiral: ",
-					"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
-					" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. GetServerIP())),
-					markdown.LineStart(bstr)
-				)
-			)
-		)
+		local embed = {
+			author = {
+				name = "hello",
+				icon_url = image,
+				url = "https://moat.gg/"
+			},
+			fields = {}
+		}
 		return
 	end
 
@@ -1927,72 +1984,15 @@ end
 
 function MOAT_BOUNTIES.InitializeBounties()
 
-	local check = sql.Query("SELECT * FROM bounties_refresh" .. MOAT_BOUNTIES.DatabasePrefix)
-
-	if (check == nil) then
-		sql.Query("INSERT INTO bounties_refresh" .. MOAT_BOUNTIES.DatabasePrefix .. " (shouldrefresh) VALUES ('true')")
-		check = {shouldrefresh = "true"}
-	end
-
-	local datime = os.date("!*t", (os.time() - 21600 - 3600))
-
-	local hr = 24 - datime.hour
-	local load_bounties = true
-
-	-- pray to god the server doesn't die
-	if (hr >= 8) then
-		if (check[1].shouldrefresh == "true") then
-			load_bounties = false
-			MOAT_BOUNTIES.ResetBounties()
-		end
-	else
-		if (check[1].shouldrefresh == "false") then
-			sql.Query("UPDATE bounties_refresh" .. MOAT_BOUNTIES.DatabasePrefix .. " SET shouldrefresh = 'true'")
-		end
-	end
-
-	if (load_bounties) then
-		MOAT_BOUNTIES:LoadBounties()
-	end
-
-	SetGlobalBool("moat_bounties_refresh_next", false)
-
-	local datime = os.date("!*t", (os.time() - 21600 - 3600))
-
-	if (datime.hour == 0) then datime.hour = 24 end
-
-	local hr = 24 - datime.hour
-	local min = 60 - datime.min
-	local sec = 60 - datime.sec
-
-	if (hr == 0 and min == 0 and sec == 1) then
-		SetGlobalBool("moat_bounties_refresh_next", true)
-	end
-	timer.Create("moat_bounties_refresh_check", 1, 0, function()
-		local datime = os.date("!*t", (os.time() - 21600 - 3600))
-
-		if (datime.hour == 0) then datime.hour = 24 end
-
-		local hr = 24 - datime.hour
-		local min = 60 - datime.min
-		local sec = 60 - datime.sec
-
-		if (hr == 0 and min == 0 and sec == 1) then
-			SetGlobalBool("moat_bounties_refresh_next", true)
-		end
-	end)
 end
-MOAT_BOUNTIES.InitializeBounties()
 
 function MOAT_BOUNTIES:SendBountyToPlayer(ply, bounty, mods, current_progress)
-
 	local bounty_desc = bounty.desc
 	local c = 0
 
 	for i = 1, #mods do
 		bounty_desc = bounty_desc:gsub("#", function() c = c + 1 return mods[c] end)
 	end
-
 	net.Start("moat_bounty_send")
 	net.WriteUInt(bounty.tier, 4)
 	net.WriteString(bounty.name)
@@ -2000,33 +2000,9 @@ function MOAT_BOUNTIES:SendBountyToPlayer(ply, bounty, mods, current_progress)
 	net.WriteString(bounty.rewards)
 	net.WriteUInt(current_progress, 16)
 	net.WriteUInt(mods[1], 16)
+	net.WriteUInt(bounty.id,16)
 	net.Send(ply)
 end
-
-function MOAT_BOUNTIES.PlayerInitialSpawn(ply)
-	if (ply:IsBot() or not ply:SteamID64()) then return end
-	
-	local check = sql.Query(string.format("SELECT * FROM bounties_save" .. MOAT_BOUNTIES.DatabasePrefix .. " WHERE steamid = %s", ply:SteamID64()))
-	local bounties_cur = {0, 0, 0}
-
-	if (not check) then
-		sql.Query(string.format("INSERT INTO bounties_save" .. MOAT_BOUNTIES.DatabasePrefix .. " (steamid, bounty1, bounty2, bounty3) VALUES('%s', %s, %s, %s)", ply:SteamID64(), 0, 0, 0))
-	else
-		local data = sql.Query(string.format("SELECT * FROM bounties_save" .. MOAT_BOUNTIES.DatabasePrefix .. " WHERE steamid = %s", ply:SteamID64()))
-
-		for i = 1, 3 do
-			bounties_cur[i] = data[1]["bounty" .. i]
-		end
-	end
-
-	for i = 1, 3 do
-		local bounty = MOAT_BOUNTIES.ActiveBounties[i]
-		if (not bounty) then continue end
-
-		MOAT_BOUNTIES:SendBountyToPlayer(ply, bounty.bnty, bounty.mods, bounties_cur[i])
-	end
-end
-hook.Add("PlayerInitialSpawn", "moat_bounties_insert_player", MOAT_BOUNTIES.PlayerInitialSpawn)
 
 net.Receive("moat_bounty_reload", function(l, ply)
 	if (ply:IsValid()) then
