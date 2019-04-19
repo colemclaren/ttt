@@ -187,7 +187,7 @@ local function _contracts()
 	end
 
 	function MOAT_BOUNTIES:IncreaseProgress(ply, bounty_id, max, idd)
-		if #player.GetAll() < 6 then return end
+		if #player.GetAll() < 4 then return end
 		if idd ~= MOAT_BOUNTIES.ActiveBounties.ID then return end -- old bounty from before the refresh
 		if (not ply:IsValid()) then return end
 		local tier = bounty_id
