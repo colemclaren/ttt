@@ -51,8 +51,8 @@ MOAT_DONATE.Packages = {
 		{Color(255, 0, 0), "", "+ Whatever is Added to VIP in the Future!", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
 	}},
-	--{"30 Day MVP", Material("icon16/user_green.png"), 2000, "Stuff"},
-	--{"1 Year MVP", Material("icon16/user_red.png"), 20000, "Stuff"},
+	--{"30 Day MVP", Material("icon16/user_green.png"), 2000, "Stuff"}, ?
+	--{"1 Year MVP", Material("icon16/user_red.png"), 20000, "Stuff"}, ?
 	{"2,000 IC", Material("icon16/coins.png"), 3, 500, "500 Bonus", {
 		{Color(255, 255, 0), "2,500", "Total Inventory Credits", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
