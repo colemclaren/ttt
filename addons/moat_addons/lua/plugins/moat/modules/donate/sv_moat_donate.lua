@@ -38,7 +38,7 @@ MOAT_DONATE.Packages = {
 		local crates = m_GetActiveCrates()
 
 		-- moat_DropIndependence(pl, 1)
-		pl:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained", false, true)
+		pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
 
 		for i = 1, 15 do
 			local crate = crates[math.random(1, #crates)].Name
@@ -58,7 +58,7 @@ MOAT_DONATE.Packages = {
 		pl:Drop20()
 		-- moat_DropIndependence(pl, 2)
 		for i = 1, 2 do
-			pl:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained", false, true)
+			pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
 		end
 
 		m_SaveInventory(pl)
@@ -74,10 +74,8 @@ MOAT_DONATE.Packages = {
 		pl:Drop50()
 		-- moat_DropIndependence(pl, 6)
 
-		pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, true)
-
 		for i = 1, 6 do
-			pl:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained", false, true)
+			pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
 		end
 
 		m_SaveInventory(pl)
@@ -93,11 +91,8 @@ MOAT_DONATE.Packages = {
 		pl:Drop100()
 		-- moat_DropIndependence(pl, 13)
 
-		pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, true)
-		pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, true)
-
-		for i = 1, 13 do
-			pl:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained", false, true)
+		for i = 1, 15 do
+			pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
 		end
 
 		m_SaveInventory(pl)
