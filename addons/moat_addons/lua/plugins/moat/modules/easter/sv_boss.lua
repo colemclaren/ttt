@@ -67,6 +67,8 @@ function EASTER.SpawnEgg(pos)
     local egg = ents.Create("sent_egg_basket_2019")
     egg:SetPos(pos + Vector(0,0,22))
     egg:Spawn()
+    
+    cdn.PlayURL("https://cdn.moat.gg/f/iya1iVZUlaQ1Avk5utKAG5sDDYWK.mp3")
 end
 function EASTER.SpawnRandomEgg()
     EASTER.SpawnEgg(spawns.Find {
