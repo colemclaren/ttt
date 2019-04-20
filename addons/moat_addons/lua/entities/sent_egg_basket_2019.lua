@@ -109,9 +109,8 @@ function ENT:Think()
 
 					if (EASTER.CanDoBoss() and math.random() < EASTER.BossChance) then
 						EASTER.ReadyBoss(v)
-					else
-						v:m_DropInventoryItem("Easter Basket 2019")
 					end
+					v:m_DropInventoryItem("Easter Basket 2019")
 
 					hook.Run("moat_Easter2019_Taken", v)
 
