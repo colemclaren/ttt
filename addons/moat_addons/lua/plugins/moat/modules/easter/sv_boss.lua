@@ -54,8 +54,11 @@ function EASTER.ReadyBoss(ply)
     EASTER.HAS_DONE_BOSS = true
     ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "You begin to feel funny..." )]])
     hook.Add("TTTPrepareRound", "moat_StartEasterBoss", function()
-        EASTER.StartEggStealer(ply, eggs)
         hook.Remove("TTTPrepareRound", "moat_StartEasterBoss")
+        if (not IsValid(ply)) then
+            return
+        end
+        EASTER.StartEggStealer(ply, eggs)
     end)
 end
 
@@ -73,7 +76,7 @@ end
 hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
 	MOAT_EASTER.CurEggs = 0
 
-	timer.Create("moat_easter_egg_spawn_2019", 60, 0, function()
+	timer.Create("moat_easter_egg_spawn_2019", 60, 2, function()
 		if (player.GetCount() < 8) then return end
         if (GetRoundState() ~= ROUND_ACTIVE or MOAT_MINIGAME_OCCURING) then
             timer.Remove("moat_easter_egg_spawn_2019")
