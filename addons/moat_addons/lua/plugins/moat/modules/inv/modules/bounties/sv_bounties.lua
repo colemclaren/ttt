@@ -1177,8 +1177,8 @@ MOAT_BOUNTIES:AddBounty("Detective Hunter", {
 			end
 		end)
 	end,
-	rewards = tier3_rewards_str,
-	rewardtbl = tier3_rewards
+	rewards = tier2_rewards_str,
+	rewardtbl = tier2_rewards
 })
 
 --v
