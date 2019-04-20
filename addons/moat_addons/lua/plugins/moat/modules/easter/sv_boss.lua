@@ -4,6 +4,7 @@ EASTER = EASTER or {}
 EASTER.EggSpawnChance = 0.1
 EASTER.BossChance = 0.05
 EASTER.ProtectAmount = 10
+EASTER.MaxSpawnPerRound = 2
 
 
 local function GetEggPositions()
@@ -76,15 +77,18 @@ end
 hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
 	MOAT_EASTER.CurEggs = 0
 
-	timer.Create("moat_easter_egg_spawn_2019", 60, 2, function()
+    local spawned = 0
+	timer.Create("moat_easter_egg_spawn_2019", 60, 0, function()
 		if (player.GetCount() < 8) then return end
-        if (GetRoundState() ~= ROUND_ACTIVE or MOAT_MINIGAME_OCCURING) then
+        if (spawned > EASTER.MaxSpawnPerRound or GetRoundState() ~= ROUND_ACTIVE or MOAT_MINIGAME_OCCURING) then
             timer.Remove("moat_easter_egg_spawn_2019")
             return
         end
 		if (math.random() > EASTER.EggSpawnChance) then return end
 		if (MOAT_EASTER.CurEggs >= 1) then return end
-		if (MOAT_EASTER.MapEggs >= MOAT_EASTER.MaxEggs) then return end
+        if (MOAT_EASTER.MapEggs >= MOAT_EASTER.MaxEggs) then return end
+        
+        spawned = spawned + 1
 
         EASTER.SpawnRandomEgg()
 	end)
