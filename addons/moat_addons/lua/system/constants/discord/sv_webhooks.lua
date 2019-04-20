@@ -19,7 +19,8 @@ discord.AddChannels{
     ["old-staff"] = "https://discord.moat.gg/api/webhooks/490027008752091156/kR9l43iXJDfO0E_WPJ0BqRuj2xS-vPD8hmjmfH8--kO9goiBnO430Pmzu3dJ-xqjLmJD",
 	["mga-logs"] = "https://discord.moat.gg/api/webhooks/490002648917999637/ZyTVsaXcgh4bp6i4OPK6SRQiCuTuHrvLjNyexfUEDEcWD4oA0WQEtI2VGTk39_k86olR",
 	["toxic-logs"] = "https://discord.moat.gg/api/webhooks/490126369766899733/JoWsE5EeU3KcxG-EhHOOHpmF9tXy20wY5e6ejFlWqaQ5_s8qb6DLe4egaZYDduoq_Vy_",
-    ["error-logs-sv"] = "https://discord.moat.gg/api/webhooks/502947110736625676/LzY80EGeb_sBfrlUpC8rWkm0H4Btzi7JOr3GhKqImQMoFIEP_beF7BeUHrxQ47RVVNhN"
+    ["error-logs-sv"] = "https://discord.moat.gg/api/webhooks/502947110736625676/LzY80EGeb_sBfrlUpC8rWkm0H4Btzi7JOr3GhKqImQMoFIEP_beF7BeUHrxQ47RVVNhN",
+    ["server-list"] = "https://discord.moat.gg/api/webhooks/568878605028032544/aFMT607kx1rCTElMFc7Cq0LlsWci1STxxWnOTS8QEY6rz2w76fSzGlvPbRI9nmfs7gKK"
 }
 
 discord.AddUsers("general", {"Moat TTT Announcement", "Lottery Announcement"}, true)
@@ -33,3 +34,22 @@ discord.AddUsers("dev-logs", {"Developer"})
 discord.AddUsers("toxic-logs", {"Toxic"})
 discord.AddUsers("error-logs", {"Error Report"}, true)
 discord.AddUsers("error-logs-sv", {"Error Report SV"}, true)
+discord.AddUsers("server-list", {"Servers"})
+
+function post_discord_server_list()
+    Server.IsDev = false
+    for k,v in pairs(Servers.Roster) do
+        timer.Simple(0.5 * k,function()
+            discord.Embed("Servers",{
+                author = {
+                    name = "moat.gg | ".. v.Name,
+                    icon_url = "https://cdn.discordapp.com/avatars/406539243909939200/5a6db1904883070e0f896f3fb0275a2e.webp"
+                },
+                description = "Click here to connect: " .. v.ConnectURL,
+            })
+            if k == #Servers.Roster then
+                Server.IsDev = true
+            end
+        end)
+    end
+end
