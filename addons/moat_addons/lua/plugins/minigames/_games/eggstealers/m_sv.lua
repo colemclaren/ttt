@@ -7,8 +7,8 @@ MOAT_ACTIVE_BOSS = false
 local MOAT_BOSS_CUR = nil
 local MOAT_ROUND_OVER = false
 local MOAT_BOSS_MODEL = "models/player/bugsb/bugsb.mdl"
-local MOAT_RESPAWN_TIME = 10
-local MOAT_LIVES = 3
+local MOAT_RESPAWN_TIME = 25
+local MOAT_LIVES = 2
 local EGG_COUNT, START_PLAYERS = 0, 0
 
 local function line(n)
@@ -362,7 +362,7 @@ local function moat_BeginRoundBossHooks()
                 ply:SetCollisionGroup(COLLISION_GROUP_WEAPON)
                 ply:SetRole(ROLE_INNOCENT)
                 if (ply:Alive() and not ply:GetForceSpec()) then
-                    ply.BunnyLives = MOAT_LIVES + 1
+                    ply.BunnyLives = MOAT_LIVES
                     IGNORE_DEATH = true
                     ply:KillSilent()
                 end
