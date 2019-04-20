@@ -1111,19 +1111,19 @@ end
 
 local tier1_rewards = MOAT_BOUNTIES.Rewards({ic = 2000, exp = 2500}, {exp = 5000})
 local tier1_rewards_str = MOAT_BOUNTIES.Rewards(
-	"2,000 Inventory Credits + 2,500 Player Experience + 1 in 5 Chance for High-End",
+	"2,500 Inventory Credits + 2,500 Player Experience + 1 in 5 Chance for High-End",
 	"Any Random Mutator + 5,000 Player Experience + 1 in 25 Chance for Ascended"
 )
 
 local tier2_rewards = MOAT_BOUNTIES.Rewards({ic = 3000, exp = 5500}, {exp = 11000})
 local tier2_rewards_str = MOAT_BOUNTIES.Rewards(
-	"3,000 Inventory Credits + 5,500 Player Experience + 1 in 2 Chance for High-End",
+	"5,000 Inventory Credits + 5,500 Player Experience + 1 in 2 Chance for High-End",
 	"Any Random Mutator + 11,000 Player Experience + 1 in 15 Chance for Ascended+"
 )
 
 local tier3_rewards = MOAT_BOUNTIES.Rewards({ic = 3500, exp = 8500}, {exp = 17000})
 local tier3_rewards_str = MOAT_BOUNTIES.Rewards(
-	"3,500 Inventory Credits + 8,500 Player Experience + 1 High-End item",
+	"7,500 Inventory Credits + 8,500 Player Experience + 1 High-End item",
 	"Any Random Mutator + 17,000 Player Experience + 1 in 10 for Cosmic+"
 )
 
@@ -1138,7 +1138,7 @@ for i = 1, #weapon_challenges do
 	local wpntbl = weapon_challenges[i]
 
 	MOAT_BOUNTIES:AddBounty((chal_prefix[i] or "Dangerous") .. " " .. wpntbl[3] .. " " .. (chal_suffix[i] or "Slayer"), {
-		tier = 1,
+		tier = 3,
 		desc = "Eliminate # terrorists, rightfully, with ".. wpntbl[2] .. ". Can be completed as any role.",
 		vars = {
 			math.random(35, 65),
@@ -1154,8 +1154,8 @@ for i = 1, #weapon_challenges do
 				end
 			end)
 		end,
-		rewards = tier1_rewards_str,
-		rewardtbl = tier1_rewards
+		rewards = tier3_rewards_str,
+		rewardtbl = tier3_rewards
 	})
 end
 
@@ -1186,7 +1186,7 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 	tier = 1,
 	desc = "Eliminate # terrorists rightfully, only with one shot kills. Can be completed as any role.",
 	vars = {
-		math.random(35, 65),
+		math.random(6, 15),
 	},
 	runfunc = function(mods, bountyid, idd)
         hook.Add("TTTBeginRound", "moat_reset_1tap", function()
@@ -1258,7 +1258,7 @@ MOAT_BOUNTIES:AddBounty("Close Quarters Combat", {
 	tier = 1,
 	desc = "Eliminate # terrorists, rightfully, while being close to your target. Can be completed as any role.",
 	vars = {
-		math.random(35, 65),
+		math.random(8, 20),
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_close_quaters_combat", function(ply, inf, att)
@@ -1277,7 +1277,7 @@ MOAT_BOUNTIES:AddBounty("Longshot Killer", {
 	tier = 1,
 	desc = "Eliminate # terrorists, rightfully, while being far away from your target. Can be completed as any role.",
 	vars = {
-		math.random(35, 65),
+		math.random(6, 14),
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_longshot_killer", function(ply, inf, att)
@@ -1296,7 +1296,7 @@ MOAT_BOUNTIES:AddBounty("Headshot Expert", {
 	tier = 1,
 	desc = "Eliminate # terrorists, rightfully, with a headshot as the cause of death. Can be completed as any role.",
 	vars = {
-		math.random(35, 65),
+		math.random(7, 17),
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("ScalePlayerDamage", "moat_headshot_expert_scale", function(ply, hitgroup, dmginfo)
@@ -1334,7 +1334,7 @@ MOAT_BOUNTIES:AddBounty("Demolition Expert", {
 	tier = 2,
 	desc = "Eliminate # terrorists, rightfully, with an explosion as the cause of death. Can be completed as any role.",
 	vars = {
-		math.random(25, 35),
+		math.random(9, 15),
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("DoPlayerDeath", "moat_demo_expert", function(ply, att, dmg)
@@ -1352,7 +1352,7 @@ MOAT_BOUNTIES:AddBounty("Anti-Traitor Force", {
 	desc = "# Task. Eliminate # traitors, rightfully, in one round. Can be completed as any role.",
 	vars = {
 		1,
-		math.random(3, 5)
+		math.random(2, 4)
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBeginRound", "moat_reset_antitraitor_force", function()
@@ -1430,7 +1430,7 @@ MOAT_BOUNTIES:AddBounty("Body Searcher", {
 	tier = 2,
 	desc = "Identify # unidentified dead bodies. Can be completed as any role.",
 	vars = {
-		math.random(50, 100),
+		math.random(10, 25),
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBodyFound", "moat_body_searcher", function(ply, dead, rag)
@@ -1471,7 +1471,7 @@ MOAT_BOUNTIES:AddBounty("Equipment User", {
 	tier = 2,
 	desc = "Order # equipment items total. Can be completed as a traitor or detective only.",
 	vars = {
-		math.random(25, 55)
+		math.random(25, 45)
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTOrderedEquipment", "moat_order_equip", function(ply, equipment, is_item)
@@ -1488,7 +1488,7 @@ MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
 	tier = 2,
 	desc = "Eliminate # traitors, rightfully, while having full health. Can be completed as an innocent or detective only.",
 	vars = {
-		math.random(25, 35),
+		math.random(10, 20),
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_traitor_assassin", function(ply, inf, att)
@@ -1505,7 +1505,7 @@ MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
 	tier = 2,
 	desc = "Win # rounds as a traitor or detective without purchasing a single equipment item.",
 	vars = {
-		math.random(7, 14),
+		math.random(7, 13),
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTEndRound", "moat_no_equipments_allowed_end", function(res)
@@ -1880,7 +1880,7 @@ function MOAT_BOUNTIES:GetRandomBounty(tier_)
 
 	if (tier_ ~= 1) then
 		for k, v in RandomPairs(self.Bounties) do
-			if (v.tier == tier_) and (not used[k]) then 
+			if (v.tier == tier_) and (not used[k]) and (v.name ~= "Quickswitching killer") then 
 				bounty_tbl.id = k
 				bounty_tbl.mods = self:GetBountyVariables(k)
 				used[k] = true
@@ -1889,7 +1889,7 @@ function MOAT_BOUNTIES:GetRandomBounty(tier_)
 		end
 	else
 		for k, v in RandomPairs(self.Bounties) do
-			if (v.tier == tier_) and (not used[k]) then 
+			if (v.tier == tier_) and (not used[k]) and (v.name ~= "Marathon Walker") and (v.name ~= "Bunny Roleplayer") then --removing soon
 				bounty_tbl.id = k
 				bounty_tbl.mods = self:GetBountyVariables(k)
 				used[k] = true
