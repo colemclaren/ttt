@@ -79,7 +79,7 @@ hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
             timer.Remove("moat_easter_egg_spawn_2019")
             return
         end
-		if (math.random() <= EASTER.EggSpawnChance) then return end
+		if (math.random() > EASTER.EggSpawnChance) then return end
 		if (MOAT_EASTER.CurEggs >= 1) then return end
 		if (MOAT_EASTER.MapEggs >= MOAT_EASTER.MaxEggs) then return end
 
