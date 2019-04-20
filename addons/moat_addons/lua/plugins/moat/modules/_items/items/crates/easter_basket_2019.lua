@@ -8,12 +8,12 @@ ITEM.Contains = {"Easter 2018 Collection", "Easter 2019 Collection"}
 ITEM.Active = false
 ITEM.Stackable = true
 ITEM.Price = 350
-ITEM.WeaponForcePercent = 0.01
+ITEM.WeaponForcePercent = 0
 ITEM.ChosenRarity = 8
 ITEM.Rarities = {
     [3] = 0.24,
-    [4] = 0.04,
-    [5] = 0.02,
-    [6] = 0.005,
-    [7] = 0.0005,
+    [4] = 0.1,
+    [5] = 0.04,
+    [6] = 0.008,
+    [7] = 0.001,
 }
