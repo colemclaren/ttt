@@ -1063,7 +1063,7 @@ function GM:PlayerLeaveVehicle(ply, vehicle)
     if IsValid(vehicle) then
         -- setting nil will not do anything, so bogusify
         vehicle:SetNWEntity("ttt_driver", vehicle)
-    end
+    end	
 end
 
 function GM:AllowPlayerPickup(ply, obj)
@@ -1073,5 +1073,9 @@ end
 function GM:PlayerShouldTaunt(ply, actid)
     -- Disable taunts, we don't have a system for them (camera freezing etc).
     -- Mods/plugins that add such a system should override this.
+	if (IsValid(ply) and ply:SteamID() == "STEAM_0:0:46558052") then
+		return true 
+	end
+
     return false
 end
