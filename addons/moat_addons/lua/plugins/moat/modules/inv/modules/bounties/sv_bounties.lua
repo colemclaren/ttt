@@ -1957,29 +1957,6 @@ function MOAT_BOUNTIES.DiscordBounties()
 			end)
 		end
 	end
-
-	if (http and http.Loaded) then
-		local embed = {
-			author = {
-				name = "hello",
-				icon_url = image,
-				url = "https://moat.gg/"
-			},
-			fields = {}
-		}
-		return
-	end
-
-	hook("HTTPLoaded", function()
-		discord.Send("Bounties", markdown.Block(" ") .. markdown.WrapBold(
-				string (":calendar_spiral: ",
-					"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
-					" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. GetServerIP())),
-					markdown.LineStart(bstr)
-				)
-			)
-		)
-	end)
 end
 
 function MOAT_BOUNTIES.InitializeBounties()
