@@ -601,7 +601,7 @@ function m_GetRandomInventoryItem(arg_collection, item)
             items_from_collection = cached_items[arg_collection][rarity_chosen]
         else
             for k, v in pairs(drop_table) do
-                if (v.Rarity == rarity_chosen and v.Kind ~= "Crate" and not COSMETIC_TYPES[v.Kind] and v.Collection ~= "Meme Collection" and v.Collection ~= "Holiday Collection" and not v.NotDroppable) then
+                if (v.Rarity == rarity_chosen and v.Kind ~= "Crate" and not COSMETIC_TYPES[v.Kind] and v.Collection ~= "Easter 2019 Collection" and v.Collection ~= "Meme Collection" and v.Collection ~= "Holiday Collection" and not v.NotDroppable) then
                     table.insert(items_from_collection, v)
                 end
             end
