@@ -1,7 +1,7 @@
 EASTER = EASTER or {}
 
 
-EASTER.EggSpawnChance = 0.13
+EASTER.EggSpawnChance = 0.15
 EASTER.BossChance = 0.05
 EASTER.ProtectAmount = 10
 EASTER.MaxSpawnPerRound = 2
