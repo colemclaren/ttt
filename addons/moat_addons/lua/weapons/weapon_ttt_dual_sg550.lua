@@ -36,6 +36,7 @@ SWEP.Secondary.Delay = 0.3
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 SWEP.HeadshotMultiplier = 5
 SWEP.Scope = true
+SWEP.AutoSpawnable = false
 
 SWEP.ViewModel = Model("models/weapons/cstrike/c_snip_sg550.mdl")
 SWEP.WorldModel = Model("models/weapons/w_snip_sg550.mdl")

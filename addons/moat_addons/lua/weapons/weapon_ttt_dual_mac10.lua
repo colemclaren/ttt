@@ -28,7 +28,7 @@ SWEP.Primary.NumShots    = 2
 SWEP.Primary.Sound       = Sound( "Weapon_mac10.Single" )
 SWEP.Primary.Range       = 400
 
-SWEP.AutoSpawnable = true
+SWEP.AutoSpawnable = false
 
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 

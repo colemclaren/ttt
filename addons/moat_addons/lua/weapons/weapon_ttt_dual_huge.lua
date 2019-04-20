@@ -31,7 +31,7 @@ SWEP.Primary.DefaultClip	= 150
 SWEP.Primary.Automatic		= true
 SWEP.Primary.Ammo			= "AirboatGun"
 SWEP.Primary.NumShots = 2
-SWEP.AutoSpawnable      = true
+SWEP.AutoSpawnable      = false
 SWEP.Primary.Recoil			= 1.9
 SWEP.Primary.Sound			= Sound("Weapon_m249.Single")
 
