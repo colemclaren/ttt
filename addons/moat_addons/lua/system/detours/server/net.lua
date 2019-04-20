@@ -62,7 +62,11 @@ function net.Receive( name, _func )
         if (not s) then
             limit.errors = limit.errors + 1
             hook.Run("ClientLuaError", e[1], e[2], e[3], e[4], e[5], e[6])
+            if (Server.IsDev) then
+                print(e[2].."\n"..e[6])
+            end
         end
+
 
 ::endpoint::
 

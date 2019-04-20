@@ -26,9 +26,10 @@ net.Receive("MOAT_VERIFY_CRATE", function(len, ply)
     if (fast_open and da_item and da_item.Price) then 
         m_RemoveInventoryItem(ply, slot_found, item_class, 1)
 
-        local crate_collection = m_GetItemFromEnum(crate_id).Collection
+        local item = m_GetItemFromEnum(crate_id)
+        local crate_collection = item.Collection
 
-        local tbl2 = m_GetRandomInventoryItem(crate_collection)
+        local tbl2 = m_GetRandomInventoryItem(crate_collection, item)
         tbl2.item = m_GetItemFromEnum(tbl2.u)
 
         if (tbl2.w) then
@@ -60,11 +61,12 @@ net.Receive("MOAT_INIT_CRATE", function(len, ply)
         return
     end
 
-    local crate_collection = m_GetItemFromEnum(crate_id).Collection
+    local item = m_GetItemFromEnum(crate_id)
+    local crate_collection = item.Collection
 
     for i = 1, 100 do
         timer.Simple(i * 0.01, function()
-            local tbl2 = m_GetRandomInventoryItem(crate_collection)
+            local tbl2 = m_GetRandomInventoryItem(crate_collection, item)
             tbl2.item = m_GetItemFromEnum(tbl2.u)
             net.Start("MOAT_ITEMS_CRATE")
             net.WriteTable(tbl2)

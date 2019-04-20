@@ -7,3 +7,4 @@ ITEM.Collection = "Easter 2018 Collection"
 ITEM.Active = false
 ITEM.Stackable = true
 ITEM.Price = 350
+ITEM.ChosenRarity = 8

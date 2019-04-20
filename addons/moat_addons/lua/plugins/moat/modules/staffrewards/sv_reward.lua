@@ -25,6 +25,12 @@ local function debug(...)
     end
 end
 
+
+if (Server.IsDev) then
+    timer.Remove("moat.StaffRewards")
+    return
+end
+
 timer.Create("moat.StaffRewards", 60, 0, function()
     if (player.GetCount() < 8) then
         debug("count")

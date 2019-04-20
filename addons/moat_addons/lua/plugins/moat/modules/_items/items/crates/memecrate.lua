@@ -9,3 +9,4 @@ ITEM.Active = true
 ITEM.Stackable = true
 ITEM.Price = 1420
 ITEM.NewItem = 1555398000
+ITEM.WeaponForcePercent = 0.33

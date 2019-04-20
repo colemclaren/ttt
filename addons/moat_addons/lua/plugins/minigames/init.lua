@@ -102,7 +102,13 @@ MOAT_MINIGAMES.AddMinigame("TNT Tag",
 	0, 
 	"TNT Tag! The person holding the tnt eventually dies, and you can throw stuff at him to make him die faster!" --s
 )
-/*
+MOAT_MINIGAMES.AddMinigame("Egg Stealers", 
+	"eggstealers", 
+	"moat_start_egg_stealers", 
+	0, 
+	""
+)
+--[[
 MOAT_MINIGAMES.AddMinigame("Secret Santa Tag", 
 	"minigames/hot_santa/", 
 	"moat_start_hs", 
@@ -115,7 +121,7 @@ MOAT_MINIGAMES.AddMinigame("Secret Santa FFA",
 	"moat_start_ffas", 
 	0, 
 	""
-)*/
+)]]
 
 MOAT_MINIGAMES.AddMinigame("Prop Hunt", 
 	"ph", 

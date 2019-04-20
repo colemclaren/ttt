@@ -511,16 +511,12 @@ function m_GetRandomRarity(min, max)
     return chosen_rarity
 end
 
-local forced_weapon_drops = {
-    ["Meme Collection"] = 0.33 -- 33% of the time, force weapons
-}
-
 local cached_droptable
 local cached_itemstodrop = {}
 local cached_items = {}
 local cached_rarities = {}
 local cached_weapons
-function m_GetRandomInventoryItem(arg_collection)
+function m_GetRandomInventoryItem(arg_collection, item)
     if (not cached_droptable) then cached_droptable = table.Copy(MOAT_DROPTABLE) end
     local dropped_item = {}
     local drop_table = cached_droptable
@@ -528,6 +524,14 @@ function m_GetRandomInventoryItem(arg_collection)
 
     if (cached_itemstodrop[arg_collection]) then
         items_to_drop = cached_itemstodrop[arg_collection]
+    elseif (item.Contains) then
+        for k, v in pairs(drop_table) do
+            if (table.HasValue(item.Contains, v.Collection) and not v.NotDroppable) then
+                table.insert(items_to_drop, v)
+            end
+        end
+
+        cached_itemstodrop[arg_collection] = items_to_drop
     elseif (arg_collection ~= "50/50 Collection") then
         for k, v in pairs(drop_table) do
             if (v.Collection == arg_collection and not v.NotDroppable) then
@@ -559,12 +563,34 @@ function m_GetRandomInventoryItem(arg_collection)
         cached_rarities[arg_collection] = {min_rarity, max_rarity}
     end
 
-    local rarity_chosen = 1
+    local rarity_chosen
+    if (item.Rarities) then
+        local rand = math.random()
+        local cur_low = 0
+        for rarity = 1, 9 do
+            if (rarity == 8) then
+                continue
+            end
+            local pct = item.Rarities[rarity]
+            if (not pct) then
+                continue
+            end
+            
+            if (cur_low <= rand and rand < (cur_low + pct)) then
+                rarity_chosen = rarity
+                break
+            end
+            cur_low = cur_low + pct
+        end
+    end
 
-    if (arg_collection == "Easter Collection") then
-        rarity_chosen = 8
-    elseif (arg_collection ~= "50/50 Collection") then
-        rarity_chosen = m_GetRandomRarity(min_rarity, max_rarity)
+    if (not rarity_chosen) then
+        rarity_chosen = 1
+        if (item.ChosenRarity) then
+            rarity_chosen = item.ChosenRarity
+        elseif (arg_collection ~= "50/50 Collection") then
+            rarity_chosen = m_GetRandomRarity(min_rarity, max_rarity)
+        end
     end
     
     local items_from_collection = {Weapons = {}}
@@ -611,10 +637,9 @@ function m_GetRandomInventoryItem(arg_collection)
         items_from_collection.Weapons = nil
     end
 
-    local pct = forced_weapon_drops[arg_collection] or 0
+    local pct = item.WeaponForcePercent or 0
     if (items_from_collection.Weapons and math.random() < pct) then
         items_from_collection = items_from_collection.Weapons
-        print "Forced weapon"
     end
 
     
@@ -700,26 +725,70 @@ function m_AddTestRarity(tbl)
     table.insert(tbl, chosen_rarity)
 end
 
+
+local cached_crates = {}
+
 concommand.Add("moat_test_drops", function(ply, cmd, args)
     if (not moat.isdev(ply)) then return end
-    local moat_test_dropstbl = {}
 
-    for _ = 1, tonumber(args[1]) do
-        m_AddTestRarity(moat_test_dropstbl)
+    local function p(t)
+        if (IsValid(ply)) then
+            ply:ChatPrint(t)
+        else
+            print(t)
+        end
+    end
+    
+    local crate_name = args[1]
+    local amt = tonumber(args[2])
+    if (type(amt) ~= "number") then
+        p "second argument is count"
+        return
     end
 
-    timer.Simple(3, function()
-        local droptbl_nums = {0, 0, 0, 0, 0, 0, 0}
-        print(#moat_test_dropstbl)
+    local crate = cached_crates[crate_name]
 
-        for k, v in pairs(moat_test_dropstbl) do
-            droptbl_nums[v] = droptbl_nums[v] + 1
+    if (not crate) then
+        for _, item in pairs(MOAT_DROPTABLE) do
+            if (item.Name == crate_name) then
+                cached_crates[crate_name] = item
+                crate = item
+            end
         end
+    end
 
-        timer.Simple(5, function()
-            PrintTable(droptbl_nums)
-        end)
-    end)
+    if (not crate) then
+        p "Crate doesn't exist"
+        return
+    end
+
+    local results = {
+        Kinds = {},
+        Rarities = {}
+    }
+
+    for i = 1, amt do
+        local item = MOAT_DROPTABLE[m_GetRandomInventoryItem(crate.Collection, crate).u]
+
+        results.Rarities[item.Rarity] = (results.Rarities[item.Rarity] or 0) + 1
+        results.Kinds[item.Kind] = (results.Kinds[item.Kind] or 0) + 1
+    end
+
+    p " --- RARITIES --- "
+    for rarity = 1, 9 do
+        local count = results.Rarities[rarity]
+        if (count) then
+            p("Rarity " .. rarity .. " = " .. string.format("%.05f%%", count / amt * 100))
+        end
+    end
+
+    p "\n --- KINDS --- "
+    for kind, count in pairs(results.Kinds) do
+        p("Kind " .. kind .. " = " .. string.format("%.05f%%", count / amt * 100))
+
+    end
+
+    p " --- "
 end)
 
 local MOAT_PLAYER_DROPS_CHECK = {}

@@ -384,7 +384,7 @@ function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
    bullet.Src    = self.Owner:GetShootPos()
    bullet.Dir    = self.Owner:GetAimVector()
    bullet.Spread = Vector( conex, coney, 0 )
-   bullet.Tracer = 4
+   bullet.Tracer = self.Tracer or 4
    bullet.TracerName = self.Tracer or "Tracer"
    bullet.Force  = 10
    bullet.Damage = dmg
