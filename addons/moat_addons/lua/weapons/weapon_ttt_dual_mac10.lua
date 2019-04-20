@@ -1,0 +1,43 @@
+AddCSLuaFile()
+
+SWEP.HoldType = "duel"
+SWEP.PrintName = "Dual MAC10s"
+
+if CLIENT then
+   SWEP.Slot = 2
+
+   SWEP.Icon = "vgui/ttt/icon_mac"
+   SWEP.IconLetter = "l"
+end
+SWEP.Base = "weapon_ttt_dual_glock"
+
+SWEP.Kind = WEAPON_HEAVY
+SWEP.WeaponID = AMMO_MAC10
+SWEP.ENUM = 7
+
+SWEP.Primary.Damage      = 12
+SWEP.Primary.Delay       = 0.05
+SWEP.Primary.Cone        = 0.03
+SWEP.Primary.ClipSize    = 30
+SWEP.Primary.ClipMax     = 60
+SWEP.Primary.DefaultClip = 30
+SWEP.Primary.Automatic   = true
+SWEP.Primary.Ammo        = "smg1"
+SWEP.Primary.Recoil      = 1.2
+SWEP.Primary.NumShots    = 2
+SWEP.Primary.Sound       = Sound( "Weapon_mac10.Single" )
+SWEP.Primary.Range       = 400
+
+SWEP.AutoSpawnable = true
+
+SWEP.AmmoEnt = "item_ammo_smg1_ttt"
+
+SWEP.ViewModelFlip		= false
+SWEP.ViewModelFOV		= 54
+SWEP.ViewModel  = "models/weapons/cstrike/c_smg_mac10.mdl"
+SWEP.WorldModel = "models/weapons/w_smg_mac10.mdl"
+
+SWEP.DeploySpeed = 3
+SWEP.UseHands = false
+
+SWEP.HeadshotMultiplier = 1.4

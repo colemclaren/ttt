@@ -40,11 +40,12 @@ end
 	 
 function Damagelog:DamagelogInfos()
 	for k,v in pairs(weapons.GetList()) do		
-		if v.Base == "weapon_tttbase" then
+		if v.Base == "weapon_tttbase" or v.Base == "weapon_ttt_dual_glock" then
+			DEFINE_BASECLASS(v.Base)
 			if not v.PrimaryAttack then
 				v.PrimaryAttack = function(wep)
-					wep.BaseClass.PrimaryAttack(wep)
-					if wep.BaseClass.CanPrimaryAttack(wep) and IsValid(wep.Owner) then
+					BaseClass.PrimaryAttack(wep)
+					if BaseClass.CanPrimaryAttack(wep) and IsValid(wep.Owner) then
 						self:shootCallback(wep)
 					end
 				end

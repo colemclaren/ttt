@@ -1,0 +1,19 @@
+ITEM.ID = 8998
+ITEM.Name = "Easter Basket 2019"
+ITEM.Description = "This basket contains an item from the Easter 2018 and 2019 Collection! Right click to open"
+ITEM.Image = "https://cdn.moat.gg/f/HPl3JXt851WFKcCLEoRABm1SnNOJ.png"
+ITEM.Rarity = 8
+ITEM.Collection = "Easter 2019 Collection"
+ITEM.Contains = {"Easter 2018 Collection", "Easter 2019 Collection"}
+ITEM.Active = false
+ITEM.Stackable = true
+ITEM.Price = 350
+ITEM.WeaponForcePercent = 0.01
+ITEM.ChosenRarity = 8
+ITEM.Rarities = {
+    [3] = 0.24,
+    [4] = 0.04,
+    [5] = 0.02,
+    [6] = 0.005,
+    [7] = 0.0005,
+}
