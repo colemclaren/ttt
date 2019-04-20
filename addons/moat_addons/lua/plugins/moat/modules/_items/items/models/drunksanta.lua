@@ -1,7 +1,7 @@
 ITEM.ID = 7010 --models/jaanus/santa.mdl
 ITEM.Name = "Cat Woman Model"
 ITEM.Description = "I'm a catist, not a feminist"
-ITEM.Model = "models/player/bobert/accatwoman.mdl"
+ITEM.Model = "models/kaesar/moat/catwoman.mdl"
 ITEM.Rarity = 5
 ITEM.Collection = "Holiday Collection"
 
