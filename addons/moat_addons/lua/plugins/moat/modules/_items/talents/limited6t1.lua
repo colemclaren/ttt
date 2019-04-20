@@ -61,7 +61,13 @@ function wild_t1(weapon,talent_mods)
     if talent.OnWeaponSwitch then
         talent:OnWeaponSwitch(weapon:GetOwner(), weapon, true, t.m)
     end
-    m_ApplyTalentsToWeapon(weapon.Weapon,t)
+    if talent.ID == 69 then 
+        timer.Simple(1,function()
+            m_ApplyTalentsToWeapon(weapon.Weapon,t)
+        end)
+    else
+        m_ApplyTalentsToWeapon(weapon.Weapon,t)
+    end
 
     for k,v in pairs(talent) do
         if isfunction(v) then talent[k] = nil end
