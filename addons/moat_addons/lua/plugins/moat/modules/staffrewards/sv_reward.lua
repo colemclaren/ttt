@@ -46,7 +46,7 @@ timer.Create("moat.StaffRewards", 60, 0, function()
     local reports = Damagelog.Reports.Current
 
     for _, report in pairs(reports) do
-        if (report.status ~= 5 and report.status ~= 6 and report.round ~= cur_round) then
+        if ((report.status == RDM_MANAGER_PROGRESS or report.status == RDM_MANAGER_WAITING) and report.round ~= cur_round) then
             debug("bad reward")
             debug(report)
             return
