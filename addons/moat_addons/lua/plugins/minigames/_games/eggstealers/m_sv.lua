@@ -273,7 +273,7 @@ local function moat_BeginRoundBossHooks()
 
     hook.Add("ScalePlayerDamage", "moat_ScaleBossDamage", function(_, _, dmg)
         local pct = 1 - EGG_COUNT / #EASTER.EggSpawns
-        dmg:ScaleDamage(pct * 1.2 + 0.4)
+        dmg:ScaleDamage(pct * 1.2 + 1.2)
     end)
 
     hook.Add("moat_Easter2019_Taken", "moat_EggTaken", function(ply)
