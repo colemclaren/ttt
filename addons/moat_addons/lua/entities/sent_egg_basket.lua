@@ -77,6 +77,7 @@ function ENT:Think()
 					
 					net.Start("moat_easter_basket_found")
 					net.WriteString(v:Nick())
+					net.WriteBool(false)
 					net.Broadcast()
 
 					self.Grabbed = true
