@@ -1,7 +1,7 @@
 EASTER = EASTER or {}
 
 
-EASTER.EggSpawnChance = 0.005
+EASTER.EggSpawnChance = 0.025
 EASTER.BossChance = 0.1
 EASTER.ProtectAmount = 10
 
