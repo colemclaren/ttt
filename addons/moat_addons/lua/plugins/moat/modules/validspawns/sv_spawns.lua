@@ -171,7 +171,7 @@ end
 
 timer.Create("moat_TrackSpawnPointsForLibrary", 1, 0, function()
     for _, ply in pairs(player.GetAll()) do
-        if (not ply:Alive() or ply:IsSpec() or IsValid(ply:GetGroundEntity()) or ply:WaterLevel() ~= 0) then
+        if (not ply:Alive() or ply:IsSpec() or IsValid(ply:GetGroundEntity()) or not ply:IsOnGround() or ply:WaterLevel() ~= 0) then
             continue
         end
 
