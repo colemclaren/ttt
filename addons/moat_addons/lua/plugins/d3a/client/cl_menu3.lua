@@ -913,11 +913,11 @@ end
 
 concommand.Add("mga_menu3", mga.Toggle)
 hook.Remove("PlayerButtonDown", "MGA Menu Key")
-hook.Add("PlayerButtonDown", "MGA Menu Key", function(p, k)
-	if (k == KEY_M) then
-		mga.Toggle()
-	end
-end)
+-- hook.Add("PlayerButtonDown", "MGA Menu Key", function(p, k)
+-- 	if (k == KEY_M) then
+-- 		mga.Toggle()
+-- 	end
+-- end)
 
 if (IsValid(mga.bg)) then
 	mga.bg:Remove()
