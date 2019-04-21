@@ -1589,6 +1589,12 @@ MOAT_BOUNTIES:AddBounty("Professional Traitor", {
 		math.random(8, 11)
 	},
 	runfunc = function(mods, bountyid, idd)
+		hook.Add("TTTBeginRound", "moat_reset_blood_traitor", function()
+			for k, v in pairs(player.GetAll()) do
+				v.proftraitor = 0
+			end
+		end)
+		
 		hook.Add("PlayerDeath", "moat_death_prof_traitor", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
 				att.proftraitor = (att.proftraitor or 0) + 1
