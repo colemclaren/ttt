@@ -341,11 +341,6 @@ local function moat_BeginRoundBossHooks()
 
         local boss = MOAT_BOSS_CUR
 
-        for _, wep in pairs(boss:GetWeapons()) do
-            if (wep.Primary.Ammo) then
-                boss:GiveAmmo(9999, wep.Primary.Ammo)
-            end
-        end
 
         for _, v in pairs(ents.GetAll()) do
             if (IsValid(v) and v:IsWeapon() and (not IsValid(v:GetOwner()) or v:GetOwner() ~= boss)) then
@@ -357,6 +352,13 @@ local function moat_BeginRoundBossHooks()
         IGNORE_DEATH = true
         boss:KillSilent()
         boss:SpawnForRound(true)
+        
+        for _, wep in pairs(boss:GetWeapons()) do
+            if (wep.Primary.Ammo) then
+                boss:GiveAmmo(9999, wep.Primary.Ammo)
+            end
+        end
+
         for _, ply in pairs(pls) do
             if (ply ~= boss) then
                 ply:SetCollisionGroup(COLLISION_GROUP_WEAPON)
