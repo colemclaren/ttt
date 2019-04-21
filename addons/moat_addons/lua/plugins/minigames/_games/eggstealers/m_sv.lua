@@ -221,7 +221,7 @@ local function moat_BossPlayerDeath(ply)
 
     if (not IS_BOSS) then
         for i = 1, #ents.FindByClass "sent_egg_basket_2019" do
-            MOAT_BOSS_CUR:m_DropInventoryItem("Easter Basket", nil, nil, true)
+            MOAT_BOSS_CUR:m_DropInventoryItem("Easter Basket 2019", nil, nil, true)
         end
         m_SaveInventory(MOAT_BOSS_CUR)
         if (math.random(1) == 1) then
