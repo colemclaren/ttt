@@ -1594,7 +1594,7 @@ MOAT_BOUNTIES:AddBounty("Professional Traitor", {
 				v.proftraitor = 0
 			end
 		end)
-		
+
 		hook.Add("PlayerDeath", "moat_death_prof_traitor", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
 				att.proftraitor = (att.proftraitor or 0) + 1
@@ -1624,7 +1624,7 @@ MOAT_BOUNTIES:AddBounty("Bloodthirsty Traitor", {
 
 		hook.Add("PlayerDeath", "moat_death_blood_traitor", function(ply, inf, att)
 			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
-				att.bloodtraitor = att.bloodtraitor + 1
+				att.bloodtraitor = (att.bloodtraitor or 0) + 1
 
 				if (att.bloodtraitor == 5) then
 					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
