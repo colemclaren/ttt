@@ -40,5 +40,6 @@ SWEP.AutoSpawnable = false
 
 SWEP.ViewModel = Model("models/weapons/cstrike/c_snip_sg550.mdl")
 SWEP.WorldModel = Model("models/weapons/w_snip_sg550.mdl")
+SWEP.AmmoEnt = "item_ammo_357_ttt"
 
 SWEP.OffsetVector = Vector(0, -3.5, 0)
