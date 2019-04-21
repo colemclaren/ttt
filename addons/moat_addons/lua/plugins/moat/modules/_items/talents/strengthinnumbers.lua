@@ -10,7 +10,7 @@ TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 2, max = 6} -- Normal damage increase
 TALENT.Modifications[2] = {min = 20, max = 40} -- Range
 TALENT.Modifications[3] = {min = 6, max = 10} -- Special teammate damage increase
-TALENT.Modifications[4] = {min = 10, max = 20} -- Max damage increase
+TALENT.Modifications[4] = {min = 20, max = 35} -- Max damage increase
 
 TALENT.Melee = true
 TALENT.NotUnique = true
