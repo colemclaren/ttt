@@ -170,6 +170,7 @@ function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
         for k, v in RandomPairs(MOAT_TALENTS) do
             if (talent_lvl == v.Tier and v.NotUnique) then
 				if (talent_melee and not v.Melee) then continue end
+				if (not talent_melee and v.MeleeOnly) then continue end
                 talent_tbl = table.Copy(v)
                 break
             end
