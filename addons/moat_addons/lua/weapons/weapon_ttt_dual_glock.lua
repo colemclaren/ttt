@@ -18,12 +18,12 @@ SWEP.WeaponID = AMMO_GLOCK
 SWEP.ENUM = 11
 
 SWEP.Primary.Recoil	= 1
-SWEP.Primary.Damage = 10
+SWEP.Primary.Damage = 7
 SWEP.Primary.Delay = 0.06
 SWEP.Primary.Cone = 0.028
-SWEP.Primary.ClipSize = 20
+SWEP.Primary.ClipSize = 30
 SWEP.Primary.Automatic = true
-SWEP.Primary.DefaultClip = 20
+SWEP.Primary.DefaultClip = 30
 SWEP.Primary.ClipMax = 60
 SWEP.Primary.Ammo = "Pistol"
 SWEP.Primary.NumShots = 2
