@@ -1,5 +1,5 @@
 
-TALENT.ID = 35
+TALENT.ID = 38
 TALENT.Name = "Backstab"
 TALENT.NameColor = Color(255, 128, 0)
 TALENT.Description = "Damage is increased by %s_ when attacking someone from behind"
