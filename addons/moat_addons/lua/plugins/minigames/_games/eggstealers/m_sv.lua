@@ -467,6 +467,13 @@ EASTER = EASTER or {}
 
 function EASTER.StartEggStealer(chosen)
     hook.Add("MoatInventoryShouldGiveLoadout", "moat_BossPreventLoadout", function(ply)
+        timer.Simple(0, function()
+            for _, wep in pairs(ply:GetWeapons()) do
+                if (wep.Primary.Ammo) then
+                    ply:GiveAmmo(9999, wep.Primary.Ammo)
+                end
+            end
+        end)
         return ply ~= chosen
     end)
 
