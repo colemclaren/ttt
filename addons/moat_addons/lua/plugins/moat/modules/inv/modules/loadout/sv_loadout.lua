@@ -53,7 +53,7 @@ function MOAT_LOADOUT.ResetPowerupAbilities(ply)
 		Color(0, 255, 0), tostring(max), 
 		Color(255, 255, 255), " for ", 
 		Color(0, 255, 255), "testing", 
-		Color(255, 255, 255), "!"
+		Color(255, 255, 255), "!")
 	end
 
     ply:SetMaxHealth(max)
