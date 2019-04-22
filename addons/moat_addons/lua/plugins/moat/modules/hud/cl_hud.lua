@@ -1045,11 +1045,19 @@ end
 local function Moat_DrawPreDrawHalos()
 	Moat_HUD_AddTHalos()
 	Moat_Talents_PreDrawHalos()
+	
+	if (MOAT_CONTAGION_ROUND_ACTIVE) then
+		MG_CG.InfectedHalos()
+	end
 end
 
 local function Moat_DrawRenderScreenspaceEffects()
 	Moat_HUD_AddTChams()
 	Moat_Talents_RenderScreenspaceEffects()
+	
+	if (MOAT_CONTAGION_ROUND_ACTIVE) then
+		MG_CG.InfectedChams()
+	end
 end
 
 

@@ -279,10 +279,11 @@ function MG_CG.TimeLeftUpdate()
     end
 end
 
+local dem_color = Color(0, 255, 0)
+local red_color = Color(255, 0, 0)
+
 function MG_CG.InfectedHalos()
-    if (MG_CG.ContagionOver) then
-        hook.Remove("PreDrawHalos", "MG_CG.InfectedHalos")
-    end
+    if (MG_CG.ContagionOver) then return end
 
     local dem_halos = {}
     local red_halos = {}
@@ -290,15 +291,49 @@ function MG_CG.InfectedHalos()
         if (IsValid(k) and k:Team() ~= TEAM_SPEC) then
         	if (MG_CG.FirstInfected and k == MG_CG.FirstInfected) then
         		table.insert(red_halos, k)
-
-        		continue
+        	else
+				table.insert(dem_halos, k)
         	end
-            table.insert(dem_halos, k)
         end
     end
 
-    halo.Add(dem_halos, Color(0, 255, 0), 0, 0, 1, true, false)
-    halo.Add(red_halos, Color(255, 0, 0), 0, 0, 1, true, false)
+    halo.Add(dem_halos, dem_color, 0, 0, 1, true, false)
+    halo.Add(red_halos, red_color, 0, 0, 1, true, false)
+end
+
+
+local function complementColor(color, add)
+	return color + add <= 255 and color + add or color + add - 255
+end
+
+function MG_CG.InfectedChams()
+    if (MG_CG.ContagionOver) then return end
+
+    cam.Start3D()
+		for k, v in pairs(MG_CG.InfectedPlayers) do
+			if (not IsValid(v) or v:Team() == TEAM_SPEC) then continue end
+			
+			local color = dem_color
+			if (MG_CG.FirstInfected and k == MG_CG.FirstInfected) then
+				color = red_color
+			end
+			
+			local modColor = Color(color.r / 255, color.g / 255, color.b / 255)
+
+			render.SuppressEngineLighting(true)
+
+			render.SetColorModulation(modColor.r, modColor.g, modColor.b)
+			render.MaterialOverride(mat)
+			v:DrawModel()
+			
+			render.SetColorModulation(modColor.r, modColor.g, modColor.b)
+			render.MaterialOverride()
+			render.SetModelLighting(BOX_TOP, modColor.r, modColor.g, modColor.b)
+			v:DrawModel()
+
+			render.SuppressEngineLighting(false)
+		end
+	cam.End3D()
 end
 
 local music_urls = {
@@ -337,7 +372,6 @@ function MG_CG.BeginRound()
     hook.Add("HUDPaint", "MG_CG_ACTIVEPAINT", MG_CG.ActivePaint)
     hook.Add("Think", "MG_CG_TIMELEFTUPDATE", MG_CG.TimeLeftUpdate)
 
-    hook.Add("PreDrawHalos", "MG_CG.InfectedHalos", MG_CG.InfectedHalos)
     hook.Add("CreateMove", "MG_CG.ThirdPersonMovement", MG_CG.ThirdPersonMovement)
     hook.Add("InputMouseApply", "MG_CG.ThirdPersonMouse", MG_CG.ThirdPersonAiming)
     hook.Add("CalcView", "MG_CG.ThirdPersonCamera", MG_CG.ThirdPersonCamera)
@@ -366,7 +400,6 @@ function MG_CG.EndRound()
     MG_CG.ContagionOver = true
     MOAT_CONTAGION_ROUND_ACTIVE = false
     
-    hook.Remove("PreDrawHalos", "MG_CG.InfectedHalos")
     hook.Remove("CreateMove", "MG_CG.ThirdPersonMovement")
     hook.Remove("InputMouseApply", "MG_CG.ThirdPersonMouse")
     hook.Remove("CalcView", "MG_CG.ThirdPersonCamera")
