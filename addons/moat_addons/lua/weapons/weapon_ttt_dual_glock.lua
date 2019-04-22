@@ -37,6 +37,7 @@ SWEP.ViewModel          = "models/weapons/cstrike/c_pist_glock18.mdl"
 SWEP.WorldModel         = "models/weapons/w_pist_glock18.mdl"
 
 SWEP.Primary.Sound = Sound "Weapon_Glock.Single"
+SWEP.WElements = true
 
 SWEP.HeadshotMultiplier = 1.45
 
