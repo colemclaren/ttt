@@ -2,6 +2,7 @@ EASTER = EASTER or {}
 
 
 EASTER.BossChance = 0.05
+EASTER.GoldenChance = 0.01
 
 EASTER.TimeBetweenChances = 30
 EASTER.EggSpawnChance = 0.1
