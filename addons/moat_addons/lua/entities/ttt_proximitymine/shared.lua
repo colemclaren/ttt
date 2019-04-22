@@ -6,7 +6,7 @@ ENT.BeepSound = Sound("npc/roller/mine/rmine_blades_out1.wav")
 
 
 
-ENT.Warmup = 15
+ENT.Warmup = 45
 ENT.ActivationRadius = 225
 ENT.DamageRadius = 280
 
