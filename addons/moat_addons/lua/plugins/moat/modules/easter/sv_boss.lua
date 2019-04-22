@@ -1,10 +1,10 @@
 EASTER = EASTER or {}
 
 
-EASTER.BossChance = 0.08
+EASTER.BossChance = 0.05
 
 EASTER.TimeBetweenChances = 30
-EASTER.EggSpawnChance = 0.25
+EASTER.EggSpawnChance = 0.1
 EASTER.MaxSpawnPerRound = 2
 EASTER.ChancesPerRound = 3
 
