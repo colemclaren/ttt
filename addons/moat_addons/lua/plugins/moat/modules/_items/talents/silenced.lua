@@ -21,7 +21,7 @@ end)
 
 local silencedSound = Sound("weapons/usp/usp1.wav")
 
-function TALENT:ModifyWeapon( weapon, talent_mods )
+function TALENT:ModifyWeapon(weapon, talent_mods)
 	local _weapon = weapon.Weapon
 
 	net.Start("Talents.Silenced")
@@ -29,4 +29,5 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 	net.Broadcast()
 
 	_weapon.Primary.Sound = silencedSound
+	_weapon.Silenced = true
 end

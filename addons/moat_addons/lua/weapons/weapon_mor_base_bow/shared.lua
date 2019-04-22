@@ -81,8 +81,15 @@ function SWEP:GetHeadshotMultiplier(ply, dmginfo)
 	return 3
 end
 
+function SWEP:EmitBowSound(sound)
+	if (not self.Silenced) then
+		self:EmitSound(sound)
+	end
+end
+
 function SWEP:Deploy()
-	self:EmitSound("weapons/bow/skyrim_bow_draw.mp3")
+	self:EmitBowSound("weapons/bow/skyrim_bow_draw.mp3")
+
 	self:SetNextPrimaryFire(CurTime())
 
 	local vm = self.Owner:GetViewModel()
@@ -128,7 +135,7 @@ function SWEP:PrimaryAttack()
 		self.UnpredictedHoldTime = SysTime()
 	end
 
-	self:EmitSound("weapons/bow/skyrim_bow_pull.mp3")
+	self:EmitBowSound("weapons/bow/skyrim_bow_pull.mp3")
 end
 
 
@@ -214,7 +221,7 @@ function SWEP:ShootArrow()
 	self:SetAnimationResetTime(CurTime() + 0.2)
 
 	local ratio = math.Clamp((CurTime() - self:GetHoldTime()) / self.MaxHoldTime, 0.1, 1)
-	self:EmitSound("weapons/bow/skyrim_bow_shoot.mp3")
+	self:EmitBowSound("weapons/bow/skyrim_bow_shoot.mp3")
 
 	local arrow = self:GetArrow()
 	if (not IsValid(arrow)) then
