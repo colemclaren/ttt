@@ -18,3 +18,4 @@ ITEM.Rarities = {
     [7] = 0.0017,
     [9] = 0.0001,
 }
+ITEM.IgnoreDiscord = true

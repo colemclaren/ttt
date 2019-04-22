@@ -617,7 +617,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 	net.WriteBool(gift or false)
     if (not no_chat) then
         net.Broadcast()
-        if tbl2.item.Rarity > 5 and (not gift) then
+        if tbl2.item.Rarity > 5 and (not gift) and not tbl2.item.IgnoreDiscord then
             discord_drop(self,tbl2,gift)
         end
         net.Start("MOAT_ITEM_OBTAINED")
