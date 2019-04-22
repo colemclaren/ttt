@@ -102,7 +102,7 @@ end
 function ENT:Think()
 	self:AddEFlags(EFL_FORCE_CHECK_TRANSMIT)
 	if SERVER then
-		if (not self.Grabbed and not self:GetNoDraw() and not self.NextSearchCheck or (self.NextSearchCheck and self.NextSearchCheck <= CurTime())) then
+		if (not self.Grabbed and not self:GetNoDraw()) then
 			for k, v in pairs(ents.FindInSphere(self:GetPos(), 24)) do
 				if (v ~= self.IgnoreEntity and v:IsPlayer() and v:Alive() and v:Team() ~= TEAM_SPEC and (not MOAT_BOSS_CUR or (MOAT_BOSS_CUR and v ~= MOAT_BOSS_CUR)) and not self.Grabbed) then
 					-- give item
@@ -110,7 +110,7 @@ function ENT:Think()
 					if (EASTER.CanDoBoss() and math.random() < EASTER.BossChance) then
 						EASTER.ReadyBoss(v)
 					end
-					
+
 					if (math.random() < EASTER.GoldenChance) then
 						v:m_DropInventoryItem "Golden Easter Basket"
 					else
@@ -140,8 +140,6 @@ function ENT:Think()
 					end)
 				end
 			end
-
-			self.NextSearchCheck = CurTime() + 0.4
 		end
 
 		self:NextThink(CurTime())
