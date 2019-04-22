@@ -352,12 +352,6 @@ local function moat_BeginRoundBossHooks()
         IGNORE_DEATH = true
         boss:KillSilent()
         boss:SpawnForRound(true)
-        
-        for _, wep in pairs(boss:GetWeapons()) do
-            if (wep.Primary.Ammo) then
-                boss:GiveAmmo(9999, wep.Primary.Ammo)
-            end
-        end
 
         for _, ply in pairs(pls) do
             if (ply ~= boss) then
