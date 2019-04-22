@@ -5,7 +5,7 @@ ITEM.Name = "Health Bloom"
 
 ITEM.NameColor = Color( 0, 204, 0 )
 
-ITEM.Description = "Health is increased by +%s_ when using this power-up"
+ITEM.Description = "Health is increased by +%s when using this power-up"
 
 ITEM.Image = "https://moat.gg/assets/img/smithhealicon.png" 
 
@@ -21,7 +21,7 @@ ITEM.Stats = {
 
 function ITEM:OnPlayerSpawn( ply, powerup_mods )
 
-	local new_health = ply.MaxHealth * ( 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * powerup_mods[1] ) ) / 100 ) )
+	local new_health = ply.MaxHealth + self.Stats[1].min + (self.Stats[1].max - self.Stats[1].min) * powerup_mods[1]
 
 	ply:SetMaxHealth( new_health )
 
