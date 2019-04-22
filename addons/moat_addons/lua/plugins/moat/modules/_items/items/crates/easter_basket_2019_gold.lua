@@ -1,6 +1,6 @@
 ITEM.ID = 8997
 ITEM.Name = "Golden Easter Basket"
-ITEM.Description = "This basket contains a skin from the Easter 2019 Collection! Right click to open"
+ITEM.Description = "This basket contains a rare item from the Easter 2019 Collection! Right click to open"
 ITEM.Image = "https://cdn.moat.gg/ttt/easter/gold_basket.png"
 ITEM.Rarity = 8
 ITEM.Collection = "Golden Easter 2019 Collection"
