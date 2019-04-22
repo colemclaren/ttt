@@ -105,7 +105,7 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_M16
 
 SWEP.Primary.Ammo = "SMG1"
-SWEP.Primary.Delay = 0.25
+SWEP.Primary.Delay = 0.24
 SWEP.Primary.Recoil = 0.9
 SWEP.Primary.Cone = 0.015
 SWEP.Primary.Damage = 29
