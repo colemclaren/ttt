@@ -97,14 +97,14 @@ SWEP.ENUM = 4
 SWEP.Primary.Ammo       = "AlyxGun" -- hijack an ammo type we don't use otherwise
 SWEP.Primary.Recoil			= 6
 SWEP.Primary.Damage = 37
-SWEP.Primary.Delay = 0.6
+SWEP.Primary.Delay = 0.5
 SWEP.Primary.Cone = 0.01
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.ClipMax = 36
 SWEP.Primary.DefaultClip = 8
 SWEP.Primary.Automatic = true
 
-SWEP.HeadshotMultiplier = 5
+SWEP.HeadshotMultiplier = 5.5
 
 SWEP.AutoSpawnable      = false
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"
