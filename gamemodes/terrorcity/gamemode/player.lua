@@ -709,14 +709,16 @@ function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
         dmginfo:ScaleDamage(0.55)
     end
 
-   if dmginfo:IsBulletDamage() and ply:HasEquipmentItem(EQUIP_ARMOR) then
-      if (ply.ArmourPierced) then
-         ply.ArmourPierced = nil
-      else
-         -- Body armor nets you a damage reduction.
-         dmginfo:ScaleDamage(0.7)
-      end
-   end
+    if dmginfo:IsBulletDamage() and ply:HasEquipmentItem(EQUIP_ARMOR) then
+        if (ply.ArmourPierced and ply.ArmourPierced > 0) then
+            -- Unless you just got pierced son
+            dmginfo:ScaleDamage(1.2)
+            ply.ArmourPierced = ply.ArmourPierced - 1
+        else
+            -- Body armor nets you a damage reduction.
+            dmginfo:ScaleDamage(0.7)
+        end
+    end
 
     -- Keep ignite-burn damage etc on old levels
     if (dmginfo:IsDamageType(DMG_DIRECT) or dmginfo:IsExplosionDamage() or dmginfo:IsDamageType(DMG_FALL) or dmginfo:IsDamageType(DMG_PHYSGUN)) then

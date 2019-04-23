@@ -7,7 +7,7 @@ TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = { min = 50, max = 80 } -- Percent chance to ignore armour
+TALENT.Modifications[1] = { min = 40, max = 60 } -- Percent chance to ignore armour
 
 TALENT.Melee = true
 TALENT.NotUnique = true
@@ -15,6 +15,6 @@ TALENT.NotUnique = true
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
 	if (chance > math.random() * 100) then
-		victim.ArmourPierced = true -- Will ignore the armour check later
+		victim.ArmourPierced = (victim.ArmourPierced or 0) + 1 -- Will ignore the armour check later
 	end
 end
