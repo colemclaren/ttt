@@ -1145,12 +1145,12 @@ for i = 1, #weapon_challenges do
 		},
 		runfunc = function(mods, bountyid, idd)
 			hook.Add("PlayerDeath", "moat_weapon_challenges_1_" .. wpntbl[1], function(ply, inf, att)
-				if (att:IsValid() and att:IsPlayer()) then
+				if (IsValid(att) and att:IsPlayer() and ply ~= att) then
 					inf = att:GetActiveWeapon()
-				end
 
-				if (att:IsValid() and att:IsPlayer() and ply ~= att and inf and inf.ClassName and inf.ClassName == wpntbl[1] and WasRightfulKill(att, ply)) then
-					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+					if (IsValid(inf) and inf.ClassName and inf.ClassName == wpntbl[1] and WasRightfulKill(att, ply)) then
+						MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+					end
 				end
 			end)
 		end,
@@ -1168,17 +1168,13 @@ MOAT_BOUNTIES:AddBounty("Detective Hunter", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_death_dethunt", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
-				inf = att:GetActiveWeapon()
-			end
-
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_DETECTIVE) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_DETECTIVE) then
 				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
 	end,
-	rewards = tier2_rewards_str,
-	rewardtbl = tier2_rewards
+	rewards = tier1_rewards_str,
+	rewardtbl = tier1_rewards
 })
 
 --v
@@ -1196,10 +1192,10 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 
 			if (not IsValid(ply)) then return end
 			if (not IsValid(att) or not att:IsPlayer()) then return end
-			if (not WasRightfulKill(att, ply)) then return end
 
             if (ply:Health() < ply:GetMaxHealth()) then return end
 			if (dmginfo:GetDamage() < ply:Health()) then return end
+			if (not WasRightfulKill(att, ply)) then return end
 
 			MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 		end)
@@ -1225,13 +1221,12 @@ MOAT_BOUNTIES:AddBounty("Marathon Walker", {
 		end)
 
 		hook.Add("PlayerFootstep", "moat_step_tracker", function(ply)
-		    if GetRoundState() ~= ROUND_ACTIVE then return end
-		    if ply:Team() == TEAM_SPEC then return end
-		    if (not ply.cSteps) then ply.cSteps = 0 end
+		    if (GetRoundState() ~= ROUND_ACTIVE) then return end
+		    if (ply:Team() == TEAM_SPEC) then return end
 		    
-            ply.cSteps = ply.cSteps + 1
+            ply.cSteps = (ply.cSteps or 0) + 1
             
-            if ply.cSteps == mods[2] then
+            if (ply.cSteps == mods[2]) then
                 MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
             end
 		end)
@@ -1250,7 +1245,7 @@ MOAT_BOUNTIES:AddBounty("Close Quarters Combat", {
 		hook.Add("PlayerDeath", "moat_close_quaters_combat", function(ply, inf, att)
 			local vic_pos = ply:GetPos()
 
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and vic_pos:Distance(att:GetPos()) < 500 and WasRightfulKill(att, ply)) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and vic_pos:Distance(att:GetPos()) < 500 and WasRightfulKill(att, ply)) then
 				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
@@ -1269,7 +1264,7 @@ MOAT_BOUNTIES:AddBounty("Longshot Killer", {
 		hook.Add("PlayerDeath", "moat_longshot_killer", function(ply, inf, att)
 			local vic_pos = ply:GetPos()
 
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and vic_pos:Distance(att:GetPos()) > 1000 and WasRightfulKill(att, ply)) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and vic_pos:Distance(att:GetPos()) > 1000 and WasRightfulKill(att, ply)) then
 				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
@@ -1296,12 +1291,12 @@ MOAT_BOUNTIES:AddBounty("Headshot Expert", {
 		end)
 
 		hook.Add("PlayerDeath", "moat_headshot_expert", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and (att.lasthead and att.lasthead == ply)) then
 				inf = att:GetActiveWeapon()
-			end
-
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and (att.lasthead and att.lasthead == ply) and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+				
+				if (IsValid(inf) and inf:IsWeapon() and WasRightfulKill(att, ply)) then
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+				end
 			end
 		end)
 	end,
@@ -1324,7 +1319,7 @@ MOAT_BOUNTIES:AddBounty("Demolition Expert", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("DoPlayerDeath", "moat_demo_expert", function(ply, att, dmg)
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and dmg:IsExplosionDamage() and WasRightfulKill(att, ply)) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and dmg:IsExplosionDamage() and WasRightfulKill(att, ply)) then
 				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
@@ -1335,10 +1330,10 @@ MOAT_BOUNTIES:AddBounty("Demolition Expert", {
 
 MOAT_BOUNTIES:AddBounty("Anti-Traitor Force", {
 	tier = 2,
-	desc = "# Task. Eliminate # traitors, rightfully, in one round. Can be completed as any role.",
+	desc = "Eliminate # traitors, rightfully, in one round # times. Can be completed as any role.",
 	vars = {
-		1,
-		math.random(2, 4)
+		math.random(2, 4),
+		math.random(1, 2)
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBeginRound", "moat_reset_antitraitor_force", function()
@@ -1348,15 +1343,11 @@ MOAT_BOUNTIES:AddBounty("Anti-Traitor Force", {
 		end)
 
 		hook.Add("PlayerDeath", "moat_antitraitor_force_death", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
-				inf = att:GetActiveWeapon()
-			end
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_TRAITOR and (att:GetRole() == ROLE_INNOCENT or att:GetRole() == ROLE_DETECTIVE)) then
+				att.antitforce = (att.antitforce or 0) + 1
 
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_TRAITOR and (att:GetRole() == ROLE_INNOCENT or att:GetRole() == ROLE_DETECTIVE)) then
-				att.antitforce = att.antitforce + 1
-
-				if (att.antitforce == mods[2]) then
-					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+				if (att.antitforce == mods[1]) then
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[2], idd)
 				end
 			end
 		end)
@@ -1373,12 +1364,12 @@ MOAT_BOUNTIES:AddBounty("Knife Addicted", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_knife_addicted", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att) then
 				inf = att:GetActiveWeapon()
-			end
 
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf.ClassName and ((inf:IsWeapon() and inf.ClassName == "weapon_ttt_knife") or (inf.ClassName == "ttt_knife_proj")) and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+				if (IsValid(inf) and inf.ClassName and ((inf:IsWeapon() and inf.ClassName == "weapon_ttt_knife") or (inf.ClassName == "ttt_knife_proj")) and WasRightfulKill(att, ply)) then
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+				end
 			end
 		end)
 	end,
@@ -1393,7 +1384,6 @@ MOAT_BOUNTIES:AddBounty("DNA Addicted", {
 		math.random(7, 12),
 	},
 	runfunc = function(mods, bountyid, idd)
-
 		hook.Add("TTTBeginRound", "moat_reset_dna", function()
 			for k, v in pairs(player.GetAll()) do
 				v.dnatbl = {}
@@ -1401,7 +1391,11 @@ MOAT_BOUNTIES:AddBounty("DNA Addicted", {
 		end)
 
 		hook.Add("TTTFoundDNA", "moat_dna_addicted", function(ply, dna_owner, ent)
-			if (ply:IsValid() and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_DETECTIVE and dna_owner:IsValid() and dna_owner:GetRole() == ROLE_TRAITOR and not table.HasValue(ply.dnatbl, ent)) then
+			if (not ply.dnatbl) then
+				ply.dnatbl = {}
+			end
+
+			if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_DETECTIVE and IsValid(dna_owner) and dna_owner:GetRole() == ROLE_TRAITOR and not table.HasValue(ply.dnatbl, ent)) then
 				table.insert(ply.dnatbl, ent)
 				
 				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
@@ -1420,7 +1414,7 @@ MOAT_BOUNTIES:AddBounty("Body Searcher", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBodyFound", "moat_body_searcher", function(ply, dead, rag)
-			if (ply:IsValid() and GetRoundState() == ROUND_ACTIVE) then
+			if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE) then
 				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
 			end
 		end)
@@ -1431,20 +1425,16 @@ MOAT_BOUNTIES:AddBounty("Body Searcher", {
 
 MOAT_BOUNTIES:AddBounty("Health Station Addicted", {
 	tier = 2,
-	desc = "In # map, use a health station to heal # health. Can be completed as any role.",
+	desc = "In # map(s), use a health station to heal # health. Can be completed as any role.",
 	vars = {
-		1,
+		math.random(1, 2),
 		math.random(100, 200)
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTPlayerUsedHealthStation", "moat_health_station_addict", function(ply, ent_station, healed)
-			if (not ply.healthaddict) then
-				ply.healthaddict = 0
-			end
+			ply.healthaddict = (ply.healthaddict or 0) + healed
 
-			ply.healthaddict = ply.healthaddict + healed
-
-			if (ply:IsValid() and GetRoundState() == ROUND_ACTIVE and ply.healthaddict >= mods[2]) then
+			if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE and ply.healthaddict >= mods[2]) then
 				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
 			end
 		end)
@@ -1461,7 +1451,7 @@ MOAT_BOUNTIES:AddBounty("Equipment User", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTOrderedEquipment", "moat_order_equip", function(ply, equipment, is_item)
-			if (ply:IsValid() and GetRoundState() == ROUND_ACTIVE and (ply:GetRole() == ROLE_TRAITOR or ply:GetRole() == ROLE_DETECTIVE)) then
+			if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE and (ply:GetRole() == ROLE_TRAITOR or ply:GetRole() == ROLE_DETECTIVE)) then
 				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
 			end
 		end)
@@ -1478,7 +1468,7 @@ MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_traitor_assassin", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:Health() >= att:GetMaxHealth() and ply:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and att:Health() >= att:GetMaxHealth() and ply:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
 				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
@@ -1511,7 +1501,7 @@ MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
 		end)
 
 		hook.Add("TTTOrderedEquipment", "moat_no_equipments_allowed_equip", function(ply, equipment, is_item)
-			if (ply:IsValid() and GetRoundState() == ROUND_ACTIVE and (ply:GetRole() == ROLE_TRAITOR or ply:GetRole() == ROLE_DETECTIVE)) then
+			if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE and (ply:GetRole() == ROLE_TRAITOR or ply:GetRole() == ROLE_DETECTIVE)) then
 				ply.noequipments = false
 			end
 		end)
@@ -1526,38 +1516,37 @@ MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
 TIER 3 BOUNTIES
 ---------------------------------------------------------------------------]]
 
+
 --v
 MOAT_BOUNTIES:AddBounty("Quickswitching killer", {
 	tier = 3,
-	desc = "In # round, get # rightful kills with # different guns.",
+	desc = "In # round(s), get # rightful kills with # different guns.",
 	vars = {
-        1,
+        math.random(1, 2),
         math.random(5, 10),
 		math.random(3, 5),
 	},
 	runfunc = function(mods, bountyid, idd)
         hook.Add("TTTBeginRound", "QuickSwitch_",function()
-            for k,v in pairs(player.GetAll()) do
+            for k, v in pairs(player.GetAll()) do
                 v.QuickSwitch_ = {}
                 v.Quick_Kills = 0
             end
         end)
 		hook.Add("PlayerDeath", "moat_quickswitch_killer", function(ply, inf, att)
-            if not att.QuickSwitch_ then return end -- Before round started
-			if (att:IsValid() and att:IsPlayer()) then
-				inf = att:GetActiveWeapon()
-			end
+            if (not att.QuickSwitch_) then return end -- Before round started
 
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
-                if #att.QuickSwitch_ >= mods[3] then 
-                    if table.HasValue(att.QuickSwitch_,att:GetActiveWeapon()) then 
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) then
+                if (#att.QuickSwitch_ >= mods[3]) then 
+                    if (table.HasValue(att.QuickSwitch_, att:GetActiveWeapon())) then 
                         att.Quick_Kills = att.Quick_Kills + 1
                     end
                 else
                     table.insert(att.QuickSwitch_, att:GetActiveWeapon())
 				    att.Quick_Kills = att.Quick_Kills + 1
                 end
-                if att.Quick_Kills >= mods[2] and #att.QuickSwitch_ >= mods[3] then
+
+                if (att.Quick_Kills >= mods[2] and #att.QuickSwitch_ >= mods[3]) then
                     MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
                 end
 			end
@@ -1569,9 +1558,9 @@ MOAT_BOUNTIES:AddBounty("Quickswitching killer", {
 
 MOAT_BOUNTIES:AddBounty("Professional Traitor", {
 	tier = 3,
-	desc = "In # round, eliminate a total of # innocents brutally. Can be completed as a traitor only.",
+	desc = "In # round(s), eliminate a total of # innocents brutally. Can be completed as a traitor only.",
 	vars = {
-		1,
+		math.random(1, 2),
 		math.random(8, 11)
 	},
 	runfunc = function(mods, bountyid, idd)
@@ -1582,7 +1571,7 @@ MOAT_BOUNTIES:AddBounty("Professional Traitor", {
 		end)
 
 		hook.Add("PlayerDeath", "moat_death_prof_traitor", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
 				att.proftraitor = (att.proftraitor or 0) + 1
 
 				if (att.proftraitor == mods[2]) then
@@ -1609,7 +1598,7 @@ MOAT_BOUNTIES:AddBounty("Bloodthirsty Traitor", {
 		end)
 
 		hook.Add("PlayerDeath", "moat_death_blood_traitor", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
 				att.bloodtraitor = (att.bloodtraitor or 0) + 1
 
 				if (att.bloodtraitor == 5) then
@@ -1630,12 +1619,12 @@ MOAT_BOUNTIES:AddBounty("Melee Maniac", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_melee_addicted", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att) then
 				inf = att:GetActiveWeapon()
-			end
 
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and inf.Weapon.Kind and inf.Weapon.Kind == WEAPON_MELEE and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+				if (IsValid(inf) and inf:IsWeapon() and inf.Weapon.Kind and inf.Weapon.Kind == WEAPON_MELEE and WasRightfulKill(att, ply)) then
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+				end
 			end
 		end)
 	end,
@@ -1651,21 +1640,21 @@ MOAT_BOUNTIES:AddBounty("Double Killer", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_double_killer", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att) then
 				inf = att:GetActiveWeapon()
-			end
 
-			if (att:IsValid() and att:IsPlayer() and ply ~= at and IsValid(inf) and inf:IsWeapon() and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
-				local not_applied_progress = true
+				if (IsValid(inf) and inf:IsWeapon() and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
+					local not_applied_progress = true
 
-				if (att.lastkilltime and ((CurTime() - 5) < att.lastkilltime)) then
-					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
-					att.lastkilltime = 0
-					not_applied_progress = false
-				end
+					if (att.lastkilltime and ((CurTime() - 5) < att.lastkilltime)) then
+						MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+						att.lastkilltime = 0
+						not_applied_progress = false
+					end
 
-				if (not_applied_progress) then
-					att.lastkilltime = CurTime()
+					if (not_applied_progress) then
+						att.lastkilltime = CurTime()
+					end
 				end
 			end
 		end)
@@ -1682,12 +1671,12 @@ MOAT_BOUNTIES:AddBounty("Airborn Assassin", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_airborn_assassin", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer()) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and not att:IsOnGround() and att:WaterLevel() == 0) then
 				inf = att:GetActiveWeapon()
-			end
 
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and not att:IsOnGround() and att:WaterLevel() == 0 and WasRightfulKill(att, ply)) then
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+				if (IsValid(inf) and inf:IsWeapon() and WasRightfulKill(att, ply)) then
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
+				end
 			end
 		end)
 	end,
@@ -1741,7 +1730,7 @@ MOAT_BOUNTIES:AddBounty("Innocent Exterminator", {
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_innocent_exterminator", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and att:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
 				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
@@ -1783,9 +1772,9 @@ MOAT_BOUNTIES:AddBounty("Clutch Master", {
 
 MOAT_BOUNTIES:AddBounty("Bunny Roleplayer", {
 	tier = 1,
-	desc = "In # round, jump # times. Cannot be completed with auto hop.",
+	desc = "In # round(s), jump # times. Cannot be completed with auto hop.",
 	vars = {
-		1,
+		math.random(1, 2),
 		math.random(200, 300)
 	},
 	runfunc = function(mods, bountyid, idd)
@@ -1796,21 +1785,24 @@ MOAT_BOUNTIES:AddBounty("Bunny Roleplayer", {
 		end)
 
 		hook.Add("SetupMove", "moat_bunny_roleplayer", function(pl, mv, cmd)
-			if GetRoundState() ~= ROUND_ACTIVE then return end
-			if pl:Team() == TEAM_SPEC then return end
+			if (GetRoundState() ~= ROUND_ACTIVE) then return end
+			if (pl:Team() == TEAM_SPEC) then return end
+			if (not pl:IsPlayer()) then return end
 
-			if (not pl:IsBot() and pl:WaterLevel() == 0 and mv:KeyDown(IN_JUMP) and not pl:IsOnGround()) then
-				pl.CanReceiveJump = true
+			if (pl:WaterLevel() == 0 and mv:KeyDown(IN_JUMP)) then
+				local onGround = pl:IsOnGround()
+				if (not onGround) then
+					pl.CanReceiveJump = true
+				end
+
+				if (onGround and pl.CanReceiveJump) then
+					pl.CanReceiveJump = false
+
+					pl.BJumps = (pl.BJumps or 0) + 1
+				end
 			end
 
-			if (not pl:IsBot() and pl:WaterLevel() == 0 and mv:KeyDown(IN_JUMP) and pl:IsOnGround() and pl.CanReceiveJump) then
-				pl.CanReceiveJump = false
-
-				if (not pl.BJumps) then pl.BJumps = 0 end
-				pl.BJumps = pl.BJumps + 1
-			end
-
-			if pl.BJumps == mods[2] then
+			if (pl.BJumps == mods[2]) then
 				MOAT_BOUNTIES:IncreaseProgress(pl, bountyid, mods[1], idd)
 			end
 		end)
@@ -1830,10 +1822,9 @@ MOAT_BOUNTIES:AddBounty("An Explosive Ending", {
 		hook.Add("EntityTakeDamage", "moat_explosive_ending", function(targ, dmg)
 			local att = dmg:GetAttacker()
 
-			if (targ:IsPlayer() and att:IsValid() and att:IsPlayer() and targ ~= att and WasRightfulKill(att, targ) and dmg:IsExplosionDamage() and dmg:GetDamage() >= targ:Health()) then
+			if (targ:IsPlayer() and IsValid(att) and att:IsPlayer() and targ ~= att and WasRightfulKill(att, targ) and dmg:IsExplosionDamage() and dmg:GetDamage() >= targ:Health()) then
 				if (att.LastExplosiveKill and att.LastExplosiveKill > CurTime() - 2) then
-					if (not att.TotalExplosiveKills) then att.TotalExplosiveKills = 0 end
-					att.TotalExplosiveKills = att.TotalExplosiveKills + 1
+					att.TotalExplosiveKills = (att.TotalExplosiveKills or 0) + 1
 
 					if (att.TotalExplosiveKills >= mods[2]) then
 						MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
