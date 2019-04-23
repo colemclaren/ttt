@@ -714,7 +714,7 @@ function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
          ply.ArmourPierced = nil
       else
          -- Body armor nets you a damage reduction.
-         dmginfo:ScaleDamage(0.65)
+         dmginfo:ScaleDamage(0.7)
       end
    end
 
