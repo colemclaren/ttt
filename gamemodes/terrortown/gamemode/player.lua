@@ -712,8 +712,12 @@ function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
     end
 
     if dmginfo:IsBulletDamage() and ply:HasEquipmentItem(EQUIP_ARMOR) then
-        -- Body armor nets you a damage reduction.
-        dmginfo:ScaleDamage(0.7)
+        if (ply.ArmourPierced) then
+            ply.ArmourPierced = nil
+        else
+            -- Body armor nets you a damage reduction.
+            dmginfo:ScaleDamage(0.7)
+        end
     end
 
     -- Keep ignite-burn damage etc on old levels
