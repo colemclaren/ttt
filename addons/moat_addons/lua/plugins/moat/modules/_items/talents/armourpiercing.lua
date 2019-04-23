@@ -7,7 +7,7 @@ TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = { min = 40, max = 70 } -- Percent chance to ignore armour
+TALENT.Modifications[1] = { min = 50, max = 80 } -- Percent chance to ignore armour
 
 TALENT.Melee = true
 TALENT.NotUnique = true
