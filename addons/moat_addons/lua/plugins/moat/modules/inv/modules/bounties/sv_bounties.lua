@@ -1189,33 +1189,19 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 		math.random(6, 15),
 	},
 	runfunc = function(mods, bountyid, idd)
-        hook.Add("TTTBeginRound", "moat_reset_1tap", function()
-			for k, v in pairs(player.GetAll()) do
-				v.attacked = {}
-			end
-		end)
+		hook.Add("EntityTakeDamage", "moat_track_1tap", function(ply, dmginfo)
+			if (MOAT_ACTIVE_BOSS) then return end
 
-		hook.Add("ScalePlayerDamage", "moat_track_1tap", function(ply, hitgroup, dmginfo)
 			local att = dmginfo:GetAttacker()
-            if GetRoundState() ~= ROUND_ACTIVE then return end
 
+			if (not IsValid(ply)) then return end
+			if (not IsValid(att) or not att:IsPlayer()) then return end
+			if (not WasRightfulKill(att, ply)) then return end
 
-            if (not att.attacked) then
-            	att.attacked = {}
-            end
+            if (ply:Health() < ply:GetMaxHealth()) then return end
+			if (dmginfo:GetDamage() < ply:Health()) then return end
 
-			if not att.attacked[ply] then
-                att.attacked[ply] = {1,CurTime() + 0.1}
-            elseif att.attacked[ply][2] < CurTime() then
-                att.attacked[ply] = {2,0}
-            end
-		end)
-
-		hook.Add("PlayerDeath", "moat_death_1tap", function(ply, inf, att)
-			if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and WasRightfulKill(att, ply) and att.attacked and att.attacked[ply] and att.attacked[ply][1]) then
-                if att.attacked[ply][1] > 1 then return end
-				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
-			end
+			MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 		end)
 	end,
 	rewards = tier1_rewards_str,
