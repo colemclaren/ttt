@@ -11,7 +11,7 @@ ITEM.Stats = {
 	Firerate = { min = 14, max = 23 },
 	Magazine = { min = 19, max = 28 },
 	Range = { min = 19, max = 28 },
-	Weight = { min = 4, max = 7 }
+	Weight = { min = 7, max = 4 }
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
