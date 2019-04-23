@@ -2,7 +2,7 @@
 TALENT.ID = 29
 TALENT.Name = "Armour Piercing"
 TALENT.NameColor = Color(255, 0, 0)
-TALENT.Description = "Each hit has a %s_^ chance to pierce armour, dealing full damage"
+TALENT.Description = "Each hit has a %s_^ chance to pierce armour, dealing extra damage to armoured opponents"
 TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 
