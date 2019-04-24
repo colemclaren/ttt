@@ -17,7 +17,7 @@ SWEP.ENUM = 7
 
 SWEP.Primary.Damage      = 9
 SWEP.Primary.Delay       = 0.05
-SWEP.Primary.Cone        = 0.06
+SWEP.Primary.Cone        = 0.09
 SWEP.Primary.ClipSize    = 35
 SWEP.Primary.ClipMax     = 60
 SWEP.Primary.DefaultClip = 35
