@@ -775,7 +775,12 @@ function m_LoadInventoryForPlayer(ply, cb)
             inv_tbl["credits"] = util.JSONToTable(row["credits"])
 
             for i = 1, 10 do
-                inv_tbl["l_slot" .. i] = util.JSONToTable(row["l_slot" .. i])
+                local t = util.JSONToTable(row["l_slot" .. i])
+                if not t then 
+                    discord.Send("Error Report SV","Error loading loadout item for " .. ply:Nick() .. " (" .. ply:SteamID() .. ") `l_slot" .. i .. "`\n```" .. row["l_slot" .. i] .. "```" or "```")
+                    t = {}
+                end
+                inv_tbl["l_slot" .. i] = t
 				if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].item) then inv_tbl["l_slot" .. i].item = nil end
 				if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].Talents) then inv_tbl["l_slot" .. i].Talents = nil end
             end
@@ -790,6 +795,10 @@ function m_LoadInventoryForPlayer(ply, cb)
 
             for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
                 inv_tbl["slot" .. i] = inventory_tbl[i]
+                if not inv_tbl["slot" .. i] then
+                    inv_tbl["slot" .. i] = {}
+                    discord.Send("Error Report SV","Error loading item for " .. ply:Nick() .. " (" .. ply:SteamID() .. ") `slot" .. i .. "`")
+                end
 				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].item) then inv_tbl["slot" .. i].item = nil end
 				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].Talents) then inv_tbl["slot" .. i].Talents = nil end
 

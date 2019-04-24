@@ -7,6 +7,10 @@ ITEM.Image = "https://cdn.moat.gg/f/9PqdvV8r93zAhtRBTKmfIJMWiVFb.png"
 ITEM.ItemCheck = 1
 ITEM.ItemUsed = function(pl, slot, item, str)
 	str = sql.SQLStr(str, true)
+	str = string.Replace(str,"\n","")
+	str = string.Replace(str,"\r","")
+	str = string.Replace(str,"\\","")
+	str = string.sub(str, 0, 100)
 	MOAT_INVS[pl]["slot" .. slot].n = str
     m_SendInvItem(pl, slot)
 end
