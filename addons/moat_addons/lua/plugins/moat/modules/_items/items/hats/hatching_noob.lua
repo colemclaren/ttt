@@ -4,6 +4,7 @@ ITEM.Name = "Hatching Noob"
 ITEM.Description = "I like to hide in my shell some times"
 ITEM.Collection = "Easter 2019 Collection"
 ITEM.Model = "models/custom_prop/moatgaming/eastegg/eastegg.mdl"
+ITEM.Image = "https://cdn.moat.gg/f/HPJDsvQBBgqQ5Nj2EVRJkdI57n03ObNu.png"
 ITEM.Attachment = "eyes"
 
 function ITEM:ModifyClientsideModel(pl, m, p, a)

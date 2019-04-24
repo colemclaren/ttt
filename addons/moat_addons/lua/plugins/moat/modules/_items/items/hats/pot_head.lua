@@ -4,6 +4,7 @@ ITEM.Name = "Pot Head"
 ITEM.Description = "Don't forget to water your flowers"
 ITEM.Collection = "Easter 2019 Collection"
 ITEM.Model = "models/moat/mg_hat_easterflowers.mdl"
+ITEM.Image = "https://cdn.moat.gg/f/2a0ijotV79S129m8gYCvK9dwYcytFhrI.png"
 ITEM.Attachment = "eyes"
 
 function ITEM:ModifyClientsideModel(pl, m, p, a)

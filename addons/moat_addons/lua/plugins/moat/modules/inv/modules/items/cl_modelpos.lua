@@ -182,6 +182,8 @@ MOAT_MODEL_POS["models/moat/mg_mask_hattington.mdl"] = {1, Angle(0, 20, 0), Vect
 MOAT_MODEL_POS["models/sterling/mg_hat_number1.mdl"] = {1.1, Angle(0, 5, 0), Vector(0, 0, 1)} --https://steamcommunity.com/profiles/76561198001255902
 MOAT_MODEL_POS["models/sterling/mg_hat_punk.mdl"] = {1.1, Angle(0, 5, 0), Vector(0, 0, 1)} --https://steamcommunity.com/profiles/76561198079189535
 
+MOAT_MODEL_POS["models/custom_prop/moatgaming/eastbunny/eastbunny.mdl"] = {1.2, Angle(0, 100, 0), Vector(0, 0, 0)}
+
 function moat_retry_tts_play(sound_url)
     sound.PlayURL(sound_url, "mono", function(ttssound, error, error2)
         if (IsValid(ttssound)) then
