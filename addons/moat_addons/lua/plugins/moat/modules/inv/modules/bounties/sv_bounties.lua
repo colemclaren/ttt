@@ -1190,7 +1190,7 @@ MOAT_BOUNTIES:AddBounty("One Tapper", {
 
 			local att = dmginfo:GetAttacker()
 
-			if (not IsValid(ply)) then return end
+			if (not IsValid(ply) or not ply:IsPlayer()) then return end
 			if (not IsValid(att) or not att:IsPlayer()) then return end
 
             if (ply:Health() < ply:GetMaxHealth()) then return end
