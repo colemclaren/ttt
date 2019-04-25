@@ -5,7 +5,7 @@ ITEM.Rarity = 9
 ITEM.Collection = "Never Dropping Again Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
-
+ITEM.NotDroppable = true
 ITEM.Stats = {
     Damage = {
         min = 17,
