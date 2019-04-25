@@ -1,10 +1,11 @@
-ITEM.ID = 8423
+ITEM.ID = 3423
 ITEM.Name = "Priceless"
+ITEM.NameEffect = "glow"
 ITEM.Rarity = 9
-ITEM.Collection = "Moat Collection"
+ITEM.Collection = "Never Dropping Again Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
-ITEM.NameEffect = "electric"
+
 ITEM.Stats = {
     Damage = {
         min = 17,
@@ -35,6 +36,7 @@ ITEM.Stats = {
         max = -7
     }
 }
+
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
 ITEM.Talents = {"random", "random", "random", "random"}
