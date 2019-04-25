@@ -1705,6 +1705,16 @@ net.Receive("MOAT_TRADE_ADD", function(len, ply)
         end
     end
 
+    local item = m_GetItemFromEnum(inv_slot1.u)
+    if (item.NotTradeable) then
+        net.Start("MOAT_TRADE_FAIL")
+            net.WriteDouble(tonumber(trade_id))
+            net.WriteString("This item is untradeable")
+        net.Send(ply)
+
+        return
+    end
+
     net.Start("MOAT_SWP_INV_ITEM")
     net.WriteBool(true)
     net.WriteString("t_slot" .. trade_slot_num)
@@ -1781,6 +1791,16 @@ net.Receive("MOAT_TRADE_REM", function(len, ply)
 
             return
         end
+    end
+
+	local item = m_GetItemFromEnum(inv_slot1.u)
+    if (item.NotTradeable) then
+        net.Start("MOAT_TRADE_FAIL")
+            net.WriteDouble(tonumber(trade_id))
+            net.WriteString("This item is untradeable")
+        net.Send(ply)
+
+        return
     end
 
     net.Start("MOAT_SWP_INV_ITEM")
@@ -1873,6 +1893,26 @@ net.Receive("MOAT_TRADE_SWAP", function(len, ply)
 
             return
         end
+    end
+
+    local item = m_GetItemFromEnum(trade_slot.u)
+    if (item.NotTradeable) then
+        net.Start("MOAT_TRADE_FAIL")
+            net.WriteDouble(tonumber(trade_id))
+            net.WriteString("This item is untradeable")
+        net.Send(ply)
+
+        return
+    end
+
+	local item2 = m_GetItemFromEnum(trade_slot2.u)
+    if (item2.NotTradeable) then
+        net.Start("MOAT_TRADE_FAIL")
+            net.WriteDouble(tonumber(trade_id))
+            net.WriteString("This item is untradeable.")
+        net.Send(ply)
+
+        return
     end
 
     net.Start("MOAT_SWP_INV_ITEM")
