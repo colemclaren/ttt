@@ -1,6 +1,6 @@
 ITEM.ID = 1574
 ITEM.Name = "Community"
-ITEM.Rarity = 9
+ITEM.Rarity = 8
 ITEM.Collection = "Community Collection"
 ITEM.NameColor = Color(112, 176, 74)
 ITEM.MinStats = 7
@@ -9,32 +9,32 @@ ITEM.NotDroppable = true
 ITEM.NotTradeable = true
 ITEM.Stats = {
     Damage = {
-        min = 10,
-        max = 18
+        min = 9,
+        max = 16
     },
     Accuracy = {
-        min = 11,
-        max = 19
+        min = 10,
+        max = 17
     },
     Kick = {
-        min = -12,
-        max = -20
+        min = -10,
+        max = -16
     },
     Firerate = {
-        min = 13,
-        max = 20
+        min = 12,
+        max = 17
     },
     Magazine = {
-        min = 15,
-        max = 21
+        min = 10,
+        max = 19
     },
     Range = {
-        min = 20,
-        max = 30
+        min = 17,
+        max = 22
     },
     Weight = {
-        min = -3,
-        max = -5
+        min = -2,
+        max = -4
     }
 }
 ITEM.MinTalents = 4
