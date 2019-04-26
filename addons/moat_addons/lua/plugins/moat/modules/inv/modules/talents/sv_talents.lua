@@ -54,7 +54,7 @@ hook.Add("TTTPlayerSpeed", "moat_ApplyWeaponWeight", function(ply, slowed)
 
         if (ply:HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
             if (ply:GetInfo("moat_hermes_boots") == "1" ) then
-                new_speed = new_speed * 1.3
+                new_speed = new_speed * 1.2
             end
         end
 
