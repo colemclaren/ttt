@@ -53,4 +53,4 @@ SWEP.WorldModel = "models/weapons/w_smg_tmp.mdl"
 SWEP.DeploySpeed = 3
 SWEP.WElements = true
 
-SWEP.HeadshotMultiplier = 1.1
+SWEP.HeadshotMultiplier = 1.4
