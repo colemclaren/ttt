@@ -131,6 +131,10 @@ function SWEP:Uncloak(ply)
 end
 
 function SWEP:PrimaryAttack()
+    if (GetGlobalInt("weapon_vadim_blink", 0) ~= 0) then
+        return
+    end
+
     if (self:GetBlinking() or self:GetCharge() < takecharge:GetInt()) then
         return false
     end
@@ -365,14 +369,50 @@ function SWEP:ViewModelDrawn()
     end
 end
 
+blink = {
+    Enable = function(self)
+        SetGlobalInt("weapon_vadim_blink", GetGlobalInt("weapon_vadim_blink", 0) - 1)
+        self:Update()
+    end,
+    Disable = function(self)
+        SetGlobalInt("weapon_vadim_blink", GetGlobalInt("weapon_vadim_blink", 0) + 1)
+        self:Update()
+    end,
+    Update = function(self)
+        if (GetGlobalInt("weapon_vadim_blink", 0) == 0) then
+            if (SERVER) then
+                net.Start "weapon_vadim_blink"
+                    net.WriteBool(false)
+                net.Broadcast()
+            end
+        elseif (GetGlobalInt("weapon_vadim_blink", 0) == 1) then
+            if (SERVER) then
+                net.Start "weapon_vadim_blink"
+                    net.WriteBool(true)
+                net.Broadcast()
+            end
+        end
+    end
+}
+
 function SWEP:DrawHUD()
     local x = ScrW() / 2.0
     local y = ScrH() / 2.0
+    local w, h = 200, 20
+
+    if (GetGlobalInt("weapon_vadim_blink", 0) ~= 0) then
+        surface.SetFont("TabLarge")
+        surface.SetTextColor(255, 50, 50, 180)
+        surface.SetTextPos(x, y - 15)
+        surface.DrawText("DISABLED")
+        return
+    end
+
+    
     y = y + (y / 3)
     local ccvar = maxcharge:GetInt()
     local charge = self:GetCharge() / ccvar
     local chargem = self:GetMaxCharge() / ccvar
-    local w, h = 200, 20
 
     if chargem > 0 then
         surface.SetDrawColor(0, 0, 255, 78)

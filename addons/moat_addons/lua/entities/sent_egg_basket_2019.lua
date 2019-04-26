@@ -46,6 +46,12 @@ function ENT:Initialize()
 	if (CLIENT) then
 		self:SetRenderBoundsWS(Vector(-100000, -100000, -100000), Vector(100000, 100000, 100000))
 	end
+
+	blink:Disable()
+end
+
+function ENT:OnRemove()
+	blink:Enable()
 end
 
 function ENT:SetupDataTables()
