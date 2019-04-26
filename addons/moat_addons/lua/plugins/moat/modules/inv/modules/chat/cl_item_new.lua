@@ -72,13 +72,16 @@ net.Receive("MOAT_OBTAIN_ITEM", function(len)
 	if (da_rarity < 6) then return end
 
 	-- TODO: add customization in menu to disable this
-	Derma_Query("You just dropped an " .. (da_rarity == 6 and "uncommon" or "extremely rare") .. " item (" .. ITEM_NAME_FULL .. ")\n" ..
-		"Before trading this item you should get it price checked on our discord. https://discord.gg/moatgaming", "Rare Item Notice",
-		"OK", function() end,
-		"Open Discord", function()
-			gui.OpenURL "https://discord.gg/moatgaming"
-		end
-	)
+	if (not GetConVar "moat_disable_rare_warnings":GetBool()) then
+			
+		Derma_Query("You just dropped an " .. (da_rarity == 6 and "uncommon" or "extremely rare") .. " item (" .. ITEM_NAME_FULL .. ")\n" ..
+			"Before trading this item you should get it price checked on our discord. https://discord.gg/moatgaming", "Rare Item Notice",
+			"OK", function() end,
+			"Open Discord", function()
+				gui.OpenURL "https://discord.gg/moatgaming"
+			end
+		)
+	end
 
 	-- net.Start("MOAT_CHAT_OBTAINED_VERIFY")
 	-- net.WriteBool(v or false)

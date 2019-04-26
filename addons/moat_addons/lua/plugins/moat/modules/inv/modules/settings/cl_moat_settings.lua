@@ -23,6 +23,7 @@ local moat_convars = {
     ["moat_auto_deconstruct_rarity"] = "Worn",
     ["moat_fast_open"] = 0,
     ["moat_text_to_speech"] = 1,
+    ["moat_disable_rare_warnings"] = 0,
     ["moat_auto_deconstruct_primary"] = 0,
     ["moat_auto_deconstruct_secondary"] = 0,
     ["moat_auto_deconstruct_melee"] = 0,
@@ -173,6 +174,7 @@ local moat_Settings = {
         -- {"Spring Inventory Theme", {"Multi"}, "moat_spring_theme"}
     },
     {"Item Drops",
+        {"Disable Rare Item Warnings", {"Multi"}, "moat_disable_rare_warnings"},
         {"Drop Cosmetic Items from End Round Drops", {"Multi"}, "moat_dropcosmetics"},
         {"Drop Paint/Tint from End Round Drops", {"Multi"}, "moat_droppaint"},
         {"Automatically Desconstruct Items after Obtained", {"Multi"}, "moat_auto_deconstruct"},
