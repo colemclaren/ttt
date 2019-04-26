@@ -1330,10 +1330,10 @@ MOAT_BOUNTIES:AddBounty("Demolition Expert", {
 
 MOAT_BOUNTIES:AddBounty("Anti-Traitor Force", {
 	tier = 2,
-	desc = "Eliminate # traitors, rightfully, in one round # times. Can be completed as any role.",
+	desc = "Eliminate # traitors, rightfully, in one round # time. Can be completed as any role.",
 	vars = {
 		math.random(2, 4),
-		math.random(1, 2)
+		1
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBeginRound", "moat_reset_antitraitor_force", function()
@@ -1425,9 +1425,9 @@ MOAT_BOUNTIES:AddBounty("Body Searcher", {
 
 MOAT_BOUNTIES:AddBounty("Health Station Addicted", {
 	tier = 2,
-	desc = "In # map(s), use a health station to heal # health. Can be completed as any role.",
+	desc = "In # map, use a health station to heal # health. Can be completed as any role.",
 	vars = {
-		math.random(1, 2),
+		1,
 		math.random(100, 200)
 	},
 	runfunc = function(mods, bountyid, idd)
@@ -1520,9 +1520,9 @@ TIER 3 BOUNTIES
 --v
 MOAT_BOUNTIES:AddBounty("Quickswitching killer", {
 	tier = 3,
-	desc = "In # round(s), get # rightful kills with # different guns.",
+	desc = "In # round, get # rightful kills with # different guns.",
 	vars = {
-        math.random(1, 2),
+        1,
         math.random(5, 10),
 		math.random(3, 5),
 	},
@@ -1558,9 +1558,9 @@ MOAT_BOUNTIES:AddBounty("Quickswitching killer", {
 
 MOAT_BOUNTIES:AddBounty("Professional Traitor", {
 	tier = 3,
-	desc = "In # round(s), eliminate a total of # innocents brutally. Can be completed as a traitor only.",
+	desc = "In # round, eliminate a total of # innocents brutally. Can be completed as a traitor only.",
 	vars = {
-		math.random(1, 2),
+		1,
 		math.random(8, 11)
 	},
 	runfunc = function(mods, bountyid, idd)
@@ -1772,9 +1772,9 @@ MOAT_BOUNTIES:AddBounty("Clutch Master", {
 
 MOAT_BOUNTIES:AddBounty("Bunny Roleplayer", {
 	tier = 1,
-	desc = "In # round(s), jump # times. Cannot be completed with auto hop.",
+	desc = "In # round, jump # times. Cannot be completed with auto hop.",
 	vars = {
-		math.random(1, 2),
+		1,
 		math.random(200, 300)
 	},
 	runfunc = function(mods, bountyid, idd)
