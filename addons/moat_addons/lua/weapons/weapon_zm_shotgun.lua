@@ -29,6 +29,7 @@ SWEP.Primary.Automatic = true
 SWEP.Primary.NumShots = 12
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
+SWEP.HeadshotMultiplier = 1.1
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false

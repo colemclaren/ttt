@@ -120,3 +120,6 @@ end, "Item must be a weapon!"}
 MOAT_ITEM_CHECK[13] = {function(i)
 	return i.u ~= 7820 and i.u ~= 7821
 end, "You can't wrap gift packages, sorry."}
+MOAT_ITEM_CHECK[14] = {function(i)
+	return i.p3 ~= nil
+end, "Item must have a skin!"}
