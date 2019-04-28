@@ -39,18 +39,18 @@ EFFECT.Material = "icon16/contrast_low.png"
 function EFFECT:Init(data)
 	self:CreateEndTimer(data.Time, data)
 	local att = data.Player
+	if (not IsValid(att)) then return end
+
 	att:SetRenderMode(RENDERMODE_TRANSALPHA)
-	att:SetColor(Color(255,255,255,50))
-	att.RealityStone = CurTime() - 0.5
+	att:SetColor(Color(255, 255, 255, 50))
 	D3A.Chat.SendToPlayer2(att, Color(0, 255, 0), "You are now transparent for ", Color(255, 0, 0), data.Time or "0", Color(0, 255, 0), " seconds!")
 end
 
 function EFFECT:OnEnd(data)
 	local att = data.Player
-	if not IsValid(att) then return end
-	if CurTime() - (att.RealityStone or 0) > sec then
-		att:SetRenderMode(RENDERMODE_NORMAL)
-		att:SetColor(Color(255,255,255,255))
-		att:SendLua([[chat.AddText(Color(255,0,0),"You are no longer transparent!")]])
-	end
+	if (not IsValid(att)) then return end
+
+	att:SetRenderMode(RENDERMODE_NORMAL)
+	att:SetColor(Color(255, 255, 255, 255))
+	D3A.Chat.SendToPlayer2(att, Color(255, 0, 0), "You are no longer transparent!")
 end
