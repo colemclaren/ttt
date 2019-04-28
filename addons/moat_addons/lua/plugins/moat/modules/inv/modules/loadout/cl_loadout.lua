@@ -497,6 +497,17 @@ function MOAT_LOADOUT.UpdateOtherWep()
 end
 net.Receive("MOAT_UPDATE_OTHER_WEP", MOAT_LOADOUT.UpdateOtherWep)
 
+local timers = {}
+
+hook.Add("TTTEndRound", "moat_FixNamesPossibly", function()
+	for _, name in pairs(timers) do
+		if (timer.Exists(name)) then
+			timer.Remove(name)
+		end
+	end
+	timers = {}
+end)
+
 function MOAT_LOADOUT.UpdateWep()
 	local wep_index, wep_name, wep_d, wep_f, wep_m, wep_r, wep_a, wep_v, wep_p, wep_stats
 	local wep_a_y, wep_a_x
@@ -564,7 +575,8 @@ function MOAT_LOADOUT.UpdateWep()
 		end
 	end*/
 
-	timer.Create("moat_StatRefresh" .. wep_index, 0.1, 0, function()
+	local name = "moat_StatRefresh" .. wep_index
+	timer.Create(name, 0.1, 0, function()
 		local wep = Entity(wep_index)
 
 		if (wep.Weapon) then
@@ -917,7 +929,7 @@ function MOAT_LOADOUT.UpdateWep()
 				end
 			end
 
-			timer.Remove("moat_StatRefresh" .. wep_index)
+			timer.Remove(name)
 		end
 	end)
 end
