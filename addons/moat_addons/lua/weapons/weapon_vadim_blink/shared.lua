@@ -372,26 +372,9 @@ end
 blink = {
     Enable = function(self)
         SetGlobalInt("weapon_vadim_blink", GetGlobalInt("weapon_vadim_blink", 0) - 1)
-        self:Update()
     end,
     Disable = function(self)
         SetGlobalInt("weapon_vadim_blink", GetGlobalInt("weapon_vadim_blink", 0) + 1)
-        self:Update()
-    end,
-    Update = function(self)
-        if (GetGlobalInt("weapon_vadim_blink", 0) == 0) then
-            if (SERVER) then
-                net.Start "weapon_vadim_blink"
-                    net.WriteBool(false)
-                net.Broadcast()
-            end
-        elseif (GetGlobalInt("weapon_vadim_blink", 0) == 1) then
-            if (SERVER) then
-                net.Start "weapon_vadim_blink"
-                    net.WriteBool(true)
-                net.Broadcast()
-            end
-        end
     end
 }
 
