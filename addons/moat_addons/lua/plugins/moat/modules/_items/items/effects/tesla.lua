@@ -28,7 +28,7 @@ if CLIENT then
     timer.Create("Tesla Effect",10,0,function()
         if MOAT_PH then return end
         for _,ply in ipairs(player.GetAll()) do
-            if (ply.Tesla and IsValid(LocalPlayer()) and ply ~= LocalPlayer() and ply:Team() ~= TEAM_SPEC and not ply:IsDormant()) then
+            if (ply.Tesla and IsValid(LocalPlayer()) and ply ~= LocalPlayer() and ply:Team() ~= TEAM_SPEC and not ply:IsDormant() and ply:Health() >= 1) then
                 local pos = ply:GetPos() + Vector(0,0,50)
                 local effect = EffectData()
                 effect:SetOrigin(pos)
