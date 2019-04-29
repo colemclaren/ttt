@@ -1412,6 +1412,16 @@ function m_InitTradeAccept(trade_id)
     end
 
     MOAT_TRADES[trade_id] = nil
+    if offer_player1.alt_data and offer_player2.alt_data then
+        -- if (tostring(offer_player1.alt_data[1]) == tostring(offer_player2.alt_data[1])) then
+        -- if (tostring(offer_player1.alt_data[2]) == tostring(offer_player2:SteamID64())) then
+        -- if (tostring(offer_player1.alt_data[3]) == tostring(offer_player2:SteamID64())) then
+        -- if (tostring(offer_player2.alt_data[2]) == tostring(offer_player1:SteamID64())) then
+        -- if (tostring(offer_player2.alt_data[3]) == tostring(offer_player1:SteamID64())) then
+        if (tostring(offer_player1.alt_data[1]) == tostring(offer_player2.alt_data[1])) or (tostring(offer_player1.alt_data[2]) == tostring(offer_player2:SteamID64())) or (tostring(offer_player1.alt_data[3]) == tostring(offer_player2:SteamID64())) or (tostring(offer_player2.alt_data[2]) == tostring(offer_player1:SteamID64())) or (tostring(offer_player2.alt_data[3]) == tostring(offer_player1:SteamID64())) then
+            discord.Send("Error Report SV",offer_player1:Nick() .. " (" .. offer_player1:SteamID() .. ") traded with alt of themselves: " .. offer_player2:Nick() .. " (" .. offer_player2:SteamID() .. ")")
+        end
+    end
 end
 
 function m_VerifyTradeSlots(player_1, player_2, trade_id, empty_slots)

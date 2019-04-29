@@ -178,6 +178,8 @@ local function moat_alts()
 			return
 		end
 
+		pl.alt_data = {a,b,c}
+
 		local ip = pl:IPAddress()
 
 		local tries_left = 5
