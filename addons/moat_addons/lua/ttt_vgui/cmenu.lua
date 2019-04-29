@@ -141,7 +141,12 @@ function PANEL:Init()
     hook.Add("TTTFavoritesChanged", self, self.FavoritesUpdate)
     self:SetTitle "Equipment Shop"
 
-    self:SetSize(cookie.GetNumber("equipment_menu_w", ScrW() / 2), cookie.GetNumber("equipment_menu_h", ScrH() / 2))
+    self:SetSizable(true)
+
+    self:SetSize(
+        math.max(400, cookie.GetNumber("equipment_menu_w", ScrW() / 2)),
+        math.max(300, cookie.GetNumber("equipment_menu_h", ScrH() / 2))
+    )
     if (cookie.GetNumber("equipment_menu_x")) then
         self:SetPos(cookie.GetNumber("equipment_menu_x", 0), cookie.GetNumber("equipment_menu_y", 0))
     else
@@ -1048,8 +1053,6 @@ function PANEL:Finish()
 
         eqframe:SetRole(LocalPlayer():GetRole())
         eqframe:MakePopup()
-        eqframe:SetKeyboardInputEnabled(false)
-        eqframe:SetSizable(true)
         return eqframe
     elseif (where == 1 and not quickMenuClickBuy:GetBool()) then
         self:OnMousePressed(MOUSE_LEFT)
