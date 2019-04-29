@@ -588,6 +588,26 @@ function SWEP:SetupDataTables()
    -- own stuff.
    self:NetworkVar("Bool", 3, "IronsightsPredicted")
    self:NetworkVar("Float", 3, "IronsightsTime")
+
+   local Entity = {
+      Weapon = self,
+      NetworkVar = function(self, ...)
+         table.insert(self.Vars, {n = select("#", ...), ...})
+      end,
+      Vars = {}
+   }
+
+   hook.Run("TTTInitializeWeaponVars", Entity)
+
+   table.sort(Entity.Vars, function(a, b) return a[3] < b[3] end)
+
+   for _, var in ipairs(Entity.Vars) do
+      self:NetworkVar(unpack(var, 1, var.n))
+      if (SERVER and var[5]) then
+         self["Set" .. var[3]](self, var[5])
+      end
+   end
+   hook.Run("TTTWeaponVarsInitialized", self)
 end
 
 function SWEP:Initialize()

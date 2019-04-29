@@ -363,7 +363,7 @@ function MG_TDM.GiveWeapon(ply,v)
 	local item_old = table.Copy(v.item)
     v.item = m_GetItemFromEnum(v.u)
 
-    m_ApplyWeaponMods(wpn_tbl, v, v.item)
+    m_ApplyWeaponMods(v3, v, v.item)
     v3:SetClip1(wpn_tbl.Primary.DefaultClip)
     wpn_tbl.UniqueItemID = v.c
     wpn_tbl.PrimaryOwner = ply
@@ -372,29 +372,7 @@ function MG_TDM.GiveWeapon(ply,v)
     if not ply.TDM_Cache then ply.TDM_Cache = {} end
     net.WriteUInt(v3:EntIndex(), 16)
     if not ply.TDM_Cache[v.w] then
-        ply.TDM_Cache[v.w] = {
-			name = wpn_tbl.ItemName or wpn_tbl.PrintName or "",
-			wpn_tbl.Primary.Damage or 0,
-			wpn_tbl.Primary.Delay or 0,
-			wpn_tbl.Primary.ClipSize or 0,
-			wpn_tbl.Primary.Recoil or 0,
-			wpn_tbl.Primary.Cone or 0,
-			wpn_tbl.PushForce or 0,
-			wpn_tbl.Secondary.Delay or 0,
-			{},
-            wpn_tbl.Primary.ConeX or 0,
-            wpn_tbl.Primary.ConeY or 0,
-		}
-
 		net.WriteBool(true)
-		net.WriteString(ply.TDM_Cache[v.w].name or "NAME_ERROR4")
-        net.WriteFloat(ply.TDM_Cache[v.w][1] or 0)
-        net.WriteFloat(ply.TDM_Cache[v.w][2] or 0)
-        net.WriteFloat(ply.TDM_Cache[v.w][3] or 0)
-        net.WriteFloat(ply.TDM_Cache[v.w][4] or 0)
-        net.WriteFloat(ply.TDM_Cache[v.w][5] or 0)
-        net.WriteFloat(ply.TDM_Cache[v.w][6] or 0)
-        net.WriteFloat(ply.TDM_Cache[v.w][7] or 0)
 
         if (v.t) then
             v.Talents = {}
@@ -405,10 +383,8 @@ function MG_TDM.GiveWeapon(ply,v)
         end
 		table.removeFunctions(v)
 
-		ply.TDM_Cache[v.w][8] = table.Copy(v or {}) or {}
+		ply.TDM_Cache[v.w] = table.Copy(v or {}) or {}
         net.WriteTable(v or {})
-        net.WriteFloat(ply.TDM_Cache[v.w][9] or 0)
-        net.WriteFloat(ply.TDM_Cache[v.w][10] or 0)
 
 		v.item = item_old
     else
@@ -432,17 +408,7 @@ net.Receive("MOAT_NO_STORED", function(_, ply)
 		net.WriteString(wpn)
 		net.WriteUInt(indx, 16)
 		net.WriteBool(true)
-		net.WriteString(ply.TDM_Cache[wpn].name or "NAME_ERROR5")
-		net.WriteFloat(ply.TDM_Cache[wpn][1] or 0)
-    	net.WriteFloat(ply.TDM_Cache[wpn][2] or 0)
-    	net.WriteFloat(ply.TDM_Cache[wpn][3] or 0)
-    	net.WriteFloat(ply.TDM_Cache[wpn][4] or 0)
-    	net.WriteFloat(ply.TDM_Cache[wpn][5] or 0)
-    	net.WriteFloat(ply.TDM_Cache[wpn][6] or 0)
-    	net.WriteFloat(ply.TDM_Cache[wpn][7] or 0)
-    	net.WriteTable(ply.TDM_Cache[wpn][8] or {})
-    	net.WriteFloat(ply.TDM_Cache[wpn][9] or 0)
-    	net.WriteFloat(ply.TDM_Cache[wpn][10] or 0)
+    	net.WriteTable(ply.TDM_Cache[wpn] or {})
 	net.Send(ply)
 end)
 

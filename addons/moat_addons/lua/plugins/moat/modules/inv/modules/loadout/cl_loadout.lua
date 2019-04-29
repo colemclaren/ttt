@@ -508,29 +508,183 @@ hook.Add("TTTEndRound", "moat_FixNamesPossibly", function()
 	timers = {}
 end)
 
+function MOAT_LOADOUT.ApplyPaint(wep, paint)
+	local col = MOAT_PAINT.Paints[paint]
+	if (col) then
+		if (col.Dream) then
+			col = rarity_names[9][2]
+		else
+			col = Color(unpack(col[2], 1, 3))
+		end
+
+		wep:SetColor(col)
+		wep:SetRenderMode(RENDERMODE_TRANSADDFRAMEBLEND)
+		wep:SetMaterial("models/debug/debugwhite")
+	end
+
+	local mat = "models/debug/debugwhite"
+
+	
+	local OldDrawWorldModel = wep.DrawWorldModel or wep.DrawWorldModelTranslucent or wep.DrawModel
+
+	wep.RenderGroup = RENDERGROUP_TRANSLUCENT
+	function wep:DrawWorldModelTranslucent()
+		self.Owner.CustomColor = col
+
+		OldDrawWorldModel(self)
+
+		self:SetColor(col)
+
+		self:SetMaterial(mat)
+		self.Owner.CustomColor = nil
+	end
+	wep.DrawWorldModel = nil
+end
+
+function MOAT_LOADOUT.ApplyTint(wep, tint)
+	local col = MOAT_PAINT.Tints[tint]
+	if (col) then
+		if (col.Dream) then
+			col = rarity_names[9][2]
+		else
+			col = Color(unpack(col[2], 1, 3))
+		end
+
+		wep:SetColor(col)
+		wep:SetRenderMode(RENDERMODE_TRANSCOLOR)
+	end
+
+	local OldDrawWorldModel = wep.DrawWorldModel or wep.DrawWorldModelTranslucent or wep.DrawModel
+
+	wep.RenderGroup = RENDERGROUP_TRANSLUCENT
+	function wep:DrawWorldModelTranslucent()
+		OldDrawWorldModel(self)
+		
+		self:SetColor(col)
+	end
+	wep.DrawWorldModel = nil
+end
+
+function MOAT_LOADOUT.ApplySkin(wep, skin)
+	local mat_str, name_str, new_mat = MOAT_PAINT.Skins[skin][2], MOAT_PAINT.Skins[skin][1]
+
+	if (mat_str:match "^http") then
+		new_mat = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
+			["$model"] = 1,
+			["$alphatest"] = 1,
+			["$vertexcolor"] = 1,
+			["$basetexture"] = "error"
+		})
+
+		if (mat_str:match "vtf$") then
+			local function set(m)
+				new_mat:SetTexture("$basetexture", m)
+			end
+
+			local m = cdn.Texture(mat_str, set)
+			if (m) then
+				set(m)
+			end
+		else
+			local function set(m)
+				new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+			end
+
+			local m = cdn.Image(mat_str, set)
+			if (m) then
+				set(m)
+			end
+		end
+	else
+		wep:SetMaterial(mat_str)
+	end
+
+	wep.RenderGroup = RENDERGROUP_TRANSLUCENT
+	
+	local OldDrawWorldModel = wep.DrawWorldModel or wep.DrawWorldModelTranslucent or wep.DrawModel
+
+	function wep:DrawWorldModelTranslucent(c)
+		self.Owner.CustomColor = color
+		if (new_mat) then
+			render.MaterialOverride(new_mat)
+
+			if (dream) then
+				render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
+			elseif (color) then
+				render.SetColorModulation(color.r / 255, color.g / 255, color.b / 255)
+			else
+				render.SetColorModulation(1, 1, 1)
+			end
+
+			render.SetBlend(1)
+			OldDrawWorldModel(self)
+			render.MaterialOverride(nil)
+		else
+			OldDrawWorldModel(self)
+		end
+
+		if (mat_str:match "vtf$" and not self.SetMeme) then
+			local m = cdn.Texture(mat_str)
+			if (m and not self.SetMeme) then
+				self.SetMeme = true
+				new_mat:SetTexture("$basetexture", m)
+				self:SetSubMaterial(0, "!"..new_mat:GetName())
+			end
+		elseif (mat_str:match "^http" and not self.SetMeme) then
+			local m = cdn.Image(mat_str)
+			if (m and not self.SetMeme) then
+				self.SetMeme = true
+				new_mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
+				self:SetSubMaterial(0, "!"..new_mat:GetName())
+			end
+		elseif (not self.SetMeme) then
+			self:SetMaterial(mat_str)
+		end
+
+		self.Owner.CustomColor = nil
+	end
+	wep.DrawWorldModel = nil
+end
+
+function MOAT_LOADOUT.ApplyPlanetary(wep)
+	local OldDrawWorldModel = wep.DrawWorldModel or wep.DrawWorldModelTranslucent or wep.DrawModel
+
+	wep.RenderGroup = RENDERGROUP_TRANSLUCENT
+
+	function wep:DrawWorldModelTranslucent()
+		OldDrawWorldModel(self)
+		
+		if (not rarity_names) then
+			return
+		end
+
+		render.MaterialOverride(propspec_outline)
+		render.SuppressEngineLighting(true)
+		render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
+
+		self:SetModelScale(1.05, 0)
+		self:DrawModel()
+
+		render.SetColorModulation(1, 1, 1)
+		render.SuppressEngineLighting(false)
+		render.MaterialOverride(nil)
+	end
+	wep.DrawWorldModel = nil
+
+	MOAT_PLANETARY.Weapons[wep] = true
+	wep.Planetary = true
+end
+
+
 function MOAT_LOADOUT.UpdateWep()
-	local wep_index, wep_name, wep_d, wep_f, wep_m, wep_r, wep_a, wep_v, wep_p, wep_stats
-	local wep_a_y, wep_a_x
+	local wep_index, wep_stats
 
 	local store  = MOAT_TDM or MOAT_FFA
 	if (store) then
 		local wep_class = net.ReadString()
 		wep_index = net.ReadUInt(16)
 		if (net.ReadBool()) then
-			store.WepCache[wep_class] = {
-				[0] = net.ReadString(),
-				[1] = net.ReadFloat(),
-				[2] = net.ReadFloat(),
-				[3] = net.ReadFloat(),
-				[4] = net.ReadFloat(),
-				[5] = net.ReadFloat(),
-				[6] = net.ReadFloat(),
-				[7] = net.ReadFloat(),
-				[8] = LocalPlayer():EntIndex(),
-				[9] = net.ReadTable(),
-				[10] = net.ReadFloat(),
-				[11] = net.ReadFloat()
-			}
+			store.WepCache[wep_class] = net.ReadTable()
 		elseif (not store.WepCache[wep_class]) then
 			net.Start "MOAT_NO_STORED"
 				net.WriteString(wep_class)
@@ -539,401 +693,43 @@ function MOAT_LOADOUT.UpdateWep()
 			return
 		end
 
-		local v = store.WepCache[wep_class]
-		wep_name = v[0]
-		wep_d = v[1]
-		wep_f = v[2]
-		wep_m = v[3]
-		wep_r = v[4]
-		wep_a = v[5]
-		wep_v = v[6]
-		wep_p = v[7]
-		wep_owner = v[8]
-		wep_stats = v[9]
-		wep_a_x = v[10]
-		wep_a_y = v[11]
+		wep_stats = store.WepCache[wep_class]
 	else
 		wep_index = net.ReadUInt(16)
-		wep_name = net.ReadString()
-		wep_d = net.ReadFloat()
-		wep_f = net.ReadFloat()
-		wep_m = net.ReadFloat()
-		wep_r = net.ReadFloat()
-		wep_a = net.ReadFloat()
-		wep_v = net.ReadFloat()
-		wep_p = net.ReadFloat()
 		wep_stats = net.ReadTable()
-		wep_a_x = net.ReadFloat()
-		wep_a_y = net.ReadFloat()
 	end
 
-	/*if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
+	--[[if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
 		if (GetConVar("moat_showstats_spawn"):GetInt() == 1) then
 			if (wep_stats.item and wep_stats.item.Kind ~= "Melee") then
 				m_DrawFoundItemAdd(wep_stats, "pickup")
 			end
 		end
-	end*/
+	end]]
 
 	local name = "moat_StatRefresh" .. wep_index
 	timer.Create(name, 0.1, 0, function()
 		local wep = Entity(wep_index)
 
-		if (wep.Weapon) then
-			local prim = wep.Weapon.Primary
-
-			if (prim and prim.Damage) then
-				wep.Weapon.Primary.Damage = wep_d
-			end
-
-			if (prim and prim.Delay) then
-				wep.Weapon.Primary.Delay = wep_f
-			end
-
-			if (prim and prim.ClipSize) then
-				wep.Weapon.Primary.ClipSize = wep_m
-
-				if (prim and prim.DefaultClip) then
-					wep.Weapon.Primary.DefaultClip = wep_m
-				end
-
-				if (prim and prim.ClipMax) then
-					wep.Weapon.Primary.ClipMax = (wep_m * 3)
-				end
-			end
-
-			if (prim and prim.Recoil) then
-				wep.Weapon.Primary.Recoil = wep_r
-			end
-
-			if (prim) then
-				if (prim.Cone) then
-					prim.Cone = wep_a
-				end
-				if (prim.ConeX) then
-					prim.ConeX = wep_a_x
-				end
-				if (prim.ConeY) then
-					prim.ConeY = wep_a_y
-				end
-			end
-
-			if (wep.Weapon.PushForce) then
-				wep.Weapon.PushForce = wep_v
-			end
-
-			if (wep.Weapon.Secondary.Delay) then
-				wep.Weapon.Secondary.Delay = wep_p
-			end
-
-			if (wep.Weapon.PrintName and wep_name) then
-				wep.Weapon.PrintName = wep_name
-				wep.Weapon.ItemName = wep_name
-			end
-
-			if (wep_stats) then
-				if (wep_stats.n) then
-					wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\""
-					wep.Weapon.ItemName = wep.Weapon.PrintName
-				end
-				
-				wep.Weapon.ItemStats = wep_stats
-
-				local color, dream = nil
-
-				if (wep.WElements or wep.Offset) then
-					wep.OldDrawWorldModel = wep.DrawWorldModel
-				end
-
-				if (wep_stats.p2 and MOAT_PAINT and MOAT_PAINT.Paints and MOAT_PAINT.Paints[wep_stats.p2]) then
-					local col = MOAT_PAINT.Paints[wep_stats.p2]
-					if (col) then
-						if (col.Dream) then
-							dream = true
-							col = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
-						else
-							col = col[2]
-						end
-
-						wep:SetColor(Color(col[1], col[2], col[3], 255))
-						wep:SetRenderMode(RENDERMODE_TRANSADDFRAMEBLEND)
-						wep:SetMaterial("models/debug/debugwhite")
-					end
-
-					color = Color(col[1], col[2], col[3], 255)
-					local mat = "models/debug/debugwhite"
-
-					function wep:DrawWorldModel(c)
-						self.Owner.CustomColor = color
-
-						if (self.OldDrawWorldModel and not c) then
-							self.OldDrawWorldModel(self, true)
-						else
-							self:DrawModel()
-						end
-
-						if (dream) then
-							self:SetColor(Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b))
-						else
-							self:SetColor(color)
-						end
-
-						self:SetMaterial(mat)
-						self.Owner.CustomColor = nil
-					end
-				elseif (wep_stats.p and MOAT_PAINT and MOAT_PAINT.Tints and MOAT_PAINT.Tints[wep_stats.p]) then
-					local col = MOAT_PAINT.Tints[wep_stats.p]
-					if (col) then
-						if (col.Dream) then
-							dream = true
-							col = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
-						else
-							col = col[2]
-						end
-
-						wep:SetColor(Color(col[1], col[2], col[3]))
-						wep:SetRenderMode(RENDERMODE_TRANSCOLOR)
-					end
-
-					color = Color(col[1], col[2], col[3])
-
-					if (not wep_stats.p3) then
-						function wep:DrawWorldModel(c)
-							if (self.OldDrawWorldModel and not c) then
-								self:OldDrawWorldModel(true)
-							else
-								self:DrawModel()
-							end
-							
-							if (dream) then
-								self:SetColor(Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b))
-							else
-								self:SetColor(color)
-							end
-						end
-					end
-				end
-
-				if (wep_stats.p3 and MOAT_PAINT and MOAT_PAINT.Skins and MOAT_PAINT.Skins[wep_stats.p3]) then
-					local mat_str, name_str, new_mat = MOAT_PAINT.Skins[wep_stats.p3][2], MOAT_PAINT.Skins[wep_stats.p3][1]
-
-					if (mat_str:match "^http") then
-						new_mat = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
-							["$model"] = 1,
-							["$alphatest"] = 1,
-							["$vertexcolor"] = 1,
-							["$basetexture"] = "error"
-						})
-
-						if (mat_str:match "vtf$") then
-							local function set(m)
-								new_mat:SetTexture("$basetexture", m)
-							end
-
-							local m = cdn.Texture(mat_str, set)
-							if (m) then
-								set(m)
-							end
-						else
-							local function set(m)
-								new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
-							end
-
-							local m = cdn.Image(mat_str, set)
-							if (m) then
-								set(m)
-							end
-						end
-					else
-						wep:SetMaterial(mat_str)
-					end
-
-					if (wep.OldDrawWorldModel) then
-						function wep:DrawWorldModel(c)
-							self.Owner.CustomColor = color
-
-							if (new_mat) then
-								render.MaterialOverride(new_mat)
-								render.SetColorModulation(1, 1, 1)
-
-								if (dream) then
-									render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
-								elseif (color) then
-									render.SetColorModulation(color.r / 255, color.g / 255, color.b / 255)
-								else
-									render.SetColorModulation(1, 1, 1)
-								end
-
-								render.SetBlend(1)
-							end
-
-							if (self.Offset) then
-								local hand, offset, rotate
-								local pl = self:GetOwner()
-
-								if (IsValid(pl) and pl.SetupBones) then
-									pl:SetupBones()
-									pl:InvalidateBoneCache()
-									self:InvalidateBoneCache()
-								end
-
-								if (IsValid(pl)) then
-									local boneIndex = pl:LookupBone("ValveBiped.Bip01_R_Hand")
-
-									if (boneIndex) then
-										local pos, ang
-
-										local mat = pl:GetBoneMatrix(boneIndex)
-										if (mat) then
-											pos, ang = mat:GetTranslation(), mat:GetAngles()
-										else
-											pos, ang = pl:GetBonePosition( handBone )
-										end
-
-										pos = pos + ang:Forward() * self.Offset.Pos.Forward + ang:Right() * self.Offset.Pos.Right + ang:Up() * self.Offset.Pos.Up
-										ang:RotateAroundAxis(ang:Up(), self.Offset.Ang.Up)
-										ang:RotateAroundAxis(ang:Right(), self.Offset.Ang.Right)
-										ang:RotateAroundAxis(ang:Forward(), self.Offset.Ang.Forward)
-										self:SetRenderOrigin(pos)
-										self:SetRenderAngles(ang)
-										self:DrawModel()
-									end
-								else
-									self:SetRenderOrigin(nil)
-									self:SetRenderAngles(nil)
-									self:DrawModel()
-								end
-							else
-								if (self.OldDrawWorldModel and not c) then
-									self.OldDrawWorldModel(self, true)
-								else
-									self:DrawModel()
-								end
-							end
-
-							if (new_mat) then
-								render.MaterialOverride(nil)
-								render.SetColorModulation(1, 1, 1)
-							else
-								self:SetMaterial(mat_str)
-							end
-							--[[
-							local m = cdn.Image(mat_str)
-							if (m and not self.SetMeme) then
-								self.SetMeme = true
-								new_mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
-								self:SetSubMaterial(0, "!"..new_mat:GetName())
-							else
-								self:SetMaterial(mat_str)
-							end
-							]]
-							self.Owner.CustomColor = nil
-						end
-					else
-						wep.RenderGroup = RENDERGROUP_TRANSLUCENT
-						function wep:DrawWorldModelTranslucent(c)
-							self.Owner.CustomColor = color
-							if (self.OldDrawWorldModel and not c) then
-								render.MaterialOverride(new_mat)
-
-								if (dream) then
-									render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
-								elseif (color) then
-									render.SetColorModulation(color.r / 255, color.g / 255, color.b / 255)
-								else
-									render.SetColorModulation(1, 1, 1)
-								end
-
-								render.SetBlend(1)
-								self.OldDrawWorldModel(self, true)
-								render.MaterialOverride(nil)
-							elseif (new_mat) then
-								render.MaterialOverride(new_mat)
-
-								if (dream) then
-									render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
-								elseif (color) then
-									render.SetColorModulation(color.r / 255, color.g / 255, color.b / 255)
-								else
-									render.SetColorModulation(1, 1, 1)
-								end
-
-								render.SetBlend(1)
-								self:DrawModel()
-								render.MaterialOverride(nil)
-							else
-								self:DrawModel()
-							end
-
-							if (mat_str:match "vtf$" and not self.SetMeme) then
-								local m = cdn.Texture(mat_str)
-								if (m and not self.SetMeme) then
-									self.SetMeme = true
-									new_mat:SetTexture("$basetexture", m)
-									self:SetSubMaterial(0, "!"..new_mat:GetName())
-								end
-							elseif (mat_str:match "^http" and not self.SetMeme) then
-								local m = cdn.Image(mat_str)
-								if (m and not self.SetMeme) then
-									self.SetMeme = true
-									new_mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
-									self:SetSubMaterial(0, "!"..new_mat:GetName())
-								end
-							elseif (not self.SetMeme) then
-								self:SetMaterial(mat_str)
-							end
-
-							self.Owner.CustomColor = nil
-						end
-					end
-				end
-
-				if (wep_stats.p or wep_stats.p2 or wep_stats.p3) then
-					function wep:PreDrawViewModel(vm, wpn, pl)
-						PrePaintViewModel(wpn)
-					end
-
-					function wep:PostDrawViewModel(vm, wpn, pl)
-						PostPaintViewModel(wpn)
-					end
-				end
-
-				if (wep_stats.item and wep_stats.item.Rarity and wep_stats.item.Rarity == 9) then
-					if (not wep.LastDrawWorldModel) then
-						wep.LastDrawWorldModel = wep.RenderGroup == RENDERGROUP_TRANSLUCENT and wep.DrawWorldModelTranslucent or wep.DrawWorldModel
-					end
-
-					wep[wep.RenderGroup == RENDERGROUP_TRANSLUCENT and "DrawWorldModelTranslucent" or "DrawWorldModel"] = function(self, c)
-						if (self.LastDrawWorldModel and not c) then
-							self:LastDrawWorldModel(true)
-						end
-						
-						if (not rarity_names) then
-							return
-						end
-
-						render.MaterialOverride(propspec_outline)
-						render.SuppressEngineLighting(true)
-						render.SetColorModulation(rarity_names[9][2].r / 255, rarity_names[9][2].g / 255, rarity_names[9][2].b / 255)
-
-						self:SetModelScale(1.05, 0)
-						self:DrawModel()
-
-						render.SetColorModulation(1, 1, 1)
-						render.SuppressEngineLighting(false)
-						render.MaterialOverride(nil)
-					end
-
-					MOAT_PLANETARY.Weapons[wep] = true
-					wep.Planetary = true
-				end
-			end
-
-			timer.Remove(name)
+		if (not IsValid(wep)) then
+			return
 		end
+
+		if (not wep:IsWeapon() or not wep_stats) then
+			timer.Remove(name)
+			return
+		end
+
+		wep.ItemStats = wep_stats
+
+		if (wep_stats.item and wep_stats.item.Rarity and wep_stats.item.Rarity == 9) then
+			MOAT_LOADOUT.ApplyPlanetary(wep)
+		end
+
+		timer.Remove(name)
 	end)
 end
-net.Receive("MOAT_UPDATE_WEP", MOAT_LOADOUT.UpdateWep)
+net.Receive("MOAT_UPDATE_WEP", function(...) MOAT_LOADOUT.UpdateWep(...) end)
 
 hook.Add("PostDrawViewModel", "Render.Planetary.Effects", function(ent, pl, wpn)
 	if (wpn.Planetary or MOAT_PLANETARY.Weapons[wpn]) then

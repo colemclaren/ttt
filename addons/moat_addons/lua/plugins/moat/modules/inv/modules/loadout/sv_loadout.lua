@@ -140,73 +140,42 @@ function MOAT_LOADOUT.SaveLoadedWeapons()
 end
 hook.Add("TTTBeginRound", "moat_SaveLoadedWeapons", MOAT_LOADOUT.SaveLoadedWeapons)
 */
-function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, item)
-    local wep = tbl
+
+function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
     local itemtbl = table.Copy(loadout_tbl)
 
     if (wep.ItemName) then
         wep.PrintName = wep.ItemName
     end
 
-    if (item and item.Name and wep.PrintName and wep.ClassName and wep.PrintName == util.GetWeaponName(wep.ClassName)) then
+    if (itemtbl.n) then
+        wep.PrintName = "\"" .. itemtbl.n:Replace("''", "'") .. "\""
+    elseif (item and item.Name and wep.PrintName and wep.ClassName and wep.PrintName == util.GetWeaponName(wep.ClassName)) then
         if (item.Kind and item.Kind == "tier") then
             wep.PrintName = string(item.Name, " ", wep.PrintName)
         else
             wep.PrintName = item.Name
         end
-
-        wep.ItemName = wep.PrintName
     end
+    wep.ItemName = wep.PrintName
+    wep:SetRealPrintName(wep.PrintName)
 
     if (itemtbl.s) then
-        if (itemtbl.s.d) then
-            wep.Primary.Damage = wep.Primary.Damage * (1 + ((itemtbl.item.Stats.Damage.min + ((itemtbl.item.Stats.Damage.max - itemtbl.item.Stats.Damage.min) * itemtbl.s.d)) / 100))
-        end
-
-        if (itemtbl.s.f) then
-            wep.Primary.Delay = wep.Primary.Delay * (1 - ((itemtbl.item.Stats.Firerate.min + ((itemtbl.item.Stats.Firerate.max - itemtbl.item.Stats.Firerate.min) * itemtbl.s.f)) / 100))
-        end
-
-        if (itemtbl.s.m) then
-            wep.Primary.ClipSize = math.Round(wep.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * itemtbl.s.m)) / 100)))
-            wep.Primary.DefaultClip = wep.Primary.ClipSize
-            wep.Primary.ClipMax = (wep.Primary.DefaultClip * 3)
-        end
-
-        if (itemtbl.s.a) then
-            local mult = 1 - ((itemtbl.item.Stats.Accuracy.min + ((itemtbl.item.Stats.Accuracy.max - itemtbl.item.Stats.Accuracy.min) * itemtbl.s.a)) / 100)
-            local pri = wep.Primary
-            if (pri) then
-                if (pri.Cone) then
-                    pri.Cone = pri.Cone * mult
-                end
-                if (pri.ConeX) then
-                    pri.ConeX = pri.ConeX * mult
-                end
-                if (pri.ConeY) then
-                    pri.ConeY = pri.ConeY * mult
-                end
+        for s_idx, mult in pairs(itemtbl.s) do
+            local mod = MODS.Settable[s_idx]
+            if (not mod) then
+                print("s_idx fail: ", s_idx)
+                continue
             end
-        end
 
-        if (itemtbl.s.k) then
-            wep.Primary.Recoil = wep.Primary.Recoil * (1 + ((itemtbl.item.Stats.Kick.min + ((itemtbl.item.Stats.Kick.max - itemtbl.item.Stats.Kick.min) * itemtbl.s.k)) / 100))
-        end
+            if (not mod.valid(wep)) then
+                print("mod invalid: " .. wep:GetClass() .. " s_idx: " .. s_idx)
+                continue
+            end
+            
+            local mult = mod.getmult(itemtbl.item.Stats, mult)
 
-        if (itemtbl.s.w) then
-            wep.weight_mod = 1 + ((itemtbl.item.Stats.Weight.min + ((itemtbl.item.Stats.Weight.max - itemtbl.item.Stats.Weight.min) * itemtbl.s.w)) / 100)
-        end
-
-        if (itemtbl.s.r) then
-            wep.range_mod = 1 + ((itemtbl.item.Stats.Range.min + ((itemtbl.item.Stats.Range.max - itemtbl.item.Stats.Range.min) * itemtbl.s.r)) / 100)
-        end
-
-        if (itemtbl.s.v) then
-            wep.PushForce = wep.PushForce * (1 + ((itemtbl.item.Stats.Force.min + ((itemtbl.item.Stats.Force.max - itemtbl.item.Stats.Force.min) * itemtbl.s.v)) / 100))
-        end
-
-        if (itemtbl.s.p) then
-            wep.Secondary.Delay = wep.Secondary.Delay * (1 - ((itemtbl.item.Stats.Pushrate.min + ((itemtbl.item.Stats.Pushrate.max - itemtbl.item.Stats.Pushrate.min) * itemtbl.s.p)) / 100))
+            mod.set(wep, mult)
         end
     end
 
@@ -217,13 +186,31 @@ function MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, item)
         m_ApplyTalentMods(wep, itemtbl)
     end
 
+    for _, mod in pairs(MODS.Networked) do
+        if (not mod.valid(wep)) then
+            continue
+        end
+
+        mod.network(wep)
+    end
+
     wep.ItemStats = itemtbl or {}
 
     return wep
 end
 
-function m_ApplyWeaponMods(tbl, loadout_tbl, item)
-    return MOAT_LOADOUT.ApplyWeaponMods(tbl, loadout_tbl, item)
+function m_ApplyWeaponMods(wep, loadout_tbl, item)
+    if (loadout_tbl.p3) then
+        wep:SetSkinID(loadout_tbl.p3)
+    end
+    if (loadout_tbl.p2) then
+        wep:SetPaintID(loadout_tbl.p2)
+    elseif (loadout_tbl.p) then
+        print(loadout_tbl.p, "TINT")
+        wep:SetTintID(loadout_tbl.p)
+    end
+
+    return MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
 end
 
 function MOAT_LOADOUT.ApplyOtherModifications(tbl, loadout_tbl, item)
@@ -446,7 +433,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             local item_old = table.Copy(v.item)
             v.item = m_GetItemFromEnum(v.u)
 
-            MOAT_LOADOUT.ApplyWeaponMods(wpn_tbl, v, v.item)
+            m_ApplyWeaponMods(v3, v, v.item)
             local clipsize = wpn_tbl.Primary.ClipSize
             local defaultclip = wpn_tbl.Primary.DefaultClip
             local add_ammo = clipsize
@@ -460,14 +447,6 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
 
             net.Start("MOAT_UPDATE_WEP")
             net.WriteUInt(v3:EntIndex(), 16)
-            net.WriteString(wpn_tbl.ItemName or wpn_tbl.PrintName or "NAME_ERROR1")
-            net.WriteFloat(wpn_tbl.Primary.Damage or 0)
-            net.WriteFloat(wpn_tbl.Primary.Delay or 0)
-            net.WriteFloat(wpn_tbl.Primary.ClipSize or 0)
-            net.WriteFloat(wpn_tbl.Primary.Recoil or 0)
-            net.WriteFloat(wpn_tbl.Primary.Cone or 0)
-            net.WriteFloat(wpn_tbl.PushForce or 0)
-            net.WriteFloat(wpn_tbl.Secondary.Delay or 0)
 
             if (v.t) then
                 v.Talents = {}
@@ -478,11 +457,9 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             end
 
             net.WriteTable(v or {})
-            net.WriteFloat(wpn_tbl.Primary.ConeX or 0)
-            net.WriteFloat(wpn_tbl.Primary.ConeY or 0)
 
             local sent = false
-            if ((v.item and v.item.Rarity == 9) or v.p2 or v.p or v.p3) then
+            if (v.item and v.item.Rarity == 9) then
                 sent = true
                 net.Broadcast()
             else
@@ -604,14 +581,6 @@ function MOAT_LOADOUT.LoadLoadedLoadouts(ply)
 
         net.Start("MOAT_UPDATE_WEP")
         net.WriteUInt(v[1], 16)
-        net.WriteDouble(wpn_dmg)
-        net.WriteDouble(wpn_delay)
-        net.WriteDouble(wpn_clip)
-        net.WriteDouble(wpn_recoil)
-        net.WriteDouble(wpn_cone)
-        net.WriteDouble(wpn_force)
-        net.WriteDouble(wpn_delay2)
-        net.WriteDouble(wpn_ownerindex)
         net.WriteTable(v[2])
         net.Send(ply)
     end*/
@@ -737,17 +706,7 @@ local function NetworkRegularWeapon(wep)
 
     net.Start("MOAT_UPDATE_WEP")
     net.WriteUInt(wep:EntIndex(), 16)
-    net.WriteString(tbl.name or "NAME_ERROR2")
-    net.WriteFloat(tbl.stats[1])
-    net.WriteFloat(tbl.stats[2])
-    net.WriteFloat(tbl.stats[3])
-    net.WriteFloat(tbl.stats[4])
-    net.WriteFloat(tbl.stats[5])
-    net.WriteFloat(tbl.stats[6])
-    net.WriteFloat(tbl.stats[7])
     net.WriteTable(tbl.info or {})
-    net.WriteFloat(tbl.stats[8])
-    net.WriteFloat(tbl.stats[9])
     net.Broadcast()
 end
 

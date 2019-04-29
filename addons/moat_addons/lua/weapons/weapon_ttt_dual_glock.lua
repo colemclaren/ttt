@@ -123,14 +123,6 @@ function SWEP:DrawWorldModel()
         local lpos, lang = WorldToLocal(WorldModel:GetPos(), WorldModel:GetAngles(), mpos, mang)
         pos, ang = LocalToWorld(lpos, lang, pos, ang)
 
-        if (self.Offset) then
-            pos = pos + ang:Forward() * self.Offset.Pos.Forward + ang:Right() * self.Offset.Pos.Right + ang:Up() * self.Offset.Pos.Up
-            ang:RotateAroundAxis(ang:Up(), self.Offset.Ang.Up)
-            ang:RotateAroundAxis(ang:Right(), self.Offset.Ang.Right)
-            ang:RotateAroundAxis(ang:Forward(), self.Offset.Ang.Forward)
-            ang:RotateAroundAxis(ang:Forward(), 180)
-        end
-
         local offsetVec = self.OffsetVector or Vector(0, -2, 0)
         local offsetAng = self.OffsetAngle or Angle(-5, -10, 0)
 
