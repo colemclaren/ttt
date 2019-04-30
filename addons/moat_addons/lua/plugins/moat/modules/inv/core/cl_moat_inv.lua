@@ -3008,10 +3008,14 @@ function m_OpenInventory(ply2, utrade)
             --surface_DrawTexturedRect( 1, 1 + ( h / 2 ), w - 2, ( h / 2 ) - 2 )
             local RARITY_TEXT = ""
 
+            if (ITEM_HOVERED.nt) then
+                RARITY_TEXT = LocalPlayer():Nick() .. "'s "
+            end
+
             if (ITEM_HOVERED.item.Kind ~= "tier") then
-                RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
             else
-                RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
             m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4s", grad_w + 1, grad_y2, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -6141,7 +6145,7 @@ end)
 local MOAT_ITEM_FOUND_QUEUE = {}
 local MOAT_ITEM_IS_BEING_DRAWN = false
 
-function m_DrawFoundItem(tbl, s_type)
+function m_DrawFoundItem(tbl, s_type, name)
     local itemtbl = tbl
     local m_LoadoutTypes = {}
     m_LoadoutTypes[0] = "Melee"
@@ -6246,10 +6250,14 @@ function m_DrawFoundItem(tbl, s_type)
             surface_DrawTexturedRectRotated(grad_x2, grad_y2, grad_w, grad_h, 180)
             local RARITY_TEXT = ""
 
+            if (name and ITEM_HOVERED.nt) then
+                RARITY_TEXT = name .. "'s "
+            end
+
             if (ITEM_HOVERED.item.Kind ~= "tier") then
-                RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
             else
-                RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
 			m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4s", grad_w + 1, grad_y2, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)

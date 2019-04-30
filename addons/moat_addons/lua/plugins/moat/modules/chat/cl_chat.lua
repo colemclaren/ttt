@@ -325,7 +325,7 @@ local function MouseRelease()
     MouseReleasedX, MouseReleasedY = pan:CursorPos()
 end
 local mouseDown
-local function ChatThink() // GUIMousePressed/Released hooks are both broken, thanks garry :^) (aren't called when pressed on chat)
+local function ChatThink() -- GUIMousePressed/Released hooks are both broken, thanks garry :^) (aren't called when pressed on chat)
     if (not moat_chat.isopen) then return end
     
     local down = input.IsMouseDown(MOUSE_LEFT)
@@ -724,7 +724,7 @@ function moat_chat.IsHovering(self, w, h, x, y)
     end
 end
 
-function moat_chat.DrawText(self, texte, texttbl, a)
+function moat_chat.DrawText(self, texte, texttbl, a, name)
 
     surface_SetFont("moat_ChatFont")
 
@@ -775,7 +775,7 @@ function moat_chat.DrawText(self, texte, texttbl, a)
             surface_DrawLine(text_x, text_y + text_h - 1, text_x + text_w, text_y + text_h - 1)
 
             if (input.IsMouseDown(MOUSE_LEFT) and moat_chat.click <= CurTime()) then
-                m_DrawFoundItem(itemtbl, "chat")
+                m_DrawFoundItem(itemtbl, "chat", name)
                 moat_chat.click = CurTime() + 1
             end
         end
@@ -881,7 +881,7 @@ function moat_chat.ChatObjectPaint(self)
 			return
 		end
 
-        moat_chat.DrawText(self, texte or "", self.Text[i], a)
+        moat_chat.DrawText(self, texte or "", self.Text[i], a, self.Text[1][1])
     end
 end
 
