@@ -33,7 +33,7 @@ function wild_t1(weapon,talent_mods)
         end 
     end
 
-    local talent, tk = table.Copy(MOAT_TALENTS[69]), 1 --table.Random(talents)
+    local talent, tk = table.Random(talents)
 
     local t = {
         e = talent.ID,
