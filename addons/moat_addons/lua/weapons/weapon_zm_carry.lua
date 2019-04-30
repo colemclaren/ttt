@@ -166,44 +166,44 @@ end
 
 if SERVER then
 
-local ent_diff = vector_origin
-local ent_diff_time = CurTime()
+   local ent_diff = vector_origin
+   local ent_diff_time = CurTime()
 
-local stand_time = 0
-function SWEP:Think()
-   BaseClass.Think(self)
-   if not self:CheckValidity() then return end
+   local stand_time = 0
+   function SWEP:Think()
+      BaseClass.Think(self)
+      if not self:CheckValidity() then return end
 
-   -- If we are too far from our object, force a drop. To avoid doing this
-   -- vector math extremely often (esp. when everyone is carrying something)
-   -- even though the occurrence is very rare, limited to once per
-   -- second. This should be plenty to catch the rare glitcher.
-   if CurTime() > ent_diff_time then
-      ent_diff = self:GetPos() - self.EntHolding:GetPos()
-      if ent_diff:Dot(ent_diff) > 40000 then
-         self:Reset()
-         return
+      -- If we are too far from our object, force a drop. To avoid doing this
+      -- vector math extremely often (esp. when everyone is carrying something)
+      -- even though the occurrence is very rare, limited to once per
+      -- second. This should be plenty to catch the rare glitcher.
+      if CurTime() > ent_diff_time then
+         ent_diff = self:GetPos() - self.EntHolding:GetPos()
+         if ent_diff:Dot(ent_diff) > 40000 then
+            self:Reset()
+            return
+         end
+
+         ent_diff_time = CurTime() + 1
       end
 
-      ent_diff_time = CurTime() + 1
-   end
+      if CurTime() > stand_time then
 
-   if CurTime() > stand_time then
+         if PlayerStandsOn(self.EntHolding) then
+            self:Reset()
+            return
+         end
 
-      if PlayerStandsOn(self.EntHolding) then
-         self:Reset()
-         return
+         stand_time = CurTime() + 0.1
       end
 
-      stand_time = CurTime() + 0.1
+      self.CarryHack:SetPos(self.Owner:EyePos() + self.Owner:GetAimVector() * 70)
+
+      self.CarryHack:SetAngles(self.Owner:GetAngles())
+
+      self.EntHolding:PhysWake()
    end
-
-   self.CarryHack:SetPos(self.Owner:EyePos() + self.Owner:GetAimVector() * 70)
-
-   self.CarryHack:SetAngles(self.Owner:GetAngles())
-
-   self.EntHolding:PhysWake()
-end
 
 end
 
@@ -237,7 +237,7 @@ function SWEP:MoveObject(phys, pdir, maxforce, is_ragdoll)
    phys:ApplyForceCenter(pdir)
 end
 
-function SWEP:GetRange(target)
+function SWEP:GetTargetRange(target)
    if IsValid(target) and target:IsWeapon() and allow_wep:GetBool() then
       return wep_range:GetFloat()
    elseif IsValid(target) and target:GetClass() == "prop_ragdoll" then
@@ -296,7 +296,7 @@ function SWEP:DoAttack(pickup)
       if CLIENT then return end
 
       if pickup then
-         if (ply:EyePos() - trace.HitPos):Length() < self:GetRange(ent) then
+         if (ply:EyePos() - trace.HitPos):Length() < self:GetTargetRange(ent) then
 
             if self:AllowPickup(ent) then
                self:Pickup()

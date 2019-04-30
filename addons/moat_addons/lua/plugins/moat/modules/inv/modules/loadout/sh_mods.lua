@@ -10,7 +10,7 @@ local function build(name, getter, Type, internal, always_valid)
             return wep["Set" .. name](wep, getter(wep)[internal or name] or invalids[Type])
         end,
         valid = function(wep)
-            return always_valid or (pcall(getter, wep)) and getter(wep) and getter(wep)[internal or name] and true or false
+            return always_valid or (pcall(getter, wep)) and getter(wep) and getter(wep)[internal or name] or false
         end,
         receive = function(wep)
             if (wep["Get" .. name](wep) == invalids[Type]) then
@@ -42,7 +42,7 @@ MODS.Networked = {
             return wep:SetMagazine(wep.Primary.ClipSize or invalids.Float)
         end,
         valid = function(wep)
-            return wep.Primary and wep.Primary.ClipSize
+            return wep.Primary and wep.Primary.ClipSize and wep.Primary.ClipSize > 0
         end,
         receive = function(wep)
             if (wep:GetMagazine() == invalids[Type]) then
