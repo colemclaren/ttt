@@ -1,4 +1,6 @@
-
+if (not TALENT) then
+    TALENT = {DoThing=true}
+end
 TALENT.ID = 34
 TALENT.Name = "Wild! - Tier 1"
 TALENT.NameEffect = "enchanted"
@@ -31,7 +33,7 @@ function wild_t1(weapon,talent_mods)
         end 
     end
 
-    local talent, tk = table.Random(talents)
+    local talent, tk = table.Copy(MOAT_TALENTS[69]), 1 --table.Random(talents)
 
     local t = {
         e = talent.ID,
@@ -42,31 +44,35 @@ function wild_t1(weapon,talent_mods)
     for k,v in pairs(talent.Modifications) do
         t.m[k] = 0
     end
-    table.insert(weapon.Weapon.Talents,t)
-    table.insert(weapon.Weapon.ItemStats.t,t)
-    table.insert(weapon.Weapon.ItemStats.Talents,talent)
     -- weapon.Weapon.Talents[tier] = t
     -- weapon.Weapon.ItemStats.t[tier] = t
     -- weapon.Weapon.ItemStats.Talents[tier] = talent
 
-    if loadout_weapon_indexes[weapon.Weapon:EntIndex()] then
-        table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents,t)
-        -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents[tier] = t
-        table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.t,t)
-        -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.t[tier] = t
-        table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents,talent)
-        -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents[tier] = talent
+
+    local function dotalent()
+        table.insert(weapon.Weapon.Talents,t)
+        table.insert(weapon.Weapon.ItemStats.t,t)
+        table.insert(weapon.Weapon.ItemStats.Talents,talent)
+
+        if loadout_weapon_indexes[weapon.Weapon:EntIndex()] then
+            table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents,t)
+            -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents[tier] = t
+            table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.t,t)
+            -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.t[tier] = t
+            table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents,talent)
+            -- loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents[tier] = talent
+        end
+
+        if talent.OnWeaponSwitch then
+            talent:OnWeaponSwitch(weapon:GetOwner(), weapon, true, t.m)
+        end
+        m_ApplyTalentsToWeapon(weapon.Weapon,t)
     end
 
-    if talent.OnWeaponSwitch then
-        talent:OnWeaponSwitch(weapon:GetOwner(), weapon, true, t.m)
-    end
-    if talent.ID == 69 then 
-        timer.Simple(5,function()
-            m_ApplyTalentsToWeapon(weapon.Weapon,t)
-        end)
+    if talent.ID == 69 then
+        timer.Simple(5, dotalent)
     else
-        m_ApplyTalentsToWeapon(weapon.Weapon,t)
+        dotalent()
     end
 
     for k,v in pairs(talent) do
@@ -88,4 +94,9 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
     if (chance > math.random() * 100) and GetRoundState() ~= ROUND_PREP then
     	wild_t1(att:GetActiveWeapon(),talent_mods)
     end
+end
+if (TALENT.DoThing) then
+    MOAT_TALENTS[TALENT.ID] = TALENT
+    TALENT.DoThing = nil
+    TALENT = nil
 end
