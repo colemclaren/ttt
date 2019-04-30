@@ -9,7 +9,7 @@ function MOAT_GIFTS.UseEmptyGift(pl, slot, item, cslot, citem)
 
 	if (not i or not d) then return end
 	if (not d.c) then return end
-	if (citem.item.NotTradeable and not moat.isdev(pl)) then
+	if ((d.nt or citem.item.NotTradeable) and not moat.isdev(pl)) then
 		D3A.Chat.SendToPlayer2(pl, Color(200, 0, 0), "This item is untradeable")
 		return false
 	end

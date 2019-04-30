@@ -1804,7 +1804,7 @@ net.Receive("MOAT_TRADE_REM", function(len, ply)
     end
 
 	local item = m_GetItemFromEnum(inv_slot1.u)
-    if (item.NotTradeable) then
+    if (item.NotTradeable or inv_slot1.nt) then
         net.Start("MOAT_TRADE_FAIL")
             net.WriteDouble(tonumber(trade_id))
             net.WriteString("This item is untradeable")
