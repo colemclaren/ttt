@@ -3008,7 +3008,7 @@ function m_OpenInventory(ply2, utrade)
             --surface_DrawTexturedRect( 1, 1 + ( h / 2 ), w - 2, ( h / 2 ) - 2 )
             local RARITY_TEXT = ""
 
-            if (ITEM_HOVERED.nt) then
+            if (ITEM_HOVERED.nt or ITEM_HOVERED.item.NotTradeable) then
                 RARITY_TEXT = LocalPlayer():Nick() .. "'s "
             end
 
@@ -6250,7 +6250,7 @@ function m_DrawFoundItem(tbl, s_type, name)
             surface_DrawTexturedRectRotated(grad_x2, grad_y2, grad_w, grad_h, 180)
             local RARITY_TEXT = ""
 
-            if (name and ITEM_HOVERED.nt) then
+            if (name and (ITEM_HOVERED.nt or ITEM_HOVERED.item.NotTradeable)) then
                 RARITY_TEXT = name .. "'s "
             end
 
