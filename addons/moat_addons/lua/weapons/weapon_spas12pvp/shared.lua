@@ -118,11 +118,10 @@ SWEP.WeaponID = AMMO_SHOTGUN
 SWEP.ENUM = 13
 
 SWEP.Primary.Ammo = "Buckshot"
+SWEP.Primary.Range = 10000
 SWEP.Primary.Recoil = 7
 SWEP.Primary.Damage = 11
 SWEP.Primary.Cone = 0.085
-SWEP.Primary.Range = 450
-SWEP.Primary.FalloffRange = 810
 SWEP.Primary.Delay = 0.8 + 0.2
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.ClipMax = 24

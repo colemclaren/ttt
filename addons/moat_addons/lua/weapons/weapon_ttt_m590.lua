@@ -27,19 +27,20 @@ SWEP.reloadtimer = 0
 
 SWEP.Primary.Sound			= Sound("gunshot_moss_590")		-- script that calls the primary fire sound
 SWEP.Primary.Ammo = "Buckshot"
+SWEP.Primary.Range = 800
 SWEP.Primary.Delay = 1.1 + 0.5
 SWEP.Primary.Recoil = 10
 -- Cone controls distance for damage falloff
 SWEP.Primary.Cone = 0.5
 -- If these exist: 
-SWEP.Primary.ConeY = 0.18
-SWEP.Primary.ConeX = 0.13
+SWEP.Primary.ConeY = 0.13
+SWEP.Primary.ConeX = 0.09
 SWEP.Primary.Damage = 20
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 28
 SWEP.Primary.DefaultClip = 6
-SWEP.Primary.NumShots = 7
+SWEP.Primary.NumShots = 9
 
 
 SWEP.ShellTime			= .45

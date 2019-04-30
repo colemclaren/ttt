@@ -379,20 +379,75 @@ function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
    conex   = conex   or 0.01
    coney   = coney or conex
 
-   local bullet = {}
-   bullet.Num    = numbul
-   bullet.Src    = self.Owner:GetShootPos()
-   bullet.Dir    = self.Owner:GetAimVector()
-   bullet.Spread = Vector( conex, coney, 0 )
-   bullet.Tracer = self.Tracer or 4
-   bullet.TracerName = self.Tracer or "Tracer"
-   bullet.Force  = 10
-   bullet.Damage = dmg
-   if CLIENT and sparkle:GetBool() then
-      bullet.Callback = Sparklies
-   end
+   if (self.Primary and self.Primary.Ammo == "Buckshot") then
+      local bullets = {vector_origin}
+      local curnum = 0
+      local curlayer = 2
+      for i = 2, numbul do
+         if (curnum == (curlayer - 1) * 4) then
+            for x = 1, #bullets do
+               bullets[x] = bullets[x] * (curlayer / (curlayer + 1)) ^ 2
+            end
+            curnum = 0
+            curlayer = curlayer + 1
+         end
+         local x, y = 0, 0
+         if (curnum < curlayer) then
+            -- bottom layer
+            x = curnum / (curlayer - 1) * 2 - 1
+            y = -1 -- curnum / curlayer * 2 - 1
+         elseif (curnum >= (curlayer - 1) * 4 - curlayer) then
+            -- top layer
+            local tmp = curnum - ((curlayer - 1) * 4 - curlayer)
+            x = tmp / (curlayer - 1) * 2 - 1
+            y = 1
+         else
+            x = curnum % 2 == 0 and 1 or -1
+            local layer = math.floor((curnum - curlayer) / 2) + 1
+            y = layer / (curlayer - 1) * 2 - 1
+         end
 
-   self.Owner:FireBullets( bullet )
+         bullets[i] = Vector(x, y)
+
+         curnum = curnum + 1
+      end
+      
+      local aimvec = self.Owner:GetAimVector()
+      local aimang = aimvec:Angle()
+
+      local bullet = {}
+      bullet.Num    = 1
+      bullet.Src    = self.Owner:GetShootPos()
+      bullet.Spread = vector_origin
+      bullet.Tracer = self.Tracer or 4
+      bullet.TracerName = self.Tracer or "Tracer"
+      bullet.Force  = 10
+      bullet.Damage = dmg
+      if CLIENT and sparkle:GetBool() then
+         bullet.Callback = Sparklies
+      end
+
+      for _, bulspread in pairs(bullets) do
+         bullet.Dir    = aimvec + bulspread.x * conex * aimang:Right() + bulspread.y * coney * aimang:Up()
+      
+         self.Owner:FireBullets( bullet )
+      end
+   else
+      local bullet = {}
+      bullet.Num    = numbul
+      bullet.Src    = self.Owner:GetShootPos()
+      bullet.Dir    = self.Owner:GetAimVector()
+      bullet.Spread = Vector( conex, coney, 0 )
+      bullet.Tracer = self.Tracer or 4
+      bullet.TracerName = self.Tracer or "Tracer"
+      bullet.Force  = 10
+      bullet.Damage = dmg
+      if CLIENT and sparkle:GetBool() then
+         bullet.Callback = Sparklies
+      end
+   
+      self.Owner:FireBullets( bullet )
+   end
 
    -- Owner can die after firebullets
    if (not IsValid(self.Owner)) or (not self.Owner:Alive()) or self.Owner:IsNPC() then return end

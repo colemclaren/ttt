@@ -411,7 +411,7 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
     local num = 1
     t.Callback = function(a, tr, d)
         if (d and IsValid(tr.Entity)) then
-            net.Start "shr"
+            net.Start("shr", true)
                 net.WriteUInt(b, 32)
                 net.WriteEntity(tr.Entity)
                 net.WriteEntity(wpn)

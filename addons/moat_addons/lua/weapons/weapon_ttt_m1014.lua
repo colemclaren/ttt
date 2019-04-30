@@ -26,6 +26,7 @@ SWEP.AdminSpawnable			= true
 
 SWEP.Primary.Sound			= Sound("gunshot_benli_m4")		-- script that calls the primary fire sound
 SWEP.Primary.Ammo = "Buckshot"
+SWEP.Primary.Range = 10000
 SWEP.Primary.Damage = 13
 SWEP.Primary.Cone = 0.088
 SWEP.Primary.Delay = 0.7 + 0.2
@@ -33,13 +34,12 @@ SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 6
 SWEP.Primary.Automatic = true
-SWEP.Primary.NumShots = 7
+SWEP.Primary.NumShots = 9
 SWEP.AutoSpawnable      = false
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.reloadtimer = 0
 SWEP.Primary.Recoil			= 7
 
-SWEP.Primary.Ammo			= "buckshot"
 SWEP.Secondary.IronFOV			= 38
 
 SWEP.data 				= {}				--The starting firemode
