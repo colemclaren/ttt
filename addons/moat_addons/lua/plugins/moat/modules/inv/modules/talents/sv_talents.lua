@@ -309,7 +309,7 @@ function m_UpdateItemLevel(weapon_tbl, attacker, exp_to_add)
             if ((cur_lvl + i) % 2 == 0) then
                 local crates = m_GetActiveCrates()
                 local crate = crates[math.random(1, #crates)].Name
-                if #player.GetAll() > 4 then
+                if (player.GetCount() > 4) then
                     attacker:m_DropInventoryItem(crate, "hide_chat_obtained", false, false)
                 end
                 we_saved = true
