@@ -1418,7 +1418,7 @@ function m_InitTradeAccept(trade_id)
         -- if (tostring(offer_player1.alt_data[3]) == tostring(offer_player2:SteamID64())) then
         -- if (tostring(offer_player2.alt_data[2]) == tostring(offer_player1:SteamID64())) then
         -- if (tostring(offer_player2.alt_data[3]) == tostring(offer_player1:SteamID64())) then
-        if (tostring(offer_player1.alt_data[1]) == tostring(offer_player2.alt_data[1])) or (tostring(offer_player1.alt_data[2]) == tostring(offer_player2:SteamID64())) or (tostring(offer_player1.alt_data[3]) == tostring(offer_player2:SteamID64())) or (tostring(offer_player2.alt_data[2]) == tostring(offer_player1:SteamID64())) or (tostring(offer_player2.alt_data[3]) == tostring(offer_player1:SteamID64())) then
+        if (tostring(offer_player1.alt_data[1]) == tostring(offer_player2.alt_data[1])) or (tostring(offer_player1.alt_data[2]) == tostring(offer_player2:SteamID64())) or (tostring(offer_player1.alt_data[3]) == tostring(offer_player2:SteamID64())) or (tostring(offer_player2.alt_data[2]) == tostring(offer_player1:SteamID64())) or (tostring(offer_player2.alt_data[3]) == tostring(offer_player1:SteamID64())) or (tostring(offer_player1.alt_data[2]) == tostring(offer_player2.alt_data[2])) or (tostring(offer_player1.alt_data[2]) == tostring(offer_player2.alt_data[3])) then
             discord.Send("Error Report SV",offer_player1:Nick() .. " (" .. offer_player1:SteamID() .. ") traded with alt of themselves: " .. offer_player2:Nick() .. " (" .. offer_player2:SteamID() .. ")")
         end
     end
