@@ -39,7 +39,7 @@ function GM:HUDWeaponPickedUp( wep )
    pickup.color = pickupclr[role]
    pickup.textcolor = Color(255, 255, 255)
    if (wep.ItemStats and GetConVar("moat_showstats_pickup"):GetInt() == 1 and MOAT_NOT_SPAWNING) then
-      pickup.textcolor =  wep.ItemStats.item.NameColor or rarity_names[ wep.ItemStats.item.Rarity][2]
+      pickup.textcolor =  wep.ItemStats.item.NameColor or rarity_names[ wep.ItemStats.item.Rarity][2]:Copy()
 
       m_DrawFoundItemAdd( wep.ItemStats, "pickup" )
    end

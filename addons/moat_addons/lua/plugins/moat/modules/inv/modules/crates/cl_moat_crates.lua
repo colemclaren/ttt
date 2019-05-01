@@ -511,7 +511,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         M_ITEM.Item = tbl
         M_ITEM.Paint = function(s, w, h)
             local ITEM_NAME_FULL = tbl.Name
-            local name_col = tbl.Color or rarity_names[tbl.Rarity][2]
+            local name_col = tbl.Color or rarity_names[tbl.Rarity][2]:Copy()
             local name_font = "Trebuchet24"
             local draw_name_x = 10
             local draw_name_y = 0

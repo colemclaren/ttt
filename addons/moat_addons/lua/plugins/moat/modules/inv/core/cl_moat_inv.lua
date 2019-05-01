@@ -3000,7 +3000,7 @@ function m_OpenInventory(ply2, utrade)
 
             local draw_name_x = 7
             local draw_name_y = 3
-            local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]
+            local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]:Copy()
             local name_font = "moat_Medium5"
 
             if (ITEM_HOVERED.item.NameEffect) then
@@ -6250,7 +6250,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
             local draw_name_x = 7
             local draw_name_y = 3
-            local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]
+            local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]:Copy()
             local name_font = "moat_Medium5"
 
             if (ITEM_HOVERED.item.NameEffect) then

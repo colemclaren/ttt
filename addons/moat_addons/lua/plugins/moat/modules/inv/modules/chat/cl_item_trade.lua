@@ -46,7 +46,7 @@ net.Receive("MOAT_TRADED_ITEMS", function(len)
                 da_rarity = 8
             end
 
-            local item_color = tbl.item.NameColor or rarity_names[da_rarity][2]
+            local item_color = tbl.item.NameColor or rarity_names[da_rarity][2]:Copy()
 
             table.insert(tab, item_color)
             table.insert(tab, {

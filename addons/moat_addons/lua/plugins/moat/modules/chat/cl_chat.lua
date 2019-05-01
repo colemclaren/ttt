@@ -734,7 +734,7 @@ function moat_chat.DrawText(self, texte, texttbl, a, name)
         local name_font = "moat_ChatFont"
         local draw_name_x = 4 + texttbl[2]
         local draw_name_y = texttbl[3]
-        local name_col = itemtbl.item.NameColor or rarity_names[itemtbl.item.Rarity][2]
+        local name_col = itemtbl.item.NameColor or rarity_names[itemtbl.item.Rarity][2]:Copy()
 
         if (itemtbl.item.NameEffect) then
             local tfx = itemtbl.item.NameEffect

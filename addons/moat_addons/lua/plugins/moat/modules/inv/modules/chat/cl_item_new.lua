@@ -49,7 +49,7 @@ net.Receive("MOAT_OBTAIN_ITEM", function(len)
 	table.insert(tab, has .. " obtained" .. grammar)
 
 	local da_rarity = math.min(tbl.item.Rarity, 8)
-	local item_color = tbl.item.NameColor or rarity_names[da_rarity][2] or Color(255, 255, 255)
+	local item_color = tbl.item.NameColor or rarity_names[da_rarity][2]:Copy() or Color(255, 255, 255)
 	table.insert(tab, item_color)
 	table.insert(tab, {
 		ItemName = ITEM_NAME_FULL,

@@ -577,7 +577,7 @@ local function moat_CustomHUD()
 				surface_SetDrawColor(Color(0, 0, 0, 100))
 				surface_DrawLine(x + 6, y + 23 + draw_xp_lvl, x + w - 6, y + 23 + draw_xp_lvl)
 				surface_DrawLine(x + 6, y + 44 + draw_xp_lvl, x + w - 6, y + 44 + draw_xp_lvl)
-				surface_SetDrawColor(rarity_names[wpn_stats.item.Rarity][2].r, rarity_names[wpn_stats.item.Rarity][2].g, rarity_names[wpn_stats.item.Rarity][2].b, 200)
+				surface_SetDrawColor(rarity_gradient[wpn_stats.item.Rarity].r, rarity_gradient[wpn_stats.item.Rarity].g, rarity_gradient[wpn_stats.item.Rarity].b, rarity_gradient[wpn_stats.item.Rarity].a)
 				local grad_x = x + 1
 				local grad_y = y + 25 + draw_xp_lvl
 				local grad_w = (w - 2) / 2
@@ -599,13 +599,21 @@ local function moat_CustomHUD()
 					RARITY_TEXT = rarity_names[wpn_stats.item.Rarity][1] .. " " .. m_LoadoutTypes[wpn.Slot]
 				end
 
-				m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4s", x + grad_w + 1, grad_y2, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", x + grad_w, grad_y2 - 1, rarity_accents[wpn_stats.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				grad_y2 = grad_y2 - 1
+
+            	for i = 1, 2 do
+					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w + i, grad_y2 + i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w - i, grad_y2 - i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w + i, grad_y2 - i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w - i, grad_y2 + i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				end
+
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4", x + grad_w, grad_y2, rarity_accents[wpn_stats.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
 
 			local draw_name_x = x + 7
 			local draw_name_y = y + 3
-			local name_col = wpn_stats.item.NameColor or rarity_names[wpn_stats.item.Rarity][2]
+			local name_col = wpn_stats.item.NameColor or rarity_names[wpn_stats.item.Rarity][2]:Copy()
 			local name_font = "moat_Medium5"
 
 			if (wpn_stats.item.NameEffect) then

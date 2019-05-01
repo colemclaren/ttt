@@ -180,7 +180,7 @@ local function ccfn(num)
     if (num == 6) then num = 5 end
     if (num == 7) then num = 6 end
 
-    return rarity_names[num][2]
+    return rarity_names[num][2]:Copy()
 end
 
 local function ccfname(num)

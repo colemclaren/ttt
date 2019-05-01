@@ -174,7 +174,7 @@ function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp
 		weapon_str = wpn.ItemName or wpn.PrintName or wpn:GetPrintName() or "Something Strange"
 
 		if (wpn.ItemStats and wpn.ItemStats.item) then
-			weapon_col = wpn.ItemStats.item.NameColor or rarity_names[wpn.ItemStats.item.Rarity][2]
+			weapon_col = wpn.ItemStats.item.NameColor or rarity_names[wpn.ItemStats.item.Rarity][2]:Copy()
 			weapon_eff = wpn.ItemStats.item.NameEffect or nil
 			weapon_rainbow = wpn.ItemStats.item.Rarity == 9
 		end
@@ -190,7 +190,7 @@ function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp
 			local da_col = weapon_col
 
 			if (weapon_rainbow) then
-				da_col = rarity_names[9][2]
+				da_col = rarity_names[9][2]:Copy()
 			end
 
             m_DrawGlowingText(false, weapon_str, "moat_Trebuchet", 0, 20, da_col)
@@ -198,7 +198,7 @@ function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp
 			local da_col = weapon_col
 
 			if (weapon_rainbow) then
-				da_col = rarity_names[9][2]
+				da_col = rarity_names[9][2]:Copy()
 			end
 			
             draw_SimpleTextOutlined(weapon_str, "moat_Trebuchet", 0, 20, da_col, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, self.Colors.shadow)

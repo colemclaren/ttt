@@ -83,7 +83,7 @@ end)
 local function RenderOverrideColor(self)
 	local col = self.Col
 	if (self.Dream) then
-		col = rarity_names[9][2]
+		col = rarity_names[9][2]:Copy()
 	end
 
 	render.SetColorModulation(col.r / 255, col.g / 255, col.b / 255)
@@ -512,7 +512,7 @@ function MOAT_LOADOUT.ApplyPaint(wep, paint)
 	local col = MOAT_PAINT.Paints[paint]
 	if (col) then
 		if (col.Dream) then
-			col = rarity_names[9][2]
+			col = rarity_names[9][2]:Copy()
 		else
 			col = Color(unpack(col[2], 1, 3))
 		end
@@ -545,7 +545,7 @@ function MOAT_LOADOUT.ApplyTint(wep, tint)
 	local col = MOAT_PAINT.Tints[tint]
 	if (col) then
 		if (col.Dream) then
-			col = rarity_names[9][2]
+			col = rarity_names[9][2]:Copy()
 		else
 			col = Color(unpack(col[2], 1, 3))
 		end

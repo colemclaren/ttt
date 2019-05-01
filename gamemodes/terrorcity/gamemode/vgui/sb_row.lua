@@ -446,7 +446,7 @@ function PANEL:LayoutColumns()
 							DrawFrostingText(10, 1.5, text_str, font, draw_x, draw_y, col, Color(255, 255, 255))
 						else
 							if (tfx == "Rainbow") then
-								col = rarity_names[9][2]
+								col = rarity_names[9][2]:Copy()
 							end
 
 							draw.SimpleText(text_str, font, w/2, h/2, col, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
