@@ -135,12 +135,12 @@ end
 -- Networking Helpers --
 ------------------------
 
-local TickInterval = engine.TickInterval()
-local MaxBytes = 30000 * TickInterval
+local TickInterval = engine.TickInterval() * 10
+local MaxBytes = 30000 * TickInterval * 0.8
 local Simple = timer.Simple
 local NextTick = function(func) return Simple(0, func) end
 local IntervalFull = function() return BytesWritten() >= MaxBytes end
-local NetIterate = function(int, data, args)
+NetIterate = function(int, data, args)
 	int = int or 1
 
 	if (not data[int]) then
@@ -179,6 +179,10 @@ local NetIterate = function(int, data, args)
 		WriteBit(0)
 
 	args.send(int, IntervalFull())
+
+	if (not data[int]) then
+		return args.finished()
+	end
 end
 
 function net.WriteArray(data, start_func, write_func, send_func, finished_func, check_func)
