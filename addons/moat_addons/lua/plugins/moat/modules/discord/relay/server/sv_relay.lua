@@ -164,7 +164,7 @@ function m_DrawItemStatsText(itemtbl)
         end
 
         if (itemtbl.s.f) then
-            local firerate_mult = 1 + (itemtbl.item.Stats.Firerate.min + (itemtbl.item.Stats.Firerate.max - itemtbl.item.Stats.Firerate.min) * itemtbl.s.f) / 100
+            local firerate_mult = 1 - (itemtbl.item.Stats.Firerate.min + (itemtbl.item.Stats.Firerate.max - itemtbl.item.Stats.Firerate.min) * itemtbl.s.f) / 100
             wpn_rpm = math.Round(60 / (firerate_mult * wpntbl.Primary.Delay), 1)
         end
 
