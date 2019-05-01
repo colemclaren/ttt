@@ -154,7 +154,7 @@ function m_DrawItemStatsText(itemtbl)
     local stat_sign = "+"
     local stat_color = m_color_green
     local wpn_dmg = math.Round(wpntbl.Primary.Damage, 1)
-    local wpn_rpm = math.Round(60 * (1 / wpntbl.Primary.Delay))
+    local wpn_rpm = math.Round(60 * (1 / wpntbl.Primary.Delay), 1)
     local wpn_mag = math.Round(wpntbl.Primary.ClipSize)
     local stats_text = "```diff\n"
 
@@ -164,7 +164,8 @@ function m_DrawItemStatsText(itemtbl)
         end
 
         if (itemtbl.s.f) then
-            wpn_rpm = math.Round((60 * (1 / wpntbl.Primary.Delay)) * (1 + ((itemtbl.item.Stats.Firerate.min + ((itemtbl.item.Stats.Firerate.max - itemtbl.item.Stats.Firerate.min) * itemtbl.s.f)) / 100)))
+            local firerate_mult = 1 + (itemtbl.item.Stats.Firerate.min + (itemtbl.item.Stats.Firerate.max - itemtbl.item.Stats.Firerate.min) * itemtbl.s.f) / 100
+            wpn_rpm = math.Round(60 / (firerate_mult * wpntbl.Primary.Delay), 1)
         end
 
         if (itemtbl.s.m) then

@@ -671,7 +671,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     local font_large = "moat_ItemDescLarge3"
     local font_small = "moat_ItemDescSmall2"
     local wpn_dmg = math.Round(wpntbl.Primary.Damage, 1)
-    local wpn_rpm = math.Round(60 * (1 / wpntbl.Primary.Delay))
+    local wpn_rpm = math.Round(60 * (1 / wpntbl.Primary.Delay), 1)
     local wpn_mag = math.Round(wpntbl.Primary.ClipSize)
     local wpn_mag_min = 0
     local wpn_mag_max = 0
@@ -682,7 +682,8 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         end
 
         if (itemtbl.s.f) then
-            wpn_rpm = math.Round((60 * (1 / wpntbl.Primary.Delay)) * (1 + ((itemtbl.item.Stats.Firerate.min + ((itemtbl.item.Stats.Firerate.max - itemtbl.item.Stats.Firerate.min) * itemtbl.s.f)) / 100)))
+            local firerate_mult = 1 + (itemtbl.item.Stats.Firerate.min + (itemtbl.item.Stats.Firerate.max - itemtbl.item.Stats.Firerate.min) * itemtbl.s.f) / 100
+            wpn_rpm = math.Round(60 / (firerate_mult * wpntbl.Primary.Delay), 1)
         end
 
         if (itemtbl.s.m) then
