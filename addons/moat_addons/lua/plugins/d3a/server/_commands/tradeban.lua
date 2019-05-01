@@ -3,10 +3,10 @@ COMMAND.Name = "TradeBan"
 COMMAND.Flag = D3A.Config.Commands.SetGroup
 COMMAND.CheckRankWeight = true
 
-COMMAND.Args = {{"string", "Name/SteamID"}, {"string", "Reason"}, {"number", "Length"}, {"string", "TimeUnit"}}
+COMMAND.Args = {{"string", "Name/SteamID"}, {"number", "Length"}, {"string", "TimeUnit"}, {"string", "Reason"}}
 
 function GetTradeBanLength(sid64, cb)
-	moat.mysql("SELECT max(if(unban_time IS NULL, 0, TIMESTAMPDIFF(SECOND, unban_time, CURRENT_TIMESTAMP))) as timeleft, reason from moat_tradebans WHERE steamid64 = ?;",
+	moat.mysql("SELECT max(if(unban_time IS NULL, 0, TIMESTAMPDIFF(SECOND, unban_time, CURRENT_TIMESTAMP))) as timeleft, reason from moat_tradebans WHERE (unban_time IS NULL or unban_time > CURRENT_TIMESTAMP) and steamid64 = ?;",
 		sid64,
 		function(data)
 			return cb(data[1].timeleft, data[1].reason)
