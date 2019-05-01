@@ -98,7 +98,7 @@ rarity_names = {
 	[0] = { "Stock", Color():SetHex "#606e88", { min = 10, max = 20 } }, 
 	[1] = { "Worn", Color():SetHex "#ccccff", { min = 10, max = 20 } }, 
 	[2] = { "Standard",  Color():SetHex "#3976f4", { min = 20, max = 40 } }, 
-	[3] = { "Specialized", Color():SetHex "#d733ff", { min = 60, max = 120 } }, 
+	[3] = { "Specialized", Color():SetHex "#ba33ff", { min = 60, max = 120 } }, 
 	[4] = { "Superior", Color():SetHex "#ff00e7", { min = 240, max = 480 } }, 
 	[5] = { "High-End", Color():SetHex "#fd0b30", { min = 1200, max = 2400 } }, 
 	[6] = { "Ascended", Color():SetHex "#ffe300", { min = 7200, max = 14400 } }, 
