@@ -37,11 +37,11 @@ COMMAND.Run = function(pl, args, supp)
 	local unban_time
 	local targ = args[1]:upper()
 	local banner = IsValid(pl) and pl:SteamID64() or "NULL"
-	local reason = args[2]
+	local reason = table.concat(args, " ", 4)
 
-	if (supp[1] ~= 0 and units2[args[4]:lower()]) then
-		unban_time = string.format("CURRENT_TIMESTAMP + INTERVAL %i %s", supp[1], args[4]:upper():sub(1, -2))
-	elseif (supp[1] == 0 or args[4]:lower() == "perm") then
+	if (supp[1] ~= 0 and units2[args[3]:lower()]) then
+		unban_time = string.format("CURRENT_TIMESTAMP + INTERVAL %i %s", supp[1], args[3]:upper():sub(1, -2))
+	elseif (supp[1] == 0 or args[3]:lower() == "perm") then
 		unban_time = "NULL"
 	else
 		for k,v in pairs(units2) do
