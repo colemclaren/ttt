@@ -951,6 +951,8 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(100, 100, 100, 255))
 end
 
+MOAT_INVENTORY_CREDITS = MOAT_INVENTORY_CREDITS or 0
+NUMBER_OF_SLOTS = NUMBER_OF_SLOTS or 0
 m_Inventory = m_Inventory or {}
 m_Loadout = m_Loadout or {}
 m_Trade = m_Trade or {}
@@ -960,8 +962,6 @@ function m_ClearInventory()
     m_Loadout = {}
     m_Trade = {}
 end
-
-local NUMBER_OF_SLOTS = 0
 
 function m_GetESlots()
     local eslots = 0
@@ -1025,114 +1025,83 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
 	end
 end)
 
-net.Start("MOAT_SEND_INV_ITEM")
-net.SendToServer()
-local m_Credits = 0
-MOAT_INVENTORY_CREDITS = m_Credits
-net.Start("MOAT_SEND_CREDITS")
-net.SendToServer()
-
 net.Receive("MOAT_SEND_CREDITS", function(len)
-    m_Credits = math.Round(net.ReadDouble(), 2)
-    MOAT_INVENTORY_CREDITS = m_Credits
+    MOAT_INVENTORY_CREDITS = math.Round(net.ReadDouble(), 2)
 end)
-/*
-rarity_names = { 
-	{ "Worn", Color(185, 190, 196), { min = 10, max = 20 } }, 
-	{ "Standard", Color(78, 168, 242), { min = 20, max = 40 } }, 
-	{ "Specialized", Color(185, 36, 240), { min = 60, max = 120 } }, 
-	{ "Superior", Color(255, 76, 255), { min = 240, max = 480 } }, 
-	{ "High-End", Color(242, 52, 76), { min = 1200, max = 2400 } }, 
-	{ "Ascended", Color(255, 204, 76), { min = 7200, max = 14400 } }, 
-	{ "Cosmic", Color(0, 200, 76), { min = 25200, max = 50400 } }, 
-	{ "Extinct", Color(255, 146, 37), { min = 2, max = 5000 } }, 
-	{ "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } 
+
+if (NUMBER_OF_SLOTS == 0 || #m_Inventory < NUMBER_OF_SLOTS) then
+	net.Start "MOAT_SEND_INV_ITEM"
+	net.SendToServer()
+
+	net.Start "MOAT_SEND_CREDITS"
+	net.SendToServer()
+end
+
+rarity_names = {
+	[0] = { "Stock", Color():SetHex "#606e88", { min = 10, max = 20 } }, 
+	[1] = { "Worn", Color():SetHex "#ccccff", { min = 10, max = 20 } }, 
+	[2] = { "Standard",  Color():SetHex "#3976f4", { min = 20, max = 40 } }, 
+	[3] = { "Specialized", Color():SetHex "#d733ff", { min = 60, max = 120 } }, 
+	[4] = { "Superior", Color():SetHex "#ff00e7", { min = 240, max = 480 } }, 
+	[5] = { "High-End", Color():SetHex "#fd0b30", { min = 1200, max = 2400 } }, 
+	[6] = { "Ascended", Color():SetHex "#ffe300", { min = 7200, max = 14400 } }, 
+	[7] = { "Cosmic", Color():SetHex "#01ff1f", { min = 25200, max = 50400 } }, 
+	[8] = { "Extinct", Color():SetHex "#ff8a00", { min = 2, max = 5000 } }, 
+	[9] = { "Planetary", Color(0, 0, 0, 255), { min = 25200, max = 50400 } }
 }
-rarity_names[0] = {"Stock", Color(96, 110, 136), {min = 10, max = 20}}
 
 rarity_accents = {
-	[0] = Color(200, 197, 237),
-	[1] = Color(255, 255, 255),
-	[2] = Color(150, 225, 255),
-	[3] = Color(202, 125, 255),
-	[4] = Color(255, 155, 255),
-	[5] = Color(255, 125, 125),
-    [6] = Color(255, 255, 125),
-    [7] = Color(150, 255, 150),
-    [8] = Color(255 + 25, 178 + 25, 100 + 25),
-    [9] = Color(0 + 25, 0 + 25, 0 + 25)
+	[0] = Color():SetHex "#808ba0" :Alpha(255),
+	[1] = Color():SetHex "#d6d6ff" :Alpha(255),
+	[2] = Color():SetHex "#6191f6" :Alpha(255),
+	[3] = Color():SetHex "#df5cff" :Alpha(255),
+	[4] = Color():SetHex "#ff33ec" :Alpha(255),
+	[5] = Color():SetHex "#fd3c59" :Alpha(255),
+    [6] = Color():SetHex "#ffe933" :Alpha(255),
+    [7] = Color():SetHex "#34ff4c" :Alpha(255),
+    [8] = Color():SetHex "#ffa133" :Alpha(255),
+    [9] = Color(0, 0, 0, 255)
+}
+
+rarity_gradient = {
+	[0] = Color():SetHex "#4d586d" :Alpha(200),
+	[1] = Color():SetHex "#a3a3cc" :Alpha(200),
+	[2] = Color():SetHex "#2e5ec3" :Alpha(200),
+	[3] = Color():SetHex "#ac29cc" :Alpha(200),
+	[4] = Color():SetHex "#cc00b9" :Alpha(200),
+	[5] = Color():SetHex "#ca0926" :Alpha(255),
+    [6] = Color():SetHex "#ccb600" :Alpha(255),
+    [7] = Color():SetHex "#01cc19" :Alpha(255),
+    [8] = Color():SetHex "#cc6e00" :Alpha(255),
+    [9] = Color(0, 0, 0, 255)
+}
+
+rarity_shadow = {
+	[0] = {Color():SetHex "#1d2129" :Alpha(150), Color():SetHex "#13161b" :Alpha(75)},
+	[1] = {Color():SetHex "#3d3d4c" :Alpha(150), Color():SetHex "#292933" :Alpha(75)},
+	[2] = {Color():SetHex "#112349" :Alpha(150), Color():SetHex "#0b1831" :Alpha(75)},
+	[3] = {Color():SetHex "#400f4c" :Alpha(150), Color():SetHex "#2b0a33" :Alpha(75)},
+	[4] = {Color():SetHex "#4c0045" :Alpha(150), Color():SetHex "#33002e" :Alpha(75)},
+	[5] = {Color():SetHex "#4c030e" :Alpha(150), Color():SetHex "#33020a" :Alpha(75)},
+    [6] = {Color():SetHex "#4c4400" :Alpha(150), Color():SetHex "#332d00" :Alpha(75)},
+    [7] = {Color():SetHex "#004c09" :Alpha(150), Color():SetHex "#003306" :Alpha(75)},
+    [8] = {Color():SetHex "#4c2900" :Alpha(150), Color():SetHex "#331c00" :Alpha(75)},
+    [9] = {Color(0, 0, 0, 150), Color(0, 0, 0, 75)}
 }
 
 hook.Add("Think", "moat_InventoryHSV", function()
-    rarity_names = { 
-		{ "Worn", Color(185, 190, 196), { min = 10, max = 20 } }, 
-		{ "Standard", Color(78, 168, 242), { min = 20, max = 40 } }, 
-		{ "Specialized", Color(185, 36, 240), { min = 60, max = 120 } }, 
-		{ "Superior", Color(255, 76, 255), { min = 240, max = 480 } }, 
-		{ "High-End", Color(242, 52, 76), { min = 1200, max = 2400 } }, 
-		{ "Ascended", Color(255, 204, 76), { min = 7200, max = 14400 } }, 
-		{ "Cosmic", Color(0, 200, 76), { min = 25200, max = 50400 } }, 
-		{ "Extinct", Color(255, 146, 37), { min = 2, max = 5000 } }, 
-		{ "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } 
+	local hsl = {
+		HSVToColor(CurTime() * 70 % 360, 1, 1),
+		HSVToColor(CurTime() * 70 % 360, .8, 1),
+		HSVToColor(CurTime() * 70 % 360, 1, .8),
+		HSVToColor(CurTime() * 70 % 360, 1, .3),
+		HSVToColor(CurTime() * 70 % 360, 1, .2)
 	}
-    rarity_names[9][2] = HSVToColor(CurTime() * 70 % 360, 1, 1)
-	rarity_accents[9] = HSVToColor(CurTime() * 70 % 360, 1, 1)
-    rarity_names[0] = {"Stock", Color(96, 110, 136), {min = 10, max = 20}}
-end)
-*/
 
-rarity_names = { 
-	{ "Worn", Color(204, 204, 255), { min = 10, max = 20 } }, 
-	{ "Standard",  Color(0, 0, 255), { min = 20, max = 40 } }, 
-	{ "Specialized", Color(127, 0, 255), { min = 60, max = 120 } }, 
-	{ "Superior", Color(255, 0, 255), { min = 240, max = 480 } }, 
-	{ "High-End", Color(255, 0, 0), { min = 1200, max = 2400 } }, 
-	{ "Ascended", Color(255, 205, 0), { min = 7200, max = 14400 } }, 
-	{ "Cosmic", Color(0, 255, 0), { min = 25200, max = 50400 } }, 
-	{ "Extinct", Color(255, 128, 0), { min = 2, max = 5000 } }, 
-	{ "Planetary", Color(0, 0, 0), { min = 25200, max = 50400 } } 
-}
-rarity_names[0] = {"Stock", Color(96, 110, 136), {min = 10, max = 20}}
-
-rarity_accents = {
-	[0] = Color(204, 204, 255),
-	[1] = Color(204, 204, 255),
-	[2] = Color(0, 0, 255),
-	[3] = Color(127, 0, 255),
-	[4] = Color(255, 0, 255),
-	[5] = Color(255, 0, 0),
-    [6] = Color(255, 205, 0),
-    [7] = Color(0, 255, 0),
-    [8] = Color(255, 128, 0),
-    [9] = Color(0, 0, 0)
-}
-
-hook.Add("Think", "moat_InventoryHSV", function()
-	rarity_names = { 
-		{ "Worn", Color(204, 204, 255), { min = 10, max = 20 } }, 
-		{ "Standard",  Color(0, 0, 255), { min = 20, max = 40 } }, 
-		{ "Specialized", Color(127, 0, 255), { min = 60, max = 120 } }, 
-		{ "Superior", Color(255, 0, 255), { min = 240, max = 480 } }, 
-		{ "High-End", Color(255, 0, 0), { min = 1200, max = 2400 } }, 
-		{ "Ascended", Color(255, 205, 0), { min = 7200, max = 14400 } }, 
-		{ "Cosmic", Color(0, 255, 0), { min = 25200, max = 50400 } }, 
-		{ "Extinct", Color(255, 128, 0), { min = 2, max = 5000 } }, 
-		{ "Planetary", HSVToColor(CurTime() * 70 % 360, 1, 1), { min = 25200, max = 50400 } } 
-	}
-	rarity_names[0] = {"Stock", Color(96, 110, 136), {min = 10, max = 20}}
-
-	rarity_accents = {
-		[0] = Color(204, 204, 255),
-		[1] = Color(204 + 50, 204 + 50, 255 + 50),
-		[2] = Color(0 + 50, 0 + 50, 255 + 50),
-		[3] = Color(127 + 50, 0 + 50, 255 + 50),
-		[4] = Color(255 + 50, 0 + 50, 255 + 50),
-		[5] = Color(255 + 50, 0 + 50, 0 + 50),
-    	[6] = Color(255 + 50, 205 + 50, 0 + 50),
-    	[7] = Color(0 + 50, 255 + 50, 0 + 50),
-    	[8] = Color(255 + 50, 128 + 50, 0 + 50),
-    	[9] = Color(rarity_names[9][2].r + 50, rarity_names[9][2].g + 50, rarity_names[9][2].b + 50)
-	}
+	rarity_names[9] = { "Planetary", Color(hsl[1].r, hsl[1].g, hsl[1].b, 255), { min = 25200, max = 50400 } }
+	rarity_accents[9] = Color(hsl[2].r, hsl[2].g, hsl[2].b, 255)
+	rarity_gradient[9] = Color(hsl[3].r, hsl[3].g, hsl[3].b, 255)
+	rarity_shadow[9] = {Color(hsl[4].r, hsl[4].g, hsl[4].b, 150), Color(hsl[5].r, hsl[5].g, hsl[5].b, 75)}
 end)
 
 local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
@@ -2992,7 +2961,7 @@ function m_OpenInventory(ply2, utrade)
             surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawLine(6, 23 + draw_xp_lvl, w - 6, 23 + draw_xp_lvl)
             surface_DrawLine(6, 44 + draw_xp_lvl, w - 6, 44 + draw_xp_lvl)
-            surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2].r, rarity_names[ITEM_HOVERED.item.Rarity][2].g, rarity_names[ITEM_HOVERED.item.Rarity][2].b, 200)
+            surface_SetDrawColor(rarity_gradient[ITEM_HOVERED.item.Rarity].r, rarity_gradient[ITEM_HOVERED.item.Rarity].g, rarity_gradient[ITEM_HOVERED.item.Rarity].b, rarity_gradient[ITEM_HOVERED.item.Rarity].a)
             local grad_x = 1
             local grad_y = 25 + draw_xp_lvl
             local grad_w = (w - 2) / 2
@@ -3018,8 +2987,16 @@ function m_OpenInventory(ply2, utrade)
                 RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
-            m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4s", grad_w + 1, grad_y2, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			grad_y2 = grad_y2 - 1
+
+            for i = 1, 2 do
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			end
+
+			draw_SimpleText(RARITY_TEXT, "moat_Medium4", grad_w, grad_y2, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
             local draw_name_x = 7
             local draw_name_y = 3
@@ -3780,9 +3757,9 @@ function m_OpenInventory(ply2, utrade)
                     s:SetText("0")
                 end
 
-                if (m_Credits and tonumber(s:GetValue()) and (tonumber(s:GetValue()) > tonumber(m_Credits))) then
-                    s:SetValue(m_Credits)
-                    s:SetText(m_Credits)
+                if (MOAT_INVENTORY_CREDITS and tonumber(s:GetValue()) and (tonumber(s:GetValue()) > tonumber(MOAT_INVENTORY_CREDITS))) then
+                    s:SetValue(MOAT_INVENTORY_CREDITS)
+                    s:SetText(MOAT_INVENTORY_CREDITS)
                 end
 
                 net.Start("MOAT_TRADE_CREDITS")
@@ -6237,7 +6214,7 @@ function m_DrawFoundItem(tbl, s_type, name)
             surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawLine(6, 23 + draw_xp_lvl, w - 6, 23 + draw_xp_lvl)
             surface_DrawLine(6, 44 + draw_xp_lvl, w - 6, 44 + draw_xp_lvl)
-			surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2].r, rarity_names[ITEM_HOVERED.item.Rarity][2].g, rarity_names[ITEM_HOVERED.item.Rarity][2].b, 200)
+			surface_SetDrawColor(rarity_gradient[ITEM_HOVERED.item.Rarity].r, rarity_gradient[ITEM_HOVERED.item.Rarity].g, rarity_gradient[ITEM_HOVERED.item.Rarity].b, rarity_gradient[ITEM_HOVERED.item.Rarity].a)
             local grad_x = 1
             local grad_y = 25 + draw_xp_lvl
             local grad_w = (w - 2) / 2
@@ -6260,9 +6237,17 @@ function m_DrawFoundItem(tbl, s_type, name)
                 RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
-			m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4s", grad_w + 1, grad_y2, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			m_DrawShadowedText(1, RARITY_TEXT, "moat_Medium4", grad_w, grad_y2 - 1, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		
+			grad_y2 = grad_y2 - 1
+
+            for i = 1, 2 do
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			end
+
+			draw_SimpleText(RARITY_TEXT, "moat_Medium4", grad_w, grad_y2, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
             local draw_name_x = 7
             local draw_name_y = 3
             local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]
@@ -6921,3 +6906,5 @@ local function ConsolePrintRainbow( text )
     MsgC( unpack( tab ) )
     
 end
+
+print "sup"

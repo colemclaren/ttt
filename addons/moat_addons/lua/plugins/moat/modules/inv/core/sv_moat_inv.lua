@@ -219,44 +219,17 @@ concommand.Add("moat_reload", function(pl)
 	m_InitializeTalents()
 end)
 
-local rarity_names = {
-    {
-        "a Worn",
-        13421823
-    },
-    {
-        "a Standard",
-
-    },
-    {
-        "a Specialized",
-    },
-    {
-        "a Superior",
-    },
-    {
-        "a High-End",
-    },
-    {
-        "an Ascended",
-        16764160
-    },
-    {
-        "a Cosmic",
-        65280
-    },
-    {
-        "an Extinct",
-        16744448
-    },
-    {
-        "a Planetary",
-        65535
-    }
-}
-
-rarity_names[0] = {
-    "a Stock",
+local rarity_text = {
+	[0] = { "a Stock" }, 
+	[1] = { "a Worn", 13421823 }, 
+	[2] = { "a Standard" }, 
+	[3] = { "a Specialized" }, 
+	[4] = { "a Superior" }, 
+	[5] = { "a High-End" }, 
+	[6] = { "an Ascended", 16769792 }, 
+	[7] = { "a Cosmic", 130847 }, 
+	[8] = { "an Extinct", 16747008 }, 
+	[9] = { "a Planetary", 65535 }
 }
 
 local stats_full = {}
@@ -480,9 +453,9 @@ local function getiteminfo(ITEM_HOVERED,embed)
     local RARITY_TEXT = ""
 
     if (ITEM_HOVERED.item.Kind ~= "tier") then
-        RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
+        RARITY_TEXT = rarity_text[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
     else
-        RARITY_TEXT = rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Kind]
+        RARITY_TEXT = rarity_text[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Kind]
     end
 
     embed.author.name = embed.author.name .. " has obtained " .. RARITY_TEXT .. "!"
@@ -516,7 +489,7 @@ local function getiteminfo(ITEM_HOVERED,embed)
     }
     embed.author.name = string.format(embed.author.name,"@","#")
     embed.timestamp = os.date("!%Y-%m-%dT%H:%M:%S.000Z",os.time())
-    embed.color = rarity_names[ITEM_HOVERED.item.Rarity][2] or 0
+    embed.color = rarity_text[ITEM_HOVERED.item.Rarity][2] or 0
     return embed
 end
 

@@ -29,6 +29,8 @@ end
 function COLOR:SetHex(hex)
 	local r, g, b = string_match(hex, '#(..)(..)(..)')
 	self.r, self.g, self.b = tonumber(r, 16), tonumber(g, 16), tonumber(b, 16)
+
+	return self
 end
 
 function COLOR:ToHex()
@@ -37,6 +39,8 @@ end
 
 function COLOR:SetEncodedRGB(num)
 	self.r, self.g, self.b = bit_band(bit_rshift(num, 16), 0xFF), bit_band(bit_rshift(num, 8), 0xFF), bit_band(num, 0xFF)
+
+	return self
 end
 
 function COLOR:ToEncodedRGB()
@@ -45,6 +49,8 @@ end
 
 function COLOR:SetEncodedRGBA(num)
 	self.r, self.g, self.b, self.a = bit_band(rshift(num, 16), 0xFF), bit_band(rshift(num, 8), 0xFF), bit_band(num, 0xFF), bit_band(rshift(num, 24), 0xFF)
+
+	return self
 end
 
 function COLOR:ToEncodedRGBA()
@@ -52,13 +58,13 @@ function COLOR:ToEncodedRGBA()
 end
 
 function COLOR:Lerp(frac, from, to)
-	print(frac)
-	PrintTable(from)
-	PrintTable(to)
-
 	self.r, self.g, self.b, self.a = Lerp(frac, from.r, to.r), Lerp(frac, from.g, to.g), Lerp(frac, from.b, to.b), Lerp(frac, from.a, to.a)
+
+	return self
 end
 
 function COLOR:Alpha(n)
 	self.a = n
+
+	return self
 end

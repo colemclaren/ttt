@@ -94,89 +94,17 @@ WEAPON_EQUIP2 = 7
 WEAPON_ROLE   = 8
 */
 
-
 rarity_names = {
-    {
-        "Worn",
-        Color(204, 204, 255),
-        {
-            min = 10,
-            max = 20
-        }
-    },
-    {
-        "Standard",
-        Color(0, 0, 255),
-        {
-            min = 20,
-            max = 40
-        }
-    },
-    {
-        "Specialized",
-        Color(127, 0, 255),
-        {
-            min = 60,
-            max = 120
-        }
-    },
-    {
-        "Superior",
-        Color(255, 0, 255),
-        {
-            min = 240,
-            max = 480
-        }
-    },
-    {
-        "High-End",
-        Color(255, 0, 0),
-        {
-            min = 1200,
-            max = 2400
-        }
-    },
-    {
-        "Ascended",
-        Color(255, 205, 0),
-        {
-            min = 7200,
-            max = 14400
-        }
-    },
-    {
-        "Cosmic",
-        Color(0, 255, 0),
-        {
-            min = 25200,
-            max = 50400
-        }
-    },
-    {
-        "Extinct",
-        Color(255, 128, 0),
-        {
-            min = 2,
-            max = 5000
-        }
-    },
-    {
-        "Planetary",
-        Color(0, 0, 0),
-        {
-            min = 50400,
-            max = 100800
-        }
-    }
-}
-
-rarity_names[0] = {
-    "Stock",
-    Color(74, 73, 68),
-    {
-        min = 10,
-        max = 20
-    }
+	[0] = { "Stock", Color():SetHex "#606e88", { min = 10, max = 20 } }, 
+	[1] = { "Worn", Color():SetHex "#ccccff", { min = 10, max = 20 } }, 
+	[2] = { "Standard",  Color():SetHex "#3976f4", { min = 20, max = 40 } }, 
+	[3] = { "Specialized", Color():SetHex "#d733ff", { min = 60, max = 120 } }, 
+	[4] = { "Superior", Color():SetHex "#ff00e7", { min = 240, max = 480 } }, 
+	[5] = { "High-End", Color():SetHex "#fd0b30", { min = 1200, max = 2400 } }, 
+	[6] = { "Ascended", Color():SetHex "#ffe300", { min = 7200, max = 14400 } }, 
+	[7] = { "Cosmic", Color():SetHex "#01ff1f", { min = 25200, max = 50400 } }, 
+	[8] = { "Extinct", Color():SetHex "#ff8a00", { min = 2, max = 5000 } }, 
+	[9] = { "Planetary", Color(0, 0, 0, 255), { min = 25200, max = 50400 } }
 }
 
 function m_GetStatMinMax(key, itemtbl)
