@@ -1,5 +1,4 @@
 MOAT_TRADE_BANNED = {}
-MOAT_TRADE_BANNED["STEAM_0:0:44950009"] = true
 
 local Player = FindMetaTable "Player"
 function Player:GetAimVector() -- prevents true silent aim

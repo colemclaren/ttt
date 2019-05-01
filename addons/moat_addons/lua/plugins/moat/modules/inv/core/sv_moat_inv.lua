@@ -892,8 +892,12 @@ end)
 local function m_SendTradeReq(ply, otherply)
     local other_ply = otherply
     local ent = Entity(otherply)
-
+    
     if (not IsValid(ent) or not ent:IsPlayer()) then return end
+
+    if (ply.IsTradeBanned or ent.IsTradeBanned) then
+        return
+    end
 
     if (ent:m_isTrading() or ent.UsingUsable) then
         net.Start("MOAT_SEND_TRADE_REQ")
@@ -957,29 +961,6 @@ function m_InitializeTrade(ply1, ply2)
             offers = {ic = 0, items = {}}
         }
     }
-
-    /*
-    MOAT_TRADES[trade_key] = {}
-    MOAT_TRADES[trade_key].player1 = {}
-    MOAT_TRADES[trade_key].player2 = {}
-    MOAT_TRADES[trade_key].player1.index = ply1:EntIndex()
-    MOAT_TRADES[trade_key].player2.index = ply2:EntIndex()
-    MOAT_TRADES[trade_key].player1.accept = 0
-    MOAT_TRADES[trade_key].player2.accept = 0
-    MOAT_TRADES[trade_key].player1.empty_slots = 0
-    MOAT_TRADES[trade_key].player2.empty_slots = 0
-    
-
-    MOAT_TRADES[trade_key].player1.offers = {
-        ic = 0,
-        items = {}
-    }
-
-    MOAT_TRADES[trade_key].player2.offers = {
-        ic = 0,
-        items = {}
-    }
-    */
 
     for i = 1, 10 do
         MOAT_TRADES[trade_key].player1.offers.items["slot" .. i] = {}

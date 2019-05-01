@@ -176,6 +176,12 @@ MGA.CommandList = {
 			{"Drop", "Group", {}, "user"}
 		}},
 		{"Wipe", "Wipes a player", true, {
+			{"Entry", "SteamID", "STEAM_0:0:"},
+			{"Entry", "Reason", "Breaking Rules"},
+			{"Entry", "Length", "1"},
+			{"Drop", "Time Units", {"Minutes", "Hours", "Days", "Weeks", "Months", "Years"}, "Minutes"},
+		}},
+		{"TradeBan", "Trade Bans a player", true, {
 			{"Entry", "SteamID", "STEAM_0:0:"}
 		}},
 	}},

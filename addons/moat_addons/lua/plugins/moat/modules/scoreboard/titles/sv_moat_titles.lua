@@ -275,7 +275,9 @@ net.Receive("player_card",function(l,ply)
                 rank = v:GetUserGroup(),
                 ic = MOAT_INVS[v]["credits"].c,
                 lastonline = 0,
-                playtime = v:GetDataVar("timePlayed")
+                playtime = v:GetDataVar("timePlayed"),
+                banlength = v.IsTradeBanned,
+                banreason = v.TradeBanReason
             }
             net.Start("player_card")
             net.WriteTable(info)
@@ -304,9 +306,13 @@ net.Receive("player_card",function(l,ply)
                 info.playtime = data.playtime
                 info.lastonline = tonumber(os.time() - data.last_join)
 
-				net.Start("player_card")
-                net.WriteTable(info)
-                net.Send(ply)
+                GetTradeBanLength(sid, function(d, reason)
+                    info.banlength = d
+                    info.banreason = reason
+                    net.Start("player_card")
+                    net.WriteTable(info)
+                    net.Send(ply)
+                end)
                 if IsValid(ply) then ply.cardlocked = false end
 			else
                 if IsValid(ply) then ply.cardlocked = false end

@@ -764,6 +764,56 @@ function populate_profile_card(MOAT_PROFILE,info)
         end)
     end
 
+    if (info.banlength) then
+        local caution = CreateMaterial("moat_CautionMaterial2D2", "UnlitGeneric", {
+            ["$basetexture"] = "phoenix_storms/stripes",
+            ["$noclamp"] = 1
+        })
+        local mat = Matrix()
+        mat:SetScale(Vector(6, 1))
+        caution:SetMatrix("$basetexturetransform", mat)
+        caution:Recompute()
+        local c = vgui.Create("DImage", MOAT_PROFILE)
+        c:SetPos(6, 165)
+        c:SetSize(MOAT_PROFILE:GetWide() - 12, 60 - 6)
+        c:SetMaterial(caution)
+
+        local name = vgui.Create("DButton", MOAT_PROFILE)
+        name:SetPos(0,170)
+        name:SetSize(MOAT_PROFILE:GetWide(),30)
+        name:SetTextColor(Color(240, 20, 20, 255))
+        name:SetText ""
+        local len = "Trade banned for " .. (info.banlength == 0 and "forever" or D3A.FormatTime(0, info.banlength))
+        name.info = len
+        function name:Paint(w,h)
+            draw.SimpleTextOutlined(name.info, "profile.steamid", w / 2, 0, Color(240, 20, 20, 255), TEXT_ALIGN_CENTER, nil, 2, color_black)
+        end
+        function name:DoClick()
+            SetClipboardText(self.info)
+            self.info = "Copied to clipboard!"
+            timer.Simple(0.5,function()
+                self.info = len
+            end)
+        end
+
+        local name = vgui.Create("DButton", MOAT_PROFILE)
+        name:SetPos(0,195)
+        name:SetSize(MOAT_PROFILE:GetWide(), 30)
+        name:SetTextColor(Color(240, 20, 20, 255))
+        name:SetText ""
+        local reason = info.banreason
+        name.info = reason
+        function name:Paint(w,h)
+            draw.SimpleTextOutlined(name.info,"profile.steamid",w/2,0,Color(240, 20, 20, 255),TEXT_ALIGN_CENTER, nil, 2, color_black)
+        end
+        function name:DoClick()
+            SetClipboardText(self.info)
+            self.info = "Copied to clipboard!"
+            timer.Simple(0.5,function()
+                self.info = reason
+            end)
+        end
+    end
 end
 
 function make_profile_card(info)
@@ -771,7 +821,7 @@ function make_profile_card(info)
         MOAT_PROFILE:Remove()
     end
     MOAT_PROFILE = vgui.Create("DFrame")
-    local w,h = 500,164
+    local w,h = 500,164 + (info.banlength and 60 or 0)
     if ScrW() < w then w = ScrW() end
     if ScrH() < h then h = ScrH() end
     MOAT_PROFILE:SetSize(w,h)
