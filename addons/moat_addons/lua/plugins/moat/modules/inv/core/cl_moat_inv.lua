@@ -1037,7 +1037,19 @@ if (NUMBER_OF_SLOTS == 0 || #m_Inventory < NUMBER_OF_SLOTS) then
 	net.SendToServer()
 end
 
-rarity_names = {
+local function readonly_rarities(tab)
+	return setmetatable({}, {
+	__index = tab,
+	__newindex = function(t, k, v)
+		if (k == 9) then
+			tab[k] = v
+		end
+	end,
+	__metatable = false
+})
+end
+
+rarity_names = readonly_rarities {
 	[0] = { "Stock", Color():SetHex "#606e88", { min = 10, max = 20 } }, 
 	[1] = { "Worn", Color():SetHex "#ccccff", { min = 10, max = 20 } }, 
 	[2] = { "Standard",  Color():SetHex "#3976f4", { min = 20, max = 40 } }, 
@@ -1050,7 +1062,7 @@ rarity_names = {
 	[9] = { "Planetary", Color(0, 0, 0, 255), { min = 25200, max = 50400 } }
 }
 
-rarity_accents = {
+rarity_accents = readonly_rarities {
 	[0] = Color():SetHex "#808ba0" :Alpha(255),
 	[1] = Color():SetHex "#d6d6ff" :Alpha(255),
 	[2] = Color():SetHex "#6191f6" :Alpha(255),
@@ -1063,7 +1075,7 @@ rarity_accents = {
     [9] = Color(0, 0, 0, 255)
 }
 
-rarity_gradient = {
+rarity_gradient = readonly_rarities {
 	[0] = Color():SetHex "#4d586d" :Alpha(200),
 	[1] = Color():SetHex "#a3a3cc" :Alpha(200),
 	[2] = Color():SetHex "#2e5ec3" :Alpha(200),
@@ -1076,17 +1088,17 @@ rarity_gradient = {
     [9] = Color(0, 0, 0, 255)
 }
 
-rarity_shadow = {
+rarity_shadow = readonly_rarities {
 	[0] = {Color():SetHex "#1d2129" :Alpha(150), Color():SetHex "#13161b" :Alpha(75)},
 	[1] = {Color():SetHex "#3d3d4c" :Alpha(150), Color():SetHex "#292933" :Alpha(75)},
 	[2] = {Color():SetHex "#112349" :Alpha(150), Color():SetHex "#0b1831" :Alpha(75)},
 	[3] = {Color():SetHex "#380f4c" :Alpha(150), Color():SetHex "#250a33" :Alpha(75)},
 	[4] = {Color():SetHex "#4c0045" :Alpha(150), Color():SetHex "#33002e" :Alpha(75)},
 	[5] = {Color():SetHex "#4c030e" :Alpha(150), Color():SetHex "#33020a" :Alpha(75)},
-    [6] = {Color():SetHex "#4c4400" :Alpha(150), Color():SetHex "#332d00" :Alpha(75)},
-    [7] = {Color():SetHex "#004c09" :Alpha(150), Color():SetHex "#003306" :Alpha(75)},
-    [8] = {Color():SetHex "#4c2900" :Alpha(150), Color():SetHex "#331c00" :Alpha(75)},
-    [9] = {Color(0, 0, 0, 150), Color(0, 0, 0, 75)}
+	[6] = {Color():SetHex "#4c4400" :Alpha(150), Color():SetHex "#332d00" :Alpha(75)},
+	[7] = {Color():SetHex "#004c09" :Alpha(150), Color():SetHex "#003306" :Alpha(75)},
+	[8] = {Color():SetHex "#4c2900" :Alpha(150), Color():SetHex "#331c00" :Alpha(75)},
+	[9] = {Color(0, 0, 0, 150), Color(0, 0, 0, 75)}
 }
 
 hook.Add("Think", "moat_InventoryHSV", function()
