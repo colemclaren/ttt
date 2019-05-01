@@ -4775,7 +4775,7 @@ function m_CreateItemMenu(num, ldt)
         end
     end
 
-    if (equipables[itemtbl.item.Kind:lower()] and not ldt) then
+    if (equipables[string.lower(itemtbl.item.Kind)] and not ldt) then
         M_INV_MENU:AddOption("Equip", function()
             local loadout_slot = m_GetCorrectLoadoutSlot(itemtbl) .. "l"
             m_SwapInventorySlots(M_INV_SLOT[num], loadout_slot, m_utrade)
