@@ -182,6 +182,12 @@ MGA2.CommandList = {
 		{"Wipe", "Wipes a player", true, {
 			{"Entry", "SteamID", "STEAM_0:0:"}
 		}},
+		{"TradeBan", "Trade Bans a player", true, {
+			{"Entry", "SteamID", "STEAM_0:0:"},
+			{"Entry", "Reason", "Breaking Rules"},
+			{"Entry", "Length", "1"},
+			{"Drop", "Time Units", {"Minutes", "Hours", "Days", "Weeks", "Months", "Years"}, "Minutes"},
+		}},
 	}},
 	{100, "Community Lead", Color(255, 0, 0, 255), {
 		{"CrashBan", "Crash bans a user and permanently bans them.", false, {

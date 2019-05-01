@@ -26,13 +26,13 @@ COMMAND.Run = function(pl, args, supp)
 	PrintTable(args)
 
 	local units2 = {}
-	units2["second"] = true
-	units2["minute"] = true
-	units2["hour"] = true
-	units2["day"] = true
-	units2["week"] = true
-	units2["month"] = true
-	units2["year"] = true
+	units2["seconds"] = true
+	units2["minutes"] = true
+	units2["hours"] = true
+	units2["days"] = true
+	units2["weeks"] = true
+	units2["months"] = true
+	units2["years"] = true
 	
 	local unban_time
 	local targ = args[1]:upper()
@@ -40,12 +40,12 @@ COMMAND.Run = function(pl, args, supp)
 	local reason = args[2]
 
 	if (supp[1] ~= 0 and units2[args[4]:lower()]) then
-		unban_time = string.format("CURRENT_TIMESTAMP + INTERVAL %i %s", supp[1], args[4]:upper())
+		unban_time = string.format("CURRENT_TIMESTAMP + INTERVAL %i %s", supp[1], args[4]:upper():sub(1, -2))
 	elseif (supp[1] == 0 or args[4]:lower() == "perm") then
 		unban_time = "NULL"
 	else
 		for k,v in pairs(units2) do
-			table.insert(unit2s, k)
+			table.insert(units2, k)
 		end
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Time is incorrect! Supports perm / " .. table.concat(units2, " / "))
 		return
@@ -70,13 +70,14 @@ COMMAND.Run = function(pl, args, supp)
 	if (targpl) then
 		targpl.IsTradeBanned = 0
 		targ = targpl:SteamID()
+		targpl.TradeBanReason = reason
 	end
 
 	targ = util.SteamIDTo64(targ)
 
 	D3A.MySQL.Query("INSERT INTO moat_tradebans (steamid64, banner, reason, unban_time) VALUES(" .. targ .. ", " .. banner .. ", '" .. D3A.MySQL.Escape(reason) .. "', " .. unban_time .. ");", function()
 		D3A.Chat.SendToPlayer2(pl, moat_green, "Successfully trade banned.")
-		UpdateTradeBan(pl)
+		UpdateTradeBan(targpl)
 	end)
 end
 
