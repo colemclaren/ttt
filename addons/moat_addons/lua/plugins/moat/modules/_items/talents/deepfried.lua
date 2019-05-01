@@ -33,7 +33,7 @@ local STATUS = status.Create "Fried"
 function STATUS:Invoke(data)
 	local effect = self:GetEffectFromPlayer("Deep Fried", data.Player)
 	if (effect) then
-		effect:AddTime(data.Time)
+		return -- effect:AddTime(data.Time)
 	else
 		self:CreateEffect"Deep Fried":Invoke(data, data.Time, data.Player)
 	end
