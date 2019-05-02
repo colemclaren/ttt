@@ -1,5 +1,5 @@
 ITEM.ID = 1574
-ITEM.Name = "Community"
+ITEM.Name = "Soulbound"
 ITEM.Rarity = 8
 ITEM.Collection = "Community Collection"
 ITEM.NameColor = Color(112, 176, 74)
@@ -9,34 +9,34 @@ ITEM.NotDroppable = true
 ITEM.NotTradeable = true
 ITEM.Stats = {
     Damage = {
-        min = 9,
-        max = 16
+        min = 0,
+        max = 5
     },
     Accuracy = {
-        min = 10,
-        max = 17
+        min = 0,
+        max = 5
     },
     Kick = {
-        min = -10,
-        max = -16
+        min = 0,
+        max = -5
     },
     Firerate = {
-        min = 12,
-        max = 17
+        min = 0,
+        max = 5
     },
     Magazine = {
-        min = 10,
-        max = 19
+        min = 0,
+        max = 5
     },
     Range = {
-        min = 17,
-        max = 22
+        min = 0,
+        max = 5
     },
     Weight = {
-        min = -2,
-        max = -4
+        min = -0,
+        max = -5
     }
 }
-ITEM.MinTalents = 4
-ITEM.MaxTalents = 4
-ITEM.Talents = {"random", "random", "random", "random"}
+ITEM.MinTalents = 3
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
