@@ -740,6 +740,7 @@ function PANEL:Init()
     self:SetSize(size, size)
     self:Center()
 
+    self:SetKeyboardInputEnabled(false)
     self.Circle = Mesh()
 
     local mid = size / 2
@@ -1053,6 +1054,7 @@ function PANEL:Finish()
 
         eqframe:SetRole(LocalPlayer():GetRole())
         eqframe:MakePopup()
+        eqframe:SetKeyboardInputEnabled(false)
         return eqframe
     elseif (where == 1 and not quickMenuClickBuy:GetBool()) then
         self:OnMousePressed(MOUSE_LEFT)
