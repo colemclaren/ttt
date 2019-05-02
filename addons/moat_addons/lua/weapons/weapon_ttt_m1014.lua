@@ -10,7 +10,7 @@ if CLIENT then
    SWEP.Icon = "vgui/ttt/m1014_icon"
 end
 
-SWEP.PrintName = "M1014"
+SWEP.PrintName = "Garbage Ass POS"
 SWEP.Gun = ("weapon_ttt_m1014")
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_SHOTGUN
@@ -28,17 +28,20 @@ SWEP.Primary.Sound			= Sound("gunshot_benli_m4")		-- script that calls the prima
 SWEP.Primary.Ammo = "Buckshot"
 SWEP.Primary.Range = 10000
 SWEP.Primary.Damage = 13
-SWEP.Primary.Cone = 0.088
+SWEP.Primary.RealCone = Vector(0.005, 0.005)
+SWEP.Primary.Cone = 0.05
+SWEP.Primary.Damage = 3
 SWEP.Primary.Delay = 0.7 + 0.2
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 6
 SWEP.Primary.Automatic = true
-SWEP.Primary.NumShots = 9
+SWEP.Primary.NumShots = 32
 SWEP.AutoSpawnable      = false
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.reloadtimer = 0
 SWEP.Primary.Recoil			= 7
+SWEP.Primary.LayerMults = {0.25, 0.25, 0.25, 0.25}
 
 SWEP.Secondary.IronFOV			= 38
 

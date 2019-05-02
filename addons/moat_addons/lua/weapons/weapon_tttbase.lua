@@ -380,40 +380,39 @@ function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
    coney   = coney or conex
 
    if (self.Primary and self.Primary.Ammo == "Buckshot") then
-      local bullets = {vector_origin}
-      local curnum = 0
-      local curlayer = 2
-      for i = 2, numbul do
-         if (curnum == (curlayer - 1) * 4) then
-            for x = 1, #bullets do
-               bullets[x] = bullets[x] * (curlayer / (curlayer + 1)) ^ 2
-            end
-            curnum = 0
-            curlayer = curlayer + 1
-         end
-         local x, y = 0, 0
-         if (curnum < curlayer) then
-            -- bottom layer
-            x = curnum / (curlayer - 1) * 2 - 1
-            y = -1 -- curnum / curlayer * 2 - 1
-         elseif (curnum >= (curlayer - 1) * 4 - curlayer) then
-            -- top layer
-            local tmp = curnum - ((curlayer - 1) * 4 - curlayer)
-            x = tmp / (curlayer - 1) * 2 - 1
-            y = 1
-         else
-            x = curnum % 2 == 0 and 1 or -1
-            local layer = math.floor((curnum - curlayer) / 2) + 1
-            y = layer / (curlayer - 1) * 2 - 1
-         end
-
-         bullets[i] = Vector(x, y)
-
-         curnum = curnum + 1
+      local layers = self.Primary.Layers
+      if (not layers) then
+         layers = {}
+         self.Primary.Layers = layers
       end
-      
+      local bullets = layers[numbul]
+      if (not bullets) then
+         bullets = {}
+         layers[numbul] = bullets
+         local LayerMults = self.Primary.LayerMults or {1}
+         for LayerNum, mult in ipairs(LayerMults) do
+            local LayerBullets = math.floor(numbul * mult)
+            if (#LayerMults == LayerNum) then
+               LayerBullets = numbul
+            end
+
+            numbul = numbul - LayerBullets
+            for i = 0, LayerBullets - 1 do
+               local v = Vector(0, (LayerNum / #LayerMults) ^ 2)
+               v:Rotate(Angle(0, i / LayerBullets * 360))
+               table.insert(bullets, v)
+            end
+         end
+      end
+
       local aimvec = self.Owner:GetAimVector()
+      local mult = Vector(coney, conex)
       local aimang = aimvec:Angle()
+      if (self.Primary.RealCone) then
+         aimvec = aimvec + util.SharedRandom(self:GetClass(), -conex, conex, 0) * aimang:Right()
+         aimvec = aimvec + aimang:Up() * util.SharedRandom(self:GetClass(), -coney, coney, 0)
+         mult = self.Primary.RealCone
+      end
 
       local bullet = {}
       bullet.Num    = 1
@@ -428,7 +427,7 @@ function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
       end
 
       for _, bulspread in pairs(bullets) do
-         bullet.Dir    = aimvec + bulspread.x * conex * aimang:Right() + bulspread.y * coney * aimang:Up()
+         bullet.Dir    = aimvec + bulspread.x * mult.x * aimang:Right() + bulspread.y * mult.y * aimang:Up()
       
          self.Owner:FireBullets( bullet )
       end

@@ -468,12 +468,15 @@ timer.Create("as", 1, 100, function()
 	local t,d,q,a,t0,t1=SysTime,debug.getupvalue,tostring a=t() for i=1,100000 do d(q,"1")end t0=t()-a a=t()for i=1,100000 do d(q, 1)end t1=t()-a if(t0*550<t1)then local o = tostring tostring=function(a) return o(a)end timer.Remove"as" end
 end)
 
+local timers = {}
 function MOAT_LOADOUT.UpdateOtherWep()
 	local wep_index = net.ReadUInt(16)
 	local wep_name = net.ReadString()
 	local wep_stats = net.ReadTable()
 
-	timer.Create("moat_StatRefresh" .. wep_index, 0.1, 0, function()
+	local name = "moat_StatRefresh" .. wep_index
+	timers[#timers + 1] = name
+	timer.Create(name, 0.1, 0, function()
 		local wep = Entity(wep_index)
 
 		if (wep.Weapon) then
@@ -491,15 +494,14 @@ function MOAT_LOADOUT.UpdateOtherWep()
 				wep.Weapon.ItemStats = wep_stats
 			end
 
-			timer.Remove("moat_StatRefresh" .. wep_index)
+			timer.Remove(name)
 		end
 	end)
 end
 net.Receive("MOAT_UPDATE_OTHER_WEP", MOAT_LOADOUT.UpdateOtherWep)
 
-local timers = {}
 
-hook.Add("TTTEndRound", "moat_FixNamesPossibly", function()
+hook.Add("TTTPrepareRound", "moat_FixNamesPossibly", function()
 	for _, name in pairs(timers) do
 		if (timer.Exists(name)) then
 			timer.Remove(name)

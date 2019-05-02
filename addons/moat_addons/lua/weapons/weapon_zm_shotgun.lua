@@ -21,7 +21,7 @@ SWEP.ENUM = 2
 SWEP.Primary.Ammo = "Buckshot"
 SWEP.Primary.Range = 10000
 SWEP.Primary.Damage = 7
-SWEP.Primary.Cone = 0.11
+SWEP.Primary.Cone = 0.09
 SWEP.Primary.Delay = 0.65 + 0.2
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.ClipMax = 24
@@ -31,6 +31,7 @@ SWEP.Primary.NumShots = 14
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.HeadshotMultiplier = 1.1
+SWEP.Primary.LayerMults = {0.2, 0.4, 0.4}
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false
