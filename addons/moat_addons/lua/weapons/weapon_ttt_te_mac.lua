@@ -88,7 +88,7 @@ if CLIENT then
    SWEP.IconLetter = "l"
 end
 
-SWEP.PrintName = "MAC10 FE"
+SWEP.PrintName = "MAC10 TE"
 
 SWEP.Base = "weapon_tttbase"
 

@@ -87,7 +87,7 @@ if CLIENT then
    SWEP.IconLetter = "x"
 end
 SWEP.RenderGroup = RENDERGROUP_TRANSLUCENT
-SWEP.PrintName      = "MP5 FE"
+SWEP.PrintName      = "MP5 TE"
 SWEP.Base = "weapon_tttbase"
 SWEP.HoldType = "ar2"
 
