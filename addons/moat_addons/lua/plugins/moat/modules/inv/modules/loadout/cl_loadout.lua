@@ -556,17 +556,16 @@ function MOAT_LOADOUT.ApplyTint(wep, tint)
 		else
 			col = Color(unpack(col[2], 1, 3))
 		end
-
-		wep:SetColor(col)
-		wep:SetRenderMode(RENDERMODE_TRANSCOLOR)
 	end
 
+	wep:SetColor(col)
+	wep:SetRenderMode(RENDERMODE_TRANSCOLOR)
 	local OldDrawWorldModel = wep.DrawWorldModel or wep.DrawWorldModelTranslucent or wep.DrawModel
 
 	wep.RenderGroup = RENDERGROUP_TRANSLUCENT
 	function wep:DrawWorldModelTranslucent()
 		OldDrawWorldModel(self)
-		
+
 		self:SetColor(col)
 	end
 	wep.DrawWorldModel = nil
@@ -611,6 +610,7 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 	local OldDrawWorldModel = wep.DrawWorldModel or wep.DrawWorldModelTranslucent or wep.DrawModel
 
 	function wep:DrawWorldModelTranslucent(c)
+		local color = self:GetTintID() ~= 0 and self:GetColor() or nil
 		self.Owner.CustomColor = color
 		if (new_mat) then
 			render.MaterialOverride(new_mat)
