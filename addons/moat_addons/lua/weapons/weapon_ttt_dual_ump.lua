@@ -25,8 +25,8 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_STUN
 SWEP.LimitedStock = false
 
-SWEP.Primary.Damage = 9
-SWEP.Primary.Delay = 0.1
+SWEP.Primary.Damage = 10
+SWEP.Primary.Delay = 0.09
 SWEP.Primary.Cone = 0.02
 SWEP.Primary.ClipSize = 30
 SWEP.Primary.ClipMax = 60
