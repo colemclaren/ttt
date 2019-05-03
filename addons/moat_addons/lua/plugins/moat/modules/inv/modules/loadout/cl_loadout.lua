@@ -517,7 +517,7 @@ function MOAT_LOADOUT.ApplyPaint(wep, paint)
 	local col = MOAT_PAINT.Paints[paint]
 	if (col) then
 		if (col.Dream) then
-			col = rarity_names[9][2]:Copy()
+			col = rarity_names[9][2]
 		else
 			col = Color(unpack(col[2], 1, 3))
 		end
@@ -552,7 +552,7 @@ function MOAT_LOADOUT.ApplyTint(wep, tint)
 		col = Color(bit.band(bit.rshift(tint, 16), 0xff), bit.band(bit.rshift(tint, 8), 0xff), bit.band(bit.rshift(tint, 0), 0xff))
 	elseif (col) then
 		if (col.Dream) then
-			col = rarity_names[9][2]:Copy()
+			col = rarity_names[9][2]
 		else
 			col = Color(unpack(col[2], 1, 3))
 		end
@@ -564,9 +564,8 @@ function MOAT_LOADOUT.ApplyTint(wep, tint)
 
 	wep.RenderGroup = RENDERGROUP_TRANSLUCENT
 	function wep:DrawWorldModelTranslucent()
-		OldDrawWorldModel(self)
-
 		self:SetColor(col)
+		OldDrawWorldModel(self)
 	end
 	wep.DrawWorldModel = nil
 end

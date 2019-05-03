@@ -1050,7 +1050,7 @@ local function readonly_rarities(tab)
 })
 end
 
-rarity_names = readonly_rarities {
+rarity_names = {
 	[0] = { "Stock", Color():SetHex "#606e88", { min = 10, max = 20 } }, 
 	[1] = { "Worn", Color():SetHex "#ccccff", { min = 10, max = 20 } }, 
 	[2] = { "Standard",  Color():SetHex "#3976f4", { min = 20, max = 40 } }, 
@@ -1111,7 +1111,8 @@ hook.Add("Think", "moat_InventoryHSV", function()
 		HSVToColor(CurTime() * 70 % 360, 1, .2)
 	}
 
-	rarity_names[9] = { "Planetary", Color(hsl[1].r, hsl[1].g, hsl[1].b, 255), { min = 25200, max = 50400 } }
+    local to = rarity_names[9][2]
+    to.r, to.g, to.b = hsl[1].r, hsl[1].g, hsl[1].b
 	rarity_accents[9] = Color(hsl[2].r, hsl[2].g, hsl[2].b, 255)
 	rarity_gradient[9] = Color(hsl[3].r, hsl[3].g, hsl[3].b, 255)
 	rarity_shadow[9] = {Color(hsl[4].r, hsl[4].g, hsl[4].b, 150), Color(hsl[5].r, hsl[5].g, hsl[5].b, 75)}
