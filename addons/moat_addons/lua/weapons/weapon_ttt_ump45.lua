@@ -18,7 +18,7 @@ SWEP.AutoSpawnable          = true
 
 SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Delay = 0.07
-SWEP.Primary.Recoil = 0.98
+SWEP.Primary.Recoil = 1.48
 SWEP.Primary.Cone = 0.02
 SWEP.Primary.Damage = 19
 SWEP.Primary.Automatic = true
