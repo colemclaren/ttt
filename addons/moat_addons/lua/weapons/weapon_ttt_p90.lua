@@ -10,9 +10,9 @@ SWEP.Base = "weapon_tttbase"
 SWEP.HoldType = "smg"
 
 SWEP.Primary.Ammo = "SMG1"
-SWEP.Primary.Delay = 0.065
-SWEP.Primary.Recoil = 0.8
-SWEP.Primary.Cone = 0.026
+SWEP.Primary.Delay = 0.05
+SWEP.Primary.Recoil = 1
+SWEP.Primary.Cone = 0.015
 SWEP.Primary.Damage = 12
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 50
