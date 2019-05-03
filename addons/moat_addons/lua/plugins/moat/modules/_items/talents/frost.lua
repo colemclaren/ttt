@@ -3,23 +3,28 @@ TALENT.ID = 10
 TALENT.Name = "Frost"
 TALENT.NameColor = Color( 100, 100, 255 )
 TALENT.NameEffect = "frost"
-TALENT.Description = "Each hit has a %s_^ chance to freeze the target for %s seconds, slowing their speed by ^%s_ percent, and applying 2 damage every ^%s seconds"
+TALENT.Description = "Every second of firing, this gun has a %s_^ chance to freeze the target for %s seconds, slowing their speed by ^%s_ percent, and applying 2 damage every ^%s seconds"
 TALENT.Tier = 3
 TALENT.LevelRequired = { min = 25, max = 30 }
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = { min = 5 , max = 10 }	-- Chance to freeze
+TALENT.Modifications[1] = { min = 55 , max = 75 }	-- Chance to freeze
 TALENT.Modifications[2] = { min = 15, max = 30 }	-- Freeze time
-TALENT.Modifications[3] = { min = 25, max = 50 }	-- Frozen Speed time
+TALENT.Modifications[3] = { min = 5, max = 10 }	-- Frozen Speed time
 TALENT.Modifications[4] = { min = 5 , max = 8 }		-- Frozen Damage Delay
 
 TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
-	local chanceNum = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+	local wep = dmginfo:GetInflictor()
+	if (IsValid(wep)) then
+		local pellets_per_sec = (wep.Primary.NumShots or 1) / wep.Primary.Delay
+		chance = chance / pellets_per_sec
+	end
 
-	if (chanceNum > math.random() * 100) then
+	if (chance > math.random() * 100) then
 		status.Inflict("Frost", {
 			Player = victim,
 			Time = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]),
