@@ -215,8 +215,12 @@ function PrePaintViewModel(wpn, preview)
 	if (not wpn.cache.p and not preview) then 
 		wpn.cache.p = 255
 		if (wpn.ItemStats.p2) then
-			wpn.cache.p = MOAT_PAINT.Paints[wpn.ItemStats.p2][2]
-			wpn.cache.dream = MOAT_PAINT.Paints[wpn.ItemStats.p2].Dream
+			if (wpn.ItemStats.p2 == -2) then
+				wpn.cache.p = {bit.band(bit.rshift(wpn.ItemStats.p, 16), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 8), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 0), 0xff)}
+			else
+				wpn.cache.p = MOAT_PAINT.Paints[wpn.ItemStats.p2][2]
+				wpn.cache.dream = MOAT_PAINT.Paints[wpn.ItemStats.p2].Dream
+			end
 		elseif (wpn.ItemStats.p) then
 			wpn.cache.p = MOAT_PAINT.Tints[wpn.ItemStats.p][2]
 			wpn.cache.dream = MOAT_PAINT.Tints[wpn.ItemStats.p].Dream
@@ -311,11 +315,10 @@ function PrePaintViewModel(wpn, preview)
 			return
 		end
 
-		if (wpn.ItemStats.p2) then
-			wpn.cache.mats[i].mat:SetTexture("$basetexture", "models/debug/debugwhite")
-
+		if (wpn.ItemStats.p) then
 			set_vector(wpn.cache.mats[i].mat, "$color2", vector(wpn.cache.p[1]/255, wpn.cache.p[2]/255, wpn.cache.p[3]/255))
-		elseif (wpn.ItemStats.p) then
+		elseif (wpn.ItemStats.p2) then
+			wpn.cache.mats[i].mat:SetTexture("$basetexture", "models/debug/debugwhite")
 			set_vector(wpn.cache.mats[i].mat, "$color2", vector(wpn.cache.p[1]/255, wpn.cache.p[2]/255, wpn.cache.p[3]/255))
 		end
 	end
@@ -518,11 +521,11 @@ function MOAT_LOADOUT.ApplyPaint(wep, paint)
 		else
 			col = Color(unpack(col[2], 1, 3))
 		end
-
-		wep:SetColor(col)
-		wep:SetRenderMode(RENDERMODE_TRANSADDFRAMEBLEND)
-		wep:SetMaterial("models/debug/debugwhite")
 	end
+
+	wep:SetColor(col)
+	wep:SetRenderMode(RENDERMODE_TRANSCOLOR)
+	wep:SetMaterial("models/debug/debugwhite")
 
 	local mat = "models/debug/debugwhite"
 
@@ -536,8 +539,8 @@ function MOAT_LOADOUT.ApplyPaint(wep, paint)
 		OldDrawWorldModel(self)
 
 		self:SetColor(col)
-
 		self:SetMaterial(mat)
+
 		self.Owner.CustomColor = nil
 	end
 	wep.DrawWorldModel = nil
@@ -545,7 +548,9 @@ end
 
 function MOAT_LOADOUT.ApplyTint(wep, tint)
 	local col = MOAT_PAINT.Tints[tint]
-	if (col) then
+	if (wep:GetPaintID() == -2) then
+		col = Color(bit.band(bit.rshift(tint, 16), 0xff), bit.band(bit.rshift(tint, 8), 0xff), bit.band(bit.rshift(tint, 0), 0xff))
+	elseif (col) then
 		if (col.Dream) then
 			col = rarity_names[9][2]:Copy()
 		else

@@ -21,7 +21,7 @@ hook.Add("TTTWeaponVarsInitialized", "moat_InitializeWeapon", function(wep)
     if (MOAT_PAINT.Paints[wep:GetPaintID()]) then
         MOAT_LOADOUT.ApplyPaint(wep, wep:GetPaintID())
         has_look = true
-    elseif (MOAT_PAINT.Tints[wep:GetTintID()]) then
+    elseif (MOAT_PAINT.Tints[wep:GetTintID()] or wep:GetPaintID() == -2) then
         MOAT_LOADOUT.ApplyTint(wep, wep:GetTintID())
         has_look = true
     end

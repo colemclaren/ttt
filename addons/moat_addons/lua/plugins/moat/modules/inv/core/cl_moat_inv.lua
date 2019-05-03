@@ -6919,5 +6919,3 @@ local function ConsolePrintRainbow( text )
     MsgC( unpack( tab ) )
     
 end
-
-print "sup"

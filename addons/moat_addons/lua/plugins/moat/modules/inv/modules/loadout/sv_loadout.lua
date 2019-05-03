@@ -206,7 +206,6 @@ function m_ApplyWeaponMods(wep, loadout_tbl, item)
     if (loadout_tbl.p2) then
         wep:SetPaintID(loadout_tbl.p2)
     elseif (loadout_tbl.p) then
-        print(loadout_tbl.p, "TINT")
         wep:SetTintID(loadout_tbl.p)
     end
 

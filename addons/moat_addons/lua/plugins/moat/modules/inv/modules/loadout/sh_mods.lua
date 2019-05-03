@@ -66,10 +66,6 @@ hook.Add("TTTInitializeWeaponVars", "moat_InitializeWeapon", function(wep)
     wep:NetworkVar("Int", nil, "SkinID", nil, invalids.Int)
 
     for _, mod in pairs(MODS.Networked) do
-        if (not mod.valid(wep.Weapon)) then
-            continue
-        end
-
         wep:NetworkVar(mod.Type, nil, mod.Name, nil, invalids[mod.Type])
     end
 end)
