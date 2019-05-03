@@ -15,7 +15,8 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
 	if (GetRoundState() ~= ROUND_ACTIVE) then return end
 
 	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
-    if (chance > math.random() * 100) then
+	if (chance > math.random() * 100) then
+		local has_done = false
         local old_callback = dmginfo.Callback
 
         dmginfo.Callback = function(att, tr, dmginfo)
@@ -23,9 +24,10 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
                 old_callback(att, tr, dmginfo)
             end
             
-            if (tr.AltHitreg) then
+            if (has_done or tr.AltHitreg) then
                 return
-            end
+			end
+			has_done = true
             if (IsValid(tr.Entity) and tr.Entity:IsPlayer()) then
                 wep:SetClip1(wep:Clip1() + 1)
             end
