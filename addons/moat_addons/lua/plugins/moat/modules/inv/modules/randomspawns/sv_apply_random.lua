@@ -1,7 +1,13 @@
 local good = {
-    [WEAPON_HEAVY] = true,
-    [WEAPON_PISTOL] = true
+    --[[ [WEAPON_HEAVY] = true,
+    [WEAPON_PISTOL] = true]]
 }
+hook.Add("Initialize", "moat_ApplyRandom", function()
+    good = {
+        [WEAPON_HEAVY] = true,
+        [WEAPON_PISTOL] = true
+    }
+end)
 local ChanceToMutate = 0.5
 
 hook.Add("TTTWeaponVarsInitialized", "moat_ApplyRandom", function(e)
