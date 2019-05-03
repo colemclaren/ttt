@@ -83,7 +83,7 @@ end)
 local function RenderOverrideColor(self)
 	local col = self.Col
 	if (self.Dream) then
-		col = rarity_names[9][2]:Copy()
+		col = rarity_names[9][2]
 	end
 
 	render.SetColorModulation(col.r / 255, col.g / 255, col.b / 255)
