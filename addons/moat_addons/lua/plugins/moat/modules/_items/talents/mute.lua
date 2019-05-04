@@ -39,7 +39,7 @@ end
 local EFFECT = STATUS:CreateEffect "Muted"
 EFFECT.Message = "Muted"
 EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/emoticon_unhappy.png"
+EFFECT.Material = "icon16/sound_mute.png"
 function EFFECT:Init(data)
 	local victim = data.Victim
 
