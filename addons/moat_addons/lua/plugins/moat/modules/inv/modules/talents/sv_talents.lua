@@ -357,6 +357,19 @@ hook.Add("PlayerDeath", "moat_updateWeaponLevels", function(victim, inflictor, a
     end
 end)
 
+hook.Add("PlayerSay", "Moat.Talents.PlayerSay", function(pl)
+	if (pl.Talent_Muted) then 
+		return ""
+	end
+end)
+
+hook.Add("PlayerCanHearPlayersVoice", "Moat.Talents.PlayerCanHearPlayersVoice", function(listener, talker)
+	if (talker.Talent_Muted) then 
+		return false
+	end
+end)
+
+
 concommand.Add("moat_hermes_boots_toggle", function(pl)
     if (IsValid(pl)) then
         local herm = pl:GetInfo("moat_hermes_boots")
