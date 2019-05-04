@@ -173,8 +173,16 @@ end
 
 -- Kill footsteps on player and client
 function GM:PlayerFootstep(ply, pos, foot, sound, volume, rf)
-    if IsValid(ply) and (ply:Crouching() or ply:GetMaxSpeed() < 150 or ply:IsSpec()) then -- do not play anything, just prevent normal sounds from playing
-return true end
+	if (IsValid(ply)) then
+		-- do not play anything, just prevent normal sounds from playing
+		if (ply:Crouching() or ply:GetMaxSpeed() < 150 or ply:IsSpec()) then
+			return true
+		end
+
+		if (ply.SilentPower) then
+			return true
+		end
+	end
 end
 
 function GM:TTTBeginRound()

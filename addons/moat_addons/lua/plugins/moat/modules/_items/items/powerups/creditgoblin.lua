@@ -1,4 +1,4 @@
-ITEM.ID = 603
+ITEM.ID = 1500
 ITEM.Name = "Credit Goblin"
 ITEM.NameColor = Color(255, 0, 0)
 ITEM.Description = "%s_ chance to receive 1 credit after a kill"
