@@ -104,6 +104,49 @@ moat_random.register("Blink","Everyone spawns with blink!",{
     end
 })
 
+local DontBounce1 = {
+    "func_door", "func_door_rotating", "prop_door_rotating", "func_breakable"
+}
+local DontBounce = {}
+
+for _, v in pairs(DontBounce1) do
+    DontBounce[v] = true
+end
+
+moat_random.register("Bouncy","Everything bounces!",{
+    ["NOW"] = function()
+        local function PhysicsCollide(self, e)
+            local phys = self:GetPhysicsObject()
+            if (IsValid(phys)) then
+                phys:ApplyForceCenter(vector_up * phys:GetMass() * 100)
+            end
+        end
+        for k, v in pairs(ents.GetAll()) do
+            if (v:IsPlayer()) then
+                continue
+            end
+            local class = v:GetClass()
+            local phys = v:GetPhysicsObject()
+            if (DontBounce[class] or not IsValid(phys)) then
+                continue
+            end
+
+            phys:ApplyForceCenter(vector_up * phys:GetMass() * 100)
+            v.CallbackID_Bouncy = v:AddCallback("PhysicsCollide", PhysicsCollide)
+
+            v.PhysicsCollide = PhysicsCollide
+
+        end
+    end
+}, function()
+    for k,v in pairs(ents.GetAll()) do
+        if (v.CallbackID_Bouncy) then
+            v:RemoveCallback("PhysicsCollide", v.CallbackID_Bouncy)
+            v.CallbackID_Bouncy = nil
+        end
+    end
+end)
+
 --[[
 moat_random.register("Slippery","Everyone slides around with low friction!",{
     ["NOW"] = function()
@@ -303,7 +346,9 @@ moat_random.register("Third Person", "Every player must play in third person thi
         cur_random_round = "Third Person"
     end
 })
-/*
+
+
+--[[
 moat_random.register("Loadout Swap", "Loadouts are randomized between players at the start of the round!",{
     ["TTTBeginRound"] = function()
         timer.Simple(1, function()
@@ -324,7 +369,9 @@ moat_random.register("Loadout Swap", "Loadouts are randomized between players at
         end)
     end
 })
-*/
+]]
+
+-- TODO(meep): REMOVE
 moat_random.register("High FOV", "Every player must play with high FOV this round!", {
     ["NOW"] = function()
         cur_random_round = "High FOV"

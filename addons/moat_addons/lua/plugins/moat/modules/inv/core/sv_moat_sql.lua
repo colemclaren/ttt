@@ -200,6 +200,142 @@ function m_CheckCompTickets(pl)
     q:start()
 end
 
+TRADES = TRADES or {}
+function TRADES.Escape(x)
+    return MINVENTORY_MYSQL:escape(x)
+end
+function TRADES.Query(x, cb)
+    local q = MINVENTORY_MYSQL:query(x)
+
+    function q:onError(e)
+        print("ERROR ON QUERY " .. x .. "\n" .. e)
+    end
+
+    function q:onSuccess(d)
+        cb(d)
+    end
+
+    q:start()
+end
+function TRADES.Fix(data)
+    data.trade_tbl = util.JSONToTable(data.trade_tbl)
+    data.trade_tbl.chat = util.JSONToTable(data.trade_tbl.chat)
+    return data
+end
+function TRADES.ItemToFormat(i, tab, eachline)
+    local item = MOAT_DROPTABLE[i.u]
+    local name = "(id: " .. i.c .. ")"
+    if (item.Kind == "Unique") then
+        name = item.Name .. " " .. name
+    elseif (item.Kind == "tier") then
+        name = item.Name .. " " .. weapons.GetStored(i.w).PrintName .. " " .. name
+    else
+        name = item.Name .. name
+    end
+
+    return eachline .. name
+end
+
+function TRADES.Print(trade)
+    print("Trade between " .. trade.my_nick .. " (" .. trade.my_steamid .. ") and " .. trade.their_nick .. " (" .. trade.their_steamid .. ") trade id: " .. trade.ID)
+    print("  " .. trade.my_nick .. " (" .. trade.my_steamid .. ") offers:")
+    print("    IC: " .. trade.trade_tbl.my_offer_ic)
+    for num = 1, 10 do
+        local i = trade.trade_tbl.my_offer_items["slot" .. num]
+        if (i.c) then
+            print(TRADES.ItemToFormat(i, "    ", "  "))
+        end
+    end
+end
+
+function TRADES.GetFromID(id, cb)
+    assert(type(id) == "number")
+    TRADES.Query("SELECT * FROM moat_trades WHERE ID = " .. id .. " LIMIT 1", function(data)
+        if (data[1]) then
+            data = data[1]
+            TRADES.Fix(data)
+            cb(data)
+        else
+            cb(data)
+        end
+    end)
+end
+
+function TRADES.GetFromSteamIDs(id1, id2, cb)
+    if (id1:sub(1,5) == "STEAM") then
+        id1 = util.SteamIDTo64(id1)
+    end
+    if (id2:sub(1,5) == "STEAM") then
+        id2 = util.SteamIDTo64(id2)
+    end
+
+    print(id1, id2)
+
+    TRADES.Query("SELECT * FROM moat_trades WHERE " .. TRADES.Escape(id1) .. " IN (their_steamid, my_steamid) AND " .. TRADES.Escape(id2) .. " IN (their_steamid, my_steamid)", function(data)
+        for _, trade in pairs(data) do
+            TRADES.Fix(trade)
+        end
+        cb(data)
+    end)
+end
+
+function TRADES.GetFromSteamID(id1, cb)
+    if (id1:sub(1,5) == "STEAM") then
+        id1 = util.SteamIDTo64(id1)
+    end
+
+    TRADES.Query("SELECT * FROM moat_trades WHERE " .. TRADES.Escape(id1) .. " IN (their_steamid, my_steamid)", function(data)
+        for _, trade in pairs(data) do
+            TRADES.Fix(trade)
+        end
+        cb(data)
+    end)
+end
+
+function TRADES.GetFromSteamIDWithIDAbove(id1, tradeid, cb)
+    assert(type(tradeid) == "number")
+
+    if (id1:sub(1,5) == "STEAM") then
+        id1 = util.SteamIDTo64(id1)
+    end
+
+    TRADES.Query("SELECT * FROM moat_trades WHERE " .. TRADES.Escape(id1) .. " IN (their_steamid, my_steamid) AND ID > " .. tradeid, function(data)
+        for _, trade in pairs(data) do
+            TRADES.Fix(trade)
+        end
+        cb(data)
+    end)
+end
+
+function TRADES.FindLastTrade(lastknownowner, tradeid, id, cb, update)
+    if (lastknownowner:sub(1,5) == "STEAM") then
+        lastknownowner = util.SteamIDTo64(lastknownowner)
+    end
+    local function scan()
+        TRADES.GetFromSteamIDWithIDAbove(lastknownowner, tradeid, function(d)
+            local before = lastknownowner
+            for _, trade in ipairs(d) do
+                local scan = trade.my_steamid == lastknownowner and trade.trade_tbl.my_offer_items or trade.trade_tbl.their_offer_items
+                for i = 1, 10 do
+                    local i = scan["slot" .. i]
+                    if (i.c == id) then
+                        lastknownowner = trade.my_steamid == lastknownowner and trade.their_steamid or trade.my_steamid
+                        tradeid = trade.ID
+                        update(lastknownowner, trade)
+                        break
+                    end
+                end
+            end
+            if (before == lastknownowner) then
+                cb(lastknownowner, id)
+            else
+                scan()
+            end
+        end)
+    end
+    scan()
+end
+
 --[[-------------------------------------------------------------------------
 Velkon Code
 ---------------------------------------------------------------------------]]
