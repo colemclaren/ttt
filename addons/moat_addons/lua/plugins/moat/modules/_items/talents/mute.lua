@@ -1,7 +1,7 @@
 
 TALENT.ID = 39
 TALENT.Name = "Mute"
-TALENT.NameColor = Color( 255, 0, 0 )
+TALENT.NameColor = Color(27, 27, 27)
 TALENT.Description = "Each hit has a %s_^ chance to mute the target for %s seconds"
 TALENT.Tier = 2
 TALENT.LevelRequired = { min = 15, max = 20 }
