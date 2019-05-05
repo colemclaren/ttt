@@ -58,6 +58,7 @@ SWEP.CanBuy = {ROLE_TRAITOR} -- only traitors can buy
 
 SWEP.WeaponID = AMMO_C4
 
+SWEP.LimitedStock = true
 
 
 SWEP.UseHands			= true
