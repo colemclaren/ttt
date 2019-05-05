@@ -15,7 +15,7 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_MAC10
 SWEP.ENUM = 7
 
-SWEP.Primary.Damage      = 8
+SWEP.Primary.Damage      = 7
 SWEP.Primary.Delay       = 0.05
 SWEP.Primary.Cone        = 0.12
 SWEP.Primary.ClipSize    = 35
