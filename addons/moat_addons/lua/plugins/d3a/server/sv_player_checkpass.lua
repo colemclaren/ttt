@@ -80,8 +80,17 @@ function D3A.Player.CheckReserved(steamid, rank)
 	D3A.Player.KickID(steamid, "full")
 end
 
+local connect_times = {}
+
 function D3A.Player.CheckConnecting(SteamID, SteamID32)
 	if (not SteamID) then return end
+
+	if (connect_times[SteamID] and connect_times[SteamID] > SysTime()) then
+		return false, "You are connecting too fast."
+	end
+
+	connect_times[SteamID] = SysTime() + 4
+
 	SteamID32 = SteamID32 or util.SteamIDFrom64(SteamID)
 
 	if (players_connecting[SteamID] and players_connecting[SteamID][1] > CurTime()) then
@@ -160,7 +169,11 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	end
 
 	-- Check if joining too fast
-	D3A.Player.CheckConnecting(SteamID, SteamID32)
+	local reject, reason = D3A.Player.CheckConnecting(SteamID, SteamID32)
+
+	if (reject == false) then
+		return reject, reason
+	end
 
 	-- Check if banned
 	D3A.Player.CheckIfBanned(SteamID, SteamID32)
