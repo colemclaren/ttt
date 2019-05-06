@@ -1,6 +1,6 @@
 EASTER = EASTER or {}
 
-
+EASTER.Disabled = true
 EASTER.BossChance = 0.05
 EASTER.GoldenChance = 0.01
 
@@ -78,6 +78,10 @@ function EASTER.SpawnRandomEgg()
     EASTER.SpawnEgg(spawns.Find {
         Amount = 1
     }[1])
+end
+
+if (EASTER.Disabled) then
+    return
 end
 
 hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
