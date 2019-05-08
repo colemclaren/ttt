@@ -2,6 +2,8 @@ local good = {
     --[[ [WEAPON_HEAVY] = true,
     [WEAPON_PISTOL] = true]]
 }
+RANDOM_DROPS = RANDOM_DROPS or {}
+RANDOM_DROPS.Minimum = 4
 local fn = function()
     good = {
         [WEAPON_HEAVY] = true,
@@ -20,7 +22,7 @@ hook.Add("TTTWeaponVarsInitialized", "moat_ApplyRandom", function(e)
             if (not IsValid(e) or IsValid(e:GetOwner())) then
                 return 
             end
-            local chosen_rarity = 2
+            local chosen_rarity = RANDOM_DROPS.Minimum
             for i = chosen_rarity, 7 do
                 if (i == 7) then
                     local chance_to_move = math.random(8)
