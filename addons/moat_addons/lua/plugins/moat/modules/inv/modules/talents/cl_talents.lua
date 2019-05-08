@@ -58,7 +58,9 @@ net.Receive("weapon.UpdateTalents",function()
 	local talent = net.ReadTable()
 	talent.Description = talent.Description or ""
 	local t_ = net.ReadTable()
+	if (not IsValid(wep)) then return end
 	timer.Simple(1,function()
+		if (not IsValid(wep)) then return end
 		if not wep.ItemStats then
 			local s = "TalentUpdate" .. wep:EntIndex() .. tier
 			timer.Create(s,0.1,0,function()
@@ -79,7 +81,7 @@ net.Receive("weapon.UpdateTalents",function()
 			-- wep.ItemStats.t[tier] = t_
 		end
 	end)
-	if (wep:GetOwner() == LocalPlayer()) then
+	if (IsValid(wep) and IsValid(wep:GetOwner()) and wep:GetOwner() == LocalPlayer()) then
 		talent_chat(talent,t_,tier,wild)
 	end
 end) 
