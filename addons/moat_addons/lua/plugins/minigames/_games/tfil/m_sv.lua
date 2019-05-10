@@ -363,28 +363,8 @@ function MG_LAVA.PlayerDisconnected(ply)
 end
 
 function MG_LAVA.Collide(a,b)
-
-    if (a:IsPlayer() and b:IsPlayer()) then
-        if (a:GetMoveType() == MOVETYPE_LADDER or b:GetMoveType() == MOVETYPE_LADDER) then
-            return false
-        end
-        local a1, b1 = a:WorldSpaceAABB()
-        local a2, b2 = b:WorldSpaceAABB()
-        for _, point in pairs {
-            Vector(a2.x, a2.y, a2.z),
-            Vector(b2.x, a2.y, a2.z),
-            Vector(a2.x, b2.y, a2.z),
-            Vector(b2.x, b2.y, a2.z),
-            Vector(a2.x, a2.y, b2.z),
-            Vector(b2.x, a2.y, b2.z),
-            Vector(a2.x, b2.y, b2.z),
-            Vector(b2.x, b2.y, b2.z),
-        } do
-            if (point.x > a1.x and point.y > a1.y and point.z > a1.z
-                and point.x < b1.x and point.y < b1.y and point.z < b1.z) then
-                return false
-            end
-        end
+    if (a:IsPlayer() and b:IsPlayer()) and (a:GetMoveType() == MOVETYPE_LADDER or b:GetMoveType() == MOVETYPE_LADDER) then
+        return false
     end
     if (a.m_EggParent == b) or (b.m_EggParent == a) then
         return false
