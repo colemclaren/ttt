@@ -66,7 +66,6 @@ end
 function SWEP:CreateRagdoll()
 	if (not IsValid(self.Owner)) then return end
 	local pl = self.Owner
-	if bad_models[pl:GetModel()] then return end
 	SafeRemoveEntity(pl.Ragdoll)
 	local rag = ents.Create "prop_ragdoll"
 	if (not IsValid(rag)) then return end
@@ -104,19 +103,20 @@ function SWEP:CreateRagdoll()
 
 	local ang = pl:GetAngles()
 	ang.p = 0
-	-- if not bad_models[pl:GetModel()] then 
-	local num = rag:GetPhysicsObjectCount() - 1
-	for i = 0, num do
-		local bone = rag:GetPhysicsObjectNum(i)
-		if (not IsValid(bone)) then continue end
-		local bp, ba = pl:GetBonePosition(rag:TranslatePhysBoneToBone(i))
+	if not bad_models[pl:GetModel()] then 
+		local num = rag:GetPhysicsObjectCount() - 1
+		for i = 0, num do
+			local bone = rag:GetPhysicsObjectNum(i)
+			if (not IsValid(bone)) then continue end
+			local bp, ba = pl:GetBonePosition(rag:TranslatePhysBoneToBone(i))
 
-		bp, ba = WorldToLocal(bp - pl:OBBCenter(), ba, pl:GetPos(), ang)
-		bp, ba = LocalToWorld(bp, ba, pl:GetPos(), Angle(90, ang.y + 180, 180))
-		bp = bp + Vector(0, 0, 20)
-		if (bp and ba) then
-			bone:SetPos(bp)
-			bone:SetAngles(ba)
+			bp, ba = WorldToLocal(bp - pl:OBBCenter(), ba, pl:GetPos(), ang)
+			bp, ba = LocalToWorld(bp, ba, pl:GetPos(), Angle(90, ang.y + 180, 180))
+			bp = bp + Vector(0, 0, 20)
+			if (bp and ba) then
+				bone:SetPos(bp)
+				bone:SetAngles(ba)
+			end
 		end
 	end
 
@@ -190,7 +190,7 @@ function SWEP:PrimaryAttack()
 	if (CLIENT) then
 		self.CurrentCamera = 0
 	end
-	if bad_models[self.Owner:GetModel()] then return end
+
 	self:InitializeTaunt()
 end
 
