@@ -58,6 +58,10 @@ function SWEP:InitializeTaunt()
 	end
 end
 
+local bad_models = {
+	["models/moat/player/knight.mdl"] = true
+}
+
 function SWEP:CreateRagdoll()
 	if (not IsValid(self.Owner)) then return end
 	local pl = self.Owner
@@ -71,7 +75,9 @@ function SWEP:CreateRagdoll()
 	rag:SetDTBool(CORPSE.dti.BOOL_FOUND, true)
 	rag:SetDTEntity(10, pl)
 	rag:SetPos(pl:GetPos())
-	rag:SetModel(pl:GetModel())
+	local ply_mdl = pl:GetModel()
+	if bad_models[ply_mdl] then ply_mdl = "models/player/arctic.mdl" end
+	rag:SetModel(ply_mdl)
 	rag:SetAngles(pl:GetAngles())
 
 	local col = pl:GetPlayerColor()
