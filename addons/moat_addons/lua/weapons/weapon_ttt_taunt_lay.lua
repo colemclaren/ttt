@@ -14,6 +14,11 @@ SWEP.Base = "weapon_tttbase"
 SWEP.ViewModel  = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel = "models/weapons/w_crowbar.mdl"
 
+local bad_models = {
+	["models/moat/player/knight.mdl"] = true
+}
+
+
 SWEP.Primary.ClipSize       = -1
 SWEP.Primary.DefaultClip    = -1
 SWEP.Primary.Automatic      = false
@@ -58,10 +63,6 @@ function SWEP:InitializeTaunt()
 	end
 end
 
-local bad_models = {
-	["models/moat/player/knight.mdl"] = true
-}
-
 function SWEP:CreateRagdoll()
 	if (not IsValid(self.Owner)) then return end
 	local pl = self.Owner
@@ -103,7 +104,7 @@ function SWEP:CreateRagdoll()
 
 	local ang = pl:GetAngles()
 	ang.p = 0
-
+	-- if not bad_models[pl:GetModel()] then 
 	local num = rag:GetPhysicsObjectCount() - 1
 	for i = 0, num do
 		local bone = rag:GetPhysicsObjectNum(i)
@@ -189,7 +190,7 @@ function SWEP:PrimaryAttack()
 	if (CLIENT) then
 		self.CurrentCamera = 0
 	end
-
+	if bad_models[self.Owner:GetModel()] then return end
 	self:InitializeTaunt()
 end
 
