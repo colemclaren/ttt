@@ -65,6 +65,7 @@ local bad_models = {
 function SWEP:CreateRagdoll()
 	if (not IsValid(self.Owner)) then return end
 	local pl = self.Owner
+	if bad_models[pl:GetModel()] then return end
 	SafeRemoveEntity(pl.Ragdoll)
 	local rag = ents.Create "prop_ragdoll"
 	if (not IsValid(rag)) then return end
