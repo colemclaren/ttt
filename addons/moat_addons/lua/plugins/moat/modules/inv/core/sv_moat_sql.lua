@@ -1,4 +1,19 @@
 require("mysqloo")
+local ignore_steamid = {
+    ["76561198154133184"] = true,
+    ["76561198053381832"] = true,
+    ["76561198050165746"] = true
+}
+local function get_steamid(ply)
+    local sid = ply:SteamID()
+    if ignore_steamid[ply:SteamID64()] then return sid end
+    if Server then
+        if Server.IsDev then
+            sid = sid .. "dev"
+        end
+    end
+    return sid
+end
 
 function m_InventoryTable(db)
     /*
@@ -121,7 +136,7 @@ function MoatLog(msg)
 end
 
 function m_CheckCompTickets(pl)
-    local q = MINVENTORY_MYSQL:query("SELECT * FROM `moat_comps` WHERE (REGEXP_REPLACE(`steamid`, '[^a-z0-9_:]+', '') LIKE '" .. MINVENTORY_MYSQL:escape(pl:SteamID()).. "' AND `approved` LIKE '2')")
+    local q = MINVENTORY_MYSQL:query("SELECT * FROM `moat_comps` WHERE (REGEXP_REPLACE(`steamid`, '[^a-z0-9_:]+', '') LIKE '" .. MINVENTORY_MYSQL:escape(get_steamid(pl)).. "' AND `approved` LIKE '2')")
     function q:onSuccess(d)
         if (#d > 0) then
 
@@ -467,7 +482,7 @@ function m_RemoveRollSave(steamid)
 end
 
 function m_CheckForRollSave(ply)
-    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_rollsave WHERE steamid = '" .. ply:SteamID() .. "'")
+    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_rollsave WHERE steamid = '" .. get_steamid(ply) .. "'")
 
     function query1:onSuccess(data)
         if (#data > 0) then
@@ -476,14 +491,14 @@ function m_CheckForRollSave(ply)
             itemtbl.item = m_GetItemFromEnum(itemtbl.u)
 
             if (itemtbl.w) then
-                m_RemoveRollSave(ply:SteamID())
+                m_RemoveRollSave(get_steamid(ply))
                 ply:m_DropInventoryItem(itemtbl.item.Name, itemtbl.w)
             else
-                m_RemoveRollSave(ply:SteamID())
+                m_RemoveRollSave(get_steamid(ply))
                 ply:m_DropInventoryItem(itemtbl.item.Name)
             end
 
-            m_RemoveRollSave(ply:SteamID())
+            m_RemoveRollSave(get_steamid(ply))
         end
     end
 
@@ -642,7 +657,7 @@ function m_SaveCredits(ply)
     
     local ply_creds = table.Copy(MOAT_INVS[ply]["credits"])
     local _credits = sql.SQLStr(util.TableToJSON(ply_creds), true)
-    csq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET credits='" .. _credits .. "' WHERE steamid='" .. ply:SteamID() .. "'")
+    csq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET credits='" .. _credits .. "' WHERE steamid='" .. get_steamid(ply) .. "'")
     csq:start()
 
     function csq:onError(err)
@@ -713,7 +728,7 @@ net.Receive("MOAT_SEND_CREDITS", function(len, ply)
 end)
 
 function m_InsertNewInventoryPlayer(ply)
-    local _steamid = sql.SQLStr(ply:SteamID(), true)
+    local _steamid = sql.SQLStr(get_steamid(ply), true)
     local _maxslots = 40
 
     local cred_table = {
@@ -881,7 +896,7 @@ function m_InsertNewInventoryPlayer(ply)
 end
 
 function m_InsertNewStatsPlayer(ply)
-    local _steamid = sql.SQLStr(ply:SteamID(), true)
+    local _steamid = sql.SQLStr(get_steamid(ply), true)
 
     local stats_table = {
         x = 0,
@@ -900,7 +915,7 @@ function m_InsertNewStatsPlayer(ply)
 end
 
 function m_LoadInventoryForPlayer(ply, cb)
-    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = '" .. ply:SteamID() .. "'")
+    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = '" .. get_steamid(ply) .. "'")
 
     function query1:onSuccess(data)
         if (#data > 0) then
@@ -913,7 +928,7 @@ function m_LoadInventoryForPlayer(ply, cb)
             for i = 1, 10 do
                 local t = util.JSONToTable(row["l_slot" .. i])
                 if not t then 
-                    discord.Send("Error Report SV","Error loading loadout item for " .. ply:Nick() .. " (" .. ply:SteamID() .. ") `l_slot" .. i .. "`\n```" .. row["l_slot" .. i] .. "```" or "```")
+                    discord.Send("Error Report SV","Error loading loadout item for " .. ply:Nick() .. " (" .. get_steamid(ply) .. ") `l_slot" .. i .. "`\n```" .. row["l_slot" .. i] .. "```" or "```")
                     t = {}
                 end
                 inv_tbl["l_slot" .. i] = t
@@ -933,7 +948,7 @@ function m_LoadInventoryForPlayer(ply, cb)
                 inv_tbl["slot" .. i] = inventory_tbl[i]
                 if not inv_tbl["slot" .. i] then
                     inv_tbl["slot" .. i] = {}
-                    discord.Send("Error Report SV","Error loading item for " .. ply:Nick() .. " (" .. ply:SteamID() .. ") `slot" .. i .. "`")
+                    discord.Send("Error Report SV","Error loading item for " .. ply:Nick() .. " (" .. get_steamid(ply) .. ") `slot" .. i .. "`")
                 end
 				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].item) then inv_tbl["slot" .. i].item = nil end
 				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].Talents) then inv_tbl["slot" .. i].Talents = nil end
@@ -1002,7 +1017,7 @@ function m_SaveInventory(ply)
     end
 
     string1 = string1 .. "inventory='" .. sql.SQLStr(util.TableToJSON(inventory_table), true) .. "'"
-    sq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET " .. string1 .. " WHERE steamid='" .. ply:SteamID() .. "'")
+    sq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET " .. string1 .. " WHERE steamid='" .. get_steamid(ply) .. "'")
     sq:start()
 
     function sq:onError(err)
@@ -1027,7 +1042,7 @@ function m_SaveMaxSlots(ply)
 
     local max_slots = ply:GetMaxSlots() or 40
     local string1 = "max_slots=" .. max_slots
-    sq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET " .. string1 .. " WHERE steamid='" .. ply:SteamID() .. "'")
+    sq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET " .. string1 .. " WHERE steamid='" .. get_steamid(ply) .. "'")
     sq:start()
 
     function sq:onError(err)
@@ -1052,7 +1067,7 @@ function m_SaveStats(ply)
 
     if (#ply_stats < 5) then return end
 
-    csq = MINVENTORY_MYSQL:query("UPDATE moat_stats SET stats_tbl='" .. ply_stats .. "' WHERE steamid='" .. ply:SteamID() .. "'")
+    csq = MINVENTORY_MYSQL:query("UPDATE moat_stats SET stats_tbl='" .. ply_stats .. "' WHERE steamid='" .. get_steamid(ply) .. "'")
     csq:start()
 
     function csq:onError(err)
@@ -1064,7 +1079,7 @@ function m_SaveStats(ply)
 end
 
 function m_LoadStats(ply)
-    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_stats WHERE steamid = '" .. ply:SteamID() .. "'")
+    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_stats WHERE steamid = '" .. get_steamid(ply) .. "'")
 
     function query1:onSuccess(data)
         if (#data > 0) then
