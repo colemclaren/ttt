@@ -15,7 +15,8 @@ SWEP.ViewModel  = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel = "models/weapons/w_crowbar.mdl"
 
 local bad_models = {
-	["models/moat/player/knight.mdl"] = true
+	["models/moat/player/knight.mdl"] = true,
+	["models/moat/player/inferno_armour.mdl"] = true
 }
 
 
