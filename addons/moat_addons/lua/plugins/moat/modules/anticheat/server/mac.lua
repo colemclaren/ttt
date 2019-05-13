@@ -34,7 +34,7 @@ function perspective_post(nick,sid,message,ply)
     if #message < 3 then return end
     if cached_toxic[message] then return end -- avoid short term spam
     cached_toxic[message] = true
-    if message:match("^[!/]") then return end -- comman d
+    if message:match("^[!/]") then return end -- command
     local msg = util.TableToJSON({
             comment = {text = message},
             languages = {"en"},
@@ -85,7 +85,7 @@ hook.Add("PlayerInitialSpawn","Automatic Hate kicking",function(ply)
 end)
 
 hook.Add("PlayerSay","Automatic Hateful Conduct Ban",function(ply,txt)
-    --perspective_post(ply:Nick(),ply:SteamID(),txt,ply)
+    perspective_post(ply:Nick(),ply:SteamID(),txt,ply)
 end)
 
 
