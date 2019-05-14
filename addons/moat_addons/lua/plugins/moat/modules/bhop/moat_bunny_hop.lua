@@ -41,7 +41,7 @@ if (CLIENT) then
     hook.Add("player_hurt", "StopCrouch", function(info)
         local ply = Player(info.userid)
         if (ply == LocalPlayer() and IsValid(Player(info.attacker))) then
-            TimeBefore = CurTime() + 1
+            TimeBefore = CurTime() + 0.2
             RunConsoleCommand "-jump"
             RunConsoleCommand "-duck"
         end
