@@ -28,6 +28,7 @@ hook.Add("SetupMove", "moat_bunny_hop", function(ply, mv, data)
 end)
 
 if (CLIENT) then
+    --[[
     gameevent.Listen "player_hurt"
     local TimeBefore = -math.huge
 
@@ -45,5 +46,5 @@ if (CLIENT) then
             RunConsoleCommand "-jump"
             RunConsoleCommand "-duck"
         end
-    end)
+    end)]]
 end
