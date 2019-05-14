@@ -1330,10 +1330,10 @@ MOAT_BOUNTIES:AddBounty("Demolition Expert", {
 
 MOAT_BOUNTIES:AddBounty("Anti-Traitor Force", {
 	tier = 2,
-	desc = "Eliminate # traitors, rightfully, in one round # time. Can be completed as any role.",
+	desc = "In # round, eliminate # traitors, rightfully. Can be completed as any role.",
 	vars = {
-		math.random(2, 4),
-		1
+		1,
+		math.random(2, 4)
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("TTTBeginRound", "moat_reset_antitraitor_force", function()
@@ -1346,8 +1346,8 @@ MOAT_BOUNTIES:AddBounty("Anti-Traitor Force", {
 			if (IsValid(att) and att:IsPlayer() and ply ~= att and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_TRAITOR and (att:GetRole() == ROLE_INNOCENT or att:GetRole() == ROLE_DETECTIVE)) then
 				att.antitforce = (att.antitforce or 0) + 1
 
-				if (att.antitforce == mods[1]) then
-					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[2], idd)
+				if (att.antitforce == mods[2]) then
+					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 				end
 			end
 		end)
