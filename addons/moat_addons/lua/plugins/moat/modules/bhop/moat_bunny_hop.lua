@@ -26,3 +26,24 @@ hook.Add("SetupMove", "moat_bunny_hop", function(ply, mv, data)
         end
     end
 end)
+
+if (CLIENT) then
+    gameevent.Listen "player_hurt"
+    local TimeBefore = -math.huge
+
+    hook.Add("CreateMove", "StopCrouching", function(c)
+        if (TimeBefore > CurTime()) then
+            c:SetButtons(bit.band(bit.bnot(bit.bor(IN_JUMP, IN_DUCK)), c:GetButtons()))
+        end
+    end)
+
+
+    hook.Add("player_hurt", "StopCrouch", function(info)
+        local ply = Player(info.userid)
+        if (ply == LocalPlayer() and IsValid(Player(info.attacker))) then
+            TimeBefore = CurTime() + 1
+            RunConsoleCommand "-jump"
+            RunConsoleCommand "-duck"
+        end
+    end)
+end
