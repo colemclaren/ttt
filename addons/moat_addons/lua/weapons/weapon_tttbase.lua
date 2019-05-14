@@ -410,7 +410,7 @@ function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
       local aimang = aimvec:Angle()
       if (self.Primary.RealCone) then
          aimvec = aimvec + util.SharedRandom(self:GetClass(), -conex, conex, 0) * aimang:Right()
-         aimvec = aimvec + aimang:Up() * util.SharedRandom(self:GetClass(), -coney, coney, 0)
+         aimvec = aimvec + aimang:Up() * util.SharedRandom(self:GetClass(), -coney, coney, 1)
          mult = self.Primary.RealCone
       end
 
@@ -426,8 +426,17 @@ function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
          bullet.Callback = Sparklies
       end
 
+      local randn = 2
+      local nlayers = (self.Primary.LayerMults and #self.Primary.LayerMults or 1) + 3
+      print(nlayers)
+      local class = self:GetClass()
       for _, bulspread in pairs(bullets) do
-         bullet.Dir    = aimvec + bulspread.x * mult.x * aimang:Right() + bulspread.y * mult.y * aimang:Up()
+         local x, y = util.SharedRandom(class, -1, 1, randn) * conex / nlayers,
+            util.SharedRandom(class, -1, 1, randn + 1) * coney / nlayers
+         randn = randn + 2
+
+         local rspr = aimang:Right() * x + aimang:Up() * y
+         bullet.Dir    = aimvec + rspr + bulspread.x * mult.x * aimang:Right() + bulspread.y * mult.y * aimang:Up()
       
          self.Owner:FireBullets( bullet )
       end
