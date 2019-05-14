@@ -365,6 +365,9 @@ local function Sparklies(attacker, tr, dmginfo)
 end
 
 function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
+   if (self.Primary.ReverseShotsDamage) then
+      dmg, numbul = numbul, dmg
+   end
 
    self:SendWeaponAnim(self.PrimaryAnim)
 
@@ -428,7 +431,7 @@ function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
 
       local randn = 2
       local nlayers = (self.Primary.LayerMults and #self.Primary.LayerMults or 1) + 3
-      print(nlayers)
+
       local class = self:GetClass()
       for _, bulspread in pairs(bullets) do
          local x, y = util.SharedRandom(class, -1, 1, randn) * conex / nlayers,

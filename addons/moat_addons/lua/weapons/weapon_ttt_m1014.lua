@@ -10,7 +10,7 @@ if CLIENT then
    SWEP.Icon = "vgui/ttt/m1014_icon"
 end
 
-SWEP.PrintName = "Garbage Ass POS"
+SWEP.PrintName = "Jopalu"
 SWEP.Gun = ("weapon_ttt_m1014")
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_SHOTGUN
@@ -30,14 +30,15 @@ SWEP.Primary.Range = 10000
 SWEP.Primary.Damage = 13
 SWEP.Primary.RealCone = Vector(0.003, 0.003)
 SWEP.Primary.Cone = 0.035
-SWEP.Primary.Damage = 3
+SWEP.Primary.Damage = 28
 SWEP.Primary.Delay = 0.7 + 0.2
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 6
 SWEP.Primary.Automatic = true
-SWEP.Primary.NumShots = 32
-SWEP.AutoSpawnable      = false
+SWEP.Primary.NumShots = 3
+SWEP.Primary.ReverseShotsDamage = true
+SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.reloadtimer = 0
 SWEP.Primary.Recoil			= 7
