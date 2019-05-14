@@ -9,7 +9,7 @@ TALENT.NotUnique = true
 TALENT.LevelRequired = {min = 15, max = 19}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 50, max = 90}
+TALENT.Modifications[1] = {min = 40, max = 80}
 
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
 	if (GetRoundState() ~= ROUND_ACTIVE) then return end
