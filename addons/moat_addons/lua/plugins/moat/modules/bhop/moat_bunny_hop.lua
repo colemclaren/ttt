@@ -40,7 +40,7 @@ if (CLIENT) then
 
     hook.Add("player_hurt", "StopCrouch", function(info)
         local ply = Player(info.userid)
-        if (ply == LocalPlayer() and IsValid(Player(info.attacker))) then
+        if (not MOAT_CUR_BOSS and ply == LocalPlayer() and IsValid(Player(info.attacker))) then
             TimeBefore = CurTime() + 0.2
             RunConsoleCommand "-jump"
             RunConsoleCommand "-duck"
