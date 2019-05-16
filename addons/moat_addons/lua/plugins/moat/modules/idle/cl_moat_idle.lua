@@ -1,7 +1,7 @@
 local notstaff = {
     "user",
     "vip",
-    "credibleclub",
+    "coolclub",
     "communitylead"
 }
 hook.Add("PostGamemodeLoaded", "Moat.AFKFix", function()

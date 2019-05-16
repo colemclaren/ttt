@@ -23,10 +23,10 @@ moat.Ranks.Register(3, "mvp", "MVP")
 	:SetIcon "icon16/heart.png"
 	:SetFlags "+$"
 
-moat.Ranks.Register(4, "credibleclub", "Credible Club")
+moat.Ranks.Register(4, "coolclub", "Cool Cuties")
 	:SetWeight(30)
 	:ForumSync(8)
-	:SetColor {255, 115, 26}
+	:SetColor {103, 152, 235}
 	:SetIcon "icon16/heart.png"
 	:SetFlags "+"
 

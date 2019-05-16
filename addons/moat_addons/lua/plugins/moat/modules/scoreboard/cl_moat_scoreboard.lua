@@ -171,7 +171,7 @@ local function moat_TTTScoreboardMenu(menu)
 	if (IsValid(ply) and LocalPlayer() ~= ply and (rank and rank ~= "user")) then
 		menu:AddSpacer()
 
-		if (rank == "vip" or rank == "credibleclub") then
+		if (rank == "vip" or rank == "coolclub") then
 			local sub, btn = menu:AddSubMenu "Votekick"
 			btn:SetImage("icon16/door_open.png")
 			sub:AddOption("Yes I'm sure", function()

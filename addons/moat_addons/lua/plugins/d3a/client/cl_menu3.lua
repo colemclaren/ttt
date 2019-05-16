@@ -12,7 +12,7 @@ mga.CommandList, mga.WarnCommands, mga.MapList = {
 		{"Block", "Blocks a player in game.", false},
 		{"UnBlock", "Unblocks a player in game.", false},
 	}},
-	{5, "VIP & Credible Club", Color(255, 128, 0, 255), {
+	{5, "VIP & Cool Cuties", Color(0, 255, 67, 255), {
 		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
 			{"Drop", "Choose Reason", {"Purposeful Mass RDM","Attempted Mass RDM","Hateful Conduct"}, "Reason required..."}
 		}},

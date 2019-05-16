@@ -220,7 +220,7 @@ function PANEL:GetPlayer() return self.Player end
 
 local group_images = {
    ["vip"] = "icon16/star.png",
-   ["credibleclub"] = "icon16/heart.png",
+   ["coolclub"] = "icon16/heart.png",
    ["trialstaff"] = "icon16/shield.png",
    ["moderator"] = "icon16/shield_add.png",
    ["admin"] = "icon16/lightning.png",
