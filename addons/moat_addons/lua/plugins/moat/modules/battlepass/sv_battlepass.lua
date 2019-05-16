@@ -1,1 +1,1 @@
-print("Sv Battle Pass")
+print("Sv Battle Pas")
