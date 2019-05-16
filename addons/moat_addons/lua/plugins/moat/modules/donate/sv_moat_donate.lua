@@ -336,9 +336,7 @@ local function namerewards()
 		local q = db:query("UPDATE moat_namerewards SET pending_ic = '0',pending_sc = '0' WHERE steamid = '" .. ply:SteamID64() .. "';")
 		q:start()
 		ply:m_GiveIC(ply.pendingname[1])
-		local q = db:query("UPDATE player SET donator_credits = donator_credits + " .. ply.pendingname[2] .. " WHERE steam_id = '" .. ply:SteamID64() .. "';")
-		function q:onSuccess(bd)
-		end
+		ply:TakeSC(ply.pendingname[2] * -1)
 		ply.pendingname = nil
 		q:start()
 		ply:SendLua("chat.AddText('You have collected your points! Thanks for supporting Moat Gaming <3')")
