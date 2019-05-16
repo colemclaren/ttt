@@ -10,7 +10,7 @@ if CLIENT then
    SWEP.Icon = "vgui/ttt/m1014_icon"
 end
 
-SWEP.PrintName = "Jopalu"
+SWEP.PrintName = "SLUG-03"
 SWEP.Gun = ("weapon_ttt_m1014")
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_SHOTGUN
