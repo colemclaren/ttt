@@ -90,6 +90,12 @@ function SWEP:SecondaryAttack()
    self.dt.start_time = 0
 end
 
+function SWEP:CalcView(ply, pos, ang, fov)
+    if (self.dt.zoom and self.dt.zoom > 1) then
+    	return pos, ang, self.ZoomLevels[self.dt.zoom], false
+    end
+end
+
 function SWEP:SetZoom(level)
    if SERVER then
       self.dt.zoom = level
