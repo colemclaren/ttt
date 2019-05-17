@@ -9,7 +9,15 @@
 !/gamemodes/terrortown
 !/gamemodes/terrorcity
 !/lua
+!/materials
+!/models
 *.*
+!/materials/**/*.vtf
+!/materials/**/*.vmt
+!/models/**/*.vtx
+!/models/**/*.mdl
+!/models/**/*.phy
+!/models/**/*.vvd
 !/lua/bin/gmsv_luaerror_linux.dll
 !/lua/bin/gmsv_luaerror_win32.dll
 !*.lua
