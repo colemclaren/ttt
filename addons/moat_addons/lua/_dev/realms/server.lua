@@ -23,36 +23,36 @@ discord.Send("testing", markdown.WrapBoldLine(string ("Lottery number of " .. ma
 
 */
 
-concommand.Add("test_discord", function()
-	local bstr, medals = "", {":third_place:", ":second_place:", ":first_place:"}
-	for i = 1, 3 do
-		local bounty = MOAT_BOUNTIES.ActiveBounties[i].bnty
-		local mods = MOAT_BOUNTIES.ActiveBounties[i].mods
-		local bounty_desc = bounty.desc
+-- concommand.Add("test_discord", function()
+-- 	local bstr, medals = "", {":third_place:", ":second_place:", ":first_place:"}
+-- 	for i = 1, 3 do
+-- 		local bounty = MOAT_BOUNTIES.ActiveBounties[i].bnty
+-- 		local mods = MOAT_BOUNTIES.ActiveBounties[i].mods
+-- 		local bounty_desc = bounty.desc
 
-		local n = 0
-		for _ = 1, #mods do
-			bounty_desc = bounty_desc:gsub("#", function() n = n + 1 return markdown.Bold(mods[n]) end)
-		end
+-- 		local n = 0
+-- 		for _ = 1, #mods do
+-- 			bounty_desc = bounty_desc:gsub("#", function() n = n + 1 return markdown.Bold(mods[n]) end)
+-- 		end
 
-		bstr = string (bstr, medals[i],
-			" " .. markdown.Bold(bounty.name) .. " | " .. markdown.EndLine(bounty_desc),
-			markdown.Highlight("Rewards: " .. bounty.rewards)
-		)
+-- 		bstr = string (bstr, medals[i],
+-- 			" " .. markdown.Bold(bounty.name) .. " | " .. markdown.EndLine(bounty_desc),
+-- 			markdown.Highlight("Rewards: " .. bounty.rewards)
+-- 		)
 
-		if (i < 3) then
-			bstr = markdown.EndLine(
-				markdown.EndLine(bstr)
-			)
-		end
-	end
+-- 		if (i < 3) then
+-- 			bstr = markdown.EndLine(
+-- 				markdown.EndLine(bstr)
+-- 			)
+-- 		end
+-- 	end
 
-	discord.Send("testing", markdown.Code(" ") .. markdown.WrapBold(
-			string (":calendar_spiral: ",
-				"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
-				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. GetServerIP())),
-				markdown.LineStart(bstr)
-			)
-		)
-	)
-end)
+-- 	discord.Send("testing", markdown.Code(" ") .. markdown.WrapBold(
+-- 			string (":calendar_spiral: ",
+-- 				"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
+-- 				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. GetServerIP())),
+-- 				markdown.LineStart(bstr)
+-- 			)
+-- 		)
+-- 	)
+-- end)
