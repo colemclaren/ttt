@@ -94,35 +94,86 @@ local detection_names = {
     [-6] = "Movement 3 (major",
     [0] = "Ignored"
 }
-local function joystick_detect(p, detect, c)
-    if (detect == -5) then return end -- disable "Movement 2 (major)" detection because false positives and no meep to fix it
+local Ban = "Ban"
+local PrintOnce = "PrintOnce"
+local Detections = {
+    [-1] = {
+        Name = "EyeAngles 1",
+        Punishment = PrintOnce,
+    },
+    [-2] = {
+        Name = "ViewAngles 1 (major)",
+        Punishment = Ban
+    },
+    [-3] = {
+        Name = "Buttons (major)",
+        Punishment = Ban
+    },
+    [-4] = {
+        Name = "Movement 1 (major)",
+        Punishment = Ban
+    },
+    [-5] = {
+        Name = "Movement 2 (major)",
+        Punishment = PrintOnce
+    },
+    [-6] = {
+        Name = "Movement 3 (major)",
+        Punishment = Ban
+    },
+    [-100] = {
+        Name = "CitizenHack",
+        Punishment = Ban
+    },
+    [-99]= {
+        Name = "SC Override",
+        Punishment = Ban
+    }
+}
 
-    if (IsDev() or not p.joystick_msg or p.joystick_msg < CurTime()) then
-		local sid = p:SteamID()
-	
-        local msg = "[v. BIGMEME_test2] Detected: `" .. p:Nick() .. "(" .. sid .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP()
-        msg = msg .. "\nDetection: `" .. (detection_names[detect] or detect) .. "`"
+local Logs = {}
+
+local function joystick_detect(p, detect, c)
+    local sid = p:SteamID()
+
+    if (banned[sid]) then
+        return
+    end
+
+    Logs[p] = Logs[p] or {}
+
+    Logs = Logs[p]
+    Logs[detect] = Logs[detect] or {}
+
+    Logs = Logs[detect]
+
+    if (IsDev() or (not Logs.NextMessage and true or Logs.NextMessage < CurTime())) then
+        local info = Detections[detect]
+
+        local msg = "Detected: `" .. p:Nick() .. "(" .. sid .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP()
+        msg = msg .. "\nDetection: `" .. (info and info.Name or tostring(detect)) .. "`"
         msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
         local wep = p:GetActiveWeapon()
-        msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "n/a") .. "`"
+        msg = msg .. "\nweapon class: `" .. (IsValid(wep) and wep:GetClass() or "NONE") .. "`"
         msg = msg .. "\nalive: " .. ((p:IsDeadTerror() or p:IsSpec()) and "`no`" or "`yes`")
 
         msg = msg .. "\nPacketLoss: `" .. tostring(p:PacketLoss()) .. "`"
         msg = msg .. "\nTimingOut: `" .. tostring(p:IsTimingOut()) .. "`"
+        msg = msg .. "\nMap: `" .. game.GetMap() .. "` pos: `" .. tostring(p:GetPos()) .."`"
+        msg = msg .. "\nVersion: `Total`"
 
         if (IsDev()) then
             print(msg)
-        elseif (detect ~= -1) and (detect ~= 0) then -- It's SPAMMING HELP
+        else
             discord.Send("Skid", msg)
-			timer.Simple(30, function()
-				if (not banned[sid]) then
-					RunConsoleCommand("mga","perma", sid,"Cheating")
-					banned[sid] = true
-				end
-			end)
+            Logs.NextMessage = CurTime() + 120
+            --[[if (info.Punishment == Ban) then
+                banned[sid] = true
+                timer.Simple(30, function()
+                    RunConsoleCommand("mga", "perma", sid, "Cheating")
+                end)
+            end]]
         end
-
-        p.joystick_msg = CurTime() + 5
     end
 end
 
@@ -151,7 +202,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
         return
     end
 
-    if (mwheel ~= 127 and mwheel ~= -4 and not p:InVehicle()) then
+    if (mwheel ~= 127 and not p:InVehicle()) then
         -- caveat 2: random duplicated command numbers on packet loss that are nulled
         if (mwheel == 0 and (not p.joystick_zeroes or p.joystick_zeroes.n < 10)) then
             p.joystick_zeroes = p.joystick_zeroes or {n = 0}
@@ -172,32 +223,7 @@ hook.Add("StartCommand", "Joystick", function(p, c)
             p.joystick_zeroes = nil
         end
 
-        if (IsDev()) then
-            print("joystick_detect", mwheel, c:IsForced(), c:TickCount(), c:CommandNumber())
-            return
-        end
-        if (true) then
-            -- TODO: remove after debugging
-            joystick_detect(p, mwheel, c)
-            return
-        end
-
-        p.MDetect = true
-        if not detections[p:SteamID()] then
-            make_mac_detections(p,mwheel) 
-        end
-        if not detections[p:SteamID()][5][mwheel] then
-            detections[p:SteamID()][5][mwheel] = 1
-        else
-            detections[p:SteamID()][5][mwheel] = detections[p:SteamID()][5][mwheel] + 1
-            if detections[p:SteamID()][5][mwheel] > 15 and (not p.v_snapped) then
-                if mwheel == -100 then return end
-                -- net.Start("moat-ab")
-                -- net.Send(p)
-                p.snapper = "c"
-                p.v_snapped = true
-            end
-        end
+        joystick_detect(p, mwheel, c)
     end
 end)
 
