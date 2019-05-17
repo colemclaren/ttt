@@ -96,10 +96,14 @@ local detection_names = {
 }
 local Ban = "Ban"
 local PrintOnce = "PrintOnce"
+local Ignore = "Ignore"
 local Detections = {
+    [0] = {
+        Punishment = Ignore
+    },
     [-1] = {
         Name = "EyeAngles 1",
-        Punishment = PrintOnce,
+        Punishment = Ignore,
     },
     [-2] = {
         Name = "ViewAngles 1 (major)",
@@ -164,7 +168,7 @@ local function joystick_detect(p, detect, c)
 
         if (IsDev()) then
             print(msg)
-        else
+        elseif (info.Punishment ~= Ignore) then
             discord.Send("Skid", msg)
             Logs.NextMessage = CurTime() + 120
             --[[if (info.Punishment == Ban) then
