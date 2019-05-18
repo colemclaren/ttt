@@ -47,7 +47,8 @@ SWEP.IronSightsPos = Vector(0,0,0)--Vector (-2.7995, -5.0013, 1.9694)
 SWEP.IronSightsAng = Vector (0.2422, -0.0422, 0)
 
 SWEP.UnpredictedHoldTime = 0
-SWEP.MaxHoldTime = 2				// Must let go after this time. Determines damage/velocity based on time held.
+SWEP.MaxHoldTime = 3				// Must let go after this time. Determines damage/velocity based on time held.
+SWEP.ChargeSpeed = 1
 
 
 function SWEP:Precache()
