@@ -338,20 +338,38 @@ if (CLIENT) then
 		if (self:GetHoldTime() ~= 0) then
 			ratio = (self:GetCharge() - 0.1) / 0.9
 		end
-
-		surface.SetDrawColor(255, 255, 255, 30 + (225 * ratio))
-		--surface.DrawRect(scrx - 75, scry + 200, 150, 16)
-		surface.DrawOutlinedRect(scrx - 75, scry + 200, 150, 20)
+	
 		if self:GetHoldTime() ~= 0 then
-			surface.SetDrawColor(255 - (255 * ratio), 255 * ratio, 0, 180)
-			surface.DrawRect(scrx - 75, scry + 200, 150 * ratio, 20)
+			surface.SetDrawColor(183, 183, 183, 15 * ratio)
+			surface.DrawOutlinedRect(scrx - 1 - (100 * ratio), scry + 200 - 1, (200 * ratio), 22)
 
-			surface.SetDrawColor(0, 0, 0, 200)
+
+			surface.SetDrawColor(25 + (175 * ratio), 200 - (175 * ratio), 25, 255)
+
+			if (ratio >= 1) then
+				surface.SetDrawColor(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b, 255)
+			end
+
+			surface.DrawRect(scrx - 1, scry + 200, 100 * ratio, 20)
+			surface.DrawRect(scrx + 1 - (100 * ratio), scry + 200, 100 * ratio, 20)
+
+			surface.SetDrawColor(0, 0, 0, 100)
+			surface.DrawRect(scrx - (99 * ratio), scry + 200, 198 * ratio, 20)
+
+			surface.SetDrawColor(0, 0, 0, 150)
 			surface.SetMaterial(grad_d)
-			surface.DrawTexturedRect(scrx - 75, scry + 200, 150 * ratio, 20)
-		end
+			surface.DrawTexturedRect(scrx - (99 * ratio), scry + 200, 198 * ratio, 20)
+			local charge = ""
+			/*
+			if (self.ChargeSpeed and self.ChargeSpeed > 1) then
+				charge = " ... " .. math.Round((self.ChargeSpeed - 1) * 100, 2) .. ""
+			end
+			*/
 
-		draw.SimpleText("Bow Power", "moat_ChatFont", scrx, scry + 209, Color(255, 255, 255, 30 + (225 * ratio)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			local text, text_y = (ratio >= 1) and "Ready to Fire!" or math.Round(ratio * 100) .. " / 100" .. charge, scry + 209
+			draw.SimpleText(text, "moat_Medium4", scrx, text_y, Color(255, 255, 255, 15 + (255 * ratio)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw.SimpleText(text, "moat_Medium4s", scrx, text_y, Color(0, 0, 20, (200 * ratio)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		end
 	end
 
 	function SWEP:AdjustMouseSensitivity()
