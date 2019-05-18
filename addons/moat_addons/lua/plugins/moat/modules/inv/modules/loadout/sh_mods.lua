@@ -37,6 +37,25 @@ MODS.Networked = {
     a = build("Accuracy", function(w) return w.Primary end, "Float", "Cone"),
     a1 = build("AccuracyX", function(w) return w.Primary end, "Float", "ConeX"),
     a2 = build("AccuracyY", function(w) return w.Primary end, "Float", "ConeY"),
+	y = build("Reloadrate", function(w) return w end, "Float", "ReloadSpeed"),
+	z = {
+		network = function(wep)
+            return wep:SetDeployrate(wep.DeploySpeed or invalids.Float)
+        end,
+        valid = function(wep)
+            return true
+        end,
+        receive = function(wep)
+            if (wep:GetDeployrate() == invalids[Type]) then
+                return
+            end
+
+            wep.DeploySpeed = wep:GetDeployrate()
+			wep:SetDeploySpeed(wep.DeploySpeed)
+        end,
+        Name = "Deployrate",
+        Type = "Float"
+	},
     m = {
         network = function(wep)
             return wep:SetMagazine(wep.Primary.ClipSize or invalids.Float)

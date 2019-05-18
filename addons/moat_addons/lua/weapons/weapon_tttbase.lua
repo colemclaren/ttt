@@ -120,6 +120,9 @@ SWEP.DeploySpeed = 1.4
 
 SWEP.PrimaryAnim = ACT_VM_PRIMARYATTACK
 SWEP.ReloadAnim = ACT_VM_RELOAD
+SWEP.ReloadSpeed = 1
+SWEP.SoundQueue = {}
+SWEP.SoundActive = false
 
 SWEP.fingerprints = {}
 
@@ -297,16 +300,12 @@ end
 
 -- Shooting functions largely copied from weapon_cs_base
 function SWEP:PrimaryAttack(worldsnd)
-	self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
-	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-
 	if (not self:CanPrimaryAttack()) then
 		return
 	end
-	
-	if (self.ReloadTime and self.ReloadTime > CurTime()) then
-		return
-	end
+
+	self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
 	if (not worldsnd) then
 		self:EmitSound(self.Primary.Sound, self.Primary.SoundLevel)
@@ -326,9 +325,9 @@ function SWEP:PrimaryAttack(worldsnd)
 end
 
 function SWEP:DryFire(setnext)
-   if CLIENT and LocalPlayer() == self.Owner then
-      self:EmitSound( "Weapon_Pistol.Empty" )
-   end
+   	if (CLIENT and LocalPlayer() == self.Owner) then
+      	self:EmitSound "Weapon_Pistol.Empty"
+   	end
 
    setnext(self, CurTime() + 0.2)
 
@@ -336,23 +335,39 @@ function SWEP:DryFire(setnext)
 end
 
 function SWEP:CanPrimaryAttack()
-   if not IsValid(self.Owner) then return end
+   	if (not IsValid(self.Owner)) then
+   		return
+	end
 
-   if self:Clip1() <= 0 then
-      self:DryFire(self.SetNextPrimaryFire)
-      return false
-   end
-   return true
+	if (self.ReloadTime and self.ReloadStart and ((self.ReloadStart + self.ReloadTime) <= CurTime())) then
+		return
+	end
+
+	if (self.ActiveDelay and self.ActiveDelay > CurTime()) then
+		return
+	end
+
+   	if (self:Clip1() <= 0) then
+    	self:DryFire(self.SetNextPrimaryFire)
+      	
+		return false
+   	end
+   	
+	return true
 end
 
 function SWEP:CanSecondaryAttack()
-   if not IsValid(self.Owner) then return end
+   	if (not IsValid(self.Owner)) then
+   		return
+	end
 
-   if self:Clip2() <= 0 then
-      self:DryFire(self.SetNextSecondaryFire)
-      return false
-   end
-   return true
+   	if (self:Clip2() <= 0) then
+    	self:DryFire(self.SetNextSecondaryFire)
+      	
+		return false
+   	end
+   	
+	return true
 end
 
 local function Sparklies(attacker, tr, dmginfo)
@@ -527,23 +542,133 @@ function SWEP:SecondaryAttack()
 end
 
 function SWEP:Deploy()
-   self:SetIronsights(false)
-   return true
+  	self:SetIronsights(false)
+
+	self.ReloadStart = nil
+	self.SoundActive = false
+	self.SoundQueue = {}
+
+   	return true
 end
 
+function SWEP:Holster(wep)
+	if (self.SoundActive) then
+		self:StopSound(self.SoundActive)
+	end
+
+	self.ReloadStart = nil
+	self.SoundActive = false
+	self.SoundQueue = {}
+
+	return true
+end
+
+function SWEP:PlayAnimation(sequence, speed, cycle, ent)
+	cycle = (cycle and cycle > 0) and cycle
+	ent = ent or self
+
+	ent:ResetSequenceInfo()
+	ent:ResetSequence(sequence)
+	ent:SetCycle(cycle or 0)
+	ent:SetPlaybackRate(speed or 1)
+
+	if (ent == self) then
+		local vm = self.Owner:GetViewModel()
+
+		if (IsValid(vm)) then
+			self:PlayAnimation(sequence, speed, cycle, vm)
+		end
+	end
+end
+
+SWEP.ActiveDelay = 0
 function SWEP:Reload()
-	if (self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0) then
+	if (self:Clip1() == self.Primary.ClipSize or self:Ammo1() <= 0) then
 		return false
 	end
 
-	if (self.ReloadLength) then
-		self.ReloadTime = CurTime() + self.ReloadLength
+	if (self.ActiveDelay and self.ActiveDelay > CurTime()) then
+		return false
 	end
 
-   	self:DefaultReload(self.ReloadAnim)
-   	self:SetIronsights(false)
+	local Clip, CurrentTime = self:Clip1(), CurTime()
+
+	self:SetIronsights(false)
+
+	if (type(self.ReloadAnim) == "table") then
+		local ReloadDataKey = (Clip == 0) and "ReloadEmpty" or "DefaultReload" 
+		if (Clip ~= 0 and self.ReloadAnim["Reload" .. Clip] and (self.ReloadAnim["Reload" .. Clip].Check and self.ReloadAnim["Reload" .. Clip].Check(Clip) or not self.ReloadAnim["Reload" .. Clip].Check)) then
+			ReloadDataKey = "Reload" .. Clip
+		end
+
+		local ReloadData = self.ReloadAnim[ReloadDataKey] or self.ReloadAnim["DefaultReload"]
+		if (not ReloadData or not ReloadData.Animation) then
+			print "DefaultReload"
+			self:DefaultReload(self.ReloadAnim)
+
+			return true
+		end
+
+		if (ReloadData.ReloadTime) then
+			self.ReloadTime = (ReloadData.ReloadTime / self.ReloadSpeed) //+ 1
+		end
+
+		self:PlayAnimation(ReloadData.Animation, self.ReloadSpeed)
+
+		if (ReloadData.Sounds) then
+			self.SoundQueue = table.Copy(ReloadData.Sounds)
+
+			for i = 1, #self.SoundQueue do
+				timer.Simple(self.SoundQueue[i].Delay / self.ReloadSpeed, function()
+					if (not self.ReloadStart or self.ReloadStart ~= CurrentTime) then
+						return
+					end
+
+					self:EmitSound(self.SoundQueue[i].Sound, 75, 100, 1, CHAN_AUTO )
+					self.SoundActive = self.SoundQueue[i].Sound
+				end)
+			end
+		end
+		
+		self.Owner:SetAnimation(PLAYER_RELOAD)
+
+		if (self.ReloadTime) then
+			self.ReloadStart = CurrentTime
+			self.ActiveDelay = CurrentTime + self.ReloadTime
+		end
+	else
+		self:DefaultReload(self.ReloadAnim)
+		print "DefaultReload"
+
+		if (self.ReloadTime) then
+			self.ActiveDelay = CurrentTime + (self.ReloadTime / self.ReloadSpeed)
+		end
+	end
 
 	return true
+end
+
+function SWEP:FinishReload()
+	if (self.ReloadTime and self.ReloadStart and ((self.ReloadStart + self.ReloadTime) <= CurTime())) then
+		local Clip, Ammo = self:Clip1(), self:Ammo1()
+		
+		if (Ammo <= 0) then
+			return false
+		end
+
+		if (SERVER) then
+			local bullets = math.Clamp(Ammo, 0, math.max(self:GetMaxClip1() - Clip, 0))
+
+			self.Owner:RemoveAmmo(bullets, self.Primary.Ammo)
+			self:SetClip1(Clip + bullets)
+		end
+
+		self.ReloadStart = nil
+
+		return true
+	end
+
+	return false
 end
 
 
@@ -702,7 +827,8 @@ function SWEP:CalcViewModel()
 end
 
 function SWEP:Think()
-   self:CalcViewModel()
+	self:CalcViewModel()
+	self:FinishReload()
 end
 
 function SWEP:DyingShot()

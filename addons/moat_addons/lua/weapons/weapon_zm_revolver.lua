@@ -14,6 +14,7 @@ if CLIENT then
 end
 
 SWEP.Base				= "weapon_tttbase"
+DEFINE_BASECLASS "weapon_tttbase"
 
 SWEP.Spawnable = true
 SWEP.Kind = WEAPON_PISTOL
@@ -44,3 +45,11 @@ SWEP.WorldModel			= "models/weapons/w_pist_deagle.mdl"
 
 SWEP.IronSightsPos = Vector(-6.361, -3.701, 2.15)
 SWEP.IronSightsAng = Vector(0, 0, 0)
+
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Animation = "reload",
+		ReloadTime = 2.2
+	}
+}

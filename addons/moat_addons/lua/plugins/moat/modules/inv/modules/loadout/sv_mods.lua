@@ -113,5 +113,24 @@ MODS.Settable = {
             s(wep.Secondary, "Delay", mult)
         end,
         getmult = sub_getmult "Pushrate"
+    },
+    y = {
+        valid = function(wep)
+            return wep.Primary and wep.Primary.ClipSize and wep.Primary.ClipMax and wep.Primary.DefaultClip and wep.Primary.DefaultClip > -1
+        end,
+        set = function(wep, mult)
+            s(wep, "ReloadSpeed", mult)
+        end,
+        getmult = getmult "Reloadrate"
+    },
+    z = {
+        valid = function(wep)
+            return true
+        end,
+        set = function(wep, mult)
+            s(wep, "DeploySpeed", mult)
+			wep:SetDeploySpeed(wep.DeploySpeed)
+        end,
+        getmult = getmult "Deployrate"
     }
 }

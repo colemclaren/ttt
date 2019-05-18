@@ -284,6 +284,10 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                     dropped_item.s.r = math.Round(math.Rand(0, 1), 3)
                 elseif (tostring(k) == "Weight") then
                     dropped_item.s.w = math.Round(math.Rand(0, 1), 3)
+                elseif (tostring(k) == "Reloadrate") then
+                    dropped_item.s.y = math.Round(math.Rand(0, 1), 3)
+                elseif (tostring(k) == "Deployrate") then
+                    dropped_item.s.z = math.Round(math.Rand(0, 1), 3)
                 end
 
                 if (stats_to_apply > 0) then
@@ -382,6 +386,10 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                     dropped_item.s.v = math.Round(math.Rand(0, 1), 3)
                 elseif (tostring(k) == "Weight") then
                     dropped_item.s.w = math.Round(math.Rand(0, 1), 3)
+                elseif (tostring(k) == "Reloadrate") then
+                    dropped_item.s.y = math.Round(math.Rand(0, 1), 3)
+                elseif (tostring(k) == "Deployrate") then
+                    dropped_item.s.z = math.Round(math.Rand(0, 1), 3)
                 end
 
                 if (stats_to_apply > 0) then
@@ -992,6 +1000,10 @@ function m_ResetStats(pl, wep_slot, itemtbl)
                 ply_item.s.r = math.Round(math.Rand(0, 1), 3)
             elseif (tostring(k) == "Weight") then
                 ply_item.s.w = math.Round(math.Rand(0, 1), 3)
+            elseif (tostring(k) == "Reloadrate") then
+                ply_item.s.y = math.Round(math.Rand(0, 1), 3)
+            elseif (tostring(k) == "Deployrate") then
+                ply_item.s.z = math.Round(math.Rand(0, 1), 3)
             end
 
             if (stats_to_apply > 0) then
@@ -1032,6 +1044,10 @@ function m_ResetStats(pl, wep_slot, itemtbl)
                 ply_item.s.v = math.Round(math.Rand(0, 1), 3)
             elseif (tostring(k) == "Weight") then
                 ply_item.s.w = math.Round(math.Rand(0, 1), 3)
+            elseif (tostring(k) == "Reloadrate") then
+                ply_item.s.y = math.Round(math.Rand(0, 1), 3)
+            elseif (tostring(k) == "Deployrate") then
+                ply_item.s.z = math.Round(math.Rand(0, 1), 3)
             end
 
             if (stats_to_apply > 0) then

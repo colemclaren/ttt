@@ -477,6 +477,8 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                     wpn_tbl.Secondary.Delay or 0,
                     wpn_tbl.Primary.ConeX or 0,
                     wpn_tbl.Primary.ConeY or 0,
+					wpn_tbl.ReloadSpeed or 0,
+					wpn_tbl.DeploySpeed or 0
                 },
                 owner = ply:EntIndex(),
                 info = v,

@@ -626,6 +626,10 @@ function m_GetStatMinMax(key, itemtbl)
         stat_min, stat_max = itemtbl.item.Stats.Pushrate.min, itemtbl.item.Stats.Pushrate.max
     elseif (tostring(key) == "v") then
         stat_min, stat_max = itemtbl.item.Stats.Force.min, itemtbl.item.Stats.Force.max
+    elseif (tostring(key) == "y") then
+        stat_min, stat_max = itemtbl.item.Stats.Reloadrate.min, itemtbl.item.Stats.Reloadrate.max
+    elseif (tostring(key) == "z") then
+        stat_min, stat_max = itemtbl.item.Stats.Deployrate.min, itemtbl.item.Stats.Deployrate.max
     end
 
     return stat_min, stat_max
@@ -643,6 +647,8 @@ stats_full["x"] = "XP"
 stats_full["l"] = "Level"
 stats_full["p"] = "Push Delay"
 stats_full["v"] = "Push Force"
+stats_full["y"] = "Reload Rate"
+stats_full["z"] = "Deploy Speed"
 local m_color_green = Color(40, 255, 40)
 local m_color_red = Color(255, 40, 40)
 local talents_spacer = 25

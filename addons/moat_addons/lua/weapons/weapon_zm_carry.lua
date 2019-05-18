@@ -3,7 +3,6 @@
 
 AddCSLuaFile()
 
-DEFINE_BASECLASS "weapon_tttbase"
 
 SWEP.HoldType           = "pistol"
 SWEP.PrintName       = "Magneto Stick"
@@ -14,6 +13,7 @@ end
 
 SWEP.Base = "weapon_tttbase"
 
+DEFINE_BASECLASS "weapon_tttbase"
 SWEP.AutoSpawnable      = false
 
 SWEP.ViewModel          = Model("models/weapons/v_stunbaton.mdl")
