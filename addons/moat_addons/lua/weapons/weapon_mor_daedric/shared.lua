@@ -1,4 +1,3 @@
-
 AddCSLuaFile()
 
 SWEP.PrintName = "Daedric Bow"
@@ -18,3 +17,5 @@ SWEP.Primary.DefaultClip	= 15
 SWEP.Primary.Ammo			= "357"
 SWEP.AmmoEnt				= "item_ammo_357_ttt"
 SWEP.Secondary.Ammo			= "none"
+
+SWEP.ChargeSpeed = 1.55

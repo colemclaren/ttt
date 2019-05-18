@@ -288,7 +288,9 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                     dropped_item.s.y = math.Round(math.Rand(0, 1), 3)
                 elseif (tostring(k) == "Deployrate") then
                     dropped_item.s.z = math.Round(math.Rand(0, 1), 3)
-                end
+                elseif (tostring(k) == "Chargerate") then
+                	dropped_item.s.c = math.Round(math.Rand(0, 1), 3)
+            	end
 
                 if (stats_to_apply > 0) then
                     stats_chosen = stats_chosen + 1
@@ -390,7 +392,9 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                     dropped_item.s.y = math.Round(math.Rand(0, 1), 3)
                 elseif (tostring(k) == "Deployrate") then
                     dropped_item.s.z = math.Round(math.Rand(0, 1), 3)
-                end
+                elseif (tostring(k) == "Chargerate") then
+                	dropped_item.s.c = math.Round(math.Rand(0, 1), 3)
+            	end
 
                 if (stats_to_apply > 0) then
                     stats_chosen = stats_chosen + 1
@@ -1004,6 +1008,8 @@ function m_ResetStats(pl, wep_slot, itemtbl)
                 ply_item.s.y = math.Round(math.Rand(0, 1), 3)
             elseif (tostring(k) == "Deployrate") then
                 ply_item.s.z = math.Round(math.Rand(0, 1), 3)
+            elseif (tostring(k) == "Chargerate") then
+                ply_item.s.c = math.Round(math.Rand(0, 1), 3)
             end
 
             if (stats_to_apply > 0) then
@@ -1048,6 +1054,8 @@ function m_ResetStats(pl, wep_slot, itemtbl)
                 ply_item.s.y = math.Round(math.Rand(0, 1), 3)
             elseif (tostring(k) == "Deployrate") then
                 ply_item.s.z = math.Round(math.Rand(0, 1), 3)
+            elseif (tostring(k) == "Chargerate") then
+                ply_item.s.c = math.Round(math.Rand(0, 1), 3)
             end
 
             if (stats_to_apply > 0) then

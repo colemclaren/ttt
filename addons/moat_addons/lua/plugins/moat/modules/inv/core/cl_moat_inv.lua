@@ -630,6 +630,8 @@ function m_GetStatMinMax(key, itemtbl)
         stat_min, stat_max = itemtbl.item.Stats.Reloadrate.min, itemtbl.item.Stats.Reloadrate.max
     elseif (tostring(key) == "z") then
         stat_min, stat_max = itemtbl.item.Stats.Deployrate.min, itemtbl.item.Stats.Deployrate.max
+    elseif (tostring(key) == "c") then
+        stat_min, stat_max = itemtbl.item.Stats.Chargerate.min, itemtbl.item.Stats.Chargerate.max
     end
 
     return stat_min, stat_max
@@ -649,12 +651,64 @@ stats_full["p"] = "Push Delay"
 stats_full["v"] = "Push Force"
 stats_full["y"] = "Reload Rate"
 stats_full["z"] = "Deploy Speed"
+stats_full["c"] = "Charging Speed"
+
 local m_color_green = Color(40, 255, 40)
 local m_color_red = Color(255, 40, 40)
 local talents_spacer = 25
 local appl = "apple_pie"
 local stat_anim = 10
 local saved_itemtbl = nil
+local default_stats = {"DMG", "RPM", "MAG"}
+local level_stats = {"XP", "Level"}
+
+local function DrawItemStatsKeyValue(font, x, y, itemtbl, pnl, stats_y_add, k, v, ctrldown)
+	local stat_str = stats_full[tostring(k)]
+    if (not stat_str) then return stats_y_add end
+
+    local stat_min, stat_max = m_GetStatMinMax(k, itemtbl)
+    local stat_num = math.Round(stat_min + ((stat_max - stat_min) * v), 1)
+    stat_sign = "+"
+    stat_color = m_color_green
+
+    if (string.StartWith(tostring(stat_num), "-")) then
+        stat_sign = ""
+        stat_color = m_color_red
+
+         if (tostring(k) == "k" or tostring(k) == "w") then
+            stat_color = m_color_green
+        end
+    else
+        if (tostring(k) == "k" or tostring(k) == "w") then
+            stat_color = m_color_red
+        end
+    end
+
+    local stat_strw, stat_strh = surface_GetTextSize(stat_str)
+
+    if (not table.HasValue(default_stats, stat_str) and not table.HasValue(level_stats, stat_str)) then
+        m_DrawShadowedText(1, stat_str, font, x, y + stats_y_add, Color(255, 255, 255))
+        local box_width = pnl:GetWide() - 14
+        local stat_width = (v * (box_width)) * (pnl.AnimVal or 1)
+        surface_SetDrawColor(0, 0, 0)
+        surface_DrawRect(x + 1, y + 16 + 1 + stats_y_add, box_width, 5)
+        surface_SetDrawColor(stat_color.r, stat_color.g, stat_color.b, 25)
+        surface_DrawRect(x, y + 16 + stats_y_add, box_width, 5)
+        surface_SetDrawColor(stat_color.r, stat_color.g, stat_color.b, 25)
+        surface_DrawRect(x, y + 16 + stats_y_add, stat_width, 5)
+        surface_SetDrawColor(stat_color)
+        surface_SetMaterial(gradient_r)
+        surface_DrawTexturedRect(x, y + 16 + stats_y_add, stat_width + 1, 5)
+        local minmax = ""
+        if (ctrldown) then
+            minmax = "(" .. stat_min .. " to " .. stat_max .. ") "
+        end
+        m_DrawShadowedText(1, minmax .. stat_sign .. stat_num .. "%", font, x + pnl:GetWide() - 14, y + stats_y_add, stat_color, TEXT_ALIGN_RIGHT)
+        stats_y_add = stats_y_add + 25
+    end
+
+	return stats_y_add
+end
 
 function m_DrawItemStats(font, x, y, itemtbl, pnl)
     local ctrldown = input.IsKeyDown(KEY_LCONTROL)
@@ -725,9 +779,6 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 
         return
     end
-
-    local default_stats = {"DMG", "RPM", "MAG"}
-    local level_stats = {"XP", "Level"}
 
     for k, v in SortedPairs(default_stats) do
         if (v == "DMG") then
@@ -807,50 +858,19 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         end
     end
 
+	local stats_drawn = {}
+	if (itemtbl.s and itemtbl.s.c) then
+		stats_y_add = DrawItemStatsKeyValue(font, x, y, itemtbl, pnl, stats_y_add, "c", itemtbl.s.c, ctrldown)
+		stats_drawn["c"] = true
+	end
+
     for k, v in SortedPairs(itemtbl.s) do
-        local stat_str = stats_full[tostring(k)]
-        if (not stat_str) then continue end
+		if (stats_drawn[tostring(k)]) then
+			continue
+		end
 
-        local stat_min, stat_max = m_GetStatMinMax(k, itemtbl)
-        local stat_num = math.Round(stat_min + ((stat_max - stat_min) * v), 1)
-        stat_sign = "+"
-        stat_color = m_color_green
-
-        if (string.StartWith(tostring(stat_num), "-")) then
-            stat_sign = ""
-            stat_color = m_color_red
-
-            if (tostring(k) == "k" or tostring(k) == "w") then
-                stat_color = m_color_green
-            end
-        else
-            if (tostring(k) == "k" or tostring(k) == "w") then
-                stat_color = m_color_red
-            end
-        end
-
-        local stat_strw, stat_strh = surface_GetTextSize(stat_str)
-
-        if (not table.HasValue(default_stats, stat_str) and not table.HasValue(level_stats, stat_str)) then
-            m_DrawShadowedText(1, stat_str, font, x, y + stats_y_add, Color(255, 255, 255))
-            local box_width = pnl:GetWide() - 14
-            local stat_width = (v * (box_width)) * (pnl.AnimVal or 1)
-            surface_SetDrawColor(0, 0, 0)
-            surface_DrawRect(x + 1, y + 16 + 1 + stats_y_add, box_width, 5)
-            surface_SetDrawColor(stat_color.r, stat_color.g, stat_color.b, 25)
-            surface_DrawRect(x, y + 16 + stats_y_add, box_width, 5)
-            surface_SetDrawColor(stat_color.r, stat_color.g, stat_color.b, 25)
-            surface_DrawRect(x, y + 16 + stats_y_add, stat_width, 5)
-            surface_SetDrawColor(stat_color)
-            surface_SetMaterial(gradient_r)
-            surface_DrawTexturedRect(x, y + 16 + stats_y_add, stat_width + 1, 5)
-            local minmax = ""
-            if (ctrldown) then
-                minmax = "(" .. stat_min .. " to " .. stat_max .. ") "
-            end
-            m_DrawShadowedText(1, minmax .. stat_sign .. stat_num .. "%", font, x + pnl:GetWide() - 14, y + stats_y_add, stat_color, TEXT_ALIGN_RIGHT)
-            stats_y_add = stats_y_add + stats_y_multi
-        end
+		stats_y_add = DrawItemStatsKeyValue(font, x, y, itemtbl, pnl, stats_y_add, k, v, ctrldown)
+		stats_drawn[tostring(k)] = true
     end
 
     local talents_y_add = 0

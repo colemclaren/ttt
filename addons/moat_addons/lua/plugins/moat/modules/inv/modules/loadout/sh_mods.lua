@@ -38,6 +38,7 @@ MODS.Networked = {
     a1 = build("AccuracyX", function(w) return w.Primary end, "Float", "ConeX"),
     a2 = build("AccuracyY", function(w) return w.Primary end, "Float", "ConeY"),
 	y = build("Reloadrate", function(w) return w end, "Float", "ReloadSpeed"),
+	c = build("Chargerate", function(w) return w end, "Float", "ChargeSpeed"),
 	z = {
 		network = function(wep)
             return wep:SetDeployrate(wep.DeploySpeed or invalids.Float)

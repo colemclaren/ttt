@@ -132,5 +132,14 @@ MODS.Settable = {
 			wep:SetDeploySpeed(wep.DeploySpeed)
         end,
         getmult = getmult "Deployrate"
+    },
+    c = {
+        valid = function(wep)
+            return wep.ChargeSpeed
+        end,
+        set = function(wep, mult)
+            s(wep, "ChargeSpeed", mult)
+        end,
+        getmult = getmult "Chargerate"
     }
 }

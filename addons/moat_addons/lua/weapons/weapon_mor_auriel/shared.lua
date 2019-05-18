@@ -18,3 +18,5 @@ SWEP.Primary.DefaultClip	= 5
 SWEP.Primary.Ammo			= "357"
 SWEP.AmmoEnt				= "item_ammo_357_ttt"
 SWEP.Secondary.Ammo			= "none"
+
+SWEP.ChargeSpeed = 1.35

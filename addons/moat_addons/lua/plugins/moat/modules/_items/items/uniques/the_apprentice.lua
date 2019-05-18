@@ -4,8 +4,8 @@ ITEM.NameEffect = "glow"
 ITEM.Rarity = 5
 ITEM.Collection = "Titan Collection"
 ITEM.WeaponClass = "weapon_mor_bonemold"
-ITEM.MinStats = 5
-ITEM.MaxStats = 6
+ITEM.MinStats = 6
+ITEM.MaxStats = 7
 ITEM.Stats = {
 	Damage = { min = 11, max = 19 },
 	Accuracy = { min = 11, max = 19 },
@@ -13,7 +13,8 @@ ITEM.Stats = {
 	Firerate = { min = 11, max = 19 },
 	Magazine = { min = 16, max = 24 },
 	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Weight = { min = -3, max = -7 },
+	Chargerate = { min = 22, max = 38 }
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2

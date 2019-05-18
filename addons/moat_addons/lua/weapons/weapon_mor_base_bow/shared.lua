@@ -50,6 +50,9 @@ SWEP.UnpredictedHoldTime = 0
 SWEP.MaxHoldTime = 3				// Must let go after this time. Determines damage/velocity based on time held.
 SWEP.ChargeSpeed = 1
 
+function SWEP:GetCharge()
+	return math.Clamp(((CurTime() - self:GetHoldTime()) * self.ChargeSpeed) / self.MaxHoldTime, .1, 1)
+end
 
 function SWEP:Precache()
 	util.PrecacheSound("sound/weapons/bow/skyrim_bow_draw.mp3")
@@ -65,11 +68,11 @@ function SWEP:Initialize()
 end
 
 function SWEP:SetupDataTables()
-	self:NetworkVar("Float", 0, "HoldTime")
-	self:NetworkVar("Float", 1, "AnimationResetTime")
-	self:NetworkVar("Entity", 0, "Arrow")
-	
-	BaseClass.SetupDataTables( self )
+	self:NetworkVar("Float", 1, "HoldTime")
+	self:NetworkVar("Float", 2, "AnimationResetTime")
+	self:NetworkVar("Entity", 1, "Arrow")
+
+	return BaseClass.SetupDataTables(self)
 end
 
 function SWEP:ResetNetworkable()
@@ -107,7 +110,8 @@ end
 function SWEP:Holster()
 	self:SetIronsights(false)
 	self:SetZoom(false)
-	return true
+
+	return BaseClass.Holster(self)
 end
 
 function SWEP:PreDrop()
@@ -221,7 +225,7 @@ function SWEP:ShootArrow()
 	self.Owner:GetViewModel():SetPlaybackRate(4)
 	self:SetAnimationResetTime(CurTime() + 0.2)
 
-	local ratio = math.Clamp((CurTime() - self:GetHoldTime()) / self.MaxHoldTime, 0.1, 1)
+	local ratio = self:GetCharge()
 	self:EmitBowSound("weapons/bow/skyrim_bow_shoot.mp3")
 
 	local arrow = self:GetArrow()
@@ -330,20 +334,24 @@ if (CLIENT) then
 
 		local scrx = ScrW()/2
 		local scry = ScrH()/2
-		surface.SetDrawColor(255, 255, 255, 100)
+		local ratio = 0
+		if (self:GetHoldTime() ~= 0) then
+			ratio = (self:GetCharge() - 0.1) / 0.9
+		end
+
+		surface.SetDrawColor(255, 255, 255, 30 + (225 * ratio))
 		--surface.DrawRect(scrx - 75, scry + 200, 150, 16)
-		surface.DrawOutlinedRect(scrx - 75, scry + 200, 150, 16)
+		surface.DrawOutlinedRect(scrx - 75, scry + 200, 150, 20)
 		if self:GetHoldTime() ~= 0 then
-			local ratio = (math.Clamp((CurTime() - self:GetHoldTime()) / self.MaxHoldTime, 0.1, 1) - 0.1) / 0.9
-			surface.SetDrawColor(255, 0, 0, 180)
-			surface.DrawRect(scrx - 75, scry + 200, 150 * ratio, 16)
+			surface.SetDrawColor(255 - (255 * ratio), 255 * ratio, 0, 180)
+			surface.DrawRect(scrx - 75, scry + 200, 150 * ratio, 20)
 
 			surface.SetDrawColor(0, 0, 0, 200)
 			surface.SetMaterial(grad_d)
-			surface.DrawTexturedRect(scrx - 75, scry + 200, 150 * ratio, 16)
+			surface.DrawTexturedRect(scrx - 75, scry + 200, 150 * ratio, 20)
 		end
 
-		draw.SimpleText("Bow Power", "ChatFont", scrx, scry + 207, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		draw.SimpleText("Bow Power", "moat_ChatFont", scrx, scry + 209, Color(255, 255, 255, 30 + (225 * ratio)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	end
 
 	function SWEP:AdjustMouseSensitivity()
