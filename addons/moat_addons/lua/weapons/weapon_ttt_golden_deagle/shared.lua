@@ -7,10 +7,13 @@ if SERVER then
 else
 	SWEP.Slot = 1
 end
+
+SWEP.HoldType = "pistol"
 SWEP.PrintName = "Golden Deagle"
 
 --- Default GMod values ---
 SWEP.Base = "weapon_tttbase"
+DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Category = "Counter-Strike: Source"
 SWEP.Purpose = "Shoot with style."
 SWEP.Spawnable = true
@@ -22,7 +25,7 @@ SWEP.Kind = WEAPON_PISTOL
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"
 SWEP.Primary.Ammo = "AlyxGun"
 SWEP.Primary.Delay = 0.6
-SWEP.Primary.Recoil = 6
+SWEP.Primary.Recoil = 0.01
 SWEP.Primary.Cone = 0.01
 SWEP.Primary.Damage = 60
 SWEP.HeadshotMultiplier = 5
@@ -43,8 +46,8 @@ SWEP.HoldType = "pistol"
 SWEP.UseHands = true
 SWEP.ViewModelFlip = true
 SWEP.ViewModelFOV = 85
-SWEP.ViewModel = Model("models/weapons/zaratusa/golden_deagle/v_golden_deagle.mdl")
-SWEP.WorldModel = Model("models/weapons/zaratusa/golden_deagle/w_golden_deagle.mdl")
+SWEP.ViewModel = "models/weapons/zaratusa/golden_deagle/v_golden_deagle.mdl"
+SWEP.WorldModel = "models/weapons/zaratusa/golden_deagle/w_golden_deagle.mdl"
 
 SWEP.DeploySpeed = 1.4
 SWEP.ReloadSpeed = 1
@@ -52,5 +55,13 @@ SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "reload",
 		Time = 2.22222,
-	},
+	}
 }
+
+function SWEP:Initialize()
+   	if (self.SetHoldType) then
+		self:SetHoldType(self.HoldType or "pistol")
+	end
+
+   	return self.BaseClass.Initialize(self)
+end
