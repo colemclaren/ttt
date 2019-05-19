@@ -662,7 +662,7 @@ function SWEP:Reload()
 	end
 
 	local CurrentTime, Ammo, Clip = CurTime(), self:Ammo1(), self:Clip1()
-	-- self.ActiveDelay = CurrentTime + .1
+	self.ActiveDelay = CurrentTime + .1
 
 	if (type(self.ReloadAnim) == "table") then
 		local ReloadDataKey = self:ReloadAnimation(Clip, Ammo, CurrentTime)
