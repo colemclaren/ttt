@@ -113,39 +113,39 @@ for _, v in pairs(DontBounce1) do
     DontBounce[v] = true
 end
 
-moat_random.register("Bouncy","Everything bounces!",{
-    ["NOW"] = function()
-        local function PhysicsCollide(self, e)
-            local phys = self:GetPhysicsObject()
-            if (IsValid(phys)) then
-                phys:ApplyForceCenter(vector_up * phys:GetMass() * 100)
-            end
-        end
-        for k, v in pairs(ents.GetAll()) do
-            if (v:IsPlayer()) then
-                continue
-            end
-            local class = v:GetClass()
-            local phys = v:GetPhysicsObject()
-            if (DontBounce[class] or not IsValid(phys)) then
-                continue
-            end
+-- moat_random.register("Bouncy","Everything bounces!",{
+--     ["NOW"] = function()
+--         local function PhysicsCollide(self, e)
+--             local phys = self:GetPhysicsObject()
+--             if (IsValid(phys)) then
+--                 phys:ApplyForceCenter(vector_up * phys:GetMass() * 100)
+--             end
+--         end
+--         for k, v in pairs(ents.GetAll()) do
+--             if (v:IsPlayer()) then
+--                 continue
+--             end
+--             local class = v:GetClass()
+--             local phys = v:GetPhysicsObject()
+--             if (DontBounce[class] or not IsValid(phys)) then
+--                 continue
+--             end
 
-            phys:ApplyForceCenter(vector_up * phys:GetMass() * 100)
-            v.CallbackID_Bouncy = v:AddCallback("PhysicsCollide", PhysicsCollide)
+--             phys:ApplyForceCenter(vector_up * phys:GetMass() * 100)
+--             v.CallbackID_Bouncy = v:AddCallback("PhysicsCollide", PhysicsCollide)
 
-            v.PhysicsCollide = PhysicsCollide
+--             v.PhysicsCollide = PhysicsCollide
 
-        end
-    end
-}, function()
-    for k,v in pairs(ents.GetAll()) do
-        if (v.CallbackID_Bouncy) then
-            v:RemoveCallback("PhysicsCollide", v.CallbackID_Bouncy)
-            v.CallbackID_Bouncy = nil
-        end
-    end
-end)
+--         end
+--     end
+-- }, function()
+--     for k,v in pairs(ents.GetAll()) do
+--         if (v.CallbackID_Bouncy) then
+--             v:RemoveCallback("PhysicsCollide", v.CallbackID_Bouncy)
+--             v.CallbackID_Bouncy = nil
+--         end
+--     end
+-- end)
 
 --[[
 moat_random.register("Slippery","Everyone slides around with low friction!",{
