@@ -4348,8 +4348,16 @@ net.Receive("gversus.JoinGame",function()
 	gversus_players[ply][10] = winner
 	
 	math.randomseed(tonumber(winner + gversus_players[ply][2])) -- so everyone sees the same thing no matter what server they are on
-
-	gversus_players[ply].rollto = math.random(0,-32)
+	local r = math.random()
+	if r > 0.6 then
+		if r > 0.8 then
+			gversus_players[ply].rollto = math.random(4,-3)
+		else
+			gversus_players[ply].rollto = math.random(-32,-38)
+		end
+	else
+		gversus_players[ply].rollto = math.random(-3,-32)
+	end
 	gversus_players[ply].roll_contents_x = -4900
 
 	hook.Add("Think","BackGroundRollVersus." .. ply,function()
@@ -4359,7 +4367,7 @@ net.Receive("gversus.JoinGame",function()
 		if (math.abs(gversus_players[ply].roll_contents_x - gversus_players[ply].rollto) > 1500) then
 			gversus_players[ply].roll_contents_x = math.Approach(gversus_players[ply].roll_contents_x, gversus_players[ply].rollto, 1500 * FrameTime())
 		else
-			gversus_players[ply].roll_contents_x = Lerp(0.9 * FrameTime(), gversus_players[ply].roll_contents_x, gversus_players[ply].rollto)
+			gversus_players[ply].roll_contents_x = Lerp(FrameTime() * 0.7 , gversus_players[ply].roll_contents_x, gversus_players[ply].rollto)
 		end
 	end)
 	-- gversus_players[ply]["roll"] = m_versusroll(ply,j,winner)
@@ -4484,9 +4492,191 @@ function m_DrawVersusPanel()
 		game_actual:Clear()
 
 		for k,v in SortedPairsByMemberValue(gversus_players,2,true) do
+			if k == LocalPlayer():SteamID64() or v[1] == LocalPlayer():SteamID64() then
+				inGame = true
+				if not v[2] then v[2] = 0 end
+				--for i = 1,5 do--
+				local a = vgui.Create("DPanel",game_actual)
+				a:SetSize(0,50)
+				a:DockMargin(0,0,0,5)
+				a:Dock(TOP)
+
+				local av = vgui.Create("AvatarImage",a)
+				av:DockMargin(2,3,40,3)
+				av:SetSize(46,40)
+				av:Dock(LEFT)
+				av:SetSteamID(k,64)
+				GetSteamName(k, function(n)
+					if (IsValid(av)) then av:SetTooltip(n) end
+				end)
+				local butt = vgui.Create("DButton",av)
+				butt:SetText("")
+				butt:Dock(FILL) function butt:Paint() end
+				function butt:DoClick()
+					open_profile_card(k)
+				end
+
+				local op = vgui.Create("AvatarImage",a)
+				op:DockMargin(0,3,5,3)
+				op:SetSize(46,40)
+				op:Dock(LEFT)
+				local vnick = "forsenE"
+				if (v[1]) then
+					op:SetSteamID(v[1], 64)
+					GetSteamName(v[1], function(n)
+						if (IsValid(op)) then op:SetTooltip(n) end
+					end)
+				else
+					op:SetTooltip("Empty!")
+				end
+				local butt = vgui.Create("DButton",op)
+				butt:SetText("")
+				butt:Dock(FILL) function butt:Paint() end
+				function butt:DoClick()
+					if v[1] then open_profile_card(v[1]) end
+				end
+		--a
+				local s = true
+				local winner
+				if not (v[1]) then
+					local join = vgui.Create("DButton",a)
+					join:SetSize(148,0)
+					join:DockMargin(5,5,5,5)
+					join:Dock(RIGHT)
+					join:SetText("")
+					function join:Paint(w,h)
+						local a = 255
+						if self:IsHovered() then a = 175 end
+						local c = Color(10,200,10,a)
+						if (v[2] > MOAT_INVENTORY_CREDITS)then
+							c = Color(86,86,86)
+							a = 10
+						end
+						if (k == LocalPlayer():SteamID64()) then
+							c = Color(200,10,10)
+							draw.RoundedBox(0,0,0,w,h,c)
+							surface.SetDrawColor(0,255,0,a * 0.7)
+							surface.DrawOutlinedRect(0,0,w,h)
+							draw.SimpleText("CANCEL GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+						else
+							if v["fullgame"] then
+								c = Color(255,0,0)
+							end
+							draw.RoundedBox(0,0,0,w,h,c)
+							surface.SetDrawColor(0,255,0,a * 0.7)
+							surface.DrawOutlinedRect(0,0,w,h)
+							if v["fullgame"] then
+								draw.SimpleText("GAME FULL", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+							else
+								if not self.double then
+									draw.SimpleText("JOIN GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+								else
+									draw.SimpleText("CONFIRM JOIN", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+								end
+							end
+						end
+					end
+					function join.DoClick()
+						if v["fullgame"] then return end
+						if k == LocalPlayer():SteamID64() then
+							net.Start("gversus.CancelGame")
+							net.SendToServer()
+						elseif not join.double then
+							join.double = true
+						else
+							if v[2] > (MOAT_INVENTORY_CREDITS * 0.25) then
+								Derma_Query("Are you sure you want to gamble more than 25% of your IC?\nNever gamble anything you can't afford to lose.", "Are you sure?", "Yes", function() 
+									net.Start("gversus.JoinGame")
+									net.WriteString(k)
+									net.SendToServer()
+									versus_seen_last = true
+								end, "No")
+							else
+								net.Start("gversus.JoinGame")
+								net.WriteString(k)
+								net.SendToServer()
+								versus_seen_last = true
+							end
+						end
+					end
+				else --midgame
+					surface.SetFont("moat_VersusTitle")
+					local w = surface.GetTextSize(string.Comma(round(v[2])) .." IC")
+					w = w + 10 + 145
+					if not IsValid(v.roll) then
+						v.roll = m_versusroll(k,v[1],v[10])
+					end
+					v.roll:SetParent(a)
+					v.roll:SetPos(w,1)
+					v.roll:SetWide(493 - w - 2)
+					-- winner = vgui.Create("AvatarImage",a)
+					-- winner:DockMargin(0,3,20,3)
+					-- winner:SetSize(46,40)
+					-- winner:Dock(RIGHT)
+					-- --winner:SetSteamID(k,64)
+					-- gversus_players[k][5] = winner
+					-- local sh, sid = true, k
+					-- timer.Create("versus_winner:" .. sid,0.25,0,function()
+					-- 	if (not (IsValid(winner) and gversus_players[k] and gversus_players[k][1])) then
+					-- 		timer.Remove("versus_winner:" .. sid)
+					-- 		return
+					-- 	end
+
+					-- 	if (gversus_players[k][4]) then
+					-- 		winner:SetSteamID(gversus_players[k][4], 64)
+					-- 		winner.setwinner = true
+					-- 		timer.Remove("versus_winner:" .. sid)
+					-- 		return
+					-- 	end
+
+					-- 	winner:SetSteamID(sh and v[1] or k, 64)
+					-- 	PlayVersusSound(sh and 1 or 2)
+					-- 	sh = not sh
+					-- end)
+				end
+
+
+
+				function a:Paint(w,h)
+					if not gversus_players[k] then a:Remove() return end
+					if not v[2] then v[2] = 0 end
+					if not (v[1]) then
+						if IsValid(op) then
+							op:SetSteamID("BOT",64)
+						end
+						draw.SimpleText(string.Comma(round(v[2])) .. " IC", "moat_VersusTitle", 240, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+						draw.SimpleText("VS", "moat_GambleTitle", 68, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+					else
+						-- if not v[3] then v[3] = CurTime() + versus_wait end
+						-- local t = v[3] - CurTime()
+						-- local a = t/versus_wait
+						-- --print(a)
+						-- draw.RoundedBox(0,0,0,w*a,h,Color(175,175,175))
+						draw.SimpleText(string.Comma(round(v[2])) .." IC", "moat_VersusTitle", 145 ,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+						-- local c = Color(255,255,255)
+						-- if gversus_players[k][4] then
+						-- 	c = HSVToColor((SysTime()*100)%360,0.65,0.9)
+						-- 	if (IsValid(winner) and not winner.setwinner) then
+						-- 		winner:SetSteamID(gversus_players[k][4], 64)
+						-- 		winner.setwinner = true
+						-- 	end
+						-- end
+						-- draw.SimpleText("WINNER:", "moat_VersusWinner", 325, h - (h/3), c,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
+					end
+					draw.SimpleText("VS", "moat_GambleTitle", 68, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+					surface.SetDrawColor(200, 200, 200, 255)
+					if (k == LocalPlayer():SteamID64() or v[1] == LocalPlayer():SteamID64()) then
+						surface.SetDrawColor(0,255,0,255)
+					end
+					surface.DrawOutlinedRect(0,0,w,h)
+				end
+			end
+		end
+
+		for k,v in SortedPairsByMemberValue(gversus_players,2,true) do
 			
-			if k == LocalPlayer():SteamID64() then inGame = true end
-			if v[1] == LocalPlayer():SteamID64() then inGame = true end
+			if k == LocalPlayer():SteamID64() then continue end
+			if v[1] == LocalPlayer():SteamID64() then continue end
 			if not v[2] then v[2] = 0 end
 			--for i = 1,5 do--
 			local a = vgui.Create("DPanel",game_actual)
