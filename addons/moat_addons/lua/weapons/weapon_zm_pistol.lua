@@ -37,3 +37,12 @@ SWEP.WorldModel = "models/weapons/w_pist_fiveseven.mdl"
 SWEP.Primary.Sound = Sound( "Weapon_FiveSeven.Single" )
 SWEP.IronSightsPos = Vector(-5.95, -4, 2.799)
 SWEP.IronSightsAng = Vector(0, 0, 0)
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3.23333,
+	},
+}

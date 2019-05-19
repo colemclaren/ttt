@@ -99,6 +99,7 @@ end
 
 SWEP.PrintName      = "M4A1"
 SWEP.Base       = "weapon_tttbase"
+DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Spawnable = true
 
 SWEP.Kind = WEAPON_HEAVY
@@ -128,52 +129,32 @@ SWEP.Primary.Sound = Sound("Weapof_M4A1.Shoot")
 SWEP.IronSightsPos = Vector (-2.7161, -5.0009, 0.6128)
 SWEP.IronSightsAng = Vector (-0.1325, 0.0403, 0)
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3,
+	},
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 3,
+	}
+}
+
 function SWEP:Initialize()
-   if SERVER then
-      self:SetSkin(1)
-   end
+	BaseClass.Initialize(self)
+
+   	if (SERVER) then
+		self:SetSkin(1)
+   	end
 end
+
 function SWEP:SetZoom(state)
-   if not (IsValid(self.Owner) and self.Owner:IsPlayer()) then return end
-   if state then
-      self.Owner:SetFOV(55, 0.5)
-   else
-      self.Owner:SetFOV(0, 0.2)
-   end
-end
-
--- Add some zoom to ironsights for this gun
-function SWEP:SecondaryAttack()
-   if not self.IronSightsPos then return end
-   if self:GetNextSecondaryFire() > CurTime() then return end
-
-   local bIronsights = not self:GetIronsights()
-
-   self:SetIronsights( bIronsights )
-
-    self:SetZoom( bIronsights )
-
-   self:SetNextSecondaryFire( CurTime() + 0.3 )
-end
-
-function SWEP:PreDrop()
-   self:SetZoom(false)
-   self:SetIronsights(false)
-   return self.BaseClass.PreDrop(self)
-end
-
-function SWEP:Reload()
-    if (self:Clip1() == self.Primary.ClipSize or
-        self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0) then
-       return
-    end
-    self:DefaultReload(ACT_VM_RELOAD)
-    self:SetIronsights(false)
-    self:SetZoom(false)
-end
-
-function SWEP:Holster()
-   self:SetIronsights(false)
-   self:SetZoom(false)
-   return true
+   	if (not (IsValid(self.Owner) and self.Owner:IsPlayer())) then return end
+   	if (state) then
+      	self.Owner:SetFOV(55, 0.5)
+   	else
+      	self.Owner:SetFOV(0, 0.2)
+   	end
 end

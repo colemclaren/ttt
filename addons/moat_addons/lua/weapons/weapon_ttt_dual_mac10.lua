@@ -41,3 +41,12 @@ SWEP.DeploySpeed = 3
 SWEP.UseHands = false
 
 SWEP.HeadshotMultiplier = 1.4
+
+SWEP.DeploySpeed = 3
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "mac10_reload",
+		Time = 3.17143,
+	},
+}

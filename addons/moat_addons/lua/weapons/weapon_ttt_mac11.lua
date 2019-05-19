@@ -37,6 +37,15 @@ SWEP.Primary.Ammo        = "smg1"
 SWEP.Primary.Recoil      = 1.18
 SWEP.Primary.Ammo			= "smg1"
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.9,
+	},
+}
+
 SWEP.IronSightsPos = Vector(3.168,0,2.398)	--Iron Sight positions and angles. Use the Iron sights utility in 
 SWEP.IronSightsAng = Vector(0.699,0,0)	            --Clavus's Swep Construction Kit to get these vectors
 SWEP.SightsPos = Vector (3.168,0,2.398)

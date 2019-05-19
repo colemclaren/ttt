@@ -40,148 +40,244 @@ SWEP.Primary.Recoil			= 7
 SWEP.IronSightsPos = Vector (-2.2631, -4.0007, 1.6813)
 SWEP.IronSightsAng = Vector (0.2298, 0.0043, 0)
 
-SWEP.reloadtimer = 0
+SWEP.Primary.EmptySound = Sound("Weapon_Shotgun.Empty")
+SWEP.ReloadBullets = 1
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	StartReload = {
+		Anim = "reload_start",
+		Time = 0.7,
+	},
+	AfterReload = {
+		Anim = "reload_abort",
+		Time = 0.7,
+	},
+	DefaultReload = {
+		Anim = "reload_load4",
+		Time = 0.86667,
+	},
 
-function SWEP:SetupDataTables()
-   --self:DTVar("Bool", 0, "reloading")
-
-   return self.BaseClass.SetupDataTables(self)
-end
-
-function SWEP:Reload()
-	if ( self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount( self.Primary.Ammo ) <= 0 ) then return end
-	self.Weapon:SendWeaponAnim(ACT_VM_IDLE)
-	local Animation = self.Owner:GetViewModel()
-	local seq = Animation:LookupSequence("reload4")
-	Animation:SetSequence(seq)
-
-   self:DefaultReload(Animation:GetSequenceActivity(seq))
-   --self:ReloadAnimation()
-   self:SetIronsights( false )
-end
-
-/*
-function SWEP:Reload()
-
-   --if self:GetNetworkedBool( "reloading", false ) then return end
-   if self.dt.reloading then return end
-
-   if not IsFirstTimePredicted() then return end
-
-   if self:Clip1() < self.Primary.ClipSize and self.Owner:GetAmmoCount( self.Primary.Ammo ) > 0 then
-
-      if self:StartReload() then
-         return
-      end
-   end
-
-end
-
-function SWEP:StartReload()
-   --if self:GetNWBool( "reloading", false ) then
-   if self.dt.reloading then
-      return false
-   end
-
-   self:SetIronsights( false )
-
-   if not IsFirstTimePredicted() then return false end
-
-   self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
-
-   local ply = self.Owner
-
-   if not ply or ply:GetAmmoCount(self.Primary.Ammo) <= 0 then
-      return false
-   end
-
-   local wep = self
-
-   if wep:Clip1() >= self.Primary.ClipSize then
-      return false
-   end
-
-   wep:SendWeaponAnim(ACT_SHOTGUN_RELOAD_START)
-
-   self.reloadtimer =  CurTime() + wep:SequenceDuration()
-
-   --wep:SetNWBool("reloading", true)
-   self.dt.reloading = true
-
-   return true
-end
-
-function SWEP:PerformReload()
-   local ply = self.Owner
-
-   -- prevent normal shooting in between reloads
-   self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
-
-   if not ply or ply:GetAmmoCount(self.Primary.Ammo) <= 0 then return end
-
-   if self:Clip1() >= self.Primary.ClipSize then return end
-
-   self.Owner:RemoveAmmo( 1, self.Primary.Ammo, false )
-   self:SetClip1( self:Clip1() + 1 )
-
-   self:SendWeaponAnim(ACT_VM_RELOAD)
-
-   self.reloadtimer = CurTime() + self:SequenceDuration()
-end
-
-function SWEP:FinishReload()
-   self.dt.reloading = false
-   self:SendWeaponAnim(ACT_SHOTGUN_RELOAD_FINISH)
-
-   self.reloadtimer = CurTime() + self:SequenceDuration()
-end*/
-
-function SWEP:CanPrimaryAttack()
-   if self:Clip1() <= 0 then
-      self:EmitSound( "Weapon_Shotgun.Empty" )
-      self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
-      return false
-   end
-   return true
-end
-
-function SWEP:Think()
-   if self.dt.reloading and IsFirstTimePredicted() then
-      if self.Owner:KeyDown(IN_ATTACK) then
-         self:FinishReload()
-         return
-      end
-
-      if self.reloadtimer <= CurTime() then
-
-         if self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0 then
-            self:FinishReload()
-         elseif self:Clip1() < self.Primary.ClipSize then
-            self:PerformReload()
-         else
-            self:FinishReload()
-         end
-         return
-      end
-   end
-end
-
-function SWEP:Deploy()
-   self.dt.reloading = false
-   self.reloadtimer = 0
-   return self.BaseClass.Deploy(self)
-end
-
--- The shotgun's headshot damage multiplier is based on distance. The closer it
--- is, the more damage it does. This reinforces the shotgun's role as short
--- range weapon by reducing effectiveness at mid-range, where one could score
--- lucky headshots relatively easily due to the spread.
-
-function SWEP:SecondaryAttack()
-   if self.NoSights or (not self.IronSightsPos) or self.dt.reloading then return end
-   --if self:GetNextSecondaryFire() > CurTime() then return end
-
-   self:SetIronsights(not self:GetIronsights())
-
-   self:SetNextSecondaryFire(CurTime() + 0.3)
-end
+	/*
+	DefaultReload = {
+		Anim = "reload_abort",
+		Time = 0.7,
+	},
+	StartReload = {
+		Anim = "reload_start",
+		Time = 0.7,
+	},
+	DefaultReload = {
+		Anim = "reload_start_empty",
+		Time = 2.03333,
+	},
+	DefaultReload = {
+		Anim = "reload_load1",
+		Time = 0.86667,
+	},
+	DefaultReload = {
+		Anim = "reload_load2",
+		Time = 1.36667,
+	},
+	DefaultReload = {
+		Anim = "reload_load3",
+		Time = 1.7,
+	},
+	DefaultReload = {
+		Anim = "reload_load4",
+		Time = 1.7,
+	},
+	DefaultReload = {
+		Anim = "reload_load1_end",
+		Time = 1.36667,
+	},
+	DefaultReload = {
+		Anim = "reload_load2_end",
+		Time = 1.53333,
+	},
+	DefaultReload = {
+		Anim = "reload_load3_end",
+		Time = 1.86667,
+	},
+	DefaultReload = {
+		Anim = "reload_load4_end",
+		Time = 2.2,
+	},
+	DefaultReload = {
+		Anim = "last1_reload_start",
+		Time = 1.53333,
+	},
+	DefaultReload = {
+		Anim = "last1_reload_start_empty",
+		Time = 2.2,
+	},
+	DefaultReload = {
+		Anim = "last1_reload_start_end",
+		Time = 1.53333,
+	},
+	DefaultReload = {
+		Anim = "last1_reload_end",
+		Time = 1.03333,
+	},
+	DefaultReload = {
+		Anim = "last2_reload_start",
+		Time = 1.36667,
+	},
+	DefaultReload = {
+		Anim = "last2_reload_start_empty",
+		Time = 2.03333,
+	},
+	DefaultReload = {
+		Anim = "last2_reload_start_end",
+		Time = 1.53333,
+	},
+	DefaultReload = {
+		Anim = "last2_reload_insert",
+		Time = 0.86667,
+	},
+	DefaultReload = {
+		Anim = "last2_reload_end",
+		Time = 1.03333,
+	},
+	DefaultReload = {
+		Anim = "last3_reload_start",
+		Time = 1.36667,
+	},
+	DefaultReload = {
+		Anim = "last3_reload_start_empty",
+		Time = 2.03333,
+	},
+	DefaultReload = {
+		Anim = "last3_reload_start_end",
+		Time = 1.53333,
+	},
+	DefaultReload = {
+		Anim = "last3_reload_insert",
+		Time = 0.86667,
+	},
+	DefaultReload = {
+		Anim = "last3_reload_end",
+		Time = 1.03333,
+	},
+	DefaultReload = {
+		Anim = "last4_reload_start",
+		Time = 1.36667,
+	},
+	DefaultReload = {
+		Anim = "last4_reload_start_empty",
+		Time = 2.03333,
+	},
+	DefaultReload = {
+		Anim = "last4_reload_start_end",
+		Time = 1.53333,
+	},
+	DefaultReload = {
+		Anim = "last4_reload_insert",
+		Time = 0.86667,
+	},
+	DefaultReload = {
+		Anim = "last4_reload_end",
+		Time = 1.03333,
+	},
+	DefaultReload = {
+		Anim = "last5_reload_start",
+		Time = 1.36667,
+	},
+	DefaultReload = {
+		Anim = "last5_reload_start_empty",
+		Time = 2.03333,
+	},
+	DefaultReload = {
+		Anim = "last5_reload_start_end",
+		Time = 1.53333,
+	},
+	DefaultReload = {
+		Anim = "last5_reload_insert",
+		Time = 0.86667,
+	},
+	DefaultReload = {
+		Anim = "last5_reload_end",
+		Time = 1.03333,
+	},
+	DefaultReload = {
+		Anim = "last6_reload_start",
+		Time = 1.36667,
+	},
+	DefaultReload = {
+		Anim = "last6_reload_start_empty",
+		Time = 2.03333,
+	},
+	DefaultReload = {
+		Anim = "last6_reload_start_end",
+		Time = 1.53333,
+	},
+	DefaultReload = {
+		Anim = "last6_reload_insert",
+		Time = 0.86667,
+	},
+	DefaultReload = {
+		Anim = "last6_reload_end",
+		Time = 1.03333,
+	},
+	DefaultReload = {
+		Anim = "reload1",
+		Time = 2.06667,
+	},
+	DefaultReload = {
+		Anim = "reload2",
+		Time = 2.23333,
+	},
+	DefaultReload = {
+		Anim = "reload3",
+		Time = 2.56667,
+	},
+	DefaultReload = {
+		Anim = "reload4",
+		Time = 2.9,
+	},
+	DefaultReload = {
+		Anim = "reload5",
+		Time = 3.8,
+	},
+	DefaultReload = {
+		Anim = "reload6",
+		Time = 3.93333,
+	},
+	DefaultReload = {
+		Anim = "reload7",
+		Time = 4.26667,
+	},
+	DefaultReload = {
+		Anim = "reload8",
+		Time = 5.6,
+	},
+	DefaultReload = {
+		Anim = "reload1_empty",
+		Time = 2.73333,
+	},
+	DefaultReload = {
+		Anim = "reload2_empty",
+		Time = 3.56667,
+	},
+	DefaultReload = {
+		Anim = "reload3_empty",
+		Time = 3.9,
+	},
+	DefaultReload = {
+		Anim = "reload4_empty",
+		Time = 3.9,
+	},
+	DefaultReload = {
+		Anim = "reload5_empty",
+		Time = 4.23333,
+	},
+	DefaultReload = {
+		Anim = "reload6_empty",
+		Time = 5.13333,
+	},
+	DefaultReload = {
+		Anim = "reload7_empty",
+		Time = 5.26667,
+	}
+	*/
+}

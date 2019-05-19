@@ -54,3 +54,12 @@ SWEP.DeploySpeed = 3
 SWEP.WElements = true
 
 SWEP.HeadshotMultiplier = 1.4
+
+SWEP.DeploySpeed = 3
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.16,
+	},
+}

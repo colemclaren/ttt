@@ -42,6 +42,27 @@ SWEP.ViewModel	= Model("models/weapons/c_357.mdl")
 SWEP.WorldModel	= Model("models/weapons/w_357.mdl")
 
 SWEP.Primary.Sound = Sound( "Weapon_USP.SilencedShot" )
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3.66667,
+	},/*
+	StartReload = {
+		Anim = "reload_start",
+		Time = 1.75,
+	},
+	DefaultReload = {
+		Anim = "reload_loop",
+		Time = 1,
+	},
+	AfterReload = {
+		Anim = "reload_end",
+		Time = 1.33333,
+	},
+	*/
+}
 
 SWEP.Tracer = "AR2Tracer"
 
@@ -197,10 +218,6 @@ function SWEP:PrimaryAttack()
 		self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
 		self.Owner:ViewPunch( Angle( math.Rand(-0.2,-0.1) * self.Primary.Recoil, math.Rand(-0.1,0.1) *self.Primary.Recoil, 0 ) )
-	end
-
-	if ( (game.SinglePlayer() && SERVER) || CLIENT ) then
-		self:SetNetworkedFloat( "LastShootTime", CurTime() )
 	end
 end
 

@@ -50,7 +50,14 @@ SWEP.HeadshotMultiplier = 5 -- brain fizz
 SWEP.IronSightsPos = Vector(-8.735, -10, 4.039)
 SWEP.IronSightsAng = Vector(-1.201, -0.201, -2)
 
---SWEP.DeploySpeed = 3
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3.48485,
+	},
+}
 
 function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    local sights = self:GetIronsights()

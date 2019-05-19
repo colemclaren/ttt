@@ -38,3 +38,12 @@ SWEP.Primary.Sound = Sound( "Weapon_Glock.Single" )
 SWEP.IronSightsPos = Vector( -5.79, -3.9982, 2.8289 )
 
 SWEP.HeadshotMultiplier = 1.75
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "glock_reload",
+		Time = 2.17143,
+	},
+}

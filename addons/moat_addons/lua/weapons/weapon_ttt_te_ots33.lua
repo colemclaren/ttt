@@ -115,3 +115,16 @@ SWEP.WorldModel			= "models/weapons/b_ots33.mdl"
 SWEP.Primary.Sound = Sound("Weapof_ots33.Shoot")
 SWEP.IronSightsPos = Vector (-3.4864, -3.001, 1.4005)
 SWEP.IronSightsAng = Vector (0.5583, 0.0261, 0)
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 1.5,
+	},
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 2,
+	}
+}

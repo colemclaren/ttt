@@ -41,3 +41,12 @@ SWEP.ViewModel			= "models/weapons/cstrike/c_mach_m249para.mdl"
 SWEP.WorldModel			= "models/weapons/w_mach_m249para.mdl"
 
 SWEP.HeadshotMultiplier = 3
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 5.73333,
+	},
+}

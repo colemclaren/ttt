@@ -1,11 +1,12 @@
 AddCSLuaFile()
 
-SWEP.PrintName = "Peacekeeper"
 if CLIENT then
+	SWEP.PrintName = "Peacekeeper"
 	SWEP.Slot = 2
 	SWEP.Icon = "vgui/ttt/peacekeeper.png"
 end
 
+SWEP.PrintName = "Peacekeeper"
 SWEP.HoldType 				= "ar2"
 
 SWEP.ViewModelFOV			= 70
@@ -43,32 +44,33 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.IronSightsPos = Vector(-3.78, -3.161, 0.615)
 SWEP.IronSightsAng = Angle(-0.141, 0, 0)
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 2.45714,
+		Sounds = {
+			{Delay = .4, Sound = Sound("BO2_PEACE_MAGOUT")},
+			{Delay = 1.3, Sound = Sound("BO2_PEACE_MAGIN")},
+		}
+	},
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.08571,
+		Sounds = {
+			{Delay = .4, Sound = Sound("BO2_PEACE_MAGOUT")},
+			{Delay = 1.3, Sound = Sound("BO2_PEACE_MAGIN")},
+		}
+	},
+}
+
+
 function SWEP:SetupDataTables()
-	BaseClass.SetupDataTables(self)
-	self:NetworkVar("Float", 0, "NextBurstFire")
-	self:NetworkVar("Int", 0, "BurstRound")
-end
+	self:NetworkVar("Float", 1, "NextBurstFire")
+	self:NetworkVar("Int", 1, "BurstRound")
 
-SWEP.ReloadSound = {"BO2_PEACE_MAGOUT", "BO2_PEACE_MAGIN"}
-function SWEP:Reload()
-	self.ReloadAnim = Either(self:Clip1() == 0, ACT_VM_RELOAD_EMPTY, ACT_VM_RELOAD)
-	if (not BaseClass.Reload(self)) then
-		return
-	end
-
-	self:SetNextPrimaryFire(CurTime() + 0.8)
-	self:SetBurstRound(-1)
-	timer.Simple(0.4, function()
-		if (not self.ReloadSound) then return end
-		self.ReloadSound.Active = self.ReloadSound[1]
-		self:EmitSound(self.ReloadSound.Active)
-
-		timer.Simple(0.8, function()
-			if (not self.ReloadSound) then return end
-			self.ReloadSound.Active = self.ReloadSound[2]
-			self:EmitSound(self.ReloadSound[2])
-		end)
-	end)
+	return BaseClass.SetupDataTables(self)
 end
 
 function SWEP:Initialize()
@@ -77,13 +79,9 @@ function SWEP:Initialize()
 end
 
 function SWEP:Holster()
-	if (self.ReloadSound and self.ReloadSound.Active) then
-		self:StopSound(self.ReloadSound.Active)
-	end
-
 	self:SetBurstRound(-1)
 
-	return true
+	return BaseClass.Holster(self)
 end
 
 function SWEP:Think()
@@ -96,9 +94,9 @@ function SWEP:Think()
 			return
 		end
 
+		self:FireABullet()
 		self:SetBurstRound(self:GetBurstRound() + 1)
 		self:SetNextBurstFire(CurTime() + self.Primary.Delay)
-		self:FireABullet()
 	end
 end
 
@@ -120,11 +118,11 @@ function SWEP:FireABullet()
 end
 
 function SWEP:PrimaryAttack()
-	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 4)
-
 	if (not self:CanPrimaryAttack()) then
 		return
 	end
+
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 4)
 
 	self:SetBurstRound(0)
 	self:SetNextBurstFire(CurTime() + self.Primary.Delay)

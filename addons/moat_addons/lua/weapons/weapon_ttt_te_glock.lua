@@ -115,3 +115,15 @@ SWEP.IronSightsAng = Vector (0.0412, 0.0164, 0)
 
 SWEP.HeadshotMultiplier = 1.75
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 1.66667,
+	},
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 2.33333,
+	}
+}

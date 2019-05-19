@@ -118,6 +118,15 @@ SWEP.AutoSpawnable = false
 SWEP.AmmoEnt = "item_ammo_pistol_ttt"
 SWEP.IronSightsPos = Vector(4.73, 0, 2.4)
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.74286,
+	},
+}
+
 SWEP.Offset = {
         Pos = {
         Up = 1,

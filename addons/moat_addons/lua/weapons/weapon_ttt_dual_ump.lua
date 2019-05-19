@@ -46,3 +46,12 @@ SWEP.ViewModel			= "models/weapons/cstrike/c_smg_ump45.mdl"
 SWEP.WorldModel			= "models/weapons/w_smg_ump45.mdl"
 
 SWEP.HeadshotMultiplier = 3 -- brain fizz
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3.48485,
+	},
+}

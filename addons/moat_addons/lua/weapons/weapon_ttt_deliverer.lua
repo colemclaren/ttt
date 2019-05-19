@@ -57,3 +57,11 @@ SWEP.Secondary.IronFOV			= 60					-- How much you 'zoom' in. Less is more!  Don'
 SWEP.IronSightsPos = Vector(-2.8, 0, 1.399)
 SWEP.IronSightsAng = Vector(0.515, 0, 0)
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload_sil",
+		Time = 2.17742,
+	},
+}

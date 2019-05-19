@@ -39,6 +39,14 @@ SWEP.AmmoEnt = "item_ammo_pistol_ttt"
 
 SWEP.Secondary.IronFOV			= 38		-- How much you 'zoom' in. Less is more! 	
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.7,
+	},
+}
 
 -- Enter iron sight info and bone mod info below
 SWEP.IronSightsPos = Vector(-2.631,-1.17,0.939)	--Iron Sight positions and angles. Use the Iron sights utility in 

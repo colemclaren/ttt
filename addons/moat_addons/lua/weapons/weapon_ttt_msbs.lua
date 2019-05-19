@@ -44,6 +44,16 @@ SWEP.SightsAng = Vector(-0.083,0.019,0)
 SWEP.RunSightsPos = Vector(5.26,-5.994,-0.514)
 SWEP.RunSightsAng = Vector(-19.5,63.31,-19.584)
 
+SWEP.PrimaryAnim = {"Shoot1", "Shoot2"}
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "Reload",
+		Time = 3.875,
+	},
+}
+
 SWEP.WElements = {
 	["msbs"] = { type = "Model", model = "models/weapons/w_rifl_msbs.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(-0.232, 1.36, -0.545), angle = Angle(-0.181, 1.45, -180), size = Vector(1, 1, 1), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
 }

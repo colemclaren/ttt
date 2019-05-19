@@ -17,6 +17,7 @@ if CLIENT then
 end
 
 SWEP.Base = "weapon_tttbase"
+DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Primary.Recoil	= 1.35
 SWEP.Primary.Damage = 28
 SWEP.Primary.Delay = 0.38
@@ -44,15 +45,25 @@ SWEP.WorldModel			= "models/weapons/w_pist_usp_silencer.mdl"
 SWEP.Primary.Sound = Sound( "weapons/usp/usp1.wav" )
 SWEP.Primary.SoundLevel = 50
 
-SWEP.IronSightsPos = Vector( -5.91, -4, 2.84 )
-SWEP.IronSightsAng = Vector(-0.5, 0, 0)
+SWEP.IronSightsPos = Vector( -3.91, -7, 2.84 )
+SWEP.IronSightsAng = Vector(-0.5, 0, 0.5)
 
-SWEP.PrimaryAnim = ACT_VM_PRIMARYATTACK_SILENCED
-SWEP.ReloadAnim = ACT_VM_RELOAD_SILENCED
+SWEP.PrimaryAnim = {"shoot1", "shoot2", "shoot3"}
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.7027,
+	}
+}
 
 function SWEP:Deploy()
-   self:SendWeaponAnim(ACT_VM_DRAW_SILENCED)
-   return true
+	if (BaseClass.Deploy(self)) then
+		self:PlayAnimation("DrawAnim", "draw", self.DeploySpeed)
+	end
+
+	return true
 end
 
 -- We were bought as special equipment, and we have an extra to give

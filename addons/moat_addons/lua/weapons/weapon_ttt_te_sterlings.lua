@@ -191,30 +191,21 @@ SWEP.AllowDrop = true
 SWEP.IsSilent = false
 SWEP.NoSights = false
 
-SWEP.ReloadSound = "Weapof_STERLING.Reload"
-function SWEP:Reload()
-	local Reload = Either(self:Clip1() == 0,
-		{Anim = ACT_VM_RELOAD_EMPTY, Sound = "Weapof_STERLING.ReloadEmpty"},
-		{Anim = ACT_VM_RELOAD, Sound = "Weapof_STERLING.Reload"})
-
-	self.ReloadAnim = Reload.Anim
-	if (not self.BaseClass.Reload(self)) then
-		return
-	end
-
-	local ReloadTime = CurTime()
-	self.ReloadTime = ReloadTime
-	timer.Simple(0.5, function()
-		if (self.ReloadTime ~= ReloadTime) then return end
-
-		self.ReloadSound = Reload.Sound
-		self:EmitSound(self.ReloadSound)
-	end)
-end
-
-function SWEP:Holster()
-	if (self.ReloadTime) then self.ReloadTime = 0 end
-	if (self.ReloadSound) then self:StopSound(self.ReloadSound) end
-
-	return true
-end
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.5,
+		Sounds = {
+			{Delay = .5, Sound = Sound "Weapof_STERLING.Reload"}
+		}
+	},
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 3.6,
+		Sounds = {
+			{Delay = .5, Sound = Sound "Weapof_STERLING.ReloadEmpty"}
+		}
+	},
+}

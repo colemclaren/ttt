@@ -5,15 +5,6 @@
 
 if not VapeParticleEmitter then VapeParticleEmitter = ParticleEmitter(Vector(0,0,0)) end
 
-sound.Add({
-	name = "vape_inhale",
-	channel = CHAN_WEAPON,
-	volume = 0.24,
-	level = 60,
-	pitch = { 95 },
-	sound = "vapeinhale.wav"
-})
-
 net.Receive("Vape",function()
 	local ply = net.ReadEntity()
 	local amt = net.ReadInt(8)

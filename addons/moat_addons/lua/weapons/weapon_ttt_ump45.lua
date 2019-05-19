@@ -36,6 +36,21 @@ SWEP.ViewModel              = "models/weapons/v_notmic_hkump.mdl"   -- Weapon vi
 SWEP.WorldModel             = "models/weapons/w_notmic_hkump.mdl"   -- Weapon world model
 
 SWEP.Primary.Sound          = Sound("Weapon_UMP45.Single")        -- Script that calls the primary fire sound
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "Reload_full",
+		Time = 3.52,
+		Sounds = {
+			{Delay = 2, Sound = Sound("ump45.magrelease")},
+		}
+	},
+	ReloadEmpty = {
+		Anim = "Reload_empty",
+		Time = 3.52,
+	},
+}
 
 SWEP.IronSightsPos = Vector(-2.28, 0, 0.639)
 SWEP.IronSightsAng = Vector(0.699, 0.519, 0)

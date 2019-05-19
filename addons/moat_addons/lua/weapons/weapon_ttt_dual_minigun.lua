@@ -40,3 +40,7 @@ SWEP.HeadshotMultiplier = 3 -- brain fizz
 function SWEP:Precache()
 	util.PrecacheSound "weapons/minigun/mini-1.wav"
 end
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {}

@@ -343,6 +343,7 @@ SWEP.Kind = WEAPON_PISTOL
 SWEP.WeaponID = AMMO_PISTOL
 
 SWEP.Base = "weapon_tttbase"
+DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Primary.Recoil	= 1.5
 SWEP.Primary.Damage = 25
 SWEP.Primary.Delay = 0.38
@@ -363,3 +364,24 @@ SWEP.WorldModel			= "models/weapons/b_92sup.mdl"
 SWEP.Primary.Sound = Sound("Weapof_Beretta92fss.Shoot")
 SWEP.IronSightsPos = Vector (-3.4915, -3.0001, 1.3414)
 SWEP.IronSightsAng = Vector (-0.1484, 0.0126, 0)
+SWEP.PrimaryAnim = {"fire1", "fire2", "fire3"}
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 1.82143,
+	},
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 2.17857,
+	}
+}
+
+function SWEP:Deploy()
+	if (BaseClass.Deploy(self)) then
+		self:PlayAnimation("DrawAnim", "draw", self.DeploySpeed)
+	end
+
+	return true
+end

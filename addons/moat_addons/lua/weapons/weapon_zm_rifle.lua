@@ -37,13 +37,22 @@ SWEP.ViewModelFOV		= 54
 SWEP.ViewModel          = Model("models/weapons/cstrike/c_snip_scout.mdl")
 SWEP.WorldModel         = Model("models/weapons/w_snip_scout.mdl")
 
-SWEP.Primary.Sound = Sound(")weapons/scout/scout_fire-1.wav")
+SWEP.Primary.Sound = Sound("Weapon_Scout.Single")
 
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 
 SWEP.IronSightsPos      = Vector( 5, -15, -2 )
 SWEP.IronSightsAng      = Vector( 2.6, 1.37, 3.5 )
 SWEP.Scope = true
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.93333,
+	},
+}
 
 function SWEP:SetZoom(state)
    if IsValid(self.Owner) and self.Owner:IsPlayer() then
@@ -53,49 +62,6 @@ function SWEP:SetZoom(state)
          self.Owner:SetFOV(0, 0.2)
       end
    end
-end
-
-function SWEP:PrimaryAttack( worldsnd )
-   self.BaseClass.PrimaryAttack( self.Weapon, worldsnd )
-   self:SetNextSecondaryFire( CurTime() + 0.1 )
-end
-
--- Add some zoom to ironsights for this gun
-function SWEP:SecondaryAttack()
-   if not self.IronSightsPos then return end
-   if self:GetNextSecondaryFire() > CurTime() then return end
-
-   local bIronsights = not self:GetIronsights()
-
-   self:SetIronsights( bIronsights )
-
-   self:SetZoom(bIronsights)
-   
-   if CLIENT then
-      self:EmitSound(self.Secondary.Sound)
-   end
-
-   self:SetNextSecondaryFire( CurTime() + 0.3)
-end
-
-function SWEP:PreDrop()
-   self:SetZoom(false)
-   self:SetIronsights(false)
-   return self.BaseClass.PreDrop(self)
-end
-
-function SWEP:Reload()
-	if ( self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount( self.Primary.Ammo ) <= 0 ) then return end
-   self:DefaultReload( ACT_VM_RELOAD )
-   self:SetIronsights( false )
-   self:SetZoom( false )
-end
-
-
-function SWEP:Holster()
-   self:SetIronsights(false)
-   self:SetZoom(false)
-   return true
 end
 
 if CLIENT then

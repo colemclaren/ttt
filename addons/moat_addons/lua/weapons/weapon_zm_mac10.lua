@@ -41,6 +41,13 @@ SWEP.IronSightsPos = Vector(-8.921, -9.528, 2.9)
 SWEP.IronSightsAng = Vector(0.699, -5.301, -7)
 
 SWEP.DeploySpeed = 3
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "mac10_reload",
+		Time = 3.17143,
+	},
+}
 
 function SWEP:GetHeadshotMultiplier(victim, dmginfo)
    local att = dmginfo:GetAttacker()

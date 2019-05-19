@@ -46,47 +46,11 @@ SWEP.ViewModelFOV = 85
 SWEP.ViewModel = Model("models/weapons/zaratusa/golden_deagle/v_golden_deagle.mdl")
 SWEP.WorldModel = Model("models/weapons/zaratusa/golden_deagle/w_golden_deagle.mdl")
 
-function SWEP:Initialize()
-	self:SetDeploySpeed(self.DeploySpeed)
-
-	if (self.SetHoldType) then
-		self:SetHoldType(self.HoldType or "pistol")
-	end
-
-	-- PrecacheParticleSystem("smoke_trail")
-end
-
-function SWEP:PrimaryAttack(worldsnd)
-	if (self:CanPrimaryAttack()) then
-		self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-		self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
-
-		local owner = self.Owner
-		owner:GetViewModel():StopParticles()
-
-		if (!worldsnd) then
-			self.Weapon:EmitSound(self.Primary.Sound)
-		elseif SERVER then
-			sound.Play(self.Primary.Sound, self:GetPos())
-		end
-
-		self:ShootBullet(self.Primary.Damage, self.Primary.NumShots, 1, self.Primary.Cone)
-		self:TakePrimaryAmmo(1)
-
-		if (IsValid(owner) and !owner:IsNPC() and owner.ViewPunch) then
-			owner:ViewPunch(Angle(util.SharedRandom("weapon_ttt_golden_deagle", -0.2, -0.1, 1) * self.Primary.Recoil, util.SharedRandom("weapon_ttt_golden_deagle", -0.1, 0.1, 2) * self.Primary.Recoil, 0))
-		end
-
-		-- timer.Simple(0.5, function() if (IsValid(self) and IsValid(self.Owner)) then ParticleEffectAttach("smoke_trail", PATTACH_POINT_FOLLOW, self.Owner:GetViewModel(), 1) end end)
-	end
-end
-
-function SWEP:Holster()
-	if (IsValid(self.Owner)) then
-		local vm = self.Owner:GetViewModel()
-		if (IsValid(vm)) then
-			vm:StopParticles()
-		end
-	end
-	return true
-end
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.22222,
+	},
+}

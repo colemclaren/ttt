@@ -22,6 +22,14 @@ SWEP.Primary.ClipSize = 1
 SWEP.Primary.ClipMax = 1
 SWEP.Primary.DefaultClip = 1
 SWEP.Primary.Sound = Sound( "Weapon_DetRev.Single" )
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3.66667,
+	},
+}
 
 -- Model properties
 SWEP.UseHands = true
@@ -66,19 +74,6 @@ SWEP.IsSilent = false
 
 -- If NoSights is true, the weapon won't have ironsights
 SWEP.NoSights = false
-
--- Precache custom sounds
-function SWEP:Precache()
-   util.PrecacheSound( "weapons/det_revolver/revolver-fire.wav" )
-end
-
--- Give the primary sound an alias
-sound.Add ( {
-   name = "Weapon_DetRev.Single",
-   channel = CHAN_USER_BASE + 10,
-   volume = 1.0,
-   sound = "weapons/det_revolver/revolver-fire.wav"
-} )
 
 -- Equipment menu information is only needed on the client
 if CLIENT then

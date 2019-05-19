@@ -46,6 +46,15 @@ SWEP.Primary.Cone = 0.02
 
 SWEP.AllowDrop = false
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.16667,
+	},
+}
+
 -- Enter iron sight info and bone mod info below
 SWEP.IronSightsPos = Vector(-2.336,0,0.74)	--Iron Sight positions and angles. Use the Iron sights utility in 
 SWEP.IronSightsAng = Vector(0.004,0.059,0)	--Clavus's Swep Construction Kit to get these vectors

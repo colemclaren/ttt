@@ -44,3 +44,12 @@ SWEP.HeadshotMultiplier = 2.2
 
 SWEP.IronSightsPos = Vector(-5.96, -5.119, 2.349)
 SWEP.IronSightsAng = Vector(0, 0, 0)
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Animation = "reload",
+		ReloadTime = 5.74
+	}
+}

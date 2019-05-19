@@ -114,6 +114,15 @@ SWEP.Primary.Sound = Sound("Weapof_1911.Shoot")
 SWEP.IronSightsPos = Vector (-2.9903, -3, 1.9658)
 SWEP.IronSightsAng = Vector (1.2967, 0.0068, 0)
 
-
-
-
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 1.83333,
+	},
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 2.26667,
+	}
+}

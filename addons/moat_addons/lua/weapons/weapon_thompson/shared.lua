@@ -122,6 +122,14 @@ SWEP.WorldModel                         = "models/weapons/w_pvp_tom.mdl"        
 SWEP.ShowWorldModel                     = false
 
 SWEP.Primary.Sound = Sound( "Weapon_Tom.Fire" )
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3.42857,
+	},
+}
 
 SWEP.IronSightsPos = Vector( 3.3, 0, 0 )
 SWEP.IronSightsAng = Vector( 0, -4, 0 )

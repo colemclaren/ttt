@@ -66,6 +66,19 @@ SWEP.Primary.Damage		= 19	-- Base damage per bullet
 SWEP.Primary.Spread		= .05	-- Define from-the-hip accuracy 1 is terrible, .0001 is exact)
 SWEP.Primary.IronAccuracy = .01 -- Ironsight accuracy, should be the same for shotguns
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 2.36667,
+	},
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.06667,
+	},
+}
+
 -- Enter iron sight info and bone mod info below
 
 
@@ -75,19 +88,3 @@ SWEP.SightsPos = Vector(-2.3655, 0, 0.7008)
 SWEP.SightsAng = Vector(0, 0, 0)
 SWEP.RunSightsPos = Vector(4.679, -1.441, 3.68)
 SWEP.RunSightsAng = Vector(-12.101, 34.5, 0)
-
-/*---------------------------------------------------------
-Reload
----------------------------------------------------------*/
-function SWEP:Reload()
-
-if ( self.Weapon:Clip1() < self.Primary.ClipSize ) and self.Owner:GetAmmoCount(self.Primary.Ammo) > 0 then
-self.Owner:SetFOV( 0, 0.15 )
-self:SetIronsights(false, self.Owner)
-if ( self.Weapon:Clip1() <= 0 ) then
-self.Weapon:DefaultReload(ACT_VM_RELOAD_EMPTY)
-else
-self.Weapon:DefaultReload(ACT_VM_RELOAD)
-end
-end
-end

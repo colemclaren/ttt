@@ -43,6 +43,15 @@ SWEP.Primary.Damage     = 16    -- Base damage per bullet
 SWEP.Primary.Spread     = .030
 SWEP.Primary.IronAccuracy = .015 -- Ironsight accuracy, should be the same for shotguns
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "Reload",
+		Time = 3.83333,
+	},
+}
+
 -- Enter iron sight info and bone mod info below
 SWEP.IronSightsPos = Vector(-2.168,0.1,0.94)    --Iron Sight positions and angles. Use the Iron sights utility in 
 SWEP.IronSightsAng = Vector(-0.214,0.197,0) --Clavus's Swep Construction Kit to get these vectors

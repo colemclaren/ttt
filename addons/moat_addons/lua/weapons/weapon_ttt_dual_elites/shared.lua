@@ -56,3 +56,12 @@ SWEP.IsSilent = false
 
 -- If NoSights is true, the weapon won't have ironsights
 SWEP.NoSights = true
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3.8,
+	},
+}

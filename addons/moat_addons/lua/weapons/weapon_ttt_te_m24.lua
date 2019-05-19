@@ -375,7 +375,7 @@ function SWEP:SecondThink()
 			self:SetIronsights(false)
 			self.Weapon:SetNextPrimaryFire(CurTime() + 1.25)
 			self.Weapon:SetNextSecondaryFire(CurTime() + 1.25)
-		end
+		end	
 	end
 end
 
@@ -729,7 +729,7 @@ SWEP.ViewModel			= "models/weapons/a_m24.mdl"
 SWEP.WorldModel			= "models/weapons/b_m24.mdl"
 
 SWEP.Primary.Sound = Sound(")weapons/usp/usp1.wav")
-
+SWEP.PrimaryAnim = {"cock01", "cock02", "cock03"}
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 
 SWEP.IronSightsPos      = Vector( 5, -15, -2 )
@@ -737,67 +737,117 @@ SWEP.IronSightsAng      = Vector( 2.6, 1.37, 3.5 )
 SWEP.IsZoomed = 0
 SWEP.Scope = true
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1.4
+SWEP.ReloadDelay = .5
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload4",
+		Time = 5.25,
+	},
+	DefaultReload4 = {
+		Anim = "reload4",
+		Time = 5.25,
+	},
+	DefaultReload3 = {
+		Anim = "reload3",
+		Time = 4.875,
+	},
+	DefaultReload2 = {
+		Anim = "reload2",
+		Time = 4.5,
+	},
+	DefaultReload1 = {
+		Anim = "reload1",
+		Time = 4.125,
+	},
+	ReloadEmpty1 = {
+		Anim = "reload_empty1",
+		Time = 3,
+	},
+	ReloadEmpty2 = {
+		Anim = "reload_empty2",
+		Time = 3.375,
+	},
+	ReloadEmpty3 = {
+		Anim = "reload_empty3",
+		Time = 3.75,
+	},
+	ReloadEmpty4 = {
+		Anim = "reload_empty4",
+		Time = 4.125,
+	},
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 4.5,
+	}
+}
+
+function SWEP:ReloadAnimation(Clip, Ammo, CurrentTime)
+	local Need = math.max(self:GetMaxClip1() - Clip, 0)
+
+	if (Clip == 0 and Ammo > 4) then
+		return "ReloadEmpty"
+	end
+
+	if (Clip == 0 and Ammo == 1) then
+		return "ReloadEmpty1"
+	end
+
+	if (Clip == 0 and Ammo == 2) then
+		return "ReloadEmpty2"
+	end
+
+	if (Clip == 0 and Ammo == 3) then
+		return "ReloadEmpty3"
+	end
+
+	if (Clip == 0 and Ammo == 4) then
+		return "ReloadEmpty4"
+	end
+
+	if (Need == 1 and Ammo >= 1) then
+		return "DefaultReload1"
+	end
+
+	if (Need == 2 and Ammo >= 2) then
+		return "DefaultReload2"
+	end
+
+	if (Need == 3 and Ammo >= 3) then
+		return "DefaultReload3"
+	end
+
+	if (Need >= 4 and Ammo >= 4) then
+		return "DefaultReload4"
+	end
+
+	if (Ammo == 1) then
+		return "DefaultReload1"
+	end
+
+	if (Ammo == 2) then
+		return "DefaultReload2"
+	end
+
+	if (Ammo == 3) then
+		return "DefaultReload3"
+	end
+
+	if (Ammo == 4) then
+		return "DefaultReload4"
+	end
+
+	return (Clip == 0) and "ReloadEmpty" or "DefaultReload"
+end
+
 function SWEP:SetZoom(state)
-	if not (IsValid(self.Owner) and self.Owner:IsPlayer()) then return end
-     if state then
-         self.Owner:SetFOV(20, 0.3)
-         --self.Owner:SetFOV(10, 0.3)
-     else
-         self.Owner:SetFOV(0, 0.2)
-     end
-end
-
-function SWEP:ShootAnimation()
-	self.Weapon:SendWeaponAnim(ACT_VM_IDLE)
-	local Animation = self.Owner:GetViewModel()
-	Animation:SetSequence(Animation:LookupSequence("cock0" .. math.random(1, 3)))
-end
-
-function SWEP:PrimaryAttack( worldsnd )
-   self.BaseClass.PrimaryAttack( self.Weapon, worldsnd )
-   self:SetNextSecondaryFire( CurTime() + 0.1 )
-   self:ShootAnimation()
-end
-
--- Add some zoom to ironsights for this gun
-function SWEP:SecondaryAttack()
-   if not self.IronSightsPos then return end
-   if self:GetNextSecondaryFire() > CurTime() then return end
-
-   local bIronsights = not self:GetIronsights()
-
-   self:SetIronsights( bIronsights )
-
-    self:SetZoom(bIronsights)
-   	if (CLIENT) then self:EmitSound(self.Secondary.Sound) end
-
-   self:SetNextSecondaryFire( CurTime() + 0.3)
-end
-
-function SWEP:PreDrop()
-   self:SetZoom(false)
-   self:SetIronsights(false)
-   return self.BaseClass.PreDrop(self)
-end
-
-function SWEP:Reload()
-	if ( self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount( self.Primary.Ammo ) <= 0 ) then return end
-   self:DefaultReload( ACT_VM_RELOAD )
-   self:ReloadAnimation()
-   self:SetIronsights( false )
-   self:SetZoom( false )
-end
-
-function SWEP:ReloadAnimation()
-	self.Weapon:SendWeaponAnim(ACT_VM_IDLE)
-	local Animation = self.Owner:GetViewModel()
-	Animation:SetSequence(Animation:LookupSequence("reload4"))
-end
-
-function SWEP:Holster()
-   self:SetIronsights(false)
-   self:SetZoom(false)
-   return true
+   	if (not (IsValid(self.Owner) and self.Owner:IsPlayer())) then return end
+   	if (state) then
+      	self.Owner:SetFOV(20, .3)
+   	else
+      	self.Owner:SetFOV(0, .2)
+   	end
 end
 
 if CLIENT then

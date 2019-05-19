@@ -1,3 +1,113 @@
+/*
+if (not sound.Add_) then
+	sound.Add_ = sound.Add
+end
+
+WEAPON_SOUNDS = WEAPON_SOUNDS or {}
+function sound.Add(data)
+	table.insert(WEAPON_SOUNDS, data)
+	return sound.Add_(data)
+end
+*/
+sound.Add({
+	name = "vape_inhale",
+	channel = CHAN_WEAPON,
+	volume = 0.24,
+	level = 60,
+	pitch = { 95 },
+	sound = "vapeinhale.wav"
+})
+
+sound.Add {
+    name = "Bat.Swing",
+    channel = CHAN_STATIC,
+    volume = 1,
+    level = 40,
+    pitch = 100,
+    sound = "weapons/iceaxe/iceaxe_swing1.wav"
+}
+
+sound.Add{
+    name = "Bat.Sound",
+    channel = CHAN_STATIC,
+    volume = 1,
+    level = 65,
+    pitch = 100,
+    sound = "nessbat/gamefreak/bat_sound.wav"
+}
+
+sound.Add {
+    name = "Bat.HomeRun",
+    channel = CHAN_STATIC,
+    volume = 1,
+    level = 120,
+    pitch = 100,
+    sound = "nessbat/gamefreak/homerun.wav"
+}
+
+sound.Add ({
+   name = "Weapon_DetRev.Single",
+   channel = CHAN_USER_BASE + 10,
+   volume = 1.0,
+   sound = "weapons/det_revolver/revolver-fire.wav"
+})
+
+/*
+
+	Scorpion EVO
+
+*/
+
+sound.Add({
+    name = "CW_EVO3_FIRE",
+    channel = CHAN_WEAPON,
+    volume = 1.0,
+    pitch = {95, 105},
+    sound = ")weapons/evo3/ump45_fp.wav"
+})
+
+sound.Add({
+    name = "CW_EVO3_FIRE_SUPPRESSED",
+    channel = CHAN_WEAPON,
+    volume = 1.0,
+    pitch = {95, 105},
+    sound = {")weapons/evo3/ump45_suppressed_fp.wav", ")weapons/evo3/ump45_suppressed_fp.wav", ")weapons/evo3/ump45_suppressed_fp.wav", ")weapons/evo3/ump45_suppressed_fp.wav"}
+})
+
+sound.Add({
+	name = "CW_EVO3_CLIPOUT",
+	channel = CHAN_WEAPON,
+	volume = 0.8,
+	sound = "weapons/evo3/ump45_magout.wav"
+})
+
+sound.Add({
+	name = "CW_EVO3_CLIPIN",
+	channel = CHAN_WEAPON,
+	volume = 0.8,
+	sound = "weapons/evo3/ump45_magin.wav"
+})
+
+sound.Add({
+	name = "CW_EVO3_BOLTPULL",
+	channel = CHAN_WEAPON,
+	volume = 0.8,
+	sound = "weapons/evo3/ump45_boltback.wav"
+})
+
+sound.Add({
+	name = "CW_EVO3_BOLTRELEASE",
+	channel = CHAN_WEAPON,
+	volume = 0.8,
+	sound = "weapons/evo3/ump45_boltrelease.wav"
+})
+
+/*
+
+	BO2 Peacekeeper
+
+*/
+
 sound.Add({
     name = "BO2_PEACE_FIRE",
     channel = CHAN_WEAPON,
@@ -530,15 +640,13 @@ sound.Add({
 
 //SIG P228
 
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_p228/p228-1.wav"
-soundtbl["name"] = "gunshot_p228"
-sound.Add(soundtbl)
+sound.Add({
+	name = "gunshot_p228",
+	channel = CHAN_WEAPON,
+    volume = 1.0,
+	pitch = {95, 105},
+	sound = {")weapons/gunshot_p228/p228-1.wav", ")weapons/gunshot_p228/p228-1.wav", ")weapons/gunshot_p228/p228-1.wav", ")weapons/gunshot_p228/p228-1.wav", ")weapons/gunshot_p228/p228-1.wav"}
+})
 
 sound.Add({
 	name = 			"improv_p228.Magout",
@@ -2054,7 +2162,7 @@ instbl["pitch"] = "95,105"
 instbl["sound"] = "weapons_nc/vss/sg552_boltpull.wav"
 instbl["name"] = "Weapoz_SG552.Boltpull"
 
-AddCSLuaFile()
+sound.Add(instbl)
 
 //SHOTGUN GROUP
 
@@ -5015,19 +5123,27 @@ sound.Add({
 })
 --- SPAS-12 ---
 
-sound.Add({
-	name = 			"Weapon_Spas.Insertshell",			
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/spas12/spas12insertshell.wav"	
-})
+local instbl = {}
+instbl["channel"] = "3"
+instbl["level"] = "75"
+instbl["volume"] = "1.0"
+instbl["CompatibilityAttenuation"] = "1"
+instbl["pitch"] = "95,105"
+instbl["sound"] = "weapons/spas12/spas12insertshell.wav"
+instbl["name"] = "Weapon_Spas.Insertshell"
 
-sound.Add({
-	name = 			"Weapon_Spas.Pump",			
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/spas12/spas12pump.wav"	
-})
+sound.Add(instbl)
+
+local instbl = {}
+instbl["channel"] = "3"
+instbl["level"] = "75"
+instbl["volume"] = "1.0"
+instbl["CompatibilityAttenuation"] = "1"
+instbl["pitch"] = "95,105"
+instbl["sound"] = "weapons/spas12/spas12pump.wav"
+instbl["name"] = "Weapon_Spas.Pump"
+
+sound.Add(instbl)
 
 sound.Add({
 	name = 			"Weapon_Spas.Fire",			
@@ -5600,12 +5716,9 @@ sound.Add(
     sound = "weapons/hkump/clipout.wav"
 })
 
-
-
-/*
 sound.Add(
 {
-    name = "ump45.foley",
+    name = "ump45.cliptap",
     channel = CHAN_ITEM,
     volume = 1.0,
     soundlevel = 75,
@@ -5613,7 +5726,7 @@ sound.Add(
 })
 sound.Add(
 {
-    name = "ump45.foley",
+    name = "ump45.magrelease",
     channel = CHAN_ITEM,
     volume = 1.0,
     soundlevel = 75,
@@ -5621,12 +5734,13 @@ sound.Add(
 })
 sound.Add(
 {
-    name = "ump45.foley",
+    name = "ump45.magslap",
     channel = CHAN_ITEM,
     volume = 1.0,
     soundlevel = 75,
     sound = "weapons/hkump/magslap.wav"
-})*/
+})
+
 
 sound.Add(
 {
@@ -5724,3 +5838,5 @@ sound.Add(
     soundlevel = 75,
     sound = "weapons/universal/uni_weapon_holster_06.wav"
 })
+
+-- sound.Add = sound.Add_

@@ -7,6 +7,7 @@ SWEP.Slot               = 2
 SWEP.Icon = "VGUI/ttt/icon_vss"
 
 SWEP.Base               = "weapon_tttbase"
+DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Spawnable = true
 
 SWEP.Kind = WEAPON_HEAVY
@@ -44,6 +45,14 @@ SWEP.Secondary.Sound = Sound("Default.Zoom")
 SWEP.IronSightsPos = Vector( 5, -15, -2 )
 SWEP.IronSightsAng = Vector( 2.6, 1.37, 3.5 )
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3.06667,
+	},
+}
 
 function SWEP:SetZoom(state)
 	if IsValid(self.Owner) and self.Owner:IsPlayer() then
@@ -55,44 +64,11 @@ function SWEP:SetZoom(state)
 	end
 end
 
--- Add some zoom to ironsights for this gun
-function SWEP:SecondaryAttack()
-	if not self.IronSightsPos then return end
-	if self:GetNextSecondaryFire() > CurTime() then return end
-
-	bIronsights = not self:GetIronsights()
-
-	self:SetIronsights(bIronsights)
-
-	self:SetZoom(bIronsights)
-	
-	if (CLIENT) then
-		self:EmitSound(self.Secondary.Sound)
-	end
-
-	self:SetNextSecondaryFire( CurTime() + 0.3)
-end
-
-function SWEP:PreDrop()
-	self:SetZoom(false)
-	self:SetIronsights(false)
-	return self.BaseClass.PreDrop(self)
-end
-
 function SWEP:Reload()
-	if (self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0) then return end
-	self:DefaultReload(ACT_VM_RELOAD)
-	self:SetIronsights(false)
-	self:SetZoom(false)
-	self:SetInaccuracyTime(0)
-	self:SetInaccuracyPercent(0)
-end
-
-
-function SWEP:Holster()
-	self:SetIronsights(false)
-	self:SetZoom(false)
-	return true
+	if (BaseClass.Reload(self)) then
+		self:SetInaccuracyTime(0)
+		self:SetInaccuracyPercent(0)
+	end
 end
 
 if CLIENT then
@@ -197,11 +173,11 @@ function SWEP:DrawWorldModel()
     end
 end
 
-DEFINE_BASECLASS "weapon_tttbase"
 function SWEP:SetupDataTables()
-	BaseClass.SetupDataTables(self)
-	self:NetworkVar("Float", 0, "InaccuracyPercent")
-	self:NetworkVar("Float", 1, "InaccuracyTime")
+	self:NetworkVar("Float", 1, "InaccuracyPercent")
+	self:NetworkVar("Float", 2, "InaccuracyTime")
+
+	return BaseClass.SetupDataTables(self)
 end
 
 function SWEP:GetCurrentInaccacuracy()

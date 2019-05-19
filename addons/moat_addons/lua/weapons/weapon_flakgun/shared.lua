@@ -36,24 +36,14 @@ SWEP.Primary.Sound                      = Sound( "Weapon_Flak.Fire" )
 
 SWEP.IronSightsPos = Vector( 5.65, 0, 0 )
 SWEP.IronSightsAng = Vector( 0, 0, 0 )
-SWEP.ReloadLength = 2.23
-SWEP.ReloadTime = 2.23
-
-
--- The shotgun's headshot damage multiplier is based on distance. The closer it
--- is, the more damage it does. This reinforces the shotgun's role as short
--- range weapon by reducing effectiveness at mid-range, where one could score
--- lucky headshots relatively easily due to the spread.
-
-
-function SWEP:SecondaryAttack()
-   if self.NoSights or (not self.IronSightsPos) or self.dt.reloading then return end
-   --if self:GetNextSecondaryFire() > CurTime() then return end
-
-   self:SetIronsights(not self:GetIronsights())
-
-   self:SetNextSecondaryFire(CurTime() + 0.3)
-end
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.23,
+	},
+}
 
 SWEP.Offset = {
         Pos = {

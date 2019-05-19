@@ -121,7 +121,9 @@ SWEP.DeploySpeed = 1.4
 SWEP.PrimaryAnim = ACT_VM_PRIMARYATTACK
 SWEP.ReloadAnim = ACT_VM_RELOAD
 SWEP.ReloadSpeed = 1
+SWEP.ActiveDelay = 0
 SWEP.SoundQueue = {}
+SWEP.SoundActive = false
 
 SWEP.fingerprints = {}
 
@@ -299,17 +301,14 @@ end
 
 -- Shooting functions largely copied from weapon_cs_base
 function SWEP:PrimaryAttack(worldsnd)
-	self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
-	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-
 	if (not self:CanPrimaryAttack()) then
 		return
 	end
-	
-	if (self.ReloadTime and self.ReloadTime > CurTime()) then
-		return
-	end
 
+	self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
+	self:SetReloadTimer(CurTime() + self.Primary.Delay)
+	
 	if (not worldsnd) then
 		self:EmitSound(self.Primary.Sound, self.Primary.SoundLevel)
 	elseif (SERVER) then
@@ -327,10 +326,28 @@ function SWEP:PrimaryAttack(worldsnd)
 	self.Owner:ViewPunch(Angle(util.SharedRandom(self:GetClass(),-0.2,-0.1,0) * self.Primary.Recoil, util.SharedRandom(self:GetClass(),-0.1,0.1,1) * self.Primary.Recoil, 0))
 end
 
+function SWEP:SecondaryAttack()
+	if (not self:CanSecondaryAttack()) then
+		return
+	end
+
+   	if (self.NoSights or (not self.IronSightsPos)) then
+		return
+	end
+
+   	self:SetIronsights(not self:GetIronsights())
+
+	if (self.Secondary.Sound) then
+      	self:EmitSound(self.Secondary.Sound)
+  	end
+
+   	self:SetNextSecondaryFire(CurTime() + 0.3)
+end
+
 function SWEP:DryFire(setnext)
-   if CLIENT and LocalPlayer() == self.Owner then
-      self:EmitSound( "Weapon_Pistol.Empty" )
-   end
+   	if (CLIENT and LocalPlayer() == self.Owner) then
+      	self:EmitSound(self.Primary and self.Primary.EmptySound or "Weapon_Pistol.Empty")
+   	end
 
    setnext(self, CurTime() + 0.2)
 
@@ -338,23 +355,39 @@ function SWEP:DryFire(setnext)
 end
 
 function SWEP:CanPrimaryAttack()
-   if not IsValid(self.Owner) then return end
+   	if (not IsValid(self.Owner)) then
+   		return
+	end
 
-   if self:Clip1() <= 0 then
-      self:DryFire(self.SetNextPrimaryFire)
-      return false
-   end
-   return true
+	if (self:IsBusy() or self:IsReloading()) then
+		return false
+	end
+
+   	if (self:Clip1() <= 0) then
+    	self:DryFire(self.SetNextPrimaryFire)
+      	
+		return false
+   	end
+   	
+	return true
 end
 
 function SWEP:CanSecondaryAttack()
-   if not IsValid(self.Owner) then return end
+   	if (not IsValid(self.Owner)) then
+   		return
+	end
 
-   if self:Clip2() <= 0 then
-      self:DryFire(self.SetNextSecondaryFire)
-      return false
-   end
-   return true
+	if (self:IsBusy() or self:IsReloading()) then
+		return false
+	end
+
+   	if (not self.IronSightsPos and self:Clip2() <= 0) then
+    	self:DryFire(self.SetNextSecondaryFire)
+      	
+		return false
+   	end
+   	
+	return true
 end
 
 local function Sparklies(attacker, tr, dmginfo)
@@ -366,12 +399,24 @@ local function Sparklies(attacker, tr, dmginfo)
    end
 end
 
+function SWEP:ShootAnimation()
+	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+
+	if (isstring(self.PrimaryAnim)) then
+		return self:PlayAnimation("ShootAnim", self.PrimaryAnim)
+	elseif (istable(self.PrimaryAnim)) then
+		return self:PlayAnimation("ShootAnim", self.PrimaryAnim[math.random(#self.PrimaryAnim)])
+	end
+
+	return
+end
+
 function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
    if (self.Primary.ReverseShotsDamage) then
       dmg, numbul = numbul, dmg
    end
 
-   self:SendWeaponAnim(self.PrimaryAnim)
+	self:ShootAnimation()
 
    self.Owner:MuzzleFlash()
    self.Owner:SetAnimation( PLAYER_ATTACK1 )
@@ -520,34 +565,274 @@ end
 
 function SWEP:DrawWeaponSelection() end
 
-function SWEP:SecondaryAttack()
-   if self.NoSights or (not self.IronSightsPos) then return end
-
-   self:SetIronsights(not self:GetIronsights())
-
-   self:SetNextSecondaryFire(CurTime() + 0.3)
-end
-
 function SWEP:Deploy()
-   self:SetIronsights(false)
-   return true
+  	self:SetIronsights(false)
+	self.ActiveDelay = 0
+	self:SetReloading(false)
+	self:SetReloadTimer(0)
+	
+	self.ReloadStart = nil
+	self.SoundActive = false
+	self.SoundQueue = {}
+
+   	return true
 end
 
-function SWEP:Reload()
-	if (self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0) then
-		return false
+function SWEP:Holster(wep)
+	if (self.SoundActive) then
+		self:StopSound(self.SoundActive)
 	end
 
-	if (self.ReloadLength) then
-		self.ReloadTime = CurTime() + self.ReloadLength
-	end
+	self:SetIronsights(false)
+	self.ActiveDelay = 0
+	self:SetReloading(false)
+	self:SetReloadTimer(0)
 
-   	self:DefaultReload(self.ReloadAnim)
-   	self:SetIronsights(false)
+	self.SoundStart = nil
+	self.SoundActive = false
+	self.SoundQueue = {}
 
 	return true
 end
 
+function SWEP:PlayAnimation(key, sequence, speed, cycle, ent)
+	cycle = (cycle and cycle > 0) and cycle
+	ent = ent or self
+
+	ent:ResetSequence(sequence)
+	ent:SetCycle(cycle or 0)
+	ent:SetPlaybackRate(speed or 1)
+
+	if (ent == self) then
+
+		local SoundList, Reload = self.Sounds and self.Sounds[sequence], false
+		if (self.ReloadAnim and self.ReloadAnim[key] and self.ReloadAnim[key].Sounds) then
+			SoundList, Reload = self.ReloadAnim[key].Sounds, true
+		end
+
+		if (SoundList) then
+			local CurrentTime = CurTime()
+
+			self.SoundQueue = table.Copy(SoundList)
+			self.SoundStart = CurrentTime
+
+			for i = 1, #self.SoundQueue do
+				local Delay = self.SoundQueue[i].Delay
+				if (Reload) then
+					Delay = Delay / self.ReloadSpeed
+				end
+				print(Delay, self.SoundQueue[i].Sound)
+				timer.Simple(Delay, function()
+					if (not self.SoundStart or self.SoundStart ~= CurrentTime) then
+						return
+					end
+
+					self:EmitSound(self.SoundQueue[i].Sound) //, 75, 100, 1, CHAN_AUTO )
+					self.SoundActive = self.SoundQueue[i].Sound
+				end)
+			end
+		end
+
+		local vm = self.Owner:GetViewModel()
+		if (IsValid(vm)) then
+			return self:PlayAnimation(key, sequence, speed, cycle, vm)
+		end
+	end
+
+	return ent:SequenceDuration()
+end
+
+function SWEP:ReloadAnimation(Clip, Ammo, CurrentTime)
+	if (self.ReloadBullets and self.ReloadAnim.StartReload) then
+		return "StartReload"
+	elseif (Clip ~= 0 and self.ReloadAnim["Reload" .. Clip] and (self.ReloadAnim["Reload" .. Clip].Check and self.ReloadAnim["Reload" .. Clip].Check(Clip) or not self.ReloadAnim["Reload" .. Clip].Check)) then
+		return ("Reload" .. Clip)
+	end
+
+	return (Clip == 0) and "ReloadEmpty" or "DefaultReload"
+end
+
+function SWEP:Reload()
+	if (self:Clip1() >= self:GetMaxClip1() or self:Ammo1() <= 0) then
+		return false
+	end
+
+	if (self:IsBusy() or self:IsReloading()) then
+		return false
+	end
+
+	local CurrentTime, Ammo, Clip = CurTime(), self:Ammo1(), self:Clip1()
+	-- self.ActiveDelay = CurrentTime + .1
+
+	if (type(self.ReloadAnim) == "table") then
+		local ReloadDataKey = self:ReloadAnimation(Clip, Ammo, CurrentTime)
+		local ReloadData = self.ReloadAnim[ReloadDataKey] or self.ReloadAnim["DefaultReload"]
+		local AnimationName = ReloadData.Animation or ReloadData.Anim or ReloadData.Name
+		local AnimationLength = ReloadData.ReloadTime or ReloadData.Time
+
+		if (not ReloadData or not AnimationName) then
+			self:DefaultReload(self.ReloadAnim)
+
+			self.Owner:SetAnimation(PLAYER_RELOAD)
+
+			print(self:GetClass(), "DefaultReload", self.ReloadAnim)
+			return true
+		end
+
+		if (self.Primary.EmptySound and self.Primary.EmptySound == "Weapon_Shotgun.Empty") then
+			self:SendWeaponAnim(ACT_SHOTGUN_RELOAD_START)
+		elseif (ReloadData.Act) then
+			self:SendWeaponAnim(ReloadData.Act)
+		end
+	
+		if (AnimationLength) then
+			self:DoingReload(true, AnimationLength / self.ReloadSpeed)
+			self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
+
+			-- print("y", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
+		else
+			AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
+			self:DoingReload(true, AnimationLength / self.ReloadSpeed)
+
+			-- print("n", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
+		end
+	else
+		self:DefaultReload(self.ReloadAnim)
+	end
+
+	self.Owner:SetAnimation(PLAYER_RELOAD)
+
+	return true
+end
+
+function SWEP:PrimaryReload(bullets)
+	local Clip, Ammo = self:Clip1(), self:Ammo1()
+	
+	if (Ammo <= 0 or Clip >= self:GetMaxClip1()) then
+		return false
+	end
+
+	if (SERVER) then
+		bullets = bullets or math.Clamp(Ammo, 0, math.max(self:GetMaxClip1() - Clip, 0))
+
+		if (bullets == 0) then
+			return false
+		end
+
+		self.Owner:RemoveAmmo(bullets, self.Primary.Ammo)
+		self:SetClip1(Clip + bullets)
+	end
+
+	return true
+end
+
+function SWEP:HandleReload()
+   	if (not self:GetReloading()) then
+		return false
+	end
+
+	local ReloadEnded = (CurTime() > self:GetReloadTimer())
+	local Clip, Ammo = self:Clip1(), self:Ammo1()
+
+	if (Ammo <= 0 or (Clip > 0 and self.ReloadBullets and self.Owner:KeyDown(IN_ATTACK) and not self.Owner:KeyDown(IN_RELOAD))) then
+		return self:AfterReload()
+	end
+
+	if (ReloadEnded) then
+		local Reloaded = self:PrimaryReload(self.ReloadBullets)
+
+		if (self.ReloadBullets and Reloaded) then
+			return self:PerformReload()
+		end
+
+		return self:AfterReload()
+	end
+
+	return true
+end
+
+function SWEP:IsReloading()
+	return (self:GetReloading() or (self:GetReloadTimer() > CurTime()))
+end
+
+function SWEP:IsBusy()
+	return (self.ActiveDelay and self.ActiveDelay > CurTime())
+end
+
+function SWEP:DoingReload(reload, time)
+	self:SetReloading(reload)
+
+	if (reload) then
+		self:SetIronsights(false)
+	end
+
+	time = (time and isnumber(time)) and time
+	self:SetNextSecondaryFire(CurTime() + (self.ReloadDelay or self.Primary.Delay))
+	self:SetNextPrimaryFire(CurTime() + (self.ReloadDelay or self.Primary.Delay))
+	self:SetReloadTimer(CurTime() + (time or self.ReloadDelay or self.Primary.Delay))
+end
+
+function SWEP:PerformReload(ReloadDataKey)
+	ReloadDataKey = ReloadDataKey or "DefaultReload"
+	
+	local ReloadData = self.ReloadAnim[ReloadDataKey] or self.ReloadAnim["DefaultReload"]
+	local AnimationName = ReloadData.Animation or ReloadData.Anim or ReloadData.Name
+	local AnimationLength = ReloadData.ReloadTime or ReloadData.Time
+	local Clip, Ammo = self:Clip1(), self:Ammo1()
+
+	if (Ammo <= 0 or Clip >= self:GetMaxClip1()) then
+		return self:AfterReload()
+	end
+
+	self:SendWeaponAnim(ACT_VM_RELOAD)
+
+	if (AnimationLength) then
+		self:DoingReload(true, AnimationLength / self.ReloadSpeed)
+		self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
+
+		-- print("y", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
+	else
+		AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
+		self:DoingReload(true, AnimationLength / self.ReloadSpeed)
+
+		-- print("n", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
+	end
+
+	// self.Owner:SetAnimation(PLAYER_RELOAD)
+
+	return true
+end
+
+function SWEP:AfterReload(ReloadDataKey)
+	ReloadDataKey = ReloadDataKey or "AfterReload"
+
+	local ReloadData = self.ReloadAnim[ReloadDataKey] or self.ReloadAnim["AfterReload"]
+	if (not ReloadData) then
+
+		return self:DoingReload(false)
+	end
+
+	local AnimationName = ReloadData.Animation or ReloadData.Anim or ReloadData.Name
+	local AnimationLength = ReloadData.ReloadTime or ReloadData.Time
+	
+	if (self.Primary.EmptySound and self.Primary.EmptySound == "Weapon_Shotgun.Empty") then
+		-- self:SendWeaponAnim(ACT_SHOTGUN_RELOAD_FINISH)
+	end
+
+	if (AnimationLength) then
+		self:DoingReload(false, AnimationLength / self.ReloadSpeed)
+		self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
+
+		-- print("y", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
+	else
+		AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
+		self:DoingReload(false, AnimationLength / self.ReloadSpeed)
+
+		-- print("n", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
+	end
+	
+	return true
+end
 
 function SWEP:OnRestore()
    self.NextSecondaryAttack = 0
@@ -632,11 +917,20 @@ end
 -- Dummy functions that will be replaced when SetupDataTables runs. These are
 -- here for when that does not happen (due to e.g. stacking base classes)
 function SWEP:SetIronsights(b)
-   self:SetIronsightsPredicted(b)
-   self:SetIronsightsTime(CurTime())
-   if CLIENT then
-      self:CalcViewModel()
-   end
+	if (self:GetIronsights() == b) then
+		return
+	end
+
+	if (self.SetZoom) then
+		self:SetZoom(b)
+	end
+
+   	self:SetIronsightsPredicted(b)
+   	self:SetIronsightsTime(CurTime())
+
+   	if CLIENT then
+      	self:CalcViewModel()
+  	end
 end
 function SWEP:GetIronsights()
    return self:GetIronsightsPredicted()
@@ -649,33 +943,40 @@ function SWEP:SetIronsightsTime() end
 function SWEP:GetIronsightsPredicted() return false end
 function SWEP:SetIronsightsPredicted() end
 
+function SWEP:GetReloading() return false end
+function SWEP:SetReloading() end
+function SWEP:GetReloadTimer() return 0 end
+function SWEP:SetReloadTimer() end
+
 -- Set up ironsights dt bool. Weapons using their own DT vars will have to make
 -- sure they call this.
 function SWEP:SetupDataTables()
-   -- Put it in the last slot, least likely to interfere with derived weapon's
-   -- own stuff.
-   self:NetworkVar("Bool", 3, "IronsightsPredicted")
-   self:NetworkVar("Float", 3, "IronsightsTime")
+	self:NetworkVar("Bool", 0, "Reloading")
+	self:NetworkVar("Float", 0, "ReloadTimer")
 
-   local Entity = {
-      Weapon = self,
-      NetworkVar = function(self, ...)
-         table.insert(self.Vars, {n = select("#", ...), ...})
-      end,
-      Vars = {}
-   }
+	self:NetworkVar("Bool", 3, "IronsightsPredicted")
+   	self:NetworkVar("Float", 3, "IronsightsTime")
 
-   hook.Run("TTTInitializeWeaponVars", Entity)
+   	local Entity = {
+      	Weapon = self,
+      	NetworkVar = function(self, ...)
+         	table.insert(self.Vars, {n = select("#", ...), ...})
+     	 end,
+      	Vars = {}
+   	}
 
-   table.sort(Entity.Vars, function(a, b) return a[3] < b[3] end)
+   	hook.Run("TTTInitializeWeaponVars", Entity)
 
-   for _, var in ipairs(Entity.Vars) do
-      self:NetworkVar(unpack(var, 1, var.n))
-      if (SERVER and var[5]) then
-         self["Set" .. var[3]](self, var[5])
-      end
-   end
-   hook.Run("TTTWeaponVarsInitialized", self)
+   	table.sort(Entity.Vars, function(a, b) return a[3] < b[3] end)
+
+   	for _, var in ipairs(Entity.Vars) do
+      	self:NetworkVar(unpack(var, 1, var.n))
+      	if (SERVER and var[5]) then
+         	self["Set" .. var[3]](self, var[5])
+      	end
+   	end
+   	
+	hook.Run("TTTWeaponVarsInitialized", self)
 end
 
 function SWEP:Initialize()
@@ -704,7 +1005,8 @@ function SWEP:CalcViewModel()
 end
 
 function SWEP:Think()
-   self:CalcViewModel()
+	self:CalcViewModel()
+	self:HandleReload()
 end
 
 function SWEP:DyingShot()
@@ -746,45 +1048,48 @@ local LOWER_POS = Vector(0, 0, -2)
 
 local IRONSIGHT_TIME = 0.25
 function SWEP:GetViewModelPosition( pos, ang )
-   if not self.IronSightsPos or self.bIron == nil then return pos, ang end
+   	if (not self.IronSightsPos or self.bIron == nil) then
+		return pos, ang
+	end
 
    local bIron = self.bIron
    local time = self.fCurrentTime + (SysTime() - self.fCurrentSysTime) * game.GetTimeScale() * host_timescale:GetFloat()
 
-   if bIron then
-      self.SwayScale = 0.3
-      self.BobScale = 0.1
-   else
-      self.SwayScale = 1.0
-      self.BobScale = 1.0
-   end
+   	if (bIron) then
+      	self.SwayScale = 0.3
+      	self.BobScale = 0.1
+   	else
+      	self.SwayScale = 1.0
+      	self.BobScale = 1.0
+   	end
 
-   local fIronTime = self.fIronTime
-   if (not bIron) and fIronTime < time - IRONSIGHT_TIME then
-      return pos, ang
-   end
+   	local fIronTime = self.fIronTime
+   	if (not bIron) and fIronTime < time - IRONSIGHT_TIME then
+	   return pos, ang
+  	end
 
    local mul = 1.0
 
-   if fIronTime > time - IRONSIGHT_TIME then
+   if (fIronTime > time - IRONSIGHT_TIME) then
+      	mul = math.Clamp( (time - fIronTime) / IRONSIGHT_TIME, 0, 1 )
 
-      mul = math.Clamp( (time - fIronTime) / IRONSIGHT_TIME, 0, 1 )
+      	if (not bIron) then
+			mul = 1 - mul
+		end
+   	end
 
-      if not bIron then mul = 1 - mul end
-   end
+   	local offset = self.IronSightsPos + (ttt_lowered:GetBool() and LOWER_POS or vector_origin)
 
-   local offset = self.IronSightsPos + (ttt_lowered:GetBool() and LOWER_POS or vector_origin)
+  	if (self.IronSightsAng) then
+      	ang = ang * 1
+      	ang:RotateAroundAxis( ang:Right(),    self.IronSightsAng.x * mul )
+      	ang:RotateAroundAxis( ang:Up(),       self.IronSightsAng.y * mul )
+      	ang:RotateAroundAxis( ang:Forward(),  self.IronSightsAng.z * mul )
+   	end
 
-   if self.IronSightsAng then
-      ang = ang * 1
-      ang:RotateAroundAxis( ang:Right(),    self.IronSightsAng.x * mul )
-      ang:RotateAroundAxis( ang:Up(),       self.IronSightsAng.y * mul )
-      ang:RotateAroundAxis( ang:Forward(),  self.IronSightsAng.z * mul )
-   end
-
-   pos = pos + offset.x * ang:Right() * mul
-   pos = pos + offset.y * ang:Forward() * mul
-   pos = pos + offset.z * ang:Up() * mul
+   	pos = pos + offset.x * ang:Right() * mul
+   	pos = pos + offset.y * ang:Forward() * mul
+   	pos = pos + offset.z * ang:Up() * mul
 
    return pos, ang
 end

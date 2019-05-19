@@ -107,3 +107,16 @@ SWEP.IronSightsAng = Vector (1.3839, 0.0241, 0)
 SWEP.Kind = WEAPON_HEAVY
 SWEP.AutoSpawnable = false
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.66667,
+	},
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 4,
+	}
+}

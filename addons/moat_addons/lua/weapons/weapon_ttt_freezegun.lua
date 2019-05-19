@@ -39,7 +39,7 @@ end
 
 
 SWEP.Base = "weapon_tttbase"
-
+DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Primary.Recoil	= 4
 
 SWEP.Primary.Damage = 7
@@ -86,6 +86,14 @@ SWEP.WorldModel         = "models/weapons/w_pist_usp_silencer.mdl"
 
 SWEP.Primary.Sound = Sound( "ambient/machines/thumper_dust.wav" )
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.7027,
+	}
+}
 
 
 SWEP.Tracer = "AR2Tracer"
@@ -216,13 +224,9 @@ end
 
 function SWEP:PrimaryAttack()
 
-   self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
-
-
-
    if not self:CanPrimaryAttack() then return end
 
-
+	self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 
    self:EmitSound( self.Primary.Sound )
 
@@ -270,15 +274,10 @@ end
 
 SWEP.PrimaryAnim = ACT_VM_PRIMARYATTACK_SILENCED
 
-SWEP.ReloadAnim = ACT_VM_RELOAD_SILENCED
-
-
-
 function SWEP:Deploy()
+	if (BaseClass.Deploy(self)) then
+		self:PlayAnimation("DrawAnim", "draw", self.DeploySpeed)
+	end
 
-   self:SendWeaponAnim(ACT_VM_DRAW_SILENCED)
-
-   return true
-
+	return true
 end
-

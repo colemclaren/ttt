@@ -120,3 +120,16 @@ SWEP.IronSightsPos = Vector (-3.0537, -3.0001, 0.7817)
 SWEP.IronSightsAng = Vector (0.702, -0.0077, 0)
 SWEP.ReloadLength = 2.05
 SWEP.ReloadTime = 2.05
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.05,
+	},
+	ReloadEmpty = {
+		Anim = "reload_empty",
+		Time = 2.7,
+	}
+}

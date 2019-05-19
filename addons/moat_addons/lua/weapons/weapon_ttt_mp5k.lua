@@ -35,6 +35,15 @@ SWEP.AutoSpawnable = false
 SWEP.Kind = WEAPON_HEAVY
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.86667,
+	},
+}
+
 SWEP.IronSightsPos = Vector(3.716,0,0.644)	--Iron Sight positions and angles. Use the Iron sights utility in 
 SWEP.IronSightsAng = Vector(0,0,0)	            --Clavus's Swep Construction Kit to get these vectors
 SWEP.SightsPos = Vector (3.716,0,0.644)

@@ -121,6 +121,15 @@ SWEP.Primary.Ammo = "AlyxGun"
 SWEP.AutoSpawnable = false
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.73529,
+	},
+}
+
 SWEP.IronSightsPos = Vector(2.746, 0, 2.525)
 
 SWEP.Offset = {
@@ -144,18 +153,6 @@ function SWEP:SetZoom(state)
     else
         self.Owner:SetFOV(0, 0.2)
     end
-end
-
--- Add some zoom to ironsights for this gun
-function SWEP:SecondaryAttack()
-    if (not self.IronSightsPos) then return end
-    if (self:GetNextSecondaryFire() > CurTime()) then return end
-
-    local bIronsights = not self:GetIronsights()
-    self:SetIronsights(bIronsights)
-    self:SetZoom(bIronsights)
-
-    self:SetNextSecondaryFire( CurTime() + 0.3 )
 end
 
 function SWEP:DrawWorldModel()

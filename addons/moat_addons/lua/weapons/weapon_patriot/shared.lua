@@ -153,8 +153,30 @@ SWEP.WorldModel				= "models/weapons/w_pvp_patriotmg.mdl"	-- Weapon world model
 
 SWEP.ShowWorldModel                     = false
 
-SWEP.Primary.Sound = Sound( "Weapon_Pat.Fire" )
-
+SWEP.Primary.Sound = Sound( "Weapon_Pat.Fire" )	
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload_unsil",
+		Time = 3.86667,
+		Sounds = {
+			{Delay = .1, Sound = Sound("Weapon_M4A1.Clipout")},
+			{Delay = .85, Sound = Sound("Weapon_M4A1.Clipin")},
+			{Delay = 2.35, Sound = Sound("Weapon_Pat.Deploy")},
+		}
+	},
+}
+/*
+Weapon_M4A1.Single	)weapons/m4a1/m4a1_unsil-1.wav
+Weapon_M4A1.Silenced	)weapons/m4a1/m4a1-1.wav
+Weapon_M4A1.Silencer_Off	weapons/m4a1/m4a1_silencer_off.wav
+Weapon_M4A1.Silencer_On	weapons/m4a1/m4a1_silencer_on.wav
+Weapon_M4A1.Clipout	weapons/m4a1/m4a1_clipout.wav
+Weapon_M4A1.Clipin	weapons/m4a1/m4a1_clipin.wav
+Weapon_M4A1.Boltpull	weapons/m4a1/m4a1_boltpull.wav
+Weapon_M4A1.Deploy	weapons/m4a1/m4a1_deploy.wav
+*/
 SWEP.IronSightsPos = Vector( -3.3, 0, 0 )
 SWEP.IronSightsAng = Vector( 1, 0, 0 )
 

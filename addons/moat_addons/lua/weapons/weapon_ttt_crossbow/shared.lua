@@ -86,7 +86,16 @@ SWEP.IsSilent = true
 
 SWEP.PrimaryAnim = ACT_VM_PRIMARYATTACK_SILENCED
 SWEP.ReloadAnim = ACT_VM_RELOAD_SILENCED
-   
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 1.83333,
+	},
+}
+
 function SWEP:Precache()
 
 	util.PrecacheSound( "Weapon_Crossbow.BoltHitBody" );

@@ -37,6 +37,14 @@ SWEP.AmmoEnt = "item_ammo_revolver_ttt"
 
 SWEP.HeadshotMultiplier = 2
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.45714,
+	},
+}
 
 SWEP.IronSightsPos = Vector(2.799, -2.401, 0.839)
 SWEP.IronSightsAng = Vector(0, 0.1, 0)

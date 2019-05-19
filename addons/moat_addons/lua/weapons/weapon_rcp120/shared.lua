@@ -230,9 +230,28 @@ SWEP.WorldModel				= "models/weapons/w_rcp120.mdl"	-- Weapon world model
 SWEP.ShowWorldModel                     = false
 
 SWEP.Primary.Sound = Sound( "Weapon_RCP120.Fire" )
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 1.96667,
+	},
+}
 
 SWEP.IronSightsPos = Vector( 5, -15, -2 )
 SWEP.IronSightsAng = Vector( 2.6, 1.37, 3.5 )
+
+SWEP.Secondary.Sound = Sound( "Default.Zoom" )
+
+function SWEP:SetZoom(state)
+   	if (not (IsValid(self.Owner) and self.Owner:IsPlayer())) then return end
+   	if (state) then
+      	self.Owner:SetFOV(20, 0.3)
+   	else
+      	self.Owner:SetFOV(0, 0.2)
+   	end
+end
 
 SWEP.Offset = {
         Pos = {
@@ -284,59 +303,6 @@ function SWEP:DrawWorldModel()
         self:SetRenderAngles(nil)
         self:DrawModel()
     end
-end
-
-SWEP.Secondary.Sound = Sound( "Default.Zoom" )
-
-function SWEP:SetZoom( state )
-  if IsValid( self.Owner ) and self.Owner:IsPlayer() then
-      if state then
-         self.Owner:SetFOV( 20, 0.3 )
-      else
-         self.Owner:SetFOV( 0, 0.2 )
-      end
-   end
-end
-
-function SWEP:PrimaryAttack( worldsnd )
-   self.BaseClass.PrimaryAttack( self, worldsnd )
-   self:SetNextSecondaryFire( CurTime() + 0.1 )
-end
-
--- Add some zoom to ironsights for this gun
-function SWEP:SecondaryAttack()
-   if not self.IronSightsPos then return end
-   if self:GetNextSecondaryFire() > CurTime() then return end
-
-   local bIronsights = not self:GetIronsights()
-
-   self:SetIronsights( bIronsights )
-
-      self:SetZoom( bIronsights )
-   if CLIENT then
-      self:EmitSound( self.Secondary.Sound )
-   end
-
-   self:SetNextSecondaryFire( CurTime() + 0.3 )
-end
-
-function SWEP:PreDrop()
-   self:SetZoom( false )
-   self:SetIronsights( false )
-   return self.BaseClass.PreDrop( self )
-end
-
-function SWEP:Reload()
-   if ( self:Clip1() == self.Primary.ClipSize or self.Owner:GetAmmoCount( self.Primary.Ammo ) <= 0 ) then return end
-   self:DefaultReload( ACT_VM_RELOAD )
-   self:SetIronsights( false )
-   self:SetZoom( false )
-end
-
-function SWEP:Holster()
-   self:SetIronsights( false )
-   self:SetZoom( false )
-   return true
 end
 
 if CLIENT then

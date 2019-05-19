@@ -43,3 +43,12 @@ SWEP.WorldModel = Model("models/weapons/w_snip_sg550.mdl")
 SWEP.AmmoEnt = "item_ammo_357_ttt"
 
 SWEP.OffsetVector = Vector(0, -3.5, 0)
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 3.78571,
+	},
+}

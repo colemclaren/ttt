@@ -40,6 +40,19 @@ SWEP.CanBeSilenced		= true
 
 SWEP.HeadshotMultiplier = 1.5
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	/*DefaultReload = {
+		Anim = "reload",
+		Time = 2.67516,
+	},*/
+	DefaultReload = {
+		Anim = "reload_unsil",
+		Time = 2.67516,
+	},
+}
+
 -- Enter iron sight info and bone mod info below
 SWEP.IronSightsPos = Vector(2.26,0.1,0.840)	--Iron Sight positions and angles. Use the Iron sights utility in 
 SWEP.IronSightsAng = Vector(0.105,-0.12,0)	--Clavus's Swep Construction Kit to get these vectors

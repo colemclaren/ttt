@@ -32,5 +32,12 @@ SWEP.ViewModel  = "models/weapons/cstrike/c_smg_tmp.mdl"
 SWEP.WorldModel = "models/weapons/w_smg_tmp.mdl"
 
 SWEP.DeploySpeed = 3
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 2.16,
+	},
+}
 
 SWEP.HeadshotMultiplier = 1.4

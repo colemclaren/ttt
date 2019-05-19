@@ -12,33 +12,6 @@ else
         type = "Melee Weapon",
         desc = "Left click to hit a home run!\nHas 3 uses."
     }
-
-    sound.Add{
-        name = "Bat.Swing",
-        channel = CHAN_STATIC,
-        volume = 1,
-        level = 40,
-        pitch = 100,
-        sound = "weapons/iceaxe/iceaxe_swing1.wav"
-    }
-
-    sound.Add{
-        name = "Bat.Sound",
-        channel = CHAN_STATIC,
-        volume = 1,
-        level = 65,
-        pitch = 100,
-        sound = "nessbat/gamefreak/bat_sound.wav"
-    }
-
-    sound.Add{
-        name = "Bat.HomeRun",
-        channel = CHAN_STATIC,
-        volume = 1,
-        level = 120,
-        pitch = 100,
-        sound = "nessbat/gamefreak/homerun.wav"
-    }
 end
 
 SWEP.PrintName = "Homerun Bat"

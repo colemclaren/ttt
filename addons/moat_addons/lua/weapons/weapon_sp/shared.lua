@@ -122,6 +122,19 @@ SWEP.AmmoEnt = "item_ammo_pistol_ttt"
 SWEP.IronSightsPos = Vector(0.05, 0, 1.7)
 SWEP.IronSightsAng = Vector(0, 0, 0)
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 1.46667,
+		Sounds = {
+			{Delay = .2, Sound = Sound("Weapon_USP.Clipout")},
+			{Delay = .6, Sound = Sound("Weapon_USP.Clipin")},
+		}
+	},
+}
+
 SWEP.Offset = {
         Pos = {
         Up = 0,

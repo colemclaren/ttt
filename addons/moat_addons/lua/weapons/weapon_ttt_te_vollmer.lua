@@ -655,3 +655,12 @@ SWEP.AmmoEnt = "item_ammo_pistol_ttt"
 SWEP.AllowDrop = true
 SWEP.IsSilent = false
 SWEP.NoSights = false
+
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 3
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "reload",
+		Time = 7.00062,
+	},
+}

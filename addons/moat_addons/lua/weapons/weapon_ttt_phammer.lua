@@ -43,6 +43,15 @@ SWEP.WorldModel	= "models/weapons/w_IRifle.mdl"
 
 SWEP.Primary.Sound = Sound( "weapons/airboat/airboat_gun_energy1.wav" )
 
+SWEP.DeploySpeed = 1.4
+SWEP.ReloadSpeed = 1
+SWEP.ReloadAnim = {
+	DefaultReload = {
+		Anim = "IR_reload",
+		Time = 1.56667,
+	},
+}
+
 SWEP.NoSights = true
 
 SWEP.IsCharging = false
@@ -62,7 +71,9 @@ local function ValidTarget(ent)
 end
 
 function SWEP:SetupDataTables()
-   self:DTVar("Float", 0, "charge")
+	self:NetworkVar("Float", 1, "charge")
+
+	return BaseClass.SetupDataTables(self)
 end
 
 local ghostmdl = Model("models/Items/combine_rifle_ammo01.mdl")
@@ -101,6 +112,7 @@ function SWEP:PreDrop()
 
    -- OnDrop does not happen on client
    self:CallOnClient("HideGhost", "")
+   BaseClass.PreDrop(self)
 end
 
 function SWEP:HideGhost()
@@ -110,27 +122,28 @@ function SWEP:HideGhost()
 end
 
 function SWEP:PrimaryAttack()
-   self:SetNextPrimaryFire(CurTime() + 0.1)
-   if not self:CanPrimaryAttack() then return end
+	if (not self:CanPrimaryAttack()) then
+		return
+	end
 
-   if SERVER then
-      if self.IsCharging then return end
+   	if SERVER then
+      	if self.IsCharging then return end
 
-      local ply = self.Owner
-      if not IsValid(ply) then return end
+      	local ply = self.Owner
+      	if not IsValid(ply) then return end
 
-      local tr = util.TraceLine({start=ply:GetShootPos(), endpos=ply:GetShootPos() + ply:GetAimVector() * maxrange, filter={ply, self.Entity}, mask=MASK_SOLID})
+      	local tr = util.TraceLine({start=ply:GetShootPos(), endpos=ply:GetShootPos() + ply:GetAimVector() * maxrange, filter={ply, self.Entity}, mask=MASK_SOLID})
 
-      if tr.HitNonWorld and ValidTarget(tr.Entity) and tr.Entity:GetPhysicsObject():IsMoveable() then
+      	if tr.HitNonWorld and ValidTarget(tr.Entity) and tr.Entity:GetPhysicsObject():IsMoveable() then
 
-         self:CreateHammer(tr.Entity, tr.HitPos)
+         	self:CreateHammer(tr.Entity, tr.HitPos)
 
-         self:EmitSound(self.Primary.Sound)
+         	self:EmitSound(self.Primary.Sound)
 
-         self:TakePrimaryAmmo(1)
+         	self:TakePrimaryAmmo(1)
 
-         self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-      end
+         	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
+      	end
    end
 end
 
