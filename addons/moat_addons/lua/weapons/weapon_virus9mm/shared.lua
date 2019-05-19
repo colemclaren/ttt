@@ -123,14 +123,16 @@ SWEP.IronSightsPos = Vector(2.05, 0, 0)
 SWEP.DeploySpeed = 1.4
 SWEP.ReloadSpeed = 1
 SWEP.ReloadAnim = {
+	/*
 	DefaultReload = {
 		Anim = "reload",
 		Time = 2.51351,
 	},
-	/*DefaultReload = {
+	*/
+	DefaultReload = {
 		Anim = "reload_unsil",
 		Time = 2.51351,
-	},*/
+	},
 }
 
 SWEP.Offset = {
