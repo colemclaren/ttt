@@ -4353,8 +4353,8 @@ net.Receive("gversus.JoinGame",function()
 	
 	math.randomseed(tonumber(winner + gversus_players[ply][2] + ply)) -- so everyone sees the same thing no matter what server they are on
 	local r = math.random()
-	if r > 0.6 then
-		if r > 0.8 then
+	if r > 0.4 then
+		if r > 0.7 then
 			gversus_players[ply].rollto = math.random(4,-3)
 		else
 			gversus_players[ply].rollto = math.random(-32,-38)
