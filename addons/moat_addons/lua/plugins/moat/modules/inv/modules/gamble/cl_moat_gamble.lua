@@ -65,7 +65,7 @@ end)
 
 function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 	if (IsValid(MOAT_GAMBLE_BG)) then return end
-	MOAT_GAMBLE.LocalChat = true
+	MOAT_GAMBLE.LocalChat = false
 	MOAT_GAMBLE.CurCat = 1
 	MOAT_GAMBLE.TitlePoly = {
 		{x = 1, y = 1},
@@ -149,7 +149,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 		elseif (MOAT_GAMBLE.GlobalBlock or 0) > CurTime() then
 			draw.SimpleText("Please wait " .. string.NiceTime((MOAT_GAMBLE.GlobalBlock+1) - CurTime()), "moat_ItemDesc", 13, h-47, Color(255, 255, 255, MOAT_GAMBLE_CHAT_COL))
 		else
-			draw.SimpleText("Say.. (There will be a delay)", "moat_ItemDesc", 13, h-47, Color(255, 255, 255, MOAT_GAMBLE_CHAT_COL))
+			draw.SimpleText("Say something...", "moat_ItemDesc", 13, h-47, Color(255, 255, 255, MOAT_GAMBLE_CHAT_COL))
 		end
 
     	surface.SetDrawColor(86, 86, 86)
@@ -158,7 +158,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 	
 	local gamble_chat_local = vgui.Create("DButton",MOAT_GAMBLE_BG)
 	gamble_chat_local:SetSize(112,28)
-	gamble_chat_local:SetPos(2,46)
+	gamble_chat_local:SetPos(114,46)
 	gamble_chat_local:SetText("")
 	function gamble_chat_local:Paint(w,h)
 		if MOAT_GAMBLE.LocalChat then
@@ -177,7 +177,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 
 	local gamble_chat_global = vgui.Create("DButton",MOAT_GAMBLE_BG)
 	gamble_chat_global:SetSize(112,28)
-	gamble_chat_global:SetPos(114,46)
+	gamble_chat_global:SetPos(2,46)
 	gamble_chat_global:SetText("")
 	timer.Create("GambleChatGlobal",0.5,0,function()
 		if not IsValid(gamble_chat_global) then return end
@@ -308,11 +308,6 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 			MOAT_GAMBLE_CHAT:GotoTextEnd()
 		end
 	end
-	timer.Simple(0.1, function()
-		for i = 1, #MOAT_GAMBLE.ChatTable do
-			m_AddGambleChatMessage(unpack(MOAT_GAMBLE.ChatTable[i]))
-		end
-	end)
 
 	local MOAT_GAMBLE_CHAT_ENTRY = vgui.Create("DTextEntry", MOAT_GAMBLE_BG)
     MOAT_GAMBLE_CHAT_ENTRY:SetPos(10, pnl_h - 48)
@@ -392,6 +387,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
     m_DrawVersusPanel()
 
     MOAT_GAMBLE_BG:AlphaTo(255, 0.15, 0.15)
+	MOAT_GAMBLE.ToggleChat()
 end
 
 MOAT_GAMBLE.DiceProfitPoly = {
@@ -5324,7 +5320,9 @@ net.Receive("MOAT_GAMBLE_CHAT", function(len)
 	end
 end)
 
-table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,0,0),"This chat is not for calling staff! Use Discord for that. (In MOTD)"})
+table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,255,255),"This chat is connected to all 26 Moat Gaming servers!"})
+
+table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,0,0), "If you need staff on your server or want to meet players, join our Discord at discord.gg/moatgaming"})
 
 net.Receive("MOAT_GAMBLE_GLOBAL",function()
 	local time = net.ReadString()

@@ -2045,7 +2045,7 @@ local function chat_()
 
     local sentmsgtext = {}
 
-    timer.Create("GambleGlobalChat",5,0,function()
+    timer.Create("GambleGlobalChat",2.5,0,function()
        -- print("GTimer")
         getlatestmessages(function(d)
             --PrintTable(d)
@@ -2088,7 +2088,7 @@ local function chat_()
                     net.Start("Moat.LotteryChat")
                     net.WriteTable(t)
                     net.Broadcast()
-                else
+                elseif tostring(v.steamid):match("^765") then
                     broadcastmsg(v)
                 end
                 seenmsgid[v.ID] = true
