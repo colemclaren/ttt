@@ -322,8 +322,12 @@ function SWEP:PrimaryAttack(worldsnd)
 		return
 	end
 
-	--todo: fucking redo this stupid shit viewpunch
-	self.Owner:ViewPunch(Angle(util.SharedRandom(self:GetClass(),-0.2,-0.1,0) * self.Primary.Recoil, util.SharedRandom(self:GetClass(),-0.1,0.1,1) * self.Primary.Recoil, 0))
+	if (self:GetClass() == "weapon_ttt_golden_deagle") then
+		self.Owner:ViewPunch(Angle(util.SharedRandom("weapon_ttt_golden_deagle", -0.2, -0.1, 1) * self.Primary.Recoil, util.SharedRandom("weapon_ttt_golden_deagle", -0.1, 0.1, 2) * self.Primary.Recoil, 0))
+	else
+		--todo: fucking redo this stupid shit viewpunch
+		self.Owner:ViewPunch(Angle(util.SharedRandom(self:GetClass(),-0.2,-0.1,0) * self.Primary.Recoil, util.SharedRandom(self:GetClass(),-0.1,0.1,1) * self.Primary.Recoil, 0))
+	end
 end
 
 function SWEP:SecondaryAttack()
@@ -621,7 +625,7 @@ function SWEP:PlayAnimation(key, sequence, speed, cycle, ent)
 				if (Reload) then
 					Delay = Delay / self.ReloadSpeed
 				end
-				print(Delay, self.SoundQueue[i].Sound)
+				
 				timer.Simple(Delay, function()
 					if (not self.SoundStart or self.SoundStart ~= CurrentTime) then
 						return
