@@ -38,7 +38,7 @@ function nomr:onConnected()
 				else
 					local usergroup = pl:GetUserGroup() or "user"
 					local level = tostring(stats and stats.l or 1)
-					nomr:Query('REPLACE INTO player_sessions(steamid64, time, server, name, rank, level, team_kills, slays) VALUES(' .. pl:SteamID64() .. ', UNIX_TIMESTAMP(), ' .. nomr.serverid .. ', ' .. "'" .. nomr.db:escape(pl:Nick()) .. "'" .. ', ' .. "'" .. nomr.db:escape(usergroup) .. "'" .. ', ' .. nomr.db:escape(level) .. ', 0, 0);')
+					nomr:Query('REPLACE INTO player_sessions(steamid64, time, server, name, rank, level, team_kills, slays) VALUES(' .. pl:SteamID64() .. ', UNIX_TIMESTAMP(), ' .. nomr.serverid .. ', ' .. "'" .. nomr.db:escape(sql_fixname(pl:Nick())) .. "'" .. ', ' .. "'" .. nomr.db:escape(usergroup) .. "'" .. ', ' .. nomr.db:escape(level) .. ', 0, 0);')
 				end
 			end
 		end)

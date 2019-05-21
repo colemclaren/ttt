@@ -26,7 +26,7 @@ function D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, AvatarU
 
 	qstr = qstr .. "INSERT INTO player_iplog (SteamID, Address, LastSeen) VALUES (?, ?, UNIX_TIMESTAMP());"
 
-	moat.sql:q(qstr, SteamID, Name, AvatarURL, SteamID, IP, function(r)
+	moat.sql:q(qstr, SteamID, sql_fixname(Name), AvatarURL, SteamID, IP, function(r)
 		http.Fetch("https://moat.gg/api/steam/avatar/" .. SteamID)
 		
 		D3A.Player.LoadPlayerInfo(SteamID, function() end, function()

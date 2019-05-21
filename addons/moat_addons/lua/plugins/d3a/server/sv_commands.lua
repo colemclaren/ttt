@@ -122,7 +122,7 @@ function D3A.Commands.Parse(pl, cmd, args) -- cmd is the actual command here
 		name = pl:Nick()
 	end
 
-	D3A.MySQL.FormatQuery("INSERT INTO player_logs (steam_id, name, cmd, args) VALUES (#, #, #, #);", sid, name, command, jargs)
+	D3A.MySQL.FormatQuery("INSERT INTO player_logs (steam_id, name, cmd, args) VALUES (#, #, #, #);", sid, sql_fixname(name), command, jargs)
 end
 
 local function parseQuotes(args)

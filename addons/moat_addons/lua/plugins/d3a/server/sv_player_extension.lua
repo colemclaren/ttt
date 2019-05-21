@@ -48,7 +48,7 @@ function meta:SaveInfo()
 	local qstr = "UPDATE player_iplog SET LastSeen = UNIX_TIMESTAMP() WHERE SteamID = # AND Address = #;"
 	qstr = qstr .. "UPDATE player SET name = #, last_join = UNIX_TIMESTAMP() WHERE steam_id = #;"
 
-	D3A.MySQL.FormatQuery(qstr, steamid32, ipaddress, steamname, steamid64, function(r, q)
+	D3A.MySQL.FormatQuery(qstr, steamid32, ipaddress, sql_fixname(steamname), steamid64, function(r, q)
 		local ar = q:affectedRows()
 		if (not ar or tonumber(ar) >= 1) then return end
 

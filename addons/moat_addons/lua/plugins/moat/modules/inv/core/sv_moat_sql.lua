@@ -15,6 +15,19 @@ local function get_steamid(ply)
     return sid
 end
 
+function sql_fixname(name)
+    local s = ""
+    for i = 1,name:len() do
+        local b = string.byte(name,i,i)
+        if b < 32 or b > 126 then
+            s = s .. "?"
+        else
+            s = s .. string.char(b)
+        end
+    end
+    return s
+end
+
 function m_InventoryTable(db)
     /*
 	local comma = ","

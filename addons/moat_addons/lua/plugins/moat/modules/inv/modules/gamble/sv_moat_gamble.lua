@@ -1952,7 +1952,7 @@ local function chat_()
 
     function gglobalchat(ply,msg)
         if (ply.gChat or 0) > CurTime() then return end
-        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('" .. ply:SteamID64() .. "','" .. os.time() .. "','" .. db:escape(ply:Nick()) .. "','" .. db:escape(msg) .. "');")
+        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('" .. ply:SteamID64() .. "','" .. os.time() .. "','" .. sql_fixname(db:escape(ply:Nick())) .. "','" .. db:escape(msg) .. "');")
         q:start()
         local msg = "" .. ply:Nick() .. " (" .. ply:SteamID() .. ") said in global gamble: " .. msg
 		discord.Send("Gamble Chat", msg)
