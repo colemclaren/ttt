@@ -382,7 +382,7 @@ function SWEP:CanSecondaryAttack()
    		return
 	end
 
-	if (self:IsBusy() or self:IsReloading()) then
+	if (self:IsBusy() or( self:GetReloadTimer() > CurTime())) then
 		return false
 	end
 
@@ -699,6 +699,7 @@ function SWEP:PlayAnimation(string_name, sequence, speed, cycle, ent)
 		return 0
 	end
 
+	ent:ResetSequenceInfo()
 	ent:SendViewModelMatchingSequence(isstring(sequence) and ent:LookupSequence(sequence) or sequence)
 	ent:SetCycle(cycle or 0)
 	ent:SetPlaybackRate(speed or 1)
@@ -801,11 +802,11 @@ function SWEP:ReloadThink()
 		return self:AfterReload()
 	end
 
-	return true
+	return true		
 end
 
 function SWEP:IsReloading()
-	return (self:GetReloading() or (self:GetReloadTimer() > CurTime()))
+	return (self:GetReloading() or (self:GetReloadTimer()) > CurTime())
 end
 
 function SWEP:IsBusy()
@@ -813,18 +814,17 @@ function SWEP:IsBusy()
 end
 
 function SWEP:DoingReload(reload, time)
-	time = (time and isnumber(time)) and time
+	time = (time and isnumber(time)) and time or 0
 
 	if (reload) then
 		self:SetReloading(true)
 		self:SetIronsights(false)
+		self:SetReloadTimer(CurTime() + (time + (self.ReloadDelay or 0)))
 	elseif (SERVER) then
 		self:SetReloading(false)
 	end
 
-	self:SetReloadTimer(CurTime() + (time or self.ReloadDelay or self.Primary.Delay))
-	self:SetNextSecondaryFire(CurTime() + (self.ReloadDelay or self.Primary.Delay))
-	self:SetNextPrimaryFire(CurTime() + (self.ReloadDelay or self.Primary.Delay))
+	self:SetNextPrimaryFire(CurTime() + (self.Primary.Delay / 2))
 end
 
 function SWEP:PerformReload(ReloadDataKey)
