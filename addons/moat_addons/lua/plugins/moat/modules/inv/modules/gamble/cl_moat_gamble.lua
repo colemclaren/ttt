@@ -4368,10 +4368,11 @@ net.Receive("gversus.JoinGame",function()
 		if not gversus_players[ply] then hook.Remove("Think","BackGroundRollVersus." .. ply) return end
 		if not gversus_players[ply].roll_contents_x then gversus_players[ply].roll_contents_x = -4900 end
 		if not gversus_players[ply].rollto then gversus_players[ply].rollto = 0 end
-		if (math.abs(gversus_players[ply].roll_contents_x - gversus_players[ply].rollto) > 1500) then
+		local distance = (math.abs(gversus_players[ply].roll_contents_x - gversus_players[ply].rollto))
+		if distance > 1500 then
 			gversus_players[ply].roll_contents_x = math.Approach(gversus_players[ply].roll_contents_x, gversus_players[ply].rollto, 1500 * FrameTime())
 		else
-			gversus_players[ply].roll_contents_x = Lerp(FrameTime() * 0.7 , gversus_players[ply].roll_contents_x, gversus_players[ply].rollto)
+			gversus_players[ply].roll_contents_x = Lerp(FrameTime() * 0.65, gversus_players[ply].roll_contents_x, gversus_players[ply].rollto)
 		end
 	end)
 	-- gversus_players[ply]["roll"] = m_versusroll(ply,j,winner)
