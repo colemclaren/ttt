@@ -97,6 +97,7 @@ local detection_names = {
 local Ban = "Ban"
 local PrintOnce = "PrintOnce"
 local Ignore = "Ignore"
+local WaitFive = "WaitFive"
 local Detections = {
     [0] = {
         Punishment = Ignore
@@ -115,15 +116,15 @@ local Detections = {
     },
     [-4] = {
         Name = "Movement 1 (major)",
-        Punishment = Ban
+        Punishment = WaitFive
     },
     [-5] = {
         Name = "Movement 2 (major)",
-        Punishment = PrintOnce
+        Punishment = WaitFive
     },
     [-6] = {
         Name = "Movement 3 (major)",
-        Punishment = Ban
+        Punishment = WaitFive
     },
     [-100] = {
         Name = "CitizenHack",
@@ -135,6 +136,14 @@ local Detections = {
     }
 }
 
+local bans = {}
+hook.Add("TTTBeginRound", "BanCheaters", function()
+    for _, ply in pairs(bans) do
+        RunConsoleCommand("mga", "perma", ply, "Cheating")
+    end
+    bans = {}
+end)
+
 local Logs = {}
 
 local function joystick_detect(p, detect, c)
@@ -145,15 +154,13 @@ local function joystick_detect(p, detect, c)
     end
 
     Logs[p] = Logs[p] or {}
-
     Logs = Logs[p]
-    Logs[detect] = Logs[detect] or {}
 
+    Logs[detect] = Logs[detect] or {}
     Logs = Logs[detect]
 
-    if (IsDev() or (not Logs.NextMessage and true or Logs.NextMessage < CurTime())) then
-        local info = Detections[detect]
-
+    local info = Detections[detect]
+    if (IsDev() or not Logs.NextMessage or Logs.NextMessage < CurTime()) then
         local msg = "Detected: `" .. p:Nick() .. "(" .. sid .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP()
         msg = msg .. "\nDetection: `" .. (info and info.Name or tostring(detect)) .. "`"
         msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
@@ -171,12 +178,19 @@ local function joystick_detect(p, detect, c)
         elseif (info.Punishment ~= Ignore) then
             discord.Send("Skid", msg)
             Logs.NextMessage = CurTime() + 120
-            --[[if (info.Punishment == Ban) then
+        end
+    end
+
+    if (not IsDev()) then
+        if (not info or info.Punishment == Ban) then
+            banned[sid] = true
+            table.insert(bans, sid)
+        elseif (info.Punishment == WaitFive) then
+            Logs.Waiting = (Logs.Waiting or 0) + 1
+            if (Logs.Waiting == 6) then
                 banned[sid] = true
-                timer.Simple(30, function()
-                    RunConsoleCommand("mga", "perma", sid, "Cheating")
-                end)
-            end]]
+                table.insert(bans, sid)
+            end
         end
     end
 end
