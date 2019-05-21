@@ -1117,7 +1117,7 @@ function jackpot_()
 			d = d[1]
 			if (not tobool(d.rewarded)) then fun(false) return end 
 			if d.rewarded then
-				local b = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. sid .. "';")
+				local b = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. sid .. "' AND money = '" .. d.money .. "' AND rewarded = '1';")
 				function b:onSuccess()
 					fun(true)
 				end
@@ -1312,13 +1312,16 @@ function jackpot_()
         versus_joins[sid] = true
         versus_joingame(ply,sid)
     end)
-
+    
     net.Receive("gversus.CreateGame",function(l,ply)
-        if (gamble_net_spam(ply, "gversus.CreateGame")) then return end						
-            local amount = math.floor(net.ReadFloat())
+        if ply.VersusCreateCool then return end
+        ply.VersusCreateCool = true 
+        if (gamble_net_spam(ply, "gversus.CreateGame")) then ply.VersusCreateCool = false return end						
+        local amount = math.floor(net.ReadFloat())
 
-            if amount < 1 or not ply:m_HasIC(amount) then
+        if amount < 1 or not ply:m_HasIC(amount) then
             m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
+            ply.VersusCreateCool = false
             return
         end
         
@@ -1327,16 +1330,19 @@ function jackpot_()
         versus_getgame(id,function(d)
             if #d > 0 then
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You already have a game up!")
+                ply.VersusCreateCool = false
                 return
             end
 
             if (ply.VersCool and ply.VersCool > CurTime()) then
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
+                ply.VersusCreateCool = false
                 return
             end
                 
             ply.VersCool = CurTime() + 2
             versus_creategame(id, amount, function()
+                ply.VersusCreateCool = false
                 if (not IsValid(ply)) then
                     local q = db:query("DELETE FROM " .. dev_suffix .. " WHERE steamid = '" .. id.. "';")
                     q:start()
