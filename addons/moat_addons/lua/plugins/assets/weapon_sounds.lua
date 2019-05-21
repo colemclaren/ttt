@@ -5741,6 +5741,30 @@ sound.Add(
     sound = "weapons/hkump/magslap.wav"
 })
 
+sound.Add(
+{
+    name = "Weapon_ump45.Magin",
+    channel = CHAN_ITEM,
+    volume = 1.0,
+    soundlevel = 75,
+    sound = "weapons/hkump/clipin.wav"
+})
+sound.Add(
+{
+    name = "Weapon_ump45.Magout",
+    channel = CHAN_ITEM,
+    volume = 1.0,
+    soundlevel = 75,
+    sound = "weapons/hkump/clipout.wav"
+})
+sound.Add(
+{
+    name = "Weapon_ump45.MagRelease",
+    channel = CHAN_ITEM,
+    volume = 1.0,
+    soundlevel = 75,
+    sound = "weapons/hkump/magrelease.wav"
+})
 
 sound.Add(
 {

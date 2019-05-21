@@ -122,7 +122,8 @@ SWEP.PrimaryAnim = ACT_VM_PRIMARYATTACK
 SWEP.ReloadAnim = ACT_VM_RELOAD
 SWEP.ReloadSpeed = 1
 SWEP.ActiveDelay = 0
-SWEP.SoundQueue = {}
+SWEP.SoundQueue = {Count = 0}
+SWEP.PopSoundQueue = {Count = 0}
 SWEP.SoundActive = false
 
 SWEP.fingerprints = {}
@@ -404,7 +405,7 @@ local function Sparklies(attacker, tr, dmginfo)
 end
 
 function SWEP:ShootAnimation()
-	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
 
 	if (isstring(self.PrimaryAnim)) then
 		return self:PlayAnimation("ShootAnim", self.PrimaryAnim)
@@ -423,7 +424,7 @@ function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
 	self:ShootAnimation()
 
    self.Owner:MuzzleFlash()
-   self.Owner:SetAnimation( PLAYER_ATTACK1 )
+   self.Owner:SetAnimation(PLAYER_ATTACK1)
 
    if not IsFirstTimePredicted() then return end
 
@@ -577,7 +578,8 @@ function SWEP:Deploy()
 	
 	self.ReloadStart = nil
 	self.SoundActive = false
-	self.SoundQueue = {}
+	self.SoundQueue = {Count = 0}
+	self.PopSoundQueue = {Count = 0}
 
    	return true
 end
@@ -594,46 +596,98 @@ function SWEP:Holster(wep)
 
 	self.SoundStart = nil
 	self.SoundActive = false
-	self.SoundQueue = {}
+	
+	self.SoundQueue = {Count = 0}
+	self.PopSoundQueue = {Count = 0}
 
-	return true
+	return true	
 end
 
-function SWEP:PlayAnimation(key, sequence, speed, cycle, ent)
+function SWEP:SoundQueueThink(CurrentTime)
+	if (self.SoundQueue.Count <= 0) then
+		return
+	end
+
+	if (self.PopSoundQueue.Count > 0) then
+		for i = 1, self.PopSoundQueue.Count do
+			local Pop = self.PopSoundQueue[i]
+
+			if (Pop.Callback and Pop.Callback(Pop.Data, Pop.QueueIndex)) then
+				self.SoundQueue[Pop.QueueIndex].Popped = false
+			else
+				self.SoundQueue.Count = self.SoundQueue.Count - 1
+				self.SoundQueue[Pop.QueueIndex] = nil
+			end
+		end
+
+		self.PopSoundQueue = {Count = 0}
+	end
+
+	for Index, SoundData in ipairs(self.SoundQueue) do
+		if (SoundData.When2Play < CurrentTime) then
+			continue
+		end
+
+		SoundData.Entity:EmitSound(SoundData.Sound)
+		if (SoundData.Entity == self) then
+			self.SoundActive = SoundData.Sound
+		end
+
+		if (SoundData.When2Play > CurrentTime and not SoundData.Popped) then
+			self.PopSoundQueue.Count = self.PopSoundQueue.Count + 1
+			self.PopSoundQueue[self.PopSoundQueue.Count] = {
+				QueueIndex = Index,
+				Data = SoundData
+			}
+
+			self.SoundQueue[Index].Popped = true
+
+			continue
+		end
+	end
+end
+
+function SWEP:QueueSound(snd, delay, ent, cb)
+	local CurrentTime = CurTime()
+	local SoundData = {
+		Callback = (type(ent) == "function") and ent or cb,
+		When2Play = CurrentTime + (delay or 0),
+		Entity = ent or self,
+		Sound = snd,
+	}
+	print(snd, delay)
+	self.SoundQueue.Count = self.SoundQueue.Count + 1
+	return table.insert(self.SoundQueue, SoundData)
+end
+
+function SWEP:PlayAnimation(string_name, sequence, speed, cycle, ent)
 	cycle = (cycle and cycle > 0) and cycle
 	ent = ent or self
 
-	ent:ResetSequence(sequence)
-	ent:SetCycle(cycle or 0)
-	ent:SetPlaybackRate(speed or 1)
-
 	if (ent == self) then
-
-		local SoundList, Reload = self.Sounds and self.Sounds[sequence], false
-		if (self.ReloadAnim and self.ReloadAnim[key] and self.ReloadAnim[key].Sounds) then
-			SoundList, Reload = self.ReloadAnim[key].Sounds, true
+		local SoundList = self.Sounds and self.Sounds[sequence]
+		if (self.ReloadAnim and self.ReloadAnim[string_name] and self.ReloadAnim[string_name].Sounds) then
+			SoundList = self.ReloadAnim[string_name].Sounds
 		end
 
 		if (SoundList) then
-			local CurrentTime = CurTime()
+			print("sl")
+			for i = 1, #SoundList do
+				local Delay, Sound = SoundList[i].Delay or SoundList[i].Time, SoundList[i].Sound or SoundList[i].Snd
 
-			self.SoundQueue = table.Copy(SoundList)
-			self.SoundStart = CurrentTime
+				if (not Delay) then 
+					Delay = (type(SoundList[i][1]) == "number") and SoundList[i][1] or SoundList[i][2]
+				end
 
-			for i = 1, #self.SoundQueue do
-				local Delay = self.SoundQueue[i].Delay
-				if (Reload) then
+				if (not Sound) then
+					Sound = (type(SoundList[i][2]) == "string") and SoundList[i][2] or SoundList[i][1]
+				end
+
+				if (Delay and self.ReloadSpeed) then
 					Delay = Delay / self.ReloadSpeed
 				end
-				
-				timer.Simple(Delay, function()
-					if (not self.SoundStart or self.SoundStart ~= CurrentTime) then
-						return
-					end
 
-					self:EmitSound(self.SoundQueue[i].Sound) //, 75, 100, 1, CHAN_AUTO )
-					self.SoundActive = self.SoundQueue[i].Sound
-				end)
+				self:QueueSound(Sound, Delay)
 			end
 		end
 
@@ -641,7 +695,13 @@ function SWEP:PlayAnimation(key, sequence, speed, cycle, ent)
 		if (IsValid(vm)) then
 			return self:PlayAnimation(key, sequence, speed, cycle, vm)
 		end
+
+		return 0
 	end
+
+	ent:SendViewModelMatchingSequence(isstring(sequence) and ent:LookupSequence(sequence) or sequence)
+	ent:SetCycle(cycle or 0)
+	ent:SetPlaybackRate(speed or 1)
 
 	return ent:SequenceDuration()
 end
@@ -661,13 +721,11 @@ function SWEP:Reload()
 		return false
 	end
 
-	if (self:IsBusy() or self:IsReloading()) then
+	if (self:IsReloading()) then
 		return false
 	end
 
 	local CurrentTime, Ammo, Clip = CurTime(), self:Ammo1(), self:Clip1()
-	self.ActiveDelay = CurrentTime + .1
-
 	if (type(self.ReloadAnim) == "table") then
 		local ReloadDataKey = self:ReloadAnimation(Clip, Ammo, CurrentTime)
 		local ReloadData = self.ReloadAnim[ReloadDataKey] or self.ReloadAnim["DefaultReload"]
@@ -675,12 +733,7 @@ function SWEP:Reload()
 		local AnimationLength = ReloadData.ReloadTime or ReloadData.Time
 
 		if (not ReloadData or not AnimationName) then
-			self:DefaultReload(self.ReloadAnim)
-
-			self.Owner:SetAnimation(PLAYER_RELOAD)
-
-			print(self:GetClass(), "DefaultReload", self.ReloadAnim)
-			return true
+			return false
 		end
 
 		if (self.Primary.EmptySound and self.Primary.EmptySound == "Weapon_Shotgun.Empty") then
@@ -692,13 +745,9 @@ function SWEP:Reload()
 		if (AnimationLength) then
 			self:DoingReload(true, AnimationLength / self.ReloadSpeed)
 			self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
-
-			-- print("y", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
 		else
 			AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
 			self:DoingReload(true, AnimationLength / self.ReloadSpeed)
-
-			-- print("n", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
 		end
 	else
 		self:DefaultReload(self.ReloadAnim)
@@ -730,7 +779,7 @@ function SWEP:PrimaryReload(bullets)
 	return true
 end
 
-function SWEP:HandleReload()
+function SWEP:ReloadThink()
    	if (not self:GetReloading()) then
 		return false
 	end
@@ -764,16 +813,18 @@ function SWEP:IsBusy()
 end
 
 function SWEP:DoingReload(reload, time)
-	self:SetReloading(reload)
+	time = (time and isnumber(time)) and time
 
 	if (reload) then
+		self:SetReloading(true)
 		self:SetIronsights(false)
+	elseif (SERVER) then
+		self:SetReloading(false)
 	end
 
-	time = (time and isnumber(time)) and time
+	self:SetReloadTimer(CurTime() + (time or self.ReloadDelay or self.Primary.Delay))
 	self:SetNextSecondaryFire(CurTime() + (self.ReloadDelay or self.Primary.Delay))
 	self:SetNextPrimaryFire(CurTime() + (self.ReloadDelay or self.Primary.Delay))
-	self:SetReloadTimer(CurTime() + (time or self.ReloadDelay or self.Primary.Delay))
 end
 
 function SWEP:PerformReload(ReloadDataKey)
@@ -788,18 +839,18 @@ function SWEP:PerformReload(ReloadDataKey)
 		return self:AfterReload()
 	end
 
-	self:SendWeaponAnim(ACT_VM_RELOAD)
+	if (self.Primary.EmptySound and self.Primary.EmptySound == "Weapon_Shotgun.Empty") then
+		self:SendWeaponAnim(ACT_SHOTGUN_RELOAD_START)
+	elseif (ReloadData.Act) then
+		self:SendWeaponAnim(ReloadData.Act)
+	end
 
 	if (AnimationLength) then
 		self:DoingReload(true, AnimationLength / self.ReloadSpeed)
 		self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
-
-		-- print("y", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
 	else
 		AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
 		self:DoingReload(true, AnimationLength / self.ReloadSpeed)
-
-		-- print("n", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
 	end
 
 	// self.Owner:SetAnimation(PLAYER_RELOAD)
@@ -820,19 +871,15 @@ function SWEP:AfterReload(ReloadDataKey)
 	local AnimationLength = ReloadData.ReloadTime or ReloadData.Time
 	
 	if (self.Primary.EmptySound and self.Primary.EmptySound == "Weapon_Shotgun.Empty") then
-		-- self:SendWeaponAnim(ACT_SHOTGUN_RELOAD_FINISH)
+		self:SendWeaponAnim(ACT_SHOTGUN_RELOAD_FINISH)
 	end
 
 	if (AnimationLength) then
 		self:DoingReload(false, AnimationLength / self.ReloadSpeed)
 		self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
-
-		-- print("y", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
 	else
 		AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
 		self:DoingReload(false, AnimationLength / self.ReloadSpeed)
-
-		-- print("n", self:GetClass(), ReloadDataKey, AnimationName, AnimationLength)
 	end
 	
 	return true
@@ -1009,8 +1056,11 @@ function SWEP:CalcViewModel()
 end
 
 function SWEP:Think()
+	local CurrentTime = CurTime()
+
+	self:ReloadThink(CurrentTime)
+	self:SoundQueueThink(CurrentTime)
 	self:CalcViewModel()
-	self:HandleReload()
 end
 
 function SWEP:DyingShot()
