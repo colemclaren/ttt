@@ -76,7 +76,7 @@ SWEP.NoSights = false
 local HealSound = Sound("weapons/sandwich/eat.wav")
 
 function SWEP:SetupDataTables()
-	self:NetworkVar("Int", 0, "Permanency")
+	self:NetworkVar("Int", 1, "Permanency")
 end
 
 function SWEP:Initialize()

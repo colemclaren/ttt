@@ -25,7 +25,7 @@ SWEP.Kind = WEAPON_PISTOL
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"
 SWEP.Primary.Ammo = "AlyxGun"
 SWEP.Primary.Delay = 0.6
-SWEP.Primary.Recoil = 0.01
+SWEP.Primary.Recoil = 6
 SWEP.Primary.Cone = 0.01
 SWEP.Primary.Damage = 60
 SWEP.HeadshotMultiplier = 5
@@ -64,4 +64,12 @@ function SWEP:Initialize()
 	end
 
    	return self.BaseClass.Initialize(self)
+end
+
+function SWEP:ViewPunch()
+	if (not IsValid(self.Owner) or not self.Owner.ViewPunch) then
+		return
+	end
+
+	self.Owner:ViewPunch(Angle(util.SharedRandom("weapon_ttt_golden_deagle", -0.2, -0.1, 1) * self.Primary.Recoil, util.SharedRandom("weapon_ttt_golden_deagle", -0.1, 0.1, 2) * self.Primary.Recoil, 0))
 end

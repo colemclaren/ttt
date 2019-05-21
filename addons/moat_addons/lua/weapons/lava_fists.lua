@@ -67,7 +67,7 @@ function SWEP:Initialize()
 end
 
 function SWEP:SetupDataTables()
-	self:NetworkVar("Int", 0, "Eggs")
+	self:NetworkVar("Int", 1, "Eggs")
 	self:NetworkVar("Float", 0, "NextMeleeAttack")
 	self:NetworkVar("Float", 1, "NextSprint")
 end

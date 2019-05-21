@@ -57,7 +57,7 @@ local DetonatorSound = Sound("weapons/c4/c4_beep1.wav")
 local NONE, SATCHEL, TRIPMINE = 0, 1, 2 -- the three possible animation states of the SLAM
 
 function SWEP:SetupDataTables()
-	self:NetworkVar("Int", 0, "ActiveSatchel")
+	self:NetworkVar("Int", 1, "ActiveSatchel")
 end
 
 function SWEP:Initialize()

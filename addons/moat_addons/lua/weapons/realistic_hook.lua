@@ -71,9 +71,9 @@ SWEP.Icon = "entities/realistic_hook"
 --Standard swep functions--
 ---------------------------
 function SWEP:SetupDataTables()
-	self:NetworkVar( "Entity", 0, "Hook" )
+	self:NetworkVar( "Entity", 1, "Hook" )
 	
-	self:NetworkVar( "Int", 0, "Cooldown" )
+	self:NetworkVar( "Int", 1, "Cooldown" )
 end
 
 function SWEP:Initialize()

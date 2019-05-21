@@ -42,6 +42,7 @@ SWEP.Primary.Sound                      = Sound( "Weapon_Double.Fire" )
 SWEP.IronSightsPos = Vector( -2.8, 0, 0 )
 SWEP.IronSightsAng = Vector( 0, 0, 0 )
 
+SWEP.ShotgunReload = ACT_VM_RELOAD
 SWEP.Primary.EmptySound = Sound("Weapon_Shotgun.Empty")
 SWEP.ReloadBullets = 1
 SWEP.DeploySpeed = 1.4

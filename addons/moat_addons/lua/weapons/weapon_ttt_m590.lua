@@ -46,7 +46,7 @@ SWEP.Primary.LayerMults = {0.4, 0.6}
 
 
 SWEP.ShellTime			= .45
-
+SWEP.ShotgunReload = ACT_VM_RELOAD
 SWEP.Primary.EmptySound = Sound("Weapon_Shotgun.Empty")
 SWEP.ReloadBullets = 1
 SWEP.DeploySpeed = 1.4

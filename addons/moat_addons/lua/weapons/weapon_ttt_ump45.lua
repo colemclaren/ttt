@@ -41,7 +41,7 @@ SWEP.ReloadSpeed = 1
 SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "Reload_full",
-		Time = 3.52,
+		Time = 3.12,
 		Sounds = {
 			{Delay = 2, Sound = Sound("ump45.magrelease")},
 		}

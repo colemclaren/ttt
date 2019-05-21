@@ -152,7 +152,7 @@ SWEP.ReloadAnim = {
 	},
 	ReloadEmpty = {
 		Anim = "reload_empty",
-		Time = 3.16667,
+		Time = 3.6,
 		Sounds = {
 			{Delay = .5, Sound = Sound "Weapof_STERLING.ReloadEmpty"}
 		}

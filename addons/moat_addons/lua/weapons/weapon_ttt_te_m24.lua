@@ -743,44 +743,60 @@ SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "reload4",
 		Time = 5.25,
+		Act = ACT_VM_IDLE
 	},
 	DefaultReload4 = {
 		Anim = "reload4",
 		Time = 5.25,
+		Act = ACT_VM_IDLE
 	},
 	DefaultReload3 = {
 		Anim = "reload3",
 		Time = 4.875,
+		Act = ACT_VM_IDLE
 	},
 	DefaultReload2 = {
 		Anim = "reload2",
 		Time = 4.5,
+		Act = ACT_VM_IDLE
 	},
 	DefaultReload1 = {
 		Anim = "reload1",
 		Time = 4.125,
+		Act = ACT_VM_IDLE
 	},
 	ReloadEmpty1 = {
 		Anim = "reload_empty1",
 		Time = 3,
+		Act = ACT_VM_IDLE
 	},
 	ReloadEmpty2 = {
 		Anim = "reload_empty2",
 		Time = 3.375,
+		Act = ACT_VM_IDLE
 	},
 	ReloadEmpty3 = {
 		Anim = "reload_empty3",
 		Time = 3.75,
+		Act = ACT_VM_IDLE
 	},
 	ReloadEmpty4 = {
 		Anim = "reload_empty4",
 		Time = 4.125,
+		Act = ACT_VM_IDLE
 	},
 	ReloadEmpty = {
 		Anim = "reload_empty",
 		Time = 4.5,
+		Act = ACT_VM_IDLE
 	}
 }
+
+function SWEP:LastShot(self)
+	// self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
+
+	return true
+end
 
 function SWEP:ReloadAnimation(Clip, Ammo, CurrentTime)
 	local Need = math.max(self:GetMaxClip1() - Clip, 0)
@@ -852,6 +868,7 @@ end
 if CLIENT then
    local scope = surface.GetTextureID("sprites/scope")
    function SWEP:DrawHUD()
+		draw.SimpleText("PING: " .. LocalPlayer():Ping() .. " MS", "WinHuge", 50, 50, Color(0, 255, 0))
       if self:GetIronsights() then
          surface.SetDrawColor( 0, 0, 0, 255 )
          

@@ -40,6 +40,7 @@ SWEP.Primary.Recoil			= 7
 SWEP.IronSightsPos = Vector (-2.2631, -4.0007, 1.6813)
 SWEP.IronSightsAng = Vector (0.2298, 0.0043, 0)
 
+SWEP.ShotgunReload = ACT_VM_RELOAD
 SWEP.Primary.EmptySound = Sound("Weapon_Shotgun.Empty")
 SWEP.ReloadBullets = 1
 SWEP.DeploySpeed = 1.4
@@ -54,7 +55,7 @@ SWEP.ReloadAnim = {
 		Time = 0.7,
 	},
 	DefaultReload = {
-		Anim = "reload_load4",
+		Anim = "reload_load1",
 		Time = 0.86667,
 	},
 

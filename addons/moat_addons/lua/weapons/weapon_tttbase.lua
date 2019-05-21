@@ -161,6 +161,7 @@ if CLIENT then
    local enable_dot_crosshair = CreateNewConVar("ttt_crosshair_dot", "0", FCVAR_ARCHIVE)
 
    function SWEP:DrawHUD()
+	draw.SimpleText("PING: " .. LocalPlayer():Ping() .. " MS", "WinHuge", 50, 50, Color(0, 255, 0))
       if self.HUDHelp then
          self:DrawHelp()
       end
@@ -300,16 +301,161 @@ if CLIENT then
    end
 end
 
+function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
+    if (self.Primary.ReverseShotsDamage) then
+        dmg, numbul = numbul, dmg
+    end
+
+	self:ShootAnimation()
+
+    self.Owner:MuzzleFlash()
+    self.Owner:SetAnimation(PLAYER_ATTACK1)
+
+    if (not IsFirstTimePredicted() and self:LastShootTime() == CurTime()) then
+		return
+	end
+
+	self:SetLastShootTime(CurTime())
+
+    local sights = self:GetIronsights()
+    numbul = numbul or 1
+    conex = conex or 0.01
+    coney = coney or conex
+
+    if (self.Primary and self.Primary.Ammo == "Buckshot") then
+        local layers = self.Primary.Layers
+
+        if (not layers) then
+            layers = {}
+            self.Primary.Layers = layers
+        end
+
+        local bullets = layers[numbul]
+
+        if (not bullets) then
+            bullets = {}
+            layers[numbul] = bullets
+            local LayerMults = self.Primary.LayerMults or {1}
+
+            for LayerNum, mult in ipairs(LayerMults) do
+                local LayerBullets = math.floor(numbul * mult)
+
+                if (#LayerMults == LayerNum) then
+                    LayerBullets = numbul
+                end
+
+                numbul = numbul - LayerBullets
+
+                for i = 0, LayerBullets - 1 do
+                    local v = Vector(0, (LayerNum / #LayerMults) ^ 2)
+                    v:Rotate(Angle(0, i / LayerBullets * 360))
+                    table.insert(bullets, v)
+                end
+            end
+        end
+
+        local aimvec = self.Owner:GetAimVector()
+        local mult = Vector(coney, conex)
+        local aimang = aimvec:Angle()
+
+        if (self.Primary.RealCone) then
+            aimvec = aimvec + util.SharedRandom(self:GetClass(), -conex, conex, 0) * aimang:Right()
+            aimvec = aimvec + aimang:Up() * util.SharedRandom(self:GetClass(), -coney, coney, 1)
+            mult = self.Primary.RealCone
+        end
+
+        local bullet = {}
+        bullet.Num = 1
+        bullet.Src = self.Owner:GetShootPos()
+        bullet.Spread = vector_origin
+        bullet.Tracer = self.Tracer or 4
+        bullet.TracerName = self.Tracer or "Tracer"
+        bullet.Force = 10
+        bullet.Damage = dmg
+
+        if CLIENT and sparkle:GetBool() then
+            bullet.Callback = Sparklies
+        end
+
+        local randn = 2
+        local nlayers = (self.Primary.LayerMults and #self.Primary.LayerMults or 1) + 3
+        local class = self:GetClass()
+
+        for _, bulspread in pairs(bullets) do
+            local x, y = util.SharedRandom(class, -1, 1, randn) * conex / nlayers, util.SharedRandom(class, -1, 1, randn + 1) * coney / nlayers
+            randn = randn + 2
+            local rspr = aimang:Right() * x + aimang:Up() * y
+            bullet.Dir = aimvec + rspr + bulspread.x * mult.x * aimang:Right() + bulspread.y * mult.y * aimang:Up()
+            self.Owner:FireBullets(bullet)
+        end
+    else
+        local bullet = {}
+        bullet.Num = numbul
+        bullet.Src = self.Owner:GetShootPos()
+        bullet.Dir = self.Owner:GetAimVector()
+        bullet.Spread = Vector(conex, coney, 0)
+        bullet.Tracer = self.Tracer or 4
+        bullet.TracerName = self.Tracer or "Tracer"
+        bullet.Force = 10
+        bullet.Damage = dmg
+
+        if CLIENT and sparkle:GetBool() then
+            bullet.Callback = Sparklies
+        end
+
+        self.Owner:FireBullets(bullet)
+    end
+
+    -- Owner can die after firebullets
+    if (not IsValid(self.Owner)) or (not self.Owner:Alive()) or self.Owner:IsNPC() then return end
+
+    if ((game.SinglePlayer() and SERVER) or ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) then
+        -- reduce recoil if ironsighting
+        recoil = sights and (recoil * 0.6) or recoil
+        local eyeang = self.Owner:EyeAngles()
+        eyeang.pitch = eyeang.pitch - recoil
+        self.Owner:SetEyeAngles(eyeang)
+    end
+
+    if (self.Shots) then
+        self.Shots = self.Shots + 1
+    end
+end
+
+function SWEP:ShootAnimation()
+	if (self.PrimaryAnim and type(self.PrimaryAnim) == "number") then
+		self:SendWeaponAnim(self.PrimaryAnim)
+	else
+		self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
+	end
+
+	if (self:Clip1() == 1 and self.LastShot) then
+		self:LastShot()
+	elseif (isstring(self.PrimaryAnim)) then
+		return self:PlayAnimation("ShootAnim", self.PrimaryAnim, 1, 0)
+	elseif (istable(self.PrimaryAnim)) then
+		return self:PlayAnimation("ShootAnim", self.PrimaryAnim[
+			math.ceil(
+				util.SharedRandom(self:GetClass(), 0, #self.PrimaryAnim, 0)
+			)
+		], 1, 0)
+	end
+
+	return
+end
+
 -- Shooting functions largely copied from weapon_cs_base
 function SWEP:PrimaryAttack(worldsnd)
 	if (not self:CanPrimaryAttack()) then
 		return
 	end
 
-	self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
+	// self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 	self:SetReloadTimer(CurTime() + self.Primary.Delay)
-	
+
+	// self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
+
 	if (not worldsnd) then
 		self:EmitSound(self.Primary.Sound, self.Primary.SoundLevel)
 	elseif (SERVER) then
@@ -319,14 +465,13 @@ function SWEP:PrimaryAttack(worldsnd)
 	self:ShootBullet(self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone(), self:GetPrimaryConeY())
 	self:TakePrimaryAmmo(1)
 
-	if (not IsValid(self.Owner) or not self.Owner.ViewPunch) then
+	if (not IsValid(self.Owner)) then
 		return
 	end
 
-	if (self:GetClass() == "weapon_ttt_golden_deagle") then
-		self.Owner:ViewPunch(Angle(util.SharedRandom("weapon_ttt_golden_deagle", -0.2, -0.1, 1) * self.Primary.Recoil, util.SharedRandom("weapon_ttt_golden_deagle", -0.1, 0.1, 2) * self.Primary.Recoil, 0))
-	else
-		--todo: fucking redo this stupid shit viewpunch
+	if (self.ViewPunch) then
+		self:ViewPunch(worldsnd)
+	elseif (self.Owner.ViewPunch) then
 		self.Owner:ViewPunch(Angle(util.SharedRandom(self:GetClass(),-0.2,-0.1,0) * self.Primary.Recoil, util.SharedRandom(self:GetClass(),-0.1,0.1,1) * self.Primary.Recoil, 0))
 	end
 end
@@ -346,7 +491,7 @@ function SWEP:SecondaryAttack()
       	self:EmitSound(self.Secondary.Sound)
   	end
 
-   	self:SetNextSecondaryFire(CurTime() + 0.3)
+	self:SetNextSecondaryFire(CurTime() + .3)
 end
 
 function SWEP:DryFire(setnext)
@@ -364,13 +509,13 @@ function SWEP:CanPrimaryAttack()
    		return
 	end
 
-	if (self:IsBusy() or self:IsReloading()) then
+	if (self:IsBusy() or (self:IsReloading() and not self:CanPredictReload())) then
 		return false
 	end
 
    	if (self:Clip1() <= 0) then
     	self:DryFire(self.SetNextPrimaryFire)
-      	
+
 		return false
    	end
    	
@@ -382,7 +527,7 @@ function SWEP:CanSecondaryAttack()
    		return
 	end
 
-	if (self:IsBusy() or( self:GetReloadTimer() > CurTime())) then
+	if (self:IsBusy() or self:IsReloading()) then
 		return false
 	end
 
@@ -395,6 +540,20 @@ function SWEP:CanSecondaryAttack()
 	return true
 end
 
+function SWEP:TakePrimaryAmmo(num)
+	if (self:Clip1() <= 0) then
+		if (self:Ammo1() <= 0) then
+			return
+		end
+
+		self.Owner:RemoveAmmo(num, self:GetPrimaryAmmoType())
+
+		return
+	end
+
+	self:SetClip1(self:Clip1() - num)
+end
+
 local function Sparklies(attacker, tr, dmginfo)
    if tr.HitWorld and tr.MatType == MAT_METAL then
       local eff = EffectData()
@@ -402,133 +561,6 @@ local function Sparklies(attacker, tr, dmginfo)
       eff:SetNormal(tr.HitNormal)
       util.Effect("cball_bounce", eff)
    end
-end
-
-function SWEP:ShootAnimation()
-	self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-
-	if (isstring(self.PrimaryAnim)) then
-		return self:PlayAnimation("ShootAnim", self.PrimaryAnim)
-	elseif (istable(self.PrimaryAnim)) then
-		return self:PlayAnimation("ShootAnim", self.PrimaryAnim[math.random(#self.PrimaryAnim)])
-	end
-
-	return
-end
-
-function SWEP:ShootBullet( dmg, recoil, numbul, conex, coney )
-   if (self.Primary.ReverseShotsDamage) then
-      dmg, numbul = numbul, dmg
-   end
-
-	self:ShootAnimation()
-
-   self.Owner:MuzzleFlash()
-   self.Owner:SetAnimation(PLAYER_ATTACK1)
-
-   if not IsFirstTimePredicted() then return end
-
-   local sights = self:GetIronsights()
-
-   numbul  = numbul or 1
-   conex   = conex   or 0.01
-   coney   = coney or conex
-
-   if (self.Primary and self.Primary.Ammo == "Buckshot") then
-      local layers = self.Primary.Layers
-      if (not layers) then
-         layers = {}
-         self.Primary.Layers = layers
-      end
-      local bullets = layers[numbul]
-      if (not bullets) then
-         bullets = {}
-         layers[numbul] = bullets
-         local LayerMults = self.Primary.LayerMults or {1}
-         for LayerNum, mult in ipairs(LayerMults) do
-            local LayerBullets = math.floor(numbul * mult)
-            if (#LayerMults == LayerNum) then
-               LayerBullets = numbul
-            end
-
-            numbul = numbul - LayerBullets
-            for i = 0, LayerBullets - 1 do
-               local v = Vector(0, (LayerNum / #LayerMults) ^ 2)
-               v:Rotate(Angle(0, i / LayerBullets * 360))
-               table.insert(bullets, v)
-            end
-         end
-      end
-
-      local aimvec = self.Owner:GetAimVector()
-      local mult = Vector(coney, conex)
-      local aimang = aimvec:Angle()
-      if (self.Primary.RealCone) then
-         aimvec = aimvec + util.SharedRandom(self:GetClass(), -conex, conex, 0) * aimang:Right()
-         aimvec = aimvec + aimang:Up() * util.SharedRandom(self:GetClass(), -coney, coney, 1)
-         mult = self.Primary.RealCone
-      end
-
-      local bullet = {}
-      bullet.Num    = 1
-      bullet.Src    = self.Owner:GetShootPos()
-      bullet.Spread = vector_origin
-      bullet.Tracer = self.Tracer or 4
-      bullet.TracerName = self.Tracer or "Tracer"
-      bullet.Force  = 10
-      bullet.Damage = dmg
-      if CLIENT and sparkle:GetBool() then
-         bullet.Callback = Sparklies
-      end
-
-      local randn = 2
-      local nlayers = (self.Primary.LayerMults and #self.Primary.LayerMults or 1) + 3
-
-      local class = self:GetClass()
-      for _, bulspread in pairs(bullets) do
-         local x, y = util.SharedRandom(class, -1, 1, randn) * conex / nlayers,
-            util.SharedRandom(class, -1, 1, randn + 1) * coney / nlayers
-         randn = randn + 2
-
-         local rspr = aimang:Right() * x + aimang:Up() * y
-         bullet.Dir    = aimvec + rspr + bulspread.x * mult.x * aimang:Right() + bulspread.y * mult.y * aimang:Up()
-      
-         self.Owner:FireBullets( bullet )
-      end
-   else
-      local bullet = {}
-      bullet.Num    = numbul
-      bullet.Src    = self.Owner:GetShootPos()
-      bullet.Dir    = self.Owner:GetAimVector()
-      bullet.Spread = Vector( conex, coney, 0 )
-      bullet.Tracer = self.Tracer or 4
-      bullet.TracerName = self.Tracer or "Tracer"
-      bullet.Force  = 10
-      bullet.Damage = dmg
-      if CLIENT and sparkle:GetBool() then
-         bullet.Callback = Sparklies
-      end
-   
-      self.Owner:FireBullets( bullet )
-   end
-
-   -- Owner can die after firebullets
-   if (not IsValid(self.Owner)) or (not self.Owner:Alive()) or self.Owner:IsNPC() then return end
-
-   if ((game.SinglePlayer() and SERVER) or
-       ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) then
-
-      -- reduce recoil if ironsighting
-      recoil = sights and (recoil * 0.6) or recoil
-
-      local eyeang = self.Owner:EyeAngles()
-      eyeang.pitch = eyeang.pitch - recoil
-      self.Owner:SetEyeAngles( eyeang )
-   end
-
-	if (self.Shots) then
-		self.Shots = self.Shots + 1
-	end
 end
 
 function SWEP:GetPrimaryCone()
@@ -596,7 +628,7 @@ function SWEP:Holster(wep)
 
 	self.SoundStart = nil
 	self.SoundActive = false
-	
+
 	self.SoundQueue = {Count = 0}
 	self.PopSoundQueue = {Count = 0}
 
@@ -604,60 +636,132 @@ function SWEP:Holster(wep)
 end
 
 function SWEP:SoundQueueThink(CurrentTime)
-	if (self.SoundQueue.Count <= 0) then
-		return
-	end
+	/*
+	// local CT = CurTime()
+	local Count = #self.SoundQueue
+	for i = 1, Count do
+		if (self.SoundQueue[i].When2Play < CurTime()) then
+			continue
+		elseif (IsValid(self.SoundQueue[i].Entity) and (not self.SoundQueue[i].Time or (self.SoundQueue[i].Time and self.SoundQueue[i].Time == CurTime()))) then
+			self.SoundQueue[i].Entity:EmitSound(self.SoundQueue[i].Sound)
+			self.SoundQueue[i].Entity.SoundActive = self.SoundQueue[i].Sound
 
-	if (self.PopSoundQueue.Count > 0) then
-		for i = 1, self.PopSoundQueue.Count do
-			local Pop = self.PopSoundQueue[i]
-
-			if (Pop.Callback and Pop.Callback(Pop.Data, Pop.QueueIndex)) then
-				self.SoundQueue[Pop.QueueIndex].Popped = false
-			else
-				self.SoundQueue.Count = self.SoundQueue.Count - 1
-				self.SoundQueue[Pop.QueueIndex] = nil
+			if (not self.SoundQueue[i].Time) then
+				self.SoundQueue[i].Time = CurTime()
 			end
-		end
 
-		self.PopSoundQueue = {Count = 0}
-	end
-
-	for Index, SoundData in ipairs(self.SoundQueue) do
-		if (SoundData.When2Play < CurrentTime) then
 			continue
-		end
-
-		SoundData.Entity:EmitSound(SoundData.Sound)
-		if (SoundData.Entity == self) then
-			self.SoundActive = SoundData.Sound
-		end
-
-		if (SoundData.When2Play > CurrentTime and not SoundData.Popped) then
-			self.PopSoundQueue.Count = self.PopSoundQueue.Count + 1
-			self.PopSoundQueue[self.PopSoundQueue.Count] = {
-				QueueIndex = Index,
-				Data = SoundData
-			}
-
-			self.SoundQueue[Index].Popped = true
+		else
+			-- table.remove(self.SoundQueue, i)
 
 			continue
 		end
 	end
+	*/
 end
 
 function SWEP:QueueSound(snd, delay, ent, cb)
-	local CurrentTime = CurTime()
+	/*
 	local SoundData = {
 		Callback = (type(ent) == "function") and ent or cb,
-		When2Play = CurrentTime + (delay or 0),
-		Entity = ent or self,
+		When2Play = CurTime() + delay,
+		Entity = self,
 		Sound = snd,
 	}
-	print(snd, delay)
-	self.SoundQueue.Count = self.SoundQueue.Count + 1
+
 	return table.insert(self.SoundQueue, SoundData)
+	*/
+end
+
+function SWEP:ReloadThink()
+   	if (not self:GetReloading()) then
+		return false
+	end
+
+	local Clip, Ammo = self:Clip1(), self:Ammo1()
+	if (Ammo <= 0 or (Clip > 0 and self.ReloadBullets and self.Owner:KeyDown(IN_ATTACK) and not self.Owner:KeyDown(IN_RELOAD))) then
+		return self:AfterReload()
+	end
+
+	if (self:HasReloadFinished()) then
+		local Reloaded = self:PrimaryReload(self.ReloadBullets)
+
+		if (self.ReloadBullets and Reloaded) then
+			return self:PerformReload()
+		end
+
+		return self:AfterReload()
+	end
+
+	return true		
+end
+
+function SWEP:CanPredictReload()
+	local ReloadTimer, CurrentTime = self:GetReloadTimer(), CurTime()
+
+	return ((ReloadTimer < (CurrentTime + ((ReloadTimer - CurrentTime) / 2))) and (not self.ReloadBullets))
+end
+
+function SWEP:HasReloadFinished()
+	return (self:GetReloadTimer() <= CurTime())
+end
+
+function SWEP:IsReloading()
+	return (self:GetReloading() or (self:GetReloadTimer() > CurTime()))
+end
+
+function SWEP:IsBusy()
+	return (self.ActiveDelay and self.ActiveDelay > CurTime())
+end
+
+function SWEP:Clip1Reloaded(bullets)
+	local Clip, Ammo = self:Clip1(), self:Ammo1()
+	bullets = bullets or self.ReloadBullets or math.Clamp(Ammo, 0, math.max(self:GetMaxClip1() - Clip, 0)) or 0
+	bullets = (Ammo <= 0 or (Clip + bullets) > self:GetMaxClip1()) and Clip or Clip + bullets
+
+	return (Clip == bullets) and 0 or bullets, Clip, Ammo
+end
+
+function SWEP:PrimaryReload(bullets)
+	local Reloaded, Clip, Ammo = self:Clip1Reloaded(bullets)
+	
+	if (Ammo <= 0 or Clip >= self:GetMaxClip1() or Reloaded == 0) then
+		return false
+	end
+
+	self.Owner:RemoveAmmo(Reloaded - Clip, self:GetPrimaryAmmoType())
+	self:SetClip1(Reloaded)
+
+	return true
+end
+
+function SWEP:DoingReload(reload, time)
+	time = (time and isnumber(time)) and time or 0
+
+	if (reload) then
+		self:SetReloading(true)
+		self:SetIronsights(false)
+		self:SetReloadTimer(CurTime() + (time + (self.ReloadDelay or 0)))
+		self:SetNextPrimaryFire(CurTime() + (time + (self.ReloadDelay or 0)))
+	else
+		self:SetReloading(false)
+
+		if (self.ShotgunReload) then
+			self:SetReloadTimer(CurTime() + (time + (self.ReloadDelay or 0)))
+		end
+
+		self:SetNextPrimaryFire(CurTime() + (time + (self.ReloadDelay or 0)))
+	end
+end
+
+function SWEP:ReloadAnimation(Clip, Ammo, CurrentTime)
+	if (self.ReloadBullets and self.ReloadAnim.StartReload) then
+		return "StartReload"
+	elseif (Clip ~= 0 and self.ReloadAnim["Reload" .. Clip] and (self.ReloadAnim["Reload" .. Clip].Check and self.ReloadAnim["Reload" .. Clip].Check(Clip) or not self.ReloadAnim["Reload" .. Clip].Check)) then
+		return ("Reload" .. Clip)
+	end
+
+	return (Clip == 0) and "ReloadEmpty" or "DefaultReload"
 end
 
 function SWEP:PlayAnimation(string_name, sequence, speed, cycle, ent)
@@ -671,7 +775,34 @@ function SWEP:PlayAnimation(string_name, sequence, speed, cycle, ent)
 		end
 
 		if (SoundList) then
-			print("sl")
+			local CurrentTime = CurTime()
+
+			self.SoundQueue = table.Copy(SoundList)
+			self.SoundStart = CurrentTime
+
+			for i = 1, #self.SoundQueue do
+				local Delay = self.SoundQueue[i].Delay
+				if (self.ReloadSpeed) then
+					Delay = Delay / self.ReloadSpeed
+				end
+
+				timer.Simple(Delay, function()
+					if (not IsValid(self)) then
+						return
+					end
+
+					if (not self.SoundStart or self.SoundStart ~= CurrentTime) then
+						return
+					end
+
+					self:EmitSound(self.SoundQueue[i].Sound)
+					self.SoundActive = self.SoundQueue[i].Sound
+				end)
+			end
+		end
+
+		/*
+		if (SoundList) then
 			for i = 1, #SoundList do
 				local Delay, Sound = SoundList[i].Delay or SoundList[i].Time, SoundList[i].Sound or SoundList[i].Snd
 
@@ -690,31 +821,22 @@ function SWEP:PlayAnimation(string_name, sequence, speed, cycle, ent)
 				self:QueueSound(Sound, Delay)
 			end
 		end
+		*/
 
 		local vm = self.Owner:GetViewModel()
 		if (IsValid(vm)) then
 			return self:PlayAnimation(key, sequence, speed, cycle, vm)
 		end
 
-		return 0
+		return ent:SequenceDuration()
 	end
-
+	
 	ent:ResetSequenceInfo()
 	ent:SendViewModelMatchingSequence(isstring(sequence) and ent:LookupSequence(sequence) or sequence)
 	ent:SetCycle(cycle or 0)
 	ent:SetPlaybackRate(speed or 1)
 
 	return ent:SequenceDuration()
-end
-
-function SWEP:ReloadAnimation(Clip, Ammo, CurrentTime)
-	if (self.ReloadBullets and self.ReloadAnim.StartReload) then
-		return "StartReload"
-	elseif (Clip ~= 0 and self.ReloadAnim["Reload" .. Clip] and (self.ReloadAnim["Reload" .. Clip].Check and self.ReloadAnim["Reload" .. Clip].Check(Clip) or not self.ReloadAnim["Reload" .. Clip].Check)) then
-		return ("Reload" .. Clip)
-	end
-
-	return (Clip == 0) and "ReloadEmpty" or "DefaultReload"
 end
 
 function SWEP:Reload()
@@ -737,12 +859,12 @@ function SWEP:Reload()
 			return false
 		end
 
-		if (self.Primary.EmptySound and self.Primary.EmptySound == "Weapon_Shotgun.Empty") then
+		if (self.ShotgunReload) then
 			self:SendWeaponAnim(ACT_SHOTGUN_RELOAD_START)
 		elseif (ReloadData.Act) then
 			self:SendWeaponAnim(ReloadData.Act)
 		end
-	
+
 		if (AnimationLength) then
 			self:DoingReload(true, AnimationLength / self.ReloadSpeed)
 			self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
@@ -759,88 +881,15 @@ function SWEP:Reload()
 	return true
 end
 
-function SWEP:PrimaryReload(bullets)
-	local Clip, Ammo = self:Clip1(), self:Ammo1()
-	
-	if (Ammo <= 0 or Clip >= self:GetMaxClip1()) then
-		return false
-	end
-
-	if (SERVER) then
-		bullets = bullets or math.Clamp(Ammo, 0, math.max(self:GetMaxClip1() - Clip, 0))
-
-		if (bullets == 0) then
-			return false
-		end
-
-		self.Owner:RemoveAmmo(bullets, self.Primary.Ammo)
-		self:SetClip1(Clip + bullets)
-	end
-
-	return true
-end
-
-function SWEP:ReloadThink()
-   	if (not self:GetReloading()) then
-		return false
-	end
-
-	local ReloadEnded = (CurTime() > self:GetReloadTimer())
-	local Clip, Ammo = self:Clip1(), self:Ammo1()
-
-	if (Ammo <= 0 or (Clip > 0 and self.ReloadBullets and self.Owner:KeyDown(IN_ATTACK) and not self.Owner:KeyDown(IN_RELOAD))) then
-		return self:AfterReload()
-	end
-
-	if (ReloadEnded) then
-		local Reloaded = self:PrimaryReload(self.ReloadBullets)
-
-		if (self.ReloadBullets and Reloaded) then
-			return self:PerformReload()
-		end
-
-		return self:AfterReload()
-	end
-
-	return true		
-end
-
-function SWEP:IsReloading()
-	return (self:GetReloading() or (self:GetReloadTimer()) > CurTime())
-end
-
-function SWEP:IsBusy()
-	return (self.ActiveDelay and self.ActiveDelay > CurTime())
-end
-
-function SWEP:DoingReload(reload, time)
-	time = (time and isnumber(time)) and time or 0
-
-	if (reload) then
-		self:SetReloading(true)
-		self:SetIronsights(false)
-		self:SetReloadTimer(CurTime() + (time + (self.ReloadDelay or 0)))
-	elseif (SERVER) then
-		self:SetReloading(false)
-	end
-
-	self:SetNextPrimaryFire(CurTime() + (self.Primary.Delay / 2))
-end
-
 function SWEP:PerformReload(ReloadDataKey)
 	ReloadDataKey = ReloadDataKey or "DefaultReload"
-	
+
 	local ReloadData = self.ReloadAnim[ReloadDataKey] or self.ReloadAnim["DefaultReload"]
 	local AnimationName = ReloadData.Animation or ReloadData.Anim or ReloadData.Name
 	local AnimationLength = ReloadData.ReloadTime or ReloadData.Time
-	local Clip, Ammo = self:Clip1(), self:Ammo1()
 
-	if (Ammo <= 0 or Clip >= self:GetMaxClip1()) then
-		return self:AfterReload()
-	end
-
-	if (self.Primary.EmptySound and self.Primary.EmptySound == "Weapon_Shotgun.Empty") then
-		self:SendWeaponAnim(ACT_SHOTGUN_RELOAD_START)
+	if (self.ShotgunReload) then
+		self:SendWeaponAnim(self.ShotgunReload)
 	elseif (ReloadData.Act) then
 		self:SendWeaponAnim(ReloadData.Act)
 	end
@@ -870,7 +919,7 @@ function SWEP:AfterReload(ReloadDataKey)
 	local AnimationName = ReloadData.Animation or ReloadData.Anim or ReloadData.Name
 	local AnimationLength = ReloadData.ReloadTime or ReloadData.Time
 	
-	if (self.Primary.EmptySound and self.Primary.EmptySound == "Weapon_Shotgun.Empty") then
+	if (self.ShotgunReload) then
 		self:SendWeaponAnim(ACT_SHOTGUN_RELOAD_FINISH)
 	end
 
@@ -1059,7 +1108,7 @@ function SWEP:Think()
 	local CurrentTime = CurTime()
 
 	self:ReloadThink(CurrentTime)
-	self:SoundQueueThink(CurrentTime)
+	-- self:SoundQueueThink(CurrentTime)
 	self:CalcViewModel()
 end
 
