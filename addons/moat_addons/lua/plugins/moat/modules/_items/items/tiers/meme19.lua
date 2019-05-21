@@ -4,6 +4,7 @@ ITEM.Rarity = 9
 ITEM.Collection = "Meme Collection2"
 ITEM.MinStats = 9
 ITEM.MaxStats = 9
+ITEM.NotDroppable = true
 ITEM.Stats = {
 	Damage = { min = -40, max = 40 },
 	Accuracy = { min = -55, max = 55 },
