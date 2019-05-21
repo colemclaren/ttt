@@ -192,9 +192,9 @@ function MG_LAVA.Win()
         for k, v in ipairs(t) do
             if not IsValid(v[1]) then continue end
             if (k == 1) then
-                local es = math.random(1, 6)
+                local es = math.random(1, 3)
 
-                if (es == 6) then
+                if (es == 3) then
                     v[1]:m_DropInventoryItem(6)
                 else
                     v[1]:m_DropInventoryItem(5)
