@@ -20,69 +20,10 @@ function game.GetIP()
 end
 -- meme hello
 
-local round_detections = {}
 local banned = {}
-local detections = {}
-
-local function discordLog(sid,mouse)
-    local s = ""
-    for k,v in pairs(mouse[5]) do
-        s = s .. "[" .. k .. "=" .. v .. "] "
-    end
-	local msg = "[I lost track v4] Detected: `" .. mouse[1] .. " (" .. sid .. ") [" .. mouse[2] .. "] lvl(" .. mouse[3] .. ")` Server: " .. game.GetIP() .. " Detections: `" .. s .. "` Info: ```" .. mouse[6] .. "```"
-	discord.Send("Skid", msg)
-end
-
-local ban = true
-
-local sv_allowcslua, sv_cheats = GetConVar "sv_allowcslua", GetConVar "sv_cheats"
-local dev_server = GetHostName():lower():find("dev")
 
 local function IsDev()
-    return sv_allowcslua:GetBool() or sv_cheats:GetBool() or dev_server
-end
-
-hook.Add("TTTEndRound","Joystick",function()
-    local i = 0
-    for k,v in pairs(detections) do
-        i = i + 1
-        timer.Simple(i,function() discordLog(k,v) end)
-        for l,o in pairs(v[5]) do
-            if l == -100 and IsDev() then
-                continue
-            end
-            if o > 15 and ban then
-				if (not banned[k]) then
-                	RunConsoleCommand("mga","perma",k,"Cheating")
-					banned[k] = true
-				end
-                break
-            end
-        end
-        if round_detections[k] >= 4 and ban and not banned[k] then
-            RunConsoleCommand("mga","perma",k,"Cheating")
-			banned[k] = true
-        end
-    end
-    detections = {}
-end)
-
-function make_mac_detections(p,mwheel)
-    if not round_detections[p:SteamID()] then round_detections[p:SteamID()] = 0 end
-    round_detections[p:SteamID()] = round_detections[p:SteamID()] + 1
-    local wep = p:GetActiveWeapon()
-    local wep_s = "Invalid"
-    if IsValid(wep) then
-        wep_s = wep:GetClass()
-    end
-    detections[p:SteamID()] = {
-        p:Nick(),
-        p:IPAddress(),
-        p:GetNWInt("MOAT_STATS_LVL", -1),
-        p:SteamID64(),
-        {},
-        string.format("First Detection (" .. tostring(mwheel) .. ")\nPing: %s\nWeapon: %s\nMap: %s\nOnGround: %s",tostring(p:Ping()),wep_s,game.GetMap(),tostring(p:OnGround()))
-    }
+    return Server.IsDev
 end
 
 local detection_names = {
