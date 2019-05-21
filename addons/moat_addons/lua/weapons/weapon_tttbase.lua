@@ -161,7 +161,7 @@ if CLIENT then
    local enable_dot_crosshair = CreateNewConVar("ttt_crosshair_dot", "0", FCVAR_ARCHIVE)
 
    function SWEP:DrawHUD()
-	draw.SimpleText("PING: " .. LocalPlayer():Ping() .. " MS", "WinHuge", 50, 50, Color(0, 255, 0))
+	-- draw.SimpleText("PING: " .. LocalPlayer():Ping() .. " MS", "WinHuge", 50, 50, Color(0, 255, 0))
       if self.HUDHelp then
          self:DrawHelp()
       end
