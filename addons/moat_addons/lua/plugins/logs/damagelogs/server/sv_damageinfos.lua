@@ -37,30 +37,31 @@ function Damagelog:shootCallback(weapon)
 		end
 	end
 end
-	 
+
 function Damagelog:DamagelogInfos()
 	for k,v in pairs(weapons.GetList()) do		
 		if v.Base == "weapon_tttbase" or v.Base == "weapon_ttt_dual_glock" then
 			DEFINE_BASECLASS(v.Base)
 			if not v.PrimaryAttack then
 				v.PrimaryAttack = function(wep)
-					BaseClass.PrimaryAttack(wep)
 					if BaseClass.CanPrimaryAttack(wep) and IsValid(wep.Owner) then
 						self:shootCallback(wep)
 					end
+					BaseClass.PrimaryAttack(wep)
 				end
 			else
 				local oldprimary = v.PrimaryAttack
 				v.PrimaryAttack = function(wep)
-					oldprimary(wep)
 					Damagelog:shootCallback(wep)
+					oldprimary(wep)
 				end
 			end
 		end
 	end
+
 end
 
-hook.Add("Initialize", "Initialize_DamagelogInfos", function()	
+hook.Add("InitPostEntity", "Initialize_DamagelogInfos", function()	
 	Damagelog:DamagelogInfos()
 end)
 
