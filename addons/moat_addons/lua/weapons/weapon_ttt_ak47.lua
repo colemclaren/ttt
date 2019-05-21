@@ -29,13 +29,13 @@ SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 
 SWEP.UseHands     = true
 SWEP.ViewModelFlip    = true
-SWEP.ViewModelFOV   = 72
+SWEP.ViewModelFOV   = 64
 SWEP.ViewModel  = "models/weapons/v_rif_ak47.mdl"
 SWEP.WorldModel = "models/weapons/w_rif_ak47.mdl"
 
 SWEP.Primary.Sound = Sound( "Weapon_AK47.Single" )
 
-SWEP.IronSightsPos = Vector (2.0151, 5.3774, 1.5024)
+SWEP.IronSightsPos = Vector (6.14, -.5, 2.5024)
 SWEP.IronSightsAng = Vector (0, 0, 0)
 
 SWEP.DeploySpeed = 1.4
@@ -43,7 +43,7 @@ SWEP.ReloadSpeed = 1
 SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "ak47_reload",
-		Time = 2.5,
+		Time = 2.5 - .4,
 	}
 }
 
