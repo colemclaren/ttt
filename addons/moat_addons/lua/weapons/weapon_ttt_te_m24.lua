@@ -739,7 +739,6 @@ SWEP.Scope = true
 
 SWEP.DeploySpeed = 1.4
 SWEP.ReloadSpeed = 1.4
-SWEP.ReloadDelay = .5
 SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "reload4",
