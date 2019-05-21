@@ -294,9 +294,9 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 	function MOAT_GAMBLE_CHAT:ActionSignal(a,b)
 		print(a,b)
 	end
-	MOAT_GAMBLE_CHAT:SetText("---")
+	MOAT_GAMBLE_CHAT:SetText("-")
 	function MOAT_GAMBLE.ToggleChat()
-		MOAT_GAMBLE_CHAT:SetText("---")
+		MOAT_GAMBLE_CHAT:SetText("-")
 		if MOAT_GAMBLE.LocalChat then
 			for i = 1, #MOAT_GAMBLE.ChatTable do
 				m_AddGambleChatMessage(unpack(MOAT_GAMBLE.ChatTable[i]))
