@@ -244,8 +244,8 @@ stats_full["x"] = "XP"
 stats_full["l"] = "Level"
 stats_full["p"] = "Push Delay"
 stats_full["v"] = "Push Force"
-stats_full["y"] = "Reload Rate"
-stats_full["z"] = "Deploy Speed"
+stats_full["y"] = "Reload"
+stats_full["z"] = "Draw"
 stats_full["c"] = "Charging Speed"
 local function addstats(itemtbl,embed)
     local wpntbl = weapons.Get(itemtbl.w)

@@ -649,8 +649,8 @@ stats_full["x"] = "XP"
 stats_full["l"] = "Level"
 stats_full["p"] = "Push Delay"
 stats_full["v"] = "Push Force"
-stats_full["y"] = "Reload Rate"
-stats_full["z"] = "Deploy Speed"
+stats_full["y"] = "Reload"
+stats_full["z"] = "Draw"
 stats_full["c"] = "Charging Speed"
 
 local m_color_green = Color(40, 255, 40)
