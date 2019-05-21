@@ -4372,7 +4372,7 @@ net.Receive("gversus.JoinGame",function()
 		if distance > 1500 then
 			gversus_players[ply].roll_contents_x = math.Approach(gversus_players[ply].roll_contents_x, gversus_players[ply].rollto, 1500 * FrameTime())
 		else
-			gversus_players[ply].roll_contents_x = Lerp(FrameTime() * 0.65, gversus_players[ply].roll_contents_x, gversus_players[ply].rollto)
+			gversus_players[ply].roll_contents_x = Lerp(FrameTime() * 0.68, gversus_players[ply].roll_contents_x, gversus_players[ply].rollto)
 		end
 	end)
 	-- gversus_players[ply]["roll"] = m_versusroll(ply,j,winner)
