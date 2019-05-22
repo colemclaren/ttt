@@ -390,6 +390,36 @@ net.Receive("moat_damage_number", function()
 	end
 end)
 
+local BostonBashers = {
+	["Boston"] = true
+}
+
+local function BostonBasherMissed(pl, wpn)
+	return net.SendEntity("BulletPrediction", wpn, net.SendToServer)
+end
+
+local function HasBostonBasher(wpn, ws)
+	if (wpn.HasBostonBasher) then
+		return wpn.HasBostonBasher
+	else
+		wpn.HasBostonBasher = false
+	end
+
+	if (ws.s and ws.s.l and ws.t and type(ws.t) == "table") then
+		for i = 1, #ws.t do
+			local t = ws.t[i]
+
+			if (t and t.e and t.e == 69 and t.l and t.l <= ws.s.l) then
+				wpn.HasBostonBasher = true
+
+				break
+			end
+		end
+	end
+
+	return wpn.HasBostonBasher
+end
+
 local c = GetConVar "moat_alt_hitreg"
 local b
 
@@ -427,7 +457,13 @@ hook.Add("EntityFireBullets", "‍a", function(e, t)
                 net.WriteUInt(wpn:GetDTInt(28), 32)
                 net.WriteUInt(num, 8)
             net.SendToServer()
-        end
+        elseif (IsValid(wpn) and wpn.ItemStats) then
+			local ws = wpn.ItemStats
+			
+			if (ws.item and ws.item.Name and BostonBashers[ws.item.Name] and HasBostonBasher(wpn, ws)) then
+				BostonBasherMissed(e, wpn)
+			end
+		end
 
         num = num + 1
 

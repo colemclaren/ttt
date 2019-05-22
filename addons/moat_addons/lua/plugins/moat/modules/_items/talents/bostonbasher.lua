@@ -12,10 +12,20 @@ TALENT.LevelRequired = {min = 5, max = 10}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 20, max = 40} -- Percent damage is increased by
 
+util.AddNetworkString "BulletPrediction"
+net.Receive("BulletPrediction", function(_, pl)
+	local wep = net.ReadEntity()
+
+	if (IsValid(wep) and wep.IsWeapon and wep:IsWeapon() and wep.Primary and wep.Primary.Damage) then
+		pl:TakeDamage(wep.Primary.Damage, pl, wep)
+	end
+end)
+
 util.AddNetworkString "Talents.BostonBasher"
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
-	if MOAT_MINIGAME_OCCURING then return end
+	if (MOAT_MINIGAME_OCCURING) then return end
 
+	/*
 	dmginfo.Callback = function(att, tr, dmginfo)
 		if (tr.AltHitreg) then
 			return
@@ -28,6 +38,7 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
 			net.Send(att)
 		end
 	end
+	*/
 end
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
