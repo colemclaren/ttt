@@ -10,6 +10,7 @@ DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Kind = WEAPON_HEAVY
 SWEP.ENUM = 7
 
+SWEP.HeadshotMultiplier = 1.4
 SWEP.Primary.Damage      = 8
 SWEP.Primary.Delay       = 0.035
 SWEP.Primary.Cone        = 0.025
@@ -42,5 +43,3 @@ SWEP.ReloadAnim = {
 		Anim = "idle"
 	}
 }
-
-SWEP.HeadshotMultiplier = 1.4
