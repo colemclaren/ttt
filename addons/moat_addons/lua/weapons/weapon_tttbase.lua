@@ -526,7 +526,7 @@ function SWEP:CanSecondaryAttack()
    	if (not IsValid(self.Owner)) then
    		return
 	end
-
+	--
 	if (self:IsBusy() or self:GetReloading()) then
 		return false
 	end
