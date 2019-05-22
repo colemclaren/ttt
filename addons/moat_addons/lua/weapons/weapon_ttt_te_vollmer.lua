@@ -657,10 +657,10 @@ SWEP.IsSilent = false
 SWEP.NoSights = false
 
 SWEP.DeploySpeed = 1.4
-SWEP.ReloadSpeed = 3
+SWEP.ReloadSpeed = 1
 SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "reload",
-		Time = 7.00062,
+		Time = 7.00062
 	},
 }
