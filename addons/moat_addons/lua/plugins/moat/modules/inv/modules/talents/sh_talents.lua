@@ -179,3 +179,65 @@ else
 		cam.End3D()
 	end
 end
+
+local HermesBootsSpeed, HermesBoots = 1.2
+hook.Add("TTTPlayerSpeedModifier", "moat_ApplyWeaponWeight", function(pl, shit, mv)
+	if (not IsValid(pl)) then
+		return
+	end
+
+	local wep = pl:GetActiveWeapon()
+	if (IsValid(wep) and wep.weight_mod and wep.weight_mod ~= 1) then
+		shit.mul = shit.mul + (1 - wep.weight_mod)
+	end
+
+	if (pl:GetNW2Float("Marathon Runner", 1) > 1) then
+		shit.mul = shit.mul * pl:GetNW2Float("Marathon Runner", 1)
+	end
+
+	if (pl:GetNW2Float("Frozen Speed", 0) > 0) then
+		shit.mul = shit.mul * (1 - pl:GetNW2Float("Frozen Speed", 0))
+	end
+
+	if (pl:GetNW2Float("Speed Talent", 1) > 1) then
+		shit.mul = shit.mul * pl:GetNW2Float("Speed Talent", 1)
+	end
+
+	if (pl:GetNW2Float("Speed Modifier", 1) > 1) then
+		shit.mul = shit.mul * pl:GetNW2Float("Speed Modifier", 1)
+	end
+
+	if (EQUIP_HERMES_BOOTS and pl:HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
+		if (CLIENT and HermesBoots == nil) then
+			HermesBoots = GetConVar("moat_hermes_boots")
+		elseif (SERVER) then
+			HermesBoots = pl:GetInfo("moat_hermes_boots")
+			if (not HermesBoots or not tonumber(HermesBoots)) then
+				HermesBoots = 1
+			else
+				HermesBoots = tonumber(HermesBoots)
+			end
+		end
+
+		if (CLIENT and HermesBoots and HermesBoots:GetInt() >= 1) then
+			shit.mul = shit.mul * HermesBootsSpeed
+		elseif (SERVER and HermesBoots and HermesBoots >= 1) then
+			shit.mul = shit.mul * HermesBootsSpeed
+		end
+	end
+
+	if (not pl:IsActiveTraitor()) then
+		if (GetGlobalString("cur_random_round", "") == "Inverted") then 
+        	mv:SetForwardSpeed(mv:GetForwardSpeed() * -1)
+        	mv:SetSideSpeed(mv:GetSideSpeed() * -1)
+    	elseif (GetGlobalString("cur_random_round", "") == "Crab") then
+        	mv:SetForwardSpeed(0)
+		end
+	end
+	
+	if (GetGlobalString("cur_random_round", "") == "Fast") then
+		shit.mul = shit.mul * 3
+	end
+
+	shit.mul = math.Round(shit.mul, 5)
+end)
