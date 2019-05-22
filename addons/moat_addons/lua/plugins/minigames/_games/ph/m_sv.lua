@@ -177,7 +177,7 @@ function MG_PH.Win(props)
         v:SetModelScale(1,0)
         v:ResetHull()
         v:SetColor( Color(255, 255, 255, 255))
-        v.SpeedMod = 1
+        v:SetNW2Float("Speed Modifier", 1)
         if not v.PHScore then v.PHScore = 0 end
         if props and v.t_prop then
             if (not v:IsSpec()) and (v:Alive()) then
@@ -274,7 +274,7 @@ end
 function MG_PH.PostPlayerDeath(Player)
     if not MG_PH.InProgress then return end
     Player:Extinguish()
-    Player.SpeedMod = 1
+	Player:SetNW2Float("Speed Modifier", 1)
 end
 
 function MG_PH.TakeDamage(ent, dmginfo)
@@ -311,9 +311,6 @@ end
 
 function MG_PH.PlayerDisconnected(ply)
 
-end
-
-function MG_PH.PlayerSpeed(ply)
 end
 
 local EXPLOITABLE_DOORS = {
@@ -427,7 +424,6 @@ function MG_PH.PrepRound(mk, pri, sec, creds)
     MG_PH.HookAdd("TTTCanUseTraitorButton",function() return false end)
     MG_PH.HookAdd("PlayerTick",MG_PH.PlayerTick)
     MG_PH.HookAdd("PostPlayerDeath",MG_PH.PostPlayerDeath)
-    MG_PH.HookAdd("TTTPlayerSpeed",MG_PH.PlayerSpeed)
     MG_PH.SpawnPoints = {}
 
     hook.Add("TTTCheckForWin", "MG_PH_DELAYWIN", function() return WIN_NONE end)
@@ -492,11 +488,13 @@ function MG_PH.BeginRound()
                     v:Freeze(false)
                 end
             end)
-            v.SpeedMod = 1.2
+			v:SetNW2Float("Speed Modifier", 1.2)
         else
-            v.SpeedMod = 1.4
+			v:SetNW2Float("Speed Modifier", 1.4)
             timer.Simple(25,function()
-                v.SpeedMod = 1
+				if (IsValid(v)) then
+					v:SetNW2Float("Speed Modifier", 1)
+				end
             end)
             v.t_prop = true
 			v:SetModelScale(0,0)

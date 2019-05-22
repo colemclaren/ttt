@@ -31,7 +31,7 @@ MODS.Networked = {
     f = build("Firerate", function(w) return w.Primary end, "Float", "Delay"),
     d = build("Damage", function(w) return w.Primary end, "Float"),
     r = build("Range", function(w) return w end, "Float", "range_mod", true),
-    w = build("Weight", function(w) return w end, "Float", "weight_mod", true),
+    // w = build("WeightMod", function(w) return w end, "Float", "weight_mod", true),
     v = build("PushForce", function(w) return w end, "Float"),
     p = build("Pushrate", function(w) return w.Secondary end, "Float", "Delay"),
     a = build("Accuracy", function(w) return w.Primary end, "Float", "Cone"),
@@ -39,15 +39,32 @@ MODS.Networked = {
     a2 = build("AccuracyY", function(w) return w.Primary end, "Float", "ConeY"),
 	y = build("Reloadrate", function(w) return w end, "Float", "ReloadSpeed"),
 	c = build("Chargerate", function(w) return w end, "Float", "ChargeSpeed"),
+	w = {
+		network = function(wep)
+            return wep:SetWeightMod(wep.weight_mod or invalids.Float)
+        end,
+        valid = function(wep)
+            return wep.weight_mod and wep.weight_mod <= 100 and wep.weight_mod >= -100
+        end,
+        receive = function(wep)
+            if (wep:GetWeightMod() == invalids.Float) then
+                return
+            end
+
+            wep.weight_mod = wep:GetWeightMod()
+        end,
+        Name = "WeightMod",
+        Type = "Float"
+	},
 	z = {
 		network = function(wep)
             return wep:SetDeployrate(wep.DeploySpeed or invalids.Float)
         end,
         valid = function(wep)
-            return true
+            return wep.DeploySpeed and wep.DeploySpeed > 0.125
         end,
         receive = function(wep)
-            if (wep:GetDeployrate() == invalids[Type]) then
+            if (wep:GetDeployrate() == invalids.Float) then
                 return
             end
 

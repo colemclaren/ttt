@@ -45,7 +45,7 @@ end)
 MSE.Config.CanStartMinigame = function(pl)
 	local rounds_left = GetGlobalInt("ttt_rounds_left")
 
-	if (cur_random_round) then
+	if (GetGlobalString("cur_random_round", "") ~= "") then
 		return true, "Cannot start while there is a wacky round in progress!"
 	end
 

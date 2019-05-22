@@ -9,7 +9,7 @@ function moat_random.register(name,desc,hooks,after)
     moat_random.rounds[name] = {hooks,desc,after}
 end
 wacky_round = math.random(2, 7)
-cur_random_round = false
+SetGlobalString("cur_random_round", "")
 function moat_random.start_round(name)
     cur_random_round = name
     for k,v in pairs(moat_random.rounds[name][1]) do
@@ -18,7 +18,7 @@ function moat_random.start_round(name)
             continue
         end
         hook.Add(k,"Randomround" .. name,function(...)
-            if not cur_random_round then print("Removed randomround hook: " .. name,k )hook.Remove(k,"Randomround" .. name) return end
+            if GetGlobalString("cur_random_round", "") == "" then print("Removed randomround hook: " .. name,k )hook.Remove(k,"Randomround" .. name) return end
             return v(...)
         end)
     end
@@ -30,11 +30,11 @@ end
 
 -- so late players who weren't existant during preparing can be networked the wacky round
 net.Receive("randomround.late", function(_, pl)
-    if (not cur_random_round) then return end
+    if (GetGlobalString("cur_random_round", "") == "") then return end
 
     net.Start "RandomRound"
-    net.WriteString(cur_random_round)
-    net.WriteString(moat_random.rounds[cur_random_round][2])
+    net.WriteString(GetGlobalString("cur_random_round", ""))
+    net.WriteString(moat_random.rounds[GetGlobalString("cur_random_round", "")][2])
     net.Send(pl)
 end)
 
@@ -46,28 +46,28 @@ concommand.Add("moat_start_wacky",function(a,b,c,d)
 end)
 hook.Add("TTTEndRound","RandomRound",function()
     timer.Simple(1, function()
-        if moat_random.rounds[cur_random_round] then
-            if isfunction(moat_random.rounds[cur_random_round][3]) then
-                moat_random.rounds[cur_random_round][3]()
+        if moat_random.rounds[GetGlobalString("cur_random_round", "")] then
+            if isfunction(moat_random.rounds[GetGlobalString("cur_random_round", "")][3]) then
+                moat_random.rounds[GetGlobalString("cur_random_round", "")][3]()
                 net.Start("RandomRound")
                 net.WriteString("nono")
                 net.Broadcast()
             end
         end
-        cur_random_round = false
+        SetGlobalString("cur_random_round", "")
     end)
 end)
 
 local chance = 15 -- 1 in how many
 hook.Add("TTTPrepareRound","RandomRound",function()
-    if moat_random.rounds[cur_random_round] then
+    if moat_random.rounds[GetGlobalString("cur_random_round", "")] then
         net.Start("RandomRound")
         net.WriteString("nono")
         net.Broadcast()
-        if isfunction(moat_random.rounds[cur_random_round][3]) then
-            moat_random.rounds[cur_random_round][3]()
+        if isfunction(moat_random.rounds[GetGlobalString("cur_random_round", "")][3]) then
+            moat_random.rounds[GetGlobalString("cur_random_round", "")][3]()
         end
-        cur_random_round = false
+        SetGlobalString("cur_random_round", "")
     end
     if wacky_round == GetGlobalInt("ttt_rounds_left") then
         if math.random() > 0.3 then
@@ -176,7 +176,7 @@ end)]]
 
 moat_random.register("Fast","Your player speed is increased at the start of the round!",{
     ["NOW"] = function()
-        cur_random_round = "Fast"
+		SetGlobalString("cur_random_round", "Fast")
     end
 })
 
@@ -343,7 +343,7 @@ moat_random.register("Inverted Map", "The map is inverted for every player this 
 
 moat_random.register("Third Person", "Every player must play in third person this round!",{
     ["NOW"] = function()
-        cur_random_round = "Third Person"
+		SetGlobalString("cur_random_round", "Third Person")
     end
 })
 
@@ -374,7 +374,7 @@ moat_random.register("Loadout Swap", "Loadouts are randomized between players at
 -- TODO(meep): REMOVE
 moat_random.register("High FOV", "Every player must play with high FOV this round!", {
     ["NOW"] = function()
-        cur_random_round = "High FOV"
+		SetGlobalString("cur_random_round", "High FOV")
 
         for k, v in pairs(player.GetAll()) do
             v:SetFOV(130, 0.5)
@@ -415,7 +415,7 @@ if (not plm.MOAT_FOV) then
 end
 
 function plm:SetFOV(fov, time)
-    if (cur_random_round == "High FOV") then fov = 130 end
+    if (SetGlobalString("cur_random_round", "") == "High FOV") then fov = 130 end
 
     self:MOAT_FOV(fov, time)
 end

@@ -121,7 +121,7 @@ end
 
 -- chets
 function SWEP:Uncloak(ply)
-    if (cur_random_round and cur_random_round ~= "Invisible Traitors") then
+    if (GetGlobalString("cur_random_round", "") ~= "Invisible Traitors") then
         ply:SetMaterial("")
         ply:SetRenderMode(RENDERMODE_NORMAL)
 
@@ -300,7 +300,7 @@ function SWEP:Think()
         own:SetFOV(self.FOV * 1.25, 0)
         own:SetFOV(self.FOV, 1)
 
-        if (cur_random_round and cur_random_round ~= "Invisible Traitors") then
+        if (GetGlobalString("cur_random_round", "") ~= "Invisible Traitors") then
             own:DrawShadow(false)
             own:SetRenderMode(RENDERMODE_TRANSALPHA)
             if (SERVER) then

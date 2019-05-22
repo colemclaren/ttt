@@ -24,38 +24,34 @@ function m_ApplyTalentMods(weapontbl, loadout_table)
         end
     end
 end
-
+/*
 hook.Add("TTTPlayerSpeed", "moat_ApplyWeaponWeight", function(ply, slowed)
-    if (ply:IsValid()) then
+    if (IsValid(ply)) then
         if cur_random_round == "Fast" then
             return 3
         end
-        local new_speed = 1
 
-        if (ply:GetActiveWeapon() and ply:GetActiveWeapon().weight_mod) then
-            local wep_weight = ply:GetActiveWeapon().weight_mod
+        local new_speed = 1
+		local wep = ply:GetActiveWeapon()
+	
+        if (IsValid(wep) and wep.weight_mod) then
+            local wep_weight = wep.weight_mod
             new_speed = 1 + (1 - wep_weight)
         end
 
-        if (MOAT_POWERUPTABLE[ply]) then
-            if (MOAT_POWERUPTABLE[ply].item) then
-                if (MOAT_POWERUPTABLE[ply].item.Name == "Marathon Runner") then
-                    local powerup_mods = MOAT_POWERUPTABLE[ply].s or {}
-                    local powerup_servertbl = MOAT_POWERUPTABLE[ply].item
-                    new_speed = new_speed * (1 + ((powerup_servertbl.Stats[1].min + ((powerup_servertbl.Stats[1].max - powerup_servertbl.Stats[1].min) * powerup_mods[1])) / 100))
-                end
-            end
+        if (MOAT_POWERUPTABLE[ply] and MOAT_POWERUPTABLE[ply].item and MOAT_POWERUPTABLE[ply].item.Name == "Marathon Runner") then
+            local powerup_mods = MOAT_POWERUPTABLE[ply].s or {}
+            local powerup_servertbl = MOAT_POWERUPTABLE[ply].item
+            new_speed = new_speed * (1 + ((powerup_servertbl.Stats[1].min + ((powerup_servertbl.Stats[1].max - powerup_servertbl.Stats[1].min) * powerup_mods[1])) / 100))
         end
-        
-        if (ply.moatFrozen && ply.moatFrozenSpeed) && (ply:canBeMoatFrozen()) then
+
+        if (ply.moatFrozen and ply.moatFrozenSpeed) and (ply:canBeMoatFrozen()) then
             local percentage = 1 - ply.moatFrozenSpeed
             new_speed = new_speed * percentage
         end
 
-        if (ply:HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
-            if (ply:GetInfo("moat_hermes_boots") == "1" ) then
-                new_speed = new_speed * 1.2
-            end
+        if (ply:HasEquipmentItem(EQUIP_HERMES_BOOTS) and ply:GetInfo("moat_hermes_boots") == "1") then
+			new_speed = new_speed * 1.2
         end
 
         if (ply.SpeedMod) then
@@ -69,7 +65,7 @@ hook.Add("TTTPlayerSpeed", "moat_ApplyWeaponWeight", function(ply, slowed)
         return new_speed
     end
 end)
-
+*/
 
 function m_ApplyTalentsToWeaponOnDeath(vic, inf, att, talent_tbl)
     local talent_enum = talent_tbl.e

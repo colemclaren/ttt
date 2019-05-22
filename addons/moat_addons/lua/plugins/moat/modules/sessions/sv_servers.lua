@@ -84,7 +84,7 @@ function sv.TopPlayerScore() return sv.TopPlayer.Score or 0 end
 function sv.MapEvent() if (MG_cur_event) then return MG_cur_event .. " Event" end return "" end
 function sv.SpecialRound()
 	if (MOAT_MINIGAME_OCCURING) then return MOAT_MINIGAME_OCCURING .. " Round" end
-	if (cur_random_round) then return cur_random_round .. " Round" end
+	if (GetGlobalString("cur_random_round", "") ~= "") then return GetGlobalString("cur_random_round", "Wacky") .. " Round" end
 	return ""
 end
 

@@ -13,6 +13,9 @@ function m_ApplyPowerUp( ply, powerup_tbl )
 	end
 
 	MOAT_POWERUPTABLE[ply] = powerup_tbl
+	if (powerup_tbl and powerup_servertbl and powerup_servertbl.Name and powerup_servertbl.Name == "Marathon Runner") then
+        ply:SetNW2Float("Marathon Runner", (1 + ((powerup_servertbl.Stats[1].min + ((powerup_servertbl.Stats[1].max - powerup_servertbl.Stats[1].min) * powerup_mods[1])) / 100)))
+    end
 end
 
 hook.Add("TTTPrepareRound", "moat_WipePowerups", function()

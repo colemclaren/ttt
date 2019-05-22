@@ -78,14 +78,17 @@ MODS.Settable = {
         end,
         getmult = sub_getmult "Accuracy"
     },
-    w = {
-        valid = function()
-            return true
+	w = {
+		valid = function(wep)
+            return wep.weight_mod and wep.weight_mod <= 100 and wep.weight_mod >= -100
         end,
         set = function(wep, mult)
-            wep.weight_mod = mult
+			wep.weight_mod = mult
         end,
-        getmult = getmult "Weight"
+        getmult = getmult "Weight",
+        network = function(wep)
+            wep:SetWeightMod(wep.weight_mod)
+        end
     },
     r = {
         valid = function()
@@ -125,7 +128,7 @@ MODS.Settable = {
     },
     z = {
         valid = function(wep)
-            return true
+            return wep.DeploySpeed and wep.DeploySpeed > 0.125
         end,
         set = function(wep, mult)
             s(wep, "DeploySpeed", mult)

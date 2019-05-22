@@ -13,9 +13,21 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:ModifyWeapon( weapon, talent_mods )
-	if (weapon.weight_mod) then
+	if ((weapon.GetWeightMod and weapon:GetWeightMod()) or weapon.weight_mod) then
+		if (not weapon.weight_mod) then
+			weapon.weight_mod = 1
+		end
+
 		weapon.weight_mod = weapon.weight_mod * ( 1 + ( ( self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] ) ) / 100 ) )
+
+		if (weapon.SetWeightMod) then
+			weapon:SetWeightMod(weapon.weight_mod)
+		end
 	else
 		weapon.weight_mod = 1 + ( ( self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] ) ) / 100 )
+		
+		if (weapon.SetWeightMod) then
+			weapon:SetWeightMod(weapon.weight_mod)
+		end
 	end
 end

@@ -212,7 +212,7 @@ function plymeta:RecordKill(victim)
     table.insert(self.kills, victim:SteamID())
 end
 
-function plymeta:SetSpeed(slowed)
+function plymeta:SetSpeed(slowed)/*
     local mul = hook.Call("TTTPlayerSpeed", GAMEMODE, self, slowed) or 1
 
     if slowed then
@@ -224,7 +224,7 @@ function plymeta:SetSpeed(slowed)
         self:SetRunSpeed(220 * mul)
         self:SetMaxSpeed(220 * mul)
     end
-end
+*/end
 
 function plymeta:ResetLastWords()
     if not IsValid(self) then return end -- timers are dangerous things
@@ -314,8 +314,10 @@ function plymeta:InitialSpawn()
     -- Change some gmod defaults
     self:SetCanZoom(false)
     self:SetJumpPower(160)
-    self:SetSpeed(false)
     self:SetCrouchedWalkSpeed(0.3)
+	self:SetWalkSpeed(220)
+	self:SetRunSpeed(220)
+	self:SetMaxSpeed(220)
     -- Always spawn innocent initially, traitor will be selected later
     self:ResetStatus()
     -- Start off with clean, full karma (unless it can and should be loaded)

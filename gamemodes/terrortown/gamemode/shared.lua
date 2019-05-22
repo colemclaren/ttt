@@ -149,3 +149,20 @@ DefaultEquipment = {
     -- non-buyable
     [ROLE_NONE] = {"weapon_ttt_confgrenade", "weapon_ttt_m16", "weapon_ttt_smokegrenade", "weapon_ttt_unarmed", "weapon_ttt_wtester", "weapon_tttbase", "weapon_tttbasegrenade", "weapon_zm_carry", "weapon_zm_improvised", "weapon_zm_mac10", "weapon_zm_molotov", "weapon_zm_pistol", "weapon_zm_revolver", "weapon_zm_rifle", "weapon_zm_shotgun", "weapon_zm_sledge", "weapon_ttt_glock"}
 }
+function GM:Move(ply, mv)
+	if (ply:IsTerror()) then
+        local basemul = 1
+        -- Slow down ironsighters
+        local wep = ply:GetActiveWeapon()
+
+        if (IsValid(wep) and wep.GetIronsights and wep:GetIronsights()) then
+            basemul = 120 / 220
+        end
+
+        local shit = {mul = basemul}
+		hook.Call("TTTPlayerSpeedModifier", GAMEMODE, ply, shit, mv)
+
+		mv:SetMaxSpeed(mv:GetMaxSpeed() * shit.mul)
+		mv:SetMaxClientSpeed(mv:GetMaxClientSpeed() * shit.mul)
+	end
+end

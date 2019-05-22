@@ -1,12 +1,13 @@
-cur_random_round = cur_random_round or false
+SetGlobalString("cur_random_round", "")
+
 hook.Add("Move","Inverted",function(ply,mv)
     if ply ~= LocalPlayer() then return end
     if ply:Team() == TEAM_SPEC then return end
     if (GetRoundState() == ROUND_ACTIVE and ply:IsTraitor()) then return end
-    if cur_random_round == "Inverted" then 
+    if GetGlobalString("cur_random_round", "") == "Inverted" then 
         mv:SetForwardSpeed(mv:GetForwardSpeed() * -1)
         mv:SetSideSpeed(mv:GetSideSpeed() * -1)
-    elseif cur_random_round == "Crab" then
+    elseif GetGlobalString("cur_random_round", "") == "Crab" then
         mv:SetForwardSpeed(0)
     end
 end)
@@ -14,7 +15,7 @@ local desc = ""
 net.Receive("RandomRound",function()
     local name = net.ReadString()
     if name == "nono" then 
-        if (cur_random_round == "Third Person") then
+        if (GetGlobalString("cur_random_round", "") == "Third Person") then
             hook.Remove("CreateMove", "MOAT_THIRDPERSON.ThirdPersonMovement")
             hook.Remove("InputMouseApply", "MOAT_THIRDPERSON.ThirdPersonMouse")
             hook.Remove("CalcView", "MOAT_THIRDPERSON.ThirdPersonCamera")
@@ -22,10 +23,10 @@ net.Receive("RandomRound",function()
             hook.Remove("PrePlayerDraw", "MOAT_THIRDPERSON.OverrideDepthEnableTrue")
         end
 
-        cur_random_round = false 
+        SetGlobalString("cur_random_round", "")
         return
     end
-    cur_random_round = name
+	SetGlobalString("cur_random_round", name)
     chat.AddText(Color(255,0,0),"WACKY ROUND!")
     chat.AddText(Color(0,255,0),"WACKY ROUND!")
     chat.AddText(Color(0,0,255),"WACKY ROUND!")
@@ -50,14 +51,14 @@ surface.CreateFont("WackyTitle",{
 })
 
 hook.Add("HUDPaint","Wacky",function()
-    if cur_random_round then
-        DrawGlowingText(false, cur_random_round .. " Round", "WackyTitle", ScrW()/2, ScrH() * 0.1, Color(255,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    if (GetGlobalString("cur_random_round", "") ~= "")then
+        DrawGlowingText(false, GetGlobalString("cur_random_round", "") .. " Round", "WackyTitle", ScrW()/2, ScrH() * 0.1, Color(255,0,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         draw.SimpleText(desc, "ChatFont", ScrW()/2, ScrH() * 0.1 + 30, Color(255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
 end)
 
 hook.Add("TTTEndRound","Wacky",function()
-    cur_random_round = false
+    SetGlobalString("cur_random_round", "")
 end)
 
 
@@ -82,7 +83,7 @@ MOAT_THIRDPERSON.cam.Ang = MOAT_THIRDPERSON.cam.Ang or ANG_ZERO
 MOAT_THIRDPERSON.IsInfected = true
 
 function MOAT_THIRDPERSON.ThirdPersonCamera(ply, pos, ang, fov, znear, zfar)
-    if (not IsValid(LocalPlayer()) or LocalPlayer():Team() == TEAM_SPEC or cur_random_round ~= "Third Person") then return end
+    if (not IsValid(LocalPlayer()) or LocalPlayer():Team() == TEAM_SPEC or GetGlobalString("cur_random_round", "") ~= "Third Person") then return end
 
     if (not ply:Alive()) then
         local calc = {}
@@ -158,7 +159,7 @@ function MOAT_THIRDPERSON.ThirdPersonCamera(ply, pos, ang, fov, znear, zfar)
 end
 
 function MOAT_THIRDPERSON.OverrideDepthEnableTrue()
-    if (LocalPlayer():Team() ~= TEAM_SPEC and cur_random_round == "Third Person") then
+    if (LocalPlayer():Team() ~= TEAM_SPEC and GetGlobalString("cur_random_round", "") == "Third Person") then
         render.OverrideDepthEnable(true, true)
     end
 end
@@ -166,19 +167,19 @@ end
 local cur_health_width = 0
 
 function MOAT_THIRDPERSON.OverrideDepthEnableFalse()
-    if (LocalPlayer():Team() ~= TEAM_SPEC and cur_random_round == "Third Person") then
+    if (LocalPlayer():Team() ~= TEAM_SPEC and GetGlobalString("cur_random_round", "") == "Third Person") then
         render.OverrideDepthEnable(false)
     end
 end
 
 function MOAT_THIRDPERSON.ThirdPersonAiming(cmd, x, y, ang)
-    if (not IsValid(LocalPlayer()) or LocalPlayer():Team() == TEAM_SPEC or cur_random_round ~= "Third Person") then return end
+    if (not IsValid(LocalPlayer()) or LocalPlayer():Team() == TEAM_SPEC or GetGlobalString("cur_random_round", "") ~= "Third Person") then return end
     MOAT_THIRDPERSON.cam.Ang.p = math.Clamp(math.NormalizeAngle(MOAT_THIRDPERSON.cam.Ang.p + y / 50), -90, 90)
     MOAT_THIRDPERSON.cam.Ang.y = math.NormalizeAngle(MOAT_THIRDPERSON.cam.Ang.y - x / 50)
 end
 
 function MOAT_THIRDPERSON.ThirdPersonMovement(cmd)
-    if (not IsValid(LocalPlayer()) or LocalPlayer():Team() == TEAM_SPEC or cur_random_round ~= "Third Person") then return end
+    if (not IsValid(LocalPlayer()) or LocalPlayer():Team() == TEAM_SPEC or GetGlobalString("cur_random_round", "") ~= "Third Person") then return end
 
     local targetYaw = MOAT_THIRDPERSON.cam.Ang.y
     local currentYaw = LocalPlayer():EyeAngles().y
@@ -191,7 +192,7 @@ function MOAT_THIRDPERSON.ThirdPersonMovement(cmd)
 end
 
 hook.Add("RenderScreenspaceEffects", "RandomRoundJarate", function()
-    if (cur_random_round ~= "Jarate") then return end
+    if (GetGlobalString("cur_random_round", "") ~= "Jarate") then return end
     
     local pl = LocalPlayer()
 
@@ -203,7 +204,7 @@ hook.Add("RenderScreenspaceEffects", "RandomRoundJarate", function()
 end)
 
 hook.Add("RenderScreenspaceEffects", "RandomRoundCartoon", function()
-    if (cur_random_round ~= "Cartoon") then return end
+    if (GetGlobalString("cur_random_round", "") ~= "Cartoon") then return end
     
     local pl = LocalPlayer()
     if (pl:Team() == TEAM_SPEC) then return end
@@ -214,7 +215,7 @@ end)
 local bandw = Material("pp/texturize/plain.png")
 
 hook.Add("RenderScreenspaceEffects", "RandomRoundOldTimey", function()
-    if (cur_random_round ~= "Old Timey") then return end
+    if (GetGlobalString("cur_random_round", "") ~= "Old Timey") then return end
     
     local pl = LocalPlayer()
     if (pl:Team() == TEAM_SPEC) then return end

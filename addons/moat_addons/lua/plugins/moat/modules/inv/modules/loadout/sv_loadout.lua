@@ -43,6 +43,11 @@ local item_kind_codes = {
 function MOAT_LOADOUT.ResetPowerupAbilities(ply)
     if (not IsValid(ply)) then return end
     
+	ply:SetNW2Float("Marathon Runner", 1)
+	ply:SetNW2Float("Frozen Speed", 0)
+	ply:SetNW2Float("Speed Talent", 1)
+	ply:SetNW2Float("Speed Modifier", 1)
+
     ply:SetJumpPower(160)
     ply.JumpHeight = 160
 	local max = 100

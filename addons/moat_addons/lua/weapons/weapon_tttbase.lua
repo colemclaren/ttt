@@ -125,6 +125,7 @@ SWEP.ActiveDelay = 0
 SWEP.SoundQueue = {Count = 0}
 SWEP.PopSoundQueue = {Count = 0}
 SWEP.SoundActive = false
+SWEP.weight_mod = 1
 
 SWEP.fingerprints = {}
 

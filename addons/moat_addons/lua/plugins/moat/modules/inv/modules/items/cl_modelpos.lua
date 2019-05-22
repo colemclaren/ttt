@@ -253,7 +253,7 @@ function _G:GetMirrorWorld()
     local server = 0
     local client=cvar:GetInt();
 
-    return (server > 0 and server <= 2) or (server == 0 and client > 0 and client <= 2) or (wacky_round[cur_random_round] == true);
+    return (server > 0 and server <= 2) or (server == 0 and client > 0 and client <= 2) or (wacky_round[GetGlobalString("cur_random_round", "")] == true);
 end
 function _G:GetMirrorWorld_HUD()
     local server = 0

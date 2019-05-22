@@ -350,10 +350,8 @@ function GM:CalcView(ply, origin, angles, fov)
             end
         end
 
-        if (cur_random_round) then
-            if cur_random_round == "High FOV" then
-                sights = true
-            end
+        if (GetGlobalString("cur_random_round", "") == "High FOV") then
+			sights = true
         end
 
         local func = wep.CalcView
@@ -371,7 +369,7 @@ function GM:CalcView(ply, origin, angles, fov)
                 view.origin, view.angles, view.fov, view.drawviewer = o, a, f, d
             end
         end
-    elseif (not cur_random_round) or (cur_random_round and cur_random_round ~= "High FOV") then
+    elseif (GetGlobalString("cur_random_round", "") ~= "High FOV") then
         view.fov = lerp and Lerp(FrameTime() * 10, view.fov, math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35))) or math.min(175, 75 + (math.min(custom_fov:GetFloat(), 3) * 35))
 		changed = true
     end

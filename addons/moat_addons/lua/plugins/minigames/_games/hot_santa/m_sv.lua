@@ -147,10 +147,6 @@ function MG_HS.Win()
     end)
 end
 
-function MG_HS.PlayerSpeed(ply)
-    if ply == MG_HS.Current then return 1.5 end 
-end
-
 function MG_HS.Think()
     if not MG_HS.InProgress then return end
     if MG_HS.NextDie < CurTime() then
@@ -268,7 +264,6 @@ function MG_HS:PrepRound(mk, pri, sec, creds)
     MG_HS.HookAdd("PlayerDisconnected", MG_HS.PlayerDisconnected)
     MG_HS.HookAdd("StartCommand", MG_HS.StartCommand)
     MG_HS.HookAdd("TTTCanUseTraitorButton",function() return false end)
-    MG_HS.HookAdd("TTTPlayerSpeed",MG_HS.PlayerSpeed)
     MG_HS.SpawnPoints = {}
 
 

@@ -38,7 +38,8 @@ EFFECT.Material = "icon16/group_go.png"
 function EFFECT:Init(data)
 	local att = data.Player
 	att.speedforce = data.Speed
-	
+	att:SetNW2Float("Speed Talent", data.Speed)
+
 	self:CreateEndTimer(data.Time, data)
 end
 
@@ -47,4 +48,5 @@ function EFFECT:OnEnd(data)
 	
 	local att = data.Player
 	att.speedforce = 1
+	att:SetNW2Float("Speed Talent", 1)
 end
