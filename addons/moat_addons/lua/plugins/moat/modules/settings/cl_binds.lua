@@ -3,7 +3,7 @@ local TTT_RADIO = {}
 local GUI = {}
 local client, GetTranslation
 local OpenTab = false
-TTT_RADIO.Category = {"General", "Radio Chats", "Traitor Commands"}
+TTT_RADIO.Category = {"General", "Gameplay", "Radio Chats", "Traitor Commands"}
 
 TTT_RADIO.Commands = {
     ["General"] = {
@@ -22,6 +22,13 @@ TTT_RADIO.Commands = {
             label = "Access MGA Menu",
             tip = "This is the menu for available commands."
         }
+    },
+	["Gameplay"] = {
+        {
+            id = 14,
+            label = "Weapon Inspect",
+            tip = "View the stats of the weapon you're holding."
+        },
     },
     ["Radio Chats"] = {
         {
@@ -149,6 +156,12 @@ TTT_RADIO.Storage = {
             type = "mga_menu",
             cmd = "",
             key = KEY_NONE
+        },
+        {
+            id = 14,
+            type = "inspect",
+            cmd = "",
+            key = KEY_NONE
         }
     }
 }
@@ -157,7 +170,7 @@ hook.Add("TTTSettingsTabs", "moat.bindinterface.settings", function(dtabs)
     GUI:Draw(dtabs)
 
     if OpenTab then
-        dtabs:SwitchToName("Binds")
+        dtabs:SwitchToName("Custom Binds")
         OpenTab = false
     end
 end)
@@ -193,7 +206,7 @@ function GUI:Draw(dtabs)
         dsettings:AddItem(dgui)
     end
 
-    dtabs:AddSheet("Binds", dsettings, "icon16/brick.png", false, false, "Set keys to quick access game commands")
+    dtabs:AddSheet("Custom Binds", dsettings, "icon16/brick.png", false, false, "Set keys to quick access game commands")
 end
 
 function GUI:Row(id, label, tip)
