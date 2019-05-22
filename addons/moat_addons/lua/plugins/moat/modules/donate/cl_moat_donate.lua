@@ -44,7 +44,7 @@ MOAT_DONATE.Packages = {
 	{"Free Rewards", Material("icon16/star.png"), 0, 0, ""},
 	{"Permanent VIP", Material("icon16/user.png"), 2, 1500, "", {
 		{Color(255, 255, 0), "10,000", "Total Inventory Credits", ""},
-		{Color(255, 255, 0), "", "Earn 50% more IC when Deconstructing Items", ""},
+		{Color(255, 255, 0), "", "Earn 50% more IC when Deconstructing Items	", ""},
 		{Color(255, 255, 255), "VIP", "Rank In-Game & Forums", ""},
 		{Color(255, 255, 255), "", "Votekick Starting Access (Revokable)", ""},
 		{Color(255, 255, 255), "", "Access to closed beta(s)", ""},
@@ -93,9 +93,9 @@ MOAT_DONATE.Packages = {
 	}},
 	-- MAke sure you don't take event out of name cause it's used to check if its a map event
 	{"Event: Quadra XP", Material("icon16/star.png"), 9, 250, "", {
-		{Color(255, 125, 0), "", "Quadra XP Map Event!", ""},
-		{Color(255, 0, 125), "", "Until the next map, everyone earns quadra XP!", ""},
-		{Color(255, 255, 0), "", "(we recommend you buy this on the first round)", ""},
+		{Color(255, 125, 0), "", "Quadra XP Event!", ""},
+		{Color(255, 0, 125), "", "Event for 20 rounds, everyone earns quadra XP!", ""},
+		{Color(255, 255, 0), "", "(this is stackable)", ""},
 	}},
 }
 
@@ -162,12 +162,19 @@ end)
 
 MG_cur_event = false
 net.Receive("MapEvent",function()
-	MG_cur_event = net.ReadString()
+	local event = net.ReadString()
 	local name = net.ReadString()
-	if name:len() > 1 then
-		chat.AddText(Material("icon16/star.png"), Color(255,255,255),name," started a map event: ",Color(255,255,0),MG_cur_event,Color(255,255,255),"! It will be active until the next map.")
+
+	if (event and string.len(event) > 1) then
+		MG_cur_event = event
 	else
-		chat.AddText(Material("icon16/star.png"), Color(255,255,255),"Map event now active: ",Color(255,255,0),MG_cur_event,Color(255,255,255),"! It will be active until the next map.")
+		MG_cur_event = false
+	end
+
+	if name:len() > 1 then
+		chat.AddText(Material("icon16/star.png"), Color(255,255,255),name," started an event: ",Color(255,255,0),MG_cur_event,Color(255,255,255),"!")
+	else
+		chat.AddText(Material("icon16/star.png"), Color(255,255,255),"Map event active: ",Color(255,255,0),MG_cur_event,Color(255,255,255),"!")
 	end
 end)
 

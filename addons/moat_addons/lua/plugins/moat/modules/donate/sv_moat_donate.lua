@@ -114,6 +114,8 @@ MOAT_DONATE.Packages = {
 	[9] = {250,function(ply)
 		if MG_cur_event then return end
 		MG_cur_event = "Quadra XP"
+		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left + 20"
+
 		net.Start("MapEvent")
 		net.WriteString(MG_cur_event)
 		net.WriteString(ply:Nick())
@@ -146,9 +148,35 @@ MOAT_DONATE.Packages = {
 	end}
 }
 
+if (not sql.TableExists("mg_quad_xp"))then
+	sql.Query([[CREATE TABLE mg_quad_xp (rounds_left BIGINT UNSIGNED)]])
+	sql.Query "INSERT INTO mg_quad_xp(rounds_left) VALUES(0);"
+end
+
+hook.Add("Initialize", "MapEvent", function()
+	local rounds = sql.QueryValue "SELECT rounds_left FROM mg_quad_xp WHERE 1"
+	if (tonumber(rounds) > 0) then
+		MG_cur_event = "Quadra XP"
+	end
+end)
+
+hook.Add("TTTEndRound", "QuadXP", function()
+	if (MG_cur_event and MG_cur_event == "Quadra XP") then
+		local rounds = sql.QueryValue "SELECT rounds_left FROM mg_quad_xp WHERE 1"
+
+		if (rounds - 1 <= 0) then
+			MG_cur_event = nil
+		end
+
+		print(rounds, "Quad XP Left")
+
+		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left - 1"
+	end
+end)
+
 util.AddNetworkString("MapEvent")
 hook.Add("PlayerInitialSpawn","MapEventNetworking",function(ply)
-	if MG_cur_event then
+	if (MG_cur_event) then
 		net.Start("MapEvent")
 		net.WriteString(MG_cur_event)
 		net.WriteString("")
