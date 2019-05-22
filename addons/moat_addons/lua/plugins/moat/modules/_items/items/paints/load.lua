@@ -267,7 +267,7 @@ MOAT_PAINT.Skins = MOAT_PAINT.Skins or {
 	[6234] = skin('https://cdn.moat.gg/f/K9XA31y3t7eF4Ye68jMRKUiMR1YJtQgV.png', 'Splat', 4),
 	[6235] = skin('https://cdn.moat.gg/f/yLaZH9LQS2OSQ8MsxpEdcD678MSjT8UC.png', 'Starry', 6),
 	[6236] = skin('https://cdn.moat.gg/f/oeNtwVoFuh6ydkMgv5n6uKuTd4abtZcA.png', 'Stem', 6),
-	[6237] = skin('https://cdn.moat.gg/f/mRw0bBJfCsGsXljbOLJqTvC1FoVQcTN2.png', 'Yellow Flower', 4),
+	[6237] = skin('https://cdn.moat.gg/f/mRw0bBJfCsGsXljbOLJqTvC1FoVQcTN2.png', 'Sunflower', 4),
 	[6238] = skin('https://cdn.moat.gg/f/JL8lkGvGcPCvcG02wM26Die35DomTtGU.png', 'Sunset', 6),
 	[6239] = skin('https://cdn.moat.gg/f/ApY9xBC3V7CSMGGkjiM7SfFu5FeLgNCT.png', 'Swirls', 6),
 	[6240] = skin('https://cdn.moat.gg/f/Udbjd6GmqFoMgngQB8evOeMcOTGhRegb.png', 'Techno', 6),
@@ -276,7 +276,7 @@ MOAT_PAINT.Skins = MOAT_PAINT.Skins or {
 	[6243] = skin('https://cdn.moat.gg/f/BoThiOs1q6IMyFwaOiiCNIr2jZncn4Xf.png', 'Void', 6),
 	[6244] = skin('https://cdn.moat.gg/f/19H84NmrvDTlFaMAuIuLOZT3t3eF0hBw.png', 'Watery Night', 5),
 	[6245] = skin('https://cdn.moat.gg/f/719wnSs1jkGtbFwP2ihsEBExtRKX8UQZ.png', 'Yellow Bricks', 3),
-	[6246] = skin('https://cdn.moat.gg/f/FCgHthjSdL5WkvlIB6BOquRvI5a3xYMt.png', 'Sunflower', 3),
+	[6246] = skin('https://cdn.moat.gg/f/FCgHthjSdL5WkvlIB6BOquRvI5a3xYMt.png', 'Yellow Flower', 3),
 	-- https://cdn.moat.gg/f/8e376.png
 	--[6120] = {'Puppy Skin', 'https://cdn.moat.gg/f/dbd23.png', 8}, --'https://cdn.moat.gg/f/91548.png', 8},
 	--[6121] = {'Dev Team Stalker Skin', 'https://cdn.moat.gg/f/b8271.png', 8}
