@@ -527,7 +527,7 @@ function SWEP:CanSecondaryAttack()
    		return
 	end
 
-	if (self:IsBusy() or self:IsReloading()) then
+	if (self:IsBusy() or self:GetReloading()) then
 		return false
 	end
 
