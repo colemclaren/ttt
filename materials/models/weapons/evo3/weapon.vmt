@@ -1,0 +1,20 @@
+"VertexLitGeneric"
+{
+
+	"$color"				"[1 1 1]"
+	"$basetexture"			"models\weapons\evo3\scorpion"
+	"$bumpmap"				"models\weapons\evo3\scorpion_n"
+	"$phongexponenttexture"	"models\weapons\evo3\scorpion_s"
+
+	"$phong"  				"1"
+	"$phongexponent" 		"10"
+	"$phongboost" 			"1" // ".05"
+	"$phongfresnelranges" 	"[1 2 3]"
+	"$phongtint" 			"[0.25 0.25 0.25]" //"[0.2 0.2 0.2]"
+	"$phongalbedotint" 		"1"	
+
+	"$envmap" 					 	"env_cubemap"
+     "$halflambert" 			"1"
+	"$normalmapalphaenvmapmask" 	"1"
+	"$envmaptint"				 	"[0.01 0.01 0.01]"
+}

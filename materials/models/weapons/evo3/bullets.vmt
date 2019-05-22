@@ -1,0 +1,22 @@
+"VertexLitGeneric"
+{
+
+	"$color"				"[1 1 1]"
+	"$basetexture"			"models\weapons\evo3\bullet_dm"
+	"$bumpmap"				"models\weapons\evo3\bullet_n"
+	"$phongexponenttexture"	"models\weapons\evo3\bullet_s"
+
+	$normalmapalphaenvmapmask 		"1"
+
+	$phongtint						"[0.6 0.8 1]"
+
+	$envmap 						env_cubemap
+	$envmaptint 					"[.085 .085 .085  ]"
+
+	$phong 							"1"
+	$PhongAlbedoTint 				"1"	
+	
+	$phongboost 					"1"
+	$phongfresnelranges				"[0.5 1 3]"
+
+}
