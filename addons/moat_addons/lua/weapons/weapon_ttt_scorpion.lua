@@ -7,7 +7,7 @@ SWEP.PrintName = "Scorpion EVO"
 if CLIENT then
    SWEP.Slot = 2
 
-   SWEP.Icon = "vgui/ttt/icon_mac"
+   SWEP.Icon = "vgui/entities/cw_scorpin_evo3"
    SWEP.IconLetter = "l"
 end
 
@@ -18,7 +18,7 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_MAC10
 SWEP.ENUM = 7
 
-SWEP.Primary.Damage      = 16
+SWEP.Primary.Damage      = 14
 SWEP.Primary.Delay       = 0.065
 SWEP.Primary.Cone        = 0.015
 SWEP.Primary.ClipSize    = 30
@@ -29,7 +29,7 @@ SWEP.Primary.Ammo        = "smg1"
 SWEP.Primary.Recoil      = 1.15
 SWEP.Primary.Sound       = Sound( "CW_EVO3_FIRE" )
 
-SWEP.AutoSpawnable = false
+SWEP.AutoSpawnable = true
 
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 
