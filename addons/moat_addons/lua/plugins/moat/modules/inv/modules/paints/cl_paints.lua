@@ -146,8 +146,8 @@ hook.Add("HUDPaint", "Inspect.Paint", function()
 		p = p:ToScreen()
 		p.y = p.y - ph
 
-		--p.x = math.Clamp(p.x, 0, ScrW())
-		--p.y = math.Clamp(p.y, 0, ScrH() - ph)
+		p.x = math.Clamp(p.x, 0, ScrW())
+		p.y = math.Clamp(p.y, 0, ScrH() - ph)
 
 		if (not MOAT_ITEM_STATS.Inspect) then
 			MOAT_ITEM_STATS.Inspect = {p.x, p.y, p.x, p.y, 1, 1}
@@ -160,11 +160,13 @@ hook.Add("HUDPaint", "Inspect.Paint", function()
 			MOAT_ITEM_STATS.Inspect[1] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[1], p.x)
 			MOAT_ITEM_STATS.Inspect[2] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[2], p.y)
 
-			MOAT_ITEM_STATS.Inspect[3] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[3], 100)
-			MOAT_ITEM_STATS.Inspect[4] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[4], 100)
+			MOAT_ITEM_STATS.Inspect[3] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[3], p.x - pw)
+			MOAT_ITEM_STATS.Inspect[4] = Lerp(FrameTime() * 5, MOAT_ITEM_STATS.Inspect[4], p.y)
 		end
 
-		local sx, sy = MOAT_ITEM_STATS.Inspect[3] + (math.Clamp(1 - MOAT_ITEM_STATS.Inspect[5], -1, 1) * 50), MOAT_ITEM_STATS.Inspect[4] + (math.Clamp(1 - MOAT_ITEM_STATS.Inspect[6], -1, 1) * 50)
+		local sx, sy = MOAT_ITEM_STATS.Inspect[3] - (math.Clamp(1 - MOAT_ITEM_STATS.Inspect[5], -1, 1) * 50), MOAT_ITEM_STATS.Inspect[4] - (math.Clamp(1 - MOAT_ITEM_STATS.Inspect[6], -1, 1) * 50)	
+		local sx, sy = sx, p.y
+
 		MOAT_ITEM_STATS:SetPos(sx, sy)
 		--print(MOAT_ITEM_STATS.Inspect[1], MOAT_ITEM_STATS.Inspect[2], MOAT_ITEM_STATS.Inspect[3], MOAT_ITEM_STATS.Inspect[4], MOAT_ITEM_STATS.Inspect[5], MOAT_ITEM_STATS.Inspect[6], sx, sy)
 
