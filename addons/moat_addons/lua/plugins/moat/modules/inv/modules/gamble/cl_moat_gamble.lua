@@ -4416,6 +4416,9 @@ net.Receive("gversus.FinishGame",function()
 					othernick,
 					win == ply
 				})
+				if IsValid(versus_players[ply].roll) then
+					gversus_players[ply].roll:Remove()
+				end
 				gversus_players[ply] = nil
 
 				versusRebuild()
