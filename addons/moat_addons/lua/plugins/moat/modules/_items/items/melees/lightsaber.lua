@@ -11,9 +11,11 @@ ITEM.Collection = "Spring Collection"
 
 ITEM.MinStats = 4
 
-ITEM.MaxStats = 4
+ITEM.MinStats = 5
 
 ITEM.Stats = {
+	
+	Weight = { min = -20, max = -35 },
 
 	Damage = { min = 10, max = 25 },
 
