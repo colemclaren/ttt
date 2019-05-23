@@ -5360,6 +5360,18 @@ function m_CreateItemMenu(num, ldt)
             end
         end
     end
+
+	if (itemtbl.item.Kind == "Melee" and itemtbl.s and itemtbl.s.p and not itemtbl.s.w and not ldt) then
+		M_INV_MENU:AddSpacer()
+
+        M_INV_MENU:AddOption("Use FREE Stat Re-Roll (Single Use)", function()
+			net.Start "OldMelee.Reset"
+				 net.WriteDouble(num)
+            	net.WriteDouble(itemtbl.c)
+            net.SendToServer()
+            surface.PlaySound("UI/buttonclick.wav")
+        end):SetIcon("icon16/arrow_refresh.png")
+     end
 end
 
 net.Receive("MOAT_REM_INV_ITEM", function(len)
