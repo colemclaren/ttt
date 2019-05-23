@@ -1,15 +1,25 @@
 ----
+-- This file DETOURS base Global Garry's Mod Functions
+-- Change the map 2 apply it
+----
+
+if (GetGlobal) then
+	return
+end
+
+----
 -- Add all of your global variable keys to the table below if you just want to forget about them :)
 -- Simply creates a proper net receiver for each global.
 ----
 
+-- Save players from unnecessary networking
 local DefaultGlobals = {
-	["ttt_highlight_admins"] = "Bool",
-	["ttt_round_end"] = "Float",
-	["ttt_haste_end"] = "Float",
+	["ttt_highlight_admins"] = {"Bool", true},
+	["ttt_detective"] = {"Bool", true},
+	["ttt_haste"] = {"Bool", true},
+	["ttt_round_end"] = {"Float", -1},
+	["ttt_haste_end"] = {"Float", -1},
 	["ttt_rounds_left"] = "Int",
-	["ttt_detective"] = "Bool",
-	["ttt_haste"] = "Bool",
 	["ttt_time_limit_minutes"] = "Int",
 	["ttt_locational_voice"] = "Bool",
 	["ttt_idle_limit"] = "Int",
@@ -25,17 +35,19 @@ local DefaultGlobals = {
 ----
 
 local ProperlyNetwork = {}
-for id, kind in pairs(DefaultGlobals) do
-	if (SERVER) then
-		util.AddNetworkString("SetGlobal" .. kind .. ":" .. id)
+for id, info in pairs(DefaultGlobals) do
+	local key, def = info
+
+	if (type(info) == "table") then
+		key, def = info[1], info[2]
 	end
 
-	if (not ProperlyNetwork[kind]) then
-		ProperlyNetwork[kind] = {Count = 0}
+	if (not ProperlyNetwork[key]) then
+		ProperlyNetwork[key] = {Count = 0}
 	end
 
-	ProperlyNetwork[kind].Count = ProperlyNetwork[kind].Count + 1
-	ProperlyNetwork[kind][ProperlyNetwork[kind].Count] = id
+	ProperlyNetwork[key].Count = ProperlyNetwork[key].Count + 1
+	ProperlyNetwork[key][ProperlyNetwork[key].Count] = {id, def}
 end
 
 ----
@@ -67,9 +79,9 @@ local Internal = {
 	Count = 0
 }
 
-local function RegisterGlobalClass(name, default, write, read, valid)
+local BitCount = 3 -- bitcount for # global classes (increase this if u add more)
+local function RegisterGlobalClass(name, default, write, read, set, valid)
 	Lookup.Count = Lookup.Count + 1
-
 	local data = {
 		ID = Lookup.Count,
 		Name = name,
@@ -77,11 +89,17 @@ local function RegisterGlobalClass(name, default, write, read, valid)
 	}
 
 	data.Default = default
-	data.Write = function(var) return write(var) end
 	data.Read = function() return read() end
-	data.Valid = type(valid) == "string" and function(var)
-		return type(var) == valid 
-	end or function(var) return valid[type(var)] end
+	data.Write = function(var) return write(var) end
+	data.Set = (type(set) == "function" and valid) and set or function(val) return val end
+
+	valid = valid or set
+
+	data.Valid = (type(valid) == "string") and function(val)
+		return (type(val) == valid)
+	end or (type(valid) == "table") and function(val)
+		return (valid[type(var)])
+	end or (type(valid) == "function") and valid or function() return true end
 
 	Globals[name] = data
 
@@ -96,16 +114,16 @@ RegisterGlobalClass("Angle", Angle(0, 0, 0), WriteAngle, ReadAngle, "Angle")
 RegisterGlobalClass("Bool", false, WriteBool, ReadBool, {["boolean"] = true, ["nil"] = true})
 
 -- SetGlobalEntity/GetGlobalEntity
-RegisterGlobalClass("Entity", NULL, function(var)
-	return WriteUInt(IsValid(var) and var:EntIndex() or 0, 12)
-end, function(var) return Entity(ReadUInt(12) or -1) end, {["Entity"] = true, ["Player"] = true})
+RegisterGlobalClass("Entity", NULL, function(val)
+	return WriteUInt(IsValid(val) and val:EntIndex() or 0, 12)
+end, function() return Entity(ReadUInt(12) or -1) end, {["Entity"] = true, ["Player"] = true})
 
 -- SetGlobalFloat/GetGlobalFloat
 RegisterGlobalClass("Float", 0, WriteFloat, ReadFloat, "number")
 
 -- SetGlobalInt/GetGlobalInt
-RegisterGlobalClass("Int",  0, function(var)
-	return WriteInt(var, 32) end, 
+RegisterGlobalClass("Int",  0, function(val)
+	return WriteInt(val, 32) end, 
 function() return ReadInt(32) end, "number")
 
 -- SetGlobalString/GetGlobalString
@@ -114,21 +132,29 @@ RegisterGlobalClass("String", "", WriteString, ReadString, "string")
 -- SetGlobalVector/GetGlobalVector
 RegisterGlobalClass("Vector", Vector(0, 0, 0), WriteVector, ReadVector, "Vector")
 
-
 ----
 -- Begin our detours
 ----
 
 if (SERVER) then
-	util.AddNetworkString "LoadGlobalVariables"
-	for kind, _ in pairs(Globals) do
-		util.AddNetworkString("SetGlobal" .. kind)
-	end
-
-	local function UpdateGlobalVariable(kind, key, val, int)
+	local function SetGlobalServerVariable(kind, key, val)
 		Internal[Globals[kind].Stored[key].Index].Value = val
 		Globals[kind].Stored[key].Value = val
 
+		Internal.Cache[key] = val
+
+		return val
+	end
+
+	local function CreateGlobalVariable(kind, key, val)
+		Internal.Count = Internal.Count + 1
+		Internal[Internal.Count] = {Value = val, Kind = kind, Key = key}
+		Globals[kind].Stored[key] = {Index = Internal.Count, Value = val}
+
+		return SetGlobalServerVariable(kind, key, val)
+	end
+
+	local function NetworkGlobalVariable(kind, key, val)
 		if (DefaultGlobals[key]) then
 			Start("SetGlobal" .. kind .. ":" .. key)
 				Globals[kind].Write(val)
@@ -140,61 +166,76 @@ if (SERVER) then
 			Broadcast()
 		end
 
-		Internal.Cache[key] = val
+		return val
 	end
 
-	local function CreateGlobalVariable(kind, key, val, int)
-		Internal.Count = Internal.Count + 1
-		Internal[Internal.Count] = {
-			Value = val,
-			Kind = kind,
-			Key = key
-		}
+	local function SetGlobalVariable(kind, key, val)
+		assert(Globals[kind].Valid(val), "Attempt to call SetGlobal" .. kind .. " with an non valid data type!")
 
-		Globals[kind].Stored[key] = {Index = Internal.Count}
+		val = Globals[kind].Set(val)
 
-		return UpdateGlobalVariable(kind, key, val, int)
-	end
-
-	local function SetGlobalVariable(kind, key, val, int)
-		assert(Globals[kind].Valid(val), "Attempt to call SetGlobal" .. kind .. " with an invalid data type!")
 		if (Globals[kind].Stored[key] == nil) then
-			return CreateGlobalVariable(kind, key, val, int)
+			CreateGlobalVariable(kind, key, val)
+
+			return NetworkGlobalVariable(kind, key, val)
 		end
 
 		if (Globals[kind].Stored[key].Value == val) then
-			return
+			return nil
 		end
 
-		return UpdateGlobalVariable(kind, key, val, int)
+		SetGlobalServerVariable(kind, key, val)
+
+		return NetworkGlobalVariable(kind, key, val)
 	end
 
 	function SetGlobalAngle(key, val)
-		SetGlobalVariable("Angle", key, val)
+		return SetGlobalVariable("Angle", key, val)
 	end
 
 	function SetGlobalBool(key, val)
-		SetGlobalVariable("Bool", key, val)
+		return SetGlobalVariable("Bool", key, val)
 	end
 
 	function SetGlobalEntity(key, val)
-		SetGlobalVariable("Entity", key, val)
+		return SetGlobalVariable("Entity", key, val)
 	end
 
 	function SetGlobalFloat(key, val)
-		SetGlobalVariable("Float", key, val)
+		return SetGlobalVariable("Float", key, val)
 	end
 
 	function SetGlobalInt(key, val)
-		SetGlobalVariable("Int", key, val)
+		return SetGlobalVariable("Int", key, val)
 	end
 
 	function SetGlobalString(key, val)
-		SetGlobalVariable("String", key, val)
+		return SetGlobalVariable("String", key, val)
 	end
 
 	function SetGlobalVector(key, val)
-		SetGlobalVariable("Vector", key, val)
+		return SetGlobalVariable("Vector", key, val)
+	end
+
+	util.AddNetworkString "LoadGlobalVariables"
+	for kind, info in pairs(Globals) do
+		util.AddNetworkString("SetGlobal" .. kind)
+
+		if (not ProperlyNetwork[kind]) then
+			continue
+		end
+		
+		for i = 1, ProperlyNetwork[kind].Count do
+			local key, def = ProperlyNetwork[kind][i][1], info.Default
+
+			if (ProperlyNetwork[kind][i][2] ~= nil) then
+				def = ProperlyNetwork[kind][i][2]
+			end
+
+			util.AddNetworkString("SetGlobal" .. kind .. ":" .. key)
+
+			CreateGlobalVariable(kind, key, def)
+		end
 	end
 
 	----
@@ -210,7 +251,8 @@ if (SERVER) then
 		if (not data[int]) then return end
 		if (not args.check(data[int], int)) then 
 			int = int + 1 
-			return SendGlobalVariables(int, data, args) 
+
+			return SendGlobalVariables(int, data, args)
 		end
 
 		args.start(int, data[int])
@@ -231,21 +273,28 @@ if (SERVER) then
 		args.send(int, BytesWritten() >= BytesLimit)
 	end
 
+	local Security = {}
 	net.Receive("LoadGlobalVariables", function(_, pl)
-		if (pl.HasGlobalVariables) then return end
-		pl.HasGlobalVariables = true
+		if (Security[pl]) then return end
+		Security[pl] = true
 
 		SendGlobalVariables(1, Internal, {
 			start = function(int)
 				Start "LoadGlobalVariables"
 			end,
 			write = function(var)
-				WriteUInt(Globals[var.Kind].ID, 3)
+				WriteUInt(Globals[var.Kind].ID, BitCount)
 				WriteString(var.Key)
 				Globals[var.Kind].Write(var.Value)
 			end,
 			send = function() net.Send(pl) end,
-			check = function(var) return type(var.Value) ~= "nil" end
+			check = function(var)
+				if (not Globals[var.Kind].Valid(var.Value)) then
+					return false
+				end
+
+				return (DefaultGlobals[var.Key] == nil) or (Globals[var.Kind].Default ~= var.Value)
+			end
 		})
 	end)
 else
@@ -263,7 +312,7 @@ else
 
 		net.Receive(NetworkID, function()
 			local key = ReadString()
-
+			print(kind, key)
 			SetGlobalVariable(kind, key, info.Read())
 		end)
 
@@ -272,19 +321,21 @@ else
 		end
 		
 		for i = 1, ProperlyNetwork[kind].Count do
-			local Key = ProperlyNetwork[kind][i]
+			local Key = ProperlyNetwork[kind][i][1]
 
 			net.Receive(NetworkID .. ":" .. Key, function()
-				SetGlobalVariable(kind,  ProperlyNetwork[kind][i], info.Read())
+				print(kind, Key)
+				SetGlobalVariable(kind,  Key, info.Read())
 			end)
 
 			Internal.Cache[Key] = info.Default
 		end
 	end
 
+	
 	net.Receive("LoadGlobalVariables", function()
 		while (ReadBool()) do
-			local kind = Lookup[ReadUInt(3)]
+			local kind = Lookup[ReadUInt(BitCount)]
 			local key = ReadString()
 			local val = Globals[kind].Read()
 
@@ -297,14 +348,6 @@ else
 	end)
 end
 
-----
--- Added a GetGlobal function for faster lookups.
--- ** Cache for DefaultGlobals starts with type default (like normal GetGlobal behavior)
-----
-
-function GetGlobal(key)
-	return Internal.Cache[key]
-end
 
 ----
 -- GetGlobal detours
@@ -349,4 +392,13 @@ end
 
 function GetGlobalVector(key, default)
 	return GetGlobalVariable("Vector", key, default)
+end
+
+----
+-- New GetGlobal function for faster lookups / expensive checking (draw hooks, etc)
+-- ** Cache for DefaultGlobals starts with type default (like normal GetGlobal behavior)
+----
+
+function GetGlobal(key)
+	return Internal.Cache[key]
 end

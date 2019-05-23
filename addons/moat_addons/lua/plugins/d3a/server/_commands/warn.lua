@@ -1,5 +1,5 @@
 COMMAND.Name = "Warn"
-COMMAND.Flag = "*"
+COMMAND.Flag = "t"
 COMMAND.AdminMode = true
 COMMAND.CheckRankWeight = true
 COMMAND.Args = {{"string", "Name/SteamID"}, {"string", "Reason"}}
@@ -26,13 +26,18 @@ COMMAND.Run = function(pl, args, supplement)
 	end
 
 	if (((pl and pl.rcon) or IsValid(pl)) and (pl:SteamID() == targstid) and !pl:HasAccess("*")) then
-		D3A.Chat.SendToPlayer2(pl, moat_red, "You can't ban yourself.")
+		D3A.Chat.SendToPlayer2(pl, moat_red, "You can't warn yourself.")
 		return false
 	end
+
 	targstid = util.SteamIDTo64(targstid)
 
 	local reason = table.concat(args, " ", 2)
 	D3A.NewWarning(targstid, plstid, targpl and targpl:Name() or "John Doe", plname, reason, function()
 		D3A.Chat.Broadcast2(pl, moat_cyan, ((targpl and targpl:Name()) or targstid), moat_white, " was warned by ", moat_cyan, plname, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
+
+		if (IsValid(targpl)) then
+			D3A.WarnPlayer(targpl)
+		end
 	end)
 end

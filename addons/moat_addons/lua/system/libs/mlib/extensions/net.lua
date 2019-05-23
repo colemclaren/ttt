@@ -135,11 +135,13 @@ end
 -- Networking Helpers --
 ------------------------
 
-local TickInterval = engine.TickInterval() * 10
-local MaxBytes = 30000 * TickInterval * 0.8
+local TickInterval = engine.TickInterval()
+local MaxBytes = 30000 * TickInterval
 local Simple = timer.Simple
-local NextTick = function(func) return Simple(0, func) end
-local IntervalFull = function() return BytesWritten() >= MaxBytes end
+local IntervalFull = function()
+	return BytesWritten() >= MaxBytes
+end
+
 NetIterate = function(int, data, args)
 	int = int or 1
 
@@ -168,7 +170,7 @@ NetIterate = function(int, data, args)
 			int = int + 1
 
 			if (IntervalFull()) then
-				NextTick(function()
+				Simple(0, function()
 					NetIterate(int, data, args)
 				end)
 
@@ -195,7 +197,7 @@ function net.WriteArray(data, start_func, write_func, send_func, finished_func, 
 	})
 end
 
-function net.ReadArray(func, int)
+function net.ReadArray(int, func)
 	int = int or 1
 
 	while (net.ReadBool()) do
