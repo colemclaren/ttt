@@ -331,7 +331,7 @@ else
 
 		net.Receive(NetworkID, function()
 			local key = ReadString()
-			print(kind, key)
+
 			SetGlobalVariable(kind, key, info.Read())
 		end)
 
@@ -343,7 +343,7 @@ else
 			local Key = ProperlyNetwork[kind][i][1]
 
 			net.Receive(NetworkID .. ":" .. Key, function()
-				print(kind, Key)
+
 				SetGlobalVariable(kind,  Key, info.Read())
 			end)
 
