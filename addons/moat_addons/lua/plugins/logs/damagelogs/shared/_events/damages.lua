@@ -25,7 +25,7 @@ function event:Initialize()
 end
 
 function event:PlayerTakeRealDamage(ent, dmginfo, original_dmg)
-	if (MOAT_MINIGAME_OCCURING) then return end
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 	
 	local att = dmginfo:GetAttacker()
 	if not (ent.IsGhost and ent:IsGhost()) and ent:IsPlayer() and (IsValid(att) and att:IsPlayer()) and ent != att then

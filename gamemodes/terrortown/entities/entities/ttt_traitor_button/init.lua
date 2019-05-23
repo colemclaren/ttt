@@ -73,7 +73,7 @@ end
 function ENT:TraitorUse(ply)
     if not (IsValid(ply) and ply:IsActiveTraitor()) then return false end
     if not self:IsUsable() then return false end
-    if MOAT_MINIGAME_OCCURING then return end
+    if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
     if self:GetPos():Distance(ply:GetPos()) > self:GetUsableRange() then return false end
     net.Start("TTT_ConfirmUseTButton")
     net.Send(ply)

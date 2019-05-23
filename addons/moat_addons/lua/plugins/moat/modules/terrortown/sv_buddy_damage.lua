@@ -8,7 +8,7 @@ local DamageToBlock = {
 }
 
 hook("EntityTakeDamage", function(pl, dmg)
-	if (MOAT_MINIGAME_OCCURING or GetRoundState() ~= ROUND_ACTIVE) then
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE") or GetRoundState() ~= ROUND_ACTIVE) then
 		return
 	end
 

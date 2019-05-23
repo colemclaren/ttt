@@ -62,7 +62,6 @@ local stats_spawn_old = false
 net.Receive("lava_Begin",function()
 	LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img) LavaTexture = img end, "noclamp")
 
-    MOAT_MINIGAME_OCCURING = "The Floor is Lava"
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_LAVA = {
         goal = 100,
@@ -185,7 +184,6 @@ net.Receive("LAVA_End",function()
     hook.Remove("PlayerShouldTakeDamage", "TFIL")
 
     local players = net.ReadTable()
-    MOAT_MINIGAME_OCCURING = false
     cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
     MOAT_LAVA = nil
     kills = {}

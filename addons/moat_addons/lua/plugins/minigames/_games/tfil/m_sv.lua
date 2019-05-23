@@ -81,7 +81,7 @@ function MG_LAVA:DoEnding(force)
     MG_LAVA.HandleDamageLogStuff(true)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "MG_LAVA_DELAYWIN")
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     MG_LAVA.InProgress = false
 end
 
@@ -453,7 +453,7 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
         MG_LAVA.StripWeapons(v)
     end
 
-	MOAT_MINIGAME_OCCURING = "The Floor is Lava"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "The Floor is Lava")
 end
 
 

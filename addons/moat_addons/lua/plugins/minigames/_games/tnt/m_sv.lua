@@ -43,7 +43,7 @@ function MG_TNT:DoEnding(force)
     MG_TNT.HandleDamageLogStuff(true)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "MG_TNT_DELAYWIN")
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     MG_TNT.InProgress = false
 end
 
@@ -372,7 +372,7 @@ function MG_TNT.PrepRound(mk, pri, sec, creds)
         v.KilledByMe = false
     end
 
-	MOAT_MINIGAME_OCCURING = "TNT Tag"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "TNT Tag")
 end
 
 function MG_TNT.RandomPlayer()

@@ -37,7 +37,7 @@ local function moat_EndRoundBossHooks()
     MOAT_ROUND_OVER = false
     MOAT_APACHE_INITIALIZED = false
     MOAT_BOSS_HP_MULTIPLIER = 1000
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "moat_BossDelayWin")
 end
@@ -428,7 +428,7 @@ concommand.Add("moat_start_dragon", function(ply, cmd, args)
     MOAT_BOSS_CUR_PLY = chosen
     MOAT_BOSS_DMG = {}
     MOAT_ROUND_OVER = false
-    MOAT_MINIGAME_OCCURING = "Dragon Boss"
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Dragon Boss")
     for k, v in pairs(player.GetAll()) do
         v.BossDamage = 0
     end

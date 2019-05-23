@@ -445,7 +445,7 @@ end
 
 -- See if we should award credits now
 local function CheckCreditAward(victim, attacker)
-    if (GetRoundState() ~= ROUND_ACTIVE or MOAT_MINIGAME_OCCURING) then return end
+    if (GetRoundState() ~= ROUND_ACTIVE or GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 	if (not IsValid(victim) or not IsValid(attacker)) then return end
 	if (not victim:IsPlayer() or not attacker:IsPlayer()) then return end
 
@@ -581,7 +581,7 @@ function GM:DoPlayerDeath(ply, attacker, dmginfo)
     CheckCreditAward(ply, attacker)
 
     -- Check for T killing D or vice versa
-    if (IsValid(attacker) and attacker:IsPlayer() and not MOAT_MINIGAME_OCCURING) then
+    if (IsValid(attacker) and attacker:IsPlayer() and not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
         local reward = 0
 
         if (attacker:IsActiveTraitor() and ply:GetDetective()) then

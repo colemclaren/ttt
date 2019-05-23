@@ -3,7 +3,7 @@
 local kills = {}
 
 net.Receive("HS_Begin",function()
-    MOAT_MINIGAME_OCCURING = "Hot Santa"
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Hot Santa")
     MOAT_HS = {
         nextdie = CurTime() + 20
     }
@@ -61,7 +61,7 @@ net.Receive("HS_End",function()
     end
     local players = net.ReadTable()
     local red = net.ReadBool()
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
     MOAT_HS = nil
     kills = {}

@@ -212,7 +212,7 @@ function MG_GG.DoEnding()
         MG_GG.ResetVars()
         MG_GG.HandleDamageLogStuff(true)
 
-        MOAT_MINIGAME_OCCURING = false
+        SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
 
         RunConsoleCommand("ttt_roundrestart")
         -- Can do this like the others or the round will actually end
@@ -490,7 +490,7 @@ function MG_GG.PrepRound()
         MG_GG.StripWeapons(v)
     end
 
-	MOAT_MINIGAME_OCCURING = "Gun Game"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Gun Game")
 
     net.Start "MG_GG_PREP"
     net.Broadcast()

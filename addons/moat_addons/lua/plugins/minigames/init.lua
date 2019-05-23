@@ -1,6 +1,6 @@
 MOAT_MINIGAMES = MOAT_MINIGAMES or {}
 MOAT_MINIGAMES.Minigames = {}
-MOAT_MINIGAME_OCCURING = false
+
 MOAT_MINIGAMES.Print = function(s)
 	MsgC(Color(0, 0, 0), "[", Color(255, 0, 0), "Moat Minigames", Color(0, 0, 0), "]", Color(0, 255, 255), s, "\n" )
 end

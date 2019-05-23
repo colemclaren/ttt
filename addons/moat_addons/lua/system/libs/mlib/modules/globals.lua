@@ -14,6 +14,8 @@ end
 
 -- Save players from unnecessary networking
 local DefaultGlobals = {
+	["MOAT_MINIGAME_ACTIVE"] = "Str",
+	
 	["ttt_highlight_admins"] = {"Bool", true},
 	["ttt_detective"] = {"Bool", true},
 	["ttt_haste"] = {"Bool", true},
@@ -27,7 +29,7 @@ local DefaultGlobals = {
 	["ttt_voice_drain_normal"] = "Float",
 	["ttt_voice_drain_admin"] = "Float",
 	["ttt_voice_drain_recharge"] = "Float",
-	["ttt_karma"] = "Bool"
+	["ttt_karma"] = "Bool",
 }
 
 ----
@@ -79,7 +81,7 @@ local Internal = {
 	Count = 0
 }
 
-local BitCount = 3 -- bitcount for # global classes (increase this if u add more)
+local BitCount = 4 -- bitcount for # global classes (increase this if u add more)
 local function RegisterGlobalClass(name, default, write, read, set, valid)
 	Lookup.Count = Lookup.Count + 1
 	local data = {
@@ -98,7 +100,7 @@ local function RegisterGlobalClass(name, default, write, read, set, valid)
 	data.Valid = (type(valid) == "string") and function(val)
 		return (type(val) == valid)
 	end or (type(valid) == "table") and function(val)
-		return (valid[type(var)])
+		return (valid[type(val)])
 	end or (type(valid) == "function") and valid or function() return true end
 
 	Globals[name] = data
@@ -131,6 +133,19 @@ RegisterGlobalClass("String", "", WriteString, ReadString, "string")
 
 -- SetGlobalVector/GetGlobalVector
 RegisterGlobalClass("Vector", Vector(0, 0, 0), WriteVector, ReadVector, "Vector")
+
+----
+-- New lazy Shorthand String function meant ONLY for global cache use (bottom of file)
+-- Perfect for expensive checks on string globals that won't persist
+----
+
+-- SetGlobalStr/GetGlobalStr
+RegisterGlobalClass("Str", false, function(val)
+	return WriteString(not val and "" or tostring(val))
+end, ReadString, function(val) 
+	return (val and tostring(val))
+end, {["boolean"] = true, ["string"] = true, ["nil"] = true})
+
 
 ----
 -- Begin our detours
@@ -215,6 +230,10 @@ if (SERVER) then
 
 	function SetGlobalVector(key, val)
 		return SetGlobalVariable("Vector", key, val)
+	end
+
+	function SetGlobalStr(key, val)
+		return SetGlobalVariable("Str", key, val)
 	end
 
 	util.AddNetworkString "LoadGlobalVariables"
@@ -392,6 +411,10 @@ end
 
 function GetGlobalVector(key, default)
 	return GetGlobalVariable("Vector", key, default)
+end
+
+function GetGlobalStr(key, default)
+	return GetGlobalVariable("Str", key, default)
 end
 
 ----

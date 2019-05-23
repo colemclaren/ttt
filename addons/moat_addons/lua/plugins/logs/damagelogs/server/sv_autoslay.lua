@@ -167,7 +167,7 @@ function Damagelog:SetSlays(admin, steamid, slays, reason, target)
 end
 
 hook.Add("TTTBeginRound", "Damagelog_AutoSlay", function()
-	if (MOAT_MINIGAME_OCCURING) then return end
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 	
 	for k,v in pairs(player.GetAll()) do
 		if v:IsActive() then

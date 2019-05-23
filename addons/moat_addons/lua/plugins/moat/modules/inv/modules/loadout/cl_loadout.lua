@@ -63,7 +63,7 @@ hook.Add("RenderScene", "EnsurePlayerVisibility", function()
 
 		local should_draw = EnableCosmetics:GetBool()
 			and not ply:GetNoDraw() and not ply:IsDormant()
-			and not MOAT_MINIGAME_OCCURING and ply:Team() ~= TEAM_SPEC
+			and not GetGlobal("MOAT_MINIGAME_ACTIVE") and ply:Team() ~= TEAM_SPEC
 			and (LP ~= ply and true or ply:ShouldDrawLocalPlayer())
 			and (obs ~= OBS_MODE_IN_EYE and true or LP:GetObserverTarget() ~= ply)
 

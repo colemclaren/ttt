@@ -44,7 +44,7 @@ function MG_FFAS:DoEnding(force)
     MG_FFAS.HandleDamageLogStuff(true)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "MG_FFAS_DELAYWIN")
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     MG_FFAS.InProgress = false
     timer.Remove("FFAS.SpawnPoints")
 end
@@ -315,7 +315,7 @@ end
 
 function MG_FFAS:PrepRound(mk, pri, sec, creds)
 	MG_FFAS.FFASOver = false
-	MOAT_MINIGAME_OCCURING = "FFA Santa"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "FFA Santa")
 	MG_FFAS.HandleDamageLogStuff(false)
 
     for k, v in pairs(player.GetAll()) do

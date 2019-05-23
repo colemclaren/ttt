@@ -50,7 +50,7 @@ function MG_PH:DoEnding(force)
     MG_PH.HandleDamageLogStuff(true)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "MG_PH_DELAYWIN")
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     MG_PH.InProgress = false
 end
 
@@ -439,7 +439,7 @@ function MG_PH.PrepRound(mk, pri, sec, creds)
         v.KilledByMe = false
     end
 
-	MOAT_MINIGAME_OCCURING = "Prop Hunt"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Prop Hunt")
 end
 
 

@@ -192,7 +192,7 @@ local function _contracts()
 		if (not ply:IsValid()) then return end
 		local tier = bounty_id
 		local id = ply:SteamID64()
-		if MOAT_MINIGAME_OCCURING then return end
+		if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 		if (not tier or not id) then return end
 		if (not ply.Bounties) then 
 			ply.Bounties = {
@@ -751,7 +751,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 
 	function contract_increase(ply,am)
 		if not contract_loaded then return end
-		if MOAT_MINIGAME_OCCURING then return end
+		if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 		if #player.GetAll() < 8 then return end
 		if (os.time() - contract_starttime) > 86400 then return end -- Contract already over, wait for next map 
 

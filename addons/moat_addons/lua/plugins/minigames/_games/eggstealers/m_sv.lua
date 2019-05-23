@@ -74,7 +74,7 @@ local function moat_EndRoundBossHooks(force)
     MOAT_ACTIVE_BOSS = false
     MOAT_BOSS_CUR = nil
     MOAT_ROUND_OVER = false
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "moat_BossDelayWin")
 end
@@ -509,7 +509,7 @@ function EASTER.StartEggStealer(chosen)
     MOAT_ACTIVE_BOSS = true
     MOAT_BOSS_CUR = chosen
     MOAT_ROUND_OVER = false
-    MOAT_MINIGAME_OCCURING = "Egg Stealers"
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Egg Stealers")
 
     moat_BeginRoundBossHooks()
 end

@@ -149,7 +149,7 @@ function m_ApplyXPToTable(ply, xp_add)
 end
 
 hook.Add("PlayerDeath", "moat_ApplyKillLevelXPStat", function(vic, inf, att)
-    if (att:IsValid() and att:IsPlayer() and att ~= vic and GetRoundState() == ROUND_ACTIVE and not MOAT_MINIGAME_OCCURING) then
+    if (att:IsValid() and att:IsPlayer() and att ~= vic and GetRoundState() == ROUND_ACTIVE and not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
         if (att:GetTraitor()) then
             if (vic:GetDetective()) then
                 m_ApplyXPToTable(att, TRAITOR_KILL_DETECTIVE)

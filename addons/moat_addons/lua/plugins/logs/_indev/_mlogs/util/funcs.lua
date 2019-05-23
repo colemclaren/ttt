@@ -89,11 +89,11 @@ function mlogs:GetStaff()
 end
 
 function mlogs.DontLog()
-	return (GetRoundState() ~= ROUND_ACTIVE or MOAT_MINIGAME_OCCURING)
+	return (GetRoundState() ~= ROUND_ACTIVE or GetGlobal("MOAT_MINIGAME_ACTIVE"))
 end
 
 function mlogs.DontSlay()
-	return (MOAT_MINIGAME_OCCURING)
+	return (GetGlobal("MOAT_MINIGAME_ACTIVE"))
 end
 
 function mlogs.GetRoles()

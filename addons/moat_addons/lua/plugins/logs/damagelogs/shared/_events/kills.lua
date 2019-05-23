@@ -11,7 +11,7 @@ local event = {}
 event.Type = "KILL"
 
 function event:DoPlayerDeath(ply, attacker, dmginfo)
-	if (MOAT_MINIGAME_OCCURING) then return end
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 	
 	if IsValid(attacker) and attacker:IsPlayer() and attacker != ply and not (attacker.IsGhost and attacker:IsGhost()) then
 		local scene = false

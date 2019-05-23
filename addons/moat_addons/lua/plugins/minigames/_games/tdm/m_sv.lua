@@ -183,7 +183,7 @@ function MG_TDM:DoEnding(force)
     MG_TDM.HandleDamageLogStuff(true)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "MG_TDM_DELAYWIN")
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     MG_TDM.InProgress = false
     timer.Remove("TDM.SpawnPoints")
 end
@@ -643,7 +643,7 @@ function MG_TDM:PrepRound(mk, pri, sec, creds)
         v.TDM_Cache = {}
     end
 
-	MOAT_MINIGAME_OCCURING = "Team Deathmatch"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Team Deathmatch")
 end
 
 function MG_TDM.DecideTeams(pls)

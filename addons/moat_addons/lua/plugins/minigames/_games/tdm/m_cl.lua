@@ -25,7 +25,6 @@ net.Receive("TDM_Begin",function()
     for k,v in pairs(player.GetAll()) do
         v.NoTarget = true
     end
-    MOAT_MINIGAME_OCCURING = "Team Deathmatch"
     local goal = net.ReadInt(8)
     MOAT_TDM = {
         WepCache = {},
@@ -87,7 +86,6 @@ net.Receive("TDM_End",function()
     end
     local players = net.ReadTable()
     local red = net.ReadBool()
-    MOAT_MINIGAME_OCCURING = false
     cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
 
     kills = {}

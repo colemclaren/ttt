@@ -200,7 +200,7 @@ function MG_OC.DoEnding()
         RunConsoleCommand("ttt_roundrestart")
         -- Can do this like the others or the round will actually end
         hook.Remove("TTTCheckForWin", "MG_OC_DELAYWIN")
-        MOAT_MINIGAME_OCCURING = false
+        SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     end)
 end
 
@@ -473,7 +473,7 @@ function MG_OC.PrepRound()
         v:StripAmmo()
     end
 
-	MOAT_MINIGAME_OCCURING = "One in the Chamber"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "One in the Chamber")
 
     net.Start "MG_OC_PREP"
     net.Broadcast()

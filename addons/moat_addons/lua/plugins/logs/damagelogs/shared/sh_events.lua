@@ -5,7 +5,7 @@ function Damagelog:AddEvent(event, f)
 	local id = #self.events + 1
 
 	function event.CallEvent(tbl, force_time, force_index)
-		if GetRoundState() != ROUND_ACTIVE or MOAT_MINIGAME_OCCURING then return end
+		if GetRoundState() != ROUND_ACTIVE or GetGlobal("MOAT_MINIGAME_ACTIVE") then return end
 		self:CheckDamageTable()
 		local time
 		if force_time then

@@ -26,7 +26,6 @@ net.Receive("TNT_Begin",function()
     for k,v in ipairs(player.GetAll()) do
         v.Skeleton = false
     end
-    MOAT_MINIGAME_OCCURING = "TNT Tag"
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_TNT = {
         goal = 100,
@@ -102,7 +101,6 @@ net.Receive("TNT_End",function()
     end
     MOAT_DISABLE_BUNNY_HOP = false
     local players = net.ReadTable()
-    MOAT_MINIGAME_OCCURING = false
     cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
     MOAT_TNT = nil
     kills = {}

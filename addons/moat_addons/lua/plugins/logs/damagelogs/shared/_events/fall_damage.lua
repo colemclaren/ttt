@@ -15,7 +15,7 @@ event.Type = "FD"
 function event:EntityTakeDamage(ent, dmginfo)
 	local att = dmginfo:GetAttacker()
 
-	if (MOAT_MINIGAME_OCCURING) then return end
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 	
 	if not (ent.IsGhost and ent:IsGhost()) and ent:IsPlayer() and att == game.GetWorld() and dmginfo:GetDamageType() == DMG_FALL then
 		local damages = dmginfo:GetDamage()

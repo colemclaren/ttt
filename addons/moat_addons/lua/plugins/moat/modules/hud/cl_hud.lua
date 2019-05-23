@@ -993,7 +993,7 @@ local function Moat_HUD_AddTHalos()
 		return
 	end
 
-	if (CurTime() > moat_DrawHalos and GetRoundState() == ROUND_ACTIVE and not MOAT_MINIGAME_OCCURING) then
+	if (CurTime() > moat_DrawHalos and GetRoundState() == ROUND_ACTIVE and not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
 		local players_for_halo, pc = {}, 0
 
 		for k, v in ipairs(player_GetAll()) do
@@ -1020,7 +1020,7 @@ local function Moat_HUD_AddTChams()
 		return
 	end
 	
-	if (GetRoundState() == ROUND_ACTIVE and not MOAT_MINIGAME_OCCURING) then
+	if (GetRoundState() == ROUND_ACTIVE and not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
 		cam.Start3D()
 			for k, v in pairs(player_GetAll()) do
 				if (not IsValid(v) or (v == LP) or (not v:IsActiveTraitor())) then

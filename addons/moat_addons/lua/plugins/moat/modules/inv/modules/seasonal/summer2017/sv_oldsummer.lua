@@ -148,7 +148,7 @@ util.AddNetworkString("moat.events.top")
 
 local function WasRightfulKill(att, vic)
 	if (GetRoundState() ~= ROUND_ACTIVE) then return false end
-	if (MOAT_MINIGAME_OCCURING) then return false end
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return false end
 	
 	local vicrole = vic:GetRole()
 	local attrole = att:GetRole()

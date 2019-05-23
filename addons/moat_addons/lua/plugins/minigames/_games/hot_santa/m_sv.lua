@@ -33,7 +33,7 @@ function MG_HS:DoEnding(force)
     MG_HS.HandleDamageLogStuff(true)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "MG_HS_DELAYWIN")
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     MG_HS.InProgress = false
 end
 
@@ -236,7 +236,7 @@ function MG_HS:PrepRound(mk, pri, sec, creds)
     net.Broadcast()
     MG_HS.Players = {}
     MG_HS.DeadPlayers = {}
-	MOAT_MINIGAME_OCCURING = "Hot Santa"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Hot Santa")
 	MG_HS.HandleDamageLogStuff(false)
     MG_HS.NextDie = CurTime() + 9000;
     for k, v in pairs(player.GetAll()) do

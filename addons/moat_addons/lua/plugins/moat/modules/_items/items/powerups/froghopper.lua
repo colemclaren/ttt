@@ -24,7 +24,7 @@ ITEM.Stats = {
 function ITEM:OnPlayerSpawn( ply, powerup_mods )
 
 	local new_jump_power = ply.JumpHeight * ( 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * powerup_mods[1] ) ) / 100 ) )
-	if MOAT_MINIGAME_OCCURING then return end
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 	ply:SetJumpPower( new_jump_power )
 
 end

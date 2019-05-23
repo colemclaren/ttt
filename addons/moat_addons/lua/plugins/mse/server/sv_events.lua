@@ -65,7 +65,7 @@ function MSE.Events.Start(pl, amt, cmd, args, cmd_name, ec)
 		return
 	end
 
-	if (MOAT_MINIGAME_OCCURING or MSE.Events.Active) then
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE") or MSE.Events.Active) then
 		net_Start "MSE.Notify"
 			net_WriteString(MSE.Config.Messages.Active)
 		net_Send(pl)
@@ -79,7 +79,7 @@ function MSE.Events.Start(pl, amt, cmd, args, cmd_name, ec)
 	RunConsoleCommand(cmd, unpack(args))
 
 	timer.Simple(15, function()
-		if (MOAT_MINIGAME_OCCURING) then
+		if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then
 			MSE.Events.Started(pl, amt, cmd, args, cmd_name, ec)
 			MSE.Player = nil
 			return
@@ -253,7 +253,7 @@ hook.Add("PlayerDataLoaded", "MSE.PlayerDataLoaded", MSE.SendEvents)
 hook.Add("PostPlayerDeath", "moat_fix_ragdolls", function(ply)
 	local rag_ent = ply.server_ragdoll or ply:GetRagdollEntity()
 
-	if (MOAT_MINIGAME_OCCURING and rag_ent and IsValid(rag_ent)) then
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE") and rag_ent and IsValid(rag_ent)) then
 		local pl = player.GetByUniqueID(rag_ent.uqid)
         if (not IsValid(pl)) then return end
         pl:SetCleanRound(false)

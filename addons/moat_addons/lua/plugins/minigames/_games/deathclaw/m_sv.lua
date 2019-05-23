@@ -36,7 +36,7 @@ local function moat_EndRoundBossHooks()
     MOAT_BOSS_DMG = {}
     MOAT_ROUND_OVER = false
     MOAT_BOSS_HP_MULTIPLIER = 650
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "moat_BossDelayWin")
 end
@@ -477,7 +477,7 @@ concommand.Add("moat_start_boss", function(ply, cmd, args)
     MOAT_BOSS_CUR = chosen
     MOAT_BOSS_DMG = {}
     MOAT_ROUND_OVER = false
-    MOAT_MINIGAME_OCCURING = "Deathclaw Boss"
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Deathclaw Boss")
     for k, v in pairs(player.GetAll()) do
         v.BossDamage = 0
     end

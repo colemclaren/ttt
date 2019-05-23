@@ -68,8 +68,6 @@ net.Receive("PH_Begin",function()
         v.NoTarget = true
     end
 
-    MOAT_MINIGAME_OCCURING = "Prop Hunt"
-
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_PH = {
         goal = 100,
@@ -217,7 +215,6 @@ net.Receive("PH_End",function()
     MOAT_DISABLE_BUNNY_HOP = false
     props_w = net.ReadBool()
     local players = net.ReadTable()
-    MOAT_MINIGAME_OCCURING = false
     cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
     MOAT_PH = nil
     kills = {}

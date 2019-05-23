@@ -160,7 +160,7 @@ function MG_CM.DoEnding(survivors_win)
 
         MG_CM.ResetVars()
         MG_CM.HandleDamageLogStuff(true)
-		MOAT_MINIGAME_OCCURING = false
+		SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
         RunConsoleCommand("ttt_roundrestart")
         -- Can do this like the others or the round will actually end
         hook.Remove("TTTCheckForWin", "MG_CM_DELAYWIN")
@@ -452,7 +452,7 @@ function MG_CM.PrepRound()
 
     tt.ExtendPrep()
 
-	MOAT_MINIGAME_OCCURING = "Explosive Chickens"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Explosive Chickens")
 
     net.Start "MG_CM_PREP"
     net.Broadcast()

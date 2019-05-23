@@ -90,7 +90,7 @@ hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
     local spawned = 0
 	timer.Create("moat_easter_egg_spawn_2019", EASTER.TimeBetweenChances, EASTER.ChancesPerRound, function()
 		if (player.GetCount() < 8) then return end
-        if (spawned > EASTER.MaxSpawnPerRound or GetRoundState() ~= ROUND_ACTIVE or MOAT_MINIGAME_OCCURING) then
+        if (spawned > EASTER.MaxSpawnPerRound or GetRoundState() ~= ROUND_ACTIVE or GetGlobal("MOAT_MINIGAME_ACTIVE")) then
             timer.Remove("moat_easter_egg_spawn_2019")
             return
         end

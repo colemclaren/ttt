@@ -172,7 +172,7 @@ function MG_CG.DoEnding(survivors_win)
 
         MG_CG.ResetVars()
         MG_CG.HandleDamageLogStuff(true)
-		MOAT_MINIGAME_OCCURING = false
+		SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
 		
         RunConsoleCommand("ttt_roundrestart")
         -- Can do this like the others or the round will actually end
@@ -486,7 +486,7 @@ function MG_CG.PrepRound()
 
     tt.ExtendPrep()
 
-	MOAT_MINIGAME_OCCURING = "Contagion"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Contagion")
 
     net.Start "MG_CG_PREP"
     net.Broadcast()

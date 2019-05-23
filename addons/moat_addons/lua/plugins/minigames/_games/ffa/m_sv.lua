@@ -47,7 +47,7 @@ function MG_FFA:DoEnding(force)
     MG_FFA.HandleDamageLogStuff(true)
     RunConsoleCommand("ttt_roundrestart")
     hook.Remove("TTTCheckForWin", "MG_FFA_DELAYWIN")
-    MOAT_MINIGAME_OCCURING = false
+    SetGlobalStr("MOAT_MINIGAME_ACTIVE", false)
     MG_FFA.InProgress = false
     timer.Remove("FFA.SpawnPoints")
 end
@@ -419,7 +419,7 @@ function MG_FFA.PrepRound(mk, pri, sec, creds)
         v.FFAKills = 0
     end
 
-	MOAT_MINIGAME_OCCURING = "Free For All"
+	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Free For All")
 end
 
 function MG_FFA.DecideTeams(pls)
