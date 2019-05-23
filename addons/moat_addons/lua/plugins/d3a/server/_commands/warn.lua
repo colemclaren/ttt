@@ -6,7 +6,8 @@ COMMAND.Args = {{"string", "Name/SteamID"}, {"string", "Reason"}}
 
 COMMAND.Run = function(pl, args, supplement)
 	local plname = D3A.Commands.Name(pl)
-	local plstid = (((pl and pl.rcon) or IsValid(pl)) and pl:SteamID64()) or "0"
+	local plstid64 = (((pl and pl.rcon) or IsValid(pl)) and pl:SteamID64()) or "0"
+	local plstid = (((pl and pl.rcon) or IsValid(pl)) and pl:SteamID()) or "0"
 	local targ = args[1]:upper()
 	local targpl = supplement[1] or D3A.FindPlayer(targ)
 	local targstid
@@ -33,11 +34,13 @@ COMMAND.Run = function(pl, args, supplement)
 	targstid = util.SteamIDTo64(targstid)
 
 	local reason = table.concat(args, " ", 2)
-	D3A.NewWarning(targstid, plstid, targpl and targpl:Name() or "John Doe", plname, reason, function()
+	D3A.NewWarning(targstid, plstid64, targpl and targpl:Name() or "John Doe", plname, reason, function()
 		D3A.Chat.Broadcast2(pl, moat_cyan, ((targpl and targpl:Name()) or targstid), moat_white, " was warned by ", moat_cyan, plname, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 
 		if (IsValid(targpl)) then
 			D3A.WarnPlayer(targpl)
 		end
+
+		D3A.Commands.Discord("warn", (IsValid(targpl) and targpl:NameID()) or targstid, plname .. " (" .. plstid .. ")", reason)
 	end)
 end

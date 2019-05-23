@@ -250,7 +250,8 @@ D3A.DiscordLogs = {
 	["ban"] = {"Player Banned", "``%s`` was banned by ``%s`` for **%s**. Reason: **%s**.", "🌩"},
 	["ban_update"] = {"Player Banned [Updated]", "``%s``'s ban was updated by ``%s`` to **%s**. Reason: **%s**.", "🌧", "ban"},
 	["voicebattery"] = {"Voice Battery", "``%s`` has **enabled** the voice battery.", "🤐"},
-	["novoicebattery"] = {"Voice Battery", "``%s`` has **disabled** the voice battery.", "🙂"}
+	["novoicebattery"] = {"Voice Battery", "``%s`` has **disabled** the voice battery.", "🙂"},
+	["warn"] = {"Player Warned", "``%s`` was warned by ``%s``. Reason: **%s**.", "⚠"}
 }
 
 function D3A.Commands.Discord(...)
