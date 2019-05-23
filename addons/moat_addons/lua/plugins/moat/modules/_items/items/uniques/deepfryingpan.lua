@@ -16,6 +16,7 @@ ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
 
 ITEM.Stats = {
+	Weight = { min = -30, max = 30 },
 	Damage = { min = -95, max = -95 },
 	Firerate = { min = 10, max = 30 },
 	Pushrate = { min = 5, max = 10 },
