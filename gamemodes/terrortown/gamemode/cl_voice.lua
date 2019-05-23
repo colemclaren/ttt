@@ -648,7 +648,7 @@ local function GetRechargeRate()
 end
 
 local function GetDrainRate()
-    if not GetGloba("ttt_voice_drain") then return 0 end
+    if not GetGlobal("ttt_voice_drain") then return 0 end
     if GetRoundState() ~= ROUND_ACTIVE then return 0 end
     local ply = LocalPlayer()
     if (not IsValid(ply)) or ply:IsSpec() then return 0 end
