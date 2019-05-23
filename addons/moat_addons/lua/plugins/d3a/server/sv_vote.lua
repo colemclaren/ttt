@@ -80,6 +80,7 @@ util.AddNetworkString("MGA.SendMaps")
 local sentmaps = {}
 net.Receive("MGA.SendMaps", function(_, pl)
 	if (sentmaps[pl]) then return end
+	sentmaps[pl] = true
 
 	local maps, count = MapVote.GetAvailableMaps()
 	net.Start("MGA.SendMaps")
@@ -88,6 +89,4 @@ net.Receive("MGA.SendMaps", function(_, pl)
 		net.WriteString(maps[i])
 	end
 	net.Send(pl)
-
-	sentmaps[pl] = true
 end)
