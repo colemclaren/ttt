@@ -11,7 +11,7 @@ ITEM.Rarity = 3
 
 ITEM.Collection = "Spring Collection"
 
-ITEM.MinStats = 4
+ITEM.MinStats = 5
 
 ITEM.MinStats = 5
 

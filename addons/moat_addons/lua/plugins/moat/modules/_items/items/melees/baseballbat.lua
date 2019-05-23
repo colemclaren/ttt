@@ -11,7 +11,7 @@ ITEM.Rarity = 2
 
 ITEM.Collection = "Melee Collection"
 
-ITEM.MinStats = 4
+ITEM.MinStats = 5
 
 ITEM.MinStats = 5
 

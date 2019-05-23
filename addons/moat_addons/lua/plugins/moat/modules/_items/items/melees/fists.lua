@@ -11,7 +11,7 @@ ITEM.Image = "https://cdn.moat.gg/f/9xmTmWMF2RUWL6iEdsqs88ROAsjw.png"
 
 ITEM.Collection = "Spring Collection"
 
-ITEM.MinStats = 4
+ITEM.MinStats = 5
 
 ITEM.MinStats = 5
 

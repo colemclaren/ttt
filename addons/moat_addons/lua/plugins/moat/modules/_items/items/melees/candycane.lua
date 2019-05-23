@@ -3,7 +3,7 @@ ITEM.Name = "A Candy Cane"
 ITEM.WeaponClass = "weapon_ttt_candycane"
 ITEM.Rarity = 5
 ITEM.Collection = "Holiday Collection"
-ITEM.MinStats = 4
+ITEM.MinStats = 5
 ITEM.MinStats = 5
 ITEM.Stats = {
 	Weight = { min = -15, max = -30 },
