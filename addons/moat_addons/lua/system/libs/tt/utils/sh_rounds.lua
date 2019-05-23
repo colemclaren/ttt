@@ -3,7 +3,7 @@ local ceil = math.ceil
 local max = math.max
 
 function tt.GetRoundEnd()
-	return ceil(GetGlobalFloat("ttt_round_end", 0))
+	return ceil(GetGlobal("ttt_round_end"))
 end
 
 function tt.TimeLeft()

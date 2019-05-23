@@ -116,7 +116,7 @@ function MG_GG.PrepPaint()
 
     draw.SimpleTextOutlined("GUNGAME ROUND", "moat_GunGameLarge", x, y - 70, Color(255, 255, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))
 
-	draw.SimpleTextOutlined(math.ceil(GetGlobalFloat("ttt_round_end", 0) - CurTime()), "moat_GunGameLarge", x, y - 20, Color(0, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))
+	draw.SimpleTextOutlined(math.ceil(GetGlobal("ttt_round_end") - CurTime()), "moat_GunGameLarge", x, y - 20, Color(0, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))
 
 	for i = 1, #MG_GG.Description do
 		draw.SimpleTextOutlined(MG_GG.Description[i], "moat_GunGameMedium", x, y + (i * 20), Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))

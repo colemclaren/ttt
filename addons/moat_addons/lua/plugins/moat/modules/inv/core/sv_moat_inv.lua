@@ -733,7 +733,7 @@ function m_ReEquipLoadout(ply, slot1, slot2)
     if (ply:IsSpec() or GetRoundState() ~= ROUND_PREP) then return end
 
     /* Disabled to see if it fixes something or allows a problem
-	if (GetGlobalFloat("ttt_round_end", 0) - CurTime() > 27) then
+	if (GetGlobal("ttt_round_end") - CurTime() > 27) then
         ply:SendLua([[chat.AddText(Material("icon16/exclamation.png"), Color( 255, 0, 0 ), "Re-Equipping too early! Please try again!" )]])
 
         return

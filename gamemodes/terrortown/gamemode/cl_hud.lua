@@ -190,7 +190,7 @@ local function SpecHUDPaint(client)
     local text = L[roundstate_string[GAMEMODE.round_state]]
     ShadowedText(text, "TraitorState", x + margin, round_y, COLOR_WHITE)
     -- Draw round/prep/post time remaining
-    local text = util.SimpleTime(math.max(0, GetGlobalFloat("ttt_round_end", 0) - CurTime()), "%02i:%02i")
+    local text = util.SimpleTime(math.max(0, GetGlobal("ttt_round_end") - CurTime()), "%02i:%02i")
     ShadowedText(text, "TimeLeft", time_x + margin, time_y, COLOR_WHITE)
     local tgt = client:GetObserverTarget()
 
@@ -252,7 +252,7 @@ local function InfoPaint(client)
     -- Draw round time
     local is_haste = HasteMode() and round_state == ROUND_ACTIVE
     local is_traitor = client:IsActiveTraitor()
-    local endtime = GetGlobalFloat("ttt_round_end", 0) - CurTime()
+    local endtime = GetGlobal("ttt_round_end") - CurTime()
     local text
     local font = "TimeLeft"
     local color = COLOR_WHITE
@@ -262,7 +262,7 @@ local function InfoPaint(client)
     -- Time displays differently depending on whether haste mode is on,
     -- whether the player is traitor or not, and whether it is overtime.
     if is_haste then
-        local hastetime = GetGlobalFloat("ttt_haste_end", 0) - CurTime()
+        local hastetime = GetGlobal("ttt_haste_end") - CurTime()
 
         if hastetime < 0 then
             if (not is_traitor) or (math.ceil(CurTime()) % 7 <= 2) then

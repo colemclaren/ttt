@@ -81,7 +81,7 @@ end
 
 function KARMA.IsEnabled()
 
-   return GetGlobalBool("ttt_karma", false)
+   return GetGlobal("ttt_karma")
 
 end
 

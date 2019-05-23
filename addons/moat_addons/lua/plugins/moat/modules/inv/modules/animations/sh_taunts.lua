@@ -12,7 +12,7 @@ if (SERVER) then
 	util.AddNetworkString "moat.reset.anims.taunts"
 
 	hook.Add("PlayerSpawn", "moat.reset.anims.taunts", function(pl)
-    	if (pl:IsSpec() or GetRoundState() ~= ROUND_PREP or (GetGlobalFloat("ttt_round_end", 0) - CurTime()) < 60) then return end
+    	if (pl:IsSpec() or GetRoundState() ~= ROUND_PREP or (GetGlobal("ttt_round_end") - CurTime()) < 60) then return end
 
 		pl:AnimResetGestureSlot(GESTURE_SLOT_GRENADE)
 		

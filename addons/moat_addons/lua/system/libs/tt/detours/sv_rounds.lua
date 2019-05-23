@@ -3,7 +3,7 @@ if (not _PrepareRound) then _PrepareRound = PrepareRound end
 
 function tt.RoundChecker()
     if (GetRoundState() == ROUND_ACTIVE) then
-        if (CurTime() > GetGlobalFloat("ttt_round_end", 0)) then
+        if (CurTime() > GetGlobal("ttt_round_end")) then
 			if (DidJesterDie) then
 				EndRound(DidJesterDie() and WIN_JESTER or WIN_TIMELIMIT)
 			else
@@ -17,8 +17,8 @@ function tt.RoundChecker()
             end
         end
     elseif (GetRoundState() == ROUND_PREP) then
-		 if (CurTime() >= (GetGlobalFloat("ttt_round_end", 0) - 1)) then
-			if (CurTime() >= GetGlobalFloat("ttt_round_end", 0)) then
+		 if (CurTime() >= (GetGlobal("ttt_round_end") - 1)) then
+			if (CurTime() >= GetGlobal("ttt_round_end")) then
 				tt.StopChecker()
 				BeginRound()
 				hook.Run("tt.BeginRound")

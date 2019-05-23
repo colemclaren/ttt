@@ -55,8 +55,8 @@ local max = math.max
 local floor = math.floor
 
 local function UntilMapChange()
-    local rounds_left = max(0, GetGlobalInt("ttt_rounds_left", 6))
-    local time_left = floor(max(0, ((GetGlobalInt("ttt_time_limit_minutes") or 60) * 60) - CurTime()))
+    local rounds_left = max(0, GetGlobal("ttt_rounds_left"))
+    local time_left = floor(max(0, ((GetGlobal("ttt_time_limit_minutes") or 60) * 60) - CurTime()))
     local h = floor(time_left / 3600)
     time_left = time_left - floor(h * 3600)
     local m = floor(time_left / 60)

@@ -557,7 +557,7 @@ net.Receive("roulette.bet",function(l,ply)
     -- 0 for green, 1 for red, 2 for black
     if num > 2 or num < 0 then return end
     local amount = net.ReadFloat()
-    if (GetGlobalInt("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
+    if (GetGlobal("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
     if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
     if (gamble_net_spam(ply, "roulette.bet")) then return end
 
@@ -684,7 +684,7 @@ end)
 net.Receive("crash.bet", function(l,ply)
     if crash_crashing then return end
     local amount = net.ReadFloat()
-    if (GetGlobalInt("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use crash. Map is changing soon, don't want you to lose IC!") return end
+    if (GetGlobal("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use crash. Map is changing soon, don't want you to lose IC!") return end
     if amount < 0.05 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
     if (gamble_net_spam(ply, "crash.bet")) then return end
 
@@ -777,7 +777,7 @@ net.Receive("versus.CreateGame",function(l,ply)
 	if (gamble_net_spam(ply, "versus.CreateGame")) then return end
 
     local amount = round(net.ReadFloat())
-    if (GetGlobalInt("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
+    if (GetGlobal("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
     if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
     versus_players[ply] = {nil,amount}
     net.Start("versus.CreateGame")
@@ -810,7 +810,7 @@ net.Receive("versus.JoinGame",function(l,ply)
     if not versus_players[t] then return end
     if IsValid(versus_players[t][1]) then return end
     local amt = versus_players[t][2]
-    if (GetGlobalInt("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
+    if (GetGlobal("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
     if amt < 1 or not ply:m_HasIC(amt) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
     if not t:m_HasIC(amt) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "The game was cancelled due to the other player losing the required IC!") 
         versus_players[t] = nil

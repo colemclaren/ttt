@@ -43,7 +43,7 @@ end)
 -- Global minigame starting function
 -- Return true to halt the minigame starting, followed by the error message
 MSE.Config.CanStartMinigame = function(pl)
-	local rounds_left = GetGlobalInt("ttt_rounds_left")
+	local rounds_left = GetGlobal("ttt_rounds_left")
 
 	if (cur_random_round) then
 		return true, "Cannot start while there is a wacky round in progress!"

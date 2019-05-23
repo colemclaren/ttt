@@ -2,7 +2,7 @@ hook.Add( "Initialize", "AutoTTTMapVote", function()
       if GAMEMODE_NAME == "terrortown" then
         function CheckForMapSwitch()
            -- Check for mapswitch
-           local rounds_left = math.max(0, GetGlobalInt("ttt_rounds_left", 6) - 1)
+           local rounds_left = math.max(0, GetGlobal("ttt_rounds_left") - 1)
            SetGlobalInt("ttt_rounds_left", rounds_left)
  
            local time_left = math.max(0, (GetConVar("ttt_time_limit_minutes"):GetInt() * 60) - CurTime())

@@ -451,7 +451,7 @@ g_VoicePanelList = nil
 -- 5 at 5000
 local function VoiceNotifyThink(pnl)
     if not (IsValid(pnl) and LocalPlayer() and IsValid(pnl.ply)) then return end
-    if not (GetGlobalBool("ttt_locational_voice", false) and (not pnl.ply:IsSpec()) and (pnl.ply ~= LocalPlayer())) then return end
+    if not (GetGlobal("ttt_locational_voice") and (not pnl.ply:IsSpec()) and (pnl.ply ~= LocalPlayer())) then return end
     if LocalPlayer():IsActiveTraitor() and pnl.ply:IsActiveTraitor() then return end
     local d = LocalPlayer():GetPos():Distance(pnl.ply:GetPos())
     pnl:SetAlpha(math.max(-0.1 * d + 255, 15))
@@ -637,7 +637,8 @@ function VOICE.InitBattery()
 end
 
 local function GetRechargeRate()
-    local r = GetGlobalFloat("ttt_voice_drain_recharge", 0.05)
+    local r = GetGlobal("ttt_voice_drain_recharge")
+	if (r == 0) then r = 0.05 end
 
     if LocalPlayer().voice_battery < battery_min then
         r = r / 2
@@ -647,15 +648,15 @@ local function GetRechargeRate()
 end
 
 local function GetDrainRate()
-    if not GetGlobalBool("ttt_voice_drain", false) then return 0 end
+    if not GetGloba("ttt_voice_drain") then return 0 end
     if GetRoundState() ~= ROUND_ACTIVE then return 0 end
     local ply = LocalPlayer()
     if (not IsValid(ply)) or ply:IsSpec() then return 0 end
 
     if ply:IsAdmin() or ply:IsDetective() then
-        return GetGlobalFloat("ttt_voice_drain_admin", 0)
+        return GetGlobal("ttt_voice_drain_admin")
     else
-        return GetGlobalFloat("ttt_voice_drain_normal", 0)
+        return GetGlobal("ttt_voice_drain_normal")
     end
 end
 
@@ -664,7 +665,7 @@ local function IsTraitorChatting(client)
 end
 
 function VOICE.Tick()
-    if not GetGlobalBool("ttt_voice_drain", false) then return end
+    if not GetGlobal("ttt_voice_drain") then return end
     local client = LocalPlayer()
 
     if VOICE.IsSpeaking() and (not IsTraitorChatting(client)) then
@@ -689,7 +690,7 @@ function VOICE.SetSpeaking(state)
 end
 
 function VOICE.CanSpeak()
-    if not GetGlobalBool("ttt_voice_drain", false) then return true end
+    if not GetGlobal("ttt_voice_drain") then return true end
 
     return LocalPlayer().voice_battery > battery_min or IsTraitorChatting(LocalPlayer())
 end

@@ -668,7 +668,7 @@ local ActIndex = {
 
 function PANEL:SetModel(strModel)
     if (not strModel) then
-        strModel = GetGlobalString("ttt_default_playermodel")
+        strModel = GetGlobal("ttt_default_playermodel")
     end
 
     if (isnumber(strModel)) then

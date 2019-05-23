@@ -68,9 +68,9 @@ function sv.PlayerCount() return sv.Count.Players end
 function sv.StaffCount() return sv.Count.Staff end
 function sv.MaxPlayers() return GetConVarNumber "maxplayers" end
 function sv.JoinURL() return "steam://connect/" .. sv.IP .. (sv.Port == "27015" and "" or (":" .. sv.Port)) end
-function sv.RoundsLeft() return math.max(0, GetGlobalInt("ttt_rounds_left", 6)) end
+function sv.RoundsLeft() return math.max(0, GetGlobal("ttt_rounds_left", 6)) end
 function sv.RoundState() return sv.States[Either(GetRoundState, GetRoundState(), 1)] or sv.States[1] end
-function sv.RoundTimeLeft() return math.max(0, GetGlobalFloat("ttt_round_end", 0) - CurTime()) end
+function sv.RoundTimeLeft() return math.max(0, GetGlobal("ttt_round_end") - CurTime()) end
 function sv.MapTimeLeft() return math.max(0, (GetConVar("ttt_time_limit_minutes"):GetInt() * 60) - CurTime()) end
 function sv.TraitorsAlive() return sv.Count.Traitors end
 function sv.InnocentsAlive() return sv.Count.Innocents end

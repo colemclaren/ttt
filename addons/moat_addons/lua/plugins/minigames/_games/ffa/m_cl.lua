@@ -404,7 +404,7 @@ net.Receive("FFA_Prep",function()
 
         draw.SimpleTextOutlined("FREE FOR ALL!!!", "moat_GunGameLarge", x, y - 70, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 35))
 
-        local time = math.ceil(GetGlobalFloat("ttt_round_end", 0) - CurTime())
+        local time = math.ceil(GetGlobal("ttt_round_end") - CurTime())
 
         if (time < 1) then
             time = "BEGIN"

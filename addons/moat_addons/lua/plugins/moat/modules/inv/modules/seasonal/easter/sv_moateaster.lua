@@ -79,14 +79,14 @@ end
 local max_rounds = GetConVarNumber("ttt_round_limit")
 
 hook.Add("TTTBeginRound", "moat_record_easter", function()
-	if (GetGlobalInt("ttt_rounds_left") ~= (max_rounds - 2)) then return end
+	if (GetGlobal("ttt_rounds_left") ~= (max_rounds - 2)) then return end
 	--if (not MOAT_EASTER.Record) then return end
 	
 	MOAT_EASTER.RecordPositions()
 
 	timer.Create("moat_easter_egg_record", 15, 0, function()
 		--if (not MOAT_EASTER.Record) then timer.Remove("moat_easter_egg_record") return end
-		if (GetGlobalInt("ttt_rounds_left") ~= (max_rounds - 2)) then timer.Remove("moat_easter_egg_record") return end
+		if (GetGlobal("ttt_rounds_left") ~= (max_rounds - 2)) then timer.Remove("moat_easter_egg_record") return end
 
 		MOAT_EASTER.RecordPositions()
 	end)

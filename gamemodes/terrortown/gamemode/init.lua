@@ -335,7 +335,7 @@ end
 -- Used to be in think, now a timer
 local function WinChecker()
     if GetRoundState() == ROUND_ACTIVE then
-        if CurTime() > GetGlobalFloat("ttt_round_end", 0) then
+        if CurTime() > GetGlobal("ttt_round_end") then
             EndRound(WIN_TIMELIMIT)
         else
             local win = hook.Call("TTTCheckForWin", GAMEMODE)
@@ -598,7 +598,7 @@ function SetRoundEnd(endtime)
 end
 
 function IncRoundEnd(incr)
-    SetRoundEnd(GetGlobalFloat("ttt_round_end", 0) + incr)
+    SetRoundEnd(GetGlobal("ttt_round_end") + incr)
 end
 
 function TellTraitorsAboutTraitors()
@@ -732,7 +732,7 @@ end
 
 function CheckForMapSwitch()
     -- Check for mapswitch
-    local rounds_left = math.max(0, GetGlobalInt("ttt_rounds_left", 6) - 1)
+    local rounds_left = math.max(0, GetGlobal("ttt_rounds_left") - 1)
     SetGlobalInt("ttt_rounds_left", rounds_left)
     local time_left = math.max(0, (GetConVar("ttt_time_limit_minutes"):GetInt() * 60) - CurTime())
     local switchmap = false

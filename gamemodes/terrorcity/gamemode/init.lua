@@ -583,7 +583,7 @@ function StartRoundSpeedup(mul)
 end
 
 function IncRoundEnd(incr)
-    SetRoundEnd(GetGlobalFloat("ttt_round_end", 0) + incr)
+    SetRoundEnd(GetGlobal("ttt_round_end") + incr)
 end
 
 function TellTraitorsAboutTraitors()

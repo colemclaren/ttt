@@ -12,7 +12,7 @@ local function post(tbl)
 
 	local msg = Either(tbl.rlm == 1, ":orange_book: Client Error", ":blue_book: Server Error")
 	msg = msg .. style.Dot(player.GetCount() .. "/" .. game.MaxPlayers() .. " Players") 
-		.. style.Dot(math.max(0, GetGlobalInt("ttt_rounds_left", 6)) .. " Rounds Left")
+		.. style.Dot(math.max(0, GetGlobal("ttt_rounds_left")) .. " Rounds Left")
 		.. style.Dot(game.GetMap())
 		.. style.Dot(string.Extra(GetServerName(), GetServerURL()))
 

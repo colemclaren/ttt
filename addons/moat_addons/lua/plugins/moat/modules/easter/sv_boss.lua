@@ -37,7 +37,7 @@ end
 EASTER.HAS_DONE_BOSS = false
 
 function EASTER.CanDoBoss()
-    if (EASTER.HAS_DONE_BOSS or GetGlobalInt "ttt_rounds_left" <= 2) then
+    if (EASTER.HAS_DONE_BOSS or GetGlobal "ttt_rounds_left" <= 2) then
         return false
     end
 
