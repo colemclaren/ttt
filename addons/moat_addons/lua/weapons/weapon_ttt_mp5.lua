@@ -18,6 +18,8 @@ SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30
 SWEP.Primary.ClipMax = 60
 SWEP.Primary.DefaultClip = 30
+SWEP.Primary.Range = 800
+SWEP.Primary.FalloffRange = 1600
 SWEP.Primary.Sound = Sound( "Weapon_MP5Navy.Single" )
 
 SWEP.UseHands = true
