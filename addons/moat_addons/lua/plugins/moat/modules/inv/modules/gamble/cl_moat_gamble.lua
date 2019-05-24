@@ -389,7 +389,8 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 
     MOAT_GAMBLE_BG:AlphaTo(255, 0.15, 0.15)
 	MOAT_GAMBLE.ToggleChat()
-	timer.Simple(1,function()
+	timer.Simple(0.25,function()
+		if not IsValid(MOAT_GAMBLE_CHAT) then return end
 		MOAT_GAMBLE_CHAT:GotoTextEnd()
 	end)
 end
