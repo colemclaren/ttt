@@ -103,6 +103,18 @@ function m_InitializeItems()
             ITEM = {}
             include(MOAT_ITEM_FOLDER .. "/" .. folder .. "/" .. filename)
             m_AddDroppableItem(ITEM, type)
+
+			if (type == "Melee" and ITEM.Collection and ITEM.Collection ~= "Melee Collection") then
+				if (ITEM.Collection == "Independence Collection" or ITEM.Collection == "Holiday Collection") then
+					continue
+				end
+
+				local Melee = table.Copy(ITEM)
+				Melee.Collection = "Melee Collection"
+				Melee.ID = ITEM.ID + 10000
+
+				m_AddDroppableItem(Melee, type)
+			end
         end
     end
 
