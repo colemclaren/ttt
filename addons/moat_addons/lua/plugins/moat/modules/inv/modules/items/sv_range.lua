@@ -1,4 +1,5 @@
 local RANGE_NUMBER = 30 -- This is the number that divides the cone ( Higher number = higher range )
+local RANGE_CAP = 0.35 -- 35% 
 
 hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
     local attacker = dmginfo:GetAttacker()
@@ -30,7 +31,7 @@ hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
         if (distance > optimal_range) then
             local falloff_range = (weapon_tbl.Primary.FalloffRange or optimal_range) * range_mod
 
-            dmginfo:ScaleDamage(math.max(0.2, 1 - (distance - optimal_range) / falloff_range))
+            dmginfo:ScaleDamage(math.min(1, 1 + RANGE_CAP - math.max(0, (distance - optimal_range) / falloff_range)))
         end
     end
 end)
