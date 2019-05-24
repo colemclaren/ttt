@@ -1102,11 +1102,26 @@ util.AddNetworkString "OldMelee.Reset"
 function m_OldMeleeReset(pl, slot, class)
     local ply_inv = MOAT_INVS[pl]
 
-    if (not ply_inv) then return false end
-    if (not ply_inv["slot" .. slot] or not ply_inv["slot" .. slot].c) then return false end
-    if (tonumber(ply_inv["slot" .. slot].c) ~= class) then return false end
-	if (not ply_inv["slot" .. slot].s or ply_inv["slot" .. slot].s.w) then return false end
-	if (not ply_inv["slot" .. slot].s.p) then return false end
+    if (not ply_inv) then
+		return false
+	end
+
+    if (not ply_inv["slot" .. slot] or not ply_inv["slot" .. slot].c or not ply_inv["slot" .. slot].s) then
+		return false
+	end
+
+    if (tonumber(ply_inv["slot" .. slot].c) ~= class) then
+		return false
+	end
+
+
+	if (ply_inv["slot" .. slot].u == 17699) then
+		if (ply_inv["slot" .. slot].s.p and ply_inv["slot" .. slot].s.w) then
+			return false
+		end
+	elseif (not ply_inv["slot" .. slot].s.p or ply_inv["slot" .. slot].s.w) then
+		return false
+	end
 
 	local item_chosen = table.Copy(ply_inv["slot" .. slot])
 	item_chosen.item = m_GetItemFromEnumWithFunctions(ply_inv["slot" .. slot].u)

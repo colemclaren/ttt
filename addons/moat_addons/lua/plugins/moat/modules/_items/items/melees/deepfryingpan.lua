@@ -8,9 +8,9 @@ ITEM.Rarity = 4
 
 ITEM.Collection = "Meme Collection"
 
-ITEM.MinStats = 4
+ITEM.MinStats = 5
 
-ITEM.MaxStats = 4
+ITEM.MaxStats = 5
 
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
