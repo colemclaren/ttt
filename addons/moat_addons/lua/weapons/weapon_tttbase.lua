@@ -411,10 +411,14 @@ function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
 
     if ((game.SinglePlayer() and SERVER) or ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) then
         -- reduce recoil if ironsighting
-        recoil = sights and (recoil * 0.6) or recoil
-        local eyeang = self.Owner:EyeAngles()
-        eyeang.pitch = eyeang.pitch - recoil
-        self.Owner:SetEyeAngles(eyeang)
+		  recoil = sights and (recoil * 0.6) or recoil
+		  if (self.HandleRecoil) then
+			  self:HandleRecoil()
+		  else
+			  local eyeang = self.Owner:EyeAngles()
+			  eyeang.pitch = eyeang.pitch - recoil
+			  self.Owner:SetEyeAngles(eyeang)
+		  end
     end
 
     if (self.Shots) then

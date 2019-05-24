@@ -50,7 +50,7 @@ SWEP.ViewModel = "models/weapons/zaratusa/golden_deagle/v_golden_deagle.mdl"
 SWEP.WorldModel = "models/weapons/zaratusa/golden_deagle/w_golden_deagle.mdl"
 
 SWEP.DeploySpeed = 1.4
-SWEP.ReloadSpeed = 1
+SWEP.ReloadSpeed = 1.25
 SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "reload",
@@ -71,5 +71,8 @@ function SWEP:ViewPunch()
 		return
 	end
 
-	self.Owner:ViewPunch(Angle(util.SharedRandom("weapon_ttt_golden_deagle", -0.2, -0.1, 1) * self.Primary.Recoil, util.SharedRandom("weapon_ttt_golden_deagle", -0.1, 0.1, 2) * self.Primary.Recoil, 0))
+	self:GetOwner():ViewPunch(Angle(util.SharedRandom(self:GetClass(), -0.2, -0.1, 1) * self.Primary.Recoil, util.SharedRandom(self:GetClass(), -0.1, 0.1, 2) * self.Primary.Recoil, 0))
+end
+
+function SWEP:HandleRecoil()
 end
