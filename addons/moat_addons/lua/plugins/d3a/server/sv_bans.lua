@@ -103,7 +103,7 @@ function D3A.Bans.Ban(steamid, a_steamid, daname, daname2, len, unit, reason, ov
 		return
 	end
 
-	D3A.MySQL.Query("INSERT INTO player_bans (time, steam_id, staff_steam_id, name, staff_name, length, reason) VALUES (UNIX_TIMESTAMP(), '" .. steamid .. "', '" .. a_steamid .. "', '" .. sql_fixname(daname) .. "', '" .. sql_fixname(daname2) .. "', '" .. banlen .. "', '" .. D3A.MySQL.Escape(reason) .. "')", function()
+	D3A.MySQL.Query("INSERT INTO player_bans (time, steam_id, staff_steam_id, name, staff_name, length, reason) VALUES (UNIX_TIMESTAMP(), '" .. steamid .. "', '" .. a_steamid .. "', '" .. utf8.force(daname) .. "', '" .. utf8.force(daname2) .. "', '" .. banlen .. "', '" .. D3A.MySQL.Escape(reason) .. "')", function()
 		local pl = D3A.FindPlayer(a_steamid)
 		local tg = D3A.FindPlayer(steamid)
 		local nm = (pl and pl:Name()) or "Console"

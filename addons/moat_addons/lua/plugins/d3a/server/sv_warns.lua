@@ -16,7 +16,7 @@ util.AddNetworkString "D3A.Warn"
 
 function D3A.NewWarning(targstid, plstid, targname, plname, reason, cb)
 	D3A.MySQL.FormatQuery("INSERT INTO player_warns (steam_id, staff_steam_id, name, staff_name, time, reason, acknowledged) VALUES (#, #, #, #, UNIX_TIMESTAMP(), #, NULL)",
-	targstid, plstid, sql_fixname(targname), sql_fixname(plname), reason, function()
+	targstid, plstid, utf8.force(targname), utf8.force(plname), reason, function()
 		if (cb) then cb() end
 	end)
 end
