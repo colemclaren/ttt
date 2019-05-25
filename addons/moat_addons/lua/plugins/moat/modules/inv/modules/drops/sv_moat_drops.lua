@@ -105,11 +105,16 @@ function m_InitializeItems()
             m_AddDroppableItem(ITEM, type)
 
 			if (type == "Melee" and ITEM.Collection and ITEM.Collection ~= "Melee Collection") then
-				if (ITEM.Collection == "Independence Collection" or ITEM.Collection == "Holiday Collection" or ITEM.Collection == "Meme Collection") then
+				if (ITEM.Collection == "Independence Collection" or ITEM.Collection == "Holiday Collection") then
 					continue
 				end
 
 				local Melee = table.Copy(ITEM)
+				if (Melee.Name == "Deep Frying Ban") then
+					Melee.NotDroppable = true
+				end
+
+
 				Melee.Collection = "Melee Collection"
 				Melee.ID = ITEM.ID + 10000
 
