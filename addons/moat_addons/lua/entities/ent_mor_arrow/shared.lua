@@ -83,7 +83,7 @@ function ENT:PlayerTick(p)
 		self:EmitSound(self.Hit)
 
 		self:SetParent(ent)
-        self:SetOwner(ent)
+		self:SetOwner(ent)
 
         if (SERVER) then
             local dmginfo = DamageInfo()
