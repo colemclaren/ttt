@@ -12,7 +12,7 @@ SWEP.HoldType = "smg"
 SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Delay = 0.05
 SWEP.Primary.Recoil = 1
-SWEP.Primary.Cone = 0.015
+SWEP.Primary.Cone = 0.05
 SWEP.Primary.Damage = 12
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 50
@@ -20,6 +20,9 @@ SWEP.Primary.ClipMax = 100
 SWEP.Primary.DefaultClip = 50
 SWEP.Primary.Sound = Sound( "Weapon_P90.Single" )
 SWEP.Secondary.Sound = Sound( "Default.Zoom" )
+
+SWEP.Primary.Range = 400
+SWEP.Primary.FalloffRange = 800
 
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false
@@ -106,4 +109,28 @@ if CLIENT then
    function SWEP:AdjustMouseSensitivity()
       return ( self:GetIronsights() and 0.2 ) or nil
    end
+end
+
+
+function SWEP:HandleRecoil()
+   local eyeang = self:GetOwner():EyeAngles()
+   eyeang.p = eyeang.p - (self:GetIronsights() and 0.3 or 1) * self.Primary.Recoil
+
+   self:GetOwner():SetEyeAngles(eyeang)
+end
+
+function SWEP:GetCurrentDelay()
+	return self.Primary.Delay * (self:GetIronsights() and 2 or 1)
+end
+
+function SWEP:GetPrimaryCone()
+   return self.Primary.Cone * (self:GetIronsights() and 0.2 or 1)
+end
+
+function SWEP:GetCurrentRange()
+	return self.Primary.Range * (self:GetIronsights() and 3 or 1)
+end
+
+function SWEP:GetCurrentMaxRange()
+	return self.Primary.FalloffRange * (self:GetIronsights() and 3 or 1)
 end

@@ -1,5 +1,4 @@
 -- Custom weapon base, used to derive from CS one, still very similar
-
 AddCSLuaFile()
 
 ---- TTT SPECIAL EQUIPMENT FIELDS
@@ -411,10 +410,10 @@ function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
 
     if ((game.SinglePlayer() and SERVER) or ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) then
         -- reduce recoil if ironsighting
-		  recoil = sights and (recoil * 0.6) or recoil
 		  if (self.HandleRecoil) then
 			  self:HandleRecoil()
 		  else
+			  recoil = sights and (recoil * 0.6) or recoil
 			  local eyeang = self.Owner:EyeAngles()
 			  eyeang.pitch = eyeang.pitch - recoil
 			  self.Owner:SetEyeAngles(eyeang)
@@ -448,15 +447,20 @@ function SWEP:ShootAnimation()
 	return
 end
 
+function SWEP:GetCurrentDelay()
+	return self.Primary.Delay
+end
+
 -- Shooting functions largely copied from weapon_cs_base
 function SWEP:PrimaryAttack(worldsnd)
 	if (not self:CanPrimaryAttack()) then
 		return
 	end
 
+	local delay = self:GetCurrentDelay()
 	// self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
-	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-	self:SetReloadTimer(CurTime() + self.Primary.Delay)
+	self:SetNextPrimaryFire(CurTime() + delay)
+	self:SetReloadTimer(CurTime() + delay)
 
 	// self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
 
@@ -565,6 +569,14 @@ local function Sparklies(attacker, tr, dmginfo)
       eff:SetNormal(tr.HitNormal)
       util.Effect("cball_bounce", eff)
    end
+end
+
+function SWEP:GetCurrentRange()
+	return self.Primary.Range
+end
+
+function SWEP:GetCurrentMaxRange()
+	return self.Primary.FalloffRange
 end
 
 function SWEP:GetPrimaryCone()
@@ -1199,4 +1211,26 @@ function SWEP:GetViewModelPosition( pos, ang )
    	pos = pos + offset.z * ang:Up() * mul
 
    return pos, ang
+end
+
+if (CLIENT) then
+	for _, effect in pairs {
+		"EjectBrass_338Mag",
+		"EjectBrass_762Nato",
+		"EjectBrass_556",
+		"EjectBrass_57",
+		"EjectBrass_12Gauge",
+		"EjectBrass_9mm"
+	} do
+		effects.Register({
+			Init = function(self)
+			end,
+			Think = function()
+				return false
+			end,
+			Render = function()
+			end,
+			base = {}
+		}, effect)
+	end
 end
