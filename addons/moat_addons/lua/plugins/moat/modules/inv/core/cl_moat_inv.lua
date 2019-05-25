@@ -5055,7 +5055,7 @@ function m_CreateItemMenu(num, ldt)
                 end,
                 parameters = {
                     title = (item_name) .. " / " .. LocalPlayer():Nick() .. " / Click here for more info",
-                    description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nCaptured on " .. (GetServerName() or "moat.gg") .. "\n\nCheck out our website at https://moat.gg/\nOr #trading-chat in our Discord at http://discord.gg/moatgaming!"
+                    description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nCaptured on " .. (GetServerName() or "moat.gg") .. "\n\nCheck out our website at https://moat.gg/\nOr #trading-chat in our Discord at http://discord.gg/moat!"
                 },
             })
             m_HoveredSlot = nil

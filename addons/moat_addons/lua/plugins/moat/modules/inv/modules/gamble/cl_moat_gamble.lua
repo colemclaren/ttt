@@ -5521,7 +5521,7 @@ end)
 
 table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,255,255),"This chat is connected to all 26 Moat Gaming servers!"})
 
-table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,0,0), "If you need staff on your server or want to meet players, join our Discord at discord.gg/moatgaming"})
+table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,0,0), "If you need staff on your server or want to meet players, join our Discord at discord.gg/moat"})
 
 net.Receive("MOAT_GAMBLE_GLOBAL",function()
 	local time = net.ReadString()
