@@ -2,41 +2,37 @@ include "shared.lua"
 
 
 local trail = Material "trails/plasma"
-local color_red = Color(255, 0, 0, 255)
+local color_red = Color(0, 0, 255, 255)
 
 function ENT:Draw()
-    local pos = self:GetPos()
-    self:DrawModel()
+	self:DrawModel()
 
-    if (self:GetHit() or self:GetFirer() ~= LocalPlayer()) then
-        return
+    if (self:GetFirer() ~= LocalPlayer()) then
+		return
     end
 
-    self.Positions = self.Positions or {}
-    table.insert(self.Positions, {
-        time = CurTime(),
-        pos = pos
-    })
+	if (not self.AbsolutePosition) then
+		self.AbsolutePosition = {self:GetPos(), self:GetAngles()}
+	end
 
-    local forwardpos, forwardtime = pos, CurTime()
+	local pos = self.AbsolutePosition
+	if (self.Weapon and IsValid(self.Weapon) and self.Weapon.ItemStats and self.Weapon.ItemStats.item and self.Weapon.ItemStats.item.Rarity) then
+		color_red = self.Weapon.ItemStats.item.NameColor or rarity_names[self.Weapon.ItemStats.item.Rarity][2]:Copy()
+		if (not color_red) then
+			color_red = Color(0, 0, 255)
+		end
+	end
 
-    local deletebefore = 0
-    render.SetMaterial(trail)
+	render.SetColorModulation(color_red.r / 255, color_red.g / 255, color_red.b / 255)
+	render.SetMaterial(trail)
+	render.StartBeam(3)
+		render.AddBeam(pos[1] - (pos[2]:Forward() * 20), 5, 1, color_red)
+		render.AddBeam(pos[1], 5, 1, color_red)
+		render.AddBeam(pos[1] + (pos[2]:Forward() * 20), 5, 1, color_red)
+	render.EndBeam()
+	render.SetColorModulation(1, 1, 1)
 
-    for i = #self.Positions - 1, 1, -1 do
-        local found = self.Positions[i]
-        local thispos = found.pos
-        if (found.time < CurTime() - 0.05) then
-            deletebefore = i
-            thispos = thispos + (forwardpos - thispos) * ((found.time - forwardtime) / (0.05 - CurTime() + forwardtime))
-        end
-        render.DrawBeam(thispos, forwardpos, 5, 1, 1, color_red)
-        if (deletebefore ~= 0) then
-            break
-        end
-    end
-
-    for i = 1, deletebefore do
-        table.remove(self.Positions, i)
-    end
+	local fr = FrameTime() * 10
+	self.AbsolutePosition[1] = LerpVector(fr, self.AbsolutePosition[1], self:GetPos())
+	self.AbsolutePosition[2] = LerpAngle(fr, self.AbsolutePosition[2], self:GetAngles())
 end

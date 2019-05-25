@@ -29,8 +29,8 @@ SWEP.AdminSpawnable		= false
 SWEP.ViewModel      = "models/morrowind/steel/shortbow/v_steel_shortbow.mdl"
 SWEP.WorldModel		= "models/morrowind/steel/shortbow/w_steel_shortbow.mdl"
 
-SWEP.Primary.Damage			= 100
-SWEP.Primary.Delay			= 0.6
+SWEP.Primary.Damage			= 200
+SWEP.Primary.Delay			= 0.3
 SWEP.Primary.ClipSize		= 10
 SWEP.Primary.ClipMax		= 20 -- keep mirrored to ammo
 SWEP.Primary.DefaultClip	= 10
@@ -48,7 +48,7 @@ SWEP.IronSightsAng = Vector (0.2422, -0.0422, 0)
 
 SWEP.UnpredictedHoldTime = 0
 SWEP.MaxHoldTime = 3				// Must let go after this time. Determines damage/velocity based on time held.
-SWEP.ChargeSpeed = 1
+SWEP.ChargeSpeed = 1.5
 
 function SWEP:GetCharge()
 	return math.Clamp(((CurTime() - self:GetHoldTime()) * self.ChargeSpeed) / self.MaxHoldTime, .1, 1)
@@ -150,8 +150,8 @@ end
 ---------------------------------------------------------*/
 function SWEP:SecondaryAttack()
 	if not self.IronSightsPos then return end
-	if self:GetNextSecondaryFire() > CurTime() then return end
-   
+	if (not self:CanSecondaryAttack()) then return end
+
 	local bIronsights = not self:GetIronsights()
 	self:SetIronsights(bIronsights)
 	self:SetZoom(bIronsights)
@@ -234,7 +234,7 @@ function SWEP:ShootArrow()
 		arrow = self:GetArrow()
 		if (not IsValid(arrow)) then return end -- hopeless
 	end
-	
+
 	arrow:SetRenderMode(RENDERMODE_NORMAL)
 	arrow:SetModel("models/morrowind/steel/arrow/steelarrow.mdl")
 	arrow:SetAngles(self.Owner:EyeAngles())
@@ -270,9 +270,9 @@ function SWEP:SetZoom(state)
 	if not (IsValid(self.Owner) and self.Owner:IsPlayer()) then return end
 
 	if state then
-		self.Owner:SetFOV(35, 0.3)
+		self.Owner:SetFOV(35, 0.1)	
 	else
-		self.Owner:SetFOV(0, 0.3)
+		self.Owner:SetFOV(0, 0.1)
 	end
 end
 

@@ -8,7 +8,7 @@ SWEP.Base			= "weapon_mor_base_bow"
 SWEP.ViewModel      = "models/morrowind/bonemold/longbow/v_bonemold_longbow.mdl"
 SWEP.WorldModel   = "models/morrowind/bonemold/longbow/w_bonemold_longbow.mdl"
 
-SWEP.Primary.Damage		= 100
+SWEP.Primary.Damage		= 200
 SWEP.Primary.Velocity	= 3000
 
 SWEP.Primary.ClipSize		= 10
@@ -19,4 +19,4 @@ SWEP.Primary.Ammo			= "357"
 SWEP.AmmoEnt				= "item_ammo_357_ttt"
 SWEP.Secondary.Ammo			= "none"
 
-SWEP.ChargeSpeed = 1.2
+SWEP.ChargeSpeed = 1.75

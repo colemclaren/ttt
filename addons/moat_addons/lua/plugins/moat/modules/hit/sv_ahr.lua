@@ -162,29 +162,40 @@ function SHR:SendHitEffects(pl, num, pos)
 		net.WriteUInt(num, 32)
 		net.WriteVector(pos)
 	net.Send(pl)
+
+	return (IsValid(pl) and num and pos)
 end
 
-local function takedamage(gm, targ, dmg)
-	local ret = gm:OLDEntityTakeDamage(targ, dmg)
-
-	if (GetRoundState() == ROUND_PREP or dmg:GetDamage() <= 0) then
-		return
+local function hiteffects(targ, dmg)
+	if (GetRoundState() == ROUND_PREP or not dmg or dmg:GetDamage() <= 0) then
+		return false
 	end
 
 	local att = dmg:GetAttacker()
 	if (not IsValid(targ) or not IsValid(att) or not att:IsPlayer()) then
-		return
+		return false
 	end
 
 	local apache = (IsValid(MOAT_APACHE_ENT) and MOAT_APACHE_ENT == targ) or (IsValid(MOAT_BOSS_CUR_PLY) and MOAT_BOSS_CUR_PLY == targ)
 	if (not targ:IsPlayer() and not apache) then
+		return false
+	end
+
+	return SHR:SendHitEffects(att, dmg:GetDamage(), dmg:GetDamagePosition())
+end
+hook("PlayerHitEffects", hiteffects)
+
+
+local function takedamage(gm, targ, dmg)
+	local ret = gm:OLDEntityTakeDamage(targ, dmg)
+
+	if (not hiteffects(targ, dmg)) then
 		return
 	end
 
-	SHR:SendHitEffects(att, dmg:GetDamage(), dmg:GetDamagePosition())
-
 	return ret
 end
+
 local function entityfirebullets(gm, e, t)
 	if (e:IsPlayer()) then
 		local wpn = e:GetActiveWeapon()

@@ -27,6 +27,9 @@ function ENT:Initialize()
     if (CLIENT) then
         self:SetPredictable(true)
     end
+
+	self.Positions = {}
+	self.AbsolutePosition = nil
 end
 
 function ENT:Think()
@@ -70,7 +73,7 @@ function ENT:PlayerTick(p)
     end
 
     if (tr.Hit) then
-        self:SetDeleteTime(CurTime() + 5)
+        self:SetDeleteTime(CurTime())
         self:SetHit(true)
         self:SetPos(tr.HitPos)
         hook.Remove("PlayerTick", self)
@@ -78,28 +81,38 @@ function ENT:PlayerTick(p)
 
     local ent = tr.Entity
     if (IsValid(ent)) then
-        local isplayerobject = ent:IsPlayer() or ent:IsNPC() or ent:GetClass() == "prop_ragdoll"
-		
-		self:EmitSound(self.Hit)
+		local isplayer = ent:IsPlayer()
 
+		self:EmitSound(self.Hit)
 		self:SetParent(ent)
 		self:SetOwner(ent)
 
         if (SERVER) then
             local dmginfo = DamageInfo()
+			dmginfo:SetReportedPosition(tr.StartPos)
+			dmginfo:SetDamagePosition(tr.HitPos)
             dmginfo:SetAttacker(self:GetFirer())
             dmginfo:SetInflictor(IsValid(self.Weapon) and self.Weapon or self:GetFirer())
             dmginfo:SetDamageType(DMG_BULLET)
             dmginfo:SetDamage(self.Damage)
+			dmginfo:SetDamageCustom(tr.HitGroup + 1)
 
-			if (ent:IsPlayer() and (hook.Run("ScalePlayerDamage", ent, tr.HitGroup, dmginfo) or hook.Run("PlayerShouldTakeDamage", ent, self:GetFirer()) == false)) then
+			if (isplayer and (hook.Run("ScalePlayerDamage", ent, tr.HitGroup, dmginfo) or hook.Run("PlayerShouldTakeDamage", ent, self:GetFirer()) == false)) then
 				return
 			end
 
             ent:TakeDamageInfo(dmginfo)
+
+			dmginfo:SetDamageCustom(0)
+
+			/*
+			if (isplayer) then
+				hook.Run("PlayerHitEffects", ent, dmginfo)
+			end
+			*/
         end
 
-        if (isplayerobject) then
+        if (isplayer or ent:IsNPC() or ent:GetClass() == "prop_ragdoll") then
             local effectdata = EffectData()
             effectdata:SetStart(tr.HitPos)
             effectdata:SetOrigin(tr.HitPos)
