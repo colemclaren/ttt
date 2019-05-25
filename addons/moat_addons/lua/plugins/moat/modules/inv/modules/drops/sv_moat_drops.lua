@@ -105,7 +105,7 @@ function m_InitializeItems()
             m_AddDroppableItem(ITEM, type)
 
 			if (type == "Melee" and ITEM.Collection and ITEM.Collection ~= "Melee Collection") then
-				if (ITEM.Collection == "Independence Collection" or ITEM.Collection == "Holiday Collection") then
+				if (ITEM.Collection == "Independence Collection" or ITEM.Collection == "Holiday Collection" or ITEM.Collection == "Meme Collection") then
 					continue
 				end
 
