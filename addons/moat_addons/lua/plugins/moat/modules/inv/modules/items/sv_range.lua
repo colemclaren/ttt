@@ -31,7 +31,7 @@ hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
         if (distance > optimal_range) then
             local falloff_range = (weapon:GetCurrentMaxRange() or optimal_range) * range_mod
 
-            dmginfo:ScaleDamage(math.min(1, 1 + RANGE_CAP - math.max(0, (distance - optimal_range) / falloff_range)))
+            dmginfo:ScaleDamage(RANGE_CAP + (1 - RANGE_CAP) * (1 - math.min(1, math.max(0, (distance - optimal_range) / falloff_range))))
         end
     end
 end)
