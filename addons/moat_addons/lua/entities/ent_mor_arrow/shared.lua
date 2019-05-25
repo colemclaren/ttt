@@ -79,6 +79,11 @@ function ENT:PlayerTick(p)
     local ent = tr.Entity
     if (IsValid(ent)) then
         local isplayerobject = ent:IsPlayer() or ent:IsNPC() or ent:GetClass() == "prop_ragdoll"
+		
+		self:EmitSound(self.Hit)
+
+		self:SetParent(ent)
+        self:SetOwner(ent)
 
         if (SERVER) then
             local dmginfo = DamageInfo()
@@ -86,6 +91,10 @@ function ENT:PlayerTick(p)
             dmginfo:SetInflictor(IsValid(self.Weapon) and self.Weapon or self:GetFirer())
             dmginfo:SetDamageType(DMG_BULLET)
             dmginfo:SetDamage(self.Damage)
+
+			if (ent:IsPlayer() and (hook.Run("ScalePlayerDamage", ent, tr.HitGroup, dmginfo) or hook.Run("PlayerShouldTakeDamage", ent, self:GetFirer()) == false)) then
+				return
+			end
 
             ent:TakeDamageInfo(dmginfo)
         end
@@ -99,11 +108,6 @@ function ENT:PlayerTick(p)
         else
             util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
         end
-
-        self:EmitSound(self.Hit)
-
-        self:SetParent(ent)
-        self:SetOwner(ent)
     elseif (tr.Hit) then
         util.Decal("ManhackCut", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal)
         self:EmitSound(self.HitWall)
