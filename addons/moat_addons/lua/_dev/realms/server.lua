@@ -1,58 +1,132 @@
 -- dev realms for code testing
 -- called after realm config is loaded
 
-/*
-failed = function(err)
-            MsgC(Color(255, 0, 0), "HTTP error in sending raw message to discord: " .. err .. "\n")
-        end,
-        success = SVDiscordRelay.VerifyMessageSuccess,
-        method = "post",
-        url = url or DiscordRelay.WebhookURL,
-        parameters = t_post,
-        type = "application/json; charset=utf-8"
+local function BuildCSVArgument(name, getter, stat)
+    return {
+        Name = name,
+        Get = getter,
+        StatIndex = stat
+    }
+end
 
-Entity(1):NameID() .. " started map event '" .. ("Quadra XP"):Bold() .. "' on server: " .. string.Extra(SERVER_NICK, SERVER_IP)
+local NamesToField = {}
+for idx, mod in pairs(MODS.Networked) do
+    NamesToField[mod.Name] = idx
+end
 
-str = "Daily Contract for " .. (util.NiceDate():Bold()) str = str:Title() str = str .. ("Global M16 Killer" .. (("Get as many kills as you can with an M16, rightfully."):Topic()) .. markdown.Line):Code() print(str) discord.Send("testing", str)
+local Fields = {}
 
-function fst() return string("Lottery number of " .. markdown.Bold(util.NiceDate(-1)), " was " .. markdown.Bold(32), " with " .. markdown.BoldUnderline(string.Comma(500000) .. " IC")) end
-function scn() return markdown.WrapBoldLine(string(fst(), markdown.NewLine("There was ", markdown.Bold("no"), " winner!"))) end
-function trd() return scn() .. markdown.BoldEnd(string (markdown.Bold(string.Comma(500000 * 0.75) .. " IC"), " has rolled over to today's pot!")) end
+local BaseWeaponCSVFields = {
+    BuildCSVArgument("Name", function(w, i)
+        return i and i.Name or w.PrintName
+    end),
+    BuildCSVArgument("Class", function(w)
+        return w.ClassName
+    end),
+    BuildCSVArgument("Ammo Type", function(w)
+        return w.Primary.Ammo
+    end),
+    BuildCSVArgument("Magazine", function(w)
+        return w.Primary.ClipSize
+    end),
+    BuildCSVArgument("Recoil", function(w)
+        return w.Primary.Recoil or 1.5
+    end, "Kick"),
+    BuildCSVArgument("Damage", function(w)
+        return w.Primary.Damage
+    end),
+    BuildCSVArgument("Pellets", function(w)
+        return w.Primary.NumShots or 1
+    end),
+    BuildCSVArgument("Delay", function(w)
+        return w.ChargeSpeed or w.Primary.Delay
+    end, "Firerate"),
+    BuildCSVArgument("Cone", function(w)
+        return w.Primary.Cone or 0.02
+    end, "Accuracy"),
+    BuildCSVArgument("Range", function(w, i)
+        local RANGE_NUMBER = 30
+        local optimal_range = w.Primary.Range
 
-discord.Send("testing", markdown.WrapBoldLine(string ("Lottery number of " .. markdown.Bold(util.NiceDate(-1)), " was " .. markdown.Bold(32), " with " .. markdown.BoldUnderline(string.Comma(500000) .. " IC"), markdown.NewLine("There was ", markdown.Bold("no"), " winner!"))) .. markdown.BoldEnd(string (markdown.Bold(string.Comma(500000 * 0.75) .. " IC"), " has rolled over to today's pot!")))
+        if (not optimal_range) then
+            if (w.Primary.Ammo and w.Primary.Ammo == "Buckshot") then
+                optimal_range = 50 / Fields.Cone(w, i)
+            else
+                optimal_range = RANGE_NUMBER / Fields.Cone(w, i)
+            end
+        end
 
-*/
+        return optimal_range
+    end, "Range")
+}
 
--- concommand.Add("test_discord", function()
--- 	local bstr, medals = "", {":third_place:", ":second_place:", ":first_place:"}
--- 	for i = 1, 3 do
--- 		local bounty = MOAT_BOUNTIES.ActiveBounties[i].bnty
--- 		local mods = MOAT_BOUNTIES.ActiveBounties[i].mods
--- 		local bounty_desc = bounty.desc
+for _, field in pairs(BaseWeaponCSVFields) do
+    Fields[field.Name] = function(w, i)
+        local val = field.Get(w) 
+        
+        if (i and i.Stats and i.Stats[field.StatIndex or field.Name]) then
+            local thing = MODS.Settable[NamesToField[field.StatIndex or field.Name]]
+            if (thing) then
+                print(field.StatIndex or field.Name)
+                val = val * thing.getmult(i.Stats, 0)
+            end
+        end
 
--- 		local n = 0
--- 		for _ = 1, #mods do
--- 			bounty_desc = bounty_desc:gsub("#", function() n = n + 1 return markdown.Bold(mods[n]) end)
--- 		end
+        return val
+    end
+end
 
--- 		bstr = string (bstr, medals[i],
--- 			" " .. markdown.Bold(bounty.name) .. " | " .. markdown.EndLine(bounty_desc),
--- 			markdown.Highlight("Rewards: " .. bounty.rewards)
--- 		)
+local function EscapeCSVField(x)
+    if (type(x) == "number") then
+        x = string.format("%.02f", x)
+    end
+    if (x:find "[\"\r\n,]" or x:find "^ " or x:find " $") then
+        x = "\"" .. x:gsub("\"", "\"\"") .. "\""
+    end
+    return x
+end
 
--- 		if (i < 3) then
--- 			bstr = markdown.EndLine(
--- 				markdown.EndLine(bstr)
--- 			)
--- 		end
--- 	end
+local function ProcessWeaponToCSV(f, wep, item)
+    local data = {}
+    for i, field in ipairs(BaseWeaponCSVFields) do
+        data[i] = EscapeCSVField(Fields[field.Name](wep, item))
+    end
 
--- 	discord.Send("testing", markdown.Code(" ") .. markdown.WrapBold(
--- 			string (":calendar_spiral: ",
--- 				"Daily Bounties on " .. markdown.Bold(Server and Server.Name or GetHostName()),
--- 				" for " .. string.Extra(util.NiceDate(), Server and Server.ConnectURL or (Servers.SteamURL .. GetServerIP())),
--- 				markdown.LineStart(bstr)
--- 			)
--- 		)
--- 	)
--- end)
+    f:Write("\n" .. table.concat(data, ","))
+end
+
+
+concommand.Add("moat_export_base_weapons", function()
+    local f = file.Open("base_weapons.csv.txt", "wb", "DATA")
+
+    -- Header
+    local data = {}
+    for i, field in ipairs(BaseWeaponCSVFields) do
+        data[i] = EscapeCSVField(field.Name)
+    end
+
+    f:Write(table.concat(data, ","))
+
+    for _, wep in pairs(weapons.GetList()) do
+        if (not wep.AutoSpawnable or wep.Base ~= "weapon_tttbase") then
+            continue
+        end
+
+        ProcessWeaponToCSV(f, wep)
+    end
+
+    for _, item in pairs(MOAT_DROPTABLE) do
+        if (item.Kind ~= "Unique") then
+            continue
+        end
+
+        local wep = weapons.GetStored(item.WeaponClass)
+        if (not wep or wep.AutoSpawnable) then
+            continue
+        end
+
+        ProcessWeaponToCSV(f, wep, item)
+    end
+
+    f:Close()
+end)
