@@ -4881,6 +4881,7 @@ function m_DrawVersusPanel()
 			av:Dock(LEFT)
 			av:SetSteamID(v.steamid,64)
 			steamworks.RequestPlayerInfo(v.steamid,function(name)
+				if not IsValid(av) then return end
 				av:SetTooltip(name)
 			end)
 			local butt = vgui.Create("DButton",av)
@@ -4896,6 +4897,7 @@ function m_DrawVersusPanel()
 			op:Dock(LEFT)
 			op:SetSteamID(v.other,64)
 			steamworks.RequestPlayerInfo(v.other,function(name)
+				if not IsValid(op) then return end
 				op:SetTooltip(name)
 			end)
 			local butt = vgui.Create("DButton",op)
@@ -4911,6 +4913,7 @@ function m_DrawVersusPanel()
 			winner:Dock(RIGHT)
 			winner:SetSteamID(v.winner,64)
 			steamworks.RequestPlayerInfo(v.winner,function(name) -- cached internally
+				if not IsValid(winner) then return end
 				winner:SetTooltip(name)
 			end)
 			local butt = vgui.Create("DButton",winner)
