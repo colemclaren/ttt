@@ -78,7 +78,7 @@ recentmaps = {}
 
 local minutes = 45 -- Cooldown
 if GetHostName():lower():match("minecraft") or GetHostName():lower():match("mc") then
-    minutes = 180
+    minutes = 120
 end
 
 sql.Begin()
