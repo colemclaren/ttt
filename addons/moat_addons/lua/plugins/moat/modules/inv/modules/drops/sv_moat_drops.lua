@@ -823,6 +823,18 @@ end)
 local MOAT_PLAYER_DROPS_CHECK = {}
 local MOAT_FORCED_DROPS = {}
 
+local function IsRightful(killer, victim)
+    return hook.Run("TTTIsRightfulDamage", killer, victim)
+end
+
+hook.Add("DoPlayerDeath", "moat_DropsEndRound", function(ply, att, dmg)
+    if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
+
+    if (GetRoundState() == ROUND_ACTIVE and player.GetCount() >= 8 and IsRightful(att, ply)) then
+        att.ExtraDropChances = (att.ExtraDropChances or 0) + ((ply:IsTraitor() or ply:IsDetective()) and 2 or 1)
+    end
+end)
+
 hook.Add("TTTEndRound", "moat_DropsEndRound", function()
     for k, v in pairs(player.GetAll()) do
         if ((v:IsSpec() and not v:IsDeadTerror()) or (not MOAT_PLAYER_DROPS_CHECK[v])) then continue end
@@ -832,15 +844,14 @@ hook.Add("TTTEndRound", "moat_DropsEndRound", function()
             continue
         end
         local drop_item = false
-        local chance = math.random(3)
 
-        if (chance == 1) then
-            drop_item = true
+        for i = 0, v.ExtraDropChances or 0 do
+            if (math.random(3) == 1) then 
+                v:m_DropInventoryItem("endrounddrop", "endrounddrop", {tonumber(v:GetInfo("moat_dropcosmetics")) == 1, tonumber(v:GetInfo("moat_droppaint")) == 1})
+            end
         end
 
-        if (drop_item) then
-            v:m_DropInventoryItem("endrounddrop", "endrounddrop", {tonumber(v:GetInfo("moat_dropcosmetics")) == 1, tonumber(v:GetInfo("moat_droppaint")) == 1})
-        end
+        v.ExtraDropChances = 0
     end
 end)
 
