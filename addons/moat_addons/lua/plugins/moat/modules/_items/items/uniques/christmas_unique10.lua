@@ -11,7 +11,6 @@ ITEM.Stats = {
 	Kick = { min = -14, max = -23 },
 	Firerate = { min = 14, max = 23 },
 	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
 	Weight = { min = -4, max = -7 },
 	Chargerate = { min = 28, max = 46 }
 }

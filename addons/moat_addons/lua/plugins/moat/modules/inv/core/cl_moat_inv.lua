@@ -618,7 +618,7 @@ function m_GetStatMinMax(key, itemtbl)
         stat_min, stat_max = itemtbl.item.Stats.Firerate.min, itemtbl.item.Stats.Firerate.max
     elseif (tostring(key) == "m") then
         stat_min, stat_max = itemtbl.item.Stats.Magazine.min, itemtbl.item.Stats.Magazine.max
-    elseif (tostring(key) == "r") then
+    elseif (tostring(key) == "r" and itemtbl.item.Stats.Range) then
         stat_min, stat_max = itemtbl.item.Stats.Range.min, itemtbl.item.Stats.Range.max
     elseif (tostring(key) == "w") then
         stat_min, stat_max = itemtbl.item.Stats.Weight.min, itemtbl.item.Stats.Weight.max

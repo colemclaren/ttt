@@ -3,12 +3,26 @@ local function s(t, k, m)
 end
 local function getmult(k)
     return function(Stats, mult)
-        return 1 + (Stats[k].min + (Stats[k].max - Stats[k].min) * mult) / 100
+        local Stat = Stats[k]
+        local min, max
+        if (Stat) then
+            min, max = Stat.min, Stat.max
+        else
+            min, max = 0, 0
+        end
+        return 1 + (min + (max - min) * mult) / 100
     end
 end
 local function sub_getmult(k)
     return function(Stats, mult)
-        return 1 - (Stats[k].min + (Stats[k].max - Stats[k].min) * mult) / 100
+        local Stat = Stats[k]
+        local min, max
+        if (Stat) then
+            min, max = Stat.min, Stat.max
+        else
+            min, max = 0, 0
+        end
+        return 1 - (min + (max - min) * mult) / 100
     end
 end
 

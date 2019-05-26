@@ -13,7 +13,6 @@ ENT.HitWall = "weapons/bow/skyrim_bow_hitwall.mp3"
 
 function ENT:SetupDataTables()
     self:NetworkVar("Entity", 0, "Firer")
-    self:NetworkVar("Vector", 0, "Velocity2")
     self:NetworkVar("Bool", 0, "Hit")
     self:NetworkVar("Float", 0, "DeleteTime")
 end
@@ -47,18 +46,21 @@ end
 
 function ENT:PlayerTick(p)
     if (p ~= self:GetFirer()) then
+        if (CLIENT and IsValid(self:GetFirer())) then
+            self:SetPredictable(false)
+            hook.Remove("PlayerTick", self)
+        end
         return
     end
 
-    local pos = self:GetPos()
+    local pos = self:GetNetworkOrigin()
     local T = FrameTime()
-    local Vi = self:GetVelocity2()
-    local A = physenv.GetGravity() * 0.6
+    local Vi = self:GetAbsVelocity()
+    local A = physenv.GetGravity() * 0.3
     local Vf = Vi + A * T
-    local d = Vf * T + self:GetPos()
-    self:SetVelocity2(Vf)
-    self:SetPos(d)
-    self:SetAngles(self:GetVelocity2():Angle() - Angle(180, 0, 0))
+    local d = Vf * T + self:GetNetworkOrigin()
+    self:SetAbsVelocity(Vf)
+    self:SetNetworkOrigin(d)
 
     if (IsValid(self:GetFirer())) then
         self:GetFirer():LagCompensation(true)

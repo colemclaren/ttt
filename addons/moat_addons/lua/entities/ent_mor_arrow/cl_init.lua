@@ -5,6 +5,8 @@ local trail = Material "trails/plasma"
 local color_red = Color(0, 0, 255, 255)
 
 function ENT:Draw()
+
+	self:SetRenderAngles(self:GetAbsVelocity():Angle() - Angle(180, 0, 0))
 	self:DrawModel()
 
     if (self:GetFirer() ~= LocalPlayer()) then

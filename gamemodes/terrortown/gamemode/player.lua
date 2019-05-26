@@ -697,16 +697,18 @@ end
 function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
     ply.was_headshot = false
 
+    local wep = util.WeaponFromDamage(dmginfo)
     -- actual damage scaling
     if hitgroup == HITGROUP_HEAD and dmginfo:IsBulletDamage() then
         -- headshot if it was dealt by a bullet
         ply.was_headshot = true
-        local wep = util.WeaponFromDamage(dmginfo)
 
         if IsValid(wep) then
             local s = wep:GetHeadshotMultiplier(ply, dmginfo) or 2
             dmginfo:ScaleDamage(s)
         end
+    elseif (wep.ScaleDamage) then
+        wep:ScaleDamage(ply, hitgroup, dmginfo)
     elseif (hitgroup == HITGROUP_LEFTARM or hitgroup == HITGROUP_RIGHTARM or hitgroup == HITGROUP_LEFTLEG or hitgroup == HITGROUP_RIGHTLEG or hitgroup == HITGROUP_GEAR) then
         dmginfo:ScaleDamage(0.55)
     end

@@ -75,6 +75,13 @@ function SWEP:SetupDataTables()
 	return BaseClass.SetupDataTables(self)
 end
 
+function SWEP:CalcViewModelView(vm, oeye, oang, eye, ang)
+	ang:RotateAroundAxis(ang:Forward(), 10)
+	--ang:RotateAroundAxis(ang:Up(), 20)
+	ang:RotateAroundAxis(ang:Right(), -15)
+	return eye + ang:Forward() * 4, ang
+end
+
 function SWEP:ResetNetworkable()
 	self:SetHoldTime(0)
 	self.UnpredictedHoldTime = 0
@@ -83,6 +90,9 @@ end
 
 function SWEP:GetHeadshotMultiplier(ply, dmginfo)
 	return 3
+end
+
+function SWEP:ScaleDamage(ply, hitgroup, dmginfo)
 end
 
 function SWEP:EmitBowSound(sound)
@@ -186,7 +196,7 @@ function SWEP:Think()
 			if (IsValid(vm)) then
 				vm:SetPlaybackRate(1)
 			end
-			
+
 			self:ShootArrow()
 			if (SERVER) then
 				Damagelog:shootCallback(self)
@@ -215,10 +225,6 @@ function SWEP:CreateArrow()
 	self:SetArrow(arrow)
 end
 
-/*---------------------------------------------------------
-   Name: SWEP:ShootArrow()
-   Desc: Hot Potato.
----------------------------------------------------------*/
 function SWEP:ShootArrow()
 	local anim = self.Owner:GetViewModel():LookupSequence("shoot"..math.random(4,6))
 	self.Owner:GetViewModel():SetSequence(anim)
@@ -241,22 +247,21 @@ function SWEP:ShootArrow()
 
 	local pos = self.Owner:GetShootPos()
 	pos = pos + self.Owner:GetUp() * -3
-	arrow:SetPos(pos)
+	arrow:SetNetworkOrigin(pos)
 	arrow:SetOwner(self.Owner)
-	if (not IsValid(arrow) or not arrow.SetVelocity2) then
+	if (not IsValid(arrow)) then
 		if (SERVER and IsValid(arrow)) then arrow:Remove() end
 		return
 	end
 
-	arrow:SetVelocity2(self.Owner:GetAimVector() * 6500 * ratio)
+	arrow:SetAbsVelocity(self.Owner:GetAimVector() * 4500 * ratio)
 	arrow:SetFirer(self.Owner)
 	arrow.Weapon = self		-- Used to set the arrow's killicon.
-	arrow.Damage = self.Primary.Damage * ratio
+	arrow.Damage = self.Primary.Damage * ratio ^ 0.7
 	arrow:SetAngles(self.Owner:EyeAngles() + Angle(0, 180, 0))
 	arrow:Spawn()
 	arrow:Activate()
 
-	//		self.Weapon:SendWeaponAnim(ACT_VM_IDLE)
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
 	self:TakePrimaryAmmo(1)
 
