@@ -241,6 +241,11 @@ function MG_FFA.GiveWeapons(ply)
             end
             v.AllowDrop = false
         end
+        if not istable(MG_FFA.Loadout.prim) then
+            ply:SelectWeapon(MG_FFA.Loadout.prim)
+        else
+            ply:SelectWeapon(MG_FFA.Loadout.prim.w or "")
+        end
     end)
 end
 

@@ -431,6 +431,19 @@ function MG_TDM.GiveWeapons(ply)
                 self:Remove()
             end
             v.AllowDrop = false
+            if MG_TDM.Loadout.prim then
+                if not istable(MG_TDM.Loadout.prim) then
+                    ply:SelectWeapon(MG_TDM.Loadout.prim)
+                else
+                    ply:SelectWeapon(MG_TDM.Loadout.prim.w or "")
+                end
+            elseif (MG_TDM.Loadout.sec and MG_TDM.Loadout.sec ~= "nothing") then
+                if not istable(MG_TDM.Loadout.sec) then
+                    ply:SelectWeapon(MG_TDM.Loadout.sec)
+                else
+                    ply:SelectWeapon(MG_TDM.Loadout.sec.w or "")
+                end
+            end
         end
     end)
 end
