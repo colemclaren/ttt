@@ -117,7 +117,7 @@ MOAT_DONATE.Packages = {
 		end
 
 		MG_cur_event = "Quadra XP"
-		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left + 20"
+		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left + 20 WHERE 1"
 
 		net.Start("MapEvent")
 		net.WriteString(MG_cur_event)
@@ -173,7 +173,7 @@ hook.Add("TTTEndRound", "QuadXP", function()
 
 		print(rounds, "Quad XP Left")
 
-		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left - 1"
+		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left - 1 WHERE 1"
 	end
 end)
 

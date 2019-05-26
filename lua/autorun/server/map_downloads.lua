@@ -443,6 +443,8 @@ if (map == "gm_construct" or map == "gm_flatgrass") then
 	return
 end
 
+/*
 hook.Add("InitPostEntity", "Map.Not.Found", function()
 	D3A.CheckMissingMap(true)
 end)
+*/
