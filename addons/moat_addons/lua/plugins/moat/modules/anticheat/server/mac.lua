@@ -172,11 +172,18 @@ net.Receive("moat.verify", function(_, pl)
     detect(pl, reason)
 end)
 
-ents.Created({["lua_run"] = true}, false, false, function(ent, class)
-	function ent:AcceptInput() return true end
-	timer.Tick(function()
-		ent:Remove()
-	end)
+hook.Add("OnEntityCreated","Anti skid",function(ent)
+    if ent:GetClass():lower() == "lua_run" then
+        function ent:AcceptInput() return true end
+        function ent:RunCode() return true end
+        timer.Simple(0,function()
+            ent:Remove()
+        end)
+    elseif ent:GetClass():lower() == "point_servercommand" then
+        timer.Simple(0,function()
+            ent:Remove()
+        end)
+    end
 end)
 
 local skids = {}
