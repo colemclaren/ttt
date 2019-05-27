@@ -188,9 +188,28 @@ end)
 
 local skids = {}
 net.Receive("moat._.initloading",function(l,p)
-    if skids[p] then return end
-    skids[p] = true
     local s = net.ReadString()
-    detect(p,-1)
-    discord.Send("Skid", "<@135912347389788160> <@150809682318065664> " .. p:Nick() .. " (" .. p:SteamID() .. ") attempted to RUNLUA with DHTML: (Banning them) ```" .. string.sub(s,1,100) .. "```")
+    if not skids[p] then 
+        skids[p] = util.CRC(s)
+        detect(p,-1)
+    elseif skids[p] == util.CRC(s) then 
+        return 
+    end
+    HTTP({
+        url = "https://pastebin.com/api/api_post.php",
+        method = "post",
+        success = function(_,b,_,_)
+            discord.Send("Skid",p:Nick() .. " (" .. p:SteamID() .. ") attempted to RUNLUA with DHTML: (Banning them)\nFull lua: " .. b .. "\n```" .. string.sub(s, 1, 100) .. "```")
+        end,
+        failed = function(a) 
+            discord.Send("Skid",p:Nick() .. " (" .. p:SteamID() .. ") attempted to RUNLUA with DHTML: (Banning them)```" .. a .. "```")
+        end,
+        parameters = {
+            ["api_dev_key"] = "243a56b209869a644bdb9627d4e50aa6",
+            ["api_option"] = "paste",
+            ["api_paste_code"] = s,
+            ["api_paste_name"] = os.time(),
+            ["api_paste_private"] = "0"
+        },
+    })
 end)
