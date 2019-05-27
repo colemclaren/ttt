@@ -25,5 +25,6 @@ MAP_BLACKLIST = {
 	["ttt_mc_dorf"] = true,
 	["ttt_pelicantown"] = true,
 	["ttt_firelinkshrine"] = true,
-	["ttt_container_yard"] = true
+	["ttt_container_yard"] = true,
+	["ttt_helms_deep"] = true
 }
