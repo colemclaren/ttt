@@ -26,5 +26,6 @@ MAP_BLACKLIST = {
 	["ttt_pelicantown"] = true,
 	["ttt_firelinkshrine"] = true,
 	["ttt_container_yard"] = true,
-	["ttt_helms_deep"] = true
+	["ttt_helms_deep"] = true,
+	["ttt_minecraftmotel_b3u"] = true
 }
