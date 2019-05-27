@@ -22,5 +22,6 @@ MAP_BLACKLIST = {
 	["ttt_rats_kitchen_noboom"] = true,
 	["ttt_waterworld_remastered"] = true,
 	["ttt_mc_mountain_fortress"] = true,
-	["ttt_mc_dorf"] = true
+	["ttt_mc_dorf"] = true,
+	["ttt_pelicantown"] = true
 }
