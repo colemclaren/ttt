@@ -487,11 +487,13 @@ function MG_LAVA.BeginRound()
         v:Give("weapon_ttt_unarmed")
         timer.Simple(1,function()
             v:SelectWeapon("lava_fists")
+            v._lastValidPos = v:GetPos()
         end)
         --v:SetCustomCollisionCheck(true)
         --v:CollisionRulesChanged()
         v.LavaScore = 0
-        timer.Simple(5,function()
+        timer.Simple(5,function() -- server lag or something happens and setting it right after doesn't work??
+            if not IsValid(v) then return end
             v:SetJumpPower(160)
         end)
     end
