@@ -472,7 +472,8 @@ function MG_LAVA.BeginRound()
                 local a,b = v:CheckHullCollision()
                 if a and (b:IsPlayer()) then
                     v:SetPos(v._lastValidPos)
-                elseif (not v:GetMoveType() == 9) then
+                end
+                if (v:GetMoveType() ~= MOVETYPE_LADDER) then
                     v._lastValidPos = v:GetPos()
                 end
             end
