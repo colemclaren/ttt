@@ -2,6 +2,22 @@
 util.AddNetworkString("moat.donate.update")
 util.AddNetworkString("moat.donate.purchase")
 
+function start_quadra_xp()
+	MG_cur_event = "Quadra XP"
+
+	net.Start("MapEvent")
+	net.WriteString(MG_cur_event)
+	net.WriteString(ply:Nick())
+	net.Broadcast()
+
+	local meta = FindMetaTable("Player")
+	if not meta.oApplyXP then meta.oApplyXP = meta.ApplyXP end
+	function meta:ApplyXP(num)
+		num = num * 4
+		self:oApplyXP(num)
+	end
+	XP_MULTIPYER = 8
+end
 
 MOAT_DONATE = MOAT_DONATE or {}
 MOAT_DONATE.Packages = {
@@ -115,22 +131,9 @@ MOAT_DONATE.Packages = {
 		if (MG_cur_event and MG_cur_event ~= "Quadra XP") then
 			return
 		end
-
-		MG_cur_event = "Quadra XP"
 		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left + 20 WHERE 1"
 
-		net.Start("MapEvent")
-		net.WriteString(MG_cur_event)
-		net.WriteString(ply:Nick())
-		net.Broadcast()
-
-		local meta = FindMetaTable("Player")
-		if not meta.oApplyXP then meta.oApplyXP = meta.ApplyXP end
-		function meta:ApplyXP(num)
-			num = num * 4
-			self:oApplyXP(num)
-		end
-		XP_MULTIPYER = 8
+		start_quadra_xp()
 
 		local msg = string(
 			":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()),
@@ -159,7 +162,7 @@ end
 hook.Add("Initialize", "MapEvent", function()
 	local rounds = sql.QueryValue "SELECT rounds_left FROM mg_quad_xp WHERE 1"
 	if (tonumber(rounds) > 0) then
-		MG_cur_event = "Quadra XP"
+		start_quadra_xp()
 	end
 end)
 
@@ -169,6 +172,12 @@ hook.Add("TTTEndRound", "QuadXP", function()
 
 		if (rounds - 1 <= 0) then
 			MG_cur_event = nil
+			local meta = FindMetaTable("Player")
+			if not meta.oApplyXP then meta.oApplyXP = meta.ApplyXP end
+			function meta:ApplyXP(num)
+				self:oApplyXP(num)
+			end
+			XP_MULTIPYER = 2
 		end
 
 		print(rounds, "Quad XP Left")
