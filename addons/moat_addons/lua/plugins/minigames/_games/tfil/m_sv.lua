@@ -473,7 +473,7 @@ function MG_LAVA.BeginRound()
                 if a and (b:IsPlayer()) then
                     v:SetPos(v._lastValidPos)
                 end
-                if (v:GetMoveType() ~= MOVETYPE_LADDER) then
+                if (v:GetMoveType() ~= MOVETYPE_LADDER) and v:IsOnGround() then
                     v._lastValidPos = v:GetPos()
                 end
             end
