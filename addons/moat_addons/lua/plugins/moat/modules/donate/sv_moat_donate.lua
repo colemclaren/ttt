@@ -7,7 +7,7 @@ function start_quadra_xp()
 
 	net.Start("MapEvent")
 	net.WriteString(MG_cur_event)
-	net.WriteString(ply:Nick())
+	net.WriteString("")
 	net.Broadcast()
 
 	local meta = FindMetaTable("Player")
