@@ -2,12 +2,12 @@
 util.AddNetworkString("moat.donate.update")
 util.AddNetworkString("moat.donate.purchase")
 
-function start_quadra_xp()
+function start_quadra_xp(nick)
 	MG_cur_event = "Quadra XP"
 
 	net.Start("MapEvent")
 	net.WriteString(MG_cur_event)
-	net.WriteString("")
+	net.WriteString(nick or "Someone")
 	net.Broadcast()
 
 	local meta = FindMetaTable("Player")
@@ -133,7 +133,7 @@ MOAT_DONATE.Packages = {
 		end
 		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left + 20 WHERE 1"
 
-		start_quadra_xp()
+		start_quadra_xp(ply:Nick())
 
 		local msg = string(
 			":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()),
