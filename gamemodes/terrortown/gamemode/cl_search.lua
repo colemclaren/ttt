@@ -313,7 +313,9 @@ local function ShowSearchScreen(search_raw)
     dframe:SetMouseInputEnabled(true)
     dframe:SetKeyboardInputEnabled(true)
     dframe:SetDeleteOnClose(true)
-    dframe.OnKeyCodePressed = util.BasicKeyHandler
+    dframe.OnKeyCodePressed = function()
+        dframe:Remove()
+    end
     -- contents wrapper
     local dcont = vgui.Create("DPanel", dframe)
     dcont:SetPaintBackground(false)
@@ -495,7 +497,48 @@ local function bitsRequired(num)
     return bits
 end
 
+local recent_ragdolls = {}
+local PixVis 
+local showtime = 4
+local matcache = {}
+hook.Add("HUDPaint","Show Ragdoll Roles",function()
+    if #recent_ragdolls < 1 then return end
+    for k,v in ipairs(recent_ragdolls) do
+        if not IsValid(v[1]) then table.remove(recent_ragdolls, k) continue end
+        if v[3] + showtime < CurTime() then table.remove(recent_ragdolls, k) continue end
+        local d = LocalPlayer():GetPos():DistToSqr(v[1]:GetPos())
+        if d > 510000 then continue end
+        local t = v[1]:GetPos():ToScreen()
+        if not t.visible then continue end -- not actual vischeck, just if its behind the player but it's automatic so might as well use it
+        if not PixVis then PixVis = util.GetPixelVisibleHandle() end
+        local visible = util.PixelVisible( v[1]:GetPos(), 32, PixVis )
+        if visible and visible ~= 0 then
+            local mat = IconForInfoType("role",v[2])
+            if not matcache[mat] then matcache[mat] = Material(mat) end
+            local a = (CurTime() - v[3]) / (showtime)
+            surface.SetDrawColor(255, 255, 255, 255 - (255 * a))
+            surface.SetMaterial(matcache[mat])
+            local t = v[1]:GetPos():ToScreen()
+            local size = 32 - (32 * (d / 510000))
+            surface.DrawTexturedRect(t.x-(size/2), t.y-(size/2), size, size)
+        end
+    end
+end)
+local seen_rags = {}
+hook.Add("TTTEndRound","Seen_rags",function()
+    seen_rags = {}
+end)
+
+net.Receive("TTT,BodyFound",function()
+    local ent = net.ReadEntity()
+    if seen_rags[ent] then return end
+    seen_rags[ent] = true
+    local role = net.ReadUInt(8)
+    table.insert(recent_ragdolls,{ent,role,CurTime()})
+end)
+
 local search = {}
+
 
 local function ReceiveRagdollSearch()
     search = {}

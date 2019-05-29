@@ -31,7 +31,7 @@ end
 --- ragdoll creation and search
 -- If detective mode, announce when someone's body is found
 local bodyfound = CreateConVar("ttt_announce_body_found", "1")
-
+util.AddNetworkString("TTT,BodyFound")
 local function IdentifyBody(ply, rag)
     if not ply:IsTerror() then return end
 
@@ -45,7 +45,10 @@ local function IdentifyBody(ply, rag)
     local finder = ply:Nick()
     local nick = CORPSE.GetPlayerNick(rag, "")
     local traitor = (rag.was_role == ROLE_TRAITOR)
-
+    net.Start("TTT,BodyFound")
+    net.WriteEntity(rag)
+    net.WriteUInt(rag.was_role,8) -- 8 for TTC
+    net.Broadcast()
     -- Announce body
     if bodyfound:GetBool() and not CORPSE.GetFound(rag, false) then
         local roletext = nil
