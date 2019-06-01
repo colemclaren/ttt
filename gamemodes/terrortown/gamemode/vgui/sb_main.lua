@@ -133,7 +133,7 @@ function PANEL:Init()
     self.mapchange.Think = function(sf)
         local r, t = UntilMapChange()
 
-        sf:SetText(GetPTranslation("sb_mapchange", {
+        sf:SetText("You're on " .. (Server.Name or "Moat TTT") .. ". " .. GetPTranslation("sb_mapchange", {
             num = r,
             time = t
         }))
