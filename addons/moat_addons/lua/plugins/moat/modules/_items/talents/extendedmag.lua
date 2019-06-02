@@ -13,10 +13,7 @@ TALENT.Melee = false
 TALENT.NotUnique = true
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
-	if (not MODS.Accessors.m:ValidForWeapon(weapon)) then
-		return
-	end
-
 	local Mod = self.Modifications[1]
-	weapon:SetMagazine(weapon:GetMagazine() * (1 + (Mod.min + (Mod.max - Mod.min) * talent_mods[1]) / 100))
+	local mult = Mod.min + (Mod.max - Mod.min) * talent_mods[1]
+	weapon:SetMagazine(((1 + weapon:GetMagazine() / 100) * (1 + mult / 100) - 1) * 100)
 end
