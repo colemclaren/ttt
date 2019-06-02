@@ -13,7 +13,7 @@ hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
         local attackerpos = attacker:GetPos()
         local entpos = ent:GetPos()
         local distance = attackerpos:Distance(entpos)
-        local range_mod = weapon:GetRange() + 1
+        local range_mod = weapon:GetRange() / 100 + 1
 
         local optimal_range = weapon:GetCurrentRange()
 
@@ -26,7 +26,6 @@ hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
         end
 
         optimal_range = optimal_range * range_mod
-
 
         if (distance > optimal_range) then
             local falloff_range = (weapon:GetCurrentMaxRange() or optimal_range) * range_mod
