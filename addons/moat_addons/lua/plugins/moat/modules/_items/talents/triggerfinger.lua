@@ -14,6 +14,9 @@ TALENT.NotUnique = true
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
 	if (weapon.Primary.Delay) then
-		weapon:SetFirerate(weapon:GetFirerate() + self.Modifications[1].min + (self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+		local Mod = self.Modifications[1]
+		local mult = Mod.min + (Mod.max - Mod.min) * talent_mods[1]
+
+		weapon:SetFirerate(((1 + weapon:GetFirerate() / 100) * (1 + mult / 100) - 1) * 100)
 	end
 end
