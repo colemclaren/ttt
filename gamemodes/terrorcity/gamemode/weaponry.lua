@@ -93,6 +93,30 @@ local function HasLoadoutWeapons(ply)
     if not weps then return true end
 
     for _, cls in pairs(weps) do
+        if (cls == "weapon_zm_improvised") then
+            local found = false
+            for k, v in pairs(ply:GetWeapons()) do
+                if (v.Kind == WEAPON_MELEE) then
+                    found = true
+                    break
+                end
+            end
+            if (found) then
+                continue
+            end
+        elseif (cls == "weapon_ttt_unarmed") then
+            local found = false
+            for k, v in pairs(ply:GetWeapons()) do
+                if (v.Kind == WEAPON_UNARMED) then
+                    found = true
+                    break
+                end
+            end
+            if (found) then
+                continue
+            end
+        end
+
         if not ply:HasWeapon(cls) then return false end
     end
 
