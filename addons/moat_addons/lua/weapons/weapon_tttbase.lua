@@ -1,6 +1,28 @@
 -- Custom weapon base, used to derive from CS one, still very similar
 AddCSLuaFile()
 
+if (SERVER) then
+	util.AddNetworkString "weapon_tttbase.Stats"
+end
+
+Stats, StatNames = {}, {}
+
+hook.Add("TTTPrepareRound", "weapon_tttbase", function()
+	Stats = {}
+end)
+
+local function Initialize()
+	for _, var in SortedPairs(MODS.Accessors) do
+		StatNames[#StatNames + 1] = var
+		StatNames[var.Name] = #StatNames
+	end
+end
+
+hook.Add("Initialize", "weapon_tttbase", Initialize)
+if (gmod.GetGamemode()) then
+	Initialize()
+end
+
 ---- TTT SPECIAL EQUIPMENT FIELDS
 
 -- This must be set to one of the WEAPON_ types in TTT weapons for weapon
@@ -798,9 +820,7 @@ function SWEP:PlayAnimation(string_name, sequence, speed, cycle, ent)
 
 			for i = 1, #self.SoundQueue do
 				local Delay = self.SoundQueue[i].Delay
-				if (self.ReloadSpeed) then
-					Delay = Delay / self.ReloadSpeed
-				end
+				Delay = Delay / self:GetReloadSpeed()
 
 				timer.Simple(Delay, function()
 					if (not IsValid(self)) then
@@ -830,8 +850,8 @@ function SWEP:PlayAnimation(string_name, sequence, speed, cycle, ent)
 					Sound = (type(SoundList[i][2]) == "string") and SoundList[i][2] or SoundList[i][1]
 				end
 
-				if (Delay and self.ReloadSpeed) then
-					Delay = Delay / self.ReloadSpeed
+				if (Delay) then
+					Delay = Delay / self:GetReloadSpeed()
 				end
 
 				self:QueueSound(Sound, Delay)
@@ -882,11 +902,11 @@ function SWEP:Reload()
 		end
 
 		if (AnimationLength) then
-			self:DoingReload(true, AnimationLength / self.ReloadSpeed)
-			self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
+			self:DoingReload(true, AnimationLength / self:GetReloadSpeed())
+			self:PlayAnimation(ReloadDataKey, AnimationName, self:GetReloadSpeed())
 		else
-			AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
-			self:DoingReload(true, AnimationLength / self.ReloadSpeed)
+			AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self:GetReloadSpeed())
+			self:DoingReload(true, AnimationLength / self:GetReloadSpeed())
 		end
 	else
 		self:DefaultReload(self.ReloadAnim)
@@ -911,11 +931,11 @@ function SWEP:PerformReload(ReloadDataKey)
 	end
 
 	if (AnimationLength) then
-		self:DoingReload(true, AnimationLength / self.ReloadSpeed)
-		self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
+		self:DoingReload(true, AnimationLength / self:GetReloadSpeed())
+		self:PlayAnimation(ReloadDataKey, AnimationName, self:GetReloadSpeed())
 	else
-		AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
-		self:DoingReload(true, AnimationLength / self.ReloadSpeed)
+		AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self:GetReloadSpeed())
+		self:DoingReload(true, AnimationLength / self:GetReloadSpeed())
 	end
 
 	// self.Owner:SetAnimation(PLAYER_RELOAD)
@@ -940,11 +960,11 @@ function SWEP:AfterReload(ReloadDataKey)
 	end
 
 	if (AnimationLength) then
-		self:DoingReload(false, AnimationLength / self.ReloadSpeed)
-		self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
+		self:DoingReload(false, AnimationLength / self:GetReloadSpeed())
+		self:PlayAnimation(ReloadDataKey, AnimationName, self:GetReloadSpeed())
 	else
-		AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self.ReloadSpeed)
-		self:DoingReload(false, AnimationLength / self.ReloadSpeed)
+		AnimationLength = self:PlayAnimation(ReloadDataKey, AnimationName, self:GetReloadSpeed())
+		self:DoingReload(false, AnimationLength / self:GetReloadSpeed())
 	end
 	
 	return true
@@ -1064,6 +1084,35 @@ function SWEP:SetReloading() end
 function SWEP:GetReloadTimer() return 0 end
 function SWEP:SetReloadTimer() end
 
+if (CLIENT) then
+   net.Receive("weapon_tttbase.Stats", function()
+		local idx = net.ReadUInt(16)
+		local statid = net.ReadUInt(8) + 1
+		local Stat = StatNames[statid]
+
+		local val = net["Read" .. Stat.Type](32)
+
+
+		local wep
+		for _, ent in pairs(ents.GetAll()) do
+			if (ent:IsWeapon() and ent.GetEntityID and ent:GetEntityID() == idx) then
+				wep = ent
+			end
+		end
+
+		if (not Stats[idx]) then
+			Stats[idx] = {}
+		end
+
+		if (IsValid(wep) and wep["Set" .. Stat.FunctionName]) then
+			wep["Set" .. Stat.FunctionName](wep, val)
+		else
+			Stats[idx][statid] = val
+		end
+	end)
+end
+
+SV_EntityID = SV_EntityID or 0
 -- Set up ironsights dt bool. Weapons using their own DT vars will have to make
 -- sure they call this.
 function SWEP:SetupDataTables()
@@ -1071,28 +1120,56 @@ function SWEP:SetupDataTables()
 	self:NetworkVar("Float", 0, "ReloadTimer")
 
 	self:NetworkVar("Bool", 3, "IronsightsPredicted")
-   	self:NetworkVar("Float", 3, "IronsightsTime")
+	self:NetworkVar("Float", 3, "IronsightsTime")
+	self:NetworkVar("Int", 3, "EntityID")
+	if (SERVER) then
+		self:SetEntityID(SV_EntityID)
+		SV_EntityID = SV_EntityID + 1
+	end
 
-   	local Entity = {
-      	Weapon = self,
-      	NetworkVar = function(self, ...)
-         	table.insert(self.Vars, {n = select("#", ...), ...})
-     	 end,
-      	Vars = {}
-   	}
+	for id, var in ipairs(StatNames) do
+		self["Set" .. var.FunctionName] = function(self, val)
+			Stats[self:GetEntityID()][id] = val
 
-   	hook.Run("TTTInitializeWeaponVars", Entity)
+			if (SERVER) then
+				net.Start "weapon_tttbase.Stats"
+					net.WriteUInt(self:GetEntityID(), 16)
+					net.WriteUInt(id - 1, 8)
+					net["Write" .. var.Type](val, 32)
+				net.Broadcast()
+			end
+			if (var.Callback) then
+				var:Callback(self)
+			end
+		end
 
-   	table.sort(Entity.Vars, function(a, b) return a[3] < b[3] end)
+		self["Get" .. var.FunctionName] = function(self)
+			Stats[self:GetEntityID()] = Stats[self:GetEntityID()] or {}
+			return Stats[self:GetEntityID()][id] or StatNames[id].Default
+		end
+	end
 
-   	for _, var in ipairs(Entity.Vars) do
-      	self:NetworkVar(unpack(var, 1, var.n))
-      	if (SERVER and var[5]) then
-         	self["Set" .. var[3]](self, var[5])
-      	end
-   	end
-   	
-	hook.Run("TTTWeaponVarsInitialized", self)
+	local MyStats = Stats[self:GetEntityID()]
+	if (not MyStats) then
+		MyStats = {}
+		Stats[self:GetEntityID()] = MyStats
+	end
+
+	for id, val in pairs(MyStats) do
+		local Stat = StatNames[id]
+		if (Stat.Callback) then
+			local Stat = StatNames[id]
+			Stat:Callback(self)
+		end
+	end
+end
+
+function SWEP:SetReloadSpeed(val)
+	self.internalReloadSpeed = val
+end
+
+function SWEP:GetReloadSpeed()
+	return self.internalReloadSpeed * (1 + self:GetReloadrate() / 100)
 end
 
 function SWEP:Initialize()
@@ -1104,7 +1181,8 @@ function SWEP:Initialize()
       self:SetIronsights(false)
    end
 
-   self:SetDeploySpeed(self.DeploySpeed)
+	 self:SetDeploySpeed(self.DeploySpeed)
+	 self:SetReloadSpeed(self.ReloadSpeed)
 
    -- compat for gmod update
    if self.SetHoldType then

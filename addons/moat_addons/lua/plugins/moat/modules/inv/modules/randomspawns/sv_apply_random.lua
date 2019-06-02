@@ -16,10 +16,10 @@ if (gmod.GetGamemode()) then
 end
 local ChanceToMutate = 0.5
 
-hook.Add("TTTWeaponVarsInitialized", "moat_ApplyRandom", function(e)
-    if (e:IsWeapon() and not IsValid(e:GetOwner()) and not e.CanBuy and good[e.Kind] and ChanceToMutate > math.random()) then
+hook.Add("OnEntityCreated", "moat_ApplyRandom", function(e)
+    if (e:IsWeapon() and not IsValid(e:GetOwner()) and not e.CanBuy and ChanceToMutate > math.random()) then
         timer.Simple(0, function()
-            if (not IsValid(e) or IsValid(e:GetOwner())) then
+            if (not IsValid(e) or IsValid(e:GetOwner()) or not good[e.Kind]) then
                 return 
             end
             local chosen_rarity = RANDOM_DROPS.Minimum

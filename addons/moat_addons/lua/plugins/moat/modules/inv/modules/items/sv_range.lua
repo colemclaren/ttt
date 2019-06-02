@@ -13,7 +13,7 @@ hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
         local attackerpos = attacker:GetPos()
         local entpos = ent:GetPos()
         local distance = attackerpos:Distance(entpos)
-        local range_mod = weapon_tbl.range_mod or 1
+        local range_mod = weapon:GetRange() + 1
 
         local optimal_range = weapon:GetCurrentRange()
 

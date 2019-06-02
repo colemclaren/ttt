@@ -133,13 +133,6 @@ function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
         ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
     end
 end
-/*
-function MOAT_LOADOUT.SaveLoadedWeapons()
-    loadout_weapon_indexes = {}
-    loadout_cosmetic_indexes = {}
-end
-hook.Add("TTTBeginRound", "moat_SaveLoadedWeapons", MOAT_LOADOUT.SaveLoadedWeapons)
-*/
 
 function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
     local itemtbl = table.Copy(loadout_tbl)
@@ -162,20 +155,20 @@ function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
 
     if (itemtbl.s) then
         for s_idx, mult in pairs(itemtbl.s) do
-            local mod = MODS.Settable[s_idx]
+            local mod = MODS.Accessors[s_idx]
             if (not mod) then
                 print("s_idx fail: ", s_idx)
                 continue
             end
 
-            if (not mod.valid(wep)) then
+            if (not mod:ValidForWeapon(wep)) then
                 print("mod invalid: " .. wep:GetClass() .. " s_idx: " .. s_idx)
                 continue
             end
             
-            local mult = mod.getmult(itemtbl.item.Stats, mult)
+            mult = mod:GetFromStats(itemtbl.item.Stats, mult)
 
-            mod.set(wep, mult)
+            mod:Set(wep, mult)
         end
     end
 
@@ -184,14 +177,6 @@ function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
         wep.level = itemtbl.s.l
         wep.exp = itemtbl.s.x
         m_ApplyTalentMods(wep, itemtbl)
-    end
-
-    for _, mod in pairs(MODS.Networked) do
-        if (not mod.valid(wep)) then
-            continue
-        end
-
-        mod.network(wep)
     end
 
     wep.ItemStats = itemtbl or {}

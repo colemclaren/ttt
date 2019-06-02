@@ -12,10 +12,11 @@ TALENT.Modifications[1] = { min = 10, max = 35 } -- Ammo increased by
 TALENT.Melee = false
 TALENT.NotUnique = true
 
-function TALENT:ModifyWeapon( weapon, talent_mods )
-	if (weapon.Primary.ClipSize and weapon.Primary.DefaultClip and weapon.Primary.ClipMax) then
-		weapon.Primary.ClipSize = math.Round( weapon.Primary.ClipSize * ( 1 + ( ( self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] ) ) / 100 ) ) )
-		weapon.Primary.DefaultClip = weapon.Primary.ClipSize
-		weapon.Primary.ClipMax = weapon.Primary.DefaultClip * 3
+function TALENT:ModifyWeapon(weapon, talent_mods)
+	if (not MODS.Accessors.m:ValidForWeapon(weapon)) then
+		return
 	end
+
+	local Mod = self.Modifications[1]
+	weapon:SetMagazine(weapon:GetMagazine() * (1 + (Mod.min + (Mod.max - Mod.min) * talent_mods[1]) / 100))
 end

@@ -27,14 +27,10 @@ end
 
 hook.Add("TTTPlayerSpeed", "moat_ApplyWeaponWeight", function(ply, slowed)
     if (ply:IsValid()) then
-        if cur_random_round == "Fast" then
-            return 3
-        end
-        local new_speed = 1
+        local new_speed = cur_random_round == "Fast" and 3 or 1
 
-        if (ply:GetActiveWeapon() and ply:GetActiveWeapon().weight_mod) then
-            local wep_weight = ply:GetActiveWeapon().weight_mod
-            new_speed = 1 + (1 - wep_weight)
+        if (ply:GetActiveWeapon() and ply:GetActiveWeapon().GetWeightMod) then
+            new_speed = new_speed * (1 - ply:GetActiveWeapon():GetWeightMod() / 100)
         end
 
         if (MOAT_POWERUPTABLE[ply]) then
