@@ -125,7 +125,6 @@ Accessor("p0", "PaintID", "Int", UpdateCosmetics, -1)
 Accessor("p1", "TintID", "Int", UpdateCosmetics, -1)
 Accessor("p2", "SkinID", "Int", UpdateCosmetics, -1)
 Accessor("n", "RealPrintName", "String", function(self, wep)
-    print(wep, wep:GetRealPrintName())
     wep.ItemName = wep:GetRealPrintName()
     wep.PrintName = wep.ItemName
 end)
