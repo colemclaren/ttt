@@ -391,7 +391,7 @@ function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
         bullet.Spread = vector_origin
         bullet.Tracer = self.Tracer or 4
         bullet.TracerName = self.Tracer or "Tracer"
-        bullet.Force = 10
+        bullet.Force = 0.6 / numbul
         bullet.Damage = dmg
 
         if CLIENT and sparkle:GetBool() then
@@ -417,7 +417,7 @@ function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
         bullet.Spread = Vector(conex, coney, 0)
         bullet.Tracer = self.Tracer or 4
         bullet.TracerName = self.Tracer or "Tracer"
-        bullet.Force = 10
+        bullet.Force = 0.6
         bullet.Damage = dmg
 
         if CLIENT and sparkle:GetBool() then
