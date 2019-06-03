@@ -37,7 +37,7 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
             exp:SetOwner(attacker)
             exp:SetPos(hit_pos)
             exp:Spawn()
-            exp:SetKeyValue("iMagnitude", tostring(dmg))
+            exp:SetKeyValue("iMagnitude", tostring(dmg / 2))
             exp:Fire("Explode", 0, 0)
         end
     else
@@ -49,7 +49,7 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
                 exp:SetOwner(attacker)
                 exp:SetPos(tr.HitPos)
                 exp:Spawn()
-                exp:SetKeyValue("iMagnitude", tostring(dmg))
+                exp:SetKeyValue("iMagnitude", tostring(dmg / 2))
                 exp:Fire("Explode", 0, 0)
             end
             if (cb) then
