@@ -25,11 +25,11 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
         return
     end
 
-    local pellets_per_sec = (wep.Primary.NumShots or 1) / wep.Primary.Delay
+    local pellets_per_sec = (wep.Primary.ReverseShotsDamage and wep.Primary.Damage or wep.Primary.NumShots or 1) / wep.Primary.Delay
     chance = chance / pellets_per_sec
 
 
-    local dmg = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
+    local dmg = self.Modifications[2].min + (self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]
 
     if (is_bow and hit_pos) then
         if (chance > math.random() * 100) then
