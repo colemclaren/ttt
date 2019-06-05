@@ -12,8 +12,8 @@ end
 if (CLIENT) then --the cl_init.lua stuff goes in here
  
 
-   SWEP.Slot = 7;
-   SWEP.SlotPos = 7;
+   SWEP.Slot = 3;
+   SWEP.SlotPos = 0;
    SWEP.DrawAmmo = false;
    SWEP.DrawCrosshair = false;
    SWEP.AllowDrop = true
@@ -22,7 +22,7 @@ if (CLIENT) then --the cl_init.lua stuff goes in here
 
 end
 
-SWEP.Kind = WEAPON_EQUIP1
+SWEP.Kind = WEAPON_NADE
 SWEP.Base = "weapon_tttbase"
 SWEP.PrintName = "Angry Shoe"
 SWEP.Author = "Legend of Robbo";
