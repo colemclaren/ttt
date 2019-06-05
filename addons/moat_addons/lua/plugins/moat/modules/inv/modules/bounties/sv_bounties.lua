@@ -1365,9 +1365,11 @@ MOAT_BOUNTIES:AddBounty("Knife Addicted", {
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_knife_addicted", function(ply, inf, att)
 			if (IsValid(att) and att:IsPlayer() and ply ~= att) then
-				inf = att:GetActiveWeapon()
-
-				if (IsValid(inf) and inf.ClassName and ((inf:IsWeapon() and inf.ClassName == "weapon_ttt_knife") or (inf.ClassName == "ttt_knife_proj")) and WasRightfulKill(att, ply)) then
+				if (inf and inf:IsPlayer()) then
+					inf = att:GetActiveWeapon()
+				end
+	
+				if (IsValid(inf) and inf.ClassName and (inf.ClassName == "weapon_ttt_knife" or inf.ClassName == "ttt_knife_proj") and WasRightfulKill(att, ply)) then
 					MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 				end
 			end
