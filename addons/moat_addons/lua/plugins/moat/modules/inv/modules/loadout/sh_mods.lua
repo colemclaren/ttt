@@ -37,7 +37,7 @@ Accessor("d", "Damage", "Double", function(self, wep)
         Damage = wep.Primary.Damage
     }
 
-    wep.Primary.Damage = wep._Cached.d.Damage * (1 + wep:GetDamage() / 100)
+    wep.Primary.Damage = math.Round(wep._Cached.d.Damage * (1 + wep:GetDamage() / 100), 1)
 end)
 Accessor("r", "Range", "Double")
 Accessor("w", "Weight", "Double", nil, nil, "WeightMod")
@@ -105,7 +105,7 @@ local function UpdateCosmetics(self, wep)
     if (MOAT_PAINT.Paints[wep:GetPaintID()]) then
         MOAT_LOADOUT.ApplyPaint(wep, wep:GetPaintID())
         has_look = true
-    elseif (MOAT_PAINT.Tints[wep:GetTintID()] or wep:GetPaintID() == -2) then
+    elseif (MOAT_PAINT.Tints[wep:GetTintID()] or wep:GetPaintID() == -2 and wep:GetTintID() ~= -1) then
         MOAT_LOADOUT.ApplyTint(wep, wep:GetTintID())
         has_look = true
     end

@@ -14,106 +14,108 @@ hook.Add("Initialize", "moat_ApplyRandom", fn)
 if (gmod.GetGamemode()) then
     fn()
 end
-local ChanceToMutate = 0.5
+local ChanceToMutate = 0.75
 
-hook.Add("OnEntityCreated", "moat_ApplyRandom", function(e)
-    if (e:IsWeapon() and not IsValid(e:GetOwner()) and not e.CanBuy and ChanceToMutate > math.random()) then
-        timer.Simple(0, function()
-            if (not IsValid(e) or IsValid(e:GetOwner()) or not good[e.Kind]) then
-                return 
-            end
-            local chosen_rarity = RANDOM_DROPS.Minimum
-            for i = chosen_rarity, 7 do
-                if (i == 7) then
-                    local chance_to_move = math.random(8)
+hook.Add("TTTWeaponCreated", "moat_ApplyRandom", function(e)
+    if (IsValid(e:GetOwner()) or  e.CanBuy or not good[e.Kind] or ChanceToMutate < math.random()) then
+        return
+    end
+    timer.Simple(0, function()
+        if (not IsValid(e) or IsValid(e:GetOwner())) then
+            return 
+        end
 
-                    if (chance_to_move == 8) then
-                        chosen_rarity = MOAT_RARITIES[9].ID
-                        break
-                    end
-                else
-                    local chance_to_move = math.random(MOAT_RARITIES[i + 1].Rarity)
+        local chosen_rarity = RANDOM_DROPS.Minimum
+        for i = chosen_rarity, 7 do
+            if (i == 7) then
+                local chance_to_move = math.random(8)
 
-                    if (chance_to_move ~= MOAT_RARITIES[i + 1].Rarity) then
-                        chosen_rarity = MOAT_RARITIES[i].ID
-                        break
-                    end
+                if (chance_to_move == 8) then
+                    chosen_rarity = MOAT_RARITIES[9].ID
+                    break
                 end
-            end
+            else
+                local chance_to_move = math.random(MOAT_RARITIES[i + 1].Rarity)
 
-            local chosen_item
-
-            for _, item in RandomPairs(MOAT_DROPTABLE) do
-                if (item.Rarity == chosen_rarity and item.Kind == "tier") then
-                    chosen_item = item
+                if (chance_to_move ~= MOAT_RARITIES[i + 1].Rarity) then
+                    chosen_rarity = MOAT_RARITIES[i].ID
                     break
                 end
             end
+        end
 
-            local col = chosen_item.NameColor or rarity_names[chosen_rarity][2]
-            local numcol = bit.lshift(col.r, 16) + bit.lshift(col.g, 8) + col.b
+        local chosen_item
 
-            local loadout_tbl = {
-                c = -1,
-                p2 = -2,
-                p = numcol,
-                item = chosen_item,
-                w = e:GetClass()
-            }
+        for _, item in RandomPairs(MOAT_DROPTABLE) do
+            if (item.Rarity == chosen_rarity and item.Kind == "tier") then
+                chosen_item = item
+                break
+            end
+        end
 
-            e:SetRealPrintName(chosen_item.Name .. " " .. e.PrintName)
+        local col = chosen_item.NameColor or rarity_names[chosen_rarity][2]
+        local numcol = bit.lshift(col.r, 16) + bit.lshift(col.g, 8) + col.b
 
-            local stattbl = {}
-            if (chosen_item.Stats) then
-                local stats_left = {}
-                for k in pairs(chosen_item.Stats) do
-                    table.insert(stats_left, k:sub(1,1):lower())
-                end
+        local loadout_tbl = {
+            c = -1,
+            p2 = -2,
+            p = numcol,
+            item = chosen_item,
+            w = e:GetClass()
+        }
 
+        e:SetRealPrintName(chosen_item.Name .. " " .. e.PrintName)
 
-                for i = 1, math.random(chosen_item.MinStats, chosen_item.MaxStats) do
-                    local stat = table.remove(stats_left, math.random(1, #stats_left))
-                    stattbl[stat] = math.random(0,  1000) / 1000
-                end
+        local stattbl = {}
+        if (chosen_item.Stats) then
+            local stats_left = {}
+            for k in pairs(chosen_item.Stats) do
+                table.insert(stats_left, k:sub(1,1):lower())
             end
 
-            if (chosen_item.Talents) then
-                local talents = {}
-                stattbl.l = 1
-                stattbl.x = 0
 
-                for i = 1, math.random(chosen_item.MinTalents, chosen_item.MaxTalents) do
-                    local TALENT = m_GetRandomTalent(i, chosen_item.Talents[i], false)
-                    talents[i] = {
-                        e = TALENT.ID,
-                        l = 0,
-                        m = {}
-                    }
-
-                    for m = 1, #TALENT.Modifications do
-                        talents[i].m[m] = math.random(0, 1000) / 1000
-                    end
-                end
-                loadout_tbl.t = talents
+            for i = 1, math.random(chosen_item.MinStats, chosen_item.MaxStats) do
+                local stat = table.remove(stats_left, math.random(1, #stats_left))
+                stattbl[stat] = math.random(0,  1000) / 1000
             end
+        end
 
-            loadout_tbl.s = stattbl
-            m_ApplyWeaponMods(e, loadout_tbl, chosen_item)
-            e:SetTintID(numcol)
-            
+        if (chosen_item.Talents) then
+            local talents = {}
+            stattbl.l = 1
+            stattbl.x = 0
 
-            if (loadout_tbl.t) then
-                loadout_tbl.Talents = {}
+            for i = 1, math.random(chosen_item.MinTalents, chosen_item.MaxTalents) do
+                local TALENT = m_GetRandomTalent(i, chosen_item.Talents[i], false)
+                talents[i] = {
+                    e = TALENT.ID,
+                    l = 0,
+                    m = {}
+                }
 
-                for k5, v5 in ipairs(loadout_tbl.t) do
-                    loadout_tbl.Talents[k5] = m_GetTalentFromEnum(v5.e)
+                for m = 1, #TALENT.Modifications do
+                    talents[i].m[m] = math.random(0, 1000) / 1000
                 end
             end
+            loadout_tbl.t = talents
+        end
 
-            net.Start "MOAT_UPDATE_WEP"
-                net.WriteUInt(e:EntIndex(), 16)
-                net.WriteTable(loadout_tbl)
-            net.Broadcast()
-        end)
-    end
+        loadout_tbl.s = stattbl
+        m_ApplyWeaponMods(e, loadout_tbl, chosen_item)
+        e:SetTintID(numcol)
+        
+
+        if (loadout_tbl.t) then
+            loadout_tbl.Talents = {}
+
+            for k5, v5 in ipairs(loadout_tbl.t) do
+                loadout_tbl.Talents[k5] = m_GetTalentFromEnum(v5.e)
+            end
+        end
+
+        net.Start "MOAT_UPDATE_WEP"
+            net.WriteUInt(e:EntIndex(), 16)
+            net.WriteTable(loadout_tbl)
+        net.Broadcast()
+    end)
 end)

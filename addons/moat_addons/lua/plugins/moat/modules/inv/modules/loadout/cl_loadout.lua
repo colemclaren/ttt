@@ -547,6 +547,9 @@ function MOAT_LOADOUT.ApplyPaint(wep, paint)
 end
 
 function MOAT_LOADOUT.ApplyTint(wep, tint)
+	if (tint == -1) then
+		return
+	end
 	local col = MOAT_PAINT.Tints[tint]
 	if (wep:GetPaintID() == -2) then
 		col = Color(bit.band(bit.rshift(tint, 16), 0xff), bit.band(bit.rshift(tint, 8), 0xff), bit.band(bit.rshift(tint, 0), 0xff))

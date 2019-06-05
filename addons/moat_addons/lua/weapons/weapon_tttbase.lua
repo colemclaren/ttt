@@ -1173,6 +1173,7 @@ function SWEP:GetReloadSpeed()
 end
 
 function SWEP:Initialize()
+   hook.Run("TTTWeaponCreated", self)
    if CLIENT and self:Clip1() == -1 then
       self:SetClip1(self.Primary.DefaultClip)
    elseif SERVER then
