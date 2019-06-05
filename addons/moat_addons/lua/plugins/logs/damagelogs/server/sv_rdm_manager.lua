@@ -215,6 +215,7 @@ net.Receive("M_DL_UpdateStatus", function(_len, ply)
 	tbl.status = status
 	tbl.admin = status == RDM_MANAGER_WAITING and false or ply:Nick()
 	local msg
+	hook.Run("RDMManagerReportStatusUpdate", ply, index, status)
 	if status == RDM_MANAGER_WAITING then
 		msg = ply:Nick().." has set the report #"..index.." to Waiting."
 	elseif status == RDM_MANAGER_PROGRESS then
