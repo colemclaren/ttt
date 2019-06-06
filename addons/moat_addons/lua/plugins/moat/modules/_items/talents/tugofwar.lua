@@ -25,6 +25,6 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
         local force = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
         local v = attacker:GetAimVector()
         v:Rotate(angle180)
-        victim:SetVelocity(v * (100 * force))
+        victim:SetVelocity(v * (10 * force))
     end
 end
