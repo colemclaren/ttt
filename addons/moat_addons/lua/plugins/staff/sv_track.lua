@@ -27,7 +27,7 @@ function STAFF_TRACK.Initialize(ply)
             reports_handled = 0,
         }
     }
-    STAFF_TRACK.CreateEntry(ply, print)
+    STAFF_TRACK.CreateEntry(ply)
 end
 
 function STAFF_TRACK.UpdateEntry(ply)
@@ -54,11 +54,8 @@ function STAFF_TRACK.UpdateEntry(ply)
         
     STAFF_TRACK.CreateQuery("UPDATE staff_tracker SET " .. table.concat(statupd, ", ") .. " WHERE id = " .. Entry.sql_id .. ";",
         function(q)
-            print "good job mysql"
         end,
         function(err)
-            print(err)
-            print "bad job mysql"
             for k, v in pairs(backup) do
                 Entry.Stats[k] = Entry.Stats[k] + v
             end
@@ -87,7 +84,6 @@ function STAFF_TRACK.CreateEntry(ply, cb)
             STAFF_TRACK.UpdateEntry(ply)
         end,
         function(err)
-            print(err)
         end
     )
 end
