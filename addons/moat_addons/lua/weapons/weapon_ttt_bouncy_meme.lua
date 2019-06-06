@@ -16,7 +16,7 @@ SWEP.Base = "weapon_tttbase"
 SWEP.CanDrop = false
 SWEP.AutoSpawnable = false
 SWEP.WeaponID = AMMO_SMOKE
-SWEP.Kind = WEAPON_NADE
+-- SWEP.Kind = WEAPON_NADE
 
 SWEP.ViewModel          = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel         = "models/props/cs_office/paper_towels.mdl"
