@@ -75,6 +75,13 @@ end
 
 function SWEP:DryFire() end
 
+
+local function NoGrenadeCollisions(self, e1, e2)
+	if ((e1 == self or e2 == self) and (e1 == self:GetOwner() or e2 == self:GetOwner())) then
+	   return false
+	end
+ end
+
 /*---------------------------------------------------------
 PrimaryAttack
 ---------------------------------------------------------*/
@@ -108,6 +115,7 @@ function SWEP:PrimaryAttack()
 				ball:Spawn();
 				ball:Activate();
 				ball:SetOwner(self.Owner)
+				hook.Add("ShouldCollide", ball, NoGrenadeCollisions)
 				local Physics = ball:GetPhysicsObject();
 
 				if IsValid(Physics) then
