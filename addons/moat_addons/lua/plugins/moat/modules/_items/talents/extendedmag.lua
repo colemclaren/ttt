@@ -7,7 +7,7 @@ TALENT.Tier = 2
 TALENT.LevelRequired = { min = 15, max = 20 }
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = { min = 10, max = 35 } -- Ammo increased by
+TALENT.Modifications[1] = { min = 15, max = 40 } -- Ammo increased by
 
 TALENT.Melee = false
 TALENT.NotUnique = true
