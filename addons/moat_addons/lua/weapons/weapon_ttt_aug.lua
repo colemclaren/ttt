@@ -41,7 +41,7 @@ SWEP.IronSightsPos = Vector( 5, -15, -2 )
 SWEP.IronSightsAng = Vector( 2.6, 1.37, 3.5 )
 
 SWEP.DeploySpeed = 1.4
-SWEP.ReloadSpeed = 1
+SWEP.ReloadSpeed = 1.5
 SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "reload",

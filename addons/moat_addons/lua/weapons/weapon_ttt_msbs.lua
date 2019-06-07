@@ -46,7 +46,7 @@ SWEP.RunSightsAng = Vector(-19.5,63.31,-19.584)
 
 // SWEP.PrimaryAnim = {"Shoot1", "Shoot2"}
 SWEP.DeploySpeed = 1.4
-SWEP.ReloadSpeed = 1
+SWEP.ReloadSpeed = 1.5
 SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "Reload",
