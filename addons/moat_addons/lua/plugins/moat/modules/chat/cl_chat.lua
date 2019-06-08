@@ -32,6 +32,79 @@ local default_x, default_y = chat.GetChatBoxPos()
 
 local emojis = {}
 local emoji_length = {}
+local emoji_list = {
+    {Name = "feelsBruh", URL = "https://cdn.discordapp.com/emojis/586210913162493952.png?v=1"},
+    {Name = "sadcat", URL = "https://cdn.discordapp.com/emojis/585874896098164738.png?v=1"},
+    {Name = "SmileW", URL = "https://cdn.discordapp.com/emojis/585872318568595458.png?v=1"},
+    {Name = "FeelsOkayMan", URL = "https://cdn.discordapp.com/emojis/585872318463606827.png?v=1"},
+    {Name = "elon", URL = "https://cdn.discordapp.com/emojis/585717809854545920.png?v=1"},
+    {Name = "Pepega", URL = "https://cdn.discordapp.com/emojis/585716270981185536.png?v=1"},
+    {Name = "gachiGASM", URL = "https://cdn.discordapp.com/emojis/585715951249522708.png?v=1"},
+    {Name = "pogU", URL = "https://cdn.discordapp.com/emojis/585714124336660501.png?v=1"},
+    {Name = "OMEGALUL", URL = "https://cdn.discordapp.com/emojis/585713984469073931.png?v=1"},
+    {Name = "LULW", URL = "https://cdn.discordapp.com/emojis/585713953351401493.png?v=1"},
+    {Name = "monkaW", URL = "https://cdn.discordapp.com/emojis/585713583384690708.png?v=1"},
+    {Name = "BabyRage", URL = "https://cdn.discordapp.com/emojis/585713285446369285.png?v=1"},
+    {Name = "lovelyGun", URL = "https://cdn.discordapp.com/emojis/585710657173979167.png?v=1"},
+    {Name = "HYPERS", URL = "https://cdn.discordapp.com/emojis/585708303019933698.png?v=1"},
+    {Name = "EZ", URL = "https://cdn.discordapp.com/emojis/585708165992284160.png?v=1"},
+    {Name = "mmmm", URL = "https://cdn.discordapp.com/emojis/585703743194923008.png?v=1"},
+    {Name = "5Head", URL = "https://cdn.discordapp.com/emojis/585703743152979968.png?v=1"},
+    {Name = "3Head", URL = "https://cdn.discordapp. com/emojis/585703743149047808.png?v=1"},
+    {Name = "veryToxic", URL = "https://cdn.discordapp.com/emojis/585670672747986954.png?v=1"},
+    {Name = "PepeYikes", URL = "https://cdn.discordapp.com/emojis/585667920953344000.png?v=1"},
+    {Name = "worryFieri", URL = "https://cdn.discordapp.com/emojis/585667168776093696.png?v=1"},
+    {Name = "noPing", URL = "https://cdn.discordapp.com/emojis/585666312991408138.png?v=1"},
+    {Name = "worryCowboy", URL = "https://cdn.discordapp.com/emojis/585666215201210408.png?v=1"},
+    {Name = "toxic", URL = "https://cdn.discordapp.com/emojis/580135478137716749.png?v=1"},
+    {Name = "omw", URL = "https://cdn.discordapp.com/emojis/528328658218123279.png?v=1"},
+    {Name = "OkayMan", URL = "https://cdn.discordapp.com/emojis/480786157349634051.png?v=1"},
+    {Name = "Pog", URL = "https://cdn.discordapp.com/emojis/473770855675985922.png?v=1"},
+    {Name = "PepePains", URL = "https://cdn.discordapp.com/emojis/455983162766655509.png?v=1"},
+    {Name = "HYPERBRUH", URL = "https://cdn.discordapp.com/emojis/435118105321144330.png?v=1"},
+    {Name = "heartpepe", URL = "https://cdn.discordapp.com/emojis/430403615585337354.png?v=1"},
+    {Name = "blobawkward", URL = "https://cdn.discordapp.com/emojis/422500045926170636.png?v=1"},
+    {Name = "blobpolice", URL = "https://cdn.discordapp.com/emojis/422499869492510740.png?v=1"},
+    {Name = "blobthumbsdown", URL = "https://cdn.discordapp.com/emojis/422499550633394176.png?v=1"},
+    {Name = "blobkissheart", URL = "https://cdn.discordapp.com/emojis/422499522514649088.png?v=1"},
+    {Name = "blobthumbsup", URL = "https://cdn.discordapp.com/emojis/422499471579021332.png?v=1"},
+    {Name = "blobastonished", URL = "https://cdn.discordapp.com/emojis/422499412044939274.png?v=1"},
+    {Name = "blobaww", URL = "https://cdn.discordapp.com/emojis/422499346031050773.png?v=1"},
+    {Name = "thegoodplace", URL = "https://cdn.discordapp.com/emojis/420087857865031681.png?v=1"},
+    {Name = "thebadplace", URL = "https://cdn.discordapp.com/emojis/420087728508502027.png?v=1"},
+    {Name = "bad", URL = "https://cdn.discordapp.com/emojis/419682215899693106.png?v=1"},
+    {Name = "mg", URL = "https://cdn.discordapp.com/emojis/411203820505399297.png?v=1"},
+    {Name = "PepeHands", URL = "https://cdn.discordapp.com/emojis/407053538439593985.png?v=1"},
+    {Name = "hi", URL = "https://cdn.discordapp.com/emojis/396708302479949825.png?v=1"},
+    {Name = "PepeLaugh", URL = "https://cdn.discordapp.com/emojis/392864128764739584.png?v=1"},
+    {Name = "wow", URL = "https://cdn.discordapp.com/emojis/392153478266355712.png?v=1"},
+    {Name = "Sweaty", URL = "https://cdn.discordapp.com/emojis/391601748546027520.png?v=1"},
+    {Name = "monkaOMEGA", URL = "https://cdn.discordapp.com/emojis/383902296683053056.png?v=1"},
+    {Name = "PepoThink", URL = "https://cdn.discordapp.com/emojis/381679690311663631.png?v=1"},
+    {Name = "LUL", URL = "https://cdn.discordapp.com/emojis/365243374464401419.png?v=1"},
+    {Name = "monkas", URL = "https://cdn.discordapp.com/emojis/365243221896331274.png?v=1"},
+    {Name = "what", URL = "https://cdn.discordapp.com/emojis/344970947637542922.png?v=1"},
+    {Name = "kappa", URL = "https://cdn.discordapp.com/emojis/337597806036516864.png?v=1"},
+    {Name = "drool", URL = "https://cdn.discordapp.com/emojis/334960091709046796.png?v=1"},
+    {Name = "stop", URL = "https://cdn.discordapp.com/emojis/334959986411175936.png?v=1"},
+    {Name = "vs", URL = "https://cdn.discordapp.com/emojis/334959921378492428.png?v=1"},
+    {Name = "lick", URL = "https://cdn.discordapp.com/emojis/334959798036594688.png?v=1"},
+    {Name = "flex", URL = "https://cdn.discordapp.com/emojis/334959757372948492.png?v=1"},
+    {Name = "tried", URL = "https://cdn.discordapp.com/emojis/334959357563502605.png?v=1"},
+    {Name = "doubt", URL = "https://cdn.discordapp.com/emojis/334959208120188928.png?v=1"},
+    {Name = "thankong", URL = "https://cdn.discordapp.com/emojis/299571980208832523.png?v=1"},
+    {Name = "winner", URL = "https://cdn.discordapp.com/emojis/299563022752546817.png?v=1"},
+    {Name = "B1", URL = "https://cdn.discordapp.com/emojis/299562352511156224.png?v=1"},
+    {Name = "disagree", URL = "https://cdn.discordapp.com/emojis/299561512182480916.png?v=1"},
+    {Name = "agree", URL = "https://cdn.discordapp.com/emojis/299561490103533568.png?v=1"},
+    {Name = "useful", URL = "https://cdn.discordapp.com/emojis/299561435044904960.png?v=1"},
+    {Name = "friendly", URL = "https://cdn.discordapp.com/emojis/299561397451227136.png?v=1"},
+    {Name = "optimistic", URL = "https://cdn.discordapp.com/emojis/299561350349324290.png?v=1"},
+    {Name = "funny", URL = "https://cdn.discordapp.com/emojis/299561324273467392.png?v=1"},
+    {Name = "late", URL = "https://cdn.discordapp.com/emojis/299561288894251009.png?v=1"},
+    {Name = "thonkang", URL = "https://cdn.discordapp.com/emojis/299555266482143244.png?v=1"}
+}
+
 local function AddEmoji(width, url, ...)
     for i = 1, select("#", ...) do
         emojis[select(i, ...)] = url
@@ -44,6 +117,78 @@ AddEmoji(21, "pepega", "pepega")
 AddEmoji(16, "pepehands", "pepehands")
 AddEmoji(16, "monkaW", "monkaW")
 AddEmoji(16, "monkaS", "monkaS")
+
+local AddDiscordEmoji = AddEmoji
+AddDiscordEmoji(24, "lick", ":lick:")
+AddDiscordEmoji(16, "disagree", ":disagree:")
+AddDiscordEmoji(20, "tried", ":tried:")
+AddDiscordEmoji(16, "LUL", ":LUL:")
+AddDiscordEmoji(16, "winner", ":winner:")
+AddDiscordEmoji(16, "late", ":late:")
+AddDiscordEmoji(16, "optimistic", ":optimistic:")
+AddDiscordEmoji(16, "useful", ":useful:")
+AddDiscordEmoji(16, "funny", ":funny:")
+AddDiscordEmoji(16, "agree", ":agree:")
+AddDiscordEmoji(16, "Pog", ":Pog:")
+AddDiscordEmoji(16, "3Head", ":3Head:")
+AddDiscordEmoji(16, "friendly", ":friendly:")
+AddDiscordEmoji(16, "PepeYikes", ":PepeYikes:")
+AddDiscordEmoji(16, "noPing", ":noPing:")
+AddDiscordEmoji(16, "feelsBruh", ":feelsBruh:")
+AddDiscordEmoji(16, "thankong", ":thankong:")
+AddDiscordEmoji(15, "blobthumbsdown", ":blobthumbsdown:")
+AddDiscordEmoji(18, "blobpolice", ":blobpolice:")
+AddDiscordEmoji(21, "lovelyGun", ":lovelyGun:")
+AddDiscordEmoji(16, "blobthumbsup", ":blobthumbsup:")
+AddDiscordEmoji(16, "monkaW", ":monkaW:")
+AddDiscordEmoji(16, "BabyRage", ":BabyRage:")
+AddDiscordEmoji(16, "thonkang", ":thonkang:")
+AddDiscordEmoji(16, "PepePains", ":PepePains:")
+AddDiscordEmoji(16, "mg", ":mg:")
+AddDiscordEmoji(16, "OkayMan", ":OkayMan:")
+AddDiscordEmoji(23, "toxic", ":toxic:")
+AddDiscordEmoji(14, "gachiGASM", ":gachiGASM:")
+AddDiscordEmoji(17, "PepoThink", ":PepoThink:")
+AddDiscordEmoji(19, "sadcat", ":sadcat:")
+AddDiscordEmoji(13, "5Head", ":5Head:")
+AddDiscordEmoji(21, "Pepega", ":Pepega:")
+AddDiscordEmoji(16, "FeelsOkayMan", ":FeelsOkayMan:")
+AddDiscordEmoji(16, "veryToxic", ":veryToxic:")
+AddDiscordEmoji(16, "worryFieri", ":worryFieri:")
+AddDiscordEmoji(16, "OMEGALUL", ":OMEGALUL:")
+AddDiscordEmoji(16, "mmmm", ":mmmm:")
+AddDiscordEmoji(16, "thegoodplace", ":thegoodplace:")
+AddDiscordEmoji(16, "PepeHands", ":PepeHands:")
+AddDiscordEmoji(16, "HYPERBRUH", ":HYPERBRUH:")
+AddDiscordEmoji(17, "doubt", ":doubt:")
+AddDiscordEmoji(16, "what", ":what:")
+AddDiscordEmoji(16, "hi", ":hi:")
+AddDiscordEmoji(16, "HYPERS", ":HYPERS:")
+AddDiscordEmoji(19, "blobawkward", ":blobawkward:")
+AddDiscordEmoji(16, "SmileW", ":SmileW:")
+AddDiscordEmoji(12, "kappa", ":kappa:")
+AddDiscordEmoji(22, "drool", ":drool:")
+AddDiscordEmoji(16, "heartpepe", ":heartpepe:")
+AddDiscordEmoji(16, "stop", ":stop:")
+AddDiscordEmoji(16, "wow", ":wow:")
+AddDiscordEmoji(18, "vs", ":vs:")
+AddDiscordEmoji(14, "LULW", ":LULW:")
+AddDiscordEmoji(16, "EZ", ":EZ:")
+AddDiscordEmoji(16, "blobaww", ":blobaww:")
+AddDiscordEmoji(16, "monkaOMEGA", ":monkaOMEGA:")
+AddDiscordEmoji(14, "elon", ":elon:")
+AddDiscordEmoji(23, "Sweaty", ":Sweaty:")
+AddDiscordEmoji(16, "thebadplace", ":thebadplace:")
+AddDiscordEmoji(16, "omw", ":omw:")
+AddDiscordEmoji(17, "PepeLaugh", ":PepeLaugh:")
+AddDiscordEmoji(23, "flex", ":flex:")
+AddDiscordEmoji(16, "worryCowboy", ":worryCowboy:")
+AddDiscordEmoji(16, "pogU", ":pogU:")
+AddDiscordEmoji(16, "blobastonished", ":blobastonished:")
+AddDiscordEmoji(16, "blobkissheart", ":blobkissheart:")
+AddDiscordEmoji(16, "B1", ":B1:")
+AddDiscordEmoji(16, "bad", ":bad:")
+AddDiscordEmoji(16, "monkas", ":monkas:")
 
 local function surface_GetEmojiTextSize(text)
     local emoji_width = 0
