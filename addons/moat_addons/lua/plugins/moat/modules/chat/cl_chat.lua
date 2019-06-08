@@ -32,7 +32,6 @@ local default_x, default_y = chat.GetChatBoxPos()
 
 local emojis = {}
 local emoji_length = {}
-
 local function AddEmoji(width, url, ...)
     for i = 1, select("#", ...) do
         emojis[select(i, ...)] = url
@@ -867,7 +866,6 @@ function moat_chat.DrawText(self, texte, texttbl, a, name)
             --draw_SimpleTextOutlined(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], Color(100, 100, 255), 0, 0, 0.5, Color(10, 10, 10, a))
 
             local text_w, text_h = surface_GetEmojiTextSize(str)
-            text_w = text_w + total_extra
             local text_x, text_y = 4 + texttbl[2] + textpos + spw, texttbl[3]
 
             if (moat_chat.IsHovering(self, text_w, text_h, text_x, text_y)) then
