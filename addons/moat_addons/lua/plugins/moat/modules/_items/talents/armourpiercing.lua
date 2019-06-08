@@ -15,6 +15,7 @@ TALENT.NotUnique = true
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
 	if (chance > math.random() * 100) then
-		victim.ArmourPierced = (victim.ArmourPierced or 0) + 1 -- Will ignore the armour check later
+		-- Will ignore the armour check later
+		victim.ArmourPierced = true
 	end
 end
