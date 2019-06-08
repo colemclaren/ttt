@@ -30,6 +30,34 @@ local terror_color = Color(0, 200, 0, 255)
 local spec_color = Color(200, 200, 0, 255)
 local default_x, default_y = chat.GetChatBoxPos()
 
+local emojis = {}
+local emoji_length = {}
+
+local function AddEmoji(width, url, ...)
+    for i = 1, select("#", ...) do
+        emojis[select(i, ...)] = url
+        emoji_length[select(i, ...)] = width
+    end
+end
+AddEmoji(16, "ok_hand", ":ok_hand:", "👌")
+AddEmoji(16, "thinking", ":thinking:", "🤔")
+AddEmoji(21, "pepega", "pepega")
+AddEmoji(16, "pepehands", "pepehands")
+AddEmoji(16, "monkaW", "monkaW")
+AddEmoji(16, "monkaS", "monkaS")
+
+local function surface_GetEmojiTextSize(text)
+    local emoji_width = 0
+    for emoji in pairs(emojis) do
+        local amt
+        text, amt = text:gsub(emoji, "")
+        emoji_width = emoji_width + (emoji_length[emoji] + 1) * amt
+    end
+
+    local x, y = surface.GetTextSize(text)
+    return x + emoji_width, y
+end
+
 if (moat_chat and moat_chat.BG) then
     moat_chat.BG:Remove()
 end
@@ -724,23 +752,6 @@ function moat_chat.IsHovering(self, w, h, x, y)
     end
 end
 
-local emojis = {}
-local emoji_length = {}
-
-local function AddEmoji(width, url, ...)
-    for i = 1, select("#", ...) do
-        emojis[select(i, ...)] = url
-        emoji_length[select(i, ...)] = width
-    end
-end
-AddEmoji(16, "ok_hand", ":ok_hand:", "👌")
-AddEmoji(16, "thinking", ":thinking:", "🤔")
-AddEmoji(21, "pepega", "pepega")
-AddEmoji(16, "pepehands", "pepehands")
-AddEmoji(16, "monkaW", "monkaW")
-AddEmoji(16, "monkaS", "monkaS")
-
-
 local function DrawEmojiTextOutline(ignore_emojis, text, font, tx, ty, ...)
     local texttbl = {text}
     for emoji, url in pairs(emojis) do
@@ -823,7 +834,7 @@ function moat_chat.DrawText(self, texte, texttbl, a, name)
 
         if (not texttbl or (texttbl and not texttbl[1])) then return end
 
-        local text_w, text_h = surface_GetTextSize(texttbl[1])
+        local text_w, text_h = surface_GetEmojiTextSize(texttbl[1])
         local text_x, text_y = 4 + texttbl[2], texttbl[3]
 
         if (moat_chat.IsHovering(self, text_w, text_h, text_x, text_y)) then
@@ -847,18 +858,7 @@ function moat_chat.DrawText(self, texte, texttbl, a, name)
         local str = texte[i]
         local space = " "
         if (i == 1) then space = "" end
-        local text_get_width = str
-        local total_extra = 0
-        for emoji in pairs(emojis) do
-            local amt = 0
-            text_get_width = text_get_width:gsub(emoji, function(e)
-                amt = amt + emoji_length[e] + 1
-                return ""
-            end)
-            total_extra = total_extra + amt
-        end
-        local tw, th = surface_GetTextSize(space .. text_get_width)
-        tw = tw + total_extra
+        local tw, th = surface_GetEmojiTextSize(space .. str)
 
         if (string.StartWith(str:lower(), "http://") or string.StartWith(str:lower(), "https://") or string.StartWith(str:lower(), "wwww.")) then
             DrawEmojiTextOutline(true, space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(100, 100, 255, 25), 0, 0, 0, Color(10, 10, 10, 0))
@@ -866,7 +866,7 @@ function moat_chat.DrawText(self, texte, texttbl, a, name)
             DrawEmojiTextOutline(false, space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], Color(100, 100, 255), 0, 0, 0, Color(10, 10, 10, 0))
             --draw_SimpleTextOutlined(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], Color(100, 100, 255), 0, 0, 0.5, Color(10, 10, 10, a))
 
-            local text_w, text_h = surface_GetTextSize(text_get_width)
+            local text_w, text_h = surface_GetEmojiTextSize(str)
             text_w = text_w + total_extra
             local text_x, text_y = 4 + texttbl[2] + textpos + spw, texttbl[3]
 
@@ -886,8 +886,7 @@ function moat_chat.DrawText(self, texte, texttbl, a, name)
             DrawEmojiTextOutline(false, space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], texttbl[4], 0, 0, 0, Color(10, 10, 10, 0))
             --draw_SimpleTextOutlined(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], texttbl[4], 0, 0, 0.5, Color(10, 10, 10, a))
 
-            local text_w, text_h = surface_GetTextSize(text_get_width)
-            text_w = text_w + total_extra
+            local text_w, text_h = surface_GetEmojiTextSize(str)
             local text_x, text_y = 4 + texttbl[2] + textpos + spw, texttbl[3]
 
             if (moat_chat.IsHovering(self, text_w, text_h, text_x, text_y)) then
@@ -1053,7 +1052,7 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
 
         if (type(TextTable[pos]) == "table" and (not TextTable[pos].IsItem) and type(TextTable[pos][2]) == "table") then
             local text = TextTable[pos][1]
-            local x, y = surface_GetTextSize(text)
+            local x, y = surface_GetEmojiTextSize(text)
             table.insert(FinalText, {text, TextPosX, TextPosY, TextTable[pos][2], 1})
             TextPosX = TextPosX + x
         else
@@ -1067,9 +1066,9 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
             if (istable(TextTable[pos]) and TextTable[pos].IsItem) then text = TextTable[pos]["ItemName"] or "Scripted Weapon" end
             if (not text) then break end
 
-            local x, y = surface_GetTextSize(text:gsub(":%w+:", "a"))
+            local x, y = surface_GetEmojiTextSize(text)
 
-            if TextPosX + x >= windowSizeX or text:find ":%w+:" then
+            if TextPosX + x >= windowSizeX then
                 local startpos, t, t2, size = #FinalText
 
                 for line in text:gmatch("[^%s]+") do
@@ -1080,7 +1079,7 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
                         t = ""
                     end
 
-                    size = surface_GetTextSize(t2:gsub(":%w+:", "a"))
+                    size = surface_GetEmojiTextSize(t2)
 
                     if TextPosX + size >= windowSizeX then
                         if (istable(TextTable[pos]) and TextTable[pos].IsItem) then
@@ -1106,7 +1105,7 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
                     table.insert(FinalText, {t, TextPosX, TextPosY, LastColor})
                 end
                 if (t) then
-                    size = surface_GetTextSize(t:gsub(":%w+:", ""))
+                    size = surface_GetEmojiTextSize(t)
                     TextPosX = TextPosX + size
                 end
             else
@@ -1137,7 +1136,7 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
         local TextX, TextY = FinalText[i][2], FinalText[i][3]
 
         for a = 1, len do
-            local x = surface_GetTextSize(FinalText[i][1][a])
+            local x = surface_GetEmojiTextSize(FinalText[i][1][a])
             TextX = TextX + x
             table.insert(TextTable, {FinalText[i][1][a], TextX, TextY})
         end
