@@ -91,7 +91,7 @@ function m_OpenMOTD(str)
     MOTD.w = vgui.Create("DHTML", p)
     MOTD.w:DockMargin(0, 10, 10, 10)
     MOTD.w:Dock(FILL)
-    MOTD.w:OpenURL("https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. name)
+    MOTD.w:OpenURL("https://cdn.moat.gg/ttt/motd/20190608_2.html?n=" .. name)
     MOTD.w.Paint = function(s, w, h)
         DrawRainbowText(1, "Loading Page...", "DermaLarge", w/2, h/2, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
