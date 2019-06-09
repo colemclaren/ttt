@@ -49,6 +49,8 @@ function meta:m_ModifyStatType(str, key, add)
             local new_value = self:GetNWInt(str) + add
             self:SetNWInt(str, new_value)
             MOAT_STATS[self][key] = new_value
+
+			m_SaveStats(self)
         else
             MsgC(Color(0, 255, 0), "Unknown stat string: " .. str .. "\n")
         end
@@ -62,6 +64,8 @@ function meta:m_SetStatType(str, key, new_value)
         if (self:GetNWInt(str)) then
             self:SetNWInt(str, new_value)
             MOAT_STATS[self][key] = new_value
+
+			m_SaveStats(self)
         else
             MsgC(Color(0, 255, 0), "Unknown stat string: " .. str .. "\n")
         end
