@@ -172,7 +172,7 @@ net.Receive("MapEvent",function()
 	end
 
 	if name:len() > 1 then
-		chat.AddText(Material("icon16/star.png"), Color(255,255,255),name," started an event: ",Color(255,255,0),MG_cur_event,Color(255,255,255),"!")
+		chat.AddText(Material("icon16/star.png"), Color(255,255,255),name," added 20 rounds of ",Color(255,255,0),MG_cur_event,Color(255,255,255),"!")
 	else
 		chat.AddText(Material("icon16/star.png"), Color(255,255,255),"Map event active: ",Color(255,255,0),MG_cur_event,Color(255,255,255),"!")
 	end
@@ -440,7 +440,7 @@ function MOAT_DONATE:RebuildSelection(num)
 			return
 		end
 
-		if (pkg[1]):lower():match("event") and MG_cur_event then
+		if (pkg[1]):lower():match("event") and (MG_cur_event and MG_cur_event ~= "Quadra XP") then
 			chat.AddText(Material("icon16/cancel.png"), Color(255, 80, 80), "There's currently a map event going on! Wait until the next map.")
 			surface.PlaySound("buttons/button10.wav")
 			return

@@ -131,6 +131,7 @@ MOAT_DONATE.Packages = {
 		if (MG_cur_event and MG_cur_event ~= "Quadra XP") then
 			return
 		end
+
 		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left + 20 WHERE 1"
 
 		start_quadra_xp(ply:Nick())
