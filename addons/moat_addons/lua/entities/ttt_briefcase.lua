@@ -85,17 +85,17 @@ function ENT:GiveAmmo(ply)
         self:SetAmmoLeft(AmmoLeft - 1)
         -- Randomizes the ammo type and sets it to a variable
         local ammotypes = {
-			["AlyxGun"] = "item_ammo_revolver_ttt",
-			["Buckshot"] = "item_box_buckshot_ttt",
+			["alyxgun"] = "item_ammo_revolver_ttt",
+			["buckshot"] = "item_box_buckshot_ttt",
 			["357"] = "item_ammo_357_ttt",
-			["Pistol"] = "item_ammo_pistol_ttt",
-			["SMG1"] = "item_ammo_smg1_ttt"
+			["pistol"] = "item_ammo_pistol_ttt",
+			["smg1"] = "item_ammo_smg1_ttt"
 		}
 	
 		for k, v in pairs(ply:GetWeapons()) do
-            if (v.Primary.Ammo and ammotypes[v.Primary.Ammo]) then
+            if (v.Primary.Ammo and ammotypes[string.lower(v.Primary.Ammo)]) then
 				-- Positions the ammo above the prop and then creates it
-        		local thing = ents.Create(ammotypes[v.Primary.Ammo])
+        		local thing = ents.Create(ammotypes[string.lower(v.Primary.Ammo)])
         		local weppos = self:GetPos()
         		weppos.z = weppos.z + 5
         		thing:SetPos(weppos)
