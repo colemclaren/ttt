@@ -128,12 +128,6 @@ COMMAND.Run = function(pl, args, supp)
 			return
 		end
 
-		if (not Bans.All[1]) then
-			D3A.Chat.SendToPlayer2(pl, moat_red, "This user has no previous bans on record.") 
-
-			return
-		end
-
 		PrintBans(pl, sid, Bans, Warns)
 	end
 
