@@ -151,7 +151,7 @@ SWEP.PrintName      = "SG550 TE"
 SWEP.Base       = "weapon_tttbase"
 DEFINE_BASECLASS "weapon_tttbase"
 SWEP.Spawnable = true
-
+--
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_AK47
 
