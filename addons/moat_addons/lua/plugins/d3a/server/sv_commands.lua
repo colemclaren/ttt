@@ -14,7 +14,7 @@ function D3A.Commands.Load()
 	for k, v in pairs(files) do
 		COMMAND = {}
 		
-		include("_commands/" .. v)
+		include(D3A.Config.Path .. "server/_commands/" .. v)
 		
 		COMMAND.Flag = COMMAND.Flag or ""
 		COMMAND.Args = COMMAND.Args or {}
