@@ -3,10 +3,18 @@ emoji = emoji or {}
 local emojis = {}
 local emoji_length = {}
 
+local emoji_text_length = {max = 0}
+
 local function AddEmoji(width, url, ...)
     for i = 1, select("#", ...) do
-        emojis[select(i, ...)] = url
-        emoji_length[select(i, ...)] = width
+        local emoji = select(i, ...)
+        emojis[emoji] = "https://cdn.moat.gg/ttt/emojis/" .. url .. ".png"
+        emoji_length[emoji] = width
+
+        emoji_text_length.max = math.max(emoji_text_length.max, emoji:len())
+
+        emoji_text_length[emoji:len()] = emoji_text_length[emoji:len()] or {}
+        emoji_text_length[emoji:len()][emoji] = true
     end
 end
 AddEmoji(16, "ok_hand", ":ok_hand:", "👌")
@@ -89,15 +97,18 @@ AddDiscordEmoji(16, "bad", ":bad:")
 AddDiscordEmoji(16, "monkas", ":monkas:")
 
 function emoji.GetTextSize(text)
-    local emoji_width = 0
-    for emoji in pairs(emojis) do
-        local amt
-        text, amt = text:gsub(emoji, "")
-        emoji_width = emoji_width + (emoji_length[emoji] + 1) * amt
+    local width = 0
+    local height = 0
+    for _, code in emoji.Codes(text) do
+        if (emojis[code]) then
+            width = width + emoji_length[code] + 1
+        else
+            local w, h = surface.GetTextSize(code)
+            width = width + w
+            height = math.max(height, h)
+        end
     end
-
-    local x, y = surface.GetTextSize(text)
-    return x + emoji_width, y
+    return width, height
 end
 
 function emoji.GetTextOffsetNeeded(text)
@@ -108,32 +119,41 @@ end
 function emoji.Codes(text)
     local continue_until = 0
     local split = {}
-    for pos, code in utf8.codes(text) do
+    local last_valid = 1
+    local n = 0
+    for pos = 1, text:len() do
         if (continue_until > pos) then
             continue
         end
 
-        local found = false
-        for emoji in pairs(emojis) do
-            if (text:find("^" .. emoji, pos)) then
-                continue_until = pos + emoji:len()
-                split[#split + 1] = emoji
-                found = true
+        for len = 1, emoji_text_length.max do
+            local check = emoji_text_length[len]
+            if (not check) then
+                continue
             end
-        end
-        if (not found) then
-            split[#split + 1] = utf8.char(code)
+            local subbed = text:sub(pos, pos + len - 1)
+            if (not check[subbed]) then
+                continue
+            end
+    
+            if (last_valid < pos) then
+                n = n + 1
+                split[n] = text:sub(last_valid, pos - 1)
+            end
+
+            continue_until = pos + len
+            n = n + 1
+            split[n] = subbed
+            last_valid = continue_until
+            break
         end
     end
 
-    local pos = 0
-    return function()
-        pos = pos + 1
-        if (split[pos]) then
-            return pos, split[pos]
-        end
-        return nil
+    if (last_valid <= text:len()) then
+        split[n + 1] = text:sub(last_valid)
     end
+
+    return ipairs(split)
 end
 
 function emoji.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, outlinewid, outlinecolor, dont_draw_emojis, emoji_align_bottom)
@@ -146,7 +166,7 @@ function emoji.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, out
                     local _, tall = surface.GetTextSize "|"
                     cy = cy - 16 + tall
                 end
-                cdn.DrawImage("https://cdn.moat.gg/ttt/emojis/" .. emojis[text] .. ".png", tx, cy, emoji_length[text], 16, nil, "alphatest")
+                cdn.DrawImage(emojis[text], tx, cy, emoji_length[text], 16, nil, "alphatest")
                 tx = tx + emoji_length[text] + 2
             end
         else
@@ -167,7 +187,7 @@ function emoji.SimpleText(text, font, tx, ty, color, xalign, yalign, dont_draw_e
                     local _, tall = surface.GetTextSize "|"
                     cy = cy - 16 + tall
                 end
-                cdn.DrawImage("https://cdn.moat.gg/ttt/emojis/" .. emojis[text] .. ".png", tx, cy, emoji_length[text], 16, nil, "alphatest")
+                cdn.DrawImage(emojis[text], tx, cy, emoji_length[text], 16, nil, "alphatest")
                 tx = tx + emoji_length[text] + 2
             end
         else
