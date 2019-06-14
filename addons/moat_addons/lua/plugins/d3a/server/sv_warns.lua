@@ -93,7 +93,7 @@ function D3A.SendWarnings(sid, pl)
 		return
 	end
 
-	net.WriteArrayy(warns,  function(i) net.Start "D3A.Warn" net.WriteUInt(i, 8) end, function(w, i)
+	net.WriteArray(warns,  function(i) net.Start "D3A.Warn" net.WriteUInt(i, 8) end, function(w, i)
 		net.WriteUInt(w.id, 32)
 		net.WriteString(w.staff_steam_id)
 		net.WriteString(w.staff_name)
@@ -106,6 +106,14 @@ hook.Add("PlayerInitialSpawn", "D3A.Check.Warns", D3A.WarnPlayer)
 
 function D3A.Warns.Okay(sid, id)
 	return
+end
+
+function D3A.Warns.Get(sid, cb)
+	if (sid:StartWith "STEAM_") then
+		sid = util.SteamIDTo64(sid)
+	end
+	D3A.MySQL.Query("SELECT id, CAST(steam_id AS CHAR) AS steam_id, CAST(staff_steam_id AS CHAR) AS staff_steam_id, staff_name, time, FROM_UNIXTIME(time, '%c/%d/%Y @ %I:%i %p') as time_date, reason, acknowledged "..
+		"FROM player_warns WHERE steam_id = '" .. D3A.MySQL.Escape(sid) .. "';", cb)
 end
 
 function D3A.Warns.CheckPlayers()

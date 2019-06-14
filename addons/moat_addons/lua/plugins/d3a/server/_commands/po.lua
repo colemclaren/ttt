@@ -5,7 +5,7 @@ COMMAND.AdminMode = true
 
 COMMAND.Args = {{"string", "SteamID"}}
 
-local function PrintBans(pl, sid, Bans)
+local function PrintBans(pl, sid, Bans, Warns)
 	local full_str = (pl.Nick and pl:Nick() or "CONSOLE") .. " (" .. (pl.SteamID and pl:SteamID() or "CONSOLE") .. ") got past offences for " .. sid .. "\n```\n"
 	local function dump(str)
 		full_str = full_str .. str .. "\n"
@@ -84,6 +84,19 @@ local function PrintBans(pl, sid, Bans)
 		end
 	end
 
+	
+	dump("---------------------------")
+	dump("All Warns for: " .. sid)
+	dump(" - " .. #Warns .. " Total Warn(s)")
+	dump("---------------------------")
+
+	table.sort(Warns, function(a,b) return a.time > b.time end)
+
+	for i, warn in ipairs(Warns) do
+		dump("#" .. i .. " on " .. warn.time_date)
+		dump("    Warned by " .. warn.staff_name .. ". Reason: " .. warn.reason)
+	end
+
 	if (IsValid(pl)) then
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Check Console")
 	else
@@ -107,7 +120,13 @@ COMMAND.Run = function(pl, args, supp)
 		return
 	end
 
-	D3A.Bans.Get(sid, false, 1, 50, function(Bans)
+	local Bans, Warns
+
+	local function check_ready()
+		if (not Warns or not Bans) then
+			print "not ready yet"
+			return
+		end
 
 		if (not Bans.All[1]) then
 			D3A.Chat.SendToPlayer2(pl, moat_red, "This user has no previous bans on record.") 
@@ -115,6 +134,17 @@ COMMAND.Run = function(pl, args, supp)
 			return
 		end
 
-		PrintBans(pl, sid, Bans)
+		PrintBans(pl, sid, Bans, Warns)
+	end
+
+	D3A.Warns.Get(sid, function(warns)
+		Warns = warns
+
+		check_ready()
+	end)
+
+	D3A.Bans.Get(sid, false, 1, 50, function(bans)
+		Bans = bans
+		check_ready()
 	end)
 end
