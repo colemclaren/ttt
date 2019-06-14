@@ -193,7 +193,7 @@ function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp
 				da_col = rarity_names[9][2]:Copy()
 			end
 
-            m_DrawGlowingText(false, weapon_str, "moat_Trebuchet", 0, 20, da_col, nil, nil, nil, true)
+            m_DrawGlowingText(false, weapon_str, "moat_Trebuchet", 0, 20, da_col)
         else
 			local da_col = weapon_col
 
@@ -201,7 +201,7 @@ function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp
 				da_col = rarity_names[9][2]:Copy()
 			end
 			
-            emoji.SimpleTextOutlined(weapon_str, "moat_Trebuchet", 0, 20, da_col, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, self.Colors.shadow)
+            draw_SimpleTextOutlined(weapon_str, "moat_Trebuchet", 0, 20, da_col, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, self.Colors.shadow)
         end
 		
 		surface_SetDrawColor(28, 28, 36, 200)

@@ -551,7 +551,7 @@ local function moat_CustomHUD()
 				draw_xp_lvl = 3
 			end
 
-			local namew, nameh = emoji.GetTextSize(ITEM_NAME_FULL)
+			local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
 			local num_stats = 0
 
 			if (wpn_stats.s) then
@@ -620,20 +620,20 @@ local function moat_CustomHUD()
 				local tfx = wpn_stats.item.NameEffect
 
 				if (tfx == "glow") then
-					m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+					m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
 				elseif (tfx == "fire") then
-					m_DrawFireText(wpn_stats.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
+					m_DrawFireText(wpn_stats.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
 				elseif (tfx == "bounce") then
-					m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
+					m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
 				elseif (tfx == "enchanted") then
-					m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, wpn_stats.item.NameEffectMods[1], nil, nil, true)
+					m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, wpn_stats.item.NameEffectMods[1])
 				elseif (tfx == "electric") then
-					m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
+					m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
 				else
-					emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+					m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
 				end
 			else
-				emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+				m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
 			end
 
 			if (wpn_stats.s and wpn_stats.s.l) then

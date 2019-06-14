@@ -207,44 +207,27 @@ function PANEL:UpdatePlayerData()
     end
 
     self.rankimage:SetMaterial(Material(group_images[ply:GetUserGroup()] or "icon16/group.png"))
-    local plytitle = ply:GetNW2String("MoatTitlesTitle", ""):Trim()
+    local plytitle = ply:GetNW2String("MoatTitlesTitle", "")
 
     if (plytitle and #plytitle:Trim() > 0) then
+        local titl = ply:GetNW2String("MoatTitlesTitle")
         local col = {ply:GetNW2Int("MoatTitlesTitleR", 255), ply:GetNW2Int("MoatTitlesTitleG", 255), ply:GetNW2Int("MoatTitlesTitleB", 255)}
-        self.title.Text = plytitle
-        self.title:SetText " "
-        surface.SetFont(self:GetFont())
-        function self.title:SizeToContents()
-            surface.SetFont(self:GetFont())
-            local w, h = emoji.GetTextSize(self.Text)
-            self:SetSize(w, h + emoji.GetTextOffsetNeeded(self.Text))
-        end
+        self.title:SetText(plytitle:Trim())
         self.title:SizeToContents()
-        self.title:SetTextColor(Color(col[1], col[2], col[3]))  
-        function self.title:Paint(w, h)
-            surface.SetFont(self:GetFont())
-            emoji.SimpleText(self.Text, self:GetFont(), 0, emoji.GetTextOffsetNeeded(self.Text), self:GetTextColor(), nil, nil, nil, true)
-        end
-
-        self.titles.Text = plytitle
-        self.titles:SetText " "
-        function self.titles:SizeToContents()
-            surface.SetFont(self:GetFont())
-            local w, h = emoji.GetTextSize(self.Text)
-            self:SetSize(w, h + emoji.GetTextOffsetNeeded(self.Text))
-        end
+        self.title:SetTextColor(Color(col[1], col[2], col[3]))
+        self.title:SetPos(SB_ROW_HEIGHT + 10 + 15, 11)
+        self.titles:SetText(ply:GetNW2String("MoatTitlesTitle"))
         self.titles:SizeToContents()
-        self.titles:InvalidateLayout(true)
-        function self.titles:Paint(w, h)
-            surface.SetFont(self:GetFont())
-            emoji.SimpleText(self.Text, self:GetFont(), 0, emoji.GetTextOffsetNeeded(self.Text), self:GetTextColor(), nil, nil, true, true)
-        end
+        self.titles:SetPos(SB_ROW_HEIGHT + 10 + 16, 12)
+        self.nick:SetPos(SB_ROW_HEIGHT + 10 + 15, -1)
+        self.nicks:SetPos(SB_ROW_HEIGHT + 10 + 16, 0)
     else
         self.title:SetText("")
         self.nick:SetPos(SB_ROW_HEIGHT + 10 + 15, (SB_ROW_HEIGHT / 2) - self.nick:GetTall() / 2)
         self.nicks:SetPos(SB_ROW_HEIGHT + 10 + 16, 1 + (SB_ROW_HEIGHT / 2) - self.nick:GetTall() / 2)
         self.titles:SetText("")
         self.titles:SizeToContents()
+        self.titles:SetPos(SB_ROW_HEIGHT + 10 + 16, 12)
     end
 
     self.nicks:SetText(ply:Nick())
@@ -473,11 +456,10 @@ function PANEL:PerformLayout()
     self.rankimage:SetSize(16, 16)
 
     if (self.title and self.title:GetText() ~= "") then
-        surface.SetFont(self.title:GetFont())
         self.title:SizeToContents()
-        self.title:SetPos(SB_ROW_HEIGHT + 10 + 15, 11 - emoji.GetTextOffsetNeeded(self.title:GetText()))
+        self.title:SetPos(SB_ROW_HEIGHT + 10 + 15, 11)
         self.titles:SizeToContents()
-        self.titles:SetPos(SB_ROW_HEIGHT + 10 + 16, 12 - emoji.GetTextOffsetNeeded(self.title:GetText()))
+        self.titles:SetPos(SB_ROW_HEIGHT + 10 + 16, 12)
         self.nick:SizeToContents()
         self.nick:SetPos(SB_ROW_HEIGHT + 10 + 15, -1)
         self.nicks:SizeToContents()

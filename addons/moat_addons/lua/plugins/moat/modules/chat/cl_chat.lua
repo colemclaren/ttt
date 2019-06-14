@@ -30,6 +30,178 @@ local terror_color = Color(0, 200, 0, 255)
 local spec_color = Color(200, 200, 0, 255)
 local default_x, default_y = chat.GetChatBoxPos()
 
+local emojis = {}
+local emoji_length = {}
+local emoji_list = {
+    {Name = "feelsBruh", URL = "https://cdn.discordapp.com/emojis/586210913162493952.png?v=1"},
+    {Name = "sadcat", URL = "https://cdn.discordapp.com/emojis/585874896098164738.png?v=1"},
+    {Name = "SmileW", URL = "https://cdn.discordapp.com/emojis/585872318568595458.png?v=1"},
+    {Name = "FeelsOkayMan", URL = "https://cdn.discordapp.com/emojis/585872318463606827.png?v=1"},
+    {Name = "elon", URL = "https://cdn.discordapp.com/emojis/585717809854545920.png?v=1"},
+    {Name = "Pepega", URL = "https://cdn.discordapp.com/emojis/585716270981185536.png?v=1"},
+    {Name = "gachiGASM", URL = "https://cdn.discordapp.com/emojis/585715951249522708.png?v=1"},
+    {Name = "pogU", URL = "https://cdn.discordapp.com/emojis/585714124336660501.png?v=1"},
+    {Name = "OMEGALUL", URL = "https://cdn.discordapp.com/emojis/585713984469073931.png?v=1"},
+    {Name = "LULW", URL = "https://cdn.discordapp.com/emojis/585713953351401493.png?v=1"},
+    {Name = "monkaW", URL = "https://cdn.discordapp.com/emojis/585713583384690708.png?v=1"},
+    {Name = "BabyRage", URL = "https://cdn.discordapp.com/emojis/585713285446369285.png?v=1"},
+    {Name = "lovelyGun", URL = "https://cdn.discordapp.com/emojis/585710657173979167.png?v=1"},
+    {Name = "HYPERS", URL = "https://cdn.discordapp.com/emojis/585708303019933698.png?v=1"},
+    {Name = "EZ", URL = "https://cdn.discordapp.com/emojis/585708165992284160.png?v=1"},
+    {Name = "mmmm", URL = "https://cdn.discordapp.com/emojis/585703743194923008.png?v=1"},
+    {Name = "5Head", URL = "https://cdn.discordapp.com/emojis/585703743152979968.png?v=1"},
+    {Name = "3Head", URL = "https://cdn.discordapp. com/emojis/585703743149047808.png?v=1"},
+    {Name = "veryToxic", URL = "https://cdn.discordapp.com/emojis/585670672747986954.png?v=1"},
+    {Name = "PepeYikes", URL = "https://cdn.discordapp.com/emojis/585667920953344000.png?v=1"},
+    {Name = "worryFieri", URL = "https://cdn.discordapp.com/emojis/585667168776093696.png?v=1"},
+    {Name = "noPing", URL = "https://cdn.discordapp.com/emojis/585666312991408138.png?v=1"},
+    {Name = "worryCowboy", URL = "https://cdn.discordapp.com/emojis/585666215201210408.png?v=1"},
+    {Name = "toxic", URL = "https://cdn.discordapp.com/emojis/580135478137716749.png?v=1"},
+    {Name = "omw", URL = "https://cdn.discordapp.com/emojis/528328658218123279.png?v=1"},
+    {Name = "OkayMan", URL = "https://cdn.discordapp.com/emojis/480786157349634051.png?v=1"},
+    {Name = "Pog", URL = "https://cdn.discordapp.com/emojis/473770855675985922.png?v=1"},
+    {Name = "PepePains", URL = "https://cdn.discordapp.com/emojis/455983162766655509.png?v=1"},
+    {Name = "HYPERBRUH", URL = "https://cdn.discordapp.com/emojis/435118105321144330.png?v=1"},
+    {Name = "heartpepe", URL = "https://cdn.discordapp.com/emojis/430403615585337354.png?v=1"},
+    {Name = "blobawkward", URL = "https://cdn.discordapp.com/emojis/422500045926170636.png?v=1"},
+    {Name = "blobpolice", URL = "https://cdn.discordapp.com/emojis/422499869492510740.png?v=1"},
+    {Name = "blobthumbsdown", URL = "https://cdn.discordapp.com/emojis/422499550633394176.png?v=1"},
+    {Name = "blobkissheart", URL = "https://cdn.discordapp.com/emojis/422499522514649088.png?v=1"},
+    {Name = "blobthumbsup", URL = "https://cdn.discordapp.com/emojis/422499471579021332.png?v=1"},
+    {Name = "blobastonished", URL = "https://cdn.discordapp.com/emojis/422499412044939274.png?v=1"},
+    {Name = "blobaww", URL = "https://cdn.discordapp.com/emojis/422499346031050773.png?v=1"},
+    {Name = "thegoodplace", URL = "https://cdn.discordapp.com/emojis/420087857865031681.png?v=1"},
+    {Name = "thebadplace", URL = "https://cdn.discordapp.com/emojis/420087728508502027.png?v=1"},
+    {Name = "bad", URL = "https://cdn.discordapp.com/emojis/419682215899693106.png?v=1"},
+    {Name = "mg", URL = "https://cdn.discordapp.com/emojis/411203820505399297.png?v=1"},
+    {Name = "PepeHands", URL = "https://cdn.discordapp.com/emojis/407053538439593985.png?v=1"},
+    {Name = "hi", URL = "https://cdn.discordapp.com/emojis/396708302479949825.png?v=1"},
+    {Name = "PepeLaugh", URL = "https://cdn.discordapp.com/emojis/392864128764739584.png?v=1"},
+    {Name = "wow", URL = "https://cdn.discordapp.com/emojis/392153478266355712.png?v=1"},
+    {Name = "Sweaty", URL = "https://cdn.discordapp.com/emojis/391601748546027520.png?v=1"},
+    {Name = "monkaOMEGA", URL = "https://cdn.discordapp.com/emojis/383902296683053056.png?v=1"},
+    {Name = "PepoThink", URL = "https://cdn.discordapp.com/emojis/381679690311663631.png?v=1"},
+    {Name = "LUL", URL = "https://cdn.discordapp.com/emojis/365243374464401419.png?v=1"},
+    {Name = "monkas", URL = "https://cdn.discordapp.com/emojis/365243221896331274.png?v=1"},
+    {Name = "what", URL = "https://cdn.discordapp.com/emojis/344970947637542922.png?v=1"},
+    {Name = "kappa", URL = "https://cdn.discordapp.com/emojis/337597806036516864.png?v=1"},
+    {Name = "drool", URL = "https://cdn.discordapp.com/emojis/334960091709046796.png?v=1"},
+    {Name = "stop", URL = "https://cdn.discordapp.com/emojis/334959986411175936.png?v=1"},
+    {Name = "vs", URL = "https://cdn.discordapp.com/emojis/334959921378492428.png?v=1"},
+    {Name = "lick", URL = "https://cdn.discordapp.com/emojis/334959798036594688.png?v=1"},
+    {Name = "flex", URL = "https://cdn.discordapp.com/emojis/334959757372948492.png?v=1"},
+    {Name = "tried", URL = "https://cdn.discordapp.com/emojis/334959357563502605.png?v=1"},
+    {Name = "doubt", URL = "https://cdn.discordapp.com/emojis/334959208120188928.png?v=1"},
+    {Name = "thankong", URL = "https://cdn.discordapp.com/emojis/299571980208832523.png?v=1"},
+    {Name = "winner", URL = "https://cdn.discordapp.com/emojis/299563022752546817.png?v=1"},
+    {Name = "B1", URL = "https://cdn.discordapp.com/emojis/299562352511156224.png?v=1"},
+    {Name = "disagree", URL = "https://cdn.discordapp.com/emojis/299561512182480916.png?v=1"},
+    {Name = "agree", URL = "https://cdn.discordapp.com/emojis/299561490103533568.png?v=1"},
+    {Name = "useful", URL = "https://cdn.discordapp.com/emojis/299561435044904960.png?v=1"},
+    {Name = "friendly", URL = "https://cdn.discordapp.com/emojis/299561397451227136.png?v=1"},
+    {Name = "optimistic", URL = "https://cdn.discordapp.com/emojis/299561350349324290.png?v=1"},
+    {Name = "funny", URL = "https://cdn.discordapp.com/emojis/299561324273467392.png?v=1"},
+    {Name = "late", URL = "https://cdn.discordapp.com/emojis/299561288894251009.png?v=1"},
+    {Name = "thonkang", URL = "https://cdn.discordapp.com/emojis/299555266482143244.png?v=1"}
+}
+
+local function AddEmoji(width, url, ...)
+    for i = 1, select("#", ...) do
+        emojis[select(i, ...)] = url
+        emoji_length[select(i, ...)] = width
+    end
+end
+AddEmoji(16, "ok_hand", ":ok_hand:", "👌")
+AddEmoji(16, "thinking", ":thinking:", "🤔")
+AddEmoji(21, "pepega", "pepega")
+AddEmoji(16, "pepehands", "pepehands")
+AddEmoji(16, "monkaW", "monkaW")
+AddEmoji(16, "monkaS", "monkaS")
+
+local AddDiscordEmoji = AddEmoji
+AddDiscordEmoji(24, "lick", ":lick:")
+AddDiscordEmoji(16, "disagree", ":disagree:")
+AddDiscordEmoji(20, "tried", ":tried:")
+AddDiscordEmoji(16, "LUL", ":LUL:")
+AddDiscordEmoji(16, "winner", ":winner:")
+AddDiscordEmoji(16, "late", ":late:")
+AddDiscordEmoji(16, "optimistic", ":optimistic:")
+AddDiscordEmoji(16, "useful", ":useful:")
+AddDiscordEmoji(16, "funny", ":funny:")
+AddDiscordEmoji(16, "agree", ":agree:")
+AddDiscordEmoji(16, "Pog", ":Pog:")
+AddDiscordEmoji(16, "3Head", ":3Head:")
+AddDiscordEmoji(16, "friendly", ":friendly:")
+AddDiscordEmoji(16, "PepeYikes", ":PepeYikes:")
+AddDiscordEmoji(16, "noPing", ":noPing:")
+AddDiscordEmoji(16, "feelsBruh", ":feelsBruh:")
+AddDiscordEmoji(16, "thankong", ":thankong:")
+AddDiscordEmoji(15, "blobthumbsdown", ":blobthumbsdown:")
+AddDiscordEmoji(18, "blobpolice", ":blobpolice:")
+AddDiscordEmoji(21, "lovelyGun", ":lovelyGun:")
+AddDiscordEmoji(16, "blobthumbsup", ":blobthumbsup:")
+AddDiscordEmoji(16, "monkaW", ":monkaW:")
+AddDiscordEmoji(16, "BabyRage", ":BabyRage:")
+AddDiscordEmoji(16, "thonkang", ":thonkang:")
+AddDiscordEmoji(16, "PepePains", ":PepePains:")
+AddDiscordEmoji(16, "mg", ":mg:")
+AddDiscordEmoji(16, "OkayMan", ":OkayMan:")
+AddDiscordEmoji(23, "toxic", ":toxic:")
+AddDiscordEmoji(14, "gachiGASM", ":gachiGASM:")
+AddDiscordEmoji(17, "PepoThink", ":PepoThink:")
+AddDiscordEmoji(19, "sadcat", ":sadcat:")
+AddDiscordEmoji(13, "5Head", ":5Head:")
+AddDiscordEmoji(21, "Pepega", ":Pepega:")
+AddDiscordEmoji(16, "FeelsOkayMan", ":FeelsOkayMan:")
+AddDiscordEmoji(16, "veryToxic", ":veryToxic:")
+AddDiscordEmoji(16, "worryFieri", ":worryFieri:")
+AddDiscordEmoji(16, "OMEGALUL", ":OMEGALUL:")
+AddDiscordEmoji(16, "mmmm", ":mmmm:")
+AddDiscordEmoji(16, "thegoodplace", ":thegoodplace:")
+AddDiscordEmoji(16, "PepeHands", ":PepeHands:")
+AddDiscordEmoji(16, "HYPERBRUH", ":HYPERBRUH:")
+AddDiscordEmoji(17, "doubt", ":doubt:")
+AddDiscordEmoji(16, "what", ":what:")
+AddDiscordEmoji(16, "hi", ":hi:")
+AddDiscordEmoji(16, "HYPERS", ":HYPERS:")
+AddDiscordEmoji(19, "blobawkward", ":blobawkward:")
+AddDiscordEmoji(16, "SmileW", ":SmileW:")
+AddDiscordEmoji(12, "kappa", ":kappa:")
+AddDiscordEmoji(22, "drool", ":drool:")
+AddDiscordEmoji(16, "heartpepe", ":heartpepe:")
+AddDiscordEmoji(16, "stop", ":stop:")
+AddDiscordEmoji(16, "wow", ":wow:")
+AddDiscordEmoji(18, "vs", ":vs:")
+AddDiscordEmoji(14, "LULW", ":LULW:")
+AddDiscordEmoji(16, "EZ", ":EZ:")
+AddDiscordEmoji(16, "blobaww", ":blobaww:")
+AddDiscordEmoji(16, "monkaOMEGA", ":monkaOMEGA:")
+AddDiscordEmoji(14, "elon", ":elon:")
+AddDiscordEmoji(23, "Sweaty", ":Sweaty:")
+AddDiscordEmoji(16, "thebadplace", ":thebadplace:")
+AddDiscordEmoji(16, "omw", ":omw:")
+AddDiscordEmoji(17, "PepeLaugh", ":PepeLaugh:")
+AddDiscordEmoji(23, "flex", ":flex:")
+AddDiscordEmoji(16, "worryCowboy", ":worryCowboy:")
+AddDiscordEmoji(16, "pogU", ":pogU:")
+AddDiscordEmoji(16, "blobastonished", ":blobastonished:")
+AddDiscordEmoji(16, "blobkissheart", ":blobkissheart:")
+AddDiscordEmoji(16, "B1", ":B1:")
+AddDiscordEmoji(16, "bad", ":bad:")
+AddDiscordEmoji(16, "monkas", ":monkas:")
+
+local function surface_GetEmojiTextSize(text)
+    local emoji_width = 0
+    for emoji in pairs(emojis) do
+        local amt
+        text, amt = text:gsub(emoji, "")
+        emoji_width = emoji_width + (emoji_length[emoji] + 1) * amt
+    end
+
+    local x, y = surface.GetTextSize(text)
+    return x + emoji_width, y
+end
+
 if (moat_chat and moat_chat.BG) then
     moat_chat.BG:Remove()
 end
@@ -724,8 +896,48 @@ function moat_chat.IsHovering(self, w, h, x, y)
     end
 end
 
+local function DrawEmojiTextOutline(ignore_emojis, text, font, tx, ty, ...)
+    local texttbl = {text}
+    for emoji, url in pairs(emojis) do
+        local i = 1
+        while (i <= #texttbl) do
+            local curtext = texttbl[i]
 
-function moat_chat.DrawText(self, texte, texttbl, a, name, data)
+            local first = 1
+            for pos, pos2 in curtext:gmatch("()" .. emoji .. "()") do
+                if (pos ~= first) then
+                    texttbl[i] = curtext:sub(first, pos - 1)
+                end
+                table.insert(texttbl, i + 1, emoji)
+                table.insert(texttbl, i + 2, curtext:sub(pos2))
+                if (pos == first) then
+                    table.remove(texttbl, i)
+                    i = i - 1
+                end
+                i = i + 2
+                first = pos2
+            end
+            i = i + 1
+        end
+    end
+
+    surface.SetFont(font)
+    for _, text in ipairs(texttbl) do
+        if (emojis[text]) then
+            if (not ignore_emojis) then
+                cdn.DrawImage("https://cdn.moat.gg/ttt/emojis/" .. emojis[text] .. ".png", tx, ty, emoji_length[text], 16, nil, "alphatest")
+                tx = tx + emoji_length[text] + 2
+            end
+        else
+            local w, h = surface.GetTextSize(text)
+            draw_SimpleTextOutlined(text, font, tx, ty, ...)
+            tx = tx + w
+        end
+    end
+end
+
+function moat_chat.DrawText(self, texte, texttbl, a, name)
+
     surface_SetFont("moat_ChatFont")
 
     if (texttbl.IsItem and texttbl.item_tbl and texttbl.item_tbl.item) then
@@ -736,43 +948,37 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
         local draw_name_y = texttbl[3]
         local name_col = itemtbl.item.NameColor or rarity_names[itemtbl.item.Rarity][2]:Copy()
 
-        local TextSize = emoji.GetTextSize
-        local DrawText = emoji.SimpleTextOutlined
-
-        if (texttbl.IgnoreEmoji) then
-            TextSize = surface_GetTextSize
-            DrawText = draw_SimpleTextOutlined
-        end
-
         if (itemtbl.item.NameEffect) then
             local tfx = itemtbl.item.NameEffect
 
             if (tfx == "glow") then
-                m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+                m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "fire") then
-                m_DrawFireText(itemtbl.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
+                m_DrawFireText(itemtbl.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "bounce") then
-                m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
+                m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "enchanted") then
-                m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, itemtbl.item.NameEffectMods[1], nil, nil, true)
+                m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, itemtbl.item.NameEffectMods[1])
             elseif (tfx == "electric") then
-                m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
+                m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "frost") then
-                DrawFrostingText(10, 1.5, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(255, 255, 255), true)
+                DrawFrostingText(10, 1.5, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(255, 255, 255))
             else
-                DrawText(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2] + 1, texttbl[3] + 1, Color(name_col.r, name_col.g, name_col.b, 25), 0, 0, 0, Color(10, 10, 10, 0), true)
-                DrawText(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2] + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0), true)
-                DrawText(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2], texttbl[3], name_col, 0, 0, 0, Color(10, 10, 10, 0))
+                draw_SimpleTextOutlined(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2] + 1, texttbl[3] + 1, Color(name_col.r, name_col.g, name_col.b, 25), 0, 0, 0, Color(10, 10, 10, 0))
+                draw_SimpleTextOutlined(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2] + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0))
+                draw_SimpleTextOutlined(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2], texttbl[3], name_col, 0, 0, 0, Color(10, 10, 10, 0))
+                --draw_SimpleTextOutlined(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2], texttbl[3], name_col, 0, 0, 0.5, Color(10, 10, 10, a))
             end
         else
-            DrawText(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2] + 1, texttbl[3] + 1, Color(name_col.r, name_col.g, name_col.b, 25), 0, 0, 0, Color(10, 10, 10, 0), true)
-            DrawText(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2] + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0), true)
-            DrawText(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2], texttbl[3], name_col, 0, 0, 0, Color(10, 10, 10, 0))
+            draw_SimpleTextOutlined(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2] + 1, texttbl[3] + 1, Color(name_col.r, name_col.g, name_col.b, 25), 0, 0, 0, Color(10, 10, 10, 0))
+            draw_SimpleTextOutlined(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2] + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0))
+            draw_SimpleTextOutlined(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2], texttbl[3], name_col, 0, 0, 0, Color(10, 10, 10, 0))
+            --draw_SimpleTextOutlined(ITEM_NAME_FULL, "moat_ChatFont", 4 + texttbl[2], texttbl[3], name_col, 0, 0, 0.5, Color(10, 10, 10, a))
         end
 
         if (not texttbl or (texttbl and not texttbl[1])) then return end
 
-        local text_w, text_h = TextSize(texttbl[1])
+        local text_w, text_h = surface_GetEmojiTextSize(texttbl[1])
         local text_x, text_y = 4 + texttbl[2], texttbl[3]
 
         if (moat_chat.IsHovering(self, text_w, text_h, text_x, text_y)) then
@@ -791,28 +997,20 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
 
     local textpos = 0
     local spw = surface_GetTextSize(" ")
-
+    
     for i = 1, #texte do
         local str = texte[i]
         local space = " "
         if (i == 1) then space = "" end
-        local TextSize = emoji.GetTextSize
-        local DrawText = emoji.SimpleTextOutlined
-        if (texttbl.IgnoreEmoji) then
-            TextSize = surface_GetTextSize
-            DrawText = draw_SimpleTextOutlined
-        end
-
-
-        local tw, th = TextSize(space .. str)
+        local tw, th = surface_GetEmojiTextSize(space .. str)
 
         if (string.StartWith(str:lower(), "http://") or string.StartWith(str:lower(), "https://") or string.StartWith(str:lower(), "wwww.")) then
-            DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(100, 100, 255, 25), 0, 0, 0, Color(10, 10, 10, 0), true)
-            DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0), true)
-            DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], Color(100, 100, 255), 0, 0, 0, Color(10, 10, 10, 0))
+            DrawEmojiTextOutline(true, space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(100, 100, 255, 25), 0, 0, 0, Color(10, 10, 10, 0))
+            DrawEmojiTextOutline(false, space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0))
+            DrawEmojiTextOutline(false, space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], Color(100, 100, 255), 0, 0, 0, Color(10, 10, 10, 0))
             --draw_SimpleTextOutlined(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], Color(100, 100, 255), 0, 0, 0.5, Color(10, 10, 10, a))
 
-            local text_w, text_h = TextSize(str)
+            local text_w, text_h = surface_GetEmojiTextSize(str)
             local text_x, text_y = 4 + texttbl[2] + textpos + spw, texttbl[3]
 
             if (moat_chat.IsHovering(self, text_w, text_h, text_x, text_y)) then
@@ -826,12 +1024,12 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
                 end
             end
         else
-            DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(texttbl[4].r, texttbl[4].g, texttbl[4].b, 25), 0, 0, 0, Color(10, 10, 10, 0), true)
-            DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0), true)
-            DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], texttbl[4], 0, 0, 0, Color(10, 10, 10, 0))
+            DrawEmojiTextOutline(true,  space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(texttbl[4].r, texttbl[4].g, texttbl[4].b, 25), 0, 0, 0, Color(10, 10, 10, 0))
+            DrawEmojiTextOutline(false, space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0))
+            DrawEmojiTextOutline(false, space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], texttbl[4], 0, 0, 0, Color(10, 10, 10, 0))
             --draw_SimpleTextOutlined(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], texttbl[4], 0, 0, 0.5, Color(10, 10, 10, a))
 
-            local text_w, text_h = TextSize(str)
+            local text_w, text_h = surface_GetEmojiTextSize(str)
             local text_x, text_y = 4 + texttbl[2] + textpos + spw, texttbl[3]
 
             if (moat_chat.IsHovering(self, text_w, text_h, text_x, text_y)) then
@@ -841,6 +1039,7 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
 
         textpos = textpos + tw
     end
+
 end
 
 function moat_chat.ChatObjectPaint(self)
@@ -955,10 +1154,7 @@ function chat.AddText(...)
 				continue
 			end
 
-            table.insert(TextTable, i + 1, {
-                IgnoreEmoji = true,
-                Text = TextTable[i]:Nick()
-            })
+            table.insert(TextTable, i + 1, TextTable[i]:Nick())
             TextTableNum = TextTableNum + 1
 
 			if (TextTable[i]:Team() == TEAM_SPEC or (isstring(TextTable[2]) and TextTable[2] == "*DEAD* ")) then
@@ -997,20 +1193,10 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
     while pos ~= TextTableNum do
         pos = pos + 1
 
-        if (type(TextTable[pos]) == "table" and TextTable[pos].IsItem and type(TextTable[pos][2]) == "table") then
+        if (type(TextTable[pos]) == "table" and (not TextTable[pos].IsItem) and type(TextTable[pos][2]) == "table") then
             local text = TextTable[pos][1]
-            local TextSize = emoji.GetTextSize
-
-            if (TextTable[pos].IsItem) then
-                text = TextTable[pos]["ItemName"] or "Scripted Weapon"
-            end
-            
-            if (TextTable[pos].IgnoreEmoji) then
-                TextSize = surface_GetTextSize
-            end
-            
-            local x, y = TextSize(text)
-            table.insert(FinalText, {text, TextPosX, TextPosY, TextTable[pos][2], 1, IgnoreEmoji = TextTable[pos].IgnoreEmoji})
+            local x, y = surface_GetEmojiTextSize(text)
+            table.insert(FinalText, {text, TextPosX, TextPosY, TextTable[pos][2], 1})
             TextPosX = TextPosX + x
         else
             while IsColor(TextTable[pos]) do
@@ -1020,27 +1206,10 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
 
             if (not TextTable[pos]) then break end
             local text = TextTable[pos]
-            local TextSize = emoji.GetTextSize
-            local IgnoreEmoji = false
-            local cur = TextTable[pos]
-            if (istable(cur)) then
-
-                if (cur.IgnoreEmoji) then
-                    TextSize = surface_GetTextSize
-                    IgnoreEmoji = true
-                end
-
-                if (cur.IsItem) then
-                    text = cur["ItemName"] or "Scripted Weapon"
-                elseif (cur.Text) then
-                    text = cur.Text or "error"
-                else
-                    text = cur[1]
-                end
-            end
-
+            if (istable(TextTable[pos]) and TextTable[pos].IsItem) then text = TextTable[pos]["ItemName"] or "Scripted Weapon" end
             if (not text) then break end
-            local x, y = TextSize(text)
+
+            local x, y = surface_GetEmojiTextSize(text)
 
             if TextPosX + x >= windowSizeX then
                 local startpos, t, t2, size = #FinalText
@@ -1053,17 +1222,16 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
                         t = ""
                     end
 
-                    size = TextSize(t2)
+                    size = surface_GetEmojiTextSize(t2)
 
                     if TextPosX + size >= windowSizeX then
-                        local data = {t, TextPosX, TextPosY, LastColor, IgnoreEmoji = IgnoreEmoji}
-                        if (istable(cur) and cur.IsItem) then
-                            data.IsItem = true
-                            data.item_tbl = cur.item_tbl
-                            data.ItemName = text
+                        if (istable(TextTable[pos]) and TextTable[pos].IsItem) then
+                            table.insert(FinalText, {t, TextPosX, TextPosY, LastColor, IsItem = true, item_tbl = TextTable[pos].item_tbl, ItemName = text})
+                            table.insert(FinalText, {" ", TextPosX, TextPosY, LastColor})
+                        else
+                            table.insert(FinalText, {t, TextPosX, TextPosY, LastColor})
+                            table.insert(FinalText, {" ", TextPosX, TextPosY, LastColor})
                         end
-                        table.insert(FinalText, data)
-                        table.insert(FinalText, {" ", TextPosX, TextPosY, LastColor})
                         TextPosX = 0
                         TextPosY = TextPosY + tall
                         t = line
@@ -1073,28 +1241,22 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
                 end
 
                 --table.insert(FinalText, {t, TextPosX, TextPosY, LastColor})
-
-                local data = {t, TextPosX, TextPosY, LastColor, IgnoreEmoji = IgnoreEmoji}
                 
-                if (istable(cur) and cur.IsItem) then
-                    data.IsItem = true
-                    data.item_tbl = cur.item_tbl
-                    data.ItemName = t
+                if (istable(TextTable[pos]) and TextTable[pos].IsItem) then
+                    table.insert(FinalText, {t, TextPosX, TextPosY, LastColor, IsItem = true, item_tbl = TextTable[pos].item_tbl, ItemName = text})
+                else
+                    table.insert(FinalText, {t, TextPosX, TextPosY, LastColor})
                 end
-
-                table.insert(FinalText, data)
-
                 if (t) then
-                    TextPosX = TextPosX + TextSize(t)
+                    size = surface_GetEmojiTextSize(t)
+                    TextPosX = TextPosX + size
                 end
             else
-                local data = {text, TextPosX, TextPosY, LastColor, IgnoreEmoji = IgnoreEmoji}
-                if (istable(cur) and cur.IsItem) then
-                    data.IsItem = true
-                    data.item_tbl = cur.item_tbl
-                    data.ItemName = text
+                if (istable(TextTable[pos]) and TextTable[pos].IsItem) then
+                    table.insert(FinalText, {text, TextPosX, TextPosY, LastColor, IsItem = true, item_tbl = TextTable[pos].item_tbl, ItemName = text})
+                else
+                    table.insert(FinalText, {text, TextPosX, TextPosY, LastColor})
                 end
-                table.insert(FinalText, data)
                 TextPosX = TextPosX + x
             end
         end
@@ -1117,7 +1279,7 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
         local TextX, TextY = FinalText[i][2], FinalText[i][3]
 
         for a = 1, len do
-            local x = surface_GetTextSize(FinalText[i][1][a])
+            local x = surface_GetEmojiTextSize(FinalText[i][1][a])
             TextX = TextX + x
             table.insert(TextTable, {FinalText[i][1][a], TextX, TextY})
         end

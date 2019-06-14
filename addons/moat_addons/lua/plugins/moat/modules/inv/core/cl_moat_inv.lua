@@ -299,7 +299,15 @@ local function createSpring(pnl, x, y, w, h)
 end
 
 
+
+
+
+
 function m_DrawShadowedText(shadow, text, font, x, y, color, xalign, yalign)
+    /*local xalign = xalign or TEXT_ALIGN_LEFT
+    local yalign = yalign or TEXT_ALIGN_TOP
+    local color = color or Color(255, 255, 255, 255)
+    draw_SimpleText(text, font, x + shadow, y + shadow, Color(0, 0, 0, color.a or 255), xalign, yalign)*/
     draw_SimpleText(text, font, x, y, color, xalign, yalign)
 end
 
@@ -311,7 +319,7 @@ function m_GlowCol(Col1, Col2, Am)
     return Color(nr, ng, nb)
 end
 
-function m_DrawEnchantedText(text, font, x, y, color, glow_color, xalign, yalign, enable_emoji)
+function m_DrawEnchantedText(text, font, x, y, color, glow_color, xalign, yalign)
     local xalign = xalign or TEXT_ALIGN_LEFT
     local yalign = yalign or TEXT_ALIGN_TOP
     local glow_color = glow_color or Color(127, 0, 255)
@@ -319,32 +327,22 @@ function m_DrawEnchantedText(text, font, x, y, color, glow_color, xalign, yalign
     surface_SetFont(font)
     local chars_x = 0
 
-    local TextSize, DrawText = surface_GetTextSize, draw_SimpleText
-    if (enable_emoji) then
-        TextSize, DrawText = emoji.GetTextSize, emoji.SimpleText
-    end
-
     for i = 1, #texte do
         local char = texte[i]
-        local charw, charh = TextSize(char)
+        local charw, charh = surface_GetTextSize(char)
         local color_glowing = m_GlowCol(glow_color, color, math.abs(math.sin((RealTime() - (i * 0.08)) * 2)))
-        DrawText(char, font, x + chars_x + 1, y + 1, Color(0, 0, 0), xalign, yalign, true)
-        DrawText(char, font, x + chars_x, y, color_glowing, xalign, yalign)
+        draw_SimpleText(char, font, x + chars_x + 1, y + 1, Color(0, 0, 0), xalign, yalign)
+        draw_SimpleText(char, font, x + chars_x, y, color_glowing, xalign, yalign)
         chars_x = chars_x + charw
     end
 end
 
-function m_DrawGlowingText(static, text, font, x, y, color, xalign, yalign, enable_emojis, disable_drawing)
+function m_DrawGlowingText(static, text, font, x, y, color, xalign, yalign)
     local xalign = xalign or TEXT_ALIGN_LEFT
     local yalign = yalign or TEXT_ALIGN_TOP
     local initial_a = 20
     local a_by_i = 5
     surface_SetFont(font)
-
-    local TextSize, DrawText = surface_GetTextSize, draw_SimpleText
-    if (enable_emoji) then
-        TextSize, DrawText = emoji.GetTextSize, emoji.SimpleText
-    end
 
     for i = 1, 2 do
         local alpha_glow = math.abs(math.sin((RealTime() - (i * 0.1)) * 2))
@@ -353,21 +351,22 @@ function m_DrawGlowingText(static, text, font, x, y, color, xalign, yalign, enab
             alpha_glow = 1
         end
 
-        DrawText(text, font, x, y - i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign, true)
-        DrawText(text, font, x + i, y - i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign, true)
-        DrawText(text, font, x + i, y, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign, true)
-        DrawText(text, font, x + i, y + i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign, true)
-        DrawText(text, font, x, y + i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign, true)
-        DrawText(text, font, x - i, y + i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign, true)
-        DrawText(text, font, x - i, y, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign, true)
-        DrawText(text, font, x - i, y - i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign, true)
+        draw_SimpleText(text, font, x, y - i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign)
+        draw_SimpleText(text, font, x + i, y - i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign)
+        draw_SimpleText(text, font, x + i, y, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign)
+        draw_SimpleText(text, font, x + i, y + i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign)
+        draw_SimpleText(text, font, x, y + i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign)
+        draw_SimpleText(text, font, x - i, y + i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign)
+        draw_SimpleText(text, font, x - i, y, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign)
+        draw_SimpleText(text, font, x - i, y - i, Color(color.r, color.g, color.b, (initial_a - (i * a_by_i)) * alpha_glow), xalign, yalign)
     end
 
-    DrawText(text, font, x + 1, y + 1, Color(color.r, color.g, color.b, 10), xalign, yalign, true)
-    DrawText(text, font, x, y, color, xalign, yalign, disable_drawing)
+    draw_SimpleText(text, font, x + 1, y + 1, Color(color.r, color.g, color.b, 10), xalign, yalign)
+    draw_SimpleText(text, font, x, y, color, xalign, yalign)
 end
 
-function DrawFadingText(speed, text, font, x, y, color, fading_color, xalign, yalign)
+function DrawFadingText( speed, text, font, x, y, color, fading_color, xalign, yalign )
+
     local xalign = xalign or TEXT_ALIGN_LEFT
 
     local yalign = yalign or TEXT_ALIGN_TOP
@@ -375,50 +374,36 @@ function DrawFadingText(speed, text, font, x, y, color, fading_color, xalign, ya
     local color_fade = GlowColor( color, fading_color, math.abs( math.sin( ( RealTime() - 0.08 ) * speed ) ) )
 
     draw_SimpleText( text, font, x, y, color_fade, xalign, yalign )
+
 end
 
-function m_DrawBouncingText(text, font, x, y, color, xalign, yalign, enable_emoji)
+function m_DrawBouncingText(text, font, x, y, color, xalign, yalign)
     local xalign = xalign or TEXT_ALIGN_LEFT
     local yalign = yalign or TEXT_ALIGN_TOP
+    local texte = string.Explode("", text)
     surface_SetFont(font)
     local chars_x = 0
 
-    local TextSize, DrawText = surface_GetTextSize, draw_SimpleText
-    local codes, tochar = utf8.codes, utf8.char
-    if (enable_emoji) then
-        TextSize, DrawText = emoji.GetTextSize, emoji.SimpleText
-        Split = emoji.Codes
-        char = function(a) return a end
-    end
-
-    local i = 1
-    for _, c in codes(text) do
-        local char = tochar(c)
-        local charw, charh = TextSize(char)
+    for i = 1, #texte do
+        local char = texte[i]
+        local charw, charh = surface_GetTextSize(char)
         local y_pos = 1 - math.abs(math.sin((RealTime() - (i * 0.1)) * 2))
-        DrawText(char, font, x + chars_x, y - (5 * y_pos), color, xalign, yalign)
+        m_DrawShadowedText(1, char, font, x + chars_x, y - (5 * y_pos), color, xalign, yalign)
         chars_x = chars_x + charw
-        i = i + 1
     end
 end
 
 local next_electic_effect = CurTime() + 0
 local electric_effect_a = 0
 
-function m_DrawElecticText(text, font, x, y, color, xalign, yalign, enable_emoji)
+function m_DrawElecticText(text, font, x, y, color, xalign, yalign)
     local xalign = xalign or TEXT_ALIGN_LEFT
     local yalign = yalign or TEXT_ALIGN_TOP
     local texte = string.Explode("", text)
-
-    local TextSize, DrawText = surface_GetTextSize, draw_SimpleText
-    if (enable_emoji) then
-        TextSize, DrawText = emoji.GetTextSize, emoji.SimpleText
-    end
-
     surface_SetFont(font)
-    local charw, charh = TextSize(text)
-    DrawText(text, font, x + 1, y + 1, Color(0, 0, 0), xalign, yalign, true)
-    DrawText(text, font, x, y, color, xalign, yalign)
+    local charw, charh = surface_GetTextSize(text)
+    draw_SimpleText(text, font, x + 1, y + 1, Color(0, 0, 0), xalign, yalign)
+    draw_SimpleText(text, font, x, y, color, xalign, yalign)
 
     if (electric_effect_a > 0) then
         electric_effect_a = electric_effect_a - (1000 * FrameTime())
@@ -443,16 +428,11 @@ end
 local next_fire_effect = CurTime() + 0.1
 local fire_effect_a = 0
 
-function m_DrawFireText(rarity, text, font, x, y, color, xalign, yalign, enable_emoji)
+function m_DrawFireText(rarity, text, font, x, y, color, xalign, yalign)
     local xalign = xalign or TEXT_ALIGN_LEFT
     local yalign = yalign or TEXT_ALIGN_TOP
     surface_SetFont(font)
-    local TextSize, DrawText = surface_GetTextSize, draw_SimpleText
-    if (enable_emoji) then
-        TextSize, DrawText = emoji.GetTextSize, emoji.SimpleText
-    end
-
-    local charw, charh = TextSize(text)
+    local charw, charh = surface_GetTextSize(text)
 
     for i = 1, charw do
         local line_y = math.random(0, charh)
@@ -463,9 +443,9 @@ function m_DrawFireText(rarity, text, font, x, y, color, xalign, yalign, enable_
     end
 
     local yellow_col = (math.abs(math.sin((RealTime() - (1 * 0.1)) * 1)) * 255)
-    m_DrawGlowingText(true, text, font, x, y, color, xalign, yalign, true, true)
-    DrawText(text, font, x + 1, y + 1, Color(0, 0, 0), xalign, yalign, true)
-    DrawText(text, font, x, y, color, xalign, yalign)
+    m_DrawGlowingText(true, text, font, x, y, color, xalign, yalign)
+    draw_SimpleText(text, font, x + 1, y + 1, Color(0, 0, 0), xalign, yalign)
+    draw_SimpleText(text, font, x, y, color, xalign, yalign)
 end
 
 surface.CreateFont("moat_Medium52", {
@@ -937,19 +917,19 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             local name_col = talent_col
             local tfx = itemtbl.Talents[k].NameEffect
             if (tfx == "glow") then
-                m_DrawGlowingText(false, talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+                m_DrawGlowingText(false, talent_name, font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "fire") then
-                m_DrawFireText(7, talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, true)
+                m_DrawFireText(7, talent_name, font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "bounce") then
-                m_DrawBouncingText(talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, true)
+                m_DrawBouncingText(talent_name, font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "enchanted") then
-                m_DrawEnchantedText(talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+                m_DrawEnchantedText(talent_name, font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "electric") then
-                m_DrawElecticText(talent_name, font, draw_name_x, draw_name_y, name_col, true)
+                m_DrawElecticText(talent_name, font, draw_name_x, draw_name_y, name_col)
             elseif (tfx == "frost") then
                 DrawFrostingText(10, 1.5, talent_name, font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(255, 255, 255))
             else
-                emoji.SimpleText(talent_name, font, draw_name_x, draw_name_y, name_col)
+                m_DrawShadowedText(1, talent_name, font, draw_name_x, draw_name_y, name_col)
             end
 
             surface_SetFont(font)
@@ -3074,28 +3054,28 @@ function m_OpenInventory(ply2, utrade)
                 local tfx = ITEM_HOVERED.item.NameEffect
 
                 if (tfx == "glow") then
-                    m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+                    m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "fire") then
-                    m_DrawFireText(ITEM_HOVERED.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
+                    m_DrawFireText(ITEM_HOVERED.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "bounce") then
-                    m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
+                    m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "enchanted") then
-                    m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, ITEM_HOVERED.item.NameEffectMods[1], nil, nil, true)
+                    m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, ITEM_HOVERED.item.NameEffectMods[1])
                 elseif (tfx == "electric") then
-                    m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
+                    m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "frost") then
                     DrawFrostingText(10, 1.5, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(255, 255, 255))
                 else
-                    emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 end
                 --local x_p, y_p = s:GetPos()
                 --draw_SimpleTextDegree( ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, x_p, y_p, Color(255,0,0), Color(0,0,255), 0.7, TEXT_ALIGN_LEFT )
             else
-                emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             end
 
             if (ITEM_HOVERED.n) then
-                emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
+                m_DrawShadowedText(1, "\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
             end
 
             local drawn_stats = 0
@@ -6355,7 +6335,7 @@ function m_DrawFoundItem(tbl, s_type, name)
             end
 
             if (ITEM_HOVERED.n) then
-                emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
+                m_DrawShadowedText(1, "\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
             end
 
             local drawn_stats = 0
