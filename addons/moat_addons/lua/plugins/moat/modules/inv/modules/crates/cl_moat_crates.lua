@@ -520,20 +520,20 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
                 local tfx = tbl.Effect
 
                 if (tfx == "glow") then
-                    m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
                 elseif (tfx == "fire") then
-                    m_DrawFireText(tbl.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    m_DrawFireText(tbl.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
                 elseif (tfx == "bounce") then
-                    m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
                 elseif (tfx == "enchanted") then
-                    m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
                 elseif (tfx == "electric") then
-                    m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
                 else
-                    m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 end
             else
-                m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             end
         end
 
