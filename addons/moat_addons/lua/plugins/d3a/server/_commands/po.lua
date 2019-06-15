@@ -132,7 +132,7 @@ COMMAND.Run = function(pl, args, supp)
 	end
 
 	D3A.Warns.Get(sid, function(warns)
-		Warns = warns
+		Warns = warns or {}
 
 		check_ready()
 	end)
