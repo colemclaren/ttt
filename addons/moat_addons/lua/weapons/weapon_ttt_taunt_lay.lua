@@ -159,6 +159,7 @@ end)
 function SWEP:EndTaunt()
 	if (CLIENT) then return end
 
+	self.Ragdoll.IsSafeToRemove = true
 	SafeRemoveEntity(self.Ragdoll)
 	self:SetTauntActive(false)
 
