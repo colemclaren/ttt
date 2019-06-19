@@ -63,6 +63,9 @@ function STAFF_TRACK.UpdateEntry(ply)
     )
 end
 
+function STAFF_TRACK.Escape(data)
+    return STAFF_TRACK.db:escape(data)
+end
 
 function STAFF_TRACK.CreateEntry(ply, cb)
     local steamid = ply:SteamID64()
