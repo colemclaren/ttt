@@ -93,6 +93,7 @@ local function RagdollDissolveEffect(ply)
             end
         end
 
+        rgd.IsSafeToRemove = true
         rgd:SetName("DissolveID" .. rgd:EntIndex())
         BLINK_DISSOLVER:Fire("Dissolve", "DissolveID" .. rgd:EntIndex(), 0.01)
     end
