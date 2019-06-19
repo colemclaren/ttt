@@ -334,16 +334,16 @@ function m_DrawEnchantedText(text, font, x, y, color, glow_color, xalign, yalign
     end
 end
 
-function m_DrawGlowingText(static, text, font, x, y, color, xalign, yalign, enable_emojis, disable_drawing)
+function m_DrawGlowingText(static, text, font, x, y, color, xalign, yalign, enable_emoji, disable_drawing)
     local xalign = xalign or TEXT_ALIGN_LEFT
     local yalign = yalign or TEXT_ALIGN_TOP
     local initial_a = 20
     local a_by_i = 5
     surface_SetFont(font)
 
-    local TextSize, DrawText = surface_GetTextSize, draw_SimpleText
+    local DrawText = draw_SimpleText
     if (enable_emoji) then
-        TextSize, DrawText = emoji.GetTextSize, emoji.SimpleText
+        DrawText = emoji.SimpleText
     end
 
     for i = 1, 2 do

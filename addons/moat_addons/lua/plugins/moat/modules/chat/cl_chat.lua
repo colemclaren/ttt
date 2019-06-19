@@ -748,7 +748,7 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
             local tfx = itemtbl.item.NameEffect
 
             if (tfx == "glow") then
-                m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+                m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
             elseif (tfx == "fire") then
                 m_DrawFireText(itemtbl.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
             elseif (tfx == "bounce") then

@@ -167,8 +167,8 @@ function emoji.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, out
                     cy = cy - 16 + tall
                 end
                 cdn.DrawImage(emojis[text], tx, cy, emoji_length[text], 16, nil, "alphatest")
-                tx = tx + emoji_length[text] + 2
             end
+            tx = tx + emoji_length[text] + 2
         else
             local w, h = surface.GetTextSize(text)
             draw.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, outlinewid, outlinecolor)
@@ -188,8 +188,8 @@ function emoji.SimpleText(text, font, tx, ty, color, xalign, yalign, dont_draw_e
                     cy = cy - 16 + tall
                 end
                 cdn.DrawImage(emojis[text], tx, cy, emoji_length[text], 16, nil, "alphatest")
-                tx = tx + emoji_length[text] + 2
             end
+            tx = tx + emoji_length[text] + 2
         else
             local w, h = surface.GetTextSize(text)
             draw.SimpleText(text, font, tx, ty, color, xalign, yalign)
