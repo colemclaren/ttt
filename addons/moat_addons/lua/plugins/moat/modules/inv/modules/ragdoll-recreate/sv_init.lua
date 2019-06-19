@@ -1,5 +1,14 @@
+hook.Add("OnEntityCreated", "Ragdoll Recreate", function(e)
+    if (GetRoundState() ~= ROUND_ACTIVE or e:GetClass() ~= "prop_ragdoll") then
+        return
+    end
+
+    e.PleaseRecreate = true
+end)
+
+
 hook.Add("EntityRemoved", "Ragdoll Recreate", function(e)
-    if (not IsValid(e) or e:GetClass() ~= "prop_ragdoll" or e.IsSafeToRemove) then
+    if (not IsValid(e) or e:GetClass() ~= "prop_ragdoll" or e.IsSafeToRemove or not e.PleaseRecreate) then
         return
     end
 
