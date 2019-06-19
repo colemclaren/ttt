@@ -31,7 +31,7 @@ local team              = team
 local IsValid           = IsValid
 local CurTime           = CurTime
 local draw_SimpleText = draw.SimpleText
-local draw_SimpleTextOutlined = draw.SimpleTextOutlined
+local draw_SimpleTextOutlined = emoji.SimpleTextOutlined
 local draw_RoundedBoxEx = draw.RoundedBoxEx
 local draw_RoundedBox = draw.RoundedBox
 local surface_SetFont = surface.SetFont
@@ -498,7 +498,7 @@ local function moat_CustomHUD()
 		surface_SetDrawColor(0, 0, 0, 200)
 		surface_DrawRect(40, 40, 800, 135)
 
-		draw_SimpleTextOutlined("You are in the HUD edit mode. You can only edit your HUD while you are alive.", "moat_Medium4", 50, 50, Color(255, 0, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 255))
+		draw_SimpleTextOutlined("You are in the HUD edit mode :ok_hand:. You can only edit your HUD while you are alive.", "moat_Medium4", 50, 50, Color(255, 0, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 255))
 		draw_SimpleTextOutlined("You can leave this mode by pressing F6.", "moat_Medium4", 50, 70, Color(255, 0, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 255))
 		draw_SimpleTextOutlined("You can move HUD objects by clicking a dragging the TOP LEFT of the object.", "moat_Medium4", 50, 90, Color(255, 0, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 255))
 		draw_SimpleTextOutlined("You can size HUD objects by clicking and dragging the BOTTOM RIGHT of the object.", "moat_Medium4", 50, 110, Color(255, 0, 0), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 255))
@@ -602,13 +602,13 @@ local function moat_CustomHUD()
 				grad_y2 = grad_y2 - 1
 
             	for i = 1, 2 do
-					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w + i, grad_y2 + i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w - i, grad_y2 - i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w + i, grad_y2 - i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w - i, grad_y2 + i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w + i, grad_y2 + i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, true)
+					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w - i, grad_y2 - i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, true)
+					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w + i, grad_y2 - i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, true)
+					draw_SimpleText(RARITY_TEXT, "moat_Medium4s", x + grad_w - i, grad_y2 + i, rarity_shadow[wpn_stats.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, true)
 				end
 
-				draw_SimpleText(RARITY_TEXT, "moat_Medium4", x + grad_w, grad_y2, rarity_accents[wpn_stats.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				emoji.SimpleText(RARITY_TEXT, "moat_Medium4", x + grad_w, grad_y2, rarity_accents[wpn_stats.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
 
 			local draw_name_x = x + 7
@@ -620,7 +620,7 @@ local function moat_CustomHUD()
 				local tfx = wpn_stats.item.NameEffect
 
 				if (tfx == "glow") then
-					m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+					m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
 				elseif (tfx == "fire") then
 					m_DrawFireText(wpn_stats.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
 				elseif (tfx == "bounce") then

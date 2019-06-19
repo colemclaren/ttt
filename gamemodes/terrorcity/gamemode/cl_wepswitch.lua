@@ -150,7 +150,7 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
       spec.color =  wep.ItemStats.item.NameColor or rarity_names[ wep.ItemStats.item.Rarity][2]:Copy()
    end
    spec.pos[1] = x + 10 + height
-   draw.Text(spec)
+   emoji.Text(spec)
 
    if ammo then
       local col = c.text

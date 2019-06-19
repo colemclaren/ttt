@@ -193,7 +193,7 @@ function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp
 				da_col = rarity_names[9][2]:Copy()
 			end
 
-            m_DrawGlowingText(false, weapon_str, "moat_Trebuchet", 0, 20, da_col, nil, nil, nil, true)
+            m_DrawGlowingText(false, weapon_str, "moat_Trebuchet", 0, 20, da_col, nil, nil, true)
         else
 			local da_col = weapon_col
 

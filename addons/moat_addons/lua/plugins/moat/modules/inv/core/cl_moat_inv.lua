@@ -937,7 +937,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             local name_col = talent_col
             local tfx = itemtbl.Talents[k].NameEffect
             if (tfx == "glow") then
-                m_DrawGlowingText(false, talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+                m_DrawGlowingText(false, talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, true)
             elseif (tfx == "fire") then
                 m_DrawFireText(7, talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, true)
             elseif (tfx == "bounce") then
@@ -3074,7 +3074,7 @@ function m_OpenInventory(ply2, utrade)
                 local tfx = ITEM_HOVERED.item.NameEffect
 
                 if (tfx == "glow") then
-                    m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+                    m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
                 elseif (tfx == "fire") then
                     m_DrawFireText(ITEM_HOVERED.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
                 elseif (tfx == "bounce") then

@@ -520,7 +520,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
                 local tfx = tbl.Effect
 
                 if (tfx == "glow") then
-                    m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+                    m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
                 elseif (tfx == "fire") then
                     m_DrawFireText(tbl.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
                 elseif (tfx == "bounce") then

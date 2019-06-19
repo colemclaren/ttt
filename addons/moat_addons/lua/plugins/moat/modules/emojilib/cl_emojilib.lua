@@ -158,6 +158,7 @@ end
 
 function emoji.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, outlinewid, outlinecolor, dont_draw_emojis, emoji_align_bottom)
     surface.SetFont(font)
+    local y_minus = yalign == TEXT_ALIGN_BOTTOM and select(2, surface.GetTextSize "A") or yalign == TEXT_ALIGN_CENTER and select(2, surface.GetTextSize "A") / 2 or 0
     for _, text in emoji.Codes(text) do
         if (emojis[text]) then
             if (not dont_draw_emojis) then
@@ -166,7 +167,7 @@ function emoji.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, out
                     local _, tall = surface.GetTextSize "|"
                     cy = cy - 16 + tall
                 end
-                cdn.DrawImage(emojis[text], tx, cy, emoji_length[text], 16, nil, "alphatest")
+                cdn.DrawImage(emojis[text], tx, cy - y_minus, emoji_length[text], 16, nil, "alphatest")
             end
             tx = tx + emoji_length[text] + 2
         else
@@ -179,6 +180,7 @@ end
 
 function emoji.SimpleText(text, font, tx, ty, color, xalign, yalign, dont_draw_emojis, emoji_align_bottom)
     surface.SetFont(font)
+    local y_minus = yalign == TEXT_ALIGN_BOTTOM and select(2, surface.GetTextSize "A") or yalign == TEXT_ALIGN_CENTER and select(2, surface.GetTextSize "A") / 2 or 0
     for _, text in emoji.Codes(text) do
         if (emojis[text]) then
             if (not dont_draw_emojis) then
@@ -187,7 +189,7 @@ function emoji.SimpleText(text, font, tx, ty, color, xalign, yalign, dont_draw_e
                     local _, tall = surface.GetTextSize "|"
                     cy = cy - 16 + tall
                 end
-                cdn.DrawImage(emojis[text], tx, cy, emoji_length[text], 16, nil, "alphatest")
+                cdn.DrawImage(emojis[text], tx, cy - y_minus, emoji_length[text], 16, nil, "alphatest")
             end
             tx = tx + emoji_length[text] + 2
         else
@@ -196,4 +198,8 @@ function emoji.SimpleText(text, font, tx, ty, color, xalign, yalign, dont_draw_e
             tx = tx + w
         end
     end
+end
+
+function emoji.Text(data)
+    emoji.SimpleText(data.text, data.font, data.pos[1], data.pos[2], data.color, data.xalign, data.yalign, false, true)
 end

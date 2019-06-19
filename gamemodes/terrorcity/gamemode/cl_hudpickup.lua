@@ -29,7 +29,7 @@ function GM:HUDWeaponPickedUp( wep )
 
    local pickup = {}
    pickup.time      = CurTime()
-   pickup.name      = string.upper(name)
+   pickup.name      = name
    pickup.holdtime  = 5
    pickup.font      = "DefaultBold"
    pickup.fadein    = 0.04
@@ -189,10 +189,10 @@ function GM:HUDDrawPickupHistory()
          surface.DrawTexturedRectRotated( rx + rw - bordersize/2 , ry + bordersize/2, bordersize, bordersize, 270 )
          surface.DrawRect( rx+rw-bordersize, ry+bordersize, bordersize, rh-bordersize*2 )
 
-         draw.SimpleText( v.name, v.font, v.x+2+v.height+8, v.y - (v.height/2)+2, Color( 0, 0, 0, alpha*0.75 ) )
+         emoji.SimpleText( v.name, v.font, v.x+2+v.height+8, v.y - (v.height/2)+2, Color( 0, 0, 0, alpha*0.75 ), nil, nil, true )
 
          local text_color = v.textcolor or Color( 255, 255, 255 )
-         draw.SimpleText( v.name, v.font, v.x+v.height+8, v.y - (v.height/2), Color( text_color.r, text_color.g, text_color.b, alpha ) )
+         emoji.SimpleText( v.name, v.font, v.x+v.height+8, v.y - (v.height/2), Color( text_color.r, text_color.g, text_color.b, alpha ) )
 
          if v.amount then
             draw.SimpleText( v.amount, v.font, v.x+self.PickupHistoryWide+2, v.y - (v.height/2)+2, Color( 0, 0, 0, alpha*0.75 ), TEXT_ALIGN_RIGHT )

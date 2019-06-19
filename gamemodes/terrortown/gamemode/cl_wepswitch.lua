@@ -119,7 +119,7 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
     end
 
     spec.pos[1] = x + 10 + height
-    draw.Text(spec)
+    emoji.Text(spec)
 
     if ammo then
         local col = c.text
