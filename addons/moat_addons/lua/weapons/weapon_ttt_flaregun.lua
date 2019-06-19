@@ -72,6 +72,7 @@ local function RunIgniteTimer(ent, timer_name)
 			ent:Extinguish()
 		elseif CurTime() > ent.burn_destroy then
 			ent:SetNotSolid(true)
+			ent.IsSafeToRemove = true
 			ent:Remove()
 		else
 			-- keep on burning

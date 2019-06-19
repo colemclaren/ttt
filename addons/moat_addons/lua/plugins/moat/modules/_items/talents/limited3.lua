@@ -19,6 +19,7 @@ local function _ass_talent(vic,att)
     timer.Simple(0.2,function()
         for k, v in pairs(ents.FindByClass("prop_ragdoll")) do
             if (v.uqid and v.uqid == uid and IsValid(v)) then
+                v.IsSafeToRemove = true
                 if IsValid(vic) then
                     vic:SetNWBool("body_found", false)
                     net.Start("Ass_talent")
