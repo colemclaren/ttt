@@ -8,7 +8,7 @@ end)
 
 
 hook.Add("EntityRemoved", "Ragdoll Recreate", function(e)
-    if (not IsValid(e) or e:GetClass() ~= "prop_ragdoll" or e.IsSafeToRemove or not e.PleaseRecreate) then
+    if (not IsValid(e) or e:GetClass() ~= "prop_ragdoll" or e.IsSafeToRemove or not e.PleaseRecreate or MOAT_ACTIVE_BOSS) then
         return
     end
 
