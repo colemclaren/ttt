@@ -1106,26 +1106,21 @@ function jackpot_()
         versus_cancel(ply)
     end)
 
-	function versus_forcedelete(sid,fun) -- not really force but to double check with uncached results
-		local q = db:query("SELECT * FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. db:escape(sid) .. "';")
-		function q:onSuccess(d)
-			-- PrintTable(d)
-			if #d < 1 then
-				fun(true) -- already deleted
-				return
-			end
-			d = d[1]
-			if (not tobool(d.rewarded)) then fun(false) return end 
-			if d.rewarded then
-				local b = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. sid .. "' AND money = '" .. d.money .. "' AND rewarded = '1';")
-				function b:onSuccess()
-					fun(true)
-				end
-                b:start()
-			end
-		end
-		q:start()
-	end
+    function versus_forcedelete(sid,fun) -- not really force but to double check with uncached results
+        local q = db:query("SELECT * FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. db:escape(sid) .. "';")
+        function q:onSuccess(d)
+            if #d < 1 then
+                fun(true)
+                return
+            end
+            local b = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. sid .. "' AND money = '" .. d[1].money .. "' AND (rewarded = '1' OR (UNIX_TIMESTAMP() - time > 40));")
+            function b:onSuccess()
+                fun(true)
+            end
+            b:start()
+        end
+        q:start()
+    end
 
     function versus_joingame(ply,sid,fun)
         versus_getgame(sid,function(d)
