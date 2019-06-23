@@ -1,13 +1,13 @@
 
 ITEM.ID = 545
 
-ITEM.Name = "Knight Model"
+ITEM.Name = "Yoshi Model"
 
-ITEM.Description = "I think you're in the wrong Era, Mate"
+ITEM.Description = "Extra Salsa"
 
-ITEM.Model = "models/moat/player/knight.mdl"
+ITEM.Model = "models/player/yoshi.mdl"
 
-ITEM.Rarity = 6
+ITEM.Rarity = 9
 
 ITEM.Collection = "Model Collection"
 

@@ -13,13 +13,23 @@
 !/sound
 !/lua
 *.*
+
+# mats
 !/materials/**/*.vtf
 !/materials/**/*.vmt
+
+# mdls
 !/models/**/*.vtx
 !/models/**/*.mdl
 !/models/**/*.phy
 !/models/**/*.vvd
-!/sound/**/*.wav
+
+# sounds (use cdn if u can)
+!/sound/**/*.mp3
+!/sound/**/*.ogg
+
+
+# random bullshit
 !/lua/bin/gmsv_luaerror_linux.dll
 !/lua/bin/gmsv_luaerror_win32.dll
 !*.lua
