@@ -4,7 +4,7 @@ local concat = table.concat
 local str_split = string.Split
 
 Server = Server or {
-	Name = GetHostName(),
+	Name = GetHostName():match("- ([%w%s#]*) -") or GetHostName() or "Garry's Mod",
 	ID = false,
 	URL = false,
 	Index = 200,
@@ -41,7 +41,7 @@ local servers = {
 	},
 	Roster = {},
 	DefaultPort = 27015,
-	Name = "Moat TTT",
+	Name = GetHostName():match("- ([%w%s#]*) -") or GetHostName() or "TTT",
 	URL = ".moat.gg",
 	SteamURL = "steam://connect/"
 }
@@ -84,7 +84,7 @@ function servers.Get(str)
 end
 
 function servers.Setup(name, url, def_port)
-	servers.Name = name or "Garry's Mod"
+	servers.Name = name or "Moat TTT"
 	servers.URL = url or ""
 	servers.DefaultPort = def_port or 27015
 
@@ -192,10 +192,12 @@ if (CLIENT) then
 			Server.ShortIP = ip[1]
 			Server.Port = ip[2]
 		end
+
+		hook.Run("ServerInfo", Server)
 	end)
 else
 	util.AddNetworkString "ServerInfo"
-	hook.Add("PlayerAuthed", "ServerInfo", function(pl)
+	hook.Add("PlayerInitialSpawn", "ServerInfo", function(pl)
 		net.Start "ServerInfo"
 			net.WriteString(GetServerName())
 			net.WriteString(GetServerIP())
