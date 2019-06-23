@@ -3,5 +3,5 @@ COMMAND.Name = "motd"
 COMMAND.Flag = D3A.Config.Commands.MoTD
 
 COMMAND.Run = function(pl, args, supp)
-	pl:SendLua([[D3A.OpenMoTD()]])
+	return net.Do("motd", function() net.WriteInt(0, 32) end, pl)
 end

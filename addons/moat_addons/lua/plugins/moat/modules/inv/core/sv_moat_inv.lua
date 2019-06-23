@@ -34,7 +34,6 @@ util.AddNetworkString("MOAT_ITEM_OBTAINED")
 util.AddNetworkString("MOAT_MAX_SLOTS")
 util.AddNetworkString("MOAT_GET_SHOP")
 util.AddNetworkString("MOAT_BUY_ITEM")
-util.AddNetworkString("MOAT_MOTD")
 util.AddNetworkString("MOAT_CHAT_LINK_ITEM")
 util.AddNetworkString("MOAT_USE_USABLE")
 util.AddNetworkString("MOAT_INIT_USABLE")
@@ -2092,32 +2091,6 @@ hook.Add("PlayerSay", "moat_ReplaceChatLinks", function(ply, text, public)
 
         return ""
     end
-end)
-
-hook.Add("PlayerInitialSpawn", "moat_OpenMOTD", function(ply)
-    local disabled = ply:GetInfo("moat_disable_motd")
-    if (disabled and disabled ~= "0") then return end
-    
-    net.Start("MOAT_MOTD")
-    net.WriteString(ply:Nick())
-    net.Send(ply)
-end)
-
-hook.Add("PlayerSay", "moat_MOTDCommand", function(ply, text, public)
-    text = string.lower(text)
-
-    if (text == "!motd") then
-        net.Start("MOAT_MOTD")
-        net.WriteString(ply:Nick())
-        net.Send(ply)
-
-        return ""
-    end
-end)
-
-hook.Add("ShowSpare1", "moat_MOTDKeyPressed", function(ply)
-    net.Start("MOAT_MOTD")
-    net.Send(ply)
 end)
 
 local function IsNameMatch(ply, str)
