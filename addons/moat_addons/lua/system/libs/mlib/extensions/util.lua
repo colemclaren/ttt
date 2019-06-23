@@ -46,42 +46,46 @@ function util.SafeSteamID(str)
 	return string.gsub(str or '', '[^%w:_]', '') or ''
 end
 
-function util.FormatTime(x, y)
+function util.FormatTime(x, y, short)
 	x = x or os.time()
 	y = y or os.time()
 
 	local diff = math.max(0, x - y)
-	local str = " second"
-	if (diff == 0) then return "a moment" end
+	local str = short and " sec" or " second"
+	if (diff == 0) then return short and "0 secs" or "0 seconds" end
 
 	if (diff < 60) then
 		return diff .. ((diff == 1 and str) or (str .. "s"))
 	elseif (diff < 3600) then
-		local mins = math.Round(diff/60)
-		str = " minute"
+		local mins = math.floor(diff/60)
+		str = short and " min" or " minute"
+
+		if (isbool(short) and short == false) then
+			mins = string.format("%02d", mins) .. ":" .. string.format("%02d", (diff % 60))
+		end
 
 		return mins .. ((mins == 1 and str) or (str .. "s"))
 	elseif (diff < 86400) then
-		local hrs = math.Round(diff/3600)
-		str = " hour"
+		local hrs = math.floor(diff/3600)
+		str = short and " hr" or " hour"
 
 		return hrs .. ((hrs == 1 and str) or (str .. "s"))
 	else
-		local days = math.Round(diff/86400)
+		local days = math.floor(diff/86400)
 		str = " day"
 
 		return days .. ((days == 1 and str) or (str .. "s"))
 	end
 
-	return "a moment"
+	return short and "0 secs" or "0 seconds"
 end
 
-function util.FormatTimeSingle(x)
-	return util.FormatTime(x, 0)
+function util.FormatTimeSingle(x, short)
+	return util.FormatTime(x, 0, short)
 end
 
-function util.FormatTimeNow(y)
-	return util.FormatTime(os.time(), y)
+function util.FormatTimeNow(y, short)
+	return util.FormatTime(os.time(), y, short)
 end
 
 function util.Upper(str)
