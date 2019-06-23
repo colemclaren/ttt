@@ -50,7 +50,7 @@ end
 moat_chat.font = "moat_ChatFont"
 moat_chat.chattype = ""
 moat_chat.alpha = 0
-moat_chat.header = "General Chat | Website: Moat.GG"
+moat_chat.header = "You're playing on Moat - TTT Fan Club | More fun servers @ moat.gg"
 moat_chat.isopen = false
 
 moat_chat.sayvars = {
@@ -381,9 +381,9 @@ function moat_chat.InitChat()
         COLOR_WHITE = Color(255, 255, 255, 255)
         color_white = Color(255, 255, 255, 255)
         if (not mc.AlphaControl(s)) then
-            mc.alpha = Lerp(10 * FrameTime(), mc.alpha, 0)
+            mc.alpha = Lerp(10 * FrameTime(), moat_chat.alpha, 0)
         else
-            mc.alpha = Lerp(10 * FrameTime(), mc.alpha, 1)
+            mc.alpha = Lerp(10 * FrameTime(), moat_chat.alpha, 1)
             if (input.IsKeyDown(KEY_ESCAPE)) then
                 RunConsoleCommand("cancelselect")
                 SelectedChatMsg = nil
@@ -410,7 +410,7 @@ function moat_chat.InitChat()
         surface_DrawOutlinedRect(0, 0, w, h)*/
 
         if (moat_chat.Theme.CHAT_BG) then
-            moat_chat.Theme.CHAT_BG(s, w, h, mc, DrawBlur)
+            moat_chat.Theme.CHAT_BG(s, w, h, moat_chat, DrawBlur)
             return
         end
 
@@ -422,7 +422,7 @@ function moat_chat.InitChat()
         surface_SetDrawColor(150, 150, 150, 50 * mc.alpha)
         surface_DrawRect(0, 0, w, 21)
 
-        draw.DrawText(mc.header, mc.font, 6, 2, Color(255, 255, 255, 255 * mc.alpha))
+        draw.DrawText(moat_chat.header, moat_chat.font, 6, 2, Color(255, 255, 255, 255 * mc.alpha))
         local chat_str = "Say :"
         local chat_type = 1
 
@@ -436,7 +436,7 @@ function moat_chat.InitChat()
         surface_SetDrawColor(0, 0, 0, 150 * mc.alpha)
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(5, mcc.h - 25, moat_chat.sayvars[chat_type].w, 20)*/
-        draw.DrawText(chat_str, mc.font, 10, mcc.h - 24, Color(255, 255, 255, 255 * mc.alpha))
+        draw.DrawText(chat_str, moat_chat.font, 10, mcc.h - 24, Color(255, 255, 255, 255 * mc.alpha))
     end
 
     local moveicon = Material("icon16/arrow_out.png")
@@ -492,7 +492,7 @@ function moat_chat.InitChat()
 
     mc.SPNL.Paint = function(s, w, h)
         if (moat_chat.Theme.CHAT_PANEL) then
-            moat_chat.Theme.CHAT_PANEL(s, w, h, mc, DrawBlur)
+            moat_chat.Theme.CHAT_PANEL(s, w, h, moat_chat, DrawBlur)
             return
         end
 
@@ -585,7 +585,7 @@ function moat_chat.InitChat()
         surface_DrawTexturedRect(0, 0, w, h)*/
 
         if (moat_chat.Theme.CHAT_ENTRY) then
-            moat_chat.Theme.CHAT_ENTRY(s, w, h, mc, DrawBlur)
+            moat_chat.Theme.CHAT_ENTRY(s, w, h, moat_chat, DrawBlur)
             return
         end
 
@@ -696,6 +696,7 @@ function moat_chat.OpenChat()
     moat_chat.Theme.CHAT_PANEL = MT[CurTheme].CHAT and MT[CurTheme].CHAT.CHAT_PANEL
     moat_chat.Theme.CHAT_ENTRY = MT[CurTheme].CHAT and MT[CurTheme].CHAT.CHAT_ENTRY
     moat_chat.Theme.DefaultColor = MT[CurTheme].CHAT and MT[CurTheme].CHAT.DefaultColor
+	moat_chat.header = "You're playing on Moat - "..GetServerName().." | More fun servers @ moat.gg"
 
     local mc = moat_chat
     local mcc = moat_chat.config
@@ -871,7 +872,7 @@ function moat_chat.ChatObjectPaint(self)
                     xsize = self.TextTable[a][2]-x+4
                 end
             end
-            surface_DrawRect(x, mc.TextSize.h*i-mc.TextSize.h, xsize, mc.TextSize.h)
+            surface_DrawRect(x, moat_chat.TextSize.h*i-mc.TextSize.h, xsize, moat_chat.TextSize.h)
         end
     end
 
@@ -1100,7 +1101,7 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
         end
     end
 
-    local ListItem = vgui.Create("DPanel", mc.SPNL)
+    local ListItem = vgui.Create("DPanel", moat_chat.SPNL)
     ListItem.IsChatTextPanel = true
     ListItem.Icon = icon
     ListItem.CreateTime = CurTime() + mc.FadeTime
