@@ -145,6 +145,58 @@ style = md
 -- String Utilities --
 ----------------------
 
+local lower = {
+	["a"] = true,
+	["an"] = true,
+	["the"] = true,
+	["at"] = true,
+	["by"] = true,
+	["for"] = true,
+	["in"] = true,
+	["of"] = true,
+	["on"] = true,
+	["to"] = true,
+	["up"] = true,
+	["and"] = true,
+	["as"] = true,
+	["but"] = true,
+	["or"] = true,
+	["nor"] = true,
+}
+
+function string.Title(str, capitalize, punctuate)
+	str = tostring(str) or ""
+
+	local cap = capitalize or false
+	return string.gsub(" " .. str, "(%W)(%l)([[%w'%d]*)", function(_, letter, rest)
+		if (lower[string(letter, rest)] and cap and not capitalize) then
+			return false
+		end
+
+		rest = rest or ""
+		cap = (not capitalize)
+	
+		return _ .. string.upper(letter) .. rest
+	end):sub(2)
+end
+
+function string.Grammarfy(str, punctuate)
+	str = tostring(str) or ""
+
+	local mark = punctuate or false
+	return string.gsub(" " .. str, "(%W)(%l)([[%w'%d]*)([%p]*)", function(_, letter, rest, punctuation)
+		rest = rest or ""
+
+		if (lower[string(letter, rest)] and mark and not punctuate) then
+			return false
+		end
+
+		mark = (not not punctuation)
+		
+		return _ .. letter .. rest .. punctuation
+	end):sub(2) .. ((mark or punctuate) and "." or "")
+end
+
 function string_table.Extra(str, extra, split)
 	str = str or ""
 	extra = extra and " (" .. extra .. ")"
