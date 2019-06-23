@@ -103,6 +103,12 @@ MGA.CommandList = {
 		}}
 	}},
 	{40, "Trial Staff", Color(41, 194, 245, 255), {
+		{"RemoveSlays", "Removes the autoslays from a player.", true},
+		{"ForceMOTD", "Forces a player to open the MOTD.", true, {
+			{"Entry", "SteamID", "STEAM_0:0:"},
+			{"Entry", "Length", "1"},
+			{"Drop", "Time Units", {"Minutes", "Hours", "Days", "Weeks", "Months", "Years"}, "Minutes"}
+		}},
 		{"AFK", "Forces a player into spectator mode.", true},
 		{"UnAFK", "Forces a player out of spectator mode.", true},
 		{"ASlay", "Marks a player to be slain next round.", true, {
@@ -115,10 +121,6 @@ MGA.CommandList = {
 			{"Entry", "Reason", "Breaking Rules"}
 		}},
 		{"RemoveSlays", "Removes the autoslays from a player.", true},
-		{"PA", "Announces a message to the entire server.", "None", {
-			{"Entry", "Message", "Testing..."}
-		}},
-		{"ForceMOTD", "Forces a player to open the MOTD.", true},
 		{"Mute", "Mutes a player's text chat.", true},
 		{"Gag", "Mutes a player's voice chat.", true},
 		{"Kick", "Kicks a player from the server.", true, {
@@ -137,6 +139,9 @@ MGA.CommandList = {
 			{"Entry", "SteamID", "STEAM_0:0:"},
 			{"Entry", "Reason", "Welcome! Press F3 to read rules ;) x"}
 		}},
+		{"PA", "Announces a message to the entire server.", "None", {
+			{"Entry", "Message", "Testing..."}
+		}}
 	}},
 	{50, "Moderator", Color(0, 102, 0, 255),  {
 		{"VoiceBattery", "Enables the voice battery serverwide.", "None"},
