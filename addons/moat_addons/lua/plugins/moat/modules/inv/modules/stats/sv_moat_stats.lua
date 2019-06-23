@@ -101,6 +101,7 @@ local function m_CalculateLevel(cur_lvl, cur_exp, exp_to_add)
 end
 
 function meta:ApplyXP(num)
+    hook.Run("PlayerEarnedXP",self,num)
     local cur_exp = self:GetNWInt("MOAT_STATS_XP")
     local cur_lvl = self:GetNWInt("MOAT_STATS_LVL")
     local new_level, new_xp = m_CalculateLevel(cur_lvl, cur_exp, num)

@@ -340,6 +340,7 @@ function bp_sql()
     function bp_processxp(ply,xp)
         if not auth(ply) then return end
         local tier = ply.bp.tier
+        if tier == 100 then return end -- over!
         local plyxp = ply.bp.xp
         print("Processing ",xp,"xp for",ply)
         if (xp + plyxp) > xp_needed then
@@ -364,6 +365,14 @@ function bp_sql()
             net.Send(ply)
         end
     end
+
+    hook.Add("PlayerEarnedXP","Add BattlePass XP",function(ply,xp)
+        if not auth(ply) then return end
+        if XP_MULTIPLYER ~= 2 then 
+            xp = xp/4
+        end
+        bp_processxp(ply,xp)
+    end)
 
 end
 
