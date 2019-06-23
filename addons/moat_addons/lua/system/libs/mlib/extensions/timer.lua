@@ -6,9 +6,15 @@ local time = SysTime
 local tm = timer
 tm.Destroy = Remove
 
-function tm.Until(name, func, delay)
+function tm.Loop(name, delay, func, cb)
 	return Create(name, delay or 1, 0, function()
-		if (func()) then timer.Remove(name) end
+		if (func()) then
+			timer.Remove(name)
+	
+			if (cb) then
+				return cb()
+			end
+		end
 	end)
 end
 

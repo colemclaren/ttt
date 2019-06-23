@@ -407,3 +407,34 @@ local NPC = {
 }
 
 list.Set("NPC", NPC.Class, NPC)
+
+/*
++ models/player/aphaztech.mdl
++ models/player/azuisleet1.mdl
+- models/player/blockdude.mdl
++ models/player/lordvipes/metal_gear_rising/gray_fox_playermodel_cvp.mdl
++ models/player/clopsy.mdl
++ models/player/doomguy.mdl
+- models/player/foohysaurusrex.mdl
++ models/player/gmen.mdl
+- models/player/harry_potter.mdl
+- models/player/jawa.mdl
+- models/player/leon.mdl
+- models/player/linktp.mdl
+- models/player/macdguy.mdl
+- models/player/martymcfly.mdl
++ models/player/nuggets.mdl
+- models/player/rayman.mdl
++ models/player/raz.mdl
++ models/player/red.mdl
+- models/player/robot.mdl
++ models/player/stormtrooper.mdl
++ models/player/suluigi_galaxy.mdl
++ models/player/sumario_galaxy.mdl
++ models/player/yoshi.mdl
++ models/player/zelda.mdl
++ models/player/tasm2spider.mdl
+- models/vinrax/player/megaman64_player.mdl
++ models/ex-mo/quake3/players/doom.mdl
++ models/player/lordvipes/bl_clance/crimsonlanceplayer.mdl
+*/
