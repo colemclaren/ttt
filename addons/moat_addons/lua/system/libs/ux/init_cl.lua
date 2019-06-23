@@ -34,7 +34,7 @@ function ux.Create(...)
 	return p.gui
 end
 
-hook.Add("InitPostEntity", function()
+hook("InitPostEntity", function()
 	ux.loaded = true
 	ux.queue.Run()
 
