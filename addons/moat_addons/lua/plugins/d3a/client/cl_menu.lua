@@ -109,6 +109,7 @@ MGA.CommandList = {
 			{"Entry", "Length", "1"},
 			{"Drop", "Time Units", {"Minutes", "Hours", "Days", "Weeks", "Months", "Years"}, "Minutes"}
 		}},
+		{"CloseMOTD", "Closes the MOTD for a player.", true},
 		{"AFK", "Forces a player into spectator mode.", true},
 		{"UnAFK", "Forces a player out of spectator mode.", true},
 		{"ASlay", "Marks a player to be slain next round.", true, {
