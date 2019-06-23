@@ -1,9 +1,9 @@
 
 ITEM.ID = 543
 
-ITEM.Name = "Spiderman Model"
+ITEM.Name = "Spider-Man Model"
 
-ITEM.Description = "My Spider-Sense is tingling"
+ITEM.Description = "My spider senses are starting to tingle!"
 
 ITEM.Model = "models/otv/scarletspider.mdl"
 
