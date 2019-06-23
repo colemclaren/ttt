@@ -28,13 +28,15 @@ net.Receive("BP.StatUpdate",function()
     MOAT_BP.xp = net.ReadInt(32)
 end)
 
+local mat = Material("icon16/medal_gold_3.png")
+local mat2 = Material("icon16/information.png")
 net.Receive("BP.Chat",function()
     if net.ReadBool() then
         -- TD: make better messages
         local tier = net.ReadInt(32)
-        chat.AddText("Congrats! You've just unlocked tier " .. tier .. " in your battle pass and received " .. MOAT_BP.tiers[tier].name .. "!")
+        chat.AddText(mat,Color(255,255,255),"[Battle ",Color(0,255,255),"Pass",Color(255,255,255),"] You just unlocked tier ",Color(255,0,0),tostring(tier),Color(255,255,255)," and earned ",rarity_names[MOAT_BP.tiers[tier].rarity][2]:Copy(),MOAT_BP.tiers[tier].name,Color(255,255,255),"!")
     else
-        chat.AddText("Your Battle Pass has gained XP! (" .. net.ReadInt(32) .. "/" .. xp_needed ..")!")
+        chat.AddText(mat2,Color(255,255,255),"[Battle ",Color(0,255,255),"Pass",Color(255,255,255),"] Your Battle Pass has gained XP! (",Color(0,255,255),tostring(net.ReadInt(32)),Color(255,255,255),"/",tostring(xp_needed),")!")
     end
 end)
 
