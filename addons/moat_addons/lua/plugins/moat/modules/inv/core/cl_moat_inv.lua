@@ -561,23 +561,23 @@ function m_DrawItemDescLevel(text, font, x, y, w, alpha)
         draw_SimpleText(char, font, x + chars_x, y + (chars_y * 15), char_col)
         chars_x = chars_x + charw
 
-        if (i == #texte) then
+        /*if (i == #texte) then
             local charw2, charh2 = surface_GetTextSize(" ")
             -- draw_SimpleText(".", font, x + chars_x - charw2 + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
             draw_SimpleText(".", font, x + chars_x - charw2, y + (chars_y * 15), Color(alpha, alpha, alpha, 255))
-        end
+        end*/
     end
 end
 
 function m_DrawItemDesc(text, font, x, y, w, h)
     local texte = string.Explode(" ", text)
-    surface_SetFont(font)
+    surface.SetFont(font)
     local chars_x = 0
     local chars_y = 0
 
     for i = 1, #texte do
         local char = texte[i]
-        local charw, charh = surface_GetTextSize(char .. " ")
+        local charw, charh = surface.GetTextSize(char .. " ")
 
         if (chars_x + charw > w) then
             chars_x = 0
@@ -592,15 +592,10 @@ function m_DrawItemDesc(text, font, x, y, w, h)
             end
         end
 
-        draw_SimpleText(char, font, x + chars_x + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
-        draw_SimpleText(char, font, x + chars_x, y + (chars_y * 15), char_col)
+        draw.SimpleText(char, font, x + chars_x + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
+        draw.SimpleText(char, font, x + chars_x, y + (chars_y * 15), char_col)
+		
         chars_x = chars_x + charw
-
-        if (not text:EndsWith(".") and not text:EndsWith("!") and not text:EndsWith("?") and i == #texte) then
-            local charw2, charh2 = surface_GetTextSize(" ")
-            draw_SimpleText(".", font, x + chars_x - charw2 + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
-            draw_SimpleText(".", font, x + chars_x - charw2, y + (chars_y * 15), Color(255, 255, 255))
-        end
     end
 end
 

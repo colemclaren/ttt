@@ -48,6 +48,8 @@ local function talent_chat(new,v,tier,wild)
 	end
 	talent_desc = string.Implode("", talent_desctbl)
     talent_desc = string.Replace(talent_desc, "_", "%")
+
+	talent_desc = string.Grammarfy(talent_desc)
 	chat.AddText(Material("icon16/arrow_refresh.png"),"Your ", Color(100,100,255), ( wild and "Wild! - Tier " or "Wildcard: Tier ") .. tostring(tier),Color(255,255,255),(wild and " added " or " turned into "),Color(255,0,0),new.Name,Color(255,255,255),": ",Color(0,255,0),talent_desc,Color(255,255,255),(wild and " to your gun!" or "!"))
 end
 
@@ -56,7 +58,7 @@ net.Receive("weapon.UpdateTalents",function()
 	local wep = net.ReadEntity()
 	local tier = net.ReadInt(8)											
 	local talent = net.ReadTable()
-	talent.Description = talent.Description or ""
+	talent.Description = talent.Description and string.Grammarfy(talent.Description) or ""
 	local t_ = net.ReadTable()
 	if (not IsValid(wep)) then return end
 	timer.Simple(1,function()

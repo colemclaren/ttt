@@ -6,6 +6,15 @@ function m_AddDroppableItem(item_table, item_kind)
     local tbl = {}
     tbl = item_table
     tbl.Kind = item_kind
+
+	if (tbl.Name and not tbl.NameExact) then
+		tbl.Name = string.Title(tbl.Name)
+	end
+
+	if (tbl.Description and not tbl.DescExact) then
+		tbl.Description = string.Grammarfy(tbl.Description)
+	end
+
     MOAT_DROPTABLE[tbl.ID] = tbl
     --table.insert(MOAT_DROPTABLE, tbl)
 end
@@ -102,7 +111,9 @@ function m_InitializeItems()
         for _, filename in pairs(file.Find(MOAT_ITEM_FOLDER .. "/" .. folder .. "/*.lua", "LUA")) do
             ITEM = {}
             include(MOAT_ITEM_FOLDER .. "/" .. folder .. "/" .. filename)
-            m_AddDroppableItem(ITEM, type)
+			if (ITEM.ID) then
+            	m_AddDroppableItem(ITEM, type)
+			end
 
 			if (type == "Melee" and ITEM.Collection and ITEM.Collection ~= "Melee Collection") then
 				if (ITEM.Collection == "Independence Collection" or ITEM.Collection == "Holiday Collection") then
@@ -138,6 +149,14 @@ end)
 MOAT_TALENTS = {}
 
 function m_AddTalent(talent_tbl)
+	if (talent_tbl.Name and not talent_tbl.NameExact) then
+		talent_tbl.Name = string.Title(talent_tbl.Name)
+	end
+
+	if (talent_tbl.Description and not talent_tbl.DescExact) then
+		talent_tbl.Description = string.Grammarfy(talent_tbl.Description)
+	end
+
     MOAT_TALENTS[talent_tbl.ID] = talent_tbl
 end
 
