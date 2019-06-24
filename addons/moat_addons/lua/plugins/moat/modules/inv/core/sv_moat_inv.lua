@@ -498,7 +498,7 @@ end
 local function discord_post(ply,item,image,gift)
     local embed = {
         author = {
-            name = ply:Nick() .. " (" .. ply:SteamID() .. ")",
+            name = ply:Nick() .. " (" .. ply:SteamID() .. ") (lvl" .. ply:GetNWInt("MOAT_STATS_LVL", 1)..")",
             icon_url = image,
             url = "https://steamcommunity.com/profiles/" .. ply:SteamID64()
         },

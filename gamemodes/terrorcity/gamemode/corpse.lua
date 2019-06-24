@@ -386,6 +386,7 @@ function CORPSE.Create(ply, attacker, dmginfo)
     if not IsValid(ply) then return end
     local rag = ents.Create("prop_ragdoll")
     if not IsValid(rag) then return nil end
+    rag.PleaseRecreate = true
     rag:SetPos(ply:GetPos())
     rag:SetModel(ply:GetModel())
     rag:SetAngles(ply:GetAngles())

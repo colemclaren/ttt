@@ -1,14 +1,5 @@
-hook.Add("OnEntityCreated", "Ragdoll Recreate", function(e)
-    if (GetRoundState() ~= ROUND_ACTIVE or e:GetClass() ~= "prop_ragdoll") then
-        return
-    end
-
-    e.PleaseRecreate = true
-end)
-
-
 hook.Add("EntityRemoved", "Ragdoll Recreate", function(e)
-    if (not IsValid(e) or e:GetClass() ~= "prop_ragdoll" or e.IsSafeToRemove or not e.PleaseRecreate or GetGlobalStr("MOAT_MINIGAME_ACTIVE", false)) then
+    if (not IsValid(e) or e:GetClass() ~= "prop_ragdoll" or not e.PleaseRecreate or GetGlobalStr("MOAT_MINIGAME_ACTIVE", false)) then
         return
     end
 
@@ -56,6 +47,7 @@ hook.Add("EntityRemoved", "Ragdoll Recreate", function(e)
     end
 
     rag.trial = (rag.trial or 0) + 1
+    rag.PleaseRecreate = true
 
     local num = rag:GetPhysicsObjectCount() - 1
 
