@@ -1,12 +1,12 @@
 TALENT.ID = 87
 TALENT.Name = "Explosive"
 TALENT.NameColor = Color(255, 128, 0)
-TALENT.Description = "Every second of firing, this gun has a %s_^ chance to fire an explosive round dealing %s damage"
+TALENT.Description = "Every second of firing, this gun will fire %s_^ explosive dealing %s damage"
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 84   , max = 120}	-- Chance to trigger
+TALENT.Modifications[1] = {min = 0.84   , max = 1.20} -- Chance to trigger
 TALENT.Modifications[2] = {min = 13.37, max = 42}	-- Explosion damage
 
 TALENT.Melee = false
@@ -32,7 +32,7 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
     local dmg = self.Modifications[2].min + (self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]
 
     if (is_bow and hit_pos) then
-        if (chance > math.random() * 100) then
+        if (chance > math.random()) then
             local exp = ents.Create("env_explosion")
             exp:SetOwner(attacker)
             exp:SetPos(hit_pos)
