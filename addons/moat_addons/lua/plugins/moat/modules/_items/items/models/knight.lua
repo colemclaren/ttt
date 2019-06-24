@@ -1,13 +1,13 @@
 
 ITEM.ID = 545
 
-ITEM.Name = "Yoshi Model"
+ITEM.Name = "Crimson Lance Model"
 
-ITEM.Description = "Extra Salsa"
+ITEM.Description = "Give me your keys."
 
-ITEM.Model = "models/player/yoshi.mdl"
+ITEM.Model = "models/player/lordvipes/bl_clance/crimsonlanceplayer.mdl"
 
-ITEM.Rarity = 9
+ITEM.Rarity = 6
 
 ITEM.Collection = "Model Collection"
 
