@@ -1,7 +1,7 @@
 TALENT.ID = 87
 TALENT.Name = "Explosive"
 TALENT.NameColor = Color(255, 128, 0)
-TALENT.Description = "Every second of firing, this gun will fire %s_^ explosive dealing %s damage"
+TALENT.Description = "Every second of firing, this gun will fire %s_^ explosive rounds dealing %s damage"
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 
