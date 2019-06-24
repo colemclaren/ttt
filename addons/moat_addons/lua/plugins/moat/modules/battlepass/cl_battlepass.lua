@@ -525,12 +525,6 @@ function make_battlepass()
     function BP_HOVER.Paint(s,w,h)
         local ITEM_HOVERED = MOAT_BP.Hovered
 
-        --m_DrawFireText( ITEM_HOVERED.item.Rarity, ITEM_HOVERED.item.Name .. " " .. ITEM_NAME, "moat_Medium4", draw_name_x, draw_name_y, rarity_names[ITEM_HOVERED.item.Rarity][2] )
-        --m_DrawElecticText( ITEM_HOVERED.item.Name .. " " .. ITEM_NAME, "moat_Medium4", draw_name_x, draw_name_y, rarity_names[ITEM_HOVERED.item.Rarity][2] )
-        --m_DrawShadowedText( 1, ITEM_NAME_FULL, "moat_Medium4", draw_name_x, draw_name_y, rarity_names[ITEM_HOVERED.item.Rarity][2] )
-        --m_DrawGlowingText( ITEM_HOVERED.item.Name .. " " .. ITEM_NAME, "moat_Medium4", 7, 2, rarity_names[ITEM_HOVERED.item.Rarity][2] )
-        --m_DrawBouncingText( ITEM_HOVERED.item.Name .. " " .. ITEM_NAME, "moat_Medium4", 7, 2, rarity_names[ITEM_HOVERED.item.Rarity][2] )
-        --m_DrawEnchantedText( ITEM_HOVERED.item.Name .. " " .. ITEM_NAME, "moat_Medium4", 7, 2, rarity_names[ITEM_HOVERED.item.Rarity][2] )
         draw_stats_y = 26 + 21 + draw_xp_lvl
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
             if ITEM_HOVERED.w then
@@ -1032,13 +1026,9 @@ function m_RemoveBattlePanel()
 	end)
 end
 
-local function c()
-    return MINVENTORY_MYSQL and MINVENTORY_MYSQL:status() == mysqloo.DATABASE_CONNECTED
-end
 
 hook.Add("InitPostEntity","Disable Until It's time",function()
     if not moat.isdev(LocalPlayer()) then
-    -- if (LocalPlayer()) then
         function m_CreateBattlePanel(pnl_x, pnl_y, pnl_w, pnl_h) --overwrite
             if IsValid(M_BATTLE_PNL) then return end
             M_BATTLE_PNL = vgui.Create("DFrame")

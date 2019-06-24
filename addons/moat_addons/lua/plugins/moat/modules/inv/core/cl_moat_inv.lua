@@ -5000,7 +5000,7 @@ function m_CreateItemMenu(num, ldt)
 			end
             
             local data = render.Capture({
-                format = "jpeg",
+                format = "png",
                 quality = 100,
                 h = h,
                 w = w,
@@ -5055,7 +5055,7 @@ function m_CreateItemMenu(num, ldt)
                             MOAT_UPLOADING = false
                         end,
                         failed = function(a) 
-                            Derma_Message("Your upload was not successful (2)! Please show this to velkon: " .. a, "Upload failed", "Thanks")
+                            Derma_Message("Imgur appears to be having some issue, please wait an try again! (" .. a .. ")", "Upload failed", "Thanks")
                             MOAT_UPLOADING = false
                         end,
                         parameters = {
