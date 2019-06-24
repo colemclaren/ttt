@@ -49,10 +49,6 @@ function self:SendNotification(time, pl)
 end
 
 function self:CreateTimer(time, amt, tickfn, data)
-	if (amt == 1) then
-		error("Please use SetCallback for timers that run once")
-	end
-
 	if (not isfunction(tickfn)) then
 		error("bad argument #3 to 'CreateTimer' (function expected, got " .. type(tickfn) .. ")")
 	end
