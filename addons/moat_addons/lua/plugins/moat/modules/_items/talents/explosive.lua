@@ -43,8 +43,7 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
     else
         local cb = dmginfo.Callback
         dmginfo.Callback = function(att, tr, dmginfo)
-            local rand = math.random() * 100
-            if (not tr.AltHitreg and chance > rand) then
+            if (not tr.AltHitreg and chance > math.random()) then
                 local exp = ents.Create("env_explosion")
                 exp:SetOwner(attacker)
                 exp:SetPos(tr.HitPos)
