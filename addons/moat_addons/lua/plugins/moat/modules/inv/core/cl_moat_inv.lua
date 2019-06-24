@@ -5055,7 +5055,7 @@ function m_CreateItemMenu(num, ldt)
                             MOAT_UPLOADING = false
                         end,
                         failed = function(a) 
-                            Derma_Message("Imgur appears to be having some issue, please wait an try again! (" .. a .. ")", "Upload failed", "Thanks")
+                            Derma_Message("Imgur appears to be having some issues, please wait an try again! (" .. a .. ")", "Upload failed", "Thanks")
                             MOAT_UPLOADING = false
                         end,
                         parameters = {
