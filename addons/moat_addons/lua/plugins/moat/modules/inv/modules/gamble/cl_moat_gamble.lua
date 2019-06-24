@@ -3435,7 +3435,7 @@ function m_DrawBlackjackPanel()
 				name = n
 				if (IsValid(av)) then av:SetTooltip(n) end
 			end)
-			if k > 50 then return end
+			if k > 50 then continue end
 		end
 	end
 	build_jack_list()
