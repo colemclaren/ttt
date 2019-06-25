@@ -3402,6 +3402,7 @@ function m_DrawBlackjackPanel()
 		jackpot.total = total
 
 		for k,v in pairs(players) do
+			if k > 50 then continue end
 			local a = vgui.Create("DPanel",player_list)
 			a:SetSize(0,50)
 			a:DockMargin(2,0,2,2)
@@ -3435,7 +3436,6 @@ function m_DrawBlackjackPanel()
 				name = n
 				if (IsValid(av)) then av:SetTooltip(n) end
 			end)
-			if k > 50 then continue end
 		end
 	end
 	build_jack_list()
