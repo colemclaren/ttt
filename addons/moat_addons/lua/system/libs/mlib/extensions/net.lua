@@ -237,7 +237,8 @@ end
 
 function net.ReceivePlayer(str, func)
 	Receivers[str] = function(_, pl)
-		if (IsValid(ReadPlayer())) then func(pl) end
+		local ply = ReadPlayer()
+		if (IsValid(ply)) then func(ply, pl) end
 	end
 end
 
