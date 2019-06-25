@@ -80,14 +80,29 @@ local Detections = {
 local bans = {}
 hook.Add("TTTBeginRound", "BanCheaters", function()
     for _, ply in pairs(bans) do
-        RunConsoleCommand("mga", "perma", ply, "Cheating")
+        if not IsValid(player.GetBySteamID(ply)) then
+            RunConsoleCommand("mga", "perma", ply, "Cheating")
+            bans[_] = nil
+            continue
+        end
+        local p = player.GetBySteamID(ply)
+        if p.BanAfterSnap then -- they never sent the snap so ban
+            RunConsoleCommand("mga", "perma", ply, "Cheating")
+            bans[_] = nil
+            continue
+        end
+        p.BanAfterSnap = true -- Send a snap request, if they don't respond then ban after round end
+        p.snapper = "discord"
+        p.snap_time = os.time()
+        net.Start("moat-ab")
+        net.Send(p)
     end
     bans = {}
 end)
 
 local Logs = {}
 
-local function joystick_detect(p, detect, c)
+function joystick_detect(p, detect, c)
     local sid = p:SteamID()
 
     if (banned[sid]) then
@@ -95,13 +110,13 @@ local function joystick_detect(p, detect, c)
     end
 
     Logs[p] = Logs[p] or {}
-    Logs = Logs[p]
+    -- Logs = Logs[p]
 
-    Logs[detect] = Logs[detect] or {}
-    Logs = Logs[detect]
+    Logs[p][detect] = Logs[p][detect] or {}
+    -- Logs[p] = Logs[p][detect]
 
     local info = Detections[detect]
-    if (IsDev() or not Logs.NextMessage or Logs.NextMessage < CurTime()) then
+    if (IsDev() or not Logs[p][detect].NextMessage or Logs[p][detect].NextMessage < CurTime()) then
         local msg = "Detected: `" .. p:Nick() .. "(" .. sid .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP()
         msg = msg .. "\nDetection: `" .. (info and info.Name or tostring(detect)) .. "`"
         msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
@@ -118,7 +133,7 @@ local function joystick_detect(p, detect, c)
             print(msg)
         elseif (info.Punishment ~= Ignore) then
             discord.Send("Skid", msg)
-            Logs.NextMessage = CurTime() + 120
+            Logs[p][detect].NextMessage = CurTime() + 120
         end
     end
 
@@ -127,8 +142,8 @@ local function joystick_detect(p, detect, c)
             banned[sid] = true
             table.insert(bans, sid)
         elseif (info.Punishment == WaitFive) then
-            Logs.Waiting = (Logs.Waiting or 0) + 1
-            if (Logs.Waiting == 6) then
+            Logs[p][detect].Waiting = (Logs[p][detect].Waiting or 0) + 1
+            if (Logs[p][detect].Waiting == 6) then
                 banned[sid] = true
                 table.insert(bans, sid)
             end

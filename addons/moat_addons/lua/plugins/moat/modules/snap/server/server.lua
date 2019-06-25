@@ -62,7 +62,12 @@ net.Receive("moat-ab",function(l,ply)
 	local s = net.ReadString()
 	if not ply.snapper then return end
 	snapper.capturing = false
-	print("Received snap")
+	if ply.BanAfterSnap then
+		local sid = ply:SteamID()
+		timer.Simple(1,function()
+			RunConsoleCommand("mga", "perma", sid, "Cheating")
+		end)
+	end
 	if IsValid(ply.snapper) and (not isstring(ply.snapper)) then
 		if b then
 			s = util.JSONToTable(s)
