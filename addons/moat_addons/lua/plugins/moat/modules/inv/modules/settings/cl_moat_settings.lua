@@ -55,7 +55,8 @@ local moat_convars = {
     ["moat_skybox"] = 0,
     ["moat_droppaint"] = 0,
     ["moat_music_christmas"] = 1,
-    ["moat_inspect_stats"] = 1
+    ["moat_inspect_stats"] = 1,
+	["moat_pass_usable"] = 0
 }
 
 local function moat_InitializeConvars()
@@ -126,7 +127,9 @@ hook.Add("CalcView","Change FOV",function(ply, pos, angles, fov)
 end)
 */
 
-local moat_Settings = {
+local DevMode = CreateClientConVar("moat_developer_mode", 0, true, true)
+local moat_Settings = {}
+moat_Settings.Options = {
     {"General",
         {"End Round Music", {"Multi"}, "moat_round_music"},
         {"End Round Music Volume", {"Slider", 0, 1}, "moat_round_music_volume"},
@@ -138,6 +141,7 @@ local moat_Settings = {
         {"Enable Headshot soundeffect", {"Multi"}, "moat_headshot_sound"},
         {"Enable Hitmarkers", {"Multi"}, "moat_hitmarkers"},
         {"Enable Damage Numbers", {"Multi"}, "moat_damage_numbers"},
+		{"Developer Mode", {"Multi"}, "moat_developer_mode"}
     },
     {"Gameplay",
         {"Automatically Bunny-hop", {"Multi"}, "moat_bunny_hop"},
@@ -205,8 +209,12 @@ local moat_Settings = {
         {"Low-End Mode (Disables Blur)", {"Multi"}, "moat_mga_lowend"},
         {"Minimilist Player List", {"Multi"}, "moat_mga_playerlist"},
         {"Entrance/Leaving Animation", {"Multi"}, "moat_mga_animation"},
-    }
+    },
+	{"Dev",
+		{"Allow more items to be Painted", {"Multi"}, "moat_pass_usable"}
+	}
 }
+
 moat_Settings.CurCat = 1
 moat_Settings.SettingsPnl = nil
 
@@ -291,6 +299,10 @@ local function m_RebuildMultiChoice(btn, var)
         btn.Choice:Remove()
         btn.Right:Remove()
 
+		if (var == "moat_developer_mode") then
+    		m_PopulateSettingsPanel()
+		end
+
         return
     end
 
@@ -366,6 +378,10 @@ local function m_RebuildMultiTextChoice(btn, var, convar, multiopt, multioptstr)
         btn.Choice:Remove()
         btn.Right:Remove()
 
+		if (var == "moat_developer_mode") then
+			m_PopulateSettingsPanel()
+		end
+
         return
     end
 
@@ -394,6 +410,10 @@ local function m_RebuildMultiTextChoice(btn, var, convar, multiopt, multioptstr)
         btn.Choice:Remove()
         btn.Right:Remove()
 
+		if (var == "moat_developer_mode") then
+			m_PopulateSettingsPanel()
+		end
+
         return
     end
 
@@ -411,12 +431,16 @@ local function m_RebuildMultiTextChoice(btn, var, convar, multiopt, multioptstr)
         btn.Choice:Remove()
         btn.Right:Remove()
 
+		if (var == "moat_developer_mode") then
+			m_PopulateSettingsPanel()
+		end
+
         return
     end
 end
 
-local function m_BuildSettingsPanel(pnl, num)
-    local options = moat_Settings[num]
+function m_BuildSettingsPanel(pnl, num)
+    local options = moat_Settings.Options[num]
 
     local option_y = 0
     local option_h = 30
@@ -509,33 +533,57 @@ local function m_BuildSettingsPanel(pnl, num)
     end
 end
 
+function m_RebuildSettingsPanel(num)
+	if (IsValid(moat_Settings.SettingsPnl)) then
+        moat_Settings.SettingsPnl:Remove()
+    end
+
+	if (not IsValid(M_SETTINGS_PNL_SCROLL)) then
+		return
+	end
+
+    local setpnl = vgui.Create("DScrollPanel", M_SETTINGS_PNL_SCROLL)
+    setpnl:SetPos(155, 0)
+    setpnl:SetSize(M_SETTINGS_PNL_SCROLL:GetWide()-155, M_SETTINGS_PNL_SCROLL:GetTall())
+    m_BuildSettingsPanel(setpnl, num)
+
+    moat_Settings.SettingsPnl = setpnl
+end
+
 function m_PopulateSettingsPanel(pnl)
+	pnl = IsValid(moat_Settings.SettingsPnl) and moat_Settings.SettingsPnl or pnl
+
+	if (not IsValid(pnl)) then
+		return
+	end
+
     pnl.Paint = function(s, w, h)
         draw.RoundedBox(0, 155, 0, w-155, h, Color(0, 0, 0, 150))
     end
 
-    local function m_RebuildSettingsPanel(num)
-        if (IsValid(moat_Settings.SettingsPnl)) then
-            moat_Settings.SettingsPnl:Remove()
-        end
-
-        local setpnl = vgui.Create("DScrollPanel", pnl)
-        setpnl:SetPos(155, 0)
-        setpnl:SetSize(pnl:GetWide()-155, pnl:GetTall())
-        m_BuildSettingsPanel(setpnl, num)
-
-        moat_Settings.SettingsPnl = setpnl
-    end
-
-    for i = 1, #moat_Settings do
+    for i = 1, #moat_Settings.Options do
         local caty = (35 * (i-1))
-
         local cat_btn = vgui.Create("DButton", pnl)
         cat_btn:SetPos(0, caty)
         cat_btn:SetSize(155, 30)
         cat_btn:SetText("")
         cat_btn.HoveredWidth = 0
         cat_btn.Paint = function(s, w, h)
+			if (moat_Settings.Options[i][1] == "Dev") then
+				if (DevMode and DevMode:GetInt() < 1) then
+					if (s:IsHovered()) then
+						s:SetCursor "arrow"
+					end
+
+					return s:SetDisabled(true)
+				end
+
+				if (s:IsHovered()) then
+					s:SetCursor "hand"
+				end
+
+				s:SetDisabled(false)
+			end
 
             local col = HSVToColor( i * 55 % 360, 1, 1 )
 
@@ -548,7 +596,7 @@ function m_PopulateSettingsPanel(pnl)
 
             if (moat_Settings.CurCat ~= i) then w = 150 end
             draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
-            draw.SimpleTextOutlined(moat_Settings[i][1], "Trebuchet24", 10+(s.HoveredWidth*4), h/2, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
+            draw.SimpleTextOutlined(moat_Settings.Options[i][1], "Trebuchet24", 10+(s.HoveredWidth*4), h/2, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
 
             if (moat_Settings.CurCat == i) then
                 draw.RoundedBox(0, 0, 0, 4, h, HSVToColor( i * 55 % 360, 1, 1 ))

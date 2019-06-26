@@ -282,6 +282,10 @@ MOAT_PAINT.Skins = MOAT_PAINT.Skins or {
 	--[6121] = {'Dev Team Stalker Skin', 'https://cdn.moat.gg/f/b8271.png', 8}
 }
 
+function GetPaintColor(id)
+	return MOAT_PAINT.Paints[id] or MOAT_PAINT.Tints[id]
+end
+
 function ItemIsPaint(id)
 	return id and MOAT_PAINT.Paints[id]
 end
