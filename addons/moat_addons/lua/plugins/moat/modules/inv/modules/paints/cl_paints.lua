@@ -341,7 +341,7 @@ end)
 
 function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 	local frame = vgui.Create("DFrame")
-	frame:SetTitle("Paint Preview with your weapon's VIEW MODEL (not world model)")
+	frame:SetTitle("Paint Preview")
 	frame:SetSize(500, 450)
 	frame:MakePopup()
 	frame:Center()
@@ -389,7 +389,7 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 		m:SetCamPos(Vector( -100, 0, 100 ))
 		return
 	end
-	
+
     local color = nil
     local wep = m.Entity
 

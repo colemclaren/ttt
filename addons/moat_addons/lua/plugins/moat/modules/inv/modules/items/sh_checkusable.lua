@@ -16,16 +16,15 @@ local equipables = {
 }
 
 local paintable = {
-    ["tier"] = true, 
-    ["unique"] = true, 
+    ["tier"] = true,
+    ["unique"] = true,
     ["melee"] = true,
     ["head"] = true, 
     ["mask"] = true, 
-    ["body"] = true,
-    ["model"] = true,
-    ["hat"] = true
+    ["body"] = true, 
+    ["model"] = true
 }
-
+/*
 local tintable = {
     ["tier"] = true, 
     ["unique"] = true, 
@@ -41,7 +40,7 @@ local textureable = {
     ["unique"] = true, 
     ["melee"] = true,
 }
-
+*/
 local mdl_check_cache = {}
 local pass_check = function(i, pl)
 	PassUsables = PassUsables or CLIENT and GetConVar "moat_pass_usable"
@@ -93,7 +92,7 @@ MOAT_ITEM_CHECK[10] = {function(i, pl)
 		return false
 	end
 
-	return (i.item and tintable[i.item.Kind:lower()]) or (i.Kind and tintable[i.Kind:lower()]) or pass_check(i, pl)
+	return (i.item and paintable[i.item.Kind:lower()]) or (i.Kind and paintable[i.Kind:lower()]) or pass_check(i, pl)
 end, "Item cannot be painted!"}
 MOAT_ITEM_CHECK[11] = {function(i, pl)
 
@@ -101,15 +100,15 @@ MOAT_ITEM_CHECK[11] = {function(i, pl)
 		return false
 	end
 
-	return (i.item and tintable[i.item.Kind:lower()]) or (i.Kind and tintable[i.Kind:lower()]) or pass_check(i, pl)
-end, "Item must be a weapon or hat/mask/body!"}
+	return (i.item and paintable[i.item.Kind:lower()]) or (i.Kind and paintable[i.Kind:lower()]) or pass_check(i, pl)
+end, "Item cannot be painted!"}
 MOAT_ITEM_CHECK[12] = {function(i, pl)
 	if (i.item and i.item.Name == "Fists") or (i.Name == i.Name == "Fists") then
 		return false
 	end
 
-	return (i.item and tintable[i.item.Kind:lower()]) or (i.Kind and tintable[i.Kind:lower()]) or pass_check(i, pl)
-end, "Item must be a weapon!"}
+	return (i.item and paintable[i.item.Kind:lower()]) or (i.Kind and paintable[i.Kind:lower()]) or pass_check(i, pl)
+end, "Item cannot be painted!"}
 MOAT_ITEM_CHECK[13] = {function(i)
 	return i.u ~= 7820 and i.u ~= 7821
 end, "You can't wrap gift packages, sorry."}

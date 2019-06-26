@@ -312,7 +312,7 @@ function PrePaintViewModel(wpn, preview)
 			end
 		end
 	
-		if (not wpn.ItemStats) then
+		if (preview or not wpn.ItemStats) then
 			return
 		end
 
