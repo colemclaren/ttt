@@ -159,6 +159,7 @@ local mat = Material
 local getmats = ENTITY.GetMaterials
 local reg = vector(1, 1, 1)
 local mats_cache = {}
+local MatOverrides = {}
 -- lua_run for k, v in pairs(weapons.GetList()) do if (v.ClassName:StartWith("weapon_ttt_te_") or v.AutoSpawnable) then me():m_DropInventoryItem("Soft", v.ClassName) end end
 
 SKIN_IGNORE = {}
@@ -178,12 +179,12 @@ SKIN_PASS["models/weapons/v_models/pvpxm8model/scope"] = true
 SKIN_PASS["models/weapons/v_models/ak47/stockmap"] = true
 
 function PrePaintViewModel(wpn, preview)
-	if (not MOAT_PAINT or not wpn or (not preview and not wpn.ItemStats)) then
-		return
+	if (not MOAT_PAINT or not wpn or (not preview and not IsValid(wpn))) then
+		return false
 	end
 
-	if (wpn.ItemStats and (not wpn.ItemStats.p and not wpn.ItemStats.p2 and not wpn.ItemStats.p3 and not preview)) then
-		return
+	if (wpn.ItemStats and not (wpn.ItemStats.p or wpn.ItemStats.p2 or wpn.ItemStats.p3 or preview)) then
+		return false
 	end
 
 	if (not wpn.cache) then
@@ -195,7 +196,7 @@ function PrePaintViewModel(wpn, preview)
 	end
 
 	if (not wpn.cache.m) then
-		local vm = wpn:GetWeaponViewModel()
+		local vm = wpn:IsWeapon() and wpn:GetWeaponViewModel() or wpn:GetModel()
 
 		if (mats_cache[vm]) then 
 			wpn.cache.m = mats_cache[vm]
@@ -214,14 +215,14 @@ function PrePaintViewModel(wpn, preview)
 
 	if (not wpn.cache.p and not preview) then 
 		wpn.cache.p = 255
-		if (wpn.ItemStats.p2) then
+		if (wpn.ItemStats and wpn.ItemStats.p2) then
 			if (wpn.ItemStats.p2 == -2) then
 				wpn.cache.p = {bit.band(bit.rshift(wpn.ItemStats.p, 16), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 8), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 0), 0xff)}
 			else
 				wpn.cache.p = MOAT_PAINT.Paints[wpn.ItemStats.p2][2]
 				wpn.cache.dream = MOAT_PAINT.Paints[wpn.ItemStats.p2].Dream
 			end
-		elseif (wpn.ItemStats.p) then
+		elseif (wpn.ItemStats and wpn.ItemStats.p) then
 			wpn.cache.p = MOAT_PAINT.Tints[wpn.ItemStats.p][2]
 			wpn.cache.dream = MOAT_PAINT.Tints[wpn.ItemStats.p].Dream
 		end
@@ -310,8 +311,8 @@ function PrePaintViewModel(wpn, preview)
 				wpn.cache.mats[i].mat:SetTexture("$basetexture", wpn.cache.t[2])
 			end
 		end
-		
-		if (preview or not wpn.ItemStats) then
+	
+		if (not wpn.ItemStats) then
 			return
 		end
 
@@ -325,7 +326,7 @@ function PrePaintViewModel(wpn, preview)
 end
 
 function PostPaintViewModel(wpn, preview)
-	if (not wpn or (not preview and not wpn.ItemStats)) then
+	if (not MOAT_PAINT or not wpn or (not preview and not IsValid(wpn))) then
 		return
 	end
 
@@ -346,6 +347,83 @@ function PostPaintViewModel(wpn, preview)
 	end
 end
 
+MOAT_SKINZ = MOAT_SKINZ or {}
+function PrePlayerDraw(pl)
+	if (MOAT_SKINZ[pl]) then
+		if (MOAT_SKINZ[pl].Color) then
+			render.SetColorModulation(MOAT_SKINZ[pl].Color[1], MOAT_SKINZ[pl].Color[2], MOAT_SKINZ[pl].Color[3])
+		end
+
+		if (MOAT_SKINZ[pl].Skin) then
+			render.MaterialOverrideByIndex(0, MOAT_SKINZ[pl].Skin)
+		end
+	end
+end
+hook("PrePlayerDraw", PrePlayerDraw)
+
+function PostPlayerDraw(pl)
+	render.MaterialOverrideByIndex(0, nil)
+    render.SetColorModulation(1, 1, 1)
+end
+hook("PostPlayerDraw", PostPlayerDraw)
+
+net.ReceivePlayer("MOAT_SKINZ_RESET", function(pl)
+	MOAT_SKINZ[pl] = nil
+end)
+--
+net.ReceivePlayer("MOAT_SKINZ", function(pl)
+	local color = net.ReadUInt(16)
+	local skinz = net.ReadUInt(16)
+
+	if (not MOAT_SKINZ[pl]) then
+		MOAT_SKINZ[pl] = {}
+	end
+
+	if (color and GetPaintColor(color)) then
+		local c = GetPaintColor(color)[2]
+		MOAT_SKINZ[pl].Color = {c[1]/255, c[2]/255, c[3]/255} or {1, 1, 1}
+	end
+
+	if (skinz == 0) then MOAT_SKINZ[pl].Skin = nil return end
+	if (skinz == 1) then MOAT_SKINZ[pl].Skin = Material "models/debug/debugwhite" end
+	
+	if (ItemIsSkin(skinz)) then
+		local mat_str, name_str = MOAT_PAINT.Skins[skinz][2], MOAT_PAINT.Skins[skinz][1]
+		if (mat_str:match "^http") then
+			local new_mat = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
+				["$model"] = 1,
+				["$alphatest"] = 1,
+				["$vertexcolor"] = 1,
+				["$basetexture"] = "error"
+			})
+
+			if (mat_str:match "vtf$") then
+				local set = function(m)
+					new_mat:SetTexture("$basetexture", m)
+					MOAT_SKINZ[pl].Skin = new_mat
+				end
+
+				local m = cdn.Texture(mat_str, set)
+				if (m) then
+					set(m)
+				end
+			else
+				local set = function(m)
+					new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+					MOAT_SKINZ[pl].Skin = new_mat
+				end
+
+				local m = cdn.Image(mat_str, set)
+				if (m) then
+					set(m)
+				end
+			end
+		else
+			MOAT_SKINZ[pl].Skin = Material(mat_str)
+		end
+	end
+end)
+
 if (not MOAT_CLIENTSIDE_MODELS) then MOAT_CLIENTSIDE_MODELS = {} end
 MOAT_PLANETARY = {Weapons = {}, Effects = {Count = 0}}
 MOAT_LOADOUT = {}
@@ -357,6 +435,7 @@ function MOAT_LOADOUT.ResetClientsideModels()
 	end
 
 	MOAT_CLIENTSIDE_MODELS = {}
+	MOAT_SKINZ = {}
 
 	for i = 1, MOAT_PLANETARY.Effects.Count do
 		if (IsValid(MOAT_PLANETARY.Effects[i])) then
@@ -391,25 +470,27 @@ function MOAT_LOADOUT.ApplyModels()
 		return
 	end
 
-	local ply = Entity(net.ReadUInt(16))
-	if (not IsValid(ply)) then return end
-
+	local ply = net.ReadPlayer()
 	local item_id = net.ReadUInt(16)
-	local paint = net.ReadUInt(32)
-	local custom_pos = net.ReadBool()
-
-	local cuspos = {0, 0, 1, 0, 0, 0}
-
+	local paint = net.ReadUInt(16)
+	local skinz = net.ReadUInt(16)
+	local custom_pos, cuspos = net.ReadBool(), {0, 0, 1, 0, 0, 0}
+	
 	if (custom_pos) then
-		for i = 1, 6 do
-			cuspos[i] = net.ReadDouble()
-		end
+		for i = 1, 6 do cuspos[i] = net.ReadDouble() end
+	end
+
+	if (not IsValid(ply)) then
+		return
 	end
 
 	local item = m_GetCosmeticItemFromEnum(item_id)
-
 	if (not MOAT_CLIENTSIDE_MODELS[ply]) then
 		MOAT_CLIENTSIDE_MODELS[ply] = {}
+	end
+
+	if (not MatOverrides[ply]) then
+		MatOverrides[ply] = {}
 	end
 
 	if (item and item.Model) then
@@ -418,7 +499,10 @@ function MOAT_LOADOUT.ApplyModels()
 
 		if (paint ~= 0 and MOAT_PAINT) then
 			if (ItemIsPaint(paint)) then
-				item.ModelEnt:SetMaterial("models/debug/debugwhite")
+				if (skinz == 1) then
+					item.ModelEnt:SetMaterial("models/debug/debugwhite")
+				end
+
 				local col = MOAT_PAINT.Paints[paint]
 				if (not col) then return end
 				item.ModelEnt.Col = Color(col[2][1], col[2][2], col[2][3], 255)
@@ -429,7 +513,7 @@ function MOAT_LOADOUT.ApplyModels()
 					item.Col = Color(255, 255, 255)
 					item.Dream = true
 				end
-			else
+			elseif (ItemIsTint(paint)) then
 				local col = MOAT_PAINT.Tints[paint]
 				if (not col) then return end
 				item.ModelEnt:SetRenderMode(RENDERMODE_TRANSALPHA)
@@ -440,6 +524,56 @@ function MOAT_LOADOUT.ApplyModels()
 					item.Dream = true
 				end
 			end
+		end
+
+		if (skinz and MOAT_PAINT and MOAT_PAINT.Skins[skinz]) then
+			local mat_str, name_str = MOAT_PAINT.Skins[skinz][2], MOAT_PAINT.Skins[skinz][1]
+			if (mat_str:match "^http") then
+				MatOverrides[ply][item_id] = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
+					["$model"] = 1,
+					["$alphatest"] = 1,
+					["$vertexcolor"] = 1,
+					["$basetexture"] = "error"
+				})
+
+				if (mat_str:match "vtf$") then
+					local set = function(m)
+						if (not IsValid(ply)) then return end
+						MatOverrides[ply][item_id]:SetTexture("$basetexture", m)
+						if (IsValid(item.ModelEnt)) then
+							item.ModelEnt:SetSubMaterial(0, "!" .. MatOverrides[ply][item_id]:GetName())
+							item.ModelEnt:SetMaterial("!" .. MatOverrides[ply][item_id]:GetName())
+						end
+					end
+
+					local m = cdn.Texture(mat_str, set)
+					if (m) then
+						set(m)
+					end
+				else
+					local set = function(m)
+						if (not IsValid(ply)) then return end
+						MatOverrides[ply][item_id]:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+						if (IsValid(item.ModelEnt)) then
+							item.ModelEnt:SetSubMaterial(0, "!" .. MatOverrides[ply][item_id]:GetName())
+							item.ModelEnt:SetMaterial("!" .. MatOverrides[ply][item_id]:GetName())
+						end
+					end
+
+					local m = cdn.Image(mat_str, set)
+					if (m) then
+						set(m)
+					end
+				end
+			else
+				MatOverrides[ply][item_id] = Material(mat_str)
+				if (IsValid(item.ModelEnt)) then
+					item.ModelEnt:SetSubMaterial(0, MatOverrides[ply][item_id]:GetName())
+					item.ModelEnt:SetMaterial(MatOverrides[ply][item_id]:GetName())
+				end
+			end
+		else
+			MatOverrides[ply][item_id] = false
 		end
 
 		if (custom_pos) then
@@ -605,6 +739,10 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 		end
 	else
 		wep:SetMaterial(mat_str)
+	end
+
+	if (IsValid(wep) and wep:IsPlayer()) then
+		return
 	end
 
 	wep.RenderGroup = RENDERGROUP_TRANSLUCENT

@@ -1675,7 +1675,7 @@ function m_OpenInventory(ply2, utrade)
 
     end]]
     local help_pnl_w = 385 - (5 * 2) - 7
-    local help_pnl_h = MOAT_INV_BG:GetTall() - 30 - 5
+    help_pnl_h = MOAT_INV_BG:GetTall() - 30 - 5
     M_STATS_PNL = vgui.Create("DPanel", MOAT_INV_BG)
     M_STATS_PNL:SetSize(385, MOAT_INV_BG:GetTall())
     M_STATS_PNL:SetPos(-385, 0)
@@ -1746,7 +1746,7 @@ function m_OpenInventory(ply2, utrade)
     M_SETTINGS_PNL:SetAlpha(0)
     M_SETTINGS_PNL.Paint = function(s, w, h) end
 
-    local M_SETTINGS_PNL_SCROLL = vgui.Create("DScrollPanel", M_SETTINGS_PNL)
+    M_SETTINGS_PNL_SCROLL = vgui.Create("DScrollPanel", M_SETTINGS_PNL)
     M_SETTINGS_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
     M_SETTINGS_PNL_SCROLL:SetPos(5, 30)
     m_PopulateSettingsPanel(M_SETTINGS_PNL_SCROLL)
@@ -1821,7 +1821,7 @@ function m_OpenInventory(ply2, utrade)
                 end
 
                 if (m_Loadout[i].item and m_Loadout[i].item.Kind == "Model") then
-                    M_INV_PMDL:SetModel(m_Loadout[i].u)
+                    M_INV_PMDL:SetModel(m_Loadout[i].u, m_Loadout[i])
 					set_model = true
                 end
             end

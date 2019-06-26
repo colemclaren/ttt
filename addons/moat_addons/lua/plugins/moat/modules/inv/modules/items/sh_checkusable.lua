@@ -86,28 +86,29 @@ MOAT_ITEM_CHECK[10] = {function(i, pl)
 			mdl_check_cache[itm.Model] = MODELS_COLORABLE[itm.Model]
 		end
 
-		return mdl_check_cache[itm.Model]
+		return mdl_check_cache[itm.Model] or pass_check(i, pl)
 	end
 
 	if (i.item and i.item.Name == "Fists") or (i.Name == i.Name == "Fists") then
 		return false
 	end
 
-	return i.item and paintable[i.item.Kind:lower()] or i.Kind and paintable[i.Kind:lower()]
+	return (i.item and tintable[i.item.Kind:lower()]) or (i.Kind and tintable[i.Kind:lower()]) or pass_check(i, pl)
 end, "Item cannot be painted!"}
-MOAT_ITEM_CHECK[11] = {function(i)
+MOAT_ITEM_CHECK[11] = {function(i, pl)
+
 	if (i.item and i.item.Name == "Fists") or (i.Name == i.Name == "Fists") then
 		return false
 	end
 
-	return i.item and tintable[i.item.Kind:lower()] or i.Kind and tintable[i.Kind:lower()]
+	return (i.item and tintable[i.item.Kind:lower()]) or (i.Kind and tintable[i.Kind:lower()]) or pass_check(i, pl)
 end, "Item must be a weapon or hat/mask/body!"}
-MOAT_ITEM_CHECK[12] = {function(i)
+MOAT_ITEM_CHECK[12] = {function(i, pl)
 	if (i.item and i.item.Name == "Fists") or (i.Name == i.Name == "Fists") then
 		return false
 	end
-	
-	return i.item and textureable[i.item.Kind:lower()] or i.Kind and textureable[i.Kind:lower()]
+
+	return (i.item and tintable[i.item.Kind:lower()]) or (i.Kind and tintable[i.Kind:lower()]) or pass_check(i, pl)
 end, "Item must be a weapon!"}
 MOAT_ITEM_CHECK[13] = {function(i)
 	return i.u ~= 7820 and i.u ~= 7821

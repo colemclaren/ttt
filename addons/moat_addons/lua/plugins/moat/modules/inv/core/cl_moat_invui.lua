@@ -346,7 +346,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
 
                 if (M_INV_TBL1 and M_INV_TBL1.item and M_INV_TBL1.item.Kind == "Model") then
                     if (IsValid(M_INV_PMDL)) then
-                        M_INV_PMDL:SetModel(M_INV_TBL1.item.Model)
+                        M_INV_PMDL:SetModel(M_INV_TBL1.item.Model, M_INV_TBL1)
                     end
                 end
             elseif (not string.EndsWith(tostring(M_INV_DRAG3.Slot), "l") and string.EndsWith(tostring(m_HoveredSlot3), "l")) then
@@ -403,7 +403,7 @@ local function m_SwapInventorySlotsFromServer(M_INV_DRAG3, m_HoveredSlot3)
 
                 if (M_INV_TBL2 and M_INV_TBL2.item and M_INV_TBL2.item.Kind == "Model") then
                     if (IsValid(M_INV_PMDL)) then
-                        M_INV_PMDL:SetModel(M_INV_TBL2.item.Model)
+                        M_INV_PMDL:SetModel(M_INV_TBL2.item.Model, M_INV_TBL2)
                     end
                 end
             else
@@ -596,6 +596,11 @@ end)
 local PANEL = {}
 
 function PANEL:Init()
+	self.Dream = false
+	self.Colors = {1, 1, 1}
+	self.ItemStats = false
+	self.MatOverride = false
+
     self.EntAngle = 0
     self.SnapToCenter = CurTime()
     self.Scrolled = false
@@ -665,11 +670,9 @@ local ActIndex = {
     [ "magic" ]         = ACT_HL2MP_IDLE_MAGIC,
     [ "revolver" ]      = ACT_HL2MP_IDLE_REVOLVER
 }
-
-function PANEL:SetModel(strModel)
-    if (not strModel) then
-        strModel = GetGlobal("ttt_default_playermodel")
-    end
+--
+function PANEL:SetModel(strModel, item_tbl)
+	strModel = strModel or GetGlobal("ttt_default_playermodel") or "models/player/arctic.mdl"
 
     if (isnumber(strModel)) then
         strModel = m_GetCosmeticFromEnum(strModel).Model
@@ -677,6 +680,74 @@ function PANEL:SetModel(strModel)
 
     self.PlayerModel:SetModel(strModel)
     self.PlayerModel:ResetSequence(self.PlayerModel:LookupSequence("pose_standing_02"))
+	self.PlayerModel.ItemStats = item_tbl
+	self.ItemStats = item_tbl
+
+	if (item_tbl and item_tbl.Skin) then
+		self.PlayerModel:SetSkin(item_tbl.Skin)
+	end
+
+	if (item_tbl and item_tbl.p3 and MOAT_PAINT and MOAT_PAINT.Skins[item_tbl.p3]) then
+		local mat_str, name_str = MOAT_PAINT.Skins[item_tbl.p3][2], MOAT_PAINT.Skins[item_tbl.p3][1]
+		if (mat_str:match "^http") then
+			self.MatOverride = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
+				["$model"] = 1,
+                ["$alphatest"] = 1,
+                ["$vertexcolor"] = 1,
+                ["$basetexture"] = "error"
+            })
+
+			if (mat_str:match "vtf$") then
+				local set = function(m)
+					self.MatOverride:SetTexture("$basetexture", m)
+				end
+
+				local m = cdn.Texture(mat_str, set)
+				if (m) then
+					set(m)
+				end
+			else
+				local set = function(m)
+					self.MatOverride:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+				end
+
+				local m = cdn.Image(mat_str, set)
+				if (m) then
+					set(m)
+				end
+			end
+		else
+			self.MatOverride = Material(mat_str)
+		end
+	else
+		self.MatOverride = false
+	end
+
+	if (MOAT_PAINT and item_tbl) then
+        if (item_tbl.p2) then
+			self.MatOverride = Material("models/debug/debugwhite")
+            local col = MOAT_PAINT.Paints[item_tbl.p2]
+            if (not col) then return end
+            self.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
+			if (col.Dream) then
+				self.Dream = true
+			else
+				self.Dream = false
+			end
+        elseif (item_tbl.p) then
+            local col = MOAT_PAINT.Tints[item_tbl.p]
+            if (not col) then return end
+            self.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
+			if (col.Dream) then
+				self.Dream = true
+			else
+				self.Dream = false
+			end
+		end
+    else
+		self.Colors = {1, 1, 1}
+		self.Dream = false
+    end
 
     --self.PlayerModel:ResetSequence(self.PlayerModel:SelectWeightedSequence(ACT_GMOD_TAUNT_ROBOT))
     /*
@@ -692,34 +763,74 @@ function PANEL:SetModel(strModel)
 end
 
 function PANEL:AddModel(item_enum, item_tbl)
-    local tbl = m_GetCosmeticFromEnum(item_enum)
-    tbl.ModelEnt = ClientsideModel(tbl.Model, RENDERGROUP_OPAQUE)
-    tbl.ModelEnt:SetNoDraw(true)
 
-	if (tbl.Skin) then
-		tbl.ModelEnt:SetSkin(tbl.Skin)
+	self.ClientsideModels[item_enum] = m_GetCosmeticFromEnum(item_enum)
+    self.ClientsideModels[item_enum].ModelEnt = ClientsideModel(self.ClientsideModels[item_enum].Model, RENDERGROUP_OPAQUE)
+    self.ClientsideModels[item_enum].ModelEnt:SetNoDraw(true)
+
+	self.ClientsideModels[item_enum].ModelEnt.ItemStats = item_tbl
+	self.ClientsideModels[item_enum].ItemStats = item_tbl
+
+	if (self.ClientsideModels[item_enum].Skin) then
+		self.ClientsideModels[item_enum].ModelEnt:SetSkin(self.ClientsideModels[item_enum].Skin)
 	end
 
-    if (MOAT_PAINT and item_tbl and (item_tbl.p or item_tbl.p2)) then
-        if (item_tbl.p2) then
-            tbl.ModelEnt:SetMaterial("models/debug/debugwhite")
-            local col = MOAT_PAINT.Paints[item_tbl.p2]
-            if (not col) then return end
-            tbl.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
-			if (col.Dream) then
-				tbl.Dream = true
-			end
-        else
-            local col = MOAT_PAINT.Tints[item_tbl.p]
-            if (not col) then return end
-            tbl.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
-			if (col.Dream) then
-				tbl.Dream = true
-			end
-        end
-    end
+	if (item_tbl and item_tbl.p3 and MOAT_PAINT and MOAT_PAINT.Skins[item_tbl.p3]) then
+		local mat_str, name_str = MOAT_PAINT.Skins[item_tbl.p3][2], MOAT_PAINT.Skins[item_tbl.p3][1]
+		if (mat_str:match "^http") then
+			self.ClientsideModels[item_enum].MatOverride = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
+				["$model"] = 1,
+                ["$alphatest"] = 1,
+                ["$vertexcolor"] = 1,
+                ["$basetexture"] = "error"
+            })
 
-    if (not MOAT_MODEL_POS_EDITS[item_enum]) then
+			if (mat_str:match "vtf$") then
+				local set = function(m)
+					self.ClientsideModels[item_enum].MatOverride:SetTexture("$basetexture", m)
+				end
+
+				local m = cdn.Texture(mat_str, set)
+				if (m) then
+					set(m)
+				end
+			else
+				local set = function(m)
+					self.ClientsideModels[item_enum].MatOverride:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+				end
+
+				local m = cdn.Image(mat_str, set)
+				if (m) then
+					set(m)
+				end
+			end
+		else
+			self.ClientsideModels[item_enum].MatOverride = Material(mat_str)
+		end
+	elseif (self.ClientsideModels[item_enum].MatOverride) then
+		self.ClientsideModels[item_enum].MatOverride = false
+	end
+	
+	if (item_tbl.p2 and MOAT_PAINT and MOAT_PAINT.Paints[item_tbl.p2]) then
+        local col = MOAT_PAINT.Paints[item_tbl.p2]
+		self.ClientsideModels[item_enum].MatOverride = Material "models/debug/debugwhite"
+        self.ClientsideModels[item_enum].Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
+		if (col.Dream) then
+			self.ClientsideModels[item_enum].Dream = true
+		else
+			self.ClientsideModels[item_enum].Dream = false
+		end
+    elseif (item_tbl.p and MOAT_PAINT and MOAT_PAINT.Tints[item_tbl.p]) then
+        local col = MOAT_PAINT.Tints[item_tbl.p]
+        self.ClientsideModels[item_enum].Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
+		if (col.Dream) then
+			self.ClientsideModels[item_enum].Dream = true
+		else
+			self.ClientsideModels[item_enum].Dream = false
+		end
+	end
+
+	if (not MOAT_MODEL_POS_EDITS[item_enum]) then
         MOAT_MODEL_POS_EDITS[item_enum] = {}
         for i = 1, 6 do
             local num = cookie.GetNumber("moatbeta_pos" .. item_enum .. i)
@@ -728,9 +839,48 @@ function PANEL:AddModel(item_enum, item_tbl)
             end
         end
     end
-    self.ClientsideModels[item_enum] = tbl
 end
 
+	/*
+	if (item_tbl and item_tbl.p3 and MOAT_PAINT and MOAT_PAINT.Skins[item_tbl.p3]) then
+		local mat_str, name_str = MOAT_PAINT.Skins[item_tbl.p3][2], MOAT_PAINT.Skins[item_tbl.p3][1]
+		if (mat_str:match "^http") then
+			self.ClientsideModels[item_enum].MatOverride = CreateMaterial("skin_" .. name_str:Replace(" ", "_"):lower(), "VertexLitGeneric", {
+				["$model"] = 1,
+                ["$alphatest"] = 1,
+                ["$vertexcolor"] = 1,
+                ["$basetexture"] = "error"
+            })
+
+			if (mat_str:match "vtf$") then
+				local function set(m)
+					if (self.ClientsideModels and self.ClientsideModels[item_enum]) then
+						self.ClientsideModels[item_enum].MatOverride:SetTexture("$basetexture", m)
+					end
+				end
+
+				local m = cdn.Texture(mat_str, set)
+				if (m) then
+					set(m)
+				end
+			else
+				local function set(m)
+					if (self.ClientsideModels and self.ClientsideModels[item_enum]) then
+						self.ClientsideModels[item_enum].MatOverride:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+					end
+				end
+
+				local m = cdn.Image(mat_str, set)
+				if (m) then
+					set(m)
+				end
+			end
+		else
+			self.ClientsideModels[item_enum].MatOverride = Material(mat_str)
+		end
+	end
+end
+*/
 function PANEL:AddWeapon(class)
 
 end
@@ -761,7 +911,26 @@ function PANEL:DrawModel()
     end
 
     render.SetScissorRect(leftx, topy, rightx, bottomy, true)
-    self.PlayerModel:DrawModel()
+
+	if (self.Dream and rarity_names) then
+		render.SetColorModulation(rarity_names[9][2].r/255, rarity_names[9][2].g/255, rarity_names[9][2].b/255)
+	elseif (self.Colors) then
+		render.SetColorModulation(self.Colors[1], self.Colors[2], self.Colors[3])
+    else
+		render.SetColorModulation(1, 1, 1)
+	end
+
+	if (self.MatOverride) then
+		render.MaterialOverrideByIndex(0, self.MatOverride)
+	end
+	
+	self.PlayerModel:SetCycle(self.PlayerModel:GetCycle())
+	self.PlayerModel:SetSequence(self.PlayerModel:GetSequence())
+
+	self.PlayerModel:DrawModel()
+
+	--render.SuppressEngineLighting(false)
+
     --self.HoldWeapon:DrawModel()
     --local anim = ActIndex[wep.HoldType]
     --self.Entity:SetSequence(anim)
@@ -822,12 +991,25 @@ function PANEL:DrawClientsideModels()
         end
         v.ModelEnt:SetPos(pos)
         v.ModelEnt:SetAngles(ang)
-		if (v.Dream) then
+
+		if (v.Dream and rarity_names) then
 			render.SetColorModulation(rarity_names[9][2].r/255, rarity_names[9][2].g/255, rarity_names[9][2].b/255)
 		elseif (v.Colors) then
-            render.SetColorModulation(v.Colors[1], v.Colors[2], v.Colors[3])
-        end
-        v.ModelEnt:DrawModel()
+			render.SetColorModulation(v.Colors[1], v.Colors[2], v.Colors[3])
+   		else
+			render.SetColorModulation(1, 1, 1)
+		end
+
+		if (v.MatOverride) then
+			render.MaterialOverride(v.MatOverride)
+		end
+	
+		v.ModelEnt:SetCycle(v.ModelEnt:GetCycle())
+		v.ModelEnt:SetSequence(v.ModelEnt:GetSequence())
+
+    	v.ModelEnt:DrawModel()
+
+		render.MaterialOverride(nil)
         render.SetColorModulation(1, 1, 1)
     end
 end
@@ -991,8 +1173,12 @@ function PANEL:Paint(intW, intH)
     render.ResetModelLighting(1, 1, 1)
     render.SetColorModulation(1, 1, 1)
 	render.SetBlend(1)
+
 	self:DrawModel()
+
     render.SetLightingMode(0)
+	render.SetColorModulation(1, 1, 1)
+	render.MaterialOverride(nil)
     render.SuppressEngineLighting(false)
     cam.End3D()
 

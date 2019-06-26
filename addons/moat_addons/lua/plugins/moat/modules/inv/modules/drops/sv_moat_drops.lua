@@ -919,7 +919,6 @@ end)
 function m_TextureItem(pl, wep_slot, itemtbl, paint)
     local ply_item = MOAT_INVS[pl]["slot" .. wep_slot]
 
-    ply_item.p2 = nil
     ply_item.p3 = paint
     m_SaveInventory(pl)
     m_SendInvItem(pl, wep_slot)
@@ -928,7 +927,6 @@ end
 function m_PaintItem(pl, wep_slot, itemtbl, paint)
     local ply_item = MOAT_INVS[pl]["slot" .. wep_slot]
 
-    ply_item.p3 = nil
     ply_item.p2 = paint
     m_SaveInventory(pl)
     m_SendInvItem(pl, wep_slot)

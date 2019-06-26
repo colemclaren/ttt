@@ -211,7 +211,7 @@ moat_Settings.Options = {
         {"Entrance/Leaving Animation", {"Multi"}, "moat_mga_animation"},
     },
 	{"Dev",
-		{"Allow more items to be Painted", {"Multi"}, "moat_pass_usable"}
+		{"Allow more items to be skinned (Dangerous)", {"Multi"}, "moat_pass_usable"}
 	}
 }
 

@@ -2222,7 +2222,7 @@ function m_UseUsableItem(pl, slot, class, wep_slot, wep_class, str)
         if (not item_chosen) then return end
 
         if (MOAT_ITEM_CHECK and MOAT_ITEM_CHECK[item.ItemCheck]) then
-            if (not MOAT_ITEM_CHECK[item.ItemCheck][1](item_chosen)) then return end
+            if (not MOAT_ITEM_CHECK[item.ItemCheck][1](item_chosen, pl)) then return end
         end
     end
 

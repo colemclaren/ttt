@@ -120,20 +120,6 @@ function MOAT_LOADOUT.GetCosmetics(ply)
     return tbl[6], tbl[7], tbl[8], tbl[9], tbl[10]
 end
 
-function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
-	if (item_tbl.item.CustomSpawn and item_tbl.item.OnPlayerSpawn) then
-		item_tbl.item:OnPlayerSpawn(ply)
-	else
-		timer.Simple(1, function() if (IsValid(ply)) then ply:SetModel(item_tbl.item.Model) end end)
-	end
-
-    if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
-        local col = MOAT_PAINT.Paints[MOAT_INVS[ply]["l_slot10"].p2][2]
-        ply:SetColor(Color(col[1], col[2], col[3], 255))
-        ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
-    end
-end
-
 function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
     local itemtbl = table.Copy(loadout_tbl)
 
@@ -228,11 +214,12 @@ loadout_weapon_indexes = {}
 local loadout_other_indexes = {}
 local loadout_cosmetic_indexes = {}
 MOAT_MODEL_EDIT_POS = MOAT_MODEL_EDIT_POS or {}
-
+loadout_model_cache = {}
 function MOAT_LOADOUT.SaveLoadedWeapons()
     loadout_other_indexes = {}
     loadout_weapon_indexes = {}
     loadout_cosmetic_indexes = {}
+	loadout_model_cache = {}
 end
 hook.Add("TTTPrepareRound", "moat_SaveLoadedWeapons", MOAT_LOADOUT.SaveLoadedWeapons)
 
@@ -242,6 +229,7 @@ function MOAT_LOADOUT.HasCosmeticInLoadout(ply, id)
     local item_tbl = {}
 
     if (isnumber(id)) then
+
         for k, v in ipairs(loadout_cosmetic_indexes) do
             if (v[1] == ply:EntIndex() and v[2] == id) then
                 return_val = true
@@ -318,21 +306,17 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 end
             end
             if (v.c) then
-                local paint = 0
-                if (v.p) then paint = v.p end
-                if (v.p2) then paint = v.p2 end
-
-                table.insert(loadout_cosmetic_indexes, {ply:EntIndex(), v.u, paint})
-
+                local paint, skinz = v.p or v.p2 or 0, v.p2 and 1 or v.p3 or 0
                 if (k == "Model") then
                     MOAT_LOADOUT.SetPlayerModel(ply, v)
                     continue
                 end
 
                 net.Start("MOAT_APPLY_MODELS")
-                net.WriteUInt(ply:EntIndex(), 16)
+                net.WritePlayer(ply)
                 net.WriteUInt(v.u, 16)
-                net.WriteUInt(paint, 32)
+                net.WriteUInt(paint, 16)
+				net.WriteUInt(skinz, 16)
 
                 if (MOAT_MODEL_EDIT_POS[ply] and MOAT_MODEL_EDIT_POS[ply][v.u]) then
                     net.WriteBool(true)
@@ -347,6 +331,12 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 end
 
                 net.Broadcast()
+
+				if (not loadout_cosmetic_indexes[ply]) then
+					loadout_cosmetic_indexes[ply] = {}
+				end
+				
+				loadout_cosmetic_indexes[ply][k] = {Player = ply:EntIndex(), Model = v.u, Paint = paint, Skin = skinz}
             end
         end
     end
@@ -575,16 +565,42 @@ hook.Add("PlayerInitialSpawn", "moat_LoadLoadedLoadouts", MOAT_LOADOUT.LoadLoade
 
 
 function MOAT_LOADOUT.LoadCosmeticLoadouts(ply)
-    if (table.Count(loadout_cosmetic_indexes) < 1) then return end
+	for _, pl in pairs(player.GetAll()) do
+		if (pl:Team() == TEAM_SPEC or not loadout_cosmetic_indexes[pl]) then continue end
 
-    for k, v in pairs(loadout_cosmetic_indexes) do
-        if (not Entity(v[1]):IsValid()) then continue end
-        net.Start("MOAT_APPLY_MODELS")
-        net.WriteDouble(v[1])
-        net.WriteDouble(v[2])
-        net.WriteUInt(v[3], 8)
-        net.Send(ply)
-    end
+		for k, v in pairs(loadout_cosmetic_indexes[pl]) do 
+			net.Start("MOAT_APPLY_MODELS")
+        	net.WritePlayer(pl)
+        	net.WriteUInt(v.Model, 16)
+        	net.WriteUInt(v.Paint, 16)
+			net.WriteUInt(v.Skin, 16)
+
+			if (MOAT_MODEL_EDIT_POS[pl] and MOAT_MODEL_EDIT_POS[pl][v.Model]) then
+				net.WriteBool(true)
+				net.WriteDouble(MOAT_MODEL_EDIT_POS[pl][v.Model][1])
+				net.WriteDouble(MOAT_MODEL_EDIT_POS[pl][v.Model][2])
+				net.WriteDouble(MOAT_MODEL_EDIT_POS[pl][v.Model][3])
+				net.WriteDouble(MOAT_MODEL_EDIT_POS[pl][v.Model][4])
+				net.WriteDouble(MOAT_MODEL_EDIT_POS[pl][v.Model][5])
+				net.WriteDouble(MOAT_MODEL_EDIT_POS[pl][v.Model][6])
+			else
+				net.WriteBool(false)
+			end
+
+			net.Send(ply)
+		end
+
+		if (not loadout_model_cache[pl] or not MOAT_INVS[pl] or not MOAT_INVS[pl]["l_slot10"]) then
+			continue
+		end
+
+		local c, s = MOAT_INVS[pl]["l_slot10"].p2 or MOAT_INVS[pl]["l_slot10"].p or 0, MOAT_INVS[pl]["l_slot10"].p3 or 0
+		net.Start "MOAT_SKINZ"
+			net.WritePlayer(pl)
+			net.WriteUInt(c, 16)
+			net.WriteUInt(MOAT_INVS[pl]["l_slot10"].p2 and 1 or s, 16)
+		net.Send(ply)
+	end	
 end
 hook.Add("PlayerInitialSpawn", "moat_LoadCosmeticLoadouts", MOAT_LOADOUT.LoadCosmeticLoadouts)
 
@@ -646,36 +662,70 @@ net.Receive("MOAT_UPDATE_MODEL_POS_SINGLE", MOAT_LOADOUT.UpdateModelPosSingle)
 --[[-------------------------------------------------------------------------
 Gamemode Fixes
 ---------------------------------------------------------------------------]]
+util.AddNetworkString "MOAT_SKINZ"
+util.AddNetworkString "MOAT_SKINZ_RESET"
+function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
+	if (item_tbl and item_tbl.item and item_tbl.item.CustomSpawn and item_tbl.item.OnPlayerSpawn) then
+		item_tbl.item:OnPlayerSpawn(ply)
+	end
+
+	ply:SetModel(item_tbl.item.Model or GAMEMODE.playermodel or "models/player/phoenix.mdl")
+	timer.Simple(0, function() if (IsValid(ply)) then ply:SetModel(item_tbl.item.Model) end end)
+
+    if (MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and (MOAT_INVS[ply]["l_slot10"].p or MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p3)) then
+        local col = GetPaintColor(MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p)
+		if (col and col[2]) then
+			col = col[2]
+
+			ply:SetColor(Color(col[1], col[2], col[3], 255))
+        	ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
+		end
+
+		local c, s = MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p or 0, MOAT_INVS[ply]["l_slot10"].p3 or 0
+		net.Start "MOAT_SKINZ"
+			net.WritePlayer(ply)
+			net.WriteUInt(c, 16)
+			net.WriteUInt(MOAT_INVS[ply]["l_slot10"].p2 and 1 or s, 16)
+		net.Broadcast()
+		
+		loadout_model_cache[ply] = {Player = ply:EntIndex(), Model = c, Paint = c, Skin = MOAT_INVS[ply]["l_slot10"].p2 and 1 or s}
+
+		return
+	else
+		ply:SetColor(Color(255, 255, 255))
+		ply:SetPlayerColor(Vector(1, 1, 1))
+	end
+	
+	net.Start "MOAT_SKINZ_RESET"
+		net.WritePlayer(ply)
+	net.Send(ply)
+end
 
 hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
     function GAMEMODE:PlayerSetModel(ply)
-        local mdl = GAMEMODE.playermodel or "models/player/phoenix.mdl"
-        local has_item, tbl = MOAT_LOADOUT.HasCosmeticInLoadout(ply, "Model")
-
-        if (has_item) then
-            mdl = tbl.Model
+        if (MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].u) then
+			local lt = table.Copy(MOAT_INVS[ply]["l_slot10"])
+			if (lt) then
+				lt.item = m_GetItemFromEnumWithFunctions(MOAT_INVS[ply]["l_slot10"].u)
+        		return MOAT_LOADOUT.SetPlayerModel(ply, lt)
+			end
         end
 
-        util.PrecacheModel(mdl)
-        ply:SetModel(mdl)
-        ply:SetColor(COLOR_WHITE)
-
-        if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
-            local col = MOAT_PAINT.Paints[MOAT_INVS[ply]["l_slot10"].p2][2]
-            ply:SetColor(Color(col[1], col[2], col[3], 255))
-            ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
-        end
+		ply:SetColor(Color(255, 255, 255))
+		ply:SetPlayerColor(Vector(1, 1, 1))
+        ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
     end
 
     function GAMEMODE:TTTPlayerSetColor(ply)
-        local clr = COLOR_WHITE
-        if (MOAT_INVS and MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].p2 and MOAT_PAINT) then
-            local col = MOAT_PAINT.Paints[MOAT_INVS[ply]["l_slot10"].p2][2]
-            ply:SetColor(Color(col[1], col[2], col[3], 255))
-            ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
+		if (MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and (MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p)) then
+			local col = GetPaintColor(MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p)
+            if (col) then
+				ply:SetColor(Color(col[2][1], col[2][2], col[2][3], 255))
+            	ply:SetPlayerColor(Vector(col[2][1]/255, col[2][2]/255, col[2][3]/255))
+			end
         else
-            ply:SetPlayerColor(Vector(1, 1, 1))
-        end
+			ply:SetPlayerColor(Vector(1, 1, 1))
+		end
     end
 end)
 
