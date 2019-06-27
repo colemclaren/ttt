@@ -376,7 +376,7 @@ function CORPSE.Create(ply, attacker, dmginfo)
     if (not IsValid(rag)) then return nil end
 
     if (GetRoundState() == ROUND_ACTIVE) then
-        rag.PleaseRecreate = true
+        rag.PleaseRecreate = 0
     end
     rag:SetPos(ply:GetPos())
     rag:SetModel(ply:GetModel())
