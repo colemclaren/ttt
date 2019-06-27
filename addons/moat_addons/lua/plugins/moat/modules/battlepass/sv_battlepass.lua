@@ -3,7 +3,7 @@ local a={}local b={lineinfo=true}local c={parent=true,ast=true}local function d(
 --used for generating examples so that we don't have to network so much shit
 
 local xp_needed = 2000
-
+local release_date = 1561708800
 local function auth(ply)
     -- return false
     return moat.isdev(ply)
@@ -247,6 +247,7 @@ end
 function bp_exportexamples()
     local s = ""
     for k,v in pairs(MOAT_BP.tiers) do
+        if not MOAT_DROPTABLE[v.ID] then continue end
         s = s .. generate_bpexample(v.ID,true)
     end
     file.Write("dumpmeme.txt",s)
@@ -339,6 +340,10 @@ function bp_sql()
 
     function bp_processxp(ply,xp)
         if not auth(ply) then return end
+        if not ply.bp then
+            bp_loadplayer(ply) 
+            return
+        end
         local tier = ply.bp.tier
         if tier == 100 then return end -- over!
         local plyxp = ply.bp.xp

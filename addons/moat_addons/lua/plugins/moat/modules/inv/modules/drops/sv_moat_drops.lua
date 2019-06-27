@@ -278,7 +278,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
     if (not item_name_chosen) then
         for k, v in pairs(drop_table) do
             if (v.Rarity == chosen_rarity and (drop_cosmetics == nil or (((not drop_cosmetics[1] and not COSMETIC_TYPES[v.Kind]) or drop_cosmetics[1]) and ((not drop_cosmetics[2] and (v.ID < 6001 or v.ID > 6500)) or drop_cosmetics[2])))) then
-                if (v.Collection == "Holiday Collection" or v.Collection == "Easter 2019 Collection" or v.Collection == "Meme Collection" or v.NotDroppable) then continue end
+                if (v.Collection == "Holiday Collection" or v.Collection == "Easter 2019 Collection" or v.Collection == "Meme Collection" or v.Collection == "Summer Climb Collection" or v.NotDroppable) then continue end
                 
                 table.insert(items_to_drop, v)
             end
@@ -336,7 +336,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
 
             dropped_item.w = ""
 
-            if (item_to_drop.Collection == "Pumpkin Collection" or item_to_drop.Collection == "Meme Collection" or item_to_drop.Collection == "Holiday Collection" or item_to_drop.Collection == "New Years Collection") then
+            if (item_to_drop.Collection == "Pumpkin Collection" or item_to_drop.Collection == "Meme Collection" or item_to_drop.Collection == "Summer Climb Collection" or item_to_drop.Collection == "Holiday Collection" or item_to_drop.Collection == "New Years Collection") then
                 for k, v in RandomPairs(weapons.GetList()) do
                     if (v.Base == "weapon_tttbase" and (v.ClassName:StartWith("weapon_ttt_te_") or v.AutoSpawnable)) then
                         dropped_item.w = v.ClassName
@@ -649,7 +649,7 @@ function m_GetRandomInventoryItem(arg_collection, item)
             items_from_collection = cached_items[arg_collection][rarity_chosen]
         else
             for k, v in pairs(drop_table) do
-                if (v.Rarity == rarity_chosen and v.Kind ~= "Crate" and not COSMETIC_TYPES[v.Kind] and v.Collection ~= "Easter 2019 Collection" and v.Collection ~= "Meme Collection" and v.Collection ~= "Holiday Collection" and not v.NotDroppable) then
+                if (v.Rarity == rarity_chosen and v.Kind ~= "Crate" and not COSMETIC_TYPES[v.Kind] and v.Collection ~= "Easter 2019 Collection" and v.Collection ~= "Meme Collection" and v.Collection ~= "Summer Climb Collection" and v.Collection ~= "Holiday Collection" and not v.NotDroppable) then
                     table.insert(items_from_collection, v)
                 end
             end
@@ -700,7 +700,7 @@ function m_GetRandomInventoryItem(arg_collection, item)
         if (item_to_drop.Kind == "tier" or item_to_drop.Kind == "Unique") then
             dropped_item.w = ""
 
-            if (item_to_drop.Collection == "Pumpkin Collection"or item_to_drop.Collection == "Holiday Collection" or item_to_drop.Collection == "Meme Collection") then
+            if (item_to_drop.Collection == "Pumpkin Collection"or item_to_drop.Collection == "Holiday Collection" or item_to_drop.Collection == "Meme Collection" or item_to_drop.Collection == "Summer Climb Collection") then
                 for k, v in RandomPairs(cached_weapons) do
                     if (v.Base == "weapon_tttbase" and (v.AutoSpawnable or v.ClassName:StartWith("weapon_ttt_te_"))) then
                         dropped_item.w = v.ClassName

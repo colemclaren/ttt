@@ -18,8 +18,8 @@ MOAT_BP = MOAT_BP or {
     xp = 0,
     Examples = {}
 }
-MOAT_BP.current_tier = 0
-MOAT_BP.xp = 0
+-- MOAT_BP.current_tier = 0
+-- MOAT_BP.xp = 0
 MOAT_BP.Hovered = false
 local xp_needed = 2000
 
@@ -36,7 +36,7 @@ net.Receive("BP.Chat",function()
         local tier = net.ReadInt(32)
         chat.AddText(mat,Color(255,255,255),"[Battle ",Color(0,255,255),"Pass",Color(255,255,255),"] You just unlocked tier ",Color(255,0,0),tostring(tier),Color(255,255,255)," and earned ",rarity_names[MOAT_BP.tiers[tier].rarity][2]:Copy(),MOAT_BP.tiers[tier].name,Color(255,255,255),"!")
     else
-        chat.AddText(mat2,Color(255,255,255),"[Battle ",Color(0,255,255),"Pass",Color(255,255,255),"] Your Battle Pass has gained XP! (",Color(0,255,255),tostring(net.ReadInt(32)),Color(255,255,255),"/",tostring(xp_needed),")!")
+        chat.AddText(mat2,Color(255,255,255),"[Battle ",Color(0,255,255),"Pass",Color(255,255,255),"] You've gained XP towards your next Summer Climb tier! (",Color(0,255,255),tostring(net.ReadInt(32)),Color(255,255,255),"/",tostring(xp_needed),")!")
     end
 end)
 
@@ -258,9 +258,9 @@ function make_battlepass()
 	M_BP:SetPos(1, 46)
 	M_BP:SetSize(738, 468)
     M_BP.Paint = function(s, w, h)
-        draw.DrawText('Summer 2019', "moat_JackBig", w/3, 15, Color(255,255,255), TEXT_ALIGN_CENTER)
+        draw.DrawText('Summer Climb', "moat_JackBig", w/3, 15, Color(255,255,255), TEXT_ALIGN_CENTER)
         draw.SimpleTextOutlined("Time Left: " .. string.NiceTime(1569844800 - os.time()), "moat_GambleTitle", w/3, 80, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined("Earn XP to level up your Battle Pass!", "moat_GambleTitle", w/3,110, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("Earn XP to level up your Summer Climb!", "moat_GambleTitle", w/3,110, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
         surface.SetDrawColor(183, 183, 183)
         -- surface.DrawLine(5, 130, 455, 130)
     end
@@ -601,7 +601,7 @@ function make_battlepass()
             end
 
             if (ITEM_HOVERED.item.Kind ~= "tier") then
-                RARITY_TEXT = "A Random " .. RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
             else
                 RARITY_TEXT = "A Random " .. RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
@@ -935,8 +935,8 @@ function m_CreateBattlePanel(pnl_x, pnl_y, pnl_w, pnl_h)
     	draw.SimpleText("Moat", "moat_GambleTitle", 4, 0, Color(0, 198, 255))
     	draw.SimpleText("Gaming", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
 
-    	draw.SimpleText("Battle Pass", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
-    	draw.SimpleText("Battle Pass", "moat_GambleTitle", 5, 20, HSVToColor((CurTime() * 10) % 360, 1, 1))
+    	draw.SimpleText("Summer Climb", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
+    	draw.SimpleText("Summer Climb", "moat_GambleTitle", 5, 20, HSVToColor((CurTime() * 10) % 360, 1, 1))
 
     	draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 194, 6, Color(0, 0, 0))
     	draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 193, 5, Color(255, 255, 255))
@@ -953,12 +953,12 @@ function m_CreateBattlePanel(pnl_x, pnl_y, pnl_w, pnl_h)
     MOAT_BP_AVA:SetSize(17, 17)
     MOAT_BP_AVA:SetPlayer(LocalPlayer(), 32)
 
-    local MOAT_BP_CATS = {{"Battle Pass", Color(255, 0, 50)}, {"About", Color(150, 0, 255)}}
+    local MOAT_BP_CATS = {{"Summer Climb", Color(255, 0, 50)}, {"About", Color(150, 0, 255)}}
     local CAT_WIDTHS = 0
 
     for i = 1, #MOAT_BP_CATS do
     	local MOAT_BP_CAT_BTN = vgui.Create("DButton", M_BATTLE_PNL)
-    	MOAT_BP_CAT_BTN:SetSize(100, 30)
+    	MOAT_BP_CAT_BTN:SetSize(150, 30)
     	MOAT_BP_CAT_BTN:SetPos(320 + CAT_WIDTHS, 15)
     	MOAT_BP_CAT_BTN:SetText("")
     	MOAT_BP_CAT_BTN.HoveredNum = 0
@@ -1008,7 +1008,7 @@ function m_CreateBattlePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 
         MOAT_BP_CAT_BTN.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
 
-        CAT_WIDTHS = CAT_WIDTHS + 102
+        CAT_WIDTHS = CAT_WIDTHS + 152
     end
 
     MOAT_BP.CurCat = 1
@@ -1026,9 +1026,10 @@ function m_RemoveBattlePanel()
 	end)
 end
 
-
+local release_date = 1561708800
 hook.Add("InitPostEntity","Disable Until It's time",function()
     if not moat.isdev(LocalPlayer()) then
+    -- if LocalPlayer() then
         function m_CreateBattlePanel(pnl_x, pnl_y, pnl_w, pnl_h) --overwrite
             if IsValid(M_BATTLE_PNL) then return end
             M_BATTLE_PNL = vgui.Create("DFrame")
@@ -1058,8 +1059,8 @@ hook.Add("InitPostEntity","Disable Until It's time",function()
                 surface.DrawRect(0, 0, w, h)
                 DrawBlur(s, 3)
                 cdn.DrawImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 225))
-                draw.DrawText('Coming Soon', "moat_JackBig", w/2, h/2 - 40 - 30, r, TEXT_ALIGN_CENTER)
-                draw.DrawText('-Velkon <3', "moat_JackBig", w/2, h/2 - 40 + 30, r, TEXT_ALIGN_CENTER)
+                draw.DrawText('Summmer Climb', "moat_JackBig", w/2, h/2 - 40 - 30, r, TEXT_ALIGN_CENTER)
+                draw.DrawText(((release_date - os.time() > 0) and string.NiceTime(release_date - os.time()) or "SoonTM"), "moat_JackBig", w/2, h/2 - 40 + 30, r, TEXT_ALIGN_CENTER)
             end
             M_BATTLE_PNL:AlphaTo(255, 0.15, 0.15)
         end
