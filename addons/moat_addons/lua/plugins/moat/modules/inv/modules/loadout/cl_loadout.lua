@@ -162,21 +162,69 @@ local mats_cache = {}
 local MatOverrides = {}
 -- lua_run for k, v in pairs(weapons.GetList()) do if (v.ClassName:StartWith("weapon_ttt_te_") or v.AutoSpawnable) then me():m_DropInventoryItem("Soft", v.ClassName) end end
 
-SKIN_IGNORE = {}
-SKIN_IGNORE["models/weapons/v_models/slayer's_msbs/msbs"] = true
-SKIN_IGNORE["models/weapons/v_models/slayer's_msbs/naboj"] = true
-SKIN_IGNORE["models/weapons/v_models/hands/sleeve_diffuse"] = true
-SKIN_IGNORE["models/weapons/v_models/zaratusa.golden.deagle/grip"] = true
-SKIN_IGNORE["models/weapons/v_models/zaratusa.golden.deagle/no_phong_frame"] = true
-SKIN_IGNORE["models/weapons/v_models/zaratusa.golden.deagle/no_phong_front"] = true
-SKIN_IGNORE["models/weapons/v_models/virflakhg/bullets"] = true
-SKIN_IGNORE["models/weapons/bo2r_peacekeeper/peacekeeper_d2"] = true
+SKIN_SKIP = {
+	"v_hand",
+	"hands",
+	"scope",
+	"accessories",
+	"arrow",
+	"box",
+	"belt",
+	"stock",
+	"shell",
+	"screen",
+	"error",
+	"12guage",
+	"red_dot$",
+	"lense",
+	"bullet",
+	"glass"
+}
+SKIN_IGNORE = {
+["models/weapons/v_models/slayer's_msbs/msbs"] = true,
+["models/weapons/v_models/slayer's_msbs/naboj"] = true,
+["models/weapons/v_models/hands/sleeve_diffuse"] = true,
+["models/weapons/v_models/zaratusa.golden.deagle/grip"] = true,
+["models/weapons/v_models/zaratusa.golden.deagle/no_phong_frame"] = true,
+["models/weapons/v_models/zaratusa.golden.deagle/no_phong_front"] = true,
+["models/weapons/v_models/virflakhg/bullets"] = true,
+["models/weapons/bo2r_peacekeeper/peacekeeper_d2"] = true,
+["models/weapons/v_models/9mmhandgun/line"]=true,
+["models/weapons/v_models/vintorez/v_vintorez_glass"]=true,
+["models/weapons/v_models/vintorez/v_vintorez_lense"]=true,
+["models/weapons/v_models/vintorez/v_vintorez_pso"]=true,
+["models/weapons/v_models/vintorez/v_vintorez_bullets"]=true,
+["models/weapons/v_models/vintorez/v_vintorez_rubber"]=true,
+["models/weapons/v_models/vintorez/v_vintorez_wood"]=true,
+["models/weapons/v_models/vintorez/v_vintorez_bakelite"]=true,
+["models/weapons/pvpspist/eotech"]=true,
+["models/weapons/pvpspist/visier"]=true,
+["models/weapons/pvpspist/usp_sil"]=true,
+}
 
-SKIN_PASS = {}
-SKIN_PASS["models/weapons/v_models/g3a3/stockbit"] = true
-SKIN_PASS["models/weapons/v_models/vollmer/box"] = true
-SKIN_PASS["models/weapons/v_models/pvpxm8model/scope"] = true
-SKIN_PASS["models/weapons/v_models/ak47/stockmap"] = true
+SKIN_PASS = {
+["models/weapons/v_models/g3a3/stockbit"] = true,
+["models/weapons/v_models/vollmer/box"] = true,
+["models/weapons/v_models/pvpxm8model/scope"] = true,
+["models/weapons/v_models/ak47/stockmap"] = true,
+}
+
+local cache = {}
+function SkipMaterialCover(matstr)
+	if (cache[matstr] == nil) then
+		for k, v in ipairs(SKIN_SKIP) do
+			if (string.find(matstr, v)) then
+				cache[matstr] = true 
+				return true
+			end
+		end
+
+		cache[matstr] = false
+		return false
+	end
+
+	return cache[matstr]
+end
 
 function PrePaintViewModel(wpn, preview)
 	if (not MOAT_PAINT or not wpn or (not preview and not IsValid(wpn))) then
@@ -203,7 +251,7 @@ function PrePaintViewModel(wpn, preview)
 		else
 			local mdl = ClientsideModel(vm, RENDERGROUP_OPAQUE)
 			if (not mdl) then
-				return
+				return false
 			end
 
 			mdl:SetNoDraw(true)
@@ -213,8 +261,8 @@ function PrePaintViewModel(wpn, preview)
 		end
 	end
 
-	if (not wpn.cache.p and not preview) then 
-		wpn.cache.p = 255
+	if (not wpn.cache.p) then 
+		wpn.cache.p = {255, 255, 255}
 		if (wpn.ItemStats and wpn.ItemStats.p2) then
 			if (wpn.ItemStats.p2 == -2) then
 				wpn.cache.p = {bit.band(bit.rshift(wpn.ItemStats.p, 16), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 8), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 0), 0xff)}
@@ -225,6 +273,9 @@ function PrePaintViewModel(wpn, preview)
 		elseif (wpn.ItemStats and wpn.ItemStats.p) then
 			wpn.cache.p = MOAT_PAINT.Tints[wpn.ItemStats.p][2]
 			wpn.cache.dream = MOAT_PAINT.Tints[wpn.ItemStats.p].Dream
+		elseif (preview and GetPaintColor(preview)) then
+			wpn.cache.p = GetPaintColor(preview)[2]
+			wpn.cache.dream = MOAT_PAINT.Paints[preview].Dream
 		end
 
 		if (not wpn.cache.p or not istable(wpn.cache.p)) then
@@ -253,20 +304,8 @@ function PrePaintViewModel(wpn, preview)
 			wpn.cache.mats[i].mat = mat(wpn.cache.m[i])
 		end
 
-		if (wpn.cache.mats[i].skip == nil and not SKIN_PASS[wpn.cache.m[i]]) then 
-			if ((wpn.cache.m[i]:find("hand") and not wpn.cache.m[i]:EndsWith("eu_handgun") and not wpn.cache.m[i]:StartWith("models/weapons/v_models/9mmhandgun")) or 
-			wpn.cache.m[i]:find("scope") or 
-			wpn.cache.m[i]:find("accessories") or 
-			wpn.cache.m[i]:find("arrow") or 
-			wpn.cache.m[i]:find("box") or 
-			wpn.cache.m[i]:find("belt") or 
-			wpn.cache.m[i]:find("stock") or 
-			wpn.cache.m[i]:find("shell") or 
-			wpn.cache.m[i]:find("screen") or 
-			wpn.cache.m[i]:find("error") or 
-			wpn.cache.m[i]:find("12gauge") or
-			wpn.cache.m[i] == "models/weapons/v_models/9mmhandgun/line" or
-			wpn.cache.m[i]:EndsWith("red_dot") or SKIN_IGNORE[wpn.cache.m[i]]) then
+		if (wpn.cache.mats[i].skip == nil and not SKIN_PASS[wpn.cache.m[i]]) then
+			if (SKIN_IGNORE[wpn.cache.m[i]] or SkipMaterialCover(wpn.cache.m[i])) then
 				wpn.cache.mats[i].skip = true
 				continue
 			else
@@ -313,7 +352,7 @@ function PrePaintViewModel(wpn, preview)
 		end
 	
 		if (preview or not wpn.ItemStats) then
-			return
+			continue
 		end
 
 		if (wpn.ItemStats.p) then
@@ -739,10 +778,6 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 		end
 	else
 		wep:SetMaterial(mat_str)
-	end
-
-	if (IsValid(wep) and wep:IsPlayer()) then
-		return
 	end
 
 	wep.RenderGroup = RENDERGROUP_TRANSLUCENT
