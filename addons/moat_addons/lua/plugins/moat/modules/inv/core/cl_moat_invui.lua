@@ -671,14 +671,14 @@ local ActIndex = {
     [ "revolver" ]      = ACT_HL2MP_IDLE_REVOLVER
 }
 --
-function PANEL:SetModel(strModel, item_tbl)
-	strModel = strModel or GetGlobal("ttt_default_playermodel") or "models/player/arctic.mdl"
+function PANEL:SetModel(item_enum, item_tbl)
+	item_enum = item_enum or GetGlobal("ttt_default_playermodel") or "models/player/arctic.mdl"
 
-    if (isnumber(strModel)) then
-        strModel = m_GetCosmeticFromEnum(strModel).Model
+    if (isnumber(item_enum)) then
+        item_enum = m_GetCosmeticFromEnum(item_enum).Model
     end
 
-    self.PlayerModel:SetModel(strModel)
+    self.PlayerModel:SetModel(item_enum)
     self.PlayerModel:ResetSequence(self.PlayerModel:LookupSequence("pose_standing_02"))
 	self.PlayerModel.ItemStats = item_tbl
 	self.ItemStats = item_tbl
@@ -725,7 +725,7 @@ function PANEL:SetModel(strModel, item_tbl)
 
 	if (MOAT_PAINT and item_tbl) then
         if (item_tbl.p2) then
-			self.MatOverride = Material("models/debug/debugwhite")
+			self.MatOverride = (not MODELS_COLORABLE[item_enum]) and Material("models/debug/debugwhite")
             local col = MOAT_PAINT.Paints[item_tbl.p2]
             if (not col) then return end
             self.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
@@ -811,16 +811,16 @@ function PANEL:AddModel(item_enum, item_tbl)
 		self.ClientsideModels[item_enum].MatOverride = false
 	end
 	
-	if (item_tbl.p2 and MOAT_PAINT and MOAT_PAINT.Paints[item_tbl.p2]) then
+	if (item_tbl and item_tbl.p2 and MOAT_PAINT and MOAT_PAINT.Paints[item_tbl.p2]) then
         local col = MOAT_PAINT.Paints[item_tbl.p2]
-		self.ClientsideModels[item_enum].MatOverride = Material "models/debug/debugwhite"
+		self.ClientsideModels[item_enum].MatOverride = (not MODELS_COLORABLE[self.ClientsideModels[item_enum].Model]) and Material "models/debug/debugwhite"
         self.ClientsideModels[item_enum].Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
 		if (col.Dream) then
 			self.ClientsideModels[item_enum].Dream = true
 		else
 			self.ClientsideModels[item_enum].Dream = false
 		end
-    elseif (item_tbl.p and MOAT_PAINT and MOAT_PAINT.Tints[item_tbl.p]) then
+    elseif (item_tbl and item_tbl.p and MOAT_PAINT and MOAT_PAINT.Tints[item_tbl.p]) then
         local col = MOAT_PAINT.Tints[item_tbl.p]
         self.ClientsideModels[item_enum].Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}
 		if (col.Dream) then

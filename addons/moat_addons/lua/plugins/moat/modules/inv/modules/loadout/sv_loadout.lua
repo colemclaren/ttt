@@ -685,10 +685,10 @@ function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
 		net.Start "MOAT_SKINZ"
 			net.WritePlayer(ply)
 			net.WriteUInt(c, 16)
-			net.WriteUInt(MOAT_INVS[ply]["l_slot10"].p2 and 1 or s, 16)
+			net.WriteUInt((MOAT_INVS[ply]["l_slot10"].p2 and not MODELS_COLORABLE[item_tbl.item.Model]) and 1 or s, 16)
 		net.Broadcast()
 		
-		loadout_model_cache[ply] = {Player = ply:EntIndex(), Model = c, Paint = c, Skin = MOAT_INVS[ply]["l_slot10"].p2 and 1 or s}
+		loadout_model_cache[ply] = {Player = ply:EntIndex(), Model = c, Paint = c, Skin = (MOAT_INVS[ply]["l_slot10"].p2 and not MODELS_COLORABLE[item_tbl.item.Model]) or s}
 
 		return
 	else
