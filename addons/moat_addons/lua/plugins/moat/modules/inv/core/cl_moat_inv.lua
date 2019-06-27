@@ -5000,7 +5000,7 @@ function m_CreateItemMenu(num, ldt)
 			end
             
             local data = render.Capture({
-                format = "png",
+                format = "jpeg",
                 quality = 100,
                 h = h,
                 w = w,
