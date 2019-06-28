@@ -355,6 +355,7 @@ function bp_sql()
 
     function bp_processxp(ply,xp)
         if not auth(ply) then return end
+        if #player.GetAll() < 5 then return end
         if not ply.bp then
             bp_loadplayer(ply) 
             return
