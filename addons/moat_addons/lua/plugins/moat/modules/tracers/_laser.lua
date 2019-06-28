@@ -21,8 +21,9 @@ function EFFECT:Init(data)
     self.endpos = data:GetOrigin()
     self.Material = mats[data:GetEntity():GetEntityID() % #mats + 1]
     
+    local pos = self.pos
     cdn.PlayURL(sounds[math.random(#sounds)], 1, function(g)
-        g:SetPos(self.pos)
+        g:SetPos(pos)
     end, "3d")
 end
 
