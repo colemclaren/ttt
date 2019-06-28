@@ -266,14 +266,41 @@ function pmdl_cosmetic(M_INV_PMDL,cosm)
 end
 
 function make_about()
+    local clr = HSVToColor(math.random(1,200) * 1000 % 360, 1, 1)
+    BP_ABOUT = vgui.Create("DPanel", M_BATTLE_PNL)
+	BP_ABOUT:SetPos(1, 46)
+	BP_ABOUT:SetSize(738, 468)
+    BP_ABOUT.Paint = function(s, w, h)
+		local txtw = draw.SimpleText("Welcome to the Summer Climb!", "moat_NotifyTest2", w/2, 5, Color(255, 255, 255), TEXT_ALIGN_CENTER)
 
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 10)
+		surface.DrawRect(0, 0, w, 45)
+
+		surface.SetDrawColor(clr.r, clr.g, clr.b, 35)
+		surface.SetMaterial(gradient_u)
+		surface.DrawTexturedRect(0, 0, w, 45)
+
+		surface.DrawOutlinedRect(0, 0, w, 45)
+
+		cdn.DrawImage("https://cdn.moat.gg/f/cWeit2ZL5WhFze49xX7jV76mFvOG.png", (w/2) - (235/2), 55, 254, 235, Color(255, 255, 255, 225))
+	end
+
+	local lbl = vgui.Create("DLabel", BP_ABOUT)
+	lbl:SetPos(10, 145)
+	lbl:SetText("Welcome to the Summer Climb! Here, for a limited time you will be able to earn XP and level up your Summer Climb to earn free rewards! Please keep in mind that any of the guns that you preview in the Summer Climb are just that, a preview, and the gun that you earn will be random and unique! <3\n\nSome quick info:\n- Earned XP towards the Summer Climb is not affected by Quadra XP (This might change)\n- Experience lovers (weapon XP) do not count towards the Summer Climb\n- XP from Dailies do count towards the Summer Climb\n- Dailies give half of their XP as rewards towards the Summer Climb\n\nPlease be remember to be nice to other players and to not meta game for the Summer Climb rewards!\n- Moat Gaming Staff Team <3\n\nEnjoy the event! (To get started, press 'Summer Climb' in the tab above)")
+	lbl:SetWide(BP_ABOUT:GetWide() - 20)
+	lbl:SetWrap(true)
+	lbl:SetAutoStretchVertical(true)
+	lbl:SetTextColor(Color(255, 255, 255))
+	lbl:SetFont("GModNotify")
 end
 
 function remove_about()
-
+    BP_ABOUT:Remove()
 end
 BPMODEL_PANELS = {}
 function make_battlepass()
+    cookie.Set("SeenBP1",1)
     M_BP = vgui.Create("DScrollPanel", M_BATTLE_PNL)
 	M_BP:SetPos(1, 46)
 	M_BP:SetSize(738, 468)
@@ -319,7 +346,7 @@ function make_battlepass()
         a:SetCursor("hand")
 
         if math.min(MOAT_BP.current_tier + 3,100) == tier then
-            timer.Simple(0.1,function()
+            timer.Simple(0.2,function()
                 if not IsValid(tiers) then return end
                 tiers:PerformLayout()
 
@@ -1052,9 +1079,13 @@ function m_CreateBattlePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 
         CAT_WIDTHS = CAT_WIDTHS + 152
     end
-
-    MOAT_BP.CurCat = 1
-    make_battlepass()
+    if cookie.GetNumber("SeenBP1", 0) == 1 then
+        MOAT_BP.CurCat = 1
+        make_battlepass()
+    else
+        MOAT_BP.CurCat = 2
+        make_about()
+    end
 
     M_BATTLE_PNL:AlphaTo(255, 0.15, 0.15)
 end
