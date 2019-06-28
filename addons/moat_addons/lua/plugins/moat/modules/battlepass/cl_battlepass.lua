@@ -21,7 +21,11 @@ MOAT_BP = MOAT_BP or {
 -- MOAT_BP.current_tier = 0
 -- MOAT_BP.xp = 0
 MOAT_BP.Hovered = false
-local xp_needed = 1250
+local function xp_needed(lvl)
+    local mult = math.max(0, lvl - 20)
+
+    return mult * 175 + 1250
+end
 
 net.Receive("BP.StatUpdate",function()
     MOAT_BP.current_tier = net.ReadInt(16)
@@ -31,12 +35,13 @@ end)
 local mat = Material("icon16/medal_gold_3.png")
 local mat2 = Material("icon16/information.png")
 net.Receive("BP.Chat",function()
-    if net.ReadBool() then
+    local b = net.ReadBool()
+    local tier = net.ReadInt(32)
+    if b then
         -- TD: make better messages
-        local tier = net.ReadInt(32)
         chat.AddText(mat,Color(255,255,255),"[Summer ",Color(0,255,255),"Climb",Color(255,255,255),"] You just unlocked tier ",Color(255,0,0),tostring(tier),Color(255,255,255)," and earned ",rarity_names[MOAT_BP.tiers[tier].rarity][2]:Copy(),MOAT_BP.tiers[tier].name,Color(255,255,255),"!")
     else
-        chat.AddText(mat2,Color(255,255,255),"[Summer ",Color(0,255,255),"Climb",Color(255,255,255),"] You've gained XP towards your next Summer Climb tier! (",Color(0,255,255),tostring(net.ReadInt(32)),Color(255,255,255),"/",tostring(xp_needed),")!")
+        chat.AddText(mat2,Color(255,255,255),"[Summer ",Color(0,255,255),"Climb",Color(255,255,255),"] You've gained XP towards your next Summer Climb tier! (",Color(0,255,255),tostring(net.ReadInt(32)),Color(255,255,255),"/",tostring(xp_needed(tier + 1)),")!")
     end
 end)
 
@@ -336,9 +341,9 @@ function make_battlepass()
         function a:OnCursorExited()
             MOAT_BP.Hovered = nil
         end
-        
+    
         function a:Paint(w,h)
-            local xp = math.min(MOAT_BP.xp,xp_needed) -- in here incase they have it open when the round ends and xp updates
+            local xp = math.min(MOAT_BP.xp,xp_needed(MOAT_BP.current_tier + 1)) -- in here incase they have it open when the round ends and xp updates
             local alpha = (MOAT_BP.current_tier >= tier and 255 or 20)
             local alpha2 = (MOAT_BP.current_tier >= tier and 150 or MOAT_BP.current_tier + 1 == tier and 20 or 0)
             if MOAT_BP.Examples[v.ID] and a:IsHovered() then
@@ -357,7 +362,7 @@ function make_battlepass()
             surface.SetMaterial(gradient_d)
             surface.DrawTexturedRect(w-55, 10, 50, 45)
             if MOAT_BP.current_tier + 1 == tier then
-                local frac = (xp/xp_needed)
+                local frac = (xp/xp_needed(MOAT_BP.current_tier + 1))
                 draw.RoundedBox(0, 5, 55 - (50 * frac),50,50 * frac,c)
                 if xp > 0 then
                     local frac_w = w * (frac)
@@ -383,7 +388,7 @@ function make_battlepass()
                         end
                     end
                 end
-                draw.DrawText("Unlocks in " .. xp .. "/" .. xp_needed .. " XP!","moat_Medium5",w/2,30,Color(255,255,255,alpha),TEXT_ALIGN_CENTER)
+                draw.DrawText("Unlocks in " .. xp .. "/" .. xp_needed(MOAT_BP.current_tier + 1) .. " XP!","moat_Medium5",w/2,30,Color(255,255,255,alpha),TEXT_ALIGN_CENTER)
             elseif MOAT_BP.current_tier < tier then
                 draw.DrawText("Unlock more tiers to unlock this!","moat_Medium5",w/2,30,Color(255,255,255,alpha),TEXT_ALIGN_CENTER)
             else

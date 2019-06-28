@@ -2,7 +2,12 @@ local a={}local b={lineinfo=true}local c={parent=true,ast=true}local function d(
 --https://github.com/davidm/lua-inspect/blob/master/lib/luainspect/dump.lua
 --used for generating examples so that we don't have to network so much shit
 
-local xp_needed = 1250
+local function xp_needed(lvl)
+    local mult = math.max(0, lvl - 20)
+
+    return mult * 175 + 1250
+end
+
 local release_date = 1561708800
 local function auth(ply)
     return true
@@ -355,7 +360,7 @@ function bp_sql()
 
     function bp_processxp(ply,xp)
         if not auth(ply) then return end
-        if #player.GetAll() < 5 then return end
+        if not Server.IsDev and player.GetCount() < 5 then return end
         if not ply.bp then
             bp_loadplayer(ply) 
             return
@@ -364,12 +369,12 @@ function bp_sql()
         if tier == 100 then return end -- over!
         local plyxp = ply.bp.xp
         print("Processing ",xp,"xp for",ply)
-        if (xp + plyxp) > xp_needed then
+        if (xp + plyxp) > xp_needed(tier + 1) then
             bp_reward(ply,tier + 1)
-            ply.bp.xp = (plyxp + xp) - xp_needed
+            ply.bp.xp = (plyxp + xp) - xp_needed(tier + 1)
             ply.bp.tier = tier + 1
             print("Rewarded ",ply,"for tier",tier,"new xp:",ply.bp.xp)
-            if ply.bp.xp > xp_needed then
+            if ply.bp.xp > xp_needed(tier + 2) then
                 print("Player has more levels, repeating")
                 bp_processxp(ply,0) -- recursive
             else
@@ -382,6 +387,7 @@ function bp_sql()
             bp_save(ply)
             net.Start("BP.Chat")
             net.WriteBool(false)
+            net.WriteInt(ply.bp.tier,32)
             net.WriteInt(ply.bp.xp,32)
             net.Send(ply)
         end
