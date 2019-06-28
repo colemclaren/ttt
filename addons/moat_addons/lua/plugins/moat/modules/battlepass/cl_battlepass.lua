@@ -34,9 +34,9 @@ net.Receive("BP.Chat",function()
     if net.ReadBool() then
         -- TD: make better messages
         local tier = net.ReadInt(32)
-        chat.AddText(mat,Color(255,255,255),"[Battle ",Color(0,255,255),"Pass",Color(255,255,255),"] You just unlocked tier ",Color(255,0,0),tostring(tier),Color(255,255,255)," and earned ",rarity_names[MOAT_BP.tiers[tier].rarity][2]:Copy(),MOAT_BP.tiers[tier].name,Color(255,255,255),"!")
+        chat.AddText(mat,Color(255,255,255),"[Summer ",Color(0,255,255),"Climb",Color(255,255,255),"] You just unlocked tier ",Color(255,0,0),tostring(tier),Color(255,255,255)," and earned ",rarity_names[MOAT_BP.tiers[tier].rarity][2]:Copy(),MOAT_BP.tiers[tier].name,Color(255,255,255),"!")
     else
-        chat.AddText(mat2,Color(255,255,255),"[Battle ",Color(0,255,255),"Pass",Color(255,255,255),"] You've gained XP towards your next Summer Climb tier! (",Color(0,255,255),tostring(net.ReadInt(32)),Color(255,255,255),"/",tostring(xp_needed),")!")
+        chat.AddText(mat2,Color(255,255,255),"[Summer ",Color(0,255,255),"Climb",Color(255,255,255),"] You've gained XP towards your next Summer Climb tier! (",Color(0,255,255),tostring(net.ReadInt(32)),Color(255,255,255),"/",tostring(xp_needed),")!")
     end
 end)
 
@@ -57,13 +57,29 @@ local function GetDroppableWeapons()
 
     return droppable_cache, droppable_cache_count
 end
-
+local crates = {
+    "https://cdn.moat.gg/f/2uz9PPFhaYcHQYy31r6JycNg9KMP.png",
+    "https://cdn.moat.gg/f/SmrFpqNJJXbfArfUzFfyo3JLAul9.png",
+    "https://cdn.moat.gg/f/iTt6ooG8RtbHjnkyC8Q4jABhv2WS.png",
+    "https://cdn.moat.gg/f/Po473i0jlwewqan8JfV6Rn38ErxM.png",
+    "https://cdn.moat.gg/f/h84hIxkywtI3EoZvWXRz76DRgkWe.png",
+    "https://cdn.moat.gg/f/NJGw8ZNeDfESPnIDvdewX1eGFTP0.png",
+    "https://cdn.moat.gg/f/AHlVbE8xBe1bFYTmtsd6A0XmretE.png",
+    "https://cdn.moat.gg/f/mMpashogkwi43rDH2fCNyk5UfjAZ.png",
+    "https://cdn.moat.gg/f/QsvbPr7sgwoHKQVbuq4PXSYLWkMd.png",
+    "https://cdn.moat.gg/f/djAqvEhuNLBVDUR2oFDRq7D92gDS.png",
+    "https://cdn.moat.gg/f/VRfIdxR5Or4GYC3ULukcdwdx0SvT.png",
+    "https://cdn.moat.gg/f/3043b.png",
+    "https://cdn.moat.gg/f/vc0YQ6pW2e7ifimTXGHEf1yMxqLp.png",
+}
 function make_randompanel(model,ITEM_BG)
     local m_WClass = {} 
     if weapons.Get(model) then
         m_WClass = weapons.Get(model)
     elseif (model == "tier") then
         m_WClass = table.Random(GetDroppableWeapons()).WeaponTable
+    elseif (model == "crates") then
+        m_WClass.WorldModel = table.Random(crates)
     else
         m_WClass.WorldModel = model
     end
@@ -227,15 +243,14 @@ function pmdl_cosmetic(M_INV_PMDL,cosm)
                 if (m_Loadout[i].item and m_Loadout[i].item.Kind and m_CosmeticSlots[m_Loadout[i].item.Kind]) then
                     M_INV_PMDL:AddModel(m_Loadout[i].u, m_Loadout[i])
                 end
-                if (istable(cosm) and cosm.item.Kind == "Model") then
-                    M_INV_PMDL:SetModel(cosm.u)
-					set_model = true
-                    continue
-                end
                 if (m_Loadout[i].item and m_Loadout[i].item.Kind == "Model") then
                     M_INV_PMDL:SetModel(m_Loadout[i].u)
 					set_model = true
                 end
+            end
+            if (istable(cosm) and cosm.item.Kind == "Model") then
+                M_INV_PMDL:SetModel(cosm.u)
+                set_model = true
             end
         end
     end
@@ -252,7 +267,7 @@ end
 function remove_about()
 
 end
-
+BPMODEL_PANELS = {}
 function make_battlepass()
     M_BP = vgui.Create("DScrollPanel", M_BATTLE_PNL)
 	M_BP:SetPos(1, 46)
@@ -260,7 +275,7 @@ function make_battlepass()
     M_BP.Paint = function(s, w, h)
         draw.DrawText('Summer Climb', "moat_JackBig", w/3, 15, Color(255,255,255), TEXT_ALIGN_CENTER)
         draw.SimpleTextOutlined("Time Left: " .. string.NiceTime(1569844800 - os.time()), "moat_GambleTitle", w/3, 80, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined("Earn XP to level up your Summer Climb!", "moat_GambleTitle", w/3,110, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+        draw.SimpleTextOutlined("Earn XP to receive free item rewards!", "moat_GambleTitle", w/3,110, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
         surface.SetDrawColor(183, 183, 183)
         -- surface.DrawLine(5, 130, 455, 130)
     end
@@ -406,6 +421,24 @@ function make_battlepass()
             end
             draw.DrawText(tier, "DermaLarge", 30, 15, Color(255,255,255,alpha), TEXT_ALIGN_CENTER)
         end
+        local s = tier
+        if v.model == "tier" or v.model == "crates" then
+            timer.Create(tostring(s),3,0,function()
+                if not IsValid(tiers) then timer.Destroy(s) return end
+                if not IsValid(BPMODEL_PANELS[tier]) then timer.Destroy(tostring(s)) return end
+                BPMODEL_PANELS[tier]:Remove()
+                local b = make_randompanel(v.model,a)
+                function b:OnCursorEntered()
+                    if MOAT_BP.Examples[v.ID] then
+                        MOAT_BP.Hovered = MOAT_BP.Examples[v.ID]
+                    end
+                end
+                function b:OnCursorExited()
+                    MOAT_BP.Hovered = nil
+                end
+                BPMODEL_PANELS[tier] = b
+            end)
+        end
         local b = make_randompanel(v.model,a)
         function b:OnCursorEntered()
             if MOAT_BP.Examples[v.ID] then
@@ -415,6 +448,7 @@ function make_battlepass()
         function b:OnCursorExited()
             MOAT_BP.Hovered = nil
         end
+        BPMODEL_PANELS[tier] = b
     end
     local b = vgui.Create("DPanel",tiers)
     b:SetSize(0,5)
@@ -483,6 +517,8 @@ function make_battlepass()
         if IsValid(self.HoldWeapon) then
             self.HoldWeapon:DrawModel()
             local att = self.PlayerModel:GetAttachment(self.PlayerModel:LookupAttachment("anim_attachment_RH"))
+            if not att then return end
+            if not att.Pos then return end
             self.HoldWeapon:SetPos(att.Pos)
             self.HoldWeapon:SetAngles(att.Ang)
             self.HoldWeapon:SetupBones()
@@ -726,6 +762,7 @@ function make_battlepass()
         end
 
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
+            if not s.AnimVal then s.AnimVal = 0 end
             s.AnimVal = Lerp(FrameTime() * stat_anim, s.AnimVal, 1)
 
             if (not s.SavedItem or (s.SavedItem ~= ITEM_HOVERED)) then
@@ -1059,7 +1096,7 @@ hook.Add("InitPostEntity","Disable Until It's time",function()
                 surface.DrawRect(0, 0, w, h)
                 DrawBlur(s, 3)
                 cdn.DrawImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 225))
-                draw.DrawText('Summmer Climb', "moat_JackBig", w/2, h/2 - 40 - 30, r, TEXT_ALIGN_CENTER)
+                draw.DrawText('Summer Climb', "moat_JackBig", w/2, h/2 - 40 - 30, r, TEXT_ALIGN_CENTER)
                 draw.DrawText(((release_date - os.time() > 0) and string.NiceTime(release_date - os.time()) or "SoonTM"), "moat_JackBig", w/2, h/2 - 40 + 30, r, TEXT_ALIGN_CENTER)
             end
             M_BATTLE_PNL:AlphaTo(255, 0.15, 0.15)

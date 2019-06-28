@@ -322,6 +322,21 @@ function bp_sql()
         end,
         [-2] = function(ply)
             ply:m_GiveIC(10000)
+        end,
+        [-3] = function(ply)
+            local crates = m_GetActiveCrates()
+            for i = 1, 5 do
+                ply:m_DropInventoryItem(crates[math.random(1, #crates)].Name, "hide_chat_obtained", false, false)
+            end
+        end,
+        [-4] = function(ply)
+            local crates = m_GetActiveCrates()
+            for i = 1, 10 do
+                ply:m_DropInventoryItem(crates[math.random(1, #crates)].Name, "hide_chat_obtained", false, false)
+            end
+        end,
+        [-5] = function(ply)
+
         end
     }
     function bp_reward(ply,tier)

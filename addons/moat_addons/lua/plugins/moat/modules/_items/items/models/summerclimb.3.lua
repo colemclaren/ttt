@@ -7,7 +7,7 @@ ITEM.Description = "It's dangerous to go alone! Take this... model"
 
 ITEM.Model = "models/player/zelda.mdl"
 
-ITEM.Rarity = 6
+ITEM.Rarity = 7
 
 ITEM.Collection = "Summer Climb Collection"
 
