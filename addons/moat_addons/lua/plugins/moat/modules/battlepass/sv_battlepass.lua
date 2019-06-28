@@ -445,6 +445,7 @@ function bp_sql()
 
     hook.Add("PlayerEarnedXP","Add BattlePass XP",function(ply,xp)
         if not auth(ply) then return end
+        if xp < 0 then return end
         print("EARNED XP",MG_cur_event,xp)
         if MG_cur_event == "Quadra XP" then 
             xp = xp/4
