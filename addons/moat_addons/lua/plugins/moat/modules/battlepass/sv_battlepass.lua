@@ -321,6 +321,40 @@ function bp_sql()
         end
         q:start()
     end
+
+    function bp_checkhighest(ply)
+        -- check if tier is noteworthy
+        if (ply.bp.tier % 5 ~= 0 and ply.bp.tier < 75) then
+            return
+        end
+
+        local values = {}
+        for _, dev in pairs(Devs) do
+            values[#values + 1] = db:escape(dev.SteamID64)
+        end
+
+
+        local q = db:query("SELECT tier as highest_tier, count(*) as players FROM `moat_battlepass` WHERE steamid NOT IN (" .. table.concat(values, ", ") .. ") group by tier order by highest_tier desc")
+        function q:onSuccess()
+            local data = q:getData()
+            PrintTable(data)
+            if (data and data[1] and data[1].highest_tier == ply.bp.tier and data[1].players == 1) then
+                local msg = string(
+                    string.rep("<:winner:594112694764961802>", 16),
+                    style.NewLine "<:winner:594112694764961802> The first person to tier <:wow:594112694764961802> " .. style.Bold(tonumber(ply.bp.tier)) .. " <:wow:594112694764961802> is...",
+                    style.NewLine "<:winner:594112694764961802>  " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()),
+                    string.NewLine(string.rep("<:winner:594112694764961802>", 16))
+                )
+                discord.Send("Event", msg)
+            end
+        end
+
+        function q:onError(e)
+            print(e)
+        end
+        q:start()
+    end
+
     local custom_rewards = {
         [-1] = function(ply)
             ply:m_GiveIC(5000)
@@ -379,6 +413,7 @@ function bp_sql()
                 bp_processxp(ply,0) -- recursive
             else
                 bp_save(ply)
+                bp_checkhighest(ply)
                 print("No more levels, saving",ply,xp)
             end
         else
