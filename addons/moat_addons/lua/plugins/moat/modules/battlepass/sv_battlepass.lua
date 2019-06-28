@@ -5,8 +5,8 @@ local a={}local b={lineinfo=true}local c={parent=true,ast=true}local function d(
 local xp_needed = 1000
 local release_date = 1561708800
 local function auth(ply)
-    return true
-    -- return moat.isdev(ply)
+    -- return true
+    return moat.isdev(ply)
 end
 
 file.Write("dumpmeme.txt","")
