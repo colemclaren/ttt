@@ -12,6 +12,7 @@ TALENT.NotUnique = false
 TALENT.Collection = "Summer Climb Collection"
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
+    weapon:ApplyTracer "laser"
     net.Start "apply_tracer"
         net.WriteUInt(weapon:GetEntityID(), 32)
         net.WriteString "laser"

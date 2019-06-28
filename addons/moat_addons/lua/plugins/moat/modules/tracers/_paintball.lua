@@ -29,7 +29,7 @@ local mats = {
 }
 
 function EFFECT:Init(data)
-    self.pos = self:GetTracerShootPos(data:GetEntity():GetPos(), data:GetEntity(), data:GetEntity():LookupAttachment "muzzle")
+    self.pos = self:GetTracerShootPos(data:GetEntity():GetPos(), data:GetEntity(), data:GetEntity():LookupAttachment "muzzle") or data:GetEntity():GetPos()
     self.endpos = data:GetOrigin()
     self.endtime = CurTime() + self.endpos:Distance(self.pos) / 15500
     self.starttime = CurTime()

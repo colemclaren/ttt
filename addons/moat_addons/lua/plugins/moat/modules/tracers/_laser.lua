@@ -17,7 +17,7 @@ local sounds = {
 
 function EFFECT:Init(data)
     self.endtime = CurTime() + data:GetEntity().Primary.Delay
-    self.pos = self:GetTracerShootPos(data:GetEntity():GetPos(), data:GetEntity(), data:GetEntity():LookupAttachment "muzzle")
+    self.pos = self:GetTracerShootPos(data:GetEntity():GetPos(), data:GetEntity(), data:GetEntity():LookupAttachment "muzzle") or data:GetEntity():GetPos()
     self.endpos = data:GetOrigin()
     self.Material = mats[data:GetEntity():GetEntityID() % #mats + 1]
     
