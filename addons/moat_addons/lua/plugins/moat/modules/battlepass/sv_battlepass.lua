@@ -322,6 +322,22 @@ function bp_sql()
         q:start()
     end
 
+    function bp_checkstats()
+        local values = {}
+        for _, dev in pairs(Devs) do
+            values[#values + 1] = db:escape(dev.SteamID64)
+        end
+
+        local q = db:query("SELECT tier + 1 as highest_tier, count(*) as players FROM `moat_battlepass` WHERE steamid NOT IN (" .. table.concat(values, ", ") .. ") group by tier order by highest_tier desc")
+        function q:onSuccess()
+            local data = q:getData()
+            for _, d in ipairs(data) do
+                print(d.players .. " people currently on tier " .. d.highest_tier)
+            end
+        end
+        q:start()
+    end
+
     function bp_checkhighest(ply)
         -- check if tier is noteworthy
         if (ply.bp.tier % 5 ~= 0 and ply.bp.tier < 75) then
@@ -337,13 +353,12 @@ function bp_sql()
         local q = db:query("SELECT tier as highest_tier, count(*) as players FROM `moat_battlepass` WHERE steamid NOT IN (" .. table.concat(values, ", ") .. ") group by tier order by highest_tier desc")
         function q:onSuccess()
             local data = q:getData()
-            PrintTable(data)
             if (data and data[1] and data[1].highest_tier == ply.bp.tier and data[1].players == 1) then
                 local msg = string(
-                    string.rep("<:winner:594112694764961802>", 16),
-                    style.NewLine "<:winner:594112694764961802> The first person to tier <:wow:594112694764961802> " .. style.Bold(tonumber(ply.bp.tier)) .. " <:wow:594112694764961802> is...",
-                    style.NewLine "<:winner:594112694764961802>  " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()),
-                    string.NewLine(string.rep("<:winner:594112694764961802>", 16))
+                    string.rep("<:winner:299563022752546817>", 16),
+                    style.NewLine "<:winner:299563022752546817> The first person to tier <:wow:392153478266355712> " .. style.Bold(tonumber(ply.bp.tier)) .. " <:wow:392153478266355712> is...",
+                    style.NewLine "<:winner:299563022752546817>  " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()),
+                    string.NewLine(string.rep("<:winner:299563022752546817>", 16))
                 )
                 discord.Send("Event", msg)
             end
