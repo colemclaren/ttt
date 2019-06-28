@@ -1,6 +1,6 @@
 ITEM.ID = 10106
 ITEM.Name = "Energizing Deadshot"
-ITEM.Rarity = 7
+ITEM.Rarity = 6
 ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_ttt_sg550"
 ITEM.MinStats = 6

@@ -1,8 +1,8 @@
-ITEM.ID = 10108
+ITEM.ID = 10120
 ITEM.Name = "Energizing MAC10"
-ITEM.Rarity = 7
+ITEM.Rarity = 6
 ITEM.Collection = "Summer Climb Collection"
-ITEM.WeaponClass = "weapon_ttt_ak47"
+ITEM.WeaponClass = "weapon_zm_mac10"
 ITEM.MinStats = 6
 ITEM.MaxStats = 8
 ITEM.NameEffect = "electric"
