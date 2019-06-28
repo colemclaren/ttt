@@ -5,7 +5,7 @@ local a={}local b={lineinfo=true}local c={parent=true,ast=true}local function d(
 local function xp_needed(lvl)
     local mult = math.max(0, lvl - 20)
 
-    return mult * 175 + 1250
+    return math.min(4000,mult * 175 + 1250)
 end
 
 local release_date = 1561708800
@@ -445,9 +445,12 @@ function bp_sql()
 
     hook.Add("PlayerEarnedXP","Add BattlePass XP",function(ply,xp)
         if not auth(ply) then return end
-        if XP_MULTIPLYER ~= 2 then 
+        print("EARNED XP",MG_cur_event,xp)
+        if MG_cur_event == "Quadra XP" then 
             xp = xp/4
         end
+        xp = xp / 2
+        print("XP TO PROCESS",xp)
         bp_processxp(ply,xp)
     end)
 
