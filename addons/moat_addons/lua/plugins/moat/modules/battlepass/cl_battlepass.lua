@@ -21,7 +21,7 @@ MOAT_BP = MOAT_BP or {
 -- MOAT_BP.current_tier = 0
 -- MOAT_BP.xp = 0
 MOAT_BP.Hovered = false
-local xp_needed = 1500
+local xp_needed = 1250
 
 net.Receive("BP.StatUpdate",function()
     MOAT_BP.current_tier = net.ReadInt(16)
