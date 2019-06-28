@@ -2,7 +2,7 @@ local a={}local b={lineinfo=true}local c={parent=true,ast=true}local function d(
 --https://github.com/davidm/lua-inspect/blob/master/lib/luainspect/dump.lua
 --used for generating examples so that we don't have to network so much shit
 
-local xp_needed = 2000
+local xp_needed = 1000
 local release_date = 1561708800
 local function auth(ply)
     -- return false

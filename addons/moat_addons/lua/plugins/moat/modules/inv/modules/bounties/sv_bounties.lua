@@ -1109,21 +1109,21 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 	self:SendChat(level, "You have completed the " .. self.Bounties[bounty_id].name .. " Bounty and have been rewarded " .. self.Bounties[bounty_id].rewards .. ".", ply)
 end
 
-local tier1_rewards = MOAT_BOUNTIES.Rewards({ic = 2500, exp = 2500}, {exp = 5000})
+local tier1_rewards = MOAT_BOUNTIES.Rewards({ic = 2500, exp = 750}, {exp = 5000})
 local tier1_rewards_str = MOAT_BOUNTIES.Rewards(
-	"2,500 Inventory Credits + 2,500 Player Experience + 1 in 5 Chance for High-End",
+	"2,500 Inventory Credits + 750 Player Experience + 1 in 5 Chance for High-End",
 	"Any Random Mutator + 5,000 Player Experience + 1 in 25 Chance for Ascended"
 )
 
-local tier2_rewards = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 5500}, {exp = 11000})
-local tier2_rewards_str = MOAT_BOUNTIES.Rewards(
-	"5,000 Inventory Credits + 5,500 Player Experience + 1 in 2 Chance for High-End",
+local tier2_rewards = MOAT_BOUNTIES.Rewards({ic = 5000, exp = 1250}, {exp = 11000})
+local tier2_rewards_str = MOAT_BOUNTIES.Rewards
+	"5,000 Inventory Credits + 1,250 Player Experience + 1 in 2 Chance for High-End",
 	"Any Random Mutator + 11,000 Player Experience + 1 in 15 Chance for Ascended+"
 )
 
-local tier3_rewards = MOAT_BOUNTIES.Rewards({ic = 7500, exp = 8500}, {exp = 17000})
+local tier3_rewards = MOAT_BOUNTIES.Rewards({ic = 7500, exp = 1500}, {exp = 17000})
 local tier3_rewards_str = MOAT_BOUNTIES.Rewards(
-	"7,500 Inventory Credits + 8,500 Player Experience + 1 High-End item",
+	"7,500 Inventory Credits + 1,500 Player Experience + 1 High-End item",
 	"Any Random Mutator + 17,000 Player Experience + 1 in 10 for Cosmic+"
 )
 

@@ -113,9 +113,9 @@ add_tier_item("Random August Weapon",6,"tier",9617,"glow") -- 41
 
 add_tier_item("10,000 Inventory Credits",8,"https://i.imgur.com/cGxlQEx.png",-2,"bounce") -- Level 42
 
+add_tier_item("Random Tropical Weapon",5,"tier",9619, "") -- 43
 
-
-
+add_tier_item("Random Refreshing Weapon",5,"tier",9610,"") -- 44
 
 add_tier_item("5x Random Crates",6,"crates",-3,"") -- 45
 
@@ -149,46 +149,80 @@ add_tier_item("Non-filler item",7,"tier",-4) -- 58
 
 add_tier_item("Random Blazing Weapon",5,"tier",9605,"") -- 59
 
-
-
+add_tier_item("Random Fun Weapon",4,"tier",9603,"") -- 60
 
 add_tier_item("Stormtrooper Model",5,"models/player/stormtrooper.mdl",53,"") -- 61
 
 add_tier_item("10,000 Inventory Credits",8,"https://i.imgur.com/cGxlQEx.png",-2,"bounce") -- Level 62
 
+add_tier_item("Random Breezy Weapon",5,"tier",9607,"") -- 63
 
-
+add_tier_item("Random Poolside Weapon",4,"tier",9609,"") -- 64
 
 add_tier_item("10x Random Crates",6,"crates",-4,"") -- 65
 
 add_tier_item("Random Outdoor Weapon",5,"tier",9620,"") -- 66
 
+add_tier_item("Random Blistering Weapon",4,"tier",9606,"") -- 67
+
 --non-filler
 add_tier_item("Non-filler item",7,"tier",-4) -- 68
 
+add_tier_item("Random Tropical Weapon",5,"tier",9619, "") -- 69
+
+add_tier_item("Random Humid Weapon",4,"tier",9621,"") -- 70
+
+add_tier_item("Random Refreshing Weapon",5,"tier",9610,"") -- 71
+
 add_tier_item("10,000 Inventory Credits",8,"https://i.imgur.com/cGxlQEx.png",-2,"bounce") -- Level 72
+
+add_tier_item("Random Sunburnt Weapon",5,"tier",9615,"") -- 73
+
+add_tier_item("Random Splashing Weapon",5,"tier",9601,"") -- 74
 
 add_tier_item("10x Random Crates",6,"crates",-4,"") -- 75
 
-add_tier_item("Random Tropical Weapon",5,"tier",9619, "") -- 76
+add_tier_item("Random Beach Weapon",5,"tier",9604,"") -- 76
+
+add_tier_item("Random Poolside Weapon",4,"tier",9609,"") -- 77
 
 --non-filler
 add_tier_item("Non-filler item",7,"tier",-4) -- 78
+
+add_tier_item("Random Delightful Weapon",5,"tier",9611,"") -- 79
+
+add_tier_item("Random Fun Weapon",4,"tier",9603,"") -- 80
 
 add_tier_item("Ash Ketchum Model",6,"models/player/red.mdl",50,"") -- level 81
 
 add_tier_item("10,000 Inventory Credits",8,"https://i.imgur.com/cGxlQEx.png",-2,"bounce") -- Level 82
 
+add_tier_item("Random Breezy Weapon",5,"tier",9607,"") -- 83
+
+add_tier_item("Random Tropical Weapon",5,"tier",9619, "") -- 84
+
 add_tier_item("10x Random Crates",6,"crates",-4,"") -- 85
 
 add_tier_item("Random Outdoor Weapon",5,"tier",9620,"") -- 86
 
+add_tier_item("Random Blazing Weapon",5,"tier",9605,"") -- 87
+
 --non-filler
 add_tier_item("Non-filler item",7,"tier",-4) -- 88
+
+add_tier_item("Random Hazy Weapon",5,"tier",9613,"") -- 89
+
+add_tier_item("Random Humid Weapon",4,"tier",9621,"") -- 90
+
+add_tier_item("Random Scorching Weapon",6,"tier",9612,"fire") -- 91
 
 add_tier_item("10,000 Inventory Credits",8,"https://i.imgur.com/cGxlQEx.png",-2,"bounce") -- Level 92
 
 add_tier_item("Random Outdoor Weapon",5,"tier",9620,"") -- 93
+
+
+
+
 
 add_tier_item("10x Random Crates",6,"crates",-4,"") -- 95
 
@@ -198,6 +232,10 @@ add_tier_item("Random Tropical Weapon",5,"tier",9619, "") -- 97
 
 --non-filler
 add_tier_item("Non-filler item",7,"tier",-4) -- 98
+
+
+
+
 
 
 --non-filler
