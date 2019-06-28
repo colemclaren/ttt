@@ -35,7 +35,7 @@ SWEP.AutoSwitchFrom		= false
 
 SWEP.Icon 				= "vgui/ttt/icon_nades"
 SWEP.ViewModel			= "models/weapons/cstrike/c_eq_fraggrenade.mdl"
-SWEP.WorldModel			= "models/weapons/w_eq_fraggrenade.mdl"
+SWEP.WorldModel			= "models/weapons/w_eq_flashbang.mdl"
 
 
 function SWEP:GetGrenadeName()

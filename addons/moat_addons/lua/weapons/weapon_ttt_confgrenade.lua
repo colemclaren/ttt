@@ -27,7 +27,7 @@ SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false
 SWEP.ViewModelFOV		= 54
 SWEP.ViewModel			= "models/weapons/cstrike/c_eq_fraggrenade.mdl"
-SWEP.WorldModel			= "models/weapons/w_eq_fraggrenade.mdl"
+SWEP.WorldModel			= "models/weapons/w_eq_flashbang.mdl"
 SWEP.Weight			= 5
 
 -- really the only difference between grenade weapons: the model and the thrown

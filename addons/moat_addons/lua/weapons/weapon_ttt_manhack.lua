@@ -50,7 +50,7 @@ SWEP.Base = "weapon_tttbase"
 
 SWEP.ViewModel = "models/weapons/cstrike/c_eq_fraggrenade.mdl"
 
-SWEP.WorldModel  = "models/weapons/w_eq_fraggrenade.mdl"
+SWEP.WorldModel  = "models/weapons/w_eq_flashbang.mdl"
 
 SWEP.Weight                = 5
 

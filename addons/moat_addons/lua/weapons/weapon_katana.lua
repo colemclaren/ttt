@@ -121,6 +121,8 @@ function SWEP:PrimaryAttack()
 
    if not IsValid(self.Owner) then return end
 
+   self.Owner:SetAnimation( PLAYER_ATTACK1 )
+
    if self.Owner.LagCompensation then -- for some reason not always true
       self.Owner:LagCompensation(true)
    end
@@ -164,7 +166,6 @@ function SWEP:PrimaryAttack()
       self.Weapon:SendWeaponAnim( ACT_VM_MISSCENTER )
    end
 
-
    if CLIENT then
       -- used to be some shit here
    else -- SERVER
@@ -173,7 +174,7 @@ function SWEP:PrimaryAttack()
       local tr_all = nil
       tr_all = util.TraceLine({start=spos, endpos=sdest, filter=self.Owner})
       
-      self.Owner:SetAnimation( PLAYER_ATTACK1 )
+     // self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
       if hitEnt and hitEnt:IsValid() then
          if self:OpenEnt(hitEnt) == OPEN_NO and tr_all.Entity and tr_all.Entity:IsValid() then
