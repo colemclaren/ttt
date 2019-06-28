@@ -1,6 +1,7 @@
 ITEM.ID = 9602
 ITEM.Name = "June"
-ITEM.Rarity = 6
+ITEM.Rarity = 8
+ITEM.NameColor = Color( 255, 255, 0 )
 ITEM.Collection = "Summer Climb Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
