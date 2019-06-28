@@ -2,7 +2,7 @@ TALENT.ID = 10102
 TALENT.Name = "Energizing"
 TALENT.NameColor = Color(255, 119, 0)
 TALENT.Description = "Damage is increased by %s_^ for each consecutive hit, up to a maximum of %s_^"
-TALENT.Tier = 2
+TALENT.Tier = 1
 TALENT.LevelRequired = {min = 8, max = 10}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = { min = 4, max = 8 } -- Every shot hit increases
