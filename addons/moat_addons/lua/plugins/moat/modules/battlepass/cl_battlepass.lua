@@ -24,7 +24,7 @@ MOAT_BP.Hovered = false
 local function xp_needed(lvl)
     local mult = math.max(0, lvl - 20)
 
-    return math.min(4000,mult * 175 + 1250)
+    return mult * 175 + 1250
 end
 
 net.Receive("BP.StatUpdate",function()
