@@ -390,13 +390,19 @@ function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
         bullet.Src = self.Owner:GetShootPos()
         bullet.Spread = vector_origin
         bullet.Tracer = self.Tracer or 4
-        bullet.TracerName = self.Tracer or "Tracer"
+        bullet.TracerName = self.TracerName or "Tracer"
         bullet.Force = 0.6 / numbul
         bullet.Damage = dmg
 
-        if CLIENT and sparkle:GetBool() then
-            bullet.Callback = Sparklies
-        end
+		function bullet.Callback(atk, tr, dmg)
+			if CLIENT and sparkle:GetBool() then
+				Sparklies(atk, tr, dmg)
+			end
+
+			if (IsValid(self) and self.FireBulletsCallback) then
+				self:FireBulletsCallback(atk, tr, dmg)
+			end
+		end
 
         local randn = 2
         local nlayers = (self.Primary.LayerMults and #self.Primary.LayerMults or 1) + 3
@@ -415,14 +421,20 @@ function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
         bullet.Src = self.Owner:GetShootPos()
         bullet.Dir = self.Owner:GetAimVector()
         bullet.Spread = Vector(conex, coney, 0)
-        bullet.Tracer = self.Tracer or 4
-        bullet.TracerName = self.Tracer or "Tracer"
+		bullet.Tracer = self.Tracer or 4
+        bullet.TracerName = self.TracerName or "Tracer"
         bullet.Force = 0.6
         bullet.Damage = dmg
 
-        if CLIENT and sparkle:GetBool() then
-            bullet.Callback = Sparklies
-        end
+		function bullet.Callback(atk, tr, dmg)
+			if CLIENT and sparkle:GetBool() then
+				Sparklies(atk, tr, dmg)
+			end
+
+			if (IsValid(self) and self.FireBulletsCallback) then
+				self:FireBulletsCallback(atk, tr, dmg)
+			end
+		end
 
         self.Owner:FireBullets(bullet)
     end
@@ -582,6 +594,37 @@ function SWEP:TakePrimaryAmmo(num)
 	end
 
 	self:SetClip1(self:Clip1() - num)
+end
+
+function SWEP:ApplyTracer(tracer)
+	if (self.OldTracerEffect) then
+		for ind, val in pairs(self.OldTracerEffect) do
+			self[ind] = val
+		end
+	end
+
+	self.OldTracerEffect = self.OldTracerEffect or {}
+
+	local tracer = TRACERS[tracer]
+	if (not tracer) then
+		return
+	end
+
+	for ind, val in pairs(tracer.ApplyData) do
+		if (ind == "_RunNow") then
+			val(self)
+		elseif (type(val) == "table") then
+			self.OldTracerEffect[ind] = table.Copy(self[ind])
+			for k,v in pairs(val) do
+				self[ind][k] = v
+			end
+		else
+			self.OldTracerEffect[ind] = self[ind]
+			self[ind] = type(val) == "function" and function(...)
+				return val(self.OldTracerEffect[ind], ...)
+			end or val
+		end
+	end
 end
 
 local function Sparklies(attacker, tr, dmginfo)
