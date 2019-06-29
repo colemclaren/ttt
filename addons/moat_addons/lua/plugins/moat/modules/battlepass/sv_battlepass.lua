@@ -418,7 +418,7 @@ function bp_sql()
         if tier == 100 then return end -- over!
         local plyxp = ply.bp.xp
         print("Processing ",xp,"xp for",ply)
-        if (xp + plyxp) > xp_needed(tier + 1) then
+        if (xp + plyxp) >= xp_needed(tier + 1) then
             bp_reward(ply,tier + 1)
             ply.bp.xp = (plyxp + xp) - xp_needed(tier + 1)
             ply.bp.tier = tier + 1
