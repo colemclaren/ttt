@@ -8,12 +8,12 @@ ITEM.MaxStats = 8
 ITEM.NameEffect = "electric"
 ITEM.Stats = {
 	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
+	Accuracy = { min = 17, max = 28 },
+	Kick = { min = -17, max = -28 },
+	Firerate = { min = 17, max = 28 },
+	Magazine = { min = 23, max = 33 },
+	Range = { min = 23, max = 33 },
+	Weight = { min = -5, max = -7 },
     Deployrate = { min = 30, max = 40 },
 	Reloadrate = { min = 30, max = 40 },
 }
