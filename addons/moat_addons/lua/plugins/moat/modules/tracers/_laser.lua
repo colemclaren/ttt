@@ -4,12 +4,15 @@ local EFFECT = {
     Base = "base"
 }
 
-local mats = {
-    Material "cable/redlaser",
-    Material "cable/hydra",
-    Material "cable/physbeam",
-    Material "cable/xbeam"
-}
+local mats
+if (CLIENT) then
+    mats = {
+        Material "cable/redlaser",
+        Material "cable/hydra",
+        Material "cable/physbeam",
+        Material "cable/xbeam"
+    }
+end
 
 local sounds = {
     "https://cdn.moat.gg/ttt/summer/laser1.mp3",

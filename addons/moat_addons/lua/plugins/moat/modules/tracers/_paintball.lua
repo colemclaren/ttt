@@ -56,11 +56,14 @@ if (CLIENT) then
     effects.Register(EFFECT, "paintball")
 end
 
-local decals = {
-    Material(util.DecalMaterial "PaintSplatGreen"),
-    Material(util.DecalMaterial "PaintSplatPink"),
-    Material(util.DecalMaterial "PaintSplatBlue")
-}
+local decals
+if (CLIENT) then
+    decals = {
+        Material(util.DecalMaterial "PaintSplatGreen"),
+        Material(util.DecalMaterial "PaintSplatPink"),
+        Material(util.DecalMaterial "PaintSplatBlue")
+    }
+end
 
 TRACER.ApplyData = {
     _RunNow = function(self)
