@@ -1,4 +1,5 @@
 hook.Add("EntityRemoved", "Ragdoll Recreate", function(e)
+    if true then return end -- hopefuly fix lag?
     if (not IsValid(e) or e.IsSafeToRemove or not e.PleaseRecreate or GetGlobalStr("MOAT_MINIGAME_ACTIVE", false)) then
         return
     end
