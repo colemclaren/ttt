@@ -26,7 +26,10 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 
     pri.Damage = pri.Damage * (1 - mult)
 
-    pri.Delay = pri.Delay / 1.5
+	local Mod = self.Modifications[1]
+	local mult = Mod.min + (Mod.max - Mod.min) * talent_mods[1]
+
+	weapon:SetFirerate((1 - (1 - weapon:GetFirerate() / 100) * 0.6) * 100)
 
     pri.ClipSize = pri.ClipSize * 1.5
     pri.ClipMax = pri.ClipMax * 1.5
