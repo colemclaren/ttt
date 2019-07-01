@@ -24,6 +24,10 @@ function EFFECT:Init(data)
     self.endpos = data:GetOrigin()
     self.Material = mats[data:GetEntity():GetEntityID() % #mats + 1]
     
+    if (not system.HasFocus()) then
+        return
+    end
+
     local pos = self.pos
     cdn.PlayURL(sounds[math.random(#sounds)], 1, function(g)
         g:SetPos(pos)
