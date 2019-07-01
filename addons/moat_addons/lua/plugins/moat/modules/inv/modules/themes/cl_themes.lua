@@ -185,7 +185,7 @@ MOAT_THEME.Themes["Original"] = {
             surface_DrawTexturedRect(1, 1, w - 2, h - 2)
         end
 
-        m_DrawShadowedText(1, s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        m_DrawShadowedText(1, s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Support us!" and Color(255, 205, 0) or Color(255, 255, 255, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end,
     VBAR_PAINT = {
         PAINT = function(s, w, h)
@@ -360,7 +360,7 @@ MOAT_THEME.Themes["Light"] = {
         end
 
         draw_RoundedBox(0, w - 1, 0, 1, h, Color(26, 29, 34, 255))
-        draw_SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw_SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Support us!" and Color(255, 205, 0) or Color(255, 255, 255, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end,
     CATBAR_PAINT = function(s, w, h)
         if (s.cur_cat ~= s.new_cat) then
@@ -523,7 +523,7 @@ MOAT_THEME.Themes["Dark"] = {
         end
 
         draw_RoundedBox(0, w - 1, 0, 1, h, Color(36, 39, 44, 255))
-        draw_SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw_SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Support us!" and Color(255, 205, 0) or Color(255, 255, 255, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end,
     CATBAR_PAINT = function(s, w, h)
         if (s.cur_cat ~= s.new_cat) then
@@ -677,7 +677,7 @@ MOAT_THEME.Themes["Clear"] = {
             draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
         end
 
-        draw_SimpleTextOutlined(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 25))
+        draw_SimpleTextOutlined(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Support us!" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 25))
     end,
     CATBAR_PAINT = function(s, w, h)
         if (s.cur_cat ~= s.new_cat) then
@@ -864,7 +864,7 @@ MOAT_THEME.Themes["Alpha"] = {
             draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
         end
 
-        draw_SimpleTextOutlined(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 25))
+        draw_SimpleTextOutlined(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Support us!" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 25))
     end,
     CATBAR_PAINT = function(s, w, h)
         if (s.cur_cat ~= s.new_cat) then

@@ -132,7 +132,7 @@ MOAT_THEME.Themes["Blur"] = {
             draw.RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
         end
 
-        draw.SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Support us!" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         draw.SimpleText(s.CatLabel, "moat_Medium4", w / 2 + 1, h / 2 + 1, Color(0, 0, 0, 25), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end,
     CATBAR_PAINT = function(s, w, h)

@@ -1189,7 +1189,7 @@ M_INV_SLOT = {}
 M_LOAD_SLOT = {}
 M_TRADE_SLOT = {}
 
-M_INV_CATS = {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Gamble", 90}, {"Summer", 90}, {"Dailies", 90}, {"Settings", 90}, {"Donate", 90}}
+M_INV_CATS = {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Gamble", 90}, {"Summer", 90}, {"Dailies", 90}, {"Settings", 90}, {"Support us!", 90}}
 function m_PaintVBar(sbar)
 
     local MT = MOAT_THEME.Themes
@@ -1987,7 +1987,7 @@ function m_OpenInventory(ply2, utrade)
         MOAT_CAT_BTN.DoClick = function(s)
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
 
-            if (s.CatLabel == "Donate") then
+            if (s.CatLabel == "Support us!") then
                 MOAT_DONATE:OpenWindow()
                 MOAT_INV_BG:Remove()
 

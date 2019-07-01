@@ -1,6 +1,6 @@
 ITEM.ID = 17
 ITEM.Name = "VIP Token"
-ITEM.Description = "Using this will grant VIP benefits permanently! Benefits of VIP are in the 'Donate' tab"
+ITEM.Description = "Using this will grant VIP benefits permanently! Benefits of VIP are in the 'Support us!' tab"
 ITEM.Rarity = 8
 ITEM.Collection = "Meta Collection"
 ITEM.Image = "https://i.moat.gg/19-01-10-G6T.png"

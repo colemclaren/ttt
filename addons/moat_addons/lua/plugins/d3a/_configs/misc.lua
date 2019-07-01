@@ -24,7 +24,7 @@ D3A.Config.Adverts = {
 	{
 		Time = 120,
 		Repos = 0,
-		Message = {Color(255,0,0), "Donate to get dank shit and give us money!"},
+		Message = {Color(255,0,0), "Support us to get dank shit and give us money!"},
 	},
 }
 
