@@ -16,6 +16,7 @@ if CLIENT then
    SWEP.IconLetter = "w"
 end
 SWEP.Kind = WEAPON_HEAVY
+SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 SWEP.WeaponID = AMMO_M16
 
 SWEP.ViewModelFOV     = 70
