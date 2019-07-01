@@ -38,7 +38,7 @@ SWEP.Primary.DefaultClip   = 32
 SWEP.Primary.Cone          = 0.025
 SWEP.Primary.Recoil        = 0.4
 SWEP.Primary.Automatic     = true
-SWEP.Primary.Ammo          = "smg1"
+SWEP.Primary.Ammo          = "SMG1"
 SWEP.Primary.Range = 666
 
 SWEP.Secondary.ClipSize			= 1
