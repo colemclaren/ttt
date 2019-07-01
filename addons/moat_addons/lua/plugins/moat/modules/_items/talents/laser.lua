@@ -36,6 +36,7 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
 
     wep.Energizer_PelletsHit = 0
     wep.Energizer_PelletsHitAHR = 0
+    local cb = dmginfo.Callback
 	dmginfo.Callback = function(att, tr, dmginfo)
         if (IsValid(tr.Entity)) then
             if (tr.AltHitreg) then
@@ -48,6 +49,9 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
                 wep.EnergizerStacks = (wep.EnergizerStacks or 0) + 1
                 wep.Primary.Damage = wep.BaseDamage * (1 + math.min(Maximum, wep.EnergizerStacks * Increase))
             end
+        end
+        if (cb) then
+            return cb(att, tr, dmginfo)
         end
 	end
 end
