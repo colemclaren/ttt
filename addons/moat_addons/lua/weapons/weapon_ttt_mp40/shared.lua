@@ -45,7 +45,6 @@ SWEP.Primary.Range = 666
 SWEP.Secondary.ClipSize			= 1
 SWEP.Secondary.DefaultClip		= 1
 SWEP.Secondary.Automatic		= false
-SWEP.Secondary.Ammo			= ""
 SWEP.Secondary.IronFOV			= 70
 
 SWEP.IronSightsPos = Vector(3.037, 3.801, 1.38)
