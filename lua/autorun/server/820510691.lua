@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_mc_67thway_b5') then resource.AddWorkshop(820510691) end

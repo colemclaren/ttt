@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_pelicantown') then resource.AddWorkshop(1219185412) end

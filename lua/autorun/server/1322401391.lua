@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_cwoffice') then resource.AddWorkshop(1322401391) end

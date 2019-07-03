@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_nightmare_church_b0') then resource.AddWorkshop(203588042) end

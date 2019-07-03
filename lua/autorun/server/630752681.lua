@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_iceresearch_rc4') then resource.AddWorkshop(630752681) end

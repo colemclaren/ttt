@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_deathtower') then resource.AddWorkshop(699024004) end

@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_penitentiary') then resource.AddWorkshop(1335770232) end

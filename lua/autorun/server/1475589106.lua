@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_bikinibottom_v1b') then resource.AddWorkshop(1475589106) end

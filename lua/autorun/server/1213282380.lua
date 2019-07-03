@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_eclipse_v3') then resource.AddWorkshop(1213282380) end

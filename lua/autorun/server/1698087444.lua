@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_complex67_fixed') then resource.AddWorkshop(1698087444) end

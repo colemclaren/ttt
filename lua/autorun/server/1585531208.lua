@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_terrortrain2018_final') then resource.AddWorkshop(1585531208) end

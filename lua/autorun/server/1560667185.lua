@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_firelinkshrine') then resource.AddWorkshop(1560667185) end

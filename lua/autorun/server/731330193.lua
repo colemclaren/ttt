@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_canvas_r230') then resource.AddWorkshop(731330193) end

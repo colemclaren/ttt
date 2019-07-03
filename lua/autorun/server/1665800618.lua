@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_sens') then resource.AddWorkshop(1665800618) end

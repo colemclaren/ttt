@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_shadowmoses') then resource.AddWorkshop(975437544) end
