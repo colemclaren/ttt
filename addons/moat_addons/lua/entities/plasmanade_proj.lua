@@ -2,12 +2,14 @@ AddCSLuaFile()
 
 ENT.Type = "anim"
 ENT.Base = "ttt_basegrenade_proj"
-ENT.Model = Model("models/weapons/w_eq_fraggrenade.mdl")
+ENT.Model = Model("models/props/de_tides/vending_turtle.mdl")
+ENT.HelloSound = Sound("weapons/mine_turtle/hello.wav")
 
 AccessorFunc( ENT, "radius", "Radius", FORCE_NUMBER )
 
 function ENT:Initialize()
 	self.Hit = false
+	self.HelloPlayed = false
 	self.CurrentPitch = 100
 
 	self:SetMaterial( "models/alyx/emptool_glow" )
@@ -206,6 +208,10 @@ function ENT:Think()
 	if self.Hit then
 		self.CurrentPitch = self.CurrentPitch + 5
 		if self.WhirrSound then self.WhirrSound:ChangePitch(math.Clamp(self.CurrentPitch,100,255),0) end
+		if self.Hit and not self.HelloPlayed then
+			timer.Simple(0, function() if (IsValid(self)) then self:EmitSound(self.HelloSound,90,100) end end)
+			self.HelloPlayed = true
+		end
 	end
 	
 	if self.Hit && self.Splodetimer && self.Splodetimer < CurTime() then
