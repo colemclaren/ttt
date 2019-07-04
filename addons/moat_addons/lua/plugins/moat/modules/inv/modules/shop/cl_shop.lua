@@ -402,10 +402,26 @@ function m_PopulateShop(pnl)
                 surface.SetMaterial(img)
                 surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
             end
-            m_DrawShadowedText(1, item_price, "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255), TEXT_ALIGN_CENTER)
-            surface.SetMaterial(Material("icon16/coins_delete.png"))
-            surface.SetDrawColor(Color(255, 255, 255))
-            surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 8, h - 85, 16, 16)
+
+			if (s.Sweet and s.Qty <= 1) then
+			 	surface.SetFont("moat_ItemDesc")
+       			local price_width, price_height = surface.GetTextSize("Level Reward")
+
+				m_DrawShadowedText(1, "Level Reward", "moat_ItemDesc", (w / 2), h - 85, Color(255, 255, 255,255), TEXT_ALIGN_CENTER)
+
+				surface.SetMaterial(Material("icon16/cake.png"))
+            	surface.SetDrawColor(Color(255, 255, 255, 255))
+            	surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21, h - 85, 16, 16)
+
+				surface.SetMaterial(Material("icon16/cake.png"))
+            	surface.SetDrawColor(Color(255, 255, 255, 255))
+            	surface.DrawTexturedRect((w / 2) + (price_width / 2) + 8, h - 85, 16, 16)
+			else
+				m_DrawShadowedText(1, item_price, "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
+            	surface.SetMaterial(Material("icon16/coins_delete.png"))
+            	surface.SetDrawColor(Color(255, 255, 255, 255))
+            	surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 8, h - 85, 16, 16)
+			end
 
             m_DrawShadowedText(1, "Amount: " .. s.Qty, "moat_ItemDesc", (w / 2), h - 60, (itemtbl.Price * s.Qty <= MOAT_INVENTORY_CREDITS) and Color(255, 255, 255) or Color(255, 0, 0), TEXT_ALIGN_CENTER)
         end

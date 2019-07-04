@@ -13,9 +13,10 @@ ITEM.Rarity = 8
 
 ITEM.Collection = "Independence Collection"
 
-ITEM.Active = false
+ITEM.Active = true
 
 ITEM.Stackable = true
 
 ITEM.Price = 25000
-ITEM.LimitedShop = 1531551600
+ITEM.LimitedShop = 1562742000
+ITEM.Rewardable = true

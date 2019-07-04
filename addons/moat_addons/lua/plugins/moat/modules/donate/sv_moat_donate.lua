@@ -19,6 +19,13 @@ function start_quadra_xp(nick)
 	XP_MULTIPYER = 8
 end
 
+function moat_DropIndependence(ply, amt)
+	for i = 1, amt do
+        if (not IsValid(ply)) then return end
+        ply:m_DropInventoryItem("Independence Crate", "hide_chat_obtained", false, true)
+    end
+end
+
 MOAT_DONATE = MOAT_DONATE or {}
 MOAT_DONATE.Packages = {
 	[1] = {},
@@ -53,8 +60,8 @@ MOAT_DONATE.Packages = {
 
 		local crates = m_GetActiveCrates()
 
-		-- moat_DropIndependence(pl, 1)
-		pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
+		moat_DropIndependence(pl, 1)
+		-- pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
 
 		for i = 1, 15 do
 			local crate = crates[math.random(1, #crates)].Name
@@ -72,10 +79,10 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 15000)
 		give_ec(pl, 1)
 		pl:Drop20()
-		-- moat_DropIndependence(pl, 2)
-		for i = 1, 2 do
-			pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
-		end
+		moat_DropIndependence(pl, 2)
+		-- for i = 1, 2 do
+		-- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
+		-- end
 
 		m_SaveInventory(pl)
 
@@ -88,11 +95,11 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 50000)
 		give_ec(pl, 3)
 		pl:Drop50()
-		-- moat_DropIndependence(pl, 6)
+		moat_DropIndependence(pl, 6)
 
-		for i = 1, 6 do
-			pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
-		end
+		-- for i = 1, 6 do
+		-- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
+		-- end
 
 		m_SaveInventory(pl)
 
@@ -105,11 +112,11 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 125000)
 		give_ec(pl, 7)
 		pl:Drop100()
-		-- moat_DropIndependence(pl, 13)
+		moat_DropIndependence(pl, 15)
 
-		for i = 1, 15 do
-			pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
-		end
+		-- for i = 1, 15 do
+		-- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
+		-- end
 
 		m_SaveInventory(pl)
 
