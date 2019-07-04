@@ -248,30 +248,23 @@ function m_ApplyTalentsToWeaponOnFire(attacker, weapon_tbl, dmginfo, talent_tbl)
     end
 end
 
--- hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
--- 	if (not IsValid(ent) or not ent:IsPlayer()) then
--- 		return
--- 	end
+hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
+	if (not IsValid(ent) or not ent:IsPlayer()) then
+		return
+	end
 	
--- 	local wpn = ent:GetActiveWeapon()
---     if (IsValid(wpn) and wpn.Talents) then
--- 		for k, v in ipairs(wpn.Talents) do
--- 			if (wpn.level >= v.l) then
--- 				m_GetTalentFromEnumWithFunctions(talent_enum)
--- 			end
--- 		end
+	local wpn = ent:GetActiveWeapon()
+    if (IsValid(wpn) and wpn.Talents) then
+		for k, v in ipairs(wpn.Talents) do
+			if (wpn.level >= v.l) then
+				m_ApplyTalentsToWeaponOnFire(ent, wpn, dmginfo, v)
+				--m_GetTalentFromEnumWithFunctions(talent_enum)
+			end
+		end
 
--- 		return
--- 	end
-
---     local weapon_lvl = weapon_tbl.level
-
---     for k, v in ipairs(weapon_tbl.Talents) do
---         if (weapon_lvl >= v.l) then
--- 			m_ApplyTalentsToWeaponOnFire(ent, weapon_tbl, dmginfo, v)
---         end
---     end
--- end)
+		return
+	end
+end)
 
 local function m_CalculateLevel(cur_lvl, cur_exp, exp_to_add)
     local new_level, new_xp = cur_lvl, cur_exp
