@@ -1920,7 +1920,7 @@ net.Receive("MOAT_LINK_ITEM", function(len, ply)
 
     local tbl = table.Copy(MOAT_INVS[ply][slotstr])
     tbl.item = m_GetItemFromEnum(tbl.u)
-	tbl.Talents = GetItemTalents(tbl2)
+	tbl.Talents = GetItemTalents(tbl)
 
     net.Start("MOAT_LINK_ITEM")
     net.WriteDouble(ply:EntIndex())
