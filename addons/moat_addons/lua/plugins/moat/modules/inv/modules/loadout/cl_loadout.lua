@@ -462,8 +462,10 @@ function MOAT_LOADOUT.SetupPaint(wpn, vm, preview)
 		wpn.cache[key].t = wpn.ItemStats.p3
 		MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
 		MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
+		MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 	elseif (wpn.cache[key].t) then
 		MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
+		MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 		MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 	end
 
