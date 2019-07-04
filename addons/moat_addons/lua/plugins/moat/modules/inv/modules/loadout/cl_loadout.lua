@@ -206,7 +206,7 @@ SKIN_IGNORE = {
 ["models/weapons/pvpspist/visier"]=true,
 ["models/weapons/pvpspist/usp_sil"]=true,
 ["models/oggmix/masogg"]=true,
-["models/oggmix/fxogg"]=true
+["models/oggmix/fxogg"]=true,
 }
 
 SKIN_PASS = {
@@ -216,18 +216,24 @@ SKIN_PASS = {
 ["models/weapons/v_models/ak47/stockmap"] = true,
 }
 
+SKIN_NOPAINT = {
+["models/weapons/v_models/pvpxm8model/scope"] = true,
+---["models/weapons/v_models/vintorez/v_vintorez_wood"]=true,
+}
+
 local cache = {}
 function SkipMaterialCover(matstr)
 	if (cache[matstr] == nil) then
 		for k, v in ipairs(SKIN_SKIP) do
+			print(matstr, v, string.find(matstr, v))
 			if (string.find(matstr, v)) then
-				cache[matstr] = true 
-				return true
+				cache[matstr] = true
 			end
 		end
 
-		cache[matstr] = false
-		return false
+		if (not cache[matstr]) then
+			cache[matstr] = false
+		end
 	end
 
 	return cache[matstr]
@@ -237,6 +243,7 @@ local mat_names = {
 	["IMaterial"] = true,
 	["ITexture"] = true
 }
+
 function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 	if (not wpn.cache[key].m) then
 		local mats = mats_cache[wpn_mdl]
@@ -272,7 +279,7 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 
 		local default = mat_names[type(wpn.cache[key].mats[i].base)] and wpn.cache[key].mats[i].base:GetName() or wpn.cache[key].mats[i].base
 		local mat_skin = "skin_"..key.."_"..(wpn.cache[key].t and wpn.cache[key].t[2] or default).." @ "..wpn.cache[key].m[i]
-		
+
 		if (wpn.cache[key].mats[i].skip == nil and not SKIN_PASS[wpn.cache[key].m[i]]) then
 			if (SKIN_IGNORE[wpn.cache[key].m[i]] or SkipMaterialCover(wpn.cache[key].m[i])) then
 				wpn.cache[key].mats[i].skip = true
@@ -319,7 +326,9 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 				end
 			end)
 
-			if (wpn.cache[key].t and wpn.cache[key].t == 0) then
+			if (SKIN_NOPAINT[wpn.cache[key].m[i]]	) then
+				wpn.cache[key].mats[i].mat:SetTexture("$basetexture", wpn.cache[key].mats[i].base)
+			elseif (wpn.cache[key].t and wpn.cache[key].t == 0) then
 				wpn.cache[key].mats[i].mat:SetTexture("$basetexture", "models/debug/debugwhite")
 			elseif (wpn.cache[key].t and wpn.cache[key].t == -1 and not m) then
 				wpn.cache[key].mats[i].mat:SetTexture("$basetexture", wpn.cache[key].mats[i].base)

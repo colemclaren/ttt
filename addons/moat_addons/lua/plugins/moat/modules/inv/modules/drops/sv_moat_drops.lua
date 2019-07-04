@@ -399,7 +399,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                     dropped_item.t[i].m = {}
 
                     for k, v in ipairs(talent_tbl.Modifications) do
-                        dropped_item.t[i].m[k] = math.Round(math.Rand(0, 1), v.round and 2)
+                        dropped_item.t[i].m[k] = math.Round(math.Rand(0, 1), 2)
                     end
                 end
             end
@@ -474,7 +474,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                     dropped_item.t[i].m = {}
 
                     for k, v in ipairs(talent_tbl.Modifications) do
-                        dropped_item.t[i].m[k] = math.Round(math.Rand(0, 1), v.round or 2)
+                        dropped_item.t[i].m[k] = math.Round(math.Rand(0, 1), 2)
                     end
                 end
             end
@@ -973,7 +973,7 @@ function m_ResetTalents(pl, wep_slot, itemtbl)
             ply_item.t[i].m = {}
 
             for k, v in ipairs(talent_tbl.Modifications) do
-                ply_item.t[i].m[k] = math.Round(math.Rand(0, 1), v.round or 2)
+                ply_item.t[i].m[k] = math.Round(math.Rand(0, 1), 2)
             end
         end
 
