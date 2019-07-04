@@ -281,7 +281,9 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 		end
 
 		local default = wpn.cache[key].mats[i].base
-		if (type(default) ~= "string") then
+		if (not default) then
+			default = "error"
+		elseif (type(default) ~= "string") then
 			default = default:GetName()
 		end
 	
