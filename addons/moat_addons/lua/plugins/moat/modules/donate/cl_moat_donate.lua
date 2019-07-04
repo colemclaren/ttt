@@ -18,7 +18,7 @@ for i = 1, 10 do
 	})
 end
 
--- ahhh
+-- ahh
 local support_url = "https://moat.gg/store"
 local circ_gradient = Material("moat_inv/moat_circle_grad.png")
 local gradient_u = Material("vgui/gradient-u")
