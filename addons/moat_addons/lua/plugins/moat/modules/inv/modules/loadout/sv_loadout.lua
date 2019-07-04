@@ -369,7 +369,11 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 net.WriteUInt(v3:EntIndex(), 16)
                 net.WriteString(wpn_tbl.ItemName or wpn_tbl.PrintName or "NAME_ERROR0")
 
-                net.WriteTable(v)
+				if (v.t) then
+                	v.Talents = GetItemTalents(v)
+            	end
+
+                net.WriteTable(v or {})
                 net.Send(ply)
 
                 loadout_other_indexes[v3:EntIndex()] = {owner = ply:EntIndex(), info = v, name = wpn_tbl.ItemName or wpn_tbl.PrintName}

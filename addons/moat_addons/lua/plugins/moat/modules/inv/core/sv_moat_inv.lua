@@ -2355,7 +2355,8 @@ function m_SendInvItem(pl, s, l)
 
     local tbl = table.Copy(MOAT_INVS[pl][slot_text .. s])
     tbl.item = m_GetItemFromEnum(tbl.u, tbl)
-
+	tbl.Talents = GetItemTalents(tbl)
+	
     net.WriteTable(tbl)
     net.Send(pl)
 end
