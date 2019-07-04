@@ -2,8 +2,7 @@ print("talents loaded")
 
 local plyMeta = FindMetaTable('Player')
 
-function m_ApplyTalentsToWeapon(weapontbl, talent_tbl)
-    local wep = weapontbl
+function m_ApplyTalentsToWeapon(wep, talent_tbl)
     local talent_enum = talent_tbl.e
     local talent_mods = talent_tbl.m or {}
     local talent_servertbl = m_GetTalentFromEnumWithFunctions(talent_enum)
@@ -11,14 +10,26 @@ function m_ApplyTalentsToWeapon(weapontbl, talent_tbl)
     if (talent_servertbl.ModifyWeapon) then
         talent_servertbl:ModifyWeapon(wep, talent_mods)
     end
+
+	if (talent_servertbl.SuppressBullet) then
+		if (not wep.SuppressBullet) then
+			wep.SuppressBullet = {c = 0}
+		end
+
+		if (not wep.Modifications) then
+			wep.Modifications = {}
+		end
+
+		wep.SuppressBullet.c = wep.SuppressBullet.c + 1
+		wep.SuppressBullet[wep.SuppressBullet.c] = talent_servertbl
+		wep.Modifications[wep.SuppressBullet.c] = talent_mods
+	end
 end
 
-function m_ApplyTalentMods(weapontbl, loadout_table)
-    local wep = weapontbl
-    local itemtbl = table.Copy(loadout_table)
+function m_ApplyTalentMods(wep, loadout_table)
     local weapon_lvl = wep.level
 
-    for k, v in ipairs(wep.Talents) do
+    for k, v in ipairs(loadout_table.t) do
         if (weapon_lvl >= v.l) then
             m_ApplyTalentsToWeapon(wep, v)
         end
@@ -237,18 +248,30 @@ function m_ApplyTalentsToWeaponOnFire(attacker, weapon_tbl, dmginfo, talent_tbl)
     end
 end
 
-hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
-    if (not ent:IsValid() or not ent:IsPlayer()) then return end
-    local weapon_tbl = ent:GetActiveWeapon()
-    if (not weapon_tbl.Talents) then return end
-    local weapon_lvl = weapon_tbl.level
+-- hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
+-- 	if (not IsValid(ent) or not ent:IsPlayer()) then
+-- 		return
+-- 	end
+	
+-- 	local wpn = ent:GetActiveWeapon()
+--     if (IsValid(wpn) and wpn.Talents) then
+-- 		for k, v in ipairs(wpn.Talents) do
+-- 			if (wpn.level >= v.l) then
+-- 				m_GetTalentFromEnumWithFunctions(talent_enum)
+-- 			end
+-- 		end
 
-    for k, v in ipairs(weapon_tbl.Talents) do
-        if (weapon_lvl >= v.l) then
-			m_ApplyTalentsToWeaponOnFire(ent, weapon_tbl, dmginfo, v)
-        end
-    end
-end)
+-- 		return
+-- 	end
+
+--     local weapon_lvl = weapon_tbl.level
+
+--     for k, v in ipairs(weapon_tbl.Talents) do
+--         if (weapon_lvl >= v.l) then
+-- 			m_ApplyTalentsToWeaponOnFire(ent, weapon_tbl, dmginfo, v)
+--         end
+--     end
+-- end)
 
 local function m_CalculateLevel(cur_lvl, cur_exp, exp_to_add)
     local new_level, new_xp = cur_lvl, cur_exp

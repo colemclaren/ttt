@@ -322,6 +322,24 @@ if CLIENT then
    end
 end
 
+function SWEP:ShouldSuppressBullet(bullet)
+	local funcs, mods = self.SuppressBullet, self.Modifications
+	if (funcs ~= nil and mods ~= nil) then
+		local i = 0
+		::shootbullet::
+		i = i + 1
+		local func, mod = funcs[i], mods[i]
+
+		if (func ~= nil and mod ~= nil and func.SuppressBullet ~= nil) then
+			local Suppress = func.SuppressBullet(func, self.Owner, self, bullet, mod)
+			if (Suppress ~= nil) then return Suppress end
+			goto shootbullet
+		end
+	end
+
+	return false
+end
+
 function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
     if (self.Primary.ReverseShotsDamage) then
         dmg, numbul = numbul, dmg
@@ -413,7 +431,12 @@ function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
             randn = randn + 2
             local rspr = aimang:Right() * x + aimang:Up() * y
             bullet.Dir = aimvec + rspr + bulspread.x * mult.x * aimang:Right() + bulspread.y * mult.y * aimang:Up()
-            self.Owner:FireBullets(bullet)
+
+			if (self:ShouldSuppressBullet(bullet)) then
+				print("Supressing Bullet @ " .. CurTime())
+			else
+				self.Owner:FireBullets(bullet)
+			end
         end
     else
         local bullet = {}
@@ -436,7 +459,11 @@ function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
 			end
 		end
 
-        self.Owner:FireBullets(bullet)
+		if (self:ShouldSuppressBullet(bullet)) then
+			print("Supressing Bullet @ " .. CurTime())
+		else
+			self.Owner:FireBullets(bullet)
+		end
     end
 
     -- Owner can die after firebullets
@@ -684,6 +711,31 @@ end
 function SWEP:DrawWeaponSelection() end
 
 function SWEP:Deploy()
+	-- if (CLIENT) then
+	-- 	local vm = self.Owner:GetViewModel()
+	-- 	if (IsValid(vm)) then
+	-- 		if (not self.ItemStats) then self.ItemStats = {} end
+	-- 		self.ItemStats.p = self["GetTintID"] and self:GetTintID() or self.ItemStats.p or -1
+	-- 		self.ItemStats.p2 = self["GetPaintID"] and self:GetPaintID() or self.ItemStats.p2 or -1
+	-- 		self.ItemStats.p3 = self["GetSkinID"] and self:GetSkinID() or self.ItemStats.p3 or -1
+
+	-- 		local ppp = "_p1"..(self.ItemStats.p or "").."_p2"..(self.ItemStats.p2 or "").."_p3"..(self.ItemStats.p3 or "")
+	-- 		local key = self:GetWeaponViewModel()..ppp
+
+	-- 		//MOAT_LOADOUT.SetupPaint(self, vm)
+	-- 		if (MOAT_LOADOUT.SetupPaint(self, vm)) then
+	-- 			MOAT_LOADOUT.ResetMaterials(self, vm, nil, key, self:GetWeaponViewModel())
+	-- 		end
+	-- 	end
+	-- end
+
+	if (CLIENT) then
+		local vm = self.Owner:GetViewModel()
+		if (IsValid(vm) and MOAT_LOADOUT.SetupPaint(self, vm)) then
+			MOAT_LOADOUT.ResetMaterials(self, vm, nil, self:GetWeaponViewModel(), self:GetWeaponViewModel())
+		end
+	end
+
   	self:SetIronsights(false)
 	self.ActiveDelay = 0
 	self:SetReloading(false)
@@ -1182,7 +1234,7 @@ function SWEP:SetupDataTables()
 				net.Broadcast()
 			end
 			if (var.Callback) then
-				var:Callback(self)
+				var:Callback(self, self)
 			end
 		end
 
@@ -1202,7 +1254,7 @@ function SWEP:SetupDataTables()
 		local Stat = StatNames[id]
 		if (Stat.Callback) then
 			local Stat = StatNames[id]
-			Stat:Callback(self)
+			Stat:Callback(self, self)
 		end
 	end
 end

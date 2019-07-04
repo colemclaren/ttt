@@ -1,14 +1,14 @@
 require "mysqloo"
-if (not moat.c or not moat.c.sql) then return end
+if (not moat.cfg or not moat.cfg.sql) then return end
 
 moat.sql = moat.sql or {}
 if (not moat.sql.db) then
 	moat.sql.db = mysqloo.connect(
-		moat.c.sql.host,
-		moat.c.sql.username,
-		moat.c.sql.password,
-		moat.c.sql.database,
-		moat.c.sql.port
+		moat.cfg.sql.host,
+		moat.cfg.sql.username,
+		moat.cfg.sql.password,
+		moat.cfg.sql.database,
+		moat.cfg.sql.port
 	)
 end
 

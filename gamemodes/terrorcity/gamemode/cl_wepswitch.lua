@@ -146,7 +146,7 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
       spec.font  = "TimeLeftSmall"
    end
    spec.text  = name
-   if ( wep.ItemStats ) then
+   if ( wep.ItemStats and wep.ItemStats.item and (wep.ItemStats.item.NameColor or wep.ItemStats.item.Rarity) ) then
       spec.color =  wep.ItemStats.item.NameColor or rarity_names[ wep.ItemStats.item.Rarity][2]:Copy()
    end
    spec.pos[1] = x + 10 + height

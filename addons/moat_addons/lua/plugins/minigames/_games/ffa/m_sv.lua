@@ -207,11 +207,7 @@ function MG_FFA.GiveWeapon(ply,v)
         net.WriteBool(true)
         
         if (v.t) then
-            v.Talents = {}
-
-            for k5, v5 in ipairs(v.t) do
-                v.Talents[k5] = m_GetTalentFromEnum(v5.e)
-            end
+            v.Talents = GetItemTalents(v)
         end
 		table.removeFunctions(v)
 

@@ -374,12 +374,8 @@ function MG_TDM.GiveWeapon(ply,v)
     if not ply.TDM_Cache[v.w] then
 		net.WriteBool(true)
 
-        if (v.t) then
-            v.Talents = {}
-
-            for k5, v5 in ipairs(v.t) do
-                v.Talents[k5] = m_GetTalentFromEnum(v5.e)
-            end
+		if (v.t) then
+            v.Talents = GetItemTalents(v)
         end
 		table.removeFunctions(v)
 

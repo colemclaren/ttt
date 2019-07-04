@@ -529,15 +529,8 @@ function m_SendInventoryToPlayer(ply)
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString("l" .. i)
                 local tbl = table.Copy(ply_inv["l_slot" .. i])
-                tbl.item = m_GetItemFromEnum(tbl.u)
-
-                if (tbl.t) then
-                    tbl.Talents = {}
-
-                    for k, v in ipairs(tbl.t) do
-                        tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-                    end
-                end
+                tbl.item = m_GetItemFromEnum(tbl.u, tbl)
+				tbl.Talents = GetItemTalents(tbl)
 
                 net.WriteTable(tbl)
                 net.Send(ply)
@@ -551,15 +544,8 @@ function m_SendInventoryToPlayer(ply)
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
                 local tbl = table.Copy(ply_inv["slot" .. i])
-                tbl.item = m_GetItemFromEnum(tbl.u)
-
-                if (tbl.t) then
-                    tbl.Talents = {}
-
-                    for k, v in ipairs(tbl.t) do
-                        tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-                    end
-                end
+                tbl.item = m_GetItemFromEnum(tbl.u, tbl)
+				tbl.Talents = GetItemTalents(tbl)
 
                 net.WriteTable(tbl)
                 net.Send(ply)
@@ -594,15 +580,8 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString("l" .. i)
                 local tbl = table.Copy(ply_inv["l_slot" .. i])
-                tbl.item = m_GetItemFromEnum(tbl.u)
-
-                if (tbl.t) then
-                    tbl.Talents = {}
-
-                    for k, v in ipairs(tbl.t) do
-                        tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-                    end
-                end
+                tbl.item = m_GetItemFromEnum(tbl.u, tbl)
+				tbl.Talents = GetItemTalents(tbl)
 
                 net.WriteTable(tbl)
                 net.Send(ply)
@@ -616,15 +595,8 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
                 local tbl = table.Copy(ply_inv["slot" .. i])
-                tbl.item = m_GetItemFromEnum(tbl.u)
-
-                if (tbl.t) then
-                    tbl.Talents = {}
-
-                    for k, v in ipairs(tbl.t) do
-                        tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-                    end
-                end
+                tbl.item = m_GetItemFromEnum(tbl.u, tbl)
+				tbl.Talents = GetItemTalents(tbl)
 
                 net.WriteTable(tbl)
                 net.Send(ply)

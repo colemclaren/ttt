@@ -19,14 +19,7 @@ function MOAT_TRADE_LOGS.CreateLog(tradetbl, my_steamid, my_nick, their_steamid,
         if not v.c then continue end
         local tbl2 = v
         tbl2.item = m_GetItemFromEnum(tbl2.u)
-
-        if (tbl2.t) then
-            tbl2.Talents = {}
-
-            for k, v in ipairs(tbl2.t) do
-                tbl2.Talents[k] = m_GetTalentFromEnum(v.e)
-            end
-        end
+		tbl2.Talents = GetItemTalents(tbl2)
 
         log = log .. "    ITEM #" .. i .. ":\n    " .. (moat_GetItemStats(tbl2, ""):gsub("`", ""):gsub("*", ""):gsub("\n", "\n    ") or "Unknown Item, ID: " .. v.u) .. "\n\n"
         i = i + 1
@@ -46,15 +39,7 @@ function MOAT_TRADE_LOGS.CreateLog(tradetbl, my_steamid, my_nick, their_steamid,
         if not v.c then continue end
         local tbl2 = v
         tbl2.item = m_GetItemFromEnum(tbl2.u)
-
-        if (tbl2.t) then
-            tbl2.Talents = {}
-
-            for k, v in ipairs(tbl2.t) do
-                tbl2.Talents[k] = m_GetTalentFromEnum(v.e)
-            end
-        end
-
+		tbl2.Talents = GetItemTalents(tbl2)
         log = log .. "    ITEM #" .. i .. ":\n    " .. (moat_GetItemStats(tbl2, ""):gsub("`", ""):gsub("*", ""):gsub("\n", "\n    ") or "Unknown Item, ID: " .. v.u) .. "\n\n"
         i = i + 1
     end

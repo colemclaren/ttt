@@ -509,11 +509,8 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 		end
 
 		function m:PreDrawModel(e)
-			PrePaintViewModel(e, paint_id3)
-        end
-
-        function m:PostDrawModel(e)
-			PostPaintViewModel(e, paint_id3)
+			e.ItemStats = {p3 = paint_id3, p2 = -1, p = -1}
+			MOAT_LOADOUT.SetupPaint(e, {ItemStats = {p3 = paint_id3, p2 = -1, p = -1}}, paint_id3)
         end
 	end
 end

@@ -105,12 +105,8 @@ hook.Add("TTTWeaponCreated", "moat_ApplyRandom", function(e)
         e:SetTintID(numcol)
         
 
-        if (loadout_tbl.t) then
-            loadout_tbl.Talents = {}
-
-            for k5, v5 in ipairs(loadout_tbl.t) do
-                loadout_tbl.Talents[k5] = m_GetTalentFromEnum(v5.e)
-            end
+		if (loadout_tbl.t) then
+            loadout_tbl.Talents = GetItemTalents(loadout_tbl)
         end
 
         net.Start "MOAT_UPDATE_WEP"

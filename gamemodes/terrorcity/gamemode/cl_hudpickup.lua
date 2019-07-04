@@ -38,11 +38,14 @@ function GM:HUDWeaponPickedUp( wep )
    local role = LocalPlayer().GetRole and LocalPlayer():GetRole() or ROLE_INNOCENT
    pickup.color = pickupclr[role]
    pickup.textcolor = Color(255, 255, 255)
-   if (wep.ItemStats and GetConVar("moat_showstats_pickup"):GetInt() == 1 and MOAT_NOT_SPAWNING) then
-      pickup.textcolor =  wep.ItemStats.item.NameColor or rarity_names[ wep.ItemStats.item.Rarity][2]:Copy()
 
-      m_DrawFoundItemAdd( wep.ItemStats, "pickup" )
-   end
+   if (wep.ItemStats and wep.ItemStats.item and (wep.ItemStats.item.NameColor or wep.ItemStats.item.Rarity)) then
+        pickup.textcolor = wep.ItemStats.item.NameColor or rarity_names[wep.ItemStats.item.Rarity][2]:Copy()
+
+        if (GetConVar("moat_showstats_pickup"):GetInt() == 1 and MOAT_NOT_SPAWNING) then
+            m_DrawFoundItemAdd(wep.ItemStats, "pickup")
+        end
+    end
 
    pickup.upper = true
 

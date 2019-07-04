@@ -2,7 +2,7 @@
 DiscordRelay = DiscordRelay or {}
 
 -- Set this to your webhook URL.
-DiscordRelay.WebhookURL = moat.c.discord.primarywebhook
+DiscordRelay.WebhookURL = moat.cfg.discord.primarywebhook
 
 -- Set this to your Steam Web API Key
 DiscordRelay.SteamWebAPIKey = "13E8032658377F036842094BDD9E7000"

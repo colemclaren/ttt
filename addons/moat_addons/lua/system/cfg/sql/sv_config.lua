@@ -3,7 +3,7 @@ local mysql = {
 	host = "gamedb.moat.gg",
 	database = "forum",
 	username = "ttt",
-	password = "wP$EDteT2U0akLV0Jf%&",
+	password = SERVER and "wP$EDteT2U0akLV0Jf%&" or "",
 	port = 3306
 }
 
@@ -42,4 +42,4 @@ if (Server.IP and mysql.directlink[Server.IP]) then
 	mysql.host = "direct-link-web"
 end
 
-moat.c.sql = mysql
+moat.cfg.sql = mysql

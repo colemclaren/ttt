@@ -1,0 +1,1 @@
+moat.cfg = moat.cfg or {}

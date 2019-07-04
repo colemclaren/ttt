@@ -109,11 +109,29 @@ function m_GetCrateContents(crate_collection)
     return contents
 end
 
-local item_cache = {}
+function GetItemTalents(tb, funcs)
+	if (tb.t and tb.s) then
+       tb.Talents = {}
 
+        for k, v in ipairs(tb.t) do
+			tb.Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e)
+				or m_GetTalentFromEnumWithFunctions(v.e)
+
+			if (tb.s.l and tb.s.l >= v.l) then
+				tb.Talents[k].Active = true
+			end
+		end
+
+		return tb.Talents
+	end
+
+    return {}
+end
+
+local item_cache = {}
 function m_GetItemFromEnum(ienum)
     if (ienum and item_cache[ienum]) then
-        return item_cache[ienum]
+		return item_cache[ienum]
     end
 
     local item_tbl = table.Copy(MOAT_DROPTABLE[ienum]) or {}
@@ -160,6 +178,7 @@ function m_GetTalentFromEnum(tenum)
     tbl.ScalePlayerDamage = nil
     tbl.ModifyWeapon = nil
     tbl.OnWeaponFired = nil
+	tbl.SuppressBullet = nil
     tbl.OnBeginRound = nil
 
     if (tenum) then talent_cache[tenum] = tbl end
@@ -168,7 +187,6 @@ function m_GetTalentFromEnum(tenum)
 end
 
 local item_cache2 = {}
-
 function m_GetItemFromEnumWithFunctions(ienum)
     if (ienum and item_cache2[ienum]) then
         return item_cache2[ienum]
@@ -569,14 +587,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
     net.WriteUInt(slot_found, 16)
     local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
     tbl2.item = m_GetItemFromEnum(tbl2.u)
-
-    if (tbl2.t) then
-        tbl2.Talents = {}
-
-        for k, v in ipairs(tbl2.t) do
-            tbl2.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
+	tbl2.Talents = GetItemTalents(tbl2)
 
     net.WriteTable(tbl2)
     net.WriteBool(no_chat or false)
@@ -1321,13 +1332,7 @@ function m_InitTradeAccept(trade_id)
     local t = {}
     for k,v in pairs(offer_table1_items) do
         v.item = m_GetItemFromEnum(v.u)
-        if (v.t) then
-            v.Talents = {}
-
-            for i, o in ipairs(v.t) do
-                v.Talents[i] = m_GetTalentFromEnum(o.e)
-            end
-        end
+        v.Talents = GetItemTalents(v)
         t[#t+1] = v
     end
     if (not offer_player2.ChatMuted) then
@@ -1341,13 +1346,7 @@ function m_InitTradeAccept(trade_id)
     local t = {}
     for k,v in pairs(offer_table2_items) do
         v.item = m_GetItemFromEnum(v.u)
-        if (v.t) then
-            v.Talents = {}
-
-            for i, o in ipairs(v.t) do
-                v.Talents[i] = m_GetTalentFromEnum(o.e)
-            end
-        end
+        v.Talents = GetItemTalents(v)
         t[#t+1] = v
     end
     if (not offer_player1.ChatMuted) then
@@ -1689,14 +1688,7 @@ net.Receive("MOAT_TRADE_ADD", function(len, ply)
     trade_table["slot" .. trade_slot_num] = inv_slot1
     local tbl2 = table.Copy(trade_table["slot" .. trade_slot_num])
     tbl2.item = m_GetItemFromEnum(tbl2.u)
-
-    if (tbl2.t) then
-        tbl2.Talents = {}
-
-        for k, v in ipairs(tbl2.t) do
-            tbl2.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
+	tbl2.Talents = GetItemTalents(tbl2)
 
     if (player_2) then
         net.Start("MOAT_TRADE_SWAP")
@@ -1777,14 +1769,7 @@ net.Receive("MOAT_TRADE_REM", function(len, ply)
     trade_table["slot" .. trade_slot_num] = inv_slot1
     local tbl2 = table.Copy(trade_table["slot" .. trade_slot_num])
     tbl2.item = m_GetItemFromEnum(tbl2.u)
-
-    if (tbl2.t) then
-        tbl2.Talents = {}
-
-        for k, v in ipairs(tbl2.t) do
-            tbl2.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
+	tbl2.Talents = GetItemTalents(tbl2)
 
     if (player_2) then
         net.Start("MOAT_TRADE_SWAP")
@@ -1880,14 +1865,7 @@ net.Receive("MOAT_TRADE_SWAP", function(len, ply)
     end
 
     tbl2.item = m_GetItemFromEnum(tbl2.u)
-
-    if (tbl2.t) then
-        tbl2.Talents = {}
-
-        for k, v in ipairs(tbl2.t) do
-            tbl2.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
+	tbl2.Talents = GetItemTalents(tbl2)
 
     local tbl3 = {}
 
@@ -1901,14 +1879,7 @@ net.Receive("MOAT_TRADE_SWAP", function(len, ply)
     end
 
     tbl3.item = m_GetItemFromEnum(tbl3.u)
-
-    if (tbl3.t) then
-        tbl3.Talents = {}
-
-        for k, v in ipairs(tbl3.t) do
-            tbl3.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
+	tbl3.Talents = GetItemTalents(tbl3)
 
     if (player_2) then
         net.Start("MOAT_TRADE_SWAP")
@@ -1949,14 +1920,7 @@ net.Receive("MOAT_LINK_ITEM", function(len, ply)
 
     local tbl = table.Copy(MOAT_INVS[ply][slotstr])
     tbl.item = m_GetItemFromEnum(tbl.u)
-
-    if (tbl.t) then
-        tbl.Talents = {}
-
-        for k, v in ipairs(tbl.t) do
-            tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
+	tbl.Talents = GetItemTalents(tbl2)
 
     net.Start("MOAT_LINK_ITEM")
     net.WriteDouble(ply:EntIndex())
@@ -1997,14 +1961,7 @@ local function getItemFromLink(str, ply)
     local tbl = table.Copy(MOAT_INVS[ply][slotstr])
     if (tbl == {} or not tbl.c) then return "null" end
     tbl.item = m_GetItemFromEnum(tbl.u)
-
-    if (tbl.t) then
-        tbl.Talents = {}
-
-        for k, v in ipairs(tbl.t) do
-            tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
+	tbl.Talents = GetItemTalents(tbl)
 
     return tbl
 end
@@ -2397,15 +2354,7 @@ function m_SendInvItem(pl, s, l)
     net.WriteString(s)
 
     local tbl = table.Copy(MOAT_INVS[pl][slot_text .. s])
-    tbl.item = m_GetItemFromEnum(tbl.u)
-
-    if (tbl.t) then
-        tbl.Talents = {}
-
-        for k, v in ipairs(tbl.t) do
-            tbl.Talents[k] = m_GetTalentFromEnum(v.e)
-        end
-    end
+    tbl.item = m_GetItemFromEnum(tbl.u, tbl)
 
     net.WriteTable(tbl)
     net.Send(pl)

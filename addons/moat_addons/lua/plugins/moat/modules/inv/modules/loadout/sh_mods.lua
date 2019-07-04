@@ -1,4 +1,4 @@
-MODS = {
+MODS = MODS or {
     Accessors = {}
 }
 
@@ -93,37 +93,35 @@ Accessor("m", "Magazine", "Double", function(self, wep)
     wep.Primary.ClipMax = wep.Primary.ClipSize * 3
 end)
 
-local function UpdateCosmetics(self, wep)
-    if (SERVER) then
-        return
-    end
+function MODS.UpdateCosmetics(self, wep)
+	if (not wep.ItemStats) then
+		wep.ItemStats = {}
+	end
 
-    if (MOAT_PAINT.Skins[wep:GetSkinID()]) then
-        MOAT_LOADOUT.ApplySkin(wep, wep:GetSkinID())
-        has_look = true
-    end
-    if (MOAT_PAINT.Paints[wep:GetPaintID()]) then
-        MOAT_LOADOUT.ApplyPaint(wep, wep:GetPaintID())
-        has_look = true
-    elseif (MOAT_PAINT.Tints[wep:GetTintID()] or wep:GetPaintID() == -2 and wep:GetTintID() ~= -1) then
-        MOAT_LOADOUT.ApplyTint(wep, wep:GetTintID())
-        has_look = true
-    end
+	local has_look = false
+    if (MOAT_PAINT and MOAT_PAINT.Skins[wep:GetSkinID()]) then
+		wep.ItemStats.p3 = wep:GetSkinID()
+		has_look = true
+	end
 
-    if (has_look) then
-        function wep:PreDrawViewModel(vm, wpn, pl)
-            PrePaintViewModel(wpn)
-        end
+	if (MOAT_PAINT and MOAT_PAINT.Paints[wep:GetPaintID()]) then
+		wep.ItemStats.p2 = wep:GetPaintID()
+		has_look = true
+	end
 
-        function wep:PostDrawViewModel(vm, wpn, pl)
-            PostPaintViewModel(wpn)
-        end
-    end
+	if (MOAT_PAINT and MOAT_PAINT.Tints[wep:GetTintID()] or wep:GetPaintID() == -2 and wep:GetTintID() ~= -1) then
+		wep.ItemStats.p = wep:GetTintID()
+		has_look = true
+	end
+
+    if (has_look and CLIENT) then
+		MOAT_LOADOUT.DrawWorldModel(wep)
+	end
 end
 
-Accessor("p0", "PaintID", "Int", UpdateCosmetics, -1)
-Accessor("p1", "TintID", "Int", UpdateCosmetics, -1)
-Accessor("p2", "SkinID", "Int", UpdateCosmetics, -1)
+Accessor("p0", "PaintID", "Int", MODS.UpdateCosmetics, -1)
+Accessor("p1", "TintID", "Int", MODS.UpdateCosmetics, -1)
+Accessor("p2", "SkinID", "Int", MODS.UpdateCosmetics, -1)
 Accessor("n", "RealPrintName", "String", function(self, wep)
     wep.ItemName = wep:GetRealPrintName()
     wep.PrintName = wep.ItemName

@@ -78,15 +78,7 @@ function MOAT_LOADOUT.GetLoadout(ply)
             tbl[i] = {}
             continue
         else
-            tbl[i].item = m_GetItemFromEnumWithFunctions(tbl[i].u)
-
-            if (tbl[i].t) then
-                tbl[i].Talents = {}
-
-                for k, v in ipairs(tbl[i].t) do
-                    tbl[i].Talents[k] = m_GetTalentFromEnumWithFunctions(v.e)
-                end
-            end
+            tbl[i].item = m_GetItemFromEnumWithFunctions(tbl[i].u, tbl[i])
 
             if (tbl[i] and tbl[i].item and (tbl[i].item.Kind == "Other" or tbl[i].item.Kind == "Unique")) then
                 if (tbl[i].item.WeaponClass) then
@@ -423,11 +415,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             net.WriteUInt(v3:EntIndex(), 16)
 
             if (v.t) then
-                v.Talents = {}
-
-                for k5, v5 in ipairs(v.t) do
-                    v.Talents[k5] = m_GetTalentFromEnum(v5.e)
-                end
+                v.Talents = GetItemTalents(v)
             end
 
             net.WriteTable(v or {})

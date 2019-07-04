@@ -209,19 +209,7 @@ function string_table.Extra(str, extra, split)
 end
 
 function string_table.Create(...)
-	local args, str = mlib.Args(...), ""
-	if (args.n <= 0) then return str end
-
-	for i = 1, args.n do
-		if (isfunction(args[i])) then
-			local val = args[i](str)
-			str = val and (str .. to_str(val)) or str
-		else
-			str = str .. to_str(args[i])
-		end
-	end
-
-	return str
+	return table.concat({...}, "")
 end
 
 
