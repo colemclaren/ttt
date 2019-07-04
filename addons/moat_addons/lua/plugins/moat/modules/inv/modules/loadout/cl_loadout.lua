@@ -225,7 +225,6 @@ local cache = {}
 function SkipMaterialCover(matstr)
 	if (cache[matstr] == nil) then
 		for k, v in ipairs(SKIN_SKIP) do
-			print(matstr, v, string.find(matstr, v))
 			if (string.find(matstr, v)) then
 				cache[matstr] = true
 			end
@@ -277,7 +276,11 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 			end
 		end
 
-		local default = mat_names[type(wpn.cache[key].mats[i].base)] and wpn.cache[key].mats[i].base:GetName() or wpn.cache[key].mats[i].base
+		local default = wpn.cache[key].mats[i].base
+		if (type(default) ~= "string") then
+			default = default:GetName()
+		end
+	
 		local mat_skin = "skin_"..key.."_"..(wpn.cache[key].t and wpn.cache[key].t[2] or default).." @ "..wpn.cache[key].m[i]
 
 		if (wpn.cache[key].mats[i].skip == nil and not SKIN_PASS[wpn.cache[key].m[i]]) then

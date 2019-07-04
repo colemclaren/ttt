@@ -110,22 +110,22 @@ function m_GetCrateContents(crate_collection)
 end
 
 function GetItemTalents(tb, funcs)
-	if (tb.t and tb.s) then
-       tb.Talents = {}
+	local Talents = {}
 
-        for k, v in ipairs(tb.t) do
-			tb.Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e)
-				or m_GetTalentFromEnumWithFunctions(v.e)
-
-			if (tb.s.l and tb.s.l >= v.l) then
-				tb.Talents[k].Active = true
-			end
-		end
-
-		return tb.Talents
+	if (not tb.t) then
+		return Talents
 	end
 
-    return {}
+    for k, v in ipairs(tb.t) do
+		Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e)
+			or m_GetTalentFromEnumWithFunctions(v.e)
+
+		if (tb.s.l and tb.s.l >= v.l) then
+			Talents[k].Active = true
+		end
+	end
+
+    return Talents
 end
 
 local item_cache = {}
