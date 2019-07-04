@@ -1263,7 +1263,7 @@ function MOAT_LOADOUT.UpdateWep()
 	end]]
 
 	local name = "moat_StatRefresh" .. wep_index
-	timer.Create(name, 0.01, 0, function()
+	timer.Create(name, 0.02, 0, function()
 		local wep = Entity(wep_index)
 
 		if (not IsValid(wep)) then
