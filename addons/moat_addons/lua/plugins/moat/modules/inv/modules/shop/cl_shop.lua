@@ -405,7 +405,7 @@ function m_PopulateShop(pnl)
 
 			if (s.Sweet and s.Qty <= 1) then
 			 	surface.SetFont("moat_ItemDesc")
-       			local price_width, price_height = surface.GetTextSize("Level Reward")
+       			local price_width = surface.GetTextSize("Level Reward")
 
 				m_DrawShadowedText(1, "Level Reward", "moat_ItemDesc", (w / 2), h - 85, Color(255, 255, 255,255), TEXT_ALIGN_CENTER)
 
