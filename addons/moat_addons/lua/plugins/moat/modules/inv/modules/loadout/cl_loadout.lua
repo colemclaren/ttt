@@ -244,6 +244,10 @@ local mat_names = {
 }
 
 function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
+	if (not wpn.cache or not wpn.cache[key]) then
+		return
+	end
+
 	if (not wpn.cache[key].m) then
 		local mats = mats_cache[wpn_mdl]
 		if (mats) then
@@ -392,6 +396,8 @@ function MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
 			vm:SetSubMaterial()
 		end
 	end
+
+	MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 end
 
 function MOAT_LOADOUT.SetupPaint(wpn, vm, preview)
@@ -423,7 +429,7 @@ function MOAT_LOADOUT.SetupPaint(wpn, vm, preview)
 
 	if (wpn:IsWeapon() and wpn:IsCarriedByLocalPlayer() and wpn_mdl ~= wpn:GetWeaponViewModel()) then
 		if (wpn.cache and wpn.cache[key]) then
-			MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
+			--MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
 		end
 
 		return true
@@ -461,12 +467,8 @@ function MOAT_LOADOUT.SetupPaint(wpn, vm, preview)
 	if ((not wpn.cache[key].t or wpn.cache[key].t ~= wpn.ItemStats.p3)) then
 		wpn.cache[key].t = wpn.ItemStats.p3
 		MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
-		MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
-		MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 	elseif (wpn.cache[key].t) then
 		MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
-		MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
-		MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 	end
 
 	wpn.Dream = wpn.cache[key].dream
