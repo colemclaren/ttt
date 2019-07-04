@@ -136,7 +136,7 @@ hook.Add("TTTEndRound", "moat_ApplyLevelChanges", function()
     end
 end)
 
-local XP_MULTIPLYER = 4
+local XP_MULTIPLYER = 2
 local TRAITOR_KILL_DETECTIVE = 100 * XP_MULTIPLYER
 local TRAITOR_KILL_INNOCENT = 50 * XP_MULTIPLYER
 local DETECTIVE_KILL_TRAITOR = 100 * XP_MULTIPLYER
