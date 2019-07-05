@@ -273,8 +273,7 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 		end
 
 		if (not wpn.cache[key].mats[i].base) then
-			print(wpn, wpn.cache[key].m[i])
-			local material = Material(wpn.cache[key].m[i])
+			local material = RealMaterial(wpn.cache[key].m[i])
 			if (material and not material:IsError()) then
 				wpn.cache[key].mats[i].base = material:GetTexture "$basetexture"
 			else
@@ -383,6 +382,7 @@ end
 
 function MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
 	if (IsValid(vm) and ((MOAT_LOADOUT.vm_cache and MOAT_LOADOUT.vm_cache ~= key) or not MOAT_LOADOUT.vm_cache)) then
+		MOAT_LOADOUT.vm_cache = key
 		if (wpn.cache and wpn.cache[key] and wpn.cache[key].n) then
 			for i = 1, wpn.cache[key].n do
 				if (wpn.cache[key].mats[i]) then 
@@ -400,7 +400,6 @@ function MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
 		end
 	end
 
-	MOAT_LOADOUT.vm_cache = key
 	MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 end
 
