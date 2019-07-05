@@ -80,7 +80,7 @@ function ENT:ControllerControls()
     if (not phy) then return end
     
     if (controller:KeyDown(IN_FORWARD)) then
-    	phy:SetVelocity(phy:GetVelocity() + self.EyeAnglesLerp:Forward() * (300 * velocity_speed))
+    	phy:SetVelocity(phy:GetVelocity() + self.EyeAnglesLerp:Forward() * (600 * velocity_speed))
     	self:SetAngles(self.EyeAnglesLerp)
     end
 
@@ -89,19 +89,19 @@ function ENT:ControllerControls()
     end
 
     if (controller:KeyDown(IN_MOVELEFT)) then
-    	phy:AddVelocity(self:GetRight() * (-150 * velocity_speed))
+    	phy:AddVelocity(self:GetRight() * (-200 * velocity_speed))
     end
 
     if (controller:KeyDown(IN_MOVERIGHT)) then
-    	phy:AddVelocity(self:GetRight() * (150 * velocity_speed))
+    	phy:AddVelocity(self:GetRight() * (200 * velocity_speed))
     end
 
     if (controller:KeyDown(IN_JUMP)) then
-    	phy:AddVelocity(Angle(0, 90, 0):Up() * (200 * velocity_speed))
+    	phy:AddVelocity(Angle(0, 90, 0):Up() * (300 * velocity_speed))
     end
 
     if (controller:KeyDown(IN_DUCK)) then
-    	phy:AddVelocity(Angle(0, 90, 0):Up() * -(200 * velocity_speed))
+    	phy:AddVelocity(Angle(0, 90, 0):Up() * -(300 * velocity_speed))
     end
 
     if (controller:KeyDown(IN_ATTACK)) then
