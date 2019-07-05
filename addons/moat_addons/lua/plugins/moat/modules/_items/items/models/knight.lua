@@ -1,11 +1,11 @@
 
 ITEM.ID = 545
 
-ITEM.Name = "Crimson Lance Model"
+ITEM.Name = "Alice Model"
 
-ITEM.Description = "Give me your keys."
+ITEM.Description = "My knight model used to be a planetary yoshi at one point"
 
-ITEM.Model = "models/player/lordvipes/bl_clance/crimsonlanceplayer.mdl"
+ITEM.Model = "models/player/alice.mdl"
 
 ITEM.Rarity = 6
 

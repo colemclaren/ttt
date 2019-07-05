@@ -396,7 +396,7 @@ function SWEP:ShootBullet(dmg, recoil, numbul, conex, coney)
         local aimvec = self.Owner:GetAimVector()
         local mult = Vector(coney, conex)
         local aimang = aimvec:Angle()
-
+	
         if (self.Primary.RealCone) then
             aimvec = aimvec + util.SharedRandom(self:GetClass(), -conex, conex, 0) * aimang:Right()
             aimvec = aimvec + aimang:Up() * util.SharedRandom(self:GetClass(), -coney, coney, 1)
@@ -729,10 +729,10 @@ function SWEP:Deploy()
 	-- 	end
 	-- end
 
-	if (CLIENT and not self.cache) then
+	if (CLIENT) then
 		local vm = self.Owner:GetViewModel()
-		if (IsValid(vm) and MOAT_LOADOUT.SetupPaint(self, vm)) then
-			MOAT_LOADOUT.ResetMaterials(self, vm, nil, self:GetWeaponViewModel(), self:GetWeaponViewModel())
+		if (IsValid(vm)) then
+			--MOAT_LOADOUT.SetupPaint(self, vm)//MOAT_LOADOUT.ResetMaterials(self, vm, nil, self:GetWeaponViewModel(), self:GetWeaponViewModel())
 		end
 	end
 
