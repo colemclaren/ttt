@@ -3,7 +3,7 @@ ITEM.ID = 545
 
 ITEM.Name = "Knight Model"
 
-ITEM.Description = "Fixd"
+ITEM.Description = "Fixed"
 
 ITEM.Model = "models/moat/player/knight_fixed.mdl"
 
