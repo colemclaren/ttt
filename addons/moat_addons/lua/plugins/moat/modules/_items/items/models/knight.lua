@@ -1,11 +1,11 @@
 
 ITEM.ID = 545
 
-ITEM.Name = "Alice Model"
+ITEM.Name = "Knight Model"
 
-ITEM.Description = "My knight model used to be a planetary yoshi at one point"
+ITEM.Description = "Fixd"
 
-ITEM.Model = "models/player/alice.mdl"
+ITEM.Model = "models/moat/player/knight_fixed.mdl"
 
 ITEM.Rarity = 6
 
