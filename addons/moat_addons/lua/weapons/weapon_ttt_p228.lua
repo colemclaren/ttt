@@ -39,9 +39,10 @@ SWEP.data               = {}                --The starting firemode
 SWEP.data.ironsights            = 1
 
 SWEP.Primary.NumShots   = 1     -- How many bullets to shoot per trigger pull
-SWEP.Primary.Damage     = 16    -- Base damage per bullet
+SWEP.Primary.Damage     = 18    -- Base damage per bullet
 SWEP.Primary.Spread     = .030
 SWEP.Primary.IronAccuracy = .015 -- Ironsight accuracy, should be the same for shotguns
+SWEP.Primary.Cone = 0.008
 
 SWEP.DeploySpeed = 1.4
 SWEP.ReloadSpeed = 1
@@ -59,7 +60,7 @@ SWEP.SightsPos = Vector (-2.168,0.1,0.94)
 SWEP.SightsAng = Vector (-0.214,0.197,0)
 SWEP.RunSightsPos = Vector(2.552,-8.948,-5.685) --These are for the angles your viewmodel will be when running
 SWEP.RunSightsAng = Vector(61.358,-6.942,-2.892)    --Again, use the Swep Construction Kit
-SWEP.HeadshotMultiplier = 2.3
+SWEP.HeadshotMultiplier = 2.5
 
 SWEP.WElements = {
     ["sig_p228"] = { type = "Model", model = "models/weapons/w_sig2_p228.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(-0.32, 0.458, 0.321), angle = Angle(-4.157, -6.651, -180), size = Vector(1, 1, 1), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
