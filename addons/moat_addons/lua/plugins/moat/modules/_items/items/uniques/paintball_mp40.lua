@@ -6,10 +6,10 @@ ITEM.WeaponClass = "weapon_ttt_mp40"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
+	Damage = { min = 13, max = 23 },
 	Accuracy = { min = 17, max = 28 },
 	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
+	Firerate = { min = 23, max = 33 },
 	Magazine = { min = 23, max = 33 },
 	Range = { min = 23, max = 33 },
 	Weight = { min = -5, max = -7 },
