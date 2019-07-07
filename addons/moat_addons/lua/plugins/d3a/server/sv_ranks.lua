@@ -25,10 +25,10 @@ function D3A.Ranks.ChangeRank(id, rank, expire, expire_to)
 	expire = expire or "NULL"
 	expire_to = expire_to or "NULL"
 
-	if (rank == "trialstaff") then
-		expire = os.time() + (43200 * 60)
-		expire_to = "moderator"
-	end
+	--- if (rank == "trialstaff") then
+	---		expire = os.time() + (43200 * 60)
+	---		expire_to = "moderator"
+	--- end
 
 	D3A.MySQL.FormatQuery("UPDATE player SET rank = #, rank_changed = UNIX_TIMESTAMP(), rank_expire = #, rank_expire_to = # WHERE steam_id = #;", rank, expire, expire_to, id)
 	D3A.Ranks.IPBGroup(id, rank)
