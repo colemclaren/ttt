@@ -67,7 +67,7 @@ MOAT_MODEL_POS["models/weapons/w_pvp_tom.mdl"] = {1.08, Angle(-10, 25, 15), Vect
 MOAT_MODEL_POS["models/weapons/w_vir_9mm1.mdl"] = {1.4, Angle(-5, 25, 10), Vector(-4, -5, -4)}
 MOAT_MODEL_POS["models/weapons/w_pvp_xm8.mdl"] = {1, Angle(0, 20, 15), Vector(-5, 0, 3)}
 MOAT_MODEL_POS["models/weapons/w_pvp_neslg.mdl"] = {1, Angle(15, -135, 0), Vector(-5, 13, 0)}
-
+MOAT_MODEL_POS["models/weapons/w_smg_mp40w.mdl"] = {1.5, Angle(0, 10, 10), Vector(-18, 0, 1)}
 MOAT_MODEL_POS["models/weapons/b_1911.mdl"] = {2.5, Angle(5, -100, 5), Vector(-6, 0, -4)}
 MOAT_MODEL_POS["models/weapons/b_ak47.mdl"] = {2.2, Angle(10, -105, -5), Vector(-5, 1, 0)}
 MOAT_MODEL_POS["models/weapons/b_m3s90.mdl"] = {1.6, Angle(10, -105, -5), Vector(-15, 1, 0)}
