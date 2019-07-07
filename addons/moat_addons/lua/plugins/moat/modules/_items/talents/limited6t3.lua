@@ -6,7 +6,7 @@ TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "After a kill, you have a %s_^ chance to add a random Tier 3 talent to your gun with its lowest stats possible"
 TALENT.Tier = 3
 -- TALENT.LevelRequired = {min = -5, max = -10}
-TALENT.LevelRequired = {min = 20, max = 30}
+TALENT.LevelRequired = {min = -20, max = -30}
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 40, max = 60}
@@ -48,7 +48,7 @@ function wild_t3(weapon,talent_mods)
 
     table.insert(weapon.Weapon.Talents,t)
     table.insert(weapon.Weapon.ItemStats.t,t)
-    table.insert(weapon.Weapon.ItemStats.Talents,talent)
+    table.insert(weapon.Weapon.ItemStats.item.Talents,talent)
     -- weapon.Weapon.Talents[tier] = t
     -- weapon.Weapon.ItemStats.t[tier] = t
     -- weapon.Weapon.ItemStats.Talents[tier] = talent

@@ -7,7 +7,7 @@ TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "After a kill, you have a %s_^ chance to add a random Tier 1 talent to your gun with its lowest stats possible"
 TALENT.Tier = 1
-TALENT.LevelRequired = {min = 5, max = 10}
+TALENT.LevelRequired = {min = -5, max = -10}
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 40, max = 70}
@@ -50,9 +50,10 @@ function wild_t1(weapon,talent_mods)
 
 
     local function dotalent()
+        print(weapon)
         table.insert(weapon.Weapon.Talents,t)
         table.insert(weapon.Weapon.ItemStats.t,t)
-        table.insert(weapon.Weapon.ItemStats.Talents,talent)
+        table.insert(weapon.Weapon.ItemStats.item.Talents,talent)
 
         if loadout_weapon_indexes[weapon.Weapon:EntIndex()] then
             table.insert(loadout_weapon_indexes[weapon.Weapon:EntIndex()].info.Talents,t)
