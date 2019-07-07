@@ -5,7 +5,7 @@ moat.discord.clientID = "430843529510649897"
 moat.discord.clientSecret = "RGv7dtTRQt0TJAeBuy4GmE6IMH2oM5aQ"
 moat.discord.botToken = "NDMyMjg2MjU3NTMyNjMzMDk5.DarFxg.0BQ-eCKMMHnAXv2iTDMu03wCrQw"
 moat.discord.botClientID = "432286257532633099"
-moat.discord.botClientSecret = "i696pb2jZgFGY5ZhJ_-CkO0qs86BPeb_"
+moat.discord.botClientSecret = "pO-uevwGV8gSonZgsSv5rSTxxZ0xkoeb"
 moat.discord.users = {}
 
 
@@ -62,13 +62,13 @@ function discord_(db)
         }
         HTTP({
             method = "POST",
-            url = "https://discordapp.moat.gg/api/v6/oauth2/token" .. "?" .. http.UrlEncode({
+            url = "https://discordapp.moat.gg/api/v6/oauth2/token?" .. http.UrlEncode({
                 client_id = moat.discord.botClientID,
                 client_secret = moat.discord.botClientSecret,
                 code = oauth,
 				scope ="identify guilds.join",
                 grant_type = "authorization_code",
-                redirect_uri = "http://localhost/"
+                redirect_uri = "http://localhost"
 			}),
 			headers = {
 				['Content-Type'] = 'application/x-www-form-urlencoded'
