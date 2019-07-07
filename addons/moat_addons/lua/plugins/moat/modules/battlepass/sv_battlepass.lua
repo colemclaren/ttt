@@ -322,17 +322,36 @@ function bp_sql()
         q:start()
     end
 
-    function bp_checkstats()
+    local ext = {
+        [1] = "st",
+        [2] = "nd",
+        [3] = "rd"
+    }
+
+    local function extension(num)
+        return ext[num % 10] or "th"
+    end
+
+    function bp_checkstats(lowest_tier)
+        lowest_tier = lowest_tier or 1
         local values = {}
         for _, dev in pairs(Devs) do
             values[#values + 1] = db:escape(dev.SteamID64)
         end
 
-        local q = db:query("SELECT tier + 1 as highest_tier, count(*) as players FROM `moat_battlepass` WHERE steamid NOT IN (" .. table.concat(values, ", ") .. ") group by tier order by highest_tier desc")
+        local q = db:query("SELECT tier, count(*) as players FROM `moat_battlepass` WHERE steamid NOT IN (" .. table.concat(values, ", ") .. ") and tier >= \"" .. db:escape(tostring(lowest_tier)) .. "\" group by tier order by tier desc")
         function q:onSuccess()
             local data = q:getData()
+            local players = 0
+            for _, d in pairs(data) do
+                players = players + d.players
+            end
+
+            local cur = 0
             for _, d in ipairs(data) do
-                print(d.players .. " people currently on tier " .. d.highest_tier)
+                cur = cur + d.players
+                local percentile = math.Round(100 - (cur - 1) / players * 100)
+                print(string.format("Tier %2i - (%3i%s percentile) - %3i player%s", d.tier, percentile, extension(percentile), d.players, d.players == 1 and "" or "s"))
             end
         end
         q:start()
