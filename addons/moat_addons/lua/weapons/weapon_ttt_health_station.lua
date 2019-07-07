@@ -82,6 +82,7 @@ function SWEP:HealthDrop()
          health:Spawn()
 
          health:SetPlacer(ply)
+		 hook.Run("TTTPlacedHealthStation", ply)
 
          health:PhysWake()
          local phys = health:GetPhysicsObject()

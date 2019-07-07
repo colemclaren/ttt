@@ -1425,18 +1425,16 @@ MOAT_BOUNTIES:AddBounty("Body Searcher", {
 	rewardtbl = tier2_rewards
 })
 
-MOAT_BOUNTIES:AddBounty("Health Station Addicted", {
+MOAT_BOUNTIES:AddBounty("Doctor Detective", {
 	tier = 2,
-	desc = "In # map, use a health station to heal # health. Can be completed as any role.",
+	desc = "Place down at least # health stations. Can be completed as a detective only.",
 	vars = {
-		1,
+		math.random(2, 4),
 		math.random(100, 200)
 	},
 	runfunc = function(mods, bountyid, idd)
-		hook.Add("TTTPlayerUsedHealthStation", "moat_health_station_addict", function(ply, ent_station, healed)
-			ply.healthaddict = (ply.healthaddict or 0) + healed
-
-			if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE and ply.healthaddict >= mods[2]) then
+		hook.Add("TTTPlacedHealthStation", "Doctor Detective", function(ply)
+			if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_DETECTIVE) then
 				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
 			end
 		end)
