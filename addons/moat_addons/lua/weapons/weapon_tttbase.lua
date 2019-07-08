@@ -719,24 +719,6 @@ function SWEP:OwnerChanged()
 end
 
 function SWEP:Deploy()
-	-- if (CLIENT) then
-	-- 	local vm = self.Owner:GetViewModel()
-	-- 	if (IsValid(vm)) then
-	-- 		if (not self.ItemStats) then self.ItemStats = {} end
-	-- 		self.ItemStats.p = self["GetTintID"] and self:GetTintID() or self.ItemStats.p or -1
-	-- 		self.ItemStats.p2 = self["GetPaintID"] and self:GetPaintID() or self.ItemStats.p2 or -1
-	-- 		self.ItemStats.p3 = self["GetSkinID"] and self:GetSkinID() or self.ItemStats.p3 or -1
-
-	-- 		local ppp = "_p1"..(self.ItemStats.p or "").."_p2"..(self.ItemStats.p2 or "").."_p3"..(self.ItemStats.p3 or "")
-	-- 		local key = self:GetWeaponViewModel()..ppp
-
-	-- 		//MOAT_LOADOUT.SetupPaint(self, vm)
-	-- 		if (MOAT_LOADOUT.SetupPaint(self, vm)) then
-	-- 			MOAT_LOADOUT.ResetMaterials(self, vm, nil, key, self:GetWeaponViewModel())
-	-- 		end
-	-- 	end
-	-- end
-
 	if (CLIENT) then
 		self.cache = nil
 		self.mats_set = nil
