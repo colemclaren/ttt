@@ -710,6 +710,14 @@ end
 
 function SWEP:DrawWeaponSelection() end
 
+function SWEP:OwnerChanged()
+	if (CLIENT) then
+		self.cache = nil
+		self.mats_set = nil
+		MOAT_LOADOUT.SetupPaint(self)
+	end
+end
+
 function SWEP:Deploy()
 	-- if (CLIENT) then
 	-- 	local vm = self.Owner:GetViewModel()
@@ -729,11 +737,13 @@ function SWEP:Deploy()
 	-- 	end
 	-- end
 
-	if (CLIENT and not self.cache) then
-		local vm = self.Owner:GetViewModel()
-		if (IsValid(vm) and MOAT_LOADOUT.SetupPaint(self, vm)) then
-			MOAT_LOADOUT.ResetMaterials(self, vm, nil, self:GetWeaponViewModel(), self:GetWeaponViewModel())
-		end
+	if (CLIENT) then
+		self.cache = nil
+		self.mats_set = nil
+		MOAT_LOADOUT.SetupPaint(self)
+		self.cache = nil
+		self.mats_set = nil
+		MOAT_LOADOUT.SetupPaint(self, self.Owner:GetViewModel())
 	end
 
   	self:SetIronsights(false)

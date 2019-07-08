@@ -249,6 +249,20 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 		return
 	end
 
+	-- if (wpn.cache[key].n) then
+	-- 	for i = 1, wpn.cache[key].n do
+	-- 		if (wpn.cache[key].mats[i] and wpn.cache[key].mats[i].mat) then
+	-- 			wpn.cache[key].mats[i].mat:GetName()
+
+	-- 			if (wpn:GetSubMaterial(i - 1) ~= wpn.cache[key].mats[i].mat:GetName()) then
+	-- 				wpn:SetSubMaterial(i - 1) ~= wpn.cache[key].mats[i].mat:GetName()
+	-- 			else
+	-- 				wpn:GetSubMaterial(i - 1), "!" .. wpn.cache[key].mats[i].mat:GetName())
+	-- 			end
+	-- 		end
+	-- 	end
+	-- end
+
 	if (not wpn.cache[key].m) then
 		local mats = mats_cache[wpn_mdl]
 		if (mats) then
@@ -294,7 +308,7 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 			if (SKIN_IGNORE[wpn.cache[key].m[i]] or SkipMaterialCover(wpn.cache[key].m[i])) then
 				wpn.cache[key].mats[i].skip = true
 
-				if (IsValid(vm)) then
+				if (vm and IsValid(vm)) then
 					vm:SetSubMaterial(i - 1, nil)
 				end
 			else
@@ -336,7 +350,7 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 				end
 			end)
 
-			if (SKIN_NOPAINT[wpn.cache[key].m[i]]	) then
+			if (SKIN_NOPAINT[wpn.cache[key].m[i]]) then
 				wpn.cache[key].mats[i].mat:SetTexture("$basetexture", wpn.cache[key].mats[i].base)
 			elseif (wpn.cache[key].t and wpn.cache[key].t == 0) then
 				wpn.cache[key].mats[i].mat:SetTexture("$basetexture", "models/debug/debugwhite")
@@ -346,7 +360,7 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 				wpn.cache[key].mats[i].mat:SetTexture("$basetexture", (type(m) ~= "string") and m:GetTexture "$basetexture" or m)
 			end
 
-			if (IsValid(vm)) then
+			if (vm and IsValid(vm)) then
 				vm:SetSubMaterial(i - 1, "!" .. wpn.cache[key].mats[i].mat:GetName())
 			else
 				wpn:SetSubMaterial(i - 1, "!" .. wpn.cache[key].mats[i].mat:GetName())
@@ -354,7 +368,7 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 		elseif (not wpn.cache[key].mats[i].mat) then
 			wpn.cache[key].mats[i].mat = "base"
 
-			if (IsValid(vm)) then
+			if (vm and IsValid(vm)) then
 				vm:SetSubMaterial(i - 1, nil)
 			else
 				wpn:SetSubMaterial(i - 1, nil)
@@ -379,49 +393,98 @@ function MOAT_LOADOUT.ResetSubMaterials(vm)
 		vm:SetSubMaterial()
 	end
 end
-
+-- wpn:GetSubMaterial(i - 1) ~= wpn.cache[key].mats[i].mat:GetName()
 function MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
-	if (IsValid(vm) and ((MOAT_LOADOUT.vm_cache and MOAT_LOADOUT.vm_cache ~= key) or not MOAT_LOADOUT.vm_cache)) then
-		MOAT_LOADOUT.vm_cache = key
-		if (wpn.cache and wpn.cache[key] and wpn.cache[key].n) then
-			for i = 1, wpn.cache[key].n do
-				if (wpn.cache[key].mats[i]) then 
-					if (wpn.cache[key].mats[i].mat == "base") then
-						wpn.cache[key].mats[i].mat = nil
-						vm:SetSubMaterial(i - 1, nil)
-						continue
-					elseif (wpn.cache[key].mats[i].mat) then
-						vm:SetSubMaterial(i - 1, "!" .. wpn.cache[key].mats[i].mat:GetName())
+	if (not wpn.mats_set) then
+		wpn.mats_set = {}
+	end
+	
+	if (not wpn.mats_set[key]) then
+		wpn.mats_set[key] = 0
+	end
+
+	if (wpn.cache and wpn.cache[key] and wpn.cache[key].n) then
+		local set_vm = false
+		
+		for i = 1, wpn.cache[key].n do
+			if (true) then
+				if (wpn.cache[key].mats[i].skip or wpn.cache[key].mats[i].mat == "base") then
+					if (vm) then
+						if (IsValid(vm) and ((MOAT_LOADOUT.vm_cache and MOAT_LOADOUT.vm_cache ~= key) or not MOAT_LOADOUT.vm_cache)) then
+							vm:SetSubMaterial(i - 1, nil)
+							set_vm = true
+						end
+					elseif (IsValid(wpn) and wpn.mats_set[key] < i) then
+						wpn:SetSubMaterial(i - 1, nil)
+						wpn.mats_set[key] = wpn.mats_set[key] + 1
+					end
+				elseif (wpn.cache[key].mats[i].mat) then
+					if (vm) then
+						if (IsValid(vm) and ((MOAT_LOADOUT.vm_cache and MOAT_LOADOUT.vm_cache ~= key) or not MOAT_LOADOUT.vm_cache)) then
+							vm:SetSubMaterial(i - 1, "!" .. wpn.cache[key].mats[i].mat:GetName())
+							set_vm = true
+						end
+					elseif (IsValid(wpn) and wpn.mats_set[key] < i) then
+						wpn:SetSubMaterial(i - 1, "!" .. wpn.cache[key].mats[i].mat:GetName())
+						wpn.mats_set[key] = wpn.mats_set[key] + 1
 					end
 				end
 			end
-		elseif (IsValid(vm)) then
-			vm:SetSubMaterial()
 		end
+
+		if (set_vm and vm and IsValid(vm)) then
+			MOAT_LOADOUT.vm_cache = key
+		end
+	elseif (vm and IsValid(vm) and not wpn.cache) then
+		MOAT_LOADOUT.vm_cache = key
+		vm:SetSubMaterial()
+	elseif (vm and IsValid(vm)) then
+		MOAT_LOADOUT.vm_cache = nil
+		vm:SetSubMaterial()
 	end
 
-	MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
+	if (wpn and wpn.cache and wpn.cache[key]) then
+		MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
+	end
 end
 
 function MOAT_LOADOUT.SetupPaint(wpn, vm, preview)
+	wpn.ItemStats = vm and vm.ItemStats or wpn.ItemStats
+
+	--print(wpn, vm, preview)
 	if (not MOAT_PAINT or not wpn or (not preview and not IsValid(wpn))) then
+		if (vm and IsValid(vm) and not wpn.cache) then
+			MOAT_LOADOUT.vm_cache = nil
+			vm:SetSubMaterial()
+		end
+	--	print(1)
 		return true
 	end
 
-	wpn.ItemStats = vm and vm.ItemStats or wpn.ItemStats
+	wpn.ItemStats = wpn.ItemStats
 	if (not wpn.ItemStats) then
+		if (vm and IsValid(vm) and not wpn.cache) then
+			vm:SetSubMaterial()
+			MOAT_LOADOUT.vm_cache = nil
+		end
+	--	print(2)
 		return true
 	end
 
 	if (wpn.ItemStats and (not wpn.ItemStats.p and not wpn.ItemStats.p2 and not wpn.ItemStats.p3 and not preview)) then
+		if (vm and IsValid(vm) and not wpn.cache) then
+			vm:SetSubMaterial()
+			MOAT_LOADOUT.vm_cache = nil
+		end
+	--	print(3)
 		return true
 	end
 
 	local wpn_mdl = wpn:IsWeapon() and wpn:GetWeaponWorldModel() or wpn:GetModel()
-	if (vm and IsValid(vm) and wpn.GetWeaponViewModel) then
+	if 	(vm and IsValid(vm) and IsValid(wpn:GetOwner()) and IsValid(wpn:GetOwner():GetViewModel()) and wpn:GetOwner():GetViewModel() == LocalPlayer():GetViewModel() and wpn.GetWeaponViewModel) then
 		wpn_mdl = wpn:GetWeaponViewModel()
 	end
-
+	--print(4, wpn_mdl)
 	wpn.ItemStats.p = wpn["GetTintID"] and wpn:GetTintID() or wpn.ItemStats.p or -1
 	wpn.ItemStats.p2 = wpn["GetPaintID"] and wpn:GetPaintID() or wpn.ItemStats.p2 or -1
 	wpn.ItemStats.p3 = wpn["GetSkinID"] and wpn:GetSkinID() or wpn.ItemStats.p3 or preview or -1
@@ -431,52 +494,65 @@ function MOAT_LOADOUT.SetupPaint(wpn, vm, preview)
 	// print(wpn, vm, preview, wpn_mdl, key)
 
 	if (wpn:IsWeapon() and wpn:IsCarriedByLocalPlayer() and wpn_mdl ~= wpn:GetWeaponViewModel()) then
-		if (wpn.cache and wpn.cache[key]) then
-			--MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
-		end
+		-- if (wpn.cache and wpn.cache[key]) then
+		-- 	MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
+		-- end
 
 		return true
 	end
 
 	if (not wpn.cache) then
 		wpn.cache = {}
+	--	print(5)
 	end
 
-	if (not wpn.cache[key] or (not wpn.cache[key].mdl or wpn.cache[key].mdl ~= wpn_mdl)) then
-		MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
+	if (not wpn.cache[key]) then
 		wpn.cache[key] = {mdl = wpn_mdl}
+	--	print(6)
 	end
 
 	if (not wpn.cache[key].p) then 
 		wpn.cache[key].p = {255, 255, 255}
+	--	print(7)
 	end
 
 	if (wpn.ItemStats.p2 == -2) then
 		wpn.cache[key].p = {bit.band(bit.rshift(wpn.ItemStats.p, 16), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 8), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 0), 0xff)}
 		wpn.ItemStats.p3 = 0
+	--	print(8, 1)
 	elseif (wpn.ItemStats.p2 ~= -1 and MOAT_PAINT.Paints[wpn.ItemStats.p2]) then
 		wpn.cache[key].p = MOAT_PAINT.Paints[wpn.ItemStats.p2][2]
 		wpn.cache[key].dream = MOAT_PAINT.Paints[wpn.ItemStats.p2].Dream
 		wpn.ItemStats.p3 = 0
+	--	print(8, 2)
 	elseif (wpn.ItemStats.p ~= -1 and MOAT_PAINT.Tints[wpn.ItemStats.p]) then
 		wpn.cache[key].p = MOAT_PAINT.Tints[wpn.ItemStats.p][2]
 		wpn.cache[key].dream = MOAT_PAINT.Tints[wpn.ItemStats.p].Dream
+	--	print(8, 3)
 	end
 
 	if (wpn.cache[key].p and wpn.cache[key].dream) then
 		wpn.cache[key].p = {rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b}
+	--	print(9)
 	end
 	
 	if ((not wpn.cache[key].t or wpn.cache[key].t ~= wpn.ItemStats.p3)) then
 		wpn.cache[key].t = wpn.ItemStats.p3
 		MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
+	--	print(9, 1)
 	elseif (wpn.cache[key].t) then
 		MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
+	---	print(9, 2)
 	end
 
 	wpn.Dream = wpn.cache[key].dream
 	wpn.Colors = wpn.cache[key].p
 
+	if (wpn and wpn.cache and wpn.cache[key]) then
+		MOAT_LOADOUT.ResetMaterials(wpn, vm, preview, key, wpn_mdl)
+	end
+
+	--print(10, wpn.ItemStats.p, wpn.ItemStats.p2, wpn.ItemStats.p3, wpn.cache, wpn.cache and wpn.cache[key], wpn.cache and wpn.cache[key] and wpn.cache[key].mdl, wpn.cache and wpn.cache[key] and wpn.cache[key].t)
 	return false
 end
 
