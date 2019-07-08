@@ -328,8 +328,11 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 				["$model"] = 1,
 				["$alphatest"] = 1,
 				["$vertexcolor"] = 1,
-				["$basetexture"] = wpn.cache[key].mats[i].base or "error"
 			}
+
+			if (wpn.cache[key].mats[i].base) then
+				mat_kv["$basetexture"] = wpn.cache[key].mats[i].base or "__error"
+			end
 			
 			mat_kv["$flags_defined2"] = nil
 			mat_kv["$flags_defined"] = nil
@@ -355,15 +358,18 @@ function MOAT_LOADOUT.SetupSkins(wpn, vm, preview, key, wpn_mdl)
 			elseif (wpn.cache[key].t and wpn.cache[key].t == 0) then
 				wpn.cache[key].mats[i].mat:SetTexture("$basetexture", "models/debug/debugwhite")
 			elseif (wpn.cache[key].t and wpn.cache[key].t == -1 and not m) then
-				wpn.cache[key].mats[i].mat:SetTexture("$basetexture", wpn.cache[key].mats[i].base)
+				//wpn.cache[key].mats[i].mat = "base"
+				//wpn.cache[key].mats[i].mat:SetTexture("$basetexture", wpn.cache[key].mats[i].base or "__error")
 			elseif (wpn.cache[key].t and m) then
 				wpn.cache[key].mats[i].mat:SetTexture("$basetexture", (type(m) ~= "string") and m:GetTexture "$basetexture" or m)
 			end
 
-			if (vm and IsValid(vm)) then
-				vm:SetSubMaterial(i - 1, "!" .. wpn.cache[key].mats[i].mat:GetName())
-			else
-				wpn:SetSubMaterial(i - 1, "!" .. wpn.cache[key].mats[i].mat:GetName())
+			if (mat_names[type(wpn.cache[key].mats[i].mat)]) then
+				if (vm and IsValid(vm)) then
+					vm:SetSubMaterial(i - 1, "!" .. wpn.cache[key].mats[i].mat:GetName())
+				else
+					wpn:SetSubMaterial(i - 1, "!" .. wpn.cache[key].mats[i].mat:GetName())
+				end
 			end
 		elseif (not wpn.cache[key].mats[i].mat) then
 			wpn.cache[key].mats[i].mat = "base"

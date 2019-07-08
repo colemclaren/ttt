@@ -409,11 +409,8 @@ local NPC = {
 list.Set("NPC", NPC.Class, NPC)
 
 /*
-+ models/player/aphaztech.mdl
 + models/player/azuisleet1.mdl
 - models/player/blockdude.mdl
-+ models/player/lordvipes/metal_gear_rising/gray_fox_playermodel_cvp.mdl
-+ models/player/clopsy.mdl
 + models/player/doomguy.mdl
 - models/player/foohysaurusrex.mdl
 + models/player/gmen.mdl
