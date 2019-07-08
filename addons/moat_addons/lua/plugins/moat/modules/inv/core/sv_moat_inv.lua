@@ -2576,8 +2576,8 @@ game.ConsoleCommand("sv_friction 8\n")
 function meta:Drop100()
     self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, true)
     self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, true)
-    self:m_DropInventoryItem("Cosmic Stat Mutator", "hide_chat_obtained", false, true)
-    self:m_DropInventoryItem("Ascended Talent Mutator", "hide_chat_obtained", false, true)
+    self:m_DropInventoryItem("Cosmic Talent Mutator", "hide_chat_obtained", false, true)
+    self:m_DropInventoryItem("Ascended Stat Mutator", "hide_chat_obtained", false, true)
 end
 
 function meta:Drop50()
