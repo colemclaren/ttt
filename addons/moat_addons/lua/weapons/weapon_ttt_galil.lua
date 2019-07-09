@@ -17,10 +17,10 @@ SWEP.WeaponID = AMMO_AK47
 SWEP.ENUM = 12
 
 SWEP.Primary.Delay			= 0.085
-SWEP.Primary.Recoil			= 1
+SWEP.Primary.Recoil			= 1.2
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "SMG1"
-SWEP.Primary.Cone = 0.025
+SWEP.Primary.Cone = 0.03
 SWEP.Primary.Damage = 18
 SWEP.HeadshotMultiplier = 2.5
 SWEP.Primary.ClipSize = 30
