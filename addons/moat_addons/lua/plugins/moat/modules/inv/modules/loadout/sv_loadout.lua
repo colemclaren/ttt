@@ -618,8 +618,16 @@ function MOAT_LOADOUT.UpdateModelPos(_, ply)
 	local item_id = net.ReadUInt(16)
 	local pos_table = {}
 	
+	if (i == 1 and item_id and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_id]) then
+		val = 0
+	end
+
 	for i = 1, #clamp_table do
 		pos_table[i] = math.Clamp(net.ReadDouble(), clamp_table[i][1], clamp_table[i][2])
+
+		if (i == 1 and item_id and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_id]) then
+			pos_table[i] = 0
+		end
 	end
 
 	if (not MOAT_MODEL_EDIT_POS[ply]) then
@@ -644,6 +652,9 @@ function MOAT_LOADOUT.UpdateModelPosSingle(_, ply)
 	if (slider_id > #clamp_table or slider_id == 0) then return end
 
 	local item_pos = math.Clamp(net.ReadDouble(), clamp_table[slider_id][1], clamp_table[slider_id][2])
+	if (item_id and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_id]) then
+		item_pos = 0
+	end
 
 	if (not MOAT_MODEL_EDIT_POS[ply]) then
 		MOAT_MODEL_EDIT_POS[ply] = {}

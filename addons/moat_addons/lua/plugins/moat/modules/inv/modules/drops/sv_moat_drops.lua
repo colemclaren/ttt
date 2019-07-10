@@ -1,6 +1,7 @@
 print("drops loaded")
 local meta = FindMetaTable("Player")
-MOAT_DROPTABLE = {}
+MOAT_DROPTABLE = MOAT_DROPTABLE or {}
+MOAT_BODY_ITEMS = MOAT_BODY_ITEMS or {}
 
 function m_AddDroppableItem(item_table, item_kind)
     local tbl = {}
@@ -16,6 +17,10 @@ function m_AddDroppableItem(item_table, item_kind)
 	end
 
     MOAT_DROPTABLE[tbl.ID] = tbl
+
+	if (item_kind == "Body") then
+		MOAT_BODY_ITEMS[tbl.ID] = true 
+	end
     --table.insert(MOAT_DROPTABLE, tbl)
 end
 

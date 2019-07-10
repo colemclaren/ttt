@@ -10,8 +10,8 @@ MOAT_MODEL_POS_EDITS_DEFAULTS = {
 	0
 }
 
-local rotate_labels = {"Up/Down", "Left/Right", "Size"}
-local pos_labels = {"X Postion", "Y Postion", "Z Postion"}
+local rotate_labels = {"Tilt", "Rotate", "Custom Size"}
+local pos_labels = {"Back | Front", "Left | Right", "Down | Up"}
 
 function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
 	local item = m_GetCosmeticItemFromEnum(item_enum)
@@ -25,12 +25,11 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
 	MOAT_ITEM_EDIT_BG.Paint = function(s, w, h)
 
 		for i = 1, 3 do
-			local textr = i ~= 3 and "Rotate " or "Change "
-			m_DrawShadowedText(1, textr .. rotate_labels[i] .. ":", "moat_ChatFont", 2+125, (i * 25) - 20, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			m_DrawShadowedText(1, rotate_labels[i] .. "", "moat_ChatFont", 2+125, (i * 25) - 20, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 		end
 
 		for i = 1, 3 do
-			m_DrawShadowedText(1, "Modify " .. pos_labels[i] .. ":", "moat_ChatFont", 258+125, (i * 25) - 20, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			m_DrawShadowedText(1, "" .. pos_labels[i] .. "", "moat_ChatFont", 258+125, (i * 25) - 20, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 		end
 	end
 
@@ -46,7 +45,10 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
     	POS_SLIDER.Value = 0.5
 
 		if (cur_edits and cur_edits[i]) then
-			if (i == 3) then
+			if (i == 1 and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_enum]) then
+				POS_SLIDER.Value = 0
+				rotate_labels[i] = "Tilt is not available for this item."
+			elseif (i == 3) then
 				POS_SLIDER.Value = (cur_edits[i] - 0.8)/0.4
 			else
 				POS_SLIDER.Value = ((cur_edits[i]/180)/2) + 0.5
@@ -59,6 +61,12 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
         	draw.RoundedBox(0, 0, 0, math.Clamp(w*s.Value, 0, 250), h, Color(255 - (255 * s.Value), 255 * s.Value, 0, 200))
     	end
    		POS_SLIDER.Think = function(s)
+			if (i == 1 and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_enum]) then
+				s.HoverVal = 0
+
+				return
+			end
+
    			if (s:IsHovered() or s.Moving) then
    				s.HoverVal = Lerp(FrameTime() * 10, s.HoverVal, 1)
    			else
@@ -157,7 +165,7 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
         surface.SetDrawColor(255, 0, 0, 20 + hover_coloral2 / 5)
         surface.SetMaterial(Material("vgui/gradient-d"))
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
-        m_DrawShadowedText(1, "Reset to Default", "Trebuchet24", w / 2, h / 2, Color(200, 100, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        m_DrawShadowedText(1, "Reset Changes", "Trebuchet24", w / 2, h / 2, Color(200, 100, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
     EDIT_RESET.Think = function(s)
         if (not s:IsHovered()) then
@@ -193,7 +201,11 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
     end
     EDIT_RESET.DoClick = function(s)
     	for i = 1, #edit_sliders do
-    		edit_sliders[i].Value = 0.5
+			if (i == 1 and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_enum]) then
+				edit_sliders[i].Value = 0
+			else
+				edit_sliders[i].Value = 0.5
+			end
     	end
 
     	MOAT_MODEL_POS_EDITS[item_enum] = table.Copy(MOAT_MODEL_POS_EDITS_DEFAULTS)
@@ -218,7 +230,7 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
         surface.SetDrawColor(0, 255, 0, 20 + hover_coloral / 5)
         surface.SetMaterial(Material("vgui/gradient-d"))
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
-        m_DrawShadowedText(1, "Save Changes", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        m_DrawShadowedText(1, "Done", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
     EDIT_SAVE.Think = function(s)
         if (not s:IsHovered()) then
@@ -269,6 +281,10 @@ function moat_SaveItemPosition(item_enum, slider_id)
 		val = MOAT_MODEL_POS_EDITS[item_enum][slider_id]
 	end
 
+	if (MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_enum]) then
+		val = 0
+	end
+
 	local cookie_name = cookie_prefix .. item_enum .. slider_id
 	cookie.Set(cookie_name, val)
 
@@ -277,6 +293,8 @@ function moat_SaveItemPosition(item_enum, slider_id)
 	net.WriteUInt(slider_id, 8)
 	net.WriteDouble(val)
 	net.SendToServer()
+
+	moat_UpdateItemPositions(item_enum)
 end
 
 function moat_UpdateItemPositions(enum)
@@ -289,6 +307,11 @@ function moat_UpdateItemPositions(enum)
 		if (MOAT_MODEL_POS_EDITS[enum] and MOAT_MODEL_POS_EDITS[enum][i]) then
 			val = MOAT_MODEL_POS_EDITS[enum][i]
 		end
+
+		if (i == 1 and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_enum]) then
+			val = 0
+		end
+
 
 		net.WriteDouble(val)
 		cookie.Set(beginning .. i, val)

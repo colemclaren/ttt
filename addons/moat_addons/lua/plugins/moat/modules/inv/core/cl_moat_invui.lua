@@ -835,6 +835,10 @@ function PANEL:AddModel(item_enum, item_tbl)
         for i = 1, 6 do
             local num = cookie.GetNumber("moatbeta_pos" .. item_enum .. i)
             if (num) then
+				if (MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_enum]) then
+					num = 0
+				end
+
                 MOAT_MODEL_POS_EDITS[item_enum][i] = num
             end
         end

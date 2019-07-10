@@ -3,7 +3,7 @@ local pl = FindMetaTable("Player")
 
 if (CLIENT) then
     COSMETIC_ITEMS = {}
-
+	MOAT_BODY_ITEMS = {}
     function m_AddCosmeticItem(item_tbl, item_kind)
         local tbl = item_tbl
         tbl.Kind = item_kind
@@ -13,6 +13,10 @@ if (CLIENT) then
         if (tbl.Model) then
             util.PrecacheModel(tbl.Model)
         end
+
+		if (item_kind == "Body") then
+			MOAT_BODY_ITEMS[tbl.ID] = true 
+		end
     end
 
     function m_GetCosmeticItemFromEnum(item_id)
