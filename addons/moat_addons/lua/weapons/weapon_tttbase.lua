@@ -710,24 +710,7 @@ end
 
 function SWEP:DrawWeaponSelection() end
 
-function SWEP:OwnerChanged()
-	if (CLIENT) then
-		self.cache = nil
-		self.mats_set = nil
-		MOAT_LOADOUT.SetupPaint(self)
-	end
-end
-
 function SWEP:Deploy()
-	if (CLIENT) then
-		self.cache = nil
-		self.mats_set = nil
-		MOAT_LOADOUT.SetupPaint(self)
-		self.cache = nil
-		self.mats_set = nil
-		MOAT_LOADOUT.SetupPaint(self, self.Owner:GetViewModel())
-	end
-
   	self:SetIronsights(false)
 	self.ActiveDelay = 0
 	self:SetReloading(false)
