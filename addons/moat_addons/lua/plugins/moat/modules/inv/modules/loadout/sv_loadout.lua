@@ -617,14 +617,9 @@ local clamp_table = {
 function MOAT_LOADOUT.UpdateModelPos(_, ply)
 	local item_id = net.ReadUInt(16)
 	local pos_table = {}
-	
-	if (i == 1 and item_id and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_id]) then
-		val = 0
-	end
-
 	for i = 1, #clamp_table do
 		pos_table[i] = math.Clamp(net.ReadDouble(), clamp_table[i][1], clamp_table[i][2])
-
+		
 		if (i == 1 and item_id and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_id]) then
 			pos_table[i] = 0
 		end
