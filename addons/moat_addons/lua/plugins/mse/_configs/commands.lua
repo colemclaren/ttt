@@ -251,7 +251,7 @@ MSE.Commands.Register "Apache Round"
 			return "Select Weapon", false, wpns
 		end*/
 	})
---[[
+
 MSE.Commands.Register "Stalker Round"
 	:SetCommand "moat_start_stalker"
 	:SetDescription "Team up with every player to defeat the stalker for a prize!"
@@ -287,7 +287,7 @@ MSE.Commands.Register "Stalker Round"
 			return "Select Weapon", false, wpns
 		end*/
 	})
-]]
+
 MSE.Commands.Register "One in the Chamber"
 	:SetCommand "moat_start_onechamber"
 	:SetDescription "One shot gun, one bullet, kill for ammo, 3 lives, last man standing wins."
