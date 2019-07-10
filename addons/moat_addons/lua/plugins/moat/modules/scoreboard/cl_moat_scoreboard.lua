@@ -137,6 +137,13 @@ local function moat_TTTScoreboardMenu(menu)
 		OpenMGAMenu("PM", p)
 	end)
 
+	MenuAdd("Trade Request", "icon16/world.png", function(p)
+		net.Start("MOAT_SEND_TRADE_REQ")
+        net.WriteDouble(p:EntIndex())
+        net.SendToServer()
+        surface.PlaySound("UI/buttonclick.wav")
+	end)
+
 
 	if (LocalPlayer():GetNWInt("MOAT_STATS_LVL", 1) >= 100) then
 		menu:AddSpacer()
