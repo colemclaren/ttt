@@ -301,11 +301,11 @@ local function moat_BeginRoundBossHooks()
                             return
                         end
                         if (IsValid(ply)) then
-                            if ((ply:Health() - #pls) <= 0) then
+                            if ((ply:Health() - (#pls * 3)) <= 0) then
                                 ply:Kill()
                                 timer.Remove("moat_BossInvisDmg".. ply:EntIndex())
                             else
-                                ply:SetHealth(ply:Health() - #pls)
+                                ply:SetHealth(ply:Health() - (#pls * 3))
                             end
                         end
                     end)
