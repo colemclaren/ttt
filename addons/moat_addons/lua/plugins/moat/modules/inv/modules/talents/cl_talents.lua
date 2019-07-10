@@ -50,7 +50,7 @@ local function talent_chat(new,v,tier,wild)
     talent_desc = string.Replace(talent_desc, "_", "%")
 
 	talent_desc = string.Grammarfy(talent_desc)
-	chat.AddText(Material("icon16/arrow_refresh.png"),"Your ", Color(100,100,255), ( wild and "Wild! - Tier " or "Wildcard: Tier ") .. tostring(tier),Color(255,255,255),(wild and " added " or " turned into "),Color(255,0,0),new.Name,Color(255,255,255),": ",Color(0,255,0),talent_desc,Color(255,255,255),(wild and " to your gun!" or "!"))
+	chat.AddText(Material("icon16/arrow_refresh.png"),"Your ", Color(100,100,255), ( wild and "Wild! - Tier " or "Wildcard: Tier ") .. tostring(tier),Color(255,255,255),(wild and " added " or " turned into "),Color(255,0,0),new.Name,Color(255,255,255)," | ",Color(0,255,0),talent_desc,Color(255,255,255),(wild and " to your gun!" or ""))
 end
 
 net.Receive("weapon.UpdateTalents",function()

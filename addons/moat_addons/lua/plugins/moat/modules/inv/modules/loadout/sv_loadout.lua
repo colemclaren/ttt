@@ -151,6 +151,8 @@ function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
     end
 
     if (itemtbl.t) then
+		itemtbl.Talents = GetItemTalents(itemtbl)
+
         wep.Talents = table.Copy(itemtbl.t)
         wep.level = itemtbl.s.l
         wep.exp = itemtbl.s.x
