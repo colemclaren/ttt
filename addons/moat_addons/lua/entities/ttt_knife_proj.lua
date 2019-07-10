@@ -34,6 +34,12 @@ function ENT:Initialize()
     self.Stuck = false
 end
 
+function ENT:Use(ply)
+    if (IsValid(ply) and ply:IsPlayer() and not self.Weaponised) then
+    	self:BecomeWeapon()
+	end
+end
+
 function ENT:HitPlayer(other, tr)
     local range_dmg = math.max(self.Damage, self.StartPos:Distance(self:GetPos()) / 3)
 
@@ -166,7 +172,7 @@ if SERVER then
     end
 
     function ENT:PhysicsCollide(data, phys)
-        if self.Stuck then return false end
+        if self.Stuck then return false end 
         local other = data.HitEntity
         if not IsValid(other) and not other:IsWorld() then return end
 	
