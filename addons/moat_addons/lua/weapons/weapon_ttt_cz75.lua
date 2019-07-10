@@ -34,7 +34,7 @@ SWEP.Primary.Automatic = true
 SWEP.Primary.DefaultClip = 20
 SWEP.Primary.ClipMax = 60
 SWEP.Primary.Ammo = "Pistol"
-SWEP.AutoSpawnable = false
+SWEP.AutoSpawnable = true
 SWEP.AmmoEnt = "item_ammo_pistol_ttt"
 
 SWEP.Secondary.IronFOV			= 38		-- How much you 'zoom' in. Less is more! 	
