@@ -926,7 +926,7 @@ function MOAT_LOADOUT.UpdateOtherWep()
 				
 				wep.Weapon.ItemStats = wep_stats
 				if (wep_stats.p or wep_stats.p2 or wep_stats.p3) then
-					MOAT_LOADOUT.DrawWorldModel(wep.Weapon)
+					MOAT_LOADOUT.UpdateDrawViewModel(wep.Weapon)
 				end
 			end
 
