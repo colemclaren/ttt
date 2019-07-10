@@ -29,7 +29,7 @@ SWEP.Primary.KickUp             = 0.4       -- Maximum up recoil (rise)
 SWEP.Primary.KickDown           = 0.3       -- Maximum down recoil (skeet)
 SWEP.Primary.KickHorizontal     = 0.3       -- Maximum up recoil (stock)
 SWEP.Primary.Automatic          = true      -- Automatic = true; Semi Auto = false
-SWEP.AutoSpawnable              = false
+SWEP.AutoSpawnable              = true
 SWEP.Primary.Ammo           = "pistol"          -- pistol, 357, smg1, ar2, buckshot, slam, SniperPenetratedRound, AirboatGun
 -- Pistol, buckshot, and slam always ricochet. Use AirboatGun for a light metal peircing shotgun pellets
 
