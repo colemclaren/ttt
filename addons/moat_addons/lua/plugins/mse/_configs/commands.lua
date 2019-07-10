@@ -219,7 +219,7 @@ MSE.Commands.Register "Apache Round"
 	:SetCommand "moat_start_apache"
 	:SetDescription "Team up with every player to defeat the boss for a prize!"
 	:SetMinPlayers "14"
-	:WhitelistMaps "ttt_canyon_a4, ttt_roy_the_ship, ttt_outpost57_b4, ttt_bb_teenroom_b1, ttt_craftroom, ttt_island_2013, ttt_mw2_highrise, ttt_scarisland_b1, ttt_rats_kitchen_noboom"
+	:WhitelistMaps "ttt_canyon_a4, ttt_roy_the_ship, ttt_outpost57_b4, ttt_bb_teenroom_b1, ttt_craftroom, ttt_island_2013, ttt_mw2_highrise, ttt_scarisland_b1, ttt_rats_kitchen_noboom, ttt_bb_teenroom_b2, ttt_mc_teenroom_b2_a2, ttt_scarisland, ttt_old_factory, ttt_mc_skyislands"
 	:CommandArguments({
 		function(pl)
 			local ids = {"self", "random"}
