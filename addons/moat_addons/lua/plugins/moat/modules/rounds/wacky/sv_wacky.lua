@@ -174,7 +174,7 @@ moat_random.register("Head","Your head can be bigger or smaller",{
     end
 end)]]
 
-moat_random.register("Fast","Your player speed is increased at the start of the round!",{
+moat_random.register("Fast","Players move at race car speed this round!",{
     ["NOW"] = function()
         cur_random_round = "Fast"
     end

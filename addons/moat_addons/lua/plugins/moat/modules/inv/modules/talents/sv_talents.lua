@@ -38,7 +38,7 @@ end
 
 hook.Add("TTTPlayerSpeed", "moat_ApplyWeaponWeight", function(ply, slowed)
     if (ply:IsValid()) then
-        local new_speed = cur_random_round == "Fast" and 3 or 1
+        local new_speed = (cur_random_round == "Fast") and 2 or 1
 
         if (ply:GetActiveWeapon() and ply:GetActiveWeapon().GetWeightMod) then
             new_speed = new_speed * (1 - ply:GetActiveWeapon():GetWeightMod() / 100)
