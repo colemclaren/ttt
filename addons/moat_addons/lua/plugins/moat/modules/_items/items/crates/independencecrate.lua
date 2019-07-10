@@ -18,5 +18,5 @@ ITEM.Active = true
 ITEM.Stackable = true
 
 ITEM.Price = 25000
-ITEM.LimitedShop = 1562742000
+ITEM.LimitedShop = 1563174000
 ITEM.Rewardable = true
