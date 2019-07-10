@@ -1462,13 +1462,13 @@ MOAT_BOUNTIES:AddBounty("Equipment User", {
 
 MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
 	tier = 2,
-	desc = "Eliminate # traitors, rightfully, while having full health. Can be completed as an innocent or detective only.",
+	desc = "Eliminate # traitors, rightfully. Can be completed as an innocent or detective only.",
 	vars = {
 		math.random(10, 20),
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_traitor_assassin", function(ply, inf, att)
-			if (IsValid(att) and att:IsPlayer() and ply ~= att and att:Health() >= att:GetMaxHealth() and ply:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
+			if (IsValid(att) and att:IsPlayer() and ply ~= att and ply:GetRole() == ROLE_TRAITOR and WasRightfulKill(att, ply)) then
 				MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 			end
 		end)
