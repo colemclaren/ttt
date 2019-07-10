@@ -119,7 +119,7 @@ function MODS.UpdateCosmetics(self, wep)
         has_look = true
     end
 
-    if (has_look) then
+    if (has_look and MOAT_LOADOUT and MOAT_LOADOUT.UpdateDrawViewModel) then
         MOAT_LOADOUT.UpdateDrawViewModel(wep)
     end
 end
