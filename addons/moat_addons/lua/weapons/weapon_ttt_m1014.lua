@@ -10,7 +10,7 @@ if CLIENT then
    SWEP.Icon = "vgui/ttt/m1014_icon"
 end
 
-SWEP.PrintName = "SLUG-03"
+SWEP.PrintName = "SL0G3"
 SWEP.Gun = ("weapon_ttt_m1014")
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_SHOTGUN
@@ -26,15 +26,14 @@ SWEP.AdminSpawnable			= true
 
 SWEP.Primary.Sound			= Sound("gunshot_benli_m4")		-- script that calls the primary fire sound
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Range = 10000
-SWEP.Primary.Damage = 13
+SWEP.Primary.Range = 100000
 SWEP.Primary.RealCone = Vector(0.003, 0.003)
 SWEP.Primary.Cone = 0.035
-SWEP.Primary.Damage = 28
+SWEP.Primary.Damage = 38
 SWEP.Primary.Delay = 0.7 + 0.2
-SWEP.Primary.ClipSize = 6
-SWEP.Primary.ClipMax = 24
-SWEP.Primary.DefaultClip = 6
+SWEP.Primary.ClipSize = 9
+SWEP.Primary.ClipMax = 27
+SWEP.Primary.DefaultClip = 9
 SWEP.Primary.Automatic = true
 SWEP.Primary.NumShots = 3
 SWEP.Primary.ReverseShotsDamage = true
