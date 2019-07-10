@@ -94,29 +94,34 @@ Accessor("m", "Magazine", "Double", function(self, wep)
 end)
 
 function MODS.UpdateCosmetics(self, wep)
+	if (SERVER) then
+        return
+    end
+
 	if (not wep.ItemStats) then
 		wep.ItemStats = {}
 	end
 
 	local has_look = false
-    if (MOAT_PAINT and MOAT_PAINT.Skins[wep:GetSkinID()]) then
-		wep.ItemStats.p3 = wep:GetSkinID()
-		has_look = true
-	end
-
-	if (MOAT_PAINT and MOAT_PAINT.Paints[wep:GetPaintID()]) then
+    if (MOAT_PAINT.Paints[wep:GetPaintID()]) then
+        MOAT_LOADOUT.ApplyPaint(wep, wep:GetPaintID())
 		wep.ItemStats.p2 = wep:GetPaintID()
-		has_look = true
-	end
-
-	if (MOAT_PAINT and MOAT_PAINT.Tints[wep:GetTintID()] or wep:GetPaintID() == -2 and wep:GetTintID() ~= -1) then
+        has_look = true
+    elseif (MOAT_PAINT.Tints[wep:GetTintID()] or wep:GetPaintID() == -2 and wep:GetTintID() ~= -1) then
+        MOAT_LOADOUT.ApplyTint(wep, wep:GetTintID())
 		wep.ItemStats.p = wep:GetTintID()
-		has_look = true
-	end
+        has_look = true
+    end
 
-    if (has_look and CLIENT) then
-		MOAT_LOADOUT.DrawWorldModel(wep)
-	end
+    if (MOAT_PAINT.Skins[wep:GetSkinID()]) then
+        MOAT_LOADOUT.ApplySkin(wep, wep:GetSkinID())
+		wep.ItemStats.p3 = wep:GetSkinID()
+        has_look = true
+    end
+
+    if (has_look) then
+        MOAT_LOADOUT.UpdateDrawViewModel(wep)
+    end
 end
 
 Accessor("p0", "PaintID", "Int", MODS.UpdateCosmetics, -1)

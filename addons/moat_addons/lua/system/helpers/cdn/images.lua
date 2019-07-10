@@ -1,7 +1,7 @@
 function cdn.Image(key, cb, params)
 	if (cdn.Cache[key] == nil) then
 		return cdn.Fetch(key, "materials", key:match"(%.[^%.]+)$", function(object)
-			return (not key:match "vtf$") and RealMaterial("../data/" .. object, (type(cb) == "string") and cb or params) or "../data/" .. object
+			return (not key:match "vtf$") and Material("../data/" .. object, (type(cb) == "string") and cb or params) or "../data/" .. object
 		end, function(object, data)
 			return file.Write(object, data)
 		end, cb)

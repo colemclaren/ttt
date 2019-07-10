@@ -4,6 +4,7 @@ local function SetTestSkin(url, who, cl)
 
 	MOAT_PAINT.Skins[6119][2] = url
 	TestSkinSyncNewPlayers = {url, who}
+	timer.Simple(0, function() cdn.Cache = {} end)
 
 	if (SERVER) then
 		net.Start "SetTestSkin"

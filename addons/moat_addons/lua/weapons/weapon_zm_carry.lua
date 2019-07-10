@@ -554,13 +554,6 @@ end
 function SWEP:Deploy()
    self:Reset()
 
-   	if (CLIENT) then
-		local vm = self.Owner:GetViewModel()
-		if (IsValid(vm) and MOAT_LOADOUT.SetupPaint(self, vm)) then
-			MOAT_LOADOUT.ResetSubMaterials(vm)
-		end
-	end
-
    return true
 end
 

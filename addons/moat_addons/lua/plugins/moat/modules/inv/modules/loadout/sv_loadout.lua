@@ -677,6 +677,7 @@ function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
 		if (col and col[2]) then
 			col = col[2]
 
+			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
 			ply:SetColor(Color(col[1], col[2], col[3], 255))
         	ply:SetPlayerColor(Vector(col[1]/255, col[2]/255, col[3]/255))
 		end
@@ -692,7 +693,8 @@ function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
 
 		return
 	else
-		ply:SetColor(Color(255, 255, 255))
+		ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+		ply:SetColor(Color(255, 255, 255, 255))
 		ply:SetPlayerColor(Vector(1, 1, 1))
 	end
 	
@@ -711,19 +713,23 @@ hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
 			end
         end
 
-		ply:SetColor(Color(255, 255, 255))
+		ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
+		ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+		ply:SetColor(Color(255, 255, 255, 255))
 		ply:SetPlayerColor(Vector(1, 1, 1))
-        ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
     end
 
     function GAMEMODE:TTTPlayerSetColor(ply)
 		if (MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and (MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p)) then
 			local col = GetPaintColor(MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p)
             if (col) then
+				ply:SetRenderMode(RENDERMODE_TRANSALPHA)
 				ply:SetColor(Color(col[2][1], col[2][2], col[2][3], 255))
             	ply:SetPlayerColor(Vector(col[2][1]/255, col[2][2]/255, col[2][3]/255))
 			end
         else
+			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+			ply:SetColor(Color(255, 255, 255, 255))
 			ply:SetPlayerColor(Vector(1, 1, 1))
 		end
     end
