@@ -78,7 +78,7 @@ function moat_InitializeApacheBoss(ply)
     
     MOAT_APACHE_INITIALIZED = true
 
-    local boss_hp = 4166 * #player.GetAll()
+    local boss_hp = 6000 * #player.GetAll()
 
     ply:SetHealth(boss_hp)
     ply:SetMaxHealth(boss_hp)
