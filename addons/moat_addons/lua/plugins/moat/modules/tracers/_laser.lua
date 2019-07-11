@@ -29,9 +29,12 @@ function EFFECT:Init(data)
     end
 
     local pos = self.pos
-    cdn.PlayURL(sounds[math.random(#sounds)], 1, function(g)
-        g:SetPos(pos)
-    end, "3d")
+    cdn.PlayURL(sounds[math.random(#sounds)], .8, function(g)
+       if (g) then
+			g:SetPos(pos)
+			g:Play()
+		end
+    end, "3d noplay")
 end
 
 function EFFECT:Render()
