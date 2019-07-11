@@ -672,7 +672,7 @@ local ActIndex = {
 }
 --
 function PANEL:SetModel(item_enum, item_tbl)
-	item_enum = item_enum or GetGlobal("ttt_default_playermodel") or "models/player/arctic.mdl"
+	item_enum = item_enum or GetGlobal("ttt_default_playermodel") or "models/player/phoenix.mdl"
 
     if (isnumber(item_enum)) then
         item_enum = m_GetCosmeticFromEnum(item_enum).Model

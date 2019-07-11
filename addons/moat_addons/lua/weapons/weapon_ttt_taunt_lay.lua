@@ -78,7 +78,7 @@ function SWEP:CreateRagdoll()
 	rag:SetDTEntity(10, pl)
 	rag:SetPos(pl:GetPos())
 	local ply_mdl = pl:GetModel()
-	if bad_models[ply_mdl] then ply_mdl = "models/player/arctic.mdl" end
+	if bad_models[ply_mdl] then ply_mdl = GAMEMODE.playermodel or "models/player/phoenix.mdl" end
 	rag:SetModel(ply_mdl)
 	rag:SetAngles(pl:GetAngles())
 

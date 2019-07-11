@@ -10,7 +10,6 @@ MG_OC = MG_OC or {}
 MG_OC.Players = {}
 MG_OC.ReqKills = 1
 MG_OC.SpawnProtectionTime = 5
-MG_OC.ModelPath = "models/player/arctic.mdl"--"models/player/normal.mdl"
 MG_OC.Ladder = {
     ""
 }
@@ -282,7 +281,7 @@ function MG_OC.PlayerSpawn(ply)
 
     timer.Simple(1, function()
         if (not IsValid(ply) or not ply:IsActive()) then return end
-        ply:SetModel(MG_OC.ModelPath)
+        ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
     end)
 end
 
@@ -431,7 +430,7 @@ function MG_OC.BeginRound()
         
         MG_OC.StripWeapons(v)
         MG_OC.GiveCorrectWeapon(v)
-        v:SetModel(MG_OC.ModelPath)
+        v:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
     end
 
     MG_OC.HookAdd("PlayerSpawn", "MG_OC_SPAWN", MG_OC.PlayerSpawn)

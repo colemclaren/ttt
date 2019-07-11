@@ -171,7 +171,7 @@ if SERVER then
 			v:SetWalkSpeed(220)
 			v.SpeedMod = 1
 		end 
-		ply:SetModel("models/player/arctic.mdl")
+		ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
 		net.Start("TNT.IsBomb")
 		net.WriteBool(true)
 		net.Send(ply)

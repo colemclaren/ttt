@@ -705,6 +705,15 @@ end
 
 hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
     function GAMEMODE:PlayerSetModel(ply)
+		if (hook.Run("MoatInventoryShouldGiveLoadout", ply)) then
+			ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
+			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+			ply:SetColor(Color(255, 255, 255, 255))
+			ply:SetPlayerColor(Vector(1, 1, 1))
+
+			return
+		end
+		
         if (MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and MOAT_INVS[ply]["l_slot10"].u) then
 			local lt = table.Copy(MOAT_INVS[ply]["l_slot10"])
 			if (lt) then
@@ -720,6 +729,14 @@ hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
     end
 
     function GAMEMODE:TTTPlayerSetColor(ply)
+		if (hook.Run("MoatInventoryShouldGiveLoadout", ply)) then
+			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+			ply:SetColor(Color(255, 255, 255, 255))
+			ply:SetPlayerColor(Vector(1, 1, 1))
+
+			return
+		end
+	
 		if (MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and (MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p)) then
 			local col = GetPaintColor(MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p)
             if (col) then

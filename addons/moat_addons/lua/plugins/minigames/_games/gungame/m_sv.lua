@@ -8,7 +8,6 @@ MG_GG = MG_GG or {}
 MG_GG.Players = {}
 MG_GG.ReqKills = 1
 MG_GG.SpawnProtectionTime = 5
-MG_GG.ModelPath = "models/player/arctic.mdl"--"models/player/normal.mdl"
 MG_GG.Ladder = {
     "weapon_ttt_m16",
     "weapon_ttt_ak47",
@@ -320,7 +319,7 @@ function MG_GG.PlayerSpawn(ply)
 
     timer.Simple(1, function()
         if (not IsValid(ply) or not ply:IsActive()) then return end
-        ply:SetModel(MG_GG.ModelPath)
+        ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
     end)
 end
 
@@ -447,7 +446,7 @@ function MG_GG.BeginRound()
         v:SetRole(ROLE_INNOCENT)
         MG_GG.StripWeapons(v)
         MG_GG.GiveCorrectWeapon(v)
-        v:SetModel(MG_GG.ModelPath)
+        v:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
     end
 
     MG_GG.HookAdd("PlayerSpawn", "MG_GG_SPAWN", MG_GG.PlayerSpawn)

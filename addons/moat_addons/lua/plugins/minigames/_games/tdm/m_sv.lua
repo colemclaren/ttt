@@ -489,7 +489,7 @@ function MG_TDM.PlayerSpawn(ply)
     end)
     timer.Simple(1,function()
         if not IsValid(ply) then return end
-        ply:SetModel("models/player/arctic.mdl")
+        ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
         if ply:GetRole() == ROLE_TRAITOR then
             ply:SetColor(Color(255,0,0,100))
         else
@@ -700,7 +700,7 @@ function MG_TDM.BeginRound()
         v.TDMDamage = 0
         timer.Simple(1.1,function()
             if not IsValid(v) then return end
-            v:SetModel("models/player/arctic.mdl")
+            v:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
             if v:GetRole() == ROLE_TRAITOR then
                 v:SetColor(Color(255,0,0))
             else
