@@ -28,7 +28,7 @@ SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 8
 SWEP.Primary.Automatic = true
 SWEP.Primary.NumShots = 12
-SWEP.AutoSpawnable      = false
+SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.ShowWorldModel                     = false
 
