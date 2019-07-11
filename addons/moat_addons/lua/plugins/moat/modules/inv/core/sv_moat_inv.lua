@@ -942,6 +942,10 @@ net.Receive("MOAT_SEND_TRADE_REQ", function(len, ply)
         return
     end
 
+	if (_otherply == ply) then
+		return
+	end
+
     if (ply.trade_spam and ply.trade_spam > CurTime()) then
         return
     end
