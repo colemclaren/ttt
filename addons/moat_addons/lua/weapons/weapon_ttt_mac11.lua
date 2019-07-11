@@ -21,7 +21,7 @@ SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_MAC10
-SWEP.AutoSpawnable = false
+SWEP.AutoSpawnable = true
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 
 SWEP.Primary.Sound			= Sound("gunshot_ops_mac10")		-- Script that calls the primary fire sound
