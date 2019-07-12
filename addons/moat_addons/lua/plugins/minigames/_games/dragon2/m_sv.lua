@@ -102,11 +102,11 @@ function moat_InitializeDragonBoss(ply)
 end
 
 local rarity_to_placing = {
-	[1] = math.random(5, 6),
-	[2] = 5,
-	[3] = 4,
-	[4] = 4,
-	[5] = 4
+	[1] = 7,
+	[2] = 6,
+	[3] = 5,
+	[4] = 5,
+	[5] = 5
 }
 
 local function moat_BossPlayerDeath(ply)
@@ -200,9 +200,9 @@ local function moat_BossPlayerDeath(ply)
 			local es = math.random(1, 4)
 
 			if (es == 4) then
-				v[1]:m_DropInventoryItem(6)
+				v[1]:m_DropInventoryItem(7)
 			else
-				v[1]:m_DropInventoryItem(5)
+				v[1]:m_DropInventoryItem(6)
 			end
 
 			continue
@@ -211,7 +211,7 @@ local function moat_BossPlayerDeath(ply)
 		if (rarity_to_placing[k]) then
 			v[1]:m_DropInventoryItem(rarity_to_placing[k])
 		else
-			v[1]:m_DropInventoryItem(3)
+			v[1]:m_DropInventoryItem(5)
 		end
 	end
 end
