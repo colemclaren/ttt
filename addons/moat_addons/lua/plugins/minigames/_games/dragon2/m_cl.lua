@@ -348,7 +348,7 @@ net.Receive("Dragon.End", function(len)
 	PrintTable(MOAT_BOSS_DMG)
 	MOAT_BOSS_ROUND_OVER = true
 	moat_InitBossEnd(BOSS_LOSS)
-	MOAT_CUR_APACHE_BOSS = false
+	MOAT_CUR_DRAGON_BOSS = false
 end)
 
 hook.Remove("HUDPaint", "moat_TestBossDraw")
