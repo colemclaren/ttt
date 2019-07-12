@@ -33,8 +33,8 @@ MOAT_MINIGAMES.AddMinigame("Apache Round",
 	"Team up with other players to defeat the apache and receive a prize only if you win!"
 )
 MOAT_MINIGAMES.AddMinigame("Dragon Round", 
-	"dragon", 
-	"moat_start_dragon", 
+	"dragon2", 
+	"moat_dragon", 
 	500, 
 	"Team up with other players to defeat the dragon and receive a prize only if you win!"
 )

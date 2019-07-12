@@ -1,10 +1,11 @@
 if (SERVER) then
 	util.AddNetworkString "cdn.PlayURL"
 
-	function cdn.PlayURL(key, volume, cb)
+	function cdn.PlayURL(key, volume, cb, flags)
 		net.Start "cdn.PlayURL"
 			net.WriteString(key)
 			net.WriteFloat(volume or 1)
+			net.WriteString(flags or "")
 		net.Broadcast()
 	end
 else
@@ -26,11 +27,15 @@ else
 
 	local sound_PlayFile = sound.PlayFile
 	function cdn.PlayURL(key, volume, cb, flags)
-		local cache = cdn.Sound(key)
 		flags = flags or ""
-		
+
+		local cache = false
+		if (not flags:find "stream") then
+			cache = cdn.Sound(key)
+		end
+	
 		if (cache) then
-			return sound_PlayFile(cache, flags, function(s)
+			sound_PlayFile(cache, flags, function(s)
 				if (IsValid(s)) then
 					if (not flags:find "noplay") then
 						s:Play()
@@ -46,7 +51,7 @@ else
 				end
 			end)
 		else
-			return _sound_PlayURL(key, flags, function(s)
+			_sound_PlayURL(key, flags, function(s)
 				if (IsValid(s)) then
 					if (not flags:find "noplay") then
 						s:Play()
@@ -67,7 +72,8 @@ else
 	net.Receive("cdn.PlayURL", function()
 		local key = net.ReadString()
 		local vol = net.ReadFloat()
+		local flags = net.ReadString()
 
-		cdn.PlayURL(key, vol)
+		cdn.PlayURL(key, vol, function() end, flags)
 	end)
 end

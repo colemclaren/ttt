@@ -51,41 +51,26 @@ local dl = steamworks.Download
 local sub = steamworks.IsSubscribed
 local gma = game.MountGMA
 local exist = file.Exists
-local moat_dl = {}
-moat_dl.cur = 1
-/*
-moat_dl.ids = {
-	[1] = "785934793",
-	[2] = "847230994",
-	[3] = "863940132",
-	[4] = "863942563",
-	[5] = "889902236",
-	[6] = "938750501",
-	[7] = "1186879315",
-	[8] = "1239007209",
-	[9] = "1343169881"
-}
-moat_dl.num_of_dls = 9
-*/
-moat_dl.ids = {
+Content = Content or {}
+Content.cur = 1
+Content.ids = {
 	[1] = "1542685010",
 	[2] = "1542687639",
 	[3] = "1542690513",
 	[4] = "1542693501"
 }
-moat_dl.num_of_dls = 4
 
-moat_dl.name = ""
-moat_dl.done = false
-moat_dl.start = 0
+Content.name = ""
+Content.done = false
+Content.start = 0
 
 local grad_r = Material("vgui/gradient-l")
 
-function moat_dl.DrawHUD()
-	if (moat_dl.done == true) then return end
-	if (moat_dl.start < CurTime() and moat_dl.done == true) then return end
+function Content.DrawHUD()
+	if (Content.done == true) then return end
+	if (Content.start < CurTime() and Content.done == true) then return end
 	local scrw = ScrW()
-	local dl_num = math.Round(100 - (100/moat_dl.num_of_dls) * moat_dl.cur)
+	local dl_num = math.Round(100 - (100/(#Content.ids)) * Content.cur)
 	local dl_bar = 1 - (dl_num / 100)
 	
 	surface.SetDrawColor(0, 0, 0, 175)
@@ -187,10 +172,10 @@ function moat_dl.DrawHUD()
 		xalign = TEXT_ALIGN_CENTER,
 	})
 end
-hook.Add("HUDPaint", "moat_dl.drawhud", moat_dl.DrawHUD)
+hook.Add("HUDPaint", "Content.drawhud", Content.DrawHUD)
 
 local tries = 0
-function moat_dl:DownloadID(id, t)
+function Content:DownloadID(id, t)
 	dl(id, true, function(c)
 		if (not c) then
 			if (tries < 10) then self:DownloadAddon(self.cur) return end
@@ -212,8 +197,8 @@ function moat_dl:DownloadID(id, t)
 	end)
 end
 
-function moat_dl:DownloadAddon(n)
-	local wid = self.ids[n]
+function Content:DownloadAddon(n)
+	local wid = self.ids[n] or n
 	tries = tries + 1
 
 	if (sub(wid)) then
@@ -238,7 +223,7 @@ function moat_dl:DownloadAddon(n)
 	end)
 end
 
-function moat_dl:NextAddon()
+function Content:NextAddon()
 	self.cur = self.cur + 1
 	tries = 0
 
@@ -249,18 +234,44 @@ function moat_dl:NextAddon()
 	end
 end
 
-function moat_dl:FinishDownloads()
+function Content:HotMount(wid)
+	if (sub(wid)) then
+		MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "We're subbed to " .. tostring(wid) .. ".\n")
+
+		return
+	end
+
+	info(wid, function(r)
+		if (not r) then
+			if (tries < 10) then self:HotMount(wid) return end
+			return MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "Failed to Hot Load " .. tostring(wid) .. ".\n")
+		end
+
+		dl(r.fileid, true, function(c)
+			if (not c) then
+				if (tries < 10) then self:HotMount(wid) return end
+				return MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "Failed to Mount " .. tostring(wid) .. ".\n")
+			end
+
+			gma(c)
+
+			MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "Hot Loaded " .. tostring(wid) .. ".\n")
+		end)
+	end)
+end
+
+function Content:FinishDownloads()
 	self.done = true
 	-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(0, 255, 0), "Finished Mounting all Addons!\n")
 end
 
 local disable_downloads = CreateClientConVar("disable_downloads", 0, true, false)
 
-function moat_dl.InitDownloads()
-	if (util.NetworkStringToID "ttt_enable_tc" ~= 0) then moat_dl.done = true return end
+function Content.InitDownloads()
+	if (util.NetworkStringToID "ttt_enable_tc" ~= 0) then Content.done = true return end
 	
-	moat_dl.start = CurTime() + 15
-	moat_dl:DownloadAddon(moat_dl.cur)
+	Content.start = CurTime() + 15
+	Content:DownloadAddon(Content.cur)
 end
 
-hook.Add("InitPostEntity", "moat_dl.init", moat_dl.InitDownloads)
+hook.Add("InitPostEntity", "Content.init", Content.InitDownloads)

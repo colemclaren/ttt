@@ -649,7 +649,7 @@ local function moat_CustomHUD()
 				surface_SetMaterial(gradient_r)
 				surface_DrawTexturedRect(x + 7, y + 27, xp_bar_width, 2)
 			end
-		else
+		elseif (wpn.ItemName or wpn.PrintName) then
 			h = h - 26
 
 			if (GetConVar("moat_HUDWeaponCollapse"):GetString() == "false") then
@@ -665,6 +665,8 @@ local function moat_CustomHUD()
 			local name_font = "moat_Medium5"
 			local name = TryTranslation(wpn.ItemName or wpn.PrintName or "Holstered")
 			m_DrawShadowedText(1, name, name_font, draw_name_x, draw_name_y, name_col)
+		else
+			return
 		end
 
 		if (wpn.Primary) then
