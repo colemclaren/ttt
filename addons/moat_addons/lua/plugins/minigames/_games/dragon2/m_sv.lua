@@ -69,8 +69,8 @@ function moat_InitializeDragonBoss(ply)
 	if (MOAT_DRAGON_INITIALIZED) then return end
 	MOAT_DRAGON_INITIALIZED = true
 	local boss_hp = 7500 * #player.GetAll()
-	ply:SetHealth(boss_hp)
 	ply:SetMaxHealth(boss_hp)
+	ply:SetHealth(boss_hp)
 
 	MOAT_DRAGON_ENT = ents.Create "moat_boss_dragon"
 	MOAT_DRAGON_ENT:SetOwner(ply)
@@ -92,7 +92,8 @@ function moat_InitializeDragonBoss(ply)
 
 	ply:SelectWeapon("weapon_ttt_unarmed")
 
-	MOAT_DRAGON_ENT:SetHealth(ply:Health())
+	MOAT_DRAGON_ENT:SetMaxHealth(boss_hp)
+	MOAT_DRAGON_ENT:SetHealth(boss_hp)
 
 	net.Start("Dragon.Begin")
 	net.WriteEntity(MOAT_DRAGON_ENT)

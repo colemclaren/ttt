@@ -62,7 +62,10 @@ local function moat_DrawBossHealth()
 	local h = 30
 	local w = 600
 	local y = 50
-	local health_ratio = MOAT_CUR_BOSS_PLY:Health() / MOAT_CUR_BOSS_PLY:GetMaxHealth()
+	local hp = MOAT_CUR_BOSS_PLY:Health()
+	local maxhp = MOAT_CUR_BOSS_PLY:GetMaxHealth()
+	local health_ratio = hp / maxhp
+
 	health_ratio = math.Clamp(health_ratio, 0, 1)
 	boss_health_width = Lerp(FrameTime() * 10, boss_health_width, (health_ratio) * (w - 2))
 	local health_green = 255 * health_ratio
@@ -93,7 +96,7 @@ local function moat_DrawBossHealth()
 			
 	--m_DrawShadowedText(1, "Team up and kill the dragon! You have done " .. (ur_damage or 0) .. " damage", "moat_ItemDesc", (ScrW() / 2), 30, Color(200, 200, 200, 255), TEXT_ALIGN_CENTER)
 
-	if (MOAT_CUR_BOSS_PLY == LocalPlayer()) then
+	if (MOAT_CUR_BOSS_PLY == LocalPlayer() and hp < (maxhp/2)) then
 		DrawRainbowText(2, "LEFT + RIGHT CLICK FOR ULTIMATE!! (HAS COOLDOWN)", "TimeLeft", (ScrW() / 2), 120, TEXT_ALIGN_CENTER)
 	end
 end
@@ -161,12 +164,12 @@ local function moat_DrawBossEnd(MOAT_BOSS_LOSS)
 	DrawBlurScreen(5)
 	local text = END_ROUND_LOSS
 	local textc = Color(255, 0, 0)
-	local textc2 = Color(50, 0, 0)
+	local textc2 = Color(178, 102, 255)
 
 	if (MOAT_BOSS_LOSS) then
 		text = END_ROUND_WIN
 		textc = Color(0, 255, 0)
-		textc2 = Color(0, 50, 0)
+		textc2 = Color(178, 102, 255)
 	end
 
 	surface.SetFont("moat_BossWarning")
