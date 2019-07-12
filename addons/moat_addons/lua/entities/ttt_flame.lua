@@ -106,12 +106,9 @@ function RadiusDamage(dmginfo, pos, radius, inflictor)
 end
 
 function ENT:OnRemove()
-	local fc = self.firechild
-	timer.Simple(0, function()
-		if (IsValid(fc)) then
-			fc:Remove()
-		end
-    end)
+	if (IsValid(self.firechild)) then
+		self.firechild:Remove()
+	end
 end
 
 function ENT:OnTakeDamage()
@@ -148,10 +145,10 @@ function ENT:Think()
         end
 
         if (IsValid(self.firechild)) then
-            --self.firechild:Remove()
+            self.firechild:Remove()
         end
 
-        --self:Remove()
+        self:Remove()
 
         return
     end

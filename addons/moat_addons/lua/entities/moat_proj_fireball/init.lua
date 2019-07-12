@@ -153,7 +153,7 @@ end
 
 function ENT:Think()
 	if (not IsValid(self.Owner)) then
-		timer.Simple(0, function() self:Remove() end)
+		self:Remove()
 
 		return
 	end
