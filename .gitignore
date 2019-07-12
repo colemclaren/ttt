@@ -27,7 +27,7 @@
 # sounds (use cdn if u can)
 !/sound/**/*.mp3
 !/sound/**/*.ogg
-
+!/sound/**/*.wav
 
 # random bullshit
 !/lua/bin/gmsv_luaerror_linux.dll

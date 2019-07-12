@@ -1,0 +1,27 @@
+"VertexLitGeneric"
+{
+	
+	"$baseTexture"	"models/NPC_bone_dragon/bone_dragon"
+	"$surfaceprop" "flesh"
+	
+	"$bumpmap" "models/NPC_bone_dragon/bone_dragon_normal"
+
+	"$normalmapalphaenvmapmask" 1
+	"$envmapcontrast" 0.5
+	"$envmapsaturation" 1
+
+
+	"$alphatest" 1
+	
+	"$envmap" "env_cubemap"
+
+	"vertexlitgeneric_HDR_dx9"
+
+	{
+
+              "$envmaptint" "[.8 .8 .8]"
+
+	}
+
+
+}
