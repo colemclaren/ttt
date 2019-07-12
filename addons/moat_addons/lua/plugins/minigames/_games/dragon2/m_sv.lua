@@ -68,7 +68,7 @@ end
 function moat_InitializeDragonBoss(ply)
 	if (MOAT_DRAGON_INITIALIZED) then return end
 	MOAT_DRAGON_INITIALIZED = true
-	local boss_hp = 8000 * #player.GetAll()
+	local boss_hp = 7000 * #player.GetAll()
 	ply:SetHealth(boss_hp)
 	ply:SetMaxHealth(boss_hp)
 
