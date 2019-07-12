@@ -178,7 +178,11 @@ local function moat_BossPlayerDeath(ply)
 		-- cdn.PlayURL("https://cdn.moat.gg/f/ubbd7fKB9WdDWbk5J1QMC3iM81GG.mp3", 2)
 
 		if (IsValid(MOAT_DRAGON_PLY)) then
-			MOAT_DRAGON_PLY:m_DropInventoryItem(math.random(5, 6))
+			if (math.random(2) == 2) then
+				MOAT_DRAGON_PLY:m_DropInventoryItem(7)
+			else
+				MOAT_DRAGON_PLY:m_DropInventoryItem(6)
+			end
 		end
 
 		return
