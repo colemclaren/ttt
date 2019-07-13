@@ -127,7 +127,7 @@ hook.Add("TTTBeginRound", "Staff Tracker", function()
         if (ply.IsStaff) then
             RoundStart = os.time()
             STAFF_TRACK.AddStat(ply, "rounds_on", 1)
-            if (not ply:IsSpec()) then
+            if (not ply:GetForceSpec()) then
                 STAFF_TRACK.AddStat(ply, "rounds_played", 1)
             end
         end
@@ -135,7 +135,7 @@ hook.Add("TTTBeginRound", "Staff Tracker", function()
 end)
 hook.Add("TTTEndRound", "Staff Tracker", function()
     for _, ply in pairs(player.GetAll()) do
-        if (ply.IsStaff and not ply:IsSpec()) then
+        if (ply.IsStaff and not ply:GetForceSpec()) then
             STAFF_TRACK.AddStat(ply, "time_played", os.time() - RoundStart)
         end
     end
