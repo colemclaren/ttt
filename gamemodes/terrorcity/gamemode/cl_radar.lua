@@ -159,7 +159,7 @@ function RADAR:Draw(client)
         md = mpos:Distance(Vector(scrpos.x, scrpos.y, 0))
 
         if md < near_cursor_dist then
-            alpha = math.Clamp(alpha * (md / near_cursor_dist), 10, 230)
+            alpha = math.Clamp(alpha * (md / near_cursor_dist), 10, 180)
         end
 
         role = tgt.role or ROLE_INNOCENT
