@@ -647,7 +647,7 @@ function MOAT_LOADOUT.UpdateModelPosSingle(_, ply)
 	if (slider_id > #clamp_table or slider_id == 0) then return end
 
 	local item_pos = math.Clamp(net.ReadDouble(), clamp_table[slider_id][1], clamp_table[slider_id][2])
-	if (item_id and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_id]) then
+	if (slider_id and slider_id == 1 and item_id and MOAT_BODY_ITEMS and MOAT_BODY_ITEMS[item_id]) then
 		item_pos = 0
 	end
 

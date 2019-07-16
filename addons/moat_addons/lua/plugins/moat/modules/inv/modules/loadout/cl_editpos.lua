@@ -1,6 +1,6 @@
 local cookie_prefix = "moatbeta_pos"
 
-MOAT_MODEL_POS_EDITS = {}
+MOAT_MODEL_POS_EDITS = MOAT_MODEL_POS_EDITS or {}
 MOAT_MODEL_POS_EDITS_DEFAULTS = {
 	0,
 	0,
