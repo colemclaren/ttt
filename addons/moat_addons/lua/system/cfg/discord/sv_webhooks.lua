@@ -20,12 +20,10 @@ discord.AddChannels{
 	["mga-logs"] = "https://discord.moat.gg/api/webhooks/490002648917999637/ZyTVsaXcgh4bp6i4OPK6SRQiCuTuHrvLjNyexfUEDEcWD4oA0WQEtI2VGTk39_k86olR",
 	["toxic-logs"] = "https://discord.moat.gg/api/webhooks/577591732972027904/-3KGtxLn8keIloPSOnBThBM4Ry2XO5EoVZwFwpdf8uw3r2sdCJZV8LaGXNq09-Jb_g9p",
     ["error-logs-sv"] = "https://discord.moat.gg/api/webhooks/502947110736625676/LzY80EGeb_sBfrlUpC8rWkm0H4Btzi7JOr3GhKqImQMoFIEP_beF7BeUHrxQ47RVVNhN",
-    ["server-list"] = "https://discord.moat.gg/api/webhooks/568878605028032544/aFMT607kx1rCTElMFc7Cq0LlsWci1STxxWnOTS8QEY6rz2w76fSzGlvPbRI9nmfs7gKK",
-    ["enhanced-boss-logs"] = "https://canary.discordapp.com/api/webhooks/600692601909280778/m4SxcsyZN8OBX-J20CrC-d3Xf9CpgyO4zDipV7Ih50iHLzc8dhLxC8tC2PAgzWl1coLZ",
+    ["server-list"] = "https://discord.moat.gg/api/webhooks/568878605028032544/aFMT607kx1rCTElMFc7Cq0LlsWci1STxxWnOTS8QEY6rz2w76fSzGlvPbRI9nmfs7gKK"
 }
 
 discord.AddUsers("general", {"Moat TTT Announcement", "Lottery Announcement"}, true)
-discord.AddUsers("enhanced-boss-logs", {"AntiCheat - Lua"}, true)
 discord.AddUsers("ttt-bot", {"Event", "Drop"})
 discord.AddUsers("ttt-challenges", {"Contracts", "Bounties", "Lottery"})
 discord.AddUsers("ttt-logs", {"Lottery Win", "Gamble Win"}, true)
