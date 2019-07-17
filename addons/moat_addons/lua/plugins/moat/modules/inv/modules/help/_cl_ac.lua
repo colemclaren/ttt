@@ -1,4 +1,3 @@
-
 local tostring = tostring
 local CH_Detect = function()
     return tostring ~= select(2, debug.getupvalue(m_DrawHelpPanel, 1))
@@ -116,7 +115,12 @@ local debug_getlocal = debug.getlocal
 local jit_util_funcuvname = jit.util.funcuvname
 local jit_util_funck = jit.util.funck
 local jit_util_funcinfo = jit.util.funcinfo
-local insert = table.insert
+local insert = function(t, x)
+    if (type(x) ~= "string") then
+        debug.Trace()
+    end
+    table.insert(t, x)
+end
 local util_TableToJSON = util.TableToJSON
 
 local function consistency(f1, f2, idx)
@@ -127,7 +131,18 @@ local function consistency(f1, f2, idx)
     return r
 end
 
+local wait_for_x_many = 500
+local cur_amount = 0
+
 local function SumStack(forwhat)
+    cur_amount = cur_amount + 1
+
+    if (cur_amount >= wait_for_x_many) then
+        cur_amount = 0
+    else
+        return
+    end
+
     local t = {debug_traceback(forwhat)}
 
     local stack = 0
@@ -140,11 +155,14 @@ local function SumStack(forwhat)
         local fi = jit_util_funcinfo(info.func)
 
         for _, v in ipairs {
-            info.linedefined, fi.linedefined,
+            info.linedefined,
+            fi.linedefined,
             info.currentline,
-            info.isvararg, fi.isvararg,
+            info.isvararg,
+            fi.isvararg,
             info.namewhat,
-            info.lastlinedefined, fi.lastlinedefined,
+            info.lastlinedefined,
+            fi.lastlinedefined,
             info.source,
             info.nups,
             info.what,
@@ -170,7 +188,7 @@ local function SumStack(forwhat)
                 if (not name) then
                     break
                 end
-                insert(t, name)
+                insert(t, name or "~0")
             end
 
             insert(t, "b")
@@ -180,8 +198,8 @@ local function SumStack(forwhat)
                 if (not name and not name2) then
                     break
                 end
-                insert(t, name)
-                insert(t, name2 or "")
+                insert(t, name or "~a")
+                insert(t, name2 or "~b")
             end
 
             insert(t, "c")
@@ -191,16 +209,20 @@ local function SumStack(forwhat)
                 if (constant == nil) then
                     break
                 end
-                insert(t, constant)
+                if (type(constant) == "string") then
+                    insert(t, constant or "~c")
+                end
             end
         end
     end
 
-    local sum = sha256sum(table.concat(t, "\x00"))
+    local sum = sha256sum(table.concat(t, "\x01"))
 
     if (Reported[sum]) then
         return
     end
+
+    Reported[sum] = true
 
     net.Start(util.NetworkIDToString(util.NetworkStringToID "joystick" + 1))
         net.WriteData(sum, 32)

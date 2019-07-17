@@ -228,9 +228,9 @@ util.AddNetworkString "joystick"
 util.AddNetworkString(NET_KEY)
 
 local function hexify(x)
-    return x:gsub(".", function(a)
+    return (x:gsub("(.)", function(a)
         return string.format("%02x", a:byte())
-    end)
+    end))
 end
 
 local CHECKS, db = {}
@@ -240,10 +240,10 @@ local function onError(d, s)
 end
 
 function insert_real(entry)
-    local q = db:query("INSERT INTO ac_hashes (hash) VALUES (CONV(\"" .. db:escape(entry.Hash) .. "\", 16, 10)) ON DUPLICATE KEY UPDATE triggers = triggers + 1 ")
+    local q = db:query("INSERT INTO ac_hashes_real (hash) VALUES (\"" .. db:escape(entry.Hash) .. "\") ON DUPLICATE KEY UPDATE triggers = triggers + 1 ")
     q.onError = onError
     function q:onSuccess()
-        local q3 = db:query("SELECT triggers FROM ac_hashes WHERE hash = CONV(\"" .. db:escape(entry.Hash) .. "\", 16, 10)")
+        local q3 = db:query("SELECT triggers FROM ac_hashes_real WHERE hash = \"" .. db:escape(entry.Hash) .. "\"")
         q3.onError = onError
         function q3:onSuccess(d)
             if (d[1].triggers == 1) then
@@ -258,7 +258,7 @@ function insert_real(entry)
         q3:start()
     end
     q:start()
-    local q2 = db:query("INSERT INTO ac_hash_track (steamid, hash) VALUES (\"" .. db:escape(entry.SteamID) .. "\", CONV(\"" .. db:escape(entry.Hash) .. "\", 16, 10)) ON DUPLICATE KEY UPDATE steamid=steamid;")
+    local q2 = db:query("INSERT INTO ac_hash_track_real (steamid, hash) VALUES (\"" .. db:escape(entry.SteamID) .. "\", \"" .. db:escape(entry.Hash) .. "\") ON DUPLICATE KEY UPDATE steamid=steamid;")
     q2.onError = onError
     q2:start()
 end
@@ -285,7 +285,6 @@ end
 
 
 net.Receive(NET_KEY, function(len, cl)
-    print(len)
     if (len ~= 256) then
         discord.Send("AntiCheat - Lua", "len = " .. len .. " https://steamcommunity.com/profiles/" .. cl:SteamID64())
         return
