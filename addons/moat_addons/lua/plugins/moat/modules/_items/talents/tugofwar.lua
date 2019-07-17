@@ -26,5 +26,10 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
         local v = attacker:GetAimVector()
         v:Rotate(angle180)
         victim:SetVelocity(v * (10 * force))
+        victim.was_pushed = {
+            att = attacker,
+            t = CurTime(),
+            wep = attacker:GetActiveWeapon():GetClass()
+        }
     end
 end
