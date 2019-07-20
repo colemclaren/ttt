@@ -1,7 +1,7 @@
 
 ITEM.ID = 108
 
-ITEM.Name = "KFC Bucket"
+ITEM.Name = "Popcorn Bucket"
 
 ITEM.Description = "Incoming racist joke"
 
