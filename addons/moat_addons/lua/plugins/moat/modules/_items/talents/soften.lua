@@ -39,8 +39,8 @@ EFFECT.Message = "Softened"
 EFFECT.Color = TALENT.NameColor
 EFFECT.Material = "icon16/user_delete.png"
 function EFFECT:Init(data)
-	local att = data.Player
-	att.Soften = 1 + data.Percent
+	local vic = data.Player
+	vic.Soften = 1 + data.Percent
 
 	self:CreateEndTimer(data.Time, data)
 end
@@ -48,6 +48,6 @@ end
 function EFFECT:OnEnd(data)
 	if (not IsValid(data.Player)) then return end
 
-	local att = data.Player
-	att.Soften = nil
+	local vic = data.Player
+	vic.Soften = nil
 end
