@@ -1360,7 +1360,7 @@ MOAT_BOUNTIES:AddBounty("Knife Addicted", {
 	tier = 2,
 	desc = "Eliminate # terrorists, rightfully, with a knife. Can be completed as a traitor only.",
 	vars = {
-		math.random(3, 7),
+		math.random(4, 7),
 	},
 	runfunc = function(mods, bountyid, idd)
 		hook.Add("PlayerDeath", "moat_knife_addicted", function(ply, inf, att)
