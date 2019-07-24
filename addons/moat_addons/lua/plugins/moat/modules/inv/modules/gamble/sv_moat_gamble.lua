@@ -1341,6 +1341,7 @@ function jackpot_()
                 if (not IsValid(ply)) then
                     local q = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. id.. "';")
                     q:start()
+                    discord.Send("Gamble Log", id .. " attempted to leave after creating versus game")
                     return
                 end
                 if not ply:m_HasIC(amount) then

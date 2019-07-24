@@ -185,7 +185,7 @@ hook.Add("TTTEndRound", "QuadXP", function()
 			function meta:ApplyXP(num)
 				self:oApplyXP(num)
 			end
-			XP_MULTIPYER = 4
+			XP_MULTIPYER = 2
 		end
 
 		print(rounds, "Quad XP Left")
