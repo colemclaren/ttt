@@ -1339,7 +1339,7 @@ function jackpot_()
             versus_creategame(id, amount, function()
                 ply.VersusCreateCool = false
                 if (not IsValid(ply)) then
-                    local q = db:query("DELETE FROM " .. dev_suffix .. " WHERE steamid = '" .. id.. "';")
+                    local q = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. id.. "';")
                     q:start()
                     return
                 end
