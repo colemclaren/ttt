@@ -128,7 +128,7 @@ function Content.DrawHUD()
 	})
 
 	draw.Text({
-		text = "Woah, welcome to the server! We're fixing these errors you see for you.",
+		text = "Woah, welcome to the server! We're fixing these errors you see for you",
 		font = "moat_wdls", 
 		pos = {scrw/2 + 1, 76},
 		xalign = TEXT_ALIGN_CENTER,
@@ -136,7 +136,7 @@ function Content.DrawHUD()
 	})
 
 	draw.Text({
-		text = "Woah, welcome to the server! We're fixing these errors you see for you.",
+		text = "Woah, welcome to the server! We're fixing these errors you see for you",
 		font = "moat_wdl", 
 		pos = {scrw/2, 75},
 		xalign = TEXT_ALIGN_CENTER
@@ -158,7 +158,7 @@ function Content.DrawHUD()
 	})
 
 	draw.Text({
-		text = "You might experience a slight stutter while we do, it's normal. <3",
+		text = "You might experience a slight stutter while we do, it's normal <3",
 		font = "moat_ItemDescShadow3", 
 		pos = {scrw/2 + 1, 176},
 		xalign = TEXT_ALIGN_CENTER,
@@ -166,7 +166,7 @@ function Content.DrawHUD()
 	})
 
 	draw.Text({
-		text = "You might experience a slight stutter while we do, it's normal. <3",
+		text = "You might experience a slight stutter while we do, it's normal <3",
 		font = "moat_ItemDesc", 
 		pos = {scrw/2, 175},
 		xalign = TEXT_ALIGN_CENTER,
