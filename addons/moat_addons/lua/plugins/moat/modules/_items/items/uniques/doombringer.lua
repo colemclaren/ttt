@@ -16,7 +16,7 @@ ITEM.MinStats = 9
 ITEM.MaxStats = 9
 
 ITEM.Stats = {
-	Damage = { min = 36, max = 56 },
+	Damage = { min = 66, max = 86 },
 	Accuracy = { min = 15, max = 30 },
 	Kick = { min = 15, max = 32 },
 	Firerate = { min = 16, max = 28 },
