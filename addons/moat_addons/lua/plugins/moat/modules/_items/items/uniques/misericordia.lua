@@ -1,7 +1,7 @@
 
 ITEM.ID = 322
 
-ITEM.Name = "Misicordia"
+ITEM.Name = "Miscordia"
 
 ITEM.NameColor = Color( 0, 189, 71 )
 
@@ -16,14 +16,13 @@ ITEM.MinStats = 6
 ITEM.MaxStats = 6
 
 ITEM.Stats = {
-
-	Damage = { min = 15, max = 30 },
-	Accuracy = { min = 10, max = 10 },
-	Kick = { min = 0, max = 10 },
-	Magazine = { min = 5, max = 19 },
-	Range = { min = 5, max = 10 },
-	Weight = { min = -10, max = -20 }
-
+	Damage = { min = 17, max = 28 },
+	Accuracy = { min = 17, max = 28 },
+	Kick = { min = -17, max = -28 },
+	Firerate = { min = 17, max = 28 },
+	Magazine = { min = 23, max = 33 },
+	Range = { min = 23, max = 33 },
+	Weight = { min = -5, max = -7 }
 }
 
 ITEM.WeaponClass = "weapon_ttt_glock"
