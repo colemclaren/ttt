@@ -11,25 +11,26 @@ ITEM.Rarity = 6
 
 ITEM.Collection = "Beta Collection"
 
-ITEM.MinStats = 6
+ITEM.MinStats = 9
 
-ITEM.MaxStats = 6
+ITEM.MaxStats = 9
 
 ITEM.Stats = {
-
-	Damage = { min = 60, max = 95 },
+	Damage = { min = 36, max = 56 },
 	Accuracy = { min = 15, max = 30 },
-	Kick = { min = -11, max = -19 },
-	Magazine = { min = -35, max = -65 },
-	Range = { min = -40, max = -68 },
-	Weight = { min = -5, max = -10 }
-
+	Kick = { min = 15, max = 32 },
+	Firerate = { min = 16, max = 28 },
+	Magazine = { min = 6, max = 18 },
+	Range = { min = 10, max = 25 },
+	Weight = { min = 6, max = 18 },
+    Deployrate = { min = -12, max = -25 },
+    Reloadrate = { min = 15, max = 30 },
 }
 
 ITEM.WeaponClass = "weapon_ttt_m16"
 
-ITEM.MinTalents = 1
+ITEM.MinTalents = 2
 
-ITEM.MaxTalents = 1
+ITEM.MaxTalents = 2
 
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random", "random" }
