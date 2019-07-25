@@ -3,7 +3,7 @@ ITEM.ID = 352
 
 ITEM.Name = "Shiny"
 
-ITEM.NameColor = Color( 127, 178, 255 )
+ITEM.NameColor = Color( 0, 255, 200 )
 
 ITEM.Rarity = 7
 
