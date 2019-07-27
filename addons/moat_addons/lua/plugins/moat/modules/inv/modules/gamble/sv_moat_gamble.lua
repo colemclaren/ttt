@@ -1075,7 +1075,7 @@ function jackpot_()
                 versus_queue[ply] = nil
                 return
             end
-            local q = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. ply:SteamID64().. "';")
+            local q = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. ply:SteamID64().. "' AND other IS NULL;")
             function q:onSuccess()
                 versus_queue[ply] = nil
                 addIC(ply,d.money)
