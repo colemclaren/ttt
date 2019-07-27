@@ -18,7 +18,7 @@ local DefaultLoadout = {
 	["weapon_zm_carry"] = true
 }
 
---for k, v in pairs(ents.FindByClass"moat_dragon") do v:SetModelScale(.2, 0) end
+-- for k, v in pairs(ents.FindByClass"moat_dragon") do v:SetModelScale(.2, 0) end
 
 function m_GetActiveBoss()
 	return MOAT_BOSS_CUR or MOAT_DRAGON_PLY

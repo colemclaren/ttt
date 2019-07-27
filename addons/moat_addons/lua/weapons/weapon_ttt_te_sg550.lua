@@ -157,7 +157,7 @@ SWEP.WeaponID = AMMO_AK47
 
 SWEP.Primary.Delay = 0.11
 SWEP.Primary.Recoil = 1.04
-SWEP.Primary.Cone = 0.025
+SWEP.Primary.Cone = 0.006
 SWEP.Primary.Damage = 18
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30

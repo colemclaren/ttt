@@ -177,10 +177,12 @@ m_InitializeTalents()
 
 concommand.Add("moat_finditemid",function(ply)
     if (IsValid(ply)) then return end
+
+	local id = 0
     for i = 1,10000 do
-        if (not MOAT_DROPTABLE[i]) then
+        if (not MOAT_DROPTABLE[i] and id <= 100) then
             print("Unused: ITEM.ID = " .. i)
-            break
+			id = id + 1
         end
     end
 end)
