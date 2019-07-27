@@ -1095,7 +1095,7 @@ function jackpot_()
 	if (gamble_net_spam(ply, "gversus.CancelGame")) then return end
         if versus_queue[ply] then return end
         if (ply.VersCool and ply.VersCool > CurTime()) then
-		m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
+		m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. math.Round(ply.VersCool - CurTime(),3) .. " seconds before performing that action.")
 		return
 	end
         	
@@ -1295,7 +1295,7 @@ function jackpot_()
         if sid == ply:SteamID64() then return end
 
         if (ply.VersCool and ply.VersCool > CurTime()) then
-            m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
+            m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. math.Round(ply.VersCool - CurTime(),3) .. " seconds before performing that action.")
             return
         end
                 
@@ -1330,7 +1330,7 @@ function jackpot_()
             end
 
             if (ply.VersCool and ply.VersCool > CurTime()) then
-                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. ply.VersCool - CurTime() .. " secs before performing that action.")
+                m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait " .. math.Round(ply.VersCool - CurTime(),3) .. " seconds before performing that action.")
                 ply.VersusCreateCool = false
                 return
             end

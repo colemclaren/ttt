@@ -5518,7 +5518,11 @@ net.Receive("MOAT_GAMBLE_CHAT", function(len)
 		table.remove(MOAT_GAMBLE.ChatTable, 1)
 	end
 	table.insert(MOAT_GAMBLE.ChatTable, tbl)
-	if MOAT_GAMBLE.LocalChat then
+	if isstring(tbl[2]) then
+		if tbl[2] ~= "[" then
+			m_AddGambleChatMessage(unpack(tbl))
+		end
+	elseif MOAT_GAMBLE.LocalChat then
 		m_AddGambleChatMessage(unpack(tbl))
 	end
 end)
