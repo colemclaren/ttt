@@ -2,7 +2,7 @@ ITEM.ID = 316
 ITEM.Name = "Doomladen"
 ITEM.NameColor = Color(231, 213, 10)
 ITEM.NameEffect = "glow"
-ITEM.Rarity = 6
+ITEM.Rarity = 7
 ITEM.Collection = "Beta Collection"
 ITEM.WeaponClass = "weapon_ttt_m16"
 
@@ -22,4 +22,4 @@ ITEM.Stats = {
 
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
-ITEM.Talents = { "random", "Explosive" }
+ITEM.Talents = { "random", "random" }
