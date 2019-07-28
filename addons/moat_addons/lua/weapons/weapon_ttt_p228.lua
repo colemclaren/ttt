@@ -21,7 +21,7 @@ SWEP.AdminSpawnable         = true
 
 SWEP.Primary.Sound          = Sound("gunshot_p228")     -- Script that calls the primary fire sound
 SWEP.Primary.SilencedSound  = Sound("")     -- Sound if the weapon is silenced
-SWEP.Primary.Delay              = 0.22
+SWEP.Primary.Delay              = 0.16
 SWEP.Primary.ClipSize           = 25        -- Size of a clip
 SWEP.Primary.DefaultClip        = 25        -- Bullets you start with
 SWEP.Primary.ClipMax            = 75
