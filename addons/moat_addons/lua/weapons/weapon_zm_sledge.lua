@@ -21,8 +21,8 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_M249
 SWEP.ENUM = 1
 
-SWEP.Primary.Damage         = 18
-SWEP.Primary.Delay = 0.08
+SWEP.Primary.Damage         = 15
+SWEP.Primary.Delay = 0.065
 SWEP.Primary.Cone           = 0.01
 SWEP.Primary.ClipSize = 150
 SWEP.Primary.ClipMax = 450
