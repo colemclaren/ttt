@@ -14,12 +14,12 @@ function m_AddGambleChatPlayer(ply, ...)
 end
 
 function versus_tax(am)
-    if am > 1000 then 
-        am = math.floor(am * 0.99) 
+    if am > 99999 then 
+        am = math.floor(am * 0.9) 
     elseif am > 9999 then
         am = math.floor(am * 0.975)
-    elseif am > 99999 then 
-        am = math.floor(am * 0.95) 
+    elseif am > 1000 then 
+        am = math.floor(am * 0.99) 
     end
     return am
 end
