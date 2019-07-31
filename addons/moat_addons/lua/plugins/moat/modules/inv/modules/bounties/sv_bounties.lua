@@ -195,13 +195,11 @@ local function _contracts()
 		if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 		if (not tier or not id) then return end
 		if (not ply.Bounties) then 
-			ply.Bounties = {
-				ID = MOAT_BOUNTIES.ActiveBounties.ID
-			}
+			return
 		end
 		if (ply.Bounties.ID or 0) ~= MOAT_BOUNTIES.ActiveBounties.ID then 
 			ply.Bounties = {
-				ID = MOAT_BOUNTIES.ActiveBounties.ID
+				ID = MOAT_BOUNTIES.ActiveBounties.ID,
 			} -- saved from last day of bounties
 		end
 		
@@ -233,6 +231,10 @@ local function _contracts()
 		function q:onSuccess(d)
 			if #d > 0 then
 				ply.Bounties = util.JSONToTable(d[1].score)
+			else
+				ply.Bounties = {
+					ID = MOAT_BOUNTIES.ActiveBounties.ID
+				}
 			end
 			
 			for k,v in pairs(MOAT_BOUNTIES.ActiveBounties) do
