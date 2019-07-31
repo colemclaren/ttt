@@ -1381,7 +1381,7 @@ MOAT_BOUNTIES:AddBounty("Knife Addicted", {
 
 MOAT_BOUNTIES:AddBounty("DNA Addicted", {
 	tier = 2,
-	desc = "Use the DNA tool to locate # traitors. Can be completed as a detective only.",
+	desc = "Use the DNA tool to locate # traitors. Can be completed as a any role.",
 	vars = {
 		math.random(7, 12),
 	},
@@ -1397,7 +1397,7 @@ MOAT_BOUNTIES:AddBounty("DNA Addicted", {
 				ply.dnatbl = {}
 			end
 
-			if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE and ply:GetRole() == ROLE_DETECTIVE and IsValid(dna_owner) and dna_owner:GetRole() == ROLE_TRAITOR and not table.HasValue(ply.dnatbl, ent)) then
+			if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE and IsValid(dna_owner) and dna_owner:GetRole() == ROLE_TRAITOR and not table.HasValue(ply.dnatbl, ent)) then
 				table.insert(ply.dnatbl, ent)
 				
 				MOAT_BOUNTIES:IncreaseProgress(ply, bountyid, mods[1], idd)
