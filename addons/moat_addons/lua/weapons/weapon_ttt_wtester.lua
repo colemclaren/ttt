@@ -48,7 +48,7 @@ SWEP.WeaponID = AMMO_WTESTER
 SWEP.InLoadoutFor = {ROLE_DETECTIVE}
 
 SWEP.AllowDrop = true
-SWEP.AutoSpawnable = false
+SWEP.AutoSpawnable = false 
 
 SWEP.NoSights = true
 
