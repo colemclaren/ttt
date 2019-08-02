@@ -17,13 +17,13 @@ ITEM.MinStats = 5
 
 ITEM.Stats = {
 
-	Weight = { min = 50, max = 75},
+	Weight = { min = -15, max = -25 },
 
 	Damage = { min = 5, max = 20 },
 
 	Firerate = { min = 30, max = 60 },
 
-	Pushrate = { min = 10, max = 30 },
+	Pushrate = { min = 50, max = 100 },
 
 	Force = { min = 13, max = 20 }
 
