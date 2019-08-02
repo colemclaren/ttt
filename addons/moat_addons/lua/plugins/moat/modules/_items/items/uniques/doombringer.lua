@@ -1,6 +1,6 @@
 ITEM.ID = 316
 ITEM.Name = "Doomladen"
-ITEM.NameColor = Color(231, 213, 10)
+ITEM.NameColor = Color(231, 213, 11)
 ITEM.NameEffect = "glow"
 ITEM.Rarity = 6
 ITEM.Collection = "Beta Collection"
