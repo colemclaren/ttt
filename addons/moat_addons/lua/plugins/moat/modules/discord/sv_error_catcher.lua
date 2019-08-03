@@ -77,6 +77,9 @@ end
 
 local function catchError(pl, err, src, _, _, stack)
 	if (not err or error_cache[err]) then return end
+	if isbool(pl) or (not pl) then -- serverside error
+		post({err = err, ip = MOAT_RCON.Server, rlm = 2, st = stack})
+	end
 	if (not MOAT_RCON or not MOAT_RCON.DBHandle) then return end -- sql not loaded yet
 	error_cache[err] = true
 	--if (not src or not src:find("moat_addons")) then return end
