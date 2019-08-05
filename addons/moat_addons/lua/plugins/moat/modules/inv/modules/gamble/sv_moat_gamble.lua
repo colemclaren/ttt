@@ -1075,8 +1075,9 @@ function jackpot_()
                 versus_queue[ply] = nil
                 return
             end
-            local q = db:query("DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. ply:SteamID64().. "' AND other IS NULL;")
-            function q:onSuccess()
+            local q = db:query("SELECT steamid FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. ply:SteamID64().. "' AND other IS NULL;DELETE FROM moat_versus" .. dev_suffix .. " WHERE steamid = '" .. ply:SteamID64().. "' AND other IS NULL;")
+            function q:onSuccess(b)
+                if #b < 1 then return end -- someone already joined
                 versus_queue[ply] = nil
                 addIC(ply,d.money)
                 versus_curgames[ply:SteamID64()] = nil
