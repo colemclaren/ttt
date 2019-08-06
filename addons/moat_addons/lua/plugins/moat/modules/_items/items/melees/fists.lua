@@ -21,7 +21,7 @@ ITEM.Stats = {
 
 	Damage = { min = 10, max = 25 },
 
-	Firerate = { min = 40, max = 80 },
+	Firerate = { min = 20, max = 50 },
 
 	Pushrate = { min = 5, max = 10 },
 

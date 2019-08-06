@@ -18,7 +18,7 @@ SWEP.WorldModel			= ""
 SWEP.Weight			= 5
 SWEP.DrawCrosshair		= false
 SWEP.ViewModelFlip		= false
-SWEP.Primary.Damage = 20
+SWEP.Primary.Damage = 17.5
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.DefaultClip	= -1
 SWEP.Primary.Automatic		= true
@@ -149,7 +149,7 @@ function SWEP:PrimaryAttack()
 
    if IsValid(hitEnt) or tr_main.HitWorld then
       vm:SendViewModelMatchingSequence(vm:LookupSequence(anim))
-      owner:ViewPunch( Angle( 4, 4, 0 ) )
+      owner:ViewPunch( Angle( 1, 1, 0 ) )
       self.Owner:SetAnimation( PLAYER_ATTACK1 )
 	  
 	  self.Weapon:EmitSound(sound_open)
@@ -180,7 +180,7 @@ function SWEP:PrimaryAttack()
       end
    else
       vm:SendViewModelMatchingSequence(vm:LookupSequence(anim))
-      owner:ViewPunch( Angle( 4, 4, 0 ) )
+      owner:ViewPunch( Angle( 1, 1, 0 ) )
       self.Owner:SetAnimation( PLAYER_ATTACK1 )
    end
 
@@ -251,7 +251,7 @@ function SWEP:SecondaryAttack()
       local ply = tr.Entity
 	  
 	  vm:SendViewModelMatchingSequence( vm:LookupSequence( anim ) )
-	  owner:ViewPunch( Angle( 4, 4, 0 ) )
+	  owner:ViewPunch( Angle( 2, 2, 0 ) )
       self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
       if SERVER and (not ply:IsFrozen()) then
