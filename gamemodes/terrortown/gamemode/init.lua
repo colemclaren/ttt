@@ -51,6 +51,7 @@ AddCSLuaFile("vgui/sb_main.lua")
 AddCSLuaFile("vgui/sb_row.lua")
 AddCSLuaFile("vgui/sb_team.lua")
 AddCSLuaFile("vgui/sb_info.lua")
+AddCSLuaFile "cl_chat.lua"
 include("sv_moat.lua")
 include("shared.lua")
 include("karma.lua")
