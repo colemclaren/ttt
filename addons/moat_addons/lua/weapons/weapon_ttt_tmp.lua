@@ -43,3 +43,6 @@ SWEP.ReloadAnim = {
 		Anim = "idle"
 	}
 }
+
+function SWEP:ScaleDamage()
+end
