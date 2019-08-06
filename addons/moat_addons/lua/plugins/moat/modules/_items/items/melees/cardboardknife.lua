@@ -17,7 +17,7 @@ ITEM.MinStats = 5
 
 ITEM.Stats = {
 
-	Weight = { min = -15, max = -30 },
+	Weight = { min = -10, max = -20 },
 
 	Damage = { min = 5, max = 10 },
 
