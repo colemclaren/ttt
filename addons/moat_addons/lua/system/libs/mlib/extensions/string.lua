@@ -168,7 +168,12 @@ function string.Title(str, capitalize, punctuate)
 	str = tostring(str) or ""
 
 	local cap = capitalize or false
-	return string.gsub(" " .. str, "(%W)(%l)([[%w'%d]*)", function(_, letter, rest)
+	return string.gsub(" " .. str, "(%W)(%l)([%w'%d]*)", function(_, letter, rest)
+
+		if (_ == "'") then
+			return false 
+		end
+
 		if (lower[string(letter, rest)] and cap and not capitalize) then
 			return false
 		end
@@ -184,8 +189,12 @@ function string.Grammarfy(str, punctuate)
 	str = tostring(str) or ""
 
 	local mark = punctuate or false
-	return string.gsub(" " .. str, "(%W)(%l)([[%w'%d]*)([%p]*)", function(_, letter, rest, punctuation)
+	return string.gsub(" " .. str, "([%w])(%l)([%w'%d]*)([%p]*)", function(_, letter, rest, punctuation)
 		rest = rest or ""
+
+		if (_ == "'") then
+			return false 
+		end
 
 		if (lower[string(letter, rest)] and mark and not punctuate) then
 			return false
