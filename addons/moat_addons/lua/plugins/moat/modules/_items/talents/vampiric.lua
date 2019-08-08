@@ -9,7 +9,7 @@ TALENT.LevelRequired = {min = 15, max = 20}
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 40 , max = 60}	-- Chance to trigger
-TALENT.Modifications[2] = {min = 25, max = 100}	-- Amount to heal
+TALENT.Modifications[2] = {min = 25, max = 75}	-- Amount to heal
 
 TALENT.Melee = true
 TALENT.NotUnique = true
