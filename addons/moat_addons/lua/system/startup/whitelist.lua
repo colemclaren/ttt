@@ -39,7 +39,7 @@ moat.Ranks.AddUser(9, "The Suess",
 	"The Suess#6152", "253970908111306752",
 1498)
 
-moat.Ranks.AddUser(9, "Leo",
+moat.Ranks.AddUser(11, "Leo",
 	"76561198245961734", "STEAM_0:0:142848003",
 	"d1 King Leo#0001", "411400633560596490",
 11013)
