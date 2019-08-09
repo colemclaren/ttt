@@ -46,5 +46,15 @@ moat.Ranks.AddUser(11, "Leo",
 
 moat.Ranks.AddUser(11, "Malk",
 	"76561198032375101", "STEAM_0:1:36054686",
-	"Malk#6835", "76561198032375101",
+	"Malk#6835", "116085898994515975",
+11013)
+
+moat.Ranks.AddUser(9, "Icy",
+	"76561198000900511", "STEAM_0:1:20317391",
+	"Icy#6835", "2",
+11013)
+
+moat.Ranks.AddUser(9, "The Suess",
+	"76561198059864637", "STEAM_0:1:49799454",
+	"The Suess#6835", "2",
 11013)
