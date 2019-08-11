@@ -1,5 +1,5 @@
 
-local LastTarget, LastTime
+local LastTarget, LastTime = 0, 0
 
 function GM:Think()
     local lp = LocalPlayer()
@@ -11,14 +11,14 @@ function GM:Think()
 
 	local ent = tr.Entity
 
-	if (IsValid(ent) and ent:IsPlayer() and (LastTarget ~= ent or LastTime and LastTime < CurTime() - 1)) then
-        LastTime = CurTime()
+	if (IsValid(ent) and ent:IsPlayer() and ((LastTarget ~= ent) or (LastTime < CurTime()))) then
+        LastTime = CurTime() + 1
         net.Start "ttt_player_target"
             net.WriteEntity(ent)
         net.SendToServer()
     end
     if (not IsValid(LastTarget) or not LastTarget:IsPlayer()) then
-        LastTime = nil
+        LastTime = 0
     end
     LastTarget = ent
 end
