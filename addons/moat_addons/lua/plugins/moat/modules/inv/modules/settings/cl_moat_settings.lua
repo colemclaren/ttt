@@ -1,6 +1,5 @@
 local moat_convars = {
-    ["moat_headshot_sound"] = 1,
-    ["moat_round_music"] = 1,
+    ["moat_round_music"] = .1,
     ["moat_round_music_volume"] = 0.75,
     ["moat_clfov"] = 0.428571429,
     ["moat_chatplanetary"] = 1,
@@ -56,7 +55,9 @@ local moat_convars = {
     ["moat_droppaint"] = 0,
     ["moat_music_christmas"] = 1,
     ["moat_inspect_stats"] = 1,
-	["moat_pass_usable"] = 0
+	["moat_pass_usable"] = 0,
+	["moat_headshot_sounds"] = 1,
+	["moat_headshot_sound"] = "Eagle Aim",
 }
 
 local function moat_InitializeConvars()
@@ -138,12 +139,13 @@ moat_Settings.Options = {
         {"Disable MOTD on Join", {"Multi"}, "moat_disable_motd"},
         {"Invert Map [BETA]", {"Multi"}, "moat_map_invert"},
         {"Disable Multicore Rendering (Might Fix Crashes)", {"Multi"}, "moat_multicore"},
-        {"Enable Headshot soundeffect", {"Multi"}, "moat_headshot_sound"},
         {"Enable Hitmarkers", {"Multi"}, "moat_hitmarkers"},
         {"Enable Damage Numbers", {"Multi"}, "moat_damage_numbers"},
 		{"Developer Mode", {"Multi"}, "moat_developer_mode"}
     },
     {"Gameplay",
+		{"Headshot Sound", {"Multi"}, "moat_headshot_sounds"},
+		{"Custom Headshot Sound", {"MultiText", "Eagle Aim", "Eagle Kill", "Eagle Clack", "Arcade Tap", "Arcade Headshot", "Arcade Kill", "Arcade Missed", "FPS Hitmarker", "FPS Headshot", "Rusty Aim"}, "moat_headshot_sound"},
         {"Automatically Bunny-hop", {"Multi"}, "moat_bunny_hop"},
         {"Outline Effect (FPS IMPACT)", {"MultiText", "Halos", "Chams", "Off"}, "moat_OutlineTBuddies"},
         {"Enable Shadows (FPS IMPACT)", {"Multi"}, "moat_EnableShadows"},
