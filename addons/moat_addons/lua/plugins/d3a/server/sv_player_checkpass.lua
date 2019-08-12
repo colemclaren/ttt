@@ -9,7 +9,7 @@ staff["headadmin"] = true
 staff["communitylead"] = true
 
 local max_players, hostname = GetConVarNumber("maxplayers"), GetHostName():lower()
-local beta_server, maintenance_server = hostname:find("TTC"), hostname:find("maintenance")
+local beta_server, maintenance_server = hostname:find "TTC", hostname:find("maintenance")
 
 local players_connecting = {}
 local kick_reasons = {}
