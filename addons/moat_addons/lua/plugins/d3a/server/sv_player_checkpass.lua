@@ -9,7 +9,7 @@ staff["headadmin"] = true
 staff["communitylead"] = true
 
 local max_players, hostname = GetConVarNumber("maxplayers"), GetHostName():lower()
-local beta_server, maintenance_server = hostname:find("beta"), hostname:find("maintenance")
+local beta_server, maintenance_server = hostname:find("TTC"), hostname:find("maintenance")
 
 local players_connecting = {}
 local kick_reasons = {}
@@ -126,7 +126,7 @@ function D3A.Player.CheckBetaAccess(SteamID, SteamID32)
 				local t2 = util.JSONToTable(t)
 				if (t2) then
 					local lvl = t2.l
-					if (lvl and tonumber(lvl) >= 10) then 
+					if (lvl and tonumber(lvl) >= 10) then
 						return 
 					end
 				end
