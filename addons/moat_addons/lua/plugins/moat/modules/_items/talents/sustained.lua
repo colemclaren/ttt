@@ -2,7 +2,7 @@
 TALENT.ID = 5
 TALENT.Name = "Sustained"
 TALENT.NameColor = Color( 0, 150, 0 )
-TALENT.Description = "Killing a target increases your health by %s_ if not max health"
+TALENT.Description = "Killing a target increases your health by %s"
 TALENT.Tier = 2
 TALENT.LevelRequired = { min = 15, max = 20 }
 
