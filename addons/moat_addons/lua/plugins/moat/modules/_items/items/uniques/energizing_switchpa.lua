@@ -1,5 +1,5 @@
 ITEM.ID = 10112
-ITEM.Name = "Zapper"
+ITEM.Name = "Zapper Capper"
 ITEM.Rarity = 6
 ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_zapperpvp"

@@ -1,5 +1,5 @@
 ITEM.ID = 10104
-ITEM.Name = "Splatter"
+ITEM.Name = "Spanish Splatter"
 ITEM.Rarity = 6
 ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_sp"

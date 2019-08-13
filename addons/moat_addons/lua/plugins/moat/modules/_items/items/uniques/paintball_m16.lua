@@ -1,5 +1,5 @@
 ITEM.ID = 10109
-ITEM.Name = "Gloss"
+ITEM.Name = "La Vaux Gloss"
 ITEM.Rarity = 7
 ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_sp"

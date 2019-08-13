@@ -1,5 +1,5 @@
 ITEM.ID = 10110
-ITEM.Name = "Smear"
+ITEM.Name = "Smear Cavalier"
 ITEM.Rarity = 6
 ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_ttt_famas"

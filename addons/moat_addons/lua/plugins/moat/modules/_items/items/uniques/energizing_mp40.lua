@@ -1,5 +1,5 @@
 ITEM.ID = 10108
-ITEM.Name = "Joule"
+ITEM.Name = "Joule Newell"
 ITEM.Rarity = 9
 ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_ttt_mp40"

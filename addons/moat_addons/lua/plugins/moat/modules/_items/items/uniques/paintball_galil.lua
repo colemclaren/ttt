@@ -1,5 +1,5 @@
 ITEM.ID = 10111
-ITEM.Name = "Varnish"
+ITEM.Name = "Varnish Star"
 ITEM.Rarity = 6
 ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_ttt_galil"

@@ -1,5 +1,5 @@
 ITEM.ID = 10105
-ITEM.Name = "Stain"
+ITEM.Name = "Brain Stain"
 ITEM.Rarity = 6
 ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_ttt_mp40"
