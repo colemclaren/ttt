@@ -57,5 +57,4 @@ function EFFECT:OnEnd(data)
 	local victim = data.Victim
 
 	victim:Extinguish()
-	victim.ignite_info = nil
 end
