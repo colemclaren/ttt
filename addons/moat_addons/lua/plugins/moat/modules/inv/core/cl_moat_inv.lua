@@ -1270,6 +1270,7 @@ end
 local MOAT_DECONSTRUCT_ITEMS_START = 0
 local MOAT_DECONSTRUCT_ITEMS_END = 0
 local ITEM_EDIT_MODE = false
+local HoveringSlot = false
 local m_HoveredSlot = 0
 INV_SELECT_MODE = false
 INV_SELECTED_ITEM = nil
@@ -1329,6 +1330,7 @@ function m_OpenInventory(ply2, utrade)
     MOAT_DECONSTRUCT_ITEMS_START = 0
     MOAT_DECONSTRUCT_ITEMS_END = 0
     m_HoveredSlot = 0
+	HoveringSlot = false
     INV_SELECT_MODE = false
     INV_SELECTED_ITEM = nil
 
@@ -2467,6 +2469,10 @@ function m_OpenInventory(ply2, utrade)
                 if (hover_coloral > 0) then
                     hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
                 end
+
+				if (m_HoveredSlot == num) then
+					HoveringSlot = false
+				end
             else
                 if (IsValid(M_INV_MENU)) then
                     if (M_INV_MENU.Hovered) then
@@ -2578,6 +2584,7 @@ function m_OpenInventory(ply2, utrade)
 
         m_DPanelBTN.OnCursorEntered = function(s)
             m_HoveredSlot = num
+			HoveringSlot = true
 
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end
 
@@ -2587,7 +2594,7 @@ function m_OpenInventory(ply2, utrade)
         end
 
         m_DPanelBTN.OnCursorExited = function(s)
-            if (m_HoveredSlot == num) then m_HoveredSlot = nil end
+        	HoveringSlot = false
         end
         --surface.PlaySound( "UI/buttonrollover.wav" )
         --table.insert(m_InventoryButtons, m_DPanelBTN)
@@ -2864,6 +2871,10 @@ function m_OpenInventory(ply2, utrade)
                 if (hover_coloral > 0) then
                     hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
                 end
+
+				if (m_HoveredSlot == (num .. "l")) then
+					HoveringSlot = false
+				end
             else
                 if (IsValid(M_INV_MENU)) then
                     if (M_INV_MENU.Hovered) then
@@ -2921,11 +2932,13 @@ function m_OpenInventory(ply2, utrade)
 
         m_DPanelBTN.OnCursorEntered = function()
             m_HoveredSlot = num .. "l"
+			HoveringSlot = true 
+
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end 
         end
 
         m_DPanelBTN.OnCursorExited = function(s)
-            if (m_HoveredSlot == num .. "l") then m_HoveredSlot = nil end
+            HoveringSlot = false
         end
         --surface.PlaySound( "UI/buttonrollover.wav" )
         --table.insert(m_InventoryButtons, m_DPanelBTN)
@@ -3165,9 +3178,9 @@ function m_OpenInventory(ply2, utrade)
             ITEM_HOVERED = m_Trade[tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))]
         end
 
-        if ((IsValid(M_INV_MENU) and M_INV_MENU.Hovered) or not m_HoveredSlot) then
-            s:SetSize(0, 0)
-
+        if (not HoveringSlot or (IsValid(M_INV_MENU) and M_INV_MENU.Hovered)) then
+            s:SetAlpha(0)
+		
             return
         end
 
@@ -3698,6 +3711,10 @@ function m_OpenInventory(ply2, utrade)
                         if (hover_coloral > 0) then
                             hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
                         end
+
+						if (m_HoveredSlot == (num .. "t")) then
+							HoveringSlot = false
+						end
                     else
                         if (IsValid(M_INV_MENU)) then
                             if (M_INV_MENU.Hovered) then
@@ -3751,11 +3768,13 @@ function m_OpenInventory(ply2, utrade)
 
                 m_DPanelBTN.OnCursorEntered = function() 
                     m_HoveredSlot = num .. "t"
+					HoveringSlot = true
+
                     if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end 
                 end
 
                 m_DPanelBTN.OnCursorExited = function(s)
-                    if (m_HoveredSlot == num .. "t") then m_HoveredSlot = nil end
+                	HoveringSlot = false
                 end
 
                 --table.insert(m_InventoryButtons, m_DPanelBTN)
@@ -4335,12 +4354,13 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
 
     m_DPanelBTN.OnCursorEntered = function(s)
         m_HoveredSlot = num
+		HoveringSlot = true
 
         if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end
     end
 
     m_DPanelBTN.OnCursorExited = function(s)
-        if (m_HoveredSlot == num) then m_HoveredSlot = nil end
+    	HoveringSlot = false
     end
 
     return m_DPanel, m_DPanelBTN
@@ -4975,10 +4995,12 @@ function m_CreateItemMenu(num, ldt)
 
         local n = num
         m_HoveredSlot = num
+		HoveringSlot = true
         if (IsValid(MOAT_INV_S)) then MOAT_INV_S.ctrldown = true end
         moat_imagehack = true
         hook.Add("HudPaint","Mid Framegg",function()
             m_HoveredSlot = num
+			HoveringSlot = true
 			if (IsValid(MOAT_INV_S)) then
             	MOAT_INV_S.AnimVal = 1
             	MOAT_INV_S.ctrldown = true
@@ -5071,6 +5093,7 @@ function m_CreateItemMenu(num, ldt)
                     description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nCaptured on " .. (GetServerName() or "moat.gg") .. "\n\nCheck out our website at https://moat.gg/\nOr #trading-chat in our Discord at http://discord.gg/moat!"
                 },
             })
+			HoveringSlot = false
             m_HoveredSlot = nil
         end)
         render.Spin()

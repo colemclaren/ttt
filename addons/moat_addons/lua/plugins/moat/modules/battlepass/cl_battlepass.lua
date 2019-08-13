@@ -786,11 +786,9 @@ function make_battlepass()
 
         local ITEM_HOVERED = MOAT_BP.Hovered
 
-        if (IsValid(M_INV_MENU)) then
-            if (M_INV_MENU.Hovered) then
-                s:SetSize(0, 0)
-                return
-            end
+        if (IsValid(M_INV_MENU) and M_INV_MENU.Hovered) then
+            s:SetAlpha(0)
+            return
         end
 
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
