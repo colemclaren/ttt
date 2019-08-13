@@ -716,7 +716,7 @@ function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
     if dmginfo:IsBulletDamage() and ply:HasEquipmentItem(EQUIP_ARMOR) then
         if (ply.ArmourPierced) then
             -- Unless you just got pierced son
-            dmginfo:ScaleDamage(1.2)
+            dmginfo:ScaleDamage(1)
             ply.ArmourPierced = nil
         else
             -- Body armor nets you a damage reduction.

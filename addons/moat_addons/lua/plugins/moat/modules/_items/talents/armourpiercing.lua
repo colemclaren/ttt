@@ -1,8 +1,8 @@
 
 TALENT.ID = 29
-TALENT.Name = "Armour Piercing"
+TALENT.Name = "Armor Piercing"
 TALENT.NameColor = Color(255, 0, 0)
-TALENT.Description = "Each hit has a %s_^ chance to pierce armour, dealing extra damage to armoured opponents"
+TALENT.Description = "Each hit has a 100_ chance to pierce armour, dealing normal damage to armored opponents. (Like the Detectives & Traitors)"
 TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 
@@ -14,7 +14,7 @@ TALENT.NotUnique = true
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
-	if (chance > math.random() * 100) then
+	if (true) then -- if (chance > math.random() * 100) then
 		-- Will ignore the armour check later
 		victim.ArmourPierced = true
 	end
