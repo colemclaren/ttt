@@ -3165,12 +3165,10 @@ function m_OpenInventory(ply2, utrade)
             ITEM_HOVERED = m_Trade[tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))]
         end
 
-        if (IsValid(M_INV_MENU)) then
-            if (M_INV_MENU.Hovered) then
-                s:SetSize(0, 0)
+        if ((IsValid(M_INV_MENU) and M_INV_MENU.Hovered) or not m_HoveredSlot) then
+            s:SetSize(0, 0)
 
-                return
-            end
+            return
         end
 
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
