@@ -12,7 +12,7 @@ local EagleSounds = {
 }
 
 net.Receive("Moat.Headshot.Sound", function()
-	local vol = GetConVar("moat_headshot_sounds"):GetFloat()
+	local vol = GetConVar("moat_headshot_sounds"):GetInt()
 	if (vol <= 0) then
 		return
 	end
@@ -22,11 +22,7 @@ net.Receive("Moat.Headshot.Sound", function()
 		snd = "Eagle Aim"
 	end
 
-	cdn.PlayURL(EagleSounds[snd], function(me)
-		if (IsValid(me)) then
-			me:Play()
-		end
-	end)
+	cdn.PlayURL(EagleSounds[snd])
 
 	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
 	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
