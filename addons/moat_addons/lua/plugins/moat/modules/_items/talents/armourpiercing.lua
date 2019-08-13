@@ -1,8 +1,8 @@
 
 TALENT.ID = 29
-TALENT.Name = "Armor Piercing"
+TALENT.Name = "Armour Piercing"
 TALENT.NameColor = Color(255, 0, 0)
-TALENT.Description = "Each hit has a 100_ chance to pierce armour, dealing normal damage to armored opponents. (Like the Detectives & Traitors)"
+TALENT.Description = "Detectives and traitors under armor equipment are defenseless to bullets"
 TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 
