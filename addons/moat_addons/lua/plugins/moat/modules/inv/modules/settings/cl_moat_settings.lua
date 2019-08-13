@@ -348,11 +348,19 @@ local function m_ChangeConVarChoice(var, multiopt, multioptstr, dir)
         end
     end
 
+	var:SetString(nextnum)
+
     if (var:GetName() == "moat_Theme") then
         chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Inventory Theme changed! Please re-open your inventory to take effect!")
     end
 
-    var:SetString(nextnum)
+	if (var:GetName() == "moat_headshot_sound") then
+        chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Headshot Sound: " .. tostring(var:GetString()))
+
+		hook.Run "Moat.Headshot"
+    elseif (GetConVar("moat_enable_uisounds"):GetInt() > 0) then
+		LocalPlayer():EmitSound("moatsounds/pop1.wav")
+	end
 end
 
 local function m_RebuildMultiTextChoice(btn, var, convar, multiopt, multioptstr)
@@ -506,8 +514,6 @@ function m_BuildSettingsPanel(pnl, num)
             end
         end
         btn.DoClick = function(s)
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
-
             if (otype == "Multi") then
                 local con = GetConVar(options[i][3])
                 if (con:GetInt() == 0) then
@@ -515,6 +521,10 @@ function m_BuildSettingsPanel(pnl, num)
                 else
                     con:SetInt(0)
                 end
+
+				if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then
+					LocalPlayer():EmitSound("moatsounds/pop1.wav")
+				end
 
                 m_RebuildMultiChoice(s, options[i][3])
             elseif (otype == "MultiText") then
