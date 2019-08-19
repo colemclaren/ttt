@@ -36,12 +36,13 @@ function EFFECT:Init(data)
     self.Material = mats[data:GetEntity():GetEntityID() % #mats + 1]
 
     local pos = self.endpos
-    cdn.PlayURL(sounds.hit[math.random(#sounds.hit)], .8, function(g)
-        if (g) then
-			g:SetPos(pos)
-			g:Play()
-		end
-    end, "3d noplay")
+    -- cdn.PlayURL(sounds.hit[math.random(#sounds.hit)], .8, function(g)
+    --     if (g) then
+	-- 		g:SetPos(pos)
+	-- 		g:Play()
+	-- 	end
+    -- end, "3d noplay")
+	sound.Play("Meep.Paintball.Hit", pos)
 end
 
 function EFFECT:Render()
