@@ -5864,3 +5864,27 @@ sound.Add(
 })
 
 -- sound.Add = sound.Add_
+
+sound.Add({
+    name = "Meep.Laser.Fire",
+    channel = CHAN_WEAPON,
+    volume = 1.0,
+    pitch = {95, 105},
+    sound = ")moat_laser1.mp3"
+})
+
+sound.Add({
+    name = "Meep.Paintball.Fire",
+    channel = CHAN_WEAPON,
+    volume = 1.0,
+    pitch = {95, 105},
+    sound = {")moat_paintball1.mp3", ")moat_paintball2.mp3", ")moat_paintball3.mp3"}
+})
+
+sound.Add({
+	name = "Meep.Paintball.Hit",
+	channel = CHAN_WEAPON,
+	volume = 1.0,
+	pitch = {95, 105},
+	sound = ")moat_paintballhit.mp3"
+})

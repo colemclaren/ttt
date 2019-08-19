@@ -29,12 +29,14 @@ function EFFECT:Init(data)
     end
 
     local pos = self.pos
-    cdn.PlayURL(sounds[math.random(#sounds)], .8, function(g)
-       if (g) then
-			g:SetPos(pos)
-			g:Play()
-		end
-    end, "3d noplay")
+    -- cdn.PlayURL(sounds[math.random(#sounds)], .8, function(g)
+    --    if (g) then
+	-- 		g:SetPos(pos)
+	-- 		g:Play()
+	-- 	end
+    -- end, "3d noplay")
+
+	sound.Play("Meep.Laser.Fire", pos)
 end
 
 function EFFECT:Render()
