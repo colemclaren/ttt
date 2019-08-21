@@ -837,6 +837,7 @@ end
 
 
 local weapon_challenges = {
+    {{"weapon_doubleb", "weapon_flakgun", "weapon_spas12pvp", "weapon_supershotty", "weapon_ttt_m1014", "weapon_ttt_m590", "weapon_ttt_shotgun", "weapon_ttt_te_benelli", "weapon_zm_shotgun"}, "ANY Shotgun Weapon", "Shotgun"},
     {{"weapon_zm_mac10"}, "the MAC10", "MAC10"},
     {{"weapon_ttt_p90"}, "the FN P90", "FN P90"},
     {{"weapon_ttt_aug"}, "the AUG", "AUG"},
