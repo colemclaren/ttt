@@ -837,30 +837,31 @@ end
 
 
 local weapon_challenges = {
-    {{"weapon_doubleb", "weapon_flakgun", "weapon_spas12pvp", "weapon_supershotty", "weapon_ttt_m1014", "weapon_ttt_m590", "weapon_ttt_shotgun", "weapon_ttt_te_benelli", "weapon_zm_shotgun"}, "ANY Shotgun Weapon", "Shotgun"},
-    {{"weapon_zm_mac10"}, "the MAC10", "MAC10"},
-    {{"weapon_ttt_p90"}, "the FN P90", "FN P90"},
-    {{"weapon_ttt_aug"}, "the AUG", "AUG"},
-    {{"weapon_ttt_ak47"}, "the AK47", "AK47"},
-    {{"weapon_ttt_mr96"}, "the Revolver", "Revolver"},
-    {{"weapon_zm_pistol"}, "the Pistol", "Pistol"},
-    {{"weapon_ttt_sg550"}, "the SG550", "SG550"},
-    {{"weapon_ttt_m16"}, "the M16", "M16"},
-    {{"weapon_zm_sledge"}, "the H.U.G.E-249", "H.U.G.E-249"},
-    {{"weapon_ttt_dual_elites"}, "the Dual Elites", "Dual Elites"},
-    {{"weapon_zm_revolver"}, "the Deagle", "Deagle"},
-    {{"weapon_ttt_ump45"}, "the UMP-45", "UMP-45"},
-    {{"weapon_ttt_msbs"}, "the MSBS", "MSBS"},
-    {{"weapon_xm8b"}, "the M8A1", "M8A1"},
-    {{"weapon_zm_rifle"}, "the Rifle", "Rifle"},
-    {{"weapon_ttt_galil"}, "the Galil", "Galil"},
-    {{"weapon_ttt_sg552"}, "the SG552", "SG552"},
-    {{"weapon_ttt_m590"}, "the Mossberg", "Mossberg"},
-    {{"weapon_flakgun"}, "the Flak-28", "Flak-28"},
-    {{"weapon_thompson"}, "the Tommy Gun", "Tommy Gun"},
-    {{"weapon_ttt_famas"}, "the Famas", "Famas"},
-    {{"weapon_ttt_glock"}, "the Glock", "Glock"},
-    {{"weapon_ttt_mp5"}, "the MP5", "MP5"}
+    {"weapon_zm_shotgun", "XM1014", "XM1014"},
+    {"weapon_zm_mac10", "MAC10", "MAC10"},
+    {"weapon_ttt_p90", "FN P90", "FN P90"},
+    {"weapon_ttt_aug", "AUG", "AUG"},
+    {"weapon_ttt_ak47", "AK47", "AK47"},
+    {"weapon_ttt_mr96", "Revolver", "Revolver"},
+    {"weapon_zm_pistol", "Pistol", "Pistol"},
+    {"weapon_ttt_sg550", "SG550", "SG550"},
+    {"weapon_ttt_m16", "M16", "M16"},
+    {"weapon_zm_sledge", "H.U.G.E-249", "H.U.G.E-249"},
+    {"weapon_ttt_dual_elites", "Dual Elites", "Dual Elites"},
+    {"weapon_zm_revolver", "Deagle", "Deagle"},
+    {"weapon_ttt_ump45", "UMP-45", "UMP-45"},
+    {"weapon_ttt_msbs", "MSBS", "MSBS"},
+    {"weapon_ttt_shotgun", "Shotgun", "Shotgun"},
+    {"weapon_xm8b", "M8A1", "M8A1"},
+    {"weapon_zm_rifle", "Rifle", "Rifle"},
+    {"weapon_ttt_galil", "Galil", "Galil"},
+    {"weapon_ttt_sg552", "SG552", "SG552"},
+    {"weapon_ttt_m590", "Mossberg", "Mossberg"},
+    {"weapon_flakgun", "Flak-28", "Flak-28"},
+    {"weapon_thompson", "Tommy Gun", "Tommy Gun"},
+    {"weapon_ttt_famas", "Famas", "Famas"},
+    {"weapon_ttt_glock", "Glock", "Glock"},
+    {"weapon_ttt_mp5", "MP5", "MP5"}
 }
 
 local chal_prefix = {
@@ -903,7 +904,7 @@ local chal_suffix = {
 
 for k,v in pairs(weapon_challenges) do
 	addcontract("Global " .. v[3] .. " Killer",{
-	desc = 'Get as many kills as you can with "' .. v[2] .. '", rightfully.',
+	desc = 'Get as many kills as you can with the "' .. v[2] .. '", rightfully.',
 	adj = "Kills",
 	short = v[3],
 	runfunc = function()
@@ -912,7 +913,7 @@ for k,v in pairs(weapon_challenges) do
 				if not att:IsPlayer() then return end
 				local inf = att:GetActiveWeapon()
 				if not IsValid(inf) then return end
-				if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) and inf.ClassName and v[1][inf.ClassName] then
+				if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) and inf.ClassName and inf.ClassName == v[1] then
 					contract_increase(att,1)
 				end
 			end)
@@ -1145,11 +1146,11 @@ for i = 1, #weapon_challenges do
 			math.random(35, 65),
 		},
 		runfunc = function(mods, bountyid, idd)
-			hook.Add("PlayerDeath", "moat_weapon_challenges_1_" .. wpntbl[1][1], function(ply, inf, att)
+			hook.Add("PlayerDeath", "moat_weapon_challenges_1_" .. wpntbl[1], function(ply, inf, att)
 				if (IsValid(att) and att:IsPlayer() and ply ~= att) then
 					inf = att:GetActiveWeapon()
 
-					if (IsValid(inf) and inf.ClassName and wpntbl[1][inf.ClassName] and WasRightfulKill(att, ply)) then
+					if (IsValid(inf) and inf.ClassName and inf.ClassName == wpntbl[1] and WasRightfulKill(att, ply)) then
 						MOAT_BOUNTIES:IncreaseProgress(att, bountyid, mods[1], idd)
 					end
 				end
