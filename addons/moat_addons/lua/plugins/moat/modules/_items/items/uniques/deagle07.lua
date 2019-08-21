@@ -1,5 +1,5 @@
 ITEM.ID = 648
-ITEM.Name = "Bonds Best Friend"
+ITEM.Name = "Bond's Best Friend"
 ITEM.NameEffect = "glow"
 ITEM.NameColor = Color(255,215,0)
 ITEM.Rarity = 7

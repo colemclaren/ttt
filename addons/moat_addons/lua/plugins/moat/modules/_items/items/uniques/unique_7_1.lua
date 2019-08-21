@@ -1,5 +1,5 @@
 ITEM.ID = 1138
-ITEM.Name = "Bonds Best Peep"
+ITEM.Name = "Bond's Best Peep"
 ITEM.NameEffect = "glow"
 ITEM.Rarity = 7
 ITEM.WeaponClass = "weapon_ttt_te_deagle"
