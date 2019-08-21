@@ -837,31 +837,31 @@ end
 
 
 local weapon_challenges = {
-    {{"weapon_doubleb", "weapon_flakgun", "weapon_spas12pvp", "weapon_supershotty", "weapon_ttt_m1014", "weapon_ttt_m590", "weapon_ttt_shotgun", "weapon_ttt_te_benelli", "weapon_zm_shotgun"}, "ANY Shotgun Weapon", "Shotgun"},
-    {{"weapon_zm_mac10"}, "the MAC10", "MAC10"},
-    {{"weapon_ttt_p90"}, "the FN P90", "FN P90"},
-    {{"weapon_ttt_aug"}, "the AUG", "AUG"},
-    {{"weapon_ttt_ak47"}, "the AK47", "AK47"},
-    {{"weapon_ttt_mr96"}, "the Revolver", "Revolver"},
-    {{"weapon_zm_pistol"}, "the Pistol", "Pistol"},
-    {{"weapon_ttt_sg550"}, "the SG550", "SG550"},
-    {{"weapon_ttt_m16"}, "the M16", "M16"},
-    {{"weapon_zm_sledge"}, "the H.U.G.E-249", "H.U.G.E-249"},
-    {{"weapon_ttt_dual_elites"}, "the Dual Elites", "Dual Elites"},
-    {{"weapon_zm_revolver"}, "the Deagle", "Deagle"},
-    {{"weapon_ttt_ump45"}, "the UMP-45", "UMP-45"},
-    {{"weapon_ttt_msbs"}, "the MSBS", "MSBS"},
-	{{"weapon_doubleb", "weapon_flakgun", "weapon_spas12pvp", "weapon_supershotty", "weapon_ttt_m1014", "weapon_ttt_m590", "weapon_ttt_shotgun", "weapon_ttt_te_benelli", "weapon_zm_shotgun"}, "ANY Shotgun Weapon", "Shotgun"},
-    {{"weapon_xm8b"}, "the M8A1", "M8A1"},
-    {{"weapon_zm_rifle"}, "the Rifle", "Rifle"},
-    {{"weapon_ttt_galil"}, "the Galil", "Galil"},
-    {{"weapon_ttt_sg552"}, "the SG552", "SG552"},
-    {{"weapon_ttt_m590"}, "the Mossberg", "Mossberg"},
-    {{"weapon_flakgun"}, "the Flak-28", "Flak-28"},
-    {{"weapon_thompson"}, "the Tommy Gun", "Tommy Gun"},
-    {{"weapon_ttt_famas"}, "the Famas", "Famas"},
-    {{"weapon_ttt_glock"}, "the Glock", "Glock"},
-    {{"weapon_ttt_mp5"}, "the MP5", "MP5"}
+    {{["weapon_doubleb"] = true, ["weapon_flakgun"] = true, ["weapon_spas12pvp"] = true, ["weapon_supershotty"] = true, ["weapon_ttt_m1014"] = true, ["weapon_ttt_m590"] = true, ["weapon_ttt_shotgun"] = true, ["weapon_ttt_te_benelli"] = true, ["weapon_zm_shotgun"] = true}, "ANY Shotgun Weapon", "Shotgun"},
+    {{["weapon_zm_mac10"] = true}, "the MAC10", "MAC10"},
+    {{["weapon_ttt_p90"] = true}, "the FN P90", "FN P90"},
+    {{["weapon_ttt_aug"] = true}, "the AUG", "AUG"},
+    {{["weapon_ttt_ak47"] = true}, "the AK47", "AK47"},
+    {{["weapon_ttt_mr96"] = true}, "the Revolver", "Revolver"},
+    {{["weapon_zm_pistol"] = true}, "the Pistol", "Pistol"},
+    {{["weapon_ttt_sg550"] = true}, "the SG550", "SG550"},
+    {{["weapon_ttt_m16"] = true}, "the M16", "M16"},
+    {{["weapon_zm_sledge"] = true}, "the H.U.G.E-249", "H.U.G.E-249"},
+    {{["weapon_ttt_dual_elites"] = true}, "the Dual Elites", "Dual Elites"},
+    {{["weapon_zm_revolver"] = true}, "the Deagle", "Deagle"},
+    {{["weapon_ttt_ump45"] = true}, "the UMP-45", "UMP-45"},
+    {{["weapon_ttt_msbs"] = true}, "the MSBS", "MSBS"},
+	{{["weapon_doubleb"] = true, ["weapon_flakgun"] = true, ["weapon_spas12pvp"] = true, ["weapon_supershotty"] = true, ["weapon_ttt_m1014"] = true, ["weapon_ttt_m590"] = true, ["weapon_ttt_shotgun"] = true, ["weapon_ttt_te_benelli"] = true, ["weapon_zm_shotgun"] = true}, "ANY Shotgun Weapon", "Shotgun"},
+	{{["weapon_xm8b"] = true}, "the M8A1", "M8A1"},
+    {{["weapon_zm_rifle"] = true}, "the Rifle", "Rifle"},
+    {{["weapon_ttt_galil"] = true}, "the Galil", "Galil"},
+    {{["weapon_ttt_sg552"] = true}, "the SG552", "SG552"},
+    {{["weapon_ttt_m590"] = true}, "the Mossberg", "Mossberg"},
+    {{["weapon_flakgun"] = true}, "the Flak-28", "Flak-28"},
+    {{["weapon_thompson"] = true}, "the Tommy Gun", "Tommy Gun"},
+    {{["weapon_ttt_famas"] = true}, "the Famas", "Famas"},
+    {{["weapon_ttt_glock"] = true}, "the Glock", "Glock"},
+    {{["weapon_ttt_mp5"] = true}, "the MP5", "MP5"}
 }
 
 local chal_prefix = {
@@ -1146,7 +1146,7 @@ for i = 1, #weapon_challenges do
 			math.random(35, 65),
 		},
 		runfunc = function(mods, bountyid, idd)
-			hook.Add("PlayerDeath", "moat_weapon_challenges_1_" .. wpntbl[1][1], function(ply, inf, att)
+			hook.Add("PlayerDeath", "moat_weapon_challenges_1_" .. wpntbl[3], function(ply, inf, att)
 				if (IsValid(att) and att:IsPlayer() and ply ~= att) then
 					inf = att:GetActiveWeapon()
 
