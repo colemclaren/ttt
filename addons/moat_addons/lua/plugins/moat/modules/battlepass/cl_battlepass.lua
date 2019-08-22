@@ -305,9 +305,17 @@ function make_battlepass()
 	M_BP:SetPos(1, 46)
 	M_BP:SetSize(738, 468)
     M_BP.Paint = function(s, w, h)
-        draw.DrawText('Summer Climb', "moat_JackBig", w/3, 15, Color(255,255,255), TEXT_ALIGN_CENTER)
-        draw.SimpleTextOutlined("Time Left: " .. string.NiceTime(1569844800 - os.time()), "moat_GambleTitle", w/3, 80, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
-        draw.SimpleTextOutlined("Earn XP to receive free item rewards!", "moat_GambleTitle", w/3,110, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+		local tl = util.TimeRemaining(1569844800, os.time())
+		local left = string(
+			tl.days, " day" .. (tl.days == 1 and "" or "s") .. ", ", 
+			tl.hours, " hr" .. (tl.hours == 1 and "" or "s") .. ", ",
+			tl.minutes, " min" .. (tl.minutes == 1 and "" or "s") .. "",
+			tl.seconds, " sec" .. (tl.seconds == 1 and "" or "s")
+		)
+
+        draw.DrawText('Summer Climb', "moat_JackBig", w/3, 15, HSVToColor((CurTime() * 10) % 360, 1, 1), TEXT_ALIGN_CENTER)
+        draw.SimpleTextOutlined("Event ends in " .. left, "moat_GambleTitle", w/3, 110, Color(255,255,0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
+		draw.SimpleTextOutlined("Kick back this Summer with Free XP and Rewards", "moat_GambleTitle", w/3,80, Color(0, 198, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
         surface.SetDrawColor(183, 183, 183)
         -- surface.DrawLine(5, 130, 455, 130)
     end

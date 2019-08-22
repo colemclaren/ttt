@@ -46,6 +46,19 @@ function util.SafeSteamID(str)
 	return string.gsub(str or '', '[^%w:_]', '') or ''
 end
 
+function util.TimeRemaining(x, y)
+	x = x or os.time()
+	y = y or os.time()
+
+	local diff = math.max(0, x - y)
+	local secs = math.floor(diff % 60)
+	local mins = math.floor((diff/60) % 60)
+	local hours = math.floor((diff/(60*60)) % 24)
+	local days = math.floor(diff/(60*60*24))
+
+  	return {["total"] = diff, ["days"] = days, ["hours"] = hours, ["minutes"] = mins, ["seconds"] = secs}
+end
+
 function util.FormatTime(x, y, short)
 	x = x or os.time()
 	y = y or os.time()
