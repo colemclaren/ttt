@@ -42,7 +42,7 @@ function EFFECT:Init(data)
 	-- 		g:Play()
 	-- 	end
     -- end, "3d noplay")
-	sound.Play("Meep.Paintball.Hit", pos)
+	sound.Play("Meep.Paintball.Fire", pos)
 end
 
 function EFFECT:Render()
@@ -71,9 +71,9 @@ end
 
 TRACER.ApplyData = {
     _RunNow = function(self)
-		if (self.Primary and self.Primary.Sound) then
-			self.Primary.Sound = "Meep.Paintball.Fire"
-		end
+		-- if (self.Primary and self.Primary.Sound) then
+		-- 	self.Primary.Sound = Sound("Meep.Paintball.Fire")
+		-- end
 
         self.TracerName = "paintball"
         self.Tracer = 1

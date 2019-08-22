@@ -3267,7 +3267,7 @@ sound.Add({
 
 sound.Add({
     name = "Meep.Paintball.Fire",
-    channel = CHAN_WEAPON,
+    channel = CHAN_BODY,
     volume = 1.0,
     pitch = {95, 105},
     sound = {")moat_paintball1.mp3", ")moat_paintball2.mp3", ")moat_paintball3.mp3"}
@@ -3275,7 +3275,7 @@ sound.Add({
 
 sound.Add({
 	name = "Meep.Paintball.Hit",
-	channel = CHAN_WEAPON,
+	channel = CHAN_BODY,
 	volume = 1.0,
 	pitch = {95, 105},
 	sound = ")moat_paintballhit.mp3"
@@ -3284,35 +3284,35 @@ sound.Add({
 -- MP40 --
 sound.Add({
 	name = "MP40.boltslap",
-	channel = CHAN_WEAPON,
+	channel = CHAN_ITEM,
 	volume = 0.8,
 	sound = "weapons/request cod waw/mp40 slap.wav"
 })
 
 sound.Add({
 	name = "MP40.deploy",
-	channel = CHAN_WEAPON,
+	channel = CHAN_ITEM,
 	volume = 0.8,
 	sound = "weapons/request cod waw/mp40 deploy.wav"
 })
 
 sound.Add({
 	name = "MP40.boltback",
-	channel = CHAN_WEAPON,
+	channel = CHAN_ITEM,
 	volume = 0.8,
 	sound = "weapons/request cod waw/mp40 back.wav"
 })
 
 sound.Add({
 	name = "MP40.clipout",
-	channel = CHAN_WEAPON,
+	channel = CHAN_ITEM,
 	volume = 0.8,
 	sound = "weapons/request cod waw/mp40 out.wav"
 })
 
 sound.Add({
 	name = "MP40.clipin",
-	channel = CHAN_WEAPON,
+	channel = CHAN_ITEM,
 	volume = 0.8,
 	sound = "weapons/request cod waw/mp40 in.wav"
 })
