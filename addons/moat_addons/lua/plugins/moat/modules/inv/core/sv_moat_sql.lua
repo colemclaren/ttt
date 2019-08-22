@@ -98,7 +98,7 @@ hook.Add("SQLConnectionFailed", "MINVENTORY_MYSQL", function(db)
 end)
 
 function m_InsertCompTicket(c, cb, cbf)
-    local q = MINVENTORY_MYSQL:query("INSERT INTO moat_comps ( time, steamid, admin, link, ic, ec, item, class, talent1, talent2, talent3, talent4, comment, approved ) VALUES ( UNIX_TIMESTAMP(), '" .. MINVENTORY_MYSQL:escape(util.SafeSteamID(c.steamid)) .. "', '" .. MINVENTORY_MYSQL:escape(c.admin) .. "', '" .. MINVENTORY_MYSQL:escape(c.ticket) .. "', '" .. MINVENTORY_MYSQL:escape(c.ic) .. "', '" .. MINVENTORY_MYSQL:escape(c.ec) .. "', '" .. MINVENTORY_MYSQL:escape(c.item) .. "', '" .. MINVENTORY_MYSQL:escape(c.class) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent1) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent2) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent3) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent4) .. "', '" .. MINVENTORY_MYSQL:escape(c.comments) .. "', '0')")
+    local q = MINVENTORY_MYSQL:query("INSERT INTO moat_comps ( time, steamid, admin, link, ic, ec, sc, item, class, talent1, talent2, talent3, talent4, comment, approved ) VALUES ( UNIX_TIMESTAMP(), '" .. MINVENTORY_MYSQL:escape(util.SafeSteamID(c.steamid)) .. "', '" .. MINVENTORY_MYSQL:escape(c.admin) .. "', '" .. MINVENTORY_MYSQL:escape(c.ticket) .. "', '" .. MINVENTORY_MYSQL:escape(c.ic) .. "', '" .. MINVENTORY_MYSQL:escape(c.ec) .. "', '" .. MINVENTORY_MYSQL:escape(c.sc) .. "', '" .. MINVENTORY_MYSQL:escape(c.item) .. "', '" .. MINVENTORY_MYSQL:escape(c.class) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent1) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent2) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent3) .. "', '" .. MINVENTORY_MYSQL:escape(c.talent4) .. "', '" .. MINVENTORY_MYSQL:escape(c.comments) .. "', '0')")
 
     function q:onSuccess(data)
         cb(data)
@@ -149,6 +149,21 @@ function m_CheckCompTickets(pl)
 
                         net.Start("moat.comp.chat")
                         net.WriteString("You have received " .. tbl.ec .. " event credit(s) from a compensation ticket! <3")
+                        net.WriteBool(false)
+                        net.Send(pl)
+
+                        m_CloseCompTicket(tbl.ID)
+                    end)
+
+					continue
+                end
+
+				if (tbl.sc and #tbl.sc >= 1) then
+                    timer.Simple(15, function()
+						pl:TakeSC(tonumber(tbl.sc) * -1)
+
+                        net.Start("moat.comp.chat")
+                        net.WriteString("You have received " .. tbl.sc .. " support credit(s) from a compensation ticket! <3")
                         net.WriteBool(false)
                         net.Send(pl)
 

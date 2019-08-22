@@ -42,16 +42,17 @@ end
 
 MOAT_COMP = MOAT_COMP or {}
 MOAT_COMP.Entries = {
-	{"Compensation Ticket Topic Link", false, "Insert the link to the compensation ticket here."},
-	{"SteamID for Compensation", false, "SteamID of the person being compensated. (Ex: STEAM_0:0:46558052)"},
-	{"Inventory Credits", true, "Number of inventory credits for compensation if applicable. Leave blank if none."},
-	{"Event Credits", true, "Number of event credits for compensation if applicable. Leave blank if none."},
-	{"Tier/Unique/Item Name (Ex: Sunny, Tolerable, Turtle Hat)", false, "Do NOT put the weapon name if the item is a Tier'd item. (Ex: Sunny Deagle < DO NOT DO THAT)"},
-	{"Weapon Class (Ex: Deagle)", false, "Do NOT use this for unique items. Weapon name of the item if applicable."},
-	{"Talent 1", false, "First talent if applicable, leave blank if none."},
-	{"Talent 2", false, "Second talent if applicable, leave blank if none."},
-	{"Talent 3", false, "Third talent if applicable, leave blank if none."},
-	{"Talent 4", false, "Fourth talent if applicable, leave blank if none."},
+	{"Ticket's forum post link", false, "Insert the link to the compensation ticket here."},
+	{"The players's steamid to comp", false, "SteamID of the person being compensated. (Ex: STEAM_0:0:46558052)"},
+	{"Any inventory credits to give", true, "Number of inventory credits for compensation if applicable. Leave blank if none."},
+	{"Support credits to gift", true, "Number of event credits for compensation if applicable. Leave blank if none."},
+	{"Event credits to drop", true, "Number of event credits for compensation if applicable. Leave blank if none."},
+	{"Any tier / unique / item (ex. Sunny, Tolerable, Turtle Hat)", false, "Do NOT put the weapon name if the item is a Tier'd item. (Ex: Sunny Deagle < DO NOT DO THAT)"},
+	{"Item's weapon class (ex. Deagle)", false, "Do NOT use this for unique items. Weapon name of the item if applicable."},
+	{"Requested Talent 1", false, "First talent if applicable, leave blank if none."},
+	{"Requested Talent 2", false, "Second talent if applicable, leave blank if none."},
+	{"Requested Talent 3", false, "Third talent if applicable, leave blank if none."},
+	{"Requested Talent 4", false, "Fourth talent if applicable, leave blank if none."},
 	{"Additional Comments", false, "You may leave any additional comments here."}
 }
 
@@ -59,7 +60,7 @@ function MOAT_COMP:Open()
 	if (IsValid(self.bg)) then self.bg:Remove() end
 
 	self.bg = vgui.Create("DFrame")
-	self.bg:SetSize(500, 600)
+	self.bg:SetSize(500, 700)
 	self.bg:MakePopup()
 	self.bg:Center()
 	self.bg:SetTitle("")
@@ -72,7 +73,7 @@ function MOAT_COMP:Open()
         surface_SetDrawColor(150, 150, 150, 50)
         surface_DrawRect(0, 0, w, 21)
 
-        draw_SimpleText("Comepensation Ticket - Submit for Review", "GModNotify", 4, 1, Color(255, 255, 255))
+        draw_SimpleText("Manager - New Compensation Ticket for Review", "GModNotify", 4, 1, Color(255, 255, 255))
 	end
 
 	self.f = vgui.Create("DPanel", self.bg)

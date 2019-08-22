@@ -26,6 +26,7 @@ net.Receive("moat.comp.open", function(l, pl)
 		ticket = net.ReadString(),
 		steamid = net.ReadString(),
 		ic = net.ReadString(),
+		sc = net.ReadString(),
 		ec = net.ReadString(),
 		item = net.ReadString(),
 		class = net.ReadString(),
@@ -40,6 +41,11 @@ net.Receive("moat.comp.open", function(l, pl)
 	local comp_ec_save = false
 
 	if (comp.ec and #comp.ec > 0 and (#comp.ic > 0 or #comp.item > 1)) then
+		comp_ec_save = comp.ec
+		comp.ec = ""
+	end
+
+	if (comp.sc and #comp.ec > 0 and (#comp.ic > 0 or #comp.item > 1)) then
 		comp_ec_save = comp.ec
 		comp.ec = ""
 	end
