@@ -71,6 +71,10 @@ end
 
 TRACER.ApplyData = {
     _RunNow = function(self)
+		if (self.Primary and self.Primary.Sound) then
+			self.Primary.Sound = "Meep.Paintball.Fire"
+		end
+
         self.TracerName = "paintball"
         self.Tracer = 1
     end,

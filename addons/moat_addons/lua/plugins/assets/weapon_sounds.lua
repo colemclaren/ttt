@@ -1,14 +1,23 @@
-/*
 if (not sound.Add_) then
 	sound.Add_ = sound.Add
 end
 
 WEAPON_SOUNDS = WEAPON_SOUNDS or {}
+
 function sound.Add(data)
 	table.insert(WEAPON_SOUNDS, data)
+
+	if (data.sound and type(data.sound) == "table") then
+		for k, v in pairs(data.sound) do
+			util.PrecacheSound(v)
+		end
+	elseif (data.sound) then
+		util.PrecacheSound(data.sound)
+	end
+
 	return sound.Add_(data)
 end
-*/
+
 sound.Add({
 	name = "vape_inhale",
 	channel = CHAN_WEAPON,
@@ -144,12 +153,6 @@ sound.Add({
 	sound = "weapons/peacekeeper/button.wav"
 })
 
-util.PrecacheSound "BO2_PEACE_FIRE"
-util.PrecacheSound "BO2_PEACE_FIRE_SILENCED"
-util.PrecacheSound "BO2_PEACE_MAGOUT"
-util.PrecacheSound "BO2_PEACE_MAGIN"
-util.PrecacheSound "BO2_PEACE_CHARGE"
-
 sound.Add({
 	name = 			"Weapon_cm1911.imout",
 	channel = 		CHAN_ITEM,
@@ -178,115 +181,6 @@ sound.Add({
 	sound = 			"weapons/colt/draw.wav"
 })
 
-///////////////////////////////////////////////
-sound.Add(
-{
-    name = "Bullet.Concrete",
-    channel = CHAN_STATIC,
-    volume = 1.0,
-    soundlevel = SNDLVL_90dB,
-    sound = 	{
-		"physics/concrete/concrete_impact_bullet1.wav",
-		"physics/concrete/concrete_impact_bullet2.wav",
-		"physics/concrete/concrete_impact_bullet3.wav",
-		"physics/concrete/concrete_impact_bullet4.wav"
-		}
-})
-sound.Add(
-{
-    name = "Bullet.Flesh",
-    channel = CHAN_STATIC,
-    volume = 1.0,
-    soundlevel = SNDLVL_90dB,
-    sound = 	{
-		"physics/flesh/flesh_impact_bullet1.wav",
-		"physics/flesh/flesh_impact_bullet2.wav",
-		"physics/flesh/flesh_impact_bullet3.wav",
-		"physics/flesh/flesh_impact_bullet4.wav",
-		"physics/flesh/flesh_impact_bullet5.wav"
-		}
-})
-sound.Add(
-{
-    name = "Bullet.Glass",
-    channel = CHAN_STATIC,
-    volume = 1.0,
-    soundlevel = SNDLVL_90dB,
-    sound = 	{
-		"physics/glass/glass_impact_bullet1.wav",
-		"physics/glass/glass_impact_bullet2.wav",
-		"physics/glass/glass_impact_bullet3.wav",
-		"physics/glass/glass_impact_bullet4.wav",
-		"physics/glass/glass_largesheet_break1.wav",
-		"physics/glass/glass_largesheet_break2.wav",
-		"physics/glass/glass_largesheet_break3.wav"
-		}
-})
-sound.Add(
-{
-    name = "Bullet.Metal",
-    channel = CHAN_STATIC,
-    volume = 1.0,
-    soundlevel = SNDLVL_90dB,
-    sound = 	{
-		"physics/metal/metal_solid_impact_bullet1.wav",
-		"physics/metal/metal_solid_impact_bullet2.wav",
-		"physics/metal/metal_solid_impact_bullet3.wav",
-		"physics/metal/metal_solid_impact_bullet4.wav"
-		}
-})
-sound.Add(
-{
-    name = "Bullet.Tile",
-    channel = CHAN_STATIC,
-    volume = 1.0,
-    soundlevel = SNDLVL_90dB,
-    sound = 	{
-		"physics/plastic/plastic_box_impact_bullet1.wav",
-		"physics/plastic/plastic_box_impact_bullet2.wav",
-		"physics/plastic/plastic_box_impact_bullet3.wav",
-		"physics/plastic/plastic_box_impact_bullet4.wav",
-		"physics/plastic/plastic_box_impact_bullet5.wav"
-		}
-})
-sound.Add(
-{
-    name = "Bullet.Dirt",
-    channel = CHAN_STATIC,
-    volume = 1.0,
-    soundlevel = SNDLVL_90dB,
-    sound = 	{
-		"physics/surfaces/sand_impact_bullet1.wav",
-		"physics/surfaces/sand_impact_bullet2.wav",
-		"physics/surfaces/sand_impact_bullet3.wav",
-		"physics/surfaces/sand_impact_bullet4.wav"
-		}
-})
-sound.Add(
-{
-    name = "Bullet.Wood",
-    channel = CHAN_STATIC,
-    volume = 1.0,
-    soundlevel = SNDLVL_90dB,
-    sound = 	{
-		"physics/wood/wood_solid_impact_bullet1.wav",
-		"physics/wood/wood_solid_impact_bullet2.wav",
-		"physics/wood/wood_solid_impact_bullet3.wav",
-		"physics/wood/wood_solid_impact_bullet4.wav",
-		"physics/wood/wood_solid_impact_bullet5.wav"
-		}
-})
-sound.Add(
-{
-    name = "Explosion.Boom",
-    channel = CHAN_EXPLOSION,
-    volume = 1.0,
-    soundlevel = SNDLVL_150dB,
-    sound = 	"GDC/ExplosionBoom.wav"
-
-})
-
-
 sound.Add({
     name = "Golden_Deagle.Single",
     channel = CHAN_WEAPON,
@@ -294,6 +188,7 @@ sound.Add({
     pitch = {95, 105},
     sound = {")weapons/golden_deagle/deagle-1.wav", ")weapons/golden_deagle/deagle-1.wav", ")weapons/golden_deagle/deagle-1.wav", ")weapons/golden_deagle/deagle-1.wav"}
 })
+
 sound.Add({
 	name = "Golden_Deagle.Clipout",
 	channel = CHAN_WEAPON,
@@ -329,7 +224,6 @@ sound.Add({
 	sound = "weapons/golden_deagle/slideforward.wav"
 })
 
--- game.AddParticles("particles/smoke_trail.pcf")
 
 sound.Add({
 	name = "Weapof_357Golden.Shoot",
@@ -366,106 +260,6 @@ sound.Add({
 	channel = 		CHAN_ITEM,
 	volume = 		1.0,
 	sound = 			"weapons/cod4_m4/reload_chamber.wav"
-})
-
-
-
-local icol = Color(255, 255, 255, 255)
-
---
-if CLIENT then
-	-- killicon.Add("m9k_thrown_harpoon", "vgui/hud/m9k_harpoon", icol)
-    language.Add("Harpoon_ammo", "Harpoon")
-end
-
-sound.Add({
-    name = "EX41.Pump",
-    channel = CHAN_ITEM,
-    volume = 1,
-    sound = "weapons/ex41/m3_pump.mp3"
-})
-
-sound.Add({
-    name = "EX41.Insertshell",
-    channel = CHAN_ITEM,
-    volume = 1,
-    sound = "weapons/ex41/m3_insertshell.mp3"
-})
-
-sound.Add({
-    name = "EX41.Draw",
-    channel = CHAN_ITEM,
-    volume = 1,
-    sound = "weapons/ex41/draw.mp3"
-})
-
---RPG
-sound.Add({
-    name = "RPGF.single",
-    channel = CHAN_USER_BASE + 10,
-    volume = 1.0,
-    soundlevel = 155,
-    sound = "GDC/Rockets/RPGF.wav"
-})
-
-sound.Add({
-    name = "M202F.single",
-    channel = CHAN_USER_BASE + 10,
-    volume = 1.0,
-    soundlevel = 155,
-    sound = {"GDC/Rockets/M202F.wav", "gdc/rockets/m202f2.wav"}
-})
-
-sound.Add({
-    name = "MATADORF.single",
-    channel = CHAN_USER_BASE + 10,
-    volume = 1.0,
-    soundlevel = 155,
-    sound = "GDC/Rockets/MATADORF.wav"
-})
-
---Suicide bomb
-sound.Add({
-    name = "sb.click",
-    channel = CHAN_USER_BASE + 10,
-    volume = "1",
-    sound = "weapons/suicidebomb/c4_click.mp3"
-})
-
--- m79 grenade launcher
-sound.Add({
-    name = "M79_launcher.close",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    sound = "weapons/M79/m79_close.mp3"
-})
-
-sound.Add({
-    name = "M79_glauncher.barrelup", --GET THIS SOUND!
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    sound = "weapons/M79/barrelup.mp3"
-})
-
-sound.Add({
-    name = "M79_glauncher.InsertShell", --GET THIS SOUND!
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    sound = "weapons/M79/xm_insert.mp3"
-})
-
-sound.Add({
-    name = "M79_launcher.draw",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    sound = "weapons/M79/m79_close.mp3"
-})
-
-sound.Add({
-    name = "40mmGrenade.Single",
-    channel = CHAN_USER_BASE + 10,
-    volume = 1.0,
-    sound = "weapons/M79/40mmthump.wav"
 })
 
 sound.Add({
@@ -543,101 +337,6 @@ sound.Add({
 	sound = "weapons/predator_blade/ok.wav"
 })
 
-if GetConVar("pspak_weapon_stripping") == nil then
-	CreateConVar("pspak_weapon_stripping", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Allow empty weapon stripping? 1 for true, 0 for false.")
-end
-	
-if GetConVar("pspak_disable_penetration_ricochet") == nil then
-	CreateConVar("pspak_disable_penetration_ricochet", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Disable Penetration and Ricochets? 1 for true, 0 for false.")
-end
-	
-if GetConVar("pspak_dynamic_recoil") == nil then
-	CreateConVar("pspak_dynamic_recoil", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Use Aim-modifying recoil? 1 for true, 0 for false.")
-end
-	
-if GetConVar("pspak_unique_slots") == nil then
-	CreateConVar("pspak_unique_slots", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Give the SWEPs unique slots? 1 for true, 2 for false. A map change may be required.")
-end
-	
-if GetConVar("pspak_disable_holstering") == nil then
-	CreateConVar("pspak_disable_holstering", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Disable m9k's totally worthless and broken holster system? It won't hurt the creator's feelings anyway. 1 for true, 2 for false. A map change may be required.")
-end
-	
-if GetConVar("pspak_ammo_detonation") == nil then
-	CreateConVar("pspak_ammo_detonation", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Enable detonatable m9k ammo crates? 1 for true, 0 for false.")
-end
-
-if GetConVar("pspak_debug_weaponry") == nil then
-	CreateConVar("pspak_debug_weaponry", "0", { FCVAR_REPLICATED, FCVAR_ARCHIVE }, "Debugging for some m9k base stuff, turning it on won't change much.")
-end
-	
-if !game.SinglePlayer() then
-
-	if CLIENT then
-		if GetConVar("pspak_gas_effect") == nil then
-			CreateClientConVar("pspak_gas_effect", "1", true, true)
-		end
-	end
-
-else
-	if GetConVar("pspak_gas_effect") == nil then
-		CreateConVar("pspak_gas_effect", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Use gas effect when shooting? 1 for true, 0 for false")
-	end
-end
-
-//SIG SG 552
-
-sound.Add({
-    name = "gunshot_sg_552",
-    channel = CHAN_WEAPON,
-    volume = 0.8,
-    pitch = {95, 105},
-    sound = ")weapons/gunshot_sg552/sg552-1.wav"
-})
-sound.Add({
-	name = 			"improv_SG552.Clipout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_sg552/sg552_clipout.wav"
-})
-
-sound.Add({
-	name = 			"improv_SG552.Clipin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_sg552/sg552_clipin.wav"
-})
-
-sound.Add({
-	name = 			"improv_SG552.Boltpull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_sg552/sg552_boltpull.wav"
-})
-
-//Benelli M3
-
-sound.Add({
-    name = "gunshot_benli_m3",
-    channel = CHAN_WEAPON,
-    volume = 0.8,
-    pitch = {95, 105},
-    sound = ")weapons/gunshot_m3/m3-1.wav"
-})
-sound.Add({
-	name = 			"improv_M3.Insertshell",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m3/m3_insertshell.wav"
-})
-
-sound.Add({
-	name = 			"improv_M3.Pump",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m3/m3_pump.wav"
-})
-
 //SIG P228
 
 sound.Add({
@@ -674,337 +373,6 @@ sound.Add({
 	channel = 		CHAN_ITEM,
 	volume = 		1.0,
 	sound = 			"weapons/gunshot_p228/shift.wav"
-})
-
-//PP-19 Bizon
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_pp_bizon/Shoot.wav"
-soundtbl["name"] = "gunshot_bizon"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"PP19.Magout1",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_pp_bizon/Magout1.wav"
-})
-
-sound.Add({
-	name = 			"PP19.Magout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_pp_bizon/Magout.wav"
-})
-
-sound.Add({
-	name = 			"PP19.Magin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_pp_bizon/Magin.wav"
-})
-
-sound.Add({
-	name = 			"PP19.BoltPull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_pp_bizon/Boltpull.wav"
-})
-
-sound.Add({
-	name = 			"PP19.Foley",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_pp_bizon/Foley.wav"
-})
-
-sound.Add({
-	name = 			"PP19.Deploy",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_pp_bizon/Foley.wav"
-})
-
-//AR-15
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_m4a1/m4a1_unsil-1.wav"
-soundtbl["name"] = "gunshot_ris_m4a1"
-sound.Add(soundtbl)
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_m4a1/m4a1-1.wav"
-soundtbl["name"] = "gunshot_ris_m4a1_silenced"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"improv_M4A1.Clipout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4a1/m4a1_clipout.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4A1.Clipin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4a1/m4a1_clipin.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4A1.Deploy",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4a1/m4a1_deploy.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4A1.Boltrelease1",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4a1/m4a1_boltpull.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4A1.Silencer_On",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4a1/m4a1_silencer_on.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4A1.Silencer_Off",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4a1/m4a1_silencer_off.wav"
-})
-
-//HK 416
-
-sound.Add({
-    name = "gunshot_hk_416",
-    channel = CHAN_WEAPON,
-    volume = 0.8,
-    pitch = {95, 105},
-    sound = ")weapons/gunshot_416/aug-1.wav"
-})
-sound.Add({
-	name = 			"416.draw",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_416/draw.wav"
-})
-
-sound.Add({
-	name = 			"416.clothfast1",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_416/clothfast.wav"
-})
-
-sound.Add({
-	name = 			"416.magout1",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_416/magout.wav"
-})
-
-sound.Add({
-	name = 			"416.maginfail1",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_416/magfail.wav"
-})
-
-sound.Add({
-	name = 			"416.magin1",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_416/magin.wav"
-})
-
-sound.Add({
-	name = 			"416.boltrelease1",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_416/boltrelease.wav"
-})
-
-//M4A1
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_m4hy/m4a1_unsil-1.wav"
-soundtbl["name"] = "gunshot_m4hy"
-sound.Add(soundtbl)
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_m4hy/m4a1-1.wav"
-soundtbl["name"] = "gunshot_m4hy_silenced"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"improv_M4HY.Boltpull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_boltpull.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4HY.Boltrelease",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_boltrelease.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4HY.Deploy",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_deploy.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4HY.Magout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_Magout.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4HY.Magin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_magin.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4HY.Magdrop",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_magdrop.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4HY.Gungrab",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_gungrab.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4HY.Gunmove",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_gunmove.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4HY.Silencer_On",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_silencer_on.wav"
-})
-
-sound.Add({
-	name = 			"improv_M4HY.Silencer_Off",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m4hy/m4a1_silencer_off.wav"
-})
-
-//AK-47
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_irq_ak47/ak47-1.wav"
-soundtbl["name"] = "gunshot_irq_ak47"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"improv_AK47.BoltPull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_irq_ak47/ak47_boltpull.wav"
-})
-
-sound.Add({
-	name = 			"improv_AK47.BoltRelease",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_irq_ak47/ak47_boltrelease.wav"
-})
-
-sound.Add({
-	name = 			"improv_AK47.Clipout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_irq_ak47/ak47_clipout.wav"
-})
-
-sound.Add({
-	name = 			"improv_AK47.Clipin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_irq_ak47/ak47_clipin.wav"
-})
-
-//MAC-10
-
-sound.Add({
-    name = "gunshot_ops_mac10",
-    channel = CHAN_WEAPON,
-    volume = 0.8,
-    pitch = {95, 105},
-    sound = ")weapons/gunshot_mac10/mac10-1.wav"
-})
-sound.Add({
-	name = 			"improv_MAC10.Clipout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_mac10/mac10_clipout.wav"
-})
-
-sound.Add({
-	name = 			"improv_MAC10.Clipin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_mac10/mac10_clipin.wav"
-})
-
-sound.Add({
-	name = 			"improv_MAC10.Boltpull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_mac10/mac10_boltpull.wav"
 })
 
 //HK MP5K
@@ -1066,193 +434,6 @@ sound.Add({
 	volume = 		1.0,
 	sound = 			"weapons/gunshot_moss_590/m3_insertshell.wav"
 })
-
-//M60
-
-sound.Add({
-    name = "gunshot_m60",
-    channel = CHAN_WEAPON,
-    volume = 0.8,
-    pitch = {95, 105},
-    sound = ")weapons/gunshot_m60/m249-1.wav"
-})
-sound.Add({
-	name = 			"improv_MM60.BoltPull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m60/m249_boltpull.wav"
-})
-
-sound.Add({
-	name = 			"improv_MM60.Boxout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m60/m249_boxout.wav"
-})
-
-sound.Add({
-	name = 			"improv_MM60.Boxin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m60/m249_boxin.wav"
-})
-
-sound.Add({
-	name = 			"improv_MM60.Coverup",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m60/m249_coverup.wav"
-})
-
-sound.Add({
-	name = 			"improv_MM60.Chain",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m60/m249_chain.wav"
-})
-
-sound.Add({
-	name = 			"improv_MM60.Click",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m60/m249_click.wav"
-})
-
-sound.Add({
-	name = 			"improv_MM60.Coverdown",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m60/m249_coverdown.wav"
-})
-
-sound.Add({
-	name = 			"improv_MM60.Chaindraw",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m60/m249_chaindraw.wav"
-})
-
-//Benelli M4
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_benli_m4/xm1014-1.wav"
-soundtbl["name"] = "gunshot_benli_m4"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"improv_ben_m4.insert",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_benli_m4/xm1014_insertshell.wav"
-})
-
-sound.Add({
-	name = 			"improv_ben_m4.cock",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_benli_m4/xm1014_boltpull.wav"
-})
-
-//Walther 2000
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_waltr_2000/walther.wav"
-soundtbl["name"] = "gunshot_waltr_2000"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"Walther.Lightcloth",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_waltr_2000/Lightcloth.wav"
-})
-
-sound.Add({
-	name = 			"Walther.Magout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_waltr_2000/Magout.wav"
-})
-
-sound.Add({
-	name = 			"Walther.Magin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_waltr_2000/Magin.wav"
-})
-
-sound.Add({
-	name = 			"Walther.Boltback",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_waltr_2000/Boltback.wav"
-})
-
-sound.Add({
-	name = 			"Walther.Boltforward",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_waltr_2000/Boltforward.wav"
-})
-
-sound.Add({
-	name = 			"Walther.Heavycloth",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_waltr_2000/Heavycloth.wav"
-})
-
-sound.Add({
-	name = 			"Walther.Foley",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_waltr_2000/foley.wav"
-})
-
-//FN FAL
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_fn_fal/galil-1.wav"
-soundtbl["name"] = "gunshot_fn_fal"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"improv_fnfal.Clipout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_fn_fal/galil_clipout.wav"
-})
-
-sound.Add({
-	name = 			"improv_fnfal.Clipin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_fn_fal/galil_clipin.wav"
-})
-
-sound.Add({
-	name = 			"improv_fnfal.Boltpull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_fn_fal/galil_boltpull.wav"
-})
-
-//CZ 75
 
 sound.Add({
     name = "gunshot_cz75",
@@ -1350,235 +531,6 @@ sound.Add({
 	sound = 			"weapons/gunshot_mr_96/de_deploy.wav"
 })
 
-//HK G36C
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_g36c/G36C_Fire.wav"
-soundtbl["name"] = "gunshot_hk_g36c"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"improv_g36c.Boltpull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_g36c/boltpull.wav"
-})
-
-sound.Add({
-	name = 			"improv_g36c.Handle",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_g36c/handle.wav"
-})
-
-sound.Add({
-	name = 			"improv_g36c.Maghit",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_g36c/maghit.wav"
-})
-
-sound.Add({
-	name = 			"improv_g36c.Magout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_g36c/magout.wav"
-})
-
-sound.Add({
-	name = 			"improv_g36c.Magin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_g36c/magin.wav"
-})
-
-//this part is for making kill icons
-local icol = Color( 255, 255, 255, 255 ) 
-if CLIENT then
-
-	-- killicon.Add(  "test_rifle",		"vgui/hud/test_rifle", icol  )
-	--			weapon name			location of weapon's kill icon, I just used the hud icon
-
-end
-
-//these are some variables we need to keep for stuff to work
-//that means don't delete them
-if SERVER then
-
-	if GetConVar("M9KWeaponStrip") == nil then
-		CreateConVar("M9KWeaponStrip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Allow empty weapon stripping? 1 for true, 0 for false")
-	end
-	
-	if GetConVar("M9KGasEffect") == nil then
-		CreateConVar("M9KGasEffect", "1", { FCVAR_ARCHIVE }, "Use gas effect when shooting? 1 for true, 0 for false")
-	end
-	
-	if GetConVar("M9KDisablePenetration") == nil then
-		CreateConVar("M9KDisablePenetration", "0", { FCVAR_ARCHIVE }, "Disable Penetration and Ricochets? 1 for true, 0 for false")
-	end
-	
-end
-
-//I always leave a note reminding me which weapon these sounds are for
-//weapon name
-sound.Add({
-	name = 			"stalker_lr300_shot",
-	channel = 		CHAN_USER_BASE+10, --see how this is a different channel? Gunshots go here
-	volume = 		1.0,
-	sound = 			"weapons/LR-300/sg552-1.wav"
-})
-
-sound.Add({
-	name = 			"Weapon_LR-300.Clipout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/LR-300/sg552_clipout.wav"
-})
-
-sound.Add({
-	name = 			"Weapon_LR-300.Clipin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/LR-300/sg552_clipin.wav"
-})
-
-sound.Add({
-	name = 			"Weapon_LR-300.boltpull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/LR-300/sg552_boltpull.wav"
-})
-
-if GetConVar("pspak_weapon_stripping") == nil then
-	CreateConVar("pspak_weapon_stripping", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Allow empty weapon stripping? 1 for true, 0 for false.")
-	print("Weapon Strip con var created")
-end
-	
-if GetConVar("pspak_disable_penetration_ricochet") == nil then
-	CreateConVar("pspak_disable_penetration_ricochet", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Disable Penetration and Ricochets? 1 for true, 0 for false.")
-	print("Penetration/ricochet con var created")
-end
-	
-if GetConVar("pspak_dynamic_recoil") == nil then
-	CreateConVar("pspak_dynamic_recoil", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Use Aim-modifying recoil? 1 for true, 0 for false.")
-	print("Recoil con var created")
-end
-	
-if GetConVar("pspak_unique_slots") == nil then
-	CreateConVar("pspak_unique_slots", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Give the SWEPs unique slots? 1 for true, 2 for false. A map change may be required.")
-	print("Unique Slots con var created")
-end
-	
-if GetConVar("pspak_disable_holstering") == nil then
-	CreateConVar("pspak_disable_holstering", "0", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Disable m9k's totally worthless and broken holster system? It won't hurt the creator's feelings anyway. 1 for true, 2 for false. A map change may be required.")
-	print("Holster Disable con var created")
-end
-	
-if GetConVar("pspak_ammo_detonation") == nil then
-	CreateConVar("pspak_ammo_detonation", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Enable detonatable m9k ammo crates? 1 for true, 0 for false.")
-	print("Ammo crate detonation con var created")
-end
-
-if GetConVar("pspak_debug_weaponry") == nil then
-	CreateConVar("pspak_debug_weaponry", "0", { FCVAR_REPLICATED, FCVAR_ARCHIVE }, "Debugging for some m9k base stuff, turning it on won't change much.")
-end
-	
-if !game.SinglePlayer() then
-
-	if CLIENT then
-		if GetConVar("pspak_gas_effect") == nil then
-			CreateClientConVar("pspak_gas_effect", "1", true, true)
-			print("Client-side Gas Effect Con Var created")
-		end
-	end
-
-else
-	if GetConVar("pspak_gas_effect") == nil then
-		CreateConVar("pspak_gas_effect", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Use gas effect when shooting? 1 for true, 0 for false")
-		print("Gas effect con var created")
-	end
-end
-
-//DSA FAL
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_dsafal/dsa_unsil-1.wav"
-soundtbl["name"] = "gunshot_dsa_fal"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"gunshot_dsa_fal_silenced",
-	channel = 		CHAN_USER_BASE+10, --see how this is a different channel? Gunshots go here
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_dsafal/dsa-1.wav"
-})
-
-sound.Add({
-	name = 			"DSAFAL.magout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_dsafal/magout.wav"
-})
-
-sound.Add({
-	name = 			"DSAFAL.magin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_dsafal/magin.wav"
-})
-
-sound.Add({
-	name = 			"DSAFAL.shoulder",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_dsafal/deploy.wav"
-})
-
-sound.Add({
-	name = 			"DSAFAL.boltpull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_dsafal/boltpull.wav"
-})
-
-sound.Add({
-	name = 			"DSAFAL.deploy",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_dsafal/deploy.wav"
-})
-
-sound.Add({
-	name = 			"DSAFAL.fireselector",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_dsafal/safety.wav"
-})
-
-sound.Add({
-	name = 			"DSAFAL.PlaceSilencer",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_dsafal/placesilencer.wav"
-})
-
-sound.Add({
-	name = 			"DSAFAL.SpinSilencer",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_dsafal/silencerspin.wav"
-})
-
 //HK USP Match
 
 local soundtbl = {}
@@ -1648,100 +600,6 @@ sound.Add({
 	channel = 		CHAN_ITEM,
 	volume = 		1.0,
 	sound = 			"weapons/gunshot_usp_match/usp_silencer_on.wav"
-})
-
-//L96A1
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_l96/awp1.wav"
-soundtbl["name"] = "gunshot_l96"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"improv_l96.Boltback",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_l96/awp_boltback.wav"
-})
-
-sound.Add({
-	name = 			"improv_l96.Boltpush",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_l96/awp_boltpush.wav"
-})
-
-sound.Add({
-	name = 			"improv_l96.Boltlock",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_l96/awp_boltlock.wav"
-})
-
-sound.Add({
-	name = 			"improv_l96.draw",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_l96/awp_deploy.wav"
-})
-
-sound.Add({
-	name = 			"improv_l96.Clipout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_l96/awp_clipout.wav"
-})
-
-sound.Add({
-	name = 			"improv_l96.Clipin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_l96/awp_clipin.wav"
-})
-
-sound.Add({
-	name = 			"improv_l96.Cliptap",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_l96/awp_cliptap.wav"
-})
-
-//Brügger & Thomet MP9
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_mp9/tmp-1.wav"
-soundtbl["name"] = "gunshot_bnt_mp9"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"improv_mp9.Clipout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_mp9/tmp_clipout.wav"
-})
-
-sound.Add({
-	name = 			"improv_mp9.Clipin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_mp9/tmp_clipin.wav"
-})
-
-sound.Add({
-	name = 			"improv_mp9.Deploy",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_mp9/tmp_deploy.wav"
 })
 
 //MSBS Radon
@@ -1814,155 +672,6 @@ sound.Add({
 	volume = 		1.0,
 	sound = 			"weapons/gunshot_msbs/Deploy.wav"
 })
-
-//RU 556
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_ru556/Fire.wav"
-soundtbl["name"] = "gunshot_ru_556"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"ru556.foley",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_ru556/Foley.wav"
-})
-
-sound.Add({
-	name = 			"ru556.magout",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_ru556/MagOut.wav"
-})
-
-sound.Add({
-	name = 			"ru556.magfix",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_ru556/MagFix.wav"
-})
-
-sound.Add({
-	name = 			"ru556.magin",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_ru556/MagIn.wav"
-})
-
-sound.Add({
-	name = 			"ru556.pull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_ru556/Pull.wav"
-})
-
-sound.Add({
-	name = 			"ru556.retract",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_ru556/Retract.wav"
-})
-
-sound.Add({
-	name = 			"ru556.deploy",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_ru556/Deploy.wav"
-})
-
-sound.Add({
-	name = 			"ru556.drag",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_ru556/Drag.wav"
-})
-
-//M14 EBR
-
-local soundtbl = {}
-soundtbl["channel"] = "1"
-soundtbl["level"] = "135"
-soundtbl["volume"] = "1.0"
-soundtbl["CompatibilityAttenuation"] = "0.48"
-soundtbl["pitch"] = "95,105"
-soundtbl["sound"] = ")weapons/gunshot_m14/Shoot.wav"
-soundtbl["name"] = "gunshot_m14_ebr"
-sound.Add(soundtbl)
-
-sound.Add({
-	name = 			"M14.BoltPull",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m14/Boltpull.wav"
-})
-
-sound.Add({
-	name = 			"M14.MagOut",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m14/Magout.wav"
-})
-
-sound.Add({
-	name = 			"M14.MagIn",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m14/Magin.wav"
-})
-
-sound.Add({
-	name = 			"M14.Draw",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m14/Deploy.wav"
-})
-
-sound.Add({
-	name = 			"M14.MagDraw",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m14/Magdraw.wav"
-})
-
-sound.Add({
-	name = 			"M14.Shoulder",
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/gunshot_m14/Shoulder.wav"
-})
-
-//this part is for making kill icons
-local icol = Color( 255, 255, 255, 255 ) 
-if CLIENT then
-
-	-- killicon.Add(  "test_rifle",		"vgui/hud/test_rifle", icol  )
-	--			weapon name			location of weapon's kill icon, I just used the hud icon
-
-end
-
-//these are some variables we need to keep for stuff to work
-//that means don't delete them
-if SERVER then
-
-	if GetConVar("M9KWeaponStrip") == nil then
-		CreateConVar("M9KWeaponStrip", "1", { FCVAR_REPLICATED, FCVAR_NOTIFY, FCVAR_ARCHIVE }, "Allow empty weapon stripping? 1 for true, 0 for false")
-	end
-	
-	if GetConVar("M9KGasEffect") == nil then
-		CreateConVar("M9KGasEffect", "1", { FCVAR_ARCHIVE }, "Use gas effect when shooting? 1 for true, 0 for false")
-	end
-	
-	if GetConVar("M9KDisablePenetration") == nil then
-		CreateConVar("M9KDisablePenetration", "0", { FCVAR_ARCHIVE }, "Disable Penetration and Ricochets? 1 for true, 0 for false")
-	end
-	
-end
 
 //I always leave a note reminding me which weapon these sounds are for
 //weapon name
@@ -2096,8 +805,6 @@ sound.Add({
 
 //VSS
 
-sound.Add(instbl)
-
 local instbl = {}
 instbl["channel"] = "3"
 instbl["level"] = "75"
@@ -2164,119 +871,6 @@ instbl["name"] = "Weapoz_SG552.Boltpull"
 
 sound.Add(instbl)
 
-//SHOTGUN GROUP
-
-// *********************************
-// *********************************
-// *                               *
-// *         Remington 870         *
-// *                               *
-// *********************************
-// *********************************
-local fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/shotgun_rem870/rem870_fire1.wav","weapons/shotgun_rem870/rem870_fire2.wav","weapons/shotgun_rem870/rem870_fire3.wav","weapons/shotgun_rem870/rem870_fire4.wav","weapons/shotgun_rem870/rem870_fire5.wav"}
-fastbl["name"] = "Weapof_REM870.Shoot"
-
-sound.Add({
-	name = "Weapof_REM870.Shoot",
-	channel = CHAN_WEAPON,
-    volume = 1.0,
-	pitch = {95, 105},
-	sound = {")weapons/shotgun_rem870/rem870_fire1.wav", ")weapons/shotgun_rem870/rem870_fire2.wav", ")weapons/shotgun_rem870/rem870_fire3.wav", ")weapons/shotgun_rem870/rem870_fire4.wav", ")weapons/shotgun_rem870/rem870_fire5.wav"}
-})
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {")weapons/shotgun_rem870/rem870_insert1.wav",")weapons/shotgun_rem870/rem870_insert2.wav",")weapons/shotgun_rem870/rem870_insert3.wav"}
-fastbl["name"] = "Weapof_REM870.Insert"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/shotgun_rem870/rem870_draw.wav"
-fastbl["name"] = "Weapof_REM870.Draw"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/shotgun_rem870/rem870_holster.wav"
-fastbl["name"] = "Weapof_REM870.Holster"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/shotgun_rem870/rem870_start.wav"
-fastbl["name"] = "Weapof_REM870.Start"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/shotgun_rem870/rem870_pump1.wav"
-fastbl["name"] = "Weapof_REM870.Pump1"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/shotgun_rem870/rem870_pump2.wav"
-fastbl["name"] = "Weapof_REM870.Pump2"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/shotgun_rem870/rem870_pump_end.wav"
-fastbl["name"] = "Weapof_REM870.Pump_End"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/shotgun_rem870/rem870_nopump_end.wav"
-fastbl["name"] = "Weapof_REM870.NoPump_End"
-
-sound.Add(fastbl)
-
 // *********************************
 // *********************************
 // *                               *
@@ -2284,15 +878,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/shotgun_m3s90p/m3s90_fire1.wav","weapons/shotgun_m3s90p/m3s90_fire2.wav","weapons/shotgun_m3s90p/m3s90_fire3.wav","weapons/shotgun_m3s90p/m3s90_fire4.wav","weapons/shotgun_m3s90p/m3s90_fire5.wav"}
-fastbl["name"] = "Weapof_M3S90.Shoot"
 
 sound.Add({
 	name = "Weapof_M3S90.Shoot",
@@ -2356,15 +941,6 @@ sound.Add(fastbl)
 // *********************************
 // *********************************
 
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/pistol_m1911a1/1911_fire1.wav","weapons/pistol_m1911a1/1911_fire2.wav","weapons/pistol_m1911a1/1911_fire3.wav","weapons/pistol_m1911a1/1911_fire4.wav","weapons/pistol_m1911a1/1911_fire5.wav"}
-fastbl["name"] = "Weapof_1911.Shoot"
-
 sound.Add({
 	name = "Weapof_1911.Shoot",
 	channel = CHAN_WEAPON,
@@ -2413,15 +989,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/pistol_glock20/glock20_fire1.wav","weapons/pistol_glock20/glock20_fire2.wav","weapons/pistol_glock20/glock20_fire3.wav","weapons/pistol_glock20/glock20_fire4.wav","weapons/pistol_glock20/glock20_fire5.wav"}
-fastbl["name"] = "Weapof_Glock20.Shoot"
 
 sound.Add({
 	name = "Weapof_Glock20.Shoot",
@@ -2472,15 +1039,6 @@ sound.Add(fastbl)
 // *********************************
 // *********************************
 
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/pistol_ots33/ots33_fire1.wav","weapons/pistol_ots33/ots33_fire2.wav","weapons/pistol_ots33/ots33_fire3.wav","weapons/pistol_ots33/ots33_fire4.wav","weapons/pistol_ots33/ots33_fire5.wav"}
-fastbl["name"] = "Weapof_OTs33.Shoot"
-
 sound.Add({
 	name = "Weapof_OTs33.Shoot",
 	channel = CHAN_WEAPON,
@@ -2529,14 +1087,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.40"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/pistol_beretta92fs/m9_fire1.wav", "weapons/pistol_beretta92fs/m9_fire2.wav","weapons/pistol_beretta92fs/m9_fire3.wav","weapons/pistol_beretta92fs/m9_fire4.wav","weapons/pistol_beretta92fs/m9_fire5.wav"}
-fastbl["name"] = "Weapof_Beretta92fs.Shoot"
 
 sound.Add({
 	name = "Weapof_Beretta92fs.Shoot",
@@ -2586,13 +1136,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/pistol_deserteagle/de_fire1.wav","weapons/pistol_deserteagle/de_fire2.wav","weapons/pistol_deserteagle/de_fire3.wav","weapons/pistol_deserteagle/de_fire4.wav","weapons/pistol_deserteagle/de_fire5.wav"}
-fastbl["name"] = "Weapof_DEagle.Shoot"
 
 sound.Add({
 	name = "Weapof_DEagle.Shoot",
@@ -2644,13 +1187,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/sub_mp5/mp5_fire1.wav","weapons/sub_mp5/mp5_fire2.wav","weapons/sub_mp5/mp5_fire3.wav","weapons/sub_mp5/mp5_fire4.wav","weapons/sub_mp5/mp5_fire5.wav"}
-fastbl["name"] = "Weapof_MP5.Shoot"
 
 sound.Add({
 	name = "Weapof_MP5.Shoot",
@@ -2712,15 +1248,6 @@ sound.Add(fastbl)
 // *********************************
 // *********************************
 
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/sub_sterling/sterling_fire1.wav","weapons/sub_sterling/sterling_fire2.wav","weapons/sub_sterling/sterling_fire3.wav"}
-fastbl["name"] = "Weapof_STERLING.Shoot"
-
 sound.Add({
 	name = "Weapof_STERLING.Shoot",
 	channel = CHAN_WEAPON,
@@ -2766,14 +1293,6 @@ sound.Add({
 // *                               *
 // *********************************
 // *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/sub_cf05/cf05_fire1.wav","weapons/sub_cf05/cf05_fire2.wav","weapons/sub_cf05/cf05_fire3.wav","weapons/sub_cf05/cf05_fire4.wav","weapons/sub_cf05/cf05_fire5.wav"}
-fastbl["name"] = "Weapof_CF05.Shoot"
 
 sound.Add({
 	name = "Weapof_CF05.Shoot",
@@ -2823,14 +1342,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/sub_mac11/mac11_fire1.wav","weapons/sub_mac11/mac11_fire2.wav","weapons/sub_mac11/mac11_fire3.wav","weapons/sub_mac11/mac11_fire4.wav","weapons/sub_mac11/mac11_fire5.wav"}
-fastbl["name"] = "Weapof_MAC11.Shoot"
 
 sound.Add({
 	name = "Weapof_MAC11.Shoot",
@@ -2893,14 +1404,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/ar_famas/famas_fire1.wav","weapons/ar_famas/famas_fire2.wav","weapons/ar_famas/famas_fire3.wav","weapons/ar_famas/famas_fire4.wav","weapons/ar_famas/famas_fire5.wav"}
-fastbl["name"] = "Weapof_FAMAS.Shoot"
 
 sound.Add({
 	name = "Weapof_FAMAS.Shoot",
@@ -2950,14 +1453,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/ar_m4a1/m4_fire1.wav","weapons/ar_m4a1/m4_fire1.wav","weapons/ar_m4a1/m4_fire1.wav","weapons/ar_m4a1/m4_fire1.wav","weapons/ar_m4a1/m4_fire1.wav"}
-fastbl["name"] = "Weapof_M4A1.Shoot"
 
 sound.Add({
 	name = "Weapof_M4A1.Shoot",
@@ -3080,77 +1575,10 @@ sound.Add(fastbl)
 // *********************************
 // *********************************
 // *                               *
-// *         M16A2		   		   *	
-// *                               *
-// *********************************
-// *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/ar_m16a2/m16a2_fire1.wav","weapons/ar_m16a2/m16a2_fire2.wav","weapons/ar_m16a2/m16a2_fire3.wav","weapons/ar_m16a2/m16a2_fire4.wav","weapons/ar_m16a2/m16a2_fire5.wav"}
-fastbl["name"] = "Weapof_M16A2.Shoot"
-
-sound.Add({
-	name = "Weapof_M16A2.Shoot",
-	channel = CHAN_WEAPON,
-    volume = 1.0,
-	pitch = {95, 105},
-	sound = {")weapons/ar_m16a2/m16a2_fire1.wav", ")weapons/ar_m16a2/m16a2_fire2.wav", ")weapons/ar_m16a2/m16a2_fire3.wav", ")weapons/ar_m16a2/m16a2_fire4.wav", ")weapons/ar_m16a2/m16a2_fire5.wav"}
-})
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/ar_m16a2/m16a2_magin.wav"
-fastbl["name"] = "Weapof_M16A2.MagIn"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/ar_m16a2/m16a2_magout.wav"
-fastbl["name"] = "Weapof_M16A2.MagOut"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/ar_m16a2/m16a2_charge.wav"
-fastbl["name"] = "Weapof_M16A2.SlideStop"
-
-sound.Add(fastbl)
-
-// *********************************
-// *********************************
-// *                               *
 // *             SG550             *
 // *                               *
 // *********************************
 // *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/ar_sg550/sg550_fire1.wav","weapons/ar_sg550/sg550_fire2.wav","weapons/ar_sg550/sg550_fire3.wav","weapons/ar_sg550/sg550_fire4.wav","weapons/ar_sg550/sg550_fire5.wav"}
-fastbl["name"] = "Weapof_sg550.Shoot"
 
 sound.Add({
 	name = "Weapof_sg550.Shoot",
@@ -3200,15 +1628,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/ar_g36c/g36c_fire1.wav","weapons/ar_g36c/g36c_fire2.wav","weapons/ar_g36c/g36c_fire3.wav","weapons/ar_g36c/g36c_fire4.wav","weapons/ar_g36c/g36c_fire5.wav"}
-fastbl["name"] = "Weapof_G36.Shoot"
 
 sound.Add({
 	name = "Weapof_G36.Shoot",
@@ -3314,15 +1733,6 @@ sound.Add(fastbl)
 // *********************************
 // *********************************
 
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/ar_sako92/sako_fire1.wav","weapons/ar_sako92/sako_fire2.wav","weapons/ar_sako92/sako_fire3.wav","weapons/ar_sako92/sako_fire4.wav","weapons/ar_sako92/sako_fire5.wav"}
-fastbl["name"] = "Weapof_Sako.Shoot"
-
 sound.Add({
 	name = "Weapof_Sako.Shoot",
 	channel = CHAN_WEAPON,
@@ -3373,15 +1783,6 @@ sound.Add(fastbl)
 // *********************************
 // *********************************
 
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/ar_ak47/ak47_fire1.wav","weapons/ar_ak47/ak47_fire2.wav","weapons/ar_ak47/ak47_fire3.wav","weapons/ar_ak47/ak47_fire4.wav","weapons/ar_ak47/ak47_fire5.wav"}
-fastbl["name"] = "Weapof_AK47.Shoot"
-
 sound.Add({
 	name = "Weapof_AK47.Shoot",
 	channel = CHAN_WEAPON,
@@ -3430,15 +1831,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/ar_m14/m14_fire1.wav","weapons/ar_m14/m14_fire2.wav","weapons/ar_m14/m14_fire3.wav","weapons/ar_m14/m14_fire4.wav","weapons/ar_m14/m14_fire5.wav"}
-fastbl["name"] = "Weapof_M14.Shoot"
 
 sound.Add({
 	name = "Weapof_M14.Shoot",
@@ -3511,15 +1903,6 @@ sound.Add(fastbl)
 // *********************************
 // *********************************
 
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/ar_g3a3/g3_fire1.wav","weapons/ar_g3a3/g3_fire2.wav","weapons/ar_g3a3/g3_fire3.wav","weapons/ar_g3a3/g3_fire4.wav","weapons/ar_g3a3/g3_fire5.wav"}
-fastbl["name"] = "Weapof_G3.Shoot"
-
 sound.Add({
 	name = "Weapof_G3.Shoot",
 	channel = CHAN_WEAPON,
@@ -3572,8 +1955,6 @@ fastbl["name"] = "Weapof_G3.MagIn"
 
 sound.Add(fastbl)
 
-AddCSLuaFile()
-
 //MACHINE GUN GROUP
 
 // *********************************
@@ -3583,15 +1964,6 @@ AddCSLuaFile()
 // *                               *
 // *********************************
 // *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/mg_vollmer/vollmer_fire1.wav","weapons/mg_vollmer/vollmer_fire2.wav","weapons/mg_vollmer/vollmer_fire3.wav","weapons/mg_vollmer/vollmer_fire4.wav","weapons/mg_vollmer/vollmer_fire5.wav"}
-fastbl["name"] = "Weapof_Vollmer.Shoot"
 
 sound.Add({
 	name = "Weapof_Vollmer.Shoot",
@@ -3777,497 +2149,6 @@ fastbl["name"] = "Weapof_vollmer.stock"
 
 sound.Add(fastbl)
 
-// *********************************
-// *********************************
-// *                               *
-// *             M249              *
-// *                               *
-// *********************************
-// *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/mg_m249/m249_fire1.wav","weapons/mg_m249/m249_fire2.wav","weapons/mg_m249/m249_fire3.wav","weapons/mg_m249/m249_fire4.wav","weapons/mg_m249/m249_fire5.wav"}
-fastbl["name"] = "Weapof_M249.Shoot"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_fire_empty.wav"
-fastbl["name"] = "Weapof_M249.fire_empty"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "0.3"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_belt1.wav"
-fastbl["name"] = "Weapof_M249.Belt1"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "0.3"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_belt2.wav"
-fastbl["name"] = "Weapof_M249.Belt2"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "0.3"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_belt3.wav"
-fastbl["name"] = "Weapof_M249.Belt3"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "0.3"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_belt4.wav"
-fastbl["name"] = "Weapof_M249.Belt4"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "0.3"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_belt5.wav"
-fastbl["name"] = "Weapof_M249.Belt5"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "0.3"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_belt6.wav"
-fastbl["name"] = "Weapof_M249.Belt6"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_beltload.wav"
-fastbl["name"] = "Weapof_M249.BeltLoad"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_beltpull.wav"
-fastbl["name"] = "Weapof_M249.Beltpull"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_beltremove.wav"
-fastbl["name"] = "Weapof_M249.Beltremove"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_boxinsert.wav"
-fastbl["name"] = "Weapof_M249.Boxinsert"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_boxremove.wav"
-fastbl["name"] = "Weapof_M249.Boxremove"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_charge.wav"
-fastbl["name"] = "Weapof_M249.Charge"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_bipod.wav"
-fastbl["name"] = "Weapof_M249.Bipod"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_lidopen.wav"
-fastbl["name"] = "Weapof_M249.Lidopen"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m249/m249_lidclose.wav"
-fastbl["name"] = "Weapof_M249.Lidclose"
-
-sound.Add(fastbl)
-
-
-// *********************************
-// *********************************
-// *                               *
-// *             M60               *
-// *                               *
-// *********************************
-// *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/mg_m60/m60_fire1.wav","weapons/mg_m60/m60_fire2.wav","weapons/mg_m60/m60_fire3.wav","weapons/mg_m60/m60_fire4.wav","weapons/mg_m60/m60_fire5.wav"}
-fastbl["name"] = "Weapof_M60.Shoot"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_fire_empty.wav"
-fastbl["name"] = "Weapof_M60.Fire_Empty"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_belt1.wav"
-fastbl["name"] = "Weapof_M60.belt1"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_belt2.wav"
-fastbl["name"] = "Weapof_M60.belt2"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_belt3.wav"
-fastbl["name"] = "Weapof_M60.belt3"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_belt4.wav"
-fastbl["name"] = "Weapof_M60.belt4"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_belt_insert.wav"
-fastbl["name"] = "Weapof_M60.belt_insert"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_belt_remove.wav"
-fastbl["name"] = "Weapof_M60.belt_remove"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_bipod.wav"
-fastbl["name"] = "Weapof_M60.bipod"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_charge.wav"
-fastbl["name"] = "Weapof_M60.charge"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_cardboard_insert.wav"
-fastbl["name"] = "Weapof_M60.cardboard_insert"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_cardboard_remove.wav"
-fastbl["name"] = "Weapof_M60.cardboard_remove"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_cardboard_remove_full.wav"
-fastbl["name"] = "Weapof_M60.cardboard_remove_full"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_cardboard_rip1.wav"
-fastbl["name"] = "Weapof_M60.cardboard_rip1"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_cardboard_rip2.wav"
-fastbl["name"] = "Weapof_M60.cardboard_rip2"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_feeding_mechanism.wav"
-fastbl["name"] = "Weapof_M60.feeding_mechanism"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_feeding_tray.wav"
-fastbl["name"] = "Weapof_M60.feeding_tray"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_flipsights.wav"
-fastbl["name"] = "Weapof_M60.flipsights"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_open.wav"
-fastbl["name"] = "Weapof_M60.open"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_carryinghandle.wav"
-fastbl["name"] = "Weapof_M60.carryinghandle"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_close.wav"
-fastbl["name"] = "Weapof_M60.close"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_shoulderrest.wav"
-fastbl["name"] = "Weapof_M60.shoulderrest"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_startertab.wav"
-fastbl["name"] = "Weapof_M60.startertab"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_velcro_close.wav"
-fastbl["name"] = "Weapof_M60.velcro_close"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_velcro_rip1.wav"
-fastbl["name"] = "Weapof_M60.velcro_rip1"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/mg_m60/m60_velcro_rip2.wav"
-fastbl["name"] = "Weapof_M60.velcro_rip2"
-
-sound.Add(fastbl)
-
-
 //SNIPER RIFLE GROUP
 
 // *********************************
@@ -4277,15 +2158,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "100"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/sniper_sr25/sr25_fire1.wav","weapons/sniper_sr25/sr25_fire2.wav","weapons/sniper_sr25/sr25_fire3.wav","weapons/sniper_sr25/sr25_fire4.wav","weapons/sniper_sr25/sr25_fire5.wav"}
-fastbl["name"] = "Weapof_SR25.Shoot"
 
 sound.Add({
 	name = "Weapof_SR25.Shoot",
@@ -4465,14 +2337,6 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.27"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/sniper_m24/m24_fire1.wav","weapons/sniper_m24/m24_fire2.wav","weapons/sniper_m24/m24_fire3.wav","weapons/sniper_m24/m24_fire4.wav","weapons/sniper_m24/m24_fire5.wav"}
-fastbl["name"] = "Weapof_M24.Shoot"
 
 sound.Add({
 	name = "Weapof_M24.Shoot",
@@ -4541,347 +2405,6 @@ fastbl["sound"] = "weapons/sniper_m24/m24_butt.wav"
 fastbl["name"] = "Weapof_M24.Butt"
 
 sound.Add(fastbl)
-
-// *********************************
-// *********************************
-// *                               *
-// *         M82 Light .50         *
-// *                               *
-// *********************************
-// *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "150"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.15"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/sniper_m82/m82_fire1.wav","weapons/sniper_m82/m82_fire2.wav","weapons/sniper_m82/m82_fire3.wav","weapons/sniper_m82/m82_fire4.wav","weapons/sniper_m82/m82_fire5.wav"}
-fastbl["name"] = "Weapof_M82.Shoot"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {")weapons/accessories/harrisbipod_up1.wav",")weapons/accessories/harrisbipod_up2.wav"}
-fastbl["name"] = "Weapof_M82.BipodUp"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {")weapons/accessories/harrisbipod_down1.wav",")weapons/accessories/harrisbipod_down2.wav"}
-fastbl["name"] = "Weapof_M82.BipodDown"
-
-sound.Add(fastbl)
-
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/sniper_m82/m82_magout.wav"
-fastbl["name"] = "Weapof_M82.MagOut"
-
-sound.Add(fastbl)
-
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/sniper_m82/m82_magin.wav"
-fastbl["name"] = "Weapof_M82.Magin"
-
-sound.Add(fastbl)
-
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/sniper_m82/m82_boltpull.wav"
-fastbl["name"] = "Weapof_M82.BoltPull"
-
-sound.Add(fastbl)
-
-//EXPLOSIVES GROUP
-
-
-// *********************************
-// *********************************
-// *                               *
-// *   M79 40mm Grenade Launcher   *
-// *                               *
-// *********************************
-// *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "100"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.4"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/explosive_m79/m79_fire1.wav"
-fastbl["name"] = "Weapof_M79.Shoot"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.2"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/explosive_m79/40mmgren_explode.wav"
-fastbl["name"] = "Weapof_M79.Explode"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/explosive_m79/m79_open.wav"
-fastbl["name"] = "Weapof_M79.Open"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/explosive_m79/m79_insert.wav"
-fastbl["name"] = "Weapof_M79.ShellIn"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/explosive_m79/m79_out.wav"
-fastbl["name"] = "Weapof_M79.ShellOut"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/explosive_m79/m79_latch.wav"
-fastbl["name"] = "Weapof_M79.Close"
-
-sound.Add(fastbl)
-
-
-// *********************************
-// *********************************
-// *                               *
-// *       Smoke Grenade	       *
-// *                               *
-// *********************************
-// *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "SNDLVL_90dB"
-fastbl["volume"] = "1.0"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = ")weapons/explosive_m18smoke/sg_explode.wav"
-fastbl["name"] = "Weapof_SmokeGrenade.Explode"
-
-sound.Add(fastbl)
-// *********************************
-// *********************************
-// *                               *
-// *       Flashbang		   	   *
-// *                               *
-// *********************************
-// *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "140"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.7"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = ")weapons/flashbang/flashbang_explode1.wav"
-fastbl["name"] = "Weapof_Flashbang.Explode"
-
-sound.Add(fastbl)
-
-// *********************************
-// *********************************
-// *                               *
-// *             Frag              *
-// *                               *
-// *********************************
-// *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "150"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.2"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/explosive_m67/m67_explode_1.wav","weapons/explosive_m67/m67_explode_2.wav","weapons/explosive_m67/m67_explode_3.wav","weapons/explosive_m67/m67_explode_4.wav","weapons/explosive_m67/m67_explode_5.wav","weapons/explosive_m67/m67_explode_6.wav"}
-fastbl["name"] = "BaseGrenadf.Explode"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = ")weapons/explosive_m67/m67_pinpull.wav"
-fastbl["name"] = "Grenadf.Pinpull"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = ")weapons/explosive_m67/m67_primer.wav"
-fastbl["name"] = "Grenadf.Primer"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = ")weapons/explosive_m67/m67_safety.wav"
-fastbl["name"] = "Grenadf.Safety"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = ")weapons/explosive_m67/m67_spoon1.wav"
-fastbl["name"] = "Grenadf.Spoon"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/explosive_m67/m67_hit1.wav","weapons/explosive_m67/m67_hit2.wav","weapons/explosive_m67/m67_hit3.wav"}
-fastbl["name"] = "Grenadf.Bounce"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/explosive_m67/m67_impact.wav"
-fastbl["name"] = "Grenadf.Hit"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = ")weapons/explosive_m67/m67_combine.wav"
-fastbl["name"] = "Default.PullPin.Grenadf"
-
-sound.Add(fastbl)
-
-//HAND WEAPONS GROUP
-
-// *********************************
-// *********************************
-// *                               *
-// *   Knife 					   *
-// *                               *
-// *********************************
-// *********************************
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "100"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.5"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/knife_fas/knife_hit1.wav","weapons/knife_fas/knife_hit2.wav","weapons/knife_fas/knife_hit3.wav","weapons/knife_fas/knife_hit4.wav"}
-fastbl["name"] = "Weapof_Knife.Hit"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "100"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "0.5"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = {"weapons/knife_fas/knife_slash1.wav","weapons/knife_fas/knife_slash2.wav"}
-fastbl["name"] = "Weapof_Knife.Slash"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["soundlevel"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1.0"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/knife_fas/knife_deploy1.wav"
-fastbl["name"] = "Weapof_Knife.Deploy"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "100"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/knife_fas/knife_hitwall1.wav"
-fastbl["name"] = "Weapof_Knife.HitWall"
-
-sound.Add(fastbl)
-
-fastbl = {}
-fastbl["channel"] = "1"
-fastbl["level"] = "100"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/knife_fas/knife_stab.wav"
-fastbl["name"] = "Weapof_Knife.Stab"
-
-sound.Add(fastbl)
-
 
 //EXTRAS
 
@@ -5346,38 +2869,6 @@ sound.Add({
 	sound = 			{ ")weapons/taunts/tauntbox1.wav", ")weapons/taunts/tauntbox2.wav", ")weapons/taunts/tauntbox3.wav", ")weapons/taunts/tauntbox4.wav", ")weapons/taunts/tauntbox5.wav", ")weapons/taunts/tauntbox6.wav"}	
 })
 
---- Grenade Launcher ---
-
-sound.Add({
-	name = 			"Weapon_NadeL.Deploy",			
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/grenadelauncher/grenadelauncherdeploy.wav"	
-})
-
-sound.Add({
-	name = 			"Weapon_NadeL.Insert",			
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/grenadelauncher/grenadelauncherinsert.wav"	
-})
-
-sound.Add({
-	name = 			"Weapon_NadeL.Pump",			
-	channel = 		CHAN_ITEM,
-	volume = 		1.0,
-	sound = 			"weapons/grenadelauncher/grenadelauncherpump.wav"	
-})
-
-sound.Add({
-	name = 			"Weapon_NadeL.Fire",			
-	channel = 		CHAN_WEAPON,
-	level = 135,
-	volume = 		1.0,
-	pitch = { 95, 105 },
-	sound = 			 ")weapons/grenadelauncher/grenadelauncherfire.wav"	
-})
-
 --- Babynade ---
 
 sound.Add({
@@ -5438,105 +2929,6 @@ sound.Add({
 	volume = 		1.0,
 	sound = 			"weapons/tnt/draw.wav"	
 })
-
-sound.Add(
-{
-    name = "Weapon_Enfield.BoltRelease",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_boltrelease.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.BoltLatch",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_boltlatch.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.Boltback",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_boltback.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.Boltforward",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_boltforward.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.Roundin",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_bulletin_1.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.Roundin",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_bulletin_2.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.Roundin",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_bulletin_3.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.Roundin",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_bulletin_4.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.Rattle",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_rattle.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.MagIn",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_MagIn.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.RoundsIn",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_RoundsIn.wav"
-})
-sound.Add(
-{
-    name = "Weapon_Enfield.ClipRemove",
-    channel = CHAN_ITEM,
-    volume = 1.0,
-    soundlevel = 75,
-    sound = "weapons/enfield/handling/enfield_clipremove.wav"
-})
-
-
 
 sound.Add({
     name = "Weapon_Springfield.Shoot",
@@ -5888,3 +3280,45 @@ sound.Add({
 	pitch = {95, 105},
 	sound = ")moat_paintballhit.mp3"
 })
+
+-- MP40 --
+sound.Add({
+	name = "MP40.boltslap",
+	channel = CHAN_WEAPON,
+	volume = 0.8,
+	sound = "weapons/request cod waw/mp40 slap.wav"
+})
+
+sound.Add({
+	name = "MP40.deploy",
+	channel = CHAN_WEAPON,
+	volume = 0.8,
+	sound = "weapons/request cod waw/mp40 deploy.wav"
+})
+
+sound.Add({
+	name = "MP40.boltback",
+	channel = CHAN_WEAPON,
+	volume = 0.8,
+	sound = "weapons/request cod waw/mp40 back.wav"
+})
+
+sound.Add({
+	name = "MP40.clipout",
+	channel = CHAN_WEAPON,
+	volume = 0.8,
+	sound = "weapons/request cod waw/mp40 out.wav"
+})
+
+sound.Add({
+	name = "MP40.clipin",
+	channel = CHAN_WEAPON,
+	volume = 0.8,
+	sound = "weapons/request cod waw/mp40 in.wav"
+})
+
+hook("InitPostEntity", function()
+	for k, v in ipairs(WEAPON_SOUNDS) do
+		util.PrecacheSound(v.name)
+	end
+end)

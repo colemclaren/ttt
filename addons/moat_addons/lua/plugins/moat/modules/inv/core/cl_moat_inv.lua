@@ -5503,6 +5503,9 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
     local slot = net.ReadUInt(16)
     local tbl = net.ReadTable()
     local not_drop = net.ReadBool()
+	if (not_drop) then
+		MOAT_CLIENTINV_REQUESTED = true
+	end
 
 	if (net.ReadBool()) then
 		local max_slots = net.ReadUInt(16)
@@ -5521,21 +5524,12 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
 		for i = 1, #m_Inventory do
 			if (m_Inventory[i] and m_Inventory[i].c) then cnt = cnt + 1 end
 		end
-
-		if (cnt > 350) then
-        	for i = 1, 10 do
-            	chat.AddText(Color(255, 0, 0), "Warning! Your inventory is taking a lot of time to save! Consider deconstructing items or risk losing some!")
-        	end
-    	end
 	end
 
-    if (tbl and tbl.item and tbl.item.Kind == "Other") then
-        if (tbl.item.WeaponClass) then
-            tbl.w = tbl.item.WeaponClass
-        end    
+    if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
+        tbl.w = tbl.item.WeaponClass
     end
 
-    m_Inventory[slot] = {}
     m_Inventory[slot] = tbl
 
     if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
@@ -6982,6 +6976,17 @@ end)
 
 net.Receive("MOAT_DECON_MUTATOR", function()
     cdn.PlayURL "https://cdn.moat.gg/f/L7mju69BFW8gJxWTkdDCszvIoWWe.wav"
+end)
+
+hook("InitPostEntity", function()
+	if (not MOAT_CLIENTINV_REQUESTED) then
+		moat_inv_cooldown = CurTime() + 1
+        m_ClearInventory()
+        net.Start("MOAT_SEND_INV_ITEM")
+    	net.SendToServer()
+
+		MOAT_CLIENTINV_REQUESTED = true
+	end
 end)
 
 -- thank you MPan1 for the rainbow library https://github.com/Mysterypancake1/GMod-Rainbows/blob/master/rainbow.lua

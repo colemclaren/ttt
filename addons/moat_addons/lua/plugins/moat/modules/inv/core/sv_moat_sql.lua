@@ -942,7 +942,9 @@ function m_LoadInventoryForPlayer(ply, cb)
 
                 if (i == ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS")) then
                     MOAT_INVS[ply] = inv_tbl
-                    m_SendInventoryToPlayer(ply)
+					if (data[1].max_slots < 50) then
+						m_SendInventoryToPlayer(ply)
+					end
                 end
             end
 
