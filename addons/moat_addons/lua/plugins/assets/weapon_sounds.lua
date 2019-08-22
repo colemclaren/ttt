@@ -3282,40 +3282,55 @@ sound.Add({
 })
 
 -- MP40 --
-sound.Add({
-	name = "MP40.boltslap",
-	channel = CHAN_ITEM,
-	volume = 0.8,
-	sound = "weapons/request cod waw/mp40 slap.wav"
-})
+fastbl = {}
+fastbl["channel"] = "3"
+fastbl["level"] = "75"
+fastbl["volume"] = "1.0"
+fastbl["CompatibilityAttenuation"] = "1"
+fastbl["pitch"] = "95,105"
+fastbl["sound"] = "weapons/request cod waw/mp40 slap.wav"
+fastbl["name"] = "MP40.boltslap"
+sound.Add(fastbl)
 
-sound.Add({
-	name = "MP40.deploy",
-	channel = CHAN_ITEM,
-	volume = 0.8,
-	sound = "weapons/request cod waw/mp40 deploy.wav"
-})
+fastbl = {}
+fastbl["channel"] = "3"
+fastbl["level"] = "75"
+fastbl["volume"] = "1.0"
+fastbl["CompatibilityAttenuation"] = "1"
+fastbl["pitch"] = "95,105"
+fastbl["sound"] = "weapons/request cod waw/mp40 deploy.wav"
+fastbl["name"] = "MP40.deploy"
+sound.Add(fastbl)
 
-sound.Add({
-	name = "MP40.boltback",
-	channel = CHAN_ITEM,
-	volume = 0.8,
-	sound = "weapons/request cod waw/mp40 back.wav"
-})
+fastbl = {}
+fastbl["channel"] = "3"
+fastbl["level"] = "75"
+fastbl["volume"] = "1.0"
+fastbl["CompatibilityAttenuation"] = "1"
+fastbl["pitch"] = "95,105"
+fastbl["sound"] = "weapons/request cod waw/mp40 back.wav"
+fastbl["name"] = "MP40.boltback"
+sound.Add(fastbl)
 
-sound.Add({
-	name = "MP40.clipout",
-	channel = CHAN_ITEM,
-	volume = 0.8,
-	sound = "weapons/request cod waw/mp40 out.wav"
-})
+fastbl = {}
+fastbl["channel"] = "3"
+fastbl["level"] = "75"
+fastbl["volume"] = "1.0"
+fastbl["CompatibilityAttenuation"] = "1"
+fastbl["pitch"] = "95,105"
+fastbl["sound"] = "weapons/request cod waw/mp40 out.wav"
+fastbl["name"] = "MP40.clipout"
+sound.Add(fastbl)
 
-sound.Add({
-	name = "MP40.clipin",
-	channel = CHAN_ITEM,
-	volume = 0.8,
-	sound = "weapons/request cod waw/mp40 in.wav"
-})
+fastbl = {}
+fastbl["channel"] = "3"
+fastbl["level"] = "75"
+fastbl["volume"] = "1.0"
+fastbl["CompatibilityAttenuation"] = "1"
+fastbl["pitch"] = "95,105"
+fastbl["sound"] = "weapons/request cod waw/mp40 in.wav"
+fastbl["name"] = "MP40.clipin"
+sound.Add(fastbl)
 
 hook("InitPostEntity", function()
 	for k, v in ipairs(WEAPON_SOUNDS) do
