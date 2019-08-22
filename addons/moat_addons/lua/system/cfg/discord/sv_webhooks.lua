@@ -7,7 +7,7 @@ moat.cfg.discord = {
 }
 
 discord.AddChannels{
-    ["general"] = "https://discord.moat.gg/api/webhooks/426168857531777032/eYz9auMRlmVfdKtXvlHJnjx3wY5KwHaLJ5TkwBF31jeuCgtn3DQb_DNw7yMeaXBZ2J7x",
+    ["general"] = "https://discordapp.com/api/webhooks/613939799916806144/TvGJ_kQ0boon798P-GlUWPwgR_g5h0Eh8jhsVjm3ULi0JToQk9NbzrCKdl4epcsrMhyr",
     ["ttt-bot"] = "https://discord.moat.gg/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX",
     ["ttt-challenges"] = "https://discord.moat.gg/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD",
     ["ttt-logs"] = "https://discord.moat.gg/api/webhooks/485986045117202451/sTPNhnVFDKsR7JMZrH2ItOTkowzAAGFmOG9OW_vGY3tZhCEUU3C6OFTgslVHDiVDI1xl",
