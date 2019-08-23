@@ -631,7 +631,7 @@ SWEP.Base = "weapon_tttbase"
 SWEP.HoldType = "ar2"
 
 SWEP.Primary.Ammo = "Pistol"
-SWEP.Primary.Delay = 0.09
+SWEP.Primary.Delay = 0.07
 SWEP.Primary.Recoil = 0.8
 SWEP.Primary.Cone = 0.03
 SWEP.Primary.Damage = 13
@@ -657,7 +657,7 @@ SWEP.IsSilent = false
 SWEP.NoSights = false
 
 SWEP.DeploySpeed = 1.4
-SWEP.ReloadSpeed = 1
+SWEP.ReloadSpeed = 2
 SWEP.ReloadAnim = {
 	DefaultReload = {
 		Anim = "reload",
