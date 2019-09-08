@@ -1,4 +1,4 @@
--- for maps that can't be played
+-- for maps that can't be played 
 MAP_BLACKLIST = {
 	["ttt_complex_fix4_ws"] = true,
 	["ttt_bf3_scrapmetal"] = true,
