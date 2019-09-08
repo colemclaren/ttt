@@ -16,6 +16,10 @@ util.AddNetworkString "BulletPrediction"
 net.Receive("BulletPrediction", function(_, pl)
 	local wep = net.ReadEntity()
 
+	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then
+		return
+	end
+
 	if (IsValid(wep) and wep.IsWeapon and wep:IsWeapon() and wep.Primary and wep.Primary.Damage) then
 		pl:TakeDamage(wep.Primary.Damage, pl, wep)
 	end
