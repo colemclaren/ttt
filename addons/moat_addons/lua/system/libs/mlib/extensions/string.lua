@@ -171,7 +171,7 @@ function string.Title(str, capitalize, punctuate)
 	return string.gsub(" " .. str, "(%W)(%l)([%w'%d]*)", function(_, letter, rest)
 
 		if (_ == "'") then
-			return false 
+			return false
 		end
 
 		if (lower[string(letter, rest)] and cap and not capitalize) then
@@ -193,7 +193,7 @@ function string.Grammarfy(str, punctuate)
 		rest = rest or ""
 
 		if (_ == "'") then
-			return false 
+			return false
 		end
 
 		if (lower[string(letter, rest)] and mark and not punctuate) then
