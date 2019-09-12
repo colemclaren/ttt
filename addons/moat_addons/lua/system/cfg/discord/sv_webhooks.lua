@@ -6,8 +6,9 @@ moat.cfg.discord = {
     primarywebhook = "https://discord.moat.gg/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX"
 }
 
-discord.AddChannels{
-    ["general"] = "https://discordapp.com/api/webhooks/613939799916806144/TvGJ_kQ0boon798P-GlUWPwgR_g5h0Eh8jhsVjm3ULi0JToQk9NbzrCKdl4epcsrMhyr",
+discord.AddChannels {
+	["ttt-tv"] = "https://discordapp.com/api/webhooks/426168857531777032/eYz9auMRlmVfdKtXvlHJnjx3wY5KwHaLJ5TkwBF31jeuCgtn3DQb_DNw7yMeaXBZ2J7x",
+    ["general"] = "https://discordapp.com/api/webhooks/621621803466620928/Zn7dknV0SgW8ok1CU7tB-QCk8x1JkDCOkJHXmANBXnkRzFA0TAymPHgXeyM082RwiFS_",
     ["ttt-bot"] = "https://discord.moat.gg/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX",
     ["ttt-challenges"] = "https://discord.moat.gg/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD",
     ["ttt-logs"] = "https://discord.moat.gg/api/webhooks/485986045117202451/sTPNhnVFDKsR7JMZrH2ItOTkowzAAGFmOG9OW_vGY3tZhCEUU3C6OFTgslVHDiVDI1xl",
@@ -24,6 +25,7 @@ discord.AddChannels{
     ["enhanced-boss-logs"] = "https://canary.discordapp.com/api/webhooks/600692601909280778/m4SxcsyZN8OBX-J20CrC-d3Xf9CpgyO4zDipV7Ih50iHLzc8dhLxC8tC2PAgzWl1coLZ",
 }
 
+discord.AddUsers("ttt-tv", {"Moat TTT Announcements", "Lottery Announcements"}, true)
 discord.AddUsers("general", {"Moat TTT Announcement", "Lottery Announcement"}, true)
 discord.AddUsers("enhanced-boss-logs", {"AntiCheat - Lua"}, true)
 discord.AddUsers("ttt-bot", {"Event", "Drop"})

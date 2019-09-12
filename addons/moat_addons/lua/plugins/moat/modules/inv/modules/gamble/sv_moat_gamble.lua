@@ -1980,6 +1980,15 @@ local function chat_()
 				)
 			)
 		)
+
+		discord.Send("Moat TTT Announcements", markdown.WrapBold(
+				string (":satellite_orbital::satellite: ",
+					markdown.Bold "Global TTT Announcement",
+					" :satellite::satellite_orbital:",
+					markdown.LineStart(":construction_worker::loudspeaker: " .. msg)
+				)
+			)
+		)
     end
 
 
