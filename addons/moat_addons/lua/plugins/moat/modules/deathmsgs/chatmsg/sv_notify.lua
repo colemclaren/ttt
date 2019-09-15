@@ -15,16 +15,12 @@ hook("TTTFoundDNA", function(ply, dna_owner, ent)
 end)
 
 hook("PlayerDeath", function(victim, entity, killer)
-    local reason = "idk"
+    local reason = "prop"
     local killerz = "idk"
     local role = "idk"
 	local gotdna = false
 
-    if (not IsValid(entity)) then
-        reason = "prop"
-        killerz = "idk"
-        role = "idk"
-    elseif (entity:GetClass() == "entityflame" and killer:GetClass() == "entityflame") then
+   	if (entity:GetClass() == "entityflame" and killer:GetClass() == "entityflame") then
         reason = "burned"
         killerz = "idk"
         role = "idk"
