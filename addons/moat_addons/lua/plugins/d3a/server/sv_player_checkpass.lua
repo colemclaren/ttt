@@ -168,7 +168,7 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	-- Load or create player data
 	D3A.Player.Initialize(SteamID, SteamID32, Name, IP)
 
-	if (Server.IP and Server.IP == "208.103.169.43:27016") then
+	if (Server.IP and Server.IP == "208.103.169.43:27018") then
 		D3A.Player.CheckBetaAccess(SteamID, SteamID32)
 	end
 
