@@ -3322,15 +3322,15 @@ fastbl["sound"] = "weapons/request cod waw/mp40 out.wav"
 fastbl["name"] = "MP40.clipout"
 sound.Add(fastbl)
 
-fastbl = {}
-fastbl["channel"] = "3"
-fastbl["level"] = "75"
-fastbl["volume"] = "1.0"
-fastbl["CompatibilityAttenuation"] = "1"
-fastbl["pitch"] = "95,105"
-fastbl["sound"] = "weapons/request cod waw/mp40 in.wav"
-fastbl["name"] = "MP40.clipin"
-sound.Add(fastbl)
+-- fastbl = {}
+-- fastbl["channel"] = "3"
+-- fastbl["level"] = "75"
+-- fastbl["volume"] = "1.0"
+-- fastbl["CompatibilityAttenuation"] = "1"
+-- fastbl["pitch"] = "95,105"
+-- fastbl["sound"] = "weapons/request cod waw/mp40 in.wav"
+-- fastbl["name"] = "MP40.clipin"
+-- sound.Add(fastbl)
 
 hook("InitPostEntity", function()
 	for k, v in ipairs(WEAPON_SOUNDS) do
