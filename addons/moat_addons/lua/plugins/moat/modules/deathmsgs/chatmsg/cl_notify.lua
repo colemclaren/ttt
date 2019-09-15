@@ -9,6 +9,8 @@ net.Receive("ClientDeathNotify", function()
     local name = net.ReadString()
     local role = tonumber(net.ReadString())
     local reason = net.ReadString()
+	local dna = net.ReadBool()
+
     local col = GetRoleColor(role) or bg_colors.noround
     role = LANG.GetRawTranslation(GetRoleStringRaw(role))
 
@@ -19,7 +21,11 @@ net.Receive("ClientDeathNotify", function()
     elseif reason == "prop" then
         chat.AddText(NameColor, "You", White, " were killed by a prop!")
     elseif reason == "ply" then
-        chat.AddText(NameColor, "You", White, " were killed by ", col, name, White, ", he was a ", col, role, White, "!")
+		if (dna) then
+			chat.AddText(NameColor, "You", White, " were killed by ", col, name, White, ", he was a ", col, role, White, "! They got your ", Color(0, 200, 255), "DNA Fingerprints ", White, "found from your terrorists law-breaking crimes!")
+		else
+			chat.AddText(NameColor, "You", White, " were killed by ", col, name, White, ", he was a ", col, role, White, "!")
+		end
     elseif reason == "fell" then
         chat.AddText(NameColor, "You", White, " fell to your death!")
     elseif reason == "water" then

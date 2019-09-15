@@ -1,48 +1,72 @@
-util.AddNetworkString("ClientDeathNotify")
+util.AddNetworkString "ClientDeathNotify"
+local dna_cache = {}
+hook("TTTPrepareRound", function()
+	dna_cache = {}
+end)
 
-hook.Add("PlayerDeath", "Kill_Reveal_Notify", function(victim, entity, killer)
-    local reason = "nil"
-    local killerz = "nil"
-    local role = "nil"
+hook("TTTFoundDNA", function(ply, dna_owner, ent)
+	if (not dna_cache[ply]) then
+		dna_cache[ply] = {FoundDNA = {}}
+	end
 
-    if (not entity:IsValid()) then
+	if (IsValid(ply) and GetRoundState() == ROUND_ACTIVE and IsValid(dna_owner) and not dna_cache[ply].FoundDNA[ent]) then
+		dna_cache[ply].FoundDNA[ent] = dna_owner
+	end
+end)
+
+hook("PlayerDeath", function(victim, entity, killer)
+    local reason = "idk"
+    local killerz = "idk"
+    local role = "idk"
+	local gotdna = false
+
+    if (not IsValid(entity)) then
         reason = "prop"
-        killerz = "nil"
-        role = "nil"
-    elseif entity:GetClass() == "entityflame" and killer:GetClass() == "entityflame" then
+        killerz = "idk"
+        role = "idk"
+    elseif (entity:GetClass() == "entityflame" and killer:GetClass() == "entityflame") then
         reason = "burned"
-        killerz = "nil"
-        role = "nil"
-    elseif victim.DiedByWater then
+        killerz = "idk"
+        role = "idk"
+    elseif (victim.DiedByWater) then
         reason = "water"
-        killerz = "nil"
-        role = "nil"
-    elseif entity:GetClass() == "worldspawn" and killer:GetClass() == "worldspawn" then
+        killerz = "idk"
+        role = "idk"
+    elseif (entity:GetClass() == "worldspawn" and killer:GetClass() == "worldspawn") then
         reason = "fell"
-        killerz = "nil"
-        role = "nil"
-    elseif victim:IsPlayer() and entity:GetClass() == 'prop_physics' or entity:GetClass() == "prop_dynamic" or entity:GetClass() == 'prop_physics' then
+        killerz = "idk"
+        role = "idk"
+    elseif (victim:IsPlayer() and entity:GetClass() == 'prop_physics' or entity:GetClass() == "prop_dynamic" or entity:GetClass() == 'prop_physics') then
         -- If the killer is also a prop
         reason = "prop"
-        killerz = "nil"
-        role = "nil"
+        killerz = "idk"
+        role = "idk"
     elseif (killer == victim) then
         reason = "suicide"
-        killerz = "nil"
-        role = "nil"
-    elseif killer:IsPlayer() and victim ~= killer then
+        killerz = "idk"
+        role = "idk"
+    elseif (killer:IsPlayer() and victim ~= killer) then
         reason = "ply"
         killerz = killer:Nick()
         role = killer:GetRole()
+
+		if (dna_cache[killer] and dna_cache[killer].FoundDNA) then
+			for k, v in pairs(dna_cache[killer].FoundDNA) do
+				if (v == victim) then
+					gotdna = true
+				end
+			end
+		end
     else
-        reason = "nil"
-        killerz = "nil"
-        role = "nil"
+        reason = "idk"
+        killerz = "idk"
+        role = "idk"
     end
 
     net.Start("ClientDeathNotify")
     net.WriteString(killerz)
     net.WriteString(role)
     net.WriteString(reason)
+	net.WriteBool(gotdna)
     net.Send(victim)
 end)
