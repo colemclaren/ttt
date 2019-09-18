@@ -6,8 +6,8 @@ TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 0.55, max = .7} -- Chance to trigger
-TALENT.Modifications[2] = {min = 15, max = 45}	-- Explosion damage
+TALENT.Modifications[1] = {min = 0.84, max = 1.20} -- Chance to trigger
+TALENT.Modifications[2] = {min = 13.37, max = 42}	-- Explosion damage
 
 TALENT.Melee = false
 TALENT.NotUnique = true
