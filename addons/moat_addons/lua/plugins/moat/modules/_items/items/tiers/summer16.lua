@@ -1,5 +1,5 @@
 ITEM.ID = 9616
-ITEM.Name = "July"
+ITEM.Name = "Aquaholic"
 ITEM.Rarity = 6
 ITEM.Collection = "Summer Climb Collection"
 ITEM.MinStats = 6
