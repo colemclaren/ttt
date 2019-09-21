@@ -505,11 +505,11 @@ concommand.Add("moat_start_stalker", function(ply, cmd, args)
     moat_start_stalker_round(ply, args)
 end)
 
-/*
+
 hook.Add("TTTPrepareRound", "moat_StartHunterGame", function()
     local random_chance = math.random(1, 20)
 
     if (#player.GetAll() > 7 and random_chance == 10 and GetGlobalInt("ttt_rounds_left") < 8) then
         timer.Simple(5, function() moat_start_stalker_round("na", {"random"}) end)
     end
-end)*/
+end)

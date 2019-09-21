@@ -1,4 +1,4 @@
-MOAT_VIP = {"vip", "mvp", "coolclub", "trialstaff", "moderator", "admin", "senioradmin", "headadmin", "communitylead"}
+MOAT_VIP = {"nba", "starplayer", "hoodninja", "trialstaff", "moderator", "admin", "senioradmin", "headadmin", "communitylead"}
 local pl = FindMetaTable("Player")
 
 if (CLIENT) then

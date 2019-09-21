@@ -31,11 +31,11 @@ MOAT_DONATE.Packages = {
 	[1] = {},
 	[2] = {1500, function(pl)
 		if pl:GetUserGroup() ~= "user" then
-			pl:m_DropInventoryItem("VIP Token")
+			pl:m_DropInventoryItem("NBA Token")
 
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for a VIP Token!"})
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for a NBA Token!"})
 			net.Send(pl)
 		else
 			moat_makevip(pl:SteamID64())
@@ -43,7 +43,7 @@ MOAT_DONATE.Packages = {
 
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for the VIP Package!"})
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for the NBA Package!"})
 			net.Send(pl)
 		end
 	end},

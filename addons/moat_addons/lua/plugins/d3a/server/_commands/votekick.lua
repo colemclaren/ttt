@@ -25,7 +25,7 @@ COMMAND.Run = function(pl, args, supp)
 	for k, v in ipairs(player.GetAll()) do
 		local rank = v:GetUserGroup()
 
-		if (rank ~= "user" and rank ~= "vip" and rank ~= "coolclub" and rank ~= "mvp") then
+		if (rank ~= "user" and rank ~= "nba" and rank ~= "starplayer" and rank ~= "hoodninja") then
 			staff_found = true
 			break
 		end

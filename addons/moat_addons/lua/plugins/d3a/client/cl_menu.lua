@@ -94,7 +94,7 @@ MGA.CommandList = {
 		{"Block", "Blocks a player in game.", false},
 		{"UnBlock", "Unblocks a player in game.", false},
 	}},
-	{10, "VIP & Cool Cuties", Color(255, 128, 0, 255), {
+	{10, "NBA & Hood Ninjas", Color(255, 128, 0, 255), {
 		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
 			{"Drop", "Choose Reason", {"Purposeful Mass RDM","Attempted Mass RDM","Hateful Conduct"}, "Reason required..."}
 		}},

@@ -9,21 +9,21 @@ moat.Ranks.Register(1, "user", "User")
 	:SetWeight(1)
 	:ForumSync(3)
 
-moat.Ranks.Register(2, "vip", "VIP")
+moat.Ranks.Register(2, "nba", "NBA")
 	:SetColor {0, 255, 67}
 	:SetIcon "icon16/star.png"
 	:SetFlags "+"
 	:SetWeight(10)
 	:ForumSync(23)
 
-moat.Ranks.Register(3, "mvp", "MVP")
+moat.Ranks.Register(3, "starplayer", "Star Player")
 	:SetWeight(20)
 	:ForumSync(24)
 	:SetColor {255, 249, 30}
 	:SetIcon "icon16/heart.png"
 	:SetFlags "+$"
 
-moat.Ranks.Register(4, "coolclub", "Cool Cuties")
+moat.Ranks.Register(4, "hoodninja", "Hood Ninja")
 	:SetWeight(30)
 	:ForumSync(8)
 	:SetColor {103, 152, 235}

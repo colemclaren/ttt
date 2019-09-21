@@ -42,17 +42,17 @@ MOAT_DONATE.CurCat = 0
 MOAT_DONATE.Packages = {
 	{"General Information", Material("icon16/information.png"), 1, 0, ""},
 	{"Free Rewards", Material("icon16/star.png"), 0, 0, ""},
-	{"Permanent VIP", Material("icon16/user.png"), 2, 1500, "", {
+	{"Permanent NBA", Material("icon16/user.png"), 2, 1500, "", {
 		{Color(255, 255, 0), "10,000", "Total Inventory Credits", ""},
 		{Color(255, 255, 0), "", "Earn 50% more IC when Deconstructing Items	", ""},
-		{Color(255, 255, 255), "VIP", "Rank In-Game & Forums", ""},
+		{Color(255, 255, 255), "NBA", "Rank In-Game & Forums", ""},
 		{Color(255, 255, 255), "", "Votekick Starting Access (Revokable)", ""},
 		{Color(255, 255, 255), "", "Access to closed beta(s)", ""},
-		{Color(255, 0, 0), "", "+ Whatever is Added to VIP in the Future!", ""},
+		{Color(255, 0, 0), "", "+ Whatever is Added to NBA in the Future!", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
 	}},
-	--{"30 Day MVP", Material("icon16/user_green.png"), 2000, "Stuff"}, ???
-	--{"1 Year MVP", Material("icon16/user_red.png"), 20000, "Stuff"}, ???
+	--{"30 Day Star Player", Material("icon16/user_green.png"), 2000, "Stuff"}, ???
+	--{"1 Year Star Player", Material("icon16/user_red.png"), 20000, "Stuff"}, ???
 	{"2,000 IC", Material("icon16/coins.png"), 3, 500, "500 Bonus", {
 		{Color(255, 255, 0), "2,500", "Total Inventory Credits", ""},
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
@@ -372,7 +372,7 @@ function MOAT_DONATE:RebuildSelection(num)
 
 		if (pkg[6]) then
 			if (pkg[3] == 2 and LocalPlayer():GetUserGroup() ~= "user") then
-				draw.SimpleText("This Tradeable VIP Token Includes:", "moat_Derma7", w/2, 85, Color(0, 255, 255), TEXT_ALIGN_CENTER)
+				draw.SimpleText("This Tradeable NBA Token Includes:", "moat_Derma7", w/2, 85, Color(0, 255, 255), TEXT_ALIGN_CENTER)
 			else
 				draw.SimpleText("This Package Includes:", "moat_Derma7", w/2, 85, Color(0, 255, 255), TEXT_ALIGN_CENTER)
 			end
@@ -446,7 +446,7 @@ function MOAT_DONATE:RebuildSelection(num)
 			return
 		end
 		if (pkg[3] == 2 and LocalPlayer():GetUserGroup() ~= "user") then
-			Derma_Query("Are you sure you want to purchase a VIP Token that you cannot redeem?\n(Can be traded/gifted to other players to give them VIP)", "Are you sure?", "Yes", function() 
+			Derma_Query("Are you sure you want to purchase a NBA Token that you cannot redeem?\n(Can be traded/gifted to other players to give them NBA)", "Are you sure?", "Yes", function() 
 				net.Start("moat.donate.purchase")
 				net.WriteUInt(pkg[3], 8)
 				net.SendToServer()
@@ -471,7 +471,7 @@ end
 
 function MOAT_DONATE:OpenWindow()
 	if LocalPlayer():GetUserGroup() ~= "user" then
-		MOAT_DONATE.Packages[3][1] = "VIP Token"
+		MOAT_DONATE.Packages[3][1] = "NBA Token"
 	end
 	self.FrameW = 650
 	self.FrameH = 450
