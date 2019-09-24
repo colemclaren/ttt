@@ -158,15 +158,6 @@ MOAT_DONATE.Packages = {
 			)
 		)
 
-		discord.Send("Moat TTT Announcements", markdown.WrapBold(
-				string (":satellite_orbital::satellite: ",
-					markdown.Bold "Global TTT Announcement",
-					" :satellite::satellite_orbital:",
-					markdown.LineStart(msg)
-				)
-			)
-		)
-
 		discord.Send("Event", msg)
 	end}
 }

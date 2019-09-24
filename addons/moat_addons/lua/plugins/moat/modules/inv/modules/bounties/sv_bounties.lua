@@ -998,7 +998,28 @@ addcontract("Secondary Hunter",{
 	end
 }, "kill")
 
+local weapon_challenges2 = {
+	{{["weapon_ttt_peacekeeper"] = true, ["weapon_ttt_an94"] = true}, "the Peacekeeper", "Peacekeeper"}
+}
 
+for k,v in pairs(weapon_challenges2) do
+	addcontract("Global " .. v[3] .. " Killer",{
+	desc = 'Get as many kills as you can with "' .. v[2] .. '", rightfully.',
+	adj = "Kills",
+	short = v[3],
+	runfunc = function()
+			hook.Add("PlayerDeath", "RightfulContract" .. k, function(ply, inf, att)
+				if not IsValid(att) then return end
+				if not att:IsPlayer() then return end
+				local inf = att:GetActiveWeapon()
+				if not IsValid(inf) then return end
+				if (att:IsValid() and att:IsPlayer() and ply ~= att and WasRightfulKill(att, ply)) and inf.ClassName and v[1][inf.ClassName] then
+					contract_increase(att,1)
+				end
+			end)
+		end
+	}, "wpn")
+end
 
 
 if MINVENTORY_MYSQL then
