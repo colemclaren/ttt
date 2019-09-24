@@ -861,7 +861,8 @@ local weapon_challenges = {
     {{["weapon_thompson"] = true}, "the Tommy Gun", "Tommy Gun"},
     {{["weapon_ttt_famas"] = true}, "the Famas", "Famas"},
     {{["weapon_ttt_glock"] = true}, "the Glock", "Glock"},
-    {{["weapon_ttt_mp5"] = true}, "the MP5", "MP5"}
+    {{["weapon_ttt_mp5"] = true}, "the MP5", "MP5"},
+	{{["weapon_ttt_peacekeeper"] = true, ["weapon_ttt_an94"] = true}, "the Peacekeeper", "Peacekeeper"}
 }
 
 local chal_prefix = {
