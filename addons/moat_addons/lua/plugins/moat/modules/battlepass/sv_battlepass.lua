@@ -467,9 +467,9 @@ function bp_sql()
         if xp < 0 then return end
         print("EARNED XP",MG_cur_event,xp)
         if MG_cur_event == "Quadra XP" then 
-            xp = xp/4
+            xp = xp
         end
-        xp = xp / 2
+        xp = xp * 2
         print("XP TO PROCESS",xp)
         bp_processxp(ply,xp)
     end)
