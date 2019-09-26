@@ -35,7 +35,7 @@ COMMAND.Run = function(pl, args, supplement)
 
 	local reason = table.concat(args, " ", 2)
 	D3A.NewWarning(targstid, plstid64, targpl and targpl:Name() or "John Doe", plname, reason, function()
-		D3A.Chat.Broadcast2(pl, moat_cyan, ((targpl and targpl:Name()) or targstid), moat_white, " was warned by ", moat_cyan, plname, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
+		D3A.Chat.Broadcast2(pl, moat_teal, ((targpl and targpl:Name()) or targstid), moat_white, " was warned by ", moat_teal, plname, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 
 		if (IsValid(targpl)) then
 			D3A.WarnPlayer(targpl)

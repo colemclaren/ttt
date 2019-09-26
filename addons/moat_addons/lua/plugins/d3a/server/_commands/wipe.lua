@@ -27,7 +27,7 @@ COMMAND.Run = function(pl, args, supp)
 			end
 
 			D3A.MySQL.FormatQuery("UPDATE moat_inventories SET steamid = '" .. util.SteamIDFrom64(sid) .. ">" .. os.time() .. "' WHERE steamid = #;", util.SteamIDFrom64(sid), function(r)
-				D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has wiped ", moat_green, d.name, 
+				D3A.Chat.Broadcast2(pl, moat_teal, plname, moat_white, " has wiped ", moat_green, d.name, 
 				moat_white, " (", moat_green, util.SteamIDFrom64(sid), moat_white, ")")
 
 				D3A.Commands.Discord("wipe", D3A.Commands.NameID(pl), (IsValid(targ) and targ:NameID()) or (d.name .. " (" .. util.SteamIDFrom64(d.steam_id) .. ")"))

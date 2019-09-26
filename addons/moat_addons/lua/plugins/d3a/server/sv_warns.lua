@@ -108,12 +108,51 @@ function D3A.Warns.Okay(sid, id)
 	return
 end
 
-function D3A.Warns.Get(sid, cb)
-	if (sid:StartWith "STEAM_") then
-		sid = util.SteamIDTo64(sid)
+local function ParseWarns(data)
+	local warns = {}
+
+	for _, b in ipairs(data) do
+		local warn = {
+			name = tostring(b.name),
+			steam_id = tostring(b.steam_id),
+			avatar_url = tostring(b.avatar_url):StartWith("http") and tostring(b.avatar_url) or D3A.DefaultAvatar,
+			reason = tostring(b.reason),
+			staff_name = tostring(b.staff_name),
+			staff_steam_id = tostring(b.staff_steam_id),
+			staff_avatar_url = tostring(b.staff_avatar_url):StartWith("http") and tostring(b.staff_avatar_url) or D3A.DefaultAvatar,
+			time = tonumber(b.time),
+			time_date = tostring(b.time_date),
+			status = tostring(b.seen),
+		}
+
+		table.insert(warns, warn)
 	end
-	D3A.MySQL.Query("SELECT id, CAST(steam_id AS CHAR) AS steam_id, CAST(staff_steam_id AS CHAR) AS staff_steam_id, staff_name, time, FROM_UNIXTIME(time, '%c/%d/%Y @ %I:%i %p') as time_date, reason, acknowledged "..
-		"FROM player_warns WHERE steam_id = '" .. D3A.MySQL.Escape(sid) .. "';", cb)
+
+	warns.Count = #warns
+	return warns
+end
+
+function D3A.Warns.Get(steamid, staff, start, length, cb)
+	local id64 = util.SteamIDTo64(steamid)
+	if (not id64 or id64:len() == 1) then
+		id64 = steamid
+	end
+
+	-- "SELECT id, CAST(steam_id AS CHAR) AS steam_id, CAST(staff_steam_id AS CHAR) AS staff_steam_id, staff_name, time, FROM_UNIXTIME(time, '%c/%d/%Y @ %I:%i %p') as time_date, reason, acknowledged "..
+	-- 	"FROM player_warns WHERE steam_id = '" .. D3A.MySQL.Escape(sid) .. "';"
+
+	moat.mysql("SELECT id, time, FROM_UNIXTIME(time, '%c/%d/%Y @ %I:%i %p') AS time_date, reason," ..
+		" IF(acknowledged IS NOT NULL AND LENGTH(acknowledged) > 1, FROM_UNIXTIME(acknowledged, '%c/%d/%Y @ %I:%i %p'), 'Offline') AS seen," ..
+		" CAST(b.steam_id AS CHAR) AS steam_id, CAST(staff_steam_id AS CHAR) AS staff_steam_id," ..
+		" p.name AS name, s.name AS staff_name, p.avatar_url AS avatar_url, s.avatar_url AS staff_avatar_url " ..
+		"FROM forum.player_warns AS b LEFT JOIN forum.player AS p ON b.steam_id = p.steam_id LEFT JOIN forum.player AS s ON b.staff_steam_id = s.steam_id " ..
+		"WHERE " .. (staff and "b.staff_steam_id" or "b.steam_id").. " = ? ORDER BY b.time DESC " ..
+		"LIMIT " ..(start or 0) .. "," .. length or 50, id64, function(data)
+		if (cb) then cb(ParseWarns(data or {}), data) end
+	end, function(err, qq) print(err, qq) end)
+	
+	-- D3A.MySQL.Query("SELECT id, CAST(steam_id AS CHAR) AS steam_id, CAST(staff_steam_id AS CHAR) AS staff_steam_id, staff_name, time, FROM_UNIXTIME(time, '%c/%d/%Y @ %I:%i %p') as time_date, reason, acknowledged "..
+	-- 	"FROM player_warns WHERE steam_id = '" .. D3A.MySQL.Escape(sid) .. "';", cb)
 end
 
 function D3A.Warns.CheckPlayers()

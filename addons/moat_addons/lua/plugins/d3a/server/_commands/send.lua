@@ -17,5 +17,5 @@ COMMAND.Run = function(pl, args, supp)
 	targ.LastPos = targ:GetPos()
 	targ:SetPos(pos)
 	
-	D3A.Chat.Broadcast2(moat_cyan, D3A.Commands.Name(pl), moat_white, " has sent ", moat_green, supp[1]:NameID(), moat_white, " to ", moat_green, supp[2]:NameID(), moat_white, ".")
+	D3A.Chat.Broadcast2(moat_teal, D3A.Commands.Name(pl), moat_white, " has sent ", moat_green, supp[1]:NameID(), moat_white, " to ", moat_green, supp[2]:NameID(), moat_white, ".")
 end

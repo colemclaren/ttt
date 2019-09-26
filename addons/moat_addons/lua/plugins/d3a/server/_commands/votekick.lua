@@ -64,7 +64,7 @@ COMMAND.Run = function(pl, args, supp)
 				table.insert(msgtbl, "), ")
 			else
 				table.insert(msgtbl, "). Total Votes: ")
-				table.insert(msgtbl, moat_cyan)
+				table.insert(msgtbl, moat_teal)
 				table.insert(msgtbl, tostring(votes))
 				table.insert(msgtbl, moat_white)
 				table.insert(msgtbl, ".")

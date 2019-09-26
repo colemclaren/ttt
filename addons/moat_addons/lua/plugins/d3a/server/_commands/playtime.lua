@@ -16,5 +16,5 @@ COMMAND.Run = function(pl, args, supp)
 		datiem = datiem + add
 	end
 
-	D3A.Chat.SendToPlayer2(pl, moat_cyan, supp[1]:Name(), moat_white, " has played for ", moat_green, D3A.FormatTimeSingle(datiem), moat_white, ".")
+	D3A.Chat.SendToPlayer2(pl, moat_teal, supp[1]:Name(), moat_white, " has played for ", moat_green, D3A.FormatTimeSingle(datiem), moat_white, ".")
 end

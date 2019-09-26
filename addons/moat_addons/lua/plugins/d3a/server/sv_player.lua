@@ -20,7 +20,7 @@ function D3A.Player.PlayerAuthed(pl)
 		if (not data or not IsValid(pl)) then return end
 
 		local msg_tbl = {}
-		table.insert(msg_tbl, moat_cyan)
+		table.insert(msg_tbl, moat_teal)
 		table.insert(msg_tbl, pl:SteamName())
 		table.insert(msg_tbl, moat_white)
 
@@ -54,7 +54,7 @@ function D3A.Player.PlayerDisconnected(pl)
 	local id = pl:SteamID64()
 	if (id) then D3A.Player.Cache[id] = nil end
 
-	D3A.Chat.Broadcast2(moat_cyan, pl:SteamName(), moat_white, " has disconnected. (", moat_green, pl:SteamID(), moat_white, ")")
+	D3A.Chat.Broadcast2(moat_teal, pl:SteamName(), moat_white, " has disconnected. (", moat_green, pl:SteamID(), moat_white, ")")
 end
 hook.Add("PlayerDisconnected", "D3A.Player.PlayerDisconnected", D3A.Player.PlayerDisconnected)
 

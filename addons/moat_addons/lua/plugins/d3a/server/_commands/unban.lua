@@ -19,7 +19,7 @@ COMMAND.Run = function(pl, args, supp)
 		else
 			local reason = table.concat(args, " ", 2)
 			D3A.Bans.Unban(sid, reason, Bans.Current.time, function()
-				D3A.Chat.Broadcast2(pl, moat_cyan, D3A.Commands.Name(pl), moat_white, " has unbanned ", moat_green, sid, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
+				D3A.Chat.Broadcast2(pl, moat_teal, D3A.Commands.Name(pl), moat_white, " has unbanned ", moat_green, sid, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = D3A.Commands.Name(pl) .. " (" .. ((IsValid(pl) and pl:SteamID()) or "CONSOLE") ..") has *unbanned* " .. sid.. ". Reason: " .. reason .. "."
 
 				D3A.Commands.Discord("unban", D3A.Commands.NameID(pl), sid, reason)

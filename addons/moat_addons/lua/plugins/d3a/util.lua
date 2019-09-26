@@ -156,13 +156,6 @@ function D3A.FormatTimeNow(y)
 	return D3A.FormatTime(os.time(), y)
 end
 
-moat_white = Color(255, 255, 255, 255)
-moat_green = Color(0, 255, 0, 255)
-moat_blue = Color(51, 153, 255, 255)
-moat_cyan = Color(0, 200, 255, 255)
-moat_pink = Color(255, 0, 255, 255)
-moat_red = Color(255, 0, 0, 255)
-
 function D3A.ParseSteamID(str)
 	if (str:StartWith("7656")) then
 		return str
