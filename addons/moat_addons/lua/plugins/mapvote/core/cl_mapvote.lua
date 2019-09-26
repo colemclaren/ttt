@@ -77,7 +77,7 @@ hook.Add("PrePlayerChat", "Moat.Mapvote.Reopen", function(pl, txt)
 end)
 
 local group_images = {
-   ["nba"] = "icon16/sport_basketball.png",
+   ["nta"] = "icon16/sport_basketball.png",
    ["starplayer"] = "icon16/star.png",
    ["hoodninja"] = "icon16/bomb.png",
    ["trialstaff"] = "icon16/shield.png",

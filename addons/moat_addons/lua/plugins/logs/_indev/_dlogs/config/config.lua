@@ -6,7 +6,7 @@ dlogs.Config:AddGroup("moderator", 3, true)
 dlogs.Config:AddGroup("trialstaff", 3, true)
 dlogs.Config:AddGroup("hoodninja", 2, false)
 dlogs.Config:AddGroup("starplayer", 2, false)
-dlogs.Config:AddGroup("nba", 2, false)
+dlogs.Config:AddGroup("nta", 2, false)
 dlogs.Config:AddGroup("user", 2, false)
 dlogs.Config:AddGroup("guest", 2, false)
 

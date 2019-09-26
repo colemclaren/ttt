@@ -6825,7 +6825,7 @@ net.Receive("MOAT_INIT_USABLE", function()
             return 
         end
         if (itemtbl.item.ID == 17 and LocalPlayer():GetUserGroup() ~= "user") then
-            Derma_Message("You are already NBA or higher!", "Unusable at the moment", "Ok")
+            Derma_Message("You are already NTA or higher!", "Unusable at the moment", "Ok")
             return
         end
         net.Start("MOAT_USE_USABLE")
