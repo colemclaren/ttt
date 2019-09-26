@@ -147,7 +147,7 @@ function D3A.Warns.Get(steamid, staff, start, length, cb)
 		" p.name AS name, s.name AS staff_name, p.avatar_url AS avatar_url, s.avatar_url AS staff_avatar_url " ..
 		"FROM forum.player_warns AS b LEFT JOIN forum.player AS p ON b.steam_id = p.steam_id LEFT JOIN forum.player AS s ON b.staff_steam_id = s.steam_id " ..
 		"WHERE " .. (staff and "b.staff_steam_id" or "b.steam_id").. " = ? ORDER BY b.time DESC " ..
-		"LIMIT " ..(start or 0) .. "," .. length or 50, id64, function(data)
+		"LIMIT " ..(start or 0) .. "," .. (length or 50), id64, function(data)
 		if (cb) then cb(ParseWarns(data or {}), data) end
 	end, function(err, qq) print(err, qq) end)
 	
