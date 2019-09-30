@@ -1189,7 +1189,7 @@ M_INV_SLOT = {}
 M_LOAD_SLOT = {}
 M_TRADE_SLOT = {}
 
-M_INV_CATS = {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Gamble", 90}, {"Summer", 90}, {"Dailies", 90}, {"Settings", 90}, {"Support us!", 90}}
+M_INV_CATS = {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Gamble", 90}, /*{"Summer", 90},*/ {"Dailies", 90}, {"Settings", 90}, {"Support us!", 90}}
 function m_PaintVBar(sbar)
 
     local MT = MOAT_THEME.Themes
@@ -2231,14 +2231,14 @@ function m_OpenInventory(ply2, utrade)
             m_RemoveGamblePanel()
         end
 
-        if (cat == 5) then
-            local x, y = MOAT_INV_BG:GetPos()
-            m_CreateBattlePanel(x + 5, y + 30, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
-        else
-            m_RemoveBattlePanel()
-        end
+        -- if (cat == 5) then
+        --     local x, y = MOAT_INV_BG:GetPos()
+        --     m_CreateBattlePanel(x + 5, y + 30, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
+        -- else
+        --     m_RemoveBattlePanel()
+        -- end
 
-        if (cat == 6) then
+        if (cat == 5) then
             M_BOUNTY_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
             M_BOUNTY_PNL:AlphaTo(255, anim_time, anim_time)
         else
@@ -2246,7 +2246,7 @@ function m_OpenInventory(ply2, utrade)
             M_BOUNTY_PNL:AlphaTo(0, anim_time)
         end
 
-        if (cat == 7) then
+        if (cat == 6) then
             M_SETTINGS_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
             M_SETTINGS_PNL:AlphaTo(255, anim_time, anim_time)
         else
