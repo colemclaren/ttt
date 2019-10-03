@@ -9,7 +9,7 @@ TALENT.LevelRequired = { min = 25, max = 30 }
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = { min = 55 , max = 75 }	-- Chance to freeze
-TALENT.Modifications[2] = { min = 5, max = 10 }	-- Freeze time
+TALENT.Modifications[2] = { min = 15, max = 30 }	-- Freeze time
 TALENT.Modifications[3] = { min = 25, max = 50 }	-- Frozen Speed time
 TALENT.Modifications[4] = { min = 5 , max = 8 }		-- Frozen Damage Delay
 
