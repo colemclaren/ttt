@@ -8,8 +8,8 @@ ITEM.MaxStats = 7
 ITEM.Stats = {
 	Damage = { min = 14, max = 23 },
 	Accuracy = { min = 2, max = 15 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 5, max = 40 },
+	Kick = { min = 14, max = 23 },
+	Firerate = { min = 5, max = 30 },
 	Magazine = { min = 19, max = 28 },
 	Range = { min = 19, max = 28 },
 	Weight = { min = -4, max = -7 }
