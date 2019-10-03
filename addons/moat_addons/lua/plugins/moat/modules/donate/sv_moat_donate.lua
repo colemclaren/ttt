@@ -135,9 +135,9 @@ MOAT_DONATE.Packages = {
 		net.Send(pl)
 	end},
 	[9] = {250,function(ply)
-		if (MG_cur_event and MG_cur_event ~= "Quadra XP") then
-			return
-		end
+		-- if (MG_cur_event and MG_cur_event ~= "Quadra XP") then
+		-- 	return
+		-- end
 
 		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left + 20 WHERE 1"
 
