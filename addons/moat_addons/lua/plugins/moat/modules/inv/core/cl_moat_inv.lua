@@ -223,8 +223,6 @@ local function DrawSpooky(s, w, h)
 end
 
 local function createSpooky(pnl, x, y, w, h)
-    if (true) then return end
-    
     next_spook = CurTime() + 5
     pnl.spookypanel = vgui.Create("DPanel",pnl)
     pnl.spookypanel:SetSize(w,h)
@@ -1395,6 +1393,7 @@ function m_OpenInventory(ply2, utrade)
         net.WriteBool(false)
         net.SendToServer()
     end
+	createSpooky(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
     --createSpring(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
 
     M_TRADING_PNL = vgui.Create("DPanel", MOAT_INV_BG)
