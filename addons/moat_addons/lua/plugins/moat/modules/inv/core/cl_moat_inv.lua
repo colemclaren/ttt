@@ -188,7 +188,8 @@ local current_spook = 1
 local currently_spook = false
 
 local function DrawSpooky(s, w, h)
-    cdn.DrawImage(halloween_bg, 0, 0, w, h)
+    /*
+	cdn.DrawImage(halloween_bg, 0, 0, w, h)
 
     if (next_spook <= CurTime()) then
         current_spook = math.random(1, 6)
@@ -220,6 +221,7 @@ local function DrawSpooky(s, w, h)
             if (da_spook[2] < -100) then currently_spook = false end
         end
     end
+	*/
 end
 
 local function createSpooky(pnl, x, y, w, h)
