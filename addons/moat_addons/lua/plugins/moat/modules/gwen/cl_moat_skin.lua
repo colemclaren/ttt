@@ -2777,7 +2777,7 @@ function check_derma_skin()
 		return
 	end
 
-	http.Fetch("https://cdn.moat.gg/f/b2683.png", function(b)
+	http.Fetch("https://cdn.moat.gg/f/gwen2.png", function(b)
 		file.Write("moat_assets/gwen2.png", b)
 	end)
 end
