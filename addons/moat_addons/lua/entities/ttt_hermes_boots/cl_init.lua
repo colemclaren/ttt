@@ -38,7 +38,7 @@ hook.Add("HUDPaint", "TTTHermesBoots", function()
 			return
 		end
 
-		cdn.DrawImage("https://cdn.moat.gg/f/iDYy12j3U82sD75i0HEVDLPL7r0D.png", 20, yCoordinate, 64, 64)
+		cdn.DrawImage("https://cdn.moat.gg/f/5c8eab7661c26adeb068bfe11f2aa48f.png", 20, yCoordinate, 64, 64)
 	end
 end)
 
