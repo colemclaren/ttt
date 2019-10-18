@@ -7,7 +7,7 @@ ITEM.NameColor = Color( 255, 102, 0 )
 
 ITEM.Description = "Begin the round with +%s_ more ammo in your reserves"
 
-ITEM.Image = "https://cdn.moat.gg/f/ZePO1Nu9RtO96p0OI2rPdYkjtaOo.png" 
+ITEM.Image = "https://cdn.moat.gg/f/62a7db51574ae4a341e61c4174866816.png" 
 
 ITEM.Rarity = 4
 

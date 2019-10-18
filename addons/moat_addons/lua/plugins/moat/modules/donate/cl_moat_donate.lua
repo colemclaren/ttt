@@ -30,7 +30,7 @@ local heart_icon = Material("icon16/heart.png")
 MOAT_DONATE = MOAT_DONATE or {}
 MOAT_DONATE.FrameW = 800
 MOAT_DONATE.FrameH = 400
-MOAT_DONATE.BackgroundURL = "https://cdn.moat.gg/f/4Mp1eri4NCAy2nSNkpaJKQlOVciM.png"
+MOAT_DONATE.BackgroundURL = "https://cdn.moat.gg/f/7b41d8391eef24d3cba3e36063f91b2a.png"
 MOAT_DONATE.TitlePoly = {
 	{x = 1, y = 1},
 	{x = 140, y = 1},
@@ -129,7 +129,7 @@ function MOAT_DONATE:DrawInfo(pnl, pkg, clr)
 
 		surface.DrawOutlinedRect(0, 0, w, 45)
 
-		cdn.DrawImage("https://cdn.moat.gg/f/cWeit2ZL5WhFze49xX7jV76mFvOG.png", (w/2) - (235/2), 55, 254, 235, Color(255, 255, 255, 225))
+		cdn.DrawImage("https://cdn.moat.gg/f/c692e34cf2cf12f1fd18144a148c0993.png", (w/2) - (235/2), 55, 254, 235, Color(255, 255, 255, 225))
 	end
 
 	local lbl = vgui.Create("DLabel", pnl)
@@ -181,7 +181,6 @@ end)
 function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	RunConsoleCommand("moat_forum_rewards", "1")
 	--cdn.DrawImage( v , edge, edge, w - edge * 2, w - edge * 2, nil, s.Hovered and math.sin(CurTime())*15 or 0, true )
-	local moneybags = "https://cdn.moat.gg/f/B9QBJKPXXaFeGp40LcVjvSPC4pOU.png"
 	pnl.Paint = function(s, w, h)
 		local txtw = draw.SimpleText("Get free credits!", "moat_NotifyTest2", w/2, 5, Color(255, 255, 255), TEXT_ALIGN_CENTER)
 		surface.SetDrawColor(clr.r, clr.g, clr.b, 10)
@@ -219,7 +218,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 		surface.DrawTexturedRect(0, 0, w, 45)
 
 		surface.DrawOutlinedRect(0, 0, w, 45)
-		cdn.DrawImageRotated("https://cdn.moat.gg/f/PsSyeJAv5WvfFXbMHTSg36QdPfKi.png", 10, 4, 35,35 ,nil,math.sin(CurTime())*15,true)
+		cdn.DrawImageRotated("https://cdn.moat.gg/f/c2bcd70c9d30a6e54fe5d9d1d837dc7f.png", 10, 4, 35,35 ,nil,math.sin(CurTime())*15,true)
 		local txtw = draw.SimpleText("Joining the steam group", "moat_NotifyTestBonus", 50, h/2-5, Color(255, 255, 255), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 		draw.SimpleText("(Get 2,500 IC!)", "moat_Derma5", w - 5, h- 20, HSVToColor((CurTime() + 100) * 25 % 360, 1, 1), TEXT_ALIGN_RIGHT,TEXT_ALIGN_CENTER)
 	end
@@ -238,7 +237,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 		surface.DrawTexturedRect(0, 0, w, 45)
 
 		surface.DrawOutlinedRect(0, 0, w, 45)
-		cdn.DrawImageRotated("https://cdn.moat.gg/f/kE6Twu8f7H0xe8vpgqUOr2vaNiRJ.png", 10, 4, 35,35 ,nil,math.sin(CurTime() + 10)*15,true)
+		cdn.DrawImageRotated("https://cdn.moat.gg/f/96a5bf04d72376b51cae473b2d051f54.png", 10, 4, 35,35 ,nil,math.sin(CurTime() + 10)*15,true)
 		local txtw = draw.SimpleText("Joining the forums", "moat_NotifyTestBonus", 50, h/2-5, Color(255, 255, 255), TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 		draw.SimpleText("(Get 2,500 IC!)", "moat_Derma5", w - 5, h- 20, HSVToColor((CurTime() + 50) * 25 % 360, 1, 1), TEXT_ALIGN_RIGHT,TEXT_ALIGN_CENTER)
 	end

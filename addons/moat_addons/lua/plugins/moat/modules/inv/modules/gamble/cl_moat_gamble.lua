@@ -997,7 +997,7 @@ local bomb_sounds = {
     ["win"] = "https://cdn.moat.gg/f/9PIiSvHopONR7egMCMSzWCbhgzTo.mp3",
     ["boom"] = "https://cdn.moat.gg/f/f0VWNHpOfBrTK8SzNu4OP6Qqaj2w.mp3",
     ["end"] = "https://cdn.moat.gg/f/oa2TST8otq3qoHg1VzfNkbJmu4OZ.mp3",
-	["versus_win"] = "https://cdn.moat.gg/f/aeweEsa49N1rzd6XqEZ8PPLb3eCC.mp3",
+	["versus_win"] = "https://cdn.moat.gg/f/moat_versus_win_pn.mp3",
 	[1] = "https://cdn.moat.gg/f/HFYN4ZEEuObwgbs7yoO7UmvgUG9B.mp3",
 	[2] = "https://cdn.moat.gg/f/JLbZfNntpdmPOrcRcdRnWDdEG5iU.mp3",
 }
@@ -1219,7 +1219,7 @@ function m_DrawDicePanel()
 					draw.SimpleText("" .. math.toK(mines[s.i]), "moat_ItemDesc", w/2, h/2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 				elseif mines[s.i] == -1 then
 					draw.RoundedBox(0,0,0,w,h,Color(235, 84, 36))
-                    cdn.DrawImage("https://cdn.moat.gg/f/j5oxJXNDe06LcffIaKYsy2gqXU3X.png", 0, 0, 64, 64)
+                    cdn.DrawImage("https://cdn.moat.gg/f/mg_bomb.png", 0, 0, 64, 64)
 				end
 				--draw.SimpleText(bombs[i], "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end

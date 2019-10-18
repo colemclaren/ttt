@@ -3,7 +3,7 @@ ITEM.ID = 4003
 ITEM.Description = "Using this item allows you to re-roll the talents of any Ascended item. This will reset the item's LVL and XP"
 ITEM.Rarity = 6
 ITEM.Collection = "Gamma Collection"
-ITEM.Image = "https://cdn.moat.gg/f/XIz43pmXb43DtIor81rvWIpDDo0w.png"
+ITEM.Image = "https://cdn.moat.gg/f/ascended_talent64.png"
 ITEM.ItemCheck = 3
 ITEM.ItemUsed = function(pl, slot, item)
 	m_ResetTalents(pl, slot, item)

@@ -287,16 +287,16 @@ function MapVote.Show()
             a:DockMargin(0,0,4,0)
         end
         a:Dock(LEFT)
-        local url = "https://cdn.moat.gg/f/pd99nktaEEWliljIWuKfDQGYJFoB.png"
+        local url = "https://cdn.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png"
         a:SetText("")
         local ispic = false
         http.Fetch("https://image.gametracker.com/images/maps/160x120/garrysmod/" .. map .. ".jpg",function(_,_,_,c) 
             if not tostring(c):match("^2") then 
-                url = "https://cdn.moat.gg/f/pd99nktaEEWliljIWuKfDQGYJFoB.png"
+                url = "https://cdn.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png"
             else
                 url = "https://image.gametracker.com/images/maps/160x120/garrysmod/" .. map .. ".jpg"
             end 
-        end,function() url = "https://cdn.moat.gg/f/pd99nktaEEWliljIWuKfDQGYJFoB.png" end)
+        end,function() url = "https://cdn.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png" end)
         function a:Paint(w,h)
             local votes = 0
             local mine = false
@@ -317,7 +317,7 @@ function MapVote.Show()
             surface.DrawLine(1,147,w-2,147)
             surface.DrawLine(1,187,w-2,187)
 
-            if (url == "https://cdn.moat.gg/f/pd99nktaEEWliljIWuKfDQGYJFoB.png") then
+            if (url == "https://cdn.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png") then
                 cdn.DrawImage(url,5,5,256,256)
             else
                 cdn.DrawImage(url,5,5,w-10,120)

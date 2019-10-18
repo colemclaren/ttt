@@ -30,11 +30,11 @@ else
 
 		if (soundFile) then
 			if (soundFile == "ui/vote_failure.wav") then
-				cdn.PlayURL "https://cdn.moat.gg/f/Li9xhpvE0merSy5bfNJrAA6U815Y.wav"
+				cdn.PlayURL "https://cdn.moat.gg/f/vote_failure.wav"
 			elseif (soundFile == "ui/vote_yes.wav") then
-				cdn.PlayURL "https://cdn.moat.gg/f/rrZ5nujEJOBDbe0k4BmmeI1vwd7y.wav"
+				cdn.PlayURL "https://cdn.moat.gg/f/vote_yes.wav"
 			elseif (soundFile == "ui/vote_no.wav") then
-				cdn.PlayURL "https://cdn.moat.gg/f/9GtpsVYn6asRmBDO0qbvVAuAfunj.wav"
+				cdn.PlayURL "https://cdn.moat.gg/f/vote_no.wav"
 			else 
 				if GetConVar("ttt_dmglogs_outsidenotification"):GetBool() then
 					sound.PlayFile("sound/" .. soundFile, "play", function() end)

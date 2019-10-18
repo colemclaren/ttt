@@ -7,7 +7,7 @@ ITEM.NameColor = Color( 85, 85, 255 )
 
 ITEM.Description = "Movement speed is increased by +%s_ when using this power-up"
 
-ITEM.Image = "https://cdn.moat.gg/f/11PF2ew6gH22KBzuX66UHZcM1HO4.png" 
+ITEM.Image = "https://cdn.moat.gg/f/3860e90ff93a1fb663421ddf92fbbffa.png" 
 
 ITEM.Rarity = 3
 

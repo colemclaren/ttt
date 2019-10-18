@@ -5,7 +5,7 @@ ITEM.Name = "Model Crate"
 
 ITEM.Description = "This crate contains an item from the Model Collection! Right click to open"
 
-ITEM.Image = "https://cdn.moat.gg/f/h84hIxkywtI3EoZvWXRz76DRgkWe.png" 
+ITEM.Image = "https://cdn.moat.gg/f/model_crate64.png" 
 
 ITEM.Rarity = 3
 

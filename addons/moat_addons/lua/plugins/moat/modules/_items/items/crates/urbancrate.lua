@@ -5,7 +5,7 @@ ITEM.Name = "Urban Style Crate"
 
 ITEM.Description = "This crate contains an item from the Urban Style Collection! Right click to open"
 
-ITEM.Image = "https://cdn.moat.gg/f/mMpashogkwi43rDH2fCNyk5UfjAZ.png" 
+ITEM.Image = "https://cdn.moat.gg/f/urban_crate64.png" 
 
 ITEM.Rarity = 3
 

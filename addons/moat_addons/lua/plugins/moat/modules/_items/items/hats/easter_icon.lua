@@ -4,7 +4,7 @@ ITEM.Name = "Easter Icon"
 ITEM.Description = "But from this earth, this grave, this dust, my God shall raise me up, I trust"
 ITEM.Collection = "Easter 2019 Collection"
 ITEM.Model = "models/moat/mg_hat_easteregg.mdl"
-ITEM.Image = "https://cdn.moat.gg/f/gDiWD4es5YoG7tfZ6oDWRI8LZy3bbWWg.png"
+ITEM.Image = "https://cdn.moat.gg/f/6ad1a835688e7dd265fdda23e405f2c2.png"
 ITEM.Attachment = "eyes"
 
 function ITEM:ModifyClientsideModel(pl, m, p, a)

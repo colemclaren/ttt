@@ -3,7 +3,7 @@ ITEM.ID = 208
 
 ITEM.Name = "A Chair"
 
-ITEM.Image = "https://cdn.moat.gg/f/OyPoTpvSpK4oFJDwMMSRjUpS2z3P.png" 
+ITEM.Image = "https://cdn.moat.gg/f/ec565c8080853a8074da82047026fdbb.png" 
 
 ITEM.WeaponClass = "weapon_ttt_chair"
 

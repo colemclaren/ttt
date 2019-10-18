@@ -1,5 +1,5 @@
 MOAT_VERSION = "1.7.1"
-MOAT_BG_URL = "https://cdn.moat.gg/f/AngryProfuseCottontail.png"
+MOAT_BG_URL = "https://cdn.moat.gg/f/7b41d8391eef24d3cba3e36063f91b2a.png"
 
 surface.CreateFont("moat_Medium11", {
     font = "Trebuchet24",
@@ -174,14 +174,14 @@ local function createFestive(pnl, x, y, w, h)
     end*/
 end
 
-local halloween_bg = "https://cdn.moat.gg/f/SoZyySAqPRjKPwE0TV1uAawYAwrh.png"
+local halloween_bg = "https://cdn.moat.gg/f/halloween.png"
 local spooks = {
-    [1] = {"1left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/IV6DToCJh1yBx4PE79yunv7sgW8r.png"},
-    [2] = {"2left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/NEXxgLRgDwaUWVtcIOAscgLqZ3g9.png"},
-    [3] = {"3left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/sgNcfH6QswvM0meOTnN1Rla7U0Kl.png"},
-    [4] = {"1right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/r0o2bTYtLVrajvIRWqw5BiQ1yxtN.png"},
-    [5] = {"2right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/am4eZAV7ytuNUbEaFSZfooiZm1kh.png"},
-    [6] = {"3right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/4UrXPnEHVHhCUohIWCf2AJ6zdjG6.png"}
+    [1] = {"1left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/1left.png"},
+    [2] = {"2left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/2left.png"},
+    [3] = {"3left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/3left.png"},
+    [4] = {"1right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/1right.png"},
+    [5] = {"2right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/2right.png"},
+    [6] = {"3right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/3right.png"}
 }
 local next_spook = CurTime()
 local current_spook = 1
@@ -237,12 +237,12 @@ end
 
 
 
-local spring_bg_url = "https://cdn.moat.gg/f/4Mp1eri4NCAy2nSNkpaJKQlOVciM.png"
+local spring_bg_url = "https://cdn.moat.gg/f/spring_bg.png"
 local springs = {
-    [1] = {"butterfly1.png", 0, 0, 0, url = "https://cdn.moat.gg/f/5G8ewLLO4NwCXMtB5BWd3HaHLIbk.png"},
-    [2] = {"butterfly2.png", 0, 0, 0, url = "https://cdn.moat.gg/f/NstfX8BF83G9SJE8FSUoQuuSDc2n.png"},
-    [3] = {"butterfly3.png", 0, 0, 0, url = "https://cdn.moat.gg/f/frIdjb0CUHePAd31uMBj3S1tnnKT.png"},
-    [4] = {"butterfly4.png", 0, 0, 0, url = "https://cdn.moat.gg/f/yRSv5NZHkcPqJ2eyo5dmrsXqRIkC.png"}
+    [1] = {"butterfly1.png", 0, 0, 0, url = "https://cdn.moat.gg/f/butterfly1.png"},
+    [2] = {"butterfly2.png", 0, 0, 0, url = "https://cdn.moat.gg/f/butterfly2.png"},
+    [3] = {"butterfly3.png", 0, 0, 0, url = "https://cdn.moat.gg/f/butterfly3.png"},
+    [4] = {"butterfly4.png", 0, 0, 0, url = "https://cdn.moat.gg/f/butterfly4.png"}
 }
 local next_spring = CurTime()
 local current_spring = 1

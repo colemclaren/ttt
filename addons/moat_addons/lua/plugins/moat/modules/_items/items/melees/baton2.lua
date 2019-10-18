@@ -3,7 +3,7 @@ ITEM.ID = 2007
 
 ITEM.Name = "American Baton"
 
-ITEM.Image = "https://cdn.moat.gg/f/HCBmHnPM5exCQWJC14S4Us6aTeUg.png" 
+ITEM.Image = "https://cdn.moat.gg/f/ff9f07c2181f584aefc6f8312a27e417.png" 
 
 ITEM.WeaponClass = "weapon_ttt_baton"
 

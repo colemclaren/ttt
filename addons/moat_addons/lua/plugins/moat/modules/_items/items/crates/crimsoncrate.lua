@@ -5,7 +5,7 @@ ITEM.Name = "Crimson Crate"
 
 ITEM.Description = "This crate contains an item from the Crimson Collection! Right click to open"
 
-ITEM.Image = "https://cdn.moat.gg/f/QsvbPr7sgwoHKQVbuq4PXSYLWkMd.png"
+ITEM.Image = "https://cdn.moat.gg/f/5ce300e78199481c28d09aebae2e0701.png"
 
 ITEM.Rarity = 2
 

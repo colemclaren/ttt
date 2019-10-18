@@ -225,9 +225,9 @@ function PANEL:Paint()
     surface_SetTexture(logo)
     surface_SetDrawColor(255, 255, 255, 255)
     surface_DrawTexturedRect(5, 0, 256, 256)
-    cdn.SmoothImage("https://cdn.moat.gg/f/pDtGRzDxnGiHYrqzqJALlPCs6kCW.png", w - 256, 0, 256, 256)
+    cdn.SmoothImage("https://cdn.moat.gg/f/moat-gg-sb.png", w - 256, 0, 256, 256)	
     local img_w, img_h = ScrH() / 2.2, ScrH() / 2.2
-	cdn.SmoothImage("https://cdn.moat.gg/f/CS56E7V11Ki6y6TwOJR9Dg0e68Ul.png", w/2 - (img_w/2), 0, img_w, img_h)
+	cdn.SmoothImage("https://cdn.moat.gg/f/0c85f0d845b02b333bae412d98aae03c.png", w/2 - (img_w/2), 0, img_w, img_h)
 end
 
 function PANEL:PerformLayout()

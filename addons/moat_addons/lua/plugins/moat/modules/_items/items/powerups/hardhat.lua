@@ -7,7 +7,7 @@ ITEM.NameColor = Color(0, 255, 255)
 
 ITEM.Description = "Headshot damage is reduced by %s_ when using this power-up"
 
-ITEM.Image = "https://cdn.moat.gg/f/25iqndeeCCv8Tgj0vdapzkK80gFf.png" 
+ITEM.Image = "https://cdn.moat.gg/f/ddaebffd6d2f4cdf354479e029426159.png" 
 
 ITEM.Rarity = 6
 

@@ -1,7 +1,7 @@
 ITEM.ID = 8998
 ITEM.Name = "Easter Basket 2019"
 ITEM.Description = "This basket contains an item from the Easter 2018 and 2019 Collection! Right click to open"
-ITEM.Image = "https://cdn.moat.gg/f/HPl3JXt851WFKcCLEoRABm1SnNOJ.png"
+ITEM.Image = "https://cdn.moat.gg/f/easter_basket64.png"
 ITEM.Rarity = 8
 ITEM.Collection = "Easter 2019 Collection"
 ITEM.Contains = {"Easter 2018 Collection", "Easter 2019 Collection"}

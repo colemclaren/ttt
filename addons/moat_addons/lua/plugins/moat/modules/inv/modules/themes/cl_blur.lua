@@ -46,10 +46,10 @@ local function DrawSnow(pnl, w, h, amt)
             snowtbl[i][5] = snowtbl[i][5] or 100
         end
 
-		cdn.SmoothImage("https://cdn.moat.gg/f/b4975.png", snowtbl[i][2], snowtbl[i][1] - (snowtbl[i][3]/2), snowtbl[i][3], snowtbl[i][3], Color(230, 230, 250, 200))
+		cdn.SmoothImage("https://cdn.moat.gg/f/snow.png", snowtbl[i][2], snowtbl[i][1] - (snowtbl[i][3]/2), snowtbl[i][3], snowtbl[i][3], Color(230, 230, 250, 200))
     end
 
-	cdn.SmoothImage("https://cdn.moat.gg/f/60c23.png", 0, h - 256, 256, 256, Color(230, 230, 250, 255))
+	cdn.SmoothImage("https://cdn.moat.gg/f/snow2.png", 0, h - 256, 256, 256, Color(230, 230, 250, 255))
 end
 
 local holiday = CreateClientConVar("moat_holiday_theme_2019", 0, true, true)
@@ -98,7 +98,7 @@ MOAT_THEME.Themes["Blur"] = {
 		surface.DrawRect(0, 0, w, h)
 		surface.DrawRect(1, 1, w - 2, h - 2)
 
-		cdn.DrawImage("https://cdn.moat.gg/f/48c00.png", 0, 0, 1024, 1024, Color(220, 220, 255, 50))
+		cdn.DrawImage("https://cdn.moat.gg/f/413567786280d852aaf0abec6e188865.png", 0, 0, 1024, 1024, Color(220, 220, 255, 50))
     end,
     INV_PANEL_PAINT = function(s, w, h)
         local m_DrawCredits = "Inventory Credits: " .. string.Comma(MOAT_INVENTORY_CREDITS or 0)
