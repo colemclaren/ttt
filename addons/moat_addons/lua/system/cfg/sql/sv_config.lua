@@ -39,7 +39,7 @@ if (not Server.IP) then
 end
 
 if (Server.IP and mysql.directlink[Server.IP]) then
-	mysql.host = "direct-link-web"
+	-- mysql.host = "direct-link-web"
 end
 
 moat.cfg.sql = mysql
