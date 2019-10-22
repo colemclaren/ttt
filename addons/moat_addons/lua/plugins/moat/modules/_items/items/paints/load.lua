@@ -126,7 +126,7 @@ MOAT_PAINT.Tints = MOAT_PAINT.Tints or {
 	[6056] = {'Neon Lime Tint', {0, 150, 45}, 4},
 	[6057] = {'Pure White Tint', {255, 255, 255}, 6},
 	[6058] = {'George\'s Surprise Tint', {115, 34, 136}, 7},
-	[6566] = {'Infinity Tint', {255, 255, 255}, 9, 'https://cdn.moat.gg/f/paint_rainbow.png', Dream = true}
+	[6566] = {'Infinity Tint', {255, 255, 255}, 9, 'https://cdn.moat.gg/f/57731eec78594998cdfecf618fdb3cad.png', Dream = true}
 }
 
 MOAT_PAINT.Paints = MOAT_PAINT.Paints or {
@@ -188,7 +188,7 @@ MOAT_PAINT.Paints = MOAT_PAINT.Paints or {
 	[6114] = {'Neon Lime Paint', {0, 150, 45}, 4},
 	[6115] = {'Pure White Paint', {255, 255, 255}, 6},
 	[6116] = {'George\'s Surprise Paint', {115, 34, 136}, 7},
-	[6565] = {'Infinity Paint', {255, 255, 255}, 9, 'https://cdn.moat.gg/f/paint_rainbow.png', Dream = true}
+	[6565] = {'Infinity Paint', {255, 255, 255}, 9, 'https://cdn.moat.gg/f/57731eec78594998cdfecf618fdb3cad.png', Dream = true}
 }
 
 local holidays = 'Holiday Collection'
@@ -277,6 +277,56 @@ MOAT_PAINT.Skins = MOAT_PAINT.Skins or {
 	[6244] = skin('https://cdn.moat.gg/f/19H84NmrvDTlFaMAuIuLOZT3t3eF0hBw.png', 'Watery Night', 5),
 	[6245] = skin('https://cdn.moat.gg/f/719wnSs1jkGtbFwP2ihsEBExtRKX8UQZ.png', 'Yellow Bricks', 3),
 	[6246] = skin('https://cdn.moat.gg/f/FCgHthjSdL5WkvlIB6BOquRvI5a3xYMt.png', 'Yellow Flower', 3),
+
+	-- [6247] = {' Skin', 'https://cdn.moat.gg/f/VgJRs.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6248] = {' Skin', 'https://cdn.moat.gg/f/JNm6y.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6249] = {' Skin', 'https://cdn.moat.gg/f/qPutA.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6250] = {' Skin', 'https://cdn.moat.gg/f/K9pRs.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6251] = {' Skin', 'https://cdn.moat.gg/f/vgl91.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6252] = {' Skin', 'https://cdn.moat.gg/f/heiSo.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6253] = {' Skin', 'https://cdn.moat.gg/f/AuhkX.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6254] = {' Skin', 'https://cdn.moat.gg/f/5UbnA.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6255] = {' Skin', 'https://cdn.moat.gg/f/j71qL.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6256] = {' Skin', 'https://cdn.moat.gg/f/HSOJL.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6257] = {' Skin', 'https://cdn.moat.gg/f/NxS5g.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6258] = {' Skin', 'https://cdn.moat.gg/f/oiImK.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6259] = {' Skin', 'https://cdn.moat.gg/f/sB3uc.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6260] = {' Skin', 'https://cdn.moat.gg/f/LR0cA.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6261] = {' Skin', 'https://cdn.moat.gg/f/OZZWN.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6262] = {' Skin', 'https://cdn.moat.gg/f/9Z4tP.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6263] = {' Skin', 'https://cdn.moat.gg/f/PmAgQ.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6264] = {' Skin', 'https://cdn.moat.gg/f/y7xF5.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6265] = {' Skin', 'https://cdn.moat.gg/f/QmeBw.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6266] = {' Skin', 'https://cdn.moat.gg/f/fH1bF.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6267] = {' Skin', 'https://cdn.moat.gg/f/whJlc.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6268] = {' Skin', 'https://cdn.moat.gg/f/TT7vd.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6269] = {' Skin', 'https://cdn.moat.gg/f/jL1Cn.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6270] = {' Skin', 'https://cdn.moat.gg/f/XpmM5.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6271] = {' Skin', 'https://cdn.moat.gg/f/KP0MG.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6272] = {' Skin', 'https://cdn.moat.gg/f/MI15o.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6273] = {' Skin', 'https://cdn.moat.gg/f/4s5BN.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6274] = {' Skin', 'https://cdn.moat.gg/f/SFjJr.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6275] = {' Skin', 'https://cdn.moat.gg/f/tySyU.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6276] = {' Skin', 'https://cdn.moat.gg/f/op8Ps.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6277] = {' Skin', 'https://cdn.moat.gg/f/gZMce.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6278] = {' Skin', 'https://cdn.moat.gg/f/BDBOG.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6279] = {' Skin', 'https://cdn.moat.gg/f/YMFgg.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6280] = {' Skin', 'https://cdn.moat.gg/f/pP5yy.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6281] = {' Skin', 'https://cdn.moat.gg/f/OICWd.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6282] = {' Skin', 'https://cdn.moat.gg/f/JIHLo.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6283] = {' Skin', 'https://cdn.moat.gg/f/Vjxab.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6284] = {' Skin', 'https://cdn.moat.gg/f/TeFiC.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6285] = {' Skin', 'https://cdn.moat.gg/f/IIGS2.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6286] = {' Skin', 'https://cdn.moat.gg/f/76C52.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6287] = {' Skin', 'https://cdn.moat.gg/f/Y2ZCW.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6288] = {' Skin', 'https://cdn.moat.gg/f/WuHev.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6289] = {' Skin', 'https://cdn.moat.gg/f/VIJGl.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6290] = {' Skin', 'https://cdn.moat.gg/f/rNs6m.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6291] = {' Skin', 'https://cdn.moat.gg/f/bcpAZ.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6292] = {' Skin', 'https://cdn.moat.gg/f/8SIax.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6293] = {' Skin', 'https://cdn.moat.gg/f/QL927.vtf', 1, '', 'Pumpkin Collection'},
+	-- [6294] = {' Skin', 'https://cdn.moat.gg/f/XxygQ.vtf', 1, '', 'Pumpkin Collection'},
+
 	-- https://cdn.moat.gg/f/8e376.png
 	--[6120] = {'Puppy Skin', 'https://cdn.moat.gg/f/dbd23.png', 8}, --'https://cdn.moat.gg/f/91548.png', 8},
 	--[6121] = {'Dev Team Stalker Skin', 'https://cdn.moat.gg/f/b8271.png', 8}
