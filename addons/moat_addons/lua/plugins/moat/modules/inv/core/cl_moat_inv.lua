@@ -4970,7 +4970,7 @@ function m_CreateItemMenu(num, ldt)
         surface.PlaySound("UI/buttonclick.wav")
     end):SetIcon("icon16/tag_blue.png")
 
-    M_INV_MENU2:AddOption("Upload Picture of Stats",function()
+    M_INV_MENU2:AddOption("Copy URL of Stats",function()
         if (IsValid(MOAT_INV_S)) then
             MOAT_INV_S.AnimVal = 1
         end
@@ -4982,7 +4982,7 @@ function m_CreateItemMenu(num, ldt)
             end
             if MOAT_CACHED_PICS[itemtbl.c][1] == x then
                 local l = MOAT_CACHED_PICS[itemtbl.c][2]
-                Derma_Message("Your picture of your stats has been uploaded and copied to your clipboard! (" .. l .. ")\nYou can now simply paste it into any text channel like the #trading-room in our Discord!", "Upload success", "Thanks!")
+                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via moat.gg/discord", "Copy URL of Stats", "Deal (Close)")
                 SetClipboardText(l)
                 return
             end
@@ -5036,16 +5036,17 @@ function m_CreateItemMenu(num, ldt)
             --     item_name = (itemtbl.item.Name or "Unknown ???? ") .. " " .. (weapons.Get(itemtbl.w).PrintName or "????")
             -- end
             local item_name = m_GetFullItemName(itemtbl)
-            HTTP({
+
+			HTTP({
                 url = "https://api.imgur.com/3/album",
                 method = "post",
                 headers = {
-                    ["Authorization"] = "Client-ID 2201ae44ef37cfc"
+                    ["Authorization"] = "Client-ID e87dc10099155dd"
                 },
                 success = function(_,c,_,_)
                     local album = util.JSONToTable(c)
                     if not album.success then
-                        Derma_Message("Your upload was not successful (-2)! Please show this to velkon: " .. a, "Upload failed", "Thanks")
+                        Derma_Message("Your upload was not successful (-2)! Please show this to velkon: " .. a, "Imgur failed", "Close")
                         MOAT_UPLOADING = false
                         return
                     end
@@ -5053,14 +5054,14 @@ function m_CreateItemMenu(num, ldt)
                         url = "https://api.imgur.com/3/image",
                         method = "post",
                         headers = {
-                            ["Authorization"] = "Client-ID 2201ae44ef37cfc"
+                            ["Authorization"] = "Client-ID e87dc10099155dd"
                         },
                         success = function(_,b,_,_)
                             local ob = b
                             b = util.JSONToTable(b)
                             if b.success then
                                 local l = "https://imgur.com/a/" .. album.data.id
-                                Derma_Message("Your picture of your stats has been uploaded and copied to your clipboard! (" .. l .. ")\nYou can now simply paste it into any text channel like the #trading-room in our Discord!", "Upload success", "Thanks!")
+                                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via moat.gg/discord", "Copy URL of Stats", "Deal (Close)")
                                 SetClipboardText(l)
                                 local x = 0
                                 if itemtbl.s then
@@ -5071,12 +5072,12 @@ function m_CreateItemMenu(num, ldt)
                                     l--s
                                 }
                             else
-                                Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. ob, "Upload failed", "Thanks")
+                                Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. ob, "Imgur failed", "Close")
                             end
                             MOAT_UPLOADING = false
                         end,
                         failed = function(a) 
-                            Derma_Message("Imgur appears to be having some issues, please wait an try again! (" .. a .. ")", "Upload failed", "Thanks")
+                            Derma_Message("Imgur appears to be having some issues, please wait an try again! (" .. a .. ")", "Imgur failed", "Close")
                             MOAT_UPLOADING = false
                         end,
                         parameters = {
@@ -5086,14 +5087,15 @@ function m_CreateItemMenu(num, ldt)
                     })
                 end,
                 failed = function(a) 
-                    Derma_Message("Your upload was not successful (-1)! Please show this to velkon: " .. a, "Upload failed", "Thanks")
+                    Derma_Message("Your upload was not successful (-1)! Please show this to velkon: " .. a, "Imgur failed", "Close")
                     MOAT_UPLOADING = false
                 end,
                 parameters = {
                     title = (item_name) .. " / " .. LocalPlayer():Nick() .. " / Click here for more info",
-                    description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nCaptured on " .. (GetServerName() or "moat.gg") .. "\n\nCheck out our website at https://moat.gg/\nOr #trading-chat in our Discord at http://moat.gg/discord!"
+                    description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nShared via " .. (GetServerName() or "moat.gg") .. "\n\nTrade chat in Discord to start #buying @ #selling via moat.gg/discord"
                 },
             })
+
 			HoveringSlot = false
             m_HoveredSlot = nil
         end)
