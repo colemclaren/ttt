@@ -60,7 +60,7 @@ MOAT_DONATE.Packages = {
 
 		local crates = m_GetActiveCrates()
 
-		moat_DropIndependence(pl, 1)
+		moat_DropIndependence(pl, 5)
 		-- pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
 
 		for i = 1, 15 do
@@ -79,7 +79,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 15000)
 		give_ec(pl, 1)
 		pl:Drop20()
-		moat_DropIndependence(pl, 2)
+		moat_DropIndependence(pl, 10)
 		-- for i = 1, 2 do
 		-- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
 		-- end
@@ -95,7 +95,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 50000)
 		give_ec(pl, 3)
 		pl:Drop50()
-		moat_DropIndependence(pl, 6)
+		moat_DropIndependence(pl, 20)
 
 		-- for i = 1, 6 do
 		-- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
@@ -112,7 +112,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 125000)
 		give_ec(pl, 7)
 		pl:Drop100()
-		moat_DropIndependence(pl, 15)
+		moat_DropIndependence(pl, 50)
 
 		-- for i = 1, 15 do
 		-- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
