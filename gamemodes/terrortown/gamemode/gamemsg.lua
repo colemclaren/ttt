@@ -120,7 +120,7 @@ local mumbles = {"mumble", "mm", "hmm", "hum", "mum", "mbm", "mble", "ham", "mam
 
 util.AddNetworkString "ttt_player_target"
 
-net.Receive("ttt_player_target", function(len, cl)
+net.ReceiveNoLimit("ttt_player_target", function(len, cl)
     cl.TTT_Target = net.ReadEntity()
     if (not IsValid(cl.TTT_Target) or not cl.TTT_Target:IsPlayer()) then
         cl.TTT_Target = nil
