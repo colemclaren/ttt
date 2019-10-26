@@ -463,12 +463,12 @@ local group_images = {
    	["nta"] = "icon16/star.png",
 	["starplayer"] = "icon16/star.png",
    	["hoodninja"] = "icon16/bomb.png",
-   ["trialstaff"] = "icon16/shield.png",
-   ["moderator"] = "icon16/shield_add.png",
-   ["admin"] = "icon16/lightning.png",
-   ["senioradmin"] = "icon16/lightning_add.png",
-   ["headadmin"] = "icon16/user_gray.png",
-   ["communitylead"] = "icon16/application_xp_terminal.png"
+   	["trialstaff"] = "icon16/shield.png",
+   	["moderator"] = "icon16/shield_add.png",
+   	["admin"] = "icon16/lightning.png",
+   	["senioradmin"] = "icon16/lightning_add.png",
+   	["headadmin"] = "icon16/user_gray.png",
+   	["communitylead"] = "icon16/application_xp_terminal.png"
 }
 
 function GM:PlayerStartVoice(ply)
