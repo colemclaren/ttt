@@ -458,7 +458,6 @@ local function VoiceNotifyThink(pnl)
 end
 
 local PlayerVoicePanels = {}
-
 local group_images = {
    	["nta"] = "icon16/star.png",
 	["starplayer"] = "icon16/star.png",
