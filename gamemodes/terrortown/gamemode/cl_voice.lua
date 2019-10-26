@@ -441,7 +441,7 @@ function GM:PlayerSentRadioCommand(ply, name, target)
     end
 end
 
---- voicechat stuff
+-- voicechat stuff
 VOICE = {}
 local MutedState = nil
 -- voice popups, copied from base gamemode and modified
