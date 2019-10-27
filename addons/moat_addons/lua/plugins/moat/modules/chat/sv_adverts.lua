@@ -2,7 +2,7 @@ local moat_CurAdvert = 1
 
 local moat_Adverts = {
 	{ Color( 255, 255, 0 ), "Visit our forums @ https://moat.gg/" },
-	{ Color( 255, 255, 0 ), "NTA's receive 50% more IC when deconstructing, 10000 IC, and a fancy scoreboard tag!" },
+	{ Color( 255, 255, 0 ), "VIP's receive 50% more IC when deconstructing, 10000 IC, and a fancy scoreboard tag!" },
 	{ Color( 255, 255, 0 ), "Almost everything is customizable inside the inventory settings, make sure to check them out!" },
 	{ Color( 255, 255, 0 ), "We do a lot of work. Check out https://moat.gg/changes to stay up to date with our latest changes! We love hearing your feedback. <3" },
 	{ Color( 255, 255, 0 ), "Don't like the custom HUD? You can press F6 while alive to use the menu bar and the top left of elements to move them around!" },

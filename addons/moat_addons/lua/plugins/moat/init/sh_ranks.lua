@@ -1,8 +1,8 @@
 MOAT_RANKS = MOAT_RANKS or {}
 MOAT_RANKS["guest"] = {"", Color(185, 187, 190), true, false, false}
 MOAT_RANKS["user"] = {"", Color(255, 255, 255), true, false, false}
-MOAT_RANKS["nta"] = {"NTA", Color(196, 43, 74), true, true, false}
-MOAT_RANKS["starplayer"] = {"Star Player", Color(255, 249, 30), true, true, false}
+MOAT_RANKS["vip"] = {"VIP", Color(1, 255, 31), true, true, false}
+MOAT_RANKS["mvp"] = {"MVP", Color(255, 249, 30), true, true, false}
 MOAT_RANKS["hoodninja"] = {"Hood Ninja", Color(103, 152, 235), true, true, false}
 MOAT_RANKS["trialstaff"] = {"Trial Staff", Color(0, 182, 255), true, true, true}
 MOAT_RANKS["moderator"] = {"Moderator", Color(31, 139, 76), true, true, true}

@@ -106,7 +106,7 @@ end
 ------------------------------------
 
 function moat_makevip(id)
-	D3A.Ranks.ChangeRank(id, "nta")
+	D3A.Ranks.ChangeRank(id, "vip")
 end
 
 ------------------------------------

@@ -9,7 +9,7 @@ moat.Ranks.Register(1, "user", "User")
 	:SetWeight(1)
 	:ForumSync(3)
 
-moat.Ranks.Register(2, "nta", "NTA")
+moat.Ranks.Register(2, "vip", "VIP")
 	:SetColor {0, 255, 67}
 	:SetIcon "icon16/star.png"
 	:SetFlags "+"

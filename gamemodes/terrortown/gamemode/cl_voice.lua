@@ -459,8 +459,8 @@ end
 
 local PlayerVoicePanels = {}
 local group_images = {
-   	["nta"] = "icon16/star.png",
-	["starplayer"] = "icon16/star.png",
+   	["vip"] = "icon16/star.png",
+	["mvp"] = "icon16/star.png",
    	["hoodninja"] = "icon16/bomb.png",
    	["trialstaff"] = "icon16/shield.png",
    	["moderator"] = "icon16/shield_add.png",

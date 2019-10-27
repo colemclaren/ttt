@@ -1,7 +1,7 @@
 local notstaff = {
     "user",
-    "nta",
-	"starplayer",
+    "vip",
+	"mvp",
     "hoodninja",
     "communitylead"
 }
