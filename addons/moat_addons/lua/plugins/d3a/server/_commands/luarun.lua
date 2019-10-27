@@ -7,7 +7,6 @@ COMMAND.Args = {{"string", "Lua"}}
 COMMAND.Run = function(pl, args, supp)
 	local da_lua = table.concat(args, " ", 1)
 
-	/*
 	local lua = CompileString(da_lua,"MGA.Lua")
 	local succ, ret = pcall(lua)
 
@@ -18,5 +17,4 @@ COMMAND.Run = function(pl, args, supp)
 	else
 		D3A.Chat.SendToPlayer2(pl, moat_red, "Lua returned var: ", moat_white, tostring(ret))
 	end
-	*/
 end
