@@ -1105,15 +1105,15 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
 	end
 
 	local t = self.Bounties[bounty_id].tier
+	moat_DropPumpkin(ply, t)
+	-- if (t and self:HighEndChance(t)) then
+	-- 	local rarity = 5
+	-- 	if (t > 1) then
+	-- 		rarity = MOAT_BOUNTIES.Rewards(5, t == 2 and 6 or 7)
+	-- 	end
 
-	if (t and self:HighEndChance(t)) then
-		local rarity = 5
-		if (t > 1) then
-			rarity = MOAT_BOUNTIES.Rewards(5, t == 2 and 6 or 7)
-		end
-
-		ply:m_DropInventoryItem(rarity)
-	end
+	-- 	ply:m_DropInventoryItem(rarity)
+	-- end
 
 	local mutator = {"High-End Stat Mutator", "High-End Talent Mutator"}
 	
@@ -1135,7 +1135,8 @@ end
 
 local tier1_rewards = MOAT_BOUNTIES.Rewards({ic = 2500, exp = 1500}, {exp = 5000})
 local tier1_rewards_str = MOAT_BOUNTIES.Rewards(
-	"2,500 Inventory Credits + 1,500 Player Experience + 1 in 5 Chance for High-End",
+	-- "2,500 Inventory Credits + 1,500 Player Experience + 1 in 5 Chance for High-End",
+	"2,500 Inventory Credits + 1,500 Player Experience + 1 Pumpkin Crate",
 	"Any Random Mutator + 5,000 Player Experience + 1 in 25 Chance for Ascended"
 )
 
