@@ -37,12 +37,12 @@ MOTD.SpawnSettings = GetConVar "moat_disable_motd"
 MOTD.OpenTime = 0
 MOTD.CurTab = 1
 MOTD.Tabs = {
-	[1] = {"Home", "https://cdn.moat.gg/ttt/motd/20190608_3.html?n=User"},
+	[1] = {"Home", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"}, -- "https://cdn.moat.gg/ttt/motd/20190608_3.html?n=User"},
 	[2] = {"Tutorial", "https://i.moat.gg/servers/ttt/motd/help.php"},
 	[3] = {"Errors", "https://moat.gg/ttt/motd/content.php", true},
 	[4] = {"Changes", "https://moat.gg/changes/", true},
 	[5] = {"Forums", "https://moat.gg/forums/", true},
-	[6] = {"Support us!", "https://moat.gg/store/", true},
+	[6] = {"Donate", "https://moat.gg/store/", true},
 	[7] = {"Leaderboard", "https://moat.gg/players", true},
 	[8] = {"Bans", "https://moat.gg/bans", true},
 	[9] = {"Steam Group", "https://steamcommunity.com/groups/moatgaming", true},
@@ -115,7 +115,7 @@ function MOTD.Open(secs, invalid)
     MOTD.w = vgui.Create("DHTML", p)
     MOTD.w:DockMargin(0, 10, 10, 10)
     MOTD.w:Dock(FILL)
-    MOTD.w:OpenURL("https://cdn.moat.gg/ttt/motd/20190608_3.html?n=" .. nick)
+    MOTD.w:OpenURL("https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. nick)
     MOTD.w.Paint = function(s, w, h)
         DrawRainbowText(1, "Loading Page...", "DermaLarge", w/2, h/2, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
@@ -124,7 +124,7 @@ function MOTD.Open(secs, invalid)
 
     for i = 1, #MOTD.Tabs do
         if (i == 1) then
-            MOTD.Tabs[i][2] = "https://cdn.moat.gg/ttt/motd/20190608_3.html?n=" .. nick
+            MOTD.Tabs[i][2] = "https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. nick
         end
 
         local btn = vgui.Create("DButton", c)
