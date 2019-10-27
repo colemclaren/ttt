@@ -16,7 +16,7 @@ moat.Ranks.Register(2, "vip", "VIP")
 	:SetWeight(10)
 	:ForumSync(23)
 
-moat.Ranks.Register(3, "starplayer", "Star Player")
+moat.Ranks.Register(3, "mvp", "Star Player")
 	:SetWeight(20)
 	:ForumSync(24)
 	:SetColor {255, 249, 30}
