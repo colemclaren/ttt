@@ -791,6 +791,11 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         m_DrawShadowedText(1, wpn_mag, font_large, x3, y + y_addition, Color(255, 255, 255))
         local collection_y = 85
         m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
+		
+		if (itemtbl.p3) then
+        	local p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "ERROR: Unknown Skin"
+			m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+    	end
 
         return
     end
@@ -991,6 +996,11 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 
     local collection_y = y + stats_y_add + (talents_y_add - 2) - talents_collection
     m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(100, 100, 100, 255))
+	
+    if (itemtbl.p3) then
+        local p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "ERROR: Unknown Skin"
+		m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+    end
 end
 
 MOAT_INVENTORY_CREDITS = MOAT_INVENTORY_CREDITS or 0
@@ -3137,6 +3147,11 @@ function m_OpenInventory(ply2, utrade)
                 draw_stats_multi = 15
                 local collection_y = draw_stats_y + (drawn_stats * draw_stats_multi) - 1
                 m_DrawShadowedText(1, "From the " .. ITEM_HOVERED.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
+
+				 if (ITEM_HOVERED.p3) then
+        			local p3txt = MOAT_PAINT.Skins[ITEM_HOVERED.p3] and MOAT_PAINT.Skins[ITEM_HOVERED.p3][1] or "ERROR: Unknown Skin"
+					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+    			end
             end
 
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
@@ -6400,6 +6415,11 @@ function m_DrawFoundItem(tbl, s_type, name)
                 draw_stats_multi = 15
                 local collection_y = draw_stats_y + (drawn_stats * draw_stats_multi) - 1
                 m_DrawShadowedText(1, "From the " .. ITEM_HOVERED.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
+
+				 if (ITEM_HOVERED.p3) then
+       				local p3txt = MOAT_PAINT.Skins[ITEM_HOVERED.p3] and MOAT_PAINT.Skins[ITEM_HOVERED.p3][1] or "ERROR: Unknown Skin"
+					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+    			end
             end
 
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
