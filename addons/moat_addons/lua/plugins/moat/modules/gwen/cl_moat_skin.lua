@@ -2765,20 +2765,20 @@ derma.DefineControl( "DVScrollBar", "A Scrollbar", PANEL, "Panel" )
 	end
 end
 
-file.CreateDir "moat_assets"
 function check_derma_skin()
-	if (file.Exists("moat_assets/gwen2.png", "DATA")) then
+	if (file.Exists("ui.png", "DATA")) then
 		timer.Remove "moat.load.derma"
 
-		local m = Material "data/moat_assets/gwen2.png"
+		local m = Material("data/ui.png", "noclamp")
+
 		look_how_long_this_function_is("Default", m)
 		look_how_long_this_function_is("moat", m)
 
 		return
 	end
 
-	http.Fetch("https://cdn.moat.gg/f/gwen2.png", function(b)
-		file.Write("moat_assets/gwen2.png", b)
+	http.Fetch("https://cdn.moat.gg/ttt/garrysmod/data/ui.png", function(b)
+		file.Write("ui.png", b)
 	end)
 end
 
