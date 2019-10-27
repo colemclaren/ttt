@@ -1149,7 +1149,8 @@ local tier2_rewards_str = MOAT_BOUNTIES.Rewards(
 
 local tier3_rewards = MOAT_BOUNTIES.Rewards({ic = 7500, exp = 4000}, {exp = 17000})
 local tier3_rewards_str = MOAT_BOUNTIES.Rewards(
-	"7,500 Inventory Credits + 4,000 Player Experience + 1 High-End item",
+	-- "7,500 Inventory Credits + 4,000 Player Experience + 1 High-End item",
+	"7,500 Inventory Credits + 4,000 Player Experience + 3 Pumpkin Crates",
 	"Any Random Mutator + 17,000 Player Experience + 1 in 10 for Cosmic+"
 )
 
