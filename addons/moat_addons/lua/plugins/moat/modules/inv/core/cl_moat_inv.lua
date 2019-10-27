@@ -5106,8 +5106,8 @@ function m_CreateItemMenu(num, ldt)
                     MOAT_UPLOADING = false
                 end,
                 parameters = {
-                    title = (item_name) .. " / " .. LocalPlayer():Nick() .. " / Click here for more info",
-                    description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nShared via " .. (GetServerName() or "moat.gg") .. "\n\nTrade chat in Discord to start #buying @ #selling via moat.gg/discord"
+                    -- title = (item_name) .. " \\|| " .. LocalPlayer():Nick() .. " \\|| " .. GetServerName() or "moat.gg",
+                    -- description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nShared via " .. (GetServerName() or "moat.gg") .. "\n\nTrade chat in Discord to start #buying @ #selling via moat.gg/discord"
                 },
             })
 
