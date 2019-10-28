@@ -24,7 +24,7 @@ if (not SHR_Val) then
 	SHR_Val = math.random(0, 0xFFFFFFFF)
 end
 
-local MAX_Ping = 125 -- changes
+local MAX_Ping = 300 -- changes
 
 util.AddNetworkString "AHR_MaxPing"
 
@@ -37,9 +37,9 @@ timer.Create("AHR_PingCheck", 5, 0, function()
 	end
 
 	MAX_Ping = math.floor(0.5 + math.max(150, avg_ping + 40))
-	net.Start "AHR_MaxPing"
-		net.WriteUInt(MAX_Ping, 32)
-	net.Broadcast()
+	-- net.Start "AHR_MaxPing"
+	-- 	net.WriteUInt(MAX_Ping, 32)
+	-- net.Broadcast()
 end)
 
 local ENTITY = FindMetaTable "Entity"

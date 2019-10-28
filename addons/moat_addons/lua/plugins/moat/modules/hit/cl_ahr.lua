@@ -113,7 +113,7 @@ local function moatCreateSettingDropDown(pnl, x, y, settings_tbl)
     end
 end
 
-local ping
+local ping = 300
 
 net.Receive("AHR_MaxPing", function()
     ping = net.ReadUInt(32)
