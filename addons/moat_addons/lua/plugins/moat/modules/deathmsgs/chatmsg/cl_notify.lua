@@ -34,12 +34,12 @@ net.Receive("ClientDeathNotify", function()
 			sm = "a " .. sm
 		end
 
-		chat.AddText(moat_blue, "| ", White, "This ", White, word .. " ", White, "just got ", White, killed_adverbs[math.random(#killed_adverbs)] .. " ", moat_teal, "prop killed ", White, "by " .. sm .. " ", White, ".. ", White, "like props ", White, smashed_verbs[math.random(#smashed_verbs)] .. " ", White, ".. ")
+		chat.AddText(moat_blue, "| ", White, "This ", White, word .. " ", White, "just got ", White, killed_adverbs[math.random(#killed_adverbs)] .. " ", moat_cyan, "prop killed ", White, "by " .. sm .. " ", White, ".. ", White, "like props ", White, smashed_verbs[math.random(#smashed_verbs)] .. " ", White, ".. ")
     elseif reason == "ply" then
 		local sm = killed_verbs[math.random(#killed_verbs)]
 
 		if (dna) then
-			chat.AddText(moat_blue, "| ", NameColor, "You", White, " were " .. sm .. " by ", col, name, White, " .. " .. terms[math.random(#terms)] .. " was a ", col, role, White, " .. They got your ", moat_teal, "DNA Fingerprints ", White, " found from your terrorists law-breaking crimes .. gulp ..")
+			chat.AddText(moat_blue, "| ", NameColor, "You", White, " were " .. sm .. " by ", col, name, White, " .. " .. terms[math.random(#terms)] .. " was a ", col, role, White, " .. They got your ", moat_cyan, "DNA Fingerprints ", White, " found from your terrorists law-breaking crimes .. gulp ..")
 		else
 			chat.AddText(moat_blue, "| ", NameColor, "You", White, " were " .. sm .. " by ", col, name, White, " .. " .. terms[math.random(#terms)] .. " was a ", col, role, White, " ..")
 		end
@@ -47,7 +47,7 @@ net.Receive("ClientDeathNotify", function()
         chat.AddText(moat_blue, "| ", NameColor, "If this ", moat_pink, word .. " ", White, "was born with a weakness to fall .. ")
 		chat.AddText(moat_blue, "| ", White, "Then for sure this ", moat_pink, word .. " ", White, "was born with a strength to rise ..")
     elseif reason == "water" then
-        chat.AddText(moat_blue, "| ", White, "In ", moat_teal, "900 ", White, "years of time and space, this ", moat_pink, word .. " ", White, "has ", moat_teal, "never ", White, "drowned ..")
+        chat.AddText(moat_blue, "| ", White, "In ", moat_cyan, "900 ", White, "years of time and space, this ", moat_pink, word .. " ", White, "has ", moat_cyan, "never ", White, "drowned ..")
     else
         chat.AddText(moat_blue, "| ", White, "It was ", NameColor, "unknown ", White, "how you were killed ..")
     end

@@ -85,7 +85,7 @@ COMMAND.Run = function(pl, args, supplement)
 			local reason = table.concat(args, " ", 4)
 
 			D3A.Bans.BanPlayer(targstid, plstid, time, unit, reason, Bans.Current.time, function()
-				D3A.Chat.Broadcast2(pl, moat_teal, targstid .. "'s", moat_white, " ban was updated by ", moat_teal, plname, moat_white, " to ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
+				D3A.Chat.Broadcast2(pl, moat_cyan, targstid .. "'s", moat_white, " ban was updated by ", moat_cyan, plname, moat_white, " to ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ")'s *ban was updated* by " .. plname .. " (" .. plstid .. ") to " .. time .. " " .. useunit .. ". Reason: " .. reason .. "."
 
 				D3A.Commands.Discord("ban_update", (IsValid(targpl) and targpl:NameID()) or targstid, plname .. " (" .. plstid .. ")", time .. " " .. useunit, reason)
@@ -95,7 +95,7 @@ COMMAND.Run = function(pl, args, supplement)
 			local reason = table.concat(args, " ", 4)
 
 			D3A.Bans.BanPlayer(targstid, plstid, time, unit, reason, false, function()
-				D3A.Chat.Broadcast2(pl, moat_teal, ((targpl and targpl:Name()) or targstid), moat_white, " was banned by ", moat_teal, plname, moat_white, " for ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
+				D3A.Chat.Broadcast2(pl, moat_cyan, ((targpl and targpl:Name()) or targstid), moat_white, " was banned by ", moat_cyan, plname, moat_white, " for ", moat_green, time .. " " .. useunit, moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 				local msg = "" .. ((targpl and targpl:Name()) or "N/A") .. " (" .. targstid .. ") was *banned* by " .. plname .. " (" .. plstid .. ") for " .. time .. " " .. useunit .. ". Reason: " .. reason .. "."
 
 				D3A.Commands.Discord("ban", (IsValid(targpl) and targpl:NameID()) or targstid, plname .. " (" .. plstid .. ")", time .. " " .. useunit, reason)

@@ -118,7 +118,7 @@ COMMAND.Run = function(pl, args, supplement)
 	if (IsValid(pl) and (len > 600 or len < 1) and not pl:HasAccess("*")) then
 		return D3A.Chat.SendToPlayer2(pl, moat_red, "Staff can only force the motd for 10 minutes!")
 	else
-		D3A.Chat.Broadcast2(pl, moat_teal, string ("Prof. ", D3A.Commands.Name(pl), " "), 
+		D3A.Chat.Broadcast2(pl, moat_cyan, string ("Prof. ", D3A.Commands.Name(pl), " "), 
 			moat_white, "rewarded ", moat_green, targpl:Name() .. " ", 
 			moat_white, "with an motd for ", moat_green, string (time, " ", (time != 1 and unit .. "s") or unit, ""), moat_white, ".")
 

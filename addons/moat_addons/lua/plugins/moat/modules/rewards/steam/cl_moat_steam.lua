@@ -270,7 +270,7 @@ local function RewardsNotify()
 	local ply = net.ReadEntity()
 	if (not IsValid(ply)) then return end
 
-	chat.AddText(moat_blue, "| ", moat_teal, ply:Nick(), moat_white, " joined our steam group and received ", moat_green, "2,500 IC", moat_white, "!")
+	chat.AddText(moat_blue, "| ", moat_cyan, ply:Nick(), moat_white, " joined our steam group and received ", moat_green, "2,500 IC", moat_white, "!")
 
 	if (IsValid(LocalPlayer()) and ply == LocalPlayer()) then
 		cookie.Set("moat_steam_rewards", 1)

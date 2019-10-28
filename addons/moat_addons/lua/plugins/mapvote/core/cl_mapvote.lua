@@ -106,7 +106,7 @@ net.Receive("RAM_MapVoteUpdate", function()
                 if MapVote.Votes[ply:SteamID()][1] == map_id then return end
             end
             local mat,name_color,am,am_color = vote_user(ply)
-			chat.AddText(moat_blue, "| ", moat_teal, ply:Nick(), moat_white," placed ", 
+			chat.AddText(moat_blue, "| ", moat_cyan, ply:Nick(), moat_white," placed ", 
 			am == 1 and moat_green or moat_pink, tostring(am), 
 			moat_white, " vote" .. (am == 1 and "" or "s") .. " on ", 
 			moat_green, MapVote.CurrentMaps[map_id], moat_white, ".")

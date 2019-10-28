@@ -48,7 +48,7 @@ net.Receive("D3A.AdminChat", function(len)
 	local name = net.ReadString()
 	local text = net.ReadString()
 
-	chat.AddText(moat_blue, "| ", (isAdmin and Color(255, 0, 255)) or Color(255, 50, 255), ((isAdmin and "[STAFF] ") or "[TO STAFF] "), moat_teal, name .. ": ", Color(0, 255, 0), text)
+	chat.AddText(moat_blue, "| ", (isAdmin and Color(255, 0, 255)) or Color(255, 50, 255), ((isAdmin and "[STAFF] ") or "[TO STAFF] "), moat_cyan, name .. ": ", Color(0, 255, 0), text)
 end)
 
 hook.Add("ChatText", "D3A.Chat.SuppressChatText", function(plInd, plName, Text, Type)

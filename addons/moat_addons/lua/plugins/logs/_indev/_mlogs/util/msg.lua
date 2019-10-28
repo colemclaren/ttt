@@ -11,7 +11,7 @@ mlogs.Colors.LightRed 	= Color(255, 100, 100, 255)
 mlogs.Colors.moat_white = Color(255, 255, 255, 255)
 mlogs.Colors.moat_green = Color(0, 255, 0, 255)
 mlogs.Colors.moat_blue = Color(51, 153, 255, 255)
-mlogs.Colors.moat_teal = Color(0, 200, 255, 255)
+mlogs.Colors.moat_cyan = Color(0, 200, 255, 255)
 mlogs.Colors.moat_pink = Color(255, 0, 255, 255)
 mlogs.Colors.moat_red = Color(255, 0, 0, 255)
 

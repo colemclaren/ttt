@@ -15,6 +15,6 @@ COMMAND.Run = function(pl, args, supp)
 	net.WriteString(supp[1]:SteamID())
 	net.Send(pl)
 
-	D3A.Chat.SendToPlayer2(pl, moat_white," You have ", moat_teal, "unblocked ", moat_white, "communications with ", moat_green, supp[1]:Name(), moat_white, ".")
+	D3A.Chat.SendToPlayer2(pl, moat_white," You have ", moat_cyan, "unblocked ", moat_white, "communications with ", moat_green, supp[1]:Name(), moat_white, ".")
 	D3A.Commands.Discord("unblock", D3A.Commands.NameID(pl), IsValid(supp[1]) and supp[1]:NameID())
 end

@@ -139,7 +139,7 @@ function MOAT_FORUMS.Success()
 	if (not IsValid(pl)) then return end
 	if (IsValid(MOAT_FORUMS.BG)) then surface.PlaySound("ui/buttonclickrelease.wav") MOAT_FORUMS.BG:Remove() end
 
-	chat.AddText(moat_blue, "| ", moat_teal, pl:Nick(), moat_white, " joined our forums and received ", moat_green, "2,500 IC", moat_white, "! Type !forums in chat to do the same!")
+	chat.AddText(moat_blue, "| ", moat_cyan, pl:Nick(), moat_white, " joined our forums and received ", moat_green, "2,500 IC", moat_white, "! Type !forums in chat to do the same!")
 end
 
 net.Receive("moat.forums.success", MOAT_FORUMS.Success)

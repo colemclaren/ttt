@@ -64,7 +64,7 @@ function D3A.StartVote(pl, question, answers, other, callback)
 			D3A.InitializeVote(pl, question, answers, callback)
 
 			if (other) then
-				D3A.Chat.Broadcast2(moat_teal, pl:Name(), moat_white, " has started a vote to kick: ", moat_green, other:Name(), moat_white, ".")
+				D3A.Chat.Broadcast2(moat_cyan, pl:Name(), moat_white, " has started a vote to kick: ", moat_green, other:Name(), moat_white, ".")
 			end
 
 			return

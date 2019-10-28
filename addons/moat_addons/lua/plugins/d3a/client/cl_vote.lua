@@ -97,7 +97,7 @@ function D3A.Vote.Popup()
 			net.WriteUInt(s.Index, 8)
 			net.SendToServer()
 
-			chat.AddText(moat_blue, "| ", moat_white, "Thank ", moat_teal, "you", moat_white, " for voting! You chose: ", moat_green, s.Answer, moat_white, ".")
+			chat.AddText(moat_blue, "| ", moat_white, "Thank ", moat_cyan, "you", moat_white, " for voting! You chose: ", moat_green, s.Answer, moat_white, ".")
 			D3A.Vote.Frame:Close()
 		end
 	end

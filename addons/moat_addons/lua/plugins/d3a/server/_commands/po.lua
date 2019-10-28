@@ -29,7 +29,7 @@ COMMAND.Run = function(pl, args, supp)
 
 		dump("Past Offences for: " .. sid, moat_green)
 		dump("---------------------------", moat_blue)
-		dump(" - " .. #Bans.Active .. " Active Ban(s)", #Bans.Active == 0 and moat_teal or moat_red)
+		dump(" - " .. #Bans.Active .. " Active Ban(s)", #Bans.Active == 0 and moat_cyan or moat_red)
 		dump(" - " .. #Bans.Recent .. " Recent Ban(s)", #Bans.Recent == 0 and moat_yellow or moat_orange)
 		dump(" - " .. #Bans.Past .. " Past Ban(s)",  moat_purple)
 		dump(" - " .. #Bans.Unbanned .. " Removed Ban(s)", moat_pink)
@@ -38,13 +38,13 @@ COMMAND.Run = function(pl, args, supp)
 		dump("---------------------------", moat_blue)
 
 		if (Bans.Active and Bans.Active[1]) then
-			dump("Active Ban(s) - Player you just looked up is currently banned at this time", moat_teal)
+			dump("Active Ban(s) - Player you just looked up is currently banned at this time", moat_cyan)
 			dump("---------------------------", moat_blue)
 
 			for i = 1, #Bans.Active do
 				local b = Bans.Active[i]
 
-				dump("#" .. i .. " on " .. b.time_date .. " :", #Bans.Active == 0 and moat_teal or moat_red)
+				dump("#" .. i .. " on " .. b.time_date .. " :", #Bans.Active == 0 and moat_cyan or moat_red)
 				dump("    " .. b.name .. " was banned by " .. b.staff_name .. " (" .. util.SteamIDFrom64(b.staff_steam_id) .. ") for " ..
 					(b.length == 0 and "Forever." or (util.FormatTimeSingle(b.length) .. ".")) .. " Reason: " .. b.reason .. ".")
 				dump("    Ban will be automatically lifted in approx. " .. util.FormatTimeSingle(b.length + b.time - os.time()) .. ".", moat_green)

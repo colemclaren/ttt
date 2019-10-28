@@ -13,7 +13,7 @@ COMMAND.Run = function(pl, args, supplement)
 	local reason = table.concat(args, " ", 2)
 	local targid = IsValid(targ) and targ:NameID() or "Unknown (???)"
 
-	D3A.Chat.Broadcast2(pl, moat_teal, plname, moat_white, " has kicked ", moat_green, targ:Name(), moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
+	D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has kicked ", moat_green, targ:Name(), moat_white, ". Reason: ", moat_green, reason, moat_white, ".")
 	targ:Kick("Kicked by " .. plname .. ": " .. reason)
 
 	D3A.Commands.Discord("kick", D3A.Commands.NameID(pl), targid, reason)

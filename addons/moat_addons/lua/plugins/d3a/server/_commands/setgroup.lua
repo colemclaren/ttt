@@ -41,7 +41,7 @@ COMMAND.Run = function(pl, args, supp)
 
 		D3A.Ranks.ChangeRank(sid, tmname)
 
-		D3A.Chat.Broadcast2(pl, moat_teal, plname, moat_white, " has set the rank of ", moat_green, d.name, 
+		D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has set the rank of ", moat_green, d.name, 
 		moat_white, " (", moat_green, util.SteamIDFrom64(sid), moat_white, ") to ", moat_green, tmname, moat_white, ".")
 
 		D3A.Commands.Discord("setgroup", D3A.Commands.NameID(pl), (IsValid(targ) and targ:NameID()) or (d.name .. " (" .. util.SteamIDFrom64(d.steam_id) .. ")"), tmname)

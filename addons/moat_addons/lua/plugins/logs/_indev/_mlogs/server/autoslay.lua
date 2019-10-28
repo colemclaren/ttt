@@ -18,9 +18,9 @@ function mlogs.slay(pl, id, slay)
 	pl:Kill()
 
 	local msg = {
-		mlogs.Colors.moat_teal, pl:Nick(), 
+		mlogs.Colors.moat_cyan, pl:Nick(), 
 		mlogs.Colors.moat_white, " has been autoslain by ", 
-		mlogs.Colors.moat_teal, mlogs.FormatNameID(slay.staff_name, slay.staff_steamid), 
+		mlogs.Colors.moat_cyan, mlogs.FormatNameID(slay.staff_name, slay.staff_steamid), 
 		mlogs.Colors.moat_white, mlogs.FormatTimeNow(slay.slay_date) .. " ago with the reason: ",
 		mlogs.Colors.moat_green, slay.reason,
 		mlogs.Colors.moat_white, "."
