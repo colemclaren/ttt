@@ -1,6 +1,6 @@
 -- for sql config
 local mysql = {
-	host = "208.103.169.40", -- "gamedb.moat.gg",
+	host = "137.83.91.32", -- "gamedb.moat.gg",
 	database = "forum",
 	username = "ttt2",
 	password = SERVER and "E@2h6xWg&Nj7HN9!j9e94WJr" or "",
