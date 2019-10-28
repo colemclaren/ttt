@@ -94,7 +94,7 @@ MGA.CommandList = {
 		{"Block", "Blocks a player in game.", false},
 		{"UnBlock", "Unblocks a player in game.", false},
 	}},
-	{10, "VIP & Hood Ninjas", Color(1, 255, 31, 255), {
+	{10, "VIP & MVP", Color(1, 255, 31, 255), {
 		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
 			{"Drop", "Choose Reason", {"Purposeful Mass RDM","Attempted Mass RDM","Hateful Conduct"}, "Reason required..."}
 		}},
@@ -2499,7 +2499,7 @@ net.Receive("MGA.SendMaps", function()
 	for i = 1, net.ReadUInt(16) do
 		MGA.Maps[i] = net.ReadString()
 	end
-	print "ye"
+
 	PrintTable(MGA.Maps)
 
 	if (MGA.CommandList) then
