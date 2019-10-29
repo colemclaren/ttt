@@ -1,21 +1,15 @@
-local net_Broadcast = net.Broadcast
-local net_Start     = net.Start
 local to_string     = tostring
-local net_Send      = net.Send
 local is_str        = isstring 
 local is_num        = isnumber
 local is_col        = IsColor
-local col_white     = Color(255, 255, 255)
 
-chat = chat or {}
+comments = comments or {}
 
 ----
--- Clientside Reading
+-- Clientside Commenting
 ----
 
 if (CLIENT) then
-	chat.Send = chat.AddText
-	
 	local function Read()
 		local num = net.ReadUInt(8)
 		if (num == 0) then
@@ -24,7 +18,7 @@ if (CLIENT) then
 	
 		local args, c = {}, 0
 		for i = 1, num do
-			if (net.ReadBool()) then
+			if (net.ReadBit() == 1) then
 				c = c + 1
 				args[c] = net.ReadColor()
 			else
@@ -36,23 +30,30 @@ if (CLIENT) then
 		return args, c
 	end
 
-	net.Receive("mlib.chat", function()
-		local args = Read()
+	net.Receive("mlib.comments", function()
+		local args, n = Read()
 		if (not args or not next(args)) then
 			return
 		end
 
-		chat.AddText(col_white, unpack(args))
+		MsgC(unpack(args))
+		MsgC "\n"
+
+		if (n == 0 or not IsValid(LocalPlayer())) then
+			return moat.error(unpack(args))
+		end
+
+		chat.AddText(unpack(args))
 	end)
 
 	return
 end
 
 ----
--- Serverside Sending
+-- Serverside Commenting
 ----
 
-util.AddNetworkString "mlib.chat"
+util.AddNetworkString "mlib.comments"
 
 local function Send(...)
 	local a = mlib.Args(...)
@@ -60,14 +61,14 @@ local function Send(...)
 		return
 	end
 
-	local s, n, send = {}, 0, net_Send
+	local s, n, send = {}, 0, net.Send
 	for i = 1, a.n do
 		if (is_str(a[i]) or is_num(a[i]) or is_col(a[i])) then
 			n = n + 1
 			s[n] = a[i]
 
 			if (i == 1) then
-				send = net_Broadcast
+				send = net.Broadcast
 			end
 		end
 	end
@@ -76,7 +77,7 @@ local function Send(...)
 		return
 	end
 
-	net_Start "mlib.chat"
+	net.Start "mlib.comments"
 		net.WriteUInt(n, 8)
 
 	for i = 1, n do
@@ -96,6 +97,7 @@ local function Send(...)
 	return send(a[1])
 end
 
-chat = setmetatable({
+comments = setmetatable({
+	Receive = Read,
 	Send = Send
 }, {__call = function(s, ...) return s.Send(...) end})

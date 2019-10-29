@@ -55,5 +55,5 @@ function PLAYER:SteamURL()
 end
 
 function PLAYER:GetIP()
-	return (":"):Explode(self:IPAddress() or "0.0.0.0")[1]
+	return string(":"):Explode(self:IPAddress() or "0.0.0.0")[1]
 end

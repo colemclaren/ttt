@@ -104,7 +104,7 @@ local function Send(user, msg, userName, no_suffix)
 	end
 
 	if (Server and Server.IsDev) then
-		URL = "https://discord.moat.gg/api/webhooks/489951089588699136/PUhbSqO9nTOeDj__f3bBTQlTesFVKHjxdpVGFC-OB2dUx1_zyjiuBTZekBlMpIC191xD"
+		URL = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp"
 	end
 
 	HTTP({
@@ -147,8 +147,9 @@ local function Embed(user, msg, userName, no_suffix)
 	-- Since the embeds are in tables we will need to check everything manually before sending
 
 	if (Server and Server.IsDev) then
-		URL = "https://discord.moat.gg/api/webhooks/489951089588699136/PUhbSqO9nTOeDj__f3bBTQlTesFVKHjxdpVGFC-OB2dUx1_zyjiuBTZekBlMpIC191xD"
+		URL = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp"
 	end
+
 	HTTP({
 		url = URL,
 		method = 'POST',

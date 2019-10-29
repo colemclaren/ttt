@@ -265,3 +265,63 @@ function net.SendEntity(str, pl, func, send)
 		func()
 	end
 end
+
+local Lines = {
+	"Wobbling to 299%",
+	"TTT REQUIRES MORE MINERALS",
+	"Untap, Upkeep, Draw",
+	"Traveling to Hanamura",
+	"TIME'S UP - LET'S DO THIS!",
+	"This inventory receiving is a lie",
+	"They see me inventory receiving, They waiting",
+	"Start your engines",
+	"Skipping cutscenes",
+	"Shuffling the deck",
+	"Reviving dead memes",
+	"Returning the slab",
+	"Recombobulating Discombobulators",
+	"now with scratch and sniff",
+	"Now with 100% more Screenshare!",
+	"Dropping in Pochinki",
+	"Looking for the power button",
+	"Look behind you",
+	"Locating mae",
+	"Receiving your digital hug inventory",
+	"Receiving Inventory Simulation",
+	"Jumping to hyperspace",
+	"Is this thing on?",
+	"Initiating launch sequence",
+	"Initializing socialization",
+	"If you are reading this, you can read",
+	"I swear it's around here somewhere...",
+	"i need healing",
+	"how do i turn this thing on",
+	"Receiving inventory machine broke",
+	"Get ready for a surprise!",
+	"Finishing this senta...",
+	"Dusting the cobwebs",
+	"Do you even notice these?",
+	"Opening the inventory receival bay doors",
+	"Moat is my city",
+	"Disconnecting from Reality",
+	"Charging spirit bomb",
+	"Charging Limit Break",
+	"Calibrating flux capacitors",
+	"Buckle up!",
+	"Assembling Voltron",
+	"Are we there yet?",
+	"A brawl is surely brewing!",
+	"RECEIVING INVENTORY 001: ARP 303 Saw",
+	"*Elevator Music Plays*",
+	"Researching cheat codes",
+	"Wizard needs food badly",
+	"Decrypting Engrams",
+	"And now for something completely different",
+	"Stopping to smell the flowers",
+	"Achieving Nirvana",
+	"Managing Inventory"
+}
+
+function net.Line()
+	return Lines[math.random(52)]
+end
