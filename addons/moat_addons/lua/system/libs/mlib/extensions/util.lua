@@ -124,3 +124,23 @@ function util.GetWeaponName(str)
 
 	return wep_names[str]
 end
+
+local wep_wmodels = {}
+function util.GetWeaponModel(str)
+	if (not str) then
+		return str
+	end
+
+	if (wep_wmodels[str]) then
+		return wep_wmodels[str]
+	end
+
+	local wep = weapons.Get(str)
+	if (not wep) then
+		return str
+	end
+
+	wep_wmodels[str] = wep and wep.WorldModel or str
+
+	return wep_wmodels[str]
+end
