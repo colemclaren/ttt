@@ -10,14 +10,29 @@ function moat.print(...)
 	local args = {n = select("#", ...), ...}
 	if (args.n <= 0) then return end
 	local msgt, msgc = {}, 3
-	msgt[1] = Color(0, 255, 0)
+	msgt[1] = Color(103, 152, 235)
 	msgt[2] = "[MOAT.GG] "
-	msgt[3] = Color(255, 255, 255)
+	msgt[3] = Color(255, 105, 180)
 
 	for i = 1, args.n do
 		msgc = msgc + 1
 		msgt[msgc] = args[i]
 	end
+
+	MsgC(unpack(msgt))
+	MsgC "\n"
+end
+
+function moat.error(...)
+	local args = {n = select("#", ...), ...}
+	if (args.n <= 0) then return end
+	local msgt, msgc = {}, 3
+	msgt[1] = Color(245, 54, 92)
+	msgt[2] = "[ERRORS] Need to report a bug? We'd love to talk with you! <3<3<3"
+	msgt[3] = [[[ERRORS] The best way to contact us is on our partnered Discord server. \ (•◡•) /]]
+	msgt[4] = "[ERRORS] > https://moat.gg/discord"
+	msgt[5] = Color(249, 134, 157)
+	msgt[6] = table.ToString(debug.getinfo(-1, "flLnSu"), "[WARNINGS]", true)
 
 	MsgC(unpack(msgt))
 	MsgC "\n"

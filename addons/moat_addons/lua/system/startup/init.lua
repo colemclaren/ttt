@@ -83,7 +83,7 @@ for k, v in ipairs({"\n\n",
 [[      oNMMMMMMMMMMMMMMMMMMMMMMMM.                                  `NMMMMMMMMMMMMMMMMMMMMMMMNo  ]],
 [[       .yNMMMMMMMMMMMMMMMMMMMMN+                                    /NMMMMMMMMMMMMMMMMMMMMNy.   ]],
 [[         `/yNMMMMMMMMMMMMMMMNy-                                      .yNMMMMMMMMMMMMMMMNy/`     ]]
-,"\n\n"}) do MsgC(Color(255, 255, 255), v .. "\n") end
+,"\n\n"}) do MsgC(Color(0, 255, 0), v .. "\n") end
 
 moat.spacer()
 moat.print "|"
