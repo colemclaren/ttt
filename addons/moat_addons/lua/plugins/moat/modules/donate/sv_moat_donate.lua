@@ -1,4 +1,4 @@
--- ahhhh
+local meta = FindMetaTable("Player")
 util.AddNetworkString("moat.donate.update")
 util.AddNetworkString("moat.donate.purchase")
 
@@ -10,7 +10,6 @@ function start_quadra_xp(nick)
 	net.WriteString(nick or "Someone")
 	net.Broadcast()
 
-	local meta = FindMetaTable("Player")
 	if not meta.oApplyXP then meta.oApplyXP = meta.ApplyXP end
 	function meta:ApplyXP(num)
 		num = num * 4
