@@ -451,8 +451,10 @@ function MOAT_DONATE:RebuildSelection(num)
 				net.SendToServer()
 
 				if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
-				moat_inv_cooldown = CurTime() + 3
+				moat_inv_cooldown = CurTime() + 10
 				m_ClearInventory()
+				net.Start("MOAT_SEND_INV_ITEM")
+				net.SendToServer()
 			end, "No")
 		else 
 			net.Start("moat.donate.purchase")
@@ -460,8 +462,10 @@ function MOAT_DONATE:RebuildSelection(num)
 			net.SendToServer()
 
 			if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
-			moat_inv_cooldown = CurTime() + 3
-			m_ClearInventory()
+			moat_inv_cooldown = CurTime() + 10
+            m_ClearInventory()
+            net.Start("MOAT_SEND_INV_ITEM")
+            net.SendToServer()
 		end
 
 		surface.PlaySound("buttons/button3.wav")

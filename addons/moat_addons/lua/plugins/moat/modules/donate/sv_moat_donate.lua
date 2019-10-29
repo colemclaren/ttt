@@ -19,9 +19,11 @@ function start_quadra_xp(nick)
 end
 
 function moat_DropPumpkin(ply, amt)
+	comments (ply, moat_yellow, ":pumpkin: ", ":pumpkin~1: GG ", "@" .. ply:Nick(), ", you just advanced to level " .. amt .. " pumpkin crate eater  ", ":pumpkin~2: ", ":pumpkin~3:")
+
 	for i = 1, amt do
         if (not IsValid(ply)) then return end
-        ply:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, true)
+        ply:m_DropInventoryItem("Pumpkin Crate", "hide_chat_obtained", false, false)
     end
 end
 
@@ -50,7 +52,7 @@ MOAT_DONATE.Packages = {
 
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for a VIP Token!"})
+				net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "with your brand new VIP Token to use!"})
 			net.Send(pl)
 		else
 			moat_makevip(pl:SteamID64())
@@ -58,7 +60,7 @@ MOAT_DONATE.Packages = {
 
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for the VIP Package!"})
+				net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "VIP Package ", Color(255, 255, 255), "with your brand new rank!"})
 			net.Send(pl)
 		end
 	end},
@@ -67,7 +69,7 @@ MOAT_DONATE.Packages = {
 
 		net.Start "D3A.Chat2"
 		net.WriteBool(false)
-			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "500 ", Color(255, 255, 255), "Support Credits for the 2,000 IC Package!"})
+			net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "2,500 ", Color(255, 255, 255), "with your brand new inventory credits!"})
 		net.Send(pl)
 	end},
 	[4] = {1000, function(pl)
@@ -87,7 +89,7 @@ MOAT_DONATE.Packages = {
 
 		net.Start "D3A.Chat2"
 			net.WriteBool(false)
-			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,000 ", Color(255, 255, 255), "Support Credits for the 5,000 IC Package!"})
+			net.WriteTable({":pumpkin: ", ":pumpkin~1: GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "5 Pumpkin Eater ", Color(255, 255, 255), "with your brand new inventory credits! ", ":pumpkin~2: ", ":pumpkin~3:"})
 		net.Send(pl)
 	end},
 	[5] = {2000, function(pl)
@@ -103,7 +105,7 @@ MOAT_DONATE.Packages = {
 
 		net.Start "D3A.Chat2"
 			net.WriteBool(false)
-			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "2,000 ", Color(255, 255, 255), "Support Credits for the 12,000 IC Package!"})
+			net.WriteTable({":pumpkin: ", ":pumpkin~1: GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "10 Pumpkin Eater ", Color(255, 255, 255), "with your brand new inventory credits! ", ":pumpkin~2: ", ":pumpkin~3:"})
 		net.Send(pl)
 	end},
 	[6] = {5000, function(pl)
@@ -120,7 +122,7 @@ MOAT_DONATE.Packages = {
 
 		net.Start "D3A.Chat2"
 			net.WriteBool(false)
-			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 40,000 IC Package!"})
+			net.WriteTable({":pumpkin: ", ":pumpkin~1: GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "20 Pumpkin Eater ", Color(255, 255, 255), "with your brand new inventory credits! ", ":pumpkin~2: ", ":pumpkin~3:"})
 		net.Send(pl)
 	end},
 	[7] = {10000, function(pl)
@@ -137,7 +139,7 @@ MOAT_DONATE.Packages = {
 
 		net.Start "D3A.Chat2"
 			net.WriteBool(false)
-			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "10,000 ", Color(255, 255, 255), "Support Credits for the 100,000 IC Package!"})
+			net.WriteTable({":pumpkin: ", ":pumpkin~1: GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "50 Pumpkin Eater ", Color(255, 255, 255), "with your brand new inventory credits! ", ":pumpkin~2: ", ":pumpkin~3:"})
 		net.Send(pl)
 	end},
 	[8] = {5000, function(pl)
@@ -146,7 +148,7 @@ MOAT_DONATE.Packages = {
 
 		net.Start "D3A.Chat2"
 			net.WriteBool(false)
-			net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 2,500 IC Package!"})
+			net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "50 Million ", Color(255, 255, 255), "with your brand new dola effect!"})
 		net.Send(pl)
 	end},
 	[9] = {250,function(ply)
