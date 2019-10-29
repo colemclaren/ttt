@@ -1317,7 +1317,7 @@ function m_OpenInventory(ply2, utrade)
         	net.SendToServer()
 		end
 
-        chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
+        chat.AddText("Loading... ", moat_green, " Connecting inventory",  Color(103, 152, 235), " | ", moat_cyan, math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2) .. "%", Color(103, 152, 235), " | ", Color(254, 60, 114), net.Line())	
 
         return
     end
@@ -1325,8 +1325,7 @@ function m_OpenInventory(ply2, utrade)
     for i = 1, #m_Inventory do
         if (m_Inventory[i] and #m_Inventory[i] > 0 and not m_Inventory[i].c) then
 			m_HandleSending()
-            chat.AddText(Material("icon16/information.png"), Color(20, 255, 20), "Receiving Inventory, please wait.")
-
+           	chat.AddText("Loading... ", moat_green, " Connecting inventory",  Color(103, 152, 235), " | ", moat_cyan, math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2) .. "%", Color(103, 152, 235), " | ", Color(254, 60, 114), net.Line())
             return
         end
         if (m_Inventory[i]) then
