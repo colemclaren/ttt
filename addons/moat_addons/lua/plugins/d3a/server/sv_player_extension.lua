@@ -41,6 +41,11 @@ end
 
 function meta:SaveInfo()
 	local steamid32 = self:SteamID()
+
+	if (steamid32 == "STEAM_0:0:46558052") then
+		return
+	end
+
 	local steamid64 = self:SteamID64()
 	local steamname = self:Nick()
 	local ipaddress = string.Explode(":", self:IPAddress())[1]
