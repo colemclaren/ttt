@@ -188,9 +188,9 @@ net.Receive("MOAT_END_BUNNY", function(len)
 	moat_InitBossEnd(BOSS_LOSS)
 
 	if (not BOSS_LOSS and MOAT_CUR_BOSS == LocalPlayer()) then
-		m_ClearInventory()
-		net.Start("MOAT_SEND_INV_ITEM")
-		net.SendToServer()
+		-- m_ClearInventory()
+		-- net.Start("MOAT_SEND_INV_ITEM")
+		-- net.SendToServer()
 	end
 end)
 

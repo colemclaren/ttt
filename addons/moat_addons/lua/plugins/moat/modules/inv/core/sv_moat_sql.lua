@@ -532,15 +532,23 @@ function m_SendInventoryToPlayer(ply)
     end
 
     local ply_inv = table.Copy(MOAT_INVS[ply])
-
     if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then
         m_LoadInventoryForPlayer(ply)
         return
     end
 
+	local Sent = CurTime()
+	ply.LastSent = Sent
+
+	local lt = 0
     for i = 1, 10 do
-        timer.Simple(i * 0.03, function()
-            if (ply:IsValid()) then
+		if (not ply_inv["l_slot" .. i].c) then
+			continue
+		end
+
+		lt = lt + 0.01
+        timer.Simple(lt, function()
+            if (IsValid(ply) and ply.LastSent == Sent) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString("l" .. i)
                 local tbl = table.Copy(ply_inv["l_slot" .. i])
@@ -553,9 +561,15 @@ function m_SendInventoryToPlayer(ply)
         end)
     end
 
-    for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
-        timer.Simple(i * 0.03, function()
-            if (ply:IsValid() and not ply:IsBot()) then
+	local it = 0
+    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
+		if (not ply_inv["slot" .. i].c) then
+			continue
+		end
+
+		it = it + 0.01
+        timer.Simple(it, function()
+            if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
                 local tbl = table.Copy(ply_inv["slot" .. i])
@@ -564,15 +578,22 @@ function m_SendInventoryToPlayer(ply)
 
                 net.WriteTable(tbl)
                 net.Send(ply)
-
-                if (i == ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS")) then
-                    MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
-                    m_CheckForRollSave(ply)
-                    m_CheckCompTickets(ply)
-                end
             end
         end)
     end
+
+	timer.Simple(it + 0.01, function()
+        if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
+            MsgC(Color(0, 255, 0), "Inventory sent in " .. it .. " secs to " .. ply:Nick() .. "\n")
+
+			net.Start "MOAT_SEND_INV_ITEM"
+			net.WriteString "0"
+			net.Send(ply)
+
+			m_CheckForRollSave(ply)
+            m_CheckCompTickets(ply)
+        end
+	end)
 end
 
 function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
@@ -583,15 +604,23 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
     end
 
     local ply_inv = table.Copy(MOAT_INVS[ply])
-
     if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then
         m_LoadInventoryForPlayer(ply)
         return
     end
 
+	local Sent = CurTime()
+	ply.LastSent = Sent
+
+	local lt = 0
     for i = 1, 10 do
-        timer.Simple(i * 0.03, function()
-            if (ply:IsValid()) then
+		if (not ply_inv["l_slot" .. i].c) then
+			continue
+		end
+
+		lt = lt + 0.01
+        timer.Simple(lt, function()
+            if (IsValid(ply) and ply.LastSent == Sent) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString("l" .. i)
                 local tbl = table.Copy(ply_inv["l_slot" .. i])
@@ -604,9 +633,15 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
         end)
     end
 
-    for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
-        timer.Simple(i * 0.03, function()
-            if (ply:IsValid()) then
+	local it = 0
+    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
+		if (not ply_inv["slot" .. i].c) then
+			continue
+		end
+
+		it = it + 0.01
+        timer.Simple(it, function()
+            if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
                 local tbl = table.Copy(ply_inv["slot" .. i])
@@ -615,13 +650,19 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
 
                 net.WriteTable(tbl)
                 net.Send(ply)
-
-                if (i == ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS")) then
-                    MsgC(Color(0, 255, 0), "Inventory sent to " .. ply:Nick() .. "\n")
-                end
             end
         end)
     end
+
+	timer.Simple(it + 0.01, function()
+        if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
+            MsgC(Color(0, 255, 0), "Inventory sent in " .. it .. " secs to " .. ply:Nick() .. "\n")
+
+			net.Start "MOAT_SEND_INV_ITEM"
+			net.WriteString "0"
+			net.Send(ply)
+        end
+	end)
 end
 
 net.Receive("MOAT_SEND_INV_ITEM", function(len, ply)
@@ -741,7 +782,7 @@ function m_InsertNewInventoryPlayer(ply)
     local fs = string.format("INSERT INTO moat_inventories ( steamid, max_slots, credits, " .. fse .. " ) VALUES ( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )", _steamid, _maxslots, _credits, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, util.TableToJSON(eslot2))
     iq = MINVENTORY_MYSQL:query(fs)
     iq:start()
-    ply:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", 40)
+    ply:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 40)
 
     local inventory_tbl = {
         {
@@ -872,7 +913,7 @@ function m_InsertNewInventoryPlayer(ply)
     for i = #inventory_tbl + 1, 40 do
         inv_tbl["slot" .. i] = {}
 
-        if (i == ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS")) then
+        if (i == ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS")) then
             MOAT_INVS[ply] = inv_tbl
             m_SendInventoryToPlayer(ply)
         end
@@ -906,7 +947,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
     function query1:onSuccess(data)
         if (#data > 0) then
-            ply:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", data[1].max_slots)
+            ply:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", data[1].max_slots)
             MOAT_INVS[ply] = {}
             local inv_tbl = {}
             local row = data[1]
@@ -926,12 +967,12 @@ function m_LoadInventoryForPlayer(ply, cb)
             local inventory_tbl = util.JSONToTable(row["inventory"])
             
             if (row.max_slots ~= #inventory_tbl) then
-                ply:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", #inventory_tbl)
+                ply:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", #inventory_tbl)
             end
             
             if (cb) then cb() end
 
-            for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+            for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
                 inv_tbl["slot" .. i] = inventory_tbl[i]
                 if not inv_tbl["slot" .. i] then
                     inv_tbl["slot" .. i] = {}
@@ -940,7 +981,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].item) then inv_tbl["slot" .. i].item = nil end
 				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].Talents) then inv_tbl["slot" .. i].Talents = nil end
 
-                if (i == ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS")) then
+                if (i == ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS")) then
                     MOAT_INVS[ply] = inv_tbl
 					if (data[1].max_slots < 50) then
 						m_SendInventoryToPlayer(ply)
@@ -998,7 +1039,7 @@ function m_SaveInventory(ply)
 
     local inventory_table = {}
 
-    for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
 		if (ply_inv["slot" .. i] and ply_inv["slot" .. i].item) then ply_inv["slot" .. i].item = nil end
 		if (ply_inv["slot" .. i] and ply_inv["slot" .. i].Talents) then ply_inv["slot" .. i].Talents = nil end
 

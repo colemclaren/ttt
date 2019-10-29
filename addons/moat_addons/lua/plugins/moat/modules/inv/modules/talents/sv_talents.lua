@@ -296,7 +296,7 @@ function m_UpdateItemLevel(weapon_tbl, attacker, exp_to_add)
     end
 
     if (not inv_item) then
-        for i = 1, attacker:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+        for i = 1, attacker:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
             if (MOAT_INVS[attacker]["slot" .. i] and MOAT_INVS[attacker]["slot" .. i].c) then
                 if (MOAT_INVS[attacker]["slot" .. i].c == unique_item_id) then
                     inv_item = MOAT_INVS[attacker]["slot" .. i]

@@ -60,12 +60,12 @@ function meta:m_isTrading()
 end
 
 function meta:GetMaxSlots()
-    return self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS", 40)
+    return self:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 40)
 end
 
 function meta:UpgradeMaxSlots()
     local new_slots = self:GetMaxSlots() + 5
-    self:SetNWInt("MOAT_MAX_INVENTORY_SLOTS", new_slots)
+    self:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", new_slots)
     m_SaveMaxSlots(self)
 end
 
@@ -550,7 +550,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
     local ply_inv = table.Copy(MOAT_INVS[self])
     local slot_found, upgrade = 0, false
 
-    for i = 1, self:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, self:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (ply_inv["slot" .. i].c) then
             continue
         else
@@ -566,6 +566,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 		if (delay_saving) then
         	net.Start("MOAT_MAX_SLOTS")
         	net.WriteDouble(self:GetMaxSlots())
+			net.WriteString(self:GetIP())
         	net.Send(self)
 		end
 
@@ -582,40 +583,49 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
     MOAT_INVS[self]["slot" .. slot_found] = tbl
 
     if (delay_saving) then return end
-    
-    net.Start("MOAT_ADD_INV_ITEM")
-    net.WriteUInt(slot_found, 16)
-    local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
-    tbl2.item = m_GetItemFromEnum(tbl2.u)
-	tbl2.Talents = GetItemTalents(tbl2)
 
-    net.WriteTable(tbl2)
-    net.WriteBool(no_chat or false)
-	net.WriteBool(upgrade)
-	if (upgrade) then net.WriteUInt(self:GetMaxSlots(), 16) end
-    net.Send(self)
+	self.NetDelay = self.NetDelay or 0
+    timer.Simple(self.NetDelay + 0.01, function()
+		if (IsValid(self)) then
+			net.Start("MOAT_ADD_INV_ITEM")
+			net.WriteUInt(slot_found, 16)
+			local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
+			tbl2.item = m_GetItemFromEnum(tbl2.u)
+			tbl2.Talents = GetItemTalents(tbl2)
+
+			net.WriteTable(tbl2)
+			net.WriteBool(no_chat or false)
+			net.WriteBool(upgrade)
+			if (upgrade) then net.WriteUInt(self:GetMaxSlots(), 16) end
+			net.Send(self)
 
 
-    net.Start("MOAT_OBTAIN_ITEM")
-	net.WriteBool(no_chat or false)
-    net.WriteDouble(self:EntIndex())
-    net.WriteTable(tbl2)
-	net.WriteBool(gift or false)
-    if (not no_chat) then
-        net.Broadcast()
-        if tbl2.item.Rarity > 5 and (not gift) and not tbl2.item.IgnoreDiscord then
-            discord_drop(self,tbl2,gift)
-        end
-        net.Start("MOAT_ITEM_OBTAINED")
-        net.WriteTable(tbl2)
-        net.Send(self)
-    else
-        net.Send(self)
-    end
+			net.Start("MOAT_OBTAIN_ITEM")
+			net.WriteBool(no_chat or false)
+			net.WriteDouble(self:EntIndex())
+			net.WriteTable(tbl2)
+			net.WriteBool(gift or false)
+			if (not no_chat) then
+				net.Broadcast()
+				if tbl2.item.Rarity > 5 and (not gift) and not tbl2.item.IgnoreDiscord then
+					discord_drop(self,tbl2,gift)
+				end
+				net.Start("MOAT_ITEM_OBTAINED")
+				net.WriteTable(tbl2)
+				net.Send(self)
+			else
+				net.Send(self)
+			end
+
+			self.NetDelay = math.max(0, self.NetDelay - 0.02)
+		end
+	end)
 
     if (not delay_saving) then
         m_SaveInventory(self)
     end
+
+	self.NetDelay = self.NetDelay + 0.02
 end
 
 -- concommand.Add("m_testdrop",function()
@@ -1262,7 +1272,7 @@ function m_InitTradeAccept(trade_id)
     m_saveTrade(offer_player1:SteamID64() or 807, offer_player1:Nick(), offer_player2:SteamID64() or 807, offer_player2:Nick(), trade)
 
     -- Take inventory items from player 1
-    for i = 1, offer_player1:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, offer_player1:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (MOAT_INVS[offer_player1]["slot" .. i] and MOAT_INVS[offer_player1]["slot" .. i].c) then
             if (table.HasValue(offer_table1_classes, MOAT_INVS[offer_player1]["slot" .. i].c)) then
                 MOAT_INVS[offer_player1]["slot" .. i] = {}
@@ -1279,7 +1289,7 @@ function m_InitTradeAccept(trade_id)
     end
 
     -- Take inventory items from player 2
-    for i = 1, offer_player2:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, offer_player2:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (MOAT_INVS[offer_player2]["slot" .. i] and MOAT_INVS[offer_player2]["slot" .. i].c) then
             if (table.HasValue(offer_table2_classes, MOAT_INVS[offer_player2]["slot" .. i].c)) then
                 MOAT_INVS[offer_player2]["slot" .. i] = {}
@@ -1631,7 +1641,7 @@ net.Receive("MOAT_TRADE_ADD", function(len, ply)
 
     local inv_slot1 = {}
 
-    for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (MOAT_INVS[ply]["slot" .. i] and MOAT_INVS[ply]["slot" .. i].c) then
             if (MOAT_INVS[ply]["slot" .. i].c == slot2_c) then
                 inv_slot1 = table.Copy(MOAT_INVS[ply]["slot" .. i])
@@ -1710,7 +1720,7 @@ net.Receive("MOAT_TRADE_REM", function(len, ply)
     local trade_id = net.ReadDouble()
     local inv_slot1 = {}
 
-    for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (MOAT_INVS[ply]["slot" .. i] and MOAT_INVS[ply]["slot" .. i].c) then
             if (MOAT_INVS[ply]["slot" .. i].c == slot2_c) then
                 inv_slot1 = table.Copy(MOAT_INVS[ply]["slot" .. i])
@@ -2351,18 +2361,27 @@ net.Receive("MOAT_END_USABLE", function(l, pl)
 end)
 
 function m_SendInvItem(pl, s, l)
-    local slot_text = "slot"
-    if (l) then slot_text = "l_slot" end
-    
-    net.Start("MOAT_SEND_INV_ITEM")
-    net.WriteString(s)
+	pl.NetDelay = pl.NetDelay or 0
+    timer.Simple(pl.NetDelay + 0.01, function()
+		local slot_text = "slot"
+		if (l) then slot_text = "l_slot" end
+		
+		if (IsValid(pl)) then
+			net.Start("MOAT_SEND_INV_ITEM")
+			net.WriteString(s)
 
-    local tbl = table.Copy(MOAT_INVS[pl][slot_text .. s])
-    tbl.item = m_GetItemFromEnum(tbl.u, tbl)
-	tbl.Talents = GetItemTalents(tbl)
-	
-    net.WriteTable(tbl)
-    net.Send(pl)
+			local tbl = table.Copy(MOAT_INVS[pl][slot_text .. s])
+			tbl.item = m_GetItemFromEnum(tbl.u, tbl)
+			tbl.Talents = GetItemTalents(tbl)
+		
+			net.WriteTable(tbl)
+			net.Send(pl)
+
+			pl.NetDelay = math.max(0, pl.NetDelay - 0.02)
+		end
+	end)
+
+	pl.NetDelay = pl.NetDelay + 0.02
 end
 
 local mutator_rar = {
@@ -2576,21 +2595,5 @@ net.Receive("MOAT_REM_TEXTURE", function(l, pl)
 end)
 
 game.ConsoleCommand("sv_friction 8\n")
-
-function meta:Drop100()
-    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, true)
-    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, true)
-    self:m_DropInventoryItem("Cosmic Talent Mutator", "hide_chat_obtained", false, true)
-    self:m_DropInventoryItem("Ascended Stat Mutator", "hide_chat_obtained", false, true)
-end
-
-function meta:Drop50()
-    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, true)
-    self:m_DropInventoryItem("Ascended Talent Mutator", "hide_chat_obtained", false, true)
-end
-
-function meta:Drop20()
-    self:m_DropInventoryItem("Ascended Stat Mutator", "hide_chat_obtained", false, true)
-end
 
 --m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_saving, hide_chat, dev_talent_tbl)

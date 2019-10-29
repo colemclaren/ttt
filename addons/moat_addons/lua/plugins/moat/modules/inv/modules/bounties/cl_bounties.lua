@@ -133,7 +133,7 @@ lottery = lottery or {}
 net.Receive("lottery.firstjoin",function()
     lottery = net.ReadTable()
     timer.Simple(60,function()
-        chat.AddText(Material("icon16/coins.png"),"Welcome back! Today's lottery is currently at ",Color(255,255,0),string.Comma(lottery.amount)," IC",Color(255,255,255),"! (Dailies tab)")
+        chat.AddText("Loading... ", " Today's lottery is currently at ",Color(255,255,0),string.Comma(lottery.amount)," IC",Color(255,255,255),"! (Dailies tab)")
     end)
     if net.ReadBool() then
         lottery.mine = net.ReadInt(32)
@@ -337,7 +337,7 @@ net.Receive("moat.contracts",function()
 					arrow, diff = "", ""
 				end
 
-				chat.AddText(moat_blue, "| ", moat_yellow, "Daily Contract", moat_blue, " | ", moat_teal, contracts_tbl.name, moat_blue, " | ", moat_green, util.Upper(util.FormatTimeSingle(unix, 0)) .. " Left")
+				chat.AddText(moat_blue, "| ", moat_yellow, "Daily Contract", moat_blue, " | ", moat_cyan, contracts_tbl.name, moat_blue, " | ", moat_green, util.Upper(util.FormatTimeSingle(unix, 0)) .. " Left")
 				if (contracts_tbl.my_score < 1) then
 					chat.AddText(moat_blue, "| ", moat_red, "You need a contract kill for a rank placing", moat_blue, " | ", moat_pink, "Top 50 Players get rewards!")
 				else
@@ -399,7 +399,7 @@ net.Receive("moat.contracts",function()
 				moat_green, util.Upper(util.FormatTimeSingle(unix, 0)) .. " Left", moat_blue, " | ", 
 				clr, arrow, moat_pink, "Rank " .. string.Comma(contracts_tbl.my_rank), clr, arrow, moat_blue, " | ", 
 				moat_red, contracts_tbl.my_score .. " Kill" .. (contracts_tbl.my_score == 1 and "" or "s"), moat_blue, " | ", 
-				moat_teal, nextup and (nextup .. " Kill" .. (nextup == 1 and "" or "s") .. " for Rank " .. string.Comma(math.max(1, contracts_tbl.my_rank - 1))) or "Relax"/*, moat_blue, " | ", 
+				moat_cyan, nextup and (nextup .. " Kill" .. (nextup == 1 and "" or "s") .. " for Rank " .. string.Comma(math.max(1, contracts_tbl.my_rank - 1))) or "Relax"/*, moat_blue, " | ", 
 				behind and (behind .. " Ahead") or "Go Faster"*/
 			}
 

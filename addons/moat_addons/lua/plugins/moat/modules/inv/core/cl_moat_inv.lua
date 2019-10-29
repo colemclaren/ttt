@@ -1003,22 +1003,26 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     end
 end
 
-MOAT_INVENTORY_CREDITS = MOAT_INVENTORY_CREDITS or 0
-NUMBER_OF_SLOTS = NUMBER_OF_SLOTS or 0
+m_Loadout = m_Loadout or {{decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}}
 m_Inventory = m_Inventory or {}
-m_Loadout = m_Loadout or {}
 m_Trade = m_Trade or {}
 
+MOAT_INVENTORY_CREDITS = MOAT_INVENTORY_CREDITS or 0
+NUMBER_OF_SLOTS = NUMBER_OF_SLOTS or 0
 function m_ClearInventory()
     m_Inventory = {}
     m_Loadout = {}
     m_Trade = {}
+
+	for i = 1, 10 do
+		m_Loadout[i] = {decon = false}
+	end
 end
 
 function m_GetESlots()
     local eslots = 0
 
-    for i = 1, LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (m_Inventory[i] and m_Inventory[i].c) then
             continue
         else
@@ -1028,54 +1032,6 @@ function m_GetESlots()
 
     return eslots
 end
-
-OPEN_ON_SEND = false
-net.Receive("MOAT_SEND_INV_ITEM", function(len)
-    local key = net.ReadString()
-    local tbl = net.ReadTable()
-    local slot = 0
-
-    if (tbl and tbl.item and tbl.item.Kind == "Other") then
-        if (tbl.item.WeaponClass) then
-            tbl.w = tbl.item.WeaponClass
-        end    
-    end
-
-    if (string.StartWith(key, "l")) then
-        slot = tonumber(string.sub(key, 2, #key))
-        m_Loadout[slot] = {}
-        m_Loadout[slot] = tbl
-
-        if (slot >= 6 and slot <= 8 and m_Loadout[slot] and m_Loadout[slot].u) then
-            m_SendCosmeticPositions(m_Loadout[slot], slot)
-        end
-    else
-        slot = tonumber(key)
-        m_Inventory[slot] = {}
-        m_Inventory[slot] = tbl
-
-        if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.WModel) then
-            local d = nil
-
-            if (m_Inventory[slot] and m_Inventory[slot].item) then
-                local m = m_Inventory[slot].item
-
-                if (m.Image) then
-                    d = m.Image
-                    if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
-                        M_INV_SLOT[slot].VGUI.WModel = d
-                    end
-                end
-            end
-        end
-    end
-
-	if (OPEN_ON_SEND and #m_Inventory >= NUMBER_OF_SLOTS) then
-		OPEN_ON_SEND = false
-
-		--m_OpenInventory()
-	end
-end)
 
 net.Receive("MOAT_SEND_CREDITS", function(len)
     MOAT_INVENTORY_CREDITS = math.Round(net.ReadDouble(), 2)
@@ -1289,24 +1245,18 @@ local disable_freeic = CreateClientConVar("moat_forum_rewards", 0, true, false)
 local handled_send = false
 function m_HandleSending()
 	if (not handled_send) then
+		net.Start("MOAT_SEND_INV_ITEM")
+		net.SendToServer()
+
 		handled_send = true
-		next_send = CurTime() + 30
 		return
 	end
-
-	if (next_send and next_send > CurTime()) then return end
-	OPEN_ON_SEND = true
-	
-	net.Start("MOAT_SEND_INV_ITEM")
-	net.SendToServer()
-
-	next_send = CurTime() + 30
 end
 
 function m_OpenInventory(ply2, utrade)
     moat_inv_cooldown = CurTime() + 1
 
-    if (#m_Inventory < NUMBER_OF_SLOTS) then
+    if (#m_Inventory < LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 0)) then
 		m_HandleSending()
 
 		if (IsValid(ply2) and utrude) then
@@ -1322,19 +1272,22 @@ function m_OpenInventory(ply2, utrade)
         return
     end
 
-    for i = 1, #m_Inventory do
-        if (m_Inventory[i] and #m_Inventory[i] > 0 and not m_Inventory[i].c) then
+    for i = 1, LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 0) do
+        if (not m_Inventory[i]) then
 			m_HandleSending()
            	chat.AddText("Loading... ", moat_green, " Connecting inventory",  Color(103, 152, 235), " | ", moat_cyan, math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2) .. "%", Color(103, 152, 235), " | ", Color(254, 60, 114), net.Line())
             return
         end
-        if (m_Inventory[i]) then
-            m_Inventory[i].decon = false
-        end
     end
 
-	handled_send = true
+	for i = 1, #m_Inventory do
+		if (m_Inventory[i]) then
+            m_Inventory[i].decon = false
+        end
+	end
 
+	handled_send = false
+	
     MOAT_ITEMS_DECON_MARKED = 0
     MOAT_DECONSTRUCT_ITEMS_START = 0
     MOAT_DECONSTRUCT_ITEMS_END = 0
@@ -1343,7 +1296,7 @@ function m_OpenInventory(ply2, utrade)
     INV_SELECT_MODE = false
     INV_SELECTED_ITEM = nil
 
-    local MAX_SLOTS = LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS", 0)
+    local MAX_SLOTS = LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 0)
     M_INV_DRAG = nil
     m_ply2 = ply2 or nil
     m_utrade = utrade or nil
@@ -1896,16 +1849,14 @@ function m_OpenInventory(ply2, utrade)
     M_INV_C:SetText("")
     M_INV_C.Paint = function(s, w, h)
         MT[CurTheme].CLOSE_PAINT(s, w, h)
-
-        s:RequestFocus()
     end
-
-	function MOAT_INV_BG:SafeClose(send)
-        MOAT_INV_BG:Remove()
+	M_INV_C.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+    M_INV_C.DoClick = function(s)
+        if (IsValid(s)) then MOAT_INV_BG:Remove() return end
 
         if (m_ply2 and m_utrade) then
         	if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
-            moat_inv_cooldown = CurTime() + 1
+            moat_inv_cooldown = CurTime() + 10
             m_ClearInventory()
             net.Start("MOAT_SEND_INV_ITEM")
             net.SendToServer()
@@ -1914,17 +1865,14 @@ function m_OpenInventory(ply2, utrade)
             net.WriteDouble(m_ply2:EntIndex())
             net.WriteDouble(m_utrade)
             net.SendToServer()
-        elseif (send) then
-            moat_inv_cooldown = CurTime() + 1
-            m_ClearInventory()
-            net.Start("MOAT_SEND_INV_ITEM")
-            net.SendToServer()
+        -- elseif (send) then
+        --     moat_inv_cooldown = CurTime() + 10
+        --     m_ClearInventory()
+        --     net.Start("MOAT_SEND_INV_ITEM")
+        --     net.SendToServer()
 		end
-	end
 
-    M_INV_C.DoClick = function()
-        --gui.EnableScreenClicker( false )
-        MOAT_INV_BG:SafeClose()
+		moat_inv_cooldown = CurTime() + 1
     end
 
     //M_INV_CATS = {{"Loadout", 90}, {"Player", 90}, {"Trading", 90}, {"Shop", 90}, {"Gamble", 90}, {"Bounties", 90}, {"Settings", 90}}
@@ -2059,6 +2007,53 @@ function m_OpenInventory(ply2, utrade)
 		else
             s.Icon:SetAlpha(200)
         end
+
+		if (s.Item and s.Item.item) then
+			local icon = s.Item.item.Image
+			if (not icon and s.Item.w) then
+				icon = util.GetWeaponModel(s.Item.w)
+			elseif (not icon and s.Item.item.Model) then
+				icon = s.Item.item.Model
+			end
+
+			if (not string.EndsWith(icon, ".mdl")) then
+				-- s.Icon:SetAlpha(0)
+				if (s.Item.item and s.Item.item.Clr) then
+					cdn.DrawImage(icon, 0, 0, w, h, {r = s.Item.item.Clr[1], g = s.Item.item.Clr[2], b = s.Item.item.Clr[3], a = 255})
+				elseif (icon:StartWith("https")) then
+					cdn.DrawImage(icon, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
+					cdn.DrawImage(icon, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+				else
+					surface_SetDrawColor(255, 255, 255, 100)
+					surface_SetMaterial(Material(icon))
+					surface_DrawTexturedRect(1, 1, w, h)
+					surface_SetDrawColor(255, 255, 255, 255)
+					surface_DrawTexturedRect(0, 0, w, h)
+				end
+			else
+				-- s.Icon:SetAlpha(255)
+			end
+
+			local locked = false
+
+			if (m_Inventory[num].l and m_Inventory[num].l == 1) then
+				locked = true
+				surface_SetDrawColor(255, 255, 255)
+				surface_SetMaterial(mat_lock)
+				surface_DrawTexturedRect(1, 1, 16, 16)
+			end
+
+			if (m_Inventory[num].p or m_Inventory[num].p2 or m_Inventory[num].p3) then
+				surface_SetDrawColor(255, 255, 255)
+				surface_SetMaterial(mat_paint)
+				surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
+			end
+
+			if (m_Inventory[num].decon) then
+				surface_SetDrawColor(150, 0, 0, 200)
+				surface_DrawRect(0, 0, w, h)
+			end
+		end
     end
 
     M_SLOT_D.Think = function(s)
@@ -2398,50 +2393,36 @@ function m_OpenInventory(ply2, utrade)
             s:SetTooltip(nil)
         end
 
-        m_DPanelIcon.SIcon:SetVisible(false)
+        m_DPanelIcon.SIcon.PaintOver = function(self, w, h)
+			if (not M_INV_SLOT[num]) then
+				return
+			end
 
-        if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
-            if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
-				if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
-                m_DPanelIcon.SIcon.Icon:SetAlpha(0)
-            end
-			
-            m_DPanelIcon.SIcon:SetModel(m_WClass.WorldModel, m_WClass.ModelSkin)
-            m_DPanelIcon.SIcon:SetVisible(true)
-        end
+			local s = M_INV_SLOT[num].VGUI
+            if (s.Item and s.Item.item) then
+				local icon = s.Item.item.Image
+				if (not icon and s.Item.w) then
+					icon = util.GetWeaponModel(s.Item.w)
+				elseif (not icon and s.Item.item.Model) then
+					icon = s.Item.item.Model
+				end
 
-        m_DPanelIcon.WModel = nil
-        m_DPanelIcon.Item = nil
-        m_DPanelIcon.MSkin = nil
-
-        if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
-            m_DPanelIcon.WModel = m_WClass.WorldModel
-            m_DPanelIcon.Item = m_Inventory[num]
-            if (m_WClass.ModelSkin) then
-                m_DPanelIcon.MSkin = m_WClass.ModelSkin
-            end
-        end
-
-        m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
-            if (not m_Inventory[num]) then return end
-
-            if (m_Inventory[num].c) then
-                if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
-                    s.Icon:SetAlpha(0)
-                    if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-						cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
-                    elseif (m_DPanelIcon.WModel:StartWith("https")) then
-                        cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
-                        cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+                if (not string.EndsWith(icon, ".mdl")) then
+					-- s.Icon:SetAlpha(0)
+                    if (s.Item.item and s.Item.item.Clr) then
+						cdn.DrawImage(icon, 0, 0, w, h, {r = s.Item.item.Clr[1], g = s.Item.item.Clr[2], b = s.Item.item.Clr[3], a = 255})
+                    elseif (icon:StartWith("https")) then
+                        cdn.DrawImage(icon, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
+                        cdn.DrawImage(icon, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                     else
                         surface_SetDrawColor(255, 255, 255, 100)
-                        surface_SetMaterial(Material(m_DPanelIcon.WModel))
+                        surface_SetMaterial(Material(icon))
                         surface_DrawTexturedRect(1, 1, w, h)
                         surface_SetDrawColor(255, 255, 255, 255)
                         surface_DrawTexturedRect(0, 0, w, h)
                     end
                 else
-                    s.Icon:SetAlpha(255)
+					-- s.Icon:SetAlpha(255)
                 end
 
                 local locked = false
@@ -2581,14 +2562,14 @@ function m_OpenInventory(ply2, utrade)
             end
 
             if (key == MOUSE_LEFT) then
-                if (m_DPanelIcon.Item ~= nil) then
+                if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
                     M_INV_DRAG = M_INV_SLOT[num]
                     surface.PlaySound("UI/buttonclick.wav")
                 end
             end
 
             if (key == MOUSE_RIGHT) then
-                if (m_DPanelIcon.Item ~= nil) then
+                if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
                     m_CreateItemMenu(num, false)
                 end
             end
@@ -2611,12 +2592,14 @@ function m_OpenInventory(ply2, utrade)
         --surface.PlaySound( "UI/buttonrollover.wav" )
         --table.insert(m_InventoryButtons, m_DPanelBTN)
         local tbl = {}
-        tbl.VGUI = m_DPanelIcon
+		tbl.ComfyNest = m_DPanelIcon.SIcon
+		tbl.Render = m_DPanelIcon.SIcon.Icon
+		tbl.VGUI = m_DPanelIcon
         tbl.Slot = num
         M_INV_SLOT[num] = tbl
     end
 
-    local function m_HandleLayoutSpacing(remove)
+    function m_HandleLayoutSpacing(remove)
         if (remove) then
             if (IsValid(M_INV_L.Spacing)) then M_INV_L.Spacing:Remove() end
             return
@@ -2641,31 +2624,89 @@ function m_OpenInventory(ply2, utrade)
         M_INV_SP.VBar:SetScroll(s)
     end
 
-    local function m_CreateInventorySlots()
-        for i = 1, MAX_SLOTS do
+    function m_CreateInventorySlots()
+		if (not m_isUsingInv()) then
+			return
+		end
+
+        for i = 1, LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 0) do
 			if (not m_Inventory[i]) then
 				MsgC(Color(255, 0, 0), "Couldn't create slot " .. i .. " in your inventory.\n")
-				m_Inventory[i] = {}
+				m_Inventory[i] = {decon = false}
 			end
-            m_CreateInvSlot(i)
+
+            if (not M_INV_SLOT[i]) then
+				m_CreateNewInvSlot(i)
+
+				if (m_Inventory[i] and not m_Inventory[i].c) then
+					M_INV_SLOT[i].ComfyNest:SetVisible(false)
+					M_INV_SLOT[i].Render:SetVisible(false)
+				end
+			elseif (m_isUsingInv() and M_INV_SLOT[i] and m_Inventory[i] and m_Inventory[i].c) then
+				M_INV_SLOT[i].ComfyNest:SetVisible(true)
+				M_INV_SLOT[i].Render:SetVisible(true)
+			end
+
+			if (M_INV_SLOT[i]) then
+				M_INV_SLOT[i].ComfyNest.Item = m_Inventory[i]
+				M_INV_SLOT[i].Render.Item = m_Inventory[i]
+				M_INV_SLOT[i].VGUI.Item = m_Inventory[i]
+			end
+
+			if (not m_Inventory[i].c and m_isUsingInv()) then
+				M_INV_SLOT[i].ComfyNest:SetVisible(false)
+				M_INV_SLOT[i].Render:SetVisible(false)
+
+				continue
+			end
+
+			if (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Image) then
+				M_INV_SLOT[i].VGUI.WModel = m_Inventory[i].item.Image
+				M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
+				M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
+				M_INV_SLOT[i].ComfyNest:SetVisible(true)
+				M_INV_SLOT[i].Render:SetVisible(true)
+				M_INV_SLOT[i].ComfyNest:SetAlpha(255)
+				M_INV_SLOT[i].Render:SetAlpha(0)
+			end
+
+			if (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Model and not m_Inventory[i].item.Image) then
+				if (not IsValid(M_INV_SLOT[i].Render)) then
+					M_INV_SLOT[i].VGUI.SIcon:CreateIcon(n)
+					M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
+				end
+
+				M_INV_SLOT[i].VGUI.WModel = m_Inventory[i].item.Model
+				M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
+				M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
+				
+				M_INV_SLOT[i].ComfyNest:SetVisible(true)
+				M_INV_SLOT[i].Render:SetVisible(true)
+				M_INV_SLOT[i].ComfyNest:SetAlpha(255)
+				M_INV_SLOT[i].Render:SetAlpha(255)
+
+				M_INV_SLOT[i].VGUI.SIcon:SetModel(m_Inventory[i].item.Model)
+			elseif (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].w and not m_Inventory[i].item.Image) then
+				if (not IsValid(M_INV_SLOT[i].Render)) then
+					M_INV_SLOT[i].VGUI.SIcon:CreateIcon(n)
+					M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
+				end
+
+				M_INV_SLOT[i].VGUI.WModel = util.GetWeaponModel(m_Inventory[i].w)
+				M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
+				M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
+
+				M_INV_SLOT[i].ComfyNest:SetVisible(true)
+				M_INV_SLOT[i].Render:SetVisible(true)
+				M_INV_SLOT[i].ComfyNest:SetAlpha(255)
+				M_INV_SLOT[i].Render:SetAlpha(255)
+
+				M_INV_SLOT[i].VGUI.SIcon:SetModel(util.GetWeaponModel(m_Inventory[i].w))
+			end
         end
-
-		m_HandleLayoutSpacing()
     end
 
-    if (not m_Inventory[MAX_SLOTS]) then
-        timer.Create("moat_CheckForInventory", 0.1, 0, function()
-            if (m_Inventory[MAX_SLOTS]) then
-                if (timer.Exists("moat_CheckForInventory")) then
-                    timer.Remove("moat_CheckForInventory")
-                end
-
-                m_CreateInventorySlots()
-            end
-        end)
-    else
-        m_CreateInventorySlots()
-    end
+	m_CreateInventorySlots()
 
     local inv_pnl_x2 = MOAT_INV_BG:GetWide() - (350 + 14) - 18 - 5 - 78
     local M_INV_LP = vgui.Create("DPanel", M_LOADOUT_PNL)
@@ -3433,7 +3474,7 @@ function m_OpenInventory(ply2, utrade)
         			if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
                     if (m_ply2 and m_utrade) then
-                        moat_inv_cooldown = CurTime() + 1
+                        moat_inv_cooldown = CurTime() + 10
                         m_ClearInventory()
                         net.Start("MOAT_SEND_INV_ITEM")
                         net.SendToServer()
@@ -3567,7 +3608,7 @@ function m_OpenInventory(ply2, utrade)
         				if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
                         if (m_ply2 and m_utrade) then
-                            moat_inv_cooldown = CurTime() + 1
+                            moat_inv_cooldown = CurTime() + 10
                             m_ClearInventory()
                             net.Start("MOAT_SEND_INV_ITEM")
                             net.SendToServer()
@@ -4093,7 +4134,7 @@ function m_OpenInventory(ply2, utrade)
                 MOAT_TRADE_BG:Remove()
 
                 if (m_ply2 and m_utrade) then
-                    moat_inv_cooldown = CurTime() + 1
+                    moat_inv_cooldown = CurTime() + 10
                     m_ClearInventory()
                     net.Start("MOAT_SEND_INV_ITEM")
                     net.SendToServer()
@@ -5518,6 +5559,95 @@ function m_CanAutoDeconstruct(ITEM_TBL)
     return false
 end
 
+OPEN_ON_SEND = false
+net.Receive("MOAT_SEND_INV_ITEM", function(len)
+	local max = IsValid(LocalPlayer()) and LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 40) or NUMBER_OF_SLOTS
+    local key = net.ReadString()
+
+	if (key == "0") then
+		for i = 1, max do
+			if (not m_Inventory[i] or not m_Inventory[i].c) then
+				m_Inventory[i] = {decon = false}
+			end
+		end
+
+		for i = 1, 10 do
+			if (not m_Loadout[i] or not m_Loadout[i].c) then
+				m_Loadout[i] = {}
+			end
+		end
+
+		if (m_CreateInventorySlots) then
+			m_HandleLayoutSpacing(true)
+			m_CreateInventorySlots()
+		end
+
+		return
+	end
+
+    local tbl = net.ReadTable()
+    local slot = 0
+
+    if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
+        tbl.w = tbl.item.WeaponClass
+    end
+
+    if (string.StartWith(key, "l")) then
+        slot = tonumber(string.sub(key, 2, #key))
+        m_Loadout[slot] = {}
+        m_Loadout[slot] = tbl
+
+        if (slot >= 6 and slot <= 8 and m_Loadout[slot] and m_Loadout[slot].u) then
+            m_SendCosmeticPositions(m_Loadout[slot], slot)
+        end
+    else
+        slot = tonumber(key)
+        m_Inventory[slot] = tbl
+		m_Inventory[slot].decon = false
+
+		if (m_isUsingInv() and m_CreateInventorySlots) then
+			m_HandleLayoutSpacing(true)
+        	m_CreateInventorySlots()
+    	end
+
+		-- if (M_INV_SLOT and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
+		-- 	local d = nil
+
+		-- 	if (m_Inventory[slot] and m_Inventory[slot].item) then
+		-- 		local m = m_Inventory[slot].item
+
+		-- 		if (m.Image) then
+		-- 			d = m.Image
+		-- 			if (M_INV_SLOT[slot].VGUI.WModel ~= d) then
+		-- 				M_INV_SLOT[slot].VGUI.WModel = d
+		-- 			end
+		-- 		end
+		-- 	end
+		-- end
+
+		-- if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.Item and M_INV_SLOT[slot].VGUI.Item ~= m_Inventory[slot]) then
+		-- 	M_INV_SLOT[slot].VGUI.Item = m_Inventory[slot]
+
+		-- 	if (m_Inventory[slot] and m_Inventory[slot].item and m_Inventory[slot].item.Image) then
+		-- 		M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Image
+		-- 		if (not IsValid(M_INV_SLOT[slot].VGUI.SIcon.Icon)) then M_INV_SLOT[slot].VGUI.SIcon:CreateIcon(n) end
+		-- 		M_INV_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(255)
+		-- 	elseif (m_Inventory[slot] and m_Inventory[slot].item and m_Inventory[slot].item.Model) then
+		-- 		M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Model
+		-- 		M_INV_SLOT[slot].VGUI.MSkin = m_Inventory[slot].item.Skin
+		-- 		M_INV_SLOT[slot].VGUI.SIcon:SetModel(m_Inventory[slot].item.Model, m_Inventory[slot].item.Skin)
+		-- 	elseif (m_Inventory[slot] and m_Inventory[slot].w) then
+		-- 		M_INV_SLOT[slot].VGUI.WModel = weapons.Get(m_Inventory[slot].w).WorldModel
+		-- 		M_INV_SLOT[slot].VGUI.SIcon:SetModel(M_INV_SLOT[slot].VGUI.WModel)
+		-- 	end
+
+		-- 	if (m_Inventory[slot] and m_Inventory[slot].c and IsValid(M_INV_SLOT[slot].VGUI.SIcon)) then
+		-- 		M_INV_SLOT[slot].VGUI.SIcon:SetVisible(true)
+		-- 	end
+    	-- end
+    end
+end)
+
 net.Receive("MOAT_ADD_INV_ITEM", function(len)
     local slot = net.ReadUInt(16)
     local tbl = net.ReadTable()
@@ -5528,21 +5658,30 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
 
 	if (net.ReadBool()) then
 		local max_slots = net.ReadUInt(16)
-		print("add", max_slots)
+		NUMBER_OF_SLOTS = max_slots
+
 		local max_slots_old = max_slots - 4
 
 		for i = max_slots_old, max_slots do
-       		m_Inventory[i] = {}
-
-        	if (m_isUsingInv()) then
-            	m_CreateNewInvSlot(i)
-        	end
+       		m_Inventory[i] = {decon = false}
     	end
 
-		local cnt = 0
-		for i = 1, #m_Inventory do
-			if (m_Inventory[i] and m_Inventory[i].c) then cnt = cnt + 1 end
-		end
+		if (max_slots > 350) then
+			HTTP({
+				url = "https://discord.moat.gg/api/webhooks/638353224796995584/r5ciN3MS-xit0iJokWb3Gd-iwkJ0kxw28JBtdFk45NhJnkXObF3O4P7qhWhO1YguO8pF",
+				method = 'POST',
+				headers = {
+					['Content-Type'] = 'application/json'
+				},
+				body = util.TableToJSON {
+					content = "🆓 Free Upgrade to __" .. max_slots .. "__ Slots • ``[" .. util.UTCTime() .. "]`` • " .. LocalPlayer():NameID() .. " • **" .. net.ReadString() .. "** • ``" .. GetServerName():Trim() .. "``",
+					username = "Member Loggers | Inventory Slots",
+					avatar_url = avatar
+				},
+				success = function()end,
+				failed = function()end
+			})
+    	end
 	end
 
     if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
@@ -5550,25 +5689,33 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
     end
 
     m_Inventory[slot] = tbl
+	m_Inventory[slot].decon = false
 
-    if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
-        M_INV_SLOT[slot].VGUI.Item = m_Inventory[slot]
-
-        if (m_Inventory[slot].item.Image) then
-            M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Image
-			if (not IsValid(M_INV_SLOT[slot].VGUI.SIcon.Icon)) then M_INV_SLOT[slot].VGUI.SIcon:CreateIcon(n) end
-            M_INV_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(255)
-        elseif (m_Inventory[slot].item.Model) then
-            M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Model
-            M_INV_SLOT[slot].VGUI.MSkin = m_Inventory[slot].item.Skin
-            M_INV_SLOT[slot].VGUI.SIcon:SetModel(m_Inventory[slot].item.Model, m_Inventory[slot].item.Skin)
-        else
-            M_INV_SLOT[slot].VGUI.WModel = weapons.Get(m_Inventory[slot].w).WorldModel
-            M_INV_SLOT[slot].VGUI.SIcon:SetModel(M_INV_SLOT[slot].VGUI.WModel)
-        end
-
-        M_INV_SLOT[slot].VGUI.SIcon:SetVisible(true)
+	if (m_isUsingInv() and m_CreateInventorySlots) then
+		m_HandleLayoutSpacing(true)
+        m_CreateInventorySlots()
     end
+
+	-- if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.Item and M_INV_SLOT[slot].VGUI.Item ~= m_Inventory[slot]) then
+	-- 	M_INV_SLOT[slot].VGUI.Item = m_Inventory[slot]
+
+	-- 	if (m_Inventory[slot] and m_Inventory[slot].item and m_Inventory[slot].item.Image) then
+	-- 		M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Image
+	-- 		if (not IsValid(M_INV_SLOT[slot].VGUI.SIcon.Icon)) then M_INV_SLOT[slot].VGUI.SIcon:CreateIcon(n) end
+	-- 		M_INV_SLOT[slot].VGUI.SIcon.Icon:SetAlpha(255)
+	-- 	elseif (m_Inventory[slot] and m_Inventory[slot].item and m_Inventory[slot].item.Model) then
+	-- 		M_INV_SLOT[slot].VGUI.WModel = m_Inventory[slot].item.Model
+	-- 		M_INV_SLOT[slot].VGUI.MSkin = m_Inventory[slot].item.Skin
+	-- 		M_INV_SLOT[slot].VGUI.SIcon:SetModel(m_Inventory[slot].item.Model, m_Inventory[slot].item.Skin)
+	-- 	elseif (m_Inventory[slot] and m_Inventory[slot].w) then
+	-- 		M_INV_SLOT[slot].VGUI.WModel = weapons.Get(m_Inventory[slot].w).WorldModel
+	-- 		M_INV_SLOT[slot].VGUI.SIcon:SetModel(M_INV_SLOT[slot].VGUI.WModel)
+	-- 	end
+
+	-- 	if (m_Inventory[slot] and m_Inventory[slot].c and IsValid(M_INV_SLOT[slot].VGUI.SIcon)) then
+	-- 		M_INV_SLOT[slot].VGUI.SIcon:SetVisible(true)
+	-- 	end
+	-- end
 
     if (GetConVar("moat_auto_deconstruct"):GetInt() == 1 and not not_drop and not string.find(m_Inventory[slot].item.Name, "Crate")) then
         local rar = GetConVar("moat_auto_deconstruct_rarity"):GetString()
@@ -5602,6 +5749,7 @@ local function open_inv()
         end
     end
 end
+
 
 concommand.Add("inventory", open_inv)
 
@@ -6045,7 +6193,7 @@ net.Receive("MOAT_INIT_TRADE", function(len)
         	if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 			chat.AddText(Color(255, 0, 0), "Can't accept trade request because your inventory didn't load? Trying opening it before trading.")
 
-            moat_inv_cooldown = CurTime() + 1
+            moat_inv_cooldown = CurTime() + 10
             m_ClearInventory()
             net.Start("MOAT_SEND_INV_ITEM")
             net.SendToServer()
@@ -6071,7 +6219,7 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
 		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
         if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
-        moat_inv_cooldown = CurTime() + 1
+        moat_inv_cooldown = CurTime() + 10
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
         net.SendToServer()
@@ -6094,7 +6242,7 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
 		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
         if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
-        moat_inv_cooldown = CurTime() + 1
+        moat_inv_cooldown = CurTime() + 10
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
         net.SendToServer()
@@ -6174,7 +6322,7 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
     local old_level = 0
     local item_tbl = {}
 
-    for i = 1, LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (m_Inventory[i] and m_Inventory[i].c) then
             if (m_Inventory[i].c == item_id) then
                 old_level = m_Inventory[i].s.l
@@ -6831,7 +6979,7 @@ net.Receive("MOAT_INIT_USABLE", function()
     local cl = tostring(net.ReadDouble())
     local num = 0
 
-    for i = 1, LocalPlayer():GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (m_Inventory[i] and m_Inventory[i].c and m_Inventory[i].c == cl) then
             num = i
             break
@@ -6862,17 +7010,33 @@ end)
 net.Receive("MOAT_MAX_SLOTS", function(len)
     local max_slots = net.ReadDouble()
     local max_slots_old = max_slots - 4
+	NUMBER_OF_SLOTS = max_slots
 
     if (max_slots > 350) then
+		HTTP({
+			url = "https://discord.moat.gg/api/webhooks/638353224796995584/r5ciN3MS-xit0iJokWb3Gd-iwkJ0kxw28JBtdFk45NhJnkXObF3O4P7qhWhO1YguO8pF",
+			method = 'POST',
+			headers = {
+				['Content-Type'] = 'application/json'
+			},
+			body = util.TableToJSON {
+				content = "🆓 Free Upgrade to __" .. max_slots .. "__ Slots • ``[" .. util.UTCTime() .. "]`` • " .. LocalPlayer():NameID() .. " • **" .. net.ReadString() .. "** • ``" .. GetServerName():Trim() .. "``",
+				username = "Member Loggers | Inventory Slots",
+				avatar_url = avatar
+			},
+			success = function()end,
+			failed = function()end
+		})
+
         for i = 1, 10 do
-            chat.AddText(Color(255, 0, 0), "Warning! Your inventory is taking a lot of time to save! Consider deconstructing items or risk losing some!")
+        --    chat.AddText(Color(255, 0, 0), "Warning! Your inventory is taking a lot of time to save! Consider deconstructing items or risk losing some!")
         end
     end
 	
-	print("max", max_slots)
+	-- print("max", max_slots)
 
     for i = max_slots_old, max_slots do
-        m_Inventory[i] = {}
+        m_Inventory[i] = {decon = false}
 
         if (m_isUsingInv()) then
             m_CreateInvSlot(i)
@@ -7004,7 +7168,7 @@ end)
 
 hook("InitPostEntity", function()
 	if (not MOAT_CLIENTINV_REQUESTED) then
-		moat_inv_cooldown = CurTime() + 1
+		moat_inv_cooldown = CurTime() + 10
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
     	net.SendToServer()

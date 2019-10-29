@@ -534,7 +534,7 @@ local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
         if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
         if (m_utrade and m_ply2) then
-            moat_inv_cooldown = CurTime() + 1
+            moat_inv_cooldown = CurTime() + 10
             m_ClearInventory()
             net.Start("MOAT_SEND_INV_ITEM")
             net.SendToServer()
@@ -1340,7 +1340,7 @@ end
 
 
 function PANEL:PerformLayout()
-    self.Icon:StretchToParent(0, 0, 0, 0)
+	self.Icon:StretchToParent(0, 0, 0, 0)
 end
 
 function PANEL:SetSpawnIcon(name)

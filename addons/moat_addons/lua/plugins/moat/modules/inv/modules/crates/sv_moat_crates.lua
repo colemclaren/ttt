@@ -9,7 +9,7 @@ net.Receive("MOAT_VERIFY_CRATE", function(len, ply)
     local crate_id = 0
     local found_item = false
     local slot_found = 0
-    for i = 1, ply:GetNWInt("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (MOAT_INVS[ply]["slot" .. i] and MOAT_INVS[ply]["slot" .. i].c) then
             if (tonumber(MOAT_INVS[ply]["slot" .. i].c) == item_class) then
                 found_item = true
