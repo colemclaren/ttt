@@ -1155,7 +1155,7 @@ M_INV_SLOT = {}
 M_LOAD_SLOT = {}
 M_TRADE_SLOT = {}
 
-M_INV_CATS = {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Gamble", 90}, /*{"Summer", 90},*/ {"Dailies", 90}, {"Settings", 90}, {"Donate", 90}}
+M_INV_CATS = {{"Loadout", 90}, {"Market", 90}, {"Trading", 90}, {"Gamble", 90}, /*{"Summer", 90},*/ {"Dailies", 90}, {"Settings", 90}, {"Donate", 90}}
 function m_PaintVBar(sbar)
 
     local MT = MOAT_THEME.Themes
