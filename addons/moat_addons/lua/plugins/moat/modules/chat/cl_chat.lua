@@ -37,14 +37,14 @@ end
 moat_chat = {}
 
 moat_chat.config = {
-    x = default_x + 17,
+    x = default_x + 20,
     y = default_y - 20,
     w = 514,
-    h = 222
+    h = 384
 }
 
-if ((default_y + 222) > (ScrH() - 180)) then
-    moat_chat.config.y = ScrH() - 180 - 242
+if ((default_y + 384) > (ScrH() - 200)) then
+    moat_chat.config.y = ScrH() - 200 - 404
 end
 
 moat_chat.font = "moat_ChatFont"
@@ -269,7 +269,7 @@ function moat_chat.AutoComplete(entry, auto)
     local ply
 
     for k, v in ipairs(player.GetAll()) do
-        if ((string.find(v:Name():lower(), match:lower(), 1, true) or -1) == 1) then
+        if ((string.find(v:Nick():lower(), match:lower(), 1, true) or -1) == 1) then
             ply = v
             break
         end
@@ -283,7 +283,7 @@ function moat_chat.AutoComplete(entry, auto)
         if ((pref == "!" or pref == "!") and (not auto)) then
             add = ply:SteamID()
         else
-            add = ply:Name()
+            add = ply:Nick()
         end
 
         if (not auto) then
@@ -349,10 +349,10 @@ local function ChatThink() -- GUIMousePressed/Released hooks are both broken, th
 end
 hook.Add("Think", "NewChatThink", ChatThink)
 
-local customchatx = CreateConVar("moat_chatbox_x", tostring(moat_chat.config.x), FCVAR_ARCHIVE)
-local customchaty = CreateConVar("moat_chatbox_y", tostring(moat_chat.config.y), FCVAR_ARCHIVE)
+local customchatx = CreateConVar("moat_chat_x", tostring(moat_chat.config.x), FCVAR_ARCHIVE)
+local customchaty = CreateConVar("moat_chat_y", tostring(moat_chat.config.y), FCVAR_ARCHIVE)
 
-concommand.Add("moat_resetchat", function()
+concommand.Add("moat_chat", function()
     moat_chat.config.x = tonumber(customchatx:GetDefault())
     moat_chat.config.y = tonumber(customchaty:GetDefault())
 
@@ -422,7 +422,7 @@ function moat_chat.InitChat()
         surface_SetDrawColor(150, 150, 150, 50 * mc.alpha)
         surface_DrawRect(0, 0, w, 21)
 
-        draw.DrawText(moat_chat.header, moat_chat.font, 6, 2, Color(255, 255, 255, 255 * mc.alpha))
+        draw.DrawText(moat_chat.header, moat_chat.font, 10, 1, Color(255, 255, 255, 255 * mc.alpha))
         local chat_str = "Say :"
         local chat_type = 1
 
@@ -436,14 +436,14 @@ function moat_chat.InitChat()
         surface_SetDrawColor(0, 0, 0, 150 * mc.alpha)
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(5, mcc.h - 25, moat_chat.sayvars[chat_type].w, 20)*/
-        draw.DrawText(chat_str, moat_chat.font, 10, mcc.h - 24, Color(255, 255, 255, 255 * mc.alpha))
+        draw.DrawText(chat_str, moat_chat.font, 10, h - 30, Color(255, 255, 255, 255 * mc.alpha))
     end
 
     local moveicon = Material("icon16/arrow_out.png")
 
     mc.MOVE = vgui.Create("DButton", FRAME)
-    mc.MOVE:SetPos(mcc.w - 18, 2)
-    mc.MOVE:SetSize(16, 16)
+    mc.MOVE:SetPos(mcc.w - 32, 10)
+    mc.MOVE:SetSize(22, 22)
     mc.MOVE:SetText("")
     mc.MOVE.Moving = false
     mc.MOVE.MovingX = 0
@@ -478,7 +478,7 @@ function moat_chat.InitChat()
         end
     end
 	mc.MOVE.Paint = function(s, w, h)
-        cdn.DrawImage("https://cdn.moat.gg/f/dfc5c8d9272b952101d36e284799544c.png", 0, 0, 16, 16, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
+        cdn.DrawImage("https://cdn.moat.gg/f/dfc5c8d9272b952101d36e284799544c.png", 0, 0, 22, 22, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
     end
     mc.MOVE:SetToolTip("Hold left click to drag around, Right click to reset")
 
@@ -487,8 +487,8 @@ function moat_chat.InitChat()
     end
 
     mc.SPNL = vgui.Create("DScrollPanel", FRAME)
-    mc.SPNL:SetPos(5, 21)
-    mc.SPNL:SetSize(mcc.w - 6, mcc.h - 46)
+    mc.SPNL:SetPos(5, 42)
+    mc.SPNL:SetSize(mcc.w - 10, mcc.h - 82)
 
     mc.SPNL.Paint = function(s, w, h)
         if (moat_chat.Theme.CHAT_PANEL) then
@@ -571,8 +571,8 @@ function moat_chat.InitChat()
     end
 
     mc.ENTRY = vgui.Create("DTextEntry", FRAME)
-    mc.ENTRY:SetSize(mcc.w - 60, 20)
-    mc.ENTRY:SetPos(55, mcc.h - 25)
+    mc.ENTRY:SetSize(mcc.w - 60, 42)
+    mc.ENTRY:SetPos(55, mcc.h - 32)
     mc.ENTRY:SetFont(mc.font)
     mc.ENTRY.Stored = {}
 
@@ -879,7 +879,7 @@ function moat_chat.ChatObjectPaint(self)
     if self.Icon then
         surface_SetDrawColor(255, 255, 255, a)
         surface_SetMaterial(self.Icon)
-        surface_DrawTexturedRect(2, 0, 16, 16)
+        surface_DrawTexturedRect(2, 0, 22, 22)
     end
 
     for i = 1, #self.Text do

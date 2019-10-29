@@ -161,7 +161,7 @@ _SCF('Info Header', {font = 'Roboto Bold',size = 22.1})
 _SCF('Info Title', {font = 'Roboto Medium',size = 44.2})
 _SCF('Info Tiny', {font = 'Roboto Medium',size = 13.8125})
 
-_SCF('moat_ChatFont', lato(2, 16))
+_SCF('moat_ChatFont', lato(2, 18))
 _SCF('moat_MenuFont', {font = 'Lato Bold',size = 15,weight = 800})
 
 _SCF('TabLarge', {font = 'Lato',size = 13,weight = 900})
