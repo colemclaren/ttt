@@ -5,11 +5,11 @@ local emoji_length = {}
 
 local emoji_text_length = {max = 0}
 
-local function AddEmoji(width, url, ...)
+local function AddEmoji(height, url, ...)
     for i = 1, select("#", ...) do
         local emoji = select(i, ...)
-        emojis[emoji] = "https://cdn.moat.gg/ttt/emojis/" .. url .. ".png"
-        emoji_length[emoji] = width
+        emojis[emoji] = url:match"(%.[^%.]+)$" and url or string("https://cdn.moat.gg/ttt/emojis/" .. url .. ".png")
+        emoji_length[emoji] = height
 
         emoji_text_length.max = math.max(emoji_text_length.max, emoji:len())
 
@@ -19,6 +19,14 @@ local function AddEmoji(width, url, ...)
 end
 AddEmoji(16, "ok_hand", ":ok_hand:", "👌")
 AddEmoji(16, "thinking", ":thinking:", "🤔")
+AddEmoji(21, "https://cdn.moat.gg/f/30377462080281024722.gif", ":tv:", "📺")
+AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/happy-smile.png", ":)", ":]", "}")
+
+AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-1.png", ":pumpkin:")
+AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-2.png", ":pumpkin~1:")
+AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-3.png", ":pumpkin~2:", "🎃")
+AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-4.png", ":pumpkin~3:")
+AddEmoji(21, "https://cdn.moat.gg/f/74627770687536266043.png", "Loading...")
 -- AddEmoji(21, "pepega", "pepega")
 -- AddEmoji(16, "pepehands", "pepehands")
 -- AddEmoji(16, "monkaW", "monkaW")
@@ -101,7 +109,7 @@ function emoji.GetTextSize(text)
     local height = 0
     for _, code in emoji.Codes(text) do
         if (emojis[code]) then
-            width = width + emoji_length[code] + 1
+            width = width + emoji_length[code]
         else
             local w, h = surface.GetTextSize(code)
             width = width + w
@@ -158,20 +166,19 @@ end
 
 function emoji.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, outlinewid, outlinecolor, dont_draw_emojis, emoji_align_bottom)
     surface.SetFont(font)
-    local y_minus = yalign == TEXT_ALIGN_BOTTOM and select(2, surface.GetTextSize "A") or yalign == TEXT_ALIGN_CENTER and select(2, surface.GetTextSize "A") / 2 or 0
+	local w, h = surface.GetTextSize(text[1])
+    local y_minus = yalign == TEXT_ALIGN_BOTTOM and h or yalign == TEXT_ALIGN_CENTER and h / 2 or 0
     for _, text in emoji.Codes(text) do
         if (emojis[text]) then
             if (not dont_draw_emojis) then
                 local cy = ty
                 if (emoji_align_bottom) then
-                    local _, tall = surface.GetTextSize "|"
-                    cy = cy - 16 + tall
+                    cy = cy - y_minus
                 end
-                cdn.DrawImage(emojis[text], tx, cy - y_minus, emoji_length[text], 16, nil, "alphatest")
+                cdn.DrawImage(emojis[text], tx + 2, cy - 2, emoji_length[text], emoji_length[text], nil, "alphatest")
             end
-            tx = tx + emoji_length[text] + 2
+            tx = tx + emoji_length[text] + 4
         else
-            local w, h = surface.GetTextSize(text)
             draw.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, outlinewid, outlinecolor)
             tx = tx + w
         end
@@ -179,21 +186,20 @@ function emoji.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, out
 end
 
 function emoji.SimpleText(text, font, tx, ty, color, xalign, yalign, dont_draw_emojis, emoji_align_bottom)
-    surface.SetFont(font)
-    local y_minus = yalign == TEXT_ALIGN_BOTTOM and select(2, surface.GetTextSize "A") or yalign == TEXT_ALIGN_CENTER and select(2, surface.GetTextSize "A") / 2 or 0
+	surface.SetFont(font)
+	local w, h = surface.GetTextSize(text[1])
+    local y_minus = yalign == TEXT_ALIGN_BOTTOM and h or yalign == TEXT_ALIGN_CENTER and h / 2 or 0
     for _, text in emoji.Codes(text) do
         if (emojis[text]) then
             if (not dont_draw_emojis) then
                 local cy = ty
                 if (emoji_align_bottom) then
-                    local _, tall = surface.GetTextSize "|"
-                    cy = cy - 16 + tall
+                    cy = cy - y_minus
                 end
-                cdn.DrawImage(emojis[text], tx, cy - y_minus, emoji_length[text], 16, nil, "alphatest")
+                cdn.DrawImage(emojis[text], tx + 2, cy - 2, emoji_length[text], emoji_length[text], nil, "alphatest")
             end
-            tx = tx + emoji_length[text] + 2
+            tx = tx + emoji_length[text] + 4
         else
-            local w, h = surface.GetTextSize(text)
             draw.SimpleText(text, font, tx, ty, color, xalign, yalign)
             tx = tx + w
         end
