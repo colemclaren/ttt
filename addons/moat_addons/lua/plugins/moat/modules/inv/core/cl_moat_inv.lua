@@ -1003,6 +1003,17 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     end
 end
 
+local handled_send = false
+function m_HandleSending()
+	if (not handled_send) then
+		net.Start("MOAT_SEND_INV_ITEM")
+		net.SendToServer()
+
+		handled_send = true
+		return
+	end
+end
+
 m_Loadout = m_Loadout or {{decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}, {decon = false}}
 m_Inventory = m_Inventory or {}
 m_Trade = m_Trade or {}
@@ -1010,6 +1021,8 @@ m_Trade = m_Trade or {}
 MOAT_INVENTORY_CREDITS = MOAT_INVENTORY_CREDITS or 0
 NUMBER_OF_SLOTS = NUMBER_OF_SLOTS or 0
 function m_ClearInventory()
+	handled_send = false
+
     m_Inventory = {}
     m_Loadout = {}
     m_Trade = {}
@@ -1038,9 +1051,6 @@ net.Receive("MOAT_SEND_CREDITS", function(len)
 end)
 
 if (NUMBER_OF_SLOTS == 0 || #m_Inventory < NUMBER_OF_SLOTS) then
-	net.Start "MOAT_SEND_INV_ITEM"
-	net.SendToServer()
-
 	net.Start "MOAT_SEND_CREDITS"
 	net.SendToServer()
 end
@@ -1242,17 +1252,6 @@ INV_SELECT_MODE = false
 INV_SELECTED_ITEM = nil
 
 local disable_freeic = CreateClientConVar("moat_forum_rewards", 0, true, false)
-local handled_send = false
-function m_HandleSending()
-	if (not handled_send) then
-		net.Start("MOAT_SEND_INV_ITEM")
-		net.SendToServer()
-
-		handled_send = true
-		return
-	end
-end
-
 function m_OpenInventory(ply2, utrade)
     moat_inv_cooldown = CurTime() + 1
 
@@ -1272,22 +1271,12 @@ function m_OpenInventory(ply2, utrade)
         return
     end
 
-    for i = 1, LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 0) do
-        if (not m_Inventory[i]) then
-			m_HandleSending()
-           	chat.AddText("Loading... ", moat_green, " Connecting inventory",  Color(103, 152, 235), " | ", moat_cyan, math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2) .. "%", Color(103, 152, 235), " | ", Color(254, 60, 114), net.Line())
-            return
-        end
-    end
-
 	for i = 1, #m_Inventory do
 		if (m_Inventory[i]) then
             m_Inventory[i].decon = false
         end
 	end
 
-	handled_send = false
-	
     MOAT_ITEMS_DECON_MARKED = 0
     MOAT_DECONSTRUCT_ITEMS_START = 0
     MOAT_DECONSTRUCT_ITEMS_END = 0
@@ -7167,9 +7156,8 @@ net.Receive("MOAT_DECON_MUTATOR", function()
 end)
 
 hook("InitPostEntity", function()
-	if (not MOAT_CLIENTINV_REQUESTED) then
+	if (not MOAT_CLIENTINV_REQUESTED and not handled_send) then
 		moat_inv_cooldown = CurTime() + 10
-        m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
     	net.SendToServer()
 

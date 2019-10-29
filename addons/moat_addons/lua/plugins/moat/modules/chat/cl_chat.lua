@@ -436,14 +436,14 @@ function moat_chat.InitChat()
         surface_SetDrawColor(0, 0, 0, 150 * mc.alpha)
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(5, mcc.h - 25, moat_chat.sayvars[chat_type].w, 20)*/
-        draw.DrawText(chat_str, moat_chat.font, 10, h - 30, Color(255, 255, 255, 255 * mc.alpha))
+        draw.DrawText(chat_str, moat_chat.font, 28, h - 52, Color(255, 255, 255, 255 * mc.alpha))
     end
 
     local moveicon = Material("icon16/arrow_out.png")
 
     mc.MOVE = vgui.Create("DButton", FRAME)
-    mc.MOVE:SetPos(mcc.w - 32, 10)
-    mc.MOVE:SetSize(22, 22)
+    mc.MOVE:SetPos(mcc.w - 20, 2)
+    mc.MOVE:SetSize(18, 18)
     mc.MOVE:SetText("")
     mc.MOVE.Moving = false
     mc.MOVE.MovingX = 0
@@ -478,7 +478,7 @@ function moat_chat.InitChat()
         end
     end
 	mc.MOVE.Paint = function(s, w, h)
-        cdn.DrawImage("https://cdn.moat.gg/f/dfc5c8d9272b952101d36e284799544c.png", 0, 0, 22, 22, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
+        cdn.DrawImage("https://cdn.moat.gg/f/dfc5c8d9272b952101d36e284799544c.png", 0, 0, w, h, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
     end
     mc.MOVE:SetToolTip("Hold left click to drag around, Right click to reset")
 
