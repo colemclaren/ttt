@@ -50,11 +50,11 @@ function m_CreateBuyConfirmation(itemtbl, amount)
         net.SendToServer()
 
         if (amount > 1 and amount * itemtbl.Price <= MOAT_INVENTORY_CREDITS) then
-            MOAT_INV_BG:Remove()
-            moat_inv_cooldown = CurTime() + 3
-            m_ClearInventory()
-            net.Start("MOAT_SEND_INV_ITEM")
-            net.SendToServer()
+            -- MOAT_INV_BG:Remove()
+            -- moat_inv_cooldown = CurTime() + 10
+            -- m_ClearInventory()
+            -- net.Start("MOAT_SEND_INV_ITEM")
+            -- net.SendToServer()
         end
     end):SetIcon("icon16/tick.png")
 
@@ -417,13 +417,14 @@ function m_PopulateShop(pnl)
             	surface.SetDrawColor(Color(255, 255, 255, 255))
             	surface.DrawTexturedRect((w / 2) + (price_width / 2) + 8, h - 85, 16, 16)
 			else
-				m_DrawShadowedText(1, item_price, "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
-            	surface.SetMaterial(Material("icon16/coins_delete.png"))
+				local price_width = surface.GetTextSize("Starting " .. string.Comma(itemtbl.Price *  s.Qty))
+				m_DrawShadowedText(1, "Starting at " .. string.Comma(itemtbl.Price *  s.Qty) .. " IC", "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
+            	surface.SetMaterial(Material("icon16/coins.png"))
             	surface.SetDrawColor(Color(255, 255, 255, 255))
             	surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 8, h - 85, 16, 16)
 			end
 
-            m_DrawShadowedText(1, "Amount: " .. s.Qty, "moat_ItemDesc", (w / 2), h - 60, (itemtbl.Price * s.Qty <= MOAT_INVENTORY_CREDITS) and Color(255, 255, 255) or Color(255, 0, 0), TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, "Request: " .. s.Qty, "moat_ItemDesc", (w / 2), h - 60, (itemtbl.Price * s.Qty <= MOAT_INVENTORY_CREDITS) and Color(255, 255, 255) or Color(255, 0, 0), TEXT_ALIGN_CENTER)
         end
         ITEM_BG.PaintOver = function(s, w, h) end
 
@@ -462,8 +463,8 @@ function m_PopulateShop(pnl)
 				return
 			end
 
-            local num = input.IsKeyDown(KEY_LSHIFT) and 10 or 1
-            ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty + num, 1, 50)
+            local num = input.IsKeyDown(KEY_LSHIFT) and 2 or 1
+            ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty + num, 1, 10)
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
         end
 
@@ -479,8 +480,8 @@ function m_PopulateShop(pnl)
 				return
 			end
 
-            local num = input.IsKeyDown(KEY_LSHIFT) and 10 or 1
-            ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty - num, 1, 50)
+            local num = input.IsKeyDown(KEY_LSHIFT) and 2 or 1
+            ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty - num, 1, 10)
             if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
         end
 
@@ -510,7 +511,7 @@ function m_PopulateShop(pnl)
             surface.SetDrawColor(0, 255, 0, 20 + hover_coloral / 5)
             surface.SetMaterial(Material("vgui/gradient-d"))
             surface.DrawTexturedRect(1, 1, w - 2, h - 2)
-            m_DrawShadowedText(1, "Purchase", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, "Place Order", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
 
         local btn_hovered = 1
@@ -635,11 +636,11 @@ function m_PopulateShop(pnl)
             surface.SetMaterial(imgs)
             surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
             m_DrawShadowedText(1, item_price, "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255), TEXT_ALIGN_CENTER)
-            surface.SetMaterial(Material("icon16/coins_delete.png"))
+            surface.SetMaterial(Material("icon16/coins.png"))
             surface.SetDrawColor(Color(255, 255, 255))
             surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 8, h - 85, 16, 16)
 
-            m_DrawShadowedText(1, "Amount: " .. s.Qty, "moat_ItemDesc", (w / 2), h - 60, (price * s.Qty <= MOAT_INVENTORY_CREDITS) and Color(255, 255, 255) or Color(255, 0, 0), TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, "Hype TTT Usable", "moat_ItemDesc", (w / 2), h - 60, (price * s.Qty <= MOAT_INVENTORY_CREDITS) and Color(255, 255, 255) or Color(255, 0, 0), TEXT_ALIGN_CENTER)
         end
 
         ITEM_BG.PaintOver = function(s, w, h) end
@@ -658,7 +659,7 @@ function m_PopulateShop(pnl)
             surface.SetDrawColor(0, 255, 0, 20 + hover_coloral / 5)
             surface.SetMaterial(Material("vgui/gradient-d"))
             surface.DrawTexturedRect(1, 1, w - 2, h - 2)
-            m_DrawShadowedText(1, "Purchase", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, "Place Order", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
 
         local btn_hovered = 1
