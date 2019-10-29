@@ -1,10 +1,10 @@
 -- for sql config
 local mysql = {
-	host = "137.83.91.32", -- "gamedb.moat.gg",
-	database = "forum",
-	username = "ttt2",
+	host = SERVER and "137.83.91.32" or "", -- "gamedb.moat.gg",
+	database = SERVER and "forum" or "",
+	username = SERVER and "ttt2" or "",
 	password = SERVER and "E@2h6xWg&Nj7HN9!j9e94WJr" or "",
-	port = 3306
+	port = SERVER and 3306 or 420
 }
 
 -- This is ONLY for the Dallas servers that have a direct link with the web server.
