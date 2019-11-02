@@ -55,7 +55,7 @@ local function c()
 end
 
 function contract_increase(ply,am)
-
+-- what
 end
 
 local function _contracts()
