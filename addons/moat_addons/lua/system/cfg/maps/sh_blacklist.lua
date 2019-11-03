@@ -28,5 +28,6 @@ MAP_BLACKLIST = {
 	["ttt_container_yard"] = true,
 	["ttt_helms_deep"] = true,
 	["ttt_minecraftmotel_b3u"] = true,
-	["ttt_judgementday_dms"] = true
+	["ttt_judgementday_dms"] = true,
+	["ttt_playing with portals_v9"] = true,
 }
