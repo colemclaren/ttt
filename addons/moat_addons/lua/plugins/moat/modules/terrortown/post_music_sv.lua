@@ -4,7 +4,7 @@ util.AddNetworkString "Moat.PostRoundMusic"
 -- local moat_Songs = 55
 
 local moat_URL = "https://cdn.moat.gg/ttt/music/hip-hop/"
-local moat_Songs = 69
+local moat_Songs = 131
 
 function m_ChooseRandomSong()
 	local song_num = math.random( moat_Songs )
