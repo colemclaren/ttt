@@ -30,4 +30,5 @@ MAP_BLACKLIST = {
 	["ttt_minecraftmotel_b3u"] = true,
 	["ttt_judgementday_dms"] = true,
 	["ttt_playing with portals_v9"] = true,
+	["ttt_complex67"] = true
 }
