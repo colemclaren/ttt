@@ -1,0 +1,10 @@
+ITEM.ID = 7332
+ITEM.Name = "Crescent Infinity Crate"
+ITEM.Description = "This crate contains a blood skin from Crescent Infinity! Right click to open"
+ITEM.Image = "https://cdn.moat.gg/ttt/uwu/pluto/crate_icon128.png"
+ITEM.Rarity = 4
+ITEM.Collection = "Crescent Infinity Blood"
+ITEM.Active = true
+ITEM.Stackable = true
+ITEM.Price = 2000
+ITEM.NewItem = 1577779200
