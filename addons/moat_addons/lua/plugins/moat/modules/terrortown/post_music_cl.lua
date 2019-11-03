@@ -2,7 +2,7 @@ net.Receive("Moat.PostRoundMusic", function()
 	local url = net.ReadString()
 	local url_xmas = net.ReadString()
 
-	local enabled = GetConVar("moat_round_music")
+	local enabled = GetConVar("moat_post_music")
 	if (enabled and enabled:GetInt() ~= 1) then
 		return
 	end
@@ -12,6 +12,6 @@ net.Receive("Moat.PostRoundMusic", function()
 		--url = url_xmas
 	end
 
-	local vol = GetConVar("moat_round_music_volume")
+	local vol = GetConVar("moat_post_music_volume")
 	cdn.PlayURL(url, vol and vol:GetFloat() or 0.75)
 end)

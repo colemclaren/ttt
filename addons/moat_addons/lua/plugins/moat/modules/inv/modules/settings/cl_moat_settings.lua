@@ -1,6 +1,6 @@
 local moat_convars = {
-    ["moat_round_music"] = .1,
-    ["moat_round_music_volume"] = 0.75,
+    ["moat_post_music"] = 1,
+    ["moat_post_music_volume"] = 0.75,
     ["moat_clfov"] = 0.428571429,
     ["moat_chatplanetary"] = 1,
     ["moat_showtrades"] = 1,
@@ -132,8 +132,8 @@ local DevMode = CreateClientConVar("moat_developer_mode", 0, true, true)
 local moat_Settings = {}
 moat_Settings.Options = {
     {"General",
-        {"End Round Music", {"Multi"}, "moat_round_music"},
-        {"End Round Music Volume", {"Slider", 0, 1}, "moat_round_music_volume"},
+        {"End Round Music", {"Multi"}, "moat_post_music"},
+        {"End Round Music Volume", {"Slider", 0, 1}, "moat_post_music_volume"},
         {"FOV (75 to 110)", {"Slider", 0, 1}, "moat_clfov"},
         {"Christmas End Round Music", {"Multi"}, "moat_music_christmas"},
         {"Disable MOTD on Join", {"Multi"}, "moat_disable_motd"},
