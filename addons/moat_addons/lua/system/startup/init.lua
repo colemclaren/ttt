@@ -5,15 +5,15 @@ AddCSLuaFile()
 -- The best way to contact us is on our partnered Discord server. (our dm's are open)
 ----
 
-mlib.i "base.lua"
+yugh.i "base.lua"
 
-mlib.i "servers"
-mlib.i "ranks"
-mlib.i "whitelist"
+yugh.i "servers"
+yugh.i "ranks"
+yugh.i "whitelist"
 
-mlib.i "_dev/"
+yugh.i "_dev/"
 
-mlib.i "/system/" {
+yugh.i "/system/" {
 	"cfg/",
 	"libs/",
 	"detours/",
@@ -24,7 +24,7 @@ if (SERVER) then
 	include "db.lua"
 end
 
-mlib.i "plugins/"
+yugh.i "plugins/"
 
 hook.Run "moat"
 

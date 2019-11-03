@@ -24,21 +24,21 @@ local function CreateArgs(...)
 	return args
 end
 
-function mlib.Args(...)
+function yugh.Args(...)
 	local args = CreateArgs(...)
 	return args
 end
 
-function mlib.CheckArgs(...)
+function yugh.CheckArgs(...)
 	local args = CreateArgs(...)
-	assert(args.n > 0, "mlib no args")
+	assert(args.n > 0, "yugh no args")
 
 	return args
 end
 
-function mlib.args(...)
+function yugh.args(...)
 	local args = {n = select("#", ...), ...}
-	assert(args.n > 0, "mlib no args")
+	assert(args.n > 0, "yugh no args")
 
 	args.build = function(tbl)
 		tbl.n, args.t = tbl.n or #tbl, {}
@@ -60,7 +60,7 @@ function mlib.args(...)
 	return args
 end
 
-function mlib.table(tbl)
+function yugh.table(tbl)
 	tbl = tbl or {}
 	tbl.count = 0
 	tbl.contents = {}
@@ -81,7 +81,7 @@ function mlib.table(tbl)
 	return tbl
 end
 
-function mlib.iterate(tb, func, num)
+function yugh.iterate(tb, func, num)
 	if (not tb) then return end
 	num = num or #tb
 
@@ -94,18 +94,18 @@ function mlib.iterate(tb, func, num)
 	end
 end
 
-function mlib.find(p, f, d)
+function yugh.find(p, f, d)
 	p = p:match "/$" and p or p .. "/"
 
 	local fs, ds = file.Find(p .. "*", "LUA")
 	if (not fs and not ds) then return end
 
-	mlib.iterate(fs, function(n)
+	yugh.iterate(fs, function(n)
 		f(n:gsub("%.lua$", ""), p)
 	end)
 
 	if (not ds) then return end
-	mlib.iterate(ds, function(n)
+	yugh.iterate(ds, function(n)
 		if (d) then d(n, p) end
 	end)
 end

@@ -1,4 +1,4 @@
-moat.lib "mlib"
+moat.lib "yugh"
 	:Desc "???"
 	:Credits "???"
 	:Static(true)

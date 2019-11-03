@@ -1,9 +1,9 @@
 AddCSLuaFile()
 
-if (mlib) then
+if (yugh) then
 	return
 end
 
-mlib = {}
+yugh = {}
 
 include "core/init.lua"

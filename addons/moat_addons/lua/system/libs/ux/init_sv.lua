@@ -1,3 +1,3 @@
 ux = ux or {}
 
-mlib.i "core/palette"
+yugh.i "core/palette"

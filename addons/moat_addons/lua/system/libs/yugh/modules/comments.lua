@@ -30,7 +30,7 @@ if (CLIENT) then
 		return args, c
 	end
 
-	net.Receive("mlib.comments", function()
+	net.Receive("yugh.comments", function()
 		local args, n = Read()
 		if (not args or not next(args)) then
 			return
@@ -53,10 +53,10 @@ end
 -- Serverside Commenting
 ----
 
-util.AddNetworkString "mlib.comments"
+util.AddNetworkString "yugh.comments"
 
 local function Send(...)
-	local a = mlib.Args(...)
+	local a = yugh.Args(...)
 	if (a.n <= 0) then
 		return
 	end
@@ -77,7 +77,7 @@ local function Send(...)
 		return
 	end
 
-	net.Start "mlib.comments"
+	net.Start "yugh.comments"
 		net.WriteUInt(n, 8)
 
 	for i = 1, n do

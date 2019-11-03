@@ -27,7 +27,7 @@ function tm.Create(name, delay, reps, func)
 end
 
 function tm.Cooldown(...)
-	local args = mlib.CheckArgs(...)
+	local args = yugh.CheckArgs(...)
 	local name, pl, delay = args:Build {isstring, IsValid, isnumber}
 
 	name = name or "Global"

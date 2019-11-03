@@ -27,8 +27,8 @@ it.order = {
 }
 
 function it.init()
-	if (mlib.include.started) then return end
-	mlib.include.started = true
+	if (yugh.include.started) then return end
+	yugh.include.started = true
 
 	local a = {}
 	for k, v in pairs(it.order.after) do
@@ -43,12 +43,12 @@ function it.realm(str, m, r, dev)
 		return str:match(p)
 	end
 
-	if (mlib.include.dev.check(str)) then
+	if (yugh.include.dev.check(str)) then
 		if (not Server or not Server.IsDev) then
 			return "skip"
 		end
 
-		str, dev = mlib.include.dev.normalize(str), true
+		str, dev = yugh.include.dev.normalize(str), true
 	end
 
 	if (m"^_" or it.skip(str)) then
@@ -86,7 +86,7 @@ function it.file(p, n, fn, dev)
 		if (realm == "skip") then break end
 	end
 
-	return mlib.include.internal(p, fn, dev)
+	return yugh.include.internal(p, fn, dev)
 end
 
 function it.table(p, f, tb, a, s)
@@ -200,31 +200,31 @@ function it.try(p, n, u, f)
 end
 
 it.loaded = {l = {}, check = function(fp)
-		local included = mlib.include.loaded.l[fp]
+		local included = yugh.include.loaded.l[fp]
 		if (not included) then
-			mlib.include.loaded.l[fp] = true
+			yugh.include.loaded.l[fp] = true
 		end
 
 		return included
 	end, is = function(fp)
-		return mlib.include.loaded.l[fp]
+		return yugh.include.loaded.l[fp]
 	end
 }
 
 it.blacklist = {l = {}, ft = {}, fc = 0, f = function(p, r)
-		if (mlib.include.blacklist.fc == 0) then
+		if (yugh.include.blacklist.fc == 0) then
 			return false
 		end
 
-		for i = 1, mlib.include.blacklist.fc do
-			if (mlib.include.blacklist.ft[i] and mlib.include.blacklist.ft[i](p, r)) then
+		for i = 1, yugh.include.blacklist.fc do
+			if (yugh.include.blacklist.ft[i] and yugh.include.blacklist.ft[i](p, r)) then
 				return true
 			end
 		end
 
 		return false
 	end, check = function(fp, r)
-		return mlib.include.blacklist.l[fp] or mlib.include.blacklist.f(fp, r)
+		return yugh.include.blacklist.l[fp] or yugh.include.blacklist.f(fp, r)
 	end
 }
 
@@ -248,7 +248,7 @@ function it.internal(fp, r, dev)
 	end
 
 	if (dev and (r == "cl" or r == "sh")) then
-		mlib.include.dev(fp)
+		yugh.include.dev(fp)
 	end
 
 	if (r == "sv" and SERVER) then return it.sv(fp) end
@@ -257,7 +257,7 @@ function it.internal(fp, r, dev)
 end
 
 
-mlib.include = mlib.include or it
+yugh.include = yugh.include or it
 
 local include_thing = function(self, fp, base)
 	if (base and isstring(base)) then fp = base .. fp end
@@ -303,22 +303,22 @@ local blacklist_func = function(self, v)
 	end
 end
 
-setmetatable(mlib.include, {__call = include_func})
-setmetatable(mlib.include.blacklist, {__call = blacklist_func})
+setmetatable(yugh.include, {__call = include_func})
+setmetatable(yugh.include.blacklist, {__call = blacklist_func})
 
-mlib.i = mlib.include
-mlib.isv = mlib.include.sv
-mlib.icl = mlib.include.cl
-mlib.ish = mlib.include.sh
+yugh.i = yugh.include
+yugh.isv = yugh.include.sv
+yugh.icl = yugh.include.cl
+yugh.ish = yugh.include.sh
 
-mlib.include.dev = mlib.include.dev or {l = {}, c = 0, check = function(str)
+yugh.include.dev = yugh.include.dev or {l = {}, c = 0, check = function(str)
 		return (str:match"^dev_" or str:match"_dev$")
 	end, normalize = function(str)
 		return str:gsub("_dev$", ""):gsub("^dev_", "")
 	end
 }
 
-setmetatable(mlib.include.dev, {
+setmetatable(yugh.include.dev, {
 	__call = function(self, fp, r)
 		if (not Server or not Server.IsDev) then return end
 
