@@ -179,7 +179,7 @@ net.Receive("MapEvent",function()
 end)
 
 function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
-	RunConsoleCommand("moat_forum_rewards", "1")
+	RunConsoleCommand("moat_steam_group", "1")
 	--cdn.DrawImage( v , edge, edge, w - edge * 2, w - edge * 2, nil, s.Hovered and math.sin(CurTime())*15 or 0, true )
 	pnl.Paint = function(s, w, h)
 		local txtw = draw.SimpleText("Get free credits!", "moat_NotifyTest2", w/2, 5, Color(255, 255, 255), TEXT_ALIGN_CENTER)
