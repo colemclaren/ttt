@@ -19,7 +19,7 @@ function DISGUISE.CreateMenu(parent)
    dform:SetAutoSize(false)
 
 
-GetNW2Bool
+
    local owned = LocalPlayer():HasEquipmentItem(EQUIP_DISGUISE)
 
 
@@ -36,7 +36,7 @@ GetNW2Bool
 
    local dcheck = vgui.Create("DCheckBoxLabel", dform)
 
-   dcheck:SetTextGetNW2Boolisg_enable"))
+   dcheck:SetText(trans("disg_enable"))
 
    dcheck:SetIndent(5)
 
