@@ -105,7 +105,7 @@ function ScoreGroup(p)
 
    if DetectiveMode() then
       if p:IsSpec() and (not p:Alive()) then
-         if p:GetNWBool("body_found", false) then
+         if p:GetNW2Bool("body_found", false) then
             return GROUP_FOUND
          else
             local client = LocalPlayer()

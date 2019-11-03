@@ -25,7 +25,7 @@ AccessorFunc(plymeta, "force_spec", "ForceSpec", FORCE_BOOL)
 -- The base/start karma is determined once per round and determines the player's
 -- damage penalty. It is networked and shown on clients.
 function plymeta:SetBaseKarma(k)
-    self:SetNWFloat("karma", k)
+    self:SetNW2Float("karma", k)
 end
 
 -- The live karma starts equal to the base karma, but is updated "live" as the
@@ -168,14 +168,14 @@ function plymeta:ResetRoundFlags()
     self.radar_charge = 0
     self.decoy = nil
     -- corpse
-    self:SetNWBool("body_found", false)
+    self:SetNW2Bool("body_found", false)
     self.kills = {}
     self.dying_wep = nil
     self.was_headshot = false
     -- communication
     self.mute_team = -1
     self.traitor_gvoice = false
-    self:SetNWBool("disguised", false)
+    self:SetNW2Bool("disguised", false)
     -- karma
     self:SetCleanRound(true)
     self:Freeze(false)

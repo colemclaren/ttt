@@ -203,7 +203,7 @@ function SWEP:BodyDrop()
 
 	end
 
-	dead:SetNWBool("FakedDeath", true)
+	dead:SetNW2Bool("FakedDeath", true)
 
 	
 

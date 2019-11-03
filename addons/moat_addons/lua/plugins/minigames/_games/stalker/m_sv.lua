@@ -22,7 +22,7 @@ local function moat_EndRoundBossHooks()
     if (MOAT_BOSS_CUR and IsValid(MOAT_BOSS_CUR)) then
         MOAT_BOSS_CUR:SetColor(Color(255, 255, 255, 255))
         MOAT_BOSS_CUR:DrawShadow(true)
-        MOAT_BOSS_CUR:SetNWBool("disguised", false)
+        MOAT_BOSS_CUR:SetNW2Bool("disguised", false)
         MOAT_BOSS_CUR.SpeedMod = 1
     end
 
@@ -85,7 +85,7 @@ local function moat_BossPlayerDeath(ply)
             local pl = player.GetBySteamID(ply.server_ragdoll.sid)
             if (not IsValid(pl)) then return end
             pl:SetCleanRound(false)
-            pl:SetNWBool("body_found", true)
+            pl:SetNW2Bool("body_found", true)
             CORPSE.SetFound(ply.server_ragdoll, true)
             ply.server_ragdoll:Remove()
     	end)
@@ -203,7 +203,7 @@ local function moat_BeginRoundBossHooks()
             boss:SetRenderMode(RENDERMODE_TRANSALPHA)
             boss:SetColor(Color(255, 255, 255, 0))
             boss:DrawShadow(true)
-            boss:SetNWBool("disguised", true)
+            boss:SetNW2Bool("disguised", true)
             boss:Give("weapon_ttt_knifestalker")
             boss:SelectWeapon("weapon_ttt_knifestalker")
 

@@ -306,11 +306,11 @@ net.Receive("moat.contracts",function()
 		contracts_tbl.short = net.ReadString()
 	end
 
-	contracts_tbl.others = net.ReadInt(32)
-    contracts_tbl.my_rank = net.ReadInt(32)
-	contracts_tbl.my_score = net.ReadInt(32)
+	contracts_tbl.others = net.ReadUInt(16)
+    contracts_tbl.my_rank = net.ReadUInt(16)
+	contracts_tbl.my_score = net.ReadUInt(16)
 
-	if (not net.ReadBool()) then
+	if (net.ReadBool()) then
 		local p = net.ReadTable()
 		contracts_tbl.players = {}
 		for k,v in pairs(p) do
@@ -903,3 +903,7 @@ net.Receive("moat.contracts.chat",function()
     
 end)
 
+-- hook("InitPostEntity", function()
+--     net.Start "bounty.refresh"
+--     net.SendToServer()
+-- end)

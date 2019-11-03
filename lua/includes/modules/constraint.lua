@@ -669,7 +669,7 @@ function Keepupright( Ent, Ang, Bone, angularlimit )
 	--
 	-- This is a hack to keep the KeepUpright context menu in sync..
 	--
-	Ent:SetNWBool( "IsUpright", true )
+	Ent:SetNW2Bool( "IsUpright", true )
 
 	return Constraint
 

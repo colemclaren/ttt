@@ -228,7 +228,7 @@ function SWEP:DeployAnimation()
 
 //	self.Weapon:SetMode(false)
 	self.Weapon:SetDTBool(3, false)
-	self.Weapon:SetNWInt("NextChangeMode", CurTime())
+	self.Weapon:SetNW2Int("NextChangeMode", CurTime())
 
 	if (self.Weapon:Clip1() == 0) then
 		self.Weapon:EmitSound("Defaulf.Draw")
@@ -351,7 +351,7 @@ function SWEP:SecondaryAttack()
 
 			self:SetIronsights(false)
 
-			self.Weapon:SetNWInt("NextChangeMode", CurTime() + self.data.Delay)
+			self.Weapon:SetNW2Int("NextChangeMode", CurTime() + self.data.Delay)
 
 			return
 		end
@@ -527,7 +527,7 @@ function SWEP:SecondThink()
 	tr.mask = MASK_SHOT
 	local trace = util.TraceLine(tr)
 
-	if (self.Weapon:GetDTBool(3)) and self.Weapon:GetNWInt("NextChangeMode") < CurTime() then
+	if (self.Weapon:GetDTBool(3)) and self.Weapon:GetNW2Int("NextChangeMode") < CurTime() then
 		if (not trace.Hit or self.Owner:KeyDown(IN_SPEED) or self.Weapon:GetDTBool(0) or not self.Owner:IsOnGround() or self.Owner:GetVelocity():Length() > 25) then
 			self:SetMode(false)
 			self:SetIronsights(false)

@@ -283,8 +283,8 @@ hook.Add("HUDPaint", "moat_DrawHitmarkers", function()
 end)
 
 hook.Add("CreateMove", "moat_DisableCombatCrouch", function(cmd)
-    if (cmd:KeyDown(IN_DUCK) and CurTime() <= LocalPlayer():GetNWInt("moat_JumpCooldown") and not LocalPlayer():IsOnGround()) then
-        --print(LocalPlayer():GetNWInt("moat_JumpCooldown") - CurTime())
+    if (cmd:KeyDown(IN_DUCK) and CurTime() <= LocalPlayer():GetNW2Int("moat_JumpCooldown") and not LocalPlayer():IsOnGround()) then
+        --print(LocalPlayer():GetNW2Int("moat_JumpCooldown") - CurTime())
         RunConsoleCommand("-duck")
     end
 end)

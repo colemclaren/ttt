@@ -78,7 +78,7 @@ function EFFECT:Init(data)
 
 	ply.moatFrozen = true
 	ply.moatFrozenSpeed = data.Speed
-	ply:SetNWBool("moatFrozen", true)
+	ply:SetNW2Bool("moatFrozen", true)
 	self:CreateEndTimer(data.Time, data)
 	
 	frozen_players = frozen_players + 1
@@ -92,7 +92,7 @@ function EFFECT:OnEnd(data)
 
 	ply.moatFrozen = false
 	ply.moatFrozenSpeed = 1
-	ply:SetNWBool("moatFrozen", false)
+	ply:SetNW2Bool("moatFrozen", false)
 	
 	frozen_players = frozen_players - 1
 	net.Start("FrozenPlayer")

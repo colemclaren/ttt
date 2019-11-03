@@ -148,7 +148,7 @@ function MG_GG.FindCorpse(ply)
 end
 
 function MG_GG.RemoveCorpse(corpse)
-    player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
+    player.GetByUniqueID(corpse.uqid):SetNW2Bool("body_found", false)
     corpse:Remove()
 end
 
@@ -262,25 +262,25 @@ function MG_GG.RespawnPlayer(ply)
 end
 
 function MG_GG.StartSpawnProtection(ply)
-    ply:SetNWInt("MG_GG_SPAWNPROTECTION", CurTime() + MG_GG.SpawnProtectionTime)
+    ply:SetNW2Int("MG_GG_SPAWNPROTECTION", CurTime() + MG_GG.SpawnProtectionTime)
 end
 
 function MG_GG.RemoveSpawnProtection(ply)
     if (not IsValid(ply)) then return end
 
-    local prot = ply:GetNWInt("MG_GG_SPAWNPROTECTION")
+    local prot = ply:GetNW2Int("MG_GG_SPAWNPROTECTION")
 
     if (prot and prot > CurTime()) then
-        ply:SetNWInt("MG_GG_SPAWNPROTECTION", CurTime())
+        ply:SetNW2Int("MG_GG_SPAWNPROTECTION", CurTime())
     end
 end
 
 function MG_GG.ShouldTakeDamage(ply, ent)
-    local plyspn = ply:GetNWInt("MG_GG_SPAWNPROTECTION")
+    local plyspn = ply:GetNW2Int("MG_GG_SPAWNPROTECTION")
     local entspn = nil
 
     if (ent:IsPlayer()) then
-        entspn = ent:GetNWInt("MG_GG_SPAWNPROTECTION")
+        entspn = ent:GetNW2Int("MG_GG_SPAWNPROTECTION")
     end
 
     if ((GetRoundState() == ROUND_PREP) or (plyspn and plyspn > CurTime()) or (entspn and entspn > CurTime())) then
@@ -300,7 +300,7 @@ function MG_GG.SpawnProtectionDraw()
 
     for k, v in pairs(player.GetAll()) do
 
-        local plys = v:GetNWInt("MG_GG_SPAWNPROTECTION", 0)
+        local plys = v:GetNW2Int("MG_GG_SPAWNPROTECTION", 0)
         
         if (plys and plys > CurTime()) then
             v:SetRenderMode(RENDERMODE_TRANSALPHA)

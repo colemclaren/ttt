@@ -1063,14 +1063,14 @@ end
 -- Implementing stuff that should already be in gmod, chpt. 389
 function GM:PlayerEnteredVehicle(ply, vehicle, role)
     if IsValid(vehicle) then
-        vehicle:SetNWEntity("ttt_driver", ply)
+        vehicle:SetNW2Entity("ttt_driver", ply)
     end
 end
 
 function GM:PlayerLeaveVehicle(ply, vehicle)
     if IsValid(vehicle) then
         -- setting nil will not do anything, so bogusify
-        vehicle:SetNWEntity("ttt_driver", vehicle)
+        vehicle:SetNW2Entity("ttt_driver", vehicle)
     end	
 end
 

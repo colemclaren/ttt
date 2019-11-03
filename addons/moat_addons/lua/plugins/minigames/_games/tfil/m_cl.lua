@@ -310,7 +310,7 @@ hook.Add("HUDPaint", "moat.test.L", function()
     if LAVA_END then return end
     local top = 0
     for k,v in ipairs(player.GetAll()) do
-        if v:GetNWFloat("JBScore",0) > top then top = v:GetNWFloat("JBScore",0) end
+        if v:GetNW2Float("JBScore",0) > top then top = v:GetNW2Float("JBScore",0) end
     end
     local scrw = (ScrW() / 2) 
     if (not LocalPlayer():Alive()) and not (dead > CurTime()) and not (dead_oc) then

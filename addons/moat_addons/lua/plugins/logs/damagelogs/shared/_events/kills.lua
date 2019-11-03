@@ -42,7 +42,7 @@ function event:DoPlayerDeath(ply, attacker, dmginfo)
 				net.WriteString(tbl[1])
 			end
 			net.Send(ply)
-			ply:SetNWEntity("M_DL_Killer", attacker)
+			ply:SetNW2Entity("M_DL_Killer", attacker)
 		end
 	end
 end

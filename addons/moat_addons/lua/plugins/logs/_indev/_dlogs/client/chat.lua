@@ -72,7 +72,7 @@ function PANEL:Paint(w, h)
         if txt then
             surface.DrawText(txt)
 
-            if self.Player:GetNWInt("dlogs.ForcedStay", -1) == self.RID then
+            if self.Player:GetNW2Int("dlogs.ForcedStay", -1) == self.RID then
                 local textWidth = select(1, surface.GetTextSize(txt))
                 surface.SetDrawColor(color_white)
                 surface.SetMaterial(self.LockedIcon)

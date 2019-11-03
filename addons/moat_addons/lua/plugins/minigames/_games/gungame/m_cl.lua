@@ -96,7 +96,7 @@ function MG_GG.ActivePaint()
 		draw.SimpleTextOutlined(MG_GG.Ladder[MG_GG.CurRank+1][2], "moat_GunGameMedium", x, y + 125, Color(0, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(0, 0, 0, 35))
 	end
 
-	local spawn_prot = LocalPlayer():GetNWInt("MG_GG_SPAWNPROTECTION")
+	local spawn_prot = LocalPlayer():GetNW2Int("MG_GG_SPAWNPROTECTION")
 
 	if (spawn_prot and spawn_prot > CurTime()) then
 		draw.SimpleTextOutlined("Spawn Protection: " .. math.ceil(spawn_prot - CurTime()), "moat_GunGameMedium", x, y + 200, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(0, 0, 0, 35))

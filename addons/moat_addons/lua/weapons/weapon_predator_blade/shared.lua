@@ -146,18 +146,18 @@ function SWEP:Reload()
 end
 
 function SWEP:ChangePredatorStacks(amount)
-	self.Owner:SetNWInt("PredatorStacks", self.Owner:GetNWInt("PredatorStacks") + amount)
+	self.Owner:SetNW2Int("PredatorStacks", self.Owner:GetNW2Int("PredatorStacks") + amount)
 	self.NextSpeedDecrease = CurTime() + 10
 end
 
 function SWEP:Deploy()
-	self.Owner:SetNWInt("PredatorStacks", self.MinimumPredatorStacks)
+	self.Owner:SetNW2Int("PredatorStacks", self.MinimumPredatorStacks)
 	self.Weapon:SendWeaponAnim(ACT_VM_DRAW)
 	self:UpdateNextIdle()
 end
 
 function SWEP:UpdateNextIdle()
-	self:SetNWFloat("NextIdle", CurTime() + (self.Owner:GetViewModel():SequenceDuration() * 0.8))
+	self:SetNW2Float("NextIdle", CurTime() + (self.Owner:GetViewModel():SequenceDuration() * 0.8))
 end
 
 function SWEP:Holster()

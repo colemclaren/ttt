@@ -143,7 +143,7 @@ function MG_FFA.FindCorpse(ply)
 end
 
 function MG_FFA.RemoveCorpse(corpse)
-    player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
+    player.GetByUniqueID(corpse.uqid):SetNW2Bool("body_found", false)
     corpse:Remove()
 end
 
@@ -257,7 +257,7 @@ function MG_FFA.StartCommand(ply,cmd)
             timer.Simple(1,function()
                 ply:SetColor(Color(255,255,255,255))
             end)
-            ply:SetNWInt("MG_FFA_SPAWNPROTECTION",0)
+            ply:SetNW2Int("MG_FFA_SPAWNPROTECTION",0)
         end
     end
 end
@@ -270,7 +270,7 @@ function MG_FFA.PlayerSpawn(ply)
     ply:ShouldDropWeapon(false)
     ply.KillStreak = 0
     ply.SpawnProtection = true
-    ply:SetNWInt("MG_FFA_SPAWNPROTECTION",CurTime() + sp_time)
+    ply:SetNW2Int("MG_FFA_SPAWNPROTECTION",CurTime() + sp_time)
     ply:SetRenderMode(RENDERMODE_TRANSALPHA)
     timer.Simple(0.1,function()
         ply:ResetEquipment()

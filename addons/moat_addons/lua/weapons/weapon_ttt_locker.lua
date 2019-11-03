@@ -122,7 +122,7 @@ function SWEP:PrimaryAttack()
 
                 if SERVER then -- I decided to do this instead of using SWEP delays.
 
-                        if door:GetNWBool("DoorCooldown") then
+                        if door:GetNW2Bool("DoorCooldown") then
 
                                 local timel = timer.TimeLeft(door:EntIndex() .. "_CoolDown")
 
@@ -138,7 +138,7 @@ function SWEP:PrimaryAttack()
 
                
 
-                if not door:GetNWBool("TTTLocked") then
+                if not door:GetNW2Bool("TTTLocked") then
 
                         self:TakePrimaryAmmo(1)
 
@@ -146,19 +146,19 @@ function SWEP:PrimaryAttack()
 
                         if SERVER then
 
-                                door:SetNWEntity("DoorOwner", self.Owner) -- Sets the locker of that specific door
+                                door:SetNW2Entity("DoorOwner", self.Owner) -- Sets the locker of that specific door
 
                                 door:EmitSound( "doors/door_metal_medium_close1.wav" )
 
                                 door:Fire("lock", "", 0)
 
-                                door:SetNWBool("TTTLocked", true)
+                                door:SetNW2Bool("TTTLocked", true)
 
                                
 
                                 local prehealth = self.DoorHealth -- Why not use health? Cause it breaks a lot...
 
-                                door:SetNWInt(door:EntIndex() .. "_health", prehealth)
+                                door:SetNW2Int(door:EntIndex() .. "_health", prehealth)
 
                                
 
@@ -176,11 +176,11 @@ function SWEP:PrimaryAttack()
 
                                                 door:EmitSound( "doors/door1_move.wav" )
 
-                                                door:SetNWBool("TTTLocked", false)
+                                                door:SetNW2Bool("TTTLocked", false)
 
-                                                door:SetNWEntity("DoorOwner", nil)
+                                                door:SetNW2Entity("DoorOwner", nil)
 
-                                                CustomMsg(door:GetNWEntity("DoorOwner"), "One of your doors has unlocked due to time!", Color(255,255,0))
+                                                CustomMsg(door:GetNW2Entity("DoorOwner"), "One of your doors has unlocked due to time!", Color(255,255,0))
 
                                                 timer.Destroy(door:EntIndex() .. "DoorLockedTime")
 
@@ -188,11 +188,11 @@ function SWEP:PrimaryAttack()
 
                                 end
 
-                                door:SetNWFloat("LockedUntil", CurTime() + self.LockTime) -- Used for the DrawHUD timer
+                                door:SetNW2Float("LockedUntil", CurTime() + self.LockTime) -- Used for the DrawHUD timer
 
                         end
 
-                elseif door:GetNWBool("TTTLocked") then
+                elseif door:GetNW2Bool("TTTLocked") then
 
                         if SERVER then
 
@@ -238,9 +238,9 @@ function SWEP:SecondaryAttack()
 
        
 
-        if (door:GetNWBool("TTTLocked") == true and DCheck( true, door, self.Owner ) ) then
+        if (door:GetNW2Bool("TTTLocked") == true and DCheck( true, door, self.Owner ) ) then
 
-                local locker = door:GetNWEntity("DoorOwner")
+                local locker = door:GetNW2Entity("DoorOwner")
 
                 local wannabe = self.Owner
 
@@ -252,7 +252,7 @@ function SWEP:SecondaryAttack()
 
                                 CustomMsg(locker, "Door Unlocked!", Color(0,255,0))
 
-                                door:SetNWBool("TTTLocked", false)
+                                door:SetNW2Bool("TTTLocked", false)
 
                                 door:EmitSound( "buttons/latchunlocked2.wav" )
 
@@ -264,11 +264,11 @@ function SWEP:SecondaryAttack()
 
                                
 
-                                door:SetNWBool("DoorCooldown", true)
+                                door:SetNW2Bool("DoorCooldown", true)
 
                                 timer.Create(door:EntIndex() .. "_CoolDown", self.CooldownTime, 1, function()
 
-                                        door:SetNWBool("DoorCooldown", false)
+                                        door:SetNW2Bool("DoorCooldown", false)
 
                                         -- You lock then unlock a door and it will have to cool down for a short time before being used again.
 
@@ -298,15 +298,15 @@ function SWEP:DrawHUD()
 
         local door = tr.Entity
 
-        if door:GetNWBool("TTTLocked") then
+        if door:GetNW2Bool("TTTLocked") then
 
-                        local timeleft = math.Clamp(  door:GetNWFloat("LockedUntil", 0)-CurTime(), 0, self.LockTime  )
+                        local timeleft = math.Clamp(  door:GetNW2Float("LockedUntil", 0)-CurTime(), 0, self.LockTime  )
 
                         local timeleft = math.Round(timeleft,1)
 
-                        local owner = door:GetNWEntity("DoorOwner")
+                        local owner = door:GetNW2Entity("DoorOwner")
 
-                        local dhealth = door:GetNWInt(door:EntIndex() .. "_health")
+                        local dhealth = door:GetNW2Int(door:EntIndex() .. "_health")
 
                         local dhealth = math.Clamp(dhealth, 0, self.DoorHealth)
 
@@ -418,11 +418,11 @@ if SERVER then
 
         function DoorTakeDamage( prop, dmginfo )
 
-                if ( DCheck( false, prop ) and prop:GetNWBool("TTTLocked") ) then
+                if ( DCheck( false, prop ) and prop:GetNW2Bool("TTTLocked") ) then
 
                         local dmgtaken = dmginfo:GetDamage()
 
-                        local doorhealth = prop:GetNWInt(prop:EntIndex() .. "_health")
+                        local doorhealth = prop:GetNW2Int(prop:EntIndex() .. "_health")
 
                        
 
@@ -434,13 +434,13 @@ if SERVER then
 
                        
 
-                        prop:SetNWInt(prop:EntIndex() .. "_health", doorhealth - dmgtaken)
+                        prop:SetNW2Int(prop:EntIndex() .. "_health", doorhealth - dmgtaken)
 
                        
 
-                        if prop:GetNWInt(prop:EntIndex() .. "_health") <= 1 then
+                        if prop:GetNW2Int(prop:EntIndex() .. "_health") <= 1 then
 
-                                local d_own = prop:GetNWEntity("DoorOwner")
+                                local d_own = prop:GetNW2Entity("DoorOwner")
 
                                 if not IsPlayer(dmginfo:GetAttacker()) then -- Damage log stuff
 
@@ -464,7 +464,7 @@ if SERVER then
 
                                 timer.Destroy(prop:EntIndex() .. "ClientLockTime")
 
-                                prop:SetNWBool("TTTLocked", false)
+                                prop:SetNW2Bool("TTTLocked", false)
 
                                
 
@@ -528,11 +528,11 @@ hook.Add("TTTPrepareRound", "FixAllYallDoors",function()
 
                         print("[Debug]: All doors reset" )
 
-                        f:SetNWBool("TTTLocked", false)
+                        f:SetNW2Bool("TTTLocked", false)
 
-                        f:SetNWEntity("DoorOwner", nil)
+                        f:SetNW2Entity("DoorOwner", nil)
 
-                        f:SetNWFloat("LockedUntil", nil)
+                        f:SetNW2Float("LockedUntil", nil)
 
                         timer.Destroy(f:EntIndex() .. "DoorLockedTime")
 

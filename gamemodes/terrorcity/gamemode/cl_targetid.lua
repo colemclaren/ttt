@@ -128,7 +128,7 @@ function GM:PostDrawTranslucentRenderables()
 
          tgt = ply:GetObserverTarget()
 
-         if IsValid(tgt) and tgt:GetNWEntity("spec_owner", nil) == ply then
+         if IsValid(tgt) and tgt:GetNW2Entity("spec_owner", nil) == ply then
 
             render.MaterialOverride(propspec_outline)
 
@@ -177,7 +177,7 @@ local function DrawPropSpecLabels(client)
             text_color = Color(220, 200, 0, 120)
             tgt = ply:GetObserverTarget()
 
-            if IsValid(tgt) and tgt:GetNWEntity("spec_owner", nil) == ply then
+            if IsValid(tgt) and tgt:GetNW2Entity("spec_owner", nil) == ply then
                 scrpos = tgt:GetPos():ToScreen()
             else
                 scrpos = nil
@@ -272,8 +272,8 @@ function GM:HUDDrawTargetID()
    local color = COLOR_WHITE
 
    -- if a vehicle, we identify the driver instead
-   if IsValid(ent:GetNWEntity("ttt_driver", nil)) then
-      ent = ent:GetNWEntity("ttt_driver", nil)
+   if IsValid(ent:GetNW2Entity("ttt_driver", nil)) then
+      ent = ent:GetNW2Entity("ttt_driver", nil)
 
       if ent == client then return end
    end
@@ -283,7 +283,7 @@ function GM:HUDDrawTargetID()
    local hint = (not minimal) and (ent.TargetIDHint or ClassHint[cls])
 
    if ent:IsPlayer() then
-      if ent:GetNWBool("disguised", false) then
+      if ent:GetNW2Bool("disguised", false) then
          client.last_id = nil
 
          if client:IsTraitor() or client:IsSpec() then

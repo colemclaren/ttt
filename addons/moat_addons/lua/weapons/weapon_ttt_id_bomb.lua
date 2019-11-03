@@ -234,7 +234,7 @@ end
 
 function SetIDBomb(rag, bool)
 
-	rag:SetNWBool("BOOL_ID_BOMB", bool)
+	rag:SetNW2Bool("BOOL_ID_BOMB", bool)
 
 end
 
@@ -242,7 +242,7 @@ end
 
 function SetBombed(rag, state)
 
-	rag:SetNWBool("BOOL_WAS_BOMBED", state)
+	rag:SetNW2Bool("BOOL_WAS_BOMBED", state)
 
 end
 
@@ -250,7 +250,7 @@ end
 
 function GetBombStatus(rag)
 
-	return rag:GetNWBool("BOOL_ID_BOMB", false)
+	return rag:GetNW2Bool("BOOL_ID_BOMB", false)
 
 end
 
@@ -258,7 +258,7 @@ end
 
 function WasBombed(rag)
 
-	return rag:GetNWBool("BOOL_WAS_BOMBED", false)
+	return rag:GetNW2Bool("BOOL_WAS_BOMBED", false)
 
 end
 

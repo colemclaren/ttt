@@ -162,7 +162,7 @@ function SWEP:PrimaryAttack(worldsnd)
 
 	if not self:CanPrimaryAttack() then return end
 
-	if SERVER and self.Owner:GetNWBool('disguised',false) == true and string.len(self.Owner:GetNWString('disgas','')) > 0 then self.Owner:ConCommand('ttt_set_disguise 0') end
+	if SERVER and self.Owner:GetNW2Bool('disguised',false) == true and string.len(self.Owner:GetNW2String('disgas','')) > 0 then self.Owner:ConCommand('ttt_set_disguise 0') end
 
 	if SERVER and _rdm then
 
@@ -222,7 +222,7 @@ function SWEP:PrimaryAttack(worldsnd)
 
 			ply.infected = true
 
-			ply:SetNWBool('infected',true)
+			ply:SetNW2Bool('infected',true)
 
 			local attacker = self.Owner
 

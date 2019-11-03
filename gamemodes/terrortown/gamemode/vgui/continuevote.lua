@@ -97,7 +97,7 @@ function PANEL:PeepThink(peep, ent)
         end
     end
 
-    peep.want = ent:GetNWString("WantsVote", false)
+    peep.want = ent:GetNW2String("WantsVote", false)
     local bar = self:FindWantBar(peep.want)
 
     if IsValid(bar) then

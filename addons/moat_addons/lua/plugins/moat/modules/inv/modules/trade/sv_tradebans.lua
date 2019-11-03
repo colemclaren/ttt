@@ -117,7 +117,7 @@ function joystick_detect(p, detect, c)
 
     local info = Detections[detect]
     if (IsDev() or not Logs[p][detect].NextMessage or Logs[p][detect].NextMessage < CurTime()) then
-        local msg = "Detected: `" .. p:Nick() .. "(" .. sid .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNWInt("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP()
+        local msg = "Detected: `" .. p:Nick() .. "(" .. sid .. ") [" .. p:IPAddress() .. "] lvl(" .. p:GetNW2Int("MOAT_STATS_LVL", -1) .. ")` Server: " .. game.GetIP()
         msg = msg .. "\nDetection: `" .. (info and info.Name or tostring(detect)) .. "`"
         msg = msg .. "\ncur_random_roound: `" .. tostring(cur_random_round) .. "`"
         local wep = p:GetActiveWeapon()

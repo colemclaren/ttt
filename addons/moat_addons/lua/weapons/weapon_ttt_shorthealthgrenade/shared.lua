@@ -99,9 +99,9 @@ function SWEP:Think()
 				ent.Owner = self.Owner
 				ent:SetPos(self.Owner:GetShootPos())
 				ent:SetAngles(Angle(1,0,0))
-				if (self.Weapon:GetNWBool("upgraded") && SERVER) then
+				if (self.Weapon:GetNW2Bool("upgraded") && SERVER) then
 					ent:Upgrade()
-					ent:SetNWBool("upgraded", true)
+					ent:SetNW2Bool("upgraded", true)
 				end
 				ent:Spawn()
 				

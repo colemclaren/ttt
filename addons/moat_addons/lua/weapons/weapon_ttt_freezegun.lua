@@ -124,7 +124,7 @@ local function CreateCorpse(ply)
 
 
 
-   rag:SetNWString("nick", false)
+   rag:SetNW2String("nick", false)
 
    if rag and IsValid(rag) then
 

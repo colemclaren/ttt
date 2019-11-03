@@ -29,7 +29,7 @@ net.Receive("Moat.LevelChange", function(_, pl)
 		return
 	end
 
-	if (pl:GetNWInt("MOAT_STATS_LVL", 1) < 100) then
+	if (pl:GetNW2Int("MOAT_STATS_LVL", 1) < 100) then
 		return
 	end
 
@@ -45,7 +45,7 @@ hook("PlayerStatsLoaded", function(ply, stats)
 		return
 	end
 
-	if (ply:GetNWInt("MOAT_STATS_LVL", 1) < 100) then
+	if (ply:GetNW2Int("MOAT_STATS_LVL", 1) < 100) then
 		return
 	end
 

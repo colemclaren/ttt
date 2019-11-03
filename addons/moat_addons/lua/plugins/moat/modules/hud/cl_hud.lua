@@ -1133,7 +1133,7 @@ hook.Add('RenderScreenspaceEffects', 'moatFrostEffect', function()
 	render.SetStencilReferenceValue(1)
 			
 	for _, ply in pairs(player_GetAll()) do
-		if (ply:canBeMoatFrozen()) && (ply:GetNWBool('moatFrozen')) then
+		if (ply:canBeMoatFrozen()) && (ply:GetNW2Bool('moatFrozen')) then
 			render.SetBlend(0.2)
 			render.SetColorModulation(0.85, 0.85, 1)
 			render.MaterialOverride(debugMaterial)

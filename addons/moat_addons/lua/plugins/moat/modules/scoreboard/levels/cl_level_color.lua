@@ -18,7 +18,7 @@ function MOAT_LEVELS.OpenTitleMenu()
         MOAT_LEVELS_BG:Remove()
     end
 
-	if (LocalPlayer():GetNWInt("MOAT_STATS_LVL", 1) < 100) then
+	if (LocalPlayer():GetNW2Int("MOAT_STATS_LVL", 1) < 100) then
 		return
 	end
 
@@ -108,7 +108,7 @@ function MOAT_LEVELS.OpenTitleMenu()
 		LocalPlayer():GetNW2Int("Moat.Level.G", 255), 
 		LocalPlayer():GetNW2Int("Moat.Level.B", 255)
 	)
-	MOAT_LEVEL.LevelText = LocalPlayer():GetNWInt("MOAT_STATS_LVL", 1)
+	MOAT_LEVEL.LevelText = LocalPlayer():GetNW2Int("MOAT_STATS_LVL", 1)
 	MOAT_LEVEL.Paint = function(s, w, h)
 		local _, eff_n = MOAT_CHOOSE_EFFECT:GetSelected()
 		tfx = MOAT_LEVELS.Effects[eff_n] or "Normal"

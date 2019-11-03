@@ -20,11 +20,11 @@ function ENT:Think()
 end
 
 function ENT:SetOverlayText(text)
-    self:SetNWString("GModOverlayText", text)
+    self:SetNW2String("GModOverlayText", text)
 end
 
 function ENT:GetOverlayText()
-    local txt = self:GetNWString("GModOverlayText")
+    local txt = self:GetNW2String("GModOverlayText")
     if (txt == "") then return "" end
     if (game.SinglePlayer()) then return txt end
     local PlayerName = self:GetPlayerName()
@@ -36,7 +36,7 @@ function ENT:SetPlayer(ply)
     if (IsValid(ply)) then
         self:SetVar("Founder", ply)
         self:SetVar("FounderIndex", ply:UniqueID())
-        self:SetNWString("FounderName", ply:Nick())
+        self:SetNW2String("FounderName", ply:Nick())
     end
 end
 
@@ -52,5 +52,5 @@ function ENT:GetPlayerName()
     local ply = self:GetPlayer()
     if (IsValid(ply)) then return ply:Nick() end
 
-    return self:GetNWString("FounderName")
+    return self:GetNW2String("FounderName")
 end

@@ -1,6 +1,6 @@
 local function GetFakedDeathGroup(ply)
 
-	if ply:GetNWBool("FakedDeath", false) and ply:GetNWBool("body_found", false) then
+	if ply:GetNW2Bool("FakedDeath", false) and ply:GetNW2Bool("body_found", false) then
 
         return GROUP_FOUND
 

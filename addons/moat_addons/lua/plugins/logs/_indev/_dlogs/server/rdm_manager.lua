@@ -311,7 +311,7 @@ net.Receive("dlogs.ReportPlayer", function(_len, ply)
             if not ply.CanReport then return end
         end
 
-        if not attacker:GetNWBool("PlayedSRound", true) then
+        if not attacker:GetNW2Bool("PlayedSRound", true) then
             ply:dlogs_Notify(DAMAGELOG_NOTIFY_ALERT, TTTLogTranslate(ply.DMGLogLang, "ReportSpectator"), 5, "weapon_cant_buy.wav")
 
             return

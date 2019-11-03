@@ -129,7 +129,7 @@ function plymeta:GetRoleStringRaw()
 end
 
 function plymeta:GetBaseKarma()
-    return self:GetNWFloat("karma", 1000)
+    return self:GetNW2Float("karma", 1000)
 end
 
 function plymeta:HasEquipmentWeapon()

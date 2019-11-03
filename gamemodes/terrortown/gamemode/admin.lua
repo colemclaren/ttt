@@ -46,7 +46,7 @@ function PrintGroups(ply)
     pr("User", "-", "Group")
 
     for _, p in pairs(player.GetAll()) do
-        pr(p:Nick(), "-", p:GetNWString("UserGroup"))
+        pr(p:Nick(), "-", p:GetNW2String("UserGroup"))
     end
 end
 

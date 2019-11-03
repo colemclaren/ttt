@@ -350,7 +350,7 @@ net.Receive("dlogs.ForceStay", function(_len, ply)
 	end
 
 	for k,v in pairs(players) do
-		v:SetNWInt("dlogs.ForcedStay", id)
+		v:SetNW2Int("dlogs.ForcedStay", id)
 		net.Start("dlogs.ForcePlayerStay")
 		net.WriteUInt(id, 32)
 		net.Send(v)
@@ -388,7 +388,7 @@ net.Receive("dlogs.Release", function(_len, ply)
 	end
 
 	for k,v in pairs(players) do
-		v:SetNWInt("dlogs.ForcedStay", -1)
+		v:SetNW2Int("dlogs.ForcedStay", -1)
 		net.Start("dlogs.ReleaseCL")
 		net.WriteUInt(id, 32)
 		net.Send(v)

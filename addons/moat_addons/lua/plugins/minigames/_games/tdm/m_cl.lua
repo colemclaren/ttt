@@ -374,7 +374,7 @@ hook.Add("HUDPaint", "moat.test.tdm", function()
     DrawShadowedText(1, MOAT_TDM.blue_cur, "GModNotify", scrw - 81, 62, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
     DrawShadowedText(1, MOAT_TDM.red_cur, "GModNotify", scrw + 82, 62, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
-    local spawn_prot = LocalPlayer():GetNWInt("MG_TDM_SPAWNPROTECTION")
+    local spawn_prot = LocalPlayer():GetNW2Int("MG_TDM_SPAWNPROTECTION")
 
 	if (spawn_prot and spawn_prot > CurTime()) then
 		draw.SimpleTextOutlined("Spawn Protection: " .. math.ceil(spawn_prot - CurTime()), "moat_GunGameMedium", x, (ScrH() *0.6), Color(255, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(0, 0, 0, 35))

@@ -269,7 +269,7 @@ local function moat_BeginRoundBossHooks()
                 local pl = player.GetByUniqueID(ply.server_ragdoll.uqid)
                 if not IsValid(pl) then return end
                 pl:SetCleanRound(false)
-                pl:SetNWBool("body_found", true)
+                pl:SetNW2Bool("body_found", true)
                 CORPSE.SetFound(ply.server_ragdoll, true)
                 ply.server_ragdoll:Remove()
             end

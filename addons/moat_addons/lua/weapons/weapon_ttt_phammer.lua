@@ -66,7 +66,7 @@ local math = math
 -- Returns if an entity is a valid physhammer punching target. Does not take
 -- distance into account.
 local function ValidTarget(ent)
-   return IsValid(ent) and ent:GetMoveType() == MOVETYPE_VPHYSICS and ent:GetPhysicsObject() and (not ent:IsWeapon()) and (not ent:GetNWBool("punched", false)) and (not ent:IsPlayer())
+   return IsValid(ent) and ent:GetMoveType() == MOVETYPE_VPHYSICS and ent:GetPhysicsObject() and (not ent:IsWeapon()) and (not ent:GetNW2Bool("punched", false)) and (not ent:IsPlayer())
    -- NOTE: cannot check for motion disabled on client
 end
 

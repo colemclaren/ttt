@@ -21,7 +21,7 @@ local function _ass_talent(vic,att)
             if (v.uqid and v.uqid == uid and IsValid(v)) then
                 v.IsSafeToRemove = true
                 if IsValid(vic) then
-                    vic:SetNWBool("body_found", false)
+                    vic:SetNW2Bool("body_found", false)
                     net.Start("Ass_talent")
                     net.WriteString(vic:Nick())
                     net.Send(att)

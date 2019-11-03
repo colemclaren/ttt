@@ -9,7 +9,7 @@ properties.Add( "statue", {
 	Filter = function( self, ent, ply )
 		if ( !IsValid( ent ) ) then return false end
 		if ( ent:GetClass() != "prop_ragdoll" ) then return false end
-		if ( ent:GetNWBool( "IsStatue" ) ) then return false end
+		if ( ent:GetNW2Bool( "IsStatue" ) ) then return false end
 		if ( !gamemode.Call( "CanProperty", ply, "statue", ent ) ) then return false end
 		return true
 	end,
@@ -60,12 +60,12 @@ properties.Add( "statue", {
 
 		end
 
-		ent:SetNWBool( "IsStatue", true )
+		ent:SetNW2Bool( "IsStatue", true )
 
 		undo.AddFunction( function()
 
 			if ( IsValid( ent ) ) then
-				ent:SetNWBool( "IsStatue", false )
+				ent:SetNW2Bool( "IsStatue", false )
 				ent.StatueInfo = nil
 			end
 
@@ -86,7 +86,7 @@ properties.Add( "statue_stop", {
 	Filter = function( self, ent, ply )
 		if ( !IsValid( ent ) ) then return false end
 		if ( ent:GetClass() != "prop_ragdoll" ) then return false end
-		if ( !ent:GetNWBool( "IsStatue" ) ) then return false end
+		if ( !ent:GetNW2Bool( "IsStatue" ) ) then return false end
 		if ( !gamemode.Call( "CanProperty", ply, "unstatue", ent ) ) then return false end
 		return true
 	end,
@@ -120,7 +120,7 @@ properties.Add( "statue_stop", {
 
 		end
 
-		ent:SetNWBool( "IsStatue", false )
+		ent:SetNW2Bool( "IsStatue", false )
 		ent.StatueInfo = nil
 
 	end

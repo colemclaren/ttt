@@ -172,7 +172,7 @@ hook.Add("TTTBeginRound", "Damagelog_AutoSlay", function()
 	for k,v in pairs(player.GetAll()) do
 		if v:IsActive() then
 			timer.Simple(1, function()
-				v:SetNWBool("PlayedSRound", true)
+				v:SetNW2Bool("PlayedSRound", true)
 			end)
 			local data = sql.QueryRow("SELECT * FROM damagelog_autoslay WHERE ply = '"..v:SteamID().."' LIMIT 1;")
 			if data then
@@ -204,7 +204,7 @@ hook.Add("TTTBeginRound", "Damagelog_AutoSlay", function()
 					local ply = player.GetByUniqueID(v.server_ragdoll.uqid)
 					if not IsValid(ply) then return end
 					ply:SetCleanRound(false)
-					ply:SetNWBool("body_found", true)
+					ply:SetNW2Bool("body_found", true)
 					CORPSE.SetFound(v.server_ragdoll, true)
 					v.server_ragdoll:Remove()
 				end

@@ -332,7 +332,7 @@ function ENT:Think()
 
 		if target:IsPlayer() then
 
-			if target:IsValid() and not target:IsSpec() and not target:GetNWBool("stealthed", false) then 
+			if target:IsValid() and not target:IsSpec() and not target:GetNW2Bool("stealthed", false) then 
 
 			
 

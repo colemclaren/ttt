@@ -116,7 +116,7 @@ end
 function SWEP:PrimaryAttack()
    if not IsValid(self.Owner) then return end
 
-   local plyspn = self.Owner:GetNWInt("MG_OC_SPAWNPROTECTION")
+   local plyspn = self.Owner:GetNW2Int("MG_OC_SPAWNPROTECTION")
 
    if (plyspn and plyspn > CurTime()) then
       return
@@ -221,7 +221,7 @@ end
 function SWEP:SecondaryAttack()
    if not IsValid(self.Owner) then return end
 
-   local plyspn = self.Owner:GetNWInt("MG_OC_SPAWNPROTECTION")
+   local plyspn = self.Owner:GetNW2Int("MG_OC_SPAWNPROTECTION")
 
    if (plyspn and plyspn > CurTime()) then
       return

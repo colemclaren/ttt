@@ -162,7 +162,7 @@ net.Receive("M_DL_ReportPlayer", function(_len, ply)
 		ply:Damagelog_Notify(DAMAGELOG_NOTIFY_ALERT, "Error reporting : Invalid attacker entity!", 5, "buttons/weapon_cant_buy.wav")
 		return 
 	end
-	if not attacker:GetNWBool("PlayedSRound", true) then
+	if not attacker:GetNW2Bool("PlayedSRound", true) then
 		ply:Damagelog_Notify(DAMAGELOG_NOTIFY_ALERT, "You can't report spectators!", 5, "buttons/weapon_cant_buy.wav")
 		return
 	end

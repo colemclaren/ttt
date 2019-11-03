@@ -22,7 +22,7 @@ local function RadarScan(ply, cmd, args)
 
                 if p:IsPlayer() then
                     if not p:IsTerror() then continue end
-                    if p:GetNWBool("disguised", false) and (not ply:IsTraitor()) then continue end
+                    if p:GetNW2Bool("disguised", false) and (not ply:IsTraitor()) then continue end
                 end
 
                 local pos = p:LocalToWorld(p:OBBCenter())

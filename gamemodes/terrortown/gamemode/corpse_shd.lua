@@ -22,7 +22,7 @@ function CORPSE.GetPlayerNick(rag, default)
     if IsValid(ply) then
         return ply:Nick()
     else
-        return rag:GetNWString("nick", default)
+        return rag:GetNW2String("nick", default)
     end
 end
 

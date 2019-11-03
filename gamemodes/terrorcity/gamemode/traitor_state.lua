@@ -103,7 +103,7 @@ function SendInnocentList(ply_or_rf)
 end
 
 function SendConfirmedTraitors(ply_or_rf)
-    SendTraitorList(ply_or_rf, function(p) return p:GetNWBool("body_found") end)
+    SendTraitorList(ply_or_rf, function(p) return p:GetNW2Bool("body_found") end)
 end
 
 function GetRoleFilter(role)

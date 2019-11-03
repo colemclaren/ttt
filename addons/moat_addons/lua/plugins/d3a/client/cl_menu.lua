@@ -429,7 +429,7 @@ function MGA.RebuildPlayerList(pnl, ignore)
 	local minimilist = GetConVar("moat_mga_playerlist"):GetInt() == 1
 	local SortedPlayers = table.Copy(player.GetAll())
 
-	table.sort(SortedPlayers, function(a, b) return a:GetNWInt("MOAT_STATS_LVL", 1) < b:GetNWInt("MOAT_STATS_LVL", 1) end)
+	table.sort(SortedPlayers, function(a, b) return a:GetNW2Int("MOAT_STATS_LVL", 1) < b:GetNW2Int("MOAT_STATS_LVL", 1) end)
 
 	for k, v in ipairs(SortedPlayers) do
 		if (ignore and v:GetGroupWeight() > LocalPlayer():GetGroupWeight()) then
@@ -1175,7 +1175,7 @@ function MGA2.RebuildPlayerList(pnl, ignore)
 	local minimilist = GetConVar("moat_mga_playerlist"):GetInt() == 1
 	local SortedPlayers = table.Copy(player.GetAll())
 
-	table.sort(SortedPlayers, function(a, b) return a:GetNWInt("MOAT_STATS_LVL", 1) < b:GetNWInt("MOAT_STATS_LVL", 1) end)
+	table.sort(SortedPlayers, function(a, b) return a:GetNW2Int("MOAT_STATS_LVL", 1) < b:GetNW2Int("MOAT_STATS_LVL", 1) end)
 
 	for k, v in ipairs(SortedPlayers) do
 		if (ignore and v:GetGroupWeight() > LocalPlayer():GetGroupWeight()) then
@@ -2123,7 +2123,7 @@ function mga.RebuildPlayerList(pnl, ignore)
 	local minimilist = GetConVar("moat_mga_playerlist"):GetInt() == 1
 	local SortedPlayers = table.Copy(player.GetAll())
 
-	table.sort(SortedPlayers, function(a, b) return a:GetNWInt("MOAT_STATS_LVL", 1) < b:GetNWInt("MOAT_STATS_LVL", 1) end)
+	table.sort(SortedPlayers, function(a, b) return a:GetNW2Int("MOAT_STATS_LVL", 1) < b:GetNW2Int("MOAT_STATS_LVL", 1) end)
 
 	for k, v in ipairs(SortedPlayers) do
 		if (ignore and v:GetGroupWeight() > LocalPlayer():GetGroupWeight()) then

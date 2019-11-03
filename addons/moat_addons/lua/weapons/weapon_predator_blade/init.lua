@@ -10,17 +10,17 @@ function SWEP:Think()
 	end
 
 	local owner = self.Owner
-	if (IsValid(owner) and owner:GetNWInt("PredatorStacks") > self.MinimumPredatorStacks and self.NextSpeedDecrease < CurTime()) then
+	if (IsValid(owner) and owner:GetNW2Int("PredatorStacks") > self.MinimumPredatorStacks and self.NextSpeedDecrease < CurTime()) then
 		self:ChangePredatorStacks(-1)
 	end
 
 	if (IsValid(owner)) then
-		local increase = 1 + owner:GetNWInt("PredatorStacks") * 0.1
+		local increase = 1 + owner:GetNW2Int("PredatorStacks") * 0.1
 		owner:SetWalkSpeed(200 * increase)
 		owner:SetRunSpeed(400 * increase)
 	end
 
-	local idletime = self:GetNWFloat("NextIdle")
+	local idletime = self:GetNW2Float("NextIdle")
 	if (idletime > 0 and CurTime() > idletime) then
 		local vm = owner:GetViewModel()
 		vm:SendViewModelMatchingSequence(vm:LookupSequence("idle"))

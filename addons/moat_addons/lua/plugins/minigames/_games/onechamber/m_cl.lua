@@ -107,7 +107,7 @@ function MG_OC.ActivePaint()
 		draw.SimpleTextOutlined(3 - MG_OC.CurDeaths .. s .. " Left", "moat_GunGameMedium", x, y + 175, Color(0, 255, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(0, 0, 0, 35))
 	end
 
-	local spawn_prot = LocalPlayer():GetNWInt("MG_OC_SPAWNPROTECTION")
+	local spawn_prot = LocalPlayer():GetNW2Int("MG_OC_SPAWNPROTECTION")
 
 	if (spawn_prot and spawn_prot > CurTime()) then
 		draw.SimpleTextOutlined("Spawn Protection: " .. math.ceil(spawn_prot - CurTime()), "moat_GunGameMedium", x, y + 225, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(0, 0, 0, 35))
@@ -160,7 +160,7 @@ function MG_OC.DrawHalos()
 
 	for i = 1, #MG_OC.HaloPlayers do
 		if (IsValid(MG_OC.HaloPlayers[i]) and MG_OC.HaloPlayers[i]:Team() ~= TEAM_SPEC) then
-			local plyspn = MG_OC.HaloPlayers[i]:GetNWInt("MG_OC_SPAWNPROTECTION")
+			local plyspn = MG_OC.HaloPlayers[i]:GetNW2Int("MG_OC_SPAWNPROTECTION")
 
     		if (plyspn and plyspn > CurTime()) then
         		continue

@@ -257,7 +257,7 @@ function Damagelog:ReportWindow(tbl)
 			cur_selected = ply
 		end
 	end
-	local killer = LocalPlayer():GetNWEntity("M_DL_Killer")
+	local killer = LocalPlayer():GetNW2Entity("M_DL_Killer")
 	if IsValid(killer) then
 		UserList:AddPlayer(killer, true)
 	end

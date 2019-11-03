@@ -59,7 +59,7 @@ function CheckForBuggedRagdolls()
 						if CORPSE.GetFound(ent, true) then
 							PrintMessage(HUD_PRINTTALK, messageToShow .. "unID'd body)")
 						else
-							PrintMessage(HUD_PRINTTALK, messageToShow .. ent:GetNWString("nick") .. "'s body)")
+							PrintMessage(HUD_PRINTTALK, messageToShow .. ent:GetNW2String("nick") .. "'s body)")
 						end
 					elseif velo >= freezespeed then
 						AMB_KillVelocity(ent)

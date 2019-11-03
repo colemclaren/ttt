@@ -257,7 +257,7 @@ hook.Add("PostPlayerDeath", "moat_fix_ragdolls", function(ply)
 		local pl = player.GetByUniqueID(rag_ent.uqid)
         if (not IsValid(pl)) then return end
         pl:SetCleanRound(false)
-        pl:SetNWBool("body_found", true)
+        pl:SetNW2Bool("body_found", true)
         CORPSE.SetFound(rag_ent, true)
 		rag_ent:Remove()
 	end

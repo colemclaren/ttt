@@ -125,10 +125,10 @@ function PANEL:Paint( w, h )
 	local wep = LocalPlayer():GetWeapon( "gmod_tool" )
 	if ( !IsValid( wep ) ) then return end
 
-	local ent = wep:GetNWEntity( "HandEntity" )
+	local ent = wep:GetNW2Entity( "HandEntity" )
 	if ( !IsValid( ent ) || !ent.FingerIndex ) then return end
 
-	local boneid = ent.FingerIndex[ tonumber( self.VarName:sub( 8 ) ) + 1 + 15 * wep:GetNWInt( "HandNum", 0 ) ]
+	local boneid = ent.FingerIndex[ tonumber( self.VarName:sub( 8 ) ) + 1 + 15 * wep:GetNW2Int( "HandNum", 0 ) ]
 	if ( !boneid || ent:GetBoneName( boneid ) == "__INVALIDBONE__" ) then return end
 
 	local v = self:GetValue()

@@ -68,13 +68,13 @@ if (CLIENT) then
 
 	function SimulateFlash_REALCS_NOT_ANYTHINGELSE() 
 
-		if LocalPlayer():GetNWFloat("RCS_flashed_time") > CurTime() then
+		if LocalPlayer():GetNW2Float("RCS_flashed_time") > CurTime() then
 
 			local pl = LocalPlayer();
 
-			local e = pl:GetNWFloat("RCS_flashed_time"); --when it dies away
+			local e = pl:GetNW2Float("RCS_flashed_time"); --when it dies away
 
-			local s = pl:GetNWFloat("RCS_flashed_time_start"); --when it started
+			local s = pl:GetNW2Float("RCS_flashed_time_start"); --when it started
 
 			
 
@@ -114,9 +114,9 @@ if (CLIENT) then
 
 		local pl = LocalPlayer();
 
-		local e = pl:GetNWFloat("RCS_flashed_time") + EFFECT_DELAY; --when it dies away
+		local e = pl:GetNW2Float("RCS_flashed_time") + EFFECT_DELAY; --when it dies away
 
-		local s = pl:GetNWFloat("RCS_flashed_time_start"); --when it started
+		local s = pl:GetNW2Float("RCS_flashed_time_start"); --when it started
 
 		if (e > CurTime()  &&  e-EFFECT_DELAY-CurTime()<=DIETIMER ) then
 

@@ -694,14 +694,14 @@ function SWEP:IronSight()
 		end
 	end
 	
-	if self.SelectiveFire and self.NextFireSelect < CurTime() and not (self.Weapon:GetNWBool("Reloading")) then
+	if self.SelectiveFire and self.NextFireSelect < CurTime() and not (self.Weapon:GetNW2Bool("Reloading")) then
 		if self.Owner:KeyDown(IN_USE) and self.Owner:KeyPressed(IN_RELOAD) then
 			self:SelectFireMode()
 		end
 	end
 	
 --copy this...
-	if self.Owner:KeyDown(IN_SPEED) and not (self.Weapon:GetNWBool("Reloading")) then		-- If you are running
+	if self.Owner:KeyDown(IN_SPEED) and not (self.Weapon:GetNW2Bool("Reloading")) then		-- If you are running
 	self.Weapon:SetNextPrimaryFire(CurTime()+0.3)				-- Make it so you can't shoot for another quarter second
 	self.IronSightsPos = self.RunSightsPos					-- Hold it down
 	self.IronSightsAng = self.RunSightsAng					-- Hold it down
@@ -718,7 +718,7 @@ function SWEP:IronSight()
 	if !self.Owner:KeyDown(IN_USE) and !self.Owner:KeyDown(IN_SPEED) then
 	-- If the key E (Use Key) is not pressed, then
 
-		if self.Owner:KeyPressed(IN_ATTACK2) and not (self.Weapon:GetNWBool("Reloading")) then 
+		if self.Owner:KeyPressed(IN_ATTACK2) and not (self.Weapon:GetNW2Bool("Reloading")) then 
 			self.Owner:SetFOV( self.Secondary.IronFOV, 0.3 )
 			self.IronSightsPos = self.SightsPos					-- Bring it up
 			self.IronSightsAng = self.SightsAng					-- Bring it up
@@ -768,7 +768,7 @@ function SWEP:GetViewModelPosition(pos, ang)
 
 	if (not self.IronSightsPos) then return pos, ang end
 
-	local bIron = self.Weapon:GetNWBool("Ironsights")
+	local bIron = self.Weapon:GetNW2Bool("Ironsights")
 
 	if (bIron != self.bLastIron) then
 		self.bLastIron = bIron
@@ -818,7 +818,7 @@ function SWEP:SetIronsights(b)
 end
 
 function SWEP:GetIronsights()
-	return self.Weapon:GetNWBool("Ironsights")
+	return self.Weapon:GetNW2Bool("Ironsights")
 end
 
 

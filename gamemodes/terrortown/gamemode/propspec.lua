@@ -20,8 +20,8 @@ function PROPSPEC.Start(ply, ent)
         max = propspec_base:GetInt() + bonus
     }
 
-    ent:SetNWEntity("spec_owner", ply)
-    ply:SetNWInt("bonuspunches", bonus)
+    ent:SetNW2Entity("spec_owner", ply)
+    ply:SetNW2Int("bonuspunches", bonus)
 end
 
 local function IsWhitelistedClass(cls)
@@ -31,7 +31,7 @@ end
 function PROPSPEC.Target(ply, ent)
     if not propspec_toggle:GetBool() then return end
     if (not IsValid(ply)) or (not ply:IsSpec()) or (not IsValid(ent)) then return end
-    if IsValid(ent:GetNWEntity("spec_owner", nil)) then return end
+    if IsValid(ent:GetNW2Entity("spec_owner", nil)) then return end
     local phys = ent:GetPhysicsObject()
     if ent:GetName() ~= "" and (not GAMEMODE.propspec_allow_named) then return end
     if (not IsValid(phys)) or (not phys:IsMoveable()) then return end
@@ -49,7 +49,7 @@ function PROPSPEC.Clear(ply)
     local ent = (ply.propspec and ply.propspec.ent) or ply:GetObserverTarget()
 
     if (IsValid(ent)) then
-        ent:SetNWEntity("spec_owner", nil)
+        ent:SetNW2Entity("spec_owner", nil)
     end
 
     ply.propspec = nil
@@ -130,7 +130,7 @@ function PROPSPEC.Key(ply, key)
     end
 
     pr.punches = math.max(pr.punches - 1, 0)
-    ply:SetNWFloat("specpunches", pr.punches / pr.max)
+    ply:SetNW2Float("specpunches", pr.punches / pr.max)
 
     return true
 end
@@ -142,7 +142,7 @@ function PROPSPEC.Recharge(ply)
 
     if pr.retime < CurTime() then
         pr.punches = math.min(pr.punches + 1, pr.max)
-        ply:SetNWFloat("specpunches", pr.punches / pr.max)
+        ply:SetNW2Float("specpunches", pr.punches / pr.max)
         pr.retime = CurTime() + propspec_retime:GetFloat()
     end
 end

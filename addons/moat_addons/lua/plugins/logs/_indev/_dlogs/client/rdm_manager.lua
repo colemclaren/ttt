@@ -311,7 +311,7 @@ function dlogs:ReportWindow(found, deathLogs, previousReports, currentReports, d
 		end
 	end
 
-	local killer = LocalPlayer():GetNWEntity("dlogs.Killer")
+	local killer = LocalPlayer():GetNW2Entity("dlogs.Killer")
 
 	if IsValid(killer) then
 		UserList:AddPlayer(killer, true)

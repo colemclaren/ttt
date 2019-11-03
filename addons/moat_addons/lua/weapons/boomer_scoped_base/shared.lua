@@ -282,7 +282,7 @@ IronSight
 ---------------------------------------------------------*/
 function SWEP:IronSight()
 	
-	if self.SelectiveFire and self.NextFireSelect < CurTime() and not (self.Weapon:GetNWBool("Reloading")) then
+	if self.SelectiveFire and self.NextFireSelect < CurTime() and not (self.Weapon:GetNW2Bool("Reloading")) then
 		if self.Owner:KeyDown(IN_USE) and self.Owner:KeyPressed(IN_RELOAD) then
 			self:SelectFireMode()
 		end
@@ -290,7 +290,7 @@ function SWEP:IronSight()
 	
 	if self.Owner:KeyDown(IN_USE) and self.Owner:KeyPressed(IN_ATTACK2) then return end
 	
-	if self.Owner:KeyDown(IN_SPEED) and not (self.Weapon:GetNWBool("Reloading")) then		-- If you hold E and you can shoot then
+	if self.Owner:KeyDown(IN_SPEED) and not (self.Weapon:GetNW2Bool("Reloading")) then		-- If you hold E and you can shoot then
 	self.Weapon:SetNextPrimaryFire(CurTime()+0.3)				-- Make it so you can't shoot for another quarter second
 	self.IronSightsPos = self.RunSightsPos					-- Hold it down
 	self.IronSightsAng = self.RunSightsAng					-- Hold it down
@@ -298,7 +298,7 @@ function SWEP:IronSight()
 	self.Owner:SetFOV( 0, 0.2 )
 	end	
 							
-	if self.Owner:KeyDown(IN_SPEED) and not (self.Weapon:GetNWBool("Reloading")) then		-- If you hold E or run then
+	if self.Owner:KeyDown(IN_SPEED) and not (self.Weapon:GetNW2Bool("Reloading")) then		-- If you hold E or run then
 	self.Weapon:SetNextPrimaryFire(CurTime()+0.3)				-- Make it so you can't shoot for another quarter second
 	end								-- Lower the gun
 
@@ -312,7 +312,7 @@ function SWEP:IronSight()
 		self.Owner:DrawViewModel(true)
 	end	
 
-		if self.Owner:KeyPressed(IN_ATTACK2) and !self.Owner:KeyDown(IN_SPEED) and not (self.Weapon:GetNWBool("Reloading")) then
+		if self.Owner:KeyPressed(IN_ATTACK2) and !self.Owner:KeyDown(IN_SPEED) and not (self.Weapon:GetNW2Bool("Reloading")) then
 			self.Owner:SetFOV( 75/self.Secondary.ScopeZoom, 0.15 )                      		
 			self.IronSightsPos = self.SightsPos					-- Bring it up
 			self.IronSightsAng = self.SightsAng					-- Bring it up
@@ -320,7 +320,7 @@ function SWEP:IronSight()
 			self:SetIronsights(true, self.Owner)
 			if CLIENT then return end
 			self.Owner:DrawViewModel(false)
-		elseif self.Owner:KeyPressed(IN_ATTACK2) and not (self.Weapon:GetNWBool("Reloading")) and self.Owner:KeyDown(IN_SPEED) then
+		elseif self.Owner:KeyPressed(IN_ATTACK2) and not (self.Weapon:GetNW2Bool("Reloading")) and self.Owner:KeyDown(IN_SPEED) then
 			self.Weapon:SetNextPrimaryFire(CurTime()+0.3)				-- Make it so you can't shoot for another quarter second
 			self.IronSightsPos = self.RunSightsPos					-- Hold it down
 			self.IronSightsAng = self.RunSightsAng					-- Hold it down

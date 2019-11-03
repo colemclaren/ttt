@@ -20,7 +20,7 @@ properties.Add( "gravity", {
 
 	Checked = function( self, ent, ply )
 
-		return ent:GetNWBool( "gravity_disabled" ) == false
+		return ent:GetNW2Bool( "gravity_disabled" ) == false
 
 	end,
 
@@ -39,7 +39,7 @@ properties.Add( "gravity", {
 		if ( !self:Filter( ent, ply ) ) then return end
 
 		local bones = ent:GetPhysicsObjectCount()
-		local b = ent:GetNWBool( "gravity_disabled" );
+		local b = ent:GetNW2Bool( "gravity_disabled" );
 
 		for i = 0, bones-1 do
 
@@ -50,7 +50,7 @@ properties.Add( "gravity", {
 
 		end
 
-		ent:SetNWBool( "gravity_disabled", b == false )
+		ent:SetNW2Bool( "gravity_disabled", b == false )
 
 	end
 

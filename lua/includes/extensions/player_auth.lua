@@ -28,7 +28,7 @@ end
 function meta:IsUserGroup(name)
     if not self:IsValid() then return false end
 
-    return self:GetNWString("UserGroup") == name
+    return self:GetNW2String("UserGroup") == name
 end
 
 --[[---------------------------------------------------------
@@ -36,7 +36,7 @@ end
     Desc: Returns the player's usergroup.
 -----------------------------------------------------------]]
 function meta:GetUserGroup()
-    return self:GetNWString("UserGroup", "user")
+    return self:GetNW2String("UserGroup", "user")
 end
 
 
@@ -51,7 +51,7 @@ if not SERVER then return end
     Desc: Sets the player's usergroup. ( Serverside Only )
 -----------------------------------------------------------]]
 function meta:SetUserGroup(name)
-    self:SetNWString("UserGroup", name)
+    self:SetNW2String("UserGroup", name)
 end
 
 

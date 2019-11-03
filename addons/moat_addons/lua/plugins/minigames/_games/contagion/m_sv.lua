@@ -107,7 +107,7 @@ function MG_CG.FindCorpse(ply)
 end
 
 function MG_CG.RemoveCorpse(corpse)
-    player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
+    player.GetByUniqueID(corpse.uqid):SetNW2Bool("body_found", false)
     corpse:Remove()
 end
 

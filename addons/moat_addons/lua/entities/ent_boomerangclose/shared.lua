@@ -17,7 +17,7 @@ function ENT:Initialize()
     self.TargetReached = false
     collided = false
     self.CollideCount = 0
-    local targetPos = self:GetNWVector("targetPos")
+    local targetPos = self:GetNW2Vector("targetPos")
     self.LastVelocity = (targetPos - self:GetPos()):GetNormalized()
     self.Drop = false
     self:SetModel("models/boomerang/boomerang.mdl")
@@ -70,7 +70,7 @@ function ENT:PhysicsCollide(data, phys)
         self.CollideCount = self.CollideCount + 1
 
         if self.CollideCount > 1 then
-            self.Owner:SetNWEntity("boomerang_swep", self)
+            self.Owner:SetNW2Entity("boomerang_swep", self)
 
             timer.Create("propTimer", 1, 1, function()
                 deploySwep(self)
@@ -88,7 +88,7 @@ function ENT:PhysicsCollide(data, phys)
 end
 
 function deploySwep(ent)
-    --local ent = LocalPlayer():GetNWEntity("boomerang_swep")
+    --local ent = LocalPlayer():GetNW2Entity("boomerang_swep")
     local weapon = ents.Create("weapon_ttt_boomerang")
     weapon:SetPos(ent:GetPos())
     weapon:SetAngles(ent:GetAngles())
@@ -109,7 +109,7 @@ function ENT:Think()
         self:Remove()
     end
 
-    local targetPos = self:GetNWVector("targetPos")
+    local targetPos = self:GetNW2Vector("targetPos")
     local Pos = self:GetPos()
     local ownerPos = self.Owner:GetShootPos()
 
@@ -137,7 +137,7 @@ function ENT:Think()
 end
 
 function ENT:GoYourWayBack(up, power)
-    local targetPos = self:GetNWVector("targetPos")
+    local targetPos = self:GetNW2Vector("targetPos")
     local Pos = self:GetPos()
     local ownerPos = self.Owner:GetShootPos()
     self:SetVelocity(Vector(0, 0, 0))
@@ -148,7 +148,7 @@ function ENT:GoYourWayBack(up, power)
 end
 
 function ENT:NearOwner()
-    local targetPos = self:GetNWVector("targetPos")
+    local targetPos = self:GetNW2Vector("targetPos")
     local Pos = self:GetPos()
     local ownerPos = self.Owner:GetShootPos()
     if Pos:Distance(ownerPos) < 100 then return true end

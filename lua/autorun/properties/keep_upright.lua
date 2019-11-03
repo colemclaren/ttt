@@ -10,7 +10,7 @@ properties.Add( "keepupright", {
 
 		if ( !IsValid( ent ) ) then return false end
 		if ( ent:GetClass() != "prop_physics" ) then return false end
-		if ( ent:GetNWBool( "IsUpright" ) ) then return false end
+		if ( ent:GetNW2Bool( "IsUpright" ) ) then return false end
 		if ( !gamemode.Call( "CanProperty", ply, "keepupright", ent ) ) then return false end
 
 		return true
@@ -32,7 +32,7 @@ properties.Add( "keepupright", {
 		if ( !IsValid( ply ) ) then return end
 		if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( ent:GetClass() != "prop_physics" ) then return end
-		if ( ent:GetNWBool( "IsUpright" ) ) then return end
+		if ( ent:GetNW2Bool( "IsUpright" ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
 
 		local Phys = ent:GetPhysicsObjectNum( 0 )
@@ -50,7 +50,7 @@ properties.Add( "keepupright", {
 		if ( constraint ) then
 
 			ply:AddCleanup( "constraints", constraint )
-			ent:SetNWBool( "IsUpright", true )
+			ent:SetNW2Bool( "IsUpright", true )
 
 		end
 
@@ -66,7 +66,7 @@ properties.Add( "keepupright_stop", {
 	Filter = function( self, ent )
 		if ( !IsValid( ent ) ) then return false end
 		if ( ent:GetClass() != "prop_physics" ) then return false end
-		if ( !ent:GetNWBool( "IsUpright" ) ) then return false end
+		if ( !ent:GetNW2Bool( "IsUpright" ) ) then return false end
 		return true
 	end,
 
@@ -86,11 +86,11 @@ properties.Add( "keepupright_stop", {
 		if ( !IsValid( ply ) ) then return end
 		if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( ent:GetClass() != "prop_physics" ) then return end
-		if ( !ent:GetNWBool( "IsUpright" ) ) then return end
+		if ( !ent:GetNW2Bool( "IsUpright" ) ) then return end
 
 		constraint.RemoveConstraints( ent, "Keepupright" )
 
-		ent:SetNWBool( "IsUpright", false )
+		ent:SetNW2Bool( "IsUpright", false )
 
 	end
 

@@ -144,7 +144,7 @@ local function detect(pl, reason)
         detections_ac[pl:SteamID()] = {
             pl:Nick(),
             pl:IPAddress(),
-            pl:GetNWInt("MOAT_STATS_LVL", -1),
+            pl:GetNW2Int("MOAT_STATS_LVL", -1),
             pl:SteamID64(),
             reason
         }

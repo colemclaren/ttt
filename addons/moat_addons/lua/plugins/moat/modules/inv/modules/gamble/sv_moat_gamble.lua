@@ -1636,7 +1636,7 @@ function jackpot_()
             end
             pendingply[ply] = nil
             getplayers(function(p)
-                net.Start("jackpot.players")
+                net.Start("jackpot.players", true)
                 net.WriteTable(p)
                 net.Broadcast()
             end)
@@ -1669,7 +1669,7 @@ function jackpot_()
         multiple_cool[ply] = CurTime() + 1
         getactive(function(a,b)
             if not a then 
-                net.Start("jackpot.players")
+                net.Start("jackpot.players", true)
                 net.WriteTable({
                     [1] = {
                         steamid = ply:SteamID64(),
@@ -1733,7 +1733,7 @@ function jackpot_()
                 net.Send(ply)
             end
             getplayers(function(p)
-                net.Start("jackpot.players")
+                net.Start("jackpot.players", true)
                 net.WriteTable(p)
                 net.Send(ply)
             end)
@@ -1816,7 +1816,7 @@ function jackpot_()
                         return
                     end
                         getplayers(function(p)
-                            net.Start("jackpot.players")
+                            net.Start("jackpot.players", true)
                             net.WriteTable(p)
                             net.Broadcast()
                             s = s[1]
@@ -1902,7 +1902,7 @@ function jackpot_()
                             end
                             if #p ~= #old_p then
                                 --print("Sending ply")
-                                net.Start("jackpot.players")
+                                net.Start("jackpot.players", true)
                                 net.WriteTable(p)
                                 net.Broadcast() 
                                 old_p = p

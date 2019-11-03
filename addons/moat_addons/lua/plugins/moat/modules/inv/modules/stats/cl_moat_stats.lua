@@ -192,12 +192,12 @@ function m_PopulateStats(pnl)
 		loaded = true
 	end
 
-    local level = LocalPlayer():GetNWInt("MOAT_STATS_LVL", 0)
-    local xp = LocalPlayer():GetNWInt("MOAT_STATS_XP", 0)
-    local drops = LocalPlayer():GetNWInt("MOAT_STATS_DROPS", 0)
-    local deconstructs = LocalPlayer():GetNWInt("MOAT_STATS_DECONSTRUCTS", 0)
-    local kills = LocalPlayer():GetNWInt("MOAT_STATS_KILLS", 0)
-    local deaths = LocalPlayer():GetNWInt("MOAT_STATS_DEATHS", 0)
+    local level = LocalPlayer():GetNW2Int("MOAT_STATS_LVL", 0)
+    local xp = LocalPlayer():GetNW2Int("MOAT_STATS_XP", 0)
+    local drops = LocalPlayer():GetNW2Int("MOAT_STATS_DROPS", 0)
+    local deconstructs = LocalPlayer():GetNW2Int("MOAT_STATS_DECONSTRUCTS", 0)
+    local kills = LocalPlayer():GetNW2Int("MOAT_STATS_KILLS", 0)
+    local deaths = LocalPlayer():GetNW2Int("MOAT_STATS_DEATHS", 0)
     local xp_perc = xp / (level * 1000)
 
     if (level < 10) then

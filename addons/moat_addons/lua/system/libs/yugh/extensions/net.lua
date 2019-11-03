@@ -325,3 +325,12 @@ local Lines = {
 function net.Line()
 	return Lines[math.random(52)]
 end
+
+function net.Jump(messageName, messageStart)
+	if (net.BytesWritten() and net.BytesWritten() > 0) then
+		timer.Simple(0, function()
+			net.Start(messageName)
+			messageStart()
+		end)
+	end
+end

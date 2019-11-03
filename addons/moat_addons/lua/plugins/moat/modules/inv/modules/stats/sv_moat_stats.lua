@@ -6,32 +6,32 @@ function m_InitStatsToPlayer(ply, stats_tbl)
 
     if (stats.x) then
         MOAT_STATS[ply]["x"] = stats.x
-        ply:SetNWInt("MOAT_STATS_XP", stats.x)
+        ply:SetNW2Int("MOAT_STATS_XP", stats.x)
     end
 
     if (stats.l) then
         MOAT_STATS[ply]["l"] = stats.l
-        ply:SetNWInt("MOAT_STATS_LVL", stats.l)
+        ply:SetNW2Int("MOAT_STATS_LVL", stats.l)
     end
 
     if (stats.o) then
         MOAT_STATS[ply]["o"] = stats.o
-        ply:SetNWInt("MOAT_STATS_DROPS", stats.o)
+        ply:SetNW2Int("MOAT_STATS_DROPS", stats.o)
     end
 
     if (stats.r) then
         MOAT_STATS[ply]["r"] = stats.r
-        ply:SetNWInt("MOAT_STATS_DECONSTRUCTS", stats.r)
+        ply:SetNW2Int("MOAT_STATS_DECONSTRUCTS", stats.r)
     end
 
     if (stats.k) then
         MOAT_STATS[ply]["k"] = stats.k
-        ply:SetNWInt("MOAT_STATS_KILLS", stats.k)
+        ply:SetNW2Int("MOAT_STATS_KILLS", stats.k)
     end
 
     if (stats.d) then
         MOAT_STATS[ply]["d"] = stats.d
-        ply:SetNWInt("MOAT_STATS_DEATHS", stats.d)
+        ply:SetNW2Int("MOAT_STATS_DEATHS", stats.d)
     end
 
     hook.Run("PlayerStatsLoaded", ply, stats)
@@ -45,9 +45,9 @@ function meta:m_ModifyStatType(str, key, add)
     end
 
     if (MOAT_STATS[self][key]) then
-        if (self:GetNWInt(str)) then
-            local new_value = self:GetNWInt(str) + add
-            self:SetNWInt(str, new_value)
+        if (self:GetNW2Int(str)) then
+            local new_value = self:GetNW2Int(str) + add
+            self:SetNW2Int(str, new_value)
             MOAT_STATS[self][key] = new_value
 
 			m_SaveStats(self)
@@ -61,8 +61,8 @@ end
 
 function meta:m_SetStatType(str, key, new_value)
     if (MOAT_STATS[self][key]) then
-        if (self:GetNWInt(str)) then
-            self:SetNWInt(str, new_value)
+        if (self:GetNW2Int(str)) then
+            self:SetNW2Int(str, new_value)
             MOAT_STATS[self][key] = new_value
 
 			m_SaveStats(self)
@@ -102,8 +102,8 @@ end
 
 function meta:ApplyXP(num)
     hook.Run("PlayerEarnedXP",self,num)
-    local cur_exp = self:GetNWInt("MOAT_STATS_XP")
-    local cur_lvl = self:GetNWInt("MOAT_STATS_LVL")
+    local cur_exp = self:GetNW2Int("MOAT_STATS_XP")
+    local cur_lvl = self:GetNW2Int("MOAT_STATS_LVL")
     local new_level, new_xp = m_CalculateLevel(cur_lvl, cur_exp, num)
 
     self:m_SetStatType("MOAT_STATS_XP", "x", new_xp)

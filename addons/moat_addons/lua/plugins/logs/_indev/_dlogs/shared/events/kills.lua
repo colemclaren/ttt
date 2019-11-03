@@ -37,7 +37,7 @@ function event:DoPlayerDeath(ply, attacker, dmginfo)
 				net.WriteString(attacker:Nick())
 			end
 			net.Send(ply)
-			ply:SetNWEntity("dlogs.Killer", attacker)
+			ply:SetNW2Entity("dlogs.Killer", attacker)
 		end
 	end
 end

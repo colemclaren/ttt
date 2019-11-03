@@ -130,7 +130,7 @@ function MG_OC.FindCorpse(ply)
 end
 
 function MG_OC.RemoveCorpse(corpse)
-    player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
+    player.GetByUniqueID(corpse.uqid):SetNW2Bool("body_found", false)
     corpse:Remove()
 end
 
@@ -224,25 +224,25 @@ function MG_OC.RespawnPlayer(ply)
 end
 
 function MG_OC.StartSpawnProtection(ply)
-    ply:SetNWInt("MG_OC_SPAWNPROTECTION", CurTime() + MG_OC.SpawnProtectionTime)
+    ply:SetNW2Int("MG_OC_SPAWNPROTECTION", CurTime() + MG_OC.SpawnProtectionTime)
 end
 
 function MG_OC.RemoveSpawnProtection(ply)
     if (not IsValid(ply)) then return end
 
-    local prot = ply:GetNWInt("MG_OC_SPAWNPROTECTION")
+    local prot = ply:GetNW2Int("MG_OC_SPAWNPROTECTION")
 
     if (prot and prot > CurTime()) then
-        ply:SetNWInt("MG_OC_SPAWNPROTECTION", CurTime())
+        ply:SetNW2Int("MG_OC_SPAWNPROTECTION", CurTime())
     end
 end
 
 function MG_OC.ShouldTakeDamage(ply, ent)
-    local plyspn = ply:GetNWInt("MG_OC_SPAWNPROTECTION")
+    local plyspn = ply:GetNW2Int("MG_OC_SPAWNPROTECTION")
     local entspn = nil
 
     if (ent:IsPlayer()) then
-        entspn = ent:GetNWInt("MG_OC_SPAWNPROTECTION")
+        entspn = ent:GetNW2Int("MG_OC_SPAWNPROTECTION")
     end
 
     if ((GetRoundState() == ROUND_PREP) or (plyspn and plyspn > CurTime()) or (entspn and entspn > CurTime())) then
@@ -262,7 +262,7 @@ function MG_OC.SpawnProtectionDraw()
 
     for k, v in pairs(player.GetAll()) do
 
-        local plys = v:GetNWInt("MG_OC_SPAWNPROTECTION", 0)
+        local plys = v:GetNW2Int("MG_OC_SPAWNPROTECTION", 0)
         
         if (plys and plys > CurTime()) then
             v:SetRenderMode(RENDERMODE_TRANSALPHA)
@@ -340,7 +340,7 @@ function MG_OC.PlayerDeath(vic, inf, att)
                 local pl = player.GetByUniqueID(vic.server_ragdoll.uqid)
                 if not IsValid(pl) then return end
                 pl:SetCleanRound(false)
-                pl:SetNWBool("body_found", true)
+                pl:SetNW2Bool("body_found", true)
                 CORPSE.SetFound(vic.server_ragdoll, true)
                 vic.server_ragdoll:Remove()
             end

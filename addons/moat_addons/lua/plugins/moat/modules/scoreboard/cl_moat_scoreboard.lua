@@ -15,7 +15,7 @@ hook.Add("TTTScoreboardColumns", "moat_AddGroupLevel", function(pnl)
         return rank_info[1] or ""
     end, 150)
 
-    pnl:AddColumn("Level", function(ply, label) return ply:GetNWInt("MOAT_STATS_LVL", 1) end)
+    pnl:AddColumn("Level", function(ply, label) return ply:GetNW2Int("MOAT_STATS_LVL", 1) end)
 end)
 
 hook.Add("ScoreboardShow", "moat_ScoreboardShow", function()
@@ -145,7 +145,7 @@ local function moat_TTTScoreboardMenu(menu)
 	end)
 
 
-	if (LocalPlayer():GetNWInt("MOAT_STATS_LVL", 1) >= 100) then
+	if (LocalPlayer():GetNW2Int("MOAT_STATS_LVL", 1) >= 100) then
 		menu:AddSpacer()
 
 		MenuPlayers("Edit Level", "icon16/color_wheel.png", MOAT_LEVELS.OpenTitleMenu, true)

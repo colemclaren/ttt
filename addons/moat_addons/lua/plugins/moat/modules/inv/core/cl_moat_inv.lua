@@ -1139,7 +1139,7 @@ local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "
 MOAT_INV_CAT = 1
 
 function m_isTrading(ply)
-    return ply:GetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
+    return ply:GetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
 end
 
 MOAT_INV_BG_W = 400 + 350
@@ -1266,7 +1266,7 @@ function m_OpenInventory(ply2, utrade)
         	net.SendToServer()
 		end
 
-        chat.AddText("Loading... ", moat_green, " Connecting inventory",  Color(103, 152, 235), " | ", moat_cyan, math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2) .. "%", Color(103, 152, 235), " | ", Color(254, 60, 114), net.Line())	
+        chat.AddText("Loading... ", moat_green, " Receiving Inventory",  Color(103, 152, 235), " | ", moat_cyan, math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2) .. "%", Color(103, 152, 235), " | ", Color(254, 60, 114), net.Line())	
 
         return
     end
@@ -1810,7 +1810,7 @@ function m_OpenInventory(ply2, utrade)
     M_INV_RANK:SetSize(370, 12)
 
     M_INV_RANK.Paint = function(s, w, h)
-        local cur_level = LocalPlayer():GetNWInt("MOAT_STATS_LVL", 1)
+        local cur_level = LocalPlayer():GetNW2Int("MOAT_STATS_LVL", 1)
         if (MT_TSHADOW) then
             m_DrawShadowedText(1, cur_level, "moat_Medium3", 24, 5, MT_TCOL, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
             m_DrawShadowedText(1, cur_level + 1, "moat_Medium3", 346, 5, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
@@ -1825,7 +1825,7 @@ function m_OpenInventory(ply2, utrade)
         surface_DrawTexturedRect(30, 3, 310, 6)
         local bar_width = 310
         local xp_needed = cur_level * 1000
-        local cur_xp = LocalPlayer():GetNWInt("MOAT_STATS_XP", 1)
+        local cur_xp = LocalPlayer():GetNW2Int("MOAT_STATS_XP", 1)
         local bar_times = (cur_xp / xp_needed)
         bar_width = bar_width * bar_times
         surface_SetDrawColor(255 - (255 * bar_times), 255 * bar_times, 0, 255)
@@ -4969,6 +4969,9 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
 			m_HandleLayoutSpacing(true)
 			m_CreateInventorySlots()
 		end
+
+		net.Start "bounty.refresh"
+		net.SendToServer()
 
 		return
 	end

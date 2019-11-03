@@ -40,9 +40,9 @@ function PROPSPEC.Start(ply, ent)
 
 
 
-   ent:SetNWEntity("spec_owner", ply)
+   ent:SetNW2Entity("spec_owner", ply)
 
-   ply:SetNWInt("bonuspunches", bonus)
+   ply:SetNW2Int("bonuspunches", bonus)
 
 end
 
@@ -66,7 +66,7 @@ function PROPSPEC.Target(ply, ent)
 
 
 
-   if IsValid(ent:GetNWEntity("spec_owner", nil)) then return end
+   if IsValid(ent:GetNW2Entity("spec_owner", nil)) then return end
 
 
 
@@ -104,7 +104,7 @@ function PROPSPEC.Clear(ply)
 
    if IsValid(ent) then
 
-      ent:SetNWEntity("spec_owner", nil)
+      ent:SetNW2Entity("spec_owner", nil)
 
    end
 
@@ -258,7 +258,7 @@ function PROPSPEC.Key(ply, key)
 
    pr.punches = math.max(pr.punches - 1, 0)
 
-   ply:SetNWFloat("specpunches", pr.punches / pr.max)
+   ply:SetNW2Float("specpunches", pr.punches / pr.max)
 
 
 
@@ -278,7 +278,7 @@ function PROPSPEC.Recharge(ply)
 
       pr.punches = math.min(pr.punches + 1, pr.max)
 
-      ply:SetNWFloat("specpunches", pr.punches / pr.max)
+      ply:SetNW2Float("specpunches", pr.punches / pr.max)
 
 
 

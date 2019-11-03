@@ -46,6 +46,7 @@ function MOAT_BOUNTIES:SendChat(tier, str, ply)
 	net.Send(ply)
 end
 
+local top_cache
 contract_starttime = os.time()
 contract_id = 0
 contract_loaded = false
@@ -58,7 +59,7 @@ function contract_increase(ply,am)
 -- what
 end
 
-local function _contracts()
+function _contracts()
 	/*local dev_server = GetHostName():lower():find("dev")
 	if (dev_server) then return end*/
 	local db = MINVENTORY_MYSQL
@@ -138,7 +139,7 @@ local function _contracts()
 		local q = db:query("INSERT INTO bounties_current (bounties) VALUES ('" .. db:escape(util.TableToJSON(bounties)) .. "');")
 		q:start()
 		local d = bounties
-		PrintTable(d)
+		-- PrintTable(d)
 
 		for k,v in pairs(d) do
 			d[k] = util.JSONToTable(v)
@@ -522,7 +523,7 @@ local function _contracts()
 	local function get_contracts()
 		print "Retrieving contracts"
 		local q = db:query(
-			"SELECT TIMESTAMPDIFF(SECOND, start_time, CURRENT_TIMESTAMP) as diff_seconds, contract, ID FROM moat_contracts_v2 WHERE updating_server IS NOT NULL;"
+			"SELECT TIMESTAMPDIFF(SECOND, start_time, CURRENT_TIMESTAMP) as diff_seconds, contract, ID FROM moat_contracts_v2 WHERE updating_server IS NOT NULL ORDER BY ID DESC;"
 			.. "UPDATE moat_contracts_v2 SET updating_server = '" .. db:escape(game.GetIP()) .. "' WHERE updating_server IS NOT NULL;"
 		)
 		function q:onSuccess(data)
@@ -696,61 +697,6 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		return "7656119"..tostring( 7960265728+math.random( 1, 200000000 ) )
 	end
 
-	local top_cache
-	hook.Add("PlayerInitialSpawn","Contracts",function(ply)
-		lottery_playerspawn(ply)
-		db:query("INSERT INTO moat_contractplayers_v2 (steamid, score) VALUES (" .. ply:SteamID64() .. ", 0) ON DUPLICATE KEY UPDATE score=score;"):start()
-		global_bounties_initplayerspawn(ply)
-
-		contract_top(function(top)
-			top_cache = top
-			contract_getplace(ply,function(p)
-				if (not contract_loaded) then
-					-- loadnew()
-					return
-				end
-
-				net.Start("moat.contracts")
-				net.WriteBool(true)
-				net.WriteString(contract_loaded)
-				net.WriteString(moat_contracts_v2[contract_loaded].desc)
-				net.WriteString(moat_contracts_v2[contract_loaded].adj)
-				net.WriteString(moat_contracts_v2[contract_loaded].short)
-				net.WriteInt(p.players,32)
-				net.WriteInt(p.position,32)
-				net.WriteInt(p.myscore,32)
-				net.WriteBool(false)
-				net.WriteTable(top)
-				net.Send(ply)
-			end)
-		end)
-
-		local q = db:query("SELECT place FROM moat_contractwinners_v2 WHERE steamid = " .. ply:SteamID64() .. ";")
-		function q:onSuccess(d)
-			if #d < 1 then return end
-			timer.Simple(30,function()
-				if not IsValid(ply) then return end
-				-- wait for data to load and chat message
-				reward_ply(ply,d[1].place)
-				local b = db:query("DELETE FROM moat_contractwinners_v2 WHERE steamid = " .. ply:SteamID64() .. ";")
-				b:start()
-			end)
-		end--ss
-		q:start()
-		timer.Simple(30,function()
-			if not IsValid(ply) then return end
-			if ply:GetNWInt("MOAT_STATS_LVL", -1) < 100 then return end
-			local q = db:query("SELECT steamid FROM moat_veterangamers WHERE steamid = " .. ply:SteamID64() .. ";")
-			function q:onSuccess(d)
-				if #d > 0 then return end
-				ply:m_DropInventoryItem("Tesla Effect")
-				local q = db:query("INSERT INTO moat_veterangamers (steamid) VALUES (" .. ply:SteamID64() .. ");")
-				q:start()
-			end
-			q:start()
-		end)
-	end)
-
 	function contract_increase(ply,am)
 		if not contract_loaded then return end
 		if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
@@ -793,10 +739,10 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 						net.WriteString(moat_contracts_v2[contract_loaded].desc)
 						net.WriteString(moat_contracts_v2[contract_loaded].adj)
 						net.WriteString(moat_contracts_v2[contract_loaded].short)
-						net.WriteInt(p.players,32)
-						net.WriteInt(p.position,32)
-						net.WriteInt(p.myscore,32)
-						net.WriteBool(false)
+						net.WriteUInt(p.players,16)
+						net.WriteUInt(p.position,16)
+						net.WriteUInt(p.myscore,16)
+						net.WriteBool(true)
 						net.WriteTable(top)
 						net.Send(ply)
 					end)
@@ -909,6 +855,7 @@ for k,v in pairs(weapon_challenges) do
 	adj = "Kills",
 	short = v[3],
 	runfunc = function()
+		print("global",  v[3], "killer")
 			hook.Add("PlayerDeath", "RightfulContract" .. k, function(ply, inf, att)
 				if not IsValid(att) then return end
 				if not att:IsPlayer() then return end
@@ -2002,3 +1949,128 @@ function m_DropIndiCrate(ply, amt)
 		ply:m_DropInventoryItem("Independence Crate")
 	end
 end
+
+net.Receive("bounty.refresh", function(_, ply)
+	if (ply.dailies_sent or ply:IsBot()) then
+		return
+	end
+
+	ply.dailies_sent = true
+
+	moat.mysql("SELECT * FROM moat_lottery_players WHERE steamid = '" .. ply:SteamID64() .. "';", function(d)
+		print "lottery_sent"
+		net.Start("lottery.firstjoin")
+		net.WriteTable(lottery_stats)
+		net.WriteBool(#d > 0)
+		if #d > 0 then
+			net.WriteInt(d[1].ticket,32)
+		end
+		net.Send(ply)
+		if (not lottery_stats.loaded) then
+			lottery_updatetotal()
+			lottery_updateamount()
+			lottery_updatepopular()
+
+			lottery_updatelast()
+		end
+	end)
+
+	timer.Simple(30,function()
+		if (not IsValid(ply)) then
+			return
+		end
+
+		moat.mysql("SELECT * FROM moat_lottery_winners WHERE steamid = '" .. ply:SteamID64() .. "';", function(d)
+			if #d < 1 then return end
+			if not IsValid(ply) then return end
+			ply:m_GiveIC(d[1].amount)
+			net.Start("lottery.Win")
+			net.WriteInt(d[1].amount,32)
+			net.Send(ply)
+			moat.mysql("DELETE FROM moat_lottery_winners WHERE steamid = '" .. ply:SteamID64() .. "';")
+		end)
+	end)
+
+	moat.mysql("SELECT score FROM bounties_players WHERE steamid = '" .. ply:SteamID64() .. "';", function(d)
+		if #d > 0 then
+			ply.Bounties = util.JSONToTable(d[1].score)
+		else
+			ply.Bounties = {
+				ID = MOAT_BOUNTIES.ActiveBounties.ID
+			}
+		end
+			
+		for k,v in pairs(MOAT_BOUNTIES.ActiveBounties) do
+			if not isnumber(k) then continue end
+			local cur_progress = 0
+			if istable(ply.Bounties) then
+				if ply.Bounties[v.id] and ply.Bounties.ID == MOAT_BOUNTIES.ActiveBounties.ID then
+					cur_progress = ply.Bounties[v.id][1]
+				end
+			end
+			-- print "bounties_sent"
+			MOAT_BOUNTIES:SendBountyToPlayer(ply, v.bnty, v.mods, cur_progress)
+		end
+	end)
+
+	moat.mysql("INSERT INTO moat_contractplayers_v2 (steamid, score) VALUES (" .. ply:SteamID64() .. ", 0) ON DUPLICATE KEY UPDATE score=score;")
+	moat.mysql("SELECT * FROM moat_contractplayers_v2 ORDER BY score DESC LIMIT 50", function(top)
+		top_cache = top
+		-- print "contracts_select"
+		if (not IsValid(ply)) then
+			return
+		end
+
+		moat.mysql("call selectContract('" .. ply:SteamID64() .. "');", function(p)
+			if #p < 1 then return end
+
+			-- print "contracts_data"
+			-- PrintTable(p)
+
+			if (not contract_loaded) then
+				return
+			end
+
+			if (not IsValid(ply)) then
+				return
+			end
+
+			-- print "contracts_sent"
+
+			timer.Simple(0, function()
+				net.Start "moat.contracts"
+				net.WriteBool(true)
+				net.WriteString(contract_loaded)
+				net.WriteString(moat_contracts_v2[contract_loaded].desc)
+				net.WriteString(moat_contracts_v2[contract_loaded].adj)
+				net.WriteString(moat_contracts_v2[contract_loaded].short)
+				net.WriteUInt(p[1].players,16)
+				net.WriteUInt(p[1].position,16)
+				net.WriteUInt(p[1].myscore,16)
+				net.WriteBool(true)
+				net.WriteTable(top)
+				net.Send(ply)
+			end)
+		end)
+	end)
+
+	moat.mysql("SELECT place FROM moat_contractwinners_v2 WHERE steamid = " .. ply:SteamID64() .. ";", function(d)
+		if #d < 1 then return end
+		timer.Simple(30,function()
+			if not IsValid(ply) then return end
+			-- wait for data to load and chat message
+			reward_ply(ply,d[1].place)
+			moat.mysql("DELETE FROM moat_contractwinners_v2 WHERE steamid = " .. ply:SteamID64() .. ";")
+		end)
+	end)
+
+	timer.Simple(30,function()
+		if (not IsValid(ply)) then return end
+		if (ply:GetNW2Int("MOAT_STATS_LVL", -1) < 100) then return end
+		moat.mysql("SELECT steamid FROM moat_veterangamers WHERE steamid = " .. ply:SteamID64() .. ";", function(d)
+			if #d > 0 then return end
+			ply:m_DropInventoryItem("Tesla Effect")
+			moat.mysql("INSERT INTO moat_veterangamers (steamid) VALUES (" .. ply:SteamID64() .. ");")
+		end)
+	end)
+end)

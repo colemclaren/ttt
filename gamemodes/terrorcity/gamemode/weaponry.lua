@@ -467,7 +467,7 @@ local function SetDisguise(ply, cmd, args)
         local state = #args == 1 and tobool(args[1])
 		if hook.Run("TTTToggleDisguiser", ply, state) then return end
 
-        ply:SetNWBool("disguised", state)
+        ply:SetNW2Bool("disguised", state)
         LANG.Msg(ply, state and "disg_turned_on" or "disg_turned_off")
     end
 end

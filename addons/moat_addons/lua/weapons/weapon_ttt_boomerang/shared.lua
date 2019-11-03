@@ -206,7 +206,7 @@ function SWEP:PrimaryAttack()
 
 		boomerang:SetPhysicsAttacker(self.Owner, 10)
 
-		boomerang:SetNWVector("targetPos", targetPos)
+		boomerang:SetNW2Vector("targetPos", targetPos)
 
 		boomerang:Spawn()
 
@@ -274,7 +274,7 @@ function SWEP:SecondaryAttack()
 
 		boomerang:SetPhysicsAttacker(self.Owner, 10)
 
-		boomerang:SetNWVector("targetPos", targetPos)
+		boomerang:SetNW2Vector("targetPos", targetPos)
 
 		boomerang:Spawn()
 

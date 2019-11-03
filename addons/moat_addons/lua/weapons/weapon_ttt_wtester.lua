@@ -390,7 +390,7 @@ if CLIENT then
          -- weapon or dropped equipment
          if ((ent:IsWeapon() or ent.CanHavePrints) or
              -- knife in corpse, or a ragdoll
-             ent:GetNWBool("HasPrints", false) or
+             ent:GetNW2Bool("HasPrints", false) or
              (ent:GetClass() == "prop_ragdoll" and
               CORPSE.GetPlayerNick(ent, false) and
               CORPSE.GetFound(ent, false))) then

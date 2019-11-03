@@ -47,9 +47,9 @@ local function CompareScore(pa, pb)
    if not IsValid(a) then return false end
    if not IsValid(b) then return true end
 
-   if a:GetNWInt("MOAT_STATS_LVL", 1) == b:GetNWInt("MOAT_STATS_LVL", 1) then return a:GetNWInt("MOAT_STATS_XP", 0) < b:GetNWInt("MOAT_STATS_XP", 0) end
+   if a:GetNW2Int("MOAT_STATS_LVL", 1) == b:GetNW2Int("MOAT_STATS_LVL", 1) then return a:GetNW2Int("MOAT_STATS_XP", 0) < b:GetNW2Int("MOAT_STATS_XP", 0) end
 
-   return a:GetNWInt("MOAT_STATS_LVL", 1) > b:GetNWInt("MOAT_STATS_LVL", 1)
+   return a:GetNW2Int("MOAT_STATS_LVL", 1) > b:GetNW2Int("MOAT_STATS_LVL", 1)
 end
 
 local PANEL = {}

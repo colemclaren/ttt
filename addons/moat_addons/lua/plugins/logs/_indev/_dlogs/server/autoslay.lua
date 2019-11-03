@@ -227,7 +227,7 @@ hook.Add("TTTBeginRound", "dlogs_AutoSlay", function()
 	for k,v in ipairs(player.GetHumans()) do
 		if v:IsActive() then
 			timer.Simple(1, function()
-				v:SetNWBool("PlayedSRound", true)
+				v:SetNW2Bool("PlayedSRound", true)
 			end)
 			local data = sql.QueryRow("SELECT * FROM damagelog_autoslay WHERE ply = '"..v:SteamID().."' LIMIT 1;")
 			if data then
@@ -301,7 +301,7 @@ hook.Add("TTTBeginRound", "dlogs_AutoSlay", function()
 					local ply = player.GetBySteamID(v.server_ragdoll.sid)
 					if not IsValid(ply) then return end
 					ply:SetCleanRound(false)
-					ply:SetNWBool("body_found", true)
+					ply:SetNW2Bool("body_found", true)
 					if (ply:GetRole() == ROLE_TRAITOR) then
 						SendConfirmedTraitors(GetInnocentFilter(false))
 					end

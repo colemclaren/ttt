@@ -90,17 +90,17 @@ function ENT:Explode()
 
 			end
 
-			if (pl:GetNWFloat("RCS_flashed_time") > CurTime()) then --if you're already flashed
+			if (pl:GetNW2Float("RCS_flashed_time") > CurTime()) then --if you're already flashed
 
-				pl:SetNWFloat("RCS_flashed_time", endtime+pl:GetNWFloat("RCS_flashed_time")+CurTime()-pl:GetNWFloat("RCS_flashed_time_start")); --add more to it
+				pl:SetNW2Float("RCS_flashed_time", endtime+pl:GetNW2Float("RCS_flashed_time")+CurTime()-pl:GetNW2Float("RCS_flashed_time_start")); --add more to it
 
 			else --not flashed
 
-				pl:SetNWFloat("RCS_flashed_time", endtime+CurTime());
+				pl:SetNW2Float("RCS_flashed_time", endtime+CurTime());
 
 			end
 
-			pl:SetNWFloat("RCS_flashed_time_start", CurTime());
+			pl:SetNW2Float("RCS_flashed_time_start", CurTime());
 
 			net.Start("NETWORK_DA_FLASH")
 			net.Broadcast()

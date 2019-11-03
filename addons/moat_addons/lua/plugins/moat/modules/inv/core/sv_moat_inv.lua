@@ -56,7 +56,7 @@ function meta:m_getInvCat()
 end
 
 function meta:m_isTrading()
-    return self:GetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
+    return self:GetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
 end
 
 function meta:GetMaxSlots()
@@ -516,7 +516,7 @@ end
 local function discord_post(ply,item,image,gift)
     local embed = {
         author = {
-            name = ply:Nick() .. " (" .. ply:SteamID() .. ") (lvl" .. ply:GetNWInt("MOAT_STATS_LVL", 1)..")",
+            name = ply:Nick() .. " (" .. ply:SteamID() .. ") (lvl" .. ply:GetNW2Int("MOAT_STATS_LVL", 1)..")",
             icon_url = image,
             url = "https://steamcommunity.com/profiles/" .. ply:SteamID64()
         },
@@ -968,8 +968,8 @@ local trade_key_stored = 1
 
 function m_InitializeTrade(ply1, ply2)
     if ply1 == ply2 then return end
-    ply1:SetNWBool("MOAT_IS_CURRENTLY_TRADING", true)
-    ply2:SetNWBool("MOAT_IS_CURRENTLY_TRADING", true)
+    ply1:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", true)
+    ply2:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", true)
     trade_key_stored = trade_key_stored + 1
     local trade_key = trade_key_stored
 
@@ -1107,8 +1107,8 @@ net.Receive("MOAT_RESPOND_TRADE", function(len, ply)
         local t = MOAT_TRADES[trade_id]
         if (not t) then return end
         
-        Entity(t.player1.index):SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
-        Entity(t.player2.index):SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
+        Entity(t.player1.index):SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
+        Entity(t.player2.index):SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
 
         net.Start("MOAT_RESPOND_TRADE")
         net.WriteBool(false)
@@ -1121,8 +1121,8 @@ net.Receive("MOAT_RESPOND_TRADE", function(len, ply)
             if (tostring(k) == tostring(trade_id)) then
                 local ply1 = Entity(v.player1.index)
                 local ply2 = Entity(v.player2.index)
-                ply1:SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
-                ply2:SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
+                ply1:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
+                ply2:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
                 net.Start("MOAT_RESPOND_TRADE")
                 net.WriteBool(false)
                 net.WriteDouble(ply:EntIndex())
@@ -1225,8 +1225,8 @@ function m_InitTradeAccept(trade_id)
     if not trade_tbl.ChatLog then trade_tbl.ChatLog = {} end
 
     if (not offer_player1:m_HasIC(offer_table1_ic)) then 
-        offer_player1:SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
-        offer_player2:SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
+        offer_player1:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
+        offer_player2:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
         net.Start("MOAT_RESPOND_TRADE")
         net.WriteBool(false)
         net.WriteDouble(offer_player2:EntIndex())
@@ -1244,8 +1244,8 @@ function m_InitTradeAccept(trade_id)
     end
 
     if (not offer_player2:m_HasIC(offer_table2_ic)) then
-        offer_player1:SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
-        offer_player2:SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
+        offer_player1:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
+        offer_player2:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
         net.Start("MOAT_RESPOND_TRADE")
         net.WriteBool(false)
         net.WriteDouble(offer_player2:EntIndex())
@@ -1330,8 +1330,8 @@ function m_InitTradeAccept(trade_id)
     offer_player1:m_GiveIC(offer_table2_ic)
     -- Give points to player 2
     offer_player2:m_GiveIC(offer_table1_ic)
-    offer_player1:SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
-    offer_player2:SetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
+    offer_player1:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
+    offer_player2:SetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
     net.Start("MOAT_RESPOND_TRADE")
     net.WriteBool(true)
     net.WriteDouble(offer_player2:EntIndex())

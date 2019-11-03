@@ -17,7 +17,7 @@ function DISGUISE.CreateMenu(parent)
     local dcheck = vgui.Create("DCheckBoxLabel", dform)
     dcheck:SetText(trans("disg_enable"))
     dcheck:SetIndent(5)
-    dcheck:SetValue(LocalPlayer():GetNWBool("disguised", false))
+    dcheck:SetValue(LocalPlayer():GetNW2Bool("disguised", false))
 
     dcheck.OnChange = function(s, val)
         RunConsoleCommand("ttt_set_disguise", val and "1" or "0")
@@ -33,7 +33,7 @@ end
 
 function DISGUISE.Draw(client)
     if (not client) or (not client:IsActiveTraitor()) then return end
-    if not client:GetNWBool("disguised", false) then return end
+    if not client:GetNW2Bool("disguised", false) then return end
     surface.SetFont("TabLarge")
     surface.SetTextColor(255, 0, 0, 230)
     local text = trans("disg_hud")

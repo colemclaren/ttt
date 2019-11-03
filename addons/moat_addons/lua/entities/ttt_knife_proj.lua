@@ -94,7 +94,7 @@ function ENT:KillPlayer(other, tr)
         knife:SetMoveCollide(MOVECOLLIDE_DEFAULT)
         knife:SetMoveType(MOVETYPE_VPHYSICS)
         knife.fingerprints = prints
-        knife:SetNWBool("HasPrints", true)
+        knife:SetNW2Bool("HasPrints", true)
         --knife:SetSolid(SOLID_NONE)
         -- knife needs to be trace-able to get prints
         local phys = knife:GetPhysicsObject()

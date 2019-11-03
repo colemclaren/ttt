@@ -20,9 +20,9 @@ event.Type = "MISC"
 if SERVER then
 
 	local meta = FindMetaTable("Entity")
-	local old_func = meta.SetNWBool
-	function meta:SetNWBool(name, value)
-		if name == "disguised" and value != self:GetNWBool("disguised") then
+	local old_func = meta.SetNW2Bool
+	function meta:SetNW2Bool(name, value)
+		if name == "disguised" and value != self:GetNW2Bool("disguised") then
 			hook.Call("TTTPlayerDisguised", GAMEMODE, self, value)
 		end
 		old_func(self, name, value)

@@ -11,7 +11,7 @@ hook.Add("PlayerDeath", "AutoBanRDM", function(vic, inf, att)
 
     if ((attr and vicr and attr == vicr) or (att:GetRole() == vic:GetRole())) then
         if (not pl_kills[att:SteamID()]) then
-			if (att:GetNWInt("MOAT_STATS_LVL", 1) >= 10) then
+			if (att:GetNW2Int("MOAT_STATS_LVL", 1) >= 10) then
 				pl_kills[att:SteamID()] = 15
 			else
 				pl_kills[att:SteamID()] = 5

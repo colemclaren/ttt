@@ -6,7 +6,7 @@ include("corpse_shd.lua")
 local dti = CORPSE.dti
 
 function CORPSE.SetFound(rag, state)
-    --rag:SetNWBool("found", state)
+    --rag:SetNW2Bool("found", state)
     rag:SetDTBool(dti.BOOL_FOUND, state)
 end
 
@@ -20,11 +20,11 @@ function CORPSE.SetPlayerNick(rag, ply_or_name)
         rag:SetDTEntity(dti.ENT_PLAYER, ply_or_name)
     end
 
-    rag:SetNWString("nick", name)
+    rag:SetNW2String("nick", name)
 end
 
 function CORPSE.SetCredits(rag, credits)
-    --rag:SetNWInt("credits", credits)
+    --rag:SetNW2Int("credits", credits)
     rag:SetDTInt(dti.INT_CREDITS, credits)
 end
 
@@ -86,7 +86,7 @@ local function IdentifyBody(ply, rag)
         local deadply = player.GetBySteamID(rag.sid)
 
         if deadply then
-            deadply:SetNWBool("body_found", true)
+            deadply:SetNW2Bool("body_found", true)
 
             if traitor then
                 -- update innocent's list of traitors
@@ -110,14 +110,14 @@ local function IdentifyBody(ply, rag)
         local vic = player.GetBySteamID(vicsid)
 
         -- is this an unconfirmed dead?
-        if IsValid(vic) and (not vic:GetNWBool("body_found", false)) then
+        if IsValid(vic) and (not vic:GetNW2Bool("body_found", false)) then
             LANG.Msg("body_confirm", {
                 finder = finder,
                 victim = vic:Nick()
             })
 
             -- update scoreboard status
-            vic:SetNWBool("body_found", true)
+            vic:SetNW2Bool("body_found", true)
             -- however, do not mark body as found. This lets players find the
             -- body later and get the benefits of that
             --local vicrag = vic.server_ragdoll

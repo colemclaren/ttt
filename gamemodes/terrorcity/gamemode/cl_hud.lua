@@ -135,7 +135,7 @@ local margin = 10
 -- Paint punch-o-meter
 local function PunchPaint(client)
    local L = GetLang()
-   local punch = client:GetNWFloat("specpunches", 0)
+   local punch = client:GetNW2Float("specpunches", 0)
 
    local width, height = 200, 25
    local x = ScrW() / 2 - width/2
@@ -149,7 +149,7 @@ local function PunchPaint(client)
 
    dr.SimpleText(L.punch_help, "TabLarge", ScrW() / 2, margin, COLOR_WHITE, TEXT_ALIGN_CENTER)
 
-   local bonus = client:GetNWInt("bonuspunches", 0)
+   local bonus = client:GetNW2Int("bonuspunches", 0)
    if bonus != 0 then
       local text
       if bonus < 0 then
@@ -203,7 +203,7 @@ local function SpecHUDPaint(client)
    if IsValid(tgt) and tgt:IsPlayer() then
       ShadowedText(tgt:Nick(), "TimeLeft", ScrW() / 2, margin, COLOR_WHITE, TEXT_ALIGN_CENTER)
 
-   elseif IsValid(tgt) and tgt:GetNWEntity("spec_owner", nil) == client then
+   elseif IsValid(tgt) and tgt:GetNW2Entity("spec_owner", nil) == client then
       PunchPaint(client)
    else
       ShadowedText(interp(L.spec_help, key_params), "TabLarge", ScrW() / 2, margin, COLOR_WHITE, TEXT_ALIGN_CENTER)
