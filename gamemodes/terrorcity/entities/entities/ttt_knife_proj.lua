@@ -212,7 +212,7 @@ function ENT:KillPlayer(other, tr)
 
                         knife.fingerprints = prints
 
-                        knife:SetNWBool("HasPrints", true)
+                        knife:SetNW2Bool("HasPrints", true)
 
 
 

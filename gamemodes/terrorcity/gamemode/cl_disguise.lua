@@ -40,7 +40,7 @@ GetNW2Bool
 
    dcheck:SetIndent(5)
 
-   dcheck:SetValue(LocalPlayer():GetNWBool("disguised", false))
+   dcheck:SetValue(LocalPlayer():GetNW2Bool("disguised", false))
 
    dcheck.OnChange = function(s, val)
 
@@ -74,7 +74,7 @@ function DISGUISE.Draw(client)
 
    if (not client) or (not client:IsActiveTraitor()) then return end
 
-   if not client:GetNWBool("disguised", false) then return end
+   if not client:GetNW2Bool("disguised", false) then return end
 
 
 

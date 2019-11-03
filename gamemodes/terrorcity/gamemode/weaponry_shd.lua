@@ -46,7 +46,7 @@ function WEPS.DisguiseToggle(ply)
 
    if IsValid(ply) and ply:IsActiveTraitor() then
 
-      if not ply:GetNWBool("disguised", false) then
+      if not ply:GetNW2Bool("disguised", false) then
 
          RunConsoleCommand("ttt_set_disguise", "1")
 

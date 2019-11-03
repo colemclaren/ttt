@@ -86,7 +86,7 @@ function ENT:StickTo(ent)
 
    ent:SetPhysicsAttacker(self:GetOwner())
 
-   ent:SetNWBool("punched", true)
+   ent:SetNW2Bool("punched", true)
 
    self.PunchEntity = ent
 
@@ -120,7 +120,7 @@ function ENT:OnRemove()
 
       self.PunchEntity:SetPhysicsAttacker(self.PunchEntity)
 
-      self.PunchEntity:SetNWBool("punched", false)
+      self.PunchEntity:SetNW2Bool("punched", false)
 
    end
 
