@@ -407,7 +407,7 @@ net.Receive("moat_InventoryCatChange", function()
 	local cat = net.ReadUInt(4)
 	local ply = net.ReadEntity()
 
-	MOAT_PLYS_INV[ply] = {true, M_INV_CATS[cat][1]}
+	MOAT_PLYS_INV[ply] = {true, MOAT_INV_CATS[cat][1]}
 
 	if (not MOAT_PLYS_INV[ply]) then
 		m_InitializeAnimations(ply)

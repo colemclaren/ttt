@@ -1136,7 +1136,7 @@ hook.Add("Think", "moat_InventoryHSV", function()
 end)
 
 local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
-local M_INV_CAT = 1
+MOAT_INV_CAT = 1
 
 function m_isTrading(ply)
     return ply:GetNWBool("MOAT_IS_CURRENTLY_TRADING", false)
@@ -1165,7 +1165,7 @@ M_INV_SLOT = {}
 M_LOAD_SLOT = {}
 M_TRADE_SLOT = {}
 
-M_INV_CATS = {{"Loadout", 90}, {"Market", 90}, {"Trading", 90}, {"Gamble", 90}, /*{"Summer", 90},*/ {"Dailies", 90}, {"Settings", 90}, {"Donate", 90}}
+MOAT_INV_CATS = {{"Loadout", 90}, {"Market", 90}, {"Trading", 90}, {"Gamble", 90}, /*{"Summer", 90},*/ {"Dailies", 90}, {"Settings", 90}, {"Donate", 90}}
 function m_PaintVBar(sbar)
 
     local MT = MOAT_THEME.Themes
@@ -1293,9 +1293,9 @@ function m_OpenInventory(ply2, utrade)
     M_LOAD_SLOT = {}
 
     if (m_ply2 and m_utrade) then
-        M_INV_CAT = 3
+        MOAT_INV_CAT = 3
     else
-        M_INV_CAT = 1
+        MOAT_INV_CAT = 1
     end
 
     local MT = MOAT_THEME.Themes
@@ -1600,7 +1600,7 @@ function m_OpenInventory(ply2, utrade)
 
 	M_TRADE_PLYS.NextThink = 0
 	M_TRADE_PLYS.Think = function(s)
-		if ((s.NextThink > CurTime()) or (M_INV_CAT and M_INV_CAT ~= 3) or (IsValid(MOAT_TRADE_BG))) then
+		if ((s.NextThink > CurTime()) or (MOAT_INV_CAT and MOAT_INV_CAT ~= 3) or (IsValid(MOAT_TRADE_BG))) then
 			return
 		end
 
@@ -1800,7 +1800,7 @@ function m_OpenInventory(ply2, utrade)
         net.WriteDouble(2)
         net.SendToServer()*/
 
-        m_ChangeInventoryPanel("stats", false)
+        m_ChangeInventoryPanel(-1, false)
     end
     M_INV_NICK:SetMouseInputEnabled(true)
     M_INV_NICK:SetCursor("hand")
@@ -1864,10 +1864,10 @@ function m_OpenInventory(ply2, utrade)
 		moat_inv_cooldown = CurTime() + 1
     end
 
-    //M_INV_CATS = {{"Loadout", 90}, {"Player", 90}, {"Trading", 90}, {"Shop", 90}, {"Gamble", 90}, {"Bounties", 90}, {"Settings", 90}}
+    //MOAT_INV_CATS = {{"Loadout", 90}, {"Player", 90}, {"Trading", 90}, {"Shop", 90}, {"Gamble", 90}, {"Bounties", 90}, {"Settings", 90}}
     local CAT_WIDTHS = 0
 
-    for k, v in ipairs(M_INV_CATS) do
+    for k, v in ipairs(MOAT_INV_CATS) do
         local MOAT_CAT_BTN = vgui.Create("DButton", MOAT_INV_BG)
         MOAT_CAT_BTN:SetText("")
         MOAT_CAT_BTN:SetSize(MT[CurTheme].CatInfo[2], MT[CurTheme].CatInfo[3])
@@ -1880,7 +1880,7 @@ function m_OpenInventory(ply2, utrade)
 
         MOAT_CAT_BTN.Paint = function(s, w, h)
 
-            MT[CurTheme].CAT_PAINT(s, w, h, M_INV_CAT)
+            MT[CurTheme].CAT_PAINT(s, w, h, MOAT_INV_CAT)
 
         end
 
@@ -1954,11 +1954,11 @@ function m_OpenInventory(ply2, utrade)
     end
 
     local CAT_BAR = vgui.Create("DPanel", MOAT_INV_BG)
-    CAT_BAR:SetSize(MT[CurTheme].CatInfo[2] * #M_INV_CATS, 2)
+    CAT_BAR:SetSize(MT[CurTheme].CatInfo[2] * #MOAT_INV_CATS, 2)
     CAT_BAR:SetPos(MT[CurTheme].CatSpacing, 24)
-    CAT_BAR.cat_num = #M_INV_CATS
-    CAT_BAR.cur_cat = M_INV_CAT
-    CAT_BAR.new_cat = M_INV_CAT
+    CAT_BAR.cat_num = #MOAT_INV_CATS
+    CAT_BAR.cur_cat = MOAT_INV_CAT
+    CAT_BAR.new_cat = MOAT_INV_CAT
     CAT_BAR.Paint = function(s, w, h)
         if (MT[CurTheme].CATBAR_PAINT) then
             MT[CurTheme].CATBAR_PAINT(s, w, h)
@@ -2141,7 +2141,7 @@ function m_OpenInventory(ply2, utrade)
     end
     M_INV_PNL_EXTND.DoClick = function(s, w, h)
         s.Extended = not s.Extended
-        m_ChangeInventoryPanel(s.Extended and "extend" or M_INV_CAT, IsValid(MOAT_TRADE_BG) and true or false)
+        m_ChangeInventoryPanel(s.Extended and "extend" or MOAT_INV_CAT, IsValid(MOAT_TRADE_BG) and true or false)
     end
 
     /*M_LOADOUT_PNL:MoveTo(-M_LOADOUT_PNL:GetWide(), 0, 0.15, 0, -1)
@@ -2275,7 +2275,7 @@ function m_OpenInventory(ply2, utrade)
 
         MOAT_ITEMS_DECON_MARKED = 0
 
-        if (cat == "usable") then
+        if (cat == 0) then
             M_USABLE_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
             M_USABLE_PNL:AlphaTo(255, anim_time, anim_time)
             INV_SELECT_MODE = true
@@ -2286,7 +2286,7 @@ function m_OpenInventory(ply2, utrade)
             INV_SELECT_MODE = false
         end
 
-        if (cat == "stats") then
+        if (cat == -1) then
             M_STATS_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
             M_STATS_PNL:AlphaTo(255, anim_time, anim_time)
             MOAT_XP_LERP = 360
@@ -2297,7 +2297,7 @@ function m_OpenInventory(ply2, utrade)
         end
 
         if (cat ~= "extend") then M_INV_PNL_EXTND.Extended = false end
-        if (cat == "usable" or cat == "stats" or cat == "extend") then return end
+        if (cat == 0 or cat == -1 or cat == "extend") then return end
 
         CAT_BAR.new_cat = cat
     end
@@ -3434,7 +3434,7 @@ function m_OpenInventory(ply2, utrade)
             end
 
             MOAT_TRADE_BG:MakePopup()
-            M_INV_CAT = 3
+            MOAT_INV_CAT = 3
             local box_height = (68 * 2) + 7
             local x_off = 0
             local y_off = 0
@@ -3448,7 +3448,7 @@ function m_OpenInventory(ply2, utrade)
             local offer2_w = offer1_w
             local offer2_h = offer1_h
             local M_TRADE_CHAT_LBL_COL = 50
-            local inventory_cats = table.Copy(M_INV_CATS)
+            local inventory_cats = table.Copy(MOAT_INV_CATS)
             inventory_cats[3] = {"Trade", 100}
             MOAT_TRADE_BG.ICOffered = 0
             MOAT_TRADE_BG.OLoc = 3
@@ -4213,607 +4213,6 @@ function m_AddTradeChatFailureMessage(tmsg)
     M_TRADE_CHATLIST:InsertColorChange(200, 0, 0, 255)
     M_TRADE_CHATLIST:AppendText(tmsg)
 end
-
-function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
-    local item_cache = itemtbl
-    local m_WClass = {}
-    local m_ItemExists = true
-
-    if (m_ItemExists and item_cache and item_cache.item) then
-        if (item_cache.item.Image) then
-            m_WClass.WorldModel = item_cache.item.Image
-        elseif (item_cache.item.Model) then
-            m_WClass.WorldModel = item_cache.item.Model
-            m_WClass.ModelSkin = item_cache.item.Skin
-        else
-            m_WClass = weapons.Get(item_cache.w)
-        end
-    end
-
-    local MT = MOAT_THEME.Themes
-    local CurTheme = GetConVar("moat_Theme"):GetString()
-    if (not MT[CurTheme]) then
-        CurTheme = "Original"
-    end
-
-    local hover_coloral = 0
-    local m_DPanel = vgui.Create("DPanel", pnl)
-    m_DPanel:SetSize(68, 68)
-    m_DPanel:SetPos(da_x, da_y)
-    m_DPanel.Paint = function(s, w, h)
-        if (MT[CurTheme].SLOT_PAINT) then
-            MT[CurTheme].SLOT_PAINT(s, w, h, hover_coloral, item_cache)
-
-            return
-        end
-
-        local draw_x = 2
-        local draw_y = 2
-        local draw_w = w - 4
-        local draw_h = h - 4
-        local draw_y2 = 2 + ((h - 4) / 2)
-        local draw_h2 = (h - 4) - ((h - 4) / 2)
-        surface_SetDrawColor(0, 0, 0, 100)
-        surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-        surface_SetDrawColor(50, 50, 50, hover_coloral)
-        surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-        if (not item_cache) then return end
-
-        if (item_cache.c) then
-            surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-
-            if (item_cache.l and item_cache.l == 1) then
-                surface_SetDrawColor(255, 255, 255, 50)
-                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-            end
-
-            surface_SetDrawColor(rarity_names[item_cache.item.Rarity][2].r, rarity_names[item_cache.item.Rarity][2].g, rarity_names[item_cache.item.Rarity][2].b, 100 + hover_coloral)
-            surface_SetMaterial(gradient_d)
-            surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
-        end
-
-        surface_SetDrawColor(62, 62, 64, 255)
-
-        if (item_cache.c) then
-            surface_SetDrawColor(rarity_names[item_cache.item.Rarity][2])
-        end
-
-        surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
-        surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
-
-        if (item_cache.c) then
-            surface_SetDrawColor(rarity_names[item_cache.item.Rarity][2].r, rarity_names[item_cache.item.Rarity][2].g, rarity_names[item_cache.item.Rarity][2].b, hover_coloral / 2)
-        end
-    end
-
-        --  surface_DrawPoly( triangle )
-    local m_DPanelIcon = {}
-    m_DPanelIcon.SIcon = vgui.Create("MoatModelIcon", m_DPanel)
-    m_DPanelIcon.SIcon:SetPos(2, 2)
-    m_DPanelIcon.SIcon:SetSize(64, 64)
-    m_DPanelIcon.SIcon:SetTooltip(nil)
-
-    m_DPanelIcon.SIcon.Think = function(s)
-        s:SetTooltip(nil)
-    end
-
-    m_DPanelIcon.SIcon:SetVisible(false)
-
-    if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
-        if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
-			if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
-            m_DPanelIcon.SIcon.Icon:SetAlpha(0)
-        end
-
-        m_DPanelIcon.SIcon:SetModel(m_WClass.WorldModel, m_WClass.ModelSkin)
-        m_DPanelIcon.SIcon:SetVisible(true)
-    end
-
-    m_DPanelIcon.WModel = nil
-    m_DPanelIcon.Item = nil
-    m_DPanelIcon.MSkin = nil
-
-    if (m_ItemExists) then
-        m_DPanelIcon.WModel = m_WClass.WorldModel
-        m_DPanelIcon.Item = item_cache
-        if (m_WClass.ModelSkin) then
-            m_DPanelIcon.MSkin = m_WClass.ModelSkin
-        end
-    end
-
-    m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
-        if (not item_cache) then return end
-
-        if (item_cache.c) then
-            if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
-                s.Icon:SetAlpha(0)
-                if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-					cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
-                elseif (m_DPanelIcon.WModel:StartWith("https")) then
-                    cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
-                    cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
-                else
-                    surface_SetDrawColor(255, 255, 255, 100)
-                    surface_SetMaterial(Material(m_DPanelIcon.WModel))
-                    surface_DrawTexturedRect(1, 1, w, h)
-                    surface_SetDrawColor(255, 255, 255, 255)
-                    surface_DrawTexturedRect(0, 0, w, h)
-                end
-            else
-                s.Icon:SetAlpha(255)
-            end
-        end
-    end
-
-    local m_DPanelBTN = vgui.Create("DButton", m_DPanel)
-    m_DPanelBTN:SetText("")
-    m_DPanelBTN:SetSize(68, 68)
-    m_DPanelBTN.Paint = function(s, w, h) end
-    local btn_hovered = 1
-    local btn_color_a = false
-
-    m_DPanelBTN.Think = function(s)
-        if (not s:IsHovered()) then
-            btn_hovered = 0
-            btn_color_a = false
-
-            if (hover_coloral > 0) then
-                hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-            end
-        else
-            if (IsValid(M_INV_MENU)) then
-                if (M_INV_MENU.Hovered) then
-                    btn_hovered = 0
-                    btn_color_a = false
-
-                    if (hover_coloral > 0) then
-                        hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-                    end
-
-                    return
-                end
-            end
-
-            if (hover_coloral < 154 and btn_hovered == 0) then
-                    hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
-            else
-                    btn_hovered = 1
-            end
-
-            if (btn_hovered == 1) then
-                if (btn_color_a) then
-                    if (hover_coloral >= 154) then
-                        btn_color_a = false
-                    else
-                        hover_coloral = hover_coloral + (100 * FrameTime())
-                    end
-                else
-                    if (hover_coloral <= 50) then
-                        btn_color_a = true
-                    else
-                        hover_coloral = hover_coloral - (100 * FrameTime())
-                    end
-                end
-            end
-        end
-    end
-
-    m_DPanelBTN.OnCursorEntered = function(s)
-        m_HoveredSlot = num
-		HoveringSlot = true
-
-        if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end
-    end
-
-    m_DPanelBTN.OnCursorExited = function(s)
-    	HoveringSlot = false
-    end
-
-    return m_DPanel, m_DPanelBTN
-end
-
-local non_char_cap = {
-    ["1"] = "!",
-    ["2"] = "@",
-    ["3"] = "#",
-    ["4"] = "$",
-    ["5"] = "%",
-    ["6"] = "^",
-    ["7"] = "&",
-    ["8"] = "*",
-    ["9"] = "(",
-    ["0"] = ")",
-    ["-"] = "_",
-    ["="] = "+",
-    ["["] = "{",
-    ["]"] = "}",
-    ["\\"] = "|",
-    [";"] = ":",
-    ["/"] = "?",
-    ["`"] = "~"
-}
-
-function m_IniateUsableItem(num, itemtbl)
-	if (not IsValid(MOAT_INV_BG)) then
-		net.Start "MOAT_END_USABLE"
-        net.SendToServer()
-		return
-	end
-
-	if (IsValid(M_USABLE_PNL_BG)) then M_USABLE_PNL_BG:Remove() end
-    INV_SELECTED_ITEM = nil
-    local sel_itm = nil
-
-    M_USABLE_PNL_BG = vgui.Create("DPanel", M_USABLE_PNL)
-    M_USABLE_PNL_BG:SetSize(385 - (5 * 2) - 7, MOAT_INV_BG:GetTall() - 30 - 5)
-    M_USABLE_PNL_BG:SetPos(5, 30)
-    M_USABLE_PNL_BG.ErrorMessage = nil
-    M_USABLE_PNL_BG.Paint = function(s, w, h)
-        surface_SetDrawColor(62, 62, 64, 255)
-        surface_DrawOutlinedRect(0, 0, w, h)
-        surface_SetDrawColor(0, 0, 0, 100)
-        surface_DrawRect(1, 1, w - 2, h - 2)
-
-        surface_SetDrawColor(62, 62, 64, 255)
-        surface_DrawOutlinedRect(0, 0, w, h)
-
-        draw.SimpleText("Select the item you wish to affect.", "GModNotify", w/2, 10, Color(255, 255, 255, 150), TEXT_ALIGN_CENTER)
-
-        surface_SetDrawColor(62, 62, 64, 25)
-        surface_DrawRect(35, 35, w - 70, h/2 - 55)
-
-        surface_SetDrawColor(62, 62, 64, 200)
-        --surface_DrawLine(35, 35, w - 35, 35)
-        --surface_DrawLine(35, h/2 - 25, w - 35, h/2 - 25)
-        surface_DrawOutlinedRect(35, 35, w - 70, h/2 - 55)
-
-        draw.SimpleText("You're Using", "GModNotify", w/2, 85, Color(255, 255, 255), TEXT_ALIGN_CENTER)
-
-        surface_SetDrawColor(rarity_names[itemtbl.item.Rarity][2])
-        surface_DrawOutlinedRect((w/2) - 34, 115, 68, 68)
-        surface_SetDrawColor(rarity_names[itemtbl.item.Rarity][2].r, rarity_names[itemtbl.item.Rarity][2].g, rarity_names[itemtbl.item.Rarity][2].b, 75)
-        surface_DrawOutlinedRect((w/2) - 35, 114, 70, 70)
-        surface_SetDrawColor(rarity_names[itemtbl.item.Rarity][2].r, rarity_names[itemtbl.item.Rarity][2].g, rarity_names[itemtbl.item.Rarity][2].b, 25)
-        surface_DrawOutlinedRect((w/2) - 36, 113, 72, 72)
-
-        --draw.SimpleText(itemtbl.item.Name, "GModNotify", w/2, 175, itemtbl.item.NameColor or rarity_names[itemtbl.item.Rarity][2], TEXT_ALIGN_CENTER)
-
-        draw.SimpleText("You've Selected", "GModNotify", w/2, 275, Color(255, 255, 255), TEXT_ALIGN_CENTER)
-
-        if (INV_SELECTED_ITEM == nil) then
-            draw.SimpleText("nothing, click to select", "GModNotify", w/2, 305, Color(255, 255, 255, 50), TEXT_ALIGN_CENTER)
-        elseif (s.ErrorMessage) then
-            draw.SimpleText("You cannot use this item for selection!", "GModNotify", w/2, 385, Color(200, 0, 0, 255), TEXT_ALIGN_CENTER)
-            draw.SimpleText(s.ErrorMessage, "GModNotify", w/2, 405, Color(200, 0, 0, 255), TEXT_ALIGN_CENTER)
-
-            surface_SetDrawColor(255, 0, 0)
-            surface_DrawOutlinedRect((w/2) - 34, 305, 68, 68)
-            surface_DrawOutlinedRect((w/2) - 35, 304, 70, 70)
-            surface_DrawOutlinedRect((w/2) - 36, 303, 72, 72)
-        elseif (sel_itm and sel_itm.item) then
-            surface_SetDrawColor(rarity_names[sel_itm.item.Rarity][2])
-            surface_DrawOutlinedRect((w/2) - 34, 305, 68, 68)
-            surface_SetDrawColor(rarity_names[sel_itm.item.Rarity][2].r, rarity_names[sel_itm.item.Rarity][2].g, rarity_names[sel_itm.item.Rarity][2].b, 75)
-            surface_DrawOutlinedRect((w/2) - 35, 304, 70, 70)
-            surface_SetDrawColor(rarity_names[sel_itm.item.Rarity][2].r, rarity_names[sel_itm.item.Rarity][2].g, rarity_names[sel_itm.item.Rarity][2].b, 25)
-            surface_DrawOutlinedRect((w/2) - 36, 303, 72, 72)
-
-            if (itemtbl.u == 4001) then
-                surface_SetDrawColor(62, 62, 64, 255)
-                surface_DrawOutlinedRect(5, h - 115, w - 10, 30)
-                surface_SetDrawColor(62, 62, 64, 25)
-                surface_DrawRect(5, h - 115, w - 10, 30)
-
-                draw_SimpleText("Racist or Harassing names will result in punishment. Please be nice :)", "DermaDefault", w/2, h - 120, Color(200, 200, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
-
-                --draw_SimpleText("WWWWWWWWWWWWWWWWWWWW", "GModNotify", w/2, h - 109, Color(200, 200, 200, 100), TEXT_ALIGN_CENTER)
-            elseif (ItemPaints(itemtbl.u)) then
-                draw_SimpleText("Click the icon above to preview.", "DermaDefault", w/2, h - 120, Color(200, 200, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
-            end
-        end
-    end
-    M_USABLE_PNL_BG.OnRemove = function()
-        net.Start("MOAT_END_USABLE")
-        net.SendToServer()
-    end
-
-    local M_REQ_A = vgui.Create("DButton", M_USABLE_PNL_BG)
-    M_REQ_A:SetDisabled(true)
-
-    M_REQ_A.DoClick = function()
-        net.Start("MOAT_USE_USABLE")
-        net.WriteDouble(num)
-        net.WriteDouble(itemtbl.c)
-        net.WriteDouble(INV_SELECTED_ITEM)
-        net.WriteDouble(sel_itm.c)
-        net.SendToServer()
-        return
-    end
-
-    if (itemtbl.u == 4001) then
-        local ne = vgui.Create("DTextEntry", M_USABLE_PNL_BG)
-        ne:SetPos(5, M_USABLE_PNL_BG:GetTall() - 115)
-        ne:SetSize(M_USABLE_PNL_BG:GetWide() - 10, 30)
-        ne:SetFont("GModNotify")
-        ne.MaxChars = 30
-        ne.ed = false
-        ne.txt = ""
-        ne.Paint = function(s, w, h)
-            if (not sel_itm or M_USABLE_PNL_BG.ErrorMessage) then return end
-            if (#s.txt < 1 and not s.ed) then draw_SimpleText("Enter new name..", "GModNotify", w/2, 6, Color(200, 200, 200, 100), TEXT_ALIGN_CENTER) end
-
-            local tw = draw_SimpleText(s.txt, "GModNotify", w/2, 6, Color(200, 200, 200, 255), TEXT_ALIGN_CENTER)
-
-            if (s.ed and math.Round(CurTime() * 2) % 2 == 0) then draw_SimpleText("|", "GModNotify", (w/2) + (tw/2), 4, Color(200, 200, 200, 255), TEXT_ALIGN_LEFT) end
-        end
-        ne.Think = function(s)
-            if (INV_SELECTED_ITEM == nil or M_USABLE_PNL_BG.ErrorMessage) then
-                M_REQ_A:SetDisabled(true)
-                return
-            end
-
-            if (#s.txt < 3 or #s.txt > 30) then M_REQ_A:SetDisabled(true) elseif (#s.txt > 2) then M_REQ_A:SetDisabled(false) end
-
-            if (input.IsMouseDown(MOUSE_LEFT)) then
-                if (s.h) then
-                    s.ed = true
-                    MOAT_INV_BG:SetKeyboardInputEnabled(true)
-                else
-                    s.ed = false
-                    MOAT_INV_BG:SetKeyboardInputEnabled(false)
-                end
-            end
-        end
-        ne.OnCursorEntered = function(s) s.h = true end
-        ne.OnCursorExited = function(s) s.h = false end
-        ne.AddLetter = function(s, b, l, c)
-            if (b) then s.txt = s.txt:sub(1, #s.txt - 1) return end
-            if (c) then l = non_char_cap[l] or l:upper() end
-
-            if (s.CheckUpdate(s, l)) then
-                s.txt = s.txt .. l
-            end
-        end
-        ne.CheckUpdate = function(s, l)
-            if (l == " " and #s.txt < 1) then return false end
-            if (l == "#" and #s.txt < 1) then return false end
-            if (#s.txt >= s.MaxChars) then return false end
-
-            return true
-        end
-
-        local caps = false
-        local shift = false
-
-        MOAT_INV_BG.OnKeyCodePressed = function(s, n)
-            if (not IsValid(ne)) then return end
-            if (not ne.ed) then return end
-            
-            local k = input.GetKeyName(n)
-
-            --if (k == "'") then return end
-            if (k == "SHIFT") then shift = true end
-            if (k == "CAPSLOCKTOGGLE") then caps = not caps end
-            if (k == "BACKSPACE") then ne.AddLetter(ne, true) return end
-            if (k == "SPACE") then ne.AddLetter(ne, false, " ", false) end
-            local c = ((caps and not shift) or (shift and not caps))
-
-            if (#k == 1) then
-                ne.AddLetter(ne, false, k, c)
-            end
-            if (k == "SEMICOLON") then ne.AddLetter(ne, false, ";", c) end
-        end
-
-        MOAT_INV_BG.OnKeyCodeReleased = function(s, k)
-            if (not IsValid(ne)) then return end
-            if (not ne.ed) then return end
-
-            k = input.GetKeyName(k)
-
-            if (k == "SHIFT") then shift = false end
-        end
-
-        M_REQ_A.DoClick = function()
-            net.Start("MOAT_USE_NAME_MUTATOR")
-            net.WriteDouble(num)
-            net.WriteDouble(itemtbl.c)
-            net.WriteDouble(INV_SELECTED_ITEM)
-            net.WriteDouble(sel_itm.c)
-            net.WriteString(ne.txt)
-            net.SendToServer()
-            return
-        end
-    end
-
-    local selected_pnl = nil
-    local selected_pnl_btn = nil
-    local selected_cache = {}
-
-    M_USABLE_PNL_BG.Think = function(s)
-        if (INV_SELECTED_ITEM == nil) then return end
-
-        if (selected_cache ~= INV_SELECTED_ITEM) then
-            s.ErrorMessage = nil
-            M_REQ_A:SetDisabled(false)
-
-            if (IsValid(selected_pnl)) then selected_pnl:Remove() end
-            sel_itm = m_Inventory[INV_SELECTED_ITEM]
-
-            selected_pnl, selected_pnl_btn = m_DrawItemSlot(INV_SELECTED_ITEM, sel_itm, M_USABLE_PNL_BG, (M_USABLE_PNL_BG:GetWide()/2) - 34, 305)
-
-            if (not MOAT_ITEM_CHECK[itemtbl.item.ItemCheck or 1][1](sel_itm)) then
-                s.ErrorMessage = MOAT_ITEM_CHECK[itemtbl.item.ItemCheck or 1][2]
-                M_REQ_A:SetDisabled(true)
-            end
-
-            if (not ItemPaints(itemtbl.u)) then return end
-
-            selected_pnl_btn.DoClick = function()
-                local tint, paint, texture = nil, nil, nil
-
-                if (ItemIsTint(itemtbl.u)) then
-                    tint = itemtbl.u
-                elseif (ItemIsPaint(itemtbl.u)) then
-                    paint = itemtbl.u
-                elseif (ItemIsSkin(itemtbl.u)) then
-                    texture = itemtbl.u
-                end
-
-				if (not tint and not paint and not texture) then
-					return
-				end
-
-                if (sel_itm and sel_itm.item and sel_itm.item.Model) then
-                    moat_view_paint_preview(sel_itm.item.Model, true, tint, paint, texture)
-                elseif (sel_itm and sel_itm.w) then
-                    local m = weapons.Get(sel_itm.w).ViewModel
-                    moat_view_paint_preview(m, false, tint, paint, texture)
-                end
-            end
-        end
-
-        selected_cache = INV_SELECTED_ITEM
-    end
-
-    m_ChangeInventoryPanel("usable", false)
-
-    m_DrawItemSlot(num, itemtbl, M_USABLE_PNL_BG, (M_USABLE_PNL_BG:GetWide()/2) - 34, 115)
-
-    local hover_coloral = 0
-    M_REQ_A:SetSize(125, 30)
-    M_REQ_A:SetPos(35, M_USABLE_PNL_BG:GetTall() - 65)
-    M_REQ_A:SetText("")
-
-    M_REQ_A.Paint = function(s, w, h)
-        local green_col = 200
-
-        if (s:GetDisabled()) then
-            green_col = 50
-        end
-
-        surface_SetDrawColor(0, 0, 0, 255)
-        surface_DrawRect(0, 0, w, h)
-
-        surface_SetDrawColor(50, 50, 50, 100)
-        surface_DrawOutlinedRect(0, 0, w, h)
-        surface_SetDrawColor(0, green_col, 0, 20 + hover_coloral / 5)
-        surface_DrawRect(1, 1, w - 2, h - 2)
-        surface_SetDrawColor(0, green_col + 55, 0, 20 + hover_coloral / 5)
-        surface_SetMaterial(gradient_d)
-        surface_DrawTexturedRect(1, 1, w - 2, h - 2)
-        m_DrawShadowedText(1, "Apply", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-    end
-
-    local btn_hovered = 1
-    local btn_color_a = false
-
-    M_REQ_A.Think = function(s)
-        if (not s:IsHovered()) then
-            btn_hovered = 0
-            btn_color_a = false
-
-            if (hover_coloral > 0) then
-                hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-            end
-        else
-            if (hover_coloral < 154 and btn_hovered == 0) then
-                hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
-            else
-                btn_hovered = 1
-            end
-
-            if (btn_hovered == 1) then
-                if (btn_color_a) then
-                    if (hover_coloral >= 154) then
-                        btn_color_a = false
-                    else
-                        hover_coloral = hover_coloral + (100 * FrameTime())
-                    end
-                else
-                    if (hover_coloral <= 50) then
-                        btn_color_a = true
-                    else
-                        hover_coloral = hover_coloral - (100 * FrameTime())
-                    end
-                end
-            end
-        end
-    end
-
-    local hover_coloral2 = 0
-    local M_REQ_D = vgui.Create("DButton", M_USABLE_PNL_BG)
-    M_REQ_D:SetSize(125, 30)
-    M_REQ_D:SetPos(M_USABLE_PNL_BG:GetWide() - 35 - 125, M_USABLE_PNL_BG:GetTall() - 65)
-    M_REQ_D:SetText("")
-
-    M_REQ_D.Paint = function(s, w, h)
-        surface_SetDrawColor(0, 0, 0, 255)
-        surface_DrawRect(0, 0, w, h)
-
-        surface_SetDrawColor(50, 50, 50, 100)
-        surface_DrawOutlinedRect(0, 0, w, h)
-        surface_SetDrawColor(255, 0, 0, 20 + hover_coloral2 / 5)
-        surface_DrawRect(1, 1, w - 2, h - 2)
-        surface_SetDrawColor(255, 0, 0, 20 + hover_coloral2 / 5)
-        surface_SetMaterial(gradient_d)
-        surface_DrawTexturedRect(1, 1, w - 2, h - 2)
-        m_DrawShadowedText(1, "Cancel", "Trebuchet24", w / 2, h / 2, Color(200, 100, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-    end
-
-    local btn_hovered2 = 1
-    local btn_color_a2 = false
-
-    M_REQ_D.Think = function(s)
-        if (not s:IsHovered()) then
-            btn_hovered2 = 0
-            btn_color_a2 = false
-
-            if (hover_coloral2 > 0) then
-                hover_coloral2 = Lerp(2 * FrameTime(), hover_coloral2, 0)
-            end
-        else
-            if (hover_coloral2 < 154 and btn_hovered2 == 0) then
-                hover_coloral2 = Lerp(5 * FrameTime(), hover_coloral2, 155)
-            else
-                btn_hovered2 = 1
-            end
-
-            if (btn_hovered2 == 1) then
-                if (btn_color_a2) then
-                    if (hover_coloral2 >= 154) then
-                        btn_color_a2 = false
-                    else
-                        hover_coloral2 = hover_coloral2 + (100 * FrameTime())
-                    end
-                else
-                    if (hover_coloral <= 50) then
-                        btn_color_a2 = true
-                    else
-                        hover_coloral2 = hover_coloral2 - (100 * FrameTime())
-                    end
-                end
-            end
-        end
-    end
-
-    M_REQ_D.DoClick = function()
-        m_ChangeInventoryPanel(M_INV_CAT)
-        return
-    end
-
-
-    /*
-    net.Start("MOAT_USE_USABLE")
-    net.WriteDouble(num)
-    net.WriteDouble(item.c)
-    net.SendToServer()*/
-end
-
-net.Receive("MOAT_END_USABLE", function()
-    m_ChangeInventoryPanel(M_INV_CAT)
-end)
-
 
 local chatlinks = {"primary", "secondary", "melee", "powerup", "other", "head", "mask", "body", "effect", "model"}
 local equipables = {
@@ -6064,7 +5463,7 @@ end
 net.Receive("MOAT_INV_CAT", function(len)
     local inv_cat = net.ReadDouble()
     local is_trading = net.ReadBool()
-    M_INV_CAT = inv_cat
+    MOAT_INV_CAT = inv_cat
     m_ChangeInventoryPanel(inv_cat, is_trading)
 end)
 
@@ -6162,7 +5561,7 @@ net.Receive("MOAT_INIT_TRADE", function(len)
     local trade_uid = net.ReadDouble()
 
     if (m_isUsingInv()) then
-        if (M_INV_CAT == 3) then
+        if (MOAT_INV_CAT == 3) then
             M_TRADING_PNL:MoveTo(-M_TRADING_PNL:GetWide(), 0, 0.15, 0, -1)
             M_TRADING_PNL:AlphaTo(0, 0.15)
         else
