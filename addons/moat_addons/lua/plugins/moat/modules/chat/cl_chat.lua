@@ -807,7 +807,7 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
 
         local tw, th = TextSize(space .. str)
 
-        if (string.StartWith(str:lower(), "http://") or string.StartWith(str:lower(), "https://") or string.StartWith(str:lower(), "wwww.")) then
+        if (string.StartWith(str:lower(), "http://") or string.StartWith(str:lower(), "https://") or string.StartWith(str:lower(), "www.")) then
             DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(100, 100, 255, 25), 0, 0, 0, Color(10, 10, 10, 0), true)
             DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0), true)
             DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], Color(100, 100, 255), 0, 0, 0, Color(10, 10, 10, 0))
@@ -879,7 +879,7 @@ function moat_chat.ChatObjectPaint(self)
     if self.Icon then
         surface_SetDrawColor(255, 255, 255, a)
         surface_SetMaterial(self.Icon)
-        surface_DrawTexturedRect(2, 0, 22, 22)
+        surface_DrawTexturedRect(2, 2, 16, 16)
     end
 
     for i = 1, #self.Text do
@@ -926,7 +926,7 @@ function chat.AddText(...)
 
     if type1 == "IMaterial" then
         icon = TextTable[1]
-        TextPosX = 17
+        TextPosX = 20
         table.remove(TextTable, 1)
     end
 
