@@ -1251,7 +1251,7 @@ local m_HoveredSlot = 0
 INV_SELECT_MODE = false
 INV_SELECTED_ITEM = nil
 
-local disable_freeic = CreateClientConVar("moat_forum_rewards", 0, true, false)
+local disable_freeic = CreateClientConVar("moat_steam_group", 0, true, false)
 function m_OpenInventory(ply2, utrade)
     moat_inv_cooldown = CurTime() + 1
 

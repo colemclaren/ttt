@@ -110,7 +110,7 @@ local function GiveRewards()
     end
     btn.DoClick = function(s)
         surface.PlaySound("ui/buttonclickrelease.wav")
-		gui.OpenURL "https://steamcommunity.com/groups/moatgaming"
+		gui.OpenURL "https://steamcommunity.com/groups/moat-gg"
     end
 
     local btn2 = vgui.Create("DButton", p)
@@ -146,7 +146,7 @@ local function GiveRewards()
 		RewardsMainWindow:Remove()
     end
 
-	gui.OpenURL "https://steamcommunity.com/groups/moatgaming"
+	gui.OpenURL "https://steamcommunity.com/groups/moat-gg"
 end
 
 function OpenRewards()
@@ -237,7 +237,7 @@ end
 net.Receive("REWARDS_OpenMenu", OpenRewards)
 
 local function CheckRewards()
-	if (cookie.GetNumber("moat_steam_rewards", 0) == 1) then return end
+	if (cookie.GetNumber("moat_group_rewards", 0) == 1) then return end
 
 	local id = LocalPlayer():SteamID64()
 	if (not id) then return end
@@ -254,7 +254,7 @@ local function CheckRewards()
 				net.SendToServer()
 			end)
 		elseif (b.value == 1) then
-			cookie.Set("moat_steam_rewards", 1)
+			cookie.Set("moat_group_rewards", 1)
 		end
 	end, function() timer.Simple(30, function() CheckRewards() end) end)
 end
@@ -273,7 +273,7 @@ local function RewardsNotify()
 	chat.AddText(moat_blue, "| ", moat_cyan, ply:Nick(), moat_white, " joined our steam group and received ", moat_green, "2,500 IC", moat_white, "!")
 
 	if (IsValid(LocalPlayer()) and ply == LocalPlayer()) then
-		cookie.Set("moat_steam_rewards", 1)
+		cookie.Set("moat_group_rewards", 1)
 	end
 end
 net.Receive("REWARDS_Notify", RewardsNotify)

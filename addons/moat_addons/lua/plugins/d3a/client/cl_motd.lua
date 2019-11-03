@@ -45,7 +45,7 @@ MOTD.Tabs = {
 	[6] = {"Donate", "https://moat.gg/store/", true},
 	[7] = {"Leaderboard", "https://moat.gg/players", true},
 	[8] = {"Bans", "https://moat.gg/bans", true},
-	[9] = {"Steam Group", "https://steamcommunity.com/groups/moatgaming", true},
+	[9] = {"Steam Group", "https://steamcommunity.com/groups/moat-gg", true},
 	[10] = {"Discord", "https://moat.gg/discord", true},
 	[11] = {"Close", ""	},
 }

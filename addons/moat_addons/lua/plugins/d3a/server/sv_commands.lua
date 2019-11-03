@@ -190,7 +190,7 @@ hook.Add("PlayerSay", "D3A.Commands.PlayerSay", D3A.Commands.PlayerSay)
 
 function D3A.Commands.ConCommand(pl, cmd, args)
 	if (!args[1]) then
-		D3A.Chat.SendToPlayer(pl, "D3A " .. (D3A.Version or "") .. " modded to MGA running on " .. GAMEMODE.Name .. " " .. (GAMEMODE.Version or "") .. "\nCoded by KingofBeast for The D3vine and Heavily Modified by Moat for MoatGaming TTT", "NORM")
+		D3A.Chat.SendToPlayer(pl, "D3A " .. (D3A.Version or "") .. " modded to MGA running on " .. GAMEMODE.Name .. " " .. (GAMEMODE.Version or ""), "NORM")
 	else
 		local cmd = string.lower(tostring(args[1]))
 		table.remove(args, 1)
