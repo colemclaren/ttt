@@ -10,3 +10,4 @@
 -- b8969f0859ad9bf567ddd970d68073bfb2f4cbf8
 -- b8969f0859ad9bf567ddd970d68073bfb2f4cbf8
 -- imagine labeling your vip rank "infinity" and requiring your members to pay monthly for it https://crescent.gg/store/
+-- out of all the planets in the universe to make fun of them for, you chose the smallest decided-not a planet http://meep.chat/
