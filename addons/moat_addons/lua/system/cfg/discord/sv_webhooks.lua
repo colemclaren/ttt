@@ -3,7 +3,7 @@ moat.cfg.webhook = "http://208.103.169.40:5069/"
 moat.cfg.oldwebhook = "http://107.191.51.43:3000/"
 
 moat.cfg.discord = {
-    primarywebhook = "https://discord.moat.gg/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX"
+    -- primarywebhook = "https://discord.moat.gg/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX"
 }
 
 discord.AddChannels {
