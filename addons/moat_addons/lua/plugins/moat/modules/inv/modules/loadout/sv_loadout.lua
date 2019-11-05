@@ -45,8 +45,8 @@ function MOAT_LOADOUT.ResetPowerupAbilities(ply)
     
     ply:SetJumpPower(160)
     ply.JumpHeight = 160
+
 	local max = 200
-	
 	if (max ~= 100) then
 		D3A.Chat.SendToPlayer2(ply,
 		Color(255, 0, 255), "[Head's up!] ",
