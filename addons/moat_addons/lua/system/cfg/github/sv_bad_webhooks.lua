@@ -12,4 +12,4 @@
 -- imagine labeling your vip rank "infinity" and requiring your members to pay monthly for it https://crescent.gg/store/
 -- out of all the planets in the universe to make fun of them for, you chose the smallest decided-not a planet http://meep.chat/
 -- https://pluto.chat/
---
+-- https://meep.chat/
