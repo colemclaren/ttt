@@ -7,11 +7,11 @@ moat.cfg.discord = {
 }
 
 discord.AddChannels {
-	-- ["ttt-tv"] = "https://discord.moat.gg/api/webhooks/628066763120312330/PuDhImUK45r2_-Tz_xPFLezjr_gbLhzvxYWNTMVno9xDSORlaD1qy7f6HRst9XWscM1l",
-    -- ["general"] = "https://discord.moat.gg/api/webhooks/628066763120312330/PuDhImUK45r2_-Tz_xPFLezjr_gbLhzvxYWNTMVno9xDSORlaD1qy7f6HRst9XWscM1l",
-    -- ["ttt-bot"] = "https://discord.moat.gg/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX",
-    -- ["ttt-challenges"] = "https://discord.moat.gg/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD",
-    -- ["ttt-logs"] = "https://discord.moat.gg/api/webhooks/636315826747736072/8bTGqROpkRkOKVcmWq9WuqUZngjiHHURgb8CZbn48vG942_lL3ZFOxXkpeK-9HMhdn0T",
+	["ttt-tv"] = "https://discord.moat.gg/api/webhooks/628066763120312330/PuDhImUK45r2_-Tz_xPFLezjr_gbLhzvxYWNTMVno9xDSORlaD1qy7f6HRst9XWscM1l",
+	["general"] = "https://discord.moat.gg/api/webhooks/628066763120312330/PuDhImUK45r2_-Tz_xPFLezjr_gbLhzvxYWNTMVno9xDSORlaD1qy7f6HRst9XWscM1l",
+	["ttt-bot"] = "https://discord.moat.gg/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX",
+	["ttt-challenges"] = "https://discord.moat.gg/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD",
+	["ttt-logs"] = "https://discord.moat.gg/api/webhooks/636315826747736072/8bTGqROpkRkOKVcmWq9WuqUZngjiHHURgb8CZbn48vG942_lL3ZFOxXkpeK-9HMhdn0T",
     ["staff-logs"] = "https://discord.moat.gg/api/webhooks/636315826747736072/8bTGqROpkRkOKVcmWq9WuqUZngjiHHURgb8CZbn48vG942_lL3ZFOxXkpeK-9HMhdn0T",
     ["boss-logs"] = "https://discord.moat.gg/api/webhooks/636321510767984650/AwZU8BYMhpmpRZjLN7qHCTaIYJeHtSeLmVpb9ELlyPxmdFLI2ZI0Gg4kdUlgCFuLjRsA",
     ["error-logs"] = "https://discord.moat.gg/api/webhooks/636321827505045504/SHp4d17SAAYBei1yBFSCQMBD9ILn4o5DL2bcegqRCFoXtY7avK8Ble9Au-c0tRWDEWOj",
