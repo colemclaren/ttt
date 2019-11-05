@@ -1,7 +1,7 @@
 -- for base health change testing
 MOAT_BASE_HEALTH = {
 	enabled = false,
-	basehp = 150,
+	basehp = 200,
 	unix_end = 1529046000 -- June 15th, 2018 12:00 AM PST
 }
 
