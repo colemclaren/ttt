@@ -23,9 +23,9 @@ KARMA.cv.enabled     = CreateConVar("ttt_karma", "1", FCVAR_ARCHIVE)
 
 KARMA.cv.strict      = CreateConVar("ttt_karma_strict", "1")
 
-KARMA.cv.starting    = CreateConVar("ttt_karma_starting", "1000")
+KARMA.cv.starting    = CreateConVar("ttt_karma_starting2", "4444")
 
-KARMA.cv.max         = CreateConVar("ttt_karma_max", "1000")
+KARMA.cv.max         = CreateConVar("ttt_karma_max2", "4444")
 
 KARMA.cv.ratio       = CreateConVar("ttt_karma_ratio", "0.001")
 
