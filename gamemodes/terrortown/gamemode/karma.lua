@@ -2,7 +2,7 @@
 local function IsRightful(killer, victim)
     return hook.Run("TTTIsRightfulDamage", killer, victim)
 end
-
+--
 KARMA = {}
 -- ply steamid -> karma table for disconnected players who might reconnect
 KARMA.RememberedPlayers = {}
