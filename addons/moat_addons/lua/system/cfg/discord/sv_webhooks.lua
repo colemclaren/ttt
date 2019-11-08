@@ -3,26 +3,26 @@ moat.cfg.webhook = "http://208.103.169.40:5069/"
 moat.cfg.oldwebhook = "http://107.191.51.43:3000/"
 
 moat.cfg.discord = {
-    primarywebhook = "https://discord.moat.gg/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX"
+    primarywebhook = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp"
 }
 
 discord.AddChannels {
-	["ttt-tv"] = "https://discord.moat.gg/api/webhooks/628066763120312330/PuDhImUK45r2_-Tz_xPFLezjr_gbLhzvxYWNTMVno9xDSORlaD1qy7f6HRst9XWscM1l",
-	["general"] = "https://discord.moat.gg/api/webhooks/628066763120312330/PuDhImUK45r2_-Tz_xPFLezjr_gbLhzvxYWNTMVno9xDSORlaD1qy7f6HRst9XWscM1l",
-	["ttt-bot"] = "https://discord.moat.gg/api/webhooks/310440549654069248/JlhLxYdayoyABvMCPjhIjChdws99ca1kBn55wPJ58_2p92QNzB53PQImeEONgt0R5FCX",
-	["ttt-challenges"] = "https://discord.moat.gg/api/webhooks/406539243909939200/6Uhyh9_8adif0a5G-Yp06I-SLhIjd3gUzFA_QHzCViBlrLYcoqi4XpFIstLaQSal93OD",
-	["ttt-logs"] = "https://discord.moat.gg/api/webhooks/636315826747736072/8bTGqROpkRkOKVcmWq9WuqUZngjiHHURgb8CZbn48vG942_lL3ZFOxXkpeK-9HMhdn0T",
-    ["staff-logs"] = "https://discord.moat.gg/api/webhooks/636315826747736072/8bTGqROpkRkOKVcmWq9WuqUZngjiHHURgb8CZbn48vG942_lL3ZFOxXkpeK-9HMhdn0T",
-    ["boss-logs"] = "https://discord.moat.gg/api/webhooks/636321510767984650/AwZU8BYMhpmpRZjLN7qHCTaIYJeHtSeLmVpb9ELlyPxmdFLI2ZI0Gg4kdUlgCFuLjRsA",
-    ["error-logs"] = "https://discord.moat.gg/api/webhooks/636321827505045504/SHp4d17SAAYBei1yBFSCQMBD9ILn4o5DL2bcegqRCFoXtY7avK8Ble9Au-c0tRWDEWOj",
-    ["testing"] = "https://discord.moat.gg/api/webhooks/473470257940529164/yfdjULAY0_5_fyLODicLr89ICPFoJ3hRT9U3jqt5AvbMN-_ffnwUUiV5OwY6KUeHXcsX",
-    ["dev-logs"] = "https://discord.moat.gg/api/webhooks/636321510767984650/AwZU8BYMhpmpRZjLN7qHCTaIYJeHtSeLmVpb9ELlyPxmdFLI2ZI0Gg4kdUlgCFuLjRsA",
-    ["old-staff"] = "https://discord.moat.gg/api/webhooks/490027008752091156/kR9l43iXJDfO0E_WPJ0BqRuj2xS-vPD8hmjmfH8--kO9goiBnO430Pmzu3dJ-xqjLmJD",
-	["mga-logs"] = "https://discord.moat.gg/api/webhooks/636523537305174037/WYYl81aJRnggRD7UIgWa_I00GOduF3c2eR38McnFrkgiSQQswAZQ1b3BzFzpbWp6hZF4",
-	["toxic-logs"] = "https://discord.moat.gg/api/webhooks/636321752406032405/AEip4WNm-2b25Rb2G2K-azi5wXHzULSgFqZmzECPK7Wnm5f5EGaXlswi89f1j7bdsHg7",
-    ["error-logs-sv"] = "https://discord.moat.gg/api/webhooks/636322774029434880/E5Fcigi7mdpTmWO8ANhXHci_ftVJNZsCwtuWTRlMzII5iIPEFpesAVTUdZ_PvicUmi4v",
-    ["server-list"] = "https://discord.moat.gg/api/webhooks/568878605028032544/aFMT607kx1rCTElMFc7Cq0LlsWci1STxxWnOTS8QEY6rz2w76fSzGlvPbRI9nmfs7gKK",
-    ["enhanced-boss-logs"] = "https://discord.moat.gg/api/webhooks/636321510767984650/AwZU8BYMhpmpRZjLN7qHCTaIYJeHtSeLmVpb9ELlyPxmdFLI2ZI0Gg4kdUlgCFuLjRsA",
+	["ttt-tv"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+	["general"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+	["ttt-bot"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+	["ttt-challenges"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+	["ttt-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["staff-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["boss-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["error-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["testing"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["dev-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["old-staff"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+	["mga-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+	["toxic-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["error-logs-sv"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["server-list"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["enhanced-boss-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
 }
 
 discord.AddUsers("ttt-tv", {"Moat TTT Announcements", "Lottery Announcements"}, true)
