@@ -747,7 +747,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     local font_small = "moat_ItemDescSmall2"
     local wpn_dmg = math.Round(wpntbl.Primary.Damage, 1)
     local wpn_rpm = math.Round(60 * (1 / wpntbl.Primary.Delay))
-    local wpn_mag = math.Round(wpntbl.Primary.ClipSize)
+    local wpn_mag = math.ceil(wpntbl.Primary.ClipSize)
     local wpn_mag_min = 0
     local wpn_mag_max = 0
 
@@ -762,9 +762,9 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         end
 
         if (itemtbl.s.m) then
-            wpn_mag = math.Round(wpntbl.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * itemtbl.s.m)) / 100)))
-            wpn_mag_min = math.Round(wpntbl.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * 0)) / 100)))
-            wpn_mag_max = math.Round(wpntbl.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * 1)) / 100)))
+            wpn_mag = math.ceil(wpntbl.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * itemtbl.s.m)) / 100)))
+            wpn_mag_min = math.floor(wpntbl.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * 0)) / 100)))
+            wpn_mag_max = math.ceil(wpntbl.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * 1)) / 100)))
         end
     end
 

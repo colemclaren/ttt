@@ -88,9 +88,11 @@ Accessor("m", "Magazine", "Double", function(self, wep)
     local mult = wep:GetMagazine() / 100 + 1
 
     local ClipSize = wep._Cached.m.ClipSize
-    wep.Primary.ClipSize = math.Round(ClipSize * mult)
-    wep.Primary.DefaultClip = wep.Primary.ClipSize
-    wep.Primary.ClipMax = wep.Primary.ClipSize * 3
+    wep.Primary.ClipSize = math.ceil(ClipSize * mult)
+    wep.Primary.DefaultClip = math.ceil(wep.Primary.ClipSize * 2)
+    wep.Primary.ClipMax = math.Round(wep.Primary.ClipSize * 3)
+
+	wep:SetClip1(wep.Primary.ClipSize)
 end)
 
 function MODS.UpdateCosmetics(self, wep)

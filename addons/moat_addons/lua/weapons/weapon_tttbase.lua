@@ -1164,9 +1164,11 @@ if (CLIENT) then
 
 
 		local wep
-		for _, ent in pairs(ents.GetAll()) do
+		for _, ent in ipairs(ents.GetAll()) do
 			if (ent:IsWeapon() and ent.GetEntityID and ent:GetEntityID() == idx) then
 				wep = ent
+				
+				break
 			end
 		end
 

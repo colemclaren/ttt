@@ -270,7 +270,7 @@ local function addstats(itemtbl,embed)
     local stat_color = m_color_green
     local wpn_dmg = math.Round(wpntbl.Primary.Damage, 1)
     local wpn_rpm = math.Round(60 * (1 / wpntbl.Primary.Delay))
-    local wpn_mag = math.Round(wpntbl.Primary.ClipSize)
+    local wpn_mag = math.ceil(wpntbl.Primary.ClipSize)
 
     if (itemtbl.s) then
         if (itemtbl.s.d) then
@@ -283,7 +283,7 @@ local function addstats(itemtbl,embed)
         end
 
         if (itemtbl.s.m) then
-            wpn_mag = math.Round(wpntbl.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * itemtbl.s.m)) / 100)))
+            wpn_mag = math.ceil(wpntbl.Primary.ClipSize * (1 + ((itemtbl.item.Stats.Magazine.min + ((itemtbl.item.Stats.Magazine.max - itemtbl.item.Stats.Magazine.min) * itemtbl.s.m)) / 100)))
         end
     end
 

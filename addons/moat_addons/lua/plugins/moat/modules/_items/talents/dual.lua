@@ -31,9 +31,9 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 
 	weapon:SetFirerate((1 - (1 - weapon:GetFirerate() / 100) * 0.6) * 100)
 
-    pri.ClipSize = pri.ClipSize * 1.5
-    pri.ClipMax = pri.ClipMax * 1.5
-    pri.DefaultClip = pri.DefaultClip * 1.5
+    pri.ClipSize = math.ceil(pri.ClipSize * 1.5)
+    pri.ClipMax = math.Round(pri.ClipSize * 3)
+    pri.DefaultClip = math.ceil(pri.ClipSize * 2)
     pri.Recoil = pri.Recoil * 1.5
 
 	if (pri.Cone) then
