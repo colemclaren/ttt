@@ -12,6 +12,7 @@
 !/models
 !/sound
 !/lua
+!/bin
 *.*
 
 # mats
@@ -32,6 +33,11 @@
 # random bullshit
 !/lua/bin/gmsv_luaerror_linux.dll
 !/lua/bin/gmsv_luaerror_win32.dll
+!/lua/bin/gmsv_mysqloo_linux.dll
+!/lua/bin/gmsv_mysqloo_win32.dll
+!/bin/gmsv_mysqloo_linux.dll
+!/bin/gmsv_mysqloo_win32.dll
+
 !*.lua
 addons/moat_addons/lua/autorun/server/cac.lua
 lua/autorun/server/gm_moatservers.lua
