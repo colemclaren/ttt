@@ -65,7 +65,7 @@ hook.Add("TTTWeaponCreated", "moat_ApplyRandom", function(e)
         }
 
 		e.ItemName = chosen_item.Name .. " " .. e.PrintName
-    	e.PrintName = wep.ItemName
+    	e.PrintName = e.ItemName
 
         local stattbl = {}
         if (chosen_item.Stats) then
