@@ -130,8 +130,9 @@ function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
             wep.PrintName = item.Name
         end
     end
+
     wep.ItemName = wep.PrintName
-    wep.PrintName = wep.ItemName
+   	wep:SetRealPrintName(wep.PrintName)
 
     if (itemtbl.s) then
         for s_idx, mult in pairs(itemtbl.s) do

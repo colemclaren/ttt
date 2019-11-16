@@ -124,9 +124,9 @@ function MODS.UpdateCosmetics(self, wep)
     end
 end
 
-Accessor("p0", "PaintID", "Int", MODS.UpdateCosmetics, -1)
-Accessor("p1", "TintID", "Int", MODS.UpdateCosmetics, -1)
-Accessor("p2", "SkinID", "Int", MODS.UpdateCosmetics, -1)
+Accessor("p2", "PaintID", "Int", MODS.UpdateCosmetics, 0)
+Accessor("p", "TintID", "Int", MODS.UpdateCosmetics, 0)
+Accessor("p3", "SkinID", "Int", MODS.UpdateCosmetics, 0)
 Accessor("n", "RealPrintName", "String", function(self, wep)
     wep.ItemName = wep:GetRealPrintName()
     wep.PrintName = wep.ItemName

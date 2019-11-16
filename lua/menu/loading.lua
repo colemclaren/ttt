@@ -194,6 +194,17 @@ function GetLoadPanel()
 
 end
 
+
+function IsInLoading()
+
+	if ( !IsValid( pnlLoading ) || !IsValid( pnlLoading.HTML ) ) then
+		return false
+	end
+
+	return true
+
+end
+
 function UpdateLoadPanel( strJavascript )
 
 	if ( !pnlLoading ) then return end
@@ -223,7 +234,7 @@ function GameDetails( servername, serverurl, mapname, maxplayers, steamid, gamem
 	serverurl = serverurl:Replace( "%s", steamid )
 	serverurl = serverurl:Replace( "%m", mapname )
 
-	if ( maxplayers > 1 ) then
+	if ( maxplayers > 1 && GetConVar( "cl_enable_loadingurl" ):GetBool() ) then
 		pnlLoading:ShowURL( serverurl, true )
 	end
 

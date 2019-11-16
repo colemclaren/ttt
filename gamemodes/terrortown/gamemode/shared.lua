@@ -112,7 +112,7 @@ local ttt_playercolors = {
 }
 
 function GM:TTTIsRightfulDamage(attacker, victim)
-    return attacker:GetTraitor() ~= victim:GetTraitor()
+    return IsValid(victim) and IsValid(attacker) and victim:IsPlayer() and attacker:IsPlayer() and attacker:GetTraitor() ~= victim:GetTraitor()
 end
 
 CreateConVar("ttt_playercolor_mode", "1")

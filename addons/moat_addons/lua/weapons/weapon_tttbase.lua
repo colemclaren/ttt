@@ -5,15 +5,15 @@ if (SERVER) then
 	util.AddNetworkString "weapon_tttbase.Stats"
 end
 
-Stats, StatNames = {}, {}
+Stats, StatNames = {[0] = {}}, {}
 
 hook.Add("TTTPrepareRound", "weapon_tttbase", function()
-	Stats = {}
+	Stats = {[0] = {}}
 end)
 
 local function Initialize()
 	for _, var in SortedPairs(MODS.Accessors) do
-		StatNames[#StatNames + 1] = var
+		table.insert(StatNames, var)
 		StatNames[var.Name] = #StatNames
 	end
 end
@@ -1170,14 +1170,14 @@ if (CLIENT) then
 			end
 		end
 
-		if (not Stats[idx]) then
-			Stats[idx] = {}
+		if (not Stats[idx or 0]) then
+			Stats[idx or 0] = {}
 		end
 
 		if (IsValid(wep) and wep["Set" .. Stat.FunctionName]) then
 			wep["Set" .. Stat.FunctionName](wep, val)
 		else
-			Stats[idx][statid] = val
+			Stats[idx or 0][statid] = val
 		end
 	end)
 end
@@ -1192,6 +1192,10 @@ function SWEP:SetupDataTables()
 	self:NetworkVar("Bool", 3, "IronsightsPredicted")
 	self:NetworkVar("Float", 3, "IronsightsTime")
 	self:NetworkVar("Int", 3, "EntityID")
+	self:NetworkVar("Int", 4, "PaintID")
+	self:NetworkVar("Int", 5, "TintID")
+	self:NetworkVar("Int", 6, "SkinID")
+
 	if (SERVER) then
 		self:SetEntityID(SV_EntityID)
 		SV_EntityID = SV_EntityID + 1
@@ -1199,6 +1203,7 @@ function SWEP:SetupDataTables()
 
 	for id, var in ipairs(StatNames) do
 		self["Set" .. var.FunctionName] = function(self, val)
+			Stats[self:GetEntityID()] = Stats[self:GetEntityID()] or {}
 			Stats[self:GetEntityID()][id] = val
 
 			if (SERVER) then

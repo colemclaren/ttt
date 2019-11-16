@@ -14,10 +14,9 @@ hook.Add("Initialize", "moat_ApplyRandom", fn)
 if (gmod.GetGamemode()) then
     fn()
 end
-local ChanceToMutate = 0.75
 
 hook.Add("TTTWeaponCreated", "moat_ApplyRandom", function(e)
-    if (IsValid(e:GetOwner()) or  e.CanBuy or not good[e.Kind] or ChanceToMutate < math.random()) then
+    if (IsValid(e:GetOwner()) or  e.CanBuy or not good[e.Kind]) then
         return
     end
     timer.Simple(0, function()
@@ -64,8 +63,7 @@ hook.Add("TTTWeaponCreated", "moat_ApplyRandom", function(e)
             w = e:GetClass()
         }
 
-		e.ItemName = chosen_item.Name .. " " .. e.PrintName
-    	e.PrintName = e.ItemName
+		e:SetRealPrintName(chosen_item.Name .. " " .. e.PrintName)
 
         local stattbl = {}
         if (chosen_item.Stats) then
@@ -87,16 +85,18 @@ hook.Add("TTTWeaponCreated", "moat_ApplyRandom", function(e)
             stattbl.x = 0
 
             for i = 1, math.random(chosen_item.MinTalents, chosen_item.MaxTalents) do
-                local TALENT = m_GetRandomTalent(i, chosen_item.Talents[i], false)
+                local talent = m_GetRandomTalent(i, chosen_item.Talents[i], false)
                 talents[i] = {
-                    e = TALENT.ID,
+                    e = talent.ID,
                     l = 0,
                     m = {}
                 }
 
-                for m = 1, #TALENT.Modifications do
-                    talents[i].m[m] = math.random(0, 1000) / 1000
-                end
+				if (talent.Modifications) then
+					for k, v in ipairs(talent.Modifications) do
+						talents[i].m[k] = math.random(0, 1000) / 1000
+                	end
+				end
             end
             loadout_tbl.t = talents
         end
