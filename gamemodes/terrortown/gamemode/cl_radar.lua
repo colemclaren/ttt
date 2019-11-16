@@ -15,6 +15,7 @@ RADAR.repeating = true
 RADAR.samples = {}
 RADAR.samples_count = 0
 RADAR.called_corpses = {}
+RADAR_VISIBLE = true
 
 function RADAR:EndScan()
     self.enable = false
@@ -143,15 +144,40 @@ function RADAR:Draw(client)
         end
     end
 
+	 -- Time until next scan
+	 local remaining = math.max(0, RADAR.endtime - CurTime())
+    local text = GetPTranslation("radar_hud", {
+        time = FormatTime(remaining, "%02i:%02i")
+    })
+
+	if (RADAR_VISIBLE and math.ceil(remaining) == 0) then
+		draw.SimpleText("RADAR IS SCANNING", "moat_wdls", ScrW() / 2, ScrH() - 125, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText("RADAR IS SCANNING", "moat_wdl", ScrW() / 2, ScrH() - 125, Color(RADAR_VISIBLE and 1 or 253, RADAR_VISIBLE and 255 or 11, RADAR_VISIBLE and 31 or 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	elseif (RADAR_VISIBLE) then
+		draw.SimpleText(RADAR_VISIBLE and ("RADAR READY FOR NEXT SCAN IN 00:" .. (math.ceil(RADAR.endtime - CurTime()) ~= 10 and "0" or "") .. string.upper(math.ceil(remaining))) or "RADAR IS READY AND WAITING", "moat_wdls", ScrW() / 2, ScrH() - 125, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText(RADAR_VISIBLE and ("RADAR READY FOR NEXT SCAN IN 00:" .. (math.ceil(RADAR.endtime - CurTime()) ~= 10 and "0" or "") .. string.upper(math.ceil(remaining))) or "RADAR IS READY AND WAITING", "moat_wdl", ScrW() / 2, ScrH() - 125, Color(RADAR_VISIBLE and 1 or 253, RADAR_VISIBLE and 255 or 11, RADAR_VISIBLE and 31 or 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	else
+		draw.SimpleText("RADAR IS READY AND WAITING", "moat_wdls", ScrW() / 2, ScrH() - 125, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText("RADAR IS READY AND WAITING", "moat_wdl", ScrW() / 2, ScrH() - 125, Color(253, 11, 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	end
+
+    -- draw.SimpleText(RADAR_VISIBLE and ("Radar intelligence at the ready in 00:" .. (math.ceil(RADAR.endtime - CurTime()) ~= 10 and "0" or "") .. util.FormatTimeSingle(math.ceil(remaining), false) .. " " .. string.rep(".", 10 - (RADAR.endtime - CurTime()))) or ("Radar intelligence ready and waiting"), "moat_ChatFont", ScrW() / 2, ScrH() - 125, Color(RADAR_VISIBLE and 0 or 255, RADAR_VISIBLE and 255 or 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+
+	draw.SimpleText((RADAR_VISIBLE and "Disable via " or "Enable via ") .. " F2", "moat_wdls", (ScrW() / 2) + 1, ScrH() - 99, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText((RADAR_VISIBLE and "Disable via " or "Enable via ") .. " F2", "moat_wdl", ScrW() / 2, ScrH() - 100, Color(255, 227, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+
     -- Player radar
     if (not self.enable) or (not client:IsActiveSpecial()) then return end
     surface.SetTexture(indicator)
-    local remaining = math.max(0, RADAR.endtime - CurTime())
     local alpha_base = 50 + 180 * (remaining / RADAR.duration)
     local mpos = Vector(ScrW() / 2, ScrH() / 2, 0)
     local role, alpha, scrpos, md
 
     for k, tgt in pairs(RADAR.targets) do
+		if (not RADAR_VISIBLE) then
+			continue
+		end
+
         alpha = alpha_base
         scrpos = tgt.pos:ToScreen()
         if not scrpos.visible then continue end
@@ -180,13 +206,6 @@ function RADAR:Draw(client)
 
         DrawTarget(tgt, 24, 0)
     end
-
-    -- Time until next scan
-    local text = GetPTranslation("radar_hud", {
-        time = FormatTime(remaining, "%02i:%02i")
-    })
-
-    draw.SimpleText(text, "TabLarge", ScrW() / 2, ScrH() - 125, Color(255, 0, 0, 230), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 end
 
 local function ReceiveC4Warn()

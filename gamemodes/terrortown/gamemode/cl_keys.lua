@@ -76,6 +76,10 @@ function GM:PlayerBindPress(ply, bind, pressed)
         RunConsoleCommand("ttt_mute_team", m)
 
         return true
+    elseif bind == "gm_showteam" and pressed and ply:HasEquipmentItem(EQUIP_RADAR) then
+        RADAR_VISIBLE = tobool(not RADAR_VISIBLE)
+
+        return true
     elseif bind == "+duck" and pressed and ply:IsSpec() then
         if not IsValid(ply:GetObserverTarget()) then
             if GAMEMODE.ForcedMouse then
