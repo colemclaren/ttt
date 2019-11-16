@@ -64,7 +64,8 @@ hook.Add("TTTWeaponCreated", "moat_ApplyRandom", function(e)
             w = e:GetClass()
         }
 
-        e:SetRealPrintName(chosen_item.Name .. " " .. e.PrintName)
+		e.ItemName = chosen_item.Name .. " " .. e.PrintName
+    	e.PrintName = wep.ItemName
 
         local stattbl = {}
         if (chosen_item.Stats) then
