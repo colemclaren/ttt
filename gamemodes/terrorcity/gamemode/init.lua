@@ -213,6 +213,7 @@ function GM:GetGameDescription()
     return self.Name
 end
 
+CreateConVar("ttt_highlight_admins", "1")
 -- Convar replication is broken in gmod, so we do this.
 -- I don't like it any more than you do, dear reader.
 function GM:SyncGlobals()
