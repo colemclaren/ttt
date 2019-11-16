@@ -22,7 +22,7 @@ function WEPS.IsEquipment(wep)
 
    return wep.Kind and wep.Kind >= WEAPON_EQUIP
 
-endGetNW2Bool
+end
 
 
 
