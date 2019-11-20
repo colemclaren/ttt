@@ -21,7 +21,7 @@ discord.AddChannels {
 	["mga-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
 	["toxic-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
     ["error-logs-sv"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
-    ["server-list"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["server-list"] = "https://discord.moat.gg/api/webhooks/646559826037440532/_Wmu7hnC3Je1aiQcGRupEf_vX5k8Hid-_fcPzIO5OH8yCNY7bYjiCCUYqwcl6ERGrkMe",
     ["enhanced-boss-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
 }
 
@@ -46,10 +46,10 @@ function post_discord_server_list()
         timer.Simple(0.5 * k,function()
             discord.Embed("Servers",{
                 author = {
-                    name = "moat.gg | ".. v.Name,
-                    icon_url = "https://cdn.discordapp.com/avatars/406539243909939200/5a6db1904883070e0f896f3fb0275a2e.webp"
+                    name = "★▶ Moat.GG - ".. v.Name .. " - Official Inventory - Chill",
+                    icon_url = "https://ttt.dev/60433443430256164487.jpg"
                 },
-                description = "Click here to connect: " .. v.ConnectURL,
+                description = "Click here to automatically connect: " .. v.ConnectURL,
             })
             if k == #Servers.Roster then
                 Server.IsDev = true
