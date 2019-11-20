@@ -75,10 +75,10 @@ net.Receive("MOAT_OBTAIN_ITEM", function(len)
 	if (not GetConVar "moat_disable_rare_warnings":GetBool()) then
 			
 		Derma_Query("You just dropped an " .. (da_rarity == 6 and "uncommon" or "extremely rare") .. " item (" .. ITEM_NAME_FULL .. ")\n" ..
-			"Before trading this item you should get it price checked on our discord. https://moat.gg/discord", "Rare Item Notice",
+			"Before trading this item you should get it price checked on our discord. https://moat.chat", "Rare Item Notice",
 			"OK", function() end,
 			"Open Discord", function()
-				gui.OpenURL "https://moat.gg/discord"
+				gui.OpenURL "https://moat.chat"
 			end
 		)
 	end

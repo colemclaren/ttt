@@ -4427,7 +4427,7 @@ function m_CreateItemMenu(num, ldt)
             end
             if MOAT_CACHED_PICS[itemtbl.c][1] == x then
                 local l = MOAT_CACHED_PICS[itemtbl.c][2]
-                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via moat.gg/discord", "Copy URL of Stats", "Deal (Close)")
+                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via moat.chat", "Copy URL of Stats", "Deal (Close)")
                 SetClipboardText(l)
                 return
             end
@@ -4506,7 +4506,7 @@ function m_CreateItemMenu(num, ldt)
                             b = util.JSONToTable(b)
                             if b.success then
                                 local l = "https://imgur.com/a/" .. album.data.id
-                                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via moat.gg/discord", "Copy URL of Stats", "Deal (Close)")
+                                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via moat.chat", "Copy URL of Stats", "Deal (Close)")
                                 SetClipboardText(l)
                                 local x = 0
                                 if itemtbl.s then
@@ -4537,7 +4537,7 @@ function m_CreateItemMenu(num, ldt)
                 end,
                 parameters = {
                     -- title = (item_name) .. " \\|| " .. LocalPlayer():Nick() .. " \\|| " .. GetServerName() or "moat.gg",
-                    -- description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nShared via " .. (GetServerName() or "moat.gg") .. "\n\nTrade chat in Discord to start #buying @ #selling via moat.gg/discord"
+                    -- description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nShared via " .. (GetServerName() or "moat.gg") .. "\n\nTrade chat in Discord to start #buying @ #selling via moat.chat"
                 },
             })
 

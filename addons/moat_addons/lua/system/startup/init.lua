@@ -102,5 +102,5 @@ moat.spacer()
 moat.print "| Need to report a bug? We'd love to talk with you! <3<3<3"
 moat.print [[| The best way to contact us is on our partnered Discord server. \ (•◡•) /]]
 moat.print "|"
-for i = 1, 3 do moat.print "| > https://moat.gg/discord" end
+for i = 1, 3 do moat.print "| > https://moat.chat" end
 moat.spacer()

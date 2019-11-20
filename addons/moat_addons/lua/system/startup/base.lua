@@ -30,7 +30,7 @@ function moat.error(...)
 	msgt[1] = Color(245, 54, 92)
 	msgt[2] = "[ERRORS] Need to report a bug? We'd love to talk with you! <3<3<3"
 	msgt[3] = [[[ERRORS] The best way to contact us is on our partnered Discord server. \ (•◡•) /]]
-	msgt[4] = "[ERRORS] > https://moat.gg/discord"
+	msgt[4] = "[ERRORS] > https://moat.chat"
 	msgt[5] = Color(249, 134, 157)
 	msgt[6] = table.ToString(debug.getinfo(-1, "flLnSu"), "[WARNINGS]", true)
 
