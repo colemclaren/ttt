@@ -9,7 +9,7 @@ moat.cfg.discord = {
 discord.AddChannels {
 	["ttt-tv"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
 	["general"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
-	["ttt-bot"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+	["ttt-bot"] = "https://discord.moat.gg/api/webhooks/646557108816445440/Z8zcfMxGctXsfVTAkKOiY2J0vobQqo3hT1r4NtT_07LxbT6ONuowDolq2HV3933K3FMj",
 	["ttt-challenges"] = "https://discord.moat.gg/api/webhooks/646556647828750337/NGIl7DW12P4YLTRd92l1l0Eyb-nNYwZvmRk-BWGwmRH07kRv1SpMvnnZCG7pborOM4wD",
 	["ttt-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
     ["staff-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
