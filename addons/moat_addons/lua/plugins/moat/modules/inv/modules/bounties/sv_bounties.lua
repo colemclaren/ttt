@@ -1898,12 +1898,12 @@ function MOAT_BOUNTIES.DiscordBounties()
 
 		if (http and http.Loaded) then
 			timer.Simple(1 * i,function()
-				discord.Send("Bounties",embed)
+				discord.Embed("Bounties",embed)
 			end)
 		else
 			hook("HTTPLoaded", function()
 				timer.Simple(1 * i,function()
-					discord.Send("Bounties",embed)
+					discord.Embed("Bounties",embed)
 				end)
 			end)
 		end
