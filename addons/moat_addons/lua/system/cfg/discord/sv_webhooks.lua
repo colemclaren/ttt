@@ -44,7 +44,7 @@ function post_discord_server_list()
     Server.IsDev = false
     for k,v in pairs(Servers.Roster) do
         timer.Simple(0.5 * k,function()
-            discord.Send("Servers",{
+            discord.Embed("Servers",{
                 author = {
                     name = "★▶ Moat.GG - ".. v.Name .. " - Official Inventory - Chill",
                     icon_url = "https://ttt.dev/60433443430256164487.jpg"
