@@ -17,10 +17,10 @@ local function AddEmoji(height, url, ...)
         emoji_text_length[emoji:len()][emoji] = true
     end
 end
-AddEmoji(16, "ok_hand", ":ok_hand:", "👌")
-AddEmoji(16, "thinking", ":thinking:", "🤔")
-AddEmoji(21, "https://cdn.moat.gg/f/30377462080281024722.gif", ":tv:", "📺")
-AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/happy-smile.png", ":)", ":]", "}")
+-- AddEmoji(16, "ok_hand", ":ok_hand:", "👌")
+-- AddEmoji(16, "thinking", ":thinking:", "🤔")
+-- AddEmoji(21, "https://cdn.moat.gg/f/30377462080281024722.gif", ":tv:", "📺")
+-- AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/happy-smile.png", ":)", ":]", "}")
 
 AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-1.png", ":pumpkin:")
 AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-2.png", ":pumpkin~1:")
