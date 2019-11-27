@@ -666,7 +666,7 @@ WHERE `steamid` = ']] .. d.steamid .. [[']])
 		"Golden Vape", "White Vape", "Medicinal Vape", "Helium Vape", "Hallucinogenic Vape", "Butterfly Vape", "Custom Vape"
 	}
 
-	local function reward_ply(ply,place)
+	function reward_ply(ply,place)
 		if place == 1 then
 			ply:m_GiveIC(10000)
 			give_ec(ply,1)
@@ -2058,7 +2058,6 @@ net.Receive("bounty.refresh", function(_, ply)
 		if #d < 1 then return end
 		timer.Simple(30,function()
 			if not IsValid(ply) then return end
-			-- wait for data to load and chat message
 			reward_ply(ply,d[1].place)
 			moat.mysql("DELETE FROM moat_contractwinners_v2 WHERE steamid = " .. ply:SteamID64() .. ";")
 		end)
