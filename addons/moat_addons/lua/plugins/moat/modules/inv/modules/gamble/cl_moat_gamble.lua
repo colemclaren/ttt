@@ -4245,7 +4245,7 @@ function m_versusroll(owner,other,winner)
         if (math.abs(gversus_players[owner].roll_contents_x - roll_to) < 1) then return end
 
         if (math.floor(gversus_players[owner].roll_contents_x / 71) ~= item_value) then
-			if IsValid(MOAT_GAMBLE_VS) then
+			if (IsValid(MOAT_GAMBLE_VS) and ((isstring(other) and LocalPlayer():SteamID64() == other) or (isstring(owner) and LocalPlayer():SteamID64() == owner) or (LocalPlayer() == owner or LocalPlayer() == other))) then
             	sfx.Tick()
 			end
         end
