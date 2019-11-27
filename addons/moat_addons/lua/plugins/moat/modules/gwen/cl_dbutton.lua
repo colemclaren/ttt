@@ -1,4 +1,4 @@
-
+--[[
 local PANEL = {}
 
 AccessorFunc( PANEL, "m_bBorder", "DrawBorder", FORCE_BOOL )
@@ -149,3 +149,4 @@ derma.DefineControl( "Button", "Backwards Compatibility", PANEL, "DLabel" )
 hook("InitPostEntity", function()
 	derma.DefineControl("Button", "Backwards Compatibility", PANEL, "DLabel")
 end)
+]]
