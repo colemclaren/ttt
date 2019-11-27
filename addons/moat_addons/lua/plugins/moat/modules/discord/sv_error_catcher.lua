@@ -1,11 +1,11 @@
 local report_errors = CreateConVar("moat_report_errors", 1)
 local HTTP, reset, limit = HTTP, 0
-local function post(tbl)
+local function report_error(tbl)
 	local now = os.time(os.date("!*t"))
 
 	if limit == 0 and now < reset then
 		local function tcb()
-			post(data)
+			report_error(data)
 		end
 		timer.Simple(reset - now, tcb)
 	end
@@ -30,9 +30,9 @@ local function post(tbl)
 	msg = msg .. style.NewLine(style.CodeBlock("[ERROR] " .. tbl.err))
 
 	if tbl.rlm == 1 then
-		discord.Send("Error Report", msg)
+		discord.Send("Client Error Reports", msg)
 	else
-		discord.Send("Error Report SV", msg)
+		discord.Send("Server Error Reports", msg)
 	end
 end
 
@@ -41,7 +41,7 @@ luaerror.EnableRuntimeDetour(true)
 luaerror.EnableCompiletimeDetour(true)
 luaerror.EnableClientDetour(true)
 
-sql.Query [[CREATE TABLE IF NOT EXISTS error_reports (
+sql.Query [[CREATE TABLE IF NOT EXISTS luaerror_reports (
 	error VARCHAR NOT NULL PRIMARY KEY,
 	stack TEXT DEFAULT NULL
 );]]
@@ -53,7 +53,7 @@ local function logerror(report, error, serverip, realm, stack, steamid)
 
 		local id = q:lastInsert() or 0
 		if (stack) then stack = util.JSONToTable(stack) end
-		post({err = error, ip = serverip, rlm = realm, st = stack, pl = steamid, errid = id})
+		report_error({err = error, ip = serverip, rlm = realm, st = stack, pl = steamid, errid = id})
 	end)
 end
 
@@ -78,7 +78,7 @@ end
 local function catchError(pl, err, src, _, _, stack)
 	if (not err or error_cache[err]) then return end
 	if isbool(pl) or (not pl) then -- serverside error
-		post({err = err, ip = MOAT_RCON.Server, rlm = 2, st = stack})
+		report_error({err = err, ip = MOAT_RCON.Server, rlm = 2, st = stack})
 	end
 	if (not MOAT_RCON or not MOAT_RCON.DBHandle) then return end -- sql not loaded yet
 	error_cache[err] = true
@@ -98,7 +98,7 @@ local function catchError(pl, err, src, _, _, stack)
 			discord.Send("Skid",(ping and "<@135912347389788160> <@150809682318065664> " or "") .. "`" .. ply:Nick() .. "` (`" .. ply:SteamID() .. "`) (`" .. ply:IPAddress() .. "`) " .. string.Extra(GetServerName(), GetServerURL()) .. " Skid Error: ```" .. err .. "```")
 		end
 	end*/
-	local row = sql.QueryRow("SELECT stack FROM error_reports WHERE error = " .. sql.SQLStr(err))
+	local row = sql.QueryRow("SELECT stack FROM luaerror_reports WHERE error = " .. sql.SQLStr(err))
 	if (row) then return end
 	if (report_errors:GetInt() ~= 1) then return end
 
@@ -111,7 +111,7 @@ local function catchError(pl, err, src, _, _, stack)
 	end
 
 	st = util.TableToJSON(st)
-	sql.Query("INSERT INTO error_reports (error, stack) VALUES (" .. sql.SQLStr(err) .. ", " .. sql.SQLStr(st) .. ");")
+	sql.Query("INSERT INTO luaerror_reports (error, stack) VALUES (" .. sql.SQLStr(err) .. ", " .. sql.SQLStr(st) .. ");")
 
 	MOAT_RCON:Query("SELECT serverip FROM moat_errors WHERE error = #", err, function(d)
 		logerror((not d or not d[1]), err, MOAT_RCON.Server, pl and 1 or 0, st, pl)

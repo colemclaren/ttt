@@ -33,6 +33,8 @@
 # random bullshit
 !/lua/bin/gmsv_luaerror_linux.dll
 !/lua/bin/gmsv_luaerror_win32.dll
+!/lua/bin/gmcl_luaerror_linux.dll
+!/lua/bin/gmcl_luaerror_win32.dll
 !/lua/bin/gmsv_mysqloo_linux.dll
 !/lua/bin/gmsv_mysqloo_win32.dll
 !/bin/gmsv_mysqloo_linux.dll

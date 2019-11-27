@@ -14,13 +14,13 @@ discord.AddChannels {
 	["ttt-logs"] = "https://discord.moat.gg/api/webhooks/649226000374169610/rMMJA1P0pVIE2KCmFt1OUidUtbI-XRwDtT-u7a0GBgt4GohFKKaWwRVbpqBc9G29oNUV",
     ["staff-logs"] = "https://discord.moat.gg/api/webhooks/649226000374169610/rMMJA1P0pVIE2KCmFt1OUidUtbI-XRwDtT-u7a0GBgt4GohFKKaWwRVbpqBc9G29oNUV",
     ["boss-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
-    ["error-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["error-logs"] = "https://discord.moat.gg/api/webhooks/649251773478862848/3I4dvO5uVkSdM0xiJ_U4fnuX7Jrb1i4dMckEqqf51Jm_z1mMi_n_ohO0DYc4kliQZm9d",
     ["testing"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
     ["dev-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
     ["old-staff"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
 	["mga-logs"] = "https://discord.moat.gg/api/webhooks/649226000374169610/rMMJA1P0pVIE2KCmFt1OUidUtbI-XRwDtT-u7a0GBgt4GohFKKaWwRVbpqBc9G29oNUV",
 	["toxic-logs"] = "https://discord.moat.gg/api/webhooks/649226000374169610/rMMJA1P0pVIE2KCmFt1OUidUtbI-XRwDtT-u7a0GBgt4GohFKKaWwRVbpqBc9G29oNUV",
-    ["error-logs-sv"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
+    ["error-logs-sv"] = "https://discord.moat.gg/api/webhooks/649252891328118794/TROJAC0Ak48HEpaiRdAz6BzgCbUUoyQVSd9EC99Hy22YUodK2w09lIx5p3FqbALN0Oyj",
     ["server-list"] = "https://discord.moat.gg/api/webhooks/646559826037440532/_Wmu7hnC3Je1aiQcGRupEf_vX5k8Hid-_fcPzIO5OH8yCNY7bYjiCCUYqwcl6ERGrkMe",
     ["enhanced-boss-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
 }
@@ -36,8 +36,8 @@ discord.AddUsers("boss-logs", {"Snap", "Skid", "Gamble Log", "Trade", "Bad Map",
 discord.AddUsers("mga-logs", {"MGA Log"}, true)
 discord.AddUsers("dev-logs", {"Developer"})
 discord.AddUsers("toxic-logs", {"Toxic TTT Loggers"})
-discord.AddUsers("error-logs", {"Error Report"}, true)
-discord.AddUsers("error-logs-sv", {"Error Report SV"}, true)
+discord.AddUsers("error-logs", {"Client Error Reports"}, true)
+discord.AddUsers("error-logs-sv", {"Server Error Reports"}, true)
 discord.AddUsers("server-list", {"Servers"})
 
 function post_discord_server_list()
