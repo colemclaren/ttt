@@ -191,8 +191,8 @@ hook.Add("Initialize", "MapEvent", function()
 	end
 end)
 
-hook.Add("TTTEndRound", "QuadXP", function()
-	if (MG_cur_event and MG_cur_event == "Quadra XP") then
+hook.Add("TTTEndRound", "XPBoost", function()
+	if (MG_cur_event and MG_cur_event == "XPBoost") then
 		local rounds = sql.QueryValue "SELECT rounds_left FROM mg_quad_xp WHERE 1"
 
 		if (rounds - 1 <= 0) then
@@ -205,7 +205,7 @@ hook.Add("TTTEndRound", "QuadXP", function()
 			XP_MULTIPYER = 2
 		end
 
-		print(rounds, "Quad XP Left")
+		print(rounds, "XP Boost Left")
 
 		sql.Query "UPDATE mg_quad_xp SET rounds_left = rounds_left - 1 WHERE 1"
 	end

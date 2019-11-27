@@ -150,22 +150,25 @@ function RADAR:Draw(client)
         time = FormatTime(remaining, "%02i:%02i")
     })
 
-	if (RADAR_VISIBLE and math.ceil(remaining) == 0) then
-		draw.SimpleText("RADAR IS SCANNING", "moat_wdls", ScrW() / 2, ScrH() - 125, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
-		draw.SimpleText("RADAR IS SCANNING", "moat_wdl", ScrW() / 2, ScrH() - 125, Color(RADAR_VISIBLE and 1 or 253, RADAR_VISIBLE and 255 or 11, RADAR_VISIBLE and 31 or 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
-	elseif (RADAR_VISIBLE) then
-		draw.SimpleText(RADAR_VISIBLE and ("RADAR READY FOR NEXT SCAN IN 00:" .. (math.ceil(RADAR.endtime - CurTime()) ~= 10 and "0" or "") .. string.upper(math.ceil(remaining))) or "RADAR IS READY AND WAITING", "moat_wdls", ScrW() / 2, ScrH() - 125, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
-		draw.SimpleText(RADAR_VISIBLE and ("RADAR READY FOR NEXT SCAN IN 00:" .. (math.ceil(RADAR.endtime - CurTime()) ~= 10 and "0" or "") .. string.upper(math.ceil(remaining))) or "RADAR IS READY AND WAITING", "moat_wdl", ScrW() / 2, ScrH() - 125, Color(RADAR_VISIBLE and 1 or 253, RADAR_VISIBLE and 255 or 11, RADAR_VISIBLE and 31 or 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
-	else
-		draw.SimpleText("RADAR IS READY AND WAITING", "moat_wdls", ScrW() / 2, ScrH() - 125, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
-		draw.SimpleText("RADAR IS READY AND WAITING", "moat_wdl", ScrW() / 2, ScrH() - 125, Color(253, 11, 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	if (client:HasEquipmentItem(EQUIP_RADAR) and RADAR.endtime ~= 0 and (self.enable or client:IsActiveSpecial())) then
+		if (RADAR_VISIBLE and math.ceil(remaining) == 0) then
+			draw.SimpleText("RADAR IS SCANNING", "moat_wdls", ScrW() / 2, ScrH() - 125, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText("RADAR IS SCANNING", "moat_wdl", ScrW() / 2, ScrH() - 125, Color(RADAR_VISIBLE and 1 or 253, RADAR_VISIBLE and 255 or 11, RADAR_VISIBLE and 31 or 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+		elseif (RADAR_VISIBLE) then
+			draw.SimpleText(RADAR_VISIBLE and ("RADAR READY FOR NEXT SCAN IN 00:" .. (math.ceil(RADAR.endtime - CurTime()) ~= 10 and "0" or "") .. string.upper(math.ceil(remaining))) or "RADAR IS READY AND WAITING", "moat_wdls", ScrW() / 2, ScrH() - 125, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText(RADAR_VISIBLE and ("RADAR READY FOR NEXT SCAN IN 00:" .. (math.ceil(RADAR.endtime - CurTime()) ~= 10 and "0" or "") .. string.upper(math.ceil(remaining))) or "RADAR IS READY AND WAITING", "moat_wdl", ScrW() / 2, ScrH() - 125, Color(RADAR_VISIBLE and 1 or 253, RADAR_VISIBLE and 255 or 11, RADAR_VISIBLE and 31 or 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+		else
+			draw.SimpleText("RADAR IS READY AND WAITING", "moat_wdls", ScrW() / 2, ScrH() - 125, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText("RADAR IS READY AND WAITING", "moat_wdl", ScrW() / 2, ScrH() - 125, Color(253, 11, 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+		end
+
+		
+		draw.SimpleText((RADAR_VISIBLE and "Disable via " or "Enable via ") .. " F2", "moat_wdls", (ScrW() / 2) + 1, ScrH() - 99, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText((RADAR_VISIBLE and "Disable via " or "Enable via ") .. " F2", "moat_wdl", ScrW() / 2, ScrH() - 100, Color(255, 227, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 	end
 
     -- draw.SimpleText(RADAR_VISIBLE and ("Radar intelligence at the ready in 00:" .. (math.ceil(RADAR.endtime - CurTime()) ~= 10 and "0" or "") .. util.FormatTimeSingle(math.ceil(remaining), false) .. " " .. string.rep(".", 10 - (RADAR.endtime - CurTime()))) or ("Radar intelligence ready and waiting"), "moat_ChatFont", ScrW() / 2, ScrH() - 125, Color(RADAR_VISIBLE and 0 or 255, RADAR_VISIBLE and 255 or 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 	-- Radar blips are now toggleable
-
-	draw.SimpleText((RADAR_VISIBLE and "Disable via " or "Enable via ") .. " F2", "moat_wdls", (ScrW() / 2) + 1, ScrH() - 99, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
-	draw.SimpleText((RADAR_VISIBLE and "Disable via " or "Enable via ") .. " F2", "moat_wdl", ScrW() / 2, ScrH() - 100, Color(255, 227, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 
     -- Player radar
     if (not self.enable) or (not client:IsActiveSpecial()) then return end
