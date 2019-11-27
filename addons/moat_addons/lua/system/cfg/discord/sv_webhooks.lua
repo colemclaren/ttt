@@ -35,7 +35,7 @@ discord.AddUsers("staff-logs", {"Anti Cheat", "Past Offences", "Gamble Chat", "G
 discord.AddUsers("boss-logs", {"Snap", "Skid", "Gamble Log", "Trade", "Bad Map", "ASN Check"})
 discord.AddUsers("mga-logs", {"MGA Log"}, true)
 discord.AddUsers("dev-logs", {"Developer"})
-discord.AddUsers("toxic-logs", {"Toxic"})
+discord.AddUsers("toxic-logs", {"Toxic TTT Loggers"})
 discord.AddUsers("error-logs", {"Error Report"}, true)
 discord.AddUsers("error-logs-sv", {"Error Report SV"}, true)
 discord.AddUsers("server-list", {"Servers"})

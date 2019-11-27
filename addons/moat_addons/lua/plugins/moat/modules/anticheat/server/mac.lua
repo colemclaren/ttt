@@ -21,15 +21,21 @@ end
 local cached_toxic = {}
 local cached_err = {}
 local api_key = "AIzaSyCs45XuL0kh2rSto-vkQsbRUj70RmXA98w"
+local attributeLabels = {
+    ["IDENTITY_ATTACK"] = "Identity Attack",
+    ["INSULT"] = "Insult",
+    ["SEVERE_TOXICITY"] = "Severe Toxicity"
+}
 local requestedAttributes = {
     ["IDENTITY_ATTACK"] = {},
-    ["INSULT"] =  {},
+    ["INSULT"] = {},
     ["SEVERE_TOXICITY"] = {}
 }
 local custom_min = {
     SEVERE_TOXICITY = 0.9,
     INSULT = 0.9
 }
+
 function perspective_post(nick,sid,message,ply)
     if #message < 3 then return end
     if cached_toxic[message] then return end -- avoid short term spam
@@ -40,6 +46,7 @@ function perspective_post(nick,sid,message,ply)
             languages = {"en"},
             requestedAttributes = requestedAttributes
         },true):gsub("%[%]","{}")
+
     HTTP({
         method = "POST",
         url = "https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=" .. api_key,
@@ -48,23 +55,44 @@ function perspective_post(nick,sid,message,ply)
         success = function (code,body)
             message = message:gsub("*","\\*")
             if code == 200 then
-                local t = util.JSONToTable(body)
-                local s = "{" .. (Server and Server.Name or GetHostName()) .. "} (" .. sid .. ") " .. nick .. ": " .. message .. "\n```"
+                local response = util.JSONToTable(body)
+                local s =  "\n"
                 local show = false
                 for k,v in pairs(requestedAttributes) do
-                    local value = t.attributeScores[k].summaryScore.value
-                    if value > (custom_min[k] or 0.8) then
-                        show = true
-                        s = s .. k .. ": >" .. math.Round(value * 100,2) .. "%<" 
-                    else
-                        s = s .. k .. ": " .. math.Round(value * 100,2) .. "%"
-                    end
-                    s = s .. "\t"
+                    local value = response.attributeScores[k].summaryScore.value
+					local plus = math.Round(math.Remap(value,0,1,1,20)) or 1
+
+					s = s .. "**" .. attributeLabels[k] .. "**: +".. math.Round(value * 100, 3) .. "% `(Lv " .. ply:GetNW2Int("MOAT_STATS_LVL", 1) .. ")`\n"
+					s = s .. ("[▰](http://moat.gg)"):rep(plus) .. ("▱"):rep(20 - plus)
+                    s = s .. "\n"
                 end
-                if show then
-                    s = s .. "```"
-                    discord.Send("Toxic",s)
-                end
+	
+				http.Fetch("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=13E8032658377F036842094BDD9E7000&steamids=" .. ply:SteamID64() .. "&format=json", function(body, size, headers, code)
+					local tbl, plyInfo, image = util.JSONToTable(body).response
+					if (istable(tbl) and tbl.players[1]) then
+						plyInfo = tbl.players[1]
+						image = plyInfo.avatarfull
+					end
+
+					discord.Embed("Toxic TTT Loggers", {
+						color = 0,
+						description = message .. '\n' .. s .. '\nClick the Garry\'s Mod join URL to Connect: ' .. GetServerURL(),
+						author = {
+							name = ply:Nick() .. " (" .. ply:SteamID() .. ") [" .. ply:GetUserGroup().."]",
+							icon_url = image,
+							url = "https://steamcommunity.com/profiles/" .. ply:SteamID64()
+						},
+						thumbnail = {
+							url = "https://ttt.dev/thRLP.png"
+						},
+						footer = {
+							text = "Said on " .. GetServerName() .. " (" .. GetServerIP() .. ")"
+						},
+						timestamp = os.date("!%Y-%m-%dT%H:%M:%S.000Z",os.time())
+					})
+				end,function(error) -- steam down
+					print(error)
+				end)
             else
                 discord.Send("Developer","[Error] (" .. sid .. ") (" .. message .. ") `" .. GetHostName() .. "`: Got other code: `" .. code .. "," .. body .. ",(" .. message ..")`")
             end

@@ -123,7 +123,7 @@ local function Send(user, msg, userName, no_suffix)
 	})
 end
 
-local function Embed(user, msg, userName, no_suffix)
+local function Embed(user, msg, userName, no_suffix, fields)
 	assert(user and (Users[user] or Webhooks[user]), "Discord failed to send webhook.")
 
 	-- msg = string.Replace(msg, "@", "#")
