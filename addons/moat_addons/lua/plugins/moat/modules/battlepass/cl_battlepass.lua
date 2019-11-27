@@ -1076,12 +1076,12 @@ function m_CreateBattlePanel(pnl_x, pnl_y, pnl_w, pnl_h)
                 remove_about()
             end
 
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
+            if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
 
            
         end
 
-        MOAT_BP_CAT_BTN.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+        MOAT_BP_CAT_BTN.OnCursorEntered = function() if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
 
         CAT_WIDTHS = CAT_WIDTHS + 152
     end

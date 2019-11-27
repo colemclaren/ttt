@@ -352,7 +352,7 @@ local function addpnl(wpn, num, pnl)
         end
     end
     btn.DoClick = function() end
-    btn.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+    btn.OnCursorEntered = function() if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
 end
 
 local function addrow(wpn, pnl, last)
@@ -478,9 +478,9 @@ function MOAT_EVENT.ObjectivePanel(pnl)
 
             draw.SimpleTextOutlined(MOAT_EVENT.TopPlayers[i][3], "moat_ItemDesc", w - 8, (h/2) - 1, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         end
-        btn.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+        btn.OnCursorEntered = function() if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
         btn.DoClick = function()
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
+            if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
 
             gui.OpenURL("https://steamcommunity.com/profiles/" .. MOAT_EVENT.TopPlayers[i][1])
         end
@@ -612,12 +612,12 @@ function m_PopulateEventPanel(pnl)
             draw.RoundedBox(0, 0, 0, 4 * s.HoveredWidth, h, HSVToColor( i * 55 % 360, 1, 1 ))
         end
         cat_btn.DoClick = function(s)
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
+            if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
 
             MOAT_EVENT.CurCat = i
             m_RebuildEventPanel(MOAT_EVENT.CurCat)
         end
-        cat_btn.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+        cat_btn.OnCursorEntered = function() if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
     end
 
     m_RebuildEventPanel(MOAT_EVENT.CurCat)
