@@ -213,7 +213,8 @@ local function m_StartCrateRoll(crate_slot, crate_class, parent_pnl)
             end
 
         if (math.floor(roll_contents_x / 71) ~= item_value) then
-            LocalPlayer():EmitSound("moatsounds/pop1.wav")
+            -- LocalPlayer():EmitSound("moatsounds/pop1.wav")
+			sfx.Tick()
         end
 
         s:SetPos(roll_contents_x, roll_y)

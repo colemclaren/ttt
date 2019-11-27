@@ -35,7 +35,7 @@ function require(str)
 end
 
 yugh.ish "includes/_init.lua"
-
+yugh.ish(yughs_dir .. "cdn.lua")
 yugh.i "/system/libs/yugh/" {
 	"extensions/",
 	"modules/"

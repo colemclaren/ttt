@@ -210,6 +210,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	top:DockMargin(0, 0, 0, 5)
 
 	local steam = vgui.Create("DButton",lbl)
+	sfx.SoundEffects(steam)
 	steam:SetText("")
 	local clr = HSVToColor(math.random(1,200) * 1000 % 360, 1, 1)
 	function steam:Paint(w,h)
@@ -229,6 +230,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	steam:SetSize(0,50)
 	--MOAT_FORUMS:OpenWindow()
 	local steam = vgui.Create("DButton",lbl)
+	sfx.SoundEffects(steam)
 	steam:SetText("")
 	local clr = HSVToColor(math.random(1,200) * 1000 % 360, 1, 1)
 	function steam:Paint(w,h)
@@ -281,6 +283,7 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	collect.Label = "Click to edit Steam Name"
 	collect:SetSize(450,42)
 	collect:SetText("")
+	sfx.SoundEffects(collect)
 	function collect:DoClick()
 		if not hastag then
 			gui.OpenURL("http://steamcommunity.com/id/me/edit")
@@ -320,13 +323,14 @@ function MOAT_DONATE:DrawRewardsInfo(pnl, pkg, clr)
 	collect:SetSize(450,42)
 	collect:SetText("")
 	function collect:DoClick()
-		surface.PlaySound("ui/buttonclickrelease.wav")
 		if MOAT_REWARDS.IC < 1 and MOAT_REWARDS.SC < 1 then return end
 		net.Start("NameRewards.Collect")
 		net.SendToServer()
 		MOAT_REWARDS = {IC = 0,SC = 0}
+		sfx.Agree()
 	end
 	MOAT_FORUMS.ButtonPaint(collect, {46, 204, 113})
+	sfx.SoundEffects(collect)
 	--top:DockMargin(0, 0, 0, 5)
 
 end
@@ -408,6 +412,7 @@ function MOAT_DONATE:RebuildSelection(num)
 	pnl.r:SetPos((pnl:GetWide()/2) - (btnw/2), pnl:GetTall() - 45)
 	pnl.r:SetText("")
     pnl.r.LerpNum = 0
+	sfx.SoundEffects(pnl.r)
     pnl.r.Paint = function(s, w, h)
         if (not s.LerpNum) then s.LerpNum = 0 end
 
@@ -586,7 +591,7 @@ function MOAT_DONATE:OpenWindow()
 
         draw.SimpleText("r", "marlett", 8 + 1, 8, Color(255 - (55 * s.LerpNum), 50 + (150 * s.LerpNum), 50 + (150 * s.LerpNum)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
-
+	sfx.SoundEffects(cl)
     cl.DoClick = function()
         --gui.EnableScreenClicker( false )
         self.bg:Remove()
@@ -614,6 +619,7 @@ function MOAT_DONATE:OpenWindow()
     g.DoClick = function(s)
     	gui.OpenURL(support_url)
     end
+	sfx.SoundEffects(g)
 
     for i = 1, #MOAT_DONATE.Packages do
         local caty = (31 * (i-1)) + 46
@@ -667,12 +673,11 @@ function MOAT_DONATE:OpenWindow()
 
         end
         cat_btn.DoClick = function(s)
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
-
             MOAT_DONATE.CurCat = i
             MOAT_DONATE:RebuildSelection(i)
         end
-        cat_btn.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+
+		sfx.SoundEffects(cat_btn)
     end
 
     MOAT_DONATE:RebuildSelection(1)

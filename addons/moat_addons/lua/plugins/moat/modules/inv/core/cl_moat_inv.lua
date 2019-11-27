@@ -1331,7 +1331,7 @@ function m_OpenInventory(ply2, utrade)
         if (not input.IsMouseDown(MOUSE_LEFT)) then
             if (M_INV_DRAG) then
                 m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_utrade)
-                surface.PlaySound("UI/buttonclickrelease.wav")
+				sfx.Cut()
                 M_INV_DRAG = nil
             end
         end
@@ -1526,18 +1526,17 @@ function m_OpenInventory(ply2, utrade)
             end
         end
 
-        M_LINE_BTN.OnMousePressed = function(s, key)
-            if (key == MOUSE_LEFT and M_LINE.Stage == 0) then
+        M_LINE_BTN.DoClick = function(s)
+            if (M_LINE.Stage == 0) then
 				M_TRADE_PLYS.Waiting = true
 
                 net.Start("MOAT_SEND_TRADE_REQ")
                 net.WriteDouble(v:EntIndex())
                 net.SendToServer()
-                surface.PlaySound("UI/buttonclick.wav")
             end
         end
 
-        M_LINE_BTN.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+		sfx.SoundEffects(M_LINE_BTN)
         --surface.PlaySound( "UI/buttonrollover.wav" )
         table.insert(M_TRADE_PLYTBL, M_LINE)
     end
@@ -1794,8 +1793,6 @@ function m_OpenInventory(ply2, utrade)
     M_INV_NICK:SetSize(370, 40)
     M_INV_NICK:SetContentAlignment(5)
     M_INV_NICK.DoClick = function(s, w, h)
-        if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
-
         /*net.Start("MOAT_INV_CAT")
         net.WriteDouble(2)
         net.SendToServer()*/
@@ -1804,7 +1801,10 @@ function m_OpenInventory(ply2, utrade)
     end
     M_INV_NICK:SetMouseInputEnabled(true)
     M_INV_NICK:SetCursor("hand")
-    
+	
+	sfx.HoverSound(M_INV_NICK, sfx.Click2)
+	sfx.ClickSound(M_INV_NICK)
+
     local M_INV_RANK = vgui.Create("DPanel", M_LOADOUT_PNL)
     M_INV_RANK:SetPos(4, 60)
     M_INV_RANK:SetSize(370, 12)
@@ -1839,7 +1839,7 @@ function m_OpenInventory(ply2, utrade)
     M_INV_C.Paint = function(s, w, h)
         MT[CurTheme].CLOSE_PAINT(s, w, h)
     end
-	M_INV_C.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+	sfx.SoundEffects(M_INV_C)
     M_INV_C.DoClick = function(s)
         if (IsValid(s)) then MOAT_INV_BG:Remove() return end
 
@@ -1934,8 +1934,6 @@ function m_OpenInventory(ply2, utrade)
         end
 
         MOAT_CAT_BTN.DoClick = function(s)
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
-
             if (s.CatLabel == "Donate") then
                 MOAT_DONATE:OpenWindow()
                 MOAT_INV_BG:Remove()
@@ -1948,7 +1946,7 @@ function m_OpenInventory(ply2, utrade)
             net.SendToServer()
         end
 
-        MOAT_CAT_BTN.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+        sfx.SoundEffects(MOAT_CAT_BTN)
 
         CAT_WIDTHS = CAT_WIDTHS + MOAT_CAT_BTN:GetWide() + MT[CurTheme].CatSpacing
     end
@@ -2080,6 +2078,7 @@ function m_OpenInventory(ply2, utrade)
             
             MOAT_FORUMS:OpenWindow()
         end
+		sfx.SoundEffects(M_INV_FREE)
     end
     
     local M_INV_SP = vgui.Create("DScrollPanel", M_INV_PNL)
@@ -2143,6 +2142,8 @@ function m_OpenInventory(ply2, utrade)
         s.Extended = not s.Extended
         m_ChangeInventoryPanel(s.Extended and "extend" or MOAT_INV_CAT, IsValid(MOAT_TRADE_BG) and true or false)
     end
+	sfx.HoverSound(M_INV_PNL_EXTND, sfx.Click2)
+	sfx.ClickSound(M_INV_PNL_EXTND)
 
     /*M_LOADOUT_PNL:MoveTo(-M_LOADOUT_PNL:GetWide(), 0, 0.15, 0, -1)
     M_LOADOUT_PNL:AlphaTo(0, 0.15)
@@ -2503,7 +2504,6 @@ function m_OpenInventory(ply2, utrade)
             if (INV_SELECT_MODE) then
                 if (m_Inventory[num].c and key == MOUSE_LEFT and INV_SELECTED_ITEM ~= num) then
                     INV_SELECTED_ITEM = num
-                    surface.PlaySound("UI/buttonclick.wav")
                 end
 
                 return
@@ -2553,13 +2553,14 @@ function m_OpenInventory(ply2, utrade)
             if (key == MOUSE_LEFT) then
                 if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
                     M_INV_DRAG = M_INV_SLOT[num]
-                    surface.PlaySound("UI/buttonclick.wav")
+					sfx.Click1()
                 end
             end
 
             if (key == MOUSE_RIGHT) then
                 if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
                     m_CreateItemMenu(num, false)
+					sfx.Click2()
                 end
             end
         end
@@ -2568,11 +2569,13 @@ function m_OpenInventory(ply2, utrade)
             m_HoveredSlot = num
 			HoveringSlot = true
 
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end
-
             if (input.IsMouseDown(MOUSE_LEFT) and input.IsKeyDown(KEY_LCONTROL) and m_Inventory[num].c and not INV_SELECT_MODE) then
                 s.OnMousePressed(s, MOUSE_LEFT)
             end
+
+			if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
+				sfx.Hover()
+			end
         end
 
         m_DPanelBTN.OnCursorExited = function(s)
@@ -2961,13 +2964,14 @@ function m_OpenInventory(ply2, utrade)
             if (key == MOUSE_LEFT) then
                 if (m_DPanelIcon.Item ~= nil) then
                     M_INV_DRAG = M_LOAD_SLOT[num]
-                    surface.PlaySound("UI/buttonclick.wav")
+                    sfx.Click1()
                     --m_DPanelIcon.SIcon:SetVisible( false )
                 end
             end
             if (key == MOUSE_RIGHT) then
                 if (m_DPanelIcon.Item ~= nil) then
                     m_CreateItemMenu(num, true)
+					sfx.Click2()
                 end
             end
         end
@@ -2976,7 +2980,9 @@ function m_OpenInventory(ply2, utrade)
             m_HoveredSlot = num .. "l"
 			HoveringSlot = true 
 
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end 
+			if (M_LOAD_SLOT[num].VGUI.Item and M_LOAD_SLOT[num].VGUI.Item.c) then
+				sfx.Hover()
+			end
         end
 
         m_DPanelBTN.OnCursorExited = function(s)
@@ -3808,16 +3814,20 @@ function m_OpenInventory(ply2, utrade)
                     if (key == MOUSE_LEFT and num < 11) then
                         if (m_DPanelIcon.Item ~= nil) then
                             M_INV_DRAG = M_TRADE_SLOT[num]
-                            surface.PlaySound("UI/buttonclick.wav")
+                            sfx.Click1()
                         end
                     end
+
+					if (key == MOUSE_RIGHT) then sfx.Click2() end
                 end
 
                 m_DPanelBTN.OnCursorEntered = function() 
                     m_HoveredSlot = num .. "t"
 					HoveringSlot = true
 
-                    if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end 
+					if (M_TRADE_SLOT[num].VGUI.Item and M_TRADE_SLOT[num].VGUI.Item.c) then
+						sfx.Hover()
+					end
                 end
 
                 m_DPanelBTN.OnCursorExited = function(s)
@@ -3972,7 +3982,7 @@ function m_OpenInventory(ply2, utrade)
             M_TRADE_A:SetSize(125, 30)
             M_TRADE_A:SetPos(MOAT_TRADE_BG:GetWide() - 250 - 3, MOAT_TRADE_BG:GetTall() - 30)
             M_TRADE_A:SetText("")
-
+			sfx.SoundEffects(M_TRADE_A)
             M_TRADE_A.Paint = function(s, w, h)
 				if (not IsValid(MOAT_INV_BG)) then return end
                 local x, y = MOAT_INV_BG:GetPos()
@@ -4047,7 +4057,7 @@ function m_OpenInventory(ply2, utrade)
             M_TRADE_D:SetSize(125, 30)
             M_TRADE_D:SetPos(MOAT_TRADE_BG:GetWide() - 125, MOAT_TRADE_BG:GetTall() - 30)
             M_TRADE_D:SetText("")
-
+			sfx.SoundEffects(M_TRADE_D)
             M_TRADE_D.Paint = function(s, w, h)
 				if (not IsValid(MOAT_INV_BG)) then return end
                 local x, y = MOAT_INV_BG:GetPos()
@@ -4116,6 +4126,7 @@ function m_OpenInventory(ply2, utrade)
                 local eslots = m_GetESlots()
                 net.WriteDouble(eslots)
                 net.SendToServer()
+				sfx.Agree()
             end
 
             M_TRADE_D.DoClick = function(s)
@@ -4293,7 +4304,7 @@ function m_CreateItemMenu(num, ldt)
         M_INV_MENU:AddOption("Equip", function()
             local loadout_slot = m_GetCorrectLoadoutSlot(itemtbl) .. "l"
             m_SwapInventorySlots(M_INV_SLOT[num], loadout_slot, m_utrade)
-            surface.PlaySound("UI/buttonclick.wav")
+			sfx.Max()
         end):SetIcon("icon16/add.png")
 
 
@@ -4309,7 +4320,7 @@ function m_CreateItemMenu(num, ldt)
             net.WriteDouble(num)
             net.WriteDouble(itemtbl.c)
             net.SendToServer()
-            surface.PlaySound("UI/buttonclick.wav")
+			sfx.Subtract()
         end):SetIcon("icon16/accept.png")
 
         if (itemtbl and itemtbl.u and itemtbl.u == 7821) then
@@ -4354,13 +4365,13 @@ function m_CreateItemMenu(num, ldt)
 
         net.WriteString(wpn)
         net.SendToServer()
-        surface.PlaySound("UI/buttonclick.wav")
+        sfx.Cut()
     end):SetIcon("icon16/attach.png")
 
     if (ldt) then
         M_INV_MENU:AddOption("Copy Chat Link", function()
             SetClipboardText("{" .. (ldt and chatlinks[num] or ("slot" .. num)) .. "}")
-            surface.PlaySound("UI/buttonclick.wav")
+			sfx.Click2()
         end):SetIcon("icon16/tag_blue.png")
 
         if (num == 6 or num == 7 or num == 8) then
@@ -4373,7 +4384,7 @@ function m_CreateItemMenu(num, ldt)
                 moat_RemoveEditPositionPanel()
 
                 moat_InitializeEditPanel(itemtbl.u, MOAT_INV_BG, MOAT_INV_BG_W, MOAT_INV_BG_H)
-                surface.PlaySound("UI/buttonclick.wav")
+				sfx.Click2()
             end):SetIcon("icon16/arrow_out.png")
         end
 
@@ -4393,7 +4404,7 @@ function m_CreateItemMenu(num, ldt)
         net.WriteDouble(num)
         net.WriteDouble(itemtbl.c)
         net.SendToServer()
-        surface.PlaySound("UI/buttonclick.wav")
+        sfx.Cut()
     end):SetIcon("icon16/lock" .. lock_image .. ".png")
 
     local M_INV_MENU2, M_INV_MENU2P = M_INV_MENU:AddSubMenu "More Options" 
@@ -4412,7 +4423,7 @@ function m_CreateItemMenu(num, ldt)
 
     M_INV_MENU2:AddOption("Copy Chat Link", function()
         SetClipboardText("{" .. (ldt and chatlinks[num] or ("slot" .. num)) .. "}")
-        surface.PlaySound("UI/buttonclick.wav")
+		sfx.Click2()
     end):SetIcon("icon16/tag_blue.png")
 
     M_INV_MENU2:AddOption("Copy URL of Stats",function()
@@ -4699,7 +4710,7 @@ function m_CreateItemMenu(num, ldt)
                 net.WriteDouble(num)
                 net.WriteDouble(itemtbl.c)
                 net.SendToServer()
-                surface.PlaySound("UI/buttonclick.wav")
+                sfx.Dustbin()
                 M_INV_MENU:Remove()
             end
         end
@@ -4742,7 +4753,7 @@ function m_CreateItemMenu(num, ldt)
                     net.WriteDouble(num)
                     net.WriteDouble(itemtbl.c)
                     net.SendToServer()
-                    surface.PlaySound("UI/buttonclick.wav")
+                   	sfx.Dustbin()
                     M_INV_MENU:Remove()
                 end
             end
@@ -4786,7 +4797,7 @@ function m_CreateItemMenu(num, ldt)
                     net.WriteDouble(num)
                     net.WriteDouble(itemtbl.c)
                     net.SendToServer()
-                    surface.PlaySound("UI/buttonclick.wav")
+                    sfx.Dustbin()
                     M_INV_MENU:Remove()
                 end
             end
@@ -4830,7 +4841,7 @@ function m_CreateItemMenu(num, ldt)
                     net.WriteDouble(num)
                     net.WriteDouble(itemtbl.c)
                     net.SendToServer()
-                    surface.PlaySound("UI/buttonclick.wav")
+                    sfx.Dustbin()
                     M_INV_MENU:Remove()
                 end
             end
@@ -4853,7 +4864,7 @@ function m_CreateItemMenu(num, ldt)
 				net.WriteDouble(num)
             	net.WriteDouble(itemtbl.c)
             net.SendToServer()
-            surface.PlaySound("UI/buttonclick.wav")
+            sfx.Agree()
         end):SetIcon("icon16/arrow_refresh.png")
      end
 end
@@ -5234,7 +5245,7 @@ function m_DrawTradeRequest(ply)
     M_REQ_AVAB:SetSize(128, 128)
     M_REQ_AVAB:SetText("")
     M_REQ_AVAB.Paint = nil
-
+	sfx.SoundEffects(M_REQ_AVAB)
     M_REQ_AVAB.DoClick = function(s)
         gui.OpenURL("http://steamcommunity.com/profiles/" .. ply:SteamID64())
     end
@@ -5257,7 +5268,7 @@ function m_DrawTradeRequest(ply)
     M_REQ_A:SetSize(125, 30)
     M_REQ_A:SetPos(35, MOAT_REQ_BG_H - 55)
     M_REQ_A:SetText("")
-
+	sfx.SoundEffects(M_REQ_A)
     M_REQ_A.Paint = function(s, w, h)
         if (MT_TR and MT_TR.Background) then
             surface_SetDrawColor(0, 0, 0, 245)
@@ -5315,7 +5326,7 @@ function m_DrawTradeRequest(ply)
     M_REQ_D:SetSize(125, 30)
     M_REQ_D:SetPos(MOAT_REQ_BG_W - 35 - 125, MOAT_REQ_BG_H - 55)
     M_REQ_D:SetText("")
-
+	sfx.SoundEffects(M_REQ_D)
     M_REQ_D.Paint = function(s, w, h)
         if (MT_TR and MT_TR.Background) then
             surface_SetDrawColor(0, 0, 0, 245)
@@ -5375,6 +5386,7 @@ function m_DrawTradeRequest(ply)
             net.WriteBool(false)
             net.WriteDouble(ply:EntIndex())
             net.SendToServer()
+			sfx.Agree()
 
             return
         end
@@ -5390,6 +5402,7 @@ function m_DrawTradeRequest(ply)
         net.WriteBool(true)
         net.WriteDouble(ply:EntIndex())
         net.SendToServer()
+		sfx.Agree()
 
         return
     end
@@ -5400,6 +5413,7 @@ function m_DrawTradeRequest(ply)
         net.WriteBool(false)
         net.WriteDouble(ply:EntIndex())
         net.SendToServer()
+		sfx.Decline()
 
         return
     end
@@ -5435,7 +5449,7 @@ function m_DrawTradeRequest(ply)
     M_REQ_C:SetPos(MOAT_REQ_BG:GetWide() - 36, 3)
     M_REQ_C:SetSize(33, 19)
     M_REQ_C:SetText("")
-
+	sfx.SoundEffects(M_REQ_C)
     M_REQ_C.Paint = function(s, w, h)
         draw_RoundedBoxEx(0, 0, 0, w, h, Color(28, 28, 25), false, true, false, true)
         surface_SetDrawColor(95, 95, 95)
@@ -6364,6 +6378,8 @@ end
 net.Receive("MOAT_ITEM_OBTAINED", function(len)
     local tbl = net.ReadTable()
     table.insert(MOAT_ITEM_FOUND_QUEUE, tbl)
+
+	cdn.PlayURL("https://cdn.moat.gg/ttt/borderlands_3_legend.mp3", .5)
 end)
 
 net.Receive("MOAT_INIT_USABLE", function()
@@ -6455,6 +6471,7 @@ function m_DrawDeconButton()
     MOAT_INV_MASS_DECON:SetPos(MOAT_INV_BG_W - 364 - 5, MOAT_INV_BG_H)
     MOAT_INV_MASS_DECON:SetSize(364, 35)
     MOAT_INV_MASS_DECON:SetText("")
+	sfx.SoundEffects(MOAT_INV_MASS_DECON)
     local hover_coloral = 1
     MOAT_INV_MASS_DECON.Paint = function(s, w, h)
         surface_SetDrawColor(0, 0, 0, 255)

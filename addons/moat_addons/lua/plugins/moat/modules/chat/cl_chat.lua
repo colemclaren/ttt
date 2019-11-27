@@ -486,6 +486,9 @@ function moat_chat.InitChat()
         RunConsoleCommand("moat_resetchat")
     end
 
+	sfx.HoverSound(mc.MOVE, sfx.Click2)
+	sfx.ClickSound(mc.MOVE)
+
     mc.SPNL = vgui.Create("DScrollPanel", FRAME)
     mc.SPNL:SetPos(5, 42)
     mc.SPNL:SetSize(mcc.w - 10, mcc.h - 82)
@@ -1138,6 +1141,12 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
 
     pack[a + 1] = "\n"
     MsgC(unpack(pack))
+
+	if (math.random(100) <= 50) then
+		sfx.Hover()
+	else
+		sfx.Click1()
+	end
 end
 
 hook.Add("PlayerBindPress", "moat_OpenChat", function(ply, bind, pressed)

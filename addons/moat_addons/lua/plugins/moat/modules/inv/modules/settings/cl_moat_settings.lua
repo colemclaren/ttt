@@ -41,7 +41,7 @@ local moat_convars = {
     ["moat_mga_playerlist"] = 0,
     ["moat_mga_animation"] = 1,
     ["moat_disable_motd"] = 0,
-    ["moat_enable_uisounds"] = 1,
+    ["moat_ui_sounds"] = 1,
     ["moat_momentum_scrolling"] = 0,
     ["moat_ViewModelFlip"] = 0,
     ["moat_multicore"] = 0,
@@ -173,7 +173,7 @@ moat_Settings.Options = {
         {"Deconstruct Speed Multiplier", {"MultiText", "1", "3", "5", "10", "15", "20", "25", "100"}, "moat_deconstruct_speed_multi"},
         {"Inventory Theme", {"MultiText", "Original", "Dark", "Light", "Blur", "Clear", "Alpha"}, "moat_Theme"},
         {"Instantly Open Crates on Open", {"Multi"}, "moat_fast_open"},
-        {"Enable UI Sound Effects", {"Multi"}, "moat_enable_uisounds"},
+        {"Enable UI Sound Effects", {"Multi"}, "moat_ui_sounds"},
         {"Enable Momentum Smooth Scrolling", {"Multi"}, "moat_momentum_scrolling"},
         {"Enable Custom Model Preview when Using Crates", {"Multi"}, "moat_model_preview"},
         {"Disable Lighting in Inventory Model Preview", {"Multi"}, "moat_inventory_lighting"},
@@ -358,8 +358,8 @@ local function m_ChangeConVarChoice(var, multiopt, multioptstr, dir)
         chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Headshot Sound: " .. tostring(var:GetString()))
 
 		hook.Run "Moat.Headshot"
-    elseif (GetConVar("moat_enable_uisounds"):GetInt() > 0) then
-		LocalPlayer():EmitSound("moatsounds/pop1.wav")
+    elseif (GetConVar("moat_ui_sounds"):GetInt() > 0) then
+		sfx.Click1()
 	end
 end
 
@@ -522,8 +522,8 @@ function m_BuildSettingsPanel(pnl, num)
                     con:SetInt(0)
                 end
 
-				if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then
-					LocalPlayer():EmitSound("moatsounds/pop1.wav")
+				if (GetConVar("moat_ui_sounds"):GetInt() > 0) then
+					sfx.Click1()
 				end
 
                 m_RebuildMultiChoice(s, options[i][3])
@@ -534,9 +534,7 @@ function m_BuildSettingsPanel(pnl, num)
                 m_RebuildMultiTextChoice(s, options[i][3], GetConVar(options[i][3]), multiopt, multioptstr)
             end
         end
-
-        btn.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
-
+		sfx.HoverSound(btn)
         if (otype == "Slider") then
             m_RebuildSliderChoice(btn, options[i][3])
         end
@@ -626,12 +624,10 @@ function m_PopulateSettingsPanel(pnl)
             draw.RoundedBox(0, 0, 0, 4 * s.HoveredWidth, h, HSVToColor( i * 55 % 360, 1, 1 ))
         end
         cat_btn.DoClick = function(s)
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
-
             moat_Settings.CurCat = i
             m_RebuildSettingsPanel(moat_Settings.CurCat)
         end
-        cat_btn.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+        sfx.SoundEffects(cat_btn)
     end
 
     m_RebuildSettingsPanel(moat_Settings.CurCat)

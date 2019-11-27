@@ -238,7 +238,9 @@ function MapVote.Show()
         net.Start("MapVote.Feedback")
         net.WriteBool(true)
         net.SendToServer()
+		sfx.Agree()
     end
+	sfx.SoundEffects(like)
 
     --https://i.imgur.com/QFKkVtt.png
     local like = vgui.Create("DButton",bottom_panel)
@@ -253,7 +255,9 @@ function MapVote.Show()
         net.Start("MapVote.Feedback")
         net.WriteBool(false)
         net.SendToServer()
+		sfx.Decline()
     end
+	sfx.SoundEffects(like)
 
     function bottom_panel:Paint(w,h)
         local timeLeft = math.Round(math.Clamp(MapVote.EndTime - CurTime(), 0, math.huge))
@@ -281,7 +285,7 @@ function MapVote.Show()
         local top_panel = top_panel
         if i > 4 then top_panel = mid_panel end
         local a = vgui.Create("DButton",top_panel)
-        a.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+		sfx.SoundEffects(a)
         a:SetSize(182)
         if (i ~= 4) and (i ~= 8) then
             a:DockMargin(0,0,4,0)
@@ -353,7 +357,6 @@ function MapVote.Show()
                 net.WriteUInt(MapVote.UPDATE_VOTE, 3)
                 net.WriteUInt(i, 32)
             net.SendToServer()
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
         end
     end
 
@@ -375,7 +378,7 @@ function MapVote.Show()
 
         draw.SimpleText("r", "marlett", 8 + 1, 8, Color(255 - (55 * s.LerpNum), 50 + (150 * s.LerpNum), 50 + (150 * s.LerpNum)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
-
+	sfx.SoundEffects(cl)
     cl.DoClick = function()
         MapVote.Panel:Hide()
     end

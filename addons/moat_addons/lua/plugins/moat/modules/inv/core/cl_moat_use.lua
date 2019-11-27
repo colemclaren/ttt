@@ -218,12 +218,14 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
         m_HoveredSlot = num
 		HoveringSlot = true
 
-        if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end
+		sfx.Hover()
     end
 
     m_DPanelBTN.OnCursorExited = function(s)
     	HoveringSlot = false
     end
+
+	sfx.ClickSound(m_DPanelBTN)
 
     return m_DPanel, m_DPanelBTN
 end

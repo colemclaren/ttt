@@ -160,6 +160,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 	gamble_chat_local:SetSize(112,28)
 	gamble_chat_local:SetPos(114,46)
 	gamble_chat_local:SetText("")
+	sfx.SoundEffects(gamble_chat_local)
 	function gamble_chat_local:Paint(w,h)
 		if MOAT_GAMBLE.LocalChat then
 			draw.SimpleText("Local Chat", "moat_GambleTitle", 6, 3, Color(255,255,255))
@@ -179,6 +180,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 	gamble_chat_global:SetSize(112,28)
 	gamble_chat_global:SetPos(2,46)
 	gamble_chat_global:SetText("")
+	sfx.SoundEffects(gamble_chat_global)
 	timer.Create("GambleChatGlobal",0.5,0,function()
 		if not IsValid(gamble_chat_global) then return end
 		if GLOBAL_LAST_A < GLOBAL_LAST then
@@ -257,7 +259,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
         MOAT_GAMBLE_CAT_BTN.DoClick = function(s)
         	if (i == MOAT_GAMBLE.CurCat) then return end
 
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
+            
             net.Start("MOAT_GAMBLE_CAT")
             net.WriteUInt(i, 4)
             net.SendToServer()
@@ -271,7 +273,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 			end
         end
 
-        MOAT_GAMBLE_CAT_BTN.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+        sfx.SoundEffects(MOAT_GAMBLE_CAT_BTN)
 
         CAT_WIDTHS = CAT_WIDTHS + 83
     end
@@ -1678,6 +1680,7 @@ function m_DrawRoulettePanel()
     moat_roulette_place:SetSize(125*1.2, 38*1.2)
     moat_roulette_place:SetPos(14, 137)
     moat_roulette_place:SetText("")
+	sfx.SoundEffects(moat_roulette_place)
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
 
@@ -1707,6 +1710,7 @@ function m_DrawRoulettePanel()
     moat_roulette_place:SetSize(125*1.2, 38*1.2)
     moat_roulette_place:SetPos(14, 187)
     moat_roulette_place:SetText("")
+	sfx.SoundEffects(moat_roulette_place)
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
 
@@ -1736,6 +1740,7 @@ function m_DrawRoulettePanel()
     moat_roulette_place:SetSize(125*1.2, 38*1.2)
     moat_roulette_place:SetPos(14, 237)
     moat_roulette_place:SetText("")
+	sfx.SoundEffects(moat_roulette_place)
     function moat_roulette_place:Paint(w,h)
         draw.RoundedBox(0,0,0,w,h,Color(255,0,0))
 
@@ -2846,6 +2851,7 @@ function m_DrawCrashPanel()
 	BTN1.DoClick = function(s, w, h)
 		MOAT_GAMBLE.BlackBetAmount = math.max(MOAT_GAMBLE.BlackBetAmount/2, 10)
 	end
+	sfx.SoundEffects(BTN1)
 
 	local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
 	BTN2:SetPos(178+55, 15)
@@ -2866,6 +2872,7 @@ function m_DrawCrashPanel()
 	BTN2.DoClick = function(s, w, h)
 		MOAT_GAMBLE.BlackBetAmount = math.min(MOAT_GAMBLE.BlackBetAmount * 2, 5000)
 	end
+	sfx.SoundEffects(BTN2)
 
 	local BTN3 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
 	BTN3:SetPos(178, 15+45)
@@ -2886,6 +2893,7 @@ function m_DrawCrashPanel()
 	BTN3.DoClick = function(s, w, h)
 		MOAT_GAMBLE.BlackBetAmount = 10
 	end
+	sfx.SoundEffects(BTN3)
 
 	local BTN4 = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
 	BTN4:SetPos(178+55, 15+45)
@@ -2906,6 +2914,7 @@ function m_DrawCrashPanel()
 	BTN4.DoClick = function(s, w, h)
 		MOAT_GAMBLE.BlackBetAmount = math.Clamp(MOAT_INVENTORY_CREDITS, 10, 5000)
 	end
+	sfx.SoundEffects(BTN4)
 
 	MOAT_BLACK_HIT = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
 	MOAT_BLACK_HIT:SetPos(10, 460-75)
@@ -2948,6 +2957,7 @@ function m_DrawCrashPanel()
 		net.WriteBool(true)
 		net.SendToServer()
 	end
+	sfx.SoundEffects(MOAT_BLACK_HIT)
 
 	MOAT_BLACK_STAND = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
 	MOAT_BLACK_STAND:SetPos(258, 460-75)
@@ -2991,6 +3001,7 @@ function m_DrawCrashPanel()
 		net.WriteBool(false)
 		net.SendToServer()
 	end
+	sfx.SoundEffects(MOAT_BLACK_STAND)
 
 	MOAT_BLACK_DEAL = vgui.Create("DButton", MOAT_GAMBLE_CRASH)
 	MOAT_BLACK_DEAL:SetPos(10, 385)
@@ -3155,6 +3166,7 @@ function m_DrawCrashPanel()
 		net.WriteUInt(MOAT_GAMBLE.BlackBetAmount,32)
 		net.SendToServer()
 	end
+	sfx.SoundEffects(MOAT_BLACK_DEAL)
 end
 
 
@@ -3249,7 +3261,7 @@ function m_jackpotroll(players,winner,MOAT_GAMBLE_BLACK)
             end
 
         if (math.floor(roll_contents_x / 71) ~= item_value) then
-            LocalPlayer():EmitSound("moatsounds/pop1.wav")
+            sfx.Tick()
         end
 
         s:SetPos(roll_contents_x, roll_y)
@@ -3427,6 +3439,7 @@ function m_DrawBlackjackPanel()
 			av:SetSize(46,44)
 			av:SetSteamID(v.steamid,64)
 			local butt = vgui.Create("DButton",av)
+			sfx.SoundEffects(butt)
 			butt:SetText("")
 			butt:Dock(FILL) function butt:Paint() end
 			function butt:DoClick()
@@ -3515,6 +3528,7 @@ function m_DrawBlackjackPanel()
 		end
 		make_game.cool = CurTime() + 1
 	end
+	sfx.SoundEffects(make_game)
 
 	local MOAT_DICE_BET = vgui.Create("DTextEntry", MOAT_GAMBLE_BLACK)
 	MOAT_DICE_BET:SetPos(160, 99)
@@ -4232,7 +4246,7 @@ function m_versusroll(owner,other,winner)
 
         if (math.floor(gversus_players[owner].roll_contents_x / 71) ~= item_value) then
 			if IsValid(MOAT_GAMBLE_VS) then
-            	LocalPlayer():EmitSound("moatsounds/pop1.wav")
+            	sfx.Tick()
 			end
         end
 
@@ -4525,6 +4539,7 @@ function m_DrawVersusPanel()
 				function butt:DoClick()
 					open_profile_card(k)
 				end
+				sfx.SoundEffects(butt)
 
 				local op = vgui.Create("AvatarImage",a)
 				op:DockMargin(0,3,5,3)
@@ -4545,11 +4560,13 @@ function m_DrawVersusPanel()
 				function butt:DoClick()
 					if v[1] then open_profile_card(v[1]) end
 				end
+				sfx.SoundEffects(butt)
 		--a
 				local s = true
 				local winner
 				if not (v[1]) then
 					local join = vgui.Create("DButton",a)
+					sfx.SoundEffects(join)
 					join:SetSize(148,0)
 					join:DockMargin(5,5,5,5)
 					join:Dock(RIGHT)
@@ -4708,6 +4725,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(k)
 			end
+			sfx.SoundEffects(butt)
 
 			local op = vgui.Create("AvatarImage",a)
 			op:DockMargin(0,3,5,3)
@@ -4728,11 +4746,13 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				if v[1] then open_profile_card(v[1]) end
 			end
+			sfx.SoundEffects(butt)
 	--a
 			local s = true
 			local winner
 			if not (v[1]) then
 				local join = vgui.Create("DButton",a)
+				sfx.SoundEffects(join)
 				join:SetSize(148,0)
 				join:DockMargin(5,5,5,5)
 				join:Dock(RIGHT)
@@ -4891,6 +4911,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v.steamid)
 			end
+			sfx.SoundEffects(butt)
 
 			local op = vgui.Create("AvatarImage",a)
 			op:DockMargin(0,3,5,3)
@@ -4907,7 +4928,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v.other)
 			end
-
+			sfx.SoundEffects(butt)
 			winner = vgui.Create("AvatarImage",a)
 			winner:DockMargin(0,3,20,3)
 			winner:SetSize(46,40)
@@ -4923,7 +4944,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v.winner)
 			end
-
+			sfx.SoundEffects(butt)
 			function a:Paint(w,h)
 				draw.SimpleText(string.Comma(round(v.amount)) .. " IC", "moat_VersusTitle", 145,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
 				local c = Color(255,255,255)
@@ -4964,6 +4985,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(versus_stats.streak.steamid)
 			end
+			sfx.SoundEffects(butt)
 		end
 
 		local totwinner_name = "Velkon"
@@ -4994,6 +5016,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(versus_stats.top.winner)
 			end
+			sfx.SoundEffects(butt)
 		end
 
 		for k,v in pairs(table.Reverse(versus_oldgames)) do
@@ -5019,6 +5042,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v[1])
 			end
+			sfx.SoundEffects(butt)
 
 			local op = vgui.Create("AvatarImage",a)
 			op:DockMargin(0,3,5,3)
@@ -5032,7 +5056,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v[2])
 			end
-
+			sfx.SoundEffects(butt)
 			winner = vgui.Create("AvatarImage",a)
 			winner:DockMargin(0,3,20,3)
 			winner:SetSize(46,40)
@@ -5081,7 +5105,7 @@ function m_DrawVersusPanel()
 		surface.DrawOutlinedRect(0,0,w,h)
 		draw.SimpleText("MAKE GAME", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 	end
-
+	sfx.SoundEffects(make_game)
 	local history = vgui.Create("DButton", MOAT_GAMBLE_VS)
 	history:SetPos(386,5)
 	history:SetSize(113,31)
@@ -5095,7 +5119,7 @@ function m_DrawVersusPanel()
 		surface.DrawOutlinedRect(0,0,w,h)
 		draw.SimpleText("YOUR WINS", "moat_GambleTitle", w/2, h/2, Color(255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 	end
-
+	sfx.SoundEffects(history)
 	function history.DoClick() 
 		if (historycool or 0) > CurTime() then return end
 		historycool = CurTime() + 1
@@ -5171,7 +5195,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v.steamid)
 			end
-
+			sfx.SoundEffects(butt)
 			local op = vgui.Create("AvatarImage",a)
 			op:DockMargin(0,3,5,3)
 			op:SetSize(46,40)
@@ -5186,7 +5210,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v.other)
 			end
-
+			sfx.SoundEffects(butt)
 			winner = vgui.Create("AvatarImage",a)
 			winner:DockMargin(0,3,20,3)
 			winner:SetSize(46,40)
@@ -5201,7 +5225,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v.winner)
 			end
-
+			sfx.SoundEffects(butt)
 			function a:Paint(w,h)
 				draw.RoundedBox(0,0,0,w,h,Color(18,18,18))
 				draw.SimpleText(string.Comma(round(v.amount)) .. " IC", "moat_VersusTitle", 145,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
@@ -5241,7 +5265,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v.steamid)
 			end
-
+			sfx.SoundEffects(butt)
 			local op = vgui.Create("AvatarImage",a)
 			op:DockMargin(0,3,5,3)
 			op:SetSize(46,40)
@@ -5256,7 +5280,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v.other)
 			end
-
+			sfx.SoundEffects(butt)
 			winner = vgui.Create("AvatarImage",a)
 			winner:DockMargin(0,3,20,3)
 			winner:SetSize(46,40)
@@ -5271,7 +5295,7 @@ function m_DrawVersusPanel()
 			function butt:DoClick()
 				open_profile_card(v.winner)
 			end
-
+			sfx.SoundEffects(butt)
 			function a:Paint(w,h)
 				draw.RoundedBox(0,0,0,w,h,Color(18,18,18))
 				draw.SimpleText(string.Comma(round(v.amount)) .. " IC", "moat_VersusTitle", 145,(h/2), Color(255,255,0),TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER)
@@ -5309,6 +5333,7 @@ function m_DrawVersusPanel()
 			net.WriteInt(versus_id,32)
 			net.SendToServer()
 		end
+		sfx.SoundEffects(a)
 	end
 
 	net.Receive("versus.total",function()

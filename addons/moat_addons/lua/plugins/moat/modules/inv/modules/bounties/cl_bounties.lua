@@ -253,8 +253,11 @@ function m_MakeLotteryPanel()
             net.Start("lottery.Purchase")
             net.WriteInt(i,32)
             net.SendToServer()
+			sfx.Agree()
         end)
     end
+	sfx.SoundEffects(but)
+	
 end
 
 function m_RemoveLotteryPanel()
@@ -865,14 +868,9 @@ function m_PopulateBountiesPanel(pnl)
                 MOAT_INV_BG:Remove()
                 RunConsoleCommand("say", "!rewards")
             end
-
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
-
-           
         end
 
-        MOAT_CHALL_CAT_BTN.OnCursorEntered = function() if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
-
+		sfx.SoundEffects(MOAT_CHALL_CAT_BTN)
         CAT_WIDTHS = CAT_WIDTHS + 83
     end
 

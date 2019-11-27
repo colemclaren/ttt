@@ -46,7 +46,7 @@ MOTD.Tabs = {
 	[7] = {"Leaderboard", "https://moat.gg/players", true},
 	[8] = {"Bans", "https://moat.gg/bans", true},
 	[9] = {"Steam Group", "https://steamcommunity.com/groups/moat-gg", true},
-	[10] = {"Discord", "https://moat.gg/discord", true},
+	[10] = {"Discord", "https://moat.chat", true},
 	[11] = {"Close", ""	},
 }
 
@@ -172,14 +172,11 @@ function MOTD.Open(secs, invalid)
                 draw_SimpleTextOutlined(s.Label, "Trebuchet24", w/2, h/2, Color(51 + (204 * s.LerpNum), 153 + (102 * s.LerpNum), 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
             end
         end
-        btn.OnCursorEntered = function(s)
-            surface.PlaySound("ui/buttonrollover.wav")
-        end
+		sfx.HoverSound(btn)
+		sfx.ClickSound(btn)
         btn.DoClick = function(s)
 			if (not MOTD.Closable()) then
 				return
-			else
-				surface.PlaySound("ui/buttonclickrelease.wav")
 			end
 
             if (i == #MOTD.Tabs and MOTD.Closable()) then

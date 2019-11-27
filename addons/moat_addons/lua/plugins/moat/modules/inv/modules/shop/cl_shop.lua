@@ -56,6 +56,8 @@ function m_CreateBuyConfirmation(itemtbl, amount)
             -- net.Start("MOAT_SEND_INV_ITEM")
             -- net.SendToServer()
         end
+
+		sfx.Bells()
     end):SetIcon("icon16/tick.png")
 
     BUY_MENU:AddOption("Cancel", function() end):SetIcon("icon16/cross.png")
@@ -173,6 +175,7 @@ function m_PopulateHomeShop(pnl)
 
             draw.SimpleTextOutlined(lbls[i], "moat_Trebuchet", w/2, (h/2) - 2, Color(pnl.Theme.TextColor), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         end
+		sfx.SoundEffects(btn)
     end
 end
 
@@ -449,6 +452,8 @@ function m_PopulateShop(pnl)
                 net.WriteUInt(itemtbl.ID, 32)
                 net.SendToServer()
             end
+			sfx.HoverSound(ITEM_PREVIEW, sfx.Click2)
+			sfx.ClickSound(ITEM_PREVIEW)
         end
 
         local ITEM_BUY_INC = vgui.Create("DButton", ITEM_BG)
@@ -463,10 +468,16 @@ function m_PopulateShop(pnl)
 				return
 			end
 
+			if (ITEM_BG.Qty + 1 > 10) then
+				sfx.Max()
+			else
+				sfx.Add()
+			end
+
             local num = input.IsKeyDown(KEY_LSHIFT) and 2 or 1
             ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty + num, 1, 10)
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
         end
+		sfx.HoverSound(ITEM_BUY_INC)
 
         local ITEM_BUY_DEC = vgui.Create("DButton", ITEM_BG)
         ITEM_BUY_DEC:SetSize(20, 20)
@@ -480,10 +491,16 @@ function m_PopulateShop(pnl)
 				return
 			end
 
+			if (ITEM_BG.Qty - 1 <= 0) then
+				sfx.Max()
+			else
+				sfx.Subtract()
+			end
+
             local num = input.IsKeyDown(KEY_LSHIFT) and 2 or 1
             ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty - num, 1, 10)
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
         end
+		sfx.HoverSound(ITEM_BUY_DEC)
 
         local ITEM_BUY = vgui.Create("DButton", ITEM_BG)
         ITEM_BUY:SetSize(149, 30)
@@ -549,21 +566,13 @@ function m_PopulateShop(pnl)
                 end
             end
         end
-
-        ITEM_BUY.OnCursorEntered = function() 
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then 
-                LocalPlayer():EmitSound("moatsounds/pop2.wav") 
-            end 
-        end
-
+		sfx.SoundEffects(ITEM_BUY)
         ITEM_BUY.DoClick = function()
 			if (Soon) then
 				return
 			end
 
             m_CreateBuyConfirmation(itemtbl, ITEM_BG.Qty)
-
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
         end
     end
 
@@ -697,7 +706,7 @@ function m_PopulateShop(pnl)
                 end
             end
         end
-
+		sfx.SoundEffects(ITEM_BUY)
         ITEM_BUY.DoClick = function()
             if (price * ITEM_BG.Qty > MOAT_INVENTORY_CREDITS) then
                 chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "You can't afford that item!")
@@ -708,7 +717,7 @@ function m_PopulateShop(pnl)
             
             RunConsoleCommand(item_cmd)
 
-            if (GetConVar("moat_enable_uisounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
+			sfx.Bells()
         end
     end
     m_AddShopItemCommand("Self Title", "Change", Color(255, 205, 0), 15000, "icon16/tag_yellow.png", "moat_selftitles")
