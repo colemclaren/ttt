@@ -150,7 +150,7 @@ hook.Add("EntityTakeDamage", "Play Dead Taunt", function(ent, dmg)
 
 	local p = ent:GetOwner()
 
-	if (IsValid(p)) then
+	if (IsValid(p) and IsValid(p:GetActiveWeapon())) then
 		p:GetActiveWeapon():EndTaunt()
 		p:TakeDamageInfo(dmg)
 	end
