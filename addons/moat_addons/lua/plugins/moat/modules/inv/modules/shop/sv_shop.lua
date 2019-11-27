@@ -150,11 +150,3 @@ end)
 hook.Add("PlayerInitialSpawn", "moat_sendshop", function(ply)
     m_SendShop(ply)
 end)
-
-local PLAYR = FindMetaTable("Player")
-
-function PLAYR:DropXmas(num)
-    for i = 1, num do
-        self:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained")
-    end
-end

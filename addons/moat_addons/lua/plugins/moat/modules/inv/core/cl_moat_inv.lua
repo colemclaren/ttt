@@ -4445,7 +4445,7 @@ function m_CreateItemMenu(num, ldt)
             end
             if MOAT_CACHED_PICS[itemtbl.c][1] == x then
                 local l = MOAT_CACHED_PICS[itemtbl.c][2]
-                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via moat.chat", "Copy URL of Stats", "Deal (Close)")
+                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Copy URL of Stats", "Deal (Close)")
                 SetClipboardText(l)
                 return
             end
@@ -4524,7 +4524,7 @@ function m_CreateItemMenu(num, ldt)
                             b = util.JSONToTable(b)
                             if b.success then
                                 local l = "https://imgur.com/a/" .. album.data.id
-                                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via moat.chat", "Copy URL of Stats", "Deal (Close)")
+                                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Copy URL of Stats", "Deal (Close)")
                                 SetClipboardText(l)
                                 local x = 0
                                 if itemtbl.s then

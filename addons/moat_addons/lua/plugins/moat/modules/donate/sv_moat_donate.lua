@@ -27,6 +27,13 @@ function moat_DropPumpkin(ply, amt)
     end
 end
 
+function moat_DropHoliday(ply, amt)
+	for i = 1, amt do
+        if (not IsValid(ply)) then return end
+        ply:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained", false, false)
+    end
+end
+
 function meta:Drop100()
     self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, false)
     self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, false)
@@ -77,7 +84,7 @@ MOAT_DONATE.Packages = {
 
 		local crates = m_GetActiveCrates()
 
-		moat_DropPumpkin(pl, 5)
+		moat_DropHoliday(pl, 1)
 		-- pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
 
 		for i = 1, 15 do
@@ -96,7 +103,7 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 15000)
 		give_ec(pl, 1)
 		pl:Drop20()
-		moat_DropPumpkin(pl, 10)
+		moat_DropHoliday(pl, 2)
 		-- for i = 1, 2 do
 		-- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
 		-- end
@@ -112,7 +119,9 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 50000)
 		give_ec(pl, 3)
 		pl:Drop50()
-		moat_DropPumpkin(pl, 20)
+		moat_DropHoliday(pl, 6)
+
+		pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
 
 		-- for i = 1, 6 do
 		-- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
@@ -129,7 +138,10 @@ MOAT_DONATE.Packages = {
 		m_AddCreditsToSteamID(pl:SteamID(), 125000)
 		give_ec(pl, 7)
 		pl:Drop100()
-		moat_DropPumpkin(pl, 50)
+		moat_DropHoliday(pl, 13)
+
+		pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
+		pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
 
 		-- for i = 1, 15 do
 		-- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
