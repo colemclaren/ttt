@@ -229,6 +229,15 @@ function PANEL:DoClick()
 
 	self:OpenMenu()
 
+	if (GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		LocalPlayer():EmitSound "moatsounds/pop2.wav"
+	end
+end
+
+function PANEL:OnCursorEntered(s)
+	if (GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		LocalPlayer():EmitSound "moatsounds/pop1.wav"
+	end
 end
 
 function PANEL:GenerateExample( ClassName, PropertySheet, Width, Height )

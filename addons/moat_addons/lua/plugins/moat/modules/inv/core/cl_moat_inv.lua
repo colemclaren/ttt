@@ -153,26 +153,34 @@ local function DrawSnow(pnl, w, h, amt)
             snowtbl[i][4] = snowtbl[i][4] or math.random(5,8)
             snowtbl[i][5] = snowtbl[i][5] or 100
         end
-        surface_SetDrawColor(230, 230, 250, 200)
-        draw.NoTexture()
-        draw.Circle( snowtbl[i][2], snowtbl[i][1], snowtbl[i][3], snowtbl[i][4] )
+
+		cdn.SmoothImage("https://cdn.moat.gg/f/snow.png", snowtbl[i][2], snowtbl[i][1] - (snowtbl[i][3]/2), snowtbl[i][3], snowtbl[i][3], Color(230, 230, 250, 200))
     end
-    surface_SetDrawColor(230, 230, 250, 200)
-    draw.NoTexture()
-    draw.Circle( 0, h + (w / 2) - 35, w / 2, 20 )
+
+	cdn.SmoothImage("https://cdn.moat.gg/f/snow2.png", 0, h - 256, 256, 256, Color(230, 230, 250, 255))
 end
 
+local holiday = CreateClientConVar("moat_holiday_theme_2020", 1, true, true)
 local function createFestive(pnl, x, y, w, h)
-    /*pnl.festivepanel = vgui.Create("DPanel",pnl)
+    pnl.festivepanel = vgui.Create("DPanel",pnl)
     pnl.festivepanel:SetSize(w,h)
     pnl.festivepanel:SetPos(x,y)
     pnl.festivepanel.snowtbl = {}
     pnl.festivepanel.Paint = function(s,w,h)
-        if (tobool(GetConVar("moat_EnableChristmasTheme"):GetInt())) then
+        if (holiday:GetInt() == 1) then
             DrawSnow(s, w, h, 50)
         end
-    end*/
+    end
 end
+
+hook("InitPostEntity", "SetFestive", function()
+	local pmeta = FindMetaTable("Panel")
+	function pmeta:SetFestive(x, y, w, h)
+    	if (not IsValid(self.festivepanel) and holiday:GetInt() == 1) then
+        	createFestive(self, x, y, w, h)
+    	end
+	end
+end)
 
 local halloween_bg = "https://cdn.moat.gg/f/halloween.png"
 local spooks = {
@@ -1346,7 +1354,6 @@ function m_OpenInventory(ply2, utrade)
         net.WriteBool(false)
         net.SendToServer()
     end
-	createSpooky(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
     --createSpring(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
 
     M_TRADING_PNL = vgui.Create("DPanel", MOAT_INV_BG)
@@ -6375,11 +6382,16 @@ function m_DrawFoundItemAdd(item_tbl, draw_type)
     table.insert(MOAT_ITEM_FOUND_QUEUE, item_tbl)
 end
 
+local last_played = 0
 net.Receive("MOAT_ITEM_OBTAINED", function(len)
     local tbl = net.ReadTable()
     table.insert(MOAT_ITEM_FOUND_QUEUE, tbl)
 
-	cdn.PlayURL("https://cdn.moat.gg/ttt/borderlands_3_legend.mp3", .5)
+	if (last_played <= CurTime() - .5) then
+		cdn.PlayURL("https://cdn.moat.gg/ttt/borderlands_3_legend.mp3", .5)
+
+		last_played = CurTime()
+	end
 end)
 
 net.Receive("MOAT_INIT_USABLE", function()

@@ -1304,6 +1304,10 @@ function PANEL:AddSubMenu()
 end
 
 function PANEL:OnCursorEntered()
+	if (GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		LocalPlayer():EmitSound "moatsounds/pop1.wav"
+	end
+
 	self:SetTextColor(MenuColors.TextHover)
 
 	if ( IsValid( self.ParentMenu ) ) then
@@ -1338,6 +1342,9 @@ function PANEL:OnMousePressed( mousecode )
 
 	DButton.OnMousePressed( self, mousecode )
 
+	if (GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		LocalPlayer():EmitSound "moatsounds/pop2.wav"
+	end
 end
 
 function PANEL:OnMouseReleased( mousecode )
@@ -1357,6 +1364,10 @@ function PANEL:DoRightClick()
 
 	if ( self:GetIsCheckable() ) then
 		self:ToggleCheck()
+	end
+
+	if (cdn and cdn.PlayURL and GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		cdn.PlayURL "https://cdn.moat.gg/ttt/appear-online.ogg"
 	end
 
 end
@@ -1653,6 +1664,15 @@ function PANEL:DoClick()
 
 	self:OpenMenu()
 
+	if (GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		LocalPlayer():EmitSound "moatsounds/pop2.wav"
+	end
+end
+
+function PANEL:OnCursorEntered(s)
+	if (GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		LocalPlayer():EmitSound "moatsounds/pop1.wav"
+	end
 end
 
 function PANEL:GenerateExample( ClassName, PropertySheet, Width, Height )

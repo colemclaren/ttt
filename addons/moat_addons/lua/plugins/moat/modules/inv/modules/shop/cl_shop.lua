@@ -357,7 +357,7 @@ function m_PopulateShop(pnl)
 
 					m_DrawEnchantedText(item_name[1], "moat_Trebuchet24", (w / 2) - (tw/2) - 1, 5, name_col, Color(0, 255, 255))
                     m_DrawEnchantedText(item_name[2], "moat_Trebuchet24", (w / 2) - (tw2/2) - 1, 25, name_col, Color(0, 255, 255))
-					-- cdn.SmoothImageRotated("https://cdn.moat.gg/f/cbf0f.png", 6, 6, 32, 32, nil, math.sin(CurTime())*15,true)
+					cdn.SmoothImageRotated("https://cdn.moat.gg/ttt/new.png", 6, 6, 32, 32, nil, math.sin(CurTime())*15,true)
                 elseif (itemtbl.LimitedShop) then
                     if (itemtbl.Kind == "tier") then
                         m_DrawShadowedText(1, itemtbl.Name .. " Weapon", "moat_Medium5", w / 2, 5, name_col, TEXT_ALIGN_CENTER)

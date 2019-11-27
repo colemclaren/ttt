@@ -12,7 +12,7 @@ function m_ChooseRandomSong()
 	return song_url
 end
 
-local moat_URL2 = "https://cdn.moat.gg/ttt/christmas/"
+local moat_URL2 = "https://cdn.moat.gg/ttt/music/christmas/"
 local moat_Songs2 = 49
 function m_ChooseRandomChristmas()
 	local song_num = math.random(moat_Songs2)

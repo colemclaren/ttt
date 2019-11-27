@@ -23,57 +23,6 @@ local function DrawBlur(panel, amount)
     end
 end
 
-local function DrawSnow(pnl, w, h, amt)
-    local snowtbl = pnl.snowtbl
-    for i = 1, amt do
-        snowtbl[i] = snowtbl[i] or {}
-        if (not snowtbl[i][1]) then snowtbl[i][1] = math.random(-h*1.5, 0) end
-        if (snowtbl[i][1] >= h) then
-            snowtbl[i][5] = snowtbl[i][5] - (70 * FrameTime())
-            snowtbl[i][3] = Lerp(1 * FrameTime(), snowtbl[i][3], 0)
-            if (snowtbl[i][5] <= 0) then
-                snowtbl[i][1] = math.random(-h*1.5, 0)
-                snowtbl[i][2] = math.random(w)
-                snowtbl[i][3] = math.random(2,5)
-                snowtbl[i][4] = math.random(6,9)
-                snowtbl[i][5] = 100
-            end
-        else
-            snowtbl[i][1] = math.Approach(snowtbl[i][1], h, 80 * FrameTime())
-            snowtbl[i][2] = snowtbl[i][2] or math.random(w)
-            snowtbl[i][3] = snowtbl[i][3] or math.random(3,5)
-            snowtbl[i][4] = snowtbl[i][4] or math.random(5,8)
-            snowtbl[i][5] = snowtbl[i][5] or 100
-        end
-
-		cdn.SmoothImage("https://cdn.moat.gg/f/snow.png", snowtbl[i][2], snowtbl[i][1] - (snowtbl[i][3]/2), snowtbl[i][3], snowtbl[i][3], Color(230, 230, 250, 200))
-    end
-
-	cdn.SmoothImage("https://cdn.moat.gg/f/snow2.png", 0, h - 256, 256, 256, Color(230, 230, 250, 255))
-end
-
-local holiday = CreateClientConVar("moat_holiday_theme_2019", 0, true, true)
-local function createFestive(pnl, x, y, w, h)
-    pnl.festivepanel = vgui.Create("DPanel",pnl)
-    pnl.festivepanel:SetSize(w,h)
-    pnl.festivepanel:SetPos(x,y)
-    pnl.festivepanel.snowtbl = {}
-    pnl.festivepanel.Paint = function(s,w,h)
-        if (holiday:GetInt() == 1) then
-            DrawSnow(s, w, h, 50)
-        end
-    end
-end
-
-hook("InitPostEntity", function()
-	local pmeta = FindMetaTable("Panel")
-	function pmeta:SetFestive(x, y, w, h)
-    	if (not IsValid(self.festivepanel) and holiday:GetInt() == 1) then
-        	createFestive(self, x, y, w, h)
-    	end
-	end
-end)
-
 local MenuColors = {
 	Text = Color(154, 156, 160, 255),
 	Disabled = Color(128, 128, 128, 255),

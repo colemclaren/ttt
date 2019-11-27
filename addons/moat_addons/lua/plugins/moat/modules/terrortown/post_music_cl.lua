@@ -7,9 +7,9 @@ net.Receive("Moat.PostRoundMusic", function()
 		return
 	end
 
-	local xmas = GetConVar "moat_music_christmas"
+	local xmas = GetConVar "moat_post_music_holiday"
 	if (xmas and xmas:GetInt() == 1) then
-		--url = url_xmas
+		url = url_xmas
 	end
 
 	local vol = GetConVar("moat_post_music_volume")

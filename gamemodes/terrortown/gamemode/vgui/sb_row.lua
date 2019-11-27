@@ -502,16 +502,20 @@ function PANEL:DoClick(x, y)
 end
 
 function PANEL:SetOpen(o)
-    if self.open then
-        surface.PlaySound("ui/buttonclickrelease.wav")
-    else
-        surface.PlaySound("ui/buttonclick.wav")
-    end
+	if (GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		LocalPlayer():EmitSound "moatsounds/pop2.wav"
+	end
 
     self.open = o
     self:PerformLayout()
     self:GetParent():PerformLayout()
     sboard_panel:PerformLayout()
+end
+
+function PANEL:OnCursorEntered(s)
+	if (GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		LocalPlayer():EmitSound "moatsounds/pop1.wav"
+	end
 end
 
 function PANEL:DoRightClick()
@@ -526,6 +530,10 @@ function PANEL:DoRightClick()
     end
 
     menu:Open()
+
+	if (cdn and cdn.PlayURL and GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
+		cdn.PlayURL "https://cdn.moat.gg/ttt/appear-online.ogg"
+	end
 end
 
 vgui.Register("TTTScorePlayerRow", PANEL, "Button")
