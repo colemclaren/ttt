@@ -84,7 +84,7 @@ function perspective_post(nick,sid,message,ply)
 
 					discord.Embed("Toxic TTT Loggers", {
 						color = 0,
-						description = message .. '\n' .. s .. '\nClick the Garry\'s Mod join URL to Connect: ' .. GetServerURL(),
+						description = message .. '\n' .. s .. '\nCalling all white knights! Click to defend your princess today: ' .. GetServerURL(),
 						author = {
 							name = ply:Nick() .. " (" .. ply:SteamID() .. ") [" .. ply:GetUserGroup().."]",
 							icon_url = image,
