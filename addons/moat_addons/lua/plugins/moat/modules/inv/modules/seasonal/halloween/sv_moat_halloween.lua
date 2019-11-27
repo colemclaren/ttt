@@ -94,20 +94,20 @@ concommand.Add("moat_record_pos", function(ply, cmd, args)
 	MOAT_PUMPKIN.Record = not MOAT_PUMPKIN.Record
 end)
 
-hook.Add("TTTBeginRound", "moat_spawn_pumpkins", function()
-	MOAT_PUMPKIN.CurEggs = 0
+-- hook.Add("TTTBeginRound", "moat_spawn_pumpkins", function()
+-- 	MOAT_PUMPKIN.CurEggs = 0
 
-	timer.Create("moat_pumpkin_spawn", 30, 0, function()
-		local num = math.random(1, 100)
+-- 	timer.Create("moat_pumpkin_spawn", 30, 0, function()
+-- 		local num = math.random(1, 100)
 
-		if (GetRoundState() ~= ROUND_ACTIVE) then timer.Remove("moat_pumpkin_spawn") return end
-		if (#player.GetAll() < 8) then return end
-		if (num > MOAT_PUMPKIN.SpawnChance) then return end
-		if (MOAT_PUMPKIN.CurEggs >= MOAT_PUMPKIN.MaxEggs) then return end
+-- 		if (GetRoundState() ~= ROUND_ACTIVE) then timer.Remove("moat_pumpkin_spawn") return end
+-- 		if (#player.GetAll() < 8) then return end
+-- 		if (num > MOAT_PUMPKIN.SpawnChance) then return end
+-- 		if (MOAT_PUMPKIN.CurEggs >= MOAT_PUMPKIN.MaxEggs) then return end
 		
-		MOAT_PUMPKIN.SpawnRandom()
-	end)
-end)
+-- 		MOAT_PUMPKIN.SpawnRandom()
+-- 	end)
+-- end)
 
 function m_DropPumpkin(ply, amt)
 	for i = 1, amt do
