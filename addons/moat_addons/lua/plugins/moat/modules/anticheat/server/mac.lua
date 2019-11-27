@@ -65,7 +65,15 @@ function perspective_post(nick,sid,message,ply)
 					s = s .. "**" .. attributeLabels[k] .. "**: +".. math.Round(value * 100, 3) .. "% `(Lv " .. ply:GetNW2Int("MOAT_STATS_LVL", 1) .. ")`\n"
 					s = s .. ("[▰](http://moat.gg)"):rep(plus) .. ("▱"):rep(20 - plus)
                     s = s .. "\n"
+
+					if (value > (custom_min[k] or 0.8)) then
+                        show = true
+                    end
                 end
+
+				if (not show) then
+					return
+				end
 	
 				http.Fetch("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=13E8032658377F036842094BDD9E7000&steamids=" .. ply:SteamID64() .. "&format=json", function(body, size, headers, code)
 					local tbl, plyInfo, image = util.JSONToTable(body).response
