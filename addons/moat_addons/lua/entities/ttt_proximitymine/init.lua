@@ -98,17 +98,10 @@ function ENT:SphereDamage(dmgowner, center, radius)
         }
 
         if (tr.Hit and ent:IsPlayer()) then
-            local tr2 = util.TraceLine{
-				start = ent:GetPos(),
-                endpos = self:GetPos(),
-                mask = MASK_SHOT,
-                filter = {self, ent},
-                collisiongroup = COLLISION_GROUP_WEAPON
-            }
-
+            local tr2 = util.TraceLine{start = ent:GetPos(), endpos = self:GetPos(), mask = MASK_SHOT, filter = {self, ent}, collisiongroup = COLLISION_GROUP_WEAPON}
             local cont1, cont2 = util.GetSurfaceData(tr.SurfaceProps), util.GetSurfaceData(tr2.SurfaceProps)
             local walldist = tr2.HitPos:Distance(tr.HitPos)
-            local mult = 1 - (walldist * (cont1.hardnessFactor + cont2.hardnessFactor)) / radius
+            local mult = 1 - (walldist * (cont1.hardnessFactor + ((tr2.Hit and cont2) and cont2.hardnessFactor or 0))) / radius
             dmg = dmg * mult
         end
 
