@@ -1,10 +1,5 @@
-local notstaff = {
-    "user",
-    "vip",
-	"mvp",
-    "hoodninja",
-    "communitylead"
-}
+local notstaff = {"user", "vip", "mvp", "hoodninja", "communitylead"}
+
 hook.Add("PostGamemodeLoaded", "Moat.AFKFix", function()
     local idle = {
         ang = nil,
@@ -13,11 +8,11 @@ hook.Add("PostGamemodeLoaded", "Moat.AFKFix", function()
         my = 0,
         t = 0
     }
+
     local dev_server = GetHostName():lower():find("dev")
 
     function CheckIdle()
         if (MOAT_CONTAGION_ROUND_ACTIVE or dev_server) then return end
-
         local client = LocalPlayer()
         if not IsValid(client) then return end
 
@@ -37,8 +32,9 @@ hook.Add("PostGamemodeLoaded", "Moat.AFKFix", function()
 
             if idle_limit <= 0 then
                 idle_limit = 300
-            end -- networking sucks sometimes
+            end
 
+            -- networking sucks sometimes
             if client:GetAngles() ~= idle.ang then
                 -- Normal players will move their viewing angles all the time
                 idle.ang = client:GetAngles()
@@ -69,7 +65,6 @@ hook.Add("PostGamemodeLoaded", "Moat.AFKFix", function()
             end
         end
     end
-
 end)
 
 hook.Add("InitPostEntity", "Moat.Multicore", function()
