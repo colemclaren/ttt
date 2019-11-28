@@ -1,22 +1,26 @@
 require("mysqloo")
+
 local ignore_steamid = {
     ["76561198154133184"] = true,
     ["76561198053381832"] = true,
     ["76561198050165746"] = true
 }
+
 local function get_steamid(ply)
     local sid = ply:SteamID()
     if ignore_steamid[ply:SteamID64()] then return sid end
+
     if Server then
         if Server.IsDev then
             sid = sid .. "dev"
         end
     end
+
     return sid
 end
 
 function m_InventoryTable(db)
-    /*
+    --[[
 	local comma = ","
     local fs = ""
 
@@ -70,7 +74,7 @@ function m_InventoryTable(db)
     end
 
     dq:start()
-	*/
+	]]
 end
 
 local sql_queue = {}
@@ -89,7 +93,6 @@ hook.Add("SQLConnected", "MINVENTORY_MYSQL", function(db)
     end
 
     sql_queue = {}
-
     m_InventoryTable(MINVENTORY_MYSQL)
 end)
 
@@ -136,37 +139,33 @@ function MoatLog(msg)
 end
 
 function m_CheckCompTickets(pl)
-    local q = MINVENTORY_MYSQL:query("SELECT * FROM `moat_comps` WHERE (REGEXP_REPLACE(`steamid`, '[^a-z0-9_:]+', '') LIKE '" .. MINVENTORY_MYSQL:escape(get_steamid(pl)).. "' AND `approved` LIKE '2')")
+    local q = MINVENTORY_MYSQL:query("SELECT * FROM `moat_comps` WHERE (REGEXP_REPLACE(`steamid`, '[^a-z0-9_:]+', '') LIKE '" .. MINVENTORY_MYSQL:escape(get_steamid(pl)) .. "' AND `approved` LIKE '2')")
+
     function q:onSuccess(d)
         if (#d > 0) then
-
             for i = 1, #d do
                 local tbl = d[i]
 
                 if (tbl.ec and #tbl.ec >= 1) then
                     timer.Simple(15, function()
                         give_ec(pl, tonumber(tbl.ec))
-
                         net.Start("moat.comp.chat")
                         net.WriteString("You have received " .. tbl.ec .. " event credit(s) from a compensation ticket! <3")
                         net.WriteBool(false)
                         net.Send(pl)
-
                         m_CloseCompTicket(tbl.ID)
                     end)
 
-					continue
+                    continue
                 end
 
-				if (tbl.sc and #tbl.sc >= 1) then
+                if (tbl.sc and #tbl.sc >= 1) then
                     timer.Simple(15, function()
-						pl:TakeSC(tonumber(tbl.sc) * -1)
-
+                        pl:TakeSC(tonumber(tbl.sc) * -1)
                         net.Start("moat.comp.chat")
                         net.WriteString("You have received " .. tbl.sc .. " support credit(s) from a compensation ticket! <3")
                         net.WriteBool(false)
                         net.Send(pl)
-
                         m_CloseCompTicket(tbl.ID)
                     end)
 
@@ -196,29 +195,21 @@ function m_CheckCompTickets(pl)
                 end
 
                 if (tbl.talent1 and #tbl.talent1 > 1) then
-                    talents = {
-                        tbl.talent1,
-                        (#tbl.talent2 > 1 and tbl.talent2) or nil,
-                        (#tbl.talent3 > 1 and tbl.talent3) or nil,
-                        (#tbl.talent4 > 1 and tbl.talent4) or nil
-                    }
+                    talents = {tbl.talent1, (#tbl.talent2 > 1 and tbl.talent2) or nil, (#tbl.talent3 > 1 and tbl.talent3) or nil, (#tbl.talent4 > 1 and tbl.talent4) or nil}
                 end
-                
+
                 if (tbl.item and #tbl.item > 1) then
                     pl:m_DropInventoryItem(tbl.item, class, true, false, true, talents)
-
                     comp_msg = "You have received a " .. tbl.item .. " " .. class .. " from a compensation ticket! <3"
                 end
 
                 if (tbl.ic and #tbl.ic > 0) then
                     pl:m_GiveIC(tonumber(tbl.ic))
-
                     comp_msg = "You have received " .. tbl.ic .. " inventory credits from a compensation ticket! <3"
                 end
-                
+
                 m_SaveInventory(pl)
                 m_CloseCompTicket(tbl.ID)
-
                 net.Start("moat.comp.chat")
                 net.WriteString(comp_msg)
                 net.WriteBool(false)
@@ -231,9 +222,11 @@ function m_CheckCompTickets(pl)
 end
 
 TRADES = TRADES or {}
+
 function TRADES.Escape(x)
     return MINVENTORY_MYSQL:escape(x)
 end
+
 function TRADES.Query(x, cb)
     local q = MINVENTORY_MYSQL:query(x)
 
@@ -247,14 +240,18 @@ function TRADES.Query(x, cb)
 
     q:start()
 end
+
 function TRADES.Fix(data)
     data.trade_tbl = util.JSONToTable(data.trade_tbl)
     data.trade_tbl.chat = util.JSONToTable(data.trade_tbl.chat)
+
     return data
 end
+
 function TRADES.ItemToFormat(i, tab, eachline)
     local item = MOAT_DROPTABLE[i.u]
     local name = "(id: " .. i.c .. ")"
+
     if (item.Kind == "Unique") then
         name = item.Name .. " " .. name
     elseif (item.Kind == "tier") then
@@ -270,8 +267,10 @@ function TRADES.Print(trade)
     print("Trade between " .. trade.my_nick .. " (" .. trade.my_steamid .. ") and " .. trade.their_nick .. " (" .. trade.their_steamid .. ") trade id: " .. trade.ID)
     print("  " .. trade.my_nick .. " (" .. trade.my_steamid .. ") offers:")
     print("    IC: " .. trade.trade_tbl.my_offer_ic)
+
     for num = 1, 10 do
         local i = trade.trade_tbl.my_offer_items["slot" .. num]
+
         if (i.c) then
             print(TRADES.ItemToFormat(i, "    ", "  "))
         end
@@ -280,6 +279,7 @@ end
 
 function TRADES.GetFromID(id, cb)
     assert(type(id) == "number")
+
     TRADES.Query("SELECT * FROM moat_trades WHERE ID = " .. id .. " LIMIT 1", function(data)
         if (data[1]) then
             data = data[1]
@@ -292,10 +292,11 @@ function TRADES.GetFromID(id, cb)
 end
 
 function TRADES.GetFromSteamIDs(id1, id2, cb)
-    if (id1:sub(1,5) == "STEAM") then
+    if (id1:sub(1, 5) == "STEAM") then
         id1 = util.SteamIDTo64(id1)
     end
-    if (id2:sub(1,5) == "STEAM") then
+
+    if (id2:sub(1, 5) == "STEAM") then
         id2 = util.SteamIDTo64(id2)
     end
 
@@ -305,12 +306,13 @@ function TRADES.GetFromSteamIDs(id1, id2, cb)
         for _, trade in pairs(data) do
             TRADES.Fix(trade)
         end
+
         cb(data)
     end)
 end
 
 function TRADES.GetFromSteamID(id1, cb)
-    if (id1:sub(1,5) == "STEAM") then
+    if (id1:sub(1, 5) == "STEAM") then
         id1 = util.SteamIDTo64(id1)
     end
 
@@ -318,6 +320,7 @@ function TRADES.GetFromSteamID(id1, cb)
         for _, trade in pairs(data) do
             TRADES.Fix(trade)
         end
+
         cb(data)
     end)
 end
@@ -325,7 +328,7 @@ end
 function TRADES.GetFromSteamIDWithIDAbove(id1, tradeid, cb)
     assert(type(tradeid) == "number")
 
-    if (id1:sub(1,5) == "STEAM") then
+    if (id1:sub(1, 5) == "STEAM") then
         id1 = util.SteamIDTo64(id1)
     end
 
@@ -333,21 +336,26 @@ function TRADES.GetFromSteamIDWithIDAbove(id1, tradeid, cb)
         for _, trade in pairs(data) do
             TRADES.Fix(trade)
         end
+
         cb(data)
     end)
 end
 
 function TRADES.FindLastTrade(lastknownowner, tradeid, id, cb, update)
-    if (lastknownowner:sub(1,5) == "STEAM") then
+    if (lastknownowner:sub(1, 5) == "STEAM") then
         lastknownowner = util.SteamIDTo64(lastknownowner)
     end
+
     local function scan()
         TRADES.GetFromSteamIDWithIDAbove(lastknownowner, tradeid, function(d)
             local before = lastknownowner
+
             for _, trade in ipairs(d) do
                 local scan = trade.my_steamid == lastknownowner and trade.trade_tbl.my_offer_items or trade.trade_tbl.their_offer_items
+
                 for i = 1, 10 do
                     local i = scan["slot" .. i]
+
                     if (i.c == id) then
                         lastknownowner = trade.my_steamid == lastknownowner and trade.their_steamid or trade.my_steamid
                         tradeid = trade.ID
@@ -356,6 +364,7 @@ function TRADES.FindLastTrade(lastknownowner, tradeid, id, cb, update)
                     end
                 end
             end
+
             if (before == lastknownowner) then
                 cb(lastknownowner, id)
             else
@@ -363,26 +372,26 @@ function TRADES.FindLastTrade(lastknownowner, tradeid, id, cb, update)
             end
         end)
     end
+
     scan()
 end
 
 --[[-------------------------------------------------------------------------
 Velkon Code
 ---------------------------------------------------------------------------]]
-
 function m_getTradeHistorySid(steamid, fun)
     local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_trades WHERE my_steamid = '" .. MINVENTORY_MYSQL:escape(steamid) .. "' OR their_steamid = '" .. MINVENTORY_MYSQL:escape(steamid) .. "'") --SELECT * FROM moat_trades WHERE my_steamid = '76561198053381832' OR their_steamid = '76561198053381832'
 
     function query1:onSuccess(data)
         if (#data > 0) then
             --PrintTable(data)
-            /*for k,v in pairs(data) do
+            --[[for k,v in pairs(data) do
                 --PrintTable(v)
                 local row = data[k]
                 local tradetbl = util.JSONToTable(row["trade_tbl"])
                 --PrintTable(tradetbl)
                 --PrintTable(tradetbl)
-            end*/
+            end]]
             fun(data)
         else
             fun({})
@@ -399,13 +408,13 @@ function m_getTradeHistoryNick(nick, fun)
     function query1:onSuccess(data)
         if (#data > 0) then
             --PrintTable(data)
-            /*for k,v in pairs(data) do
+            --[[for k,v in pairs(data) do
                 --PrintTable(v)
                 local row = data[k]
                 local tradetbl = util.JSONToTable(row["trade_tbl"])
                 --PrintTable(tradetbl)
                 --PrintTable(tradetbl)
-            end*/
+            end]]
             fun(data)
         else
             fun({})
@@ -417,6 +426,7 @@ end
 
 function m_getSearchTradesStaff(str, cb)
     local q = MINVENTORY_MYSQL:query("SELECT * FROM moat_trades WHERE (my_nick LIKE '%" .. MINVENTORY_MYSQL:escape(str) .. "%' OR their_nick LIKE '%" .. MINVENTORY_MYSQL:escape(str) .. "%' OR my_steamid = '" .. MINVENTORY_MYSQL:escape(str) .. "' OR their_steamid = '" .. MINVENTORY_MYSQL:escape(str) .. "' OR ID = '" .. MINVENTORY_MYSQL:escape(str) .. "')")
+
     function q:onSuccess(d)
         if (#d > 0) then
             cb(d)
@@ -427,8 +437,11 @@ function m_getSearchTradesStaff(str, cb)
 
     function q:onError(d)
         ServerLog("Trade Logs SQL Error: " .. d .. "\n")
+
         if (tonumber(MINVENTORY_MYSQL:status()) == 2) then
-            timer.Simple(1, function() m_getSearchTradesStaff(str, cb) end)
+            timer.Simple(1, function()
+                m_getSearchTradesStaff(str, cb)
+            end)
         end
     end
 
@@ -437,6 +450,7 @@ end
 
 function m_getSearchTradesReg(str, id, cb)
     local q = MINVENTORY_MYSQL:query("SELECT * FROM moat_trades WHERE (my_nick LIKE '%" .. MINVENTORY_MYSQL:escape(str) .. "%' OR their_nick LIKE '%" .. MINVENTORY_MYSQL:escape(str) .. "%' OR my_steamid = '" .. MINVENTORY_MYSQL:escape(str) .. "' OR their_steamid = '" .. MINVENTORY_MYSQL:escape(str) .. "' OR ID = '" .. MINVENTORY_MYSQL:escape(str) .. "') AND (my_steamid = '" .. id .. "' OR their_steamid = '" .. id .. "')")
+
     function q:onSuccess(d)
         if (#d > 0) then
             cb(d)
@@ -447,8 +461,11 @@ function m_getSearchTradesReg(str, id, cb)
 
     function q:onError(d)
         ServerLog("Trade Logs SQL Error: " .. d .. "\n")
+
         if (tonumber(MINVENTORY_MYSQL:status()) == 2) then
-            timer.Simple(1, function() m_getSearchTradesReg(str, id, cb) end)
+            timer.Simple(1, function()
+                m_getSearchTradesReg(str, id, cb)
+            end)
         end
     end
 
@@ -458,16 +475,17 @@ end
 function m_saveTrade(steamid, mynick, theirsid, theirnick, tbl)
     mynick = mynick:lower()
     theirnick = theirnick:lower()
-	-- secret santa's steamid64 to stop people from using trade logs to search the account's trade history and spoil the gifts
-	-- if (steamid == "76561198069382821" or theirsid == "76561198069382821") then return end
+    -- secret santa's steamid64 to stop people from using trade logs to search the account's trade history and spoil the gifts
+    -- if (steamid == "76561198069382821" or theirsid == "76561198069382821") then return end
     local trade = MINVENTORY_MYSQL:escape(util.TableToJSON(tbl), true)
-
     sq = MINVENTORY_MYSQL:query("INSERT INTO moat_trades ( time, my_steamid, my_nick, their_steamid, their_nick, trade_tbl ) VALUES ( UNIX_TIMESTAMP(), '" .. steamid .. "', '" .. MINVENTORY_MYSQL:escape(mynick) .. "', '" .. theirsid .. "', '" .. MINVENTORY_MYSQL:escape(theirnick) .. "', '" .. trade .. "' )")
     sq:start()
 
     function sq:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == 2) then
-            timer.Simple(1, function() m_saveTrade(steamid, mynick, theirsid, theirnick, tbl) end)
+            timer.Simple(1, function()
+                m_saveTrade(steamid, mynick, theirsid, theirnick, tbl)
+            end)
         end
     end
 end
@@ -475,8 +493,6 @@ end
 --[[-------------------------------------------------------------------------
 /Velkon Code
 ---------------------------------------------------------------------------]]
-
-
 function m_SaveRollItem(steamid, tbl)
     local item_save = sql.SQLStr(util.TableToJSON(tbl), true)
     sq = MINVENTORY_MYSQL:query("INSERT INTO moat_rollsave ( steamid, item_tbl ) VALUES ( '" .. steamid .. "', '" .. item_save .. "' )")
@@ -532,74 +548,69 @@ function m_SendInventoryToPlayer(ply)
     end
 
     local ply_inv = table.Copy(MOAT_INVS[ply])
+
     if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then
         m_LoadInventoryForPlayer(ply)
+
         return
     end
 
-	local Sent = CurTime()
-	ply.LastSent = Sent
+    local Sent = CurTime()
+    ply.LastSent = Sent
+    local lt = 0
 
-	local lt = 0
     for i = 1, 10 do
-		if (not ply_inv["l_slot" .. i].c) then
-			continue
-		end
+        if (not ply_inv["l_slot" .. i].c) then continue end
+        lt = lt + 0.01
 
-		lt = lt + 0.01
         timer.Simple(lt, function()
             if (IsValid(ply) and ply.LastSent == Sent) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString("l" .. i)
                 local tbl = table.Copy(ply_inv["l_slot" .. i])
                 tbl.item = m_GetItemFromEnum(tbl.u, tbl)
-				tbl.Talents = GetItemTalents(tbl)
-
+                tbl.Talents = GetItemTalents(tbl)
                 net.WriteTable(tbl)
                 net.Send(ply)
             end
         end)
     end
 
-	local it = 0
-    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
-		if (not ply_inv["slot" .. i].c) then
-			continue
-		end
+    local it = 0
 
-		it = it + 0.01
+    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
+        if (not ply_inv["slot" .. i].c) then continue end
+        it = it + 0.01
+
         timer.Simple(it, function()
             if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
                 local tbl = table.Copy(ply_inv["slot" .. i])
                 tbl.item = m_GetItemFromEnum(tbl.u, tbl)
-				tbl.Talents = GetItemTalents(tbl)
-
+                tbl.Talents = GetItemTalents(tbl)
                 net.WriteTable(tbl)
                 net.Send(ply)
             end
         end)
     end
 
-	timer.Simple(it + 0.01, function()
+    timer.Simple(it + 0.01, function()
         if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
             MsgC(Color(0, 255, 0), "Inventory sent in " .. it .. " secs to " .. ply:Nick() .. "\n")
-
-			net.Start "MOAT_SEND_INV_ITEM"
-			net.WriteString "0"
-			net.Send(ply)
-
-			m_CheckForRollSave(ply)
+            net.Start"MOAT_SEND_INV_ITEM"
+            net.WriteString"0"
+            net.Send(ply)
+            m_CheckForRollSave(ply)
             m_CheckCompTickets(ply)
 
-			timer.Simple(0, function()
-				if (IsValid(ply)) then
-					hook.Run("InventoryNetworked", ply)
-				end
-			end)
+            timer.Simple(0, function()
+                if (IsValid(ply)) then
+                    hook.Run("InventoryNetworked", ply)
+                end
+            end)
         end
-	end)
+    end)
 end
 
 function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
@@ -610,71 +621,67 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
     end
 
     local ply_inv = table.Copy(MOAT_INVS[ply])
+
     if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then
         m_LoadInventoryForPlayer(ply)
+
         return
     end
 
-	local Sent = CurTime()
-	ply.LastSent = Sent
+    local Sent = CurTime()
+    ply.LastSent = Sent
+    local lt = 0
 
-	local lt = 0
     for i = 1, 10 do
-		if (not ply_inv["l_slot" .. i].c) then
-			continue
-		end
+        if (not ply_inv["l_slot" .. i].c) then continue end
+        lt = lt + 0.01
 
-		lt = lt + 0.01
         timer.Simple(lt, function()
             if (IsValid(ply) and ply.LastSent == Sent) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString("l" .. i)
                 local tbl = table.Copy(ply_inv["l_slot" .. i])
                 tbl.item = m_GetItemFromEnum(tbl.u, tbl)
-				tbl.Talents = GetItemTalents(tbl)
-
+                tbl.Talents = GetItemTalents(tbl)
                 net.WriteTable(tbl)
                 net.Send(ply)
             end
         end)
     end
 
-	local it = 0
-    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
-		if (not ply_inv["slot" .. i].c) then
-			continue
-		end
+    local it = 0
 
-		it = it + 0.01
+    for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
+        if (not ply_inv["slot" .. i].c) then continue end
+        it = it + 0.01
+
         timer.Simple(it, function()
             if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
                 local tbl = table.Copy(ply_inv["slot" .. i])
                 tbl.item = m_GetItemFromEnum(tbl.u, tbl)
-				tbl.Talents = GetItemTalents(tbl)
-
+                tbl.Talents = GetItemTalents(tbl)
                 net.WriteTable(tbl)
                 net.Send(ply)
             end
         end)
     end
 
-	timer.Simple(it + 0.01, function()
+    timer.Simple(it + 0.01, function()
         if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
             MsgC(Color(0, 255, 0), "Inventory sent in " .. it .. " secs to " .. ply:Nick() .. "\n")
+            net.Start"MOAT_SEND_INV_ITEM"
+            net.WriteString"0"
+            net.Send(ply)
 
-			net.Start "MOAT_SEND_INV_ITEM"
-			net.WriteString "0"
-			net.Send(ply)
-
-			timer.Simple(0, function()
-				if (IsValid(ply)) then
-					hook.Run("InventoryNetworked", ply)
-				end
-			end)
+            timer.Simple(0, function()
+                if (IsValid(ply)) then
+                    hook.Run("InventoryNetworked", ply)
+                end
+            end)
         end
-	end)
+    end)
 end
 
 net.Receive("MOAT_SEND_INV_ITEM", function(len, ply)
@@ -682,19 +689,18 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len, ply)
 end)
 
 MOAT_CREDSAVE = MOAT_CREDSAVE or {}
+
 function m_SendCreditsToPlayer(ply)
     local ply_creds = table.Copy(MOAT_INVS[ply]["credits"])
     net.Start("MOAT_SEND_CREDITS")
     net.WriteDouble(ply_creds.c)
     net.Send(ply)
-
-	if (not ply:SteamID64()) then return end
-	MOAT_CREDSAVE[ply:SteamID64()] = ply_creds.c
+    if (not ply:SteamID64()) then return end
+    MOAT_CREDSAVE[ply:SteamID64()] = ply_creds.c
 end
 
 function m_SaveCredits(ply)
     if (not ply or not ply:IsValid()) then return end
-    
     local ply_creds = table.Copy(MOAT_INVS[ply]["credits"])
     local _credits = sql.SQLStr(util.TableToJSON(ply_creds), true)
     csq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET credits='" .. _credits .. "' WHERE steamid='" .. get_steamid(ply) .. "'")
@@ -703,17 +709,18 @@ function m_SaveCredits(ply)
     function csq:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
             MINVENTORY_MYSQL:connect()
-            timer.Simple(1, function() m_SaveCredits(ply) end)
-            --MINVENTORY_MYSQL:wait()
 
+            timer.Simple(1, function()
+                m_SaveCredits(ply)
+            end)
+            --MINVENTORY_MYSQL:wait()
             --m_SaveCredits(ply)
         end
     end
 
     m_SendCreditsToPlayer(ply)
-
-	if (not ply:SteamID64()) then return end
-	MOAT_CREDSAVE[ply:SteamID64()] = ply_creds.c
+    if (not ply:SteamID64()) then return end
+    MOAT_CREDSAVE[ply:SteamID64()] = ply_creds.c
 end
 
 function m_SetCreditsSteamID(_credits, _steamid)
@@ -967,37 +974,55 @@ function m_LoadInventoryForPlayer(ply, cb)
 
             for i = 1, 10 do
                 local t = util.JSONToTable(row["l_slot" .. i])
-                if not t then 
-                    discord.Send("Error Report SV","Error loading loadout item for " .. ply:Nick() .. " (" .. get_steamid(ply) .. ") `l_slot" .. i .. "`\n```" .. row["l_slot" .. i] .. "```" or "```")
+
+                if not t then
+                    discord.Send("Error Report SV", "Error loading loadout item for " .. ply:Nick() .. " (" .. get_steamid(ply) .. ") `l_slot" .. i .. "`\n```" .. row["l_slot" .. i] .. "```" or "```")
                     t = {}
                 end
+
                 inv_tbl["l_slot" .. i] = t
-				if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].item) then inv_tbl["l_slot" .. i].item = nil end
-				if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].Talents) then inv_tbl["l_slot" .. i].Talents = nil end
+
+                if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].item) then
+                    inv_tbl["l_slot" .. i].item = nil
+                end
+
+                if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].Talents) then
+                    inv_tbl["l_slot" .. i].Talents = nil
+                end
             end
 
             local inventory_tbl = util.JSONToTable(row["inventory"])
-            
+
             if (row.max_slots ~= #inventory_tbl) then
                 ply:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", #inventory_tbl)
             end
-            
-            if (cb) then cb() end
+
+            if (cb) then
+                cb()
+            end
 
             for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
                 inv_tbl["slot" .. i] = inventory_tbl[i]
+
                 if not inv_tbl["slot" .. i] then
                     inv_tbl["slot" .. i] = {}
-                    discord.Send("Error Report SV","Error loading item for " .. ply:Nick() .. " (" .. get_steamid(ply) .. ") `slot" .. i .. "`")
+                    discord.Send("Error Report SV", "Error loading item for " .. ply:Nick() .. " (" .. get_steamid(ply) .. ") `slot" .. i .. "`")
                 end
-				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].item) then inv_tbl["slot" .. i].item = nil end
-				if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].Talents) then inv_tbl["slot" .. i].Talents = nil end
+
+                if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].item) then
+                    inv_tbl["slot" .. i].item = nil
+                end
+
+                if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].Talents) then
+                    inv_tbl["slot" .. i].Talents = nil
+                end
 
                 if (i == ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS")) then
                     MOAT_INVS[ply] = inv_tbl
-					if (data[1].max_slots < 50) then
-						m_SendInventoryToPlayer(ply)
-					end
+
+                    if (data[1].max_slots < 50) then
+                        m_SendInventoryToPlayer(ply)
+                    end
                 end
             end
 
@@ -1009,12 +1034,12 @@ function m_LoadInventoryForPlayer(ply, cb)
 
     function query1:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
-            
             MINVENTORY_MYSQL:connect()
-            timer.Simple(1, function() m_LoadInventoryForPlayer(ply) end)
+
+            timer.Simple(1, function()
+                m_LoadInventoryForPlayer(ply)
+            end)
             --MINVENTORY_MYSQL:wait()
-
-
             --m_LoadInventoryForPlayer(ply)
 
             return
@@ -1022,7 +1047,6 @@ function m_LoadInventoryForPlayer(ply, cb)
     end
 
     query1:start()
-
     --UPDATE core_members SET last_activity = 1524525387 WHERE steamid = 76561198831932398
     local query2 = MINVENTORY_MYSQL:query("UPDATE core_members SET last_activity = UNIX_TIMESTAMP() WHERE steamid = '" .. ply:SteamID64() .. "'")
     query2:start()
@@ -1030,30 +1054,47 @@ end
 
 function m_SaveInventory(ply)
     if (not ply or not ply:IsValid()) then return end
-    
     local ply_inv = table.Copy(MOAT_INVS[ply])
     local string1 = ""
     local comma1 = "',"
-    
     if (not ply_inv) then return end
-    
     local stop = false
+
     for i = 1, 10 do
-		if (ply_inv["l_slot" .. i] and ply_inv["l_slot" .. i].item) then ply_inv["l_slot" .. i].item = nil end
-		if (ply_inv["l_slot" .. i] and ply_inv["l_slot" .. i].Talents) then ply_inv["l_slot" .. i].Talents = nil end
+        if (ply_inv["l_slot" .. i] and ply_inv["l_slot" .. i].item) then
+            ply_inv["l_slot" .. i].item = nil
+        end
+
+        if (ply_inv["l_slot" .. i] and ply_inv["l_slot" .. i].Talents) then
+            ply_inv["l_slot" .. i].Talents = nil
+        end
 
         local str = sql.SQLStr(util.TableToJSON(ply_inv["l_slot" .. i]), true)
-        if (not str or str == "nil") then stop = true break end
+
+        if (not str or str == "nil") then
+            stop = true
+            break
+        end
+
         string1 = string1 .. "l_slot" .. tostring(i) .. "='" .. str .. comma1
     end
-    
-    if (stop) then MsgC(Color(0, 255, 0), "COULDNT SAVE inventory for " .. ply:Nick() .. "\n") return end
+
+    if (stop) then
+        MsgC(Color(0, 255, 0), "COULDNT SAVE inventory for " .. ply:Nick() .. "\n")
+
+        return
+    end
 
     local inventory_table = {}
 
     for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
-		if (ply_inv["slot" .. i] and ply_inv["slot" .. i].item) then ply_inv["slot" .. i].item = nil end
-		if (ply_inv["slot" .. i] and ply_inv["slot" .. i].Talents) then ply_inv["slot" .. i].Talents = nil end
+        if (ply_inv["slot" .. i] and ply_inv["slot" .. i].item) then
+            ply_inv["slot" .. i].item = nil
+        end
+
+        if (ply_inv["slot" .. i] and ply_inv["slot" .. i].Talents) then
+            ply_inv["slot" .. i].Talents = nil
+        end
 
         table.insert(inventory_table, ply_inv["slot" .. i])
     end
@@ -1065,9 +1106,11 @@ function m_SaveInventory(ply)
     function sq:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
             MINVENTORY_MYSQL:connect()
-            timer.Simple(1, function() m_SaveInventory(ply) end)
-            --MINVENTORY_MYSQL:wait()
 
+            timer.Simple(1, function()
+                m_SaveInventory(ply)
+            end)
+            --MINVENTORY_MYSQL:wait()
             --m_SaveInventory(ply)
         end
     end
@@ -1077,11 +1120,7 @@ end
 
 function m_SaveMaxSlots(ply)
     local ply_inv = table.Copy(MOAT_INVS[ply])
-
-    if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then
-        return
-    end
-
+    if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then return end
     local max_slots = ply:GetMaxSlots() or 40
     local string1 = "max_slots=" .. max_slots
     sq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET " .. string1 .. " WHERE steamid='" .. get_steamid(ply) .. "'")
@@ -1090,9 +1129,11 @@ function m_SaveMaxSlots(ply)
     function sq:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
             MINVENTORY_MYSQL:connect()
-            timer.Simple(1, function() m_SaveMaxSlots(ply) end)
+
+            timer.Simple(1, function()
+                m_SaveMaxSlots(ply)
+            end)
             --MINVENTORY_MYSQL:wait()
-            
             --m_SaveMaxSlots(ply)
         end
     end
@@ -1103,19 +1144,19 @@ end
 function m_SaveStats(ply)
     if (not MOAT_STATS[ply] or MOAT_STATS[ply] == {}) then return end
     if (not MOAT_STATS[ply].k) then return end
-    
     local ply_stats = table.Copy(MOAT_STATS[ply])
     ply_stats = sql.SQLStr(util.TableToJSON(ply_stats), true)
-
     if (#ply_stats < 5) then return end
-
     csq = MINVENTORY_MYSQL:query("UPDATE moat_stats SET stats_tbl='" .. ply_stats .. "' WHERE steamid='" .. get_steamid(ply) .. "'")
     csq:start()
 
     function csq:onError(err)
         if (tonumber(MINVENTORY_MYSQL:status()) == mysqloo.DATABASE_NOT_CONNECTED) then
             MINVENTORY_MYSQL:connect()
-            timer.Simple(1, function() m_SaveStats(ply) end)
+
+            timer.Simple(1, function()
+                m_SaveStats(ply)
+            end)
         end
     end
 end
