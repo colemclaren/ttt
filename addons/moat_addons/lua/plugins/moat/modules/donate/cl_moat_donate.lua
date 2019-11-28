@@ -92,9 +92,9 @@ MOAT_DONATE.Packages = {
 		{Color(255, 0, 125), "", "Thank you for supporting MG <3", ""},
 	}},
 	-- MAke sure you don't take event out of name cause it's used to check if its a map event
-	{"Event: Quadra XP", Material("icon16/star.png"), 9, 250, "", {
-		{Color(255, 125, 0), "", "Quadra XP Event!", ""},
-		{Color(255, 0, 125), "", "Event for 20 rounds, everyone earns quadra XP!", ""},
+	{"XP Boost", Material("icon16/star.png"), 9, 250, "", {
+		{Color(255, 125, 0), "", "Server +300% XP Boost!", ""},
+		{Color(255, 0, 125), "", "Boosts 20 rounds, everybody earns +300% XP!", ""},
 		{Color(255, 255, 0), "", "(this is stackable)", ""},
 	}},
 }
