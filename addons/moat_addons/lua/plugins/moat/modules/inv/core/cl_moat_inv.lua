@@ -6388,7 +6388,7 @@ net.Receive("MOAT_ITEM_OBTAINED", function(len)
     table.insert(MOAT_ITEM_FOUND_QUEUE, tbl)
 
 	if (last_played <= CurTime() - .5) then
-		cdn.PlayURL("https://cdn.moat.gg/ttt/borderlands_3_legend.mp3", .5)
+		cdn.PlayURL("https://cdn.moat.gg/ttt/borderlands_3_legend.mp3", .2)
 
 		last_played = CurTime()
 	end
