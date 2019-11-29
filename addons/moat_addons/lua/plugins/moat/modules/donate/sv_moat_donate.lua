@@ -179,7 +179,7 @@ MOAT_DONATE.Packages = {
             -- end
             sql.Query"UPDATE mg_quad_xp SET rounds_left = rounds_left + 20 WHERE 1"
             start_quadra_xp(ply:Nick())
-            local msg = string(":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()), style.NewLine(":tada: Server boosted ") .. style.BoldUnderline("for +300% more XP") .. " on " .. string.Extra(GetServerName(), GetServerURL()))
+            local msg = string(":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()), style.NewLine(":tada: Just boosted a server! Earn ") .. style.BoldUnderline("+300%") .. "XP on " .. string.Extra(GetServerName(), GetServerURL()))
             discord.Send("Moat TTT Announcement", markdown.WrapBold(string(":satellite_orbital::satellite: ", markdown.Bold"Global TTT Announcement", " :satellite::satellite_orbital:", markdown.LineStart(msg))))
             discord.Send("Event", msg)
         end
