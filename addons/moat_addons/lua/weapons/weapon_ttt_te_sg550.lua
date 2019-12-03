@@ -155,9 +155,9 @@ SWEP.Spawnable = true
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_AK47
 
-SWEP.Primary.Delay = 0.07
+SWEP.Primary.Delay = 0.0857
 SWEP.Primary.Recoil = 1.4
-SWEP.Primary.Cone = 0.006
+SWEP.Primary.Cone = 0.015
 SWEP.Primary.Damage = 18
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30
