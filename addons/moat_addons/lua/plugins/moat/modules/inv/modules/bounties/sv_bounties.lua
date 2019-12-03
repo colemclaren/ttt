@@ -832,9 +832,11 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_m16"] = true
+            ["weapon_ttt_m16"] = true,
+			["weapon_ttt_te_m4a1"] = true,
+			["weapon_ttt_te_m14"] = true
         },
-"the M16", "M16"
+"the M16 or the M4A1 or the M14", "M16 + M4A1 + M14"
     },
     {
         {
