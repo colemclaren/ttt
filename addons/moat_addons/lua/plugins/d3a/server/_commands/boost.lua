@@ -42,5 +42,5 @@ COMMAND.Run = function(pl, args, supp)
 	D3A.MapBoosts[map_req] = true
 	D3A.MapBoostsPls[pl:SteamID()] = true
 
-	D3A.Chat.Broadcast2(moat_cyan, D3A.Commands.Name(pl), moat_white, " has boosted ", moat_green, map_req, moat_white, " for the next map vote.")
+	D3A.Chat.Broadcast2(moat_cyan, D3A.Commands.Name(pl), moat_white, " has boosted", moat_green, " " .. map_req, moat_white, " for the next map vote.")
 end
