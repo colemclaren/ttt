@@ -110,7 +110,7 @@ SWEP.Spawnable = true
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_M16
 
-SWEP.Primary.Delay      = 0.12
+SWEP.Primary.Delay      = 0.12 - (0.12 * 0.23)
 SWEP.Primary.Recoil     = 1.6
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "Pistol"

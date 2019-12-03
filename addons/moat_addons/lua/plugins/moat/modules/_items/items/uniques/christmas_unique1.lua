@@ -6,10 +6,10 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
+	Damage = { min = 14, max = 20 },
 	Accuracy = { min = 5, max = 10 },
 	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 38 },
+	Firerate = { min = 14, max = 23 },
 	Magazine = { min = 19, max = 28 },
 	Range = { min = 19, max = 28 },
 	Weight = { min = -4, max = -7 }
