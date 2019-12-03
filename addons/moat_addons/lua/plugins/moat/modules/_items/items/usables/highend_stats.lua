@@ -1,4 +1,4 @@
-ITEM.Name = "High-End Stat Mutator"
+ITEM.Name = "High-End Stats Mutator"
 ITEM.ID = 4008
 ITEM.Description = "Using this item allows you to re-roll the stats of any High-End item"
 ITEM.Rarity = 5

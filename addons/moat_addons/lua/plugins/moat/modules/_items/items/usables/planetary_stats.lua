@@ -1,4 +1,4 @@
-ITEM.Name = "Planetary Stat Mutator"
+ITEM.Name = "Planetary Stats Mutator"
 ITEM.ID = 4009
 ITEM.Description = "Using this item allows you to re-roll the stats of any Planetary item"
 ITEM.Rarity = 9

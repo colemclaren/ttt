@@ -1,4 +1,4 @@
-ITEM.Name = "Cosmic Stat Mutator"
+ITEM.Name = "Cosmic Stats Mutator"
 ITEM.ID = 4007
 ITEM.Description = "Using this item allows you to re-roll the stats of any Cosmic item"
 ITEM.Rarity = 7

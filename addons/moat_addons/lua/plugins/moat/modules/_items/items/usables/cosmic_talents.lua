@@ -1,4 +1,4 @@
-ITEM.Name = "Cosmic Talent Mutator"
+ITEM.Name = "Cosmic Talents Mutator"
 ITEM.ID = 4002
 ITEM.Description = "Using this item allows you to re-roll the talents of any Cosmic item. This will reset the item's LVL and XP"
 ITEM.Rarity = 7
