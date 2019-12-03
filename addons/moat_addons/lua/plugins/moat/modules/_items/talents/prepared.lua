@@ -7,7 +7,7 @@ TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 5, max = 10} -- Percent of damage increased by range
+TALENT.Modifications[1] = {min = 10, max = 20} -- Percent of damage increased by range
 TALENT.Modifications[2] = {min = 25, max = 40} -- Feet Difference
 
 TALENT.Melee = false

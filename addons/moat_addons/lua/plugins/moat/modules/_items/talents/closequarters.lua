@@ -7,7 +7,7 @@ TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = { min = 5, max = 10 } -- Amount damage is increased by
+TALENT.Modifications[1] = { min = 10, max = 20 } -- Amount damage is increased by
 TALENT.Modifications[2] = { min = 8, max = 13 } -- Amount of feet
 
 TALENT.Melee = false
