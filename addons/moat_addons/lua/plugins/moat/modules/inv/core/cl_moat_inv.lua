@@ -918,7 +918,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 
         if (itemtbl.tr) then mutated = " (Mutated)" end
 
-        m_DrawShadowedText(1, num_talents .. " Talent" .. talents_s .. mutated, font, 6, y + stats_y_add, Color(0, 128, 255))
+        m_DrawShadowedText(1, num_talents .. " Talent" .. talents_s .. mutated, font, 6, y + stats_y_add,  Color(94, 114, 228))
         surface_SetDrawColor(100, 100, 100, 50)
         surface_DrawLine(6, y + stats_y_add + 0 + 15, pnl:GetWide() - 6, y + stats_y_add + 0 + 15)
         surface_SetDrawColor(0, 0, 0, 100)
@@ -962,16 +962,19 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 
             surface_SetFont(font)
             local talent_namew, talent_nameh = surface_GetTextSize(talent_name)
-            local talent_namew2, talent_nameh2 = surface_GetTextSize(" | Level " .. talent_level .. "")
-            talent_col2 = Color(255, 255, 255)
+            local talent_namew2, talent_nameh2 = surface_GetTextSize("Level " .. talent_level .. "")
+            talent_col2 = Color(94, 114, 228)
             talent_alpha = 255
 
             if (itemtbl.s.l < talent_level) then
-                talent_col2 = Color(100, 100, 100)
+				draw.RoundedBox(5, 5 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 7, talent_nameh2, Color(44, 53, 68))
+                talent_col2 = Color(91, 98, 109)
                 talent_alpha = 100
-            end
+            else
+				draw.RoundedBox(5, 5 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 7, talent_nameh2, Color(38, 46, 91))
+			end
 
-            m_DrawShadowedText(1, " | Level " .. talent_level .. "", font, 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_col2)
+            m_DrawShadowedText(1, " Level " .. talent_level .. "", font, 6 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_col2)
             talent_desc = talent_desc or ""
             local talent_desctbl = string.Explode("^", talent_desc)
 
