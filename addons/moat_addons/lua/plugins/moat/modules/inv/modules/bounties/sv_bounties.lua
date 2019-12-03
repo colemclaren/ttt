@@ -912,9 +912,17 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_m590"] = true
+            ["weapon_doubleb"] = true,
+            ["weapon_flakgun"] = true,
+            ["weapon_spas12pvp"] = true,
+            ["weapon_supershotty"] = true,
+            ["weapon_ttt_m1014"] = true,
+            ["weapon_ttt_m590"] = true,
+            ["weapon_ttt_shotgun"] = true,
+            ["weapon_ttt_te_benelli"] = true,
+            ["weapon_zm_shotgun"] = true
         },
-"the Mossberg", "Mossberg"
+"ANY Shotgun Weapon", "Shotgun"
     },
     {
         {
