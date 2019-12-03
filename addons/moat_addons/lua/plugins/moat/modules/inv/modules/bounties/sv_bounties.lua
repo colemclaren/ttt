@@ -825,9 +825,10 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_sg550"] = true
+            ["weapon_ttt_sg550"] = true,
+			["weapon_ttt_te_sg550"] = true
         },
-"the SG550", "SG550"
+"the SG550 or the SG550 TE", "SG550"
     },
     {
         {
