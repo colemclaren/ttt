@@ -9,7 +9,7 @@ TALENT.LevelRequired = { min = 25, max = 30 }
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = { min = 5, max = 10 }	-- Chance to ignite
-TALENT.Modifications[2] = { min = 4, max = 8 }	-- Ignite time
+TALENT.Modifications[2] = { min = 10, max = 20 }	-- Ignite time
 
 TALENT.Melee = true
 TALENT.NotUnique = true
