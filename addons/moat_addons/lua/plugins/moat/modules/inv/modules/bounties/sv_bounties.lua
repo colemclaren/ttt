@@ -892,9 +892,10 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_zm_rifle"] = true
+            ["weapon_zm_rifle"] = true,
+			["weapon_ttt_te_m24"] = true
         },
-"the Rifle", "Rifle"
+"the Rifle or the M24", "Rifle + M24"
     },
     {
         {
