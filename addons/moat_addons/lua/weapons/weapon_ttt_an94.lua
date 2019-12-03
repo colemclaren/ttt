@@ -21,11 +21,11 @@ SWEP.AdminSpawnable			= false
 
 SWEP.Primary.Sound			= Sound("BO2_PEACE_FIRE")
 SWEP.Primary.Ammo = "SMG1"
-SWEP.Primary.Delay = 0.093 -- 0.105
+SWEP.Primary.Delay = 0.08 -- 0.105
 SWEP.Primary.Recoil = 0.4 -- 0.9
-SWEP.Primary.Cone = 0.027 -- 0.01
+SWEP.Primary.Cone = 0.015 -- 0.01
 SWEP.Primary.Damage = 22
-SWEP.HeadshotMultiplier = 2
+SWEP.HeadshotMultiplier = 2.5
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30
 SWEP.Primary.ClipMax = 60
