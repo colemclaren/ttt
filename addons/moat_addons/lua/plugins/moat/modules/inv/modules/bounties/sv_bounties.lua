@@ -905,9 +905,10 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_sg552"] = true
+            ["weapon_ttt_sg552"] = true,
+			["weapon_ttt_te_sr25"] = true
         },
-"the SG552", "SG552"
+"the SG552 or the SR-25", "SG552 + SR-25"
     },
     {
         {
