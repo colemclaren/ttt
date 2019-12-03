@@ -852,9 +852,11 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_zm_revolver"] = true
+            ["weapon_zm_revolver"] = true,
+			["weapon_ttt_te_deagle"] = true,
+			["weapon_ttt_golden_deagle"] = true
         },
-"the Deagle", "Deagle"
+"the Deagle or the Deagle TE", "Deagle"
     },
     {
         {
