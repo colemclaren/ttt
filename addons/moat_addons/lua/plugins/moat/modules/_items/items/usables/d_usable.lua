@@ -4,7 +4,7 @@ ITEM.Description = "Use this item during the preparing phase to be guaranteed to
 ITEM.Rarity = 8
 ITEM.Active = true
 ITEM.NewItem = 1575878400
-ITEM.Price = 75000
+ITEM.Price = 50000
 ITEM.ShopDesc = "Become a Detective on the next round!\n(Purchasing will give you a one-time Detective Token usable)"
 
 ITEM.Collection = "Supreme Collection"
