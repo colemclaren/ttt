@@ -790,7 +790,7 @@ local weapon_challenges = {
             ["weapon_zm_mac10"] = true,
 			["weapon_ttt_te_mac"] = true
         },
-"the MAC10 or the MAC10 TE", "MAC10"
+"the MAC10or the MAC10 TE or the MAC11", "MAC10 + MAC11"
     },
     {
         {
