@@ -18,11 +18,11 @@ SWEP.ENUM = 13
 
 SWEP.Primary.Ammo = "Buckshot"
 SWEP.Primary.Range = 200
-SWEP.Primary.Delay = 1.2 + 0.2
+SWEP.Primary.Delay = 1.4
 SWEP.Primary.Recoil = 7
 SWEP.Primary.Cone = 0.05
-SWEP.Primary.ConeY = 0.11
-SWEP.Primary.Damage = 11
+SWEP.Primary.ConeY = 0.05
+SWEP.Primary.Damage = 15
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 8
