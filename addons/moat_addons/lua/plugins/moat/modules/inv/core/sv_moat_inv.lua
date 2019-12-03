@@ -702,7 +702,7 @@ function m_SendInventorySwapFail(ply)
     net.Send(ply)
 end
 
-local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
+local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Special", "Head", "Mask", "Body", "Effect", "Model"}
 local m_SlotToLoadout = {}
 m_SlotToLoadout[1] = "Melee"
 m_SlotToLoadout[2] = "Secondary"
@@ -723,7 +723,7 @@ function m_CanSwapLoadout(ITEM_TBL, DRAG_SLOT)
 
     if (ITEM_TBL.item.Kind == "Power-Up") then
         return DRAG_SLOT == 4
-    elseif (ITEM_TBL.item.Kind == "Other") then
+    elseif (ITEM_TBL.item.Kind == "Special") then
         return DRAG_SLOT == 5
     elseif (ITEM_TBL.item.Kind == "Hat") then
         return DRAG_SLOT == 6
@@ -2195,6 +2195,13 @@ function m_UseUsableItem(pl, slot, class, wep_slot, wep_class, str)
 
         if (MOAT_ITEM_CHECK and MOAT_ITEM_CHECK[item.ItemCheck]) then
             if (not MOAT_ITEM_CHECK[item.ItemCheck][1](item_chosen, pl)) then return end
+        end
+    end
+
+	if (item.SafetyCheck) then
+        if (not wep_slot or not wep_class) then return end
+        if (MOAT_ITEM_CHECK and MOAT_ITEM_CHECK[item.SafetyCheck] and not MOAT_ITEM_CHECK[item.SafetyCheck][1](item, pl)) then
+			return
         end
     end
 

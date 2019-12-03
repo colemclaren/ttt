@@ -13,7 +13,7 @@ function m_AddDroppableItem(item_table, item_kind)
 	end
 
 	if (tbl.Description and not tbl.DescExact) then
-		tbl.Description = string.Grammarfy(tbl.Description)
+		tbl.Description = string.Grammarfy(tbl.Description, not (tbl.Description:EndsWith"!" or tbl.Description:EndsWith"?" or tbl.Description:EndsWith"."))
 	end
 
     MOAT_DROPTABLE[tbl.ID] = tbl
@@ -38,7 +38,7 @@ local MOAT_ITEM_FOLDERS = {
     ["Melee"] = "melees",
     ["Effect"] = "effects",
     ["Body"] = "body",
-    ["Other"] = "other",
+    ["Special"] = "other",
     ["Usable"] = "usables"
 }
 
@@ -159,7 +159,7 @@ function m_AddTalent(talent_tbl)
 	end
 
 	if (talent_tbl.Description and not talent_tbl.DescExact) then
-		talent_tbl.Description = string.Grammarfy(talent_tbl.Description)
+		talent_tbl.Description = string.Grammarfy(talent_tbl.Description, not (talent_tbl.Description:EndsWith"!" or talent_tbl.Description:EndsWith"?" or talent_tbl.Description:EndsWith"."))
 	end
 
     MOAT_TALENTS[talent_tbl.ID] = talent_tbl
@@ -485,7 +485,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                     end
                 end
             end
-        elseif ((item_to_drop.Kind == "Power-Up" or item_to_drop.Kind == "Other" or item_to_drop.Kind == "Usable") and item_to_drop.Stats) then
+        elseif ((item_to_drop.Kind == "Power-Up" or item_to_drop.Kind == "Special" or item_to_drop.Kind == "Usable") and item_to_drop.Stats) then
             dropped_item.s = {}
 
             for i = 1, #item_to_drop.Stats do
@@ -1115,7 +1115,7 @@ function m_ResetStats(pl, wep_slot, itemtbl)
                 if (stats_chosen >= stats_to_apply) then break end
             end
         end
-    elseif ((itemtbl.Kind == "Power-Up" or itemtbl.Kind == "Other" or itemtbl.Kind == "Usable") and itemtbl.Stats) then
+    elseif ((itemtbl.Kind == "Power-Up" or itemtbl.Kind == "Special" or itemtbl.Kind == "Usable") and itemtbl.Stats) then
         local saved_level = nil
 
         if (ply_item.s and ply_item.s.l) then
