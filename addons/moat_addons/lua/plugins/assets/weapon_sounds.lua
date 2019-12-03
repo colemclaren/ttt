@@ -3281,6 +3281,28 @@ sound.Add({
 	sound = ")moat_paintballhit.mp3"
 })
 
+sound.Add({
+    name = "gunshot_benli_m4",
+    channel = CHAN_WEAPON,
+    volume = 0.8,
+    pitch = {95, 105},
+    sound = ")weapons/gunshot_benli_m4/xm1014-1.wav"
+})
+
+sound.Add({
+	name = 			"improv_ben_m4.insert",
+	channel = 		CHAN_ITEM,
+	volume = 		1.0,
+	sound = 			"weapons/gunshot_benli_m4/xm1014_insertshell.wav"
+})
+
+sound.Add({
+	name = 			"improv_ben_m4.cock",
+	channel = 		CHAN_ITEM,
+	volume = 		1.0,
+	sound = 			"weapons/gunshot_benli_m4/xm1014_boltpull.wav"
+})
+
 -- MP40 --
 fastbl = {}
 fastbl["channel"] = "3"
@@ -3322,15 +3344,15 @@ fastbl["sound"] = "weapons/request cod waw/mp40 out.wav"
 fastbl["name"] = "MP40.clipout"
 sound.Add(fastbl)
 
--- fastbl = {}
--- fastbl["channel"] = "3"
--- fastbl["level"] = "75"
--- fastbl["volume"] = "1.0"
--- fastbl["CompatibilityAttenuation"] = "1"
--- fastbl["pitch"] = "95,105"
--- fastbl["sound"] = "weapons/request cod waw/mp40 in.wav"
--- fastbl["name"] = "MP40.clipin"
--- sound.Add(fastbl)
+fastbl = {}
+fastbl["channel"] = "3"
+fastbl["level"] = "75"
+fastbl["volume"] = "1.0"
+fastbl["CompatibilityAttenuation"] = "1"
+fastbl["pitch"] = "95,105"
+fastbl["sound"] = "weapons/request cod waw/mp40 in.wav"
+fastbl["name"] = "MP40.clipin"
+sound.Add(fastbl)
 
 hook("InitPostEntity", function()
 	for k, v in ipairs(WEAPON_SOUNDS) do
