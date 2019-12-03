@@ -422,9 +422,9 @@ function m_PopulateShop(pnl)
 			else
 				local price_width = surface.GetTextSize("Starting " .. string.Comma(itemtbl.Price *  s.Qty))
 				m_DrawShadowedText(1, "Starting at " .. string.Comma(itemtbl.Price *  s.Qty) .. " IC", "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
-            	surface.SetMaterial(Material("icon16/coins.png"))
+            	surface.SetMaterial(mat_coins)
             	surface.SetDrawColor(Color(255, 255, 255, 255))
-            	surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 8, h - 85, 16, 16)
+            	surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 12, h - 85, 16, 16)
 			end
 
             m_DrawShadowedText(1, "Request: " .. s.Qty, "moat_ItemDesc", (w / 2), h - 60, (itemtbl.Price * s.Qty <= MOAT_INVENTORY_CREDITS) and Color(255, 255, 255) or Color(255, 0, 0), TEXT_ALIGN_CENTER)
@@ -645,9 +645,9 @@ function m_PopulateShop(pnl)
             surface.SetMaterial(imgs)
             surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
             m_DrawShadowedText(1, item_price, "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255), TEXT_ALIGN_CENTER)
-            surface.SetMaterial(Material("icon16/coins.png"))
+            surface.SetMaterial(mat_coins)
             surface.SetDrawColor(Color(255, 255, 255))
-            surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 8, h - 85, 16, 16)
+            surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 12, h - 85, 16, 16)
 
             m_DrawShadowedText(1, "Hype TTT Usable", "moat_ItemDesc", (w / 2), h - 60, (price * s.Qty <= MOAT_INVENTORY_CREDITS) and Color(255, 255, 255) or Color(255, 0, 0), TEXT_ALIGN_CENTER)
         end
