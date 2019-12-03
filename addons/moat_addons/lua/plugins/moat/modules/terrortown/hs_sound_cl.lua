@@ -1,14 +1,14 @@
 local EagleSounds = {
-	["Eagle Aim"] = "https://cdn.moat.gg/f/7d0Uf.wav",
-	["Eagle Kill"] = "https://cdn.moat.gg/f/QUJmd.wav",
-	["Eagle Clack"] = "https://cdn.moat.gg/f/gMZ7h.wav",
-	["Arcade Tap"] = "https://cdn.moat.gg/f/3I5r0.wav",
-	["Arcade Headshot"] = "https://cdn.moat.gg/f/l3GS6.wav",
-	["Arcade Kill"] = "https://cdn.moat.gg/f/SAqqL.wav",
-	["Arcade Missed"] = "https://cdn.moat.gg/f/r01Nd.wav",
-	["FPS Hitmarker"] = "https://cdn.moat.gg/f/Xo03v.wav",
-	["FPS Headshot"] = "https://cdn.moat.gg/f/iVweK.wav",
-	["Rusty Aim"] = "https://cdn.moat.gg/f/Jvr0A.wav"
+	["Eagle Aim"] = "https://cdn.moat.gg/ttt/headshot/surreal-headshot-kill.wav",
+	["Eagle Kill"] = "https://cdn.moat.gg/ttt/headshot/surreal-killshot.wav",
+	["Eagle Clack"] = "https://cdn.moat.gg/ttt/headshot/metallic-headshot.wav",
+	["Arcade Tap"] = "https://cdn.moat.gg/ttt/headshot/arcade-bodyshot.wav",
+	["Arcade Headshot"] = "https://cdn.moat.gg/ttt/headshot/arcade-headshot.wav",
+	["Arcade Kill"] = "https://cdn.moat.gg/ttt/headshot/arcade-headshot-kill.wav",
+	["Arcade Missed"] = "https://cdn.moat.gg/ttt/headshot/arcade-killshot.wav",
+	["FPS Hitmarker"] = "https://cdn.moat.gg/ttt/headshot/fps-bodyshot.wav",
+	["FPS Headshot"] = "https://cdn.moat.gg/ttt/headshot/fps-headshot.wav",
+	["Rusty Aim"] = "https://cdn.moat.gg/ttt/headshot/metallic-headshot.wav"
 }
 
 hook("Moat.Headshot", function()
