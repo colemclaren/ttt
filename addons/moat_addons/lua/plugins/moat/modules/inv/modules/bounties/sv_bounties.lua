@@ -806,9 +806,10 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_ak47"] = true
+            ["weapon_ttt_ak47"] = true,
+			["weapon_ttt_te_ak47"] = true
         },
-"the AK47", "AK47"
+"the AK47 or the AK47 TE", "AK47"
     },
     {
         {
