@@ -938,9 +938,10 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_famas"] = true
+            ["weapon_ttt_famas"] = true,
+			["weapon_ttt_te_famas"] = true
         },
-"the Famas", "Famas"
+"the Famas or the Famas TE", "Famas"
     },
     {
         {
