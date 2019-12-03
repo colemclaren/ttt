@@ -899,9 +899,10 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_galil"] = true
+            ["weapon_ttt_galil"] = true,
+			["weapon_ttt_te_sako"] = true
         },
-"the Galil", "Galil"
+"the Galil or the Sako", "Galil + Sako"
     },
     {
         {
