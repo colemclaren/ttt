@@ -181,7 +181,8 @@ MOAT_DONATE.Packages = {
             start_quadra_xp(ply:Nick())
             local msg = string(":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()), style.NewLine(":tada: Just boosted a server! Earn ") .. style.BoldUnderline("+300%") .. "XP on " .. string.Extra(GetServerName(), GetServerURL()))
             discord.Send("Moat TTT Announcement", markdown.WrapBold(string(":satellite_orbital::satellite: ", markdown.Bold"Global TTT Announcement", " :satellite::satellite_orbital:", markdown.LineStart(msg))))
-            discord.Send("Event", msg)
+            discord.Send("Events", msg)
+			discord.Send("Event", msg)
         end
     }
 }

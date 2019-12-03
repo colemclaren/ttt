@@ -526,6 +526,7 @@ local function discord_post(ply,item,image,gift)
         embed = getiteminfo(item,embed)
     end
     discord.Embed("Drop",embed)
+	discord.Embed("Drops",embed)
 end
 
 local function discord_drop(ply,item,gift)
