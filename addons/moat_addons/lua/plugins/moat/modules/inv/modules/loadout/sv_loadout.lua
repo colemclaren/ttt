@@ -82,7 +82,7 @@ function MOAT_LOADOUT.GetLoadout(ply)
         else
             tbl[i].item = m_GetItemFromEnumWithFunctions(tbl[i].u, tbl[i])
 
-            if (tbl[i] and tbl[i].item and (tbl[i].item.Kind == "Other" or tbl[i].item.Kind == "Unique")) then
+            if (tbl[i] and tbl[i].item and (tbl[i].item.Kind == "Special" or tbl[i].item.Kind == "Unique")) then
                 if (tbl[i].item.WeaponClass) then
                     tbl[i].w = tbl[i].item.WeaponClass
                 end    
@@ -275,7 +275,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
         ["Secondary"] = sec_wep,
         ["Melee"] = melee_wep,
         ["Power-Up"] = powerup,
-        ["Other"] = tactical
+        ["Special"] = tactical
     }
 
     if (not is_reequip) then
@@ -347,7 +347,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             continue
         end
 
-        if (k == "Other") then
+        if (k == "Special") then
             if (v.c) then
                 local weapon_table = {}
 

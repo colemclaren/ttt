@@ -123,7 +123,7 @@ function m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_tid)
     end
 end
 
-local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
+local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Special", "Head", "Mask", "Body", "Effect", "Model"}
 local m_SlotToLoadout = {}
 m_SlotToLoadout[0] = "Melee"
 m_SlotToLoadout[1] = "Secondary"
@@ -134,7 +134,7 @@ function m_CanSwapLoadout(ITEM_TBL, DRAG_SLOT)
 
     if (ITEM_TBL.c == nil) then return true end
     if (ITEM_TBL.item.Kind == "Power-Up") then return DRAG_SLOT == 4 end
-    if (ITEM_TBL.item.Kind == "Other") then return DRAG_SLOT == 5 end
+    if (ITEM_TBL.item.Kind == "Special") then return DRAG_SLOT == 5 end
     if (ITEM_TBL.item.Kind == "Hat") then return DRAG_SLOT == 6 end
     if (ITEM_TBL.item.Kind == "Mask") then return DRAG_SLOT == 7 end
     if (ITEM_TBL.item.Kind == "Body") then return DRAG_SLOT == 8 end
@@ -152,7 +152,7 @@ WeaponLoadoutSlots[2] = 1
 function m_GetCorrectLoadoutSlot(ITEM_TBL)
     if (ITEM_TBL.c == nil) then return end
     if (ITEM_TBL.item.Kind == "Power-Up") then return 4 end
-    if (ITEM_TBL.item.Kind == "Other") then return 5 end
+    if (ITEM_TBL.item.Kind == "Special") then return 5 end
     if (ITEM_TBL.item.Kind == "Hat") then return 6 end
     if (ITEM_TBL.item.Kind == "Mask") then return 7 end
     if (ITEM_TBL.item.Kind == "Body") then return 8 end
@@ -523,7 +523,7 @@ end)
 local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
     local slot = m_tradeslot
 
-    if (M_ITEM_TBL and M_ITEM_TBL.item and M_ITEM_TBL.item.Kind == "Other") then
+    if (M_ITEM_TBL and M_ITEM_TBL.item and M_ITEM_TBL.item.Kind == "Special") then
         if (M_ITEM_TBL.item.WeaponClass) then
             M_ITEM_TBL.w = M_ITEM_TBL.item.WeaponClass
         end

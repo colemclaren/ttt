@@ -217,7 +217,7 @@ local function DrawSpooky(s, w, h)
     elseif (currently_spook) then
         local da_spook = spooks[current_spook]
 
-        cdn.DrawImage(da_spook.url, da_spook[2], da_spook[3] - (math.sin(RealTime() * 3) * 25), da_spook[4], da_spook[4], Color(255, 255, 255))
+        cdn.DrawImage(da_spook.url, da_spook[2], da_spook[3] - (math.sin(RealTime() * 3) * 25), da_spook[4], da_spook[4], Color(240, 245, 253))
 
         if (da_spook[1]:EndsWith("right.png")) then
             da_spook[2] = da_spook[2] + (FrameTime() * 120)
@@ -258,7 +258,7 @@ local left_or_right = 1
 local currently_spring = false
 
 local function DrawSpring(s, w, h)
-    cdn.DrawImage(MOAT_BG_URL, 0, 0, w, h, Color(255, 255, 255, 225))
+    cdn.DrawImage(MOAT_BG_URL, 0, 0, w, h, Color(240, 245, 253, 225))
 
     -- if (next_spring <= CurTime()) then
     --     current_spring = math.random(1, 4)
@@ -278,7 +278,7 @@ local function DrawSpring(s, w, h)
     --     next_spring = CurTime() + 20
     -- elseif (currently_spring) then
     --     local da_spring = springs[current_spring]
-    --     cdn.DrawImage(da_spring.url, da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(255, 255, 255, 50))
+    --     cdn.DrawImage(da_spring.url, da_spring[2], da_spring[3] - (math.sin(RealTime() * 3) * 25), da_spring[4], da_spring[4], Color(240, 245, 253, 50))
 
     --     if (left_or_right == 2) then
     --         da_spring[2] = da_spring[2] + (FrameTime() * 120)
@@ -489,7 +489,7 @@ function draw_SimpleTextDegree(text, font, x, y, x2, y2, top, bottom, percent, x
     local font = "moat_Medium52"
     surface_SetFont(font)
     local charw, charh = surface_GetTextSize(text)
-    draw_SimpleText(text, font, x, y, Color(0, 255, 255, 255), xalign, yalign)
+    draw_SimpleText(text, font, x, y, Color(0, 240, 245, 253), xalign, yalign)
     local y_pos2 = (math.abs(math.sin((RealTime() - (1 * 0.1)) * 1)) * charw)
     local x_pos2 = x2 + x
 
@@ -531,7 +531,7 @@ local mat_paint = Material("icon16/palette.png")
 local function DrawBlur(panel, amount)
     local x, y = panel:LocalToScreen(0, 0)
     local scrW, scrH = ScrW(), ScrH()
-    surface_SetDrawColor(255, 255, 255)
+    surface_SetDrawColor(240, 245, 253)
     surface_SetMaterial(blur)
 
     for i = 1, 3 do
@@ -542,7 +542,7 @@ local function DrawBlur(panel, amount)
     end
 end
 
-function m_DrawItemDescLevel(text, font, x, y, w, alpha)
+function m_DrawItemDescLevel(text, font, x, y, w, col)
     local texte = string.Explode(" ", text)
     surface_SetFont(font)
     local chars_x = 0
@@ -557,11 +557,11 @@ function m_DrawItemDescLevel(text, font, x, y, w, alpha)
             chars_y = chars_y + 1
         end
 
-        local char_col = Color(alpha, alpha, alpha, 255)
+        local char_col = col
 
         for i = 0, 9 do
             if (string.find(char, tostring(i))) then
-                char_col = Color(0, 255, 0, alpha)
+                char_col = Color(45, 206, 137)
             end
         end
 
@@ -592,11 +592,11 @@ function m_DrawItemDesc(text, font, x, y, w, h)
             chars_y = chars_y + 1
         end
 
-        local char_col = Color(255, 255, 255)
+        local char_col = Color(240, 245, 253)
 
         for i = 0, 9 do
             if (string.find(char, tostring(i))) then
-                char_col = Color(0, 255, 0)
+                char_col = Color(45, 206, 137)
             end
         end
 
@@ -676,8 +676,8 @@ stats_full["y"] = "Reload"
 stats_full["z"] = "Draw"
 stats_full["c"] = "Charging Speed"
 
-local m_color_green = Color(40, 255, 40)
-local m_color_red = Color(255, 40, 40)
+local m_color_green = Color(45, 206, 137)
+local m_color_red = Color(245, 54, 92)
 local talents_spacer = 25
 local appl = "apple_pie"
 local stat_anim = 10
@@ -710,7 +710,7 @@ local function DrawItemStatsKeyValue(font, x, y, itemtbl, pnl, stats_y_add, k, v
     local stat_strw, stat_strh = surface_GetTextSize(stat_str)
 
     if (not table.HasValue(default_stats, stat_str) and not table.HasValue(level_stats, stat_str)) then
-        m_DrawShadowedText(1, stat_str, font, x, y + stats_y_add, Color(255, 255, 255))
+        m_DrawShadowedText(1, stat_str, font, x, y + stats_y_add, Color(240, 245, 253))
         local box_width = pnl:GetWide() - 14
         local stat_width = (v * (box_width)) * (pnl.AnimVal or 1)
         surface_SetDrawColor(0, 0, 0)
@@ -790,28 +790,28 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         wpn_mag = "∞"
     end
 
-    if (itemtbl.item.Rarity == 0 and itemtbl.item.ID and itemtbl.item.ID ~= 7820 and itemtbl.item.ID ~= 7821) then
-        m_DrawShadowedText(1, "DMG", font, x1, y, Color(255, 255, 255))
-        m_DrawShadowedText(1, wpn_dmg, font_large, x1, y + y_addition, Color(255, 255, 255))
-        m_DrawShadowedText(1, "RPM", font, x2, y, Color(255, 255, 255))
-        m_DrawShadowedText(1, wpn_rpm, font_large, x2, y + y_addition, Color(255, 255, 255))
-        m_DrawShadowedText(1, "MAG", font, x3, y, Color(255, 255, 255))
-        m_DrawShadowedText(1, wpn_mag, font_large, x3, y + y_addition, Color(255, 255, 255))
-        local collection_y = 85
-        m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
+    -- if (itemtbl.item.Rarity == 0 and itemtbl.item.ID and itemtbl.item.ID ~= 7820 and itemtbl.item.ID ~= 7821) then
+    --     m_DrawShadowedText(1, "DMG", font, x1, y, Color(240, 245, 253))
+    --     m_DrawShadowedText(1, wpn_dmg, font_large, x1, y + y_addition, Color(240, 245, 253))
+    --     m_DrawShadowedText(1, "RPM", font, x2, y, Color(240, 245, 253))
+    --     m_DrawShadowedText(1, wpn_rpm, font_large, x2, y + y_addition, Color(240, 245, 253))
+    --     m_DrawShadowedText(1, "MAG", font, x3, y, Color(240, 245, 253))
+    --     m_DrawShadowedText(1, wpn_mag, font_large, x3, y + y_addition, Color(240, 245, 253))
+    --     local collection_y = 85
+    --     m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
 		
-		if (itemtbl.p3) then
-        	local p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "ERROR: Unknown Skin"
-			m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
-    	end
+	-- 	if (itemtbl.p3) then
+    --     	local p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "ERROR: Unknown Skin"
+	-- 		m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+    -- 	end
 
-        return
-    end
+    --     return
+    -- end
 
     for k, v in SortedPairs(default_stats) do
         if (v == "DMG") then
-            m_DrawShadowedText(1, v, font, x1, y, Color(255, 255, 255))
-            m_DrawShadowedText(1, wpn_dmg, font_large, x1, y + y_addition, Color(255, 255, 255))
+            m_DrawShadowedText(1, v, font, x1, y, Color(240, 245, 253))
+            m_DrawShadowedText(1, wpn_dmg, font_large, x1, y + y_addition, Color(240, 245, 253))
 
             if (itemtbl.s.d) then
                 stat_min, stat_max = m_GetStatMinMax("d", itemtbl)
@@ -830,12 +830,12 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
                 end
 
                 if (stat_num ~= 0) then
-                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "%", font_small, x1 + 30, y + small_y, stat_color)
+                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "%", font_small, x1 + 33, y + small_y, stat_color)
                 end
             end
         elseif (v == "RPM") then
-            m_DrawShadowedText(1, v, font, x2, y, Color(255, 255, 255))
-            m_DrawShadowedText(1, wpn_rpm, font_large, x2, y + y_addition, Color(255, 255, 255))
+            m_DrawShadowedText(1, v, font, x2, y, Color(240, 245, 253))
+            m_DrawShadowedText(1, wpn_rpm, font_large, x2, y + y_addition, Color(240, 245, 253))
 
             if (itemtbl.s.f) then
                 stat_min, stat_max = m_GetStatMinMax("f", itemtbl)
@@ -858,8 +858,8 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
                 end
             end
         elseif (v == "MAG") then
-            m_DrawShadowedText(1, v, font, x3, y, Color(255, 255, 255))
-            m_DrawShadowedText(1, wpn_mag, font_large, x3, y + y_addition, Color(255, 255, 255))
+            m_DrawShadowedText(1, v, font, x3, y, Color(240, 245, 253))
+            m_DrawShadowedText(1, wpn_mag, font_large, x3, y + y_addition, Color(240, 245, 253))
 
             if (itemtbl.s.m and isnumber(wpn_mag)) then
                 stat_min, stat_max = m_GetStatMinMax("m", itemtbl)
@@ -880,7 +880,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
                 end
 
                 if (stat_num ~= 0) then
-                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "", font_small, x3 + 30, y + small_y, stat_color)
+                    m_DrawShadowedText(1, minmax .. " " .. stat_sign .. stat_num .. "", font_small, x3 + 32, y + small_y, stat_color)
                 end
             end
         end
@@ -919,15 +919,15 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         if (itemtbl.tr) then mutated = " (Mutated)" end
 
         m_DrawShadowedText(1, num_talents .. " Talent" .. talents_s .. mutated, font, 6, y + stats_y_add,  Color(94, 114, 228))
-        surface_SetDrawColor(100, 100, 100, 50)
+        surface_SetDrawColor(91, 98, 109, 50)
         surface_DrawLine(6, y + stats_y_add + 0 + 15, pnl:GetWide() - 6, y + stats_y_add + 0 + 15)
         surface_SetDrawColor(0, 0, 0, 100)
         surface_DrawLine(6, y + stats_y_add + 1 + 15, pnl:GetWide() - 6, y + stats_y_add + 1 + 15)
         local talent_name = ""
         local talent_desc = ""
         local talent_level = 0
-        local talent_col = Color(255, 255, 255)
-        local talent_col2 = Color(255, 255, 255)
+        local talent_col = Color(240, 245, 253)
+        local talent_col2 = Color(240, 245, 253)
         local talent_alpha = 255
 
         for k, v in ipairs(itemtbl.t) do
@@ -955,7 +955,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             elseif (tfx == "electric") then
                 m_DrawElecticText(talent_name, font, draw_name_x, draw_name_y, name_col, true)
             elseif (tfx == "frost") then
-                DrawFrostingText(10, 1.5, talent_name, font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(255, 255, 255))
+                DrawFrostingText(10, 1.5, talent_name, font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(240, 245, 253))
             else
                 emoji.SimpleText(talent_name, font, draw_name_x, draw_name_y, name_col)
             end
@@ -964,17 +964,17 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             local talent_namew, talent_nameh = surface_GetTextSize(talent_name)
             local talent_namew2, talent_nameh2 = surface_GetTextSize("Level " .. talent_level .. "")
             talent_col2 = Color(94, 114, 228)
-            talent_alpha = 255
+            talent_alpha = Color(240, 245, 253)
 
             if (itemtbl.s.l < talent_level) then
-				draw.RoundedBox(5, 5 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 7, talent_nameh2, Color(44, 53, 68))
+				draw.RoundedBox(5, 2 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 7, talent_nameh2, Color(44, 53, 68))
                 talent_col2 = Color(91, 98, 109)
-                talent_alpha = 100
+                talent_alpha = Color(91, 98, 109)
             else
-				draw.RoundedBox(5, 5 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 7, talent_nameh2, Color(38, 46, 91))
+				draw.RoundedBox(5, 2 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 7, talent_nameh2, Color(38, 46, 91))
 			end
 
-            m_DrawShadowedText(1, " Level " .. talent_level .. "", font, 6 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_col2)
+            m_DrawShadowedText(1, " Level " .. talent_level .. "", font, 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_col2)
             talent_desc = talent_desc or ""
             local talent_desctbl = string.Explode("^", talent_desc)
 
@@ -995,7 +995,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             local talents_line_space = 3
 
             if (k ~= num_talents) then
-                surface_SetDrawColor(100, 100, 100, 50)
+                surface_SetDrawColor(91, 98, 109, 50)
                 surface_DrawLine(6, y + stats_y_add + talents_y_add + talent_desc_h + talents_line_space, pnl:GetWide() - 6, y + stats_y_add + talents_y_add + talent_desc_h + talents_line_space)
                 surface_SetDrawColor(0, 0, 0, 100)
                 surface_DrawLine(6, y + stats_y_add + talents_y_add + talent_desc_h + talents_line_space + 1, pnl:GetWide() - 6, y + stats_y_add + talents_y_add + talent_desc_h + talents_line_space + 1)
@@ -1006,11 +1006,11 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     end
 
     local collection_y = y + stats_y_add + (talents_y_add - 2) - talents_collection
-    m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(100, 100, 100, 255))
+    m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(91, 98, 109, 255))
 	
     if (itemtbl.p3) then
         local p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "ERROR: Unknown Skin"
-		m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+		m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     end
 end
 
@@ -1146,7 +1146,7 @@ hook.Add("Think", "moat_InventoryHSV", function()
 	rarity_shadow[9] = {Color(hsl[4].r, hsl[4].g, hsl[4].b, 150), Color(hsl[5].r, hsl[5].g, hsl[5].b, 75)}
 end)
 
-local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Other", "Head", "Mask", "Body", "Effect", "Model"}
+local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Special", "Head", "Mask", "Body", "Effect", "Model"}
 MOAT_INV_CAT = 1
 
 function m_isTrading(ply)
@@ -1336,7 +1336,7 @@ function m_OpenInventory(ply2, utrade)
         /*DisableClipping(true)
             surface.SetDrawColor(255, 85 * num, 85 * num, 255)
             surface.DrawRect(0, -30, w, 30)
-            draw.SimpleTextOutlined("You are on the test server. Items and IC here will not be available on the live servers.", "moat_ItemDesc", w/2, -15, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
+            draw.SimpleTextOutlined("You are on the test server. Items and IC here will not be available on the live servers.", "moat_ItemDesc", w/2, -15, Color(240, 245, 253), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
         DisableClipping(false)*/
 
         if (not input.IsMouseDown(MOUSE_LEFT)) then
@@ -1452,7 +1452,7 @@ function m_OpenInventory(ply2, utrade)
                     M_LINE.Timer = M_LINE.Timer - 1
                 end
 
-                m_DrawShadowedText(1, "Trade request sent to:", "Trebuchet24", w / 2, 243, Color(255, 255, 255), TEXT_ALIGN_CENTER)
+                m_DrawShadowedText(1, "Trade request sent to:", "Trebuchet24", w / 2, 243, Color(240, 245, 253), TEXT_ALIGN_CENTER)
                 m_DrawShadowedText(1, (IsValid(v) and v:Nick()) or "Disconnected", "Trebuchet24", w / 2, 278, Color(0, 200, 0), TEXT_ALIGN_CENTER)
                 local ava_x, ava_y = s:GetChildren()[2]:GetPos()
                 local ava_w, ava_h = s:GetChildren()[2]:GetSize()
@@ -1468,7 +1468,7 @@ function m_OpenInventory(ply2, utrade)
                 surface_DrawCircle(w / 2, 375, 50 * size_change, random_color_m[1], random_color_m[2], random_color_m[3], 255)
                 surface_DrawCircle(w / 2, 375, 34 * size_change, random_color_m[1], random_color_m[2], random_color_m[3], 255)
                 surface_DrawCircle(w / 2, 375, 17 * size_change, random_color_m[1], random_color_m[2], random_color_m[3], 255)
-                m_DrawShadowedText(1, "Waiting for them to respond... " .. s.Timer, "Trebuchet24", w / 2, 450, Color(255, 255, 255), TEXT_ALIGN_CENTER)
+                m_DrawShadowedText(1, "Waiting for them to respond... " .. s.Timer, "Trebuchet24", w / 2, 450, Color(240, 245, 253), TEXT_ALIGN_CENTER)
             end
         end
 
@@ -1798,7 +1798,7 @@ function m_OpenInventory(ply2, utrade)
     local M_INV_NICK = Label(LocalPlayer():Nick(), M_LOADOUT_PNL)
     M_INV_NICK:SetFont("moat_Medium11")
     M_INV_NICK:SetTextColor(MT[CurTheme].TextColor)
-    --M_INV_NICK:SetTextColor(Color(255, 255, 255))
+    --M_INV_NICK:SetTextColor(Color(240, 245, 253))
     M_INV_NICK:SetPos(4, 24)
     M_INV_NICK:SetSize(370, 40)
     M_INV_NICK:SetContentAlignment(5)
@@ -1997,7 +1997,7 @@ function m_OpenInventory(ply2, utrade)
             elseif (M_INV_DRAG.VGUI.WModel:StartWith("https")) then
                 cdn.DrawImage(M_INV_DRAG.VGUI.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 200})
             else
-                surface_SetDrawColor(255, 255, 255, 200)
+                surface_SetDrawColor(240, 245, 253, 200)
                 surface_SetMaterial(Material(M_INV_DRAG.VGUI.WModel))
                 surface_DrawTexturedRect(0, 0, w, h)
             end
@@ -2021,10 +2021,10 @@ function m_OpenInventory(ply2, utrade)
 					cdn.DrawImage(icon, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
 					cdn.DrawImage(icon, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
 				else
-					surface_SetDrawColor(255, 255, 255, 100)
+					surface_SetDrawColor(240, 245, 253, 100)
 					surface_SetMaterial(Material(icon))
 					surface_DrawTexturedRect(1, 1, w, h)
-					surface_SetDrawColor(255, 255, 255, 255)
+					surface_SetDrawColor(240, 245, 253, 255)
 					surface_DrawTexturedRect(0, 0, w, h)
 				end
 			else
@@ -2035,13 +2035,13 @@ function m_OpenInventory(ply2, utrade)
 
 			if (m_Inventory[num].l and m_Inventory[num].l == 1) then
 				locked = true
-				surface_SetDrawColor(255, 255, 255)
+				surface_SetDrawColor(240, 245, 253)
 				surface_SetMaterial(mat_lock)
 				surface_DrawTexturedRect(1, 1, 16, 16)
 			end
 
 			if (m_Inventory[num].p or m_Inventory[num].p2 or m_Inventory[num].p3) then
-				surface_SetDrawColor(255, 255, 255)
+				surface_SetDrawColor(240, 245, 253)
 				surface_SetMaterial(mat_paint)
 				surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
 			end
@@ -2098,7 +2098,7 @@ function m_OpenInventory(ply2, utrade)
     M_INV_SP.Paint = function(s, w, h)
         if (s.Icons == 0) then
             surface_SetFont("GModNotify")
-            surface_SetTextColor(255, 255, 255)
+            surface_SetTextColor(240, 245, 253)
             surface_SetTextPos(10, 10)
             surface_DrawText("Your inventory is loading friend <3 ..")
         end
@@ -2363,7 +2363,7 @@ function m_OpenInventory(ply2, utrade)
                 surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
                 if (m_Inventory[num].l and m_Inventory[num].l == 1) then
-                    surface_SetDrawColor(255, 255, 255, 50)
+                    surface_SetDrawColor(240, 245, 253, 50)
                     surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
                 end
 
@@ -2415,10 +2415,10 @@ function m_OpenInventory(ply2, utrade)
                         cdn.DrawImage(icon, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
                         cdn.DrawImage(icon, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                     else
-                        surface_SetDrawColor(255, 255, 255, 100)
+                        surface_SetDrawColor(240, 245, 253, 100)
                         surface_SetMaterial(Material(icon))
                         surface_DrawTexturedRect(1, 1, w, h)
-                        surface_SetDrawColor(255, 255, 255, 255)
+                        surface_SetDrawColor(240, 245, 253, 255)
                         surface_DrawTexturedRect(0, 0, w, h)
                     end
                 else
@@ -2429,13 +2429,13 @@ function m_OpenInventory(ply2, utrade)
 
                 if (m_Inventory[num].l and m_Inventory[num].l == 1) then
                     locked = true
-                    surface_SetDrawColor(255, 255, 255)
+                    surface_SetDrawColor(240, 245, 253)
                     surface_SetMaterial(mat_lock)
                     surface_DrawTexturedRect(1, 1, 16, 16)
                 end
 
                 if (m_Inventory[num].p or m_Inventory[num].p2 or m_Inventory[num].p3) then
-                    surface_SetDrawColor(255, 255, 255)
+                    surface_SetDrawColor(240, 245, 253)
                     surface_SetMaterial(mat_paint)
                     surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
                 end
@@ -2877,10 +2877,10 @@ function m_OpenInventory(ply2, utrade)
                         cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
                         cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                     else
-                        surface_SetDrawColor(255, 255, 255, 100)
+                        surface_SetDrawColor(240, 245, 253, 100)
                         surface_SetMaterial(Material(m_DPanelIcon.WModel))
                         surface_DrawTexturedRect(1, 1, w, h)
-                        surface_SetDrawColor(255, 255, 255, 255)
+                        surface_SetDrawColor(240, 245, 253, 255)
                         surface_DrawTexturedRect(0, 0, w, h)
                     end
                 else
@@ -2891,13 +2891,13 @@ function m_OpenInventory(ply2, utrade)
 
                 if (m_Loadout[num].l and m_Loadout[num].l == 1) then
                     locked = true
-                    surface_SetDrawColor(255, 255, 255)
+                    surface_SetDrawColor(240, 245, 253)
                     surface_SetMaterial(mat_lock)
                     surface_DrawTexturedRect(1, 1, 16, 16)
                 end
 
                 if (m_Loadout[num].p or m_Loadout[num].p2 or m_Loadout[num].p3) then
-                    surface_SetDrawColor(255, 255, 255)
+                    surface_SetDrawColor(240, 245, 253)
                     surface_SetMaterial(mat_paint)
                     surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
                 end
@@ -3083,12 +3083,12 @@ function m_OpenInventory(ply2, utrade)
                 num_stats = table.Count(ITEM_HOVERED.s)
             end
 
-            surface_SetDrawColor(100, 100, 100, 50)
+            surface_SetDrawColor(91, 98, 109, 50)
             surface_DrawOutlinedRect(0, 0, w, h)
-            --draw_RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 100 ) )
-            surface_SetDrawColor(15, 15, 15, 250)
+            surface_SetDrawColor(8, 12, 19, 250)
             surface_DrawRect(1, 1, w - 2, h - 2)
-            surface_SetDrawColor(100, 100, 100, 50)
+
+            surface_SetDrawColor(91, 98, 109, 50)
             surface_DrawLine(6, 22 + draw_xp_lvl, w - 6, 22 + draw_xp_lvl)
             surface_DrawLine(6, 43 + draw_xp_lvl, w - 6, 43 + draw_xp_lvl)
             surface_SetDrawColor(0, 0, 0, 100)
@@ -3150,7 +3150,7 @@ function m_OpenInventory(ply2, utrade)
                 elseif (tfx == "electric") then
                     m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
                 elseif (tfx == "frost") then
-                    DrawFrostingText(10, 1.5, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(255, 255, 255))
+                    DrawFrostingText(10, 1.5, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(240, 245, 253))
                 else
                     emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 end
@@ -3197,21 +3197,21 @@ function m_OpenInventory(ply2, utrade)
 
 				 if (ITEM_HOVERED.p3) then
         			local p3txt = MOAT_PAINT.Skins[ITEM_HOVERED.p3] and MOAT_PAINT.Skins[ITEM_HOVERED.p3][1] or "ERROR: Unknown Skin"
-					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     			end
             end
 
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
-                m_DrawShadowedText(1, ITEM_HOVERED.s.l, "moat_ItemDescLarge3", s:GetWide() - 6, 0, Color(255, 255, 255), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, ITEM_HOVERED.s.l, "moat_ItemDescLarge3", s:GetWide() - 6, 0, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 surface_SetFont("moat_ItemDescLarge3")
                 local level_w, level_h = surface_GetTextSize(ITEM_HOVERED.s.l)
-                m_DrawShadowedText(1, "LVL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(255, 255, 255), TEXT_ALIGN_RIGHT)
-                m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(255, 255, 255), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, "LVL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
                 if (ITEM_HOVERED.n) then nt_ = 15 end
 
-                surface_SetDrawColor(255, 255, 255, 20)
+                surface_SetDrawColor(240, 245, 253, 20)
                 surface_DrawRect(6, 27 + nt_, w - 12, 2)
                 local bar_width = w - 12
                 local xp_bar_width = bar_width * (ITEM_HOVERED.s.x / (ITEM_HOVERED.s.l * 100))
@@ -3288,8 +3288,8 @@ function m_OpenInventory(ply2, utrade)
                 namew2 = namew2 + level_w
             end
 
-            if ((namew + namew2) > 250) then
-                s:SetWide(namew + namew2 + 12 + 10)
+            if ((namew + namew2) > 175) then
+                s:SetWide(namew + namew2 + 32 + 10)
             end
 
             if (not s.savewide) then s.savewide = s:GetWide() end
@@ -3374,7 +3374,7 @@ function m_OpenInventory(ply2, utrade)
             local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
             if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
-                panel_height = 100
+                -- panel_height = 100
             end
             
             s:SetTall(panel_height)
@@ -3519,18 +3519,18 @@ function m_OpenInventory(ply2, utrade)
                 surface_DrawOutlinedRect(offer1_x, offer1_y, offer1_w, offer1_h + 19)
                 surface_DrawOutlinedRect(offer2_x, offer2_y, offer2_w, offer2_h + 19)
                 surface_SetMaterial(mat_coins)
-                surface_SetDrawColor(255, 255, 255)
+                surface_SetDrawColor(240, 245, 253)
                 surface_DrawTexturedRect(offer1_x + 4, offer1_y + offer1_h - 1, 16, 16)
                 surface_DrawTexturedRect(offer2_x + 4, offer2_y + offer2_h - 1, 16, 16)
                 surface_SetDrawColor(0, 0, 0, 100)
                 surface_DrawRect(offer1_x + 4 + 20, offer1_y + offer1_h - 1, offer2_w - 8 - 20, 16)
                 surface_DrawRect(offer2_x + 4 + 20, offer2_y + offer2_h - 1, offer2_w - 8 - 20, 16)
                 if (MT_TSHADOW) then
-                    m_DrawShadowedText(1, "IC Offered: ", "moat_ItemDesc", offer1_x + 24 + 3, offer1_y + offer1_h, Color(255, 255, 255))
-                    m_DrawShadowedText(1, "IC Offered: " .. s.ICOffered, "moat_ItemDesc", offer2_x + 24 + 3, offer2_y + offer2_h, Color(255, 255, 255))
+                    m_DrawShadowedText(1, "IC Offered: ", "moat_ItemDesc", offer1_x + 24 + 3, offer1_y + offer1_h, Color(240, 245, 253))
+                    m_DrawShadowedText(1, "IC Offered: " .. s.ICOffered, "moat_ItemDesc", offer2_x + 24 + 3, offer2_y + offer2_h, Color(240, 245, 253))
                 else
-                    draw_SimpleText("IC Offered: ", "moat_ItemDesc", offer1_x + 24 + 3, offer1_y + offer1_h, Color(255, 255, 255))
-                    draw_SimpleText("IC Offered: " .. s.ICOffered, "moat_ItemDesc", offer2_x + 24 + 3, offer2_y + offer2_h, Color(255, 255, 255))
+                    draw_SimpleText("IC Offered: ", "moat_ItemDesc", offer1_x + 24 + 3, offer1_y + offer1_h, Color(240, 245, 253))
+                    draw_SimpleText("IC Offered: " .. s.ICOffered, "moat_ItemDesc", offer2_x + 24 + 3, offer2_y + offer2_h, Color(240, 245, 253))
                 end
                 surface_SetDrawColor(62, 62, 64, 255)
                 surface_DrawOutlinedRect(offer2_x, offer2_y + offer2_h - 1 + 23, s:GetWide(), 96)
@@ -3543,9 +3543,9 @@ function m_OpenInventory(ply2, utrade)
                 surface_SetDrawColor(0, 0, 0, 100)
                 surface_DrawRect(offer2_x + 2, offer2_y + offer2_h - 1 + 23 + 96 - 16 + 1, s:GetWide() - 2 - 2, 14)
                 if (MT_TSHADOW) then
-                    m_DrawShadowedText(1, "Enter a message here...", "moat_ItemDesc", offer2_x + 4, offer2_y + offer2_h - 1 + 23 + 96 - 16, Color(255, 255, 255, M_TRADE_CHAT_LBL_COL))
+                    m_DrawShadowedText(1, "Enter a message here...", "moat_ItemDesc", offer2_x + 4, offer2_y + offer2_h - 1 + 23 + 96 - 16, Color(240, 245, 253, M_TRADE_CHAT_LBL_COL))
                 else
-                    draw_SimpleText("Enter a message here...", "moat_ItemDesc", offer2_x + 4, offer2_y + offer2_h - 1 + 23 + 96 - 16, Color(255, 255, 255, M_TRADE_CHAT_LBL_COL))
+                    draw_SimpleText("Enter a message here...", "moat_ItemDesc", offer2_x + 4, offer2_y + offer2_h - 1 + 23 + 96 - 16, Color(240, 245, 253, M_TRADE_CHAT_LBL_COL))
                 end
                 if (s.ACCEPTED == 1) then
                     surface_SetDrawColor(0, 100, 0, 200)
@@ -3726,10 +3726,10 @@ function m_OpenInventory(ply2, utrade)
                                 cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
                                 cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                             else
-                                surface_SetDrawColor(255, 255, 255, 100)
+                                surface_SetDrawColor(240, 245, 253, 100)
                                 surface_SetMaterial(Material(m_DPanelIcon.WModel))
                                 surface_DrawTexturedRect(1, 1, w, h)
-                                surface_SetDrawColor(255, 255, 255, 255)
+                                surface_SetDrawColor(240, 245, 253, 255)
                                 surface_DrawTexturedRect(0, 0, w, h)
                             end
                             render.SetScissorRect(0, 0, 0, 0, false)
@@ -3741,13 +3741,13 @@ function m_OpenInventory(ply2, utrade)
 
 						if (m_Trade[num].l and m_Trade[num].l == 1) then
 							locked = true
-							surface_SetDrawColor(255, 255, 255)
+							surface_SetDrawColor(240, 245, 253)
 							surface_SetMaterial(mat_lock)
 							surface_DrawTexturedRect(1, 1, 16, 16)
 						end
 
 						if (m_Trade[num].p or m_Trade[num].p2 or m_Trade[num].p3) then
-							surface_SetDrawColor(255, 255, 255)
+							surface_SetDrawColor(240, 245, 253)
 							surface_SetMaterial(mat_paint)
 							surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
 						end
@@ -3859,8 +3859,8 @@ function m_OpenInventory(ply2, utrade)
             M_TRADE_IC_ENTRY:SetPos(offer1_x + 24 + 3 + 68, offer1_y + offer1_h)
             M_TRADE_IC_ENTRY:SetSize(250, 14)
             M_TRADE_IC_ENTRY:SetFont("moat_ItemDesc")
-            M_TRADE_IC_ENTRY:SetTextColor(Color(255, 255, 255))
-            M_TRADE_IC_ENTRY:SetCursorColor(Color(255, 255, 255))
+            M_TRADE_IC_ENTRY:SetTextColor(Color(240, 245, 253))
+            M_TRADE_IC_ENTRY:SetCursorColor(Color(240, 245, 253))
             M_TRADE_IC_ENTRY:SetEnterAllowed(true)
             M_TRADE_IC_ENTRY:SetNumeric(true)
             M_TRADE_IC_ENTRY:SetDrawBackground(false)
@@ -3922,8 +3922,8 @@ function m_OpenInventory(ply2, utrade)
             M_TRADE_CHAT_ENTRY:SetPos(offer2_x + 1, offer2_y + offer2_h + 102)
             M_TRADE_CHAT_ENTRY:SetSize(MOAT_TRADE_BG:GetWide() - 4, 14)
             M_TRADE_CHAT_ENTRY:SetFont("moat_ItemDesc")
-            M_TRADE_CHAT_ENTRY:SetTextColor(Color(255, 255, 255))
-            M_TRADE_CHAT_ENTRY:SetCursorColor(Color(255, 255, 255))
+            M_TRADE_CHAT_ENTRY:SetTextColor(Color(240, 245, 253))
+            M_TRADE_CHAT_ENTRY:SetCursorColor(Color(240, 245, 253))
             M_TRADE_CHAT_ENTRY:SetHistoryEnabled(true)
             M_TRADE_CHAT_ENTRY:SetEnterAllowed(true)
             M_TRADE_CHAT_ENTRY:SetTabbingDisabled(true)
@@ -4951,7 +4951,7 @@ function m_CanAutoDeconstruct(ITEM_TBL)
     if (not ITEM_TBL.c) then return true end
 
     if (ITEM_TBL.item.Kind == "Power-Up") then return GetConVar("moat_auto_deconstruct_powerup"):GetInt() < 1 end
-    if (ITEM_TBL.item.Kind == "Other") then return GetConVar("moat_auto_deconstruct_other"):GetInt() < 1 end
+    if (ITEM_TBL.item.Kind == "Special") then return GetConVar("moat_auto_deconstruct_other"):GetInt() < 1 end
     if (ITEM_TBL.item.Kind == "Hat") then return GetConVar("moat_auto_deconstruct_head"):GetInt() < 1 end
     if (ITEM_TBL.item.Kind == "Mask") then return GetConVar("moat_auto_deconstruct_mask"):GetInt() < 1 end
     if (ITEM_TBL.item.Kind == "Body") then return GetConVar("moat_auto_deconstruct_body"):GetInt() < 1 end
@@ -5000,7 +5000,7 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
     local tbl = net.ReadTable()
     local slot = 0
 
-    if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
+    if (tbl and tbl.item and tbl.item.Kind == "Special" and tbl.item.WeaponClass) then
         tbl.w = tbl.item.WeaponClass
     end
 
@@ -5096,7 +5096,7 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
     	end
 	end
 
-    if (tbl and tbl.item and tbl.item.Kind == "Other" and tbl.item.WeaponClass) then
+    if (tbl and tbl.item and tbl.item.Kind == "Special" and tbl.item.WeaponClass) then
         tbl.w = tbl.item.WeaponClass
     end
 
@@ -5213,7 +5213,7 @@ function m_DrawTradeRequest(ply)
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(1, 1, w - 2, 25)
         local line_x = MOAT_REQ_BG:GetWide() - (350 + 14) - 4 - 5
-        surface_SetDrawColor(Color(100, 100, 100, 50))
+        surface_SetDrawColor(Color(91, 98, 109, 50))
         surface_DrawLine(line_x, 26, line_x, s:GetTall())
         surface_DrawLine(0, 25, s:GetWide(), 25)
         surface_SetDrawColor(Color(0, 0, 0, 100))
@@ -5225,7 +5225,7 @@ function m_DrawTradeRequest(ply)
         local timer_vis = (w - 2) * ((s.TimerVis - CurTime()) / 30)
         surface_SetDrawColor(0, 0, 0, 100)
         surface_DrawRect(1, h - 4, w - 2, 3)
-        surface_SetDrawColor(255, 255, 255, 255)
+        surface_SetDrawColor(240, 245, 253, 255)
         surface_DrawRect(1, h - 4, timer_vis, 3)
     end
 
@@ -5509,7 +5509,7 @@ net.Receive("MOAT_RESPOND_TRADE_REQ", function(len)
 	end
 
     if (not accepted) then
-        chat.AddText(Color(0, 200, 0), Entity(other_ply):Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " your trade request.")
+        chat.AddText(Color(0, 200, 0), Entity(other_ply):Nick(), Color(240, 245, 253), " has ", Color(255, 0, 0), "declined", Color(240, 245, 253), " your trade request.")
         if (IsValid(M_TRADE_PLYS)) then
 			M_TRADE_PLYS.Waiting = false
 			M_TRADE_PLYS.RequestSent = true
@@ -5518,7 +5518,7 @@ net.Receive("MOAT_RESPOND_TRADE_REQ", function(len)
 
         return
     else
-        chat.AddText(Color(0, 200, 0), "You ", Color(255, 255, 255), "are now trading with ", Color(0, 255, 0), Entity(other_ply):Nick(), Color(255, 255, 255), ".")
+        chat.AddText(Color(0, 200, 0), "You ", Color(240, 245, 253), "are now trading with ", Color(0, 255, 0), Entity(other_ply):Nick(), Color(240, 245, 253), ".")
     end
 end)
 
@@ -5536,7 +5536,7 @@ net.Receive("MOAT_SEND_TRADE_REQ", function(len)
 
     if (not passed) then
 		if (IsValid(M_TRADE_PLYS)) then M_TRADE_PLYS.Waiting = false end
-        chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " is ", Color(255, 0, 0), "busy", Color(255, 255, 255), " at the moment.")
+        chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(240, 245, 253), " is ", Color(255, 0, 0), "busy", Color(240, 245, 253), " at the moment.")
         return
     end
 
@@ -5640,9 +5640,9 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
         net.SendToServer()
 
 		if (IsValid(other_ply)) then
-			chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(255, 255, 255), " has ", Color(255, 0, 0), "declined", Color(255, 255, 255), " the trade.")
+			chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(240, 245, 253), " has ", Color(255, 0, 0), "declined", Color(240, 245, 253), " the trade.")
 		else
-			chat.AddText(Color(0, 200, 0), "You", Color(255, 255, 255), " have ", Color(255, 0, 0), "automatically declined", Color(255, 255, 255), " the trade because something went wrong.")
+			chat.AddText(Color(0, 200, 0), "You", Color(240, 245, 253), " have ", Color(255, 0, 0), "automatically declined", Color(240, 245, 253), " the trade because something went wrong.")
 		end
 
         if (m_isUsingInv()) then
@@ -5661,7 +5661,7 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
         net.SendToServer()
-        chat.AddText(Color(0, 200, 0), IsValid(other_ply) and other_ply:Nick() or "Player", Color(255, 255, 255), " has ", Color(0, 255, 0), "accepted", Color(255, 255, 255), " the trade.")
+        chat.AddText(Color(0, 200, 0), IsValid(other_ply) and other_ply:Nick() or "Player", Color(240, 245, 253), " has ", Color(0, 255, 0), "accepted", Color(240, 245, 253), " the trade.")
     end
 end)
 
@@ -5875,11 +5875,11 @@ function m_DrawFoundItem(tbl, s_type, name)
                 num_stats = table.Count(ITEM_HOVERED.s)
             end
 
-            surface_SetDrawColor(100, 100, 100, 50)
+            surface_SetDrawColor(91, 98, 109, 50)
             surface_DrawOutlinedRect(0, 0, w, h)
             surface_SetDrawColor(15, 15, 15, 250)
             surface_DrawRect(1, 1, w - 2, h - 2)
-            surface_SetDrawColor(100, 100, 100, 50)
+            surface_SetDrawColor(91, 98, 109, 50)
             surface_DrawLine(6, 22 + draw_xp_lvl, w - 6, 22 + draw_xp_lvl)
             surface_DrawLine(6, 43 + draw_xp_lvl, w - 6, 43 + draw_xp_lvl)
             surface_SetDrawColor(0, 0, 0, 100)
@@ -5938,7 +5938,7 @@ function m_DrawFoundItem(tbl, s_type, name)
                 elseif (tfx == "electric") then
                     m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "frost") then
-                    DrawFrostingText(10, 1.5, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(255, 255, 255))
+                    DrawFrostingText(10, 1.5, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(240, 245, 253))
                 else
                     m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 end
@@ -5982,21 +5982,21 @@ function m_DrawFoundItem(tbl, s_type, name)
 
 				 if (ITEM_HOVERED.p3) then
        				local p3txt = MOAT_PAINT.Skins[ITEM_HOVERED.p3] and MOAT_PAINT.Skins[ITEM_HOVERED.p3][1] or "ERROR: Unknown Skin"
-					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(100, 100, 100, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     			end
             end
 
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
-                m_DrawShadowedText(1, ITEM_HOVERED.s.l, "moat_ItemDescLarge3", s:GetWide() - 6, 0, Color(255, 255, 255), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, ITEM_HOVERED.s.l, "moat_ItemDescLarge3", s:GetWide() - 6, 0, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 surface_SetFont("moat_ItemDescLarge3")
                 local level_w, level_h = surface_GetTextSize(ITEM_HOVERED.s.l)
-                m_DrawShadowedText(1, "LVL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(255, 255, 255), TEXT_ALIGN_RIGHT)
-                m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(255, 255, 255), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, "LVL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
                 if (ITEM_HOVERED.n) then nt_ = 15 end
 
-                surface_SetDrawColor(255, 255, 255, 20)
+                surface_SetDrawColor(240, 245, 253, 20)
                 surface_DrawRect(6, 27 + nt_, w - 12, 2)
                 local bar_width = w - 12
                 local xp_bar_width = bar_width * (ITEM_HOVERED.s.x / (ITEM_HOVERED.s.l * 100))
@@ -6121,7 +6121,7 @@ function m_DrawFoundItem(tbl, s_type, name)
         local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
         if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
-            panel_height = 100
+            -- panel_height = 100
         end
 
         MOAT_ITEM_STATS:SetTall(panel_height)
@@ -6240,7 +6240,7 @@ function m_DrawFoundItem(tbl, s_type, name)
             local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
             if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
-                panel_height = 100
+                -- panel_height = 100
             end
 
             MOAT_ITEM_STATS:SetTall(panel_height)
@@ -6320,11 +6320,11 @@ function m_DrawFoundItem(tbl, s_type, name)
     MOAT_ITEM_STATS_LBL:SetAlpha(0)
 
     MOAT_ITEM_STATS_LBL.Paint = function(s, w, h)
-        --m_DrawShadowedText( 1, "Item Obtained!", "moat_ItemDescLarge3", w / 2, 2, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER )
+        --m_DrawShadowedText( 1, "Item Obtained!", "moat_ItemDescLarge3", w / 2, 2, Color( 240, 245, 253 ), TEXT_ALIGN_CENTER )
         if (not MOAT_ITEM_FOUND_QUEUE[1]) then return end
 
         if (s_type ~= "pickup") then
-            draw_SimpleTextOutlined("Item Obtained!", "moat_ItemDescLarge3", w / 2, 2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 0.5, Color(10, 10, 10, 255))
+            draw_SimpleTextOutlined("Item Obtained!", "moat_ItemDescLarge3", w / 2, 2, Color(240, 245, 253), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 0.5, Color(10, 10, 10, 255))
         end
     end
 
@@ -6502,7 +6502,7 @@ function m_DrawDeconButton()
         if (MOAT_ITEMS_DECON_MARKED > 1) then
             the_s = "s"
         end
-        m_DrawShadowedText(1, "Deconstruct " .. MOAT_ITEMS_DECON_MARKED .. " Marked Item" .. the_s, "Trebuchet24", w / 2, h / 2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        m_DrawShadowedText(1, "Deconstruct " .. MOAT_ITEMS_DECON_MARKED .. " Marked Item" .. the_s, "Trebuchet24", w / 2, h / 2, Color(240, 245, 253), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
 
     local btn_hovered = 1

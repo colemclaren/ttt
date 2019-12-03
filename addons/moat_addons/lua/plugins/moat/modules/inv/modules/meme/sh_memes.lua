@@ -97,7 +97,7 @@ function MOAT_MEMES.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_ra
 		tbl.WeaponClass = "weapon_ttt_bouncy_" .. meme.Name:lower()
 
         if (SERVER) then
-			m_AddDroppableItem(tbl, "Other")
+			m_AddDroppableItem(tbl, "Special")
 		end
 	end
 

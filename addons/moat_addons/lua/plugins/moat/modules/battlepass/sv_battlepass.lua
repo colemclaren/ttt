@@ -202,7 +202,7 @@ function generate_bpexample(itemid,ply)
                     end
                 end
             end
-        elseif ((item_to_drop.Kind == "Power-Up" or item_to_drop.Kind == "Other" or item_to_drop.Kind == "Usable") and item_to_drop.Stats) then
+        elseif ((item_to_drop.Kind == "Power-Up" or item_to_drop.Kind == "Special" or item_to_drop.Kind == "Usable") and item_to_drop.Stats) then
             dropped_item.s = {}
 
             for i = 1, #item_to_drop.Stats do
