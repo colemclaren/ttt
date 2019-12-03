@@ -945,9 +945,10 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_glock"] = true
+            ["weapon_ttt_glock"] = true,
+			["weapon_ttt_te_glock"] = true
         },
-"the Glock", "Glock"
+"the Glock or the Glock TE", "Glock"
     },
     {
         {
