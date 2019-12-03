@@ -1,17 +1,16 @@
 ITEM.ID = 13
 ITEM.Name = "Detective Token"
-ITEM.Description = "Use this item during the preparation phase with atleast 8 players online to be guaranteed to be a Detective next round. (Unless you're a Traitor, which will make you a Detective the next round)"
+ITEM.Description = "Use this item during the preparing phase to be guaranteed to be a Detective next round"
 ITEM.Rarity = 8
-ITEM.Active = false
-
-ITEM.Price = 100000
+ITEM.Active = true
+ITEM.NewItem = 1575878400
+ITEM.Price = 75000
 ITEM.ShopDesc = "Become a Detective on the next round!\n(Purchasing will give you a one-time Detective Token usable)"
-ITEM.LimitedShop = 1533707286
 
-ITEM.Collection = "Limited Collection"
-ITEM.Image = "https://cdn.moat.gg/f/4Cf2vezj6BNhBLTQ7pP2smE87BVm.png"
+ITEM.Collection = "Supreme Collection"
+ITEM.Image = "https://cdn.moat.gg/ttt/detective_token.png"
 
-ROLE_TOKEN_PLAYERS = {}
+ROLE_TOKEN_PLAYERS = ROLE_TOKEN_PLAYERS or {}
 
 ITEM.ItemUsed = function(pl, slot, item)
 	ROLE_TOKEN_PLAYERS[pl] = ROLE_DETECTIVE
