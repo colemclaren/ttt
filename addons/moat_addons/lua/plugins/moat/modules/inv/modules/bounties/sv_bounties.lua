@@ -952,9 +952,10 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_mp5"] = true
+            ["weapon_ttt_mp5"] = true,
+			["weapon_ttt_te_mp5"] = true
         },
-"the MP5", "MP5"
+"the MP5 or the MP5 TE", "MP5"
     }
 }
 
@@ -964,7 +965,7 @@ local chal_suffix = {"Killer", "Assassin", "Hunter", "Exterminator", "Slayer", "
 
 for k, v in pairs(weapon_challenges) do
     addcontract("Global " .. v[3] .. " Killer", {
-        desc = 'Get as many kills as you can with "' .. v[2] .. '", rightfully.',
+        desc = 'Get as many kills as you can with ' .. v[2] .. ', rightfully.',
         adj = "Kills",
         short = v[3],
         runfunc = function()
