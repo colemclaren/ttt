@@ -1,16 +1,16 @@
 ITEM.ID = 10
 ITEM.Name = "Traitor Token"
-ITEM.Description = "Use this item during the preparation phase with atleast 8 players online to be guaranteed to be a Traitor next round"
+ITEM.Description = "Use this item during the preparing phase to be guaranteed to be a Traitor next round"
 ITEM.Rarity = 8
-ITEM.Active = false
-
-ITEM.Price = 100000
+ITEM.Active = true
+ITEM.NewItem = 1575878400
+ITEM.Price = 150000
 ITEM.ShopDesc = "Become a Traitor on the next round!"
 
-ITEM.Collection = "Limited Collection"
-ITEM.Image = "https://cdn.moat.gg/f/atAUpKpq8bh48Eg8LFgpZgHep7Qm.png"
+ITEM.Collection = "Supreme Collection"
+ITEM.Image = "https://cdn.moat.gg/ttt/traitor_token.png"
 
-ROLE_TOKEN_PLAYERS = {}
+ROLE_TOKEN_PLAYERS = ROLE_TOKEN_PLAYERS or {}
 
 ITEM.ItemUsed = function(pl, slot, item)
 	ROLE_TOKEN_PLAYERS[pl] = ROLE_TRAITOR
