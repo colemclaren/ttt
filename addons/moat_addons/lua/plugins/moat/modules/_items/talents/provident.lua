@@ -2,12 +2,12 @@
 TALENT.ID = 12
 TALENT.Name = 'Provident'
 TALENT.NameColor = Color(0, 123, 181)
-TALENT.Description = 'Each bullet has a 20_ chance to do %s_^ more damage'
+TALENT.Description = 'Each bullet has a 40_ chance to do %s_^ more damage'
 TALENT.Tier = 1
 TALENT.LevelRequired = {min = 5, max = 10}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 15, max = 25} -- Damage last bullet can do
+TALENT.Modifications[1] = {min = 15, max = 30} -- Damage last bullet can do
 
 TALENT.Melee = false
 TALENT.NotUnique = true
@@ -24,7 +24,7 @@ function TALENT:OnPlayerHit(victim, attacker, dmgInfo, talent_mods)
 end*/
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
-	if (math.random() < 0.2) then
+	if (math.random() < 0.4) then
 		local increase = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 		dmginfo:ScaleDamage(1 + (increase / 100))
 	end
