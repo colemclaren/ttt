@@ -1069,6 +1069,12 @@ local weapon_challenges2 = {
             ["weapon_ttt_an94"] = true
         },
 "the Peacekeeper", "Peacekeeper"
+    },
+	{
+        {
+            ["weapon_ttt_te_g36c"] = true
+        },
+"the G36C", "G36C"
     }
 }
 
