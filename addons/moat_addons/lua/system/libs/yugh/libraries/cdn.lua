@@ -167,7 +167,12 @@ else
 	end)
 
 	function cdn.Image(key, cb, params)
-		if not IsValid(cdn.Cache[key]) then
+		if (type(cb) == "string") then
+			params = cb
+			cb = nil 
+		end
+
+		if (not IsValid(cdn.Cache[key])) then
 			return cdn.Fetch(key, "materials", key:match"(%.[^%.]+)$", function(object)
 				return (not key:match "vtf$") and Material("../data/" .. object, (type(cb) == "string") and cb or params) or "../data/" .. object
 			end, function(object, data)
@@ -215,6 +220,11 @@ else
 	end
 
 	function cdn.Texture(key, cb, params)
+		if (type(cb) == "string") then
+			params = cb
+			cb = nil 
+		end
+
 		if (cdn.Cache[key] == nil) then
 			return cdn.Fetch(key, "materials", ".vtf", function(object)
 				return "../data/" .. object

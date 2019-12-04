@@ -147,7 +147,7 @@ function ENT:Draw()
 		return
 	end
 
-	local img = cdn.Image(MOAT_MEMES[mat].URL, "noclamp")
+	local img = cdn.Image(MOAT_MEMES[mat].URL, nil, "noclamp")
 	if (not img) then
 		return
 	end

@@ -159,7 +159,7 @@ if ( SERVER ) then return end -- We do NOT want to execute anything below in thi
 local matBall = Material("sprites/sent_ball")
 
 function ENT:Draw()
-	local img = cdn.Image("https://cdn.moat.gg/f/dC8UlmnQIwBB1lrxWnhoRQ8mfj8w.png", "noclamp")
+	local img = cdn.Image("https://cdn.moat.gg/f/dC8UlmnQIwBB1lrxWnhoRQ8mfj8w.png", nil, "noclamp")
 	if (not img) then return end
 
 	render.SetMaterial( img )
