@@ -1342,6 +1342,14 @@ sound.Add(fastbl)
 // *                               *
 // *********************************
 // *********************************
+fastbl = {}
+fastbl["channel"] = "1"
+fastbl["level"] = "140"
+fastbl["volume"] = "1.0"
+fastbl["CompatibilityAttenuation"] = "0.27"
+fastbl["pitch"] = "95,105"
+fastbl["sound"] = {"weapons/sub_mac11/mac11_fire1.wav","weapons/sub_mac11/mac11_fire2.wav","weapons/sub_mac11/mac11_fire3.wav","weapons/sub_mac11/mac11_fire4.wav","weapons/sub_mac11/mac11_fire5.wav"}
+fastbl["name"] = "Weapof_MAC11.Shoot"
 
 sound.Add({
 	name = "Weapof_MAC11.Shoot",

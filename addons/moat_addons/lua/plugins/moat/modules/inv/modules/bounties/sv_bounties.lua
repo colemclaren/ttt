@@ -1184,7 +1184,7 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
     -- 	end
     -- 	ply:m_DropInventoryItem(rarity)
     -- end
-    local mutator = {"High-End Stat Mutator", "High-End Talent Mutator"}
+    local mutator = {"High-End Stats Mutator", "High-End Talents Mutator"}
     mutator = mutator[math.random(2)]
     rewards.drop = MOAT_BOUNTIES.Rewards(false, mutator)
 
