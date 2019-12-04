@@ -721,7 +721,7 @@ function m_PopulateShop(pnl)
         end
     end
     m_AddShopItemCommand("Self Title", "Change", Color(255, 205, 0), 15000, "icon16/tag_yellow.png", "moat_selftitles")
-    m_AddShopItemCommand("Other's Title", "Change", Color(0, 255, 0), 50000, "icon16/tag_pink.png", "moat_titles")
+    m_AddShopItemCommand("Friend's Title", "Change", Color(0, 255, 0), 50000, "icon16/tag_pink.png", "moat_titles")
     m_AddShopItemCommand("Send a TTS", "Message", Color(255, 0, 0), 100, "icon16/music.png", "moat_ttsmenu")
 
 	for i = 1, #MOAT_SHOP do

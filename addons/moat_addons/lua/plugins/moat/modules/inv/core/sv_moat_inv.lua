@@ -1943,7 +1943,7 @@ net.Receive("MOAT_LINK_ITEM", function(len, ply)
     net.Broadcast()
 end)
 
-local chatlinks = {"primary", "secondary", "melee", "powerup", "other", "head", "mask", "body", "effect", "model"}
+local chatlinks = {"primary", "secondary", "melee", "powerup", "special", "head", "mask", "body", "effect", "model"}
 
 local function containsItemLink(str)
     if (str:len() <= 5) then return false end

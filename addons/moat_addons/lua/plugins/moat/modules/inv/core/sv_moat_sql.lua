@@ -776,7 +776,7 @@ end)
 
 function m_InsertNewInventoryPlayer(ply)
     local _steamid = sql.SQLStr(get_steamid(ply), true)
-    local _maxslots = 40
+    local _maxslots = 100
 
     local cred_table = {
         c = 0
@@ -794,126 +794,54 @@ function m_InsertNewInventoryPlayer(ply)
     local eslot = util.TableToJSON({})
     local eslot2 = {}
 
-    for i = 1, 40 do
+    for i = 1, 100 do
         eslot2[i] = {}
     end
 
     local fs = string.format("INSERT INTO moat_inventories ( steamid, max_slots, credits, " .. fse .. " ) VALUES ( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )", _steamid, _maxslots, _credits, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, util.TableToJSON(eslot2))
     iq = MINVENTORY_MYSQL:query(fs)
     iq:start()
-    ply:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 40)
+    ply:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 100)
 
-    local inventory_tbl = {
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_zm_improvised"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_zm_revolver"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_zm_pistol"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_zm_mac10"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_zm_rifle"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_zm_shotgun"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_zm_sledge"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_ttt_ak47"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_ttt_glock"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_ttt_m16"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_ttt_sg552"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_ttt_shotgun"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_ttt_galil"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 0,
-            s = {},
-            w = "weapon_ttt_aug"
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 22,
-            s = {}
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 22,
-            s = {}
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 22,
-            s = {}
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 22,
-            s = {}
-        },
-        {
-            c = math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99) .. math.random(99),
-            u = 22,
-            s = {}
-        }
-    }
+	local weps = {
+		"weapon_zm_improvised",
+		"weapon_ttt_mp5",
+		"weapon_zm_shotgun",
+		"weapon_ttt_p90",
+		"weapon_ttt_ak47",
+		"weapon_ttt_m16",
+		"weapon_ttt_shotgun",
+		"weapon_zm_rifle",
+		"weapon_ttt_glock",
+		"weapon_ttt_sg552",
+		"weapon_ttt_tmp",
+		"weapon_ttt_galil",
+		"weapon_ttt_famas",
+		"weapon_ttt_aug",
+		"weapon_ttt_dual_elites",
+		"weapon_zm_revolver",
+		"weapon_zm_pistol",
+		"weapon_zm_mac10",
+		"weapon_zm_sledge"
+	}
+
+	local inventory_tbl = {}
+	for i = 1, 10 do
+		table.insert(inventory_tbl, {
+			c = util.CRC(SysTime()),
+			u = 22,
+			s = {}
+		})
+	end
+
+	for i = 1, #weps do
+		table.insert(inventory_tbl, {
+			c = util.CRC(SysTime()),
+			w = weps[i],
+			u = 0,
+			s = {}
+		})
+	end
 
     local inv_tbl = {}
 
@@ -929,7 +857,7 @@ function m_InsertNewInventoryPlayer(ply)
         inv_tbl["slot" .. i] = inventory_tbl[i]
     end
 
-    for i = #inventory_tbl + 1, 40 do
+    for i = #inventory_tbl + 1, 100 do
         inv_tbl["slot" .. i] = {}
 
         if (i == ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS")) then

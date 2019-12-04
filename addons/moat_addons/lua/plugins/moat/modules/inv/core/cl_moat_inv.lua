@@ -967,11 +967,11 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             talent_alpha = Color(240, 245, 253)
 
             if (itemtbl.s.l < talent_level) then
-				draw.RoundedBox(5, 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 7, talent_nameh2, Color(44, 53, 68))
+				draw.RoundedBox(5, 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 6, talent_nameh2, Color(44, 53, 68))
                 talent_col2 = Color(91, 98, 109)
                 talent_alpha = Color(91, 98, 109)
             else
-				draw.RoundedBox(5, 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 7, talent_nameh2, Color(38, 46, 91))
+				draw.RoundedBox(5, 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 6, talent_nameh2, Color(38, 46, 91))
 			end
 
             m_DrawShadowedText(1, " Level " .. talent_level .. "", font, 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_col2)
@@ -4235,13 +4235,13 @@ function m_AddTradeChatFailureMessage(tmsg)
     M_TRADE_CHATLIST:AppendText(tmsg)
 end
 
-local chatlinks = {"primary", "secondary", "melee", "powerup", "other", "head", "mask", "body", "effect", "model"}
+local chatlinks = {"primary", "secondary", "melee", "powerup", "special", "head", "mask", "body", "effect", "model"}
 local equipables = {
     ["tier"] = true, 
     ["unique"] = true, 
     ["melee"] = true, 
     ["power-up"] = true, 
-    ["other"] = true, 
+    ["special"] = true, 
     ["hat"] = true, 
     ["mask"] = true, 
     ["body"] = true, 
@@ -4951,7 +4951,7 @@ function m_CanAutoDeconstruct(ITEM_TBL)
     if (not ITEM_TBL.c) then return true end
 
     if (ITEM_TBL.item.Kind == "Power-Up") then return GetConVar("moat_auto_deconstruct_powerup"):GetInt() < 1 end
-    if (ITEM_TBL.item.Kind == "Special") then return GetConVar("moat_auto_deconstruct_other"):GetInt() < 1 end
+    if (ITEM_TBL.item.Kind == "Special") then return GetConVar("moat_auto_deconstruct_special"):GetInt() < 1 end
     if (ITEM_TBL.item.Kind == "Hat") then return GetConVar("moat_auto_deconstruct_head"):GetInt() < 1 end
     if (ITEM_TBL.item.Kind == "Mask") then return GetConVar("moat_auto_deconstruct_mask"):GetInt() < 1 end
     if (ITEM_TBL.item.Kind == "Body") then return GetConVar("moat_auto_deconstruct_body"):GetInt() < 1 end
