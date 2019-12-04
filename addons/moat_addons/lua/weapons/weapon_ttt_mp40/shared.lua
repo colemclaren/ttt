@@ -31,7 +31,7 @@ SWEP.AdminSpawnable   = false
 SWEP.HeadshotMultiplier = 1.1
 
 SWEP.Primary.Damage        = 30
-SWEP.Primary.Sound         = Sound "weapons/mp40/wpnfire.wav"
+SWEP.Primary.Sound         = Sound("weapons/mp40/wpnfire.wav")
 SWEP.Primary.Round         = "gdcw_7.62x25_tokarev"
 SWEP.Primary.Delay         = 0.12
 SWEP.Primary.ClipSize      = 32
