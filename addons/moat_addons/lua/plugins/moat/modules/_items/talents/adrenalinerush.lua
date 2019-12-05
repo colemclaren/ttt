@@ -1,6 +1,7 @@
 
 TALENT.ID = 8
-TALENT.Name = "Adrenaline Rush"
+TALENT.Suffix = "Steroids"
+TALENT.Name = "Steroids"
 TALENT.NameColor = Color( 255, 0, 0 )
 TALENT.Description = "Damage is increased by %s_^ for %s seconds after killing with this weapon"
 TALENT.Tier = 1
@@ -23,33 +24,35 @@ function TALENT:OnPlayerDeath(victim, _, attacker, talent_mods)
 end
 
 
-local STATUS = status.Create "Adrenaline Rush"
-function STATUS:Invoke(data)
-	self:CreateEffect "Damaging":Invoke(data, data.Time, data.Player)
-end
-
-local EFFECT = STATUS:CreateEffect "Damaging"
-EFFECT.Message = "Damaging"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/anchor.png"
-function EFFECT:Init(data)
-	local curWeapon = data.Weapon.Primary
-
-	if (not curWeapon.BaseDamage) then
-		curWeapon.BaseDamage = curWeapon.Damage
+if (SERVER) then
+	local STATUS = status.Create "Adrenaline Rush"
+	function STATUS:Invoke(data)
+		self:CreateEffect "Damaging":Invoke(data, data.Time, data.Player)
 	end
 
-	curWeapon.AdrenalineStacks = (curWeapon.AdrenalineStacks or 0) + 1
-	curWeapon.Damage = curWeapon.BaseDamage + (curWeapon.AdrenalineStacks * data.Percent)
+	local EFFECT = STATUS:CreateEffect "Damaging"
+	EFFECT.Message = "Damaging"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/anchor.png"
+	function EFFECT:Init(data)
+		local curWeapon = data.Weapon.Primary
 
-	self:CreateEndTimer(data.Time, data)
-end
+		if (not curWeapon.BaseDamage) then
+			curWeapon.BaseDamage = curWeapon.Damage
+		end
 
-function EFFECT:OnEnd(data)
-	if (not IsValid(data.Weapon)) then return end
+		curWeapon.AdrenalineStacks = (curWeapon.AdrenalineStacks or 0) + 1
+		curWeapon.Damage = curWeapon.BaseDamage + (curWeapon.AdrenalineStacks * data.Percent)
 
-	local curWeapon = data.Weapon.Primary
+		self:CreateEndTimer(data.Time, data)
+	end
 
-	curWeapon.AdrenalineStacks = math.max(curWeapon.AdrenalineStacks - 1, 0)
-	curWeapon.Damage = curWeapon.BaseDamage * (data.Percent ^ curWeapon.AdrenalineStacks)
+	function EFFECT:OnEnd(data)
+		if (not IsValid(data.Weapon)) then return end
+
+		local curWeapon = data.Weapon.Primary
+
+		curWeapon.AdrenalineStacks = math.max(curWeapon.AdrenalineStacks - 1, 0)
+		curWeapon.Damage = curWeapon.BaseDamage * (data.Percent ^ curWeapon.AdrenalineStacks)
+	end
 end

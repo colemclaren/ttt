@@ -1,5 +1,5 @@
 TALENT.ID = 101
-TALENT.Name = "Reality Stone"
+TALENT.Name = "Reality"
 TALENT.NameColor = Color(255, 50, 50)
 TALENT.Description = "You have a %s_^ chance to go transparent for %s seconds after killing someone with this weapon"
 TALENT.Tier = 2
@@ -22,35 +22,37 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
 end
 
 
-local STATUS = status.Create "Reality Stone"
-function STATUS:Invoke(data)
-	local effect = self:GetEffectFromPlayer("Invisible", data.Player)
-	if (effect) then
-		effect:AddTime(data.Time)
-	else
-		self:CreateEffect "Invisible":Invoke(data, data.Time, data.Player)
+if (SERVER) then
+	local STATUS = status.Create "Reality Stone"
+	function STATUS:Invoke(data)
+		local effect = self:GetEffectFromPlayer("Invisible", data.Player)
+		if (effect) then
+			effect:AddTime(data.Time)
+		else
+			self:CreateEffect "Invisible":Invoke(data, data.Time, data.Player)
+		end
 	end
-end
 
-local EFFECT = STATUS:CreateEffect "Invisible"
-EFFECT.Message = "Invisible"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/contrast_low.png"
-function EFFECT:Init(data)
-	self:CreateEndTimer(data.Time, data)
-	local att = data.Player
-	if (not IsValid(att)) then return end
+	local EFFECT = STATUS:CreateEffect "Invisible"
+	EFFECT.Message = "Invisible"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/contrast_low.png"
+	function EFFECT:Init(data)
+		self:CreateEndTimer(data.Time, data)
+		local att = data.Player
+		if (not IsValid(att)) then return end
 
-	att:SetRenderMode(RENDERMODE_TRANSALPHA)
-	att:SetColor(Color(255, 255, 255, 50))
-	D3A.Chat.SendToPlayer2(att, Color(0, 255, 0), "You are now transparent for ", Color(255, 0, 0), data.Time or "0", Color(0, 255, 0), " seconds!")
-end
+		att:SetRenderMode(RENDERMODE_TRANSALPHA)
+		att:SetColor(Color(255, 255, 255, 50))
+		D3A.Chat.SendToPlayer2(att, Color(0, 255, 0), "You are now transparent for ", Color(255, 0, 0), data.Time or "0", Color(0, 255, 0), " seconds!")
+	end
 
-function EFFECT:OnEnd(data)
-	local att = data.Player
-	if (not IsValid(att)) then return end
+	function EFFECT:OnEnd(data)
+		local att = data.Player
+		if (not IsValid(att)) then return end
 
-	att:SetRenderMode(RENDERMODE_NORMAL)
-	att:SetColor(Color(255, 255, 255, 255))
-	D3A.Chat.SendToPlayer2(att, Color(255, 0, 0), "You are no longer transparent!")
+		att:SetRenderMode(RENDERMODE_NORMAL)
+		att:SetColor(Color(255, 255, 255, 255))
+		D3A.Chat.SendToPlayer2(att, Color(255, 0, 0), "You are no longer transparent!")
+	end
 end

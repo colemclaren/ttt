@@ -1,5 +1,6 @@
 
 TALENT.ID = 69
+TALENT.Suffix = "Boston"
 TALENT.Name = "Boston Basher"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(255, 0, 0)
@@ -12,20 +13,23 @@ TALENT.LevelRequired = {min = 5, max = 10}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 20, max = 40} -- Percent damage is increased by
 
-util.AddNetworkString "BulletPrediction"
-net.Receive("BulletPrediction", function(_, pl)
-	local wep = net.ReadEntity()
+if (SERVER) then
+	if (SERVER) then util.AddNetworkString "BulletPrediction" end
+	net.Receive("BulletPrediction", function(_, pl)
+		local wep = net.ReadEntity()
 
-	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then
-		return
-	end
+		if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then
+			return
+		end
 
-	if (IsValid(wep) and wep.IsWeapon and wep:IsWeapon() and wep.Primary and wep.Primary.Damage) then
-		pl:TakeDamage(wep.Primary.Damage, pl, wep)
-	end
-end)
+		if (IsValid(wep) and wep.IsWeapon and wep:IsWeapon() and wep.Primary and wep.Primary.Damage) then
+			pl:TakeDamage(wep.Primary.Damage, pl, wep)
+		end
+	end)
 
-util.AddNetworkString "Talents.BostonBasher"
+	if (SERVER) then util.AddNetworkString "Talents.BostonBasher" end
+end
+
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
 	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 

@@ -1,5 +1,6 @@
 
 TALENT.ID = 31
+TALENT.Suffix = "the RNG Gods"
 TALENT.Name = "Wildcard: Tier 1"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255,0)
@@ -12,7 +13,7 @@ TALENT.Modifications = {}
 TALENT.Melee = false
 TALENT.NotUnique = false
 
-util.AddNetworkString("weapon.UpdateTalents")
+if (SERVER) then util.AddNetworkString("weapon.UpdateTalents") end
 
 wildcard_prep_cache = {}
 

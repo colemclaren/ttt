@@ -1,6 +1,6 @@
 
 TALENT.ID = 102
-TALENT.Name = "Power Stone"
+TALENT.Name = "Purple"
 TALENT.NameColor = Color(128,0,128)
 TALENT.Description = "Each shot has a %s_^ chance to deal double damage"
 TALENT.Tier = 3

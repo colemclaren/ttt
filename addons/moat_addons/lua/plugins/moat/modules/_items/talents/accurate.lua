@@ -1,6 +1,7 @@
 
 TALENT.ID = 4
-TALENT.Name = "Accurate"
+TALENT.Suffix = "Accuracy"
+TALENT.Name = "Accuracy"
 TALENT.NameColor = Color( 150, 0, 0 )
 TALENT.Description = "Accuracy is increased by %s_"
 TALENT.Tier = 1

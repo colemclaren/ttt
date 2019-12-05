@@ -1,7 +1,8 @@
 TALENT = TALENT or MOAT_TALENTS[16]
 
 TALENT.ID = 16
-TALENT.Name = "Vampiric"
+TALENT.Suffix = "Flirting"
+TALENT.Name = "Flirting"
 TALENT.NameColor = Color(0, 255, 0)
 TALENT.Description = "Each hit has a %s_^ chance to steal %s_^ of the damage you deal"
 TALENT.Tier = 2

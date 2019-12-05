@@ -1,6 +1,7 @@
 
 TALENT.ID = 35
-TALENT.Name = "Wild! - Tier 2"
+TALENT.Suffix = "Haphazard"
+TALENT.Name = "Haphazard - Tier 2"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "After a kill, you have a %s_^ chance to add a random Tier 2 talent to your gun with its lowest stats possible"
@@ -14,7 +15,7 @@ TALENT.Modifications[1] = {min = 40, max = 65}
 TALENT.Melee = false
 TALENT.NotUnique = false
 
-util.AddNetworkString("weapon.UpdateTalents")
+if (SERVER) then util.AddNetworkString("weapon.UpdateTalents") end
 
 
 local tier = 2

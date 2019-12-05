@@ -1,6 +1,6 @@
 
 TALENT.ID = 28
-TALENT.Name = 'Soften'
+TALENT.Name = 'Debility'
 TALENT.NameColor = Color(100, 90, 100)
 TALENT.Description = 'Each hit has a %s_^ chance to make your target take %s_^ more damage for %s^ seconds'
 TALENT.Tier = 3
@@ -24,30 +24,32 @@ function TALENT:OnPlayerHit(vic, att, info, talent_mods)
 	end
 end
 
-local STATUS = status.Create "Soften"
-function STATUS:Invoke(data)
-	local effect = self:GetEffectFromPlayer("Soften", data.Player)
-	if (effect) then
-		effect:AddTime(data.Time)
-	else
-		self:CreateEffect "Soften":Invoke(data, data.Time, data.Player)
+if (SERVER) then
+	local STATUS = status.Create "Soften"
+	function STATUS:Invoke(data)
+		local effect = self:GetEffectFromPlayer("Soften", data.Player)
+		if (effect) then
+			effect:AddTime(data.Time)
+		else
+			self:CreateEffect "Soften":Invoke(data, data.Time, data.Player)
+		end
 	end
-end
 
-local EFFECT = STATUS:CreateEffect "Soften"
-EFFECT.Message = "Softened"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/user_delete.png"
-function EFFECT:Init(data)
-	local vic = data.Player
-	vic.Soften = 1 + data.Percent
+	local EFFECT = STATUS:CreateEffect "Soften"
+	EFFECT.Message = "Softened"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/user_delete.png"
+	function EFFECT:Init(data)
+		local vic = data.Player
+		vic.Soften = 1 + data.Percent
 
-	self:CreateEndTimer(data.Time, data)
-end
+		self:CreateEndTimer(data.Time, data)
+	end
 
-function EFFECT:OnEnd(data)
-	if (not IsValid(data.Player)) then return end
+	function EFFECT:OnEnd(data)
+		if (not IsValid(data.Player)) then return end
 
-	local vic = data.Player
-	vic.Soften = nil
+		local vic = data.Player
+		vic.Soften = nil
+	end
 end

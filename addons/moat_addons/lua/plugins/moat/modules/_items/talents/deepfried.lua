@@ -1,5 +1,6 @@
 TALENT.ID = 9968
-TALENT.Name = "Deep Fried"
+TALENT.Suffix = "LSD"
+TALENT.Name = "LSD"
 TALENT.NameColor = Color(209, 0, 209)
 TALENT.Description = "Each hit has a %s_^ chance to fry the target's screen for %s seconds"
 TALENT.Tier = 2
@@ -27,34 +28,36 @@ end
 -- Deep Fried Status
 --
 
-util.AddNetworkString "Moat.Talents.DeepFried"
+if (SERVER) then util.AddNetworkString "Moat.Talents.DeepFried" end
 
-local STATUS = status.Create "Fried"
-function STATUS:Invoke(data)
-	local effect = self:GetEffectFromPlayer("Deep Fried", data.Player)
-	if (effect) then
-		return -- effect:AddTime(data.Time)
-	else
-		self:CreateEffect"Deep Fried":Invoke(data, data.Time, data.Player)
+if (SERVER) then
+	local STATUS = status.Create "Fried"
+	function STATUS:Invoke(data)
+		local effect = self:GetEffectFromPlayer("Deep Fried", data.Player)
+		if (effect) then
+			return -- effect:AddTime(data.Time)
+		else
+			self:CreateEffect"Deep Fried":Invoke(data, data.Time, data.Player)
+		end
 	end
-end
 
-local EFFECT = STATUS:CreateEffect "Deep Fried"
-EFFECT.Message = "Deep Fried"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/eye.png"
-function EFFECT:Init(data)
-	net.Start "Moat.Talents.DeepFried"
-		net.WritePlayer(data.Player)
-		net.WriteDouble(data.Time)
-	net.Broadcast()
+	local EFFECT = STATUS:CreateEffect "Deep Fried"
+	EFFECT.Message = "Deep Fried"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/eye.png"
+	function EFFECT:Init(data)
+		net.Start "Moat.Talents.DeepFried"
+			net.WritePlayer(data.Player)
+			net.WriteDouble(data.Time)
+		net.Broadcast()
 
-	self:CreateTimer(math.floor(data.Time), math.floor(data.Time) * 2, self.Callback, data)
-end
+		self:CreateTimer(math.floor(data.Time), math.floor(data.Time) * 2, self.Callback, data)
+	end
 
-function EFFECT:Callback(data)
-	local victim = data.Player
-	if (not IsValid(victim) or not victim:Alive()) then return end
+	function EFFECT:Callback(data)
+		local victim = data.Player
+		if (not IsValid(victim) or not victim:Alive()) then return end
 
-	victim:ScreenShake(50, 100, 0.5, 100)
+		victim:ScreenShake(50, 100, 0.5, 100)
+	end
 end

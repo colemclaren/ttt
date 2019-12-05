@@ -20,6 +20,7 @@ net.Receive("MOAT_OBTAIN_ITEM", function(len)
 	local v = net.ReadBool()
 	local ply = Entity(net.ReadDouble())
 	local tbl = net.ReadTable()
+	tbl.Talents = GetItemTalents(tbl)
 	local gift = net.ReadBool()
 
 	if (not IsValid(ply) or not IsValid(LocalPlayer())) then

@@ -1,5 +1,6 @@
 
 TALENT.ID = 23
+TALENT.Suffix = "the Speedforce"
 TALENT.Name = 'Speedforce'
 TALENT.NameColor = Color(255,255,0)
 TALENT.Description = 'Speed is increased by %s_^ for %s seconds after killing a target'
@@ -21,30 +22,32 @@ function TALENT:OnPlayerDeath( victim, inf, attacker, talent_mods )
 end
 
 
-local STATUS = status.Create "Speedforce"
-function STATUS:Invoke(data)
-	local effect = self:GetEffectFromPlayer("Speedforce", data.Player)
-	if (effect) then
-		effect:AddTime(data.Time)
-	else
-		self:CreateEffect "Speedforce":Invoke(data, data.Time, data.Player)
+if (SERVER) then
+	local STATUS = status.Create "Speedforce"
+	function STATUS:Invoke(data)
+		local effect = self:GetEffectFromPlayer("Speedforce", data.Player)
+		if (effect) then
+			effect:AddTime(data.Time)
+		else
+			self:CreateEffect "Speedforce":Invoke(data, data.Time, data.Player)
+		end
 	end
-end
 
-local EFFECT = STATUS:CreateEffect "Speedforce"
-EFFECT.Message = "Speedforce"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/group_go.png"
-function EFFECT:Init(data)
-	local att = data.Player
-	att.speedforce = data.Speed
-	
-	self:CreateEndTimer(data.Time, data)
-end
+	local EFFECT = STATUS:CreateEffect "Speedforce"
+	EFFECT.Message = "Speedforce"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/group_go.png"
+	function EFFECT:Init(data)
+		local att = data.Player
+		att.speedforce = data.Speed
+		
+		self:CreateEndTimer(data.Time, data)
+	end
 
-function EFFECT:OnEnd(data)
-	if (not IsValid(data.Player)) then return end
-	
-	local att = data.Player
-	att.speedforce = 1
+	function EFFECT:OnEnd(data)
+		if (not IsValid(data.Player)) then return end
+		
+		local att = data.Player
+		att.speedforce = 1
+	end
 end

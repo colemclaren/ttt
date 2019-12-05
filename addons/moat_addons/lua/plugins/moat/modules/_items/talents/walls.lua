@@ -1,6 +1,7 @@
 
 TALENT.ID = 81
-TALENT.Name = "Visionary"
+TALENT.Suffix = "the Walls"
+TALENT.Name = "Walls"
 TALENT.NameColor = Color(255, 255, 0)
 TALENT.Description = "After killing a player, you have a %s_^ chance to see players within %s^ feet through walls for %s seconds"
 TALENT.Tier = 2
@@ -25,34 +26,36 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
 end
 
 
-local STATUS = status.Create "Visionary"
-function STATUS:Invoke(data)
-	local effect = self:GetEffectFromPlayer("Visionary", data.Player)
-	if (effect) then
-		effect:AddTime(data.Time)
-	else
-		self:CreateEffect "Visionary":Invoke(data, data.Time, data.Player)
+if (SERVER) then
+	local STATUS = status.Create "Visionary"
+	function STATUS:Invoke(data)
+		local effect = self:GetEffectFromPlayer("Visionary", data.Player)
+		if (effect) then
+			effect:AddTime(data.Time)
+		else
+			self:CreateEffect "Visionary":Invoke(data, data.Time, data.Player)
+		end
 	end
-end
 
-local EFFECT = STATUS:CreateEffect "Visionary"
-EFFECT.Message = "Visionary"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/eye.png"
-function EFFECT:Init(data)
-	local att = data.Player
+	local EFFECT = STATUS:CreateEffect "Visionary"
+	EFFECT.Message = "Visionary"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/eye.png"
+	function EFFECT:Init(data)
+		local att = data.Player
 
-	net.Start("Moat.Talents.Visionary")
-		net.WriteDouble(data.Radius)
-	net.Send(att)
+		net.Start("Moat.Talents.Visionary")
+			net.WriteDouble(data.Radius)
+		net.Send(att)
 
-	self:CreateEndTimer(data.Time, data)
-end
+		self:CreateEndTimer(data.Time, data)
+	end
 
-function EFFECT:OnEnd(data)
-	if (not IsValid(data.Player)) then return end
-	local att = data.Player
+	function EFFECT:OnEnd(data)
+		if (not IsValid(data.Player)) then return end
+		local att = data.Player
 
-	net.Start("Moat.Talents.Visionary.End")
-	net.Send(att)
+		net.Start("Moat.Talents.Visionary.End")
+		net.Send(att)
+	end
 end

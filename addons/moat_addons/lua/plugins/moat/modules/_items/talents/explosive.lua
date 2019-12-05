@@ -1,5 +1,6 @@
 TALENT.ID = 87
-TALENT.Name = "Explosive"
+TALENT.Suffix = "the BOOM"
+TALENT.Name = "Boom"
 TALENT.NameColor = Color(255, 128, 0)
 TALENT.Description = "Every second of firing, this gun will fire %s^ explosive rounds dealing %s damage"
 TALENT.Tier = 2

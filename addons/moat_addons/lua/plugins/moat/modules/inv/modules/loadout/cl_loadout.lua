@@ -906,6 +906,7 @@ function MOAT_LOADOUT.UpdateOtherWep()
 	local wep_index = net.ReadUInt(16)
 	local wep_name = net.ReadString()
 	local wep_stats = net.ReadTable()
+	wep_stats.Talents = GetItemTalents(wep_stats)
 
 	local name = "moat_StatRefresh" .. wep_index
 	timers[#timers + 1] = name
@@ -999,6 +1000,10 @@ function MOAT_LOADOUT.UpdateWep()
 		wep_index = net.ReadUInt(16)
 		wep_stats = net.ReadTable()
 	end
+
+	if (wep_stats.t) then
+		wep_stats.Talents = GetItemTalents(wep_stats)
+    end
 
 	--[[if (IsValid(LP) and Entity(wep_owner):IsValid() and wep_owner == LP:EntIndex()) then
 		if (GetConVar("moat_showstats_spawn"):GetInt() == 1) then

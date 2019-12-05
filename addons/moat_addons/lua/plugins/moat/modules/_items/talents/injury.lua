@@ -1,6 +1,7 @@
 
 TALENT.ID = 86
-TALENT.Name = "Fracture"
+TALENT.Suffix = "Injury"
+TALENT.Name = "Injury"
 TALENT.NameColor = Color(255, 0, 0)
 TALENT.Description = "Limb damage is increased by %s_ when using this weapon"
 TALENT.Tier = 1

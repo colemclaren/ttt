@@ -1,6 +1,7 @@
 
 TALENT.ID = 19
-TALENT.Name = "Assassin"
+TALENT.Suffix = "Assassination"
+TALENT.Name = "Assassination"
 TALENT.NameColor = Color(50, 50, 255)
 TALENT.Description = "Each kill has a %s_^ chance to dissolve the body of the person you killed"
 TALENT.Tier = 2
@@ -12,7 +13,7 @@ TALENT.Modifications[1] = {min = 10, max = 25}
 TALENT.Melee = false
 TALENT.NotUnique = true
 
-util.AddNetworkString("Ass_talent")
+if (SERVER) then util.AddNetworkString("Ass_talent") end
 local function _ass_talent(vic,att)
     local dissolver = ents.Create("env_entity_dissolver")
     local uid = vic:UniqueID()

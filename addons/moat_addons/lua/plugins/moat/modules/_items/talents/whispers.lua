@@ -1,6 +1,6 @@
 
 TALENT.ID = 9040
-TALENT.Name = "Silenced"
+TALENT.Name = "Whispers"
 TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "Every shot is silenced"
 TALENT.Tier = 1
@@ -12,7 +12,7 @@ TALENT.Modifications[1] = {min = 100, max = 200} -- Chance to trigger
 TALENT.Melee = false
 TALENT.NotUnique = true
 
-util.AddNetworkString("Talents.Silenced")
+if (SERVER) then util.AddNetworkString("Talents.Silenced") end
 
 silence_prep_cache = {}
 hook.Add("TTTBeginRound","ClearSilenced",function()

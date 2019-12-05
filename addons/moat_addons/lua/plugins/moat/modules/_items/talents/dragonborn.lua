@@ -1,6 +1,7 @@
 
 TALENT.ID = 83
-TALENT.Name = "Dragonborn"
+TALENT.Suffix = "the Shout"
+TALENT.Name = "Shout"
 TALENT.NameColor = Color(255, 255, 255)
 TALENT.Description = "Players have a %s_^ chance to be thrown with %sx force when shot with this weapon"
 TALENT.Tier = 3

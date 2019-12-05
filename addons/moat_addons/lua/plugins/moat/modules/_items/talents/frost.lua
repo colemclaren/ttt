@@ -31,65 +31,67 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 end
 
 
-local STATUS = status.Create "Frost"
-function STATUS:Invoke(data)
-	self:CreateEffect "Frozen":Invoke(data, data.Time, data.Player)
-	self:CreateEffect "Freezing":Invoke(data, false)
-end
+if (SERVER) then
+	local STATUS = status.Create "Frost"
+	function STATUS:Invoke(data)
+		self:CreateEffect "Frozen":Invoke(data, data.Time, data.Player)
+		self:CreateEffect "Freezing":Invoke(data, false)
+	end
 
-local EFFECT = STATUS:CreateEffect "Frozen"
-EFFECT.Message = "Frozen"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/weather_snow.png"
-function EFFECT:Init(data)
-	local amt = math.floor(data.Time / data.DamageDelay) * data.DamageDelay
-	self.Timer = self:CreateTimer(amt, amt / data.DamageDelay, self.Callback, data)
-end
+	local EFFECT = STATUS:CreateEffect "Frozen"
+	EFFECT.Message = "Frozen"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/weather_snow.png"
+	function EFFECT:Init(data)
+		local amt = math.floor(data.Time / data.DamageDelay) * data.DamageDelay
+		self.Timer = self:CreateTimer(amt, amt / data.DamageDelay, self.Callback, data)
+	end
 
-function EFFECT:Callback(data)
-	local vic = data.Player
-	if (not IsValid(vic)) then return end
-	if (not vic:Alive()) then return end
-	if (GetRoundState() ~= ROUND_ACTIVE) then return end
+	function EFFECT:Callback(data)
+		local vic = data.Player
+		if (not IsValid(vic)) then return end
+		if (not vic:Alive()) then return end
+		if (GetRoundState() ~= ROUND_ACTIVE) then return end
 
-	local dmg = DamageInfo()
-	dmg:SetInflictor(data.Weapon)
-	dmg:SetAttacker(data.Attacker)
-	dmg:SetDamage(2)
-	dmg:SetDamageType(DMG_DIRECT)
+		local dmg = DamageInfo()
+		dmg:SetInflictor(data.Weapon)
+		dmg:SetAttacker(data.Attacker)
+		dmg:SetDamage(2)
+		dmg:SetDamageType(DMG_DIRECT)
 
-	vic:TakeDamageInfo(dmg)
-end
+		vic:TakeDamageInfo(dmg)
+	end
 
 
-util.AddNetworkString("FrozenPlayer")
-local frozen_players = 0
+	if (SERVER) then util.AddNetworkString("FrozenPlayer") end
+	local frozen_players = 0
 
-EFFECT = STATUS:CreateEffect "Freezing"
-function EFFECT:Init(data)
-	local ply = data.Player
-	if (not ply:canBeMoatFrozen()) then return end
+	EFFECT = STATUS:CreateEffect "Freezing"
+	function EFFECT:Init(data)
+		local ply = data.Player
+		if (not ply:canBeMoatFrozen()) then return end
 
-	ply.moatFrozen = true
-	ply.moatFrozenSpeed = data.Speed
-	ply:SetNW2Bool("moatFrozen", true)
-	self:CreateEndTimer(data.Time, data)
-	
-	frozen_players = frozen_players + 1
-	net.Start("FrozenPlayer")
-		net.WriteUInt(frozen_players, 8)
-	net.Broadcast()
-end
+		ply.moatFrozen = true
+		ply.moatFrozenSpeed = data.Speed
+		ply:SetNW2Bool("moatFrozen", true)
+		self:CreateEndTimer(data.Time, data)
+		
+		frozen_players = frozen_players + 1
+		net.Start("FrozenPlayer")
+			net.WriteUInt(frozen_players, 8)
+		net.Broadcast()
+	end
 
-function EFFECT:OnEnd(data)
-	local ply = data.Player
+	function EFFECT:OnEnd(data)
+		local ply = data.Player
 
-	ply.moatFrozen = false
-	ply.moatFrozenSpeed = 1
-	ply:SetNW2Bool("moatFrozen", false)
-	
-	frozen_players = frozen_players - 1
-	net.Start("FrozenPlayer")
-		net.WriteUInt(frozen_players, 8)
-	net.Broadcast()
+		ply.moatFrozen = false
+		ply.moatFrozenSpeed = 1
+		ply:SetNW2Bool("moatFrozen", false)
+		
+		frozen_players = frozen_players - 1
+		net.Start("FrozenPlayer")
+			net.WriteUInt(frozen_players, 8)
+		net.Broadcast()
+	end
 end

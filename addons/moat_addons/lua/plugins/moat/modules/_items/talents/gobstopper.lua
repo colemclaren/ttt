@@ -1,5 +1,6 @@
 TALENT.ID = 99
-TALENT.Name = "Replenish"
+TALENT.Suffix = "the Gobstopper"
+TALENT.Name = "Gobstopper"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255, 122)
 TALENT.Description = "Your gun has a %s_^ chance to refill a bullet if you hit someone"

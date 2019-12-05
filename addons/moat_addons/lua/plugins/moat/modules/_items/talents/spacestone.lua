@@ -1,6 +1,6 @@
 
 TALENT.ID = 100
-TALENT.Name = "Space Stone"
+TALENT.Name = "Space"
 TALENT.NameColor = Color(0, 50, 255)
 TALENT.Description = "You have a %s_^ chance to have low gravity for %s seconds after killing someone with this weapon"
 TALENT.Tier = 1
@@ -21,31 +21,32 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
 	end
 end
 
-local STATUS = status.Create "Space Stone"
-function STATUS:Invoke(data)
-	local effect = self:GetEffectFromPlayer("Low Gravity", data.Player)
-	if (effect) then
-		effect:AddTime(data.Time)
-	else
-		self:CreateEffect "Low Gravity":Invoke(data, data.Time, data.Player)
+if (SERVER) then
+	local STATUS = status.Create "Space Stone"
+	function STATUS:Invoke(data)
+		local effect = self:GetEffectFromPlayer("Low Gravity", data.Player)
+		if (effect) then
+			effect:AddTime(data.Time)
+		else
+			self:CreateEffect "Low Gravity":Invoke(data, data.Time, data.Player)
+		end
+	end
+
+	local EFFECT = STATUS:CreateEffect "Low Gravity"
+	EFFECT.Message = "Low Gravity"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/arrow_up.png"
+	function EFFECT:Init(data)
+		local att = data.Player
+		att:SetGravity(0.25)
+
+		self:CreateEndTimer(data.Time, data)
+	end
+
+	function EFFECT:OnEnd(data)
+		if (not IsValid(data.Player)) then return end
+
+		local att = data.Player
+		att:SetGravity(1)
 	end
 end
-
-local EFFECT = STATUS:CreateEffect "Low Gravity"
-EFFECT.Message = "Low Gravity"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/arrow_up.png"
-function EFFECT:Init(data)
-	local att = data.Player
-	att:SetGravity(0.25)
-
-	self:CreateEndTimer(data.Time, data)
-end
-
-function EFFECT:OnEnd(data)
-	if (not IsValid(data.Player)) then return end
-
-	local att = data.Player
-	att:SetGravity(1)
-end
-

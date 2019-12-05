@@ -109,25 +109,6 @@ function m_GetCrateContents(crate_collection)
     return contents
 end
 
-function GetItemTalents(tb, funcs)
-	local Talents = {}
-
-	if (not tb.t) then
-		return Talents
-	end
-
-    for k, v in ipairs(tb.t) do
-		Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e)
-			or m_GetTalentFromEnumWithFunctions(v.e)
-
-		if (tb.s.l and tb.s.l >= v.l) then
-			Talents[k].Active = true
-		end
-	end
-
-    return Talents
-end
-
 local item_cache = {}
 function m_GetItemFromEnum(ienum)
     if (ienum and item_cache[ienum]) then
@@ -157,35 +138,6 @@ function m_GetItemFromEnum(ienum)
     return item_tbl
 end
 
-local talent_cache = {}
-
-function m_GetTalentFromEnum(tenum)
-    if (tenum and talent_cache[tenum]) then
-        return talent_cache[tenum]
-    end
-
-    local tbl = {}
-
-    for k, v in pairs(MOAT_TALENTS) do
-        if (v.ID == tenum) then
-            tbl = table.Copy(v)
-        end
-    end
-
-    tbl.OnPlayerDeath = nil
-    tbl.OnPlayerHit = nil
-    tbl.OnWeaponSwitch = nil
-    tbl.ScalePlayerDamage = nil
-    tbl.ModifyWeapon = nil
-    tbl.OnWeaponFired = nil
-	tbl.SuppressBullet = nil
-    tbl.OnBeginRound = nil
-
-    if (tenum) then talent_cache[tenum] = tbl end
-
-    return tbl
-end
-
 local item_cache2 = {}
 function m_GetItemFromEnumWithFunctions(ienum)
     if (ienum and item_cache2[ienum]) then
@@ -201,26 +153,6 @@ function m_GetItemFromEnumWithFunctions(ienum)
     if (ienum) then item_cache2[ienum] = item_tbl end
 
     return item_tbl
-end
-
-local talent_cache2 = {}
-
-function m_GetTalentFromEnumWithFunctions(tenum)
-    if (tenum and talent_cache2[tenum]) then
-        return talent_cache2[tenum]
-    end
-
-    local tbl = {}
-
-    for k, v in pairs(MOAT_TALENTS) do
-        if (v.ID == tenum) then
-            tbl = table.Copy(v)
-        end
-    end
-
-    if (tenum) then talent_cache2[tenum] = tbl end
-
-    return tbl
 end
 
 concommand.Add("moat_reload", function(pl)
@@ -592,7 +524,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 			net.WriteUInt(slot_found, 16)
 			local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
 			tbl2.item = m_GetItemFromEnum(tbl2.u)
-			tbl2.Talents = GetItemTalents(tbl2)
+			-- tbl2.Talents = GetItemTalents(tbl2)
 
 			net.WriteTable(tbl2)
 			net.WriteBool(no_chat or false)
@@ -2380,7 +2312,7 @@ function m_SendInvItem(pl, s, l)
 
 			local tbl = table.Copy(MOAT_INVS[pl][slot_text .. s])
 			tbl.item = m_GetItemFromEnum(tbl.u, tbl)
-			tbl.Talents = GetItemTalents(tbl)
+			-- tbl.Talents = GetItemTalents(tbl)
 		
 			net.WriteTable(tbl)
 			net.Send(pl)

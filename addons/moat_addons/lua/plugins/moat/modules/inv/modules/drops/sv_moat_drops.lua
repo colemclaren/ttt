@@ -25,7 +25,6 @@ function m_AddDroppableItem(item_table, item_kind)
 end
 
 local MOAT_ITEM_FOLDER = "plugins/moat/modules/_items/items"
-local MOAT_TALENT_FOLDER = "plugins/moat/modules/_items/talents"
 
 local MOAT_ITEM_FOLDERS = {
     ["tier"] = "tiers",
@@ -150,31 +149,6 @@ concommand.Add("_reloaditems", function(pl)
 	m_InitializeTalents()
 end)
 
-
-MOAT_TALENTS = {}
-
-function m_AddTalent(talent_tbl)
-	if (talent_tbl.Name and not talent_tbl.NameExact) then
-		talent_tbl.Name = string.Title(talent_tbl.Name)
-	end
-
-	if (talent_tbl.Description and not talent_tbl.DescExact) then
-		talent_tbl.Description = string.Grammarfy(talent_tbl.Description, not (talent_tbl.Description:EndsWith"!" or talent_tbl.Description:EndsWith"?" or talent_tbl.Description:EndsWith"."))
-	end
-
-    MOAT_TALENTS[talent_tbl.ID] = talent_tbl
-end
-
-function m_InitializeTalents()
-	for k, v in pairs(file.Find(MOAT_TALENT_FOLDER .. "/*.lua", "LUA")) do
-    	TALENT = {}
-    	include(MOAT_TALENT_FOLDER .. "/" .. v)
-    	MsgC(Color(255, 255, 0), "[mInventory] Loaded Talent: " .. TALENT.Name .. "\n")
-    	m_AddTalent(TALENT)
-	end
-end
-m_InitializeTalents()
-
 concommand.Add("moat_finditemid",function(ply)
     if (IsValid(ply)) then return end
 
@@ -185,11 +159,6 @@ concommand.Add("moat_finditemid",function(ply)
 			id = id + 1
         end
     end
-end)
-
-concommand.Add("_reloadtalents", function(pl)
-	if (IsValid(pl)) then return end
-	m_InitializeTalents()
 end)
 
 function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
@@ -518,20 +487,8 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
 				util.GlobalScreenShake(25, 25, 15, 5000)
                 local ITEM_HOVERED = item_to_drop
                 local wpnstr = item_to_drop.Name
-                local ITEM_NAME_FULL = ""
-                if (ITEM_HOVERED.Kind == "tier") then
-                    local ITEM_NAME = util.GetWeaponName(dropped_item.w) or wpnstr
-
-                    if (string.EndsWith(ITEM_NAME, "_name")) then
-                        ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                        ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-                    end
-
-                    ITEM_NAME_FULL = ITEM_HOVERED.Name .. " " .. ITEM_NAME
-                else
-                    ITEM_NAME_FULL = ITEM_HOVERED.Name
-                end
-                gglobalchat_planetary(self:Nick(),ITEM_NAME_FULL)
+               	--  local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
+                -- gglobalchat_planetary(self:Nick(),ITEM_NAME_FULL)
             elseif (tonumber(dropped_item.u) == 912 or titan_tier_ids[tostring(dropped_item.u)]) then
                 cdn.PlayURL "https://cdn.moat.gg/f/u8diZ6qyoxuJPbwHOlLC25SdC3jY.mp3"
 			end

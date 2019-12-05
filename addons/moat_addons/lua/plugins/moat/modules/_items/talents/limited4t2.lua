@@ -1,5 +1,6 @@
 
 TALENT.ID = 32
+TALENT.Suffix = "the RNG Gods"
 TALENT.Name = "Wildcard: Tier 2"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255,0)
@@ -13,7 +14,7 @@ TALENT.Melee = false
 TALENT.NotUnique = false
 
 
-util.AddNetworkString("weapon.UpdateTalents")
+if (SERVER) then util.AddNetworkString("weapon.UpdateTalents") end
 
 local tier = 2
 local id = TALENT.ID

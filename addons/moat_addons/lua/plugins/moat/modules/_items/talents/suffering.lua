@@ -1,6 +1,7 @@
 
 TALENT.ID = 20
-TALENT.Name = "Contagious"
+TALENT.Suffix = "Suffering"
+TALENT.Name = "Suffering"
 TALENT.NameColor = Color( 0, 150, 0 )
 TALENT.NameEffect = "glow"
 TALENT.Description = "Each hit has a %s_^ chance to infect and damage the target %s^ times for %s^ damage every %s^ seconds"
@@ -35,41 +36,41 @@ function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
 	end
 end
 
+if (SERVER) then
+	local STATUS = status.Create "Contagion"
+	function STATUS:Invoke(data)
+		self:CreateEffect "Infected":Invoke(data, data.Time, data.Player)
+	end
 
-local STATUS = status.Create "Contagion"
-function STATUS:Invoke(data)
-	self:CreateEffect "Infected":Invoke(data, data.Time, data.Player)
+	local EFFECT = STATUS:CreateEffect "Infected"
+	EFFECT.Message = "Infected"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/bug.png"
+	function EFFECT:Init(data)
+		self:CreateTimer(data.Time, data.Amount, self.Callback, data)
+	end
+
+	local screams = {
+		"vo/npc/male01/pain07.wav",
+		"vo/npc/male01/pain08.wav",
+		"vo/npc/male01/pain09.wav",
+		"vo/npc/male01/no02.wav"
+	}
+
+	function EFFECT:Callback(data)
+		local vic = data.Player
+		if (not IsValid(vic)) then return end
+		if (not vic:Alive()) then return end
+		if (GetRoundState() ~= ROUND_ACTIVE) then return end
+
+		local dmg = DamageInfo()
+		dmg:SetInflictor(data.Weapon)
+		dmg:SetAttacker(data.Attacker)
+		dmg:SetDamage(data.Damage)
+		dmg:SetDamageType(DMG_ACID)
+
+		vic:TakeDamageInfo(dmg)
+
+		vic:EmitSound(screams[math.random(1, #screams)])
+	end
 end
-
-local EFFECT = STATUS:CreateEffect "Infected"
-EFFECT.Message = "Infected"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/bug.png"
-function EFFECT:Init(data)
-	self:CreateTimer(data.Time, data.Amount, self.Callback, data)
-end
-
-local screams = {
-	"vo/npc/male01/pain07.wav",
-	"vo/npc/male01/pain08.wav",
-	"vo/npc/male01/pain09.wav",
-	"vo/npc/male01/no02.wav"
-}
-
-function EFFECT:Callback(data)
-	local vic = data.Player
-	if (not IsValid(vic)) then return end
-	if (not vic:Alive()) then return end
-	if (GetRoundState() ~= ROUND_ACTIVE) then return end
-
-	local dmg = DamageInfo()
-	dmg:SetInflictor(data.Weapon)
-	dmg:SetAttacker(data.Attacker)
-	dmg:SetDamage(data.Damage)
-	dmg:SetDamageType(DMG_ACID)
-
-	vic:TakeDamageInfo(dmg)
-
-	vic:EmitSound(screams[math.random(1, #screams)])
-end
-

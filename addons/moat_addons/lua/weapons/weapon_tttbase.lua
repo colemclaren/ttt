@@ -1559,7 +1559,7 @@ function SWEP:CalculateViewModelOffset(delta)
     if (is) then
         target_pos = (self.IronSightsPos or vector_origin) * 1
         target_ang = (self.IronSightsAng or vector_origin) * 1
-        adstransitionspeed = 15 / (self.fIronTime / 0.3)
+        adstransitionspeed = 15 / (self:GetIronsightsTime() / 0.3)
     end
 
     if (cl_tfa_viewmodel_offset_x and not is) then

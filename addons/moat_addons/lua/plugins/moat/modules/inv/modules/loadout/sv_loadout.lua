@@ -374,9 +374,9 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 net.WriteUInt(v3:EntIndex(), 16)
                 net.WriteString(wpn_tbl.ItemName or wpn_tbl.PrintName or "NAME_ERROR0")
 
-				if (v.t) then
-                	v.Talents = GetItemTalents(v)
-            	end
+				-- if (v.t) then
+                -- 	v.Talents = GetItemTalents(v)
+            	-- end
 
                 net.WriteTable(v or {})
                 net.Send(ply)
@@ -423,9 +423,9 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             net.Start("MOAT_UPDATE_WEP")
             net.WriteUInt(v3:EntIndex(), 16)
 
-            if (v.t) then
-                v.Talents = GetItemTalents(v)
-            end
+            -- if (v.t) then
+            --     v.Talents = GetItemTalents(v)
+            -- end
 
             net.WriteTable(v or {})
 

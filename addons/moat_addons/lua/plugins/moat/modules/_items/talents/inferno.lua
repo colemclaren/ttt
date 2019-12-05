@@ -28,33 +28,35 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	end
 end
 
-local STATUS = status.Create "Inferno"
-function STATUS:Invoke(data)
-	local effect = self:GetEffectFromPlayer("Inferno", data.Victim)
-	if (effect) then
-		effect:AddTime(data.Time)
-	else
-		self:CreateEffect "Inferno":Invoke(data, data.Time, data.Victim)
+if (SERVER) then
+	local STATUS = status.Create "Inferno"
+	function STATUS:Invoke(data)
+		local effect = self:GetEffectFromPlayer("Inferno", data.Victim)
+		if (effect) then
+			effect:AddTime(data.Time)
+		else
+			self:CreateEffect "Inferno":Invoke(data, data.Time, data.Victim)
+		end
 	end
-end
 
-local EFFECT = STATUS:CreateEffect "Inferno"
-EFFECT.Message = "On Fire"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/weather_sun.png"
-function EFFECT:Init(data)
-	local victim = data.Victim
-	local radius = data.Radius or 0
+	local EFFECT = STATUS:CreateEffect "Inferno"
+	EFFECT.Message = "On Fire"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/weather_sun.png"
+	function EFFECT:Init(data)
+		local victim = data.Victim
+		local radius = data.Radius or 0
 
-	victim:Ignite(data.Time, radius)
-	victim.ignite_info = {att = data.Attacker, infl = data.Inflictor}
-	self:CreateEndTimer(data.Time, data)
-end
+		victim:Ignite(data.Time, radius)
+		victim.ignite_info = {att = data.Attacker, infl = data.Inflictor}
+		self:CreateEndTimer(data.Time, data)
+	end
 
-function EFFECT:OnEnd(data)
-	if (not IsValid(data.Victim)) then return end
+	function EFFECT:OnEnd(data)
+		if (not IsValid(data.Victim)) then return end
 
-	local victim = data.Victim
+		local victim = data.Victim
 
-	victim:Extinguish()
+		victim:Extinguish()
+	end
 end

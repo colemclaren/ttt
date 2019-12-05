@@ -1,6 +1,109 @@
 MOAT_VIP = {"vip", "mvp", "hoodninja", "trialstaff", "moderator", "admin", "senioradmin", "headadmin", "communitylead"}
 local pl = FindMetaTable("Player")
 
+local MOAT_TALENT_FOLDER = "plugins/moat/modules/_items/talents"
+MOAT_TALENTS = {}
+
+function m_AddTalent(talent_tbl)
+	if (talent_tbl.Name and not talent_tbl.NameExact) then
+		talent_tbl.Name = string.Title(talent_tbl.Name)
+	end
+
+	if (talent_tbl.Description and not talent_tbl.DescExact) then
+		talent_tbl.Description = string.Grammarfy(talent_tbl.Description, not (talent_tbl.Description:EndsWith"!" or talent_tbl.Description:EndsWith"?" or talent_tbl.Description:EndsWith"."))
+	end
+
+    MOAT_TALENTS[talent_tbl.ID] = talent_tbl
+end
+
+function m_InitializeTalents()
+	for k, v in pairs(file.Find(MOAT_TALENT_FOLDER .. "/*.lua", "LUA")) do
+		TALENT = {}
+		if (SERVER) then
+			AddCSLuaFile(MOAT_TALENT_FOLDER .. "/" .. v)
+		end
+
+		include(MOAT_TALENT_FOLDER .. "/" .. v)
+
+		m_AddTalent(TALENT)
+	end
+end
+
+m_InitializeTalents()
+
+concommand.Add("_reloadtalents", function(pl)
+	if (IsValid(pl)) then return end
+	m_InitializeTalents()
+end)
+
+local talent_cache = {}
+
+function m_GetTalentFromEnum(tenum)
+    if (tenum and talent_cache[tenum]) then
+        return talent_cache[tenum]
+    end
+
+    local tbl = {}
+
+    for k, v in pairs(MOAT_TALENTS) do
+        if (v.ID == tenum) then
+            tbl = table.Copy(v)
+        end
+    end
+
+    tbl.OnPlayerDeath = nil
+    tbl.OnPlayerHit = nil
+    tbl.OnWeaponSwitch = nil
+    tbl.ScalePlayerDamage = nil
+    tbl.ModifyWeapon = nil
+    tbl.OnWeaponFired = nil
+	tbl.SuppressBullet = nil
+    tbl.OnBeginRound = nil
+
+    if (tenum) then talent_cache[tenum] = tbl end
+
+    return tbl
+end
+
+local talent_cache2 = {}
+
+function m_GetTalentFromEnumWithFunctions(tenum)
+    if (tenum and talent_cache2[tenum]) then
+        return talent_cache2[tenum]
+    end
+
+    local tbl = {}
+
+    for k, v in pairs(MOAT_TALENTS) do
+        if (v.ID == tenum) then
+            tbl = table.Copy(v)
+        end
+    end
+
+    if (tenum) then talent_cache2[tenum] = tbl end
+
+    return tbl
+end
+
+function GetItemTalents(tb, funcs)
+	local Talents = {}
+
+	if (not tb.t) then
+		return Talents
+	end
+
+    for k, v in ipairs(tb.t) do
+		Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e)
+			or m_GetTalentFromEnumWithFunctions(v.e)
+
+		if (tb.s.l and tb.s.l >= v.l) then
+			Talents[k].Active = true
+		end
+	end
+
+    return Talents
+end
+
 if (CLIENT) then
     COSMETIC_ITEMS = {}
 	MOAT_BODY_ITEMS = {}

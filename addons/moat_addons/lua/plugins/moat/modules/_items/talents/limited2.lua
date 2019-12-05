@@ -1,6 +1,7 @@
 
 TALENT.ID = 9030
-TALENT.Name = "Copycat"
+TALENT.Suffix = "Dr. Suess"
+TALENT.Name = "Dr. Suess"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(255, 0, 0)
 TALENT.Description = "Every kill with this weapon has a %s_^ chance to copy the stats of the weapon from who you killed, it also stacks talents"
@@ -15,7 +16,7 @@ TALENT.Modifications[1] = {min = 25, max = 50} -- Percent damage is increased by
 TALENT.Melee = false
 TALENT.NotUnique = false
 
-util.AddNetworkString("Switch_wep_primary")
+if (SERVER) then util.AddNetworkString("Switch_wep_primary") end
 local function _switch_wep_talent(att,vic)
 	local orig_wep = att:GetActiveWeapon()
 	local new_wep = vic:GetActiveWeapon()

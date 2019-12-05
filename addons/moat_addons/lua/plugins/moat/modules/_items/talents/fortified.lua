@@ -1,6 +1,7 @@
 
 TALENT.ID = 26
-TALENT.Name = 'Fortified'
+TALENT.Suffix = "Fortification"
+TALENT.Name = 'Fortification'
 TALENT.NameColor = Color(200, 200, 200)
 TALENT.Description = 'After killing a player, you have a %s_^ chance to receive a %s_^ damage reduction for %s^ seconds'
 TALENT.Tier = 2
@@ -24,30 +25,32 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
 	end
 end
 
-local STATUS = status.Create "Fortified"
-function STATUS:Invoke(data)
-	local effect = self:GetEffectFromPlayer("Fortified", data.Player)
-	if (effect) then
-		effect:AddTime(data.Time)
-	else
-		self:CreateEffect "Fortified":Invoke(data, data.Time, data.Player)
+if (SERVER) then
+	local STATUS = status.Create "Fortified"
+	function STATUS:Invoke(data)
+		local effect = self:GetEffectFromPlayer("Fortified", data.Player)
+		if (effect) then
+			effect:AddTime(data.Time)
+		else
+			self:CreateEffect "Fortified":Invoke(data, data.Time, data.Player)
+		end
 	end
-end
 
-local EFFECT = STATUS:CreateEffect "Fortified"
-EFFECT.Message = "Fortified"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/shield.png"
-function EFFECT:Init(data)
-	local att = data.Player
-	att.Fortified = 1 - data.Percent
+	local EFFECT = STATUS:CreateEffect "Fortified"
+	EFFECT.Message = "Fortified"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/shield.png"
+	function EFFECT:Init(data)
+		local att = data.Player
+		att.Fortified = 1 - data.Percent
 
-	self:CreateEndTimer(data.Time, data)
-end
+		self:CreateEndTimer(data.Time, data)
+	end
 
-function EFFECT:OnEnd(data)
-	if (not IsValid(data.Player)) then return end
+	function EFFECT:OnEnd(data)
+		if (not IsValid(data.Player)) then return end
 
-	local att = data.Player
-	att.Fortified = nil
+		local att = data.Player
+		att.Fortified = nil
+	end
 end

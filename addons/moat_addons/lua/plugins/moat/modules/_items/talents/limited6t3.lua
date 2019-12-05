@@ -1,6 +1,7 @@
 
 TALENT.ID = 36
-TALENT.Name = "Wild! - Tier 3"
+TALENT.Suffix = "Haphazard"
+TALENT.Name = "Haphazard - Tier 3"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "After a kill, you have a %s_^ chance to add a random Tier 3 talent to your gun with its lowest stats possible"
@@ -14,7 +15,7 @@ TALENT.Modifications[1] = {min = 40, max = 60}
 TALENT.Melee = false
 TALENT.NotUnique = false
 
-util.AddNetworkString("weapon.UpdateTalents")
+if (SERVER) then util.AddNetworkString("weapon.UpdateTalents") end
 
 
 local tier = 3

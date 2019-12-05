@@ -108,28 +108,11 @@ if (not ConVarExists("moat_gangsta")) then
 end
 
 function m_GetFullItemName(itemtbl)
-    local ITEM_NAME_FULL = ""
+    local ITEM_NAME_FULL = GetItemName(itemtbl)
 
-    if (itemtbl and itemtbl.n) then
-        return "\"" .. itemtbl.n:Replace("''", "'") .. "\""
-    end
-
-    if (itemtbl and itemtbl.item and itemtbl.item.Kind == "tier") then
-        local ITEM_NAME = util.GetWeaponName(itemtbl.w)
-
-        if (string.EndsWith(ITEM_NAME, "_name")) then
-            ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-            ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-        end
-
-        ITEM_NAME_FULL = itemtbl.item.Name .. " " .. ITEM_NAME
-
-        if (itemtbl.item.Rarity == 0) then
-            ITEM_NAME_FULL = ITEM_NAME
-        end
-    elseif (itemtbl) then
-        ITEM_NAME_FULL = itemtbl.item and itemtbl.item.Name or ""
-    end
+    -- if (itemtbl and itemtbl.n) then
+    --     return "\"" .. itemtbl.n:Replace("''", "'") .. "\""
+    -- end
 
     return ITEM_NAME_FULL
 end
