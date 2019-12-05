@@ -26,18 +26,18 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
 end
 
 if (SERVER) then
-	local STATUS = status.Create "Fortified"
+	local STATUS = status.Create "Fortification"
 	function STATUS:Invoke(data)
-		local effect = self:GetEffectFromPlayer("Fortified", data.Player)
+		local effect = self:GetEffectFromPlayer("Fortification", data.Player)
 		if (effect) then
 			effect:AddTime(data.Time)
 		else
-			self:CreateEffect "Fortified":Invoke(data, data.Time, data.Player)
+			self:CreateEffect "Fortification":Invoke(data, data.Time, data.Player)
 		end
 	end
 
-	local EFFECT = STATUS:CreateEffect "Fortified"
-	EFFECT.Message = "Fortified"
+	local EFFECT = STATUS:CreateEffect "Fortification"
+	EFFECT.Message = "Fortification"
 	EFFECT.Color = TALENT.NameColor
 	EFFECT.Material = "icon16/shield.png"
 	function EFFECT:Init(data)

@@ -23,7 +23,7 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 		local tesla_dmg = self.Modifications[3].min + ( ( self.Modifications[3].max - self.Modifications[3].min ) * talent_mods[3] )
 		local tesla_delay = self.Modifications[4].min + ( ( self.Modifications[4].max - self.Modifications[4].min ) * talent_mods[4] )
 
-		status.Inflict("Tesla", {
+		status.Inflict("Electricity", {
 			Player = victim,
 			Attacker = attacker,
 			Weapon = attacker:GetActiveWeapon(),
@@ -36,7 +36,7 @@ end
 
 
 if (SERVER) then
-	local STATUS = status.Create "Tesla"
+	local STATUS = status.Create "Electricity"
 	function STATUS:Invoke(data)
 		self:CreateEffect "Electrified":Invoke(data, data.Time, data.Player)
 		self:CreateEffect "Zapped":Invoke(data, false)

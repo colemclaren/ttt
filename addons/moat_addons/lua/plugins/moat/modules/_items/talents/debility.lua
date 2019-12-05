@@ -20,23 +20,23 @@ function TALENT:OnPlayerHit(vic, att, info, talent_mods)
 		local percent = (self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])) / 100
 		local duration = self.Modifications[3].min + ((self.Modifications[3].max - self.Modifications[3].min) * talent_mods[3])
 
-		status.Inflict("Soften", {Time = duration, Player = vic, Percent = percent})
+		status.Inflict("Debility", {Time = duration, Player = vic, Percent = percent})
 	end
 end
 
 if (SERVER) then
-	local STATUS = status.Create "Soften"
+	local STATUS = status.Create "Debility"
 	function STATUS:Invoke(data)
-		local effect = self:GetEffectFromPlayer("Soften", data.Player)
+		local effect = self:GetEffectFromPlayer("Debility", data.Player)
 		if (effect) then
 			effect:AddTime(data.Time)
 		else
-			self:CreateEffect "Soften":Invoke(data, data.Time, data.Player)
+			self:CreateEffect "Debility":Invoke(data, data.Time, data.Player)
 		end
 	end
 
-	local EFFECT = STATUS:CreateEffect "Soften"
-	EFFECT.Message = "Softened"
+	local EFFECT = STATUS:CreateEffect "Debility"
+	EFFECT.Message = "Debilitated"
 	EFFECT.Color = TALENT.NameColor
 	EFFECT.Material = "icon16/user_delete.png"
 	function EFFECT:Init(data)

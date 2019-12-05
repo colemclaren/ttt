@@ -25,7 +25,7 @@ function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
 		local tesla_dmg = self.Modifications[3].min + ( ( self.Modifications[3].max - self.Modifications[3].min ) * talent_mods[3] )
 		local tesla_delay = self.Modifications[4].min + ( ( self.Modifications[4].max - self.Modifications[4].min ) * talent_mods[4] )
 
-		status.Inflict("Contagion", {
+		status.Inflict("Suffering", {
 			Time = tesla_delay * tesla_reps,
 			Amount = tesla_reps,
 			Damage = tesla_dmg,
@@ -37,7 +37,7 @@ function TALENT:OnPlayerHit( victim, attacker, dmginfo, talent_mods )
 end
 
 if (SERVER) then
-	local STATUS = status.Create "Contagion"
+	local STATUS = status.Create "Suffering"
 	function STATUS:Invoke(data)
 		self:CreateEffect "Infected":Invoke(data, data.Time, data.Player)
 	end

@@ -15,7 +15,7 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath(victim, _, attacker, talent_mods)
-	status.Inflict("Adrenaline Rush", {
+	status.Inflict("Steroids", {
 		Player = attacker,
 		Weapon = attacker:GetActiveWeapon(),
 		Time = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]),
@@ -25,7 +25,7 @@ end
 
 
 if (SERVER) then
-	local STATUS = status.Create "Adrenaline Rush"
+	local STATUS = status.Create "Steroids"
 	function STATUS:Invoke(data)
 		self:CreateEffect "Damaging":Invoke(data, data.Time, data.Player)
 	end

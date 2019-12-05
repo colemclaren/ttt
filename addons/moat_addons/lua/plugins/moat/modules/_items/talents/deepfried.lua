@@ -20,7 +20,7 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
 	if (chance > math.random() * 100) then
 		local secs = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * talent_mods[2] )
-		status.Inflict("Fried", {Time = secs, Player = victim})
+		status.Inflict("LSD", {Time = secs, Player = victim})
 	end
 end
 
@@ -31,7 +31,7 @@ end
 if (SERVER) then util.AddNetworkString "Moat.Talents.DeepFried" end
 
 if (SERVER) then
-	local STATUS = status.Create "Fried"
+	local STATUS = status.Create "LSD"
 	function STATUS:Invoke(data)
 		local effect = self:GetEffectFromPlayer("Deep Fried", data.Player)
 		if (effect) then

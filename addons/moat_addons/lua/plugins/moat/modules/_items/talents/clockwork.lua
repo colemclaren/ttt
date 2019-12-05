@@ -18,17 +18,17 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
     local amt = math.Round(self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1]))
     local sec = math.Round(self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]))
 
-    status.Inflict("Predatory", {Time = sec, Amount = amt, Player = att})
+    status.Inflict("Clockwork", {Time = sec, Amount = amt, Player = att})
 end
 
 
 if (SERVER) then
-	local PREDATORY = status.Create "Predatory"
+	local PREDATORY = status.Create "Clockwork"
 	function PREDATORY:Invoke(data)
-		self:CreateEffect "Predatory":Invoke(data, data.Time, data.Player)
+		self:CreateEffect "Clockwork":Invoke(data, data.Time, data.Player)
 	end
 
-	local EFFECT = PREDATORY:CreateEffect "Predatory"
+	local EFFECT = PREDATORY:CreateEffect "Clockwork"
 	EFFECT.Message = "Healing"
 	EFFECT.Color = Color(221, 101, 101)
 	EFFECT.Material = "icon16/heart_add.png"

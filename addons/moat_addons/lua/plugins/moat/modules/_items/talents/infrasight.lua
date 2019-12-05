@@ -19,19 +19,19 @@ function TALENT:OnPlayerHit(vic, att, dmginfo, talent_mods)
 	if (chance > math.random() * 100) then
 		local secs = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
 
-		status.Inflict("Mark", {Time = secs, Player = vic, Attacker = att})
+		status.Inflict("Infra-Sight", {Time = secs, Player = vic, Attacker = att})
 	end
 end
 
 
 if (SERVER) then
-	local STATUS = status.Create "Mark"
+	local STATUS = status.Create "Infra-Sight"
 	function STATUS:Invoke(data)
-		local effect = self:GetEffectFromPlayer("Mark", data.Player)
+		local effect = self:GetEffectFromPlayer("Infra-Sight", data.Player)
 		if (effect) then
 			effect:AddTime(data.Time)
 		else
-			self:CreateEffect "Mark":Invoke(data, false)
+			self:CreateEffect "Infra-Sight":Invoke(data, false)
 		end
 	end
 
@@ -42,7 +42,7 @@ if (SERVER) then
 		[2] = Color(0, 0, 255)	-- Detective
 	}
 
-	local EFFECT = STATUS:CreateEffect "Mark"
+	local EFFECT = STATUS:CreateEffect "Infra-Sight"
 	function EFFECT:Init(data)
 		local att = data.Attacker
 
