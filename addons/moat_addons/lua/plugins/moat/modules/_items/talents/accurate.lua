@@ -3,7 +3,7 @@ TALENT.ID = 4
 TALENT.Suffix = "Accuracy"
 TALENT.Name = "Accuracy"
 TALENT.NameColor = Color( 150, 0, 0 )
-TALENT.Description = "Accuracy is increased by %s_"
+TALENT.Description = "Cone is increased by %s_"
 TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 

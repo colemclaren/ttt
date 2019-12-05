@@ -46,7 +46,7 @@ cdn.FolderCheck "cache/sound"
 cdn.Folder = "ttt/cache"
 
 function cdn.Fetch(key, folder, ext, cache, write, callback)
-	local hashy = hash.MD5(key)
+	local hashy = util.CRC(key)
 	local object = cdn.Folder .. "/" .. folder .. "/" .. hashy .. ext
 	
 	if (file.Exists(object, "DATA")) then
@@ -62,19 +62,26 @@ function cdn.Fetch(key, folder, ext, cache, write, callback)
 		return false
 	end
 
-	cdn.Cache[key] = false
+	if (not cdn.Working) then
+		cdn.Cache[key] = false
+		cdn.Working = true
 
-	http.Fetch(key, function(data)
-		cdn.Cache[key] = cache and cache(object) or "data/" .. object
+		http.Fetch(key, function(data)
+			cdn.Cache[key] = cache and cache(object) or "data/" .. object
 
-		if (write) then
-			write(object, data, ext)
-		end
+			if (write) then
+				write(object, data, ext)
+			end
 
-		if (callback) then
-			callback(cdn.Cache[key])
-		end
-	end)
+			if (callback) then
+				callback(cdn.Cache[key])
+			end
+
+			cdn.Working = false
+		end, function(err)
+			cdn.Working = false
+		end)
+	end
 
 	return false
 end
