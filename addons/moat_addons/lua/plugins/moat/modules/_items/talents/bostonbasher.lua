@@ -13,37 +13,39 @@ TALENT.LevelRequired = {min = 5, max = 10}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 20, max = 40} -- Percent damage is increased by
 
-util.AddNetworkString "BulletPrediction"
-net.Receive("BulletPrediction", function(_, pl)
-	local wep = net.ReadEntity()
+if (SERVER) then
+	util.AddNetworkString "BulletPrediction"
+	net.Receive("BulletPrediction", function(_, pl)
+		local wep = net.ReadEntity()
 
-	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then
-		return
-	end
-
-	if (IsValid(wep) and wep.IsWeapon and wep:IsWeapon() and wep.Primary and wep.Primary.Damage) then
-		pl:TakeDamage(wep.Primary.Damage, pl, wep)
-	end
-end)
-
-util.AddNetworkString "Talents.BostonBasher"
-function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
-	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
-
-	/*
-	dmginfo.Callback = function(att, tr, dmginfo)
-		if (tr.AltHitreg) then
+		if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then
 			return
 		end
-		if (not IsValid(tr.Entity)) then
-			local dmg = att:GetActiveWeapon().Primary.Damage
-			att:TakeDamage(dmg, att, att:GetActiveWeapon())
 
-			net.Start "Talents.BostonBasher"
-			net.Send(att)
+		if (IsValid(wep) and wep.IsWeapon and wep:IsWeapon() and wep.Primary and wep.Primary.Damage) then
+			pl:TakeDamage(wep.Primary.Damage, pl, wep)
 		end
+	end)
+
+	util.AddNetworkString "Talents.BostonBasher"
+	function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
+		if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
+
+		/*
+		dmginfo.Callback = function(att, tr, dmginfo)
+			if (tr.AltHitreg) then
+				return
+			end
+			if (not IsValid(tr.Entity)) then
+				local dmg = att:GetActiveWeapon().Primary.Damage
+				att:TakeDamage(dmg, att, att:GetActiveWeapon())
+
+				net.Start "Talents.BostonBasher"
+				net.Send(att)
+			end
+		end
+		*/
 	end
-	*/
 end
 
 function TALENT:ModifyWeapon(weapon, talent_mods)

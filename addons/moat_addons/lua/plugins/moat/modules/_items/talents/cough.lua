@@ -26,33 +26,35 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	end
 end
 
-local STATUS = status.Create "Cough"
-function STATUS:Invoke(data)
-	self:CreateEffect "Cough":Invoke(data, data.Time, data.Player)
-end
+if (SERVER) then
+	local STATUS = status.Create "Cough"
+	function STATUS:Invoke(data)
+		self:CreateEffect "Cough":Invoke(data, data.Time, data.Player)
+	end
 
-local EFFECT = STATUS:CreateEffect "Cough"
-EFFECT.Message = "Coughing"
-EFFECT.Color = TALENT.NameColor
-EFFECT.Material = "icon16/user_comment.png"
-function EFFECT:Init(data)
-	local amount = math.floor(data.Power / 15) -- 6 times at 100 power, 3 times at 50 power
-	self:CreateTimer(1.5, amount, self.Callback, data)
-end
+	local EFFECT = STATUS:CreateEffect "Cough"
+	EFFECT.Message = "Coughing"
+	EFFECT.Color = TALENT.NameColor
+	EFFECT.Material = "icon16/user_comment.png"
+	function EFFECT:Init(data)
+		local amount = math.floor(data.Power / 15) -- 6 times at 100 power, 3 times at 50 power
+		self:CreateTimer(1.5, amount, self.Callback, data)
+	end
 
-function EFFECT:Callback(data)
-	local vic = data.Player
-	if (not IsValid(vic)) then return end
-	if (not vic:Alive()) then return end
-	
-	local power = data.Power
-	local angle = vic:GetAngles()
-	angle.x = angle.x + (math.Rand(-1, 1) * (power / 12))
-	angle.y = angle.y + (math.Rand(-1, 1) * (power / 12))
+	function EFFECT:Callback(data)
+		local vic = data.Player
+		if (not IsValid(vic)) then return end
+		if (not vic:Alive()) then return end
+		
+		local power = data.Power
+		local angle = vic:GetAngles()
+		angle.x = angle.x + (math.Rand(-1, 1) * (power / 12))
+		angle.y = angle.y + (math.Rand(-1, 1) * (power / 12))
 
-	vic:SetAngles(angle)
-	vic:ScreenShake(power)
-	vic:EmitSound("ambient/voices/cough" .. math.random(4) .. ".wav", math.min(300 + power, 511), math.min(100 + (power / 2), 255))
-	
-	data.Power = power / 1.2
+		vic:SetAngles(angle)
+		vic:ScreenShake(power)
+		vic:EmitSound("ambient/voices/cough" .. math.random(4) .. ".wav", math.min(300 + power, 511), math.min(100 + (power / 2), 255))
+		
+		data.Power = power / 1.2
+	end
 end

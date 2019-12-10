@@ -374,7 +374,7 @@ local function getiteminfo(ITEM_HOVERED,embed)
     m_LoadoutTypes[1] = "Melee"
     m_LoadoutTypes[2] = "Secondary"
     m_LoadoutTypes[3] = "Primary"
-    local ITEM_NAME_FULL = ""
+    local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
     if (ITEM_HOVERED and ITEM_HOVERED.c) then
 
         if (ITEM_HOVERED.item.Kind == "tier") then
