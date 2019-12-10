@@ -1,7 +1,7 @@
 ITEM.ID = 10
 ITEM.Name = "Traitor Token"
 ITEM.Description = "Use this item during the preparing phase to be guaranteed to be a Traitor next round"
-ITEM.Rarity = 8
+ITEM.Rarity = 0
 ITEM.Active = true
 ITEM.NewItem = 1575878400
 ITEM.Price = 75000

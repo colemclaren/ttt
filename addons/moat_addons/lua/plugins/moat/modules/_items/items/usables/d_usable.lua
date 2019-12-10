@@ -1,7 +1,7 @@
 ITEM.ID = 13
 ITEM.Name = "Detective Token"
 ITEM.Description = "Use this item during the preparing phase to be guaranteed to be a Detective next round"
-ITEM.Rarity = 8
+ITEM.Rarity = 0
 ITEM.Active = true
 ITEM.NewItem = 1575878400
 ITEM.Price = 50000

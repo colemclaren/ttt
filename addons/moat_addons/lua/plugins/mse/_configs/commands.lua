@@ -20,7 +20,7 @@ MSE.Commands.Register "Example Name" -- The name of the minigame
 ---------------------------------------------------------------------------]]
 
 
-MSE.Commands.Register "Deathclaw Round"
+MSE.Commands.Register "Boss Round"
 	:SetCommand "moat_start_boss"
 	:SetDescription "Team up with every player to defeat the boss for a prize!"
 	:SetMinPlayers "8"

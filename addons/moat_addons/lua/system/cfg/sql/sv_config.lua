@@ -1,9 +1,9 @@
 -- for sql config
 local mysql = {
-	host = SERVER and "137.83.91.32" or "", -- "gamedb.moat.gg",
+	host = SERVER and "gamedb.moat.gg" or "", -- "gamedb.moat.gg",
 	database = SERVER and "forum" or "",
-	username = SERVER and "ttt2" or "",
-	password = SERVER and "E@2h6xWg&Nj7HN9!j9e94WJr" or "",
+	username = SERVER and "ttt3" or "",
+	password = SERVER and "hP6Oj6wvc80HoE7XJpHz" or "",
 	port = SERVER and 3306 or 420
 }
 
