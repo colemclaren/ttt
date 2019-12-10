@@ -3061,7 +3061,7 @@ function m_OpenInventory(ply2, utrade)
             end
 
             if (ITEM_HOVERED.n) then
-                draw_xp_lvl = draw_xp_lvl + 15
+                -- draw_xp_lvl = draw_xp_lvl + 15
             end
 
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
@@ -3149,7 +3149,7 @@ function m_OpenInventory(ply2, utrade)
             end
 
             if (ITEM_HOVERED.n) then
-                emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
+                -- emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
             end
 
             local drawn_stats = 0
@@ -3197,7 +3197,7 @@ function m_OpenInventory(ply2, utrade)
                 m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
-                if (ITEM_HOVERED.n) then nt_ = 15 end
+                -- if (ITEM_HOVERED.n) then nt_ = 15 end
 
                 surface_SetDrawColor(240, 245, 253, 20)
                 surface_DrawRect(6, 27 + nt_, w - 12, 2)
@@ -3257,17 +3257,19 @@ function m_OpenInventory(ply2, utrade)
                 namew2 = namew2 + level_w
             end
 
-            if ((namew + namew2) > 175) then
-                s:SetWide(namew + namew2 + 32 + 10)
-            end
+			s.savewide = math.max(namew + namew2 + 32 + 10, 310)
+			local w = math.max(s.savewide + ((s.ctrldown and ITEM_HOVERED.s) and 0 or 0), ((s.ctrldown and ITEM_HOVERED.s) and 310 or 0))
+			if (w % 2 ~= 0) then
+				w = w + 1
+			end
 
-            if (not s.savewide) then s.savewide = s:GetWide() end
+			s:SetWide(w)
 
-            if (s.ctrldown and ITEM_HOVERED.s) then
-                s:SetWide(s.savewide + 75)
-            else
-                s:SetWide(s.savewide)
-            end
+            -- if (s.ctrldown and ITEM_HOVERED.s) then
+            --     s:SetWide(s.savewide + 75)
+            -- else
+            --     s:SetWide(s.savewide)
+            -- end
 
             local num_stats = 0
 
@@ -4542,7 +4544,7 @@ function m_CreateItemMenu(num, ldt)
     M_INV_MENU:AddSpacer()
 
     if (itemtbl.n) then
-        M_INV_MENU:AddOption("Remove Name Mutator", function()
+        M_INV_MENU:AddOption("Remove Custom Name", function()
         end):SetIcon("icon16/tag_blue_delete.png")
     end
 
@@ -5790,26 +5792,7 @@ function m_DrawFoundItem(tbl, s_type, name)
         draw_stats_y = 26 + 21 + draw_xp_lvl
 
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
-            local ITEM_NAME_FULL = ""
-
-            if (ITEM_HOVERED.item.Kind == "tier") then
-                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
-
-                if (string.EndsWith(ITEM_NAME, "_name")) then
-                    ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                    ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-                end
-
-                ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
-
-                if ((ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0) == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
-                    ITEM_NAME_FULL = ITEM_NAME
-                end
-            else
-                ITEM_NAME_FULL = ITEM_HOVERED.item.Name
-            end
-
-			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+            local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
 
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
                 draw_xp_lvl = 9
@@ -5817,9 +5800,9 @@ function m_DrawFoundItem(tbl, s_type, name)
                 draw_xp_lvl = 3
             end
 
-            if (ITEM_HOVERED.n) then
-                draw_xp_lvl = draw_xp_lvl + 15
-            end
+            -- if (ITEM_HOVERED.n) then
+            --     draw_xp_lvl = draw_xp_lvl + 15
+            -- end
 
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
             local num_stats = 0
@@ -5900,7 +5883,7 @@ function m_DrawFoundItem(tbl, s_type, name)
             end
 
             if (ITEM_HOVERED.n) then
-                emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
+                -- emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
             end
 
             local drawn_stats = 0
@@ -5947,7 +5930,7 @@ function m_DrawFoundItem(tbl, s_type, name)
                 m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
-                if (ITEM_HOVERED.n) then nt_ = 15 end
+                -- if (ITEM_HOVERED.n) then nt_ = 15 end
 
                 surface_SetDrawColor(240, 245, 253, 20)
                 surface_DrawRect(6, 27 + nt_, w - 12, 2)
