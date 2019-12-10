@@ -1,6 +1,6 @@
 
 TALENT.ID = 9040
-TALENT.Name = "Suppression"
+TALENT.Name = "Depression"
 TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "Every shot is silenced"
 TALENT.Tier = 1
