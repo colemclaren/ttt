@@ -144,3 +144,23 @@ function util.GetWeaponModel(str)
 
 	return wep_wmodels[str]
 end
+
+local wep_slot = {}
+function util.GetWeaponSlot(str)
+	if (not str) then
+		return str
+	end
+
+	if (wep_slot[str]) then
+		return wep_slot[str]
+	end
+
+	local wep = weapons.Get(str)
+	if (not wep) then
+		return str
+	end
+
+	wep_slot[str] = wep and wep.Slot or str
+
+	return wep_slot[str]
+end

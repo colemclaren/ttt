@@ -3102,10 +3102,10 @@ function m_OpenInventory(ply2, utrade)
                 RARITY_TEXT = LocalPlayer():Nick() .. "'s "
             end
 
-            if (ITEM_HOVERED.item.Kind ~= "tier") then
+            if (ITEM_HOVERED.item.Kind and ITEM_HOVERED.item.Kind ~= "tier") then
                 RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. ITEM_HOVERED.item.Kind
             else
-                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. m_LoadoutTypes[util.GetWeaponSlot(ITEM_HOVERED.w)]
             end
 
 			grad_y2 = grad_y2 - 1
@@ -3158,7 +3158,7 @@ function m_OpenInventory(ply2, utrade)
                 draw_stats_multi = 25
                 m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
                 drawn_stats = 10
-            else
+            elseif (ITEM_HOVERED.item and ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee" and ITEM_HOVERED.item.Description) then
                 local item_desc = ITEM_HOVERED.item.Description
                 local item_desctbl = string.Explode("^", item_desc)
 
@@ -3282,7 +3282,7 @@ function m_OpenInventory(ply2, utrade)
             local draw_stats_multi = 25
             local default_drawn_stats = 40
 
-            if (ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee") then
+            if (ITEM_HOVERED.item and ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee" and ITEM_HOVERED.item.Description) then
                 local item_desc = ITEM_HOVERED.item.Description
                 local item_desctbl = string.Explode("^", item_desc)
 
@@ -5852,10 +5852,10 @@ function m_DrawFoundItem(tbl, s_type, name)
                 RARITY_TEXT = name .. "'s "
             end
 
-            if (ITEM_HOVERED.item.Kind ~= "tier") then
+            if (ITEM_HOVERED.item.Kind and ITEM_HOVERED.item.Kind ~= "tier") then
                 RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. ITEM_HOVERED.item.Kind
             else
-                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. m_LoadoutTypes[util.GetWeaponSlot(ITEM_HOVERED.w)]
             end
 
 			grad_y2 = grad_y2 - 1
@@ -5906,7 +5906,7 @@ function m_DrawFoundItem(tbl, s_type, name)
                 draw_stats_multi = 25
                 m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
                 drawn_stats = 10
-            else
+            elseif (ITEM_HOVERED.item and ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee" and ITEM_HOVERED.item.Description) then
                 local item_desc = ITEM_HOVERED.item.Description
                 local item_desctbl = string.Explode("^", item_desc)
 
@@ -5992,7 +5992,7 @@ function m_DrawFoundItem(tbl, s_type, name)
         local draw_stats_multi = 25
         local default_drawn_stats = 40
 
-        if (ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee") then
+        if (ITEM_HOVERED.item and ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee" and ITEM_HOVERED.item.Description) then
             local item_desc = ITEM_HOVERED.item.Description
             local item_desctbl = string.Explode("^", item_desc)
 
@@ -6091,7 +6091,7 @@ function m_DrawFoundItem(tbl, s_type, name)
             local draw_stats_multi = 25
             local default_drawn_stats = 40
 
-            if (ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee") then
+            if (ITEM_HOVERED.item and ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee" and ITEM_HOVERED.item.Description) then
                 local item_desc = ITEM_HOVERED.item.Description
                 local item_desctbl = string.Explode("^", item_desc)
 
