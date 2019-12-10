@@ -20,6 +20,8 @@ function m_AddInventoryRarity( name_, desconstruct_, rarity_, enum_ )
 
 end
 
+m_AddInventoryRarity( "Stock", { min = 5, max = 10 }, 0, 0 )
+
 m_AddInventoryRarity( "Worn", { min = 10, max = 20 }, 1, 1 )
 
 m_AddInventoryRarity( "Standard", { min = 20, max = 40 }, 2, 2 )
