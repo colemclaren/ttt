@@ -1,6 +1,11 @@
 print( "rarities loaded" )
 
-MOAT_RARITIES = {}
+MOAT_RARITIES = {[0] = {
+	ID = 0,
+	Name = "Stock",
+	Rarity = 0,
+	Deconstruct = {min = 10, max = 20}
+}}
 
 function m_AddInventoryRarity( name_, desconstruct_, rarity_, enum_ )
 
@@ -20,7 +25,7 @@ function m_AddInventoryRarity( name_, desconstruct_, rarity_, enum_ )
 
 end
 
-m_AddInventoryRarity( "Stock", { min = 5, max = 10 }, 0, 0 )
+-- m_AddInventoryRarity( "Stock", { min = 5, max = 10 }, 0, 0 )
 
 m_AddInventoryRarity( "Worn", { min = 10, max = 20 }, 1, 1 )
 

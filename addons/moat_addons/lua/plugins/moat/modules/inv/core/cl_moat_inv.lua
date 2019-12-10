@@ -4891,13 +4891,16 @@ local function urlencode(str)
 end
 
 local ITEM_RARITY_TO_NAME = {
+	["Stock"] = 0,
     ["Worn"] = 1,
     ["Standard"] = 2,
     ["Specialized"] = 3,
     ["Superior"] = 4,
     ["High-End"] = 5,
     ["Ascended"] = 6,
-    ["Cosmic"] = 7
+    ["Cosmic"] = 7,
+	["Extinct"] = 8,
+	["Planetary"] = 9,
 }
 /*
     ["moat_auto_deconstruct_primary"] = 0,
