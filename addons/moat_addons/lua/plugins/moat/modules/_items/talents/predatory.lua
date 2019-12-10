@@ -1,7 +1,7 @@
 
 TALENT.ID = 88
-TALENT.Suffix = "Clockwork"
-TALENT.Name = "Clockwork"
+TALENT.Suffix = "the Zombie"
+TALENT.Name = "Zombie"
 TALENT.NameColor = Color(0, 255, 128)
 TALENT.Description = "Killing a target regenerates %s_^ health over %s seconds"
 TALENT.Tier = 2
@@ -18,17 +18,17 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
     local amt = math.Round(self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1]))
     local sec = math.Round(self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]))
 
-    status.Inflict("Clockwork", {Time = sec, Amount = amt, Player = att})
+    status.Inflict("Predatory", {Time = sec, Amount = amt, Player = att})
 end
 
 
 if (SERVER) then
-	local PREDATORY = status.Create "Clockwork"
+	local PREDATORY = status.Create "Predatory"
 	function PREDATORY:Invoke(data)
-		self:CreateEffect "Clockwork":Invoke(data, data.Time, data.Player)
+		self:CreateEffect "Predatory":Invoke(data, data.Time, data.Player)
 	end
 
-	local EFFECT = PREDATORY:CreateEffect "Clockwork"
+	local EFFECT = PREDATORY:CreateEffect "Predatory"
 	EFFECT.Message = "Healing"
 	EFFECT.Color = Color(221, 101, 101)
 	EFFECT.Material = "icon16/heart_add.png"

@@ -1,7 +1,6 @@
 
 TALENT.ID = 17
-TALENT.Suffix = "the Blackhole"
-TALENT.Name = "Blackhole"
+TALENT.Name = "Newton"
 TALENT.NameColor = Color(200, 200, 200)
 TALENT.Description = "Players have a %s_^ chance to be pulled with %sx force when shot with this weapon"
 TALENT.Tier = 3

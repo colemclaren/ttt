@@ -1,6 +1,5 @@
 
 TALENT.ID = 29
-TALENT.Suffix = "Penetration"
 TALENT.Name = "Penetration"
 TALENT.NameColor = Color(255, 0, 0)
 TALENT.Description = "Detectives and traitors under armor equipment are defenseless to bullets"

@@ -1,7 +1,6 @@
 
 TALENT.ID = 81
-TALENT.Suffix = "the Walls"
-TALENT.Name = "Walls"
+TALENT.Name = "Visionary"
 TALENT.NameColor = Color(255, 255, 0)
 TALENT.Description = "After killing a player, you have a %s_^ chance to see players within %s^ feet through walls for %s seconds"
 TALENT.Tier = 2

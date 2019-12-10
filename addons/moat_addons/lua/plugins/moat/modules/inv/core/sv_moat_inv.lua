@@ -524,7 +524,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 			net.WriteUInt(slot_found, 16)
 			local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
 			tbl2.item = m_GetItemFromEnum(tbl2.u)
-			-- tbl2.Talents = GetItemTalents(tbl2)
+			tbl2.Talents = GetItemTalents(tbl2)
 
 			net.WriteTable(tbl2)
 			net.WriteBool(no_chat or false)
@@ -2312,7 +2312,7 @@ function m_SendInvItem(pl, s, l)
 
 			local tbl = table.Copy(MOAT_INVS[pl][slot_text .. s])
 			tbl.item = m_GetItemFromEnum(tbl.u, tbl)
-			-- tbl.Talents = GetItemTalents(tbl)
+			tbl.Talents = GetItemTalents(tbl)
 		
 			net.WriteTable(tbl)
 			net.Send(pl)

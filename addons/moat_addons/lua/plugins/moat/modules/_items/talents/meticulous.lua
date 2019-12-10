@@ -1,6 +1,6 @@
 
 TALENT.ID = 11
-TALENT.Name = 'Finicky'
+TALENT.Name = 'Meticulous'
 TALENT.NameColor = Color(205, 127, 50)
 TALENT.Description = "After killing a target with this weapon, the magazine has a %s_^ chance to refill completely"
 TALENT.Tier = 2

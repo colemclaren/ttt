@@ -1,6 +1,5 @@
 MOAT_VIP = {"vip", "mvp", "hoodninja", "trialstaff", "moderator", "admin", "senioradmin", "headadmin", "communitylead"}
 local pl = FindMetaTable("Player")
-
 local MOAT_TALENT_FOLDER = "plugins/moat/modules/_items/talents"
 MOAT_TALENTS = {}
 
@@ -25,16 +24,34 @@ function m_InitializeTalents()
 
 		include(MOAT_TALENT_FOLDER .. "/" .. v)
 
-		m_AddTalent(TALENT)
+    	if (SERVER) then
+			MsgC(Color(255, 255, 0), "[mInventory] Loaded Talent: " .. TALENT.Name .. "\n")
+		end
+
+    	m_AddTalent(TALENT)
 	end
 end
 
 m_InitializeTalents()
 
-concommand.Add("_reloadtalents", function(pl)
-	if (IsValid(pl)) then return end
-	m_InitializeTalents()
-end)
+function GetItemTalents(tb, funcs)
+	local Talents = {}
+
+	if (not tb.t) then
+		return Talents
+	end
+
+    for k, v in ipairs(tb.t) do
+		Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e)
+			or m_GetTalentFromEnumWithFunctions(v.e)
+
+		if (tb.s.l and tb.s.l >= v.l) then
+			Talents[k].Active = true
+		end
+	end
+
+    return Talents
+end
 
 local talent_cache = {}
 
@@ -83,25 +100,6 @@ function m_GetTalentFromEnumWithFunctions(tenum)
     if (tenum) then talent_cache2[tenum] = tbl end
 
     return tbl
-end
-
-function GetItemTalents(tb, funcs)
-	local Talents = {}
-
-	if (not tb.t) then
-		return Talents
-	end
-
-    for k, v in ipairs(tb.t) do
-		Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e)
-			or m_GetTalentFromEnumWithFunctions(v.e)
-
-		if (tb.s.l and tb.s.l >= v.l) then
-			Talents[k].Active = true
-		end
-	end
-
-    return Talents
 end
 
 if (CLIENT) then

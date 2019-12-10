@@ -733,14 +733,6 @@ local function DrawItemStatsKeyValue(font, x, y, itemtbl, pnl, stats_y_add, k, v
 	return stats_y_add
 end
 
-local function DrawNumber(num, x, y, w, h)
-	local nums = string.Explode("", num)
-
-	for k, v in ipairs(nums) do
-		cdn.DrawImage("https://cdn.moat.gg/ttt/numbers/" .. v .. ".png", x + ((w/#nums) * (k - 1)), y, w, h, Color(255, 255, 255))
-	end
-end
-
 function m_DrawItemStats(font, x, y, itemtbl, pnl)
     local ctrldown = input.IsKeyDown(KEY_LCONTROL)
     --pnl.AnimVal = Lerp(FrameTime() * stat_anim, pnl.AnimVal, 1)
@@ -991,15 +983,17 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             talent_desc = talent_desc or ""
             local talent_desctbl = string.Explode("^", talent_desc)
 
-            for i = 1, table.Count(v.m) do
-                local mod_num = math.Round(itemtbl.Talents[k].Modifications[i].min + ((itemtbl.Talents[k].Modifications[i].max - itemtbl.Talents[k].Modifications[i].min) * v.m[i]), 1)
+			if (#v.m > 0) then
+            	for i = 1, table.Count(v.m) do
+                	local mod_num = math.Round(itemtbl.Talents[k].Modifications[i].min + ((itemtbl.Talents[k].Modifications[i].max - itemtbl.Talents[k].Modifications[i].min) * v.m[i]), 1)
                 
-                if (ctrldown) then
-                    mod_num = "(" .. itemtbl.Talents[k].Modifications[i].min .. "-" .. itemtbl.Talents[k].Modifications[i].max .. ") " .. math.Round(mod_num, 2)
-                end
+                	if (ctrldown) then
+                 	   mod_num = "(" .. itemtbl.Talents[k].Modifications[i].min .. "-" .. itemtbl.Talents[k].Modifications[i].max .. ") " .. math.Round(mod_num, 2)
+                	end
 
-                talent_desctbl[i] = string.format(talent_desctbl[i], tostring(mod_num))
-            end
+                	talent_desctbl[i] = string.format(talent_desctbl[i], tostring(mod_num))
+            	end
+			end
 
             talent_desc = string.Implode("", talent_desctbl)
             talent_desc = string.Replace(talent_desc, "_", "%")
@@ -2420,7 +2414,7 @@ function m_OpenInventory(ply2, utrade)
 					icon = s.Item.item.Model
 				end
 
-                if (not string.EndsWith(icon, ".mdl")) then
+                if (icon and not string.EndsWith(icon, ".mdl")) then
 					-- s.Icon:SetAlpha(0)
                     if (s.Item.item and s.Item.item.Clr) then
 						cdn.DrawImage(icon, 0, 0, w, h, {r = s.Item.item.Clr[1], g = s.Item.item.Clr[2], b = s.Item.item.Clr[3], a = 255})
@@ -3058,7 +3052,26 @@ function m_OpenInventory(ply2, utrade)
         draw_stats_y = 26 + 21 + draw_xp_lvl
 
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
-            local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
+            local ITEM_NAME_FULL = ""
+
+            if (ITEM_HOVERED.item.Kind == "tier") then
+                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
+
+                if (string.EndsWith(ITEM_NAME, "_name")) then
+                    ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                    ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+                end
+
+                ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
+
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
+                    ITEM_NAME_FULL = ITEM_NAME
+                end
+            else
+                ITEM_NAME_FULL = ITEM_HOVERED.item.Name
+            end
+
+			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
 
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
                 draw_xp_lvl = 9
@@ -3067,10 +3080,9 @@ function m_OpenInventory(ply2, utrade)
             end
 
             if (ITEM_HOVERED.n) then
-                -- draw_xp_lvl = draw_xp_lvl + 15
+                draw_xp_lvl = draw_xp_lvl + 15
             end
 
-			surface.SetFont "moat_Medium5"
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
             local num_stats = 0
 
@@ -3089,7 +3101,7 @@ function m_OpenInventory(ply2, utrade)
             surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawLine(6, 23 + draw_xp_lvl, w - 6, 23 + draw_xp_lvl)
             surface_DrawLine(6, 44 + draw_xp_lvl, w - 6, 44 + draw_xp_lvl)
-            surface_SetDrawColor(rarity_gradient[ITEM_HOVERED.item.Rarity].r, rarity_gradient[ITEM_HOVERED.item.Rarity].g, rarity_gradient[ITEM_HOVERED.item.Rarity].b, rarity_gradient[ITEM_HOVERED.item.Rarity].a)
+            surface_SetDrawColor(rarity_gradient[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0].r, rarity_gradient[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0].g, rarity_gradient[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0].b, rarity_gradient[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0].a)
             local grad_x = 1
             local grad_y = 25 + draw_xp_lvl
             local grad_w = (w - 2) / 2
@@ -3156,7 +3168,7 @@ function m_OpenInventory(ply2, utrade)
             end
 
             if (ITEM_HOVERED.n) then
-                -- emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
+                emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
             end
 
             local drawn_stats = 0
@@ -3204,7 +3216,7 @@ function m_OpenInventory(ply2, utrade)
                 m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
-                -- if (ITEM_HOVERED.n) then nt_ = 15 end
+                if (ITEM_HOVERED.n) then nt_ = 15 end
 
                 surface_SetDrawColor(240, 245, 253, 20)
                 surface_DrawRect(6, 27 + nt_, w - 12, 2)
@@ -3250,7 +3262,26 @@ function m_OpenInventory(ply2, utrade)
                 s.SavedItem = ITEM_HOVERED
             end
 
-            local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
+            local ITEM_NAME_FULL = ""
+
+            if (ITEM_HOVERED.item.Kind == "tier") then
+                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
+
+                if (string.EndsWith(ITEM_NAME, "_name")) then
+                    ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                    ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+                end
+
+                ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
+
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
+                    ITEM_NAME_FULL = ITEM_NAME
+                end
+            else
+                ITEM_NAME_FULL = ITEM_HOVERED.item.Name
+            end
+
+			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
 
             surface_SetFont("moat_Medium5")
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
@@ -3264,13 +3295,17 @@ function m_OpenInventory(ply2, utrade)
                 namew2 = namew2 + level_w
             end
 
-			local wide = math.max(namew + namew2 + 20 + 10, 275)
-			if (wide % 2 ~= 0) then wide = wide + 1 end
-			s.savewide = wide
+            if ((namew + namew2) > 175) then
+                s:SetWide(namew + namew2 + 32 + 10)
+            end
 
-			local wide2 = math.max(wide + ((s.ctrldown and ITEM_HOVERED.s) and 0 or 0), ((s.ctrldown and ITEM_HOVERED.s) and 310 or 0))
-			if (wide2 % 2 ~= 0) then wide2 = wide2 + 1 end
-            s:SetWide(wide2)
+            if (not s.savewide) then s.savewide = s:GetWide() end
+
+            if (s.ctrldown and ITEM_HOVERED.s) then
+                s:SetWide(s.savewide + 75)
+            else
+                s:SetWide(s.savewide)
+            end
 
             local num_stats = 0
 
@@ -4237,6 +4272,28 @@ function m_CreateItemMenu(num, ldt)
 
 	if (not itemtbl or not itemtbl.item) then return end
 
+    /*
+    local ITEM_NAME_FULL = ""
+
+    if (itemtbl.item.Kind == "tier") then
+        local ITEM_NAME = weapons.Get(itemtbl.w).PrintName
+
+        if (string.EndsWith(ITEM_NAME, "_name")) then
+            ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+            ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+        end
+
+        ITEM_NAME_FULL = itemtbl.item.Name .. " " .. ITEM_NAME
+
+        if (itemtbl.item.Rarity == 0) then
+            ITEM_NAME_FULL = ITEM_NAME
+        end
+    else
+        ITEM_NAME_FULL = itemtbl.item.Name
+    end
+
+    surface_SetFont("moat_ItemDesc")
+    local namew, nameh = surface_GetTextSize("Remove " .. ITEM_NAME_FULL)*/
     M_INV_MENU = vgui.Create("DMenu")
     --M_INV_MENU:SetSize( namew + 30, 100 )
     M_INV_MENU:SetPos(gui.MouseX(), gui.MouseY())
@@ -4523,7 +4580,7 @@ function m_CreateItemMenu(num, ldt)
     M_INV_MENU:AddSpacer()
 
     if (itemtbl.n) then
-        M_INV_MENU:AddOption("Remove Custom Name", function()
+        M_INV_MENU:AddOption("Remove Name Mutator", function()
         end):SetIcon("icon16/tag_blue_delete.png")
     end
 
@@ -4949,8 +5006,8 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
 
     local tbl = net.ReadTable()
     local slot = 0
-
 	tbl.Talents = GetItemTalents(tbl)
+
     if (tbl and tbl.item and tbl.item.Kind == "Special" and tbl.item.WeaponClass) then
         tbl.w = tbl.item.WeaponClass
     end
@@ -5014,12 +5071,12 @@ end)
 net.Receive("MOAT_ADD_INV_ITEM", function(len)
     local slot = net.ReadUInt(16)
     local tbl = net.ReadTable()
+	tbl.Talents = GetItemTalents(tbl)
     local not_drop = net.ReadBool()
 	if (not_drop) then
 		MOAT_CLIENTINV_REQUESTED = true
 	end
 
-	tbl.Talents = GetItemTalents(tbl)
 	if (net.ReadBool()) then
 		local max_slots = net.ReadUInt(16)
 		NUMBER_OF_SLOTS = max_slots
@@ -5714,7 +5771,28 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
     end
 
     if (old_level ~= item_tbl.s.l) then
-        local ITEM_NAME_FULL = GetItemName(item_tbl)
+        local ITEM_NAME_FULL = ""
+
+        if (item_tbl.item.Kind == "tier") then
+            local ITEM_NAME = util.GetWeaponName(item_tbl.w)
+
+            if (string.EndsWith(ITEM_NAME, "_name")) then
+                ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+            end
+
+            ITEM_NAME_FULL = item_tbl.item.Name .. " " .. ITEM_NAME
+
+            if (item_tbl.item.Rarity == 0 and item_tbl.item.ID and item_tbl.item.ID ~= 7820 and item_tbl.item.ID ~= 7821) then
+                ITEM_NAME_FULL = ITEM_NAME
+            end
+        else
+            ITEM_NAME_FULL = item_tbl.item.Name
+        end
+
+        if (item_tbl.n) then
+            ITEM_NAME_FULL = "\"" .. item_tbl.n:Replace("''", "'") .. "\""
+        end
 
         chat.AddText(Color(255, 255, 0), "Your " .. ITEM_NAME_FULL .. " is now level " .. item_tbl.s.l .. "!")
     end
@@ -5768,7 +5846,27 @@ function m_DrawFoundItem(tbl, s_type, name)
         draw_stats_y = 26 + 21 + draw_xp_lvl
 
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
-            local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
+            local ITEM_NAME_FULL = ""
+
+            if (ITEM_HOVERED.item.Kind == "tier") then
+                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
+
+                if (string.EndsWith(ITEM_NAME, "_name")) then
+                    ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                    ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+                end
+
+                ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
+
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
+                    ITEM_NAME_FULL = ITEM_NAME
+                end
+            else
+                ITEM_NAME_FULL = ITEM_HOVERED.item.Name
+            end
+
+			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
                 draw_xp_lvl = 9
             else
@@ -5776,7 +5874,7 @@ function m_DrawFoundItem(tbl, s_type, name)
             end
 
             if (ITEM_HOVERED.n) then
-                -- draw_xp_lvl = draw_xp_lvl + 15
+                draw_xp_lvl = draw_xp_lvl + 15
             end
 
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
@@ -5851,14 +5949,14 @@ function m_DrawFoundItem(tbl, s_type, name)
                 elseif (tfx == "frost") then
                     DrawFrostingText(10, 1.5, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(240, 245, 253))
                 else
-					emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 end
             else
-                emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             end
 
             if (ITEM_HOVERED.n) then
-                -- emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
+                emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
             end
 
             local drawn_stats = 0
@@ -5905,7 +6003,7 @@ function m_DrawFoundItem(tbl, s_type, name)
                 m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
-                -- if (ITEM_HOVERED.n) then nt_ = 15 end
+                if (ITEM_HOVERED.n) then nt_ = 15 end
 
                 surface_SetDrawColor(240, 245, 253, 20)
                 surface_DrawRect(6, 27 + nt_, w - 12, 2)
@@ -5922,7 +6020,27 @@ function m_DrawFoundItem(tbl, s_type, name)
     local ITEM_HOVERED = itemtbl
     -- Put your Lua here
     if (ITEM_HOVERED and ITEM_HOVERED.c) then
-        local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
+        local ITEM_NAME_FULL = ""
+
+        if (ITEM_HOVERED.item.Kind == "tier") then
+            local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
+
+            if (string.EndsWith(ITEM_NAME, "_name")) then
+                ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+            end
+
+            ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
+
+            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
+                ITEM_NAME_FULL = ITEM_NAME
+            end
+        else
+            ITEM_NAME_FULL = ITEM_HOVERED.item.Name
+        end
+
+		if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+
         surface_SetFont("moat_Medium5")
         local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
         local namew2, nameh2 = 0, 0
@@ -5938,14 +6056,6 @@ function m_DrawFoundItem(tbl, s_type, name)
         if ((namew + namew2) > 275) then
             MOAT_ITEM_STATS:SetWide(namew + namew2 + 12 + 10)
         end
-
-		local wide = math.max(namew + namew2 + 20 + 10, 275)
-		if (wide % 2 ~= 0) then wide = wide + 1 end
-		MOAT_ITEM_STATS.savewide = wide
-
-		local wide2 = math.max(wide + ((MOAT_ITEM_STATS.ctrldown and ITEM_HOVERED.s) and 0 or 0), ((MOAT_ITEM_STATS.ctrldown and ITEM_HOVERED.s) and 310 or 0))
-		if (wide2 % 2 ~= 0) then wide2 = wide2 + 1 end
-		MOAT_ITEM_STATS:SetWide(wide2)
 
         local num_stats = 0
 
@@ -6028,7 +6138,26 @@ function m_DrawFoundItem(tbl, s_type, name)
 
     MOAT_ITEM_STATS.Think = function(s, w, h)
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
-            local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
+            local ITEM_NAME_FULL = ""
+
+            if (ITEM_HOVERED.item.Kind == "tier") then
+                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
+
+                if (string.EndsWith(ITEM_NAME, "_name")) then
+                    ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                    ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+                end
+
+                ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
+
+                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
+                    ITEM_NAME_FULL = ITEM_NAME
+                end
+            else
+                ITEM_NAME_FULL = ITEM_HOVERED.item.Name
+            end
+
+			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
 
             surface_SetFont("moat_Medium5")
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
@@ -6042,13 +6171,9 @@ function m_DrawFoundItem(tbl, s_type, name)
                 namew2 = namew2 + level_w
             end
 
-			local wide = math.max(namew + namew2 + 20 + 10, 275)
-			if (wide % 2 ~= 0) then wide = wide + 1 end
-			s.savewide = wide
-
-			local wide2 = math.max(wide + ((s.ctrldown and ITEM_HOVERED.s) and 0 or 0), ((s.ctrldown and ITEM_HOVERED.s) and 310 or 0))
-			if (wide2 % 2 ~= 0) then wide2 = wide2 + 1 end
-			MOAT_ITEM_STATS:SetWide(wide2)
+            if ((namew + namew2) > 275) then
+                MOAT_ITEM_STATS:SetWide(namew + namew2 + 12 + 10)
+            end
 
             local num_stats = 0
 
@@ -6272,7 +6397,6 @@ end
 local last_played = 0
 net.Receive("MOAT_ITEM_OBTAINED", function(len)
     local tbl = net.ReadTable()
-	tbl.Talents = GetItemTalents(tbl)
     table.insert(MOAT_ITEM_FOUND_QUEUE, tbl)
 
 	if (last_played <= CurTime() - .5) then

@@ -1,11 +1,10 @@
 TALENT = TALENT or MOAT_TALENTS[155]
 
 TALENT.ID = 155
-TALENT.Suffix = "Lich"
-TALENT.Name = "Lich"
+TALENT.Name = "Leech"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255, 0)
-TALENT.Description = "Each hit has a %s_^ chance to leech %s^ health over %s seconds"
+TALENT.Description = "Each hit has a %s_^ chance to heal %s^ health over %s seconds"
 TALENT.Tier = 3
 TALENT.LevelRequired = {min = 25, max = 30}
 
@@ -26,6 +25,7 @@ function TALENT:OnPlayerHit(victim, att, dmginfo, talent_mods)
 		status.Inflict("Leech", {Time = sec, Amount = amt, Player = att})
 	end
 end
+
 
 if (SERVER) then
 	local PREDATORY = status.Create "Leech"

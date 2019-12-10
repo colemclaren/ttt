@@ -1,6 +1,5 @@
 
 TALENT.ID = 4
-TALENT.Suffix = "Accuracy"
 TALENT.Name = "Accuracy"
 TALENT.NameColor = Color( 150, 0, 0 )
 TALENT.Description = "Cone is increased by %s_"

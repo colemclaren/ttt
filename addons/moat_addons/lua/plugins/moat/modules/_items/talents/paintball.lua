@@ -1,5 +1,5 @@
 TALENT.ID = 10103
-TALENT.Name = "Paintballs"
+TALENT.Name = "PAINTBALLS"
 TALENT.NameColor = Color(255, 119, 0)
 TALENT.Description = "Removes all body part multipliers. Increases damage by %s_^"
 TALENT.Tier = 1

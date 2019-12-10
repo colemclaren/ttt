@@ -1,7 +1,6 @@
 
 TALENT.ID = 14
-TALENT.Suffix = "Endanger"
-TALENT.Name = 'Endanger'
+TALENT.Name = 'Prepared'
 TALENT.NameColor = Color(41, 171, 135)
 TALENT.Description = 'Damage is increased by %s_^ when more than %s feet from the target'
 TALENT.Tier = 2

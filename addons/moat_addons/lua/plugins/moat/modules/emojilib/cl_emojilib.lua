@@ -107,7 +107,7 @@ local AddDiscordEmoji = AddEmoji
 function emoji.GetTextSize(text)
     local width = 0
     local height = 0
-    for _, code in emoji.Codes(text) do
+    for _, code in emoji.Codes(text or "|") do
         if (emojis[code]) then
             width = width + emoji_length[code]
         else
@@ -120,16 +120,20 @@ function emoji.GetTextSize(text)
 end
 
 function emoji.GetTextOffsetNeeded(text)
-    local _, h = surface.GetTextSize(text)
+    local _, h = surface.GetTextSize(text or "|")
     return math.max(0, 16 - h)
 end
 
 function emoji.Codes(text)
+	if (not text) then
+		return
+	end
+
     local continue_until = 0
     local split = {}
     local last_valid = 1
     local n = 0
-    for pos = 1, text:len() do
+    for pos = 1, text and text:len() or 0 do
         if (continue_until > pos) then
             continue
         end
@@ -157,7 +161,7 @@ function emoji.Codes(text)
         end
     end
 
-    if (last_valid <= text:len()) then
+    if (text and last_valid <= text:len()) then
         split[n + 1] = text:sub(last_valid)
     end
 
@@ -166,9 +170,9 @@ end
 
 function emoji.SimpleTextOutlined(text, font, tx, ty, color, xalign, yalign, outlinewid, outlinecolor, dont_draw_emojis, emoji_align_bottom)
     surface.SetFont(font)
-	local w, h = surface.GetTextSize(text[1])
+	local w, h = surface.GetTextSize(text and text[1] or "|")
     local y_minus = yalign == TEXT_ALIGN_BOTTOM and h or yalign == TEXT_ALIGN_CENTER and h / 2 or 0
-    for _, text in emoji.Codes(text) do
+    for _, text in emoji.Codes(text or "|") do
         if (emojis[text]) then
             if (not dont_draw_emojis) then
                 local cy = ty
@@ -187,9 +191,9 @@ end
 
 function emoji.SimpleText(text, font, tx, ty, color, xalign, yalign, dont_draw_emojis, emoji_align_bottom)
 	surface.SetFont(font)
-	local w, h = surface.GetTextSize(text[1])
+	local w, h = surface.GetTextSize(text and text[1] or "|")
     local y_minus = yalign == TEXT_ALIGN_BOTTOM and h or yalign == TEXT_ALIGN_CENTER and h / 2 or 0
-    for _, text in emoji.Codes(text) do
+    for _, text in emoji.Codes(text or "|") do
         if (emojis[text]) then
             if (not dont_draw_emojis) then
                 local cy = ty

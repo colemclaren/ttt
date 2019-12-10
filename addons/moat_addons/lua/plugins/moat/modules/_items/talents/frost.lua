@@ -30,7 +30,6 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	end
 end
 
-
 if (SERVER) then
 	local STATUS = status.Create "Frost"
 	function STATUS:Invoke(data)
@@ -63,7 +62,7 @@ if (SERVER) then
 	end
 
 
-	if (SERVER) then util.AddNetworkString("FrozenPlayer") end
+	util.AddNetworkString("FrozenPlayer")
 	local frozen_players = 0
 
 	EFFECT = STATUS:CreateEffect "Freezing"

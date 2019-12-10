@@ -147,6 +147,7 @@ m_InitializeItems()
 concommand.Add("_reloaditems", function(pl)
 	if (IsValid(pl)) then return end
 	m_InitializeTalents()
+	m_InitializeItems()
 end)
 
 concommand.Add("moat_finditemid",function(ply)
@@ -159,6 +160,11 @@ concommand.Add("moat_finditemid",function(ply)
 			id = id + 1
         end
     end
+end)
+
+concommand.Add("_reloadtalents", function(pl)
+	if (IsValid(pl)) then return end
+	m_InitializeTalents()
 end)
 
 function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
@@ -487,7 +493,19 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
 				util.GlobalScreenShake(25, 25, 15, 5000)
                 local ITEM_HOVERED = item_to_drop
                 local wpnstr = item_to_drop.Name
-               	--  local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
+                -- local ITEM_NAME_FULL = ""
+                -- if (ITEM_HOVERED.Kind == "tier") then
+                --     local ITEM_NAME = util.GetWeaponName(dropped_item.w) or wpnstr
+
+                --     if (string.EndsWith(ITEM_NAME, "_name")) then
+                --         ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+                --         ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+                --     end
+
+                --     ITEM_NAME_FULL = ITEM_HOVERED.Name .. " " .. ITEM_NAME
+                -- else
+                --     ITEM_NAME_FULL = ITEM_HOVERED.Name
+                -- end
                 -- gglobalchat_planetary(self:Nick(),ITEM_NAME_FULL)
             elseif (tonumber(dropped_item.u) == 912 or titan_tier_ids[tostring(dropped_item.u)]) then
                 cdn.PlayURL "https://cdn.moat.gg/f/u8diZ6qyoxuJPbwHOlLC25SdC3jY.mp3"

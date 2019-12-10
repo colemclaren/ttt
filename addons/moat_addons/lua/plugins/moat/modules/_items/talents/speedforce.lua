@@ -1,6 +1,6 @@
 
 TALENT.ID = 23
-TALENT.Suffix = "the Speedforce"
+TALENT.Suffix = 'the Speedforce'
 TALENT.Name = 'Speedforce'
 TALENT.NameColor = Color(255,255,0)
 TALENT.Description = 'Speed is increased by %s_^ for %s seconds after killing a target'

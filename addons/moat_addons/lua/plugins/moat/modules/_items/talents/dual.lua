@@ -1,5 +1,4 @@
 TALENT.ID = 98
-TALENT.Suffix = "Twins"
 TALENT.Name = "Twins"
 TALENT.NameEffect = "bounce"
 TALENT.NameColor = Color(240, 10, 10)
@@ -13,7 +12,10 @@ TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 20, max = 30}
 
 
-if (SERVER) then util.AddNetworkString "moat_talents.Dual" end
+if (SERVER) then
+	util.AddNetworkString "moat_talents.Dual"
+end
+
 function TALENT:ModifyWeapon( weapon, talent_mods )
 
     net.Start "moat_talents.Dual"

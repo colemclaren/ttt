@@ -14,7 +14,7 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
 	local chanceNum = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
 
 	if (chanceNum > math.random() * 100) then
-		status.Inflict("Reality Stone", {
+		status.Inflict("Invisible", {
 			Time = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]),
 			Player = att
 		})
@@ -23,7 +23,7 @@ end
 
 
 if (SERVER) then
-	local STATUS = status.Create "Reality Stone"
+	local STATUS = status.Create "Invisible"
 	function STATUS:Invoke(data)
 		local effect = self:GetEffectFromPlayer("Invisible", data.Player)
 		if (effect) then

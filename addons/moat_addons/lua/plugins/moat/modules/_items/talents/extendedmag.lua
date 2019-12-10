@@ -1,7 +1,7 @@
 
 TALENT.ID = 7
-TALENT.Suffix = "Ammunition"
-TALENT.Name = "Ammunition"
+TALENT.Suffix = "the Heavy"
+TALENT.Name = "Heavy"
 TALENT.NameColor = Color( 255, 128, 0 )
 TALENT.Description = "Max ammo capacity is increased by %s_"
 TALENT.Tier = 2

@@ -1,6 +1,5 @@
 
 TALENT.ID = 8
-TALENT.Suffix = "Steroids"
 TALENT.Name = "Steroids"
 TALENT.NameColor = Color( 255, 0, 0 )
 TALENT.Description = "Damage is increased by %s_^ for %s seconds after killing with this weapon"

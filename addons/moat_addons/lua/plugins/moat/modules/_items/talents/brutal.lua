@@ -1,6 +1,5 @@
 
 TALENT.ID = 6
-TALENT.Suffix = "Brutality"
 TALENT.Name = "Brutality"
 TALENT.NameColor = Color( 255, 0, 0 )
 TALENT.Description = "Headshot damage is increased by %s_ when using this weapon"

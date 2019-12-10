@@ -1,6 +1,7 @@
 
 TALENT.ID = 3
-TALENT.Name = "Inferno"
+TALENT.Suffix = "the Phoenix"
+TALENT.Name = "Phoenix"
 TALENT.NameColor = Color( 255, 0, 0 )
 TALENT.NameEffect = "fire"
 TALENT.Description = "Each hit has a %s_^ chance to ignite the target for %s seconds and apply 1 damage every 0.2 seconds"

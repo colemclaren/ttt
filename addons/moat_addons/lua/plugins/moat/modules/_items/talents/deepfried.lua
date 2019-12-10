@@ -1,5 +1,4 @@
 TALENT.ID = 9968
-TALENT.Suffix = "LSD"
 TALENT.Name = "LSD"
 TALENT.NameColor = Color(209, 0, 209)
 TALENT.Description = "Each hit has a %s_^ chance to fry the target's screen for %s seconds"
@@ -28,10 +27,20 @@ end
 -- Deep Fried Status
 --
 
-if (SERVER) then util.AddNetworkString "Moat.Talents.DeepFried" end
-
 if (SERVER) then
+	util.AddNetworkString "Moat.Talents.DeepFried"
+
 	local STATUS = status.Create "LSD"
+	function STATUS:Invoke(data)
+		local effect = self:GetEffectFromPlayer("Deep Fried", data.Player)
+		if (effect) then
+			return -- effect:AddTime(data.Time)
+		else
+			self:CreateEffect"Deep Fried":Invoke(data, data.Time, data.Player)
+		end
+	end
+
+	local STATUS = status.Create "Fried"
 	function STATUS:Invoke(data)
 		local effect = self:GetEffectFromPlayer("Deep Fried", data.Player)
 		if (effect) then

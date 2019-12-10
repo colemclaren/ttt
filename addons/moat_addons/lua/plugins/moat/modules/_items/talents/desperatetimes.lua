@@ -1,7 +1,6 @@
 
 TALENT.ID = 21
-TALENT.Suffix = "Begging"
-TALENT.Name = 'Begging'
+TALENT.Name = 'Despair'
 TALENT.NameColor = Color(255,99,71)
 TALENT.Description = 'Your weapon will do %s_^ more damage if you are under %s health'
 TALENT.Tier = 1
