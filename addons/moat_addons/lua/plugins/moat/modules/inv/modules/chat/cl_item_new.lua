@@ -41,7 +41,7 @@ net.Receive("MOAT_OBTAIN_ITEM", function(len)
 	local nick = islp and "You" or ply:Nick()
 	table.insert(tab, IsValid(ply) and nick or "PLAYER")
 
-	local ITEM_NAME_FULL = m_GetFullItemName(tbl)
+	local ITEM_NAME_FULL = GetItemName(tbl)
 	if (not ITEM_NAME_FULL) then return end
 
 	local has, grammar = islp and " have" or " has", vowels[ITEM_NAME_FULL:sub(1, 1):lower()] and " an " or " a "

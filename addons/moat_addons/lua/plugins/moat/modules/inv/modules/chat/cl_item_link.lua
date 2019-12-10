@@ -21,7 +21,7 @@ net.Receive("MOAT_LINK_ITEM", function(len)
     table.insert(tab, Color(255, 255, 255))
     table.insert(tab, ": ")
 
-	local ITEM_NAME_FULL = m_GetFullItemName(tbl)
+	local ITEM_NAME_FULL = GetItemName(tbl)
     table.insert(tab, {
         ItemName = ITEM_NAME_FULL,
         IsItem = true,
@@ -73,7 +73,7 @@ net.Receive("MOAT_CHAT_LINK_ITEM", function(len)
         if (isstring(str[i])) then
             table.insert(tab, str[i])
         else
-            local ITEM_NAME_FULL = m_GetFullItemName(str[i])
+            local ITEM_NAME_FULL = GetItemName(str[i])
             table.insert(tab, {
                 ItemName = ITEM_NAME_FULL,
                 IsItem = true,

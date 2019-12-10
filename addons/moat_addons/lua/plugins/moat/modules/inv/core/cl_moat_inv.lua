@@ -3052,26 +3052,7 @@ function m_OpenInventory(ply2, utrade)
         draw_stats_y = 26 + 21 + draw_xp_lvl
 
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
-            local ITEM_NAME_FULL = ""
-
-            if (ITEM_HOVERED.item.Kind == "tier") then
-                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
-
-                if (string.EndsWith(ITEM_NAME, "_name")) then
-                    ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                    ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-                end
-
-                ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
-
-                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
-                    ITEM_NAME_FULL = ITEM_NAME
-                end
-            else
-                ITEM_NAME_FULL = ITEM_HOVERED.item.Name
-            end
-
-			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+            local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
 
             if (ITEM_HOVERED.s and ITEM_HOVERED.s.l) then
                 draw_xp_lvl = 9
@@ -3113,7 +3094,7 @@ function m_OpenInventory(ply2, utrade)
             surface_SetMaterial(gradient_r)
             surface_DrawTexturedRectRotated(grad_x2, grad_y2, grad_w, grad_h, 180)
             surface_SetMaterial(gradient_d)
-            surface_SetDrawColor(rarity_names[ITEM_HOVERED.item.Rarity][2].r, rarity_names[ITEM_HOVERED.item.Rarity][2].g, rarity_names[ITEM_HOVERED.item.Rarity][2].b, 100)
+            surface_SetDrawColor(rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][2].r, rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][2].g, rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][2].b, 100)
             --surface_DrawTexturedRect( 1, 1 + ( h / 2 ), w - 2, ( h / 2 ) - 2 )
             local RARITY_TEXT = ""
 
@@ -3122,25 +3103,25 @@ function m_OpenInventory(ply2, utrade)
             end
 
             if (ITEM_HOVERED.item.Kind ~= "tier") then
-                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. ITEM_HOVERED.item.Kind
             else
-                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
 			grad_y2 = grad_y2 - 1
 
             for i = 1, 2 do
-				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
 
-			draw_SimpleText(RARITY_TEXT, "moat_Medium4", grad_w, grad_y2, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw_SimpleText(RARITY_TEXT, "moat_Medium4", grad_w, grad_y2, rarity_accents[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
             local draw_name_x = 7
             local draw_name_y = 3
-            local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]:Copy()
+            local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][2]:Copy()
             local name_font = "moat_Medium5"
 
             if (ITEM_HOVERED.item.NameEffect) then
@@ -3149,7 +3130,7 @@ function m_OpenInventory(ply2, utrade)
                 if (tfx == "glow") then
                     m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
                 elseif (tfx == "fire") then
-                    m_DrawFireText(ITEM_HOVERED.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
+                    m_DrawFireText(ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
                 elseif (tfx == "bounce") then
                     m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
                 elseif (tfx == "enchanted") then
@@ -3262,26 +3243,7 @@ function m_OpenInventory(ply2, utrade)
                 s.SavedItem = ITEM_HOVERED
             end
 
-            local ITEM_NAME_FULL = ""
-
-            if (ITEM_HOVERED.item.Kind == "tier") then
-                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
-
-                if (string.EndsWith(ITEM_NAME, "_name")) then
-                    ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                    ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-                end
-
-                ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
-
-                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
-                    ITEM_NAME_FULL = ITEM_NAME
-                end
-            else
-                ITEM_NAME_FULL = ITEM_HOVERED.item.Name
-            end
-
-			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+            local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
 
             surface_SetFont("moat_Medium5")
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
@@ -3380,7 +3342,7 @@ function m_OpenInventory(ply2, utrade)
 
             local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
-            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
+            if ((ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0) == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                 -- panel_height = 100
             end
             
@@ -5771,28 +5733,7 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
     end
 
     if (old_level ~= item_tbl.s.l) then
-        local ITEM_NAME_FULL = ""
-
-        if (item_tbl.item.Kind == "tier") then
-            local ITEM_NAME = util.GetWeaponName(item_tbl.w)
-
-            if (string.EndsWith(ITEM_NAME, "_name")) then
-                ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-            end
-
-            ITEM_NAME_FULL = item_tbl.item.Name .. " " .. ITEM_NAME
-
-            if (item_tbl.item.Rarity == 0 and item_tbl.item.ID and item_tbl.item.ID ~= 7820 and item_tbl.item.ID ~= 7821) then
-                ITEM_NAME_FULL = ITEM_NAME
-            end
-        else
-            ITEM_NAME_FULL = item_tbl.item.Name
-        end
-
-        if (item_tbl.n) then
-            ITEM_NAME_FULL = "\"" .. item_tbl.n:Replace("''", "'") .. "\""
-        end
+        local ITEM_NAME_FULL = GetItemName(item_tbl)
 
         chat.AddText(Color(255, 255, 0), "Your " .. ITEM_NAME_FULL .. " is now level " .. item_tbl.s.l .. "!")
     end
@@ -5858,7 +5799,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
                 ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
 
-                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
+                if ((ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0) == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                     ITEM_NAME_FULL = ITEM_NAME
                 end
             else
@@ -5894,7 +5835,7 @@ function m_DrawFoundItem(tbl, s_type, name)
             surface_SetDrawColor(0, 0, 0, 100)
             surface_DrawLine(6, 23 + draw_xp_lvl, w - 6, 23 + draw_xp_lvl)
             surface_DrawLine(6, 44 + draw_xp_lvl, w - 6, 44 + draw_xp_lvl)
-			surface_SetDrawColor(rarity_gradient[ITEM_HOVERED.item.Rarity].r, rarity_gradient[ITEM_HOVERED.item.Rarity].g, rarity_gradient[ITEM_HOVERED.item.Rarity].b, rarity_gradient[ITEM_HOVERED.item.Rarity].a)
+			surface_SetDrawColor(rarity_gradient[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0].r, rarity_gradient[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0].g, rarity_gradient[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0].b, rarity_gradient[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0].a)
             local grad_x = 1
             local grad_y = 25 + draw_xp_lvl
             local grad_w = (w - 2) / 2
@@ -5912,25 +5853,25 @@ function m_DrawFoundItem(tbl, s_type, name)
             end
 
             if (ITEM_HOVERED.item.Kind ~= "tier") then
-                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. ITEM_HOVERED.item.Kind
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. ITEM_HOVERED.item.Kind
             else
-                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item.Rarity][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
+                RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. m_LoadoutTypes[weapons.Get(ITEM_HOVERED.w).Slot]
             end
 
 			grad_y2 = grad_y2 - 1
 
             for i = 1, 2 do
-				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item.Rarity][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w + i, grad_y2 - i, rarity_shadow[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw_SimpleText(RARITY_TEXT, "moat_Medium4s", grad_w - i, grad_y2 + i, rarity_shadow[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][i], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
 
-			draw_SimpleText(RARITY_TEXT, "moat_Medium4", grad_w, grad_y2, rarity_accents[ITEM_HOVERED.item.Rarity], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw_SimpleText(RARITY_TEXT, "moat_Medium4", grad_w, grad_y2, rarity_accents[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
             local draw_name_x = 7
             local draw_name_y = 3
-            local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item.Rarity][2]:Copy()
+            local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][2]:Copy()
             local name_font = "moat_Medium5"
 
             if (ITEM_HOVERED.item.NameEffect) then
@@ -5939,7 +5880,7 @@ function m_DrawFoundItem(tbl, s_type, name)
                 if (tfx == "glow") then
                     m_DrawGlowingText(false, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "fire") then
-                    m_DrawFireText(ITEM_HOVERED.item.Rarity, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    m_DrawFireText(ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "bounce") then
                     m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "enchanted") then
@@ -6020,26 +5961,7 @@ function m_DrawFoundItem(tbl, s_type, name)
     local ITEM_HOVERED = itemtbl
     -- Put your Lua here
     if (ITEM_HOVERED and ITEM_HOVERED.c) then
-        local ITEM_NAME_FULL = ""
-
-        if (ITEM_HOVERED.item.Kind == "tier") then
-            local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
-
-            if (string.EndsWith(ITEM_NAME, "_name")) then
-                ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-            end
-
-            ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
-
-            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
-                ITEM_NAME_FULL = ITEM_NAME
-            end
-        else
-            ITEM_NAME_FULL = ITEM_HOVERED.item.Name
-        end
-
-		if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+        local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
 
         surface_SetFont("moat_Medium5")
         local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
@@ -6129,7 +6051,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
         local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
-        if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
+        if ((ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0) == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
             -- panel_height = 100
         end
 
@@ -6138,26 +6060,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
     MOAT_ITEM_STATS.Think = function(s, w, h)
         if (ITEM_HOVERED and ITEM_HOVERED.c) then
-            local ITEM_NAME_FULL = ""
-
-            if (ITEM_HOVERED.item.Kind == "tier") then
-                local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w)
-
-                if (string.EndsWith(ITEM_NAME, "_name")) then
-                    ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                    ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-                end
-
-                ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
-
-                if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
-                    ITEM_NAME_FULL = ITEM_NAME
-                end
-            else
-                ITEM_NAME_FULL = ITEM_HOVERED.item.Name
-            end
-
-			if (not ITEM_NAME_FULL) then ITEM_NAME_FULL = "Error with Item Name" end
+            local ITEM_NAME_FULL = GetItemName(ITEM_HOVERED)
 
             surface_SetFont("moat_Medium5")
             local namew, nameh = surface_GetTextSize(ITEM_NAME_FULL)
@@ -6248,7 +6151,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
             local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add
 
-            if (ITEM_HOVERED.item.Rarity == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
+            if ((ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0) == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                 -- panel_height = 100
             end
 

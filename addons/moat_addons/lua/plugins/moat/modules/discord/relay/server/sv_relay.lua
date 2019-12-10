@@ -335,24 +335,8 @@ function moat_GetItemStats(tbl, wpnstr)
     local ITEM_HOVERED = itemtbl
     
     if (ITEM_HOVERED and ITEM_HOVERED.c) then
-        local ITEM_NAME_FULL = ""
+        local ITEM_NAME_FULL = GetItemName(tbl)
 
-        if (ITEM_HOVERED.item.Kind == "tier") then
-            local ITEM_NAME = util.GetWeaponName(ITEM_HOVERED.w) or wpnstr
-
-            if (string.EndsWith(ITEM_NAME, "_name")) then
-                ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-            end
-
-            ITEM_NAME_FULL = ITEM_HOVERED.item.Name .. " " .. ITEM_NAME
-
-            if (ITEM_HOVERED.item.Rarity == 0) then
-                ITEM_NAME_FULL = ITEM_NAME
-            end
-        else
-            ITEM_NAME_FULL = ITEM_HOVERED.item.Name
-        end
 
         item_str = item_str .. "**" .. ITEM_NAME_FULL .. "**"
     end

@@ -11,7 +11,7 @@ function GetItemName(data)
 
         ITEM_NAME_FULL = data.item.Name .. " " .. ITEM_NAME
 
-        if (data.item.Rarity == 0 and data.item.ID and data.item.ID ~= 7820 and data.item.ID ~= 7821) then
+        if ((data.item and data.item.Rarity or 0) == 0 and data.item.ID and data.item.ID ~= 7820 and data.item.ID ~= 7821) then
             ITEM_NAME_FULL = ITEM_NAME
         end
     else
@@ -26,6 +26,8 @@ function GetItemName(data)
 	if (data.n) then
 		ITEM_NAME_FULL = data.n:Replace("''", "'") -- "\"" .. data.n:Replace("''", "'") .. "\""
 	end
+
+	ITEM_NAME_FULL = string.format(ITEM_NAME_FULL, "@", "#")
 
 	return ITEM_NAME_FULL
 end

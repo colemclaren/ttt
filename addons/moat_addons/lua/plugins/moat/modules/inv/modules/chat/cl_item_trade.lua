@@ -38,7 +38,7 @@ net.Receive("MOAT_TRADED_ITEMS", function(len)
             table.insert(tab,Color(255,255,0))
             table.insert(tab,string.Comma(ic) .. " IC")
         else
-            local ITEM_NAME_FULL = m_GetFullItemName(tbl)
+            local ITEM_NAME_FULL = GetItemName(tbl)
 
             local da_rarity = tbl.item.Rarity
 
