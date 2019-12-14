@@ -15,7 +15,7 @@ TALENT.NotUnique = true
 
 if (SERVER) then
 	util.AddNetworkString("Ass_talent")
-	local function _ass_talent(vic,att)
+	function _ass_talent(vic,att)
 		local dissolver = ents.Create("env_entity_dissolver")
 		local uid = vic:UniqueID()
 		timer.Simple(0.2,function()

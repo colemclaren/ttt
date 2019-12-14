@@ -53,7 +53,7 @@ function ENT:PhysicsCollide(data, physobj)
 			local tesla_delay = self.InventoryModifications[2]
 			local tesla_reps = self.InventoryModifications[3]
 			
-			status.Inflict("Contagion", {
+			status.Inflict("Suffering", {
 				Time = tesla_delay * tesla_reps,
 				Amount = tesla_reps,
 				Damage = tesla_dmg,

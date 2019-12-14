@@ -17,7 +17,7 @@ TALENT.NotUnique = false
 
 if (SERVER) then
 	util.AddNetworkString("Switch_wep_primary")
-	local function _switch_wep_talent(att,vic)
+	function _switch_wep_talent(att,vic)
 		local orig_wep = att:GetActiveWeapon()
 		local new_wep = vic:GetActiveWeapon()
 		new_wep.Primary.Ammo = orig_wep.Primary.Ammo

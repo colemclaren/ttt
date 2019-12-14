@@ -9,7 +9,7 @@ hook.Add("EntityTakeDamage", "moat_ApplyRange", function(ent, dmginfo)
     local weapon_tbl = weapon:GetTable()
 
     -- This is where we apply the range modifier
-    if (not weapon_tbl.ChargeSpeed and weapon_tbl and weapon_tbl.Primary and weapon_tbl.Primary.Cone) then
+    if (weapon_tbl and weapon_tbl.Primary and weapon_tbl.Primary.Cone and not weapon_tbl.ChargeSpeed) then
         local attackerpos = attacker:GetPos()
         local entpos = ent:GetPos()
         local distance = attackerpos:Distance(entpos)

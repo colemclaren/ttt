@@ -377,7 +377,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                     local talent_tbl = talents_chosen[i]
                     dropped_item.t[i] = {}
                     dropped_item.t[i].e = talent_tbl.ID
-                    dropped_item.t[i].l = math.random(talent_tbl.LevelRequired.min, talent_tbl.LevelRequired.max)
+                    dropped_item.t[i].l = math.random(talent_tbl.LevelRequired and talent_tbl.LevelRequired.min or (talent_tbl.Tier * 10), talent_tbl.LevelRequired and talent_tbl.LevelRequired.max or (talent_tbl.Tier * 20))
                     dropped_item.t[i].m = {}
 
                     for k, v in ipairs(talent_tbl.Modifications) do
@@ -452,7 +452,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                     local talent_tbl = talents_chosen[i]
                     dropped_item.t[i] = {}
                     dropped_item.t[i].e = talent_tbl.ID
-                    dropped_item.t[i].l = math.random(talent_tbl.LevelRequired.min, talent_tbl.LevelRequired.max)
+                    dropped_item.t[i].l = math.random(talent_tbl.LevelRequired and talent_tbl.LevelRequired.min or (talent_tbl.Tier * 10), talent_tbl.LevelRequired and talent_tbl.LevelRequired.max or (talent_tbl.Tier * 20))
                     dropped_item.t[i].m = {}
 
                     for k, v in ipairs(talent_tbl.Modifications) do
@@ -951,7 +951,7 @@ function m_ResetTalents(pl, wep_slot, itemtbl)
             local talent_tbl = talents_chosen[i]
             ply_item.t[i] = {}
             ply_item.t[i].e = talent_tbl.ID
-            ply_item.t[i].l = math.random(talent_tbl.LevelRequired.min, talent_tbl.LevelRequired.max)
+            ply_item.t[i].l = math.random(talent_tbl.LevelRequired and talent_tbl.LevelRequired.min or (talent_tbl.Tier * 10), talent_tbl.LevelRequired and talent_tbl.LevelRequired.max or (talent_tbl.Tier * 20))
             ply_item.t[i].m = {}
 
             for k, v in ipairs(talent_tbl.Modifications) do
