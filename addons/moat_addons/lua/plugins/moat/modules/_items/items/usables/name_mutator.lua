@@ -1,7 +1,7 @@
 ITEM.Name = "Rename Token"
 ITEM.ID = 4001
 ITEM.Description = "Using this item allows you to change the name of any equippable item in your inventory"
-ITEM.Rarity = 0
+ITEM.Rarity = 8
 ITEM.Active = true
 ITEM.NewItem = 1575878400
 ITEM.Price = 50000
