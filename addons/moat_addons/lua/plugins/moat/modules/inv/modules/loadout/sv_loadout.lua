@@ -373,13 +373,12 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 net.Start("MOAT_UPDATE_OTHER_WEP")
                 net.WriteUInt(v3:EntIndex(), 16)
                 net.WriteString(wpn_tbl.ItemName or wpn_tbl.PrintName or "NAME_ERROR0")
-
-				-- if (v.t) then
-                -- 	v.Talents = GetItemTalents(v)
-            	-- end
-
                 net.WriteTable(v or {})
                 net.Send(ply)
+
+				if (v.t) then
+                	v.Talents = GetItemTalents(v)
+            	end
 
                 loadout_other_indexes[v3:EntIndex()] = {owner = ply:EntIndex(), info = v, name = wpn_tbl.ItemName or wpn_tbl.PrintName}
 
@@ -422,11 +421,6 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
 
             net.Start("MOAT_UPDATE_WEP")
             net.WriteUInt(v3:EntIndex(), 16)
-
-            -- if (v.t) then
-            --     v.Talents = GetItemTalents(v)
-            -- end
-
             net.WriteTable(v or {})
 
             local sent = false
@@ -436,6 +430,10 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             else
                 net.Send(ply)
             end
+
+			if (v.t) then
+            	v.Talents = GetItemTalents(v)
+           	end
 
             loadout_weapon_indexes[v3:EntIndex()] = {
                 name = wpn_tbl.ItemName or wpn_tbl.PrintName,
