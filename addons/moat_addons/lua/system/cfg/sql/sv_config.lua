@@ -2,8 +2,8 @@
 local mysql = {
 	host = SERVER and "gamedb.moat.gg" or "", -- "gamedb.moat.gg",
 	database = SERVER and "forum" or "",
-	username = SERVER and "ttt3" or "",
-	password = SERVER and "hP6Oj6wvc80HoE7XJpHz" or "",
+	username = SERVER and "moat" or "",
+	password = SERVER and "LxcwrQKBL91MbHEg" or "",
 	port = SERVER and 3306 or 420
 }
 
