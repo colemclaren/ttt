@@ -1747,7 +1747,7 @@ function jackpot_()
     local jp_broad = false
     local jp_rewarding = false
     local jp_rewards = {}
-    timer.Create("JPGrand",5,0,function()
+    /*timer.Create("JPGrand",5,0,function()
         if GG_DISABLE:GetBool() then return end
         local q = db:query("SELECT * FROM moat_jpwinners;")
         function q:onSuccess(p)
@@ -1934,7 +1934,7 @@ function jackpot_()
             end
         end)
     end)
-
+	*/
     print("Loaded Cross-server jackpot")
 
 end

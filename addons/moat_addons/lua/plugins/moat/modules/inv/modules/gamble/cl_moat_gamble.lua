@@ -222,7 +222,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 		{"Versus", Color(0, 255, 255)},
 		{"Blackjack", Color(255, 255, 0)},
 		{"Roulette", Color(255, 0, 50)},
-		{"Jackpot", Color(0, 255, 0)},
+		// {"Jackpot", Color(0, 255, 0)},
 		{"Mines", Color(150, 0, 255)}
 	}
     local CAT_WIDTHS = 0
