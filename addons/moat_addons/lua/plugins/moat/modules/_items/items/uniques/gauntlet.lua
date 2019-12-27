@@ -15,5 +15,5 @@ ITEM.Stats = {
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
-ITEM.Talents = {"Space Stone", "Reality Stone", "Power Stone"}
+ITEM.Talents = {"Space", "Reality", "Power Stone"}
 ITEM.WeaponClass = "weapon_ttt_te_deagle"

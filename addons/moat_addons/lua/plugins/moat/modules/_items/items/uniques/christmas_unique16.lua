@@ -16,5 +16,5 @@ ITEM.Stats = {
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
-ITEM.Talents = {"random", "Snowball", "random"}
+ITEM.Talents = {"random", "SNOWBALLS", "random"}
 ITEM.WeaponClass = "weapon_ttt_m03a3"

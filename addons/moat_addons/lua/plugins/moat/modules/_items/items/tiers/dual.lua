@@ -34,4 +34,4 @@ ITEM.MinTalents = 4
 
 ITEM.MaxTalents = 4
 
-ITEM.Talents = { "Dual", "random", "random", "random" }
+ITEM.Talents = { "Twins", "random", "random", "random" }

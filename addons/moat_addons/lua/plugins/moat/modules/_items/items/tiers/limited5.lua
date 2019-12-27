@@ -1,7 +1,7 @@
 
 ITEM.ID = 15
 
-ITEM.Name = "Silenced"
+ITEM.Name = "Depression"
 
 ITEM.Rarity = 8
 
@@ -28,8 +28,8 @@ ITEM.Stats = {
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
-ITEM.Talents = {"Silenced", "random", "random"}
+ITEM.Talents = {"Depression", "random", "random"}
 
 ITEM.Price = 49999
 ITEM.LimitedShop = 1537758231
-ITEM.ShopDesc = "Limited time weapon that comes with the Silenced talent!\nThe Silenced talent is also available normally, so buying this is not necessary.\nEspecially with such a high price, this item is meant for collectors!\nBuying will give you a random weapon!"
+ITEM.ShopDesc = "Limited time weapon that comes with the Depression talent!\nThe Depression talent is also available normally, so buying this is not necessary.\nEspecially with such a high price, this item is meant for collectors!\nBuying will give you a random weapon!"

@@ -19,4 +19,4 @@ ITEM.Stats = {
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 4
-ITEM.Talents = {"Energizing", "random", "random"}
+ITEM.Talents = {"PEW", "random", "random"}

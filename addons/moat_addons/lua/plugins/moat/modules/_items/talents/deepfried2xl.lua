@@ -2,7 +2,7 @@
 include "deepfried.lua"
 TALENT.Tier = 1
 TALENT.ID = 9971
-TALENT.Name = "Acid"
+TALENT.Name = "Acid Test"
 TALENT.NameColor = Color(209, 0, 209)
 TALENT.Description = "Each hit has a %s_^ chance to fry the target's screen for %s seconds"
 TALENT.LevelRequired = {min = 1, max = 1}
