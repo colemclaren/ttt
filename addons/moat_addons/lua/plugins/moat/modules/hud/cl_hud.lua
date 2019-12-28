@@ -510,7 +510,7 @@ local function moat_CustomHUD()
 	local FRAME_INFO = {
 		x = 20,
 		h = 100,
-		w = 300,
+		w = 310,
 		y = ScrH() - 20
 	}
 
@@ -544,18 +544,35 @@ local function moat_CustomHUD()
 		if (wpn.ItemStats and wpn.ItemStats.item) then
 			local wpn_stats = wpn.ItemStats
 			local ITEM_NAME_FULL = GetItemName(wpn.ItemStats) or "Holstered"
+			
+			surface.SetFont "moat_Medium5"
+			local namew = surface.GetTextSize(ITEM_NAME_FULL)
+			local namesize = 0
+
+			if (wpn_stats.s and wpn_stats.s.l) then
+                surface_SetFont("moat_ItemDescLarge3")
+                local level_w, level_h = surface_GetTextSize(wpn_stats.s.l)
+                surface_SetFont("moat_ItemDescSmall2")
+                local namew2, nameh2 = surface_GetTextSize("XP: " .. wpn_stats.s.x .. "/" .. (wpn_stats.s.l * 100))
+                namesize = namew2 + level_w
+            end
+			
+			w = math.max(namew + namesize + 32 + 10, 310, w)
+
+			if (w % 2 ~= 0) then
+				w = w + 1
+			end
+
+			local num_stats = 0
+
+			if (wpn_stats.s) then
+				num_stats = table.Count(wpn_stats.s)
+			end
 
 			if (wpn_stats.s and wpn_stats.s.l) then
 				draw_xp_lvl = 9
 			else
 				draw_xp_lvl = 3
-			end
-
-			local namew, nameh = emoji.GetTextSize(ITEM_NAME_FULL)
-			local num_stats = 0
-
-			if (wpn_stats.s) then
-				num_stats = table.Count(wpn_stats.s)
 			end
 
 			ammo_yoff = y + 44 + draw_xp_lvl
@@ -567,7 +584,7 @@ local function moat_CustomHUD()
 			end
 
 			surface_SetDrawColor(100, 100, 100, 50)
-			surface_DrawOutlinedRect(x, y, w, h)
+			surface_DrawOutlinedRect(x, y, math.max(namew + draw_xp_lvl + 32 + 10, w), h)
 			draw_RoundedBox(0, x + 1, y + 1, w - 2, h - 2, Color(15, 15, 15, 250))
 
 			if (GetConVar("moat_HUDWeaponRarity"):GetString() == "true") then
@@ -720,7 +737,7 @@ local function moat_CustomHUD()
 
 	-- Health Panel
 	local FRAME_INFO2 = {
-		x = (ScrW() / 2) - 300,
+		x = (ScrW() / 2) - 310,
 		h = 30,
 		w = 600,
 		y = ScrH() - 20
@@ -902,14 +919,14 @@ concommand.Add("moat_resethud", function()
 	local FRAME_INFO = {
 		["x"] = 20,
 		["h"] = 100,
-		["w"] = 300,
+		["w"] = 310,
 		["y"] = ScrH() - 20
 	}
 
 	FRAME_INFO["y"] = FRAME_INFO["y"] - FRAME_INFO["h"]
 
 	local FRAME_INFO2 = {
-		["x"] = (ScrW() / 2) - 300,
+		["x"] = (ScrW() / 2) - 310,
 		["h"] = 30,
 		["w"] = 600,
 		["y"] = ScrH() - 20
@@ -920,7 +937,7 @@ concommand.Add("moat_resethud", function()
 	local FRAME_INFO3 = {
 		["x"] = 20,
 		["h"] = 30,
-		["w"] = 300,
+		["w"] = 310,
 		["y"] = FRAME_INFO.y
 	}
 
