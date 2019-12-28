@@ -127,7 +127,7 @@ function meta:TakeSC(num, cb)
 		if (r and r[1] and r[1].donator_credits) then
 			self:SetDataVar("SC", r[1].donator_credits, false, true)
 			self.StoreBusy = false
-			if (cb) then cb() end
+			if (cb) then cb(r[1].donator_credits) end
 		end
 	end)
 end

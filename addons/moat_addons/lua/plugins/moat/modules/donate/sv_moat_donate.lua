@@ -245,12 +245,13 @@ function MOAT_DONATE.Purchase(l, pl)
     local pkg = MOAT_DONATE.Packages[id]
     local sc = pl:GetSC()
 
-    if (sc and tonumber(sc) >= pkg[1]) then
-        pl:TakeSC(pkg[1], function()
-            pkg[2](pl)
+    if (sc and tonumber(sc) >= pkg[1] and not pl.StoreBusy) then
+        pl:TakeSC(pkg[1], function(new)
+			if (sc > new) then
+				MoatLog(pl:SteamID() .. " purchased package #" .. id .. " for " .. pkg[1] .. " Support Credits")
+            	pkg[2](pl)
+			end
         end)
-
-        MoatLog(pl:SteamID() .. " purchased package #" .. id .. " for " .. pkg[1] .. " Support Credits")
     end
 end
 
