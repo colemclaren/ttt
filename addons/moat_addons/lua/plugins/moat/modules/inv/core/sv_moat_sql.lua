@@ -561,7 +561,7 @@ function m_SendInventoryToPlayer(ply)
 
     for i = 1, 10 do
         if (not ply_inv["l_slot" .. i].c) then continue end
-        lt = lt + 0.01
+        lt = lt + 0.02
 
         timer.Simple(lt, function()
             if (IsValid(ply) and ply.LastSent == Sent) then
@@ -580,7 +580,7 @@ function m_SendInventoryToPlayer(ply)
 
     for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (not ply_inv["slot" .. i].c) then continue end
-        it = it + 0.01
+        it = it + 0.02
 
         timer.Simple(it, function()
             if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
@@ -595,7 +595,7 @@ function m_SendInventoryToPlayer(ply)
         end)
     end
 
-    timer.Simple(it + 0.01, function()
+    timer.Simple(it + 0.02, function()
         if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
             MsgC(Color(0, 255, 0), "Inventory sent in " .. it .. " secs to " .. ply:Nick() .. "\n")
             net.Start"MOAT_SEND_INV_ITEM"
@@ -634,7 +634,7 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
 
     for i = 1, 10 do
         if (not ply_inv["l_slot" .. i].c) then continue end
-        lt = lt + 0.01
+        lt = lt + 0.02
 
         timer.Simple(lt, function()
             if (IsValid(ply) and ply.LastSent == Sent) then
@@ -653,7 +653,7 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
 
     for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (not ply_inv["slot" .. i].c) then continue end
-        it = it + 0.01
+        it = it + 0.02
 
         timer.Simple(it, function()
             if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
@@ -668,7 +668,7 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
         end)
     end
 
-    timer.Simple(it + 0.01, function()
+    timer.Simple(it + 0.02, function()
         if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
             MsgC(Color(0, 255, 0), "Inventory sent in " .. it .. " secs to " .. ply:Nick() .. "\n")
             net.Start"MOAT_SEND_INV_ITEM"

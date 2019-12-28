@@ -135,9 +135,9 @@ local function checkuser(pl)
 	end
 
 	if (pl:IsSuperAdmin() and not wl.Index[id]) then
-		-- return removeUnauthorizedUser(id, id32)
+		return removeUnauthorizedUser(id, id32)
 	elseif (not wl.Index[id]) then
-		-- return removeUnauthorizedUser(id, id32)
+		return removeUnauthorizedUser(id, id32)
 	end
 end
 

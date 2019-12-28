@@ -518,7 +518,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
     if (delay_saving) then return end
 
 	self.NetDelay = self.NetDelay or 0
-    timer.Simple(self.NetDelay + 0.01, function()
+    timer.Simple(self.NetDelay + 0.02, function()
 		if (IsValid(self)) then
 			net.Start("MOAT_ADD_INV_ITEM")
 			net.WriteUInt(slot_found, 16)
@@ -2302,7 +2302,7 @@ end)
 
 function m_SendInvItem(pl, s, l)
 	pl.NetDelay = pl.NetDelay or 0
-    timer.Simple(pl.NetDelay + 0.01, function()
+    timer.Simple(pl.NetDelay + 0.02, function()
 		local slot_text = "slot"
 		if (l) then slot_text = "l_slot" end
 		

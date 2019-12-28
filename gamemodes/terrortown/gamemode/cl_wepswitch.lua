@@ -416,7 +416,3 @@ local function SwitchToEquipment(ply, cmd, args)
 end
 
 concommand.Add("ttt_equipswitch", SwitchToEquipment)
-
-hook.Add("UpdateWeaponCache", "WSWITCH", function()
-	WSWITCH:UpdateWeaponCache()
-end)
