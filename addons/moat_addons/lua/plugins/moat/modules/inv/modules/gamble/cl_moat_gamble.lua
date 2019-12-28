@@ -5487,13 +5487,13 @@ function m_ChangeGambleCategory()
 		m_RemoveRoulettePanel()
 	end
 
-	if (num == 4) then
-		m_DrawBlackjackPanel() -- Jackpot
-	else
-		m_RemoveBlackjackPanel()
-	end
+	-- if (num == 4) then
+	-- 	m_DrawBlackjackPanel() -- Jackpot
+	-- else
+	-- 	m_RemoveBlackjackPanel()
+	-- end
 
-	if (num == 5) then
+	if (num == 4) then
 		m_DrawDicePanel() -- Mines
 	else
 		m_RemoveDicePanel()
