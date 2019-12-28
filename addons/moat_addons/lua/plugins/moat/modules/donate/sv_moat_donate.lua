@@ -38,14 +38,14 @@ function moat_DropHoliday(ply, amt)
 end
 
 function meta:Drop100()
-    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, false)
-    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, false)
+    self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false)
+    self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false)
     self:m_DropInventoryItem("Cosmic Talents Mutator", "hide_chat_obtained", false, false)
     self:m_DropInventoryItem("Ascended Stats Mutator", "hide_chat_obtained", false, false)
 end
 
 function meta:Drop50()
-    self:m_DropInventoryItem("Name Mutator", "hide_chat_obtained", false, false)
+    self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false)
     self:m_DropInventoryItem("Ascended Talents Mutator", "hide_chat_obtained", false, false)
 end
 

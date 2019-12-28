@@ -14,7 +14,7 @@ function m_GetActiveCrates()
 		if (v.LimitedShop) and (v.LimitedShop <= os.time()) then continue end
 		if (v.NewItem and v.NewItem <= os.time()) then v.NewItem = nil end
 
-        if (v.Active and v.Name ~= "Meme Crate" and v.Name ~= "Pumpkin Crate" and v.Name ~= "Santa's Present" and v.Name ~= "Holiday Crate" and v.Name ~= "Empty Gift Package" and v.Name ~= "Name Mutator" and not string.find(v.Name, "Mutator")) then
+        if (v.Active and v.Name ~= "Meme Crate" and v.Name ~= "Pumpkin Crate" and v.Name ~= "Santa's Present" and v.Name ~= "Holiday Crate" and v.Name ~= "Empty Gift Package" and v.Name ~= "Rename Token" and not string.find(v.Name, "Token") and not string.find(v.Name, "Mutator")) then
             table.insert(active_crates, v)
         end
     end
