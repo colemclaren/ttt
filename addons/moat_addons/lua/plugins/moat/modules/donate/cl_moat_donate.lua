@@ -427,6 +427,10 @@ function MOAT_DONATE:RebuildSelection(num)
 
         if (pkg[3] == 2 and LocalPlayer():GetUserGroup() ~= "user") then
             Derma_Query("Are you sure you want to purchase a VIP Token that you cannot redeem?\n(Can be traded/gifted to other players to give them VIP)", "Are you sure?", "Yes", function()
+				if (IsValid(self.bg)) then
+					self.bg:Remove()
+				end
+
                 net.Start("moat.donate.purchase")
                 net.WriteUInt(pkg[3], 8)
                 net.SendToServer()
@@ -436,11 +440,15 @@ function MOAT_DONATE:RebuildSelection(num)
                 end
 
                 moat_inv_cooldown = CurTime() + 10
-                m_ClearInventory()
-                net.Start("MOAT_SEND_INV_ITEM")
-                net.SendToServer()
+                -- m_ClearInventory()
+                -- net.Start("MOAT_SEND_INV_ITEM")
+                -- net.SendToServer()
             end, "No")
         else
+			if (IsValid(self.bg)) then
+				self.bg:Remove()
+			end
+
             net.Start("moat.donate.purchase")
             net.WriteUInt(pkg[3], 8)
             net.SendToServer()
@@ -450,9 +458,9 @@ function MOAT_DONATE:RebuildSelection(num)
             end
 
             moat_inv_cooldown = CurTime() + 10
-            m_ClearInventory()
-            net.Start("MOAT_SEND_INV_ITEM")
-            net.SendToServer()
+            -- m_ClearInventory()
+            -- net.Start("MOAT_SEND_INV_ITEM")
+            -- net.SendToServer()
         end
 
         surface.PlaySound("buttons/button3.wav")

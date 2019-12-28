@@ -557,13 +557,11 @@ function m_SendInventoryToPlayer(ply)
 
     local Sent = CurTime()
     ply.LastSent = Sent
-    local lt = 0
 
     for i = 1, 10 do
         if (not ply_inv["l_slot" .. i].c) then continue end
-        lt = lt + 0.02
 
-        timer.Simple(lt, function()
+        timer.Simple(i * 0.03, function()
             if (IsValid(ply) and ply.LastSent == Sent) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString("l" .. i)
@@ -576,13 +574,10 @@ function m_SendInventoryToPlayer(ply)
         end)
     end
 
-    local it = 0
-
     for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (not ply_inv["slot" .. i].c) then continue end
-        it = it + 0.02
 
-        timer.Simple(it, function()
+        timer.Simple(i * 0.03, function()
             if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
@@ -595,9 +590,9 @@ function m_SendInventoryToPlayer(ply)
         end)
     end
 
-    timer.Simple(it + 0.02, function()
+    timer.Simple(ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") * 0.03, function()
         if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
-            MsgC(Color(0, 255, 0), "Inventory sent in " .. it .. " secs to " .. ply:Nick() .. "\n")
+            MsgC(Color(0, 255, 0), "Inventory sent in " .. (ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") * 0.03) .. " secs to " .. ply:Nick() .. "\n")
             net.Start"MOAT_SEND_INV_ITEM"
             net.WriteString"0"
             net.Send(ply)
@@ -630,13 +625,10 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
 
     local Sent = CurTime()
     ply.LastSent = Sent
-    local lt = 0
 
     for i = 1, 10 do
         if (not ply_inv["l_slot" .. i].c) then continue end
-        lt = lt + 0.02
-
-        timer.Simple(lt, function()
+        timer.Simple(i * 0.03, function()
             if (IsValid(ply) and ply.LastSent == Sent) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString("l" .. i)
@@ -649,13 +641,10 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
         end)
     end
 
-    local it = 0
-
     for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
         if (not ply_inv["slot" .. i].c) then continue end
-        it = it + 0.02
 
-        timer.Simple(it, function()
+        timer.Simple(i * 0.03, function()
             if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
@@ -668,9 +657,9 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
         end)
     end
 
-    timer.Simple(it + 0.02, function()
+    timer.Simple(ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") * 0.03, function()
         if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
-            MsgC(Color(0, 255, 0), "Inventory sent in " .. it .. " secs to " .. ply:Nick() .. "\n")
+            MsgC(Color(0, 255, 0), "Inventory sent in " .. (ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") * 0.03) .. " secs to " .. ply:Nick() .. "\n")
             net.Start"MOAT_SEND_INV_ITEM"
             net.WriteString"0"
             net.Send(ply)

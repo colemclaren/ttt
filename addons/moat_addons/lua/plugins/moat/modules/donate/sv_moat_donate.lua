@@ -33,15 +33,15 @@ end
 function moat_DropHoliday(ply, amt)
     for i = 1, amt do
         if (not IsValid(ply)) then return end
-        ply:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained", false, false)
+        timer.Simple(0.01 * i, function() ply:m_DropInventoryItem("Holiday Crate", "hide_chat_obtained", false, false) end)
     end
 end
 
 function meta:Drop100()
-    self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false)
-    self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false)
-    self:m_DropInventoryItem("Cosmic Talents Mutator", "hide_chat_obtained", false, false)
-    self:m_DropInventoryItem("Ascended Stats Mutator", "hide_chat_obtained", false, false)
+	timer.Simple(1, function() self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false) end)
+    timer.Simple(2, function() self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false) end)
+    timer.Simple(3, function() self:m_DropInventoryItem("Cosmic Talents Mutator", "hide_chat_obtained", false, false) end)
+    timer.Simple(4, function() self:m_DropInventoryItem("Ascended Stats Mutator", "hide_chat_obtained", false, false) end)
 end
 
 function meta:Drop50()

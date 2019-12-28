@@ -483,33 +483,45 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
         end
 
         if (dropped_item and dropped_item.u and item_to_drop and item_to_drop.Rarity) then
-            if (item_to_drop.Rarity == 6) then
-				cdn.PlayURL "https://cdn.moat.gg/f/jNtvxfzegrrhSzpFi2ldjPLFVCuL.mp3"
-            elseif (item_to_drop.Rarity == 7) then
-				cdn.PlayURL "https://cdn.moat.gg/f/CUuOaURrcDiexrntlVjs9famksuK.wav"
-				util.GlobalScreenShake(5, 5, 10, 5000)
-            elseif (item_to_drop.Rarity == 9) then
-                cdn.PlayURL "https://cdn.moat.gg/f/1ePlkeSBwT6xXxcUJ7frbSUzT1BW.mp3"
-				util.GlobalScreenShake(25, 25, 15, 5000)
-                local ITEM_HOVERED = item_to_drop
-                local wpnstr = item_to_drop.Name
-                -- local ITEM_NAME_FULL = ""
-                -- if (ITEM_HOVERED.Kind == "tier") then
-                --     local ITEM_NAME = util.GetWeaponName(dropped_item.w) or wpnstr
+			-- if (item_to_drop.Rarity == 2) then
+			-- 	cdn.PlayURL "https://cdn.moat.gg/ttt/Stinger_loot_01.wav"
+			-- elseif (item_to_drop.Rarity == 3) then
+			-- 	cdn.PlayURL "https://cdn.moat.gg/ttt/Stinger_loot_02.wav"
+			-- elseif (item_to_drop.Rarity == 4) then
+			-- 	cdn.PlayURL "https://cdn.moat.gg/ttt/Stinger_loot_06.wav"
+			-- elseif (item_to_drop.Rarity == 5) then
+			-- 	cdn.PlayURL "https://cdn.moat.gg/ttt/Stinger_loot_05.wav"
+            -- elseif (item_to_drop.Rarity == 6) then
+			-- 	cdn.PlayURL "https://cdn.moat.gg/ttt/Stinger_loot_04.wav"
+			-- 	util.GlobalScreenShake(5, 5, 10, 5000)
+			-- elseif (item_to_drop.Rarity == 7) then
+			-- 	cdn.PlayURL "https://cdn.moat.gg/ttt/Stinger_loot_07.wav"
+			-- 	util.GlobalScreenShake(5, 5, 10, 5000)
+            -- elseif (item_to_drop.Rarity == 8) then
+			-- 	cdn.PlayURL "https://cdn.moat.gg/ttt/Stinger_loot_03.wav"
+			-- 	util.GlobalScreenShake(5, 5, 10, 5000)
+            -- elseif (item_to_drop.Rarity == 9) then
+            --     cdn.PlayURL "https://cdn.moat.gg/ttt/Arcana_drop.mp3"
+			-- 	util.GlobalScreenShake(25, 25, 15, 5000)
+            --     local ITEM_HOVERED = item_to_drop
+            --     local wpnstr = item_to_drop.Name
+            --     -- local ITEM_NAME_FULL = ""
+            --     -- if (ITEM_HOVERED.Kind == "tier") then
+            --     --     local ITEM_NAME = util.GetWeaponName(dropped_item.w) or wpnstr
 
-                --     if (string.EndsWith(ITEM_NAME, "_name")) then
-                --         ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
-                --         ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
-                --     end
+            --     --     if (string.EndsWith(ITEM_NAME, "_name")) then
+            --     --         ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
+            --     --         ITEM_NAME = string.upper(string.sub(ITEM_NAME, 1, 1)) .. string.sub(ITEM_NAME, 2, ITEM_NAME:len())
+            --     --     end
 
-                --     ITEM_NAME_FULL = ITEM_HOVERED.Name .. " " .. ITEM_NAME
-                -- else
-                --     ITEM_NAME_FULL = ITEM_HOVERED.Name
-                -- end
-                -- gglobalchat_planetary(self:Nick(),ITEM_NAME_FULL)
-            elseif (tonumber(dropped_item.u) == 912 or titan_tier_ids[tostring(dropped_item.u)]) then
-                cdn.PlayURL "https://cdn.moat.gg/f/u8diZ6qyoxuJPbwHOlLC25SdC3jY.mp3"
-			end
+            --     --     ITEM_NAME_FULL = ITEM_HOVERED.Name .. " " .. ITEM_NAME
+            --     -- else
+            --     --     ITEM_NAME_FULL = ITEM_HOVERED.Name
+            --     -- end
+            --     -- gglobalchat_planetary(self:Nick(),ITEM_NAME_FULL)
+            -- elseif (tonumber(dropped_item.u) == 912 or titan_tier_ids[tostring(dropped_item.u)]) then
+            --     cdn.PlayURL "https://cdn.moat.gg/f/u8diZ6qyoxuJPbwHOlLC25SdC3jY.mp3"
+			-- end
         end
 
         self:m_AddInventoryItem(dropped_item, delay_le_saving, dont_show_chat)

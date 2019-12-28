@@ -6289,7 +6289,29 @@ net.Receive("MOAT_ITEM_OBTAINED", function(len)
     table.insert(MOAT_ITEM_FOUND_QUEUE, tbl)
 
 	if (last_played <= CurTime() - .5) then
-		cdn.PlayURL("https://cdn.moat.gg/ttt/borderlands_3_legend.mp3", .2)
+		if (tbl.item and tbl.item.Rarity == 2) then
+			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_01.wav", .2)
+		elseif (tbl.item and tbl.item.Rarity == 3) then
+			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_02.wav", .2)
+		elseif (tbl.item and tbl.item.Rarity == 4) then
+			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_06.wav", .2)
+		elseif (tbl.item and tbl.item.Rarity == 5) then
+			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_05.wav", .2)
+		elseif (tbl.item and tbl.item.Rarity == 6) then
+			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_04.wav", .2)
+			util.ScreenShake(5, 5, 10, 5000)
+		elseif (tbl.item and tbl.item.Rarity == 7) then
+			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_07.wav", .2)
+			util.ScreenShake(5, 5, 10, 5000)
+		elseif (tbl.item and tbl.item.Rarity == 8) then
+			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_03.wav", .2)
+			util.ScreenShake(5, 5, 10, 5000)
+		elseif (tbl.item and tbl.item.Rarity == 9) then
+			cdn.PlayURL("https://cdn.moat.gg/ttt/Arcana_drop.mp3", .2)
+			util.ScreenShake(25, 25, 15, 5000)
+		else
+			cdn.PlayURL("https://cdn.moat.gg/ttt/borderlands_3_legend.mp3", .2)
+		end
 
 		last_played = CurTime()
 	end

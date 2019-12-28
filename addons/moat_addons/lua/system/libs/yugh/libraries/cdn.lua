@@ -1,5 +1,3 @@
-local PLAYER = FindMetaTable "Player"
-
 cdn = cdn or {}
 cdn.Cache = {}
 cdn.Objects = cdn.Objects or {}
@@ -87,6 +85,7 @@ function cdn.Fetch(key, folder, ext, cache, write, callback)
 end
 
 if (SERVER) then
+	local PLAYER = FindMetaTable "Player"
 	util.AddNetworkString "cdn.PlayURL"
 
 	function cdn.PlayURL(key, volume, cb, flags)

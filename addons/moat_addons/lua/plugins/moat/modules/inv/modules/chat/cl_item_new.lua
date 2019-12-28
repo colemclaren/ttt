@@ -1,3 +1,5 @@
+ITEM_RARITY_WARNING = false
+
 local rarities = {
     ["Worn"] = 1,
     ["Standard"] = 2,
@@ -73,15 +75,12 @@ net.Receive("MOAT_OBTAIN_ITEM", function(len)
 	if (da_rarity < 6) then return end
 
 	-- TODO: add customization in menu to disable this
-	if (not GetConVar "moat_disable_rare_warnings":GetBool()) then
-			
+	if (not GetConVar "moat_disable_rare_warnings":GetBool() and not ITEM_RARITY_WARNING) then
+		ITEM_RARITY_WARNING = true
+
 		Derma_Query("You just dropped an " .. (da_rarity == 6 and "uncommon" or "extremely rare") .. " item (" .. ITEM_NAME_FULL .. ")\n" ..
 			"Before trading this item you should get it price checked on our discord. https://moat.chat", "Rare Item Notice",
-			"OK", function() end,
-			"Open Discord", function()
-				gui.OpenURL "https://moat.chat"
-			end
-		)
+			"Open Discord", function() gui.OpenURL "https://moat.chat" ITEM_RARITY_WARNING = false end, "Got it")
 	end
 
 	-- net.Start("MOAT_CHAT_OBTAINED_VERIFY")

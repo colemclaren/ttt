@@ -517,8 +517,8 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 
     if (delay_saving) then return end
 
-	self.NetDelay = self.NetDelay or 0
-    timer.Simple(self.NetDelay + 0.02, function()
+	self.NetDelay = self.NetDelay or 1
+    timer.Simple(self.NetDelay * 0.03, function()
 		if (IsValid(self)) then
 			net.Start("MOAT_ADD_INV_ITEM")
 			net.WriteUInt(slot_found, 16)
@@ -550,7 +550,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 				net.Send(self)
 			end
 
-			self.NetDelay = math.max(0, self.NetDelay - 0.02)
+			self.NetDelay = math.max(0, self.NetDelay - 1)
 		end
 	end)
 
@@ -558,7 +558,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
         m_SaveInventory(self)
     end
 
-	self.NetDelay = self.NetDelay + 0.02
+	self.NetDelay = self.NetDelay + 1
 end
 
 -- concommand.Add("m_testdrop",function()
@@ -817,20 +817,26 @@ function m_RemoveInventoryItem(ply, slot, class, crate)
             item_enum = MOAT_INVS[ply][k].u
             MOAT_INVS[ply][k] = {}
             net.Start("MOAT_REM_INV_ITEM")
-            net.WriteDouble(tonumber(k:sub(5, #k)))
+			local s = string.gsub(k, "slot", "")
+            net.WriteDouble(tonumber(s))
             net.WriteDouble(class)
             net.Send(ply)
             items_found = items_found + 1
             m_SaveInventory(ply)
+
+			if (crate and crate == 1) then
+				break
+			end
+
+			if (items_found == 1) then
+				hook.Run("PlayerDeconstructedItem", ply, item_enum)
+			end
         end
     end
 
     if (items_found > 1) then
         RunConsoleCommand("mga", "perma", ply:SteamID(), "[Automated] Item Exploiting Detected!")
     end
-
-    if (crate and crate == 1) then return end
-    hook.Run("PlayerDeconstructedItem", ply, item_enum)
 end
 
 net.ReceiveNoLimit("MOAT_REM_INV_ITEM", function(len, ply)
@@ -2301,8 +2307,8 @@ net.Receive("MOAT_END_USABLE", function(l, pl)
 end)
 
 function m_SendInvItem(pl, s, l)
-	pl.NetDelay = pl.NetDelay or 0
-    timer.Simple(pl.NetDelay + 0.02, function()
+	pl.NetDelay = pl.NetDelay or 1
+    timer.Simple(pl.NetDelay * 0.03, function()
 		local slot_text = "slot"
 		if (l) then slot_text = "l_slot" end
 		
@@ -2317,11 +2323,11 @@ function m_SendInvItem(pl, s, l)
 			net.WriteTable(tbl)
 			net.Send(pl)
 
-			pl.NetDelay = math.max(0, pl.NetDelay - 0.02)
+			pl.NetDelay = math.max(0, pl.NetDelay - 1)
 		end
 	end)
 
-	pl.NetDelay = pl.NetDelay + 0.02
+	pl.NetDelay = pl.NetDelay + 1
 end
 
 local mutator_rar = {
