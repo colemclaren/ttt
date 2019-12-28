@@ -164,8 +164,6 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
 
 	width = math.max(ammow + namew + 44 + 10, width)
 
-	print(ammow, namew)
-
     return true
 end
 
