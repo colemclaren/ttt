@@ -121,18 +121,18 @@ function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
         wep.PrintName = wep.ItemName
     end
 
-    if (itemtbl.n) then
-        wep.PrintName = "\"" .. itemtbl.n:Replace("''", "'") .. "\""
-    elseif (item and item.Name and wep.PrintName and wep.ClassName and wep.PrintName == util.GetWeaponName(wep.ClassName)) then
-        if (item.Kind and item.Kind == "tier") then
-            wep.PrintName = string(item.Name, " ", wep.PrintName)
-        else
-            wep.PrintName = item.Name
-        end
-    end
+    -- if (itemtbl.n) then
+    --     wep.PrintName = "\"" .. itemtbl.n:Replace("''", "'") .. "\""
+    -- elseif (item and item.Name and wep.PrintName and wep.ClassName and wep.PrintName == util.GetWeaponName(wep.ClassName)) then
+    --     if (item.Kind and item.Kind == "tier") then
+    --         wep.PrintName = string(item.Name, " ", wep.PrintName)
+    --     else
+    --         wep.PrintName = item.Name
+    --     end
+    -- end
 
-    wep.ItemName = wep.PrintName
-   	wep:SetRealPrintName(wep.PrintName)
+    wep.PrintName = GetItemName(itemtbl) or "Holstered"
+	wep:SetRealPrintName(wep.PrintName)
 
     if (itemtbl.s) then
         for s_idx, mult in pairs(itemtbl.s) do

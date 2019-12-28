@@ -921,14 +921,16 @@ function MOAT_LOADOUT.UpdateOtherWep()
 
 			if (wep_stats) then
 				if (wep_stats.n) then
-					wep.Weapon.PrintName = "\"" .. wep_stats.n:Replace("''", "'") .. "\""
+					wep.Weapon.PrintName = GetItemName(wep_stats)
 					wep.Weapon.ItemName = wep.Weapon.PrintName
 				end
-				
+
 				wep.Weapon.ItemStats = wep_stats
 				if (wep_stats.p or wep_stats.p2 or wep_stats.p3) then
 					MOAT_LOADOUT.UpdateDrawViewModel(wep.Weapon)
 				end
+
+				hook.Run "UpdateWeaponCache"
 			end
 
 			timer.Remove(name)
@@ -1035,6 +1037,7 @@ function MOAT_LOADOUT.UpdateWep()
 		end
 
 		timer.Remove(name)
+		hook.Run "UpdateWeaponCache"
 	end)
 end
 net.Receive("MOAT_UPDATE_WEP", function(...) MOAT_LOADOUT.UpdateWep(...) end)

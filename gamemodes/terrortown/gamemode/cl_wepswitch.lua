@@ -83,7 +83,13 @@ local TryTranslation = LANG.TryTranslation
 
 function WSWITCH:DrawWeapon(x, y, c, wep)
     if not IsValid(wep) then return false end
+
     local name = TryTranslation(wep:GetPrintName() or wep.PrintName or "...")
+	if (wep.ItemStats and wep.ItemStats.item) then
+        name = GetItemName(wep.ItemStats)
+    end
+
+
     local cl1, am1 = wep:Clip1(), wep:Ammo1()
     local ammo = false
 
@@ -96,21 +102,26 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
     -- Slot
     local spec = {
         text = wep.Slot + 1,
-        font = "Trebuchet22",
+        font = "moat_Medium4",
         pos = {x + 4, y},
         yalign = TEXT_ALIGN_CENTER,
         color = c.text
     }
 
-    draw.TextShadow(spec, 1, c.shadow)
-    -- Name
-    surface.SetFont("TimeLeft")
-    local namew, nameh = surface.GetTextSize(name)
-    spec.font = "TimeLeft"
+	for i = 1, 2 do
+		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] + i, spec.pos[2] + i, Color(100, 100, 100, 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
+		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] - i, spec.pos[2] - i, Color(100, 100, 100, 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
+		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] + i, spec.pos[2] - i, Color(100, 100, 100, 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
+		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] - i, spec.pos[2] + i, Color(100, 100, 100, 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
+	end
 
-    if (namew > 230) then
-        spec.font = "TimeLeftSmall"
-    end
+	draw.SimpleText(spec.text, "moat_Medium4", spec.pos[1], spec.pos[2], spec.color, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
+    -- draw.TextShadow(spec, 1, c.shadow)
+    -- Name
+    surface.SetFont("moat_Medium4")
+    local namew, nameh = surface.GetTextSize(name)
+    spec.font = "moat_Medium4"
 
     spec.text = name
 
@@ -121,6 +132,7 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
     spec.pos[1] = x + 10 + height
     emoji.Text(spec)
 
+	local ammow = 0
     if ammo then
         local col = c.text
 
@@ -130,12 +142,29 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
 
         -- Ammo
         spec.text = ammo
-        spec.font = "TimeLeft"
+        spec.font = "moat_Medium4"
         spec.pos[1] = ScrW() - margin * 3
         spec.xalign = TEXT_ALIGN_RIGHT
         spec.color = col
-        draw.Text(spec)
+        -- draw.Text(spec)
+		
+		local x, grad_y2, grad_w = spec.pos[1], y, 0
+        for i = 1, 2 do
+			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w + i, grad_y2 + i, Color(100, 100, 100, 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
+			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w - i, grad_y2 - i, Color(100, 100, 100, 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
+			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w + i, grad_y2 - i, Color(100, 100, 100, 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
+			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w - i, grad_y2 + i, Color(100, 100, 100, 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
+		end
+
+		emoji.SimpleText(ammo, "moat_Medium4", x + grad_w, grad_y2, col, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+	
+		surface.SetFont "moat_Medium4"
+		ammow = surface.GetTextSize(wep:Clip1() .. " + " .. wep:Ammo1())
     end
+
+	width = math.max(ammow + namew + 44 + 10, width)
+
+	print(ammow, namew)
 
     return true
 end
@@ -187,6 +216,8 @@ function WSWITCH:UpdateWeaponCache()
     self.WeaponCache = {}
     CopyVals(LocalPlayer():GetWeapons(), self.WeaponCache)
     table.sort(self.WeaponCache, SlotSort)
+
+	width = 310
 end
 
 function WSWITCH:SetSelected(idx)
@@ -340,3 +371,7 @@ local function SwitchToEquipment(ply, cmd, args)
 end
 
 concommand.Add("ttt_equipswitch", SwitchToEquipment)
+
+hook.Add("UpdateWeaponCache", "WSWITCH", function()
+	WSWITCH:UpdateWeaponCache()
+end)
