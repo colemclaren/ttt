@@ -8,6 +8,8 @@ WSWITCH.Show = false
 WSWITCH.Selected = -1
 WSWITCH.NextSwitch = -1
 WSWITCH.WeaponCache = {}
+WSWITCH.WeaponCached = {}
+WSWITCH.WeaponAlpha = 0
 WSWITCH.cv = {}
 WSWITCH.cv.stay = CreateConVar("ttt_weaponswitcher_stay", "0", FCVAR_ARCHIVE)
 WSWITCH.cv.fast = CreateConVar("ttt_weaponswitcher_fast", "0", FCVAR_ARCHIVE)
@@ -43,6 +45,13 @@ local col_dark = {
     shadow = 100
 }
 
+WSWITCH.WeaponBG = col_dark[bg]
+function col_lerp(c, frac, from, to)
+	c.r, c.g, c.b, c.a = Lerp(frac, from.r, to.r), Lerp(frac, from.g, to.g), Lerp(frac, from.b, to.b), Lerp(frac, from.a, to.a)
+
+	return c
+end
+
 surface.CreateFont("TimeLeftSmall", {
     font = "Trebuchet24",
     size = 20,
@@ -63,7 +72,7 @@ function WSWITCH:DrawBarBg(x, y, w, h, col)
     local c = col.tip[role]
     -- Draw the colour tip
     surface.SetTexture(barcorner)
-    surface.SetDrawColor(c.r, c.g, c.b, c.a)
+    surface.SetDrawColor(c.r, c.g, c.b, c.a * self.WeaponAlpha)
     surface.DrawTexturedRectRotated(rx + bh, ry + bh, b, b, 0)
     surface.DrawTexturedRectRotated(rx + bh, ry + rh - bh, b, b, 90)
     surface.DrawRect(rx, ry + b, b, rh - b * 2)
@@ -72,7 +81,7 @@ function WSWITCH:DrawBarBg(x, y, w, h, col)
     -- Could just draw a full roundedrect bg and overdraw it with the tip, but
     -- I don't have to do the hard work here anymore anyway
     c = col.bg
-    surface.SetDrawColor(c.r, c.g, c.b, c.a)
+    surface.SetDrawColor(c.r, c.g, c.b, c.a * self.WeaponAlpha)
     surface.DrawRect(rx + b + h - 4, ry, rw - (h - 4) - b * 2, rh)
     surface.DrawTexturedRectRotated(rx + rw - bh, ry + rh - bh, b, b, 180)
     surface.DrawTexturedRectRotated(rx + rw - bh, ry + bh, b, b, 270)
@@ -81,9 +90,37 @@ end
 
 local TryTranslation = LANG.TryTranslation
 
+function WSWITCH:SizeBars(x, y, c, wep)
+    if (not IsValid(wep)) then return false end
+    local name = TryTranslation(wep:GetPrintName() or wep.PrintName or "...")
+	if (wep.ItemStats and wep.ItemStats.item) then
+        name = GetItemName(wep.ItemStats)
+    end
+
+    local cl1, am1 = wep:Clip1(), wep:Ammo1()
+    local ammo = false
+
+    -- Clip1 will be -1 if a melee weapon
+    -- Ammo1 will be false if weapon has no owner (was just dropped)
+    if (cl1 ~= -1 and am1 ~= false) then
+        ammo = Format("%i + %02i", cl1, am1)
+    end
+
+    surface.SetFont "moat_Medium4"
+    local namew, nameh = surface.GetTextSize(name)
+	local ammow = 0
+    if ammo then
+		surface.SetFont "moat_Medium4"
+		ammow = surface.GetTextSize(ammo)
+    end
+
+	width = math.max(ammow + namew + 44 + 10, width)
+
+    return true
+end
+
 function WSWITCH:DrawWeapon(x, y, c, wep)
     if not IsValid(wep) then return false end
-
     local name = TryTranslation(wep:GetPrintName() or wep.PrintName or "...")
 	if (wep.ItemStats and wep.ItemStats.item) then
         name = GetItemName(wep.ItemStats)
@@ -109,13 +146,13 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
     }
 
 	for i = 1, 2 do
-		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] + i, spec.pos[2] + i, Color(100, 100, 100, 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
-		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] - i, spec.pos[2] - i, Color(100, 100, 100, 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
-		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] + i, spec.pos[2] - i, Color(100, 100, 100, 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
-		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] - i, spec.pos[2] + i, Color(100, 100, 100, 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
+		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] + i, spec.pos[2] + i, Color(100, 100, 100, self.WeaponAlpha * 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
+		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] - i, spec.pos[2] - i, Color(100, 100, 100, self.WeaponAlpha * 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
+		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] + i, spec.pos[2] - i, Color(100, 100, 100, self.WeaponAlpha * 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
+		draw.SimpleText(spec.text, "moat_Medium4s", spec.pos[1] - i, spec.pos[2] + i, Color(100, 100, 100, self.WeaponAlpha * 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, true)
 	end
 
-	draw.SimpleText(spec.text, "moat_Medium4", spec.pos[1], spec.pos[2], spec.color, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(spec.text, "moat_Medium4", spec.pos[1], spec.pos[2], Color(spec.color.r, spec.color.g, spec.color.b, self.WeaponAlpha * 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
     -- draw.TextShadow(spec, 1, c.shadow)
     -- Name
@@ -128,7 +165,8 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
     if (wep.ItemStats and wep.ItemStats.item and (wep.ItemStats.item.NameColor or wep.ItemStats.item.Rarity)) then
         spec.color = wep.ItemStats.item.NameColor or rarity_names[wep.ItemStats.item.Rarity][2]:Copy()
     end
-
+	
+	spec.color.a = self.WeaponAlpha * 255
     spec.pos[1] = x + 10 + height
     emoji.Text(spec)
 
@@ -150,19 +188,17 @@ function WSWITCH:DrawWeapon(x, y, c, wep)
 		
 		local x, grad_y2, grad_w = spec.pos[1], y, 0
         for i = 1, 2 do
-			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w + i, grad_y2 + i, Color(100, 100, 100, 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
-			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w - i, grad_y2 - i, Color(100, 100, 100, 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
-			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w + i, grad_y2 - i, Color(100, 100, 100, 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
-			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w - i, grad_y2 + i, Color(100, 100, 100, 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
+			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w + i, grad_y2 + i, Color(100, 100, 100, self.WeaponAlpha * 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
+			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w - i, grad_y2 - i, Color(100, 100, 100, self.WeaponAlpha * 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
+			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w + i, grad_y2 - i, Color(100, 100, 100, self.WeaponAlpha * 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
+			draw.SimpleText(ammo, "moat_Medium4s", x + grad_w - i, grad_y2 + i, Color(100, 100, 100, self.WeaponAlpha * 150), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, true)
 		end
 
-		emoji.SimpleText(ammo, "moat_Medium4", x + grad_w, grad_y2, col, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+		emoji.SimpleText(ammo, "moat_Medium4", x + grad_w, grad_y2,  Color(spec.color.r, spec.color.g, spec.color.b, self.WeaponAlpha * 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	
 		surface.SetFont "moat_Medium4"
-		ammow = surface.GetTextSize(wep:Clip1() .. " + " .. wep:Ammo1())
+		ammow = surface.GetTextSize(ammo)
     end
-
-	width = math.max(ammow + namew + 44 + 10, width)
 
     return true
 end
@@ -174,6 +210,12 @@ function WSWITCH:Draw(client)
     local y = ScrH() - (#weps * (height + margin))
     local col = col_dark
 
+	self.WeaponAlpha = Lerp(FrameTime() * 10, self.WeaponAlpha, 1)
+
+	for k, wep in pairs(weps) do
+        self:SizeBars(x, y, c, wep)
+    end
+
     for k, wep in pairs(weps) do
         if self.Selected == k then
             col = col_active
@@ -181,15 +223,15 @@ function WSWITCH:Draw(client)
             col = col_dark
         end
 
-        self:DrawBarBg(x, y, width, height, col)
+        self:DrawBarBg(x, y, width, height, self.WeaponBG or col)
 
-        if not self:DrawWeapon(x, y, col, wep) then
+        if (not self:DrawWeapon(x, y, col, wep)) then
             self:UpdateWeaponCache()
 
             return
         end
 
-        y = y + height + margin
+		y = y + height + margin
     end
 end
 
@@ -211,11 +253,15 @@ function WSWITCH:UpdateWeaponCache()
     -- GetWeapons does not always return a proper numeric table it seems
     --   self.WeaponCache = LocalPlayer():GetWeapons()
     -- So copy over the weapon refs
-    self.WeaponCache = {}
+    self.WeaponCached = self.WeaponCache
+	self.WeaponCache = {}
+
     CopyVals(LocalPlayer():GetWeapons(), self.WeaponCache)
     table.sort(self.WeaponCache, SlotSort)
-
-	width = 310
+	
+	if (self.WeaponCached ~= self.WeaponCache) then
+		-- width = 310
+	end
 end
 
 function WSWITCH:SetSelected(idx)
@@ -296,6 +342,7 @@ function WSWITCH:Enable()
         end
 
         self:SetSelected(toselect)
+		self.WeaponAlpha = 0
     end
 
     -- cache for speed, checked every Think
