@@ -883,7 +883,7 @@ local weapon_challenges = {
             ["weapon_ttt_te_benelli"] = true,
             ["weapon_zm_shotgun"] = true
         },
-"ANY Shotgun Weapon", "Shotgun"
+"ANY Shotty Weapon", "Shotty"
     },
     {
         {
@@ -924,7 +924,7 @@ local weapon_challenges = {
             ["weapon_ttt_te_benelli"] = true,
             ["weapon_zm_shotgun"] = true
         },
-"ANY Shotgun Weapon", "Shotgun"
+"ANY Buckshot Weapon", "Buckshot"
     },
     {
         {

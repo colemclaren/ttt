@@ -1,6 +1,6 @@
 
 TALENT.ID = 69
-TALENT.Name = "the Boston Basher"
+TALENT.Suffix = "the Boston Basher"
 TALENT.Name = "Boston Basher"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(255, 0, 0)
