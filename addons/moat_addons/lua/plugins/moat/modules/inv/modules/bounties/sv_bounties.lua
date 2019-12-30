@@ -788,9 +788,10 @@ local weapon_challenges = {
     {
         {
             ["weapon_zm_mac10"] = true,
-			["weapon_ttt_te_mac"] = true
+			["weapon_ttt_te_mac"] = true,
+			["weapon_ttt_mac11"] = true
         },
-"the MAC10or the MAC10 TE or the MAC11", "MAC10 + MAC11"
+"the MAC10 or the MAC10 TE or the MAC11", "MAC10 + MAC11"
     },
     {
         {
