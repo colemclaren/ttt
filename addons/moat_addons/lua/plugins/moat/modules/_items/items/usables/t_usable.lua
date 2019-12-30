@@ -13,7 +13,9 @@ ITEM.Image = "https://cdn.moat.gg/ttt/traitor_token.png"
 ROLE_TOKEN_PLAYERS = ROLE_TOKEN_PLAYERS or {}
 
 ITEM.ItemUsed = function(pl, slot, item)
-	ROLE_TOKEN_PLAYERS[pl] = ROLE_TRAITOR
+	if (not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
+		ROLE_TOKEN_PLAYERS[pl] = ROLE_TRAITOR
+	end
 end
 
 hook.Add("TTTBeginRound", "RoleTokens", function()
