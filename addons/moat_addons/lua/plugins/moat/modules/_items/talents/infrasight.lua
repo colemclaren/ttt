@@ -3,13 +3,13 @@ TALENT.ID = 27
 TALENT.Suffix = "Infra-Sight"
 TALENT.Name = "Infra-Sight"
 TALENT.NameColor = Color(255, 255, 0)
-TALENT.Description = "Each hit has a %s_^ chance to mark your target for your teammates to see through walls for %s seconds"
+TALENT.Description = "Each hit has a %s_^ chance to allow a heat signature on your target for %s seconds. This enhanced vision is shared with your teammates"
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 10, max = 40}	-- Chance to trigger
-TALENT.Modifications[2] = {min = 3 , max = 8}	-- Effect duration
+TALENT.Modifications[1] = {min = 10, max = 35}	-- Chance to trigger
+TALENT.Modifications[2] = {min = 5, max = 25}	-- Effect duration
 
 TALENT.Melee = true
 TALENT.NotUnique = true
