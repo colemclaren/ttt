@@ -53,28 +53,28 @@ MOAT_ITEM_CHECK[1] = {function(i)
 	return (i.item and equipables[i.item.Kind:lower()]) or (i.Kind and equipables[i.Kind:lower()])
 end, "Item must be equippable!"}
 MOAT_ITEM_CHECK[2] = {function(i)
-	return (((i.Rarity and i.Rarity <= 7) or (i.item and i.item.Rarity and i.item.Rarity == 7)) and (i.Talents or i.t or (i.item and i.item.Talents)))
+	return (((i.Rarity and i.Rarity <= 7) or (i.item and i.item.Rarity and i.item.Rarity <= 7)) and (i.Talents or i.t or (i.item and i.item.Talents)))
 end, "Item must be Cosmic with talents!"}
 MOAT_ITEM_CHECK[3] = {function(i)
-	return (((i.Rarity and i.Rarity <= 6) or (i.item and i.item.Rarity and i.item.Rarity == 6)) and (i.Talents or i.t or (i.item and i.item.Talents)))
+	return (((i.Rarity and i.Rarity <= 6) or (i.item and i.item.Rarity and i.item.Rarity <= 6)) and (i.Talents or i.t or (i.item and i.item.Talents)))
 end, "Item must be Ascended with talents!"}
 MOAT_ITEM_CHECK[4] = {function(i)
 	return (((i.Rarity and i.Rarity <= 5) or (i.item and i.item.Rarity and i.item.Rarity <= 5)) and (i.Talents or i.t or (i.item and i.item.Talents)))
 end, "Item must be High-End with talents!"}
 MOAT_ITEM_CHECK[5] = {function(i)
-	return (((i.Rarity and i.Rarity <= 9) or (i.item and i.item.Rarity and i.item.Rarity == 9)) and (i.Talents or i.t or (i.item and i.item.Talents)))
+	return (((i.Rarity and i.Rarity <= 9) or (i.item and i.item.Rarity and i.item.Rarity <= 9)) and (i.Talents or i.t or (i.item and i.item.Talents)))
 end, "Item must be Planetary with talents!"}
 MOAT_ITEM_CHECK[6] = {function(i)
-	return (((i.Rarity and i.Rarity <= 7) or (i.item and i.item.Rarity and i.item.Rarity == 7)) and (i.Stats or (i.item and i.item.Stats)))
+	return (((i.Rarity and i.Rarity <= 7) or (i.item and i.item.Rarity and i.item.Rarity <= 7)) and (i.Stats or (i.item and i.item.Stats)))
 end, "Item must be Cosmic with stats!"}
 MOAT_ITEM_CHECK[7] = {function(i)
-	return (((i.Rarity and i.Rarity <= 6) or (i.item and i.item.Rarity and i.item.Rarity == 6)) and (i.Stats or (i.item and i.item.Stats)))
+	return (((i.Rarity and i.Rarity <= 6) or (i.item and i.item.Rarity and i.item.Rarity <= 6)) and (i.Stats or (i.item and i.item.Stats)))
 end, "Item must be Ascended with stats!"}
 MOAT_ITEM_CHECK[8] = {function(i)
 	return (((i.Rarity and i.Rarity <= 5) or (i.item and i.item.Rarity and i.item.Rarity <= 5)) and (i.Stats or (i.item and i.item.Stats)))
 end, "Item must be High-End with stats!"}
 MOAT_ITEM_CHECK[9] = {function(i)
-	return (((i.Rarity and i.Rarity <= 9) or (i.item and i.item.Rarity and i.item.Rarity == 9)) and (i.Stats or (i.item and i.item.Stats)))
+	return (((i.Rarity and i.Rarity <= 9) or (i.item and i.item.Rarity and i.item.Rarity <= 9)) and (i.Stats or (i.item and i.item.Stats)))
 end, "Item must be Planetary with stats!"}
 MOAT_ITEM_CHECK[10] = {function(i, pl)
 	if (CLIENT and ((i.item and i.item.Kind:lower() == "model") or (i.Kind and i.Kind:lower() == "model"))) then
