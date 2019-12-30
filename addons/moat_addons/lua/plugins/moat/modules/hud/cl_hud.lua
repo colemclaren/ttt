@@ -1005,7 +1005,7 @@ end)
 local player_GetAll = player.GetAll
 local think_check = 0
 local curtime = CurTime
-local traitorColor = Color(200, 20, 20)
+local traitorColor = Color(137, 101, 224)
 local modTraitorColor = Color(traitorColor.r / 255, traitorColor.g / 255, traitorColor.b / 255)
 local function Moat_HUD_AddTHalos()
 	if (not IsValid(LP) or not LP:GetTraitor()) then
