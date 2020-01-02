@@ -33,7 +33,7 @@ m_Loadout = CreateSlots(10)
 m_Trade = {}
 
 function m_ClearInventory()
-	m_Inventory = CreateSlots(LocalPlayer():GetSlots())
+	m_Inventory = CreateSlots(LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 40))
 	m_Loadout = CreateSlots(10)
 	m_Trade = {}
 end
