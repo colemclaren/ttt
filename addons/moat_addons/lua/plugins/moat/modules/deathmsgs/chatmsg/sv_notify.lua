@@ -20,6 +20,10 @@ hook("PlayerDeath", function(victim, entity, killer)
     local role = "idk"
 	local gotdna = false
 
+	if (not IsValid(victim) or not IsValid(entity) or not IsValid(killer)) then
+		return
+	end
+
    	if (entity:GetClass() == "entityflame" and killer:GetClass() == "entityflame") then
         reason = "burned"
         killerz = "idk"

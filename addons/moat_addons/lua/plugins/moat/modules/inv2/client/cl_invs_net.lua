@@ -1,3 +1,15 @@
+local ITEM_RARITY_TO_NAME = {
+	["Stock"] = 0,
+    ["Worn"] = 1,
+    ["Standard"] = 2,
+    ["Specialized"] = 3,
+    ["Superior"] = 4,
+    ["High-End"] = 5,
+    ["Ascended"] = 6,
+    ["Cosmic"] = 7,
+	["Extinct"] = 8,
+	["Planetary"] = 9,
+}
 
 local insurance = {}
 function insurance:__newindex(k, v)
