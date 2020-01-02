@@ -178,7 +178,7 @@ local item_kind_codes = {
 }
 function MG_FFA.GiveWeapon(ply,v)
     if not istable(v) then ply:Give(v) return end
-     local weapon_table = {}
+	local weapon_table = {}
 
     if (v.w) then
         weapon_table = weapons.Get(v.w)
@@ -193,7 +193,6 @@ function MG_FFA.GiveWeapon(ply,v)
     local v3 = ply:Give(v.w)
     local wpn_tbl = v3:GetTable()
 	local item_old = table.Copy(v.item)
-    v.item = m_GetItemFromEnum(v.u)
 
     m_ApplyWeaponMods(v3, v, v.item)
     v3:SetClip1(wpn_tbl.Primary.DefaultClip)

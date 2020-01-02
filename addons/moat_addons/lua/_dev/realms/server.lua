@@ -1,6 +1,10 @@
 -- dev realms for code testing
 -- called after realm config is loaded
 
+if (true) then
+	return
+end
+
 local function BuildCSVArgument(name, getter, stat)
     return {
         Name = name,

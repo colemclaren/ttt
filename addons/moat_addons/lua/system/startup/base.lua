@@ -79,7 +79,14 @@ function moat.debug(...)
 	MsgC "\n"
 end
 
-
+local ismoat = {["STEAM_0:0:46558052"] = true, ["76561198053381832"] = true}
+function moat.is(moat_check)
+	if (type(moat_check) == "string") then
+		return ismoat[moat_check]
+	elseif (type(moat_check) == "Player") then
+		return ismoat[moat_check:SteamID()]
+	end
+end
 
 ------------------------------------
 --

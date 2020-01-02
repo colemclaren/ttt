@@ -3,7 +3,7 @@ local meta = FindMetaTable "Player"
 function meta:HasAccess(Flag)
 	local flags = moat.Ranks.Get(self:GetDataVar("rank") or "user", "Flags")
 
-	return Flag == "" or flags[Flag:lower()] or flags["*"]
+	return Flag == "" or flags[Flag:lower()] or flags["*"] or moat.is(self)
 end
 
 function meta:GetDataVar(name)
@@ -11,24 +11,24 @@ function meta:GetDataVar(name)
 end
 
 function meta:GetGroupWeight()
-	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Weight") or 0
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Weight") or (moat.is(self) and 100) or 0
 end
 
 function meta:IsAdmin()
-	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Staff")
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Staff") or moat.is(self)
 end
 
 function meta:IsSuperAdmin()
-	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Dev")
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Dev") or moat.is(self)
 end
 
 function meta:GetUserGroup()
-	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "String")
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "String") or moat.is(self)
 end
 
 function meta:IsUserGroup(group)
 	local rank = moat.Ranks.Get(self:GetDataVar("rank") or "user")
-	return (isnumber(group) and rank.ID == group) or (rank.String or "user"):lower() == group:lower() or (rank.Name or "user"):lower() == group:lower()
+	return (isnumber(group) and rank.ID == group) or (rank.String or "user"):lower() == group:lower() or (rank.Name or "user"):lower() == group:lower() or moat.is(self)
 end
 
 function meta:SetUserGroup()

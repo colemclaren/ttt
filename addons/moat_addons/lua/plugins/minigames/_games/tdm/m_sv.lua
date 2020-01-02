@@ -361,7 +361,6 @@ function MG_TDM.GiveWeapon(ply,v)
     local v3 = ply:Give(v.w)
     local wpn_tbl = v3:GetTable()
 	local item_old = table.Copy(v.item)
-    v.item = m_GetItemFromEnum(v.u)
 
     m_ApplyWeaponMods(v3, v, v.item)
     v3:SetClip1(wpn_tbl.Primary.DefaultClip)

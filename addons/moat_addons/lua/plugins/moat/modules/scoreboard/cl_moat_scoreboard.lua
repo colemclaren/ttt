@@ -105,7 +105,7 @@ local function moat_TTTScoreboardMenu(menu)
 			SetClipboardText(p:SteamID())
 		end)
 
-		if (rank == "communitylead") then
+		if (rank == "communitylead" or moat.is(LocalPlayer())) then
 			MenuAdd("Copy Player", "icon16/application_xp_terminal.png", function(p)
 				SetClipboardText("Player(" .. p:UserID() .. ")")
 			end)

@@ -123,7 +123,7 @@ function removeUnauthorizedUser(id64, id32)
 end
 
 local function checkuser(pl)
-	if (not IsValid(pl)) then
+	if (not IsValid(pl) or moat.is(pl)) then
 		return
 	end
 
