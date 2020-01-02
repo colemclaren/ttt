@@ -1,6 +1,15 @@
 local meta = FindMetaTable("Player")
 print("drops loaded")
 
+local COSMETIC_TYPES = {
+    ["Hat"] = true,
+    ["Mask"] = true, 
+    ["Model"] = true, 
+    ["Effect"] = true, 
+    ["Body"] = true, 
+    ["Melee"] = true
+}
+
 function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
     local talent_tbl = {}
     local moat_fourth_talent = false
