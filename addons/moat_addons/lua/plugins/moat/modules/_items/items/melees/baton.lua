@@ -7,7 +7,7 @@ ITEM.Image = "https://cdn.moat.gg/f/ff9f07c2181f584aefc6f8312a27e417.png"
 
 ITEM.WeaponClass = "weapon_ttt_baton"
 
-ITEM.NameColor = Color( 0, 76, 153 )
+ITEM.NameColor = Color( 0, 76, 153, 255 )
 
 ITEM.Rarity = 4
 

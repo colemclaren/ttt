@@ -15,7 +15,7 @@ end
 -- Save players from unnecessary networking
 local DefaultGlobals = {
 	["MOAT_MINIGAME_ACTIVE"] = "Str",
-	
+	["ttt_default_playermodel"] = {"String", "models/player/phoenix.mdl"},
 	["ttt_highlight_admins"] = {"Bool", true},
 	["ttt_detective"] = {"Bool", true},
 	["ttt_haste"] = {"Bool", true},
@@ -306,7 +306,7 @@ if (SERVER) then
 				WriteString(var.Key)
 				Globals[var.Kind].Write(var.Value)
 			end,
-			send = function() net.Send(pl) end,
+			send = function() Send(pl) end,
 			check = function(var)
 				if (not Globals[var.Kind].Valid(var.Value)) then
 					return false

@@ -261,7 +261,7 @@ function pmdl_cosmetic(M_INV_PMDL,cosm)
     end
 
 	if (not set_model) then
-		 M_INV_PMDL:SetModel(GetGlobal("ttt_default_playermodel"))
+		 M_INV_PMDL:SetModel(GetGlobal("ttt_default_playermodel") or "models/player/phoenix.mdl")
 	end
 end
 
@@ -530,7 +530,7 @@ function make_battlepass()
         end
     end
 	if (not set_model) then
-		 M_INV_PMDL:SetModel(GetGlobal("ttt_default_playermodel"))
+		 M_INV_PMDL:SetModel(GetGlobal("ttt_default_playermodel") or "models/player/phoenix.mdl")
 	end
     function M_INV_PMDL:DrawModel()
         local curparent = self

@@ -75,7 +75,7 @@ function MOAT_MEMES.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_ra
 	*/
 
 	if (ball_rarity and ball_rarity > 0) then
-		 weapons.Register({
+		weapons.Register({
             Base = "weapon_ttt_bouncy_meme",
             PrintName = meme.Name .. " Bouncy Ball",
 			CreateBall = function(s)
@@ -96,9 +96,9 @@ function MOAT_MEMES.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_ra
         tbl.Image = meme.Image
 		tbl.WeaponClass = "weapon_ttt_bouncy_" .. meme.Name:lower()
 
-        if (SERVER) then
+        -- if (SERVER) then
 			m_AddDroppableItem(tbl, "Special")
-		end
+		-- end
 	end
 
 	if (mask_rarity and mask_rarity > 0) then
@@ -129,9 +129,8 @@ function MOAT_MEMES.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_ra
 			return model, pos, ang
 		end
 
-		if (SERVER) then
-			m_AddDroppableItem(tbl, "Mask")
-		else
+		m_AddDroppableItem(tbl, "Mask")
+		if (CLIENT) then
 			m_AddCosmeticItem(tbl, "Mask")
 		end
 	end

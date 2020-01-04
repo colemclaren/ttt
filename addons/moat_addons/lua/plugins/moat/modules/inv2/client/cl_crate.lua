@@ -425,7 +425,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
     local MOAT_ITEM_PREVIEW = vgui.Create("MOAT_PlayerPreview")
     MOAT_ITEM_PREVIEW:SetSize(350, 550)
     MOAT_ITEM_PREVIEW:SetPos(-275, 0)
-    MOAT_ITEM_PREVIEW.DefaultModel = GetGlobalString("ttt_default_playermodel")
+    MOAT_ITEM_PREVIEW.DefaultModel = GetGlobal("ttt_default_playermodel") or "models/player/phoenix.mdl"
     MOAT_ITEM_PREVIEW:SetModel(MOAT_ITEM_PREVIEW.DefaultModel)
     MOAT_ITEM_PREVIEW:SetText("")
     MOAT_ITEM_PREVIEW:SetDrawOnTop(true)

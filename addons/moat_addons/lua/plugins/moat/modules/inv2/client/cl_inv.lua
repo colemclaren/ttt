@@ -1799,7 +1799,7 @@ function m_OpenInventory(ply2, utrade)
     end
 
 	if (not set_model) then
-		 M_INV_PMDL:SetModel(GetGlobal("ttt_default_playermodel"))
+		 M_INV_PMDL:SetModel(GetGlobal("ttt_default_playermodel") or "models/player/phoenix.mdl")
 	end
 
     local M_INV_NICK = Label(LocalPlayer():Nick(), M_LOADOUT_PNL)

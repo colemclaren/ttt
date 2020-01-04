@@ -212,11 +212,3 @@ local v2 = Vector(0, 0, 2)
 function m_IsTerroristModel(mdl)
     return moat_TerroristModels[mdl] and v2 or vector_origin
 end
-
-if (SERVER) then
-    SetGlobalString("ttt_default_playermodel", "")
-
-    timer.Simple(5, function()
-        SetGlobalString("ttt_default_playermodel", tostring(GAMEMODE.playermodel))
-    end)
-end

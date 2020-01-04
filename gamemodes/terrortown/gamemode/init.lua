@@ -176,6 +176,7 @@ function GM:Initialize()
     GAMEMODE.DamageLog = {}
     GAMEMODE.LastRole = {}
     GAMEMODE.playermodel = GetRandomPlayerModel()
+	SetGlobalString("ttt_default_playermodel", GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
     GAMEMODE.playercolor = COLOR_WHITE
     -- Delay reading of cvars until config has definitely loaded
     GAMEMODE.cvar_init = false
@@ -258,6 +259,7 @@ end
 -- Convar replication is broken in gmod, so we do this.
 -- I don't like it any more than you do, dear reader.
 function GM:SyncGlobals()
+	SetGlobalString("ttt_default_playermodel", GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
     SetGlobalBool("ttt_detective", ttt_detective:GetBool())
     SetGlobalBool("ttt_haste", ttt_haste:GetBool())
     SetGlobalInt("ttt_time_limit_minutes", GetConVar("ttt_time_limit_minutes"):GetInt())
@@ -550,6 +552,7 @@ function PrepareRound()
     SCORE:Reset()
     -- New look. Random if no forced model set.
     GAMEMODE.playermodel = GAMEMODE.force_plymodel == "" and GetRandomPlayerModel() or GAMEMODE.force_plymodel
+	SetGlobalString("ttt_default_playermodel", GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
     GAMEMODE.playercolor = hook.Call("TTTPlayerColor", GAMEMODE, GAMEMODE.playermodel)
     if (CheckForAbort()) then return end
     -- Schedule round start

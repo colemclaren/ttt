@@ -3,7 +3,7 @@ local function enabled_disguise(pl)
 	pl.DisguiseColor = pl:GetColor()
 	pl.DisguisePlayerColor = pl:GetPlayerColor()
 
-	pl:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
+	pl:SetModel(GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
 	pl:SetColor(Color(255, 255, 255, 255))
 	pl:SetPlayerColor(Vector(1, 1, 1))
 

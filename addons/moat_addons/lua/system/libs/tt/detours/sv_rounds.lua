@@ -68,6 +68,7 @@ function tt.PrepareRound()
     SCORE:Reset()
     -- New look. Random if no forced model set.
     GAMEMODE.playermodel = GAMEMODE.force_plymodel == "" and GetRandomPlayerModel() or GAMEMODE.force_plymodel
+	SetGlobalString("ttt_default_playermodel", GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
     GAMEMODE.playercolor = hook.Call("TTTPlayerColor", GAMEMODE, GAMEMODE.playermodel)
     
 	if (tt.CheckForAbort()) then

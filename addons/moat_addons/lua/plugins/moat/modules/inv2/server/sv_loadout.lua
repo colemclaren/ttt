@@ -670,7 +670,7 @@ function MOAT_LOADOUT.SetPlayerModel(ply, item_tbl)
 		item_tbl.item:OnPlayerSpawn(ply)
 	end
 
-	ply:SetModel(item_tbl.item.Model or GAMEMODE.playermodel or "models/player/phoenix.mdl")
+	ply:SetModel(item_tbl.item.Model or GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
 	timer.Simple(0, function() if (IsValid(ply)) then ply:SetModel(item_tbl.item.Model) end end)
 
     if (MOAT_INVS[ply] and MOAT_INVS[ply]["l_slot10"] and (MOAT_INVS[ply]["l_slot10"].p or MOAT_INVS[ply]["l_slot10"].p2 or MOAT_INVS[ply]["l_slot10"].p3)) then
@@ -707,7 +707,7 @@ end
 hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
     function GAMEMODE:PlayerSetModel(ply)
 		if (hook.Run("MoatInventoryShouldGiveLoadout", ply)) then
-			ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
+			ply:SetModel(GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
 			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
 			ply:SetColor(Color(255, 255, 255, 255))
 			ply:SetPlayerColor(Vector(1, 1, 1))
@@ -723,7 +723,7 @@ hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
 			end
         end
 
-		ply:SetModel(GAMEMODE.playermodel or "models/player/phoenix.mdl")
+		ply:SetModel(GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
 		ply:SetRenderMode(RENDERMODE_TRANSALPHA)
 		ply:SetColor(Color(255, 255, 255, 255))
 		ply:SetPlayerColor(Vector(1, 1, 1))
