@@ -3305,7 +3305,7 @@ function m_OpenInventory(ply2, utrade)
 
                 item_desc = string.Implode("", item_desctbl)
                 item_desc = string.Replace(item_desc, "_", "%")
-                num_stats = m_GetItemDescH(item_desc, "moat_ItemDesc", 275 - 14)
+                num_stats = m_GetItemDescH(item_desc, "moat_ItemDesc", w - 12)
                 draw_stats_multi = 15
                 default_drawn_stats = 0
             end
@@ -5795,7 +5795,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
             item_desc = string.Implode("", item_desctbl)
             item_desc = string.Replace(item_desc, "_", "%")
-            num_stats = m_GetItemDescH(item_desc, "moat_ItemDesc", 275 - 14)
+            num_stats = m_GetItemDescH(item_desc, "moat_ItemDesc", w - 12)
             draw_stats_multi = 15
             default_drawn_stats = 0
         end
@@ -5895,7 +5895,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
                 item_desc = string.Implode("", item_desctbl)
                 item_desc = string.Replace(item_desc, "_", "%")
-                num_stats = m_GetItemDescH(item_desc, "moat_ItemDesc", 275 - 14)
+                num_stats = m_GetItemDescH(item_desc, "moat_ItemDesc", w - 12)
                 draw_stats_multi = 15
                 default_drawn_stats = 0
             end
