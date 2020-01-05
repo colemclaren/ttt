@@ -80,7 +80,7 @@ function MoatLog(msg)
 end
 
 function m_CheckCompTickets(pl)
-    local q = MINVENTORY_MYSQL:query("SELECT * FROM `moat_comps` WHERE (REGEXP_REPLACE(`steamid`, '[^a-z0-9_:]+', '') LIKE '" .. MINVENTORY_MYSQL:escape(get_steamid(pl)) .. "' AND `approved` LIKE '2')")
+    local q = MINVENTORY_MYSQL:query("SELECT * FROM `moat_comps` WHERE `steamid` LIKE '" .. MINVENTORY_MYSQL:escape(get_steamid(pl)) .. "' AND `approved` LIKE '2')")
 
     function q:onSuccess(d)
         if (#d > 0) then
