@@ -1540,7 +1540,7 @@ MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
 MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
     tier = 2,
     desc = "Win # rounds as a traitor or detective without purchasing a single equipment item.",
-    vars = {math.random(7, 13)},
+    vars = {math.random(4, 9)},
     runfunc = function(mods, bountyid, idd)
         hook.Add("TTTEndRound", "moat_no_equipments_allowed_end", function(res)
             for k, v in pairs(player.GetAll()) do
