@@ -38,7 +38,7 @@ end
 
 local MGACommandMenu = {
 	Votekick = {"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
-		{"Drop", "Choose Reason", {"Mic Spamming","Purposeful Mass RDM","Attempted Mass RDM","Chat Spamming","Hateful Conduct"}, "Reason required..."}
+		{"Drop", "Choose Reason", {"Mic Spamming","Purposeful Mass RDM","Attempted Mass RDM","Chat Spamming","Trolling"}, "Reason required..."}
 	}},
 	Ban = {"Ban", "Bans a player or SteamID from the server.", true, {
 			{"Entry", "SteamID", "STEAM_0:0:"},

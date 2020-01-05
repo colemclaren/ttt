@@ -8,13 +8,13 @@ local ignore_steamid = {
 
 local function get_steamid(ply)
     local sid = ply:SteamID()
-    if ignore_steamid[ply:SteamID64()] then return sid end
+    -- if ignore_steamid[ply:SteamID64()] then return sid end
 
-    if Server then
-        if Server.IsDev then
-            sid = sid .. "dev"
-        end
-    end
+    -- if Server then
+    --     if Server.IsDev then
+    --         sid = sid .. "dev"
+    --     end
+    -- end
 
     return sid
 end
@@ -80,7 +80,7 @@ function MoatLog(msg)
 end
 
 function m_CheckCompTickets(pl)
-    local q = MINVENTORY_MYSQL:query("SELECT * FROM `moat_comps` WHERE `steamid` LIKE '" .. MINVENTORY_MYSQL:escape(get_steamid(pl)) .. "' AND `approved` LIKE '2')")
+    local q = MINVENTORY_MYSQL:query("SELECT * FROM `moat_comps` WHERE `steamid` = '" .. MINVENTORY_MYSQL:escape(get_steamid(pl)) .. "' AND `approved` LIKE '2'")
 
     function q:onSuccess(d)
         if (#d > 0) then

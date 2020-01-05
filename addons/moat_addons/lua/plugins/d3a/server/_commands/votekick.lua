@@ -5,7 +5,7 @@ COMMAND.Args = {{"player", "Name/SteamID"}, {"string", "Reason"}}
 local reasons = {
 	"Purposeful Mass RDM",
 	"Attempted Mass RDM",
-	"Hateful Conduct"
+	"Trolling"
 } -- not sent to client, found in addons\moat_addons\lua\plugins\d3a\client\cl_menu.lua:100
 COMMAND.Run = function(pl, args, supp)
 	if (D3A.VoteActive) then

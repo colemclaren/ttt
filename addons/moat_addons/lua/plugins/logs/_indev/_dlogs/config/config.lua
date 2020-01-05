@@ -33,8 +33,7 @@ dlogs.Config.Ban_DefaultReasons = {
 	"Purposeful Mass RDM",
 	"Attempted Mass RDM",
 	"Revenge RDM",
-	"Hateful Conduct",
-	"Spamming",
 	"Trolling",
+	"Spamming",
 	"Cheating"
 }
