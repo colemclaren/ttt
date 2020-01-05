@@ -3338,10 +3338,8 @@ function m_OpenInventory(ply2, utrade)
 
             local collection_add = 0
 
-            if (ITEM_HOVERED.item) then
-                if (ITEM_HOVERED.item.Collection) then
-                    collection_add = 10
-                end
+            if (ITEM_HOVERED.item and ITEM_HOVERED.item.Collection) then
+				collection_add = 10
             end
 
             local panel_height = draw_stats_y + default_drawn_stats + drawn_talents + (num_stats * draw_stats_multi) + 4 + collection_add

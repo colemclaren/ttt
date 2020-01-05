@@ -607,6 +607,7 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
             net.WriteString"0"
             net.Send(ply)
 
+			m_CheckCompTickets(ply)
 			ply.Sending = false
 
             timer.Simple(0, function()
