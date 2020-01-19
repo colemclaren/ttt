@@ -85,9 +85,9 @@ local bg_colors = {
 }
 
 local moat_HUDConvars = {
-	["moat_WeaponFrame2"] = {false, false, false, false},
-	["moat_HealthBox"] = {false, false, false, false},
-	["moat_RoleBox2"] = {false, false, false, false}
+	["HUD_WeaponFrame"] = {false, false, false, false},
+	["HUD_HealthBox"] = {false, false, false, false},
+	["HUD_RoleBox"] = {false, false, false, false}
 }
 
 local moving_frame = ""
@@ -519,7 +519,7 @@ local function moat_CustomHUD()
 	local y = FRAME_INFO.y
 	local w = FRAME_INFO.w
 	local h = FRAME_INFO.h
-	local x, y, w, h = moat_AddMovableBox("moat_WeaponFrame2", x, y, w, h)
+	local x, y, w, h = moat_AddMovableBox("HUD_WeaponFrame", x, y, w, h)
 	local wpn = LP:GetActiveWeapon()
 
 	if (not IsValid(wpn) and LP:HasWeapon("weapon_ttt_unarmed")) then
@@ -748,7 +748,7 @@ local function moat_CustomHUD()
 	local y = FRAME_INFO2.y
 	local w = FRAME_INFO2.w
 	local h = FRAME_INFO2.h
-	local x, y, w, h = moat_AddMovableBox("moat_HealthBox", x, y, w, h)
+	local x, y, w, h = moat_AddMovableBox("HUD_HealthBox", x, y, w, h)
 
 	if (GetConVar("moat_HUDHealthSnapToAmmo"):GetString() == "true") then
 		FRAME_INFO2 = {
@@ -808,7 +808,7 @@ local function moat_CustomHUD()
 	local y = FRAME_INFO3.y
 	local w = FRAME_INFO3.w
 	local h = FRAME_INFO3.h
-	local x, y, w, h = moat_AddMovableBox("moat_RoleBox2", x, y, w, h)
+	local x, y, w, h = moat_AddMovableBox("HUD_RoleBox", x, y, w, h)
 
 	if (GetConVar("moat_HUDRoleSnap"):GetString() == "true") then
 		if (GetConVar("moat_HUDHealthSnapToAmmo"):GetString() == "true") then
@@ -946,9 +946,9 @@ concommand.Add("moat_resethud", function()
 	for k, v in pairs(moat_HUDConvars) do
 		local tbl = FRAME_INFO
 
-		if (k == "moat_HealthBox") then
+		if (k == "HUD_HealthBox") then
 			tbl = FRAME_INFO2
-		elseif (k == "moat_RoleBox2") then
+		elseif (k == "HUD_RoleBox") then
 			tbl = FRAME_INFO3
 		end
 
