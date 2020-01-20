@@ -118,11 +118,11 @@ include("lang_shd.lua") -- uses some of util
 include("equip_items_shd.lua")
 
 function DetectiveMode()
-    return GetGlobalBool("ttt_detective", false)
+    return true
 end
 
 function HasteMode()
-    return GetGlobalBool("ttt_haste", false)
+    return GetGlobal("ttt_haste")
 end
 
 -- Create teams
@@ -152,7 +152,7 @@ local ttt_playercolors = {
 CreateConVar("ttt_playercolor_mode", "1")
 
 function GM:TTTIsRightfulDamage(attacker, victim)
-    return attacker:GetBasicRole() ~= victim:GetBasicRole() and not (attacker:GetRole() == ROLE_DETECTIVE and victim:GetRole() == ROLE_INNOCENT)
+    return IsValid(victim) and IsValid(attacker) and victim:IsPlayer() and attacker:IsPlayer() and attacker:GetBasicRole() ~= victim:GetBasicRole() and not (attacker:GetRole() == ROLE_DETECTIVE and victim:GetRole() == ROLE_INNOCENT)
 end
 
 function GM:TTTPlayerColor(model)

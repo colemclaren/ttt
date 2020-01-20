@@ -97,7 +97,7 @@ local function IdlePopup()
     dframe:SetMouseInputEnabled(true)
     local inner = vgui.Create("DPanel", dframe)
     inner:StretchToParent(5, 25, 5, 45)
-    local idle_limit = GetGlobalInt("ttt_idle_limit", 300) or 300
+    local idle_limit = GetGlobal("ttt_idle_limit", 300) or 300
     local text = vgui.Create("DLabel", inner)
     text:SetWrap(true)
 

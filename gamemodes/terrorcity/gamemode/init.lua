@@ -573,12 +573,12 @@ end
 
 function GetRoundEnd()
     local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
-    return GetGlobalFloat("ttt_round_end", CurTime()) -  dist
+    return GetGlobal("ttt_round_end", CurTime()) -  dist
 end
 
 function GetHasteEnd()
     local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
-    return GetGlobalFloat("ttt_haste_end", CurTime()) -  dist
+    return GetGlobal("ttt_haste_end", CurTime()) -  dist
 end
 
 function StartRoundSpeedup(mul)
@@ -770,7 +770,7 @@ end
 
 function CheckForMapSwitch()
     -- Check for mapswitch
-    local rounds_left = math.max(0, GetGlobalInt("ttt_rounds_left", 6) - 1)
+    local rounds_left = math.max(0, GetGlobal("ttt_rounds_left", 6) - 1)
     SetGlobalInt("ttt_rounds_left", rounds_left)
     local time_left = math.max(0, (GetConVar("ttt_time_limit_minutes"):GetInt() * 60) - CurTime())
     local switchmap = false

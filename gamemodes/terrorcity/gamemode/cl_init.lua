@@ -94,7 +94,7 @@ end
 KARMA = {}
 
 function KARMA.IsEnabled()
-    return GetGlobalBool("ttt_karma", false)
+    return GetGlobal("ttt_karma", false)
 end
 
 function GetRoundState()
@@ -427,7 +427,7 @@ function CheckIdle()
     end
 
     if GetRoundState() == ROUND_ACTIVE and client:IsTerror() and client:Alive() then
-        local idle_limit = GetGlobalInt("ttt_idle_limit", 300) or 300
+        local idle_limit = GetGlobal("ttt_idle_limit", 300) or 300
 
         if idle_limit <= 0 then
             idle_limit = 300

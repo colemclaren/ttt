@@ -93,7 +93,7 @@ function plymeta:IsActiveSpecial()
 end
 
 function plymeta:GetBasicRole()
-      return BASIC_ROLE_LOOKUP[self:GetRole()]
+	return BASIC_ROLE_LOOKUP[self:GetRole()]
 end
 
 role_strings = {

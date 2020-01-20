@@ -166,12 +166,12 @@ local key_params = { usekey = Key("+use", "USE") }
 
 function GetRoundEnd()
     local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
-    return GetGlobalFloat("ttt_round_end", CurTime()) -  dist
+    return GetGlobal("ttt_round_end", CurTime()) -  dist
 end
 
 function GetHasteEnd()
     local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
-    return GetGlobalFloat("ttt_haste_end", CurTime()) -  dist
+    return GetGlobal("ttt_haste_end", CurTime()) -  dist
 end
 
 local function SpecHUDPaint(client)

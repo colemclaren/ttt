@@ -31,13 +31,13 @@ function XENOMORPH:PlayerDeath(pl, _, atk)
 		net.Start "xenomorph.timer"
 		net.Send(pl)
 
-		local rnd = GetGlobalInt("ttt_rounds_left")
+		local rnd = GetGlobal("ttt_rounds_left")
 		timer.Simple(XENOMORPH.RespawnTime, function()
 			if (not IsValid(pl)) then
 				return
 			end
 			XENOMORPH.Respawning = false
-			XENOMORPH.RespawnTimer(pl, rnd, GetGlobalInt("ttt_rounds_left"))
+			XENOMORPH.RespawnTimer(pl, rnd, GetGlobal("ttt_rounds_left"))
 		end)
 	end
 end
