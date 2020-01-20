@@ -31,4 +31,4 @@ ITEM.MinTalents = 1
 
 ITEM.MaxTalents = 1
 
-ITEM.Talents = { "Brutal" }
+ITEM.Talents = { "Brutality" }
