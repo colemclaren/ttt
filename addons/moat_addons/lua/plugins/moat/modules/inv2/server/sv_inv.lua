@@ -371,11 +371,12 @@ local function discord_post(ply,item,image,gift)
     if not gift then
         embed = getiteminfo(item,embed)
     end
+
     discord.Embed("Drop",embed)
 end
 
 local function discord_drop(ply,item,gift)
-    http.Fetch("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=" .. DiscordRelay.SteamWebAPIKey .. "&steamids=" .. ply:SteamID64() .. "&format=json", function(body, size, headers, code)
+    http.Fetch("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=13E8032658377F036842094BDD9E7000&steamids=" .. ply:SteamID64() .. "&format=json", function(body, size, headers, code)
         local response = util.JSONToTable(body).response
         local plyInfo
         local image
@@ -436,8 +437,8 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 			net.Start("MOAT_ADD_INV_ITEM")
 			net.WriteUInt(slot_found, 16)
 			local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
-			-- tbl2.item = GetItemFromEnum(tbl2.u)
-			-- tbl2.Talents = GetItemTalents(tbl2)
+			tbl2.item = GetItemFromEnum(tbl2.u)
+			tbl2.Talents = GetItemTalents(tbl2)
 
 			net.WriteTable(tbl2)
 			net.WriteBool(no_chat or false)
