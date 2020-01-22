@@ -34,8 +34,8 @@ SWEP.Primary.Recoil = 10
 -- Cone controls distance for damage falloff
 SWEP.Primary.Cone = 0.5
 -- If these exist: 
-SWEP.Primary.ConeY = 0.09
-SWEP.Primary.ConeX = 0.07
+SWEP.Primary.ConeY = 0.06
+SWEP.Primary.ConeX = 0.04
 SWEP.Primary.Damage = 20
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 6
