@@ -31,6 +31,6 @@ ITEM.Stats = {
 
 ITEM.MinTalents = 1
 
-ITEM.MaxTalents = 2
+ITEM.MaxTalents = 1
 
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random" }
