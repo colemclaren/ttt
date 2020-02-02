@@ -98,7 +98,7 @@ local function randomvape()
 end
 net.Receive("MOAT_BUY_ITEM", function(len, ply)
     local crate_id = net.ReadDouble()
-    local crate_amt = math.Clamp(net.ReadUInt(8), 1, 10)
+    local crate_amt = math.Clamp(net.ReadUInt(8), 1, 5)
     local crate_tbl = {}
     if limiteds[crate_id] then
         crate_tbl = limiteds[crate_id]
