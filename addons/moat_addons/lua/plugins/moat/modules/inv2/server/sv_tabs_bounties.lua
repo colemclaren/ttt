@@ -1183,14 +1183,14 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
     end
 
     local t = self.Bounties[bounty_id].tier
-    moat_DropHoliday(ply, 1)
-    -- if (t and self:HighEndChance(t)) then
-    -- 	local rarity = 5
-    -- 	if (t > 1) then
-    -- 		rarity = MOAT_BOUNTIES.Rewards(5, t == 2 and 6 or 7)
-    -- 	end
-    -- 	ply:m_DropInventoryItem(rarity)
-    -- end
+    -- moat_DropHoliday(ply, 1)
+    if (t and self:HighEndChance(t)) then
+    	local rarity = 5
+    	if (t > 1) then
+    		rarity = MOAT_BOUNTIES.Rewards(5, t == 2 and 6 or 7)
+    	end
+    	ply:m_DropInventoryItem(rarity)
+    end
     local mutator = {"High-End Stats Mutator", "High-End Talents Mutator"}
     mutator = mutator[math.random(2)]
     rewards.drop = MOAT_BOUNTIES.Rewards(false, mutator)
@@ -1214,7 +1214,7 @@ local tier1_rewards = MOAT_BOUNTIES.Rewards({
     exp = 5000
 })
 
-local tier1_rewards_str = MOAT_BOUNTIES.Rewards("2,500 Inventory Credits + 1,500 Player Experience + 1 Holiday Crate", "Any Random Mutator + 5,000 Player Experience + 1 in 25 Chance for Ascended") -- "2,500 Inventory Credits + 1,500 Player Experience + 1 in 5 Chance for High-End",
+local tier1_rewards_str = MOAT_BOUNTIES.Rewards("2,500 Inventory Credits + 1,500 Player Experience + 1 in 5 Chance for High-End", "Any Random Mutator + 5,000 Player Experience + 1 in 25 Chance for Ascended") -- "2,500 Inventory Credits + 1,500 Player Experience + 1 in 5 Chance for High-End",
 
 local tier2_rewards = MOAT_BOUNTIES.Rewards({
     ic = 5000,
@@ -1223,7 +1223,7 @@ local tier2_rewards = MOAT_BOUNTIES.Rewards({
     exp = 11000
 })
 
-local tier2_rewards_str = MOAT_BOUNTIES.Rewards("5,000 Inventory Credits + 2,500 Player Experience + 1 Holiday Crate", "Any Random Mutator + 11,000 Player Experience + 1 in 15 Chance for Ascended+") -- "5,000 Inventory Credits + 2,500 Player Experience + 1 in 2 Chance for High-End",
+local tier2_rewards_str = MOAT_BOUNTIES.Rewards("5,000 Inventory Credits + 2,500 Player Experience + 1 in 2 Chance for High-End", "Any Random Mutator + 11,000 Player Experience + 1 in 15 Chance for Ascended+") -- "5,000 Inventory Credits + 2,500 Player Experience + 1 in 2 Chance for High-End",
 
 local tier3_rewards = MOAT_BOUNTIES.Rewards({
     ic = 7500,
@@ -1232,7 +1232,7 @@ local tier3_rewards = MOAT_BOUNTIES.Rewards({
     exp = 17000
 })
 
-local tier3_rewards_str = MOAT_BOUNTIES.Rewards("7,500 Inventory Credits + 4,000 Player Experience + 1 Holiday Crate", "Any Random Mutator + 17,000 Player Experience + 1 in 10 for Cosmic+") -- "7,500 Inventory Credits + 4,000 Player Experience + 1 High-End item",
+local tier3_rewards_str = MOAT_BOUNTIES.Rewards("7,500 Inventory Credits + 4,000 Player Experience + 1 High-End item", "Any Random Mutator + 17,000 Player Experience + 1 in 10 for Cosmic+") -- "7,500 Inventory Credits + 4,000 Player Experience + 1 High-End item",
 
 --[[-------------------------------------------------------------------------
 TIER 1 BOUNTIES
