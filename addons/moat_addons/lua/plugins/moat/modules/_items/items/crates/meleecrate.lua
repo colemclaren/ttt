@@ -15,4 +15,4 @@ ITEM.Active = true
 
 ITEM.Stackable = true
 
-ITEM.Price = 500
+ITEM.Price = 200
