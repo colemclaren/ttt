@@ -379,8 +379,8 @@ function PANEL:LayoutColumns()
             local num_mod = tonumber(v:GetText())
 
             if (num_mod) then
-                local text_mod = num_mod / 1150
-                v:SetTextColor(Color(255 - (255 * text_mod), 255 * text_mod, 0))
+                local text_mod = num_mod / 1000
+                v:SetTextColor(Color(math.Clamp(255 - (255 * text_mod), 0, 255), math.Clamp(255 * text_mod, 0, 255), math.Clamp((255 * text_mod) - 255, 0, 255)))
             end
         elseif (k == 6) then
             local num_mod = tonumber( v:GetText() )
