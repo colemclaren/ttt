@@ -1887,7 +1887,7 @@ function jackpot_()
 
                                 end)
                                 
-                                ----print("Winner: " .. w)
+                                ---print("Winner: " .. w)
                                 net.Start("jackpot.win")
                                 net.WriteString(jp_w)
                                 net.Broadcast()
