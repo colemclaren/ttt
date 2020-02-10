@@ -1,4 +1,4 @@
-if (file.Exists("terrorcity.txt", "MOD")) then
+if (true or file.Exists("terrorcity.txt", "MOD")) then
 	local ids = {
 		"1542685010",
 		"1542687639",

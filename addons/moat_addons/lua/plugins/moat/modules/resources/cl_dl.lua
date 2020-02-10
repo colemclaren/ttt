@@ -61,7 +61,7 @@ Content.ids = {
 }
 
 Content.name = ""
-Content.done = false
+Content.done = true
 Content.start = 0
 
 local grad_r = Material("vgui/gradient-l")
