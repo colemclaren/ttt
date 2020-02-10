@@ -1,4 +1,6 @@
-
+if (true) then
+	return
+end
 
 surface.CreateFont("moat_wdl", {
 	font = "DermaLarge",
