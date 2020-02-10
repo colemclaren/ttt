@@ -186,7 +186,7 @@ function D3A.Bans.CheckPlayers()
 		if (not r) then return end
 		for k, v in ipairs(r) do
 			local id32 = util.SteamIDFrom64(v.steam_id)
-			game.KickID(id32, "You were banned on another Moat Gaming server")
+			game.KickID(id32, "You were banned on another Moat beta server")
 		end
 	end)
 end

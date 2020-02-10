@@ -176,9 +176,9 @@ end
 hook("InitPostEntity", "SetFestive", function()
 	local pmeta = FindMetaTable("Panel")
 	function pmeta:SetFestive(x, y, w, h)
-    	if (not IsValid(self.festivepanel) and holiday:GetInt() == 1) then
-        	createFestive(self, x, y, w, h)
-    	end
+    	-- if (not IsValid(self.festivepanel) and holiday:GetInt() == 1) then
+        -- 	createFestive(self, x, y, w, h)
+    	-- end
 	end
 end)
 

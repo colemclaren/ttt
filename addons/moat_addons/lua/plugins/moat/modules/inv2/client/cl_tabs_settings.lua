@@ -1,6 +1,6 @@
 local moat_convars = {
-    ["moat_post_music"] = 1,
-    ["moat_post_music_volume"] = 0.75,
+    ["moat_endround_music"] = 1,
+    ["moat_endround_music_volume"] = 0.75,
     ["moat_clfov"] = 0.428571429,
     ["moat_chatplanetary"] = 1,
     ["moat_showtrades"] = 1,
@@ -131,9 +131,8 @@ local DevMode = CreateClientConVar("moat_developer_mode", 0, true, true)
 local moat_Settings = {}
 moat_Settings.Options = {
     {"General",
-        {"End Round Music", {"Multi"}, "moat_post_music"},
-		{"Holiday Themed Playlist", {"Multi"}, "moat_post_music_holiday"},
-        {"End Round Music Volume", {"Slider", 0, 1}, "moat_post_music_volume"},
+        {"End Round Music", {"Multi"}, "moat_endround_music"},
+        {"End Round Music Volume", {"Slider", 0, 1}, "moat_endround_music_volume"},
         {"FOV (75 to 110)", {"Slider", 0, 1}, "moat_clfov"},
         {"Disable MOTD on Join", {"Multi"}, "moat_disable_motd"},
         {"Invert Map [BETA]", {"Multi"}, "moat_map_invert"},
@@ -176,7 +175,7 @@ moat_Settings.Options = {
         {"Enable Momentum Smooth Scrolling", {"Multi"}, "moat_momentum_scrolling"},
         {"Enable Custom Model Preview when Using Crates", {"Multi"}, "moat_model_preview"},
         {"Disable Lighting in Inventory Model Preview", {"Multi"}, "moat_inventory_lighting"},
-		{"Holiday Inventory Theme", {"Multi"}, "moat_holiday_theme_2020"}
+		-- {"Holiday Inventory Theme", {"Multi"}, "moat_holiday_theme_2020"}
         -- {"Inventory Model Smoke", {"Multi"}, "moat_model_smoke"},
         -- {"Spring Inventory Theme", {"Multi"}, "moat_spring_theme"}
     },
