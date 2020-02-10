@@ -11,8 +11,8 @@ ITEM.Rarity = 2
 
 ITEM.Collection = "Alpha Collection"
 
-ITEM.Active = false
+ITEM.Active = true
 
 ITEM.Stackable = true
 
-ITEM.Price = 250
+ITEM.Price = 300
