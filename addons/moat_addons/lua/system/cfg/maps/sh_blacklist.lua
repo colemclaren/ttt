@@ -31,5 +31,5 @@ MAP_BLACKLIST = {
 	["ttt_judgementday_dms"] = true,
 	["ttt_playing with portals_v9"] = true,
 	["ttt_complex67"] = true,
-	["ttt_mushroom_forest"] = true
+--	["ttt_mushroom_forest"] = true
 }
