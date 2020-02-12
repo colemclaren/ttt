@@ -6,15 +6,15 @@
 
 Servers.Setup("Moat TTT", ".moat.gg")
 
-Servers "208.103.169.30:27015"
+Servers "208.103.169.28:27015"
 	:SetName "TTT #1"
 	:SetID "ttt"
 
-Servers "208.103.169.31:27015"
+Servers "208.103.169.30:27015"
 	:SetName "TTT #2"
 	:SetID "ttt2"
 
-Servers "208.103.169.28:27015"
+Servers "208.103.169.31:27015"
 	:SetName "TTT #3"
 	:SetID "ttt3"
 
