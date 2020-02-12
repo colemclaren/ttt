@@ -15,7 +15,7 @@ ITEM.MaxStats = 6
 
 ITEM.Stats = {
 
-	Damage = { min = 4, max = 13 },
+	Damage = { min = -2, max = -20 },
 
 	Accuracy = { min = -15, max = -5 },
 
@@ -29,8 +29,8 @@ ITEM.Stats = {
 
 }
 
-ITEM.MinTalents = 1
+ITEM.MinTalents = 2
 
-ITEM.MaxTalents = 1
+ITEM.MaxTalents = 2
 
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random", "random" }
