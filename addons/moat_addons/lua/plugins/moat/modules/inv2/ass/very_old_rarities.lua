@@ -1,5 +1,3 @@
-print( "rarities loaded" )
-
 MOAT_RARITIES = {[0] = {
 	ID = 0,
 	Name = "Stock",

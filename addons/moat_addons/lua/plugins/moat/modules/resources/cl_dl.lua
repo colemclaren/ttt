@@ -1,7 +1,3 @@
-if (true) then
-	return
-end
-
 surface.CreateFont("moat_wdl", {
 	font = "DermaLarge",
 	size = 22,
@@ -58,12 +54,12 @@ Content.cur = 1
 Content.ids = {
 	[1] = "1542685010",
 	[2] = "1542687639",
-	[3] = "1542690513",
+	[3] = "1542842144",
 	[4] = "1542693501"
 }
 
 Content.name = ""
-Content.done = true
+Content.done = false
 Content.start = 0
 
 local grad_r = Material("vgui/gradient-l")
@@ -179,6 +175,8 @@ hook.Add("HUDPaint", "Content.drawhud", Content.DrawHUD)
 local tries = 0
 function Content:DownloadID(id, t)
 	dl(id, true, function(c)
+		-- print(c)
+		-- PrintTable(c)
 		if (not c) then
 			if (tries < 10) then self:DownloadAddon(self.cur) return end
 
@@ -202,13 +200,15 @@ end
 function Content:DownloadAddon(n)
 	local wid = self.ids[n] or n
 	tries = tries + 1
-
+	-- print("dl", n, wid, tries)
 	if (sub(wid)) then
 		self:NextAddon()
 		return
 	end
 
 	info(wid, function(r)
+		-- print(r)
+		-- PrintTable(r)
 		if (not r) then
 			if (tries < 10) then self:DownloadAddon(self.cur) return end
 
@@ -237,6 +237,7 @@ function Content:NextAddon()
 end
 
 function Content:HotMount(wid)
+	-- print("m", wid)
 	if (sub(wid)) then
 		MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "We're subbed to " .. tostring(wid) .. ".\n")
 

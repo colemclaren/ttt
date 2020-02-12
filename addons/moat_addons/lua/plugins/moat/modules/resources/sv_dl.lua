@@ -1,4 +1,4 @@
---if (file.Exists("terrorcity.txt", "MOD")) then
+if (file.Exists("terrorcity.txt", "MOD")) then
 	local ids = {
 		-- "1993862543",
 		-- "1993869386"
@@ -12,4 +12,4 @@
 	for i = 1, #ids do
 		resource.AddWorkshop(ids[i])
 	end
---end
+end
