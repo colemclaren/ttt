@@ -1125,6 +1125,10 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
     pack[a + 1] = "\n"
     MsgC(unpack(pack))
 
+	if (pack and pack[4] and type(pack[4]) == "string" and string.find(pack[4], "obtained")) then
+		return
+	end
+
 	if (math.random(100) <= 50) then
 		sfx.Hover()
 	else
