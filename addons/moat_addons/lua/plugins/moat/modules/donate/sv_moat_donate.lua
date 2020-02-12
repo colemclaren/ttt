@@ -91,7 +91,7 @@ MOAT_DONATE.Packages = {
         function(pl)
             m_AddCreditsToSteamID(pl:SteamID(), 6500)
             local crates = m_GetActiveCrates()
-            moat_DropHoliday(pl, 2)
+            -- moat_DropHoliday(pl, 2)
 
             -- pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
             for i = 1, 15 do
@@ -112,7 +112,7 @@ MOAT_DONATE.Packages = {
             m_AddCreditsToSteamID(pl:SteamID(), 15000)
             give_ec(pl, 1)
             pl:Drop20()
-            moat_DropHoliday(pl, 4)
+            -- moat_DropHoliday(pl, 4)
             -- for i = 1, 2 do
             -- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
             -- end
@@ -129,7 +129,7 @@ MOAT_DONATE.Packages = {
             m_AddCreditsToSteamID(pl:SteamID(), 50000)
             give_ec(pl, 3)
             pl:Drop50()
-            moat_DropHoliday(pl, 12)
+            -- moat_DropHoliday(pl, 12)
             pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
             -- for i = 1, 6 do
             -- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
@@ -147,9 +147,9 @@ MOAT_DONATE.Packages = {
             m_AddCreditsToSteamID(pl:SteamID(), 125000)
             give_ec(pl, 7)
             pl:Drop100()
-            moat_DropHoliday(pl, 25)
-            pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
-            pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
+            -- moat_DropHoliday(pl, 25)
+            -- pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
+            -- pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
             -- for i = 1, 15 do
             -- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
             -- end
