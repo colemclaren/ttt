@@ -37,7 +37,7 @@ function MOAT_MEMES.Material(id, mat)
 end
 
 
-function MOAT_MEMES.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_rarity, skin_url, skin_icon)
+function MOAT_MEMES.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_rarity, collection, name_color)
 	image = image or ("https://cdn.moat.gg/f/" .. name:lower() .. ".png")
 
 	local meme = {
@@ -88,7 +88,8 @@ function MOAT_MEMES.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_ra
             end
 		}, "weapon_ttt_bouncy_" .. meme.Name:lower())
 
-		local tbl = {Collection = "Meme Collection"}
+		local tbl = {Collection = collection or "Meme Collection"}
+		if (name_color) then tbl.NameColor = name_color end
         tbl.Name = meme.Name .. " Bouncy Ball"
         tbl.ID = 7400 + meme.ID
         tbl.Description = meme.Description
@@ -102,7 +103,8 @@ function MOAT_MEMES.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_ra
 	end
 
 	if (mask_rarity and mask_rarity > 0) then
-		local tbl = {Collection = "Meme Collection"}
+		local tbl = {Collection = collection or "Meme Collection"}
+		if (name_color) then tbl.NameColor = name_color end
         tbl.Name = meme.Name .. " Mask"
         tbl.ID = 8400 + meme.ID
         tbl.Description = meme.Description
@@ -172,6 +174,7 @@ function MOAT_MEMES.InitializeItems()
 	MOAT_MEMES.Add(27, "KKona", nil, nil, 3, 3, 3)
 	MOAT_MEMES.Add(28, "TriHard", nil, nil, 6, 6, 6)
 	MOAT_MEMES.Add(29, "Box", nil, nil, 5, 5, 5)
+	MOAT_MEMES.Add(30, "HeartPepe", nil, nil, 3, 2, 2, "Valentine Collection", Color(255, 0, 255))
 end
 
 
