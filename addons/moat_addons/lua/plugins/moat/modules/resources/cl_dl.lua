@@ -47,9 +47,11 @@ surface.CreateFont("moat_wdlb3s", {
 Content = Content or {}
 Content.cur = 1
 Content.ids = {
+	-- [1] = "1993862543",
+	-- [2] = "1993869386"
 	[1] = "1542685010",
 	[2] = "1542687639",
-	[3] = "1542690513",
+	[3] = "1996681978",
 	[4] = "1542693501"
 }
 
@@ -215,7 +217,8 @@ function Content:DownloadID(id, id2, exists)
 		-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. Content.ids[Content.cur] .. ".\n")
 
 		if (exists) then
-			timer.Simple(5, function() Content:NextAddon() end)
+			-- timer.Simple(1, function() Content:NextAddon() end)
+			Content:NextAddon()
 		else
 			Content:NextAddon()
 		end
@@ -277,7 +280,7 @@ end
 
 function Content:FinishDownloads()
 	Content.done = true
-	MsgC(Color(0, 255, 255), "[Moat Content] ", Color(0, 255, 0), "Finished Mounting all Addons!\n")
+	-- MsgC(Color(0, 255, 255), "[Moat Content] ", Color(0, 255, 0), "Finished Mounting all Addons!\n")
 end
 
 local disable_downloads = CreateClientConVar("disable_downloads", 0, true, false)
