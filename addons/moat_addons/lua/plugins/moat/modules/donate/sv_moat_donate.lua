@@ -102,7 +102,7 @@ MOAT_DONATE.Packages = {
             m_SaveInventory(pl)
             net.Start"D3A.Chat2"
             net.WriteBool(false)
-            net.WriteTable({":pumpkin: ", ":pumpkin~1: GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "5 Pumpkin Eater ", Color(255, 255, 255), "with your brand new inventory credits! ", ":pumpkin~2: ", ":pumpkin~3:"})
+            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "6,500 ", Color(255, 255, 255), "with your brand new inventory credits!"})
             net.Send(pl)
         end
     },
@@ -119,7 +119,7 @@ MOAT_DONATE.Packages = {
             m_SaveInventory(pl)
             net.Start"D3A.Chat2"
             net.WriteBool(false)
-            net.WriteTable({":pumpkin: ", ":pumpkin~1: GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "10 Pumpkin Eater ", Color(255, 255, 255), "with your brand new inventory credits! ", ":pumpkin~2: ", ":pumpkin~3:"})
+            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "15,000 ", Color(255, 255, 255), "with your brand new inventory credits!"})
             net.Send(pl)
         end
     },
@@ -130,14 +130,14 @@ MOAT_DONATE.Packages = {
             give_ec(pl, 3)
             pl:Drop50()
             -- moat_DropHoliday(pl, 12)
-            pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
+            -- pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
             -- for i = 1, 6 do
             -- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
             -- end
             m_SaveInventory(pl)
             net.Start"D3A.Chat2"
             net.WriteBool(false)
-            net.WriteTable({":pumpkin: ", ":pumpkin~1: GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "20 Pumpkin Eater ", Color(255, 255, 255), "with your brand new inventory credits! ", ":pumpkin~2: ", ":pumpkin~3:"})
+            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "50,000 ", Color(255, 255, 255), "with your brand new inventory credits!"})
             net.Send(pl)
         end
     },
@@ -156,7 +156,7 @@ MOAT_DONATE.Packages = {
             m_SaveInventory(pl)
             net.Start"D3A.Chat2"
             net.WriteBool(false)
-            net.WriteTable({":pumpkin: ", ":pumpkin~1: GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "50 Pumpkin Eater ", Color(255, 255, 255), "with your brand new inventory credits! ", ":pumpkin~2: ", ":pumpkin~3:"})
+            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "125,000 ", Color(255, 255, 255), "with your brand new inventory credits!"})
             net.Send(pl)
         end
     },
