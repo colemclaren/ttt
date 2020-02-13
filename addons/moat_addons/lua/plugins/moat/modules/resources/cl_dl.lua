@@ -44,17 +44,12 @@ surface.CreateFont("moat_wdlb3s", {
 	blursize = 5
 })
 
-local info = steamworks.FileInfo
-local dl = steamworks.Download
-local sub = steamworks.IsSubscribed
-local gma = game.MountGMA
-local exist = file.Exists
 Content = Content or {}
 Content.cur = 1
 Content.ids = {
 	[1] = "1542685010",
 	[2] = "1542687639",
-	[3] = "1542842144",
+	[3] = "1542690513",
 	[4] = "1542693501"
 }
 
@@ -172,91 +167,108 @@ function Content.DrawHUD()
 end
 hook.Add("HUDPaint", "Content.drawhud", Content.DrawHUD)
 
-local tries = 0
-function Content:DownloadID(id, t)
-	dl(id, true, function(c)
-		-- print(c)
-		-- PrintTable(c)
-		if (not c) then
-			if (tries < 10) then self:DownloadAddon(self.cur) return end
+function Content:Location(id, id2)
+	local addons = file.Find("addons/*" .. id .. ".gma", "GAME")
 
-			-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Download Resource " .. self.ids[self.cur] .. ".\n")
-			self:NextAddon()
+	if (addons and #addons == 1) then
+		return "addons/" .. addons[1]
+	end
 
-			return
+	if (file.Exists("cache/workshop/" .. id2 .. ".gma", "GAME")) then
+		return "cache/workshop/" .. id2 .. ".gma"
+	end
+
+	if (file.Exists("cache/workshop/" .. id2 .. ".cache", "GAME")) then
+		return "cache/workshop/" .. id2 .. ".cache"
+	end
+
+	if (file.Exists("cache/workshop/" .. id .. ".gma", "GAME")) then
+		return "cache/workshop/" .. id .. ".gma"
+	end
+
+	if (file.Exists("cache/workshop/" .. id .. ".cache", "GAME")) then
+		return "cache/workshop/" .. id .. ".cache"
+	end
+
+	return false
+end
+
+function Content:Mount(id, id2, path)
+	local success, returned = pcall(function()
+		path = path or Content:Location(id, id2)
+		local did = game.MountGMA(path)
+		if (not did or not path) then
+			return false
 		end
 
-		gma(c)
-		-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. self.ids[self.cur] .. ".\n")
+		return true
+	end)
 
-		if (t) then
-			timer.Simple(5, function() self:NextAddon() end)
+	return success, returned
+end
+
+local tries = 0
+function Content:DownloadID(id, id2, exists)
+	steamworks.DownloadUGC(id, function(c, err)
+		local success, returned = Content:Mount(id, id2, c)
+
+		-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. Content.ids[Content.cur] .. ".\n")
+
+		if (exists) then
+			timer.Simple(5, function() Content:NextAddon() end)
 		else
-			self:NextAddon()
+			Content:NextAddon()
 		end
 	end)
 end
 
-function Content:DownloadAddon(n)
-	local wid = self.ids[n] or n
+function Content:DownloadAddon()
+	local wid = Content.ids[Content.cur]
 	tries = tries + 1
-	-- print("dl", n, wid, tries)
-	if (sub(wid)) then
-		self:NextAddon()
+
+	if (steamworks.IsSubscribed(wid)) then
+		Content:Mount(wid)
+		Content:NextAddon()
 		return
 	end
 
-	info(wid, function(r)
-		-- print(r)
-		-- PrintTable(r)
-		if (not r) then
-			if (tries < 10) then self:DownloadAddon(self.cur) return end
-
-			-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 0, 0), "Failed to Load Resource " .. self.ids[self.cur] .. ".\n")
-			self:NextAddon()
-
-			return
-		end
-
-		local id = r.fileid
-		local t = !exist("cache/workshop/" .. id .. ".cache", "GAME")
-
-		self:DownloadID(id, t)
+	steamworks.FileInfo(wid, function(r)
+		local exists = (file.Exists("cache/workshop/" .. r.fileid .. ".cache", "GAME") or file.Exists("cache/workshop/" .. r.fileid .. ".gma", "GAME") or file.Exists("cache/workshop/" .. wid .. ".cache", "GAME") or file.Exists("cache/workshop/" .. wid .. ".gma", "GAME") or #file.Find("addons/*" .. wid .. ".gma", "GAME") == 1)
+		Content:DownloadID(wid, r.fileid, exists)
 	end)
 end
 
 function Content:NextAddon()
-	self.cur = self.cur + 1
+	Content.cur = Content.cur + 1
 	tries = 0
 
-	if (self.ids[self.cur]) then
-		self:DownloadAddon(self.cur)
+	if (Content.ids[Content.cur]) then
+		Content:DownloadAddon()
 	else
-		self:FinishDownloads()
+		Content:FinishDownloads()
 	end
 end
 
 function Content:HotMount(wid)
-	-- print("m", wid)
-	if (sub(wid)) then
+	if (steamworks.IsSubscribed(wid)) then
 		MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "We're subbed to " .. tostring(wid) .. ".\n")
 
 		return
 	end
 
-	info(wid, function(r)
+	steamworks.FileInfo(wid, function(r)
 		if (not r) then
 			if (tries < 10) then self:HotMount(wid) return end
 			return MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "Failed to Hot Load " .. tostring(wid) .. ".\n")
 		end
 
-		dl(r.fileid, true, function(c)
+		steamworks.Download(r.fileid, true, function(c)
 			if (not c) then
 				if (tries < 10) then self:HotMount(wid) return end
 				return MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "Failed to Mount " .. tostring(wid) .. ".\n")
 			end
 
-			gma(c)
+			game.MountGMA(c)
 
 			MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "Hot Loaded " .. tostring(wid) .. ".\n")
 		end)
@@ -264,14 +276,14 @@ function Content:HotMount(wid)
 end
 
 function Content:FinishDownloads()
-	self.done = true
-	-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(0, 255, 0), "Finished Mounting all Addons!\n")
+	Content.done = true
+	MsgC(Color(0, 255, 255), "[Moat Content] ", Color(0, 255, 0), "Finished Mounting all Addons!\n")
 end
 
 local disable_downloads = CreateClientConVar("disable_downloads", 0, true, false)
 
 function Content.InitDownloads()
-	if (util.NetworkStringToID "ttt_enable_tc" ~= 0) then Content.done = true return end
+	-- if (util.NetworkStringToID "ttt_enable_tc" ~= 0) then Content.done = true return end
 	
 	Content.start = CurTime() + 15
 	Content:DownloadAddon(Content.cur)
