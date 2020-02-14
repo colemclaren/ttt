@@ -590,6 +590,14 @@ end
 net.Receive("MOAT_TRADE_SWAP", function(len)
     local t_slot = net.ReadDouble()
     local item_tbl = net.ReadTable()
+	if (item_tbl.u) then
+		item_tbl.item = GetItemFromEnum(item_tbl.u)
+	end
+
+	if (item_tbl.t) then
+		item_tbl.Talents = GetItemTalents(item_tbl)
+	end
+
     m_ModifyTradeSlotsFromServer(item_tbl, t_slot)
 end)
 
