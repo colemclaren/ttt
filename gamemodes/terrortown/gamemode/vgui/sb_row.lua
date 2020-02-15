@@ -186,7 +186,15 @@ function PANEL:SetPlayer(ply)
 
     self.voice.DoClick = function()
         if IsValid(ply) and ply ~= LocalPlayer() then
-            ply:SetMuted(not ply:IsMuted())
+			local sid = ply:SteamID() or "BOT"
+
+			if (cookie.GetNumber("moat_block" .. sid, 0) == 1) then
+				RunConsoleCommand("mga","unblock", sid)
+			else
+				RunConsoleCommand("mga","block", sid)
+			end
+
+			self.voice:SetImage((cookie.GetNumber("moat_block" .. sid, 0) == 1) and "icon16/sound_mute.png" or "icon16/sound.png")
         end
     end
 
@@ -288,7 +296,7 @@ function PANEL:UpdatePlayerData()
     end
 
     if self.Player ~= LocalPlayer() then
-        local muted = self.Player:IsMuted()
+        local muted =  (cookie.GetNumber("moat_block" .. self.Player:SteamID(), 0) == 1)
         self.voice:SetImage(muted and "icon16/sound_mute.png" or "icon16/sound.png")
     else
         self.voice:Hide()
