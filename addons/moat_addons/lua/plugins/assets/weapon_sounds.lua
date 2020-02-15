@@ -3311,6 +3311,37 @@ sound.Add({
 	sound = 			"weapons/gunshot_benli_m4/xm1014_boltpull.wav"
 })
 
+
+//MAC-10
+
+sound.Add({
+    name = "gunshot_ops_mac10",
+    channel = CHAN_WEAPON,
+    volume = 0.8,
+    pitch = {95, 105},
+    sound = ")weapons/gunshot_mac10/mac10-1.wav"
+})
+sound.Add({
+	name = 			"improv_MAC10.Clipout",
+	channel = 		CHAN_ITEM,
+	volume = 		1.0,
+	sound = 			"weapons/gunshot_mac10/mac10_clipout.wav"
+})
+
+sound.Add({
+	name = 			"improv_MAC10.Clipin",
+	channel = 		CHAN_ITEM,
+	volume = 		1.0,
+	sound = 			"weapons/gunshot_mac10/mac10_clipin.wav"
+})
+
+sound.Add({
+	name = 			"improv_MAC10.Boltpull",
+	channel = 		CHAN_ITEM,
+	volume = 		1.0,
+	sound = 			"weapons/gunshot_mac10/mac10_boltpull.wav"
+})
+
 -- MP40 --
 fastbl = {}
 fastbl["channel"] = "3"
