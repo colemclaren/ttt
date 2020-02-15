@@ -19,7 +19,7 @@ discord.AddChannels {
     ["testing"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
     ["dev-logs"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
     ["old-staff"] = "https://discord.moat.gg/api/webhooks/638361841281531905/rivDFMUI6od10U2fcTj_U7tf6wDic7w81HhV-7RM_jNsiEuQ4Un9-tL3Y5ROZFCM7csp",
-	["mga-logs"] = "https://discord.moat.gg/api/webhooks/649226000374169610/rMMJA1P0pVIE2KCmFt1OUidUtbI-XRwDtT-u7a0GBgt4GohFKKaWwRVbpqBc9G29oNUV",
+	["mga-logs"] = "https://discord.moat.gg/api/webhooks/678100316561997835/Z7n8hC_aDNLBecb2__jI_vNKlUe3qELm3Jcp-G0b-iBfE2MkN6FVGSKPH873wJ_HHihO",
 	["toxic-logs"] = "https://discord.moat.gg/api/webhooks/649226000374169610/rMMJA1P0pVIE2KCmFt1OUidUtbI-XRwDtT-u7a0GBgt4GohFKKaWwRVbpqBc9G29oNUV",
     ["error-logs-sv"] = "https://discord.moat.gg/api/webhooks/649252891328118794/TROJAC0Ak48HEpaiRdAz6BzgCbUUoyQVSd9EC99Hy22YUodK2w09lIx5p3FqbALN0Oyj",
     ["server-list"] = "https://discord.moat.gg/api/webhooks/646559826037440532/_Wmu7hnC3Je1aiQcGRupEf_vX5k8Hid-_fcPzIO5OH8yCNY7bYjiCCUYqwcl6ERGrkMe",
