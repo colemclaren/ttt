@@ -40,13 +40,13 @@ local c4disable = {
    ["STEAM_0:0:44950009"] = true
 }
 
-hook.Add("TTTBeginRound", "", function()
-   for _, ply in pairs(player.GetAll()) do
-      if (c4disable[ply:SteamID()]) then
-         weapons.GetStored[[weapon_ttt_c4]].CanBuy = {}
-      end
-   end
-end)
+-- hook.Add("TTTBeginRound", "", function()
+--    for _, ply in pairs(player.GetAll()) do
+--       if (c4disable[ply:SteamID()]) then
+--          weapons.GetStored[[weapon_ttt_c4]].CanBuy = {}
+--       end
+--    end
+-- end)
 
 SWEP.WeaponID = AMMO_C4
 
