@@ -40,14 +40,12 @@ MOTD.Tabs = {
 	[1] = {"Home", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"}, -- "https://cdn.moat.gg/ttt/motd/20190608_3.html?n=User"},
 	[2] = {"Tutorial", "https://i.moat.gg/servers/ttt/motd/help.php"},
 	[3] = {"Errors", "https://moat.gg/ttt/motd/content.php", true},
-	[4] = {"Changes", "https://moat.gg/changes/", true},
-	[5] = {"Forums", "https://moat.gg/forums/", true},
-	[6] = {"Donate", "https://moat.gg/store/", true},
-	[7] = {"Leaderboard", "https://moat.gg/players", true},
+	[4] = {"Changes", "https://moat.gg/projects", true},
+	[5] = {"Donate", "https://moat.gg/store", true},
+	[6] = {"Leaderboard", "https://moat.gg/players", true},
+	[7] = {"Interns", "https://moat.gg/staff", true},
 	[8] = {"Bans", "https://moat.gg/bans", true},
-	[9] = {"Steam Group", "https://steamcommunity.com/groups/moat-gg", true},
-	[10] = {"Discord", "https://moat.chat", true},
-	[11] = {"Close", ""	},
+	[9] = {"Close", ""},
 }
 
 function MOTD.Closable()
