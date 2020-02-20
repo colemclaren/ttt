@@ -6,28 +6,28 @@ local MOAT_BOSS_CUR_PLY = nil
 local MOAT_BOSS_DMG = {}
 local MOAT_ROUND_OVER = false
 local death_voices = {
-	"https://cdn.moat.gg/f/u4QUxAtoqhJMNdLKoCDFnfFJOgfj.mp3",
-	"https://cdn.moat.gg/f/DuUQdR6b6IPLuDBoUffUb3GcO7kF.mp3",
-	"https://cdn.moat.gg/f/o66GU9avCtjwXkEWnrKZTRpj0A7A.mp3",
-	"https://cdn.moat.gg/f/es1VgqnzB8rkdFbbvjxrpjpXmAmM.mp3",
-	"https://cdn.moat.gg/f/HNGJ1QHKrDFgxEKezZwDqDnHCGKu.mp3",
-	"https://cdn.moat.gg/f/3TjV4QhosYjCyGjhTHuaOBYCEYW3.mp3",
-	"https://cdn.moat.gg/f/Zy6k5NHOUkbWXWlRqjFZU5ovMkVs.mp3",
-	"https://cdn.moat.gg/f/vXHWudEuRy7azKDjfN3rP6LUIwZU.mp3",
-	"https://cdn.moat.gg/f/ABOKrPTwS5ctIr0rcfa9r5FzheSo.mp3",
-	"https://cdn.moat.gg/f/BnEx3kkGamjarHGak9ZY6TsdMQc4.mp3",
-	"https://cdn.moat.gg/f/vOdDwekeqfqY7jHpvzHaoeFY4uih.mp3"
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death1smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death2smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death3smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death4smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death5smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death6smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death7smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death8smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death9smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death10smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death11smith.mp3",
 }
 local boss_voices = {
-	"https://cdn.moat.gg/f/FQ8Ki3DI1iwz7COGvb3lJDGNjvqi.mp3",
-	"https://cdn.moat.gg/f/d498NmYGCidzOhk5eKIwjCZnLiG1.mp3",
-	"https://cdn.moat.gg/f/AlbmDVfwYncLe73Cy4NbTBiOdtzQ.mp3",
-	"https://cdn.moat.gg/f/VLnfWX6R7qms2nXqixIb8MpHKfYz.mp3",
-	"https://cdn.moat.gg/f/2C8JVERC0wo61c57IUYfesggbNI8.mp3",
-	"https://cdn.moat.gg/f/WWKrz7PvhSNnMKpl8BZWHhzp6sK9.mp3",
-	"https://cdn.moat.gg/f/VSh7wIfUcx7tD9Pp7kJJ2uXQolro.mp3",
-	"https://cdn.moat.gg/f/XUk6mFPFkFr4eL9B3fJ7I9iLY17b.mp3",
-	"https://cdn.moat.gg/f/vHJAQrx7C07ykA4stEeglMN8SjWN.mp3"
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache2smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache3smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache4smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache5smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache6smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache7smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache8smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache9smith.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/apache/apache9smith.mp3",
 }
 local MOAT_DEATHCLAW_WPN = nil
 local MOAT_APACHE_ENT = NULL
