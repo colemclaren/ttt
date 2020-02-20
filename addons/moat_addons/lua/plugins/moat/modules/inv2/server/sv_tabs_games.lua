@@ -1285,9 +1285,9 @@ function jackpot_()
         versus_block = true
     end)
     net.Receive("gversus.JoinGame",function(l,ply)
-        if Server then
-            if Server.IsDev then return end
-        end
+        -- if Server then
+        --     if Server.IsDev then return end
+        -- end
         if versus_block then return end
 	    if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
         local sid = net.ReadString()
@@ -1653,9 +1653,9 @@ function jackpot_()
     end
     local multiple_cool = {}
     net.Receive("jackpot.join",function(l,ply)
-        if Server then
-            if Server.IsDev then return end
-        end
+        -- if Server then
+        --     if Server.IsDev then return end
+        -- end
 		if (gamble_net_spam(ply, "jackpot.join")) then return end
         if (multiple_cool[ply] or 0) > CurTime() then return end 
         local am = net.ReadInt(32)
@@ -1747,7 +1747,7 @@ function jackpot_()
     local jp_broad = false
     local jp_rewarding = false
     local jp_rewards = {}
-    /*timer.Create("JPGrand",5,0,function()
+    timer.Create("JPGrand",5,0,function()
         if GG_DISABLE:GetBool() then return end
         local q = db:query("SELECT * FROM moat_jpwinners;")
         function q:onSuccess(p)
@@ -1934,7 +1934,6 @@ function jackpot_()
             end
         end)
     end)
-	*/
     print("Loaded Cross-server jackpot")
 
 end

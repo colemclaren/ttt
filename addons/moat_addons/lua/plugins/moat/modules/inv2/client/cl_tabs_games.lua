@@ -222,7 +222,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 		{"Versus", Color(0, 255, 255)},
 		{"Blackjack", Color(255, 255, 0)},
 		{"Roulette", Color(255, 0, 50)},
-		// {"Jackpot", Color(0, 255, 0)},
+		{"Jackpot", Color(0, 255, 0)},
 		{"Mines", Color(150, 0, 255)}
 	}
     local CAT_WIDTHS = 0
@@ -3343,7 +3343,7 @@ function m_DrawBlackjackPanel()
 		surface.DrawLine(0,134,w,134)
 		surface.DrawLine(0,h-20,w,h-20)
 		if not test then
-			draw.DrawText("Jackpot is cross-server! There are 24 Moat-TTT servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
+			draw.DrawText("Jackpot is cross-server! There are 24 Moat Beta servers connected.","moat_JackVerySmall",w/2,h-18,Color(255,255,255),TEXT_ALIGN_CENTER)
 		end
 		local t = "Waiting for players"
 		jackpot.CanDeposit = true
@@ -5487,13 +5487,13 @@ function m_ChangeGambleCategory()
 		m_RemoveRoulettePanel()
 	end
 
-	-- if (num == 4) then
-	-- 	m_DrawBlackjackPanel() -- Jackpot
-	-- else
-	-- 	m_RemoveBlackjackPanel()
-	-- end
-
 	if (num == 4) then
+		m_DrawBlackjackPanel() -- Jackpot
+	else
+		m_RemoveBlackjackPanel()
+	end
+
+	if (num == 5) then
 		m_DrawDicePanel() -- Mines
 	else
 		m_RemoveDicePanel()
@@ -5552,7 +5552,7 @@ net.Receive("MOAT_GAMBLE_CHAT", function(len)
 	end
 end)
 
-table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,255,255),"This chat is connected to all 24 Moat Gaming servers!"})
+table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,255,255),"This chat is connected to all 24 Moat Beta servers!"})
 
 table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,0,0), "If you need staff on your server or want to meet players, join our Discord at moat.chat"})
 
