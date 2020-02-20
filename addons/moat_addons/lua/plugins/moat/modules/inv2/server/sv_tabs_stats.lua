@@ -100,6 +100,7 @@ local function m_CalculateLevel(cur_lvl, cur_exp, exp_to_add)
     return new_level, new_xp
 end
 
+util.AddNetworkString "Moat.Levelup"
 function meta:ApplyXP(num)
     hook.Run("PlayerEarnedXP",self,num)
     local cur_exp = self:GetNW2Int("MOAT_STATS_XP")
@@ -110,6 +111,9 @@ function meta:ApplyXP(num)
 
     local level_upgrades = new_level - cur_lvl
     if (level_upgrades > 0) then
+		net.Start "Moat.Levelup"
+		net.Send(self)
+
         self:m_ModifyStatType("MOAT_STATS_LVL", "l", level_upgrades)
 
         for i = 1, level_upgrades do

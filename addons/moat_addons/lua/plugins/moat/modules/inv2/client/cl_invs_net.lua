@@ -382,3 +382,7 @@ net.Receive("Moat.DataInfo", function(len)
 		end
 	end
 end)
+
+net.Receive("Moat.Levelup", function()
+	cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/levelup.wav")
+end)
