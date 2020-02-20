@@ -36,7 +36,7 @@ SWEP.Primary.Recoil			= 1.9
 SWEP.Primary.Sound			= Sound("Weapon_m249.Single")
 
 SWEP.ViewModelFlip		= false
-SWEP.ViewModelFOV		= 90
+SWEP.ViewModelFOV		= 55
 SWEP.ViewModel			= "models/weapons/cstrike/c_mach_m249para.mdl"
 SWEP.WorldModel			= "models/weapons/w_mach_m249para.mdl"
 
