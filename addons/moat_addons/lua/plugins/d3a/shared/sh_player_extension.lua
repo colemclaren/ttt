@@ -11,7 +11,11 @@ function meta:GetDataVar(name)
 end
 
 function meta:GetGroupWeight()
-	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Weight") or (moat.is(self) and 100) or 0
+	if (moat.is(self)) then
+		return 100
+	end
+	
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "Weight") or 0
 end
 
 function meta:IsAdmin()
@@ -23,7 +27,11 @@ function meta:IsSuperAdmin()
 end
 
 function meta:GetUserGroup()
-	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "String") or moat.is(self)
+	if (moat.is(self)) then
+		return "communitylead"
+	end
+
+	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "String")
 end
 
 function meta:IsUserGroup(group)

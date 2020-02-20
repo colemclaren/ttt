@@ -486,6 +486,7 @@ local function SpawnEntities()
 	_PlaceExtraWeapons(import)
 	_ReplaceMapItems()
 	
+	KARMA.RoundBegin(nil, false)
 	local pls = player.GetAll()
 	for k, v in ipairs(pls) do
 		if (not IsValid(v)) then continue end
@@ -493,6 +494,7 @@ local function SpawnEntities()
         v.JustSpawned = v:SpawnForRound()
 		hook.Run("TTTPrepareRoundPlayer", v)
 	end
+	KARMA.RoundBegin(nil, true)
 end
 
 local function StopRoundTimers()
@@ -798,12 +800,13 @@ function EndRound(type)
     -- these hooks are not used by TTT internally
 	local pls = player.GetAll()
     hook.Call("TTTEndRound", GAMEMODE, type, pls)
+	KARMA.RoundEnd(nil, false)
 	for k, v in ipairs(pls) do
 		if (not IsValid(v)) then continue end
 		KARMA.RoundEnd(v)
 		hook.Run("TTTEndRoundPlayer", type, v)
 	end
-
+	KARMA.RoundEnd(nil, true)
     _TriggerRoundStateOutputs(ROUND_POST, type)
 end
 

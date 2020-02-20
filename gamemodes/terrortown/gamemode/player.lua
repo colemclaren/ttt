@@ -33,16 +33,16 @@ function GM:PlayerInitialSpawn(ply)
     end
 
     -- Handle spec bots
-    if ply:IsBot() and GetConVar("ttt_bots_are_spectators"):GetBool() then
+	if (ply:IsBot() and GetConVar("ttt_bots_are_spectators"):GetBool()) then
         ply:SetTeam(TEAM_SPEC)
         ply:SetForceSpec(true)
-    end
+	end
 end
 
 function GM:NetworkIDValidated(name, steamid)
     -- edge case where player authed after initspawn
     for _, p in pairs(player.GetAll()) do
-        if IsValid(p) and p:SteamID() == steamid and p.delay_karma_recall then
+        if IsValid(p) and p:SteamID() == steamid then
             KARMA.LateRecallAndSet(p)
 
             return
@@ -967,7 +967,9 @@ function GM:PlayerTakeDamage(ent, infl, att, amount, dmginfo)
     if ent ~= att and IsValid(att) and att:IsPlayer() and GetRoundState() == ROUND_ACTIVE and math.floor(dmginfo:GetDamage()) > 0 then
         -- scale everything to karma damage factor except the knife, because it
         -- assumes a kill
-        if not dmginfo:IsDamageType(DMG_SLASH) then
+        if (IsValid(inf) and inf:GetClass() == "weapon_ttt_knife") then -- if (not dmginfo:IsDamageType(DMG_SLASH)) then
+			dmginfo:ScaleDamage(1)
+		else
             dmginfo:ScaleDamage(att:GetDamageFactor())
         end
 

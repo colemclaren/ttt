@@ -121,6 +121,7 @@ function SHR:WeHit(shooter, ent, wpn, eye, localposx, localposy, localposz, dmgf
 	dmginfo:SetDamageType(DMG_BULLET)
 	dmginfo:SetInflictor(wpn)
 	dmginfo:SetDamageCustom(hg + 1)
+	dmginfo:ScaleDamage(shooter:GetDamageFactor() or 1)
 
 	if (ent:IsPlayer() and (hook.Run("ScalePlayerDamage", ent, hg, dmginfo) or hook.Run("PlayerShouldTakeDamage", ent, shooter) == false))then
 		return
@@ -167,7 +168,7 @@ function SHR:SendHitEffects(pl, num, pos)
 end
 
 local function hiteffects(targ, dmg)
-	if (GetRoundState() == ROUND_PREP or not dmg or dmg:GetDamage() <= 0) then
+	if (GetRoundState() == ROUND_PREP or not dmg /*or dmg:GetDamage() <= 0*/) then
 		return false
 	end
 

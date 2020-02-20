@@ -25,6 +25,3 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 
 	return model, pos, ang
 end
-
-
--- this one is my favo

@@ -1,0 +1,1 @@
+D3A.Karma = D3A.Karma or {}

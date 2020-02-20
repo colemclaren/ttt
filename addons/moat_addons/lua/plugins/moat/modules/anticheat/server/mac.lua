@@ -187,8 +187,8 @@ local function detect(pl, reason)
     end
 end
 
-local dev_server = GetHostName():lower():find("dev")
 net.Receive("moat.verify", function(_, pl)
+	local dev_server = GetHostName():lower():find("dev")
     if (dev_server or pl:IsUserGroup("communitylead")) then return end
 
     local dets = net.ReadTable()

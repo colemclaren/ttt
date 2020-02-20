@@ -25,7 +25,7 @@ AccessorFunc(plymeta, "force_spec", "ForceSpec", FORCE_BOOL)
 -- The base/start karma is determined once per round and determines the player's
 -- damage penalty. It is networked and shown on clients.
 function plymeta:SetBaseKarma(k)
-    self:SetNW2Float("karma", k)
+	return self:SetNW2Float("karma", k)
 end
 
 -- The live karma starts equal to the base karma, but is updated "live" as the
@@ -39,8 +39,14 @@ AccessorFunc(plymeta, "dmg_factor", "DamageFactor", FORCE_NUMBER)
 -- and gets a bonus for it.
 AccessorFunc(plymeta, "clean_round", "CleanRound", FORCE_BOOL)
 
+function plymeta:GetActiveKarma()
+	return self:GetLiveKarma() or KARMA.cv.starting:GetFloat()
+end
+
 function plymeta:InitKarma()
-    KARMA.InitPlayer(self)
+	if (KARMA) then
+		KARMA.LateRecallAndSet(self)
+	end
 end
 
 --- Equipment credits

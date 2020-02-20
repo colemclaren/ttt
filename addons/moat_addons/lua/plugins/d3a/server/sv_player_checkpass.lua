@@ -17,6 +17,14 @@ kick_reasons["banned"] = "\nYou are banned!\n==================\nTime left: #\nR
 kick_reasons["full"] = "Server Full!\n\nThere is a reserved slot for staff members only, sorry! We still love you <3"
 kick_reasons["ttc"] = "This is the Moat.GG Terror City server.\n\nYou must be at least level 10 to join, as it's a bit more advanced than regular TTT. Please join one of our regular servers, sorry <3"
 kick_reasons["maintenance"] = "Maintenance mode is active on this server! Sit tight while we work on things. Please try again later <3"
+kick_reasons["karma"] = "\nKarma too low!\n==================\nYour karma is below #.\nYour karma will be reset in #.\n==================\nThink it's an unfair ban?\nDon't sweat it, you can appeal the enforcement @ https://moat.gg/unban"
+
+function D3A.Player.KickID(steamid32, type, ...)
+	local args, arg, str = {...}, 0, kick_reasons[type] or "Whoopsies! Something went wrong!"
+	str = str:gsub("#", function() arg = arg + 1 return tostring(args[arg]) end)
+
+	game.KickID(steamid32, tostring(str))
+end
 
 function D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, AvatarURL)
 	AvatarURL = AvatarURL or D3A.DefaultAvatar
@@ -37,17 +45,11 @@ function D3A.Player.InsertNewPlayerToTable(SteamID, SteamID32, IP, Name, AvatarU
 	D3A.Print(SteamID32 .. " | Connecting for the first time.")
 end
 
-function D3A.Player.KickID(steamid32, type, ...)
-	local args, arg, str = {...}, 0, kick_reasons[type] or "Whoopsies! Something went wrong!"
-	str = str:gsub("#", function() arg = arg + 1 return tostring(args[arg]) end)
-
-	game.KickID(steamid32, tostring(str))
-end
-
-
 function D3A.Player.LoadPlayerInfo(id64, res, empty)
 	return moat.mysql("SELECT * FROM player WHERE steam_id = ? LIMIT 1;", id64, function(d)
 		if (d and d[1]) then
+			http.Fetch("https://moat.gg/api/steam/avatar/" .. id64)
+
 			return res and res(d[1])
 		else
 			return empty and empty(d)
@@ -61,7 +63,7 @@ function D3A.Player.CheckReserved(steamid, rank)
 		return
 	end
 
-	local cnt = player.GetCount() + 1
+	local cnt = player.GetCount() + 2
 	if (cnt < max_players) then return end
 	if (staff[rank]) then return end
 	local pls = player.GetAll()
@@ -87,6 +89,8 @@ function D3A.Player.CheckConnecting(SteamID, SteamID32)
 	if (players_connecting[SteamID] and players_connecting[SteamID][1] > CurTime()) then
 		if (players_connecting[SteamID][2]) then
 			D3A.Player.KickID(SteamID32, "banned", players_connecting[SteamID][3] or "", players_connecting[SteamID][4] or "")
+		elseif (players_connecting[SteamID][6]) then
+			D3A.Player.KickID(SteamID32, "karma", (KARMA and KARMA.cv) and KARMA.cv.kicklevel or 450, players_connecting[SteamID][6])
 		elseif (players_connecting[SteamID][5]) then
 			D3A.Player.KickID(SteamID32, "ttc")
 		end
@@ -94,8 +98,11 @@ function D3A.Player.CheckConnecting(SteamID, SteamID32)
 		return
 	end
 
-	players_connecting[SteamID] = {}
-	players_connecting[SteamID][1] = 0
+	if (players_connecting[SteamID]) then
+		players_connecting[SteamID][1] = CurTime() + 5
+	else
+		players_connecting[SteamID] = {CurTime() + 5}
+	end
 end
 
 function D3A.Player.CheckIfBanned(SteamID, SteamID32)
@@ -115,26 +122,30 @@ function D3A.Player.CheckIfBanned(SteamID, SteamID32)
 	end)
 end
 
-function D3A.Player.CheckBetaAccess(SteamID, SteamID32)
+function D3A.Player.TTTKarma(SteamID, SteamID32)
 	if (not SteamID) then return end
 	SteamID32 = SteamID32 or util.SteamIDFrom64(SteamID)
 
-	D3A.MySQL.Query("SELECT stats_tbl FROM moat_stats WHERE `steamid` ='" .. SteamID32 .. "';", function(d)
+	moat.mysql("SELECT level, karma, UNIX_TIMESTAMP(last_updated) + 3600 - UNIX_TIMESTAMP() AS reset_in FROM player WHERE steam_id = ? AND (3600 + UNIX_TIMESTAMP(last_updated) > UNIX_TIMESTAMP() OR karma = 0);", SteamID, function(d)
 		if (d and d[1]) then
-			local t = d[1].stats_tbl
-			if (t) then
-				local t2 = util.JSONToTable(t)
-				if (t2) then
-					local lvl = t2.l
-					if (lvl and tonumber(lvl) >= 10) then
-						return 
-					end
-				end
+			local kick_level = (KARMA and KARMA.cv) and KARMA.cv.kicklevel or 450
+			local karma_resets = d[1].reset_in
+			local lvl = d[1].level or 1
+			local live = d[1].karma
+
+			KARMA.RememberedPlayers[SteamID] = {Karma = live or KARMA.cv.starting:GetFloat(), Time = 0}
+
+			if (Server.IP and Server.IP == "208.103.169.43:27018" and lvl < 10) then
+				D3A.Player.KickID(SteamID32, "ttc")
+
+				return
+			end
+
+			if (live and kick_level and live < kick_level and (karma_resets > 0 or live == 0)) then
+				players_connecting[SteamID][6] = (live == 0) and "30 days" or tostring(string.NiceTime(karma_resets))
+				D3A.Player.KickID(SteamID32, "karma", (KARMA and KARMA.cv) and KARMA.cv.kicklevel or 450, players_connecting[SteamID][6])
 			end
 		end
-
-		players_connecting[SteamID][5] = true
-		D3A.Player.KickID(SteamID32, "ttc")
 	end)
 end
 
@@ -169,9 +180,9 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	D3A.Player.Initialize(SteamID, SteamID32, Name, IP)
 
 	if (Server.IP and Server.IP == "208.103.169.43:27018") then
-		D3A.Player.CheckBetaAccess(SteamID, SteamID32)
+		D3A.Player.TTTKarma(SteamID, SteamID32)
 	end
 
 	players_connecting[SteamID][1] = CurTime() + 5
 end
-hook.Add("CheckPassword", "D3A.Player.CheckPassword", D3A.Player.CheckPassword)
+hook("CheckPassword", D3A.Player.CheckPassword)
