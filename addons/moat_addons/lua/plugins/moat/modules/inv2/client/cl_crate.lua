@@ -753,8 +753,6 @@ net.Receive("MOAT_VERIFY_CRATE", function(len)
     m_InitCrateWindow(item_tbl, item_slot, item_class)
     net.Start("MOAT_INIT_CRATE")
     net.SendToServer()
-
-	print "init"
 end)
 
 local function m_AddItemToTable(tbl)
@@ -768,6 +766,4 @@ net.Receive("MOAT_ITEMS_CRATE", function(len)
 	end
 
     m_AddItemToTable(tbl)
-
-	print "items"
 end)

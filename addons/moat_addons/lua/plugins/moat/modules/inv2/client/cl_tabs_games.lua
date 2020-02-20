@@ -3466,7 +3466,7 @@ function m_DrawBlackjackPanel()
 			jackpot.counting = true
 		else
 			jackpot = {}
-			print("Reset jackpot")
+			-- print("Reset jackpot")
 			if MOAT_GAMBLE_BLACK.Roll then
 				MOAT_GAMBLE_BLACK.Roll:Remove()
 			end
@@ -3585,7 +3585,7 @@ function m_DrawBlackjackPanel()
 		if (s:GetText() == "") then s:SetText("0") end
 		
 		MOAT_GAMBLE.JackAmount = math.Round(s:GetText())
-		print(math.Round(tonumber(s:GetText() or 0), 2))
+		-- print(math.Round(tonumber(s:GetText() or 0), 2))
 	end
 	MOAT_DICE_BET.OnLoseFocus = function(s)
 		s:OnEnter()
@@ -5554,7 +5554,7 @@ end)
 
 table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,255,255),"This chat is connected to all 24 Moat Beta servers!"})
 
-table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,0,0), "If you need staff on your server or want to meet players, join our Discord at moat.chat"})
+table.insert(MOAT_GAMBLE.GlobalTable,{Color(255,0,0), "If you need staff on your server or want to meet players, join our Discord @ moat.chat!"})
 
 net.Receive("MOAT_GAMBLE_GLOBAL",function()
 	local time = net.ReadString()
