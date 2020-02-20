@@ -1,7 +1,8 @@
 ITEM.ID = 6820
 ITEM.Name = "UMP Lovers"
 ITEM.Rarity = 7
-ITEM.NameColor = Color(255, 0, 255)
+ITEM.NameEffect = "glow"
+ITEM.NameColor = Color(255, 153, 255)
 ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7

@@ -1,7 +1,8 @@
 ITEM.ID = 6823
 ITEM.Name = "MAC10 Lovers"
 ITEM.Rarity = 6
-ITEM.NameColor = Color(255, 0, 255)
+ITEM.NameEffect = "glow"
+ITEM.NameColor = Color(255, 153, 255)
 ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7

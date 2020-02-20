@@ -1,7 +1,7 @@
 ITEM.ID = 6923
 ITEM.Name = "M16 Lovers"
 ITEM.Rarity = 6
-ITEM.NameColor = Color(255, 0, 255)
+ITEM.NameColor = Color(255, 153, 255)
 ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
