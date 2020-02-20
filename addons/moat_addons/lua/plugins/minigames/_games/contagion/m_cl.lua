@@ -264,7 +264,7 @@ end
 function MG_CG.PrepRound()
     MG_CG.ResetVars()
 
-	cdn.PlayURL("https://cdn.moat.gg/f/wDOhylZkywTpfAZBURHTtFjV86BY.mp3")
+	cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/virus/prepare.mp3")
 
     hook.Add("HUDPaint", "MG_CG_PREPPAINT", MG_CG.PrepPaint)
     hook.Add("TTTBeginRound", "MG_CG_BEGINHOOK", MG_CG.BeginRound)
@@ -337,10 +337,10 @@ function MG_CG.InfectedChams()
 end
 
 local music_urls = {
-	"https://cdn.moat.gg/f/baLvGPsFx8x51CFeOS3ClNcu7p2g.mp3",
-	"https://cdn.moat.gg/f/UtZsZ08NaXZGIKEMTCSg046f2znE.mp3",
-	"https://cdn.moat.gg/f/xRoQMBl4Y5V04r4qtnuR9GQvMLgP.mp3",
-	"https://cdn.moat.gg/f/mupaDtP9j8t7Y9nOgSc80FlF4M4h.mp3"
+	"https://cdn.moat.gg/servers/tttsounds/virus/song1.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/virus/song2.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/virus/song3.mp3",
+	"https://cdn.moat.gg/servers/tttsounds/virus/song4.mp3"
 }
 local music_nums = {
     288,

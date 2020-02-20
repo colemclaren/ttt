@@ -140,7 +140,7 @@ net.Receive("PH_Begin",function()
     end)
     MOAT_DISABLE_BUNNY_HOP = true
 
-	cdn.PlayURL("https://cdn.moat.gg/f/ezTBmgl929drvkag1LcK2uFgPNiY.mp3", 0.8, function(station)
+	cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/inception.mp3", 0.8, function(station)
         hook.Add("Think","J Music",function()
             if not MOAT_PH then station:Stop() hook.Remove("Think","J Music") end
         end)
@@ -215,7 +215,7 @@ net.Receive("PH_End",function()
     MOAT_DISABLE_BUNNY_HOP = false
     props_w = net.ReadBool()
     local players = net.ReadTable()
-    cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
+    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/forsen_end.mp3", 0.5)
     MOAT_PH = nil
     kills = {}
     PH_END = {}
@@ -482,7 +482,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("PH_Prep",function()
-    cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
+    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/boss_warning.mp3")
 
     local desc = {
         "Everyone will be on one of two teams!",

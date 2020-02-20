@@ -250,26 +250,26 @@ local function moat_BeginRoundBossHooks()
         timer.Simple(1, function()
             MuteForRestart(true)
 			cdn.PlayURL(table.Random({
-				"https://cdn.moat.gg/f/9ZVqpi9q4sbDs97keRh58zMHU4Fx.mp3",
-				"https://cdn.moat.gg/f/d9HxwkUgQwLjlHh0Bf7IuUFHqKP9.mp3",
-				"https://cdn.moat.gg/f/DDMkTBCubdG8eRJi6xJqIM6oxw39.mp3",
-				"https://cdn.moat.gg/f/tz7cKLTDZaGa4mOXOydTBXAs0Yrq.mp3"
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/1smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/2smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/3smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/4smithedit.mp3"
 			}), 2)
 		end)
 
         timer.Create("moat_boss_voices", 30, 0, function()
 			cdn.PlayURL(table.Random({
-				"https://cdn.moat.gg/f/6XnW831bWenJx68WhjmVxZQzJZyM.mp3",
-				"https://cdn.moat.gg/f/pEbmUc61njR1ln1jAKW4OeAGmLtX.mp3",
-				"https://cdn.moat.gg/f/7nDZ4fmH30oKz7jyIkjAXhoy3txB.mp3",
-				"https://cdn.moat.gg/f/4K08jYuzVsx61jf9VB5HvCy1bizP.mp3",
-				"https://cdn.moat.gg/f/zEVBhbDi0gbQCjSPnd9o1eTrngFr.mp3",
-				"https://cdn.moat.gg/f/MyW0YV0HMlOPWx9pae4BkZEyZBNK.mp3",
-				"https://cdn.moat.gg/f/ldN1LMM19arhjB21FjI4VeH9b47m.mp3",
-				"https://cdn.moat.gg/f/jYQN7fWiON4Aa7fznNRYWDjqtJo6.mp3",
-				"https://cdn.moat.gg/f/MEPGEZIb9UZ3fJcre8TOzHMEcYFV.mp3",
-				"https://cdn.moat.gg/f/oaUnqPMAyov1o3qInOtDbrClqQ74.mp3",
-				"https://cdn.moat.gg/f/rAdgJmmZzmCFxRtqCSZvR3REf2ux.mp3"
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/5smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/6smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/7smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/8smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/9smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/10smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/11smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/12smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/13smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/14smithedit.mp3",
+				"https://cdn.moat.gg/servers/tttsounds/deathclaw/15smithedit.mp3"
 			}), 2)
         end)
 

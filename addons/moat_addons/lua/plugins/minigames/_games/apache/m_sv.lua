@@ -170,13 +170,13 @@ local function moat_BossPlayerDeath(ply)
     end)
 
     if (not IS_BOSS) then
-       	cdn.PlayURL("https://cdn.moat.gg/f/ubbd7fKB9WdDWbk5J1QMC3iM81GG.mp3", 2)
+		cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/apache/apache_loss_smith.mp3", 2)
 		if (IsValid(MOAT_BOSS_CUR_PLY)) then
             MOAT_BOSS_CUR_PLY:m_DropInventoryItem(math.random(5,6))
         end
         return
     else
-		cdn.PlayURL("https://cdn.moat.gg/f/9582v2jF3CQSP5fOM44CuAE3TMVr.mp3", 2)
+		cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/apache/apache_won_smith.mp3", 2)
     end
 
     local ply_tbl = {}
@@ -294,7 +294,7 @@ local function moat_BeginRoundBossHooks()
 
         timer.Simple(1, function()
             MuteForRestart(true)
-			cdn.PlayURL(table.Random({"https://cdn.moat.gg/f/tFU5O424OaHTrU16ayw6NJz3x4Lz.mp3", "https://cdn.moat.gg/f/q5ZZXsMohK3L3b0lnaKQ88SUPOUZ.mp3"}), 2)
+			cdn.PlayURL(table.Random({"https://cdn.moat.gg/servers/tttsounds/apache/apache_america1smith.mp3", "https://cdn.moat.gg/servers/tttsounds/apache/apache_america2smith.mp3"}), 2)
         end)
 
         timer.Create("moat_boss_voices", 30, 0, function()

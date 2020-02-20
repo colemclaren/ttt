@@ -81,7 +81,7 @@ end
 local function moat_InitDrawBossHealth()
 	hook.Add("HUDPaint", "moat_DrawBossHealth", moat_DrawBossHealth)
 
-	cdn.PlayURL("https://cdn.moat.gg/f/NGXYOFybBEyBYEJ4vyOEp8XZxMWT.mp3")
+	cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/stalker/stalker_music.mp3")
 end
 
 local moat_BossWarningLabel = "YOU'RE GOING TO DIE!!!"
@@ -115,7 +115,7 @@ local function moat_PrepareBoss()
 	MOAT_BOSS_ROUND_OVER = false
 	MOAT_ACTIVE_BOSS = true
 
-	cdn.PlayURL("https://cdn.moat.gg/f/1hTOlX4OJq4VtfrSgk9ywh8yBDPE.mp3")
+	cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/stalker/stalker_preround.mp3")
 	
 	hook.Add("HUDPaint", "moat_PrepareBoss", moat_DrawBossWarning)
 	hook.Add("TTTBeginRound", "moat_StartBoss", moat_InitDrawBossHealth)

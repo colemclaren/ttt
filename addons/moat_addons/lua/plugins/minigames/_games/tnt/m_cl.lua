@@ -42,7 +42,7 @@ net.Receive("TNT_Begin",function()
     }
     MOAT_DISABLE_BUNNY_HOP = true
 
-    cdn.PlayURL("https://cdn.moat.gg/f/Qqhb45sVoo5CKPNK1KmSX65GoD4z.mp3", 0.5, function(station)
+    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/tdmsong.mp3", 0.5, function(station)
         hook.Add("Think","J Music",function()
             if not MOAT_TNT then station:Stop() hook.Remove("Think","J Music") end
         end)
@@ -101,7 +101,7 @@ net.Receive("TNT_End",function()
     end
     MOAT_DISABLE_BUNNY_HOP = false
     local players = net.ReadTable()
-    cdn.PlayURL("https://cdn.moat.gg/f/AZY6eU4kEQAS52COfa0sfadKYS4J.mp3", 0.5)
+    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/forsen_end.mp3", 0.5)
     MOAT_TNT = nil
     kills = {}
     TNT_END = {}
@@ -319,7 +319,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("TNT_Prep",function()
-    cdn.PlayURL("https://cdn.moat.gg/f/NbpXvhyZPp2LMNf1qbaj2pgl7Qko.mp3")
+    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/boss_warning.mp3")
 
     local desc = {
         "Be the last one alive in this hot-potato style minigame!",

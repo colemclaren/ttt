@@ -252,41 +252,41 @@ MSE.Commands.Register "Apache Round"
 		end*/
 	})
 
--- MSE.Commands.Register "Stalker Round"
--- 	:SetCommand "moat_start_stalker"
--- 	:SetDescription "Team up with every player to defeat the stalker for a prize!"
--- 	:SetMinPlayers "8"
--- 	:CommandArguments({
--- 		function(pl)
--- 			local ids = {"self", "random"}
+MSE.Commands.Register "Stalker Round"
+	:SetCommand "moat_start_stalker"
+	:SetDescription "Team up with every player to defeat the stalker for a prize!"
+	:SetMinPlayers "8"
+	:CommandArguments({
+		function(pl)
+			local ids = {"self", "random"}
 
--- 			for k, v in pairs(player.GetAll()) do
--- 				if (v:Team() ~= TEAM_SPEC) then
--- 					table.insert(ids, v:SteamID())
--- 				end
--- 			end
+			for k, v in pairs(player.GetAll()) do
+				if (v:Team() ~= TEAM_SPEC) then
+					table.insert(ids, v:SteamID())
+				end
+			end
 
--- 			if (CLIENT and (not LocalPlayer():GetDataVar("EC") or (LocalPlayer():GetDataVar("EC") and LocalPlayer():GetDataVar("EC") < 1)) and MSE.Config.Staff[LocalPlayer():GetUserGroup()]) then
--- 				ids = {"random"}
--- 			end
+			if (CLIENT and (not LocalPlayer():GetDataVar("EC") or (LocalPlayer():GetDataVar("EC") and LocalPlayer():GetDataVar("EC") < 1)) and MSE.Config.Staff[LocalPlayer():GetUserGroup()]) then
+				ids = {"random"}
+			end
 			
--- 			return "Select Player", true, ids
--- 		end/*,
--- 		function(pl)
--- 			local wpns = {}
--- 			local n = 1
+			return "Select Player", true, ids
+		end/*,
+		function(pl)
+			local wpns = {}
+			local n = 1
 			
--- 			for k, v in pairs(weapons.GetList()) do
--- 				if (v.Kind ~= WEAPON_HEAVY and v.Kind ~= WEAPON_PISTOL) then continue end
--- 				if (v.Base ~= "weapon_tttbase" or v.ClassName:find("_oc")) then continue end
+			for k, v in pairs(weapons.GetList()) do
+				if (v.Kind ~= WEAPON_HEAVY and v.Kind ~= WEAPON_PISTOL) then continue end
+				if (v.Base ~= "weapon_tttbase" or v.ClassName:find("_oc")) then continue end
 
--- 				wpns[n] = v.ClassName
--- 				n = n + 1
--- 			end
+				wpns[n] = v.ClassName
+				n = n + 1
+			end
 
--- 			return "Select Weapon", false, wpns
--- 		end*/
--- 	})
+			return "Select Weapon", false, wpns
+		end*/
+	})
 
 MSE.Commands.Register "One in the Chamber"
 	:SetCommand "moat_start_onechamber"
