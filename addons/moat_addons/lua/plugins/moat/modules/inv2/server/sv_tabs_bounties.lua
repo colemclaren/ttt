@@ -781,7 +781,8 @@ local weapon_challenges = {
             ["weapon_ttt_m590"] = true,
             ["weapon_ttt_shotgun"] = true,
             ["weapon_ttt_te_benelli"] = true,
-            ["weapon_zm_shotgun"] = true
+            ["weapon_zm_shotgun"] = true,
+			["weapon_ttt_dual_shotgun"] = true,
         },
 "ANY Shotgun Weapon", "Shotgun"
     },
@@ -789,7 +790,8 @@ local weapon_challenges = {
         {
             ["weapon_zm_mac10"] = true,
 			["weapon_ttt_te_mac"] = true,
-			["weapon_ttt_mac11"] = true
+			["weapon_ttt_mac11"] = true,
+			["weapon_ttt_dual_mac10"] = true
         },
 "the MAC10 or the MAC10 TE or the MAC11", "MAC10 + MAC11"
     },
@@ -827,7 +829,8 @@ local weapon_challenges = {
     {
         {
             ["weapon_ttt_sg550"] = true,
-			["weapon_ttt_te_sg550"] = true
+			["weapon_ttt_te_sg550"] = true,
+			["weapon_ttt_dual_sg550"] = true
         },
 "the SG550 or the SG550 TE", "SG550"
     },
@@ -835,13 +838,15 @@ local weapon_challenges = {
         {
             ["weapon_ttt_m16"] = true,
 			["weapon_ttt_te_m4a1"] = true,
-			["weapon_ttt_te_m14"] = true
+			["weapon_ttt_te_m14"] = true,
+			["weapon_ttt_dual_m16"] = true
         },
 "the M16 or the M4A1 or the M14", "M16 + M4A1 + M14"
     },
     {
         {
-            ["weapon_zm_sledge"] = true
+            ["weapon_zm_sledge"] = true,
+			["weapon_ttt_dual_huge"] = true
         },
 "the H.U.G.E-249", "H.U.G.E-249"
     },
@@ -861,7 +866,8 @@ local weapon_challenges = {
     },
     {
         {
-            ["weapon_ttt_ump45"] = true
+            ["weapon_ttt_ump45"] = true,
+			["weapon_ttt_dual_ump"] = true
         },
 "the UMP-45", "UMP-45"
     },
@@ -881,7 +887,8 @@ local weapon_challenges = {
             ["weapon_ttt_m590"] = true,
             ["weapon_ttt_shotgun"] = true,
             ["weapon_ttt_te_benelli"] = true,
-            ["weapon_zm_shotgun"] = true
+            ["weapon_zm_shotgun"] = true,
+			["weapon_ttt_dual_shotgun"] = true
         },
 "ANY Shotty Weapon", "Shotty"
     },
@@ -922,7 +929,8 @@ local weapon_challenges = {
             ["weapon_ttt_m590"] = true,
             ["weapon_ttt_shotgun"] = true,
             ["weapon_ttt_te_benelli"] = true,
-            ["weapon_zm_shotgun"] = true
+            ["weapon_zm_shotgun"] = true,
+			["weapon_ttt_dual_shotgun"] = true
         },
 "ANY Buckshot Weapon", "Buckshot"
     },
@@ -948,7 +956,8 @@ local weapon_challenges = {
     {
         {
             ["weapon_ttt_glock"] = true,
-			["weapon_ttt_te_glock"] = true
+			["weapon_ttt_te_glock"] = true,
+			["weapon_ttt_dual_glock"] = true
         },
 "the Glock or the Glock TE", "Glock"
     },
