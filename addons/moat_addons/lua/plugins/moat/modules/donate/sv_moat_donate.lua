@@ -40,17 +40,17 @@ end
 function meta:Drop100()
 	timer.Simple(1, function() self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false) end)
     timer.Simple(2, function() self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false) end)
-    timer.Simple(3, function() self:m_DropInventoryItem("Cosmic Talents Mutator", "hide_chat_obtained", false, false) end)
-    timer.Simple(4, function() self:m_DropInventoryItem("Ascended Stats Mutator", "hide_chat_obtained", false, false) end)
+    timer.Simple(3, function() self:m_DropInventoryItem("Cosmic Stats Mutator", "hide_chat_obtained", false, false) end)
+    timer.Simple(4, function() self:m_DropInventoryItem("Ascended Talents Mutator", "hide_chat_obtained", false, false) end)
 end
 
 function meta:Drop50()
     self:m_DropInventoryItem("Rename Token", "hide_chat_obtained", false, false)
-    self:m_DropInventoryItem("Ascended Talents Mutator", "hide_chat_obtained", false, false)
+    self:m_DropInventoryItem("Ascended Stats Mutator", "hide_chat_obtained", false, false)
 end
 
 function meta:Drop20()
-    self:m_DropInventoryItem("Ascended Stats Mutator", "hide_chat_obtained", false, false)
+    self:m_DropInventoryItem("Ascended Talents Mutator", "hide_chat_obtained", false, false)
 end
 
 MOAT_DONATE = MOAT_DONATE or {}
