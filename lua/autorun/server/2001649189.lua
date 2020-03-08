@@ -1,0 +1,1 @@
+if (game.GetMap() == 'ttt_canyon_tatadu') then resource.AddWorkshop(2001649189) end
