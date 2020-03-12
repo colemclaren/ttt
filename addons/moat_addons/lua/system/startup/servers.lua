@@ -30,27 +30,27 @@ Servers "208.103.169.43:27017"
 	:SetName "TTT #6"
 	:SetID "ttt6"
 
-Servers "208.103.169.43:27019"
+Servers "208.103.169.43:27018"
 	:SetName "TTT #7"
 	:SetID "ttt7"
 
-Servers "208.103.169.43:27020"
+Servers "208.103.169.43:27019"
 	:SetName "TTT #8"
 	:SetID "ttt8"
 
-Servers "208.103.169.54:27015"
+Servers "208.103.169.43:27020"
 	:SetName "TTT #9"
 	:SetID "ttt9"
 
-Servers "208.103.169.54:27017"
+Servers "208.103.169.54:27015"
 	:SetName "TTT #10"
 	:SetID "ttt10"
 
-Servers "208.103.169.54:27018"
+Servers "208.103.169.54:27017"
 	:SetName "TTT #11"
 	:SetID "ttt11"
 
-Servers "208.103.169.54:27020"
+Servers "208.103.169.54:27018"
 	:SetName "TTT #12"
 	:SetID "ttt12"
 
@@ -98,14 +98,6 @@ Servers "208.103.169.205:27019"
 	:SetName "TTT Minecraft EU #2"
 	:SetID "ttt-eumc2"
 
-Servers "64.94.101.132:27015"
-	:SetName "TTT West"
-	:SetID "ttt-la"
-
-Servers "208.103.169.204:27021"
-	:SetName "TTT Europe"
-	:SetID "ttt-eu"
-
-Servers "208.103.169.43:27018"
+Servers "208.103.169.54:27020"
 	:SetName "TTC Terror City Beta"
 	:SetID "beta"
