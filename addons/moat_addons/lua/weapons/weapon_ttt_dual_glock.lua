@@ -17,9 +17,9 @@ SWEP.Kind = WEAPON_PISTOL
 SWEP.WeaponID = AMMO_GLOCK
 SWEP.ENUM = 11
 
-SWEP.Primary.Recoil	= 1
+SWEP.Primary.Recoil	= 2
 SWEP.Primary.Damage = 7
-SWEP.Primary.Delay = 0.06
+SWEP.Primary.Delay = 0.06485
 SWEP.Primary.Cone = 0.028
 SWEP.Primary.ClipSize = 30
 SWEP.Primary.Automatic = true
