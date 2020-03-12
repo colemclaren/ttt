@@ -1,5 +1,5 @@
 ITEM.ID = 6824
-ITEM.Name = "Fat Lovers"
+ITEM.Name = "H.U.G.E Lovers"
 ITEM.Rarity = 3
 ITEM.NameEffect = "glow"
 ITEM.NameColor = Color(255, 153, 255)
