@@ -44,7 +44,7 @@ end
 moat_chat.font = "moat_ChatFont"
 moat_chat.chattype = ""
 moat_chat.alpha = 0
-moat_chat.header = "You're playing on Moat - TTT Fan Club | More fun servers @ moat.gg"
+moat_chat.header = system.IsOSX() and "You're playing on Moat - TTT Testing" or "You're playing on Moat - TTT Testing | More fun servers @ moat.gg"
 moat_chat.isopen = false
 
 moat_chat.sayvars = {
