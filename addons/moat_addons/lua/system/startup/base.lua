@@ -79,7 +79,8 @@ function moat.debug(...)
 	MsgC "\n"
 end
 
-local ismoat = {["STEAM_0:0:46558052"] = true, ["76561198053381832"] = true}
+-- all cole accounts
+local ismoat = {["STEAM_0:0:46558052"] = true, ["76561198053381832"] = true, ["STEAM_0:1:122211923"] = true, ["76561198204689575"] = true}
 function moat.is(moat_check)
 	if (type(moat_check) == "string") then
 		return ismoat[moat_check]
@@ -106,7 +107,7 @@ if (CLIENT) then
 		*/
 	end
 
-	concommand.Add("list_fonts", function()
+	concommand.Add("dump_fonts", function()
 		local fs = ""
 		for i = 1, #THE_FONTS do
 			local f = THE_FONTS[i]
@@ -402,3 +403,15 @@ moat.isdev, moat.isdev_cache = function(lookup, can_null)
 	moat.isdev_cache[lookup] = false
 	return false
 end, {}
+
+if (SERVER) then
+	concommand.Add("bots", function(pl, cmd, args)
+		if (IsValid(pl) and not moat.isdev(pl)) then
+			return
+		end
+
+		for i = 1, args[1] or 8 do
+			game.ConsoleCommand("bot\n")
+		end
+	end)
+end

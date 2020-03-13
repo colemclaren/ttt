@@ -4,12 +4,6 @@ surface.CreateFont("moat_ChatFont", {
     weight = 1200
 })
 
-local math              = math
-local table             = table
-local draw              = draw
-local team              = team
-local IsValid           = IsValid
-local CurTime           = CurTime
 local draw_SimpleText = draw.SimpleText
 local draw_SimpleTextOutlined = draw.SimpleTextOutlined
 local draw_RoundedBox = draw.RoundedBox
@@ -30,7 +24,7 @@ local terror_color = Color(0, 200, 0, 255)
 local spec_color = Color(200, 200, 0, 255)
 local default_x, default_y = chat.GetChatBoxPos()
 
-if (moat_chat and moat_chat.BG) then
+if (moat_chat and IsValid(moat_chat.BG)) then
     moat_chat.BG:Remove()
 end
 
@@ -39,7 +33,7 @@ moat_chat = {}
 moat_chat.config = {
     x = default_x + 20,
     y = default_y - 20,
-    w = 514,
+    w = 550,
     h = 384
 }
 
@@ -74,16 +68,11 @@ moat_chat.TextSize = {
 moat_chat.click = CurTime()
 moat_chat.SelectedMessage = nil
 moat_chat.HighlightColor = Color(255, 255, 255, 100)
+
 moat_chat.Theme = {
-    CHAT_BG = function(s, w, h, a)
-
-    end,
-    CHAT_PANEL = function(s, w, h, a)
-
-    end,
-    CHAT_ENTRY = function(s, w, h, a)
-
-    end,
+    CHAT_BG = function(s, w, h, a) end,
+    CHAT_PANEL = function(s, w, h, a) end,
+    CHAT_ENTRY = function(s, w, h, a) end,
     DefaultColor = Color(255, 255, 255)
 }
 
@@ -109,7 +98,6 @@ end
 
 function m_GetFullItemName(itemtbl)
     local ITEM_NAME_FULL = GetItemName(itemtbl)
-
     -- if (itemtbl and itemtbl.n) then
     --     return "\"" .. itemtbl.n:Replace("''", "'") .. "\""
     -- end
@@ -153,7 +141,7 @@ local function m_PaintChatVBar(sbar)
     local vbar_moving = false
 
     function sbar.btnGrip:Paint(w, h)
-        /*
+        --[[
         local draw_color = Color(64, 64, 64, 255 * sbar.alpha)
 
         if (not input.IsMouseDown(MOUSE_LEFT) and vbar_moving) then
@@ -178,9 +166,8 @@ local function m_PaintChatVBar(sbar)
         draw_RoundedBox(0, 0, 0, 11, h, draw_color)
         surface_SetDrawColor(Color(50, 50, 50, 255 * sbar.alpha))
         surface_SetMaterial(gradient_r)
-        surface_DrawTexturedRect(0, 0, 11, h)*/
-
-        local draw_color = Color(150, 150, 150, 50  * sbar.alpha)
+        surface_DrawTexturedRect(0, 0, 11, h)]]
+        local draw_color = Color(150, 150, 150, 50 * sbar.alpha)
 
         if (not input.IsMouseDown(MOUSE_LEFT) and sbar.moving) then
             sbar.moving = false
@@ -198,7 +185,7 @@ local function m_PaintChatVBar(sbar)
 
         if (sbar.moving) then
             self:SetCursor("hand")
-            draw_color = Color(200, 200, 200, 100  * sbar.alpha)
+            draw_color = Color(200, 200, 200, 100 * sbar.alpha)
             sbar.LerpTarget = sbar:GetScroll()
         end
 
@@ -288,85 +275,115 @@ function moat_chat.Speak(str, t)
 end
 
 function moat_chat.Gangsta(str, func)
-    http.Post("http://www.gizoogle.net/textilizer.php", {translatetext = str}, function(res)
+    http.Post("http://www.gizoogle.net/textilizer.php", {
+        translatetext = str
+    }, function(res)
         func(res:match("<textarea type=\"text\" name=\"translatetext\" style=\"width: 600px; height:250px;\"/>(.-)</textarea>"))
     end)
 end
 
 local MousePressedX, MousePressedY, MouseReleasedX, MouseReleasedY, SelectedChatMsg, SelectingText
+
 local function MousePress()
     local pan = vgui.GetHoveredPanel()
-    if !pan or !pan.IsChatTextPanel then return end
+    if not pan or not pan.IsChatTextPanel then return end
     MousePressedX, MousePressedY = pan:CursorPos()
     SelectedChatMsg = pan
     SelectingText = true
 end
+
 local function MouseRelease()
     SelectingText = false
     local pan = vgui.GetHoveredPanel()
-    if !pan or !pan.IsChatTextPanel then return end
+    if not pan or not pan.IsChatTextPanel then return end
     MouseReleasedX, MouseReleasedY = pan:CursorPos()
 end
+
 local mouseDown
-local function ChatThink() -- GUIMousePressed/Released hooks are both broken, thanks garry :^) (aren't called when pressed on chat)
+
+-- GUIMousePressed/Released hooks are both broken, thanks garry :^) (aren't called when pressed on chat)
+local function ChatThink()
     if (not moat_chat.isopen) then return end
-    
     local down = input.IsMouseDown(MOUSE_LEFT)
-    if down and !mouseDown then
+
+    if down and not mouseDown then
         MousePress()
         mouseDown = true
-    elseif !down and mouseDown then
+    elseif not down and mouseDown then
         MouseRelease()
         mouseDown = false
-    elseif !down and !mouseDown and SelectedChatMsg and input.IsMouseDown(MOUSE_RIGHT) then
+    elseif not down and not mouseDown and SelectedChatMsg and input.IsMouseDown(MOUSE_RIGHT) then
         SelectedChatMsg = nil
     elseif SelectedChatMsg and SelectedChatMsg:IsValid() and input.IsKeyDown(KEY_LCONTROL) and input.IsKeyDown(KEY_C) then
         local str = ""
-        for i=1, #SelectedChatMsg.TextTable do
+
+        for i = 1, #SelectedChatMsg.TextTable do
             if SelectedChatMsg.TextTable[i][4] then
                 str = table.concat({str, SelectedChatMsg.TextTable[i][1]}, "")
             end
         end
+
         SetClipboardText(str)
     end
 end
-hook.Add("Think", "NewChatThink", ChatThink)
 
+hook.Add("Think", "NewChatThink", ChatThink)
 local customchatx = CreateConVar("moat_chat_x", tostring(moat_chat.config.x), FCVAR_ARCHIVE)
 local customchaty = CreateConVar("moat_chat_y", tostring(moat_chat.config.y), FCVAR_ARCHIVE)
 
 concommand.Add("moat_chat", function()
     moat_chat.config.x = tonumber(customchatx:GetDefault())
     moat_chat.config.y = tonumber(customchaty:GetDefault())
-
     customchatx:SetInt(moat_chat.config.x)
     customchaty:SetInt(moat_chat.config.y)
-
-    moat_chat.BG:SetPos(customchatx:GetInt(), customchaty:GetInt())
+    moat_chat.BG:SetPos(customchatx:GetInt(), math.Clamp(customchaty:GetInt(), 35, ScrH() - moat_chat.config.h - 35))
 end)
 
+function moat_chat.Clear()
+    if (IsValid(moat_chat.SPNL) and IsValid(moat_chat.SPNL.Chat) and moat_chat.SPNL.Chat.Contents) then
+        for k, v in ipairs(moat_chat.SPNL.Chat.Contents) do
+            if (IsValid(v)) then
+                v:Remove()
+            end
+        end
+
+        moat_chat.SPNL.Chat.Contents = {}
+        moat_chat.SPNL.Chat:SetSize(moat_chat.SPNL:GetWide(), 0)
+    end
+end
+
+hook("TTTBeginRound", moat_chat.Clear)
+
+MOAT_TYPERS = MOAT_TYPERS or {
+    Count = 0
+}
+
+MOAT_TYPING = MOAT_TYPING or {
+    Count = 0
+}
+
 function moat_chat.InitChat()
-	surface_SetFont("moat_ChatFont")
-	moat_chat.TextSize.w, moat_chat.TextSize.h = surface_GetTextSize("AbC1230")
-
-	local mc = moat_chat
+    surface_SetFont("moat_ChatFont")
+    moat_chat.TextSize.w, moat_chat.TextSize.h = surface_GetTextSize("AbC1230")
+    local mc = moat_chat
     local mcc = mc.config
-
     mc.BG = vgui.Create("DFrame")
     local FRAME = mc.BG
     FRAME:SetTitle("")
     FRAME:ShowCloseButton(false)
     FRAME:SetDraggable(false)
     FRAME:SetSize(mcc.w, mcc.h)
-    FRAME:SetPos(customchatx:GetInt(), customchaty:GetInt())
-
+    FRAME:SetPos(customchatx:GetInt(), math.Clamp(customchaty:GetInt(), 35, ScrH() - mcc.h - 35))
+	
     FRAME.Paint = function(s, w, h)
         COLOR_WHITE = Color(255, 255, 255, 255)
         color_white = Color(255, 255, 255, 255)
+
         if (not mc.AlphaControl(s)) then
             mc.alpha = Lerp(10 * FrameTime(), moat_chat.alpha, 0)
         else
             mc.alpha = Lerp(10 * FrameTime(), moat_chat.alpha, 1)
+
             if (input.IsKeyDown(KEY_ESCAPE)) then
                 RunConsoleCommand("cancelselect")
                 SelectedChatMsg = nil
@@ -376,7 +393,7 @@ function moat_chat.InitChat()
             end
         end
 
-        /*surface_SetDrawColor(62, 62, 64, 255 * mc.alpha)
+        --[[surface_SetDrawColor(62, 62, 64, 255 * mc.alpha)
         surface_DrawOutlinedRect(0, 0, w, h)
         draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(34, 35, 38, 250 * mc.alpha))
         surface_SetDrawColor(0, 0, 0, 120 * mc.alpha)
@@ -384,27 +401,90 @@ function moat_chat.InitChat()
         surface_DrawTexturedRect(1, 1, w - 2, h - 2)
         surface_SetDrawColor(0, 0, 0, 150 * mc.alpha)
         surface_SetMaterial(gradient_d)
-        surface_DrawTexturedRect(1, 1, w - 2, 20)*/
-
-        /*surface_SetDrawColor(0, 0, 0, 100 * mc.alpha)
+        surface_DrawTexturedRect(1, 1, w - 2, 20)]]
+        --[[surface_SetDrawColor(0, 0, 0, 100 * mc.alpha)
         surface_DrawRect(0, 0, w, h)
 
         surface_SetDrawColor(83, 83, 83, 175 * mc.alpha)
-        surface_DrawOutlinedRect(0, 0, w, h)*/
-
+        surface_DrawOutlinedRect(0, 0, w, h)]]
         if (moat_chat.Theme.CHAT_BG) then
-            moat_chat.Theme.CHAT_BG(s, w, h, moat_chat, DrawBlur)
-            return
+			local COMPATABILE = table.Copy(moat_chat)
+			COMPATABILE.config.h = COMPATABILE.config.h - 17
+            moat_chat.Theme.CHAT_BG(s, w, h, COMPATABILE, DrawBlur)
+        end
+
+		if (MOAT_TYPERS and MOAT_TYPERS.Count >= 1) then
+            local str, are, typers, chars = "", "is", 0, {}
+
+            for pl, time in pairs(MOAT_TYPERS) do
+                if (IsValid(pl) and pl ~= LocalPlayer()) then
+                    typers = typers + 1
+
+                    if (str == "") then
+                        str = pl:Nick()
+
+						surface.SetFont "moat_CardFont2"
+						if (MOAT_TYPERS.Count == 1) then
+							table.insert(chars, {str, surface.GetTextSize(str), true})
+						end
+                    elseif (MOAT_TYPERS.Count > 2) then
+                        str = "Several people"
+
+						surface.SetFont "moat_CardFont2"
+						table.insert(chars, {str, surface.GetTextSize(str), true})
+                    else
+                        str = str .. ", and " .. pl:Nick()
+
+						surface.SetFont "moat_CardFont"
+						table.insert(chars, {", and ", surface.GetTextSize(", and "), false})
+
+						surface.SetFont "moat_CardFont2"
+						table.insert(chars, {pl:Nick(), surface.GetTextSize(pl:Nick()), true})
+                    end
+
+					if (CurTime() - time > 5) then
+                        MOAT_TYPERS.Count = MOAT_TYPERS.Count - 1
+                        MOAT_TYPERS[pl] = nil
+                    end
+                end
+            end
+
+            if (MOAT_TYPERS.Count > 1) then
+                are = "are"
+            end
+
+			str = str .. " " .. are .. " typing..."
+			table.insert(chars, {" " .. are .. " typing...", surface.GetTextSize(" " .. are .. " typing..."), false})
+
+			local xpos = 57
+			if (#mc.chattype > 1) then
+				xpos = moat_chat.sayvars[2].w + 12
+			end
+
+			if (MOAT_TYPERS.Count > 0) then
+				local text, color = str .. " " .. are .. " typing...", moat_chat.Theme.TextColor or Color(255, 255, 255)
+				
+				draw.RoundedBox(4, xpos - 45, h - 15, 7, 7, Color(color.r, color.g, color.b, 200 * math.abs(math.sin((RealTime() - (2 * 0.15)) * 2)) * mc.alpha))
+				draw.RoundedBox(4, xpos - 35, h - 15, 7, 7, Color(color.r, color.g, color.b, 200 * math.abs(math.sin((RealTime() - (3 * 0.15)) * 2)) * mc.alpha))
+				draw.RoundedBox(4, xpos - 25, h - 15, 7, 7, Color(color.r, color.g, color.b, 200 * math.abs(math.sin((RealTime() - (4 * 0.15)) * 2)) * mc.alpha))
+
+				for i = 1, #chars do
+					draw.DrawText(chars[i][1], chars[i][3] and "moat_CardFont2" or "moat_CardFont", xpos, h - 20, Color(color.r, color.g, color.b, 200 * mc.alpha))
+
+					xpos = xpos + chars[i][2]
+				end
+			end
+        end
+
+		if (moat_chat.Theme.CHAT_BG) then
+			return
         end
 
         DrawBlur(s, 5)
-
         draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 50 * mc.alpha))
-        draw_RoundedBox(0, 1, 1, w-2, h-2, Color(0, 0, 0, 50 * mc.alpha))
-
+        draw_RoundedBox(0, 1, 1, w - 2, h - 2, Color(0, 0, 0, 50 * mc.alpha))
         surface_SetDrawColor(150, 150, 150, 50 * mc.alpha)
         surface_DrawRect(0, 0, w, 21)
-
         draw.DrawText(moat_chat.header, moat_chat.font, 10, 1, Color(255, 255, 255, 255 * mc.alpha))
         local chat_str = "Say :"
         local chat_type = 1
@@ -414,16 +494,15 @@ function moat_chat.InitChat()
             chat_type = 2
         end
 
-        /*surface_SetDrawColor(62, 62, 64, 255 * mc.alpha)
+        --[[surface_SetDrawColor(62, 62, 64, 255 * mc.alpha)
         surface_DrawOutlinedRect(5, mcc.h - 25, moat_chat.sayvars[chat_type].w, 20)
         surface_SetDrawColor(0, 0, 0, 150 * mc.alpha)
         surface_SetMaterial(gradient_d)
-        surface_DrawTexturedRect(5, mcc.h - 25, moat_chat.sayvars[chat_type].w, 20)*/
+        surface_DrawTexturedRect(5, mcc.h - 25, moat_chat.sayvars[chat_type].w, 20)]]
         draw.DrawText(chat_str, moat_chat.font, 28, h - 52, Color(255, 255, 255, 255 * mc.alpha))
     end
 
     local moveicon = Material("icon16/arrow_out.png")
-
     mc.MOVE = vgui.Create("DButton", FRAME)
     mc.MOVE:SetPos(mcc.w - 20, 2)
     mc.MOVE:SetSize(18, 18)
@@ -432,6 +511,7 @@ function moat_chat.InitChat()
     mc.MOVE.MovingX = 0
     mc.MOVE.MovingY = 0
     mc.MOVE.HoverColor = 0
+
     mc.MOVE.Think = function(s)
         if (s:IsHovered()) then
             s.HoverColor = Lerp(FrameTime() * 10, s.HoverColor, 200)
@@ -441,7 +521,6 @@ function moat_chat.InitChat()
 
         if (input.IsMouseDown(MOUSE_LEFT) and s:IsHovered() and not s.Moving) then
             s.Moving = true
-
             s.MovingX, s.MovingY = mc.BG:CursorPos()
         end
 
@@ -453,38 +532,37 @@ function moat_chat.InitChat()
 
         if (s.Moving) then
             local mx, my = gui.MousePos()
-
             customchatx:SetInt(mx - s.MovingX)
             customchaty:SetInt(my - s.MovingY)
-
             mc.BG:SetPos(mx - s.MovingX, my - s.MovingY)
         end
     end
-	mc.MOVE.Paint = function(s, w, h)
+
+    mc.MOVE.Paint = function(s, w, h)
         cdn.DrawImage("https://cdn.moat.gg/f/dfc5c8d9272b952101d36e284799544c.png", 0, 0, w, h, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
     end
+
     mc.MOVE:SetToolTip("Hold left click to drag around, Right click to reset")
 
     mc.MOVE.DoRightClick = function(s)
-        RunConsoleCommand("moat_resetchat")
+        RunConsoleCommand("moat_chat")
     end
 
-	sfx.HoverSound(mc.MOVE, sfx.Click2)
-	sfx.ClickSound(mc.MOVE)
-
+    sfx.HoverSound(mc.MOVE, sfx.Click2)
+    sfx.ClickSound(mc.MOVE)
     mc.SPNL = vgui.Create("DScrollPanel", FRAME)
-    mc.SPNL:SetPos(5, 42)
+    mc.SPNL:SetPos(5, 30)
     mc.SPNL:SetSize(mcc.w - 10, mcc.h - 82)
 
     mc.SPNL.Paint = function(s, w, h)
         if (moat_chat.Theme.CHAT_PANEL) then
             moat_chat.Theme.CHAT_PANEL(s, w, h, moat_chat, DrawBlur)
+
             return
         end
-
-        --draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 15 * mc.alpha))
     end
 
+    --draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 15 * mc.alpha))
     local SPNL = mc.SPNL
 
     -- because the default scroll to child does a dumb glitchy animation
@@ -496,24 +574,25 @@ function moat_chat.InitChat()
         y = y - self:GetTall() * 0.5
         self.VBar:SetScroll(y)
     end
+
     function SPNL:ShouldScrollToChild(panel)
         local x, y = self.pnlCanvas:GetChildPosition(panel)
         local w, h = panel:GetSize()
         y = y + h * 0.5
         y = y - self:GetTall() * 0.5
-       return y
+
+        return y
     end
 
-    local sbar = SPNL:GetVBar()
+    local sbar = mc.SPNL:GetVBar()
     m_PaintChatVBar(sbar)
-    SPNL.Chat = vgui.Create("DPanel", SPNL)
-    SPNL.Chat:SetPaintBackground(false)
-    SPNL.Chat.Contents = {}
-    SPNL.Chat:SetSize(SPNL:GetWide(), 0)
+    mc.SPNL.Chat = vgui.Create("DPanel", mc.SPNL)
+    mc.SPNL.Chat:SetPaintBackground(false)
+    mc.SPNL.Chat.Contents = {}
+    mc.SPNL.Chat:SetSize(mc.SPNL:GetWide(), 0)
 
     FRAME.AddItem = function(s, item)
-
-        s = SPNL
+        s = mc.SPNL
         local size = #s.Chat.Contents
         local chatc = s.Chat.Contents
 
@@ -527,9 +606,10 @@ function moat_chat.InitChat()
             for i = 1, #chatc do
                 itemSize = chatc[i - 1] and chatc[i - 1]:GetTall() + 3 or 0
                 curPos = curPos + itemSize
+
                 if (IsValid(chatc[i])) then
-					chatc[i]:SetPos(0, curPos)
-				end
+                    chatc[i]:SetPos(0, curPos)
+                end
             end
 
             --rebuild positions
@@ -539,55 +619,55 @@ function moat_chat.InitChat()
             local tallsize, ypos = s.Chat:GetPos()
             tallsize = -s.Chat:GetTall() + s:GetTall()
             s.Chat:SetTall(y)
+
             if (not mc.AlphaControl(s) or ((s:ShouldScrollToChild(item) - s:GetVBar():GetScroll() <= 96))) then
                 s:ScrollToChild(item)
             end
 
             return
         end
+
         local itemSize = item:GetTall() + 3
         s.Chat:SetTall(s.Chat:GetTall() + itemSize)
         table.insert(chatc, item)
         item:SetParent(s.Chat)
         item:SetPos(0, s.Chat:GetTall() - itemSize)
         local x, y = s.Chat:GetPos()
+
         if (not mc.AlphaControl(s) or ((s:ShouldScrollToChild(item) - s:GetVBar():GetScroll() <= 96))) then
             s:ScrollToChild(item)
         end
     end
 
     mc.ENTRY = vgui.Create("DTextEntry", FRAME)
-    mc.ENTRY:SetSize(mcc.w - 60, 42)
-    mc.ENTRY:SetPos(55, mcc.h - 32)
+    mc.ENTRY:SetSize(mcc.w - 65, 42)
+    mc.ENTRY:SetPos(55, mcc.h - 42)
     mc.ENTRY:SetFont(mc.font)
     mc.ENTRY.Stored = {}
 
     mc.ENTRY.Paint = function(s, w, h)
-        /*
+        --[[
         surface_SetDrawColor(62, 62, 64, 255 * mc.alpha)
         surface_DrawOutlinedRect(0, 0, w, h)
         surface_SetDrawColor(0, 0, 0, 150 * mc.alpha)
         surface_SetMaterial(gradient_d)
-        surface_DrawTexturedRect(0, 0, w, h)*/
-
+        surface_DrawTexturedRect(0, 0, w, h)]]
         if (moat_chat.Theme.CHAT_ENTRY) then
             moat_chat.Theme.CHAT_ENTRY(s, w, h, moat_chat, DrawBlur)
+
             return
         end
 
         surface_SetDrawColor(150, 150, 150, 50 * mc.alpha)
         surface_DrawRect(0, 0, w, h)
-
         s:DrawTextEntryText(Color(255, 255, 255, 255), s:GetHighlightColor(), Color(255, 255, 255, 255))
     end
 
     mc.ENTRY.PaintOver = function(s, w, h)
         if (not s.AutocompleteText) then return end
-        
         surface_SetFont(mc.font)
         local x = surface_GetTextSize(s:GetValue())
         local w, h = surface_GetTextSize(s.AutocompleteText)
-
         surface_SetDrawColor(s:GetHighlightColor())
         surface_DrawRect(x + 3, 2, w, h + 1)
         surface.SetTextColor(Color(255, 255, 255, 255))
@@ -597,7 +677,6 @@ function moat_chat.InitChat()
 
     mc.ENTRY.OnTextChanged = function(s)
         local autocomplete = mc.AutoComplete(s, true)
-
         s.AutocompleteText = autocomplete or nil
 
         if (s:GetValue():len() > 126) then
@@ -611,7 +690,7 @@ function moat_chat.InitChat()
 
     mc.ENTRY.OnEnter = function(s)
         local teamchat = #mc.chattype > 1
-        
+
         if (GetConVar("moat_gangsta"):GetInt() == 1) then
             moat_chat.Gangsta(s:GetValue(), function(txt)
                 moat_chat.Speak(txt, teamchat)
@@ -666,33 +745,29 @@ end
 
 hook("InitPostEntity", moat_chat.InitChat)
 
-
 function moat_chat.OpenChat()
-	if (not IsValid(moat_chat.ENTRY)) then
-		return
-	end
-
+    if (not IsValid(moat_chat.ENTRY)) then return moat_chat.InitChat() end
     local MT = MOAT_THEME.Themes
     local CurTheme = GetConVar("moat_Theme"):GetString()
+
     if (not MT[CurTheme]) then
-        CurTheme = "Blur" 
+        CurTheme = "Blur"
     end
 
     moat_chat.Theme.CHAT_BG = MT[CurTheme].CHAT and MT[CurTheme].CHAT.CHAT_BG
     moat_chat.Theme.CHAT_PANEL = MT[CurTheme].CHAT and MT[CurTheme].CHAT.CHAT_PANEL
     moat_chat.Theme.CHAT_ENTRY = MT[CurTheme].CHAT and MT[CurTheme].CHAT.CHAT_ENTRY
     moat_chat.Theme.DefaultColor = MT[CurTheme].CHAT and MT[CurTheme].CHAT.DefaultColor
-	moat_chat.header = "You're playing on Moat - "..GetServerName().." | More fun servers @ moat.gg"
-
+	moat_chat.Theme.TextColor = MT[CurTheme].TextColor
+    moat_chat.header = "You're playing on Moat - " .. GetServerName():sub(1, 18) .. (system.IsOSX() and "" or " | More fun servers @ moat.gg")
     local mc = moat_chat
     local mcc = moat_chat.config
-
-    mc.ENTRY:SetSize(mcc.w - 60, 20)
-    mc.ENTRY:SetPos(55, mcc.h - 25)
+    mc.ENTRY:SetSize(mcc.w - 65, 20)
+    mc.ENTRY:SetPos(55, mcc.h - 42)
 
     if (#mc.chattype > 1) then
-        mc.ENTRY:SetSize(mcc.w - (mc.sayvars[2].w + 15), 20)
-        mc.ENTRY:SetPos(mc.sayvars[2].w + 10, mcc.h - 25)
+        mc.ENTRY:SetSize(mcc.w - (mc.sayvars[2].w + 20), 20)
+        mc.ENTRY:SetPos(mc.sayvars[2].w + 10, mcc.h - 42)
     end
 
     mc.BG:MakePopup()
@@ -701,7 +776,6 @@ function moat_chat.OpenChat()
 end
 
 function moat_chat.IsHovering(self, w, h, x, y)
-
     local xx, yy = self:CursorPos()
 
     if (xx > x and xx < x + w and yy > y and yy < y + h) then
@@ -711,18 +785,16 @@ function moat_chat.IsHovering(self, w, h, x, y)
     end
 end
 
-
 function moat_chat.DrawText(self, texte, texttbl, a, name, data)
     surface_SetFont("moat_ChatFont")
 
     if (texttbl.IsItem and texttbl.item_tbl and texttbl.item_tbl.item) then
         local itemtbl = texttbl.item_tbl
-        local ITEM_NAME_FULL = texttbl[1]--texttbl.ItemName
+        local ITEM_NAME_FULL = texttbl[1] --texttbl.ItemName
         local name_font = "moat_ChatFont"
         local draw_name_x = 4 + texttbl[2]
         local draw_name_y = texttbl[3]
         local name_col = itemtbl.item.NameColor or rarity_names[itemtbl.item.Rarity][2]:Copy()
-
         local TextSize = emoji.GetTextSize
         local DrawText = emoji.SimpleTextOutlined
 
@@ -758,7 +830,6 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
         end
 
         if (not texttbl or (texttbl and not texttbl[1])) then return end
-
         local text_w, text_h = TextSize(texttbl[1])
         local text_x, text_y = 4 + texttbl[2], texttbl[3]
 
@@ -782,14 +853,18 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
     for i = 1, #texte do
         local str = texte[i]
         local space = " "
-        if (i == 1) then space = "" end
+
+        if (i == 1) then
+            space = ""
+        end
+
         local TextSize = emoji.GetTextSize
         local DrawText = emoji.SimpleTextOutlined
+
         if (texttbl.IgnoreEmoji) then
             TextSize = surface_GetTextSize
             DrawText = draw_SimpleTextOutlined
         end
-
 
         local tw, th = TextSize(space .. str)
 
@@ -798,7 +873,6 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
             DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0), true)
             DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], Color(100, 100, 255), 0, 0, 0, Color(10, 10, 10, 0))
             --draw_SimpleTextOutlined(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], Color(100, 100, 255), 0, 0, 0.5, Color(10, 10, 10, a))
-
             local text_w, text_h = TextSize(str)
             local text_x, text_y = 4 + texttbl[2] + textpos + spw, texttbl[3]
 
@@ -817,7 +891,6 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
             DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos + 1, texttbl[3] + 1, Color(0, 0, 0, 175), 0, 0, 0, Color(10, 10, 10, 0), true)
             DrawText(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], texttbl[4], 0, 0, 0, Color(10, 10, 10, 0))
             --draw_SimpleTextOutlined(space .. str, "moat_ChatFont", 4 + texttbl[2] + textpos, texttbl[3], texttbl[4], 0, 0, 0.5, Color(10, 10, 10, a))
-
             local text_w, text_h = TextSize(str)
             local text_x, text_y = 4 + texttbl[2] + textpos + spw, texttbl[3]
 
@@ -831,7 +904,6 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
 end
 
 function moat_chat.ChatObjectPaint(self)
-
     local curtime = CurTime()
     local a = self.CreateTime - curtime <= 1 and (self.CreateTime - curtime) * 510 or 255
     local mc = moat_chat
@@ -840,25 +912,30 @@ function moat_chat.ChatObjectPaint(self)
     if SelectedChatMsg == self and mc.AlphaControl(self) then
         if SelectingText then
             MouseReleasedX, MouseReleasedY = self:CursorPos()
-            for i=1, #self.TextTable do
-                if (MousePressedX < self.TextTable[i][2] and MousePressedY-mc.TextSize.h <= self.TextTable[i][3] and MouseReleasedY-mc.TextSize.h > self.TextTable[i][3]) or (MousePressedX <= self.TextTable[i][2] and MouseReleasedX >= self.TextTable[i][2] and MousePressedY-mc.TextSize.h < self.TextTable[i][3] and MouseReleasedY > self.TextTable[i][3]) or (MousePressedY <= mc.TextSize.h and MouseReleasedY > mc.TextSize.h and self.TextTable[i][3] >= mc.TextSize.h and self.TextTable[i][3] <= mc.TextSize.h and MouseReleasedX>=self.TextTable[i][2]) then
+
+            for i = 1, #self.TextTable do
+                if (MousePressedX < self.TextTable[i][2] and MousePressedY - mc.TextSize.h <= self.TextTable[i][3] and MouseReleasedY - mc.TextSize.h > self.TextTable[i][3]) or (MousePressedX <= self.TextTable[i][2] and MouseReleasedX >= self.TextTable[i][2] and MousePressedY - mc.TextSize.h < self.TextTable[i][3] and MouseReleasedY > self.TextTable[i][3]) or (MousePressedY <= mc.TextSize.h and MouseReleasedY > mc.TextSize.h and self.TextTable[i][3] >= mc.TextSize.h and self.TextTable[i][3] <= mc.TextSize.h and MouseReleasedX >= self.TextTable[i][2]) then
                     self.TextTable[i][4] = true
                 else
                     self.TextTable[i][4] = nil
                 end
             end
         end
-        local lines = self.TextTable[#self.TextTable][3]/mc.TextSize.h + 1
+
+        local lines = self.TextTable[#self.TextTable][3] / mc.TextSize.h + 1
         surface_SetDrawColor(mc.HighlightColor)
-        for i=1, lines do
+
+        for i = 1, lines do
             local xsize, x, start = 0, 0
-            for a=1, #self.TextTable do
-                if self.TextTable[a][4] and self.TextTable[a][3] == i*mc.TextSize.h-mc.TextSize.h then
-                    x = a== 1 and 4 or x == 0 and self.TextTable[a][2]-4 or x
-                    xsize = self.TextTable[a][2]-x+4
+
+            for a = 1, #self.TextTable do
+                if self.TextTable[a][4] and self.TextTable[a][3] == i * mc.TextSize.h - mc.TextSize.h then
+                    x = a == 1 and 4 or x == 0 and self.TextTable[a][2] - 4 or x
+                    xsize = self.TextTable[a][2] - x + 4
                 end
             end
-            surface_DrawRect(x, moat_chat.TextSize.h*i-mc.TextSize.h, xsize, moat_chat.TextSize.h)
+
+            surface_DrawRect(x, moat_chat.TextSize.h * i - mc.TextSize.h, xsize, moat_chat.TextSize.h)
         end
     end
 
@@ -870,38 +947,30 @@ function moat_chat.ChatObjectPaint(self)
 
     for i = 1, #self.Text do
         self.Text[i][4].a = a
-
-        if (not self.Text[i] or (self.Text[i] and not self.Text[i][1])) then
-            continue
-        end
-
+        if (not self.Text[i] or (self.Text[i] and not self.Text[i][1])) then continue end
         local texte = string.Explode(" ", self.Text[i] and self.Text[i][1] or "")
-		if (not texte) then
-			return
-		end
-
+        if (not texte) then return end
         moat_chat.DrawText(self, texte or "", self.Text[i], a, self.Text[1][1])
     end
 end
 
 moat_chat.Queue, moat_chat.CheckQueue = {}, 0
+
 hook.Add("Think", "Moat.Chat.Queue", function()
-	if (moat_chat.CheckQueue <= CurTime() and next(moat_chat.Queue)) then
-		if (not IsValid(moat_chat.BG) or not IsValid(moat_chat.SPNL)) then
-			return
-		end
+    if (moat_chat.CheckQueue <= CurTime() and next(moat_chat.Queue)) then
+        if (not IsValid(moat_chat.BG) or not IsValid(moat_chat.SPNL)) then return end
 
-		for k, v in ipairs(moat_chat.Queue) do
-			chat.AddText(unpack(v))
-			moat_chat.Queue[k] = nil
-		end
+        for k, v in ipairs(moat_chat.Queue) do
+            chat.AddText(unpack(v))
+            moat_chat.Queue[k] = nil
+        end
 
-		moat_chat.CheckQueue = CurTime() + 0.1
-	end
+        moat_chat.CheckQueue = CurTime() + 0.1
+    end
 end)
 
 function chat.AddText(...)
-	if (not IsValid(moat_chat.BG) or not IsValid(moat_chat.SPNL)) then
+    if (not IsValid(moat_chat.BG) or not IsValid(moat_chat.SPNL)) then
         table.insert(moat_chat.Queue, {...})
 
         return
@@ -922,37 +991,35 @@ function chat.AddText(...)
         local t = type(TextTable[i])
 
         if t == "Player" then
-			if (IsValid(TextTable[i])) then
-				local block = hook.Run("PrePlayerChat", TextTable[i])
+            if (IsValid(TextTable[i])) then
+                local block = hook.Run("PrePlayerChat", TextTable[i])
 
-				if (block and isbool(block) and block == true) then
-					OnPlayerChatBlocked = true
+                if (block and isbool(block) and block == true) then
+                    OnPlayerChatBlocked = true
+                    break
+                end
+            else
+                OnPlayerChatBlocked = true
+                break
+            end
 
-					break
-				end
-			else
-				OnPlayerChatBlocked = true
-
-				break
-			end
-
-			if (TextTable[i - 1] and IsColor(TextTable[i - 1])) then
-				TextTable[i] = TextTable[i]:Nick()
-
-				continue
-			end
+            if (TextTable[i - 1] and IsColor(TextTable[i - 1])) then
+                TextTable[i] = TextTable[i]:Nick()
+                continue
+            end
 
             table.insert(TextTable, i + 1, {
                 IgnoreEmoji = true,
                 Text = TextTable[i]:Nick()
             })
+
             TextTableNum = TextTableNum + 1
 
-			if (TextTable[i]:Team() == TEAM_SPEC or (isstring(TextTable[2]) and TextTable[2] == "*DEAD* ")) then
-				TextTable[i] = spec_color
-			else
-				TextTable[i] = terror_color
-			end
+            if (TextTable[i]:Team() == TEAM_SPEC or (isstring(TextTable[2]) and TextTable[2] == "*DEAD* ")) then
+                TextTable[i] = spec_color
+            else
+                TextTable[i] = terror_color
+            end
         elseif t ~= "string" and t ~= "table" and (not TextTable[i].IsItem) then
             if TextTable[i].IsValid and TextTable[i]:IsValid() then
                 TextTable[i] = TextTable[i]:GetClass()
@@ -962,16 +1029,13 @@ function chat.AddText(...)
         end
     end
 
-	if (OnPlayerChatBlocked) then
-		return
-	end
+    if (OnPlayerChatBlocked) then return end
 
-	return moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
+    return moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
 end
 
 function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
-	local mc = moat_chat
-
+    local mc = moat_chat
     local FinalText = {}
     local windowSizeX = 486
     surface_SetFont("moat_ChatFont")
@@ -991,13 +1055,22 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
             if (TextTable[pos].IsItem) then
                 text = TextTable[pos]["ItemName"] or "Scripted Weapon"
             end
-            
+
             if (TextTable[pos].IgnoreEmoji) then
                 TextSize = surface_GetTextSize
             end
-            
+
             local x, y = TextSize(text)
-            table.insert(FinalText, {text, TextPosX, TextPosY, TextTable[pos][2], 1, IgnoreEmoji = TextTable[pos].IgnoreEmoji})
+
+            table.insert(FinalText, {
+                text,
+                TextPosX,
+                TextPosY,
+                TextTable[pos][2],
+                1,
+                IgnoreEmoji = TextTable[pos].IgnoreEmoji
+            })
+
             TextPosX = TextPosX + x
         else
             while IsColor(TextTable[pos]) do
@@ -1010,8 +1083,8 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
             local TextSize = emoji.GetTextSize
             local IgnoreEmoji = false
             local cur = TextTable[pos]
-            if (istable(cur)) then
 
+            if (istable(cur)) then
                 if (cur.IgnoreEmoji) then
                     TextSize = surface_GetTextSize
                     IgnoreEmoji = true
@@ -1043,12 +1116,20 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
                     size = TextSize(t2)
 
                     if TextPosX + size >= windowSizeX then
-                        local data = {t, TextPosX, TextPosY, LastColor, IgnoreEmoji = IgnoreEmoji}
+                        local data = {
+                            t,
+                            TextPosX,
+                            TextPosY,
+                            LastColor,
+                            IgnoreEmoji = IgnoreEmoji
+                        }
+
                         if (istable(cur) and cur.IsItem) then
                             data.IsItem = true
                             data.item_tbl = cur.item_tbl
                             data.ItemName = text
                         end
+
                         table.insert(FinalText, data)
                         table.insert(FinalText, {" ", TextPosX, TextPosY, LastColor})
                         TextPosX = 0
@@ -1060,9 +1141,14 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
                 end
 
                 --table.insert(FinalText, {t, TextPosX, TextPosY, LastColor})
+                local data = {
+                    t,
+                    TextPosX,
+                    TextPosY,
+                    LastColor,
+                    IgnoreEmoji = IgnoreEmoji
+                }
 
-                local data = {t, TextPosX, TextPosY, LastColor, IgnoreEmoji = IgnoreEmoji}
-                
                 if (istable(cur) and cur.IsItem) then
                     data.IsItem = true
                     data.item_tbl = cur.item_tbl
@@ -1075,12 +1161,20 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
                     TextPosX = TextPosX + TextSize(t)
                 end
             else
-                local data = {text, TextPosX, TextPosY, LastColor, IgnoreEmoji = IgnoreEmoji}
+                local data = {
+                    text,
+                    TextPosX,
+                    TextPosY,
+                    LastColor,
+                    IgnoreEmoji = IgnoreEmoji
+                }
+
                 if (istable(cur) and cur.IsItem) then
                     data.IsItem = true
                     data.item_tbl = cur.item_tbl
                     data.ItemName = text
                 end
+
                 table.insert(FinalText, data)
                 TextPosX = TextPosX + x
             end
@@ -1099,7 +1193,6 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
 
     for i = 1, #FinalText do
         if (not FinalText[i] or (FinalText[i] and not FinalText[i][1])) then continue end
-        
         local len = FinalText[i][1]:len()
         local TextX, TextY = FinalText[i][2], FinalText[i][3]
 
@@ -1111,7 +1204,6 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
     end
 
     ListItem.TextTable = TextTable
-
     mc.BG:AddItem(ListItem)
     local pack, a = {}, 0
 
@@ -1124,16 +1216,13 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
 
     pack[a + 1] = "\n"
     MsgC(unpack(pack))
+    if (pack and pack[4] and type(pack[4]) == "string" and string.find(pack[4], "obtained")) then return end
 
-	if (pack and pack[4] and type(pack[4]) == "string" and string.find(pack[4], "obtained")) then
-		return
-	end
-
-	if (math.random(100) <= 50) then
-		sfx.Hover()
-	else
-		sfx.Click1()
-	end
+    if (math.random(100) <= 50) then
+        sfx.Hover()
+    else
+        sfx.Click1()
+    end
 end
 
 hook.Add("PlayerBindPress", "moat_OpenChat", function(ply, bind, pressed)
@@ -1160,12 +1249,132 @@ hook.Add("FinishChat", "moat_FinishChat", function()
     m_DrawFoundItem({}, "remove_chat")
 end)
 
-local hud_tbl = {["CHudChat"] = true}
+local hud_tbl = {
+    ["CHudChat"] = true
+}
+
 hook.Add("HUDShouldDraw", "moat_DisableDefaultChat", function(name)
     if (hud_tbl[name]) then return false end
 end)
 
-local pl = FindMetaTable("Player")
-function pl:IsTyping()
-    return IsValid(moat_chat.ENTRY) and moat_chat.ENTRY:IsEditing()
+local PLAYER = FindMetaTable("Player")
+local KEYS = {
+    [KEY_0] = true,
+    [KEY_1] = true,
+    [KEY_2] = true,
+    [KEY_3] = true,
+    [KEY_4] = true,
+    [KEY_5] = true,
+    [KEY_6] = true,
+    [KEY_7] = true,
+    [KEY_8] = true,
+    [KEY_9] = true,
+    [KEY_A] = true,
+    [KEY_B] = true,
+    [KEY_C] = true,
+    [KEY_D] = true,
+    [KEY_E] = true,
+    [KEY_F] = true,
+    [KEY_G] = true,
+    [KEY_H] = true,
+    [KEY_I] = true,
+    [KEY_J] = true,
+    [KEY_K] = true,
+    [KEY_L] = true,
+    [KEY_M] = true,
+    [KEY_N] = true,
+    [KEY_O] = true,
+    [KEY_P] = true,
+    [KEY_Q] = true,
+    [KEY_R] = true,
+    [KEY_S] = true,
+    [KEY_T] = true,
+    [KEY_U] = true,
+    [KEY_V] = true,
+    [KEY_W] = true,
+    [KEY_X] = true,
+    [KEY_Y] = true,
+    [KEY_Z] = true,
+    [KEY_PAD_0] = true,
+    [KEY_PAD_1] = true,
+    [KEY_PAD_2] = true,
+    [KEY_PAD_3] = true,
+    [KEY_PAD_4] = true,
+    [KEY_PAD_5] = true,
+    [KEY_PAD_6] = true,
+    [KEY_PAD_7] = true,
+    [KEY_PAD_8] = true,
+    [KEY_PAD_9] = true,
+    [KEY_PAD_DIVIDE] = true,
+    [KEY_PAD_MULTIPLY] = true,
+    [KEY_PAD_MINUS] = true,
+    [KEY_PAD_PLUS] = true,
+    [KEY_PAD_DECIMAL] = true,
+    [KEY_LBRACKET] = true,
+    [KEY_RBRACKET] = true,
+    [KEY_SEMICOLON] = true,
+    [KEY_APOSTROPHE] = true,
+    [KEY_BACKQUOTE] = true,
+    [KEY_COMMA] = true,
+    [KEY_PERIOD] = true,
+    [KEY_SLASH] = true,
+    [KEY_BACKSLASH] = true,
+    [KEY_MINUS] = true,
+    [KEY_EQUAL] = true,
+    [KEY_SPACE] = true
+}
+
+function PLAYER:IsTyping()
+	return IsValid(moat_chat.ENTRY) and moat_chat.ENTRY:IsEditing()
 end
+
+local function StartedTyping(pl, key)
+	if (KEYS[key] and pl:IsTyping()) then
+        if (not MOAT_TYPING[LocalPlayer()]) then
+            net.Start"Moat.Typing"
+            net.WriteBool(true)
+            net.SendToServer()
+        end
+
+		MOAT_TYPING[LocalPlayer()] = CurTime()
+    end
+end
+
+hook("PlayerButtonDown", StartedTyping)
+
+hook("Think", function()
+    if (LocalPlayer():IsTyping()) then
+        if (MOAT_TYPING[LocalPlayer()] and CurTime() - MOAT_TYPING[LocalPlayer()] >= 5) then
+            MOAT_TYPING[LocalPlayer()] = nil
+            net.Start"Moat.Typing"
+            net.WriteBool(false)
+            net.SendToServer()
+        end
+
+		for k, v in ipairs(KEYS) do
+			if (input.IsKeyDown(k) and not MOAT_TYPING[LocalPlayer()]) then
+				StartedTyping(LocalPlayer(), k)
+
+				break
+			end
+		end
+    elseif (MOAT_TYPING[LocalPlayer()]) then
+        MOAT_TYPING[LocalPlayer()] = nil
+        net.Start"Moat.Typing"
+        net.WriteBool(false)
+        net.SendToServer()
+    end
+end)
+
+net.ReceivePlayer("Moat.Typing", function(pl)
+	if (pl == LocalPlayer()) then return end
+    local is = net.ReadBool()
+
+    if (is and (pl:Team() == LocalPlayer():Team() or LocalPlayer():Team() == TEAM_SPEC or GetRoundState() ~= ROUND_ACTIVE)) then
+        MOAT_TYPERS[pl] = CurTime()
+        MOAT_TYPERS.Count = MOAT_TYPERS.Count + 1
+    else
+        MOAT_TYPERS.Count = math.max(MOAT_TYPERS.Count - 1, 0)
+        MOAT_TYPERS[pl] = nil
+    end
+end)
