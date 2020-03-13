@@ -553,17 +553,17 @@ function moat_chat.InitChat()
 				local center = math.abs(math.sin((RealTime() - (2 * 0.15)) * 2))
 				surface.SetDrawColor(255, 255, 255, 200 * center * mc.alpha)
 				draw.NoTexture()
-				ux.DrawCircle(xpos - 45 + 4, h - 15 + 4, 4, 20)
+				ux.DrawCircle(xpos - 45 + 4, h - 15 + 4, 4, 10)
 				
 				local left = math.abs(math.sin((RealTime() - (3 * 0.15)) * 2))
 				surface.SetDrawColor(255, 255, 255, 200 * left * mc.alpha)
 				draw.NoTexture()
-				ux.DrawCircle(xpos - 35 + 4, h - 15 + 4, 4, 20)
+				ux.DrawCircle(xpos - 35 + 4, h - 15 + 4, 4, 10)
 
 				local right = math.abs(math.sin((RealTime() - (4 * 0.15)) * 2))
 				surface.SetDrawColor(255, 255, 255, 200 * right * mc.alpha)
 				draw.NoTexture()
-				ux.DrawCircle(xpos - 25 + 4, h - 15 + 4, 4, 20)
+				ux.DrawCircle(xpos - 25 + 4, h - 15 + 4, 4, 10)
 
 				for i = 1, #chars do
 					draw.DrawText(chars[i][1], chars[i][3] and "moat_CardFont2" or "moat_CardFont", xpos, h - 20, Color(color.r, color.g, color.b, 200 * mc.alpha))
@@ -1404,7 +1404,6 @@ net.ReceivePlayer("Moat.Typing", function(pl)
 end)
 
 local effect_offset = CreateConVar("moat_chat_effect_offset", 15, FCVAR_ARCHIVE)
-local render_distance = CreateConVar("moat_chat_render_distance", 800, FCVAR_ARCHIVE)
 local effect_size = 50
 
 hook("PostDrawTranslucentRenderables", function(depth, skybox)
@@ -1412,13 +1411,13 @@ hook("PostDrawTranslucentRenderables", function(depth, skybox)
 
 	for pl, time in pairs(MOAT_TYPERS) do
 		if (not IsValid(pl) or pl == LocalPlayer()) then
-			goto next
+			continue
 		end
 
-		if (pl:Team() == TEAM_SPEC or pl:GetNoDraw()) then
-			goto next
+		if (not pl.PlayerVisible or pl:Team() == TEAM_SPEC or pl:GetNoDraw()) then
+			continue
 		end
-		
+
 		local attachment_id = pl:LookupAttachment("anim_attachment_head") or 0
 		local attachment = pl:GetAttachment(attachment_id)
 		local base_pos = attachment and attachment.Pos or (pl:LocalToWorld(pl:OBBCenter()) + pl:GetUp() * 24)
@@ -1428,23 +1427,20 @@ hook("PostDrawTranslucentRenderables", function(depth, skybox)
 		render_ang:RotateAroundAxis(-render_ang:Up(), 90)
 
 		cam.Start3D2D(render_pos, render_ang, 0.05)
-				local center = math.abs(math.sin((RealTime() - (2 * 0.15)) * 2))
-				surface.SetDrawColor(255, 255, 255, 200 * center)
-				draw.NoTexture()
-				ux.DrawCircle(-effect_size/2 - (effect_size * 2.5), -effect_size/2, effect_size, 20)
-				
-				local left = math.abs(math.sin((RealTime() - (3 * 0.15)) * 2))
-				surface.SetDrawColor(255, 255, 255, 200 * left)
-				draw.NoTexture()
-				ux.DrawCircle(-effect_size/2, -effect_size/2, effect_size, 20)
+			local center = math.abs(math.sin((RealTime() - (2 * 0.15)) * 2))
+			surface.SetDrawColor(255, 255, 255, 200 * center)
+			draw.NoTexture()
+			ux.DrawCircle(-effect_size/2 - (effect_size * 2.5), -effect_size/2, effect_size, 20)
+			
+			local left = math.abs(math.sin((RealTime() - (3 * 0.15)) * 2))
+			surface.SetDrawColor(255, 255, 255, 200 * left)
+			draw.NoTexture()
+			ux.DrawCircle(-effect_size/2, -effect_size/2, effect_size, 20)
 
-				local right = math.abs(math.sin((RealTime() - (4 * 0.15)) * 2))		
-				surface.SetDrawColor(255, 255, 255, 200 * right)
-				draw.NoTexture()
-				ux.DrawCircle(-effect_size/2 + (effect_size * 2.5), -effect_size/2, effect_size, 20)
+			local right = math.abs(math.sin((RealTime() - (4 * 0.15)) * 2))
+			surface.SetDrawColor(255, 255, 255, 200 * right)
+			draw.NoTexture()
+			ux.DrawCircle(-effect_size/2 + (effect_size * 2.5), -effect_size/2, effect_size, 20)
 		cam.End3D2D()
-		
-		::next::
-
 	end
 end)
