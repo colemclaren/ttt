@@ -18,9 +18,9 @@ SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "pistol"
 SWEP.Primary.Damage = 30
 SWEP.Primary.Cone = 0.05
-SWEP.Primary.ClipSize = 12
-SWEP.Primary.ClipMax = 36
-SWEP.Primary.DefaultClip = 12
+SWEP.Primary.ClipSize = 15
+SWEP.Primary.ClipMax = 45
+SWEP.Primary.DefaultClip = 15
 SWEP.IsSilent = true
 SWEP.Scope = true
 
