@@ -1,5 +1,5 @@
 ITEM.ID = 3136
-ITEM.Name = "Cover Girl"
+ITEM.Name = "Cover-Girl"
 ITEM.NameColor = Color(255, 0, 255)
 ITEM.Rarity = 2
 ITEM.Collection = "Valentine Collection"
