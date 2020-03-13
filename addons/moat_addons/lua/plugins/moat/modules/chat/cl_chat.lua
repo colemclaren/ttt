@@ -28,7 +28,7 @@ if (moat_chat and IsValid(moat_chat.BG)) then
     moat_chat.BG:Remove()
 end
 
-moat_chat = {}
+moat_chat = moat_chat or {}
 
 moat_chat.config = {
     x = default_x + 20,
