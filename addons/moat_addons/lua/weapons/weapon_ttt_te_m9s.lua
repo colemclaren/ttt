@@ -344,9 +344,9 @@ SWEP.WeaponID = AMMO_PISTOL
 
 SWEP.Base = "weapon_tttbase"
 DEFINE_BASECLASS "weapon_tttbase"
-SWEP.Primary.Recoil	= 1.5
+SWEP.Primary.Recoil	= 2
 SWEP.Primary.Damage = 25
-SWEP.Primary.Delay = 0.38
+SWEP.Primary.Delay = 0.16
 SWEP.Primary.Cone = 0.02
 SWEP.Primary.ClipSize = 20
 SWEP.Primary.Automatic = true
