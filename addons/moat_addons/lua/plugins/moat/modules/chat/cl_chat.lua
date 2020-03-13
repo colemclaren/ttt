@@ -1,3 +1,6 @@
+
+local PLAYER = FindMetaTable("Player")
+
 surface.CreateFont("moat_ChatFont", {
     font = "Arial",
     size = 16,
@@ -75,6 +78,94 @@ moat_chat.Theme = {
     CHAT_ENTRY = function(s, w, h, a) end,
     DefaultColor = Color(255, 255, 255)
 }
+
+
+MOAT_TYPERS = {}
+MOAT_TYPING = {Count = 0}
+
+local KEYS = {
+    [KEY_0] = true,
+    [KEY_1] = true,
+    [KEY_2] = true,
+    [KEY_3] = true,
+    [KEY_4] = true,
+    [KEY_5] = true,
+    [KEY_6] = true,
+    [KEY_7] = true,
+    [KEY_8] = true,
+    [KEY_9] = true,
+    [KEY_A] = true,
+    [KEY_B] = true,
+    [KEY_C] = true,
+    [KEY_D] = true,
+    [KEY_E] = true,
+    [KEY_F] = true,
+    [KEY_G] = true,
+    [KEY_H] = true,
+    [KEY_I] = true,
+    [KEY_J] = true,
+    [KEY_K] = true,
+    [KEY_L] = true,
+    [KEY_M] = true,
+    [KEY_N] = true,
+    [KEY_O] = true,
+    [KEY_P] = true,
+    [KEY_Q] = true,
+    [KEY_R] = true,
+    [KEY_S] = true,
+    [KEY_T] = true,
+    [KEY_U] = true,
+    [KEY_V] = true,
+    [KEY_W] = true,
+    [KEY_X] = true,
+    [KEY_Y] = true,
+    [KEY_Z] = true,
+    [KEY_PAD_0] = true,
+    [KEY_PAD_1] = true,
+    [KEY_PAD_2] = true,
+    [KEY_PAD_3] = true,
+    [KEY_PAD_4] = true,
+    [KEY_PAD_5] = true,
+    [KEY_PAD_6] = true,
+    [KEY_PAD_7] = true,
+    [KEY_PAD_8] = true,
+    [KEY_PAD_9] = true,
+    [KEY_PAD_DIVIDE] = true,
+    [KEY_PAD_MULTIPLY] = true,
+    [KEY_PAD_MINUS] = true,
+    [KEY_PAD_PLUS] = true,
+    [KEY_PAD_DECIMAL] = true,
+    [KEY_LBRACKET] = true,
+    [KEY_RBRACKET] = true,
+    [KEY_SEMICOLON] = true,
+    [KEY_APOSTROPHE] = true,
+    [KEY_BACKQUOTE] = true,
+    [KEY_COMMA] = true,
+    [KEY_PERIOD] = true,
+    [KEY_SLASH] = true,
+    [KEY_BACKSLASH] = true,
+    [KEY_MINUS] = true,
+    [KEY_EQUAL] = true,
+    [KEY_SPACE] = true
+}
+
+function PLAYER:IsTyping()
+	return IsValid(moat_chat.ENTRY) and moat_chat.ENTRY:IsEditing()
+end
+
+function PlayersTyping()
+	local Count = 0
+
+	for k, v in pairs(MOAT_TYPERS) do
+		if (k == LocalPlayer()) then continue end
+
+		if (IsValid(k) and CurTime() - v <= 5) then
+			Count = Count + 1
+		end
+	end
+
+	return Count
+end
 
 local blur = Material("pp/blurscreen")
 
@@ -354,14 +445,6 @@ end
 
 hook("TTTBeginRound", moat_chat.Clear)
 
-MOAT_TYPERS = MOAT_TYPERS or {
-    Count = 0
-}
-
-MOAT_TYPING = MOAT_TYPING or {
-    Count = 0
-}
-
 function moat_chat.InitChat()
     surface_SetFont("moat_ChatFont")
     moat_chat.TextSize.w, moat_chat.TextSize.h = surface_GetTextSize("AbC1230")
@@ -413,25 +496,21 @@ function moat_chat.InitChat()
             moat_chat.Theme.CHAT_BG(s, w, h, COMPATABILE, DrawBlur)
         end
 
-		if (MOAT_TYPERS and MOAT_TYPERS.Count >= 1) then
-            local str, are, typers, chars = "", "is", 0, {}
+		if (MOAT_TYPERS and PlayersTyping() >= 1) then
+            local str, are, chars = "", "is", {}
 
             for pl, time in pairs(MOAT_TYPERS) do
                 if (IsValid(pl) and pl ~= LocalPlayer()) then
-                    typers = typers + 1
-
-                    if (str == "") then
+                    if (#chars == 0) then
                         str = pl:Nick()
 
 						surface.SetFont "moat_CardFont2"
-						if (MOAT_TYPERS.Count == 1) then
-							table.insert(chars, {str, surface.GetTextSize(str), true})
-						end
-                    elseif (MOAT_TYPERS.Count > 2) then
-                        str = "Several people"
+						table.insert(chars, {str, surface.GetTextSize(str), true})
+                    elseif (PlayersTyping() > 2) then
+                        str = "Several  people"
 
 						surface.SetFont "moat_CardFont2"
-						table.insert(chars, {str, surface.GetTextSize(str), true})
+						chars = {[1] = {str, surface.GetTextSize(str), true}}
                     else
                         str = str .. ", and " .. pl:Nick()
 
@@ -443,13 +522,16 @@ function moat_chat.InitChat()
                     end
 
 					if (CurTime() - time > 5) then
-                        MOAT_TYPERS.Count = MOAT_TYPERS.Count - 1
-                        MOAT_TYPERS[pl] = nil
+						MOAT_TYPERS[pl] = nil
                     end
                 end
             end
 
-            if (MOAT_TYPERS.Count > 1) then
+			if (chars[#chars] and chars[#chars][1] and chars[#chars][1] == ", and ") then
+				table.remove(chars, #chars)
+			end
+
+            if (PlayersTyping() > 1) then
                 are = "are"
             end
 
@@ -461,12 +543,27 @@ function moat_chat.InitChat()
 				xpos = moat_chat.sayvars[2].w + 12
 			end
 
-			if (MOAT_TYPERS.Count > 0) then
+			if (PlayersTyping() > 0) then
 				local text, color = str .. " " .. are .. " typing...", moat_chat.Theme.TextColor or Color(255, 255, 255)
 				
-				draw.RoundedBox(4, xpos - 45, h - 15, 7, 7, Color(color.r, color.g, color.b, 200 * math.abs(math.sin((RealTime() - (2 * 0.15)) * 2)) * mc.alpha))
-				draw.RoundedBox(4, xpos - 35, h - 15, 7, 7, Color(color.r, color.g, color.b, 200 * math.abs(math.sin((RealTime() - (3 * 0.15)) * 2)) * mc.alpha))
-				draw.RoundedBox(4, xpos - 25, h - 15, 7, 7, Color(color.r, color.g, color.b, 200 * math.abs(math.sin((RealTime() - (4 * 0.15)) * 2)) * mc.alpha))
+				-- draw.RoundedBox(4, xpos - 45, h - 15, 7, 7, Color(color.r, color.g, color.b, 200 * math.abs(math.sin((RealTime() - (2 * 0.15)) * 2)) * mc.alpha))
+				-- draw.RoundedBox(4, xpos - 35, h - 15, 7, 7, Color(color.r, color.g, color.b, 200 * math.abs(math.sin((RealTime() - (3 * 0.15)) * 2)) * mc.alpha))
+				-- draw.RoundedBox(4, xpos - 25, h - 15, 7, 7, Color(color.r, color.g, color.b, 200 * math.abs(math.sin((RealTime() - (4 * 0.15)) * 2)) * mc.alpha))
+				
+				local center = math.abs(math.sin((RealTime() - (2 * 0.15)) * 2))
+				surface.SetDrawColor(255, 255, 255, 200 * center * mc.alpha)
+				draw.NoTexture()
+				ux.DrawCircle(xpos - 45 + 4, h - 15 + 4, 4, 20)
+				
+				local left = math.abs(math.sin((RealTime() - (3 * 0.15)) * 2))
+				surface.SetDrawColor(255, 255, 255, 200 * left * mc.alpha)
+				draw.NoTexture()
+				ux.DrawCircle(xpos - 35 + 4, h - 15 + 4, 4, 20)
+
+				local right = math.abs(math.sin((RealTime() - (4 * 0.15)) * 2))
+				surface.SetDrawColor(255, 255, 255, 200 * right * mc.alpha)
+				draw.NoTexture()
+				ux.DrawCircle(xpos - 25 + 4, h - 15 + 4, 4, 20)
 
 				for i = 1, #chars do
 					draw.DrawText(chars[i][1], chars[i][3] and "moat_CardFont2" or "moat_CardFont", xpos, h - 20, Color(color.r, color.g, color.b, 200 * mc.alpha))
@@ -1257,77 +1354,6 @@ hook.Add("HUDShouldDraw", "moat_DisableDefaultChat", function(name)
     if (hud_tbl[name]) then return false end
 end)
 
-local PLAYER = FindMetaTable("Player")
-local KEYS = {
-    [KEY_0] = true,
-    [KEY_1] = true,
-    [KEY_2] = true,
-    [KEY_3] = true,
-    [KEY_4] = true,
-    [KEY_5] = true,
-    [KEY_6] = true,
-    [KEY_7] = true,
-    [KEY_8] = true,
-    [KEY_9] = true,
-    [KEY_A] = true,
-    [KEY_B] = true,
-    [KEY_C] = true,
-    [KEY_D] = true,
-    [KEY_E] = true,
-    [KEY_F] = true,
-    [KEY_G] = true,
-    [KEY_H] = true,
-    [KEY_I] = true,
-    [KEY_J] = true,
-    [KEY_K] = true,
-    [KEY_L] = true,
-    [KEY_M] = true,
-    [KEY_N] = true,
-    [KEY_O] = true,
-    [KEY_P] = true,
-    [KEY_Q] = true,
-    [KEY_R] = true,
-    [KEY_S] = true,
-    [KEY_T] = true,
-    [KEY_U] = true,
-    [KEY_V] = true,
-    [KEY_W] = true,
-    [KEY_X] = true,
-    [KEY_Y] = true,
-    [KEY_Z] = true,
-    [KEY_PAD_0] = true,
-    [KEY_PAD_1] = true,
-    [KEY_PAD_2] = true,
-    [KEY_PAD_3] = true,
-    [KEY_PAD_4] = true,
-    [KEY_PAD_5] = true,
-    [KEY_PAD_6] = true,
-    [KEY_PAD_7] = true,
-    [KEY_PAD_8] = true,
-    [KEY_PAD_9] = true,
-    [KEY_PAD_DIVIDE] = true,
-    [KEY_PAD_MULTIPLY] = true,
-    [KEY_PAD_MINUS] = true,
-    [KEY_PAD_PLUS] = true,
-    [KEY_PAD_DECIMAL] = true,
-    [KEY_LBRACKET] = true,
-    [KEY_RBRACKET] = true,
-    [KEY_SEMICOLON] = true,
-    [KEY_APOSTROPHE] = true,
-    [KEY_BACKQUOTE] = true,
-    [KEY_COMMA] = true,
-    [KEY_PERIOD] = true,
-    [KEY_SLASH] = true,
-    [KEY_BACKSLASH] = true,
-    [KEY_MINUS] = true,
-    [KEY_EQUAL] = true,
-    [KEY_SPACE] = true
-}
-
-function PLAYER:IsTyping()
-	return IsValid(moat_chat.ENTRY) and moat_chat.ENTRY:IsEditing()
-end
-
 local function StartedTyping(pl, key)
 	if (KEYS[key] and pl:IsTyping()) then
         if (not MOAT_TYPING[LocalPlayer()]) then
@@ -1372,9 +1398,53 @@ net.ReceivePlayer("Moat.Typing", function(pl)
 
     if (is and (pl:Team() == LocalPlayer():Team() or LocalPlayer():Team() == TEAM_SPEC or GetRoundState() ~= ROUND_ACTIVE)) then
         MOAT_TYPERS[pl] = CurTime()
-        MOAT_TYPERS.Count = MOAT_TYPERS.Count + 1
     else
-        MOAT_TYPERS.Count = math.max(MOAT_TYPERS.Count - 1, 0)
         MOAT_TYPERS[pl] = nil
     end
+end)
+
+local effect_offset = CreateConVar("moat_chat_effect_offset", 15, FCVAR_ARCHIVE)
+local render_distance = CreateConVar("moat_chat_render_distance", 800, FCVAR_ARCHIVE)
+local effect_size = 50
+
+hook("PostDrawTranslucentRenderables", function(depth, skybox)
+	if (skybox) then return end
+
+	for pl, time in pairs(MOAT_TYPERS) do
+		if (not IsValid(pl) or pl == LocalPlayer()) then
+			goto next
+		end
+
+		if (pl:Team() == TEAM_SPEC or pl:GetNoDraw()) then
+			goto next
+		end
+		
+		local attachment_id = pl:LookupAttachment("anim_attachment_head") or 0
+		local attachment = pl:GetAttachment(attachment_id)
+		local base_pos = attachment and attachment.Pos or (pl:LocalToWorld(pl:OBBCenter()) + pl:GetUp() * 24)
+		local render_pos = base_pos + pl:GetUp() * effect_offset:GetFloat()
+		local render_ang = EyeAngles()
+		render_ang:RotateAroundAxis(render_ang:Right(), 90)
+		render_ang:RotateAroundAxis(-render_ang:Up(), 90)
+
+		cam.Start3D2D(render_pos, render_ang, 0.05)
+				local center = math.abs(math.sin((RealTime() - (2 * 0.15)) * 2))
+				surface.SetDrawColor(255, 255, 255, 200 * center)
+				draw.NoTexture()
+				ux.DrawCircle(-effect_size/2 - (effect_size * 2.5), -effect_size/2, effect_size, 20)
+				
+				local left = math.abs(math.sin((RealTime() - (3 * 0.15)) * 2))
+				surface.SetDrawColor(255, 255, 255, 200 * left)
+				draw.NoTexture()
+				ux.DrawCircle(-effect_size/2, -effect_size/2, effect_size, 20)
+
+				local right = math.abs(math.sin((RealTime() - (4 * 0.15)) * 2))		
+				surface.SetDrawColor(255, 255, 255, 200 * right)
+				draw.NoTexture()
+				ux.DrawCircle(-effect_size/2 + (effect_size * 2.5), -effect_size/2, effect_size, 20)
+		cam.End3D2D()
+		
+		::next::
+
+	end
 end)
