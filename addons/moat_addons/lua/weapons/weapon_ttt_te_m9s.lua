@@ -360,7 +360,7 @@ SWEP.ViewModelFlip		= false
 SWEP.ViewModelFOV = 55
 SWEP.ViewModel			= "models/weapons/a_m9.mdl"
 SWEP.WorldModel			= "models/weapons/b_92sup.mdl"
-
+SWEP.HeadshotMultiplier = 2
 SWEP.Primary.Sound = Sound("Weapof_Beretta92fss.Shoot")
 SWEP.IronSightsPos = Vector (-3.4915, -3.0001, 1.3414)
 SWEP.IronSightsAng = Vector (-0.1484, 0.0126, 0)
