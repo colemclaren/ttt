@@ -443,12 +443,10 @@ function moat_chat.Clear()
     -- end
 end
 
-local base_karma = 1150
 hook("TTTBeginRound", function()
 	local role_color = GetRoleColor(LocalPlayer():GetRole()) or Color(255, 255, 255)
 	chat.AddText(moat_blue, " | ", moat_white, "You're playing as " .. (LocalPlayer():GetRole() == ROLE_INNOCENT and "an" or "a"), role_color, " " .. (LocalPlayer():GetRoleString() or "Terrorist") .. " ", moat_white, "this round. Good luck!")
 	chat.AddText(moat_blue, " | ", moat_white, "Beginning Round", moat_blue, " | ", moat_white, math.max(0,GetGlobal"ttt_rounds_left") .. " Rounds Left", moat_blue, " | ", moat_white, player.GetCount().."/"..game.MaxPlayers() .. " Players")
-	base_karma = LocalPlayer():GetBaseKarma()
 end)
 
 hook("TTTEndRound", function()
