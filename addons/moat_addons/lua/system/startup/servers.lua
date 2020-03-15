@@ -90,6 +90,14 @@ Servers "208.103.169.54:27019"
 	:SetName "TTT Minecraft #5"
 	:SetID "ttt-mc5"
 
+Servers "208.103.169.31:27018"
+	:SetName "TTT Minecraft #6"
+	:SetID "ttt-mc6"
+
+Servers "208.103.169.31:27019"
+	:SetName "TTT Minecraft #7"
+	:SetID "ttt-mc7"
+
 Servers "208.103.169.205:27016"
 	:SetName "TTT Minecraft EU #1"
 	:SetID "ttt-eumc1"
