@@ -63,3 +63,6 @@ SWEP.ReloadAnim = {
 		Time = 2.16,
 	},
 }
+
+function SWEP:ScaleDamage()
+end

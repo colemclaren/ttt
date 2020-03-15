@@ -115,8 +115,15 @@ function MOTD.Open(secs, invalid)
     MOTD.w:Dock(FILL)
     MOTD.w:OpenURL("https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. nick)
     MOTD.w.Paint = function(s, w, h)
-        DrawRainbowText(1, "Loading Page...", "DermaLarge", w/2, h/2, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		if (not s.DocumentLoaded) then
+        	DrawRainbowText(1, "Loading Page...", "DermaLarge", w/2, h/2, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		end
     end
+	MOTD.w.OnDocumentReady = function(s) s.DocumentLoaded = true end
+	MOTD.w.OnBeginLoadingDocument = function(s)
+		s.DocumentLoaded = false
+	end
+
 
     MOTD.CurTab = 1
 
