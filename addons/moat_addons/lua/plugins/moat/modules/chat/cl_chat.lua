@@ -47,7 +47,7 @@ end
 moat_chat.font = "moat_ChatFont"
 moat_chat.chattype = ""
 moat_chat.alpha = 0
-moat_chat.header = system.IsOSX() and "You're playing on Moat - TTT Testing" or "You're playing on Moat - TTT Testing | More fun servers @ moat.gg"
+moat_chat.header = system.IsOSX() and "Moat | Lounge | TTT Testing" or "Moat | Lounge | TTT Testing | More fun @ moat.gg"
 moat_chat.isopen = false
 
 moat_chat.sayvars = {
@@ -431,19 +431,34 @@ concommand.Add("moat_chat", function()
 end)
 
 function moat_chat.Clear()
-    if (IsValid(moat_chat.SPNL) and IsValid(moat_chat.SPNL.Chat) and moat_chat.SPNL.Chat.Contents) then
-        for k, v in ipairs(moat_chat.SPNL.Chat.Contents) do
-            if (IsValid(v)) then
-                v:Remove()
-            end
-        end
+    -- if (IsValid(moat_chat.SPNL) and IsValid(moat_chat.SPNL.Chat) and moat_chat.SPNL.Chat.Contents) then
+    --     for k, v in ipairs(moat_chat.SPNL.Chat.Contents) do
+    --         if (IsValid(v)) then
+    --             v:Remove()
+    --         end
+    --     end
 
-        moat_chat.SPNL.Chat.Contents = {}
-        moat_chat.SPNL.Chat:SetSize(moat_chat.SPNL:GetWide(), 0)
-    end
+    --     moat_chat.SPNL.Chat.Contents = {}
+    --     moat_chat.SPNL.Chat:SetSize(moat_chat.SPNL:GetWide(), 0)
+    -- end
 end
 
-hook("TTTBeginRound", moat_chat.Clear)
+local base_karma = 1150
+hook("TTTBeginRound", function()
+	local role_color = GetRoleColor(LocalPlayer():GetRole()) or Color(255, 255, 255)
+	chat.AddText(moat_blue, " | ", moat_white, "You're playing as " .. (LocalPlayer():GetRole() == ROLE_INNOCENT and "an" or "a"), role_color, " " .. (LocalPlayer():GetRoleString() or "Terrorist") .. " ", moat_white, "this round. Good luck!")
+	chat.AddText(moat_blue, " | ", moat_white, "Beginning Round", moat_blue, " | ", moat_white, math.max(0,GetGlobal"ttt_rounds_left") .. " Rounds Left", moat_blue, " | ", moat_white, player.GetCount().."/"..game.MaxPlayers() .. " Players")
+	base_karma = LocalPlayer():GetBaseKarma()
+end)
+
+hook("TTTEndRound", function()
+	chat.AddText(moat_blue, " | ", moat_white, "Ending Round...", moat_blue, " | ", moat_white, math.max(0,GetGlobal"ttt_rounds_left") .. " Rounds Left", moat_blue, " | ", moat_white, player.GetCount().."/"..game.MaxPlayers() .. " Players")
+end)
+
+hook("TTTPrepareRound", function()
+	chat.AddText(moat_blue, " | ", moat_white, "You're playing on " .. game.GetMap() .. ". Invite your friends!")
+	chat.AddText(moat_blue, " | ", moat_white, "Preparing Round", moat_blue, " | ", moat_white, math.max(0,GetGlobal"ttt_rounds_left") .. " Rounds Left", moat_blue, " | ", moat_white, player.GetCount().."/"..game.MaxPlayers() .. " Players")
+end)
 
 function moat_chat.InitChat()
     surface_SetFont("moat_ChatFont")
@@ -856,7 +871,7 @@ function moat_chat.OpenChat()
     moat_chat.Theme.CHAT_ENTRY = MT[CurTheme].CHAT and MT[CurTheme].CHAT.CHAT_ENTRY
     moat_chat.Theme.DefaultColor = MT[CurTheme].CHAT and MT[CurTheme].CHAT.DefaultColor
 	moat_chat.Theme.TextColor = MT[CurTheme].TextColor
-    moat_chat.header = "You're playing on Moat - " .. GetServerName():sub(1, 18) .. (system.IsOSX() and "" or " | More fun servers @ moat.gg")
+    moat_chat.header = "Moat | Lounge | " .. GetServerName():sub(1, 18) .. (system.IsOSX() and "" or " | More fun @ moat.gg")
     local mc = moat_chat
     local mcc = moat_chat.config
     mc.ENTRY:SetSize(mcc.w - 65, 20)
