@@ -101,7 +101,7 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_AK47
 
 SWEP.Primary.Delay = 0.08
-SWEP.Primary.Recoil = 1.25
+SWEP.Primary.Recoil = 1.5
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Cone = 0.015
