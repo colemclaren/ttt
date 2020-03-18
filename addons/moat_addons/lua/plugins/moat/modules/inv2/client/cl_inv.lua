@@ -5844,6 +5844,10 @@ function m_DrawFoundItem(tbl, s_type, name)
                 local talent_desctbl2 = string.Explode("^", talent_desc2)
 
                 for i = 1, table.Count(v.m) do
+					if (not ITEM_HOVERED.Talents[k].Modifications or not ITEM_HOVERED.Talents[k].Modifications[i]) then
+						continue
+					end
+					
                     local mod_num = math.Round(ITEM_HOVERED.Talents[k].Modifications[i].min + ((ITEM_HOVERED.Talents[k].Modifications[i].max - ITEM_HOVERED.Talents[k].Modifications[i].min) * v.m[i]), 1)
 
                     if (MOAT_ITEM_STATS.ctrldown) then
@@ -5948,6 +5952,10 @@ function m_DrawFoundItem(tbl, s_type, name)
                     local talent_desctbl2 = string.Explode("^", talent_desc2)
 
                     for i = 1, table.Count(v.m) do
+						if (not ITEM_HOVERED.Talents[k].Modifications or not ITEM_HOVERED.Talents[k].Modifications[i]) then
+							continue
+						end
+
                         local mod_num = math.Round(ITEM_HOVERED.Talents[k].Modifications[i].min + ((ITEM_HOVERED.Talents[k].Modifications[i].max - ITEM_HOVERED.Talents[k].Modifications[i].min) * v.m[i]), 1)
 
                         if (MOAT_ITEM_STATS.ctrldown) then

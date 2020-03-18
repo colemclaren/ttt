@@ -327,8 +327,8 @@ function GetItemFromEnum(ienum)
 		return item_cache[ienum]
     end
 
-    local item_tbl = table.Copy(MOAT_DROPTABLE[ienum]) or {}
-	if (not item_tbl.Kind) then
+    local item_tbl = ienum and table.Copy(MOAT_DROPTABLE[ienum]) or {}
+	if (ienum and not item_tbl.Kind) then
 		local try = string.gsub(ienum, "2", "1", 1)
 
 		if (MOAT_DROPTABLE[tonumber(try)]) then

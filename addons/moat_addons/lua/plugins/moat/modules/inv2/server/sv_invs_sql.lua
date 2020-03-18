@@ -886,6 +886,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 			for k, v in ipairs(loadout) do
 				if (v.w and not weapons.Get(v.w)) then
+					if (v.w == "weapon_ttt_ak44") then v.w = "weapon_ttt_ak47" continue end
 					try = string.gsub(v.w, "2", "1", 1)
 					if (weapons.Get(try)) then
 						v.w = try
@@ -918,7 +919,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 			for k, v in ipairs(loadout) do
 				if (not v.w and MOAT_DROPTABLE[v.u] and (MOAT_DROPTABLE[v.u].WeaponClass or MOAT_DROPTABLE[v.u].Kind == "tier")) then
-					v.w = MOAT_DROPTABLE[v.u].WeaponClass or "weapon_ttt_m16"
+					v.w = MOAT_DROPTABLE[v.u].WeaponClass or "weapon_ttt_ak47"
 				end
 			end
             for i = 1, 10 do
@@ -984,6 +985,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 			for k, v in ipairs(inventory_tbl) do
 				if (v.w and not weapons.Get(v.w)) then
+					if (v.w == "weapon_ttt_ak44") then v.w = "weapon_ttt_ak47" continue end
 					try = string.gsub(v.w, "2", "1", 1)
 					if (weapons.Get(try)) then
 						v.w = try
@@ -1016,7 +1018,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 			for k, v in ipairs(inventory_tbl) do
 				if (not v.w and MOAT_DROPTABLE[v.u] and (MOAT_DROPTABLE[v.u].WeaponClass or MOAT_DROPTABLE[v.u].Kind == "tier")) then
-					v.w = MOAT_DROPTABLE[v.u].WeaponClass or "weapon_ttt_m16"
+					v.w = MOAT_DROPTABLE[v.u].WeaponClass or "weapon_ttt_ak47"
 				end
 			end
 

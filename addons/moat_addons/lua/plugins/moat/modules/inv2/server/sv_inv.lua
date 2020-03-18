@@ -1555,7 +1555,7 @@ net.Receive("MOAT_TRADE_ADD", function(len, ply)
     trade_table["slot" .. trade_slot_num] = inv_slot1
     local tbl2 = table.Copy(trade_table["slot" .. trade_slot_num])
     tbl2.item = GetItemFromEnum(tbl2.u)
-	tbl2.Talents = GetItemFromEnum(tbl2)
+	tbl2.Talents = GetItemTalents(tbl2)
 
     if (player_2) then
         net.Start("MOAT_TRADE_SWAP")
@@ -1636,7 +1636,7 @@ net.Receive("MOAT_TRADE_REM", function(len, ply)
     trade_table["slot" .. trade_slot_num] = inv_slot1
     local tbl2 = table.Copy(trade_table["slot" .. trade_slot_num])
     tbl2.item = GetItemFromEnum(tbl2.u)
-	tbl2.Talents = GetItemFromEnum(tbl2)
+	tbl2.Talents = GetItemTalents(tbl2)
 
     if (player_2) then
         net.Start("MOAT_TRADE_SWAP")
