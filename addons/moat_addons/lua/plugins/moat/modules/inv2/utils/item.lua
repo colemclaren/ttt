@@ -43,9 +43,21 @@ function mt:SetRarity(num)
 	return self
 end
 
+function mt:Chance(num)
+	self.Rarity = num
+
+	return self
+end
+
 function mt:SetType(type)
-	local ItemType = isnumber(type) and item.TypesID[type] or item.Types[type]
+	local ItemType = isnumber(type) and item.TypesID[type] or item.Types[type] or {ID = type}
 	assert(ItemType.ID, "Inventory item type does not exist.")
+
+	if (ItemType.ID and (ItemType.ID == "Paint" or ItemType.ID == "Tint" or ItemType.ID == "Skin")) then
+		self.ItemCheck = (ItemType.ID == "Paint" and 10) or (ItemType.ID == "Tint" and 11) or 12
+		self.PaintVer = true
+		self.Type = 2
+	end
 
 	self.Type = ItemType.ID
 
@@ -59,13 +71,23 @@ function mt:SetName(str)
 end
 
 function mt:SetColor(tb)
-	self.Color = Color(tb[1], tb[2], tb[3])
+	self.NameColor = Color(tb[1], tb[2], tb[3])
+
+	if (self.PaintVer) then
+		self.Clr = {tb[1], tb[2], tb[3]}
+	end
+
+	return self
+end
+
+function mt:SetTexture(str)
+	self.Texture = str
 
 	return self
 end
 
 function mt:SetEffect(str, mods)
-	self.Effect = str
+	self.NameEffect = str
 	self.EffectMods = mods
 
 	return self
@@ -77,14 +99,20 @@ function mt:SetDesc(str)
 	return self
 end
 
-function mt:SetImage(str)
+function mt:SetIcon(str)
 	self.Image = str
 
 	return self
 end
 
-function mt:SetCollection(set)
-	self.Collection = set
+function mt:SetCollection(str)
+	self.Collection = str
+
+	return self
+end
+
+function mt:Set(str)
+	self.Collection = str .. " Collection"
 
 	return self
 end
@@ -107,10 +135,27 @@ function mt:SetStats(minStats, maxStats)
 	self.MaxStats = maxStats
 	self.Stats = {}
 
+	if (true) then
+		-- self.Stats.Accuracy = {Min = mi.Stats.Accuracy.Defaults[self.Type == 5 and "Melee" or "Gun"][self.Rarity].Min, Max = mi.Stats.Accuracy.Defaults[self.Type == 5 and "Melee" or "Gun"][self.Rarity].Max}
+		print(mi.Stat.Count)
+		for i = 1, mi.Stat.Count do
+			local s, def = mi.Stat.Roster[i], self.Type == 5 and "Melee" or "Gun"
+			if (not next(s.Defaults) or (not s.Defaults[def])) then
+				continue
+			end
+
+			self.Stats[s.Name] = {Min = s.Defaults[def][math.min(self.Rarity, 7)].Min, Max = s.Defaults[def][math.min(self.Rarity, 7)].Max}
+		end
+	end
+
 	return self
 end
 
-function mt:SetStat(id, min, max)
+function mt:Stat(id, min, max)
+	if (self.Stats[id] and self.Stats[id].Min == min and self.Stats[id].Max == max) then
+		return self
+	end
+
 	self.Stats[id] = {Min = min, Max = max}
 
 	return self
@@ -181,12 +226,20 @@ function mt:SetDisplay(size, x, y, z, pitch, yaw, roll, skin_id)
 	return self
 end
 
+function mt:SetCheck(id)
+	assert(MOAT_ITEM_CHECK[id], "Inventory item check does not exist.")
+	self.ItemCheck = id
+
+	return self
+end
+
+
 --
 -- Item Functions
 --
 
 function item.Register(id)
-	assert(item.Roster[id] == nil, "Inventory item with id already exists.")
+	assert(item.Roster[id] == nil, "Inventory item with id already exists. (" .. tostring(id or "?") .. ")")
 
 	item.Count = item.Count + 1
 	item.Roster[id] = setmetatable({

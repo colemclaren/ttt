@@ -67,7 +67,7 @@ function mt:SetDesc(desc)
 	return self:Talent()
 end
 
-function mt:SetLevel(num_tier, skip_level)
+function mt:SetTier(num_tier, skip_level)
 	if (istable(num_tier)) then
 		skip_level = num_tier[2]
 		num_tier = num_tier[1]

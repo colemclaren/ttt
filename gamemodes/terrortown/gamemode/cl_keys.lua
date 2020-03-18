@@ -43,16 +43,29 @@ function GM:PlayerBindPress(ply, bind, pressed)
         -- steam overlay
         ply.traitor_gvoice = false
         RunConsoleCommand("tvog", "0")
+		
+		-- local tr = util.QuickTrace(ply:GetShootPos(), ply:GetAimVector() * 128, ply)
+		-- if (not tr.Hit) then
+		-- 	RADIO:ShowRadioCommands(false)
+		-- elseif (not IsValid(radiomenu)) then
+		-- 	RADIO:ShowRadioCommands(true)
+		-- end
 
         return true
     elseif bind == "+use" and pressed then
-        if ply:IsSpec() then
+		local tr = util.QuickTrace(ply:GetShootPos(), ply:GetAimVector() * 128, ply)
+		if (not tr.Hit) then
+			RADIO:ShowRadioCommands(not RADIO.Show)
+
+			return true
+		elseif ply:IsSpec() then
             RunConsoleCommand("ttt_spec_use")
 
             return true
         elseif TBHUD:PlayerIsFocused() then
             return TBHUD:UseFocused()
         end
+
     elseif string.sub(bind, 1, 4) == "slot" and pressed then
         local idx = tonumber(string.sub(bind, 5, -1)) or 1
 

@@ -1,9 +1,9 @@
 local meta = FindMetaTable("Player")
-MOAT_DROPTABLE = MOAT_DROPTABLE or {}
+MOAT_DROPTABLE = {}
 MOAT_BODY_ITEMS = MOAT_BODY_ITEMS or {}
 MOAT_COLLECT = {}
 
-function m_AddDroppableItem(item_table, item_kind)
+function m_AddDroppableItem(item_table, item_kind, file_str)
     local tbl = {}
     tbl = item_table
     tbl.Kind = item_kind
@@ -23,12 +23,12 @@ function m_AddDroppableItem(item_table, item_kind)
 
 		local str = string ("\n",
 			"mi.Item(" .. tbl.ID .. ")\n",
-			"	" .. ":SetRarity (" .. tbl.Rarity .. ")\n",
-			"	" .. ":SetType \"" .. tbl.Kind .. "\"\n",
+			"	" .. ":Chance (" .. tbl.Rarity .. ")\n",
+			"	" .. ":SetType \"" .. ((tbl.PaintVer == 3 and 'Skin') or (tbl.PaintVer == 2 and 'Paint') or (tbl.PaintVer == 1 and 'Tint') or tbl.Kind) .. "\"\n",
 			"	" .. ":SetName \"" .. tbl.Name .. "\"\n")
 		
-		if (tbl.NameColor) then
-			str = string (str, "	" .. ":SetColor {", tbl.NameColor.r, ", ", tbl.NameColor.g, ", ", tbl.NameColor.b, "}\n")
+		if (tbl.NameColor or tbl.Clr) then
+			str = string (str, "	" .. ":SetColor {", tbl.Clr and tbl.Clr[1] or tbl.NameColor.r, ", ", tbl.Clr and tbl.Clr[2] or tbl.NameColor.g, ", ", tbl.Clr and tbl.Clr[3] or tbl.NameColor.b, "}\n")
 		end
 
 		if (tbl.NameEffect) then
@@ -36,11 +36,11 @@ function m_AddDroppableItem(item_table, item_kind)
 		end
 
 		if (tbl.Description) then
-			str = string (str, "	" .. ":SetDesc \"", tbl.Description, "\"\n")
+			str = string (str, "	" .. ":SetDesc \"", tbl.Description:Replace("\"", "\\\""), "\"\n")
 		end
 
 		if (tbl.Image) then
-			str = string (str, "	" .. ":SetImage \"", tbl.Image, "\"\n")
+			str = string (str, "	" .. ":SetIcon \"", tbl.Image, "\"\n")
 		end
 
 		if (tbl.Model) then
@@ -60,15 +60,11 @@ function m_AddDroppableItem(item_table, item_kind)
 
 			local def = tbl.Kind == "Melee" and "Melee" or "Gun"
 			for k, v in pairs(tbl.Stats) do
-				if ((tbl.Kind == "tier" or tbl.Kind == "Tier" or tbl.Kind == "Unique") and mi.Stat.Roster[k]) then
-					if (mi.Stat.Roster[k].Defaults[def] and mi.Stat.Roster[k].Defaults[def][tbl.Rarity]) then
-						if (mi.Stat.Roster[k].Defaults[def][tbl.Rarity].Min == v.min and mi.Stat.Roster[k].Defaults[def][tbl.Rarity].Max == v.max) then
-							continue
-						end
-					end
+				if (mi.Stat.Roster[k] and mi.Stat.Roster[k].Defaults[def] and mi.Stat.Roster[k].Defaults[def][tbl.Rarity] and (mi.Stat.Roster[k].Defaults[def][tbl.Rarity].Min == v.min and mi.Stat.Roster[k].Defaults[def][tbl.Rarity].Max == v.max)) then
+					continue
 				end
 
-				str = string (str, "		" .. ":SetStat (", isnumber(k) and k or '"' .. k .. '"', ", ", v.min, ", ", v.max, ")\n")
+				str = string (str, "		" .. ":Stat (", isnumber(k) and k or '"' .. k .. '"', ", ", v.min, ", ", v.max, ")\n")
 			end
 		end
 
@@ -109,12 +105,16 @@ function m_AddDroppableItem(item_table, item_kind)
 			str = string (str, "	" .. ":SetRender (\"", par, "\", function", string.sub(fs, 1, -2) .. ")", "\n")
 		end
 
-		if (tbl.Collection) then
-			str = string (str, "	" .. ":SetCollection \"", tbl.Collection, "\"\n\n")
-		end
-
 		if (tbl.Price) then
 			str = string (str, "	" .. ":SetShop (", tbl.Price, ", ", tbl.Active and "true" or "false", ")\n")
+		end
+
+		if (tbl.Collection) then
+			str = string (str, "	" .. ":Set \"", item_table.Collection:Replace(" Collection", ""), "\"\n")
+		end
+
+
+		if (tbl.Price) then
 			MOAT_COLLECT[item_table.Collection].Crate = str
 		else
 			table.insert(MOAT_COLLECT[item_table.Collection], {String = str, Rarity = tbl.Rarity})
@@ -195,7 +195,7 @@ function m_CreatePaints()
         tbl.Rarity = v[3]
         tbl.Texture = v[2]
         tbl.Collection = v[5] or "Paint Collection"
-        tbl.PaintVer = 2
+        tbl.PaintVer = 3
         tbl.Image = v[4] or "https://cdn.moat.gg/f/2198b5d9d5c8a1e35fe2a4c833556fd6.png"
         tbl.ItemCheck = 12
         function tbl:ItemUsed(pl, slot, item)
@@ -226,7 +226,7 @@ function m_InitializeItems()
 
             include(MOAT_ITEM_FOLDER .. "/" .. folder .. "/" .. filename)
 			if (ITEM.ID) then
-				m_AddDroppableItem(ITEM, type)
+				m_AddDroppableItem(ITEM, type, file.Read(MOAT_ITEM_FOLDER .. "/" .. folder .. "/" .. filename, "LUA"))
 			end
 
 			if (type == "Melee" and ITEM.Collection and ITEM.Collection ~= "Melee Collection") then
@@ -243,7 +243,7 @@ function m_InitializeItems()
 				Melee.Collection = "Melee Collection"
 				Melee.ID = ITEM.ID + 10000
 
-				m_AddDroppableItem(Melee, type)
+				m_AddDroppableItem(Melee, type, file.Read(MOAT_ITEM_FOLDER .. "/" .. folder .. "/" .. filename, "LUA"))
 			end
         end
     end
@@ -389,7 +389,7 @@ function GetItemName(data)
 	
 	if (data and data.item and data.item.Kind ~= "Unique" and data.Talents and data.Talents[1] and (data.Talents[1].Suffix or data.Talents[1].Name)) then
 		local suffix = (data.Talents[5] and (data.Talents[5].Suffix or data.Talents[5].Name)) or (data.Talents[4] and (data.Talents[4].Suffix or data.Talents[4].Name)) or (data.Talents[3] and (data.Talents[3].Suffix or data.Talents[3].Name)) or (data.Talents[2] and (data.Talents[2].Suffix or data.Talents[2].Name)) or (data.Talents[1].Suffix or data.Talents[1].Name)
-		ITEM_NAME_FULL = ITEM_NAME_FULL .. " of " .. suffix
+		ITEM_NAME_FULL = ITEM_NAME_FULL --.. " of " .. suffix
 	end
 
 	if (data.n) then

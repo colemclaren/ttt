@@ -1,13 +1,14 @@
 concommand.Add("_collect_items", function(pl, cmd, args)
 	file.CreateDir "mi_collect_output"
 
+	local MOAT_COLLECT_STR, str2 = {}, ""
 	for k, v in pairs(MOAT_COLLECT) do
 		local str = string (
 			"------------------------------------\n", 
 			"--\n", 
 			"-- ", k, "\n",
 			"--\n",
-			"------------------------------------\n\n")
+			"------------------------------------\n")
 
 		if (v.Crate) then
 			str = string (str, v.Crate)
@@ -15,24 +16,23 @@ concommand.Add("_collect_items", function(pl, cmd, args)
 		
 		local rars = {}
 		for r = 1, 10 do
-			if (r == 9) then continue end
+			-- if (r == 9) then continue end
 
 			for i = 1, #v do
-				if (v[i].Rarity and v[i].Rarity == r) then
+				if (v[i] and v[i].Rarity and v[i].Rarity == r) then
 					rars[r] = true
 					continue
 				end
 			end
 		end
 
-
 		for r = 1, 10 do
-			if (r == 9 or not rars[r]) then continue end
+			if (not rars[r]) then continue end
 
 			str = string (str,
 				"\n\n------------------------------------\n", 
 				"-- ", mi.Rarity(r).Name .. " Items", "\n",
-				"------------------------------------\n\n")
+				"------------------------------------\n")
 
 			for i = 1, #v do
 				if (v[i].Rarity and v[i].Rarity == r) then
@@ -40,9 +40,16 @@ concommand.Add("_collect_items", function(pl, cmd, args)
 				end
 			end
 		end
-		
-		file.Write("mi_collect_output/" .. string.Replace(string.lower(k), " ", "_") .. ".txt", str)
+
+		table.insert(MOAT_COLLECT_STR, {string.Replace(string.lower(k), " ", "_") .. ".txt", str})
 	end
+
+	for k, v in SortedPairsByMemberValue(MOAT_COLLECT_STR, 1, true) do
+		str2 = str2 .. "\n\n\n\n\n" .. v[2]
+	end
+
+	file.Write("mi_collect_output/drops.txt", str2:Replace("\"tier\"", '"Tier"'))
+
 end)
 
 concommand.Add("_collect_talents", function(pl, cmd, args)
@@ -59,16 +66,19 @@ concommand.Add("_collect_talents", function(pl, cmd, args)
 			"------------------------------------\n\n")
 
 		str = string (str, "Talent(", v.ID, b, v.Name, c, a, v.Tier, v.NotUnique and ")" or ", false)", n)
-		str = string (str, "	:SetColor {", v.NameColor.r, a, v.NameColor.g, a, v.NameColor.b, "}", n)
-		str = string (str, "	:CanMelee '", v.NameEffect, c, n)
-		str = string (str, "	:SetDesc '", v.Description, c, n)
 
-		if (mi.Talent.Tiers[v.Tier] and (mi.Talent.Tiers[v.Tier][1] ~= v.LevelRequired.min or mi.Talent.Tiers[v.Tier][2] ~= v.LevelRequired.max)) then
-			str = string (str, "	:SetLevels {", v.LevelRequired.min, c, v.LevelRequired.max, "}", n)
+		if (v.NameColor) then
+			str = string (str, "	:SetColor {", v.NameColor.r, a, v.NameColor.g, a, v.NameColor.b, "}", n)
 		end
 
-		for id, mod in ipairs(v.Modifications) do
-			str = string (str, "	:Mod {'", id, c, a, mod.min, a, mod.max, '}', n)
+		if (v.NameEffect) then
+			str = string (str, "	:SetStyle '", v.NameEffect, c, n)
+		end
+
+		str = string (str, "	:SetDesc '", v.Description or "This needs a proper description.", c, n)
+
+		if (mi.Talent.Tiers[v.Tier] and (mi.Talent.Tiers[v.Tier][1] ~= v.LevelRequired.min or mi.Talent.Tiers[v.Tier][2] ~= v.LevelRequired.max)) then
+			str = string (str, "	:SetLevels (", v.LevelRequired.min, a, v.LevelRequired.max, ")", n)
 		end
 
 		for id, mod in ipairs(v.Modifications) do
@@ -76,7 +86,7 @@ concommand.Add("_collect_talents", function(pl, cmd, args)
 		end
 
 		if (v.Melee) then
-			str = string (str, "	:CanMelee (", v.Melee, c, n)
+			str = string (str, "	:CanMelee (", tostring(v.Melee), ")", n)
 		end
 
 		if (v.OnPlayerDeath) then
@@ -105,10 +115,6 @@ concommand.Add("_collect_talents", function(pl, cmd, args)
 
 		if (v.OnBeginRound) then
 			str = string (str, "	:Hook {'OnBeginRound', function(pl, mods)", n, "		", n, "	end}", n)
-		end
-
-		if (v.Melee) then
-			str = string (str, "	:CanMelee (", v.Melee, c, n)
 		end
 
 		str = string (str, n, n)

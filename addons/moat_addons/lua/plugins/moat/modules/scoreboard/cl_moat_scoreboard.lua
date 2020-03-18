@@ -237,17 +237,6 @@ end
 
 hook.Add("TTTScoreboardMenu", "moat_TTTScoreboardMenu", moat_TTTScoreboardMenu)
 
-ROLE_JESTER = 3
-ROLE_KILLER = 4
-ROLE_DOCTOR = 5
-ROLE_BEACON = 6
-ROLE_SURVIVOR = 7
-ROLE_HITMAN = 8
-ROLE_BODYGUARD = 9
-ROLE_VETERAN = 10
-ROLE_XENOMORPH = 11
-ROLE_WITCHDOCTOR = 12
-
 local function moat_UpdateDefaultTTTShit()
     if (not WSWITCH) then return end
     local margin = 10

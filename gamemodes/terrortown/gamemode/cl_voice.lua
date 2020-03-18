@@ -175,7 +175,7 @@ function RADIO:ShowRadioCommands(state)
         if not radioframe then
             local w, h = 200, 300
             radioframe = vgui.Create("DForm")
-            radioframe:SetName(GetTranslation("quick_title"))
+            radioframe:SetName("Quickchat Keys")
             radioframe:SetSize(w, h)
             radioframe:SetMouseInputEnabled(false)
             radioframe:SetKeyboardInputEnabled(false)
@@ -198,7 +198,7 @@ function RADIO:ShowRadioCommands(state)
 
             for key, command in pairs(self.Commands) do
                 local dlabel = vgui.Create("DLabel", radioframe)
-                local id = key .. ": "
+                local id = "(" .. key .. " )  "
                 local txt = id
 
                 if command.format then
@@ -210,7 +210,7 @@ function RADIO:ShowRadioCommands(state)
                 end
 
                 dlabel:SetText(txt)
-                dlabel:SetFont("TabLarge")
+                dlabel:SetFont("moat_ChatFont")
                 dlabel:SetTextColor(COLOR_WHITE)
                 dlabel:SizeToContents()
 

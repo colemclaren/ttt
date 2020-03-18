@@ -185,7 +185,7 @@ MOAT_MODEL_POS["models/sterling/mg_hat_number1.mdl"] = {1.1, Angle(0, 5, 0), Vec
 MOAT_MODEL_POS["models/sterling/mg_hat_punk.mdl"] = {1.1, Angle(0, 5, 0), Vector(0, 0, 1)} --https://steamcommunity.com/profiles/76561198079189535
 
 MOAT_MODEL_POS["models/custom_prop/moatgaming/eastbunny/eastbunny.mdl"] = {1.2, Angle(0, 100, 0), Vector(0, 0, 0)}
-
+MOAT_MODEL_POS["models/ryu-gi/holiday_props/valentine/vday_choc_box.mdl"] = {1.3, Angle(45, 45, 0), Vector(0, 0, 0)}
 function moat_retry_tts_play(sound_url)
     sound.PlayURL(sound_url, "mono", function(ttssound, error, error2)
         if (IsValid(ttssound)) then
@@ -219,11 +219,6 @@ timer.Simple(5, function()
             --moat_retry_tts(text)
         end
     end)*/
-end)
-
-hook.Add("TTTBeginRound", "moat_NewRoundNotify", function()
-    local cur_round = (GetConVarNumber("ttt_round_limit")-GetGlobal("ttt_rounds_left")) + 1
-    chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Round ", Color(255, 255, 0), "#" .. cur_round, Color(255, 0, 0), " has started!")
 end)
 
 

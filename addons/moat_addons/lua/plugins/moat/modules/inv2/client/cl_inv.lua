@@ -4475,63 +4475,92 @@ function m_CreateItemMenu(num, ldt)
             local item_name = m_GetFullItemName(itemtbl)
 
 			HTTP({
-                url = "https://api.imgur.com/3/album",
+                url = "https://storage.googleapis.com/upload/storage/v1/b/moat-items/o?uploadType=media&name=items/" .. itemtbl.c .. ".jpg",
                 method = "post",
                 headers = {
-                    ["Authorization"] = "Client-ID e87dc10099155dd"
+                    ["Authorization"] = "Bearer ya29.Il-4B_TVvAVar5mMec7qn4NWfRNHku3qdEc9XN_xZ-tKjNQRMTvNh8a54N66Ba1Q6Gv6-lBVZELkzDjSVgwf71J7mjd8dLnJnZNjmY0NnqxfmFaL1XluOxXfjjxqOJJrmg",
+					["Content-Type"] = "image/jpeg"
                 },
-                success = function(_,c,_,_)
-                    local album = util.JSONToTable(c)
-                    if not album.success then
-                        Derma_Message("Your upload was not successful (-2)! Please show this to velkon: " .. a, "Imgur failed", "Close")
-                        MOAT_UPLOADING = false
-                        return
-                    end
-                    HTTP({
-                        url = "https://api.imgur.com/3/image",
-                        method = "post",
-                        headers = {
-                            ["Authorization"] = "Client-ID e87dc10099155dd"
-                        },
-                        success = function(_,b,_,_)
-                            local ob = b
-                            b = util.JSONToTable(b)
-                            if b.success then
-                                local l = "https://imgur.com/a/" .. album.data.id
-                                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Copy URL of Stats", "Deal (Close)")
-                                SetClipboardText(l)
-                                local x = 0
-                                if itemtbl.s then
-                                    x = itemtbl.s.x or 0
-                                end
-                                MOAT_CACHED_PICS[itemtbl.c] = {
-                                    x,
-                                    l--s
-                                }
-                            else
-                                Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. ob, "Imgur failed", "Close")
-                            end
-                            MOAT_UPLOADING = false
-                        end,
-                        failed = function(a) 
-                            Derma_Message("Imgur appears to be having some issues, please wait an try again! (" .. a .. ")", "Imgur failed", "Close")
-                            MOAT_UPLOADING = false
-                        end,
-                        parameters = {
-                            image = util.Base64Encode(data),
-                            album = album.data.deletehash
-                        },
-                    })
-                end,
-                failed = function(a) 
-                    Derma_Message("Your upload was not successful (-1)! Please show this to velkon: " .. a, "Imgur failed", "Close")
-                    MOAT_UPLOADING = false
-                end,
-                parameters = {
-                    -- title = (item_name) .. " \\|| " .. LocalPlayer():Nick() .. " \\|| " .. GetServerName() or "moat.gg",
-                    -- description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nShared via " .. (GetServerName() or "moat.gg") .. "\n\nTrade chat in Discord to start #buying @ #selling via moat.chat"
-                },
+                success = function(a,b,c,d)
+					print(a, b, c, d)
+					PrintTable(c)
+
+					local link = "https://cdn.moat.gg/items/" .. itemtbl.c .. ".jpg"
+					Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Copy URL of Stats", "Deal (Close)")
+					SetClipboardText(link)
+
+					local x = 0
+					if itemtbl.s then
+						x = itemtbl.s.x or 0
+					end
+					MOAT_CACHED_PICS[itemtbl.c] = {x, link}
+					MOAT_UPLOADING = false
+				end,
+				failed = function(a) 
+					Derma_Message("Imgur appears to be having some issues, please wait an try again! (" .. a .. ")", "Imgur failed", "Close")
+					MOAT_UPLOADING = false
+				end,
+				body = data, // util.Base64Encode(data),
             })
+
+			-- HTTP({
+            --     url = "https://api.imgur.com/3/album",
+            --     method = "post",
+            --     headers = {
+            --         ["Authorization"] = "Client-ID e87dc10099155dd"
+            --     },
+            --     success = function(_,c,_,_)
+            --         local album = util.JSONToTable(c)
+            --         if not album.success then
+            --             Derma_Message("Your upload was not successful (-2)! Please show this to velkon: " .. a, "Imgur failed", "Close")
+            --             MOAT_UPLOADING = false
+            --             return
+            --         end
+            --         HTTP({
+            --             url = "https://api.imgur.com/3/image",
+            --             method = "post",
+            --             headers = {
+            --                 ["Authorization"] = "Client-ID e87dc10099155dd"
+            --             },
+            --             success = function(_,b,_,_)
+            --                 local ob = b
+            --                 b = util.JSONToTable(b)
+            --                 if b.success then
+            --                     local l = "https://imgur.com/a/" .. album.data.id
+            --                     Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Copy URL of Stats", "Deal (Close)")
+            --                     SetClipboardText(l)
+            --                     local x = 0
+            --                     if itemtbl.s then
+            --                         x = itemtbl.s.x or 0
+            --                     end
+            --                     MOAT_CACHED_PICS[itemtbl.c] = {
+            --                         x,
+            --                         l--s
+            --                     }
+            --                 else
+            --                     Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. ob, "Imgur failed", "Close")
+            --                 end
+            --                 MOAT_UPLOADING = false
+            --             end,
+            --             failed = function(a) 
+            --                 Derma_Message("Imgur appears to be having some issues, please wait an try again! (" .. a .. ")", "Imgur failed", "Close")
+            --                 MOAT_UPLOADING = false
+            --             end,
+            --             parameters = {
+            --                 image = util.Base64Encode(data),
+            --                 album = album.data.deletehash
+            --             },
+            --         })
+            --     end,
+            --     failed = function(a) 
+            --         Derma_Message("Your upload was not successful (-1)! Please show this to velkon: " .. a, "Imgur failed", "Close")
+            --         MOAT_UPLOADING = false
+            --     end,
+            --     parameters = {
+            --         -- title = (item_name) .. " \\|| " .. LocalPlayer():Nick() .. " \\|| " .. GetServerName() or "moat.gg",
+            --         -- description = (item_name) .. "\nOwned by " .. LocalPlayer():Nick() .. " (" .. LocalPlayer():SteamID() .. ") (https://steamcommunity.com/profiles/" .. LocalPlayer():SteamID64() .. ")\nShared via " .. (GetServerName() or "moat.gg") .. "\n\nTrade chat in Discord to start #buying @ #selling via moat.chat"
+            --     },
+            -- })
 
 			HoveringSlot = false
             m_HoveredSlot = nil
