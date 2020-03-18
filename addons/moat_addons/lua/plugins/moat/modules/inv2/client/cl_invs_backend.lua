@@ -1414,7 +1414,7 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
         self.ModelPanel:SetSize(64, 64)
         self.ModelPanel:SetModel(mdl)
 
-		if (not IsValid(IsValid(self.ModelPanel.Entity))) then
+		if (not IsValid(self.ModelPanel.Entity)) then
 			return
 		end
 
