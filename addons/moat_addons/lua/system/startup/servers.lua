@@ -7,105 +7,105 @@
 Servers.Setup("Moat TTT", ".moat.gg")
 
 Servers "208.103.169.28:27015"
-	:SetName "TTT #1"
+	:SetName "Beta #1"
 	:SetID "ttt"
 
 Servers "208.103.169.30:27015"
-	:SetName "TTT #2"
+	:SetName "Beta #2"
 	:SetID "ttt2"
 
 Servers "208.103.169.31:27015"
-	:SetName "TTT #3"
+	:SetName "Beta #3"
 	:SetID "ttt3"
 
 Servers "208.103.169.31:27017"
-	:SetName "TTT #4"
+	:SetName "Beta #4"
 	:SetID "ttt4"
 
 Servers "208.103.169.43:27015"
-	:SetName "TTT #5"
+	:SetName "Beta #5"
 	:SetID "ttt5"
 
 Servers "208.103.169.43:27017"
-	:SetName "TTT #6"
+	:SetName "Beta #6"
 	:SetID "ttt6"
 
 Servers "208.103.169.43:27018"
-	:SetName "TTT #7"
+	:SetName "Beta #7"
 	:SetID "ttt7"
 
 Servers "208.103.169.43:27019"
-	:SetName "TTT #8"
+	:SetName "Beta #8"
 	:SetID "ttt8"
 
 Servers "208.103.169.43:27020"
-	:SetName "TTT #9"
+	:SetName "Beta #9"
 	:SetID "ttt9"
 
 Servers "208.103.169.54:27015"
-	:SetName "TTT #10"
+	:SetName "Beta #10"
 	:SetID "ttt10"
 
 Servers "208.103.169.54:27017"
-	:SetName "TTT #11"
+	:SetName "Beta #11"
 	:SetID "ttt11"
 
 Servers "208.103.169.54:27018"
-	:SetName "TTT #12"
+	:SetName "Beta #12"
 	:SetID "ttt12"
 
 Servers "208.103.169.205:27015"
-	:SetName "TTT EU #1"
+	:SetName "Beta EU#1"
 	:SetID "ttt-eu1"
 
 Servers "208.103.169.205:27017"
-	:SetName "TTT EU #2"
+	:SetName "Beta EU#2"
 	:SetID "ttt-eu2"
 
 Servers "208.103.169.205:27018"
-	:SetName "TTT EU #3"
+	:SetName "Beta EU#3"
 	:SetID "ttt-eu3"
 
 Servers "208.103.169.205:27020"
-	:SetName "TTT EU #4"
+	:SetName "Beta EU#4"
 	:SetID "ttt-eu4"
 
 Servers "208.103.169.29:27015"
-	:SetName "TTT Minecraft #1"
+	:SetName "Minecraft #1"
 	:SetID "ttt-mc"
 
 Servers "208.103.169.31:27016"
-	:SetName "TTT Minecraft #2"
+	:SetName "Minecraft #2"
 	:SetID "ttt-mc2"
 
 Servers "208.103.169.43:27016"
-	:SetName "TTT Minecraft #3"
+	:SetName "Minecraft #3"
 	:SetID "ttt-mc3"
 
 Servers "208.103.169.54:27016"
-	:SetName "TTT Minecraft #4"
+	:SetName "Minecraft #4"
 	:SetID "ttt-mc4"
 
 Servers "208.103.169.54:27019"
-	:SetName "TTT Minecraft #5"
+	:SetName "Minecraft #5"
 	:SetID "ttt-mc5"
 
 Servers "208.103.169.31:27018"
-	:SetName "TTT Minecraft #6"
+	:SetName "Minecraft #6"
 	:SetID "ttt-mc6"
 
 Servers "208.103.169.31:27019"
-	:SetName "TTT Minecraft #7"
+	:SetName "Minecraft #7"
 	:SetID "ttt-mc7"
 
 Servers "208.103.169.205:27016"
-	:SetName "TTT Minecraft EU #1"
+	:SetName "Minecraft EU1"
 	:SetID "ttt-eumc1"
 
 Servers "208.103.169.205:27019"
-	:SetName "TTT Minecraft EU #2"
+	:SetName "Minecraft EU2"
 	:SetID "ttt-eumc2"
 
 Servers "208.103.169.54:27020"
-	:SetName "TTC Terror City Beta"
+	:SetName "TTC Beta"
 	:SetID "beta"

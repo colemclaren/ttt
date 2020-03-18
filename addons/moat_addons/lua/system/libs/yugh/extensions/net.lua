@@ -11,34 +11,34 @@ local BytesWritten = net.BytesWritten
 local Start = net.Start
 local Send = SERVER and net.Send or net.SendToServer
 local Broadcast = SERVER and net.Broadcast
-local Receivers = net.Receivers or {}
+net.Receives = net.Receivers or {}
 
 ---------------------
 -- Networking Main --
 ---------------------
 
 function net.Receive(name, func)
-	Receivers[name] = func
+	net.Receives[name] = func
 
 	local id = util.NetworkStringToID(name)
 	if (id) then
-		Receivers[id] = func
+		net.Receives[id] = func
 	end
 end
 
 function net.Incoming(len, pl)
 	local i = net.ReadHeader()
 
-	if (not Receivers[i]) then
+	if (not net.Receives[i]) then
 		local str = util.NetworkIDToString(i)
-		if (not str or not Receivers[str]) then
+		if (not str or not net.Receives[str]) then
 			return
 		end
 
-		Receivers[i] = Receivers[str]
+		net.Receives[i] = net.Receives[str]
 	end
 
-	Receivers[i](len - 16, pl)
+	net.Receives[i](len - 16, pl)
 end
 
 ------------------------
@@ -230,13 +230,13 @@ function net.Do(str, cb, pl)
 end
 
 function net.ReceiveEntity(str, func)
-	Receivers[str] = function(_, pl)
+	net.Receives[str] = function(_, pl)
 		if (IsValid(ReadEntity())) then func(pl) end
 	end
 end
 
 function net.ReceivePlayer(str, func)
-	Receivers[str] = function(_, pl)
+	net.Receives[str] = function(_, pl)
 		local ply = ReadPlayer()
 		if (IsValid(ply)) then func(ply, pl) end
 	end

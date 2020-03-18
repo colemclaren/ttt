@@ -325,7 +325,7 @@ function INTERNAL:StaffDataReceived(d)
 
     self.ReportsHandled:SetText("Reports handled: " .. d.handled)
     self.Rounds:SetText("Rounds Played / Spectator: " .. d.rounds_played .. " / " .. d.rounds_on - d.rounds_played)
-    self.TimePlayed:SetText("Time played: " .. NiceDuration(d.time_played)) -- TODO(meep): nice time
+    self.TimePlayed:SetText("Time played: " .. string.NiceTime(tonumber(d.time_played))) -- TODO(meep): nice time
 end
 
 function INTERNAL:DoSubmit()

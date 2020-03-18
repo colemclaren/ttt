@@ -48,10 +48,10 @@ function post_discord_server_list()
         timer.Simple(0.5 * k,function()
             discord.Embed("Servers",{
                 author = {
-                    name = "★▶ Moat.GG - ".. v.Name .. " - Official Inventory - Chill",
+                    name = "★▶Moat ".. v.Name .. " ★ Official Inventory ★ Chill ★ Fun",
                     icon_url = "https://ttt.dev/60433443430256164487.jpg"
                 },
-                description = "Click here to automatically connect: " .. v.ConnectURL,
+                description = "Join: " .. v.ConnectURL,
             })
             if k == #Servers.Roster then
                 Server.IsDev = true
