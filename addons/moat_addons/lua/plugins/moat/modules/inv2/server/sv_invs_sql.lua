@@ -824,6 +824,15 @@ function m_InsertNewStatsPlayer(ply)
     iq:start()
 end
 
+local march2020broke = {
+	["weapon_spas22pvp"] = "weapon_spas12pvp",
+	["weapon_ttt_m4a2"] = "weapon_ttt_m4a1",
+	["weapon_ttt_m26"] = "weapon_ttt_m16",
+	["weapon_rcp220"] = "weapon_rcp120",
+	["weapon_ttt_te_2911"] = "weapon_ttt_te_2911",
+	["weapon_ttt_dual_mac20"] = "weapon_ttt_dual_mac10"
+}
+
 function m_LoadInventoryForPlayer(ply, cb)
     local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = '" .. get_steamid(ply) .. "'")
 
@@ -832,28 +841,103 @@ function m_LoadInventoryForPlayer(ply, cb)
 			local row = data[1]
 
             ply:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", data[1].max_slots)
-            MOAT_INVS[ply] = {}
+            MOAT_INVS[ply] = MOAT_INVS[ply] or {}
             local inv_tbl = {
 				["credits"] = util.JSONToTable(row["credits"])
 			}
 
+			local loadout = {}
+			for i = 1, 10 do
+                loadout[i] = util.JSONToTable(row["l_slot" .. i])
+			end
+			
+			local try = ""
+			for k, v in ipairs(loadout) do
+				if (v.u and not MOAT_DROPTABLE[v.u]) then
+					try = string.gsub(v.u, "2", "1", 1)
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
+
+						continue
+					end
+
+					try = string.gsub(v.u, "2", "1", 2)
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
+
+						continue
+					end
+
+					try = string.gsub(v.u, "2", "1", 3)
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
+
+						continue
+					end
+
+					try = string.gsub(v.u, "2", "1")
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
+
+						continue
+					end
+				end
+			end
+
+			for k, v in ipairs(loadout) do
+				if (v.w and not weapons.Get(v.w)) then
+					try = string.gsub(v.w, "2", "1", 1)
+					if (weapons.Get(try)) then
+						v.w = try
+
+						continue
+					end
+
+					try = string.gsub(v.w, "2", "1", 2)
+					if (weapons.Get(try)) then
+						v.w = try
+
+						continue
+					end
+
+					try = string.gsub(v.w, "2", "1", 3)
+					if (weapons.Get(try)) then
+						v.w = try
+
+						continue
+					end
+
+					try = string.gsub(v.w, "2", "1")
+					if (weapons.Get(try)) then
+						v.w = try
+
+						continue
+					end
+				end
+			end
+
+			for k, v in ipairs(loadout) do
+				if (not v.w and MOAT_DROPTABLE[v.u] and (MOAT_DROPTABLE[v.u].WeaponClass or MOAT_DROPTABLE[v.u].Kind == "tier")) then
+					v.w = MOAT_DROPTABLE[v.u].WeaponClass or "weapon_ttt_m16"
+				end
+			end
             for i = 1, 10 do
-                local t = util.JSONToTable(row["l_slot" .. i])
+                local slot = loadout[i]
 
-                if (not t) then
+                if (not slot) then
                     discord.Send("Error Report SV", "Error loading loadout item for " .. ply:Nick() .. " (" .. get_steamid(ply) .. ") `l_slot" .. i .. "`\n```" .. row["l_slot" .. i] .. "```" or "```")
-                    t = {}
+                    slot = {}
                 end
 
-                inv_tbl["l_slot" .. i] = t
-
-                if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].item) then
-                    inv_tbl["l_slot" .. i].item = nil
+                if (slot and slot.item) then
+                    slot.item = nil
                 end
 
-                if (inv_tbl["l_slot" .. i] and inv_tbl["l_slot" .. i].Talents) then
-                    inv_tbl["l_slot" .. i].Talents = nil
+                if (slot and slot.Talents) then
+                    slot.Talents = nil
                 end
+
+				inv_tbl["l_slot" .. i] = table.Copy(slot)
             end
 
             local inventory_tbl = util.JSONToTable(row["inventory"])
@@ -866,30 +950,100 @@ function m_LoadInventoryForPlayer(ply, cb)
                 cb()
             end
 
-            for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
-                inv_tbl["slot" .. i] = inventory_tbl[i]
+			for k, v in ipairs(inventory_tbl) do
+				if (v.u and not MOAT_DROPTABLE[v.u]) then
+					try = string.gsub(v.u, "2", "1", 1)
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
 
-                if (not inv_tbl["slot" .. i]) then
-                    inv_tbl["slot" .. i] = {}
+						continue
+					end
+
+					try = string.gsub(v.u, "2", "1", 2)
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
+
+						continue
+					end
+
+					try = string.gsub(v.u, "2", "1", 3)
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
+
+						continue
+					end
+
+					try = string.gsub(v.u, "2", "1")
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
+
+						continue
+					end
+				end
+			end
+
+			for k, v in ipairs(inventory_tbl) do
+				if (v.w and not weapons.Get(v.w)) then
+					try = string.gsub(v.w, "2", "1", 1)
+					if (weapons.Get(try)) then
+						v.w = try
+
+						continue
+					end
+
+					try = string.gsub(v.w, "2", "1", 2)
+					if (weapons.Get(try)) then
+						v.w = try
+
+						continue
+					end
+
+					try = string.gsub(v.w, "2", "1", 3)
+					if (weapons.Get(try)) then
+						v.w = try
+
+						continue
+					end
+
+					try = string.gsub(v.w, "2", "1")
+					if (weapons.Get(try)) then
+						v.w = try
+
+						continue
+					end
+				end
+			end
+
+			for k, v in ipairs(inventory_tbl) do
+				if (not v.w and MOAT_DROPTABLE[v.u] and (MOAT_DROPTABLE[v.u].WeaponClass or MOAT_DROPTABLE[v.u].Kind == "tier")) then
+					v.w = MOAT_DROPTABLE[v.u].WeaponClass or "weapon_ttt_m16"
+				end
+			end
+
+            for i = 1, ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
+				local slot = inventory_tbl[i]
+
+                if (not slot) then
+                    slot = {}
                     discord.Send("Error Report SV", "Error loading item for " .. ply:Nick() .. " (" .. get_steamid(ply) .. ") `slot" .. i .. "`")
                 end
 
-                if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].item) then
-                    inv_tbl["slot" .. i].item = nil
+                if (slot and slot.item) then
+                    slot.item = nil
                 end
 
-                if (inv_tbl["slot" .. i] and inv_tbl["slot" .. i].Talents) then
-                    inv_tbl["slot" .. i].Talents = nil
+                if (slot and slot.Talents) then
+                    slot.Talents = nil
                 end
 
-                if (i == ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS")) then
-                    MOAT_INVS[ply] = inv_tbl
-
-                    if (data[1].max_slots < 50) then
-                        m_SendInventoryToPlayer(ply)
-                    end
-                end
+				inv_tbl["slot" .. i] = table.Copy(slot)
             end
+
+			MOAT_INVS[ply] = inv_tbl
+
+            -- if (data[1].max_slots < 50) then
+				m_SendInventoryToPlayer(ply)
+			-- end
 
             m_SendCreditsToPlayer(ply)
         else

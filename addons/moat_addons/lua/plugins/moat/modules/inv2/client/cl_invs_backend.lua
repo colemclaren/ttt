@@ -1414,6 +1414,10 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
         self.ModelPanel:SetSize(64, 64)
         self.ModelPanel:SetModel(mdl)
 
+		if (not IsValid(IsValid(self.ModelPanel.Entity))) then
+			return
+		end
+
         if (iSkin) then self.ModelPanel.Entity:SetSkin(iSkin) end
         
         local PrevMins, PrevMaxs = self.ModelPanel.Entity:GetRenderBounds()

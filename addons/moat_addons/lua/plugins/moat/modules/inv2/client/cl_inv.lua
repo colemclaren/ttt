@@ -913,8 +913,16 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         talents_y_add = 15
         talents_collection = 2
         local talents_s = "s"
-        local num_talents = table.Count(itemtbl.t)
 
+		local num_talents = table.Count(itemtbl.t)
+		for k, v in ipairs(itemtbl.Talents) do
+			if (not itemtbl.Talents[k].Description) then
+				num_talents = k - 1
+
+				break
+			end
+		end
+	
         if (num_talents == 1) then
             talents_s = ""
         end
@@ -936,6 +944,10 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         local talent_alpha = 255
 
         for k, v in ipairs(itemtbl.t) do
+			if (not itemtbl.Talents[k] or not itemtbl.Talents[k].Description) then
+				continue
+			end
+
             talent_name = itemtbl.Talents[k].Name
             talent_desc = itemtbl.Talents[k].Description
             talent_col = itemtbl.Talents[k].NameColor
@@ -984,7 +996,11 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             local talent_desctbl = string.Explode("^", talent_desc)
 
 			if (#v.m > 0) then
-            	for i = 1, table.Count(v.m) do
+            	for i = 1, #v.m do
+					if (not itemtbl.Talents[k].Modifications or not itemtbl.Talents[k].Modifications[i]) then
+						continue
+					end
+
                 	local mod_num = math.Round(itemtbl.Talents[k].Modifications[i].min + ((itemtbl.Talents[k].Modifications[i].max - itemtbl.Talents[k].Modifications[i].min) * v.m[i]), 1)
                 
                 	if (ctrldown) then
@@ -3106,7 +3122,7 @@ function m_OpenInventory(ply2, utrade)
 
             if (ITEM_HOVERED.item.Kind and ITEM_HOVERED.item.Kind ~= "tier") then
                 RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. ITEM_HOVERED.item.Kind
-            else
+            elseif (ITEM_HOVERED.w) then
                 RARITY_TEXT = RARITY_TEXT .. rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][1] .. " " .. m_LoadoutTypes[util.GetWeaponSlot(ITEM_HOVERED.w)]
             end
 
@@ -3165,8 +3181,11 @@ function m_OpenInventory(ply2, utrade)
                 local item_desctbl = string.Explode("^", item_desc)
 
                 if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
-
                     for i = 1, #item_desctbl do
+						if (not ITEM_HOVERED.item.Stats[i]) then
+							continue
+						end
+
                         local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
 
                         if (s.ctrldown) then
@@ -3291,8 +3310,11 @@ function m_OpenInventory(ply2, utrade)
                 local item_desctbl = string.Explode("^", item_desc)
 
                 if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
-                    
                     for i = 1, #item_desctbl do
+						if (not ITEM_HOVERED.item.Stats[i]) then
+							continue
+						end
+
                         local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
 
                         if (s.ctrldown) then
@@ -3316,12 +3338,20 @@ function m_OpenInventory(ply2, utrade)
                 drawn_talents = 12
 
                 for k, v in ipairs(ITEM_HOVERED.t) do
+					if (not ITEM_HOVERED.Talents[k] or not ITEM_HOVERED.Talents[k].Description) then
+						continue
+					end
+
                     local talent_desc2 = ITEM_HOVERED.Talents[k].Description
                     local talent_desctbl2 = string.Explode("^", talent_desc2)
 
-                    for i = 1, table.Count(v.m) do
+                    for i = 1, #v.m do
+						if (not ITEM_HOVERED.Talents[k].Modifications or not ITEM_HOVERED.Talents[k].Modifications[i]) then
+							continue
+						end
+
                         local mod_num = math.Round(ITEM_HOVERED.Talents[k].Modifications[i].min + ((ITEM_HOVERED.Talents[k].Modifications[i].max - ITEM_HOVERED.Talents[k].Modifications[i].min) * v.m[i]), 1)
-                        
+
                         if (s.ctrldown) then
                             mod_num = "(" .. ITEM_HOVERED.Talents[k].Modifications[i].min .. "-" .. ITEM_HOVERED.Talents[k].Modifications[i].max .. ") " .. math.Round(mod_num, 2)
                         end
@@ -5806,6 +5836,10 @@ function m_DrawFoundItem(tbl, s_type, name)
             drawn_talents = 12
 
             for k, v in ipairs(ITEM_HOVERED.t) do
+				if (not ITEM_HOVERED.Talents[k] or not ITEM_HOVERED.Talents[k].Modifications or not ITEM_HOVERED.Talents[k].Description) then
+					continue
+				end
+					
                 local talent_desc2 = ITEM_HOVERED.Talents[k].Description
                 local talent_desctbl2 = string.Explode("^", talent_desc2)
 
@@ -5906,6 +5940,10 @@ function m_DrawFoundItem(tbl, s_type, name)
                 drawn_talents = 12
 
                 for k, v in ipairs(ITEM_HOVERED.t) do
+					if (not ITEM_HOVERED.Talents[k] or not ITEM_HOVERED.Talents[k].Modifications or not ITEM_HOVERED.Talents[k].Description) then
+						continue
+					end
+
                     local talent_desc2 = ITEM_HOVERED.Talents[k].Description
                     local talent_desctbl2 = string.Explode("^", talent_desc2)
 

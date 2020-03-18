@@ -328,6 +328,13 @@ function GetItemFromEnum(ienum)
     end
 
     local item_tbl = table.Copy(MOAT_DROPTABLE[ienum]) or {}
+	if (not item_tbl.Kind) then
+		local try = string.gsub(ienum, "2", "1", 1)
+
+		if (MOAT_DROPTABLE[tonumber(try)]) then
+			item_tbl = table.Copy(MOAT_DROPTABLE[tonumber(try)]) or {}
+		end
+	end
 
     item_tbl.OnPlayerSpawn = nil
     item_tbl.ModifyClientsideModel = nil
@@ -357,6 +364,13 @@ function GetItemFromEnumWithFunctions(ienum)
     end
 
     local item_tbl = table.Copy(MOAT_DROPTABLE[ienum]) or {}
+	if (not item_tbl.Kind) then
+		local try = string.gsub(ienum, "2", "1", 1)
+
+		if (MOAT_DROPTABLE[tonumber(try)]) then
+			item_tbl = table.Copy(MOAT_DROPTABLE[tonumber(try)]) or {}
+		end
+	end
 
     if (item_tbl.Kind == "Crate") then
         item_tbl.Contents = GetCrateContents(item_tbl.Collection)
@@ -370,8 +384,12 @@ end
 function GetItemName(data)
 	local ITEM_NAME_FULL = ""
 
+	if (data and data.u and (not data.item or not data.item.Kind)) then
+		data.item = GetItemFromEnum(data.u)
+	end
+
     if (data and data.item and data.item.Kind == "tier") then
-        local ITEM_NAME = util.GetWeaponName(data.w)
+        local ITEM_NAME = util.GetWeaponName(data.w or "weapon_ttt_m16")
 
         if (string.EndsWith(ITEM_NAME, "_name")) then
             ITEM_NAME = string.sub(ITEM_NAME, 1, ITEM_NAME:len() - 5)
