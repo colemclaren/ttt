@@ -56,7 +56,12 @@ function PANEL:PerformLayout()
 end
 
 function PANEL:SetIcon(icon)
-    self.Icon:SetImage(icon)
+	self.Icon:SetImage(icon)
+	if (string.StartWith(icon, "http")) then
+		self.Icon.Paint = function(s, w, h)
+			cdn.DrawImage(icon, 0, 0, w, h)
+		end
+	end
 end
 
 function PANEL:GetIcon()

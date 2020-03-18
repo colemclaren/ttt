@@ -106,7 +106,15 @@ function Content.DrawHUD()
 	})
 
 	local dl_text = "Fixing Errors: " .. dl_num .. "% Remaining.."
-	if (dl_num == 0) then dl_text = "Finishing Fixing Errors.. Yay!" end
+	if (dl_num == 0) then
+		if (not Content.close) then
+			Content.close = CurTime()
+		elseif (Content.close and Content.close < CurTime() - 15) then
+			Content.done = true
+		end
+
+		dl_text = "Finishing Fixing Errors.. Yay!"
+	end
 
 	draw.Text({
 		text = dl_text,
