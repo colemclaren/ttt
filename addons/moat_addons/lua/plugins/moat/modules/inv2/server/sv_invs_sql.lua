@@ -881,12 +881,22 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 						continue
 					end
+
+					try = string.gsub(v.u, "4", "7", 1)
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
+
+						continue
+					end
 				end
 			end
 
 			for k, v in ipairs(loadout) do
 				if (v.w and not weapons.Get(v.w)) then
 					if (v.w == "weapon_ttt_ak44") then v.w = "weapon_ttt_ak47" continue end
+					if (v.w == "weapon_ttt_te_ak44") then v.w = "weapon_ttt_te_ak47" continue end
+					if (v.w == "weapon_ttt_cz45") then v.w = "weapon_ttt_cz75" continue end
+
 					try = string.gsub(v.w, "2", "1", 1)
 					if (weapons.Get(try)) then
 						v.w = try
@@ -980,12 +990,21 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 						continue
 					end
+
+					try = string.gsub(v.u, "4", "7", 1)
+					if (MOAT_DROPTABLE[tonumber(try)]) then
+						v.u = tonumber(try)
+
+						continue
+					end
 				end
 			end
 
 			for k, v in ipairs(inventory_tbl) do
 				if (v.w and not weapons.Get(v.w)) then
 					if (v.w == "weapon_ttt_ak44") then v.w = "weapon_ttt_ak47" continue end
+					if (v.w == "weapon_ttt_te_ak44") then v.w = "weapon_ttt_te_ak47" continue end
+					if (v.w == "weapon_ttt_cz45") then v.w = "weapon_ttt_cz75" continue end
 					try = string.gsub(v.w, "2", "1", 1)
 					if (weapons.Get(try)) then
 						v.w = try
