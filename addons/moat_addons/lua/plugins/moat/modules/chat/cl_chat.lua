@@ -519,7 +519,7 @@ function moat_chat.InitChat()
 
 						surface.SetFont "moat_CardFont2"
 						table.insert(chars, {str, surface.GetTextSize(str), true})
-                    elseif (PlayersTyping() > 2) then
+                    elseif (PlayersTyping() > 3) then
                         str = "Several  people"
 
 						surface.SetFont "moat_CardFont2"
