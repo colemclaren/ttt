@@ -51,7 +51,7 @@ MOAT_DONATE.TitlePoly = {
 }
 
 MOAT_DONATE.CurCat = 0
-MOAT_DONATE.Packages = {{"General Information", Material("icon16/information.png"), 1, 0, ""}, {"Free Rewards", Material("icon16/star.png"), 0, 0, ""}, 
+MOAT_DONATE.Packages = {{"About Beta", Material("icon16/information.png"), 1, 0, ""}, {"Free Rewards", Material("icon16/star.png"), 0, 0, ""}, 
 	{"Permanent VIP", Material("icon16/user.png"), 2, 1500, "", {{Color(255, 255, 0), "10,000", "Total Inventory Credits", ""}, {Color(255, 255, 0), "", "Earn 50% more IC when Deconstructing Items	", ""}, {Color(255, 255, 255), "VIP", "Rank In-Game & Forums", ""}, {Color(255, 255, 255), "", "Votekick Starting Access (Revokable)", ""}, {Color(255, 255, 255), "", "Access to closed beta(s)", ""}, {Color(255, 0, 0), "", "+ Whatever is Added to VIP in the Future!", ""}, {Color(255, 0, 125), "", "Thank you for supporting MG <3", ""}}}, 
 	{"2,000 IC", Material("icon16/coins.png"), 3, 500, "500 Bonus", {{Color(255, 255, 0), "2,500", "Total Inventory Credits", ""}, {Color(255, 0, 125), "", "Thank you for supporting MG <3", ""}}}, {"5,000 IC", Material("icon16/coins.png"), 4, 1000, "1,500 Bonus", {{Color(255, 255, 0), "6,500", "Total Inventory Credits", ""}, {Color(255, 0, 255), "15", "Random Crates from the Shop", ""}, /*{Color(255, 0, 0), "[LIMITED TIME]", "2 Holiday Crates!", ""},*/ {Color(255, 0, 125), "", "Thank you for supporting MG <3", ""}}}, 
 	{"12,000 IC", Material("icon16/coins.png"), 5, 2000, "3,000 Bonus", {{Color(255, 255, 0), "15,000", "Total Inventory Credits", ""}, {Color(0, 125, 255), "1", "Event Credit", ""}, {Color(255, 205, 0), "1", "Ascended Talents Mutator", ""}, /*{Color(255, 0, 0), "[LIMITED TIME]", "4 Holiday Crates!", ""},*/ {Color(255, 0, 125), "", "Thank you for supporting MG <3", ""}}}, 
@@ -77,19 +77,19 @@ end
 
 function MOAT_DONATE:DrawInfo(pnl, pkg, clr)
     pnl.Paint = function(s, w, h)
-        local txtw = draw.SimpleText("Welcome to the Supporter Shop!", "moat_NotifyTest2", w / 2, 5, Color(255, 255, 255), TEXT_ALIGN_CENTER)
+        local txtw = draw.SimpleText("Welcome to the Store", "moat_NotifyTest2", w / 2, 5, Color(255, 255, 255), TEXT_ALIGN_CENTER)
         surface.SetDrawColor(clr.r, clr.g, clr.b, 10)
         surface.DrawRect(0, 0, w, 45)
         surface.SetDrawColor(clr.r, clr.g, clr.b, 35)
         surface.SetMaterial(gradient_u)
         surface.DrawTexturedRect(0, 0, w, 45)
         surface.DrawOutlinedRect(0, 0, w, 45)
-        cdn.DrawImage("https://cdn.moat.gg/f/c692e34cf2cf12f1fd18144a148c0993.png", (w / 2) - (235 / 2), 55, 254, 235, Color(255, 255, 255, 225))
+        cdn.DrawImage("https://ttt.dev/4uKQJ.png", (w / 2) - (235 / 2), 30, 256, 256, Color(255, 255, 255, 225))
     end
 
     local lbl = vgui.Create("DLabel", pnl)
     lbl:SetPos(10, 145)
-    lbl:SetText("Here at the supporter shop, you can redeem support credits for supporting the community and automatically receive your rewards!\n\nClick any of the packages on the left to view your available rewards.\n\nYou can click the button at the top right of this menu to purchase support credits. Every contribution is greatly appreciated!\n\nDid something go wrong? Feel free to message Moat directly for assistance!\n\n")
+    lbl:SetText("Here at the credits store, you can redeem Support Credits for supporting the community and automatically receive your rewards!\n\nClick any of the packages on the left to view your available rewards.\n\nYou can click the button at the top right of this menu to purchase support credits. Every contribution is greatly appreciated!\n\nDid something go wrong? Feel free to message any of us on Discord or hit up cole#1999 directly for assistance!\n\n")
     lbl:SetWide(pnl:GetWide() - 20)
     lbl:SetWrap(true)
     lbl:SetAutoStretchVertical(true)
@@ -518,9 +518,9 @@ function MOAT_DONATE:OpenWindow()
         --draw.SimpleText("Moat", "moat_GambleTitle", 5, 1, Color(0, 25, 50))
         --draw.SimpleText("Gaming", "moat_GambleTitle", 55, 1, Color(50, 50, 50))
         draw.SimpleText("Moat", "moat_GambleTitle", 4, 0, Color(0, 198, 255))
-        draw.SimpleText("Gaming", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
+        draw.SimpleText("Beta", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
         --draw.SimpleText("Supporter Shop", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
-        draw.SimpleText("Supporter Shop", "moat_GambleTitle", 5, 20, Color(255, 255, 0))
+        draw.SimpleText("Credits Store", "moat_GambleTitle", 5, 20, Color(255, 255, 0))
         --draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 194, 6, Color(0, 0, 0))
         draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 193, 5, Color(255, 255, 255))
         --draw.SimpleText(string.Comma(MOAT_SUPPORT_CREDITS) .. " Support Credits", "moat_ItemDesc", 208, 27, Color(0, 0, 0))
@@ -600,7 +600,7 @@ function MOAT_DONATE:OpenWindow()
 
         draw.RoundedBox(4, 0, 0, w, h, Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b, 50))
         draw.RoundedBox(4, 1, 1, w - 2, h - 2, Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b, 50 + (s.LerpNum * 220)))
-        draw.SimpleTextOutlined("Get Support Credits", "moat_ItemDesc", w / 2, 8, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
+        draw.SimpleTextOutlined("Buy Support Credits", "moat_ItemDesc", w / 2, 8, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
     end
 
     g.DoClick = function(s)

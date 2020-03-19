@@ -3,7 +3,7 @@ util.AddNetworkString("moat.donate.update")
 util.AddNetworkString("moat.donate.purchase")
 
 function start_quadra_xp(nick)
-    MG_cur_event = "Quadra XP"
+    MG_cur_event = "+300% XP"
     net.Start("MapEvent")
     net.WriteString(MG_cur_event)
     net.WriteString(nick or "Someone")

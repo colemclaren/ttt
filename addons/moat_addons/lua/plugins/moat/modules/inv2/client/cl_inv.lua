@@ -1199,7 +1199,7 @@ M_INV_SLOT = {}
 M_LOAD_SLOT = {}
 M_TRADE_SLOT = {}
 
-MOAT_INV_CATS = {{"Loadout", 90}, {"Market", 90}, {"Trading", 90}, {"Gamble", 90}, /*{"Summer", 90},*/ {"Dailies", 90}, {"Settings", 90}, {"Donate", 90}}
+MOAT_INV_CATS = {{"Loadout", 90}, {"Market", 90}, {"Trading", 90}, {"Gamble", 90}, /*{"Summer", 90},*/ {"Dailies", 90}, {"Settings", 90}, {"Beta", 90}}
 function m_PaintVBar(sbar)
 
     local MT = MOAT_THEME.Themes
@@ -1967,7 +1967,7 @@ function m_OpenInventory(ply2, utrade)
         end
 
         MOAT_CAT_BTN.DoClick = function(s)
-            if (s.CatLabel == "Donate") then
+            if (s.CatLabel == "Beta") then
                 MOAT_DONATE:OpenWindow()
                 MOAT_INV_BG:Remove()
 

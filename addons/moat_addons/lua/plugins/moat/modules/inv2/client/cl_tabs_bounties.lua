@@ -342,7 +342,7 @@ net.Receive("moat.contracts",function()
 
 				chat.AddText(moat_blue, "| ", moat_yellow, "Daily Contract", moat_blue, " | ", moat_cyan, contracts_tbl.name, moat_blue, " | ", moat_green, util.Upper(util.FormatTimeSingle(unix, 0)) .. " Left")
 				if (contracts_tbl.my_score < 1) then
-					chat.AddText(moat_blue, "| ", moat_red, "You need a contract kill for a rank placing", moat_blue, " | ", moat_pink, "Top 50 Players get rewards!")
+					chat.AddText(moat_blue, "| ", moat_red, "You need a contract kill for a rank placing", moat_blue, " | ", moat_pink, "Top 50 win!")
 				else
 					chat.AddText(moat_blue, "| ", moat_white, "You are now ",
 						clr, arrow, moat_pink, "Rank " .. string.Comma(contracts_tbl.my_rank), clr, arrow, 
@@ -771,10 +771,10 @@ function m_PopulateBountiesPanel(pnl)
         surface.DrawTexturedRect(0, 0, w, 45)
 
     	draw.SimpleText("Moat", "moat_GambleTitle", 5, 1, Color(0, 25, 50))
-    	draw.SimpleText("Gaming", "moat_GambleTitle", 55, 1, Color(50, 50, 50))
+    	draw.SimpleText("Beta", "moat_GambleTitle", 55, 1, Color(50, 50, 50))
 
     	draw.SimpleText("Moat", "moat_GambleTitle", 4, 0, Color(0, 198, 255))
-    	draw.SimpleText("Gaming", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
+    	draw.SimpleText("Beta", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
 
     	draw.SimpleText("Daily Challenges", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
     	draw.SimpleText("Daily Challenges", "moat_GambleTitle", 5, 20, Color(255, 255, 0))
