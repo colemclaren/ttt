@@ -638,7 +638,7 @@ function m_SaveCredits(ply)
     if (not ply or not ply:IsValid()) then return end
     local ply_creds = table.Copy(MOAT_INVS[ply]["credits"])
     local _credits = sql.SQLStr(util.TableToJSON(ply_creds), true)
-    csq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET credits='" .. _credits .. "' WHERE steamid='" .. get_steamid(ply) .. "'")
+    csq = MINVENTORY_MYSQL:query("UPDATE core_dev_ttt SET credits='" .. _credits .. "' WHERE steamid='" .. get_steamid(ply) .. "'")
     csq:start()
 
     function csq:onError(err)
@@ -659,7 +659,7 @@ function m_SaveCredits(ply)
 end
 
 function m_SetCreditsSteamID(_credits, _steamid)
-    csq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET credits='" .. _credits .. "' WHERE steamid='" .. _steamid .. "'")
+    csq = MINVENTORY_MYSQL:query("UPDATE core_dev_ttt SET credits='" .. _credits .. "' WHERE steamid='" .. _steamid .. "'")
     csq:start()
 
     function csq:onError(err)
@@ -684,7 +684,7 @@ function m_AddCreditsToSteamID(_steamid, num_credits)
         c = 0
     }
 
-    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = '" .. _steamid .. "'")
+    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM core_dev_ttt WHERE steamid = '" .. _steamid .. "'")
 
     function query1:onSuccess(data)
         if (#data > 0) then
@@ -733,7 +733,7 @@ function m_InsertNewInventoryPlayer(ply)
         eslot2[i] = {}
     end
 
-    local fs = string.format("INSERT INTO moat_inventories ( steamid, max_slots, credits, " .. fse .. " ) VALUES ( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )", _steamid, _maxslots, _credits, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, util.TableToJSON(eslot2))
+    local fs = string.format("INSERT INTO core_dev_ttt ( steamid, max_slots, credits, " .. fse .. " ) VALUES ( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )", _steamid, _maxslots, _credits, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, eslot, util.TableToJSON(eslot2))
     iq = MINVENTORY_MYSQL:query(fs)
     iq:start()
     ply:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 100)
@@ -829,12 +829,12 @@ local march2020broke = {
 	["weapon_ttt_m4a2"] = "weapon_ttt_m4a1",
 	["weapon_ttt_m26"] = "weapon_ttt_m16",
 	["weapon_rcp220"] = "weapon_rcp120",
-	["weapon_ttt_te_2911"] = "weapon_ttt_te_2911",
+	["weapon_ttt_te_2922"] = "weapon_ttt_te_1911",
 	["weapon_ttt_dual_mac20"] = "weapon_ttt_dual_mac10"
 }
 
 function m_LoadInventoryForPlayer(ply, cb)
-    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM moat_inventories WHERE steamid = '" .. get_steamid(ply) .. "'")
+    local query1 = MINVENTORY_MYSQL:query("SELECT * FROM core_dev_ttt WHERE steamid = '" .. get_steamid(ply) .. "'")
 
     function query1:onSuccess(data)
         if (#data > 0) then
@@ -1140,7 +1140,7 @@ function m_SaveInventory(ply)
     end
 
     string1 = string1 .. "inventory='" .. sql.SQLStr(util.TableToJSON(inventory_table), true) .. "'"
-    sq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET " .. string1 .. " WHERE steamid='" .. get_steamid(ply) .. "'")
+    sq = MINVENTORY_MYSQL:query("UPDATE core_dev_ttt SET " .. string1 .. " WHERE steamid='" .. get_steamid(ply) .. "'")
     sq:start()
 
     function sq:onError(err)
@@ -1163,7 +1163,7 @@ function m_SaveMaxSlots(ply)
     if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then return end
     local max_slots = ply:GetMaxSlots() or 40
     local string1 = "max_slots=" .. max_slots
-    sq = MINVENTORY_MYSQL:query("UPDATE moat_inventories SET " .. string1 .. " WHERE steamid='" .. get_steamid(ply) .. "'")
+    sq = MINVENTORY_MYSQL:query("UPDATE core_dev_ttt SET " .. string1 .. " WHERE steamid='" .. get_steamid(ply) .. "'")
     sq:start()
 
     function sq:onError(err)
