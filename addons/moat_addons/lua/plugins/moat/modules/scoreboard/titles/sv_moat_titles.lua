@@ -287,7 +287,7 @@ net.Receive("player_card",function(l,ply)
         end
     end
 
-    local q = mdb:query("SELECT credits from moat_inventories WHERE steamid = '" .. mdb:escape(util.SteamIDFrom64(sid)) .. "';")
+    local q = mdb:query("SELECT credits from core_dev_ttt WHERE steamid = '" .. mdb:escape(util.SteamIDFrom64(sid)) .. "';")
     local info = {
         steamid = sid
     }
