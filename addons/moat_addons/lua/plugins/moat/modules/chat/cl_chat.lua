@@ -444,18 +444,21 @@ function moat_chat.Clear()
 end
 
 hook("TTTBeginRound", function()
+	local cur_round = (GetConVarNumber("ttt_round_limit")-GetGlobal("ttt_rounds_left")) + 1
 	local role_color = GetRoleColor(LocalPlayer():GetRole()) or Color(255, 255, 255)
+	chat.AddText(moat_blue, " | ", moat_pink, "Round Started", moat_blue, " | ", moat_green, "Round #" .. cur_round, moat_blue, " | ", moat_cyan, player.GetCount().." / "..game.MaxPlayers() .. " Players")
 	chat.AddText(moat_blue, " | ", moat_white, "You're playing as " .. (LocalPlayer():GetRole() == ROLE_INNOCENT and "an" or "a"), role_color, " " .. (LocalPlayer():GetRoleString() or "Terrorist") .. " ", moat_white, "this round. Good luck!")
-	chat.AddText(moat_blue, " | ", moat_white, "Beginning Round", moat_blue, " | ", moat_white, math.max(0,GetGlobal"ttt_rounds_left") .. " Rounds Left", moat_blue, " | ", moat_white, player.GetCount().."/"..game.MaxPlayers() .. " Players")
 end)
 
 hook("TTTEndRound", function()
-	chat.AddText(moat_blue, " | ", moat_white, "Ending Round...", moat_blue, " | ", moat_white, math.max(0,GetGlobal"ttt_rounds_left") .. " Rounds Left", moat_blue, " | ", moat_white, player.GetCount().."/"..game.MaxPlayers() .. " Players")
+	local cur_round = (GetConVarNumber("ttt_round_limit")-GetGlobal("ttt_rounds_left")) + 1
+	chat.AddText(moat_blue, " | ", moat_pink, "Ending Round...", moat_blue, " | ", moat_green, "Round #" .. cur_round, moat_blue, " | ", moat_cyan, player.GetCount().." / "..game.MaxPlayers() .. " Players")
 end)
 
 hook("TTTPrepareRound", function()
-	chat.AddText(moat_blue, " | ", moat_white, "You're playing on " .. game.GetMap() .. ". Invite your friends!")
-	chat.AddText(moat_blue, " | ", moat_white, "Preparing Round", moat_blue, " | ", moat_white, math.max(0,GetGlobal"ttt_rounds_left") .. " Rounds Left", moat_blue, " | ", moat_white, player.GetCount().."/"..game.MaxPlayers() .. " Players")
+	local cur_round = (GetConVarNumber("ttt_round_limit")-GetGlobal("ttt_rounds_left")) + 1
+	chat.AddText(moat_blue, " | ", moat_pink, "Preparing Round", moat_blue, " | ", moat_green, "Round #" .. cur_round, moat_blue, " | ", moat_cyan, player.GetCount().." / "..game.MaxPlayers() .. " Players")
+	chat.AddText(moat_blue, " | ", moat_orange, "You're playing on", moat_orange, " " .. game.GetMap(), moat_orange, ". Invite your Friends!")
 end)
 
 function moat_chat.InitChat()
