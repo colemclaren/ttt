@@ -258,6 +258,8 @@ function m_IniateUsableItem(num, itemtbl)
 		return
 	end
 
+    m_ChangeInventoryPanel(-2, false)
+
 	if (IsValid(M_USABLE_PNL_BG)) then M_USABLE_PNL_BG:Remove() end
     INV_SELECTED_ITEM = nil
     local sel_itm = nil
@@ -520,8 +522,6 @@ function m_IniateUsableItem(num, itemtbl)
 
         selected_cache = INV_SELECTED_ITEM
     end
-
-    m_ChangeInventoryPanel(-2, false)
 
     m_DrawItemSlot(num, itemtbl, M_USABLE_PNL_BG, (M_USABLE_PNL_BG:GetWide()/2) - 34, 115)
 

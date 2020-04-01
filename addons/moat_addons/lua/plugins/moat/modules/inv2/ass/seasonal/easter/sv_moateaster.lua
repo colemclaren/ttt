@@ -71,6 +71,10 @@ function MOAT_EASTER.SpawnRandomEasterBasket()
     ent:SetPos(pos + Vector(0, 0, 16))
    	ent:Spawn()
 
+	net.Start("moat_easter_egg")
+   	net.WriteUInt(math.random(1, 5), 4)
+   	net.Broadcast()
+
    	MOAT_EASTER.MapEggs = MOAT_EASTER.MapEggs + 1
    	MOAT_EASTER.CurEggs = MOAT_EASTER.CurEggs + 1
 
