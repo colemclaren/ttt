@@ -2192,7 +2192,7 @@ function m_OpenInventory(ply2, utrade)
     	end
 	end
 
-    local M_INV_C = vgui.Create("DButton", MOAT_INV_BG)
+    M_INV_C = vgui.Create("DButton", MOAT_INV_BG)
     M_INV_C:SetPos(MT[CurTheme].CloseB[1], MT[CurTheme].CloseB[2])
     M_INV_C:SetSize(MT[CurTheme].CloseB[3], MT[CurTheme].CloseB[4])
     M_INV_C:SetText("")
@@ -2321,6 +2321,10 @@ function m_OpenInventory(ply2, utrade)
 
 		if (IsValid(MOAT_CAT_BAR)) then
 			MOAT_CAT_BAR:MoveToFront()
+		end
+
+		if (IsValid(M_INV_C)) then
+			M_INV_C:MoveToFront()
 		end
 	end
 
