@@ -405,10 +405,10 @@ function GetItemName(data)
         ITEM_NAME_FULL = data.item and data.item.Name or "Error with Item Name"
     end
 	
-	if (data and data.item and data.item.Kind ~= "Unique" and data.Talents and data.Talents[1] and (data.Talents[1].Suffix or data.Talents[1].Name)) then
-		local suffix = (data.Talents[5] and (data.Talents[5].Suffix or data.Talents[5].Name)) or (data.Talents[4] and (data.Talents[4].Suffix or data.Talents[4].Name)) or (data.Talents[3] and (data.Talents[3].Suffix or data.Talents[3].Name)) or (data.Talents[2] and (data.Talents[2].Suffix or data.Talents[2].Name)) or (data.Talents[1].Suffix or data.Talents[1].Name)
-		ITEM_NAME_FULL = ITEM_NAME_FULL .. " of " .. suffix
-	end
+	-- if (data and data.item and data.item.Kind ~= "Unique" and data.Talents and data.Talents[1] and (data.Talents[1].Suffix or data.Talents[1].Name)) then
+	-- 	local suffix = (data.Talents[5] and (data.Talents[5].Suffix or data.Talents[5].Name)) or (data.Talents[4] and (data.Talents[4].Suffix or data.Talents[4].Name)) or (data.Talents[3] and (data.Talents[3].Suffix or data.Talents[3].Name)) or (data.Talents[2] and (data.Talents[2].Suffix or data.Talents[2].Name)) or (data.Talents[1].Suffix or data.Talents[1].Name)
+	-- 	ITEM_NAME_FULL = ITEM_NAME_FULL .. " of " .. suffix
+	-- end
 
 	if (data.n) then
 		ITEM_NAME_FULL = data.n:Replace("''", "'") -- "\"" .. data.n:Replace("''", "'") .. "\""

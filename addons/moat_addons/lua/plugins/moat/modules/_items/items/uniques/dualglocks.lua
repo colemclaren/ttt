@@ -1,7 +1,7 @@
 ITEM.ID = 13375
 ITEM.Name = "Dual Glocks"
 ITEM.Rarity = 8
-ITEM.Collection = "Easter 2019 Collection"
+ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {

@@ -1,7 +1,7 @@
 ITEM.ID = 13377
 ITEM.Name = "Dual H.U.G.E-249s"
 ITEM.Rarity = 8
-ITEM.Collection = "Easter 2019 Collection"
+ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {

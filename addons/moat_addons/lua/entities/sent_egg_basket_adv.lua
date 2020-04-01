@@ -113,21 +113,24 @@ function ENT:Think()
 				if (v ~= self.IgnoreEntity and v:IsPlayer() and v:Alive() and v:Team() ~= TEAM_SPEC and (not MOAT_BOSS_CUR or (MOAT_BOSS_CUR and v ~= MOAT_BOSS_CUR)) and not self.Grabbed) then
 					-- give item
 
-					if (EASTER.CanDoBoss() and math.random() < EASTER.BossChance) then
-						EASTER.ReadyBoss(v)
-					end
+					-- if (EASTER.CanDoBoss() and math.random() < EASTER.BossChance) then
+					-- 	EASTER.ReadyBoss(v)
+					-- end
 
+					local basket = false
 					if (math.random() < EASTER.GoldenChance) then
-						v:m_DropInventoryItem "Golden Easter Basket"
+						v:m_DropInventoryItem "Easter Basket"
+						
+						basket = true
 					else
-						v:m_DropInventoryItem "Easter Basket 2019"
+						v:m_DropInventoryItem "Easter Egg"
 					end
 
 					hook.Run("moat_Easter2019_Taken", v)
 
 					net.Start("moat_easter_basket_found")
 					net.WriteString(v:Nick())
-					net.WriteBool(true)
+					net.WriteBool(basket)
 					net.Broadcast()
 
 					self.Grabbed = true

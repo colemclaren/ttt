@@ -62,17 +62,17 @@ MOAT_DONATE.Packages = {
         function(pl)
             if pl:GetUserGroup() ~= "user" then
                 pl:m_DropInventoryItem("VIP Token")
-                net.Start"D3A.Chat2"
-                net.WriteBool(false)
-                net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "with your brand new VIP Token to use!"})
-                net.Send(pl)
+				net.Start "D3A.Chat2"
+					net.WriteBool(false)
+					net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for the VIP Token Package!"})
+				net.Send(pl)
             else
                 moat_makevip(pl:SteamID64())
                 m_AddCreditsToSteamID(pl:SteamID(), 10000)
-                net.Start"D3A.Chat2"
-                net.WriteBool(false)
-                net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "VIP Package ", Color(255, 255, 255), "with your brand new rank!"})
-                net.Send(pl)
+                net.Start "D3A.Chat2"
+					net.WriteBool(false)
+					net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for the VIP Token Package!"})
+				net.Send(pl)
             end
         end
     },
@@ -80,10 +80,12 @@ MOAT_DONATE.Packages = {
         500,
         function(pl)
             m_AddCreditsToSteamID(pl:SteamID(), 2500)
-            net.Start"D3A.Chat2"
-            net.WriteBool(false)
-            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "2,500 ", Color(255, 255, 255), "with your brand new inventory credits!"})
-            net.Send(pl)
+            
+			net.Start "D3A.Chat2"
+				net.WriteBool(false)
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "500 ", Color(255, 255, 255), "Support Credits for the 2,000 IC Package!"})
+			net.Send(pl)
+
         end
     },
     [4] = {
@@ -93,17 +95,18 @@ MOAT_DONATE.Packages = {
             local crates = m_GetActiveCrates()
             -- moat_DropHoliday(pl, 2)
 
-            -- pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
+            pl:m_DropInventoryItem("Easter 2020 Basket", "hide_chat_obtained", false, false)
             for i = 1, 15 do
                 local crate = crates[math.random(1, #crates)].Name
-                pl:m_DropInventoryItem(crate, "hide_chat_obtained", false, true)
+                pl:m_DropInventoryItem(crate, "hide_chat_obtained", false, false)
             end
 
             m_SaveInventory(pl)
-            net.Start"D3A.Chat2"
-            net.WriteBool(false)
-            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "6,500 ", Color(255, 255, 255), "with your brand new inventory credits!"})
-            net.Send(pl)
+            
+			net.Start "D3A.Chat2"
+				net.WriteBool(false)
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,000 ", Color(255, 255, 255), "Support Credits for the 5,000 IC Package!"})
+			net.Send(pl)
         end
     },
     [5] = {
@@ -113,14 +116,15 @@ MOAT_DONATE.Packages = {
             give_ec(pl, 1)
             pl:Drop20()
             -- moat_DropHoliday(pl, 4)
-            -- for i = 1, 2 do
-            -- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
-            -- end
+            for i = 1, 2 do
+				pl:m_DropInventoryItem("Easter 2020 Basket", "hide_chat_obtained", false, false)
+            end
             m_SaveInventory(pl)
-            net.Start"D3A.Chat2"
-            net.WriteBool(false)
-            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "15,000 ", Color(255, 255, 255), "with your brand new inventory credits!"})
-            net.Send(pl)
+
+			net.Start "D3A.Chat2"
+				net.WriteBool(false)
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "2,000 ", Color(255, 255, 255), "Support Credits for the 12,000 IC Package!"})
+			net.Send(pl)
         end
     },
     [6] = {
@@ -131,14 +135,15 @@ MOAT_DONATE.Packages = {
             pl:Drop50()
             -- moat_DropHoliday(pl, 12)
             -- pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
-            -- for i = 1, 6 do
-            -- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
-            -- end
+            for i = 1, 6 do
+            	pl:m_DropInventoryItem("Easter 2020 Basket", "hide_chat_obtained", false, false)
+            end
             m_SaveInventory(pl)
-            net.Start"D3A.Chat2"
-            net.WriteBool(false)
-            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "50,000 ", Color(255, 255, 255), "with your brand new inventory credits!"})
-            net.Send(pl)
+           
+			net.Start "D3A.Chat2"
+				net.WriteBool(false)
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 40,000 IC Package!"})
+			net.Send(pl)
         end
     },
     [7] = {
@@ -150,14 +155,16 @@ MOAT_DONATE.Packages = {
             -- moat_DropHoliday(pl, 25)
             -- pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
             -- pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
-            -- for i = 1, 15 do
-            -- 	pl:m_DropInventoryItem("Easter Basket 2019", "hide_chat_obtained", false, true)
-            -- end
+            for i = 1, 15 do
+            	pl:m_DropInventoryItem("Easter 2020 Basket", "hide_chat_obtained", false, false)
+            end
             m_SaveInventory(pl)
-            net.Start"D3A.Chat2"
-            net.WriteBool(false)
-            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "125,000 ", Color(255, 255, 255), "with your brand new inventory credits!"})
-            net.Send(pl)
+            
+			net.Start "D3A.Chat2"
+				net.WriteBool(false)
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "10,000 ", Color(255, 255, 255), "Support Credits for the 100,000 IC Package!"})
+			net.Send(pl)
+
         end
     },
     [8] = {
@@ -165,10 +172,10 @@ MOAT_DONATE.Packages = {
         function(pl)
             pl:m_DropInventoryItem("Dola Effect", "hide_chat_obtained", false, false)
             m_SaveInventory(pl)
-            net.Start"D3A.Chat2"
-            net.WriteBool(false)
-            net.WriteTable({"GG ", Color(86, 3, 173), "@" .. ply:Nick(), Color(255, 255, 255), ", you just advanced to level ", Color(0, 255, 0), "50 Million ", Color(255, 255, 255), "with your brand new dola effect!"})
-            net.Send(pl)
+			net.Start "D3A.Chat2"
+				net.WriteBool(false)
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the Dolla Effect Package!"})
+			net.Send(pl)
         end
     },
     [9] = {

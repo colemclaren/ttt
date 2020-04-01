@@ -1,8 +1,8 @@
 ITEM.Name = 'Aqua Pal Of Egglantis'
 ITEM.ID = 9075
-ITEM.Description = 'A special cosmetic egg from the 2018 Easter event! Right click while in loadout to customize position/size.'
+ITEM.Description = 'A rare cosmetic egg from the Easter holiday event! Right click while in loadout to customize position/size.'
 ITEM.Rarity = 8
-ITEM.Collection = 'Easter 2018 Collection'
+ITEM.Collection = 'Egg Hunt Collection'
 ITEM.Model = 'models/roblox_assets/aqua_pal_of_egglantis.mdl'
 ITEM.Attachment = 'eyes'
 function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)

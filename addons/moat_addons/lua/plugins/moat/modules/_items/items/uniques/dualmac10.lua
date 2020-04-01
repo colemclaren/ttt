@@ -1,7 +1,7 @@
 ITEM.ID = 13374
 ITEM.Name = "Dual MAC10s"
 ITEM.Rarity = 8
-ITEM.Collection = "Easter 2019 Collection"
+ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {

@@ -521,7 +521,7 @@ function m_IniateUsableItem(num, itemtbl)
         selected_cache = INV_SELECTED_ITEM
     end
 
-    m_ChangeInventoryPanel(0, false)
+    m_ChangeInventoryPanel(-2, false)
 
     m_DrawItemSlot(num, itemtbl, M_USABLE_PNL_BG, (M_USABLE_PNL_BG:GetWide()/2) - 34, 115)
 

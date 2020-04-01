@@ -1,8 +1,8 @@
 ITEM.Name = 'Leftover Egg Of Whatevers Left'
 ITEM.ID = 9158
-ITEM.Description = 'A special cosmetic egg from the 2018 Easter event! Right click while in loadout to customize position/size.'
+ITEM.Description = 'A rare cosmetic egg from the Easter holiday event! Right click while in loadout to customize position/size.'
 ITEM.Rarity = 8
-ITEM.Collection = 'Easter 2018 Collection'
+ITEM.Collection = 'Egg Hunt Collection'
 ITEM.Model = 'models/roblox_assets/leftover_egg_of_whatevers_left.mdl'
 ITEM.Attachment = 'eyes'
 function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)

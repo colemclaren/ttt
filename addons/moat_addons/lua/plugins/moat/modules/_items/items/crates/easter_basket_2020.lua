@@ -1,5 +1,5 @@
-ITEM.ID = 8998
-ITEM.Name = "Easter 2019 Basket"
+ITEM.ID = 3995
+ITEM.Name = "Easter 2020 Basket"
 ITEM.Description = "This basket contains a rare item from the Easter Collection! Right click to open"
 ITEM.Image = "https://cdn.moat.gg/f/easter_basket64.png"
 ITEM.Rarity = 8

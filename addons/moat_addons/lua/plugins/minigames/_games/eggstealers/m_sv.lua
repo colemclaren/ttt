@@ -220,7 +220,7 @@ local function moat_BossPlayerDeath(ply)
     end
 
     if (not IS_BOSS) then
-        for i = 1, #ents.FindByClass "sent_egg_basket_2019" do
+        for i = 1, #ents.FindByClass "sent_egg_basket_adv" do
             MOAT_BOSS_CUR:m_DropInventoryItem("Easter Basket 2019", nil, nil, true)
         end
         m_SaveInventory(MOAT_BOSS_CUR)
@@ -306,7 +306,7 @@ local function moat_BeginRoundBossHooks()
 
     hook.Add("tt.BeginRound", "moat_BossBeginRound", function()
         for _, pos in ipairs(EASTER.EggSpawns) do
-            local egg = ents.Create "sent_egg_basket_2019"
+            local egg = ents.Create "sent_egg_basket_adv"
             egg:SetShinesThrough(true)
             egg:SetPos(pos + Vector(0,0,22))
             egg.IgnoreEntity = MOAT_BOSS_CUR

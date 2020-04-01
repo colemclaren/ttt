@@ -2,7 +2,7 @@ ITEM.ID = 4538
 ITEM.Rarity = 9
 ITEM.Name = "The Easter Bunny"
 ITEM.Description = "Holy cowww"
-ITEM.Collection = "Easter 2019 Collection"
+ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/custom_prop/moatgaming/eastbunny/eastbunny.mdl"
 ITEM.Attachment = "eyes"
 

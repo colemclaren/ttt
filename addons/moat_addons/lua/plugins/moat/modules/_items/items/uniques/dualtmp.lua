@@ -1,7 +1,7 @@
 ITEM.ID = 13373
 ITEM.Name = "Dual TMPs"
 ITEM.Rarity = 8
-ITEM.Collection = "Easter 2019 Collection"
+ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {

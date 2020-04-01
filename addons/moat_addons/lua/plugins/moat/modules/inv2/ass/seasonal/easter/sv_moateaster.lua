@@ -57,6 +57,7 @@ function MOAT_EASTER.SpawnRandomEgg()
    	net.WriteUInt(math.random(1, 5), 4)
    	net.Broadcast()
 
+	MOAT_EASTER.MapEggs = MOAT_EASTER.MapEggs + 1
    	MOAT_EASTER.CurEggs = MOAT_EASTER.CurEggs + 1
 
 	if (MOAT_EASTER.Debug) then ServerLog "Spawned Egg" end
@@ -66,7 +67,7 @@ function MOAT_EASTER.SpawnRandomEasterBasket()
 	if (#MOAT_EASTER.SpawnPositions < 1 or GetRoundState() ~= ROUND_ACTIVE) then return end
 	local pos = MOAT_EASTER.SpawnPositions[math.random(1, #MOAT_EASTER.SpawnPositions)]
 
-	local ent = ents.Create("sent_egg_basket")
+	local ent = ents.Create("sent_egg_basket_adv")
     ent:SetPos(pos + Vector(0, 0, 16))
    	ent:Spawn()
 
@@ -81,7 +82,7 @@ local max_rounds = GetConVarNumber("ttt_round_limit")
 hook.Add("TTTBeginRound", "moat_record_easter", function()
 	if (GetGlobal("ttt_rounds_left") ~= (max_rounds - 2)) then return end
 	--if (not MOAT_EASTER.Record) then return end
-	
+
 	MOAT_EASTER.RecordPositions()
 
 	timer.Create("moat_easter_egg_record", 15, 0, function()
@@ -98,7 +99,6 @@ concommand.Add("moat_record_pos", function(ply, cmd, args)
 	MOAT_EASTER.Record = not MOAT_EASTER.Record
 end)
 
-/*
 hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
 	MOAT_EASTER.CurEggs = 0
 
@@ -109,10 +109,13 @@ hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
 		if (MOAT_EASTER.CurEggs >= 1) then return end
 		if (MOAT_EASTER.MapEggs >= MOAT_EASTER.MaxEggs) then return end
 
-		MOAT_EASTER.SpawnRandomEasterBasket()
+		if (math.random(2) == 2) then
+			MOAT_EASTER.SpawnRandomEasterBasket()
+		else
+			MOAT_EASTER.SpawnRandomEgg()
+		end
 	end)
 end)
-*/
 
 function m_DropEasterBasket(ply, amt)
 	for i = 1, amt do

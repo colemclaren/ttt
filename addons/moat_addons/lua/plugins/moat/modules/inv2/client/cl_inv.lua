@@ -979,19 +979,17 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 
             surface_SetFont(font)
             local talent_namew, talent_nameh = surface_GetTextSize(talent_name)
-            local talent_namew2, talent_nameh2 = surface_GetTextSize("Level " .. talent_level .. "")
+			surface.SetFont "moat_ItemDescSmall2"
+            local talent_namew2, talent_nameh2 = surface.GetTextSize("LEVEL " .. talent_level .. "")
             talent_col2 = Color(94, 114, 228)
             talent_alpha = Color(240, 245, 253)
 
             if (itemtbl.s.l < talent_level) then
-				draw.RoundedBox(5, 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 6, talent_nameh2, Color(44, 53, 68))
                 talent_col2 = Color(91, 98, 109)
                 talent_alpha = Color(91, 98, 109)
-            else
-				draw.RoundedBox(5, 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_namew2 + 6, talent_nameh2, Color(38, 46, 91))
-			end
+            end
 
-            m_DrawShadowedText(1, " Level " .. talent_level .. "", font, 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2, talent_col2)
+            m_DrawShadowedText(1, " LEVEL " .. talent_level .. "", "moat_ItemDescSmall2", 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2 + 3, talent_col2)
             talent_desc = talent_desc or ""
             local talent_desctbl = string.Explode("^", talent_desc)
 
@@ -1247,6 +1245,11 @@ function m_PaintVBar(sbar)
         if (s.LerpTarget > s.CanvasSize and s:GetScroll() == s.CanvasSize) then
             s.LerpTarget = s.CanvasSize
         end
+
+		local p = sbar:GetParent()
+		if (IsValid(p)) then
+			p.Scroll = newpos
+		end
     end
 
     sbar.moving = false
@@ -1382,360 +1385,376 @@ function m_OpenInventory(ply2, utrade)
     end
     --createSpring(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
 
-    M_TRADING_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-    M_TRADING_PNL:SetSize(385, MOAT_INV_BG:GetTall())
-    M_TRADING_PNL:SetPos(-385, 0)
-    M_TRADING_PNL:SetAlpha(0)
+    function m_TradingPanel()
+		if (IsValid(M_TRADING_PNL)) then
+			M_TRADING_PNL:Remove()
+		end
 
-    M_TRADING_PNL.Paint = function(s, w, h)
-        local box_x = 5
-        local box_y = 30
-        local box_w = w - (box_x * 2) - 7
-        local box_h = h - box_y - 5
-        local box_col = Color(0, 0, 0, 150)
-    end
+		M_TRADING_PNL = vgui.Create("DPanel", MOAT_INV_BG)
+		M_TRADING_PNL:SetSize(385, MOAT_INV_BG:GetTall())
+		M_TRADING_PNL:SetPos(-385, 0)
+		M_TRADING_PNL:SetAlpha(0)
 
-    M_TRADE_PLYLIST = vgui.Create("DScrollPanel", M_TRADING_PNL)
-    M_TRADE_PLYLIST:SetPos(6, 30)
-    M_TRADE_PLYLIST:SetSize(368, MOAT_INV_BG:GetTall() - 35)
-    M_TRADE_PLYLIST.Text = "Click on a player below to send them a trade request."
-    M_TRADE_PLYLIST.TextCol = 255
-    M_TRADE_PLYLIST.Paint = function(s, w, h) end
+		M_TRADING_PNL.Paint = function(s, w, h)
+			local box_x = 5
+			local box_y = 30
+			local box_w = w - (box_x * 2) - 7
+			local box_h = h - box_y - 5
+			local box_col = Color(0, 0, 0, 150)
+		end
 
-    local sbar = M_TRADE_PLYLIST:GetVBar()
-    m_PaintVBar(sbar)
+		M_TRADE_PLYLIST = vgui.Create("DScrollPanel", M_TRADING_PNL)
+		M_TRADE_PLYLIST:SetPos(6, 30)
+		M_TRADE_PLYLIST:SetSize(368, MOAT_INV_BG:GetTall() - 35)
+		M_TRADE_PLYLIST.Text = "Click on a player below to send them a trade request."
+		M_TRADE_PLYLIST.TextCol = 255
+		M_TRADE_PLYLIST.Paint = function(s, w, h) end
 
-    M_TRADE_LBL = vgui.Create("DLabel", M_TRADE_PLYLIST)
-    M_TRADE_LBL:SetPos(0, 0)
-    M_TRADE_LBL:SetFont("moat_ItemDesc")
-    M_TRADE_LBL:SetText("Click on a player below to send them a trade request.")
-    M_TRADE_LBL:SetSize(M_TRADE_PLYLIST:GetWide() - 10, 20)
-    M_TRADE_LBL:SetTextColor(MT_TCOL)
+		local sbar = M_TRADE_PLYLIST:GetVBar()
+		m_PaintVBar(sbar)
 
-    function M_TRADE_LBL:TransitionText(new, anim1, anim2, delay1)
-        local delay1 = delay1 or 0
-        self:AlphaTo(0, anim1, delay1)
+		M_TRADE_LBL = vgui.Create("DLabel", M_TRADE_PLYLIST)
+		M_TRADE_LBL:SetPos(0, 0)
+		M_TRADE_LBL:SetFont("moat_ItemDesc")
+		M_TRADE_LBL:SetText("Click on a player below to send them a trade request.")
+		M_TRADE_LBL:SetSize(M_TRADE_PLYLIST:GetWide() - 10, 20)
+		M_TRADE_LBL:SetTextColor(MT_TCOL)
 
-        timer.Simple(anim1 + delay1, function()
-			if (not IsValid(self)) then return end
-            self:SetText(new)
-        end)
+		function M_TRADE_LBL:TransitionText(new, anim1, anim2, delay1)
+			local delay1 = delay1 or 0
+			self:AlphaTo(0, anim1, delay1)
 
-        self:AlphaTo(255, anim2, anim1 + delay1)
-    end
+			timer.Simple(anim1 + delay1, function()
+				if (not IsValid(self)) then return end
+				self:SetText(new)
+			end)
 
-    M_TRADE_PLYS = vgui.Create("DIconLayout", M_TRADE_PLYLIST)
-    M_TRADE_PLYS:SetPos(0, 24)
-    M_TRADE_PLYS:SetSize(368, MOAT_INV_BG:GetTall() - 54)
-    M_TRADE_PLYS:SetSpaceX(0)
-    M_TRADE_PLYS:SetSpaceY(3)
-	M_TRADE_PLYS.Waiting = false
-    M_TRADE_PLYTBL = {}
+			self:AlphaTo(255, anim2, anim1 + delay1)
+		end
 
-    function m_AddPlayerTradeList(v)
-		for k, pnl in ipairs(M_TRADE_PLYTBL) do
-			if (IsValid(pnl) and pnl.Ply == v) then
+		M_TRADE_PLYS = vgui.Create("DIconLayout", M_TRADE_PLYLIST)
+		M_TRADE_PLYS:SetPos(0, 24)
+		M_TRADE_PLYS:SetSize(368, MOAT_INV_BG:GetTall() - 54)
+		M_TRADE_PLYS:SetSpaceX(0)
+		M_TRADE_PLYS:SetSpaceY(3)
+		M_TRADE_PLYS.Waiting = false
+		M_TRADE_PLYTBL = {}
+
+		function m_AddPlayerTradeList(v)
+			for k, pnl in ipairs(M_TRADE_PLYTBL) do
+				if (IsValid(pnl) and pnl.Ply == v) then
+					return
+				end
+			end
+
+			local hover_coloral = 0
+			local random_color_m = {math.random(255), math.random(255), math.random(255)}
+			local M_LINE = M_TRADE_PLYS:Add("DPanel")
+			M_LINE:SetSize(M_TRADE_PLYS:GetWide(), 32)
+			M_LINE.Ply = v
+			M_LINE.Stage = 0
+			M_LINE.Timer = 30
+			M_LINE.CurTimer = 1
+			M_LINE.TimerActive = false
+			M_LINE.Paint = function(s, w, h)
+				surface_SetDrawColor(0, 0, 0, 150)
+				surface_DrawRect(0, 0, w, h)
+				surface_SetDrawColor(50, 50, 50, hover_coloral)
+				surface_DrawRect(0, 0, w, h)
+				surface_SetDrawColor(62, 62, 64, 255)
+				surface_DrawOutlinedRect(0, 0, w, h)
+
+				if (s.Stage == 0) then
+					surface_DrawOutlinedRect(31, 1, 1, h - 2)
+				end
+
+				if (s.Stage == 1) then
+					if (M_LINE.TimerActive and M_LINE.CurTimer <= CurTime()) then
+						M_LINE.CurTimer = CurTime() + 1
+
+						if (M_LINE.Timer <= 0) then
+							M_TRADE_PLYS.Waiting = false
+							M_TRADE_PLYS.RequestSent = true
+							M_TRADE_PLYS:RebuildList()
+
+							return
+						end
+
+						M_LINE.Timer = M_LINE.Timer - 1
+					end
+
+					m_DrawShadowedText(1, "Trade request sent to:", "Trebuchet24", w / 2, 243, Color(240, 245, 253), TEXT_ALIGN_CENTER)
+					m_DrawShadowedText(1, (IsValid(v) and v:Nick()) or "Disconnected", "Trebuchet24", w / 2, 278, Color(0, 200, 0), TEXT_ALIGN_CENTER)
+					local ava_x, ava_y = s:GetChildren()[2]:GetPos()
+					local ava_w, ava_h = s:GetChildren()[2]:GetSize()
+					--draw_RoundedBox( 0, ava_x - 2, ava_y - 2, ava_w + 4, ava_h + 4, Color( 62, 62, 64, 255 ) )
+					local size_change = math.abs(math.sin((RealTime() - (1 * 0.1)) * 1.5))
+
+					if (size_change < 0.02) then
+						random_color_m = {math.random(255), math.random(255), math.random(255)}
+					end
+
+					surface_SetDrawColor(62, 62, 64, 255)
+					draw.NoTexture()
+					surface_DrawCircle(w / 2, 375, 50 * size_change, random_color_m[1], random_color_m[2], random_color_m[3], 255)
+					surface_DrawCircle(w / 2, 375, 34 * size_change, random_color_m[1], random_color_m[2], random_color_m[3], 255)
+					surface_DrawCircle(w / 2, 375, 17 * size_change, random_color_m[1], random_color_m[2], random_color_m[3], 255)
+					m_DrawShadowedText(1, "Waiting for them to respond... " .. s.Timer, "Trebuchet24", w / 2, 450, Color(240, 245, 253), TEXT_ALIGN_CENTER)
+				end
+			end
+
+			local M_NAME = vgui.Create("DLabel", M_LINE)
+			M_NAME:SetText(v:Nick())
+			M_NAME:SetFont("moat_ItemDesc")
+			M_NAME:SetPos(37, 2)
+			M_NAME:SetSize(M_LINE:GetWide() - 40, 28)
+			local M_AVA = vgui.Create("AvatarImage", M_LINE)
+			M_AVA:SetPos(1, 1)
+			M_AVA:SetSize(30, 30)
+			M_AVA:SetPlayer(v, 128)
+			local M_LINE_BTN = vgui.Create("DButton", M_LINE)
+			M_LINE_BTN:SetText("")
+			M_LINE_BTN:SetSize(M_LINE:GetWide(), M_LINE:GetTall())
+			M_LINE_BTN.Paint = function(s, w, h) end
+			local btn_hovered = 1
+			local btn_color_a = false
+
+			M_LINE_BTN.Think = function(s)
+				if (not s:IsHovered()) then
+					btn_hovered = 0
+					btn_color_a = false
+
+					if (hover_coloral > 0) then
+						hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
+					end
+				else
+					if (IsValid(M_INV_MENU)) then
+						if (M_INV_MENU.Hovered) then
+							btn_hovered = 0
+							btn_color_a = false
+
+							if (hover_coloral > 0) then
+								hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
+							end
+
+							return
+						end
+					end
+
+					--m_HoveredSlot = num
+
+					if (hover_coloral < 154 and btn_hovered == 0) then
+						hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
+					else
+						btn_hovered = 1
+					end
+
+					if (btn_hovered == 1) then
+						if (btn_color_a) then
+							if (hover_coloral >= 154) then
+								btn_color_a = false
+							else
+								hover_coloral = hover_coloral + (100 * FrameTime())
+							end
+						else
+							if (hover_coloral <= 50) then
+								btn_color_a = true
+							else
+								hover_coloral = hover_coloral - (100 * FrameTime())
+							end
+						end
+					end
+				end
+			end
+
+			M_LINE_BTN.DoClick = function(s)
+				if (M_LINE.Stage == 0) then
+					M_TRADE_PLYS.Waiting = true
+
+					net.Start("MOAT_SEND_TRADE_REQ")
+					net.WriteDouble(v:EntIndex())
+					net.SendToServer()
+				end
+			end
+
+			sfx.SoundEffects(M_LINE_BTN)
+			--surface.PlaySound( "UI/buttonrollover.wav" )
+			table.insert(M_TRADE_PLYTBL, M_LINE)
+		end
+
+		local lp = LocalPlayer()
+
+		function m_CheckNumPlayersList(max)
+			if (IsValid(M_TRADE_PLYS) and #M_TRADE_PLYTBL > max) then
+				for k, v in pairs(M_TRADE_PLYTBL) do
+					if (IsValid(v) and IsValid(M_TRADE_PLYS)) then
+						v:SetWide(M_TRADE_PLYS:GetWide() - 23)
+					end
+				end
+			end
+		end
+
+		function M_TRADE_PLYS:RebuildList()
+			M_TRADE_LBL:SetText("Click on a player below to send them a trade request.")
+
+			if (M_TRADE_PLYS.Waiting) then
 				return
 			end
-		end
 
-        local hover_coloral = 0
-        local random_color_m = {math.random(255), math.random(255), math.random(255)}
-        local M_LINE = M_TRADE_PLYS:Add("DPanel")
-        M_LINE:SetSize(M_TRADE_PLYS:GetWide(), 32)
-        M_LINE.Ply = v
-        M_LINE.Stage = 0
-        M_LINE.Timer = 30
-        M_LINE.CurTimer = 1
-        M_LINE.TimerActive = false
-        M_LINE.Paint = function(s, w, h)
-            surface_SetDrawColor(0, 0, 0, 150)
-            surface_DrawRect(0, 0, w, h)
-            surface_SetDrawColor(50, 50, 50, hover_coloral)
-            surface_DrawRect(0, 0, w, h)
-            surface_SetDrawColor(62, 62, 64, 255)
-            surface_DrawOutlinedRect(0, 0, w, h)
-
-            if (s.Stage == 0) then
-                surface_DrawOutlinedRect(31, 1, 1, h - 2)
-            end
-
-            if (s.Stage == 1) then
-                if (M_LINE.TimerActive and M_LINE.CurTimer <= CurTime()) then
-                    M_LINE.CurTimer = CurTime() + 1
-
-                    if (M_LINE.Timer <= 0) then
-						M_TRADE_PLYS.Waiting = false
-						M_TRADE_PLYS.RequestSent = true
-                        M_TRADE_PLYS:RebuildList()
-
-                        return
-                    end
-
-                    M_LINE.Timer = M_LINE.Timer - 1
-                end
-
-                m_DrawShadowedText(1, "Trade request sent to:", "Trebuchet24", w / 2, 243, Color(240, 245, 253), TEXT_ALIGN_CENTER)
-                m_DrawShadowedText(1, (IsValid(v) and v:Nick()) or "Disconnected", "Trebuchet24", w / 2, 278, Color(0, 200, 0), TEXT_ALIGN_CENTER)
-                local ava_x, ava_y = s:GetChildren()[2]:GetPos()
-                local ava_w, ava_h = s:GetChildren()[2]:GetSize()
-                --draw_RoundedBox( 0, ava_x - 2, ava_y - 2, ava_w + 4, ava_h + 4, Color( 62, 62, 64, 255 ) )
-                local size_change = math.abs(math.sin((RealTime() - (1 * 0.1)) * 1.5))
-
-                if (size_change < 0.02) then
-                    random_color_m = {math.random(255), math.random(255), math.random(255)}
-                end
-
-                surface_SetDrawColor(62, 62, 64, 255)
-                draw.NoTexture()
-                surface_DrawCircle(w / 2, 375, 50 * size_change, random_color_m[1], random_color_m[2], random_color_m[3], 255)
-                surface_DrawCircle(w / 2, 375, 34 * size_change, random_color_m[1], random_color_m[2], random_color_m[3], 255)
-                surface_DrawCircle(w / 2, 375, 17 * size_change, random_color_m[1], random_color_m[2], random_color_m[3], 255)
-                m_DrawShadowedText(1, "Waiting for them to respond... " .. s.Timer, "Trebuchet24", w / 2, 450, Color(240, 245, 253), TEXT_ALIGN_CENTER)
-            end
-        end
-
-        local M_NAME = vgui.Create("DLabel", M_LINE)
-        M_NAME:SetText(v:Nick())
-        M_NAME:SetFont("moat_ItemDesc")
-        M_NAME:SetPos(37, 2)
-        M_NAME:SetSize(M_LINE:GetWide() - 40, 28)
-        local M_AVA = vgui.Create("AvatarImage", M_LINE)
-        M_AVA:SetPos(1, 1)
-        M_AVA:SetSize(30, 30)
-        M_AVA:SetPlayer(v, 128)
-        local M_LINE_BTN = vgui.Create("DButton", M_LINE)
-        M_LINE_BTN:SetText("")
-        M_LINE_BTN:SetSize(M_LINE:GetWide(), M_LINE:GetTall())
-        M_LINE_BTN.Paint = function(s, w, h) end
-        local btn_hovered = 1
-        local btn_color_a = false
-
-        M_LINE_BTN.Think = function(s)
-            if (not s:IsHovered()) then
-                btn_hovered = 0
-                btn_color_a = false
-
-                if (hover_coloral > 0) then
-                    hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-                end
-            else
-                if (IsValid(M_INV_MENU)) then
-                    if (M_INV_MENU.Hovered) then
-                        btn_hovered = 0
-                        btn_color_a = false
-
-                        if (hover_coloral > 0) then
-                            hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-                        end
-
-                        return
-                    end
-                end
-
-                --m_HoveredSlot = num
-
-                if (hover_coloral < 154 and btn_hovered == 0) then
-                    hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
-                else
-                    btn_hovered = 1
-                end
-
-                if (btn_hovered == 1) then
-                    if (btn_color_a) then
-                        if (hover_coloral >= 154) then
-                            btn_color_a = false
-                        else
-                            hover_coloral = hover_coloral + (100 * FrameTime())
-                        end
-                    else
-                        if (hover_coloral <= 50) then
-                            btn_color_a = true
-                        else
-                            hover_coloral = hover_coloral - (100 * FrameTime())
-                        end
-                    end
-                end
-            end
-        end
-
-        M_LINE_BTN.DoClick = function(s)
-            if (M_LINE.Stage == 0) then
-				M_TRADE_PLYS.Waiting = true
-
-                net.Start("MOAT_SEND_TRADE_REQ")
-                net.WriteDouble(v:EntIndex())
-                net.SendToServer()
-            end
-        end
-
-		sfx.SoundEffects(M_LINE_BTN)
-        --surface.PlaySound( "UI/buttonrollover.wav" )
-        table.insert(M_TRADE_PLYTBL, M_LINE)
-    end
-
-    local lp = LocalPlayer()
-
-    function m_CheckNumPlayersList(max)
-        if (IsValid(M_TRADE_PLYS) and #M_TRADE_PLYTBL > max) then
-            for k, v in pairs(M_TRADE_PLYTBL) do
-            	if (IsValid(v) and IsValid(M_TRADE_PLYS)) then
-					v:SetWide(M_TRADE_PLYS:GetWide() - 23)
-				end
-            end
-        end
-    end
-
-    function M_TRADE_PLYS:RebuildList()
-        M_TRADE_LBL:SetText("Click on a player below to send them a trade request.")
-
-		if (M_TRADE_PLYS.Waiting) then
-			return
-		end
-
-		if (M_TRADE_PLYS.RequestSent) then
-			for _, pnl in ipairs(M_TRADE_PLYTBL) do
-				if (IsValid(pnl)) then
-					pnl:Remove()
-				end
-			end
-			
-			M_TRADE_PLYS.RequestSent = false
-		end
-
-        for k, v in SortedPairs(player.GetAll()) do
-            if (v == lp) then continue end
-        
-            if ((lp:Team() == TEAM_SPEC and v:Team() == TEAM_SPEC) or (GetRoundState() ~= ROUND_ACTIVE)) then
-                m_AddPlayerTradeList(v)
-                m_CheckNumPlayersList(13)
-            else
-				local MarkedForRemove
-
+			if (M_TRADE_PLYS.RequestSent) then
 				for _, pnl in ipairs(M_TRADE_PLYTBL) do
-					if (IsValid(pnl) and pnl.Ply == v) then
-						MarkedForRemove = _
+					if (IsValid(pnl)) then
 						pnl:Remove()
 					end
 				end
-
-				if (MarkedForRemove) then
-					table.remove(M_TRADE_PLYTBL, MarkedForRemove)
-				end
-
-				m_CheckNumPlayersList(13)
+				
+				M_TRADE_PLYS.RequestSent = false
 			end
-        end
-    end
-	
-	M_TRADE_PLYS:RebuildList()
 
-	M_TRADE_PLYS.NextThink = 0
-	M_TRADE_PLYS.Think = function(s)
-		if ((s.NextThink > CurTime()) or (MOAT_INV_CAT and MOAT_INV_CAT ~= 3) or (IsValid(MOAT_TRADE_BG))) then
-			return
+			for k, v in SortedPairs(player.GetAll()) do
+				if (v == lp) then continue end
+			
+				if ((lp:Team() == TEAM_SPEC and v:Team() == TEAM_SPEC) or (GetRoundState() ~= ROUND_ACTIVE)) then
+					m_AddPlayerTradeList(v)
+					m_CheckNumPlayersList(13)
+				else
+					local MarkedForRemove
+
+					for _, pnl in ipairs(M_TRADE_PLYTBL) do
+						if (IsValid(pnl) and pnl.Ply == v) then
+							MarkedForRemove = _
+							pnl:Remove()
+						end
+					end
+
+					if (MarkedForRemove) then
+						table.remove(M_TRADE_PLYTBL, MarkedForRemove)
+					end
+
+					m_CheckNumPlayersList(13)
+				end
+			end
 		end
+		
+		M_TRADE_PLYS:RebuildList()
 
-		s:RebuildList()
+		M_TRADE_PLYS.NextThink = 0
+		M_TRADE_PLYS.Think = function(s)
+			if ((s.NextThink > CurTime()) or (MOAT_INV_CAT and MOAT_INV_CAT ~= 3) or (IsValid(MOAT_TRADE_BG))) then
+				return
+			end
 
-		s.NextThink = CurTime() + 0.1
+			s:RebuildList()
+
+			s.NextThink = CurTime() + 0.1
+		end
 	end
 
-    --[[M_CRAFT_PNL = vgui.Create( "DPanel", MOAT_INV_BG )
-
-    M_CRAFT_PNL:SetSize( 385, MOAT_INV_BG:GetTall() )
-
-    M_CRAFT_PNL:SetPos( -385, 0 )
-
-    M_CRAFT_PNL:SetAlpha( 0 )
-
-    M_CRAFT_PNL.Paint = function( s, w, h )
-
-        local box_x = 5
-
-        local box_y = 30
-
-        local box_col = Color( 0, 0, 0, 150 )
-
-        draw_RoundedBox( 0, 5, 30, w - ( box_x * 2 ) - 7, h - box_y - 5, box_col )
-
-    end]]
     local help_pnl_w = 385 - (5 * 2) - 7
     help_pnl_h = MOAT_INV_BG:GetTall() - 30 - 5
-    M_STATS_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-    M_STATS_PNL:SetSize(385, MOAT_INV_BG:GetTall())
-    M_STATS_PNL:SetPos(-385, 0)
-    M_STATS_PNL:SetAlpha(0)
 
-    M_STATS_PNL.Paint = function(s, w, h)
-        local box_x = 5
-        local box_y = 30
-        local box_col = Color(0, 0, 0, 150)
-    end
+	function m_StatsPanel()
+		if (IsValid(M_STATS_PNL)) then
+			M_STATS_PNL:Remove()
+		end
 
-    --draw_RoundedBox( 0, 5, 30, w - ( box_x * 2 ) - 7, h - box_y - 5, box_col )
-    local M_STATS_PNL1 = vgui.Create("DPanel", M_STATS_PNL)
-    M_STATS_PNL1:SetSize(help_pnl_w - 2, help_pnl_h)
-    M_STATS_PNL1:SetPos(7, 30)
-    M_STATS_PNL1.Paint = nil
-    m_PopulateStats(M_STATS_PNL1)
+		M_STATS_PNL = vgui.Create("DPanel", MOAT_INV_BG)
+		M_STATS_PNL:SetSize(385, MOAT_INV_BG:GetTall())
+		M_STATS_PNL:SetPos(-385, 0)
+		M_STATS_PNL:SetAlpha(0)
 
-    M_SHOP_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-    M_SHOP_PNL:SetSize(385, MOAT_INV_BG:GetTall())
-    M_SHOP_PNL:SetPos(-385, 0)
-    M_SHOP_PNL:SetAlpha(0)
+		M_STATS_PNL.Paint = function(s, w, h)
+			local box_x = 5
+			local box_y = 30
+			local box_col = Color(0, 0, 0, 150)
+		end
 
-    M_SHOP_PNL.Paint = function(s, w, h)
-        --local box_x = 5
-        --local box_y = 30
-        --draw_RoundedBox(0, 5, 30, w - 10, h - 35, Color(0, 0, 0, 150))
-    end
+		--draw_RoundedBox( 0, 5, 30, w - ( box_x * 2 ) - 7, h - box_y - 5, box_col )
+		local M_STATS_PNL1 = vgui.Create("DPanel", M_STATS_PNL)
+		M_STATS_PNL1:SetSize(help_pnl_w - 2, help_pnl_h)
+		M_STATS_PNL1:SetPos(7, 30)
+		M_STATS_PNL1.Paint = nil
+		m_PopulateStats(M_STATS_PNL1)
+	end
 
-    local M_SHOP_PNL1 = vgui.Create("DScrollPanel", M_SHOP_PNL)
-    M_SHOP_PNL1:SetSize(help_pnl_w - 2, help_pnl_h)
-    M_SHOP_PNL1:SetPos(7, 30)
-    M_SHOP_PNL1.Theme = MT[CurTheme]
-    m_BuildShop(M_SHOP_PNL1, help_pnl_w - 2, help_pnl_h)
+	function m_ShopPanel()
+		if (IsValid(M_SHOP_PNL)) then
+			M_SHOP_PNL:Remove()
+		end
 
-    local sbar = M_SHOP_PNL1:GetVBar()
-    m_PaintVBar(sbar)
+		M_SHOP_PNL = vgui.Create("DPanel", MOAT_INV_BG)
+		M_SHOP_PNL:SetSize(385, MOAT_INV_BG:GetTall())
+		M_SHOP_PNL:SetPos(-385, 0)
+		M_SHOP_PNL:SetAlpha(0)
 
+		M_SHOP_PNL.Paint = function(s, w, h)
+			--local box_x = 5
+			--local box_y = 30
+			--draw_RoundedBox(0, 5, 30, w - 10, h - 35, Color(0, 0, 0, 150))
+		end
 
-    M_USABLE_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-    M_USABLE_PNL:SetSize(385, MOAT_INV_BG:GetTall())
-    M_USABLE_PNL:SetPos(-385, 0)
-    M_USABLE_PNL:SetAlpha(0)
+		local M_SHOP_PNL1 = vgui.Create("DScrollPanel", M_SHOP_PNL)
+		M_SHOP_PNL1:SetSize(help_pnl_w - 2, help_pnl_h)
+		M_SHOP_PNL1:SetPos(7, 30)
+		M_SHOP_PNL1.Theme = MT[CurTheme]
+		m_BuildShop(M_SHOP_PNL1, help_pnl_w - 2, help_pnl_h)
 
-    M_USABLE_PNL.Paint = function(s, w, h)
-        local box_x = 5
-        local box_y = 30
-        local box_col = Color(0, 0, 0, 150)
-        surface_SetDrawColor(box_col)
-        surface_DrawRect(5, 30, w - (box_x * 2) - 7, h - box_y - 5)
-    end
+		local sbar = M_SHOP_PNL1:GetVBar()
+		m_PaintVBar(sbar)
+	end
 
-    M_BOUNTY_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-    M_BOUNTY_PNL:SetSize(MOAT_INV_BG_W, MOAT_INV_BG:GetTall())
-    M_BOUNTY_PNL:SetPos(-MOAT_INV_BG_W, 0)
-    M_BOUNTY_PNL:SetAlpha(0)
-    M_BOUNTY_PNL.Paint = function(s, w, h) end
+	function m_UsablePanel()
+		if (IsValid(M_USABLE_PNL)) then
+			M_USABLE_PNL:Remove()
+		end
 
-    local M_BOUNTY_PNL_SCROLL = vgui.Create("DScrollPanel", M_BOUNTY_PNL)
-    M_BOUNTY_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
-    M_BOUNTY_PNL_SCROLL:SetPos(5, 30)
-    m_PopulateBountiesPanel(M_BOUNTY_PNL_SCROLL)
+		M_USABLE_PNL = vgui.Create("DPanel", MOAT_INV_BG)
+		M_USABLE_PNL:SetSize(385, MOAT_INV_BG:GetTall())
+		M_USABLE_PNL:SetPos(-385, 0)
+		M_USABLE_PNL:SetAlpha(0)
 
+		M_USABLE_PNL.Paint = function(s, w, h)
+			local box_x = 5
+			local box_y = 30
+			local box_col = Color(0, 0, 0, 150)
+			surface_SetDrawColor(box_col)
+			surface_DrawRect(5, 30, w - (box_x * 2) - 7, h - box_y - 5)
+		end
+	end
 
-    M_SETTINGS_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-    M_SETTINGS_PNL:SetSize(MOAT_INV_BG_W, MOAT_INV_BG:GetTall())
-    M_SETTINGS_PNL:SetPos(-MOAT_INV_BG_W, 0)
-    M_SETTINGS_PNL:SetAlpha(0)
-    M_SETTINGS_PNL.Paint = function(s, w, h) end
+	function m_BountyPanel()
+		if (IsValid(M_BOUNTY_PNL)) then
+			M_BOUNTY_PNL:Remove()
+		end
 
-    M_SETTINGS_PNL_SCROLL = vgui.Create("DScrollPanel", M_SETTINGS_PNL)
-    M_SETTINGS_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
-    M_SETTINGS_PNL_SCROLL:SetPos(5, 30)
-    m_PopulateSettingsPanel(M_SETTINGS_PNL_SCROLL)
+		M_BOUNTY_PNL = vgui.Create("DPanel", MOAT_INV_BG)
+		M_BOUNTY_PNL:SetSize(MOAT_INV_BG_W, MOAT_INV_BG:GetTall())
+		M_BOUNTY_PNL:SetPos(-MOAT_INV_BG_W, 0)
+		M_BOUNTY_PNL:SetAlpha(0)
+		M_BOUNTY_PNL.Paint = function(s, w, h) end
+
+		local M_BOUNTY_PNL_SCROLL = vgui.Create("DScrollPanel", M_BOUNTY_PNL)
+		M_BOUNTY_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
+		M_BOUNTY_PNL_SCROLL:SetPos(5, 30)
+		m_PopulateBountiesPanel(M_BOUNTY_PNL_SCROLL)
+	end
+
+	function m_SettingsPanel()
+		if (IsValid(M_SETTINGS_PNL)) then
+			M_SETTINGS_PNL:Remove()
+		end
+
+		M_SETTINGS_PNL = vgui.Create("DPanel", MOAT_INV_BG)
+		M_SETTINGS_PNL:SetSize(MOAT_INV_BG_W, MOAT_INV_BG:GetTall())
+		M_SETTINGS_PNL:SetPos(-MOAT_INV_BG_W, 0)
+		M_SETTINGS_PNL:SetAlpha(0)
+		M_SETTINGS_PNL.Paint = function(s, w, h) end
+
+		M_SETTINGS_PNL_SCROLL = vgui.Create("DScrollPanel", M_SETTINGS_PNL)
+		M_SETTINGS_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
+		M_SETTINGS_PNL_SCROLL:SetPos(5, 30)
+		m_PopulateSettingsPanel(M_SETTINGS_PNL_SCROLL)
+	end
 
     /*M_DONATE_PNL = vgui.Create("DPanel", MOAT_INV_BG)
     M_DONATE_PNL:SetSize(MOAT_INV_BG_W, MOAT_INV_BG:GetTall())
@@ -1774,96 +1793,404 @@ function m_OpenInventory(ply2, utrade)
         m_PopulateEventsMenu(M_EVENTS_LAYOUT, MOAT_INV_BG_W-10, help_pnl_h)
     end*/
 
+	function m_LoadoutPanel(init)
+		if (IsValid(M_LOADOUT_PNL)) then
+			M_LOADOUT_PNL:Remove()
+		end
 
-    M_LOADOUT_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-    M_LOADOUT_PNL:SetSize(385, MOAT_INV_BG:GetTall())
+		M_LOADOUT_PNL = vgui.Create("DPanel", MOAT_INV_BG)
+		M_LOADOUT_PNL:SetSize(385, MOAT_INV_BG:GetTall())
 
-    if (not m_utrade and not m_ply2) then
-        M_LOADOUT_PNL:SetPos(0, 0)
-    else
-        M_LOADOUT_PNL:SetPos(-M_LOADOUT_PNL:GetWide(), 0)
-        M_LOADOUT_PNL:SetAlpha(0)
-    end
+		if (not m_utrade and not m_ply2 and init) then
+			M_LOADOUT_PNL:SetPos(0, 0)
+		else
+			M_LOADOUT_PNL:SetPos(-M_LOADOUT_PNL:GetWide(), 0)
+			M_LOADOUT_PNL:SetAlpha(0)
+		end
 
-    M_LOADOUT_PNL.Paint = nil
-    M_INV_PMDL_PNL = vgui.Create("DPanel", M_LOADOUT_PNL)
-    M_INV_PMDL_PNL:SetPos(93, 70)
-    M_INV_PMDL_PNL:SetSize(192, 475)
-    M_INV_PMDL_PNL.Paint = nil
-    M_INV_PMDL = vgui.Create("MOAT_PlayerPreview", M_INV_PMDL_PNL)
-    M_INV_PMDL:SetSize(350, 550)
-    M_INV_PMDL:SetPos(-60, 0)
-	M_INV_PMDL.ShowParticles = true
-	--M_INV_PMDL.ParticleInventory = true
-    M_INV_PMDL:SetText("")
+		M_LOADOUT_PNL.Paint = nil
+		M_INV_PMDL_PNL = vgui.Create("DPanel", M_LOADOUT_PNL)
+		M_INV_PMDL_PNL:SetPos(93, 70)
+		M_INV_PMDL_PNL:SetSize(192, 475)
+		M_INV_PMDL_PNL.Paint = nil
+		M_INV_PMDL = vgui.Create("MOAT_PlayerPreview", M_INV_PMDL_PNL)
+		M_INV_PMDL:SetSize(350, 550)
+		M_INV_PMDL:SetPos(-60, 0)
+		M_INV_PMDL.ShowParticles = true
+		--M_INV_PMDL.ParticleInventory = true
+		M_INV_PMDL:SetText("")
 
-	local set_model = false
+		local set_model = false
 
-    if (m_Loadout) then
-        for i = 6, 10 do
-            if (IsValid(M_INV_PMDL) and m_Loadout[i] and m_Loadout[i].c) then
-                if (m_Loadout[i].item and m_Loadout[i].item.Kind and m_CosmeticSlots[m_Loadout[i].item.Kind]) then
-                    M_INV_PMDL:AddModel(m_Loadout[i].u, m_Loadout[i])
-                end
+		if (m_Loadout) then
+			for i = 6, 10 do
+				if (IsValid(M_INV_PMDL) and m_Loadout[i] and m_Loadout[i].c) then
+					if (m_Loadout[i].item and m_Loadout[i].item.Kind and m_CosmeticSlots[m_Loadout[i].item.Kind]) then
+						M_INV_PMDL:AddModel(m_Loadout[i].u, m_Loadout[i])
+					end
 
-                if (m_Loadout[i].item and m_Loadout[i].item.Kind == "Model") then
-                    M_INV_PMDL:SetModel(m_Loadout[i].u, m_Loadout[i])
-					set_model = true
-                end
-            end
-        end
-    end
+					if (m_Loadout[i].item and m_Loadout[i].item.Kind == "Model") then
+						M_INV_PMDL:SetModel(m_Loadout[i].u, m_Loadout[i])
+						set_model = true
+					end
+				end
+			end
+		end
 
-	if (not set_model) then
-		 M_INV_PMDL:SetModel(GetGlobal("ttt_default_playermodel") or "models/player/phoenix.mdl")
+		if (not set_model) then
+			M_INV_PMDL:SetModel(GetGlobal("ttt_default_playermodel") or "models/player/phoenix.mdl")
+		end
+
+		local M_INV_NICK = Label(LocalPlayer():Nick(), M_LOADOUT_PNL)
+		M_INV_NICK:SetFont("moat_Medium11")
+		M_INV_NICK:SetTextColor(MT[CurTheme].TextColor)
+		--M_INV_NICK:SetTextColor(Color(240, 245, 253))
+		M_INV_NICK:SetPos(4, 24)
+		M_INV_NICK:SetSize(370, 40)
+		M_INV_NICK:SetContentAlignment(5)
+		M_INV_NICK.DoClick = function(s, w, h)
+			/*net.Start("MOAT_INV_CAT")
+			net.WriteDouble(2)
+			net.SendToServer()*/
+
+			m_ChangeInventoryPanel(-1, false)
+		end
+		M_INV_NICK:SetMouseInputEnabled(true)
+		M_INV_NICK:SetCursor("hand")
+		
+		sfx.HoverSound(M_INV_NICK, sfx.Click2)
+		sfx.ClickSound(M_INV_NICK)
+
+		local M_INV_RANK = vgui.Create("DPanel", M_LOADOUT_PNL)
+		M_INV_RANK:SetPos(4, 60)
+		M_INV_RANK:SetSize(370, 12)
+
+		M_INV_RANK.Paint = function(s, w, h)
+			local cur_level = LocalPlayer():GetNW2Int("MOAT_STATS_LVL", 1)
+			if (MT_TSHADOW) then
+				m_DrawShadowedText(1, cur_level, "moat_Medium3", 24, 5, MT_TCOL, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+				m_DrawShadowedText(1, cur_level + 1, "moat_Medium3", 346, 5, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+			else
+				draw_SimpleText(cur_level, "moat_Medium3", 24, 5, MT_TCOL, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+				draw_SimpleText(cur_level + 1, "moat_Medium3", 346, 5, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+			end
+			surface_SetDrawColor(137, 137, 137, 255)
+			surface_DrawOutlinedRect(29, 2, 312, 8)
+			surface_SetDrawColor(200, 200, 200, 255)
+			surface_SetMaterial(gradient_r)
+			surface_DrawTexturedRect(30, 3, 310, 6)
+			local bar_width = 310
+			local xp_needed = cur_level * 1000
+			local cur_xp = LocalPlayer():GetNW2Int("MOAT_STATS_XP", 1)
+			local bar_times = (cur_xp / xp_needed)
+			bar_width = bar_width * bar_times
+			-- surface_SetDrawColor(255 - (255 * bar_times), 255 * bar_times, 0, 255)
+			surface_SetDrawColor(255, 255, 255)
+			surface_DrawRect(30 + bar_width, 0, 2, h)
+		end
+
+		local inv_pnl_x2 = MOAT_INV_BG:GetWide() - (350 + 14) - 18 - 5 - 78
+		M_INV_LP = vgui.Create("DPanel", M_LOADOUT_PNL)
+		M_INV_LP:SetPos(inv_pnl_x2, MOAT_INV_BG:GetTall() - 452 - 18)
+		M_INV_LP:SetSize(74, 460)
+		M_INV_LP.Paint = function(s, w, h) end
+		M_INV_LL = vgui.Create("DIconLayout", M_INV_LP)
+		M_INV_LL:SetPos(0, 0)
+		M_INV_LL:SetSize(74, 460)
+		M_INV_LL:SetSpaceX(0)
+		M_INV_LL:SetSpaceY(8)
+		local inv_pnl_x3 = 18
+		M_INV_LPA = vgui.Create("DPanel", M_LOADOUT_PNL)
+		M_INV_LPA:SetPos(inv_pnl_x3, MOAT_INV_BG:GetTall() - 452 - 18)
+		M_INV_LPA:SetSize(74, 460)
+		M_INV_LPA.Paint = function(s, w, h) end
+		M_INV_LLA = vgui.Create("DIconLayout", M_INV_LPA)
+		M_INV_LLA:SetPos(0, 0)
+		M_INV_LLA:SetSize(74, 460)
+		M_INV_LLA:SetSpaceX(0)
+		M_INV_LLA:SetSpaceY(8)
+
+		function m_CreateLoadoutSlot(num)
+			local m_ItemExists = false
+			if (not m_Loadout[num]) then return end
+
+			if (m_Loadout[num].c) then
+				m_ItemExists = true
+			end
+
+			local m_WClass = {}
+
+			if (m_ItemExists) then
+				if (m_Loadout[num].item.Image) then
+					m_WClass.WorldModel = m_Loadout[num].item.Image
+				elseif (m_Loadout[num].item.Model) then
+					m_WClass.WorldModel = m_Loadout[num].item.Model
+					m_WClass.ModelSkin = m_Loadout[num].item.Skin
+				else
+					m_WClass = weapons.Get(m_Loadout[num].w)
+				end
+			end
+
+			local hover_coloral = 0
+			local panel_to_add = M_INV_LL
+
+			if (num > 5) then
+				panel_to_add = M_INV_LLA
+			end
+
+			local m_DPanel = panel_to_add:Add("DPanel")
+			m_DPanel:SetSize(74, 84)
+
+			m_DPanel.Paint = function(s, w, h)
+				local y2 = 10
+				draw.DrawText(m_LoadoutLabels[num], "moat_Medium9", w / 2, -3, MT_TCOL, TEXT_ALIGN_CENTER)
+				surface_SetDrawColor(62, 62, 64, 255)
+				surface_DrawOutlinedRect(0, 0 + y2, w, h - y2)
+				surface_SetDrawColor(0, 0, 0, 100)
+				surface_DrawRect(1, 1 + y2, w - 2, h - 2 - y2)
+				local draw_x = 2 + 3
+				local draw_y = 2 + y2 + 3
+				local draw_w = w - 4 - 6
+				local draw_h = h - 4 - y2 - 6
+				local draw_y2 = 2 + ((h - 4) / 2) + y2 + 3
+				local draw_h2 = (h - 4) - ((h - 4) / 2) - y2 - 6
+
+				if (MT[CurTheme].LSLOT_PAINT) then
+					MT[CurTheme].LSLOT_PAINT(s, w, h, hover_coloral, m_Loadout[num])
+
+					return
+				end
+
+				surface_SetDrawColor(0, 0, 0, 100)
+				surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+				surface_SetDrawColor(50, 50, 50, hover_coloral)
+				surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+				if (not m_Inventory[num]) then return end
+
+				if (m_Loadout[num].c) then
+					surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
+					surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+					surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2].r, rarity_names[m_Loadout[num].item.Rarity][2].g, rarity_names[m_Loadout[num].item.Rarity][2].b, 100 + hover_coloral)
+					surface_SetMaterial(gradient_d)
+					surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
+				end
+
+				surface_SetDrawColor(62, 62, 64, 255)
+
+				if (m_Loadout[num].c) then
+					surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2])
+				end
+
+				surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
+				surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
+
+				if (m_Loadout[num].c) then
+					surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2].r, rarity_names[m_Loadout[num].item.Rarity][2].g, rarity_names[m_Loadout[num].item.Rarity][2].b, hover_coloral / 2)
+				end
+
+				surface_DrawOutlinedRect(3, y2 + 3, w - 6, h - y2 - 6)
+
+				local triangle = {
+					{
+						x = 6,
+						y = 6 + y2
+					},
+					{
+						x = w - 6,
+						y = w - 6 + y2
+					},
+					{
+						x = 6,
+						y = w - 6 + y2
+					}
+				}
+
+				surface_SetDrawColor(50, 50, 50, 10)
+				draw.NoTexture()
+			end
+
+			--  surface_DrawPoly( triangle )
+			local m_DPanelIcon = {}
+			m_DPanelIcon.SIcon = vgui.Create("MoatModelIcon", m_DPanel)
+			m_DPanelIcon.SIcon:SetPos(3 + 2, 10 + 3 + 2)
+			m_DPanelIcon.SIcon:SetSize(64, 64)
+			m_DPanelIcon.SIcon:SetTooltip(nil)
+
+			m_DPanelIcon.SIcon.Think = function(s)
+				s:SetTooltip(nil)
+			end
+
+			m_DPanelIcon.SIcon:SetVisible(false)
+
+			if (m_ItemExists and m_WClass) then
+				m_DPanelIcon.SIcon:SetModel(m_WClass.WorldModel, m_WClass.ModelSkin)
+				m_DPanelIcon.SIcon:SetVisible(true)
+			end
+
+			m_DPanelIcon.WModel = nil
+			m_DPanelIcon.Item = nil
+			m_DPanelIcon.MSkin = nil
+
+			if (m_ItemExists and m_WClass) then
+				if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
+					if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
+					m_DPanelIcon.SIcon.Icon:SetAlpha(0)
+				end
+
+				m_DPanelIcon.WModel = m_WClass.WorldModel
+				m_DPanelIcon.Item = m_Loadout[num]
+				if (m_WClass.ModelSkin) then
+					m_DPanelIcon.MSkin = m_WClass.ModelSkin
+				end
+			end
+
+			m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
+				if (not m_Loadout[num]) then return end
+
+				if (m_Loadout[num].c) then
+					if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
+						s.Icon:SetAlpha(0)
+						if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
+							cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
+						elseif (m_DPanelIcon.WModel:StartWith("https")) then
+							cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
+							cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+						else
+							surface_SetDrawColor(240, 245, 253, 100)
+							surface_SetMaterial(Material(m_DPanelIcon.WModel))
+							surface_DrawTexturedRect(1, 1, w, h)
+							surface_SetDrawColor(240, 245, 253, 255)
+							surface_DrawTexturedRect(0, 0, w, h)
+						end
+					else
+						s.Icon:SetAlpha(255)
+					end
+
+					local locked = false
+
+					if (m_Loadout[num].l and m_Loadout[num].l == 1) then
+						locked = true
+						surface_SetDrawColor(240, 245, 253)
+						surface_SetMaterial(mat_lock)
+						surface_DrawTexturedRect(1, 1, 16, 16)
+					end
+
+					if (m_Loadout[num].p or m_Loadout[num].p2 or m_Loadout[num].p3) then
+						surface_SetDrawColor(240, 245, 253)
+						surface_SetMaterial(mat_paint)
+						surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
+					end
+
+					if (m_Loadout[num].decon) then
+						surface_SetDrawColor(150, 0, 0, 200)
+						surface_DrawRect(0, 0, w, h)
+					end
+				end
+			end
+
+			local m_DPanelBTN = vgui.Create("DButton", m_DPanel)
+			m_DPanelBTN:SetPos(3, 10 + 3)
+			m_DPanelBTN:SetText("")
+			m_DPanelBTN:SetSize(68, 68)
+			m_DPanelBTN.Paint = function(s, w, h) end
+			--draw.DrawText( m_LoadoutLabels[num], "Trebuchet18", w / 2, h / 2 - 6, Color( 150, 150, 150, 50 ), TEXT_ALIGN_CENTER )
+			local btn_hovered = 1
+			local btn_color_a = false
+
+			m_DPanelBTN.Think = function(s)
+				if (not s:IsHovered()) then
+					btn_hovered = 0
+					btn_color_a = false
+
+					if (hover_coloral > 0) then
+						hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
+					end
+
+					if (m_HoveredSlot == (num .. "l")) then
+						HoveringSlot = false
+					end
+				else
+					if (IsValid(M_INV_MENU)) then
+						if (M_INV_MENU.Hovered) then
+							btn_hovered = 0
+							btn_color_a = false
+
+							if (hover_coloral > 0) then
+								hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
+							end
+
+							return
+						end
+					end
+
+					if (hover_coloral < 154 and btn_hovered == 0) then
+						hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
+					else
+						btn_hovered = 1
+					end
+
+					if (btn_hovered == 1) then
+						if (btn_color_a) then
+							if (hover_coloral >= 154) then
+								btn_color_a = false
+							else
+								hover_coloral = hover_coloral + (100 * FrameTime())
+							end
+						else
+							if (hover_coloral <= 50) then
+								btn_color_a = true
+							else
+								hover_coloral = hover_coloral - (100 * FrameTime())
+							end
+						end
+					end
+				end
+			end
+
+			m_DPanelBTN.OnMousePressed = function(s, key)
+				if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
+
+				if (key == MOUSE_LEFT) then
+					if (m_DPanelIcon.Item ~= nil) then
+						M_INV_DRAG = M_LOAD_SLOT[num]
+						sfx.Click1()
+						--m_DPanelIcon.SIcon:SetVisible( false )
+					end
+				end
+				if (key == MOUSE_RIGHT) then
+					if (m_DPanelIcon.Item ~= nil) then
+						m_CreateItemMenu(num, true)
+						sfx.Click2()
+					end
+				end
+			end
+
+			m_DPanelBTN.OnCursorEntered = function()
+				m_HoveredSlot = num .. "l"
+				HoveringSlot = true 
+
+				if (M_LOAD_SLOT[num].VGUI.Item and M_LOAD_SLOT[num].VGUI.Item.c) then
+					sfx.Hover()
+				end
+			end
+
+			m_DPanelBTN.OnCursorExited = function(s)
+				HoveringSlot = false
+			end
+			--surface.PlaySound( "UI/buttonrollover.wav" )
+			--table.insert(m_InventoryButtons, m_DPanelBTN)
+			local tbl = {}
+			tbl.VGUI = m_DPanelIcon
+			tbl.Slot = num .. "l"
+			M_LOAD_SLOT[num] = tbl
+		end
+
+		M_LOAD_SLOT = {}
+
+		for i = 1, 10 do
+        	m_CreateLoadoutSlot(i)
+    	end
 	end
-
-    local M_INV_NICK = Label(LocalPlayer():Nick(), M_LOADOUT_PNL)
-    M_INV_NICK:SetFont("moat_Medium11")
-    M_INV_NICK:SetTextColor(MT[CurTheme].TextColor)
-    --M_INV_NICK:SetTextColor(Color(240, 245, 253))
-    M_INV_NICK:SetPos(4, 24)
-    M_INV_NICK:SetSize(370, 40)
-    M_INV_NICK:SetContentAlignment(5)
-    M_INV_NICK.DoClick = function(s, w, h)
-        /*net.Start("MOAT_INV_CAT")
-        net.WriteDouble(2)
-        net.SendToServer()*/
-
-        m_ChangeInventoryPanel(-1, false)
-    end
-    M_INV_NICK:SetMouseInputEnabled(true)
-    M_INV_NICK:SetCursor("hand")
-	
-	sfx.HoverSound(M_INV_NICK, sfx.Click2)
-	sfx.ClickSound(M_INV_NICK)
-
-    local M_INV_RANK = vgui.Create("DPanel", M_LOADOUT_PNL)
-    M_INV_RANK:SetPos(4, 60)
-    M_INV_RANK:SetSize(370, 12)
-
-    M_INV_RANK.Paint = function(s, w, h)
-        local cur_level = LocalPlayer():GetNW2Int("MOAT_STATS_LVL", 1)
-        if (MT_TSHADOW) then
-            m_DrawShadowedText(1, cur_level, "moat_Medium3", 24, 5, MT_TCOL, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
-            m_DrawShadowedText(1, cur_level + 1, "moat_Medium3", 346, 5, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-        else
-            draw_SimpleText(cur_level, "moat_Medium3", 24, 5, MT_TCOL, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
-            draw_SimpleText(cur_level + 1, "moat_Medium3", 346, 5, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-        end
-        surface_SetDrawColor(137, 137, 137, 255)
-        surface_DrawOutlinedRect(29, 2, 312, 8)
-        surface_SetDrawColor(200, 200, 200, 255)
-        surface_SetMaterial(gradient_r)
-        surface_DrawTexturedRect(30, 3, 310, 6)
-        local bar_width = 310
-        local xp_needed = cur_level * 1000
-        local cur_xp = LocalPlayer():GetNW2Int("MOAT_STATS_XP", 1)
-        local bar_times = (cur_xp / xp_needed)
-        bar_width = bar_width * bar_times
-        surface_SetDrawColor(255 - (255 * bar_times), 255 * bar_times, 0, 255)
-        surface_DrawRect(30 + bar_width, 0, 2, h)
-    end
 
     local M_INV_C = vgui.Create("DButton", MOAT_INV_BG)
     M_INV_C:SetPos(MT[CurTheme].CloseB[1], MT[CurTheme].CloseB[2])
@@ -1897,9 +2224,8 @@ function m_OpenInventory(ply2, utrade)
 		moat_inv_cooldown = CurTime() + 1
     end
 
-    //MOAT_INV_CATS = {{"Loadout", 90}, {"Player", 90}, {"Trading", 90}, {"Shop", 90}, {"Gamble", 90}, {"Bounties", 90}, {"Settings", 90}}
+	MOAT_INV_BG.Cat = {}
     local CAT_WIDTHS = 0
-
     for k, v in ipairs(MOAT_INV_CATS) do
         local MOAT_CAT_BTN = vgui.Create("DButton", MOAT_INV_BG)
         MOAT_CAT_BTN:SetText("")
@@ -1982,15 +2308,29 @@ function m_OpenInventory(ply2, utrade)
         sfx.SoundEffects(MOAT_CAT_BTN)
 
         CAT_WIDTHS = CAT_WIDTHS + MOAT_CAT_BTN:GetWide() + MT[CurTheme].CatSpacing
+
+		table.insert(MOAT_INV_BG.Cat, MOAT_CAT_BTN)
     end
 
-    local CAT_BAR = vgui.Create("DPanel", MOAT_INV_BG)
-    CAT_BAR:SetSize(MT[CurTheme].CatInfo[2] * #MOAT_INV_CATS, 2)
-    CAT_BAR:SetPos(MT[CurTheme].CatSpacing, 24)
-    CAT_BAR.cat_num = #MOAT_INV_CATS
-    CAT_BAR.cur_cat = MOAT_INV_CAT
-    CAT_BAR.new_cat = MOAT_INV_CAT
-    CAT_BAR.Paint = function(s, w, h)
+	function m_InventoryCat()
+		for k, v in ipairs(MOAT_INV_BG.Cat) do
+			if (IsValid(v)) then
+				v:MoveToFront()
+			end
+		end
+
+		if (IsValid(MOAT_CAT_BAR)) then
+			MOAT_CAT_BAR:MoveToFront()
+		end
+	end
+
+    MOAT_CAT_BAR = vgui.Create("DPanel", MOAT_INV_BG)
+    MOAT_CAT_BAR:SetSize(MT[CurTheme].CatInfo[2] * #MOAT_INV_CATS, 2)
+    MOAT_CAT_BAR:SetPos(MT[CurTheme].CatSpacing, 24)
+    MOAT_CAT_BAR.cat_num = #MOAT_INV_CATS
+    MOAT_CAT_BAR.cur_cat = MOAT_INV_CAT
+    MOAT_CAT_BAR.new_cat = MOAT_INV_CAT
+    MOAT_CAT_BAR.Paint = function(s, w, h)
         if (MT[CurTheme].CATBAR_PAINT) then
             MT[CurTheme].CATBAR_PAINT(s, w, h)
         end
@@ -2086,97 +2426,522 @@ function m_OpenInventory(ply2, utrade)
     local inv_pnl_x = MOAT_INV_BG_W - 364 - 5
     local inv_pnl_y = 30
 
-    local M_INV_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-    M_INV_PNL:SetPos(inv_pnl_x, 30)
-    M_INV_PNL:SetSize(364, 515)
-    M_INV_PNL.Theme = MT[CurTheme]
-    M_INV_PNL.Paint = function(s, w, h)
-        if (MT[CurTheme].INV_PANEL_PAINT) then
-            MT[CurTheme].INV_PANEL_PAINT(s, w, h)
-        end
-    end
+	function m_InventoryPanel()
+		if (IsValid(M_INV_PNL)) then
+			M_INV_PNL:Remove()
+		end
 
-    if (disable_freeic:GetInt() == 0) then
-        local M_INV_FREE = vgui.Create("DButton", M_INV_PNL)
-        M_INV_FREE:SetPos(364 - 130, 0)
-        M_INV_FREE:SetSize(130, 13)
-        M_INV_FREE:SetText("")
-        M_INV_FREE.Paint = function(s, w, h)
-            DisableClipping(true)
-				draw.SimpleTextOutlined("GET FREE CREDITS!!", "moat_ItemDesc", w, -2, HSVToColor(CurTime() * 70 % 360, 1, 1), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 100))
-			DisableClipping(false)
-        end
-        M_INV_FREE.DoClick = function(s)
-            --MOAT_INV_BG:Remove()
-            
-            MOAT_FORUMS:OpenWindow()
-        end
-		sfx.SoundEffects(M_INV_FREE)
-    end
-    
-    local M_INV_SP = vgui.Create("DScrollPanel", M_INV_PNL)
-    M_INV_SP:SetPos(0, 27)
-    M_INV_SP:SetSize(364, 488)
-    M_INV_SP.Icons = 0
-    M_INV_SP.Paint = function(s, w, h)
-        if (s.Icons == 0) then
-            surface_SetFont("GModNotify")
-            surface_SetTextColor(240, 245, 253)
-            surface_SetTextPos(10, 10)
-            surface_DrawText("Your inventory is loading friend <3 ..")
-        end
+		M_INV_PNL = vgui.Create("DPanel", MOAT_INV_BG)
+		M_INV_PNL:SetPos(inv_pnl_x, 30)
+		M_INV_PNL:SetSize(364, 515)
+		M_INV_PNL.Theme = MT[CurTheme]
+		M_INV_PNL.Paint = function(s, w, h)
+			if (MT[CurTheme].INV_PANEL_PAINT) then
+				MT[CurTheme].INV_PANEL_PAINT(s, w, h)
+			end
+		end
 
-        surface_SetDrawColor(62, 62, 64, 255)
-        surface_DrawOutlinedRect(0, 0, w, h)
-        surface_SetDrawColor(0, 0, 0, 100)
-        surface_DrawRect(1, 1, w - 2, h - 2)
-    end
+		if (disable_freeic:GetInt() == 0) then
+			local M_INV_FREE = vgui.Create("DButton", M_INV_PNL)
+			M_INV_FREE:SetPos(364 - 130, 0)
+			M_INV_FREE:SetSize(130, 13)
+			M_INV_FREE:SetText("")
+			M_INV_FREE.Paint = function(s, w, h)
+				DisableClipping(true)
+					draw.SimpleTextOutlined("GET FREE CREDITS!!", "moat_ItemDesc", w, -2, HSVToColor(CurTime() * 70 % 360, 1, 1), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 100))
+				DisableClipping(false)
+			end
+			M_INV_FREE.DoClick = function(s)
+				--MOAT_INV_BG:Remove()
+				
+				MOAT_FORUMS:OpenWindow()
+			end
+			sfx.SoundEffects(M_INV_FREE)
+		end
 
-    M_INV_SP.PaintOver = function(s, w, h)
-        surface_SetDrawColor(62, 62, 64, 255)
-        surface_DrawOutlinedRect(0, 0, w, h)
-    end
+		M_INV_SP = vgui.Create("DScrollPanel", M_INV_PNL)
+		M_INV_SP:SetPos(0, 27)
+		M_INV_SP:SetSize(364, 488)
+		M_INV_SP.Icons = 0
+		M_INV_SP.Paint = function(s, w, h)
+			if (s.Icons == 0) then
+				surface_SetFont("GModNotify")
+				surface_SetTextColor(240, 245, 253)
+				surface_SetTextPos(10, 10)
+				surface_DrawText("Your inventory is loading friend <3 ..")
+			end
 
-    local sbar = M_INV_SP:GetVBar()
-    m_PaintVBar(sbar)
+			surface_SetDrawColor(62, 62, 64, 255)
+			surface_DrawOutlinedRect(0, 0, w, h)
+			surface_SetDrawColor(0, 0, 0, 100)
+			surface_DrawRect(1, 1, w - 2, h - 2)
+		end
 
-    local M_INV_L = vgui.Create("DIconLayout", M_INV_SP)
-    M_INV_L:SetPos(3, 3)
-    M_INV_L:SetSize(350, 488)
-    M_INV_L:SetSpaceX(1)
-    M_INV_L:SetSpaceY(1)
-    M_INV_L.OldAdd = M_INV_L.Add
-    M_INV_L.Add = function(s, ...)
-        M_INV_SP.Icons = M_INV_SP.Icons + 1
+		M_INV_SP.PaintOver = function(s, w, h)
+			surface_SetDrawColor(62, 62, 64, 255)
+			surface_DrawOutlinedRect(0, 0, w, h)
+		end
 
-        return s.OldAdd(s, ...)
-    end
+		local sbar = M_INV_SP:GetVBar()
+		m_PaintVBar(sbar)
 
-    local M_INV_PNL_EXTND = vgui.Create("DButton", M_INV_PNL)
-    M_INV_PNL_EXTND:SetPos(0, 0)
-    M_INV_PNL_EXTND:SetSize(125, 25)
-    M_INV_PNL_EXTND:SetText ""
-    M_INV_PNL_EXTND.Extend = 0
-    M_INV_PNL_EXTND.Extended = false
-    M_INV_PNL_EXTND.Paint = function(s, w, h)
-        s.Extend = Lerp(FrameTime() * 8, s.Extend, s:IsHovered() and 1 or 0)
+		M_INV_L = vgui.Create("DIconLayout", M_INV_SP)
+		M_INV_L:SetPos(3, 3)
+		M_INV_L:SetSize(350, 488)
+		M_INV_L:SetSpaceX(1)
+		M_INV_L:SetSpaceY(1)
+		M_INV_L.OldAdd = M_INV_L.Add
+		M_INV_L.Add = function(s, ...)
+			M_INV_SP.Icons = M_INV_SP.Icons + 1
 
-        draw_RoundedBox(4, 0, 0, w, h, Color(0, 0, 0, 100 * s.Extend))
-        draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2 + (23 * s.Extend), 0, MT[CurTheme].TextColor or Color(235, 235, 235), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
+			return s.OldAdd(s, ...)
+		end
 
-        surface_SetDrawColor(MT[CurTheme].TextColor.r or 255, MT[CurTheme].TextColor.g or 255, MT[CurTheme].TextColor.b or 255, 255 * s.Extend)
-        draw_NoTexture()
+		M_INV_PNL_EXTND = vgui.Create("DButton", M_INV_PNL)
+		M_INV_PNL_EXTND:SetPos(0, 0)
+		M_INV_PNL_EXTND:SetSize(125, 25)
+		M_INV_PNL_EXTND:SetText ""
+		M_INV_PNL_EXTND.Extend = 0
+		M_INV_PNL_EXTND.Extended = false
+		M_INV_PNL_EXTND.Paint = function(s, w, h)
+			s.Extend = Lerp(FrameTime() * 8, s.Extend, s:IsHovered() and 1 or 0)
 
-        local e = 12 * s.Extend
-        surface_DrawLine(e, s.Extended and 12 - 5 or 12, 6 + e, s.Extended and 13 or 12 - 6)
-        surface_DrawLine(e, s.Extended and 12 + 5 or 12, 6 + e, s.Extended and 11 or 12 + 6)
-    end
-    M_INV_PNL_EXTND.DoClick = function(s, w, h)
-        s.Extended = not s.Extended
-        m_ChangeInventoryPanel(s.Extended and "extend" or MOAT_INV_CAT, IsValid(MOAT_TRADE_BG) and true or false)
-    end
-	sfx.HoverSound(M_INV_PNL_EXTND, sfx.Click2)
-	sfx.ClickSound(M_INV_PNL_EXTND)
+			draw_RoundedBox(4, 0, 0, w, h, Color(0, 0, 0, 100 * s.Extend))
+			draw_SimpleTextOutlined("Inventory", "moat_Trebuchet", 2 + (23 * s.Extend), 0, MT[CurTheme].TextColor or Color(235, 235, 235), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, Color(0, 0, 0, 25))
+
+			surface_SetDrawColor(MT[CurTheme].TextColor.r or 255, MT[CurTheme].TextColor.g or 255, MT[CurTheme].TextColor.b or 255, 255 * s.Extend)
+			draw_NoTexture()
+
+			local e = 12 * s.Extend
+			surface_DrawLine(e, s.Extended and 12 - 5 or 12, 6 + e, s.Extended and 13 or 12 - 6)
+			surface_DrawLine(e, s.Extended and 12 + 5 or 12, 6 + e, s.Extended and 11 or 12 + 6)
+		end
+		M_INV_PNL_EXTND.DoClick = function(s, w, h)
+			m_ChangeInventoryPanel(s.Extended and 1 or 0, IsValid(MOAT_TRADE_BG) and true or false)
+			s.Extended = not s.Extended
+		end
+
+		sfx.HoverSound(M_INV_PNL_EXTND, sfx.Click2)
+		sfx.ClickSound(M_INV_PNL_EXTND)
+
+		function m_CreateInvSlot(num)
+			local m_ItemExists = false
+
+			if (m_Inventory[num].c) then
+				m_ItemExists = true
+			end
+
+			local m_WClass = {}
+
+			if (m_ItemExists) then
+				if (m_Inventory[num].item.Image) then
+					m_WClass.WorldModel = m_Inventory[num].item.Image
+				elseif (m_Inventory[num].item.Model) then
+					m_WClass.WorldModel = m_Inventory[num].item.Model
+					m_WClass.ModelSkin = m_Inventory[num].item.Skin
+				else
+					m_WClass = weapons.Get(m_Inventory[num].w)
+				end
+			end
+
+			local hover_coloral = 0
+			local m_DPanel = M_INV_L:Add("DPanel")
+			m_DPanel:SetSize(68, 68)
+
+			m_DPanel.Paint = function(s, w, h)
+				local slot_x, slot_y = s:GetPos()
+
+				if ((M_INV_SP.Scroll > (slot_y + h)) or (slot_y > (M_INV_SP.Scroll + 480))) then
+					return
+				end
+
+				if (MT[CurTheme].SLOT_PAINT) then
+					MT[CurTheme].SLOT_PAINT(s, w, h, hover_coloral, m_Inventory[num])
+
+					return
+				end
+
+				local draw_x = 2
+				local draw_y = 2
+				local draw_w = w - 4
+				local draw_h = h - 4
+				local draw_y2 = 2 + ((h - 4) / 2)
+				local draw_h2 = (h - 4) - ((h - 4) / 2)
+				surface_SetDrawColor(0, 0, 0, 100)
+				surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+				surface_SetDrawColor(50, 50, 50, hover_coloral)
+				surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+				if (not m_Inventory[num]) then return end
+
+				if (m_Inventory[num].c and m_Inventory[num].item and m_Inventory[num].item.Rarity) then
+					surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
+					surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+
+					if (m_Inventory[num].l and m_Inventory[num].l == 1) then
+						surface_SetDrawColor(240, 245, 253, 50)
+						surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+					end
+
+					surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2].r, rarity_names[m_Inventory[num].item.Rarity][2].g, rarity_names[m_Inventory[num].item.Rarity][2].b, 100 + hover_coloral)
+					surface_SetMaterial(gradient_d)
+					surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
+				end
+
+				surface_SetDrawColor(62, 62, 64, 255)
+
+				if (m_Inventory[num].c and m_Inventory[num].item and m_Inventory[num].item.Rarity) then
+					surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2])
+				end
+
+				surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
+				surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
+			end
+
+			--  surface_DrawPoly( triangle )
+			local m_DPanelIcon = {}
+			m_DPanelIcon.SIcon = vgui.Create("MoatModelIcon", m_DPanel)
+			m_DPanelIcon.SIcon:SetPos(2, 2)
+			m_DPanelIcon.SIcon:SetSize(64, 64)
+			m_DPanelIcon.SIcon:SetTooltip(nil)
+
+			m_DPanelIcon.SIcon.Think = function(s)
+				s:SetTooltip(nil)
+			end
+
+			m_DPanelIcon.SIcon.PaintOver = function(self, w, h)
+				if (not M_INV_SLOT[num]) then
+					return
+				end
+
+				local s = M_INV_SLOT[num].VGUI
+				if (s.Item and s.Item.item) then
+					local icon = s.Item.item.Image
+					if (not icon and s.Item.w) then
+						icon = util.GetWeaponModel(s.Item.w)
+					elseif (not icon and s.Item.item.Model) then
+						icon = s.Item.item.Model
+					end
+
+					if (icon and not string.EndsWith(icon, ".mdl")) then
+						-- s.Icon:SetAlpha(0)
+						if (s.Item.item and s.Item.item.Clr) then
+							cdn.DrawImage(icon, 0, 0, w, h, {r = s.Item.item.Clr[1], g = s.Item.item.Clr[2], b = s.Item.item.Clr[3], a = 255})
+						elseif (icon:StartWith("https")) then
+							cdn.DrawImage(icon, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
+							cdn.DrawImage(icon, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+						else
+							surface_SetDrawColor(240, 245, 253, 100)
+							surface_SetMaterial(Material(icon))
+							surface_DrawTexturedRect(1, 1, w, h)
+							surface_SetDrawColor(240, 245, 253, 255)
+							surface_DrawTexturedRect(0, 0, w, h)
+						end
+					else
+						-- s.Icon:SetAlpha(255)
+					end
+
+					local locked = false
+
+					if (m_Inventory[num].l and m_Inventory[num].l == 1) then
+						locked = true
+						surface_SetDrawColor(240, 245, 253)
+						surface_SetMaterial(mat_lock)
+						surface_DrawTexturedRect(1, 1, 16, 16)
+					end
+
+					if (m_Inventory[num].p or m_Inventory[num].p2 or m_Inventory[num].p3) then
+						surface_SetDrawColor(240, 245, 253)
+						surface_SetMaterial(mat_paint)
+						surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
+					end
+
+					if (m_Inventory[num].decon) then
+						surface_SetDrawColor(150, 0, 0, 200)
+						surface_DrawRect(0, 0, w, h)
+					end
+				end
+			end
+
+			local m_DPanelBTN = vgui.Create("DButton", m_DPanel)
+			m_DPanelBTN:SetText("")
+			m_DPanelBTN:SetSize(68, 68)
+			m_DPanelBTN.Paint = function(s, w, h) end
+			local btn_hovered = 1
+			local btn_color_a = false
+
+			m_DPanelBTN.Think = function(s)
+				if (not s:IsHovered()) then
+					btn_hovered = 0
+					btn_color_a = false
+
+					if (hover_coloral > 0) then
+						hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
+					end
+
+					if (m_HoveredSlot == num) then
+						HoveringSlot = false
+					end
+				else
+					if (IsValid(M_INV_MENU)) then
+						if (M_INV_MENU.Hovered) then
+							btn_hovered = 0
+							btn_color_a = false
+
+							if (hover_coloral > 0) then
+								hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
+							end
+
+							return
+						end
+					end
+
+					--m_HoveredSlot = num
+
+					if (hover_coloral < 154 and btn_hovered == 0) then
+						hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
+					else
+						btn_hovered = 1
+					end
+
+					if (btn_hovered == 1) then
+						if (btn_color_a) then
+							if (hover_coloral >= 154) then
+								btn_color_a = false
+							else
+								hover_coloral = hover_coloral + (100 * FrameTime())
+							end
+						else
+							if (hover_coloral <= 50) then
+								btn_color_a = true
+							else
+								hover_coloral = hover_coloral - (100 * FrameTime())
+							end
+						end
+					end
+				end
+			end
+			
+			m_DPanelBTN.OnMousePressed = function(s, key)
+				if (crate_wait > CurTime() or IsValid(MOAT_CRATE_BG)) then return end
+
+				if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
+				
+				if (INV_SELECT_MODE) then
+					if (m_Inventory[num].c and key == MOUSE_LEFT and INV_SELECTED_ITEM ~= num) then
+						INV_SELECTED_ITEM = num
+					end
+
+					return
+				end
+
+				if (key == MOUSE_LEFT and input.IsKeyDown(KEY_LCONTROL) and m_Inventory[num].c) then
+					if (m_Inventory[num].l and m_Inventory[num].l == 1) then return end
+					if (m_Inventory[num].item and m_Inventory[num].item.Rarity and m_Inventory[num].item.Rarity > 5) then return end
+					
+					moat_RemoveEditPositionPanel()
+
+					if (m_Inventory[num].decon) then
+						m_Inventory[num].decon = false
+						MOAT_ITEMS_DECON_MARKED = math.Clamp(MOAT_ITEMS_DECON_MARKED - 1, 0, 1000)
+					else
+						m_Inventory[num].decon = true
+						MOAT_ITEMS_DECON_MARKED = math.Clamp(MOAT_ITEMS_DECON_MARKED + 1, 0, 1000)
+						m_DrawDeconButton(MOAT_INV_BG)
+					end
+
+					if (input.IsKeyDown(KEY_LSHIFT)) then
+						if (MOAT_DECONSTRUCT_ITEMS_START ~= 0) then
+							MOAT_DECONSTRUCT_ITEMS_END = num
+
+							for i = MOAT_DECONSTRUCT_ITEMS_START, MOAT_DECONSTRUCT_ITEMS_END do
+								if ((m_Inventory[i].l and m_Inventory[i].l == 1) or not m_Inventory[i].c) then continue end
+
+								if (not m_Inventory[i].decon) then
+									MOAT_ITEMS_DECON_MARKED = MOAT_ITEMS_DECON_MARKED + 1
+								end
+								m_Inventory[i].decon = true
+							end
+						end
+
+						if (MOAT_DECONSTRUCT_ITEMS_START == 0) then
+							MOAT_DECONSTRUCT_ITEMS_START = num
+						elseif (MOAT_DECONSTRUCT_ITEMS_END ~= 0) then
+							MOAT_DECONSTRUCT_ITEMS_START = 0
+							MOAT_DECONSTRUCT_ITEMS_END = 0
+						end
+
+					end
+
+					return
+				end
+
+				if (key == MOUSE_LEFT) then
+					if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
+						M_INV_DRAG = M_INV_SLOT[num]
+						sfx.Click1()
+					end
+				end
+
+				if (key == MOUSE_RIGHT) then
+					if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
+						m_CreateItemMenu(num, false)
+						sfx.Click2()
+					end
+				end
+			end
+
+			m_DPanelBTN.OnCursorEntered = function(s)
+				m_HoveredSlot = num
+				HoveringSlot = true
+
+				if (input.IsMouseDown(MOUSE_LEFT) and input.IsKeyDown(KEY_LCONTROL) and m_Inventory[num].c and not INV_SELECT_MODE) then
+					s.OnMousePressed(s, MOUSE_LEFT)
+				end
+
+				if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
+					sfx.Hover()
+				end
+			end
+
+			m_DPanelBTN.OnCursorExited = function(s)
+				HoveringSlot = false
+			end
+			--surface.PlaySound( "UI/buttonrollover.wav" )
+			--table.insert(m_InventoryButtons, m_DPanelBTN)
+			local tbl = {}
+			tbl.ComfyNest = m_DPanelIcon.SIcon
+			tbl.Render = m_DPanelIcon.SIcon.Icon
+			tbl.VGUI = m_DPanelIcon
+			tbl.Slot = num
+			M_INV_SLOT[num] = tbl
+		end
+
+		function m_HandleLayoutSpacing(remove)
+			if (remove) then
+				if (IsValid(M_INV_L.Spacing)) then M_INV_L.Spacing:Remove() end
+				return
+			end
+
+			if (IsValid(M_INV_L)) then
+				M_INV_L.Spacing = M_INV_L:Add("DPanel")
+				M_INV_L.Spacing:SetSize(676, 2)
+				M_INV_L.Spacing.Paint = nil
+			end
+		end
+
+		function m_CreateNewInvSlot(num, noscroll)
+			m_HandleLayoutSpacing(true)
+			m_CreateInvSlot(num)
+			m_HandleLayoutSpacing()
+
+			if (not IsValid(M_INV_SP) or noscroll) then return end
+			M_INV_SP.VBar.ScrollOnExtend = true
+			local s = M_INV_SP.VBar.CanvasSize
+			M_INV_SP.VBar.LerpTarget = s
+			M_INV_SP.VBar:SetScroll(s)
+		end
+
+		function m_CreateInventorySlots(noscroll, start, stop)
+			if (not m_isUsingInv()) then
+				return
+			end
+
+			start = start or 1
+			stop = stop or LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 0)
+			for i = start, stop do
+				if (not m_Inventory[i]) then
+					MsgC(Color(255, 0, 0), "Couldn't create slot " .. i .. " in your inventory.\n")
+					m_Inventory[i] = {decon = false}
+				end
+
+				if (not M_INV_SLOT[i]) then
+					m_CreateNewInvSlot(i, noscroll)
+
+					if (m_Inventory[i] and not m_Inventory[i].c) then
+						M_INV_SLOT[i].ComfyNest:SetVisible(false)
+						M_INV_SLOT[i].Render:SetVisible(false)
+					end
+				elseif (m_isUsingInv() and M_INV_SLOT[i] and m_Inventory[i] and m_Inventory[i].c) then
+					M_INV_SLOT[i].ComfyNest:SetVisible(true)
+					M_INV_SLOT[i].Render:SetVisible(true)
+				end
+
+				if (M_INV_SLOT[i]) then
+					M_INV_SLOT[i].ComfyNest.Item = m_Inventory[i]
+					M_INV_SLOT[i].Render.Item = m_Inventory[i]
+					M_INV_SLOT[i].VGUI.Item = m_Inventory[i]
+				end
+
+				if (not m_Inventory[i].c and m_isUsingInv()) then
+					M_INV_SLOT[i].ComfyNest:SetVisible(false)
+					M_INV_SLOT[i].Render:SetVisible(false)
+
+					continue
+				end
+
+				if (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Image) then
+					M_INV_SLOT[i].VGUI.WModel = m_Inventory[i].item.Image
+					M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
+					M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
+					M_INV_SLOT[i].ComfyNest:SetVisible(true)
+					M_INV_SLOT[i].Render:SetVisible(true)
+					M_INV_SLOT[i].ComfyNest:SetAlpha(255)
+					M_INV_SLOT[i].Render:SetAlpha(0)
+				end
+
+				if (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Model and not m_Inventory[i].item.Image) then
+					if (not IsValid(M_INV_SLOT[i].Render)) then
+						M_INV_SLOT[i].VGUI.SIcon:CreateIcon(n)
+						M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
+					end
+
+					M_INV_SLOT[i].VGUI.WModel = m_Inventory[i].item.Model
+					M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
+					M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
+					
+					M_INV_SLOT[i].ComfyNest:SetVisible(true)
+					M_INV_SLOT[i].Render:SetVisible(true)
+					M_INV_SLOT[i].ComfyNest:SetAlpha(255)
+					M_INV_SLOT[i].Render:SetAlpha(255)
+
+					M_INV_SLOT[i].VGUI.SIcon:SetModel(m_Inventory[i].item.Model)
+				elseif (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].w and not m_Inventory[i].item.Image) then
+					if (not IsValid(M_INV_SLOT[i].Render)) then
+						M_INV_SLOT[i].VGUI.SIcon:CreateIcon(n)
+						M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
+					end
+
+					M_INV_SLOT[i].VGUI.WModel = util.GetWeaponModel(m_Inventory[i].w)
+					M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
+					M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
+
+					M_INV_SLOT[i].ComfyNest:SetVisible(true)
+					M_INV_SLOT[i].Render:SetVisible(true)
+					M_INV_SLOT[i].ComfyNest:SetAlpha(255)
+					M_INV_SLOT[i].Render:SetAlpha(255)
+
+					M_INV_SLOT[i].VGUI.SIcon:SetModel(util.GetWeaponModel(m_Inventory[i].w))
+				end
+			end
+		end
+
+		M_INV_SLOT = {}
+
+		if (m_CreateInventorySlots) then
+			m_HandleLayoutSpacing(true)
+			m_CreateInventorySlots(true, 1, 35)
+		end
+
+		M_INV_L.LoadedSlot = 0
+		M_INV_L.LoadingSlot = 35
+		M_INV_L.FinishedSlot = LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 0)
+		M_INV_L.Think = function(s)
+			if (s.LoadingSlot < s.FinishedSlot) then
+				s.LoadingSlot = s.LoadingSlot + 1
+				m_CreateInventorySlots(true, s.LoadingSlot, s.LoadingSlot)
+			end
+		end
+	end
 
     /*M_LOADOUT_PNL:MoveTo(-M_LOADOUT_PNL:GetWide(), 0, 0.15, 0, -1)
     M_LOADOUT_PNL:AlphaTo(0, 0.15)
@@ -2194,21 +2959,27 @@ function m_OpenInventory(ply2, utrade)
         moat_RemoveEditPositionPanel()
 
         if (cat == 3) then
+			if (not IsValid(M_TRADING_PNL)) then
+				m_TradingPanel()
+			end
+
             if (trading and IsValid(MOAT_TRADE_BG)) then
                 local inv_x, inv_y = MOAT_INV_BG:GetPos()
                 MOAT_TRADE_BG:MoveTo(inv_x + 5, inv_y + 30, anim_time, anim_time, -1)
                 MOAT_TRADE_BG:AlphaTo(255, anim_time, anim_time)
                 MOAT_TRADE_BG:MakePopup()
             elseif (not trading) then
-                M_TRADING_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
-                M_TRADING_PNL:AlphaTo(255, anim_time, anim_time)
-                M_TRADE_PLYS:RebuildList()
+				if (IsValid(M_TRADING_PNL)) then
+                	M_TRADING_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
+                	M_TRADING_PNL:AlphaTo(255, anim_time, anim_time)
+                	M_TRADE_PLYS:RebuildList()
+				end
             end
         else
             if (trading and IsValid(MOAT_TRADE_BG)) then
                 local inv_x, inv_y = MOAT_INV_BG:GetPos()
                 MOAT_TRADE_BG:MoveTo(inv_x - MOAT_TRADE_BG:GetWide() - 5, inv_y + 30, anim_time, 0, -1)
-                MOAT_TRADE_BG:AlphaTo(0, anim_time, anim_time)
+                MOAT_TRADE_BG:AlphaTo(0, anim_time, 0)
                 MOAT_TRADE_BG:MakePopup()
             elseif (not trading) then
                 if (IsValid(M_TRADING_PNL)) then
@@ -2218,22 +2989,29 @@ function m_OpenInventory(ply2, utrade)
             end
         end
 
-        if (cat == "extend") then
+        if (cat == 0) then
+			if (not IsValid(M_INV_PNL)) then
+				m_InventoryPanel()
+			end
+
             local w_off = 32
             M_INV_PNL:MoveTo(w_off + 5, 30, 0.15)
-            M_INV_PNL:SizeTo(MOAT_INV_BG_W-10 - w_off, help_pnl_h, 0.15)
+            M_INV_PNL:SizeTo(MOAT_INV_BG_W-10 - w_off, help_pnl_h, 0)
+			M_INV_PNL:AlphaTo(255, anim_time, 0)
 
             --Inside Inventory
-            M_INV_SP:SizeTo(MOAT_INV_BG_W-10 - w_off, 488, 0.15)
-            M_INV_L:SizeTo(MOAT_INV_BG_W-24 - w_off, 488, 0.15)
-        end
+            M_INV_SP:SizeTo(MOAT_INV_BG_W-10 - w_off, 488, 0)
+            M_INV_L:SizeTo(MOAT_INV_BG_W-24 - w_off, 488, 0)
+		end
 
         if (cat == 1) then
+			m_LoadoutPanel()
+
             M_LOADOUT_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
             M_LOADOUT_PNL:AlphaTo(255, anim_time, anim_time)
-        else
+        elseif (IsValid(M_LOADOUT_PNL)) then
             M_LOADOUT_PNL:MoveTo(-M_LOADOUT_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_LOADOUT_PNL:AlphaTo(0, anim_time)
+            M_LOADOUT_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_LOADOUT_PNL)) then M_LOADOUT_PNL:Remove() end end)
         end
 
         /*if (cat == 10) then
@@ -2247,17 +3025,19 @@ function m_OpenInventory(ply2, utrade)
         end*/
 
         if (cat == 2) then
+			m_ShopPanel()
+
             M_SHOP_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
             M_SHOP_PNL:AlphaTo(255, anim_time, anim_time)
-        else
+        elseif (IsValid(M_SHOP_PNL)) then
             M_SHOP_PNL:MoveTo(-M_SHOP_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_SHOP_PNL:AlphaTo(0, anim_time)
+            M_SHOP_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_SHOP_PNL)) then M_SHOP_PNL:Remove() end end)
         end
 
         if (cat == 4) then
             local x, y = MOAT_INV_BG:GetPos()
             m_CreateGamblePanel(x + 5, y + 30, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
-        else
+        elseif (IsValid(MOAT_GAMBLE_BG)) then
             m_RemoveGamblePanel()
         end
 
@@ -2269,19 +3049,23 @@ function m_OpenInventory(ply2, utrade)
         -- end
 
         if (cat == 5) then
-            M_BOUNTY_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
-            M_BOUNTY_PNL:AlphaTo(255, anim_time, anim_time)
-        else
+			m_BountyPanel()
+
+            M_BOUNTY_PNL:MoveTo(0, 0, anim_time, 0, -1)
+            M_BOUNTY_PNL:AlphaTo(255, anim_time, 0)
+        elseif (IsValid(M_BOUNTY_PNL)) then
             M_BOUNTY_PNL:MoveTo(-M_BOUNTY_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_BOUNTY_PNL:AlphaTo(0, anim_time)
+            M_BOUNTY_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_BOUNTY_PNL)) then M_BOUNTY_PNL:Remove() end end)
         end
 
         if (cat == 6) then
-            M_SETTINGS_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
-            M_SETTINGS_PNL:AlphaTo(255, anim_time, anim_time)
-        else
+			m_SettingsPanel()
+
+            M_SETTINGS_PNL:MoveTo(0, 0, anim_time, 0, -1)
+            M_SETTINGS_PNL:AlphaTo(255, anim_time, 0)
+        elseif (IsValid(M_SETTINGS_PNL)) then
             M_SETTINGS_PNL:MoveTo(-M_SETTINGS_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_SETTINGS_PNL:AlphaTo(0, anim_time)
+            M_SETTINGS_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_SETTINGS_PNL)) then M_SETTINGS_PNL:Remove() end end)
         end
 
         /*if (cat == 8) then
@@ -2292,15 +3076,21 @@ function m_OpenInventory(ply2, utrade)
             M_EVENT_PNL:AlphaTo(0, anim_time)
         end*/
 
-        if (cat == 4 or cat == 5 or cat == 6 or cat == 7) then
-            M_INV_PNL:MoveTo(MOAT_INV_BG_W, inv_pnl_y, anim_time, 0, -1)
-            M_INV_PNL:AlphaTo(0, anim_time)
-        elseif (cat ~= "extend") then
+        if (cat == 4 or cat == 5 or cat == 6 or cat == 7 or cat == 8) then
+			if (IsValid(M_INV_PNL)) then
+				M_INV_PNL:MoveTo(MOAT_INV_BG_W, inv_pnl_y, anim_time, 0, -1)
+				M_INV_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_INV_PNL)) then M_INV_PNL:Remove() end end)
+			end
+        elseif (cat ~= 0) then
+			if (not IsValid(M_INV_PNL)) then
+				m_InventoryPanel()
+			end
+
             M_INV_PNL:MoveTo(inv_pnl_x, inv_pnl_y, 0.15)
-            M_INV_PNL:AlphaTo(255, anim_time, anim_time)
-            M_INV_PNL:SizeTo(364, 515, 0.15)
-            M_INV_SP:SizeTo(364, 488, 0.15)
-            M_INV_L:SizeTo(350, 488, 0.15)
+            M_INV_PNL:AlphaTo(255, anim_time, 0)
+            M_INV_PNL:SizeTo(364, 515, 0)
+            M_INV_SP:SizeTo(364, 488, 0)
+            M_INV_L:SizeTo(350, 488, 0)
         end
 
 		for k, v in pairs(m_Inventory) do
@@ -2311,728 +3101,37 @@ function m_OpenInventory(ply2, utrade)
 
         MOAT_ITEMS_DECON_MARKED = 0
 
-        if (cat == 0) then
-            M_USABLE_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
-            M_USABLE_PNL:AlphaTo(255, anim_time, anim_time)
+        if (cat == -2) then
+			m_UsablePanel()
+
+            M_USABLE_PNL:MoveTo(0, 0, anim_time, 0, -1)
+            M_USABLE_PNL:AlphaTo(255, anim_time, 0)
             INV_SELECT_MODE = true
             --return
-        else
+        elseif (IsValid(M_USABLE_PNL)) then
             M_USABLE_PNL:MoveTo(-M_USABLE_PNL:GetWide(), 0, anim_time, 0, -1)
             M_USABLE_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_USABLE_PNL_BG)) then M_USABLE_PNL_BG:Remove() end end)
             INV_SELECT_MODE = false
         end
 
         if (cat == -1) then
+			m_StatsPanel()
+
             M_STATS_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
             M_STATS_PNL:AlphaTo(255, anim_time, anim_time)
             MOAT_XP_LERP = 360
             MOAT_STATS_LERP = 0
-        else
+        elseif (IsValid(M_STATS_PNL)) then
             M_STATS_PNL:MoveTo(-M_STATS_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_STATS_PNL:AlphaTo(0, anim_time)
+            M_STATS_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_STATS_PNL)) then M_STATS_PNL:Remove() end end)
         end
 
-        if (cat ~= "extend") then M_INV_PNL_EXTND.Extended = false end
-        if (cat == 0 or cat == -1 or cat == "extend") then return end
+		m_InventoryCat()
 
-        CAT_BAR.new_cat = cat
-    end
+        if (cat ~= 0 and IsValid(M_INV_PNL_EXTND)) then M_INV_PNL_EXTND.Extended = false end
+        if (cat == 0 or cat == -1 or cat == -2) then return end
 
-
-    function m_CreateInvSlot(num)
-        local m_ItemExists = false
-
-        if (m_Inventory[num].c) then
-            m_ItemExists = true
-        end
-
-        local m_WClass = {}
-
-        if (m_ItemExists) then
-            if (m_Inventory[num].item.Image) then
-                m_WClass.WorldModel = m_Inventory[num].item.Image
-            elseif (m_Inventory[num].item.Model) then
-                m_WClass.WorldModel = m_Inventory[num].item.Model
-                m_WClass.ModelSkin = m_Inventory[num].item.Skin
-            else
-                m_WClass = weapons.Get(m_Inventory[num].w)
-            end
-        end
-
-        local hover_coloral = 0
-        local m_DPanel = M_INV_L:Add("DPanel")
-        m_DPanel:SetSize(68, 68)
-
-        m_DPanel.Paint = function(s, w, h)
-
-            if (MT[CurTheme].SLOT_PAINT) then
-                MT[CurTheme].SLOT_PAINT(s, w, h, hover_coloral, m_Inventory[num])
-
-                return
-            end
-
-            local draw_x = 2
-            local draw_y = 2
-            local draw_w = w - 4
-            local draw_h = h - 4
-            local draw_y2 = 2 + ((h - 4) / 2)
-            local draw_h2 = (h - 4) - ((h - 4) / 2)
-            surface_SetDrawColor(0, 0, 0, 100)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-            surface_SetDrawColor(50, 50, 50, hover_coloral)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-            if (not m_Inventory[num]) then return end
-
-            if (m_Inventory[num].c and m_Inventory[num].item and m_Inventory[num].item.Rarity) then
-                surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
-                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-
-                if (m_Inventory[num].l and m_Inventory[num].l == 1) then
-                    surface_SetDrawColor(240, 245, 253, 50)
-                    surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-                end
-
-                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2].r, rarity_names[m_Inventory[num].item.Rarity][2].g, rarity_names[m_Inventory[num].item.Rarity][2].b, 100 + hover_coloral)
-                surface_SetMaterial(gradient_d)
-                surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
-            end
-
-            surface_SetDrawColor(62, 62, 64, 255)
-
-            if (m_Inventory[num].c and m_Inventory[num].item and m_Inventory[num].item.Rarity) then
-                surface_SetDrawColor(rarity_names[m_Inventory[num].item.Rarity][2])
-            end
-
-            surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
-            surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
-        end
-
-        --  surface_DrawPoly( triangle )
-        local m_DPanelIcon = {}
-        m_DPanelIcon.SIcon = vgui.Create("MoatModelIcon", m_DPanel)
-        m_DPanelIcon.SIcon:SetPos(2, 2)
-        m_DPanelIcon.SIcon:SetSize(64, 64)
-        m_DPanelIcon.SIcon:SetTooltip(nil)
-
-        m_DPanelIcon.SIcon.Think = function(s)
-            s:SetTooltip(nil)
-        end
-
-        m_DPanelIcon.SIcon.PaintOver = function(self, w, h)
-			if (not M_INV_SLOT[num]) then
-				return
-			end
-
-			local s = M_INV_SLOT[num].VGUI
-            if (s.Item and s.Item.item) then
-				local icon = s.Item.item.Image
-				if (not icon and s.Item.w) then
-					icon = util.GetWeaponModel(s.Item.w)
-				elseif (not icon and s.Item.item.Model) then
-					icon = s.Item.item.Model
-				end
-
-                if (icon and not string.EndsWith(icon, ".mdl")) then
-					-- s.Icon:SetAlpha(0)
-                    if (s.Item.item and s.Item.item.Clr) then
-						cdn.DrawImage(icon, 0, 0, w, h, {r = s.Item.item.Clr[1], g = s.Item.item.Clr[2], b = s.Item.item.Clr[3], a = 255})
-                    elseif (icon:StartWith("https")) then
-                        cdn.DrawImage(icon, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
-                        cdn.DrawImage(icon, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
-                    else
-                        surface_SetDrawColor(240, 245, 253, 100)
-                        surface_SetMaterial(Material(icon))
-                        surface_DrawTexturedRect(1, 1, w, h)
-                        surface_SetDrawColor(240, 245, 253, 255)
-                        surface_DrawTexturedRect(0, 0, w, h)
-                    end
-                else
-					-- s.Icon:SetAlpha(255)
-                end
-
-                local locked = false
-
-                if (m_Inventory[num].l and m_Inventory[num].l == 1) then
-                    locked = true
-                    surface_SetDrawColor(240, 245, 253)
-                    surface_SetMaterial(mat_lock)
-                    surface_DrawTexturedRect(1, 1, 16, 16)
-                end
-
-                if (m_Inventory[num].p or m_Inventory[num].p2 or m_Inventory[num].p3) then
-                    surface_SetDrawColor(240, 245, 253)
-                    surface_SetMaterial(mat_paint)
-                    surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
-                end
-
-                if (m_Inventory[num].decon) then
-                    surface_SetDrawColor(150, 0, 0, 200)
-                    surface_DrawRect(0, 0, w, h)
-                end
-            end
-        end
-
-        local m_DPanelBTN = vgui.Create("DButton", m_DPanel)
-        m_DPanelBTN:SetText("")
-        m_DPanelBTN:SetSize(68, 68)
-        m_DPanelBTN.Paint = function(s, w, h) end
-        local btn_hovered = 1
-        local btn_color_a = false
-
-        m_DPanelBTN.Think = function(s)
-            if (not s:IsHovered()) then
-                btn_hovered = 0
-                btn_color_a = false
-
-                if (hover_coloral > 0) then
-                    hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-                end
-
-				if (m_HoveredSlot == num) then
-					HoveringSlot = false
-				end
-            else
-                if (IsValid(M_INV_MENU)) then
-                    if (M_INV_MENU.Hovered) then
-                        btn_hovered = 0
-                        btn_color_a = false
-
-                        if (hover_coloral > 0) then
-                            hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-                        end
-
-                        return
-                    end
-                end
-
-                --m_HoveredSlot = num
-
-                if (hover_coloral < 154 and btn_hovered == 0) then
-                    hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
-                else
-                    btn_hovered = 1
-                end
-
-                if (btn_hovered == 1) then
-                    if (btn_color_a) then
-                        if (hover_coloral >= 154) then
-                            btn_color_a = false
-                        else
-                            hover_coloral = hover_coloral + (100 * FrameTime())
-                        end
-                    else
-                        if (hover_coloral <= 50) then
-                            btn_color_a = true
-                        else
-                            hover_coloral = hover_coloral - (100 * FrameTime())
-                        end
-                    end
-                end
-            end
-        end
-        
-        m_DPanelBTN.OnMousePressed = function(s, key)
-            if (crate_wait > CurTime() or IsValid(MOAT_CRATE_BG)) then return end
-
-            if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
-            
-            if (INV_SELECT_MODE) then
-                if (m_Inventory[num].c and key == MOUSE_LEFT and INV_SELECTED_ITEM ~= num) then
-                    INV_SELECTED_ITEM = num
-                end
-
-                return
-            end
-
-            if (key == MOUSE_LEFT and input.IsKeyDown(KEY_LCONTROL) and m_Inventory[num].c) then
-                if (m_Inventory[num].l and m_Inventory[num].l == 1) then return end
-                if (m_Inventory[num].item and m_Inventory[num].item.Rarity and m_Inventory[num].item.Rarity > 5) then return end
-                
-                moat_RemoveEditPositionPanel()
-
-                if (m_Inventory[num].decon) then
-                    m_Inventory[num].decon = false
-                    MOAT_ITEMS_DECON_MARKED = math.Clamp(MOAT_ITEMS_DECON_MARKED - 1, 0, 1000)
-                else
-                    m_Inventory[num].decon = true
-                    MOAT_ITEMS_DECON_MARKED = math.Clamp(MOAT_ITEMS_DECON_MARKED + 1, 0, 1000)
-                    m_DrawDeconButton(MOAT_INV_BG)
-                end
-
-                if (input.IsKeyDown(KEY_LSHIFT)) then
-                    if (MOAT_DECONSTRUCT_ITEMS_START ~= 0) then
-                        MOAT_DECONSTRUCT_ITEMS_END = num
-
-                        for i = MOAT_DECONSTRUCT_ITEMS_START, MOAT_DECONSTRUCT_ITEMS_END do
-                            if ((m_Inventory[i].l and m_Inventory[i].l == 1) or not m_Inventory[i].c) then continue end
-
-                            if (not m_Inventory[i].decon) then
-                                MOAT_ITEMS_DECON_MARKED = MOAT_ITEMS_DECON_MARKED + 1
-                            end
-                            m_Inventory[i].decon = true
-                        end
-                    end
-
-                    if (MOAT_DECONSTRUCT_ITEMS_START == 0) then
-                        MOAT_DECONSTRUCT_ITEMS_START = num
-                    elseif (MOAT_DECONSTRUCT_ITEMS_END ~= 0) then
-                        MOAT_DECONSTRUCT_ITEMS_START = 0
-                        MOAT_DECONSTRUCT_ITEMS_END = 0
-                    end
-
-                end
-
-                return
-            end
-
-            if (key == MOUSE_LEFT) then
-                if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
-                    M_INV_DRAG = M_INV_SLOT[num]
-					sfx.Click1()
-                end
-            end
-
-            if (key == MOUSE_RIGHT) then
-                if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
-                    m_CreateItemMenu(num, false)
-					sfx.Click2()
-                end
-            end
-        end
-
-        m_DPanelBTN.OnCursorEntered = function(s)
-            m_HoveredSlot = num
-			HoveringSlot = true
-
-            if (input.IsMouseDown(MOUSE_LEFT) and input.IsKeyDown(KEY_LCONTROL) and m_Inventory[num].c and not INV_SELECT_MODE) then
-                s.OnMousePressed(s, MOUSE_LEFT)
-            end
-
-			if (M_INV_SLOT[num].VGUI.Item and M_INV_SLOT[num].VGUI.Item.c) then
-				sfx.Hover()
-			end
-        end
-
-        m_DPanelBTN.OnCursorExited = function(s)
-        	HoveringSlot = false
-        end
-        --surface.PlaySound( "UI/buttonrollover.wav" )
-        --table.insert(m_InventoryButtons, m_DPanelBTN)
-        local tbl = {}
-		tbl.ComfyNest = m_DPanelIcon.SIcon
-		tbl.Render = m_DPanelIcon.SIcon.Icon
-		tbl.VGUI = m_DPanelIcon
-        tbl.Slot = num
-        M_INV_SLOT[num] = tbl
-    end
-
-    function m_HandleLayoutSpacing(remove)
-        if (remove) then
-            if (IsValid(M_INV_L.Spacing)) then M_INV_L.Spacing:Remove() end
-            return
-        end
-
-		if (IsValid(M_INV_L)) then
-        	M_INV_L.Spacing = M_INV_L:Add("DPanel")
-        	M_INV_L.Spacing:SetSize(676, 2)
-       		M_INV_L.Spacing.Paint = nil
-		end
-    end
-
-    function m_CreateNewInvSlot(num)
-        m_HandleLayoutSpacing(true)
-		m_CreateInvSlot(num)
-        m_HandleLayoutSpacing()
-
-		if (not IsValid(M_INV_SP)) then return end
-        M_INV_SP.VBar.ScrollOnExtend = true
-        local s = M_INV_SP.VBar.CanvasSize
-        M_INV_SP.VBar.LerpTarget = s
-        M_INV_SP.VBar:SetScroll(s)
-    end
-
-    function m_CreateInventorySlots()
-		if (not m_isUsingInv()) then
-			return
-		end
-
-        for i = 1, LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 0) do
-			if (not m_Inventory[i]) then
-				MsgC(Color(255, 0, 0), "Couldn't create slot " .. i .. " in your inventory.\n")
-				m_Inventory[i] = {decon = false}
-			end
-
-            if (not M_INV_SLOT[i]) then
-				m_CreateNewInvSlot(i)
-
-				if (m_Inventory[i] and not m_Inventory[i].c) then
-					M_INV_SLOT[i].ComfyNest:SetVisible(false)
-					M_INV_SLOT[i].Render:SetVisible(false)
-				end
-			elseif (m_isUsingInv() and M_INV_SLOT[i] and m_Inventory[i] and m_Inventory[i].c) then
-				M_INV_SLOT[i].ComfyNest:SetVisible(true)
-				M_INV_SLOT[i].Render:SetVisible(true)
-			end
-
-			if (M_INV_SLOT[i]) then
-				M_INV_SLOT[i].ComfyNest.Item = m_Inventory[i]
-				M_INV_SLOT[i].Render.Item = m_Inventory[i]
-				M_INV_SLOT[i].VGUI.Item = m_Inventory[i]
-			end
-
-			if (not m_Inventory[i].c and m_isUsingInv()) then
-				M_INV_SLOT[i].ComfyNest:SetVisible(false)
-				M_INV_SLOT[i].Render:SetVisible(false)
-
-				continue
-			end
-
-			if (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Image) then
-				M_INV_SLOT[i].VGUI.WModel = m_Inventory[i].item.Image
-				M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
-				M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
-				M_INV_SLOT[i].ComfyNest:SetVisible(true)
-				M_INV_SLOT[i].Render:SetVisible(true)
-				M_INV_SLOT[i].ComfyNest:SetAlpha(255)
-				M_INV_SLOT[i].Render:SetAlpha(0)
-			end
-
-			if (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Model and not m_Inventory[i].item.Image) then
-				if (not IsValid(M_INV_SLOT[i].Render)) then
-					M_INV_SLOT[i].VGUI.SIcon:CreateIcon(n)
-					M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
-				end
-
-				M_INV_SLOT[i].VGUI.WModel = m_Inventory[i].item.Model
-				M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
-				M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
-				
-				M_INV_SLOT[i].ComfyNest:SetVisible(true)
-				M_INV_SLOT[i].Render:SetVisible(true)
-				M_INV_SLOT[i].ComfyNest:SetAlpha(255)
-				M_INV_SLOT[i].Render:SetAlpha(255)
-
-				M_INV_SLOT[i].VGUI.SIcon:SetModel(m_Inventory[i].item.Model)
-			elseif (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].w and not m_Inventory[i].item.Image) then
-				if (not IsValid(M_INV_SLOT[i].Render)) then
-					M_INV_SLOT[i].VGUI.SIcon:CreateIcon(n)
-					M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
-				end
-
-				M_INV_SLOT[i].VGUI.WModel = util.GetWeaponModel(m_Inventory[i].w)
-				M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
-				M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
-
-				M_INV_SLOT[i].ComfyNest:SetVisible(true)
-				M_INV_SLOT[i].Render:SetVisible(true)
-				M_INV_SLOT[i].ComfyNest:SetAlpha(255)
-				M_INV_SLOT[i].Render:SetAlpha(255)
-
-				M_INV_SLOT[i].VGUI.SIcon:SetModel(util.GetWeaponModel(m_Inventory[i].w))
-			end
-        end
-    end
-
-	m_CreateInventorySlots()
-
-    local inv_pnl_x2 = MOAT_INV_BG:GetWide() - (350 + 14) - 18 - 5 - 78
-    local M_INV_LP = vgui.Create("DPanel", M_LOADOUT_PNL)
-    M_INV_LP:SetPos(inv_pnl_x2, MOAT_INV_BG:GetTall() - 452 - 18)
-    M_INV_LP:SetSize(74, 460)
-    M_INV_LP.Paint = function(s, w, h) end
-    local M_INV_LL = vgui.Create("DIconLayout", M_INV_LP)
-    M_INV_LL:SetPos(0, 0)
-    M_INV_LL:SetSize(74, 460)
-    M_INV_LL:SetSpaceX(0)
-    M_INV_LL:SetSpaceY(8)
-    local inv_pnl_x3 = 18
-    local M_INV_LPA = vgui.Create("DPanel", M_LOADOUT_PNL)
-    M_INV_LPA:SetPos(inv_pnl_x3, MOAT_INV_BG:GetTall() - 452 - 18)
-    M_INV_LPA:SetSize(74, 460)
-    M_INV_LPA.Paint = function(s, w, h) end
-    local M_INV_LLA = vgui.Create("DIconLayout", M_INV_LPA)
-    M_INV_LLA:SetPos(0, 0)
-    M_INV_LLA:SetSize(74, 460)
-    M_INV_LLA:SetSpaceX(0)
-    M_INV_LLA:SetSpaceY(8)
-
-    function m_CreateLoadoutSlot(num)
-        local m_ItemExists = false
-        if (not m_Loadout[num]) then return end
-
-        if (m_Loadout[num].c) then
-            m_ItemExists = true
-        end
-
-        local m_WClass = {}
-
-        if (m_ItemExists) then
-            if (m_Loadout[num].item.Image) then
-                m_WClass.WorldModel = m_Loadout[num].item.Image
-            elseif (m_Loadout[num].item.Model) then
-                m_WClass.WorldModel = m_Loadout[num].item.Model
-                m_WClass.ModelSkin = m_Loadout[num].item.Skin
-            else
-                m_WClass = weapons.Get(m_Loadout[num].w)
-            end
-        end
-
-        local hover_coloral = 0
-        local panel_to_add = M_INV_LL
-
-        if (num > 5) then
-            panel_to_add = M_INV_LLA
-        end
-
-        local m_DPanel = panel_to_add:Add("DPanel")
-        m_DPanel:SetSize(74, 84)
-
-        m_DPanel.Paint = function(s, w, h)
-            local y2 = 10
-            draw.DrawText(m_LoadoutLabels[num], "moat_Medium9", w / 2, -3, MT_TCOL, TEXT_ALIGN_CENTER)
-            surface_SetDrawColor(62, 62, 64, 255)
-            surface_DrawOutlinedRect(0, 0 + y2, w, h - y2)
-            surface_SetDrawColor(0, 0, 0, 100)
-            surface_DrawRect(1, 1 + y2, w - 2, h - 2 - y2)
-            local draw_x = 2 + 3
-            local draw_y = 2 + y2 + 3
-            local draw_w = w - 4 - 6
-            local draw_h = h - 4 - y2 - 6
-            local draw_y2 = 2 + ((h - 4) / 2) + y2 + 3
-            local draw_h2 = (h - 4) - ((h - 4) / 2) - y2 - 6
-
-            if (MT[CurTheme].LSLOT_PAINT) then
-                MT[CurTheme].LSLOT_PAINT(s, w, h, hover_coloral, m_Loadout[num])
-
-                return
-            end
-
-            surface_SetDrawColor(0, 0, 0, 100)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-            surface_SetDrawColor(50, 50, 50, hover_coloral)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-            if (not m_Inventory[num]) then return end
-
-            if (m_Loadout[num].c) then
-                surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
-                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-                surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2].r, rarity_names[m_Loadout[num].item.Rarity][2].g, rarity_names[m_Loadout[num].item.Rarity][2].b, 100 + hover_coloral)
-                surface_SetMaterial(gradient_d)
-                surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
-            end
-
-            surface_SetDrawColor(62, 62, 64, 255)
-
-            if (m_Loadout[num].c) then
-                surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2])
-            end
-
-            surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
-            surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
-
-            if (m_Loadout[num].c) then
-                surface_SetDrawColor(rarity_names[m_Loadout[num].item.Rarity][2].r, rarity_names[m_Loadout[num].item.Rarity][2].g, rarity_names[m_Loadout[num].item.Rarity][2].b, hover_coloral / 2)
-            end
-
-            surface_DrawOutlinedRect(3, y2 + 3, w - 6, h - y2 - 6)
-
-            local triangle = {
-                {
-                    x = 6,
-                    y = 6 + y2
-                },
-                {
-                    x = w - 6,
-                    y = w - 6 + y2
-                },
-                {
-                    x = 6,
-                    y = w - 6 + y2
-                }
-            }
-
-            surface_SetDrawColor(50, 50, 50, 10)
-            draw.NoTexture()
-        end
-
-        --  surface_DrawPoly( triangle )
-        local m_DPanelIcon = {}
-        m_DPanelIcon.SIcon = vgui.Create("MoatModelIcon", m_DPanel)
-        m_DPanelIcon.SIcon:SetPos(3 + 2, 10 + 3 + 2)
-        m_DPanelIcon.SIcon:SetSize(64, 64)
-        m_DPanelIcon.SIcon:SetTooltip(nil)
-
-        m_DPanelIcon.SIcon.Think = function(s)
-            s:SetTooltip(nil)
-        end
-
-        m_DPanelIcon.SIcon:SetVisible(false)
-
-        if (m_ItemExists and m_WClass) then
-            m_DPanelIcon.SIcon:SetModel(m_WClass.WorldModel, m_WClass.ModelSkin)
-            m_DPanelIcon.SIcon:SetVisible(true)
-        end
-
-        m_DPanelIcon.WModel = nil
-        m_DPanelIcon.Item = nil
-        m_DPanelIcon.MSkin = nil
-
-        if (m_ItemExists and m_WClass) then
-            if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
-				if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
-                m_DPanelIcon.SIcon.Icon:SetAlpha(0)
-            end
-
-            m_DPanelIcon.WModel = m_WClass.WorldModel
-            m_DPanelIcon.Item = m_Loadout[num]
-            if (m_WClass.ModelSkin) then
-                m_DPanelIcon.MSkin = m_WClass.ModelSkin
-            end
-        end
-
-        m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
-            if (not m_Loadout[num]) then return end
-
-            if (m_Loadout[num].c) then
-                if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
-                    s.Icon:SetAlpha(0)
-                    if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-						cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
-                    elseif (m_DPanelIcon.WModel:StartWith("https")) then
-                        cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
-                        cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
-                    else
-                        surface_SetDrawColor(240, 245, 253, 100)
-                        surface_SetMaterial(Material(m_DPanelIcon.WModel))
-                        surface_DrawTexturedRect(1, 1, w, h)
-                        surface_SetDrawColor(240, 245, 253, 255)
-                        surface_DrawTexturedRect(0, 0, w, h)
-                    end
-                else
-                    s.Icon:SetAlpha(255)
-                end
-
-				local locked = false
-
-                if (m_Loadout[num].l and m_Loadout[num].l == 1) then
-                    locked = true
-                    surface_SetDrawColor(240, 245, 253)
-                    surface_SetMaterial(mat_lock)
-                    surface_DrawTexturedRect(1, 1, 16, 16)
-                end
-
-                if (m_Loadout[num].p or m_Loadout[num].p2 or m_Loadout[num].p3) then
-                    surface_SetDrawColor(240, 245, 253)
-                    surface_SetMaterial(mat_paint)
-                    surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
-                end
-
-                if (m_Loadout[num].decon) then
-                    surface_SetDrawColor(150, 0, 0, 200)
-                    surface_DrawRect(0, 0, w, h)
-                end
-            end
-        end
-
-        local m_DPanelBTN = vgui.Create("DButton", m_DPanel)
-        m_DPanelBTN:SetPos(3, 10 + 3)
-        m_DPanelBTN:SetText("")
-        m_DPanelBTN:SetSize(68, 68)
-        m_DPanelBTN.Paint = function(s, w, h) end
-        --draw.DrawText( m_LoadoutLabels[num], "Trebuchet18", w / 2, h / 2 - 6, Color( 150, 150, 150, 50 ), TEXT_ALIGN_CENTER )
-        local btn_hovered = 1
-        local btn_color_a = false
-
-        m_DPanelBTN.Think = function(s)
-            if (not s:IsHovered()) then
-                btn_hovered = 0
-                btn_color_a = false
-
-                if (hover_coloral > 0) then
-                    hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-                end
-
-				if (m_HoveredSlot == (num .. "l")) then
-					HoveringSlot = false
-				end
-            else
-                if (IsValid(M_INV_MENU)) then
-                    if (M_INV_MENU.Hovered) then
-                        btn_hovered = 0
-                        btn_color_a = false
-
-                        if (hover_coloral > 0) then
-                            hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-                        end
-
-                        return
-                    end
-                end
-
-                if (hover_coloral < 154 and btn_hovered == 0) then
-                    hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
-                else
-                    btn_hovered = 1
-                end
-
-                if (btn_hovered == 1) then
-                    if (btn_color_a) then
-                        if (hover_coloral >= 154) then
-                            btn_color_a = false
-                        else
-                            hover_coloral = hover_coloral + (100 * FrameTime())
-                        end
-                    else
-                        if (hover_coloral <= 50) then
-                            btn_color_a = true
-                        else
-                            hover_coloral = hover_coloral - (100 * FrameTime())
-                        end
-                    end
-                end
-            end
-        end
-
-        m_DPanelBTN.OnMousePressed = function(s, key)
-            if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
-
-            if (key == MOUSE_LEFT) then
-                if (m_DPanelIcon.Item ~= nil) then
-                    M_INV_DRAG = M_LOAD_SLOT[num]
-                    sfx.Click1()
-                    --m_DPanelIcon.SIcon:SetVisible( false )
-                end
-            end
-            if (key == MOUSE_RIGHT) then
-                if (m_DPanelIcon.Item ~= nil) then
-                    m_CreateItemMenu(num, true)
-					sfx.Click2()
-                end
-            end
-        end
-
-        m_DPanelBTN.OnCursorEntered = function()
-            m_HoveredSlot = num .. "l"
-			HoveringSlot = true 
-
-			if (M_LOAD_SLOT[num].VGUI.Item and M_LOAD_SLOT[num].VGUI.Item.c) then
-				sfx.Hover()
-			end
-        end
-
-        m_DPanelBTN.OnCursorExited = function(s)
-            HoveringSlot = false
-        end
-        --surface.PlaySound( "UI/buttonrollover.wav" )
-        --table.insert(m_InventoryButtons, m_DPanelBTN)
-        local tbl = {}
-        tbl.VGUI = m_DPanelIcon
-        tbl.Slot = num .. "l"
-        M_LOAD_SLOT[num] = tbl
-    end
-
-    for i = 1, 10 do
-        m_CreateLoadoutSlot(i)
+        MOAT_CAT_BAR.new_cat = cat
     end
 
     local m_LoadoutTypes = {}
@@ -3214,8 +3313,8 @@ function m_OpenInventory(ply2, utrade)
                 m_DrawShadowedText(1, ITEM_HOVERED.s.l, "moat_ItemDescLarge3", s:GetWide() - 6, 0, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 surface_SetFont("moat_ItemDescLarge3")
                 local level_w, level_h = surface_GetTextSize(ITEM_HOVERED.s.l)
-                m_DrawShadowedText(1, "LVL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
-                m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, "LEVEL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, ITEM_HOVERED.s.x .. "/ " .. (ITEM_HOVERED.s.l * 100) .. " XP", "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
                 -- if (ITEM_HOVERED.n) then nt_ = 15 end
@@ -3466,7 +3565,7 @@ function m_OpenInventory(ply2, utrade)
             local offer2_h = offer1_h
             local M_TRADE_CHAT_LBL_COL = 50
             local inventory_cats = table.Copy(MOAT_INV_CATS)
-            inventory_cats[3] = {"Trade", 100}
+            inventory_cats[4] = {"Trade", 100}
             MOAT_TRADE_BG.ICOffered = 0
             MOAT_TRADE_BG.OLoc = 3
             MOAT_TRADE_BG.WTimer = 0
@@ -3501,12 +3600,12 @@ function m_OpenInventory(ply2, utrade)
                 render.SetScissorRect(x, y, x + invw, y + invh, true)
                 if (MT_TSHADOW) then
                     m_DrawShadowedText(1, "Your offer:", "Trebuchet24", 25 + 2 + 3 + x_off, 1 + y_off - y_off2, MT_TCOL)
-                    m_DrawShadowedText(1, "Viewing Trade", "moat_TradeDesc", 25 + 2 + 3 + x_off, 1 + y_off + y_off2 + 2, Color(0, 200, 0, 255))
+                    m_DrawShadowedText(1, "Viewing Trading", "moat_TradeDesc", 25 + 2 + 3 + x_off, 1 + y_off + y_off2 + 2, Color(0, 200, 0, 255))
                     m_DrawShadowedText(1, ply_2:Nick() .. "'s offer:", "Trebuchet24", 25 + 2 + 3 + x_off, offer2_y - 28 + 1 - y_off2, MT_TCOL)
                     m_DrawShadowedText(1, "Viewing " .. inventory_cats[s.OLoc][1], "moat_TradeDesc", 25 + 2 + 3 + x_off, offer2_y - 28 + 1 + y_off2 + 2, Color(0, 200, 0, 255))
                 else
                     draw_SimpleText("Your offer:", "moat_Trebuchet", 25 + 2 + 3 + x_off, 1 + y_off - y_off2, MT_TCOL)
-                    draw_SimpleText("Viewing Trade", "moat_TradeDesc", 25 + 2 + 3 + x_off, 1 + y_off + y_off2 + 2, Color(0, 200, 0, 255))
+                    draw_SimpleText("Viewing Trading", "moat_TradeDesc", 25 + 2 + 3 + x_off, 1 + y_off + y_off2 + 2, Color(0, 200, 0, 255))
                     draw_SimpleText(ply_2:Nick() .. "'s offer:", "moat_Trebuchet", 25 + 2 + 3 + x_off, offer2_y - 28 + 1 - y_off2, MT_TCOL)
                     draw_SimpleText("Viewing " .. inventory_cats[s.OLoc][1], "moat_TradeDesc", 25 + 2 + 3 + x_off, offer2_y - 28 + 1 + y_off2 + 2, Color(0, 200, 0, 255))
                 end
@@ -4205,6 +4304,11 @@ function m_OpenInventory(ply2, utrade)
     net.Start("moat_OpenInventory")
     net.WriteBool(true)
     net.SendToServer()
+
+	
+	m_InventoryPanel()
+	m_LoadoutPanel(true)
+	m_InventoryCat()
 end
 
 function m_AddTradeChatMessage(tmsg, tply)
@@ -5755,8 +5859,8 @@ function m_DrawFoundItem(tbl, s_type, name)
                 m_DrawShadowedText(1, ITEM_HOVERED.s.l, "moat_ItemDescLarge3", s:GetWide() - 6, 0, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 surface_SetFont("moat_ItemDescLarge3")
                 local level_w, level_h = surface_GetTextSize(ITEM_HOVERED.s.l)
-                m_DrawShadowedText(1, "LVL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
-                m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/" .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, "LEVEL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, ITEM_HOVERED.s.x .. "/ " .. (ITEM_HOVERED.s.l * 100) .. " XP", "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
                 -- if (ITEM_HOVERED.n) then nt_ = 15 end

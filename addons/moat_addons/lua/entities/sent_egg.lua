@@ -75,7 +75,8 @@ function ENT:Think()
 			for k, v in pairs(ents.FindInSphere(self:GetPos(), 24)) do
 				if (v:IsPlayer() and v:Alive() and v:Team() ~= TEAM_SPEC and (not MOAT_BOSS_CUR or (MOAT_BOSS_CUR and v ~= MOAT_BOSS_CUR))) then
 					-- give item
-					v:m_DropInventoryItem("50/50 Crate")
+					-- v:m_DropInventoryItem("50/50 Crate")
+					v:m_DropInventoryItem("Easter Egg")
 					
 					net.Start("moat_easter_egg_found")
 					net.WriteString(v:Nick())
