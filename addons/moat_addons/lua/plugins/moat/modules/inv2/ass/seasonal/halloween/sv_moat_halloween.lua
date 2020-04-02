@@ -74,19 +74,19 @@ function MOAT_PUMPKIN.SpawnRandom()
 	if (MOAT_PUMPKIN.Debug) then ServerLog "Spawned Egg" end
 end
 
-hook.Add("TTTBeginRound", "moat_record_easter", function()
-	--if (not MOAT_PUMPKIN.Record) then return end
+-- hook.Add("TTTBeginRound", "moat_record_pumpkin", function()
+-- 	--if (not MOAT_PUMPKIN.Record) then return end
 	
-	MOAT_PUMPKIN.RecordPositions()
+-- 	MOAT_PUMPKIN.RecordPositions()
 
-	timer.Create("moat_easter_egg_record", 15, 0, function()
-		--if (not MOAT_PUMPKIN.Record) then timer.Remove("moat_easter_egg_record") return end
-		-- if (GetGlobalInt("ttt_rounds_left") ~= 8) then timer.Remove("moat_easter_egg_record") return end
+-- 	timer.Create("moat_easter_egg_record", 15, 0, function()
+-- 		--if (not MOAT_PUMPKIN.Record) then timer.Remove("moat_easter_egg_record") return end
+-- 		-- if (GetGlobalInt("ttt_rounds_left") ~= 8) then timer.Remove("moat_easter_egg_record") return end
 
-		MOAT_PUMPKIN.RecordPositions()
-	end)
-	hook.Remove("TTTBeginRound", "moat_record_easter")
-end)
+-- 		MOAT_PUMPKIN.RecordPositions()
+-- 	end)
+-- 	hook.Remove("TTTBeginRound", "moat_record_pumpkin")
+-- end)
 
 concommand.Add("moat_record_pos", function(ply, cmd, args)
 	if (not moat.isdev(ply)) then return end
