@@ -26,8 +26,8 @@ concommand.Add("moat_easter_basket", function(ply, cmd, args)
 end)
 
 MOAT_EASTER = MOAT_EASTER or {}
-MOAT_EASTER.MaxEggs = 6
-MOAT_EASTER.SpawnChance = 20
+MOAT_EASTER.MaxEggs = math.random(8, 10)
+MOAT_EASTER.SpawnChance = 5
 MOAT_EASTER.CurEggs = 0
 MOAT_EASTER.MapEggs = 0
 
@@ -119,6 +119,10 @@ hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
 			MOAT_EASTER.SpawnRandomEgg()
 		end
 	end)
+end)
+
+hook.Add("TTTEndRound", function()
+	timer.Remove("moat_easter_egg_spawn")
 end)
 
 function m_DropEasterBasket(ply, amt)

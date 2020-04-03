@@ -981,7 +981,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             local talent_namew, talent_nameh = surface_GetTextSize(talent_name)
 			surface.SetFont "moat_ItemDescSmall2"
             local talent_namew2, talent_nameh2 = surface.GetTextSize("LEVEL " .. talent_level .. "")
-            talent_col2 = Color(94, 114, 228)
+            talent_col2 = Color(45, 206, 137)
             talent_alpha = Color(240, 245, 253)
 
             if (itemtbl.s.l < talent_level) then
@@ -989,7 +989,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
                 talent_alpha = Color(91, 98, 109)
             end
 
-            m_DrawShadowedText(1, " LEVEL " .. talent_level .. "", "moat_ItemDescSmall2", 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2 + 3, talent_col2)
+            m_DrawShadowedText(1, " LEVEL " .. talent_level .. "", "moat_ItemDescSmall2", 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2 + 4, talent_col2)
             talent_desc = talent_desc or ""
             local talent_desctbl = string.Explode("^", talent_desc)
 
