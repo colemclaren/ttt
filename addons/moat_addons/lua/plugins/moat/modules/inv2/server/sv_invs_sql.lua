@@ -952,6 +952,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 								v.t[i].m[id] = math.Round(math.Rand(0, 1), 2)
 							end
 						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier)) then
+							if (v.t[i].e == 2) then v.t[i].e = 1 end
 							if (v.t[i].e == 4) then v.t[i].e = 7 end
 							if (v.t[i].e == 26) then v.t[i].e = 16 end
 							if (v.t[i].e == 34) then v.t[i].e = 37 end
@@ -1101,6 +1102,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 								v.t[i].m[id] = math.Round(math.Rand(0, 1), 2)
 							end
 						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier)) then
+							if (v.t[i].e == 2) then v.t[i].e = 1 end
 							if (v.t[i].e == 4) then v.t[i].e = 7 end
 							if (v.t[i].e == 26) then v.t[i].e = 16 end
 							if (v.t[i].e == 34) then v.t[i].e = 37 end
