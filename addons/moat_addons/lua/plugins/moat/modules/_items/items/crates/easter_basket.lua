@@ -8,3 +8,5 @@ ITEM.Active = false
 ITEM.Stackable = true
 ITEM.Price = 350
 ITEM.ChosenRarity = 8
+ITEM.IgnoreDiscord = true
+ITEM.NotDroppable = true

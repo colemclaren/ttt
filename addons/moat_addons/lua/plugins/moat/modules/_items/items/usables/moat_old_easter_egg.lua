@@ -1,6 +1,6 @@
 ITEM.ID = 8980
 ITEM.Name = "Easter Egg Memories"
-ITEM.Description = "A usable capable of summoning 2017's easter egg"
+ITEM.Description = "A usable capable of summoning an easter egg"
 ITEM.Rarity = 8
 ITEM.Active = false
 ITEM.Price = 100

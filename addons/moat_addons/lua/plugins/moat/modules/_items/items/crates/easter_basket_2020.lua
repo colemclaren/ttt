@@ -19,3 +19,4 @@ ITEM.Rarities = {
     [9] = 0.0001,
 }
 ITEM.IgnoreDiscord = true
+ITEM.NotDroppable = true
