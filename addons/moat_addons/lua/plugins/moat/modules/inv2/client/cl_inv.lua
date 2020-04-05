@@ -551,7 +551,7 @@ function m_DrawItemDescLevel(text, font, x, y, w, col)
 
 	for k, v in ipairs(desc_cache[text]) do
 		if (type(v) == "string") then
-			local color = (string.match(v, "^(%-?%+?%d+%.?%d*%%?%.?)$")) and Color(45, 206, 137) or col
+			local color = (string.match(v, "^(%-?%+?%d+%.?%d*%%?%.?x?)$")) and Color(45, 206, 137) or col
 			local str = v
 			local strw = surface.GetTextSize(str .. " ")
 			desc_cache[text][k] = {Text = str, Width = strw, Color = color}
