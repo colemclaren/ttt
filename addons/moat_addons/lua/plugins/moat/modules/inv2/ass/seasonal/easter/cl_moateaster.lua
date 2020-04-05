@@ -39,7 +39,7 @@ function moat_FFTFunc(music_id)
         if (IsValid(song)) then
             audio_sound = song
             song:Play()
-            song:SetVolume(1)
+            song:SetVolume(.5)
 
             for i = 1, 256 do
                 sound_cache[i] = 0
