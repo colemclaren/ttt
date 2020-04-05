@@ -932,6 +932,47 @@ function m_LoadInventoryForPlayer(ply, cb)
 					v.w = MOAT_DROPTABLE[v.u].WeaponClass or "weapon_ttt_ak47"
 				end
 			end
+
+			for k, v in ipairs(loadout) do
+				if (v.t and v.u and MOAT_DROPTABLE[v.u] and MOAT_DROPTABLE[v.u].Talents) then
+					local Talents = GetItemTalents(v)
+					for i = 1, #v.t do
+						if (v.t[i] and v.t[i].e and v.t[i].e == 20202) then v.t[i].e = 10102 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 20203) then v.t[i].e = 10103 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 9972) then v.t[i].e = 9971 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 202) then v.t[i].e = 102 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 255) then v.t[i].e = 155 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 84) then v.t[i].e = 87 end
+
+						if (not Talents[i] and MOAT_DROPTABLE[v.u].Talents[i]) then
+							Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[v.u].Talents[i], (itemtbl.Kind and itemtbl.Kind == "Melee"))
+							v.t[i] = {e = Talents[i].ID, l = v.t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
+							v.t[i].m = {}
+							for id, mod in pairs(Talents[i].Modifications) do
+								v.t[i].m[id] = math.Round(math.Rand(0, 1), 2)
+							end
+						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier)) then
+							if (v.t[i].e == 4) then v.t[i].e = 7 end
+							if (v.t[i].e == 26) then v.t[i].e = 16 end
+							if (v.t[i].e == 34) then v.t[i].e = 37 end
+							if (v.t[i].e == 23) then v.t[i].e = 13 end
+							if (v.t[i].e == 82) then v.t[i].e = 81 end
+							if (v.t[i].e == 84) then v.t[i].e = 87 end
+							if (v.t[i].e == 32 and i == 1) then v.t[i].e = 31 end
+							if (v.t[i].e == 29 and i == 2) then v.t[i].e = 19 end
+							if (v.t[i].e == 24 and i == 2) then v.t[i].e = 14 end
+							if (v.t[i].e == 24 and i == 3) then v.t[i].e = 17 end
+							if (v.t[i].e == 21 and i == 2) then v.t[i].e = 22 end
+							if (v.t[i].e == 22 and i == 1) then
+								if (#v.t[i].m == 2) then v.t[i].e = 21 else v.t[i].e = 12 end
+							end
+
+							if ((v.t[i].e == 27 or v.t[i].e == 24 or v.t[i].e == 14) and i == 3) then v.t[i].e = 17 end
+						end
+					end
+				end
+			end
+
             for i = 1, 10 do
                 local slot = loadout[i]
 
@@ -1038,6 +1079,46 @@ function m_LoadInventoryForPlayer(ply, cb)
 			for k, v in ipairs(inventory_tbl) do
 				if (not v.w and MOAT_DROPTABLE[v.u] and (MOAT_DROPTABLE[v.u].WeaponClass or MOAT_DROPTABLE[v.u].Kind == "tier")) then
 					v.w = MOAT_DROPTABLE[v.u].WeaponClass or "weapon_ttt_ak47"
+				end
+			end
+
+			for k, v in ipairs(inventory_tbl) do
+				if (v.t and v.u and MOAT_DROPTABLE[v.u] and MOAT_DROPTABLE[v.u].Talents) then
+					local Talents = GetItemTalents(v)
+					for i = 1, #v.t do
+						if (v.t[i] and v.t[i].e and v.t[i].e == 20202) then v.t[i].e = 10102 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 20203) then v.t[i].e = 10103 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 9972) then v.t[i].e = 9971 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 202) then v.t[i].e = 102 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 255) then v.t[i].e = 155 end
+						if (v.t[i] and v.t[i].e and v.t[i].e == 84) then v.t[i].e = 87 end
+
+						if (not Talents[i] and MOAT_DROPTABLE[v.u].Talents[i]) then
+							Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[v.u].Talents[i], (itemtbl.Kind and itemtbl.Kind == "Melee"))
+							v.t[i] = {e = Talents[i].ID, l = v.t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
+							v.t[i].m = {}
+							for id, mod in pairs(Talents[i].Modifications) do
+								v.t[i].m[id] = math.Round(math.Rand(0, 1), 2)
+							end
+						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier)) then
+							if (v.t[i].e == 4) then v.t[i].e = 7 end
+							if (v.t[i].e == 26) then v.t[i].e = 16 end
+							if (v.t[i].e == 34) then v.t[i].e = 37 end
+							if (v.t[i].e == 23) then v.t[i].e = 13 end
+							if (v.t[i].e == 82) then v.t[i].e = 81 end
+							if (v.t[i].e == 84) then v.t[i].e = 87 end
+							if (v.t[i].e == 32 and i == 1) then v.t[i].e = 31 end
+							if (v.t[i].e == 29 and i == 2) then v.t[i].e = 19 end
+							if (v.t[i].e == 24 and i == 2) then v.t[i].e = 14 end
+							if (v.t[i].e == 24 and i == 3) then v.t[i].e = 17 end
+							if (v.t[i].e == 21 and i == 2) then v.t[i].e = 22 end
+							if (v.t[i].e == 22 and i == 1) then
+								if (#v.t[i].m == 2) then v.t[i].e = 21 else v.t[i].e = 12 end
+							end
+
+							if ((v.t[i].e == 27 or v.t[i].e == 24 or v.t[i].e == 14) and i == 3) then v.t[i].e = 17 end
+						end
+					end
 				end
 			end
 

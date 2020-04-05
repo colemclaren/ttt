@@ -542,32 +542,29 @@ local function DrawBlur(panel, amount)
     end
 end
 
+local desc_cache = {}
 function m_DrawItemDescLevel(text, font, x, y, w, col)
-    local texte = string.Explode(" ", text)
+    desc_cache[text] = desc_cache[text] or string.Explode(" ", text)
     surface_SetFont(font)
     local chars_x = 0
     local chars_y = 0
 
-    for i = 1, #texte do
-        local char = texte[i]
-        local charw, charh = surface_GetTextSize(char .. " ")
+	for k, v in ipairs(desc_cache[text]) do
+		if (type(v) == "string") then
+			local color = (string.match(v, "^(%-?%+?%d+%.?%d*%%?%.?)$")) and Color(45, 206, 137) or col
+			local str = v
+			local strw = surface.GetTextSize(str .. " ")
+			desc_cache[text][k] = {Text = str, Width = strw, Color = color}
+			v = desc_cache[text][k]
+		end
 
-        if (chars_x + charw > w) then
+        if (chars_x + v.Width >= w) then
             chars_x = 0
             chars_y = chars_y + 1
         end
 
-        local char_col = col
-
-        for i = 0, 9 do
-            if (string.find(char, tostring(i))) then
-                char_col = Color(45, 206, 137)
-            end
-        end
-
-        -- draw_SimpleText(char, font, x + chars_x + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
-        draw_SimpleText(char, font, x + chars_x, y + (chars_y * 15), char_col)
-        chars_x = chars_x + charw
+        draw_SimpleText(v.Text, font, x + chars_x, y + (chars_y * 15), v.Color)
+        chars_x = chars_x + v.Width
 
         /*if (i == #texte) then
             local charw2, charh2 = surface_GetTextSize(" ")
@@ -605,6 +602,8 @@ function m_DrawItemDesc(text, font, x, y, w, h)
 		
         chars_x = chars_x + charw
     end
+
+	return chars_y + 1
 end
 
 function m_GetItemDescH(text, font, w)
@@ -912,26 +911,30 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     if (itemtbl.t) then
         talents_y_add = 15
         talents_collection = 2
-        local talents_s = "s"
+        local talents_s = "Requires"
 
-		local num_talents = table.Count(itemtbl.t)
+		local num_talents, num_active = 0, 0
 		for k, v in ipairs(itemtbl.Talents) do
-			if (not itemtbl.Talents[k].Description) then
-				num_talents = k - 1
+			if (itemtbl.t and itemtbl.t[k] and itemtbl.Talents[k].Description) then
+				num_talents = num_talents + 1
 
-				break
+				if (itemtbl.t[k].l and itemtbl.s and itemtbl.s.l and itemtbl.s.l >= itemtbl.t[k].l) then
+					num_active = num_active + 1
+				end
 			end
 		end
-	
-        if (num_talents == 1) then
-            talents_s = ""
-        end
+
+		if (num_active >= num_talents) then
+			talents_s = "Talent" .. ((num_active == 1) and "" or "s")
+		else
+			talents_s = talents_s .. " (" .. (num_talents - num_active) .. ")"
+		end
 
         local mutated = ""
 
         if (itemtbl.tr) then mutated = " (Mutated)" end
+        m_DrawShadowedText(1, talents_s, font, 6, y + stats_y_add,  Color(255, 255, 255))
 
-        m_DrawShadowedText(1, num_talents .. " Talent" .. talents_s .. mutated, font, 6, y + stats_y_add,  Color(94, 114, 228))
         surface_SetDrawColor(91, 98, 109, 50)
         surface_DrawLine(6, y + stats_y_add + 0 + 15, pnl:GetWide() - 6, y + stats_y_add + 0 + 15)
         surface_SetDrawColor(0, 0, 0, 100)
@@ -958,7 +961,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             else
                 m_DrawShadowedText(1, talent_name, font, 6, y + stats_y_add + talents_y_add + 2, talent_col)
             end*/
-            local draw_name_x, draw_name_y = 6, y + stats_y_add + talents_y_add + 2
+            local draw_name_x, draw_name_y = 12, y + stats_y_add + talents_y_add + 2
             local name_col = talent_col
             local tfx = itemtbl.Talents[k].NameEffect
             if (tfx == "glow") then
@@ -989,7 +992,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
                 talent_alpha = Color(91, 98, 109)
             end
 
-            m_DrawShadowedText(1, " LEVEL " .. talent_level .. "", "moat_ItemDescSmall2", 3 + 6 + talent_namew, y + stats_y_add + talents_y_add + 2 + 4, talent_col2)
+            m_DrawShadowedText(1, " LEVEL " .. talent_level .. "", "moat_ItemDescSmall2", 3 + draw_name_x + talent_namew, y + stats_y_add + talents_y_add + 2 + 4, talent_col2)
             talent_desc = talent_desc or ""
             local talent_desctbl = string.Explode("^", talent_desc)
 
@@ -1011,8 +1014,8 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 
             talent_desc = string.Implode("", talent_desctbl)
             talent_desc = string.Replace(talent_desc, "_", "%")
-            m_DrawItemDescLevel(talent_desc, font, 6, y + stats_y_add + talents_y_add + 17, pnl:GetWide() - 12, talent_alpha)
-            local talent_desc_h = 17 + (m_GetItemDescH(talent_desc, font, pnl:GetWide() - 12) * 15)
+            m_DrawItemDescLevel(talent_desc, font, draw_name_x + 6, y + stats_y_add + talents_y_add + 17, pnl:GetWide() - 12 - 6, talent_alpha)
+            local talent_desc_h = 17 + (m_GetItemDescH(talent_desc, font, pnl:GetWide() - 12 - 6) * 15)
             local talents_line_space = 3
 
             if (k ~= num_talents) then
@@ -1033,6 +1036,8 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         local p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "ERROR: Unknown Skin"
 		m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     end
+
+	return collection_y + 14
 end
 
 local handled_send = false
@@ -3273,11 +3278,11 @@ function m_OpenInventory(ply2, utrade)
                 -- emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
             end
 
-            local drawn_stats = 0
+			drawn_stats = 0
 
             if (ITEM_HOVERED.s and (ITEM_HOVERED.item.Kind == "tier" or ITEM_HOVERED.item.Kind == "Unique" or ITEM_HOVERED.item.Kind == "Melee")) then
                 draw_stats_multi = 25
-                m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
+				s.StatsHeight = m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
                 drawn_stats = 10
             elseif (ITEM_HOVERED.item and ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee" and ITEM_HOVERED.item.Description) then
                 local item_desc = ITEM_HOVERED.item.Description
@@ -3301,8 +3306,7 @@ function m_OpenInventory(ply2, utrade)
 
                 item_desc = string.Implode("", item_desctbl)
                 item_desc = string.Replace(item_desc, "_", "%")
-                m_DrawItemDesc(item_desc, "moat_ItemDesc", draw_stats_x, draw_stats_y, w - 12, h - draw_stats_y - 20)
-                drawn_stats = m_GetItemDescH(item_desc, "moat_ItemDesc", w - 12)
+                drawn_stats = m_DrawItemDesc(item_desc, "moat_ItemDesc", draw_stats_x, draw_stats_y, w - 12, h - draw_stats_y - 20)
                 draw_stats_multi = 15
                 local collection_y = draw_stats_y + (drawn_stats * draw_stats_multi) - 1
                 m_DrawShadowedText(1, "From the " .. ITEM_HOVERED.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
@@ -3464,7 +3468,7 @@ function m_OpenInventory(ply2, utrade)
 
                     talent_desc2 = string.Implode("", talent_desctbl2)
                     talent_desc2 = string.Replace(talent_desc2, "_", "%")
-                    local talent_desc_h = 17 + (m_GetItemDescH(talent_desc2, "moat_ItemDesc", s:GetWide() - 12) * 15)
+                    local talent_desc_h = 17 + (m_GetItemDescH(talent_desc2, "moat_ItemDesc", s:GetWide() - 12 - 6) * 15)
                     drawn_talents = drawn_talents + talent_desc_h + 3
                 end
             end
@@ -3480,7 +3484,7 @@ function m_OpenInventory(ply2, utrade)
             if ((ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0) == 0 and ITEM_HOVERED.item.ID and ITEM_HOVERED.item.ID ~= 7820 and ITEM_HOVERED.item.ID ~= 7821) then
                 -- panel_height = 100
             end
-            
+
             s:SetTall(panel_height)
 
             local w2, h2 = s:GetSize()
@@ -3494,8 +3498,13 @@ function m_OpenInventory(ply2, utrade)
                 y2 = math.abs((gui.MouseY() - panel_height - gui_frame_off))
             end
 
-            s:SetPos(gui.MouseX() - x2 + gui_frame_off, gui.MouseY() - (panel_height) + y2 - gui_frame_off)
-            s:SetAlpha(255)
+			s:SetAlpha(255)
+
+			if (moat_imagehack) then
+				return
+			end
+
+			s:SetPos(gui.MouseX() - x2 + gui_frame_off, gui.MouseY() - (panel_height) + y2 - gui_frame_off)
         else
             s.AnimVal = 0
             s:SetAlpha(0)
@@ -5823,11 +5832,11 @@ function m_DrawFoundItem(tbl, s_type, name)
                 -- emoji.SimpleText("\"" .. ITEM_HOVERED.n:Replace("''", "'") .. "\"", "moat_ItemDesc", draw_name_x, draw_name_y + 21, Color(255, 128, 128))
             end
 
-            local drawn_stats = 0
+			drawn_stats = 0
 
             if (ITEM_HOVERED.s and (ITEM_HOVERED.item.Kind == "tier" or ITEM_HOVERED.item.Kind == "Unique" or ITEM_HOVERED.item.Kind == "Melee")) then
                 draw_stats_multi = 25
-                m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
+				s.StatsHeight = m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
                 drawn_stats = 10
             elseif (ITEM_HOVERED.item and ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee" and ITEM_HOVERED.item.Description) then
                 local item_desc = ITEM_HOVERED.item.Description
@@ -5847,8 +5856,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
                 item_desc = string.Implode("", item_desctbl)
                 item_desc = string.Replace(item_desc, "_", "%")
-                m_DrawItemDesc(item_desc, "moat_ItemDesc", draw_stats_x, draw_stats_y, w - 12, h - draw_stats_y - 20)
-                drawn_stats = m_GetItemDescH(item_desc, "moat_ItemDesc", w - 12)
+                drawn_stats = m_DrawItemDesc(item_desc, "moat_ItemDesc", draw_stats_x, draw_stats_y, w - 12, h - draw_stats_y - 20)
                 draw_stats_multi = 15
                 local collection_y = draw_stats_y + (drawn_stats * draw_stats_multi) - 1
                 m_DrawShadowedText(1, "From the " .. ITEM_HOVERED.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
@@ -5967,7 +5975,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
                 talent_desc2 = string.Implode("", talent_desctbl2)
                 talent_desc2 = string.Replace(talent_desc2, "_", "%")
-                local talent_desc_h = 17 + (m_GetItemDescH(talent_desc2, "moat_ItemDesc", MOAT_ITEM_STATS:GetWide() - 12) * 15)
+                local talent_desc_h = 17 + (m_GetItemDescH(talent_desc2, "moat_ItemDesc", MOAT_ITEM_STATS:GetWide() - 12 - 6) * 15)
                 drawn_talents = drawn_talents + talent_desc_h + 3
             end
         end
@@ -6075,7 +6083,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
                     talent_desc2 = string.Implode("", talent_desctbl2)
                     talent_desc2 = string.Replace(talent_desc2, "_", "%")
-                    local talent_desc_h = 17 + (m_GetItemDescH(talent_desc2, "moat_ItemDesc", MOAT_ITEM_STATS:GetWide() - 12) * 15)
+                    local talent_desc_h = 17 + (m_GetItemDescH(talent_desc2, "moat_ItemDesc", MOAT_ITEM_STATS:GetWide() - 12 - 6) * 15)
                     drawn_talents = drawn_talents + talent_desc_h + 3
                 end
             end
