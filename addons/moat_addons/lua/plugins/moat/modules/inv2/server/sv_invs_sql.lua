@@ -951,7 +951,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 							for id, mod in pairs(Talents[i].Modifications) do
 								v.t[i].m[id] = math.Round(math.Rand(0, 1), 2)
 							end
-						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier)) then
+						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier or MOAT_DROPTABLE[v.u].Talents[i] ~= "random") and MOAT_DROPTABLE[v.u].Talents[i] ~= Talents[i].Name) then
 							if (v.t[i].e == 2) then v.t[i].e = 1 end
 							if (v.t[i].e == 4) then v.t[i].e = 7 end
 							if (v.t[i].e == 26) then v.t[i].e = 16 end
@@ -1101,7 +1101,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 							for id, mod in pairs(Talents[i].Modifications) do
 								v.t[i].m[id] = math.Round(math.Rand(0, 1), 2)
 							end
-						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier)) then
+						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier or MOAT_DROPTABLE[v.u].Talents[i] ~= "random") and MOAT_DROPTABLE[v.u].Talents[i] ~= Talents[i].Name) then
 							if (v.t[i].e == 2) then v.t[i].e = 1 end
 							if (v.t[i].e == 4) then v.t[i].e = 7 end
 							if (v.t[i].e == 26) then v.t[i].e = 16 end

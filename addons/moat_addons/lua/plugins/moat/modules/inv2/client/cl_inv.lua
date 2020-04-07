@@ -542,35 +542,41 @@ local function DrawBlur(panel, amount)
     end
 end
 
-local desc_cache = {}
+local desc_cache, desc_length = {}, {}
+local number_col = Color(45, 206, 137)
 function m_DrawItemDescLevel(text, font, x, y, w, col)
-    desc_cache[text] = desc_cache[text] or string.Explode(" ", text)
-    surface_SetFont(font)
+	if (not desc_cache[text]) then
+		desc_cache[text], desc_length[text] = {}, 0
+		for str in string.gsub(text, "[%.%!%?]*$", ""):gmatch "([^%s]*%s*)" do
+			desc_length[text] = desc_length[text] + 1
+			desc_cache[text][desc_length[text]] = str
+		end
+
+		desc_length[text] = desc_length[text] + 1
+		desc_cache[text][desc_length[text]] = text:match "[%.%!%?]*$"
+	end
+
+    surface.SetFont(font)
+
     local chars_x = 0
     local chars_y = 0
 
 	for k, v in ipairs(desc_cache[text]) do
 		if (type(v) == "string") then
-			local color = (string.match(v, "^(%-?%+?%d+%.?%d*%%?%.?x?)$")) and Color(45, 206, 137) or col
 			local str = v
-			local strw = surface.GetTextSize(str .. " ")
-			desc_cache[text][k] = {Text = str, Width = strw, Color = color}
+			local strw = surface.GetTextSize(str)
+			desc_cache[text][k] = {Text = str, Width = strw, Color = Either(string.match(str, "^[%.%-%+]?[%d*%%*]%.?[^%)]*[%s*%d*][%.%-%+%%]?$"), number_col, col)}
 			v = desc_cache[text][k]
 		end
 
-        if (chars_x + v.Width >= w) then
+        if (chars_x + (v.Width + 5) >= w) then
             chars_x = 0
-            chars_y = chars_y + 1
+            chars_y = chars_y + 15
         end
 
-        draw_SimpleText(v.Text, font, x + chars_x, y + (chars_y * 15), v.Color)
-        chars_x = chars_x + v.Width
+        draw.SimpleText(v.Text, font, x + chars_x, y + chars_y, v.Color)
 
-        /*if (i == #texte) then
-            local charw2, charh2 = surface_GetTextSize(" ")
-            -- draw_SimpleText(".", font, x + chars_x - charw2 + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
-            draw_SimpleText(".", font, x + chars_x - charw2, y + (chars_y * 15), Color(alpha, alpha, alpha, 255))
-        end*/
+        chars_x = chars_x + v.Width
     end
 end
 
