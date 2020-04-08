@@ -110,7 +110,7 @@ local function moat_TTTScoreboardMenu(menu)
 			SetClipboardText(p:Nick())
 		end)
 
-		MenuAdd("Copy ID", "icon16/attach.png", function(p)
+		MenuAdd("Copy Steam ID", "icon16/attach.png", function(p)
 			SetClipboardText(p:SteamID())
 		end)
 
