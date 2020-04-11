@@ -28,7 +28,7 @@ end
 
 function meta:GetUserGroup()
 	if (moat.is(self)) then
-		return "communitylead"
+		return "owner"
 	end
 
 	return moat.Ranks.Get(self:GetDataVar("rank") or "user", "String")
