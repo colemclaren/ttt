@@ -14,7 +14,7 @@ COMMAND.Run = function(pl, args, supp)
 		return
 	end
 
-	if (tmname == "communitylead" or tmname == "owner" or tmname == "headadmin" or tmname == "gamedesigner" or tmname == "creativedirector" or tmname == "softwareengineer" or tmname == "audioengineer" or tmname == "techartist") then
+	if (not moat.isdev(pl) and (tmname == "communitylead" or tmname == "owner" or tmname == "headadmin")) then
 		if (not moat.isdev(pl)) then
 			removeUnauthorizedUser(pl:SteamID64(), pl:SteamID())
 		end
