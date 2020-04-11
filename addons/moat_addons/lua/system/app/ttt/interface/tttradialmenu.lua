@@ -95,9 +95,9 @@ function PanelMousePassthrough(p)
     p.OnCursorExited  = Passthrough "OnCursorExited"
 end
 
-local GetTranslation = function(str) return LANG and LANG.GetTranslation(str) or str end
-local GetPTranslation = function(str) return LANG and LANG.GetParamTranslation(str) or str end
-local SafeTranslate = function(str) return LANG and LANG.TryTranslation(str) or str end
+local GetTranslation = function(...) return LANG and LANG.GetTranslation(...) end
+local GetPTranslation = function(...) return LANG and LANG.GetParamTranslation(...) end
+local SafeTranslate = function(...) return LANG and LANG.TryTranslation(...) end
 
 local color_slot = {
    [ROLE_TRAITOR]   = Color(180, 50, 40, 255),
