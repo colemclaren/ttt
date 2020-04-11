@@ -13,7 +13,7 @@ TALENT.Melee = false
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath(victim, _, attacker, talent_mods)
-	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+	local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1]))
 	if (chance > math.random() * 100) then
 		local plyWep = attacker:GetActiveWeapon()
 		local maxClip1 = plyWep:GetMaxClip1()

@@ -15,8 +15,8 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
-    local amt = math.Round(self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1]))
-    local sec = math.Round(self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]))
+    local amt = math.Round(self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1])))
+    local sec = math.Round(self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * math.min(1, talent_mods[2])))
 
     status.Inflict("Predatory", {Time = sec, Amount = amt, Player = att})
 end

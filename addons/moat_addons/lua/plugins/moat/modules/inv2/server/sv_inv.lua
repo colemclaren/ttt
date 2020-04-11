@@ -266,7 +266,7 @@ local function addstats(itemtbl,embed)
             local talent_desctbl = string.Explode("^", talent_desc)
 
             for i = 1, table.Count(v.m) do
-                local mod_num = "[" .. math.Round(itemtbl.Talents[k].Modifications[i].min + ((itemtbl.Talents[k].Modifications[i].max - itemtbl.Talents[k].Modifications[i].min) * v.m[i]), 1) .. "](http://moat.gg)"
+                local mod_num = "[" .. math.Round(itemtbl.Talents[k].Modifications[i].min + ((itemtbl.Talents[k].Modifications[i].max - itemtbl.Talents[k].Modifications[i].min) * math.min(1, v.m[i])), 1) .. "](http://moat.gg)"
                 talent_desctbl[i] = string.format(talent_desctbl[i], tostring(mod_num))
             end
 
@@ -341,7 +341,7 @@ local function getiteminfo(ITEM_HOVERED,embed)
 
         if (ITEM_HOVERED.s) then
             for i = 1, #ITEM_HOVERED.s do
-                local item_stat = ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i])
+                local item_stat = ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * math.min(1, ITEM_HOVERED.s[i]))
                 item_desc = string.format(item_desc, math.Round(item_stat, 2))
             end
         end

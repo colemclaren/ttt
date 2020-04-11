@@ -18,13 +18,13 @@ TALENT.NotUnique = true
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	if (MOAT_ACTIVE_BOSS) then return end
 
-	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
+	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * math.min(1, talent_mods[1]) )
 	if (chance > math.random() * 100) then
 		status.Inflict("Inferno", {
 			Victim = victim,
 			Attacker = dmginfo:GetAttacker(),
 			Inflictor = dmginfo:GetInflictor(),
-			Time = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * talent_mods[2] )
+			Time = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * math.min(1, talent_mods[2]) )
 		})
 	end
 end

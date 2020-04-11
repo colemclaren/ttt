@@ -42,7 +42,7 @@ local function talent_chat(new,v,tier,wild)
 	local talent_desc = new.Description
 	local talent_desctbl = string.Explode("^", talent_desc)
 	for i = 1, table.Count(v.m) do
-		local mod_num = math.Round(new.Modifications[i].min + ((new.Modifications[i].max - new.Modifications[i].min) * v.m[i]), 1)
+		local mod_num = math.Round(new.Modifications[i].min + ((new.Modifications[i].max - new.Modifications[i].min) * math.min(1, v.m[i])), 1)
 
 		talent_desctbl[i] = string.format(talent_desctbl[i], tostring(mod_num))
 	end

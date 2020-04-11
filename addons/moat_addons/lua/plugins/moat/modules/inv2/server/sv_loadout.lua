@@ -202,7 +202,7 @@ function MOAT_LOADOUT.ApplyOtherModifications(tbl, loadout_tbl, item)
         wep.InventoryModifications = {}
 
         for i = 1, #itemtbl.s do
-            wep.InventoryModifications[i] = itemtbl.item.Stats[i].min + ((itemtbl.item.Stats[i].max - itemtbl.item.Stats[i].min) * itemtbl.s[i])
+            wep.InventoryModifications[i] = itemtbl.item.Stats[i].min + ((itemtbl.item.Stats[i].max - itemtbl.item.Stats[i].min) * math.min(1, itemtbl.s[i]))
         end
     end
 end

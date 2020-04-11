@@ -49,7 +49,7 @@ hook.Add("TTTPlayerSpeed", "moat_ApplyWeaponWeight", function(ply, slowed)
                 if (MOAT_POWERUPTABLE[ply].item.Name == "Marathon Runner") then
                     local powerup_mods = MOAT_POWERUPTABLE[ply].s or {}
                     local powerup_servertbl = MOAT_POWERUPTABLE[ply].item
-                    new_speed = new_speed * (1 + ((powerup_servertbl.Stats[1].min + ((powerup_servertbl.Stats[1].max - powerup_servertbl.Stats[1].min) * powerup_mods[1])) / 100))
+                    new_speed = new_speed * (1 + ((powerup_servertbl.Stats[1].min + ((powerup_servertbl.Stats[1].max - powerup_servertbl.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100))
                 end
             end
         end

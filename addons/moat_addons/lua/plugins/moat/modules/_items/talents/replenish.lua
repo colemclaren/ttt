@@ -14,7 +14,7 @@ TALENT.Modifications[1] = {min = 40, max = 80}
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
 	if (GetRoundState() ~= ROUND_ACTIVE) then return end
 
-	local chance = (self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])) / (wep.Primary.NumShots or 1)
+	local chance = (self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1]))) / (wep.Primary.NumShots or 1)
 	local old_callback = dmginfo.Callback
 
 	local has_done = false

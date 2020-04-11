@@ -21,7 +21,7 @@ ITEM.Stats = {
 
 function ITEM:OnPlayerSpawn( ply, powerup_mods )
 
-	/*local new_speed = ply.MaxSpeed * ( 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * powerup_mods[1] ) ) / 100 ) )
+	/*local new_speed = ply.MaxSpeed * ( 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * math.min(1, powerup_mods[1]) ) ) / 100 ) )
 
 	ply:SetMaxSpeed( new_speed )
 

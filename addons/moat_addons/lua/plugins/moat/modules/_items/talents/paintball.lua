@@ -23,5 +23,5 @@ function TALENT:ModifyWeapon(weapon, talent_mods)
         return 1
     end
 
-    weapon.Primary.Damage = weapon.Primary.Damage * (1 + (self.Modifications[1].min + (self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1]) / 100)
+    weapon.Primary.Damage = weapon.Primary.Damage * (1 + (self.Modifications[1].min + (self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1])) / 100)
 end

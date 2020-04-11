@@ -25,12 +25,12 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
     weapon.Weapon.HoldType = "duel"
 
 	local pri = weapon.Primary
-	local mult = (self.Modifications[1].min + (self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1]) / 100
+	local mult = (self.Modifications[1].min + (self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1])) / 100
 
     pri.Damage = pri.Damage * (1 - mult)
 
 	local Mod = self.Modifications[1]
-	local mult = Mod.min + (Mod.max - Mod.min) * talent_mods[1]
+	local mult = Mod.min + (Mod.max - Mod.min) * math.min(1, talent_mods[1])
 
 	weapon:SetFirerate((1 - (1 - weapon:GetFirerate() / 100) * 0.6) * 100)
 

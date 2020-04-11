@@ -13,7 +13,7 @@ TALENT.Melee = true
 TALENT.NotUnique = false
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
-	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
+	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * math.min(1, talent_mods[1]) )
 	if (chance > math.random() * 100) then
 		dmginfo:ScaleDamage(2)
 	end

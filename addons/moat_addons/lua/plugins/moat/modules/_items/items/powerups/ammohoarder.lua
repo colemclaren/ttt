@@ -25,7 +25,7 @@ function ITEM:OnBeginRound(ply, powerup_mods)
 
 		for k, v in ipairs(ply:GetWeapons()) do
 			local ammo_type, max_clip = v:GetPrimaryAmmoType(), v:GetMaxClip1()
-			local ammo_to_give = math.Clamp(((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * powerup_mods[1])) / 100) * (max_clip * 2), 0, max_clip * 2)
+			local ammo_to_give = math.Clamp(((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100) * (max_clip * 2), 0, max_clip * 2)
 			ply:GiveAmmo(ammo_to_give, ammo_type)
 		end
 	end)

@@ -15,9 +15,9 @@ TALENT.NotUnique = false
 TALENT.Collection = "Meme Collection"
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
-	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
+	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * math.min(1, talent_mods[1]) )
 	if (chance > math.random() * 100) then
-		local power = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * talent_mods[2] )
+		local power = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * math.min(1, talent_mods[2]) )
 		
 		status.Inflict("Cough", {
 			Player = victim,

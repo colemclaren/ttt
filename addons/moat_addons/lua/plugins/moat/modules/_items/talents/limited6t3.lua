@@ -85,7 +85,7 @@ if (SERVER) then
 end
 
 function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
-    local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+    local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1]))
     if (chance > math.random() * 100) and GetRoundState() ~= ROUND_PREP then
     	wild_t3(att:GetActiveWeapon(),talent_mods)
     end

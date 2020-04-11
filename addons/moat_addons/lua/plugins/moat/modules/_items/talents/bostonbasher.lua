@@ -51,6 +51,6 @@ end
 function TALENT:ModifyWeapon(weapon, talent_mods)
 	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
 	if (weapon.Primary.Damage) then
-		weapon.Primary.Damage = weapon.Primary.Damage * (1 + ((self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])) / 100))
+		weapon.Primary.Damage = weapon.Primary.Damage * (1 + ((self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1]))) / 100))
 	end
 end

@@ -18,12 +18,12 @@ TALENT.NotUnique = true
 
 if (SERVER) then
 	function TALENT:ScalePlayerDamage(victim, attacker, dmginfo, hitgroup, talent_mods)
-		local extraDmg 	= (self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])) / 100
-		local range 	=  self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2])
+		local extraDmg 	= (self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1]))) / 100
+		local range 	=  self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * math.min(1, talent_mods[2]))
 		range = range * range
 
-		local bonusDmg 	= (self.Modifications[3].min + ((self.Modifications[3].max - self.Modifications[3].min) * talent_mods[3])) / 100
-		local maxDmg 	=  self.Modifications[4].min + ((self.Modifications[4].max - self.Modifications[4].min) * talent_mods[4])
+		local bonusDmg 	= (self.Modifications[3].min + ((self.Modifications[3].max - self.Modifications[3].min) * math.min(1, talent_mods[3]))) / 100
+		local maxDmg 	=  self.Modifications[4].min + ((self.Modifications[4].max - self.Modifications[4].min) * math.min(1, talent_mods[4]))
 
 		local dmg = 1
 		local attPos = attacker:GetPos()

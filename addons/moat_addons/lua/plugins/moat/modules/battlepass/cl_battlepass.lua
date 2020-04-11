@@ -739,7 +739,7 @@ function make_battlepass()
                 if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
 
                     for i = 1, #item_desctbl do
-                        local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
+                        local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * math.min(1, ITEM_HOVERED.s[i])), 2)
 
                         if (s.ctrldown) then
                             item_stat = "(" .. ITEM_HOVERED.item.Stats[i].min .. "-" .. ITEM_HOVERED.item.Stats[i].max .. ") " .. math.Round(item_stat, 2)
@@ -873,7 +873,7 @@ function make_battlepass()
                 if (ITEM_HOVERED.s and ITEM_HOVERED.item and ITEM_HOVERED.item.Stats) then
                     
                     for i = 1, #item_desctbl do
-                        local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * ITEM_HOVERED.s[i]), 2)
+                        local item_stat = math.Round(ITEM_HOVERED.item.Stats[i].min + ((ITEM_HOVERED.item.Stats[i].max - ITEM_HOVERED.item.Stats[i].min) * math.min(1, ITEM_HOVERED.s[i])), 2)
 
                         if (s.ctrldown) then
                             item_stat = "(" .. ITEM_HOVERED.item.Stats[i].min .. "-" .. ITEM_HOVERED.item.Stats[i].max .. ") " .. math.Round(item_stat, 2)
@@ -900,7 +900,7 @@ function make_battlepass()
                     local talent_desctbl2 = string.Explode("^", talent_desc2)
 
                     for i = 1, table.Count(v.m) do
-                        local mod_num = math.Round(ITEM_HOVERED.Talents[k].Modifications[i].min + ((ITEM_HOVERED.Talents[k].Modifications[i].max - ITEM_HOVERED.Talents[k].Modifications[i].min) * v.m[i]), 1)
+                        local mod_num = math.Round(ITEM_HOVERED.Talents[k].Modifications[i].min + ((ITEM_HOVERED.Talents[k].Modifications[i].max - ITEM_HOVERED.Talents[k].Modifications[i].min) * math.min(1, v.m[i])), 1)
                         
                         if (s.ctrldown) then
                             mod_num = "(" .. ITEM_HOVERED.Talents[k].Modifications[i].min .. "-" .. ITEM_HOVERED.Talents[k].Modifications[i].max .. ") " .. math.Round(mod_num, 2)

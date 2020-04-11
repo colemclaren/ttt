@@ -15,7 +15,7 @@ TALENT.NotUnique = true
 
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
     if (not gmod.GetGamemode():AllowPVP()) then return end
-    local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])
+    local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1]))
 
     if (not IsValid(wep)) then
         return
@@ -30,7 +30,7 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
     chance = chance / pellets_per_sec
 
 
-    local dmg = self.Modifications[2].min + (self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]
+    local dmg = self.Modifications[2].min + (self.Modifications[2].max - self.Modifications[2].min) * math.min(1, talent_mods[2])
 
     if (is_bow and hit_pos) then
         if (chance > math.random()) then

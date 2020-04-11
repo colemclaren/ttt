@@ -21,7 +21,7 @@ ITEM.Stats = {
 
 function ITEM:OnPlayerSpawn( ply, powerup_mods )
 
-	local xp_multi = 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * powerup_mods[1] ) ) / 100 )
+	local xp_multi = 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * math.min(1, powerup_mods[1]) ) ) / 100 )
 
 	ply.ExtraXP = xp_multi
 

@@ -21,7 +21,7 @@ ITEM.Stats = {
 
 function ITEM:OnPlayerSpawn( ply, powerup_mods )
 
-	local new_health = ply.MaxHealth + self.Stats[1].min + (self.Stats[1].max - self.Stats[1].min) * powerup_mods[1]
+	local new_health = ply.MaxHealth + self.Stats[1].min + (self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1])
 
 	ply:SetMaxHealth( new_health )
 

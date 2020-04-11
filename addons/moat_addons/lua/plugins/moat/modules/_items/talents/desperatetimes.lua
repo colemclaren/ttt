@@ -14,10 +14,10 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
-	local health_required = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * talent_mods[2] )
+	local health_required = self.Modifications[2].min + ( ( self.Modifications[2].max - self.Modifications[2].min ) * math.min(1, talent_mods[2]) )
 
 	if (attacker and attacker:Health() <= health_required) then
-		local increase = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * talent_mods[1] )
+		local increase = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * math.min(1, talent_mods[1]) )
 		dmginfo:ScaleDamage(1 + (increase / 100))
 	end
 end

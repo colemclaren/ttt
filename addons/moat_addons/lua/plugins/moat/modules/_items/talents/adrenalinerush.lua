@@ -17,8 +17,8 @@ function TALENT:OnPlayerDeath(victim, _, attacker, talent_mods)
 	status.Inflict("Steroids", {
 		Player = attacker,
 		Weapon = attacker:GetActiveWeapon(),
-		Time = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * talent_mods[2]),
-		Percent = 1 + ((self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * talent_mods[1])) / 100)
+		Time = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * math.min(1, talent_mods[2])),
+		Percent = 1 + ((self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1]))) / 100)
 	})
 end
 

@@ -23,7 +23,7 @@ function ITEM:OnBeginRound(ply, powerup_mods)
 	timer.Simple(2, function()
 		if (not IsValid(ply)) then return end
 		if (ply:GetRole() and ply:GetRole() == ROLE_TRAITOR or ply:GetRole() == ROLE_DETECTIVE) then
-			local new_credits = GetConVarNumber("ttt_credits_starting") + math.Round( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * powerup_mods[1] ) )
+			local new_credits = GetConVarNumber("ttt_credits_starting") + math.Round( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * math.min(1, powerup_mods[1]) ) )
 			ply:SetCredits(new_credits)
 		end
 	end)
