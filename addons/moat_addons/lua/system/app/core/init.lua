@@ -7,9 +7,9 @@ AddCSLuaFile()
 
 yugh.i "autoexec.lua"
 
-yugh.i "moat.gg/servers.lua"
-yugh.i "moat.gg/ranks.lua"
-yugh.i "moat.gg/superadmin.lua"
+yugh.i "moat/servers.lua"
+yugh.i "moat/ranks.lua"
+yugh.i "moat/superadmin.lua"
 
 yugh.i "_dev/"
 
