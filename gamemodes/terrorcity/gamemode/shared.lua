@@ -152,7 +152,7 @@ local ttt_playercolors = {
 CreateConVar("ttt_playercolor_mode", "1")
 
 function GM:TTTIsRightfulDamage(attacker, victim)
-    return IsValid(victim) and IsValid(attacker) and victim:IsPlayer() and attacker:IsPlayer() and attacker:GetBasicRole() ~= victim:GetBasicRole() and not (attacker:GetRole() == ROLE_DETECTIVE and victim:GetRole() == ROLE_INNOCENT)
+    return IsValid(victim) and IsValid(attacker) and victim:IsPlayer() and attacker:IsPlayer() and (attacker:GetBasicRole() ~= victim:GetBasicRole())
 end
 
 function GM:TTTPlayerColor(model)

@@ -33,7 +33,11 @@ local changelogs = {
         "Doctors cannot revive non-innocents",
         "Someone purposefully killing themselves so the doctor can prove them is considered metagaming.",
         "FEEDBACK WELCOME ON THE FORUMS"
-    }
+    },
+	[20200411] = {
+		"Added karma weight to the Serial Killer"
+	}
+
 }
 
 local PANEL = {}
