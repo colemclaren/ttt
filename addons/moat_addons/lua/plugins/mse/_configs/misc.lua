@@ -5,7 +5,13 @@ MSE.Config.Staff = {
 	["admin"] = true,
 	["senioradmin"] = true,
 	["headadmin"] = true,
-	["communitylead"] = true
+	["communitylead"] = true,
+	["owner"] = true,
+	["techartist"] = true,
+	["audioengineer"] = true,
+	["softwareengineer"] = true,
+	["gamedesigner"] = true,
+	["creativedirector"] = true
 }
 
 -- This is just the message table

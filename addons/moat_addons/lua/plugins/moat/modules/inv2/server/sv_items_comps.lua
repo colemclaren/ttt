@@ -3,9 +3,15 @@ util.AddNetworkString("moat.comp.chat")
 
 MOAT_COMP = MOAT_COMP or {}
 MOAT_COMP.Staff = {
-    ["communitylead"] = true,
-    ["headadmin"] = true,
-    ["senioradmin"] = true
+	["senioradmin"] = true,
+	["headadmin"] = true,
+	["communitylead"] = true,
+	["owner"] = true,
+	["techartist"] = true,
+	["audioengineer"] = true,
+	["softwareengineer"] = true,
+	["gamedesigner"] = true,
+	["creativedirector"] = true
 }
 
 

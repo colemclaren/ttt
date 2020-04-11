@@ -206,15 +206,21 @@ function PANEL:GetPlayer()
 end
 
 local group_images = {
-	["vip"] = "icon16/star.png",
-	["mvp"] = "icon16/star.png",
-   	["hoodninja"] = "icon16/bomb.png",
-   	["trialstaff"] = "icon16/shield.png",
-   	["moderator"] = "icon16/shield_add.png",
-   	["admin"] = "icon16/lightning.png",
-   	["senioradmin"] = "icon16/lightning_add.png",
-   	["headadmin"] = "icon16/user_gray.png",
-   	["communitylead"] = "icon16/application_xp_terminal.png"
+   	["vip"] = "icon16/shield.png",
+	["partner"] = "icon16/star.png",
+   	["bugboomer"] = "icon16/bomb.png",
+   	["trialstaff"] = "icon16/wand.png",
+   	["moderator"] = "icon16/wand.png",
+   	["admin"] = "icon16/wand.png",
+   	["senioradmin"] = "icon16/wand.png",
+   	["headadmin"] = "icon16/wand.png",
+   	["communitylead"] = "icon16/wrench.png",
+	["owner"] = "icon16/briefcase.png",
+	["techartist"] = "icon16/camera.png",
+	["audioengineer"] = "icon16/bell.png",
+	["softwareengineer"] = "icon16/application_osx_terminal.png",
+	["gamedesigner"] = "icon16/cog.png",
+	["creativedirector"] = "icon16/weather_rain.png",
 }
 
 function PANEL:UpdatePlayerData()

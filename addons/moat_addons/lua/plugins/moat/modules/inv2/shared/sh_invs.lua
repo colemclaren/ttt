@@ -1,4 +1,4 @@
-MOAT_VIP = {"vip", "mvp", "hoodninja", "trialstaff", "moderator", "admin", "senioradmin", "headadmin", "communitylead"}
+MOAT_VIP = {"vip", "mvp", "hoodninja", "trialstaff", "moderator", "admin", "senioradmin", "headadmin", "communitylead", "owner", "techartist", "audioengineer", "softwareengineer", "gamedesigner", "creativedirector"}
 local pl = FindMetaTable("Player")
 local MOAT_TALENT_FOLDER = "plugins/moat/modules/_items/talents"
 MOAT_TALENTS = {}

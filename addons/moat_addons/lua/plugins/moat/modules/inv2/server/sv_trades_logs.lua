@@ -84,11 +84,17 @@ net.Receive("moat.logs.open", function(l, pl)
 end)
 
 local staffgroups = {
-    ["communitylead"] = true,
-    ["headadmin"] = true,
-    ["senioradmin"] = true,
-    ["admin"] = true,
-    ["moderator"] = true
+	["moderator"] = true,
+	["admin"] = true,
+	["senioradmin"] = true,
+	["headadmin"] = true,
+	["communitylead"] = true,
+	["owner"] = true,
+	["techartist"] = true,
+	["audioengineer"] = true,
+	["softwareengineer"] = true,
+	["gamedesigner"] = true,
+	["creativedirector"] = true
 }
 
 net.Receive("moat.logs.opent", function(_, pl)

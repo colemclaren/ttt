@@ -48,11 +48,17 @@ MOAT_LOGS.NoMatches = CurTime() - 10
 
 
 local staffgroups = {
-    ["communitylead"] = true,
-    ["headadmin"] = true,
-    ["senioradmin"] = true,
-    ["admin"] = true,
-    ["moderator"] = true
+	["moderator"] = true,
+	["admin"] = true,
+	["senioradmin"] = true,
+	["headadmin"] = true,
+	["communitylead"] = true,
+	["owner"] = true,
+	["techartist"] = true,
+	["audioengineer"] = true,
+	["softwareengineer"] = true,
+	["gamedesigner"] = true,
+	["creativedirector"] = true
 }
 
 function MOAT_LOGS:ViewLog(id)

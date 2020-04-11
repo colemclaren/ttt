@@ -1,12 +1,19 @@
 D3A.Player = D3A.Player or {}
 
-local staff = {}
-staff["moderator"] = true
-staff["trialstaff"] = true
-staff["admin"] = true
-staff["senioradmin"] = true
-staff["headadmin"] = true
-staff["communitylead"] = true
+local staff = {
+	["trialstaff"] = true,
+	["moderator"] = true,
+	["admin"] = true,
+	["senioradmin"] = true,
+	["headadmin"] = true,
+	["communitylead"] = true,
+	["owner"] = true,
+	["techartist"] = true,
+	["audioengineer"] = true,
+	["softwareengineer"] = true,
+	["gamedesigner"] = true,
+	["creativedirector"] = true
+}
 
 local max_players, hostname = GetConVarNumber("maxplayers"), GetHostName():lower()
 local beta_server, maintenance_server = hostname:find "TTC", hostname:find("maintenance")

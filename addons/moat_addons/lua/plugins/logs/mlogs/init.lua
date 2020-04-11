@@ -15,12 +15,18 @@ function mlogs.cfg:AddGroup(group, active, staff)
 	self.StaffGroups[group] = staff
 end
 
+mlogs.cfg:AddGroup("owner", true, true)
 mlogs.cfg:AddGroup("communitylead", true, true)
 mlogs.cfg:AddGroup("headadmin", true, true)
 mlogs.cfg:AddGroup("senioradmin", false, true)
 mlogs.cfg:AddGroup("admin", false, true)
 mlogs.cfg:AddGroup("moderator", false, true)
 mlogs.cfg:AddGroup("trialstaff", false, true)
+mlogs.cfg:AddGroup("techartist", false, true)
+mlogs.cfg:AddGroup("audioengineer", false, true)
+mlogs.cfg:AddGroup("softwareengineer", false, true)
+mlogs.cfg:AddGroup("gamedesigner", false, true)
+mlogs.cfg:AddGroup("creativedirector", false, true)
 
 mlogs.IncludeSV = function(p) if (SERVER) then include(mlogs.Folder .. p) end end
 mlogs.IncludeCL = function(p) if (SERVER) then AddCSLuaFile(mlogs.Folder .. p) else include(mlogs.Folder .. p) end end
