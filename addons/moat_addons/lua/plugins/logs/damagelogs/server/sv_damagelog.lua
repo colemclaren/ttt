@@ -100,29 +100,17 @@ function Damagelog:SendDamagelog(ply, round)
 	local roles = self.Roles[round]
 	local current = false
 	if round == -1 then
-		if not self.last_round_map then return end
 		if self.Use_MySQL and self.MySQL_Connected then
-			local query = self.database:query("SELECT UNCOMPRESS(damagelog) FROM damagelog_oldlogs WHERE date = "..self.last_round_map)
-			query.onSuccess = function(q)
-				local data = q:getData()
-				if data and data[1] then
-					local encoded = data[1]["UNCOMPRESS(damagelog)"]
+			Db("SELECT UNCOMPRESS(damagelog) AS damagelog FROM damagelog_oldlogs WHERE server = ? ORDER BY date DESC LIMIT 1", Damagelog.Server, function(r)
+				if (r and r[1]) then
+					local encoded = r[1].damagelog
 					local decoded = util.JSONToTable(encoded)
-					if not decoded then
-						decoded = { roles = {}, DamageTable = {"empty"} }
+					if (not decoded) then
+						decoded = {roles = {}, DamageTable = {"empty"}}
 					end
 					self:TransferLogs(decoded.DamageTable, ply, round, decoded.roles)
 				end
-			end
-			query:start()
-		elseif not self.Use_MySQL then
-			local query = sql.QueryValue("SELECT damagelog FROM damagelog_oldlogs WHERE date = "..self.last_round_map)
-			if not query then return end
-			local decoded = util.JSONToTable(query)
-			if not decoded then
-				decoded = { roles = {}, DamageTable = {"empty"} }
-			end
-			self:TransferLogs(decoded.DamageTable, ply, round, decoded.roles)		
+			end)
 		end
 	elseif round == self:GetSyncEnt():GetPlayedRounds() then
 		if not ply:CanUseDamagelog() then return end

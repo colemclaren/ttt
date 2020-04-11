@@ -53,7 +53,7 @@ local function moat_EndRoundBossHooks(force)
 	if (MOAT_MINIGAMES.CantEnd() and not force) then return end
 
     -- Remove our hooks
-    hook.Remove("tt.BeginRound", "moat_BossBeginRound")
+    hook.Remove("ttt.BeginRound", "moat_BossBeginRound")
     hook.Remove("EntityTakeDamage", "moat_BossSaveDamage")
     hook.Remove("PostPlayerDeath", "moat_BossDeath")
     hook.Remove("EntityTakeDamage", "moat_BossPreventDamage")
@@ -304,7 +304,7 @@ local function moat_BeginRoundBossHooks()
         cdn.PlayURL("https://cdn.moat.gg/ttt/easter/looney_tunes_opening2.mp3", 2)
     end)
 
-    hook.Add("tt.BeginRound", "moat_BossBeginRound", function()
+    hook.Add("ttt.BeginRound", "moat_BossBeginRound", function()
         for _, pos in ipairs(EASTER.EggSpawns) do
             local egg = ents.Create "sent_egg_basket_adv"
             egg:SetShinesThrough(true)
@@ -501,7 +501,7 @@ function EASTER.StartEggStealer(chosen)
     net.Start("MOAT_PREP_BUNNY")
     net.Broadcast()
 
-    tt.ExtendPrep(21)
+    ttt.ExtendPrep(21)
 
     chosen:StripWeapons()
     MOAT_LOADOUT.GiveLoadout(chosen)

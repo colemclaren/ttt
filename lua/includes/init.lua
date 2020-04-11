@@ -1,3 +1,3 @@
 AddCSLuaFile()
 
-include "system/libs/yugh/include.lua"
+include "system/app/yugh/include.lua"

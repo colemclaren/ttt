@@ -464,7 +464,7 @@ function MG_CG.PrepRound()
     MG_CG.FirstInfected = nil
 
     MG_CG.HookAdd("PlayerSpawn", "MG_CG_SPAWN", MG_CG.PlayerSpawn)
-    MG_CG.HookAdd("tt.BeginRound", "MG_CG_BEGIN", MG_CG.BeginRound)
+    MG_CG.HookAdd("ttt.BeginRound", "MG_CG_BEGIN", MG_CG.BeginRound)
     MG_CG.HookAdd("TTTKarmaGivePenalty", "MG_CG_PREVENTKARMA", MG_CG.KarmaStuff)
     MG_CG.HookAdd("PlayerDeath", "MG_CG_DEATH", MG_CG.PlayerDeath)
     MG_CG.HookAdd("MoatInventoryShouldGiveLoadout", "MG_CG_PL", MG_CG.PreventLoadouts)
@@ -484,7 +484,7 @@ function MG_CG.PrepRound()
 
     hook.Add("TTTCheckForWin", "MG_CG_DELAYWIN", function() return WIN_NONE end)
 
-    tt.ExtendPrep()
+    ttt.ExtendPrep()
 
 	SetGlobalStr("MOAT_MINIGAME_ACTIVE", "Contagion")
 

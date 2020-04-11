@@ -1,3 +1,14 @@
+function net.InvsBroadcast(sid, ply)
+	local clients = {}
+	for k, v in ipairs(player.GetAll()) do
+		if (v.InventoryOpen or (sid and v:SteamID64() == sid) or (ply and (isstring(ply) and v:SteamID64() == ply or v == ply))) then
+			table.insert(clients, v)
+		end
+	end
+
+	return net.Send(clients)
+end
+
 function m_WriteWeaponToNet(self)
 	if (self and istable(self)) then
 		print "writing..."

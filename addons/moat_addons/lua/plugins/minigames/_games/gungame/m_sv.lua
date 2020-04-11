@@ -472,7 +472,7 @@ function MG_GG.PrepRound()
     MG_GG.HandleDamageLogStuff(false)
 
 	MG_GG.HookAdd("MoatInventoryShouldGiveLoadout", "MG_GG_PL", MG_GG.PreventLoadouts)
-    MG_GG.HookAdd("tt.BeginRound", "MG_GG_BEGIN", MG_GG.BeginRound)
+    MG_GG.HookAdd("ttt.BeginRound", "MG_GG_BEGIN", MG_GG.BeginRound)
     MG_GG.HookAdd("TTTKarmaGivePenalty", "MG_GG_PREVENTKARMA", MG_GG.KarmaStuff)
     MG_GG.HookAdd("PlayerDisconnected", "MG_GG_DISCONNECT", MG_GG.PlayerDisconnected)
     MG_GG.HookAdd("EntityFireBullets", "MG_GG_REMOVESPAWNPROT", MG_GG.RemoveSpawnProtection)
@@ -482,7 +482,7 @@ function MG_GG.PrepRound()
 
     hook.Add("TTTCheckForWin", "MG_GG_DELAYWIN", function() return WIN_NONE end)
 
-	tt.ExtendPrep()
+	ttt.ExtendPrep()
 
     -- need to call this again? just for safe measures
     for k, v in pairs(player.GetAll()) do

@@ -1,12 +1,8 @@
 
 Damagelog = Damagelog or {}
 Damagelog.Path = "plugins/logs/damagelogs/"
-Damagelog.VERSION = "Moat TTT"
-
-if (not file.IsDir("damagelog", "DATA")) then
-	file.CreateDir("damagelog")
-end
-
+Damagelog.VERSION = "2.4.0 (moat.gg)"
+Damagelog.Server = string(GetConVarString 'ip', ':', GetConVarString 'hostport')
 Damagelog.User_rights = Damagelog.User_rights or {}
 Damagelog.RDM_Manager_Rights = Damagelog.RDM_Manager_Rights or {}
 
@@ -68,7 +64,7 @@ Damagelog.Respond_Command = "!respond"
 	Setting it to false will make the logs use SQLite (garrysmod/sv.db)
 ]]--
 
-Damagelog.Use_MySQL = false
+Damagelog.Use_MySQL = true
 
 --[[ Enables the !aslay and !aslayid command for ULX, designed to work with the logs.
 Works like that : !aslay target number_of_slays reason

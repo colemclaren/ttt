@@ -390,7 +390,7 @@ function MG_LAVA.PrepRound(mk, pri, sec, creds)
     end
 
 	MG_LAVA.HookAdd("MoatInventoryShouldGiveLoadout", MG_LAVA.PreventLoadouts)
-	MG_LAVA.HookAdd("tt.BeginRound", MG_LAVA.BeginRound)
+	MG_LAVA.HookAdd("ttt.BeginRound", MG_LAVA.BeginRound)
 	MG_LAVA.HookAdd("CanPlayerSuicide", function(ply) return true end)
     MG_LAVA.HookAdd("PlayerDeath",MG_LAVA.PlayerDeath)
     MG_LAVA.HookAdd("PlayerSpawn",MG_LAVA.PlayerSpawn)
@@ -521,7 +521,7 @@ concommand.Add("moat_start_lava", function(ply, cmd, args)
         return
     end
 
-	tt.ExtendPrep()
+	ttt.ExtendPrep()
 
     MG_LAVA.explosive = tobool(args[1] or false)
 

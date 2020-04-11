@@ -457,7 +457,7 @@ function MG_OC.PrepRound()
     MG_OC.GunGameOver = false
     MG_OC.HandleDamageLogStuff(false)
 
-    MG_OC.HookAdd("tt.BeginRound", "MG_OC_BEGIN", MG_OC.BeginRound)
+    MG_OC.HookAdd("ttt.BeginRound", "MG_OC_BEGIN", MG_OC.BeginRound)
     MG_OC.HookAdd("TTTKarmaGivePenalty", "MG_OC_PREVENTKARMA", MG_OC.KarmaStuff)
     MG_OC.HookAdd("MoatInventoryShouldGiveLoadout", "MG_OC_PL", MG_OC.PreventLoadouts)
     MG_OC.HookAdd("EntityFireBullets", "MG_OC_REMOVESPAWNPROT", MG_OC.RemoveSpawnProtection)
@@ -484,7 +484,7 @@ concommand.Add("moat_start_onechamber", function(ply, cmd, args)
         return
     end
 
-    tt.ExtendPrep()
+    ttt.ExtendPrep()
 
     MG_OC.PrepRound()
 end)

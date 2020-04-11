@@ -27,7 +27,7 @@ end
 local function moat_EndRoundBossHooks()
 	if (MOAT_MINIGAMES.CantEnd()) then return end
 	-- Remove our hooks
-	hook.Remove("tt.BeginRound", "moat_BossBeginRound")
+	hook.Remove("ttt.BeginRound", "moat_BossBeginRound")
 	hook.Remove("EntityTakeDamage", "moat_BossSaveDamage")
 	hook.Remove("PostPlayerDeath", "moat_BossDeath")
 	hook.Remove("EntityTakeDamage", "moat_BossPreventDamage")
@@ -228,7 +228,7 @@ local function moat_BeginRoundBossHooks()
 		hook.Run("PostPlayerDeath", pl)
 	end)
 
-	hook.Add("tt.BeginRound", "moat_BossBeginRound", function()
+	hook.Add("ttt.BeginRound", "moat_BossBeginRound", function()
 		local pls = player.GetAll()
 
 		if (not IsValid(MOAT_DRAGON_PLY)) then
@@ -467,7 +467,7 @@ concommand.Add("moat_dragon", function(ply, cmd, args)
 	net.Broadcast()
 
 	MuteForRestart(true)
-	tt.ExtendPrep()
+	ttt.ExtendPrep()
 	MOAT_DRAGON_INITIALIZED = false
 	MOAT_DRAGON_ENT = NULL
 	MOAT_ACTIVE_BOSS = true

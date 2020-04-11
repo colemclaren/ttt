@@ -1,6 +1,6 @@
 local _this = aCrashScreen
 
-util.AddNetworkString( 'acrashscreen_ping' )
+util.AddNetworkString( 'crashscreen_ping' )
 
 RunConsoleCommand('sv_timeout', 9000)
 hook.Add( 'InitPostEntity', 'crashscreen_time', function()

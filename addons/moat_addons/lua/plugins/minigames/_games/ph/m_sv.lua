@@ -412,7 +412,7 @@ function MG_PH.PrepRound(mk, pri, sec, creds)
 
 	MG_PH.HookAdd("MoatInventoryShouldGiveLoadout", MG_PH.PreventLoadouts)
     MG_PH.HookAdd("PlayerUse", MG_PH.PlayerUse)
-	MG_PH.HookAdd("tt.BeginRound", MG_PH.BeginRound)
+	MG_PH.HookAdd("ttt.BeginRound", MG_PH.BeginRound)
 	MG_PH.HookAdd("CanPlayerSuicide", function(ply) return true end)
     MG_PH.HookAdd("PlayerDeath",MG_PH.PlayerDeath)
     MG_PH.HookAdd("PlayerSpawn",MG_PH.PlayerSpawn)
@@ -550,7 +550,7 @@ concommand.Add("moat_start_PH", function(ply, cmd, args)
         return
     end
 
-    tt.ExtendPrep()
+    ttt.ExtendPrep()
 
     net.Start("PH_Prep")
     net.Broadcast()

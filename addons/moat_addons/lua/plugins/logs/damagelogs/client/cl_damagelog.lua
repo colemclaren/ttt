@@ -29,7 +29,7 @@ function Damagelog:OpenMenu()
 	end
 	self.Menu = vgui.Create("DFrame")
 	self.Menu:SetSize(x, y)
-	self.Menu:SetTitle("TTT Damagelogs") 
+	self.Menu:SetTitle("TTT Damagelogs version " .. self.VERSION)
 	self.Menu:SetDraggable(true)
 	self.Menu:MakePopup()
 	self.Menu:SetKeyboardInputEnabled(false)

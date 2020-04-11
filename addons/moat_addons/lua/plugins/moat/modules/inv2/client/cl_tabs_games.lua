@@ -59,12 +59,19 @@ versus_stats = {
 	top = {},
 	streak = {}
 }
-net.Receive("versus.stats",function()
-	versus_stats = net.ReadTable()
-end)
 
 function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 	if (IsValid(MOAT_GAMBLE_BG)) then return end
+	net.Start("gversus.Sync")
+	net.SendToServer()
+
+	net.Start("versus.Sync")
+	net.SendToServer()
+	net.Start("versus.stats")
+	net.SendToServer()
+	net.Start("versus.last")
+	net.SendToServer()
+
 	MOAT_GAMBLE.LocalChat = false
 	MOAT_GAMBLE.CurCat = 1
 	MOAT_GAMBLE.TitlePoly = {
@@ -4264,28 +4271,28 @@ local function versusRebuild()
 	versus_buildlist()
 end
 
+net.Receive("versus.stats",function()
+	versus_stats = net.ReadTable()
+
+	versusRebuild()
+end)
+
 net.Receive("versus.Sync",function()
 	versus_players = net.ReadTable()
-end)
-timer.Simple(0,function()
-	net.Start("versus.Sync")
-	net.SendToServer()
-	net.Start("versus.stats")
-	net.SendToServer()
-	net.Start("versus.last")
-	net.SendToServer()
+
+	versusRebuild()
 end)
 
 net.Receive("versus.last",function()
 	versus_logs_games["last"] = net.ReadTable()[1]
+
+	versusRebuild()
 end)
 
 net.Receive("gversus.Sync",function()
 	gversus_players = net.ReadTable()
-end)
-timer.Simple(0,function()
-	net.Start("gversus.Sync")
-	net.SendToServer()
+
+	versusRebuild()
 end)
 
 net.Receive("versus.CreateGame",function()

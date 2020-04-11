@@ -27,6 +27,7 @@ end
 local gamble_net_cd = 1 -- 1 sec net cooldown
 local gamble_net = {}
 function gamble_net_spam(ply, msg)
+	return false/*
 	if (not gamble_net[ply]) then
 		gamble_net[ply] = {}
 		return false
@@ -43,7 +44,7 @@ function gamble_net_spam(ply, msg)
 
 	gamble_net[ply][msg] = CurTime() + gamble_net_cd
 
-	return false
+	return false*/
 end
 
 util.AddNetworkString("MOAT_GAMBLE_CAT")
@@ -1071,7 +1072,7 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined the game!")
                 net.Start("gversus.FullGame")
                 net.WriteString(ply:SteamID64())
-                net.Broadcast()
+				net.InvsBroadcast(ply:SteamID64(), ply)
                 versus_queue[ply] = nil
                 return
             end
@@ -1083,7 +1084,7 @@ function jackpot_()
                 versus_curgames[ply:SteamID64()] = nil
                 net.Start("gversus.Cancel")
                 net.WriteString(ply:SteamID64())
-                net.Broadcast()
+                net.InvsBroadcast(ply:SteamID64(), ply)
             end
             function q:onError()
                 versus_queue[ply] = nil
@@ -1132,7 +1133,7 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That player canceled that game!")
                 net.Start("gversus.Cancel")
                 net.WriteString(sid)
-                net.Broadcast()
+				net.InvsBroadcast(sid, ply)
                 return 
             end
             d = d[1]
@@ -1140,7 +1141,7 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined that game!")
                 net.Start("gversus.FullGame")
                 net.WriteString(sid)
-                net.Broadcast()
+				net.InvsBroadcast(sid, ply)
                 return
             end
             if not ply:m_HasIC(d.money) then
@@ -1151,7 +1152,7 @@ function jackpot_()
                 net.Start("gversus.CreateGame")
                 net.WriteString(sid)
                 net.WriteFloat(d.money)
-                net.Broadcast()
+                net.InvsBroadcast(sid, ply)
                 versus_curgames[sid][1] = d.money
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That game changed amount!")
                 return
@@ -1175,7 +1176,7 @@ function jackpot_()
                         m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined that game!")
                         net.Start("gversus.FullGame")
                         net.WriteString(sid)
-                        net.Broadcast()
+                        net.InvsBroadcast(sid, ply)
                         return
                     end
                     if not ply:m_HasIC(d.money) then
@@ -1190,7 +1191,8 @@ function jackpot_()
                     net.WriteString(sid)
                     net.WriteString(ply:SteamID64())
                     net.WriteString(winner)
-                    net.Broadcast()
+					net.InvsBroadcast(sid, ply)
+
                     local am = d.money * 2
                     am = versus_tax(am)
                     -- versus tax
@@ -1201,7 +1203,7 @@ function jackpot_()
                         net.Start("gversus.FinishGame")
                         net.WriteString(sid)
                         net.WriteString(winner)
-                        net.Broadcast()
+                        net.InvsBroadcast(sid, ply)
                         versus_curgames[sid] = {rolled = true}
 
                         local q = db:query("UPDATE moat_versus" .. dev_suffix .. " SET rewarded = 1 WHERE steamid = '" .. db:escape(sid) .. "';")
@@ -1274,7 +1276,7 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Someone already joined that game!")
                 net.Start("gversus.FullGame")
                 net.WriteString(sid)
-                net.Broadcast()
+                net.InvsBroadcast(sid, ply)
             end
             q:start()
         end)
@@ -1360,7 +1362,7 @@ function jackpot_()
                 net.Start("gversus.CreateGame")
                 net.WriteString(id)
                 net.WriteFloat(amount)
-                net.Broadcast()
+				net.InvsBroadcast(id, ply)
             end)
         end)
     end)
@@ -1375,6 +1377,7 @@ function jackpot_()
         if not ply.gvSyn then
             local t = {}
             for k,v in pairs(versus_curgames) do
+				if (v.rolled) then continue end
                 t[k] = {nil,v[1]}
             end
             net.Start("gversus.Sync")
@@ -1464,7 +1467,7 @@ function jackpot_()
                         net.Start("gversus.CreateGame")
                         net.WriteString(v.steamid)
                         net.WriteFloat(v.money)
-                        net.Broadcast()
+                        net.InvsBroadcast(v.steamid)
                         versus_curgames[v.steamid][1] = v.money
                     end
                 end
@@ -1475,7 +1478,7 @@ function jackpot_()
                     net.Start("gversus.CreateGame")
                     net.WriteString(v.steamid)
                     net.WriteFloat(v.money)
-                    net.Broadcast()
+                    net.InvsBroadcast(v.steamid)
                 end
                 if not v.winner then continue end
                 if v.winner and (not (versus_knowngames[v.steamid])) and (not versus_curgames[v.steamid].rolled) and ((v.curtime - v.time) < 25) then
@@ -1484,7 +1487,8 @@ function jackpot_()
                     net.WriteString(v.steamid)
                     net.WriteString(v.other)
                     net.WriteString(v.winner)
-                    net.Broadcast()
+                    net.InvsBroadcast(v.steamid, v.other)
+
                     versus_curgames[v.steamid].rolled = true
                     -- print("Joingame 1",v.steamid)
                     versus_suspense[v.winner] = CurTime() + versus_wait
@@ -1495,7 +1499,7 @@ function jackpot_()
                         net.Start("gversus.FinishGame")
                         net.WriteString(v.steamid)
                         net.WriteString(v.winner)
-                        net.Broadcast()
+                        net.InvsBroadcast(v.steamid)
                         versus_curgames[v.steamid] = {rolled = true}
                     end)
                 elseif ((v.curtime - v.time) > 25) and (v.winner) then
@@ -1505,7 +1509,7 @@ function jackpot_()
 						if s then
 							net.Start("gversus.Cancel")
 							net.WriteString(v.steamid)
-							net.Broadcast()
+							net.InvsBroadcast(v.steamid)
 							versus_curgames[v.steamid] = nil
 						end
 					end)
@@ -1519,7 +1523,7 @@ function jackpot_()
                     --PrintTable(games[k])
                     net.Start("gversus.Cancel")
                     net.WriteString(k)
-                    net.Broadcast()
+                    net.InvsBroadcast(k)
                     --PrintTable(versus_curgames[k])
                 end
             end

@@ -46,7 +46,7 @@ if SERVER then
 		Damagelog.sync_ent = ents.Create("dmglog_sync_ent")
 		Damagelog.sync_ent:Spawn()
 		Damagelog.sync_ent:Activate()
-		Damagelog.sync_ent:SetLastRoundMapExists(Damagelog.last_round_map and true or false)
+		Damagelog.sync_ent:SetLastRoundMapExists(true)
 		if Damagelog.TempPrivileges then
 			for k,v in pairs(Damagelog.TempPrivileges) do
 				Damagelog.sync_ent["Set"..k.."Rules"](Damagelog.sync_ent, v)

@@ -338,7 +338,7 @@ function MG_FFAS:PrepRound(mk, pri, sec, creds)
     
 
 	MG_FFAS.HookAdd("MoatInventoryShouldGiveLoadout", MG_FFAS.PreventLoadouts)
-	MG_FFAS.HookAdd("tt.BeginRound", MG_FFAS.BeginRound)
+	MG_FFAS.HookAdd("ttt.BeginRound", MG_FFAS.BeginRound)
 	MG_FFAS.HookAdd("CanPlayerSuicide", function(ply) return true end)
     MG_FFAS.HookAdd("PlayerDeath",MG_FFAS.PlayerDeath)
     MG_FFAS.HookAdd("PlayerSpawn",MG_FFAS.PlayerSpawn)
@@ -410,7 +410,7 @@ concommand.Add("moat_start_FFAS", function(ply, cmd, args)
     MG_FFAS.KillsMax = max_kills
     print("mk:" .. max_kills)
 
-    tt.ExtendPrep()
+    ttt.ExtendPrep()
 
     net.Start("FFAS_Prep")
     net.WriteInt(max_kills,8)
