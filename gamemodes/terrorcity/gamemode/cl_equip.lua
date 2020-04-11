@@ -1,7 +1,7 @@
 ---- Traitor equipment menu
 local GetTranslation = LANG.GetTranslation
 local GetPTranslation = LANG.GetParamTranslation
-include "ttt_vgui/cmenu.lua"
+include "system/app/ttt/interface/tttradialmenu.lua"
 
 -- create ClientConVars
 local numColsVar = CreateClientConVar("ttt_moat_bem_cols", 4, true, false, "Sets the number of columns in the Traitor/Detective menu's item list.")
