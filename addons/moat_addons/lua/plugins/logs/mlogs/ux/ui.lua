@@ -1,3 +1,7 @@
+if (true) then
+	return
+end
+
 mui = mui or {}
 
 function mlogs.Reload()
