@@ -497,7 +497,13 @@ end
 
 function Damagelog:DrawRDMManager(x,y)
 	if LocalPlayer():CanUseRDMManager() and Damagelog.RDM_Manager_Enabled then
-		
+		if (not Damagelog.UpdatedReports) then
+			net.Start "M_DL_UpdateReports"
+			net.SendToServer()
+
+			Damagelog.UpdatedReports = true
+		end
+
 		local Manager = vgui.Create("DPanelList");
 		Manager:SetSpacing(10)
 		

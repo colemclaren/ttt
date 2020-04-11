@@ -61,6 +61,10 @@ function Player:UpdateReports()
 	net.Send(self)
 end
 
+net.Receive("M_DL_UpdateReports", function(_, ply)
+	ply:UpdateReports()
+end)
+
 function Player:NewReport(report)
 	if not self:CanUseRDMManager() then return end
 	net.Start("M_DL_NewReport")
@@ -113,17 +117,17 @@ end)
 
 function Damagelog:StartReport(ply)
 	if not IsValid(ply) then return end
-	local found = false
-	for k,v in pairs(player.GetHumans()) do
-		if v:CanUseRDMManager() then
-			found = true
-			break
-		end
-	end
-	if not found then
-		ply:Damagelog_Notify(DAMAGELOG_NOTIFY_ALERT, "No admins online!", 4, "buttons/weapon_cant_buy.wav")
-		return
-	end
+	-- local found = false
+	-- for k,v in pairs(player.GetHumans()) do
+	-- 	if v:CanUseRDMManager() then
+	-- 		found = true
+	-- 		break
+	-- 	end
+	-- end
+	-- if not found then
+	-- 	ply:Damagelog_Notify(DAMAGELOG_NOTIFY_ALERT, "No admins online!", 4, "buttons/weapon_cant_buy.wav")
+	-- 	return
+	-- end
 	if not ply.CanReport then
 		ply:Damagelog_Notify(DAMAGELOG_NOTIFY_ALERT, "You need to play before being able to report!", 4, "buttons/weapon_cant_buy.wav")
 	else
@@ -265,7 +269,6 @@ end)
 
 hook.Add("PlayerAuthed", "RDM_Manager", function(ply)
 	ply.Reported = {}
-	ply:UpdateReports()
 	for _,tbl in pairs(Damagelog.Reports) do
 		for k,v in pairs(tbl) do
 			if v.attacker == ply:SteamID() and not v.response then
