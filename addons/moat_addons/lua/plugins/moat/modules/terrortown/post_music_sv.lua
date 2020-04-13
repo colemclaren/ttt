@@ -1,7 +1,7 @@
 util.AddNetworkString "Moat.PostRoundMusic"
 
 local moat_URL = "https://cdn.moat.gg/ttt/music/"
-local moat_Songs = 138
+local moat_Songs = 151
 
 -- local moat_URL = "https://cdn.moat.gg/ttt/music/hip-hop/"
 -- local moat_Songs = 131

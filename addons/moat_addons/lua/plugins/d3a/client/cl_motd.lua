@@ -130,6 +130,8 @@ function MOTD.Open(secs, invalid)
     for i = 1, #MOTD.Tabs do
         if (i == 1) then
             MOTD.Tabs[i][2] = "https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. nick
+        elseif (i == 5) then
+            MOTD.Tabs[i][2] = "https://moat.gg/store/" ..  LocalPlayer():SteamID64()
         end
 
         local btn = vgui.Create("DButton", c)

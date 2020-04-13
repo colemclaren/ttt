@@ -19,7 +19,6 @@ for i = 1, 10 do
 end
 
 -- ahh
-local support_url = "https://moat.gg/store"
 local circ_gradient = Material("moat_inv/moat_circle_grad.png")
 local gradient_u = Material("vgui/gradient-u")
 local gradient_d = Material("vgui/gradient-d")
@@ -603,7 +602,7 @@ function MOAT_DONATE:OpenWindow()
     end
 
     g.DoClick = function(s)
-        gui.OpenURL(support_url)
+        gui.OpenURL("https://moat.gg/store/" .. LocalPlayer():SteamID64())
     end
 
     sfx.SoundEffects(g)
