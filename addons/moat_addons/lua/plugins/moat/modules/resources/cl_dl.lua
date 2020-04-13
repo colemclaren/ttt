@@ -105,7 +105,7 @@ function Content.DrawHUD()
 		color = Color(255, 255, 255, 255)
 	})
 
-	local dl_text = "Fixing Errors: " .. math.Clamp(dl_num - 1, 1, 99) .. "% Remaining.."
+	local dl_text = "Fixing Errors: " .. dl_num .. "% Remaining.."
 	if (dl_num == 0) then
 		if (not Content.close) then
 			Content.close = CurTime()
