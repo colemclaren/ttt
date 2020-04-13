@@ -15,3 +15,4 @@
 -- https://meep.chat/
 -- who
 -- Added 13 songs clipped by Sparked and JJPieroni to the post round playlist
+-- Added a 2nd tier talent to discover
