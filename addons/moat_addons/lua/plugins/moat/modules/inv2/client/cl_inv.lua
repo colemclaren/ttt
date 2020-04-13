@@ -977,7 +977,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             elseif (tfx == "bounce") then
                 m_DrawBouncingText(talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, true)
             elseif (tfx == "enchanted") then
-                m_DrawEnchantedText(talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, nil, true)
+                m_DrawEnchantedText(talent_name, font, draw_name_x, draw_name_y, name_col, itemtbl.Talents[k].NameEffectMods and itemtbl.Talents[k].NameEffectMods[1], nil, nil, true)
             elseif (tfx == "electric") then
                 m_DrawElecticText(talent_name, font, draw_name_x, draw_name_y, name_col, true)
             elseif (tfx == "frost") then

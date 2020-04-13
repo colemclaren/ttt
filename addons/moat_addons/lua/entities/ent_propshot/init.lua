@@ -3,17 +3,17 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 function ENT:Initialize()
-	self.Entity:SetModel("models/weapons/w_snowball_thrown.mdl");
+	self.Entity:SetModel("models/foodnhouseholditems/pear.mdl");
 	self.Entity:PhysicsInit(SOLID_VPHYSICS);
 	self.Entity:SetMoveType(MOVETYPE_VPHYSICS);
 	self.Entity:SetSolid(SOLID_VPHYSICS);
-	self.Entity:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
+	self.Entity:SetCollisionGroup(COLLISION_GROUP_NONE)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
 		phys:EnableGravity(true);
 	end
-	local color = Color(255,255,255)
+	local color = Color(204,255,204)
 	/*if not self.Harmless then
 		color = Color(255,0,0)
 	end*/
@@ -26,7 +26,7 @@ end
 function ENT:SpawnFunction(ply, tr)
 	if (!tr.Hit) then return end
 	local SpawnPos = tr.HitPos + tr.HitNormal * 16;
-	local ent = ents.Create("ent_snowball");
+	local ent = ents.Create("ent_propshot");
 	ent:SetPos(SpawnPos);
 	ent:Spawn();
 	ent:Activate();
@@ -41,6 +41,7 @@ function ENT:PhysicsCollide(data)
 	data.HitObject:ApplyForceCenter(self:GetPhysicsObject():GetVelocity() * 40)
 	if(not self.Harmless) then 
 		if (not IsValid(data.HitObject)) then return end
+		if (data.HitEntity:GetClass() == "ent_propshot") then return end
 		local dmg = DamageInfo()
 		dmg:SetAttacker(self.Owner)
 		dmg:SetInflictor(self)

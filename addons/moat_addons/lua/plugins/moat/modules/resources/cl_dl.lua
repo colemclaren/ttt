@@ -52,7 +52,8 @@ Content.ids = {
 	[1] = "1542685010",
 	[2] = "1542687639",
 	[3] = "1996681978",
-	[4] = "1542693501"
+	[4] = "1542693501",
+	[5] = "108024198"
 }
 
 Content.name = ""
@@ -105,7 +106,7 @@ function Content.DrawHUD()
 		color = Color(255, 255, 255, 255)
 	})
 
-	local dl_text = "Fixing Errors: " .. dl_num .. "% Remaining.."
+	local dl_text = "Fixing Errors: " .. math.Clamp(dl_num - 1, 1, 99) .. "% Remaining.."
 	if (dl_num == 0) then
 		if (not Content.close) then
 			Content.close = CurTime()
@@ -295,8 +296,8 @@ local disable_downloads = CreateClientConVar("disable_downloads", 0, true, false
 
 function Content.InitDownloads()
 	-- if (util.NetworkStringToID "ttt_enable_tc" ~= 0) then Content.done = true return end
-	
-	Content.start = CurTime() + 15
+
+	Content.start = CurTime()
 	Content:DownloadAddon(Content.cur)
 end
 

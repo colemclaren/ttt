@@ -21,5 +21,6 @@ end
 function ENT:PhysicsCollide(data)
 	if (self.Collided) then return end
 	if (not IsValid(data.HitObject)) then return end
+	if (data.HitEntity:GetClass() == "ent_propshot") then return end
 	self.Collided = true
 end 
