@@ -6,7 +6,7 @@ TALENT.NameColor = Color(204, 255, 204)
 TALENT.NameEffectMods = {Color(255, 204, 153)}
 TALENT.Description = "Each shot has a %s_^ chance to shoot a pear projectile dealing %s damage"
 TALENT.Tier = 2
-TALENT.LevelRequired = {min = 25, max = 30}
+TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 5, max = 20}
 TALENT.Modifications[2] = {min = 15, max = 45}
