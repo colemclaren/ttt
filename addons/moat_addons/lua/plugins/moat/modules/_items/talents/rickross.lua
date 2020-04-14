@@ -26,7 +26,6 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
         local Up = ply:EyeAngles():Up()
 		local num = (wep.Primary and wep.Primary.NumShots) and wep.Primary.NumShots or 1
         local aimang = Front:Angle()
-        local randn = 2
 		local bulspread = vector_origin
 		local conex = wep:GetPrimaryCone() or 0.01
 		local coney = wep:GetPrimaryConeY() or conex
@@ -35,7 +34,7 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
         local class = wep:GetClass()
 
 		for i = 1, num do
-        	local x, y = util.SharedRandom(class, -1, 1, randn) * conex / nlayers, util.SharedRandom(class, -1, 1, randn + 1) * coney / nlayers
+        	local x, y = util.SharedRandom(class, -nlayers * 50, nlayers * 50, i) * conex / nlayers, util.SharedRandom(class, -nlayers * 50, nlayers * 50, i + 1) * coney / nlayers
        	 	local rspr = aimang:Right() * x + aimang:Up() * y
     		local dir = Front + rspr + bulspread.x * mult.x * aimang:Right() + bulspread.y * mult.y * aimang:Up()
 
