@@ -342,7 +342,7 @@ net.Receive("moat.contracts",function()
 
 				chat.AddText(moat_blue, "| ", moat_yellow, "Daily Contract", moat_blue, " | ", moat_cyan, contracts_tbl.name, moat_blue, " | ", moat_green, util.Upper(util.FormatTimeSingle(unix, 0)) .. " Left")
 				if (contracts_tbl.my_score < 1) then
-					chat.AddText(moat_blue, "| ", moat_red, "You need a contract kill for a rank placing", moat_blue, " | ", moat_pink, "Top 50 win!")
+					chat.AddText(moat_blue, "| ", moat_red, "You need a contract kill for a rank placing", moat_blue, " | ", moat_pink, "Top 50 Players get rewards!")
 				else
 					chat.AddText(moat_blue, "| ", moat_white, "You are now ",
 						clr, arrow, moat_pink, "Rank " .. string.Comma(contracts_tbl.my_rank), clr, arrow, 

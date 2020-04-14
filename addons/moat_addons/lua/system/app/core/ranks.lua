@@ -76,7 +76,7 @@ moat.Ranks.Register(11, "owner", "co-founder / owner")
 	:SetWeight(100)
 	:ForumSync(25)
 	:SetColor {255, 51, 51}
-	:SetIcon "icon16/briefcase.png"
+	:SetIcon "icon16/tux.png"
 	:SetFlags "*"
 
 moat.Ranks.Register(12, "techartist", "Technical Artist")

@@ -8,7 +8,7 @@ TALENT.Description = "Each shot has a %s_^ chance to shoot a pear projectile dea
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 5, max = 15}
+TALENT.Modifications[1] = {min = 5, max = 20}
 TALENT.Modifications[2] = {min = 15, max = 45}
 TALENT.Melee = false
 TALENT.NotUnique = true
@@ -16,15 +16,15 @@ TALENT.NotUnique = true
 function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_pos)
     -- if (GetRoundState() ~= ROUND_ACTIVE) then return end
 
+	local num = (wep.Primary and wep.Primary.NumShots) and wep.Primary.NumShots or 1
     local chance = self.Modifications[1].min + ((self.Modifications[1].max - self.Modifications[1].min) * math.min(1, talent_mods[1]))
-    if (chance > math.random() * 100) then
+    if (chance > math.random() * (100 * num)) then
         local ply = dmginfo.Attacker
         if (not IsValid(ply)) then return end
 
     	local dmg = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * math.min(1, talent_mods[2]))
         local Front = ply:GetAimVector()
         local Up = ply:EyeAngles():Up()
-		local num = (wep.Primary and wep.Primary.NumShots) and wep.Primary.NumShots or 1
         local aimang = Front:Angle()
 		local bulspread = vector_origin
 		local conex = wep:GetPrimaryCone() or 0.01
