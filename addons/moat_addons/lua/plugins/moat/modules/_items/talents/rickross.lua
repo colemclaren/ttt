@@ -8,7 +8,7 @@ TALENT.Description = "Each shot has a %s_^ chance to shoot a pear projectile dea
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 5, max = 20}
+TALENT.Modifications[1] = {min = 5, max = 15}
 TALENT.Modifications[2] = {min = 15, max = 45}
 TALENT.Melee = false
 TALENT.NotUnique = true
@@ -33,6 +33,14 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
         local nlayers = ((wep.Primary and wep.Primary.LayerMults) and #wep.Primary.LayerMults or 1) + 3
         local class = wep:GetClass()
 
+		if (wep.propshot and #wep.propshot > num) then
+			for k, v in ipairs(wep.propshot) do
+				if (IsValid(v)) then v:Remove() end
+			end
+
+			wep.propshot = {}
+		end
+
 		for i = 1, num do
         	local x, y = util.SharedRandom(class, -nlayers * 50, nlayers * 50, i) * conex / nlayers, util.SharedRandom(class, -nlayers * 50, nlayers * 50, i + 1) * coney / nlayers
        	 	local rspr = aimang:Right() * x + aimang:Up() * y
@@ -54,6 +62,9 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
 				if IsValid(Physics) then
 					Physics:ApplyForceCenter(Front:Angle():Forward() * 25000)
 				end
+
+				if (not wep.propshot) then wep.propshot = {} end
+				table.insert(wep.propshot, ball)
 			end
 		end
     end

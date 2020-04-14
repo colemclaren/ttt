@@ -7,7 +7,7 @@ function ENT:Initialize()
 	self.Entity:PhysicsInit(SOLID_VPHYSICS);
 	self.Entity:SetMoveType(MOVETYPE_VPHYSICS);
 	self.Entity:SetSolid(SOLID_VPHYSICS);
-	self.Entity:SetCollisionGroup(COLLISION_GROUP_NONE)
+	self.Entity:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -17,7 +17,7 @@ function ENT:Initialize()
 	/*if not self.Harmless then
 		color = Color(255,0,0)
 	end*/
-	self.Trail = util.SpriteTrail(self.Entity, 0, color, false, 15, 1, 0.2, 1/(15+1)*0.5, "trails/laser.vmt") 
+	self.Trail = util.SpriteTrail(self.Entity, 0, color, false, 15, 1, 0.1, 1/(15+1)*0.5, "trails/laser.vmt") 
 end
 
 function ENT:Think()
@@ -60,7 +60,6 @@ function ENT:PhysicsCollide(data)
 	effectdata:SetScale( 1.5 )
 	self:EmitSound("hit.wav")
 	//util.Effect( "watersplash", effectdata ) -- effect
-	util.Effect( "inflator_magic", effectdata ) -- effect
 	util.Effect( "WheelDust", effectdata ) -- effect
 	util.Effect( "GlassImpact", effectdata ) -- effect
 	timer.Simple(30,function() if (IsValid(self)) then self:Remove() end end)
