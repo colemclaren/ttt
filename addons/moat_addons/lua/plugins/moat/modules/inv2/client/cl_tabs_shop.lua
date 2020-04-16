@@ -464,7 +464,7 @@ function m_PopulateShop(pnl)
         ITEM_BUY_INC:SetPos(item_panel_w-30, item_panel_h - 63)
         ITEM_BUY_INC:SetText("")
         ITEM_BUY_INC.Paint = function(s, w, h)
-            m_DrawShadowedText(1, ">", "moat_ItemDesc", w/2, h/2, (s:IsHovered() and ITEM_BG.Qty + 1 <= 5) and Color(0, 255, 0) or Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, ">", "moat_ItemDesc", w/2, h/2, (s:IsHovered() and ITEM_BG.Qty + 1 <= 50) and Color(0, 255, 0) or Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
         ITEM_BUY_INC.DoClick = function(s)
 			if (Soon) then
@@ -477,8 +477,8 @@ function m_PopulateShop(pnl)
 				sfx.Add()
 			end
 
-            local num = input.IsKeyDown(KEY_LSHIFT) and 2 or 1
-            ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty + num, 1, 5)
+            local num = input.IsKeyDown(KEY_LSHIFT) and 10 or 1
+            ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty + num, 1, 50)
         end
 		sfx.HoverSound(ITEM_BUY_INC)
 
@@ -487,7 +487,7 @@ function m_PopulateShop(pnl)
         ITEM_BUY_DEC:SetPos(10, item_panel_h - 63)
         ITEM_BUY_DEC:SetText("")
         ITEM_BUY_DEC.Paint = function(s, w, h)
-            m_DrawShadowedText(1, "<", "moat_ItemDesc", w/2, h/2, (s:IsHovered() and (ITEM_BG.Qty - 1 >= 1)) and Color(255, 0, 0) or Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, "<", "moat_ItemDesc", w/2, h/2, (s:IsHovered() and (ITEM_BG.Qty - 1 >= 50)) and Color(255, 0, 0) or Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
         ITEM_BUY_DEC.DoClick = function(s)
 			if (Soon) then
@@ -500,8 +500,8 @@ function m_PopulateShop(pnl)
 				sfx.Subtract()
 			end
 
-            local num = input.IsKeyDown(KEY_LSHIFT) and 2 or 1
-            ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty - num, 1, 5)
+            local num = input.IsKeyDown(KEY_LSHIFT) and 10 or 1
+            ITEM_BG.Qty = math.Clamp(ITEM_BG.Qty - num, 1, 50)
         end
 		sfx.HoverSound(ITEM_BUY_DEC)
 

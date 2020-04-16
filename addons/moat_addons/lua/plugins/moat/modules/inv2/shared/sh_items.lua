@@ -346,7 +346,7 @@ function GetItemFromEnum(ienum)
     item_tbl.ScalePlayerDamage = nil
     item_tbl.ItemUsed = nil
 
-    if (item_tbl.Kind == "Crate") then
+    if (item_tbl.Kind == "Crate" and CLIENT) then
         item_tbl.Contents = GetCrateContents(item_tbl.Collection)
     end
 
@@ -372,7 +372,7 @@ function GetItemFromEnumWithFunctions(ienum)
 		end
 	end
 
-    if (item_tbl.Kind == "Crate") then
+    if (CLIENT and item_tbl.Kind == "Crate") then
         item_tbl.Contents = GetCrateContents(item_tbl.Collection)
     end
 

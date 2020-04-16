@@ -235,6 +235,12 @@ local function m_StartCrateRoll(crate_slot, crate_class, parent_pnl)
 end
 
 function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
+	if (itemtbl.u) then
+		itemtbl.item = GetItemFromEnum(itemtbl.u)
+	end
+
+	itemtbl.item.Contents = GetCrateContents(itemtbl.item.Collection)
+
     local MT = MOAT_THEME.Themes
     local CurTheme = GetConVar("moat_Theme"):GetString()
     if (not MT[CurTheme]) then
