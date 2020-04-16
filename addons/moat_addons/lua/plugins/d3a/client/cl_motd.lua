@@ -44,7 +44,7 @@ MOTD.Tabs = {
 	[5] = {"Store", "https://moat.gg/store", true},
 	[6] = {"Leaderboard", "https://moat.gg/players", true},
 	[7] = {"Interns", "https://moat.gg/staff", true},
-	[8] = {"Bans", "https://moat.gg/bans", true},
+	[8] = {"Support", "https://support.moat.gg/", true},
 	[9] = {"Close", ""},
 }
 
