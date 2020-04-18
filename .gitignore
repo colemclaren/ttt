@@ -13,7 +13,11 @@
 !/sound
 !/lua
 !/bin
+!/data
 *.*
+
+!/data/banned_words_list.txt
+
 
 # mats
 !/materials/**/*.vtf

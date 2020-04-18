@@ -103,23 +103,23 @@ concommand.Add("moat_record_pos", function(ply, cmd, args)
 	MOAT_EASTER.Record = not MOAT_EASTER.Record
 end)
 
--- hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
--- 	MOAT_EASTER.CurEggs = 0
+hook.Add("TTTBeginRound", "moat_spawn_easter_basket", function()
+	MOAT_EASTER.CurEggs = 0
 
--- 	timer.Create("moat_easter_egg_spawn", 60, 0, function()
--- 		if (player.GetCount() < 8) then return end
--- 		if (GetRoundState() ~= ROUND_ACTIVE or GetGlobal("MOAT_MINIGAME_ACTIVE")) then timer.Remove("moat_easter_egg_spawn") return end
--- 		if (math.random(1, 100) <= MOAT_EASTER.SpawnChance) then return end
--- 		if (MOAT_EASTER.CurEggs >= 1) then return end
--- 		if (MOAT_EASTER.MapEggs >= MOAT_EASTER.MaxEggs) then return end
+	timer.Create("moat_easter_egg_spawn", 60, 0, function()
+		if (player.GetCount() < 8) then return end
+		if (GetRoundState() ~= ROUND_ACTIVE or GetGlobal("MOAT_MINIGAME_ACTIVE")) then timer.Remove("moat_easter_egg_spawn") return end
+		if (math.random(1, 100) <= MOAT_EASTER.SpawnChance) then return end
+		if (MOAT_EASTER.CurEggs >= 1) then return end
+		if (MOAT_EASTER.MapEggs >= MOAT_EASTER.MaxEggs) then return end
 
--- 		if (math.random(2) == 2) then
--- 			MOAT_EASTER.SpawnRandomEasterBasket()
--- 		else
--- 			MOAT_EASTER.SpawnRandomEgg()
--- 		end
--- 	end)
--- end)
+		if (math.random(2) == 2) then
+			MOAT_EASTER.SpawnRandomEasterBasket()
+		else
+			MOAT_EASTER.SpawnRandomEgg()
+		end
+	end)
+end)
 
 hook.Add("TTTEndRound", function()
 	timer.Remove("moat_easter_egg_spawn")
