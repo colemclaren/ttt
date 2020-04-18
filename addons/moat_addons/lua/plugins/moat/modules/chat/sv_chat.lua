@@ -123,6 +123,11 @@ end
 function FamilyFriendly(str, pl)
 	local baited
 
+	if (pl and IsValid(pl)) then
+		-- if (pl:GetInfo('moat_safety') ~= "1") then return str end
+		baited = string.gsub(bait[math.random(1, #bait)], '{target}', pl:Nick())
+	end
+
 	str = str:gsub('​', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub('⠀', '')
 
 	if (not replacements['xxx']) then
@@ -131,16 +136,14 @@ function FamilyFriendly(str, pl)
 		for k, v in ipairs(mylist) do
 			if (not next(v.safe)) then
 				replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
-			else
+			elseif (v.safe) then
 				replacements[v.bad] = v.safe
+			else
+				replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
 			end
 
 			-- combinations("", v.bad, v.bad)
 		end
-	end
-
-	if (pl and IsValid(pl)) then
-		baited = string.gsub(bait[math.random(1, #bait)], '{target}', pl:Nick())
 	end
 
 	str = string.lower(str)
@@ -156,7 +159,8 @@ function FamilyFriendly(str, pl)
 	if (swore == 0 and baited) then
 		local warn = string.lower(new)
 		for k, v in ipairs(mylist) do
-			if (#v.bad < 3) then continue end
+			if (not v.bad) then continue end
+			if (v.bad and #v.bad < 3) then continue end
 			if (v.bad and string.find(warn, v.bad)) then
 				return baited
 			end
@@ -172,10 +176,12 @@ function LoadFilter()
 	mylist = bON.deserialize(strs)
 	replacements = {}
 	for k, v in ipairs(mylist) do
-		if (not v.safe) then
+		if (not next(v.safe)) then
 			replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
-		else
+		elseif (v.safe) then
 			replacements[v.bad] = v.safe
+		else
+			replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
 		end
 
 		-- combinations("", v.bad, v.bad)
@@ -190,8 +196,10 @@ if (str == "fuck me") then
 	for k, v in ipairs(mylist) do
 		if (not next(v.safe)) then
 			replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
-		else
+		elseif (v.safe) then
 			replacements[v.bad] = v.safe
+		else
+			replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
 		end
 
 		-- combinations("", v.bad, v.bad)
