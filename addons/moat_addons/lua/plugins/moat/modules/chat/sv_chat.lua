@@ -122,6 +122,9 @@ end
 
 function FamilyFriendly(str, pl)
 	local baited
+
+	str = str:gsub('​', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub('⠀', '')
+
 	if (not replacements['xxx']) then
 		mylist = bON.deserialize(file.Read("banned_words_list.txt", "DATA"))
 		replacements = {}
