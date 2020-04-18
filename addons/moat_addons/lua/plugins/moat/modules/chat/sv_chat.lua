@@ -165,8 +165,6 @@ end
 
 
 function LoadFilter()
-	print "yup"
-
 	local strs = string.Trim(file.Read("banned_words_list.txt", "DATA"))
 	mylist = bON.deserialize(strs)
 	replacements = {}
@@ -183,8 +181,6 @@ end
 
 local str = FamilyFriendly("fuck me")
 if (str == "fuck me") then
-	print "yup"
-
 	local strs = string.Trim(file.Read("banned_words_list.txt", "DATA"))
 	mylist = bON.deserialize(strs)
 	replacements = {}
