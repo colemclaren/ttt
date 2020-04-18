@@ -241,6 +241,19 @@ local mumbles = {"mumble", "mm", "hmm", "hum", "mum", "mbm", "mble", "ham", "mam
 "uzbekistan", "mumu", "cheese export", "hmhm", "mmh", "mumble", "mphrrt", "mrh", "hmm", "mumble", "mbmm", "hmml", "mfrrm"}
 
 
+util.AddNetworkString "ttt_player_target"
+
+net.ReceiveNoLimit("ttt_player_target", function(len, cl)
+    cl.TTT_Target = net.ReadEntity()
+    if (not IsValid(cl.TTT_Target) or not cl.TTT_Target:IsPlayer()) then
+        cl.TTT_Target = nil
+    end
+    timer.Create("EliminateTargetFor" .. cl:UserID(), 3, 1, function()
+        if (IsValid(cl)) then
+            cl.TTT_Target = nil
+        end
+    end)
+end)
 
 -- While a round is active, spectators can only talk among themselves. When they
 
@@ -249,10 +262,19 @@ local mumbles = {"mumble", "mm", "hmm", "hum", "mum", "mbm", "mble", "ham", "mam
 -- them. So we mumblify them. In detective mode, we shut them up entirely.
 
 function GM:PlayerSay(ply, text, team_only)
+	local replacements = {}
+
+    if (IsValid(ply.TTT_Target)) then
+        replacements["{target}"] = ply.TTT_Target:Nick()
+    else
+        replacements["{target}"] = "nobody"
+    end
+
+    text = text:gsub("{.+}", replacements)
 
    if not IsValid(ply) then return text or "" end
 
-
+	text = FamilyFriendly(text)
 
    if GetRoundState() == ROUND_ACTIVE then
 
