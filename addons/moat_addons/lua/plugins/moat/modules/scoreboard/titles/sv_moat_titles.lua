@@ -90,7 +90,7 @@ function MOAT_TITLES.LoadTitle(ply, str, clr, chngr)
 		changer = chngr
 	}
 
-	ply:SetNW2String("MoatTitlesTitle", MOAT_TITLES.Players[ply].title)
+	ply:SetNW2String("MoatTitlesTitle", string.sub(FamilyFriendly(MOAT_TITLES.Players[ply].title, ply), 1, 32))
 	ply:SetNW2Int("MoatTitlesTitleR", tonumber(colr[1]))
 	ply:SetNW2Int("MoatTitlesTitleG", tonumber(colr[2]))
 	ply:SetNW2Int("MoatTitlesTitleB", tonumber(colr[3]))
@@ -154,7 +154,10 @@ net.Receive("MoatTitlesChange", function(len, ply)
         return
     end
 
-    MOAT_TITLES.UpdateTitle(ply, otherply, id, title, col, titleprice)
+	local safe = FamilyFriendly(title, ply)
+	safe = string.sub(safe, 1, 32)
+
+    MOAT_TITLES.UpdateTitle(ply, otherply, id, safe, col, titleprice)
 end)
 
 
@@ -166,7 +169,9 @@ function MOAT_TITLES.InitializePlayer(ply)
             local row = data[1]
             local str = row["title"]
             if (#str > 1) then
-            	MOAT_TITLES.LoadTitle(ply, str, row["color"], row["changerid"])
+				local safe = FamilyFriendly(str, ply)
+				safe = string.sub(safe, 1, 32)
+            	MOAT_TITLES.LoadTitle(ply, safe, row["color"], row["changerid"])
             end
         else
         	MOAT_TITLES.Query(string.format("INSERT INTO titles (steamid, title, color, changerid) VALUES(%s, '%s', '%s', %s)", ply:SteamID64(), MOAT_TITLES.Escape(""), MOAT_TITLES.Escape(""), ply:SteamID64()))

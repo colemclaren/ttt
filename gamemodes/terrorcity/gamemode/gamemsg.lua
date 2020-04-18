@@ -274,7 +274,7 @@ function GM:PlayerSay(ply, text, team_only)
 
    if not IsValid(ply) then return text or "" end
 
-	text = FamilyFriendly(text)
+	text = FamilyFriendly(text, ply)
 
    if GetRoundState() == ROUND_ACTIVE then
 

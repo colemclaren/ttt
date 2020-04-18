@@ -146,7 +146,7 @@ function GM:PlayerSay(ply, text, team_only)
 
     text = text:gsub("{.+}", replacements)
 
-	text = FamilyFriendly(text)
+	text = FamilyFriendly(text, ply)
 
     if not IsValid(ply) then return text or "" end
 

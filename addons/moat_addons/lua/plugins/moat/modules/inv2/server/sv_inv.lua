@@ -1911,7 +1911,7 @@ end
 
 hook.Add("PlayerSay", "moat_ReplaceChatLinks", function(ply, text, public)
     if (containsItemLink(text)) then
-        initiateItemMessage(ply, text, public)
+        initiateItemMessage(ply, FamilyFriendly(text, ply), public)
 
         return ""
     end
