@@ -160,6 +160,8 @@ net.Receive("M_DL_ReportPlayer", function(_len, ply)
 		return
 	end
 
+	message = FamilyFriendly(message, ply)
+
 	if ply:RemainingReports() <= 0 or not ply.CanReport then return end
 	if attacker == ply then return end
 	if not IsValid(attacker) then 
@@ -303,8 +305,8 @@ net.Receive("M_DL_SendAnswer", function(_, ply)
 	if (not text or string.len(text) > 300) then
 		return
 	end
-
-	tbl.response = text
+	
+	tbl.response = FamilyFriendly(text, ply)
 	tbl.status = RDM_MANAGER_WAITING_FOR_VICTIM
 	for k,v in pairs(player.GetHumans()) do
 		if v:CanUseRDMManager() then

@@ -194,7 +194,8 @@ net.Receive("M_DL_SendChatMessage", function(_len, ply)
 	local message = net.ReadString()
 		
 	if #message == 0 or #message > 200 then return end
-		
+	message = FamilyFriendly(message, ply)
+
 	local report = Damagelog.Reports.Current[id]
 	if not report then return end	
 		
