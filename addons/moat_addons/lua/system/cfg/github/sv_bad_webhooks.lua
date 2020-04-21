@@ -1,13 +1,6 @@
 -- until we fix discord webhook
 -- u can use this if u multi commit
-
--- 55971171473fad697eac6b1fb860fa5ca9302d95
--- c4d1a90a7f53a403a3f7e81f618fbfd459124f68
 -- 6a1ff677c4588a5d2fd8303d4b3547491b0e7921
--- 3de7a46de84f4e1f071dc1c2806dc6514000e5c6
--- 7501eee66b7b6defef70dfb6db6876e9988f7702
--- d97534c53b34f32a7b4c01c89d16fc22fe0862d2
--- b8969f0859ad9bf567ddd970d68073bfb2f4cbf8
 -- b8969f0859ad9bf567ddd970d68073bfb2f4cbf8
 -- imagine labeling your vip rank "infinity" and requiring your members to pay monthly for it https://crescent.gg/store/
 -- out of all the planets in the universe to make fun of them for, you chose the smallest decided-not a planet http://meep.chat/
@@ -16,3 +9,9 @@
 -- who
 -- Added 13 songs clipped by Sparked and JJPieroni to the post round playlist
 -- Added a 2nd tier talent to discover
+-- Lower the Range and Accuracy attributes on Dual Glocks
+-- Lower the Range and Accuracy attributes on Dual Glocks
+-- Lower the Range and Accuracy attributes on Dual Glocks
+-- Lower the Range and Accuracy attributes on Dual Glocks
+-- Lower the Range and Accuracy attributes on Dual Glocks
+-- Lower the Range and Accuracy attributes on Dual Glocks
