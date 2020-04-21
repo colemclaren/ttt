@@ -77,13 +77,13 @@ MOAT_DONATE.Packages = {
         end
     },
     [3] = {
-        500,
+        400,
         function(pl)
-            m_AddCreditsToSteamID(pl:SteamID(), 2500)
-            
+            m_AddCreditsToSteamID(pl:SteamID(), 4000)
+
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "500 ", Color(255, 255, 255), "Support Credits for the 2,000 IC Package!"})
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "400 ", Color(255, 255, 255), "Support Credits for the 4,000 IC Package!"})
 			net.Send(pl)
 
         end
@@ -91,7 +91,7 @@ MOAT_DONATE.Packages = {
     [4] = {
         1000,
         function(pl)
-            m_AddCreditsToSteamID(pl:SteamID(), 6500)
+            m_AddCreditsToSteamID(pl:SteamID(), 10000)
             local crates = m_GetActiveCrates()
             -- moat_DropHoliday(pl, 2)
 
@@ -105,14 +105,14 @@ MOAT_DONATE.Packages = {
             
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,000 ", Color(255, 255, 255), "Support Credits for the 5,000 IC Package!"})
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,000 ", Color(255, 255, 255), "Support Credits for the 10,000 IC Package!"})
 			net.Send(pl)
         end
     },
     [5] = {
-        2000,
+        2500,
         function(pl)
-            m_AddCreditsToSteamID(pl:SteamID(), 15000)
+            m_AddCreditsToSteamID(pl:SteamID(), 28000)
             give_ec(pl, 1)
             pl:Drop20()
             -- moat_DropHoliday(pl, 4)
@@ -123,12 +123,12 @@ MOAT_DONATE.Packages = {
 
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "2,000 ", Color(255, 255, 255), "Support Credits for the 12,000 IC Package!"})
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "2,500 ", Color(255, 255, 255), "Support Credits for the 25,000 IC Package!"})
 			net.Send(pl)
         end
     },
     [6] = {
-        5000,
+        4000,
         function(pl)
             m_AddCreditsToSteamID(pl:SteamID(), 50000)
             give_ec(pl, 3)
@@ -142,14 +142,14 @@ MOAT_DONATE.Packages = {
            
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the 40,000 IC Package!"})
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "4,000 ", Color(255, 255, 255), "Support Credits for the 40,000 IC Package!"})
 			net.Send(pl)
         end
     },
     [7] = {
         10000,
         function(pl)
-            m_AddCreditsToSteamID(pl:SteamID(), 125000)
+            m_AddCreditsToSteamID(pl:SteamID(), 135000)
             give_ec(pl, 7)
             pl:Drop100()
             -- moat_DropHoliday(pl, 25)

@@ -11,5 +11,5 @@ ITEM.Active = false
 //Buying VIP for your friends or trading it for IC is about to be way easier! People that already own VIP will be able to purchase VIP tokens that are able to be traded!
 ITEM.ItemUsed = function(pl, slot, item)
 	moat_makevip(pl:SteamID64())
-	m_AddCreditsToSteamID(pl:SteamID(), 10000)
+	m_AddCreditsToSteamID(pl:SteamID(), 17000)
 end

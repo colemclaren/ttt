@@ -160,7 +160,7 @@ function FamilyFriendly(str, pl)
 		local warn = string.lower(new)
 		for k, v in ipairs(mylist) do
 			if (not v.bad) then continue end
-			if (v.bad and #v.bad < 3) then continue end
+			if (v.bad and #v.bad <= 3) then continue end
 			if (v.bad and string.find(warn, v.bad)) then
 				return baited
 			end
