@@ -33,9 +33,9 @@ function MapVote.GetAvailableMaps()
 	end
 
 	MapVote.AvailableMaps = {}
-	local maps, num = file.Find("maps/*.bsp", "GAME"), 0
+	local maps, num = MAP_WHITELIST, 0
 	for k, v in pairs(maps) do
-		local mapstr = v:sub(1, -5):lower()
+		local mapstr = v:lower()
 		if (MAP_BLACKLIST[mapstr]) then continue end
 
 		num = num + 1

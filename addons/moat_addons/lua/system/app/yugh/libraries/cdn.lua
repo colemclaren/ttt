@@ -10,13 +10,6 @@ cdn.FolderCheck = function(path)
 		file.CreateDir(path)
 		return
 	end
-
-	local objects = file.Find(path .. "/*", "DATA")
-	if (objects and #objects > 5000) then
-		for k, v in ipairs(objects) do
-			file.Delete(path .. "/" .. v)
-		end
-	end
 end
 
 function cdn.Add(key, val, params)

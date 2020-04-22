@@ -17,19 +17,59 @@ yugh.apps = yugh.apps or {
 	sv = yughs_dir .. "server/",
 	cl = yughs_dir .. "client/",
 	exists = {},
-	ran = {}
+	ran = {},
+	bad = {}
 }
 
-yugh.find(yugh.apps.sh, function(fn) local p = yugh.apps.sh .. fn .. ".lua" yugh.apps.exists[fn] = p AddCSLuaFile(p) end)
-yugh.find(yugh.apps.cl, function(fn) local p = yugh.apps.cl .. fn .. ".lua" yugh.apps.exists[fn] = p AddCSLuaFile(p) end)
-yugh.find(yugh.apps.sv, function(fn) local p = yugh.apps.sv .. fn .. ".lua" yugh.apps.exists[fn] = p end)
+local includes = {{
+	"system/app/yugh/libraries/hook.lua",
+	"system/app/yugh/libraries/http.lua",
+	"system/app/yugh/extensions/entity.lua",
+	"system/app/yugh/extensions/http.lua",
+	"system/app/yugh/extensions/net.lua",
+	"system/app/yugh/extensions/player.lua",
+	"system/app/yugh/extensions/string.lua",
+	"system/app/yugh/extensions/table.lua",
+	"system/app/yugh/extensions/timer.lua",
+	"system/app/yugh/extensions/type.lua",
+	"system/app/yugh/extensions/util.lua",
+	"system/app/yugh/libraries/cdn.lua",
+	"system/app/yugh/libraries/hash.lua",
+	"system/app/yugh/libraries/lang.lua",
+	"system/app/yugh/libraries/usermessage.lua",
+}, {
+	"system/app/yugh/extensions/color.lua",
+	"system/app/yugh/extensions/client/derma.lua",
+	"system/app/yugh/extensions/client/globals.lua",
+	"system/app/yugh/extensions/client/player.lua",
+	"system/app/yugh/extensions/client/surface.lua",
+}, {
+	"system/app/yugh/extensions/server/discord.lua",
+	"system/app/yugh/extensions/server/player.lua",
+}}
+
+for i = 1, 3 do
+	for k, v in ipairs(includes[i]) do
+		local fn = v:match "[\\/]([^/\\]+)%.lua$"
+		yugh.apps.exists[fn] = v
+		if (SERVER and i ~= 3) then
+			AddCSLuaFile(v)
+		end
+
+		if (i == 1 or (i == 3 and SERVER) or (i == 2 and CLIENT)) then
+			yugh.apps.ran[fn] = true
+
+			include(v)
+		end
+	end
+end
 
 if (not _require) then _require = require end
 function require(str)
 	if (yugh.apps.exists[str] and not yugh.apps.ran[str]) then
 		yugh.apps.ran[str] = true
 		return include(yugh.apps.exists[str])
-	else
+	elseif (not yugh.apps.ran[str] and (not yugh.apps.bad[str])) then
 		return _require(str)
 	end
 end

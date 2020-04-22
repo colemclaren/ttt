@@ -16,7 +16,68 @@ function m_AddTalent(talent_tbl)
 end
 
 function m_InitializeTalents()
-	for k, v in pairs(file.Find(MOAT_TALENT_FOLDER .. "/*.lua", "LUA")) do
+	local files	= {
+		"accurate.lua",
+		"adrenalinerush.lua",
+		"armourpiercing.lua",
+		"bostonbasher.lua",
+		"brutal.lua",
+		"centermass.lua",
+		"click.lua",
+		"closequarters.lua",
+		"contagious.lua",
+		"cough.lua",
+		"debility.lua",
+		"deepfried.lua",
+		"deepfried2xl.lua",
+		"desperatetimes.lua",
+		"dragonborn.lua",
+		"dual.lua",
+		"explosive.lua",
+		"extendedmag.lua",
+		"fortified.lua",
+		"fracture.lua",
+		"frost.lua",
+		"inferno.lua",
+		"infrasight.lua",
+		"jennysdog.lua",
+		"laser.lua",
+		"lifesteal.lua",
+		"lightweight.lua",
+		"limited2.lua",
+		"limited3.lua",
+		"limited4t1.lua",
+		"limited4t2.lua",
+		"limited4t3.lua",
+		"limited6t1.lua",
+		"limited6t2.lua",
+		"limited6t3.lua",
+		"medicality.lua",
+		"meticulous.lua",
+		"paintball.lua",
+		"power.lua",
+		"powerstone.lua",
+		"predatory.lua",
+		"prepared.lua",
+		"realitystone.lua",
+		"replenish.lua",
+		"rickross.lua",
+		"scavenger.lua",
+		"silenced.lua",
+		"snowballs.lua",
+		"spacestone.lua",
+		"speedforce.lua",
+		"stability.lua",
+		"strengthinnumbers.lua",
+		"sustained.lua",
+		"tesla.lua",
+		"triggerfinger.lua",
+		"tugofwar.lua",
+		"vampiric.lua",
+		"visionary.lua",
+	}
+
+	for k, v in ipairs(files) do
 		TALENT = {}
 		if (SERVER) then
 			AddCSLuaFile(MOAT_TALENT_FOLDER .. "/" .. v)
@@ -101,105 +162,6 @@ function m_GetTalentFromEnumWithFunctions(tenum)
 
     return tbl
 end
-
-if (CLIENT) then
-    COSMETIC_ITEMS = {}
-	MOAT_BODY_ITEMS = {}
-    function m_AddCosmeticItem(item_tbl, item_kind)
-        local tbl = item_tbl
-        tbl.Kind = item_kind
-        --table.insert( COSMETIC_ITEMS, tbl )
-        COSMETIC_ITEMS[tbl.ID] = tbl
-
-        if (tbl.Model) then
-            util.PrecacheModel(tbl.Model)
-        end
-
-		if (item_kind == "Body") then
-			MOAT_BODY_ITEMS[tbl.ID] = true 
-		end
-    end
-
-    function m_GetCosmeticItemFromEnum(item_id)
-        return table.Copy(COSMETIC_ITEMS[item_id])
-    end
-end
-
-local itemdir = "plugins/moat/modules/_items/items/"
-for k, v in pairs(file.Find(itemdir .. "hats/*.lua", "LUA")) do
-    ITEM = {}
-
-    if (SERVER) then
-        AddCSLuaFile(itemdir .. "hats/" .. v)
-    end
-
-    include(itemdir .. "hats/" .. v)
-
-    if (CLIENT) then
-        m_AddCosmeticItem(ITEM, "Hat")
-    end
-end
-
-for k, v in pairs(file.Find(itemdir .. "masks/*.lua", "LUA")) do
-    ITEM = {}
-
-    if (SERVER) then
-        AddCSLuaFile(itemdir .. "masks/" .. v)
-    end
-
-    include(itemdir .. "masks/" .. v)
-
-    if (CLIENT) then
-        m_AddCosmeticItem(ITEM, "Mask")
-    end
-end
-
-for k, v in pairs(file.Find(itemdir .. "body/*.lua", "LUA")) do
-    ITEM = {}
-
-    if (SERVER) then
-        AddCSLuaFile(itemdir .. "body/" .. v)
-    end
-
-    include(itemdir .. "body/" .. v)
-
-    if (CLIENT) then
-        m_AddCosmeticItem(ITEM, "Body")
-    end
-end
-
-for k, v in pairs(file.Find(itemdir .. "models/*.lua", "LUA")) do
-    ITEM = {}
-
-    if (SERVER) then
-        AddCSLuaFile(itemdir .. "models/" .. v)
-    end
-
-    include(itemdir .. "models/" .. v)
-
-    if (CLIENT) then
-        m_AddCosmeticItem(ITEM, "Model")
-    end
-end
-
-for k, v in pairs(file.Find(itemdir .. "effects/*.lua", "LUA")) do
-    ITEM = {}
-
-    if (SERVER) then
-        AddCSLuaFile(itemdir .. "effects/" .. v)
-    end
-
-    include(itemdir .. "effects/" .. v)
-
-    if (CLIENT) then
-        m_AddCosmeticItem(ITEM, "Effect")
-    end
-end
-
-if (SERVER) then
-	include(itemdir .. "paints/load.lua")
-end
-include(itemdir .. "paints/load.lua")
 
 moat_TerroristModels = {}
 moat_TerroristModels["models/player/arctic.mdl"] = ""

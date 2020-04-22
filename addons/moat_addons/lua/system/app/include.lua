@@ -1,5 +1,3 @@
-yugh.i "app_mt.lua"
-
 moat.apps = moat.apps or {
 	path = "system/app/",
 	paths = {}, included = {},
@@ -20,8 +18,15 @@ function moat.apps.load(fn)
 	end})
 end
 
-local _, f = file.Find(moat.apps.path .. "*", "LUA")
-for k, v in pairs(f) do
+local folders = {
+	"core",
+	"sql",
+	"ttt",
+	"ux",
+	"yugh",
+}
+
+for k, v in pairs(folders) do
 	if (v == "core") then
 		continue
 	end

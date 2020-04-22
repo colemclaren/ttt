@@ -87,7 +87,22 @@ local function includeEventFile(f)
 	include(f)
 end
 
-for k,v in pairs(file.Find(Damagelog.Path .. "shared/_events/*.lua", "LUA")) do
+local files = {
+	"bodyfound.lua",
+	"credits.lua",
+	"damages.lua",
+	"dna.lua",
+	"fall_damage.lua",
+	"kills.lua",
+	"misc.lua",
+	"nades.lua",
+	"suicide.lua",
+	"ttt_button.lua",
+	"ttt_radio.lua",
+	"weapons.lua",
+}
+
+for k,v in ipairs(files) do
 	if not table.HasValue(Damagelog.IncludedEvents, v) then
 		Damagelog.CurrentFile = v
 		includeEventFile(v)

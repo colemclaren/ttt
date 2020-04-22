@@ -36,8 +36,10 @@ mlogs.IncludeFolderSV = function(p) mlogs.IncludeFolder(p, false) end
 function mlogs.IncludeFolder(p, cl)
 	local tf = (cl == nil and mlogs.IncludeSH) or (cl == true and mlogs.IncludeCL) or (cl == false and mlogs.IncludeSV)
 	p = "/" .. p .. "/"
-
-	for _, f in ipairs(file.Find(mlogs.Folder .. p .. "*.lua", "LUA")) do i = tf
+	
+	local files, folders = file.Find(mlogs.Folder .. p .. "*.lua", "LUA")
+	file.Write('_mlogs_'..p:Trim('/')..'.txt', table.ToString(files, 'files', true))
+	for _, f in ipairs(files) do i = tf
 		if (f:StartWith("sh_")) then i = mlogs.IncludeSH end
 		if (f:StartWith("cl_")) then i = mlogs.IncludeCL end
 		if (f:StartWith("sv_")) then i = mlogs.IncludeSV end

@@ -4,7 +4,7 @@ local concat = table.concat
 local str_split = string.Split
 
 Server = Server or {
-	Name = GetHostName():match("- ([%w%s#]*) -") or GetHostName() or "Garry's Mod",
+	Name = GetHostName():match("- ([%w%s#]*)") or GetHostName() or "Garry's Mod",
 	ID = false,
 	URL = false,
 	Index = 200,
@@ -41,7 +41,7 @@ local servers = {
 	},
 	Roster = {},
 	DefaultPort = 27015,
-	Name = GetHostName():match("- ([%w%s#]*) -") or GetHostName() or "TTT",
+	Name = GetHostName():match("- ([%w%s#]*)") or GetHostName() or "Beta",
 	URL = ".moat.gg",
 	SteamURL = "steam://connect/"
 }

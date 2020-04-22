@@ -236,6 +236,7 @@ it.sv = SERVER and include or function() end
 it.cl = SERVER and AddCSLuaFile or include
 it.sh = function(p) AddCSLuaFile(p) return include(p) end
 
+LUA_INCLUDE = LUA_INCLUDE or {["sv"] = {}, ["cl"] = {}, ["sh"] = {}}
 function it.internal(fp, r, dev)
 	r = r or "sh"
 
@@ -251,9 +252,9 @@ function it.internal(fp, r, dev)
 		yugh.include.dev(fp)
 	end
 
-	if (r == "sv" and SERVER) then return it.sv(fp) end
-	if (r == "cl") then return it.cl(fp) end
-	if (r == "sh") then return it.sh(fp) end
+	if (r == "sv" and SERVER) then /*table.insert(LUA_INCLUDE["sv"], fp)*/ return it.sv(fp) end
+	if (r == "cl") then /*table.insert(LUA_INCLUDE["cl"], fp)*/ return it.cl(fp) end
+	if (r == "sh") then /*table.insert(LUA_INCLUDE["sv"], fp) table.insert(LUA_INCLUDE["cl"], fp)*/ return it.sh(fp) end
 end
 
 

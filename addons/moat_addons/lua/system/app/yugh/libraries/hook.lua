@@ -2,7 +2,15 @@
 local debug_info = debug.getinfo
 local isstring = isstring
 local isfunction = isfunction
-local IsValid = IsValid
+local IsValid = function(object)
+	if (not object) then return false end
+
+	local isvalid = object.IsValid
+	if (not isvalid) then return false end
+
+	return isvalid(object)
+end
+
 local hook_callbacks = {}
 local hook_index = {}
 local hook_id = {}
