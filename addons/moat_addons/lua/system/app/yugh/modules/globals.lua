@@ -53,24 +53,6 @@ for id, info in pairs(DefaultGlobals) do
 end
 
 ----
--- Pointlessly localize things
-----
-
-local WriteBool, ReadBool, WriteBit = net.WriteBool, net.ReadBool, net.WriteBit
-local ReadString, WriteString = net.ReadString, net.WriteString
-local WriteVector, ReadVector = net.WriteVector, net.ReadVector
-local Start, Broadcast = net.Start, SERVER and net.Broadcast
-local WriteFloat, ReadFloat = net.WriteFloat, net.ReadFloat
-local WriteAngle, ReadAngle = net.WriteAngle, net.ReadAngle
-local WriteUInt, ReadUInt = net.WriteUInt, net.ReadUInt
-local Send = SERVER and net.Send or net.SendToServer
-local WriteInt, ReadInt = net.WriteInt, net.ReadInt
-local BytesWritten = net.BytesWritten
-local Simple = timer.Simple
-local IsValid = IsValid
-local Entity = Entity
-
-----
 -- Register the global types
 ----
 
@@ -110,29 +92,29 @@ local function RegisterGlobalClass(name, default, write, read, set, valid)
 end
 
 -- SetGlobalAngle/GetGlobalAngle
-RegisterGlobalClass("Angle", Angle(0, 0, 0), WriteAngle, ReadAngle, "Angle")
+RegisterGlobalClass("Angle", Angle(0, 0, 0), net.WriteAngle, net.ReadAngle, "Angle")
 
 -- SetGlobalBool/GetGlobalBool
-RegisterGlobalClass("Bool", false, WriteBool, ReadBool, {["boolean"] = true, ["nil"] = true})
+RegisterGlobalClass("Bool", false, net.WriteBool, net.ReadBool, {["boolean"] = true, ["nil"] = true})
 
 -- SetGlobalEntity/GetGlobalEntity
 RegisterGlobalClass("Entity", NULL, function(val)
-	return WriteUInt(IsValid(val) and val:EntIndex() or 0, 12)
-end, function() return Entity(ReadUInt(12) or -1) end, {["Entity"] = true, ["Player"] = true})
+	return net.WriteUInt(IsValid(val) and val:EntIndex() or 0, 12)
+end, function() return Entity(net.ReadUInt(12) or -1) end, {["Entity"] = true, ["Player"] = true})
 
 -- SetGlobalFloat/GetGlobalFloat
-RegisterGlobalClass("Float", 0, WriteFloat, ReadFloat, "number")
+RegisterGlobalClass("Float", 0, net.WriteFloat, net.ReadFloat, "number")
 
 -- SetGlobalInt/GetGlobalInt
 RegisterGlobalClass("Int",  0, function(val)
-	return WriteInt(val, 32) end, 
-function() return ReadInt(32) end, "number")
+	return net.WriteInt(val, 32) end, 
+function() return net.ReadInt(32) end, "number")
 
 -- SetGlobalString/GetGlobalString
-RegisterGlobalClass("String", "", WriteString, ReadString, "string")
+RegisterGlobalClass("String", "", net.WriteString, net.ReadString, "string")
 
 -- SetGlobalVector/GetGlobalVector
-RegisterGlobalClass("Vector", Vector(0, 0, 0), WriteVector, ReadVector, "Vector")
+RegisterGlobalClass("Vector", Vector(0, 0, 0), net.WriteVector, net.ReadVector, "Vector")
 
 ----
 -- New lazy Shorthand String function meant ONLY for global cache use (bottom of file)
@@ -141,8 +123,8 @@ RegisterGlobalClass("Vector", Vector(0, 0, 0), WriteVector, ReadVector, "Vector"
 
 -- SetGlobalStr/GetGlobalStr
 RegisterGlobalClass("Str", false, function(val)
-	return WriteString(not val and "" or tostring(val))
-end, ReadString, function(val) 
+	return net.WriteString(not val and "" or tostring(val))
+end, net.ReadString, function(val) 
 	return (val and tostring(val))
 end, {["boolean"] = true, ["string"] = true, ["nil"] = true})
 
@@ -171,14 +153,14 @@ if (SERVER) then
 
 	local function NetworkGlobalVariable(kind, key, val)
 		if (DefaultGlobals[key]) then
-			Start("SetGlobal" .. kind .. ":" .. key)
+			net.Start("SetGlobal" .. kind .. ":" .. key)
 				Globals[kind].Write(val)
-			Broadcast()
+			net.Broadcast()
 		else
-			Start("SetGlobal" .. kind)
-				WriteString(key)
+			net.Start("SetGlobal" .. kind)
+				net.WriteString(key)
 				Globals[kind].Write(val)
-			Broadcast()
+			net.Broadcast()
 		end
 
 		return val
@@ -278,18 +260,18 @@ if (SERVER) then
 			while (data[int]) do
 				if (not args.check(data[int], int)) then int = int + 1 continue end
 
-				WriteBit(1)
+				net.WriteBit(1)
 				args.write(data[int], int)
 
 				int = int + 1
 
-				if (BytesWritten() >= BytesLimit) then
-					Simple(0, function() SendGlobalVariables(int, data, args) end)
+				if (net.BytesWritten() >= BytesLimit) then
+					timer.Simple(0, function() SendGlobalVariables(int, data, args) end)
 					break
 				end
 			end
-			WriteBit(0)
-		args.send(int, BytesWritten() >= BytesLimit)
+			net.WriteBit(0)
+		args.send(int, net.BytesWritten() >= BytesLimit)
 	end
 
 	local Security = {}
@@ -299,14 +281,14 @@ if (SERVER) then
 
 		SendGlobalVariables(1, Internal, {
 			start = function(int)
-				Start "LoadGlobalVariables"
+				net.Start "LoadGlobalVariables"
 			end,
 			write = function(var)
-				WriteUInt(Globals[var.Kind].ID, BitCount)
-				WriteString(var.Key)
+				net.WriteUInt(Globals[var.Kind].ID, BitCount)
+				net.WriteString(var.Key)
 				Globals[var.Kind].Write(var.Value)
 			end,
-			send = function() Send(pl) end,
+			send = function() if (SERVER) then net.Send(pl) else net.SendToServer() end end,
 			check = function(var)
 				if (not Globals[var.Kind].Valid(var.Value)) then
 					return false
@@ -330,7 +312,7 @@ else
 		local NetworkID = "SetGlobal" .. kind
 
 		net.Receive(NetworkID, function()
-			local key = ReadString()
+			local key = net.ReadString()
 
 			SetGlobalVariable(kind, key, info.Read())
 		end)
@@ -353,9 +335,9 @@ else
 
 	
 	net.Receive("LoadGlobalVariables", function()
-		while (ReadBool()) do
-			local kind = Lookup[ReadUInt(BitCount)]
-			local key = ReadString()
+		while (net.ReadBool()) do
+			local kind = Lookup[net.ReadUInt(BitCount)]
+			local key = net.ReadString()
 			local val = Globals[kind].Read()
 
 			SetGlobalVariable(kind, key, val)
@@ -363,7 +345,7 @@ else
 	end)
 
 	hook.Add("InitPostEntity", "LoadGlobalVariables", function()
-		Start "LoadGlobalVariables" Send()
+		net.Start "LoadGlobalVariables" net.SendToServer()
 	end)
 end
 

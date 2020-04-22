@@ -75,28 +75,7 @@ end
 yugh.ish "includes/_init.lua"
 yugh.ish "system/app/yugh/libraries/cdn.lua"
 yugh.icl "system/app/yugh/extensions/color.lua"
-
-
-local includes = {{
-	"system/app/yugh/modules/comments.lua",
-	"system/app/yugh/modules/damage.lua",
-	"system/app/yugh/modules/globals.lua",
-	"system/app/yugh/modules/helpers.lua",
-	"system/app/yugh/modules/servers.lua"
-}}
-
-for i = 1, 1 do
-	for k, v in ipairs(includes[i]) do
-		local fn = v:match "[\\/]([^/\\]+)%.lua$"
-		yugh.apps.exists[fn] = v
-		if (SERVER and i ~= 3) then
-			AddCSLuaFile(v)
-		end
-
-		if (i == 1 or (i == 3 and SERVER) or (i == 2 and CLIENT)) then
-			yugh.apps.ran[fn] = true
-
-			include(v)
-		end
-	end
-end
+yugh.i "/system/app/yugh/" {
+	"extensions/",
+	"modules/"
+}
