@@ -213,7 +213,7 @@ function PANEL:Paint()
     DrawBlur(self, 3)
     --[[surface_SetDrawColor(0, 0, 0, 150)
    surface_DrawRect(0, 0, w, h)]]
-    cdn.DrawImage(MOAT_BG_URL, math.min((w/2) - (1500/2), 0), math.min((h/2) - (1080/2), 0), math.max(1500, h), math.max(1080, w), Color(255, 255, 255, 230))
+    cdn.DrawImage("http://cdn.moat.gg/f/bg.png", math.min((w/2) - (3840/2), 0), math.min((h/2) - (2160/2), 0), math.max(3840, h), math.max(2160, w), Color(255, 255, 255, 230))	
     surface_SetDrawColor(183, 183, 183)
     DisableClipping(true)
     surface_DrawLine(0, -4, w, -4)
