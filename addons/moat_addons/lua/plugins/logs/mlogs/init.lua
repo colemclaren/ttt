@@ -38,7 +38,7 @@ function mlogs.IncludeFolder(p, cl)
 	p = "/" .. p .. "/"
 	
 	local files, folders = file.Find(mlogs.Folder .. p .. "*.lua", "LUA")
-	file.Write('_mlogs_'..p:Trim('/')..'.txt', table.ToString(files, 'files', true))
+	-- file.Write('_mlogs_'..p:Trim('/')..'.txt', table.ToString(files, 'files', true))
 	for _, f in ipairs(files) do i = tf
 		if (f:StartWith("sh_")) then i = mlogs.IncludeSH end
 		if (f:StartWith("cl_")) then i = mlogs.IncludeCL end
