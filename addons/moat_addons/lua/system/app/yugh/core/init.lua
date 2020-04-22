@@ -33,12 +33,10 @@ local includes = {{
 	"system/app/yugh/extensions/timer.lua",
 	"system/app/yugh/extensions/type.lua",
 	"system/app/yugh/extensions/util.lua",
-	"system/app/yugh/libraries/cdn.lua",
 	"system/app/yugh/libraries/hash.lua",
 	"system/app/yugh/libraries/lang.lua",
 	"system/app/yugh/libraries/usermessage.lua",
 }, {
-	"system/app/yugh/extensions/color.lua",
 	"system/app/yugh/extensions/client/derma.lua",
 	"system/app/yugh/extensions/client/globals.lua",
 	"system/app/yugh/extensions/client/player.lua",
@@ -75,8 +73,30 @@ function require(str)
 end
 
 yugh.ish "includes/_init.lua"
-yugh.ish(yughs_dir .. "cdn.lua")
-yugh.i "/system/app/yugh/" {
-	"extensions/",
-	"modules/"
-}
+yugh.ish "system/app/yugh/libraries/cdn.lua"
+yugh.icl "system/app/yugh/extensions/color.lua"
+
+
+local includes = {{
+	"system/app/yugh/modules/comments.lua",
+	"system/app/yugh/modules/damage.lua",
+	"system/app/yugh/modules/globals.lua",
+	"system/app/yugh/modules/helpers.lua",
+	"system/app/yugh/modules/servers.lua"
+}}
+
+for i = 1, 1 do
+	for k, v in ipairs(includes[i]) do
+		local fn = v:match "[\\/]([^/\\]+)%.lua$"
+		yugh.apps.exists[fn] = v
+		if (SERVER and i ~= 3) then
+			AddCSLuaFile(v)
+		end
+
+		if (i == 1 or (i == 3 and SERVER) or (i == 2 and CLIENT)) then
+			yugh.apps.ran[fn] = true
+
+			include(v)
+		end
+	end
+end
