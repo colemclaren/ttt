@@ -6444,13 +6444,21 @@ function m_DrawDeconButton()
     end
 
     MOAT_INV_MASS_DECON.DoClick = function()
-        local items_decon = 0
+		local items_decon = 0
+
+        for i = 1, #m_Inventory do
+            if (m_Inventory[i] and m_Inventory[i].decon) then
+                items_decon = items_decon + 1
+            end
+        end
+
+		net.Start "MOAT_REM_INV_ITEMS"
+		net.WriteUInt(items_decon, 16)
 
         for i = 1, #m_Inventory do
             if (m_Inventory[i] and m_Inventory[i].decon) then
                 items_decon = items_decon + 1
 
-                net.Start("MOAT_REM_INV_ITEM")
                 net.WriteDouble(i)
                 net.WriteDouble(m_Inventory[i].c)
 
@@ -6460,11 +6468,12 @@ function m_DrawDeconButton()
                     net.WriteDouble(3)
                 end
 
-                net.SendToServer()
-
                 m_Inventory[i].decon = false
             end
         end
+
+		net.SendToServer()
+
         MOAT_ITEMS_DECON_MARKED = 0
     end
 end

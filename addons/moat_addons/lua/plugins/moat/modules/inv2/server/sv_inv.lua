@@ -4,6 +4,7 @@ util.AddNetworkString("MOAT_SEND_SLOTS")
 util.AddNetworkString("MOAT_SEND_INV_ITEM")
 util.AddNetworkString("MOAT_ADD_INV_ITEM")
 util.AddNetworkString("MOAT_REM_INV_ITEM")
+util.AddNetworkString "MOAT_REM_INV_ITEMS"
 util.AddNetworkString("MOAT_LOCK_INV_ITEM")
 util.AddNetworkString("MOAT_SWP_INV_ITEM")
 util.AddNetworkString("MOAT_SEND_TRADE_REQ")
@@ -721,7 +722,7 @@ net.Receive("MOAT_SWP_INV_ITEM", function(len, ply)
     end
 end)
 
-function m_RemoveInventoryItem(ply, slot, class, crate)
+function m_RemoveInventoryItem(ply, slot, class, crate, save)
     local ply_inv = MOAT_INVS[ply]
     local item_enum = 0
     local items_found = 0
@@ -736,7 +737,10 @@ function m_RemoveInventoryItem(ply, slot, class, crate)
             net.WriteDouble(class)
             net.Send(ply)
             items_found = items_found + 1
-            m_SaveInventory(ply)
+
+			if (save == nil or save == true) then
+				m_SaveInventory(ply)
+			end
 
 			if (crate and crate == 1) then
 				break
@@ -746,10 +750,6 @@ function m_RemoveInventoryItem(ply, slot, class, crate)
 				hook.Run("PlayerDeconstructedItem", ply, item_enum)
 			end
         end
-    end
-
-    if (items_found > 1) then
-        RunConsoleCommand("mga", "perma", ply:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 end
 
@@ -762,6 +762,23 @@ net.ReceiveNoLimit("MOAT_REM_INV_ITEM", function(len, ply)
     if (crate and crate == 2) then ply.Deconing = false end
 
     m_RemoveInventoryItem(ply, slot, class, crate)
+end)
+
+net.ReceiveNoLimit("MOAT_REM_INV_ITEMS", function(len, ply)
+	local decon = net.ReadUInt(16) or 0
+	for i = 1, decon do
+		local slot = net.ReadDouble()
+		if (not slot) then continue end
+		local class = net.ReadDouble()
+		if (not class) then continue end
+		local crate = net.ReadDouble()
+		if (not crate) then continue end
+	
+		if (crate and crate == 3) then ply.Deconing = true end
+		if (crate and crate == 2) then ply.Deconing = false end
+
+		m_RemoveInventoryItem(ply, slot, class, crate, i == decon)
+	end
 end)
 
 local function m_SendTradeReq(ply, otherply)
