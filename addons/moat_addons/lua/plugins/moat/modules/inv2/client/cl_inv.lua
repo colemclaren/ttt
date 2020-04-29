@@ -6457,8 +6457,6 @@ function m_DrawDeconButton()
 
         for i = 1, #m_Inventory do
             if (m_Inventory[i] and m_Inventory[i].decon) then
-                items_decon = items_decon + 1
-
                 net.WriteDouble(i)
                 net.WriteDouble(m_Inventory[i].c)
 

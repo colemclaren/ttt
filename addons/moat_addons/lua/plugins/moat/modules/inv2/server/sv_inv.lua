@@ -765,7 +765,7 @@ net.ReceiveNoLimit("MOAT_REM_INV_ITEM", function(len, ply)
 end)
 
 net.ReceiveNoLimit("MOAT_REM_INV_ITEMS", function(len, ply)
-	local decon = net.ReadUInt(16) or 0
+	local decon = net.ReadUInt(16) or 1
 	for i = 1, decon do
 		local slot = net.ReadDouble()
 		if (not slot) then continue end
