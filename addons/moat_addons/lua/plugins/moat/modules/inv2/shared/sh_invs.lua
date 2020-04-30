@@ -75,6 +75,7 @@ function m_InitializeTalents()
 		"tugofwar.lua",
 		"vampiric.lua",
 		"visionary.lua",
+		"lospanchos.lua"
 	}
 
 	for k, v in ipairs(files) do

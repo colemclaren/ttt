@@ -2,40 +2,29 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
-function ENT:Initialize()
-	self.Entity:SetModel("models/foodnhouseholditems/pear.mdl");
-	self.Entity:PhysicsInit(SOLID_VPHYSICS);
-	self.Entity:SetMoveType(MOVETYPE_VPHYSICS);
-	self.Entity:SetSolid(SOLID_VPHYSICS);
-	self.Entity:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
-	local phys = self:GetPhysicsObject()
-	if phys:IsValid() then
-		phys:Wake()
-		phys:EnableGravity(true);
-	end
-	local color = Color(204,255,204)
-	/*if not self.Harmless then
-		color = Color(255,0,0)
-	end*/
-	self.Trail = util.SpriteTrail(self.Entity, 0, color, false, 15, 1, 0.1, 1/(15+1)*0.5, "trails/laser.vmt") 
-end
+-- function ENT:Initialize()
+-- 	self.Entity:SetModel("models/foodnhouseholditems/pear.mdl");
+-- 	self.Entity:PhysicsInit(SOLID_VPHYSICS);
+-- 	self.Entity:SetMoveType(MOVETYPE_VPHYSICS);
+-- 	self.Entity:SetSolid(SOLID_VPHYSICS);
+-- 	self.Entity:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
+-- 	local phys = self:GetPhysicsObject()
+-- 	if phys:IsValid() then
+-- 		phys:Wake()
+-- 		phys:EnableGravity(true);
+-- 	end
+-- 	local color = Color(204,255,204)
+-- 	/*if not self.Harmless then
+-- 		color = Color(255,0,0)
+-- 	end*/
+-- 	self.Trail = util.SpriteTrail(self.Entity, 0, color, false, 15, 1, 0.1, 1/(15+1)*0.5, "trails/laser.vmt") 
+-- end
 
 function ENT:Think()
 end
 
-function ENT:SpawnFunction(ply, tr)
-	if (!tr.Hit) then return end
-	local SpawnPos = tr.HitPos + tr.HitNormal * 16;
-	local ent = ents.Create("ent_propshot");
-	ent:SetPos(SpawnPos);
-	ent:Spawn();
-	ent:Activate();
-	ent:SetOwner(ply)
-	return ent;
-end
-
 function ENT:PhysicsCollide(data)
-	if self.Collided then return end
+	if (self.Collided) then return end
 	local pos = self.Entity:GetPos() --Get the position of the snowball
 	local effectdata = EffectData()
 	data.HitObject:ApplyForceCenter(self:GetPhysicsObject():GetVelocity() * 40)

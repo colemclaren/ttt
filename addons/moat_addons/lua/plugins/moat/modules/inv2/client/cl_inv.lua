@@ -978,6 +978,17 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
                 m_DrawBouncingText(talent_name, font, draw_name_x, draw_name_y, name_col, nil, nil, true)
             elseif (tfx == "enchanted") then
                 m_DrawEnchantedText(talent_name, font, draw_name_x, draw_name_y, name_col, itemtbl.Talents[k].NameEffectMods and itemtbl.Talents[k].NameEffectMods[1], nil, nil, true)
+			elseif (tfx == "threecolors") then
+				if (not itemtbl.Talents[k].NameEffectMods[4]) then itemtbl.Talents[k].NameEffectMods[4] = 1 end
+				if (not itemtbl.Talents[k].NameEffectMods[5]) then itemtbl.Talents[k].NameEffectMods[5] = RealTime() end
+				if (itemtbl.Talents[k].NameEffectMods[5] <= RealTime()) then
+					itemtbl.Talents[k].NameEffectMods[4] = itemtbl.Talents[k].NameEffectMods[4] + 1
+					if (itemtbl.Talents[k].NameEffectMods[4] > 3) then itemtbl.Talents[k].NameEffectMods[4] = 1 end
+					itemtbl.Talents[k].NameEffectMods[5] = RealTime() + (FrameTime() * 5)
+				end
+
+                m_DrawEnchantedText(talent_name, font, draw_name_x, draw_name_y, name_col, itemtbl.Talents[k].NameEffectMods[itemtbl.Talents[k].NameEffectMods[4]], nil, nil, true)
+                -- m_DrawEnchantedText(talent_name, font, draw_name_x, draw_name_y, name_col, ((RealTime() % 3 == 0) and itemtbl.Talents[k].NameEffectMods[1]) or ((RealTime() % 2 == 0) and itemtbl.Talents[k].NameEffectMods[2]) or itemtbl.Talents[k].NameEffectMods[3], nil, nil, true)
             elseif (tfx == "electric") then
                 m_DrawElecticText(talent_name, font, draw_name_x, draw_name_y, name_col, true)
             elseif (tfx == "frost") then
@@ -1110,6 +1121,10 @@ local function readonly_rarities(tab)
 })
 end
 
+
+
+rgb_rotation = 1
+
 rarity_names = {
 	[0] = { "Stock", Color():SetHex "#606e88", { min = 10, max = 20 } }, 
 	[1] = { "Worn", Color():SetHex "#ccccff", { min = 10, max = 20 } }, 
@@ -1162,6 +1177,7 @@ rarity_shadow = readonly_rarities {
 	[9] = {Color(0, 0, 0, 150), Color(0, 0, 0, 75)}
 }
 
+local rgb_rotator = 0
 hook.Add("Think", "moat_InventoryHSV", function()
 	local hsl = {
 		HSVToColor(CurTime() * 70 % 360, 1, 1),
@@ -1176,6 +1192,11 @@ hook.Add("Think", "moat_InventoryHSV", function()
 	rarity_accents[9] = Color(hsl[2].r, hsl[2].g, hsl[2].b, 255)
 	rarity_gradient[9] = Color(hsl[3].r, hsl[3].g, hsl[3].b, 255)
 	rarity_shadow[9] = {Color(hsl[4].r, hsl[4].g, hsl[4].b, 150), Color(hsl[5].r, hsl[5].g, hsl[5].b, 75)}
+
+	if (rgb_rotator <= RealTime()) then		
+		rgb_rotation = rgb_rotation + 1
+		rgb_rotator = RealTime() + 1
+	end
 end)
 
 local m_LoadoutLabels = {"Primary", "Secondary", "Melee", "Power-Up", "Special", "Head", "Mask", "Body", "Effect", "Model"}
@@ -3267,6 +3288,16 @@ function m_OpenInventory(ply2, utrade)
                     m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
                 elseif (tfx == "enchanted") then
                     m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, ITEM_HOVERED.item.NameEffectMods[1], nil, nil, true)
+				elseif (tfx == "threecolors") then
+					if (not ITEM_HOVERED.item.NameEffectMods[4]) then ITEM_HOVERED.item.NameEffectMods[4] = 1 end
+					if (not ITEM_HOVERED.item.NameEffectMods[5]) then ITEM_HOVERED.item.NameEffectMods[5] = RealTime() end
+					if (ITEM_HOVERED.item.NameEffectMods[5] <= RealTime()) then
+						ITEM_HOVERED.item.NameEffectMods[4] = ITEM_HOVERED.item.NameEffectMods[4] + 1
+						if (ITEM_HOVERED.item.NameEffectMods[4] > 3) then ITEM_HOVERED.item.NameEffectMods[4] = 1 end
+						ITEM_HOVERED.item.NameEffectMods[5] = RealTime() + (FrameTime() * 5)
+					end
+
+					m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, ITEM_HOVERED.item.NameEffectMods[itemtbl.item.NameEffectMods[4]], nil, nil, true)
                 elseif (tfx == "electric") then
                     m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
                 elseif (tfx == "frost") then
@@ -5823,6 +5854,16 @@ function m_DrawFoundItem(tbl, s_type, name)
                     m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "enchanted") then
                     m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, ITEM_HOVERED.item.NameEffectMods[1])
+				elseif (tfx == "threecolors") then
+					if (not ITEM_HOVERED.item.NameEffectMods[4]) then ITEM_HOVERED.item.NameEffectMods[4] = 1 end
+					if (not ITEM_HOVERED.item.NameEffectMods[5]) then ITEM_HOVERED.item.NameEffectMods[5] = RealTime() end
+					if (ITEM_HOVERED.item.NameEffectMods[5] <= RealTime()) then
+						ITEM_HOVERED.item.NameEffectMods[4] = ITEM_HOVERED.item.NameEffectMods[4] + 1
+						if (ITEM_HOVERED.item.NameEffectMods[4] > 3) then ITEM_HOVERED.item.NameEffectMods[4] = 1 end
+						ITEM_HOVERED.item.NameEffectMods[5] = RealTime() + (FrameTime() * 5)
+					end
+
+					m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, ITEM_HOVERED.item.NameEffectMods[itemtbl.item.NameEffectMods[4]], nil, nil, true)
                 elseif (tfx == "electric") then
                     m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 elseif (tfx == "frost") then

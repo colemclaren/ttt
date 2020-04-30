@@ -644,6 +644,16 @@ local function moat_CustomHUD()
 					m_DrawBouncingText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, nil, nil, true)
 				elseif (tfx == "enchanted") then
 					m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, wpn_stats.item.NameEffectMods[1], nil, nil, true)
+				elseif (tfx == "threecolors") then
+					if (not wpn_stats.item.NameEffectMods[4]) then wpn_stats.item.NameEffectMods[4] = 1 end
+					if (not wpn_stats.item.NameEffectMods[5]) then wpn_stats.item.NameEffectMods[5] = RealTime() end
+					if (wpn_stats.item.NameEffectMods[5] <= RealTime()) then
+						wpn_stats.item.NameEffectMods[4] = wpn_stats.item.NameEffectMods[4] + 1
+						if (wpn_stats.item.NameEffectMods[4] > 3) then wpn_stats.item.NameEffectMods[4] = 1 end
+						wpn_stats.item.NameEffectMods[5] = RealTime() + (FrameTime() * 5)
+					end
+
+					m_DrawEnchantedText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, wpn_stats.item.NameEffectMods[wpn_stats.item.NameEffectMods[4]], nil, nil, true)
 				elseif (tfx == "electric") then
 					m_DrawElecticText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col, true)
 				else

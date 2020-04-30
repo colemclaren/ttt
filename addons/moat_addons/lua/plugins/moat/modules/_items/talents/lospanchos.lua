@@ -1,10 +1,10 @@
-TALENT.ID = 666
-TALENT.Suffix = "the RICK ROSS"
-TALENT.Name = "RICK ROSS"
-TALENT.NameEffect = "enchanted"
-TALENT.NameColor = Color(204, 255, 204)
-TALENT.NameEffectMods = {Color(255, 204, 153)}
-TALENT.Description = "Each shot has a %s_^ chance to shoot a pear projectile dealing %s damage"
+TALENT.ID = 610
+TALENT.Suffix = "the LOS PANCHOS"
+TALENT.Name = "LOS PANCHOS"
+TALENT.NameEffect = "threecolors"
+TALENT.NameColor = Color(251,176,59)
+TALENT.NameEffectMods = {Color(34,181,115), Color(237,28,36), Color(255,255,255)}
+TALENT.Description = "Each shot has a %s_^ chance to shoot a bell pepper projectile dealing %s damage"
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}
@@ -46,9 +46,9 @@ function TALENT:OnWeaponFired(attacker, wep, dmginfo, talent_mods, is_bow, hit_p
        	 	local rspr = aimang:Right() * x + aimang:Up() * y
     		local dir = Front + rspr + bulspread.x * mult.x * aimang:Right() + bulspread.y * mult.y * aimang:Up()
 
-			local ball = ents.Create "ent_propshot_pear"
+			local ball = ents.Create "ent_propshot_pepper"
 			if IsValid(ball) then
-    			ball:SetTrailColor(Vector(0.8, 1, 0.8))
+    			ball:SetTrailColor(Vector(237/255, 28/255, 36/255))
 				ball:SetPos(ply:GetShootPos() + dir * 10 + Up * 10 * -1)
 				ball:SetAngles(Front:Angle())
 				ball.Harmless = false

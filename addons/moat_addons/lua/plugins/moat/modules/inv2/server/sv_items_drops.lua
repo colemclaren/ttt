@@ -41,6 +41,10 @@ function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
         talent_tbl.LevelRequired = {min = 40, max = 50}
     end
 
+	if (not talent_tbl.Tier) then
+		talent_tbl.Tier = 5
+	end
+
     return talent_tbl
 end
 
