@@ -182,14 +182,24 @@ if MINVENTORY_MYSQL then
     end
 end
 
+
+local fails = 0
 hook.Add("InitPostEntity","MSQL",function()
     if not c() then 
         timer.Create("CheckMSQL",1,0,function()
+			if (fails >= 300) then
+				RunConsoleCommand('changelevel', game.GetMap())
+
+				return
+			end
+
             print("JackPot timer",c())
             if c() then
                 loadSQL()
                 timer.Destroy("CheckMSQL")
             end
+
+			fails = fails + 1
         end)
     else
         loadSQL()
