@@ -2015,7 +2015,7 @@ function m_LockInventoryItem(ply, slot, class)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "perma", ply:SteamID(), "[Automated] Item Exploiting Detected!")
+        -- RunConsoleCommand("mga", "perma", ply:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 end
 
@@ -2189,7 +2189,7 @@ net.Receive("MOAT_REM_NAME_MUTATOR", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
+        -- RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 
     m_SaveInventory(pl)
@@ -2222,8 +2222,8 @@ net.Receive("MOAT_INIT_USABLE", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
-        return
+        -- RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
+        -- return
     end
 
     net.Start("MOAT_INIT_USABLE")
@@ -2401,7 +2401,7 @@ net.Receive("MOAT_REM_TINT", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
+        -- RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 
     m_SaveInventory(pl)
@@ -2433,7 +2433,7 @@ net.Receive("MOAT_REM_PAINT", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
+        -- RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 
     m_SaveInventory(pl)
@@ -2465,7 +2465,7 @@ net.Receive("MOAT_REM_TEXTURE", function(l, pl)
     end
 
     if (items_found > 1) then
-        RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
+        -- RunConsoleCommand("mga", "perma", pl:SteamID(), "[Automated] Item Exploiting Detected!")
     end
 
     m_SaveInventory(pl)
