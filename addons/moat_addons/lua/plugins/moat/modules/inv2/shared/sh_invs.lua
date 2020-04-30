@@ -103,8 +103,8 @@ function GetItemTalents(tb, funcs)
 	end
 
     for k, v in ipairs(tb.t) do
-		Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e)
-			or m_GetTalentFromEnumWithFunctions(v.e)
+		Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e or 21)
+			or m_GetTalentFromEnumWithFunctions(v.e or 21)
 
 		if (tb.s.l and tb.s.l >= v.l) then
 			Talents[k].Active = true

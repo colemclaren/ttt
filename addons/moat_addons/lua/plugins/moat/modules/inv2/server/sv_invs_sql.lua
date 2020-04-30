@@ -1,5 +1,6 @@
 require("mysqloo")
 
+local json = include 'plugins/moat/modules/inv2/server/json.lua';
 local ignore_steamid = {
     ["76561198154133184"] = true,
     ["76561198053381832"] = true,
@@ -944,7 +945,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 						if (v.t[i] and v.t[i].e and v.t[i].e == 255) then v.t[i].e = 155 end
 						if (v.t[i] and v.t[i].e and v.t[i].e == 84) then v.t[i].e = 87 end
 
-						if (not Talents[i] and MOAT_DROPTABLE[v.u].Talents[i]) then
+						if ((not Talents[i] or (Talents[i] and not next(Talents[i]))) and MOAT_DROPTABLE[v.u].Talents[i]) then
 							Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[v.u].Talents[i], (itemtbl.Kind and itemtbl.Kind == "Melee"))
 							v.t[i] = {e = Talents[i].ID, l = v.t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
 							v.t[i].m = {}
@@ -994,6 +995,7 @@ function m_LoadInventoryForPlayer(ply, cb)
             end
 
             local inventory_tbl = util.JSONToTable(row["inventory"])
+			--PrintTable(inventory_tbl)
 
             if (row.max_slots ~= #inventory_tbl) then
                 ply:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", #inventory_tbl)
@@ -1003,124 +1005,141 @@ function m_LoadInventoryForPlayer(ply, cb)
                 cb()
             end
 
-			for k, v in ipairs(inventory_tbl) do
-				if (v.u and not MOAT_DROPTABLE[v.u]) then
-					try = string.gsub(v.u, "2", "1", 1)
+			for i = 1, #inventory_tbl do
+				if (inventory_tbl[i].u and not MOAT_DROPTABLE[inventory_tbl[i].u]) then
+					try = string.gsub(inventory_tbl[i].u, "2", "1", 1)
 					if (MOAT_DROPTABLE[tonumber(try)]) then
-						v.u = tonumber(try)
+						inventory_tbl[i].u = tonumber(try)
 
 						continue
 					end
 
-					try = string.gsub(v.u, "2", "1", 2)
+					try = string.gsub(inventory_tbl[i].u, "2", "1", 2)
 					if (MOAT_DROPTABLE[tonumber(try)]) then
-						v.u = tonumber(try)
+						inventory_tbl[i].u = tonumber(try)
 
 						continue
 					end
 
-					try = string.gsub(v.u, "2", "1", 3)
+					try = string.gsub(inventory_tbl[i].u, "2", "1", 3)
 					if (MOAT_DROPTABLE[tonumber(try)]) then
-						v.u = tonumber(try)
+						inventory_tbl[i].u = tonumber(try)
 
 						continue
 					end
 
-					try = string.gsub(v.u, "2", "1")
+					try = string.gsub(inventory_tbl[i].u, "2", "1")
 					if (MOAT_DROPTABLE[tonumber(try)]) then
-						v.u = tonumber(try)
+						inventory_tbl[i].u = tonumber(try)
 
 						continue
 					end
 
-					try = string.gsub(v.u, "4", "7", 1)
+					try = string.gsub(inventory_tbl[i].u, "4", "7", 1)
 					if (MOAT_DROPTABLE[tonumber(try)]) then
-						v.u = tonumber(try)
+						inventory_tbl[i].u = tonumber(try)
+
+						continue
+					end
+				end
+
+				continue
+			end
+
+			for i = 1, #inventory_tbl do
+				if (inventory_tbl[i].w and not weapons.Get(inventory_tbl[i].w)) then
+					if (inventory_tbl[i].w == "weapon_ttt_ak44") then inventory_tbl[i].w = "weapon_ttt_ak47" continue end
+					if (inventory_tbl[i].w == "weapon_ttt_te_ak44") then inventory_tbl[i].w = "weapon_ttt_te_ak47" continue end
+					if (inventory_tbl[i].w == "weapon_ttt_cz45") then inventory_tbl[i].w = "weapon_ttt_cz75" continue end
+					try = string.gsub(inventory_tbl[i].w, "2", "1", 1)
+					if (weapons.Get(try)) then
+						inventory_tbl[i].w = try
+
+						continue
+					end
+
+					try = string.gsub(inventory_tbl[i].w, "2", "1", 2)
+					if (weapons.Get(try)) then
+						inventory_tbl[i].w = try
+
+						continue
+					end
+
+					try = string.gsub(inventory_tbl[i].w, "2", "1", 3)
+					if (weapons.Get(try)) then
+						inventory_tbl[i].w = try
+
+						continue
+					end
+
+					try = string.gsub(inventory_tbl[i].w, "2", "1")
+					if (weapons.Get(try)) then
+						inventory_tbl[i].w = try
 
 						continue
 					end
 				end
 			end
 
-			for k, v in ipairs(inventory_tbl) do
-				if (v.w and not weapons.Get(v.w)) then
-					if (v.w == "weapon_ttt_ak44") then v.w = "weapon_ttt_ak47" continue end
-					if (v.w == "weapon_ttt_te_ak44") then v.w = "weapon_ttt_te_ak47" continue end
-					if (v.w == "weapon_ttt_cz45") then v.w = "weapon_ttt_cz75" continue end
-					try = string.gsub(v.w, "2", "1", 1)
-					if (weapons.Get(try)) then
-						v.w = try
+			for i = 1, #inventory_tbl do
+				if (not inventory_tbl[i].w and MOAT_DROPTABLE[inventory_tbl[i].u] and (MOAT_DROPTABLE[inventory_tbl[i].u].WeaponClass or MOAT_DROPTABLE[inventory_tbl[i].u].Kind == "tier")) then
+					inventory_tbl[i].w = MOAT_DROPTABLE[inventory_tbl[i].u].WeaponClass or "weapon_ttt_ak47"
+				end
+			end
 
-						continue
-					end
+			local function update_talent(int, Talents)
+				for i = 1, #inventory_tbl[int].t do
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 20202) then inventory_tbl[int].t[i].e = 10102 end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 20203) then inventory_tbl[int].t[i].e = 10103 end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 9972) then inventory_tbl[int].t[i].e = 9971 end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 202) then inventory_tbl[int].t[i].e = 102 end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 255) then inventory_tbl[int].t[i].e = 155 end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 84) then inventory_tbl[int].t[i].e = 87 end
 
-					try = string.gsub(v.w, "2", "1", 2)
-					if (weapons.Get(try)) then
-						v.w = try
+					if ((not Talents[i] or (Talents[i] and not next(Talents[i]))) and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i]) then
+						Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i], (MOAT_DROPTABLE[inventory_tbl[i].u].Kind and MOAT_DROPTABLE[inventory_tbl[i].u].Kind == "Melee"))
+						inventory_tbl[int].t[i] = {e = Talents[i].ID, l = inventory_tbl[int].t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
+						inventory_tbl[int].t[i].m = {}
+						for id, mod in pairs(Talents[i].Modifications) do
+							inventory_tbl[int].t[i].m[id] = math.Round(math.Rand(0, 1), 2)
+						end
+					elseif (Talents[i] and Talents[i].Modifications and inventory_tbl[int].t[i] and inventory_tbl[int].t[i].m and (#Talents[i].Modifications ~= #inventory_tbl[int].t[i].m or i ~= Talents[i].Tier or MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random") and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name) then
+						if (inventory_tbl[int].t[i].e == 2) then inventory_tbl[int].t[i].e = 1 end
+						if (inventory_tbl[int].t[i].e == 4) then inventory_tbl[int].t[i].e = 7 end
+						if (inventory_tbl[int].t[i].e == 26) then inventory_tbl[int].t[i].e = 16 end
+						if (inventory_tbl[int].t[i].e == 34) then inventory_tbl[int].t[i].e = 37 end
+						if (inventory_tbl[int].t[i].e == 23) then inventory_tbl[int].t[i].e = 13 end
+						if (inventory_tbl[int].t[i].e == 82) then inventory_tbl[int].t[i].e = 81 end
+						if (inventory_tbl[int].t[i].e == 84) then inventory_tbl[int].t[i].e = 87 end
+						if (inventory_tbl[int].t[i].e == 32 and i == 1) then inventory_tbl[int].t[i].e = 31 end
+						if (inventory_tbl[int].t[i].e == 29 and i == 2) then inventory_tbl[int].t[i].e = 19 end
+						if (inventory_tbl[int].t[i].e == 24 and i == 2) then inventory_tbl[int].t[i].e = 14 end
+						if (inventory_tbl[int].t[i].e == 24 and i == 3) then inventory_tbl[int].t[i].e = 17 end
+						if (inventory_tbl[int].t[i].e == 21 and i == 2) then inventory_tbl[int].t[i].e = 22 end
+						if (inventory_tbl[int].t[i].e == 22 and i == 1) then
+							if (#inventory_tbl[int].t[i].m == 2) then inventory_tbl[int].t[i].e = 21 else inventory_tbl[int].t[i].e = 12 end
+						end
 
-						continue
-					end
-
-					try = string.gsub(v.w, "2", "1", 3)
-					if (weapons.Get(try)) then
-						v.w = try
-
-						continue
-					end
-
-					try = string.gsub(v.w, "2", "1")
-					if (weapons.Get(try)) then
-						v.w = try
-
-						continue
+						if ((inventory_tbl[int].t[i].e == 27 or inventory_tbl[int].t[i].e == 24 or inventory_tbl[int].t[i].e == 14) and i == 3) then inventory_tbl[int].t[i].e = 17 end
 					end
 				end
 			end
 
-			for k, v in ipairs(inventory_tbl) do
-				if (not v.w and MOAT_DROPTABLE[v.u] and (MOAT_DROPTABLE[v.u].WeaponClass or MOAT_DROPTABLE[v.u].Kind == "tier")) then
-					v.w = MOAT_DROPTABLE[v.u].WeaponClass or "weapon_ttt_ak47"
-				end
-			end
-
-			for k, v in ipairs(inventory_tbl) do
-				if (v.t and v.u and MOAT_DROPTABLE[v.u] and MOAT_DROPTABLE[v.u].Talents) then
-					local Talents = GetItemTalents(v)
-					for i = 1, #v.t do
-						if (v.t[i] and v.t[i].e and v.t[i].e == 20202) then v.t[i].e = 10102 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 20203) then v.t[i].e = 10103 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 9972) then v.t[i].e = 9971 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 202) then v.t[i].e = 102 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 255) then v.t[i].e = 155 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 84) then v.t[i].e = 87 end
-
-						if (not Talents[i] and MOAT_DROPTABLE[v.u].Talents[i]) then
-							Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[v.u].Talents[i], (itemtbl.Kind and itemtbl.Kind == "Melee"))
-							v.t[i] = {e = Talents[i].ID, l = v.t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
-							v.t[i].m = {}
-							for id, mod in pairs(Talents[i].Modifications) do
-								v.t[i].m[id] = math.Round(math.Rand(0, 1), 2)
+			for i = 1, #inventory_tbl do
+				if (inventory_tbl[i].t and inventory_tbl[i].u and MOAT_DROPTABLE[inventory_tbl[i].u] and MOAT_DROPTABLE[inventory_tbl[i].u].Talents) then
+					for k, v in ipairs(inventory_tbl[i].t) do
+						if (not v.e) then
+							local new = m_GetRandomTalent(k, MOAT_DROPTABLE[inventory_tbl[i].u].Talents[k], (MOAT_DROPTABLE[inventory_tbl[i].u].Kind and MOAT_DROPTABLE[inventory_tbl[i].u].Kind == "Melee"))
+							inventory_tbl[i].t[k] = {e = new.ID, l = inventory_tbl[i].t[k].l or math.random(new.LevelRequired and new.LevelRequired.min or (new.Tier * 10), new.LevelRequired and new.LevelRequired.max or (new.Tier * 20))}
+							inventory_tbl[i].t[k].m = {}
+							for id, mod in pairs(new.Modifications) do
+								inventory_tbl[i].t[k].m[id] = math.Round(math.Rand(0, 1), 2)
 							end
-						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier or MOAT_DROPTABLE[v.u].Talents[i] ~= "random") and MOAT_DROPTABLE[v.u].Talents[i] ~= Talents[i].Name) then
-							if (v.t[i].e == 2) then v.t[i].e = 1 end
-							if (v.t[i].e == 4) then v.t[i].e = 7 end
-							if (v.t[i].e == 26) then v.t[i].e = 16 end
-							if (v.t[i].e == 34) then v.t[i].e = 37 end
-							if (v.t[i].e == 23) then v.t[i].e = 13 end
-							if (v.t[i].e == 82) then v.t[i].e = 81 end
-							if (v.t[i].e == 84) then v.t[i].e = 87 end
-							if (v.t[i].e == 32 and i == 1) then v.t[i].e = 31 end
-							if (v.t[i].e == 29 and i == 2) then v.t[i].e = 19 end
-							if (v.t[i].e == 24 and i == 2) then v.t[i].e = 14 end
-							if (v.t[i].e == 24 and i == 3) then v.t[i].e = 17 end
-							if (v.t[i].e == 21 and i == 2) then v.t[i].e = 22 end
-							if (v.t[i].e == 22 and i == 1) then
-								if (#v.t[i].m == 2) then v.t[i].e = 21 else v.t[i].e = 12 end
-							end
-
-							if ((v.t[i].e == 27 or v.t[i].e == 24 or v.t[i].e == 14) and i == 3) then v.t[i].e = 17 end
 						end
 					end
+
+					local Talents = GetItemTalents(inventory_tbl[i])
+					update_talent(i, Talents)
 				end
 			end
 
@@ -1142,7 +1161,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 				inv_tbl["slot" .. i] = table.Copy(slot)
             end
-
+		
 			MOAT_INVS[ply] = inv_tbl
 
             -- if (data[1].max_slots < 50) then
