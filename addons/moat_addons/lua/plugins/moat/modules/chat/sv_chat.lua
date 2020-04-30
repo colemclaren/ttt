@@ -100,7 +100,7 @@ local bait = {
 	'-6 x 6 x 6 = 0, and swearing + bad at this game + 12 = {target}.'
 }
 
-local strs = file.Read("banned_words_list.txt", "DATA")
+local strs = string.Trim(file.Read("banned_words_list.txt", "DATA"))
 mylist = bON.deserialize(strs)
 replacements = {}
 
@@ -131,10 +131,10 @@ function FamilyFriendly(str, pl)
 	str = str:gsub('​', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub('⠀', '')
 
 	if (not replacements['xxx']) then
-		mylist = bON.deserialize(file.Read("banned_words_list.txt", "DATA"))
+		mylist = bON.deserialize(string.Trim(file.Read("banned_words_list.txt", "DATA")))
 		replacements = {}
 		for k, v in ipairs(mylist) do
-			if (not next(v.safe)) then
+			if (not v.safe or not next(v.safe)) then
 				replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
 			elseif (v.safe) then
 				replacements[v.bad] = v.safe
