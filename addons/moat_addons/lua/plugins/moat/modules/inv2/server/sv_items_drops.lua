@@ -367,6 +367,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
 			-- end
         end
 
+		if (not delay_le_saving) then delay_le_saving = nil end
         self:m_AddInventoryItem(dropped_item, delay_le_saving, dont_show_chat)
     else
         self:ChatPrint("ERROR OBTAINING ITEM! CONTACT MOAT!")

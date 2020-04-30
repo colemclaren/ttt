@@ -438,8 +438,8 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 			net.Start("MOAT_ADD_INV_ITEM")
 			net.WriteUInt(slot_found, 16)
 			local tbl2 = table.Copy(MOAT_INVS[self]["slot" .. slot_found])
-			tbl2.item = GetItemFromEnum(tbl2.u)
-			tbl2.Talents = GetItemTalents(tbl2)
+			-- tbl2.item = GetItemFromEnum(tbl2.u)
+			-- tbl2.Talents = GetItemTalents(tbl2)
 
 			net.WriteTable(tbl2)
 			net.WriteBool(no_chat or false)
@@ -469,7 +469,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 		end
 	end)
 
-    if (not delay_saving) then
+    if (delay_saving == nil) then
         m_SaveInventory(self)
     end
 

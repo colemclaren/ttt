@@ -797,7 +797,7 @@ function m_InsertNewInventoryPlayer(ply)
 
         if (i == ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS")) then
             MOAT_INVS[ply] = inv_tbl
-            m_SendInventoryToPlayer(ply)
+            -- m_SendInventoryToPlayer(ply)
         end
     end
 
@@ -1146,13 +1146,65 @@ function m_LoadInventoryForPlayer(ply, cb)
 			MOAT_INVS[ply] = inv_tbl
 
             -- if (data[1].max_slots < 50) then
-				m_SendInventoryToPlayer(ply)
+				-- m_SendInventoryToPlayer(ply)
 			-- end
 
             m_SendCreditsToPlayer(ply)
         else
             m_InsertNewInventoryPlayer(ply)
         end
+
+		if (data and data[1] and not data[1].inventory_backup) then
+			Db("SELECT * FROM core_ttt_oct WHERE steamid = ?;", get_steamid(ply), function(oct)
+				Db("SELECT * FROM core_ttt_old WHERE steamid = ?;", get_steamid(ply), function(old)
+					local dupes = {}
+
+					if (oct and oct[1]) then
+						local row = oct[1]
+						for i = 1, 10 do
+							local slot = util.JSONToTable(row["l_slot" .. i]) or {}
+							if (slot.c and not dupes[slot.c]) then
+								ply:m_AddInventoryItem(slot, false)
+								dupes[slot.c] = true
+							end
+						end
+							
+						local inv = util.JSONToTable(row["inventory"]) or {}
+						for k, v in ipairs(inv) do
+							if (v.c and not dupes[v.c]) then
+								ply:m_AddInventoryItem(v, false)
+								dupes[v.c] = true
+							end
+						end
+					end
+
+					if (old and old[1]) then
+						local row = old[1]
+						for i = 1, 10 do
+							local slot = util.JSONToTable(row["l_slot" .. i]) or {}
+							if (slot.c and not dupes[slot.c]) then
+								ply:m_AddInventoryItem(slot, false)
+								dupes[slot.c] = true
+							end
+						end
+							
+						local inv = util.JSONToTable(row["inventory"]) or {}
+						for k, v in ipairs(inv) do
+							if (v.c and not dupes[v.c]) then
+								ply:m_AddInventoryItem(v, false)
+								dupes[v.c] = true
+							end
+						end
+					end
+					
+					m_SaveInventory(ply)
+					Db("UPDATE core_dev_ttt SET inventory_backup='' WHERE steamid = ?;", get_steamid(ply))
+				end)
+			end)
+		end
+
+		m_CheckForRollSave(ply)
+        m_CheckCompTickets(ply)
     end
 
     function query1:onError(err)
