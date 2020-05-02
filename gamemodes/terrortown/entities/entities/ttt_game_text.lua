@@ -7,6 +7,7 @@ local RECEIVE_ALL = 1
 local RECEIVE_DETECTIVE = 2
 local RECEIVE_TRAITOR = 3
 local RECEIVE_INNOCENT = 4
+local RECEIVE_JESTER = 5
 ENT.Receiver = RECEIVE_ACTIVATOR
 
 function ENT:KeyValue(key, value)
@@ -40,6 +41,8 @@ function ENT:AcceptInput(name, activator)
             recv = GetDetectiveFilter()
         elseif r == RECEIVE_TRAITOR then
             recv = GetTraitorFilter()
+        elseif r == RECEIVE_JESTER then
+            recv = GetJesterFilter()
         elseif r == RECEIVE_INNOCENT then
             recv = GetInnocentFilter()
         elseif r == RECEIVE_ACTIVATOR then

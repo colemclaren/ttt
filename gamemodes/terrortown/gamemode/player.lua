@@ -471,10 +471,12 @@ local function CheckCreditAward(victim, attacker)
 
     -- TRAITOR AWARD
     if (not victim:IsTraitor()) and (not GAMEMODE.AwardedCredits or GetConVar("ttt_credits_award_repeat"):GetBool()) then
-        local inno_alive, inno_dead, inno_total, traters = 0, 0, 0, {}
+        local inno_alive, inno_dead, inno_total, traters, jester = 0, 0, 0, {}, {}
 		
         for _, ply in pairs(player.GetAll()) do
-            if (not ply:GetTraitor()) then
+			if (ply:GetJester()) then
+				jester[_] = ply
+            elseif (not ply:GetTraitor()) then
                 if ply:IsTerror() then
                     inno_alive = inno_alive + 1
                 elseif ply:IsDeadTerror() then

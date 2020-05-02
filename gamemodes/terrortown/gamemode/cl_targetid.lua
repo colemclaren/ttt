@@ -163,6 +163,7 @@ function GM:HUDDrawTargetID()
     local target_traitor = false
     local target_detective = false
     local target_corpse = false
+	local target_jester = false
     local text = nil
     local color = COLOR_WHITE
 
@@ -180,7 +181,7 @@ function GM:HUDDrawTargetID()
         if ent:GetNW2Bool("disguised", false) then
             client.last_id = nil
 
-            if client:IsTraitor() or client:IsSpec() then
+            if client:IsTraitor() or client:IsJester() or client:IsSpec() then
                 text = ent:Nick() .. L.target_disg
                 text = text:TrimLeft("[moat.gg]"):TrimLeft("[Moat.gg]"):TrimLeft("moat.gg |"):TrimLeft("Moat.gg |"):TrimLeft("Moat.gg"):TrimLeft("moat.gg"):TrimLeft(" ")
             else
@@ -206,6 +207,10 @@ function GM:HUDDrawTargetID()
             target_traitor = ent:IsTraitor()
         end
 
+		if client:IsJester() and GAMEMODE.round_state == ROUND_ACTIVE then
+            target_jester = ent:IsJester()
+        end
+
         target_detective = ent:IsDetective()
     elseif cls == "prop_ragdoll" then
         -- only show this if the ragdoll has a nick, else it could be a mattress
@@ -228,12 +233,14 @@ function GM:HUDDrawTargetID()
     local y = ScrH() / 2.0
     local w, h = 0, 0 -- text width/height, reused several times
 
-    if target_traitor or target_detective then
+    if target_traitor or target_detective or target_jester then
         surface.SetTexture(ring_tex)
 
         if target_traitor then
             surface.SetDrawColor(255, 0, 0, 200)
-        else
+        elseif (target_jester) then
+			surface.SetDrawColor(255, 0, 255, 200)
+		else
             surface.SetDrawColor(0, 0, 255, 220)
         end
 
@@ -319,6 +326,9 @@ function GM:HUDDrawTargetID()
     if target_traitor then
         text = L.target_traitor
         clr = COLOR_RED
+    elseif target_jester then
+        text = L.target_jester
+        clr = COLOR_PINK
     elseif target_detective then
         text = L.target_detective
         clr = COLOR_BLUE

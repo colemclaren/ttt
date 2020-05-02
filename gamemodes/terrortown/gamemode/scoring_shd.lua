@@ -49,7 +49,7 @@ function ScoreEvent(e, scores)
         end
     elseif e.id == EVENT_BODYFOUND then
         local sid = e.sid
-        if scores[sid] == nil or scores[sid].was_traitor then return end
+        if scores[sid] == nil or scores[sid].was_traitor or scores[sid].was_jester then return end
         local find_bonus = scores[sid].was_detective and 3 or 1
         scores[sid].bonus = scores[sid].bonus + find_bonus
     end

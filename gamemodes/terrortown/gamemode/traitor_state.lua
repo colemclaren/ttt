@@ -19,14 +19,14 @@ end
 local function SendPlayerRoles()
     for k, v in pairs(player.GetAll()) do
         net.Start("TTT_Role")
-        net.WriteUInt(v:GetRole(), 2)
+        net.WriteUInt(v:GetRole(), 6)
         net.Send(v)
     end
 end
 
 local function SendRoleListMessage(role, role_ids, ply_or_rf)
     net.Start("TTT_RoleList")
-    net.WriteUInt(role, 2)
+    net.WriteUInt(role, 6)
     -- list contents
     local num_ids = #role_ids
     net.WriteUInt(num_ids, 8)
@@ -45,7 +45,7 @@ end
 local function SendRoleList(role, ply_or_rf, pred)
     local role_ids = {}
 
-    for k, v in pairs(player.GetAll()) do
+    for k, v in ipairs(player.GetAll()) do
         if v:IsRole(role) then
             if not pred or (pred and pred(v)) then
                 table.insert(role_ids, v:EntIndex())
@@ -77,7 +77,7 @@ function SendInnocentList(ply_or_rf)
     local traitor_ids = {}
 	local jester_id = {}
 
-    for k, v in pairs(player.GetAll()) do
+    for k, v in ipairs(player.GetAll()) do
         if v:IsRole(ROLE_INNOCENT) then
             table.insert(inno_ids, v:EntIndex())
         elseif v:IsRole(ROLE_TRAITOR) then
@@ -94,6 +94,7 @@ function SendInnocentList(ply_or_rf)
     -- detectives and innocents get an expanded version of the truth so that they
     -- reset everyone who is not detective
     table.Add(inno_ids, traitor_ids)
+	table.Add(inno_ids, jester_id)
     table.Shuffle(inno_ids)
     SendRoleListMessage(ROLE_INNOCENT, inno_ids, GetInnocentFilter())
 end
@@ -115,7 +116,7 @@ end
 function SendRoleReset(ply_or_rf)
     local plys = player.GetAll()
     net.Start("TTT_RoleList")
-    net.WriteUInt(ROLE_INNOCENT, 2)
+    net.WriteUInt(ROLE_INNOCENT, 6)
     net.WriteUInt(#plys, 8)
 
     for k, v in pairs(plys) do

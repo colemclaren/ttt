@@ -42,6 +42,8 @@ Event(EVENT_FINISH, {
             return T("ev_win_traitor")
         elseif e.win == WIN_INNOCENT then
             return T("ev_win_inno")
+		elseif e.win == WIN_JESTER then
+            return T("ev_win_jester")
         elseif e.win == WIN_TIMELIMIT then
             return T("ev_win_time")
         end
@@ -49,6 +51,8 @@ Event(EVENT_FINISH, {
     icon = function(e)
         if e.win == WIN_TRAITOR then
             return star_icon, "Traitors won"
+		elseif e.win == WIN_JESTER then
+            return star_icon, "Jester won"
         elseif e.win == WIN_INNOCENT then
             return star_icon, "Innocents won"
         else
@@ -236,6 +240,8 @@ Event(EVENT_KILL, {
             return wrong_icon, "Teamkill"
         elseif e.att.tr then
             return right_icon, "Traitor killed innocent"
+        elseif e.att.je then
+            return right_icon, "Someone killed jester"
         else
             return shield_icon, "Innocent killed traitor"
         end

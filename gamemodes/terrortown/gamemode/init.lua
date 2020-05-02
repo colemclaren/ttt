@@ -619,7 +619,7 @@ function TellTraitorsAboutTraitors()
 
     -- This is ugly as hell, but it's kinda nice to filter out the names of the
     -- traitors themselves in the messages to them
-    for k, v in pairs(player.GetAll()) do
+    for k, v in ipairs(player.GetAll()) do
         if v:IsTraitor() then
             if #traitornicks < 2 then
                 LANG.Msg(v, "round_traitors_one")
@@ -729,6 +729,9 @@ function PrintResultMessage(type)
     elseif type == WIN_TRAITOR then
         LANG.Msg("win_traitor")
         ServerLog("Result: traitors win.\n")
+	elseif type == WIN_JESTER then
+        LANG.Msg("win_jester")
+        ServerLog("Result: jester win.\n")
     elseif type == WIN_INNOCENT then
         LANG.Msg("win_innocent")
         ServerLog("Result: innocent win.\n")

@@ -201,8 +201,8 @@ function RADAR:Draw(client)
             surface.SetTextColor(0, 0, 255, alpha)
         elseif role == 3 then
             -- decoys
-            surface.SetDrawColor(150, 150, 150, alpha)
-            surface.SetTextColor(150, 150, 150, alpha)
+            surface.SetDrawColor(255, 0, 255, alpha)
+            surface.SetTextColor(255, 0, 255, alpha)
         else
             surface.SetDrawColor(0, 255, 0, alpha)
             surface.SetTextColor(0, 255, 0, alpha)
