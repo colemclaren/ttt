@@ -159,7 +159,7 @@ local function JesterKill(events, scores, players, traitors)
             if e.vic.je then
                 award.title = T("aw_jest_title")
                 award.text = T("aw_jest_text")
-				award.priority = -4
+				award.priority = table.Count(players)
 
 				return award
             end
