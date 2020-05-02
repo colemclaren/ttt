@@ -1025,7 +1025,7 @@ local function Moat_HUD_AddTHalos()
 	end
 
 	if (CurTime() > moat_DrawHalos and GetRoundState() == ROUND_ACTIVE and not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
-		local jesters_for_halo, players_for_halo, pc, jc = {}, 0, 0
+		local jesters_for_halo, players_for_halo, pc, jc = {}, {}, 0, 0
 
 		for k, v in ipairs(player_GetAll()) do
 			if (not IsValid(v) or (v == LP) or (not v:IsActiveTraitor() and not v:IsActiveRole(ROLE_JESTER))) then
