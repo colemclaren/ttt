@@ -269,7 +269,7 @@ function PreprocSearch(raw)
 end
 
 local custom_tbl = {
-  ["https://moat.gg/assets/img/ttc/icon_jester.png"] = "https://moat.gg/assets/img/ttc/icon_jester.png",
+  ["https://moat.gg/assets/img/ttc/icon_jester.png"] = "https://moat.gg/assets/img/ttc/icon_jester.png"
 }
 
 -- Returns a function meant to override OnActivePanelChanged, which modifies
