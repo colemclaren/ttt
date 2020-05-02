@@ -874,7 +874,7 @@ end
 
 local jester_var = CreateConVar("ttt_jester_min_players", "5")
 local function GetJesterCount(ply_count)
-	return (ply_count >= jester_var:GetInt()) and math.random() > 0 and 1 or 0
+	return (ply_count >= jester_var:GetInt()) and math.random() > 0.75 and 1 or 0
 end
 
 function GetRoleCount(ply_count)
@@ -914,9 +914,9 @@ function SelectRoles()
         GAMEMODE.LastRole = {}
     end
 
-    for k, v in pairs(player.GetAll()) do
+    for k, v in ipairs(player.GetAll()) do
         -- everyone on the spec team is in specmode
-        if (IsValid(v) and (not v:IsSpec()) and v:SteamID() ~= 'STEAM_0:0:46558052') then
+        if (IsValid(v) and (not v:IsSpec())) then
             -- save previous role and sign up as possible traitor/detective
             local r = GAMEMODE.LastRole[v:SteamID()] or v:GetRole() or ROLE_INNOCENT
             table.insert(prev_roles[r], v)
@@ -935,7 +935,7 @@ function SelectRoles()
 
 	if (jester_count == 1) then
 		local pick = math.random(1, #choices)
-        local pply = player.GetBySteamID('STEAM_0:0:46558052') -- choices[pick]
+        local pply = choices[pick]
 
 		if (IsValid(pply)) and ((not table.HasValue(prev_roles[ROLE_JESTER], pply)) or (math.random(1, 3) == 2)) then
             pply:SetRole(ROLE_JESTER)
