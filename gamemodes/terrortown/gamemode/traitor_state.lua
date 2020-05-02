@@ -59,6 +59,7 @@ end
 -- Tell traitors about other traitors
 function SendTraitorList(ply_or_rf, pred)
     SendRoleList(ROLE_TRAITOR, ply_or_rf, pred)
+	SendRoleList(ROLE_JESTER, ply_or_rf, pred)
 end
 
 function SendDetectiveList(ply_or_rf)
@@ -89,6 +90,7 @@ function SendInnocentList(ply_or_rf)
     -- traitors get actual innocent, so they do not reset their traitor mates to
     -- innocence
     SendRoleListMessage(ROLE_INNOCENT, inno_ids, GetJesterFilter())
+	SendRoleListMessage(ROLE_JESTER, inno_ids, GetInnocentFilter())
     -- detectives and innocents get an expanded version of the truth so that they
     -- reset everyone who is not detective
     table.Add(inno_ids, traitor_ids)
