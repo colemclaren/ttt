@@ -23,11 +23,8 @@ ENT.PropModels = {
 }
 
 function ENT:SetupDataTables()
-    self:NetworkVar( "Float", 0, "PropSize", { KeyName = "propsize", Edit = { type = "Float", min = self.MinSize, max = self.MaxSize, order = 1 } } )
-    self:NetworkVar( "Vector", 0, "TrailColor", { KeyName = "trailcolor", Edit = { type = "Vector", order = 2 } } )
-    self:NetworkVar( "Int", 0, "PropModel")
+    self:NetworkVar( "Vector", 0, "TrailColor", { KeyName = "trailcolor", Edit = { type = "Vector", order = 1 } } )
 
-    self:NetworkVarNotify( "PropModel", self.OnPropModelChanged )
 	self:NetworkVarNotify( "TrailColor", self.OnTrailColorChanged )
 end
 
