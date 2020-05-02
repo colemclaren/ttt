@@ -61,7 +61,7 @@ moat_chat.sayvars = {
 
 moat_chat.curx = 0
 moat_chat.FadeTime = 10
-moat_chat.MaxItems = 150
+moat_chat.MaxItems = 128
 
 moat_chat.TextSize = {
     w = 0,
