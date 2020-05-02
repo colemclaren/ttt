@@ -146,6 +146,29 @@ local function FirstBlood(events, scores, players, traitors)
     end
 end
 
+local function JesterKill(events, scores, players, traitors)
+    for k, e in pairs(events) do
+        if e.id == EVENT_KILL and e.att.sid ~= e.vic.sid and e.att.sid ~= -1 then
+            local award = {
+                nick = e.att.ni,
+				priority = -4
+            }
+
+            if not award.nick or award.nick == "" then return nil end
+
+            if e.vic.je then
+                award.title = T("aw_jest_title")
+                award.text = T("aw_jest_text")
+				award.priority = -4
+
+				return award
+            end
+        end
+    end
+
+	return nil
+end
+
 local function AllKills(events, scores, players, traitors)
     -- see if there is one killer responsible for all kills of either team
     local tr_killers = {}
@@ -1023,4 +1046,4 @@ end
 
 -- New award functions must be added to this to be used by CLSCORE.
 -- Note that AWARDS is global. You can just go: table.insert(AWARDS, myawardfn) in your SWEPs.
-AWARDS = {FirstSuicide, ExplosiveGrant, ExplodedSelf, FirstBlood, AllKills, NumKills_Traitor, NumKills_Inno, FallDeath, Headshots, PistolUser, ShotgunUser, RifleUser, DeagleUser, MAC10User, CrowbarUser, TeamKiller, Burner, SilencedPistolUser, KnifeUser, FlareUser, Coroner, M249User, M16User, CreditFound, FallKill, TimeOfDeath}
+AWARDS = {JesterKill, FirstSuicide, ExplosiveGrant, ExplodedSelf, FirstBlood, AllKills, NumKills_Traitor, NumKills_Inno, FallDeath, Headshots, PistolUser, ShotgunUser, RifleUser, DeagleUser, MAC10User, CrowbarUser, TeamKiller, Burner, SilencedPistolUser, KnifeUser, FlareUser, Coroner, M249User, M16User, CreditFound, FallKill, TimeOfDeath}
