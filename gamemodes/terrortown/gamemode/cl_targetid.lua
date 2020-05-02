@@ -36,7 +36,7 @@ function GM:PostDrawTranslucentRenderables()
     client = LocalPlayer()
     plys = GetPlayers()
 
-	if (client:GetJester()) then
+	if (client:GetTraitor() or client:GetJester()) then
 		local img = cdn.Image("https://cdn.moat.gg/ttt/jester_sprite.png", nil, "noclamp")
 		if (img) then
 			
