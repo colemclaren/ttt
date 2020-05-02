@@ -132,12 +132,12 @@ net.Receive("MOAT_BUY_ITEM", function(len, ply)
 
         if limiteds[crate_id] then
             if crate_id == 969 then
-                ply:m_DropInventoryItem(randomvape(), "", false, false)
+                ply:m_DropInventoryItem(randomvape(), "", false, false, true)
             else
-                ply:m_DropInventoryItem(crate_tbl.Name, "", false, false)
+                ply:m_DropInventoryItem(crate_tbl.Name, "", false, false, true)
             end
         else
-            ply:m_DropInventoryItem(crate_tbl.Name, "", false, false)
+            ply:m_DropInventoryItem(crate_tbl.Name, "", false, false, true)
         end
 
         -- if (i == crate_amt and crate_amt > 1) then 
