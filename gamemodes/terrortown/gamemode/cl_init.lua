@@ -189,6 +189,8 @@ local function ReceiveRole()
         MsgN("TRAITOR")
     elseif client:IsDetective() then
         MsgN("DETECTIVE")
+    elseif client:IsJester() then
+        MsgN("JESTER")
     else
         MsgN("INNOCENT")
     end
