@@ -5720,7 +5720,7 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
         end
     end
 
-    if (old_level ~= item_tbl.s.l) then
+    if ((item_tbl.s and item_tbl.s.l) and old_level ~= item_tbl.s.l) then
         local ITEM_NAME_FULL = GetItemName(item_tbl)
 
         chat.AddText(Color(255, 255, 0), "Your " .. ITEM_NAME_FULL .. " is now level " .. item_tbl.s.l .. "!")
