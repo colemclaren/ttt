@@ -17,7 +17,7 @@ local function RadarScan(ply, cmd, args)
             table.Add(scan_ents, ents.FindByClass("ttt_decoy"))
             local targets = {}
 
-            for k, p in pairs(scan_ents) do
+            for k, p in ipairs(scan_ents) do
                 if ply == p or (not IsValid(p)) then continue end
 
                 if p:IsPlayer() then
@@ -37,6 +37,11 @@ local function RadarScan(ply, cmd, args)
                     if not ply:IsTraitor() then
                         role = ROLE_INNOCENT
                     end
+
+                elseif role == ROLE_JESTER then
+                    -- Detectives/Traitors can see who has their role, but not who
+                    -- has the opposite role.
+                    role = ROLE_JESTER
                 elseif role ~= ROLE_INNOCENT and role ~= ply:GetRole() then
                     -- Detectives/Traitors can see who has their role, but not who
                     -- has the opposite role.
