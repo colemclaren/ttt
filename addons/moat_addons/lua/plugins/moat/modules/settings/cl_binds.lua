@@ -179,7 +179,7 @@ TTT_RADIO.Storage = {
 hook.Add("TTTSettingsTabs", "moat.bindinterface.settings", function(dtabs)
     GUI:Draw(dtabs)
 
-    if OpenTab then
+    if (OpenTab) then
         dtabs:SwitchToName("Custom Binds")
         OpenTab = false
     end
