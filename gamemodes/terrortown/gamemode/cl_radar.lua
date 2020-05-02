@@ -162,7 +162,6 @@ function RADAR:Draw(client)
 			draw.SimpleText("RADAR IS READY AND WAITING", "TargetID", ScrW() / 2, ScrH() - 125, Color(253, 11, 48, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 		end
 
-		
 		draw.SimpleText((RADAR_VISIBLE and "Disable via " or "Enable via ") .. " F2", "TargetID", (ScrW() / 2) + 1, ScrH() - 99, Color(0, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 		draw.SimpleText((RADAR_VISIBLE and "Disable via " or "Enable via ") .. " F2", "TargetID", ScrW() / 2, ScrH() - 100, Color(255, 227, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 	end
