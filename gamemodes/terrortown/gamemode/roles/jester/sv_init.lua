@@ -14,7 +14,7 @@ InstallRoleHook("m_ShouldPreventWeaponHitTalent", 1)
 local ded = false
 
 hook.Add("PlayerDeath", "terrortown.roles.jester", function(vic, inf, att)
-	if (GetRoundState() == ROUND_ACTIVE and IsValid(vic) and vic:IsActiveRole(ROLE_JESTER) and IsValid(att) and att:IsPlayer() and vic ~= att) then
+	if (GetRoundState() == ROUND_ACTIVE and IsValid(vic) and vic:IsActiveRole(ROLE_JESTER) and IsValid(att) and att:IsPlayer() and att:GetRole() ~= ROLE_JESTER and vic ~= att) then
 		ded = true
     end
 end)
