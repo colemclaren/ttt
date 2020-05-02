@@ -1016,6 +1016,8 @@ local player_GetAll = player.GetAll
 local think_check = 0
 local curtime = CurTime
 local traitorColor = Color(137, 101, 224)
+local jesterColor = Color(255, 0, 0)
+local modJesterColor = Color(jesterColor.r / 255, jesterColor.g / 255, jesterColor.b / 255)
 local modTraitorColor = Color(traitorColor.r / 255, traitorColor.g / 255, traitorColor.b / 255)
 local function Moat_HUD_AddTHalos()
 	if (not IsValid(LP) or not LP:GetTraitor()) then
@@ -1023,19 +1025,32 @@ local function Moat_HUD_AddTHalos()
 	end
 
 	if (CurTime() > moat_DrawHalos and GetRoundState() == ROUND_ACTIVE and not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
-		local players_for_halo, pc = {}, 0
+		local jesters_for_halo, players_for_halo, pc, jc = {}, 0, 0
 
 		for k, v in ipairs(player_GetAll()) do
-			if (not IsValid(v) or (v == LP) or (not v:IsActiveTraitor())) then
+			if (not IsValid(v) or (v == LP) or (not v:IsActiveTraitor() and not v:IsActiveRole(ROLE_JESTER))) then
 				continue
 			end
 
+			
+			if (v:IsActiveRole(ROLE_JESTER)) then
+				jc = jc + 1
+				jesters_for_halo[jc] = v
+
+				continue
+			end
+	
 			pc = pc + 1
 			players_for_halo[pc] = v
 		end
 		
-		if (pc == 0) then return end
-		halo.Add(players_for_halo, traitorColor, 1, 1, 1, true, true)
+		if (pc > 0) then
+			halo.Add(players_for_halo, traitorColor, 1, 1, 1, true, true)
+		end
+
+		if (jc > 0) then
+			halo.Add(jesters_for_halo, jesterColor, 1, 1, 1, true, true)
+		end
 	end
 end
 
@@ -1052,10 +1067,32 @@ local function Moat_HUD_AddTChams()
 	if (GetRoundState() == ROUND_ACTIVE and not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
 		cam.Start3D()
 			for k, v in pairs(player_GetAll()) do
-				if (not IsValid(v) or (v == LP) or (not v:IsActiveTraitor())) then
+				if (not IsValid(v) or (v == LP) or (not v:IsActiveTraitor() and not v:IsActiveRole(ROLE_JESTER))) then
 					continue
 				end
+
+				if (v:IsActiveRole(ROLE_JESTER)) then
+					render.SuppressEngineLighting(true)
+
+					render.SetColorModulation(modJesterColor.r, modJesterColor.g, modJesterColor.b)
+					render.MaterialOverride(mat)
+					v:DrawModel()
+
+					if (IsValid(v:GetActiveWeapon())) then
+						render.SetColorModulation(complementColor(jesterColor.r, 150) / 255, complementColor(jesterColor.g, 150) / 255, complementColor(jesterColor.b, 150) / 255)
+						v:GetActiveWeapon():DrawModel()
+					end
+					
+					render.SetColorModulation(modJesterColor.r, modJesterColor.g, modJesterColor.b)
+					render.MaterialOverride()
+					render.SetModelLighting(BOX_TOP, modJesterColor.r, modJesterColor.g, modJesterColor.b)
+					v:DrawModel()
+
+					render.SuppressEngineLighting(false)
 				
+					continue
+				end
+
 				render.SuppressEngineLighting(true)
 
 				render.SetColorModulation(modTraitorColor.r, modTraitorColor.g, modTraitorColor.b)
