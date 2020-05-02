@@ -57,6 +57,7 @@ include("cl_popups.lua")
 include("cl_equip.lua")
 include("cl_voice.lua")
 include "cl_chat.lua"
+include "role_hooks.lua"
 
 function GM:Initialize()
     -- MsgN("TTT Client initializing...")

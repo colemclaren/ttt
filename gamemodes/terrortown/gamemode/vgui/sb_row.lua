@@ -95,16 +95,7 @@ local rolecolor = {
     default = Color(0, 0, 0, 0),
     traitor = Color(255, 0, 0, 30),
     detective = Color(0, 0, 255, 30),
-	[ROLE_JESTER]    = Color(253, 158, 255, 30),
-	[ROLE_KILLER]    = Color(255, 145, 0, 30),
-	[ROLE_DOCTOR]    = Color(0, 200, 255, 30),
-	[ROLE_BEACON]    = Color(255, 200, 0, 30),
-	[ROLE_SURVIVOR]  = Color(128, 142, 0, 30),
-	[ROLE_HITMAN]    = Color(40, 42, 47, 30),
-	[ROLE_BODYGUARD] = Color(0, 153, 153, 30),
-	[ROLE_VETERAN]   = Color(179, 0, 255, 30),
-	[ROLE_XENOMORPH] = Color(255, 80, 80, 30),
-	[ROLE_WITCHDOCTOR] = Color(255, 255, 80, 30)
+	[ROLE_JESTER] = Color(255, 0, 255, 30),
 }
 
 function GM:TTTScoreboardColorForPlayer(ply)

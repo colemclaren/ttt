@@ -31,6 +31,12 @@ end
 --- ragdoll creation and search
 -- If detective mode, announce when someone's body is found
 local bodyfound = CreateConVar("ttt_announce_body_found", "1")
+local role_text_tbl = {
+   [ROLE_TRAITOR] = "body_found_t",
+   [ROLE_DETECTIVE] = "body_found_d",
+   [ROLE_JESTER] = "body_found_j"
+}
+
 util.AddNetworkString("TTT,BodyFound")
 local function IdentifyBody(ply, rag)
     if not ply:IsTerror() then return end
@@ -60,6 +66,12 @@ local function IdentifyBody(ply, rag)
             roletext = "body_found_d"
         else
             roletext = "body_found_i"
+        end
+
+		if (role_text_tbl[role]) then
+        	roletext = role_text_tbl[role]
+        else
+       		roletext = "body_found_i"
         end
 
         LANG.Msg("body_found", {

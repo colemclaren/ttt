@@ -25,7 +25,8 @@ local col_active = {
     tip = {
         [ROLE_INNOCENT] = Color(55, 170, 50, 255),
         [ROLE_TRAITOR] = Color(180, 50, 40, 255),
-        [ROLE_DETECTIVE] = Color(50, 60, 180, 255)
+        [ROLE_DETECTIVE] = Color(50, 60, 180, 255),
+		[ROLE_JESTER] = Color(253, 158, 255, 255)
     },
     bg = Color(20, 20, 20, 250),
     text_empty = Color(200, 20, 20, 255),
@@ -37,7 +38,8 @@ local col_dark = {
     tip = {
         [ROLE_INNOCENT] = Color(60, 160, 50, 155),
         [ROLE_TRAITOR] = Color(160, 50, 60, 155),
-        [ROLE_DETECTIVE] = Color(50, 60, 160, 155)
+        [ROLE_DETECTIVE] = Color(50, 60, 160, 155),
+		[ROLE_JESTER] = Color(253, 158, 255, 120)
     },
     bg = Color(20, 20, 20, 200),
     text_empty = Color(200, 20, 20, 100),

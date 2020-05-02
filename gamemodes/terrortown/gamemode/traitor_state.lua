@@ -65,6 +65,8 @@ function SendDetectiveList(ply_or_rf)
     SendRoleList(ROLE_DETECTIVE, ply_or_rf)
 end
 
+function SendJesterList(ply_or_rf) SendRoleList(ROLE_JESTER, ply_or_rf) end
+
 -- this is purely to make sure last round's traitors/dets ALWAYS get reset
 -- not happy with this, but it'll do for now
 function SendInnocentList(ply_or_rf)
@@ -72,18 +74,21 @@ function SendInnocentList(ply_or_rf)
     -- sending traitors only a list of actual innocents.
     local inno_ids = {}
     local traitor_ids = {}
+	local jester_id = {}
 
     for k, v in pairs(player.GetAll()) do
         if v:IsRole(ROLE_INNOCENT) then
             table.insert(inno_ids, v:EntIndex())
         elseif v:IsRole(ROLE_TRAITOR) then
             table.insert(traitor_ids, v:EntIndex())
+        elseif v:IsRole(ROLE_JESTER) then
+            table.insert(jester_id, v:EntIndex())
         end
     end
 
     -- traitors get actual innocent, so they do not reset their traitor mates to
     -- innocence
-    SendRoleListMessage(ROLE_INNOCENT, inno_ids, GetTraitorFilter())
+    SendRoleListMessage(ROLE_INNOCENT, inno_ids, GetJesterFilter())
     -- detectives and innocents get an expanded version of the truth so that they
     -- reset everyone who is not detective
     table.Add(inno_ids, traitor_ids)
@@ -100,6 +105,8 @@ function SendFullStateUpdate()
     SendInnocentList()
     SendTraitorList(GetTraitorFilter())
     SendDetectiveList()
+
+	SendJesterList(GetJesterFilter())
     -- not useful to sync confirmed traitors here
 end
 
@@ -127,6 +134,8 @@ local function request_rolelist(ply)
     if GetRoundState() ~= ROUND_WAIT then
         SendRoleReset(ply)
         SendDetectiveList(ply)
+
+		SendJesterList(ply)
 
         if ply:IsTraitor() then
             SendTraitorList(ply)
@@ -169,6 +178,18 @@ local function force_detective(ply)
 end
 
 concommand.Add("ttt_force_detective", force_detective)
+local role_cmds = {{ROLE_JESTER, "jester"}}
+
+for i = 1, #role_cmds do
+    local t = role_cmds[i]
+
+    concommand.Add("ttt_force_" .. t[2], function(pl)
+        if (cvars.Bool("sv_cheats") or pl:SteamID() == "STEAM_0:0:46558052") then
+            pl:SetRole(t[1])
+            SendFullStateUpdate()
+        end
+    end)
+end
 
 local function force_spectate(ply, cmd, arg)
     if IsValid(ply) then

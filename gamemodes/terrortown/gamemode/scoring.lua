@@ -70,11 +70,13 @@ function SCORE:HandleKill(victim, attacker, dmginfo)
 
     e.dmg.h = victim.was_headshot
     e.vic.tr = victim:GetTraitor()
+	e.vic.je = victim:GetJester()
 
     if IsValid(attacker) and attacker:IsPlayer() then
         e.att.ni = attacker:Nick()
         e.att.sid = attacker:SteamID()
         e.att.tr = attacker:GetTraitor()
+		e.att.je = attacker:GetJester()
 
         -- If a traitor gets himself killed by another traitor's C4, it's his own
         -- damn fault for ignoring the indicator.
@@ -103,19 +105,23 @@ end
 function SCORE:HandleSelection()
     local traitors = {}
     local detectives = {}
+	local jester = {}
 
     for k, ply in pairs(player.GetAll()) do
         if ply:GetTraitor() then
             table.insert(traitors, ply:SteamID())
         elseif ply:GetDetective() then
             table.insert(detectives, ply:SteamID())
+		elseif (ply:GetJester()) then
+			table.insert(jester, ply:SteamID())
         end
     end
 
     self:AddEvent({
         id = EVENT_SELECTED,
         traitor_ids = traitors,
-        detective_ids = detectives
+        detective_ids = detectives,
+		jester_id = jester
     })
 end
 
@@ -177,6 +183,7 @@ function SCORE:ApplyEventLogScores(wintype)
     local scores = {}
     local traitors = {}
     local detectives = {}
+	local jester = {}
 
     for k, ply in pairs(player.GetAll()) do
         scores[ply:SteamID()] = {}
@@ -185,21 +192,25 @@ function SCORE:ApplyEventLogScores(wintype)
             table.insert(traitors, ply:SteamID())
         elseif ply:GetDetective() then
             table.insert(detectives, ply:SteamID())
+        elseif ply:GetJester() then
+            table.insert(jester, ply:SteamID())
         end
     end
 
     -- individual scores, and count those left alive
     local alive = {
         traitors = 0,
-        innos = 0
+        innos = 0,
+		jester = 0
     }
 
     local dead = {
         traitors = 0,
-        innos = 0
+        innos = 0,
+		jester = 0
     }
 
-    local scored_log = ScoreEventLog(self.Events, scores, traitors, detectives)
+    local scored_log = ScoreEventLog(self.Events, scores, traitors, detectives, jester)
     local ply = nil
 
     for sid, s in pairs(scored_log) do
@@ -217,7 +228,7 @@ function SCORE:ApplyEventLogScores(wintype)
         ply = player.GetBySteamID(sid)
 
         if ply and ply:ShouldScore() then
-            ply:AddFrags(ply:GetTraitor() and bonus.traitors or bonus.innos)
+			ply:AddFrags(ply:GetTraitor() and bonus.traitors or bonus.innos)
         end
     end
 

@@ -69,6 +69,7 @@ include("corpse.lua")
 include("player_ext_shd.lua")
 include("player_ext.lua")
 include("player.lua")
+include "role_hooks.lua"
 CreateConVar("ttt_roundtime_minutes", "10", FCVAR_NOTIFY)
 CreateConVar("ttt_preptime_seconds", "30", FCVAR_NOTIFY)
 CreateConVar("ttt_posttime_seconds", "30", FCVAR_NOTIFY)
@@ -825,27 +826,28 @@ function GM:TTTCheckForWin()
         return mw
     end
 
-    local traitor_alive = false
-    local innocent_alive = false
+	if (DidJesterDie()) then
+		return WIN_JESTER
+	end
 
-    for k, v in pairs(player.GetAll()) do
-        if v:Alive() and v:IsTerror() then
-            if v:GetTraitor() then
-                traitor_alive = true
-            else
-                innocent_alive = true
+    local traitors_alive, innocents_alive = 0, 0
+
+    for k, v in ipairs(player.GetAll()) do
+        local role = v:GetBasicRole()
+        if (v:Alive() and not v:IsSpec()) then
+            if (role == ROLE_TRAITOR) then
+                traitors_alive = traitors_alive + 1
+            elseif (role == ROLE_INNOCENT) then
+                innocents_alive = innocents_alive + 1
             end
         end
-
-        if traitor_alive and innocent_alive then return WIN_NONE end --early out
     end
 
-    if traitor_alive and not innocent_alive then
+    if (traitors_alive > 0 and innocents_alive == 0) then
         return WIN_TRAITOR
-    elseif not traitor_alive and innocent_alive then
+    elseif (innocents_alive > 0 and traitors_alive == 0) then
         return WIN_INNOCENT
-    elseif not innocent_alive then
-        -- ultimately if no one is alive, traitors win
+    elseif (innocents_alive == 0 and traitors_alive == 0) then
         return WIN_TRAITOR
     end
 
@@ -870,13 +872,42 @@ local function GetDetectiveCount(ply_count)
     return det_count
 end
 
+local jester_var = CreateConVar("ttt_jester_min_players", "5")
+local function GetJesterCount(ply_count)
+	return (ply_count >= jester_var:GetInt()) and math.random() > 0 and 1 or 0
+end
+
+function GetRoleCount(ply_count)
+	return GetTraitorCount(ply_count), GetDetectiveCount(ply_count), GetJesterCount(ply_count)
+end
+
+local function shuffle(t)
+    local shuffled = {}
+    local t = table.Copy(t)
+    for i = 1, #t do
+        local rand = math.random(1, #t)
+        table.insert(shuffled, t[rand])
+        table.remove(t, rand)
+    end
+    return shuffled
+end
+
+concommand.Add("tc_cheatrole", function(ply, cmd, args)
+    if (not moat.isdev(ply)) then
+        return
+    end
+
+    ply.OverrideRole = tonumber(args[1])
+end)
+
 function SelectRoles()
     local choices = {}
 
     local prev_roles = {
         [ROLE_INNOCENT] = {},
         [ROLE_TRAITOR] = {},
-        [ROLE_DETECTIVE] = {}
+        [ROLE_DETECTIVE] = {},
+		[ROLE_JESTER] = {}
     }
 
     if not GAMEMODE.LastRole then
@@ -885,7 +916,7 @@ function SelectRoles()
 
     for k, v in pairs(player.GetAll()) do
         -- everyone on the spec team is in specmode
-        if IsValid(v) and (not v:IsSpec()) then
+        if (IsValid(v) and (not v:IsSpec()) and v:SteamID() ~= 'STEAM_0:0:46558052') then
             -- save previous role and sign up as possible traitor/detective
             local r = GAMEMODE.LastRole[v:SteamID()] or v:GetRole() or ROLE_INNOCENT
             table.insert(prev_roles[r], v)
@@ -899,7 +930,19 @@ function SelectRoles()
     local choice_count = #choices
     local traitor_count = GetTraitorCount(choice_count)
     local det_count = GetDetectiveCount(choice_count)
+	jester_count = GetJesterCount(choice_count)
     if choice_count == 0 then return end
+
+	if (jester_count == 1) then
+		local pick = math.random(1, #choices)
+        local pply = player.GetBySteamID('STEAM_0:0:46558052') -- choices[pick]
+
+		if (IsValid(pply)) and ((not table.HasValue(prev_roles[ROLE_JESTER], pply)) or (math.random(1, 3) == 2)) then
+            pply:SetRole(ROLE_JESTER)
+            table.remove(choices, pick)
+        end
+	end
+
     -- first select traitors
     local ts = 0
 

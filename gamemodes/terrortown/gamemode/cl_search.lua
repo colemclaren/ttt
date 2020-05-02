@@ -58,6 +58,13 @@ local function WeaponToIcon(d)
     return wep and wep.Icon or "vgui/ttt/icon_nades"
 end
 
+local search_t = {
+    [ROLE_TRAITOR] = "t",
+    [ROLE_DETECTIVE] = "d",
+    [ROLE_INNOCENT] = "i",
+    [ROLE_JESTER] = "j"
+}
+
 local TypeToMat = {
     nick = "id",
     words = "halp",
@@ -67,7 +74,8 @@ local TypeToMat = {
     role = {
         [ROLE_TRAITOR] = "traitor",
         [ROLE_DETECTIVE] = "det",
-        [ROLE_INNOCENT] = "inno"
+        [ROLE_INNOCENT] = "inno",
+		[ROLE_JESTER] = "jester.png"
     },
     c4 = "code",
     dmg = DmgToMat,
@@ -83,6 +91,10 @@ local TypeToMat = {
 local function IconForInfoType(t, data)
     local base = "vgui/ttt/icon_"
     local mat = TypeToMat[t]
+
+	if (t == "role" and data == ROLE_JESTER) then
+		return "https://moat.gg/assets/img/ttc/icon_jester.png"
+	end
 
     if type(mat) == "table" then
         mat = mat[data]
@@ -121,14 +133,7 @@ function PreprocSearch(raw)
             search[t].p = 1
             search[t].nick = d
         elseif t == "role" then
-            if d == ROLE_TRAITOR then
-                search[t].text = T("search_role_t")
-            elseif d == ROLE_DETECTIVE then
-                search[t].text = T("search_role_d")
-            else
-                search[t].text = T("search_role_i")
-            end
-
+            search[t].text = T("search_role_" .. search_t[d])
             search[t].p = 2
         elseif t == "words" then
             if d ~= "" then
@@ -263,6 +268,10 @@ function PreprocSearch(raw)
     return search
 end
 
+local custom_tbl = {
+  ["https://moat.gg/assets/img/ttc/icon_jester.png"] = "https://moat.gg/assets/img/ttc/icon_jester.png",
+}
+
 -- Returns a function meant to override OnActivePanelChanged, which modifies
 -- dactive and dtext based on the search information that is associated with the
 -- newly selected panel
@@ -283,6 +292,15 @@ local function SearchInfoController(search, dactive, dtext)
         dtext:GetLabel():SetWrap(#data.text > 50)
         dtext:SetText(data.text)
         dactive:SetImage(data.img)
+		
+		if (not dactive.OldPaint) then dactive.OldPaint = dactive.Paint end
+
+		local da_string = isstring(data.img) and data.img
+        if (da_string and custom_tbl[da_string]) then
+			dactive.Paint = function(s, w, h) cdn.DrawImage(custom_tbl[da_string], 0, 0, w, h) end
+        else
+			dactive.Paint = dactive.OldPaint
+		end
     end
 end
 
@@ -291,7 +309,7 @@ local function ShowSearchScreen(search_raw)
     if not IsValid(client) then return end
     local m = 8
     local bw, bh = 100, 25
-    local w, h = 410, 260
+    local w, h = 474, 260
     local rw, rh = (w - m * 2), (h - 25 - m * 2)
     local rx, ry = 0, 0
     local rows = 1

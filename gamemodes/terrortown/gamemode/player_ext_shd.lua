@@ -22,8 +22,14 @@ function plymeta:GetDetective()
     return self:GetRole() == ROLE_DETECTIVE
 end
 
+local jest = {[ROLE_JESTER] = true}
+function plymeta:GetJester()
+    return jest[self:GetRole()]
+end
+
 plymeta.IsTraitor = plymeta.GetTraitor
 plymeta.IsDetective = plymeta.GetDetective
+plymeta.IsJester = plymeta.GetJester
 
 function plymeta:IsSpecial()
     return self:GetRole() ~= ROLE_INNOCENT
@@ -55,10 +61,15 @@ function plymeta:IsActiveSpecial()
     return self:IsSpecial() and self:IsActive()
 end
 
+function plymeta:GetBasicRole()
+	return BASIC_ROLE_LOOKUP[self:GetRole()]
+end
+
 role_strings = {
     [ROLE_TRAITOR] = "traitor",
     [ROLE_INNOCENT] = "innocent",
-    [ROLE_DETECTIVE] = "detective"
+    [ROLE_DETECTIVE] = "detective",
+	[ROLE_JESTER] = "jester"
 }
 
 function GetRoleStringRaw(role)

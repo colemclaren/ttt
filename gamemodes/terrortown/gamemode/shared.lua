@@ -20,6 +20,27 @@ ROLE_INNOCENT = 0
 ROLE_TRAITOR = 1
 ROLE_DETECTIVE = 2
 ROLE_NONE = ROLE_INNOCENT
+ROLE_JESTER = 3
+
+local basic_roles = {
+    [ROLE_INNOCENT] = {
+        ROLE_INNOCENT, ROLE_DETECTIVE
+    },
+    [ROLE_TRAITOR] = {
+        ROLE_TRAITOR
+    },
+    [ROLE_JESTER] = {
+        ROLE_JESTER
+    }
+}
+
+BASIC_ROLE_LOOKUP = {}
+for basic, roles in pairs(basic_roles) do
+    for i, role in ipairs(roles) do
+        BASIC_ROLE_LOOKUP[role] = basic
+    end
+end
+
 -- Game event log defs
 EVENT_KILL = 1
 EVENT_SPAWN = 2
@@ -34,7 +55,8 @@ EVENT_C4DISARM = 10
 WIN_NONE = 1
 WIN_TRAITOR = 2
 WIN_INNOCENT = 3
-WIN_TIMELIMIT = 4
+WIN_JESTER = 4
+WIN_TIMELIMIT = 6
 -- Weapon categories, you can only carry one of each
 WEAPON_NONE = 0
 WEAPON_MELEE = 1

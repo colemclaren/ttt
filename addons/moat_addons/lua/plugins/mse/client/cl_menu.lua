@@ -181,6 +181,7 @@ function MSE.Menu:Open()
 	self.f:SetPos(0, 0)
 	self.f:SetSize(0, ScrH())
 	self.f:MakePopup()
+	self.f:SetTitle ""
 	self.f:DockPadding(self.Config.FrameW + 25, 135, 25, 25)
 	self.f:ShowCloseButton(false)
 	self.f:SetKeyboardInputEnabled(false)

@@ -37,7 +37,8 @@ local function GetLoadoutWeapons(r)
         local tbl = {
             [ROLE_INNOCENT] = {},
             [ROLE_TRAITOR] = {},
-            [ROLE_DETECTIVE] = {}
+            [ROLE_DETECTIVE] = {},
+			[ROLE_JESTER] = {}
         }
 
         for k, w in pairs(weapons.GetList()) do

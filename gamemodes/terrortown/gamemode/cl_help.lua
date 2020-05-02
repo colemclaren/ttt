@@ -197,7 +197,7 @@ end
 
 cvars.AddChangeCallback("ttt_mute_team_check", MuteTeamCallback)
 --- Tutorial
-local imgpath = "vgui/ttt/help/tut0%d"
+local imgpath = "https://cdn.moat.gg/ttt/noob/help/tut0%d.png"
 local tutorial_pages = 6
 
 function HELPSCRN:CreateTutorial(parent)
@@ -210,7 +210,8 @@ function HELPSCRN:CreateTutorial(parent)
     local tut = vgui.Create("DImage", parent)
     tut:StretchToParent(0, 0, 0, 0)
     tut:SetVerticalScrollbarEnabled(false)
-    tut:SetImage(Format(imgpath, 1))
+	tut:SetImage(Format(imgpath, 1))
+	tut.Paint = function(s, w, h) cdn.DrawImage(Format(imgpath, 1), 0, 0, w, h) end
     tut:SetWide(1024)
     tut:SetTall(512)
     tut.current = 1
@@ -246,16 +247,19 @@ function HELPSCRN:CreateTutorial(parent)
     bnext.DoClick = function()
         if tut.current < tutorial_pages then
             tut.current = tut.current + 1
-            tut:SetImage(Format(imgpath, tut.current))
+			tut:SetImage(Format(imgpath, tut.current))
+			tut.Paint = function(s, w, h) cdn.DrawImage(Format(imgpath, tut.current), 0, 0, w, h) end
+
             bar:SetValue(tut.current)
+			
         end
     end
 
     bprev.DoClick = function()
         if tut.current > 1 then
             tut.current = tut.current - 1
-            tut:SetImage(Format(imgpath, tut.current))
-            bar:SetValue(tut.current)
+			tut:SetImage(Format(imgpath, tut.current))
+			tut.Paint = function(s, w, h) cdn.DrawImage(Format(imgpath, tut.current), 0, 0, w, h) end
         end
     end
 end

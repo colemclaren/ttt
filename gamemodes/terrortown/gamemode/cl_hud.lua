@@ -34,7 +34,8 @@ local bg_colors = {
     noround = Color(100, 100, 100, 200),
     traitor = Color(200, 25, 25, 200),
     innocent = Color(25, 200, 25, 200),
-    detective = Color(25, 25, 200, 200)
+    detective = Color(25, 25, 200, 200),
+	jester = Color(200, 25, 200, 200),
 }
 
 local health_colors = {
@@ -121,7 +122,9 @@ local function DrawBg(x, y, width, height, client)
         col = bg_colors.traitor
     elseif client:GetDetective() then
         col = bg_colors.detective
-    end
+    elseif client:GetJester() then
+		col = bg_colors.jester
+	end
 
     draw.RoundedBox(8, x, y, tw, th, col)
 end

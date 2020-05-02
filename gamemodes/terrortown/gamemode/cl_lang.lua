@@ -200,7 +200,8 @@ end
 local bgcolor = {
     [ROLE_TRAITOR] = Color(200, 25, 25, 200),
     [ROLE_DETECTIVE] = Color(25, 25, 200, 200),
-    [ROLE_INNOCENT] = Color(25, 200, 25, 200)
+    [ROLE_INNOCENT] = Color(25, 200, 25, 200),
+	[ROLE_JESTER] = Color(253, 158, 255, 200)
 }
 
 function GetRoleColor(role)

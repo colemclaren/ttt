@@ -23,6 +23,7 @@ function GM:PlayerInitialSpawn(ply)
         SendTraitorList(GetTraitorFilter())
         SendConfirmedTraitors(GetInnocentFilter())
         SendDetectiveList()
+		SendJesterList(GetJesterFilter())
     end
 
     -- Game has started, tell this guy where the round is at
@@ -414,6 +415,8 @@ function GM:PlayerDisconnected(ply)
     if GetRoundState() ~= ROUND_PREP then
         -- Keep traitor entindices in sync on traitor clients
         SendTraitorList(GetTraitorFilter(false), nil)
+		SendJesterList(GetJesterFilter(false), nil)
+
         -- Same for confirmed traitors on innocent clients
         SendConfirmedTraitors(GetInnocentFilter(false))
         SendDetectiveList()

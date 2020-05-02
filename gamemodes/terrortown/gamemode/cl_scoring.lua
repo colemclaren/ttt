@@ -127,7 +127,7 @@ function CLSCORE:BuildScorePanel(dpanel)
     dlist:SetSize(w, h)
     dlist:SetSortable(true)
     dlist:SetMultiSelect(false)
-    local colnames = {"", "col_player", "col_role", "col_kills1", "col_kills2", "col_points", "col_team", "col_total"}
+    local colnames = {"", "col_player", "col_role", "col_kills1", "col_kills2", "col_kills3", "col_points", "col_team", "col_total"}
 
     for k, name in pairs(colnames) do
         if name == "" then
@@ -158,7 +158,13 @@ function CLSCORE:BuildScorePanel(dpanel)
     for id, s in pairs(scores) do
         if id ~= -1 then
             local was_traitor = s.was_traitor
+			local was_jester = s.was_jester
+
             local role = was_traitor and T("traitor") or (s.was_detective and T("detective") or "")
+			if (was_jester) then
+				role = T("jester")
+			end
+
             local surv = ""
 
             if s.deaths > 0 then
@@ -175,8 +181,9 @@ function CLSCORE:BuildScorePanel(dpanel)
 
             local points_own = KillsToPoints(s, was_traitor)
             local points_team = (was_traitor and bonus.traitors or bonus.innos)
+
             local points_total = points_own + points_team
-            local l = dlist:AddLine(surv, nicks[id], role, s.innos, s.traitors, points_own, points_team, points_total)
+            local l = dlist:AddLine(surv, nicks[id], role, s.innos, s.traitors, s.jester, points_own, points_team, points_total)
 
             -- center align
             for k, col in pairs(l.Columns) do
@@ -239,6 +246,10 @@ local wintitle = {
     [WIN_INNOCENT] = {
         txt = "hilite_win_innocent",
         c = Color(5, 190, 5, 255)
+    },
+	[WIN_JESTER] = {
+        txt = "hilite_win_jester",
+        c = Color(253, 158, 255, 255)
     }
 }
 
@@ -453,6 +464,7 @@ function CLSCORE:Reset()
     --self.StoredEvents = nil
     self.TraitorIDs = {}
     self.DetectiveIDs = {}
+	self.JesterID = {}
     self.Scores = {}
     self.Players = {}
     self.RoundStarted = 0
@@ -464,6 +476,7 @@ function CLSCORE:Init(events)
     local starttime = nil
     local traitors = nil
     local detectives = nil
+	local jester = nil
 
     for k, e in pairs(events) do
         if e.id == EVENT_GAME and e.state == ROUND_ACTIVE then
@@ -471,6 +484,7 @@ function CLSCORE:Init(events)
         elseif e.id == EVENT_SELECTED then
             traitors = e.traitor_ids
             detectives = e.detective_ids
+			jester = e.jester_id
         end
 
         if starttime and traitors then break end
@@ -487,11 +501,12 @@ function CLSCORE:Init(events)
         end
     end
 
-    scores = ScoreEventLog(events, scores, traitors, detectives)
+    scores = ScoreEventLog(events, scores, traitors, detectives, jester)
     self.Players = nicks
     self.Scores = scores
     self.TraitorIDs = traitors
     self.DetectiveIDs = detectives
+	self.JesterID = jester
     self.StartTime = starttime
     self.Events = events
 end

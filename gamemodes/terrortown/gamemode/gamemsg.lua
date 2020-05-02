@@ -78,6 +78,10 @@ local function GetPlayerFilter(pred)
     return filter
 end
 
+function GetJesterFilter(alive_only)
+    return GetPlayerFilter(function(p) return (p:GetTraitor() or p:GetJester()) and (not alive_only or p:IsTerror()) end)
+end
+
 function GetTraitorFilter(alive_only)
     return GetPlayerFilter(function(p) return p:GetTraitor() and (not alive_only or p:IsTerror()) end)
 end
