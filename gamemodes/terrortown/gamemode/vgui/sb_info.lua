@@ -153,6 +153,10 @@ local tags = {
     {
         txt = "sb_tag_miss",
         color = Color(130, 190, 130, 255)
+    },
+    {
+        txt = "sb_tag_jester",
+        color = Color(255, 30, 255, 255)
     }
 }
 
