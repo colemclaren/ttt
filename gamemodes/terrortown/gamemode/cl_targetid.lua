@@ -36,6 +36,25 @@ function GM:PostDrawTranslucentRenderables()
     client = LocalPlayer()
     plys = GetPlayers()
 
+	if (client:GetJester()) then
+		local img = cdn.Image("https://cdn.moat.gg/ttt/jester_sprite.png", nil, "noclamp")
+		if (img) then
+			
+        	dir = client:GetForward() * -1
+			render.SetMaterial(img)
+
+			for i = 1, #plys do
+				ply = plys[i]
+
+				if ply:IsActiveRole(ROLE_JESTER) and ply ~= client then
+					pos = ply:GetPos()
+					pos.z = pos.z + 74
+					render.DrawQuadEasy(pos, dir, 8, 8, indicator_col, 180)
+				end
+			end
+		end
+	end
+
     if client:GetTraitor() then
         dir = client:GetForward() * -1
         render.SetMaterial(indicator_mat)
