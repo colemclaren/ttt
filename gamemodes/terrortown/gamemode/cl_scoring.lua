@@ -179,7 +179,7 @@ function CLSCORE:BuildScorePanel(dpanel)
                 skull:SetSize(18, 18)
             end
 
-            local points_own = KillsToPoints(s, was_traitor)
+            local points_own = KillsToPoints(s, was_traitor or was_jester)
             local points_team = (was_traitor and bonus.traitors or bonus.innos)
 
             local points_total = points_own + points_team
