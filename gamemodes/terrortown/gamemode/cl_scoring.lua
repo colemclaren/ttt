@@ -331,7 +331,7 @@ function CLSCORE:BuildHilitePanel(dpanel)
     local award_choices = {}
 
     for k, afn in pairs(AWARDS) do
-        local a = afn(self.Events, self.Scores, self.Players, self.TraitorIDs, self.DetectiveIDs)
+        local a = afn(self.Events, self.Scores, self.Players, self.TraitorIDs, self.DetectiveIDs, self.JesterID)
 
         if ValidAward(a) then
             table.insert(award_choices, a)

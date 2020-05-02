@@ -219,7 +219,7 @@ function SCORE:ApplyEventLogScores(wintype)
         ply = player.GetBySteamID(sid)
 
         if ply and ply:ShouldScore() then
-            ply:AddFrags(KillsToPoints(s, ply:GetTraitor()))
+            ply:AddFrags(KillsToPoints(s, (ply:GetTraitor() or ply:GetJester())))
         end
     end
 
@@ -230,7 +230,7 @@ function SCORE:ApplyEventLogScores(wintype)
         ply = player.GetBySteamID(sid)
 
         if ply and ply:ShouldScore() then
-			ply:AddFrags(ply:GetTraitor() and bonus.traitors or bonus.innos)
+			ply:AddFrags((ply:GetTraitor() or ply:GetJester()) and bonus.traitors or bonus.innos)
         end
     end
 

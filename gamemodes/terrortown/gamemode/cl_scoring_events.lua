@@ -238,10 +238,10 @@ Event(EVENT_KILL, {
 
         if e.att.tr == e.vic.tr then
             return wrong_icon, "Teamkill"
+        elseif e.vic.je then
+            return wrong_icon, "Someone killed jester"
         elseif e.att.tr then
             return right_icon, "Traitor killed innocent"
-        elseif e.att.je then
-            return right_icon, "Someone killed jester"
         else
             return shield_icon, "Innocent killed traitor"
         end
