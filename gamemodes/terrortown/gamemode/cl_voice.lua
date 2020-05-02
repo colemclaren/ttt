@@ -151,6 +151,11 @@ RADIO.Commands = {
         text = "quick_inno",
         format = true
     },
+	{
+        cmd = "jester",
+        text = "quick_jester",
+        format = true
+    },
     {
         cmd = "check",
         text = "quick_check",

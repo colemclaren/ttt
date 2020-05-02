@@ -119,6 +119,7 @@ L.quick_see = "Veo a {player}."
 L.quick_suspect = "{player} es sospechoso."
 L.quick_traitor = "¡{player} es un traidor!"
 L.quick_inno = "{player} es inocente."
+L.quick_jester = "{player} is the Jester!"
 L.quick_check = "¿Queda alguien vivo?"
 -- {player} in the quickchat text normally becomes a player nickname, but can
 -- also be one of the below.  Keep these lowercase.
@@ -174,6 +175,7 @@ L.sb_tag_susp = "SOSPECHOSO"
 L.sb_tag_avoid = "EVITAR"
 L.sb_tag_kill = "MATAR"
 L.sb_tag_miss = "PERDIDO"
+L.sb_tag_jester = "JESTER"
 --- Help and settings menu (F1)
 L.help_title = "Ayuda y ajustes"
 -- Tabs

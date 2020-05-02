@@ -63,6 +63,10 @@ TTT_RADIO.Commands = {
             id = 8,
             label = "quick_inno"
         },
+		{
+            id = 10,
+            label = "quick_jester"
+        },
         {
             id = 9,
             label = "quick_check"
@@ -125,6 +129,12 @@ TTT_RADIO.Storage = {
             id = 8,
             type = "ttt_radio",
             cmd = "innocent",
+            key = KEY_NONE
+        },
+        {
+            id = 15,
+            type = "ttt_radio",
+            cmd = "jester",
             key = KEY_NONE
         },
         {

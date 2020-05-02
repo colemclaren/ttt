@@ -119,6 +119,7 @@ L.quick_see = "我看到了 {player} 。 "
 L.quick_suspect = " {player} 行跡可疑。 "
 L.quick_traitor = " {player} 是叛徒！ "
 L.quick_inno = " {player} 是無辜者。 "
+L.quick_jester = "{player} is the Jester! "
 L.quick_check = "還有人活著嗎？ "
 -- {player} in the quickchat text normally becomes a player nickname, but can
 -- also be one of the below.  Keep these lowercase.
@@ -174,6 +175,7 @@ L.sb_tag_susp = "有嫌疑者 "
 L.sb_tag_avoid = "應迴避者 "
 L.sb_tag_kill = "已死者 "
 L.sb_tag_miss = "失蹤者 "
+L.sb_tag_jester = "JESTER "
 --- Help and settings menu (F1)
 L.help_title = "幫助與設定 "
 -- Tabs
