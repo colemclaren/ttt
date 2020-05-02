@@ -58,12 +58,14 @@ function SCORE:HandleKill(victim, attacker, dmginfo)
         att = {
             ni = "",
             sid = -1,
-            tr = false
+            tr = false,
+			je = false
         },
         vic = {
             ni = victim:Nick(),
             sid = victim:SteamID(),
-            tr = false
+            tr = false,
+			je = false
         },
         dmg = CopyDmg(dmginfo)
     }
