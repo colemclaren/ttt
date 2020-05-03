@@ -279,22 +279,22 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
        		m_Inventory[i] = {decon = false}
     	end
 
-		if (max_slots > 350) then
-			HTTP({
-				url = "https://discord.moat.gg/api/webhooks/638353224796995584/r5ciN3MS-xit0iJokWb3Gd-iwkJ0kxw28JBtdFk45NhJnkXObF3O4P7qhWhO1YguO8pF",
-				method = 'POST',
-				headers = {
-					['Content-Type'] = 'application/json'
-				},
-				body = util.TableToJSON {
-					content = "🆓 Free Upgrade to __" .. max_slots .. "__ Slots • ``[" .. util.UTCTime() .. "]`` • " .. LocalPlayer():NameID() .. " • **" .. net.ReadString() .. "** • ``" .. GetServerName():Trim() .. "``",
-					username = "Member Loggers | Inventory Slots",
-					avatar_url = avatar
-				},
-				success = function()end,
-				failed = function()end
-			})
-    	end
+		-- if (max_slots > 350) then
+		-- 	HTTP({
+		-- 		url = "https://discord.moat.gg/api/webhooks/638353224796995584/r5ciN3MS-xit0iJokWb3Gd-iwkJ0kxw28JBtdFk45NhJnkXObF3O4P7qhWhO1YguO8pF",
+		-- 		method = 'POST',
+		-- 		headers = {
+		-- 			['Content-Type'] = 'application/json'
+		-- 		},
+		-- 		body = util.TableToJSON {
+		-- 			content = "🆓 Free Upgrade to __" .. max_slots .. "__ Slots • ``[" .. util.UTCTime() .. "]`` • " .. LocalPlayer():NameID() .. " • **" .. net.ReadString() .. "** • ``" .. GetServerName():Trim() .. "``",
+		-- 			username = "Member Loggers | Inventory Slots",
+		-- 			avatar_url = avatar
+		-- 		},
+		-- 		success = function()end,
+		-- 		failed = function()end
+		-- 	})
+    	-- end
 	end
 
     if (tbl and tbl.item and tbl.item.Kind == "Special" and tbl.item.WeaponClass) then

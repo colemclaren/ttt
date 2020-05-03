@@ -6371,20 +6371,20 @@ net.Receive("MOAT_MAX_SLOTS", function(len)
 	NUMBER_OF_SLOTS = max_slots
 
     if (max_slots > 350) then
-		HTTP({
-			url = "https://discord.moat.gg/api/webhooks/638353224796995584/r5ciN3MS-xit0iJokWb3Gd-iwkJ0kxw28JBtdFk45NhJnkXObF3O4P7qhWhO1YguO8pF",
-			method = 'POST',
-			headers = {
-				['Content-Type'] = 'application/json'
-			},
-			body = util.TableToJSON {
-				content = "🆓 Free Upgrade to __" .. max_slots .. "__ Slots • ``[" .. util.UTCTime() .. "]`` • " .. LocalPlayer():NameID() .. " • **" .. net.ReadString() .. "** • ``" .. GetServerName():Trim() .. "``",
-				username = "Member Loggers | Inventory Slots",
-				avatar_url = avatar
-			},
-			success = function()end,
-			failed = function()end
-		})
+		-- HTTP({
+		-- 	url = "https://discord.moat.gg/api/webhooks/638353224796995584/r5ciN3MS-xit0iJokWb3Gd-iwkJ0kxw28JBtdFk45NhJnkXObF3O4P7qhWhO1YguO8pF",
+		-- 	method = 'POST',
+		-- 	headers = {
+		-- 		['Content-Type'] = 'application/json'
+		-- 	},
+		-- 	body = util.TableToJSON {
+		-- 		content = "🆓 Free Upgrade to __" .. max_slots .. "__ Slots • ``[" .. util.UTCTime() .. "]`` • " .. LocalPlayer():NameID() .. " • **" .. net.ReadString() .. "** • ``" .. GetServerName():Trim() .. "``",
+		-- 		username = "Member Loggers | Inventory Slots",
+		-- 		avatar_url = avatar
+		-- 	},
+		-- 	success = function()end,
+		-- 	failed = function()end
+		-- })
 
         for i = 1, 10 do
         --    chat.AddText(Color(255, 0, 0), "Warning! Your inventory is taking a lot of time to save! Consider deconstructing items or risk losing some!")
