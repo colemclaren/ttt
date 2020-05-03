@@ -3,14 +3,12 @@ COMMAND.Flag = "+"
 COMMAND.CheckRankWeight = true
 COMMAND.Args = {{"player", "Name/SteamID"}, {"string", "Reason"}}
 local reasons = {
+	"Map Exploiting",
+	"Attempted Mass RDM",
+	"Mass RDM",
+	"Meta Gaming",
 	"Harassment",
-	"Cheating",
-	"Purposeful RDM",
-	"Role Ghosters",
-	"Metagamers",
-	"Spamming",
-	"Exploiting",
-	"Other TTT Violation"
+	"Crashing The Server",
 } -- not sent to client, found in addons\moat_addons\lua\plugins\d3a\client\cl_menu.lua:100
 COMMAND.Run = function(pl, args, supp)
 	if (D3A.VoteActive) then
