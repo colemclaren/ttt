@@ -403,6 +403,11 @@ local MOAT_ITEM_FOLDERS = {
 		"weak.lua",
 		"wicked.lua",
 		"zesty.lua",
+		"cincodemayo1.lua",
+		"cincodemayo2.lua",
+		"cincodemayo3.lua",
+		"cincodemayo4.lua",
+		"cincodemayo5.lua",
 	}},
     ["Unique"] = {"uniques", {
 		"akimbonators.lua",
@@ -678,6 +683,7 @@ local MOAT_ITEM_FOLDERS = {
 		"shredder_helmet.lua",
 		"smore_chef.lua",
 		"sombrero.lua",
+		"sombrero2.lua",
 		"sorting_hat.lua",
 		"spinny_hat.lua",
 		"starband.lua",
@@ -1310,6 +1316,7 @@ local MOAT_ITEM_FOLDERS = {
 		"springcrate.lua",
 		"titan_crate.lua",
 		"urbancrate.lua",
+		"cincodemayo.lua"
 	}},
     ["Melee"] = {"melees", {
 		"baseballbat.lua",

@@ -285,7 +285,7 @@ local Lines = {
 	"Dropping in Pochinki",
 	"Looking for the power button",
 	"Look behind you",
-	"Locating mae",
+	"Locating moat",
 	"Receiving your digital hug inventory",
 	"Receiving Inventory Simulation",
 	"Jumping to hyperspace",

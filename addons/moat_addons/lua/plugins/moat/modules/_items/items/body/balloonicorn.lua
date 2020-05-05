@@ -1,15 +1,15 @@
 
-ITEM.ID = 2097
+ITEM.ID = 3397
 
-ITEM.Name = "Balloonicorn"
+ITEM.Name = "Balloonicorno"
 
 ITEM.Description = "Hey look, you finally have a friend now"
 
 ITEM.Model = "models/gmod_tower/balloonicorn_nojiggle.mdl"
 
-ITEM.Rarity = 8
+ITEM.Rarity = 4
 
-ITEM.Collection = "Independence Collection"
+ITEM.Collection = "Cinco de Mayo Collection"
 
 ITEM.Attachment = "eyes" // left trapezius
 
