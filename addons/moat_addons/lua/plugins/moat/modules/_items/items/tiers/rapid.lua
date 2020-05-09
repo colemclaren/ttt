@@ -15,13 +15,13 @@ ITEM.MaxStats = 6
 
 ITEM.Stats = {
 
-	Damage = { min = -2, max = -20 },
+	Damage = { min = -5, max = 5 },
 
-	Accuracy = { min = -15, max = -5 },
+	Accuracy = { min = -15, max = 15 },
 
 	Kick = { min = -8, max = -15 },
 
-	Firerate = { min = 20, max = 35 },
+	Firerate = { min = 25, max = 45 },
 
 	Magazine = { min = 13, max = 20 },
 
