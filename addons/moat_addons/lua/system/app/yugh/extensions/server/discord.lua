@@ -74,7 +74,8 @@ end
 local function Send(user, msg, userName, no_suffix)
 	assert(user and (Users[user] or Webhooks[user]), "Discord failed to send webhook.")
 
-	msg = string.Replace(msg, "@", "#")
+	msg = msg:gsub("(@everyone)", "everyone")
+	msg = msg:gsub("(@here)", "here")
 
 	if (not http or not http.Loaded) then
 		table.insert(PreLoadQueue, {
@@ -126,7 +127,9 @@ end
 local function Embed(user, msg, userName, no_suffix, fields)
 	assert(user and (Users[user] or Webhooks[user]), "Discord failed to send webhook.")
 
-	-- msg = string.Replace(msg, "@", "#")
+	msg = msg:gsub("(@everyone)", "everyone")
+	msg = msg:gsub("(@here)", "here")
+
 	-- Since the embeds are in tables we will need to check everything manually before sending
 
 	local Info, URL, Name, Avatar = Users[user]

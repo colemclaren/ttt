@@ -1773,7 +1773,5 @@ function GetItemName(data)
 		ITEM_NAME_FULL = data.n:Replace("''", "'") -- "\"" .. data.n:Replace("''", "'") .. "\""
 	end
 
-	ITEM_NAME_FULL = string.format(ITEM_NAME_FULL, "@", "#")
-
 	return ITEM_NAME_FULL
 end
