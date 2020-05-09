@@ -732,7 +732,7 @@ function PANEL:SetModel(item_enum, item_tbl)
 	end
 
 	if (MOAT_PAINT and item_tbl) then
-        if (item_tbl.p2) then
+        if (item_tbl.p2 and MOAT_PAINT.Paints[item_tbl.p2]) then
 			self.MatOverride = (not MODELS_COLORABLE[item_enum]) and Material("models/debug/debugwhite")
             local col = MOAT_PAINT.Paints[item_tbl.p2]
             if (not col) then return end
@@ -742,7 +742,7 @@ function PANEL:SetModel(item_enum, item_tbl)
 			else
 				self.Dream = false
 			end
-        elseif (item_tbl.p) then
+        elseif (item_tbl.p and MOAT_PAINT.Tints[item_tbl.p]) then
             local col = MOAT_PAINT.Tints[item_tbl.p]
             if (not col) then return end
             self.Colors = {col[2][1]/255, col[2][2]/255, col[2][3]/255}

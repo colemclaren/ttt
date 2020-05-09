@@ -27,23 +27,30 @@ local surface_DrawCircle = surface.DrawCircle
 local gradient_u = Material("vgui/gradient-u")
 local gradient_d = Material("vgui/gradient-d")
 local gradient_r = Material("vgui/gradient-r")
-
+local mat_lock = Material("icon16/lock.png")
+local mat_paint = Material("icon16/palette.png")
 
 function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
     local item_cache = itemtbl
     local m_WClass = {}
-    local m_ItemExists = true
+	local m_ItemExists = false
 
-    if (m_ItemExists and item_cache and item_cache.item) then
-        if (item_cache.item.Image) then
-            m_WClass.WorldModel = item_cache.item.Image
-        elseif (item_cache.item.Model) then
-            m_WClass.WorldModel = item_cache.item.Model
-            m_WClass.ModelSkin = item_cache.item.Skin
-        else
-            m_WClass = weapons.Get(item_cache.w)
-        end
-    end
+	if (item_cache.c) then
+		m_ItemExists = true
+	end
+
+	local m_WClass = {}
+
+	if (m_ItemExists) then
+		if (item_cache.item.Image) then
+			m_WClass.WorldModel = item_cache.item.Image
+		elseif (item_cache.item.Model) then
+			m_WClass.WorldModel = item_cache.item.Model
+			m_WClass.ModelSkin = item_cache.item.Skin
+		else
+			m_WClass = weapons.Get(item_cache.w)
+		end
+	end
 
     local MT = MOAT_THEME.Themes
     local CurTheme = GetConVar("moat_Theme"):GetString()
@@ -52,6 +59,7 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
     end
 
     local hover_coloral = 0
+	
     local m_DPanel = vgui.Create("DPanel", pnl)
     m_DPanel:SetSize(68, 68)
     m_DPanel:SetPos(da_x, da_y)
@@ -63,43 +71,39 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
         end
 
         local draw_x = 2
-        local draw_y = 2
-        local draw_w = w - 4
-        local draw_h = h - 4
-        local draw_y2 = 2 + ((h - 4) / 2)
-        local draw_h2 = (h - 4) - ((h - 4) / 2)
-        surface_SetDrawColor(0, 0, 0, 100)
-        surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-        surface_SetDrawColor(50, 50, 50, hover_coloral)
-        surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-        if (not item_cache) then return end
+		local draw_y = 2
+		local draw_w = w - 4
+		local draw_h = h - 4
+		local draw_y2 = 2 + ((h - 4) / 2)
+		local draw_h2 = (h - 4) - ((h - 4) / 2)
+		surface_SetDrawColor(0, 0, 0, 100)
+		surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+		surface_SetDrawColor(50, 50, 50, hover_coloral)
+		surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+		if (not item_cache) then return end
 
-        if (item_cache.c) then
-            surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
-            surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+		if (item_cache.c and item_cache.item and item_cache.item.Rarity) then
+			surface_SetDrawColor(150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 150 + (hover_coloral / 2), 100)
+			surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
 
-            if (item_cache.l and item_cache.l == 1) then
-                surface_SetDrawColor(255, 255, 255, 50)
-                surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
-            end
+			if (item_cache.l and item_cache.l == 1) then
+				surface_SetDrawColor(240, 245, 253, 50)
+				surface_DrawRect(draw_x, draw_y, draw_w, draw_h)
+			end
 
-            surface_SetDrawColor(rarity_names[item_cache.item.Rarity][2].r, rarity_names[item_cache.item.Rarity][2].g, rarity_names[item_cache.item.Rarity][2].b, 100 + hover_coloral)
-            surface_SetMaterial(gradient_d)
-            surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
-        end
+			surface_SetDrawColor(rarity_names[item_cache.item.Rarity][2].r, rarity_names[item_cache.item.Rarity][2].g, rarity_names[item_cache.item.Rarity][2].b, 100 + hover_coloral)
+			surface_SetMaterial(gradient_d)
+			surface_DrawTexturedRect(draw_x, draw_y2 - (hover_coloral / 7), draw_w, draw_h2 + (hover_coloral / 7) + 1)
+		end
 
-        surface_SetDrawColor(62, 62, 64, 255)
+		surface_SetDrawColor(62, 62, 64, 255)
 
-        if (item_cache.c) then
-            surface_SetDrawColor(rarity_names[item_cache.item.Rarity][2])
-        end
+		if (item_cache.c and item_cache.item and item_cache.item.Rarity) then
+			surface_SetDrawColor(rarity_names[item_cache.item.Rarity][2])
+		end
 
-        surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
-        surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
-
-        if (item_cache.c) then
-            surface_SetDrawColor(rarity_names[item_cache.item.Rarity][2].r, rarity_names[item_cache.item.Rarity][2].g, rarity_names[item_cache.item.Rarity][2].b, hover_coloral / 2)
-        end
+		surface_DrawOutlinedRect(draw_x - 1, draw_y - 1, draw_w + 2, draw_h + 2)
+		surface_SetDrawColor(62, 62, 64, hover_coloral / 2)
     end
 
         --  surface_DrawPoly( triangle )
@@ -113,117 +117,156 @@ function m_DrawItemSlot(num, itemtbl, pnl, da_x, da_y)
         s:SetTooltip(nil)
     end
 
-    m_DPanelIcon.SIcon:SetVisible(false)
+	m_DPanelIcon.SIcon:SetVisible(false)
 
-    if (m_ItemExists and m_WClass and m_WClass.WorldModel) then
-        if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
+	if (m_ItemExists and m_WClass) then
+		m_DPanelIcon.SIcon:SetModel(m_WClass.WorldModel, m_WClass.ModelSkin)
+		m_DPanelIcon.SIcon:SetVisible(true)
+	end
+
+	m_DPanelIcon.WModel = nil
+	m_DPanelIcon.Item = nil
+	m_DPanelIcon.MSkin = nil
+
+	if (m_ItemExists and m_WClass) then
+		if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
 			if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
-            m_DPanelIcon.SIcon.Icon:SetAlpha(0)
-        end
+			m_DPanelIcon.SIcon.Icon:SetAlpha(0)
+		end
 
-        m_DPanelIcon.SIcon:SetModel(m_WClass.WorldModel, m_WClass.ModelSkin)
-        m_DPanelIcon.SIcon:SetVisible(true)
-    end
+		m_DPanelIcon.WModel = m_WClass.WorldModel
+		m_DPanelIcon.Item = item_cache
+		if (m_WClass.ModelSkin) then
+			m_DPanelIcon.MSkin = m_WClass.ModelSkin
+		end
+	end
+	
+	m_DPanelIcon.SIcon.PaintOver = function(self, w, h)
+		if (not item_cache) then
+			return
+		end
 
-    m_DPanelIcon.WModel = nil
-    m_DPanelIcon.Item = nil
-    m_DPanelIcon.MSkin = nil
+		if (item_cache and item_cache.item) then
+			local icon = item_cache.item.Image
+			if (not icon and item_cache.w) then
+				icon = util.GetWeaponModel(item_cache.w)
+			elseif (not icon and item_cache.item.Model) then
+				icon = item_cache.item.Model
+			end
 
-    if (m_ItemExists) then
-        m_DPanelIcon.WModel = m_WClass.WorldModel
-        m_DPanelIcon.Item = item_cache
-        if (m_WClass.ModelSkin) then
-            m_DPanelIcon.MSkin = m_WClass.ModelSkin
-        end
-    end
+			if (icon and not string.EndsWith(icon, ".mdl")) then
+				-- s.Icon:SetAlpha(0)
+				if (item_cache.item and item_cache.item.Clr) then
+					cdn.DrawImage(icon, 0, 0, w, h, {r = item_cache.item.Clr[1], g = item_cache.item.Clr[2], b = item_cache.item.Clr[3], a = 255})
+				elseif (icon:StartWith("https")) then
+					cdn.DrawImage(icon, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
+					cdn.DrawImage(icon, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
+				else
+					surface_SetDrawColor(240, 245, 253, 100)
+					surface_SetMaterial(Material(icon))
+					surface_DrawTexturedRect(1, 1, w, h)
+					surface_SetDrawColor(240, 245, 253, 255)
+					surface_DrawTexturedRect(0, 0, w, h)
+				end
+			else
+				-- s.Icon:SetAlpha(255)
+			end
 
-    m_DPanelIcon.SIcon.PaintOver = function(s, w, h)
-        if (not item_cache) then return end
+			local locked = false
 
-        if (item_cache.c) then
-            if (not string.EndsWith(m_DPanelIcon.WModel, ".mdl")) then
-                s.Icon:SetAlpha(0)
-                if (m_DPanelIcon.Item and m_DPanelIcon.Item.item and m_DPanelIcon.Item.item.Clr) then
-					cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = m_DPanelIcon.Item.item.Clr[1], g = m_DPanelIcon.Item.item.Clr[2], b = m_DPanelIcon.Item.item.Clr[3], a = 255})
-                elseif (m_DPanelIcon.WModel:StartWith("https")) then
-                    cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
-                    cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
-                else
-                    surface_SetDrawColor(255, 255, 255, 100)
-                    surface_SetMaterial(Material(m_DPanelIcon.WModel))
-                    surface_DrawTexturedRect(1, 1, w, h)
-                    surface_SetDrawColor(255, 255, 255, 255)
-                    surface_DrawTexturedRect(0, 0, w, h)
-                end
-            else
-                s.Icon:SetAlpha(255)
-            end
-        end
-    end
+			if (item_cache.l and item_cache.l == 1) then
+				locked = true
+				surface_SetDrawColor(240, 245, 253)
+				surface_SetMaterial(mat_lock)
+				surface_DrawTexturedRect(1, 1, 16, 16)
+			end
+
+			if (item_cache.p or item_cache.p2 or item_cache.p3) then
+				surface_SetDrawColor(240, 245, 253)
+				surface_SetMaterial(mat_paint)
+				surface_DrawTexturedRect(locked and 18 or 1, 1, 16, 16)
+			end
+		end
+	end
 
     local m_DPanelBTN = vgui.Create("DButton", m_DPanel)
-    m_DPanelBTN:SetText("")
-    m_DPanelBTN:SetSize(68, 68)
-    m_DPanelBTN.Paint = function(s, w, h) end
-    local btn_hovered = 1
-    local btn_color_a = false
+	m_DPanelBTN:SetText("")
+	m_DPanelBTN:SetSize(68, 68)
+	m_DPanelBTN.Paint = function(s, w, h) end
+	local btn_hovered = 1
+	local btn_color_a = false
 
-    m_DPanelBTN.Think = function(s)
-        if (not s:IsHovered()) then
-            btn_hovered = 0
-            btn_color_a = false
+	m_DPanelBTN.Think = function(s)
+		if (not s:IsHovered()) then
+			btn_hovered = 0
+			btn_color_a = false
 
-            if (hover_coloral > 0) then
-                hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-            end
-        else
-            if (IsValid(M_INV_MENU)) then
-                if (M_INV_MENU.Hovered) then
-                    btn_hovered = 0
-                    btn_color_a = false
+			if (hover_coloral > 0) then
+				hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
+			end
 
-                    if (hover_coloral > 0) then
-                        hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
-                    end
+			if (m_HoveredSlot == (num .. "u")) then
+				HoveringSlot = false
+			end
+		else
+			if (IsValid(M_INV_MENU)) then
+				if (M_INV_MENU.Hovered) then
+					btn_hovered = 0
+					btn_color_a = false
 
-                    return
-                end
-            end
+					if (hover_coloral > 0) then
+						hover_coloral = Lerp(2 * FrameTime(), hover_coloral, 0)
+					end
 
-            if (hover_coloral < 154 and btn_hovered == 0) then
-                    hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
-            else
-                    btn_hovered = 1
-            end
+					return
+				end
+			end
 
-            if (btn_hovered == 1) then
-                if (btn_color_a) then
-                    if (hover_coloral >= 154) then
-                        btn_color_a = false
-                    else
-                        hover_coloral = hover_coloral + (100 * FrameTime())
-                    end
-                else
-                    if (hover_coloral <= 50) then
-                        btn_color_a = true
-                    else
-                        hover_coloral = hover_coloral - (100 * FrameTime())
-                    end
-                end
-            end
-        end
-    end
+			-- m_HoveredSlot = num .. "u"
 
-    m_DPanelBTN.OnCursorEntered = function(s)
-        m_HoveredSlot = num
+			if (hover_coloral < 154 and btn_hovered == 0) then
+				hover_coloral = Lerp(5 * FrameTime(), hover_coloral, 155)
+			else
+				btn_hovered = 1
+			end
+
+			if (btn_hovered == 1) then
+				if (btn_color_a) then
+					if (hover_coloral >= 154) then
+						btn_color_a = false
+					else
+						hover_coloral = hover_coloral + (100 * FrameTime())
+					end
+				else
+					if (hover_coloral <= 50) then
+						btn_color_a = true
+					else
+						hover_coloral = hover_coloral - (100 * FrameTime())
+					end
+				end
+			end
+		end
+	end
+
+	m_DPanelBTN.OnCursorEntered = function(s)
+		m_HoveredSlot = num .. "u"
 		HoveringSlot = true
 
-		sfx.Hover()
-    end
+		if (IsValid(MOAT_INV_S)) then
+            MOAT_INV_S.AnimVal = 1
+			MOAT_INV_S:SetVisible(true)
+            MOAT_INV_S:SetAlpha(255)
+            MOAT_INV_S:Think()
+		end
 
-    m_DPanelBTN.OnCursorExited = function(s)
-    	HoveringSlot = false
-    end
+		if (item_cache and item_cache.c) then
+			sfx.Hover()
+		end
+	end
+
+	m_DPanelBTN.OnCursorExited = function(s)
+		HoveringSlot = false
+	end
 
 	sfx.ClickSound(m_DPanelBTN)
 

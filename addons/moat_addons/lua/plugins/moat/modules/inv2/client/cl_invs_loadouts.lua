@@ -280,14 +280,14 @@ function PrePaintViewModel(wpn, preview)
 
 	if (not wpn.cache.p) then 
 		wpn.cache.p = {255, 255, 255}
-		if (wpn.ItemStats and wpn.ItemStats.p2) then
+		if (wpn.ItemStats and wpn.ItemStats.p2 and ItemIsPaint(wpn.ItemStats.p2)) then
 			if (wpn.ItemStats.p2 == -2) then
 				wpn.cache.p = {bit.band(bit.rshift(wpn.ItemStats.p, 16), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 8), 0xff), bit.band(bit.rshift(wpn.ItemStats.p, 0), 0xff)}
 			else
 				wpn.cache.p = MOAT_PAINT.Paints[wpn.ItemStats.p2][2]
 				wpn.cache.dream = MOAT_PAINT.Paints[wpn.ItemStats.p2].Dream
 			end
-		elseif (wpn.ItemStats and wpn.ItemStats.p) then
+		elseif (wpn.ItemStats and wpn.ItemStats.p and ItemIsTint(wpn.ItemStats.p)) then
 			wpn.cache.p = MOAT_PAINT.Tints[wpn.ItemStats.p][2]
 			wpn.cache.dream = MOAT_PAINT.Tints[wpn.ItemStats.p].Dream
 		elseif (preview and GetPaintColor(preview)) then
@@ -336,7 +336,7 @@ function PrePaintViewModel(wpn, preview)
 			wpn.cache.mats[i].texture = wpn.cache.mats[i].mat:GetTexture("$basetexture")
 		end
 
-		if (preview or (wpn.ItemStats and wpn.ItemStats.p3)) then
+		if (preview or (wpn.ItemStats and wpn.ItemStats.p3 and ItemIsSkin(wpn.ItemStats.p3))) then
 			if (not wpn.cache.t and (preview or MOAT_PAINT.Skins[wpn.ItemStats.p3])) then
 				wpn.cache.t = preview and MOAT_PAINT.Skins[preview] or MOAT_PAINT.Skins[wpn.ItemStats.p3]
 			end
@@ -372,9 +372,9 @@ function PrePaintViewModel(wpn, preview)
 			continue
 		end
 
-		if (wpn.ItemStats.p) then
+		if (wpn.ItemStats and wpn.ItemStats.p and ItemIsTint(wpn.ItemStats.p)) then
 			set_vector(wpn.cache.mats[i].mat, "$color2", vector(wpn.cache.p[1]/255, wpn.cache.p[2]/255, wpn.cache.p[3]/255))
-		elseif (wpn.ItemStats.p2) then
+		elseif (wpn.ItemStats and wpn.ItemStats.p2 and ItemIsPaint(wpn.ItemStats.p2)) then
 			wpn.cache.mats[i].mat:SetTexture("$basetexture", "models/debug/debugwhite")
 			set_vector(wpn.cache.mats[i].mat, "$color2", vector(wpn.cache.p[1]/255, wpn.cache.p[2]/255, wpn.cache.p[3]/255))
 		end

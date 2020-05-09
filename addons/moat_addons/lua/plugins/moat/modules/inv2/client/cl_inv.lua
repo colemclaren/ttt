@@ -1050,8 +1050,8 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(91, 98, 109, 255))
 	
     if (itemtbl.p3) then
-        local p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "ERROR: Unknown Skin"
-		m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+        local p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "Glitched Skin"
+		m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, MOAT_PAINT.Skins[itemtbl.p3] and rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     end
 
 	return collection_y + 14
@@ -1315,8 +1315,8 @@ end
 local MOAT_DECONSTRUCT_ITEMS_START = 0
 local MOAT_DECONSTRUCT_ITEMS_END = 0
 local ITEM_EDIT_MODE = false
-local HoveringSlot = false
-local m_HoveredSlot = 0
+HoveringSlot = false
+m_HoveredSlot = 0
 INV_SELECT_MODE = false
 INV_SELECTED_ITEM = nil
 
@@ -3188,12 +3188,17 @@ function m_OpenInventory(ply2, utrade)
     MOAT_INV_S.Paint = function(s, w, h)
         local ITEM_HOVERED = m_Inventory[m_HoveredSlot]
 
-        if (string.EndsWith(tostring(m_HoveredSlot), "l")) then
+		if (string.EndsWith(tostring(m_HoveredSlot), "l")) then
             ITEM_HOVERED = m_Loadout[tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))]
         end
 
-        if (string.EndsWith(tostring(m_HoveredSlot), "t")) then
+		if (string.EndsWith(tostring(m_HoveredSlot), "t")) then
             ITEM_HOVERED = m_Trade[tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))]
+        end
+
+		if (string.EndsWith(tostring(m_HoveredSlot), "u")) then
+			local num = string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1)
+			ITEM_HOVERED = m_Inventory[tonumber(num)]
         end
 
         --m_DrawFireText( ITEM_HOVERED.item.Rarity, ITEM_HOVERED.item.Name .. " " .. ITEM_NAME, "moat_Medium4", draw_name_x, draw_name_y, rarity_names[ITEM_HOVERED.item.Rarity][2] )
@@ -3349,8 +3354,8 @@ function m_OpenInventory(ply2, utrade)
                 m_DrawShadowedText(1, "From the " .. ITEM_HOVERED.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
 
 				 if (ITEM_HOVERED.p3) then
-        			local p3txt = MOAT_PAINT.Skins[ITEM_HOVERED.p3] and MOAT_PAINT.Skins[ITEM_HOVERED.p3][1] or "ERROR: Unknown Skin"
-					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+        			local p3txt = MOAT_PAINT.Skins[ITEM_HOVERED.p3] and MOAT_PAINT.Skins[ITEM_HOVERED.p3][1] or "Glitched Skin"
+					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, MOAT_PAINT.Skins[ITEM_HOVERED.p3] and rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     			end
             end
 
@@ -3386,12 +3391,17 @@ function m_OpenInventory(ply2, utrade)
 
         local ITEM_HOVERED = m_Inventory[m_HoveredSlot]
 
-        if (string.EndsWith(tostring(m_HoveredSlot), "l")) then
+		if (string.EndsWith(tostring(m_HoveredSlot), "l")) then
             ITEM_HOVERED = m_Loadout[tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))]
         end
 
-        if (string.EndsWith(tostring(m_HoveredSlot), "t")) then
+		if (string.EndsWith(tostring(m_HoveredSlot), "t")) then
             ITEM_HOVERED = m_Trade[tonumber(string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1))]
+        end
+
+		if (string.EndsWith(tostring(m_HoveredSlot), "u")) then
+			local num = string.sub(tostring(m_HoveredSlot), 1, tostring(m_HoveredSlot):len() - 1)
+			ITEM_HOVERED = m_Inventory[tonumber(num)]
         end
 
         if (not HoveringSlot or (IsValid(M_INV_MENU) and M_INV_MENU.Hovered)) then
@@ -4591,7 +4601,7 @@ function m_CreateItemMenu(num, ldt)
 		sfx.Click2()
     end):SetIcon("icon16/tag_blue.png")
 
-    M_INV_MENU2:AddOption("Copy URL of Stats",function()
+    M_INV_MENU2:AddOption("Share Screenshot",function()
         if (IsValid(MOAT_INV_S)) then
             MOAT_INV_S.AnimVal = 1
         end
@@ -4603,7 +4613,7 @@ function m_CreateItemMenu(num, ldt)
             end
             if MOAT_CACHED_PICS[itemtbl.c][1] == x then
                 local l = MOAT_CACHED_PICS[itemtbl.c][2]
-                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Copy URL of Stats", "Deal (Close)")
+                Derma_Message("Wowzie! Your item stat screenshot's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Share Screenshot", "Deal (Close)")
                 SetClipboardText(l)
                 return
             end
@@ -4682,7 +4692,7 @@ function m_CreateItemMenu(num, ldt)
                             b = util.JSONToTable(b)
                             if b.success then
                                 local l = "https://imgur.com/a/" .. album.data.id
-                                Derma_Message("Wowzie! Your item stat window's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Copy URL of Stats", "Deal (Close)")
+                                Derma_Message("Wowzie! Your item stat screenshot's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Share Screenshot", "Deal (Close)")
                                 SetClipboardText(l)
                                 local x = 0
                                 if itemtbl.s then
@@ -4734,21 +4744,21 @@ function m_CreateItemMenu(num, ldt)
 
     local p1txt = nil
     if (itemtbl.p) then
-        p1txt = MOAT_PAINT.Tints[itemtbl.p] and MOAT_PAINT.Tints[itemtbl.p][1] or "ERROR: Unknown Tint"
+        p1txt = MOAT_PAINT.Tints[itemtbl.p] and MOAT_PAINT.Tints[itemtbl.p][1] or "Glitched Tint"
         M_INV_MENU:AddOption("Remove " .. p1txt, function()
         end):SetIcon("icon16/palette.png")
     end
 
     local p2txt = nil
     if (itemtbl.p2) then
-        p2txt = MOAT_PAINT.Paints[itemtbl.p2] and MOAT_PAINT.Paints[itemtbl.p2][1] or "ERROR: Unknown Paint"
+        p2txt = MOAT_PAINT.Paints[itemtbl.p2] and MOAT_PAINT.Paints[itemtbl.p2][1] or "Glitched Paint"
         M_INV_MENU:AddOption("Remove " .. p2txt, function()
         end):SetIcon("icon16/paintcan.png")
     end
 
     local p3txt = nil
     if (itemtbl.p3) then
-        p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "ERROR: Unknown Skin"
+        p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "Glitched Skin"
         M_INV_MENU:AddOption("Remove " .. p3txt, function()
         end):SetIcon("icon16/paintbrush.png")
     end
@@ -5909,8 +5919,8 @@ function m_DrawFoundItem(tbl, s_type, name)
                 m_DrawShadowedText(1, "From the " .. ITEM_HOVERED.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
 
 				 if (ITEM_HOVERED.p3) then
-       				local p3txt = MOAT_PAINT.Skins[ITEM_HOVERED.p3] and MOAT_PAINT.Skins[ITEM_HOVERED.p3][1] or "ERROR: Unknown Skin"
-					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+       				local p3txt = MOAT_PAINT.Skins[ITEM_HOVERED.p3] and MOAT_PAINT.Skins[ITEM_HOVERED.p3][1] or "Glitched Skin"
+					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, MOAT_PAINT.Skins[ITEM_HOVERED.p3] and rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     			end
             end
 
