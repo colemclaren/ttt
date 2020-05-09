@@ -444,6 +444,10 @@ function moat_chat.Clear()
 end
 
 hook("TTTBeginRound", function()
+	if (not IsValid(LocalPlayer())) then
+		return
+	end
+
 	local cur_round = (GetConVarNumber("ttt_round_limit")-GetGlobal("ttt_rounds_left")) + 1
 	local role_color = GetRoleColor(LocalPlayer():GetRole()) or Color(255, 255, 255)
 	chat.AddText(moat_blue, " | ", moat_pink, "Round Started", moat_blue, " | ", moat_green, "Round #" .. cur_round, moat_blue, " | ", moat_cyan, player.GetCount().." / "..game.MaxPlayers() .. " Players")

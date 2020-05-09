@@ -37,13 +37,13 @@ MOTD.SpawnSettings = GetConVar "moat_disable_motd"
 MOTD.OpenTime = 0
 MOTD.CurTab = 1
 MOTD.Tabs = {
-	[1] = {"Home", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"}, -- "https://cdn.moat.gg/ttt/motd/20190608_3.html?n=User"},
+	[1] = {"Welcome", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"},
 	[2] = {"Tutorial", "https://i.moat.gg/servers/ttt/motd/help.php"},
-	[3] = {"Errors", "https://moat.gg/ttt/motd/content.php", true},
-	[4] = {"Changes", "https://moat.gg/projects", true},
+	[3] = {"Textures", "https://moat.gg/ttt/motd/content.php"},
+	[4] = {"Changes", "https://moat.gg/news"},
 	[5] = {"Store", "https://moat.gg/store", true},
 	[6] = {"Leaderboard", "https://moat.gg/players", true},
-	[7] = {"Interns", "https://moat.gg/staff", true},
+	[7] = {"Interns", "https://moat.gg/interns", true},
 	[8] = {"Support", "https://support.moat.gg/", true},
 	[9] = {"Close", ""},
 }
@@ -114,17 +114,19 @@ function MOTD.Open(secs, invalid)
     MOTD.w:DockMargin(0, 10, 10, 10)
     MOTD.w:Dock(FILL)
     MOTD.w:OpenURL("https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. nick)
-    MOTD.w.Paint = function(s, w, h)
-		if (not s.DocumentLoaded) then
-        	DrawRainbowText(1, "Loading Page...", "DermaLarge", w/2, h/2, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    local function HandleLoadingPage(html)
+		html.Paint = function(s, w, h)
+			if (not s.DocumentLoaded) then
+        		DrawRainbowText(1, "Loading Page...", "DermaLarge", w/2, h/2, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			end
+    	end
+		html.OnDocumentReady = function(s) s.DocumentLoaded = true end
+		html.OnBeginLoadingDocument = function(s)
+			s.DocumentLoaded = false
 		end
-    end
-	MOTD.w.OnDocumentReady = function(s) s.DocumentLoaded = true end
-	MOTD.w.OnBeginLoadingDocument = function(s)
-		s.DocumentLoaded = false
 	end
 
-
+	HandleLoadingPage(MOTD.w)
     MOTD.CurTab = 1
 
     for i = 1, #MOTD.Tabs do
@@ -205,9 +207,7 @@ function MOTD.Open(secs, invalid)
                 MOTD.w:DockMargin(0, 10, 10, 10)
                 MOTD.w:Dock(FILL)
                 MOTD.w:OpenURL(MOTD.Tabs[i][2])
-                MOTD.w.Paint = function(s, w, h)
-                    DrawRainbowText(1, "Loading Page...", "DermaLarge", w/2, h/2, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-                end
+                HandleLoadingPage(MOTD.w)
             end
         end
     end

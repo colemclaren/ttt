@@ -31,5 +31,5 @@ ITEM.MaxTalents = 3
 ITEM.Talents = {"Copycat", "random", "random"}
 
 ITEM.Price = 49999
-ITEM.LimitedShop = 1530597743
+ITEM.LimitedShop = 1589353200
 ITEM.ShopDesc = "Copy the weapons of your dead enemies!\n(Purchasing will give you a random weapon with the Copycat talent)"
