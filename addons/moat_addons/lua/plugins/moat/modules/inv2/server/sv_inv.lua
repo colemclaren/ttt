@@ -1010,6 +1010,8 @@ net.Receive("MOAT_TRADE_MESSAGE", function(len, ply)
     local trade_id = net.ReadDouble()
     local message = net.ReadString()
 
+	message = FamilyFriendly(message, ply)
+
     local t = MOAT_TRADES[trade_id]
     if (not t) then return end
     if (not t.ChatLog) then t.ChatLog = {} end

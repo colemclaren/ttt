@@ -37,7 +37,7 @@ MOTD.SpawnSettings = GetConVar "moat_disable_motd"
 MOTD.OpenTime = 0
 MOTD.CurTab = 1
 MOTD.Tabs = {
-	[1] = {"Welcome", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"},
+	[1] = {"Home", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"},
 	[2] = {"Tutorial", "https://i.moat.gg/servers/ttt/motd/help.php"},
 	[3] = {"Textures", "https://moat.gg/ttt/motd/content.php"},
 	[4] = {"Changes", "https://moat.gg/news"},
