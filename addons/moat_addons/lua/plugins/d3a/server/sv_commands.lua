@@ -23,6 +23,7 @@ function D3A.Commands.Load()
 		"cleardecals.lua",
 		"closemotd.lua",
 		"crashban.lua",
+		"comp.lua",
 		"discord.lua",
 		"forcemotd.lua",
 		"freeze.lua",

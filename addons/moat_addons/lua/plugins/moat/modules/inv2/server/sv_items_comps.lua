@@ -17,7 +17,7 @@ MOAT_COMP.Staff = {
 
 
 concommand.Add("moat_comp", function(pl, cmd, args)
-	if (not MOAT_COMP.Staff[pl:GetUserGroup()] and not moat.is(pl)) then return end
+	-- if (not MOAT_COMP.Staff[pl:GetUserGroup()] and not moat.is(pl)) then return end
 	
 	net.Start "moat.comp.open"
 	net.Send(pl)
@@ -30,7 +30,7 @@ net.Receive("moat.comp.open", function(l, pl)
 
 	local comp = {
 		ticket = net.ReadString(),
-		steamid = net.ReadString(),
+		steamid = pl:SteamID(),
 		ic = net.ReadString(),
 		sc = net.ReadString(),
 		ec = net.ReadString(),

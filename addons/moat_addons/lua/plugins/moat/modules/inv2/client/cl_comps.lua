@@ -42,9 +42,9 @@ end
 
 MOAT_COMP = MOAT_COMP or {}
 MOAT_COMP.Entries = {
-	{"Ticket's forum post link", false, "Insert the link to the compensation ticket here."},
-	{"The players's steamid to comp", false, "SteamID of the person being compensated. (Ex: STEAM_0:0:46558052)"},
-	{"Any inventory credits to give", true, "Number of inventory credits for compensation if applicable. Leave blank if none."},
+	{"Item's evidence link", false, "Insert any evidence for the compensation ticket here."},
+--	{"The players's steamid to comp", false, "SteamID of the person being compensated. (Ex: STEAM_0:0:46558052)"},
+	{"Inventory credits to give", true, "Number of inventory credits for compensation if applicable. Leave blank if none."},
 	{"Support credits to gift", true, "Number of event credits for compensation if applicable. Leave blank if none."},
 	{"Event credits to drop", true, "Number of event credits for compensation if applicable. Leave blank if none."},
 	{"Any tier / unique / item (ex. Sunny, Tolerable, Turtle Hat)", false, "Do NOT put the weapon name if the item is a Tier'd item. (Ex: Sunny Deagle < DO NOT DO THAT)"},
@@ -60,7 +60,7 @@ function MOAT_COMP:Open()
 	if (IsValid(self.bg)) then self.bg:Remove() end
 
 	self.bg = vgui.Create("DFrame")
-	self.bg:SetSize(500, 700)
+	self.bg:SetSize(500, 600)
 	self.bg:MakePopup()
 	self.bg:Center()
 	self.bg:SetTitle("")
@@ -73,7 +73,7 @@ function MOAT_COMP:Open()
         surface_SetDrawColor(150, 150, 150, 50)
         surface_DrawRect(0, 0, w, 21)
 
-        draw_SimpleText("Manager - New Compensation Ticket for Review", "GModNotify", 4, 1, Color(255, 255, 255))
+        draw_SimpleText("Submit a New Compensation Ticket", "GModNotify", 4, 1, Color(255, 255, 255))
 	end
 
 	self.f = vgui.Create("DPanel", self.bg)
@@ -159,6 +159,8 @@ function MOAT_COMP:Open()
         	net.WriteString(self.t[i]:GetValue() or "")
         end
         net.SendToServer()
+
+		if (IsValid(self.bg)) then self.bg:Remove() end
     end
 end
 
