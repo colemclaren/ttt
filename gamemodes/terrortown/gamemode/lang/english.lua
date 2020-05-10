@@ -651,7 +651,7 @@ L.aw_fst3_text = "was the first to kill. Too bad it was an innocent comrade."
 L.aw_fst4_title = "First Blow"
 L.aw_fst4_text = "struck the first blow for the innocent terrorists by making the first death a traitor's."
 
-L.aw_jest_title = "Mislead Dude"
+L.aw_jest_title = "A Charming Kiss"
 L.aw_jest_text = "was responsible for the Jester killed in this round."
 
 L.aw_all1_title = "Deadliest Among Equals"

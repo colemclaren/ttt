@@ -31,5 +31,7 @@ MAP_BLACKLIST = {
 	["ttt_judgementday_dms"] = true,
 	["ttt_playing with portals_v9"] = true,
 	["ttt_complex67"] = true,
-	["ttt_outset_island"] = true
+	["ttt_outset_island"] = true,
+	["ttt_mc_slenderman"] = true,
+	["ttt_community_pool_2017_b10"] = true
 }
