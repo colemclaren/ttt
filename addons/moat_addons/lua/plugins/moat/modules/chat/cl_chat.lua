@@ -40,11 +40,11 @@ moat_chat.config = {
     h = 384
 }
 
-if ((default_y + 384) > (ScrH() - 400)) then
-    moat_chat.config.y = ScrH() - 400 - 404
+if ((default_y + 384) > (ScrH() - 300)) then
+    moat_chat.config.y = ScrH() - 300 - 404
 end
 
-moat_chat.config.y = math.Clamp(moat_chat.config.y, 50, (ScrH()/4) - 50)
+moat_chat.config.y = math.Clamp(moat_chat.config.y, 50, (ScrH()/3.6) - 50)
 
 moat_chat.font = "moat_ChatFont"
 moat_chat.chattype = ""
@@ -421,8 +421,8 @@ local function ChatThink()
 end
 
 hook.Add("Think", "NewChatThink", ChatThink)
-local customchatx = CreateConVar("moat_chat_x_pos", tostring(moat_chat.config.x), FCVAR_ARCHIVE)
-local customchaty = CreateConVar("moat_chat_y_pos", tostring(moat_chat.config.y), FCVAR_ARCHIVE)
+local customchatx = CreateConVar("moat_chat_pos_x", tostring(moat_chat.config.x), FCVAR_ARCHIVE)
+local customchaty = CreateConVar("moat_chat_pos_y", tostring(moat_chat.config.y), FCVAR_ARCHIVE)
 
 concommand.Add("moat_chat", function()
     moat_chat.config.x = tonumber(customchatx:GetDefault())
@@ -478,7 +478,7 @@ function moat_chat.InitChat()
     FRAME:ShowCloseButton(false)
     FRAME:SetDraggable(false)
     FRAME:SetSize(mcc.w, mcc.h)
-    FRAME:SetPos(customchatx:GetInt(), math.Clamp(customchaty:GetInt(), 50, (ScrH() / 4) - 50))
+    FRAME:SetPos(customchatx:GetInt(), math.Clamp(customchaty:GetInt(), 50, (ScrH() / 3.6) - 50))
 	
     FRAME.Paint = function(s, w, h)
         COLOR_WHITE = Color(255, 255, 255, 255)
