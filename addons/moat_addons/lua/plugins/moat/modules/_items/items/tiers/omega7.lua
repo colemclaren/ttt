@@ -1,7 +1,7 @@
 ITEM.ID = 9198
 ITEM.Name = "Is This Your"
 ITEM.Rarity = 3
-ITEM.Collection = "Meme Collection"
+ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 4
 ITEM.MaxStats = 4
 ITEM.Stats = {

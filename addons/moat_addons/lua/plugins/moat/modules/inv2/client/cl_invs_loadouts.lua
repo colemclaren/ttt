@@ -582,10 +582,10 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 			render.SetColorModulation(1, 1, 1)
 		end
 
-		if (mat_str:match "vtf$" and not self.SetMeme) then
+		if (mat_str:match "vtf$" and not self.SetOmega) then
 			local m = cdn.Texture(mat_str, function(m)
-				if (m and not self.SetMeme) then
-					self.SetMeme = true
+				if (m and not self.SetOmega) then
+					self.SetOmega = true
 					new_mat:SetTexture("$basetexture", m)
 	
 					if (new_mat and color) then
@@ -597,8 +597,8 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 				end
 			end)
 
-			if (m and not self.SetMeme) then
-				self.SetMeme = true
+			if (m and not self.SetOmega) then
+				self.SetOmega = true
 				new_mat:SetTexture("$basetexture", m)
 
 				if (new_mat and color) then
@@ -608,10 +608,10 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 
 				self:SetSubMaterial(0, "!"..new_mat:GetName())
 			end
-		elseif (mat_str:match "^http" and not self.SetMeme) then
+		elseif (mat_str:match "^http" and not self.SetOmega) then
 			local m = cdn.Image(mat_str, function(m)
-				if (m and not self.SetMeme) then
-					self.SetMeme = true
+				if (m and not self.SetOmega) then
+					self.SetOmega = true
 					new_mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
 
 					if (new_mat and color) then
@@ -623,8 +623,8 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 				end
 			end)
 
-			if (m and not self.SetMeme) then
-				self.SetMeme = true
+			if (m and not self.SetOmega) then
+				self.SetOmega = true
 				new_mat:SetTexture("$basetexture", m:GetTexture "$basetexture")
 
 				if (new_mat and color) then
@@ -634,7 +634,7 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 
 				self:SetSubMaterial(0, "!"..new_mat:GetName())
 			end
-		elseif (not self.SetMeme) then
+		elseif (not self.SetOmega) then
 			self:SetMaterial(mat_str)
 		end
 

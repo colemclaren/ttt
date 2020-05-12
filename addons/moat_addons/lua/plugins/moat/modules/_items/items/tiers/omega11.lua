@@ -1,7 +1,7 @@
-ITEM.ID = 9995
-ITEM.Name = "That's a Lotta"
+ITEM.ID = 9194
+ITEM.Name = "Donald Trump's"
 ITEM.Rarity = 7
-ITEM.Collection = "Meme Collection"
+ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {

@@ -2,7 +2,7 @@
 ITEM.ID = 7973
 ITEM.Name = "FaZe Pro Player"
 ITEM.Rarity = 7
-ITEM.Collection = "Meme Collection"
+ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 

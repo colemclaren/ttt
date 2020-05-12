@@ -143,11 +143,11 @@ if ( SERVER ) then return end -- We do NOT want to execute anything below in thi
 
 function ENT:Draw()
 	local mat = self:GetBallMaterial()
-	if (not MOAT_MEMES or not MOAT_MEMES[mat] or not MOAT_MEMES[mat].URL) then
+	if (not MOAT_OMEGAS or not MOAT_OMEGAS[mat] or not MOAT_OMEGAS[mat].URL) then
 		return
 	end
 
-	local img = cdn.Image(MOAT_MEMES[mat].URL, nil, "noclamp")
+	local img = cdn.Image(MOAT_OMEGAS[mat].URL, nil, "noclamp")
 	if (not img) then
 		return
 	end

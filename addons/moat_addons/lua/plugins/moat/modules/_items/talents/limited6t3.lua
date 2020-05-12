@@ -29,7 +29,7 @@ if (SERVER) then
 
 
 		for k,v in pairs(talents) do 
-			if v.Tier ~= tier or v.ID == id or (v.ID == 154) or (v.ID == 33) or ((v.Collection or "") == "Meme Collection") then 
+			if v.Tier ~= tier or v.ID == id or (v.ID == 154) or (v.ID == 33) or ((v.Collection or "") == "Omega Collection") then 
 				talents[k] = nil 
 			end 
 		end

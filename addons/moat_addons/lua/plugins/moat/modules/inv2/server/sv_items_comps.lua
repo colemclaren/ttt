@@ -25,7 +25,7 @@ end)
 
 
 net.Receive("moat.comp.open", function(l, pl)
-	if (not MOAT_COMP.Staff[pl:GetUserGroup()] and not moat.is(pl)) then return end
+	-- if (not MOAT_COMP.Staff[pl:GetUserGroup()] and not moat.is(pl)) then return end
 	if (pl.CompensationCooldown and pl.CompensationCooldown > CurTime()) then return end
 
 	local comp = {

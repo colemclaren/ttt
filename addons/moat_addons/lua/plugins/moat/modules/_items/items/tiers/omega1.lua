@@ -1,7 +1,7 @@
-ITEM.ID = 9199
-ITEM.Name = "Don't Say"
+ITEM.ID = 9999
+ITEM.Name = "Dedotated"
 ITEM.Rarity = 2
-ITEM.Collection = "Meme Collection"
+ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 4
 ITEM.Stats = {

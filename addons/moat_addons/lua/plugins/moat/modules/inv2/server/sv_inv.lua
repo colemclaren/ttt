@@ -1422,7 +1422,7 @@ net.Receive("MOAT_TRADE_CREDITS", function(len, ply)
     if (credits ~= credits) or (trade_id ~= trade_id) then
         local msg = ply:Nick() .. " (" .. ply:SteamID() .. ") Tried to add nan IC to trade. <@150809682318065664> <@135912347389788160>"
 		discord.Send("Trade", msg)
-		RunConsoleCommand("mga", "ban", att:SteamID(), "0", "minutes", "6Meme")
+		RunConsoleCommand("mga", "ban", att:SteamID(), "0", "minutes", "6Omega")
         return
     end
     local ver_credits = credits

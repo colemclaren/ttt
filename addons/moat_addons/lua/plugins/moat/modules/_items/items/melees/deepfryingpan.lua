@@ -6,7 +6,7 @@ ITEM.WeaponClass = "weapon_ttt_fryingpan"
 
 ITEM.Rarity = 4
 
-ITEM.Collection = "Meme Collection"
+ITEM.Collection = "Omega Collection"
 
 ITEM.MinStats = 5
 

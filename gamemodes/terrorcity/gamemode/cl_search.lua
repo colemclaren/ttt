@@ -617,7 +617,7 @@ local dis = {
 local badred = GetConVar("moat_red_screen")
 local badredoff = true
 
-hook.Add("HUDShouldDraw", "DamageMeme", function(txt)
+hook.Add("HUDShouldDraw", "DamageOmega", function(txt)
 	if (not badred or badredoff) then return end
     if dis[txt] then return false end
 end)
@@ -625,7 +625,7 @@ end)
 local damage_m = 0
 local oldhp = 0
 
-hook.Add("HUDPaint", "DamageMeme", function()
+hook.Add("HUDPaint", "DamageOmega", function()
 	if (not badred or badred:GetInt() == 0) then badredoff = true return end
 	badredoff = false
     if not LocalPlayer():Alive() then return end

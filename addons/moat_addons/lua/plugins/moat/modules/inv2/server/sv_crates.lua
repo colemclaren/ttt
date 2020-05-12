@@ -56,7 +56,7 @@ net.Receive("MOAT_INIT_CRATE", function(len, ply)
     local crate_id = MOAT_CRATES[ply]
 
     if (not crate_id) then
-        RunConsoleCommand("mga", "perma", ply:SteamID(), "Exploiting (EBADMEME63)")
+        RunConsoleCommand("mga", "perma", ply:SteamID(), "Exploiting (EBADOMEGA63)")
         return
     end
 

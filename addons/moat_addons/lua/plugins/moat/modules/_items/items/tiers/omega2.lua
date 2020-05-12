@@ -1,7 +1,7 @@
-ITEM.ID = 9192
-ITEM.Name = "Bird Box"
+ITEM.ID = 9998
+ITEM.Name = "Slaps Roof of"
 ITEM.Rarity = 3
-ITEM.Collection = "Meme Collection"
+ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 4
 ITEM.MaxStats = 4
 ITEM.Stats = {

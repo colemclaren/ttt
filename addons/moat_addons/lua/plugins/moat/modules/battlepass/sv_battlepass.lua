@@ -67,7 +67,7 @@ function generate_bpexample(itemid,ply)
 
             dropped_item.w = ""
 
-            if (item_to_drop.Collection == "Pumpkin Collection" or item_to_drop.Collection == "Meme Collection" or item_to_drop.Collection == "Holiday Collection" or item_to_drop.Collection == "New Years Collection") then
+            if (item_to_drop.Collection == "Pumpkin Collection" or item_to_drop.Collection == "Omega Collection" or item_to_drop.Collection == "Holiday Collection" or item_to_drop.Collection == "New Years Collection") then
                 for k, v in RandomPairs(weapons.GetList()) do
                     if (v.Base == "weapon_tttbase" and (v.ClassName:StartWith("weapon_ttt_te_") or v.AutoSpawnable)) then
                         dropped_item.w = v.ClassName

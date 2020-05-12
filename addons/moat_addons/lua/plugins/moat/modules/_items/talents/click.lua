@@ -9,7 +9,7 @@ TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 25, max = 75}
 TALENT.Melee = false
 TALENT.NotUnique = false
-TALENT.Collection = "Meme Collection"
+TALENT.Collection = "Omega Collection"
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
 	if (weapon.Primary.ClipSize and weapon.Primary.DefaultClip and weapon.Primary.ClipMax) then

@@ -12,7 +12,7 @@ TALENT.Modifications[2] = {min = 50, max = 100} -- Cough power
 TALENT.Melee = true
 TALENT.NotUnique = false
 
-TALENT.Collection = "Meme Collection"
+TALENT.Collection = "Omega Collection"
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	local chance = self.Modifications[1].min + ( ( self.Modifications[1].max - self.Modifications[1].min ) * math.min(1, talent_mods[1]) )

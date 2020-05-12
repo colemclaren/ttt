@@ -1,7 +1,7 @@
-ITEM.ID = 9191
-ITEM.Name = "Thank u, next"
+ITEM.ID = 9197
+ITEM.Name = "Netflix n'"
 ITEM.Rarity = 5
-ITEM.Collection = "Meme Collection"
+ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 5
 ITEM.Stats = {

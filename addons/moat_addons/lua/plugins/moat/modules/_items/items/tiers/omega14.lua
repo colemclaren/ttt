@@ -1,7 +1,7 @@
-ITEM.ID = 2658
-ITEM.Name = "Alexa play"
-ITEM.Rarity = 6
-ITEM.Collection = "Meme Collection"
+ITEM.ID = 9191
+ITEM.Name = "Thank u, next"
+ITEM.Rarity = 5
+ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 5
 ITEM.Stats = {

@@ -10,7 +10,7 @@ TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 25, max = 50}
 TALENT.NotUnique = false
 TALENT.Melee = true
-TALENT.Collection = "Meme Collection"
+TALENT.Collection = "Omega Collection"
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then

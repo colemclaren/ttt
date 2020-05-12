@@ -1,5 +1,5 @@
 ITEM.ID = 10101
-ITEM.Name = "Meepen's"
+ITEM.Name = "Moat's"
 ITEM.Rarity = 8
 ITEM.Collection = "Testing Collection"
 ITEM.MinStats = 7

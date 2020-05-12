@@ -9,7 +9,7 @@ TALENT.Modifications[1] = {min = 5, max = 10} -- percent
 TALENT.Modifications[2] = {min = 5, max = 20} -- seconds
 TALENT.Melee = false
 TALENT.NotUnique = false
-TALENT.Collection = "Meme Collection"
+TALENT.Collection = "Omega Collection"
 
 function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 	if (GetRoundState() ~= ROUND_ACTIVE or victim:HasGodMode()) then

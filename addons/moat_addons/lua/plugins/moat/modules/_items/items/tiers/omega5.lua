@@ -1,7 +1,7 @@
-ITEM.ID = 3612
-ITEM.Name = "World Record"
+ITEM.ID = 9995
+ITEM.Name = "That's a Lotta"
 ITEM.Rarity = 7
-ITEM.Collection = "Meme Collection"
+ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {

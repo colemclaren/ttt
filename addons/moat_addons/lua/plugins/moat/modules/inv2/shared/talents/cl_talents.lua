@@ -88,10 +88,10 @@ net.Receive("weapon.UpdateTalents",function()
 	end
 end) 
 
-local MEME = {}
+local OMEGA = {}
 local WORLDMODELS = {}
 
-function MEME:ViewModelDrawn(old, vm)
+function OMEGA:ViewModelDrawn(old, vm)
     if (self.InsideDraw) then
         return
     end
@@ -106,7 +106,7 @@ function MEME:ViewModelDrawn(old, vm)
     self.InsideDraw = false
 end
 
-function MEME:DrawWorldModel(old)
+function OMEGA:DrawWorldModel(old)
     local WorldModel = WORLDMODELS[self.WorldModel]
     local _Owner = self:GetOwner()
 
@@ -170,7 +170,7 @@ function MEME:DrawWorldModel(old)
     WorldModel:DrawModel()
 end
 
-function MEME:Think(old)
+function OMEGA:Think(old)
     if (old) then
         old(self)
     end
@@ -193,7 +193,7 @@ local function doweapon(wep)
 	
 	wep.Tracer = 3
 	
-	for k, fn in pairs(MEME) do
+	for k, fn in pairs(OMEGA) do
 		local old = wep[k]
 		wep[k] = function(self, ...)
 			fn(self, old, ...)
