@@ -127,7 +127,7 @@ function m_CheckCompTickets(pl)
                             name = name:sub(1, 1):upper() .. name:sub(2, name:len())
                         end
 
-                        if (name == class) then
+                        if (string.lower(name) == class) then
                             class = v.ClassName
                             break
                         end

@@ -598,7 +598,7 @@ function m_oldDrawDicePanel()
         local txt = s:GetValue()
         local amt = string.len(txt)
 
-        if (amt > s.MaxChars) then
+        if (amt > s.MaxChars or string.EndsWith(tostring(txt), ".") or (string.sub(tostring(txt), 1, 1) == "0" and #tostring(txt) > 1) or string.EndsWith(tostring(txt), "-")) then
             if (s.OldText == nil) then
                 s:SetText("")
                 s:SetValue("")
@@ -622,7 +622,7 @@ function m_oldDrawDicePanel()
 	MOAT_DICE_BET.OnEnter = function(s)
 		if (s:GetText() == "") then s:SetText("0") end
 		
-		MOAT_GAMBLE.DiceBetAmount = math.Clamp(math.Round(tonumber(s:GetText() or 0), 2), 0.05, 5000)
+		MOAT_GAMBLE.DiceBetAmount = math.Clamp(math.Round(tonumber(s:GetText() or 0), 2), 1, 5000)
 	end
 	MOAT_DICE_BET.OnLoseFocus = function(s)
 		s:OnEnter()
@@ -705,7 +705,7 @@ function m_oldDrawDicePanel()
 		draw.SimpleText("1/2", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	end
 	BTN1.DoClick = function(s, w, h)
-		MOAT_GAMBLE.DiceBetAmount = math.max(MOAT_GAMBLE.DiceBetAmount/2, 0.05)
+		MOAT_GAMBLE.DiceBetAmount = math.max(MOAT_GAMBLE.DiceBetAmount/2, 1)
 	end
 
 	local BTN2 = vgui.Create("DButton", MOAT_GAMBLE_DICE)
@@ -745,7 +745,7 @@ function m_oldDrawDicePanel()
 		draw.SimpleText("Min", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	end
 	BTN3.DoClick = function(s, w, h)
-		MOAT_GAMBLE.DiceBetAmount = 0.05
+		MOAT_GAMBLE.DiceBetAmount = 1
 	end
 
 	local BTN4 = vgui.Create("DButton", MOAT_GAMBLE_DICE)
@@ -765,7 +765,7 @@ function m_oldDrawDicePanel()
 		draw.SimpleText("Max", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	end
 	BTN4.DoClick = function(s, w, h)
-		MOAT_GAMBLE.DiceBetAmount = math.Clamp(MOAT_INVENTORY_CREDITS, 0.05, 5000)
+		MOAT_GAMBLE.DiceBetAmount = math.Clamp(MOAT_INVENTORY_CREDITS, 1, 5000)
 	end
 
 	local BTN_SLIDER = vgui.Create("DButton", MOAT_GAMBLE_DICE)
@@ -949,8 +949,8 @@ function m_oldDrawDicePanel()
 		s.Rolling = true
 
 		net.Start("MOAT_GAMBLE_DICE")
-		net.WriteFloat(MOAT_GAMBLE.DiceBetAmount)
-		net.WriteFloat(MOAT_GAMBLE.DiceBet)
+		net.WriteDouble(MOAT_GAMBLE.DiceBetAmount)
+		net.WriteDouble(MOAT_GAMBLE.DiceBet)
 		net.WriteBool(MOAT_GAMBLE.DiceUnder)
 		net.SendToServer()
 	end
@@ -1122,7 +1122,7 @@ function m_DrawDicePanel()
         local txt = s:GetValue()
         local amt = string.len(txt)
 
-        if (amt > s.MaxChars) then
+        if (amt > s.MaxChars or string.EndsWith(tostring(txt), ".") or (string.sub(tostring(txt), 1, 1) == "0" and #tostring(txt) > 1) or string.EndsWith(tostring(txt), "-")) then
             if (s.OldText == nil) then
                 s:SetText("")
                 s:SetValue("")
@@ -1308,8 +1308,8 @@ net.Receive("MOAT_GAMBLE_DICE", function(len)
 	end
 
 	local won = net.ReadBool()
-	local roll = net.ReadFloat()
-	local amt = net.ReadFloat()
+	local roll = net.ReadDouble()
+	local amt = net.ReadDouble()
 
 	MOAT_DICE_ROLL.Won = won
 	MOAT_DICE_ROLL.OutputRoll = math.Round(roll, 2)
@@ -1408,7 +1408,7 @@ roulette_number = 0
 spin_duration = 12 -- Make sure same as serverside
 local doing = false
 -- net.Receive("roulette.SyncMe",function()
---     roulette_nextroll = net.ReadFloat()
+--     roulette_nextroll = net.ReadDouble()
 -- end)
 
 local previous_rolls = {}
@@ -1427,7 +1427,7 @@ local previous_rolls = {}
 --     end)
 
 -- net.Receive("roulette.roll",function()
---         roulette_number = net.ReadFloat()
+--         roulette_number = net.ReadDouble()
 --         ang = 0
 --         toang = (360 * 30) + getangle(roulette_number)
 --         doing = true
@@ -1436,7 +1436,7 @@ local previous_rolls = {}
 local ang = 0
 local toang = 0
 net.Receive("roulette.roll",function()
-	roulette_number = net.ReadFloat()
+	roulette_number = net.ReadDouble()
 	ang = 0
 	toang = (360 * 30) + getangle(roulette_number)
 	doing = true
@@ -1532,9 +1532,9 @@ function m_DrawRoulettePanel()
 
     end
     net.Receive("roulette.SyncMe",function()
-        roulette_nextroll = net.ReadFloat()
+        roulette_nextroll = net.ReadDouble()
         local spinning = net.ReadBool()
-        roulette_number = net.ReadFloat()
+        roulette_number = net.ReadDouble()
         if spinning then
             ang = 0
             toang = (360 * 30) + getangle(roulette_number)
@@ -1573,7 +1573,7 @@ function m_DrawRoulettePanel()
         local txt = s:GetValue()
         local amt = string.len(txt)
 
-        if (amt > s.MaxChars) then
+        if (amt > s.MaxChars or string.EndsWith(tostring(txt), ".") or (string.sub(tostring(txt), 1, 1) == "0" and #tostring(txt) > 1) or string.EndsWith(tostring(txt), "-")) then
             if (s.OldText == nil) then
                 s:SetText("")
                 s:SetValue("")
@@ -1597,7 +1597,7 @@ function m_DrawRoulettePanel()
     MOAT_DICE_BET.OnEnter = function(s)
         if (s:GetText() == "") then s:SetText("0") end
         
-        MOAT_GAMBLE.RouletteAmount = math.Clamp(math.Round(tonumber(s:GetText() or 0), 2), 0.05, MOAT_GAMBLE.RouletteMax)
+        MOAT_GAMBLE.RouletteAmount = math.Clamp(math.Round(tonumber(s:GetText() or 0), 2), 1, MOAT_GAMBLE.RouletteMax)
     end
     MOAT_DICE_BET.OnLoseFocus = function(s)
         s:OnEnter()
@@ -1640,7 +1640,7 @@ function m_DrawRoulettePanel()
         draw.SimpleText("1/2", "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
     BTN2.DoClick = function(s, w, h)
-        MOAT_GAMBLE.RouletteAmount = math.max(MOAT_GAMBLE.RouletteAmount / 2, 0.05)
+        MOAT_GAMBLE.RouletteAmount = math.max(MOAT_GAMBLE.RouletteAmount / 2, 1)
     end
 
     local BTN2 = vgui.Create("DButton", bg)
@@ -1660,7 +1660,7 @@ function m_DrawRoulettePanel()
         draw.SimpleText("Min", "Trebuchet18", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
     BTN2.DoClick = function(s, w, h)
-        MOAT_GAMBLE.RouletteAmount = 0.05
+        MOAT_GAMBLE.RouletteAmount = 1
     end
 
     local BTN2 = vgui.Create("DButton", bg)
@@ -1680,7 +1680,7 @@ function m_DrawRoulettePanel()
         draw.SimpleText("Max", "Trebuchet18", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
     BTN2.DoClick = function(s, w, h)
-        MOAT_GAMBLE.RouletteAmount = math.Clamp(MOAT_INVENTORY_CREDITS, 0.05, 5000)
+        MOAT_GAMBLE.RouletteAmount = math.Clamp(MOAT_INVENTORY_CREDITS, 1, 5000)
     end
 
     local moat_roulette_place = vgui.Create("DButton",bg)
@@ -1709,7 +1709,7 @@ function m_DrawRoulettePanel()
     function moat_roulette_place:DoClick()
         net.Start("roulette.bet")
         net.WriteInt(1,8)
-        net.WriteFloat(MOAT_GAMBLE.RouletteAmount)
+        net.WriteDouble(MOAT_GAMBLE.RouletteAmount)
         net.SendToServer()
     end
 
@@ -1738,7 +1738,7 @@ function m_DrawRoulettePanel()
     function moat_roulette_place:DoClick()
         net.Start("roulette.bet")
         net.WriteInt(0,8)
-        net.WriteFloat(MOAT_GAMBLE.RouletteAmount)
+        net.WriteDouble(MOAT_GAMBLE.RouletteAmount)
         net.SendToServer()
     end
 
@@ -1768,7 +1768,7 @@ function m_DrawRoulettePanel()
     function moat_roulette_place:DoClick()
         net.Start("roulette.bet")
         net.WriteInt(2,8)
-        net.WriteFloat(MOAT_GAMBLE.RouletteAmount)
+        net.WriteDouble(MOAT_GAMBLE.RouletteAmount)
         net.SendToServer()
     end
 
@@ -1982,7 +1982,7 @@ function m_DrawRoulettePanel()
     net.Receive("roulette.player",function()
         local ply = net.ReadEntity()
         local n = net.ReadInt(8)
-        local am = net.ReadFloat()
+        local am = net.ReadDouble()
         if ply == LocalPlayer() then
             if n == 0 then MOAT_GAMBLE.GreenAmount = am end
             if n == 1 then MOAT_GAMBLE.RedAmount = am end
@@ -2057,10 +2057,10 @@ net.Receive("crash.player",function()
 		crash_waitingfor = false
 	end
 	if not e then
-		crash_players[ply] = {0,net.ReadFloat()}
+		crash_players[ply] = {0,net.ReadDouble()}
 	else
 		if ply == LocalPlayer() then crash_inside = false end
-		crash_players[ply] = {1,net.ReadFloat()}
+		crash_players[ply] = {1,net.ReadDouble()}
 	end
 end)
 
@@ -2069,12 +2069,12 @@ net.Receive("crash.syncme", function()
 	crash_load = true
 	crash_crashing = net.ReadBool()
 	if crash_crashing then
-		crash_number = net.ReadFloat()
+		crash_number = net.ReadDouble()
 		crash_startcrash = CurTime()
 		crash_startnumber = crash_number
 	else
-		crash_number = net.ReadFloat()
-		crash_nextcrash = net.ReadFloat()
+		crash_number = net.ReadDouble()
+		crash_nextcrash = net.ReadDouble()
 	end
 	crash_number = round(crash_number)
 end)
@@ -2082,7 +2082,7 @@ end)
 net.Receive("crash.finish",function()
 	crash_inside = false
 	crash_crashing = false
-	crash_number = round(net.ReadFloat())
+	crash_number = round(net.ReadDouble())
 	crash_nextcrash = CurTime() + crash_delay
 	table.insert(crash_games,1,crash_number)
 	crash_waitingfor = true
@@ -2328,17 +2328,17 @@ end)
 -- 			crash_waitingfor = false
 -- 		end
 -- 		if not e then
--- 			crash_players[ply] = {0,net.ReadFloat()}
+-- 			crash_players[ply] = {0,net.ReadDouble()}
 -- 		else
 -- 			if ply == LocalPlayer() then crash_inside = false end
--- 			crash_players[ply] = {1,net.ReadFloat()}
+-- 			crash_players[ply] = {1,net.ReadDouble()}
 -- 		end
 -- 		updatelist()
 -- 	end)	
 -- 	net.Receive("crash.finish",function()
 -- 		crash_inside = false
 -- 		crash_crashing = false
--- 		crash_number = round(net.ReadFloat())
+-- 		crash_number = round(net.ReadDouble())
 -- 		crash_nextcrash = CurTime() + crash_delay
 -- 		table.insert(crash_games,1,crash_number)
 -- 		for k,v in pairs(crash_players) do
@@ -2528,7 +2528,7 @@ end)
 -- 	MOAT_DICE_ROLL.DoClick = function(s)
 -- 		if not crash_crashing then
 -- 			net.Start("crash.bet")
--- 			net.WriteFloat(MOAT_GAMBLE.CrashAmount)
+-- 			net.WriteDouble(MOAT_GAMBLE.CrashAmount)
 -- 			net.SendToServer()
 -- 		elseif crash_crashing and crash_inside then
 -- 			net.Start("crash.getout")
@@ -2809,7 +2809,7 @@ function m_DrawCrashPanel()
         local txt = s:GetValue()
         local amt = string.len(txt)
 
-        if (amt > s.MaxChars) then
+        if (amt > s.MaxChars or string.EndsWith(tostring(txt), ".") or (string.sub(tostring(txt), 1, 1) == "0" and #tostring(txt) > 1) or string.EndsWith(tostring(txt), "-")) then
             if (s.OldText == nil) then
                 s:SetText("")
                 s:SetValue("")
@@ -3567,7 +3567,7 @@ function m_DrawBlackjackPanel()
         local txt = s:GetValue()
         local amt = string.len(txt)
 
-        if (amt > s.MaxChars) then
+        if (amt > s.MaxChars or string.EndsWith(tostring(txt), ".") or (string.sub(tostring(txt), 1, 1) == "0" and #tostring(txt) > 1) or string.EndsWith(tostring(txt), "-")) then
             if (s.OldText == nil) then
                 s:SetText("")
                 s:SetValue("")
@@ -4115,7 +4115,7 @@ function m_DrawBlackjackPanel()
 		MOAT_GAMBLE.BlackDealing = true
 
 		net.Start("MOAT_GAMBLE_BLACK")
-		net.WriteFloat(MOAT_GAMBLE.BlackBetAmount)
+		net.WriteDouble(MOAT_GAMBLE.BlackBetAmount)
 		net.SendToServer()
 	end*/
 end
@@ -4143,7 +4143,7 @@ net.Receive("MOAT_GAMBLE_BLACKOVER", function(len, ply)
 	else
 		PlayMinesSound("boom")
 	end
-	local amt = net.ReadFloat()
+	local amt = net.ReadDouble()
 
 	MOAT_GAMBLE.BlackDealing = false
 
@@ -4297,7 +4297,7 @@ end)
 
 net.Receive("versus.CreateGame",function()
 	local ply = net.ReadEntity()
-	local amt = net.ReadFloat()
+	local amt = net.ReadDouble()
 	versus_players[ply] = {nil,amt}
 	
 	versusRebuild()
@@ -4351,7 +4351,7 @@ end)
 
 net.Receive("gversus.CreateGame",function()
 	local ply = net.ReadString()
-	local amt = net.ReadFloat()
+	local amt = net.ReadDouble()
 	gversus_players[ply] = {nil,amt}
 
 	versusRebuild()
@@ -5400,13 +5400,13 @@ function m_DrawVersusPanel()
 		if MOAT_GAMBLE.VersusAmount > (MOAT_INVENTORY_CREDITS * 0.25) then
 			Derma_Query("Are you sure you want to gamble more than 25% of your IC?\nNever gamble anything you can't afford to lose.", "Are you sure?", "Yes", function() 
 				net.Start("gversus.CreateGame")
-				net.WriteFloat(MOAT_GAMBLE.VersusAmount)
+				net.WriteDouble(MOAT_GAMBLE.VersusAmount)
 				net.SendToServer()
 				versus_seen_last = true
 			end, "No")
 		else
 			net.Start("gversus.CreateGame")
-			net.WriteFloat(MOAT_GAMBLE.VersusAmount)
+			net.WriteDouble(MOAT_GAMBLE.VersusAmount)
 			net.SendToServer()
 			versus_seen_last = true
 		end
@@ -5427,7 +5427,7 @@ function m_DrawVersusPanel()
         local txt = s:GetValue()
         local amt = string.len(txt)
 
-        if (amt > s.MaxChars) then
+        if (amt > s.MaxChars or string.EndsWith(tostring(txt), ".") or (string.sub(tostring(txt), 1, 1) == "0" and #tostring(txt) > 1) or string.EndsWith(tostring(txt), "-")) then
             if (s.OldText == nil) then
                 s:SetText("")
                 s:SetValue("")
@@ -5594,7 +5594,7 @@ end)
 net.Receive("Moat.JackpotWin",function()
 	if (not GetConVar("moat_chatjackpot"):GetBool()) then return end
 
-	chat.AddText(Color(255,255,255),"[",Color(255,255,0),"JACKPOT",Color(255,255,255),"] ",Color(255,0,0),net.ReadString(),Color(255,255,255), " just won ",Color(255,255,0),string.Comma(net.ReadInt(32)) .. " IC",Color(255,255,255)," (" .. math.Round(net.ReadFloat(),2) .. "%) in jackpot!")
+	chat.AddText(Color(255,255,255),"[",Color(255,255,0),"JACKPOT",Color(255,255,255),"] ",Color(255,0,0),net.ReadString(),Color(255,255,255), " just won ",Color(255,255,0),string.Comma(net.ReadInt(32)) .. " IC",Color(255,255,255)," (" .. math.Round(net.ReadDouble(),2) .. "%) in jackpot!")
 end)
 
 net.Receive("Moat.PlanetaryDrop",function()

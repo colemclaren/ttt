@@ -167,20 +167,20 @@ function m_GambleRollDice(ply, amt, bet, under)
     net.Start("MOAT_GAMBLE_DICE")
     net.WriteBool(true)
     net.WriteBool(won)
-    net.WriteFloat(math.Round(random_num, 2))
+    net.WriteDouble(math.Round(random_num, 2))
     local amt_float = amt
     if (won) then
         amt_float = math.Round((amt * multiplier) - amt, 2)
     end
-    net.WriteFloat(amt_float)
+    net.WriteDouble(amt_float)
     net.Send(ply)
 end
 
 net.Receive("MOAT_GAMBLE_DICE", function(len, ply)
 	if (gamble_net_spam(ply, "MOAT_GAMBLE_DICE")) then return end
 
-    local amt = net.ReadFloat()
-    local bet = net.ReadFloat()
+    local amt = net.ReadDouble()
+    local bet = net.ReadDouble()
     local under = net.ReadBool()
 
     if (not ply:m_HasIC(amt)) then
@@ -238,7 +238,7 @@ function m_GambleBlackjackDraw(ply)
 
     net.Start("MOAT_GAMBLE_BLACKOVER")
     net.WriteUInt(3, 2)
-    net.WriteFloat(amt)
+    net.WriteDouble(amt)
     net.Send(ply)
 
     MOAT_BLACK_GAMES[ply:SteamID()] = nil
@@ -263,7 +263,7 @@ function m_GambleBlackjackWon(ply, blackjack)
 
     net.Start("MOAT_GAMBLE_BLACKOVER")
     net.WriteUInt(2, 2)
-    net.WriteFloat(won_amt)
+    net.WriteDouble(won_amt)
     net.Send(ply)
 
     MOAT_BLACK_GAMES[ply:SteamID()] = nil
@@ -274,7 +274,7 @@ function m_GambleBlackjackLoss(ply)
 
     net.Start("MOAT_GAMBLE_BLACKOVER")
     net.WriteUInt(1, 2)
-    net.WriteFloat(amt)
+    net.WriteDouble(amt)
     net.Send(ply)
 
     MOAT_BLACK_GAMES[ply:SteamID()] = nil
@@ -560,7 +560,7 @@ net.Receive("roulette.bet",function(l,ply)
     local num = net.ReadInt(8)
     -- 0 for green, 1 for red, 2 for black
     if num > 2 or num < 0 then return end
-    local amount = net.ReadFloat()
+    local amount = net.ReadDouble()
     if (GetGlobal("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
     if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
     if (gamble_net_spam(ply, "roulette.bet")) then return end
@@ -576,16 +576,16 @@ net.Receive("roulette.bet",function(l,ply)
     net.Start("roulette.player")
     net.WriteEntity(ply)
     net.WriteInt(num,8)
-    net.WriteFloat(amount)
+    net.WriteDouble(amount)
     net.Broadcast()
     ----print(ply,"placed",amount,"ic on",num)
 end)
 
 net.Receive("roulette.SyncMe", function(l,ply)
     net.Start("roulette.SyncMe")
-    net.WriteFloat(roulette_nextroll)
+    net.WriteDouble(roulette_nextroll)
     net.WriteBool(roulette_rolling)
-    net.WriteFloat(roulette_number)
+    net.WriteDouble(roulette_number)
     net.Send(ply)
     ----print("Synced",ply,roulette_nextroll)
 end)
@@ -601,7 +601,7 @@ hook.Add("Think","Roulette think",function()
         roulette_rolltime = CurTime() + spin_duration
         roulette_nextroll = CurTime() + spin_duration + roulette_spinterval
         net.Start("roulette.roll")
-        net.WriteFloat(roulette_number)
+        net.WriteDouble(roulette_number)
         net.Broadcast()
         ----print("started rolling,",roulette_number)
     elseif roulette_rolltime < CurTime() and roulette_rolling then
@@ -674,22 +674,22 @@ net.Receive("crash.syncme",function(l,ply)
     if crash_crashing then
         net.Start("crash.syncme")
         net.WriteBool(true)
-        net.WriteFloat(crash_number)
+        net.WriteDouble(crash_number)
         net.Send(ply)
     else
         net.Start("crash.syncme")
         net.WriteBool(false)
-        net.WriteFloat(crash_tocrash)
-        net.WriteFloat(crash_nextcrash)
+        net.WriteDouble(crash_tocrash)
+        net.WriteDouble(crash_nextcrash)
         net.Send(ply)
     end
 end)
 
 net.Receive("crash.bet", function(l,ply)
     if crash_crashing then return end
-    local amount = net.ReadFloat()
+    local amount = net.ReadDouble()
     if (GetGlobal("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use crash. Map is changing soon, don't want you to lose IC!") return end
-    if amount < 0.05 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
+    if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
     if (gamble_net_spam(ply, "crash.bet")) then return end
 
 	if crash_players[ply] then  
@@ -703,7 +703,7 @@ net.Receive("crash.bet", function(l,ply)
     net.Start("crash.player")
     net.WriteEntity(ply)
     net.WriteBool(false)
-    net.WriteFloat(amount)
+    net.WriteDouble(amount)
     net.Broadcast()
 end)--sd
 
@@ -722,7 +722,7 @@ net.Receive("crash.getout", function(l,ply)
     net.Start("crash.player")
     net.WriteEntity(ply)
     net.WriteBool(true)
-    net.WriteFloat(a)
+    net.WriteDouble(a)
     net.Broadcast()
 end)
 
@@ -745,7 +745,7 @@ end)
 --             crash_crashing = false
 --             --print("crashed @ " .. crash_tocrash .. "x")
 --             net.Start("crash.finish")
---             net.WriteFloat(crash_tocrash)
+--             net.WriteDouble(crash_tocrash)
 --             net.Broadcast()
 --         end
 --     end
@@ -780,13 +780,13 @@ net.Receive("versus.CreateGame",function(l,ply)
     if versus_players[ply] then return end
 	if (gamble_net_spam(ply, "versus.CreateGame")) then return end
 
-    local amount = round(net.ReadFloat())
+    local amount = round(net.ReadDouble())
     if (GetGlobal("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
     if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
     versus_players[ply] = {nil,amount}
     net.Start("versus.CreateGame")
     net.WriteEntity(ply)
-    net.WriteFloat(amount)
+    net.WriteDouble(amount)
     net.Broadcast()
 end)
 
@@ -1154,7 +1154,7 @@ function jackpot_()
             if tonumber(versus_curgames[sid][1]) ~= tonumber(d.money) then
                 net.Start("gversus.CreateGame")
                 net.WriteString(sid)
-                net.WriteFloat(d.money)
+                net.WriteDouble(d.money)
                 net.InvsBroadcast(sid, ply)
                 versus_curgames[sid][1] = d.money
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "That game changed amount!")
@@ -1313,12 +1313,12 @@ function jackpot_()
         versus_joins[sid] = true
         versus_joingame(ply,sid)
     end)
-    
+
     net.Receive("gversus.CreateGame",function(l,ply)
         if ply.VersusCreateCool then return end
         ply.VersusCreateCool = true 
         if (gamble_net_spam(ply, "gversus.CreateGame")) then ply.VersusCreateCool = false return end						
-        local amount = math.floor(net.ReadFloat())
+        local amount = math.floor(net.ReadDouble())
 
         if amount < 1 or not ply:m_HasIC(amount) then
             m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
@@ -1364,7 +1364,7 @@ function jackpot_()
                 versus_curgames[id][1] = amount
                 net.Start("gversus.CreateGame")
                 net.WriteString(id)
-                net.WriteFloat(amount)
+                net.WriteDouble(amount)
 				net.InvsBroadcast(id, ply)
             end)
         end)
@@ -1469,7 +1469,7 @@ function jackpot_()
                     if (tonumber(versus_curgames[v.steamid][1]) ~= tonumber(v.money)) and (not v.winner) then
                         net.Start("gversus.CreateGame")
                         net.WriteString(v.steamid)
-                        net.WriteFloat(v.money)
+                        net.WriteDouble(v.money)
                         net.InvsBroadcast(v.steamid)
                         versus_curgames[v.steamid][1] = v.money
                     end
@@ -1480,7 +1480,7 @@ function jackpot_()
                     versus_curgames[v.steamid][1] = v.money
                     net.Start("gversus.CreateGame")
                     net.WriteString(v.steamid)
-                    net.WriteFloat(v.money)
+                    net.WriteDouble(v.money)
                     net.InvsBroadcast(v.steamid)
                 end
                 if not v.winner then continue end
@@ -2086,7 +2086,7 @@ local function chat_()
                     net.Start("Moat.JackpotWin")
                     net.WriteString(t[1])
                     net.WriteInt(t[2],32)
-                    net.WriteFloat(t[3])
+                    net.WriteUInt(t[3], 32)
                     net.Broadcast()
                 elseif tostring(v.steamid) == "-420" then
                     local t = string.Explode("{420}",v.msg)

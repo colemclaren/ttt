@@ -22,7 +22,7 @@ function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
 
     if (talent_name ~= "random") then
         for k, v in pairs(MOAT_TALENTS) do
-            if (talent_name == v.Name) then
+            if (string.lower(talent_name) == string.lower(v.Name)) then
                 talent_tbl = table.Copy(v)
                 break
             end
@@ -196,7 +196,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                         weapon_class_found = v.ClassName
                     end
 
-                    if (v.ClassName == cmd_class) then
+                    if (string.lower(v.ClassName) == string.lower(cmd_class)) then
                         weapon_class_found = v.ClassName
                         break
                     end
