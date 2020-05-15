@@ -33,5 +33,10 @@ MAP_BLACKLIST = {
 	["ttt_complex67"] = true,
 	["ttt_outset_island"] = true,
 	["ttt_mc_slenderman"] = true,
-	["ttt_community_pool_2017_b10"] = true
+	["ttt_community_pool_2017_b10"] = true,
+	["ttt_mc_slenderman_r"] = true,
+	["ttt_hazard"] = true,
+	["ttt_community_pool_overhaul_b3"] = true,
+	["ttt_mc_skylandv5"] = true,
+	["ttt_mc_street_v1"] = true
 }
