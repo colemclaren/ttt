@@ -38,5 +38,9 @@ MAP_BLACKLIST = {
 	["ttt_hazard"] = true,
 	["ttt_community_pool_overhaul_b3"] = true,
 	["ttt_mc_skylandv5"] = true,
-	["ttt_mc_street_v1"] = true
+	["ttt_mc_street_v1"] = true,
+	['ttt_office_space'] = true,
+	['ttt_mcmansion_v5'] = true,
+	['ttt_mc_ice'] = true,
+	['ttt_skyscraper'] = true
 }

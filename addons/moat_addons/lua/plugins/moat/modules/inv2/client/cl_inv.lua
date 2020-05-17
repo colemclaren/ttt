@@ -5226,7 +5226,7 @@ function m_DrawTradeRequest(ply)
     M_REQ_AVAB.Paint = nil
 	sfx.SoundEffects(M_REQ_AVAB)
     M_REQ_AVAB.DoClick = function(s)
-        gui.OpenURL("http://steamcommunity.com/profiles/" .. ply:SteamID64())
+        gui.OpenURL("https://moat.gg/profile/" .. ply:SteamID64())
     end
 
     local M_REQ_NICK = vgui.Create("DLabel", MOAT_REQ_BG)

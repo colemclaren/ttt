@@ -135,15 +135,11 @@ local function moat_TTTScoreboardMenu(menu)
 	end
 
 	MenuAdd("Profile", "icon16/vcard.png", function(p)
+		gui.OpenURL('https://moat.gg/profile/'..p:SteamID64())
+	end)
+
+	MenuAdd("Profile Card", "icon16/joystick.png", function(p)
 		open_profile_card(p:SteamID64())
-	end)
-
-	MenuAdd("Steam", "icon16/joystick.png", function(p)
-		p:ShowProfile()
-	end)
-
-	MenuAdd("Message", "icon16/user_comment.png", function(p)
-		OpenMGAMenu("PM", p)
 	end)
 
 	MenuAdd("Trade Request", "icon16/world.png", function(p)
@@ -151,6 +147,10 @@ local function moat_TTTScoreboardMenu(menu)
         net.WriteDouble(p:EntIndex())
         net.SendToServer()
         surface.PlaySound("UI/buttonclick.wav")
+	end)
+
+	MenuAdd("Message", "icon16/user_comment.png", function(p)
+		OpenMGAMenu("PM", p)
 	end)
 
 
