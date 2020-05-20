@@ -1115,7 +1115,6 @@ function chat.AddText(...)
     end
 
     local TextTableNum, OnPlayerChatBlocked, Safe, Sender = #TextTable, false, true
-	PrintTable(TextTable)
 
     for i = 1, TextTableNum do
         local t = type(TextTable[i])
