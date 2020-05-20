@@ -559,6 +559,7 @@ L.target_disg = " (DISFRAZ)"
 L.target_unid = "Cuerpo sin identificar"
 L.target_traitor = "TRAIDOR ALIADO"
 L.target_detective = "DETECTIVE"
+L.target_jester = "AVOID JESTER"
 L.target_credits = "Busca para recibir créditos no usados"
 -- Traitor buttons (HUD buttons with hand icons that only traitors can see)
 L.tbut_single = "Un solo uso"

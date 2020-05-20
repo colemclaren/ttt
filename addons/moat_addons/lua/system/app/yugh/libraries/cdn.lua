@@ -39,7 +39,7 @@ cdn.Folder = "ttt/cache"
 function cdn.Fetch(key, folder, ext, cache, write, callback)
 	local hashy = util.CRC(key)
 	local object = cdn.Folder .. "/" .. folder .. "/" .. hashy .. ext
-	
+
 	if (file.Exists(object, "DATA")) then
 		cdn.Cache[key] = cache and cache(object) or ("data/" .. object)
 
@@ -171,7 +171,7 @@ else
 			cb = nil 
 		end
 
-		if (cdn.Cache[key] == nil) then
+		if (not IsValid(cdn.Cache[key])) then
 			return cdn.Fetch(key, "materials", key:match"(%.[^%.]+)$", function(object)
 				return (not key:match "vtf$") and Material("../data/" .. object, (type(cb) == "string") and cb or params) or "../data/" .. object
 			end, function(object, data)

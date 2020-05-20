@@ -524,6 +524,7 @@ L.target_disg = " (GETARNT)"
 L.target_unid = "Unidentifizierter Körper"
 L.target_traitor = "VERRÄTER KOLLEGE"
 L.target_detective = "DETEKTIV"
+L.target_jester = "AVOID JESTER"
 L.target_credits = "Durchsuche, um ungenutzte Credits zu erhalten."
 -- Traitor buttons (HUD buttons with hand icons that only traitors can see)
 L.tbut_single = "Einmaliger Gebrauch"

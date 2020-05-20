@@ -571,6 +571,7 @@ L.target_disg = " (FÖRKLÄDD)"
 L.target_unid = "Oidentifierad kropp"
 L.target_traitor = "FÖRRÄDARKAMRAT"
 L.target_detective = "DETEKTIV"
+L.target_jester = "AVOID JESTER"
 L.target_credits = "Sök igenom för att erhålla ospenderade krediter"
 -- Traitor buttons (HUD buttons with hand icons that only traitors can see)
 L.tbut_single = "Engångsanvändning"

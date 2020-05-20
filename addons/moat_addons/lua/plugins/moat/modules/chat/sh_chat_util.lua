@@ -69,9 +69,8 @@ local bait = {
 }
 
 function BannedWordList(data)
-	if (not data) then print("nolist.txt") return end
+	if (not data) then return end
 	if (type(data) == "string" and (string.match(data, ".txt$") or string.match(data, "^data/"))) then
-		print("read", data)
 		return BannedWordList(file.Read(string.TrimLeft(data, 'data/'), "DATA"))
 	end
 
@@ -86,8 +85,6 @@ function BannedWordList(data)
 			BANNED_WORD.List[v.bad] = v.safe
 		end
 	end
-
-	print("list.txt", data)
 end
 
 if (SERVER) then
@@ -153,7 +150,6 @@ else
 
 	hook("HTTPLoaded", function()
 		local data = cdn.Data("https://cdn.moat.gg/ttt/banned_words.txt", BannedWordList)
-		print("list.txt", data)
 		if (data) then
 			BannedWordList(data)
 		end

@@ -535,6 +535,7 @@ L.target_disg = " (ЗАМАСКИРОВАН)"
 L.target_unid = "Неопределенное Тело"
 L.target_traitor = "ТОВАРИЩ ПРЕДАТЕЛЯ"
 L.target_detective = "ДЕТЕКТИВ"
+L.target_jester = "AVOID JESTER"
 L.target_credits = "Обыщите для взятия непотраченных кредитов"
 -- Traitor buttons (HUD buttons with hand icons that only traitors can see)
 L.tbut_single = "Одно использование"

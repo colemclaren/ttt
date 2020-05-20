@@ -493,6 +493,7 @@ L.target_disg = " （偽裝狀態） "
 L.target_unid = "未確認的屍體 "
 L.target_traitor = "叛徒同夥 "
 L.target_detective = "探長 "
+L.target_jester = "AVOID JESTER"
 L.target_credits = "搜索屍體以獲取未被消耗的信用點數 "
 -- Traitor buttons (HUD buttons with hand icons that only traitors can see)
 L.tbut_single = "單獨使用 "

@@ -441,6 +441,7 @@ L.target_disg = " (DISGUISED)"
 L.target_unid = "Unidentified body"
 L.target_traitor = "FELLOW TRAITOR"
 L.target_detective = "DETECTIVE"
+L.target_jester = "AVOID JESTER"
 L.target_credits = "Search to receive unspent credits"
 -- Traitor buttons (HUD buttons with hand icons that only traitors can see)
 L.tbut_single = "Single use"
