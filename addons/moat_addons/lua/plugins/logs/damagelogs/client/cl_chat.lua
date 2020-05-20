@@ -374,6 +374,16 @@ net.Receive("M_DL_BroadcastMessage", function()
 	local ply = net.ReadEntity()
 	local color = net.ReadColor()
 	local message = net.ReadString()
+
+	local safe, str = FamilyFriendly(message, ply)
+	if (safe) then
+		message = safe
+	elseif (IsValid(LocalPlayer()) and IsValid(ply) and ply == LocalPlayer()) then
+		message = str
+	else
+		return
+	end
+
 	if not id or not IsValid(ply) or not color or not message then return end
 	for k,v in pairs(Damagelog.CurrentChats) do
 		if v.RID == id then

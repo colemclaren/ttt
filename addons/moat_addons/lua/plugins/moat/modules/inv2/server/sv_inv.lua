@@ -1010,8 +1010,6 @@ net.Receive("MOAT_TRADE_MESSAGE", function(len, ply)
     local trade_id = net.ReadDouble()
     local message = net.ReadString()
 
-	message = FamilyFriendly(message, ply)
-
     local t = MOAT_TRADES[trade_id]
     if (not t) then return end
     if (not t.ChatLog) then t.ChatLog = {} end
@@ -1933,7 +1931,7 @@ end
 
 hook.Add("PlayerSay", "moat_ReplaceChatLinks", function(ply, text, public)
     if (containsItemLink(text)) then
-        initiateItemMessage(ply, FamilyFriendly(text, ply), public)
+		initiateItemMessage(ply, text, public)
 
         return ""
     end

@@ -68,6 +68,13 @@ local function BuildReportFrame(report)
 			Info:SetText(report.victim_nick.. " reported you"..(current and (" after the round "..(report.round or "?")) or " on the previous map "))
 			Info:SetInfoColor("blue")
 			PanelList:AddItem(Info)
+			
+			local safe = FamilyFriendly(report.message, LocalPlayer())
+			if (safe) then
+				report.message = safe
+			else
+				report.message = ""
+			end
 
 			local MessageEntry = vgui.Create("DTextEntry", self)
 			MessageEntry:SetMultiline(true)
@@ -359,6 +366,13 @@ net.Receive("M_DL_SendForgive", function()
 	local index = net.ReadUInt(16)
 	local nick = net.ReadString()
 	local text = net.ReadString()
+	local safe = FamilyFriendly(text, LocalPlayer())
+	if (safe) then
+		text = safe
+	else
+		text = ""
+	end
+
 	local answer = vgui.Create("DFrame")
 	answer:ShowCloseButton(false)
 	answer:SetSize(400, 275)

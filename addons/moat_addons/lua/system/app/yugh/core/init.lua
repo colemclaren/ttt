@@ -36,6 +36,7 @@ local includes = {{
 	"system/app/yugh/libraries/hash.lua",
 	"system/app/yugh/libraries/lang.lua",
 	"system/app/yugh/libraries/usermessage.lua",
+	"system/app/yugh/libraries/bon.lua",
 }, {
 	"system/app/yugh/extensions/client/derma.lua",
 	"system/app/yugh/extensions/client/globals.lua",

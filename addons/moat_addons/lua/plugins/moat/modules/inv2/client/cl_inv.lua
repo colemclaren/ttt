@@ -5639,6 +5639,14 @@ net.Receive("MOAT_TRADE_MESSAGE", function(len)
     local tid = net.ReadDouble()
     local plyid = net.ReadDouble()
 	if (not IsValid(Entity(plyid))) then return end
+	local safe = FamilyFriendly(msg, LocalPlayer())
+	if (safe) then
+		msg = safe
+	elseif (IsValid(LocalPlayer()) and IsValid(Entity(plyid)) and Entity(plyid) == LocalPlayer()) then
+		msg = msg
+	else
+		return
+	end
 
     if (m_utrade == tid) then
         m_AddTradeChatMessage(msg, Entity(plyid))

@@ -2,7 +2,6 @@
 local timer_Create = timer.Create
 local timer_Remove = timer.Remove
 local timer_Simple = timer.Simple
-local hook_Run = hook.Run
 local Loaded = http.Loaded
 local Haste = http.Haste
 local Struct = http.Structure
@@ -46,7 +45,7 @@ end
 local function HTTPInit(msg)
 	http.Loaded = true
 	Loaded = true
-	hook_Run "HTTPLoaded"
+	hook.Run "HTTPLoaded"
 	-- MsgC(Color(255, 255, 255), "HTTP Initialized\n")
 end
 

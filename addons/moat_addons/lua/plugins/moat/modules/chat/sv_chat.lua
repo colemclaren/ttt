@@ -99,7 +99,7 @@ local bait = {
 	'{target} was a fookin\' legend in Gin Alley, but here he\'s just another brick in the wall.',
 	'-6 x 6 x 6 = 0, and swearing + bad at this game + 12 = {target}.'
 }
-
+-- 	
 local strs = string.Trim(file.Read("banned_words_list.txt", "DATA"))
 mylist = bON.deserialize(strs)
 replacements = {}
@@ -128,32 +128,31 @@ function FamilyFriendly(str, pl)
 		baited = string.gsub(bait[math.random(1, #bait)], '{target}', pl:Nick())
 	end
 
-	str = str:gsub('​', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub('⠀', '')
+	local lower = str:gsub('​', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub(' ', ''):gsub('⠀', '')
 
 	if (not replacements['xxx']) then
 		mylist = bON.deserialize(string.Trim(file.Read("banned_words_list.txt", "DATA")))
 		replacements = {}
 		for k, v in ipairs(mylist) do
-			if (not v.safe or not next(v.safe)) then
-				replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
-			elseif (v.safe) then
-				replacements[v.bad] = v.safe
+			if (not v.safe or (v.safe and istable(v.safe) and not v.safe[1])) then
+				replacements[v.bad] = string.rep('*', string.len(v.bad))
 			else
-				replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
+				replacements[v.bad] = v.safe
 			end
 
 			-- combinations("", v.bad, v.bad)
 		end
 	end
 
-	str = string.lower(str)
 	local swore = 0
-	local new = string.gsub(str, '%w+', function(s)
-		if (replacements[s]) then
+	local new = string.gsub(lower, '%w+', function(s)
+		local l = string.lower(s)
+
+		if (replacements[l]) then
 			swore = swore + 1
 		end
 
-		return replacements[s] and replacements[s][math.random(1, #replacements[s])] or replacements[s]
+		return istable(replacements[l]) and replacements[l][math.random(1, #replacements[l])] or replacements[l] or s
 	end)
 
 	if (swore == 0 and baited) then
@@ -167,7 +166,7 @@ function FamilyFriendly(str, pl)
 		end
 	end
 
-	return new
+	return swore > 0 and new or str
 end
 
 
@@ -176,12 +175,10 @@ function LoadFilter()
 	mylist = bON.deserialize(strs)
 	replacements = {}
 	for k, v in ipairs(mylist) do
-		if (not next(v.safe)) then
-			replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
-		elseif (v.safe) then
-			replacements[v.bad] = v.safe
+		if (not v.safe or (v.safe and istable(v.safe) and not v.safe[1])) then
+			replacements[v.bad] = string.rep('*', string.len(v.bad))
 		else
-			replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
+			replacements[v.bad] = v.safe
 		end
 
 		-- combinations("", v.bad, v.bad)
@@ -194,12 +191,10 @@ if (str == "fuck me") then
 	mylist = bON.deserialize(strs)
 	replacements = {}
 	for k, v in ipairs(mylist) do
-		if (not next(v.safe)) then
-			replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
-		elseif (v.safe) then
-			replacements[v.bad] = v.safe
+		if (not v.safe or (v.safe and istable(v.safe) and not v.safe[1])) then
+			replacements[v.bad] = string.rep('*', string.len(v.bad))
 		else
-			replacements[v.bad] = string.rep('❤︎', string.len(v.bad))
+			replacements[v.bad] = v.safe
 		end
 
 		-- combinations("", v.bad, v.bad)

@@ -1114,16 +1114,21 @@ function chat.AddText(...)
         table.remove(TextTable, 1)
     end
 
-    local TextTableNum, OnPlayerChatBlocked = #TextTable, false
+    local TextTableNum, OnPlayerChatBlocked, Safe, Sender = #TextTable, false, true
+	PrintTable(TextTable)
 
     for i = 1, TextTableNum do
         local t = type(TextTable[i])
 
-        if t == "Player" then
-            if (IsValid(TextTable[i])) then
+        if (t == "Player") then
+			if (not Sender) then
+				Sender = TextTable[i]
+			end
+
+			if (IsValid(TextTable[i]) and IsValid(LocalPlayer())) then
                 local block = hook.Run("PrePlayerChat", TextTable[i])
 
-                if (block and isbool(block) and block == true) then
+                if (block and isbool(block) and block == true and TextTable[i] ~= LocalPlayer()) then
                     OnPlayerChatBlocked = true
                     break
                 end
@@ -1155,11 +1160,55 @@ function chat.AddText(...)
             else
                 TextTable[i] = "NULL"
             end
-        end
+		end
     end
 
-    if (OnPlayerChatBlocked) then return end
 
+    for i = 1, TextTableNum do
+		if (not IsValid(LocalPlayer()) or not IsValid(Sender)) then
+			break
+		end
+
+		local t = type(TextTable[i])
+
+		if (t == "string") then
+			local safe, str = FamilyFriendly(TextTable[i], Sender)
+			print(Sender, safe, str)
+
+			if (safe) then
+				TextTable[i] = safe
+			elseif (Sender == LocalPlayer()) then
+				TextTable[i] = str
+			else
+				Safe = false
+			end
+		elseif (t == "table") then
+			if (TextTable[i][1]) then
+				local safe, str = FamilyFriendly(TextTable[i][1], Sender)
+
+				if (safe) then
+					TextTable[i][1] = safe
+				elseif (Sender == LocalPlayer()) then
+					TextTable[i][1] = str
+				else
+					Safe = false
+				end
+			elseif (TextTable[i].Text) then
+				local safe, str = FamilyFriendly(TextTable[i].Text, Sender)
+
+				if (safe) then
+					TextTable[i].Text = safe
+				elseif (Sender == LocalPlayer()) then
+					TextTable[i].Text = str
+				else
+					Safe = false
+				end
+			end
+		end
+	end
+
+    if (OnPlayerChatBlocked or (not Safe)) then return end
+	
     return moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
 end
 
@@ -1185,6 +1234,7 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
                 text = TextTable[pos]["ItemName"] or "Scripted Weapon"
             end
 
+			text = FamilyFriendly(text)
             if (TextTable[pos].IgnoreEmoji) then
                 TextSize = surface_GetTextSize
             end
@@ -1208,7 +1258,7 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
             end
 
             if (not TextTable[pos]) then break end
-            local text = TextTable[pos]
+            local text, cap = TextTable[pos]
             local TextSize = emoji.GetTextSize
             local IgnoreEmoji = false
             local cur = TextTable[pos]
@@ -1221,11 +1271,21 @@ function moat_chat.AddText(TextTable, TextPosX, TextPosY, icon, TextTableNum)
 
                 if (cur.IsItem) then
                     text = cur["ItemName"] or "Scripted Weapon"
+
+					if (text[1] and string.match(text[1], '^%u')) then
+						cap = true 
+					end
                 elseif (cur.Text) then
                     text = cur.Text or "error"
                 else
                     text = cur[1]
                 end
+            end
+
+			text = FamilyFriendly(text)
+
+			if (istable(cur) and cur.IsItem and cap) then
+				text = string.Title(text)
             end
 
             if (not text) then break end

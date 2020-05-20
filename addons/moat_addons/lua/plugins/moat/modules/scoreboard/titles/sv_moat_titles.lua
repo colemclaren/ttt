@@ -90,7 +90,8 @@ function MOAT_TITLES.LoadTitle(ply, str, clr, chngr)
 		changer = chngr
 	}
 
-	ply:SetNW2String("MoatTitlesTitle", string.sub(FamilyFriendly(MOAT_TITLES.Players[ply].title, ply), 1, 32))
+	local safe = FamilyFriendly(MOAT_TITLES.Players[ply].title, ply)
+	ply:SetNW2String("MoatTitlesTitle", string.sub(safe or "", 1, 32))
 	ply:SetNW2Int("MoatTitlesTitleR", tonumber(colr[1]))
 	ply:SetNW2Int("MoatTitlesTitleG", tonumber(colr[2]))
 	ply:SetNW2Int("MoatTitlesTitleB", tonumber(colr[3]))
@@ -129,6 +130,12 @@ net.Receive("MoatTitlesChange", function(len, ply)
 	local title = net.ReadString()
 	local col = net.ReadColor()
 
+	local safe = FamilyFriendly(title, ply)
+	if (not safe) then
+		return
+	end
+
+
 	local titleprice = 15000
 	local otherply = player.GetBySteamID64(id)
 
@@ -154,8 +161,7 @@ net.Receive("MoatTitlesChange", function(len, ply)
         return
     end
 
-	local safe = FamilyFriendly(title, ply)
-	safe = string.sub(safe, 1, 32)
+	safe = string.sub(safe or "", 1, 32)
 
     MOAT_TITLES.UpdateTitle(ply, otherply, id, safe, col, titleprice)
 end)
@@ -170,7 +176,7 @@ function MOAT_TITLES.InitializePlayer(ply)
             local str = row["title"]
             if (#str > 1) then
 				local safe = FamilyFriendly(str, ply)
-				safe = string.sub(safe, 1, 32)
+				safe = string.sub(safe or "", 1, 32)
             	MOAT_TITLES.LoadTitle(ply, safe, row["color"], row["changerid"])
             end
         else

@@ -454,7 +454,10 @@ net.Receive("MOAT_GAMBLE_NEW_CHAT", function(len, ply)
 
     local text = net.ReadString()
 
-	text = FamilyFriendly(text, ply)
+	local safe = FamilyFriendly(text, ply)
+	if (not safe) then
+		return 
+	end
 
     local room = MOAT_GAMBLE_CATS[ply.MoatGambleCat or 1]
 
@@ -463,7 +466,7 @@ net.Receive("MOAT_GAMBLE_NEW_CHAT", function(len, ply)
 		room[2], room[1][1],
 		Color(255,255,255),"]", 
 		Color(0, 255, 0), ply:Nick(), 
-		Color(255, 255, 255), ": " .. text:Trim()
+		Color(255, 255, 255), ": " .. safe:Trim()
 	)
 end)
 
@@ -2029,7 +2032,10 @@ local function chat_()
         if (ply.gChat or 0) > CurTime() then return end
         local msg = net.ReadString():gsub("\n",""):sub(1,128)
 		if msg:len() < 1 then return end
-		msg = FamilyFriendly(msg, ply)
+		local safe = FamilyFriendly(msg, ply)
+		if (not safe) then
+			return 
+		end
 
         gglobalchat(ply,msg)
         perspective_post(ply:Nick(),"[Global Gamble] " .. ply:SteamID(),msg,ply)

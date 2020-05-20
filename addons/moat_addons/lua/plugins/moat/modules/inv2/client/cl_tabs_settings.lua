@@ -131,6 +131,7 @@ local DevMode = CreateClientConVar("moat_developer_mode", 0, true, true)
 local moat_Settings = {}
 moat_Settings.Options = {
     {"General",
+		{"Safe Messaging", {'Multi'}, 'moat_safety'},
         {"End Round Music", {"Multi"}, "moat_music"},
         {"End Round Music Volume", {"Slider", 0, 1}, "moat_music_volume"},
         {"FOV (75 to 110)", {"Slider", 0, 1}, "moat_clfov"},

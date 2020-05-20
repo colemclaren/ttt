@@ -41,12 +41,12 @@ function cdn.Fetch(key, folder, ext, cache, write, callback)
 	local object = cdn.Folder .. "/" .. folder .. "/" .. hashy .. ext
 	
 	if (file.Exists(object, "DATA")) then
-		cdn.Cache[key] = cache and cache(object) or "data/" .. object
+		cdn.Cache[key] = cache and cache(object) or ("data/" .. object)
 
 		return cdn.Cache[key]
 	elseif (file.Exists('moat_cache'..(ext=='.txt' and '/2/' or '/1/')..hashy..ext, "DATA")) then
 		object = 'moat_cache'..(ext=='.txt' and '/2/' or '/1/')..hashy..ext
-		cdn.Cache[key] = cache and cache(object) or "data/" .. object
+		cdn.Cache[key] = cache and cache(object) or ("data/" .. object)
 
 		return cdn.Cache[key]
 	elseif (not http or not http.Loaded) then
@@ -58,7 +58,7 @@ function cdn.Fetch(key, folder, ext, cache, write, callback)
 		cdn.Working = true
 
 		http.Fetch(key, function(data)
-			cdn.Cache[key] = cache and cache(object) or "data/" .. object
+			cdn.Cache[key] = cache and cache(object) or ("data/" .. object)
 
 			if (write) then
 				write(object, data, ext)
@@ -171,7 +171,7 @@ else
 			cb = nil 
 		end
 
-		if (not IsValid(cdn.Cache[key])) then
+		if (cdn.Cache[key] == nil) then
 			return cdn.Fetch(key, "materials", key:match"(%.[^%.]+)$", function(object)
 				return (not key:match "vtf$") and Material("../data/" .. object, (type(cb) == "string") and cb or params) or "../data/" .. object
 			end, function(object, data)
@@ -248,5 +248,18 @@ else
 				pnl.ModelPanel:SetVisible(true)
 			end
 		end)
+	end
+
+	function cdn.Data(key, cb)
+		if (cdn.Cache[key] == nil) then
+			return cdn.Fetch(key, "data", ".txt", function(object)
+				local data = file.Read(object, "DATA")
+				return data
+			end, function(object, data)
+				return file.Write(object, data)
+			end, cb)
+		end
+
+		return cdn.Cache[key]
 	end
 end
