@@ -93,7 +93,7 @@ local function IconForInfoType(t, data)
     local mat = TypeToMat[t]
 
 	if (t == "role" and data == ROLE_JESTER) then
-		return "https://moat.gg/assets/img/ttc/icon_jester.png"
+		return "https://cdn.moat.gg/assets/img/ttc/icon_jester.png"
 	end
 
     if type(mat) == "table" then
@@ -269,7 +269,7 @@ function PreprocSearch(raw)
 end
 
 local custom_tbl = {
-  ["https://moat.gg/assets/img/ttc/icon_jester.png"] = "https://moat.gg/assets/img/ttc/icon_jester.png"
+  ["https://cdn.moat.gg/assets/img/ttc/icon_jester.png"] = "https://cdn.moat.gg/assets/img/ttc/icon_jester.png"
 }
 
 -- Returns a function meant to override OnActivePanelChanged, which modifies
@@ -532,7 +532,16 @@ hook.Add("HUDPaint","Show Ragdoll Roles",function()
         local visible = util.PixelVisible( v[1]:GetPos(), 32, PixVis )
         if visible and visible ~= 0 then
             local mat = IconForInfoType("role",v[2])
-            if not matcache[mat] then matcache[mat] = Material(mat) end
+
+			if (mat and custom_tbl[mat]) then
+				matcache[mat] = cdn.Image(mat, nil, "noclamp")
+			elseif (mat) then
+            	if (not matcache[mat]) then
+					matcache[mat] = Material(mat)
+				end
+			end
+
+			if (not matcache[mat]) then return end
             local a = (CurTime() - v[3]) / (showtime)
             surface.SetDrawColor(255, 255, 255, 255 - (255 * a))
             surface.SetMaterial(matcache[mat])
