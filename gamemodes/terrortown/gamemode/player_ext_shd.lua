@@ -4,11 +4,11 @@ if not plymeta then return end
 local math = math
 
 function plymeta:IsTerror()
-    return self:Team() == TEAM_TERROR
+    return (self:Team() == TEAM_TERROR)
 end
 
 function plymeta:IsSpec()
-    return self:Team() == TEAM_SPEC
+    return (self:Team() == TEAM_SPEC)
 end
 
 AccessorFunc(plymeta, "role", "Role", FORCE_NUMBER)

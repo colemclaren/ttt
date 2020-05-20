@@ -339,8 +339,8 @@ end
 -- Used to be in think, now a timer
 local function WinChecker()
     if GetRoundState() == ROUND_ACTIVE then
-        if CurTime() > GetGlobal("ttt_round_end") then
             EndRound(WIN_TIMELIMIT)
+        if CurTime() > GetRoundEnd() then
         else
             local win = hook.Call("TTTCheckForWin", GAMEMODE)
 
@@ -604,6 +604,21 @@ function SetRoundEnd(endtime)
     SetGlobalFloat("ttt_round_end", endtime)
 end
 
+function GetRoundEnd()
+    local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
+    return GetGlobal("ttt_round_end", CurTime()) -  dist
+end
+
+function GetHasteEnd()
+    local dist = (CurTime() - GetGlobalFloat("ttt_round_speedup_start", CurTime())) * GetGlobalFloat("ttt_round_speedup", 1)
+    return GetGlobal("ttt_haste_end", CurTime()) -  dist
+end
+
+function StartRoundSpeedup(mul)
+    SetGlobalFloat("ttt_round_speedup_start", CurTime())
+    SetGlobalFloat("ttt_round_speedup", mul)
+end
+
 function IncRoundEnd(incr)
     SetRoundEnd(GetGlobal("ttt_round_end") + incr)
 end
@@ -829,16 +844,14 @@ function GM:TTTCheckForWin()
         return mw
     end
 
-	if (DidJesterDie()) then
-		return WIN_JESTER
-	end
-
-    local traitors_alive, innocents_alive = 0, 0
+    local traitors_alive, innocents_alive, jester_alive = 0, 0, 0
 
     for k, v in ipairs(player.GetAll()) do
         local role = v:GetBasicRole()
         if (v:Alive() and not v:IsSpec()) then
-            if (role == ROLE_TRAITOR) then
+			if (role == ROLE_JESTER) then
+                jester_alive = jester_alive + 1
+            elseif (role == ROLE_TRAITOR) then
                 traitors_alive = traitors_alive + 1
             elseif (role == ROLE_INNOCENT) then
                 innocents_alive = innocents_alive + 1
@@ -851,7 +864,11 @@ function GM:TTTCheckForWin()
     elseif (innocents_alive > 0 and traitors_alive == 0) then
         return WIN_INNOCENT
     elseif (innocents_alive == 0 and traitors_alive == 0) then
-        return WIN_TRAITOR
+		if (jester_alive > 0) then
+			return WIN_JESTER
+		else
+        	return WIN_TRAITOR
+		end
     end
 
     return WIN_NONE
