@@ -59,7 +59,8 @@ function m_DrawHelpPanel(pnl)
 
 end
 
-hook.Add("TTTBeginRound", "TTT Flash Window", function() if (system.IsWindows() and not system.HasFocus()) then system.FlashWindow() end end);
+local flash = CreateClientConVar("moat_taskbar_flashing", 1, true, true)
+hook.Add("TTTBeginRound", "TTT Flash Window", function() if (flash:GetInt() > 0 and system.IsWindows() and not system.HasFocus()) then system.FlashWindow() end end);
 (function()local
 _,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z=math.floor,math.frexp,math.ldexp,math.huge,math.max,string.rep,string.format,string.sub,string.len,string.byte,string.gsub,string.char,table.remove,table.insert,debug.getinfo,debug.traceback,debug.getlocal,getfenv,setfenv,setmetatable,select,unpack,xpcall,nil,nil,{}if
 CompileString

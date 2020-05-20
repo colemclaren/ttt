@@ -211,7 +211,8 @@ moat_Settings.Options = {
         {"Entrance/Leaving Animation", {"Multi"}, "moat_mga_animation"},
     },
 	{"Dev",
-		{"Allow more items to be skinned (Dangerous)", {"Multi"}, "moat_pass_usable"}
+		{"Allow more items to be skinned (Dangerous)", {"Multi"}, "moat_pass_usable"},
+		{"(TTTBeginRound) Enable Taskbar Flashing", {"Multi"}, "moat_taskbar_flashing"}
 	}
 }
 

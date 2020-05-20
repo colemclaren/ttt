@@ -95,6 +95,7 @@ hook.Add("PlayerDeath", "moat_ApplyDeathTalents", function(vic, inf, att)
     if (not vic:IsValid() or not (att and att:IsValid() and att:IsPlayer())) then return end
     if (not inf:IsValid() or not (inf and inf:IsValid())) then return end
     if (not inf:IsWeapon()) then inf = att:GetActiveWeapon() end
+	if (vic:GetJester() or att:GetJester()) then return end
     if (not inf.Talents) then return end
 
     local weapon_lvl = inf.level
@@ -149,7 +150,7 @@ function m_CheckDamageMods(ent, dmginfo)
     local attacker = dmginfo:GetAttacker()
 
     if (not IsValid(attacker) or not attacker:IsPlayer()) then return false end
-    if (GetRoundState() == ROUND_PREP) then return false end
+    if (GetRoundState() == ROUND_PREP or ent:GetJester() or attacker:GetJester()) then return false end
 
     -- Check damage types
     local goodType = false
@@ -252,7 +253,11 @@ hook.Add("EntityFireBullets", "moat_ApplyFireMods", function(ent, dmginfo)
 	if (not IsValid(ent) or not ent:IsPlayer()) then
 		return
 	end
-	
+
+	if (ent:GetJester()) then
+		return
+	end
+
 	local wpn = ent:GetActiveWeapon()
     if (IsValid(wpn) and wpn.Talents) then
 		for k, v in ipairs(wpn.Talents) do
