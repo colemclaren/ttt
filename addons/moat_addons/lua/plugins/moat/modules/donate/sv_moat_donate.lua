@@ -18,7 +18,7 @@ function start_quadra_xp(nick)
         self:oApplyXP(num)
     end
 
-    XP_MULTIPYER = 8
+    XP_MULTIPYER = 4
 end
 
 function moat_DropPumpkin(ply, amt)
@@ -181,9 +181,6 @@ MOAT_DONATE.Packages = {
     [9] = {
         250,
         function(ply)
-            -- if (MG_cur_event and MG_cur_event ~= "Quadra XP") then
-            -- 	return
-            -- end
             sql.Query"UPDATE mg_quad_xp SET rounds_left = rounds_left + 20 WHERE 1"
             start_quadra_xp(ply:Nick())
             local msg = string(":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()), style.NewLine(":tada: Just boosted a server! Earn ") .. style.BoldUnderline("+300%") .. "XP on " .. string.Extra(GetServerName(), GetServerURL()))
@@ -208,7 +205,7 @@ hook.Add("Initialize", "MapEvent", function()
 end)
 
 hook.Add("TTTEndRound", "XPBoost", function()
-    if (MG_cur_event and MG_cur_event == "XPBoost") then
+    if (MG_cur_event and MG_cur_event == "+300% XP") then
         local rounds = sql.QueryValue"SELECT rounds_left FROM mg_quad_xp WHERE 1"
 
         if (rounds - 1 <= 0) then
@@ -223,7 +220,7 @@ hook.Add("TTTEndRound", "XPBoost", function()
                 self:oApplyXP(num)
             end
 
-            XP_MULTIPYER = 2
+            XP_MULTIPYER = 1
         end
 
         print(rounds, "XP Boost Left")

@@ -664,11 +664,11 @@ local function moat_CustomHUD()
 			end
 
 			if (wpn_stats.s and wpn_stats.s.l) then
-				m_DrawShadowedText(1, wpn_stats.s.l, "moat_ItemDescLarge3", x + w - 6, y, Color(255, 255, 255), TEXT_ALIGN_RIGHT)
+				m_DrawShadowedText(1, wpn_stats.s.l, "moat_ItemDescLarge3", x + w - 6, y, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
 				surface_SetFont("moat_ItemDescLarge3")
 				local level_w, level_h = surface_GetTextSize(wpn_stats.s.l)
-				m_DrawShadowedText(1, "LVL", "moat_ItemDesc", x + w - 6 - level_w, y + 4, Color(255, 255, 255), TEXT_ALIGN_RIGHT)
-				m_DrawShadowedText(1, "XP: " .. wpn_stats.s.x .. "/" .. (wpn_stats.s.l * 100), "moat_ItemDescSmall2", x + w - 6 - level_w - 2, y + 16, Color(255, 255, 255), TEXT_ALIGN_RIGHT)
+				m_DrawShadowedText(1, "LEVEL", "moat_ItemDesc", x + w - 6 - level_w, y + 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+				m_DrawShadowedText(1, wpn_stats.s.x .. "/ " .. (wpn_stats.s.l * 100) .. " XP", "moat_ItemDescSmall2", x + w - 6 - level_w - 2, y + 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
 				draw_RoundedBox(0, x + 6, y + 27, w - 12, 2, Color(255, 255, 255, 20))
 				local bar_width = w - 12
 				local xp_bar_width = bar_width * (wpn_stats.s.x / (wpn_stats.s.l * 100))
@@ -688,7 +688,7 @@ local function moat_CustomHUD()
 			draw_RoundedBox(0, x + 1, y + 1, w - 2, h - 2, Color(15, 15, 15, 250))
 			local draw_name_x = x + 7
 			local draw_name_y = y + 3
-			local name_col = Color(255, 255, 255)
+			local name_col = Color(240, 245, 253)
 			local name_font = "moat_Medium5"
 			local name = TryTranslation(wpn.ItemName or wpn.PrintName or "Holstered")
 			m_DrawShadowedText(1, name, name_font, draw_name_x, draw_name_y, name_col)
@@ -733,7 +733,7 @@ local function moat_CustomHUD()
 				surface_SetMaterial(gradient_r)
 				surface_DrawTexturedRect(x + 6, ammo_y, ammo_width, ammo_h)
 				local text = string.format("%i + %02i", ammo_clip, ammo_inv)
-				draw_SimpleTextOutlined(text, "moat_ItemDescLarge3", x + 6 + w - 12 - 10, ammo_y + (ammo_h / 2) - 1, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 20))
+				draw_SimpleTextOutlined(text, "moat_ItemDescLarge3", x + 6 + w - 12 - 10, ammo_y + (ammo_h / 2) - 1, Color(240, 245, 253), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 20))
 			end
 		end
 	end
@@ -862,7 +862,7 @@ local function moat_CustomHUD()
 		y = y - 1
 	end
 
-	local roletext_color = Color(255, 255, 255)
+	local roletext_color = Color(240, 245, 253)
 
 	if (GetConVar("moat_HUDRoleColor"):GetString() == "true") then
 		roletext_color = Color(role_color.r, role_color.g, role_color.b, 255)
@@ -874,7 +874,7 @@ local function moat_CustomHUD()
 	local endtime = (GetRoundEnd and GetRoundEnd() or GetGlobal("ttt_round_end")) - CurTime()
 	local text
 	local font = "TimeLeft"
-	local color =  Color(255, 255, 255)
+	local color =  Color(240, 245, 253)
 
 	if (is_haste) then
 		local hastetime = (GetHasteEnd and GetHasteEnd() or GetGlobal("ttt_haste_end", 0)) - CurTime()

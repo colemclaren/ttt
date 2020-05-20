@@ -50,6 +50,7 @@ hook.Add("TTTEndRound", "terrortown.roles.jester", function()
 end)
 
 hook.Add("TTTPrepareRound", "terrortown.roles.jester", function()
+	StartRoundSpeedup(0)
     ded = false
 end)
 

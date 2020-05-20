@@ -423,7 +423,7 @@ function MOAT_DONATE:RebuildSelection(num)
             return
         end
 
-        if (pkg[1]):lower():match("event") and (MG_cur_event and MG_cur_event ~= "Quadra XP") then
+        if (pkg[1]):lower():match("event") and (MG_cur_event and MG_cur_event ~= "+300% XP") then
             chat.AddText(Material("icon16/cancel.png"), Color(255, 80, 80), "There's currently a map event going on! Wait until the next map.")
             surface.PlaySound("buttons/button10.wav")
 

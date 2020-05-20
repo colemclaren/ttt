@@ -27,31 +27,22 @@ end
 
 local meta = FindMetaTable("Player")
 
-function meta:m_ModifyStatType(str, key, add)
+function meta:m_ModifyStatType(str, key, value, set)
     if (not MOAT_STATS[self]) then
         MOAT_STATS[self] = {}
     end
 
+	if (not MOAT_STATS[self][key]) then
+		MOAT_STATS[self][key] = value
+		self:SetNW2Int(str, value)
+	end
+
     if (MOAT_STATS[self][key]) then
         if (self:GetNW2Int(str)) then
-            local new_value = self:GetNW2Int(str) + add
-            self:SetNW2Int(str, new_value)
+            local new_value = self:GetNW2Int(str) + value
+			if (set) then new_value = value end
             MOAT_STATS[self][key] = new_value
-
-			m_SaveStats(self)
-        else
-            MsgC(Color(0, 255, 0), "Unknown stat string: " .. str .. "\n")
-        end
-    else
-        MsgC(Color(0, 255, 0), "Unknown stat key: " .. key .. "\n")
-    end
-end
-
-function meta:m_SetStatType(str, key, new_value)
-    if (MOAT_STATS[self][key]) then
-        if (self:GetNW2Int(str)) then
             self:SetNW2Int(str, new_value)
-            MOAT_STATS[self][key] = new_value
 
 			m_SaveStats(self)
         else
@@ -95,7 +86,7 @@ function meta:ApplyXP(num)
     local cur_lvl = self:GetNW2Int("MOAT_STATS_LVL")
     local new_level, new_xp = m_CalculateLevel(cur_lvl, cur_exp, num)
 
-    self:m_SetStatType("MOAT_STATS_XP", "x", new_xp)
+    self:m_ModifyStatType("MOAT_STATS_XP", "x", new_xp, true)
 
     local level_upgrades = new_level - cur_lvl
     if (level_upgrades > 0) then
@@ -128,14 +119,6 @@ hook.Add("TTTEndRound", "moat_ApplyLevelChanges", function()
     end
 end)
 
-local XP_MULTIPLYER = 2
-local TRAITOR_KILL_DETECTIVE = 100 * XP_MULTIPLYER
-local TRAITOR_KILL_INNOCENT = 50 * XP_MULTIPLYER
-local DETECTIVE_KILL_TRAITOR = 100 * XP_MULTIPLYER
-local DETECTIVE_KILL_INNOCENT = -50 * XP_MULTIPLYER
-local INNOCENT_KILL_TRAITOR = 50 * XP_MULTIPLYER
-local INNOCENT_KILL_DETECTIVE = -100 * XP_MULTIPLYER
-
 function m_ApplyXPToTable(ply, xp_add)
     if (not MOAT_XP_SAVE[ply]) then
         MOAT_XP_SAVE[ply] = 0
@@ -147,23 +130,25 @@ end
 
 hook.Add("PlayerDeath", "moat_ApplyKillLevelXPStat", function(vic, inf, att)
     if (att:IsValid() and att:IsPlayer() and att ~= vic and GetRoundState() == ROUND_ACTIVE and not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
-        if (att:GetTraitor()) then
+		if (vic:GetJester()) then
+			m_ApplyXPToTable(att, -300 * XP_MULTIPYER)
+        elseif (att:GetTraitor()) then
             if (vic:GetDetective()) then
-                m_ApplyXPToTable(att, TRAITOR_KILL_DETECTIVE)
+                m_ApplyXPToTable(att, 100 * XP_MULTIPYER)
             elseif (not vic:IsSpecial()) then
-                m_ApplyXPToTable(att, TRAITOR_KILL_INNOCENT)
+                m_ApplyXPToTable(att, 50 * XP_MULTIPYER)
             end
         elseif (att:GetDetective()) then
             if (vic:GetTraitor()) then
-                m_ApplyXPToTable(att, DETECTIVE_KILL_TRAITOR)
+                m_ApplyXPToTable(att, 100 * XP_MULTIPYER)
             elseif (not vic:IsSpecial()) then
-                m_ApplyXPToTable(att, DETECTIVE_KILL_INNOCENT)
+                m_ApplyXPToTable(att, -50 * XP_MULTIPYER)
             end
         elseif (not att:IsSpecial()) then
             if (vic:GetDetective()) then
-                m_ApplyXPToTable(att, INNOCENT_KILL_DETECTIVE)
+                m_ApplyXPToTable(att, -100 * XP_MULTIPYER)
             elseif (vic:GetTraitor()) then
-                m_ApplyXPToTable(att, INNOCENT_KILL_TRAITOR)
+                m_ApplyXPToTable(att, 50 * XP_MULTIPYER)
             end
         end
 
