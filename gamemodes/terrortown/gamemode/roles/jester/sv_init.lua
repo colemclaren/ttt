@@ -17,7 +17,7 @@ local ded = false
 
 hook.Add("PlayerDeath", "terrortown.roles.jester", function(vic, inf, att)
 	if (GetRoundState() == ROUND_ACTIVE and IsValid(vic) and vic:IsActiveRole(ROLE_JESTER) and IsValid(att) and att:IsPlayer() and att:GetRole() ~= ROLE_JESTER and vic ~= att) then
-		net.Start("jester.killed")
+		net.Start("terrortown.jester.killed")
         net.WriteString(att:Nick() or "Someone")
         net.Broadcast()
 
