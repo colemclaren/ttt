@@ -339,8 +339,8 @@ end
 -- Used to be in think, now a timer
 local function WinChecker()
     if GetRoundState() == ROUND_ACTIVE then
-            EndRound(WIN_TIMELIMIT)
         if CurTime() > GetRoundEnd() then
+            EndRound(DidJesterDie() and WIN_JESTER or WIN_TIMELIMIT)
         else
             local win = hook.Call("TTTCheckForWin", GAMEMODE)
 
