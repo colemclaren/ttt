@@ -10,7 +10,7 @@ function ENT:Infect(plyr)
 
 	if (plyr != nil && plyr != NULL && plyr != null && SERVER) then
 
-		if (plyr:IsPlayer() && plyr:IsValid()) then
+		if (plyr:IsPlayer() && plyr:IsValid() and plyr:GetRole() ~= ROLE_JESTER) then
 
 				if (!timer.Exists("InfectionTimer"..plyr:GetName().."")) then
 
