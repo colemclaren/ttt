@@ -126,8 +126,11 @@ function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp
 
 		draw_SimpleTextOutlined(s.kstr[1], "moat_Trebuchet", 0, 0, self.Colors.white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, self.Colors.shadow)
 
+		surface.SetFont "moat_Trebuchet"
+		local wide = surface.GetTextSize(s.kstr[1] .. " ")
+
 		if (s.kname) then
-			draw_SimpleTextOutlined(s.kname, "moat_Trebuchet", s.kstr[2], 0, role_color or self.Colors.white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, self.Colors.shadow)
+			draw_SimpleTextOutlined(s.kname, "moat_Trebuchet", wide, 0, role_color or self.Colors.white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, self.Colors.shadow)
 		end
 	end
 
