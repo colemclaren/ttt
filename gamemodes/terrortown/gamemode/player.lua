@@ -223,6 +223,10 @@ end
 
 function GM:PlayerSetModel(ply)
     local mdl = GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl"
+	if (ply.Skeleton) then
+		mdl = "models/player/skeleton.mdl"
+	end
+
     util.PrecacheModel(mdl)
     ply:SetModel(mdl)
     -- Always clear color state, may later be changed in TTTPlayerSetColor
@@ -244,7 +248,7 @@ end
 
 -- Only active players can use kill cmd
 function GM:CanPlayerSuicide(ply)
-    return ply:IsTerror()
+    return (ply:IsTerror() and not ply:IsActiveRole(ROLE_JESTER))
 end
 
 function GM:PlayerSwitchFlashlight(ply, on)

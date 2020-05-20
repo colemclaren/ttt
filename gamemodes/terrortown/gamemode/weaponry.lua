@@ -1,6 +1,12 @@
 include("weaponry_shd.lua") -- inits WEPS tbl
 ---- Weapon system, pickup limits, etc
 local IsEquipment = WEPS.IsEquipment
+local DefaultLoadout = {
+    ["weapon_ttt_unarmed"] = true,
+    ["weapon_zm_improvised"] = true,
+    ["weapon_zm_carry"] = true,
+	["tnt_fists"] = true
+}
 
 -- Prevent players from picking up multiple weapons of the same type etc
 function GM:PlayerCanPickupWeapon(ply, wep)
@@ -14,7 +20,9 @@ function GM:PlayerCanPickupWeapon(ply, wep)
         return false
     elseif IsEquipment(wep) and wep.IsDropped and (not ply:KeyDown(IN_USE)) then
         return false
-    end
+    elseif (DidJesterDie() and ply:GetRole() == ROLE_JESTER and not DefaultLoadout[wep:GetClass()]) then
+		return false
+	end
 
     local tr = util.TraceEntity({
         start = wep:GetPos(),

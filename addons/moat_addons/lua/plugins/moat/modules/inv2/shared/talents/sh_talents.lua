@@ -63,7 +63,7 @@ else
 		local colors = {}
 
 		for vic, color in pairs(markedPlayers) do
-			if (not IsValid(vic) or vic:Team() == TEAM_SPEC) then
+			if (not IsValid(vic) or vic:Team() == TEAM_SPEC or v.Skeleton) then
 				markedPlayers[vic] = nil
 				continue 
 			end
@@ -87,7 +87,7 @@ else
 	function Moat_Talents_MarkChams()
 		cam.Start3D()
 			for vic, color in pairs(markedPlayers) do
-				if (not IsValid(vic) or vic:Team() == TEAM_SPEC) then
+				if (not IsValid(vic) or vic:Team() == TEAM_SPEC or vic.Skeleton) then
 					markedPlayers[vic] = nil
 					continue 
 				end
@@ -138,7 +138,7 @@ else
 		local visn = {}
 
 		for k, v in pairs(player.GetAll()) do
-			if (not IsValid(v) or v:Team() == TEAM_SPEC) then continue end
+			if (not IsValid(v) or v:Team() == TEAM_SPEC or v.Skeleton) then continue end
 			if (LocalPlayer():IsTraitor() and v:IsTraitor()) then continue end
 			if (v:GetPos():DistToSqr(localPos) > vision_dist) then continue end
 

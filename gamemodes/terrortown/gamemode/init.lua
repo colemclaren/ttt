@@ -848,7 +848,7 @@ function GM:TTTCheckForWin()
 
     for k, v in ipairs(player.GetAll()) do
         local role = v:GetBasicRole()
-        if (v:Alive() and not v:IsSpec()) then
+        if (v:Alive() and not v:IsSpec() and not v.Skeleton) then
 			if (role == ROLE_JESTER) then
                 jester_alive = jester_alive + 1
             elseif (role == ROLE_TRAITOR) then
@@ -935,6 +935,13 @@ function SelectRoles()
     end
 
     for k, v in ipairs(player.GetAll()) do
+		if (v.OverrideRole) then
+			v:SetRole(v.OverrideRole)
+			v.OverrideRole = nil 
+
+			continue
+		end
+
         -- everyone on the spec team is in specmode
         if (IsValid(v) and (not v:IsSpec())) then
             -- save previous role and sign up as possible traitor/detective

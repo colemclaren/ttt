@@ -720,7 +720,12 @@ end
 hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
     function GAMEMODE:PlayerSetModel(ply)
 		if (hook.Run("MoatInventoryShouldGiveLoadout", ply)) then
-			ply:SetModel(GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
+			if (ply.Skeleton) then
+				ply:SetModel("models/player/skeleton.mdl")
+			else
+				ply:SetModel(GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
+			end
+
 			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
 			ply:SetColor(Color(255, 255, 255, 255))
 			ply:SetPlayerColor(Vector(1, 1, 1))

@@ -37,7 +37,7 @@ end
 
 -- Player is alive and in an active round
 function plymeta:IsActive()
-    return self:IsTerror() and GetRoundState() == ROUND_ACTIVE
+    return self:IsTerror() and GetRoundState() == ROUND_ACTIVE and not self.Skeleton
 end
 
 -- convenience functions for common patterns
