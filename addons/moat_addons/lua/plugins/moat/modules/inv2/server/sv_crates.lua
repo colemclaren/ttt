@@ -4,6 +4,8 @@ MOAT_CRATESAVE = {}
 MOAT_CRATEROLLED = {}
 
 net.Receive("MOAT_VERIFY_CRATE", function(len, ply)
+	if (shop_net_spam(ply, "MOAT_VERIFY_CRATE")) then return end
+
     local item_class = net.ReadDouble()
     local fast_open = net.ReadBool()
     local crate_id = 0
@@ -53,6 +55,7 @@ net.Receive("MOAT_VERIFY_CRATE", function(len, ply)
 end)
 
 net.Receive("MOAT_INIT_CRATE", function(len, ply)
+	if (shop_net_spam(ply, "MOAT_INIT_CRATE")) then return end
     local crate_id = MOAT_CRATES[ply]
 
     if (not crate_id) then
@@ -81,6 +84,8 @@ net.Receive("MOAT_INIT_CRATE", function(len, ply)
 end)
 
 net.Receive("MOAT_CRATE_OPEN", function(len, ply)
+	if (shop_net_spam(ply, "MOAT_CRATE_OPEN")) then return end
+
     local slot = net.ReadDouble()
     local class = net.ReadDouble()
     local crate = net.ReadDouble()

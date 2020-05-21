@@ -1,5 +1,29 @@
 print("shop loaded")
 
+
+local shop_net_cd = .5 -- 1 sec net cooldown
+local shop_net = {}
+function shop_net_spam(ply, msg)
+	if (not shop_net[ply]) then
+		shop_net[ply] = {}
+		return false
+	end
+
+	if (not shop_net[ply][msg]) then
+		shop_net[ply][msg] = CurTime() + shop_net_cd
+		return false
+	end
+
+	if (shop_net[ply][msg] and shop_net[ply][msg] > CurTime()) then
+		return true
+	end
+
+	shop_net[ply][msg] = CurTime() + shop_net_cd
+
+	return false
+end
+
+
 local active_crates = {}
 
 function m_GetActiveCrates()
@@ -97,6 +121,8 @@ local function randomvape()
     return vape
 end
 net.Receive("MOAT_BUY_ITEM", function(len, ply)
+	if (shop_net_spam(ply, "MOAT_BUY_ITEM")) then return end
+
     local crate_id = net.ReadDouble()
     local crate_amt = math.Clamp(net.ReadUInt(8), 1, 50)
     local crate_tbl = {}

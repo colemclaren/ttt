@@ -1,6 +1,30 @@
 util.AddNetworkString "Moat.Typing"
 
+local typing_net_cd = .5 -- 1 sec net cooldown
+local typing_net = {}
+function typing_net_spam(ply, msg)
+	if (not typing_net[ply]) then
+		typing_net[ply] = {}
+		return false
+	end
+
+	if (not typing_net[ply][msg]) then
+		typing_net[ply][msg] = CurTime() + typing_net_cd
+		return false
+	end
+
+	if (typing_net[ply][msg] and typing_net[ply][msg] > CurTime()) then
+		return true
+	end
+
+	typing_net[ply][msg] = CurTime() + typing_net_cd
+
+	return false
+end
+
 net.Receive("Moat.Typing", function(_, pl)
+	if (typing_net_spam(pl, "Moat.Typing")) then return end
+
 	local is = net.ReadBool()
 
 	if (not is and pl.StartedTyping) then
