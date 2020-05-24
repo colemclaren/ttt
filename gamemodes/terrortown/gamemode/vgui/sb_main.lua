@@ -202,7 +202,7 @@ local colors = {
     bar = Color(20, 20, 20, 200)
 }
 
-local y_logo_off = 72
+local y_logo_off = 92
 
 function PANEL:Paint()
     -- Logo sticks out, so always offset bg
@@ -258,7 +258,7 @@ function PANEL:PerformLayout()
     h = math.Clamp(h, 110 + y_logo_off, ScrH() * 0.95)
     local w = math.max(ScrW() * 0.6, 640)
     self:SetSize(w, h)
-    self:SetPos((ScrW() - w) / 2, math.min(72, (ScrH() - h) / 4))
+    self:SetPos((ScrW() - w) / 2, math.min(92, (ScrH() - h) / 4))
     self.ply_frame:SetPos(8, y_logo_off + 109)
     self.ply_frame:SetSize(self:GetWide() - 16, self:GetTall() - 109 - y_logo_off - 5)
     -- server stuff
