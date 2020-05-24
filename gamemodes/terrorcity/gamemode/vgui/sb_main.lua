@@ -213,21 +213,19 @@ function PANEL:Paint()
     DrawBlur(self, 3)
     --[[surface_SetDrawColor(0, 0, 0, 150)
    surface_DrawRect(0, 0, w, h)]]
-	cdn.DrawImage("http://cdn.moat.gg/f/bg.png", math.min((w/2) - (3840/2), 0), math.min((h/2) - (2160/2), 0), math.max(3840, h), math.max(2160, w), Color(255, 255, 255, 230))	
+    cdn.DrawImage("http://cdn.moat.gg/f/bg.png", math.min((w/2) - (3840/2), 0), math.min((h/2) - (2160/2), 0), math.max(3840, h), math.max(2160, w), Color(255, 255, 255, 230))	
+	
+    surface_SetTexture(logo)
+    surface_SetDrawColor(255, 255, 255, 255)
+    surface_DrawTexturedRect(5, 0, 256, 256)
+    cdn.SmoothImage("https://cdn.moat.gg/ttt/visit-website21.png", w - 256 - 20, 0, 256, 256)
+    local img_w, img_h = ScrH() / 2.2, ScrH() / 2.2
     surface_SetDrawColor(183, 183, 183)
     DisableClipping(true)
     surface_DrawLine(0, -4, w, -4)
     surface_DrawLine(0, h + 3, w, h + 3)
+	cdn.SmoothImage("https://cdn.moat.gg/ttt/moat-scoreboard.png", w/2 - (img_w/2), -49, img_w, img_h)
     DisableClipping(false)
-    --[[surface_SetDrawColor(0, 0, 0, 50)
-   surface_DrawRect(0, 0, self:GetWide(), self:GetTall())]]
-    -- TTT Logo
-    surface_SetTexture(logo)
-    surface_SetDrawColor(255, 255, 255, 255)
-    surface_DrawTexturedRect(5, 0, 256, 256)
-    cdn.SmoothImage("https://cdn.moat.gg/f/moat-gg-sb.png", w - 256, 0, 256, 256)	
-    local img_w, img_h = ScrH() / 2.2, ScrH() / 2.2
-	cdn.SmoothImage("https://cdn.moat.gg/f/0c85f0d845b02b333bae412d98aae03c.png", w/2 - (img_w/2), 0, img_w, img_h)
 end
 
 function PANEL:PerformLayout()

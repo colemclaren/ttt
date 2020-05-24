@@ -1229,7 +1229,7 @@ M_INV_SLOT = {}
 M_LOAD_SLOT = {}
 M_TRADE_SLOT = {}
 
-MOAT_INV_CATS = {{"Loadout", 90}, {"Market", 90}, {"Trading", 90}, {"Gamble", 90}, /*{"Summer", 90},*/ {"Dailies", 90}, {"Settings", 90}, {"Beta", 90}}
+MOAT_INV_CATS = {{"Loadout", 90}, {"Market", 90}, {"Trading", 90}, {"Gamble", 90}, {"Dailies", 90}, {"Settings", 90}, {"Event", 90}, {"Beta", 90}}
 function m_PaintVBar(sbar)
 
     local MT = MOAT_THEME.Themes
@@ -1335,7 +1335,7 @@ function m_OpenInventory(ply2, utrade)
         	net.SendToServer()
 		end
 
-        chat.AddText("Loading... ", moat_green, " Receiving Inventory",  Color(103, 152, 235), " | ", moat_cyan, math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2) .. "%", Color(103, 152, 235), " | ", Color(254, 60, 114), net.Line())	
+        chat.AddText("Loading... ", moat_green, " Receiving Inventory",  moat_lyanblue, " | ", moat_cyan, math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2) .. "%", moat_lyanblue, " | ", Color(254, 60, 114), net.Line())	
 
         return
     end
@@ -1788,6 +1788,23 @@ function m_OpenInventory(ply2, utrade)
 		m_PopulateSettingsPanel(M_SETTINGS_PNL_SCROLL)
 	end
 
+	function m_EventPanel()
+		if (IsValid(M_EVENT_PNL)) then
+			M_EVENT_PNL:Remove()
+		end
+
+		M_EVENT_PNL = vgui.Create("DPanel", MOAT_INV_BG)
+		M_EVENT_PNL:SetSize(MOAT_INV_BG_W, MOAT_INV_BG:GetTall())
+		M_EVENT_PNL:SetPos(-MOAT_INV_BG_W, 0)
+		M_EVENT_PNL:SetAlpha(0)
+		M_EVENT_PNL.Paint = function(s, w, h) end
+
+		M_EVENT_PNL_SCROLL = vgui.Create("DScrollPanel", M_EVENT_PNL)
+		M_EVENT_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
+		M_EVENT_PNL_SCROLL:SetPos(5, 30)
+		m_PopulateEventPanel(M_EVENT_PNL_SCROLL)
+	end
+
     /*M_DONATE_PNL = vgui.Create("DPanel", MOAT_INV_BG)
     M_DONATE_PNL:SetSize(MOAT_INV_BG_W, MOAT_INV_BG:GetTall())
     M_DONATE_PNL:SetPos(-MOAT_INV_BG_W, 0)
@@ -1798,17 +1815,6 @@ function m_OpenInventory(ply2, utrade)
     M_DONATE_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
     M_DONATE_PNL_SCROLL:SetPos(5, 30)
     m_PopulateDonatePanel(M_DONATE_PNL_SCROLL)*/
-
-    /*M_EVENT_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-    M_EVENT_PNL:SetSize(MOAT_INV_BG_W, MOAT_INV_BG:GetTall())
-    M_EVENT_PNL:SetPos(-MOAT_INV_BG_W, 0)
-    M_EVENT_PNL:SetAlpha(0)
-    M_EVENT_PNL.Paint = function(s, w, h) end
-
-    local M_EVENT_PNL_SCROLL = vgui.Create("DScrollPanel", M_EVENT_PNL)
-    M_EVENT_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
-    M_EVENT_PNL_SCROLL:SetPos(5, 30)
-    m_PopulateEventPanel(M_EVENT_PNL_SCROLL)*/
 
     /*if (LocalPlayer():EventMenu()) then
         M_EVENTS_PNL = vgui.Create("DPanel", MOAT_INV_BG)
@@ -3084,7 +3090,7 @@ function m_OpenInventory(ply2, utrade)
         --     m_RemoveBattlePanel()
         -- end
 
-        if (cat == 5) then
+		if (cat == 5) then
 			m_BountyPanel()
 
             M_BOUNTY_PNL:MoveTo(0, 0, anim_time, 0, -1)
@@ -3094,7 +3100,7 @@ function m_OpenInventory(ply2, utrade)
             M_BOUNTY_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_BOUNTY_PNL)) then M_BOUNTY_PNL:Remove() end end)
         end
 
-        if (cat == 6) then
+		if (cat == 6) then
 			m_SettingsPanel()
 
             M_SETTINGS_PNL:MoveTo(0, 0, anim_time, 0, -1)
@@ -3102,6 +3108,16 @@ function m_OpenInventory(ply2, utrade)
         elseif (IsValid(M_SETTINGS_PNL)) then
             M_SETTINGS_PNL:MoveTo(-M_SETTINGS_PNL:GetWide(), 0, anim_time, 0, -1)
             M_SETTINGS_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_SETTINGS_PNL)) then M_SETTINGS_PNL:Remove() end end)
+        end
+
+        if (cat == 7) then
+			m_EventPanel()
+
+            M_EVENT_PNL:MoveTo(0, 0, anim_time, 0, -1)
+            M_EVENT_PNL:AlphaTo(255, anim_time, 0)
+        elseif (IsValid(M_EVENT_PNL)) then
+            M_EVENT_PNL:MoveTo(-M_EVENT_PNL:GetWide(), 0, anim_time, 0, -1)
+            M_EVENT_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_EVENT_PNL)) then M_EVENT_PNL:Remove() end end)
         end
 
         /*if (cat == 8) then

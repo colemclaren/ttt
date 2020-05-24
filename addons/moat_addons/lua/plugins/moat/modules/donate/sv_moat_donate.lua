@@ -9,16 +9,11 @@ function start_quadra_xp(nick)
     net.WriteString(nick or "Someone")
     net.Broadcast()
 
-    if not meta.oApplyXP then
-        meta.oApplyXP = meta.ApplyXP
-    end
+    XP_MULTIPYER = 8
 
-    function meta:ApplyXP(num)
-        num = num * 4
-        self:oApplyXP(num)
-    end
-
-    XP_MULTIPYER = 4
+	ttt.HostName = ttt.HostName or GetHostName()
+	local name = string.TrimRight(ttt.HostName, ' | ' .. MG_cur_event .. ' Event')
+	RunConsoleCommand('hostname', name .. ' | ' .. MG_cur_event .. ' Event')
 end
 
 function moat_DropPumpkin(ply, amt)
@@ -212,15 +207,11 @@ hook.Add("TTTEndRound", "XPBoost", function()
             MG_cur_event = nil
             local meta = FindMetaTable("Player")
 
-            if not meta.oApplyXP then
-                meta.oApplyXP = meta.ApplyXP
-            end
+            XP_MULTIPYER = 2
 
-            function meta:ApplyXP(num)
-                self:oApplyXP(num)
-            end
-
-            XP_MULTIPYER = 1
+			ttt.HostName = ttt.HostName or GetHostName()
+			local name = string.TrimRight(ttt.HostName, ' | ' .. MG_cur_event .. ' Event')
+			RunConsoleCommand('hostname', name)
         end
 
         print(rounds, "XP Boost Left")

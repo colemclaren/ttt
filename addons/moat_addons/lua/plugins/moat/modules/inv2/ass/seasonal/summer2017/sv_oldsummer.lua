@@ -1,21 +1,9 @@
-if (true) then return end
-
 --[[-------------------------------------------------------------------------
 core mysql stuff
 ---------------------------------------------------------------------------]]
 
-require "mysqloo"
-
 MOAT_EVENT = MOAT_EVENT or {}
-MOAT_EVENT.SQL = MOAT_EVENT.SQL or {
-	Config = {
-		database = "old_moat_ttt",
-		host = "gamedb.moat.gg",
-		port = 3306,
-		user = "footsies",
-		pass = "clkmTQF6bF@3V0NYjtUMoC6sF&17B$"
-	}
-}
+MOAT_EVENT.SQL = MOAT_EVENT.SQL or {}
 
 function MOAT_EVENT.Print(str)
 	MsgC(Color(255, 0, 0), "Events | ", Color(255, 255, 255), str .. "\n")
@@ -24,41 +12,15 @@ end
 function MOAT_EVENT.SQL.CheckTable()
 	MOAT_EVENT.SQL.Query([[
 		CREATE TABLE IF NOT EXISTS moat_event (
-		id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		name TEXT NOT NULL,
-		steamid VARCHAR(30) NOT NULL,
-		complete INTEGER NOT NULL,
-		weps TEXT NOT NULL)
+		`steamid` bigint unsigned not null unique,
+		`name` varchar(32) not null,
+		`complete` int unsigned NOT NULL,
+		`weps` mediumtext default NULL,
+		`createdat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		`updatedat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		PRIMARY KEY (`steamid`))
 	]])
 end
-/*
-function MOAT_EVENT.SQL.Connect()
-	if (MOAT_EVENT.SQL.DBHandle) then
-		MOAT_EVENT.Print "Using pre-established MySQL link."
-		return
-	end
-
-	local db = mysqloo.connect(MOAT_EVENT.SQL.Config.host, MOAT_EVENT.SQL.Config.user, MOAT_EVENT.SQL.Config.pass, MOAT_EVENT.SQL.Config.database, MOAT_EVENT.SQL.Config.port)
-	
-	db.onConnectionFailed = function(msg, err)
-		MOAT_EVENT.Print("MySQL connection failed: " .. tostring(err))
-	end
-	
-	db.onConnected = function()
-		MOAT_EVENT.Print("MySQL connection established at " .. os.date())
-		
-		MOAT_EVENT.SQL.DBHandle = db
-
-		MOAT_EVENT.SQL.CheckTable()
-
-		db.onConnected = function() MOAT_EVENT.Print("MySQL connection re-established at " .. os.date()) end
-	end
-	
-	db:connect()
-	db:wait()
-	
-	MOAT_EVENT.SQL.DBHandle = db
-end*/
 
 hook.Add("SQLConnected", "EventSQL", function(db)
 	MOAT_EVENT.Print("MySQL connection established at " .. os.date())
@@ -67,7 +29,7 @@ hook.Add("SQLConnected", "EventSQL", function(db)
 end)
 
 hook.Add("SQLConnectionFailed", "EventSQL", function(db, err)
-    MOAT_EVENT.Print("MySQL connection failed: " .. tostring(err))
+	MOAT_EVENT.Print("MySQL connection failed: " .. tostring(err))
 end)
 
 function MOAT_EVENT.SQL.Escape(txt)
@@ -99,9 +61,9 @@ function MOAT_EVENT.SQL.Query(query, callback, ret)
 
 			db:connect()
 
-            timer.Simple(1, function()
-                MOAT_EVENT.SQL.Query(query, callback, ret)
-            end)
+			timer.Simple(1, function()
+				MOAT_EVENT.SQL.Query(query, callback, ret)
+			end)
 			
 			//r = MOAT_EVENT.SQL.Query(query, callback, ret)
 		else
@@ -160,89 +122,103 @@ local function WasRightfulKill(att, vic)
 end
 
 -- weapon ids
-MOAT_EVENT.Weapons = {
-    [1]   =   "weapon_zm_sledge",
-    [2]   =   "weapon_ttt_m590",
-    [3]   =   "weapon_zm_shotgun",
-    [4]   =   "weapon_zm_revolver",
-    [5]   =   "weapon_zm_mac10",
-    [6]   =   "weapon_xm8b",
-    [7]   =   "weapon_ttt_sg552",
-    [8]   =   "weapon_ttt_ump45",
-    [9]   =   "weapon_ttt_famas",
-    [10]  =   "weapon_ttt_aug",
-    [11]  =   "weapon_ttt_ak47",
-    [12]  =   "weapon_ttt_galil",
-    [13]  =   "weapon_ttt_mr96",
-    [14]  =   "weapon_zm_pistol",
-    [15]  =   "weapon_ttt_m16",
-    [16]  =   "weapon_ttt_dual_elites",
-    [17]  =   "weapon_ttt_msbs",
-    [18]  =   "weapon_ttt_shotgun",
-    [19]  =   "weapon_ttt_p90",
-    [20]  =   "weapon_ttt_mp5",
-    [21]  =   "weapon_zm_rifle",
-    [22]  =   "weapon_thompson",
-    [23]  =   "weapon_flakgun",
-    [24]  =   "weapon_ttt_glock"
+MOAT_EVENT.Weapons = {}
+MOAT_EVENT.WeaponsID = {
+	["weapon_zm_sledge"] = 1,
+	["weapon_ttt_m590"] = 2,
+	["weapon_zm_shotgun"] = 3,
+	["weapon_zm_revolver"] = 4,
+	["weapon_zm_mac10"] = 5,
+	["weapon_xm8b"] = 6,
+	["weapon_ttt_sg552"] = 7,
+	["weapon_ttt_mp5"] = 8,
+	["weapon_ttt_ump45"] = 9,
+	["weapon_ttt_famas"] = 10,
+	["weapon_spas12pvp"] = 11,
+	["weapon_ttt_vss"] = 12,
+	["weapon_ttt_p228"] = 13,
+	["weapon_ttt_scorpion"] = 14,
+	["weapon_ttt_aug"] = 15,
+	["weapon_ttt_ak47"] = 16,
+	["weapon_ttt_tmp"] = 17,
+	["weapon_ttt_galil"] = 18,
+	["weapon_ttt_mr96"] = 19,
+	["weapon_ttt_m1014"] = 20,
+	["weapon_zm_pistol"] = 21,
+	["weapon_ttt_m16"] = 22,
+	["weapon_ttt_dual_elites"] = 23,
+	["weapon_doubleb"] = 24,
+	["weapon_ttt_cz75"] = 25,
+	["weapon_ttt_m03a3"] = 26,
+	["weapon_ttt_msbs"] = 27,
+	["weapon_ttt_shotgun"] = 28,
+	["weapon_ttt_p90"] = 29,
+	["weapon_ttt_mp5k"] = 30,
+	["weapon_ttt_mac11"] = 31,
+	["weapon_zm_rifle"] = 32,
+	["weapon_ttt_peacekeeper"] = 33, -- weapon_ttt_an94
+	["weapon_supershotty"] = 34,
+	["weapon_thompson"] = 35,
+	["weapon_flakgun"] = 36,
+	["weapon_ttt_glock"] = 37
 }
 
-MOAT_EVENT.WeaponsID = {
-    ["weapon_zm_sledge"] = 1,
-    ["weapon_ttt_m590"] = 2,
-    ["weapon_zm_shotgun"] = 3,
-    ["weapon_zm_revolver"] = 4,
-    ["weapon_zm_mac10"] = 5,
-    ["weapon_xm8b"] = 6,
-    ["weapon_ttt_sg552"] = 7,
-    ["weapon_ttt_ump45"] = 8,
-    ["weapon_ttt_famas"] = 9,
-    ["weapon_ttt_aug"] = 10,
-    ["weapon_ttt_ak47"] = 11,
-    ["weapon_ttt_galil"] = 12,
-    ["weapon_ttt_mr96"] = 13,
-    ["weapon_zm_pistol"] = 14,
-    ["weapon_ttt_m16"] = 15,
-    ["weapon_ttt_dual_elites"] = 16,
-    ["weapon_ttt_msbs"] = 17,
-    ["weapon_ttt_shotgun"] = 18,
-    ["weapon_ttt_p90"] = 19,
-    ["weapon_ttt_mp5"] = 20,
-    ["weapon_zm_rifle"] = 21,
-    ["weapon_thompson"] = 22,
-    ["weapon_flakgun"] = 23,
-    ["weapon_ttt_glock"] = 24
-}
+for k, v in pairs(MOAT_EVENT.WeaponsID) do
+	MOAT_EVENT.Weapons[v] = k
+end
 
 MOAT_EVENT.WeaponsChallenges = {
-    ["weapon_zm_sledge"] = {150, 75, 75, 50, 100, 25, 20, 300},
-    ["weapon_ttt_m590"] = {150, 75, 75, 50, 100, 25, 21, 400},
-    ["weapon_zm_shotgun"] = {150, 75, 75, 50, 100, 30, 23, 400},
-    ["weapon_zm_revolver"] = {100, 75, 65, 50, 75, 26, 20, 300},
-    ["weapon_zm_mac10"] = {200, 125, 100, 75, 125, 34, 24, 500},
-    ["weapon_xm8b"] = {150, 125, 125, 100, 100, 35, 25, 500},
-    ["weapon_ttt_sg552"] = {150, 100, 75, 75, 100, 32, 20, 450},
-    ["weapon_ttt_ump45"] = {200, 125, 125, 100, 125, 38, 27, 550},
-    ["weapon_ttt_famas"] = {150, 125, 125, 100, 115, 33, 23, 450},
-    ["weapon_ttt_aug"] = {150, 100, 75, 75, 100, 25, 18, 400},
-    ["weapon_ttt_ak47"] = {200, 150, 150, 125, 125, 40, 27, 500},
-    ["weapon_ttt_galil"] = {200, 150, 150, 125, 125, 35, 25, 500},
-    ["weapon_ttt_mr96"] = {150, 100, 75, 50, 100, 30, 20, 350},
-    ["weapon_zm_pistol"] = {100, 50, 75, 50, 75, 24, 13, 300},
-    ["weapon_ttt_m16"] = {200, 150, 150, 100, 125, 35, 25, 500},
-    ["weapon_ttt_dual_elites"] = {100, 50, 75, 50, 75, 25, 14, 300},
-    ["weapon_ttt_msbs"] = {150, 75, 75, 75, 100, 25, 20, 400},
-    ["weapon_ttt_shotgun"] = {150, 75, 75, 50, 100, 30, 20, 500},
-    ["weapon_ttt_p90"] = {200, 100, 100, 75, 125, 35, 23, 500},
-    ["weapon_ttt_mp5"] = {200, 100, 125, 100, 125, 35, 23, 500},
-    ["weapon_zm_rifle"] = {100, 65, 50, 50, 75, 20, 12, 300},
-    ["weapon_thompson"] = {200, 100, 100, 100, 125, 35, 23, 500},
-    ["weapon_flakgun"] = {100, 50, 50, 50, 75, 23, 12, 300},
-    ["weapon_ttt_glock"] = {100, 75, 75, 75, 100, 30, 18, 350}
+	["weapon_zm_sledge"] = {150, 75, 75, 50, 100, 25, 20, 300},
+	["weapon_ttt_m590"] = {150, 75, 75, 50, 100, 25, 21, 400},
+	["weapon_zm_shotgun"] = {150, 75, 75, 50, 100, 40, 25, 400},
+	["weapon_zm_revolver"] = {100, 75, 65, 50, 75, 26, 20, 300},
+	["weapon_zm_mac10"] = {200, 125, 100, 75, 125, 34, 24, 500},
+	["weapon_xm8b"] = {150, 125, 125, 100, 100, 35, 25, 500},
+	["weapon_ttt_sg552"] = {150, 100, 75, 75, 100, 32, 20, 450},
+	["weapon_ttt_mp5"] = {200, 100, 125, 100, 125, 35, 23, 500},
+	["weapon_ttt_ump45"] = {200, 125, 125, 100, 125, 38, 27, 500},
+	["weapon_ttt_famas"] = {150, 125, 125, 100, 115, 33, 23, 450},
+	["weapon_spas12pvp"] = {150, 75, 75, 50, 100, 35, 20, 500},
+	["weapon_ttt_vss"] = {100, 65, 50, 50, 100, 23, 16, 400},
+	["weapon_ttt_p228"] = {100, 50, 50, 50, 75, 27, 14, 300},
+	["weapon_ttt_scorpion"] = {200, 125, 100, 75, 125, 32, 26, 500},
+	["weapon_ttt_aug"] = {150, 100, 75, 75, 100, 25, 18, 400},
+	["weapon_ttt_ak47"] = {200, 150, 150, 125, 125, 40, 27, 500},
+	["weapon_ttt_tmp"] = {150, 75, 75, 75, 100, 32, 17, 350},
+	["weapon_ttt_galil"] = {200, 150, 150, 125, 125, 35, 25, 500},
+	["weapon_ttt_mr96"] = {150, 100, 75, 50, 100, 30, 20, 350},
+	["weapon_ttt_m1014"] = {150, 75, 75, 50, 100, 28, 25, 400},
+	["weapon_zm_pistol"] = {100, 50, 75, 50, 75, 24, 13, 300},
+	["weapon_ttt_m16"] = {200, 150, 150, 100, 125, 35, 25, 500},
+	["weapon_ttt_dual_elites"] = {100, 50, 75, 50, 75, 25, 14, 300},
+	["weapon_doubleb"] = {100, 50, 75, 50, 100, 20, 11, 300},
+	["weapon_ttt_cz75"] = {100, 75, 75, 75, 100, 30, 20, 350},
+	["weapon_ttt_m03a3"] = {150, 75, 75, 75, 100, 23, 18, 400},
+	["weapon_ttt_msbs"] = {150, 75, 75, 75, 100, 25, 20, 400},
+	["weapon_ttt_shotgun"] = {150, 75, 75, 50, 100, 35, 22, 500},
+	["weapon_ttt_p90"] = {200, 100, 100, 75, 125, 35, 23, 500},
+	["weapon_ttt_mp5k"] = {200, 100, 125, 100, 125, 35, 23, 500},
+	["weapon_ttt_mac11"] = {200, 125, 100, 75, 125, 34, 24, 500},
+	["weapon_zm_rifle"] = {100, 65, 50, 50, 75, 20, 12, 300},
+	["weapon_ttt_peacekeeper"] = {200, 150, 150, 125, 120, 35, 24, 500}, -- weapon_ttt_an94
+	["weapon_supershotty"] = {150, 75, 75, 50, 100, 35, 21, 500},
+	["weapon_thompson"] = {200, 100, 100, 100, 125, 35, 23, 500},
+	["weapon_flakgun"] = {100, 50, 50, 50, 75, 23, 12, 300},
+	["weapon_ttt_glock"] = {100, 75, 75, 75, 100, 30, 18, 350},
 }
 
+function MOAT_EVENT.WeaponClass(class)
+	if (class == "weapon_ttt_an94") then
+		class = "weapon_ttt_peacekeeper"
+	end
+
+	return class
+end
+
 function MOAT_EVENT.WepToID(class)
-	return MOAT_EVENT.WeaponsID[class] or nil
+	class = MOAT_EVENT.WeaponClass(class)
+
+	return MOAT_EVENT.WeaponsID[class]
 end
 
 function MOAT_EVENT.SendData(pl, weps)
@@ -306,8 +282,8 @@ function MOAT_EVENT.UpdateData(pl, wep, id)
 end
 
 function MOAT_EVENT.SendTop(pl)
-	MOAT_EVENT.SQL.FormatQuery("SELECT name, steamid, complete FROM moat_event ORDER BY complete DESC LIMIT 15", function(d)
-		if (not pl:IsValid()) then return end
+	MOAT_EVENT.SQL.FormatQuery("SELECT CAST(steamid AS CHAR) AS steamid, name, complete FROM moat_event ORDER BY complete DESC LIMIT 15", function(d)
+		if (not IsValid(pl)) then return end
 		if (not d or #d < 1) then return end
 
 		for i = 1, #d do
@@ -321,11 +297,20 @@ function MOAT_EVENT.SendTop(pl)
 	end)
 end
 
+net.Receive("moat.events.top", function(_, pl)
+	if (pl.RequestedEventsTop) then
+		return
+	end
+
+	MOAT_EVENT.SendTop(pl)
+	pl.RequestedEventsTop = true
+end)
+
 function MOAT_EVENT.CheckPlayer(pl)
 	if (not pl:SteamID64()) then return end
-	
+
 	MOAT_EVENT.SQL.FormatQuery("SELECT weps FROM moat_event WHERE steamid = #", pl:SteamID64(), function(d)
-		if (not pl:IsValid()) then return end
+		if (not IsValid(pl)) then return end
 
 		if (not d or #d < 1) then
 			MOAT_EVENT.NewPlayer(pl)
@@ -333,8 +318,6 @@ function MOAT_EVENT.CheckPlayer(pl)
 			MOAT_EVENT.SendData(pl, util.JSONToTable(d[1].weps))
 		end
 	end)
-
-	MOAT_EVENT.SendTop(pl)
 end
 hook.Add("PlayerInitialSpawn", "MOAT_EVENT.CheckPlayer", MOAT_EVENT.CheckPlayer)
 
@@ -346,7 +329,7 @@ function MOAT_EVENT.NewPlayer(pl)
 	end
 
 	MOAT_EVENT.SQL.FormatQuery("INSERT INTO moat_event (name, steamid, complete, weps) VALUES ('#', '#', 0, '#')", pl:Nick(), pl:SteamID64(), util.TableToJSON(tbl), function(d)
-		if (not pl:IsValid()) then return end
+		if (not IsValid(pl)) then return end
 
 		MOAT_EVENT.SendData(pl, tbl)
 	end)
@@ -355,11 +338,13 @@ end
 function MOAT_EVENT.SavePlayer(pl)
 	if (not pl.MOAT_EVENT) then return end
 	if (#pl.MOAT_EVENT < 1) then return end
-	
+
 	MOAT_EVENT.SQL.FormatQuery("UPDATE moat_event SET weps = '#' WHERE steamid = #", util.TableToJSON(pl.MOAT_EVENT), pl:SteamID64())
 end
 
 function MOAT_EVENT.OnChallenge(pl, class, id)
+	class = MOAT_EVENT.WeaponClass(class)
+
 	local wep_id = MOAT_EVENT.WepToID(class)
 	local cur = pl.MOAT_EVENT[wep_id]
 	local tbl = MOAT_EVENT.WeaponsChallenges[class]
@@ -386,11 +371,11 @@ function MOAT_EVENT.OnChallenge(pl, class, id)
 end
 
 function MOAT_EVENT.PlayerDeathEvent(vic, inf, att)
-	if (att:IsValid() and att:IsPlayer()) then
+	if (IsValid(att) and att:IsPlayer()) then
 		inf = att:GetActiveWeapon()
 	end
 
-	if (vic:IsValid() and att:IsValid() and att:IsPlayer() and vic ~= att and WasRightfulKill(att, vic) and inf:IsValid() and inf:IsWeapon() and inf.ClassName and MOAT_EVENT.WeaponsID[inf.ClassName]) then
+	if (IsValid(vic) and IsValid(att) and att:IsPlayer() and vic ~= att and WasRightfulKill(att, vic) and IsValid(inf) and inf:IsWeapon() and inf.ClassName and MOAT_EVENT.WepToID(inf.ClassName)) then
 		if (not att.MOAT_EVENT) then return end
 
 		local wep_id = MOAT_EVENT.WepToID(inf.ClassName)
@@ -443,17 +428,17 @@ end
 hook.Add("TTTBeginRound", "MOAT_EVENT.ResetEventPentaKill", MOAT_EVENT.ResetEventPentaKill)
 
 function MOAT_EVENT.EntityTakeDamage(pl, dmg)
-	if (not pl:IsValid() or not pl:IsPlayer()) then return end
+	if (not IsValid(pl) or not pl:IsPlayer()) then return end
 	local vic, inf, att, hit, dmg = pl, dmg:GetInflictor(), dmg:GetAttacker(), dmg:GetDamageCustom(), dmg:GetDamage()
 
-	if (att:IsValid() and att:IsPlayer()) then
+	if (IsValid(att) and att:IsPlayer()) then
 		inf = att:GetActiveWeapon()
 	end
 
-	if (not att:IsValid() or not att:IsPlayer()) then return end
+	if (not IsValid(att) or not att:IsPlayer()) then return end
 	if (att == vic) then return end
 
-	if (dmg >= vic:Health() and WasRightfulKill(att, vic) and inf:IsValid() and inf:IsWeapon() and inf.ClassName and MOAT_EVENT.WeaponsID[inf.ClassName]) then
+	if (dmg >= vic:Health() and WasRightfulKill(att, vic) and IsValid(inf) and inf:IsWeapon() and inf.ClassName and MOAT_EVENT.WepToID(inf.ClassName)) then
 		if (not att.MOAT_EVENT) then return end
 
 		local wep_id = MOAT_EVENT.WepToID(inf.ClassName)

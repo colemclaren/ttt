@@ -1,13 +1,3 @@
-
-
-surface.CreateFont("moat_ChatFont2", {
-    font = "DermaLarge",
-    size = 20,
-    weight = 1200
-})
-
-if (true) then return end
-
 MOAT_EVENT = MOAT_EVENT or {}
 MOAT_EVENT.CurCat = 1
 MOAT_EVENT.EventPnl = nil
@@ -19,7 +9,7 @@ MOAT_EVENT.ChalColors = {
     Color(255, 255, 0),
     Color(0, 255, 0)
 }
-
+MOAT_EVENT.TopPlayers = MOAT_EVENT.TopPlayers or {}
 MOAT_EVENT.Challenges = {
     "Obtain {num} rightful kills as a terrorist with any {weapon} as the weapon of death.",
     "Obtain {num} headshot kills as a terrorist with any {weapon} as the weapon of death.",
@@ -34,85 +24,89 @@ MOAT_EVENT.Challenges = {
 MOAT_EVENT.prefixes = {"Novice", "Amateur", "Apprentice", "Professional", "Master", "Expert", "Legend", "God"}
 
 -- weapon ids
-MOAT_EVENT.Weapons = {
-    [1]   =   "weapon_zm_sledge",
-    [2]   =   "weapon_ttt_m590",
-    [3]   =   "weapon_zm_shotgun",
-    [4]   =   "weapon_zm_revolver",
-    [5]   =   "weapon_zm_mac10",
-    [6]   =   "weapon_xm8b",
-    [7]   =   "weapon_ttt_sg552",
-    [8]   =   "weapon_ttt_ump45",
-    [9]   =   "weapon_ttt_famas",
-    [10]  =   "weapon_ttt_aug",
-    [11]  =   "weapon_ttt_ak47",
-    [12]  =   "weapon_ttt_galil",
-    [13]  =   "weapon_ttt_mr96",
-    [14]  =   "weapon_zm_pistol",
-    [15]  =   "weapon_ttt_m16",
-    [16]  =   "weapon_ttt_dual_elites",
-    [17]  =   "weapon_ttt_msbs",
-    [18]  =   "weapon_ttt_shotgun",
-    [19]  =   "weapon_ttt_p90",
-    [20]  =   "weapon_ttt_mp5",
-    [21]  =   "weapon_zm_rifle",
-    [22]  =   "weapon_thompson",
-    [23]  =   "weapon_flakgun",
-    [24]  =   "weapon_ttt_glock"
+MOAT_EVENT.Weapons = {}
+MOAT_EVENT.WeaponsID = {
+	["weapon_zm_sledge"] = 1,
+	["weapon_ttt_m590"] = 2,
+	["weapon_zm_shotgun"] = 3,
+	["weapon_zm_revolver"] = 4,
+	["weapon_zm_mac10"] = 5,
+	["weapon_xm8b"] = 6,
+	["weapon_ttt_sg552"] = 7,
+	["weapon_ttt_mp5"] = 8,
+	["weapon_ttt_ump45"] = 9,
+	["weapon_ttt_famas"] = 10,
+	["weapon_spas12pvp"] = 11,
+	["weapon_ttt_vss"] = 12,
+	["weapon_ttt_p228"] = 13,
+	["weapon_ttt_scorpion"] = 14,
+	["weapon_ttt_aug"] = 15,
+	["weapon_ttt_ak47"] = 16,
+	["weapon_ttt_tmp"] = 17,
+	["weapon_ttt_galil"] = 18,
+	["weapon_ttt_mr96"] = 19,
+	["weapon_ttt_m1014"] = 20,
+	["weapon_zm_pistol"] = 21,
+	["weapon_ttt_m16"] = 22,
+	["weapon_ttt_dual_elites"] = 23,
+	["weapon_doubleb"] = 24,
+	["weapon_ttt_cz75"] = 25,
+	["weapon_ttt_m03a3"] = 26,
+	["weapon_ttt_msbs"] = 27,
+	["weapon_ttt_shotgun"] = 28,
+	["weapon_ttt_p90"] = 29,
+	["weapon_ttt_mp5k"] = 30,
+	["weapon_ttt_mac11"] = 31,
+	["weapon_zm_rifle"] = 32,
+	["weapon_ttt_peacekeeper"] = 33, -- weapon_ttt_an94
+	["weapon_supershotty"] = 34,
+	["weapon_thompson"] = 35,
+	["weapon_flakgun"] = 36,
+	["weapon_ttt_glock"] = 37
 }
 
-MOAT_EVENT.WeaponsID = {
-    ["weapon_zm_sledge"] = 1,
-    ["weapon_ttt_m590"] = 2,
-    ["weapon_zm_shotgun"] = 3,
-    ["weapon_zm_revolver"] = 4,
-    ["weapon_zm_mac10"] = 5,
-    ["weapon_xm8b"] = 6,
-    ["weapon_ttt_sg552"] = 7,
-    ["weapon_ttt_ump45"] = 8,
-    ["weapon_ttt_famas"] = 9,
-    ["weapon_ttt_aug"] = 10,
-    ["weapon_ttt_ak47"] = 11,
-    ["weapon_ttt_galil"] = 12,
-    ["weapon_ttt_mr96"] = 13,
-    ["weapon_zm_pistol"] = 14,
-    ["weapon_ttt_m16"] = 15,
-    ["weapon_ttt_dual_elites"] = 16,
-    ["weapon_ttt_msbs"] = 17,
-    ["weapon_ttt_shotgun"] = 18,
-    ["weapon_ttt_p90"] = 19,
-    ["weapon_ttt_mp5"] = 20,
-    ["weapon_zm_rifle"] = 21,
-    ["weapon_thompson"] = 22,
-    ["weapon_flakgun"] = 23,
-    ["weapon_ttt_glock"] = 24
-}
+for k, v in pairs(MOAT_EVENT.WeaponsID) do
+	MOAT_EVENT.Weapons[v] = k
+end
 
 MOAT_EVENT.WeaponsChallenges = {
-    ["weapon_zm_sledge"] = {150, 75, 75, 50, 100, 25, 20, 300},
-    ["weapon_ttt_m590"] = {150, 75, 75, 50, 100, 25, 21, 400},
-    ["weapon_zm_shotgun"] = {150, 75, 75, 50, 100, 30, 23, 400},
-    ["weapon_zm_revolver"] = {100, 75, 65, 50, 75, 26, 20, 300},
-    ["weapon_zm_mac10"] = {200, 125, 100, 75, 125, 34, 24, 500},
-    ["weapon_xm8b"] = {150, 125, 125, 100, 100, 35, 25, 500},
-    ["weapon_ttt_sg552"] = {150, 100, 75, 75, 100, 32, 20, 450},
-    ["weapon_ttt_ump45"] = {200, 125, 125, 100, 125, 38, 27, 550},
-    ["weapon_ttt_famas"] = {150, 125, 125, 100, 115, 33, 23, 450},
-    ["weapon_ttt_aug"] = {150, 100, 75, 75, 100, 25, 18, 400},
-    ["weapon_ttt_ak47"] = {200, 150, 150, 125, 125, 40, 27, 500},
-    ["weapon_ttt_galil"] = {200, 150, 150, 125, 125, 35, 25, 500},
-    ["weapon_ttt_mr96"] = {150, 100, 75, 50, 100, 30, 20, 350},
-    ["weapon_zm_pistol"] = {100, 50, 75, 50, 75, 24, 13, 300},
-    ["weapon_ttt_m16"] = {200, 150, 150, 100, 125, 35, 25, 500},
-    ["weapon_ttt_dual_elites"] = {100, 50, 75, 50, 75, 25, 14, 300},
-    ["weapon_ttt_msbs"] = {150, 75, 75, 75, 100, 25, 20, 400},
-    ["weapon_ttt_shotgun"] = {150, 75, 75, 50, 100, 30, 20, 500},
-    ["weapon_ttt_p90"] = {200, 100, 100, 75, 125, 35, 23, 500},
-    ["weapon_ttt_mp5"] = {200, 100, 125, 100, 125, 35, 23, 500},
-    ["weapon_zm_rifle"] = {100, 65, 50, 50, 75, 20, 12, 300},
-    ["weapon_thompson"] = {200, 100, 100, 100, 125, 35, 23, 500},
-    ["weapon_flakgun"] = {100, 50, 50, 50, 75, 23, 12, 300},
-    ["weapon_ttt_glock"] = {100, 75, 75, 75, 100, 30, 18, 350}
+	["weapon_zm_sledge"] = {150, 75, 75, 50, 100, 25, 20, 300},
+	["weapon_ttt_m590"] = {150, 75, 75, 50, 100, 25, 21, 400},
+	["weapon_zm_shotgun"] = {150, 75, 75, 50, 100, 40, 25, 400},
+	["weapon_zm_revolver"] = {100, 75, 65, 50, 75, 26, 20, 300},
+	["weapon_zm_mac10"] = {200, 125, 100, 75, 125, 34, 24, 500},
+	["weapon_xm8b"] = {150, 125, 125, 100, 100, 35, 25, 500},
+	["weapon_ttt_sg552"] = {150, 100, 75, 75, 100, 32, 20, 450},
+	["weapon_ttt_mp5"] = {200, 100, 125, 100, 125, 35, 23, 500},
+	["weapon_ttt_ump45"] = {200, 125, 125, 100, 125, 38, 27, 500},
+	["weapon_ttt_famas"] = {150, 125, 125, 100, 115, 33, 23, 450},
+	["weapon_spas12pvp"] = {150, 75, 75, 50, 100, 35, 20, 500},
+	["weapon_ttt_vss"] = {100, 65, 50, 50, 100, 23, 16, 400},
+	["weapon_ttt_p228"] = {100, 50, 50, 50, 75, 27, 14, 300},
+	["weapon_ttt_scorpion"] = {200, 125, 100, 75, 125, 32, 26, 500},
+	["weapon_ttt_aug"] = {150, 100, 75, 75, 100, 25, 18, 400},
+	["weapon_ttt_ak47"] = {200, 150, 150, 125, 125, 40, 27, 500},
+	["weapon_ttt_tmp"] = {150, 75, 75, 75, 100, 32, 17, 350},
+	["weapon_ttt_galil"] = {200, 150, 150, 125, 125, 35, 25, 500},
+	["weapon_ttt_mr96"] = {150, 100, 75, 50, 100, 30, 20, 350},
+	["weapon_ttt_m1014"] = {150, 75, 75, 50, 100, 28, 25, 400},
+	["weapon_zm_pistol"] = {100, 50, 75, 50, 75, 24, 13, 300},
+	["weapon_ttt_m16"] = {200, 150, 150, 100, 125, 35, 25, 500},
+	["weapon_ttt_dual_elites"] = {100, 50, 75, 50, 75, 25, 14, 300},
+	["weapon_doubleb"] = {100, 50, 75, 50, 100, 20, 11, 300},
+	["weapon_ttt_cz75"] = {100, 75, 75, 75, 100, 30, 20, 350},
+	["weapon_ttt_m03a3"] = {150, 75, 75, 75, 100, 23, 18, 400},
+	["weapon_ttt_msbs"] = {150, 75, 75, 75, 100, 25, 20, 400},
+	["weapon_ttt_shotgun"] = {150, 75, 75, 50, 100, 35, 22, 500},
+	["weapon_ttt_p90"] = {200, 100, 100, 75, 125, 35, 23, 500},
+	["weapon_ttt_mp5k"] = {200, 100, 125, 100, 125, 35, 23, 500},
+	["weapon_ttt_mac11"] = {200, 125, 100, 75, 125, 34, 24, 500},
+	["weapon_zm_rifle"] = {100, 65, 50, 50, 75, 20, 12, 300},
+	["weapon_ttt_peacekeeper"] = {200, 150, 150, 125, 120, 35, 24, 500}, -- weapon_ttt_an94
+	["weapon_supershotty"] = {150, 75, 75, 50, 100, 35, 21, 500},
+	["weapon_thompson"] = {200, 100, 100, 100, 125, 35, 23, 500},
+	["weapon_flakgun"] = {100, 50, 50, 50, 75, 23, 12, 300},
+	["weapon_ttt_glock"] = {100, 75, 75, 75, 100, 30, 18, 350},
 }
 
 function MOAT_EVENT.ReceiveChallenges()
@@ -155,7 +149,7 @@ function MOAT_EVENT.ChallengeComplete()
 
     chat.AddText(Material("icon16/medal_gold_3.png"), Color(255, 0, 0), "Event ", Color(0, 255, 255), "| ", Color(255, 255, 0), wpn_str .. " " .. MOAT_EVENT.prefixes[id] .. " objective completed!")
 
-	cdn.PlayURL "https://cdn.moat.gg/f/hOSKETYPHGveDxb7PLDeRff3dD6N.wav"
+	cdn.PlayURL "https://cdn.moat.gg/ttt/levelup.wav"
 end
 
 net.Receive("moat.events.complete", MOAT_EVENT.ChallengeComplete)
@@ -210,7 +204,6 @@ local function crtt(pnl, wpn, num)
     end
 
     local amt = MOAT_EVENT.WeaponsChallenges[wpn.ClassName][num]
-    local amt_length = nil
 
     if (IsValid(MOAT_EVENT.HoverPanel)) then
         MOAT_EVENT.HoverPanel:Remove()
@@ -233,10 +226,8 @@ local function crtt(pnl, wpn, num)
     t:SetAlpha(0)
 
     t.Paint = function(s, w, h)
-        if (not amt_length) then
-            surface.SetFont("moat_ChatFont")
-            amt_length = surface.GetTextSize(amt)
-        end
+		surface.SetFont("moat_ChatFont")
+		local amt_length = surface.GetTextSize("/" .. amt)
 
         DrawBlur(s, 5)
 
@@ -266,7 +257,7 @@ local function crtt(pnl, wpn, num)
             surface.SetDrawColor(255, 0, 0, 50)
             surface.DrawRect(5, h - 13, w - 10, 8)
         else
-            draw.DrawText( MOAT_EVENT.CurChallenges[MOAT_EVENT.WeaponsID[wpn.ClassName]][num], "moat_ChatFont", w - 9 - amt_length, h - 30, Color(0, 255, 0, 255), TEXT_ALIGN_RIGHT)
+            draw.DrawText(MOAT_EVENT.CurChallenges[MOAT_EVENT.WeaponsID[wpn.ClassName]][num], "moat_ChatFont", w - 9 - amt_length, h - 30, Color(0, 255, 0, 255), TEXT_ALIGN_RIGHT)
             draw.DrawText("/" .. amt, "moat_ChatFont", w - 5, h - 30, Color(255, 255, 255, 255), TEXT_ALIGN_RIGHT)
 
             surface.SetDrawColor(0, 255, 0, 50)
@@ -351,8 +342,9 @@ local function addpnl(wpn, num, pnl)
             s:SetCursor("hand")
         end
     end
+	sfx.HoverSound(btn)
+	sfx.ClickSound(btn)
     btn.DoClick = function() end
-    btn.OnCursorEntered = function() if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
 end
 
 local function addrow(wpn, pnl, last)
@@ -367,7 +359,7 @@ local function addrow(wpn, pnl, last)
     end
 end
 
-function MOAT_EVENT.OverviewPanel(pnl)
+function MOAT_EVENT.ObjectivePanel(pnl)
     if (not MOAT_EVENT.CurChallenges) then
         pnl.Paint = function(s, w, h)
             draw.SimpleTextOutlined("Error Loading Objectives", "GModNotify", w/2, 15, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
@@ -420,21 +412,32 @@ function MOAT_EVENT.ReceiveTop()
     local num = net.ReadUInt(6)
 
     MOAT_EVENT.TopPlayers[num] = {net.ReadString(), net.ReadString(), net.ReadUInt(16)}
+
+	if (m_RebuildEventPanel and MOAT_EVENT.CurCat == 2) then
+		m_RebuildEventPanel(MOAT_EVENT.CurCat)
+	end
 end
 net.Receive("moat.events.top", MOAT_EVENT.ReceiveTop)
 
-function MOAT_EVENT.ObjectivePanel(pnl)
-    if (not MOAT_EVENT.TopPlayers) then return end
-    
+function MOAT_EVENT.OverviewPanel(pnl)
+	if (not MOAT_EVENT.TopPlayers) then return end
+
 	pnl.Paint = function(s, w, h)
         draw.SimpleTextOutlined("Event Overview", "GModNotify", w/2, 15, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("Complete objectives for weapons to advance to harder challenges for better rewards.", "moat_ItemDesc", w/2, 35, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("You may start with whichever gun you choose!", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
 	
-        draw.SimpleTextOutlined("Top 15 Players", "GModNotify", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
+        draw.SimpleTextOutlined("Top 50 Players", "GModNotify", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("Objectives Complete", "moat_ItemDesc", w - 4, 99, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("Player", "moat_ItemDesc", 5, 99, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
     end
+
+	if (#MOAT_EVENT.TopPlayers < 15 and not MOAT_EVENT.RequestedTop) then
+		MOAT_EVENT.RequestedTop = true
+
+		net.Start "moat.events.top"
+		net.SendToServer()
+	end
 
     local btn_y = 108
     local amt = math.min(#MOAT_EVENT.TopPlayers, 15)
@@ -449,6 +452,12 @@ function MOAT_EVENT.ObjectivePanel(pnl)
         btn.Paint = function(s, w, h)
             surface.SetDrawColor(0, 0, 0, 150)
             surface.DrawRect(0, 0, w, h)
+
+			if (s:IsHovered()) then
+				s.Hovered = true
+			elseif (IsValid(btn.avatar) and not btn.avatar:IsHovered()) then
+				s.Hovered = false
+			end
 
             if (s.Hovered) then
                 surface.SetDrawColor(255, 255, 255, 5)
@@ -478,18 +487,25 @@ function MOAT_EVENT.ObjectivePanel(pnl)
 
             draw.SimpleTextOutlined(MOAT_EVENT.TopPlayers[i][3], "moat_ItemDesc", w - 8, (h/2) - 1, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         end
-        btn.OnCursorEntered = function() if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
+		sfx.HoverSound(btn)
+		sfx.ClickSound(btn)
         btn.DoClick = function()
-            if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
-
-            gui.OpenURL("https://steamcommunity.com/profiles/" .. MOAT_EVENT.TopPlayers[i][1])
+            gui.OpenURL("https://moat.gg/profile/" .. MOAT_EVENT.TopPlayers[i][1])
         end
-        
+
         local ava = vgui.Create("AvatarImage", btn)
         ava:SetPos(1, 1)
         ava:SetSize(23, 23)
         ava:SetSteamID(MOAT_EVENT.TopPlayers[i][1], 32)
-
+		ava.OnMousePressed = btn.DoClick
+		ava:SetCursor "hand"
+		ava.Think = function(s)
+			if (s:IsHovered() and IsValid(btn)) then
+				btn.Hovered = true
+			elseif (IsValid(btn) and not btn:IsHovered()) then
+				btn.Hovered = false
+			end
+		end
         btn.avatar = ava
 
         btn_y = btn_y + 27
@@ -528,23 +544,25 @@ local event_rules = {
 	"",
 	"",
 	"That's all! Not bad right? Now have fun participating in the event! We love you!",
-	" - Moat Gaming Staff Team"
+	" - Moat Trust & Safety Team"
 }
 
 function MOAT_EVENT.RulesPanel(pnl)
 	pnl.Paint = function(s, w, h)
-		cdn.DrawImage("https://cdn.moat.gg/f/qlCyJTXSLfxArPZsI4Ee9q8caI21.png", w/2 - 80, 40, 180, 44.44)
-		draw.SimpleTextOutlined("Moat Gaming Official Event Rules", "Trebuchet24", w/2, 20, Color(0, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
+		-- cdn.DrawImage("https://cdn.moat.gg/f/qlCyJTXSLfxArPZsI4Ee9q8caI21.png", w/2 - 80, 40, 180, 44.44)
+		cdn.DrawImage("https://ttt.dev/4uKQJ.png", (w / 2) - (235 / 2), 30, 256, 256, Color(255, 255, 255, 225))
+
+		draw.SimpleTextOutlined("Moat Official Event Rules", "Trebuchet24", w/2, 20, moat_lyanblue, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
 
 		for i = 1, #event_rules do
-			draw.SimpleText(event_rules[i], "moat_ItemDesc", 10, 100 + ((i - 1) * 15), Color(255, 255, 255))
+			draw.SimpleText(event_rules[i], "moat_ItemDesc", 10, 165 + ((i - 1) * 15), Color(255, 255, 255))
 		end
 	end
 end
 
 MOAT_EVENT.Tabs = {
-	{"Objectives", MOAT_EVENT.OverviewPanel},
-	{"Overview", MOAT_EVENT.ObjectivePanel},
+	{"Objectives", MOAT_EVENT.ObjectivePanel},
+	{"Overview", MOAT_EVENT.OverviewPanel},
 	--{"Group", MOAT_EVENT.GroupPanel},
 	--{"Invites", MOAT_EVENT.InvitePanel},
 	--{"Manage", MOAT_EVENT.ManagePanel},
@@ -560,7 +578,7 @@ function m_PopulateEventPanel(pnl)
         draw.RoundedBox(0, 155, 0, w-155, h, Color(0, 0, 0, 150))
     end
 
-    local function m_RebuildEventPanel(num)
+	function m_RebuildEventPanel(num)
         if (IsValid(MOAT_EVENT.EventPnl)) then
             MOAT_EVENT.EventPnl:Remove()
         end
@@ -611,13 +629,12 @@ function m_PopulateEventPanel(pnl)
             end
             draw.RoundedBox(0, 0, 0, 4 * s.HoveredWidth, h, HSVToColor( i * 55 % 360, 1, 1 ))
         end
+		sfx.HoverSound(cat_btn, sfx.Click2)
+		sfx.ClickSound(cat_btn)
         cat_btn.DoClick = function(s)
-            if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop1.wav") end
-
             MOAT_EVENT.CurCat = i
             m_RebuildEventPanel(MOAT_EVENT.CurCat)
         end
-        cat_btn.OnCursorEntered = function() if (GetConVar("moat_ui_sounds"):GetInt() > 0) then LocalPlayer():EmitSound("moatsounds/pop2.wav") end end
     end
 
     m_RebuildEventPanel(MOAT_EVENT.CurCat)

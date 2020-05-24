@@ -84,7 +84,9 @@ function sfx.HoverSound(s, func)
 			end
 		end
 
-		s._OnCursorEntered(s)
+		if (s._OnCursorEntered) then
+			s._OnCursorEntered(s)
+		end
 	end
 end
 
@@ -107,7 +109,9 @@ function sfx.ClickSound(s, func)
 			end
 		end
 
-		s._OnMousePressed(s, key)
+		if (s._OnMousePressed) then
+			s._OnMousePressed(s, key)
+		end
 	end
 end
 

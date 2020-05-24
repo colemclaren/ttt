@@ -1188,7 +1188,7 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
     end
 
     if (rewards.exp) then
-        ply:ApplyXP(rewards.exp)
+        ply:ApplyXP(rewards.exp * XP_MULTIPYER)
     end
 
     local t = self.Bounties[bounty_id].tier
