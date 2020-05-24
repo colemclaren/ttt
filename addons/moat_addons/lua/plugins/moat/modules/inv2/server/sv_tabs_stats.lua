@@ -4,22 +4,22 @@ function m_InitStatsToPlayer(ply, stats_tbl)
     local stats = stats_tbl or {}
     MOAT_STATS[ply] = {}
 
-	MOAT_STATS[ply]["x"] = stats.x or 0
+	MOAT_STATS[ply]["x"] = stats.x
 	ply:SetNW2Int("MOAT_STATS_XP", MOAT_STATS[ply]["x"])
 
-    MOAT_STATS[ply]["l"] = stats.l or 1
+    MOAT_STATS[ply]["l"] = stats.l
     ply:SetNW2Int("MOAT_STATS_LVL", MOAT_STATS[ply]["l"])
 
-    MOAT_STATS[ply]["o"] = stats.o or 0
+    MOAT_STATS[ply]["o"] = stats.o
     ply:SetNW2Int("MOAT_STATS_DROPS", MOAT_STATS[ply]["o"])
 
-    MOAT_STATS[ply]["r"] = stats.r or 0
+    MOAT_STATS[ply]["r"] = stats.r
     ply:SetNW2Int("MOAT_STATS_DECONSTRUCTS", MOAT_STATS[ply]["r"])
 
-    MOAT_STATS[ply]["k"] = stats.k or 0
+    MOAT_STATS[ply]["k"] = stats.k
     ply:SetNW2Int("MOAT_STATS_KILLS", MOAT_STATS[ply]["k"])
 
-    MOAT_STATS[ply]["d"] = stats.d or 0
+    MOAT_STATS[ply]["d"] = stats.d
     ply:SetNW2Int("MOAT_STATS_DEATHS", MOAT_STATS[ply]["d"])
 
     hook.Run("PlayerStatsLoaded", ply, stats)
@@ -32,10 +32,10 @@ function meta:m_ModifyStatType(str, key, value, set)
         MOAT_STATS[self] = {}
     end
 
-	if (not MOAT_STATS[self][key]) then
-		MOAT_STATS[self][key] = value
-		self:SetNW2Int(str, value)
-	end
+	-- if (not MOAT_STATS[self][key]) then
+	-- 	MOAT_STATS[self][key] = value
+	-- 	self:SetNW2Int(str, value)
+	-- end
 
     if (MOAT_STATS[self][key]) then
         if (self:GetNW2Int(str)) then
