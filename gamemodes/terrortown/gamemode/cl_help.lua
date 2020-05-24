@@ -260,6 +260,8 @@ function HELPSCRN:CreateTutorial(parent)
             tut.current = tut.current - 1
 			tut:SetImage(Format(imgpath, tut.current))
 			tut.Paint = function(s, w, h) cdn.DrawImage(Format(imgpath, tut.current), 0, 0, w, h) end
+
+			bar:SetValue(tut.current)
         end
     end
 end
