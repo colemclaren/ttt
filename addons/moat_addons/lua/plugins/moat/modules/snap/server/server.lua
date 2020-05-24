@@ -98,7 +98,7 @@ net.Receive("moat-ab",function(l,ply)
 				url = "https://api.imgur.com/3/image/" .. s.data.id,
 				method = "GET",
 				headers = {
-					["Authorization"] = "Client-ID 2201ae44ef37cfc"
+					["Authorization"] = "Client-ID e87dc10099155dd"
 				},
 				success = function(_,b,_,_)
 					b = util.JSONToTable(b)
@@ -158,7 +158,7 @@ net.Receive("moat-ab",function(l,ply)
 				url = "https://api.imgur.com/3/image/" .. s.data.id,
 				method = "GET",
 				headers = {
-					["Authorization"] = "Client-ID 2201ae44ef37cfc"
+					["Authorization"] = "Client-ID e87dc10099155dd"
 				},
 				success = function(_,b,_,_)
 					b = util.JSONToTable(b)

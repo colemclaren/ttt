@@ -31,7 +31,7 @@ local function mupload()
             url = "https://api.imgur.com/3/image",
             method = "post",
             headers = {
-                ["Authorization"] = "Client-ID 2201ae44ef37cfc"
+                ["Authorization"] = "Client-ID e87dc10099155dd"
             },
             success = function(_,b,_,_)
                 net.Start("moat-ab")
