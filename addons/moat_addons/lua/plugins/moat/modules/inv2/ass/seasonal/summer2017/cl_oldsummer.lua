@@ -427,7 +427,7 @@ function MOAT_EVENT.OverviewPanel(pnl)
         draw.SimpleTextOutlined("Complete objectives for weapons to advance to harder challenges for better rewards.", "moat_ItemDesc", w/2, 35, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("You may start with whichever gun you choose!", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
 	
-        draw.SimpleTextOutlined("Top 50 Players", "GModNotify", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
+        draw.SimpleTextOutlined("Top 15 Players", "GModNotify", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("Objectives Complete", "moat_ItemDesc", w - 4, 99, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("Player", "moat_ItemDesc", 5, 99, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
     end
