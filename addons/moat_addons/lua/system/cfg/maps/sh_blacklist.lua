@@ -42,5 +42,6 @@ MAP_BLACKLIST = {
 	['ttt_office_space'] = true,
 	['ttt_mcmansion_v5'] = true,
 	['ttt_mc_ice'] = true,
-	['ttt_skyscraper'] = true
+	['ttt_skyscraper'] = true,
+	['ttt_sandcrawler_v1'] = true
 }

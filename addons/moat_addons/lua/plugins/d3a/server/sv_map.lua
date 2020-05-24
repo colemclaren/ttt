@@ -1,13 +1,12 @@
 -- automatically handle unjoinable maps
-local default_map = "ttt_minecraftcity_v4"
-local default_regmap = "ttt_clue_se"
+local default_regmap = "ttt_rooftops_a2_f1"
 local default_mcmap = "ttt_minecraft_b5"
 local map_disconnect_reasons = {
 	["Client's map differs from the server's"] = true,
 	["Map is missing"] = true
 }
 
-local map_disconnect_limit, map_disconnects = 15, 0
+local map_disconnect_limit, map_disconnects = 3, 0
 function D3A.CheckMissingMap(forced)
 	local c = player.GetCount()
 	if (c >= 3 and not forced or Server.IsDev) then
@@ -17,12 +16,10 @@ function D3A.CheckMissingMap(forced)
 	map_disconnects = map_disconnects + 1
 
 	if (forced or map_disconnects >= map_disconnect_limit) then
-		if (not file.Exists("maps/" .. default_map .. ".bsp", "GAME")) then
-			if (GetHostName():lower():find("minecraft")) then
-				default_map = default_mcmap
-			else
-				default_map = default_regmap
-			end
+		local default_map = default_regmap
+
+		if (GetHostName():lower():find("minecraft")) then
+			default_map = default_mcmap
 		end
 
 		local rs = "too many missing map disconnections"
