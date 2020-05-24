@@ -452,4 +452,39 @@ function MOAT_EVENT.EntityTakeDamage(pl, dmg)
 	end
 end
 
-hook.Add("EntityTakeDamage", "MOAT_EVENT.EntityTakeDamage", MOAT_EVENT.EntityTakeDamage)
+-- hook.Add("EntityTakeDamage", "MOAT_EVENT.EntityTakeDamage", MOAT_EVENT.EntityTakeDamage)
+
+hook.Add("ScalePlayerDamage", "MOAT_EVENT.ScalePlayerDamage", function(ply, hitgroup, dmginfo)
+    local att, inf = dmginfo:GetAttacker(), dmginfo:GetInflictor()
+
+	if (IsValid(att) and att:IsPlayer()) then
+		inf = att:GetActiveWeapon()
+	end
+
+    if (hitgroup == HITGROUP_HEAD) then
+        att.eventhead = ply
+		att.eventwep = inf
+	elseif (att.eventhead == ply) then
+        att.eventhead = att
+		att.eventwep = inf
+    end
+end)
+
+ hook.Add("PlayerDeath", "MOAT_EVENT.PlayerDeath", function(ply, inf, att)
+	if (IsValid(att) and att:IsPlayer() and ply ~= att and (att.lasthead and att.lasthead == ply) and WasRightfulKill(att, ply)) then
+        inf = att.eventwep
+
+		if (IsValid(inf) and inf:IsWeapon() and inf.ClassName and MOAT_EVENT.WepToID(inf.ClassName)) then
+			if (not att.MOAT_EVENT) then return end
+			
+			local wep_id = MOAT_EVENT.WepToID(inf.ClassName)
+			if (not wep_id) then return end
+
+			if (MOAT_EVENT.OnChallenge(att, inf.ClassName, 2)) then
+				MOAT_EVENT.UpdateData(att, wep_id, 2)
+			elseif (MOAT_EVENT.OnChallenge(att, inf.ClassName, 4) and inf.Weapon.ItemStats and inf.Weapon.ItemStats.item and inf.Weapon.ItemStats.item.Rarity and inf.Weapon.ItemStats.item.Rarity == 3) then
+				MOAT_EVENT.UpdateData(att, wep_id, 4)
+			end
+		end
+	end
+end)
