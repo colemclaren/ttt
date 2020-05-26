@@ -10,7 +10,7 @@ function MOAT_GIFTS.UseEmptyGift(pl, slot, item, cslot, citem)
 	if (not i or not d) then return end
 	if (not d.c) then return end
 	if (pl.IsTradeBanned) then
-		D3A.Chat.SendToPlayer2(pl, Color(200, 0, 0), "You are trade banned!")
+		D3A.Chat.SendToPlayer2(pl, Color(200, 0, 0), "Currently trade banned")
 		return
 	end
 
@@ -107,22 +107,43 @@ end)
 util.AddNetworkString "MOAT_SEND_GIFT"
 
 net.Receive("MOAT_SEND_GIFT", function(_, pl)
+	if (pl.SendingGift) then return end
+	pl.SendingGift = true
+
 	local class = net.ReadString()
 	local slot = net.ReadString()
 	local sid = net.ReadString()
 	local anon = net.ReadBool()
 
 	local ply_inv = MOAT_INVS[pl]
-	if (not ply_inv) then return end
+	if (not ply_inv) then pl.SendingGift = nil return end
 	local i = ply_inv["slot" .. slot]
-	if (not i) then return end
-	if (i.u ~= 7821) then return end
+	if (not i) then pl.SendingGift = nil return end
+	if (i.u ~= 7821) then pl.SendingGift = nil return end
 	local j = util.TableToJSON(i)
-	if (not j) then return end
-	
-	moat_add_saved_item(sid, j)
-	pl:SendLua([[chat.AddText(Material("icon16/heart.png"), Color(255, 0, 255), "Successfully sent gift package! The player will receive the gift the next time they login! <3")]])
-	m_RemoveInventoryItem(pl, slot, class, 1)
+	if (not j) then pl.SendingGift = nil return end
 
-	MoatLog(pl:SteamID64() .. " sent a gift package to " .. sid .. " containing " .. j)
+	if (pl.IsTradeBanned) then
+		D3A.Chat.SendToPlayer2(pl, Color(200, 0, 0), "Currently trade banned")
+		pl.SendingGift = nil
+        return
+    end
+
+	
+	local sid64 = D3A.ParseSteamID(sid)
+	GetTradeBanLength(sid64, function(banned, reason)
+		if (banned) then
+			D3A.Chat.SendToPlayer2(pl, Color(200, 0, 0), "Currently trade banned")
+			pl.SendingGift = nil
+			return
+		end
+
+		moat_add_saved_item(sid, j)
+		pl:SendLua([[chat.AddText(Material("icon16/heart.png"), Color(255, 0, 255), "Successfully sent gift package! The player will receive the gift the next time they login! <3")]])
+		m_RemoveInventoryItem(pl, slot, class, 1)
+
+		MoatLog(pl:SteamID64() .. " sent a gift package to " .. sid .. " containing " .. j)
+
+		pl.SendingGift = nil
+    end)
 end)

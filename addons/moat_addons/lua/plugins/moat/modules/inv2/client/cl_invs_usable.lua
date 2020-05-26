@@ -524,6 +524,8 @@ function m_IniateUsableItem(num, itemtbl)
         if (INV_SELECTED_ITEM == nil) then return end
 
         if (selected_cache ~= INV_SELECTED_ITEM) then
+			selected_cache = INV_SELECTED_ITEM
+
             s.ErrorMessage = nil
             M_REQ_A:SetDisabled(false)
 
@@ -562,8 +564,6 @@ function m_IniateUsableItem(num, itemtbl)
                 end
             end
         end
-
-        selected_cache = INV_SELECTED_ITEM
     end
 
     m_DrawItemSlot(num, itemtbl, M_USABLE_PNL_BG, (M_USABLE_PNL_BG:GetWide()/2) - 34, 115)

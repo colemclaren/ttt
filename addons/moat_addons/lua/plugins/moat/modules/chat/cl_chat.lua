@@ -764,6 +764,14 @@ function moat_chat.InitChat()
     mc.ENTRY:SetFont(mc.font)
     mc.ENTRY.Stored = {}
 
+	local stored = cookie.GetString("moat_chat_sent")
+	if (stored) then
+		mc.ENTRY.Stored = bON(stored)
+		if (not mc.ENTRY.Stored or not istable(mc.ENTRY.Stored)) then
+			mc.ENTRY.Stored = {}
+		end
+	end
+
     mc.ENTRY.Paint = function(s, w, h)
         --[[
         surface_SetDrawColor(62, 62, 64, 255 * mc.alpha)
@@ -820,6 +828,12 @@ function moat_chat.InitChat()
 
         if (string.Trim(s:GetValue()) ~= "") then
             table.insert(s.Stored, 1, s:GetValue())
+			table.remove(s.Stored, 31)
+
+			local store = bON.serialize(s.Stored)
+			if (store) then
+				cookie.Set("moat_chat_sent", store)
+			end
         end
 
         SelectedChatMsg = nil
@@ -1172,7 +1186,6 @@ function chat.AddText(...)
 
 		if (t == "string") then
 			local safe, str = FamilyFriendly(TextTable[i], Sender)
-			print(Sender, safe, str)
 
 			if (safe) then
 				TextTable[i] = safe

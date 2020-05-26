@@ -32,7 +32,6 @@ end)
 net.Receive("D3A.Chat2", function(len)
 	if (net.ReadBool()) then
 		local instigator = net.ReadEntity()
-		print(insigator)
 		if (IsValid(instigator) and cookie.GetNumber("moat_block"..instigator:SteamID(), 0) == 1) then
 			return
 		end

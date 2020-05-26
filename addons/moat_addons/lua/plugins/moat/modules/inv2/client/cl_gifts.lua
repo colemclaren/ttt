@@ -171,7 +171,7 @@ function MOAT_GIFTS.SendGift(item, slot)
 	end
 
 	local b = vgui.Create("DButton", f)
-	b:SetPos(f:GetWide() - 145, f:GetTall() - 35)
+	b:SetPos(5, f:GetTall() - 35)
 	b:SetSize(140, 30)
 	b:SetFont("moat_ItemDesc")
 	b:SetText("Cancel")
@@ -179,7 +179,7 @@ function MOAT_GIFTS.SendGift(item, slot)
 	b.Red = true
 
 	f.s = vgui.Create("DButton", f)
-	f.s:SetPos(5, f:GetTall() - 35)
+	f.s:SetPos(f:GetWide() - 145, f:GetTall() - 35)
 	f.s:SetSize(140, 30)
 	f.s:SetFont("moat_ItemDesc")
 	f.s:SetText("Send Gift")

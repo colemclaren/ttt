@@ -791,6 +791,7 @@ local function m_SendTradeReq(ply, otherply)
     if (not IsValid(ent) or not ent:IsPlayer()) then return end
 
     if (ply.IsTradeBanned or ent.IsTradeBanned) then
+		D3A.Chat.SendToPlayer2(ply, Color(200, 0, 0), "Currently trade banned")
         return
     end
 

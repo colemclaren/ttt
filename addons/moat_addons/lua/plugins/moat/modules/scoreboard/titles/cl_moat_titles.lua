@@ -674,8 +674,8 @@ function populate_profile_card(MOAT_PROFILE,info)
 
     -- Rank
     local name = vgui.Create("DButton",MOAT_PROFILE)
-    name:SetPos(348,75)
-    name:SetSize(145,30)
+    name:SetPos(338,75)
+    name:SetSize(155,30)
     name:SetText("")
     name.info = rank[1]
     function name:Paint(w,h)
@@ -783,7 +783,7 @@ function populate_profile_card(MOAT_PROFILE,info)
         name:SetSize(MOAT_PROFILE:GetWide(),30)
         name:SetTextColor(Color(240, 20, 20, 255))
         name:SetText ""
-        local len = "Trade banned for " .. (info.banlength == 0 and "forever" or D3A.FormatTime(0, info.banlength))
+        local len = "Currently trade banned"
         name.info = len
         function name:Paint(w,h)
             draw.SimpleTextOutlined(name.info, "profile.steamid", w / 2, 0, Color(240, 20, 20, 255), TEXT_ALIGN_CENTER, nil, 2, color_black)

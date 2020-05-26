@@ -1,7 +1,7 @@
 ITEM.ID = 3258
 ITEM.Name = "God"
 ITEM.Rarity = 9
-ITEM.Collection = "Summer 2017 Event Collection"
+ITEM.Collection = "Summer Event Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 

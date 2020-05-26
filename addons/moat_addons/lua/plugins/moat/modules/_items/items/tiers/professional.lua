@@ -5,7 +5,7 @@ ITEM.Name = "Professional"
 
 ITEM.Rarity = 4
 
-ITEM.Collection = "Summer 2017 Event Collection"
+ITEM.Collection = "Summer Event Collection"
 
 ITEM.MinStats = 4
 

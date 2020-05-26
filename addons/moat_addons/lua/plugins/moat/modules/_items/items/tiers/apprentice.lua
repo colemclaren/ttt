@@ -1,7 +1,7 @@
 ITEM.ID = 3253
 ITEM.Name = "Apprentice"
 ITEM.Rarity = 3
-ITEM.Collection = "Summer 2017 Event Collection"
+ITEM.Collection = "Summer Event Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
