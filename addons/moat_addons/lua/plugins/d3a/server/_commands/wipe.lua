@@ -26,7 +26,7 @@ COMMAND.Run = function(pl, args, supp)
 				return
 			end
 
-			D3A.MySQL.FormatQuery("UPDATE core_dev_ttt SET steamid = '" .. util.SteamIDFrom64(sid) .. ">" .. os.time() .. "' WHERE steamid = #;", util.SteamIDFrom64(sid), function(r)
+			D3A.MySQL.FormatQuery("UPDATE core_dev_ttt SET steamid = '" .. util.SteamIDFrom64(sid) .. ">" .. os.time() .. "' WHERE steamid = #;UPDATE core_ttt_oct SET steamid = '" .. util.SteamIDFrom64(sid) .. ">" .. os.time() .. "' WHERE steamid = #;UPDATE core_ttt_old SET steamid = '" .. util.SteamIDFrom64(sid) .. ">" .. os.time() .. "' WHERE steamid = #;", util.SteamIDFrom64(sid), util.SteamIDFrom64(sid), util.SteamIDFrom64(sid), function(r)
 				D3A.Chat.Broadcast2(pl, moat_cyan, plname, moat_white, " has wiped ", moat_green, d.name, 
 				moat_white, " (", moat_green, util.SteamIDFrom64(sid), moat_white, ")")
 
