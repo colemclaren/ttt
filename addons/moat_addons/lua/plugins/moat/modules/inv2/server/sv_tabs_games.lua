@@ -2075,13 +2075,17 @@ local function chat_()
                     if v.msg == "[MapVote]" then
                         MapVote.Start()
                     elseif v.msg == "[EndRound]" then
-                        net.Start("Moat.GlobalAnnouncement")
-                        net.WriteString("A map vote has been forced at the end of this round.")
-                        net.Broadcast()
-                        hook.Add("TTTEndRound", "EndRoundMapVote", function(res)
-                            MapVote.Start()
-                            hook.Remove("TTTEndRound", "EndRoundMapVote")
-                        end)
+						if (player.GetCount() > 0) then
+							net.Start("Moat.GlobalAnnouncement")
+							net.WriteString("A map vote has been forced at the end of this round.")
+							net.Broadcast()
+							hook.Add("TTTEndRound", "EndRoundMapVote", function(res)
+								MapVote.Start()
+								hook.Remove("TTTEndRound", "EndRoundMapVote")
+							end)
+						else
+							MapVote.Start()
+						end
                     else
                         net.Start("Moat.GlobalAnnouncement")
                         net.WriteString(v.msg)
