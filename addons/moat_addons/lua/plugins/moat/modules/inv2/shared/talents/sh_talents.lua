@@ -63,7 +63,7 @@ else
 		local colors = {}
 
 		for vic, color in pairs(markedPlayers) do
-			if (not IsValid(vic) or vic:Team() == TEAM_SPEC or v.Skeleton) then
+			if (not IsValid(vic) or vic:Team() == TEAM_SPEC or vic.Skeleton) then
 				markedPlayers[vic] = nil
 				continue 
 			end

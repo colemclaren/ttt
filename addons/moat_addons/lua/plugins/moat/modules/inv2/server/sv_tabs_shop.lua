@@ -1,7 +1,7 @@
 print("shop loaded")
 
 
-local shop_net_cd = .5 -- 1 sec net cooldown
+local shop_net_cd = 5 -- 1 sec net cooldown
 local shop_net = {}
 function shop_net_spam(ply, msg)
 	if (not shop_net[ply]) then
