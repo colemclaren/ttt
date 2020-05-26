@@ -42,6 +42,12 @@ discord.AddUsers("error-logs", {"Client Error Reports"}, true)
 discord.AddUsers("error-logs-sv", {"Server Error Reports"}, true)
 discord.AddUsers("server-list", {"Servers"})
 
+slack.AddChannels {
+	["mod-log"] = 'https://hooks.slack.com/services/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'
+}
+
+slack.AddUsers("mod-log", {"MGA Log"}, true)
+
 function post_discord_server_list()
     Server.IsDev = false
     for k,v in pairs(Servers.Roster) do

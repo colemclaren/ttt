@@ -24,7 +24,7 @@ function D3A.CheckMissingMap(forced)
 
 		local rs = "too many missing map disconnections"
 		if (forced) then rs = "map name not in download list (name was updated on workshop?)" end
-		local msg = (GetHostName() or "") .. " had to changelevel due to " .. rs .. " for `" .. game.GetMap() .. "` <@207612500450082816>"
+		local msg = (GetHostName() or "") .. " had to changelevel due to " .. rs .. " for `" .. game.GetMap() .. "` <@677077640619884544>"
 
 		discord.Send("Bad Map", msg)
 
