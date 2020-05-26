@@ -43,6 +43,7 @@ local includes = {{
 	"system/app/yugh/extensions/client/player.lua",
 	"system/app/yugh/extensions/client/surface.lua",
 }, {
+	"system/app/yugh/extensions/server/slack.lua",
 	"system/app/yugh/extensions/server/discord.lua",
 	"system/app/yugh/extensions/server/player.lua",
 }}
