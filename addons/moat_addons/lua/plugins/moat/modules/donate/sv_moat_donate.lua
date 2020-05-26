@@ -63,7 +63,7 @@ MOAT_DONATE.Packages = {
 				net.Send(pl)
             else
                 moat_makevip(pl:SteamID64())
-                m_AddCreditsToSteamID(pl:SteamID(), 10000)
+                m_AddCreditsToSteamID(pl:SteamID(), 17000)
                 net.Start "D3A.Chat2"
 					net.WriteBool(false)
 					net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "1,500 ", Color(255, 255, 255), "Support Credits for the VIP Token Package!"})
