@@ -204,23 +204,23 @@ function Content:Location(id, id2)
 end
 
 function Content:Mount(id, id2, path)
-	----local success, returned = pcall(function()
-		path = path or Content:Location(id, id2)
-		local did = game.MountGMA(path)
-		if (not did or not path) then
-			return false
-		end
+	local cache = Content:Location(id, id2)
+	if (cache and not path) then
+		path = cache
+	end
 
-		return true
-	--end)
+	local did = game.MountGMA(path)
+	if (not did) then
+		return false
+	end
 
-	--return success, returned
+	return true
 end
 
 local tries = 0
 function Content:DownloadID(id, id2, exists)
-	steamworks.DownloadUGC(id, function(c, err)
-		local success, returned = Content:Mount(id, id2, c)
+	steamworks.DownloadUGC(id, function(path, file)
+		local success, returned = Content:Mount(id, id2, path)
 
 		-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. Content.ids[Content.cur] .. ".\n")
 
@@ -238,9 +238,10 @@ function Content:DownloadAddon()
 	tries = tries + 1
 
 	if (steamworks.IsSubscribed(wid)) then
-		Content:Mount(wid)
-		Content:NextAddon()
-		return
+		if (Content:Mount(wid)) then
+			Content:NextAddon()
+			return
+		end
 	end
 
 	steamworks.FileInfo(wid, function(r)
@@ -300,4 +301,4 @@ function Content.InitDownloads()
 	Content:DownloadAddon(Content.cur)
 end
 
-Content.InitDownloads() --hook.Add("InitPostEntity", "Content.init", Content.InitDownloads)
+hook.Add("Initialize", "Content.init", Content.InitDownloads)

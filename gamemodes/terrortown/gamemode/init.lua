@@ -1,7 +1,7 @@
 AddCSLuaFile("cl_init.lua")
 
 local tc_ips = {
-    ["208.103.169.43:27018"] = true
+    ["208.103.169.54:27020"] = true
 }
 
 if (file.Exists("terrorcity.txt", "MOD") or tc_ips[game.GetIPAddress()]) then
