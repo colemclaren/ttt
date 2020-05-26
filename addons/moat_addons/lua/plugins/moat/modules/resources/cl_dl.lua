@@ -204,7 +204,7 @@ function Content:Location(id, id2)
 end
 
 function Content:Mount(id, id2, path)
-	local success, returned = pcall(function()
+	----local success, returned = pcall(function()
 		path = path or Content:Location(id, id2)
 		local did = game.MountGMA(path)
 		if (not did or not path) then
@@ -212,9 +212,9 @@ function Content:Mount(id, id2, path)
 		end
 
 		return true
-	end)
+	--end)
 
-	return success, returned
+	--return success, returned
 end
 
 local tries = 0
@@ -300,4 +300,4 @@ function Content.InitDownloads()
 	Content:DownloadAddon(Content.cur)
 end
 
-hook.Add("InitPostEntity", "Content.init", Content.InitDownloads)
+Content.InitDownloads() --hook.Add("InitPostEntity", "Content.init", Content.InitDownloads)
