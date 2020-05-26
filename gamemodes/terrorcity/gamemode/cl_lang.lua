@@ -8,7 +8,7 @@
 
 LANG.Strings = {}
 
-CreateConVar("ttt_language", "auto", FCVAR_ARCHIVE)
+CreateConVar("ttt_language", "english", FCVAR_ARCHIVE)
 
 LANG.DefaultLanguage = "english"
 LANG.ActiveLanguage  = LANG.DefaultLanguage
@@ -58,6 +58,11 @@ end
 
 -- Simple and fastest name->string lookup
 function LANG.GetTranslation(name)
+	if (not cached_active) then
+		LANG.SetActiveLanguage(LANG.DefaultLanguage)
+		if (not cached_active) then return name end
+	end
+
    return cached_active[name]
 end
 
@@ -65,6 +70,11 @@ end
 -- to handle lookup of strings that may legitimately fail to exist
 -- (eg. SWEP-defined).
 function LANG.GetRawTranslation(name)
+	if (not cached_active) then
+		LANG.SetActiveLanguage(LANG.DefaultLanguage)
+		if (not cached_active) then return name end
+	end
+
    return rawget(cached_active, name) or rawget(cached_default, name)
 end
 
@@ -79,6 +89,11 @@ local interp = string.Interp
 -- Parameterised version, performs string interpolation. Slower than
 -- GetTranslation.
 function LANG.GetParamTranslation(name, params)
+	if (not cached_active) then
+		LANG.SetActiveLanguage(LANG.DefaultLanguage)
+		if (not cached_active) then return name end
+	end
+
    return interp(cached_active[name], params)
 end
 LANG.GetPTranslation = LANG.GetParamTranslation
@@ -91,7 +106,14 @@ end
 -- interest to consumers in draw/think hooks. Grabbing a translation directly
 -- from the table is very fast, and much simpler than a local caching solution.
 -- Modifying it would typically be a bad idea.
-function LANG.GetUnsafeLanguageTable() return cached_active end
+function LANG.GetUnsafeLanguageTable()
+	if (not cached_active) then
+		LANG.SetActiveLanguage(LANG.DefaultLanguage)
+		if (not cached_active) then return end
+	end
+	
+	return cached_active
+end
 
 function LANG.GetUnsafeNamed(name) return LANG.Strings[name] end
 

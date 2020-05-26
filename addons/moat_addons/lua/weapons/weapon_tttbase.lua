@@ -1099,6 +1099,7 @@ if (CLIENT) then
         local idx = net.ReadUInt(16)
         local statid = net.ReadUInt(8) + 1
         local Stat = StatNames[statid]
+		if (not Stat) then return end
         local val = net["Read" .. Stat.Type](32)
         local wep
 
