@@ -178,17 +178,19 @@ end
 hook.Add("HUDPaint", "Content.drawhud", Content.DrawHUD)
 
 function Content:Location(id, id2)
+	if (not id) then return false end
+
 	local addons = file.Find("addons/*" .. id .. ".gma", "GAME")
 
 	if (addons and #addons == 1) then
 		return "addons/" .. addons[1]
 	end
 
-	if (file.Exists("cache/workshop/" .. id2 .. ".gma", "GAME")) then
+	if (id2 and file.Exists("cache/workshop/" .. id2 .. ".gma", "GAME")) then
 		return "cache/workshop/" .. id2 .. ".gma"
 	end
 
-	if (file.Exists("cache/workshop/" .. id2 .. ".cache", "GAME")) then
+	if (id2 and file.Exists("cache/workshop/" .. id2 .. ".cache", "GAME")) then
 		return "cache/workshop/" .. id2 .. ".cache"
 	end
 
@@ -245,7 +247,7 @@ function Content:DownloadAddon()
 	end
 
 	steamworks.FileInfo(wid, function(r)
-		local exists = (file.Exists("cache/workshop/" .. r.fileid .. ".cache", "GAME") or file.Exists("cache/workshop/" .. r.fileid .. ".gma", "GAME") or file.Exists("cache/workshop/" .. wid .. ".cache", "GAME") or file.Exists("cache/workshop/" .. wid .. ".gma", "GAME") or #file.Find("addons/*" .. wid .. ".gma", "GAME") == 1)
+		local exists = (file.Exists("cache/workshop/" .. tostring(r.fileid) .. ".cache", "GAME") or file.Exists("cache/workshop/" .. tostring(r.fileid) .. ".gma", "GAME") or file.Exists("cache/workshop/" .. wid .. ".cache", "GAME") or file.Exists("cache/workshop/" .. wid .. ".gma", "GAME") or #file.Find("addons/*" .. wid .. ".gma", "GAME") == 1)
 		Content:DownloadID(wid, r.fileid, exists)
 	end)
 end

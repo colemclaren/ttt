@@ -142,7 +142,7 @@ function D3A.Player.TTTKarma(SteamID, SteamID32)
 
 			KARMA.RememberedPlayers[SteamID] = {Karma = live or KARMA.cv.starting:GetFloat(), Time = 0}
 
-			if (Server.IP and Server.IP == "208.103.169.43:27018" and lvl < 10) then
+			if (Server.IP and Server.IP == "208.103.169.54:27020" and lvl < 10) then
 				D3A.Player.KickID(SteamID32, "ttc")
 
 				return
@@ -186,7 +186,7 @@ function D3A.Player.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
 	-- Load or create player data
 	D3A.Player.Initialize(SteamID, SteamID32, Name, IP)
 
-	if (Server.IP and Server.IP == "208.103.169.43:27018") then
+	if (Server.IP and Server.IP == "208.103.169.54:27020") then
 		D3A.Player.TTTKarma(SteamID, SteamID32)
 	end
 

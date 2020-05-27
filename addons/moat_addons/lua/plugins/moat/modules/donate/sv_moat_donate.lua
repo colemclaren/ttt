@@ -204,7 +204,6 @@ hook.Add("TTTEndRound", "XPBoost", function()
         local rounds = sql.QueryValue"SELECT rounds_left FROM mg_quad_xp WHERE 1"
 
         if (rounds - 1 <= 0) then
-            MG_cur_event = nil
             local meta = FindMetaTable("Player")
 
             XP_MULTIPYER = 2
@@ -212,6 +211,8 @@ hook.Add("TTTEndRound", "XPBoost", function()
 			ttt.HostName = ttt.HostName or GetHostName()
 			local name = string.TrimRight(ttt.HostName, ' | ' .. MG_cur_event .. ' Event')
 			RunConsoleCommand('hostname', name)
+			
+            MG_cur_event = nil
         end
 
         print(rounds, "XP Boost Left")
