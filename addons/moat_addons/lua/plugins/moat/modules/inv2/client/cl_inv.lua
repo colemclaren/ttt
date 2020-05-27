@@ -2071,7 +2071,7 @@ function m_OpenInventory(ply2, utrade)
 
 			if (m_ItemExists and m_WClass) then
 				if (not string.EndsWith(m_WClass.WorldModel, ".mdl")) then
-					if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(n) end
+					if (not IsValid(m_DPanelIcon.SIcon.Icon)) then m_DPanelIcon.SIcon:CreateIcon(true) end
 					m_DPanelIcon.SIcon.Icon:SetAlpha(0)
 				end
 
@@ -2933,7 +2933,7 @@ function m_OpenInventory(ply2, utrade)
 
 				if (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Model and not m_Inventory[i].item.Image) then
 					if (not IsValid(M_INV_SLOT[i].Render)) then
-						M_INV_SLOT[i].VGUI.SIcon:CreateIcon(n)
+						M_INV_SLOT[i].VGUI.SIcon:CreateIcon(true)
 						M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
 					end
 
@@ -2949,7 +2949,7 @@ function m_OpenInventory(ply2, utrade)
 					M_INV_SLOT[i].VGUI.SIcon:SetModel(m_Inventory[i].item.Model)
 				elseif (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].w and not m_Inventory[i].item.Image) then
 					if (not IsValid(M_INV_SLOT[i].Render)) then
-						M_INV_SLOT[i].VGUI.SIcon:CreateIcon(n)
+						M_INV_SLOT[i].VGUI.SIcon:CreateIcon(true)
 						M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
 					end
 
@@ -4851,6 +4851,7 @@ function m_CreateItemMenu(num, ldt)
                         net.SendToServer()
                         M_INV_MENU:Remove()
                         cookie.Set("moat.deconstruct.highdd", cookie.GetNumber("moat.deconstruct.highdd", 0) + 1)
+						sfx.Dustbin()
                     end, "Nevermind")
                 else
                     net.Start("MOAT_REM_INV_ITEM")
@@ -4858,6 +4859,7 @@ function m_CreateItemMenu(num, ldt)
                     net.WriteDouble(itemtbl.c)
                     net.SendToServer()
                     M_INV_MENU:Remove()
+					sfx.Dustbin()
                 end
                 if (deco < 5) then moat_decon:SetInt(deco + 1) end
             end

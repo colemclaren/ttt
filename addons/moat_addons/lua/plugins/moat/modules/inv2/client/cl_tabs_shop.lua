@@ -34,7 +34,7 @@ end)
 local item_panel_w = 169
 local item_panel_h = 220
 local image_y_off = 5
-
+local buy_wait = 0
 function m_CreateBuyConfirmation(itemtbl, amount)
     local price = string.Comma(itemtbl.Price * amount)
     local BUY_MENU = DermaMenu()
@@ -44,6 +44,11 @@ function m_CreateBuyConfirmation(itemtbl, amount)
     BUY_MENU:AddSpacer()
 
     BUY_MENU:AddOption("Accept", function()
+		if (buy_wait and buy_wait > CurTime()) then
+			sfx.Subtract()
+			return
+		end
+
         net.Start("MOAT_BUY_ITEM")
         net.WriteDouble(itemtbl.ID)
         net.WriteUInt(amount, 8)
@@ -58,6 +63,8 @@ function m_CreateBuyConfirmation(itemtbl, amount)
         end
 
 		sfx.Bells()
+
+		buy_wait = CurTime() + 5
     end):SetIcon("icon16/tick.png")
 
     BUY_MENU:AddOption("Cancel", function() end):SetIcon("icon16/cross.png")
@@ -472,7 +479,7 @@ function m_PopulateShop(pnl)
 				return
 			end
 
-			if (ITEM_BG.Qty + 1 > 5) then
+			if (ITEM_BG.Qty + 1 > 50) then
 				sfx.Max()
 			else
 				sfx.Add()

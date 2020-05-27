@@ -158,12 +158,12 @@ net.Receive("MOAT_BUY_ITEM", function(len, ply)
 
         if limiteds[crate_id] then
             if crate_id == 969 then
-                ply:m_DropInventoryItem(randomvape(), "", false, false, true)
+                ply:m_DropInventoryItem(randomvape(), "", false, 1, true)
             else
-                ply:m_DropInventoryItem(crate_tbl.Name, "", false, false, true)
+                ply:m_DropInventoryItem(crate_tbl.Name, "", false, 1, true)
             end
         else
-            ply:m_DropInventoryItem(crate_tbl.Name, "", false, false, true)
+            ply:m_DropInventoryItem(crate_tbl.Name, "", false, 1, true)
         end
 
         -- if (i == crate_amt and crate_amt > 1) then 
@@ -171,6 +171,8 @@ net.Receive("MOAT_BUY_ITEM", function(len, ply)
         --     m_SaveInventory(ply)
         -- end
     end
+
+	m_SaveInventory(ply)
 end)
 
 hook.Add("PlayerInitialSpawn", "moat_sendshop", function(ply)

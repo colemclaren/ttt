@@ -255,6 +255,7 @@ net.Receive("Moat.DataInfo", function(len)
 	end
 end)
 
+local max_slots
 net.Receive("MOAT_ADD_INV_ITEM", function(len)
     local slot = net.ReadUInt(16)
     local tbl = net.ReadTable()
@@ -270,7 +271,7 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
 	end
 
 	if (net.ReadBool()) then
-		local max_slots = net.ReadUInt(16)
+		max_slots = net.ReadUInt(16)
 		NUMBER_OF_SLOTS = max_slots
 
 		local max_slots_old = max_slots - 4
@@ -306,7 +307,7 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
 
 	if (m_isUsingInv() and m_CreateInventorySlots) then
 		m_HandleLayoutSpacing(true)
-        m_CreateInventorySlots()
+        m_CreateInventorySlots(false, 1, max_slots)
     end
 
 	-- if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI and M_INV_SLOT[slot].VGUI.Item and M_INV_SLOT[slot].VGUI.Item ~= m_Inventory[slot]) then

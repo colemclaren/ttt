@@ -411,7 +411,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
         slot_found = self:GetMaxSlots() + 1
         self:UpgradeMaxSlots()
 
-		if (delay_saving) then
+		if (delay_saving and type(delay_saving) == "boolean") then
         	net.Start("MOAT_MAX_SLOTS")
         	net.WriteDouble(self:GetMaxSlots())
 			net.WriteString(self:GetIP())
@@ -430,7 +430,7 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 
     MOAT_INVS[self]["slot" .. slot_found] = tbl
 
-    if (delay_saving) then return end
+    if (delay_saving and type(delay_saving) == "boolean") then return end
 
 	self.NetDelay = self.NetDelay or 1
     timer.Simple(self.NetDelay * 0.01, function()
