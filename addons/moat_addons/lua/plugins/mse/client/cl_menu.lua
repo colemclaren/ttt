@@ -212,7 +212,7 @@ function MSE.Menu:Open()
 	end
 
 	self.n = vgui.Create("DLabel", self.p)
-	self.n:SetText("You can donate to automatically receive event credits on our donation page! Staff can also start events after their cooldown is over.")
+	self.n:SetText("You can purchase event credits on our credit store. Interns can also start events after their cooldown is over.")
 	self.n:SetFont("Trebuchet18")
 	self.n:SetTextColor(Color(50, 255, 50, 255))
 	self.n:SetWrap(true)
