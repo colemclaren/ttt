@@ -64,6 +64,14 @@ local grad_r = Material("vgui/gradient-l")
 function Content.DrawHUD()
 	if (Content.done == true) then return end
 	if (Content.start < CurTime() and Content.done == true) then return end
+	if (not Content.nostuck) then
+		Content.nostuck = CurTime() + 300
+	end
+
+	if (Content.nostuck <= CurTime()) then
+		return
+	end
+
 	local scrw = ScrW()
 	local dl_num = math.Round(100 - (100/(#Content.ids)) * Content.cur)
 	local dl_bar = 1 - (dl_num / 100)
@@ -211,12 +219,16 @@ function Content:Mount(id, id2, path)
 		path = cache
 	end
 
-	local did = game.MountGMA(path)
-	if (not did) then
-		return false
-	end
+	local success, returned = pcall(function()
+		local did = game.MountGMA(path)
+		if (not did) then
+			return false
+		end
 
-	return true
+		return true
+	end)
+
+	return success
 end
 
 local tries = 0
@@ -240,10 +252,9 @@ function Content:DownloadAddon()
 	tries = tries + 1
 
 	if (steamworks.IsSubscribed(wid)) then
-		if (Content:Mount(wid)) then
-			Content:NextAddon()
-			return
-		end
+		Content:Mount(wid)
+		Content:NextAddon()
+		return
 	end
 
 	steamworks.FileInfo(wid, function(r)
