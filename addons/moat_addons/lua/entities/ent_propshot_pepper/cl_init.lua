@@ -7,7 +7,7 @@ function ENT:Draw()
 	self.Entity:DrawModel()
 
 	if (not self.Collided) then
-		self.Entity:SetAngles(Angle(0,self.Rotation,0))
+		-- self.Entity:SetAngles(Angle(0,self.Rotation,0))
 	end
 end
 
