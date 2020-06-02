@@ -56,4 +56,5 @@ MAP_BLACKLIST = {
 	['ttt_mc_plaza_v4'] = true,
 	['ttt_pwp_v3'] = true,
 	['ttt_whiteout'] = true,
+	['ttt_mc_frozen_cargo'] = true
 }
