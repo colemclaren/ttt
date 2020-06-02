@@ -1,7 +1,7 @@
 
 TALENT.ID = 13
 TALENT.Suffix = "the Trigger"
-TALENT.Name = "Trigger"
+TALENT.Name = "Trigger Finger"
 TALENT.NameColor = Color( 255, 51, 153 )
 TALENT.Description = "Firerate is increased by %s_"
 TALENT.Tier = 1
