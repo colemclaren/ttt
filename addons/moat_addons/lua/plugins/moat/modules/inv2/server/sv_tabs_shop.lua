@@ -113,7 +113,7 @@ net.Receive("MOAT_GET_SHOP", function(len, ply)
     m_SendShop(ply)
 end)
 local vapes = {"Golden Vape", "White Vape", "Medicinal Vape", "Helium Vape", "Hallucinogenic Vape", "Butterfly Vape", "Custom Vape"}
-local function randomvape()
+function randomvape()
     local vape = table.Random(vapes)
     if math.random() < 0.075 then
         vape = "Mega Vape"

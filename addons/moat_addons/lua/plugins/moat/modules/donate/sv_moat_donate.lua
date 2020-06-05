@@ -163,27 +163,56 @@ MOAT_DONATE.Packages = {
         end
     },
     [8] = {
-        5000,
-        function(pl)
-            pl:m_DropInventoryItem("Dola Effect", "hide_chat_obtained", false, false)
-            m_SaveInventory(pl)
+        3750,
+        function(ply)
+			for k, v in ipairs(player.GetAll()) do
+				v:m_DropInventoryItem("Dola Effect", "hide_chat_obtained", false, false)
+			end
+
+			local msg = string(":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()), style.NewLine(":tada: Just dropped everybody a ") .. style.BoldUnderline("Dola Effect") .. " on " .. string.Extra(GetServerName(), GetServerURL()))
+            discord.Send("Moat TTT Announcement", markdown.WrapBold(string(":satellite_orbital::satellite: ", markdown.Bold"Global TTT Announcement", " :satellite::satellite_orbital:", markdown.LineStart(msg))))
+            discord.Send("Events", msg)
+			discord.Send("Event", msg)
+
+			/*
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the Dolla Effect Package!"})
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the Dola Effect Package!"})
 			net.Send(pl)
+			*/
         end
     },
     [9] = {
         250,
         function(ply)
-            sql.Query"UPDATE mg_quad_xp SET rounds_left = rounds_left + 20 WHERE 1"
+            sql.Query"UPDATE mg_quad_xp SET rounds_left = rounds_left + 120 WHERE 1"
             start_quadra_xp(ply:Nick())
             local msg = string(":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()), style.NewLine(":tada: Just boosted a server! Earn ") .. style.BoldUnderline("+300%") .. "XP on " .. string.Extra(GetServerName(), GetServerURL()))
             discord.Send("Moat TTT Announcement", markdown.WrapBold(string(":satellite_orbital::satellite: ", markdown.Bold"Global TTT Announcement", " :satellite::satellite_orbital:", markdown.LineStart(msg))))
             discord.Send("Events", msg)
 			discord.Send("Event", msg)
         end
-    }
+    },
+	[10] = {
+        4420,
+        function(ply)
+			for k, v in ipairs(player.GetAll()) do
+				v:m_DropInventoryItem(randomvape(), "hide_chat_obtained", false, false)
+			end
+
+			local msg = string(":gift: " .. style.Bold(ply:Nick()) .. style.Dot(style.Code(ply:SteamID())) .. style.Dot(ply:SteamURL()), style.NewLine(":tada: Just dropped everybody a ") .. style.BoldUnderline("Random Vape") .. " on " .. string.Extra(GetServerName(), GetServerURL()))
+            discord.Send("Moat TTT Announcement", markdown.WrapBold(string(":satellite_orbital::satellite: ", markdown.Bold"Global TTT Announcement", " :satellite::satellite_orbital:", markdown.LineStart(msg))))
+            discord.Send("Events", msg)
+			discord.Send("Event", msg)
+
+			/*
+			net.Start "D3A.Chat2"
+				net.WriteBool(false)
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the Dola Effect Package!"})
+			net.Send(pl)
+			*/
+        end
+    },
 }
 
 if (not sql.TableExists("mg_quad_xp")) then
@@ -191,7 +220,7 @@ if (not sql.TableExists("mg_quad_xp")) then
     sql.Query"INSERT INTO mg_quad_xp(rounds_left) VALUES(0);"
 end
 
-hook.Add("Initialize", "MapEvent", function()
+hook.Add("InitPostEntity", "MapEvent", function()
     local rounds = sql.QueryValue"SELECT rounds_left FROM mg_quad_xp WHERE 1"
 
     if (tonumber(rounds) > 0) then
