@@ -69,7 +69,13 @@ Accessor("a", "Accuracy", "Double", function(self, wep)
         wep.Primary.ConeY = wep._Cached.a.ConeY * mult
     end
 end)
-Accessor("y", "Reloadrate", "Double")
+Accessor("u", "Reloadrate", "Double", function(self, wep)
+    wep._Cached = wep._Cached or {}
+    wep._Cached.u = wep._Cached.u or wep.ReloadSpeed or 1
+    wep.ReloadSpeed = wep._Cached.u * (1 + wep:GetReloadrate() / 100)
+
+	wep:SetReloadSpeed(wep.ReloadSpeed)
+end)
 Accessor("c", "Chargerate", "Double")
 Accessor("z", "Deployrate", "Double", function(self, wep)
     self._Cached = self._Cached or {}

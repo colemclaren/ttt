@@ -1188,7 +1188,8 @@ function SWEP:SetReloadSpeed(val)
 end
 
 function SWEP:GetReloadSpeed()
-    return self.internalReloadSpeed * (1 + self:GetReloadrate() / 100)
+	local speed = self.internalReloadSpeed or 1
+    return speed * (1 + self:GetReloadrate() / 100)
 end
 
 function SWEP:Initialize()

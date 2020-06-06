@@ -47,6 +47,9 @@ local Validities = {
     y = function(wep)
         return wep.Primary and wep.Primary.ClipSize and wep.Primary.ClipMax and wep.Primary.DefaultClip and wep.Primary.DefaultClip > -1
     end,
+    u = function(wep)
+        return wep.ReloadSpeed
+    end,
     z = function(wep)
         return wep.DeploySpeed
     end,
