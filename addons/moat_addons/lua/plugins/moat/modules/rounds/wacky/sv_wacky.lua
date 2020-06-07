@@ -420,4 +420,31 @@ function plm:SetFOV(fov, time)
     self:MOAT_FOV(fov, time)
 end
 
+moat_random.register("High HP", "Base health is 500 HP for this round!", {
+    ["NOW"] = function()
+		cur_random_round = "High HP"
+
+		for k, v in pairs(player.GetAll()) do
+			if (v.MaxHealth > 500 or v:GetMaxHealth() > 500 or v:Health() > 500) then
+				continue
+			end
+
+            v:SetMaxHealth(500)
+			v.MaxHealth = 500
+			v:SetHealth(500)
+        end
+    end,
+    ["TTTBeginRound"] = function()
+        for k, v in pairs(player.GetAll()) do
+			if (v.MaxHealth > 500 or v:GetMaxHealth() > 500 or v:Health() > 500) then
+				continue
+			end
+
+            v:SetMaxHealth(500)
+			v.MaxHealth = 500
+			v:SetHealth(500)
+        end
+    end
+})
+
  -- lua_run moat_random.start_round("Crab")

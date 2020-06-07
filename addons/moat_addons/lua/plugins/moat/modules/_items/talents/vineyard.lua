@@ -4,7 +4,7 @@ TALENT.Name = "VINEGOD"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(206,60,250)
 TALENT.NameEffectMods = {Color(250,60,60)}
-TALENT.Description = "Each shot has a %s_^ chance to shoot a vineyard projectile dealing %s damage"
+TALENT.Description = "Each shot has a %s_^ chance to shoot a grape projectile dealing %s damage"
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}

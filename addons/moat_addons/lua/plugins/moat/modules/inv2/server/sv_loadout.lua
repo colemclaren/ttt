@@ -58,6 +58,10 @@ function MOAT_LOADOUT.ResetPowerupAbilities(ply)
 		Color(255, 255, 0), "(testing ends in " .. util.FormatTime(1575187200, os.time(), true) .. ")")
 	end
 
+	if (cur_random_round and cur_random_round == "High HP") then
+		max = 500
+	end
+
     ply:SetMaxHealth(max)
     ply.MaxHealth = max
     ply:SetHealth(max)
