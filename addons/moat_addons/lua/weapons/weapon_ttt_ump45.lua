@@ -23,7 +23,7 @@ SWEP.Primary.Cone = 0.02
 SWEP.Primary.Damage = 19
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30
-SWEP.Primary.ClipMax = 60
+SWEP.Primary.ClipMax = 90
 SWEP.Primary.DefaultClip = 30
 SWEP.HeadshotMultiplier = 1.5
 

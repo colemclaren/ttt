@@ -16,7 +16,7 @@ SWEP.Primary.Cone = 0.025
 SWEP.Primary.Damage = 17
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30
-SWEP.Primary.ClipMax = 60
+SWEP.Primary.ClipMax = 90
 SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Sound = Sound( "Weapon_FAMAS.Single" )
 

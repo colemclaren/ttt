@@ -100,7 +100,7 @@ SWEP.Primary.Damage = 37
 SWEP.Primary.Delay = 0.5
 SWEP.Primary.Cone = 0.01
 SWEP.Primary.ClipSize = 8
-SWEP.Primary.ClipMax = 36
+SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 8
 SWEP.Primary.Automatic = true
 

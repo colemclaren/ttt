@@ -637,7 +637,7 @@ SWEP.Primary.Cone = 0.03
 SWEP.Primary.Damage = 13
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 75
-SWEP.Primary.ClipMax = 150
+SWEP.Primary.ClipMax = 225
 SWEP.Primary.DefaultClip = 75
 SWEP.Primary.Sound = Sound("Weapof_vollmer.Shoot")
 

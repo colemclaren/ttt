@@ -95,10 +95,13 @@ Accessor("m", "Magazine", "Double", function(self, wep)
 
     local ClipSize = wep._Cached.m.ClipSize
     wep.Primary.ClipSize = math.ceil(ClipSize * mult)
-    wep.Primary.DefaultClip = math.ceil(wep.Primary.ClipSize * 2)
+    wep.Primary.DefaultClip = math.ceil(wep.Primary.ClipSize)
     wep.Primary.ClipMax = math.Round(wep.Primary.ClipSize * 3)
-
+	
 	wep:SetClip1(wep.Primary.ClipSize)
+	if (SERVER and wep.Primary.Ammo and wep.Primary.ClipSize and IsValid(wep:GetOwner())) then
+		wep:GetOwner():GiveAmmo(wep.Primary.ClipSize, wep.Primary.Ammo, true)
+    end
 end)
 
 function MODS.UpdateCosmetics(self, wep)

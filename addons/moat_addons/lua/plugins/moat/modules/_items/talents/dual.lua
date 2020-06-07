@@ -36,7 +36,7 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 
     pri.ClipSize = math.ceil(pri.ClipSize * 1.5)
     pri.ClipMax = math.Round(pri.ClipSize * 3)
-    pri.DefaultClip = math.ceil(pri.ClipSize * 2)
+    pri.DefaultClip = math.ceil(pri.ClipSize)
     pri.Recoil = pri.Recoil * 1.5
 
 	if (pri.Cone) then

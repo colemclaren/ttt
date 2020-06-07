@@ -36,6 +36,7 @@ SWEP.Primary.Round         = "gdcw_7.62x25_tokarev"
 SWEP.Primary.Delay         = 0.12
 SWEP.Primary.ClipSize      = 32
 SWEP.Primary.DefaultClip   = 32
+SWEP.Primary.ClipMax	   = 96
 SWEP.Primary.Cone          = 0.025
 SWEP.Primary.Recoil        = 0.4
 SWEP.Primary.Automatic     = true

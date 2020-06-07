@@ -410,11 +410,12 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             end
 
             local v3 = ply:Give(v.w)
-            local wpn_tbl = v3:GetTable()
             local item_old = table.Copy(v.item)
             -- v.item = GetItemFromEnum(v.u)
 
             m_ApplyWeaponMods(v3, v, v.item)
+			local wpn_tbl = v3:GetTable()
+
             local clipsize = wpn_tbl.Primary.ClipSize
             local defaultclip = wpn_tbl.Primary.DefaultClip
             local add_ammo = clipsize
@@ -422,7 +423,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 add_ammo = add_ammo + defaultclip - clipsize
                 defaultclip = clipsize
             end
-            v3:SetClip1(defaultclip)
+            -- v3:SetClip1(defaultclip)
             wpn_tbl.UniqueItemID = v.c
             wpn_tbl.PrimaryOwner = ply
 
@@ -463,7 +464,7 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
             }
 
             if (wpn_tbl.Primary.Ammo and wpn_tbl.Primary.ClipSize and ply:GetAmmoCount(wpn_tbl.Primary.Ammo) < wpn_tbl.Primary.ClipSize) then
-                ply:GiveAmmo(add_ammo, wpn_tbl.Primary.Ammo, true)
+                -- ply:GiveAmmo(add_ammo, wpn_tbl.Primary.Ammo, true)
             end
 
             v.item = item_old

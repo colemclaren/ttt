@@ -27,7 +27,7 @@ SWEP.Primary.Damage = 40
 SWEP.HeadshotMultiplier = 3
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 20
-SWEP.Primary.ClipMax = 40
+SWEP.Primary.ClipMax = 60
 SWEP.Primary.DefaultClip = 20
 
 SWEP.SelectiveFire		= true

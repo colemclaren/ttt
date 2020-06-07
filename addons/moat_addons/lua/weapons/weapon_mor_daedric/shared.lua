@@ -11,7 +11,7 @@ SWEP.Primary.Damage		= 110
 SWEP.Primary.Velocity	= 3000
 
 SWEP.Primary.ClipSize		= 10
-SWEP.Primary.ClipMax		= 45 -- keep mirrored to ammo
+SWEP.Primary.ClipMax		= 30 -- keep mirrored to ammo
 SWEP.Primary.DefaultClip	= 10
 --SWEP.Primary.Automatic		= true				// Automatic/Semi Auto
 SWEP.Primary.Ammo			= "357"

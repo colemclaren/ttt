@@ -714,7 +714,7 @@ SWEP.Primary.Ammo = "357"
 SWEP.Primary.Damage = 50
 SWEP.Primary.Cone = 0.000001
 SWEP.Primary.ClipSize = 6
-SWEP.Primary.ClipMax = 12 -- keep mirrored to ammo
+SWEP.Primary.ClipMax = 18 -- keep mirrored to ammo
 SWEP.Primary.DefaultClip = 6
 
 SWEP.HeadshotMultiplier = 5

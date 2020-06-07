@@ -17,7 +17,7 @@ SWEP.Primary.Recoil = 0.8
 SWEP.Primary.Cone = 0.027
 SWEP.Primary.Damage = 17
 SWEP.Primary.ClipSize = 30
-SWEP.Primary.ClipMax = 60	
+SWEP.Primary.ClipMax = 90	
 SWEP.HeadshotMultiplier = 2
 SWEP.Primary.Automatic = true
 

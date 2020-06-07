@@ -92,7 +92,7 @@ SWEP.Primary.Cone = 0.03
 SWEP.Primary.Damage = 18
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 30
-SWEP.Primary.ClipMax = 60
+SWEP.Primary.ClipMax = 90
 SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Sound = Sound("Weapof_cf05.Shoot")
 
