@@ -46,7 +46,7 @@ COMMAND.Run = function(pl, args, supp)
 		end
 
 		D3A.MySQL.FormatQuery("UPDATE player_bans_trading SET staff_steam_id = #, reason = # WHERE steam_id = #;", pid, rsn, sid)
-		D3A.Chat.Broadcast2(pl, moat_cyan, tostring(args[1]) .. "'s", moat_white, " trading ban was updated by ", moat_cyan, plname, moat_white, " to ", moat_green, reason, moat_white, ".")
+		D3A.Chat.Broadcast2(pl, moat_cyan, tostring(args[1]) .. "'s", moat_white, " trading ban was updated by ", moat_cyan, plname, moat_white, " to ", moat_green, rsn, moat_white, ".")
 		D3A.Commands.Discord("tradeban_update", tostring(args[1]), D3A.Commands.NameID(pl), rsn)
 	end)
 end
