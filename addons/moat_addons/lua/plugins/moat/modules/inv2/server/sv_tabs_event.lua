@@ -156,11 +156,32 @@ MOAT_EVENT.WeaponsID = {
 	["weapon_ttt_mp5k"] = 30,
 	["weapon_ttt_mac11"] = 31,
 	["weapon_zm_rifle"] = 32,
-	["weapon_ttt_peacekeeper"] = 33, -- weapon_ttt_an94
+	["weapon_ttt_peacekeeper"] = 33,
 	["weapon_supershotty"] = 34,
 	["weapon_thompson"] = 35,
 	["weapon_flakgun"] = 36,
-	["weapon_ttt_glock"] = 37
+	["weapon_ttt_glock"] = 37,
+	["weapon_ttt_te_sr25"] = 38,
+	["weapon_ttt_te_1911"] = 39,
+	["weapon_ttt_te_ak47"] = 40,
+	["weapon_ttt_te_benelli"] = 41,
+	["weapon_ttt_te_cf05"] = 42,
+	["weapon_ttt_te_deagle"] = 43,
+	["weapon_ttt_te_fal"] = 44,
+	["weapon_ttt_te_famas"] = 45,
+	["weapon_ttt_te_g36c"] = 46,
+	["weapon_ttt_te_glock"] = 47,
+	["weapon_ttt_te_m4a1"] = 48,
+	["weapon_ttt_te_m9"] = 49,
+	["weapon_ttt_te_m14"] = 50,
+	["weapon_ttt_te_m24"] = 51,
+	["weapon_ttt_te_mac"] = 52,
+	["weapon_ttt_te_mp5"] = 53,
+	["weapon_ttt_te_ots33"] = 54,
+	["weapon_ttt_te_sako"] = 55,
+	["weapon_ttt_te_sg550"] = 56,
+	["weapon_ttt_te_sterling"] = 57,
+	["weapon_ttt_te_vollmer"] = 58
 }
 
 for k, v in pairs(MOAT_EVENT.WeaponsID) do
@@ -200,16 +221,41 @@ MOAT_EVENT.WeaponsChallenges = {
 	["weapon_ttt_mp5k"] = {200, 100, 125, 100, 125, 35, 23, 500},
 	["weapon_ttt_mac11"] = {200, 125, 100, 75, 125, 34, 24, 500},
 	["weapon_zm_rifle"] = {100, 65, 50, 50, 75, 20, 12, 300},
-	["weapon_ttt_peacekeeper"] = {200, 150, 150, 125, 120, 35, 24, 500}, -- weapon_ttt_an94
+	["weapon_ttt_peacekeeper"] = {200, 150, 150, 125, 120, 35, 24, 500},
 	["weapon_supershotty"] = {150, 75, 75, 50, 100, 35, 21, 500},
 	["weapon_thompson"] = {200, 100, 100, 100, 125, 35, 23, 500},
 	["weapon_flakgun"] = {100, 50, 50, 50, 75, 23, 12, 300},
 	["weapon_ttt_glock"] = {100, 75, 75, 75, 100, 30, 18, 350},
+	["weapon_ttt_te_sr25"] = {100, 65, 50, 50, 100, 23, 16, 400},
+	["weapon_ttt_te_1911"] = {100, 50, 75, 50, 75, 24, 13, 300},
+	["weapon_ttt_te_ak47"] = {200, 150, 150, 125, 125, 40, 27, 500},
+	["weapon_ttt_te_benelli"] = {150, 75, 75, 50, 100, 40, 25, 400},
+	["weapon_ttt_te_cf05"] = {200, 150, 150, 125, 125, 35, 25, 500},
+	["weapon_ttt_te_deagle"] = {100, 75, 65, 50, 75, 26, 20, 300},
+	["weapon_ttt_te_fal"] = {150, 75, 75, 75, 100, 25, 20, 400},
+	["weapon_ttt_te_famas"] = {150, 125, 125, 100, 115, 33, 23, 450},
+	["weapon_ttt_te_g36c"] = {200, 150, 150, 100, 125, 35, 25, 500},
+	["weapon_ttt_te_glock"] = {100, 75, 75, 75, 100, 30, 18, 350},
+	["weapon_ttt_te_m4a1"] = {200, 150, 150, 125, 125, 40, 27, 500},
+	["weapon_ttt_te_m9"] = {100, 50, 75, 50, 75, 24, 13, 300},
+	["weapon_ttt_te_m14"] = {150, 75, 75, 75, 100, 25, 20, 400},
+	["weapon_ttt_te_m24"] = {100, 65, 50, 50, 75, 20, 12, 300},
+	["weapon_ttt_te_mac"] = {200, 125, 100, 75, 125, 34, 24, 500},
+	["weapon_ttt_te_mp5"] = {200, 100, 125, 100, 125, 35, 23, 500},
+	["weapon_ttt_te_ots33"] = {100, 50, 75, 50, 75, 24, 13, 300},
+	["weapon_ttt_te_sako"] = {200, 150, 150, 125, 125, 35, 25, 500},
+	["weapon_ttt_te_sg550"] = {100, 65, 50, 50, 100, 23, 16, 400},
+	["weapon_ttt_te_sterling"] = {150, 75, 75, 75, 100, 32, 17, 350},
+	["weapon_ttt_te_vollmer"] = {150, 75, 75, 50, 100, 25, 20, 300}
 }
 
 function MOAT_EVENT.WeaponClass(class)
 	if (class == "weapon_ttt_an94") then
 		class = "weapon_ttt_peacekeeper"
+	elseif (class == "weapon_ttt_te_m9s") then
+		class = "weapon_ttt_te_m9"
+	elseif (class == "weapon_ttt_te_sterlings") then
+		class = "weapon_ttt_te_sterling"
 	end
 
 	return class
@@ -222,9 +268,11 @@ function MOAT_EVENT.WepToID(class)
 end
 
 function MOAT_EVENT.SendData(pl, weps)
-	pl.MOAT_EVENT = weps
+	for i = 1, #MOAT_EVENT.Weapons do
+		if (not weps[i]) then
+			weps[i] = {0, 0, 0, 0, 0, 0, 0, 0}
+		end
 
-	for i = 1, #weps do
 		net.Start("moat.events.send")
 		net.WriteUInt(i, 6)
 		net.WriteUInt(weps[i][1], 8)
@@ -237,6 +285,8 @@ function MOAT_EVENT.SendData(pl, weps)
 		net.WriteUInt(weps[i][8], 10)
 		net.Send(pl)
 	end
+
+	pl.MOAT_EVENT = weps
 end
 
 function MOAT_EVENT.SendSpecData(pl, wep_id, num)
