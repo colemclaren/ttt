@@ -56,5 +56,13 @@ MAP_BLACKLIST = {
 	['ttt_mc_plaza_v4'] = true,
 	['ttt_pwp_v3'] = true,
 	['ttt_whiteout'] = true,
-	['ttt_mc_frozen_cargo'] = true
+	['ttt_mc_frozen_cargo'] = true,
+	['ttt_mc_darkdungeon_a2'] = true,
+	['ttt_mc_frozen'] = true,
+	['ttt_mc_hillside'] = true,
+	['ttt_mc_moonbase'] = true,
+	['ttt_mc_plains'] = true,
+	['ttt_mc_poseidon'] = true,
+	['ttt_mcmagmaplateu'] = true,
+	['ttt_mcskyblocks02'] = true
 }

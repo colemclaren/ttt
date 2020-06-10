@@ -220,10 +220,10 @@ if (not sql.TableExists("mg_quad_xp")) then
     sql.Query"INSERT INTO mg_quad_xp(rounds_left) VALUES(0);"
 end
 
-hook.Add("InitPostEntity", "MapEvent", function()
+hook.Add("TTTPrepareRound", "MapEvent", function()
     local rounds = sql.QueryValue"SELECT rounds_left FROM mg_quad_xp WHERE 1"
 
-    if (tonumber(rounds) > 0) then
+    if (tonumber(rounds) > 0 and not MG_cur_event) then
         start_quadra_xp()
     end
 end)
