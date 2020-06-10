@@ -9,7 +9,7 @@ ITEM.Model = "models/player/red.mdl"
 
 ITEM.Rarity = 6
 
-ITEM.Collection = "Summer Climb Collection"
+ITEM.Collection = "Aqua Palm Collection"
 
 function ITEM:OnPlayerSpawn( ply )
 

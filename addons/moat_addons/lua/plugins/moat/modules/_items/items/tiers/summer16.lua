@@ -1,9 +1,9 @@
 ITEM.ID = 9616
 ITEM.Name = "Aquaholic"
 ITEM.Rarity = 6
-ITEM.Collection = "Summer Climb Collection"
-ITEM.MinStats = 6
-ITEM.MaxStats = 7
+ITEM.Collection = "Aqua Palm Collection"
+ITEM.MinStats = 8
+ITEM.MaxStats = 9
 ITEM.Stats = {
 	Damage = { min = 14, max = 23 },
 	Accuracy = { min = 14, max = 23 },
@@ -11,7 +11,9 @@ ITEM.Stats = {
 	Firerate = { min = 14, max = 23 },
 	Magazine = { min = 19, max = 28 },
 	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Weight = { min = -4, max = -7 },
+	Reloadrate = { min = 19, max = 28 },
+	Deployrate = { min = 19, max = 28 }
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3

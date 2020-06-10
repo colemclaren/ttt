@@ -1,18 +1,20 @@
 ITEM.ID = 9607
 ITEM.Name = "Breezy"
-ITEM.Rarity = 5
-ITEM.Collection = "Summer Climb Collection"
+ITEM.Rarity = 3
+ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = { min = 5, max = 10 },
+	Accuracy = { min = 5, max = 10 },
+	Kick = { min = -5, max = -10 },
+	Firerate = { min = 5, max = 10 },
+	Magazine = { min = 10, max = 15 },
+	Range = { min = 10, max = 15 },
+	Weight = { min = -1, max = -3 },
+	Reloadrate = { min = 10, max = 15 },
+	Deployrate = { min = 10, max = 15 }
 }
-ITEM.MinTalents = 2
-ITEM.MaxTalents = 2
-ITEM.Talents = {"random", "random"}
+ITEM.MinTalents = 1
+ITEM.MaxTalents = 1
+ITEM.Talents = {"random"}

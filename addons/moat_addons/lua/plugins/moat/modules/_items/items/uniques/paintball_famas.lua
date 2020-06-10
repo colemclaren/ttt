@@ -1,7 +1,7 @@
 ITEM.ID = 10110
 ITEM.Name = "Smear Cavalier"
 ITEM.Rarity = 6
-ITEM.Collection = "Summer Climb Collection"
+ITEM.Collection = "Aqua Palm Collection"
 ITEM.WeaponClass = "weapon_ttt_famas"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7

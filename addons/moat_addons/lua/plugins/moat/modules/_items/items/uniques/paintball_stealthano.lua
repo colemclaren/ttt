@@ -1,7 +1,7 @@
 ITEM.ID = 10104
 ITEM.Name = "Spanish Splatter"
-ITEM.Rarity = 6
-ITEM.Collection = "Summer Climb Collection"
+ITEM.Rarity = 7
+ITEM.Collection = "Aqua Palm Collection"
 ITEM.WeaponClass = "weapon_sp"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7

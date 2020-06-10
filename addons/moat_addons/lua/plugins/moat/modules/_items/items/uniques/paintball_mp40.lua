@@ -1,7 +1,7 @@
 ITEM.ID = 10105
-ITEM.Name = "Brain Stain"
-ITEM.Rarity = 6
-ITEM.Collection = "Summer Climb Collection"
+ITEM.Name = "Brane Splain"
+ITEM.Rarity = 5
+ITEM.Collection = "Aqua Palm Collection"
 ITEM.WeaponClass = "weapon_ttt_mp40"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7

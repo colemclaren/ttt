@@ -77,7 +77,8 @@ function m_InitializeTalents()
 		"visionary.lua",
 		"lospanchos.lua",
 		"vineyard.lua",
-		"swift.lua"
+		"swift.lua",
+		"icecream.lua"
 	}
 
 	for k, v in ipairs(files) do
