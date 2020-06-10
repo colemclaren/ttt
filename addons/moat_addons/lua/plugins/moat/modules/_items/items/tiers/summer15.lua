@@ -1,18 +1,20 @@
 ITEM.ID = 9615
 ITEM.Name = "Sunburnt"
-ITEM.Rarity = 5
-ITEM.Collection = "Summer Climb Collection"
-ITEM.MinStats = 5
+ITEM.Rarity = 1
+ITEM.Collection = "Aqua Palm Collection"
+ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = { min = -2, max = 3 },
+	Accuracy = { min = -2, max = 2 },
+	Kick = { min = -2, max = 2 },
+	Firerate = { min = -3, max = 3 },
+	Magazine = { min = -7, max = 7 },
+	Range = { min = -7, max = 8 },
+	Weight = { min = -2, max = 3 },
+	Reloadrate = { min = -6, max = 7 },
+	Deployrate = { min = -4, max = 5 },
 }
-ITEM.MinTalents = 2
-ITEM.MaxTalents = 2
-ITEM.Talents = {"random", "random"}
+ITEM.MinTalents = 1
+ITEM.MaxTalents = 1
+ITEM.Talents = {"random"}

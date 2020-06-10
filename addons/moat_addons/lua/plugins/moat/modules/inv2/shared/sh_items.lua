@@ -1316,7 +1316,8 @@ local MOAT_ITEM_FOLDERS = {
 		"springcrate.lua",
 		"titan_crate.lua",
 		"urbancrate.lua",
-		"cincodemayo.lua"
+		"cincodemayo.lua",
+		"aquapalmcrate.lua"
 	}},
     ["Melee"] = {"melees", {
 		"baseballbat.lua",
@@ -1650,7 +1651,7 @@ function GetCrateContents(crate_collection)
     local contents = {}
 
     for k, v in pairs(MOAT_DROPTABLE) do
-        if (v.Collection == crate_collection and v.Kind ~= "Crate") then
+        if (v.Collection == crate_collection and v.Kind ~= "Crate" and not v.NotDroppable) then
             if (not contents[tostring(v.Kind)]) then
                 contents[tostring(v.Kind)] = {}
             end

@@ -1,7 +1,7 @@
 ITEM.ID = 10112
 ITEM.Name = "Zapper Capper"
 ITEM.Rarity = 6
-ITEM.Collection = "Summer Climb Collection"
+ITEM.Collection = "Aqua Palm Collection"
 ITEM.WeaponClass = "weapon_zapperpvp"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
@@ -18,4 +18,5 @@ ITEM.Stats = {
 }
 ITEM.MinTalents = 2 
 ITEM.MaxTalents = 3
+ITEM.NotDroppable = true
 ITEM.Talents = {"PEW", "random", "random"}

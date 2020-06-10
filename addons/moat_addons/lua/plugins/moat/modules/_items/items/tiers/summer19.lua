@@ -1,18 +1,20 @@
 ITEM.ID = 9619
 ITEM.Name = "Tropical"
-ITEM.Rarity = 5
-ITEM.Collection = "Summer Climb Collection"
-ITEM.MinStats = 5
-ITEM.MaxStats = 5
+ITEM.Rarity = 7
+ITEM.Collection = "Aqua Palm Collection"
+ITEM.MinStats = 9
+ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = { min = 17, max = 28 },
+	Accuracy = { min = 17, max = 28 },
+	Kick = { min = -17, max = -28 },
+	Firerate = { min = 17, max = 28 },
+	Magazine = { min = 23, max = 33 },
+	Range = { min = 23, max = 33 },
+	Weight = { min = -5, max = -7 },
+	Reloadrate = { min = 23, max = 33 },
+	Deployrate = { min = 23, max = 33 }
 }
-ITEM.MinTalents = 2
-ITEM.MaxTalents = 2
-ITEM.Talents = {"random", "random"}
+ITEM.MinTalents = 3
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}

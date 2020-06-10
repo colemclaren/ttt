@@ -1,19 +1,20 @@
 ITEM.ID = 9602
-ITEM.Name = "June"
-ITEM.Rarity = 8
-ITEM.NameColor = Color( 255, 255, 0 )
-ITEM.Collection = "Summer Climb Collection"
-ITEM.MinStats = 6
-ITEM.MaxStats = 7
+ITEM.Name = "Slip-N-Slide"
+ITEM.Rarity = 9
+ITEM.Collection = "Aqua Palm Collection"
+ITEM.MinStats = 9
+ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = { min = 17, max = 28 },
+	Accuracy = { min = 17, max = 28 },
+	Kick = { min = -17, max = -28 },
+	Firerate = { min = 17, max = 28 },
+	Magazine = { min = 23, max = 33 },
+	Range = { min = 23, max = 33 },
+	Weight = { min = -5, max = -7 },
+	Reloadrate = { min = 23, max = 33 },
+	Deployrate = { min = 23, max = 33 }
 }
-ITEM.MinTalents = 2
-ITEM.MaxTalents = 3
-ITEM.Talents = {"random", "random", "random"}
+ITEM.MinTalents = 4
+ITEM.MaxTalents = 4
+ITEM.Talents = {"random", "random", "random", "random"}
