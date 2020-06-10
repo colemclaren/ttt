@@ -1,20 +1,26 @@
 ITEM.ID = 9621
 ITEM.Name = "Humid"
-ITEM.Rarity = 2
-ITEM.Collection = "Aqua Palm Collection"
+ITEM.Rarity = 4
+ITEM.Collection = "Summer Climb Collection"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 },
-	Weight = { min = -1, max = -3 },
-	Reloadrate = { min = 5, max = 10 },
-	Deployrate = { min = 5, max = 10 }
+
+	Damage = { min = 8, max = 15 },
+
+	Accuracy = { min = 8, max = 15 },
+
+	Kick = { min = -8, max = -15 },
+
+	Firerate = { min = 8, max = 15 },
+
+	Magazine = { min = 13, max = 20 },
+
+	Range = { min = 13, max = 20 },
+
+	Weight = { min = -2, max = -5 }
+
 }
 ITEM.MinTalents = 1
-ITEM.MaxTalents = 1
-ITEM.Talents = {"random"}
+ITEM.MaxTalents = 2
+ITEM.Talents = { "random", "random" }

@@ -1,7 +1,7 @@
 ITEM.ID = 10108
-ITEM.Name = "Jewel Noelle"
+ITEM.Name = "Joule Newell"
 ITEM.Rarity = 8
-ITEM.Collection = "Aqua Palm Collection"
+ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_ttt_mp40"
 ITEM.MinStats = 8
 ITEM.MaxStats = 9
@@ -19,5 +19,4 @@ ITEM.Stats = {
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 4
-ITEM.NotDroppable = true
 ITEM.Talents = {"PEW", "random", "random", "random"}

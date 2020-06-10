@@ -1229,7 +1229,7 @@ M_INV_SLOT = {}
 M_LOAD_SLOT = {}
 M_TRADE_SLOT = {}
 
-MOAT_INV_CATS = {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Casino", 90}, {"Dailies", 90}, {"Settings", 90}, {"Event", 90}, {"Store", 90}}
+MOAT_INV_CATS = {{"Loadout", 90}, {"Market", 90}, {"Trading", 90}, {"Gamble", 90}, {"Dailies", 90}, {"Settings", 90}, {"Event", 90}, {"Beta", 90}}
 function m_PaintVBar(sbar)
 
     local MT = MOAT_THEME.Themes
@@ -1335,11 +1335,7 @@ function m_OpenInventory(ply2, utrade)
         	net.SendToServer()
 		end
 
-		local num = math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2)
-		if (NUMBER_OF_SLOTS == 0) then
-			num = 1
-		end
-        chat.AddText("Loading... ", moat_green, " Receiving Inventory",  moat_lyanblue, " | ", moat_cyan, num .. "%", moat_lyanblue, " | ", Color(254, 60, 114), net.Line())	
+        chat.AddText("Loading... ", moat_green, " Receiving Inventory",  moat_lyanblue, " | ", moat_cyan, math.Round((#m_Inventory / NUMBER_OF_SLOTS) * 100, 2) .. "%", moat_lyanblue, " | ", Color(254, 60, 114), net.Line())	
 
         return
     end
@@ -2335,7 +2331,7 @@ function m_OpenInventory(ply2, utrade)
         end
 
         MOAT_CAT_BTN.DoClick = function(s)
-            if (s.CatLabel == "Store") then
+            if (s.CatLabel == "Beta") then
                 MOAT_DONATE:OpenWindow()
                 MOAT_INV_BG:Remove()
 

@@ -8,7 +8,7 @@ TALENT.Modifications = {}
 TALENT.Modifications[1] = { min = -5, max = 5 } -- Every shot hit increases
 TALENT.Melee = false
 TALENT.NotUnique = false
-TALENT.Collection = "Aqua Palm Collection"
+TALENT.Collection = "Summer Climb Collection"
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
     weapon:ApplyTracer "paintball"

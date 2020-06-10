@@ -90,7 +90,7 @@ MOAT_DONATE.Packages = {
             local crates = m_GetActiveCrates()
             -- moat_DropHoliday(pl, 2)
 
-            pl:m_DropInventoryItem("Independence Crate", "hide_chat_obtained", false, false)
+            pl:m_DropInventoryItem("Easter 2020 Basket", "hide_chat_obtained", false, false)
             for i = 1, 15 do
                 local crate = crates[math.random(1, #crates)].Name
                 pl:m_DropInventoryItem(crate, "hide_chat_obtained", false, false)
@@ -112,7 +112,7 @@ MOAT_DONATE.Packages = {
             pl:Drop20()
             -- moat_DropHoliday(pl, 4)
             for i = 1, 2 do
-				pl:m_DropInventoryItem("Independence Crate", "hide_chat_obtained", false, false)
+				pl:m_DropInventoryItem("Easter 2020 Basket", "hide_chat_obtained", false, false)
             end
             m_SaveInventory(pl)
 
@@ -131,7 +131,7 @@ MOAT_DONATE.Packages = {
             -- moat_DropHoliday(pl, 12)
             -- pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
             for i = 1, 6 do
-            	pl:m_DropInventoryItem("Independence Crate", "hide_chat_obtained", false, false)
+            	pl:m_DropInventoryItem("Easter 2020 Basket", "hide_chat_obtained", false, false)
             end
             m_SaveInventory(pl)
            
@@ -151,7 +151,7 @@ MOAT_DONATE.Packages = {
             -- pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
             -- pl:m_DropInventoryItem("Santa's Present", "hide_chat_obtained", false, false)
             for i = 1, 15 do
-            	pl:m_DropInventoryItem("Independence Crate", "hide_chat_obtained", false, false)
+            	pl:m_DropInventoryItem("Easter 2020 Basket", "hide_chat_obtained", false, false)
             end
             m_SaveInventory(pl)
             
@@ -174,10 +174,12 @@ MOAT_DONATE.Packages = {
             discord.Send("Events", msg)
 			discord.Send("Event", msg)
 
+			/*
 			net.Start "D3A.Chat2"
 				net.WriteBool(false)
-				net.WriteTable({Color(0, 255, 0), ply:Nick(), Color(255, 255, 255), " just dropped everybody a ", Color(0, 255, 0), "Dola Effect", Color(255, 255, 255), "!"})
-			net.Broadcast()
+				net.WriteTable({"Successfully redeemed ", Color(0, 255, 0), "5,000 ", Color(255, 255, 255), "Support Credits for the Dola Effect Package!"})
+			net.Send(pl)
+			*/
         end
     },
     [9] = {
@@ -202,11 +204,6 @@ MOAT_DONATE.Packages = {
             discord.Send("Moat TTT Announcement", markdown.WrapBold(string(":satellite_orbital::satellite: ", markdown.Bold"Global TTT Announcement", " :satellite::satellite_orbital:", markdown.LineStart(msg))))
             discord.Send("Events", msg)
 			discord.Send("Event", msg)
-
-			net.Start "D3A.Chat2"
-				net.WriteBool(false)
-				net.WriteTable({Color(0, 255, 0), ply:Nick(), Color(255, 255, 255), " just dropped everybody a ", Color(0, 255, 0), "Random Vape", Color(255, 255, 255), "!"})
-			net.Broadcast()
 
 			/*
 			net.Start "D3A.Chat2"

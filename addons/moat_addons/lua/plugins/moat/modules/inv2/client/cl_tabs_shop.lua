@@ -288,8 +288,7 @@ function m_PopulateShop(pnl)
         local name_col = itemtbl.NameColor or rarity_names[itemtbl.Rarity][2]
         if itemtbl.LimitedShop then name_col = Color(255, 128, 0) end
         local item_name = string.Explode(" ", itemtbl.Name)
-        if (item_name[1] == "Urban") then item_name = {"Urban Style", "Crate"} end
-		if (item_name[1] == "Aqua") then item_name = {"Aqua Palm", "Crate"} end
+        if (item_name[1] == "Urban") then item_name[1] = "Urban Style" end
 		if (item_name[1] == "Santa's") then item_name[2] = "Present" end
         local item_price = "IC: " .. string.Comma(itemtbl.Price)
         surface.SetFont("moat_ItemDesc")
@@ -432,14 +431,14 @@ function m_PopulateShop(pnl)
             	surface.DrawTexturedRect((w / 2) + (price_width / 2) + 8, h - 85, 16, 16)
 			else
 				surface.SetFont("moat_ItemDesc")
-				local price_width = surface.GetTextSize("IC: " .. string.Comma(itemtbl.Price *  s.Qty))
-				m_DrawShadowedText(1, "IC: " .. string.Comma(itemtbl.Price *  s.Qty), "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
+				local price_width = surface.GetTextSize("Starting at " .. string.Comma(itemtbl.Price *  s.Qty) .. " IC")
+				m_DrawShadowedText(1, "Starting at " .. string.Comma(itemtbl.Price *  s.Qty) .. " IC", "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
             	surface.SetMaterial(mat_coins)
             	surface.SetDrawColor(Color(255, 255, 255, 255))
-            	surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 10, h - 85, 16, 16)
+            	surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21 + 12, h - 85, 16, 16)
 			end
 
-            m_DrawShadowedText(1, "Amount: " .. s.Qty, "moat_ItemDesc", (w / 2), h - 60, (itemtbl.Price * s.Qty <= MOAT_INVENTORY_CREDITS) and Color(255, 255, 255) or Color(255, 0, 0), TEXT_ALIGN_CENTER)
+            m_DrawShadowedText(1, "Request: " .. s.Qty, "moat_ItemDesc", (w / 2), h - 60, (itemtbl.Price * s.Qty <= MOAT_INVENTORY_CREDITS) and Color(255, 255, 255) or Color(255, 0, 0), TEXT_ALIGN_CENTER)
         end
         ITEM_BG.PaintOver = function(s, w, h) end
 

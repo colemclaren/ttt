@@ -7,9 +7,9 @@ ITEM.Description = "It's dangerous to go alone! Take this... model"
 
 ITEM.Model = "models/player/zelda.mdl"
 
-ITEM.Rarity = 9
+ITEM.Rarity = 7
 
-ITEM.Collection = "Aqua Palm Collection"
+ITEM.Collection = "Summer Climb Collection"
 
 function ITEM:OnPlayerSpawn( ply )
 

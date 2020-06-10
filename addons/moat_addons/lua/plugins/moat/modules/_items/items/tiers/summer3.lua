@@ -1,21 +1,27 @@
 
 ITEM.ID = 9603
-ITEM.Name = "Squirt"
-ITEM.Rarity = 1
-ITEM.Collection = "Aqua Palm Collection"
-ITEM.MinStats = 3
-ITEM.MaxStats = 5
+ITEM.Name = "Fun"
+ITEM.Rarity = 4
+ITEM.Collection = "Summer Climb Collection"
+ITEM.MinStats = 4
+ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
-	Weight = { min = -2, max = 3 },
-	Reloadrate = { min = -6, max = 7 },
-	Deployrate = { min = -4, max = 5 },
+
+	Damage = { min = 8, max = 15 },
+
+	Accuracy = { min = 8, max = 15 },
+
+	Kick = { min = -8, max = -15 },
+
+	Firerate = { min = 8, max = 15 },
+
+	Magazine = { min = 13, max = 20 },
+
+	Range = { min = 13, max = 20 },
+
+	Weight = { min = -2, max = -5 }
+
 }
 ITEM.MinTalents = 1
-ITEM.MaxTalents = 1
-ITEM.Talents = {"random"}
+ITEM.MaxTalents = 2
+ITEM.Talents = { "random", "random" }

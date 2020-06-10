@@ -1,9 +1,9 @@
 ITEM.ID = 9605
-ITEM.Name = "Umbrella"
+ITEM.Name = "Blazing"
 ITEM.Rarity = 5
-ITEM.Collection = "Aqua Palm Collection"
-ITEM.MinStats = 7
-ITEM.MaxStats = 9
+ITEM.Collection = "Summer Climb Collection"
+ITEM.MinStats = 5
+ITEM.MaxStats = 5
 ITEM.Stats = {
 	Damage = { min = 11, max = 19 },
 	Accuracy = { min = 11, max = 19 },
@@ -11,9 +11,7 @@ ITEM.Stats = {
 	Firerate = { min = 11, max = 19 },
 	Magazine = { min = 16, max = 24 },
 	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 },
-	Reloadrate = { min = 16, max = 24 },
-	Deployrate = { min = 16, max = 24 }
+	Weight = { min = -3, max = -7 }
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2

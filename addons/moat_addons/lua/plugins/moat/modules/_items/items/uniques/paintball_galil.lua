@@ -1,7 +1,7 @@
 ITEM.ID = 10111
 ITEM.Name = "Varnish Star"
-ITEM.Rarity = 5
-ITEM.Collection = "Aqua Palm Collection"
+ITEM.Rarity = 6
+ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_ttt_galil"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7

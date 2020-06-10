@@ -7,9 +7,9 @@ ITEM.Description = "He's seen some stuff"
 
 ITEM.Model = "models/player/clopsy.mdl"
 
-ITEM.Rarity = 3
+ITEM.Rarity = 5
 
-ITEM.Collection = "Aqua Palm Collection"
+ITEM.Collection = "Summer Climb Collection"
 
 function ITEM:OnPlayerSpawn( ply )
 

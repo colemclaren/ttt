@@ -7,9 +7,9 @@ ITEM.Description = [[The Enrichment Center is committed to the well being of all
 
 ITEM.Model = "models/player/aphaztech.mdl"
 
-ITEM.Rarity = 4
+ITEM.Rarity = 5
 
-ITEM.Collection = "Aqua Palm Collection"
+ITEM.Collection = "Summer Climb Collection"
 
 function ITEM:OnPlayerSpawn( ply )
 

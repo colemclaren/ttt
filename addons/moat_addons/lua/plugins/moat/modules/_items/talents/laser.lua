@@ -10,7 +10,7 @@ TALENT.Modifications[1] = { min = 4, max = 8 } -- Every shot hit increases
 TALENT.Modifications[2] = { min = 35, max = 45 } -- Maximum
 TALENT.Melee = false
 TALENT.NotUnique = false
-TALENT.Collection = "Aqua Palm Collection"
+TALENT.Collection = "Summer Climb Collection"
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
     weapon:ApplyTracer "laser"

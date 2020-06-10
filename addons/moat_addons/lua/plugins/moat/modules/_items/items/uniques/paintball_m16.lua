@@ -1,7 +1,7 @@
 ITEM.ID = 10109
 ITEM.Name = "La Vaux Gloss"
 ITEM.Rarity = 7
-ITEM.Collection = "Aqua Palm Collection"
+ITEM.Collection = "Summer Climb Collection"
 ITEM.WeaponClass = "weapon_sp"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7

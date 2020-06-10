@@ -126,8 +126,8 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
     	draw.SimpleText("Moat", "moat_GambleTitle", 4, 0, Color(0, 198, 255))
     	draw.SimpleText("Beta", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
 
-    	draw.SimpleText("Casino Nightclub", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
-    	draw.SimpleText("Casino Nightclub", "moat_GambleTitle", 5, 20, Color(255, 255, 0))
+    	draw.SimpleText("Gambling Room", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
+    	draw.SimpleText("Gambling Room", "moat_GambleTitle", 5, 20, Color(255, 255, 0))
 
     	draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 194, 6, Color(0, 0, 0))
     	draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 193, 5, Color(255, 255, 255))
