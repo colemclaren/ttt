@@ -15,3 +15,5 @@
 -- Lower the Range and Accuracy attributes on Dual Glocks
 -- Lower the Range and Accuracy attributes on Dual Glocks
 -- Lower the Range and Accuracy attributes on Dual Glocks
+-- Aqua Palm Crate is now available
+-- Update inventory categories
