@@ -16,5 +16,7 @@ function TALENT:ModifyWeapon( weapon, talent_mods )
 	local mult = Mod.min + (Mod.max - Mod.min) * math.min(1, talent_mods[1])
 	--weapon:SetReloadrate(1 + (1 + weapon:GetReloadrate() / 100) * (1 + mult / 100)) 2.555
 	--weapon:SetReloadrate(weapon:GetReloadrate() * (1 + mult / 100)) 0
+	--weapon:SetReloadrate(weapon:GetReloadrate() * ((mult / 100) + 1))
+	--weapon:SetReloadSpeed(weapon:GetReloadrate() * ((mult / 100) + 1))
 	weapon:SetReloadrate(mult)
 end
