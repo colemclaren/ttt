@@ -193,7 +193,7 @@ net.Receive("MOAT_SEND_INV_ITEM", function(len)
         m_Inventory[slot] = tbl
 		m_Inventory[slot].decon = false
 
-		if (m_isUsingInv() and m_CreateInventorySlots) then
+		if (m_isUsingInv(true) and m_CreateInventorySlots) then
 			m_HandleLayoutSpacing(true)
         	m_CreateInventorySlots()
     	end
@@ -305,7 +305,7 @@ net.Receive("MOAT_ADD_INV_ITEM", function(len)
     m_Inventory[slot] = tbl
 	m_Inventory[slot].decon = false
 
-	if (m_isUsingInv() and m_CreateInventorySlots) then
+	if (m_isUsingInv(true) and m_CreateInventorySlots) then
 		m_HandleLayoutSpacing(true)
         m_CreateInventorySlots(false, 1, max_slots)
     end
@@ -350,7 +350,7 @@ net.Receive("MOAT_REM_INV_ITEM", function(len)
     slot = tonumber(key)
     m_Inventory[slot] = {}
 
-    if (m_isUsingInv() and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
+    if (m_isUsingInv(true) and M_INV_SLOT[slot] and M_INV_SLOT[slot].VGUI) then
         M_INV_SLOT[slot].VGUI.Item = nil
         M_INV_SLOT[slot].VGUI.WModel = nil
         M_INV_SLOT[slot].VGUI.MSkin = nil

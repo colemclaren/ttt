@@ -221,6 +221,23 @@ function string_table.Create(...)
 	return table.concat({...}, "")
 end
 
+function string.Friendly(number, thousands, millions)
+	if (isnumber(number)) then
+		number = string.format("%f", number)
+		number = string.match(number, "^(.-)%.?0*$")
+	end
+
+	if (math.abs(tonumber(number)) < 1000) then
+		return number
+	elseif (math.abs(tonumber(number)) < 1000000) then
+		return math.Round(tonumber(number) / 1000, 1) .. "K"
+	else
+		return math.Round(tonumber(number) / 1000000, 1) .. "M"
+	end
+
+	return number
+end
+
 
 ------------------------
 -- Create Our Methods --

@@ -112,7 +112,11 @@ local gradient_d = Material("vgui/gradient-d")
 local gradient_r = Material("vgui/gradient-r")
 moat_inv_cooldown = 0
 
-function m_isUsingInv()
+function m_isUsingInv(inv)
+	if (inv) then
+		return IsValid(MOAT_INV_BG) and IsValid(M_INV_PNL)
+	end
+
     return IsValid(MOAT_INV_BG)
 end
 
@@ -2893,7 +2897,7 @@ function m_OpenInventory(ply2, utrade)
 		end
 
 		function m_CreateInventorySlots(noscroll, start, stop)
-			if (not m_isUsingInv()) then
+			if (not m_isUsingInv(true)) then
 				return
 			end
 
@@ -2912,7 +2916,7 @@ function m_OpenInventory(ply2, utrade)
 						M_INV_SLOT[i].ComfyNest:SetVisible(false)
 						M_INV_SLOT[i].Render:SetVisible(false)
 					end
-				elseif (m_isUsingInv() and M_INV_SLOT[i] and m_Inventory[i] and m_Inventory[i].c) then
+				elseif (m_isUsingInv(true) and M_INV_SLOT[i] and m_Inventory[i] and m_Inventory[i].c) then
 					M_INV_SLOT[i].ComfyNest:SetVisible(true)
 					M_INV_SLOT[i].Render:SetVisible(true)
 				end
@@ -2923,14 +2927,14 @@ function m_OpenInventory(ply2, utrade)
 					M_INV_SLOT[i].VGUI.Item = m_Inventory[i]
 				end
 
-				if (not m_Inventory[i].c and m_isUsingInv()) then
+				if (not m_Inventory[i].c and m_isUsingInv(true)) then
 					M_INV_SLOT[i].ComfyNest:SetVisible(false)
 					M_INV_SLOT[i].Render:SetVisible(false)
 
 					continue
 				end
 
-				if (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Image) then
+				if (m_isUsingInv(true) and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Image) then
 					M_INV_SLOT[i].VGUI.WModel = m_Inventory[i].item.Image
 					M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
 					M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
@@ -2940,7 +2944,7 @@ function m_OpenInventory(ply2, utrade)
 					M_INV_SLOT[i].Render:SetAlpha(0)
 				end
 
-				if (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Model and not m_Inventory[i].item.Image) then
+				if (m_isUsingInv(true) and m_Inventory[i] and m_Inventory[i].item and m_Inventory[i].item.Model and not m_Inventory[i].item.Image) then
 					if (not IsValid(M_INV_SLOT[i].Render)) then
 						M_INV_SLOT[i].VGUI.SIcon:CreateIcon(true)
 						M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
@@ -2956,7 +2960,7 @@ function m_OpenInventory(ply2, utrade)
 					M_INV_SLOT[i].Render:SetAlpha(255)
 
 					M_INV_SLOT[i].VGUI.SIcon:SetModel(m_Inventory[i].item.Model)
-				elseif (m_isUsingInv() and m_Inventory[i] and m_Inventory[i].w and not m_Inventory[i].item.Image) then
+				elseif (m_isUsingInv(true) and m_Inventory[i] and m_Inventory[i].w and not m_Inventory[i].item.Image) then
 					if (not IsValid(M_INV_SLOT[i].Render)) then
 						M_INV_SLOT[i].VGUI.SIcon:CreateIcon(true)
 						M_INV_SLOT[i].Render = M_INV_SLOT[i].VGUI.SIcon.Icon
@@ -6482,7 +6486,7 @@ net.Receive("MOAT_MAX_SLOTS", function(len)
     for i = max_slots_old, max_slots do
         m_Inventory[i] = {decon = false}
 
-        if (m_isUsingInv()) then
+        if (m_isUsingInv(true)) then
             m_CreateInvSlot(i)
         end
     end

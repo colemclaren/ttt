@@ -17,7 +17,6 @@ local function ReplaceQuery(db)
 		db.query_internal = db.query
 	end
 
-
 	function db:query(sql)
 		moat.sql.db.query_queued = true
 		return self:query_internal(sql)
@@ -47,9 +46,20 @@ if (not moat.sql.db.status or (moat.sql.db.status and moat.sql.db:status() == my
 	moat.sql.db:connect()
 end
 
-timer.Create("moat.sql.no.disconnecto", 180, 0, function()
-    moat.sql.db:query "SELECT max_slots FROM moat_inventory WHERE steamid = 'STEAM_0:0:46558052'"
-		:start()
+hook("InitPostEntity", function()
+	timer.Create("moat.sql.reconnect", 5, 0, function()
+		if (not moat.sql.db.status or (moat.sql.db.status and moat.sql.db:status() == mysqloo.DATABASE_NOT_CONNECTED)) then
+			ReplaceQuery(moat.sql.db)
+			moat.sql.db:connect()
+
+			return
+		end
+	end)
+
+	timer.Create("moat.sql.no.disconnecto", 60, 0, function()
+		moat.sql.db:query "SELECT active FROM `moat_mapvote_prevent`"
+			:start()
+	end)
 end)
 
 moat.sql.mysql = moat.apps.sql "mysqloo.lua" (moat.sql.db)
@@ -73,6 +83,7 @@ function moat.sql:query(str, succ, err)
 end
 
 function Db(str, ...) moat:sqlquery(str, ...) end
+function MySQL(str, ...) moat:sqlquery(str, ...) end
 function moat.sql:q(str, ...) moat:sqlquery(str, ...) end
 function moat.mysql(str, ...) moat:sqlquery(str, ...) end
 function moat:sqlquery(str, ...)

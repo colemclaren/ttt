@@ -179,8 +179,8 @@ end
 net.Receive("MOAT_GAMBLE_DICE", function(len, ply)
 	if (gamble_net_spam(ply, "MOAT_GAMBLE_DICE")) then return end
 
-    local amt = net.ReadDouble()
-    local bet = net.ReadDouble()
+    local amt = math.Clamp(net.ReadDouble(), 1, 5000)
+    local bet = math.Clamp(net.ReadDouble(), 0, 100)
     local under = net.ReadBool()
 
     if (not ply:m_HasIC(amt)) then
@@ -563,7 +563,7 @@ net.Receive("roulette.bet",function(l,ply)
     local num = net.ReadInt(8)
     -- 0 for green, 1 for red, 2 for black
     if num > 2 or num < 0 then return end
-    local amount = net.ReadDouble()
+    local amount = math.Clamp(net.ReadDouble(), 1, 5000)
     if (GetGlobal("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use roulette. Map is changing soon, don't want you to lose IC!") return end
     if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
     if (gamble_net_spam(ply, "roulette.bet")) then return end
@@ -689,8 +689,9 @@ net.Receive("crash.syncme",function(l,ply)
 end)
 
 net.Receive("crash.bet", function(l,ply)
+	if (true) then return end
     if crash_crashing then return end
-    local amount = net.ReadDouble()
+    local amount = math.Clamp(net.ReadDouble(), 1, 5000)
     if (GetGlobal("ttt_rounds_left") < 2) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "Please wait until map change to use crash. Map is changing soon, don't want you to lose IC!") return end
     if amount < 1 or not ply:m_HasIC(amount) then m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!") return end
     if (gamble_net_spam(ply, "crash.bet")) then return end
@@ -2083,8 +2084,16 @@ local function chat_()
 								MapVote.Start()
 								hook.Remove("TTTEndRound", "EndRoundMapVote")
 							end)
+						elseif (GetServerName():lower():match "minecraft") then
+							local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. 'ttt_minecraft_b5' .. "`"
+							discord.Send("Server", msg)
+
+							RunConsoleCommand("changelevel", "ttt_minecraft_b5")
 						else
-							MapVote.Start()
+							local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. 'ttt_rooftops_a2_f1' .. "`"
+							discord.Send("Server", msg)
+
+							RunConsoleCommand("changelevel", "ttt_rooftops_a2_f1")
 						end
                     else
                         net.Start("Moat.GlobalAnnouncement")

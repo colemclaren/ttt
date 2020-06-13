@@ -1,9 +1,13 @@
+util.AddNetworkString("MapVote.Feedback")
 util.AddNetworkString("RAM_MapVoteStart")
 util.AddNetworkString("RAM_MapVoteUpdate")
 util.AddNetworkString("RAM_MapVoteCancel")
 util.AddNetworkString("RTV_Delay")
 
+MapVote = MapVote or {}
+MapVote.Feedback = MapVote.Feedback or {}
 MapVote.Continued = false
+MapVote.Limit = 8
 
 local MAP_AVAILABLE = {}
 function MapVote.MapAvailable(map_str)
@@ -67,144 +71,125 @@ net.Receive("RAM_MapVoteUpdate", function(len, ply)
         end
     end
 end)
-/*
-if file.Exists( "mapvote/recentmaps.txt", "DATA" ) then
-    recentmaps = util.JSONToTable(file.Read("mapvote/recentmaps.txt", "DATA"))
-else
-    recentmaps = {}
-end
-recentmaps = {}
-*/
-
-local minutes = 45 -- Cooldown
-if GetHostName():lower():match("minecraft") or GetHostName():lower():match("mc") then
-    minutes = 120
-end
 
 sql.Begin()
 sql.Query("CREATE TABLE IF NOT EXISTS `moat_mapcool` ( `map` STRING NOT NULL, `time_played` INT NOT NULL );")
 sql.Commit()
 
-if file.Exists( "mapvote/config.txt", "DATA" ) then
-    MapVote.Config = util.JSONToTable(file.Read("mapvote/config.txt", "DATA"))
-else
-    MapVote.Config = {}
-end
-
-
-function GetFeedback() end
-function GiveFeedback() end
-
-local function loadSQL()
-    local db = MINVENTORY_MYSQL
-
-    local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_feedback` ( `vote` int NOT NULL, `map` VARCHAR(100) NOT NULL, `steamid` VARCHAR(255) NOT NULL )")
-    function dq:onError(err)
-        ServerLog("[mInventory] Error with creating table: " .. err)
-    end
-    dq:start()
-
-    local function mapfeedback(map,fun)
-        local q = db:query("SELECT * FROM moat_feedback WHERE map = '" .. db:escape(map) .. "';" )
-        function q:onSuccess(d)
-            if #d < 1 then fun() return end
-            local total = 0
-            local good = 0
-            for k,v in pairs(d) do
-                if v.vote == 1 then
-                    good = good + 1
-                end
-                total = total + 1
-            end
-       
-            fun(good/total)
-        end
-        q:start()
-    end
-
-    local function feedback(sid,map,type)
-        local q = db:query("SELECT * FROM moat_feedback WHERE steamid = '" .. sid .. "' AND `map` = '" .. db:escape(map) .. "';")
-        function q:onSuccess(d)
-            if #d < 1 then
-                local q = db:query("INSERT INTO moat_feedback (vote, map, steamid) VALUES ('" .. type .. "', '" .. db:escape(map) .. "', '" .. sid .. "') ")
-                q:start()
-            else
-                local q = db:query("UPDATE moat_feedback SET vote = '" .. type .. "' WHERE steamid = '" .. sid .. "' AND `map` = '" .. db:escape(map) .. "';")
-                q:start()
-                function q:onError(s)
-                    print(s)
-                end
-            end
-        end
-        q:start()
-    end
-
-    function GiveFeedback(ply,up,map)
-        local sid = ply:SteamID64()
-        local type = (up and 1 ) or 0
-        local map = map or game.GetMap()
-        feedback(sid,map,type)
-    end
-
-    function GetFeedback(tbl,fun)
-        local feed = {}
-        for k,v in pairs(tbl) do
-            mapfeedback(v,function(a)
-                if not a then 
-                    feed[v] = -1
-                else
-                    feed[v] = math.Round(a * 100)
-                end
-                if table.Count(feed) >= table.Count(tbl) then
-                    fun(feed)
-                end
-            end)
-        end
-    end
-    local cool = {}
-    net.Receive("MapVote.Feedback",function(l,ply)
-        if (cool[ply] or 0) > CurTime() then return end
-        cool[ply] = CurTime() + 1
-        local b = net.ReadBool()
-        GiveFeedback(ply,b)
-    end)
-end
-util.AddNetworkString("MapVote.Feedback")
-
-local function c()
+local fails, check = 0, function()
     return MINVENTORY_MYSQL and MINVENTORY_MYSQL:status() == mysqloo.DATABASE_CONNECTED
 end
 
-if MINVENTORY_MYSQL then
-    if c() then
-        loadSQL()
-         --print(87551)
-    end
-end
-
-
-local fails = 0
-hook.Add("InitPostEntity","MSQL",function()
-    if not c() then 
-        timer.Create("CheckMSQL",1,0,function()
+hook("InitPostEntity", function()
+	if (not check()) then
+		timer.Create("CheckMSQL", 1, 0,function()
 			if (fails >= 300) then
-				RunConsoleCommand('changelevel', game.GetMap())
+				if (player.GetCount() > 0) then
+					local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. game.GetMap() .. "`"
+					discord.Send("Server", msg)
+
+					RunConsoleCommand('changelevel', game.GetMap())
+				elseif (GetServerName():lower():match "minecraft") then
+					local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. 'ttt_minecraft_b5' .. "`"
+					discord.Send("Server", msg)
+
+					RunConsoleCommand("changelevel", "ttt_minecraft_b5")
+				else
+					local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. 'ttt_rooftops_a2_f1' .. "`"
+					discord.Send("Server", msg)
+
+					RunConsoleCommand("changelevel", "ttt_rooftops_a2_f1")
+				end
 
 				return
 			end
 
-            print("JackPot timer",c())
-            if c() then
-                loadSQL()
-                timer.Destroy("CheckMSQL")
+            print("MapVote timer", check())
+
+            if (check()) then
+                timer.Remove "CheckMSQL"
+
+				return
             end
 
 			fails = fails + 1
         end)
-    else
-        loadSQL()
     end
+end)
 
+function GetFeedback(maps, cb)
+	if (not check() and cb) then
+		return cb()
+	end
+
+	if (type(maps) == "string") then
+		maps = {maps}
+	end
+
+	local args = table.Copy(maps)
+	args[#args + 1] = function(r)
+		for i = 1, #r do
+			if (not r[i].map) then continue end
+			if (not r or not r[i] or not r[i].total) then
+				MsgC(Color(103, 152, 235), "[MAP VOTING] ", Color(255, 105, 180), r[i].map .. " has zero map ratings | NULL | NULL |\n")
+				MapVote.Feedback[r[i].map] = {Positive = 0, Negative = 0}
+
+				continue
+			end
+
+			local total = r[i].total or 0
+			local like = r[i].positive or 0
+			local dislike = r[i].negative or 0
+
+			local rate1 = like >= dislike and like or dislike
+			local rate2 = like < dislike and like or dislike
+			MsgC(Color(103, 152, 235), "[MAP VOTING] ", Color(255, 105, 180), r[i].map .. " has " .. total.." map ratings | " .. (rate1 == like and "+" or "-") .. rate1 .." | "..(rate2 == like and "+" or "-") .. rate2 .. " |\n")
+			MapVote.Feedback[r[i].map] = {Positive = like, Negative = dislike}
+		end
+
+		for i = 1, #maps do
+			if (not MapVote.Feedback[maps[i]]) then
+				MapVote.Feedback[maps[i]] = {Positive = 0, Negative = 0}
+			end
+		end
+
+		if (cb) then
+			cb(MapVote.Feedback)
+		end
+	end
+
+	args[#args + 1] = function(err)
+		if (cb) then
+			cb(MapVote.Feedback)
+		end
+
+		print(err)
+	end
+
+	MySQL("SELECT map, COUNT(1) AS `total`, SUM(CASE WHEN vote = 0 THEN 1 ELSE 0 END) AS `negative`, SUM(CASE WHEN vote > 0 THEN 1 ELSE 0 END) AS `positive` FROM moat_feedback WHERE map IN (" .. string.rep('?', #maps, ', ') .. ") GROUP BY map;", unpack(args))
+end
+
+function GiveFeedback(sid, map, rating, cb)
+	if (not check() and cb) then
+		return cb()
+	end
+
+	MySQL("REPLACE INTO moat_feedback (vote, map, steamid) VALUES (?, ?, ?);", rating, map, sid, cb)
+end
+
+local cool = {}
+net.Receive("MapVote.Feedback",function(l,ply)
+    if (cool[ply] and cool[ply] > CurTime()) then return end
+    cool[ply] = CurTime() + 1
+
+	local like = (net.ReadBool() and 1) or 0
+    GiveFeedback(ply:SteamID64(), game.GetMap(), like, function()
+		if (IsValid(ply)) then
+			-- net.Start "MapVote.Feedback"
+			-- 	net.WriteUInt(like)
+			-- net.Send(ply)
+		end
+	end)
 end)
 
 function MapVote.Start(length, current, limit, prefix, callback)
@@ -246,6 +231,12 @@ function MapVote.Start(length, current, limit, prefix, callback)
         end
     end
 
+	
+	local minutes = 45 -- Cooldown
+	if GetHostName():lower():match("minecraft") or GetHostName():lower():match("mc") then
+    	minutes = 120
+	end
+
     sql.Query("DELETE FROM `moat_mapcool` WHERE time_played < '" .. (os.time() - (minutes * 60)) .. "';")
 
     for k, map in RandomPairs(maps) do
@@ -278,7 +269,7 @@ function MapVote.Start(length, current, limit, prefix, callback)
             local mapstr = map
             if(not current and game.GetMap():lower()..".bsp" == map) then continue end
             if (table.HasValue(vote_maps, mapstr)) then continue end
-	    if (not MapVote.MapAvailable(mapstr)) then continue end
+	    	if (not MapVote.MapAvailable(mapstr)) then continue end
 
             if is_expression then
                 if(string.find(map, prefix)) then -- This might work (from gamemode.txt)
@@ -294,101 +285,88 @@ function MapVote.Start(length, current, limit, prefix, callback)
                     end
                 end
             end
-            
+
             if(limit and amt >= limit) then break end
         end
     end
 
-    GetFeedback(vote_maps,function(tbl)
-        net.Start("MapVote.Feedback")
-        net.WriteTable(tbl)
-        net.Broadcast()
-    end)
+	GetFeedback(vote_maps, function(feedback)
+		feedback = feedback or MapVote.Feedback
 
-    net.Start("RAM_MapVoteStart")
-        net.WriteUInt(#vote_maps, 32)
-        
-        for i = 1, #vote_maps do
-            net.WriteString(vote_maps[i])
-        end
-        
-        net.WriteUInt(length, 32)
-    net.Broadcast()
-    
-    MapVote.Allow = true
-    MapVote.CurrentMaps = vote_maps
-    MapVote.Votes = {}
-    
+		net.Start("RAM_MapVoteStart")
+			net.WriteUInt(#vote_maps, 32)
+			
+			for i = 1, #vote_maps do
+				local map = vote_maps[i]
+				net.WriteString(map)
+				net.WriteUInt(feedback[map] and feedback[map].Positive or 1, 32)
+				net.WriteUInt(feedback[map] and feedback[map].Negative or 1, 32)
+			end
+			
+			net.WriteUInt(length, 32)
+		net.Broadcast()
 
-    timer.Create("RAM_MapVote", length, 1, function()
-        MapVote.Allow = false
-        local map_results = {}
-        
-        for k, v in pairs(MapVote.Votes) do
-            if(not map_results[v]) then
-                map_results[v] = 0
-            end
-            
-            for k2, v2 in pairs(player.GetAll()) do
-                if(v2:SteamID() == k) then
-                    if(v2:GetUserGroup() ~= "user") then
-                        map_results[v] = map_results[v] + 2
-                    else
-                        map_results[v] = map_results[v] + 1
-                    end
-                end
-            end
-            
-        end
-        
+		MapVote.Allow = true
+		MapVote.CurrentMaps = vote_maps
+		MapVote.Votes = {}
 
-        local winner = table.GetWinningKey(map_results) or 1
-        
-        net.Start("RAM_MapVoteUpdate")
-            net.WriteUInt(MapVote.UPDATE_WIN, 3)
-            
-            net.WriteUInt(winner, 32)
-        net.Broadcast()
-        
-        local map = MapVote.CurrentMaps[winner]
+		timer.Create("RAM_MapVote", length, 1, function()
+			MapVote.Allow = false
+			local map_results = {}
+			
+			for k, v in pairs(MapVote.Votes) do
+				if(not map_results[v]) then
+					map_results[v] = 0
+				end
 
-        
-        timer.Simple(4, function()
+				for k2, v2 in ipairs(player.GetAll()) do
+					if(v2:SteamID() == k) then
+						if (v2:GetUserGroup() ~= "user") then
+							map_results[v] = map_results[v] + 2
+						else
+							map_results[v] = map_results[v] + 1
+						end
+					end
+				end
+			end
 
+			local winner = table.GetWinningKey(map_results) or 1
 
-            if (hook.Run("MapVoteChange", map) != false) then
+			net.Start("RAM_MapVoteUpdate")
+				net.WriteUInt(MapVote.UPDATE_WIN, 3)
+				
+				net.WriteUInt(winner, 32)
+			net.Broadcast()
 
-                if (callback) then
-                    callback(map)
-                else
-                    sql.Query("INSERT INTO `moat_mapcool` (map, time_played) VALUES (" .. sql.SQLStr(game.GetMap():lower()) .. ",'" .. os.time() .. "');")
-                    local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. map .. "`"
-	            	
-					discord.Send("Server", msg)
+			local map = MapVote.CurrentMaps[winner]
+			timer.Simple(4, function()
+				if (hook.Run("MapVoteChange", map) != false) then
+					if (callback) then
+						callback(map)
+					else
+						sql.Query("INSERT INTO `moat_mapcool` (map, time_played) VALUES (" .. sql.SQLStr(game.GetMap():lower()) .. ",'" .. os.time() .. "');")
 
-					RunConsoleCommand("changelevel", map)
-                end
-            end
-        end)
-    end)
+						local msg = (GetHostName() or "") .. " ( steam://connect/" .. (game.GetIP() or "") .. " ) is switching map to `" .. map .. "`"
+						discord.Send("Server", msg)
+
+						RunConsoleCommand("changelevel", map)
+					end
+				end
+			end)
+		end)
+	end)
 end
-
-hook.Add( "Shutdown", "RemoveRecentMaps", function()
-        if file.Exists( "mapvote/recentmaps.txt", "DATA" ) then
-            file.Delete( "mapvote/recentmaps.txt" )
-        end
-end )
 
 function MapVote.Cancel()
 	ServerLog("mapvote_cancel")
 
-    if MapVote.Allow then
+    if (MapVote.Allow) then
         MapVote.Allow = false
         ServerLog("mapvote_cancel")
 
         net.Start("RAM_MapVoteCancel")
         net.Broadcast()
 
-        timer.Destroy("RAM_MapVote")
+        timer.Remove("RAM_MapVote")
     end
 end

@@ -29,6 +29,7 @@ MOAT_INV_BG_W = 400 + 350
 MOAT_INV_BG_H = 550
 */
 
+MapVote.Feedback = MapVote.Feedback or {}
 net.Receive("RAM_MapVoteStart", function()
     MapVote.CurrentMaps = {}
     MapVote.Allow = true
@@ -38,8 +39,15 @@ net.Receive("RAM_MapVoteStart", function()
     
     for i = 1, amt do
         local map = net.ReadString()
-        
+        local pos = net.ReadUInt(32)
+		local neg = net.ReadUInt(32)
+
         MapVote.CurrentMaps[#MapVote.CurrentMaps + 1] = map
+		MapVote.Feedback[map] = {
+			Positive = pos,
+			Negative = neg,
+			Count = pos + neg,
+		}
     end
     
     MapVote.EndTime = CurTime() + net.ReadUInt(32)
@@ -53,10 +61,6 @@ net.Receive("RAM_MapVoteStart", function()
     if (m_isUsingInv()) then
         RunConsoleCommand("inventory")
     end
-end)
-
-net.Receive("MapVote.Feedback",function()
-    MapVote.Feedback = net.ReadTable()
 end)
 
 local map_vote = {
@@ -179,7 +183,6 @@ local function DrawBlur(panel, amount)
     end
 end
 
-MapVote.Feedback = {}
 function MapVote.Show()
     /*if IsValid(MapVote.Panel) then
         MapVote.Panel:Show()
@@ -266,15 +269,14 @@ function MapVote.Show()
 	sfx.SoundEffects(like)
 
     function bottom_panel:Paint(w,h)
-        local timeLeft = math.Round(math.Clamp(MapVote.EndTime - CurTime(), 0, math.huge))
+		local timeLeft = math.Round(math.Clamp(MapVote.EndTime - CurTime(), 0, math.huge))
         surface.SetDrawColor(62, 62, 64, 255)
         surface.DrawOutlinedRect(0, 0, w, h)
         surface.DrawLine(w/2,1,w/2,h-2)
         --(tostring(timeLeft or 0).." seconds")
-        m_DrawShadowedText(1,tostring(timeLeft or 0).." Seconds Left", "moat_mVotes", (w/4 * 3), 8, Color(255,255,255, 255), TEXT_ALIGN_CENTER)
-        m_DrawShadowedText(1,(hasvoted and "Thanks for your feedback!") or "Did you like this map?", "moat_mFeed", 10, h/2 - (11), (hasvoted and Color(255,255,255, 255)) or HSVToColor((SysTime()*100)%360,0.65,0.9), TEXT_ALIGN_LEFT)
+        m_DrawShadowedText(1,"Time remaining: " .. tostring(timeLeft or 0), "moat_mVotes", (w/4 * 3), 8, Color(255,255,255, 255), TEXT_ALIGN_CENTER)
+        m_DrawShadowedText(1,(hasvoted and "Thanks for your feedback!") or "Do you like this map?", "moat_mFeed", 10, h/2 - (11), (hasvoted and Color(255,255,255, 255)) or HSVToColor((SysTime()*100)%360,0.65,0.9), TEXT_ALIGN_LEFT)
     end
-
 
     local top_panel = vgui.Create("DPanel",MapVote.Panel)
     top_panel:SetSize(0,228)
@@ -339,23 +341,33 @@ function MapVote.Show()
             --(MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or
 
             m_DrawShadowedText(1, map, "moat_ItemDesc", w/2, 128, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_CENTER)
-            if MapVote.Feedback[map] and MapVote.Feedback[map] ~= -1 then
-                local x = (w-2) * (MapVote.Feedback[map]/100)
+			if MapVote.Feedback[map] and MapVote.Feedback[map].Positive and MapVote.Feedback[map].Count then
+                local x = (w-2) * (MapVote.Feedback[map].Positive/MapVote.Feedback[map].Count)
                 draw.RoundedBox(0,1,148,x,39,Color(0,255,0,10))
-                local y = (w-2) - x + 1
+				 local y = (w-2) - x + 1
                 draw.RoundedBox(0,x+1,148,y,39,Color(255,0,0,10))
-                m_DrawShadowedText(1,MapVote.Feedback[map] .. "%", "moat_Feedback", w/2, 165, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_CENTER)
-
+                m_DrawShadowedText(1,math.Round(((MapVote.Feedback[map].Positive/MapVote.Feedback[map].Count) * 100), 0) .. "%", "moat_Feedback", w/2, 165, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_CENTER)
+			end
+            /*if (MapVote.Feedback[map] and MapVote.Feedback[map].Positive and MapVote.Feedback[map].Negative) then
+                local x = (w-2) * (MapVote.Feedback[map].Positive/MapVote.Feedback[map].Count)
+                draw.RoundedBox(0,1,148 + 29,x,10,Color(0,255,0,10))
+                local y = (w-2) - x + 1
+                draw.RoundedBox(0,x+1,148 + 29,y,10,Color(255,0,0,10))
+                m_DrawShadowedText(1,string.Friendly(MapVote.Feedback[map].Positive), "moat_Feedback", 35, 148 + 9, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_LEFT)
+				m_DrawShadowedText(1,string.Friendly(MapVote.Feedback[map].Negative), "moat_Feedback", (w/2)+35, 148 + 9, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_LEFT)
+        		cdn.DrawImage("https://cdn.moat.gg/f/E3Fa8uDCgNzzL6iAoITcNk4nUDye.png",10,148 + 9,20,20,Color(255,255,255,25))
+				cdn.DrawImageRotated("https://cdn.moat.gg/f/unE9uyhsKtr835pF3Zigc71KozFU.png",(w/2)+10,148 + 9,20,20,Color(255,255,255,25),180,50)
             else
                 m_DrawShadowedText(1,"None", "moat_Feedback", w/2, 165, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_CENTER)
             end
-            
+			*/
+
             m_DrawShadowedText(1, "Average feedback:", "moat_ItemDesc", w/2, 150, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_CENTER)
             local c = (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255)
             local vote_s = "s"
             if (votes == 1) then vote_s = "" end
             m_DrawShadowedText(1,votes .. " Vote" .. vote_s, "moat_mVotes", w/2, 192, (mine and Color(0,255,0)) or c, TEXT_ALIGN_CENTER)
-        end
+		end
 
         function a:DoClick()
             --MapVote.Votes[LocalPlayer():SteamID()] = i
@@ -404,7 +416,8 @@ concommand.Add("mpsh",function()
     MapVote.Feedback = {}
     for i = 1,8 do
         if i == 6 then continue end
-        MapVote.Feedback[MapVote.CurrentMaps[i]] = math.Round(math.random() * 100)
+		local pos, neg = math.Round(math.random() * 10000), math.Round(math.random() * 10000)
+        MapVote.Feedback[MapVote.CurrentMaps[i]] = {Positive = pos, Negative = neg, Count = pos + neg}
     end
     MapVote.Show()
 end)
