@@ -191,7 +191,7 @@ function MOAT_EVENT.ChallengeComplete()
 
     chat.AddText(Material("icon16/medal_gold_3.png"), Color(255, 0, 0), "Event ", Color(0, 255, 255), "| ", Color(255, 255, 0), wpn_str .. " " .. MOAT_EVENT.prefixes[id] .. " objective completed!")
 
-	cdn.PlayURL "https://cdn.moat.gg/ttt/levelup.wav"
+	cdn.PlayURL "https://static.moat.gg/ttt/levelup.wav"
 end
 
 net.Receive("moat.events.complete", MOAT_EVENT.ChallengeComplete)
@@ -591,7 +591,7 @@ local event_rules = {
 
 function MOAT_EVENT.RulesPanel(pnl)
 	pnl.Paint = function(s, w, h)
-		-- cdn.DrawImage("https://cdn.moat.gg/f/qlCyJTXSLfxArPZsI4Ee9q8caI21.png", w/2 - 80, 40, 180, 44.44)
+		-- cdn.DrawImage("https://static.moat.gg/f/qlCyJTXSLfxArPZsI4Ee9q8caI21.png", w/2 - 80, 40, 180, 44.44)
 		cdn.DrawImage("https://ttt.dev/4uKQJ.png", (w / 2) - (235 / 2), 30, 256, 256, Color(255, 255, 255, 225))
 
 		draw.SimpleTextOutlined("Moat Official Event Rules", "Trebuchet24", w/2, 20, moat_lyanblue, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))

@@ -89,7 +89,7 @@ function PANEL:DoRightClick()
     end
 
 	if (cdn and cdn.PlayURL and GetConVar "moat_ui_sounds" and GetConVar "moat_ui_sounds":GetInt() and GetConVar "moat_ui_sounds":GetInt() > 0) then
-		cdn.PlayURL "https://cdn.moat.gg/ttt/appear-online.ogg"
+		cdn.PlayURL "https://static.moat.gg/ttt/appear-online.ogg"
 	end
 end
 

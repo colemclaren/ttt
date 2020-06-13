@@ -1,7 +1,7 @@
 ITEM.ID = 3999
 ITEM.Name = "Box of Chocolates"
 ITEM.Description = "This box contains an item from the Valentine Collection! Right click to open"
-ITEM.Image = "https://cdn.moat.gg/f/boxofchocolates.png"
+ITEM.Image = "https://static.moat.gg/f/boxofchocolates.png"
 ITEM.Rarity = 3
 ITEM.NameColor = Color(255, 0, 255)
 ITEM.Collection = "Valentine Collection"

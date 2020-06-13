@@ -9,7 +9,7 @@ if (CLIENT) then
 
 		chat.AddText(Material("icon16/information.png"), Color(253, 158, 255), nick1 .. " " .. killed_verbs[math.random(#killed_verbs)] .. " a Jester!")
 
-		sound.PlayURL("https://cdn.moat.gg/ttt/jester_killed.mp3", "mono", function(audio)
+		sound.PlayURL("https://static.moat.gg/ttt/jester_killed.mp3", "mono", function(audio)
 			if (audio) then
 				audio:SetVolume(0.5)
 				audio:Play()

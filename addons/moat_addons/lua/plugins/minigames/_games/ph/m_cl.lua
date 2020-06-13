@@ -140,7 +140,7 @@ net.Receive("PH_Begin",function()
     end)
     MOAT_DISABLE_BUNNY_HOP = true
 
-	cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/inception.mp3", 0.8, function(station)
+	cdn.PlayURL("https://static.moat.gg/servers/tttsounds/inception.mp3", 0.8, function(station)
         hook.Add("Think","J Music",function()
             if not MOAT_PH then station:Stop() hook.Remove("Think","J Music") end
         end)
@@ -215,7 +215,7 @@ net.Receive("PH_End",function()
     MOAT_DISABLE_BUNNY_HOP = false
     props_w = net.ReadBool()
     local players = net.ReadTable()
-    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/forsen_end.mp3", 0.5)
+    cdn.PlayURL("https://static.moat.gg/servers/tttsounds/forsen_end.mp3", 0.5)
     MOAT_PH = nil
     kills = {}
     PH_END = {}
@@ -411,7 +411,7 @@ hook.Add("HUDPaint", "moat.test.LPH", function()
     end
     draw.SimpleTextOutlined(f .. " left", "PH.Big", w/2, 64, col, TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP, 1, Color(0,0,0))
     
-    cdn.DrawImage("https://cdn.moat.gg/f/MaUmSSziOxewOLgyvLQ967CEEt4k.png", (w/2) - (32), 0, 64, 64, Color(255, 255, 255, 225))
+    cdn.DrawImage("https://static.moat.gg/f/MaUmSSziOxewOLgyvLQ967CEEt4k.png", (w/2) - (32), 0, 64, 64, Color(255, 255, 255, 225))
 
     if (not LocalPlayer():Alive()) or (LocalPlayer():IsSpec()) then return end
 
@@ -459,7 +459,7 @@ hook.Add("HUDPaint", "moat.test.LPH", function()
     draw.SimpleTextOutlined(left, "PH.Small", (w/2) - (38), h - txh - 94, col, TEXT_ALIGN_RIGHT,TEXT_ALIGN_TOP, 1, Color(0,0,0))
 
 
-    cdn.DrawImage("https://cdn.moat.gg/f/jnlPyDmSerPSksH3gfvhDGl4wZRF.png", (w/2) - (32), h - txh - 124, 64, 64, Color(255, 255, 255, 225))*/
+    cdn.DrawImage("https://static.moat.gg/f/jnlPyDmSerPSksH3gfvhDGl4wZRF.png", (w/2) - (32), h - txh - 124, 64, 64, Color(255, 255, 255, 225))*/
 end)
 
 
@@ -482,7 +482,7 @@ surface.CreateFont("moat_GunGameLarge", {
 })
 
 net.Receive("PH_Prep",function()
-    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/boss_warning.mp3")
+    cdn.PlayURL("https://static.moat.gg/servers/tttsounds/boss_warning.mp3")
 
     local desc = {
         "Everyone will be on one of two teams!",

@@ -658,7 +658,7 @@ function moat_chat.InitChat()
     end
 
     mc.MOVE.Paint = function(s, w, h)
-        cdn.DrawImage("https://cdn.moat.gg/f/dfc5c8d9272b952101d36e284799544c.png", 0, 0, w, h, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
+        cdn.DrawImage("https://static.moat.gg/f/dfc5c8d9272b952101d36e284799544c.png", 0, 0, w, h, Color(255, 255, 255, (50 + s.HoverColor) * mc.alpha))
     end
 
     mc.MOVE:SetToolTip("Hold left click to drag around, Right click to reset")

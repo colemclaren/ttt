@@ -517,7 +517,7 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 
 		if (mat_str:match "vtf$") then
 			local function set(m)
-				new_mat:SetTexture("$basetexture", m)
+				new_mat:SetTexture("$basetexture", (type(m) ~= "string") and m:GetTexture "$basetexture" or m)
 			end
 
 			local m = cdn.Texture(mat_str, set)
@@ -586,7 +586,7 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 			local m = cdn.Texture(mat_str, function(m)
 				if (m and not self.SetOmega) then
 					self.SetOmega = true
-					new_mat:SetTexture("$basetexture", m)
+					new_mat:SetTexture("$basetexture", (type(m) ~= "string") and m:GetTexture "$basetexture" or m)
 	
 					if (new_mat and color) then
 						set_vector(new_mat, "$color2", vector(color.r / 255, color.g / 255, color.b / 255))
@@ -599,7 +599,7 @@ function MOAT_LOADOUT.ApplySkin(wep, skin)
 
 			if (m and not self.SetOmega) then
 				self.SetOmega = true
-				new_mat:SetTexture("$basetexture", m)
+				new_mat:SetTexture("$basetexture", (type(m) ~= "string") and m:GetTexture "$basetexture" or m)
 
 				if (new_mat and color) then
 					set_vector(new_mat, "$color2", vector(color.r / 255, color.g / 255, color.b / 255))
@@ -695,7 +695,7 @@ net.ReceivePlayer("MOAT_SKINZ", function(pl)
 
 			if (mat_str:match "vtf$") then
 				local set = function(m)
-					new_mat:SetTexture("$basetexture", m)
+					new_mat:SetTexture("$basetexture", (type(m) ~= "string") and m:GetTexture "$basetexture" or m)
 					MOAT_SKINZ[pl].Skin = new_mat
 				end
 
@@ -835,7 +835,7 @@ function MOAT_LOADOUT.ApplyModels()
 				if (mat_str:match "vtf$") then
 					local set = function(m)
 						if (not IsValid(ply)) then return end
-						MatOverrides[ply][item_id]:SetTexture("$basetexture", m)
+						MatOverrides[ply][item_id]:SetTexture("$basetexture", (type(m) ~= "string") and m:GetTexture "$basetexture" or m)
 						if (IsValid(item.ModelEnt)) then
 							item.ModelEnt:SetSubMaterial(0, "!" .. MatOverrides[ply][item_id]:GetName())
 							item.ModelEnt:SetMaterial("!" .. MatOverrides[ply][item_id]:GetName())

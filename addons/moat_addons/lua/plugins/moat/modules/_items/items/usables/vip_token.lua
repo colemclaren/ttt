@@ -3,7 +3,7 @@ ITEM.Name = "VIP Token"
 ITEM.Description = "Using this will grant VIP rank benefits permanently!"
 ITEM.Rarity = 8
 ITEM.Collection = "Meta Collection"
-ITEM.Image = "https://cdn.moat.gg/ttt/vip_token.png"
+ITEM.Image = "https://static.moat.gg/ttt/vip_token.png"
 ITEM.Active = false
 
 -- Will only be able to be bought with SC, not done yet. Just pushing votekick meme

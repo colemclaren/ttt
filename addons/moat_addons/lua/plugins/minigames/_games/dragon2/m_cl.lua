@@ -103,7 +103,7 @@ end
 
 local function moat_InitDrawBossHealth()
 	hook.Add("HUDPaint", "moat_DrawBossHealth", moat_DrawBossHealth)
-	cdn.PlayURL("https://cdn.moat.gg/ttt/dragon.mp3", .8, function() end, "stream")
+	cdn.PlayURL("https://static.moat.gg/ttt/dragon.mp3", .8, function() end, "stream")
 end
 
 local moat_BossWarningLabel = "INCOMING BOSS ROUND!!!"
@@ -138,7 +138,7 @@ local function moat_PrepareBoss()
 
 	MOAT_BOSS_ROUND_OVER = false
 	MOAT_ACTIVE_BOSS = true
-	cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/boss_warning.mp3")
+	cdn.PlayURL("https://static.moat.gg/servers/tttsounds/boss_warning.mp3")
 	hook.Add("HUDPaint", "moat_PrepareBoss", moat_DrawBossWarning)
 	--hook.Add("TTTBeginRound", "moat_StartBoss", moat_InitDrawBossHealth)
 end

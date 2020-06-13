@@ -425,7 +425,7 @@ function SWEP:DrawHUD()
 
 	for i = 1, self:GetEggs() do
 		if not LAVA_EX then
-			cdn.DrawImageRotated("https://cdn.moat.gg/f/532a095366d323af3f0a2ef72439c709.png", ScrW() - Size * (0.3 * i) - Size, ScrH() - Size * 1.5, Size, Size, nil, i == self:GetEggs() and (CurTime() * 5):sin() * 15 or -15, true)
+			cdn.DrawImageRotated("https://static.moat.gg/f/532a095366d323af3f0a2ef72439c709.png", ScrW() - Size * (0.3 * i) - Size, ScrH() - Size * 1.5, Size, Size, nil, i == self:GetEggs() and (CurTime() * 5):sin() * 15 or -15, true)
 		end
 	end
 

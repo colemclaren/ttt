@@ -1,14 +1,14 @@
 local EagleSounds = {
-	["Eagle Aim"] = "https://cdn.moat.gg/ttt/headshot/surreal-headshot-kill.wav",
-	["Eagle Kill"] = "https://cdn.moat.gg/ttt/headshot/surreal-killshot.wav",
-	["Eagle Clack"] = "https://cdn.moat.gg/ttt/headshot/metallic-headshot.wav",
-	["Arcade Tap"] = "https://cdn.moat.gg/ttt/headshot/arcade-bodyshot.wav",
-	["Arcade Headshot"] = "https://cdn.moat.gg/ttt/headshot/arcade-headshot.wav",
-	["Arcade Kill"] = "https://cdn.moat.gg/ttt/headshot/arcade-headshot-kill.wav",
-	["Arcade Missed"] = "https://cdn.moat.gg/ttt/headshot/arcade-killshot.wav",
-	["FPS Hitmarker"] = "https://cdn.moat.gg/ttt/headshot/fps-bodyshot.wav",
-	["FPS Headshot"] = "https://cdn.moat.gg/ttt/headshot/fps-headshot.wav",
-	["Rusty Aim"] = "https://cdn.moat.gg/ttt/headshot/metallic-headshot.wav"
+	["Eagle Aim"] = "https://static.moat.gg/ttt/headshot/surreal-headshot-kill.wav",
+	["Eagle Kill"] = "https://static.moat.gg/ttt/headshot/surreal-killshot.wav",
+	["Eagle Clack"] = "https://static.moat.gg/ttt/headshot/metallic-headshot.wav",
+	["Arcade Tap"] = "https://static.moat.gg/ttt/headshot/arcade-bodyshot.wav",
+	["Arcade Headshot"] = "https://static.moat.gg/ttt/headshot/arcade-headshot.wav",
+	["Arcade Kill"] = "https://static.moat.gg/ttt/headshot/arcade-headshot-kill.wav",
+	["Arcade Missed"] = "https://static.moat.gg/ttt/headshot/arcade-killshot.wav",
+	["FPS Hitmarker"] = "https://static.moat.gg/ttt/headshot/fps-bodyshot.wav",
+	["FPS Headshot"] = "https://static.moat.gg/ttt/headshot/fps-headshot.wav",
+	["Rusty Aim"] = "https://static.moat.gg/ttt/headshot/metallic-headshot.wav"
 }
 
 hook("Moat.Headshot", function()
@@ -28,12 +28,12 @@ net.Receive("Moat.Headshot.Sound", function()
 
 	hook.Run "Moat.Headshot"
 
-	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
-	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
-	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
-	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
-	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
-	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
-	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
-	-- cdn.PlayURL "https://cdn.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
+	-- cdn.PlayURL "https://static.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
+	-- cdn.PlayURL "https://static.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
+	-- cdn.PlayURL "https://static.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
+	-- cdn.PlayURL "https://static.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
+	-- cdn.PlayURL "https://static.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
+	-- cdn.PlayURL "https://static.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
+	-- cdn.PlayURL "https://static.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
+	-- cdn.PlayURL "https://static.moat.gg/f/55aLKs6xUXfnMseoc0eWDkcyWdMAJ9yF.mp3"
 end)

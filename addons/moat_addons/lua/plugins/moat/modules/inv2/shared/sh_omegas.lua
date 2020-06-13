@@ -38,7 +38,7 @@ end
 
 
 function MOAT_OMEGAS.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_rarity, collection, name_color)
-	image = image or ("https://cdn.moat.gg/f/" .. name:lower() .. ".png")
+	image = image or ("https://static.moat.gg/f/" .. name:lower() .. ".png")
 
 	local omega = {
 		ID = id,

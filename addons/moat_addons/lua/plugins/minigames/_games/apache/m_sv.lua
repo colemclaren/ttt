@@ -6,28 +6,28 @@ local MOAT_BOSS_CUR_PLY = nil
 local MOAT_BOSS_DMG = {}
 local MOAT_ROUND_OVER = false
 local death_voices = {
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death1smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death2smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death3smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death4smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death5smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death6smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death7smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death8smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death9smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death10smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache_death11smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death1smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death2smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death3smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death4smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death5smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death6smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death7smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death8smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death9smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death10smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache_death11smith.mp3",
 }
 local boss_voices = {
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache2smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache3smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache4smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache5smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache6smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache7smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache8smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache9smith.mp3",
-	"https://cdn.moat.gg/servers/tttsounds/apache/apache9smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache2smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache3smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache4smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache5smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache6smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache7smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache8smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache9smith.mp3",
+	"https://static.moat.gg/servers/tttsounds/apache/apache9smith.mp3",
 }
 local MOAT_DEATHCLAW_WPN = nil
 local MOAT_APACHE_ENT = NULL
@@ -170,13 +170,13 @@ local function moat_BossPlayerDeath(ply)
     end)
 
     if (not IS_BOSS) then
-		cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/apache/apache_loss_smith.mp3", 2)
+		cdn.PlayURL("https://static.moat.gg/servers/tttsounds/apache/apache_loss_smith.mp3", 2)
 		if (IsValid(MOAT_BOSS_CUR_PLY)) then
             MOAT_BOSS_CUR_PLY:m_DropInventoryItem(math.random(5,6))
         end
         return
     else
-		cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/apache/apache_won_smith.mp3", 2)
+		cdn.PlayURL("https://static.moat.gg/servers/tttsounds/apache/apache_won_smith.mp3", 2)
     end
 
     local ply_tbl = {}
@@ -294,7 +294,7 @@ local function moat_BeginRoundBossHooks()
 
         timer.Simple(1, function()
             MuteForRestart(true)
-			cdn.PlayURL(table.Random({"https://cdn.moat.gg/servers/tttsounds/apache/apache_america1smith.mp3", "https://cdn.moat.gg/servers/tttsounds/apache/apache_america2smith.mp3"}), 2)
+			cdn.PlayURL(table.Random({"https://static.moat.gg/servers/tttsounds/apache/apache_america1smith.mp3", "https://static.moat.gg/servers/tttsounds/apache/apache_america2smith.mp3"}), 2)
         end)
 
         timer.Create("moat_boss_voices", 30, 0, function()

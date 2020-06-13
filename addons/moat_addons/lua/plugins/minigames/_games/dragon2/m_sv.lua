@@ -5,8 +5,8 @@ MOAT_ACTIVE_BOSS = MOAT_ACTIVE_BOSS or false
 MOAT_DRAGON_PLY = MOAT_DRAGON_PLY or nil
 local MOAT_BOSS_DMG = {}
 local MOAT_ROUND_OVER = false
-local death_voices = {"https://cdn.moat.gg/f/u4QUxAtoqhJMNdLKoCDFnfFJOgfj.mp3", "https://cdn.moat.gg/f/DuUQdR6b6IPLuDBoUffUb3GcO7kF.mp3", "https://cdn.moat.gg/f/o66GU9avCtjwXkEWnrKZTRpj0A7A.mp3", "https://cdn.moat.gg/f/es1VgqnzB8rkdFbbvjxrpjpXmAmM.mp3", "https://cdn.moat.gg/f/HNGJ1QHKrDFgxEKezZwDqDnHCGKu.mp3", "https://cdn.moat.gg/f/3TjV4QhosYjCyGjhTHuaOBYCEYW3.mp3", "https://cdn.moat.gg/f/Zy6k5NHOUkbWXWlRqjFZU5ovMkVs.mp3", "https://cdn.moat.gg/f/vXHWudEuRy7azKDjfN3rP6LUIwZU.mp3", "https://cdn.moat.gg/f/ABOKrPTwS5ctIr0rcfa9r5FzheSo.mp3", "https://cdn.moat.gg/f/BnEx3kkGamjarHGak9ZY6TsdMQc4.mp3", "https://cdn.moat.gg/f/vOdDwekeqfqY7jHpvzHaoeFY4uih.mp3"}
-local boss_voices = {"https://cdn.moat.gg/f/FQ8Ki3DI1iwz7COGvb3lJDGNjvqi.mp3", "https://cdn.moat.gg/f/d498NmYGCidzOhk5eKIwjCZnLiG1.mp3", "https://cdn.moat.gg/f/AlbmDVfwYncLe73Cy4NbTBiOdtzQ.mp3", "https://cdn.moat.gg/f/VLnfWX6R7qms2nXqixIb8MpHKfYz.mp3", "https://cdn.moat.gg/f/2C8JVERC0wo61c57IUYfesggbNI8.mp3", "https://cdn.moat.gg/f/WWKrz7PvhSNnMKpl8BZWHhzp6sK9.mp3", "https://cdn.moat.gg/f/VSh7wIfUcx7tD9Pp7kJJ2uXQolro.mp3", "https://cdn.moat.gg/f/XUk6mFPFkFr4eL9B3fJ7I9iLY17b.mp3", "https://cdn.moat.gg/f/vHJAQrx7C07ykA4stEeglMN8SjWN.mp3"}
+local death_voices = {"https://static.moat.gg/f/u4QUxAtoqhJMNdLKoCDFnfFJOgfj.mp3", "https://static.moat.gg/f/DuUQdR6b6IPLuDBoUffUb3GcO7kF.mp3", "https://static.moat.gg/f/o66GU9avCtjwXkEWnrKZTRpj0A7A.mp3", "https://static.moat.gg/f/es1VgqnzB8rkdFbbvjxrpjpXmAmM.mp3", "https://static.moat.gg/f/HNGJ1QHKrDFgxEKezZwDqDnHCGKu.mp3", "https://static.moat.gg/f/3TjV4QhosYjCyGjhTHuaOBYCEYW3.mp3", "https://static.moat.gg/f/Zy6k5NHOUkbWXWlRqjFZU5ovMkVs.mp3", "https://static.moat.gg/f/vXHWudEuRy7azKDjfN3rP6LUIwZU.mp3", "https://static.moat.gg/f/ABOKrPTwS5ctIr0rcfa9r5FzheSo.mp3", "https://static.moat.gg/f/BnEx3kkGamjarHGak9ZY6TsdMQc4.mp3", "https://static.moat.gg/f/vOdDwekeqfqY7jHpvzHaoeFY4uih.mp3"}
+local boss_voices = {"https://static.moat.gg/f/FQ8Ki3DI1iwz7COGvb3lJDGNjvqi.mp3", "https://static.moat.gg/f/d498NmYGCidzOhk5eKIwjCZnLiG1.mp3", "https://static.moat.gg/f/AlbmDVfwYncLe73Cy4NbTBiOdtzQ.mp3", "https://static.moat.gg/f/VLnfWX6R7qms2nXqixIb8MpHKfYz.mp3", "https://static.moat.gg/f/2C8JVERC0wo61c57IUYfesggbNI8.mp3", "https://static.moat.gg/f/WWKrz7PvhSNnMKpl8BZWHhzp6sK9.mp3", "https://static.moat.gg/f/VSh7wIfUcx7tD9Pp7kJJ2uXQolro.mp3", "https://static.moat.gg/f/XUk6mFPFkFr4eL9B3fJ7I9iLY17b.mp3", "https://static.moat.gg/f/vHJAQrx7C07ykA4stEeglMN8SjWN.mp3"}
 local MOAT_DEATHCLAW_WPN = nil
 MOAT_DRAGON_ENT = MOAT_DRAGON_ENT or NULL
 local MOAT_DRAGON_INITIALIZED = false
@@ -177,7 +177,7 @@ local function moat_BossPlayerDeath(ply)
 	end)
 
 	if (not IS_BOSS) then
-		-- cdn.PlayURL("https://cdn.moat.gg/f/ubbd7fKB9WdDWbk5J1QMC3iM81GG.mp3", 2)
+		-- cdn.PlayURL("https://static.moat.gg/f/ubbd7fKB9WdDWbk5J1QMC3iM81GG.mp3", 2)
 
 		if (IsValid(MOAT_DRAGON_PLY)) then
 			if (math.random(2) == 2) then
@@ -189,7 +189,7 @@ local function moat_BossPlayerDeath(ply)
 
 		return
 	else
-		-- cdn.PlayURL("https://cdn.moat.gg/f/9582v2jF3CQSP5fOM44CuAE3TMVr.mp3", 2)
+		-- cdn.PlayURL("https://static.moat.gg/f/9582v2jF3CQSP5fOM44CuAE3TMVr.mp3", 2)
 	end
 
 	local ply_tbl = {}
@@ -314,7 +314,7 @@ local function moat_BeginRoundBossHooks()
 
 		timer.Simple(1, function()
 			MuteForRestart(true)
-			-- cdn.PlayURL(table.Random({"https://cdn.moat.gg/f/tFU5O424OaHTrU16ayw6NJz3x4Lz.mp3", "https://cdn.moat.gg/f/q5ZZXsMohK3L3b0lnaKQ88SUPOUZ.mp3"}), 2)
+			-- cdn.PlayURL(table.Random({"https://static.moat.gg/f/tFU5O424OaHTrU16ayw6NJz3x4Lz.mp3", "https://static.moat.gg/f/q5ZZXsMohK3L3b0lnaKQ88SUPOUZ.mp3"}), 2)
 		end)
 
 		timer.Create("moat_boss_voices", 30, 0, function()

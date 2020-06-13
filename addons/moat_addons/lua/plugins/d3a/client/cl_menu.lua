@@ -1843,7 +1843,7 @@ function mga.Main.Open()
 		surface.SetDrawColor(0, 0, 0, 150)
 		surface.DrawRect(0, 0, w, h)
 
-		draw.WebImage("https://cdn.moat.gg/f/ZbiTBZ.png", 0, 0, 2048, 2048, Color(255, 255, 255, 250))
+		draw.WebImage("https://static.moat.gg/f/ZbiTBZ.png", 0, 0, 2048, 2048, Color(255, 255, 255, 250))
 		*/
 		surface.SetDrawColor(183, 183, 183)
 		surface.DrawLine(0, ScaleY(25), w, ScaleY(25))

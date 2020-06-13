@@ -1,5 +1,5 @@
 MOAT_VERSION = "1.7.1"
-MOAT_BG_URL = "https://cdn.moat.gg/f/7b41d8391eef24d3cba3e36063f91b2a.png"
+MOAT_BG_URL = "https://static.moat.gg/f/7b41d8391eef24d3cba3e36063f91b2a.png"
 
 surface.CreateFont("moat_Medium11", {
     font = "Trebuchet24",
@@ -158,10 +158,10 @@ local function DrawSnow(pnl, w, h, amt)
             snowtbl[i][5] = snowtbl[i][5] or 100
         end
 
-		cdn.SmoothImage("https://cdn.moat.gg/f/snow.png", snowtbl[i][2], snowtbl[i][1] - (snowtbl[i][3]/2), snowtbl[i][3], snowtbl[i][3], Color(230, 230, 250, 200))
+		cdn.SmoothImage("https://static.moat.gg/f/snow.png", snowtbl[i][2], snowtbl[i][1] - (snowtbl[i][3]/2), snowtbl[i][3], snowtbl[i][3], Color(230, 230, 250, 200))
     end
 
-	cdn.SmoothImage("https://cdn.moat.gg/f/snow2.png", 0, h - 256, 256, 256, Color(230, 230, 250, 255))
+	cdn.SmoothImage("https://static.moat.gg/f/snow2.png", 0, h - 256, 256, 256, Color(230, 230, 250, 255))
 end
 
 local holiday = CreateClientConVar("moat_holiday_theme_2020", 1, true, true)
@@ -186,14 +186,14 @@ hook("InitPostEntity", "SetFestive", function()
 	end
 end)
 
-local halloween_bg = "https://cdn.moat.gg/f/halloween.png"
+local halloween_bg = "https://static.moat.gg/f/halloween.png"
 local spooks = {
-    [1] = {"1left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/1left.png"},
-    [2] = {"2left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/2left.png"},
-    [3] = {"3left.png", 0, 0, 0, url = "https://cdn.moat.gg/f/3left.png"},
-    [4] = {"1right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/1right.png"},
-    [5] = {"2right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/2right.png"},
-    [6] = {"3right.png", 0, 0, 0, url = "https://cdn.moat.gg/f/3right.png"}
+    [1] = {"1left.png", 0, 0, 0, url = "https://static.moat.gg/f/1left.png"},
+    [2] = {"2left.png", 0, 0, 0, url = "https://static.moat.gg/f/2left.png"},
+    [3] = {"3left.png", 0, 0, 0, url = "https://static.moat.gg/f/3left.png"},
+    [4] = {"1right.png", 0, 0, 0, url = "https://static.moat.gg/f/1right.png"},
+    [5] = {"2right.png", 0, 0, 0, url = "https://static.moat.gg/f/2right.png"},
+    [6] = {"3right.png", 0, 0, 0, url = "https://static.moat.gg/f/3right.png"}
 }
 local next_spook = CurTime()
 local current_spook = 1
@@ -249,12 +249,12 @@ end
 
 
 
-local spring_bg_url = "https://cdn.moat.gg/f/spring_bg.png"
+local spring_bg_url = "https://static.moat.gg/f/spring_bg.png"
 local springs = {
-    [1] = {"butterfly1.png", 0, 0, 0, url = "https://cdn.moat.gg/f/butterfly1.png"},
-    [2] = {"butterfly2.png", 0, 0, 0, url = "https://cdn.moat.gg/f/butterfly2.png"},
-    [3] = {"butterfly3.png", 0, 0, 0, url = "https://cdn.moat.gg/f/butterfly3.png"},
-    [4] = {"butterfly4.png", 0, 0, 0, url = "https://cdn.moat.gg/f/butterfly4.png"}
+    [1] = {"butterfly1.png", 0, 0, 0, url = "https://static.moat.gg/f/butterfly1.png"},
+    [2] = {"butterfly2.png", 0, 0, 0, url = "https://static.moat.gg/f/butterfly2.png"},
+    [3] = {"butterfly3.png", 0, 0, 0, url = "https://static.moat.gg/f/butterfly3.png"},
+    [4] = {"butterfly4.png", 0, 0, 0, url = "https://static.moat.gg/f/butterfly4.png"}
 }
 local next_spring = CurTime()
 local current_spring = 1
@@ -6396,27 +6396,27 @@ net.Receive("MOAT_ITEM_OBTAINED", function(len)
 
 	if (last_played <= CurTime() - .5) then
 		if (tbl.item and tbl.item.Rarity == 2) then
-			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_01.wav", .2)
+			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_01.wav", .2)
 		elseif (tbl.item and tbl.item.Rarity == 3) then
-			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_02.wav", .2)
+			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_02.wav", .2)
 		elseif (tbl.item and tbl.item.Rarity == 4) then
-			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_06.wav", .2)
+			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_06.wav", .2)
 		elseif (tbl.item and tbl.item.Rarity == 5) then
-			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_05.wav", .2)
+			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_05.wav", .2)
 		elseif (tbl.item and tbl.item.Rarity == 6) then
-			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_04.wav", .2)
+			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_04.wav", .2)
 			util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)
 		elseif (tbl.item and tbl.item.Rarity == 7) then
-			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_07.wav", .2)
+			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_07.wav", .2)
 			util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)
 		elseif (tbl.item and tbl.item.Rarity == 8) then
-			cdn.PlayURL("https://cdn.moat.gg/ttt/Stinger_loot_03.wav", .2)
+			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_03.wav", .2)
 			util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)
 		elseif (tbl.item and tbl.item.Rarity == 9) then
-			cdn.PlayURL("https://cdn.moat.gg/ttt/Arcana_drop.mp3", .2)
+			cdn.PlayURL("https://static.moat.gg/ttt/Arcana_drop.mp3", .2)
 			util.ScreenShake(LocalPlayer():GetPos(), 25, 25, 15, 5000)
 		else
-			cdn.PlayURL("https://cdn.moat.gg/ttt/borderlands_3_legend.mp3", .2)
+			cdn.PlayURL("https://static.moat.gg/ttt/borderlands_3_legend.mp3", .2)
 		end
 
 		last_played = CurTime()
@@ -6613,13 +6613,13 @@ net.Receive("MOAT_DECON_NOTIFY", function()
 
     local s = mul == true and "s" or ""
 
-    cdn.PlayURL "https://cdn.moat.gg/f/tcTmdMRKmTamobA5mrj5aFs6siOm.mp3"
+    cdn.PlayURL "https://static.moat.gg/f/tcTmdMRKmTamobA5mrj5aFs6siOm.mp3"
 
     chat.AddText(Material("icon16/information.png"), Color(255, 255, 0), "You received ", Color(0, 255, 0), string.Comma(amt), Color(255, 255, 0), " IC from deconstructing your item" .. s .. "!")
 end)
 
 net.Receive("MOAT_DECON_MUTATOR", function()
-    cdn.PlayURL "https://cdn.moat.gg/f/L7mju69BFW8gJxWTkdDCszvIoWWe.wav"
+    cdn.PlayURL "https://static.moat.gg/f/L7mju69BFW8gJxWTkdDCszvIoWWe.wav"
 end)
 
 hook("InitPostEntity", function()

@@ -7,7 +7,7 @@ ITEM.Active = false
 ITEM.NewItem = 1577779200
 ITEM.Price = 50000
 ITEM.Collection = "Santa's Collection"
-ITEM.Image = "https://cdn.moat.gg/f/gift_usable64.png"
+ITEM.Image = "https://static.moat.gg/f/gift_usable64.png"
 ITEM.ItemUsed = function(pl, slot, item)
 	for k, v in pairs(player.GetAll()) do
 		v:m_DropInventoryItem("Holiday Crate")

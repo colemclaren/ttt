@@ -8,7 +8,7 @@ ITEM.Price = 75000
 ITEM.ShopDesc = "Become a Traitor on the next round!"
 
 ITEM.Collection = "Supreme Collection"
-ITEM.Image = "https://cdn.moat.gg/ttt/traitor_token.png"
+ITEM.Image = "https://static.moat.gg/ttt/traitor_token.png"
 
 ROLE_TOKEN_PLAYERS = ROLE_TOKEN_PLAYERS or {}
 

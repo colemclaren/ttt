@@ -1,7 +1,7 @@
 ITEM.ID = 7332
 ITEM.Name = "Paper Tiqers Crate"
 ITEM.Description = "This crate contains a skin from the Paper Tiqers Collection! Right click to open"
-ITEM.Image = "https://cdn.moat.gg/ttt/uwu/pluto/icon_crate.png"
+ITEM.Image = "https://static.moat.gg/ttt/uwu/pluto/icon_crate.png"
 ITEM.Rarity = 4
 ITEM.Collection = "Paper Tiqers Collection"
 ITEM.Active = true

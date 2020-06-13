@@ -12,7 +12,7 @@ local audio_width = (ScrW() / 256) * 2
 local sound_cache = {}
 local audio_color = Color(0, 255, 255)
 local audio_beat = 0
-local moat_URL = "https://cdn.moat.gg/ttt/halloween/"
+local moat_URL = "https://static.moat.gg/ttt/halloween/"
 local moat_Songs = 17
 
 

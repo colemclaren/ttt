@@ -12,7 +12,7 @@ local MOAT_LIVES = 2
 local EGG_COUNT, START_PLAYERS = 0, 0
 
 local function line(n)
-    return "https://cdn.moat.gg/ttt/easter/bugs"..n.."_pn.mp3"
+    return "https://static.moat.gg/ttt/easter/bugs"..n.."_pn.mp3"
 end
 
 local ShitTalk = {
@@ -233,7 +233,7 @@ local function moat_BossPlayerDeath(ply)
         net.WriteBool(IS_BOSS)
     net.Broadcast()
 
-    cdn.PlayURL("https://cdn.moat.gg/ttt/easter/looney_tunes_end2.mp3", 2)
+    cdn.PlayURL("https://static.moat.gg/ttt/easter/looney_tunes_end2.mp3", 2)
 
     timer.Remove("moat_boss_voices")
 
@@ -301,7 +301,7 @@ local function moat_BeginRoundBossHooks()
     timer.Create("moat_RespawnBunnyStealers", MOAT_RESPAWN_TIME, 0, moat_RespawnPlayers)
     timer.Simple(1, function()
         MuteForRestart(true)
-        cdn.PlayURL("https://cdn.moat.gg/ttt/easter/looney_tunes_opening2.mp3", 2)
+        cdn.PlayURL("https://static.moat.gg/ttt/easter/looney_tunes_opening2.mp3", 2)
     end)
 
     hook.Add("ttt.BeginRound", "moat_BossBeginRound", function()

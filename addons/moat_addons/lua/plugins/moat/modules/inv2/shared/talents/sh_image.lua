@@ -15,7 +15,7 @@ hook.Add("HUDPaint", "moat_JennyDoggo", function()
 		if (i > 14) then img = i - 14 end
 
 		if (not doggo_save[i] or (doggo_save[i] and doggo_save[i].lastupdate and doggo_save[i].lastupdate < CurTime() - 0.1)) then doggo_save[i] = {math.random(1, scrw - 256), math.random(1, scrh - 256), lastupdate = CurTime()} end
-		cdn.DrawImage("https://cdn.moat.gg/assets/img/doggo/" .. img .. ".png", doggo_save[i][1], doggo_save[i][2], 256, 256, Color(255, 255, 255))
+		cdn.DrawImage("https://static.moat.gg/assets/img/doggo/" .. img .. ".png", doggo_save[i][1], doggo_save[i][2], 256, 256, Color(255, 255, 255))
 	end
 end)
 

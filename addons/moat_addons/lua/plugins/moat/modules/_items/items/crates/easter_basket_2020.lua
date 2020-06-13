@@ -1,7 +1,7 @@
 ITEM.ID = 3995
 ITEM.Name = "Easter 2020 Basket"
 ITEM.Description = "This basket contains a rare item from the Easter Collection! Right click to open"
-ITEM.Image = "https://cdn.moat.gg/f/easter_basket64.png"
+ITEM.Image = "https://static.moat.gg/f/easter_basket64.png"
 ITEM.Rarity = 8
 ITEM.Collection = "Easter Collection"
 ITEM.Contains = {"Egg Hunt Collection", "Easter Collection"}

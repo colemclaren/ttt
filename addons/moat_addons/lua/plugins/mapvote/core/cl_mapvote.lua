@@ -240,7 +240,7 @@ function MapVote.Show()
     like:SetPos(270,5)
     like:SetText("")
     function like:Paint(w,h)
-        cdn.DrawImage("https://cdn.moat.gg/f/E3Fa8uDCgNzzL6iAoITcNk4nUDye.png",0,0,w,h,Color(0,255,0,50))
+        cdn.DrawImage("https://static.moat.gg/f/E3Fa8uDCgNzzL6iAoITcNk4nUDye.png",0,0,w,h,Color(0,255,0,50))
     end
     function like:DoClick()
         hasvoted = true
@@ -257,7 +257,7 @@ function MapVote.Show()
     like:SetPos(320,5)
     like:SetText("")
     function like:Paint(w,h)
-        cdn.DrawImageRotated("https://cdn.moat.gg/f/unE9uyhsKtr835pF3Zigc71KozFU.png",0,0,w,h,Color(255,0,0,50),180,50)
+        cdn.DrawImageRotated("https://static.moat.gg/f/unE9uyhsKtr835pF3Zigc71KozFU.png",0,0,w,h,Color(255,0,0,50),180,50)
     end
     function like:DoClick()
         hasvoted = true
@@ -299,16 +299,16 @@ function MapVote.Show()
             a:DockMargin(0,0,4,0)
         end
         a:Dock(LEFT)
-        local url = "https://cdn.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png"
+        local url = "https://static.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png"
         a:SetText("")
         local ispic = false
         http.Fetch("https://image.gametracker.com/images/maps/160x120/garrysmod/" .. map .. ".jpg",function(_,_,_,c) 
             if not tostring(c):match("^2") then 
-                url = "https://cdn.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png"
+                url = "https://static.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png"
             else
                 url = "https://image.gametracker.com/images/maps/160x120/garrysmod/" .. map .. ".jpg"
             end 
-        end,function() url = "https://cdn.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png" end)
+        end,function() url = "https://static.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png" end)
         function a:Paint(w,h)
             local votes = 0
             local mine = false
@@ -329,7 +329,7 @@ function MapVote.Show()
             surface.DrawLine(1,147,w-2,147)
             surface.DrawLine(1,187,w-2,187)
 
-            if (url == "https://cdn.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png") then
+            if (url == "https://static.moat.gg/f/3ecf354904aa3d512f22f3b5d53d4079.png") then
                 cdn.DrawImage(url,5,5,256,256)
             else
                 cdn.DrawImage(url,5,5,w-10,120)
@@ -355,8 +355,8 @@ function MapVote.Show()
                 draw.RoundedBox(0,x+1,148 + 29,y,10,Color(255,0,0,10))
                 m_DrawShadowedText(1,string.Friendly(MapVote.Feedback[map].Positive), "moat_Feedback", 35, 148 + 9, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_LEFT)
 				m_DrawShadowedText(1,string.Friendly(MapVote.Feedback[map].Negative), "moat_Feedback", (w/2)+35, 148 + 9, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_LEFT)
-        		cdn.DrawImage("https://cdn.moat.gg/f/E3Fa8uDCgNzzL6iAoITcNk4nUDye.png",10,148 + 9,20,20,Color(255,255,255,25))
-				cdn.DrawImageRotated("https://cdn.moat.gg/f/unE9uyhsKtr835pF3Zigc71KozFU.png",(w/2)+10,148 + 9,20,20,Color(255,255,255,25),180,50)
+        		cdn.DrawImage("https://static.moat.gg/f/E3Fa8uDCgNzzL6iAoITcNk4nUDye.png",10,148 + 9,20,20,Color(255,255,255,25))
+				cdn.DrawImageRotated("https://static.moat.gg/f/unE9uyhsKtr835pF3Zigc71KozFU.png",(w/2)+10,148 + 9,20,20,Color(255,255,255,25),180,50)
             else
                 m_DrawShadowedText(1,"None", "moat_Feedback", w/2, 165, (MapVote.Panel.Winner == i and HSVToColor((SysTime()*100)%360,0.65,0.9)) or Color(255,255,255, 255), TEXT_ALIGN_CENTER)
             end

@@ -6,7 +6,7 @@ ITEM.Active = false
 ITEM.NewItem = 1575878400
 ITEM.Price = 80000
 ITEM.Collection = "Gamma Collection"
-ITEM.Image = "https://cdn.moat.gg/f/6ebf091ece6172a692c640204464d839.png"
+ITEM.Image = "https://static.moat.gg/f/6ebf091ece6172a692c640204464d839.png"
 ITEM.ItemCheck = 7
 ITEM.ItemUsed = function(pl, slot, item)
 	m_ResetStats(pl, slot, item)

@@ -1,7 +1,7 @@
 ITEM.ID = 3394
 ITEM.Name = "Cinco De Mayo"
 ITEM.Description = "This box contains an item from the Cinco De Mayo Collection! Right click to open"
-ITEM.Image = "https://cdn.moat.gg/ttt/icon_crate_cincodemayo.png"
+ITEM.Image = "https://static.moat.gg/ttt/icon_crate_cincodemayo.png"
 ITEM.Rarity = 3
 ITEM.NameEffect = "enchanted"
 ITEM.NameColor = Color(255, 45, 45)

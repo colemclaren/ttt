@@ -197,7 +197,7 @@ end
 
 cvars.AddChangeCallback("ttt_mute_team_check", MuteTeamCallback)
 --- Tutorial
-local imgpath = "vgui/ttt/help/tut0%d" --local imgpath = "https://cdn.moat.gg/ttt/noob/help/tut0%d.png"
+local imgpath = "vgui/ttt/help/tut0%d" --local imgpath = "https://static.moat.gg/ttt/noob/help/tut0%d.png"
 local tutorial_pages = 6
 
 function HELPSCRN:CreateTutorial(parent)

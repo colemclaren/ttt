@@ -72,7 +72,7 @@ function EASTER.SpawnEgg(pos)
     egg:SetPos(pos + Vector(0,0,22))
     egg:Spawn()
     
-    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/easter.mp3")
+    cdn.PlayURL("https://static.moat.gg/servers/tttsounds/easter.mp3")
 end
 function EASTER.SpawnRandomEgg()
     EASTER.SpawnEgg(spawns.Find {

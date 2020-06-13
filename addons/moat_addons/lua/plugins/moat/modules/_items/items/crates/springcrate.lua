@@ -5,7 +5,7 @@ ITEM.Name = "Spring Crate"
 
 ITEM.Description = "This crate contains an item from the Spring Collection! Right click to open"
 
-ITEM.Image = "https://cdn.moat.gg/f/spring_crate64.png" 
+ITEM.Image = "https://static.moat.gg/f/spring_crate64.png" 
 
 ITEM.Rarity = 2
 

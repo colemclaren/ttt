@@ -5,7 +5,7 @@ ITEM.Name = "Melee Crate"
 
 ITEM.Description = "This crate contains an item from the Melee Collection! Right click to open"
 
-ITEM.Image = "https://cdn.moat.gg/f/melee_crate64.png" 
+ITEM.Image = "https://static.moat.gg/f/melee_crate64.png" 
 
 ITEM.Rarity = 2
 

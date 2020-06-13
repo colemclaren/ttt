@@ -9,7 +9,7 @@ ITEM.NameColor = Color( 255, 0, 0 )
 
 ITEM.Description = "Froghoppers can jump 70 times their body height. Too bad this only allows you to jump +%s_ higher"
 
-ITEM.Image = "https://cdn.moat.gg/f/efbb38256abb921e7cc3425819f80949.png" 
+ITEM.Image = "https://static.moat.gg/f/efbb38256abb921e7cc3425819f80949.png" 
 
 ITEM.Rarity = 2
 

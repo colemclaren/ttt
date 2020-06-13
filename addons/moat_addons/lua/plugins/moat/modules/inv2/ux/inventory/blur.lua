@@ -47,7 +47,7 @@ MOAT_THEME.Themes["Blur"] = {
 		surface.DrawRect(0, 0, w, h)
 		surface.DrawRect(1, 1, w - 2, h - 2)
 
-		cdn.DrawImage("https://cdn.moat.gg/f/413567786280d852aaf0abec6e188865.png", 0, 0, 1024, 1024, Color(220, 220, 255, 50))
+		cdn.DrawImage("https://static.moat.gg/f/413567786280d852aaf0abec6e188865.png", 0, 0, 1024, 1024, Color(220, 220, 255, 50))
     end,
     INV_PANEL_PAINT = function(s, w, h)
         local m_DrawCredits = "Inventory Credits: " .. string.Comma(MOAT_INVENTORY_CREDITS or 0)

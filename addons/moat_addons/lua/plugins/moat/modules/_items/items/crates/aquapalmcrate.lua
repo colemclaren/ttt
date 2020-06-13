@@ -5,7 +5,7 @@ ITEM.Name = "Aqua Palm Crate"
 
 ITEM.Description = "This crate contains an item from the Aqua Palm Collection! Right click to open"
 
-ITEM.Image = "https://cdn.moat.gg/ttt/aqua_palm_crate_icon.png" 
+ITEM.Image = "https://static.moat.gg/ttt/aqua_palm_crate_icon.png" 
 
 ITEM.Rarity = 2
 

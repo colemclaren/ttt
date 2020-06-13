@@ -326,7 +326,7 @@ function GM:HUDPaint()
 	end
 
    	if (cdn.DrawImage) then
-   		-- cdn.DrawImage("https://cdn.moat.gg/f/i4MlcHY16TYkFY8bJ9sPoB2KCKXl.png", 10, 10, 256, 256, Color(255, 255, 255, 75))
+   		-- cdn.DrawImage("https://static.moat.gg/f/i4MlcHY16TYkFY8bJ9sPoB2KCKXl.png", 10, 10, 256, 256, Color(255, 255, 255, 75))
 	end
 
 

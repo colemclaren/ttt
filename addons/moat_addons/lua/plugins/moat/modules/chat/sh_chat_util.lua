@@ -149,7 +149,7 @@ else
 	end
 
 	hook("HTTPLoaded", function()
-		local data = cdn.Data("https://cdn.moat.gg/ttt/banned_words.txt", BannedWordList)
+		local data = cdn.Data("https://static.moat.gg/ttt/banned_words.txt", BannedWordList)
 		if (data) then
 			BannedWordList(data)
 		end

@@ -93,7 +93,7 @@ local function IconForInfoType(t, data)
     local mat = TypeToMat[t]
 
 	if (t == "role" and data == ROLE_JESTER) then
-		return "https://cdn.moat.gg/assets/img/ttc/icon_jester.png"
+		return "https://static.moat.gg/assets/img/ttc/icon_jester.png"
 	end
 
     if type(mat) == "table" then
@@ -269,7 +269,7 @@ function PreprocSearch(raw)
 end
 
 local custom_tbl = {
-  ["https://cdn.moat.gg/assets/img/ttc/icon_jester.png"] = "https://cdn.moat.gg/assets/img/ttc/icon_jester.png"
+  ["https://static.moat.gg/assets/img/ttc/icon_jester.png"] = "https://static.moat.gg/assets/img/ttc/icon_jester.png"
 }
 
 -- Returns a function meant to override OnActivePanelChanged, which modifies

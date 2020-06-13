@@ -8,7 +8,7 @@ local emoji_text_length = {max = 0}
 local function AddEmoji(height, url, ...)
     for i = 1, select("#", ...) do
         local emoji = select(i, ...)
-        emojis[emoji] = url:match"(%.[^%.]+)$" and url or string("https://cdn.moat.gg/ttt/emojis/" .. url .. ".png")
+        emojis[emoji] = url:match"(%.[^%.]+)$" and url or string("https://static.moat.gg/ttt/emojis/" .. url .. ".png")
         emoji_length[emoji] = height
 
         emoji_text_length.max = math.max(emoji_text_length.max, emoji:len())
@@ -19,14 +19,14 @@ local function AddEmoji(height, url, ...)
 end
 -- AddEmoji(16, "ok_hand", ":ok_hand:", "👌")
 -- AddEmoji(16, "thinking", ":thinking:", "🤔")
--- AddEmoji(21, "https://cdn.moat.gg/f/30377462080281024722.gif", ":tv:", "📺")
--- AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/happy-smile.png", ":)", ":]", "}")
+-- AddEmoji(21, "https://static.moat.gg/f/30377462080281024722.gif", ":tv:", "📺")
+-- AddEmoji(21, "https://static.moat.gg/ttt/emoticons/smiley_registered_trademark/happy-smile.png", ":)", ":]", "}")
 
-AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-1.png", ":pumpkin:")
-AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-2.png", ":pumpkin~1:")
-AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-3.png", ":pumpkin~2:", "🎃")
-AddEmoji(21, "https://cdn.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-4.png", ":pumpkin~3:")
-AddEmoji(21, "https://cdn.moat.gg/f/74627770687536266043.png", "Loading...")
+AddEmoji(21, "https://static.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-1.png", ":pumpkin:")
+AddEmoji(21, "https://static.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-2.png", ":pumpkin~1:")
+AddEmoji(21, "https://static.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-3.png", ":pumpkin~2:", "🎃")
+AddEmoji(21, "https://static.moat.gg/ttt/emoticons/smiley_registered_trademark/halloween-pumpkin-4.png", ":pumpkin~3:")
+AddEmoji(21, "https://static.moat.gg/f/74627770687536266043.png", "Loading...")
 -- AddEmoji(21, "pepega", "pepega")
 -- AddEmoji(16, "pepehands", "pepehands")
 -- AddEmoji(16, "monkaW", "monkaW")

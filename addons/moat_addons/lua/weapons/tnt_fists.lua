@@ -8,16 +8,16 @@ if SERVER then
 	resource.AddFile( "models/v_me_fists.mdl")*/
 else
     WebElements = {}
-    WebElements.CircleOutline	= "https://cdn.moat.gg/f/8IyaugdkU2ofps69WOpSpNEOJphr.png"
-    WebElements.Circle 	  		= "https://cdn.moat.gg/f/m3d4nPegJ54TRsJce7ohIuLYi2mM.png"
-    WebElements.Lava 	  		= "https://cdn.moat.gg/f/V8AViRgPo77b4TZPEarHK8zsW8Wz.jpg"
-    WebElements.BandedCircle		= "https://cdn.moat.gg/f/r6eme6X9oUamu7I8kljtArKa9ZJ7.png"
-    WebElements.HeartOutline		= "https://cdn.moat.gg/f/lmsokk8XWStmiccOupNlOdGkdF1h.png"
-    WebElements.ClockHand		= "https://cdn.moat.gg/f/V7L3I0oJvhILX3fpbeXRVnGEPWLi.png"
-    WebElements.QuadCircle		= "https://cdn.moat.gg/f/mEeGzSHefrWCmWvY5CAup4TrOBhX.png"
-    WebElements.PlusSign			= "https://cdn.moat.gg/f/yrUmejBbXZyInphLh7qJyRLMRaQA.png"
-    WebElements.SpeechBubble		= "https://cdn.moat.gg/f/hBPdWU7GV9eAwx7T74VyjWPAzFVf.png"
-    WebElements.PowerMeter		= "https://cdn.moat.gg/f/ltKuiDtsnxDUnv5DVLImH6uTQwZA.png"
+    WebElements.CircleOutline	= "https://static.moat.gg/f/8IyaugdkU2ofps69WOpSpNEOJphr.png"
+    WebElements.Circle 	  		= "https://static.moat.gg/f/m3d4nPegJ54TRsJce7ohIuLYi2mM.png"
+    WebElements.Lava 	  		= "https://static.moat.gg/f/V8AViRgPo77b4TZPEarHK8zsW8Wz.jpg"
+    WebElements.BandedCircle		= "https://static.moat.gg/f/r6eme6X9oUamu7I8kljtArKa9ZJ7.png"
+    WebElements.HeartOutline		= "https://static.moat.gg/f/lmsokk8XWStmiccOupNlOdGkdF1h.png"
+    WebElements.ClockHand		= "https://static.moat.gg/f/V7L3I0oJvhILX3fpbeXRVnGEPWLi.png"
+    WebElements.QuadCircle		= "https://static.moat.gg/f/mEeGzSHefrWCmWvY5CAup4TrOBhX.png"
+    WebElements.PlusSign			= "https://static.moat.gg/f/yrUmejBbXZyInphLh7qJyRLMRaQA.png"
+    WebElements.SpeechBubble		= "https://static.moat.gg/f/hBPdWU7GV9eAwx7T74VyjWPAzFVf.png"
+    WebElements.PowerMeter		= "https://static.moat.gg/f/ltKuiDtsnxDUnv5DVLImH6uTQwZA.png"
 
 
 end

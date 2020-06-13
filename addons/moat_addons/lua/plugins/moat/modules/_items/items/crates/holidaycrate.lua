@@ -1,7 +1,7 @@
 ITEM.ID = 2002
 ITEM.Name = "Holiday Crate"
 ITEM.Description = "This crate contains an item from the Holiday Collection! Right click to open"
-ITEM.Image = "https://cdn.moat.gg/f/holiday_crate64.png" 
+ITEM.Image = "https://static.moat.gg/f/holiday_crate64.png" 
 ITEM.Rarity = 4
 ITEM.Collection = "Holiday Collection"
 ITEM.Active = false

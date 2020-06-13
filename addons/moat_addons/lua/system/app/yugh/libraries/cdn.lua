@@ -1,7 +1,7 @@
 cdn = cdn or {}
 cdn.Cache = {}
 cdn.Objects = cdn.Objects or {}
-cdn.URL = "https://cdn.moat.gg/"
+cdn.URL = "https://static.moat.gg/"
 cdn.Folder = "ttt"
 cdn.FolderCheck = function(path)
 	path = cdn.Folder .. "/" .. path
@@ -233,6 +233,84 @@ else
 		end
 
 		return cdn.Cache[key]
+	end
+
+	function cdn.TextureMaterial(key, cb, params)
+		if (type(cb) == "string") then
+			params = cb
+			cb = nil 
+		end
+
+		if (cdn.Cache[key] == nil) then
+			return cdn.Fetch(key, "materials", ".vtf", function(object)
+				local new_mat = CreateMaterial('cdn_' .. object, "UnlitGeneric", {
+					-- ["$nocull"] = 1,
+					-- ["$ignorez"] = 1,
+					["$vertexalpha"] = 1,
+					-- ["$vertexcolor"] = 1,
+					-- ["$translucent"] = 1,
+					["$smooth"] = 1,
+					-- ["$alphatest"] = 0,
+					["$basetexture"] = "error"
+				})
+
+				if (key:match "vtf$") then
+					local function set(m)
+						if (type(m) == "string") then
+							new_mat:SetTexture("$basetexture", m)
+							print(m)
+						end
+					end
+
+					local m = cdn.Texture(key, set)
+					if (m) then
+						set(m)
+					end
+				else
+					local function set(m)
+						new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+					end
+
+					local m = cdn.Image(key, set)
+					if (m) then
+						set(m)
+					end
+				end
+
+				return new_mat
+			end, function(object, data)
+				return file.Write(object, data)
+			end, cb)
+		end
+
+		return cdn.Cache[key]
+	end
+
+	function cdn.DrawTexture(key, x, y, w, h, color, params)
+		key = cdn.TextureMaterial(key, nil, params)
+		if (not key) then return end
+
+		color = color or white
+
+		surface.SetDrawColor(color.r, color.g, color.b, color.a)
+		surface.SetMaterial(key)
+		surface.DrawTexturedRect(x, y, w, h)
+	end
+
+	function cdn.DrawTextureRotated(key, x, y, w, h, color, ang, origin, params)
+		key = cdn.Texture(key, nil, params)
+		if (not key) then return end
+
+		color = color or white
+
+		surface.SetDrawColor(color.r, color.g, color.b, color.a)
+		surface.SetMaterial(key)
+		
+		if (origin) then
+			surface.DrawTexturedRectRotated(x + w/2, y + h/2, w, h, ang)
+		else
+			surface.DrawTexturedRectRotated(x, y, w, h, ang)
+		end
 	end
 
 	function cdn.Model(mdl, pnl)

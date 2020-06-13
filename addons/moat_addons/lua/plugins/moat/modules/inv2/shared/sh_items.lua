@@ -1513,7 +1513,7 @@ function m_CreatePaints()
         tbl.Clr = v[2]
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 1
-        tbl.Image = v[4] or "https://cdn.moat.gg/f/dc118c40e7e7f5a37d4d37c5e0533c8a.png"
+        tbl.Image = v[4] or "https://static.moat.gg/f/dc118c40e7e7f5a37d4d37c5e0533c8a.png"
         tbl.ItemCheck = 11
         function tbl:ItemUsed(pl, slot, item)
             m_TintItem(pl, slot, item, self.ID)
@@ -1535,7 +1535,7 @@ function m_CreatePaints()
         tbl.Clr = v[2]
         tbl.Collection = "Paint Collection"
         tbl.PaintVer = 2
-        tbl.Image = v[4] or "https://cdn.moat.gg/f/ed180ad2d90f58198e6159edde738131.png"
+        tbl.Image = v[4] or "https://static.moat.gg/f/ed180ad2d90f58198e6159edde738131.png"
         tbl.ItemCheck = 10
         function tbl:ItemUsed(pl, slot, item)
             m_PaintItem(pl, slot, item, self.ID)
@@ -1553,7 +1553,7 @@ function m_CreatePaints()
         tbl.Texture = v[2]
         tbl.Collection = v[5] or "Paint Collection"
         tbl.PaintVer = 2
-        tbl.Image = v[4] or "https://cdn.moat.gg/f/2198b5d9d5c8a1e35fe2a4c833556fd6.png"
+        tbl.Image = v[4] or "https://static.moat.gg/f/2198b5d9d5c8a1e35fe2a4c833556fd6.png"
         tbl.ItemCheck = 12
         function tbl:ItemUsed(pl, slot, item)
             m_TextureItem(pl, slot, item, self.ID)

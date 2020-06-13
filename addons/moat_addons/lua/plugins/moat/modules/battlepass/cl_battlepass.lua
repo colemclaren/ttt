@@ -63,19 +63,19 @@ local function GetDroppableWeapons()
     return droppable_cache, droppable_cache_count
 end
 local crates = {
-    "https://cdn.moat.gg/f/2uz9PPFhaYcHQYy31r6JycNg9KMP.png",
-    "https://cdn.moat.gg/f/SmrFpqNJJXbfArfUzFfyo3JLAul9.png",
-    "https://cdn.moat.gg/f/iTt6ooG8RtbHjnkyC8Q4jABhv2WS.png",
-    "https://cdn.moat.gg/f/Po473i0jlwewqan8JfV6Rn38ErxM.png",
-    "https://cdn.moat.gg/f/h84hIxkywtI3EoZvWXRz76DRgkWe.png",
-    "https://cdn.moat.gg/f/NJGw8ZNeDfESPnIDvdewX1eGFTP0.png",
-    "https://cdn.moat.gg/f/AHlVbE8xBe1bFYTmtsd6A0XmretE.png",
-    "https://cdn.moat.gg/f/mMpashogkwi43rDH2fCNyk5UfjAZ.png",
-    "https://cdn.moat.gg/f/QsvbPr7sgwoHKQVbuq4PXSYLWkMd.png",
-    "https://cdn.moat.gg/f/djAqvEhuNLBVDUR2oFDRq7D92gDS.png",
-    "https://cdn.moat.gg/f/VRfIdxR5Or4GYC3ULukcdwdx0SvT.png",
-    "https://cdn.moat.gg/f/3043b.png",
-    "https://cdn.moat.gg/f/vc0YQ6pW2e7ifimTXGHEf1yMxqLp.png",
+    "https://static.moat.gg/f/2uz9PPFhaYcHQYy31r6JycNg9KMP.png",
+    "https://static.moat.gg/f/SmrFpqNJJXbfArfUzFfyo3JLAul9.png",
+    "https://static.moat.gg/f/iTt6ooG8RtbHjnkyC8Q4jABhv2WS.png",
+    "https://static.moat.gg/f/Po473i0jlwewqan8JfV6Rn38ErxM.png",
+    "https://static.moat.gg/f/h84hIxkywtI3EoZvWXRz76DRgkWe.png",
+    "https://static.moat.gg/f/NJGw8ZNeDfESPnIDvdewX1eGFTP0.png",
+    "https://static.moat.gg/f/AHlVbE8xBe1bFYTmtsd6A0XmretE.png",
+    "https://static.moat.gg/f/mMpashogkwi43rDH2fCNyk5UfjAZ.png",
+    "https://static.moat.gg/f/QsvbPr7sgwoHKQVbuq4PXSYLWkMd.png",
+    "https://static.moat.gg/f/djAqvEhuNLBVDUR2oFDRq7D92gDS.png",
+    "https://static.moat.gg/f/VRfIdxR5Or4GYC3ULukcdwdx0SvT.png",
+    "https://static.moat.gg/f/3043b.png",
+    "https://static.moat.gg/f/vc0YQ6pW2e7ifimTXGHEf1yMxqLp.png",
 }
 function make_randompanel(model,ITEM_BG)
     local m_WClass = {} 
@@ -282,7 +282,7 @@ function make_about()
 
 		surface.DrawOutlinedRect(0, 0, w, 45)
 
-		cdn.DrawImage("https://cdn.moat.gg/f/cWeit2ZL5WhFze49xX7jV76mFvOG.png", (w/2) - (235/2), 55, 254, 235, Color(255, 255, 255, 225))
+		cdn.DrawImage("https://static.moat.gg/f/cWeit2ZL5WhFze49xX7jV76mFvOG.png", (w/2) - (235/2), 55, 254, 235, Color(255, 255, 255, 225))
 	end
 
 	local lbl = vgui.Create("DLabel", BP_ABOUT)

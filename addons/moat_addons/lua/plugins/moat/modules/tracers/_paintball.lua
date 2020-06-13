@@ -7,12 +7,12 @@ local matBall = Material "sprites/sent_ball"
 
 local sounds = {
     hit = {
-        "https://cdn.moat.gg/ttt/summer/paintball1.mp3",
-        "https://cdn.moat.gg/ttt/summer/paintball2.mp3",
-        "https://cdn.moat.gg/ttt/summer/paintball3.mp3",
+        "https://static.moat.gg/ttt/summer/paintball1.mp3",
+        "https://static.moat.gg/ttt/summer/paintball2.mp3",
+        "https://static.moat.gg/ttt/summer/paintball3.mp3",
     },
     hityou = {
-        "https://cdn.moat.gg/ttt/summer/paintballhit.mp3",
+        "https://static.moat.gg/ttt/summer/paintballhit.mp3",
     }
 }
 

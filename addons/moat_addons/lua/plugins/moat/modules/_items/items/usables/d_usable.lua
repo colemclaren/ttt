@@ -8,7 +8,7 @@ ITEM.Price = 50000
 ITEM.ShopDesc = "Become a Detective on the next round!\n(Purchasing will give you a one-time Detective Token usable)"
 
 ITEM.Collection = "Supreme Collection"
-ITEM.Image = "https://cdn.moat.gg/ttt/detective_token.png"
+ITEM.Image = "https://static.moat.gg/ttt/detective_token.png"
 
 ROLE_TOKEN_PLAYERS = ROLE_TOKEN_PLAYERS or {}
 

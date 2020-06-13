@@ -60,7 +60,7 @@ end
 local stats_spawn = GetConVar("moat_showstats_spawn")
 local stats_spawn_old = false
 net.Receive("lava_Begin",function()
-	LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img) LavaTexture = img end, "noclamp")
+	LavaTexture = cdn.Image("https://static.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img) LavaTexture = img end, "noclamp")
 
     SmoothLevel = Entity(0):GetModelRenderBounds().z
     MOAT_LAVA = {
@@ -77,7 +77,7 @@ net.Receive("lava_Begin",function()
         blue_save = 0,
     }
 
-	cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/tdmsong.mp3", 0.5, function(station)
+	cdn.PlayURL("https://static.moat.gg/servers/tttsounds/tdmsong.mp3", 0.5, function(station)
         hook.Add("Think","J Music",function()
             if not MOAT_LAVA then station:Stop() hook.Remove("Think","J Music") end
         end)
@@ -184,7 +184,7 @@ net.Receive("LAVA_End",function()
     hook.Remove("PlayerShouldTakeDamage", "TFIL")
 
     local players = net.ReadTable()
-    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/forsen_end.mp3", 0.5)
+    cdn.PlayURL("https://static.moat.gg/servers/tttsounds/forsen_end.mp3", 0.5)
     MOAT_LAVA = nil
     kills = {}
     LAVA_END = {}
@@ -378,7 +378,7 @@ surface.CreateFont("moat_GunGameLarge", {
 net.Receive("lava_Prep",function()
     local explosive = net.ReadBool()
     LAVA_EX = explosive
-    cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/boss_warning.mp3")
+    cdn.PlayURL("https://static.moat.gg/servers/tttsounds/boss_warning.mp3")
 
     local desc = {
         "Try to be the last one alive by climbing away from the lava!",
@@ -569,7 +569,7 @@ hook.Add("PostDrawTranslucentRenderables", "DrawLava", function(a, b)
 
 	render.Clip(ClipTab, function()
 		if (not LavaTexture) then
-			LavaTexture = cdn.Image("https://cdn.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img)
+			LavaTexture = cdn.Image("https://static.moat.gg/f/YOTZd8TJzmcaKD70AJ0laY73nZpw.jpg", function(img)
 				LavaTexture = img
 			end, "noclamp")
 			return

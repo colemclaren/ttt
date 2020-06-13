@@ -260,7 +260,7 @@ local function moat_BeginRoundBossHooks()
 
         timer.Simple(1, function()
             MuteForRestart(true)
-            cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt10.mp3")
+            cdn.PlayURL("https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt10.mp3")
 		end)
 
         timer.Simple(10, function()
@@ -273,21 +273,21 @@ local function moat_BeginRoundBossHooks()
             ent:Spawn()
 
             BroadcastLua([[chat.AddText(Material("icon16/information.png"), Color(255, 255, 0),"AN EASTER EGG HAS SPAWNED ON THE MAP!!!" )]])
-			cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/stalker/stalker_easteregg.mp3")
+			cdn.PlayURL("https://static.moat.gg/servers/tttsounds/stalker/stalker_easteregg.mp3")
         end)
 
 		timer.Create("moat_boss_voices", 30, 0, function()
 			cdn.PlayURL(table.Random({
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt1.mp3",
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt2.mp3",
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt3.mp3",
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt4.mp3",
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt5.mp3",
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt6.mp3",
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt7.mp3",
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt8.mp3",
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt9.mp3",
-				"https://cdn.moat.gg/servers/tttsounds/stalker/stalker_taunt10.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt1.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt2.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt3.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt4.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt5.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt6.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt7.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt8.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt9.mp3",
+				"https://static.moat.gg/servers/tttsounds/stalker/stalker_taunt10.mp3",
 			}), 2)
         end)
 
@@ -397,7 +397,7 @@ local function moat_BeginRoundBossHooks()
             ent:Spawn()
 
             BroadcastLua([[chat.AddText(Material("icon16/information.png"), Color(255, 255, 0),"AN EASTER EGG HAS SPAWNED ON THE MAP!!!" )]])
-           	cdn.PlayURL("https://cdn.moat.gg/servers/tttsounds/stalker/stalker_easteregg.mp3")
+           	cdn.PlayURL("https://static.moat.gg/servers/tttsounds/stalker/stalker_easteregg.mp3")
         end
     end)
 

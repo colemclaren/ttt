@@ -1006,12 +1006,12 @@ function aaaam_DrawDicePanel()
 end
 
 local bomb_sounds = {
-    ["win"] = "https://cdn.moat.gg/f/9PIiSvHopONR7egMCMSzWCbhgzTo.mp3",
-    ["boom"] = "https://cdn.moat.gg/f/f0VWNHpOfBrTK8SzNu4OP6Qqaj2w.mp3",
-    ["end"] = "https://cdn.moat.gg/f/oa2TST8otq3qoHg1VzfNkbJmu4OZ.mp3",
-	["versus_win"] = "https://cdn.moat.gg/f/moat_versus_win_pn.mp3",
-	[1] = "https://cdn.moat.gg/f/HFYN4ZEEuObwgbs7yoO7UmvgUG9B.mp3",
-	[2] = "https://cdn.moat.gg/f/JLbZfNntpdmPOrcRcdRnWDdEG5iU.mp3",
+    ["win"] = "https://static.moat.gg/f/9PIiSvHopONR7egMCMSzWCbhgzTo.mp3",
+    ["boom"] = "https://static.moat.gg/f/f0VWNHpOfBrTK8SzNu4OP6Qqaj2w.mp3",
+    ["end"] = "https://static.moat.gg/f/oa2TST8otq3qoHg1VzfNkbJmu4OZ.mp3",
+	["versus_win"] = "https://static.moat.gg/f/moat_versus_win_pn.mp3",
+	[1] = "https://static.moat.gg/f/HFYN4ZEEuObwgbs7yoO7UmvgUG9B.mp3",
+	[2] = "https://static.moat.gg/f/JLbZfNntpdmPOrcRcdRnWDdEG5iU.mp3",
 }
 
 local function PlayMinesSound(var)
@@ -1231,7 +1231,7 @@ function m_DrawDicePanel()
 					draw.SimpleText("" .. math.toK(mines[s.i]), "moat_ItemDesc", w/2, h/2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 				elseif mines[s.i] == -1 then
 					draw.RoundedBox(0,0,0,w,h,Color(235, 84, 36))
-                    cdn.DrawImage("https://cdn.moat.gg/f/mg_bomb.png", 0, 0, 64, 64)
+                    cdn.DrawImage("https://static.moat.gg/f/mg_bomb.png", 0, 0, 64, 64)
 				end
 				--draw.SimpleText(bombs[i], "Trebuchet24", w/2, h/2, cols[3], TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
@@ -1365,13 +1365,13 @@ surface.CreateFont("moat_RoulettBet", {
 local bg = Color(86, 86, 86)
 local fsize = 505, 460
 local mats = {
-    wheel = "https://cdn.moat.gg/f/KrsoP3vZn2GJoyHK2yidAT4roLe5.png",
-    mat_green_normal = "https://cdn.moat.gg/f/hMJafIYykyzKw2daM8zXwICHN4Kq.png",
-    mat_green_red = "https://cdn.moat.gg/f/m1z4PprRigdVQIZ3yNg7pUUgM69P.png",
-    mat_green_black = "https://cdn.moat.gg/f/91DaxiCjyvv7ACrgUT7di8IzOD0I.png",
-    mat_green_normal_hover = "https://cdn.moat.gg/f/WJhJgSHgT3Yh6q42SZwdcoBtyVg1.png",
-    mat_green_black_hover = "https://cdn.moat.gg/f/jECkhuCfEbRiuACRvPXr3FWoHMfi.png",
-    mat_green_red_hover = "https://cdn.moat.gg/f/7oKAmGxFqozCePoq8EiRbkxYyoxT.png"
+    wheel = "https://static.moat.gg/f/KrsoP3vZn2GJoyHK2yidAT4roLe5.png",
+    mat_green_normal = "https://static.moat.gg/f/hMJafIYykyzKw2daM8zXwICHN4Kq.png",
+    mat_green_red = "https://static.moat.gg/f/m1z4PprRigdVQIZ3yNg7pUUgM69P.png",
+    mat_green_black = "https://static.moat.gg/f/91DaxiCjyvv7ACrgUT7di8IzOD0I.png",
+    mat_green_normal_hover = "https://static.moat.gg/f/WJhJgSHgT3Yh6q42SZwdcoBtyVg1.png",
+    mat_green_black_hover = "https://static.moat.gg/f/jECkhuCfEbRiuACRvPXr3FWoHMfi.png",
+    mat_green_red_hover = "https://static.moat.gg/f/7oKAmGxFqozCePoq8EiRbkxYyoxT.png"
 }
 
 MOAT_GAMBLE.RouletteAmount = 0

@@ -107,7 +107,7 @@ function MOTD.Open(secs, invalid)
     c:Dock(LEFT)
     c:SetWide(250)
     c.Paint = function(s, w, h)
-        cdn.DrawImage("https://cdn.moat.gg/f/JoVQapGqtskHBJkPCLbEaoIOosuF.png", 35, 35, 256, 256)
+        cdn.DrawImage("https://static.moat.gg/f/JoVQapGqtskHBJkPCLbEaoIOosuF.png", 35, 35, 256, 256)
     end
 
     MOTD.w = vgui.Create("DHTML", p)
