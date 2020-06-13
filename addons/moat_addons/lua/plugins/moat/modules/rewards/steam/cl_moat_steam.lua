@@ -110,7 +110,7 @@ local function GiveRewards()
     end
     btn.DoClick = function(s)
         surface.PlaySound("ui/buttonclickrelease.wav")
-		gui.OpenURL "https://steamcommunity.com/groups/moat-gg"
+		gui.OpenURL "https://steamcommunity.com/groups/moatgaming"
     end
 
     local btn2 = vgui.Create("DButton", p)
@@ -146,7 +146,7 @@ local function GiveRewards()
 		RewardsMainWindow:Remove()
     end
 
-	gui.OpenURL "https://steamcommunity.com/groups/moat-gg"
+	gui.OpenURL "https://steamcommunity.com/groups/moatgaming"
 end
 
 function OpenRewards()

@@ -98,8 +98,11 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
             s:SetPos(x + 5, y + 30)
     	end
 
-    	if ((input.IsMouseDown(MOUSE_LEFT) or input.IsMouseDown(MOUSE_RIGHT)) and not s:IsHovered()) then
+    	if ((input.IsMouseDown(MOUSE_LEFT) or input.IsMouseDown(MOUSE_RIGHT)) and not s:IsHovered() and not IsValid(MOAT_REQ_BG)) then
     		s:MakePopup()
+			if (IsValid(MOAT_REQ_BG)) then
+				MOAT_REQ_BG:MakePopup()
+			end
     	end
     end
     MOAT_GAMBLE_BG.Paint = function(s, w, h)

@@ -988,6 +988,11 @@ net.Receive("MOAT_RESPOND_TRADE", function(len, ply)
         net.WriteBool(false)
         net.WriteDouble(ply:EntIndex())
         net.Send(other_ply)
+
+		net.Start("MOAT_RESPOND_TRADE")
+        net.WriteBool(false)
+        net.WriteDouble(ply:EntIndex())
+        net.Send(ply)
     end
 
     /*

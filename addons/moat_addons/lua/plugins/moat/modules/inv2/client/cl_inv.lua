@@ -1631,7 +1631,11 @@ function m_OpenInventory(ply2, utrade)
 		end
 
 		function M_TRADE_PLYS:RebuildList()
-			M_TRADE_LBL:SetText("Click on a player below to send them a trade request.")
+			if (IsValid(lp) and lp:IsActive()) then
+				M_TRADE_LBL:SetText("Temporarily unavailable since I'm alive in this round.")
+			else
+				M_TRADE_LBL:SetText("Click on a player below to send them a trade request.")
+			end
 
 			if (M_TRADE_PLYS.Waiting) then
 				return
@@ -1677,6 +1681,7 @@ function m_OpenInventory(ply2, utrade)
 		M_TRADE_PLYS.NextThink = 0
 		M_TRADE_PLYS.Think = function(s)
 			if ((s.NextThink > CurTime()) or (MOAT_INV_CAT and MOAT_INV_CAT ~= 3) or (IsValid(MOAT_TRADE_BG))) then
+				if (IsValid(MOAT_TRADE_BG)) then s:Remove() end
 				return
 			end
 
@@ -2563,7 +2568,7 @@ function m_OpenInventory(ply2, utrade)
 			surface_DrawLine(e, s.Extended and 12 + 5 or 12, 6 + e, s.Extended and 11 or 12 + 6)
 		end
 		M_INV_PNL_EXTND.DoClick = function(s, w, h)
-			m_ChangeInventoryPanel(s.Extended and 1 or 0, IsValid(MOAT_TRADE_BG) and true or false)
+			m_ChangeInventoryPanel(s.Extended and 1 or 0, IsValid(MOAT_TRADE_BG))
 			s.Extended = not s.Extended
 		end
 
@@ -2997,16 +3002,28 @@ function m_OpenInventory(ply2, utrade)
     M_INV_SP:SizeTo(MOAT_INV_BG_W-10-31, 488, 0.15, 0.15, -1)
     M_INV_L:SizeTo(MOAT_INV_BG_W-10-31, 488, 0.15, 0.15, -1)*/
 
-    function m_ChangeInventoryPanel(cat, trading)
+    function m_ChangeInventoryPanel(cat, trading, cb)
         if (not IsValid(MOAT_INV_BG)) then return end
 
-        local anim_time = 0.15
-
-        moat_RemoveEditPositionPanel()
+        local anim_time, called = 0.15
+		local callback = function(anim, pnl)
+			if (pnl and IsValid(pnl)) then pnl:Remove() end
+			if (cb and not called) then
+				called = true
+				cb()
+			end
+		end
+	
+		moat_RemoveEditPositionPanel()
 
         if (cat == 3) then
-			if (not IsValid(M_TRADING_PNL)) then
+			if (not IsValid(M_TRADING_PNL) and not IsValid(MOAT_TRADE_BG)) then
 				m_TradingPanel()
+			end
+
+			if (IsValid(MOAT_TRADE_BG) and IsValid(M_TRADING_PNL)) then
+				M_TRADING_PNL:MoveTo(-M_TRADING_PNL:GetWide(), 0, anim_time, 0, -1)
+				M_TRADING_PNL:AlphaTo(0, anim_time, 0, callback)
 			end
 
             if (trading and IsValid(MOAT_TRADE_BG)) then
@@ -3014,24 +3031,22 @@ function m_OpenInventory(ply2, utrade)
                 MOAT_TRADE_BG:MoveTo(inv_x + 5, inv_y + 30, anim_time, anim_time, -1)
                 MOAT_TRADE_BG:AlphaTo(255, anim_time, anim_time)
                 MOAT_TRADE_BG:MakePopup()
-            elseif (not trading) then
-				if (IsValid(M_TRADING_PNL)) then
-                	M_TRADING_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
-                	M_TRADING_PNL:AlphaTo(255, anim_time, anim_time)
-                	M_TRADE_PLYS:RebuildList()
-				end
+            elseif (not IsValid(MOAT_TRADE_BG) and IsValid(M_TRADING_PNL)) then
+                M_TRADING_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
+            	M_TRADING_PNL:AlphaTo(255, anim_time, anim_time)
+                M_TRADE_PLYS:RebuildList()
             end
         else
+			if (IsValid(M_TRADING_PNL)) then
+                M_TRADING_PNL:MoveTo(-M_TRADING_PNL:GetWide(), 0, anim_time, 0, -1)
+                M_TRADING_PNL:AlphaTo(0, anim_time, 0, callback)
+            end
+
             if (trading and IsValid(MOAT_TRADE_BG)) then
                 local inv_x, inv_y = MOAT_INV_BG:GetPos()
                 MOAT_TRADE_BG:MoveTo(inv_x - MOAT_TRADE_BG:GetWide() - 5, inv_y + 30, anim_time, 0, -1)
-                MOAT_TRADE_BG:AlphaTo(0, anim_time, 0)
+                MOAT_TRADE_BG:AlphaTo(0, anim_time, 0, function() callback() end)
                 MOAT_TRADE_BG:MakePopup()
-            elseif (not trading) then
-                if (IsValid(M_TRADING_PNL)) then
-                    M_TRADING_PNL:MoveTo(-M_TRADING_PNL:GetWide(), 0, anim_time, 0, -1)
-                    M_TRADING_PNL:AlphaTo(0, anim_time)
-                end
             end
         end
 
@@ -3057,7 +3072,7 @@ function m_OpenInventory(ply2, utrade)
             M_LOADOUT_PNL:AlphaTo(255, anim_time, anim_time)
         elseif (IsValid(M_LOADOUT_PNL)) then
             M_LOADOUT_PNL:MoveTo(-M_LOADOUT_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_LOADOUT_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_LOADOUT_PNL)) then M_LOADOUT_PNL:Remove() end end)
+            M_LOADOUT_PNL:AlphaTo(0, anim_time, 0, callback)
         end
 
         /*if (cat == 10) then
@@ -3077,14 +3092,15 @@ function m_OpenInventory(ply2, utrade)
             M_SHOP_PNL:AlphaTo(255, anim_time, anim_time)
         elseif (IsValid(M_SHOP_PNL)) then
             M_SHOP_PNL:MoveTo(-M_SHOP_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_SHOP_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_SHOP_PNL)) then M_SHOP_PNL:Remove() end end)
+            M_SHOP_PNL:AlphaTo(0, anim_time, 0, callback)
         end
 
         if (cat == 4) then
             local x, y = MOAT_INV_BG:GetPos()
             m_CreateGamblePanel(x + 5, y + 30, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
         elseif (IsValid(MOAT_GAMBLE_BG)) then
-            m_RemoveGamblePanel()
+			MOAT_GAMBLE_BG:MoveTo(-MOAT_GAMBLE_BG:GetWide(), 0, anim_time, 0, -1)
+            MOAT_GAMBLE_BG:AlphaTo(0, anim_time, 0, callback)
         end
 
         -- if (cat == 5) then
@@ -3101,7 +3117,7 @@ function m_OpenInventory(ply2, utrade)
             M_BOUNTY_PNL:AlphaTo(255, anim_time, 0)
         elseif (IsValid(M_BOUNTY_PNL)) then
             M_BOUNTY_PNL:MoveTo(-M_BOUNTY_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_BOUNTY_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_BOUNTY_PNL)) then M_BOUNTY_PNL:Remove() end end)
+            M_BOUNTY_PNL:AlphaTo(0, anim_time, 0, callback)
         end
 
 		if (cat == 6) then
@@ -3111,7 +3127,7 @@ function m_OpenInventory(ply2, utrade)
             M_SETTINGS_PNL:AlphaTo(255, anim_time, 0)
         elseif (IsValid(M_SETTINGS_PNL)) then
             M_SETTINGS_PNL:MoveTo(-M_SETTINGS_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_SETTINGS_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_SETTINGS_PNL)) then M_SETTINGS_PNL:Remove() end end)
+            M_SETTINGS_PNL:AlphaTo(0, anim_time, 0, callback)
         end
 
         if (cat == 7) then
@@ -3121,7 +3137,7 @@ function m_OpenInventory(ply2, utrade)
             M_EVENT_PNL:AlphaTo(255, anim_time, 0)
         elseif (IsValid(M_EVENT_PNL)) then
             M_EVENT_PNL:MoveTo(-M_EVENT_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_EVENT_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_EVENT_PNL)) then M_EVENT_PNL:Remove() end end)
+            M_EVENT_PNL:AlphaTo(0, anim_time, 0, callback)
         end
 
         /*if (cat == 8) then
@@ -3135,7 +3151,7 @@ function m_OpenInventory(ply2, utrade)
         if (cat == 4 or cat == 5 or cat == 6 or cat == 7 or cat == 8) then
 			if (IsValid(M_INV_PNL)) then
 				M_INV_PNL:MoveTo(MOAT_INV_BG_W, inv_pnl_y, anim_time, 0, -1)
-				M_INV_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_INV_PNL)) then M_INV_PNL:Remove() end end)
+				M_INV_PNL:AlphaTo(0, anim_time, 0, callback)
 			end
         elseif (cat ~= 0) then
 			if (not IsValid(M_INV_PNL)) then
@@ -3166,7 +3182,7 @@ function m_OpenInventory(ply2, utrade)
             --return
         elseif (IsValid(M_USABLE_PNL)) then
             M_USABLE_PNL:MoveTo(-M_USABLE_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_USABLE_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_USABLE_PNL_BG)) then M_USABLE_PNL_BG:Remove() end end)
+            M_USABLE_PNL:AlphaTo(0, anim_time, 0, callback)
             INV_SELECT_MODE = false
         end
 
@@ -3179,10 +3195,12 @@ function m_OpenInventory(ply2, utrade)
             MOAT_STATS_LERP = 0
         elseif (IsValid(M_STATS_PNL)) then
             M_STATS_PNL:MoveTo(-M_STATS_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_STATS_PNL:AlphaTo(0, anim_time, 0, function() if (IsValid(M_STATS_PNL)) then M_STATS_PNL:Remove() end end)
+            M_STATS_PNL:AlphaTo(0, anim_time, 0, callback)
         end
 
 		m_InventoryCat()
+
+		timer.Simple(anim_time * 2, callback)
 
         if (cat ~= 0 and IsValid(M_INV_PNL_EXTND)) then M_INV_PNL_EXTND.Extended = false end
         if (cat == 0 or cat == -1 or cat == -2) then return end
@@ -3602,8 +3620,8 @@ function m_OpenInventory(ply2, utrade)
     end
 
     function m_InitializeTrade(ply_2, u_trade)
-        if (ply_2 and u_trade) then
-            if (IsValid(M_TRADING_PNL)) then M_TRADING_PNL:SetVisible(false) end
+        if (ply_2 and u_trade and not IsValid(MOAT_TRADE_BG)) then
+            if (IsValid(M_TRADING_PNL)) then M_TRADING_PNL:Remove() end
 			if (not IsValid(MOAT_INV_BG)) then
             	net.Start("MOAT_RESPOND_TRADE")
             	net.WriteBool(false)
@@ -4316,7 +4334,6 @@ function m_OpenInventory(ply2, utrade)
                 local eslots = m_GetESlots()
                 net.WriteDouble(eslots)
                 net.SendToServer()
-				sfx.Agree()
             end
 
             M_TRADE_D.DoClick = function(s)
@@ -4334,6 +4351,8 @@ function m_OpenInventory(ply2, utrade)
                     net.WriteDouble(m_utrade)
                     net.SendToServer()
                 end
+
+				sfx.Decline()
             end
 
             MOAT_TRADE_BG.Think = function(s, w, h)
@@ -4376,6 +4395,7 @@ function m_OpenInventory(ply2, utrade)
     if (m_ply2 and m_utrade) then
         m_InitializeTrade(m_ply2, m_utrade)
         MOAT_TRADE_BG:MoveTo((ScrW() / 2 - MOAT_INV_BG:GetWide() / 2) + 5, (ScrH() / 2 - MOAT_INV_BG:GetTall() / 2) + 30, 0.4, 0, 1)
+		MOAT_TRADE_BG:AlphaTo(255, 0.4, 0)
     end
 
     MOAT_INV_BG:MoveTo(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, ScrH() / 2 - MOAT_INV_BG:GetTall() / 2, 0.4, 0, 1)
@@ -5176,7 +5196,7 @@ function m_DrawTradeRequest(ply)
     end
     local MT_TR = MT[CurTheme].TradeRequest
 
-    local MOAT_REQ_BG = vgui.Create("DFrame")
+    MOAT_REQ_BG = vgui.Create("DFrame")
     MOAT_REQ_BG:SetSize(MOAT_REQ_BG_W, MOAT_REQ_BG_H)
     MOAT_REQ_BG:SetTitle("")
     MOAT_REQ_BG.Timer = 30
@@ -5381,7 +5401,7 @@ function m_DrawTradeRequest(ply)
     end
 
     M_REQ_A.DoClick = function()
-        if (LocalPlayer():IsActive()) then
+        /*if (LocalPlayer():IsActive()) then
             MOAT_REQ_BG:Remove()
             net.Start("MOAT_RESPOND_TRADE_REQ")
             net.WriteBool(false)
@@ -5390,14 +5410,10 @@ function m_DrawTradeRequest(ply)
 			sfx.Agree()
 
             return
-        end
+        end*/
 
         MOAT_REQ_BG:MoveTo(ScrW() / 2 - MOAT_REQ_BG:GetWide() / 2, ScrH() + MOAT_REQ_BG:GetTall(), 0.5, 0, 1)
-        MOAT_REQ_BG:AlphaTo(0, 0.5, 0)
-
-        timer.Simple(0.5, function()
-            MOAT_REQ_BG:Remove()
-        end)
+        MOAT_REQ_BG:AlphaTo(0, 0.5, 0, function(anim, pnl) if (IsValid(pnl)) then pnl:Remove() end end)
 
         net.Start("MOAT_RESPOND_TRADE_REQ")
         net.WriteBool(true)
@@ -5579,18 +5595,20 @@ net.Receive("MOAT_INIT_TRADE", function(len)
     local trade_uid = net.ReadDouble()
 
     if (m_isUsingInv()) then
-        if (MOAT_INV_CAT == 3) then
-            M_TRADING_PNL:MoveTo(-M_TRADING_PNL:GetWide(), 0, 0.15, 0, -1)
-            M_TRADING_PNL:AlphaTo(0, 0.15)
-        else
-            m_ChangeInventoryPanel(9)
+		if (IsValid(M_TRADING_PNL)) then
+			M_TRADING_PNL:AlphaTo(0, 0.15)
+        	M_TRADING_PNL:MoveTo(-M_TRADING_PNL:GetWide(), 0, 0.15, 0, -1, function(anim, pnl)
+				m_ply2 = other_ply
+				m_utrade = trade_uid
+				m_InitializeTrade(other_ply, trade_uid)
+			end)
+		else
+            m_ChangeInventoryPanel(9, true, function()
+				m_ply2 = other_ply
+				m_utrade = trade_uid
+				m_InitializeTrade(other_ply, trade_uid)
+			end)
         end
-
-        timer.Simple(0.15, function()
-            m_ply2 = other_ply
-            m_utrade = trade_uid
-            m_InitializeTrade(other_ply, trade_uid)
-        end)
     else
         m_OpenInventory(other_ply, trade_uid)
 
@@ -5613,13 +5631,39 @@ net.Receive("MOAT_INIT_TRADE", function(len)
 			return
 		end
 
-		m_ChangeInventoryPanel(3)
+		for k, v in ipairs(M_TRADE_PLYTBL) do
+			if (not IsValid(v)) then continue end
+            v:AlphaTo(0, 0.1)
+            v:SizeTo(0, 0, 0.2, 0, -1, function(anim, pnl)
+				pnl:Remove()
+			end)
+        end
+
+		m_ChangeInventoryPanel(3, true, function()
+			m_ply2 = other_ply
+			m_utrade = trade_uid
+			m_InitializeTrade(other_ply, trade_uid)
+		end)
+
+		MOAT_INV_CAT = 3
     end
+
+	sfx.Agree()
 end)
 
 net.Receive("MOAT_RESPOND_TRADE", function(len)
     local accepted = net.ReadBool()
     local other_ply = Entity(net.ReadDouble())
+	if (not IsValid(LocalPlayer())) then
+		return
+	end
+
+	local name, has = IsValid(other_ply) and other_ply:Nick() or "Player", other_ply == LocalPlayer() and " have " or " has "
+	if (other_ply == LocalPlayer()) then
+		name = "You"
+	else
+		sfx.Decline()
+	end
 
     if (not accepted) then
 		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
@@ -5631,7 +5675,7 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
         net.SendToServer()
 
 		if (IsValid(other_ply)) then
-			chat.AddText(Color(0, 200, 0), other_ply:Nick(), Color(240, 245, 253), " has ", Color(255, 0, 0), "declined", Color(240, 245, 253), " the trade.")
+			chat.AddText(Color(0, 200, 0), name, Color(240, 245, 253), has, Color(255, 0, 0), "declined", Color(240, 245, 253), " the trade.")
 		else
 			chat.AddText(Color(0, 200, 0), "You", Color(240, 245, 253), " have ", Color(255, 0, 0), "automatically declined", Color(240, 245, 253), " the trade because something went wrong.")
 		end
@@ -5652,7 +5696,9 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
         net.SendToServer()
-        chat.AddText(Color(0, 200, 0), IsValid(other_ply) and other_ply:Nick() or "Player", Color(240, 245, 253), " has ", Color(0, 255, 0), "accepted", Color(240, 245, 253), " the trade.")
+        chat.AddText(Color(0, 200, 0), name, Color(240, 245, 253), has, Color(0, 255, 0), "accepted", Color(240, 245, 253), " the trade.")
+
+		sfx.Agree()
     end
 end)
 
