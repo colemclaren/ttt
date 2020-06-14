@@ -534,7 +534,7 @@ local function m_ModifyTradeSlotsFromServer(M_ITEM_TBL, m_tradeslot)
         if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
         if (m_utrade and m_ply2) then
-            moat_inv_cooldown = CurTime() + 10
+            moat_inv_cooldown = CurTime() + 5
             m_ClearInventory()
             net.Start("MOAT_SEND_INV_ITEM")
             net.SendToServer()

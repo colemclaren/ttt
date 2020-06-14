@@ -77,7 +77,7 @@ local function load()
         end
 
         if (slot_type == "slot") then
-            if item_slot > ply:GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") then
+            if item_slot > ply:GetMaxSlots() then
                 return
             end
 

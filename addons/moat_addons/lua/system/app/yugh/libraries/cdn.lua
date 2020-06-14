@@ -258,6 +258,7 @@ else
 					local function set(m)
 						if (type(m) == "string") then
 							new_mat:SetTexture("$basetexture", m)
+							cdn.Cache[key] = new_mat
 							print(m)
 						end
 					end
@@ -269,6 +270,7 @@ else
 				else
 					local function set(m)
 						new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+						cdn.Cache[key] = new_mat
 					end
 
 					local m = cdn.Image(key, set)

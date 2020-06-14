@@ -27,11 +27,12 @@ local vowels = {
 net.Receive("MOAT_OBTAIN_ITEM", function(len)
 	local v = net.ReadBool()
 	local ply = Entity(net.ReadDouble())
-	local tbl = net.ReadTable()
-	tbl.Talents = GetItemTalents(tbl)
-	if (tbl.u) then
-		tbl.item = GetItemFromEnum(tbl.u)
-	end
+	-- local tbl = net.ReadTable()
+	local tbl = m_ReadWeaponFromNet()
+	-- tbl.Talents = GetItemTalents(tbl)
+	-- if (tbl.u) then
+	-- 	tbl.item = GetItemFromEnum(tbl.u)
+	-- end
 	
 	local gift = net.ReadBool()
 
