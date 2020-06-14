@@ -1079,7 +1079,7 @@ m_Trade = m_Trade or {}
 MOAT_INVENTORY_CREDITS = MOAT_INVENTORY_CREDITS or 0
 NUMBER_OF_SLOTS = NUMBER_OF_SLOTS or 0
 function m_ClearInventory()
-	handled_send = false
+	handled_send = true
 
     m_Inventory = {}
     m_Loadout = {}
@@ -1328,7 +1328,7 @@ local disable_freeic = CreateClientConVar("moat_steam_group", 0, true, false)
 function m_OpenInventory(ply2, utrade)
     moat_inv_cooldown = CurTime() + 1
 
-    if (#m_Inventory < LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 0)) then
+    if (#m_Inventory < LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS", 100)) then
 		m_HandleSending()
 
 		if (IsValid(ply2) and utrude) then
@@ -1343,7 +1343,7 @@ function m_OpenInventory(ply2, utrade)
 		if (NUMBER_OF_SLOTS == 0) then
 			num = 1
 		end
-        chat.AddText("Loading... ", moat_green, " Receiving Inventory",  moat_lyanblue, " | ", moat_cyan, num .. "%", moat_lyanblue, " | ", Color(254, 60, 114), net.Line())	
+        -- chat.AddText("Loading... ", moat_green, " Receiving Inventory",  moat_lyanblue, " | ", moat_cyan, num .. "%", moat_lyanblue, " | ", Color(254, 60, 114), net.Line())	
 
         return
     end
@@ -2256,7 +2256,7 @@ function m_OpenInventory(ply2, utrade)
 
         if (m_ply2 and m_utrade) then
         	if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
-            moat_inv_cooldown = CurTime() + 10
+            moat_inv_cooldown = CurTime() + 5
             m_ClearInventory()
             net.Start("MOAT_SEND_INV_ITEM")
             net.SendToServer()
@@ -2272,7 +2272,7 @@ function m_OpenInventory(ply2, utrade)
         --     net.SendToServer()
 		end
 
-		moat_inv_cooldown = CurTime() + 1
+		moat_inv_cooldown = CurTime() + 5
     end
 
 	MOAT_INV_BG.Cat = {}
@@ -2993,7 +2993,8 @@ function m_OpenInventory(ply2, utrade)
 		M_INV_L.Think = function(s)
 			if (s.LoadingSlot < s.FinishedSlot) then
 				s.LoadingSlot = s.LoadingSlot + 1
-				m_CreateInventorySlots(true, s.LoadingSlot, s.LoadingSlot)
+				m_CreateInventorySlots(true, s.LoadingSlot, s.LoadingSlot + 4)
+				s.LoadingSlot = s.LoadingSlot + 4
 			end
 		end
 	end
@@ -3681,7 +3682,7 @@ function m_OpenInventory(ply2, utrade)
         			if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
                     if (m_ply2 and m_utrade) then
-                        moat_inv_cooldown = CurTime() + 10
+                        moat_inv_cooldown = CurTime() + 5
                         m_ClearInventory()
                         net.Start("MOAT_SEND_INV_ITEM")
                         net.SendToServer()
@@ -3815,7 +3816,7 @@ function m_OpenInventory(ply2, utrade)
         				if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
                         if (m_ply2 and m_utrade) then
-                            moat_inv_cooldown = CurTime() + 10
+                            moat_inv_cooldown = CurTime() + 5
                             m_ClearInventory()
                             net.Start("MOAT_SEND_INV_ITEM")
                             net.SendToServer()
@@ -4345,7 +4346,7 @@ function m_OpenInventory(ply2, utrade)
                 MOAT_TRADE_BG:Remove()
 
                 if (m_ply2 and m_utrade) then
-                    moat_inv_cooldown = CurTime() + 10
+                    moat_inv_cooldown = CurTime() + 5
                     m_ClearInventory()
                     net.Start("MOAT_SEND_INV_ITEM")
                     net.SendToServer()
@@ -5621,7 +5622,7 @@ net.Receive("MOAT_INIT_TRADE", function(len)
         	if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 			chat.AddText(Color(255, 0, 0), "Can't accept trade request because your inventory didn't load? Trying opening it before trading.")
 
-            moat_inv_cooldown = CurTime() + 10
+            moat_inv_cooldown = CurTime() + 5
             m_ClearInventory()
             net.Start("MOAT_SEND_INV_ITEM")
             net.SendToServer()
@@ -5673,7 +5674,7 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
 		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
         if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
-        moat_inv_cooldown = CurTime() + 10
+        moat_inv_cooldown = CurTime() + 5
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
         net.SendToServer()
@@ -5696,7 +5697,7 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
 		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
         if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
 
-        moat_inv_cooldown = CurTime() + 10
+        moat_inv_cooldown = CurTime() + 5
         m_ClearInventory()
         net.Start("MOAT_SEND_INV_ITEM")
         net.SendToServer()
@@ -6383,14 +6384,15 @@ end
 
 local last_played = 0
 net.Receive("MOAT_ITEM_OBTAINED", function(len)
-    local tbl = net.ReadTable()
-	if (tbl.u) then
-		tbl.item = GetItemFromEnum(tbl.u)
-	end
+    -- local tbl = net.ReadTable()
+	local tbl = m_ReadWeaponFromNet()
+	-- if (tbl.u) then
+	-- 	tbl.item = GetItemFromEnum(tbl.u)
+	-- end
 
-	if (tbl.t) then
-		tbl.Talents = GetItemTalents(tbl)
-	end
+	-- if (tbl.t) then
+	-- 	tbl.Talents = GetItemTalents(tbl)
+	-- end
 
     table.insert(MOAT_ITEM_FOUND_QUEUE, tbl)
 
@@ -6629,5 +6631,6 @@ hook("InitPostEntity", function()
 		net.SendToServer()
 
 		MOAT_CLIENTINV_REQUESTED = true
+		handled_send = true
 	end
 end)
