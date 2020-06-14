@@ -1,6 +1,6 @@
 if SERVER then
 	AddCSLuaFile("shared.lua")
-	resource.AddWorkshop("924364350")
+	-- resource.AddWorkshop("924364350")
 end
 
 SWEP.Base = "weapon_tttbase"
@@ -82,7 +82,7 @@ local function CheckIfEmpty(vec)
 	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
 	NewVec.x = NewVec.x + 25
 	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
-	
+
 	return true
 end
 
@@ -128,7 +128,6 @@ if CLIENT then
 end
 
 function SWEP:PrimaryAttack()
-	
 	if CLIENT then return end
 	local tr = self.Owner:GetEyeTrace()
 	if tr.HitPos:Distance(self:GetPos()) > 100 or !CheckIfEmpty(tr.HitPos) or tr.HitNormal.x > 0.005 or tr.HitNormal.y > 0.005 or tr.HitNormal.z != 1 then return end

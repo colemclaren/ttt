@@ -1,6 +1,6 @@
 if SERVER then
 	AddCSLuaFile("shared.lua")
-	resource.AddWorkshop("924364350")
+	-- resource.AddWorkshop("924364350")
 end
 
 SWEP.Base = "weapon_tttbase"
