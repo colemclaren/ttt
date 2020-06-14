@@ -6462,10 +6462,10 @@ net.Receive("MOAT_ITEM_OBTAINED", function(len)
 end)
 
 net.Receive("MOAT_INIT_USABLE", function()
-    local cl = tostring(net.ReadDouble())
+    local cl = net.ReadDouble()
     local num = 0
 
-    for i = 1, LocalPlayer():GetNW2Int("MOAT_MAX_INVENTORY_SLOTS") do
+    for i = 1, #m_Inventory do
         if (m_Inventory[i] and m_Inventory[i].c and m_Inventory[i].c == cl) then
             num = i
             break
