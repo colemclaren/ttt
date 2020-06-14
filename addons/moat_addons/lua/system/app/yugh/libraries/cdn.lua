@@ -294,7 +294,10 @@ else
 
 	function cdn.DrawTexture(key, x, y, w, h, color, params)
 		key = cdn.TextureMaterial(key, nil, params)
-		if (not key) then return end
+		if (not key or type(key) ~= "IMaterial") then
+			cdn.Cache[key] = nil
+			return
+		end
 
 		color = color or white
 
