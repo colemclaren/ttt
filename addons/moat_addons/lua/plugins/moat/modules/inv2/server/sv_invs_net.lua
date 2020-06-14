@@ -45,9 +45,9 @@ function m_WriteWeaponToNet(self)
 	end
 
 	-- item paints
-	net.WriteBool(not not self.p1)
-	if (self.p1) then
-		net.WriteShort(self.p1)
+	net.WriteBool(not not self.p)
+	if (self.p) then
+		net.WriteShort(self.p)
 	end
 
 	net.WriteBool(not not self.p2)

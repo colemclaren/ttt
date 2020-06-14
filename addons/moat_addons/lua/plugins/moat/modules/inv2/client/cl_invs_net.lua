@@ -84,7 +84,7 @@ function m_ReadWeaponFromNet(self)
 	end
 
 	if (net.ReadBool()) then
-		self.p1 = net.ReadShort()
+		self.p = net.ReadShort()
 	end
 
 	if (net.ReadBool()) then
