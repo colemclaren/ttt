@@ -312,7 +312,8 @@ end
 
 
 function m_DrawShadowedText(shadow, text, font, x, y, color, xalign, yalign)
-    draw_SimpleText(text, font, x, y, color, xalign, yalign)
+	draw_SimpleText(text, font, x + shadow, y + shadow, Color(0, 0, 0, 255), xalign, yalign)
+	draw_SimpleText(text, font, x, y, color, xalign, yalign)
 end
 
 function m_GlowCol(Col1, Col2, Am)
@@ -578,7 +579,7 @@ function m_DrawItemDescLevel(text, font, x, y, w, col)
             chars_y = chars_y + 15
         end
 
-        draw.SimpleText(v.Text, font, x + chars_x, y + chars_y, v.Color)
+        m_DrawShadowedText(1, v.Text, font, x + chars_x, y + chars_y, v.Color)
 
         chars_x = chars_x + v.Width
     end
@@ -607,8 +608,8 @@ function m_DrawItemDesc(text, font, x, y, w, h)
             end
         end
 
-        draw.SimpleText(char, font, x + chars_x + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
-        draw.SimpleText(char, font, x + chars_x, y + (chars_y * 15), char_col)
+        -- m_DrawShadowedText(1, char, font, x + chars_x + 1, y + (chars_y * 15) + 1, Color(0, 0, 0))
+        m_DrawShadowedText(1, char, font, x + chars_x, y + (chars_y * 15), char_col)
 		
         chars_x = chars_x + charw
     end
@@ -998,7 +999,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             elseif (tfx == "frost") then
                 DrawFrostingText(10, 1.5, talent_name, font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(240, 245, 253))
             else
-                emoji.SimpleText(talent_name, font, draw_name_x, draw_name_y, name_col)
+                m_DrawShadowedText(1, talent_name, font, draw_name_x, draw_name_y, name_col)
             end
 
             surface_SetFont(font)
@@ -1058,7 +1059,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 		m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, MOAT_PAINT.Skins[itemtbl.p3] and rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     end
 
-	return collection_y + 14
+	return collection_y + 14, stats_y_add
 end
 
 local handled_send = false
@@ -3277,6 +3278,23 @@ function m_OpenInventory(ply2, utrade)
             surface_SetDrawColor(8, 12, 19, 250)
             surface_DrawRect(1, 1, w - 2, h - 2)
 
+			if (ITEM_HOVERED.p3 or ItemIsSkin(ITEM_HOVERED.u)) then
+				local p3alpha, p3skin = MOAT_SKIN_ALPHA or 15
+				if (ItemIsSkin(ITEM_HOVERED.u)) then
+					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.u][2]
+					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.u][6] or MOAT_SKIN_ALPHA
+				elseif (ITEM_HOVERED.p3 and MOAT_PAINT.Skins[ITEM_HOVERED.p3]) then
+					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.p3][2]
+					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.p3][6] or MOAT_SKIN_ALPHA
+				end
+
+				if (p3skin and p3skin:match "vtf$") then
+					cdn.DrawTexture(p3skin, 2, 2, w-4, h-4, Color(255, 255, 255, p3alpha))
+				elseif (p3skin) then
+					cdn.DrawImage(p3skin, 2, 2, w-4, h-4, Color(255, 255, 255, p3alpha))
+				end
+    		end
+
             surface_SetDrawColor(91, 98, 109, 50)
             surface_DrawLine(6, 22 + draw_xp_lvl, w - 6, 22 + draw_xp_lvl)
             surface_DrawLine(6, 43 + draw_xp_lvl, w - 6, 43 + draw_xp_lvl)
@@ -3351,12 +3369,12 @@ function m_OpenInventory(ply2, utrade)
                 elseif (tfx == "frost") then
                     DrawFrostingText(10, 1.5, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, Color(100, 100, 255), Color(240, 245, 253))
                 else
-                    emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                    m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
                 end
                 --local x_p, y_p = s:GetPos()
                 --draw_SimpleTextDegree( ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, x_p, y_p, Color(255,0,0), Color(0,0,255), 0.7, TEXT_ALIGN_LEFT )
             else
-                emoji.SimpleText(ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
+                m_DrawShadowedText(1, ITEM_NAME_FULL, name_font, draw_name_x, draw_name_y, name_col)
             end
 
             if (ITEM_HOVERED.n) then
@@ -3367,7 +3385,7 @@ function m_OpenInventory(ply2, utrade)
 
             if (ITEM_HOVERED.s and (ITEM_HOVERED.item.Kind == "tier" or ITEM_HOVERED.item.Kind == "Unique" or ITEM_HOVERED.item.Kind == "Melee")) then
                 draw_stats_multi = 25
-				s.StatsHeight = m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
+				s.StatsHeight, s.SkinHeight = m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
                 drawn_stats = 10
             elseif (ITEM_HOVERED.item and ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee" and ITEM_HOVERED.item.Description) then
                 local item_desc = ITEM_HOVERED.item.Description
@@ -3396,7 +3414,7 @@ function m_OpenInventory(ply2, utrade)
                 local collection_y = draw_stats_y + (drawn_stats * draw_stats_multi) - 1
                 m_DrawShadowedText(1, "From the " .. ITEM_HOVERED.item.Collection, "moat_Medium2", 6, collection_y, Color(150, 150, 150, 100))
 
-				 if (ITEM_HOVERED.p3) then
+				if (ITEM_HOVERED.p3) then
         			local p3txt = MOAT_PAINT.Skins[ITEM_HOVERED.p3] and MOAT_PAINT.Skins[ITEM_HOVERED.p3][1] or "Glitched Skin"
 					m_DrawShadowedText(1, p3txt, "moat_Medium2", s:GetWide() - 6, collection_y, MOAT_PAINT.Skins[ITEM_HOVERED.p3] and rarity_names[MOAT_PAINT.Skins[ITEM_HOVERED.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     			end
@@ -5889,6 +5907,24 @@ function m_DrawFoundItem(tbl, s_type, name)
             surface_DrawOutlinedRect(0, 0, w, h)
             surface_SetDrawColor(15, 15, 15, 250)
             surface_DrawRect(1, 1, w - 2, h - 2)
+
+			if (ITEM_HOVERED.p3 or ItemIsSkin(ITEM_HOVERED.u)) then
+				local p3alpha, p3skin = MOAT_SKIN_ALPHA or 15
+				if (ItemIsSkin(ITEM_HOVERED.u)) then
+					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.u][2]
+					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.u][6] or MOAT_SKIN_ALPHA
+				elseif (ITEM_HOVERED.p3 and MOAT_PAINT.Skins[ITEM_HOVERED.p3]) then
+					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.p3][2]
+					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.p3][6] or MOAT_SKIN_ALPHA
+				end
+
+				if (p3skin and p3skin:match "vtf$") then
+					cdn.DrawTexture(p3skin, 2, 2, w-4, h-4, Color(255, 255, 255, p3alpha))
+				elseif (p3skin) then
+					cdn.DrawImage(p3skin, 2, 2, w-4, h-4, Color(255, 255, 255, p3alpha))
+				end
+    		end
+
             surface_SetDrawColor(91, 98, 109, 50)
             surface_DrawLine(6, 22 + draw_xp_lvl, w - 6, 22 + draw_xp_lvl)
             surface_DrawLine(6, 43 + draw_xp_lvl, w - 6, 43 + draw_xp_lvl)
@@ -5974,7 +6010,7 @@ function m_DrawFoundItem(tbl, s_type, name)
 
             if (ITEM_HOVERED.s and (ITEM_HOVERED.item.Kind == "tier" or ITEM_HOVERED.item.Kind == "Unique" or ITEM_HOVERED.item.Kind == "Melee")) then
                 draw_stats_multi = 25
-				s.StatsHeight = m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
+				s.StatsHeight, s.SkinHeight = m_DrawItemStats("moat_ItemDesc", draw_stats_x, draw_stats_y + (drawn_stats * draw_stats_multi), ITEM_HOVERED, s)
                 drawn_stats = 10
             elseif (ITEM_HOVERED.item and ITEM_HOVERED.item.Kind ~= "tier" and ITEM_HOVERED.item.Kind ~= "Unique" and ITEM_HOVERED.item.Kind ~= "Melee" and ITEM_HOVERED.item.Description) then
                 local item_desc = ITEM_HOVERED.item.Description

@@ -87,36 +87,38 @@ end
 
 function ENT:Touch(ent)
     if (SERVER and self.tickRemoval ~= true) and IsValid(ent) and ent:IsPlayer() and self:PlayerCanPickup(ent) then
-		local weapon_class = self:CheckForWeapon(ent)
-		if (weapon_class) then
-			local ammo = ent:GetAmmoCount(self.AmmoType)
-			local weapon = ent:GetWeapon(weapon_class)
-			if (IsValid(weapon) and weapon.Primary and weapon.Primary.ClipSize) then
-				if (weapon.Primary.ClipSize * 3) >= (ammo + math.ceil(weapon.Primary.ClipSize * .25)) then
-					local given = weapon.Primary.ClipSize
-					given = math.min(given, (weapon.Primary.ClipSize * 3) - ammo)
-					ent:GiveAmmo(given, self.AmmoType)
-					local newEntAmount = weapon.Primary.ClipSize - given
-					self.AmmoAmount = newEntAmount
+        local weapon_class = self:CheckForWeapon(ent)
 
-					if self.AmmoAmount <= 0 or math.ceil(self.AmmoEntMax * 0.25) > self.AmmoAmount then
-						self.tickRemoval = true
-						self:Remove()
-					end
-				end
-			elseif self.AmmoMax >= (ammo + math.ceil(self.AmmoAmount * 0.25)) then
-				local given = self.AmmoAmount
-				given = math.min(given, self.AmmoMax - ammo)
-				ent:GiveAmmo(given, self.AmmoType)
-				local newEntAmount = self.AmmoAmount - given
-				self.AmmoAmount = newEntAmount
+        if (weapon_class) then
+            local ammo = ent:GetAmmoCount(self.AmmoType)
+            local weapon = ent:GetWeapon(weapon_class)
 
-				if self.AmmoAmount <= 0 or math.ceil(self.AmmoEntMax * 0.25) > self.AmmoAmount then
-					self.tickRemoval = true
-					self:Remove()
-				end
-			end
-		end
+            if (IsValid(weapon) and weapon.Primary and weapon.Primary.ClipSize) then
+                if (weapon.Primary.ClipSize * 3) >= (ammo + math.ceil(weapon.Primary.ClipSize * .25)) then
+                    local given = weapon.Primary.ClipSize
+                    given = math.min(given, (weapon.Primary.ClipSize * 3) - ammo)
+                    ent:GiveAmmo(given, self.AmmoType)
+                    local newEntAmount = weapon.Primary.ClipSize - given
+                    self.AmmoAmount = newEntAmount
+
+                    if self.AmmoAmount <= 0 or math.ceil(self.AmmoEntMax * 0.25) > self.AmmoAmount then
+                        self.tickRemoval = true
+                        self:Remove()
+                    end
+                end
+            elseif self.AmmoMax >= (ammo + math.ceil(self.AmmoAmount * 0.25)) then
+                local given = self.AmmoAmount
+                given = math.min(given, self.AmmoMax - ammo)
+                ent:GiveAmmo(given, self.AmmoType)
+                local newEntAmount = self.AmmoAmount - given
+                self.AmmoAmount = newEntAmount
+
+                if self.AmmoAmount <= 0 or math.ceil(self.AmmoEntMax * 0.25) > self.AmmoAmount then
+                    self.tickRemoval = true
+                    self:Remove()
+                end
+            end
+        end
     end
 end
 
