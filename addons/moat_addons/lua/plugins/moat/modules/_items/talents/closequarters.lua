@@ -1,6 +1,6 @@
 
 TALENT.ID = 1
-TALENT.Name = "Bompton"
+TALENT.Name = "Close Quarters"
 TALENT.NameColor = Color( 0, 255, 255 )
 TALENT.Description = "Damage is increased by +%s_^ when closer than %s feet to the target"
 TALENT.Tier = 1

@@ -1,10 +1,10 @@
 TALENT.ID = 610
 TALENT.Suffix = "the LOS PANCHOS"
-TALENT.Name = "LOS PANCHOS"
+TALENT.Name = "Pepper"
 TALENT.NameEffect = "threecolors"
 TALENT.NameColor = Color(251,176,59)
 TALENT.NameEffectMods = {Color(34,181,115), Color(237,28,36), Color(255,255,255)}
-TALENT.Description = "Each shot has a %s_^ chance to shoot a bell pepper projectile dealing %s damage"
+TALENT.Description = "Each shot has a %s_^ chance to shoot a pepper projectile dealing %s damage"
 TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 TALENT.Modifications = {}

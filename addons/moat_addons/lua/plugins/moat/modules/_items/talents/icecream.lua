@@ -1,6 +1,6 @@
 TALENT.ID = 614
 TALENT.Suffix = "the GELADO"
-TALENT.Name = "GELADO"
+TALENT.Name = "Ice Cream"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(103,182,255)
 TALENT.NameEffectMods = {Color(255,141,170)}

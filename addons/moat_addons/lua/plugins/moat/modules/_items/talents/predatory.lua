@@ -1,7 +1,7 @@
 
 TALENT.ID = 88
 TALENT.Suffix = "the Zombie"
-TALENT.Name = "Zombie"
+TALENT.Name = "Predatory"
 TALENT.NameColor = Color(0, 255, 128)
 TALENT.Description = "Killing a target regenerates %s_^ health over %s seconds"
 TALENT.Tier = 2

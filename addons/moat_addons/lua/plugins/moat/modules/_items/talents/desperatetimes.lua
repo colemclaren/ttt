@@ -1,6 +1,6 @@
 
 TALENT.ID = 21
-TALENT.Name = 'Despair'
+TALENT.Name = 'Desperate Times'
 TALENT.NameColor = Color(255,99,71)
 TALENT.Description = 'Your weapon will do %s_^ more damage if you are under %s health'
 TALENT.Tier = 1

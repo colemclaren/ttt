@@ -1,7 +1,7 @@
 
 TALENT.ID = 27
-TALENT.Suffix = "Infra-Sight"
-TALENT.Name = "Infra-Sight"
+TALENT.Suffix = "Mark"
+TALENT.Name = "Mark"
 TALENT.NameColor = Color(255, 255, 0)
 TALENT.Description = "Each hit has a %s_^ chance to allow a heat signature on your target for %s seconds. This enhanced vision is shared with your teammates"
 TALENT.Tier = 2
@@ -19,19 +19,19 @@ function TALENT:OnPlayerHit(vic, att, dmginfo, talent_mods)
 	if (chance > math.random() * 100) then
 		local secs = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * math.min(1, talent_mods[2]))
 
-		status.Inflict("Infra-Sight", {Time = secs, Player = vic, Attacker = att})
+		status.Inflict("Mark", {Time = secs, Player = vic, Attacker = att})
 	end
 end
 
 
 if (SERVER) then
-	local STATUS = status.Create "Infra-Sight"
+	local STATUS = status.Create "Mark"
 	function STATUS:Invoke(data)
-		local effect = self:GetEffectFromPlayer("Infra-Sight", data.Player)
+		local effect = self:GetEffectFromPlayer("Mark", data.Player)
 		if (effect) then
 			effect:AddTime(data.Time)
 		else
-			self:CreateEffect "Infra-Sight":Invoke(data, false)
+			self:CreateEffect "Mark":Invoke(data, false)
 		end
 	end
 
@@ -42,7 +42,7 @@ if (SERVER) then
 		[2] = Color(0, 0, 255)	-- Detective
 	}
 
-	local EFFECT = STATUS:CreateEffect "Infra-Sight"
+	local EFFECT = STATUS:CreateEffect "Mark"
 	function EFFECT:Init(data)
 		local att = data.Attacker
 

@@ -1,7 +1,7 @@
 TALENT = TALENT or MOAT_TALENTS[155]
 
 TALENT.ID = 155
-TALENT.Name = "Lich"
+TALENT.Name = "Leech"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255, 0)
 TALENT.Description = "Each hit has a %s_^ chance to heal %s^ health over %s seconds"

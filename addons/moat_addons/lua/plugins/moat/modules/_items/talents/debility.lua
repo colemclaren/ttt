@@ -1,6 +1,6 @@
 
 TALENT.ID = 28
-TALENT.Name = 'Debility'
+TALENT.Name = 'Soften'
 TALENT.NameColor = Color(100, 90, 100)
 TALENT.Description = 'Each hit has a %s_^ chance to make your target take %s_^ more damage for %s^ seconds'
 TALENT.Tier = 3

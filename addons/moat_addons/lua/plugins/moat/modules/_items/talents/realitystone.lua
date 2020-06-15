@@ -1,5 +1,5 @@
 TALENT.ID = 101
-TALENT.Name = "Reality"
+TALENT.Name = "Reality Stone"
 TALENT.NameColor = Color(255, 50, 50)
 TALENT.Description = "You have a %s_^ chance to go transparent for %s seconds after killing someone with this weapon"
 TALENT.Tier = 2

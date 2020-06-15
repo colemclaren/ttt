@@ -1,7 +1,7 @@
 
 TALENT.ID = 12
-TALENT.Suffix = "Power"
-TALENT.Name = 'Power'
+TALENT.Suffix = "Provident"
+TALENT.Name = 'Provident'
 TALENT.NameColor = Color(0, 123, 181)
 TALENT.Description = 'Each bullet has a 40_ chance to do %s_^ more damage'
 TALENT.Tier = 1

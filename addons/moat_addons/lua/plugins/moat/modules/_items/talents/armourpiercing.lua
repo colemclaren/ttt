@@ -1,6 +1,6 @@
 
 TALENT.ID = 29
-TALENT.Name = "Penetration"
+TALENT.Name = "Armour Piercing"
 TALENT.NameColor = Color(255, 0, 0)
 TALENT.Description = "Detectives and traitors under armor equipment are defenseless to bullets"
 TALENT.Tier = 1

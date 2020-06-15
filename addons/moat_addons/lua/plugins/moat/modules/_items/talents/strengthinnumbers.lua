@@ -1,7 +1,7 @@
 
 TALENT.ID = 37
 TALENT.Suffix = "the Neighborhood"
-TALENT.Name = 'Neighborhood'
+TALENT.Name = 'Strength In Numbers'
 TALENT.NameColor = Color(181, 123, 0)
 TALENT.Description = "Damage is increased by %s_^ for every person within %s^ feet, your special teammates add %s_^ instead, up to a maximum of %s_^"
 TALENT.Tier = 2

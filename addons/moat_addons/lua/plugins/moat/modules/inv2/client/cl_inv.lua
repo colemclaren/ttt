@@ -4801,7 +4801,7 @@ function m_CreateItemMenu(num, ldt)
     M_INV_MENU:AddSpacer()
 
     if (itemtbl.n) then
-        M_INV_MENU:AddOption("Remove Custom Name", function()
+        M_INV_MENU:AddOption("Remove Name Mutator", function()
         end):SetIcon("icon16/tag_blue_delete.png")
     end
 
@@ -4925,7 +4925,7 @@ function m_CreateItemMenu(num, ldt)
     local pnl = nil
 
     for i = 1, 15 do
-        if (M_INV_MENU:GetChild(i) and M_INV_MENU:GetChild(i):GetText() == "Remove Custom Name") then
+        if (M_INV_MENU:GetChild(i) and M_INV_MENU:GetChild(i):GetText() == "Remove Name Mutator") then
             pnl = M_INV_MENU:GetChild(i)
         end
     end

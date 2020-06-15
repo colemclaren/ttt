@@ -1,5 +1,5 @@
 ITEM.ID = 10107
-ITEM.Name = "PEW AK47"
+ITEM.Name = "Energizing AK47"
 ITEM.Rarity = 7
 ITEM.Collection = "Aqua Palm Collection"
 ITEM.WeaponClass = "weapon_ttt_ak47"
@@ -20,4 +20,4 @@ ITEM.Stats = {
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 4
 ITEM.NotDroppable = true
-ITEM.Talents = {"PEW", "random", "random"}
+ITEM.Talents = {"Energizing", "random", "random"}

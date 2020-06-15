@@ -40,7 +40,7 @@ function m_InitializeTalents()
 		"frost.lua",
 		"inferno.lua",
 		"infrasight.lua",
-		"jennysdog.lua",
+		"doglover.lua",
 		"laser.lua",
 		"lifesteal.lua",
 		"lightweight.lua",

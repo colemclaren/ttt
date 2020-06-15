@@ -1,6 +1,6 @@
 
 TALENT.ID = 8
-TALENT.Name = "Steroids"
+TALENT.Name = "Adrenaline Rush"
 TALENT.NameColor = Color( 255, 0, 0 )
 TALENT.Description = "Damage is increased by %s_^ for %s seconds after killing with this weapon"
 TALENT.Tier = 1
@@ -14,7 +14,7 @@ TALENT.Melee = true
 TALENT.NotUnique = true
 
 function TALENT:OnPlayerDeath(victim, _, attacker, talent_mods)
-	status.Inflict("Steroids", {
+	status.Inflict("Adrenaline Rush", {
 		Player = attacker,
 		Weapon = attacker:GetActiveWeapon(),
 		Time = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * math.min(1, talent_mods[2])),
@@ -24,7 +24,7 @@ end
 
 
 if (SERVER) then
-	local STATUS = status.Create "Steroids"
+	local STATUS = status.Create "Adrenaline Rush"
 	function STATUS:Invoke(data)
 		self:CreateEffect "Damaging":Invoke(data, data.Time, data.Player)
 	end

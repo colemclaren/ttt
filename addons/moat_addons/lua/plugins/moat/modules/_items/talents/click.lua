@@ -1,6 +1,6 @@
 TALENT.ID = 9969
-TALENT.Suffix = "Juan"
-TALENT.Name = "Juan"
+TALENT.Suffix = "Click"
+TALENT.Name = "*click*"
 TALENT.NameColor = Color(255, 119, 0)
 TALENT.Description = "Damage is increased by %s_^ but you only have 1 bullet per clip"
 TALENT.Tier = 2

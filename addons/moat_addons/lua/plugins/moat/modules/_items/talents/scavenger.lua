@@ -1,7 +1,7 @@
 
 TALENT.ID = 82
 TALENT.Suffix = "the Vulture"
-TALENT.Name = "Vulture"
+TALENT.Name = "Scavenger"
 TALENT.NameColor = Color(178, 102, 255)
 TALENT.Description = "Players have a %s_^ chance to receive %s ammo after killing a target"
 TALENT.Tier = 2

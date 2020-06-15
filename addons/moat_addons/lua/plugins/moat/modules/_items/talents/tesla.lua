@@ -1,6 +1,6 @@
 
 TALENT.ID = 9
-TALENT.Name = "Electricity"
+TALENT.Name = "Tesla"
 TALENT.NameColor = Color( 0, 255, 255 )
 TALENT.NameEffect = "electric"
 TALENT.Description = "Each hit has a %s_^ chance to zap the target %s^ times for %s^ damage every %s^ seconds"
@@ -23,7 +23,7 @@ function TALENT:OnPlayerHit(victim, attacker, dmginfo, talent_mods)
 		local tesla_dmg = self.Modifications[3].min + ( ( self.Modifications[3].max - self.Modifications[3].min ) * math.min(1, talent_mods[3]) )
 		local tesla_delay = self.Modifications[4].min + ( ( self.Modifications[4].max - self.Modifications[4].min ) * math.min(1, talent_mods[4]) )
 
-		status.Inflict("Electricity", {
+		status.Inflict("Tesla", {
 			Player = victim,
 			Attacker = attacker,
 			Weapon = attacker:GetActiveWeapon(),
@@ -36,7 +36,7 @@ end
 
 
 if (SERVER) then
-	local STATUS = status.Create "Electricity"
+	local STATUS = status.Create "Tesla"
 	function STATUS:Invoke(data)
 		self:CreateEffect "Electrified":Invoke(data, data.Time, data.Player)
 		self:CreateEffect "Zapped":Invoke(data, false)

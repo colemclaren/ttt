@@ -1,7 +1,7 @@
 
 TALENT.ID = 83
 TALENT.Suffix = "the DRAGON"
-TALENT.Name = "DRAGON"
+TALENT.Name = "Dragonborn"
 TALENT.NameColor = Color(255, 255, 255)
 TALENT.Description = "Players have a %s_^ chance to be thrown with %sx force when shot with this weapon"
 TALENT.Tier = 3

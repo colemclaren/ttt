@@ -20,24 +20,24 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
 		local feet = self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * math.min(1, talent_mods[2]))
 		local secs = self.Modifications[3].min + ((self.Modifications[3].max - self.Modifications[3].min) * math.min(1, talent_mods[3]))
 
-		status.Inflict("Walls", {Time = secs, Player = att, Radius = feet})
+		status.Inflict("Visionary", {Time = secs, Player = att, Radius = feet})
 	end
 end
 
 
 if (SERVER) then
-	local STATUS = status.Create "Walls"
+	local STATUS = status.Create "Visionary"
 	function STATUS:Invoke(data)
-		local effect = self:GetEffectFromPlayer("Walls", data.Player)
+		local effect = self:GetEffectFromPlayer("Visionary", data.Player)
 		if (effect) then
 			effect:AddTime(data.Time)
 		else
-			self:CreateEffect "Walls":Invoke(data, data.Time, data.Player)
+			self:CreateEffect "Visionary":Invoke(data, data.Time, data.Player)
 		end
 	end
 
-	local EFFECT = STATUS:CreateEffect "Walls"
-	EFFECT.Message = "Walls"
+	local EFFECT = STATUS:CreateEffect "Visionary"
+	EFFECT.Message = "Visionary"
 	EFFECT.Color = TALENT.NameColor
 	EFFECT.Material = "icon16/eye.png"
 	function EFFECT:Init(data)

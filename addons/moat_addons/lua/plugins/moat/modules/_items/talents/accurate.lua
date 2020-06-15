@@ -1,6 +1,6 @@
 
 TALENT.ID = 4
-TALENT.Name = "Accuracy"
+TALENT.Name = "Accurate"
 TALENT.NameColor = Color( 150, 0, 0 )
 TALENT.Description = "Cone is increased by %s_"
 TALENT.Tier = 1

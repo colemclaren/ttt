@@ -1,6 +1,6 @@
 TALENT.ID = 666
 TALENT.Suffix = "the RICK ROSS"
-TALENT.Name = "RICK ROSS"
+TALENT.Name = "Pear"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(204, 255, 204)
 TALENT.NameEffectMods = {Color(255, 204, 153)}

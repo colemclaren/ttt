@@ -1,5 +1,5 @@
 ITEM.ID = 10106
-ITEM.Name = "PEW Deadshot"
+ITEM.Name = "Energizing Deadshot"
 ITEM.Rarity = 6
 ITEM.Collection = "Aqua Palm Collection"
 ITEM.WeaponClass = "weapon_ttt_sg550"
@@ -20,4 +20,4 @@ ITEM.Stats = {
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 4
 ITEM.NotDroppable = true
-ITEM.Talents = {"PEW", "random", "random"}
+ITEM.Talents = {"Energizing", "random", "random"}

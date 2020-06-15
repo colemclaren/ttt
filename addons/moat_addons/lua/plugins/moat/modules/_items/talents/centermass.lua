@@ -1,6 +1,6 @@
 
 TALENT.ID = 85
-TALENT.Name = "Focus"
+TALENT.Name = "Center Mass"
 TALENT.NameColor = Color(255, 0, 0)
 TALENT.Description = "Torso damage is increased by %s_ when using this weapon"
 TALENT.Tier = 1

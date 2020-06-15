@@ -1,6 +1,6 @@
 
 TALENT.ID = 26
-TALENT.Name = 'Fortification'
+TALENT.Name = 'Fortified'
 TALENT.NameColor = Color(200, 200, 200)
 TALENT.Description = 'After killing a player, you have a %s_^ chance to receive a %s_^ damage reduction for %s^ seconds'
 TALENT.Tier = 2
@@ -20,23 +20,23 @@ function TALENT:OnPlayerDeath(vic, inf, att, talent_mods)
 		local percent = (self.Modifications[2].min + ((self.Modifications[2].max - self.Modifications[2].min) * math.min(1, talent_mods[2]))) / 100
 		local duration = self.Modifications[3].min + ((self.Modifications[3].max - self.Modifications[3].min) * math.min(1, talent_mods[3]))
 
-		status.Inflict("Fortification", {Time = duration, Player = att, Percent = percent})
+		status.Inflict("Fortified", {Time = duration, Player = att, Percent = percent})
 	end
 end
 
 if (SERVER) then
-	local STATUS = status.Create "Fortification"
+	local STATUS = status.Create "Fortified"
 	function STATUS:Invoke(data)
-		local effect = self:GetEffectFromPlayer("Fortification", data.Player)
+		local effect = self:GetEffectFromPlayer("Fortified", data.Player)
 		if (effect) then
 			effect:AddTime(data.Time)
 		else
-			self:CreateEffect "Fortification":Invoke(data, data.Time, data.Player)
+			self:CreateEffect "Fortified":Invoke(data, data.Time, data.Player)
 		end
 	end
 
-	local EFFECT = STATUS:CreateEffect "Fortification"
-	EFFECT.Message = "Fortification"
+	local EFFECT = STATUS:CreateEffect "Fortified"
+	EFFECT.Message = "Fortified"
 	EFFECT.Color = TALENT.NameColor
 	EFFECT.Material = "icon16/shield.png"
 	function EFFECT:Init(data)

@@ -1,5 +1,5 @@
 TALENT.ID = 98
-TALENT.Name = "Twins"
+TALENT.Name = "Dual"
 TALENT.NameEffect = "bounce"
 TALENT.NameColor = Color(240, 10, 10)
 TALENT.Description = "You have two guns. Your damage is decreased by %s_^"

@@ -1,5 +1,5 @@
 TALENT.ID = 99
-TALENT.Name = "Refilling"
+TALENT.Name = "Replenish"
 TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255, 122)
 TALENT.Description = "Your gun has a %s_^ chance to refill a bullet if you hit someone"

@@ -1,6 +1,6 @@
 TALENT.ID = 10102
-TALENT.Suffix = "the PEW"
-TALENT.Name = "PEW"
+TALENT.Suffix = "the Energizing"
+TALENT.Name = "Energizing"
 TALENT.NameColor = Color(255, 119, 0)
 TALENT.Description = "Damage is increased by %s_^ for each consecutive hit, up to a maximum of %s_^"
 TALENT.Tier = 1

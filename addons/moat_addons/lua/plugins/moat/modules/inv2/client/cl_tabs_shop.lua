@@ -358,9 +358,9 @@ function m_PopulateShop(pnl)
                 elseif (itemtbl.CrateShopOverride == "Gift") then
                     m_DrawShadowedText(1, "Empty Gift", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
                     m_DrawShadowedText(1, "Package", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
-				elseif (itemtbl.CrateShopOverride == "Rename Token") then
-                    m_DrawShadowedText(1, "Rename", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
-                    m_DrawShadowedText(1, "Token", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
+				elseif (itemtbl.CrateShopOverride == "Name Mutator") then
+                    m_DrawShadowedText(1, "Name", "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
+                    m_DrawShadowedText(1, "Mutator", "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
 				elseif (itemtbl.NewItem) then
 					surface.SetFont("moat_Trebuchet24")
 					local tw = surface.GetTextSize(item_name[1])

@@ -1,6 +1,6 @@
 
 TALENT.ID = 100
-TALENT.Name = "Space"
+TALENT.Name = "Space Stone"
 TALENT.NameColor = Color(0, 50, 255)
 TALENT.Description = "You have a %s_^ chance to have low gravity for %s seconds after killing someone with this weapon"
 TALENT.Tier = 1

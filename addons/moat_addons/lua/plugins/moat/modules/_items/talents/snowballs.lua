@@ -1,6 +1,6 @@
 
 TALENT.ID = 990
-TALENT.Name = "SNOWBALLS"
+TALENT.Name = "Snowball"
 TALENT.NameColor = Color(100, 255, 255)
 TALENT.Description = "Each shot has a %s_^ chance to shoot a snowball projectile dealing %s damage"
 TALENT.Tier = 2
