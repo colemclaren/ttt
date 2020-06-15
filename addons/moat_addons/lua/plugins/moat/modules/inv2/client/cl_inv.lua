@@ -3425,7 +3425,7 @@ function m_OpenInventory(ply2, utrade)
                 surface_SetFont("moat_ItemDescLarge3")
                 local level_w, level_h = surface_GetTextSize(ITEM_HOVERED.s.l)
                 m_DrawShadowedText(1, "LEVEL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
-                m_DrawShadowedText(1, ITEM_HOVERED.s.x .. "/ " .. (ITEM_HOVERED.s.l * 100) .. " XP", "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/ " .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
                 -- if (ITEM_HOVERED.n) then nt_ = 15 end
@@ -6046,7 +6046,7 @@ function m_DrawFoundItem(tbl, s_type, name)
                 surface_SetFont("moat_ItemDescLarge3")
                 local level_w, level_h = surface_GetTextSize(ITEM_HOVERED.s.l)
                 m_DrawShadowedText(1, "LEVEL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
-                m_DrawShadowedText(1, ITEM_HOVERED.s.x .. "/ " .. (ITEM_HOVERED.s.l * 100) .. " XP", "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/ " .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
                 -- if (ITEM_HOVERED.n) then nt_ = 15 end
