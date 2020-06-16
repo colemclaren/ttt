@@ -17,7 +17,7 @@ ITEM.Collection = "Alpha Collection"
 
 ITEM.Stats = {
 
-	{ min = 15, max = 50 }
+	{ min = 1, max = 10 }
 
 }
 
