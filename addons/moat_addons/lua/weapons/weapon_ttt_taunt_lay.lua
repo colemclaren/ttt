@@ -33,7 +33,7 @@ SWEP.TauntAnimation = ACT_HL2MP_ZOMBIE_SLUMP_IDLE
 SWEP.TauntLoop = true
 SWEP.TauntOver = CurTime()
 SWEP.ViewAngles = Angle(0, 0, 0)
-
+SWEP.PlayerDead = NULL
 SWEP.Kind = WEAPON_UNARMED
 SWEP.AllowDelete = false
 SWEP.AllowDrop = false
@@ -66,6 +66,7 @@ end
 
 function SWEP:CreateRagdoll()
 	if (not IsValid(self.Owner)) then return end
+	self.PlayerDead = self.Owner
 	local pl = self.Owner
 	SafeRemoveEntity(pl.Ragdoll)
 	local rag = ents.Create "prop_ragdoll"
@@ -159,28 +160,30 @@ end)
 function SWEP:EndTaunt()
 	if (CLIENT) then return end
 
-	self.Ragdoll.IsSafeToRemove = true
-	SafeRemoveEntity(self.Ragdoll)
-	self:SetTauntActive(false)
+	if (IsValid(self.PlayerDead)) then
 
-	if (not IsValid(self.Owner)) then
+		self.PlayerDead:SetNoDraw(false)
+
+		net.Start "MOAT_PLAYER_CLOAKED"
+		net.WriteEntity(self.PlayerDead)
+		net.WriteBool(false)
+		net.Broadcast()
+		self.PlayerDead.PlayDead = nil
+	end
+
+	if (not self.Ragdoll) then
 		return
 	end
 
-	self:GetOwner().PlayDead = nil
-
-	self.Owner:SetNoDraw(false)
-
-	net.Start "MOAT_PLAYER_CLOAKED"
-	net.WriteEntity(self.Owner)
-	net.WriteBool(false)
-	net.Broadcast()
+	self.Ragdoll.IsSafeToRemove = true
+	SafeRemoveEntity(self.Ragdoll)
+	self:SetTauntActive(false)
 end
 
 function SWEP:OnRemove()
-	if (self:GetTauntActive()) then
+	-- if (self:GetTauntActive()) then
 		self:EndTaunt()
-	end
+	-- end
 end
 
 function SWEP:PrimaryAttack()
@@ -222,7 +225,8 @@ end
 
 function SWEP:Deploy()
    if SERVER and IsValid(self.Owner) then
-      self.Owner:DrawViewModel(false)
+		self.PlayerDead = self.Owner
+      	self.Owner:DrawViewModel(false)
    end
    return true
 end
