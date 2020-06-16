@@ -183,9 +183,7 @@ function processTick()
 				
 			end)
 		end
-		
 	end
-	
 end
 
 local crashing = false
