@@ -706,7 +706,9 @@ function PANEL:SetModel(item_enum, item_tbl)
 
 			if (mat_str:match "vtf$") then
 				local set = function(m)
-					self.MatOverride:SetTexture("$basetexture", m)
+					if (type(self.MatOverride) == "IMaterial" and type(m) == "string") then
+						self.MatOverride:SetTexture("$basetexture", m)
+					end
 				end
 
 				local m = cdn.Texture(mat_str, set)
@@ -715,9 +717,10 @@ function PANEL:SetModel(item_enum, item_tbl)
 				end
 			else
 				local set = function(m)
-					self.MatOverride:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+					if (type(self.MatOverride) == "IMaterial") then
+						self.MatOverride:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+					end
 				end
-
 				local m = cdn.Image(mat_str, set)
 				if (m) then
 					set(m)

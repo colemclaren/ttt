@@ -190,7 +190,7 @@ end
 
 local crashing = false
 net.Receive("crashscreen_ping", function()
-	LastPing = SysTime() + Either(MapChanging, 60, 15)
+	LastPing = SysTime() + Either(MapChanging, 60, 20)
 
 	if (net.ReadBool()) then
 		MapChanging = true
