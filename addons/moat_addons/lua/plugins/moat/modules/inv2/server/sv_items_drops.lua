@@ -818,8 +818,6 @@ function m_ResetTalents(pl, wep_slot, itemtbl)
                 ply_item.t[i].m[k] = math.Round(math.Rand(0, 1), 2)
             end
         end
-
-        ply_item.tr = 1
     end
 
     m_SaveInventory(pl)
@@ -844,7 +842,6 @@ function m_AssignDogLover(pl, wep_slot, itemtbl)
     ply_item.t[talent_index].m = {}
     ply_item.t[talent_index].m[1] = math.Round(math.Rand(0, 1), 2)
     ply_item.t[talent_index].m[2] = math.Round(math.Rand(0, 1), 2)
-    ply_item.tr = 1
 
     m_SaveInventory(pl)
     m_SendInvItem(pl, wep_slot)

@@ -5,7 +5,6 @@ m_CosmeticSlots["Body"] = ""
 m_CosmeticSlots["Effect"] = ""
 
 function m_GetCosmeticFromEnum(item_enum)
-
     return table.Copy(COSMETIC_ITEMS[item_enum]) or {}
 end
 
@@ -771,8 +770,9 @@ function PANEL:SetModel(item_enum, item_tbl)
 end
 
 function PANEL:AddModel(item_enum, item_tbl)
-
 	self.ClientsideModels[item_enum] = m_GetCosmeticFromEnum(item_enum)
+	if (not self.ClientsideModels[item_enum]) then return end
+
     self.ClientsideModels[item_enum].ModelEnt = ClientsideModel(self.ClientsideModels[item_enum].Model, RENDERGROUP_OPAQUE)
     self.ClientsideModels[item_enum].ModelEnt:SetNoDraw(true)
 
@@ -792,10 +792,12 @@ function PANEL:AddModel(item_enum, item_tbl)
                 ["$vertexcolor"] = 1,
                 ["$basetexture"] = "error"
             })
-
+	
 			if (mat_str:match "vtf$") then
 				local set = function(m)
-					self.ClientsideModels[item_enum].MatOverride:SetTexture("$basetexture", m)
+					if (type(self.ClientsideModels[item_enum].MatOverride) == "IMaterial" and type(m) == "string") then
+						self.ClientsideModels[item_enum].MatOverride:SetTexture("$basetexture", m)
+					end
 				end
 
 				local m = cdn.Texture(mat_str, set)
@@ -804,7 +806,9 @@ function PANEL:AddModel(item_enum, item_tbl)
 				end
 			else
 				local set = function(m)
-					self.ClientsideModels[item_enum].MatOverride:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+					if (type(self.ClientsideModels[item_enum].MatOverride) == "IMaterial") then
+						self.ClientsideModels[item_enum].MatOverride:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+					end
 				end
 
 				local m = cdn.Image(mat_str, set)

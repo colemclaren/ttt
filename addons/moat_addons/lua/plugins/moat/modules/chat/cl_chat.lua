@@ -49,7 +49,7 @@ moat_chat.config.y = math.Clamp(moat_chat.config.y, 50, (ScrH()/3.6) - 50)
 moat_chat.font = "moat_ChatFont"
 moat_chat.chattype = ""
 moat_chat.alpha = 0
-moat_chat.header = system.IsOSX() and "Moat | Lounge | TTT Testing" or "Moat | Lounge | TTT Testing | More fun @ moat.gg"
+moat_chat.header = system.IsOSX() and "Moat Gaming | TTT Testing" or "Moat Gaming | TTT Testing | More fun @ moat.gg"
 moat_chat.isopen = false
 
 moat_chat.sayvars = {
@@ -892,7 +892,7 @@ function moat_chat.OpenChat()
     moat_chat.Theme.CHAT_ENTRY = MT[CurTheme].CHAT and MT[CurTheme].CHAT.CHAT_ENTRY
     moat_chat.Theme.DefaultColor = MT[CurTheme].CHAT and MT[CurTheme].CHAT.DefaultColor
 	moat_chat.Theme.TextColor = MT[CurTheme].TextColor
-    moat_chat.header = "Moat | Lounge | " .. GetServerName():sub(1, 18) .. (system.IsOSX() and "" or " | More fun @ moat.gg")
+    moat_chat.header = "Moat Gaming | " .. GetServerName():sub(1, 18) .. (system.IsOSX() and "" or " | More fun @ moat.gg")
     local mc = moat_chat
     local mcc = moat_chat.config
     mc.ENTRY:SetSize(mcc.w - 65, 20)

@@ -352,7 +352,7 @@ local function moat_BeginRoundBossHooks()
     hook.Add("EntityTakeDamage", "moat_BossPreventDamage", function(ent, dmg)
 		if (not IsValid(ent) or not ent:IsPlayer()) then return end
 		if (not IsValid(MOAT_BOSS_CUR_PLY) or not IsValid(MOAT_APACHE_ENT) or ent == MOAT_APACHE_ENT) then return end
-		if (dmg:IsBulletDamage() or dmg:IsExplosionDamage()) then
+		-- if (dmg:IsBulletDamage() or dmg:IsExplosionDamage()) then
 			local att = dmg:GetAttacker()
 			if (not IsValid(att)) then return end
 
@@ -363,7 +363,7 @@ local function moat_BeginRoundBossHooks()
 				dmg:SetDamage(0)
 				return true
 			end
-		end
+		-- end
     end)
 
     hook.Add("TTTKarmaGivePenalty", "moat_BossPreventKarmaLoss", function(ply, penalty, vic)

@@ -8,7 +8,7 @@ function GM:PlayerCanPickupWeapon(ply, wep)
     if ply:IsSpec() then return false end
 
     -- Disallow picking up for ammo
-    if ply:HasWeapon(wep:GetClass()) then
+    if (type(wep.CanPickup) == "boolean" and wep.CanPickup == false) or ply:HasWeapon(wep:GetClass()) then
         return false
     elseif not ply:CanCarryWeapon(wep) then
         return false

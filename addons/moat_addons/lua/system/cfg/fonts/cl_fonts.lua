@@ -36,7 +36,7 @@ local function lato(kind, new_size, italic)
 	return font
 end
 
-local ff, df = system.IsLinux() and 'DejaVu Sans' or 'Tahoma', 'Lato Bold'
+local ff, df = system.IsLinux() and 'DejaVu Sans' or 'Tahoma', 'Lato'
 _SCF('acrashscreen_small', {font = 'Arial',size = 28,weight = 900})
 _SCF('acrashscreen_medium', {font = 'Arial',size = 32,weight = 900})
 _SCF('acrashscreen_big', {font = 'Arial',size = 36,weight = 900})

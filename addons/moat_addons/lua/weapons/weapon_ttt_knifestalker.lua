@@ -238,7 +238,7 @@ function SWEP:SecondaryAttack()
 
 		if (IsValid(MOAT_STALKER_KNIFE)) then MOAT_STALKER_KNIFE:Remove() end
 
-      	MOAT_STALKER_KNIFE = ents.Create("ttt_knife_proj")
+      	MOAT_STALKER_KNIFE = ents.Create("ttt_knifestalker_proj")
 	  	local knife = MOAT_STALKER_KNIFE
 		  
       if not IsValid(knife) then return end

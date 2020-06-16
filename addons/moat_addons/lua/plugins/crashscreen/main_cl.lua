@@ -188,8 +188,9 @@ function processTick()
 	
 end
 
+local crashing = false
 net.Receive("crashscreen_ping", function()
-	LastPing = SysTime() + Either(map, 60, 15)
+	LastPing = SysTime() + Either(MapChanging, 60, 15)
 
 	if (net.ReadBool()) then
 		MapChanging = true
@@ -198,6 +199,8 @@ net.Receive("crashscreen_ping", function()
 	if (isProcessActive) then
 		stopProcess()
 	end
+
+	crashing = false
 end)
 
 hook.Add("Think", "crashscreen_check", function()
@@ -211,8 +214,9 @@ hook.Add("Think", "crashscreen_check", function()
 
 	if (LastPing and LastPing < SysTime()) then
 		if (SysTime() - LastProcessTick >= 1) then
-			if (Server and Server.IsDev) then
+			if (Server and Server.IsDev and not crashing) then
 				print("Crashing!", SysTime())
+				crashing = true
 			else
 				processTick()
 			end

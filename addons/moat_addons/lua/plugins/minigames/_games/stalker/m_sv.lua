@@ -40,7 +40,6 @@ local function moat_EndRoundBossHooks()
     hook.Remove("PlayerSwitchWeapon", "moat_RestrictWeaponSwitch")
     hook.Remove("Think", "moat_JetpackVelocity")
     hook.Remove("PlayerDisconnected", "moat_BossDisconnect")
-	hook.Remove("PlayerFootstep", "moat_ScreenShake")
 	hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
     
     MOAT_ACTIVE_BOSS = false
@@ -200,17 +199,19 @@ local function moat_BeginRoundBossHooks()
             boss:GodDisable()
             boss.SpeedMod = 1.5
             boss:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+
             boss:SetRenderMode(RENDERMODE_TRANSALPHA)
             boss:SetColor(Color(255, 255, 255, 0))
-            boss:DrawShadow(true)
+            boss:DrawShadow(false)
             boss:SetNW2Bool("disguised", true)
-            boss:Give("weapon_ttt_knifestalker")
-            boss:SelectWeapon("weapon_ttt_knifestalker")
 
             net.Start("MOAT_PLAYER_CLOAKED")
             net.WriteEntity(boss)
             net.WriteBool(true)
             net.Broadcast()
+
+            boss:Give("weapon_ttt_knifestalker")
+            boss:SelectWeapon("weapon_ttt_knifestalker")
 
 			for k, v in pairs(boss:GetWeapons()) do
                 if (not DefaultLoadout[v:GetClass()]) then boss:StripWeapon(v:GetClass()) end
@@ -295,15 +296,6 @@ local function moat_BeginRoundBossHooks()
             MuteForRestart(false)
         end)
 
-        hook.Add("PlayerFootstep", "moat_ScreenShake", function(ply, pos, foot, sound, vol, rf)
-            if (IsValid(MOAT_BOSS_CUR) and ply == MOAT_BOSS_CUR) then
-                util.ScreenShake(pos, 5, 5, 0.5, 1500)
-            end
-            if (GetRoundState() ~= ROUND_ACTIVE) then
-                hook.Remove("PlayerFootstep", "moat_ScreenShake")
-            end
-        end)
-
         hook.Add("EntityTakeDamage", "moat_StopFallDamage", function(ent, dmginfo)
             if (MOAT_BOSS_CUR and ent == MOAT_BOSS_CUR and dmginfo:IsFallDamage()) then
                 return true
@@ -348,7 +340,7 @@ local function moat_BeginRoundBossHooks()
 
     hook.Add("EntityTakeDamage", "moat_BossSaveDamage", function(ply, dmginfo)
 		local att = dmginfo:GetAttacker()
-        if (IsValid(ply) and IsValid(att) and ply:IsPlayer() and dmginfo:GetDamage() >= 1 and att:IsPlayer() and GetRoundState() == ROUND_ACTIVE and MOAT_BOSS_CUR and ply == MOAT_BOSS_CUR and not MOAT_BOSS_CUR:HasGodMode()) then
+        if (IsValid(ply) and IsValid(att) and ply:IsPlayer() and dmginfo:GetDamage() >= 0 and att:IsPlayer() and GetRoundState() == ROUND_ACTIVE and MOAT_BOSS_CUR and ply == MOAT_BOSS_CUR and not MOAT_BOSS_CUR:HasGodMode()) then
 			if (MOAT_BOSS_CUR and IsValid(MOAT_BOSS_CUR) and MOAT_BOSS_CUR == att) then return end
 
             if (not att.BossDamage) then
@@ -368,7 +360,7 @@ local function moat_BeginRoundBossHooks()
 	hook.Add("EntityTakeDamage", "moat_BossPreventDamage", function(ent, dmg)
 		if (not IsValid(ent) or not ent:IsPlayer()) then return end
 		if (not IsValid(MOAT_BOSS_CUR) or ent == MOAT_BOSS_CUR) then return end
-		if (dmg:IsBulletDamage() or dmg:IsExplosionDamage()) then
+		-- if (dmg:IsBulletDamage() or dmg:IsExplosionDamage()) then
 			if (dmg:IsExplosionDamage()) then dmg:SetDamage(0) return true end
 
 			local att = dmg:GetAttacker()
@@ -379,7 +371,7 @@ local function moat_BeginRoundBossHooks()
 				dmg:SetDamage(0)
 				return true
 			end
-		end
+		-- end
     end)
 
     hook.Add("TTTKarmaGivePenalty", "moat_BossPreventKarmaLoss", function(ply, penalty, vic)

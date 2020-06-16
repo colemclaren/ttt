@@ -117,6 +117,10 @@ function m_ApplyTalentsToWeaponDuringDamage(dmginfo, victim, attacker, talent_tb
     if (not hook.Run("PlayerShouldTakeDamage", victim, attacker)) then
         return
     end
+
+	local dmg = dmginfo:GetDamage()
+	if (dmg <= 0) then return end
+
     if (hook.Run("m_ShouldPreventWeaponHitTalent", attacker, victim)) then
         return
     end

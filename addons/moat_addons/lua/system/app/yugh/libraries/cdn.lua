@@ -241,14 +241,13 @@ else
 			cb = nil 
 		end
 
-		if (type(cdn.Cache[key]) == "IMaterial" and cdn.Cache[key]:GetTexture("$basetexture"):IsErrorTexture()) then
+		if ((cdn.Cache[key] and type(key) ~= "IMaterial") or (type(cdn.Cache[key]) == "IMaterial" and cdn.Cache[key]:GetTexture("$basetexture"):IsErrorTexture())) then
 			cdn.Cache[key] = nil
 		end
 
 		if (cdn.Cache[key] == nil) then
 			return cdn.Fetch(key, "materials", ".vtf", function(object)
 				local new_mat = CreateMaterial('cdn_' .. object, "UnlitGeneric", {
-					-- ["$nocull"] = 1,
 					-- ["$ignorez"] = 1,
 					["$vertexalpha"] = 1,
 					-- ["$vertexcolor"] = 1,

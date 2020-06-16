@@ -289,6 +289,7 @@ end
 local function moat_InitBossEnd(BOSS_LOSS)
 	hook.Add("HUDPaint", "moat_DrawBossEnd", function() moat_DrawBossEnd(BOSS_LOSS) end)
 	hook.Remove("TTTBeginRound", "moat_StartBoss")
+	hook.Remove("PlayerFootstep", "moat_ScreenShake")
 	MOAT_ACTIVE_BOSS = false
 
 	if (MOAT_CUR_BOSS and IsValid(MOAT_CUR_BOSS)) then
@@ -324,6 +325,21 @@ net.Receive("MOAT_BEGIN_STALKER", function(len)
 		return view
 	end)
 
+	hook.Add("PlayerFootstep", "moat_ScreenShake", function(ply, pos, foot, sound, vol, rf)
+		if (LocalPlayer() == ply) then
+			return
+		end
+
+		if (IsValid(MOAT_CUR_BOSS) and ply == MOAT_CUR_BOSS) then
+			-- client doesn't follow distance checks in screenshake
+			local dist = pos:Distance(LocalPlayer():GetPos())
+			util.ScreenShake(pos, 5 * math.max(0, 1 - (dist / 1500)), 5, 0.5, 1500)
+		end
+		if (GetRoundState() ~= ROUND_ACTIVE) then
+			hook.Remove("PlayerFootstep", "moat_ScreenShake")
+		end
+	end)
+
 	timer.Simple(5, function()
 		hook.Remove("CalcView", "moat_FocusBossView")
 	end)
@@ -336,7 +352,7 @@ net.Receive("MOAT_BEGIN_STALKER", function(len)
 
 	if (MOAT_CUR_BOSS and IsValid(MOAT_CUR_BOSS)) then
 		MOAT_CUR_BOSS:DrawShadow(false)
-		MOAT_LOADOUT.RemoveModels(MOAT_CUR_BOSS)
+		-- MOAT_LOADOUT.RemoveModels(MOAT_CUR_BOSS)
 	end
 end)
 

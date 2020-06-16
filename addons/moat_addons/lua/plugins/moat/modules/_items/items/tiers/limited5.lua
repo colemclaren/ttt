@@ -28,7 +28,7 @@ ITEM.Stats = {
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
-ITEM.Talents = {"Depression", "random", "random"}
+ITEM.Talents = {"Silenced", "random", "random"}
 
 ITEM.Price = 49999
 ITEM.LimitedShop = 1537758231

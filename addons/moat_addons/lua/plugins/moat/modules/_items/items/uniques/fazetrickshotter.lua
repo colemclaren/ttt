@@ -19,4 +19,4 @@ ITEM.Stats = {
 ITEM.WeaponClass = "weapon_zm_rifle"
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
-ITEM.Talents = {"Accuracy", "Juan"}
+ITEM.Talents = {"Accurate", "*click*"}

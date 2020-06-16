@@ -1213,8 +1213,8 @@ end
 
 MOAT_INV_BG_W = 400 + 350
 MOAT_INV_BG_H = 550
-local MOAT_ITEMS_DECON_MARKED = 0
-local M_TRADE_PLYTBL = {}
+MOAT_ITEMS_DECON_MARKED = MOAT_ITEMS_DECON_MARKED or 0
+M_TRADE_PLYTBL = M_TRADE_PLYTBL or {}
 local light_gradient = Material("sprites/light_ignorez")
 local circ_gradient = Material("moat_inv/moat_circle_grad.png")
 
@@ -1230,9 +1230,9 @@ function surface_DrawTexturedRectRotatedPoint( x, y, w, h, rot, x0, y0 )
 
 end
 
-M_INV_SLOT = {}
-M_LOAD_SLOT = {}
-M_TRADE_SLOT = {}
+M_INV_SLOT = M_INV_SLOT or {}
+M_LOAD_SLOT = M_LOAD_SLOT or {}
+M_TRADE_SLOT = M_TRADE_SLOT or {}
 
 MOAT_INV_CATS = {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Casino", 90}, {"Dailies", 90}, {"Settings", 90}, {"Event", 90}, {"Store", 90}}
 function m_PaintVBar(sbar)
@@ -1317,13 +1317,14 @@ function m_PaintVBar(sbar)
 end
 
 
-local MOAT_DECONSTRUCT_ITEMS_START = 0
-local MOAT_DECONSTRUCT_ITEMS_END = 0
-local ITEM_EDIT_MODE = false
-HoveringSlot = false
-m_HoveredSlot = 0
-INV_SELECT_MODE = false
-INV_SELECTED_ITEM = nil
+MOAT_DECONSTRUCT_ITEMS_START = MOAT_DECONSTRUCT_ITEMS_START or 0
+MOAT_DECONSTRUCT_ITEMS_END = MOAT_DECONSTRUCT_ITEMS_END or 0
+ITEM_EDIT_MODE = ITEM_EDIT_MODE or false
+HoveringSlot = HoveringSlot or false
+m_HoveredSlot = m_HoveredSlot or 0
+INV_SELECT_MODE = INV_SELECT_MODE or false
+INV_SELECTED_ITEM = INV_SELECTED_ITEM or nil
+MOAT_SKIN_ALPHA = MOAT_SKIN_ALPHA or 15
 
 local disable_freeic = CreateClientConVar("moat_steam_group", 0, true, false)
 function m_OpenInventory(ply2, utrade)
@@ -3282,10 +3283,10 @@ function m_OpenInventory(ply2, utrade)
 				local p3alpha, p3skin = MOAT_SKIN_ALPHA or 15
 				if (ItemIsSkin(ITEM_HOVERED.u)) then
 					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.u][2]
-					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.u][6] or MOAT_SKIN_ALPHA
+					p3alpha = MOAT_SKIN_ALPHA or MOAT_PAINT.Skins[ITEM_HOVERED.u][6]
 				elseif (ITEM_HOVERED.p3 and MOAT_PAINT.Skins[ITEM_HOVERED.p3]) then
 					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.p3][2]
-					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.p3][6] or MOAT_SKIN_ALPHA
+					p3alpha = MOAT_SKIN_ALPHA or MOAT_PAINT.Skins[ITEM_HOVERED.p3][6]
 				end
 
 				if (p3skin and p3skin:match "vtf$") then
@@ -4823,6 +4824,7 @@ function m_CreateItemMenu(num, ldt)
     if (itemtbl.p3) then
         p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "Glitched Skin"
         M_INV_MENU:AddOption("Remove " .. p3txt, function()
+			MOAT_SKIN_ALPHA = 15
         end):SetIcon("icon16/paintbrush.png")
     end
 
@@ -5837,7 +5839,7 @@ net.Receive("MOAT_UPDATE_EXP", function(len)
 end)
 
 
-local MOAT_ITEM_FOUND_QUEUE = {}
+MOAT_ITEM_FOUND_QUEUE = MOAT_ITEM_FOUND_QUEUE or {}
 local MOAT_ITEM_IS_BEING_DRAWN = false
 
 function m_DrawFoundItem(tbl, s_type, name)
@@ -5912,10 +5914,10 @@ function m_DrawFoundItem(tbl, s_type, name)
 				local p3alpha, p3skin = MOAT_SKIN_ALPHA or 15
 				if (ItemIsSkin(ITEM_HOVERED.u)) then
 					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.u][2]
-					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.u][6] or MOAT_SKIN_ALPHA
+					p3alpha = MOAT_SKIN_ALPHA or MOAT_PAINT.Skins[ITEM_HOVERED.u][6]
 				elseif (ITEM_HOVERED.p3 and MOAT_PAINT.Skins[ITEM_HOVERED.p3]) then
 					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.p3][2]
-					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.p3][6] or MOAT_SKIN_ALPHA
+					p3alpha = MOAT_SKIN_ALPHA or MOAT_PAINT.Skins[ITEM_HOVERED.p3][6]
 				end
 
 				if (p3skin and p3skin:match "vtf$") then

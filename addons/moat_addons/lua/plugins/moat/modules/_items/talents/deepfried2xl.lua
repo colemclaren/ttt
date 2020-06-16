@@ -7,7 +7,8 @@ TALENT.NameColor = Color(209, 0, 209)
 TALENT.Description = "Each hit has a %s_^ chance to fry the target's screen for %s seconds"
 TALENT.LevelRequired = {min = 1, max = 1}
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 25, max = 50}
+TALENT.Modifications[1] = {min = 5, max = 10}
+TALENT.Modifications[2] = {min = 25, max = 50}
 TALENT.NotUnique = false
 TALENT.Melee = true
 TALENT.Collection = "Omega Collection"

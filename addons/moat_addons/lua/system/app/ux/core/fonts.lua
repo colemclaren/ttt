@@ -33,10 +33,10 @@ function f.load(suffix, _uxbf)
 	uxbf = _uxbf or f.base
 
 	for i = 1, 128 do
-		scf("ux1." .. suffix .. i, f.size(0, i))
+		-- scf("ux1." .. suffix .. i, f.size(0, i))
 		scf("ux." .. suffix .. i, f.size(1, i))
-		scf("ux2." .. suffix .. i, f.size(2, i))
-		scf("ux3." .. suffix .. i, f.size(3, i))
+		-- scf("ux2." .. suffix .. i, f.size(2, i))
+		-- scf("ux3." .. suffix .. i, f.size(3, i))
 	end
 end
 

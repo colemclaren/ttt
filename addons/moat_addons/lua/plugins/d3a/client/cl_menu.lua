@@ -110,7 +110,6 @@ MGA.CommandList = {
 		}}
 	}},
 	{40, "Trial Staff", Color(41, 194, 245, 255), {
-		{"RemoveSlays", "Removes the autoslays from a player.", true},
 		{"ForceMOTD", "Forces a player to open the MOTD.", true, {
 			{"Entry", "SteamID", "STEAM_0:0:"},
 			{"Entry", "Length", "1"},
@@ -1534,10 +1533,10 @@ function MGA2.OpenMenu()
 
 		surface_SetFont("DermaLarge")
 
-		local tw = surface_GetTextSize("MGA2 Command Menu Large")
+		local tw = surface_GetTextSize("MGA Command Menu")
 		local tw2 = draw_SimpleTextOutlined("M", "DermaLarge", (w/2) - (tw/2), -4, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, MGA2.Colors.Shadow)
 		local tw3 = draw_SimpleTextOutlined("G", "DermaLarge", (w/2) - (tw/2) + tw2, -4, MGA2.Colors.MGA2Blue, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, MGA2.Colors.Shadow)
-		local tw4 = draw_SimpleTextOutlined("A Command Menu Large", "DermaLarge", (w/2) - (tw/2) + tw2 + tw3, -4, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, MGA2.Colors.Shadow)
+		local tw4 = draw_SimpleTextOutlined("A Command Menu", "DermaLarge", (w/2) - (tw/2) + tw2 + tw3, -4, MGA2.Colors.White, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, MGA2.Colors.Shadow)
 	end
 
 	if (shouldanimate) then

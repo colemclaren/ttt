@@ -478,10 +478,7 @@ function m_CheckForRollSave(ply)
     query1:start()
 end
 
-if (not MOAT_INVS) then
-    MOAT_INVS = {}
-end
-
+MOAT_INVS = MOAT_INVS or {}
 function m_SendInventoryToPlayer(ply)
     if (ply:IsValid()) then
         net.Start("MOAT_SEND_SLOTS")
@@ -869,7 +866,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 			for i = 1, 10 do
                 loadout[i] = util.JSONToTable(row["l_slot" .. i])
 			end
-			
+
 			local try = ""
 			for k, v in ipairs(loadout) do
 				if (v.u and not MOAT_DROPTABLE[v.u]) then
@@ -1015,14 +1012,9 @@ function m_LoadInventoryForPlayer(ply, cb)
             end
 
             local inventory_tbl = util.JSONToTable(row["inventory"])
-			--PrintTable(inventory_tbl)
 
             if (row.max_slots ~= #inventory_tbl) then
                 ply:SetMaxSlots(#inventory_tbl)
-            end
-
-            if (cb) then
-                cb()
             end
 
 			for i = 1, #inventory_tbl do
@@ -1148,13 +1140,17 @@ function m_LoadInventoryForPlayer(ply, cb)
 			end
 
 			for i = 1, #inventory_tbl do
-				if (inventory_tbl[i].t and inventory_tbl[i].u and MOAT_DROPTABLE[inventory_tbl[i].u] and MOAT_DROPTABLE[inventory_tbl[i].u].Talents) then
-					for k, v in ipairs(inventory_tbl[i].t) do
-						if (not v.e) then
-							local new = m_GetRandomTalent(k, MOAT_DROPTABLE[inventory_tbl[i].u].Talents[k], (MOAT_DROPTABLE[inventory_tbl[i].u].Kind and MOAT_DROPTABLE[inventory_tbl[i].u].Kind == "Melee"))
+				inventory_tbl[i] = inventory_tbl[i] or {}
+				if (inventory_tbl[i].u and MOAT_DROPTABLE[inventory_tbl[i].u] and MOAT_DROPTABLE[inventory_tbl[i].u].Talents and (not inventory_tbl[i].t or (type(inventory_tbl[i].t) == "table" and #MOAT_DROPTABLE[inventory_tbl[i].u].Talents > #inventory_tbl[i].t))) then
+					if (not inventory_tbl[i].t) then inventory_tbl[i].t = {} end
+					for k, v in ipairs(MOAT_DROPTABLE[inventory_tbl[i].u].Talents) do
+						inventory_tbl[i].t[k] = inventory_tbl[i].t[k] or {}
+						if (not inventory_tbl[i].t[k].e) then
+							local new = m_GetRandomTalent(k, v or MOAT_DROPTABLE[inventory_tbl[i].u].Talents[k], (MOAT_DROPTABLE[inventory_tbl[i].u].Kind and MOAT_DROPTABLE[inventory_tbl[i].u].Kind == "Melee"))
 							inventory_tbl[i].t[k] = {e = new.ID, l = inventory_tbl[i].t[k].l or math.random(new.LevelRequired and new.LevelRequired.min or (new.Tier * 10), new.LevelRequired and new.LevelRequired.max or (new.Tier * 20))}
 							inventory_tbl[i].t[k].m = {}
-							for id, mod in pairs(new.Modifications) do
+
+							for id, mod in ipairs(new.Modifications) do
 								inventory_tbl[i].t[k].m[id] = math.Round(math.Rand(0, 1), 2)
 							end
 						end
@@ -1162,6 +1158,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 					local Talents = GetItemTalents(inventory_tbl[i])
 					update_talent(i, Talents)
+
 				end
 			end
 
@@ -1183,7 +1180,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 				inv_tbl["slot" .. i] = table.Copy(slot)
             end
-		
+
 			MOAT_INVS[ply] = inv_tbl
 
             -- if (data[1].max_slots < 50) then
@@ -1191,6 +1188,11 @@ function m_LoadInventoryForPlayer(ply, cb)
 			-- end
 
             m_SendCreditsToPlayer(ply)
+
+			
+            if (cb) then
+                cb()
+            end
         else
             m_InsertNewInventoryPlayer(ply)
         end
