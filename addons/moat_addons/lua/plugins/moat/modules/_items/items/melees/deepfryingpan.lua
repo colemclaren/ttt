@@ -23,4 +23,4 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 }
 
-ITEM.Talents = {"Acid Test", "random"}
+ITEM.Talents = {"Deep Fried XL", "random"}
