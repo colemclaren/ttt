@@ -90,7 +90,7 @@ function m_CheckCompTickets(pl)
 
                 if (tbl.ec and #tbl.ec >= 1) then
                     timer.Simple(15, function()
-                        give_ec(pl, tonumber(tbl.ec))
+                        give_ec(pl, tonumber(string.Trim(tbl.ec)))
                         net.Start("moat.comp.chat")
                         net.WriteString("You have received " .. tbl.ec .. " event credit(s) from a compensation ticket! <3")
                         net.WriteBool(false)
@@ -103,7 +103,7 @@ function m_CheckCompTickets(pl)
 
                 if (tbl.sc and #tbl.sc >= 1) then
                     timer.Simple(15, function()
-                        pl:TakeSC(tonumber(tbl.sc) * -1)
+                        pl:TakeSC(tonumber(string.Trim(tbl.sc)) * -1)
                         net.Start("moat.comp.chat")
                         net.WriteString("You have received " .. tbl.sc .. " support credit(s) from a compensation ticket! <3")
                         net.WriteBool(false)
@@ -114,12 +114,12 @@ function m_CheckCompTickets(pl)
                     continue
                 end
 
-                local class = tbl.class
+                local class = string.Trim(tbl.class)
                 local talents = false
                 local comp_msg = "There was an issue giving you something for your compensation ticket!"
 
                 if (tbl.class and #tbl.class > 1) then
-                    for k, v in RandomPairs(weapons.GetList()) do
+                    for k, v in ipairs(weapons.GetList()) do
                         local name = v.PrintName or "Unknown"
 
                         if (name:EndsWith("_name")) then
@@ -127,7 +127,7 @@ function m_CheckCompTickets(pl)
                             name = name:sub(1, 1):upper() .. name:sub(2, name:len())
                         end
 
-                        if (string.lower(name) == class) then
+                        if (string.lower(name) == string.lower(class)) then
                             class = v.ClassName
                             break
                         end
@@ -137,16 +137,16 @@ function m_CheckCompTickets(pl)
                 end
 
                 if (tbl.talent1 and #tbl.talent1 > 1) then
-                    talents = {tbl.talent1, (#tbl.talent2 > 1 and tbl.talent2) or nil, (#tbl.talent3 > 1 and tbl.talent3) or nil, (#tbl.talent4 > 1 and tbl.talent4) or nil}
+                    talents = {string.Trim(tbl.talent1), (#tbl.talent2 > 1 and string.Trim(tbl.talent2)) or nil, (#tbl.talent3 > 1 and string.Trim(tbl.talent3)) or nil, (#tbl.talent4 > 1 and string.Trim(tbl.talent4)) or nil}
                 end
 
                 if (tbl.item and #tbl.item > 1) then
-                    pl:m_DropInventoryItem(tbl.item, class, true, false, true, talents)
+                    pl:m_DropInventoryItem(string.Trim(tbl.item), class, false, false, true, talents)
                     comp_msg = "You have received a " .. tbl.item .. " " .. class .. " from a compensation ticket! <3"
                 end
 
                 if (tbl.ic and #tbl.ic > 0) then
-                    pl:m_GiveIC(tonumber(tbl.ic))
+                    pl:m_GiveIC(tonumber(string.Trim(tbl.ic)))
                     comp_msg = "You have received " .. tbl.ic .. " inventory credits from a compensation ticket! <3"
                 end
 
@@ -542,7 +542,7 @@ function m_SendInventoryToPlayer(ply)
             net.WriteString"0"
             net.Send(ply)
             m_CheckForRollSave(ply)
-            m_CheckCompTickets(ply)
+            timer.Simple(5, function() m_CheckCompTickets(ply) end)
 			ply.Sending = false
             timer.Simple(0, function()
                 if (IsValid(ply)) then
@@ -615,7 +615,7 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
             net.WriteString"0"
             net.Send(ply)
 
-			m_CheckCompTickets(ply)
+			timer.Simple(5, function() m_CheckCompTickets(ply) end)
 			ply.Sending = false
 
             timer.Simple(0, function()
