@@ -102,7 +102,6 @@ function startProcess()
 end
 
 function stopProcess()
-	
 	-- Set the process inactive
 	isProcessActive = false
 	-- Remove the menu
@@ -110,10 +109,6 @@ function stopProcess()
 		_this.menu:Remove()
 		_this.menu = nil
 	end
-	
-	-- Stop the song
-	-- _this:stopSong()
-	
 end
 
 function processTick()
