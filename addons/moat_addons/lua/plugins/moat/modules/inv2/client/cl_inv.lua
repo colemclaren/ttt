@@ -3283,10 +3283,10 @@ function m_OpenInventory(ply2, utrade)
 				local p3alpha, p3skin = MOAT_SKIN_ALPHA or 15
 				if (ItemIsSkin(ITEM_HOVERED.u)) then
 					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.u][2]
-					p3alpha = MOAT_SKIN_ALPHA or MOAT_PAINT.Skins[ITEM_HOVERED.u][6]
+					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.u][6] or MOAT_SKIN_ALPHA
 				elseif (ITEM_HOVERED.p3 and MOAT_PAINT.Skins[ITEM_HOVERED.p3]) then
 					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.p3][2]
-					p3alpha = MOAT_SKIN_ALPHA or MOAT_PAINT.Skins[ITEM_HOVERED.p3][6]
+					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.p3][6] or MOAT_SKIN_ALPHA
 				end
 
 				if (p3skin and p3skin:match "vtf$") then
@@ -5914,10 +5914,10 @@ function m_DrawFoundItem(tbl, s_type, name)
 				local p3alpha, p3skin = MOAT_SKIN_ALPHA or 15
 				if (ItemIsSkin(ITEM_HOVERED.u)) then
 					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.u][2]
-					p3alpha = MOAT_SKIN_ALPHA or MOAT_PAINT.Skins[ITEM_HOVERED.u][6]
+					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.u][6] or MOAT_SKIN_ALPHA
 				elseif (ITEM_HOVERED.p3 and MOAT_PAINT.Skins[ITEM_HOVERED.p3]) then
 					p3skin = MOAT_PAINT.Skins[ITEM_HOVERED.p3][2]
-					p3alpha = MOAT_SKIN_ALPHA or MOAT_PAINT.Skins[ITEM_HOVERED.p3][6]
+					p3alpha = MOAT_PAINT.Skins[ITEM_HOVERED.p3][6] or MOAT_SKIN_ALPHA
 				end
 
 				if (p3skin and p3skin:match "vtf$") then
