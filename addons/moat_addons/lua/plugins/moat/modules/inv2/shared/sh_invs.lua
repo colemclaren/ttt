@@ -110,7 +110,14 @@ function GetItemTalents(tb, funcs)
 		Talents[k] = (not funcs) and m_GetTalentFromEnum(v.e or 21)
 			or m_GetTalentFromEnumWithFunctions(v.e or 21)
 
-		if (tb.s.l and tb.s.l >= v.l) then
+		if (not tb.s) then
+			tb.s = {l = 1, x = 0}
+		elseif (not tb.s.l or not tb.s.x) then
+			tb.s.x = tb.s.x or 0
+			tb.s.l = 1
+		end
+
+		if (tb.s and tb.s.l and tb.s.l >= v.l) then
 			Talents[k].Active = true
 		end
 	end
