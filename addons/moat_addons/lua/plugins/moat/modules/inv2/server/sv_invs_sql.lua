@@ -26,7 +26,7 @@ MINVENTORY_MYSQL = MINVENTORY_MYSQL or nil
 hook.Add("SQLConnected", "MINVENTORY_MYSQL", function(db)
     MINVENTORY_MYSQL = db
     MINVENTORY_CONNECTED = true
-    print("Connected to Database.")
+    -- print("Connected to Database.")
 
     for k, v in pairs(sql_queue) do
         if (v:IsValid()) then
@@ -173,7 +173,7 @@ function TRADES.Query(x, cb)
     local q = MINVENTORY_MYSQL:query(x)
 
     function q:onError(e)
-        print("ERROR ON QUERY " .. x .. "\n" .. e)
+        -- print("ERROR ON QUERY " .. x .. "\n" .. e)
     end
 
     function q:onSuccess(d)
@@ -206,15 +206,15 @@ function TRADES.ItemToFormat(i, tab, eachline)
 end
 
 function TRADES.Print(trade)
-    print("Trade between " .. trade.my_nick .. " (" .. trade.my_steamid .. ") and " .. trade.their_nick .. " (" .. trade.their_steamid .. ") trade id: " .. trade.ID)
-    print("  " .. trade.my_nick .. " (" .. trade.my_steamid .. ") offers:")
-    print("    IC: " .. trade.trade_tbl.my_offer_ic)
+    -- print("Trade between " .. trade.my_nick .. " (" .. trade.my_steamid .. ") and " .. trade.their_nick .. " (" .. trade.their_steamid .. ") trade id: " .. trade.ID)
+    -- print("  " .. trade.my_nick .. " (" .. trade.my_steamid .. ") offers:")
+    -- print("    IC: " .. trade.trade_tbl.my_offer_ic)
 
     for num = 1, 10 do
         local i = trade.trade_tbl.my_offer_items["slot" .. num]
 
         if (i.c) then
-            print(TRADES.ItemToFormat(i, "    ", "  "))
+            -- print(TRADES.ItemToFormat(i, "    ", "  "))
         end
     end
 end
@@ -242,7 +242,7 @@ function TRADES.GetFromSteamIDs(id1, id2, cb)
         id2 = util.SteamIDTo64(id2)
     end
 
-    print(id1, id2)
+    -- print(id1, id2)
 
     TRADES.Query("SELECT * FROM moat_trades WHERE " .. TRADES.Escape(id1) .. " IN (their_steamid, my_steamid) AND " .. TRADES.Escape(id2) .. " IN (their_steamid, my_steamid)", function(data)
         for _, trade in pairs(data) do
@@ -858,14 +858,19 @@ function m_LoadInventoryForPlayer(ply, cb)
 
             ply:SetMaxSlots(data[1].max_slots)
             MOAT_INVS[ply] = MOAT_INVS[ply] or {}
+			-- print(row["credits"])
             local inv_tbl = {
 				["credits"] = util.JSONToTable(row["credits"])
 			}
+
+			-- PrintTable(util.JSONToTable(row["credits"]))
 
 			local loadout = {}
 			for i = 1, 10 do
                 loadout[i] = util.JSONToTable(row["l_slot" .. i])
 			end
+
+			-- PrintTable(loadout)
 
 			local try = ""
 			for k, v in ipairs(loadout) do
@@ -951,44 +956,69 @@ function m_LoadInventoryForPlayer(ply, cb)
 				end
 			end
 
-			for k, v in ipairs(loadout) do
-				if (v.t and v.u and MOAT_DROPTABLE[v.u] and MOAT_DROPTABLE[v.u].Talents) then
-					local Talents = GetItemTalents(v)
-					for i = 1, #v.t do
-						if (v.t[i] and v.t[i].e and v.t[i].e == 20202) then v.t[i].e = 10102 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 20203) then v.t[i].e = 10103 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 9972) then v.t[i].e = 9971 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 202) then v.t[i].e = 102 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 255) then v.t[i].e = 155 end
-						if (v.t[i] and v.t[i].e and v.t[i].e == 84) then v.t[i].e = 87 end
+			local function update_loadout_talent(int, Talents)
+				-- print(int, Talents)
+				for i = 1, #loadout[int].t do
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 20202) then loadout[int].t[i].e = 10102 end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 20203) then loadout[int].t[i].e = 10103 end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 9972) then loadout[int].t[i].e = 9971 end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 202) then loadout[int].t[i].e = 102 end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 255) then loadout[int].t[i].e = 155 end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 84) then loadout[int].t[i].e = 87 end
 
-						if ((not Talents[i] or (Talents[i] and not next(Talents[i]))) and MOAT_DROPTABLE[v.u].Talents[i]) then
-							Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[v.u].Talents[i], (itemtbl.Kind and itemtbl.Kind == "Melee"))
-							v.t[i] = {e = Talents[i].ID, l = v.t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
-							v.t[i].m = {}
-							for id, mod in pairs(Talents[i].Modifications) do
-								v.t[i].m[id] = math.Round(math.Rand(0, 1), 2)
-							end
-						elseif (Talents[i] and Talents[i].Modifications and v.t[i] and v.t[i].m and (#Talents[i].Modifications ~= #v.t[i].m or i ~= Talents[i].Tier or MOAT_DROPTABLE[v.u].Talents[i] ~= "random") and MOAT_DROPTABLE[v.u].Talents[i] ~= Talents[i].Name) then
-							if (v.t[i].e == 2) then v.t[i].e = 1 end
-							if (v.t[i].e == 4) then v.t[i].e = 7 end
-							if (v.t[i].e == 26) then v.t[i].e = 16 end
-							if (v.t[i].e == 34) then v.t[i].e = 37 end
-							if (v.t[i].e == 23) then v.t[i].e = 13 end
-							if (v.t[i].e == 82) then v.t[i].e = 81 end
-							if (v.t[i].e == 84) then v.t[i].e = 87 end
-							if (v.t[i].e == 32 and i == 1) then v.t[i].e = 31 end
-							if (v.t[i].e == 29 and i == 2) then v.t[i].e = 19 end
-							if (v.t[i].e == 24 and i == 2) then v.t[i].e = 14 end
-							if (v.t[i].e == 24 and i == 3) then v.t[i].e = 17 end
-							if (v.t[i].e == 21 and i == 2) then v.t[i].e = 22 end
-							if (v.t[i].e == 22 and i == 1) then
-								if (#v.t[i].m == 2) then v.t[i].e = 21 else v.t[i].e = 12 end
-							end
+					if ((not Talents[i] or (Talents[i] and not next(Talents[i]))) and MOAT_DROPTABLE[loadout[int].u].Talents[i]) then
+						Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[loadout[int].u].Talents[i], (MOAT_DROPTABLE[loadout[i].u].Kind and MOAT_DROPTABLE[loadout[i].u].Kind == "Melee"))
+						loadout[int].t[i] = {e = Talents[i].ID, l = loadout[int].t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
+						loadout[int].t[i].m = {}
+						for id, mod in pairs(Talents[i].Modifications) do
+							loadout[int].t[i].m[id] = math.Round(math.Rand(0, 1), 2)
+						end
+					elseif (Talents[i] and Talents[i].Modifications and loadout[int].t[i] and loadout[int].t[i].m and (#Talents[i].Modifications ~= #loadout[int].t[i].m or i ~= Talents[i].Tier or MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random") and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name) then
+						if (loadout[int].t[i].e == 2) then loadout[int].t[i].e = 1 end
+						if (loadout[int].t[i].e == 4) then loadout[int].t[i].e = 7 end
+						if (loadout[int].t[i].e == 26) then loadout[int].t[i].e = 16 end
+						if (loadout[int].t[i].e == 34) then loadout[int].t[i].e = 37 end
+						if (loadout[int].t[i].e == 23) then loadout[int].t[i].e = 13 end
+						if (loadout[int].t[i].e == 82) then loadout[int].t[i].e = 81 end
+						if (loadout[int].t[i].e == 84) then loadout[int].t[i].e = 87 end
+						if (loadout[int].t[i].e == 32 and i == 1) then loadout[int].t[i].e = 31 end
+						if (loadout[int].t[i].e == 29 and i == 2) then loadout[int].t[i].e = 19 end
+						if (loadout[int].t[i].e == 24 and i == 2) then loadout[int].t[i].e = 14 end
+						if (loadout[int].t[i].e == 24 and i == 3) then loadout[int].t[i].e = 17 end
+						if (loadout[int].t[i].e == 21 and i == 2) then loadout[int].t[i].e = 22 end
+						if (loadout[int].t[i].e == 22 and i == 1) then
+							if (#loadout[int].t[i].m == 2) then loadout[int].t[i].e = 21 else loadout[int].t[i].e = 12 end
+						end
 
-							if ((v.t[i].e == 27 or v.t[i].e == 24 or v.t[i].e == 14) and i == 3) then v.t[i].e = 17 end
+						if ((loadout[int].t[i].e == 27 or loadout[int].t[i].e == 24 or loadout[int].t[i].e == 14) and i == 3) then loadout[int].t[i].e = 17 end
+					end
+				end
+			end
+			-- print(5)
+			for i = 1, #loadout do
+				loadout[i] = loadout[i] or {}
+				if (loadout[i].u and MOAT_DROPTABLE[loadout[i].u] and MOAT_DROPTABLE[loadout[i].u].Talents and (not loadout[i].t or (type(loadout[i].t) == "table" and #MOAT_DROPTABLE[loadout[i].u].Talents > #loadout[i].t))) then
+					if (not loadout[i].t) then loadout[i].t = {} end
+					-- print(i)
+					for k, v in ipairs(MOAT_DROPTABLE[loadout[i].u].Talents) do
+						loadout[i].t[k] = loadout[i].t[k] or {}
+						if (not loadout[i].t[k].e) then
+							-- print("me", k, v or MOAT_DROPTABLE[loadout[i].u].Talents[k], (MOAT_DROPTABLE[loadout[i].u].Kind and MOAT_DROPTABLE[loadout[i].u].Kind == "Melee"))
+							local new = m_GetRandomTalent(k, v or MOAT_DROPTABLE[loadout[i].u].Talents[k], (MOAT_DROPTABLE[loadout[i].u].Kind and MOAT_DROPTABLE[loadout[i].u].Kind == "Melee"))
+							loadout[i].t[k] = {e = new.ID, l = loadout[i].t[k].l or math.random(new.LevelRequired and new.LevelRequired.min or (new.Tier * 10), new.LevelRequired and new.LevelRequired.max or (new.Tier * 20))}
+							loadout[i].t[k].m = {}
+							-- print("u", new.Modifications)
+							-- PrintTable(new.Modifications)
+							for id, mod in ipairs(new.Modifications) do
+								loadout[i].t[k].m[id] = math.Round(math.Rand(0, 1), 2)
+							end
+							-- print("hi")
 						end
 					end
+					-- print("y")
+					local Talents = GetItemTalents(loadout[i])
+					update_loadout_talent(i, Talents)
+					-- print("e")
 				end
 			end
 
@@ -1012,11 +1042,12 @@ function m_LoadInventoryForPlayer(ply, cb)
             end
 
             local inventory_tbl = util.JSONToTable(row["inventory"])
+			-- PrintTable(inventory_tbl)
 
             if (row.max_slots ~= #inventory_tbl) then
                 ply:SetMaxSlots(#inventory_tbl)
             end
-
+			-- print(1)
 			for i = 1, #inventory_tbl do
 				if (inventory_tbl[i].u and not MOAT_DROPTABLE[inventory_tbl[i].u]) then
 					try = string.gsub(inventory_tbl[i].u, "2", "1", 1)
@@ -1057,7 +1088,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 				continue
 			end
-
+			-- print(2)
 			for i = 1, #inventory_tbl do
 				if (inventory_tbl[i].w and not weapons.Get(inventory_tbl[i].w)) then
 					if (inventory_tbl[i].w == "weapon_ttt_ak44") then inventory_tbl[i].w = "weapon_ttt_ak47" continue end
@@ -1092,7 +1123,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 					end
 				end
 			end
-
+			-- print(3)
 			for i = 1, #inventory_tbl do
 				if (inventory_tbl[i].u and MOAT_DROPTABLE[inventory_tbl[i].u] and MOAT_DROPTABLE[inventory_tbl[i].u].WeaponClass) then
 					inventory_tbl[i].w = MOAT_DROPTABLE[inventory_tbl[i].u].WeaponClass
@@ -1100,8 +1131,9 @@ function m_LoadInventoryForPlayer(ply, cb)
 					inventory_tbl[i].w = "weapon_ttt_ak47"
 				end
 			end
-
+			-- print(4)
 			local function update_talent(int, Talents)
+				-- print(int, Talents)
 				for i = 1, #inventory_tbl[int].t do
 					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 20202) then inventory_tbl[int].t[i].e = 10102 end
 					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 20203) then inventory_tbl[int].t[i].e = 10103 end
@@ -1138,30 +1170,34 @@ function m_LoadInventoryForPlayer(ply, cb)
 					end
 				end
 			end
-
+			-- print(5)
 			for i = 1, #inventory_tbl do
 				inventory_tbl[i] = inventory_tbl[i] or {}
 				if (inventory_tbl[i].u and MOAT_DROPTABLE[inventory_tbl[i].u] and MOAT_DROPTABLE[inventory_tbl[i].u].Talents and (not inventory_tbl[i].t or (type(inventory_tbl[i].t) == "table" and #MOAT_DROPTABLE[inventory_tbl[i].u].Talents > #inventory_tbl[i].t))) then
 					if (not inventory_tbl[i].t) then inventory_tbl[i].t = {} end
+					-- print(i)
 					for k, v in ipairs(MOAT_DROPTABLE[inventory_tbl[i].u].Talents) do
 						inventory_tbl[i].t[k] = inventory_tbl[i].t[k] or {}
 						if (not inventory_tbl[i].t[k].e) then
+							-- print("me", k, v or MOAT_DROPTABLE[inventory_tbl[i].u].Talents[k], (MOAT_DROPTABLE[inventory_tbl[i].u].Kind and MOAT_DROPTABLE[inventory_tbl[i].u].Kind == "Melee"))
 							local new = m_GetRandomTalent(k, v or MOAT_DROPTABLE[inventory_tbl[i].u].Talents[k], (MOAT_DROPTABLE[inventory_tbl[i].u].Kind and MOAT_DROPTABLE[inventory_tbl[i].u].Kind == "Melee"))
 							inventory_tbl[i].t[k] = {e = new.ID, l = inventory_tbl[i].t[k].l or math.random(new.LevelRequired and new.LevelRequired.min or (new.Tier * 10), new.LevelRequired and new.LevelRequired.max or (new.Tier * 20))}
 							inventory_tbl[i].t[k].m = {}
-
+							-- print("u", new.Modifications)
+							-- PrintTable(new.Modifications)
 							for id, mod in ipairs(new.Modifications) do
 								inventory_tbl[i].t[k].m[id] = math.Round(math.Rand(0, 1), 2)
 							end
+							-- print("hi")
 						end
 					end
-
+					-- print("y")
 					local Talents = GetItemTalents(inventory_tbl[i])
 					update_talent(i, Talents)
-
+					-- print("e")
 				end
 			end
-
+			-- print(6)
             for i = 1, ply:GetMaxSlots() do
 				local slot = inventory_tbl[i]
 
@@ -1177,10 +1213,12 @@ function m_LoadInventoryForPlayer(ply, cb)
                 if (slot and slot.Talents) then
                     slot.Talents = nil
                 end
-
+				-- print("set", i)
 				inv_tbl["slot" .. i] = table.Copy(slot)
             end
-
+			-- print(7)
+			-- print("SET")
+			-- print(inv_tbl, ply)
 			MOAT_INVS[ply] = inv_tbl
 
             -- if (data[1].max_slots < 50) then
