@@ -5801,7 +5801,7 @@ net.Receive("MOAT_TRADE_STATUS", function(len)
 end)
 
 net.Receive("MOAT_UPDATE_EXP", function(len)
-    local item_id = net.ReadString()
+    local item_id = net.ReadLong()
     local item_lvl = net.ReadDouble()
     local item_exp = net.ReadDouble()
     local old_level = 0

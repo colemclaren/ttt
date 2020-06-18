@@ -339,7 +339,7 @@ function m_UpdateItemLevel(weapon_tbl, attacker, exp_to_add)
     end
 
     net.Start("MOAT_UPDATE_EXP")
-    net.WriteString(tostring(unique_item_id))
+    net.WriteLong(tonumber(unique_item_id))
     net.WriteDouble(inv_item.s.l)
     net.WriteDouble(inv_item.s.x)
     net.Send(attacker)
