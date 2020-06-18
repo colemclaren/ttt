@@ -663,8 +663,8 @@ end
 net.Receive("MOAT_SWP_INV_ITEM", function(len, ply)
     local slot1 = net.ReadString()
     local slot2 = net.ReadString()
-    local slot1_c = net.ReadString()
-    local slot2_c = net.ReadString()
+    local slot1_c = tostring(net.ReadLong())
+    local slot2_c = tostring(net.ReadLong())
 
     local inv_slot1 = table.Copy(MOAT_INVS[ply][slot1])
     local inv_slot2 = table.Copy(MOAT_INVS[ply][slot2])

@@ -110,7 +110,7 @@ net.Receive("MOAT_SEND_GIFT", function(_, pl)
 	if (pl.SendingGift) then return end
 	pl.SendingGift = true
 
-	local class = net.ReadString()
+	local class = tostring(net.ReadLong())
 	local slot = net.ReadString()
 	local sid = net.ReadString()
 	local anon = net.ReadBool()
