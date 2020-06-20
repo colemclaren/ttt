@@ -422,8 +422,6 @@ end
 
 moat_random.register("High HP", "Base health is 500 HP for this round!", {
     ["NOW"] = function()
-		cur_random_round = "High HP"
-
 		for k, v in pairs(player.GetAll()) do
 			if (v.MaxHealth > 500 or v:GetMaxHealth() > 500 or v:Health() > 500) then
 				continue
