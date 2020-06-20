@@ -1064,11 +1064,11 @@ end
 
 local handled_send = false
 function m_HandleSending()
-	if (not handled_send) then
+	if (not handled_send or (handled_send and handled_send < CurTime() - 10)) then
 		net.Start("MOAT_SEND_INV_ITEM")
 		net.SendToServer()
 
-		handled_send = true
+		handled_send = CurTime()
 		return
 	end
 end
@@ -1080,7 +1080,7 @@ m_Trade = m_Trade or {}
 MOAT_INVENTORY_CREDITS = MOAT_INVENTORY_CREDITS or 0
 NUMBER_OF_SLOTS = NUMBER_OF_SLOTS or 0
 function m_ClearInventory()
-	handled_send = true
+	handled_send = CurTime()
 
     m_Inventory = {}
     m_Loadout = {}
@@ -6669,6 +6669,6 @@ hook("InitPostEntity", function()
 		net.SendToServer()
 
 		MOAT_CLIENTINV_REQUESTED = true
-		handled_send = true
+		handled_send = CurTime()
 	end
 end)

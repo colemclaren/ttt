@@ -542,8 +542,7 @@ function m_SendInventoryToPlayer(ply)
             net.WriteString"0"
             net.Send(ply)
             m_CheckForRollSave(ply)
-            timer.Simple(5, function() m_CheckCompTickets(ply) end)
-			ply.Sending = false
+            timer.Simple(5, function() ply.Sending = false m_CheckCompTickets(ply) end)
             timer.Simple(0, function()
                 if (IsValid(ply)) then
                     hook.Run("InventoryNetworked", ply)
@@ -615,8 +614,7 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
             net.WriteString"0"
             net.Send(ply)
 
-			timer.Simple(5, function() m_CheckCompTickets(ply) end)
-			ply.Sending = false
+			timer.Simple(5, function() ply.Sending = false m_CheckCompTickets(ply) end)
 
             timer.Simple(0, function()
                 if (IsValid(ply)) then

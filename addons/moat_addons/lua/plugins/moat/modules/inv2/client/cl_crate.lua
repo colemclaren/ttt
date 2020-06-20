@@ -15,7 +15,7 @@ function m_OpenCrate(tbl, fastopen)
 
     // crate_wait = CurTime() + 1
 
-	print "open"
+	// print "open"
 end
 
 local blur = Material("pp/blurscreen")

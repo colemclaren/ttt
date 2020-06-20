@@ -63,6 +63,9 @@ end
 MOAT_MAX_SLOTS = MOAT_MAX_SLOTS or {}
 function meta:SetMaxSlots(num)
 	MOAT_MAX_SLOTS[self] = num
+	net.Start("MOAT_MAX_SLOTS")
+    net.WriteDouble(self:GetMaxSlots())
+    net.Send(self)
 
     return self:SetNW2Int("MOAT_MAX_INVENTORY_SLOTS", num)
 end
@@ -424,7 +427,6 @@ function meta:m_AddInventoryItem(tbl, delay_saving, no_chat, gift)
 		if (delay_saving and type(delay_saving) == "boolean") then
         	net.Start("MOAT_MAX_SLOTS")
         	net.WriteDouble(self:GetMaxSlots())
-			net.WriteString(self:GetIP())
         	net.Send(self)
 		end
 
