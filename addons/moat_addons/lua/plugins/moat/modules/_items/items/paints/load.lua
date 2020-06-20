@@ -386,7 +386,6 @@ function LoadSkin(id, cb)
 	if (MOAT_PAINT.SkinCache[id]) then
 		return cb(MOAT_PAINT.SkinCache[id])
 	end
-	
 end
 
 concommand.Add("moat_paint", function()

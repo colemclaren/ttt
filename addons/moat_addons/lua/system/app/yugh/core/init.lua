@@ -81,3 +81,32 @@ yugh.i "/system/app/yugh/" {
 	"extensions/",
 	"modules/"
 }
+
+if (SERVER) then
+	local PLAYER = FindMetaTable "Player"
+	util.AddNetworkString "cdn.PlayURL"
+
+	function cdn.PlayURL(key, volume, cb, flags)
+		net.Start "cdn.PlayURL"
+			net.WriteString(key)
+			net.WriteFloat(volume or 1)
+			net.WriteString(flags or "")
+		net.Broadcast()
+	end
+
+	function PLAYER:PlayURL(key, volume, cb, flags)
+		net.Start "cdn.PlayURL"
+			net.WriteString(key)
+			net.WriteFloat(volume or 1)
+			net.WriteString(flags or "")
+		net.Send(self)
+	end
+else
+	net.Receive("cdn.PlayURL", function()
+		local key = net.ReadString()
+		local vol = net.ReadFloat()
+		local flags = net.ReadString()
+
+		cdn.PlayURL(key, vol, function() end, flags)
+	end)
+end

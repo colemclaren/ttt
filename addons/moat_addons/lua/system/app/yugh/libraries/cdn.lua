@@ -121,7 +121,7 @@ else
 		if (not flags:find "stream") then
 			cache = cdn.Sound(key)
 		end
-	
+
 		if (cache) then
 			sound_PlayFile(cache, flags, function(s)
 				if (IsValid(s)) then
@@ -156,14 +156,6 @@ else
 			end)
 		end
 	end
-
-	net.Receive("cdn.PlayURL", function()
-		local key = net.ReadString()
-		local vol = net.ReadFloat()
-		local flags = net.ReadString()
-
-		cdn.PlayURL(key, vol, function() end, flags)
-	end)
 
 	function cdn.Image(key, cb, params)
 		if (type(cb) == "string") then

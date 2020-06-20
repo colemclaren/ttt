@@ -6443,19 +6443,7 @@ net.Receive("MOAT_ITEM_OBTAINED", function(len)
 			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_06.wav", .2)
 		elseif (tbl.item and tbl.item.Rarity == 5) then
 			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_05.wav", .2)
-		elseif (tbl.item and tbl.item.Rarity == 6) then
-			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_04.wav", .2)
-			util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)
-		elseif (tbl.item and tbl.item.Rarity == 7) then
-			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_07.wav", .2)
-			util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)
-		elseif (tbl.item and tbl.item.Rarity == 8) then
-			cdn.PlayURL("https://static.moat.gg/ttt/Stinger_loot_03.wav", .2)
-			util.ScreenShake(LocalPlayer():GetPos(), 5, 5, 10, 5000)
-		elseif (tbl.item and tbl.item.Rarity == 9) then
-			cdn.PlayURL("https://static.moat.gg/ttt/Arcana_drop.mp3", .2)
-			util.ScreenShake(LocalPlayer():GetPos(), 25, 25, 15, 5000)
-		else
+		elseif (tbl.item and tbl.item.Name and string.EndsWith(tbl.item.Name, "Mutator")) then
 			cdn.PlayURL("https://static.moat.gg/ttt/borderlands_3_legend.mp3", .2)
 		end
 

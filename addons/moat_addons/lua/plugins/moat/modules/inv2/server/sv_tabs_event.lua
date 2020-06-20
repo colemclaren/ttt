@@ -332,18 +332,18 @@ function MOAT_EVENT.UpdateData(pl, wep, id)
 end
 
 function MOAT_EVENT.SendTop(pl)
-	MOAT_EVENT.SQL.FormatQuery("SELECT CAST(steamid AS CHAR) AS steamid, name, complete FROM moat_event ORDER BY complete DESC LIMIT 15", function(d)
+	MOAT_EVENT.SQL.FormatQuery("SELECT CAST(steamid AS CHAR) AS steamid, name, complete FROM moat_event ORDER BY complete DESC LIMIT 100", function(d)
 		if (not IsValid(pl)) then return end
 		if (not d or #d < 1) then return end
 
+		net.Start("moat.events.top")
+		net.WriteUInt(#d, 7)
 		for i = 1, #d do
-			net.Start("moat.events.top")
-			net.WriteUInt(i, 6)
 			net.WriteString(d[i].steamid)
 			net.WriteString(d[i].name)
 			net.WriteUInt(d[i].complete, 16)
-			net.Send(pl)
 		end
+		net.Send(pl)
 	end)
 end
 

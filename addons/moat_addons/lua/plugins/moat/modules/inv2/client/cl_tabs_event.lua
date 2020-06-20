@@ -451,9 +451,14 @@ function MOAT_EVENT.ReceiveTop()
         MOAT_EVENT.TopPlayers = {}
     end
 
-    local num = net.ReadUInt(6)
+	local num = net.ReadUInt(7)
+	for i = 1, num do
+		local steamid = net.ReadString()
+		local name = net.ReadString()
+		local complete = net.ReadUInt(16)
 
-    MOAT_EVENT.TopPlayers[num] = {net.ReadString(), net.ReadString(), net.ReadUInt(16)}
+		MOAT_EVENT.TopPlayers[i] = {steamid, name, complete}
+	end
 
 	if (m_RebuildEventPanel and MOAT_EVENT.CurCat == 2) then
 		m_RebuildEventPanel(MOAT_EVENT.CurCat)
@@ -469,12 +474,12 @@ function MOAT_EVENT.OverviewPanel(pnl)
         draw.SimpleTextOutlined("Complete objectives for weapons to advance to harder challenges for better rewards.", "moat_ItemDesc", w/2, 35, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("You may start with whichever gun you choose!", "moat_ItemDesc", w/2, 50, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
 	
-        draw.SimpleTextOutlined("Top 15 Players", "GModNotify", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
+        draw.SimpleTextOutlined("Top 50 Players", "GModNotify", w/2, 90, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("Objectives Complete", "moat_ItemDesc", w - 4, 99, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         draw.SimpleTextOutlined("Player", "moat_ItemDesc", 5, 99, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
     end
 
-	if (#MOAT_EVENT.TopPlayers < 15 and not MOAT_EVENT.RequestedTop) then
+	if (#MOAT_EVENT.TopPlayers < 50 and not MOAT_EVENT.RequestedTop) then
 		MOAT_EVENT.RequestedTop = true
 
 		net.Start "moat.events.top"
@@ -482,12 +487,19 @@ function MOAT_EVENT.OverviewPanel(pnl)
 	end
 
     local btn_y = 108
-    local amt = math.min(#MOAT_EVENT.TopPlayers, 15)
+    local amt = math.min(#MOAT_EVENT.TopPlayers, 50)
+
+    local TopPlayers = vgui.Create("DScrollPanel", pnl)
+    TopPlayers:SetSize(pnl:GetWide(), 405)
+    TopPlayers:SetPos(0, btn_y)
+	TopPlayers.Paint = function(s, w, h) end
+	m_PaintVBar(TopPlayers:GetVBar())
+	btn_y = 0
 
     for i = 1, amt do
         local btn_w, btn_h, btn_x, btn__y = pnl:GetWide() - 8, 25, 4, btn_y
 
-        local btn = vgui.Create("DButton", pnl)
+        local btn = vgui.Create("DButton", TopPlayers)
         btn:SetPos(btn_x, btn__y)
         btn:SetSize(btn_w, btn_h)
         btn:SetText("")
@@ -526,8 +538,7 @@ function MOAT_EVENT.OverviewPanel(pnl)
             end
 
             draw.SimpleTextOutlined(MOAT_EVENT.TopPlayers[i][2], "moat_ItemDesc", 25 + 8, (h/2) - 1, Color(255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
-
-            draw.SimpleTextOutlined(MOAT_EVENT.TopPlayers[i][3], "moat_ItemDesc", w - 8, (h/2) - 1, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
+            draw.SimpleTextOutlined(MOAT_EVENT.TopPlayers[i][3], "moat_ItemDesc", w - 8 - 13, (h/2) - 1, Color(255, 255, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 25 ))
         end
 		sfx.HoverSound(btn)
 		sfx.ClickSound(btn)
