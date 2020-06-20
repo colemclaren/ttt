@@ -4366,9 +4366,9 @@ function m_OpenInventory(ply2, utrade)
 
                 if (m_ply2 and m_utrade) then
                     moat_inv_cooldown = CurTime() + 5
-                    m_ClearInventory()
-                    net.Start("MOAT_SEND_INV_ITEM")
-                    net.SendToServer()
+                    -- m_ClearInventory()
+                    -- net.Start("MOAT_SEND_INV_ITEM")
+                    -- net.SendToServer()
                     net.Start("MOAT_RESPOND_TRADE")
                     net.WriteBool(false)
                     net.WriteDouble(m_ply2:EntIndex())
