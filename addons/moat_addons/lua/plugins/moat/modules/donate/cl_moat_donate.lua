@@ -51,7 +51,7 @@ MOAT_DONATE.TitlePoly = {
 -- Every player will receive a Holiday Crate when this item is used
 MOAT_DONATE.CurCat = 0
 MOAT_DONATE.Packages = {
-	{"About Beta", Material("icon16/information.png"), 1, 0, ""}, 
+	{"General Information", Material("icon16/information.png"), 1, 0, ""}, 
 	{"Free Rewards", Material("icon16/star.png"), 0, 0, ""}, 
 	{"Permanent VIP", Material("icon16/user.png"), 2, 1500, "", {{Color(255, 255, 0), "17,000", "Total Inventory Credits", ""}, {Color(255, 255, 0), "", "Earn 50% more IC when Deconstructing Items	", ""}, {Color(255, 255, 255), "VIP", "Rank In-Game & Forums", ""}, {Color(255, 255, 255), "", "Votekick Starting Access (Revokable)", ""}, {Color(255, 255, 255), "", "Access to closed beta(s)", ""}, {Color(255, 0, 0), "", "+ Whatever is Added to VIP in the Future!", ""}, {Color(255, 0, 125), "", "", ""}}}, 
 	{"4,000 IC", Material("icon16/coins.png"), 3, 400, "", {{Color(255, 255, 0), "4,000", "Total Inventory Credits", ""}, {Color(255, 0, 125), "", "", ""}}},
@@ -520,8 +520,8 @@ function MOAT_DONATE:OpenWindow()
         surface.DrawPoly(MOAT_DONATE.TitlePoly)
         --draw.SimpleText("Moat", "moat_GambleTitle", 5, 1, Color(0, 25, 50))
         --draw.SimpleText("Gaming", "moat_GambleTitle", 55, 1, Color(50, 50, 50))
-        draw.SimpleText("Moat", "moat_GambleTitle", 4, 0, Color(0, 198, 255))
-        draw.SimpleText("Beta", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
+		local w2, h2 = draw.SimpleText("Moat", "moat_GambleTitle", 4, 0, Color(0, 198, 255))
+        draw.SimpleText(" Gaming", "moat_GambleTitle", 4 + w2, 0, Color(255, 255, 255))
         --draw.SimpleText("Supporter Shop", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
         draw.SimpleText("Credits Store", "moat_GambleTitle", 5, 20, Color(255, 255, 0))
         --draw.SimpleText(LocalPlayer():Nick(), "moat_ItemDesc", 194, 6, Color(0, 0, 0))

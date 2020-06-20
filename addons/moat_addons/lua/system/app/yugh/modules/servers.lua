@@ -41,7 +41,7 @@ local servers = {
 	},
 	Roster = {},
 	DefaultPort = 27015,
-	Name = GetHostName():match("- ([%w%s#]*)") or GetHostName() or "Beta",
+	Name = GetHostName():match("- ([%w%s#]*)") or GetHostName() or "TTT",
 	URL = ".moat.gg",
 	SteamURL = "steam://connect/"
 }

@@ -770,11 +770,11 @@ function m_PopulateBountiesPanel(pnl)
         surface.SetMaterial(Material("vgui/gradient-d"))
         surface.DrawTexturedRect(0, 0, w, 45)
 
-    	draw.SimpleText("Moat", "moat_GambleTitle", 5, 1, Color(0, 25, 50))
-    	draw.SimpleText("Beta", "moat_GambleTitle", 55, 1, Color(50, 50, 50))
+    	local w2, h2 = draw.SimpleText("Moat", "moat_GambleTitle", 5, 1, Color(0, 25, 50))
+    	draw.SimpleText(" Gaming", "moat_GambleTitle", 5 + w2, 1, Color(50, 50, 50))
 
     	draw.SimpleText("Moat", "moat_GambleTitle", 4, 0, Color(0, 198, 255))
-    	draw.SimpleText("Beta", "moat_GambleTitle", 54, 0, Color(255, 255, 255))
+    	draw.SimpleText(" Gaming", "moat_GambleTitle", 4 + w2, 0, Color(255, 255, 255))
 
     	draw.SimpleText("Daily Challenges", "moat_GambleTitle", 6, 21, Color(50, 50, 0))
     	draw.SimpleText("Daily Challenges", "moat_GambleTitle", 5, 20, Color(255, 255, 0))
