@@ -2357,11 +2357,22 @@ hook.Add("PlayerDeconstructedItem", "moat_deconstruct_items", function(pl, enum)
         deconstruct_tbl = table.Copy(MOAT_RARITIES[item_rarity].Deconstruct)
     end
 
-    local deconstruct_creds = math.random(deconstruct_tbl.min, deconstruct_tbl.max)
+	local dec_min = math.Round(deconstruct_tbl.min)
+    local dec_max = math.Round(deconstruct_tbl.max)
+	local multiplier = 1
+
+	if (string.find(string.lower(pl:Nick()), "moat.gg")) then
+		multiplier = multiplier + .25
+	end
 
     if (table.HasValue(MOAT_VIP, pl:GetUserGroup())) then
-        deconstruct_creds = math.Round(deconstruct_creds * 1.5)
+		multiplier = multiplier + .5
     end
+
+	dec_min = math.floor(dec_min * multiplier)
+	dec_max = math.floor(dec_max * multiplier)
+
+    local deconstruct_creds = math.random(dec_min, dec_max)
 
     pl:m_GiveIC(deconstruct_creds)
 

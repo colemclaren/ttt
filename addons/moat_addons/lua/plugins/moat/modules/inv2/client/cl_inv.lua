@@ -4831,11 +4831,18 @@ function m_CreateItemMenu(num, ldt)
     local item_rarity = m_Inventory[num].item.Rarity or 1
     local dec_min = math.Round(rarity_names[item_rarity][3].min)
     local dec_max = math.Round(rarity_names[item_rarity][3].max)
+	local multiplier = 1
+
+	if (string.find(string.lower(LocalPlayer():Nick()), "moat.gg")) then
+		multiplier = multiplier + .25
+	end
 
     if (table.HasValue(MOAT_VIP, LocalPlayer():GetUserGroup())) then
-        dec_min = dec_min * 1.5
-        dec_max = dec_max * 1.5
+		multiplier = multiplier + .5
     end
+
+	dec_min = math.floor(dec_min * multiplier)
+	dec_max = math.floor(dec_max * multiplier)
 
     local remove_text = "Deconstruct for " .. dec_min .. " - " .. dec_max .. " IC"
     local deco = moat_decon:GetInt()
@@ -4900,7 +4907,6 @@ function m_CreateItemMenu(num, ldt)
                         net.SendToServer()
                         M_INV_MENU:Remove()
                         cookie.Set("moat.deconstruct.highdd", cookie.GetNumber("moat.deconstruct.highdd", 0) + 1)
-						sfx.Dustbin()
                     end, "Nevermind")
                 else
                     net.Start("MOAT_REM_INV_ITEM")
@@ -4908,7 +4914,6 @@ function m_CreateItemMenu(num, ldt)
                     net.WriteDouble(itemtbl.c)
                     net.SendToServer()
                     M_INV_MENU:Remove()
-					sfx.Dustbin()
                 end
                 if (deco < 5) then moat_decon:SetInt(deco + 1) end
             end
@@ -6641,13 +6646,13 @@ net.Receive("MOAT_DECON_NOTIFY", function()
 
     local s = mul == true and "s" or ""
 
-    cdn.PlayURL "https://static.moat.gg/f/tcTmdMRKmTamobA5mrj5aFs6siOm.mp3"
+    cdn.PlayURL "https://static.moat.gg/ttt/2533282972.mp3"
 
     chat.AddText(Material("icon16/information.png"), Color(255, 255, 0), "You received ", Color(0, 255, 0), string.Comma(amt), Color(255, 255, 0), " IC from deconstructing your item" .. s .. "!")
 end)
 
 net.Receive("MOAT_DECON_MUTATOR", function()
-    cdn.PlayURL "https://static.moat.gg/f/L7mju69BFW8gJxWTkdDCszvIoWWe.wav"
+    cdn.PlayURL "https://static.moat.gg/ttt/borderlands_3_legend.mp3"
 end)
 
 hook("InitPostEntity", function()

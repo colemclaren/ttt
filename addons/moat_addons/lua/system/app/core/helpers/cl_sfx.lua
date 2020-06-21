@@ -3,7 +3,7 @@ sfx = sfx or {}
 
 function sfx.Dustbin()
 	if (convar:GetInt() > 0) then
-		cdn.PlayURL("https://static.moat.gg/ttt/dustbin.ogg")
+		cdn.PlayURL "https://static.moat.gg/ttt/2533282972.mp3"
 	end
 end
 
