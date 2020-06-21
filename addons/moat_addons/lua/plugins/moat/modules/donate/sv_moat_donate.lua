@@ -12,8 +12,11 @@ function start_quadra_xp(nick)
     XP_MULTIPYER = 8
 
 	ttt.HostName = ttt.HostName or GetHostName()
-	local name = string.TrimRight(ttt.HostName, ' | ' .. MG_cur_event .. ' Event')
-	RunConsoleCommand('hostname', name .. ' | ' .. MG_cur_event .. ' Event')
+	local name = string.Replace(ttt.HostName, ' | ' .. MG_cur_event .. ' Event', '')
+	name = string.Replace(ttt.HostName, ' - Chill', '')
+	if (not name:lower():find "minecraft") then
+		RunConsoleCommand('hostname', name .. ' | ' .. MG_cur_event .. ' Event')
+	end
 end
 
 function moat_DropPumpkin(ply, amt)
@@ -241,9 +244,14 @@ hook.Add("TTTEndRound", "XPBoost", function()
             XP_MULTIPYER = 2
 
 			ttt.HostName = ttt.HostName or GetHostName()
-			local name = string.TrimRight(ttt.HostName, ' | ' .. MG_cur_event .. ' Event')
+			local name = string.Replace(ttt.HostName, ' | ' .. MG_cur_event .. ' Event', '')
+			name = string.Replace(string.Trim(name), ' |', '')
+			if (not name:lower():find "minecraft" and not name:EndsWith(' - Chill')) then
+				name = name .. ' - Chill'
+			end
+
 			RunConsoleCommand('hostname', name)
-			
+
             MG_cur_event = nil
         end
 

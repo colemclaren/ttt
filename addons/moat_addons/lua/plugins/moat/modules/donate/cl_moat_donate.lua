@@ -603,7 +603,12 @@ function MOAT_DONATE:OpenWindow()
 
         draw.RoundedBox(4, 0, 0, w, h, Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b, 50))
         draw.RoundedBox(4, 1, 1, w - 2, h - 2, Color(rarity_names[9][2].r, rarity_names[9][2].g, rarity_names[9][2].b, 50 + (s.LerpNum * 220)))
-        draw.SimpleTextOutlined("Buy Support Credits", "moat_ItemDesc", w / 2, 8, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
+
+		if (os.date("!*t", os.time() - 14400).wday == 1) then
+			draw.SimpleTextOutlined("Closed on Sunday", "moat_ItemDesc", w / 2, 8, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
+		else
+			draw.SimpleTextOutlined("Buy Support Credits", "moat_ItemDesc", w / 2, 8, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
+		end
     end
 
     g.DoClick = function(s)
