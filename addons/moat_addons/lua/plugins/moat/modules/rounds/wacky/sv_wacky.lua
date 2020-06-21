@@ -22,10 +22,6 @@ function moat_random.start_round(name)
             return v(...)
         end)
     end
-    net.Start("RandomRound")
-    net.WriteString(name)
-    net.WriteString(moat_random.rounds[name][2])
-    net.Broadcast()
 end
 
 -- so late players who weren't existant during preparing can be networked the wacky round
@@ -42,6 +38,11 @@ concommand.Add("moat_start_wacky",function(a,b,c,d)
     if not moat.isdev(a) then return end
     if moat_random.rounds[d] then
         moat_random.start_round(d)
+
+		net.Start("RandomRound")
+			net.WriteString(d)
+    		net.WriteString(moat_random.rounds[d][2])
+		net.Broadcast()
     end
 end)
 hook.Add("TTTEndRound","RandomRound",function()
@@ -73,6 +74,11 @@ hook.Add("TTTPrepareRound","RandomRound",function()
         if math.random() > 0.3 then
             local b,c = table.Random(moat_random.rounds)
             moat_random.start_round(c)
+
+			net.Start("RandomRound")
+				net.WriteString(c)
+    			net.WriteString(moat_random.rounds[c][2])
+			net.Broadcast()
         end
     end
 end)
@@ -431,6 +437,11 @@ moat_random.register("High HP", "Base health is 500 HP for this round!", {
 			v.MaxHealth = 500
 			v:SetHealth(500)
         end
+
+		net.Start("RandomRound")
+    		net.WriteString("High HP")
+    		net.WriteString("Base health is 500 HP for this round!")
+    	net.Broadcast()
     end,
     ["TTTBeginRound"] = function()
         for k, v in pairs(player.GetAll()) do
@@ -442,6 +453,11 @@ moat_random.register("High HP", "Base health is 500 HP for this round!", {
 			v.MaxHealth = 500
 			v:SetHealth(500)
         end
+
+		net.Start("RandomRound")
+    		net.WriteString("High HP")
+    		net.WriteString("Base health is 500 HP for this round!")
+    	net.Broadcast()
     end
 })
 

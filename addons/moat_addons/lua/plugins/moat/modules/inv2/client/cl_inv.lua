@@ -618,21 +618,36 @@ function m_DrawItemDesc(text, font, x, y, w, h)
 end
 
 function m_GetItemDescH(text, font, w)
-    local texte = string.Explode(" ", text)
-    surface_SetFont(font)
+    if (not desc_cache[text]) then
+		desc_cache[text], desc_length[text] = {}, 0
+		for str in string.gsub(text, "[%.%!%?]*$", ""):gmatch "([^%s]*%s*)" do
+			desc_length[text] = desc_length[text] + 1
+			desc_cache[text][desc_length[text]] = str
+		end
+
+		desc_length[text] = desc_length[text] + 1
+		desc_cache[text][desc_length[text]] = text:match "[%.%!%?]*$"
+	end
+
+    surface.SetFont(font)
+
     local chars_x = 0
     local chars_y = 0
 
-    for i = 1, #texte do
-        local char = texte[i]
-        local charw, charh = surface_GetTextSize(char .. " ")
+	for k, v in ipairs(desc_cache[text]) do
+		if (type(v) == "string") then
+			local str = v
+			local strw = surface.GetTextSize(str)
+			desc_cache[text][k] = {Text = str, Width = strw, Color = Either(string.match(str, "^[%.%-%+]?[%d*%%*]%.?[^%)]*[%s*%d*][%.%-%+%%]?$"), number_col, col)}
+			v = desc_cache[text][k]
+		end
 
-        if (chars_x + charw > w) then
+        if (chars_x + (v.Width + 5) >= w) then
             chars_x = 0
             chars_y = chars_y + 1
         end
 
-        chars_x = chars_x + charw
+        chars_x = chars_x + v.Width
     end
 
     return chars_y + 1

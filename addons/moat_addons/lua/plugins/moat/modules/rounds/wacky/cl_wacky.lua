@@ -25,7 +25,13 @@ net.Receive("RandomRound",function()
         cur_random_round = false 
         return
     end
+
+	if (cur_random_round and cur_random_round == name) then
+		return
+	end
+
     cur_random_round = name
+
     chat.AddText(Color(255,0,0),"WACKY ROUND!")
     chat.AddText(Color(0,255,0),"WACKY ROUND!")
     chat.AddText(Color(0,0,255),"WACKY ROUND!")
