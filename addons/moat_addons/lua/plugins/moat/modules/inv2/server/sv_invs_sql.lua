@@ -519,23 +519,33 @@ function m_SendInventoryToPlayer(ply)
         -- end)
     end
 
+	local overflow = 0
     for i = 1, ply:GetMaxSlots() do
         if (not ply_inv["slot" .. i].c) then continue end
+		if (i % 1000 == 0) then overflow = overflow + 1 end
 
-        -- timer.Simple(i * 0.001, function()
+		if (overflow > 0) then
+			timer.Simple(overflow, function()
+				if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
+					net.Start("MOAT_SEND_INV_ITEM")
+					net.WriteString(tostring(i))
+					local tbl = table.Copy(ply_inv["slot" .. i])
+					m_WriteWeaponToNet(tbl)
+					net.Send(ply)
+				end
+			end)
+		else
             if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
                 local tbl = table.Copy(ply_inv["slot" .. i])
-                -- tbl.Talents = GetItemTalents(tbl)
-                -- net.WriteTable(tbl)
 				m_WriteWeaponToNet(tbl)
                 net.Send(ply)
             end
-        -- end)
+		end
     end
 
-    -- timer.Simple(ply:GetMaxSlots() * 0.001, function()
+    timer.Simple(overflow, function()
         if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
             MsgC(Color(0, 255, 0), "Inventory sent in " .. (SysTime() - ply.LastSent) .. " secs to " .. ply:Nick() .. "\n")
             net.Start"MOAT_SEND_INV_ITEM"
@@ -549,7 +559,7 @@ function m_SendInventoryToPlayer(ply)
                 end
             end)
         end
-    -- end)
+    end)
 end
 
 function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
@@ -591,23 +601,33 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
         -- end)
     end
 
+    local overflow = 0
     for i = 1, ply:GetMaxSlots() do
         if (not ply_inv["slot" .. i].c) then continue end
+		if (i % 1000 == 0) then overflow = overflow + 1 end
 
-        -- timer.Simple(i * 0.001, function()
+		if (overflow > 0) then
+			timer.Simple(overflow, function()
+				if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
+					net.Start("MOAT_SEND_INV_ITEM")
+					net.WriteString(tostring(i))
+					local tbl = table.Copy(ply_inv["slot" .. i])
+					m_WriteWeaponToNet(tbl)
+					net.Send(ply)
+				end
+			end)
+		else
             if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
                 net.Start("MOAT_SEND_INV_ITEM")
                 net.WriteString(tostring(i))
                 local tbl = table.Copy(ply_inv["slot" .. i])
-                -- tbl.Talents = GetItemTalents(tbl)
-               	-- net.WriteTable(tbl)
 				m_WriteWeaponToNet(tbl)
                 net.Send(ply)
             end
-        -- end)
+		end
     end
 
-    -- timer.Simple(ply:GetMaxSlots() * 0.001, function()
+    timer.Simple(overflow, function()
         if (IsValid(ply) and ply.LastSent == Sent and not ply:IsBot()) then
             MsgC(Color(0, 255, 0), "Inventory sent in " .. (SysTime() - ply.LastSent) .. " secs to " .. ply:Nick() .. "\n")
             net.Start"MOAT_SEND_INV_ITEM"
@@ -622,7 +642,7 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
                 end
             end)
         end
-    -- end)
+    end)
 end
 
 net.Receive("MOAT_SEND_INV_ITEM", function(len, ply)
@@ -851,7 +871,7 @@ function m_LoadInventoryForPlayer(ply, cb)
     local query1 = MINVENTORY_MYSQL:query("SELECT * FROM core_dev_ttt WHERE steamid = '" .. get_steamid(ply) .. "'")
 
     function query1:onSuccess(data)
-        if (#data > 0) then
+		if (#data > 0) then
 			local row = data[1]
 
             ply:SetMaxSlots(data[1].max_slots)
@@ -963,7 +983,8 @@ function m_LoadInventoryForPlayer(ply, cb)
 					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 202) then loadout[int].t[i].e = 102 end
 					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 255) then loadout[int].t[i].e = 155 end
 					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 84) then loadout[int].t[i].e = 87 end
-
+					-- print("talents", #Talents[i].Modifications, #loadout[int].t[i].m, table.Count(loadout[int].t[i].m))
+					-- print(i, int, #Talents[i].Modifications ~= #loadout[int].t[i].m, i ~= Talents[i].Tier, loadout[int].u)
 					if ((not Talents[i] or (Talents[i] and not next(Talents[i]))) and MOAT_DROPTABLE[loadout[int].u].Talents[i]) then
 						Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[loadout[int].u].Talents[i], (MOAT_DROPTABLE[loadout[i].u].Kind and MOAT_DROPTABLE[loadout[i].u].Kind == "Melee"))
 						loadout[int].t[i] = {e = Talents[i].ID, l = loadout[int].t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
@@ -971,7 +992,8 @@ function m_LoadInventoryForPlayer(ply, cb)
 						for id, mod in pairs(Talents[i].Modifications) do
 							loadout[int].t[i].m[id] = math.Round(math.Rand(0, 1), 2)
 						end
-					elseif (Talents[i] and Talents[i].Modifications and loadout[int].t[i] and loadout[int].t[i].m and (#Talents[i].Modifications ~= #loadout[int].t[i].m or i ~= Talents[i].Tier or MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random") and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name) then
+					elseif (Talents[i] and Talents[i].Modifications and loadout[int].t[i] and loadout[int].t[i].m and (#Talents[i].Modifications ~= #loadout[int].t[i].m or i ~= Talents[i].Tier or (MOAT_DROPTABLE[loadout[int].u].Talents and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random")) and (not MOAT_DROPTABLE[loadout[int].u].Talents or (MOAT_DROPTABLE[loadout[int].u].Talents and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name))) then
+						-- print("yo", i, int, #Talents[i].Modifications ~= #loadout[int].t[i].m, i ~= Talents[i].Tier, MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random", MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name)
 						if (loadout[int].t[i].e == 2) then loadout[int].t[i].e = 1 end
 						if (loadout[int].t[i].e == 4) then loadout[int].t[i].e = 7 end
 						if (loadout[int].t[i].e == 26) then loadout[int].t[i].e = 16 end
@@ -989,6 +1011,8 @@ function m_LoadInventoryForPlayer(ply, cb)
 						end
 
 						if ((loadout[int].t[i].e == 27 or loadout[int].t[i].e == 24 or loadout[int].t[i].e == 14) and i == 3) then loadout[int].t[i].e = 17 end
+
+						-- print("enum", int, i, loadout[int].t[i].e)
 					end
 				end
 			end
@@ -1017,6 +1041,14 @@ function m_LoadInventoryForPlayer(ply, cb)
 					local Talents = GetItemTalents(loadout[i])
 					update_loadout_talent(i, Talents)
 					-- print("e")
+				elseif (loadout[i].u and loadout[i].t) then
+					-- print(i)
+					-- print("y2")
+					-- print(loadout[i])
+					-- PrintTable(loadout[i].t)
+					local Talents = GetItemTalents(loadout[i])
+					update_loadout_talent(i, Talents)
+					-- print("e2")
 				end
 			end
 
@@ -1139,7 +1171,8 @@ function m_LoadInventoryForPlayer(ply, cb)
 					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 202) then inventory_tbl[int].t[i].e = 102 end
 					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 255) then inventory_tbl[int].t[i].e = 155 end
 					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 84) then inventory_tbl[int].t[i].e = 87 end
-
+					-- print("talents", #Talents[i].Modifications, #inventory_tbl[int].t[i].m, table.Count(inventory_tbl[int].t[i].m))
+					-- print(i, int, #Talents[i].Modifications ~= #inventory_tbl[int].t[i].m, i ~= Talents[i].Tier, inventory_tbl[int].u)
 					if ((not Talents[i] or (Talents[i] and not next(Talents[i]))) and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i]) then
 						Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i], (MOAT_DROPTABLE[inventory_tbl[i].u].Kind and MOAT_DROPTABLE[inventory_tbl[i].u].Kind == "Melee"))
 						inventory_tbl[int].t[i] = {e = Talents[i].ID, l = inventory_tbl[int].t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
@@ -1147,7 +1180,8 @@ function m_LoadInventoryForPlayer(ply, cb)
 						for id, mod in pairs(Talents[i].Modifications) do
 							inventory_tbl[int].t[i].m[id] = math.Round(math.Rand(0, 1), 2)
 						end
-					elseif (Talents[i] and Talents[i].Modifications and inventory_tbl[int].t[i] and inventory_tbl[int].t[i].m and (#Talents[i].Modifications ~= #inventory_tbl[int].t[i].m or i ~= Talents[i].Tier or MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random") and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name) then
+					elseif (Talents[i] and Talents[i].Modifications and inventory_tbl[int].t[i] and inventory_tbl[int].t[i].m and (#Talents[i].Modifications ~= #inventory_tbl[int].t[i].m or i ~= Talents[i].Tier or (MOAT_DROPTABLE[inventory_tbl[int].u].Talents and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random")) and (not MOAT_DROPTABLE[inventory_tbl[int].u].Talents or (MOAT_DROPTABLE[inventory_tbl[int].u].Talents and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name))) then
+						-- print("yo", i, int, #Talents[i].Modifications ~= #inventory_tbl[int].t[i].m, i ~= Talents[i].Tier, MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random", MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name)
 						if (inventory_tbl[int].t[i].e == 2) then inventory_tbl[int].t[i].e = 1 end
 						if (inventory_tbl[int].t[i].e == 4) then inventory_tbl[int].t[i].e = 7 end
 						if (inventory_tbl[int].t[i].e == 26) then inventory_tbl[int].t[i].e = 16 end
@@ -1165,6 +1199,8 @@ function m_LoadInventoryForPlayer(ply, cb)
 						end
 
 						if ((inventory_tbl[int].t[i].e == 27 or inventory_tbl[int].t[i].e == 24 or inventory_tbl[int].t[i].e == 14) and i == 3) then inventory_tbl[int].t[i].e = 17 end
+
+						-- print("enum", int, i, inventory_tbl[int].t[i].e)
 					end
 				end
 			end
@@ -1193,6 +1229,14 @@ function m_LoadInventoryForPlayer(ply, cb)
 					local Talents = GetItemTalents(inventory_tbl[i])
 					update_talent(i, Talents)
 					-- print("e")
+				elseif (inventory_tbl[i].t) then
+					-- print(i)
+					-- print("y2")
+					-- print(inventory_tbl[i])
+					-- PrintTable(inventory_tbl[i].t)
+					local Talents = GetItemTalents(inventory_tbl[i])
+					update_talent(i, Talents)
+					-- print("e2")
 				end
 			end
 			-- print(6)
@@ -1222,8 +1266,8 @@ function m_LoadInventoryForPlayer(ply, cb)
             -- if (data[1].max_slots < 50) then
 				-- m_SendInventoryToPlayer(ply)
 			-- end
-
-            m_SendCreditsToPlayer(ply)
+			
+			m_SendCreditsToPlayer(ply)
 
 			
             if (cb) then
@@ -1266,7 +1310,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 								dupes[slot.c] = true
 							end
 						end
-							
+
 						local inv = util.JSONToTable(row["inventory"]) or {}
 						for k, v in ipairs(inv) do
 							if (v.c and not dupes[v.c]) then

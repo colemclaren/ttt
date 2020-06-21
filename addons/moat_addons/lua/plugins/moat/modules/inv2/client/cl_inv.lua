@@ -922,29 +922,24 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
     if (itemtbl.t) then
         talents_y_add = 15
         talents_collection = 2
-        local talents_s = "Requires"
 
-		local num_talents, num_active = 0, 0
+		local talents_s = "Talents"
+
+		local num_talents = 0
 		for k, v in ipairs(itemtbl.Talents) do
 			if (itemtbl.t and itemtbl.t[k] and itemtbl.Talents[k].Description) then
 				num_talents = num_talents + 1
-
-				if (itemtbl.t[k].l and itemtbl.s and itemtbl.s.l and itemtbl.s.l >= itemtbl.t[k].l) then
-					num_active = num_active + 1
-				end
 			end
 		end
 
-		if (num_active >= num_talents) then
-			talents_s = "Talent" .. ((num_active == 1) and "" or "s")
-		else
-			talents_s = talents_s .. " (" .. (num_talents - num_active) .. ")"
+		if (num_talents > 0) then
+			talents_s = num_talents .. " Talent" .. ((num_talents == 1) and "" or "s")
 		end
 
         local mutated = ""
 
         if (itemtbl.tr) then mutated = " (Mutated)" end
-        m_DrawShadowedText(1, talents_s, font, 6, y + stats_y_add,  Color(255, 255, 255))
+        m_DrawShadowedText(1, talents_s, font, 6, y + stats_y_add,  Color(94, 114, 228))
 
         surface_SetDrawColor(91, 98, 109, 50)
         surface_DrawLine(6, y + stats_y_add + 0 + 15, pnl:GetWide() - 6, y + stats_y_add + 0 + 15)
@@ -1053,7 +1048,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 
     local collection_y = y + stats_y_add + (talents_y_add - 2) - talents_collection
     m_DrawShadowedText(1, "From the " .. itemtbl.item.Collection, "moat_Medium2", 6, collection_y, Color(91, 98, 109, 255))
-	
+
     if (itemtbl.p3) then
         local p3txt = MOAT_PAINT.Skins[itemtbl.p3] and MOAT_PAINT.Skins[itemtbl.p3][1] or "Glitched Skin"
 		m_DrawShadowedText(1, p3txt, "moat_Medium2", pnl:GetWide() - 6, collection_y, MOAT_PAINT.Skins[itemtbl.p3] and rarity_names[MOAT_PAINT.Skins[itemtbl.p3][3]][2]:Copy() or Color(91, 98, 109, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
@@ -3294,6 +3289,16 @@ function m_OpenInventory(ply2, utrade)
 				elseif (p3skin) then
 					cdn.DrawImage(p3skin, 2, 2, w-4, h-4, Color(255, 255, 255, p3alpha))
 				end
+
+				surface.SetDrawColor(8, 12, 19, 230)
+				surface.DrawRect(1, 1, w - 2, 45 + draw_xp_lvl)
+				if (s.StatsHeight and s.SkinHeight) then
+					surface.SetMaterial(gradient_d)
+					surface.SetDrawColor(8, 12, 19, 230)
+					surface.DrawTexturedRect(1, draw_stats_y + s.SkinHeight - 17, w - 2, 25)
+					surface.SetDrawColor(8, 12, 19, 230)
+					surface.DrawRect(1, draw_stats_y + s.SkinHeight + 8, w - 2, h - 2 - draw_stats_y - s.SkinHeight - 8)
+				end
     		end
 
             surface_SetDrawColor(91, 98, 109, 50)
@@ -3437,7 +3442,7 @@ function m_OpenInventory(ply2, utrade)
                 local xp_bar_width = bar_width * (ITEM_HOVERED.s.x / (ITEM_HOVERED.s.l * 100))
                 surface_SetDrawColor(200, 200, 200, 255)
                 surface_SetMaterial(gradient_r)
-                surface_DrawTexturedRect(7, 27 + nt_, xp_bar_width, 2)
+                surface_DrawTexturedRect(7, 27 + nt_, math.min(xp_bar_width, w - 12), 2)
             end
         end
     end
@@ -5930,6 +5935,16 @@ function m_DrawFoundItem(tbl, s_type, name)
 				elseif (p3skin) then
 					cdn.DrawImage(p3skin, 2, 2, w-4, h-4, Color(255, 255, 255, p3alpha))
 				end
+
+				surface.SetDrawColor(8, 12, 19, 240)
+				surface.DrawRect(1, 1, w - 2, 45 + draw_xp_lvl)
+				if (s.StatsHeight and s.SkinHeight) then
+					surface.SetMaterial(gradient_d)
+					surface.SetDrawColor(8, 12, 19, 240)
+					surface.DrawTexturedRect(1, draw_stats_y + s.SkinHeight - 17, w - 2, 25)
+					surface.SetDrawColor(8, 12, 19, 240)
+					surface.DrawRect(1, draw_stats_y + s.SkinHeight + 8, w - 2, h - 2 - draw_stats_y - s.SkinHeight - 8)
+				end
     		end
 
             surface_SetDrawColor(91, 98, 109, 50)
@@ -6064,7 +6079,7 @@ function m_DrawFoundItem(tbl, s_type, name)
                 local xp_bar_width = bar_width * (ITEM_HOVERED.s.x / (ITEM_HOVERED.s.l * 100))
                 surface_SetDrawColor(200, 200, 200, 255)
                 surface_SetMaterial(gradient_r)
-                surface_DrawTexturedRect(7, 27 + nt_, xp_bar_width, 2)
+                surface_DrawTexturedRect(7, 27 + nt_, math.min(xp_bar_width, w - 12), 2)
             end
         end
     end
