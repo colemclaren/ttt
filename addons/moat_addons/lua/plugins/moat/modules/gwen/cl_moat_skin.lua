@@ -2570,7 +2570,7 @@ function PANEL:OnMouseWheeled( dlta )
 
 end
 
-local smooth_scrolling = GetConVar("moat_momentum_scrolling"):GetInt()
+local smooth_scrolling = GetConVar("moat_continue_scrolling"):GetInt()
 
 function PANEL:AddScroll(dlta)
         local OldScroll = self.LerpTarget or self:GetScroll()

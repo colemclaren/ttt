@@ -41,7 +41,7 @@ local moat_convars = {
     ["moat_mga_playerlist"] = 0,
     ["moat_mga_animation"] = 1,
     ["moat_disable_motd"] = 0,
-    ["moat_momentum_scrolling"] = 0,
+    ["moat_continue_scrolling"] = 1,
     ["moat_ViewModelFlip"] = 0,
     ["moat_multicore"] = 0,
     ["moat_red_screen"] = 0,
@@ -173,7 +173,7 @@ moat_Settings.Options = {
         {"Inventory Theme", {"MultiText", "Original", "Dark", "Light", "Blur", "Clear", "Alpha"}, "moat_Theme"},
         {"Instantly Open Crates on Open", {"Multi"}, "moat_fast_open"},
         {"Enable UI Sound Effects", {"Multi"}, "moat_ui_sounds"},
-        {"Enable Momentum Smooth Scrolling", {"Multi"}, "moat_momentum_scrolling"},
+        {"Enable Continuous Scrolling", {"Multi"}, "moat_continue_scrolling"},
         {"Enable Custom Model Preview when Using Crates", {"Multi"}, "moat_model_preview"},
         {"Disable Lighting in Inventory Model Preview", {"Multi"}, "moat_inventory_lighting"},
 		-- {"Holiday Inventory Theme", {"Multi"}, "moat_holiday_theme_2020"}

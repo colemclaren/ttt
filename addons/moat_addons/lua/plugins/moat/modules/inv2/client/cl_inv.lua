@@ -570,7 +570,7 @@ function m_DrawItemDescLevel(text, font, x, y, w, col)
 		if (type(v) == "string") then
 			local str = v
 			local strw = surface.GetTextSize(str)
-			desc_cache[text][k] = {Text = str, Width = strw, Color = Either(string.match(str, "^[%.%-%+]?[%d*%%*]%.?[^%)]*[%s*%d*][%.%-%+%%]?$"), number_col, col)}
+			desc_cache[text][k] = {Text = str, Width = strw, Color = string.match(str, "^[%.%-%+]?[%d*%%*]%.?[^%)]*[%s*%d*][%.%-%+%%]?$") and number_col or col}
 			v = desc_cache[text][k]
 		end
 
@@ -579,7 +579,7 @@ function m_DrawItemDescLevel(text, font, x, y, w, col)
             chars_y = chars_y + 15
         end
 
-        m_DrawShadowedText(1, v.Text, font, x + chars_x, y + chars_y, v.Color)
+        m_DrawShadowedText(1, v.Text, font, x + chars_x, y + chars_y, v.Color or col)
 
         chars_x = chars_x + v.Width
     end
@@ -638,7 +638,7 @@ function m_GetItemDescH(text, font, w)
 		if (type(v) == "string") then
 			local str = v
 			local strw = surface.GetTextSize(str)
-			desc_cache[text][k] = {Text = str, Width = strw, Color = Either(string.match(str, "^[%.%-%+]?[%d*%%*]%.?[^%)]*[%s*%d*][%.%-%+%%]?$"), number_col, col)}
+			desc_cache[text][k] = {Text = str, Width = strw, Color = string.match(str, "^[%.%-%+]?[%d*%%*]%.?[^%)]*[%s*%d*][%.%-%+%%]?$") and number_col or col}
 			v = desc_cache[text][k]
 		end
 
@@ -1022,9 +1022,45 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             if (itemtbl.s.l < talent_level) then
                 talent_col2 = Color(91, 98, 109)
                 talent_alpha = Color(91, 98, 109)
-            end
 
-            m_DrawShadowedText(1, " LEVEL " .. talent_level .. "", "moat_ItemDescSmall2", 3 + draw_name_x + talent_namew, y + stats_y_add + talents_y_add + 2 + 4, talent_col2)
+				cdn.DrawImage("https://static.moat.gg/ttt/icon-lock.png", 4 + draw_name_x + talent_namew, y + stats_y_add + talents_y_add + 2 + 3, 10, 10, Color(0, 0, 0, 255))
+				cdn.DrawImage("https://static.moat.gg/ttt/icon-lock.png", 3 + draw_name_x + talent_namew, y + stats_y_add + talents_y_add + 2 + 2, 10, 10, Color(91, 98, 109, 255))
+
+				talent_namew = talent_namew + 8 + 4
+            else
+				local lx, ty = 4 + draw_name_x + talent_namew, y + stats_y_add + talents_y_add + 2 + 2
+				local star = {
+					{x = lx + 3, y = ty + 5},
+					{x = lx + 7, y = ty + 0},
+					{x = lx + 7, y = ty + 5},
+					{x = lx + 10, y = ty + 5},
+					{x = lx + 8, y = ty + 7},
+					{x = lx + 10, y = ty + 10},
+					{x = lx + 5, y = ty + 8},
+					{x = lx + 0, y = ty + 10},
+					{x = lx + 2, y = ty + 7},
+					{x = lx + 0, y = ty + 5},
+				}
+
+				surface.SetDrawColor(0, 0, 0, 255)
+				draw.NoTexture()
+				ux.DrawCircle(lx + 6, ty + 6, 5, 30)
+				surface.SetDrawColor(255, 0, 114, 255)
+				draw.NoTexture()
+				ux.DrawCircle(lx + 5, ty + 5, 5, 30)
+
+				surface.SetDrawColor(94, 114, 228, 255)
+				draw.NoTexture()
+				ux.DrawCircle(lx + 5, ty + 5, 4, 30)
+
+				surface.SetDrawColor(45, 206, 137, 255)
+				draw.NoTexture()
+				ux.DrawCircle(lx + 5, ty + 5, 2, 30)
+
+				talent_namew = talent_namew + 8 + 6
+			end
+
+            m_DrawShadowedText(1, "Level " .. talent_level .. "", "moat_ItemDesc", 3 + draw_name_x + talent_namew, y + stats_y_add + talents_y_add + 2, talent_col2)
             talent_desc = talent_desc or ""
             local talent_desctbl = string.Explode("^", talent_desc)
 
@@ -1254,7 +1290,7 @@ function m_PaintVBar(sbar)
     end
     local VBARP = MT[CurTheme].VBAR_PAINT
 
-    local smooth_scrolling = GetConVar("moat_momentum_scrolling"):GetInt()
+    local smooth_scrolling = GetConVar("moat_continue_scrolling"):GetInt()
 
     sbar.LerpTarget = 0
 
@@ -3445,7 +3481,7 @@ function m_OpenInventory(ply2, utrade)
                 m_DrawShadowedText(1, ITEM_HOVERED.s.l, "moat_ItemDescLarge3", s:GetWide() - 6, 0, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 surface_SetFont("moat_ItemDescLarge3")
                 local level_w, level_h = surface_GetTextSize(ITEM_HOVERED.s.l)
-                m_DrawShadowedText(1, "LEVEL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
+                m_DrawShadowedText(1, "LVL", "moat_ItemDesc", s:GetWide() - 6 - level_w, 4, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 m_DrawShadowedText(1, "XP: " .. ITEM_HOVERED.s.x .. "/ " .. (ITEM_HOVERED.s.l * 100), "moat_ItemDescSmall2", s:GetWide() - 6 - level_w - 2, 16, Color(240, 245, 253), TEXT_ALIGN_RIGHT)
                 
                 local nt_ = 0
