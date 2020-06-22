@@ -11,7 +11,8 @@ local MOAT_BOSS_HP_MULTIPLIER = 500
 local DefaultLoadout = {
     ["weapon_ttt_unarmed"] = true,
     ["weapon_zm_improvised"] = true,
-    ["weapon_zm_carry"] = true
+    ["weapon_zm_carry"] = true,
+	["weapon_ttt_unarmedboss"] = true
 }
 
 local function moat_EndRoundBossHooks()
@@ -201,6 +202,7 @@ local function moat_BeginRoundBossHooks()
             boss:SetHealth(hp)
             boss:SetMaxHealth(hp)
             boss:GodDisable()
+			boss:Give("weapon_ttt_unarmedboss")
         end)
 
         local healers = {}
@@ -221,7 +223,6 @@ local function moat_BeginRoundBossHooks()
 
 			local function HandleWeaponsAndAmmo()
 				if (not IsValid(v)) then return end
-
 				if (MOAT_DEATHCLAW_WPN) then
                 	v:Give(MOAT_DEATHCLAW_WPN)
                 	v:SelectWeapon(MOAT_DEATHCLAW_WPN)
@@ -283,7 +284,7 @@ local function moat_BeginRoundBossHooks()
 
         hook.Add("PlayerSwitchWeapon", "moat_HolsteredHide", function(ply, old, new)
             if (MOAT_BOSS_CUR and IsValid(MOAT_BOSS_CUR) and ply == MOAT_BOSS_CUR) then
-                if (new.Kind == WEAPON_UNARMED) then
+                if (new.Kind <= WEAPON_NONE) then
                     ply:SetCollisionGroup(COLLISION_GROUP_WEAPON)
                     ply:SetRenderMode(RENDERMODE_TRANSALPHA)
                     ply:SetColor(Color(255, 255, 255, 0))
@@ -309,7 +310,7 @@ local function moat_BeginRoundBossHooks()
                             end
                         end
                     end)
-                elseif(IsValid(old) and old.Kind == WEAPON_UNARMED) then
+                elseif(IsValid(old) and (old.Kind <= WEAPON_NONE)) then
 					net.Start("MOAT_PLAYER_CLOAKED")
                     net.WriteEntity(ply)
                     net.WriteBool(false)
