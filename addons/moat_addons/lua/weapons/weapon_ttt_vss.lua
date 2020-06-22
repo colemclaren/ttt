@@ -12,12 +12,12 @@ SWEP.Spawnable = true
 
 SWEP.Kind = WEAPON_HEAVY
 
-SWEP.Primary.Delay          = 0.13
+SWEP.Primary.Delay          = 0.4
 SWEP.Primary.Recoil         = 2.5
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "pistol"
 SWEP.Primary.Damage = 30
-SWEP.Primary.Cone = 0.001
+SWEP.Primary.Cone = 0.000001
 SWEP.Primary.ClipSize = 15
 SWEP.Primary.ClipMax = 45
 SWEP.Primary.DefaultClip = 15
