@@ -72,41 +72,53 @@ end
 
 local function CheckIfEmpty(vec)
 	local NewVec = Vector(vec.x, vec.y, vec.z)
-	NewVec.z = NewVec.z + 25
+	NewVec.z = NewVec.z + 35
 	NewVec.x = NewVec.x + 12.5
 	NewVec.y = NewVec.y + 12.5
 	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
+	NewVec.z = NewVec.z - 35
+	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
+	NewVec.z = NewVec.z + 35
 	NewVec.x = NewVec.x - 25
 	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
+	NewVec.z = NewVec.z - 35
+	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
+	NewVec.z = NewVec.z + 35
 	NewVec.y = NewVec.y - 25
 	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
+	NewVec.z = NewVec.z - 35
+	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
+	NewVec.z = NewVec.z + 35
 	NewVec.x = NewVec.x + 25
 	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
-
+	NewVec.z = NewVec.z - 35
+	if util.PointContents(NewVec) == CONTENTS_SOLID then return false end
+	
 	return true
 end
 
 if CLIENT then
 	local model
 	local function initModel(self)
-		model = ClientsideModel("models/hunter/blocks/cube05x05x05.mdl", RENDERGROUP_TRANSLUCENT)
+		model = ClientsideModel("models/hunter/blocks/cube05x105x05.mdl", RENDERGROUP_TRANSLUCENT)
 		model:SetRenderMode(RENDERMODE_TRANSALPHA)
 		model:SetMaterial("models/debug/debugwhite")
 		model.Weapon = self
+		local ang = Angle(0, LocalPlayer():GetAngles().y, 90)
+		model:SetAngles(ang)
 	end
 	function SWEP:Think()
 		if !IsValid(model) then initModel(self) end
 		local tr = self.Owner:GetEyeTrace()
-		tr.HitPos.z = tr.HitPos.z + 12.5
+		tr.HitPos.z = tr.HitPos.z + 37.5
 		model:SetPos(tr.HitPos)
 		if tr.HitPos:Distance(self:GetPos()) > 102.5 or !CheckIfEmpty(tr.HitPos) or tr.HitNormal.x > 0.005 or tr.HitNormal.y > 0.005 or tr.HitNormal.z != 1 then
 			model:SetColor(Color(255, 0, 0, 125))
 			return
 		end
 		model:SetColor(Color(0, 255, 0, 125))
-		local newAng = Angle(270, 0, 0)//tr.HitNormal:Angle()
-		newAng:RotateAroundAxis(newAng:Forward(), -90)
-		model:SetAngles(newAng)
+		local ang = Angle(0, LocalPlayer():GetAngles().y, 90)
+		model:SetAngles(ang)
 	
 	end
 	function SWEP:OnRemove()
@@ -140,8 +152,7 @@ function SWEP:PrimaryAttack()
 	local ent = ents.Create("traitor_sentry")
 	ent.TurretOwner = self.Owner
 	ent:SetPos(tr.HitPos)
-	local newAng = Angle(270, 0, 0)//tr.HitNormal:Angle()
-	newAng:RotateAroundAxis(newAng:Forward(), -90)
+	local newAng = Angle(0, self.Owner:GetAngles().y, 0)
 	ent:SetAngles(newAng)
 	ent:Spawn()
 	self:Remove()
