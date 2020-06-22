@@ -1,4 +1,4 @@
-local ManhackHealth = 10000
+local ManhackHealth = 500
 
 local ManhackDamage = 10
 

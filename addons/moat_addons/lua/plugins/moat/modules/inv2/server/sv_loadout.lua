@@ -138,17 +138,6 @@ function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
     wep.PrintName = GetItemName(itemtbl) or "Holstered"
 	wep:SetRealPrintName(wep.PrintName)
 
-	if (itemtbl.t) then
-		itemtbl.Talents = GetItemTalents(itemtbl)
-
-        wep.Talents = table.Copy(itemtbl.t)
-        wep.level = itemtbl.s.l
-        wep.exp = itemtbl.s.x
-        m_ApplyTalentMods(wep, itemtbl)
-    end
-
-	wep.ItemStats = itemtbl or {}
-
     if (itemtbl.s) then
         for s_idx, mult in pairs(itemtbl.s) do
             local mod = MODS.Accessors[s_idx]
@@ -167,6 +156,17 @@ function MOAT_LOADOUT.ApplyWeaponMods(wep, loadout_tbl, item)
             mod:Set(wep, mult)
         end
     end
+
+	if (itemtbl.t) then
+		itemtbl.Talents = GetItemTalents(itemtbl)
+
+        wep.Talents = table.Copy(itemtbl.t)
+        wep.level = itemtbl.s.l
+        wep.exp = itemtbl.s.x
+        m_ApplyTalentMods(wep, itemtbl)
+    end
+
+	wep.ItemStats = itemtbl or {}
 
     return wep
 end
