@@ -5683,7 +5683,7 @@ net.Receive("MOAT_INIT_TRADE", function(len)
 				m_InitializeTrade(other_ply, trade_uid)
 			end)
 		else
-            m_ChangeInventoryPanel(9, true, function()
+            m_ChangeInventoryPanel(11, true, function()
 				m_ply2 = other_ply
 				m_utrade = trade_uid
 				m_InitializeTrade(other_ply, trade_uid)
