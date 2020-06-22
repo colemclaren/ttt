@@ -9,7 +9,7 @@ include('shared.lua')
 local rangecvar = CreateConVar("peace_range", "750", {FCVAR_ARCHIVE})
 local hpcvar = CreateConVar("peace_hp", "100", {FCVAR_ARCHIVE})
 local rofcvar = CreateConVar("peace_rate_of_fire", "0.1", {FCVAR_ARCHIVE})
-local dmgcvar = CreateConVar("peace_damage", "10", {FCVAR_ARCHIVE})
+local dmgcvar = CreateConVar("peace_damage", "5", {FCVAR_ARCHIVE})
 local shotcvar = CreateConVar("peace_shots_total", "100", {FCVAR_ARCHIVE})
 local spreadcvar = CreateConVar("peace_spread", "0", {FCVAR_ARCHIVE})
 local spawn = CreateConVar("peace_spawnfrozen", "1", {FCVAR_ARCHIVE})
@@ -33,7 +33,7 @@ function ENT:Initialize()
 	self.SpawnTime = CurTime()
 	
 	self.NextShot = 0
-	self.HealthPoints = hpcvar:GetInt()
+	self.HealthPoints = math.random(300, 500)
 	self.TotalShots = 0
 
 	PEACE_SENTRIES = PEACE_SENTRIES and (PEACE_SENTRIES + 1) or 1
@@ -57,7 +57,7 @@ hook("EntityTakeDamage", function(pl, dmg)
 	if (not PEACE_SENTRIES or PEACE_SENTRIES < 1) then return end
 	if (not IsValid(pl) or not pl:IsPlayer()) then return end
 	local attacker = dmg:GetAttacker()
-	if (attacker:Role() ~= ROLE_DETECTIVE) then
+	if (attacker:GetRole() ~= ROLE_DETECTIVE) then
 		local bone = attacker:LookupBone "ValveBiped.Bip01_Spine2"
 		if !bone then return end
 		local bonePos, boneAng = attacker:GetBonePosition(bone)
@@ -112,7 +112,7 @@ function ENT:Think()
 			self.NextShot = CurTime()+rofcvar:GetFloat()
 			local bullets = {}
 			bullets.Attacker = self
-			bullets.Damage = dmgcvar:GetInt()
+			bullets.Damage = 5
 			bullets.Force = bullets.Damage
 			bullets.Num = 1
 			bullets.Tracer = 1
