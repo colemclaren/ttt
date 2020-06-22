@@ -8737,6 +8737,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 ITEM.Name = "Black Backpack"
 ITEM.ID = 585
@@ -8759,6 +8761,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 ITEM.Name = "Gray Backpack"
@@ -8783,6 +8787,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 ITEM.Name = "BlueCABackpack"
 ITEM.ID = 570
@@ -8805,6 +8811,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 ITEM.Name = "GreenCABackpack"
@@ -8829,6 +8837,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 ITEM.Name = "RedCABackpack"
 ITEM.ID = 572
@@ -8851,6 +8861,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 ITEM.Name = "Black Tactical Backpack"
@@ -8875,6 +8887,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 ITEM.Name = "Grey Tactical Backpack"
 ITEM.ID = 574
@@ -8897,6 +8911,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 
@@ -8928,6 +8944,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 
 ITEM.ID = 2097
@@ -8958,6 +8976,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 ITEM.Name = "Face Bandana"
 ITEM.ID = 575
@@ -8980,6 +9000,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Body')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 ITEM.ID = 2067
@@ -9008,6 +9030,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 ITEM.Name = "White Scarf"
 ITEM.ID = 576
@@ -9032,6 +9056,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Body')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 ITEM.Name = "Gray Scarf"
@@ -9058,6 +9084,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 ITEM.Name = "Black Scarf"
 ITEM.ID = 578
@@ -9082,6 +9110,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Body')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 ITEM.Name = "Midnight Scarf"
@@ -9108,6 +9138,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 ITEM.Name = "Red Scarf"
 ITEM.ID = 580
@@ -9132,6 +9164,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Body')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 ITEM.Name = "Green Scarf"
@@ -9158,6 +9192,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Body')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
+
 ITEM = {}
 ITEM.Name = "Pink Scarf"
 ITEM.ID = 582
@@ -9182,6 +9218,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Body')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 ITEM.ID = 785
@@ -13421,6 +13459,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 
 ITEM.Name = "Black Ice Effect"
@@ -13464,6 +13504,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 
@@ -13509,6 +13551,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Burger Effect"
 ITEM.ID = 217
@@ -13550,6 +13594,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Robot Effect"
 ITEM.ID = 218
@@ -13579,6 +13625,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Combine Ball Effect"
@@ -13625,6 +13673,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Confusion Effect"
 ITEM.ID = 220
@@ -13668,6 +13718,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "WASD Effect"
@@ -13713,6 +13765,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Developer Effect"
@@ -13760,6 +13814,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Diamond Effect"
 ITEM.ID = 223
@@ -13802,6 +13858,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Donut Effect"
@@ -13846,6 +13904,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Dr. Danger Effect"
 ITEM.ID = 225
@@ -13889,6 +13949,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Explosion Effect"
 ITEM.ID = 226
@@ -13929,6 +13991,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Duhaf Effect"
@@ -13972,6 +14036,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "dungo Effect"
 ITEM.ID = 228
@@ -14013,6 +14079,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Editor Effect"
@@ -14057,6 +14125,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "GMan Effect"
 ITEM.ID = 230
@@ -14088,6 +14158,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Koi Effect"
@@ -14121,6 +14193,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Holy Effect"
@@ -14163,6 +14237,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Horse Effect"
@@ -14207,6 +14283,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Hotdog Effect"
 ITEM.ID = 235
@@ -14250,6 +14328,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Huladoll Effect"
 ITEM.ID = 236
@@ -14282,6 +14362,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 
@@ -14317,6 +14399,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "ILLIN Effect"
@@ -14362,6 +14446,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Lamar Effect"
 ITEM.ID = 239
@@ -14394,6 +14480,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "LAPIZ Effect"
@@ -14439,6 +14527,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 
 ITEM.Name = "L.F. Effect"
@@ -14482,6 +14572,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Potke Effect"
 ITEM.ID = 242
@@ -14512,6 +14604,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "lovd Effect"
@@ -14557,6 +14651,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "M Effect"
 ITEM.ID = 244
@@ -14600,6 +14696,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Mage Effect"
 ITEM.ID = 245
@@ -14640,6 +14738,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Math Effect"
@@ -14686,6 +14786,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Metrocop Effect"
 ITEM.ID = 248
@@ -14719,6 +14821,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.ID = 212
@@ -14759,6 +14863,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Trees Effect"
@@ -14803,6 +14909,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Nature Effect"
 ITEM.ID = 250
@@ -14846,6 +14954,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Pantom Effect"
 ITEM.ID = 251
@@ -14886,6 +14996,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Paradigm Effect"
@@ -14931,6 +15043,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Quartz Effect"
 ITEM.ID = 253
@@ -14973,6 +15087,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Dead Bush Effect"
@@ -15019,6 +15135,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Scan Effect"
 ITEM.ID = 255
@@ -15060,6 +15178,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Rocket Effect"
@@ -15105,6 +15225,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "QT Effect"
 ITEM.ID = 257
@@ -15149,6 +15271,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Particle Effect"
@@ -15196,6 +15320,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Lava Effect"
 ITEM.ID = 259
@@ -15238,6 +15364,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Toxin Effect"
@@ -15282,6 +15410,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Wisp Effect"
 ITEM.ID = 261
@@ -15323,6 +15453,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Stone Effect"
@@ -15373,6 +15505,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Tesla Effect"
@@ -15477,6 +15611,8 @@ end
 */
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Gordon Effect"
 ITEM.ID = 264
@@ -15511,6 +15647,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Tornado Effect"
@@ -15559,6 +15697,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Turtle Effect"
 ITEM.ID = 266
@@ -15591,6 +15731,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Valve Effect"
@@ -15634,6 +15776,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "White Snake Effect"
@@ -15679,6 +15823,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.Name = "Acid Effect"
 ITEM.ID = 269
@@ -15720,6 +15866,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Effect')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
 ITEM.Name = "Yellow Data Effect"
@@ -15765,6 +15913,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Effect')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
+
 ITEM = {}
 ITEM.ID = 8074
 ITEM.Rarity = 5
@@ -15781,6 +15931,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -15806,6 +15958,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -15835,6 +15989,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 56
@@ -15859,6 +16015,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -15890,6 +16048,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 73
@@ -15917,6 +16077,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -15946,6 +16108,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Piswasser Beer Hat"
 ITEM.ID = 498
@@ -15970,6 +16134,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "USA Piswasser Beer Hat"
@@ -15996,6 +16162,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Super Wet Beer Hat"
 ITEM.ID = 499
@@ -16019,6 +16187,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "USA Super Wet Beer Hat"
@@ -16044,6 +16214,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Patriot Beer Hat"
 ITEM.ID = 500
@@ -16067,6 +16239,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "USA Patriot Beer Hat"
@@ -16092,6 +16266,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Benedict Beer Hat"
 ITEM.ID = 501
@@ -16115,6 +16291,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "USA Benedict Beer Hat"
@@ -16140,6 +16318,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Blarneys Beer Hat"
 ITEM.ID = 502
@@ -16163,6 +16343,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "USA Blarneys Beer Hat"
@@ -16188,6 +16370,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "J Lager Beer Hat"
 ITEM.ID = 503
@@ -16212,6 +16396,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "USA J Lager Beer Hat"
 ITEM.ID = 2503
@@ -16235,6 +16421,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16261,6 +16449,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16289,6 +16479,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16319,6 +16511,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8012
 ITEM.Rarity = 2
@@ -16338,6 +16532,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16365,6 +16561,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 58
@@ -16390,6 +16588,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8521
 ITEM.Rarity = 6
@@ -16406,6 +16606,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16431,6 +16633,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16458,6 +16662,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16487,6 +16693,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8073
 ITEM.Rarity = 6
@@ -16503,6 +16711,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16533,6 +16743,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8021
 ITEM.Rarity = 4
@@ -16551,6 +16763,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16579,6 +16793,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 90
@@ -16606,6 +16822,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8020
 ITEM.Rarity = 2
@@ -16625,6 +16843,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8535
 ITEM.Rarity = 7
@@ -16640,6 +16860,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16665,6 +16887,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16692,6 +16916,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 4538
 ITEM.Rarity = 9
@@ -16711,6 +16937,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 4539
 ITEM.Rarity = 7
@@ -16728,6 +16956,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8522
 ITEM.Rarity = 6
@@ -16743,6 +16973,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 8533
@@ -16760,6 +16992,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8078
 ITEM.Rarity = 5
@@ -16775,6 +17009,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 8022
@@ -16794,6 +17030,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16821,6 +17059,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8095
 ITEM.Rarity = 1
@@ -16836,6 +17076,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 8025
@@ -16855,6 +17097,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16884,6 +17128,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8026
 ITEM.Rarity = 7
@@ -16900,6 +17146,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -16929,6 +17177,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Grey Fedora"
 ITEM.ID = 520
@@ -16952,6 +17202,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Black Fedora"
@@ -16977,6 +17229,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "White Fedora"
 ITEM.ID = 522
@@ -17000,6 +17254,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Tan Fedora"
@@ -17025,6 +17281,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Red Fedora"
 ITEM.ID = 368
@@ -17048,6 +17306,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "BR Fedora"
@@ -17073,6 +17333,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Brown Fedora"
 ITEM.ID = 370
@@ -17096,6 +17358,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Blue Fedora"
@@ -17121,6 +17385,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Waldo Beanie"
 ITEM.ID = 372
@@ -17144,6 +17410,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "BB Beanie"
@@ -17169,6 +17437,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Red Beanie"
 ITEM.ID = 374
@@ -17192,6 +17462,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "White Beanie"
@@ -17217,6 +17489,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "GB Beanie"
 ITEM.ID = 376
@@ -17240,6 +17514,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Black Beanie V2"
@@ -17265,6 +17541,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Gray Beanie V2"
 ITEM.ID = 378
@@ -17288,6 +17566,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Gray Striped Beanie"
@@ -17313,6 +17593,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Rasta Beanie"
 ITEM.ID = 380
@@ -17336,6 +17618,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Blue Beanie V2"
@@ -17361,6 +17645,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Gray Musicians Hat"
 ITEM.ID = 382
@@ -17382,6 +17668,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Franklin Cap"
@@ -17407,6 +17695,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Franklin Cap V2"
 ITEM.ID = 384
@@ -17430,6 +17720,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Fist Cap"
@@ -17455,6 +17747,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Gray C Cap"
 ITEM.ID = 386
@@ -17478,6 +17772,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "White LS Cap"
@@ -17503,6 +17799,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Feud Cap"
 ITEM.ID = 388
@@ -17526,6 +17824,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Magnetics Cap"
@@ -17551,6 +17851,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "OG Cap"
 ITEM.ID = 390
@@ -17574,6 +17876,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Stank Cap"
@@ -17599,6 +17903,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Dancer Cap"
 ITEM.ID = 392
@@ -17622,6 +17928,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Ape Cap"
@@ -17647,6 +17955,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Orange Trucker Hat"
 ITEM.ID = 394
@@ -17670,6 +17980,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Blue Trucker Hat"
@@ -17695,6 +18007,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Nut House Trucker Hat"
 ITEM.ID = 396
@@ -17718,6 +18032,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Rusty Trucker Hat"
@@ -17743,6 +18059,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Bishop Trucker Hat"
 ITEM.ID = 398
@@ -17766,6 +18084,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "24/7 Trucker Hat"
@@ -17791,6 +18111,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Fruit Trucker Hat"
 ITEM.ID = 400
@@ -17815,6 +18137,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 4532
 ITEM.Rarity = 3
@@ -17832,6 +18156,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -17859,6 +18185,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -17888,6 +18216,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 87
@@ -17915,6 +18245,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -17944,6 +18276,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.Name = "Heart Hat"
 ITEM.ID = 659
@@ -17968,6 +18302,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.Name = "Heart Hat"
@@ -17995,6 +18331,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 4529
 ITEM.Rarity = 6
@@ -18012,6 +18350,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18042,6 +18382,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8089
 ITEM.Rarity = 5
@@ -18058,6 +18400,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18087,6 +18431,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 143
@@ -18114,6 +18460,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18143,6 +18491,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8081
 ITEM.Rarity = 5
@@ -18160,6 +18510,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8082
 ITEM.Rarity = 4
@@ -18176,6 +18528,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18202,6 +18556,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18231,6 +18587,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8086
 ITEM.Rarity = 5
@@ -18246,6 +18604,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18275,6 +18635,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 114
@@ -18301,6 +18663,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18332,6 +18696,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8088
 ITEM.Rarity = 4
@@ -18347,6 +18713,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18375,6 +18743,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8041
 ITEM.Rarity = 3
@@ -18393,6 +18763,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8090
 ITEM.Rarity = 6
@@ -18408,6 +18780,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18436,6 +18810,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8085
 ITEM.Rarity = 6
@@ -18452,6 +18828,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18481,6 +18859,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8069
 ITEM.Rarity = 6
@@ -18500,6 +18880,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8006
 ITEM.Rarity = 1
@@ -18516,6 +18898,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 4530
@@ -18534,6 +18918,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 4531
 ITEM.Rarity = 5
@@ -18550,6 +18936,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 3559
@@ -18568,6 +18956,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8044
 ITEM.Rarity = 5
@@ -18583,6 +18973,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18613,6 +19005,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8092
 ITEM.Rarity = 5
@@ -18630,6 +19024,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8539
 ITEM.Rarity = 7
@@ -18646,6 +19042,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18673,6 +19071,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 7001
@@ -18751,6 +19151,8 @@ self:
 */
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 121
@@ -18778,6 +19180,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8054
 ITEM.Rarity = 7
@@ -18796,6 +19200,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 8056
@@ -18816,6 +19222,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8083
 ITEM.Rarity = 3
@@ -18831,6 +19239,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18860,6 +19270,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 3396
 ITEM.Name = "Mexican Sombrero"
@@ -18879,6 +19291,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8058
 ITEM.Rarity = 7
@@ -18894,6 +19308,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 8094
@@ -18911,6 +19327,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -18940,6 +19358,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8099
 ITEM.Rarity = 3
@@ -18957,6 +19377,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8060
 ITEM.Rarity = 5
@@ -18972,6 +19394,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -19000,6 +19424,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 80
@@ -19027,6 +19453,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -19057,6 +19485,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8096
 ITEM.Rarity = 4
@@ -19072,6 +19502,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 8079
@@ -19089,6 +19521,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8080
 ITEM.Rarity = 9
@@ -19104,6 +19538,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 8100
@@ -19121,6 +19557,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8076
 ITEM.Rarity = 6
@@ -19136,6 +19574,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 8061
@@ -19156,6 +19596,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8091
 ITEM.Rarity = 6
@@ -19171,6 +19613,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -19200,6 +19644,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8087
 ITEM.Rarity = 7
@@ -19216,6 +19662,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -19242,6 +19690,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -19271,6 +19721,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8097
 ITEM.Rarity = 6
@@ -19289,6 +19741,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -19318,6 +19772,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 130
@@ -19346,6 +19802,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 ITEM.ID = 8072
 ITEM.Rarity = 6
@@ -19363,6 +19821,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 
 m_AddDroppableItem(ITEM, 'Hat')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 
@@ -19392,6 +19852,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Hat')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
+
 ITEM = {}
 
 ITEM.ID = 566
@@ -19412,6 +19874,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19434,6 +19898,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 63
@@ -19454,6 +19920,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19476,6 +19944,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 527
@@ -19496,6 +19966,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19518,6 +19990,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 861
 ITEM.Name = "Bunny Model"
@@ -19530,6 +20004,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19552,6 +20028,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 529
@@ -19572,6 +20050,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19594,6 +20074,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 162
@@ -19614,6 +20096,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19636,6 +20120,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 164
@@ -19656,6 +20142,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19678,6 +20166,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 166
@@ -19698,6 +20188,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19720,6 +20212,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 531
@@ -19740,6 +20234,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19762,6 +20258,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 42
 ITEM.Name = "T-Rex Modwl"
@@ -19774,6 +20272,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19796,6 +20296,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7010 --models/jaanus/santa.mdl
 ITEM.Name = "Cat Woman Model"
@@ -19808,6 +20310,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19830,6 +20334,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 862
 ITEM.Name = "Eastertrooper Model"
@@ -19843,6 +20349,8 @@ function ITEM:OnPlayerSpawn(ply)
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7006 --models/gonzo/crimboclonesv2/elf/elf.mdl
 ITEM.Name = "Batman Model"
@@ -19855,6 +20363,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19877,6 +20387,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 185
@@ -19897,6 +20409,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19919,6 +20433,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 187
@@ -19939,6 +20455,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -19961,6 +20479,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 189
@@ -19981,6 +20501,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20003,6 +20525,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 535
@@ -20023,6 +20547,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20045,6 +20571,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7007 --models/players/gingerfast.mdl
 ITEM.Name = "Flash Model"
@@ -20057,6 +20585,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20079,6 +20609,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 537
@@ -20099,6 +20631,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20121,6 +20655,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 5134
 ITEM.Name = "Halloween King Model"
@@ -20133,6 +20669,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20155,6 +20693,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 191
@@ -20175,6 +20715,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20197,6 +20739,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 193
@@ -20217,6 +20761,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20239,6 +20785,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 540
@@ -20259,6 +20807,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20281,6 +20831,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 542
@@ -20301,6 +20853,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20323,6 +20877,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 544
@@ -20344,6 +20900,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7008 --"models/player/christmas/santa.mdl"
 ITEM.Name = "Jolly Santa Model"
@@ -20356,6 +20914,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20378,6 +20938,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 545
 ITEM.Name = "Knight Model"
@@ -20390,6 +20952,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple(1, function() ply:SetModel( self.Model ) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20412,6 +20976,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 177
@@ -20432,6 +20998,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20454,6 +21022,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 168
@@ -20474,6 +21044,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20496,6 +21068,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 169
@@ -20516,6 +21090,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20538,6 +21114,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 170
@@ -20558,6 +21136,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20580,6 +21160,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 171
@@ -20600,6 +21182,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20622,6 +21206,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 172
@@ -20642,6 +21228,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20664,6 +21252,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 173
@@ -20684,6 +21274,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20706,6 +21298,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 174
@@ -20726,6 +21320,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20748,6 +21344,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 175
@@ -20768,6 +21366,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20790,6 +21390,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 546
@@ -20810,6 +21412,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20832,6 +21436,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 547
@@ -20852,6 +21458,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20874,6 +21482,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 198
@@ -20894,6 +21504,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20916,6 +21528,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 549
@@ -20936,6 +21550,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20958,6 +21574,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7009 --models/gonzo/crimboclonesv2/reindeer/reindeer.mdl
 ITEM.Name = "Green Lantern Model"
@@ -20970,6 +21588,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -20992,6 +21612,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 551
@@ -21012,6 +21634,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21034,6 +21658,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7005 --models/gonzo/crimboclonesv2/rudolph/rudolph.mdl
 ITEM.Name = "Superman Model"
@@ -21047,6 +21673,8 @@ function ITEM:OnPlayerSpawn(ply)
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7011 --models/gonzo/crimboclonesv2/santa/santa.mdl
 ITEM.Name = "Jesus Model"
@@ -21059,6 +21687,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21081,6 +21711,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 554
@@ -21102,6 +21734,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 5135
 ITEM.Name = "Scream Model"
@@ -21114,6 +21748,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21136,6 +21772,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 66
@@ -21156,6 +21794,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21178,6 +21818,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 557
@@ -21198,6 +21840,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21220,6 +21864,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 559
@@ -21240,6 +21886,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21262,6 +21910,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 561
@@ -21282,6 +21932,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21304,6 +21956,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 46
@@ -21324,6 +21978,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21346,6 +22002,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 50
@@ -21366,6 +22024,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21388,6 +22048,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 1107
 ITEM.Name = "Arctic Model"
@@ -21400,6 +22062,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 ITEM.ID = 1108
@@ -21414,6 +22078,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 1109
 ITEM.Name = "Leet Model"
@@ -21426,6 +22092,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 ITEM.ID = 1110
@@ -21440,6 +22108,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 1111
 ITEM.Name = "Hobo Model"
@@ -21452,6 +22122,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 ITEM.ID = 1112
@@ -21466,6 +22138,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 1113
 ITEM.Name = "Riot Model"
@@ -21478,6 +22152,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 ITEM.ID = 1114
@@ -21492,6 +22168,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 1115
 ITEM.Name = "Gasmask Model"
@@ -21504,6 +22182,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 ITEM.ID = 1116
@@ -21518,6 +22198,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 1117
 ITEM.Name = "Combine Model"
@@ -21530,6 +22212,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 ITEM.ID = 1118
@@ -21544,6 +22228,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 1119
 ITEM.Name = "Police Model"
@@ -21557,6 +22243,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 1120
 ITEM.Name = "Female Police Model"
@@ -21569,6 +22257,8 @@ function ITEM:OnPlayerSpawn( ply )
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21591,6 +22281,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7012 --models/player/portal/male_02_snow.mdl
 ITEM.Name = "Winter Male 1"
@@ -21603,6 +22295,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 ITEM.ID = 7013 --models/player/portal/male_04_snow.mdl
@@ -21617,6 +22311,8 @@ function ITEM:OnPlayerSpawn(ply)
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7014 --models/player/portal/male_05_snow.mdl
 ITEM.Name = "Winter Male 3"
@@ -21629,6 +22325,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 ITEM.ID = 7015 --models/player/portal/male_07_snow.mdl
@@ -21643,6 +22341,8 @@ function ITEM:OnPlayerSpawn(ply)
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7016 --models/player/portal/male_08_snow.mdl
 ITEM.Name = "Winter Male 5"
@@ -21656,6 +22356,8 @@ function ITEM:OnPlayerSpawn(ply)
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 ITEM.ID = 7017 --models/player/portal/male_09_snow.mdl
 ITEM.Name = "Winter Male 6"
@@ -21668,6 +22370,8 @@ function ITEM:OnPlayerSpawn(ply)
 	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21690,6 +22394,8 @@ function ITEM:OnPlayerSpawn( ply )
 end
 m_AddDroppableItem(ITEM, 'Model')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
+
 ITEM = {}
 
 ITEM.ID = 564
@@ -21710,6 +22416,8 @@ function ITEM:OnPlayerSpawn( ply )
 
 end
 m_AddDroppableItem(ITEM, 'Model')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
 
@@ -21738,6 +22446,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 
 ITEM.ID = 2096
@@ -21765,6 +22475,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8002
 ITEM.Rarity = 6
@@ -21784,6 +22496,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8004
 ITEM.Rarity = 4
@@ -21802,6 +22516,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -21830,6 +22546,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8005
 ITEM.Rarity = 2
@@ -21846,6 +22564,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8007
@@ -21865,6 +22585,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Arnold Mask"
@@ -21893,6 +22615,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 
 ITEM.ID = 57
@@ -21917,6 +22641,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -21943,6 +22669,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Up-n-Atom Bag"
 ITEM.ID = 471
@@ -21966,6 +22694,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Smiley Bag"
@@ -21991,6 +22721,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Pig Bag"
 ITEM.ID = 473
@@ -22014,6 +22746,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Reptilian Bag"
@@ -22039,6 +22773,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Meanie Bag"
 ITEM.ID = 475
@@ -22062,6 +22798,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Queasy Bag"
@@ -22087,6 +22825,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Skull Bag"
 ITEM.ID = 477
@@ -22110,6 +22850,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Puppy Bag"
@@ -22135,6 +22877,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Pink Ghost Bag"
 ITEM.ID = 479
@@ -22158,6 +22902,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Alien Bag"
@@ -22183,6 +22929,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Help Me Bag"
 ITEM.ID = 481
@@ -22206,6 +22954,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Maze Bag"
@@ -22231,6 +22981,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Pretty Cry Bag"
 ITEM.ID = 483
@@ -22254,6 +23006,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "FU Bag"
@@ -22279,6 +23033,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Sir Bag"
 ITEM.ID = 485
@@ -22302,6 +23058,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Stickers Bag"
@@ -22327,6 +23085,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Sheman Bag"
 ITEM.ID = 487
@@ -22350,6 +23110,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Heart Bag"
@@ -22375,6 +23137,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Brown Bag"
 ITEM.ID = 489
@@ -22398,6 +23162,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Heart Bag"
@@ -22424,6 +23190,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Shy Bag"
 ITEM.ID = 490
@@ -22447,6 +23215,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Mob Boss Bag"
@@ -22472,6 +23242,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Sharp Teeth Bag"
 ITEM.ID = 492
@@ -22495,6 +23267,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Kiddo Bag"
@@ -22520,6 +23294,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Burger Shot Bag"
 ITEM.ID = 494
@@ -22543,6 +23319,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Kill Me Bag"
@@ -22568,6 +23346,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Devil Bag"
 ITEM.ID = 496
@@ -22592,6 +23372,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8008
 ITEM.Rarity = 5
@@ -22609,6 +23391,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -22637,6 +23421,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Bear Mask"
 ITEM.ID = 497
@@ -22662,6 +23448,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8009
 ITEM.Rarity = 4
@@ -22680,6 +23468,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8032
@@ -22700,6 +23490,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8010
 ITEM.Rarity = 3
@@ -22716,6 +23508,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Stallion Mask"
@@ -22744,6 +23538,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Bloody Bird Mask"
 ITEM.ID = 668
@@ -22770,6 +23566,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Bloody Butterfly Mask"
@@ -22798,6 +23596,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Bloody Cat Mask"
 ITEM.ID = 655
@@ -22824,6 +23624,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Bloody Rabbit Mask"
@@ -22852,6 +23654,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 
 ITEM.ID = 100
@@ -22879,6 +23683,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8011
 ITEM.Rarity = 6
@@ -22897,6 +23703,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Brown Horsie Mask"
@@ -22925,6 +23733,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8023
 ITEM.Rarity = 6
@@ -22943,6 +23753,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Cat Mask"
@@ -22967,6 +23779,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Chuck Mask"
@@ -22995,6 +23809,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8068
 ITEM.Rarity = 7
@@ -23011,6 +23827,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Colorful Bird Mask"
@@ -23037,6 +23855,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8093
 ITEM.Rarity = 4
@@ -23054,6 +23874,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8013
 ITEM.Rarity = 3
@@ -23070,6 +23892,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -23099,6 +23923,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8014
 ITEM.Rarity = 7
@@ -23115,6 +23941,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8016
@@ -23135,6 +23963,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8017
 ITEM.Rarity = 4
@@ -23151,6 +23981,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "White Doctor Mask"
@@ -23181,6 +24013,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Gray Doctor Mask"
 ITEM.ID = 506
@@ -23209,6 +24043,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Black Doctor Mask"
@@ -23239,6 +24075,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Dolph Mask"
 ITEM.ID = 661
@@ -23266,6 +24104,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8001
 ITEM.Rarity = 7
@@ -23285,6 +24125,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Alien Egg Mask"
@@ -23313,6 +24155,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Blue Egg Mask"
 ITEM.ID = 854
@@ -23339,6 +24183,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Lava Egg Mask"
@@ -23367,6 +24213,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Money Egg Mask"
 ITEM.ID = 855
@@ -23393,6 +24241,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Mysterious Egg Mask"
@@ -23421,6 +24271,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Slime Sheet Egg Mask"
 ITEM.ID = 857
@@ -23447,6 +24299,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Stained Glass Egg Mask"
@@ -23475,6 +24329,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Wireframe Egg Mask"
 ITEM.ID = 859
@@ -23501,6 +24357,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Wooden Egg Mask"
@@ -23529,6 +24387,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Bluesteel Egg Of Genius'
 ITEM.ID = 9000
@@ -23544,6 +24404,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Aqueous Egg Of River Riding'
@@ -23561,6 +24423,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Wikipedian Egg Of Alien Mind Control'
 ITEM.ID = 9002
@@ -23576,6 +24440,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Vicious Egg Of Singularity'
@@ -23593,6 +24459,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Chrome Egg Of Speeding Bullet'
 ITEM.ID = 9004
@@ -23608,6 +24476,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Dodge Egg'
@@ -23625,6 +24495,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggotrip'
 ITEM.ID = 9006
@@ -23640,6 +24512,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Unassuming Egg Of Shyness'
@@ -23657,6 +24531,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Dark Crimson Egg Of Nemesis'
 ITEM.ID = 9008
@@ -23672,6 +24548,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Duskeye Egg Of The Crossroads'
@@ -23689,6 +24567,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Terrordactyl Egg'
 ITEM.ID = 9010
@@ -23704,6 +24584,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Eggsplosive Bomb Egg'
@@ -23721,6 +24603,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggtus'
 ITEM.ID = 9012
@@ -23736,6 +24620,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Strawbeggy'
@@ -23753,6 +24639,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Stooge Egg'
 ITEM.ID = 9014
@@ -23768,6 +24656,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Blinking Egg Of Relocation'
@@ -23785,6 +24675,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Starry Egg Of The Wild Ride'
 ITEM.ID = 9016
@@ -23800,6 +24692,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Self Replicating Egg Of Grey Goo'
@@ -23817,6 +24711,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Rusty Egg Of Magnetism'
 ITEM.ID = 9018
@@ -23832,6 +24728,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Ruby Egg'
@@ -23849,6 +24747,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Beehive Egg Of Infinite Stings'
 ITEM.ID = 9020
@@ -23864,6 +24764,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Puzzling Egg Of Enigma'
@@ -23881,6 +24783,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Organic Egg'
 ITEM.ID = 9022
@@ -23896,6 +24800,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Normal Egg'
@@ -23913,6 +24819,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of All-devouring Darkness'
 ITEM.ID = 9024
@@ -23928,6 +24836,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Lumineggscence'
@@ -23945,6 +24855,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Kind Egg Of Sharing'
 ITEM.ID = 9026
@@ -23960,6 +24872,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Eggvertisement Egg'
@@ -23977,6 +24891,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Flawless Teamwork'
 ITEM.ID = 9028
@@ -23992,6 +24908,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Invisible Egg Of Shadow'
@@ -24009,6 +24927,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggsterminator Egg'
 ITEM.ID = 9030
@@ -24024,6 +24944,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Impossible Egg Of Genius'
@@ -24041,6 +24963,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Cataclysmic Egg'
 ITEM.ID = 9032
@@ -24056,6 +24980,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Heat-seeking Egg'
@@ -24073,6 +24999,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Four Wonders'
 ITEM.ID = 9034
@@ -24088,6 +25016,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Golden Egg Of Kings'
@@ -24105,6 +25035,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Full Moon Egg'
 ITEM.ID = 9036
@@ -24120,6 +25052,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of Equinox Day'
@@ -24137,6 +25071,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Extinct Egg Of Dino On Ice'
 ITEM.ID = 9038
@@ -24152,6 +25088,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Fiery Egg Of Egg Testing'
@@ -24169,6 +25107,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Explosive Egg Of Kaboom'
 ITEM.ID = 9040
@@ -24184,6 +25124,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Invisible Egg Of Shadow Notinvisible'
@@ -24201,6 +25143,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Insanely Valuable Crystal Egg'
 ITEM.ID = 9042
@@ -24216,6 +25160,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of Shield'
@@ -24233,6 +25179,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Subterranean Egg'
 ITEM.ID = 9044
@@ -24248,6 +25196,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Bouncing Egg Of Boing Boing'
@@ -24265,6 +25215,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg-bit'
 ITEM.ID = 9046
@@ -24280,6 +25232,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of Verticality'
@@ -24297,6 +25251,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Basic Egg'
 ITEM.ID = 9048
@@ -24312,6 +25268,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Colored Dot Egg'
@@ -24329,6 +25287,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Frostbitten Egg'
 ITEM.ID = 9050
@@ -24344,6 +25304,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Bombastic Egg Of Annihilation'
@@ -24361,6 +25323,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggmageddon'
 ITEM.ID = 9052
@@ -24376,6 +25340,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of Epic Growth'
@@ -24393,6 +25359,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Dust Deviled Egg'
 ITEM.ID = 9054
@@ -24408,6 +25376,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Chocolate Egg'
@@ -24425,6 +25395,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Brighteyes Pink Egg Of Anticipation'
 ITEM.ID = 9056
@@ -24440,6 +25412,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Brighteyes Lavender Egg Of Anticipation'
@@ -24457,6 +25431,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Equinox Night'
 ITEM.ID = 9058
@@ -24472,6 +25448,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of Destiny'
@@ -24489,6 +25467,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Frost'
 ITEM.ID = 9060
@@ -24504,6 +25484,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Arborists Verdant Egg Of Leafyness'
@@ -24521,6 +25503,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Royal Agate Egg Of Beautiful Dreams'
 ITEM.ID = 9062
@@ -24536,6 +25520,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Radioactive Egg Of Undead Apocalypse'
@@ -24553,6 +25539,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Tiger Egg'
 ITEM.ID = 9064
@@ -24568,6 +25556,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Tldr Egg'
@@ -24585,6 +25575,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Violently Pink Egg Of Violent Opinions'
 ITEM.ID = 9066
@@ -24600,6 +25592,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of Friendship'
@@ -24617,6 +25611,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Futuristic Egg Of Antigravity'
 ITEM.ID = 9068
@@ -24632,6 +25628,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Eggscrutiatingly Deviled Scripter'
@@ -24649,6 +25647,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Scenic Egg Of The Clouds'
 ITEM.ID = 9070
@@ -24664,6 +25664,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Preggstoric Fossil'
@@ -24681,6 +25683,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Shiny Gold Egg Of Switcheroo'
 ITEM.ID = 9072
@@ -24696,6 +25700,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Yolks On Us'
@@ -24713,6 +25719,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Mean Eggstructor'
 ITEM.ID = 9074
@@ -24728,6 +25736,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Aqua Pal Of Egglantis'
@@ -24745,6 +25755,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Wanwood Egg Of Zomg'
 ITEM.ID = 9077
@@ -24760,6 +25772,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'The Last Egg'
@@ -24777,6 +25791,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Fiery Dreggon'
 ITEM.ID = 9079
@@ -24792,6 +25808,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Elevated Egg Of The Eyrie'
@@ -24809,6 +25827,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Cracked Egg Of Pwnage'
 ITEM.ID = 9081
@@ -24824,6 +25844,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Rabid Egg'
@@ -24841,6 +25863,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'The Easiest Egg'
 ITEM.ID = 9083
@@ -24856,6 +25880,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Eggcellent Pearl'
@@ -24873,6 +25899,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Bird Egg'
 ITEM.ID = 9085
@@ -24888,6 +25916,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of The Phoenix'
@@ -24905,6 +25935,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Watermelon'
 ITEM.ID = 9087
@@ -24920,6 +25952,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'The Mad Egg'
@@ -24937,6 +25971,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Cooperation'
 ITEM.ID = 9089
@@ -24952,6 +25988,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Cracked Egg'
@@ -24969,6 +26007,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'The Cloud Egg'
 ITEM.ID = 9091
@@ -24984,6 +26024,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of Partnership'
@@ -25001,6 +26043,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggsplosion'
 ITEM.ID = 9093
@@ -25016,6 +26060,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'The Last Egg'
@@ -25033,6 +26079,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Thundering Egg Of Lightning Strikes'
 ITEM.ID = 9095
@@ -25048,6 +26096,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'The Eggverse'
@@ -25065,6 +26115,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'The Obsidian Egg'
 ITEM.ID = 9097
@@ -25080,6 +26132,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Pow To The Moon Egg'
@@ -25100,6 +26154,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggdress Of The Chief'
 ITEM.ID = 9099
@@ -25118,6 +26174,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'iEgg'
@@ -25138,6 +26196,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Tldr Egg Of Eggstreme Aggravation'
 ITEM.ID = 9101
@@ -25156,6 +26216,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Timer'
@@ -25176,6 +26238,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggy Pop'
 ITEM.ID = 9103
@@ -25194,6 +26258,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Top Of The World Egg'
@@ -25214,6 +26280,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Luregg'
 ITEM.ID = 9105
@@ -25232,6 +26300,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Scrambled Egg'
@@ -25252,6 +26322,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Vanishing Ninja Egg'
 ITEM.ID = 9107
@@ -25270,6 +26342,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Vampiric Egg Of Twilight'
@@ -25290,6 +26364,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Dicey Egg Of Chance'
 ITEM.ID = 9109
@@ -25308,6 +26384,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Unstable Egg'
@@ -25328,6 +26406,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Phantom Of The Egg'
 ITEM.ID = 9111
@@ -25346,6 +26426,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'The Pirate Egg'
@@ -25366,6 +26448,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'The Answer Egg'
 ITEM.ID = 9113
@@ -25384,6 +26468,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Lost In Transit Egg'
@@ -25404,6 +26490,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Plum Nesting Egg'
 ITEM.ID = 9115
@@ -25422,6 +26510,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Lemon Nesting Egg'
@@ -25442,6 +26532,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'The Amber Egg'
 ITEM.ID = 9117
@@ -25460,6 +26552,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Fancy Egg Of Fabulous'
@@ -25480,6 +26574,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Last Egg Standing'
 ITEM.ID = 9119
@@ -25498,6 +26594,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Mystical Eggchemist'
@@ -25518,6 +26616,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Cherry Nesting Egg'
 ITEM.ID = 9121
@@ -25536,6 +26636,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Tesla Egg'
@@ -25556,6 +26658,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Tabby Egg'
 ITEM.ID = 9123
@@ -25574,6 +26678,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Super Bomb Egg'
@@ -25594,6 +26700,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Pompeiian Egg'
 ITEM.ID = 9125
@@ -25612,6 +26720,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Specular Egg Of Red No Blue'
@@ -25632,6 +26742,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Petrified Egg'
 ITEM.ID = 9127
@@ -25650,6 +26762,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Hyperactive Egg Of Hyperactivity'
@@ -25670,6 +26784,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Seal Egg'
 ITEM.ID = 9129
@@ -25688,6 +26804,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Eggvertisement Egg  Pastel Boogaloo'
@@ -25708,6 +26826,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggcano'
 ITEM.ID = 9131
@@ -25726,6 +26846,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Eggrachnophobia'
@@ -25746,6 +26868,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Zenos Egg Of Paradox'
 ITEM.ID = 9133
@@ -25764,6 +26888,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Stationary Egg Of Boring'
@@ -25784,6 +26910,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Sharing Egg Of Gifting'
 ITEM.ID = 9135
@@ -25802,6 +26930,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Billy The Egg'
@@ -25822,6 +26952,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Pegguin'
 ITEM.ID = 9137
@@ -25840,6 +26972,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of Ra'
@@ -25860,6 +26994,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Scramblin Egg Of Teleporting'
 ITEM.ID = 9139
@@ -25878,6 +27014,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'The Abyssal Egg'
@@ -25898,6 +27036,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Office Professional Egg'
 ITEM.ID = 9141
@@ -25916,6 +27056,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg 9000'
@@ -25936,6 +27078,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Agonizingly Ugly Egg Of Screensplat'
 ITEM.ID = 9143
@@ -25954,6 +27098,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Farmer'
@@ -25974,6 +27120,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Luck'
 ITEM.ID = 9145
@@ -25992,6 +27140,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Deviled Egg'
@@ -26012,6 +27162,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Flawless Deduction'
 ITEM.ID = 9147
@@ -26030,6 +27182,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Humpty Dumpty'
@@ -26050,6 +27204,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Martian Egghunter'
 ITEM.ID = 9149
@@ -26068,6 +27224,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Ebr Egg'
@@ -26088,6 +27246,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggressor'
 ITEM.ID = 9151
@@ -26106,6 +27266,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Peep-a-boo Egg'
@@ -26126,6 +27288,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggvalanche!'
 ITEM.ID = 9153
@@ -26144,6 +27308,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Mummy Egg'
@@ -26164,6 +27330,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Faster Than Light Egg'
 ITEM.ID = 9155
@@ -26182,6 +27350,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Admin Egg Of Mischief'
@@ -26202,6 +27372,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'The Pearl'
 ITEM.ID = 9157
@@ -26221,6 +27393,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Leftover Egg Of Whatevers Left'
 ITEM.ID = 9158
@@ -26236,6 +27410,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Ethereal Ghost Egg'
@@ -26256,6 +27432,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Eggtraterrestrial'
 ITEM.ID = 9160
@@ -26274,6 +27452,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Gge'
@@ -26294,6 +27474,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Basket Of Eggception'
 ITEM.ID = 9162
@@ -26312,6 +27494,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Air Balloon Egg'
@@ -26332,6 +27516,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Wizard Of Astral Isles'
 ITEM.ID = 9164
@@ -26350,6 +27536,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Racin Egg Of Fast Cars'
@@ -26370,6 +27558,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Tiny Egg Of Nonexistence'
 ITEM.ID = 9166
@@ -26387,6 +27577,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Treasure Eggland'
@@ -26407,6 +27599,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Space'
 ITEM.ID = 9168
@@ -26425,6 +27619,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Eggcognito Egg'
@@ -26445,6 +27641,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Innocence'
 ITEM.ID = 9170
@@ -26460,6 +27658,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'The Sands Of Time'
@@ -26480,6 +27680,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'The Eggteen-twelve Overture'
 ITEM.ID = 9172
@@ -26498,6 +27700,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Cannonical Egg'
@@ -26518,6 +27722,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Alien Arteggfact'
 ITEM.ID = 9174
@@ -26536,6 +27742,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Bellegg'
@@ -26556,6 +27764,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Scribbled Egg'
 ITEM.ID = 9176
@@ -26575,6 +27785,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Malicious Egg'
 ITEM.ID = 9177
@@ -26590,6 +27802,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Close Eggcounters'
@@ -26610,6 +27824,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Life'
 ITEM.ID = 9179
@@ -26624,6 +27840,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Sorcus Egg'
@@ -26644,6 +27862,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Duty'
 ITEM.ID = 9181
@@ -26662,6 +27882,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Sand Shark Egg'
@@ -26682,6 +27904,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Egg Of Golden Achievement'
 ITEM.ID = 9183
@@ -26700,6 +27924,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Egg Of Scales'
@@ -26720,6 +27946,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Combo Egg Of Trolllolol'
 ITEM.ID = 9185
@@ -26738,6 +27966,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'Snowspheroid'
@@ -26758,6 +27988,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Mercurial Egg'
 ITEM.ID = 9187
@@ -26777,6 +28009,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Supersonic Egg'
 ITEM.ID = 9188
@@ -26792,6 +28026,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = 'The Eggtopus'
@@ -26812,6 +28048,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = 'Gooey Egg'
 ITEM.ID = 9190
@@ -26827,6 +28065,8 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -26854,6 +28094,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Fox Mask"
 ITEM.ID = 508
@@ -26878,6 +28120,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8027
 ITEM.Rarity = 2
@@ -26896,6 +28140,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 7002
@@ -26925,6 +28171,8 @@ end
 		UniqueID	=	3503520631
 		*/
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Black Vintage Glasses"
@@ -26961,6 +28209,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Silver Vintage Glasses"
 ITEM.ID = 510
@@ -26993,6 +28243,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Green Vintage Glasses"
@@ -27027,6 +28279,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Brown Vintage Glasses"
 ITEM.ID = 512
@@ -27059,6 +28313,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Bronze Vintage Glasses"
@@ -27093,6 +28349,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Gray Vintage Glasses"
 ITEM.ID = 514
@@ -27125,6 +28383,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Beach Raybands"
@@ -27160,6 +28420,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Red Raybands"
 ITEM.ID = 516
@@ -27192,6 +28454,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "White Raybands"
@@ -27226,6 +28490,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Black Raybands"
 ITEM.ID = 518
@@ -27259,6 +28525,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Brown Raybands"
 ITEM.ID = 519
@@ -27290,6 +28558,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 
 ITEM.ID = 71
@@ -27317,6 +28587,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8028
 ITEM.Rarity = 5
@@ -27333,6 +28605,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5101
@@ -27353,6 +28627,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5102
 ITEM.Name = "Boar Facemask"
@@ -27371,6 +28647,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5103
@@ -27391,6 +28669,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5104
 ITEM.Name = "Gold Bunny Facemask"
@@ -27409,6 +28689,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5105
@@ -27429,6 +28711,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5106
 ITEM.Name = "Devil Facemask"
@@ -27447,6 +28731,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5107
@@ -27467,6 +28753,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5108
 ITEM.Name = "Pumpkin Facemask"
@@ -27485,6 +28773,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5109
@@ -27505,6 +28795,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5110
 ITEM.Name = "Bloody Sheep Facemask"
@@ -27523,6 +28815,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5111
@@ -27543,6 +28837,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5112
 ITEM.Name = "Sheep Facemask"
@@ -27561,6 +28857,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5113
@@ -27581,6 +28879,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5114
 ITEM.Name = "Gold Skull Facemask"
@@ -27599,6 +28899,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5115
@@ -27619,6 +28921,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5116
 ITEM.Name = "TF2 Demo Facemask"
@@ -27637,6 +28941,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5117
@@ -27657,6 +28963,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5118
 ITEM.Name = "TF2 Heavy Facemask"
@@ -27675,6 +28983,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5119
@@ -27695,6 +29005,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5120
 ITEM.Name = "TF2 Pyro Facemask"
@@ -27714,6 +29026,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5121
 ITEM.Name = "Chains Facemask"
@@ -27732,6 +29046,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5122
 ITEM.Name = "Dallas Facemask"
@@ -27749,6 +29065,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5123
@@ -27769,6 +29087,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5124
 ITEM.Name = "Hoxton Facemask"
@@ -27787,6 +29107,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5125
 ITEM.Name = "Wolf Facemask"
@@ -27804,6 +29126,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5133
@@ -27824,6 +29148,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5126
 ITEM.Name = "TF2 Sniper Facemask"
@@ -27842,6 +29168,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5127
@@ -27862,6 +29190,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5128
 ITEM.Name = "TF2 Spy Facemask"
@@ -27880,6 +29210,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5129
@@ -27900,6 +29232,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 5130
 ITEM.Name = "Zombie Fortune Facemask"
@@ -27918,6 +29252,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 5131
@@ -27938,6 +29274,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8029
 ITEM.Rarity = 1
@@ -27954,6 +29292,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8105
@@ -27973,6 +29313,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8106
 ITEM.Rarity = 2
@@ -27990,6 +29332,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8104
@@ -28009,6 +29353,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8101
 ITEM.Rarity = 1
@@ -28025,6 +29371,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8102
@@ -28044,6 +29392,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8103
 ITEM.Rarity = 1
@@ -28061,6 +29411,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "White Hawk Mask"
@@ -28082,6 +29434,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "USA White Hawk Mask"
 ITEM.ID = 2401
@@ -28101,6 +29455,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Brown Hawk Mask"
@@ -28122,6 +29478,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "USA Brown Hawk Mask"
 ITEM.ID = 2402
@@ -28141,6 +29499,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Crime Scene Wrap"
@@ -28166,6 +29526,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Arrows Wrap"
 ITEM.ID = 404
@@ -28189,6 +29551,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Caution Wrap"
@@ -28214,6 +29578,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Red Arrow Wrap"
 ITEM.ID = 406
@@ -28237,6 +29603,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Gray Mummy Wrap"
@@ -28262,6 +29630,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Black Mummy Wrap"
 ITEM.ID = 408
@@ -28285,6 +29655,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "White Mummy Wrap"
@@ -28310,6 +29682,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Rainbow Mummy Wrap"
 ITEM.ID = 410
@@ -28333,6 +29707,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Heart Welder Mask"
@@ -28358,6 +29734,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Heart Welder Mask"
@@ -28385,6 +29763,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8075
 ITEM.Rarity = 4
@@ -28400,6 +29780,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8024
@@ -28419,6 +29801,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8506
 ITEM.Rarity = 3
@@ -28434,6 +29818,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8031
@@ -28453,6 +29839,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8098
 ITEM.Rarity = 4
@@ -28469,6 +29857,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8046
@@ -28487,6 +29877,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -28515,6 +29907,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8057
 ITEM.Rarity = 6
@@ -28532,6 +29926,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -28561,6 +29957,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 
 ITEM.ID = 110
@@ -28588,6 +29986,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8033
 ITEM.Rarity = 6
@@ -28607,6 +30007,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8034
 ITEM.Rarity = 5
@@ -28625,6 +30027,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -28654,6 +30058,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8040
 ITEM.Rarity = 2
@@ -28672,6 +30078,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -28702,6 +30110,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8035
 ITEM.Rarity = 6
@@ -28720,6 +30130,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Blue Hockey Mask"
@@ -28745,6 +30157,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Bulldog Hockey Mask"
 ITEM.ID = 418
@@ -28768,6 +30182,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Electric Hockey Mask"
@@ -28793,6 +30209,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Skull Hockey Mask"
 ITEM.ID = 420
@@ -28816,6 +30234,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Patch Hockey Mask"
@@ -28841,6 +30261,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Patch 2 Hockey Mask"
 ITEM.ID = 422
@@ -28864,6 +30286,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Something Hockey Mask"
@@ -28889,6 +30313,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Wolf Hockey Mask"
 ITEM.ID = 424
@@ -28912,6 +30338,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Bear Hockey Mask"
@@ -28937,6 +30365,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Dog Hockey Mask"
 ITEM.ID = 426
@@ -28960,6 +30390,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Crown Hockey Mask"
@@ -28985,6 +30417,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Monster Hockey Mask"
 ITEM.ID = 428
@@ -29008,6 +30442,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Monster 2 Hockey Mask"
@@ -29033,6 +30469,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Flame Hockey Mask"
 ITEM.ID = 430
@@ -29056,6 +30494,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "GFlame Hockey Mask"
@@ -29081,6 +30521,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Steel Armor Mask"
 ITEM.ID = 432
@@ -29104,6 +30546,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Circuit Armor Mask"
@@ -29129,6 +30573,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Lava Armor Mask"
 ITEM.ID = 434
@@ -29152,6 +30598,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Purple Armor Mask"
@@ -29177,6 +30625,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Carbon Armor Mask"
 ITEM.ID = 436
@@ -29200,6 +30650,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Bullseye Armor Mask"
@@ -29225,6 +30677,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Stone Armor Mask"
 ITEM.ID = 438
@@ -29248,6 +30702,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Lightning Armor Mask"
@@ -29273,6 +30729,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Wood Armor Mask"
 ITEM.ID = 440
@@ -29297,6 +30755,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Please Stop Mask"
 ITEM.ID = 441
@@ -29319,6 +30779,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Black Skull Cover"
 ITEM.ID = 442
@@ -29339,6 +30801,8 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Gray Skull Cover"
@@ -29363,6 +30827,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Tan Skull Cover"
 ITEM.ID = 444
@@ -29385,6 +30851,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Green Skull Cover"
@@ -29409,6 +30877,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8036
 ITEM.Rarity = 5
@@ -29427,6 +30897,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8513
 ITEM.Rarity = 7
@@ -29442,6 +30914,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -29471,6 +30945,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8037
 ITEM.Rarity = 3
@@ -29490,6 +30966,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8038
 ITEM.Rarity = 5
@@ -29508,6 +30986,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Monkey Mask"
@@ -29531,6 +31011,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Brown Monkey Mask"
 ITEM.ID = 447
@@ -29553,6 +31035,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Zombie Monkey Mask"
 ITEM.ID = 448
@@ -29574,6 +31058,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Old Monkey Mask"
@@ -29600,6 +31086,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -29631,6 +31119,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8039
 ITEM.Rarity = 3
@@ -29651,6 +31141,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8063
 ITEM.Rarity = 6
@@ -29666,6 +31158,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Black Ninja Mask"
@@ -29691,6 +31185,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "White Ninja Mask"
 ITEM.ID = 451
@@ -29714,6 +31210,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Police Ninja Mask"
@@ -29739,6 +31237,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "USA Police Ninja Mask"
 ITEM.ID = 2452
@@ -29762,6 +31262,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Tan Ninja Mask"
@@ -29787,6 +31289,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Benders Ninja Mask"
 ITEM.ID = 454
@@ -29810,6 +31314,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Justice Ninja Mask"
@@ -29835,6 +31341,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Camo Ninja Mask"
 ITEM.ID = 456
@@ -29858,6 +31366,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Candy Ninja Mask"
@@ -29883,6 +31393,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "LoveFist Ninja Mask"
 ITEM.ID = 458
@@ -29906,6 +31418,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "TPI Ninja Mask"
@@ -29931,6 +31445,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Pink Ninja Mask"
 ITEM.ID = 460
@@ -29954,6 +31470,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -29984,6 +31502,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 
 ITEM.ID = 115
@@ -30011,6 +31531,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8042
 ITEM.Rarity = 7
@@ -30030,6 +31552,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Owl Mask"
@@ -30054,6 +31578,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Peacock Butterfly Mask"
@@ -30082,6 +31608,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8043
 ITEM.Rarity = 4
@@ -30100,6 +31628,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Pig Mask"
@@ -30127,6 +31657,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Zombie Pig Mask"
 ITEM.ID = 463
@@ -30152,6 +31684,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Po Mask"
@@ -30180,6 +31714,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8045
 ITEM.Rarity = 5
@@ -30197,6 +31733,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -30224,6 +31762,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8049
 ITEM.Rarity = 2
@@ -30241,6 +31781,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8503
 ITEM.Rarity = 4
@@ -30256,6 +31798,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8050
@@ -30275,6 +31819,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Royal Cat Mask"
@@ -30301,6 +31847,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Royal Rabbit Mask"
 ITEM.ID = 653
@@ -30326,6 +31874,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Royal Spider Mask"
 ITEM.ID = 654
@@ -30350,6 +31900,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -30379,6 +31931,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8051
 ITEM.Rarity = 3
@@ -30396,6 +31950,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -30425,6 +31981,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8504
 ITEM.Rarity = 3
@@ -30441,6 +31999,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8505
 ITEM.Rarity = 3
@@ -30456,6 +32016,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8052
@@ -30474,6 +32036,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8053
 ITEM.Rarity = 4
@@ -30491,6 +32055,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -30520,6 +32086,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8055
 ITEM.Rarity = 6
@@ -30538,6 +32106,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -30565,6 +32135,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 
 ITEM.ID = 2070
@@ -30591,6 +32163,8 @@ function ITEM:ModifyClientsideModel( ply, model, pos, ang )
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Gray Skull Mask"
 ITEM.ID = 464
@@ -30614,6 +32188,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Brown Skull Mask"
@@ -30639,6 +32215,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "White Skull Mask"
 ITEM.ID = 466
@@ -30663,6 +32241,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Black Skull Mask"
 ITEM.ID = 467
@@ -30686,6 +32266,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -30713,6 +32295,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 7003
@@ -30744,6 +32328,8 @@ end
 		*/
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8059
 ITEM.Rarity = 7
@@ -30762,6 +32348,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -30790,6 +32378,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8064
 ITEM.Rarity = 7
@@ -30806,6 +32396,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -30835,6 +32427,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 
 ITEM.ID = 134
@@ -30862,6 +32456,8 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 
@@ -30891,6 +32487,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8062
 ITEM.Rarity = 3
@@ -30910,6 +32508,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8532
 ITEM.Rarity = 3
@@ -30928,6 +32528,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Turqoise Bird Mask"
@@ -30956,6 +32558,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8065
 ITEM.Rarity = 6
@@ -30974,6 +32578,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Wolf Mask"
@@ -30996,6 +32602,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8514
 ITEM.Rarity = 5
@@ -31011,6 +32619,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 8067
@@ -31030,6 +32640,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 end
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.ID = 8066
 ITEM.Rarity = 6
@@ -31045,6 +32657,8 @@ function ITEM:ModifyClientsideModel(pl, m, p, a)
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.Name = "Zombie Mask"
@@ -31070,6 +32684,8 @@ end
 
 m_AddDroppableItem(ITEM, 'Mask')
 
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
 ITEM = {}
 ITEM.Name = "Stone Zombie Mask"
 ITEM.ID = 470
@@ -31093,3 +32709,5 @@ end
 
 
 m_AddDroppableItem(ITEM, 'Mask')
+
+if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
