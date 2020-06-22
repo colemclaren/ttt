@@ -6672,12 +6672,15 @@ function m_DrawDeconButton()
 		net.Start "MOAT_REM_INV_ITEMS"
 		net.WriteUInt(items_decon, 16)
 
+		local items_sent = 0
         for i = 1, #m_Inventory do
             if (m_Inventory[i] and m_Inventory[i].decon) then
+				items_sent = items_sent + 1
+
                 net.WriteDouble(i)
                 net.WriteDouble(m_Inventory[i].c)
 
-                if (items_decon == MOAT_ITEMS_DECON_MARKED) then
+                if (items_sent == MOAT_ITEMS_DECON_MARKED) then
                     net.WriteDouble(2)
                 else
                     net.WriteDouble(3)
@@ -6693,13 +6696,18 @@ function m_DrawDeconButton()
     end
 end
 
+local decon_last_played = 0
 net.Receive("MOAT_DECON_NOTIFY", function()
     local amt = net.ReadUInt(32)
     local mul = net.ReadBool()
 
     local s = mul == true and "s" or ""
 
-    cdn.PlayURL "https://static.moat.gg/ttt/2533282972.mp3"
+	if (decon_last_played <= CurTime() - .5) then
+		cdn.PlayURL "https://static.moat.gg/ttt/2533282972.mp3"
+
+		decon_last_played = CurTime()
+	end
 
     chat.AddText(Material("icon16/information.png"), Color(255, 255, 0), "You received ", Color(0, 255, 0), string.Comma(amt), Color(255, 255, 0), " IC from deconstructing your item" .. s .. "!")
 end)
