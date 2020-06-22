@@ -30,6 +30,7 @@ local function moat_EndRoundBossHooks()
     hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
     hook.Remove("SetupPlayerVisibility", "moat_BossVisibility")
     hook.Remove("PlayerShouldTakeDamage", "moat_BossPreventDamage")
+	hook.Remove("ShouldCollide", "moat_BossCollide")
 
     MOAT_ACTIVE_BOSS = false
     MOAT_BOSS_CUR = nil
@@ -401,6 +402,10 @@ local function moat_BeginRoundBossHooks()
 
 	hook.Add("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents", function(att, vic)
 		return att:GetRole() == vic:GetRole()
+	end)
+
+	hook.Add("ShouldCollide", "moat_BossCollide", function(e1, e2)
+		if (IsValid(MOAT_BOSS_CUR) and ((e1 == MOAT_BOSS_CUR and e2.Collided) or (e2 == MOAT_BOSS_CUR and e1.Collided))) then return false end
 	end)
 
     hook.Add("PostPlayerDeath", "moat_BossDeath", moat_BossPlayerDeath)
