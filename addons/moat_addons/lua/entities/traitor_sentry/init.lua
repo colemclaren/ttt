@@ -1,7 +1,7 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
-local rangecvar = CreateConVar("sentry_range", "5000", {FCVAR_ARCHIVE})
+local rangecvar = CreateConVar("sentry_range", "1000", {FCVAR_ARCHIVE})
 local hpcvar = CreateConVar("sentry_hp", "50", {FCVAR_ARCHIVE})
 local rofcvar = CreateConVar("sentry_rate_of_fire", "0.25", {FCVAR_ARCHIVE})
 local dmgcvar = CreateConVar("sentry_damage", "5", {FCVAR_ARCHIVE})
