@@ -48,6 +48,7 @@ local function moat_EndRoundBossHooks()
     hook.Remove("PlayerDisconnected", "moat_BossDisconnect")
 	hook.Remove("SetupPlayerVisibility", "moat_BossVisibility")
 	hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
+	hook.Remove("PlayerShouldTakeDamage", "moat_BossPreventDamage")
     
     MOAT_ACTIVE_BOSS = false
     MOAT_BOSS_CUR = nil
@@ -381,6 +382,12 @@ local function moat_BeginRoundBossHooks()
 				return true
 			end
 		-- end
+    end)
+
+	hook.Add("PlayerShouldTakeDamage", "moat_BossPreventDamage", function(pl1, pl2)
+        if (pl1:IsPlayer() and pl2:IsPlayer() and pl1:GetRole() == pl2:GetRole()) then
+            return false
+        end
     end)
 
     hook.Add("TTTKarmaGivePenalty", "moat_BossPreventKarmaLoss", function(ply, penalty, vic)
