@@ -112,11 +112,11 @@ local function WasRightfulKill(att, vic)
 	if (GetRoundState() ~= ROUND_ACTIVE) then return false end
 	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return false end
 	
-	local vicrole = vic:GetRole()
-	local attrole = att:GetRole()
+	local vicrole = vic:GetBasicRole()
+	local attrole = att:GetBasicRole()
 
 	if (vicrole == ROLE_TRAITOR and attrole == ROLE_TRAITOR) then return false end
-	if ((vicrole == ROLE_DETECTIVE or vicrole == ROLE_INNOCENT) and attrole ~= ROLE_TRAITOR) then return false end
+	if ((vicrole == ROLE_DETECTIVE or vicrole == ROLE_INNOCENT) and (attrole == ROLE_DETECTIVE or attrole == ROLE_INNOCENT)) then return false end
 
 	return true
 end
