@@ -32,6 +32,7 @@ item.Type("Mask", 9, true)
 item.Type("Body", 10, true)
 item.Type("Effect", 11, true)
 item.Type("Model", 12, true)
+item.Type("Special", 13)
 
 --
 -- Item Methods
@@ -89,9 +90,12 @@ function mt:SetCollection(set)
 	return self
 end
 
-function mt:SetShop(price, active)
+function mt:SetShop(price, active, newitem)
 	self.Price = price
 	self.Active = active
+	if (newitem) then
+		self.NewItem = newitem
+	end
 
 	return self
 end

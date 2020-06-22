@@ -25,6 +25,7 @@ if (CLIENT) then
     end
 end
 
+local file_str
 function m_AddDroppableItem(item_table, item_kind)
     local tbl = {}
     tbl = item_table
@@ -48,7 +49,11 @@ function m_AddDroppableItem(item_table, item_kind)
 			"	" .. ":SetRarity (" .. tbl.Rarity .. ")\n",
 			"	" .. ":SetType \"" .. tbl.Kind .. "\"\n",
 			"	" .. ":SetName \"" .. tbl.Name .. "\"\n")
-		
+
+		if (tbl.NotDroppable) then
+			str = string (str, "	" .. ":NotDroppable (", tostring(tbl.NotDroppable), ")\n")
+		end
+
 		if (tbl.NameColor) then
 			str = string (str, "	" .. ":SetColor {", tbl.NameColor.r, ", ", tbl.NameColor.g, ", ", tbl.NameColor.b, "}\n")
 		end
@@ -58,7 +63,7 @@ function m_AddDroppableItem(item_table, item_kind)
 		end
 
 		if (tbl.Description) then
-			str = string (str, "	" .. ":SetDesc \"", tbl.Description, "\"\n")
+			str = string (str, "	" .. ":SetDesc \"", tbl.Description:Replace('"', '\\"'), "\"\n")
 		end
 
 		if (tbl.Image) then
@@ -71,6 +76,30 @@ function m_AddDroppableItem(item_table, item_kind)
 
 		if (tbl.Skin) then
 			str = string (str, "	" .. ":SetSkin (", tbl.Skin, ")\n")
+		end
+
+		if (tbl.Clr) then
+			str = string (str, "	" .. ":SetClr {", tbl.Clr.r or tbl.Clr[1], ", ", tbl.Clr.g or tbl.Clr[2], ", ", tbl.Clr.b or tbl.Clr[3], "}\n")
+		end
+
+		if (tbl.Texture) then
+			str = string (str, "	" .. ":SetTexture \"", tbl.Texture, "\"\n")
+		end
+
+		if (tbl.PaintVer) then
+			str = string (str, "	" .. ":SetPaintVer (", tbl.PaintVer, ")\n")
+		end
+
+		if (tbl.ItemCheck) then
+			str = string (str, "	" .. ":SetItemCheck (", tbl.ItemCheck, ")\n")
+		end
+
+		if (tbl.EffectColor) then
+			str = string (str, "	" .. ":SetEffectColor {", tbl.EffectColor.r or tbl.EffectColor[1], ", ", tbl.EffectColor.g or tbl.EffectColor[2], ", ", tbl.EffectColor.b or tbl.EffectColor[3], "}\n")
+		end
+
+		if (tbl.EffectSize) then
+			str = string (str, "	" .. ":SetEffectSize (", tbl.EffectSize, ")\n")
 		end
 
 		if (tbl.WeaponClass) then
@@ -131,12 +160,162 @@ function m_AddDroppableItem(item_table, item_kind)
 			str = string (str, "	" .. ":SetRender (\"", par, "\", function", string.sub(fs, 1, -2) .. ")", "\n")
 		end
 
+		if (tbl.ItemUsed and tbl.Name and tbl.Name:EndsWith("Tint")) then
+			str = string (str, "	" .. ":ItemUsed (function(pl, slot, item) m_TintItem(pl, slot, item, self.ID) end)", "\n")
+		elseif (tbl.ItemUsed and tbl.Name and tbl.Name:EndsWith("Paint")) then
+			str = string (str, "	" .. ":ItemUsed (function(pl, slot, item) m_PaintItem(pl, slot, item, self.ID) end)", "\n")
+		elseif (tbl.ItemUsed and tbl.Name and tbl.Name:EndsWith("Skin")) then
+			str = string (str, "	" .. ":ItemUsed (function(pl, slot, item) m_TextureItem(pl, slot, item, self.ID) end)", "\n")
+		elseif (tbl.ItemUsed and file_str) then
+			local needle = "ITEM:ItemUsed"
+			local sf = string.find(file_str, needle)
+			if (not sf) then sf = string.find(file_str, "ITEM.ItemUsed") end
+			local ms = string.sub(file_str, sf + string.len(needle), string.len(file_str))
+			ms = string.Replace(ms, "( ", "(")
+			ms = string.Replace(ms, " )", ")")
+
+			local tb, fs = string.Split(ms, "\n"), ""
+			for i = 1, #tb do
+				tb[i] = string.Trim(tb[i])
+
+				if (string.len(tb[i]) <= 1) then
+					continue
+				end
+
+				fs = fs .. "		" .. tb[i] .. "\n"
+			end
+
+			fs = string.sub(fs, 1, -2) .. ")"
+			fs = string.Replace(fs, "		end)", "	" .. "end)")
+			fs = string.Replace(fs, "		(", "(")
+			
+			local str2 = string (str, "	" .. ":ItemUsed (function", string.sub(fs, 1, -2) .. ")", "\n")
+			str = string(str, string.Replace(str2, "function		= ", ""))
+		end
+
+		if (tbl.OnPlayerSpawn and file_str) then
+			local needle = "ITEM:OnPlayerSpawn"
+			local sf = string.find(file_str, needle)
+
+			local ms = string.sub(file_str, sf + string.len(needle), string.len(file_str))
+			ms = string.Replace(ms, "( ", "(")
+			ms = string.Replace(ms, " )", ")")
+
+			local tb, fs = string.Split(ms, "\n"), ""
+			for i = 1, #tb do
+				tb[i] = string.Trim(tb[i])
+
+				if (string.len(tb[i]) <= 1) then
+					continue
+				end
+
+				fs = fs .. "		" .. tb[i] .. "\n"
+			end
+
+			fs = string.sub(fs, 1, -2) .. ")"
+			fs = string.Replace(fs, "		end)", "	" .. "end)")
+			fs = string.Replace(fs, "		(", "(")
+			
+			str = string (str, "	" .. ":OnPlayerSpawn (function", string.sub(fs, 1, -2) .. ")", "\n")
+		end
+
+		if (tbl.OnDamageTaken and file_str) then
+			local needle = "ITEM:OnDamageTaken"
+			local sf = string.find(file_str, needle)
+
+			local ms = string.sub(file_str, sf + string.len(needle), string.len(file_str))
+			ms = string.Replace(ms, "( ", "(")
+			ms = string.Replace(ms, " )", ")")
+
+			local tb, fs = string.Split(ms, "\n"), ""
+			for i = 1, #tb do
+				tb[i] = string.Trim(tb[i])
+
+				if (string.len(tb[i]) <= 1) then
+					continue
+				end
+
+				fs = fs .. "		" .. tb[i] .. "\n"
+			end
+
+			fs = string.sub(fs, 1, -2) .. ")"
+			fs = string.Replace(fs, "		end)", "	" .. "end)")
+			fs = string.Replace(fs, "		(", "(")
+			
+			str = string (str, "	" .. ":OnDamageTaken (function", string.sub(fs, 1, -2) .. ")", "\n")
+		end
+
+		if (tbl.OnBeginRound and file_str) then
+			local needle = "ITEM:OnBeginRound"
+			local sf = string.find(file_str, needle)
+
+			local ms = string.sub(file_str, sf + string.len(needle), string.len(file_str))
+			ms = string.Replace(ms, "( ", "(")
+			ms = string.Replace(ms, " )", ")")
+
+			local tb, fs = string.Split(ms, "\n"), ""
+			for i = 1, #tb do
+				tb[i] = string.Trim(tb[i])
+
+				if (string.len(tb[i]) <= 1) then
+					continue
+				end
+
+				fs = fs .. "		" .. tb[i] .. "\n"
+			end
+
+			fs = string.sub(fs, 1, -2) .. ")"
+			fs = string.Replace(fs, "		end)", "	" .. "end)")
+			fs = string.Replace(fs, "		(", "(")
+			
+			str = string (str, "	" .. ":OnBeginRound (function", string.sub(fs, 1, -2) .. ")", "\n")
+		end
+
+		if (tbl.ScalePlayerDamage and file_str) then
+			local needle = "ITEM:ScalePlayerDamage"
+			local sf = string.find(file_str, needle)
+
+			local ms = string.sub(file_str, sf + string.len(needle), string.len(file_str))
+			ms = string.Replace(ms, "( ", "(")
+			ms = string.Replace(ms, " )", ")")
+
+			local tb, fs = string.Split(ms, "\n"), ""
+			for i = 1, #tb do
+				tb[i] = string.Trim(tb[i])
+
+				if (string.len(tb[i]) <= 1) then
+					continue
+				end
+
+				fs = fs .. "		" .. tb[i] .. "\n"
+			end
+
+			fs = string.sub(fs, 1, -2) .. ")"
+			fs = string.Replace(fs, "		end)", "	" .. "end)")
+			fs = string.Replace(fs, "		(", "(")
+			
+			str = string (str, "	" .. ":ScalePlayerDamage (function", string.sub(fs, 1, -2) .. ")", "\n")
+		end
+
 		if (tbl.Collection) then
-			str = string (str, "	" .. ":SetCollection \"", tbl.Collection, "\"\n\n")
+			str = string (str, "	" .. ":SetCollection \"", tbl.Collection, "\"\n")
 		end
 
 		if (tbl.Price) then
-			str = string (str, "	" .. ":SetShop (", tbl.Price, ", ", tbl.Active and "true" or "false", ")\n")
+			if (tbl.NewItem) then
+				if (tbl.ShopDesc) then
+					str = string (str, "	" .. ":SetShop (", tbl.Price, ", ", tbl.Active and "true" or "false", ", ", tbl.NewItem, ", '", tbl.ShopDesc, "')\n")
+				else
+					str = string (str, "	" .. ":SetShop (", tbl.Price, ", ", tbl.Active and "true" or "false", ", ", tbl.NewItem, ")\n")
+				end
+			else
+				if (tbl.ShopDesc) then
+					str = string (str, "	" .. ":SetShop (", tbl.Price, ", ", tbl.Active and "true" or "false", ", '", tbl.ShopDesc, "')\n")
+				else
+					str = string (str, "	" .. ":SetShop (", tbl.Price, ", ", tbl.Active and "true" or "false", ")\n")
+				end
+			end
+
 			MOAT_COLLECT[item_table.Collection].Crate = str
 		else
 			table.insert(MOAT_COLLECT[item_table.Collection], {String = str, Rarity = tbl.Rarity})
@@ -150,7 +329,7 @@ function m_AddDroppableItem(item_table, item_kind)
 	MOAT_DROPTABLE[tbl.ID] = tbl
 end
 
-local MOAT_ITEM_FOLDER = "plugins/moat/modules/_items/items"
+local MOAT_ITEM_FOLDER = "plugins/moat/modules/inv2/data"
 
 local MOAT_ITEM_FOLDERS = {
     ["tier"] = {"tiers", {
@@ -1574,6 +1753,7 @@ local COSMETIC_TYPES = {
 }
 
 function m_InitializeItems()
+	/*local lol = ""
     for type, folder in pairs(MOAT_ITEM_FOLDERS) do
 		for _, filename in ipairs(folder[2]) do
             ITEM = {}
@@ -1583,12 +1763,19 @@ function m_InitializeItems()
 			end
 
             include(MOAT_ITEM_FOLDER .. "/" .. folder[1] .. "/" .. filename)
+
+			file_str = file.Read(MOAT_ITEM_FOLDER .. "/" .. folder[1] .. "/" .. filename, "LUA")
+			lol = lol .. "\nITEM = {}\n"
+			lol = lol .. file_str
+
 			if (ITEM.ID) then
 				m_AddDroppableItem(ITEM, type)
+				lol = lol .. "\nm_AddDroppableItem(ITEM, '" .. type .. "')\n"
 			end
 
 			if (CLIENT and COSMETIC_TYPES[type]) then
 				m_AddCosmeticItem(ITEM, type)
+				lol = lol .. "\n_AddCosmeticItem(ITEM, '" .. type .. "')\n"
 			end
 
 			if (type == "Melee" and ITEM.Collection and ITEM.Collection ~= "Melee Collection") then
@@ -1599,22 +1786,34 @@ function m_InitializeItems()
 				local Melee = table.Copy(ITEM)
 				if (Melee.Name == "Deep Frying Ban") then
 					Melee.NotDroppable = true
+					lol = lol .. "\nITEM.NotDroppable = true\n"
 				end
 
 
 				Melee.Collection = "Melee Collection"
+				lol = lol .. "\nITEM.Collection = 'Melee Collection'\n"
 				Melee.ID = ITEM.ID + 10000
+				lol = lol .. "\nITEM.ID = ITEM.ID + 10000\n"
 
 				m_AddDroppableItem(Melee, type)
+				lol = lol .. "\nm_AddDroppableItem(ITEM, '" .. type .. "')\n"
 			end
         end
-    end
+    end*/
+
+	-- file.Write("mi_collect_output/items.txt", lol)
 
 	if (SERVER) then
-		AddCSLuaFile(MOAT_ITEM_FOLDER .. "/paints/load.lua")
+		AddCSLuaFile(MOAT_ITEM_FOLDER .. "/droptable.lua")
 	end
 
-    include(MOAT_ITEM_FOLDER .. "/paints/load.lua")
+    include(MOAT_ITEM_FOLDER .. "/droptable.lua")
+
+	if (SERVER) then
+		AddCSLuaFile(MOAT_ITEM_FOLDER .. "/paints.lua")
+	end
+
+    include(MOAT_ITEM_FOLDER .. "/paints.lua")
     m_CreatePaints()
     -- boom beep items loooooaded
 end
@@ -1766,11 +1965,6 @@ function GetItemName(data)
     else
         ITEM_NAME_FULL = data.item and data.item.Name or "Error with Item Name"
     end
-	
-	-- if (data and data.item and data.item.Kind ~= "Unique" and data.Talents and data.Talents[1] and (data.Talents[1].Suffix or data.Talents[1].Name)) then
-	-- 	local suffix = (data.Talents[5] and (data.Talents[5].Suffix or data.Talents[5].Name)) or (data.Talents[4] and (data.Talents[4].Suffix or data.Talents[4].Name)) or (data.Talents[3] and (data.Talents[3].Suffix or data.Talents[3].Name)) or (data.Talents[2] and (data.Talents[2].Suffix or data.Talents[2].Name)) or (data.Talents[1].Suffix or data.Talents[1].Name)
-	-- 	ITEM_NAME_FULL = ITEM_NAME_FULL .. " of " .. suffix
-	-- end
 
 	if (data.n) then
 		ITEM_NAME_FULL = data.n:Replace("''", "'") -- "\"" .. data.n:Replace("''", "'") .. "\""

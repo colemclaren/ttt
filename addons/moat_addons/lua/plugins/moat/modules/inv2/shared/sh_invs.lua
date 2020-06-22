@@ -1,6 +1,6 @@
 MOAT_VIP = {"vip", "mvp", "hoodninja", "trialstaff", "moderator", "admin", "senioradmin", "headadmin", "communitylead", "owner", "techartist", "audioengineer", "softwareengineer", "gamedesigner", "creativedirector"}
 local pl = FindMetaTable("Player")
-local MOAT_TALENT_FOLDER = "plugins/moat/modules/_items/talents"
+local MOAT_TALENT_FOLDER = "plugins/moat/modules/inv2/data"
 MOAT_TALENTS = {}
 
 function m_AddTalent(talent_tbl)
@@ -80,21 +80,35 @@ function m_InitializeTalents()
 		"swift.lua",
 		"icecream.lua"
 	}
+	
+	-- local lol = ""
+	-- for k, v in ipairs(files) do
+	-- 	TALENT = {}
+	-- 	if (SERVER) then
+	-- 		AddCSLuaFile(MOAT_TALENT_FOLDER .. "/" .. v)
+	-- 	end
 
-	for k, v in ipairs(files) do
-		TALENT = {}
-		if (SERVER) then
-			AddCSLuaFile(MOAT_TALENT_FOLDER .. "/" .. v)
-		end
+	-- 	include(MOAT_TALENT_FOLDER .. "/" .. v)
 
-		include(MOAT_TALENT_FOLDER .. "/" .. v)
+	-- 	local file_str = file.Read(MOAT_TALENT_FOLDER .. "/" .. v, "LUA")
+	-- 	lol = lol .. "\nTALENT = {}\n"
+	-- 	lol = lol .. file_str
 
-    	if (SERVER) then
-			MsgC(Color(255, 255, 0), "[mInventory] Loaded Talent: " .. TALENT.Name .. "\n")
-		end
+    -- 	if (SERVER) then
+	-- 		MsgC(Color(255, 255, 0), "[mInventory] Loaded Talent: " .. TALENT.Name .. "\n")
+	-- 	end
 
-    	m_AddTalent(TALENT)
+    -- 	m_AddTalent(TALENT)
+	-- 	lol = lol .. "\nm_AddTalent(TALENT)\n"
+	-- end
+
+	-- file.Write("mi_collect_output/talents_old.txt", lol)
+
+	if (SERVER) then
+		AddCSLuaFile(MOAT_TALENT_FOLDER .. "/talents.lua")
 	end
+
+    include(MOAT_TALENT_FOLDER .. "/talents.lua")
 end
 
 m_InitializeTalents()
