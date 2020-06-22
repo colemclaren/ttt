@@ -429,7 +429,7 @@ end
 moat_random.register("High HP", "Base health is 500 HP for this round!", {
     ["NOW"] = function()
 		for k, v in pairs(player.GetAll()) do
-			if (v.MaxHealth > 500 or v:GetMaxHealth() > 500 or v:Health() > 500) then
+			if ((v.MaxHealth and v.MaxHealth > 500) or v:GetMaxHealth() > 500 or v:Health() > 500) then
 				continue
 			end
 
@@ -445,7 +445,7 @@ moat_random.register("High HP", "Base health is 500 HP for this round!", {
     end,
     ["TTTBeginRound"] = function()
         for k, v in pairs(player.GetAll()) do
-			if (v.MaxHealth > 500 or v:GetMaxHealth() > 500 or v:Health() > 500) then
+			if ((v.MaxHealth and v.MaxHealth > 500) or v:GetMaxHealth() > 500 or v:Health() > 500) then
 				continue
 			end
 
