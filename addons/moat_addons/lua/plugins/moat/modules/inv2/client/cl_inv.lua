@@ -1266,8 +1266,8 @@ end
 M_INV_SLOT = M_INV_SLOT or {}
 M_LOAD_SLOT = M_LOAD_SLOT or {}
 M_TRADE_SLOT = M_TRADE_SLOT or {}
-
-MOAT_INV_CATS = {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Gamble", 90}, {"Dailies", 90}, {"Settings", 90}, {"Event", 90}, {"Store", 90}}
+-- {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Gamble", 90}, {"Dailies", 90}, {"Settings", 90}, {"Event", 90}, {"Store", 90}}
+MOAT_INV_CATS = {{"Loadout", 80}, {"Player", 80}, {"Trading", 80}, {"Shop", 80}, {"Gamble", 80}, {"Dailies", 80}, {"Settings", 80}, {"Event", 80}, {"Store", 80}}
 function m_PaintVBar(sbar)
 
     local MT = MOAT_THEME.Themes
@@ -2287,10 +2287,8 @@ function m_OpenInventory(ply2, utrade)
     end
 	sfx.SoundEffects(M_INV_C)
     M_INV_C.DoClick = function(s)
-        if (IsValid(s)) then MOAT_INV_BG:Remove() return end
-
         if (m_ply2 and m_utrade) then
-        	if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
+			if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
             moat_inv_cooldown = CurTime() + 5
             m_ClearInventory()
             net.Start("MOAT_SEND_INV_ITEM")
@@ -2300,14 +2298,9 @@ function m_OpenInventory(ply2, utrade)
             net.WriteDouble(m_ply2:EntIndex())
             net.WriteDouble(m_utrade)
             net.SendToServer()
-        -- elseif (send) then
-        --     moat_inv_cooldown = CurTime() + 10
-        --     m_ClearInventory()
-        --     net.Start("MOAT_SEND_INV_ITEM")
-        --     net.SendToServer()
 		end
 
-		moat_inv_cooldown = CurTime() + 5
+		if (IsValid(s)) then MOAT_INV_BG:Remove() return end
     end
 
 	MOAT_INV_BG.Cat = {}
@@ -2315,8 +2308,16 @@ function m_OpenInventory(ply2, utrade)
     for k, v in ipairs(MOAT_INV_CATS) do
         local MOAT_CAT_BTN = vgui.Create("DButton", MOAT_INV_BG)
         MOAT_CAT_BTN:SetText("")
-        MOAT_CAT_BTN:SetSize(MT[CurTheme].CatInfo[2], MT[CurTheme].CatInfo[3])
-        MOAT_CAT_BTN:SetPos(MT[CurTheme].CatSpacing + CAT_WIDTHS, MT[CurTheme].CatInfo[1])
+
+		if (v[1] == "Store") then
+			MOAT_CAT_BTN:SetSize(32, MT[CurTheme].CatInfo[3])
+			MOAT_CAT_BTN:SetPos(MT[CurTheme].CatSpacing + CAT_WIDTHS, MT[CurTheme].CatInfo[1])
+        	--MOAT_CAT_BTN:SetPos(MT[CurTheme].CloseB[1] - MT[CurTheme].CloseB[3] - (MT[CurTheme].CloseB[2] * 2), MT[CurTheme].CatInfo[1])
+        else
+			MOAT_CAT_BTN:SetSize(v[2] or MT[CurTheme].CatInfo[2], MT[CurTheme].CatInfo[3])
+        	MOAT_CAT_BTN:SetPos(MT[CurTheme].CatSpacing + CAT_WIDTHS, MT[CurTheme].CatInfo[1])
+		end
+
         MOAT_CAT_BTN.CatLabel = v[1]
         MOAT_CAT_BTN.CAT_NUM = k
         MOAT_CAT_BTN.btn_hovered = 1
@@ -2324,9 +2325,13 @@ function m_OpenInventory(ply2, utrade)
         MOAT_CAT_BTN.btn_color_a = false
 
         MOAT_CAT_BTN.Paint = function(s, w, h)
+			-- if (s.CatLabel == "Store") then
+			-- 	cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 100 + s.hover_coloral))
+
+            --     return
+            -- end
 
             MT[CurTheme].CAT_PAINT(s, w, h, MOAT_INV_CAT)
-
         end
 
         local btn_hovered = 1
@@ -2414,8 +2419,13 @@ function m_OpenInventory(ply2, utrade)
 		end
 	end
 
+	local catw = MT[CurTheme].CatInfo[2] * #MOAT_INV_CATS
+	for k, v in ipairs(MOAT_INV_CATS) do
+		catw = catw + (v[2] or MT[CurTheme].CatInfo[2]) + MT[CurTheme].CatSpacing
+	end
+
     MOAT_CAT_BAR = vgui.Create("DPanel", MOAT_INV_BG)
-    MOAT_CAT_BAR:SetSize(MT[CurTheme].CatInfo[2] * #MOAT_INV_CATS, 2)
+    MOAT_CAT_BAR:SetSize((MOAT_INV_CATS[1][2] or MT[CurTheme].CatInfo[2]) * #MOAT_INV_CATS, 2)
     MOAT_CAT_BAR:SetPos(MT[CurTheme].CatSpacing, 24)
     MOAT_CAT_BAR.cat_num = #MOAT_INV_CATS
     MOAT_CAT_BAR.cur_cat = MOAT_INV_CAT
@@ -3115,17 +3125,19 @@ function m_OpenInventory(ply2, utrade)
             M_LOADOUT_PNL:AlphaTo(0, anim_time, 0, callback)
         end
 
-        /*if (cat == 10) then
+		if (cat == 2 or cat == -1) then
+			m_StatsPanel()
+
             M_STATS_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
             M_STATS_PNL:AlphaTo(255, anim_time, anim_time)
             MOAT_XP_LERP = 360
             MOAT_STATS_LERP = 0
-        else
+        elseif (IsValid(M_STATS_PNL)) then
             M_STATS_PNL:MoveTo(-M_STATS_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_STATS_PNL:AlphaTo(0, anim_time)
-        end*/
+            M_STATS_PNL:AlphaTo(0, anim_time, 0, callback)
+        end
 
-        if (cat == 2) then
+        if (cat == 4) then
 			m_ShopPanel()
 
             M_SHOP_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
@@ -3135,60 +3147,7 @@ function m_OpenInventory(ply2, utrade)
             M_SHOP_PNL:AlphaTo(0, anim_time, 0, callback)
         end
 
-        if (cat == 4) then
-            local x, y = MOAT_INV_BG:GetPos()
-            m_CreateGamblePanel(x + 5, y + 30, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
-        elseif (IsValid(MOAT_GAMBLE_BG)) then
-			MOAT_GAMBLE_BG:MoveTo(-MOAT_GAMBLE_BG:GetWide(), 0, anim_time, 0, -1)
-            MOAT_GAMBLE_BG:AlphaTo(0, anim_time, 0, callback)
-        end
-
-        -- if (cat == 5) then
-        --     local x, y = MOAT_INV_BG:GetPos()
-        --     m_CreateBattlePanel(x + 5, y + 30, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
-        -- else
-        --     m_RemoveBattlePanel()
-        -- end
-
-		if (cat == 5) then
-			m_BountyPanel()
-
-            M_BOUNTY_PNL:MoveTo(0, 0, anim_time, 0, -1)
-            M_BOUNTY_PNL:AlphaTo(255, anim_time, 0)
-        elseif (IsValid(M_BOUNTY_PNL)) then
-            M_BOUNTY_PNL:MoveTo(-M_BOUNTY_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_BOUNTY_PNL:AlphaTo(0, anim_time, 0, callback)
-        end
-
-		if (cat == 6) then
-			m_SettingsPanel()
-
-            M_SETTINGS_PNL:MoveTo(0, 0, anim_time, 0, -1)
-            M_SETTINGS_PNL:AlphaTo(255, anim_time, 0)
-        elseif (IsValid(M_SETTINGS_PNL)) then
-            M_SETTINGS_PNL:MoveTo(-M_SETTINGS_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_SETTINGS_PNL:AlphaTo(0, anim_time, 0, callback)
-        end
-
-        if (cat == 7) then
-			m_EventPanel()
-
-            M_EVENT_PNL:MoveTo(0, 0, anim_time, 0, -1)
-            M_EVENT_PNL:AlphaTo(255, anim_time, 0)
-        elseif (IsValid(M_EVENT_PNL)) then
-            M_EVENT_PNL:MoveTo(-M_EVENT_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_EVENT_PNL:AlphaTo(0, anim_time, 0, callback)
-        end
-
-        /*if (cat == 8) then
-            M_EVENT_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
-            M_EVENT_PNL:AlphaTo(255, anim_time, anim_time)
-        else
-            M_EVENT_PNL:MoveTo(-M_EVENT_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_EVENT_PNL:AlphaTo(0, anim_time)
-        end*/
-
-        if (cat == 4 or cat == 5 or cat == 6 or cat == 7 or cat == 8) then
+		if (cat == 5 or cat == 6 or cat == 7 or cat == 8 or cat == 9) then
 			if (IsValid(M_INV_PNL)) then
 				M_INV_PNL:MoveTo(MOAT_INV_BG_W, inv_pnl_y, anim_time, 0, -1)
 				M_INV_PNL:AlphaTo(0, anim_time, 0, callback)
@@ -3211,7 +3170,60 @@ function m_OpenInventory(ply2, utrade)
 			end
 		end
 
-        MOAT_ITEMS_DECON_MARKED = 0
+		MOAT_ITEMS_DECON_MARKED = 0
+
+        if (cat == 5) then
+            local x, y = MOAT_INV_BG:GetPos()
+            m_CreateGamblePanel(x + 5, y + 30, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
+        elseif (IsValid(MOAT_GAMBLE_BG)) then
+			MOAT_GAMBLE_BG:MoveTo(-MOAT_GAMBLE_BG:GetWide(), 0, anim_time, 0, -1)
+            MOAT_GAMBLE_BG:AlphaTo(0, anim_time, 0, callback)
+        end
+
+        -- if (cat == 5) then
+        --     local x, y = MOAT_INV_BG:GetPos()
+        --     m_CreateBattlePanel(x + 5, y + 30, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
+        -- else
+        --     m_RemoveBattlePanel()
+        -- end
+
+		if (cat == 6) then
+			m_BountyPanel()
+
+            M_BOUNTY_PNL:MoveTo(0, 0, anim_time, 0, -1)
+            M_BOUNTY_PNL:AlphaTo(255, anim_time, 0)
+        elseif (IsValid(M_BOUNTY_PNL)) then
+            M_BOUNTY_PNL:MoveTo(-M_BOUNTY_PNL:GetWide(), 0, anim_time, 0, -1)
+            M_BOUNTY_PNL:AlphaTo(0, anim_time, 0, callback)
+        end
+
+		if (cat == 7) then
+			m_SettingsPanel()
+
+            M_SETTINGS_PNL:MoveTo(0, 0, anim_time, 0, -1)
+            M_SETTINGS_PNL:AlphaTo(255, anim_time, 0)
+        elseif (IsValid(M_SETTINGS_PNL)) then
+            M_SETTINGS_PNL:MoveTo(-M_SETTINGS_PNL:GetWide(), 0, anim_time, 0, -1)
+            M_SETTINGS_PNL:AlphaTo(0, anim_time, 0, callback)
+        end
+
+        if (cat == 8) then
+			m_EventPanel()
+
+            M_EVENT_PNL:MoveTo(0, 0, anim_time, 0, -1)
+            M_EVENT_PNL:AlphaTo(255, anim_time, anim_time)
+        elseif (IsValid(M_EVENT_PNL)) then
+            M_EVENT_PNL:MoveTo(-M_EVENT_PNL:GetWide(), 0, anim_time, 0, -1)
+            M_EVENT_PNL:AlphaTo(0, anim_time, 0, callback)
+        end
+
+        /*if (cat == 8) then
+            M_EVENT_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
+            M_EVENT_PNL:AlphaTo(255, anim_time, anim_time)
+        else
+            M_EVENT_PNL:MoveTo(-M_EVENT_PNL:GetWide(), 0, anim_time, 0, -1)
+            M_EVENT_PNL:AlphaTo(0, anim_time)
+        end*/
 
         if (cat == -2) then
 			m_UsablePanel()
@@ -3226,24 +3238,12 @@ function m_OpenInventory(ply2, utrade)
             INV_SELECT_MODE = false
         end
 
-        if (cat == -1) then
-			m_StatsPanel()
-
-            M_STATS_PNL:MoveTo(0, 0, anim_time, anim_time, -1)
-            M_STATS_PNL:AlphaTo(255, anim_time, anim_time)
-            MOAT_XP_LERP = 360
-            MOAT_STATS_LERP = 0
-        elseif (IsValid(M_STATS_PNL)) then
-            M_STATS_PNL:MoveTo(-M_STATS_PNL:GetWide(), 0, anim_time, 0, -1)
-            M_STATS_PNL:AlphaTo(0, anim_time, 0, callback)
-        end
-
 		m_InventoryCat()
 
 		timer.Simple(anim_time * 2, callback)
 
         if (cat ~= 0 and IsValid(M_INV_PNL_EXTND)) then M_INV_PNL_EXTND.Extended = false end
-        if (cat == 0 or cat == -1 or cat == -2) then return end
+        if (cat == 0 or cat == -1 or cat == -2) then if (cat == -1) then MOAT_CAT_BAR.new_cat = 2 end return end
 
         MOAT_CAT_BAR.new_cat = cat
     end
@@ -4476,6 +4476,12 @@ function m_OpenInventory(ply2, utrade)
 	m_InventoryPanel()
 	m_LoadoutPanel(true)
 	m_InventoryCat()
+
+	if (MOAT_THEMING) then
+		net.Start("MOAT_INV_CAT")
+        net.WriteDouble(7)
+        net.SendToServer()
+	end
 end
 
 function m_AddTradeChatMessage(tmsg, tply)

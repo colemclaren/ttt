@@ -136,7 +136,7 @@ MOAT_THEME.Themes["Original"] = {
         surface_SetDrawColor(0, 0, 0, 100)
         surface_DrawLine(0, 26, s:GetWide(), 26)
         DisableClipping(true)
-        m_DrawShadowedText(1, "Moat Inventory " .. MOAT_VERSION .. " - http://moat.gg/", "moat_ItemDesc", w, h, Color(200, 200, 200, 255), TEXT_ALIGN_RIGHT)
+        m_DrawShadowedText(1, "Moat Inventory " .. MOAT_VERSION, "moat_ItemDesc", w, h, Color(200, 200, 200, 255), TEXT_ALIGN_RIGHT)
         DisableClipping(false)
     end,
     INV_PANEL_PAINT = function(s, w, h)
@@ -171,6 +171,17 @@ MOAT_THEME.Themes["Original"] = {
     CatSpacing = 2,
     CatInfo = {2, 85, 24},
     CAT_PAINT = function(s, w, h, cur_cat)
+		if (s.CatLabel == "Store") then
+			draw_RoundedBoxEx(8, 0, 0, w, h, Color(50, 50, 50, 100), true, true)
+            draw_RoundedBoxEx(8, 1, 1, w - 2, h - 2, Color(s.hover_coloral, s.hover_coloral, s.hover_coloral, 150), true, true)
+            surface_SetDrawColor(0, 0, 0, 100)
+            surface_SetMaterial(gradient_d)
+            surface_DrawTexturedRect(1, 1, w - 2, h - 2)
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 150))
+	
+            return
+        end
+
         if (cur_cat == s.CAT_NUM) then
             draw_RoundedBoxEx(8, 0, 0, w, h, Color(50, 50, 50, 50), true, true)
             draw_RoundedBoxEx(8, 1, 1, w - 2, h - 2, Color(150, 150, 150, 150), true, true)
@@ -353,6 +364,14 @@ MOAT_THEME.Themes["Light"] = {
     CatSpacing = 0,
     CatInfo = {0, 90, 26},
     CAT_PAINT = function(s, w, h, cur_cat)
+		if (s.CatLabel == "Store") then
+			draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
+			draw_RoundedBox(0, w - 1, 0, 1, h, Color(26, 29, 34, 255))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 150))
+	
+            return
+        end
+
         if (cur_cat == s.CAT_NUM) then
             draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
         else
@@ -516,6 +535,14 @@ MOAT_THEME.Themes["Dark"] = {
     CatSpacing = 0,
     CatInfo = {0, 90, 26},
     CAT_PAINT = function(s, w, h, cur_cat)
+		if (s.CatLabel == "Store") then
+			draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
+			draw_RoundedBox(0, w - 1, 0, 1, h, Color(26, 29, 34, 155))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 150))
+	
+            return
+        end
+
         if (cur_cat == s.CAT_NUM) then
             draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
         else
@@ -671,6 +698,14 @@ MOAT_THEME.Themes["Clear"] = {
     CatSpacing = 0,
     CatInfo = {0, 90, 26},
     CAT_PAINT = function(s, w, h, cur_cat)
+		if (s.CatLabel == "Store") then
+			draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8-2, (h/2)-8-2, 16+4, 16+4, Color(0, 0, 0, 25))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 255))
+	
+            return
+        end
+
         if (cur_cat == s.CAT_NUM) then
             draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
         else
@@ -858,6 +893,14 @@ MOAT_THEME.Themes["Alpha"] = {
     CatSpacing = 0,
     CatInfo = {0, 90, 26},
     CAT_PAINT = function(s, w, h, cur_cat)
+		if (s.CatLabel == "Store") then
+			draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8-2, (h/2)-8-2, 16+4, 16+4, Color(0, 0, 0, 25))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 255))
+	
+            return
+        end
+
         if (cur_cat == s.CAT_NUM) then
             draw_RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
         else

@@ -75,6 +75,13 @@ MOAT_THEME.Themes["Blur"] = {
     CatSpacing = 0,
     CatInfo = {0, 90, 26},
     CAT_PAINT = function(s, w, h, cur_cat)
+		if (s.CatLabel == "Store") then
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 255))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8+1, (h/2)-8+1, 16, 16, Color(0, 0, 0, 25))
+	
+            return
+        end
+
         if (cur_cat == s.CAT_NUM) then
             draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 150))
         else
@@ -219,7 +226,7 @@ MOAT_THEME.Themes["Blur"] = {
 
 local pmeta = FindMetaTable("Panel")
 function pmeta:SetFestive(x, y, w, h)
-    if (not IsValid(self.festivepanel) and holiday:GetInt() == 1) then
-        createFestive(self, x, y, w, h)
-    end
+    -- if (not IsValid(self.festivepanel) and holiday:GetInt() == 1) then
+    --     createFestive(self, x, y, w, h)
+    -- end
 end

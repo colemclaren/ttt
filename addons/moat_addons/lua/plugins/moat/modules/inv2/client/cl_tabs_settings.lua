@@ -351,7 +351,22 @@ local function m_ChangeConVarChoice(var, multiopt, multioptstr, dir)
 	var:SetString(nextnum)
 
     if (var:GetName() == "moat_Theme") then
-        chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Inventory Theme changed! Please re-open your inventory to take effect!")
+		MOAT_THEMING = true
+		if (m_ply2 and m_utrade) then
+			if (IsValid(MOAT_TRADE_BG)) then MOAT_TRADE_BG:Remove() end
+            moat_inv_cooldown = CurTime() + 5
+            m_ClearInventory()
+            net.Start("MOAT_SEND_INV_ITEM")
+            net.SendToServer()
+            net.Start("MOAT_RESPOND_TRADE")
+            net.WriteBool(false)
+            net.WriteDouble(m_ply2:EntIndex())
+            net.WriteDouble(m_utrade)
+            net.SendToServer()
+		end
+
+		if (IsValid(MOAT_INV_BG)) then MOAT_INV_BG:Remove() end
+		m_OpenInventory()
     end
 
 	if (var:GetName() == "moat_headshot_sound") then
@@ -630,7 +645,13 @@ function m_PopulateSettingsPanel(pnl)
         sfx.SoundEffects(cat_btn)
     end
 
+	if (MOAT_THEMING) then
+		moat_Settings.CurCat = 4
+	end
+
     m_RebuildSettingsPanel(moat_Settings.CurCat)
+
+	MOAT_THEMING = false
 end
 
 local flip_convar = GetConVar("moat_ViewModelFlip")
