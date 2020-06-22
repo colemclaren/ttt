@@ -93,12 +93,27 @@ Accessor("m", "Magazine", "Double", function(self, wep)
     }
 
     local mult = wep:GetMagazine() / 100 + 1
+	if (wep:GetMagazine() == -1) then
+		local ClipSize =  wep._Cached.m.ClipSize
+		wep.Primary.ClipSize = 1
+		wep.Primary.DefaultClip = math.Round(ClipSize * 3)
+		wep.Primary.ClipMax = 1
+		wep:SetClip1(wep.Primary.ClipSize)
+		if (SERVER and wep.Primary.Ammo and wep.Primary.ClipSize and IsValid(wep:GetOwner())) then
+			wep:GetOwner():GiveAmmo(ClipSize - 1, wep.Primary.Ammo, true)
+    	end
+	else
+		local ClipSize = wep._Cached.m.ClipSize
+    	wep.Primary.ClipSize = math.ceil(ClipSize * mult)
+    	wep.Primary.DefaultClip = math.ceil(wep.Primary.ClipSize)
+    	wep.Primary.ClipMax = math.Round(wep.Primary.ClipSize * 3)
 
-    local ClipSize = wep._Cached.m.ClipSize
-    wep.Primary.ClipSize = math.ceil(ClipSize * mult)
-    wep.Primary.DefaultClip = math.ceil(wep.Primary.ClipSize)
-    wep.Primary.ClipMax = math.Round(wep.Primary.ClipSize * 3)
-	
+		wep:SetClip1(wep.Primary.ClipSize)
+		if (SERVER and wep.Primary.Ammo and wep.Primary.ClipSize and IsValid(wep:GetOwner())) then
+			wep:GetOwner():GiveAmmo(wep.Primary.ClipSize, wep.Primary.Ammo, true)
+    	end
+	end
+
 	wep:SetClip1(wep.Primary.ClipSize)
 	if (SERVER and wep.Primary.Ammo and wep.Primary.ClipSize and IsValid(wep:GetOwner())) then
 		wep:GetOwner():GiveAmmo(wep.Primary.ClipSize, wep.Primary.Ammo, true)

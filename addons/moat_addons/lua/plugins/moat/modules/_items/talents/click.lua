@@ -15,9 +15,13 @@ function TALENT:ModifyWeapon(weapon, talent_mods)
 	if (weapon.Primary.ClipSize and weapon.Primary.DefaultClip and weapon.Primary.ClipMax) then
 		local original = weapon.Primary.ClipSize
 
+		weapon:SetMagazine(-1)
 		weapon.Primary.ClipSize = 1
 		weapon.Primary.DefaultClip = original * 3
 		weapon.Primary.ClipMax = 1
+		weapon:SetClip1(weapon.Primary.ClipSize)
+
+		weapon.ClickClip = true
 	end
 end
 
