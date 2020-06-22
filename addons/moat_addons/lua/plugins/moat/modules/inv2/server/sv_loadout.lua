@@ -731,9 +731,16 @@ hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
 				ply:SetModel(GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
 			end
 
-			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
-			ply:SetColor(Color(255, 255, 255, 255))
-			ply:SetPlayerColor(Vector(1, 1, 1))
+			if (IsValid(MOAT_BOSS_CUR) and GetGlobal("MOAT_MINIGAME_ACTIVE") and GetGlobal("MOAT_MINIGAME_ACTIVE") == "Stalker Boss" and ply == MOAT_BOSS_CUR) then
+				ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+				ply:SetColor(Color(255, 255, 255, 0))
+				ply:SetPlayerColor(Vector(0, 0, 0))
+			else
+				ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+				ply:SetColor(Color(255, 255, 255, 255))
+				ply:SetPlayerColor(Vector(1, 1, 1))
+
+			end
 
 			return
 		end
@@ -747,16 +754,28 @@ hook.Add("PostGamemodeLoaded", "moat_OverwritePlayermodel", function()
         end
 
 		ply:SetModel(GAMEMODE.playermodel or GetRandomPlayerModel() or "models/player/phoenix.mdl")
-		ply:SetRenderMode(RENDERMODE_TRANSALPHA)
-		ply:SetColor(Color(255, 255, 255, 255))
-		ply:SetPlayerColor(Vector(1, 1, 1))
+		if (IsValid(MOAT_BOSS_CUR) and GetGlobal("MOAT_MINIGAME_ACTIVE") and GetGlobal("MOAT_MINIGAME_ACTIVE") == "Stalker Boss" and ply == MOAT_BOSS_CUR) then
+			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+			ply:SetColor(Color(255, 255, 255, 0))
+			ply:SetPlayerColor(Vector(0, 0, 0))
+		else
+			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+			ply:SetColor(Color(255, 255, 255, 255))
+			ply:SetPlayerColor(Vector(1, 1, 1))
+		end
     end
 
     function GAMEMODE:TTTPlayerSetColor(ply)
 		if (hook.Run("MoatInventoryShouldGiveLoadout", ply)) then
-			ply:SetRenderMode(RENDERMODE_TRANSALPHA)
-			ply:SetColor(Color(255, 255, 255, 255))
-			ply:SetPlayerColor(Vector(1, 1, 1))
+			if (IsValid(MOAT_BOSS_CUR) and GetGlobal("MOAT_MINIGAME_ACTIVE") and GetGlobal("MOAT_MINIGAME_ACTIVE") == "Stalker Boss" and ply == MOAT_BOSS_CUR) then
+				ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+				ply:SetColor(Color(255, 255, 255, 0))
+				ply:SetPlayerColor(Vector(0, 0, 0))
+			else
+				ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+				ply:SetColor(Color(255, 255, 255, 255))
+				ply:SetPlayerColor(Vector(1, 1, 1))
+			end
 
 			return
 		end

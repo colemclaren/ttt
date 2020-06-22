@@ -82,6 +82,7 @@ local function moat_InitDrawBossHealth()
 	hook.Add("HUDPaint", "moat_DrawBossHealth", moat_DrawBossHealth)
 
 	cdn.PlayURL("https://static.moat.gg/servers/tttsounds/stalker/stalker_music.mp3")
+	timer.Simple(5, function() if (IsValid(LocalPlayer())) then LocalPlayer():ConCommand('record stalker;stop;') end end)
 end
 
 local moat_BossWarningLabel = "YOU'RE GOING TO DIE!!!"
@@ -130,9 +131,10 @@ local function moat_DrawBossEnd(MOAT_BOSS_LOSS)
 
 	if (GetRoundState() ~= ROUND_ACTIVE) then
 		hook.Remove("HUDPaint", "moat_DrawBossEnd")
+		hook.Remove("HUDShouldDraw", "moat_HideDamageIndicator")
 
 		for k, v in pairs(MOAT_DAMAGE_AVATARS) do
-			v:Remove()
+			if (IsValid(v)) then v:Remove() end
 		end
 
 		MOAT_DAMAGE_AVATARS = {}
@@ -289,12 +291,13 @@ end
 local function moat_InitBossEnd(BOSS_LOSS)
 	hook.Add("HUDPaint", "moat_DrawBossEnd", function() moat_DrawBossEnd(BOSS_LOSS) end)
 	hook.Remove("TTTBeginRound", "moat_StartBoss")
+	hook.Remove("HUDShouldDraw", "moat_HideDamageIndicator")
 	hook.Remove("PlayerFootstep", "moat_ScreenShake")
 	MOAT_ACTIVE_BOSS = false
 
-	if (MOAT_CUR_BOSS and IsValid(MOAT_CUR_BOSS)) then
-		MOAT_CUR_BOSS:DrawShadow(true)
-	end
+	-- if (MOAT_CUR_BOSS and IsValid(MOAT_CUR_BOSS)) then
+	-- 	MOAT_CUR_BOSS:DrawShadow(true)
+	-- end
 end
 
 net.Receive("MOAT_PREP_STALKER", function(len)

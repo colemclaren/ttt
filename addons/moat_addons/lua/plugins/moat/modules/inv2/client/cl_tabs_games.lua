@@ -4967,7 +4967,7 @@ function m_DrawVersusPanel()
 			end
 		end
 		
-		local streak_name = "Velkon"
+		local streak_name = "Moat"
 		steamworks.RequestPlayerInfo(versus_stats.streak.steamid or "0", function(name)
 			streak_name = name
 		end)
@@ -4998,7 +4998,7 @@ function m_DrawVersusPanel()
 			sfx.SoundEffects(butt)
 		end
 
-		local totwinner_name = "Velkon"
+		local totwinner_name = "Moat"
 		steamworks.RequestPlayerInfo(versus_stats.top.winner or "0", function(name)
 			totwinner_name = name
 		end)

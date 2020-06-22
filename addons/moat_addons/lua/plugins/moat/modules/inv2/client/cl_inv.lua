@@ -1029,19 +1029,6 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 				talent_namew = talent_namew + 8 + 4
             else
 				local lx, ty = 4 + draw_name_x + talent_namew, y + stats_y_add + talents_y_add + 2 + 2
-				local star = {
-					{x = lx + 3, y = ty + 5},
-					{x = lx + 7, y = ty + 0},
-					{x = lx + 7, y = ty + 5},
-					{x = lx + 10, y = ty + 5},
-					{x = lx + 8, y = ty + 7},
-					{x = lx + 10, y = ty + 10},
-					{x = lx + 5, y = ty + 8},
-					{x = lx + 0, y = ty + 10},
-					{x = lx + 2, y = ty + 7},
-					{x = lx + 0, y = ty + 5},
-				}
-
 				surface.SetDrawColor(0, 0, 0, 255)
 				draw.NoTexture()
 				ux.DrawCircle(lx + 6, ty + 6, 5, 30)
@@ -3346,9 +3333,9 @@ function m_OpenInventory(ply2, utrade)
 				if (s.StatsHeight and s.SkinHeight) then
 					surface.SetMaterial(gradient_d)
 					surface.SetDrawColor(8, 12, 19, 230)
-					surface.DrawTexturedRect(1, draw_stats_y + s.SkinHeight - 17, w - 2, 25)
+					surface.DrawTexturedRect(1, draw_stats_y + s.SkinHeight - 17, w - 2, 30)
 					surface.SetDrawColor(8, 12, 19, 230)
-					surface.DrawRect(1, draw_stats_y + s.SkinHeight + 8, w - 2, h - 2 - draw_stats_y - s.SkinHeight - 8)
+					surface.DrawRect(1, draw_stats_y + s.SkinHeight + 13, w - 2, h - 2 - draw_stats_y - s.SkinHeight - 13)
 				end
     		end
 
@@ -4797,7 +4784,7 @@ function m_CreateItemMenu(num, ldt)
                 success = function(_,c,_,_)
                     local album = util.JSONToTable(c)
                     if not album.success then
-                        Derma_Message("Your upload was not successful (-2)! Please show this to velkon: " .. a, "Imgur failed", "Close")
+                        Derma_Message("Your upload was not successful (-2)! Please show this to Moat: " .. a, "Imgur failed", "Close")
                         MOAT_UPLOADING = false
                         return
                     end
@@ -4812,7 +4799,7 @@ function m_CreateItemMenu(num, ldt)
                             b = util.JSONToTable(b)
                             if b.success then
                                 local l = "https://imgur.com/a/" .. album.data.id
-                                Derma_Message("Wowzie! Your item stat screenshot's Sharable URL has been copied to your clipboard :D\nTrade chat in Discord to start #buying @ #selling via https://moat.chat/", "Share Screenshot", "Deal (Close)")
+                                Derma_Message("Your picture of your stats has been uploaded and copied to your clipboard! (" .. l .. ")\nYou can now simply paste it into any text channel like the #wts in our Discord!", "Upload success", "Thanks!")
                                 SetClipboardText(l)
                                 local x = 0
                                 if itemtbl.s then
@@ -4823,7 +4810,7 @@ function m_CreateItemMenu(num, ldt)
                                     l--s
                                 }
                             else
-                                Derma_Message("Your upload was not successful! Please show this to velkon:\n" .. ob, "Imgur failed", "Close")
+                                Derma_Message("Your upload was not successful! Please show this to Moat:\n" .. ob, "Imgur failed", "Close")
                             end
                             MOAT_UPLOADING = false
                         end,
@@ -4838,7 +4825,7 @@ function m_CreateItemMenu(num, ldt)
                     })
                 end,
                 failed = function(a) 
-                    Derma_Message("Your upload was not successful (-1)! Please show this to velkon: " .. a, "Imgur failed", "Close")
+                    Derma_Message("Your upload was not successful (-1)! Please show this to Moat: " .. a, "Imgur failed", "Close")
                     MOAT_UPLOADING = false
                 end,
                 parameters = {
@@ -5991,10 +5978,10 @@ function m_DrawFoundItem(tbl, s_type, name)
 				surface.DrawRect(1, 1, w - 2, 45 + draw_xp_lvl)
 				if (s.StatsHeight and s.SkinHeight) then
 					surface.SetMaterial(gradient_d)
-					surface.SetDrawColor(8, 12, 19, 240)
-					surface.DrawTexturedRect(1, draw_stats_y + s.SkinHeight - 17, w - 2, 25)
-					surface.SetDrawColor(8, 12, 19, 240)
-					surface.DrawRect(1, draw_stats_y + s.SkinHeight + 8, w - 2, h - 2 - draw_stats_y - s.SkinHeight - 8)
+					surface.SetDrawColor(8, 12, 19, 230)
+					surface.DrawTexturedRect(1, draw_stats_y + s.SkinHeight - 17, w - 2, 30)
+					surface.SetDrawColor(8, 12, 19, 230)
+					surface.DrawRect(1, draw_stats_y + s.SkinHeight + 13, w - 2, h - 2 - draw_stats_y - s.SkinHeight - 13)
 				end
     		end
 

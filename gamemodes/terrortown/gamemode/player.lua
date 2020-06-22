@@ -230,7 +230,12 @@ function GM:PlayerSetModel(ply)
     util.PrecacheModel(mdl)
     ply:SetModel(mdl)
     -- Always clear color state, may later be changed in TTTPlayerSetColor
-    ply:SetColor(COLOR_WHITE)
+	if (IsValid(MOAT_BOSS_CUR) and GetGlobal("MOAT_MINIGAME_ACTIVE") and GetGlobal("MOAT_MINIGAME_ACTIVE") == "Stalker Boss" and ply == MOAT_BOSS_CUR) then
+		ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+		ply:SetColor(Color(255, 255, 255, 0))
+	else
+    	ply:SetColor(COLOR_WHITE)
+	end
 end
 
 function GM:TTTPlayerSetColor(ply)
@@ -243,7 +248,13 @@ function GM:TTTPlayerSetColor(ply)
         clr = GAMEMODE.playercolor
     end
 
-    ply:SetPlayerColor(Vector(clr.r / 255.0, clr.g / 255.0, clr.b / 255.0))
+	if (IsValid(MOAT_BOSS_CUR) and GetGlobal("MOAT_MINIGAME_ACTIVE") and GetGlobal("MOAT_MINIGAME_ACTIVE") == "Stalker Boss" and ply == MOAT_BOSS_CUR) then
+		ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+		ply:SetColor(Color(255, 255, 255, 0))
+		ply:SetPlayerColor(1, 1, 1, 0)
+	else
+    	ply:SetPlayerColor(Vector(clr.r / 255.0, clr.g / 255.0, clr.b / 255.0))
+	end
 end
 
 -- Only active players can use kill cmd

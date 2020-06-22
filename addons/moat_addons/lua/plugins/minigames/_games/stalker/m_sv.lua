@@ -20,10 +20,16 @@ local function moat_EndRoundBossHooks()
 	if (MOAT_MINIGAMES.CantEnd()) then return end
 
     if (MOAT_BOSS_CUR and IsValid(MOAT_BOSS_CUR)) then
-        MOAT_BOSS_CUR:SetColor(Color(255, 255, 255, 255))
-        MOAT_BOSS_CUR:DrawShadow(true)
-        MOAT_BOSS_CUR:SetNW2Bool("disguised", false)
-        MOAT_BOSS_CUR.SpeedMod = 1
+		net.Start("MOAT_PLAYER_CLOAKED")
+		net.WriteEntity(MOAT_BOSS_CUR)
+		net.WriteBool(false)
+		net.Broadcast()
+
+		MOAT_BOSS_CUR:SetColor(Color(255, 255, 255, 255))
+		MOAT_BOSS_CUR:GodDisable()
+		MOAT_BOSS_CUR:SetNW2Bool("disguised", false)
+		MOAT_BOSS_CUR:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+		MOAT_BOSS_CUR.SpeedMod = 1
     end
 
     -- Remove our hooks
@@ -40,6 +46,7 @@ local function moat_EndRoundBossHooks()
     hook.Remove("PlayerSwitchWeapon", "moat_RestrictWeaponSwitch")
     hook.Remove("Think", "moat_JetpackVelocity")
     hook.Remove("PlayerDisconnected", "moat_BossDisconnect")
+	hook.Remove("SetupPlayerVisibility", "moat_BossVisibility")
 	hook.Remove("m_ShouldPreventWeaponHitTalent", "moat_BossStopTalents")
     
     MOAT_ACTIVE_BOSS = false
@@ -191,6 +198,10 @@ local function moat_BeginRoundBossHooks()
         end
 		boss:SetCredits(0)
 
+		hook.Add("SetupPlayerVisibility", "moat_BossVisibility", function()
+            AddOriginToPVS(MOAT_BOSS_CUR:GetPos())
+        end)
+
         timer.Simple(3, function()
             local hp = (#pls) * MOAT_BOSS_HP_MULTIPLIER
             boss:SetModel(MOAT_BOSS_MODEL)
@@ -199,16 +210,14 @@ local function moat_BeginRoundBossHooks()
             boss:GodDisable()
             boss.SpeedMod = 1.5
             boss:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+			boss:SetRenderMode(RENDERMODE_TRANSALPHA)
+			boss:SetColor(Color(255, 255, 255, 0))
+			boss:SetNW2Bool("disguised", true)
 
-            boss:SetRenderMode(RENDERMODE_TRANSALPHA)
-            boss:SetColor(Color(255, 255, 255, 0))
-            boss:DrawShadow(false)
-            boss:SetNW2Bool("disguised", true)
-
-            net.Start("MOAT_PLAYER_CLOAKED")
-            net.WriteEntity(boss)
-            net.WriteBool(true)
-            net.Broadcast()
+			net.Start("MOAT_PLAYER_CLOAKED")
+			net.WriteEntity(boss)
+			net.WriteBool(true)
+			net.Broadcast()
 
             boss:Give("weapon_ttt_knifestalker")
             boss:SelectWeapon("weapon_ttt_knifestalker")

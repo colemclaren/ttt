@@ -1103,6 +1103,8 @@ end)
 net.Receive("MOAT_PLAYER_CLOAKED", function()
 	local pl = net.ReadEntity()
 	local c = net.ReadBool()
+
+	if (IsValid(pl)) then pl.NoTarget = c end
 	if (not IsValid(pl) or not IsValid(LocalPlayer()) or not MOAT_CLIENTSIDE_MODELS[pl]) then return end
 
 	for k, v in ipairs(MOAT_CLIENTSIDE_MODELS[pl]) do
@@ -1110,6 +1112,4 @@ net.Receive("MOAT_PLAYER_CLOAKED", function()
 			v.Hide = c
 		end
 	end
-
-	pl.NoTarget = c
 end)
