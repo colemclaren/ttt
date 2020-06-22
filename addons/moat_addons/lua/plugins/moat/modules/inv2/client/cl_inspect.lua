@@ -487,7 +487,7 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 
 			if (mat_str:match "vtf$") then
 				local function set(m)
-					new_mat:SetTexture("$basetexture", m)
+					new_mat:SetTexture("$basetexture", (type(m) ~= "string") and m:GetTexture "$basetexture" or m)
 				end
 
 				local m = cdn.Texture(mat_str, set)
@@ -496,7 +496,7 @@ function moat_view_paint_preview(mdl, pm, paint_id, paint_id2, paint_id3)
 				end
 			else
 				local function set(m)
-					new_mat:SetTexture("$basetexture", m:GetTexture("$basetexture"))
+					new_mat:SetTexture("$basetexture", (type(m) ~= "string") and m:GetTexture "$basetexture" or m)
 				end
 
 				local m = cdn.Image(mat_str, set)
