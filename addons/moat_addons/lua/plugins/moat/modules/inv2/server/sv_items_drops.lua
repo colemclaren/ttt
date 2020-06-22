@@ -338,7 +338,7 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
 				util.GlobalScreenShake(5, 5, 10, 5000)
             elseif (item_to_drop.Rarity == 8) then
 				self:PlayURL("https://static.moat.gg/ttt/Stinger_loot_03.wav", .5)
-				util.GlobalScreenShake(5, 5, 10, 5000)
+				self:ScreenShake(5, 5, 10, 5000)
             elseif (item_to_drop.Rarity == 9) then
                 cdn.PlayURL("https://static.moat.gg/ttt/Arcana_drop.mp3", .5)
 				util.GlobalScreenShake(25, 25, 15, 5000)
