@@ -1671,7 +1671,7 @@ function m_OpenInventory(ply2, utrade)
 
 		function M_TRADE_PLYS:RebuildList()
 			if (IsValid(lp) and lp:IsActive()) then
-				M_TRADE_LBL:SetText("Temporarily unavailable since I'm alive in this round.")
+				M_TRADE_LBL:SetText("Currently unavailable while I'm alive during this round!")
 			else
 				M_TRADE_LBL:SetText("Click on a player below to send them a trade request.")
 			end
@@ -2419,11 +2419,6 @@ function m_OpenInventory(ply2, utrade)
 		end
 	end
 
-	local catw = MT[CurTheme].CatInfo[2] * #MOAT_INV_CATS
-	for k, v in ipairs(MOAT_INV_CATS) do
-		catw = catw + (v[2] or MT[CurTheme].CatInfo[2]) + MT[CurTheme].CatSpacing
-	end
-
     MOAT_CAT_BAR = vgui.Create("DPanel", MOAT_INV_BG)
     MOAT_CAT_BAR:SetSize((MOAT_INV_CATS[1][2] or MT[CurTheme].CatInfo[2]) * #MOAT_INV_CATS, 2)
     MOAT_CAT_BAR:SetPos(MT[CurTheme].CatSpacing, 24)
@@ -2526,14 +2521,20 @@ function m_OpenInventory(ply2, utrade)
     local inv_pnl_x = MOAT_INV_BG_W - 364 - 5
     local inv_pnl_y = 30
 
-	function m_InventoryPanel()
+	function m_InventoryPanel(anim_time)
 		if (IsValid(M_INV_PNL)) then
 			M_INV_PNL:Remove()
 		end
 
+		anim_time = anim_time or 0
 		M_INV_PNL = vgui.Create("DPanel", MOAT_INV_BG)
-		M_INV_PNL:SetPos(inv_pnl_x, 30)
 		M_INV_PNL:SetSize(364, 515)
+		if (anim_time > 0) then
+			M_INV_PNL:SetAlpha(0)
+			M_INV_PNL:MoveTo(inv_pnl_x, inv_pnl_y, anim_time)
+            M_INV_PNL:AlphaTo(255, anim_time, 0)
+		end
+		M_INV_PNL:SetPos((anim_time > 0) and MOAT_INV_BG_W or inv_pnl_x, 30)
 		M_INV_PNL.Theme = MT[CurTheme]
 		M_INV_PNL.Paint = function(s, w, h)
 			if (MT[CurTheme].INV_PANEL_PAINT) then
@@ -3102,7 +3103,7 @@ function m_OpenInventory(ply2, utrade)
 
         if (cat == 0) then
 			if (not IsValid(M_INV_PNL)) then
-				m_InventoryPanel()
+				m_InventoryPanel(anim_time)
 			end
 
             local w_off = 32
@@ -3154,14 +3155,14 @@ function m_OpenInventory(ply2, utrade)
 			end
         elseif (cat ~= 0) then
 			if (not IsValid(M_INV_PNL)) then
-				m_InventoryPanel()
+				m_InventoryPanel(anim_time)
 			end
 
-            M_INV_PNL:MoveTo(inv_pnl_x, inv_pnl_y, 0.15)
+            M_INV_PNL:MoveTo(inv_pnl_x, inv_pnl_y, anim_time)
             M_INV_PNL:AlphaTo(255, anim_time, 0)
-            M_INV_PNL:SizeTo(364, 515, 0)
-            M_INV_SP:SizeTo(364, 488, 0)
-            M_INV_L:SizeTo(350, 488, 0)
+            M_INV_PNL:SizeTo(364, 515, anim_time)
+            M_INV_SP:SizeTo(364, 488, anim_time)
+            M_INV_L:SizeTo(350, 488, anim_time)
         end
 
 		for k, v in pairs(m_Inventory) do

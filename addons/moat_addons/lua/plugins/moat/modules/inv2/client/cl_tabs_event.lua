@@ -441,9 +441,13 @@ function MOAT_EVENT.ObjectivePanel(pnl)
 
     local num_weps = #wpn_tbl
 
-    for i = 1, num_weps do
-        addrow(wpn_tbl[i], o, i == num_weps)
-    end
+	o.LoadingSlot = 0
+	o.Think = function(s)
+		if (s.LoadingSlot < num_weps) then
+			s.LoadingSlot = s.LoadingSlot + 1
+			addrow(wpn_tbl[s.LoadingSlot], o, s.LoadingSlot == num_weps)
+		end
+	end
 end
 
 function MOAT_EVENT.ReceiveTop()

@@ -76,6 +76,7 @@ MOAT_THEME.Themes["Blur"] = {
     CatInfo = {0, 90, 26},
     CAT_PAINT = function(s, w, h, cur_cat)
 		if (s.CatLabel == "Store") then
+			draw.RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
 			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 255))
 			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8+1, (h/2)-8+1, 16, 16, Color(0, 0, 0, 25))
 	
