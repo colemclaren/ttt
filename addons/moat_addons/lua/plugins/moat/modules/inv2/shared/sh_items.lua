@@ -1499,7 +1499,9 @@ local MOAT_ITEM_FOLDERS = {
 		"planetary_stats.lua",
 		"planetary_talents.lua",
 		"t_usable.lua",
-		"vip_token.lua"
+		"vip_token.lua",
+		"event_vape.lua",
+		"event_dola.lua"
 	}}
 }
 
