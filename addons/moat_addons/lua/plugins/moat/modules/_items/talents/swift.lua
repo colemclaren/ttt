@@ -6,7 +6,7 @@ TALENT.Tier = 1
 TALENT.LevelRequired = { min = 5, max = 10 }
 
 TALENT.Modifications = {}
-TALENT.Modifications[1] = {min = 25, max = 200}
+TALENT.Modifications[1] = {min = 25, max = 60}
 
 TALENT.Melee = false
 TALENT.NotUnique = true
