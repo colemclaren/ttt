@@ -954,7 +954,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
         local mutated = ""
 
         if (itemtbl.tr) then mutated = " (Mutated)" end
-        m_DrawShadowedText(1, talents_s, font, 6, y + stats_y_add,  Color(94, 114, 228))
+        m_DrawShadowedText(1, talents_s, font, 6, y + stats_y_add,  Color(0, 128, 255))
 
         surface_SetDrawColor(100, 100, 100, 50)
         surface_DrawLine(6, y + stats_y_add + 0 + 15, pnl:GetWide() - 6, y + stats_y_add + 0 + 15)
@@ -1036,7 +1036,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 				draw.NoTexture()
 				ux.DrawCircle(lx + 5, ty + 5, 5, 30)
 
-				surface.SetDrawColor(94, 114, 228, 255)
+				surface.SetDrawColor(0, 128, 255, 255)
 				draw.NoTexture()
 				ux.DrawCircle(lx + 5, ty + 5, 4, 30)
 
