@@ -27,6 +27,7 @@ SWEP.Instructions = ""
 
 SWEP.Kind = WEAPON_EQUIP2
 SWEP.CanBuy = {ROLE_DETECTIVE}
+SWEP.LimitedStock = true
 SWEP.AllowDrop = false
 SWEP.IsSilent = false
 
