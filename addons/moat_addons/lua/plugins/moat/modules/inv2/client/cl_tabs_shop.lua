@@ -288,6 +288,7 @@ function m_PopulateShop(pnl)
         local name_col = itemtbl.NameColor or rarity_names[itemtbl.Rarity][2]
         if itemtbl.LimitedShop then name_col = Color(255, 128, 0) end
         local item_name = string.Explode(" ", itemtbl.Name)
+		if (item_name[1] == "Paper") then item_name = {"Paper Tiqers", "Crate"} end
         if (item_name[1] == "Urban") then item_name = {"Urban Style", "Crate"} end
 		if (item_name[1] == "Aqua") then item_name = {"Aqua Palm", "Crate"} end
 		if (item_name[1] == "Santa's") then item_name[2] = "Present" end

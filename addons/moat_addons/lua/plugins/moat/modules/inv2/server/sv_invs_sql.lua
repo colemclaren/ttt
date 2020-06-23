@@ -795,14 +795,6 @@ function m_InsertNewInventoryPlayer(ply)
 		})
 	end
 
-	for i = 1, 10 do
-		table.insert(inventory_tbl, {
-			c = util.CRC(SysTime()),
-			u = 365,
-			s = {}
-		})
-	end
-
 	for i = 1, #weps do
 		table.insert(inventory_tbl, {
 			c = util.CRC(SysTime()),
