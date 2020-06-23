@@ -557,7 +557,7 @@ function MOAT_DONATE:OpenWindow()
     ava:SetPlayer(LocalPlayer(), 32)
     local cl = vgui.Create("DButton", self.bg)
     cl:SetPos(self.FrameW - 22, 5)
-    cl:SetSize(17, 17)
+    cl:SetSize(system.IsOSX() and 18 or 17, 17)
     cl:SetText("")
     cl.LerpNum = 0
 
@@ -572,8 +572,13 @@ function MOAT_DONATE:OpenWindow()
             s.LerpNum = Lerp(FrameTime() * 8, s.LerpNum, 0)
         end
 
-        draw.RoundedBox(4, 0, 0, w, h, Color(255 * s.LerpNum, 50 * s.LerpNum, 50 * s.LerpNum, 150 + (50 * s.LerpNum)))
-        draw.SimpleText("r", "marlett", 8 + 1, 8, Color(255 - (55 * s.LerpNum), 50 + (150 * s.LerpNum), 50 + (150 * s.LerpNum)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		if (system.IsOSX()) then
+			draw.RoundedBox(4, 0, 0, w, h, Color(255 * s.LerpNum, 50 * s.LerpNum, 50 * s.LerpNum, 150 + (50 * s.LerpNum)))
+			draw.SimpleText("r", "marlett", 7, 8, Color(255 - (55 * s.LerpNum), 50 + (150 * s.LerpNum), 50 + (150 * s.LerpNum)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		else
+			draw.RoundedBox(4, 0, 0, w, h, Color(255 * s.LerpNum, 50 * s.LerpNum, 50 * s.LerpNum, 150 + (50 * s.LerpNum)))
+        	draw.SimpleText("r", "marlett", 8 + 1, 8, Color(255 - (55 * s.LerpNum), 50 + (150 * s.LerpNum), 50 + (150 * s.LerpNum)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		end
     end
 
     sfx.SoundEffects(cl)

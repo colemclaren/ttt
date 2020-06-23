@@ -32,6 +32,7 @@ local surface_DrawLine = surface.DrawLine
 SB_ROW_HEIGHT = 24 --16
 local PANEL = {}
 
+local mat_group = Material("icon16/group.png")
 function PANEL:Init()
     -- cannot create info card until player state is known
     self.info = nil
@@ -60,7 +61,7 @@ function PANEL:Init()
     self.avatar:SetMouseInputEnabled(false)
     self.rankimage = vgui.Create("DImage", self)
     self.rankimage:SetSize(SB_ROW_HEIGHT, SB_ROW_HEIGHT)
-    self.rankimage:SetMaterial(Material("icon16/group.png"))
+    self.rankimage:SetMaterial(mat_group)
     self.rankimage:SetMouseInputEnabled(false)
     self.titles = vgui.Create("DLabel", self)
     self.titles:SetMouseInputEnabled(false)
@@ -197,21 +198,22 @@ function PANEL:GetPlayer()
 end
 
 local group_images = {
-	["vip"] = "icon16/star.png",
-	["partner"] = "icon16/star.png",
-   	["bugboomer"] = "icon16/bomb.png",
-   	["trialstaff"] = "icon16/shield.png",
-   	["moderator"] = "icon16/shield_add.png",
-   	["admin"] = "icon16/lightning.png",
-   	["senioradmin"] = "icon16/lightning_add.png",
-   	["headadmin"] = "icon16/world.png",
-   	["communitylead"] = "icon16/application_xp_terminal.png",
-	["owner"] = "icon16/application_xp_terminal.png",
-	["techartist"] = "icon16/application_xp_terminal.png",
-	["audioengineer"] = "icon16/application_xp_terminal.png",
-	["softwareengineer"] = "icon16/application_osx_terminal.png",
-	["gamedesigner"] = "icon16/application_xp_terminal.png",
-	["creativedirector"] = "icon16/application_xp_terminal.png",
+	["user"] = Material("icon16/group.png"),
+	["vip"] = Material("icon16/star.png"),
+	["partner"] = Material("icon16/star.png"),
+   	["bugboomer"] = Material("icon16/bomb.png"),
+   	["trialstaff"] = Material("icon16/shield.png"),
+   	["moderator"] = Material("icon16/shield_add.png"),
+   	["admin"] = Material("icon16/lightning.png"),
+   	["senioradmin"] = Material("icon16/lightning_add.png"),
+   	["headadmin"] = Material("icon16/world.png"),
+   	["communitylead"] = Material("icon16/application_xp_terminal.png"),
+	["owner"] = Material("icon16/application_xp_terminal.png"),
+	["techartist"] = Material("icon16/application_xp_terminal.png"),
+	["audioengineer"] = Material("icon16/application_xp_terminal.png"),
+	["softwareengineer"] = Material("icon16/application_osx_terminal.png"),
+	["gamedesigner"] = Material("icon16/application_xp_terminal.png"),
+	["creativedirector"] = Material("icon16/application_xp_terminal.png"),
 }
 
 function PANEL:UpdatePlayerData()
@@ -224,7 +226,7 @@ function PANEL:UpdatePlayerData()
         self.cols[i]:SetText(self.cols[i].GetPlayerText(ply, self.cols[i]))
     end
 
-    self.rankimage:SetMaterial(Material(group_images[ply:GetUserGroup()] or "icon16/group.png"))
+    self.rankimage:SetMaterial(group_images[ply:GetUserGroup()] or group_images["user"])
     local plytitle = ply:GetNW2String("MoatTitlesTitle", ""):Trim()
 
     if (plytitle and #plytitle:Trim() > 0) then

@@ -12,7 +12,7 @@ MOAT_MODEL_POS_EDITS_DEFAULTS = {
 
 local rotate_labels = {"Tilt", "Rotate", "Custom Size"}
 local pos_labels = {"Back | Front", "Left | Right", "Down | Up"}
-
+local gradient_d = Material("vgui/gradient-d")
 function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
 	local item = m_GetCosmeticItemFromEnum(item_enum)
 
@@ -163,7 +163,7 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
         surface.SetDrawColor(200, 0, 0, 20 + hover_coloral2 / 5)
         surface.DrawRect(1, 1, w - 2, h - 2)
         surface.SetDrawColor(255, 0, 0, 20 + hover_coloral2 / 5)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
         m_DrawShadowedText(1, "Reset Changes", "Trebuchet24", w / 2, h / 2, Color(200, 100, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
@@ -228,7 +228,7 @@ function moat_InitializeEditPanel(item_enum, bg, bg_w, bg_h)
         surface.SetDrawColor(0, 200, 0, 20 + hover_coloral / 5)
         surface.DrawRect(1, 1, w - 2, h - 2)
         surface.SetDrawColor(0, 255, 0, 20 + hover_coloral / 5)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
         m_DrawShadowedText(1, "Done", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end

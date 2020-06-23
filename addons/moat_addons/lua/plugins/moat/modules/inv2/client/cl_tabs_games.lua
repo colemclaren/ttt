@@ -23,6 +23,10 @@ MOAT_GAMBLE.TitlePoly = {
 	{x = 170, y = 45},
 	{x = 1, y = 45}
 }
+
+local gradient_d = Material("vgui/gradient-d")
+local gradient_u = Material("vgui/gradient-u")
+local mat_coins = Material("icon16/coins.png")
 local blur = Material("pp/blurscreen")
 local function DrawBlur(panel, amount)
     local x, y = panel:LocalToScreen(0, 0)
@@ -120,7 +124,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
     	surface.DrawPoly(MOAT_GAMBLE.TitlePoly)
 
     	surface.SetDrawColor(15, 15, 15, 150)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(0, 0, w, 45)
 
 		local w2, h2 = draw.SimpleText("Moat", "moat_GambleTitle", 5, 1, Color(0, 25, 50))
@@ -137,7 +141,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 
     	draw.SimpleText("IC: " .. string.Comma(MOAT_INVENTORY_CREDITS), "moat_ItemDesc", 208, 27, Color(0, 0, 0))
         draw.SimpleText("IC: " .. string.Comma(MOAT_INVENTORY_CREDITS), "moat_ItemDesc", 207, 26, Color(255, 255, 255))
-        surface.SetMaterial(Material("icon16/coins.png"))
+        surface.SetMaterial(mat_coins)
         surface.SetDrawColor(Color(255, 255, 255))
         surface.DrawTexturedRect(185, 26, 16, 16)
 
@@ -247,7 +251,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
             local col = MOAT_GAMBLE_CATS[i][2]
 
             surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
-            surface.SetMaterial(Material("vgui/gradient-d"))
+            surface.SetMaterial(gradient_d)
             surface.DrawTexturedRect(0, h - (h * s.HoveredNum), w, h * s.HoveredNum)
 
             draw.SimpleTextOutlined(MOAT_GAMBLE_CATS[i][1], "GModNotify", w/2, (h/2)-(s.HoveredNum*4), Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
@@ -255,7 +259,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
             if (MOAT_GAMBLE.CurCat == i) then
                 draw.RoundedBox(0, 0, h-4, w, 4, MOAT_GAMBLE_CATS[i][2])
                 surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
-                surface.SetMaterial(Material("vgui/gradient-d"))
+                surface.SetMaterial(gradient_d)
                 surface.DrawTexturedRect(0, 0, w, h)
             elseif (s:IsHovered()) then
                 s.HoveredNum = Lerp(10 * FrameTime(), s.HoveredNum, 1)
@@ -399,7 +403,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 
     m_DrawVersusPanel()
 
-    MOAT_GAMBLE_BG:AlphaTo(255, 0.15, 0.15)
+	MOAT_GAMBLE_BG:AlphaTo(255, 0.15, 0.15)
 	MOAT_GAMBLE.ToggleChat()
 	timer.Simple(1,function()
 		if not IsValid(MOAT_GAMBLE_CHAT) then return end
@@ -881,7 +885,7 @@ function m_oldDrawDicePanel()
     		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     		surface.SetDrawColor(200, 200, 200, 25)
-        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.SetMaterial(gradient_u)
         	surface.DrawTexturedRect(0, btndown, w, 60)
 
     		draw.SimpleText("You've rolled " .. s.OutputRoll .. " and WON " .. s.OutputNum, "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -903,7 +907,7 @@ function m_oldDrawDicePanel()
     		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     		surface.SetDrawColor(200, 200, 200, 25)
-        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.SetMaterial(gradient_u)
         	surface.DrawTexturedRect(0, btndown, w, 60)
 
     		draw.SimpleText("You've rolled " .. s.OutputRoll .. " and lost " .. s.OutputNum, "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -932,7 +936,7 @@ function m_oldDrawDicePanel()
     	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     	surface.SetDrawColor(200, 200, 200, 25)
-        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.SetMaterial(gradient_u)
         surface.DrawTexturedRect(0, btndown, w, 60)
 
     	draw.SimpleText("ROLL!", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -1277,7 +1281,7 @@ function m_DrawDicePanel()
 		end
 
     	surface.SetDrawColor(200, 200, 200, 25)
-        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.SetMaterial(gradient_u)
         surface.DrawTexturedRect(0, btndown, w, 51)
 		if mines_cashed then
 			draw.SimpleText("Cashed out @ " .. string.Comma(profit) .. " IC!", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -2510,7 +2514,7 @@ end)
 -- 		end
 
 --     	surface.SetDrawColor(200, 200, 200, 25)
---         surface.SetMaterial(Material("vgui/gradient-u"))
+--         surface.SetMaterial(gradient_u)
 --         surface.DrawTexturedRect(0, btndown, w, 51)
 -- 		if not crash_crashing and not crash_inside then
 --     		draw.SimpleText("BET!", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -2953,7 +2957,7 @@ function m_DrawCrashPanel()
     	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     	surface.SetDrawColor(200, 200, 200, 25)
-        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.SetMaterial(gradient_u)
         surface.DrawTexturedRect(0, btndown, w, 60)
 
     	draw.SimpleText("HIT", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -2996,7 +3000,7 @@ function m_DrawCrashPanel()
     	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     	surface.SetDrawColor(200, 200, 200, 25)
-        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.SetMaterial(gradient_u)
         surface.DrawTexturedRect(0, btndown, w, 60)
 
     	draw.SimpleText("STAND", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -3049,7 +3053,7 @@ function m_DrawCrashPanel()
     		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     		surface.SetDrawColor(200, 200, 200, 25)
-        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.SetMaterial(gradient_u)
         	surface.DrawTexturedRect(0, btndown, w, 60)
 
     		draw.SimpleText("YOU WON " .. string.Comma(math.Round(MOAT_GAMBLE_BLACKJACK.OutputNum, 2)) .. " IC!", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -3071,7 +3075,7 @@ function m_DrawCrashPanel()
     		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     		surface.SetDrawColor(200, 200, 200, 25)
-        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.SetMaterial(gradient_u)
         	surface.DrawTexturedRect(0, btndown, w, 60)
 
     		draw.SimpleText("You've lost " .. math.Round(MOAT_GAMBLE_BLACKJACK.OutputNum, 2) .. " IC", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -3093,7 +3097,7 @@ function m_DrawCrashPanel()
     		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     		surface.SetDrawColor(200, 200, 200, 25)
-        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.SetMaterial(gradient_u)
         	surface.DrawTexturedRect(0, btndown, w, 60)
 
     		draw.SimpleText("You've tied with the dealer", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -3129,7 +3133,7 @@ function m_DrawCrashPanel()
     	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     	surface.SetDrawColor(200, 200, 200, 25)
-        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.SetMaterial(gradient_u)
         surface.DrawTexturedRect(0, btndown, w, 60)
 
     	draw.SimpleText("DEAL", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -3924,7 +3928,7 @@ function m_DrawBlackjackPanel()
     	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     	surface.SetDrawColor(200, 200, 200, 25)
-        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.SetMaterial(gradient_u)
         surface.DrawTexturedRect(0, btndown, w, 60)
 
     	draw.SimpleText("HIT", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -3966,7 +3970,7 @@ function m_DrawBlackjackPanel()
     	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     	surface.SetDrawColor(200, 200, 200, 25)
-        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.SetMaterial(gradient_u)
         surface.DrawTexturedRect(0, btndown, w, 60)
 
     	draw.SimpleText("STAND", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -4018,7 +4022,7 @@ function m_DrawBlackjackPanel()
     		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     		surface.SetDrawColor(200, 200, 200, 25)
-        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.SetMaterial(gradient_u)
         	surface.DrawTexturedRect(0, btndown, w, 60)
 
     		draw.SimpleText("You've WON " .. math.Round(MOAT_GAMBLE_BLACKJACK.OutputNum, 2) .. " IC", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -4040,7 +4044,7 @@ function m_DrawBlackjackPanel()
     		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     		surface.SetDrawColor(200, 200, 200, 25)
-        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.SetMaterial(gradient_u)
         	surface.DrawTexturedRect(0, btndown, w, 60)
 
     		draw.SimpleText("You've lost " .. math.Round(MOAT_GAMBLE_BLACKJACK.OutputNum, 2) .. " IC", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -4062,7 +4066,7 @@ function m_DrawBlackjackPanel()
     		draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     		surface.SetDrawColor(200, 200, 200, 25)
-        	surface.SetMaterial(Material("vgui/gradient-u"))
+        	surface.SetMaterial(gradient_u)
         	surface.DrawTexturedRect(0, btndown, w, 60)
 
     		draw.SimpleText("You've tied with the dealer", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -4091,7 +4095,7 @@ function m_DrawBlackjackPanel()
     	draw.RoundedBox(4, 1, btndown + 1, w-2, 60-2, btncolor)
 
     	surface.SetDrawColor(200, 200, 200, 25)
-        surface.SetMaterial(Material("vgui/gradient-u"))
+        surface.SetMaterial(gradient_u)
         surface.DrawTexturedRect(0, btndown, w, 60)
 
     	draw.SimpleText("DEAL", "Trebuchet24", w/2, h/2 + btndown, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)

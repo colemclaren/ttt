@@ -730,7 +730,6 @@ function m_MakeBountiesPanel()
 
 end
 
-
 function m_PopulateBountiesPanel(pnl)
 	if (IsValid(MOAT_CHALL_BG)) then return end
 	MOAT_CHALL.LocalChat = true
@@ -767,7 +766,7 @@ function m_PopulateBountiesPanel(pnl)
     	surface.DrawPoly(MOAT_CHALL.TitlePoly)
 
     	surface.SetDrawColor(15, 15, 15, 150)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(0, 0, w, 45)
 
     	local w2, h2 = draw.SimpleText("Moat", "moat_GambleTitle", 5, 1, Color(0, 25, 50))
@@ -784,7 +783,7 @@ function m_PopulateBountiesPanel(pnl)
 
     	draw.SimpleText("IC: " .. string.Comma(MOAT_INVENTORY_CREDITS), "moat_ItemDesc", 208, 27, Color(0, 0, 0))
         draw.SimpleText("IC: " .. string.Comma(MOAT_INVENTORY_CREDITS), "moat_ItemDesc", 207, 26, Color(255, 255, 255))
-        surface.SetMaterial(Material("icon16/coins.png"))
+        surface.SetMaterial(mat_coins)
         surface.SetDrawColor(Color(255, 255, 255))
         surface.DrawTexturedRect(185, 26, 16, 16)
 
@@ -823,7 +822,7 @@ function m_PopulateBountiesPanel(pnl)
             local col = MOAT_CHALL_CATS[i][2]
 
             surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
-            surface.SetMaterial(Material("vgui/gradient-d"))
+            surface.SetMaterial(gradient_d)
             surface.DrawTexturedRect(0, h - (h * s.HoveredNum), w, h * s.HoveredNum)
 
             draw.SimpleTextOutlined(MOAT_CHALL_CATS[i][1], "GModNotify", w/2, (h/2)-(s.HoveredNum*4), Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
@@ -831,7 +830,7 @@ function m_PopulateBountiesPanel(pnl)
             if (MOAT_CHALL.CurCat == i) then
                 draw.RoundedBox(0, 0, h-4, w, 4, MOAT_CHALL_CATS[i][2])
                 surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
-                surface.SetMaterial(Material("vgui/gradient-d"))
+                surface.SetMaterial(gradient_d)
                 surface.DrawTexturedRect(0, 0, w, h)
             elseif (s:IsHovered()) then
                 s.HoveredNum = Lerp(10 * FrameTime(), s.HoveredNum, 1)

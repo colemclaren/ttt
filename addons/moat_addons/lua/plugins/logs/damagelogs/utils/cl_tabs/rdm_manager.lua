@@ -495,6 +495,7 @@ local function DrawStatusMenuOption(id, menu)
 	end):SetImage(icons[id])
 end
 
+local mat_exclamation = Material("icon16/exclamation.png")
 function Damagelog:DrawRDMManager(x,y)
 	if LocalPlayer():CanUseRDMManager() and Damagelog.RDM_Manager_Enabled then
 		if (not Damagelog.UpdatedReports) then
@@ -614,7 +615,7 @@ function Damagelog:DrawRDMManager(x,y)
 				surface.SetTextColor(color_white)
 				surface.SetTextPos(w/2 - (wt-14)/2, h/3 - ht/2 + 10)
 				surface.DrawText(text)
-				surface.SetMaterial(Material("icon16/exclamation.png"))
+				surface.SetMaterial(mat_exclamation)
 				surface.SetDrawColor(color_white)
 				surface.DrawTexturedRect(w/2 - wt/2 - 14, h/3 - ht/2 + 10, 16, 16)
 			end

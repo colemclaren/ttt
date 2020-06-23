@@ -1,10 +1,10 @@
 local scf, f = _SCF or surface.CreateFont, {}
 f.default = "Tahoma"
-if (system.IsLinux()) then
-	f.default = "DejaVu Sans"
+if (system.IsOSX()) then
+	f.default = system.IsLinux() and "DejaVu Sans" or "Helvetica"
 end
 
-f.custom = true
+f.custom = system.IsWindows()
 f.base = {
 	[0] = {font = f.custom and "Lato Light" or f.default, weight = 300, antialias = true},
 	[1] = {font = f.custom and "Lato" or f.default, weight = 400, antialias = true},

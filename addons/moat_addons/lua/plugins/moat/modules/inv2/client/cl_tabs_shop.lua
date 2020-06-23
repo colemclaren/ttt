@@ -4,10 +4,10 @@ surface.CreateFont("moat_Trebuchet24", {
     weight = 800
 })
 
-local MOAT_SHOP = {}
+MOAT_SHOP = MOAT_SHOP or {}
 net.Start("MOAT_GET_SHOP")
 net.SendToServer()
-local LIMITEDS, NEWITEMS = 0, 0
+LIMITEDS, NEWITEMS = LIMITEDS or 0, NEWITEMS or 0
 net.Receive("MOAT_GET_SHOP", function(len)
     local tbl = net.ReadTable()
     table.insert(MOAT_SHOP, tbl)
@@ -20,13 +20,15 @@ net.Receive("MOAT_GET_SHOP", function(len)
     end
 end)
 
+local gradient_d = Material("vgui/gradient-d")
+local mat_info = Material("icon16/information.png")
 timer.Create("LimitedShopChat",10,0,function()
     if MOAT_SHOP[1] then
         timer.Remove("LimitedShopChat")
 		if (LIMITEDS >= 1) then
-			chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, " .. Either(LIMITEDS == 1, "there's", "there are") .. " currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM" .. Either(LIMITEDS > 1, "s", ""),Color(255,255,255)," in the shop!")
+			chat.AddText(mat_info,Color(255,255,255),"Welcome back, " .. Either(LIMITEDS == 1, "there's", "there are") .. " currently ",Color(255,255,0),tostring(LIMITEDS)," LIMITED TIME ITEM" .. Either(LIMITEDS > 1, "s", ""),Color(255,255,255)," in the shop!")
 		elseif (NEWITEMS >= 1) then
-			chat.AddText(Material("icon16/information.png"),Color(255,255,255),"Welcome back, " .. Either(NEWITEMS == 1, "there's", "there are") .. " currently ",Color(0,255,0),tostring(NEWITEMS),Color(0,255,255)," New Item" .. Either(NEWITEMS > 1, "s", ""),Color(255,255,255)," in the shop!")
+			chat.AddText(mat_info,Color(255,255,255),"Welcome back, " .. Either(NEWITEMS == 1, "there's", "there are") .. " currently ",Color(0,255,0),tostring(NEWITEMS),Color(0,255,255)," New Item" .. Either(NEWITEMS > 1, "s", ""),Color(255,255,255)," in the shop!")
 		end
     end
 end)
@@ -264,9 +266,16 @@ function make_modelpanel(itemtbl,ITEM_BG)
             if (m_DPanelIcon.WModel:StartWith("https")) then
                 cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
             else
-                surface.SetDrawColor(255, 255, 255, 255)
-                surface.SetMaterial(Material(m_DPanelIcon.WModel))
-                surface.DrawTexturedRect(0, 0, w, h)
+				if (m_DPanelIcon.WModel and (not s.MatPath or (s.MatPath and m_DPanelIcon.WModel ~= s.MatPath))) then
+					s.MatPath = m_DPanelIcon.WModel
+					s.Mat = Material(m_DPanelIcon.WModel)
+				end
+
+                if (s.Mat) then
+					surface.SetDrawColor(255, 255, 255, 255)
+					surface.SetMaterial(s.Mat)
+					surface.DrawTexturedRect(0, 0, w, h)
+				end
             end
         else
             s.Icon:SetAlpha(255)
@@ -276,7 +285,7 @@ function make_modelpanel(itemtbl,ITEM_BG)
 end
 
 local circ_gradient = "https://static.moat.gg/f/moat_circle_grad.png"
-
+local cake_icon = Material("icon16/cake.png")
 function m_PopulateShop(pnl)
     local M_SHOP_LIST = vgui.Create("DIconLayout", pnl)
     M_SHOP_LIST:SetPos(5, 5)
@@ -320,7 +329,14 @@ function m_PopulateShop(pnl)
         local checked_hover = false
 
 		local Soon = false --(itemtbl.Name and itemtbl.Name == "Omega Crate")
+		local shop_h = pnl:GetTall() - 20
         ITEM_BG.Paint = function(s, w, h)
+			local slot_x, slot_y = s:GetPos()
+
+			if ((pnl.Scroll > (slot_y + h)) or (slot_y > (pnl.Scroll + shop_h))) then
+				return
+			end
+
             if s:IsHovered() and (not checked_hover) then
                 checked_hover = true
             end
@@ -408,14 +424,8 @@ function m_PopulateShop(pnl)
             end
 
             if itemtbl.Image then
-                local img = Material(itemtbl.Image)
-                if (itemtbl.Image:StartWith("https")) then img = fetch_asset(itemtbl.Image) end
-                surface.SetDrawColor(0, 0, 0, 100)
-                surface.SetMaterial(img)
-                surface.DrawTexturedRect((w / 2) - 35, ((h - 50) / 2) - 35 + image_y_off, 70, 70)
-                surface.SetDrawColor(255, 255, 255, 255)
-                surface.SetMaterial(img)
-                surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
+				cdn.DrawImage(itemtbl.Image, (w / 2) - 35, ((h - 50) / 2) - 35 + image_y_off, 70, 70, Color(0, 0, 0, 100))
+				cdn.DrawImage(itemtbl.Image, (w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64, Color(255, 255, 255, 255))
             end
 
 			if (s.Sweet and s.Qty <= 1) then
@@ -424,11 +434,11 @@ function m_PopulateShop(pnl)
 
 				m_DrawShadowedText(1, "Level Reward", "moat_ItemDesc", (w / 2), h - 85, Color(255, 255, 255,255), TEXT_ALIGN_CENTER)
 
-				surface.SetMaterial(Material("icon16/cake.png"))
+				surface.SetMaterial(cake_icon)
             	surface.SetDrawColor(Color(255, 255, 255, 255))
             	surface.DrawTexturedRect((w / 2) - (price_width / 2) - 21, h - 85, 16, 16)
 
-				surface.SetMaterial(Material("icon16/cake.png"))
+				surface.SetMaterial(cake_icon)
             	surface.SetDrawColor(Color(255, 255, 255, 255))
             	surface.DrawTexturedRect((w / 2) + (price_width / 2) + 8, h - 85, 16, 16)
 			else
@@ -529,7 +539,7 @@ function m_PopulateShop(pnl)
  				surface.SetDrawColor(100, 100, 100, 20 + hover_coloral / 5)
             	surface.DrawRect(1, 1, w - 2, h - 2)
             	surface.SetDrawColor(150, 150, 150, 20 + hover_coloral / 5)
-        		surface.SetMaterial(Material("vgui/gradient-d"))
+        		surface.SetMaterial(gradient_d)
             	surface.DrawTexturedRect(1, 1, w - 2, h - 2)
             	m_DrawShadowedText(1, "Available Soon", "Trebuchet24", w / 2, h / 2, Color(200, 200, 200), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
@@ -539,7 +549,7 @@ function m_PopulateShop(pnl)
             surface.SetDrawColor(0, 200, 0, 20 + hover_coloral / 5)
             surface.DrawRect(1, 1, w - 2, h - 2)
             surface.SetDrawColor(0, 255, 0, 20 + hover_coloral / 5)
-            surface.SetMaterial(Material("vgui/gradient-d"))
+            surface.SetMaterial(gradient_d)
             surface.DrawTexturedRect(1, 1, w - 2, h - 2)
             m_DrawShadowedText(1, "Place Order", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
@@ -625,6 +635,12 @@ function m_PopulateShop(pnl)
         ITEM_BG:SetSize(item_panel_w, item_panel_h)
         ITEM_BG.Qty = 1
         ITEM_BG.Paint = function(s, w, h)
+			local slot_x, slot_y = s:GetPos()
+
+			if ((pnl.Scroll > (slot_y + h)) or (slot_y > (pnl.Scroll + 480))) then
+				return
+			end
+
             draw.RoundedBox(0, 0, 0, w, h, name_col)
             draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 100))
 
@@ -647,16 +663,20 @@ function m_PopulateShop(pnl)
 
             m_DrawShadowedText(1, item_name[1], "moat_Trebuchet24", w / 2, 5, name_col, TEXT_ALIGN_CENTER)
             m_DrawShadowedText(1, item_name[2], "moat_Trebuchet24", w / 2, 25, name_col, TEXT_ALIGN_CENTER)
+			if (img and (not s.MatPath or (s.MatPath and img ~= s.MatPath))) then
+				s.MatPath = img
+				s.Mat = Material(img)
+			end
 
-            local imgs = Material(img)
-            if (img:StartWith("https")) then imgs = fetch_asset(img) end
+			if (s.Mat) then
+				surface.SetDrawColor(0, 0, 0, 100)
+				surface.SetMaterial(s.Mat)
+				surface.DrawTexturedRect((w / 2) - 35, ((h - 50) / 2) - 35 + image_y_off, 70, 70)
+				surface.SetDrawColor(255, 255, 255, 255)
+				surface.SetMaterial(s.Mat)
+				surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
+			end
 
-            surface.SetDrawColor(0, 0, 0, 100)
-            surface.SetMaterial(imgs)
-            surface.DrawTexturedRect((w / 2) - 35, ((h - 50) / 2) - 35 + image_y_off, 70, 70)
-            surface.SetDrawColor(255, 255, 255, 255)
-            surface.SetMaterial(imgs)
-            surface.DrawTexturedRect((w / 2) - 32, ((h - 50) / 2) - 32 + image_y_off, 64, 64)
             m_DrawShadowedText(1, item_price, "moat_ItemDesc", (w / 2) + 8, h - 85, Color(255, 255, 255), TEXT_ALIGN_CENTER)
             surface.SetMaterial(mat_coins)
             surface.SetDrawColor(Color(255, 255, 255))
@@ -679,7 +699,7 @@ function m_PopulateShop(pnl)
             surface.SetDrawColor(0, 200, 0, 20 + hover_coloral / 5)
             surface.DrawRect(1, 1, w - 2, h - 2)
             surface.SetDrawColor(0, 255, 0, 20 + hover_coloral / 5)
-            surface.SetMaterial(Material("vgui/gradient-d"))
+            surface.SetMaterial(gradient_d)
             surface.DrawTexturedRect(1, 1, w - 2, h - 2)
             m_DrawShadowedText(1, "Place Order", "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
@@ -722,7 +742,7 @@ function m_PopulateShop(pnl)
 		sfx.SoundEffects(ITEM_BUY)
         ITEM_BUY.DoClick = function()
             if (price * ITEM_BG.Qty > MOAT_INVENTORY_CREDITS) then
-                chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "You can't afford that item!")
+                chat.AddText(mat_info, Color(255, 0, 0), "You can't afford that item!")
 
                 return
             end

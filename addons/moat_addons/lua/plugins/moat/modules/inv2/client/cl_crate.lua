@@ -36,7 +36,7 @@ end
 
 local crate_pnl_height = 70
 local global_table_items = {}
-
+local gradient_d = Material("vgui/gradient-d")
 local function m_StartCrateRoll(crate_slot, crate_class, parent_pnl)
     net.Start("MOAT_CRATE_OPEN")
     net.WriteDouble(crate_slot)
@@ -124,7 +124,7 @@ local function m_StartCrateRoll(crate_slot, crate_class, parent_pnl)
             if (table_items[i].c) then
                 draw.RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(150 + (item_col / 2), 150 + (item_col / 2), 150 + (item_col / 2), 100))
                 surface.SetDrawColor(rarity_names[table_items[i].item.Rarity][2].r, rarity_names[table_items[i].item.Rarity][2].g, rarity_names[table_items[i].item.Rarity][2].b, 100 + item_col)
-                surface.SetMaterial(Material("vgui/gradient-d"))
+                surface.SetMaterial(gradient_d)
                 surface.DrawTexturedRect(draw_x, draw_y2 - (item_col / 7), draw_w, draw_h2 + (item_col / 7) + 1)
             end
 
@@ -185,9 +185,16 @@ local function m_StartCrateRoll(crate_slot, crate_class, parent_pnl)
                     if (m_DPanelIcon.WModel:StartWith("https")) then
                         cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                     else
-                        surface.SetDrawColor(255, 255, 255, 255)
-                        surface.SetMaterial(Material(m_DPanelIcon.WModel))
-                        surface.DrawTexturedRect(0, 0, w, h)
+						if (m_DPanelIcon.WModel and (not s.MatPath or (s.MatPath and m_DPanelIcon.WModel ~= s.MatPath))) then
+							s.MatPath = m_DPanelIcon.WModel
+							s.Mat = Material(m_DPanelIcon.WModel)
+						end
+
+                        if (s.Mat) then
+							surface.SetDrawColor(255, 255, 255, 255)
+							surface.SetMaterial(s.Mat)
+							surface.DrawTexturedRect(0, 0, w, h)
+						end
                     end
                 else
                     s.Icon:SetAlpha(255)
@@ -303,10 +310,10 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         surface.DrawOutlinedRect(0, 0, w, h)
         draw.RoundedBox(0, 1, 1, w - 2, h - 2, Color(34, 35, 38, 250))
         surface.SetDrawColor(0, 0, 0, 120)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
         surface.SetDrawColor(0, 0, 0, 150)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, 25)
         surface.SetDrawColor(Color(100, 100, 100, 50))
         surface.DrawLine(0, 25, w, 25)
@@ -335,7 +342,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         local item_col = 150
         draw.RoundedBox(0, draw_x, draw_y, draw_w, draw_h, Color(150 + (item_col / 2), 150 + (item_col / 2), 150 + (item_col / 2), 100))
         surface.SetDrawColor(rarity_names[itemtbl.item.Rarity][2].r, rarity_names[itemtbl.item.Rarity][2].g, rarity_names[itemtbl.item.Rarity][2].b, 100 + item_col)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(draw_x, draw_y2 - (item_col / 7), draw_w, draw_h2 + (item_col / 7) + 1)
         surface.SetDrawColor(62, 62, 64, 255)
         surface.SetDrawColor(rarity_names[itemtbl.item.Rarity][2])
@@ -347,9 +354,16 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         if (itemtbl.item.Image:StartWith("https")) then
             cdn.DrawImage(itemtbl.item.Image, 2, 2, 64, 64, {r = 255, g = 255, b = 255, a = 255})
         else
-            surface.SetDrawColor(255, 255, 255, 255)
-            surface.SetMaterial(Material(itemtbl.item.Image))
-            surface.DrawTexturedRect(2, 2, 64, 64)
+			if (itemtbl.item.Image and (not s.MatPath or (s.MatPath and itemtbl.item.Image ~= s.MatPath))) then
+				s.MatPath = itemtbl.item.Image
+				s.Mat = Material(itemtbl.item.Image)
+			end
+
+            if (s.Mat) then
+				surface.SetDrawColor(255, 255, 255, 255)
+				surface.SetMaterial(s.Mat)
+				surface.DrawTexturedRect(2, 2, 64, 64)
+			end
         end
     end
 
@@ -624,7 +638,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         draw.RoundedBoxEx(0, 0, 0, w, h, Color(28, 28, 25), false, true, false, true)
         draw.RoundedBox(0, 1, 1, w - 2, h - 2, Color(95, 95, 95))
         surface.SetDrawColor(Color(137, 137, 137, 255))
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
         draw.SimpleTextOutlined("r", "marlett", 17, 9, Color(157, 157, 157, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
 
@@ -677,7 +691,7 @@ function m_InitCrateWindow(itemtbl, item_crate_slot, item_crate_class, preview)
         surface.SetDrawColor(0, green_col, 0, 20 + hover_coloral / 5)
         surface.DrawRect(1, 1, w - 2, h - 2)
         surface.SetDrawColor(0, green_col + 55, 0, 20 + hover_coloral / 5)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
         local accept_text = "OPEN"
         m_DrawShadowedText(1, accept_text, "Trebuchet24", w / 2, h / 2, Color(100, 200, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)

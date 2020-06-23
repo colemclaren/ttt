@@ -129,12 +129,12 @@ MOAT_THEME.Themes["Original"] = {
         surface_DrawTexturedRect(1, 1, w - 2, h - 2)
         surface_SetDrawColor(0, 0, 0, 150)
         surface_SetMaterial(gradient_d)
-        surface_DrawTexturedRect(1, 1, w - 2, 25)
+        surface_DrawTexturedRect(1, 1, w - 2, 29)
         local line_x = MOAT_INV_BG:GetWide() - (350 + 14) - 4 - 5
         surface_SetDrawColor(100, 100, 100, 50)
-        surface_DrawLine(0, 25, s:GetWide(), 25)
+        surface_DrawLine(0, 29, s:GetWide(), 29)
         surface_SetDrawColor(0, 0, 0, 100)
-        surface_DrawLine(0, 26, s:GetWide(), 26)
+        surface_DrawLine(0, 30, s:GetWide(), 30)
         DisableClipping(true)
         m_DrawShadowedText(1, "Moat Inventory " .. MOAT_VERSION, "moat_ItemDesc", w, h, Color(200, 200, 200, 255), TEXT_ALIGN_RIGHT)
         DisableClipping(false)
@@ -169,7 +169,7 @@ MOAT_THEME.Themes["Original"] = {
         end
     end,
     CatSpacing = 2,
-    CatInfo = {2, 85, 24},
+    CatInfo = {2, 85, 28},
     CAT_PAINT = function(s, w, h, cur_cat)
 		if (s.CatLabel == "Store") then
 			draw_RoundedBoxEx(8, 0, 0, w, h, Color(50, 50, 50, 100), true, true)
@@ -177,7 +177,7 @@ MOAT_THEME.Themes["Original"] = {
             surface_SetDrawColor(0, 0, 0, 100)
             surface_SetMaterial(gradient_d)
             surface_DrawTexturedRect(1, 1, w - 2, h - 2)
-			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 150))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, ux.ShiftColor(ux.p.mg.shop, ux.p.mg.shop2, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1))
 	
             return
         end
@@ -196,7 +196,7 @@ MOAT_THEME.Themes["Original"] = {
             surface_DrawTexturedRect(1, 1, w - 2, h - 2)
         end
 
-        m_DrawShadowedText(1, s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        m_DrawShadowedText(1, s.CatLabel, "moat_Medium10", w / 2, h / 2, ux.ShiftColor(ux.p.mg.light, ux.p.white, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end,
     VBAR_PAINT = {
         PAINT = function(s, w, h)
@@ -334,7 +334,7 @@ MOAT_THEME.Themes["Light"] = {
     TradePlayerColor = {0, 150, 150},
     BG_PAINT = function(s, w, h)
         draw_RoundedBox(0, 0, 0, w, h, s.Theme.Background)
-        draw_RoundedBox(0, 0, 0, w, 26, s.Theme.Header)
+        draw_RoundedBox(0, 0, 0, w, 30, s.Theme.Header)
         surface_SetDrawColor(0, 0, 0, 120)
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(0, 0, w, h)
@@ -362,12 +362,12 @@ MOAT_THEME.Themes["Light"] = {
         end
     end,
     CatSpacing = 0,
-    CatInfo = {0, 90, 26},
+    CatInfo = {0, 90, 30},
     CAT_PAINT = function(s, w, h, cur_cat)
 		if (s.CatLabel == "Store") then
 			draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
 			draw_RoundedBox(0, w - 1, 0, 1, h, Color(26, 29, 34, 255))
-			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 150))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, ux.ShiftColor(ux.p.mg.shop, ux.p.mg.shop2, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1))
 	
             return
         end
@@ -379,7 +379,7 @@ MOAT_THEME.Themes["Light"] = {
         end
 
         draw_RoundedBox(0, w - 1, 0, 1, h, Color(26, 29, 34, 255))
-        draw_SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw_SimpleText(s.CatLabel, "moat_Medium10", w / 2, h / 2, ux.ShiftColor(ux.p.mg.light, ux.p.white, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end,
     CATBAR_PAINT = function(s, w, h)
         if (s.cur_cat ~= s.new_cat) then
@@ -505,7 +505,7 @@ MOAT_THEME.Themes["Dark"] = {
     TradePlayerColor = {0, 200, 0},
     BG_PAINT = function(s, w, h)
         draw_RoundedBox(0, 0, 0, w, h, s.Theme.Background)
-        draw_RoundedBox(0, 0, 0, w, 26, s.Theme.Header)
+        draw_RoundedBox(0, 0, 0, w, 30, s.Theme.Header)
         surface_SetDrawColor(0, 0, 0, 120)
         surface_SetMaterial(gradient_d)
         surface_DrawTexturedRect(0, 0, w, h)
@@ -533,12 +533,12 @@ MOAT_THEME.Themes["Dark"] = {
         end
     end,
     CatSpacing = 0,
-    CatInfo = {0, 90, 26},
+    CatInfo = {0, 90, 30},
     CAT_PAINT = function(s, w, h, cur_cat)
 		if (s.CatLabel == "Store") then
 			draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
 			draw_RoundedBox(0, w - 1, 0, 1, h, Color(26, 29, 34, 155))
-			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 150))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, ux.ShiftColor(ux.p.mg.shop, ux.p.mg.shop2, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1))
 	
             return
         end
@@ -550,7 +550,7 @@ MOAT_THEME.Themes["Dark"] = {
         end
 
         draw_RoundedBox(0, w - 1, 0, 1, h, Color(36, 39, 44, 255))
-        draw_SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw_SimpleText(s.CatLabel, "moat_Medium10", w / 2, h / 2, ux.ShiftColor(ux.p.mg.light, ux.p.white, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end,
     CATBAR_PAINT = function(s, w, h)
         if (s.cur_cat ~= s.new_cat) then
@@ -696,12 +696,12 @@ MOAT_THEME.Themes["Clear"] = {
         end
     end,
     CatSpacing = 0,
-    CatInfo = {0, 90, 26},
+    CatInfo = {0, 90, 30},
     CAT_PAINT = function(s, w, h, cur_cat)
 		if (s.CatLabel == "Store") then
 			draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
-			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8-2, (h/2)-8-2, 16+4, 16+4, Color(0, 0, 0, 25))
-			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 255))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8-2, (h/2)-8-2, 20, 20, Color(0, 0, 0, 25))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, ux.ShiftColor(ux.p.mg.shop, ux.p.mg.shop2, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1))
 	
             return
         end
@@ -712,7 +712,7 @@ MOAT_THEME.Themes["Clear"] = {
             draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
         end
 
-        draw_SimpleTextOutlined(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 25))
+        draw_SimpleTextOutlined(s.CatLabel, "moat_Medium10", w / 2, h / 2, ux.ShiftColor(ux.p.mg.light, ux.p.white, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 25))
     end,
     CATBAR_PAINT = function(s, w, h)
         if (s.cur_cat ~= s.new_cat) then
@@ -875,7 +875,7 @@ MOAT_THEME.Themes["Alpha"] = {
         surface_SetDrawColor(255, 255, 255)
         surface_DrawTexturedRect(w - cred_w - 5 - 16, 9, 16, 16)
     end,
-    CloseB = {728, 5, 17, 17},
+    CloseB = {728, 5,system.IsOSX() and 18 or 17, 17},
     CLOSE_PAINT = function(s, w, h)
         if (not s.LerpNum) then
             s.LerpNum = 0
@@ -887,16 +887,21 @@ MOAT_THEME.Themes["Alpha"] = {
             s.LerpNum = Lerp(FrameTime() * 8, s.LerpNum, 0)
         end
 
-        draw_RoundedBox(4, 0, 0, w, h, Color(255 * s.LerpNum, 50 * s.LerpNum, 50 * s.LerpNum, 150 + (50 * s.LerpNum)))
-        draw_SimpleText("r", "marlett", 8 + 1, 8, Color(255 - (55 * s.LerpNum), 50 + (150 * s.LerpNum), 50 + (150 * s.LerpNum)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		if (system.IsOSX()) then
+			draw_RoundedBox(4, 0, 0, w, h, Color(255 * s.LerpNum, 50 * s.LerpNum, 50 * s.LerpNum, 150 + (50 * s.LerpNum)))
+			draw_SimpleText("r", "marlett", 7, 8, Color(255 - (55 * s.LerpNum), 50 + (150 * s.LerpNum), 50 + (150 * s.LerpNum)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		else
+			draw_RoundedBox(4, 0, 0, w, h, Color(255 * s.LerpNum, 50 * s.LerpNum, 50 * s.LerpNum, 150 + (50 * s.LerpNum)))
+        	draw_SimpleText("r", "marlett", 8 + 1, 8, Color(255 - (55 * s.LerpNum), 50 + (150 * s.LerpNum), 50 + (150 * s.LerpNum)), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		end
     end,
     CatSpacing = 0,
-    CatInfo = {0, 90, 26},
+    CatInfo = {0, 90, 30},
     CAT_PAINT = function(s, w, h, cur_cat)
 		if (s.CatLabel == "Store") then
 			draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
-			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8-2, (h/2)-8-2, 16+4, 16+4, Color(0, 0, 0, 25))
-			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 255))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8-2, (h/2)-8-2, 20, 20, Color(0, 0, 0, 25))
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, ux.ShiftColor(ux.p.mg.shop, ux.p.mg.shop2, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1))
 	
             return
         end
@@ -907,7 +912,7 @@ MOAT_THEME.Themes["Alpha"] = {
             draw_RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
         end
 
-        draw_SimpleTextOutlined(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 25))
+        draw_SimpleTextOutlined(s.CatLabel, "moat_Medium10", w / 2, h / 2, ux.ShiftColor(ux.p.mg.light, ux.p.white, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 25))
     end,
     CATBAR_PAINT = function(s, w, h)
         if (s.cur_cat ~= s.new_cat) then

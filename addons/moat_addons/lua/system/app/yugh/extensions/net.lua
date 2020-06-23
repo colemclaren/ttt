@@ -45,17 +45,17 @@ end
 -- Networking Numbers --
 ------------------------
 
-function net.WriteByte(i) WriteUInt(i, 8) end
+function net.WriteByte(int) int = int or 0 WriteUInt(int, 8) end
 function net.ReadByte()
 	return ReadUInt(8)
 end
 
-function net.WriteShort(i) WriteUInt(i, 16) end
+function net.WriteShort(int) int = int or 0 WriteUInt(int, 16) end
 function net.ReadShort()
 	return ReadUInt(16)
 end
 
-function net.WriteLong(i) WriteUInt(i, 32) end
+function net.WriteLong(int) int = int or 0 WriteUInt(int, 32) end
 function net.ReadLong()
 	return ReadUInt(32)
 end
@@ -111,6 +111,11 @@ end
 -----------------------
 
 function net.WriteColor(c)
+	c = c or {}
+	c.r = c.r or 255
+	c.g = c.g or 255
+	c.b = c.b or 255
+
 	WriteUInt(c.r, 8)
 	WriteUInt(c.g, 8)
 	WriteUInt(c.b, 8)
@@ -121,6 +126,12 @@ function net.ReadColor(c)
 end
 
 function net.WriteColorA(c)
+	c = c or {}
+	c.r = c.r or 255
+	c.g = c.g or 255
+	c.b = c.b or 255
+	c.a = c.a or 255
+
 	WriteUInt(c.r, 8)
 	WriteUInt(c.g, 8)
 	WriteUInt(c.b, 8)

@@ -209,7 +209,7 @@ function MG_CG.OverrideDepthEnableTrue()
 end
 
 local cur_health_width = 0
-
+local gradient_u = Material("vgui/gradient-u")
 function MG_CG.OverrideDepthEnableFalse()
     if (LocalPlayer():Team() ~= TEAM_SPEC and MG_CG.IsInfected) then
         render.OverrideDepthEnable(false)
@@ -236,7 +236,7 @@ function MG_CG.OverrideDepthEnableFalse()
             surface.SetDrawColor(health_red / 5, health_green / 5, 0, 255)
             surface.DrawRect(x + 1, y + 1, w - 2, h - 2)
             surface.SetDrawColor(health_red, health_green, 0, 60)
-            surface.SetMaterial(Material("vgui/gradient-u"))
+            surface.SetMaterial(gradient_u)
             surface.DrawTexturedRect(x + 1, y + 1, cur_health_width, h - 2)
         cam.End3D2D()
     end

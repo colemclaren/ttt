@@ -73,13 +73,12 @@ MOAT_THEME.Themes["Blur"] = {
         end
     end,
     CatSpacing = 0,
-    CatInfo = {0, 90, 26},
+    CatInfo = {0, 90, 30},
     CAT_PAINT = function(s, w, h, cur_cat)
 		if (s.CatLabel == "Store") then
 			draw.RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
-			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, Color(255, 255, 255, 255))
-			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8+1, (h/2)-8+1, 16, 16, Color(0, 0, 0, 25))
-	
+			cdn.DrawImage("https://ttt.dev/pdaQK.png", (w/2)-8, (h/2)-8, 16, 16, ux.ShiftColor(ux.p.mg.shop, ux.p.mg.shop2, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1))
+
             return
         end
 
@@ -89,16 +88,15 @@ MOAT_THEME.Themes["Blur"] = {
             draw.RoundedBox(0, 0, 0, w, h, Color(16, 19, 24, s.hover_coloral))
         end
 
-        draw.SimpleText(s.CatLabel, "moat_Medium4", w / 2, h / 2, s.CatLabel == "Donate" and Color(255, 205, 0) or Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        draw.SimpleText(s.CatLabel, "moat_Medium4", w / 2 + 1, h / 2 + 1, Color(0, 0, 0, 25), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText(s.CatLabel, "moat_Medium10", w / 2, h / 2, ux.ShiftColor(ux.p.mg.light, ux.p.white, (cur_cat ~= s.CAT_NUM) and (s.hover_coloral > 0 and s.hover_coloral/155 or 0) or 1), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end,
     CATBAR_PAINT = function(s, w, h)
         if (s.cur_cat ~= s.new_cat) then
-            s.cur_cat = Lerp(FrameTime() * 10, s.cur_cat, s.new_cat)
+			s.cur_cat = Lerp(FrameTime() * 10, s.cur_cat, s.new_cat)
         end
-
-        local ww = w / s.cat_num
-        draw.RoundedBox(0, (ww * s.cur_cat) - ww, h - 2, ww, 2, HSVToColor(s.cur_cat * 65 % 360, 1, 1))
+		
+		local ww = w / s.cat_num
+        draw.RoundedBox(0, (ww * s.cur_cat) - ww, h - 3, ww, 3, HSVToColor(s.cur_cat * 65 % 360, 1, 1))
     end,
     VBAR_PAINT = {
         PAINT = function(s, w, h)

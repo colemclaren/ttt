@@ -475,6 +475,7 @@ local ammo_width = 150 - 12
 local health_width = 0
 local LP
 
+local gradient_d = Material("vgui/gradient-d")
 local function moat_CustomHUD()
 	LP = LocalPlayer()
 	if (GetConVar("moat_DisableCustomHUD"):GetInt() ~= 0) then return end
@@ -605,7 +606,7 @@ local function moat_CustomHUD()
 				surface_DrawTexturedRect(grad_x, grad_y, grad_w, grad_h)
 				surface_SetMaterial(gradient_r)
 				surface_DrawTexturedRectRotated(grad_x2, grad_y2, grad_w, grad_h, 180)
-				surface_SetMaterial(Material("vgui/gradient-d"))
+				surface_SetMaterial(gradient_d)
 				surface_SetDrawColor(Color(rarity_names[wpn_stats.item.Rarity][2].r, rarity_names[wpn_stats.item.Rarity][2].g, rarity_names[wpn_stats.item.Rarity][2].b, 100))
 				--surface_DrawTexturedRect( 1, 1 + ( h / 2 ), w - 2, ( h / 2 ) - 2 )
 				local RARITY_TEXT = ""

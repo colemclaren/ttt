@@ -167,7 +167,7 @@ moat_Settings.Options = {
     },
     {"Inventory",
         {"Automatically Decline All Trade Requests", {"Multi"}, "moat_autodecline"},
-        {"Automatically Decline Trade Requests during Preparing/End Round if Alive", {"Multi"}, "moat_autodecline_active"},
+        {"Decline Trade Requests if Round is Active", {"Multi"}, "moat_autodecline_active"},
         {"Automaticallly Rotate Model in Loadout", {"Multi"}, "moat_autorotate_model"},
         {"Deconstruct Speed Multiplier", {"MultiText", "1", "3", "5", "10", "15", "20", "25", "100"}, "moat_deconstruct_speed_multi"},
         {"Inventory Theme", {"MultiText", "Original", "Dark", "Light", "Blur", "Clear", "Alpha"}, "moat_Theme"},
@@ -575,6 +575,7 @@ function m_RebuildSettingsPanel(num)
     moat_Settings.SettingsPnl = setpnl
 end
 
+local gradient_l = Material("vgui/gradient-l")
 function m_PopulateSettingsPanel(pnl)
 	pnl = IsValid(moat_Settings.SettingsPnl) and moat_Settings.SettingsPnl or pnl
 
@@ -613,7 +614,7 @@ function m_PopulateSettingsPanel(pnl)
             local col = HSVToColor( i * 55 % 360, 1, 1 )
 
             surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
-            surface.SetMaterial(Material("vgui/gradient-l"))
+            surface.SetMaterial(gradient_l)
             surface.DrawTexturedRect(0, 0, (w-5) * s.HoveredWidth, h)
 
             surface.DrawTexturedRect(0, 0, (w-5) * s.HoveredWidth, 2)
@@ -626,7 +627,7 @@ function m_PopulateSettingsPanel(pnl)
             if (moat_Settings.CurCat == i) then
                 draw.RoundedBox(0, 0, 0, 4, h, HSVToColor( i * 55 % 360, 1, 1 ))
                 surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
-                surface.SetMaterial(Material("vgui/gradient-l"))
+                surface.SetMaterial(gradient_l)
                 surface.DrawTexturedRect(0, 0, (w-5) * 1, h)
 
                 surface.DrawTexturedRect(0, 0, (w-5) * 1, 2)

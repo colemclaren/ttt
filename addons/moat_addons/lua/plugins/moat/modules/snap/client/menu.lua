@@ -19,7 +19,7 @@ surface.CreateFont("Roboto Big", {
 	weigth = 400,
 })
 
-
+local gradient_d = Material("vgui/gradient-d")
 function snapper.menu.view(data)
 	if (not data) then return end
 
@@ -39,10 +39,10 @@ function snapper.menu.view(data)
         surface.DrawOutlinedRect(0, 0, w, h)
         draw.RoundedBox(0, 1, 1, w - 2, h - 2, Color(34, 35, 38, 250))
         surface.SetDrawColor(0, 0, 0, 120)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
         surface.SetDrawColor(0, 0, 0, 150)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, 25)
 
         m_DrawShadowedText(1, s.text, "moat_ItemDesc", w - 40, 6, Color(200, 200, 200, 255), TEXT_ALIGN_RIGHT)
@@ -63,7 +63,7 @@ function snapper.menu.view(data)
         draw.RoundedBoxEx(0, 0, 0, w, h, Color(28, 28, 25), false, true, false, true)
         draw.RoundedBox(0, 1, 1, w - 2, h - 2, Color(95, 95, 95))
         surface.SetDrawColor(Color(137, 137, 137, 255))
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
         draw.SimpleTextOutlined("r", "marlett", 17, 9, Color(157, 157, 157, 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color(75, 75, 75, 100))
 
@@ -93,7 +93,7 @@ function snapper.menu.view(data)
         surface.SetDrawColor(0, 0, 200, 100)
         surface.DrawRect(1, 1, w - 2, h - 2)
         surface.SetDrawColor(0, 0, 255, 100)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
 
         if (s:IsHovered()) then
@@ -133,7 +133,7 @@ function snapper.menu.view(data)
         surface.SetDrawColor(0, 200, 0, 100)
         surface.DrawRect(1, 1, w - 2, h - 2)
         surface.SetDrawColor(0, 200 + 55, 0, 100)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
 
         if (s:IsHovered()) then
@@ -196,7 +196,7 @@ function snapper.menu.view(data)
         		surface.SetDrawColor(200, 200, 200, 100)
         		surface.DrawRect(1, 1, w - 2, h - 2)
         		surface.SetDrawColor(255, 255, 255, 100)
-        		surface.SetMaterial(Material("vgui/gradient-d"))
+        		surface.SetMaterial(gradient_d)
         		surface.DrawTexturedRect(1, 1, w - 2, h - 2)
 
         		if (s:IsHovered()) then
@@ -295,10 +295,10 @@ function snapper.menu.admin()
         surface.DrawOutlinedRect(0, 0, w, h)
         draw.RoundedBox(0, 1, 1, w - 2, h - 2, Color(34, 35, 38, 250))
         surface.SetDrawColor(0, 0, 0, 120)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, h - 2)
         surface.SetDrawColor(0, 0, 0, 150)
-        surface.SetMaterial(Material("vgui/gradient-d"))
+        surface.SetMaterial(gradient_d)
         surface.DrawTexturedRect(1, 1, w - 2, 25)
     end
 

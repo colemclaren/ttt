@@ -175,6 +175,7 @@ local function LoadFromLoadout()
 	end
 end
 
+local gradient_r = Material("vgui/gradient-r")
 function m_PopulateStats(pnl)
 	if not loaded then
 		if file.Exists("moat_loadouts.txt", "DATA") then
@@ -232,7 +233,7 @@ function m_PopulateStats(pnl)
         surface.SetFont("moat_MOTDHead")
         local drops_w, drops_h = surface.GetTextSize(tostring(drops))
         surface.SetDrawColor(0, 255, 255, 50)
-        surface.SetMaterial(Material("vgui/gradient-r"))
+        surface.SetMaterial(gradient_r)
         surface.DrawTexturedRect(w - 10 - drops_w - 5 - 10, obtained_y - drops_h + 5, drops_w + 5 + 10, drops_h - 5)
         draw.SimpleTextOutlined("ITEMS", "moat_ItemDesc", 10, obtained_y - 25, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 25))
         draw.SimpleTextOutlined("OBTAINED", "moat_ItemDescLarge3", 10, obtained_y, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 25))
@@ -242,7 +243,7 @@ function m_PopulateStats(pnl)
         surface.SetFont("moat_MOTDHead")
         drops_w, drops_h = surface.GetTextSize(tostring(deconstructs))
         surface.SetDrawColor(255, 128, 0, 50)
-        surface.SetMaterial(Material("vgui/gradient-r"))
+        surface.SetMaterial(gradient_r)
         surface.DrawTexturedRect(w - 10 - drops_w - 5 - 10, obtained_y - drops_h + 5, drops_w + 5 + 10, drops_h - 5)
         draw.SimpleTextOutlined("ITEMS", "moat_ItemDesc", 10, obtained_y - 25, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 25))
         draw.SimpleTextOutlined("DECONSTRUCTED", "moat_ItemDescLarge3", 10, obtained_y, MT_TCOL, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 2, Color(0, 0, 0, 25))

@@ -74,9 +74,13 @@ ux.HoverThink = function(s, bounce, custom, speedIn, speedOut)
 end
 
 ux.ShiftColor = function(from, to, frac)
+	from.a = from.a or 255
+	to.a = to.a or 255
+
 	return Color(
 		from.r + ((to.r - from.r) * frac),
 		from.g + ((to.g - from.g) * frac),
-		from.b + ((to.b - from.b) * frac)
+		from.b + ((to.b - from.b) * frac),
+		from.a + ((to.a - from.a) * frac)
 	)
 end

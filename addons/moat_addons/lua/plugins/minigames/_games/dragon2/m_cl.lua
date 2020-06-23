@@ -50,6 +50,7 @@ local function DrawBlurScreen(amount)
 	end
 end
 
+local gradient_u = Material("vgui/gradient-u")
 local function moat_DrawBossHealth()
 	if (GetRoundState() ~= ROUND_ACTIVE or MOAT_BOSS_ROUND_OVER or not IsValid(MOAT_CUR_BOSS_PLY)) then
 		hook.Remove("HUDPaint", "moat_DrawBossHealth")
@@ -77,7 +78,7 @@ local function moat_DrawBossHealth()
 	surface.SetDrawColor(health_red / 5, health_green / 5, 0, 255)
 	surface.DrawRect(x + 1, y + 1, w - 2, h - 2)
 	surface.SetDrawColor(health_red, health_green, 0, 60)
-	surface.SetMaterial(Material("vgui/gradient-u"))
+	surface.SetMaterial(gradient_u)
 	surface.DrawTexturedRect(x + 1, y + 1, boss_health_width, h - 2)
 	local font = "TimeLeftS"
 	local text = MOAT_CUR_BOSS_PLY:Nick()

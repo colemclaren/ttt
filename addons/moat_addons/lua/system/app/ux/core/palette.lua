@@ -29,7 +29,9 @@ p.mg = {
 	text = Color(132, 146, 166),
 	white = Color(239, 246, 255),
 	shadow = Color(25, 44, 64),
-	light = Color(255, 255, 255, 0.65)
+	light = Color(255, 255, 255, 165.75),
+	shop = Color(255, 205, 0, 150),
+	shop2 = Color(255, 205, 0, 255)
 }
 
 -- mg colors

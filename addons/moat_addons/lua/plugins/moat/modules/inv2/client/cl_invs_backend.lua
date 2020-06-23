@@ -1317,11 +1317,11 @@ AccessorFunc( PANEL, "m_strIconName",   "IconName" )
 
 function PANEL:Init()
 
-    self:SetDoubleClickingEnabled( false )
+    self:SetDoubleClickingEnabled( true )
     self:SetText( "" )
 
     self.Icon = vgui.Create( "ModelImage", self )
-    self.Icon:SetMouseInputEnabled( false )
+    self.Icon:SetMouseInputEnabled( true )
     self.Icon:SetKeyboardInputEnabled( false )
 
     self:SetSize( 64, 64 )
@@ -1378,7 +1378,7 @@ function PANEL:CreateIcon(n)
 	if (IsValid(self.Icon)) then self.Icon:Remove() end -- Why are we being called anyways?
 
 	self.Icon = vgui.Create("ModelImage", self)
-    self.Icon:SetMouseInputEnabled(false)
+    self.Icon:SetMouseInputEnabled(true)
     self.Icon:SetKeyboardInputEnabled(false)
 	self.Icon:StretchToParent(0, 0, 0, 0)
 
@@ -1395,6 +1395,10 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
 	if ( !mdl ) then debug.Trace() return end
 	if (not mdl:EndsWith(".mdl")) then
 		if (self.ModelPanel) then self.ModelPanel:Remove() end
+		return
+	end
+
+	if (self:GetModelName() == mdl and (iSkin and self:GetSkinID() == iSkin or not iSkin)) then
 		return
 	end
 
@@ -1426,14 +1430,14 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
 		end
 
         if (iSkin) then self.ModelPanel.Entity:SetSkin(iSkin) end
-        
+
         local PrevMins, PrevMaxs = self.ModelPanel.Entity:GetRenderBounds()
         self.ModelPanel:SetCamPos(PrevMins:Distance(PrevMaxs) * Vector(0.5, 0.5, 0.5))
         self.ModelPanel:SetLookAt((PrevMaxs + PrevMins) / 2)
         self.ModelPanel.Entity:SetModelScale(MOAT_MODEL_POS[mdls][1])
         self.ModelPanel.Entity:SetAngles(MOAT_MODEL_POS[mdls][2])
         self.ModelPanel.Entity:SetPos(MOAT_MODEL_POS[mdls][3])
-        
+
         function self.ModelPanel:LayoutEntity(ent)
             ent:SetModelScale(MOAT_MODEL_POS[mdls][1])
             ent:SetAngles(MOAT_MODEL_POS[mdls][2])
@@ -1449,7 +1453,9 @@ end
 
 function PANEL:RebuildSpawnIcon()
 	if (not IsValid(self.Icon)) then self:CreateIcon() end
-    self.Icon:RebuildSpawnIcon()
+	if (not file.Exists("materials/spawnicons/" .. string.StripExtension(self:GetModelName()) .. ".png", "GAME")) then
+		self.Icon:RebuildSpawnIcon()
+	end
 end
 
 function PANEL:RebuildSpawnIconEx( t )

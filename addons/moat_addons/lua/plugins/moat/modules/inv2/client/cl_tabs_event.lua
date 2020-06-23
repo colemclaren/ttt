@@ -630,6 +630,7 @@ local function m_BuildEventPanel(pnl, num)
 	MOAT_EVENT.Tabs[num][2](pnl)
 end
 
+local gradient_l = Material("vgui/gradient-l")
 function m_PopulateEventPanel(pnl)
     pnl.Paint = function(s, w, h)
         draw.RoundedBox(0, 155, 0, w-155, h, Color(0, 0, 0, 150))
@@ -661,7 +662,7 @@ function m_PopulateEventPanel(pnl)
             local col = HSVToColor( i * 55 % 360, 1, 1 )
 
             surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
-            surface.SetMaterial(Material("vgui/gradient-l"))
+            surface.SetMaterial(gradient_l)
             surface.DrawTexturedRect(0, 0, (w-5) * s.HoveredWidth, h)
 
             surface.DrawTexturedRect(0, 0, (w-5) * s.HoveredWidth, 2)
@@ -674,7 +675,7 @@ function m_PopulateEventPanel(pnl)
             if (MOAT_EVENT.CurCat == i) then
                 draw.RoundedBox(0, 0, 0, 4, h, HSVToColor( i * 55 % 360, 1, 1 ))
                 surface.SetDrawColor(Color(col.r, col.g, col.b, 50))
-                surface.SetMaterial(Material("vgui/gradient-l"))
+                surface.SetMaterial(gradient_l)
                 surface.DrawTexturedRect(0, 0, (w-5) * 1, h)
 
                 surface.DrawTexturedRect(0, 0, (w-5) * 1, 2)

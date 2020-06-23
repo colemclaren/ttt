@@ -1031,10 +1031,10 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 				local lx, ty = 4 + draw_name_x + talent_namew, y + stats_y_add + talents_y_add + 2 + 2
 				surface.SetDrawColor(0, 0, 0, 255)
 				draw.NoTexture()
-				ux.DrawCircle(lx + 6, ty + 6, 5, 30)
+				ux.DrawCircle(lx + 6, ty + 6, 6, 30)
 				surface.SetDrawColor(255, 0, 114, 255)
 				draw.NoTexture()
-				ux.DrawCircle(lx + 5, ty + 5, 5, 30)
+				ux.DrawCircle(lx + 5, ty + 5, 6, 30)
 
 				surface.SetDrawColor(0, 128, 255, 255)
 				draw.NoTexture()
@@ -1244,13 +1244,14 @@ function m_isTrading(ply)
     return ply:GetNW2Bool("MOAT_IS_CURRENTLY_TRADING", false)
 end
 
-MOAT_INV_BG_W = 400 + 350
-MOAT_INV_BG_H = 550
+MOAT_INV_BG_W = 400 + 350// + 105
+MOAT_INV_BG_H = 550 + 5// + 25
+
 MOAT_ITEMS_DECON_MARKED = MOAT_ITEMS_DECON_MARKED or 0
 M_TRADE_PLYTBL = M_TRADE_PLYTBL or {}
 local light_gradient = Material("sprites/light_ignorez")
 local circ_gradient = Material("moat_inv/moat_circle_grad.png")
-
+local mat_info = Material("icon16/information.png")
 function surface_DrawTexturedRectRotatedPoint( x, y, w, h, rot, x0, y0 )
 
     local c = math.cos( math.rad( rot ) )
@@ -1267,7 +1268,8 @@ M_INV_SLOT = M_INV_SLOT or {}
 M_LOAD_SLOT = M_LOAD_SLOT or {}
 M_TRADE_SLOT = M_TRADE_SLOT or {}
 -- {{"Loadout", 90}, {"Shop", 90}, {"Trading", 90}, {"Gamble", 90}, {"Dailies", 90}, {"Settings", 90}, {"Event", 90}, {"Store", 90}}
-MOAT_INV_CATS = {{"Loadout", 80}, {"Player", 80}, {"Trading", 80}, {"Shop", 80}, {"Gamble", 80}, {"Dailies", 80}, {"Settings", 80}, {"Event", 80}, {"Store", 80}}
+local catw = math.floor(MOAT_INV_BG_W/9)
+MOAT_INV_CATS = {{"Loadout", catw}, {"Player", catw}, {"Trading", catw}, {"Shop", catw}, {"Gamble", catw}, {"Dailies", catw}, {"Settings", catw}, {"Event", catw}, {"Store", catw}}
 function m_PaintVBar(sbar)
 
     local MT = MOAT_THEME.Themes
@@ -1419,45 +1421,65 @@ function m_OpenInventory(ply2, utrade)
     local MT_TSHADOW = MT[CurTheme].TextShadow
 
     local m_InventoryButtons = {}
-    MOAT_INV_BG = vgui.Create("DFrame")
-    MOAT_INV_BG:SetSize(MOAT_INV_BG_W, MOAT_INV_BG_H)
-    MOAT_INV_BG:SetTitle("")
-    MOAT_INV_BG:ShowCloseButton(false)
-    MOAT_INV_BG:SetAlpha(0)
-    MOAT_INV_BG:MakePopup()
-    MOAT_INV_BG:SetKeyboardInputEnabled(false)
-    MOAT_INV_BG:SetPos(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, -MOAT_INV_BG:GetTall())
-    MOAT_INV_BG:SetFestive(0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
-    MOAT_INV_BG.Theme = MT[CurTheme]
-    MOAT_INV_BG.Paint = function(s, w, h)
+	MOAT_INV_BG = ux.Create("DFrame", function(s)
+		s:Setup(ux.CenterX(MOAT_INV_BG_W), -ux.CenterY(MOAT_INV_BG_H), MOAT_INV_BG_W, MOAT_INV_BG_H)
+		s:BounceIn()
+		-- s:SetAlpha(0)
+		s:MakePopup()
+		s:SetKeyboardInputEnabled(false)
+		s:ShowCloseButton(false)
+		s:SetFestive(0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
+		s.Theme = MT[CurTheme]
+	end, {Paint = function(s, w, h)
+		if (MT[CurTheme].BG_PAINT) then
+			return MT[CurTheme].BG_PAINT(s, w, h)
+		end
 
-        MT[CurTheme].BG_PAINT(s, w, h)
-        local num = math.abs(math.sin((RealTime() - (0.08)) * 1))
-
-        /*DisableClipping(true)
+		/*local num = math.abs(math.sin((RealTime() - (0.08)) * 1))
+		DisableClipping(true)
             surface.SetDrawColor(255, 85 * num, 85 * num, 255)
             surface.DrawRect(0, -30, w, 30)
             draw.SimpleTextOutlined("You are on the test server. Items and IC here will not be available on the live servers.", "moat_ItemDesc", w/2, -15, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 0, 0, 0, 25 ))
         DisableClipping(false)*/
+		ux.Blur(s, 4)
 
-        if (not input.IsMouseDown(MOUSE_LEFT)) then
-            if (M_INV_DRAG) then
-                m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_utrade)
-				sfx.Cut()
-                M_INV_DRAG = nil
-            end
+		surface.SetDrawColor(0, 0, 0, 150)
+		surface.DrawRect(0, 0, w, h)
+
+		cdn.DrawImage("https://static.moat.gg/f/413567786280d852aaf0abec6e188865.png", 0, 0, 1024, 1024, Color(255, 255, 255, 250))
+	end, Think = function(s)
+		if (not input.IsMouseDown(MOUSE_LEFT) and M_INV_DRAG) then
+			m_SwapInventorySlots(M_INV_DRAG, m_HoveredSlot, m_utrade)
+			sfx.Cut()
+			M_INV_DRAG = nil
         end
-    end
-    MOAT_INV_BG.OnRemove = function()
-        net.Start("moat_OpenInventory")
-        net.WriteBool(false)
+
+		if (not IsValid(M_SLOT_D)) then
+			return
+		end
+
+		if (M_INV_DRAG) then
+            local x, y = gui.MousePos()
+			local dragx, dragy = M_SLOT_D:GetPos()
+			if (dragx ~= x + 1 or dragy ~= y + 1) then
+				M_SLOT_D:SetPos(x + 1, y + 1)
+			end
+
+			M_SLOT_D:SetModel(M_INV_DRAG.VGUI.WModel, M_INV_DRAG.VGUI.MSkin)
+			if (not M_SLOT_D:IsVisible()) then M_SLOT_D:SetVisible(true) end
+        else
+            M_SLOT_D:SetVisible(false)
+        end
+	end, OnRemove = function()
+        net.Start "moat_OpenInventory"
+        	net.WriteBool(false)
         net.SendToServer()
-    end
-    MOAT_INV_BG.OnClose = function()
-        net.Start("moat_OpenInventory")
-        net.WriteBool(false)
+    end, OnClose = function()
+        net.Start "moat_OpenInventory"
+        	net.WriteBool(false)
         net.SendToServer()
-    end
+    end})
+
     --createSpring(MOAT_INV_BG, 0, 0, MOAT_INV_BG_W, MOAT_INV_BG_H)
 
     function m_TradingPanel()
@@ -1479,8 +1501,8 @@ function m_OpenInventory(ply2, utrade)
 		end
 
 		M_TRADE_PLYLIST = vgui.Create("DScrollPanel", M_TRADING_PNL)
-		M_TRADE_PLYLIST:SetPos(6, 30)
-		M_TRADE_PLYLIST:SetSize(368, MOAT_INV_BG:GetTall() - 35)
+		M_TRADE_PLYLIST:SetPos(6, 35)
+		M_TRADE_PLYLIST:SetSize(368, MOAT_INV_BG:GetTall() - 40)
 		M_TRADE_PLYLIST.Text = "Click on a player below to send them a trade request."
 		M_TRADE_PLYLIST.TextCol = 255
 		M_TRADE_PLYLIST.Paint = function(s, w, h) end
@@ -1671,7 +1693,7 @@ function m_OpenInventory(ply2, utrade)
 
 		function M_TRADE_PLYS:RebuildList()
 			if (IsValid(lp) and lp:IsActive()) then
-				M_TRADE_LBL:SetText("Currently unavailable while I'm alive during this round!")
+				M_TRADE_LBL:SetText("Currently unavailable while I'm alive during the round! <3")
 			else
 				M_TRADE_LBL:SetText("Click on a player below to send them a trade request.")
 			end
@@ -1731,7 +1753,7 @@ function m_OpenInventory(ply2, utrade)
 	end
 
     local help_pnl_w = 385 - (5 * 2) - 7
-    help_pnl_h = MOAT_INV_BG:GetTall() - 30 - 5
+    help_pnl_h = MOAT_INV_BG:GetTall() - 35 - 5
 
 	function m_StatsPanel()
 		if (IsValid(M_STATS_PNL)) then
@@ -1752,7 +1774,7 @@ function m_OpenInventory(ply2, utrade)
 		--draw_RoundedBox( 0, 5, 30, w - ( box_x * 2 ) - 7, h - box_y - 5, box_col )
 		local M_STATS_PNL1 = vgui.Create("DPanel", M_STATS_PNL)
 		M_STATS_PNL1:SetSize(help_pnl_w - 2, help_pnl_h)
-		M_STATS_PNL1:SetPos(7, 30)
+		M_STATS_PNL1:SetPos(7, 35)
 		M_STATS_PNL1.Paint = nil
 		m_PopulateStats(M_STATS_PNL1)
 	end
@@ -1775,7 +1797,7 @@ function m_OpenInventory(ply2, utrade)
 
 		local M_SHOP_PNL1 = vgui.Create("DScrollPanel", M_SHOP_PNL)
 		M_SHOP_PNL1:SetSize(help_pnl_w - 2, help_pnl_h)
-		M_SHOP_PNL1:SetPos(7, 30)
+		M_SHOP_PNL1:SetPos(7, 35)
 		M_SHOP_PNL1.Theme = MT[CurTheme]
 		m_BuildShop(M_SHOP_PNL1, help_pnl_w - 2, help_pnl_h)
 
@@ -1795,10 +1817,10 @@ function m_OpenInventory(ply2, utrade)
 
 		M_USABLE_PNL.Paint = function(s, w, h)
 			local box_x = 5
-			local box_y = 30
+			local box_y = 35
 			local box_col = Color(0, 0, 0, 150)
 			surface_SetDrawColor(box_col)
-			surface_DrawRect(5, 30, w - (box_x * 2) - 7, h - box_y - 5)
+			surface_DrawRect(5, 35, w - (box_x * 2) - 7, h - box_y - 5)
 		end
 	end
 
@@ -1815,7 +1837,7 @@ function m_OpenInventory(ply2, utrade)
 
 		local M_BOUNTY_PNL_SCROLL = vgui.Create("DScrollPanel", M_BOUNTY_PNL)
 		M_BOUNTY_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
-		M_BOUNTY_PNL_SCROLL:SetPos(5, 30)
+		M_BOUNTY_PNL_SCROLL:SetPos(5, 35)
 		m_PopulateBountiesPanel(M_BOUNTY_PNL_SCROLL)
 	end
 
@@ -1832,7 +1854,7 @@ function m_OpenInventory(ply2, utrade)
 
 		M_SETTINGS_PNL_SCROLL = vgui.Create("DScrollPanel", M_SETTINGS_PNL)
 		M_SETTINGS_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
-		M_SETTINGS_PNL_SCROLL:SetPos(5, 30)
+		M_SETTINGS_PNL_SCROLL:SetPos(5, 35)
 		m_PopulateSettingsPanel(M_SETTINGS_PNL_SCROLL)
 	end
 
@@ -1849,7 +1871,7 @@ function m_OpenInventory(ply2, utrade)
 
 		M_EVENT_PNL_SCROLL = vgui.Create("DScrollPanel", M_EVENT_PNL)
 		M_EVENT_PNL_SCROLL:SetSize(MOAT_INV_BG_W-10, help_pnl_h)
-		M_EVENT_PNL_SCROLL:SetPos(5, 30)
+		M_EVENT_PNL_SCROLL:SetPos(5, 35)
 		m_PopulateEventPanel(M_EVENT_PNL_SCROLL)
 	end
 
@@ -2029,7 +2051,9 @@ function m_OpenInventory(ply2, utrade)
 
 			m_DPanel.Paint = function(s, w, h)
 				local y2 = 10
+				DisableClipping(true)
 				draw.DrawText(m_LoadoutLabels[num], "moat_Medium9", w / 2, -3, MT_TCOL, TEXT_ALIGN_CENTER)
+				DisableClipping(false)
 				surface_SetDrawColor(62, 62, 64, 255)
 				surface_DrawOutlinedRect(0, 0 + y2, w, h - y2)
 				surface_SetDrawColor(0, 0, 0, 100)
@@ -2142,11 +2166,18 @@ function m_OpenInventory(ply2, utrade)
 							cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
 							cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
 						else
-							surface_SetDrawColor(255, 255, 255, 100)
-							surface_SetMaterial(Material(m_DPanelIcon.WModel))
-							surface_DrawTexturedRect(1, 1, w, h)
-							surface_SetDrawColor(255, 255, 255, 255)
-							surface_DrawTexturedRect(0, 0, w, h)
+							if (m_DPanelIcon.WModel and (not s.MatPath or (s.MatPath and m_DPanelIcon.WModel ~= s.MatPath))) then
+								s.MatPath = m_DPanelIcon.WModel
+								s.Mat = Material(m_DPanelIcon.WModel)
+							end
+
+							if (s.Mat) then
+								surface_SetDrawColor(255, 255, 255, 100)
+								surface_SetMaterial(s.Mat)
+								surface_DrawTexturedRect(1, 1, w, h)
+								surface_SetDrawColor(255, 255, 255, 255)
+								surface_DrawTexturedRect(0, 0, w, h)
+							end
 						end
 					else
 						s.Icon:SetAlpha(255)
@@ -2234,7 +2265,7 @@ function m_OpenInventory(ply2, utrade)
 			end
 
 			m_DPanelBTN.OnMousePressed = function(s, key)
-				if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
+				if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT) then m_DPanelIcon.SIcon:DoClick() end
 
 				if (key == MOUSE_LEFT) then
 					if (m_DPanelIcon.Item ~= nil) then
@@ -2391,6 +2422,10 @@ function m_OpenInventory(ply2, utrade)
                 return
             end
 
+			if (IsValid(MOAT_CAT_BAR) and MOAT_CAT_BAR.new_cat == s.CAT_NUM) then
+				return
+			end
+
             net.Start("MOAT_INV_CAT")
             net.WriteDouble(s.CAT_NUM)
             net.SendToServer()
@@ -2420,8 +2455,8 @@ function m_OpenInventory(ply2, utrade)
 	end
 
     MOAT_CAT_BAR = vgui.Create("DPanel", MOAT_INV_BG)
-    MOAT_CAT_BAR:SetSize((MOAT_INV_CATS[1][2] or MT[CurTheme].CatInfo[2]) * #MOAT_INV_CATS, 2)
-    MOAT_CAT_BAR:SetPos(MT[CurTheme].CatSpacing, 24)
+    MOAT_CAT_BAR:SetSize((MOAT_INV_CATS[1][2] or MT[CurTheme].CatInfo[2]) * #MOAT_INV_CATS, 3)
+    MOAT_CAT_BAR:SetPos(MT[CurTheme].CatSpacing, 27)
     MOAT_CAT_BAR.cat_num = #MOAT_INV_CATS
     MOAT_CAT_BAR.cur_cat = MOAT_INV_CAT
     MOAT_CAT_BAR.new_cat = MOAT_INV_CAT
@@ -2433,7 +2468,11 @@ function m_OpenInventory(ply2, utrade)
 
     local m_slot_w = 68
     local m_slot_h = 68
-    local M_SLOT_D = vgui.Create("MoatModelIcon")
+	if (IsValid(M_SLOT_D)) then
+		M_SLOT_D:Remove()
+	end
+
+	M_SLOT_D = vgui.Create("MoatModelIcon")
     M_SLOT_D:SetModel("models/props_borealis/bluebarrel001.mdl")
     M_SLOT_D:SetTooltip(nil)
 
@@ -2455,9 +2494,16 @@ function m_OpenInventory(ply2, utrade)
             elseif (M_INV_DRAG.VGUI.WModel:StartWith("https")) then
                 cdn.DrawImage(M_INV_DRAG.VGUI.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 200})
             else
-                surface_SetDrawColor(255, 255, 255, 200)
-                surface_SetMaterial(Material(M_INV_DRAG.VGUI.WModel))
-                surface_DrawTexturedRect(0, 0, w, h)
+				if (M_INV_DRAG.VGUI.WModel and (not s.MatPath or (s.MatPath and M_INV_DRAG.VGUI.WModel ~= s.MatPath))) then
+					s.MatPath = M_INV_DRAG.VGUI.WModel
+					s.Mat = Material(M_INV_DRAG.VGUI.WModel)
+				end
+
+				if (s.Mat) then
+                	surface_SetDrawColor(255, 255, 255, 200)
+                	surface_SetMaterial(s.Mat)
+                	surface_DrawTexturedRect(0, 0, w, h)
+				end
             end
 		else
             s.Icon:SetAlpha(200)
@@ -2479,11 +2525,18 @@ function m_OpenInventory(ply2, utrade)
 					cdn.DrawImage(icon, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
 					cdn.DrawImage(icon, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
 				else
-					surface_SetDrawColor(255, 255, 255, 100)
-					surface_SetMaterial(Material(icon))
-					surface_DrawTexturedRect(1, 1, w, h)
-					surface_SetDrawColor(255, 255, 255, 255)
-					surface_DrawTexturedRect(0, 0, w, h)
+					if (icon and (not s.MatPath or (s.MatPath and icon ~= s.MatPath))) then
+						s.MatPath = icon
+						s.Mat = Material(icon)
+					end
+
+					if (s.Mat) then
+						surface_SetDrawColor(255, 255, 255, 100)
+						surface_SetMaterial(s.Mat)
+						surface_DrawTexturedRect(1, 1, w, h)
+						surface_SetDrawColor(255, 255, 255, 255)
+						surface_DrawTexturedRect(0, 0, w, h)
+					end
 				end
 			else
 				-- s.Icon:SetAlpha(255)
@@ -2519,7 +2572,7 @@ function m_OpenInventory(ply2, utrade)
 
     M_SLOT_D:SetVisible(false)
     local inv_pnl_x = MOAT_INV_BG_W - 364 - 5
-    local inv_pnl_y = 30
+    local inv_pnl_y = 35
 
 	function m_InventoryPanel(anim_time)
 		if (IsValid(M_INV_PNL)) then
@@ -2534,7 +2587,7 @@ function m_OpenInventory(ply2, utrade)
 			M_INV_PNL:MoveTo(inv_pnl_x, inv_pnl_y, anim_time)
             M_INV_PNL:AlphaTo(255, anim_time, 0)
 		end
-		M_INV_PNL:SetPos((anim_time > 0) and MOAT_INV_BG_W or inv_pnl_x, 30)
+		M_INV_PNL:SetPos((anim_time > 0) and MOAT_INV_BG_W or inv_pnl_x, 35)
 		M_INV_PNL.Theme = MT[CurTheme]
 		M_INV_PNL.Paint = function(s, w, h)
 			if (MT[CurTheme].INV_PANEL_PAINT) then
@@ -2584,7 +2637,28 @@ function m_OpenInventory(ply2, utrade)
 		end
 
 		local sbar = M_INV_SP:GetVBar()
+		sbar:SetZPos(50)
 		m_PaintVBar(sbar)
+
+		M_INV_SP.Think = function(s)
+			/*
+			local cx, cy = s:CursorPos()
+
+			if (cx < 0 or cy < 0 or cx > M_INV_SP:GetWide() or cy > 488) then
+				return
+			end
+
+			if (cy < 50) then
+				s.Bounds = true
+				sbar:AddScroll(((50 - cy) / 50) * -0.15)
+			elseif (cy > (488 - 50)) then
+				s.Bounds = true
+				sbar:AddScroll(((50 - (488 - cy)) / 50) * 0.15)
+			else
+				s.Bounds = false
+			end
+			*/
+		end
 
 		M_INV_L = vgui.Create("DIconLayout", M_INV_SP)
 		M_INV_L:SetPos(3, 3)
@@ -2731,11 +2805,18 @@ function m_OpenInventory(ply2, utrade)
 							cdn.DrawImage(icon, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
 							cdn.DrawImage(icon, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
 						else
-							surface_SetDrawColor(255, 255, 255, 100)
-							surface_SetMaterial(Material(icon))
-							surface_DrawTexturedRect(1, 1, w, h)
-							surface_SetDrawColor(255, 255, 255, 255)
-							surface_DrawTexturedRect(0, 0, w, h)
+							if (icon and (not s.MatPath or (s.MatPath and icon ~= s.MatPath))) then
+								s.MatPath = icon
+								s.Mat = Material(icon)
+							end
+
+							if (s.Mat) then
+								surface_SetDrawColor(255, 255, 255, 100)
+								surface_SetMaterial(s.Mat)
+								surface_DrawTexturedRect(1, 1, w, h)
+								surface_SetDrawColor(255, 255, 255, 255)
+								surface_DrawTexturedRect(0, 0, w, h)
+							end
 						end
 					else
 						-- s.Icon:SetAlpha(255)
@@ -2824,9 +2905,8 @@ function m_OpenInventory(ply2, utrade)
 			
 			m_DPanelBTN.OnMousePressed = function(s, key)
 				if (crate_wait > CurTime() or IsValid(MOAT_CRATE_BG)) then return end
+				if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT) then m_DPanelIcon.SIcon:DoClick() end
 
-				if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
-				
 				if (INV_SELECT_MODE) then
 					if (m_Inventory[num].c and key == MOUSE_LEFT and INV_SELECTED_ITEM ~= num) then
 						INV_SELECTED_ITEM = num
@@ -3079,7 +3159,7 @@ function m_OpenInventory(ply2, utrade)
 
             if (trading and IsValid(MOAT_TRADE_BG)) then
                 local inv_x, inv_y = MOAT_INV_BG:GetPos()
-                MOAT_TRADE_BG:MoveTo(inv_x + 5, inv_y + 30, anim_time, anim_time, -1)
+                MOAT_TRADE_BG:MoveTo(inv_x + 5, inv_y + 35, anim_time, anim_time, -1)
                 MOAT_TRADE_BG:AlphaTo(255, anim_time, anim_time)
                 MOAT_TRADE_BG:MakePopup()
             elseif (not IsValid(MOAT_TRADE_BG) and IsValid(M_TRADING_PNL)) then
@@ -3095,7 +3175,7 @@ function m_OpenInventory(ply2, utrade)
 
             if (trading and IsValid(MOAT_TRADE_BG)) then
                 local inv_x, inv_y = MOAT_INV_BG:GetPos()
-                MOAT_TRADE_BG:MoveTo(inv_x - MOAT_TRADE_BG:GetWide() - 5, inv_y + 30, anim_time, 0, -1)
+                MOAT_TRADE_BG:MoveTo(inv_x - MOAT_TRADE_BG:GetWide() - 5, inv_y + 35, anim_time, 0, -1)
                 MOAT_TRADE_BG:AlphaTo(0, anim_time, 0, function() callback() end)
                 MOAT_TRADE_BG:MakePopup()
             end
@@ -3107,7 +3187,7 @@ function m_OpenInventory(ply2, utrade)
 			end
 
             local w_off = 32
-            M_INV_PNL:MoveTo(w_off + 5, 30, 0.15)
+            M_INV_PNL:MoveTo(w_off + 5, 35, 0.15)
             M_INV_PNL:SizeTo(MOAT_INV_BG_W-10 - w_off, help_pnl_h, 0)
 			M_INV_PNL:AlphaTo(255, anim_time, 0)
 
@@ -3175,7 +3255,7 @@ function m_OpenInventory(ply2, utrade)
 
         if (cat == 5) then
             local x, y = MOAT_INV_BG:GetPos()
-            m_CreateGamblePanel(x + 5, y + 30, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
+            m_CreateGamblePanel(x + 5, y + 35, MOAT_INV_BG_W - 10, MOAT_INV_BG_H - 35)
         elseif (IsValid(MOAT_GAMBLE_BG)) then
 			MOAT_GAMBLE_BG:MoveTo(-MOAT_GAMBLE_BG:GetWide(), 0, anim_time, 0, -1)
             MOAT_GAMBLE_BG:AlphaTo(0, anim_time, 0, callback)
@@ -3664,29 +3744,6 @@ function m_OpenInventory(ply2, utrade)
         end
     end
 
-    MOAT_INV_BG.Think = function(s, w, h)
-        if (M_INV_DRAG) then
-            local x, y = gui.MousePos() --MOAT_INV_BG:CursorPos()
-            M_SLOT_D:SetPos(x + 1, y + 1)
-            M_SLOT_D:SetModel(M_INV_DRAG.VGUI.WModel, M_INV_DRAG.VGUI.MSkin)
-            M_SLOT_D:SetVisible(true)
-        else
-            M_SLOT_D:SetVisible(false)
-        end
-
-        /*local button_hovered = false
-
-        for k, v in pairs(m_InventoryButtons) do
-            if (v:IsHovered()) then
-                button_hovered = true
-            end
-        end
-
-        if (not button_hovered and not M_SLOT_D:IsVisible()) then
-            m_HoveredSlot = nil
-        end*/
-    end
-
     function m_InitializeTrade(ply_2, u_trade)
         if (ply_2 and u_trade and not IsValid(MOAT_TRADE_BG)) then
             if (IsValid(M_TRADING_PNL)) then M_TRADING_PNL:Remove() end
@@ -3704,14 +3761,14 @@ function m_OpenInventory(ply2, utrade)
             MOAT_TRADE_BG:SetTitle("")
             MOAT_TRADE_BG:ShowCloseButton(false)
             MOAT_TRADE_BG:SetDraggable(false)
-            MOAT_TRADE_BG:SetSize(368, MOAT_INV_BG_H - 30 - 4)
+            MOAT_TRADE_BG:SetSize(368, MOAT_INV_BG_H - 35 - 5)
 
             if (ply2 and utrade) then
-                MOAT_TRADE_BG:SetPos(inv_x + 5, inv_y + 30)
+                MOAT_TRADE_BG:SetPos(inv_x + 5, inv_y + 35)
             else
-                MOAT_TRADE_BG:SetPos(inv_x - MOAT_TRADE_BG:GetWide(), inv_y + 30)
+                MOAT_TRADE_BG:SetPos(inv_x - MOAT_TRADE_BG:GetWide(), inv_y + 35)
                 MOAT_TRADE_BG:SetAlpha(0)
-                MOAT_TRADE_BG:MoveTo(inv_x + 5, inv_y + 30, 0.15, 0.15, -1)
+                MOAT_TRADE_BG:MoveTo(inv_x + 5, inv_y + 35, 0.15, 0.15, -1)
                 MOAT_TRADE_BG:AlphaTo(255, 0.15, 0.15)
             end
 
@@ -3756,7 +3813,7 @@ function m_OpenInventory(ply2, utrade)
                         net.SendToServer()
                     end
 
-                    chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Trade canceled. Player disconnected?")
+                    chat.AddText(mat_info, Color(255, 0, 0), "Trade canceled. Player disconnected?")
                     return
                 end
 
@@ -3890,7 +3947,7 @@ function m_OpenInventory(ply2, utrade)
                             net.SendToServer()
                         end
 
-						chat.AddText(Material("icon16/information.png"), Color(255, 0, 0), "Trade canceled. Player disconnected?")
+						chat.AddText(mat_info, Color(255, 0, 0), "Trade canceled. Player disconnected?")
                         return
                     end
 
@@ -3992,11 +4049,18 @@ function m_OpenInventory(ply2, utrade)
                                 cdn.DrawImage(m_DPanelIcon.WModel, 1, 1, w, h, {r = 255, g = 255, b = 255, a = 100})
                                 cdn.DrawImage(m_DPanelIcon.WModel, 0, 0, w, h, {r = 255, g = 255, b = 255, a = 255})
                             else
-                                surface_SetDrawColor(255, 255, 255, 100)
-                                surface_SetMaterial(Material(m_DPanelIcon.WModel))
-                                surface_DrawTexturedRect(1, 1, w, h)
-                                surface_SetDrawColor(255, 255, 255, 255)
-                                surface_DrawTexturedRect(0, 0, w, h)
+								if (m_DPanelIcon.WModel and (not s.MatPath or (s.MatPath and m_DPanelIcon.WModel ~= s.MatPath))) then
+									s.MatPath = m_DPanelIcon.WModel
+									s.Mat = Material(m_DPanelIcon.WModel)
+								end
+
+								if (s.Mat) then
+									surface_SetDrawColor(255, 255, 255, 100)
+									surface_SetMaterial(s.Mat)
+									surface_DrawTexturedRect(1, 1, w, h)
+									surface_SetDrawColor(255, 255, 255, 255)
+									surface_DrawTexturedRect(0, 0, w, h)
+								end
                             end
                             render.SetScissorRect(0, 0, 0, 0, false)
                         else
@@ -4085,7 +4149,7 @@ function m_OpenInventory(ply2, utrade)
                 end
 
                 m_DPanelBTN.OnMousePressed = function(s, key)
-                    if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT and input.IsKeyDown(KEY_LSHIFT)) then m_DPanelIcon.SIcon:DoClick() return end
+                    if (m_DPanelIcon and m_DPanelIcon.SIcon and key == MOUSE_LEFT) then m_DPanelIcon.SIcon:DoClick() end
                     
                     if (key == MOUSE_LEFT and num < 11) then
                         if (m_DPanelIcon.Item ~= nil) then
@@ -4462,12 +4526,12 @@ function m_OpenInventory(ply2, utrade)
 
     if (m_ply2 and m_utrade) then
         m_InitializeTrade(m_ply2, m_utrade)
-        MOAT_TRADE_BG:MoveTo((ScrW() / 2 - MOAT_INV_BG:GetWide() / 2) + 5, (ScrH() / 2 - MOAT_INV_BG:GetTall() / 2) + 30, 0.4, 0, 1)
+        MOAT_TRADE_BG:MoveTo((ScrW() / 2 - MOAT_INV_BG:GetWide() / 2) + 5, (ScrH() / 2 - MOAT_INV_BG:GetTall() / 2) + 35, 0.4, 0, 1)
 		MOAT_TRADE_BG:AlphaTo(255, 0.4, 0)
     end
 
-    MOAT_INV_BG:MoveTo(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, ScrH() / 2 - MOAT_INV_BG:GetTall() / 2, 0.4, 0, 1)
-    MOAT_INV_BG:AlphaTo(255, 0.4, 0)
+    -- MOAT_INV_BG:MoveTo(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, ScrH() / 2 - MOAT_INV_BG:GetTall() / 2, 0.4, 0, 1)
+    -- MOAT_INV_BG:AlphaTo(255, 0.4, 0)
 
     net.Start("moat_OpenInventory")
     net.WriteBool(true)
@@ -5237,8 +5301,7 @@ local function open_inv()
         if (moat_inv_cooldown < CurTime()) then
             if (m_isUsingInv()) then
                 --gui.EnableScreenClicker( false )
-                MOAT_INV_BG:MoveTo(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, ScrH() + MOAT_INV_BG:GetTall(), 0.4, 0, 1)
-                MOAT_INV_BG:AlphaTo(0, 0.4, 0)
+                MOAT_INV_BG:BounceOut(BOTTOM)
 
                 timer.Simple(0.4, function()
                     MOAT_INV_BG:Remove()
@@ -5761,8 +5824,7 @@ net.Receive("MOAT_RESPOND_TRADE", function(len)
 		end
 
         if (m_isUsingInv()) then
-            MOAT_INV_BG:MoveTo(ScrW() / 2 - MOAT_INV_BG:GetWide() / 2, ScrH() + MOAT_INV_BG:GetTall(), 0.4, 0, 1)
-            MOAT_INV_BG:AlphaTo(0, 0.4, 0)
+            MOAT_INV_BG:BounceOut(BOTTOM)
 
             timer.Simple(0.4, function()
                 MOAT_INV_BG:Remove()
@@ -6716,7 +6778,7 @@ net.Receive("MOAT_DECON_NOTIFY", function()
 		decon_last_played = CurTime()
 	end
 
-    chat.AddText(Material("icon16/information.png"), Color(255, 255, 0), "You received ", Color(0, 255, 0), string.Comma(amt), Color(255, 255, 0), " IC from deconstructing your item" .. s .. "!")
+    chat.AddText(mat_info, Color(255, 255, 0), "You received ", Color(0, 255, 0), string.Comma(amt), Color(255, 255, 0), " IC from deconstructing your item" .. s .. "!")
 end)
 
 net.Receive("MOAT_DECON_MUTATOR", function()
