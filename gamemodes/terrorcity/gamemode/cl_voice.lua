@@ -460,21 +460,21 @@ end
 local PlayerVoicePanels = {}
 
 local group_images = {
-   	["vip"] = "icon16/shield.png",
+	["vip"] = "icon16/star.png",
 	["partner"] = "icon16/star.png",
    	["bugboomer"] = "icon16/bomb.png",
-   	["trialstaff"] = "icon16/wand.png",
-   	["moderator"] = "icon16/wand.png",
-   	["admin"] = "icon16/wand.png",
-   	["senioradmin"] = "icon16/wand.png",
-   	["headadmin"] = "icon16/wand.png",
-   	["communitylead"] = "icon16/wrench.png",
-	["owner"] = "icon16/tux.png",
-	["techartist"] = "icon16/camera.png",
-	["audioengineer"] = "icon16/bell.png",
+   	["trialstaff"] = "icon16/shield.png",
+   	["moderator"] = "icon16/shield_add.png",
+   	["admin"] = "icon16/lightning.png",
+   	["senioradmin"] = "icon16/lightning_add.png",
+   	["headadmin"] = "icon16/world.png",
+   	["communitylead"] = "icon16/application_xp_terminal.png",
+	["owner"] = "icon16/application_xp_terminal.png",
+	["techartist"] = "icon16/application_xp_terminal.png",
+	["audioengineer"] = "icon16/application_xp_terminal.png",
 	["softwareengineer"] = "icon16/application_osx_terminal.png",
-	["gamedesigner"] = "icon16/cog.png",
-	["creativedirector"] = "icon16/weather_rain.png",
+	["gamedesigner"] = "icon16/application_xp_terminal.png",
+	["creativedirector"] = "icon16/application_xp_terminal.png",
 }
 
 function GM:PlayerStartVoice(ply)

@@ -1,4 +1,4 @@
-ITEM.Name = "Ascended Talents Mutator"
+ITEM.Name = "Ascended Talent Mutator"
 ITEM.ID = 4003
 ITEM.Description = "Using this item allows you to re-roll the talents of any Ascended item. This will reset the item's LVL and XP"
 ITEM.Rarity = 6

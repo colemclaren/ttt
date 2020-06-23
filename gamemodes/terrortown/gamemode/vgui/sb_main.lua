@@ -218,13 +218,13 @@ function PANEL:Paint()
     surface_SetTexture(logo)
     surface_SetDrawColor(255, 255, 255, 255)
     surface_DrawTexturedRect(5, 0, 256, 256)
-    cdn.SmoothImage("https://static.moat.gg/ttt/visit-website21.png", w - 256 - 20, 0, 256, 256)
+    -- cdn.SmoothImage("https://static.moat.gg/ttt/visit-website21.png", w - 256 - 20, 0, 256, 256)
     local img_w, img_h = ScrH() / 2.2, ScrH() / 2.2
     surface_SetDrawColor(183, 183, 183)
     DisableClipping(true)
     surface_DrawLine(0, -4, w, -4)
     surface_DrawLine(0, h + 3, w, h + 3)
-	cdn.SmoothImage("https://static.moat.gg/ttt/moat-scoreboard.png", w/2 - (img_w/2), -49, img_w, img_h)
+	cdn.SmoothImage("https://static.moat.gg/ttt/moat-scoreboard.png", w/2 - (img_w/2), 5, img_w, img_h)
     DisableClipping(false)
 end
 

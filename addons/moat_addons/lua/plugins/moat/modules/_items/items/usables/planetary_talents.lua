@@ -1,4 +1,4 @@
-ITEM.Name = "Planetary Talents Mutator"
+ITEM.Name = "Planetary Talent Mutator"
 ITEM.ID = 4005
 ITEM.Description = "Using this item allows you to re-roll the talents of any Planetary item. This will reset the item's LVL and XP"
 ITEM.Rarity = 9

@@ -12356,7 +12356,7 @@ ITEM.Talents = { "Tesla" }
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-ITEM.Name = "Ascended Stats Mutator"
+ITEM.Name = "Ascended Stat Mutator"
 ITEM.ID = 4006
 ITEM.Description = "Using this item allows you to re-roll the stats of any Ascended item"
 ITEM.Rarity = 6
@@ -12373,7 +12373,7 @@ end
 m_AddDroppableItem(ITEM, 'Usable')
 
 ITEM = {}
-ITEM.Name = "Ascended Talents Mutator"
+ITEM.Name = "Ascended Talent Mutator"
 ITEM.ID = 4003
 ITEM.Description = "Using this item allows you to re-roll the talents of any Ascended item. This will reset the item's LVL and XP"
 ITEM.Rarity = 6
@@ -12390,7 +12390,7 @@ end
 m_AddDroppableItem(ITEM, 'Usable')
 
 ITEM = {}
-ITEM.Name = "Cosmic Stats Mutator"
+ITEM.Name = "Cosmic Stat Mutator"
 ITEM.ID = 4007
 ITEM.Description = "Using this item allows you to re-roll the stats of any Cosmic item"
 ITEM.Rarity = 7
@@ -12407,7 +12407,7 @@ end
 m_AddDroppableItem(ITEM, 'Usable')
 
 ITEM = {}
-ITEM.Name = "Cosmic Talents Mutator"
+ITEM.Name = "Cosmic Talent Mutator"
 ITEM.ID = 4002
 ITEM.Description = "Using this item allows you to re-roll the talents of any Cosmic item. This will reset the item's LVL and XP"
 ITEM.Rarity = 7
@@ -12527,7 +12527,7 @@ end
 m_AddDroppableItem(ITEM, 'Usable')
 
 ITEM = {}
-ITEM.Name = "High-End Stats Mutator"
+ITEM.Name = "High-End Stat Mutator"
 ITEM.ID = 4008
 ITEM.Description = "Using this item allows you to re-roll the stats of any High-End item"
 ITEM.Rarity = 5
@@ -12544,7 +12544,7 @@ end
 m_AddDroppableItem(ITEM, 'Usable')
 
 ITEM = {}
-ITEM.Name = "High-End Talents Mutator"
+ITEM.Name = "High-End Talent Mutator"
 ITEM.ID = 4004
 ITEM.Description = "Using this item allows you to re-roll the talents of any High-End item. This will reset the item's LVL and XP"
 ITEM.Rarity = 5
@@ -12834,7 +12834,7 @@ end
 m_AddDroppableItem(ITEM, 'Usable')
 
 ITEM = {}
-ITEM.Name = "Planetary Stats Mutator"
+ITEM.Name = "Planetary Stat Mutator"
 ITEM.ID = 4009
 ITEM.Description = "Using this item allows you to re-roll the stats of any Planetary item"
 ITEM.Rarity = 9
@@ -12851,7 +12851,7 @@ end
 m_AddDroppableItem(ITEM, 'Usable')
 
 ITEM = {}
-ITEM.Name = "Planetary Talents Mutator"
+ITEM.Name = "Planetary Talent Mutator"
 ITEM.ID = 4005
 ITEM.Description = "Using this item allows you to re-roll the talents of any Planetary item. This will reset the item's LVL and XP"
 ITEM.Rarity = 9

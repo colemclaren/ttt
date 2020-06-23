@@ -2294,14 +2294,14 @@ local mutator_rar = {
 }
 
 function m_DropTalentMutator(pl, r)
-    pl:m_DropInventoryItem(mutator_rar[r] .. " Talents Mutator")
+    pl:m_DropInventoryItem(mutator_rar[r] .. " Talent Mutator")
 
     net.Start("MOAT_DECON_MUTATOR")
     net.Send(pl)
 end
 
 function m_DropStatMutator(pl, r)
-    pl:m_DropInventoryItem(mutator_rar[r] .. " Stats Mutator")
+    pl:m_DropInventoryItem(mutator_rar[r] .. " Stat Mutator")
 
     net.Start("MOAT_DECON_MUTATOR")
     net.Send(pl)

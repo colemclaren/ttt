@@ -1,4 +1,4 @@
-ITEM.Name = "Ascended Stats Mutator"
+ITEM.Name = "Ascended Stat Mutator"
 ITEM.ID = 4006
 ITEM.Description = "Using this item allows you to re-roll the stats of any Ascended item"
 ITEM.Rarity = 6
