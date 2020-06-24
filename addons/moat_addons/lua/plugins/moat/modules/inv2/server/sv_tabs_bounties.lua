@@ -1546,6 +1546,7 @@ MOAT_BOUNTIES:AddBounty("Traitor Assassin", {
     rewardtbl = tier2_rewards
 })
 
+/*
 MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
     tier = 2,
     desc = "Win # rounds as a traitor or detective without purchasing a single equipment item.",
@@ -1576,6 +1577,7 @@ MOAT_BOUNTIES:AddBounty("No Equipments Allowed", {
     rewards = tier2_rewards_str,
     rewardtbl = tier2_rewards
 })
+*/
 
 --[[-------------------------------------------------------------------------
 TIER 3 BOUNTIES
@@ -1733,6 +1735,7 @@ MOAT_BOUNTIES:AddBounty("Airborn Assassin", {
     rewardtbl = tier3_rewards
 })
 
+/*
 MOAT_BOUNTIES:AddBounty("The A Team", {
     tier = 3,
     desc = "Win # rounds as a traitor with none of your traitor buddies dying. Can be completed as a traitor only.",
@@ -1761,6 +1764,7 @@ MOAT_BOUNTIES:AddBounty("The A Team", {
     rewards = tier3_rewards_str,
     rewardtbl = tier3_rewards
 })
+*/
 
 --[[-------------------------------------------------------------------------
 
@@ -1782,6 +1786,7 @@ MOAT_BOUNTIES:AddBounty("Innocent Exterminator", {
     rewardtbl = tier1_rewards
 })
 
+/*
 MOAT_BOUNTIES:AddBounty("Clutch Master", {
     tier = 3,
     desc = "Win # rounds as the last traitor alive with the most amount of kills. Can be completed as a traitor only.",
@@ -1810,6 +1815,7 @@ MOAT_BOUNTIES:AddBounty("Clutch Master", {
     rewards = tier3_rewards_str,
     rewardtbl = tier3_rewards
 })
+*/
 
 MOAT_BOUNTIES:AddBounty("Bunny Roleplayer", {
     tier = 1,
