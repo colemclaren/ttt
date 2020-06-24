@@ -28,11 +28,12 @@ SWEP.Primary.ClipSize = 150
 SWEP.Primary.ClipMax = 450
 SWEP.Primary.DefaultClip	= 150
 SWEP.Primary.Automatic		= true
-SWEP.Primary.Ammo			= "AirboatGun"
+SWEP.Primary.Ammo			= "smg1"
 SWEP.AutoSpawnable      = true
 SWEP.Primary.Recoil			= 1.2
 SWEP.Primary.Sound			= Sound("Weapon_m249.Single")
 SWEP.Primary.Range          = 1100
+SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false
