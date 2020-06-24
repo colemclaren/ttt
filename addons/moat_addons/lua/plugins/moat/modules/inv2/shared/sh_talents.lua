@@ -226,7 +226,6 @@ else
 		needed = {}
 	end)
 
-
 	hook.Add("OnEntityCreated", "moat_talents.Dual", function(ent)
 		if (needed[ent:EntIndex()]) then
 			needed[ent:EntIndex()] = nil

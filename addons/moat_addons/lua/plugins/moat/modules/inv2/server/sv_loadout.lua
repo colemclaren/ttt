@@ -69,6 +69,9 @@ function MOAT_LOADOUT.ResetPowerupAbilities(ply)
     ply.ExtraXP = 1
 	ply.CreditGoblin = nil
 	ply.SilentPower = nil
+	if (ply:GetNW2Bool("SilentPower", false)) then
+		ply:SetNW2Bool("SilentPower", false)
+	end
 end
 
 function MOAT_LOADOUT.GetLoadout(ply)

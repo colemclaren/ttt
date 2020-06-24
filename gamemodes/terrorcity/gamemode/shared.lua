@@ -179,7 +179,7 @@ function GM:PlayerFootstep(ply, pos, foot, sound, volume, rf)
 			return true
 		end
 
-		if (ply.SilentPower) then
+		if (ply.SilentPower or ply:GetNW2Bool("SilentPower", false)) then
 			return true
 		end
 	end

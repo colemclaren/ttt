@@ -847,7 +847,7 @@ ITEM.Name = "Credit Hoarder"
 
 ITEM.NameColor = Color( 255, 255, 0 )
 
-ITEM.Description = "Start with %s extra credits as a detective/traitor when using this powerup"
+ITEM.Description = "Start with %s extra credits as a detective/traitor when using this power-up"
 
 ITEM.Image = "https://static.moat.gg/f/78738ccf67e834f86317059b2dd06caf.png"
 
@@ -879,7 +879,7 @@ ITEM.Name = "Flame Retardant"
 
 ITEM.NameColor = Color( 255, 60, 0 )
 
-ITEM.Description = "Fire and explosion damage is reduced by %s_ when using this powerup"
+ITEM.Description = "Fire and explosion damage is reduced by %s_ when using this power-up"
 
 ITEM.Image = "https://static.moat.gg/f/7d05b151a4f6536508979e4edc065afd.png" 
 
@@ -1045,7 +1045,7 @@ ITEM.Name = "Experience Lover"
 
 ITEM.NameColor = Color( 255, 0, 255 )
 
-ITEM.Description = "Gain %s_ more weapon XP after a rightfull kill when using this powerup"
+ITEM.Description = "Gain %s_ more weapon XP after a rightfull kill when using this power-up"
 
 ITEM.Image = "https://static.moat.gg/f/1114672223ae94d7d0ea360abf9924e0.png" 
 
@@ -32716,7 +32716,7 @@ ITEM = {}
 ITEM.ID = 68
 ITEM.Name = "Credit Goblin"
 ITEM.NameColor = Color(0, 255, 128)
-ITEM.Description = "%s_ chance to receive 1 credit after a kill when using this powerup"
+ITEM.Description = "%s_ chance to receive 1 credit after a kill when using this power-up"
 ITEM.Image = "https://static.moat.gg/ttt/credit_goblin64.png" 
 ITEM.Rarity = 4
 ITEM.Collection = "Aqua Palm Collection"
@@ -32726,6 +32726,25 @@ ITEM.Stats = {
 
 function ITEM:OnPlayerSpawn(ply, powerup_mods)
 	ply.CreditGoblin = self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * powerup_mods[1])
+end
+
+m_AddDroppableItem(ITEM, 'Power-Up')
+
+ITEM = {}
+ITEM.ID = 79
+ITEM.Name = "Silent"
+ITEM.NameColor = Color(83, 183, 255)
+ITEM.Description = "Your footsteps are muffled and killing someone has a %s_ chance to muffle their screams"
+ITEM.Image = "https://static.moat.gg/ttt/silent64.png"
+ITEM.Rarity = 4
+ITEM.Collection = "Aqua Palm Collection"
+ITEM.Stats = {
+	{min = 50, max = 90}
+}
+
+function ITEM:OnPlayerSpawn(ply, powerup_mods)
+	ply.SilentPower = self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * powerup_mods[1])
+	ply:SetNW2Bool("SilentPower", true)
 end
 
 m_AddDroppableItem(ITEM, 'Power-Up')
