@@ -1385,6 +1385,7 @@ function PANEL:CreateIcon(n)
 	local mdl = self:GetModelName()
 	local skn = self:GetSkinID()
 
+	if (MOAT_MODEL_POS[mdl]) then self.Icon:SetVisible(false) return end
 	if (not mdl and not n) then return end
 	mdl = tostring(mdl)
 
@@ -1394,7 +1395,7 @@ end
 function PANEL:SetModel(mdl, iSkin, BodyGroups)
 	if ( !mdl ) then debug.Trace() return end
 	if (not mdl:EndsWith(".mdl")) then
-		if (self.ModelPanel) then self.ModelPanel:Remove() end
+		if (self.ModelPanel) then self:SetModelName(mdl) self.ModelPanel:Remove() end
 		return
 	end
 
@@ -1452,7 +1453,7 @@ function PANEL:SetModel(mdl, iSkin, BodyGroups)
 end
 
 function PANEL:RebuildSpawnIcon()
-	if (not IsValid(self.Icon)) then self:CreateIcon() end
+	if (not IsValid(self.Icon) and not MOAT_MODEL_POS[mdls]) then self:CreateIcon() end
 	if (not self:GetModelName()) then return end
 	if (not file.Exists("materials/spawnicons/" .. string.StripExtension(self:GetModelName()) .. ".png", "GAME")) then
 		self.Icon:RebuildSpawnIcon()

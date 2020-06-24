@@ -30,7 +30,7 @@ ITEM.Stats = {
 	Force = { min = 40, max = 60 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -65,7 +65,7 @@ ITEM.Stats = {
 	Force = { min = 13, max = 20 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -98,7 +98,7 @@ ITEM.Stats = {
 	Force = { min = 13, max = 20 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 ITEM.ID = 7004
@@ -115,7 +115,7 @@ ITEM.Stats = {
 	Pushrate = { min = 5, max = 10 },
 	Force = { min = 13, max = 35 }
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -148,7 +148,7 @@ ITEM.Stats = {
 	Force = { min = 13, max = 20 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -183,7 +183,7 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 ITEM.ID = 17699
@@ -253,13 +253,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -292,13 +292,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -331,13 +331,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -370,7 +370,7 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -401,13 +401,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -440,7 +440,7 @@ ITEM.Stats = {
 	Force = { min = 13, max = 20 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -471,13 +471,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -510,13 +510,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -549,7 +549,7 @@ ITEM.Stats = {
 	Force = { min = 5, max = 10 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -582,7 +582,7 @@ ITEM.Stats = {
 	Force = { min = 15, max = 40 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -615,7 +615,7 @@ ITEM.Stats = {
 	Force = { min = 15, max = 40 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -646,13 +646,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -685,13 +685,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -724,13 +724,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 
@@ -761,13 +761,13 @@ ITEM.Stats = {
 	Force = { min = 13, max = 35 }
 
 }
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM.Collection = 'Melee Collection'
 
 ITEM.ID = ITEM.ID + 10000
 
-m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 

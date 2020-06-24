@@ -969,12 +969,13 @@ function m_LoadInventoryForPlayer(ply, cb)
 			local function update_loadout_talent(int, Talents)
 				-- print(int, Talents)
 				for i = 1, #loadout[int].t do
-					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 20202) then loadout[int].t[i].e = 10102 end
-					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 20203) then loadout[int].t[i].e = 10103 end
-					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 9972) then loadout[int].t[i].e = 9971 end
-					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 202) then loadout[int].t[i].e = 102 end
-					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 255) then loadout[int].t[i].e = 155 end
-					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 84) then loadout[int].t[i].e = 87 end
+					-- print("hiii", loadout[int].t[i])
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 20202) then loadout[int].t[i].e = 10102 continue end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 20203) then loadout[int].t[i].e = 10103 continue end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 9972) then loadout[int].t[i].e = 9971 continue end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 202) then loadout[int].t[i].e = 102 continue end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 255) then loadout[int].t[i].e = 155 continue end
+					if (loadout[int].t[i] and loadout[int].t[i].e and loadout[int].t[i].e == 84) then loadout[int].t[i].e = 87 continue end
 					-- print("talents", #Talents[i].Modifications, #loadout[int].t[i].m, table.Count(loadout[int].t[i].m))
 					-- print(i, int, #Talents[i].Modifications ~= #loadout[int].t[i].m, i ~= Talents[i].Tier, loadout[int].u)
 					if ((not Talents[i] or (Talents[i] and not next(Talents[i]))) and MOAT_DROPTABLE[loadout[int].u].Talents[i]) then
@@ -1006,6 +1007,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 						-- print("enum", int, i, loadout[int].t[i].e)
 					end
+					-- print "hi"
 				end
 			end
 			-- print(5)
@@ -1157,15 +1159,16 @@ function m_LoadInventoryForPlayer(ply, cb)
 			local function update_talent(int, Talents)
 				-- print(int, Talents)
 				for i = 1, #inventory_tbl[int].t do
-					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 20202) then inventory_tbl[int].t[i].e = 10102 end
-					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 20203) then inventory_tbl[int].t[i].e = 10103 end
-					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 9972) then inventory_tbl[int].t[i].e = 9971 end
-					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 202) then inventory_tbl[int].t[i].e = 102 end
-					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 255) then inventory_tbl[int].t[i].e = 155 end
-					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 84) then inventory_tbl[int].t[i].e = 87 end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 20202) then inventory_tbl[int].t[i].e = 10102 continue end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 20203) then inventory_tbl[int].t[i].e = 10103 continue end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 9972) then inventory_tbl[int].t[i].e = 9971 continue end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 202) then inventory_tbl[int].t[i].e = 102 continue end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 255) then inventory_tbl[int].t[i].e = 155 continue end
+					if (inventory_tbl[int].t[i] and inventory_tbl[int].t[i].e and inventory_tbl[int].t[i].e == 84) then inventory_tbl[int].t[i].e = 87 continue end
 					-- print("talents", #Talents[i].Modifications, #inventory_tbl[int].t[i].m, table.Count(inventory_tbl[int].t[i].m))
 					-- print(i, int, #Talents[i].Modifications ~= #inventory_tbl[int].t[i].m, i ~= Talents[i].Tier, inventory_tbl[int].u)
-					if ((not Talents[i] or (Talents[i] and not next(Talents[i]))) and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i]) then
+					if ((not Talents[i] or (Talents[i] and not next(Talents[i]))) and (MOAT_DROPTABLE[inventory_tbl[int].u].Talents and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i])) then
+						-- print("yo", i, int, #Talents[i].Modifications ~= #inventory_tbl[int].t[i].m, i ~= Talents[i].Tier, MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random", MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name)
 						Talents[i] = m_GetRandomTalent(i, MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i], (MOAT_DROPTABLE[inventory_tbl[i].u].Kind and MOAT_DROPTABLE[inventory_tbl[i].u].Kind == "Melee"))
 						inventory_tbl[int].t[i] = {e = Talents[i].ID, l = inventory_tbl[int].t[i].l or math.random(Talents[i].LevelRequired and Talents[i].LevelRequired.min or (Talents[i].Tier * 10), Talents[i].LevelRequired and Talents[i].LevelRequired.max or (Talents[i].Tier * 20))}
 						inventory_tbl[int].t[i].m = {}
@@ -1194,6 +1197,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 						-- print("enum", int, i, inventory_tbl[int].t[i].e)
 					end
+					-- print("hi")
 				end
 			end
 			-- print(5)

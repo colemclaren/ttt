@@ -3046,7 +3046,12 @@ function m_OpenInventory(ply2, utrade)
 					end
 				elseif (m_isUsingInv(true) and M_INV_SLOT[i] and m_Inventory[i] and m_Inventory[i].c) then
 					M_INV_SLOT[i].ComfyNest:SetVisible(true)
-					M_INV_SLOT[i].Render:SetVisible(true)
+					M_INV_SLOT[i].ComfyNest:SetAlpha(255)
+
+					if (M_INV_SLOT[i].ComfyNest:GetModelName() and not MOAT_MODEL_POS[M_INV_SLOT[i].ComfyNest:GetModelName()]) then
+						M_INV_SLOT[i].Render:SetVisible(true)
+						M_INV_SLOT[i].Render:SetAlpha(0)
+					end
 				end
 
 				if (M_INV_SLOT[i]) then
@@ -3067,7 +3072,7 @@ function m_OpenInventory(ply2, utrade)
 					M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
 					M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
 					M_INV_SLOT[i].ComfyNest:SetVisible(true)
-					M_INV_SLOT[i].Render:SetVisible(true)
+					M_INV_SLOT[i].Render:SetVisible(false)
 					M_INV_SLOT[i].ComfyNest:SetAlpha(255)
 					M_INV_SLOT[i].Render:SetAlpha(0)
 				end
@@ -3079,15 +3084,19 @@ function m_OpenInventory(ply2, utrade)
 					end
 
 					M_INV_SLOT[i].VGUI.WModel = m_Inventory[i].item.Model
-					M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
-					M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
+					M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Model
+					M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Model
 					
 					M_INV_SLOT[i].ComfyNest:SetVisible(true)
-					M_INV_SLOT[i].Render:SetVisible(true)
 					M_INV_SLOT[i].ComfyNest:SetAlpha(255)
-					M_INV_SLOT[i].Render:SetAlpha(255)
-
 					M_INV_SLOT[i].VGUI.SIcon:SetModel(m_Inventory[i].item.Model)
+					if (M_INV_SLOT[i].ComfyNest:GetModelName() and MOAT_MODEL_POS[M_INV_SLOT[i].ComfyNest:GetModelName()]) then
+						M_INV_SLOT[i].Render:SetVisible(false)
+						M_INV_SLOT[i].Render:SetAlpha(0)
+					else
+						M_INV_SLOT[i].Render:SetVisible(true)
+						M_INV_SLOT[i].Render:SetAlpha(255)
+					end
 				elseif (m_isUsingInv(true) and m_Inventory[i] and m_Inventory[i].w and not m_Inventory[i].item.Image) then
 					if (not IsValid(M_INV_SLOT[i].Render)) then
 						M_INV_SLOT[i].VGUI.SIcon:CreateIcon(true)
@@ -3095,15 +3104,19 @@ function m_OpenInventory(ply2, utrade)
 					end
 
 					M_INV_SLOT[i].VGUI.WModel = util.GetWeaponModel(m_Inventory[i].w)
-					M_INV_SLOT[i].ComfyNest.WModel = m_Inventory[i].item.Image
-					M_INV_SLOT[i].Render.WModel = m_Inventory[i].item.Image
+					M_INV_SLOT[i].ComfyNest.WModel = util.GetWeaponModel(m_Inventory[i].w)
+					M_INV_SLOT[i].Render.WModel = util.GetWeaponModel(m_Inventory[i].w)
 
 					M_INV_SLOT[i].ComfyNest:SetVisible(true)
-					M_INV_SLOT[i].Render:SetVisible(true)
 					M_INV_SLOT[i].ComfyNest:SetAlpha(255)
-					M_INV_SLOT[i].Render:SetAlpha(255)
-
 					M_INV_SLOT[i].VGUI.SIcon:SetModel(util.GetWeaponModel(m_Inventory[i].w))
+					if (M_INV_SLOT[i].ComfyNest:GetModelName() and MOAT_MODEL_POS[M_INV_SLOT[i].ComfyNest:GetModelName()]) then
+						M_INV_SLOT[i].Render:SetVisible(false)
+						M_INV_SLOT[i].Render:SetAlpha(0)
+					else
+						M_INV_SLOT[i].Render:SetVisible(true)
+						M_INV_SLOT[i].Render:SetAlpha(255)
+					end
 				end
 			end
 		end
