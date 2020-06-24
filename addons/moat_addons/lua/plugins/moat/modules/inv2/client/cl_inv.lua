@@ -2048,12 +2048,14 @@ function m_OpenInventory(ply2, utrade)
 
 			local m_DPanel = panel_to_add:Add("DPanel")
 			m_DPanel:SetSize(74, 84)
-
+			local osx = system.IsOSX()
 			m_DPanel.Paint = function(s, w, h)
 				local y2 = 10
-				DisableClipping(true)
-				draw.DrawText(m_LoadoutLabels[num], "moat_Medium9", w / 2, -3, MT_TCOL, TEXT_ALIGN_CENTER)
-				DisableClipping(false)
+				if (osx) then
+					draw.DrawText(m_LoadoutLabels[num], "ux.10", w / 2, 0, MT_TCOL, TEXT_ALIGN_CENTER)
+				else
+					draw.DrawText(m_LoadoutLabels[num], "moat_Medium9", w / 2, -3, MT_TCOL, TEXT_ALIGN_CENTER)
+				end
 				surface_SetDrawColor(62, 62, 64, 255)
 				surface_DrawOutlinedRect(0, 0 + y2, w, h - y2)
 				surface_SetDrawColor(0, 0, 0, 100)

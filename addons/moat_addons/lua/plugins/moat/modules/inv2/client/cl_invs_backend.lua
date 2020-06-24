@@ -1453,6 +1453,7 @@ end
 
 function PANEL:RebuildSpawnIcon()
 	if (not IsValid(self.Icon)) then self:CreateIcon() end
+	if (not self:GetModelName()) then return end
 	if (not file.Exists("materials/spawnicons/" .. string.StripExtension(self:GetModelName()) .. ".png", "GAME")) then
 		self.Icon:RebuildSpawnIcon()
 	end
