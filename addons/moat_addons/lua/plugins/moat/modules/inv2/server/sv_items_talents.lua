@@ -389,3 +389,15 @@ concommand.Add("moat_hermes_boots_toggle", function(pl)
         end
     end
 end)
+
+hook.Add("PlayerSay", "Moat.Talents.PlayerSay", function(pl)
+	if (pl.Talent_Muted) then 
+		return ""
+	end
+end)
+
+hook.Add("PlayerCanHearPlayersVoice", "Moat.Talents.PlayerCanHearPlayersVoice", function(listener, talker)
+	if (talker.Talent_Muted) then 
+		return false
+	end
+end)

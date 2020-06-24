@@ -68,6 +68,7 @@ function MOAT_LOADOUT.ResetPowerupAbilities(ply)
 
     ply.ExtraXP = 1
 	ply.CreditGoblin = nil
+	ply.SilentPower = nil
 end
 
 function MOAT_LOADOUT.GetLoadout(ply)

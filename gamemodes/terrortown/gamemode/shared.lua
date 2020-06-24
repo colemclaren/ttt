@@ -157,7 +157,16 @@ end
 
 -- Kill footsteps on player and client
 function GM:PlayerFootstep(ply, pos, foot, sound, volume, rf)
-    if IsValid(ply) and (ply:Crouching() or ply:GetMaxSpeed() < 150 or ply:IsSpec()) then return true end -- do not play anything, just prevent normal sounds from playing
+    if (IsValid(ply)) then
+		-- do not play anything, just prevent normal sounds from playing
+		if (ply:Crouching() or ply:GetMaxSpeed() < 150 or ply:IsSpec()) then
+			return true
+		end
+
+		if (ply.SilentPower) then
+			return true
+		end
+	end
 end
 
 -- Weapons and items that come with TTT. Weapons that are not in this list will

@@ -572,7 +572,7 @@ function GM:DoPlayerDeath(ply, attacker, dmginfo)
 
     -- headshots, knife damage, and weapons tagged as silent all prevent death
     -- sound from occurring
-    if not (ply.was_headshot or dmginfo:IsDamageType(DMG_SLASH) or (IsValid(killwep) and killwep.IsSilent)) then
+    if ((not (ply.was_headshot or dmginfo:IsDamageType(DMG_SLASH) or (IsValid(killwep) and killwep.IsSilent))) and (not (attacker.SilentPower and attacker.SilentPower > math.random() * 100))) then
         PlayDeathSound(ply)
     end
 
