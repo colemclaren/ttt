@@ -1483,6 +1483,7 @@ TALENT.Tier = 1
 TALENT.LevelRequired = {min = 5, max = 10}
 
 TALENT.Modifications = {}
+TALENT.Modifications[1] = {min = 100, max = 200}
 
 TALENT.Melee = false
 TALENT.NotUnique = false
@@ -1611,6 +1612,7 @@ TALENT.Tier = 2
 TALENT.LevelRequired = {min = 15, max = 20}
 
 TALENT.Modifications = {}
+TALENT.Modifications[1] = {min = 100, max = 200}
 
 TALENT.Melee = false
 TALENT.NotUnique = false
@@ -1736,6 +1738,7 @@ TALENT.Tier = 3
 TALENT.LevelRequired = {min = 20, max = 30}
 
 TALENT.Modifications = {}
+TALENT.Modifications[1] = {min = 100, max = 200}
 
 TALENT.Melee = false
 TALENT.NotUnique = false
