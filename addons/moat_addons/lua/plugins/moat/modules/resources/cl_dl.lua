@@ -75,7 +75,7 @@ function Content.DrawHUD()
 	local scrw = ScrW()
 	local dl_num = math.Round(100 - (100/(#Content.ids)) * Content.cur)
 	local dl_bar = 1 - (dl_num / 100)
-	
+	/*
 	surface.SetDrawColor(0, 0, 0, 175)
 	surface.DrawRect((scrw/2) - 250, 130, 500, 30)
 
@@ -112,7 +112,7 @@ function Content.DrawHUD()
 		pos = {(scrw/2 - 256) + (498 * dl_bar), 125},
 		color = Color(255, 255, 255, 255)
 	})
-
+	*/
 	local dl_text = "Fixing Errors: " .. dl_num .. "% Remaining.."
 	if (dl_num == 0) then
 		if (not Content.close) then
@@ -123,7 +123,7 @@ function Content.DrawHUD()
 
 		dl_text = "Finishing Fixing Errors.. Yay!"
 	end
-
+	/*
 	draw.Text({
 		text = dl_text,
 		font = "moat_wdl2s", 
@@ -137,7 +137,7 @@ function Content.DrawHUD()
 		pos = {scrw/2 - 240, 134},
 		color = Color(200, 200, 200, 255)
 	})
-
+	*/
 	draw.Text({
 		text = "Woah, welcome to the server! We're fixing these errors you see for you",
 		font = "moat_wdls", 

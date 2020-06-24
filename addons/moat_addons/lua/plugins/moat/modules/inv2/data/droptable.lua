@@ -7555,7 +7555,7 @@ ITEM.MinTalents = 3
 
 ITEM.MaxTalents = 3
 
-ITEM.Talents = { "Swift", "Ice Cream", "Inferno" }
+ITEM.Talents = { "Accurate", "Scavenger", "Inferno" }
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}

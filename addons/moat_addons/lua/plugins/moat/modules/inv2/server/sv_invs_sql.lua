@@ -985,14 +985,17 @@ function m_LoadInventoryForPlayer(ply, cb)
 						for id, mod in pairs(Talents[i].Modifications) do
 							loadout[int].t[i].m[id] = math.Round(math.Rand(0, 1), 2)
 						end
-					elseif (Talents[i] and Talents[i].Modifications and loadout[int].t[i] and loadout[int].t[i].m and (#Talents[i].Modifications ~= #loadout[int].t[i].m or i ~= Talents[i].Tier or (MOAT_DROPTABLE[loadout[int].u].Talents and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random")) and (not MOAT_DROPTABLE[loadout[int].u].Talents or (MOAT_DROPTABLE[loadout[int].u].Talents and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name))) then
+					elseif (Talents[i] and Talents[i].Modifications and loadout[int].t[i] and (not loadout[int].t[i].m or loadout[int].t[i].m) and ((loadout[int].t[i].m and #Talents[i].Modifications ~= #loadout[int].t[i].m) or i ~= Talents[i].Tier or (MOAT_DROPTABLE[loadout[int].u].Talents and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random")) and (not MOAT_DROPTABLE[loadout[int].u].Talents or (MOAT_DROPTABLE[loadout[int].u].Talents and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name))) then
 						-- print("yo", i, int, #Talents[i].Modifications ~= #loadout[int].t[i].m, i ~= Talents[i].Tier, MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random", MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name)
-						if (loadout[int].t[i].e == 2) then loadout[int].t[i].e = 1 end
+						if (loadout[int].t[i].e == 2 and (loadout[int].t[i].m and #loadout[int].t[i].m == 2)) then loadout[int].t[i].e = 1 end
+						if (loadout[int].t[i].e == 1 and (loadout[int].t[i].m and #loadout[int].t[i].m == 1)) then loadout[int].t[i].e = 2 end
 						if (loadout[int].t[i].e == 4) then loadout[int].t[i].e = 7 end
-						if (loadout[int].t[i].e == 26) then loadout[int].t[i].e = 16 end
-						if (loadout[int].t[i].e == 34) then loadout[int].t[i].e = 37 end
-						if (loadout[int].t[i].e == 23) then loadout[int].t[i].e = 13 end
-						if (loadout[int].t[i].e == 82) then loadout[int].t[i].e = 81 end
+						if (loadout[int].t[i].e == 26 and (loadout[int].t[i].m and #loadout[int].t[i].m == 2)) then loadout[int].t[i].e = 16 end
+						if (loadout[int].t[i].e == 16 and (loadout[int].t[i].m and #loadout[int].t[i].m == 3)) then loadout[int].t[i].e = 26 end
+						if (loadout[int].t[i].e == 34 and (loadout[int].t[i].m and #loadout[int].t[i].m == 2)) then loadout[int].t[i].e = 37 end
+						if (loadout[int].t[i].e == 23 and (loadout[int].t[i].m and #loadout[int].t[i].m == 1)) then loadout[int].t[i].e = 13 end
+						if (loadout[int].t[i].e == 13 and (loadout[int].t[i].m and #loadout[int].t[i].m == 2)) then loadout[int].t[i].e = 23 end
+						if (loadout[int].t[i].e == 82 and (loadout[int].t[i].m and #loadout[int].t[i].m == 3)) then loadout[int].t[i].e = 81 end
 						if (loadout[int].t[i].e == 84) then loadout[int].t[i].e = 87 end
 						if (loadout[int].t[i].e == 32 and i == 1) then loadout[int].t[i].e = 31 end
 						if (loadout[int].t[i].e == 29 and i == 2) then loadout[int].t[i].e = 19 end
@@ -1005,6 +1008,12 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 						if ((loadout[int].t[i].e == 27 or loadout[int].t[i].e == 24 or loadout[int].t[i].e == 14) and i == 3) then loadout[int].t[i].e = 17 end
 
+						if (Talents[i].Modifications and (loadout[int].t[i].m and (#Talents[i].Modifications ~= #loadout[int].t[i].m)) or not loadout[int].t[i].m) then
+							loadout[int].t[i].m = loadout[int].t[i].m or {}
+							for id, mod in pairs(Talents[i].Modifications) do
+								loadout[int].t[i].m[id] = loadout[int].t[i].m[id] or math.Round(math.Rand(0, 1), 2)
+							end
+						end
 						-- print("enum", int, i, loadout[int].t[i].e)
 					end
 					-- print "hi"
@@ -1175,14 +1184,17 @@ function m_LoadInventoryForPlayer(ply, cb)
 						for id, mod in pairs(Talents[i].Modifications) do
 							inventory_tbl[int].t[i].m[id] = math.Round(math.Rand(0, 1), 2)
 						end
-					elseif (Talents[i] and Talents[i].Modifications and inventory_tbl[int].t[i] and inventory_tbl[int].t[i].m and (#Talents[i].Modifications ~= #inventory_tbl[int].t[i].m or i ~= Talents[i].Tier or (MOAT_DROPTABLE[inventory_tbl[int].u].Talents and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random")) and (not MOAT_DROPTABLE[inventory_tbl[int].u].Talents or (MOAT_DROPTABLE[inventory_tbl[int].u].Talents and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name))) then
+					elseif (Talents[i] and Talents[i].Modifications and inventory_tbl[int].t[i] and (not inventory_tbl[int].t[i].m or inventory_tbl[int].t[i].m) and ((inventory_tbl[int].t[i].m and #Talents[i].Modifications ~= #inventory_tbl[int].t[i].m) or i ~= Talents[i].Tier or (MOAT_DROPTABLE[inventory_tbl[int].u].Talents and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random")) and (not MOAT_DROPTABLE[inventory_tbl[int].u].Talents or (MOAT_DROPTABLE[inventory_tbl[int].u].Talents and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name))) then
 						-- print("yo", i, int, #Talents[i].Modifications ~= #inventory_tbl[int].t[i].m, i ~= Talents[i].Tier, MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random", MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name)
-						if (inventory_tbl[int].t[i].e == 2) then inventory_tbl[int].t[i].e = 1 end
+						if (inventory_tbl[int].t[i].e == 2 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2)) then inventory_tbl[int].t[i].e = 1 end
+						if (inventory_tbl[int].t[i].e == 1 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 1)) then inventory_tbl[int].t[i].e = 2 end
 						if (inventory_tbl[int].t[i].e == 4) then inventory_tbl[int].t[i].e = 7 end
-						if (inventory_tbl[int].t[i].e == 26) then inventory_tbl[int].t[i].e = 16 end
-						if (inventory_tbl[int].t[i].e == 34) then inventory_tbl[int].t[i].e = 37 end
-						if (inventory_tbl[int].t[i].e == 23) then inventory_tbl[int].t[i].e = 13 end
-						if (inventory_tbl[int].t[i].e == 82) then inventory_tbl[int].t[i].e = 81 end
+						if (inventory_tbl[int].t[i].e == 26 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2)) then inventory_tbl[int].t[i].e = 16 end
+						if (inventory_tbl[int].t[i].e == 16 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 3)) then inventory_tbl[int].t[i].e = 26 end
+						if (inventory_tbl[int].t[i].e == 34 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2)) then inventory_tbl[int].t[i].e = 37 end
+						if (inventory_tbl[int].t[i].e == 23 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 1)) then inventory_tbl[int].t[i].e = 13 end
+						if (inventory_tbl[int].t[i].e == 13 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2)) then inventory_tbl[int].t[i].e = 23 end
+						if (inventory_tbl[int].t[i].e == 82 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 3)) then inventory_tbl[int].t[i].e = 81 end
 						if (inventory_tbl[int].t[i].e == 84) then inventory_tbl[int].t[i].e = 87 end
 						if (inventory_tbl[int].t[i].e == 32 and i == 1) then inventory_tbl[int].t[i].e = 31 end
 						if (inventory_tbl[int].t[i].e == 29 and i == 2) then inventory_tbl[int].t[i].e = 19 end
@@ -1195,6 +1207,12 @@ function m_LoadInventoryForPlayer(ply, cb)
 
 						if ((inventory_tbl[int].t[i].e == 27 or inventory_tbl[int].t[i].e == 24 or inventory_tbl[int].t[i].e == 14) and i == 3) then inventory_tbl[int].t[i].e = 17 end
 
+						if (Talents[i].Modifications and (inventory_tbl[int].t[i].m and (#Talents[i].Modifications ~= #inventory_tbl[int].t[i].m)) or not inventory_tbl[int].t[i].m) then
+							inventory_tbl[int].t[i].m = inventory_tbl[int].t[i].m or {}
+							for id, mod in pairs(Talents[i].Modifications) do
+								inventory_tbl[int].t[i].m[id] = inventory_tbl[int].t[i].m[id] or math.Round(math.Rand(0, 1), 2)
+							end
+						end
 						-- print("enum", int, i, inventory_tbl[int].t[i].e)
 					end
 					-- print("hi")
