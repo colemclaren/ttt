@@ -67,6 +67,7 @@ function MOAT_LOADOUT.ResetPowerupAbilities(ply)
     ply:SetHealth(max)
 
     ply.ExtraXP = 1
+	ply.CreditGoblin = nil
 end
 
 function MOAT_LOADOUT.GetLoadout(ply)

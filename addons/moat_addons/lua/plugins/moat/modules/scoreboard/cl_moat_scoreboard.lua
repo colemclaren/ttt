@@ -432,6 +432,7 @@ local function moat_UpdateDefaultTTTShit()
 
 		if (wep.ItemStats and wep.ItemStats.item and (wep.ItemStats.item.NameColor or wep.ItemStats.item.Rarity)) then
 			spec.color = wep.ItemStats.item.NameColor or rarity_names[wep.ItemStats.item.Rarity][2]:Copy()
+			spec.color.a = 255
 		end
 		
 		spec.color.a = self.WeaponAlpha * 255

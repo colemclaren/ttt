@@ -178,6 +178,7 @@ function MOAT_KILLCARDS:DrawDeathCard(rnd_state, role, id, name, wpn, hp, max_hp
 
 		if (wpn.ItemStats and wpn.ItemStats.item) then
 			weapon_col = wpn.ItemStats.item.NameColor or rarity_names[wpn.ItemStats.item.Rarity][2]:Copy()
+			weapon_col.a = 255
 			weapon_eff = wpn.ItemStats.item.NameEffect or nil
 			weapon_rainbow = wpn.ItemStats.item.Rarity == 9
 		end

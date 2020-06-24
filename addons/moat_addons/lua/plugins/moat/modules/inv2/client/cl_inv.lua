@@ -976,7 +976,7 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
             talent_desc = itemtbl.Talents[k].Description
             talent_col = itemtbl.Talents[k].NameColor
             talent_level = v.l
-
+			talent_col.a = 255
             /*if (itemtbl.Talents[k].NameEffect == "fire") then
                 m_DrawFireText(7, talent_name, font, 6, y + stats_y_add + talents_y_add + 2, talent_col)
             else
@@ -3470,7 +3470,7 @@ function m_OpenInventory(ply2, utrade)
             local draw_name_y = 3
             local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][2]:Copy()
             local name_font = "moat_Medium5"
-
+			name_col.a = 255
             if (ITEM_HOVERED.item.NameEffect) then
                 local tfx = ITEM_HOVERED.item.NameEffect
 
@@ -5422,6 +5422,7 @@ function m_DrawTradeRequest(ply)
     M_REQ_NICK:SetFont("GModNotify")
 
     if (MT_TR and MT_TR.NameColor) then
+		MT_TR.NameColor.a = 255
         M_REQ_NICK:SetTextColor(MT_TR.NameColor)
     else
         M_REQ_NICK:SetTextColor(Color(200, 200, 200))
@@ -6101,7 +6102,7 @@ function m_DrawFoundItem(tbl, s_type, name)
             local draw_name_y = 3
             local name_col = ITEM_HOVERED.item.NameColor or rarity_names[ITEM_HOVERED.item and ITEM_HOVERED.item.Rarity or 0][2]:Copy()
             local name_font = "moat_Medium5"
-
+			name_col.a = 255
             if (ITEM_HOVERED.item.NameEffect) then
                 local tfx = ITEM_HOVERED.item.NameEffect
 

@@ -930,7 +930,7 @@ function moat_chat.DrawText(self, texte, texttbl, a, name, data)
         local name_col = itemtbl.item.NameColor or rarity_names[itemtbl.item.Rarity][2]:Copy()
         local TextSize = emoji.GetTextSize
         local DrawText = emoji.SimpleTextOutlined
-
+		name_col.a = 255
         if (texttbl.IgnoreEmoji) then
             TextSize = surface_GetTextSize
             DrawText = draw_SimpleTextOutlined

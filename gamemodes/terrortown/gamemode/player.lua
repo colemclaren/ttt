@@ -618,6 +618,13 @@ function GM:DoPlayerDeath(ply, attacker, dmginfo)
                 role = LANG.NameParam(ply:GetRoleString())
             })
         end
+
+		-- Credit Goblin
+		if (attacker:IsActiveTraitor() or attacker:IsActiveDetective()) then
+			if (attacker.CreditGoblin and (attacker.CreditGoblin > math.random() * 100)) then
+				attacker:AddCredits(1)
+			end
+		end
     end
 end
 

@@ -633,7 +633,7 @@ local function moat_CustomHUD()
 			local draw_name_y = y + 3
 			local name_col = wpn_stats.item.NameColor or rarity_names[wpn_stats.item.Rarity][2]:Copy()
 			local name_font = "moat_Medium5"
-
+			name_col.a = 255
 			if (wpn_stats.item.NameEffect) then
 				local tfx = wpn_stats.item.NameEffect
 

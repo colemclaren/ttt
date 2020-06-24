@@ -32711,3 +32711,21 @@ end
 m_AddDroppableItem(ITEM, 'Mask')
 
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
+
+ITEM = {}
+ITEM.ID = 68
+ITEM.Name = "Credit Goblin"
+ITEM.NameColor = Color(0, 255, 128)
+ITEM.Description = "%s_ chance to receive 1 credit after a kill when using this powerup"
+ITEM.Image = "https://static.moat.gg/ttt/credit_goblin64.png" 
+ITEM.Rarity = 4
+ITEM.Collection = "Aqua Palm Collection"
+ITEM.Stats = {
+	{min = 30, max = 60}
+}
+
+function ITEM:OnPlayerSpawn(ply, powerup_mods)
+	ply.CreditGoblin = self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * powerup_mods[1])
+end
+
+m_AddDroppableItem(ITEM, 'Power-Up')
