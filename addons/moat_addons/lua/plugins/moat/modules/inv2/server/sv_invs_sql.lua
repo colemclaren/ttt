@@ -987,7 +987,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 						end
 					elseif (Talents[i] and Talents[i].Modifications and loadout[int].t[i] and (not loadout[int].t[i].m or loadout[int].t[i].m) and ((loadout[int].t[i].m and #Talents[i].Modifications ~= #loadout[int].t[i].m) or i ~= Talents[i].Tier or (MOAT_DROPTABLE[loadout[int].u].Talents and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random")) and (not MOAT_DROPTABLE[loadout[int].u].Talents or (MOAT_DROPTABLE[loadout[int].u].Talents and MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name))) then
 						-- print("yo", i, int, #Talents[i].Modifications ~= #loadout[int].t[i].m, i ~= Talents[i].Tier, MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random", MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name)
-						if (loadout[int].t[i].e == 2 and (loadout[int].t[i].m and #loadout[int].t[i].m == 2)) then loadout[int].t[i].e = 1 end
+						if (loadout[int].t[i].e == 2 and ((loadout[int].t[i].m and #loadout[int].t[i].m == 2) or i == 1)) then loadout[int].t[i].e = 1 end
 						if (loadout[int].t[i].e == 1 and (loadout[int].t[i].m and #loadout[int].t[i].m == 1)) then loadout[int].t[i].e = 2 end
 						if (loadout[int].t[i].e == 4) then loadout[int].t[i].e = 7 end
 						if (loadout[int].t[i].e == 26 and (loadout[int].t[i].m and #loadout[int].t[i].m == 2)) then loadout[int].t[i].e = 16 end
@@ -1186,7 +1186,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 						end
 					elseif (Talents[i] and Talents[i].Modifications and inventory_tbl[int].t[i] and (not inventory_tbl[int].t[i].m or inventory_tbl[int].t[i].m) and ((inventory_tbl[int].t[i].m and #Talents[i].Modifications ~= #inventory_tbl[int].t[i].m) or i ~= Talents[i].Tier or (MOAT_DROPTABLE[inventory_tbl[int].u].Talents and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random")) and (not MOAT_DROPTABLE[inventory_tbl[int].u].Talents or (MOAT_DROPTABLE[inventory_tbl[int].u].Talents and MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name))) then
 						-- print("yo", i, int, #Talents[i].Modifications ~= #inventory_tbl[int].t[i].m, i ~= Talents[i].Tier, MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random", MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name)
-						if (inventory_tbl[int].t[i].e == 2 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2)) then inventory_tbl[int].t[i].e = 1 end
+						if (inventory_tbl[int].t[i].e == 2 and ((inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2) or i == 1)) then inventory_tbl[int].t[i].e = 1 end
 						if (inventory_tbl[int].t[i].e == 1 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 1)) then inventory_tbl[int].t[i].e = 2 end
 						if (inventory_tbl[int].t[i].e == 4) then inventory_tbl[int].t[i].e = 7 end
 						if (inventory_tbl[int].t[i].e == 26 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2)) then inventory_tbl[int].t[i].e = 16 end
