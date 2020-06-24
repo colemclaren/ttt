@@ -31,6 +31,7 @@ function m_GetRandomTalent(talent_lvl, talent_name, talent_melee)
         for k, v in RandomPairs(MOAT_TALENTS) do
             if (talent_lvl == v.Tier and v.NotUnique) then
 				if (talent_melee and not v.Melee) then continue end
+				if (not talent_melee and v.MeleeOnly) then continue end
                 talent_tbl = table.Copy(v)
                 break
             end
@@ -273,40 +274,32 @@ function meta:m_DropInventoryItem(cmd_item, cmd_class, drop_cosmetics, delay_le_
                 dropped_item.w = item_to_drop.WeaponClass
             end
 
-            if (math.random(2) == 1) then
-                dropped_item.s.l = 1
-                dropped_item.s.x = 0
-                dropped_item.t = {}
-                local talents_chosen = {}
-                local talents_to_loop = {"random"}
-				
-				if (math.random(3) == 1) then
-					table.insert(talents_to_loop, "random")
-					if (math.random(5) == 1) then
-						table.insert(talents_to_loop, "random")
-					end
+			dropped_item.s.l = 1
+			dropped_item.s.x = 0
+			dropped_item.t = {}
+			local talents_chosen = {}
+			local melee_talents = item_to_drop.Talents or {}
+			local talents_to_loop = {melee_talents[1] or "random", melee_talents[2] or "random", melee_talents[3] or "random"}
+
+			if (dev_talent_tbl) then
+				talents_to_loop = dev_talent_tbl
+			end
+
+			for k, v in ipairs(talents_to_loop) do
+				talents_chosen[k] = m_GetRandomTalent(k, v, true)
+			end
+
+			for i = 1, table.Count(talents_chosen) do
+				local talent_tbl = talents_chosen[i]
+				dropped_item.t[i] = {}
+				dropped_item.t[i].e = talent_tbl.ID
+				dropped_item.t[i].l = math.random(talent_tbl.LevelRequired and talent_tbl.LevelRequired.min or (talent_tbl.Tier * 10), talent_tbl.LevelRequired and talent_tbl.LevelRequired.max or (talent_tbl.Tier * 20))
+				dropped_item.t[i].m = {}
+
+				for k, v in ipairs(talent_tbl.Modifications) do
+					dropped_item.t[i].m[k] = math.Round(math.Rand(0, 1), 2)
 				end
-
-				if (dev_talent_tbl) then
-					talents_to_loop = dev_talent_tbl
-				end
-
-                for k, v in ipairs(talents_to_loop) do
-                    talents_chosen[k] = m_GetRandomTalent(k, v, true)
-                end
-
-                for i = 1, table.Count(talents_chosen) do
-                    local talent_tbl = talents_chosen[i]
-                    dropped_item.t[i] = {}
-                    dropped_item.t[i].e = talent_tbl.ID
-                    dropped_item.t[i].l = math.random(talent_tbl.LevelRequired and talent_tbl.LevelRequired.min or (talent_tbl.Tier * 10), talent_tbl.LevelRequired and talent_tbl.LevelRequired.max or (talent_tbl.Tier * 20))
-                    dropped_item.t[i].m = {}
-
-                    for k, v in ipairs(talent_tbl.Modifications) do
-                        dropped_item.t[i].m[k] = math.Round(math.Rand(0, 1), 2)
-                    end
-                end
-            end
+			end
         elseif ((item_to_drop.Kind == "Power-Up" or item_to_drop.Kind == "Special" or item_to_drop.Kind == "Usable") and item_to_drop.Stats) then
             dropped_item.s = {}
 
