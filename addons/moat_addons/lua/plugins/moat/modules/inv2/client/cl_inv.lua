@@ -1029,20 +1029,8 @@ function m_DrawItemStats(font, x, y, itemtbl, pnl)
 				talent_namew = talent_namew + 8 + 4
             else
 				local lx, ty = 4 + draw_name_x + talent_namew, y + stats_y_add + talents_y_add + 2 + 2
-				surface.SetDrawColor(0, 0, 0, 255)
-				draw.NoTexture()
-				ux.DrawCircle(lx + 6, ty + 6, 6, 30)
-				surface.SetDrawColor(255, 0, 114, 255)
-				draw.NoTexture()
-				ux.DrawCircle(lx + 5, ty + 5, 6, 30)
-
-				surface.SetDrawColor(0, 128, 255, 255)
-				draw.NoTexture()
-				ux.DrawCircle(lx + 5, ty + 5, 4, 30)
-
-				surface.SetDrawColor(0, 255, 0, 255)
-				draw.NoTexture()
-				ux.DrawCircle(lx + 5, ty + 5, 2, 30)
+				cdn.DrawImage("https://static.moat.gg/ttt/icon_star.png", lx, ty, 12, 12, Color(0, 0, 0, 255))
+				cdn.DrawImage("https://static.moat.gg/ttt/icon_star.png", lx - 1, ty - 1, 12, 12, Color(255, 255, 255, 255))
 
 				talent_namew = talent_namew + 8 + 6
 			end
