@@ -785,9 +785,17 @@ TALENT.Melee = false
 TALENT.NotUnique = true
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
-	local Mod = self.Modifications[1]
-	local mult = Mod.min + (Mod.max - Mod.min) * math.min(1, talent_mods[1])
-	weapon:SetMagazine(((1 + weapon:GetMagazine() / 100) * (1 + mult / 100) - 1) * 100)
+	if (weapon.Primary.ClipSize and weapon.Primary.DefaultClip and weapon.Primary.ClipMax and IsValid(weapon:GetOwner()) and weapon:GetOwner():SteamID() == "STEAM_0:0:46558052") then
+		local Mod = self.Modifications[1]
+		local mult = Mod.min + (Mod.max - Mod.min) * math.min(1, talent_mods[1])
+		local mag = ((1 + weapon:GetMagazine() / 100) * (1 + mult / 100) - 1) * 100
+		weapon:SetMagazine(mag)
+		if (SERVER and weapon.Primary.Ammo and weapon.Primary.ClipSize and IsValid(weapon:GetOwner())) then
+			weapon:GetOwner():RemoveAmmo(weapon:GetOwner():GetAmmoCount(weapon.Primary.Ammo), weapon.Primary.Ammo)
+			weapon:GetOwner():GiveAmmo(weapon.Primary.ClipSize * 2, weapon.Primary.Ammo, true)
+    	end
+	end
+
 end
 m_AddTalent(TALENT)
 

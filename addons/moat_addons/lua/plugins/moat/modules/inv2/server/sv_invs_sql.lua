@@ -989,7 +989,8 @@ function m_LoadInventoryForPlayer(ply, cb)
 						-- print("yo", i, int, #Talents[i].Modifications ~= #loadout[int].t[i].m, i ~= Talents[i].Tier, MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= "random", MOAT_DROPTABLE[loadout[int].u].Talents[i] ~= Talents[i].Name)
 						if (loadout[int].t[i].e == 2 and ((loadout[int].t[i].m and #loadout[int].t[i].m == 2) or i == 1)) then loadout[int].t[i].e = 1 end
 						if (loadout[int].t[i].e == 1 and (loadout[int].t[i].m and #loadout[int].t[i].m == 1)) then loadout[int].t[i].e = 2 end
-						if (loadout[int].t[i].e == 4) then loadout[int].t[i].e = 7 end
+						if (loadout[int].t[i].e == 4 and i == 2) then loadout[int].t[i].e = 7 end
+						if (loadout[int].t[i].e == 7 and i == 1) then loadout[int].t[i].e = 4 end
 						if (loadout[int].t[i].e == 26 and (loadout[int].t[i].m and #loadout[int].t[i].m == 2)) then loadout[int].t[i].e = 16 end
 						if (loadout[int].t[i].e == 16 and (loadout[int].t[i].m and #loadout[int].t[i].m == 3)) then loadout[int].t[i].e = 26 end
 						if (loadout[int].t[i].e == 34 and (loadout[int].t[i].m and #loadout[int].t[i].m == 2)) then loadout[int].t[i].e = 37 end
@@ -1188,7 +1189,8 @@ function m_LoadInventoryForPlayer(ply, cb)
 						-- print("yo", i, int, #Talents[i].Modifications ~= #inventory_tbl[int].t[i].m, i ~= Talents[i].Tier, MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= "random", MOAT_DROPTABLE[inventory_tbl[int].u].Talents[i] ~= Talents[i].Name)
 						if (inventory_tbl[int].t[i].e == 2 and ((inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2) or i == 1)) then inventory_tbl[int].t[i].e = 1 end
 						if (inventory_tbl[int].t[i].e == 1 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 1)) then inventory_tbl[int].t[i].e = 2 end
-						if (inventory_tbl[int].t[i].e == 4) then inventory_tbl[int].t[i].e = 7 end
+						if (inventory_tbl[int].t[i].e == 4 and i == 2) then inventory_tbl[int].t[i].e = 7 end
+						if (inventory_tbl[int].t[i].e == 7 and i == 1) then inventory_tbl[int].t[i].e = 4 end
 						if (inventory_tbl[int].t[i].e == 26 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2)) then inventory_tbl[int].t[i].e = 16 end
 						if (inventory_tbl[int].t[i].e == 16 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 3)) then inventory_tbl[int].t[i].e = 26 end
 						if (inventory_tbl[int].t[i].e == 34 and (inventory_tbl[int].t[i].m and #inventory_tbl[int].t[i].m == 2)) then inventory_tbl[int].t[i].e = 37 end

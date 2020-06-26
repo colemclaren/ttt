@@ -468,8 +468,9 @@ function MOAT_LOADOUT.GivePlayerLoadout(ply, pri_wep, sec_wep, melee_wep, poweru
                 net = sent
             }
 
-            if (wpn_tbl.Primary.Ammo and wpn_tbl.Primary.ClipSize and ply:GetAmmoCount(wpn_tbl.Primary.Ammo) < wpn_tbl.Primary.ClipSize) then
-                -- ply:GiveAmmo(add_ammo, wpn_tbl.Primary.Ammo, true)
+			if ((not v.s or (v.s and not v.s.m)) and wpn_tbl.Primary.Ammo and wpn_tbl.Primary.ClipSize and IsValid(v3:GetOwner())) then
+				v3:SetClip1(wpn_tbl.Primary.ClipSize)
+				ply:GiveAmmo(wpn_tbl.Primary.ClipSize * 2, wpn_tbl.Primary.Ammo, true)
             end
 
             v.item = item_old
