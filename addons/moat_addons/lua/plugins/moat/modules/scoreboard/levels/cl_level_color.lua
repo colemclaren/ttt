@@ -12,7 +12,7 @@ end
 net.Receive("Moat.LevelColor", MOAT_LEVELS.LoadColor)
 
 local MOAT_LEVELS_BG
-local gradient_d = Material("vgui/gradient_d")
+local gradient_d = Material("vgui/gradient-d")
 function MOAT_LEVELS.OpenTitleMenu()
     if (MOAT_LEVELS_BG) then
         MOAT_LEVELS_BG:Remove()
@@ -125,7 +125,7 @@ function MOAT_LEVELS.OpenTitleMenu()
         elseif (tfx == "Fire") then
             m_DrawFireText(7, text_str, font, draw_x, draw_y, col)
         elseif (tfx == "Bounce") then
-            m_DrawBouncingText(text_str, font, draw_x, draw_y, col)
+            DrawBouncingText(3, 3, text_str, font, draw_x, draw_y, col)
         elseif (tfx == "Enchanted") then
             m_DrawEnchantedText(text_str, font, draw_x, draw_y, col, Color(127, 0, 255))
         elseif (tfx == "Electric") then

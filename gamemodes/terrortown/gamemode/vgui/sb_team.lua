@@ -42,9 +42,9 @@ local function CompareScore(pa, pb)
     local b = pb:GetPlayer()
     if not IsValid(a) then return false end
     if not IsValid(b) then return true end
-    if a:GetNW2Float("karma", 1000) == b:GetNW2Float("karma", 1000) then return a:GetNW2Int("MOAT_STATS_XP", 0) < b:GetNW2Int("MOAT_STATS_XP", 0) end
+	if a:GetNW2Int("MOAT_STATS_LVL", 1) == b:GetNW2Int("MOAT_STATS_LVL", 1) then return a:GetNW2Int("MOAT_STATS_XP", 0) < b:GetNW2Int("MOAT_STATS_XP", 0) end
 
-    return a:GetNW2Float("karma", 1000) > b:GetNW2Float("karma", 1000)
+    return a:GetNW2Int("MOAT_STATS_LVL", 1) > b:GetNW2Int("MOAT_STATS_LVL", 1)
 end
 
 local PANEL = {}

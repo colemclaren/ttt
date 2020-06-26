@@ -476,7 +476,7 @@ function m_DrawFireText(rarity, text, font, x, y, color, xalign, yalign, enable_
     end
 
     local yellow_col = (math.abs(math.sin((RealTime() - (1 * 0.1)) * 1)) * 255)
-    m_DrawGlowingText(true, text, font, x, y, color, xalign, yalign, true, true)
+    m_DrawGlowingText(true, text, font, x, y, color, xalign, yalign, false, true)
     DrawText(text, font, x + 1, y + 1, Color(0, 0, 0), xalign, yalign, true)
     DrawText(text, font, x, y, color, xalign, yalign)
 end

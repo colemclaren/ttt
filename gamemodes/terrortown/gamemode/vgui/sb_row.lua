@@ -393,11 +393,12 @@ function PANEL:LayoutColumns()
             local num_mod = tonumber( v:GetText() )
 			if (num_mod) then
 				local col = moat_levels[1]
-
+				v.Ply = self:GetPlayer()
+				v:SizeToContents()
+    			v:SetContentAlignment(5)
 				if (num_mod >= 100) then
 					col = Color(0, 0, 0, 0)
-					v:SetWide(50)
-					v.Ply = self:GetPlayer()
+					if (not v.OldPaint) then v.OldPaint = v.Paint end
 					v.Paint = function(s, w, h)
 						local text_str, font, draw_x, draw_y, col, tfx = s:GetText(), "treb_small", w/2, h/2, Color(255, 255, 255), "Normal"
 
@@ -413,13 +414,13 @@ function PANEL:LayoutColumns()
 						draw_x = draw_x - (txw/2)
 						draw_y = draw_y - (txh/2)
 
-						DisableClipping(true)
+						-- DisableClipping(true)
 						if (tfx == "Glow") then
 							m_DrawGlowingText(false, text_str, font, draw_x, draw_y, col)
 						elseif (tfx == "Fire") then
 							m_DrawFireText(7, text_str, font, draw_x, draw_y, col)
 						elseif (tfx == "Bounce") then
-							m_DrawBouncingText(text_str, font, draw_x, draw_y, col)
+							DrawBouncingText(3, 3, text_str, font, draw_x, draw_y, col)
 						elseif (tfx == "Enchanted") then
 							m_DrawEnchantedText(text_str, font, draw_x, draw_y, col, Color(127, 0, 255))
 						elseif (tfx == "Electric") then
@@ -433,25 +434,34 @@ function PANEL:LayoutColumns()
 
 							draw.SimpleText(text_str, font, w/2, h/2, col, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 						end
-						DisableClipping(false)
+						-- DisableClipping(false)
 					end
                 elseif (num_mod >= 90) then
+					if (v.OldPaint) then v.Paint = v.OldPaint v.OldPaint = nil end
                     col = moat_levels[10]
                 elseif (num_mod >= 80) then
+					if (v.OldPaint) then v.Paint = v.OldPaint v.OldPaint = nil end
                     col = moat_levels[9]
                 elseif (num_mod >= 70) then
+					if (v.OldPaint) then v.Paint = v.OldPaint v.OldPaint = nil end
                     col = moat_levels[8]
                 elseif (num_mod >= 60) then
+					if (v.OldPaint) then v.Paint = v.OldPaint v.OldPaint = nil end
                     col = moat_levels[7]
                 elseif (num_mod >= 50) then
+					if (v.OldPaint) then v.Paint = v.OldPaint v.OldPaint = nil end
                     col = moat_levels[6]
                 elseif (num_mod >= 40) then
+					if (v.OldPaint) then v.Paint = v.OldPaint v.OldPaint = nil end
                     col = moat_levels[5]
                 elseif (num_mod >= 30) then
+					if (v.OldPaint) then v.Paint = v.OldPaint v.OldPaint = nil end
                     col = moat_levels[4]
                 elseif (num_mod >= 20) then
+					if (v.OldPaint) then v.Paint = v.OldPaint v.OldPaint = nil end
                     col = moat_levels[3]
                 elseif (num_mod >= 10) then
+					if (v.OldPaint) then v.Paint = v.OldPaint v.OldPaint = nil end
                     col = moat_levels[2]
                 end
 
