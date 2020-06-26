@@ -269,7 +269,7 @@ function PANEL:PerformLayout()
 	h = math.Clamp(h, 110 - h_logo_off, ScrH() * 0.95)
 	local w = math.max(ScrW() * 0.6, 750)
 	self:SetSize(w, h)
-	self:SetPos((ScrW() - w) / 2, math.min(92, (ScrH() - h) / 4))
+	self:SetPos((ScrW() - w) / 2, math.min(110, (ScrH() - h) / 2))
 	self.ply_frame:SetPos(8, 109 - h_logo_off)
 	self.ply_frame:SetSize(self:GetWide() - 16, self:GetTall() - 109 - 5 + h_logo_off)
 	-- server stuff
