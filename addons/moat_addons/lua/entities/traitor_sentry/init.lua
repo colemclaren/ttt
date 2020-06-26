@@ -73,7 +73,7 @@ function ENT:Think()
     local target
 
     for i = 1, #tbl do
-        if tbl[i]:Team() ~= TEAM_SPECTATOR and (TEAM_SPEC and tbl[i]:Team() ~= TEAM_SPEC or true) and not tbl[i]:IsTraitor() and tbl[i]:Alive() and tbl[i]:GetPos():Distance(pos) < sentryRange and self:GetForward():Dot((tbl[i]:GetPos() -self:GetPos()):GetNormalized()) >= math.cos(math.rad(75)) then
+        if tbl[i]:Team() ~= TEAM_SPECTATOR and (TEAM_SPEC and tbl[i]:Team() ~= TEAM_SPEC or true) and not tbl[i]:IsTraitor() and tbl[i]:Alive() and tbl[i]:GetPos():Distance(pos) < sentryRange and tbl[i]:Visible(self) and self:GetForward():Dot((tbl[i]:GetPos() -self:GetPos()):GetNormalized()) >= math.cos(math.rad(75)) then
 			target = tbl[i]
 	
 			if (not IsValid(self.Target) or (IsValid(self.Target) and self.Target ~= tbl[i])) then

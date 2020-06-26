@@ -1839,7 +1839,7 @@ function jackpot_()
                             if (s.time_end ~= 0 ) and (jp_broad ~= s.time_end) then
                                 net.Start("jackpot.info")
                                 net.WriteBool(true)
-                                local f = s.time_end - d.ostime
+                                local f = s.time_end - s.ostime
                                 net.WriteInt(CurTime() + f,32)
                                 net.Broadcast()
                                 jp_broad = s.time_end
@@ -1857,7 +1857,7 @@ function jackpot_()
                                     end
                                 end
                             end
-                            if ((s.time_end + (server_id*10)) < d.ostime) and (s.time_end ~= 0) and (not s.cool) and (not jp_know) then--va
+                            if ((s.time_end + (server_id*10)) < s.ostime) and (s.time_end ~= 0) and (not s.cool) and (not jp_know) then--va
                                 for k,v in pairs(p) do
                                     if v.winner then
                                         return
@@ -1905,7 +1905,7 @@ function jackpot_()
                                 local q = db:query("UPDATE `moat_jpgames` SET cool = '1', time_end = UNIX_TIMESTAMP() + " .. anim_time .. " WHERE ID = '" .. s.ID .. "';")
                                 q:start()
                             end
-                            if tonumber(s.cool) == 1 and ((s.time_end + (server_id*10) ) < d.ostime ) and (s.active == 1) and (s.time_end ~= 0)  then
+                            if tonumber(s.cool) == 1 and ((s.time_end + (server_id*10) ) < s.ostime ) and (s.active == 1) and (s.time_end ~= 0)  then
                                 local q = db:query("DROP TABLE moat_jpplayers;")
                                 q:start()
                                 local q = db:query("UPDATE moat_jpgames SET active = '0';")
@@ -1924,7 +1924,7 @@ function jackpot_()
                                 if tonumber(s.time_end) ~= 0 then 
                                     net.Start("jackpot.info")
                                     net.WriteBool(true)
-                                    local f = s.time_end - d.ostime
+                                    local f = s.time_end - s.ostime
                                     net.WriteInt(CurTime() + f,32)
                                     net.Broadcast()
                                     jp_down = true 
@@ -2105,7 +2105,7 @@ local function chat_()
                     net.Start("Moat.JackpotWin")
                     net.WriteString(t[1])
                     net.WriteInt(t[2],32)
-                    net.WriteUInt(t[3], 32)
+                    net.WriteDouble(t[3])
                     net.Broadcast()
                 elseif tostring(v.steamid) == "-420" then
                     local t = string.Explode("{420}",v.msg)
