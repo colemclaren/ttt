@@ -1131,7 +1131,7 @@ function jackpot_()
         q:start()
     end
 
-    function versus_joingame(ply,sid,fun)
+    function versus_joingame(ply,sid,amt)
         versus_getgame(sid,function(d)
             if not IsValid(ply) then return end
             ply.VersT[sid] = false
@@ -1155,7 +1155,7 @@ function jackpot_()
                 m_AddGambleChatPlayer(ply, Color(255, 0, 0), "You don't have enough IC to gamble that much!")
                 return
             end
-            if tonumber(versus_curgames[sid][1]) ~= tonumber(d.money) then
+            if tonumber(versus_curgames[sid][1]) ~= tonumber(d.money) or tonumber(versus_curgames[sid][1]) ~= amt or tonumber(d.money) ~= amt then
                 net.Start("gversus.CreateGame")
                 net.WriteString(sid)
                 net.WriteDouble(d.money)
@@ -1300,6 +1300,7 @@ function jackpot_()
         if versus_block then return end
 	    if (gamble_net_spam(ply, "gversus.JoinGame")) then return end
         local sid = net.ReadString()
+		local amt = math.floor(net.ReadDouble())
         if (versus_joins[sid]) then return end
         if not sid:match("765") then return end
         if sid == ply:SteamID64() then return end
@@ -1315,7 +1316,7 @@ function jackpot_()
         if (ply.VersT[sid]) then return end
         ply.VersT[sid] = true
         versus_joins[sid] = true
-        versus_joingame(ply,sid)
+        versus_joingame(ply,sid, amt)
     end)
 
     net.Receive("gversus.CreateGame",function(l,ply)
@@ -1364,8 +1365,7 @@ function jackpot_()
                 end
 
                 removeIC(ply, amount)
-                versus_curgames[id] = {}
-                versus_curgames[id][1] = amount
+                versus_curgames[id] = {[1] = amount}
                 net.Start("gversus.CreateGame")
                 net.WriteString(id)
                 net.WriteDouble(amount)
@@ -1541,7 +1541,7 @@ function jackpot_()
 
     function gglobalchat_jack(name,ic,percent)
         local s = name .. "{forsenE}" .. ic .. "{forsenE}" .. percent
-        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-1000','" .. os.time() .. "','Console','" .. db:escape(s) .. "');")
+        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-1000',UNIX_TIMESTAMP(),'Console','" .. db:escape(s) .. "');")
         q:start()
     end
 
@@ -1550,13 +1550,13 @@ function jackpot_()
             return
         end
         local s = name .. "{420}" .. gun
-        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-420','" .. os.time() .. "','Console','" .. db:escape(s) .. "');")
+        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-420',UNIX_TIMESTAMP(),'Console','" .. db:escape(s) .. "');")
         q:start()
     end
 
     function gglobalchat_lottery(num,amount,winners)
         local s =  num .. "{f0}" .. amount .. "{f0}" .. winners
-        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-10','" .. os.time() .. "','Console','" .. db:escape(s) .. "');")
+        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-10',UNIX_TIMESTAMP(),'Console','" .. db:escape(s) .. "');")
         q:start()
     end
 
@@ -1575,7 +1575,7 @@ function jackpot_()
     local q = db:query("CREATE TABLE IF NOT EXISTS `moat_jpwinners` ( `steamid` varchar(255) NOT NULL, `money` TEXT NOT NULL, PRIMARY KEY (steamid) ) ")
     q:start()
     local server_id = 1
-    local q = db:query("SELECT * FROM moat_jpservers;")
+    local q = db:query("SELECT *, UNIX_TIMESTAMP() AS ostime FROM moat_jpservers;")
     function q:onSuccess(d)
         if #d > 0 then
             local f = false
@@ -1600,7 +1600,7 @@ function jackpot_()
 
     local function getactive(fun)
        -- --print("Getactive")
-        local q = db:query("SELECT * FROM `moat_jpgames` WHERE active = '1';")
+        local q = db:query("SELECT *, UNIX_TIMESTAMP() AS ostime FROM `moat_jpgames` WHERE active = '1';")
         function q:onSuccess(d)
           --  --print("Getactive success") 
             fun(#d > 0,d)
@@ -1612,7 +1612,7 @@ function jackpot_()
     end
 
     local function getplayers(fun)
-        local q = db:query("SELECT * FROM `moat_jpplayers`;")
+        local q = db:query("SELECT *, UNIX_TIMESTAMP() AS ostime FROM `moat_jpplayers`;")
         function q:onSuccess(d)
             fun(d)
           --  --print("GetPlayers")
@@ -1739,7 +1739,7 @@ function jackpot_()
             if tonumber(d.time_end) ~= 0 then
                 net.Start("jackpot.info")
                 net.WriteBool(true)
-                local f = d.time_end - os.time()
+                local f = d.time_end - d.ostime
                 net.WriteInt(CurTime() + f,32)
                 net.Send(ply)
             end
@@ -1758,15 +1758,15 @@ function jackpot_()
     local jp_broad = false
     local jp_rewarding = false
     local jp_rewards = {}
-    timer.Create("JPGrand",5,0,function()
+    timer.Create("JPGrand",10,0,function()
         if GG_DISABLE:GetBool() then return end
         local q = db:query("SELECT * FROM moat_jpwinners;")
         function q:onSuccess(p)
             --print("Winmners",#p)
             if #p < 1 then return end
-            for k,v in pairs(p) do
+            for k,v in ipairs(p) do
                 local vp = player.GetBySteamID64(v.steamid)
-                if vp then
+                if IsValid(vp) then
                     if (jp_rewards[vp] or 0) > CurTime() then continue end
                     jp_rewards[vp] = CurTime() + 80
                     --print("Fouind winner")
@@ -1803,7 +1803,7 @@ function jackpot_()
                 jp_down = true
                 net.Start("jackpot.info")
                 net.WriteBool(true)
-                local f = d.time_end - os.time()
+                local f = d.time_end - d.ostime
                 net.WriteInt(CurTime() + f,32)
                 net.Broadcast()
             end
@@ -1839,7 +1839,7 @@ function jackpot_()
                             if (s.time_end ~= 0 ) and (jp_broad ~= s.time_end) then
                                 net.Start("jackpot.info")
                                 net.WriteBool(true)
-                                local f = s.time_end - os.time()
+                                local f = s.time_end - d.ostime
                                 net.WriteInt(CurTime() + f,32)
                                 net.Broadcast()
                                 jp_broad = s.time_end
@@ -1857,7 +1857,7 @@ function jackpot_()
                                     end
                                 end
                             end
-                            if ((s.time_end + (server_id*10)) < os.time()) and (s.time_end ~= 0) and (not s.cool) and (not jp_know) then--va
+                            if ((s.time_end + (server_id*10)) < d.ostime) and (s.time_end ~= 0) and (not s.cool) and (not jp_know) then--va
                                 for k,v in pairs(p) do
                                     if v.winner then
                                         return
@@ -1902,10 +1902,10 @@ function jackpot_()
                                 net.Start("jackpot.win")
                                 net.WriteString(jp_w)
                                 net.Broadcast()
-                                local q = db:query("UPDATE `moat_jpgames` SET cool = '1', time_end = '" .. os.time() + anim_time .. "' WHERE ID = '" .. s.ID .. "';")
+                                local q = db:query("UPDATE `moat_jpgames` SET cool = '1', time_end = UNIX_TIMESTAMP() + " .. anim_time .. " WHERE ID = '" .. s.ID .. "';")
                                 q:start()
                             end
-                            if tonumber(s.cool) == 1 and ((s.time_end + (server_id*10) ) < os.time() ) and (s.active == 1) and (s.time_end ~= 0)  then
+                            if tonumber(s.cool) == 1 and ((s.time_end + (server_id*10) ) < d.ostime ) and (s.active == 1) and (s.time_end ~= 0)  then
                                 local q = db:query("DROP TABLE moat_jpplayers;")
                                 q:start()
                                 local q = db:query("UPDATE moat_jpgames SET active = '0';")
@@ -1924,15 +1924,15 @@ function jackpot_()
                                 if tonumber(s.time_end) ~= 0 then 
                                     net.Start("jackpot.info")
                                     net.WriteBool(true)
-                                    local f = s.time_end - os.time()
+                                    local f = s.time_end - d.ostime
                                     net.WriteInt(CurTime() + f,32)
                                     net.Broadcast()
                                     jp_down = true 
                                     return 
                                 end
                                 --print("Setting time: " .. (os.time() + 120))
-                                local t = os.time() + 120--va
-                                local q = db:query("UPDATE `moat_jpgames` SET time_end = '" .. t .. "' WHERE ID = '" .. s.ID .. "';")
+                                local t = 120--va
+                                local q = db:query("UPDATE `moat_jpgames` SET time_end = UNIX_TIMESTAMP() + " .. t .. " WHERE ID = '" .. s.ID .. "';")
                                 q:start()
                                 net.Start("jackpot.info")
                                 net.WriteBool(true)
@@ -1965,7 +1965,7 @@ local function chat_()
 
     function gglobalchat(ply,msg)
         if (ply.gChat or 0) > CurTime() then return end
-        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('" .. ply:SteamID64() .. "','" .. os.time() .. "','" .. utf8.force(db:escape(ply:Nick())) .. "','" .. db:escape(msg) .. "');")
+        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('" .. ply:SteamID64() .. "',UNIX_TIMESTAMP(),'" .. utf8.force(db:escape(ply:Nick())) .. "','" .. db:escape(msg) .. "');")
         q:start()
         local msg = "" .. ply:Nick() .. " (" .. ply:SteamID() .. ") said in global gamble: " .. msg
 		discord.Send("Gamble Chat", msg)
@@ -1973,7 +1973,7 @@ local function chat_()
     end
 
     function gglobalchat_real(msg)
-        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-1337','" .. os.time() .. "','Console','" .. db:escape(msg) .. "');")
+        local q = db:query("INSERT INTO moat_gchat (steamid,time,name,msg) VALUES ('-1337',UNIX_TIMESTAMP(),'Console','" .. db:escape(msg) .. "');")
         q:start()
 
         if msg == "[MapVote]" then
@@ -2021,7 +2021,7 @@ local function chat_()
 
 
     local function getlatestmessages(fun)
-        local q = db:query("SELECT * FROM `moat_gchat` WHERE time > '" .. os.time() - 10 .. "';")
+        local q = db:query("SELECT * FROM `moat_gchat` WHERE time > (UNIX_TIMESTAMP() - 10);")
         function q:onSuccess(d)
             fun(d)
         end

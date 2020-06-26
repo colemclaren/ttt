@@ -236,7 +236,7 @@ function m_CreateGamblePanel(pnl_x, pnl_y, pnl_w, pnl_h)
 		{"Versus", Color(0, 255, 255)},
 		{"Blackjack", Color(255, 255, 0)},
 		{"Roulette", Color(255, 0, 50)},
-		-- {"Jackpot", Color(0, 255, 0)},
+		{"Jackpot", Color(0, 255, 0)},
 		{"Mines", Color(150, 0, 255)}
 	}
     local CAT_WIDTHS = 0
@@ -4629,12 +4629,14 @@ function m_DrawVersusPanel()
 								Derma_Query("Are you sure you want to gamble more than 25% of your IC?\nNever gamble anything you can't afford to lose.", "Are you sure?", "Yes", function() 
 									net.Start("gversus.JoinGame")
 									net.WriteString(k)
+									net.WriteDouble(v[2])
 									net.SendToServer()
 									versus_seen_last = true
 								end, "No")
 							else
 								net.Start("gversus.JoinGame")
 								net.WriteString(k)
+								net.WriteDouble(v[2])
 								net.SendToServer()
 								versus_seen_last = true
 							end
@@ -4815,12 +4817,14 @@ function m_DrawVersusPanel()
 							Derma_Query("Are you sure you want to gamble more than 25% of your IC?\nNever gamble anything you can't afford to lose.", "Are you sure?", "Yes", function() 
 								net.Start("gversus.JoinGame")
 								net.WriteString(k)
+								net.WriteDouble(v[2])
 								net.SendToServer()
 								versus_seen_last = true
 							end, "No")
 						else
 							net.Start("gversus.JoinGame")
 							net.WriteString(k)
+							net.WriteDouble(v[2])
 							net.SendToServer()
 							versus_seen_last = true
 						end
@@ -5501,13 +5505,13 @@ function m_ChangeGambleCategory()
 		m_RemoveRoulettePanel()
 	end
 
-	-- if (num == 4) then
-	-- 	m_DrawBlackjackPanel() -- Jackpot
-	-- else
-	-- 	m_RemoveBlackjackPanel()
-	-- end
-
 	if (num == 4) then
+		m_DrawBlackjackPanel() -- Jackpot
+	else
+		m_RemoveBlackjackPanel()
+	end
+
+	if (num == 5) then
 		m_DrawDicePanel() -- Mines
 	else
 		m_RemoveDicePanel()
