@@ -84,13 +84,12 @@ hook("EntityTakeDamage", function(pl, dmg)
 	if (not PEACE_SENTRIES or PEACE_SENTRIES < 1) then return end
 	if (not IsValid(pl) or not pl:IsPlayer()) then return end
 	local attacker = dmg:GetAttacker()
-	if (IsValid(attacker) and attacker:IsPlayer() and attacker:GetRole() ~= ROLE_DETECTIVE) then
+	if (IsValid(attacker) and attacker:IsPlayer() and attacker ~= pl and attacker:GetRole() ~= ROLE_DETECTIVE) then
 		local bone = attacker:LookupBone "ValveBiped.Bip01_Spine2"
 		if !bone then return end
 		local bonePos, boneAng = attacker:GetBonePosition(bone)
 		local tbl = ents.FindByClass "peace_sentry"
 		for i=1, #tbl do
-			print(attacker)
 			if (table.HasValue(tbl[i].Targets, attacker)) then continue end
 			if attacker != tbl[i].TurretOwner and bonePos:Distance(tbl[i]:GetPos()) < sentryRange and tbl[i]:Visible(attacker) then
 				local VNormDot = ((bonePos - tbl[i]:GetPos()):GetNormalized()):Dot(tbl[i]:GetForward())
