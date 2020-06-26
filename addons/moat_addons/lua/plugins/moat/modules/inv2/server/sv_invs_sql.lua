@@ -1367,7 +1367,7 @@ function m_LoadInventoryForPlayer(ply, cb)
 end
 
 function m_SaveInventory(ply)
-    if (not ply or not ply:IsValid()) then return end
+    if (not ply or not IsValid(ply)) then return end
     local ply_inv = table.Copy(MOAT_INVS[ply])
     local string1 = ""
     local comma1 = "',"
@@ -1492,8 +1492,10 @@ function m_LoadStats(ply)
 end
 
 hook.Add("PlayerInitialSpawn", "moat_LoadInventoryForPlayer", function(ply)
-    m_LoadInventoryForPlayer(ply)
-    m_LoadStats(ply)
+	timer.Simple(5, function()
+		m_LoadInventoryForPlayer(ply)
+    	m_LoadStats(ply)
+	end)
 end)
 
 hook.Add("MapVoteStarted", "moat_SaveInventoryForPlayer", function(ply)

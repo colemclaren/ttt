@@ -2506,8 +2506,6 @@ net.Receive("MGA.SendMaps", function()
 		MGA.Maps[i] = net.ReadString()
 	end
 
-	PrintTable(MGA.Maps)
-
 	if (MGA.CommandList) then
 		MGA.CommandList[2][4][2][4][1][3] = MGA.Maps
 	end
