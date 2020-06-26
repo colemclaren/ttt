@@ -785,7 +785,7 @@ TALENT.Melee = false
 TALENT.NotUnique = true
 
 function TALENT:ModifyWeapon(weapon, talent_mods)
-	if (weapon.Primary.ClipSize and weapon.Primary.DefaultClip and weapon.Primary.ClipMax and IsValid(weapon:GetOwner()) and weapon:GetOwner():SteamID() == "STEAM_0:0:46558052") then
+	if (weapon.Primary.ClipSize and weapon.Primary.DefaultClip and weapon.Primary.ClipMax) then
 		local Mod = self.Modifications[1]
 		local mult = Mod.min + (Mod.max - Mod.min) * math.min(1, talent_mods[1])
 		local mag = ((1 + weapon:GetMagazine() / 100) * (1 + mult / 100) - 1) * 100
