@@ -40,7 +40,7 @@ MOTD.Tabs = {
 	[1] = {"Home", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"},
 	[2] = {"Tutorial", "https://i.moat.gg/servers/ttt/motd/help.php"},
 	[3] = {"Textures", "https://moat.gg/ttt/motd/content.php"},
-	[4] = {"What's New", "https://moat.gg/news"},
+	[4] = {"What's New", "https://moat.gg/changelog"},
 	[5] = {"Store", "https://moat.gg/store", true},
 	[6] = {"Interns", "https://moat.gg/interns", true},
 	[7] = {"Support", "https://support.moat.gg/", true},
