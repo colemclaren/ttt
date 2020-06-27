@@ -40,19 +40,18 @@ MOTD.Tabs = {
 	[1] = {"Home", "https://i.moat.gg/servers/ttt/motd/rules.php?n=User"},
 	[2] = {"Tutorial", "https://i.moat.gg/servers/ttt/motd/help.php"},
 	[3] = {"Textures", "https://moat.gg/ttt/motd/content.php"},
-	[4] = {"Changes", "https://moat.gg/news"},
+	[4] = {"What's New", "https://moat.gg/news"},
 	[5] = {"Store", "https://moat.gg/store", true},
-	[6] = {"Leaderboard", "https://moat.gg/players", true},
-	[7] = {"Interns", "https://moat.gg/interns", true},
-	[8] = {"Support", "https://support.moat.gg/", true},
-	[9] = {"Close", ""},
+	[6] = {"Interns", "https://moat.gg/interns", true},
+	[7] = {"Support", "https://support.moat.gg/", true},
+	[8] = {"Close", ""},
 }
 
 function MOTD.Closable()
 	return math.ceil(cookie.GetNumber("moat_motd_wait", 0)) <= 0
 end
 
-function MOTD.Open(secs, invalid)
+function MOTD.Open(secs, invalid, changes, new_changes)
     if (IsValid(M_MOTD_BG)) then
         M_MOTD_BG:Remove()
     end
@@ -67,7 +66,7 @@ function MOTD.Open(secs, invalid)
 		end, function()
 			LocalPlayer():ConCommand("gmod_mcore_test 0")
 
-			return MOTD.Open(secs, true)
+			return MOTD.Open(secs, true, changes, new_changes)
 		end)
 
 		return
@@ -112,7 +111,7 @@ function MOTD.Open(secs, invalid)
     MOTD.w = vgui.Create("DHTML", p)
     MOTD.w:DockMargin(0, 10, 10, 10)
     MOTD.w:Dock(FILL)
-    MOTD.w:OpenURL("https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. nick)
+    MOTD.w:OpenURL(changes and "https://moat.gg/news" or ("https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. nick))
 	MOTD.w:AddFunction("console", "openurlid", function(str)
 		gui.OpenURL(str .. LocalPlayer():SteamID64())
 	end)
@@ -120,6 +119,12 @@ function MOTD.Open(secs, invalid)
 		gui.OpenURL(str)
 	end)
     local function HandleLoadingPage(html)
+		html:AddFunction("console", "openurlid", function(str)
+			gui.OpenURL(str .. LocalPlayer():SteamID64())
+		end)
+		html:AddFunction("console", "openurl", function(str)
+			gui.OpenURL(str)
+		end)
 		html.Paint = function(s, w, h)
 			if (not s.DocumentLoaded) then
         		DrawRainbowText(1, "Loading Page...", "DermaLarge", w/2, h/2, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -132,7 +137,7 @@ function MOTD.Open(secs, invalid)
 	end
 
 	HandleLoadingPage(MOTD.w)
-    MOTD.CurTab = 1
+    MOTD.CurTab = changes and 4 or 1
 
     for i = 1, #MOTD.Tabs do
         if (i == 1) then
@@ -185,10 +190,17 @@ function MOTD.Open(secs, invalid)
 
                 draw_SimpleTextOutlined(s.Label, "Trebuchet24", w/2, h/2, Color(51 + (204 * s.LerpNum), 153 + (102 * s.LerpNum), 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, 35))
             end
+
+			if (i == 4 and new_changes) then
+				DisableClipping(true)
+					cdn.SmoothImageRotated("https://static.moat.gg/ttt/new.png", w-16, -16, 32, 32, nil, math.sin(CurTime())*15,true)
+				DisableClipping(false)
+			end
         end
 		sfx.HoverSound(btn)
 		sfx.ClickSound(btn)
         btn.DoClick = function(s)
+			MOTD.Tabs[1][2] = "https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. LocalPlayer():Nick()
 			if (not MOTD.Closable()) then
 				return
 			end
@@ -218,14 +230,85 @@ function MOTD.Open(secs, invalid)
     end
 end
 
-hook("InitPostEntity", function()
+local reg = cookie.GetString "snoop_dogg_weps"
+local changes, opened = cookie.GetString "moat_changes"
+local function OpenMOTD()
 	MOTD.SpawnSettings = GetConVar "moat_disable_motd"
 
-	if (MOTD.SpawnSettings and MOTD.SpawnSettings:GetString() == "0") then
-		return MOTD.Open(0)
+	http.Fetch("https://moat.gg/api/changes", function(b)
+		local crc = util.CRC(b)
+		opened = true
+		if (not changes and not reg) then
+			if (MOTD.SpawnSettings and MOTD.SpawnSettings:GetString() == "0") then
+				MOTD.Open(0, nil, false, true)
+			elseif (not MOTD.SpawnSettings) then
+				MOTD.Open(0, nil, false, true)
+			end
+		else
+			if (MOTD.SpawnSettings and MOTD.SpawnSettings:GetString() == "0") then
+				MOTD.Open(0, nil, true, changes and changes ~= crc)
+			elseif (not MOTD.SpawnSettings) then
+				MOTD.Open(0, nil, true, changes and changes ~= crc)
+			end
+		end
+
+		cookie.Set("moat_changes", crc)
+	end, function(b)
+		opened = true 
+
+		if (MOTD.SpawnSettings and MOTD.SpawnSettings:GetString() == "0") then
+			MOTD.Open(0, nil, false, false)
+		elseif (not MOTD.SpawnSettings) then
+			MOTD.Open(0, nil, false, false)
+		end
+	end)
+end
+
+local httploaded, postentity = false, false
+hook("HTTPLoaded", function()
+	if (not opened or postentity) then
+		OpenMOTD()
+	end
+
+	if (not postentity) then
+		httploaded = true 
+	end
+end)
+
+hook("InitPostEntity", function()
+	if (not opened or httploaded) then
+		OpenMOTD()
+	end
+
+	if (not httploaded) then
+		postentity = true 
 	end
 end)
 
 net.Receive("motd", function()
-	return MOTD.Open(net.ReadInt(32))
+	local time = net.ReadInt(32)
+	http.Fetch("https://moat.gg/api/changes", function(b)
+		local crc = util.CRC(b)
+		if (not changes and not reg) then
+			if (MOTD.SpawnSettings and MOTD.SpawnSettings:GetString() == "0") then
+				MOTD.Open(time, nil, false, true)
+			elseif (not MOTD.SpawnSettings) then
+				MOTD.Open(time, nil, false, true)
+			end
+		else
+			if (MOTD.SpawnSettings and MOTD.SpawnSettings:GetString() == "0") then
+				MOTD.Open(time, nil, false, changes and changes ~= crc)
+			elseif (not MOTD.SpawnSettings) then
+				MOTD.Open(time, nil, false, changes and changes ~= crc)
+			end
+		end
+
+		cookie.Set("moat_changes", crc)
+	end, function(b)
+		if (MOTD.SpawnSettings and MOTD.SpawnSettings:GetString() == "0") then
+			MOTD.Open(time, nil, false, false)
+		elseif (not MOTD.SpawnSettings) then
+			MOTD.Open(time, nil, false, false)
+		end
+	end)
 end)

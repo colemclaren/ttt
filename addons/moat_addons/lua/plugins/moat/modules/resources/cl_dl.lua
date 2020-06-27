@@ -60,7 +60,7 @@ Content.done = false
 Content.start = 0
 
 local grad_r = Material("vgui/gradient-l")
-
+local windows = system.IsWindows()
 function Content.DrawHUD()
 	if (Content.done == true) then return end
 	if (Content.start < CurTime() and Content.done == true) then return end
@@ -138,48 +138,54 @@ function Content.DrawHUD()
 		color = Color(200, 200, 200, 255)
 	})
 	*/
-	draw.Text({
-		text = "Woah, welcome to the server! We're fixing these errors you see for you",
-		font = "moat_wdls", 
-		pos = {scrw/2 + 1, 76},
-		xalign = TEXT_ALIGN_CENTER,
-		color = Color(0, 0, 0, 255)
-	})
+	if (windows) then
+		draw.Text({
+			text = "Woah, welcome to the server! We're fixing these errors you see for you",
+			font = "moat_wdls", 
+			pos = {(scrw/2) + 1, 76},
+			xalign = TEXT_ALIGN_CENTER,
+			color = Color(0, 0, 0, 255)
+		})
+	end
 
 	draw.Text({
 		text = "Woah, welcome to the server! We're fixing these errors you see for you",
 		font = "moat_wdl", 
-		pos = {scrw/2, 75},
+		pos = {(scrw/2), 75},
 		xalign = TEXT_ALIGN_CENTER
 	})
 
-	draw.Text({
-		text = "Don't worry, you won't see errors after this!",
-		font = "moat_ItemDescShadow3", 
-		pos = {scrw/2 + 1, 101},
-		xalign = TEXT_ALIGN_CENTER,
-		color = Color(0, 0, 0, 255)
-	})
+	if (windows) then
+		draw.Text({
+			text = "Don't worry, you won't see errors after this!",
+			font = "moat_ItemDescShadow3", 
+			pos = {(scrw/2) + 1, 101},
+			xalign = TEXT_ALIGN_CENTER,
+			color = Color(0, 0, 0, 255)
+		})
+	end
 
 	draw.Text({
 		text = "Don't worry, you won't see errors after this!",
 		font = "moat_ItemDesc", 
-		pos = {scrw/2, 100},
+		pos = {(scrw/2), 100},
 		xalign = TEXT_ALIGN_CENTER
 	})
-
-	draw.Text({
-		text = "You might experience a slight stutter while we do, it's normal <3",
-		font = "moat_ItemDescShadow3", 
-		pos = {scrw/2 + 1, 176},
-		xalign = TEXT_ALIGN_CENTER,
-		color = Color(0, 0, 0, 255)
-	})
+	
+	if (windows) then
+		draw.Text({
+			text = "You might experience a slight stutter while we do, it's normal <3",
+			font = "moat_ItemDescShadow3", 
+			pos = {(scrw/2) + 1, 176},
+			xalign = TEXT_ALIGN_CENTER,
+			color = Color(0, 0, 0, 255)
+		})
+	end
 
 	draw.Text({
 		text = "You might experience a slight stutter while we do, it's normal <3",
 		font = "moat_ItemDesc", 
-		pos = {scrw/2, 175},
+		pos = {(scrw/2), 175},
 		xalign = TEXT_ALIGN_CENTER,
 	})
 end
