@@ -109,11 +109,16 @@ function MOTD.Open(secs, invalid)
     c.Paint = function(s, w, h)
         cdn.DrawImage("https://static.moat.gg/f/JoVQapGqtskHBJkPCLbEaoIOosuF.png", 35, 35, 256, 256)
     end
-
     MOTD.w = vgui.Create("DHTML", p)
     MOTD.w:DockMargin(0, 10, 10, 10)
     MOTD.w:Dock(FILL)
     MOTD.w:OpenURL("https://i.moat.gg/servers/ttt/motd/rules.php?n=" .. nick)
+	MOTD.w:AddFunction("console", "openurlid", function(str)
+		gui.OpenURL(str .. LocalPlayer():SteamID64())
+	end)
+	MOTD.w:AddFunction("console", "openurl", function(str)
+		gui.OpenURL(str)
+	end)
     local function HandleLoadingPage(html)
 		html.Paint = function(s, w, h)
 			if (not s.DocumentLoaded) then
