@@ -1,5 +1,5 @@
 -- todo replace relay
-moat.cfg.webhook = "http://208.103.169.40:5069/"
+moat.cfg.webhook = "http://208.103.169.40:5059/"
 moat.cfg.oldwebhook = "http://107.191.51.43:3000/"
 
 moat.cfg.discord = {
