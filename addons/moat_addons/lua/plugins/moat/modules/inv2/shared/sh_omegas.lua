@@ -111,7 +111,7 @@ function MOAT_OMEGAS.Add(id, name, desc, image, ball_rarity, mask_rarity, skin_r
         tbl.Rarity = omega.Rarity
         tbl.Image = omega.Image
 		tbl.Attachment = "eyes"
-		tbl.Model = "models/moat/mg_omega_mask4.mdl"
+		tbl.Model = "models/moat/mg_meme_mask4.mdl"
 		tbl.WeaponClass = "weapon_ttt_bouncy_" .. omega.Name:lower()
 
 		function tbl:ModifyClientsideModel(pl, model, pos, ang)
