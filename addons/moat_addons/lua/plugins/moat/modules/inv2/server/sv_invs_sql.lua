@@ -490,16 +490,15 @@ function m_SendInventoryToPlayer(ply)
 		return
 	end
 
-	ply.Sending = true
-
     local ply_inv = table.Copy(MOAT_INVS[ply])
 
     if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then
         m_LoadInventoryForPlayer(ply)
-
+		ply.Sending = false
         return
     end
 
+	ply.Sending = true
     local Sent = SysTime()
     ply.LastSent = Sent
 
@@ -573,16 +572,15 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
 		return
 	end
 
-	ply.Sending = true
-
     local ply_inv = table.Copy(MOAT_INVS[ply])
 
     if (not ply_inv or (ply_inv and not ply_inv["slot1"])) then
         m_LoadInventoryForPlayer(ply)
-
+		ply.Sending = false
         return
     end
 
+	ply.Sending = true
     local Sent = SysTime()
     ply.LastSent = Sent
 
