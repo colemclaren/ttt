@@ -1377,8 +1377,8 @@ ITEM.Active = true
 
 ITEM.Stackable = true
 
-ITEM.Price = 25000
-ITEM.LimitedShop = 1563174000
+ITEM.Price = 28450
+ITEM.LimitedShop = 1594882800
 ITEM.Rewardable = true
 m_AddDroppableItem(ITEM, 'Crate')
 
