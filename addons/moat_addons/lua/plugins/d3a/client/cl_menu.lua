@@ -2497,10 +2497,6 @@ if (IsValid(mga.bg)) then
 	mga.Open()
 end
 
-concommand.Add("mga_menu2", function()
-	MGA2.OpenMenu()
-end)
-
 net.Receive("MGA.SendMaps", function()
 	MGA.Maps = MGA.Maps or {}
 
