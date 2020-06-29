@@ -35,12 +35,12 @@ net.Receive("RAM_MapVoteStart", function()
     MapVote.Allow = true
     MapVote.Votes = {}
     
-    local amt = net.ReadUInt(32)
+    local amt = net.ReadUInt(5)
     
     for i = 1, amt do
         local map = net.ReadString()
-        local pos = net.ReadUInt(32)
-		local neg = net.ReadUInt(32)
+        local pos = net.ReadUInt(12)
+		local neg = net.ReadUInt(12)
 
         MapVote.CurrentMaps[#MapVote.CurrentMaps + 1] = map
 		MapVote.Feedback[map] = {
@@ -50,7 +50,7 @@ net.Receive("RAM_MapVoteStart", function()
 		}
     end
     
-    MapVote.EndTime = CurTime() + net.ReadUInt(32)
+    MapVote.EndTime = CurTime() + net.ReadUInt(8)
 
     if(IsValid(MapVote.Panel)) then
         MapVote.Panel:Remove()

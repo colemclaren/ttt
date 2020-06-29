@@ -294,16 +294,16 @@ function MapVote.Start(length, current, limit, prefix, callback)
 		feedback = feedback or MapVote.Feedback
 
 		net.Start("RAM_MapVoteStart")
-			net.WriteUInt(#vote_maps, 32)
+			net.WriteUInt(#vote_maps, 5)
 			
 			for i = 1, #vote_maps do
 				local map = vote_maps[i]
 				net.WriteString(map)
-				net.WriteUInt(feedback[map] and feedback[map].Positive or 1, 32)
-				net.WriteUInt(feedback[map] and feedback[map].Negative or 1, 32)
+				net.WriteUInt(feedback[map] and feedback[map].Positive or 1, 12)
+				net.WriteUInt(feedback[map] and feedback[map].Negative or 1, 12)
 			end
 			
-			net.WriteUInt(length, 32)
+			net.WriteUInt(length, 8)
 		net.Broadcast()
 
 		MapVote.Allow = true
