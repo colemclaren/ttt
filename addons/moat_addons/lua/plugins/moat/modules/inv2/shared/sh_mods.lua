@@ -100,7 +100,7 @@ Accessor("m", "Magazine", "Double", function(self, wep)
 		wep.Primary.ClipMax = 1
 		wep:SetClip1(wep.Primary.ClipSize)
 		if (SERVER and wep.Primary.Ammo and wep.Primary.ClipSize and IsValid(wep:GetOwner())) then
-			wep:GetOwner():RemoveAmmo(wep:GetOwner():GetAmmoCount(wep.Primary.Ammo), wep.Primary.Ammo)
+			-- wep:GetOwner():RemoveAmmo(wep:GetOwner():GetAmmoCount(wep.Primary.Ammo), wep.Primary.Ammo)
 			wep:GetOwner():GiveAmmo(ClipSize - 1, wep.Primary.Ammo, true)
     	end
 	else
@@ -111,7 +111,7 @@ Accessor("m", "Magazine", "Double", function(self, wep)
 
 		wep:SetClip1(wep.Primary.ClipSize)
 		if (SERVER and wep.Primary.Ammo and wep.Primary.ClipSize and IsValid(wep:GetOwner())) then
-			wep:GetOwner():RemoveAmmo(wep:GetOwner():GetAmmoCount(wep.Primary.Ammo), wep.Primary.Ammo)
+			-- wep:GetOwner():RemoveAmmo(wep:GetOwner():GetAmmoCount(wep.Primary.Ammo), wep.Primary.Ammo)
 			wep:GetOwner():GiveAmmo(wep.Primary.ClipSize * 2, wep.Primary.Ammo, true)
     	end
 	end

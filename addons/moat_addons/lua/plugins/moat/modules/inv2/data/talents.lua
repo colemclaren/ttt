@@ -791,7 +791,7 @@ function TALENT:ModifyWeapon(weapon, talent_mods)
 		local mag = ((1 + weapon:GetMagazine() / 100) * (1 + mult / 100) - 1) * 100
 		weapon:SetMagazine(mag)
 		if (SERVER and weapon.Primary.Ammo and weapon.Primary.ClipSize and IsValid(weapon:GetOwner())) then
-			weapon:GetOwner():RemoveAmmo(weapon:GetOwner():GetAmmoCount(weapon.Primary.Ammo), weapon.Primary.Ammo)
+			-- weapon:GetOwner():RemoveAmmo(weapon:GetOwner():GetAmmoCount(weapon.Primary.Ammo), weapon.Primary.Ammo)
 			weapon:GetOwner():GiveAmmo(weapon.Primary.ClipSize * 2, weapon.Primary.Ammo, true)
     	end
 	end
