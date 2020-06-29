@@ -2491,12 +2491,6 @@ end
 
 concommand.Add("mga_menu3", mga.Toggle)
 
-if (IsValid(mga.bg)) then
-	mga.bg:Remove()
-	mga.Reload()
-	mga.Open()
-end
-
 net.Receive("MGA.SendMaps", function()
 	MGA.Maps = MGA.Maps or {}
 
