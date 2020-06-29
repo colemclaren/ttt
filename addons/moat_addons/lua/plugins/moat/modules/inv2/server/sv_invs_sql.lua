@@ -551,7 +551,7 @@ function m_SendInventoryToPlayer(ply)
             net.WriteString"0"
             net.Send(ply)
             m_CheckForRollSave(ply)
-            timer.Simple(5, function() ply.Sending = false m_CheckCompTickets(ply) end)
+            timer.Simple(10, function() ply.Sending = false m_CheckCompTickets(ply) end)
             timer.Simple(0, function()
                 if (IsValid(ply)) then
                     hook.Run("InventoryNetworked", ply)
@@ -631,9 +631,7 @@ function m_SendInventoryToPlayer_NoRollSaveCheck(ply)
             net.Start"MOAT_SEND_INV_ITEM"
             net.WriteString"0"
             net.Send(ply)
-
-			timer.Simple(5, function() ply.Sending = false m_CheckCompTickets(ply) end)
-
+			timer.Simple(10, function() ply.Sending = false m_CheckCompTickets(ply) end)
             timer.Simple(0, function()
                 if (IsValid(ply)) then
                     hook.Run("InventoryNetworked", ply)

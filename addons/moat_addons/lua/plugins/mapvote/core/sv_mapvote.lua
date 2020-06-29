@@ -19,6 +19,7 @@ function MapVote.MapAvailable(map_str)
 	for k, v in pairs(maps) do
 		local mapstr = v:sub(1, -5):lower()
 		if (MAP_BLACKLIST[mapstr]) then continue end
+		if (not file.Exists("maps/" .. mapstr .. ".bsp", "GAME")) then continue end
 		
 		if (map_str == mapstr) then
 			map_good = true
@@ -41,6 +42,7 @@ function MapVote.GetAvailableMaps()
 	for k, v in pairs(maps) do
 		local mapstr = v:lower()
 		if (MAP_BLACKLIST[mapstr]) then continue end
+		if (not file.Exists("maps/" .. mapstr .. ".bsp", "GAME")) then continue end
 
 		num = num + 1
 		MapVote.AvailableMaps[num] = mapstr

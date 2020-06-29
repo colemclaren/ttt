@@ -86,15 +86,21 @@ surface.CreateFont("DermaLargeSmall3", {
 
 MGA.CommandList = {
 	{0, "User", Color(125, 125, 125, 255), {
+		{"Block", "Blocks a player in game.", false},
+		{"Map", "Changes the map of the server.", "None", {
+			{"Drop", "Choose Map", {"Loading Maps...", "Loading Maps...", "Loading Maps..."}, "No Map Choosen"}
+		}},
+		{"MOTD", "Opens the MOTD.", "None"},
 		{"Playtime", "Prints a player's playtime to your chat.", false},
 		{"PM", "Sends a private message to a player.", false, {
 			{"Entry", "Message", "Say Something..."}
 		}},
-		{"MOTD", "Opens the MOTD.", "None"},
-		{"Block", "Blocks a player in game.", false},
 		{"UnBlock", "Unblocks a player in game.", false},
 	}},
 	{10, "VIP & MVP", Color(1, 255, 31, 255), {
+		{"Boost", "Boosts a map for the next map vote.", "None", {
+			{"Drop", "Choose Map", {"Loading Maps...", "Loading Maps...", "Loading Maps..."}, "No Map Choosen"}
+		}},
 		{"Votekick", "Creates a vote that bans for 30 minutes if successful.", true, {
 			{"Drop", "Choose Reason", {
 				"Map Exploiting",
@@ -104,9 +110,6 @@ MGA.CommandList = {
 				"Harassment",
 				"Crashing The Server"
 			}, "Reason required..."}
-		}},
-		{"Boost", "Boosts a map for the next map vote.", "None", {
-			{"Drop", "Choose Map", {"Loading Maps...", "Loading Maps...", "Loading Maps..."}, "No Map Choosen"}
 		}}
 	}},
 	{40, "Trial Staff", Color(41, 194, 245, 255), {
@@ -2487,7 +2490,6 @@ function mga.Toggle()
 end
 
 concommand.Add("mga_menu3", mga.Toggle)
-hook.Remove("PlayerButtonDown", "MGA Menu Key")
 
 if (IsValid(mga.bg)) then
 	mga.bg:Remove()
@@ -2507,10 +2509,38 @@ net.Receive("MGA.SendMaps", function()
 	end
 
 	if (MGA.CommandList) then
-		MGA.CommandList[2][4][2][4][1][3] = MGA.Maps
+		MGA.CommandList[1][4][2][4][1][3] = MGA.Maps
+		MGA.CommandList[2][4][1][4][1][3] = MGA.Maps
 	end
 end)
 
+local menu_cooldown = 0
+hook("PlayerButtonDown", function(p, k)
+	if (k == KEY_M and menu_cooldown < CurTime()) then
+		menu_cooldown = CurTime() + 1
+
+		if (IsValid(MGA.Frame)) then
+			MGA.OpenMenu()
+
+			return
+		end
+
+		if ((ScrW() >= 1200) or IsValid(MGA2.Frame)) then
+			MGA2.OpenMenu()
+		else
+			MGA.OpenMenu()
+		end
+    end
+end)
+
 concommand.Add("mga_menu", function()
-	MGA.OpenMenu()
+	if (menu_cooldown < CurTime()) then
+		MGA.OpenMenu()
+	end
+end)
+
+concommand.Add("mga_menu2", function()
+	if (menu_cooldown < CurTime()) then
+		MGA2.OpenMenu()
+	end
 end)
