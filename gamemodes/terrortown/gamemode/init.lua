@@ -319,7 +319,10 @@ function WaitingForPlayersChecker()
     if GetRoundState() == ROUND_WAIT and EnoughPlayers(pls) then
         timer.Create("wait2prep", 1, 1, PrepareRound)
         timer.Stop("waitingforply")
-    end
+	elseif GetRoundState() == ROUND_WAIT then
+		SpawnWillingPlayers(pls, true)
+    	ents.TTT.RemoveRagdolls(true)
+	end
 end
 
 -- Start waiting for players

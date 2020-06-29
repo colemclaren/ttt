@@ -484,7 +484,7 @@ end
 
 function MOAT_LOADOUT.GiveLoadout(ply)
     if (ply:IsSpec()) then return end
-    if (GetRoundState() == ROUND_WAIT) then return end
+    -- if (GetRoundState() == ROUND_WAIT) then return end
 
     net.Start("MOAT_NET_SPAWN")
     net.Send(ply)

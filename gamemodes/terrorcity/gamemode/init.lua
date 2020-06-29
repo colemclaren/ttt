@@ -269,7 +269,10 @@ function WaitingForPlayersChecker()
         if EnoughPlayers() then
             timer.Create("wait2prep", 1, 1, PrepareRound)
             timer.Stop("waitingforply")
-        end
+        else
+			SpawnWillingPlayers(true)
+			ents.TTT.RemoveRagdolls(true)
+		end
     end
 end
 
