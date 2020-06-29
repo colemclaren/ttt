@@ -25,9 +25,9 @@ surface.CreateFont("moat_wdl2s", {
 })
 
 surface.CreateFont("moat_ItemDescShadow3", {
-	font = "DermaLarge",
-	size = 14,
-	weight = 800,
+    font = "DermaLarge",
+    size = 14,
+    weight = 800,
 	blursize = 2
 })
 
@@ -56,9 +56,9 @@ Content.ids = {
 }
 
 Content.name = ""
-Content.done = true
+Content.done = false
 Content.start = 0
-local disable_downloads = CreateClientConVar("disable_downloads", 0, true, false)
+
 local grad_r = Material("vgui/gradient-l")
 local windows = system.IsWindows()
 function Content.DrawHUD()
@@ -189,7 +189,7 @@ function Content.DrawHUD()
 		xalign = TEXT_ALIGN_CENTER,
 	})
 end
--- hook.Add("HUDPaint", "Content.drawhud", Content.DrawHUD)
+hook.Add("HUDPaint", "Content.drawhud", Content.DrawHUD)
 
 function Content:Location(id, id2)
 	if (not id) then return false end
@@ -242,7 +242,7 @@ function Content:DownloadID(id, id2, exists)
 	steamworks.DownloadUGC(id, function(path, file)
 		local success, returned = Content:Mount(id, id2, path)
 
-		-- MsgC(Color(103, 152, 235), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. Content.ids[Content.cur] .. ".\n")
+		-- MsgC(Color(0, 255, 255), "[MG Content] ", Color(255, 255, 255), "Loaded Resource " .. Content.ids[Content.cur] .. ".\n")
 
 		if (exists) then
 			-- timer.Simple(1, function() Content:NextAddon() end)
@@ -282,7 +282,7 @@ end
 
 function Content:HotMount(wid)
 	if (steamworks.IsSubscribed(wid)) then
-		MsgC(Color(103, 152, 235), "[MOAT.GG ", Color(255, 105, 180), "We're subbed to " .. tostring(wid) .. ".\n")
+		MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "We're subbed to " .. tostring(wid) .. ".\n")
 
 		return
 	end
@@ -290,133 +290,34 @@ function Content:HotMount(wid)
 	steamworks.FileInfo(wid, function(r)
 		if (not r) then
 			if (tries < 10) then self:HotMount(wid) return end
-			return MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Failed to Hot Load " .. tostring(wid) .. ".\n")
+			return MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "Failed to Hot Load " .. tostring(wid) .. ".\n")
 		end
 
 		steamworks.Download(r.fileid, true, function(c)
 			if (not c) then
 				if (tries < 10) then self:HotMount(wid) return end
-				return MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Failed to Mount " .. tostring(wid) .. ".\n")
+				return MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "Failed to Mount " .. tostring(wid) .. ".\n")
 			end
 
 			game.MountGMA(c)
 
-			MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Hot Loaded " .. tostring(wid) .. ".\n")
+			MsgC(Color(0, 255, 255), "[Moat Content] ", Color(255, 0, 0), "Hot Loaded " .. tostring(wid) .. ".\n")
 		end)
 	end)
 end
 
-local function round(num, idp)
-	local mult = 10 ^ (idp or 2)
-
-	return math.floor(num * mult + 0.5) / mult
+function Content:FinishDownloads()
+	Content.done = true
+	-- MsgC(Color(0, 255, 255), "[Moat Content] ", Color(0, 255, 0), "Finished Mounting all Addons!\n")
 end
 
-local files = {
-	{File='moat/ttt/textures-data.lmp',FileName='textures'},
-	{File='moat/ttt/tttbase-data.lmp',FileName='tttbase'},
-	{File='moat/ttt/talents-data.lmp',FileName='talents'},
-	{File='moat/ttt/weapons-data.lmp',FileName='weapons'}
-}
-local parent = 'download/data/'
-file.CreateDir 'moat/ttt'
-MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Init\n")
-local compressedSize = 0
-local decompressedSize = 0
-local totalTime = 0
+local disable_downloads = CreateClientConVar("disable_downloads", 0, true, false)
 
-local function prepare(outFile, inf)
-	local start = SysTime()
-	local fh = file.Open(parent .. inf.File, 'rb', 'GAME')
+function Content.InitDownloads()
+	-- if (util.NetworkStringToID "ttt_enable_tc" ~= 0) then Content.done = true return end
 
-	if (not fh) then
-		MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Unable to open datapack: "..inf.FileName.."\n")
-
-		return false
-	end
-
-	local size = fh:Size()
-	compressedSize = compressedSize + size
-	local compressedData = fh:Read(size)
-	fh:Close()
-
-	if (not compressedData) then
-		MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Unable to read datapack: "..inf.FileName.."\n")
-
-		return false
-	end
-
-	local rawData = util.Decompress(compressedData)
-	compressedData = nil
-	collectgarbage()
-
-	if (not rawData) then
-		MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Unable to decompress datapack: "..inf.FileName.."\n")
-
-		return false
-	end
-
-	local fh2 = file.Open(outFile, 'wb', 'DATA')
-
-	if (not fh2) then
-		MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Unable to open outfile for datapack: "..inf.FileName.."\n")
-
-		return false
-	end
-
-	decompressedSize = decompressedSize + rawData:len()
-	fh2:Write(rawData)
-	fh2:Close()
-	rawData = nil
-	collectgarbage()
-	local time = (SysTime() - start)
-	totalTime = totalTime + time
-
-	MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Cached datapack: "..inf.FileName.." in "..round(time, 4).." seconds\n")
-
-	return true
+	Content.start = CurTime()
+	Content:DownloadAddon(Content.cur)
 end
 
-local totalFiles = 0
-
-local function mount(inf)
-	local outFile = inf.File .. '.dat'
-	local isCached = file.Exists(outFile, 'DATA')
-
-	if (not isCached) and (not file.Exists(parent .. inf.File, 'GAME')) then
-		MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Missing datapack: "..inf.FileName.."\n")
-
-		return 0
-	end
-
-	if (not isCached) and (not prepare(outFile, inf)) then return 0 end
-	local start = SysTime()
-	local succ, files = game.MountGMA('data/' .. outFile)
-
-	if (not succ) then
-		MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Failing to mount datapack: "..inf.FileName.."\n")
-
-		return 0
-	end
-
-	totalFiles = totalFiles + #files
-	local time = (SysTime() - start)
-	MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Mounted datapack: "..inf.FileName.." in "..round(time, 4).." seconds\n")
-
-	return time
-end
-
-for k, v in ipairs(files) do
-	totalTime = totalTime + mount(v)
-end
-
-if (compressedSize > 0) then
-	MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Decompressed "..round(compressedSize / 1048576) .. "MB\n")
-end
-
-if (decompressedSize > 0) then
-	MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Cached "..round(decompressedSize / 1048576) .. "MB\n")
-end
-
-MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Loaded "..totalFiles.." files\n")
-MsgC(Color(103, 152, 235), "[MOAT.GG] ", Color(255, 105, 180), "Finished in "..round(totalTime, 4).." seconds\n")
+hook.Add("Initialize", "Content.init", Content.InitDownloads)

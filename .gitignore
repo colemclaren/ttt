@@ -17,7 +17,10 @@
 *.*
 
 !/data/banned_words_list.txt
-
+# !/data/moat/ttt/textures-data.lmp
+# !/data/moat/ttt/tttbase-data.lmp
+# !/data/moat/ttt/talents-data.lmp
+# !/data/moat/ttt/weapons-data.lmp
 
 # mats
 !/materials/**/*.vtf

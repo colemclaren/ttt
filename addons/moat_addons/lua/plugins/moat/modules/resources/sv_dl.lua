@@ -1,3 +1,8 @@
+resource.AddSingleFile'data/moat/ttt/textures-data.lmp'
+resource.AddSingleFile'data/moat/ttt/tttbase-data.lmp'
+resource.AddSingleFile'data/moat/ttt/talents-data.lmp'
+resource.AddSingleFile'data/moat/ttt/weapons-data.lmp'
+
 if (file.Exists("terrorcity.txt", "MOD")) then
 	local ids = {
 		"1993862543",
@@ -10,6 +15,6 @@ if (file.Exists("terrorcity.txt", "MOD")) then
 	}
 
 	for i = 1, #ids do
-		resource.AddWorkshop(ids[i])
+		-- resource.AddWorkshop(ids[i])
 	end
 end
