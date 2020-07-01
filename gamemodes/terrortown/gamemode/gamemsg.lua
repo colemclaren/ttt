@@ -142,7 +142,7 @@ end)
 function GM:PlayerSay(ply, text, team_only)
     local replacements = {}
 
-    if (IsValid(ply.TTT_Target)) then
+    if (IsValid(ply.TTT_Target) and not ply.TTT_Target.NoTarget and not ply.TTT_Target:GetNW2Bool("disguised", false)) then
         replacements["{target}"] = ply.TTT_Target:Nick()
     else
         replacements["{target}"] = "nobody"

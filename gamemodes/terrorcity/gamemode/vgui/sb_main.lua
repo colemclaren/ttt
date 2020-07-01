@@ -172,7 +172,7 @@ function PANEL:Init()
 	hook.Call("TTTScoreGroups", nil, self.ply_frame:GetCanvas(), self.ply_groups)
 	-- the various score column headers
 	self.cols = {}
-	self:AddColumn(GetTranslation("sb_ping"))
+	self:AddColumn(""/*GetTranslation("sb_ping")*/)
 	self:AddColumn(GetTranslation("sb_deaths"))
 	self:AddColumn(GetTranslation("sb_score"))
 	self:AddColumn(GetTranslation("sb_karma"))

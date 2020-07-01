@@ -38,7 +38,7 @@ function PANEL:Init()
     self.info = nil
     self.open = false
     self.cols = {}
-    self:AddColumn(GetTranslation("sb_ping"), function(ply) return ply:Ping() end)
+    self:AddColumn(""/*GetTranslation("sb_ping")*/, function(ply) return ply:Ping() end)
     self:AddColumn(GetTranslation("sb_deaths"), function(ply) return ply:Deaths() end)
     self:AddColumn(GetTranslation("sb_score"), function(ply) return ply:Frags() end)
     self:AddColumn(GetTranslation("sb_karma"), function(ply) return math.Round(ply:GetBaseKarma()) end)

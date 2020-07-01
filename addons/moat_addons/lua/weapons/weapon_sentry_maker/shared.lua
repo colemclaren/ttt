@@ -12,7 +12,7 @@ if CLIENT then
 	SWEP.DrawAmmo = false
 	SWEP.DrawCrosshair = false
 	
-	SWEP.Icon = "https://ttt.dev/9NvjN.png"
+	SWEP.Icon = "https://ttt.dev/Ksky0.png"
     SWEP.EquipMenuData = {
        type = "Sentry",
        desc = "Have the ability to set up a sentry that attacks\ninnocents."
