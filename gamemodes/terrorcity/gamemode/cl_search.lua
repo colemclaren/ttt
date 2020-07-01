@@ -105,12 +105,32 @@ local TypeToMat = {
     kills = "list"
 }
 
-
-
 -- Accessor for better fail handling
 local function IconForInfoType(t, data)
     local base = "vgui/ttt/icon_"
     local mat = TypeToMat[t]
+
+    if (t == "role" and data == ROLE_JESTER) then
+        return "https://static.moat.gg/assets/img/ttc/icon_jester.png"
+    elseif (t == "role" and data == ROLE_KILLER) then
+        return "https://static.moat.gg/assets/img/ttc/icon_killer.png"
+    elseif (t == "role" and data == ROLE_DOCTOR) then
+        return "https://static.moat.gg/assets/img/ttc/icon_doctor.png"
+    elseif (t == "role" and data == ROLE_BEACON) then
+        return "https://static.moat.gg/assets/img/ttc/icon_beacon.png"
+    elseif (t == "role" and data == ROLE_SURVIVOR) then
+        return "https://static.moat.gg/assets/img/ttc/icon_survivor.png"
+    elseif (t == "role" and data == ROLE_HITMAN) then
+        return "https://static.moat.gg/assets/img/ttc/icon_hitman.png"
+    elseif (t == "role" and data == ROLE_BODYGUARD) then
+        return "https://static.moat.gg/assets/img/ttc/icon_bodyguard.png"
+    elseif (t == "role" and data == ROLE_VETERAN) then
+        return "https://static.moat.gg/assets/img/ttc/icon_veteran.png"
+    elseif (t == "role" and data == ROLE_XENOMORPH) then
+        return "https://static.moat.gg/assets/img/ttc/icon_xenomorph.png"
+    elseif (t == "role" and data == ROLE_WITCHDOCTOR) then
+        return "https://static.moat.gg/assets/img/ttc/icon_witchdoctor.png"
+    end
 
     if type(mat) == "table" then
         mat = mat[data]
@@ -289,16 +309,17 @@ end
 -- dactive and dtext based on the search information that is associated with the
 -- newly selected panel
 local custom_tbl = {
-  ["vgui/ttt/icon_beacon.png"] = true,
-  ["vgui/ttt/icon_bodyguard.png"] = true,
-  ["vgui/ttt/icon_doctor.png"] = true,
-  ["vgui/ttt/icon_hitman.png"] = true,
-  ["vgui/ttt/icon_jester.png"] = true,
-  ["vgui/ttt/icon_killer.png"] = true,
-  ["vgui/ttt/icon_survivor.png"] = true,
-  ["vgui/ttt/icon_veteran.png"] = true,
-  ["vgui/ttt/icon_xenomorph.png"] = "https://moat.gg/assets/img/ttc/icon_phoenix.png"
+    ["vgui/ttt/icon_beacon.png"] = true,
+    ["vgui/ttt/icon_bodyguard.png"] = true,
+    ["vgui/ttt/icon_doctor.png"] = true,
+    ["vgui/ttt/icon_hitman.png"] = true,
+    ["vgui/ttt/icon_jester.png"] = true,
+    ["vgui/ttt/icon_killer.png"] = true,
+    ["vgui/ttt/icon_survivor.png"] = true,
+    ["vgui/ttt/icon_veteran.png"] = true,
+    ["vgui/ttt/icon_xenomorph.png"] = "https://moat.gg/assets/img/ttc/icon_phoenix.png"
 }
+
 local function SearchInfoController(search, dactive, dtext)
     -- If wrapping is on, the Label's SizeToContentsY misbehaves for
     -- text that does not need wrapping. I long ago stopped wondering
@@ -317,14 +338,14 @@ local function SearchInfoController(search, dactive, dtext)
         dtext:SetText(data.text)
         dactive:SetImage(data.img)
 
-        local da_string = isstring(data.img) and data.img
-        if (da_string and custom_tbl[da_string]) then
-          local url = custom_tbl[da_string]
-          if (type(url) ~= "string") then
-            url = nil
-          end
-          dactive:SetImage(fetch_asset(url or "https://moat.gg/assets/img/ttc/" .. string.sub(da_string, 10, #da_string)):GetName() .. ".png")
-        end
+        if (not dactive.OldPaint) then dactive.OldPaint = dactive.Paint end
+
+		local da_string = isstring(data.img) and data.img
+        if (da_string and da_string:match"^http") then
+			dactive.Paint = function(s, w, h) cdn.DrawImage(da_string, 0, 0, w, h) end
+        else
+			dactive.Paint = dactive.OldPaint
+		end
     end
 end
 
@@ -408,6 +429,7 @@ local function ShowSearchScreen(search_raw)
         local spl = IsValid(search_raw.owner) and search_raw.owner or nil
         dident:SetText("Revive Player")
         dident:SetDisabled(false)
+
         -- FIXME: bots suck with this because of serverside
         if (not IsValid(spl) or not spl:IsPlayer() or not spl:IsDeadTerror() or DOCTOR_ALREADY_REVIVED or spl.Doctor_CannotRevive or spl:GetBasicRole() ~= ROLE_INNOCENT) then
             dident:SetDisabled(true)
@@ -474,12 +496,6 @@ local function ShowSearchScreen(search_raw)
 
         ic:SetIconSize(64)
         ic:SetIcon(info.img)
-
-        local da_string = isstring(info.img) and info.img
-        if (da_string and custom_tbl[da_string]) then
-          ic:SetIcon(fetch_asset("https://moat.gg/assets/img/ttc/" .. string.sub(da_string, 10, #da_string)):GetName() .. ".png")
-        end
-
         ic.info_type = t
         dlist:AddPanel(ic)
         dscroll:AddPanel(ic)
@@ -588,24 +604,13 @@ local function ReceiveRagdollSearch()
 end
 
 net.Receive("TTT_RagdollSearch", ReceiveRagdollSearch)
-
-
 local e = Material("error")
-local custom_tbl2 = {
-  "icon_beacon.png",
-  "icon_bodyguard.png",
-  "icon_doctor.png",
-  "icon_hitman.png",
-  "icon_jester.png",
-  "icon_killer.png",
-  "icon_survivor.png",
-  "icon_veteran.png",
-  "icon_xenomorph.png"
-}
+local custom_tbl2 = {"icon_beacon.png", "icon_bodyguard.png", "icon_doctor.png", "icon_hitman.png", "icon_jester.png", "icon_killer.png", "icon_survivor.png", "icon_veteran.png", "icon_xenomorph.png", "icon_witchdoctor.png"}
+
 local function pd()
-  for i = 1, #custom_tbl2 do
-    local e = fetch_asset("https://moat.gg/assets/img/ttc/" .. custom_tbl2[i])
-  end
+    for i = 1, #custom_tbl2 do
+        local e = fetch_asset("https://moat.gg/assets/img/ttc/" .. custom_tbl2[i])
+    end
 end
 
 hook.Add("InitPostEntity", "moat.load.custom.roles", pd)
@@ -618,7 +623,7 @@ local badred = GetConVar("moat_red_screen")
 local badredoff = true
 
 hook.Add("HUDShouldDraw", "DamageOmega", function(txt)
-	if (not badred or badredoff) then return end
+    if (not badred or badredoff) then return end
     if dis[txt] then return false end
 end)
 
@@ -626,8 +631,13 @@ local damage_m = 0
 local oldhp = 0
 
 hook.Add("HUDPaint", "DamageOmega", function()
-	if (not badred or badred:GetInt() == 0) then badredoff = true return end
-	badredoff = false
+    if (not badred or badred:GetInt() == 0) then
+        badredoff = true
+
+        return
+    end
+
+    badredoff = false
     if not LocalPlayer():Alive() then return end
 
     if oldhp < LocalPlayer():Health() then
