@@ -113,6 +113,7 @@ MGA.CommandList = {
 		}}
 	}},
 	{40, "Trial Staff", Color(41, 194, 245, 255), {
+		{"AdminMode", "Rank is private.", "None"},
 		{"ForceMOTD", "Forces a player to open the MOTD.", true, {
 			{"Entry", "SteamID", "STEAM_0:0:"},
 			{"Entry", "Length", "1"},

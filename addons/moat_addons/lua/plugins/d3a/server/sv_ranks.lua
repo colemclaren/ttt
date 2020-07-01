@@ -42,7 +42,7 @@ end
 
 util.AddNetworkString "D3A.Rank.Expired"
 function D3A.Ranks.LoadRank(pl, rank, expire, expire_to)
-	if (expire and expire <= os.time()) then
+	if (expire and expire <= os.time() and expire > 0) then
 		expire_to = expire_to or "user"
 		rank = expire_to
 
@@ -58,6 +58,10 @@ function D3A.Ranks.LoadRank(pl, rank, expire, expire_to)
 			net.WriteString(expire_to)
 			net.Send(pl)
 		end)
+	end
+
+	if (expire and expire == 0 and IsValid(pl)) then
+		pl:SetNW2Bool("adminmode", true)
 	end
 
 	pl.Rank = rank

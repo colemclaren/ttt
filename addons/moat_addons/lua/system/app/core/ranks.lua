@@ -72,7 +72,7 @@ moat.Ranks.Register(10, "communitylead", "Community Lead")
 	:SetIcon "icon16/wrench.png"
 	:SetFlags "*"
 
-moat.Ranks.Register(11, "owner", "co-founder / owner")
+moat.Ranks.Register(11, "owner", "owner")
 	:SetWeight(100)
 	:ForumSync(25)
 	:SetColor {255, 51, 51}

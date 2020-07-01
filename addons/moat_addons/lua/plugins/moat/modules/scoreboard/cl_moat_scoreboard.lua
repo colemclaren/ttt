@@ -1,6 +1,7 @@
 local PLAYER = FindMetaTable "Player"
 function PLAYER:GetScoreboardGroup()
 	local r, id = self:GetUserGroup(), self:SteamID64()
+	if (self:GetNW2Bool("adminmode", false)) then r = "user" end
 	if (id and OPERATION_LEADS[id]) then r = "operationslead" end
 	if (id and TECH_LEADS[id]) then r = "techlead" end
 

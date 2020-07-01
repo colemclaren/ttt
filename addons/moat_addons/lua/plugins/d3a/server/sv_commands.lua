@@ -11,6 +11,7 @@ end
 
 function D3A.Commands.Load()
 	local files = {
+		'adminmode.lua',
 		"afk.lua",
 		"afkun.lua",
 		"autoslay.lua",

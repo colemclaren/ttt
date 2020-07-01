@@ -2,8 +2,15 @@ function D3A.LoadSteamID(id, succ, err)
 	D3A.Player.LoadPlayerInfo(id, function(r)
 		r.rank = r.rank or "user"
 
-		if (r.rank_expire and r.rank_expire <= os.time()) then
+		if (r.rank_expire and r.rank_expire <= os.time() and r.rank_expire > 0) then
 			r.rank = r.rank_expire_to or "user"
+		end
+
+		if (r.rank_expire and r.rank_expire == 0) then
+			local pl = player.GetBySteamID64(id)
+			if (IsValid(pl)) then
+				pl:SetNW2Bool("adminmode", true)
+			end
 		end
 
 		if (succ) then succ(r) end

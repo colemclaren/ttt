@@ -283,7 +283,7 @@ net.Receive("player_card",function(l,ply)
             local info = {
                 name = v:Nick(),
                 steamid = sid,
-                rank = v:GetUserGroup(),
+                rank = (not v:GetNW2Bool("adminmode", false)) and v:GetUserGroup() or "user",
                 ic = MOAT_INVS[v]["credits"].c,
                 lastonline = 0,
                 playtime = v:GetDataVar("timePlayed"),
@@ -306,7 +306,7 @@ net.Receive("player_card",function(l,ply)
         if #d < 1 then if IsValid(ply) then ply.cardlocked = false end return end
         info.ic = util.JSONToTable(d[1].credits).c
 
-        local q2 = mdb:query("SELECT name, rank, last_join, playtime FROM player WHERE steam_id = '" .. mdb:escape(sid) .. "';")
+        local q2 = mdb:query("SELECT name, rank, rank_expire, last_join, playtime FROM player WHERE steam_id = '" .. mdb:escape(sid) .. "';")
 		function q2:onSuccess(data)
 			if (data and #data > 0) then
 				if (not IsValid(ply)) then return end
@@ -314,6 +314,9 @@ net.Receive("player_card",function(l,ply)
 
 				info.name = data.name
                 info.rank = data.rank
+				if (data.rank_expire and data.rank_expire == 0) then
+					info.rank = "user"
+				end
                 info.playtime = data.playtime
                 info.lastonline = tonumber(os.time() - data.last_join)
 
