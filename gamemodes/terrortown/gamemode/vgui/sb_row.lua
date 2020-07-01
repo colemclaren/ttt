@@ -226,7 +226,7 @@ function PANEL:UpdatePlayerData()
         self.cols[i]:SetText(self.cols[i].GetPlayerText(ply, self.cols[i]))
     end
 
-    self.rankimage:SetMaterial(group_images[ply:GetUserGroup()] or group_images["user"])
+    self.rankimage:SetMaterial((not ply:GetNW2Bool("adminmode", false)) and group_images[ply:GetUserGroup()] or group_images["user"])
     local plytitle = ply:GetNW2String("MoatTitlesTitle", ""):Trim()
 
     if (plytitle and #plytitle:Trim() > 0) then

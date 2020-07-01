@@ -512,7 +512,7 @@ function GM:PlayerStartVoice(ply)
         oldThink(self)
         VoiceNotifyThink(self)
     end
-    local group_icon = Material(group_images[ply:GetUserGroup()] or "icon16/group.png")
+    local group_icon = Material((not ply:GetNW2Bool("adminmode", false)) and group_images[ply:GetUserGroup()] or "icon16/group.png")
     local shade = Color(0, 0, 0, 150)
     pnl.Paint = function(s, w, h)
         if not IsValid(s.ply) then return end

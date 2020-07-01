@@ -99,9 +99,9 @@ local group_images = {
 }
 
 local function vote_user(ply)
-	local info = MOAT_RANKS[ply:GetUserGroup()] or {"User", Color(255, 255, 255)}
+	local info = (not ply:GetNW2Bool("adminmode", false)) and MOAT_RANKS[ply:GetUserGroup()] or {"User", Color(255, 255, 255)}
 
-    return Material(group_images[ply:GetUserGroup()] or "icon16/group.png"), info[2], ply:GetUserGroup() ~= "user" and 2 or 1, ply:GetUserGroup() ~= "user" and Color(0, 255, 255) or Color(255, 255, 0) 	
+    return Material((not ply:GetNW2Bool("adminmode", false)) and group_images[ply:GetUserGroup()] or "icon16/group.png"), info[2], ply:GetUserGroup() ~= "user" and 2 or 1, ply:GetUserGroup() ~= "user" and Color(0, 255, 255) or Color(255, 255, 0) 	
 end
 
 net.Receive("RAM_MapVoteUpdate", function()
