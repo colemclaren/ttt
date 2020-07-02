@@ -36,7 +36,7 @@ function ENT:PhysicsCollide(data, phys)
         local boomerang = self.Owner:Give("weapon_ttt_boomerang")
 
         if SERVER then
-            self:Remove()
+           timer.Simple(0, function() self:Remove() end)
         end
     end
 
