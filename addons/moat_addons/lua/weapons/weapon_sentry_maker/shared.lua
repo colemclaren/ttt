@@ -26,7 +26,7 @@ SWEP.Author = "Tomasas"
 SWEP.Instructions = ""
 
 
-SWEP.Kind = WEAPON_EQUIP2
+SWEP.Kind = WEAPON_EQUIP1
 SWEP.CanBuy = {ROLE_TRAITOR}
 SWEP.AllowDrop = false
 SWEP.LimitedStock = true // change to false if you want the turret not be limited to 1 per round!

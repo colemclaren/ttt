@@ -25,7 +25,7 @@ SWEP.Author = "Tomasas"
 SWEP.Instructions = ""
 
 
-SWEP.Kind = WEAPON_EQUIP2
+SWEP.Kind = WEAPON_EQUIP1
 SWEP.CanBuy = {ROLE_DETECTIVE}
 SWEP.LimitedStock = true
 SWEP.AllowDrop = false

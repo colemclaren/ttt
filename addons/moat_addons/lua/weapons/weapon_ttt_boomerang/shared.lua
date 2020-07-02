@@ -129,7 +129,7 @@ SWEP.Secondary.Ammo         	= "none"
 
 
 
-SWEP.Kind = WEAPON_EQUIP2
+SWEP.Kind = WEAPON_EQUIP1
 
 SWEP.CanBuy = { ROLE_TRAITOR }
 SWEP.LimitedStock = true

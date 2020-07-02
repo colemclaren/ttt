@@ -28,7 +28,7 @@ if SERVER then
 
   --resource.AddFile("weapons/bananaicon")
 
-SWEP.Kind = WEAPON_EQUIP2
+SWEP.Kind = WEAPON_EQUIP1
 
 SWEP.AutoSpawnable = false
 

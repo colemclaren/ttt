@@ -78,7 +78,7 @@ SWEP.was_thrown = false
 
 
 
-SWEP.Kind = WEAPON_EQUIP2
+SWEP.Kind = WEAPON_EQUIP1
 
 SWEP.CanBuy = {} -- only traitors can buy
 
