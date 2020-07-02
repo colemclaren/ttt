@@ -64,5 +64,6 @@ MAP_BLACKLIST = {
 	['ttt_mc_plains'] = true,
 	['ttt_mc_poseidon'] = true,
 	['ttt_mcmagmaplateu'] = true,
-	['ttt_mcskyblocks02'] = true
+	['ttt_mcskyblocks02'] = true,
+	['ttt_crapwall'] = true
 }

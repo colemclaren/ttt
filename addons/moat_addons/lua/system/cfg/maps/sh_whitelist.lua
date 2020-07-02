@@ -132,7 +132,6 @@ MAP_WHITELIST = (GetServerName():lower():match "minecraft") and {
 	"ttt_construction_v3",
 	"ttt_cozy_cove",
 	"ttt_craftroom_v3_d2",
-	"ttt_crapwall",
 	"ttt_crisis_v1",
 	"ttt_crummycradle_a4",
 	"ttt_csgo_train",
