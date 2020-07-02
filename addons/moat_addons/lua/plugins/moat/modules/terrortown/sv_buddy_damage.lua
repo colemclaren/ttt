@@ -4,7 +4,8 @@ local DamageToBlock = {
 	[DMG_VEHICLE] = true,
 	[DMG_BLAST] = true,
 	[DMG_PHYSGUN] = true,
-	[DMG_CRUSH] = true
+	[DMG_CRUSH] = true,
+	[DMG_FALL] = true
 }
 
 hook("EntityTakeDamage", function(pl, dmg)
@@ -16,6 +17,9 @@ hook("EntityTakeDamage", function(pl, dmg)
 		return
 	end
 
+	if (dmg:GetDamageType() == DMG_FALL and ((pl.BlockFallDamage and pl.BlockFallDamage > CurTime()) or (IsValid(pl:GetActiveWeapon()) and pl:GetActiveWeapon():GetClass() == "weapon_ttt_thunder_thighs"))) then
+		return true
+	end
 
 	local att = dmg:GetAttacker()
 	if (IsValid(pl) and pl:IsPlayer() and (pl:IsActiveRole(ROLE_JESTER) or pl:IsActiveTraitor()) and IsValid(att) and att:IsPlayer() and att:GetRole() == ROLE_TRAITOR) then

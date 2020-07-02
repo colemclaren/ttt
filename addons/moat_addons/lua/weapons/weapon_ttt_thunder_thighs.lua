@@ -51,6 +51,9 @@ function SWEP:PrimaryAttack()
     self:TakePrimaryAmmo(1)
     self:SetNextPrimaryFire(CurTime() + 1.5)
     self:EmitSound("weapons/mortar/mortar_shell_incomming1.wav", 100, 100, 1, CHAN_AUTO)
+	if (IsValid(self.Owner)) then
+		self.Owner.BlockFallDamage = CurTime() + 10
+	end
 
     timer.Simple(.5, function()
 		if (not IsValid(self.Owner)) then return end
@@ -70,6 +73,9 @@ function SWEP:SecondaryAttack()
     if (not self:CanPrimaryAttack()) then return end
     self:SetNextSecondaryFire(CurTime() + 0.5)
     self:EmitSound("weapons/mortar/mortar_shell_incomming1.wav", 100, 100, 1, CHAN_AUTO)
+	if (IsValid(self.Owner)) then
+		self.Owner.BlockFallDamage = CurTime() + 10
+	end
 
     timer.Simple(.5, function()
 		if (not IsValid(self.Owner)) then return end
