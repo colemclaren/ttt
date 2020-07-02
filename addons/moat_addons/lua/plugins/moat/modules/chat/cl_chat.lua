@@ -35,16 +35,10 @@ moat_chat = moat_chat or {}
 
 moat_chat.config = {
     x = default_x + 20,
-    y = default_y - 20,
+    y = ScrH() - 200 - 384,
     w = 550,
     h = 384
 }
-
-if ((default_y + 384) > (ScrH() - 300)) then
-    moat_chat.config.y = ScrH() - 300 - 404
-end
-
-moat_chat.config.y = math.Clamp(moat_chat.config.y, 50, (ScrH()/3.6) - 50)
 
 moat_chat.font = "moat_ChatFont"
 moat_chat.chattype = ""
@@ -421,15 +415,15 @@ local function ChatThink()
 end
 
 hook.Add("Think", "NewChatThink", ChatThink)
-local customchatx = CreateConVar("moat_chat_pos_x", tostring(moat_chat.config.x), FCVAR_ARCHIVE)
-local customchaty = CreateConVar("moat_chat_pos_y", tostring(moat_chat.config.y), FCVAR_ARCHIVE)
+local customchatx = CreateConVar("moat_custom_chat_x", tostring(moat_chat.config.x), FCVAR_ARCHIVE)
+local customchaty = CreateConVar("moat_custom_chat_y", tostring(moat_chat.config.y), FCVAR_ARCHIVE)
 
 concommand.Add("moat_chat", function()
     moat_chat.config.x = tonumber(customchatx:GetDefault())
     moat_chat.config.y = tonumber(customchaty:GetDefault())
     customchatx:SetInt(moat_chat.config.x)
     customchaty:SetInt(moat_chat.config.y)
-    moat_chat.BG:SetPos(customchatx:GetInt(), math.Clamp(customchaty:GetInt(), 35, ScrH() - moat_chat.config.h - 35))
+    moat_chat.BG:SetPos(customchatx:GetInt(), math.Clamp(customchaty:GetInt(), 50, ScrH() - 200 - 384))
 end)
 
 function moat_chat.Clear()
@@ -478,7 +472,7 @@ function moat_chat.InitChat()
     FRAME:ShowCloseButton(false)
     FRAME:SetDraggable(false)
     FRAME:SetSize(mcc.w, mcc.h)
-    FRAME:SetPos(customchatx:GetInt(), math.Clamp(customchaty:GetInt(), 50, (ScrH() / 3.6) - 50))
+    FRAME:SetPos(customchatx:GetInt(), math.Clamp(customchaty:GetInt(), 50, ScrH() - 200 - 384))
 	
     FRAME.Paint = function(s, w, h)
         COLOR_WHITE = Color(255, 255, 255, 255)
@@ -892,7 +886,7 @@ function moat_chat.OpenChat()
     moat_chat.Theme.CHAT_ENTRY = MT[CurTheme].CHAT and MT[CurTheme].CHAT.CHAT_ENTRY
     moat_chat.Theme.DefaultColor = MT[CurTheme].CHAT and MT[CurTheme].CHAT.DefaultColor
 	moat_chat.Theme.TextColor = MT[CurTheme].TextColor
-    moat_chat.header = "Moat Gaming | " .. GetServerName():sub(1, 18) .. (system.IsOSX() and "" or " | More fun @ moat.gg")
+    moat_chat.header = "Moat Gaming | " .. GetServerName():sub(1, 18) .. (system.IsOSX() and "" or " | moat.gg")
     local mc = moat_chat
     local mcc = moat_chat.config
     mc.ENTRY:SetSize(mcc.w - 65, 20)
