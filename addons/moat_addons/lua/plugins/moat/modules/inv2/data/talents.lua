@@ -1870,7 +1870,7 @@ TALENT.NameEffect = "enchanted"
 TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "After a kill, you have a %s_^ chance to add a random Tier 1 talent to your gun with its lowest stats possible"
 TALENT.Tier = 1
-TALENT.LevelRequired = {min = -5, max = -10}
+TALENT.LevelRequired = {min = 5, max = 10}
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 40, max = 70}
@@ -1977,7 +1977,7 @@ TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "After a kill, you have a %s_^ chance to add a random Tier 2 talent to your gun with its lowest stats possible"
 TALENT.Tier = 2
 -- TALENT.LevelRequired = {min = -5, max = -10}
-TALENT.LevelRequired = {min = -15, max = -20}
+TALENT.LevelRequired = {min = 15, max = 20}
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 40, max = 65}
@@ -2072,7 +2072,7 @@ TALENT.NameColor = Color(0, 255,0)
 TALENT.Description = "After a kill, you have a %s_^ chance to add a random Tier 3 talent to your gun with its lowest stats possible"
 TALENT.Tier = 3
 -- TALENT.LevelRequired = {min = -5, max = -10}
-TALENT.LevelRequired = {min = -20, max = -30}
+TALENT.LevelRequired = {min = 20, max = 30}
 
 TALENT.Modifications = {}
 TALENT.Modifications[1] = {min = 40, max = 60}
