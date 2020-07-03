@@ -1124,6 +1124,7 @@ ITEM.Price = 444
 ITEM.ChosenRarity = 8
 ITEM.LimitedShop = 1584169200
 ITEM.Rewardable = true
+ITEM.NotDroppable = true
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
@@ -1533,6 +1534,7 @@ ITEM.Price = 5550
 -- ITEM.ChosenRarity = 8
 ITEM.LimitedShop = 1589958000
 ITEM.Rewardable = true
+ITEM.NotDroppable = true
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}

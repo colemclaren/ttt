@@ -13,3 +13,4 @@ ITEM.Price = 5550
 -- ITEM.ChosenRarity = 8
 ITEM.LimitedShop = 1589958000
 ITEM.Rewardable = true
+ITEM.NotDroppable = true

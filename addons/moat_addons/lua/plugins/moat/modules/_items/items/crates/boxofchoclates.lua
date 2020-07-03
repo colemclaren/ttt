@@ -11,3 +11,4 @@ ITEM.Price = 444
 ITEM.ChosenRarity = 8
 ITEM.LimitedShop = 1584169200
 ITEM.Rewardable = true
+ITEM.NotDroppable = true
