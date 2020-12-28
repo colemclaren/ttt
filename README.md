@@ -2,11 +2,11 @@
 =========
 Moat is the best Trouble in Terrorist Town base. Developed between 2015 to 2020, Cole McLaren also known as elu, has released their entire lifes work on their TTT server. His whole SERVER codebase to the most addicting TTT servers on Garry's Mod (over 30 servers) was   made public for free, so that setting up your community is simplified and easy.
 
-## License TL;DR
+License TL;DR
 ---
 You may use or reditribute Moat TTT freely, provided you do not take credit for it and include the license.
 
-## Pull Requests
+Pull Requests
 ---
 Pull requests are welcome.
 
@@ -14,11 +14,11 @@ Please make sure your [line endings are correct](https://help.github.com/article
 
 Also try to condense multiple commits down to easily see the changes made, either through [resetting the head](http://stackoverflow.com/a/5201642) or [rebasing the branch](http://stackoverflow.com/a/5189600).
 
-## Issues and Requests
+Issues and Requests
 ---
 These are also welcome.
 
-## MySQL Schema
+MySQL Schema
 ---
 Database name is just \`forum\` for most of the code. Here's the queries for the MySQL database schema for Moat TTT.
 
@@ -1145,5 +1145,6 @@ CREATE TABLE IF NOT EXISTS `core_dev_ttt` (
 );
 ```
 
-# Useful Info
+Useful Info
+---
 [![https://www.discord.gg/elu](https://i.imgur.com/kz02DD6.gif)](https://www.discord.gg/elu)
