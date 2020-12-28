@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS `player` (
+	`steam_id` bigint(17) NOT NULL,
+	`name` varchar(100) DEFAULT NULL,
+	`rank` varchar(60) DEFAULT NULL,
+	`first_join` int(10) DEFAULT NULL,
+	`last_join` int(10) DEFAULT NULL,
+	`avatar_url` varchar(150) DEFAULT NULL,
+	`playtime` int(10) DEFAULT NULL,
+	`inventory_credits` int(10) unsigned DEFAULT NULL,
+	`event_credits` int(10) unsigned DEFAULT NULL,
+	`donator_credits` int(10) unsigned DEFAULT NULL,
+	`extra` varchar(150) DEFAULT NULL,
+	`rank_expire` int(11) DEFAULT NULL,
+	`rank_expire_to` varchar(32) DEFAULT NULL,
+	`rank_changed` int(11) DEFAULT NULL,
+	`mvp_access` int(11) DEFAULT NULL,
+	PRIMARY KEY (`steam_id`),
+	KEY `rank` (`rank`),
+	KEY `inventory_credits` (`inventory_credits`),
+	KEY `playtime` (`playtime`),
+	KEY `last_join` (`last_join`),
+	FULLTEXT KEY `name` (`name`)
+);
