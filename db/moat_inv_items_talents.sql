@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS `moat_inv_items_talents` (
 	`value` float NOT NULL,
 	`updatedat` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	KEY `weaponid` (`weaponid`),
-	CONSTRAINT `moat_inv_items_talents` FOREIGN KEY (`weaponid`) REFERENCES `moat_inv_items` (`id`) ON DELETE CASCADE
+	CONSTRAINT `fk_moat_inv_items_talents_moat_inv_items` FOREIGN KEY (`weaponid`) REFERENCES `moat_inv_items` (`id`) ON DELETE CASCADE
 );

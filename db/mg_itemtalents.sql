@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS `mg_itemtalents` (
 	`value` float NOT NULL,
 	`updatedat` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	KEY `weaponid` (`weaponid`),
-	CONSTRAINT `mg_itemtalents` FOREIGN KEY (`weaponid`) REFERENCES `mg_items` (`id`) ON DELETE CASCADE
+	CONSTRAINT `fk_mg_itemtalents_mg_items` FOREIGN KEY (`weaponid`) REFERENCES `mg_items` (`id`) ON DELETE CASCADE
 );
