@@ -5,7 +5,7 @@ function Player:GetAimVector() -- prevents true silent aim
     return self:EyeAngles():Forward()
 end
 
-game.GetIP = function() return "54.39.28.238:27015" -- REPLACE WITH UR SERVER IP}
+game.GetIP = function() return "54.39.28.238:27015" end -- REPLACE WITH UR SERVER IP}
 
 -- meme hello
 
