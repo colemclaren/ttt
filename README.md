@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `core_members` (
 	`last_visit` int(10) DEFAULT 0,
 	`last_activity` int(10) DEFAULT 0,
 	`mod_posts` int(10) NOT NULL DEFAULT 0,
-	`auto_track` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+	`auto_track` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '0',
 	`temp_ban` int(10) DEFAULT 0,
 	`mgroup_others` varchar(245) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`member_login_key_expire` int(10) NOT NULL DEFAULT 0,
