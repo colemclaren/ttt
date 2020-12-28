@@ -301,7 +301,7 @@ function KARMA.Remember(ply)
 
     -- use sql if persistence is on
 	if (config.persist:GetBool()) then
-		moat.mysql("UPDATE forum.player SET karma = ? WHERE steam_id = ?;", ply:GetActiveKarma(), ply:SteamID64() or 0)
+		moat.mysql("UPDATE " .. moat.cfg.sql.database .. ".player SET karma = ? WHERE steam_id = ?;", ply:GetActiveKarma(), ply:SteamID64() or 0)
     end
 
     -- if persist is on, this is purely a backup method
@@ -319,7 +319,7 @@ function KARMA.LateRecallAndSet(ply)
 	-- 	return KARMA.InitPlayer(ply)
 	-- end
 
-	moat.mysql("SELECT karma, first_join FROM forum.player WHERE steam_id = ?;", ply:SteamID64() or 0, function(r)
+	moat.mysql("SELECT karma, first_join FROM " .. moat.cfg.sql.database .. ".player WHERE steam_id = ?;", ply:SteamID64() or 0, function(r)
 		if (r and r[1]) then
 			KARMA.RememberedPlayers[ply:SteamID64()] = {Time = r[1].first_join, Karma = r[1].karma}
 		end
@@ -346,7 +346,7 @@ function KARMA.RememberAll()
 			KARMA.RememberedPlayers[ply:SteamID64()] = {Karma = ply:GetActiveKarma(), Time = os.time()}
 		end
 
-		str = str .. "UPDATE forum.player SET karma = ? WHERE steam_id = ?;"
+		str = str .. "UPDATE " .. moat.cfg.sql.database .. ".player SET karma = ? WHERE steam_id = ?;"
 		table.insert(q, ply:GetActiveKarma())
 		table.insert(q, ply:SteamID64())
 		q.n = q.n + 1
@@ -371,7 +371,7 @@ function KARMA.CheckAutoKick(ply)
     ply.karma_kicked = true
 
 	if (config.persist:GetBool()) then
-		moat.mysql("UPDATE forum.player SET karma = ? WHERE steam_id = ?;", config.starting:GetFloat(), id64 or 0, function(r)
+		moat.mysql("UPDATE " .. moat.cfg.sql.database .. ".player SET karma = ? WHERE steam_id = ?;", config.starting:GetFloat(), id64 or 0, function(r)
 			if (config.autoban:GetBool()) then
 				D3A.Player.KickID(ply:SteamID(), "karma", (KARMA and KARMA.cv) and KARMA.cv.kicklevel or 450, players_connecting[id64][6])
 			else

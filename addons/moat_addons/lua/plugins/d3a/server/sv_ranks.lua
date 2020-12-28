@@ -122,8 +122,8 @@ end
 function removeUnauthorizedUser(id64, id32)
 	game.KickID(id32, "oopsie woopsie!! wooks wike u did a vewwy bad thingy wingy!! uwu")
 
-	D3A.MySQL.FormatQuery("insert into forum.player_bans (time, steam_id, staff_steam_id, name, staff_name, length, reason) values (UNIX_TIMESTAMP(), #, 0, 'Unauthorized User', 'Console', 0, '[Automated] Unauthorized Rank');", id64)
-	D3A.MySQL.FormatQuery("update forum.player set forum.player.rank = null where forum.player.steam_id = #;", id64)
+	D3A.MySQL.FormatQuery("insert into " .. moat.cfg.sql.database .. ".player_bans (time, steam_id, staff_steam_id, name, staff_name, length, reason) values (UNIX_TIMESTAMP(), #, 0, 'Unauthorized User', 'Console', 0, '[Automated] Unauthorized Rank');", id64)
+	D3A.MySQL.FormatQuery("update " .. moat.cfg.sql.database .. ".player set " .. moat.cfg.sql.database .. ".player.rank = null where " .. moat.cfg.sql.database .. ".player.steam_id = #;", id64)
 end
 
 local function checkuser(pl)

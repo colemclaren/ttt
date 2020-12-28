@@ -152,7 +152,7 @@ function D3A.Warns.Get(steamid, staff, start, length, cb)
 		" IF(acknowledged IS NOT NULL AND LENGTH(acknowledged) > 1, FROM_UNIXTIME(acknowledged, '%c/%d/%Y @ %I:%i %p'), 'Offline') AS seen," ..
 		" CAST(b.steam_id AS CHAR) AS steam_id, CAST(staff_steam_id AS CHAR) AS staff_steam_id," ..
 		" p.name AS name, s.name AS staff_name, p.avatar_url AS avatar_url, s.avatar_url AS staff_avatar_url " ..
-		"FROM forum.player_warns AS b LEFT JOIN forum.player AS p ON b.steam_id = p.steam_id LEFT JOIN forum.player AS s ON b.staff_steam_id = s.steam_id " ..
+		"FROM " .. moat.cfg.sql.database .. ".player_warns AS b LEFT JOIN " .. moat.cfg.sql.database .. ".player AS p ON b.steam_id = p.steam_id LEFT JOIN " .. moat.cfg.sql.database .. ".player AS s ON b.staff_steam_id = s.steam_id " ..
 		"WHERE " .. (staff and "b.staff_steam_id" or "b.steam_id").. " = ? ORDER BY b.time DESC " ..
 		"LIMIT " ..(start or 0) .. "," .. (length or 50), id64, function(data)
 		if (cb) then cb(ParseWarns(data or {}), data) end
