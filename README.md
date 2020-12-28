@@ -19,7 +19,7 @@ Config located @ [system/cfg/sql/sv_config.lua](https://github.com/colemclaren/m
 ---
 ``Pro Tip: Database name is `forum` for most of the code.``
 
-[Here's the queries for your MySQL database schema for your server](https://github.com/colemclaren/moat-gg-ttt/blob/master/db.sql).
+[Here's the queries for your MySQL database schema for your server](https://github.com/colemclaren/moat-gg-ttt/blob/master/db/schema).
 
 You can run these queries in your own table, or save the below code to a temporary SQL file, for example like \`moat.sql\`.
 
