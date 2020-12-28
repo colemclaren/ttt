@@ -22,7 +22,7 @@ MySQL Schema
 ---
 Database name is just \`forum\` for most of the code. Here's the queries for the MySQL database schema for Moat TTT.
 
-You must import these into your MySQL database to complete setup, before the inventories try to load on your server start up.
+You must import these into your MySQL database to complete setup, before the inventories try to load on your server starting up. You can run these queries in your own table, or save the below code block to a temporary SQL file, for example like \`moat.sql\`. Then import that temporary file to your MySQL \`forum\` database, subsequently creating the inventory data tables schema, which are absolutely necessary if you want to save data properly, like you should be doing between each of your players sessions on your server. We use MySQL to launch EVEN more replicated servers, effortlessly and comfortably when our player slots become full or quickly get filled up on your own TTT servers fleet.
 
 
 ```sql
