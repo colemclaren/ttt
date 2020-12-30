@@ -545,45 +545,7 @@ function _contracts()
                 local q = db:query("SELECT id, DAYOFWEEK(CURRENT_TIMESTAMP) as day_of_week, contract, contract_id from moat_contracts_v2 where updating_server = '" .. db:escape(game.GetIP()) .. "';" .. "UPDATE moat_contracts_v2 SET updating_server = null WHERE updating_server = '" .. db:escape(game.GetIP()) .. "';")
 
                 function q:onSuccess(data)
-                    print"Refreshing contract"
-                    data = data[1]
-
-                    if (not data) then
-                        print"Cannot update, server does not own contract"
-
-                        return
-                    end
-
-                    contract_transferall()
-                    local next_contract_id = data.contract_id or 1 -- id for weapon contracts
-                    local upnext = kill_contracts[1]
-
-                    if (data.day_of_week ~= 1) then
-                        next_contract_id = (next_contract_id % #wpn_contracts) + 1
-                        upnext = wpn_contracts[next_contract_id]
-                    end
-
-                    local name, c = upnext[1], upnext[2]
-                    local q = db:query("INSERT INTO moat_contracts_v2 (contract,start_time,`updating_server`,`contract_id`) VALUES ('" .. db:escape(name) .. "', CURRENT_TIMESTAMP, '" .. db:escape(game.GetIP()) .. "', " .. next_contract_id .. ");")
-
-                    function q:onSuccess()
-                        local q = db:query("SELECT ID FROM moat_contracts_v2 WHERE `updating_server` is not null;")
-
-                        function q:onSuccess(b)
-                            contract_id = b[1].ID
-                        end
-
-                        q:start()
-                    end
-
-                    q:start()
-                    c.runfunc()
-                    local s = markdown.WrapBoldLine("Daily Contract for " .. (util.NiceDate():Bold()))
-                    s = s .. markdown.Block(name .. markdown.WrapLine(c.desc))
-                    discord.Send("Contracts", s)
-                    lottery_finish()
-                    contract_loaded = name
-                    global_bounties_refresh()
+                    contract_reset(data)
                 end
 
                 function q:onError(err)
