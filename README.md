@@ -1,4 +1,4 @@
-THE FIRST INVENTORY TTT SERVER
+THE FIRST INVENTORY TTT GAMEMODE
 =========
 From my past experiences, your gmod server's player slots __WILL__ become fulled or be filled up too quickly.
 
@@ -6,19 +6,19 @@ To fix this for garry, your requirements is MySQL server to launch __as many mor
 
 You absolutely __WILL__ see needs to expand your TTT server fleet right away if you're starting up with just one server.
 
-Whats Moat?
+Whats TTT?
 ---
-Moat is the best Trouble in Terrorist Town base. Developed between 2015 to 2020, Cole McLaren also known as elu, has released their entire lifes work on their TTT server. His whole SERVER codebase to the most addicting TTT servers on Garry's Mod (over 30 servers) was made public for free, so that setting up your community is simplified and easy.
+TTT is the best Trouble in Terrorist Town base. Developed between 2015 to 2020, Cole McLaren also known as elu, has released their entire lifes work on their TTT server. His whole SERVER codebase to the most addicting TTT servers on Garry's Mod (over 30 servers) was made public for free, so that setting up your community is simplified and easy.
 
 MySQL Server
 ---
-Config located @ [system/cfg/sql/sv_config.lua](https://github.com/colemclaren/moat-gg-ttt/blob/master/addons/moat_addons/lua/system/cfg/sql/sv_config.lua#L3-L6).
+Config located @ [system/cfg/sql/sv_config.lua](https://github.com/colemclaren/ttt/blob/master/addons/moat_addons/lua/system/cfg/sql/sv_config.lua#L3-L6).
 
 
 Database Schema
 ---
 
-Initial MySQL database setup @ [db.sql](https://github.com/colemclaren/moat-gg-ttt/blob/master/db.sql).
+Initial MySQL database setup @ [db.sql](https://github.com/colemclaren/ttt/blob/master/db.sql).
 
 You can run these queries in your own table, or save the below code to a temporary SQL file, for example like \`moat.sql\`.
 
