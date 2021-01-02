@@ -6,7 +6,7 @@ To fix this for garry, your requirements is MySQL server to launch __as many mor
 
 You absolutely __WILL__ see needs to expand your TTT server fleet right away if you're starting up with just one server.
 
-Whats Velkon Gaming TTT?
+What's Velkon Gaming TTT?
 ---
 Velkon Gaming is the best Trouble in Terrorist Town base. Developed between 2015 to 2020, Cole McLaren also known as elu, has released their entire lifes work on their TTT server. His whole SERVER codebase to the most addicting TTT servers on Garry's Mod (over 30 servers) was made public for free, so that setting up your community is simplified and easy.
 
@@ -44,4 +44,4 @@ These are also welcome.
 
 Useful Info
 ---
-[![https://www.discord.gg/elu](https://i.imgur.com/kz02DD6.gif)](https://www.discord.gg/elu)
+[![https://www.discord.gg/elu](https://i.imgur.com/kz02DD6.gif)]

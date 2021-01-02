@@ -1,104 +1,66 @@
-
 ITEM = {}
-
 ITEM.ID = 203
-
 ITEM.Name = "Baseball Bat"
-
 ITEM.WeaponClass = "weapon_ttt_baseballbat"
-
-ITEM.NameColor = Color( 255, 204, 153 )
-
+ITEM.NameColor = Color(255, 204, 153)
 ITEM.Rarity = 2
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -10 },
-
-	Damage = { min = 4, max = 13 },
-
-	Firerate = { min = 8, max = 12 },
-
-	Pushrate = { min = -20, max = -30 },
-
-	Force = { min = 40, max = 60 }
-
+	Weight = {min = -5, max = -10},
+	Damage = {min = 4, max = 13},
+	Firerate = {min = 8, max = 12},
+	Pushrate = {min = -20, max = -30},
+	Force = {min = 40, max = 60}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 207
-
 ITEM.Name = "A Baton"
-
 ITEM.Image = "https://static.moat.gg/f/ff9f07c2181f584aefc6f8312a27e417.png" 
-
 ITEM.WeaponClass = "weapon_ttt_baton"
-
-ITEM.NameColor = Color( 0, 76, 153, 255 )
-
+ITEM.NameColor = Color(0, 76, 153, 255)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -15, max = -25 },
-
-	Damage = { min = 5, max = 10 },
-
-	Firerate = { min = 30, max = 60 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 20 }
-
+	Weight = {min = -15, max = -25},
+	Damage = {min = 5, max = 10},
+	Firerate = {min = 30, max = 60},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 20}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 2007
-
 ITEM.Name = "American Baton"
-
 ITEM.Image = "https://static.moat.gg/f/ff9f07c2181f584aefc6f8312a27e417.png" 
-
 ITEM.WeaponClass = "weapon_ttt_baton"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -15, max = -25 },
-
-	Damage = { min = 5, max = 20 },
-
-	Firerate = { min = 30, max = 60 },
-
-	Pushrate = { min = 50, max = 100 },
-
-	Force = { min = 13, max = 20 }
-
+	Weight = {min = -15, max = -25},
+	Damage = {min = 5, max = 20},
+	Firerate = {min = 30, max = 60},
+	Pushrate = {min = 50, max = 100},
+	Force = {min = 13, max = 20}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 ITEM.ID = 7004
@@ -109,692 +71,470 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 5
 ITEM.MinStats = 5
 ITEM.Stats = {
-	Weight = { min = -15, max = -30 },
-	Damage = { min = 10, max = 25 },
-	Firerate = { min = 10, max = 30 },
-	Pushrate = { min = 5, max = 10 },
-	Force = { min = 13, max = 35 }
+	Weight = {min = -15, max = -30},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 205
-
 ITEM.Name = "Cardboard Knife"
-
 ITEM.WeaponClass = "weapon_ttt_cardboardknife"
-
-ITEM.NameColor = Color( 50, 50, 200 )
-
+ITEM.NameColor = Color(50, 50, 200)
 ITEM.Rarity = 5
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -10, max = -20 },
-
-	Damage = { min = 5, max = 10 },
-
-	Firerate = { min = 30, max = 60 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 20 }
-
+	Weight = {min = -10, max = -20},
+	Damage = {min = 5, max = 10},
+	Firerate = {min = 30, max = 60},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 20}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 208
-
 ITEM.Name = "A Chair"
-
 ITEM.Image = "https://static.moat.gg/f/ec565c8080853a8074da82047026fdbb.png" 
-
 ITEM.WeaponClass = "weapon_ttt_chair"
-
-ITEM.NameColor = Color( 255, 255, 0 )
-
+ITEM.NameColor = Color(255, 255, 0)
 ITEM.Rarity = 2
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -10 },
-
-	Damage = { min = 30, max = 50 },
-
-	Firerate = { min = -20, max = -50 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -5, max = -10},
+	Damage = {min = 30, max = 50},
+	Firerate = {min = -20, max = -50},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
 ITEM.ID = 17699
-
 ITEM.Name = "Deep Frying Ban"
-
 ITEM.WeaponClass = "weapon_ttt_fryingpan"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Omega Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 5
-
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
-
 ITEM.Stats = {
-	Weight = { min = -30, max = 30 },
-	Damage = { min = -95, max = -95 },
-	Firerate = { min = 10, max = 30 },
-	Pushrate = { min = 5, max = 10 },
-	Force = { min = 13, max = 35 }
+	Weight = {min = -30, max = 30},
+	Damage = {min = -95, max = -95},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-
 ITEM.Talents = {"Deep Fried XL", "random"}
 m_AddDroppableItem(ITEM, 'Melee')
-
 ITEM.NotDroppable = true
-
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
 m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 728
-
 ITEM.Name = "A Diamond Pickaxe"
-
 ITEM.WeaponClass = "weapon_diamond_pick"
-
-ITEM.NameColor = Color( 0, 255, 255 )
-
+ITEM.NameColor = Color(0, 255, 255)
 ITEM.Rarity = 5
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -15, max = -30 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -15, max = -30},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 729
-
 ITEM.Name = "A Fish"
-
 ITEM.WeaponClass = "weapon_fish"
-
 ITEM.NameColor = Color(255,160,122)
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -15 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -5, max = -15},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 730
-
 ITEM.Name = "Fists"
-
 ITEM.WeaponClass = "weapon_ttt_fists"
-
 ITEM.Rarity = 3
-
 ITEM.Image = "https://static.moat.gg/f/96f183e138d991a720cdebb89f1fd137.png"
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -10, max = -20 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 20, max = 50 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -10, max = -20},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 20, max = 50},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 209
-
 ITEM.Name = "Frying Pan"
-
 ITEM.WeaponClass = "weapon_ttt_fryingpan"
-
-ITEM.NameColor = Color( 160, 160, 160 )
-
+ITEM.NameColor = Color(160, 160, 160)
 ITEM.Rarity = 1
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -10 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -5, max = -10},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 731
-
 ITEM.Name = "A Katana"
-
 ITEM.WeaponClass = "weapon_katana"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -20, max = -30 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -20, max = -30},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 210
-
 ITEM.Name = "A Keyboard"
-
 ITEM.WeaponClass = "weapon_ttt_keyboard"
-
-ITEM.NameColor = Color( 127, 0, 255 )
-
+ITEM.NameColor = Color(127, 0, 255)
 ITEM.Rarity = 2
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -15 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 20, max = 40 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 20 }
-
+	Weight = {min = -5, max = -15},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 20, max = 40},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 20}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 732
-
 ITEM.Name = "A Lightsaber"
-
 ITEM.WeaponClass = "weapon_light_saber"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
 	
-	Weight = { min = -20, max = -35 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -20, max = -35},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 733
-
 ITEM.Name = "A Diamond Sword"
-
 ITEM.WeaponClass = "weapon_diamond_sword"
-
 ITEM.NameColor = Color(0, 255, 255)
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -20, max = -30 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -20, max = -30},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 206
-
 ITEM.Name = "Meat Cleaver"
-
 ITEM.WeaponClass = "weapon_ttt_meatcleaver"
-
-ITEM.NameColor = Color( 51, 0, 0 )
-
+ITEM.NameColor = Color(51, 0, 0)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -15 },
-
-	Damage = { min = 10, max = 20 },
-
-	Firerate = { min = 20, max = 40 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 5, max = 10 }
-
+	Weight = {min = -5, max = -15},
+	Damage = {min = 10, max = 20},
+	Firerate = {min = 20, max = 40},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 5, max = 10}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 160
-
 ITEM.Name = "Pipe Wrench"
-
 ITEM.WeaponClass = "weapon_ttt_pipewrench"
-
-ITEM.NameColor = Color( 153, 0, 0 )
-
+ITEM.NameColor = Color(153, 0, 0)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -15 },
-
-	Damage = { min = 5, max = 10 },
-
-	Firerate = { min = 15, max = 25 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 15, max = 40 }
-
+	Weight = {min = -5, max = -15},
+	Damage = {min = 5, max = 10},
+	Firerate = {min = 15, max = 25},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 15, max = 40}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 204
-
 ITEM.Name = "A Pot"
-
 ITEM.WeaponClass = "weapon_ttt_rollingpin"
-
-ITEM.NameColor = Color( 255, 128, 0 )
-
+ITEM.NameColor = Color(255, 128, 0)
 ITEM.Rarity = 2
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -10 },
-
-	Damage = { min = 5, max = 10 },
-
-	Firerate = { min = 15, max = 25 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 15, max = 40 }
-
+	Weight = {min = -5, max = -10},
+	Damage = {min = 5, max = 10},
+	Firerate = {min = 15, max = 25},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 15, max = 40}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 802
-
 ITEM.Name = "A Smart Pen"
-
 ITEM.WeaponClass = "weapon_smartpen"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -20, max = -30 },
-
-	Damage = { min = 15, max = 35 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -20, max = -30},
+	Damage = {min = 15, max = 35},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 801
-
 ITEM.Name = "A Sword"
-
 ITEM.WeaponClass = "weapon_pvpsword"
-
 ITEM.NameColor = Color(70,130,180)
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -20 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -5, max = -20},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 734
-
 ITEM.Name = "A Tomahawk"
-
 ITEM.WeaponClass = "weapon_tomahawk"
-
 ITEM.NameColor = Color	(47,79,79)
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -15 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -5, max = -15},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 735
-
 ITEM.Name = "A Toy Hammer"
-
 ITEM.WeaponClass = "weapon_toy_hammer"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MinStats = 5
-
 ITEM.Stats = {
-
-	Weight = { min = -5, max = -15 },
-
-	Damage = { min = 10, max = 25 },
-
-	Firerate = { min = 10, max = 30 },
-
-	Pushrate = { min = 5, max = 10 },
-
-	Force = { min = 13, max = 35 }
-
+	Weight = {min = -5, max = -15},
+	Damage = {min = 10, max = 25},
+	Firerate = {min = 10, max = 30},
+	Pushrate = {min = 5, max = 10},
+	Force = {min = 13, max = 35}
 }
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
-
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 ITEM.Collection = 'Melee Collection'
-
 ITEM.ID = ITEM.ID + 10000
-
-ITEM.MinTalents = 0 ITEM.MaxTalents = 3 ITEM.Talents = {"random", "random", "random"} m_AddDroppableItem(ITEM, 'Melee')
+ITEM.MinTalents = 0
+ITEM.MaxTalents = 3
+ITEM.Talents = {"random", "random", "random"}
+m_AddDroppableItem(ITEM, 'Melee')
 
 ITEM = {}
-
 ITEM.ID = 23
-
 ITEM.Name = "Ammo Hoarder"
-
-ITEM.NameColor = Color( 255, 102, 0 )
-
+ITEM.NameColor = Color(255, 102, 0)
 ITEM.Description = "Begin the round with +%s_ more ammo in your reserves"
-
 ITEM.Image = "https://static.moat.gg/f/62a7db51574ae4a341e61c4174866816.png" 
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Stats = {
-
-	{ min = 45, max = 125 }
-
+	{ min = 45, max = 125}
 }
-
 function ITEM:OnBeginRound(ply, powerup_mods)
 	timer.Simple(3, function()
 		if (not IsValid(ply)) then return end
-
 		for k, v in ipairs(ply:GetWeapons()) do
 			local ammo_type, max_clip = v:GetPrimaryAmmoType(), v:GetMaxClip1()
 			local ammo_to_give = math.Clamp(((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100) * (max_clip * 2), 0, max_clip * 2)
@@ -805,67 +545,40 @@ end
 m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
-
 ITEM.ID = 24
-
 ITEM.Name = "Cat Sense"
-
-ITEM.NameColor = Color( 139, 0, 166 )
-
+ITEM.NameColor = Color(139, 0, 166)
 ITEM.Description = "Fall damage is reduced by %s_ when using this power-up"
-
 ITEM.Image = "https://static.moat.gg/f/e62954919e052ed558d6b2e451badd24.png" 
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Stats = {
-
-	{ min = -35, max = -75 }
-
+	{ min = -35, max = -75}
 }
-
-function ITEM:OnDamageTaken( ply, dmginfo, powerup_mods )
-
-	if ( dmginfo:IsFallDamage() ) then
-
-		local damage_scale = 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * math.min(1, powerup_mods[1]) ) ) / 100 )
-
-		dmginfo:ScaleDamage( damage_scale )
-
+function ITEM:OnDamageTaken(ply, dmginfo, powerup_mods)
+	if (dmginfo:IsFallDamage()) then
+		local damage_scale = 1 + ((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100)
+		dmginfo:ScaleDamage(damage_scale)
 	end
-
 end
 m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
-
 ITEM.ID = 600
-
 ITEM.Name = "Credit Hoarder"
-
-ITEM.NameColor = Color( 255, 255, 0 )
-
+ITEM.NameColor = Color(255, 255, 0)
 ITEM.Description = "Start with %s extra credits as a detective/traitor when using this power-up"
-
 ITEM.Image = "https://static.moat.gg/f/78738ccf67e834f86317059b2dd06caf.png"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Crimson Collection"
-
 ITEM.Stats = {
-
-	{ min = 1, max = 5 }
-
+	{ min = 1, max = 5}
 }
-
 function ITEM:OnBeginRound(ply, powerup_mods)
 	timer.Simple(2, function()
 		if (not IsValid(ply)) then return end
 		if (ply:GetRole() and ply:GetRole() == ROLE_TRAITOR or ply:GetRole() == ROLE_DETECTIVE) then
-			local new_credits = GetConVarNumber("ttt_credits_starting") + math.Round( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * math.min(1, powerup_mods[1]) ) )
+			local new_credits = GetConVarNumber("ttt_credits_starting") + math.Round(self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1])))
 			ply:SetCredits(new_credits)
 		end
 	end)
@@ -874,239 +587,142 @@ m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
 ITEM.ID = 601
-
 ITEM.Name = "Flame Retardant"
-
-ITEM.NameColor = Color( 255, 60, 0 )
-
+ITEM.NameColor = Color(255, 60, 0)
 ITEM.Description = "Fire and explosion damage is reduced by %s_ when using this power-up"
-
 ITEM.Image = "https://static.moat.gg/f/7d05b151a4f6536508979e4edc065afd.png" 
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Crimson Collection"
-
 ITEM.Stats = {
 	{min = -35, max = -75}
 }
-
 local dmg_prot = {
 	[DMG_BURN] = true,
 	[DMG_BLAST] = true
 }
-
 function ITEM:OnDamageTaken(ply, dmginfo, powerup_mods)
 	if (dmg_prot[dmginfo:GetDamageType()]) then
-		local damage_scale = 1 + ((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100 )
+		local damage_scale = 1 + ((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100)
 		dmginfo:ScaleDamage(damage_scale)
 	end
 end
 m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
-
 ITEM.ID = 11
-
 ITEM.Name = "Froghopper"
-
 ITEM.NameEffect = "bounce"
-
-ITEM.NameColor = Color( 255, 0, 0 )
-
+ITEM.NameColor = Color(255, 0, 0)
 ITEM.Description = "Froghoppers can jump 70 times their body height. Too bad this only allows you to jump +%s_ higher"
-
 ITEM.Image = "https://static.moat.gg/f/efbb38256abb921e7cc3425819f80949.png" 
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Stats = {
-
-	{ min = 1, max = 10 }
-
+	{ min = 1, max = 10}
 }
-
-function ITEM:OnPlayerSpawn( ply, powerup_mods )
-
-	local new_jump_power = ply.JumpHeight * ( 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * math.min(1, powerup_mods[1]) ) ) / 100 ) )
+function ITEM:OnPlayerSpawn(ply, powerup_mods)
+	local new_jump_power = ply.JumpHeight * (1 + ((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100))
 	if (GetGlobal("MOAT_MINIGAME_ACTIVE")) then return end
-	ply:SetJumpPower( new_jump_power )
-
+	ply:SetJumpPower(new_jump_power)
 end
 m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
-
 ITEM.ID = 602
-
 ITEM.Name = "Hard Hat"
-
 ITEM.NameColor = Color(0, 255, 255)
-
 ITEM.Description = "Headshot damage is reduced by %s_ when using this power-up"
-
 ITEM.Image = "https://static.moat.gg/f/ddaebffd6d2f4cdf354479e029426159.png" 
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Crimson Collection"
-
 ITEM.Stats = {
 	{min = -15, max = -38}
 }
-
 function ITEM:ScalePlayerDamage(ply, hitgroup, dmginfo, powerup_mods)
-	if ( hitgroup == HITGROUP_HEAD ) then
-		local decrease = 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * math.min(1, powerup_mods[1]) ) ) / 100 )
+	if (hitgroup == HITGROUP_HEAD) then
+		local decrease = 1 + ((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100)
 		dmginfo:ScaleDamage(decrease)
 	end
 end
 m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
-
 ITEM.ID = 25
-
 ITEM.Name = "Health Bloom"
-
-ITEM.NameColor = Color( 0, 204, 0 )
-
+ITEM.NameColor = Color(0, 204, 0)
 ITEM.Description = "Health is increased by +%s when using this power-up"
-
 ITEM.Image = "https://moat.gg/assets/img/smithhealicon.png" 
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Stats = {
-
-	{ min = 5, max = 25 }
-
+	{ min = 5, max = 25}
 }
-
-function ITEM:OnPlayerSpawn( ply, powerup_mods )
-
+function ITEM:OnPlayerSpawn(ply, powerup_mods)
 	local new_health = ply.MaxHealth + self.Stats[1].min + (self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1])
-
-	ply:SetMaxHealth( new_health )
-
-	ply:SetHealth( new_health )
-
+	ply:SetMaxHealth(new_health)
+	ply:SetHealth(new_health)
 	ply.MaxHealth = new_health
-
 end
 m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
-
 ITEM.ID = 26
-
 ITEM.Name = "Marathon Runner"
-
-ITEM.NameColor = Color( 85, 85, 255 )
-
+ITEM.NameColor = Color(85, 85, 255)
 ITEM.Description = "Movement speed is increased by +%s_ when using this power-up"
-
 ITEM.Image = "https://static.moat.gg/f/3860e90ff93a1fb663421ddf92fbbffa.png" 
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Stats = {
-
-	{ min = 5, max = 15 }
-
+	{ min = 5, max = 15}
 }
-
-function ITEM:OnPlayerSpawn( ply, powerup_mods )
-
-	/*local new_speed = ply.MaxSpeed * ( 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * math.min(1, powerup_mods[1]) ) ) / 100 ) )
-
-	ply:SetMaxSpeed( new_speed )
-
-	ply:SetWalkSpeed( new_speed )
-
-	ply:SetRunSpeed( new_speed )
-
+function ITEM:OnPlayerSpawn(ply, powerup_mods)
+	/*local new_speed = ply.MaxSpeed * (1 + ((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100))
+	ply:SetMaxSpeed(new_speed)
+	ply:SetWalkSpeed(new_speed)
+	ply:SetRunSpeed(new_speed)
 	ply.MaxSpeed = new_speed*/
-
 end
 m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
-
 ITEM.ID = 604
-
 ITEM.Name = "Experience Lover"
-
-ITEM.NameColor = Color( 255, 0, 255 )
-
+ITEM.NameColor = Color(255, 0, 255)
 ITEM.Description = "Gain %s_ more weapon XP after a rightfull kill when using this power-up"
-
 ITEM.Image = "https://static.moat.gg/f/1114672223ae94d7d0ea360abf9924e0.png" 
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Crimson Collection"
-
 ITEM.Stats = {
-
-	{ min = 25, max = 75 }
-
+	{ min = 25, max = 75}
 }
-
-function ITEM:OnPlayerSpawn( ply, powerup_mods )
-
-	local xp_multi = 1 + ( ( self.Stats[1].min + ( ( self.Stats[1].max - self.Stats[1].min ) * math.min(1, powerup_mods[1]) ) ) / 100 )
-
+function ITEM:OnPlayerSpawn(ply, powerup_mods)
+	local xp_multi = 1 + ((self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * math.min(1, powerup_mods[1]))) / 100)
 	ply.ExtraXP = xp_multi
-
 end
 m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
-
 ITEM.ID = 22
-
 ITEM.Name = "Alpha Crate"
-
 ITEM.Description = "This crate contains an item from the Alpha Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/b49edbc96b010036c2bfbb15fa186987.png"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 300
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 365
-
 ITEM.Name = "Beta Crate"
-
 ITEM.Description = "This crate contains an item from the Beta Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/4110e1152fb08b79d71114627012391a.png" 
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 150
 m_AddDroppableItem(ITEM, 'Crate')
 
@@ -1128,23 +744,14 @@ ITEM.NotDroppable = true
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 157
-
 ITEM.Name = "Cosmetic Crate"
-
 ITEM.Description = "This crate contains an item from the Cosmetic Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/ccec866eabde09c133a3f6301d558179.png"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 300
 m_AddDroppableItem(ITEM, 'Crate')
 
@@ -1162,23 +769,14 @@ ITEM.NewItem = 1577779200
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 700
-
 ITEM.Name = "Crimson Crate"
-
 ITEM.Description = "This crate contains an item from the Crimson Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/5ce300e78199481c28d09aebae2e0701.png"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Crimson Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 200
 m_AddDroppableItem(ITEM, 'Crate')
 
@@ -1285,50 +883,29 @@ ITEM.NotDroppable = true
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 275
-
 ITEM.Name = "Effect Crate"
-
 ITEM.Description = "This crate contains an item from the Effect Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/effect_crate64.png" 
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Effect Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 3950
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 159
-
 ITEM.Name = "50/50 Crate"
-
 ITEM.Description = "This crate has a 50/50 chance of returning a terrible item, or a great item! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/fiftyfifty_crate64.png" 
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "50/50 Collection"
-
 ITEM.CrateShopOverride = "50/50"
-
 ITEM.NameEffect = "enchanted"
-
-ITEM.NameEffectMods = { Color( 0, 0, 255 ) }
-
+ITEM.NameEffectMods = { Color(0, 0, 255)}
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 2000
 m_AddDroppableItem(ITEM, 'Crate')
 
@@ -1360,52 +937,34 @@ m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
 ITEM.ID = 1991
-
 ITEM.Name = "Independence Crate"
 ITEM.NameEffect = "enchanted"
 ITEM.NameColor = Color(0, 255, 255)
 ITEM.NameEffectMods = {Color(255, 0, 0)}
-
 ITEM.Description = "This crate contains an item from the Independence Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/usa_crate64.png"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 28450
 ITEM.LimitedShop = 1594882800
 ITEM.Rewardable = true
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 158
-
 ITEM.Name = "Melee Crate"
-
 ITEM.Description = "This crate contains an item from the Melee Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/melee_crate64.png" 
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Melee Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 200
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 9990
 ITEM.Name = "Omega Crate"
 ITEM.Description = "This crate contains an item from the Omega Collection! Right click to open"
@@ -1420,23 +979,14 @@ ITEM.WeaponForcePercent = 0.33
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 211
-
 ITEM.Name = "Model Crate"
-
 ITEM.Description = "This crate contains an item from the Model Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/model_crate64.png" 
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 450
 m_AddDroppableItem(ITEM, 'Crate')
 
@@ -1465,23 +1015,14 @@ ITEM.Price = 50000
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 810
-
 ITEM.Name = "Spring Crate"
-
 ITEM.Description = "This crate contains an item from the Spring Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/spring_crate64.png" 
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Spring Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 175
 m_AddDroppableItem(ITEM, 'Crate')
 
@@ -1498,23 +1039,14 @@ ITEM.Price = 2000
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 524
-
 ITEM.Name = "Urban Style Crate"
-
 ITEM.Description = "This crate contains an item from the Urban Style Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/f/urban_crate64.png" 
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Urban Style Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 300
 m_AddDroppableItem(ITEM, 'Crate')
 
@@ -1538,23 +1070,14 @@ ITEM.NotDroppable = true
 m_AddDroppableItem(ITEM, 'Crate')
 
 ITEM = {}
-
 ITEM.ID = 67
-
 ITEM.Name = "Aqua Palm Crate"
-
 ITEM.Description = "This crate contains an item from the Aqua Palm Collection! Right click to open"
-
 ITEM.Image = "https://static.moat.gg/ttt/aqua_palm_crate_icon.png" 
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Aqua Palm Collection"
-
 ITEM.Active = true
-
 ITEM.Stackable = true
-
 ITEM.Price = 250
 m_AddDroppableItem(ITEM, 'Crate')
 
@@ -1566,13 +1089,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 30 },
-	Accuracy = { min = 0, max = 23 },
-	Kick = { min = 0, max = -23 },
-	Firerate = { min = 0, max = 23 },
-	Magazine = { min = 0, max = 28 },
-	Range = { min = 0, max = 28 },
-	Weight = { min = 0, max = -7 }
+	Damage = {min = 0, max = 30},
+	Accuracy = {min = 0, max = 23},
+	Kick = {min = 0, max = -23},
+	Firerate = {min = 0, max = 23},
+	Magazine = {min = 0, max = 28},
+	Range = {min = 0, max = 28},
+	Weight = {min = 0, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -1587,38 +1110,36 @@ ITEM.Rarity = 9
 ITEM.Collection = "24 Hour Marathon Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
     Damage = {
         min = 17,
         max = 28
-    },
+   },
     Accuracy = {
         min = 17,
         max = 28
-    },
+   },
     Kick = {
         min = -17,
         max = -28
-    },
+   },
     Firerate = {
         min = 17,
         max = 28
-    },
+   },
     Magazine = {
         min = 23,
         max = 33
-    },
+   },
     Range = {
         min = 23,
         max = 33
-    },
+   },
     Weight = {
         min = -5,
         max = -7
-    }
+   }
 }
-
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
 ITEM.Talents = {"random", "random", "random", "random"}
@@ -1637,45 +1158,43 @@ ITEM.Stats = {
     Damage = {
         min = 17,
         max = 28
-    },
+   },
     Accuracy = {
         min = 17,
         max = 28
-    },
+   },
     Kick = {
         min = -17,
         max = -28
-    },
+   },
     Firerate = {
         min = 17,
         max = 28
-    },
+   },
     Magazine = {
         min = 23,
         max = 33
-    },
+   },
     Range = {
         min = 23,
         max = 33
-    },
+   },
     Weight = {
         min = -5,
         max = -7
-    },
+   },
     Reloadrate = {
         min = 80,
         max = 120
-    },
+   },
     Deployrate = {
         min = -60,
         max = -40
-    }
+   }
 }
-
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
 ITEM.Talents = {"random", "random", "random", "random"}
-
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -1687,12 +1206,12 @@ ITEM.NameColor = Color(0,191,255)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -1707,12 +1226,12 @@ ITEM.Collection = "Summer Event Collection"
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -1721,918 +1240,507 @@ m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2550
-
 ITEM.Name = "Patriotic"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2551
-
 ITEM.Name = "Military-Grade"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2551
-
 ITEM.Name = "Military-Grade"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2561
-
 ITEM.Name = "AMERICAN"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 17, max = 28 },
-
-	Accuracy = { min = 17, max = 28 },
-
-	Kick = { min = -17, max = -28 },
-
-	Firerate = { min = 17, max = 28 },
-
-	Magazine = { min = 23, max = 33 },
-
-	Range = { min = 23, max = 33 },
-
-	Weight = { min = -5, max = -7 }
-
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "Brutal", "Explosive", "random" }
+ITEM.Talents = { "Brutal", "Explosive", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2561
-
 ITEM.Name = "AMERICAN"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 17, max = 28 },
-
-	Accuracy = { min = 17, max = 28 },
-
-	Kick = { min = -17, max = -28 },
-
-	Firerate = { min = 17, max = 28 },
-
-	Magazine = { min = 23, max = 33 },
-
-	Range = { min = 23, max = 33 },
-
-	Weight = { min = -5, max = -7 }
-
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "Brutal", "Explosive", "random" }
+ITEM.Talents = { "Brutal", "Explosive", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2550
-
 ITEM.Name = "Patriotic"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2552
-
 ITEM.Name = "Independent"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2552
-
 ITEM.Name = "Independent"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2553
-
 ITEM.Name = "Redneck"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2553
-
 ITEM.Name = "Redneck"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2554
-
 ITEM.Name = "Bombing"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2554
-
 ITEM.Name = "Bombing"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2555
-
 ITEM.Name = "Freedom"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2555
-
 ITEM.Name = "Freedom"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2556
-
 ITEM.Name = "Country"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2556
-
 ITEM.Name = "Country"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2557
-
 ITEM.Name = "Western"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2557
-
 ITEM.Name = "Western"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2558
-
 ITEM.Name = "Trumping"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2558
-
 ITEM.Name = "Trumping"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2559
-
 ITEM.Name = "Explosive"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "Explosive", "random" }
+ITEM.Talents = { "random", "Explosive", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 2559
-
 ITEM.Name = "Explosive"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "Explosive", "random" }
+ITEM.Talents = { "random", "Explosive", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 39
-
 ITEM.Name = "Ammofull"
-
-ITEM.NameColor = Color( 255, 128, 0 )
-
+ITEM.NameColor = Color(255, 128, 0)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 4, max = 13 },
-
-	Accuracy = { min = -13, max = -17 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 12 },
-
-	Magazine = { min = 20, max = 50 },
-
-	Range = { min = 13, max = 20 },
-
+	Damage = {min = 4, max = 13},
+	Accuracy = {min = -13, max = -17},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 20, max = 50},
+	Range = {min = 13, max = 20},
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 52
-
 ITEM.Name = "Angelic"
-
-ITEM.NameColor = Color( 255, 0, 255 )
-
+ITEM.NameColor = Color(255, 0, 255)
 ITEM.Rarity = 7
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 17, max = 28 },
-
-	Accuracy = { min = 17, max = 28 },
-
-	Kick = { min = -17, max = -28 },
-
-	Firerate = { min = 17, max = 28 },
-
-	Magazine = { min = 23, max = 33 },
-
-	Range = { min = 23, max = 33 },
-
-	Weight = { min = -5, max = -7 }
-
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -2643,13 +1751,13 @@ ITEM.Collection = "Summer Event Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -2658,75 +1766,46 @@ m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 850
-
 ITEM.Name = "Jokesters"
-
-ITEM.NameColor = Color( 255, 0, 255 )
-
+ITEM.NameColor = Color(255, 0, 255)
 ITEM.Rarity = 8
-
 ITEM.Collection = "April Fools Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
 ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 353
-
 ITEM.Name = "Astral"
-
-ITEM.NameColor = Color( 255, 255, 0 )
-
+ITEM.NameColor = Color(255, 255, 0)
 ITEM.Rarity = 7
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 17, max = 28 },
-
-	Accuracy = { min = 17, max = 28 },
-
-	Kick = { min = -17, max = -28 },
-
-	Firerate = { min = 17, max = 28 },
-
-	Magazine = { min = 23, max = 33 },
-
-	Range = { min = 23, max = 33 },
-
-	Weight = { min = -5, max = -7 }
-
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -2738,13 +1817,13 @@ ITEM.NameColor = Color(200,200,0)
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -2760,13 +1839,13 @@ ITEM.NameColor = Color(220,20,60)
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -2774,41 +1853,24 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 89
-
 ITEM.Name = "Boston" -- Boston Bashing was too long PepeHands
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Limited Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 10, max = 20 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 10, max = 20},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
 ITEM.Talents = {"Boston Basher", "random"}
-
 ITEM.Price = 79999
 ITEM.LimitedShop = 1551725434
 ITEM.ShopDesc = "Deal extra damage unless you miss!\nWhich makes you hit yourself with it instead.\n(Purchasing will give you a random weapon with the Boston Basher talent)"
@@ -2823,13 +1885,13 @@ ITEM.NameColor = Color(199,21,133)
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -2845,12 +1907,12 @@ ITEM.NameColor = Color(255, 229, 204)
 ITEM.MinStats = 1
 ITEM.MaxStats = 3
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -2858,85 +1920,47 @@ ITEM.Talents = {"random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 9
-
 ITEM.Name = "Celestial"
-
-ITEM.NameColor = Color( 0, 255, 128 )
-
+ITEM.NameColor = Color(0, 255, 128)
 ITEM.Rarity = 7
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 17, max = 28 },
-
-	Accuracy = { min = 17, max = 28 },
-
-	Kick = { min = -17, max = -28 },
-
-	Firerate = { min = 17, max = 28 },
-
-	Magazine = { min = 23, max = 33 },
-
-	Range = { min = 23, max = 33 },
-
-	Weight = { min = -5, max = -7 }
-
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 6
-
 ITEM.Name = "Chaotic"
-
-ITEM.NameColor = Color( 255, 255, 0 )
-
+ITEM.NameColor = Color(255, 255, 0)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 8, max = 15 },
-
-	Accuracy = { min = 8, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 15 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = 13, max = 20 },
-
-	Weight = { min = -2, max = -5 }
-
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -2948,13 +1972,13 @@ ITEM.NameColor = Color(199,21,133)
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -2969,12 +1993,12 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 30 },
-	Accuracy = { min = 0, max = 23 },
-	Kick = { min = 0, max = -23 },
-	Firerate = { min = 0, max = 23 },
-	Range = { min = 0, max = 28 },
-	Weight = { min = 0, max = -7 }
+	Damage = {min = 0, max = 30},
+	Accuracy = {min = 0, max = 23},
+	Kick = {min = 0, max = -23},
+	Firerate = {min = 0, max = 23},
+	Range = {min = 0, max = 28},
+	Weight = {min = 0, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -2990,13 +2014,13 @@ ITEM.NameColor = Color(0,191,255)
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -3011,13 +2035,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
@@ -3038,36 +2062,35 @@ ITEM.Stats = {
     Damage = {
         min = 0,
         max = 5
-    },
+   },
     Accuracy = {
         min = 0,
         max = 5
-    },
+   },
     Kick = {
         min = 0,
         max = -5
-    },
+   },
     Firerate = {
         min = 0,
         max = 5
-    },
+   },
     Magazine = {
         min = 0,
         max = 5
-    },
+   },
     Range = {
         min = 0,
         max = 5
-    },
+   },
     Weight = {
         min = -0,
         max = -5
-    }
+   }
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
 ITEM.Talents = {"random", "random", "random"}
-
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -3078,12 +2101,12 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -3099,12 +2122,12 @@ ITEM.NameColor = Color(123,104,238)
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -3119,13 +2142,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -3133,44 +2156,25 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 31
-
 ITEM.Name = "Dashing"
-
-ITEM.NameColor = Color( 255, 153, 153 )
-
+ITEM.NameColor = Color(255, 153, 153)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 10 },
-
-	Accuracy = { min = 5, max = 10 },
-
-	Kick = { min = -5, max = -10 },
-
-	Firerate = { min = 5, max = 10 },
-
-	Magazine = { min = 10, max = 15 },
-
-	Range = { min = 10, max = 15 },
-
-	Weight = { min = -1, max = -3 }
-
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -3181,12 +2185,12 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -3194,44 +2198,25 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 338
-
 ITEM.Name = "Deranged"
-
-ITEM.NameColor = Color( 255, 102, 102 )
-
+ITEM.NameColor = Color(255, 102, 102)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 8, max = 15 },
-
-	Accuracy = { min = 8, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 15 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = 13, max = 20 },
-
-	Weight = { min = -2, max = -5 }
-
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -3243,13 +2228,13 @@ ITEM.NameColor = Color(220,20,60)
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -3265,13 +2250,13 @@ ITEM.NameColor = Color(0,250,154)
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -3280,124 +2265,68 @@ m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
 ITEM.ID = 13372
-
 ITEM.Name = "Dual"
-
-ITEM.NameColor = Color( 0, 255, 128 )
-
+ITEM.NameColor = Color(0, 255, 128)
 ITEM.Rarity = 8
-
 ITEM.Collection = "Dual Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 17, max = 28 },
-
-	Accuracy = { min = 17, max = 28 },
-
-	Kick = { min = -17, max = -28 },
-
-	Firerate = { min = 17, max = 28 },
-
-	Magazine = { min = 23, max = 33 },
-
-	Range = { min = 23, max = 33 },
-
-	Weight = { min = -5, max = -7 }
-
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 4
-
 ITEM.MaxTalents = 4
-
-ITEM.Talents = { "Twins", "random", "random", "random" }
+ITEM.Talents = { "Twins", "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 336
-
 ITEM.Name = "Dynamic"
-
-ITEM.NameColor = Color( 153, 153, 255 )
-
+ITEM.NameColor = Color(153, 153, 255)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 10 },
-
-	Accuracy = { min = 5, max = 10 },
-
-	Kick = { min = -5, max = -10 },
-
-	Firerate = { min = 5, max = 10 },
-
-	Magazine = { min = 10, max = 15 },
-
-	Range = { min = 10, max = 15 },
-
-	Weight = { min = -1, max = -3 }
-
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 347
-
 ITEM.Name = "Eccentric"
-
-ITEM.NameColor = Color( 255, 102, 178 )
-
+ITEM.NameColor = Color(255, 102, 178)
 ITEM.Rarity = 5
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 11, max = 19 },
-
-	Accuracy = { min = 11, max = 19 },
-
-	Kick = { min = -11, max = -19 },
-
-	Firerate = { min = 11, max = 19 },
-
-	Magazine = { min = 16, max = 24 },
-
-	Range = { min = 16, max = 24 },
-
-	Weight = { min = -3, max = -7 }
-
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -3408,13 +2337,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -3429,13 +2358,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -3450,13 +2379,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -3471,13 +2400,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -3492,13 +2421,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -3513,13 +2442,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -3535,13 +2464,13 @@ ITEM.NameColor = Color(65,105,225)
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -3549,126 +2478,69 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 341
-
 ITEM.Name = "Erratic"
-
-ITEM.NameColor = Color( 153, 255, 153 )
-
+ITEM.NameColor = Color(153, 255, 153)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 8, max = 15 },
-
-	Accuracy = { min = 8, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 15 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = 13, max = 20 },
-
-	Weight = { min = -2, max = -5 }
-
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 348
-
 ITEM.Name = "Eternal"
-
-ITEM.NameColor = Color( 153, 51, 255 )
-
+ITEM.NameColor = Color(153, 51, 255)
 ITEM.Rarity = 6
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 349
-
 ITEM.Name = "Evergreen"
-
-ITEM.NameColor = Color( 0, 204, 0 )
-
+ITEM.NameColor = Color(0, 204, 0)
 ITEM.Rarity = 6
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -3679,13 +2551,13 @@ ITEM.Collection = "Summer Event Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -3701,12 +2573,12 @@ ITEM.NameColor = Color(135,206,250)
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -3722,12 +2594,12 @@ ITEM.NameColor = Color(188,143,143)
 ITEM.MinStats = 1
 ITEM.MaxStats = 3
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -3735,44 +2607,25 @@ ITEM.Talents = {"random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 36
-
 ITEM.Name = "Fearful"
-
-ITEM.NameColor = Color( 92, 50, 176 )
-
+ITEM.NameColor = Color(92, 50, 176)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 8, max = 15 },
-
-	Accuracy = { min = 8, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 15 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = 13, max = 20 },
-
-	Weight = { min = -2, max = -5 }
-
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -3784,12 +2637,12 @@ ITEM.NameColor = Color(135,206,235)
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -3804,13 +2657,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -3826,12 +2679,12 @@ ITEM.NameColor = Color(144,238,144)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -3847,13 +2700,13 @@ ITEM.NameColor = Color(255,20,147)
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -3869,12 +2722,12 @@ ITEM.NameColor = Color(238,130,238)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -3894,12 +2747,12 @@ ITEM.NameColor = Color(102,205,170)
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -3914,12 +2767,12 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -3927,44 +2780,25 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 30
-
 ITEM.Name = "Frisky"
-
-ITEM.NameColor = Color( 204, 255, 153 )
-
+ITEM.NameColor = Color(204, 255, 153)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 10 },
-
-	Accuracy = { min = 5, max = 10 },
-
-	Kick = { min = -5, max = -10 },
-
-	Firerate = { min = 5, max = 10 },
-
-	Magazine = { min = 10, max = 15 },
-
-	Range = { min = 10, max = 15 },
-
-	Weight = { min = -1, max = -3 }
-
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -3975,13 +2809,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -3996,13 +2830,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -4010,42 +2844,24 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 40
-
 ITEM.Name = "Global"
-
-ITEM.NameColor = Color( 0, 153, 0 )
-
+ITEM.NameColor = Color(0, 153, 0)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 4, max = 8 },
-
-	Accuracy = { min = 5, max = 12 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 12 },
-
-	Magazine = { min = 8, max = 15 },
-
-	Range = { min = 30, max = 60 },
-
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -4055,38 +2871,36 @@ ITEM.Rarity = 9
 ITEM.Collection = "Summer Event Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
     Damage = {
         min = 17,
         max = 28
-    },
+   },
     Accuracy = {
         min = 17,
         max = 28
-    },
+   },
     Kick = {
         min = -17,
         max = -28
-    },
+   },
     Firerate = {
         min = 17,
         max = 28
-    },
+   },
     Magazine = {
         min = 23,
         max = 33
-    },
+   },
     Range = {
         min = 23,
         max = 33
-    },
+   },
     Weight = {
         min = -5,
         max = -7
-    }
+   }
 }
-
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
 ITEM.Talents = {"random", "random", "random", "random"}
@@ -4101,13 +2915,13 @@ ITEM.Collection = "Pumpkin Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -4123,13 +2937,13 @@ ITEM.Collection = "Pumpkin Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -4145,13 +2959,13 @@ ITEM.Collection = "Pumpkin Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -4167,13 +2981,13 @@ ITEM.Collection = "Pumpkin Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -4189,13 +3003,13 @@ ITEM.Collection = "Pumpkin Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -4211,13 +3025,13 @@ ITEM.Collection = "Pumpkin Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -4233,13 +3047,13 @@ ITEM.Collection = "Pumpkin Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -4256,13 +3070,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -4279,13 +3093,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -4302,13 +3116,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -4325,13 +3139,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -4348,13 +3162,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -4371,13 +3185,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -4397,116 +3211,78 @@ ITEM.Stats = {
     Damage = {
         min = 17,
         max = 28
-    },
+   },
     Accuracy = {
         min = 17,
         max = 28
-    },
+   },
     Kick = {
         min = -17,
         max = -28
-    },
+   },
     Firerate = {
         min = 17,
         max = 28
-    },
+   },
     Magazine = {
         min = 23,
         max = 33
-    },
+   },
     Range = {
         min = 23,
         max = 33
-    },
+   },
     Weight = {
         min = -5,
         max = -7
-    }
+   }
 }
-
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
 ITEM.Talents = {"random", "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 32
-
 ITEM.Name = "Harmful"
-
-ITEM.NameColor = Color( 255, 86, 44 )
-
+ITEM.NameColor = Color(255, 86, 44)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 20, max = 35 },
-
-	Accuracy = { min = -10, max = -25 },
-
-	Kick = { min = 5, max = 10 },
-
-	Firerate = { min = -10, max = -20 },
-
-	Magazine = { min = 10, max = 15 },
-
-	Weight = { min = 10, max = 15 }
-
+	Damage = {min = 20, max = 35},
+	Accuracy = {min = -10, max = -25},
+	Kick = {min = 5, max = 10},
+	Firerate = {min = -10, max = -20},
+	Magazine = {min = 10, max = 15},
+	Weight = {min = 10, max = 15}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 340
-
 ITEM.Name = "Haywire"
-
-ITEM.NameColor = Color( 255, 178, 102 )
-
+ITEM.NameColor = Color(255, 178, 102)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 8, max = 15 },
-
-	Accuracy = { min = 8, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 15 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = 13, max = 20 },
-
-	Weight = { min = -2, max = -5 }
-
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -4518,13 +3294,13 @@ ITEM.NameColor = Color(255,215,0)
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -4532,44 +3308,25 @@ ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 48
-
 ITEM.Name = "Heroic"
-
-ITEM.NameColor = Color( 51, 51, 255 )
-
+ITEM.NameColor = Color(51, 51, 255)
 ITEM.Rarity = 6
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -4580,13 +3337,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -4601,13 +3358,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -4622,13 +3379,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -4636,44 +3393,25 @@ ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 51
-
 ITEM.Name = "Immortal"
-
-ITEM.NameColor = Color( 0, 255, 255 )
-
+ITEM.NameColor = Color(0, 255, 255)
 ITEM.Rarity = 7
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 17, max = 28 },
-
-	Accuracy = { min = 17, max = 28 },
-
-	Kick = { min = -17, max = -28 },
-
-	Firerate = { min = 17, max = 28 },
-
-	Magazine = { min = 23, max = 33 },
-
-	Range = { min = 23, max = 33 },
-
-	Weight = { min = -5, max = -7 }
-
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -4685,13 +3423,13 @@ ITEM.NameColor = Color(255,0,0)
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -4707,13 +3445,13 @@ ITEM.NameColor = Color(128,128,0)
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -4721,44 +3459,25 @@ ITEM.Talents = {"random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 37
-
 ITEM.Name = "Intimidating"
-
-ITEM.NameColor = Color( 162, 0, 0 )
-
+ITEM.NameColor = Color(162, 0, 0)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 8, max = 15 },
-
-	Accuracy = { min = 8, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 15 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = 13, max = 20 },
-
-	Weight = { min = -2, max = -5 }
-
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -4769,13 +3488,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -4791,12 +3510,12 @@ ITEM.NameColor = Color(147,112,219)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -4804,35 +3523,20 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 27
-
 ITEM.Name = "Junky"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Alpha Collection"
-
-ITEM.NameColor = Color( 149, 129, 115 )
-
+ITEM.NameColor = Color(149, 129, 115)
 ITEM.MinStats = 1
-
 ITEM.MaxStats = 3
-
 ITEM.Stats = {
-
-	Damage = { min = -2, max = 3 },
-
-	Accuracy = { min = -2, max = 2 },
-
-	Kick = { min = -2, max = 2 },
-
-	Firerate = { min = -3, max = 3 },
-
-	Magazine = { min = -7, max = 7 },
-
-	Range = { min = -7, max = 8 },
-
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 m_AddDroppableItem(ITEM, 'tier')
 
@@ -4845,12 +3549,12 @@ ITEM.NameColor = Color(186,85,211)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -4865,13 +3569,13 @@ ITEM.Collection = "Summer Event Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -4879,286 +3583,166 @@ ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 8
-
 ITEM.Name = "Legendary"
-
-ITEM.NameColor = Color( 255, 255, 51 )
-
+ITEM.NameColor = Color(255, 255, 51)
 ITEM.Rarity = 6
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 41
-
 ITEM.Name = "Lightweight"
-
-ITEM.NameColor = Color( 152, 255, 255 )
-
+ITEM.NameColor = Color(152, 255, 255)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 12 },
-
-	Accuracy = { min = 5, max = 12 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 12 },
-
-	Weight = { min = -9, max = -17 },
-
+	Damage = {min = 5, max = 12},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Weight = {min = -9, max = -17},
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 2	
-
 ITEM.Name = "Copycat"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Limited Collection"
-
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-
-	Damage = { min = 10, max = 20 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 10, max = 20},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
 ITEM.Talents = {"Copycat", "random", "random"}
-
 ITEM.Price = 49999
 ITEM.LimitedShop = 1589353200
 ITEM.ShopDesc = "Copy the weapons of your dead enemies!\n(Purchasing will give you a random weapon with the Copycat talent)"
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 3
-
 ITEM.Name = "Assassin"
-
-ITEM.NameColor = Color( 0, 0, 255 )
-
+ITEM.NameColor = Color(0, 0, 255)
 ITEM.Rarity = 8
-
 ITEM.Collection = "Limited Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 8, max = 15 },
-
-	Accuracy = { min = 8, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 15 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = 13, max = 20 },
-
-	Weight = { min = -2, max = -5 }
-
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "Assassin" }
-
+ITEM.Talents = { "random", "Assassin"}
 ITEM.Price = 22999
 ITEM.LimitedShop = 1532971845
 ITEM.ShopDesc = "Destroy the bodies of the people you kill with this limited time talent!\n(Purchasing will give you a random weapon with the Assassin talent)"
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 14
-
 ITEM.Name = "Wildcard"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Limited Collection"
-
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-
-	Damage = { min = 10, max = 20 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 10, max = 20},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "Wildcard: Tier 1", "Wildcard: Tier 2", "Wildcard: Tier 3" }
-
+ITEM.Talents = { "Wildcard: Tier 1", "Wildcard: Tier 2", "Wildcard: Tier 3"}
 ITEM.Price = 49999
 ITEM.LimitedShop = 1535009156 -- wrong commit messsage just making this comment so i can update it lol
 ITEM.ShopDesc = "Get random talents every round!\n(Purchasing will give you a random Wildcard tier weapon)"
-
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 15
-
 ITEM.Name = "Silenced"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Limited Collection"
-
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-
-	Damage = { min = 10, max = 20 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 10, max = 20},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
 ITEM.Talents = {"Silenced", "random", "random"}
-
 ITEM.Price = 49999
 ITEM.LimitedShop = 1537758231
 ITEM.ShopDesc = "Limited time weapon that comes with the Silenced talent!\nThe Silenced talent is also available normally, so buying this is not necessary.\nEspecially with such a high price, this item is meant for collectors!\nBuying will give you a random weapon!"
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 35
-
 ITEM.Name = "Wild!"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Limited Collection"
-
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-
-	Damage = { min = 10, max = 20 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 10, max = 20},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "Wild! - Tier 1", "Wild! - Tier 2", "Wild! - Tier 3" }
-
+ITEM.Talents = { "Wild! - Tier 1", "Wild! - Tier 2", "Wild! - Tier 3"}
 ITEM.Price = 59999
 ITEM.LimitedShop = 1555443868 
 ITEM.ShopDesc = "Add a random talent to your weapon after you get a kill!\n(Purchasing will give you a random \"Wild\" tier weapon)"
-
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -5170,13 +3754,13 @@ ITEM.NameColor = Color(255,0,255)
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5192,13 +3776,13 @@ ITEM.NameColor = Color(154,205,50)
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -5213,13 +3797,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -5227,44 +3811,25 @@ ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 342
-
 ITEM.Name = "Marvelous"
-
-ITEM.NameColor = Color( 215, 121, 255 )
-
+ITEM.NameColor = Color(215, 121, 255)
 ITEM.Rarity = 5
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 11, max = 19 },
-
-	Accuracy = { min = 11, max = 19 },
-
-	Kick = { min = -11, max = -19 },
-
-	Firerate = { min = 11, max = 19 },
-
-	Magazine = { min = 16, max = 24 },
-
-	Range = { min = 16, max = 24 },
-
-	Weight = { min = -3, max = -7 }
-
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -5275,13 +3840,13 @@ ITEM.Collection = "Summer Event Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5289,33 +3854,19 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 334
-
 ITEM.Name = "Mediocre"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 4
-
 ITEM.Stats = {
-
-	Damage = { min = 0, max = 5 },
-
-	Accuracy = { min = 0, max = 5 },
-
-	Kick = { min = -1, max = -5 },
-
-	Firerate = { min = 0, max = 5 },
-
-	Magazine = { min = 5, max = 10 },
-
-	Range = { min = 5, max = 10 }
-
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 m_AddDroppableItem(ITEM, 'tier')
 
@@ -5330,18 +3881,17 @@ ITEM.NameEffect = "fire"
 ITEM.NotTradeable = true
 ITEM.NameColor = Color(255, 255, 0)
 ITEM.Stats = {
-	Damage = { min = 20, max = 30 },
-	Accuracy = { min = 15, max = 25 },
-	Kick = { min = -15, max = -30 },
-	Firerate = { min = 15, max = 30 },
-	Magazine = { min = 30, max = 50 },
-	Range = { min = 40, max = 50 },
-	Weight = { min = -5, max = -13 }
+	Damage = {min = 20, max = 30},
+	Accuracy = {min = 15, max = 25},
+	Kick = {min = -15, max = -30},
+	Firerate = {min = 15, max = 30},
+	Magazine = {min = 30, max = 50},
+	Range = {min = 40, max = 50},
+	Weight = {min = -5, max = -13}
 }
-
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
-ITEM.Talents = { "random", "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -5352,13 +3902,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = -10, max = 15 },
-	Accuracy = { min = -10, max = 15 },
-	Kick = { min = 10, max = -10 },
-	Firerate = { min = -15, max = 10 },
-	Magazine = { min = -20, max = 30 },
-	Range = { min = -20, max = 20 },
-	Weight = { min = 15, max = -10 }
+	Damage = {min = -10, max = 15},
+	Accuracy = {min = -10, max = 15},
+	Kick = {min = 10, max = -10},
+	Firerate = {min = -15, max = 10},
+	Magazine = {min = -20, max = 30},
+	Range = {min = -20, max = 20},
+	Weight = {min = 15, max = -10}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5373,13 +3923,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = -40, max = 40 },
-	Accuracy = { min = -55, max = 55 },
-	Kick = { min = 45, max = -45 },
-	Firerate = { min = -45, max = 45 },
-	Magazine = { min = -70, max = 70 },
-	Range = { min = -65, max = 65 },
-	Weight = { min = 50, max = -50 }
+	Damage = {min = -40, max = 40},
+	Accuracy = {min = -55, max = 55},
+	Kick = {min = 45, max = -45},
+	Firerate = {min = -45, max = 45},
+	Magazine = {min = -70, max = 70},
+	Range = {min = -65, max = 65},
+	Weight = {min = 50, max = -50}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -5394,13 +3944,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = -40, max = 40 },
-	Accuracy = { min = -55, max = 55 },
-	Kick = { min = 45, max = -45 },
-	Firerate = { min = -45, max = 45 },
-	Magazine = { min = -70, max = 70 },
-	Range = { min = -65, max = 65 },
-	Weight = { min = 50, max = -50 }
+	Damage = {min = -40, max = 40},
+	Accuracy = {min = -55, max = 55},
+	Kick = {min = 45, max = -45},
+	Firerate = {min = -45, max = 45},
+	Magazine = {min = -70, max = 70},
+	Range = {min = -65, max = 65},
+	Weight = {min = 50, max = -50}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -5415,13 +3965,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = -10, max = 15 },
-	Accuracy = { min = -10, max = 15 },
-	Kick = { min = 10, max = -10 },
-	Firerate = { min = -15, max = 10 },
-	Magazine = { min = -20, max = 30 },
-	Range = { min = -20, max = 20 },
-	Weight = { min = 15, max = -10 }
+	Damage = {min = -10, max = 15},
+	Accuracy = {min = -10, max = 15},
+	Kick = {min = 10, max = -10},
+	Firerate = {min = -15, max = 10},
+	Magazine = {min = -20, max = 30},
+	Range = {min = -20, max = 20},
+	Weight = {min = 15, max = -10}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5436,22 +3986,21 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 4
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = -20, max = 25 },
-	Accuracy = { min = -20, max = 25 },
-	Kick = { min = 20, max = -20 },
-	Firerate = { min = -20, max = 20 },
-	Magazine = { min = -40, max = 40 },
-	Range = { min = -30, max = 30 },
-	Weight = { min = 20, max = -20 }
+	Damage = {min = -20, max = 25},
+	Accuracy = {min = -20, max = 25},
+	Kick = {min = 20, max = -20},
+	Firerate = {min = -20, max = 20},
+	Magazine = {min = -40, max = 40},
+	Range = {min = -30, max = 30},
+	Weight = {min = 20, max = -20}
 }
-
 --[[
 	
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 10, max = 20 },
-    Firerate = { min = 30, max = 60 },
-	Kick = { min = -11, max = -19 },
-	Magazine = { min = 5, max = 10 },
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 10, max = 20},
+    Firerate = {min = 30, max = 60},
+	Kick = {min = -11, max = -19},
+	Magazine = {min = 5, max = 10},
 ]]
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5466,13 +4015,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = -25, max = 25 },
-	Accuracy = { min = -35, max = 35 },
-	Kick = { min = 30, max = -30 },
-	Firerate = { min = -30, max = 30 },
-	Magazine = { min = -50, max = 50 },
-	Range = { min = -45, max = 45 },
-	Weight = { min = 30, max = -30 }
+	Damage = {min = -25, max = 25},
+	Accuracy = {min = -35, max = 35},
+	Kick = {min = 30, max = -30},
+	Firerate = {min = -30, max = 30},
+	Magazine = {min = -50, max = 50},
+	Range = {min = -45, max = 45},
+	Weight = {min = 30, max = -30}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5487,13 +4036,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = -25, max = 25 },
-	Accuracy = { min = -35, max = 35 },
-	Kick = { min = 30, max = -30 },
-	Firerate = { min = -30, max = 30 },
-	Magazine = { min = -50, max = 50 },
-	Range = { min = -45, max = 45 },
-	Weight = { min = 30, max = -30 }
+	Damage = {min = -25, max = 25},
+	Accuracy = {min = -35, max = 35},
+	Kick = {min = 30, max = -30},
+	Firerate = {min = -30, max = 30},
+	Magazine = {min = -50, max = 50},
+	Range = {min = -45, max = 45},
+	Weight = {min = 30, max = -30}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5508,13 +4057,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = -25, max = 25 },
-	Accuracy = { min = -35, max = 35 },
-	Kick = { min = 30, max = -30 },
-	Firerate = { min = -30, max = 30 },
-	Magazine = { min = -50, max = 50 },
-	Range = { min = -45, max = 45 },
-	Weight = { min = 30, max = -30 }
+	Damage = {min = -25, max = 25},
+	Accuracy = {min = -35, max = 35},
+	Kick = {min = 30, max = -30},
+	Firerate = {min = -30, max = 30},
+	Magazine = {min = -50, max = 50},
+	Range = {min = -45, max = 45},
+	Weight = {min = 30, max = -30}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5530,13 +4079,13 @@ ITEM.NameColor = Color(135, 0, 153)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = -30, max = 30 },
-	Accuracy = { min = -45, max = 45 },
-	Kick = { min = 35, max = -35 },
-	Firerate = { min = -40, max = 40 },
-	Magazine = { min = -60, max = 60 },
-	Range = { min = -55, max = 55 },
-	Weight = { min = 40, max = -40 }
+	Damage = {min = -30, max = 30},
+	Accuracy = {min = -45, max = 45},
+	Kick = {min = 35, max = -35},
+	Firerate = {min = -40, max = 40},
+	Magazine = {min = -60, max = 60},
+	Range = {min = -55, max = 55},
+	Weight = {min = 40, max = -40}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -5551,13 +4100,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = -40, max = 40 },
-	Accuracy = { min = -55, max = 55 },
-	Kick = { min = 45, max = -45 },
-	Firerate = { min = -45, max = 45 },
-	Magazine = { min = -70, max = 70 },
-	Range = { min = -65, max = 65 },
-	Weight = { min = 50, max = -50 }
+	Damage = {min = -40, max = 40},
+	Accuracy = {min = -55, max = 55},
+	Kick = {min = 45, max = -45},
+	Firerate = {min = -45, max = 45},
+	Magazine = {min = -70, max = 70},
+	Range = {min = -65, max = 65},
+	Weight = {min = 50, max = -50}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -5573,21 +4122,21 @@ ITEM.MinStats = 9
 ITEM.MaxStats = 9
 ITEM.NotDroppable = true
 ITEM.Stats = {
-	Damage = { min = -40, max = 40 },
-	Accuracy = { min = -55, max = 55 },
-	Kick = { min = 45, max = -45 },
-	Firerate = { min = -45, max = 45 },
-	Magazine = { min = -70, max = 70 },
-	Range = { min = -65, max = 65 },
-	Weight = { min = 50, max = -50 },
+	Damage = {min = -40, max = 40},
+	Accuracy = {min = -55, max = 55},
+	Kick = {min = 45, max = -45},
+	Firerate = {min = -45, max = 45},
+	Magazine = {min = -70, max = 70},
+	Range = {min = -65, max = 65},
+	Weight = {min = 50, max = -50},
     Reloadrate = {
         min = -90,
         max = 90
-    },
+   },
     Deployrate = {
         min = -90,
         max = 90
-    }
+   }
 }
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
@@ -5602,22 +4151,21 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 4
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = -20, max = 25 },
-	Accuracy = { min = -20, max = 25 },
-	Kick = { min = 20, max = -20 },
-	Firerate = { min = -20, max = 20 },
-	Magazine = { min = -40, max = 40 },
-	Range = { min = -30, max = 30 },
-	Weight = { min = 20, max = -20 }
+	Damage = {min = -20, max = 25},
+	Accuracy = {min = -20, max = 25},
+	Kick = {min = 20, max = -20},
+	Firerate = {min = -20, max = 20},
+	Magazine = {min = -40, max = 40},
+	Range = {min = -30, max = 30},
+	Weight = {min = 20, max = -20}
 }
-
 --[[
 	
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 10, max = 20 },
-    Firerate = { min = 30, max = 60 },
-	Kick = { min = -11, max = -19 },
-	Magazine = { min = 5, max = 10 },
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 10, max = 20},
+    Firerate = {min = 30, max = 60},
+	Kick = {min = -11, max = -19},
+	Magazine = {min = 5, max = 10},
 ]]
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5632,13 +4180,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = -25, max = 25 },
-	Accuracy = { min = -35, max = 35 },
-	Kick = { min = 30, max = -30 },
-	Firerate = { min = -30, max = 30 },
-	Magazine = { min = -50, max = 50 },
-	Range = { min = -45, max = 45 },
-	Weight = { min = 30, max = -30 }
+	Damage = {min = -25, max = 25},
+	Accuracy = {min = -35, max = 35},
+	Kick = {min = 30, max = -30},
+	Firerate = {min = -30, max = 30},
+	Magazine = {min = -50, max = 50},
+	Range = {min = -45, max = 45},
+	Weight = {min = 30, max = -30}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5654,13 +4202,13 @@ ITEM.NameColor = Color(135, 0, 153)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = -30, max = 30 },
-	Accuracy = { min = -45, max = 45 },
-	Kick = { min = 35, max = -35 },
-	Firerate = { min = -40, max = 40 },
-	Magazine = { min = -60, max = 60 },
-	Range = { min = -55, max = 55 },
-	Weight = { min = 40, max = -40 }
+	Damage = {min = -30, max = 30},
+	Accuracy = {min = -45, max = 45},
+	Kick = {min = 35, max = -35},
+	Firerate = {min = -40, max = 40},
+	Magazine = {min = -60, max = 60},
+	Range = {min = -55, max = 55},
+	Weight = {min = 40, max = -40}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -5675,13 +4223,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = -40, max = 40 },
-	Accuracy = { min = -55, max = 55 },
-	Kick = { min = 45, max = -45 },
-	Firerate = { min = -45, max = 45 },
-	Magazine = { min = -70, max = 70 },
-	Range = { min = -65, max = 65 },
-	Weight = { min = 50, max = -50 }
+	Damage = {min = -40, max = 40},
+	Accuracy = {min = -55, max = 55},
+	Kick = {min = 45, max = -45},
+	Firerate = {min = -45, max = 45},
+	Magazine = {min = -70, max = 70},
+	Range = {min = -65, max = 65},
+	Weight = {min = 50, max = -50}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -5696,13 +4244,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = -10, max = 15 },
-	Accuracy = { min = -10, max = 15 },
-	Kick = { min = 10, max = -10 },
-	Firerate = { min = -15, max = 10 },
-	Magazine = { min = -20, max = 30 },
-	Range = { min = -20, max = 20 },
-	Weight = { min = 15, max = -10 }
+	Damage = {min = -10, max = 15},
+	Accuracy = {min = -10, max = 15},
+	Kick = {min = 10, max = -10},
+	Firerate = {min = -15, max = 10},
+	Magazine = {min = -20, max = 30},
+	Range = {min = -20, max = 20},
+	Weight = {min = 15, max = -10}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5717,22 +4265,21 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 4
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = -20, max = 25 },
-	Accuracy = { min = -20, max = 25 },
-	Kick = { min = 20, max = -20 },
-	Firerate = { min = -20, max = 20 },
-	Magazine = { min = -40, max = 40 },
-	Range = { min = -30, max = 30 },
-	Weight = { min = 20, max = -20 }
+	Damage = {min = -20, max = 25},
+	Accuracy = {min = -20, max = 25},
+	Kick = {min = 20, max = -20},
+	Firerate = {min = -20, max = 20},
+	Magazine = {min = -40, max = 40},
+	Range = {min = -30, max = 30},
+	Weight = {min = 20, max = -20}
 }
-
 --[[
 	
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 10, max = 20 },
-    Firerate = { min = 30, max = 60 },
-	Kick = { min = -11, max = -19 },
-	Magazine = { min = 5, max = 10 },
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 10, max = 20},
+    Firerate = {min = 30, max = 60},
+	Kick = {min = -11, max = -19},
+	Magazine = {min = 5, max = 10},
 ]]
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5747,13 +4294,13 @@ ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = -25, max = 25 },
-	Accuracy = { min = -35, max = 35 },
-	Kick = { min = 30, max = -30 },
-	Firerate = { min = -30, max = 30 },
-	Magazine = { min = -50, max = 50 },
-	Range = { min = -45, max = 45 },
-	Weight = { min = 30, max = -30 }
+	Damage = {min = -25, max = 25},
+	Accuracy = {min = -35, max = 35},
+	Kick = {min = 30, max = -30},
+	Firerate = {min = -30, max = 30},
+	Magazine = {min = -50, max = 50},
+	Range = {min = -45, max = 45},
+	Weight = {min = 30, max = -30}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5769,13 +4316,13 @@ ITEM.NameColor = Color(135, 0, 153)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = -30, max = 30 },
-	Accuracy = { min = -45, max = 45 },
-	Kick = { min = 35, max = -35 },
-	Firerate = { min = -40, max = 40 },
-	Magazine = { min = -60, max = 60 },
-	Range = { min = -55, max = 55 },
-	Weight = { min = 40, max = -40 }
+	Damage = {min = -30, max = 30},
+	Accuracy = {min = -45, max = 45},
+	Kick = {min = 35, max = -35},
+	Firerate = {min = -40, max = 40},
+	Magazine = {min = -60, max = 60},
+	Range = {min = -55, max = 55},
+	Weight = {min = 40, max = -40}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -5790,13 +4337,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -5804,77 +4351,43 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 4
-
 ITEM.Name = "Moderate"
-
-ITEM.NameColor = Color( 153, 255, 255 )
-
+ITEM.NameColor = Color(153, 255, 255)
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 4
-
 ITEM.Stats = {
-
-	Damage = { min = 0, max = 5 },
-
-	Accuracy = { min = 0, max = 5 },
-
-	Kick = { min = -1, max = -5 },
-
-	Firerate = { min = 0, max = 5 },
-
-	Magazine = { min = 5, max = 10 },
-
-	Range = { min = 5, max = 10 }
-
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 47
-
 ITEM.Name = "Mythical"
-
-ITEM.NameColor = Color( 178, 102, 255 )
-
+ITEM.NameColor = Color(178, 102, 255)
 ITEM.Rarity = 6
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -5885,38 +4398,36 @@ ITEM.Rarity = 9
 ITEM.Collection = "New Years Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
     Damage = {
         min = 17,
         max = 28
-    },
+   },
     Accuracy = {
         min = 17,
         max = 28
-    },
+   },
     Kick = {
         min = -17,
         max = -28
-    },
+   },
     Firerate = {
         min = 17,
         max = 28
-    },
+   },
     Magazine = {
         min = 23,
         max = 33
-    },
+   },
     Range = {
         min = 23,
         max = 33
-    },
+   },
     Weight = {
         min = -5,
         max = -7
-    }
+   }
 }
-
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
 ITEM.Talents = {"random", "random", "random", "random"}
@@ -5930,12 +4441,12 @@ ITEM.Collection = "Summer Event Collection"
 ITEM.MinStats = 1
 ITEM.MaxStats = 3
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -5943,118 +4454,65 @@ ITEM.Talents = {"random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 5
-
 ITEM.Name = "Odd"
-
-ITEM.NameColor = Color( 153, 255, 153 )
-
+ITEM.NameColor = Color(153, 255, 153)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 10 },
-
-	Accuracy = { min = 5, max = 10 },
-
-	Kick = { min = -5, max = -10 },
-
-	Firerate = { min = 5, max = 10 },
-
-	Magazine = { min = 10, max = 15 },
-
-	Range = { min = 10, max = 15 },
-
-	Weight = { min = -1, max = -3 }
-
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 29
-
 ITEM.Name = "Ordinary"
-
-ITEM.NameColor = Color( 204, 229, 255 )
-
+ITEM.NameColor = Color(204, 229, 255)
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 4
-
 ITEM.Stats = {
-
-	Damage = { min = 0, max = 5 },
-
-	Accuracy = { min = 0, max = 5 },
-
-	Kick = { min = -1, max = -5 },
-
-	Firerate = { min = 0, max = 5 },
-
-	Magazine = { min = 5, max = 10 },
-
-	Range = { min = 5, max = 10 }
-
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 351
-
 ITEM.Name = "Partisan"
-
-ITEM.NameColor = Color( 189, 255, 145 )
-
+ITEM.NameColor = Color(189, 255, 145)
 ITEM.Rarity = 6
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -6066,13 +4524,13 @@ ITEM.NameColor = Color(60,179,113)
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -6080,77 +4538,43 @@ ITEM.Talents = {"random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 333
-
 ITEM.Name = "Passable"
-
-ITEM.NameColor = Color( 153, 255, 204 )
-
+ITEM.NameColor = Color(153, 255, 204)
 ITEM.Rarity = 2
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 4
-
 ITEM.Stats = {
-
-	Damage = { min = 0, max = 5 },
-
-	Accuracy = { min = 0, max = 5 },
-
-	Kick = { min = -1, max = -5 },
-
-	Firerate = { min = 0, max = 5 },
-
-	Magazine = { min = 5, max = 10 },
-
-	Range = { min = 5, max = 10 }
-
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 337
-
 ITEM.Name = "Peppy"
-
-ITEM.NameColor = Color( 255, 151, 210 )
-
+ITEM.NameColor = Color(255, 151, 210)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 10 },
-
-	Accuracy = { min = 5, max = 10 },
-
-	Kick = { min = -5, max = -10 },
-
-	Firerate = { min = 5, max = 10 },
-
-	Magazine = { min = 10, max = 15 },
-
-	Range = { min = 10, max = 15 },
-
-	Weight = { min = -1, max = -3 }
-
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -6162,12 +4586,12 @@ ITEM.NameColor = Color(255,182,193)
 ITEM.MinStats = 1
 ITEM.MaxStats = 3
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -6183,12 +4607,12 @@ ITEM.NameColor = Color(218,112,214)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -6196,40 +4620,23 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 33
-
 ITEM.Name = "Precise"
-
-ITEM.NameColor = Color( 153, 204, 255 )
-
+ITEM.NameColor = Color(153, 204, 255)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 10 },
-
-	Accuracy = { min = 30, max = 60 },
-
-	Kick = { min = 5, max = 10 },
-
-	Firerate = { min = 0, max = 5 },
-
-	Magazine = { min = 15, max = 20 },
-
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 30, max = 60},
+	Kick = {min = 5, max = 10},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 15, max = 20},
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -6245,76 +4652,56 @@ ITEM.Stats = {
     Damage = {
         min = 17,
         max = 28
-    },
+   },
     Accuracy = {
         min = 17,
         max = 28
-    },
+   },
     Kick = {
         min = -17,
         max = -28
-    },
+   },
     Firerate = {
         min = 17,
         max = 28
-    },
+   },
     Magazine = {
         min = 23,
         max = 33
-    },
+   },
     Range = {
         min = 23,
         max = 33
-    },
+   },
     Weight = {
         min = -5,
         max = -7
-    }
+   }
 }
-
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
 ITEM.Talents = {"random", "random", "random", "random"}
-
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 3254
-
 ITEM.Name = "Professional"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Summer Event Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 8, max = 15 },
-
-	Accuracy = { min = 8, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 15 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = 13, max = 20 },
-
-	Weight = { min = -2, max = -5 }
-
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -6326,12 +4713,12 @@ ITEM.NameColor = Color(64,224,208)
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -6339,157 +4726,86 @@ ITEM.Talents = {"random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 346
-
 ITEM.Name = "Quaint"
-
-ITEM.NameColor = Color( 59, 132, 172 )
-
+ITEM.NameColor = Color(59, 132, 172)
 ITEM.Rarity = 5
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 11, max = 19 },
-
-	Accuracy = { min = 11, max = 19 },
-
-	Kick = { min = -11, max = -19 },
-
-	Firerate = { min = 11, max = 19 },
-
-	Magazine = { min = 16, max = 24 },
-
-	Range = { min = 16, max = 24 },
-
-	Weight = { min = -3, max = -7 }
-
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 38
-
 ITEM.Name = "Rapid"
-
-ITEM.NameColor = Color( 255, 178, 102 )
-
+ITEM.NameColor = Color(255, 178, 102)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = -5, max = 5 },
-
-	Accuracy = { min = -15, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 25, max = 45 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = -13, max = -20 },
-
+	Damage = {min = -5, max = 5},
+	Accuracy = {min = -15, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 25, max = 45},
+	Magazine = {min = 13, max = 20},
+	Range = {min = -13, max = -20},
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 1
-
 ITEM.Name = "Recycled"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Alpha Collection"
-
-ITEM.NameColor = Color( 181, 128, 117 )
-
+ITEM.NameColor = Color(181, 128, 117)
 ITEM.MinStats = 1
-
 ITEM.MaxStats = 3
-
 ITEM.Stats = {
-
-	Damage = { min = -2, max = 3 },
-
-	Accuracy = { min = -2, max = 2 },
-
-	Kick = { min = -2, max = 2 },
-
-	Firerate = { min = -3, max = 3 },
-
-	Magazine = { min = -7, max = 7 },
-
-	Range = { min = -7, max = 8 },
-
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 43
-
 ITEM.Name = "Remarkable"
-
-ITEM.NameColor = Color( 255, 102, 178 )
-
+ITEM.NameColor = Color(255, 102, 178)
 ITEM.Rarity = 5
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 11, max = 19 },
-
-	Accuracy = { min = 11, max = 19 },
-
-	Kick = { min = -11, max = -19 },
-
-	Firerate = { min = 11, max = 19 },
-
-	Magazine = { min = 16, max = 24 },
-
-	Range = { min = 16, max = 24 },
-
-	Weight = { min = -3, max = -7 }
-
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -6501,12 +4817,12 @@ ITEM.NameColor = Color(176,224,230)
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -6522,13 +4838,13 @@ ITEM.NameColor = Color(255,255,0)
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -6544,12 +4860,12 @@ ITEM.NameColor = Color(255,160,122)
 ITEM.MinStats = 1
 ITEM.MaxStats = 3
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -6565,13 +4881,13 @@ ITEM.NameColor = Color(100,149,237)
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -6587,13 +4903,13 @@ ITEM.NameColor = Color(255,69,0)
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -6608,13 +4924,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -6622,44 +4938,25 @@ ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 350
-
 ITEM.Name = "Satanic"
-
-ITEM.NameColor = Color( 102, 0, 0 )
-
+ITEM.NameColor = Color(102, 0, 0)
 ITEM.Rarity = 6
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 14, max = 23 },
-
-	Accuracy = { min = 14, max = 23 },
-
-	Kick = { min = -14, max = -23 },
-
-	Firerate = { min = 14, max = 23 },
-
-	Magazine = { min = 19, max = 28 },
-
-	Range = { min = 19, max = 28 },
-
-	Weight = { min = -4, max = -7 }
-
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -6673,92 +4970,57 @@ ITEM.MaxStats = 7
 ITEM.NotDroppable = true
 ITEM.NotTradeable = true
 ITEM.Stats = {
-    Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+    Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
 ITEM.Talents = {"random", "random", "random", "random"}
-
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 331
-
 ITEM.Name = "Shabby"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Beta Collection"
-
-ITEM.NameColor = Color( 215, 255, 224 )
-
+ITEM.NameColor = Color(215, 255, 224)
 ITEM.MinStats = 1
-
 ITEM.MaxStats = 3
-
 ITEM.Stats = {
-
-	Damage = { min = -2, max = 3 },
-
-	Accuracy = { min = -2, max = 2 },
-
-	Kick = { min = -2, max = 2 },
-
-	Firerate = { min = -3, max = 3 },
-
-	Magazine = { min = -7, max = 7 },
-
-	Range = { min = -7, max = 8 },
-
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 352
-
 ITEM.Name = "Shiny"
-
-ITEM.NameColor = Color( 0, 255, 200 )
-
+ITEM.NameColor = Color(0, 255, 200)
 ITEM.Rarity = 7
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 17, max = 28 },
-
-	Accuracy = { min = 17, max = 28 },
-
-	Kick = { min = -17, max = -28 },
-
-	Firerate = { min = 17, max = 28 },
-
-	Magazine = { min = 23, max = 33 },
-
-	Range = { min = 23, max = 33 },
-
-	Weight = { min = -5, max = -7 }
-
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -6769,12 +5031,12 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -6790,12 +5052,12 @@ ITEM.NameColor = Color(175,238,238)
 ITEM.MinStats = 1
 ITEM.MaxStats = 3
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -6811,13 +5073,13 @@ ITEM.NameColor = Color(0,255,127)
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -6825,127 +5087,71 @@ ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 28
-
 ITEM.Name = "Stable"
-
-ITEM.NameColor = Color( 255, 255, 255 )
-
+ITEM.NameColor = Color(255, 255, 255)
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 4
-
 ITEM.Stats = {
-
-	Damage = { min = 0, max = 5 },
-
-	Accuracy = { min = 0, max = 5 },
-
-	Kick = { min = -1, max = -5 },
-
-	Firerate = { min = 0, max = 5 },
-
-	Magazine = { min = 5, max = 10 },
-
-	Range = { min = 5, max = 10 }
-
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 34
-
 ITEM.Name = "Steady"
-
-ITEM.NameColor = Color( 153, 255, 153 )
-
+ITEM.NameColor = Color(153, 255, 153)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 10 },
-
-	Accuracy = { min = 5, max = 10 },
-
-	Kick = { min = -20, max = -50 },
-
-	Firerate = { min = 5, max = 10 },
-
-	Magazine = { min = 10, max = 15 },
-
-	Weight = { min = 3, max = 5 }
-
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -20, max = -50},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Weight = {min = 3, max = 5}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 0
-
 ITEM.Name = "Stock"
-
 ITEM.Rarity = 0
-
 ITEM.Collection = "Beginners Collection"
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 44
-
 ITEM.Name = "Strange"
-
-ITEM.NameColor = Color( 255, 0, 102 )
-
+ITEM.NameColor = Color(255, 0, 102)
 ITEM.Rarity = 5
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 11, max = 19 },
-
-	Accuracy = { min = 11, max = 19 },
-
-	Kick = { min = -11, max = -19 },
-
-	Firerate = { min = 11, max = 19 },
-
-	Magazine = { min = 16, max = 24 },
-
-	Range = { min = 16, max = 24 },
-
-	Weight = { min = -3, max = -7 }
-
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -6957,13 +5163,13 @@ ITEM.NameColor = Color(148,0,211)
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -6978,15 +5184,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 },
-	Reloadrate = { min = 16, max = 24 },
-	Deployrate = { min = 16, max = 24 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7},
+	Reloadrate = {min = 16, max = 24},
+	Deployrate = {min = 16, max = 24}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -7001,15 +5207,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 8
 ITEM.Stats = {
-	Damage = { min = 8, max = 15 },
-	Accuracy = { min = 8, max = 15 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 15 },
-	Magazine = { min = 13, max = 20 },
-	Range = { min = 13, max = 20 },
-	Weight = { min = -2, max = -5 },
-	Reloadrate = { min = 13, max = 20 },
-	Deployrate = { min = 13, max = 20 }
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5},
+	Reloadrate = {min = 13, max = 20},
+	Deployrate = {min = 13, max = 20}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -7024,15 +5230,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 },
-	Reloadrate = { min = 10, max = 15 },
-	Deployrate = { min = 10, max = 15 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3},
+	Reloadrate = {min = 10, max = 15},
+	Deployrate = {min = 10, max = 15}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7047,15 +5253,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-	Reloadrate = { min = 19, max = 28 },
-	Deployrate = { min = 19, max = 28 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+	Reloadrate = {min = 19, max = 28},
+	Deployrate = {min = 19, max = 28}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -7070,15 +5276,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 9
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 },
-	Reloadrate = { min = 23, max = 33 },
-	Deployrate = { min = 23, max = 33 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7},
+	Reloadrate = {min = 23, max = 33},
+	Deployrate = {min = 23, max = 33}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -7086,7 +5292,6 @@ ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 9614
 ITEM.Name = "Juicy"
 ITEM.Rarity = 5
@@ -7094,15 +5299,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 },
-	Reloadrate = { min = 16, max = 24 },
-	Deployrate = { min = 16, max = 24 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7},
+	Reloadrate = {min = 16, max = 24},
+	Deployrate = {min = 16, max = 24}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -7117,15 +5322,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
-	Weight = { min = -2, max = 3 },
-	Reloadrate = { min = -6, max = 7 },
-	Deployrate = { min = -4, max = 5 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
+	Weight = {min = -2, max = 3},
+	Reloadrate = {min = -6, max = 7},
+	Deployrate = {min = -4, max = 5},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7140,15 +5345,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 8
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-	Reloadrate = { min = 19, max = 28 },
-	Deployrate = { min = 19, max = 28 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+	Reloadrate = {min = 19, max = 28},
+	Deployrate = {min = 19, max = 28}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -7163,15 +5368,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-	Reloadrate = { min = 19, max = 28 },
-	Deployrate = { min = 19, max = 28 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+	Reloadrate = {min = 19, max = 28},
+	Deployrate = {min = 19, max = 28}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -7186,15 +5391,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
-	Weight = { min = -2, max = 3 },
-	Reloadrate = { min = -6, max = 7 },
-	Deployrate = { min = -4, max = 5 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
+	Weight = {min = -2, max = 3},
+	Reloadrate = {min = -6, max = 7},
+	Deployrate = {min = -4, max = 5},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7209,15 +5414,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 9
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 },
-	Reloadrate = { min = 23, max = 33 },
-	Deployrate = { min = 23, max = 33 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7},
+	Reloadrate = {min = 23, max = 33},
+	Deployrate = {min = 23, max = 33}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -7232,15 +5437,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 9
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 },
-	Reloadrate = { min = 23, max = 33 },
-	Deployrate = { min = 23, max = 33 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7},
+	Reloadrate = {min = 23, max = 33},
+	Deployrate = {min = 23, max = 33}
 }
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
@@ -7255,15 +5460,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 8
 ITEM.Stats = {
-	Damage = { min = 8, max = 15 },
-	Accuracy = { min = 8, max = 15 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 15 },
-	Magazine = { min = 13, max = 20 },
-	Range = { min = 13, max = 20 },
-	Weight = { min = -2, max = -5 },
-	Reloadrate = { min = 13, max = 20 },
-	Deployrate = { min = 13, max = 20 }
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5},
+	Reloadrate = {min = 13, max = 20},
+	Deployrate = {min = 13, max = 20}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -7278,15 +5483,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 },
-	Weight = { min = -1, max = -3 },
-	Reloadrate = { min = 5, max = 10 },
-	Deployrate = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10},
+	Weight = {min = -1, max = -3},
+	Reloadrate = {min = 5, max = 10},
+	Deployrate = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7294,7 +5499,6 @@ ITEM.Talents = {"random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 9603
 ITEM.Name = "Squirt"
 ITEM.Rarity = 1
@@ -7302,15 +5506,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
-	Weight = { min = -2, max = 3 },
-	Reloadrate = { min = -6, max = 7 },
-	Deployrate = { min = -4, max = 5 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
+	Weight = {min = -2, max = 3},
+	Reloadrate = {min = -6, max = 7},
+	Deployrate = {min = -4, max = 5},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7325,15 +5529,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 8, max = 15 },
-	Accuracy = { min = 8, max = 15 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 15 },
-	Magazine = { min = 13, max = 20 },
-	Range = { min = 13, max = 20 },
-	Weight = { min = -2, max = -5 },
-	Reloadrate = { min = 13, max = 20 },
-	Deployrate = { min = 13, max = 20 }
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5},
+	Reloadrate = {min = 13, max = 20},
+	Deployrate = {min = 13, max = 20}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -7348,15 +5552,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 9
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 },
-	Reloadrate = { min = 16, max = 24 },
-	Deployrate = { min = 16, max = 24 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7},
+	Reloadrate = {min = 16, max = 24},
+	Deployrate = {min = 16, max = 24}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -7371,15 +5575,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 },
-	Weight = { min = -1, max = -3 },
-	Reloadrate = { min = 5, max = 10 },
-	Deployrate = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10},
+	Weight = {min = -1, max = -3},
+	Reloadrate = {min = 5, max = 10},
+	Deployrate = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7394,15 +5598,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 },
-	Reloadrate = { min = 10, max = 15 },
-	Deployrate = { min = 10, max = 15 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3},
+	Reloadrate = {min = 10, max = 15},
+	Deployrate = {min = 10, max = 15}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7417,15 +5621,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 },
-	Weight = { min = -1, max = -3 },
-	Reloadrate = { min = 5, max = 10 },
-	Deployrate = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10},
+	Weight = {min = -1, max = -3},
+	Reloadrate = {min = 5, max = 10},
+	Deployrate = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7433,7 +5637,6 @@ ITEM.Talents = {"random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 9609
 ITEM.Name = "Poolside"
 ITEM.Rarity = 3
@@ -7441,15 +5644,15 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 },
-	Reloadrate = { min = 10, max = 15 },
-	Deployrate = { min = 10, max = 15 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3},
+	Reloadrate = {min = 10, max = 15},
+	Deployrate = {min = 10, max = 15}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7465,13 +5668,13 @@ ITEM.NameColor = Color(255,255,0)
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -7487,12 +5690,12 @@ ITEM.NameColor = Color(152,251,152)
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7508,13 +5711,13 @@ ITEM.NameColor = Color(221,160,221)
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7522,74 +5725,41 @@ ITEM.Talents = {"random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 12
-
 ITEM.Name = "TalentTest"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Testing Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 20, max = 30 },
-
-	Accuracy = { min = 15, max = 25 },
-
-	Kick = { min = -15, max = -30 },
-
-	Firerate = { min = 15, max = 30 },
-
-	Magazine = { min = 30, max = 50 },
-
-	Range = { min = 40, max = 50 },
-
-	Weight = { min = -5, max = -13 }
-
+	Damage = {min = 20, max = 30},
+	Accuracy = {min = 15, max = 25},
+	Kick = {min = -15, max = -30},
+	Firerate = {min = 15, max = 30},
+	Magazine = {min = 30, max = 50},
+	Range = {min = 40, max = 50},
+	Weight = {min = -5, max = -13}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "Accurate", "Mute", "Inferno" }
+ITEM.Talents = { "Accurate", "Mute", "Inferno"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 330
-
 ITEM.Name = "Tattered"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Beta Collection"
-
-ITEM.NameColor = Color( 69, 87, 71 )
-
+ITEM.NameColor = Color(69, 87, 71)
 ITEM.MinStats = 1
-
 ITEM.MaxStats = 3
-
 ITEM.Stats = {
-
-	Damage = { min = -2, max = 3 },
-
-	Accuracy = { min = -2, max = 2 },
-
-	Kick = { min = -2, max = 2 },
-
-	Firerate = { min = -3, max = 3 },
-
-	Magazine = { min = -7, max = 7 },
-
-	Range = { min = -7, max = 8 },
-
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 m_AddDroppableItem(ITEM, 'tier')
 
@@ -7605,31 +5775,31 @@ ITEM.Stats = {
     Damage = {
         min = 17,
         max = 28
-    },
+   },
     Accuracy = {
         min = 17,
         max = 28
-    },
+   },
     Kick = {
         min = -17,
         max = -28
-    },
+   },
     Firerate = {
         min = 17,
         max = 28
-    },
+   },
     Magazine = {
         min = 23,
         max = 33
-    },
+   },
     Range = {
         min = 23,
         max = 33
-    },
+   },
     Weight = {
         min = -5,
         max = -7
-    }
+   }
 }
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
@@ -7645,17 +5815,17 @@ ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.NameEffect = "electric"
 ITEM.Stats = {
-    Damage = { min = 17, max = 28 },
-    Accuracy = { min = 17, max = 28 },
-    Kick = { min = -17, max = -28 },
-    Firerate = { min = 17, max = 28 },
-    Magazine = { min = 23, max = 33 },
-    Range = { min = 23, max = 33 },
-    Weight = { min = -5, max = -7 }
+    Damage = {min = 17, max = 28},
+    Accuracy = {min = 17, max = 28},
+    Kick = {min = -17, max = -28},
+    Firerate = {min = 17, max = 28},
+    Magazine = {min = 23, max = 33},
+    Range = {min = 23, max = 33},
+    Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -7667,13 +5837,13 @@ ITEM.NameEffect = "electric"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-    Damage = { min = 14, max = 23 },
-    Accuracy = { min = 14, max = 23 },
-    Kick = { min = -14, max = -23 },
-    Firerate = { min = 14, max = 23 },
-    Magazine = { min = 19, max = 28 },
-    Range = { min = 19, max = 28 },
-    Weight = { min = -4, max = -7 }
+    Damage = {min = 14, max = 23},
+    Accuracy = {min = 14, max = 23},
+    Kick = {min = -14, max = -23},
+    Firerate = {min = 14, max = 23},
+    Magazine = {min = 19, max = 28},
+    Range = {min = 19, max = 28},
+    Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -7689,17 +5859,17 @@ ITEM.NameEffect = "electric"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-    Damage = { min = 11, max = 19 },
-    Accuracy = { min = 11, max = 19 },
-    Kick = { min = -11, max = -19 },
-    Firerate = { min = 11, max = 19 },
-    Magazine = { min = 16, max = 24 },
-    Range = { min = 16, max = 24 },
-    Weight = { min = -3, max = -7 }
+    Damage = {min = 11, max = 19},
+    Accuracy = {min = 11, max = 19},
+    Kick = {min = -11, max = -19},
+    Firerate = {min = 11, max = 19},
+    Magazine = {min = 16, max = 24},
+    Range = {min = 16, max = 24},
+    Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -7711,13 +5881,13 @@ ITEM.NameEffect = "electric"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-    Damage = { min = 8, max = 15 },
-    Accuracy = { min = 8, max = 15 },
-    Kick = { min = -8, max = -15 },
-    Firerate = { min = 8, max = 15 },
-    Magazine = { min = 13, max = 20 },
-    Range = { min = 13, max = 20 },
-    Weight = { min = -2, max = -5 }
+    Damage = {min = 8, max = 15},
+    Accuracy = {min = 8, max = 15},
+    Kick = {min = -8, max = -15},
+    Firerate = {min = 8, max = 15},
+    Magazine = {min = 13, max = 20},
+    Range = {min = 13, max = 20},
+    Weight = {min = -2, max = -5}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -7733,13 +5903,13 @@ ITEM.NameColor = Color(221,160,221)
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -7755,12 +5925,12 @@ ITEM.NameColor = Color(34,139,34)
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -7768,159 +5938,87 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 332
-
 ITEM.Name = "Trifling"
-
-ITEM.NameColor = Color( 56, 64, 92 )
-
+ITEM.NameColor = Color(56, 64, 92)
 ITEM.Rarity = 2
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 4
-
 ITEM.Stats = {
-
-	Damage = { min = 0, max = 5 },
-
-	Accuracy = { min = 0, max = 5 },
-
-	Kick = { min = -1, max = -5 },
-
-	Firerate = { min = 0, max = 5 },
-
-	Magazine = { min = 5, max = 10 },
-
-	Range = { min = 5, max = 10 }
-
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 339
-
 ITEM.Name = "Turbid"
-
-ITEM.NameColor = Color( 228, 232, 107 )
-
+ITEM.NameColor = Color(228, 232, 107)
 ITEM.Rarity = 4
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-
-	Damage = { min = 8, max = 15 },
-
-	Accuracy = { min = 8, max = 15 },
-
-	Kick = { min = -8, max = -15 },
-
-	Firerate = { min = 8, max = 15 },
-
-	Magazine = { min = 13, max = 20 },
-
-	Range = { min = 13, max = 20 },
-
-	Weight = { min = -2, max = -5 }
-
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 345
-
 ITEM.Name = "Uncanny"
-
-ITEM.NameColor = Color( 157, 120, 158 )
-
+ITEM.NameColor = Color(157, 120, 158)
 ITEM.Rarity = 5
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 11, max = 19 },
-
-	Accuracy = { min = 11, max = 19 },
-
-	Kick = { min = -11, max = -19 },
-
-	Firerate = { min = 11, max = 19 },
-
-	Magazine = { min = 16, max = 24 },
-
-	Range = { min = 16, max = 24 },
-
-	Weight = { min = -3, max = -7 }
-
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 7
-
 ITEM.Name = "Unusual"
-
-ITEM.NameColor = Color( 178, 205, 255 )
-
+ITEM.NameColor = Color(178, 205, 255)
 ITEM.Rarity = 5
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 11, max = 19 },
-
-	Accuracy = { min = 11, max = 19 },
-
-	Kick = { min = -11, max = -19 },
-
-	Firerate = { min = 11, max = 19 },
-
-	Magazine = { min = 16, max = 24 },
-
-	Range = { min = 16, max = 24 },
-
-	Weight = { min = -3, max = -7 }
-
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.MinTalents = 2
-
 ITEM.MaxTalents = 2
-
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -7932,13 +6030,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -7954,13 +6052,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -7976,13 +6074,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -7998,13 +6096,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8020,13 +6118,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8042,13 +6140,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8064,13 +6162,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8086,13 +6184,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8108,13 +6206,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8130,13 +6228,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8153,13 +6251,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -8176,13 +6274,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -8199,13 +6297,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -8222,13 +6320,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -8245,13 +6343,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -8268,13 +6366,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -8291,13 +6389,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -8314,13 +6412,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -8337,13 +6435,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -8360,13 +6458,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -8386,33 +6484,32 @@ ITEM.Stats = {
     Damage = {
         min = 17,
         max = 28
-    },
+   },
     Accuracy = {
         min = 17,
         max = 28
-    },
+   },
     Kick = {
         min = -17,
         max = -28
-    },
+   },
     Firerate = {
         min = 17,
         max = 28
-    },
+   },
     Magazine = {
         min = 23,
         max = 33
-    },
+   },
     Range = {
         min = 23,
         max = 33
-    },
+   },
     Weight = {
         min = -5,
         max = -7
-    }
+   }
 }
-
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
 ITEM.Talents = {"random", "random", "random", "random"}
@@ -8427,13 +6524,13 @@ ITEM.NameColor = Color(255,105,180)
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8441,44 +6538,25 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 354
-
 ITEM.Name = "Virtuous"
-
-ITEM.NameColor = Color( 213, 0, 255 )
-
+ITEM.NameColor = Color(213, 0, 255)
 ITEM.Rarity = 7
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 17, max = 28 },
-
-	Accuracy = { min = 17, max = 28 },
-
-	Kick = { min = -17, max = -28 },
-
-	Firerate = { min = 17, max = 28 },
-
-	Magazine = { min = 23, max = 33 },
-
-	Range = { min = 23, max = 33 },
-
-	Weight = { min = -5, max = -7 }
-
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.MinTalents = 3
-
 ITEM.MaxTalents = 3
-
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -8490,13 +6568,13 @@ ITEM.NameColor = Color(173,255,47)
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -8511,12 +6589,12 @@ ITEM.Collection = "Spring Collection"
 ITEM.MinStats = 1
 ITEM.MaxStats = 3
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -8532,13 +6610,13 @@ ITEM.NameColor = Color(178,34,34)
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8546,44 +6624,25 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
-
 ITEM.ID = 335
-
 ITEM.Name = "Zesty"
-
-ITEM.NameColor = Color( 92, 169, 76 )
-
+ITEM.NameColor = Color(92, 169, 76)
 ITEM.Rarity = 3
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 10 },
-
-	Accuracy = { min = 5, max = 10 },
-
-	Kick = { min = -5, max = -10 },
-
-	Firerate = { min = 5, max = 10 },
-
-	Magazine = { min = 10, max = 15 },
-
-	Range = { min = 10, max = 15 },
-
-	Weight = { min = -1, max = -3 }
-
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'tier')
 
 ITEM = {}
@@ -8595,13 +6654,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -8617,13 +6676,13 @@ ITEM.NameEffect = "glow"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -8642,33 +6701,32 @@ ITEM.Stats = {
     Damage = {
         min = 17,
         max = 28
-    },
+   },
     Accuracy = {
         min = 17,
         max = 28
-    },
+   },
     Kick = {
         min = -17,
         max = -28
-    },
+   },
     Firerate = {
         min = 17,
         max = 28
-    },
+   },
     Magazine = {
         min = 23,
         max = 33
-    },
+   },
     Range = {
         min = 23,
         max = 33
-    },
+   },
     Weight = {
         min = -5,
         max = -7
-    }
+   }
 }
-
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
 ITEM.Talents = {"random", "random", "random"}
@@ -8682,13 +6740,13 @@ ITEM.Collection = "Cinco de Mayo Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8703,13 +6761,13 @@ ITEM.Collection = "Cinco de Mayo Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -8725,11 +6783,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/backpack_1.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine2"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	model:SetSkin( 0 )
+	model:SetSkin(0)
 	model:SetModelScale(1, 0)
 	pos = pos + (ang:Right() * -3) + (ang:Up() * 0) + (ang:Forward() * 0)
 	ang:RotateAroundAxis(ang:Up(), 90)
@@ -8738,7 +6793,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -8750,11 +6804,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/backpack_1.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine2"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1, 0)
 	pos = pos + (ang:Right() * -3) + (ang:Up() * 0) + (ang:Forward() * 0)
 	ang:RotateAroundAxis(ang:Up(), 90)
@@ -8763,7 +6814,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -8775,11 +6825,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/backpack_1.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine2"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	model:SetSkin( 2 )
+	model:SetSkin(2)
 	model:SetModelScale(1, 0)
 	pos = pos + (ang:Right() * -3) + (ang:Up() * 0) + (ang:Forward() * 0)
 	ang:RotateAroundAxis(ang:Up(), 90)
@@ -8788,7 +6835,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -8800,11 +6846,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/backpack_2.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine2"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	model:SetSkin( 0 )
+	model:SetSkin(0)
 	model:SetModelScale(1, 0)
 	pos = pos + (ang:Right() * -2.3) + (ang:Up() * 0) + (ang:Forward() * 1)
 	ang:RotateAroundAxis(ang:Up(), 90)
@@ -8813,7 +6856,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -8825,11 +6867,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/backpack_2.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine2"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1, 0)
 	pos = pos + (ang:Right() * -2.3) + (ang:Up() * 0) + (ang:Forward() * 1)
 	ang:RotateAroundAxis(ang:Up(), 90)
@@ -8838,7 +6877,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -8850,11 +6888,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/backpack_2.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine2"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	model:SetSkin( 2 )
+	model:SetSkin(2)
 	model:SetModelScale(1, 0)
 	pos = pos + (ang:Right() * -2.3) + (ang:Up() * 0) + (ang:Forward() * 1)
 	ang:RotateAroundAxis(ang:Up(), 90)
@@ -8863,7 +6898,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -8875,11 +6909,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/backpack_3.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine2"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	model:SetSkin( 0 )
+	model:SetSkin(0)
 	model:SetModelScale(1, 0)
 	pos = pos + (ang:Right() * -2.3) + (ang:Up() * 0) + (ang:Forward() * 0.9)
 	ang:RotateAroundAxis(ang:Up(), 90)
@@ -8888,7 +6919,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -8900,11 +6930,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/backpack_3.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine2"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1, 0)
 	pos = pos + (ang:Right() * -2.3) + (ang:Up() * 0) + (ang:Forward() * 0.9)
 	ang:RotateAroundAxis(ang:Up(), 90)
@@ -8913,71 +6940,44 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
-
 ITEM.ID = 3397
-
 ITEM.Name = "Balloonicorno"
-
 ITEM.Description = "Hey look, you finally have a friend now"
-
 ITEM.Model = "models/gmod_tower/balloonicorn_nojiggle.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cinco de Mayo Collection"
-
 ITEM.Attachment = "eyes" // left trapezius
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.3, 0)
-	pos = pos + (ang:Forward() * -1.2) + (ang:Right() * -20) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -1.2) + (ang:Right() * -20) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Forward(), 90)
 	ang:RotateAroundAxis(ang:Right(), -90)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
-
 ITEM.ID = 2097
-
 ITEM.Name = "Balloonicorn"
-
 ITEM.Description = "Hey look, you finally have a friend now"
-
 ITEM.Model = "models/gmod_tower/balloonicorn_nojiggle.mdl"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.Attachment = "eyes" // left trapezius
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.3, 0)
-	pos = pos + (ang:Forward() * -1.2) + (ang:Right() * -20) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -1.2) + (ang:Right() * -20) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Forward(), 90)
 	ang:RotateAroundAxis(ang:Right(), -90)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -8989,49 +6989,34 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/bandana.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	model:SetSkin( 0 )
+	model:SetSkin(0)
 	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Right() * 0.1) + (ang:Up() * -4.5) + (ang:Forward() * -4.1)
 	ang:RotateAroundAxis(ang:Up(), 0)
 	
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
 ITEM.ID = 2067
-
 ITEM.Name = "Duck Tube"
-
 ITEM.Description = "The king of the pool party"
-
 ITEM.Model = "models/captainbigbutt/skeyler/accessories/duck_tube.mdl"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.Bone = "ValveBiped.Bip01_Spine1"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.65, 0)
-	pos = pos + (ang:Forward() * 0) + (ang:Right() * -0) +  (ang:Up() * -1.2) + m_IsTerroristModel( ply:GetModel() )
-
-	ang:RotateAroundAxis( ang:Right(), 270 )
-	ang:RotateAroundAxis( ang:Up(), 90 )
-
+	pos = pos + (ang:Forward() * 0) + (ang:Right() * -0) +  (ang:Up() * -1.2) + m_IsTerroristModel(ply:GetModel())
+	ang:RotateAroundAxis(ang:Right(), 270)
+	ang:RotateAroundAxis(ang:Up(), 90)
 	pos = pos + Vector(-5,3,0)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -9043,12 +7028,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/acc/fix/scarf01.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
+	model:SetSkin(0)
 	pos = pos + (ang:Forward() * -17.746000) + (ang:Right() * -8.509000) +  (ang:Up() * 1.143)
 	ang:RotateAroundAxis(ang:Right(), -2.400)
 	ang:RotateAroundAxis(ang:Up(), 74.100)
@@ -9056,9 +7037,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -9070,12 +7049,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/acc/fix/scarf01.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	pos = pos + (ang:Forward() * -17.746000) + (ang:Right() * -8.509000) +  (ang:Up() * 1.143)
 	ang:RotateAroundAxis(ang:Right(), -2.400)
 	ang:RotateAroundAxis(ang:Up(), 74.100)
@@ -9083,9 +7058,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -9097,12 +7070,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/acc/fix/scarf01.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
+	model:SetSkin(2)
 	pos = pos + (ang:Forward() * -17.746000) + (ang:Right() * -8.509000) +  (ang:Up() * 1.143)
 	ang:RotateAroundAxis(ang:Right(), -2.400)
 	ang:RotateAroundAxis(ang:Up(), 74.100)
@@ -9110,9 +7079,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -9124,12 +7091,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/acc/fix/scarf01.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
+	model:SetSkin(3)
 	pos = pos + (ang:Forward() * -17.746000) + (ang:Right() * -8.509000) +  (ang:Up() * 1.143)
 	ang:RotateAroundAxis(ang:Right(), -2.400)
 	ang:RotateAroundAxis(ang:Up(), 74.100)
@@ -9137,9 +7100,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -9151,12 +7112,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/sal/acc/fix/scarf01.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
+	model:SetSkin(4)
 	pos = pos + (ang:Forward() * -17.746000) + (ang:Right() * -8.509000) +  (ang:Up() * 1.143)
 	ang:RotateAroundAxis(ang:Right(), -2.400)
 	ang:RotateAroundAxis(ang:Up(), 74.100)
@@ -9164,9 +7121,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -9178,12 +7133,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/sal/acc/fix/scarf01.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
+	model:SetSkin(5)
 	pos = pos + (ang:Forward() * -17.746000) + (ang:Right() * -8.509000) +  (ang:Up() * 1.143)
 	ang:RotateAroundAxis(ang:Right(), -2.400)
 	ang:RotateAroundAxis(ang:Up(), 74.100)
@@ -9191,9 +7142,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -9205,12 +7154,8 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 6
 ITEM.Model = "models/sal/acc/fix/scarf01.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 6 )
+	model:SetSkin(6)
 	pos = pos + (ang:Forward() * -17.746000) + (ang:Right() * -8.509000) +  (ang:Up() * 1.143)
 	ang:RotateAroundAxis(ang:Right(), -2.400)
 	ang:RotateAroundAxis(ang:Up(), 74.100)
@@ -9218,9 +7163,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Body')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Body') end
 
 ITEM = {}
@@ -9232,13 +7175,13 @@ ITEM.WeaponClass = "weapon_akimbo"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -9254,13 +7197,13 @@ ITEM.WeaponClass = "weapon_akimbo"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -9276,13 +7219,13 @@ ITEM.WeaponClass = "weapon_rcp120"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -9298,13 +7241,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9320,13 +7263,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -9342,24 +7285,22 @@ ITEM.NameEffect = "glow"
 ITEM.Rarity = 7
 ITEM.Collection = "Beta Collection"
 ITEM.WeaponClass = "weapon_zm_revolver"
-
 ITEM.MinStats = 9
 ITEM.MaxStats = 9
 ITEM.Stats = {
-    Damage = { min = 17, max = 28 },
-    Accuracy = { min = 55, max = 80 },
-    Kick = { min = -17, max = -30 },
-    Firerate = { min = 20, max = 38 },
-    Magazine = { min = 6, max = 10 },
-    Range = { min = 25, max = 55 },
-    Weight = { min = -5, max = -7 },
-    Deployrate = { min = 30, max = 40 },
-    Reloadrate = { min = 30, max = 40 }
+    Damage = {min = 17, max = 28},
+    Accuracy = {min = 55, max = 80},
+    Kick = {min = -17, max = -30},
+    Firerate = {min = 20, max = 38},
+    Magazine = {min = 6, max = 10},
+    Range = {min = 25, max = 55},
+    Weight = {min = -5, max = -7},
+    Deployrate = {min = 30, max = 40},
+    Reloadrate = {min = 30, max = 40}
 }
-
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -9370,24 +7311,22 @@ ITEM.NameEffect = "glow"
 ITEM.Rarity = 7
 ITEM.Collection = "Beta Collection"
 ITEM.WeaponClass = "weapon_ttt_mp5"
-
 ITEM.MinStats = 6
 ITEM.MaxStats = 8 
 ITEM.Stats = {
-    Damage = { min = 17, max = 22 },
-    Accuracy = { min = 17, max = 28 },
-    Kick = { min = -17, max = -28 },
-    Firerate = { min = 10, max = 24 },
-    Magazine = { min = 25, max = 35 },
-    Range = { min = 23, max = 32 },
-    Weight = { min = -7, max = -10 },
-    Deployrate = { min = 30, max = 40 },
-    Reloadrate = { min = 30, max = 40 }
+    Damage = {min = 17, max = 22},
+    Accuracy = {min = 17, max = 28},
+    Kick = {min = -17, max = -28},
+    Firerate = {min = 10, max = 24},
+    Magazine = {min = 25, max = 35},
+    Range = {min = 23, max = 32},
+    Weight = {min = -7, max = -10},
+    Deployrate = {min = 30, max = 40},
+    Reloadrate = {min = 30, max = 40}
 }
-
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -9398,25 +7337,23 @@ ITEM.NameEffect = "glow"
 ITEM.Rarity = 7
 ITEM.Collection = "Beta Collection"
 ITEM.WeaponClass = "weapon_zm_sledge"
-
 ITEM.MinStats = 9
 ITEM.MaxStats = 9
 ITEM.Stats = {
-  	Damage = { min = 17, max = 28 },
-    Accuracy = { min = 17, max = 28 },
-    Kick = { min = -17, max = -28 },
-    Firerate = { min = 17, max = 28 },
-    Magazine = { min = 23, max = 33 },
-    Range = { min = 23, max = 33 },
-    Weight = { min = -5, max = -7 },
-    Deployrate = { min = 30, max = 40 },
-    Reloadrate = { min = 30, max = 40 },
+  	Damage = {min = 17, max = 28},
+    Accuracy = {min = 17, max = 28},
+    Kick = {min = -17, max = -28},
+    Firerate = {min = 17, max = 28},
+    Magazine = {min = 23, max = 33},
+    Range = {min = 23, max = 33},
+    Weight = {min = -5, max = -7},
+    Deployrate = {min = 30, max = 40},
+    Reloadrate = {min = 30, max = 40},
 }
-
 
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
-ITEM.Talents = { "random", "random", "random" }
+ITEM.Talents = { "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -9428,13 +7365,13 @@ ITEM.WeaponClass = "weapon_virussil"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9450,13 +7387,13 @@ ITEM.WeaponClass = "weapon_golden_revolver"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -9472,13 +7409,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9495,13 +7432,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 20 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 20},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9518,13 +7455,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 8
 ITEM.Stats = {
-	Damage = { min = 14, max = 40 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-	Chargerate = { min = 28, max = 46 }
+	Damage = {min = 14, max = 40},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+	Chargerate = {min = 28, max = 46}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9541,13 +7478,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 2, max = 15 },
-	Kick = { min = 14, max = 23 },
-	Firerate = { min = 5, max = 30 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 2, max = 15},
+	Kick = {min = 14, max = 23},
+	Firerate = {min = 5, max = 30},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9564,13 +7501,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 28 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 28},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9587,13 +7524,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 6, max = 12 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 20, max = 40 },
-	Magazine = { min = 30, max = 60 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 6, max = 12},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 20, max = 40},
+	Magazine = {min = 30, max = 60},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9610,13 +7547,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 30 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -20, max = -34 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 14, max = 22 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 30},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -20, max = -34},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 14, max = 22},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9633,13 +7570,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 12, max = 20 },
-	Accuracy = { min = 4, max = 40 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 2, max = 12 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 12, max = 20},
+	Accuracy = {min = 4, max = 40},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 2, max = 12},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9656,13 +7593,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 20, max = 35 },
-	Accuracy = { min = 14, max = 30 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 4, max = 8 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 20, max = 35},
+	Accuracy = {min = 14, max = 30},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 4, max = 8},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9679,13 +7616,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 23, max = 35 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 5, max = 12 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 23, max = 35},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 5, max = 12},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9703,13 +7640,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9726,13 +7663,13 @@ ITEM.WeaponClass = "weapon_xm8b"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9748,13 +7685,13 @@ ITEM.WeaponClass = "weapon_doubleb"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9771,13 +7708,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9795,13 +7732,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -9817,24 +7754,22 @@ ITEM.NameEffect = "glow"
 ITEM.Rarity = 6
 ITEM.Collection = "Beta Collection"
 ITEM.WeaponClass = "weapon_ttt_m16"
-
 ITEM.MinStats = 9
 ITEM.MaxStats = 9
 ITEM.Stats = {
-    Damage = { min = 20, max = 32 },
-    Accuracy = { min = 15, max = 30 },
-    Kick = { min = 15, max = 32 },
-    Firerate = { min = 16, max = 28 },
-    Magazine = { min = 6, max = 18 },
-    Range = { min = 10, max = 25 },
-    Weight = { min = 6, max = 18 },
-    Deployrate = { min = -12, max = -25 },
-    Reloadrate = { min = 15, max = 30 },
+    Damage = {min = 20, max = 32},
+    Accuracy = {min = 15, max = 30},
+    Kick = {min = 15, max = 32},
+    Firerate = {min = 16, max = 28},
+    Magazine = {min = 6, max = 18},
+    Range = {min = 10, max = 25},
+    Weight = {min = 6, max = 18},
+    Deployrate = {min = -12, max = -25},
+    Reloadrate = {min = 15, max = 30},
 }
-
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
-ITEM.Talents = { "random", "random" }
+ITEM.Talents = { "random", "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -9847,13 +7782,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -15, max = -35 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -15, max = -35}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -9869,13 +7804,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 5, max = 13 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = -28, max = -19 },
-	Weight = { min = 7, max = 4 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 5, max = 13},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = -28, max = -19},
+	Weight = {min = 7, max = 4}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9893,13 +7828,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 5, max = 13 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = -28, max = -19 },
-	Weight = { min = 7, max = 4 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 5, max = 13},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = -28, max = -19},
+	Weight = {min = 7, max = 4}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -9915,13 +7850,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 20, max = 10 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 20, max = 10}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -9939,13 +7874,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 20, max = 10 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 20, max = 10}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -9962,13 +7897,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 14, max = 8 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 14, max = 8}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -9984,13 +7919,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 14, max = 8 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 14, max = 8}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10008,13 +7943,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 14, max = 8 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 14, max = 8}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10032,13 +7967,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 7, max = 4 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 7, max = 4}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -10056,13 +7991,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 35, max = 15 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 35, max = 15}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10078,13 +8013,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 16, max = 8 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 16, max = 8}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10102,13 +8037,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 16, max = 8 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 16, max = 8}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10126,13 +8061,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 35, max = 15 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 35, max = 15}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10148,13 +8083,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 4, max = -4 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 4, max = -4}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10172,13 +8107,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 4, max = -4 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 4, max = -4}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10194,13 +8129,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 0, max = -4 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 0, max = -4}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10218,13 +8153,13 @@ ITEM.Collection = "Valentine Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = 0, max = -4 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = 0, max = -4}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10241,13 +8176,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -10264,13 +8199,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -10287,12 +8222,12 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -10310,15 +8245,15 @@ ITEM.MinStats = 6
 ITEM.MaxStats = 8
 ITEM.NameEffect = "electric"
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 },
-    Deployrate = { min = 30, max = 40 },
-	Reloadrate = { min = 30, max = 40 },
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7},
+    Deployrate = {min = 30, max = 40},
+	Reloadrate = {min = 30, max = 40},
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 4
@@ -10336,15 +8271,15 @@ ITEM.MinStats = 6
 ITEM.MaxStats = 8
 ITEM.NameEffect = "electric"
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-	Kick = { min = -17, max = -28 },
-    Deployrate = { min = 30, max = 40 },
-	Reloadrate = { min = 30, max = 40 },
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+	Kick = {min = -17, max = -28},
+    Deployrate = {min = 30, max = 40},
+	Reloadrate = {min = 30, max = 40},
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 4
@@ -10362,15 +8297,15 @@ ITEM.MinStats = 8
 ITEM.MaxStats = 9
 ITEM.NameEffect = "electric"
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 },
-    Deployrate = { min = 30, max = 40 },
-	Reloadrate = { min = 30, max = 40 },
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7},
+    Deployrate = {min = 30, max = 40},
+	Reloadrate = {min = 30, max = 40},
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 4
@@ -10388,15 +8323,15 @@ ITEM.MinStats = 6
 ITEM.MaxStats = 8
 ITEM.NameEffect = "electric"
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 22, max = 33 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-    Deployrate = { min = 30, max = 40 },
-    Reloadrate = { min = 30, max = 40 },
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 22, max = 33},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+    Deployrate = {min = 30, max = 40},
+    Reloadrate = {min = 30, max = 40},
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 4
@@ -10414,14 +8349,14 @@ ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.NameEffect = "electric"
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 22, max = 33 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -10, max = -15 },
-	Reloadrate = { min = 30, max = 40 },
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 22, max = 33},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -10, max = -15},
+	Reloadrate = {min = 30, max = 40},
 }
 ITEM.MinTalents = 2 
 ITEM.MaxTalents = 3
@@ -10438,13 +8373,13 @@ ITEM.WeaponClass = "weapon_flakgun"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -10452,24 +8387,21 @@ ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 7973
 ITEM.Name = "FaZe Pro Player"
 ITEM.Rarity = 7
 ITEM.Collection = "Omega Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-	Damage = { min = 73, max = 92 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 73, max = 92},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.WeaponClass = "weapon_zm_rifle"
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -10484,13 +8416,13 @@ ITEM.Collection = "Space Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 15, max = 25 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = -10, max = -1 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 15, max = 25},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = -10, max = -1},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10507,12 +8439,12 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -10529,12 +8461,12 @@ ITEM.WeaponClass = "weapon_thompson"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -10542,40 +8474,25 @@ ITEM.Talents = {"random", "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 317
-
 ITEM.Name = "Hawkeyo"
-
-ITEM.NameColor = Color( 255, 0, 0 )
-
+ITEM.NameColor = Color(255, 0, 0)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 1, max = 10 },
-    Accuracy = { min = 10, max = 50 },
-    Range = { min = 1, max = 10 },
-    Firerate = { min = 1, max = 10 },
-	Magazine = { min = 5, max = 10 },
-
+	Damage = {min = 1, max = 10},
+    Accuracy = {min = 10, max = 50},
+    Range = {min = 1, max = 10},
+    Firerate = {min = 1, max = 10},
+	Magazine = {min = 5, max = 10},
 }
-
 ITEM.WeaponClass = "weapon_zm_sledge"
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -10587,12 +8504,12 @@ ITEM.WeaponClass = "weapon_spas12pvp"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -10608,13 +8525,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -10623,31 +8540,19 @@ ITEM.WeaponClass = "weapon_ttt_m1911"
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 318
-
 ITEM.Name = "Holukis"
-
-ITEM.NameColor = Color( 133, 213, 239 )
-
+ITEM.NameColor = Color(133, 213, 239)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 3
-
 ITEM.Stats = {
-
-	Damage = { min = -50, max = -70 },
-    Firerate = { min = 80, max = 100 },
-	Magazine = { min = 10, max = 30 },
-
+	Damage = {min = -50, max = -70},
+    Firerate = {min = 80, max = 100},
+	Magazine = {min = 10, max = 30},
 }
-
 ITEM.WeaponClass = "weapon_zm_shotgun"
 m_AddDroppableItem(ITEM, 'Unique')
 
@@ -10660,13 +8565,13 @@ ITEM.WeaponClass = "weapon_doubleb"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -10682,13 +8587,13 @@ ITEM.Collection = "Easter Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 15, max = 20 },
-	Accuracy = { min = 23, max = 30 },
-	Kick = { min = -5, max = -30 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 34, max = 58 },
-	Range = { min = 25, max = 32 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 15, max = 20},
+	Accuracy = {min = 23, max = 30},
+	Kick = {min = -5, max = -30},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 34, max = 58},
+	Range = {min = 25, max = 32},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10697,40 +8602,25 @@ ITEM.WeaponClass = "weapon_ttt_te_mac"
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 319
-
 ITEM.Name = "Headcrusher"
-
-ITEM.NameColor = Color( 29, 201, 150 )
-
+ITEM.NameColor = Color(29, 201, 150)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 25, max = 50 },
-    Accuracy = { min = 10, max = 30 },
-	Magazine = { min = -40, max = -80 },
-	Firerate = { min = -50, max = -95 },
-    Range = { min = 1, max = 20 },
-
+	Damage = {min = 25, max = 50},
+    Accuracy = {min = 10, max = 30},
+	Magazine = {min = -40, max = -80},
+	Firerate = {min = -50, max = -95},
+    Range = {min = 1, max = 20},
 }
-
 ITEM.WeaponClass = "weapon_zm_revolver"
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "Brutal" }
+ITEM.Talents = { "Brutal"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -10741,13 +8631,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -10756,75 +8646,45 @@ ITEM.WeaponClass = "weapon_ttt_aug"
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 320
-
 ITEM.Name = "Kik-Back"
-
-ITEM.NameColor = Color( 171, 1, 37 )
-
+ITEM.NameColor = Color(171, 1, 37)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 3
-
 ITEM.MaxStats = 3
-
 ITEM.Stats = {
-
-	Damage = { min = 15, max = 30 },
-	Accuracy = { min = 10, max = 20 },
-	Kick = { min = 60, max = 70 },
-
+	Damage = {min = 15, max = 30},
+	Accuracy = {min = 10, max = 20},
+	Kick = {min = 60, max = 70},
 }
-
 ITEM.WeaponClass = "weapon_ttt_ak47"
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 321
-
 ITEM.Name = "Karitichu"
-
-ITEM.NameColor = Color( 255, 233, 109 )
-
+ITEM.NameColor = Color(255, 233, 109)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 10, max = 20 },
-    Firerate = { min = 30, max = 60 },
-	Kick = { min = -11, max = -19 },
-	Magazine = { min = 5, max = 10 },
-
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 10, max = 20},
+    Firerate = {min = 30, max = 60},
+	Kick = {min = -11, max = -19},
+	Magazine = {min = 5, max = 10},
 }
-
 ITEM.WeaponClass = "weapon_zm_rifle"
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "random" }
+ITEM.Talents = { "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -10836,13 +8696,13 @@ ITEM.WeaponClass = "weapon_ttt_te_g36c"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -10858,13 +8718,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -10880,13 +8740,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 28 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 28},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -10902,13 +8762,13 @@ ITEM.Collection = "Holiday Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10917,40 +8777,27 @@ ITEM.WeaponClass = "weapon_ttt_m4a1"
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 322
-
 ITEM.Name = "Miscordia"
-
-ITEM.NameColor = Color( 0, 189, 71 )
-
+ITEM.NameColor = Color(0, 189, 71)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 6
-
 ITEM.MaxStats = 6
-
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
-
 ITEM.WeaponClass = "weapon_ttt_glock"
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "Sustained" }
+ITEM.Talents = { "Sustained"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -10963,13 +8810,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -10986,13 +8833,13 @@ ITEM.WeaponClass = "weapon_zapperpvp"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -11008,12 +8855,12 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 1
 ITEM.MaxStats = 3
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -11022,40 +8869,25 @@ ITEM.WeaponClass = "weapon_ttt_glock"
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 323
-
 ITEM.Name = "Headbanger"
-
-ITEM.NameColor = Color( 23, 116, 89 )
-
+ITEM.NameColor = Color(23, 116, 89)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 5
-
 ITEM.Stats = {
-
-	Damage = { min = 25, max = 50 },
-    Accuracy = { min = 10, max = 30 },
-	Magazine = { min = -40, max = -80 },
-	Firerate = { min = -50, max = -95 },
-    Range = { min = 1, max = 20 },
-
+	Damage = {min = 25, max = 50},
+    Accuracy = {min = 10, max = 30},
+	Magazine = {min = -40, max = -80},
+	Firerate = {min = -50, max = -95},
+    Range = {min = 1, max = 20},
 }
-
 ITEM.WeaponClass = "weapon_zm_pistol"
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "Brutal" }
+ITEM.Talents = { "Brutal"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -11067,15 +8899,15 @@ ITEM.WeaponClass = "weapon_ttt_famas"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-    Deployrate = { min = 20, max = 40 },
-    Reloadrate = { min = 20, max = 40 },
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+    Deployrate = {min = 20, max = 40},
+    Reloadrate = {min = 20, max = 40},
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -11091,15 +8923,15 @@ ITEM.WeaponClass = "weapon_ttt_galil"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-    Deployrate = { min = 20, max = 40 },
-    Reloadrate = { min = 20, max = 40 },
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+    Deployrate = {min = 20, max = 40},
+    Reloadrate = {min = 20, max = 40},
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -11115,15 +8947,15 @@ ITEM.WeaponClass = "weapon_sp"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-    Deployrate = { min = 20, max = 40 },
-    Reloadrate = { min = 20, max = 40 },
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+    Deployrate = {min = 20, max = 40},
+    Reloadrate = {min = 20, max = 40},
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -11139,15 +8971,15 @@ ITEM.WeaponClass = "weapon_ttt_mp40"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 3, max = 13 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 5, max = 16 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 },
-    Deployrate = { min = 30, max = 40 },
-    Reloadrate = { min = 30, max = 40 },
+	Damage = {min = 3, max = 13},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 5, max = 16},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7},
+    Deployrate = {min = 30, max = 40},
+    Reloadrate = {min = 30, max = 40},
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -11163,15 +8995,15 @@ ITEM.WeaponClass = "weapon_sp"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-    Deployrate = { min = 20, max = 40 },
-    Reloadrate = { min = 20, max = 40 },
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+    Deployrate = {min = 20, max = 40},
+    Reloadrate = {min = 20, max = 40},
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -11187,13 +9019,13 @@ ITEM.WeaponClass = "weapon_patriot"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11209,13 +9041,13 @@ ITEM.WeaponClass = "weapon_patriot"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -11230,13 +9062,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 3
 ITEM.MaxStats = 5
 ITEM.Stats = {
-	Damage = { min = 5, max = 10 },
-	Accuracy = { min = 5, max = 10 },
-	Kick = { min = -5, max = -10 },
-	Firerate = { min = 5, max = 10 },
-	Magazine = { min = 10, max = 15 },
-	Range = { min = 10, max = 15 },
-	Weight = { min = -1, max = -3 }
+	Damage = {min = 5, max = 10},
+	Accuracy = {min = 5, max = 10},
+	Kick = {min = -5, max = -10},
+	Firerate = {min = 5, max = 10},
+	Magazine = {min = 10, max = 15},
+	Range = {min = 10, max = 15},
+	Weight = {min = -1, max = -3}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -11253,13 +9085,13 @@ ITEM.WeaponClass = "weapon_ragingbull"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11276,13 +9108,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -11299,12 +9131,12 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 1
 ITEM.MaxStats = 3
 ITEM.Stats = {
-	Damage = { min = -2, max = 3 },
-	Accuracy = { min = -2, max = 2 },
-	Kick = { min = -2, max = 2 },
-	Firerate = { min = -3, max = 3 },
-	Magazine = { min = -7, max = 7 },
-	Range = { min = -7, max = 8 },
+	Damage = {min = -2, max = 3},
+	Accuracy = {min = -2, max = 2},
+	Kick = {min = -2, max = 2},
+	Firerate = {min = -3, max = 3},
+	Magazine = {min = -7, max = 7},
+	Range = {min = -7, max = 8},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -11321,12 +9153,12 @@ ITEM.WeaponClass = "weapon_semiauto"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -11342,12 +9174,12 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -11356,65 +9188,41 @@ ITEM.WeaponClass = "weapon_ttt_shotgun"
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 324
-
 ITEM.Name = "SGLento"
-
-ITEM.NameColor = Color( 0, 97, 179 )
-
+ITEM.NameColor = Color(0, 97, 179)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 7
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 10, max = 25 },
-	Accuracy = { min = 10, max = 20 },
-	Kick = { min = 0, max = 10 },
-    Firerate = { min = -20, max = -30 },
-	Magazine = { min = 20, max = 30 },
-	Range = { min = 5, max = 10 },
-	Weight = { min = 0, max = -20 }
-
+	Damage = {min = 10, max = 25},
+	Accuracy = {min = 10, max = 20},
+	Kick = {min = 0, max = 10},
+    Firerate = {min = -20, max = -30},
+	Magazine = {min = 20, max = 30},
+	Range = {min = 5, max = 10},
+	Weight = {min = 0, max = -20}
 }
-
 ITEM.WeaponClass = "weapon_ttt_sg552"
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 325
-
 ITEM.Name = "Slowihux"
-
-ITEM.NameColor = Color( 212, 44, 151 )
-
+ITEM.NameColor = Color(212, 44, 151)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 4
-
 ITEM.Stats = {
-
-	Damage = { min = 10, max = 30 },
-    Range = { min = 1, max = 10 },
-    Firerate = { min = -40, max = -50 },
-	Magazine = { min = 5, max = 10 },
-
+	Damage = {min = 10, max = 30},
+    Range = {min = 1, max = 10},
+    Firerate = {min = -40, max = -50},
+	Magazine = {min = 5, max = 10},
 }
-
 ITEM.WeaponClass = "weapon_ttt_shotgun"
 m_AddDroppableItem(ITEM, 'Unique')
 
@@ -11427,12 +9235,12 @@ ITEM.WeaponClass = "weapon_rcp120"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 12 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 12},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -11448,13 +9256,13 @@ ITEM.WeaponClass = "weapon_spas12pvp"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -11462,32 +9270,20 @@ ITEM.Talents = {"random", "random", "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 326
-
 ITEM.Name = "Spray-N-Pray"
-
-ITEM.NameColor = Color( 27, 126, 7 )
-
+ITEM.NameColor = Color(27, 126, 7)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 4
-
 ITEM.MaxStats = 4
-
 ITEM.Stats = {
-
-	Damage = { min = -10, max = -30 },
-    Firerate = { min = 30, max = 60 },
-	Magazine = { min = 5, max = 10 },
-    Kick = { min = -1, max = -19 }
-
+	Damage = {min = -10, max = -30},
+    Firerate = {min = 30, max = 60},
+	Magazine = {min = 5, max = 10},
+    Kick = {min = -1, max = -19}
 }
-
 ITEM.WeaponClass = "weapon_ttt_galil"
 m_AddDroppableItem(ITEM, 'Unique')
 
@@ -11500,13 +9296,13 @@ ITEM.WeaponClass = "weapon_sp"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11521,12 +9317,12 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -11544,13 +9340,13 @@ ITEM.WeaponClass = "weapon_mor_bonemold"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 },
-	Chargerate = { min = 22, max = 38 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Weight = {min = -3, max = -7},
+	Chargerate = {min = 22, max = 38}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11567,13 +9363,13 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 8
 ITEM.MaxStats = 8
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 },
-	Chargerate = { min = 34, max = 56 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Weight = {min = -5, max = -7},
+	Chargerate = {min = 34, max = 56}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -11590,13 +9386,13 @@ ITEM.WeaponClass = "weapon_mor_auriel"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 },
-	Chargerate = { min = 28, max = 46 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Weight = {min = -4, max = -7},
+	Chargerate = {min = 28, max = 46}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -11612,13 +9408,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 5
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11635,12 +9431,12 @@ ITEM.WeaponClass = "weapon_ttt_m590"
 ITEM.MinStats = 2
 ITEM.MaxStats = 4
 ITEM.Stats = {
-	Damage = { min = 0, max = 5 },
-	Accuracy = { min = 0, max = 5 },
-	Kick = { min = -1, max = -5 },
-	Firerate = { min = 0, max = 5 },
-	Magazine = { min = 5, max = 10 },
-	Range = { min = 5, max = 10 }
+	Damage = {min = 0, max = 5},
+	Accuracy = {min = 0, max = 5},
+	Kick = {min = -1, max = -5},
+	Firerate = {min = 0, max = 5},
+	Magazine = {min = 5, max = 10},
+	Range = {min = 5, max = 10}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 1
@@ -11656,12 +9452,12 @@ ITEM.WeaponClass = "weapon_supershotty"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 4, max = 8 },
-	Accuracy = { min = 5, max = 12 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 10, max = 30 },
-	Magazine = { min = 8, max = 15 },
-	Range = { min = 30, max = 60 },
+	Damage = {min = 4, max = 8},
+	Accuracy = {min = 5, max = 12},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 10, max = 30},
+	Magazine = {min = 8, max = 15},
+	Range = {min = 30, max = 60},
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -11678,13 +9474,13 @@ ITEM.WeaponClass = "weapon_ttt_te_m9"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 8, max = 15 },
-	Accuracy = { min = 8, max = 15 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 15 },
-	Magazine = { min = 13, max = 20 },
-	Range = { min = 13, max = 20 },
-	Weight = { min = -2, max = -5 }
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -11701,13 +9497,13 @@ ITEM.WeaponClass = "weapon_ttt_te_mp5"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 8, max = 15 },
-	Accuracy = { min = 8, max = 15 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 15 },
-	Magazine = { min = 13, max = 20 },
-	Range = { min = 13, max = 20 },
-	Weight = { min = -2, max = -5 }
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -11724,13 +9520,13 @@ ITEM.WeaponClass = "weapon_ttt_te_m14"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 8, max = 15 },
-	Accuracy = { min = 8, max = 15 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 15 },
-	Magazine = { min = 13, max = 20 },
-	Range = { min = 13, max = 20 },
-	Weight = { min = -2, max = -5 }
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -11747,13 +9543,13 @@ ITEM.WeaponClass = "weapon_ttt_te_famas"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 8, max = 15 },
-	Accuracy = { min = 8, max = 15 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 15 },
-	Magazine = { min = 13, max = 20 },
-	Range = { min = 13, max = 20 },
-	Weight = { min = -2, max = -5 }
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -11770,13 +9566,13 @@ ITEM.WeaponClass = "weapon_ttt_te_sg550"
 ITEM.MinStats = 4
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 8, max = 15 },
-	Accuracy = { min = 8, max = 15 },
-	Kick = { min = -8, max = -15 },
-	Firerate = { min = 8, max = 15 },
-	Magazine = { min = 13, max = 20 },
-	Range = { min = 13, max = 20 },
-	Weight = { min = -2, max = -5 }
+	Damage = {min = 8, max = 15},
+	Accuracy = {min = 8, max = 15},
+	Kick = {min = -8, max = -15},
+	Firerate = {min = 8, max = 15},
+	Magazine = {min = 13, max = 20},
+	Range = {min = 13, max = 20},
+	Weight = {min = -2, max = -5}
 }
 ITEM.MinTalents = 1
 ITEM.MaxTalents = 2
@@ -11793,13 +9589,13 @@ ITEM.WeaponClass = "weapon_ttt_te_1911"
 ITEM.MinStats = 5
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11816,13 +9612,13 @@ ITEM.WeaponClass = "weapon_ttt_te_m9s"
 ITEM.MinStats = 5
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11839,13 +9635,13 @@ ITEM.WeaponClass = "weapon_ttt_te_g36c"
 ITEM.MinStats = 5
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11862,13 +9658,13 @@ ITEM.WeaponClass = "weapon_ttt_te_deagle"
 ITEM.MinStats = 5
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11885,13 +9681,13 @@ ITEM.WeaponClass = "weapon_ttt_te_benelli"
 ITEM.MinStats = 5
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11908,13 +9704,13 @@ ITEM.WeaponClass = "weapon_ttt_te_mac"
 ITEM.MinStats = 5
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 11, max = 19 },
-	Accuracy = { min = 11, max = 19 },
-	Kick = { min = -11, max = -19 },
-	Firerate = { min = 11, max = 19 },
-	Magazine = { min = 16, max = 24 },
-	Range = { min = 16, max = 24 },
-	Weight = { min = -3, max = -7 }
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 2
@@ -11931,13 +9727,13 @@ ITEM.WeaponClass = "weapon_ttt_te_fal"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -11954,13 +9750,13 @@ ITEM.WeaponClass = "weapon_ttt_te_cf05"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -11977,13 +9773,13 @@ ITEM.WeaponClass = "weapon_ttt_te_g36c"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -12000,13 +9796,13 @@ ITEM.WeaponClass = "weapon_ttt_te_ots33"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -12023,13 +9819,13 @@ ITEM.WeaponClass = "weapon_ttt_te_m24"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -12046,13 +9842,13 @@ ITEM.WeaponClass = "weapon_ttt_te_glock"
 ITEM.MinStats = 6
 ITEM.MaxStats = 6
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -12069,13 +9865,13 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 28, max = 45 },
-	Accuracy = { min = 40, max = 75 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 20, max = 38 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 28, max = 45},
+	Accuracy = {min = 40, max = 75},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 20, max = 38},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -12092,13 +9888,13 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -12115,13 +9911,13 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -12138,13 +9934,13 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -12161,13 +9957,13 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -12184,13 +9980,13 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 3
 ITEM.MaxTalents = 3
@@ -12207,13 +10003,13 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
@@ -12230,13 +10026,13 @@ ITEM.Collection = "Titan Collection"
 ITEM.MinStats = 7
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 17, max = 28 },
-	Accuracy = { min = 17, max = 28 },
-	Kick = { min = -17, max = -28 },
-	Firerate = { min = 17, max = 28 },
-	Magazine = { min = 23, max = 33 },
-	Range = { min = 23, max = 33 },
-	Weight = { min = -5, max = -7 }
+	Damage = {min = 17, max = 28},
+	Accuracy = {min = 17, max = 28},
+	Kick = {min = -17, max = -28},
+	Firerate = {min = 17, max = 28},
+	Magazine = {min = 23, max = 33},
+	Range = {min = 23, max = 33},
+	Weight = {min = -5, max = -7}
 }
 ITEM.MinTalents = 4
 ITEM.MaxTalents = 4
@@ -12244,48 +10040,27 @@ ITEM.Talents = {"random", "random", "random", "random"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 16
-
 ITEM.Name = "Volcanica"
-
-ITEM.NameColor = Color( 255, 0, 0 )
-
+ITEM.NameColor = Color(255, 0, 0)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 11, max = 19 },
-
-	Accuracy = { min = 11, max = 19 },
-
-	Kick = { min = -11, max = -19 },
-
-	Firerate = { min = 11, max = 19 },
-
-	Magazine = { min = 16, max = 24 },
-
-	Range = { min = 16, max = 24 },
-
-	Weight = { min = -3, max = -7 }
-
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.WeaponClass = "weapon_ttt_ak47"
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "Inferno" }
+ITEM.Talents = { "Inferno"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -12298,13 +10073,13 @@ ITEM.Collection = "Crimson Collection"
 ITEM.MinStats = 6
 ITEM.MaxStats = 7
 ITEM.Stats = {
-	Damage = { min = 14, max = 23 },
-	Accuracy = { min = 14, max = 23 },
-	Kick = { min = -14, max = -23 },
-	Firerate = { min = 14, max = 23 },
-	Magazine = { min = 19, max = 28 },
-	Range = { min = 19, max = 28 },
-	Weight = { min = -4, max = -7 }
+	Damage = {min = 14, max = 23},
+	Accuracy = {min = 14, max = 23},
+	Kick = {min = -14, max = -23},
+	Firerate = {min = 14, max = 23},
+	Magazine = {min = 19, max = 28},
+	Range = {min = 19, max = 28},
+	Weight = {min = -4, max = -7}
 }
 ITEM.MinTalents = 2
 ITEM.MaxTalents = 3
@@ -12313,48 +10088,27 @@ ITEM.WeaponClass = "weapon_ttt_mr96"
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
-
 ITEM.ID = 300
-
 ITEM.Name = "Zeusitae"
-
-ITEM.NameColor = Color( 255, 255, 0 )
-
+ITEM.NameColor = Color(255, 255, 0)
 ITEM.NameEffect = "glow"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Beta Collection"
-
 ITEM.MinStats = 5
-
 ITEM.MaxStats = 7
-
 ITEM.Stats = {
-
-	Damage = { min = 11, max = 19 },
-
-	Accuracy = { min = 11, max = 19 },
-
-	Kick = { min = -11, max = -19 },
-
-	Firerate = { min = 11, max = 19 },
-
-	Magazine = { min = 16, max = 24 },
-
-	Range = { min = 16, max = 24 },
-
-	Weight = { min = -3, max = -7 }
-
+	Damage = {min = 11, max = 19},
+	Accuracy = {min = 11, max = 19},
+	Kick = {min = -11, max = -19},
+	Firerate = {min = 11, max = 19},
+	Magazine = {min = 16, max = 24},
+	Range = {min = 16, max = 24},
+	Weight = {min = -3, max = -7}
 }
-
 ITEM.WeaponClass = "weapon_zm_revolver"
-
 ITEM.MinTalents = 1
-
 ITEM.MaxTalents = 1
-
-ITEM.Talents = { "Tesla" }
+ITEM.Talents = { "Tesla"}
 m_AddDroppableItem(ITEM, 'Unique')
 
 ITEM = {}
@@ -12434,18 +10188,14 @@ ITEM.Active = false
 ITEM.NewItem = 1575878400
 ITEM.Price = 50000
 ITEM.ShopDesc = "Become a Detective on the next round!\n(Purchasing will give you a one-time Detective Token usable)"
-
 ITEM.Collection = "Supreme Collection"
 ITEM.Image = "https://static.moat.gg/ttt/detective_token.png"
-
 ROLE_TOKEN_PLAYERS = ROLE_TOKEN_PLAYERS or {}
-
 ITEM.ItemUsed = function(pl, slot, item)
 	if (not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
 		ROLE_TOKEN_PLAYERS[pl] = ROLE_DETECTIVE
 	end
 end
-
 hook.Add("TTTBeginRound", "RoleTokens", function()
     timer.Simple(3,function()
         for k,v in pairs(ROLE_TOKEN_PLAYERS) do
@@ -12488,7 +10238,6 @@ ITEM.ItemUsed = function(pl, slot, item)
 	local i = ply_inv["slot" .. slot]
 	if (not i) then return end
 	if (not i.g) then return end
-
 	pl:m_AddInventoryItem(i.g, nil, false, true)
 end
 m_AddDroppableItem(ITEM, 'Usable')
@@ -12878,18 +10627,14 @@ ITEM.Active = false
 ITEM.NewItem = 1575878400
 ITEM.Price = 75000
 ITEM.ShopDesc = "Become a Traitor on the next round!"
-
 ITEM.Collection = "Supreme Collection"
 ITEM.Image = "https://static.moat.gg/ttt/traitor_token.png"
-
 ROLE_TOKEN_PLAYERS = ROLE_TOKEN_PLAYERS or {}
-
 ITEM.ItemUsed = function(pl, slot, item)
 	if (not GetGlobal("MOAT_MINIGAME_ACTIVE")) then
 		ROLE_TOKEN_PLAYERS[pl] = ROLE_TRAITOR
 	end
 end
-
 hook.Add("TTTBeginRound", "RoleTokens", function()
     timer.Simple(3,function()
         for k,v in pairs(ROLE_TOKEN_PLAYERS) do
@@ -12910,9 +10655,7 @@ ITEM.Rarity = 8
 ITEM.Collection = "Meta Collection"
 ITEM.Image = "https://static.moat.gg/ttt/vip_token.png"
 ITEM.Active = false
-
 -- Will only be able to be bought with SC, not done yet. Just pushing votekick meme
-
 //Buying VIP for your friends or trading it for IC is about to be way easier! People that already own VIP will be able to purchase VIP tokens that are able to be traded!
 ITEM.ItemUsed = function(pl, slot, item)
 	moat_makevip(pl:SteamID64())
@@ -12928,17 +10671,14 @@ ITEM.Rarity = 8
 ITEM.Collection = "Meta Collection"
 ITEM.Image = "https://static.moat.gg/ttt/vape_event128.png"
 ITEM.Active = false
-
 ITEM.ItemUsed = function(pl, slot, item)
 	for k, v in ipairs(player.GetAll()) do
 		v:m_DropInventoryItem(randomvape(), "hide_chat_obtained", false, false)
 	end
-
 	local msg = string(":gift: " .. style.Bold(pl:Nick()) .. style.Dot(style.Code(pl:SteamID())) .. style.Dot(pl:SteamURL()), style.NewLine(":tada: Just dropped everybody a ") .. style.BoldUnderline("Random Vape") .. " on " .. string.Extra(GetServerName(), GetServerURL()))
 	discord.Send("Moat TTT Announcement", markdown.WrapBold(string(":satellite_orbital::satellite: ", markdown.Bold"Global TTT Announcement", " :satellite::satellite_orbital:", markdown.LineStart(msg))))
 	discord.Send("Events", msg)
 	discord.Send("Event", msg)
-
 	net.Start "D3A.Chat2"
 		net.WriteBool(false)
 		net.WriteTable({Color(0, 255, 0), pl:Nick(), Color(255, 255, 255), " just dropped everybody a ", Color(0, 255, 0), "Random Vape", Color(255, 255, 255), "!"})
@@ -12954,17 +10694,14 @@ ITEM.Rarity = 8
 ITEM.Collection = "Meta Collection"
 ITEM.Image = "https://static.moat.gg/ttt/dola_drop_event.png"
 ITEM.Active = false
-
 ITEM.ItemUsed = function(pl, slot, item)
 	for k, v in ipairs(player.GetAll()) do
 		v:m_DropInventoryItem("Dola Effect", "hide_chat_obtained", false, false)
 	end
-
 	local msg = string(":gift: " .. style.Bold(pl:Nick()) .. style.Dot(style.Code(pl:SteamID())) .. style.Dot(pl:SteamURL()), style.NewLine(":tada: Just dropped everybody a ") .. style.BoldUnderline("Dola Effect") .. " on " .. string.Extra(GetServerName(), GetServerURL()))
 	discord.Send("Moat TTT Announcement", markdown.WrapBold(string(":satellite_orbital::satellite: ", markdown.Bold"Global TTT Announcement", " :satellite::satellite_orbital:", markdown.LineStart(msg))))
 	discord.Send("Events", msg)
 	discord.Send("Event", msg)
-
 	net.Start "D3A.Chat2"
 		net.WriteBool(false)
 		net.WriteTable({Color(0, 255, 0), pl:Nick(), Color(255, 255, 255), " just dropped everybody a ", Color(0, 255, 0), "Dola Effect", Color(255, 255, 255), "!"})
@@ -13023,7 +10760,6 @@ ITEM.Description = "A deadly snowball made of hard ice probably"
 ITEM.Rarity = 7
 ITEM.Collection = "Holiday Collection"
 ITEM.WeaponClass = "snowball_harmful"
-
 m_AddDroppableItem(ITEM, 'Special')
 
 ITEM = {}
@@ -13072,7 +10808,6 @@ ITEM.Rarity = 8
 ITEM.Image = "https://static.moat.gg/f/18af240dd3af16fb834cf9e1e5372a6d.png"
 ITEM.Collection = "Shouldn't be in inventory"
 ITEM.WeaponClass = "weapon_ttt_unarmed"
-
 ITEM.Price = 64999
 ITEM.LimitedShop = 1589785200
 ITEM.ShopDesc = "For a limited time, you can purchase a random vape!\nYou also have a chance to get a Mega Vape!"
@@ -13415,56 +11150,40 @@ ITEM.WeaponClass = "weapon_xmassmoke"
 m_AddDroppableItem(ITEM, 'Special')
 
 ITEM = {}
-
 ITEM.ID = 213
-
 ITEM.Name = "Black Hole Effect"
-
 ITEM.Description = "The center of the universe"
-
 ITEM.Model = "models/effects/vol_light128x128.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Effect Collection"
-
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
 	local Size = Vector(0.200,0.200,0.200)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/effects/portalrift_sheet")
-
 	local MAngle = Angle(90,0,277.0)
 	local MPos = Vector(23.26,-2,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = ((CurTime() * 0.5) * 0 *90)
 	model.ModelDrawingAngle.y = ((CurTime() * 0.5) * 2.60 *90)
 	model.ModelDrawingAngle.r = ((CurTime() * 0.5) * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 	
 end
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
-
 ITEM.Name = "Black Ice Effect"
 ITEM.ID = 215
 ITEM.Description = "Don't drive on this"
@@ -13474,43 +11193,32 @@ ITEM.Model = "models/props_junk/cinderblock01a.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,255,255)
 ITEM.EffectSize = 6.9
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.349,0.300,0.129)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props_combine/citadel_cable")
-
 	local MAngle = Angle(0,0,0)
 	local MPos = Vector(2.609,0,8.22)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 1.169 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.480 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
-
 ITEM.Name = "Blue Data Effect"
 ITEM.ID = 216
 ITEM.Description = "This is what's left from the DDoS attack"
@@ -13520,39 +11228,29 @@ ITEM.Model = "models/props/cs_office/computer_caseb_p3b.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(0,119,255)
 ITEM.EffectSize = 3.6
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1.299,2,1)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props_combine/combine_interface_disp")
-
 	local MAngle = Angle(0,0,0)
 	local MPos = Vector(0,0,-0.0399)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 1.039 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13564,38 +11262,28 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/food/burger.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(241,151,17)
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1,1,1)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(100.1699,360,280.1700)
 	local MPos = Vector(-5.829,-2.609,-7.829)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.129 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13607,27 +11295,21 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/perftest/loader.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectHalo = Color(255, 204, 0)
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.0299,0.0299,0.0299)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(84.519,0,275.4800)
 	local MPos = Vector(5.219,-2.609,-5.219)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13638,43 +11320,30 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/effects/combineball.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.3000,0.3000,0.3000)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(84.5199,173.7400,97.04000)
 	local MPos = Vector(5.2199,-0.6100,-8.2200)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 10 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
-
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13685,42 +11354,30 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/effects/vol_light.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.2000,0.1000,0.0199)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/effects/splodearc_sheet")
-
 	local MAngle = Angle(93.9100,0,266.08999)
 	local MPos = Vector(-4.570,-0.219,-0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.480 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13731,43 +11388,30 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props/de_train/bush.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.100,0.100,0.300)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props/cs_assault/moneywrap")
-
 	local MAngle = Angle(90.7799,0,264.519)
 	local MPos = Vector(-5.780,2,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.090 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
-
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13779,43 +11423,32 @@ ITEM.Collection = "Dev Collection"
 ITEM.Model = "models/props_c17/tools_wrench01a.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(250,255,0)
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.8000, 0.5, 0.5)
 	local mat = Matrix()
 	local CT = CurTime()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/gibs/metalgibs/metal_gibs")
-
 	local MAngle = Angle(236.35000,277.04002,360)
 	local MPos = Vector(10.22000,-1,-8.220)
-
 	pos = pos + ang:Forward() * MPos.x + ang:Up() * MPos.z + ang:Right() * MPos.y
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = CT * 0 * 90
 	model.ModelDrawingAngle.y = CT * 1.129 * 90
 	model.ModelDrawingAngle.r = CT * 1.039 * 90
-
 	ang:RotateAroundAxis(ang:Forward(), model.ModelDrawingAngle.p)
 	ang:RotateAroundAxis(ang:Up(), model.ModelDrawingAngle.y)
 	ang:RotateAroundAxis(ang:Right(), model.ModelDrawingAngle.r)
-
 	return model, pos, ang
 end
 
 
 
-
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13828,39 +11461,29 @@ ITEM.Model = "models/gibs/hgibs.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,255,255)
 ITEM.EffectSize = 2
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.60000,0.6000,0.600)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/wireframe")
-
 	local MAngle = Angle(95.48000,180,65.739)
 	local MPos = Vector(2.6099,2.6099,7.829)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0.827 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0.829 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0.779 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13872,40 +11495,30 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/noesis/donut.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(255,0,238)
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.30000,0.3000,0.3000)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(236.350,187.8300,275.4800)
 	local MPos = Vector(6.219999,-1,-7.2199)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.129 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13918,39 +11531,29 @@ ITEM.Model = "models/props_wasteland/prison_toiletchunk01j.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,238,0)
 ITEM.EffectSize = 3.7
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.8000,0.800,0.80000)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("phoenix_storms/stripes")
-
 	local MAngle = Angle(0,101.739,78.2600)
 	local MPos = Vector(10.4300,-3.609,0.6101)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0.870 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -13963,37 +11566,28 @@ ITEM.Model = "models/gibs/strider_gib3.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,97,0)
 ITEM.EffectSize = 3.7
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.200,0.200,0.200)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/effects/splode_sheet")
-
 	local MAngle = Angle(0,101.7399,78.260)
 	local MPos = Vector(10.4300,0.610,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0.870 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14006,38 +11600,28 @@ ITEM.Model = "models/gibs/strider_gib3.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(0,255,63)
 ITEM.EffectSize = 3.7
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.200,0.200,0.200)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("phoenix_storms/wire/pcb_green")
-
 	local MAngle = Angle(0,101.7399,78.260)
 	local MPos = Vector(10.430,0.6100,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0.870 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14050,38 +11634,28 @@ ITEM.Model = "models/gibs/antlion_gib_large_2.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(190,255,125)
 ITEM.EffectSize = 4.3
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.400,0.400,0.400)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("phoenix_storms/camera")
-
 	local MAngle = Angle(266.0899,0,272.3500)
 	local MPos = Vector(4.219,2,-10.430)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 1.039 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.039 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14094,39 +11668,29 @@ ITEM.Model = "models/editor/axis_helper_thick.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(0,17,255)
 ITEM.EffectSize = 2.7
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.3000,0.3000,0.3000)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(264.5199,180,97.040)
 	local MPos = Vector(4.6100,-1.6100,7.219)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 2.740 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 1.779 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14138,29 +11702,21 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/perftest/gman.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(124,113,175)
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.1500,0.1500,0.1500)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(92.349,0,280.170)
 	local MPos = Vector(3.609,-2.609,7.219)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14172,30 +11728,22 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props/de_inferno/goldfish.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(241,17,17)
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.600,0.600,0.600)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(0,350.609,269.220)
 	local MPos = Vector(7.8299,-2.6099,-10.430)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14206,40 +11754,29 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/effects/vol_light128x128.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.200,0.200,0.200)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(90,0,277.0400)
 	local MPos = Vector(23.260,-2,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 2.609 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14252,39 +11789,29 @@ ITEM.Model = "models/props_phx/games/chess/white_knight.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(255,231,159)
 ITEM.EffectSize = 3.7
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.2000,0.2000,0.2000)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(0,0,269.649)
 	local MPos = Vector(3.2200,-2.6099,-7.8299)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.2593 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14297,39 +11824,29 @@ ITEM.Model = "models/food/hotdog.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(241,151,17)
 ITEM.EffectSize = 6.5
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.699,0.699,0.699)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(100.1699,360,280.170)
 	local MPos = Vector(-2.609,-2.609,-7.829)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.129 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14341,34 +11858,24 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props_lab/huladoll.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(17,241,84)
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1,1,1)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(100.1699,360,280.1700)
 	local MPos = Vector(5.219,-2.6099,-7.8299)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
-
 ITEM.Name = "Snowman Effect"
 ITEM.ID = 237
 ITEM.Description = "Frosty the snowman was jolly good fellow"
@@ -14377,31 +11884,22 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props/cs_office/snowman_face.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(255,255,255)
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.4000,0.4000,0.4000)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(1.5701,0,264.519)
 	local MPos = Vector(7.829,-1,-7.829)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14414,40 +11912,29 @@ ITEM.Model = "models/props_phx/gibs/flakgib1.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(146,202,255)
 ITEM.EffectSize = 3.7
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.600,0.600,0.600)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/alyx/emptool_glow")
-
 	local MAngle = Angle(0,0,269.649)
 	local MPos = Vector(13.039,0.610,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.259 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14459,30 +11946,22 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/nova/w_headcrab.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(255,204,0)
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.300,0.300,0.300)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(173.740,286.429,84.51)
 	local MPos = Vector(4.61,-1.61,7.21)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14495,44 +11974,32 @@ ITEM.Model = "models/props_wasteland/prison_toiletchunk01j.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(29,0,255)
 ITEM.EffectSize = 3.7
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.80,0.80,0.80)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("phoenix_storms/blue_steel")
-
 	local MAngle = Angle(0,101.739,78.260)
 	local MPos = Vector(10.436,-3.60,0.610)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0.870 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
-
 ITEM.Name = "L.F. Effect"
 ITEM.ID = 241
 ITEM.Description = "This only helps you if you're drowning"
@@ -14540,40 +12007,29 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props/de_nuke/lifepreserver.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.5,0.5,0.5)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(95.480,360,178.429)
 	local MPos = Vector(-2.609,0,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0.910 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14585,28 +12041,21 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/shadertest/vertexlittextureplusenvmappedbumpmap.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(0,246,255)
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.150,0.150,0.150)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(86.089,3.130,280.17)
 	local MPos = Vector(2.60,-2,6.21)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14619,40 +12068,29 @@ ITEM.Model = "models/props_lab/pipesystem03d.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,0,255)
 ITEM.EffectSize = 4
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1,1,1)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/items/boxsniperrounds")
-
 	local MAngle = Angle(93.910,0,164.350)
 	local MPos = Vector(14.039,-1.220,-0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 2.039 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.480 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14665,39 +12103,29 @@ ITEM.Model = "models/props_rooftop/sign_letter_m001.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,85,0)
 ITEM.EffectSize = 2
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.303,0.303,0.300)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props_lab/Tank_Glass001")
-
 	local MAngle = Angle(92.349,180.570,101.349)
 	local MPos = Vector(10.430,0,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 2.869 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14708,39 +12136,28 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/noesis/donut.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1,1,1)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("debug/env_cubemap_model")
-
 	local MAngle = Angle(0,100,91)
 	local MPos = Vector(3,-9.2600,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.129 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14751,43 +12168,30 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props_lab/bindergreen.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1.01999,4.2199,1.0393)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/wireframe")
-
 	local MAngle = Angle(180,0,269.220)
 	local MPos = Vector(-2.390,2,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0.959 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
-
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14799,31 +12203,22 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/nova/w_headgear.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(255,255,255)
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.5,0.5,0.5)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(92.3499,270.779,360)
 	local MPos = Vector(6.219,-1,-7.2197)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14836,36 +12231,28 @@ ITEM.Collection = "Sugar Daddy Collection"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(148,192,72)
 ITEM.EffectSize = 10
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-	local Size = Vector( 0.600,0.600,2.849 )
+	local Size = Vector(0.600,0.600,2.849)
 	local mat = Matrix()
 	mat:Scale(Size)
-	model:EnableMatrix( "RenderMultiply", mat )
-	model:SetMaterial( "" )
-
+	model:EnableMatrix("RenderMultiply", mat)
+	model:SetMaterial("")
 	local MAngle = Angle(95.480,180,65.739)
 	local MPos = Vector(2.609,0,-7.829)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0.610 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14876,41 +12263,29 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props_foliage/tree_springers_card_01_skybox.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.20,0.200,0.200)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(95.480,180,90)
 	local MPos = Vector(-5.219,-2.609,2.609)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14921,41 +12296,29 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props/pi_shrub.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.200,0.200,0.200)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(95.480,180,90)
 	local MPos = Vector(14.039,0,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 2.039 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -14966,39 +12329,28 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props_lab/miniteleportarc.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1,1,1)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/effects/comball_glow1")
-
 	local MAngle = Angle(93.9100,0,266.08999)
 	local MPos = Vector(-6.5700,-0.21999,-0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.480 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15011,40 +12363,30 @@ ITEM.Model = "models/props_c17/playgroundtick-tack-toe_block01a.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(129,189,244)
 ITEM.EffectSize = 4.3
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.600,0.600,0.600)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props_lab/security_screens2")
-
 	local MAngle = Angle(0,0,0)
 	local MPos = Vector(2.609,1,-11.039)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 3.650 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15057,39 +12399,29 @@ ITEM.Model = "models/props/de_tides/menu_stand_p05.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(229,90,90)
 ITEM.EffectSize = 3.6
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1,0.5,0.5)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props_combine/tprings_globe")
-
 	local MAngle = Angle(0,0,0)
 	local MPos = Vector(7.8299,0,-0.0399)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 1.039 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15100,43 +12432,30 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props/de_train/bush2.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.600,0.600,0.600)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props_c17/gate_door02a")
-
 	local MAngle = Angle(90.779,0,264.519)
 	local MPos = Vector(-6.780,1,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.090 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
-
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15147,40 +12466,29 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props_lab/generatortube.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.300,0.400,0.119)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/weapons/w_smg1/smg_crosshair")
-
 	local MAngle = Angle(90,0,277.040)
 	local MPos = Vector(2.609,-3,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 2.130 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15193,40 +12501,29 @@ ITEM.Model = "models/weapons/w_missile_closed.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(255,97,0)
 ITEM.EffectSize = 3.7
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.600,0.800,0.800)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(0,86.0899,0)
 	local MPos = Vector(7.829,-1.220,-7.219)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 10 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15239,41 +12536,30 @@ ITEM.Model = "models/editor/cone_helper.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(0,169,255)
 ITEM.EffectSize = 8.6
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.300,0.300,0.300)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(264.519,180,97.040)
 	local MPos = Vector(4.6100,-1.610,7.219)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 1.2599 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 1.7799 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15286,42 +12572,30 @@ ITEM.Model = "models/effects/splodeglass.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,255,255)
 ITEM.EffectSize = 3.7
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.100,0.100,0.0599)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(0,101.739,78.26000)
 	local MPos = Vector(10.430,0.610,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0.8700 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
-
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15334,39 +12608,29 @@ ITEM.Model = "models/props/cs_office/trash_can_p6.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,0,0)
 ITEM.EffectSize = 2
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1,1,1)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("phoenix_storms/top")
-
 	local MAngle = Angle(0,0,0)
 	local MPos = Vector(7.8299,0,-0.03999)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 1.0399 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15379,39 +12643,29 @@ ITEM.Model = "models/props/cs_office/trash_can_p6.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(161,255,0)
 ITEM.EffectSize = 2
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1,1,1)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("phoenix_storms/pack2/interior_sides")
-
 	local MAngle = Angle(0,0,0)
 	local MPos = Vector(7.8299,0,-0.03999)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 1.0399 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15422,40 +12676,29 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/effects/vol_light128x128.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.2000,0.2000,0.2000)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/roller/rollermine_glow")
-
 	local MAngle = Angle(90,0,277.04000)
 	local MPos = Vector(23.26000,-2,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 2.6099 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15466,48 +12709,36 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props_combine/breenbust_chunk03.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1,0.5,0.5)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(0,0,0)
 	local MPos = Vector(7.8299,0,-0.0399)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 2 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
-	if ( tobool(GetConVar("moat_EnableEffectHalos"):GetInt()) and (ply ~= LocalPlayer()) ) then
-	halo.Add( {model},
+	if (tobool(GetConVar("moat_EnableEffectHalos"):GetInt()) and (ply ~= LocalPlayer())) then
+	halo.Add({model},
 	Color(255,219,219),
 	3.6,
 	3.6,
 	1)
 	end
 
-
 	return model, pos, ang
 end
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15521,9 +12752,7 @@ ITEM.Collection = "Veteran Collection"
 --Hack
 ITEM.Model = "models/weapons/w_missile_closed.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
-
 ITEM.NameEffect = "electric"
-
 ITEM.Image = "https://static.moat.gg/f/d8488f994f9134a830a9624106145219.png"
 local particle = "TeslaHitBoxes"
 if CLIENT then
@@ -15531,7 +12760,6 @@ if CLIENT then
 		local ent = net.ReadEntity()
         ent.Tesla = true
     end)
-
     hook.Add("TTTEndRound","ClearTesla",function()
         for k,v in ipairs(player.GetAll()) do
             v.Tesla = false
@@ -15554,7 +12782,6 @@ if CLIENT then
                         if (not IsValid(ply) or ply:Team() == TEAM_SPEC) then
 							return
 						end
-
                         effect:SetOrigin(pos - Vector((i) * math.random(-1,1),i * math.random(-1,1),i))
                         util.Effect("TeslaHitBoxes",effect)
                     end)
@@ -15570,16 +12797,13 @@ else
         net.Broadcast()
     end
 end
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0,0,0)
 	local mat = Matrix()
 	mat:Scale(Size)
     model:EnableMatrix("RenderMultiply", mat)
-
 	return model, pos, ang
 end
-
 
 /*
 function ITEM:OnPlayerSpawn(ply)
@@ -15607,12 +12831,10 @@ function ITEM:OnPlayerSpawn(ply)
         end)
     end
 end
-
 function ITEM:PlayerDeath(ply)
 end
 */
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15625,31 +12847,22 @@ ITEM.Model = "models/editor/playerstart.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(0,255,0)
 ITEM.EffectBlur = 2.7
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.1500,0.1500,0.1500)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(264.519,180,97.0400)
 	local MPos = Vector(4.610,-1.610,7.219)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15660,45 +12873,31 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props_combine/stasisvortex.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.1500,0.1500,0.0399)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props/cs_office/clouds")
-
 	local MAngle = Angle(270.220,0,280.170)
 	local MPos = Vector(11.430,0,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 6.039 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
 
 
-
-
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15710,30 +12909,22 @@ ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/props/de_tides/vending_turtle.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(122,230,86)
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.600,0.600,0.600)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(0,341.2200,264.519)
 	local MPos = Vector(5.2199,-1,-7.829)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15746,39 +12937,29 @@ ITEM.Model = "models/props_pipes/valvewheel001.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,0,0)
 ITEM.EffectSize = 2
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.300,0.300,0.300)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("")
-
 	local MAngle = Angle(90.7799,181.5700,48.5200)
 	local MPos = Vector(5.2199,2.6099,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 2.869 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15791,40 +12972,29 @@ ITEM.Model = "models/props_lab/teleportring.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Spine4"
 ITEM.EffectColor = Color(255,255,255)
 ITEM.EffectSize = 1.7
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(0.3000,0.4000,0.1199)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props/de_nuke/nukconcretewalla")
-
 	local MAngle = Angle(90,0,277.040)
 	local MPos = Vector(12.649,-3,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 2.130 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15835,40 +13005,29 @@ ITEM.Rarity = 5
 ITEM.Collection = "Effect Collection"
 ITEM.Model = "models/dav0r/hoverball.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1.299,1.299,1.299)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/effects/slimebubble_sheet")
-
 	local MAngle = Angle(177,0,269.220)
 	local MPos = Vector(2.609,2,0)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 10 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15881,40 +13040,29 @@ ITEM.Model = "models/props/cs_office/computer_caseb_p3b.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
 ITEM.EffectColor = Color(255,242,0)
 ITEM.EffectSize = 3.6
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	local Size = Vector(1.299,2,1)
 	local mat = Matrix()
 	mat:Scale(Size)
 	model:EnableMatrix("RenderMultiply", mat)
-
 	model:SetMaterial("models/props/cs_assault/pylon")
-
 	local MAngle = Angle(0,0,0)
 	local MPos = Vector(0,0,-0.0399)
-
 	pos = pos + (ang:Forward() * MPos.x) + (ang:Up() * MPos.z) + (ang:Right() * MPos.y)
 	ang:RotateAroundAxis(ang:Forward(), MAngle.p)
 	ang:RotateAroundAxis(ang:Up(), MAngle.y)
 	ang:RotateAroundAxis(ang:Right(), MAngle.r)
-
 	model.ModelDrawingAngle = model.ModelDrawingAngle or Angle(0,0,0)
 	model.ModelDrawingAngle.p = (CurTime() * 1.0399 *90)
 	model.ModelDrawingAngle.y = (CurTime() * 0 *90)
 	model.ModelDrawingAngle.r = (CurTime() * 0 *90)
-
 	ang:RotateAroundAxis(ang:Forward(), (model.ModelDrawingAngle.p))
 	ang:RotateAroundAxis(ang:Up(), (model.ModelDrawingAngle.y))
 	ang:RotateAroundAxis(ang:Right(), (model.ModelDrawingAngle.r))
-
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Effect')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Effect') end
 
 ITEM = {}
@@ -15925,191 +13073,112 @@ ITEM.Description = "The eastern-american pronounciation of the word 'crayons', b
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_crown.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.35)
 	p = p + (a:Forward() * -3.575)+ (a:Right() * 0.102)+ (a:Up() * 3.485)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 54
-
 ITEM.Name = "Afro"
-
 ITEM.Description = "Become a jazzy man with this afro"
-
 ITEM.Model = "models/gmod_tower/afro.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Up() * 2.5) + (ang:Forward() * -4.5) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Up() * 2.5) + (ang:Forward() * -4.5) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 74
-
 ITEM.Name = "Wooden Comb Afro"
-
 ITEM.Description = "You're as OG as OG can get my black friend"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/afro.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.9, 0)
-	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * -0.4) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * -0.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 56
-
 ITEM.Name = "Astronaut Helmet"
-
 ITEM.Description = "Instantly become a space god with this helmet"
-
 ITEM.Model = "models/astronauthelmet/astronauthelmet.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3) + (ang:Up() * -5) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3) + (ang:Up() * -5) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 98
-
 ITEM.Name = "Baseball Cap"
-
 ITEM.Description = "Never forget the GMod Tower games. May they rest in peace"
-
 ITEM.Model = "models/gmod_tower/baseballcap.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.2, 0)
-	pos = pos + (ang:Forward() * -3) + (ang:Up() * 1.2) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -3) + (ang:Up() * 1.2) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), -20)
 	ang:RotateAroundAxis(ang:Up(), 180)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 73
-
 ITEM.Name = "Bear Hat"
-
 ITEM.Description = "Now you will always have your teddy bear with you, in a hat form"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/bear_hat.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -3) + (ang:Up() * 3.4) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3) + (ang:Up() * 3.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 2673
-
 ITEM.Name = "USA Bear Hat"
-
 ITEM.Description = "Now you will always have your teddy bear with you, in a hat form"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/bear_hat.mdl"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -3) + (ang:Up() * 3.4) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3) + (ang:Up() * 3.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16121,22 +13190,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16148,22 +13210,15 @@ ITEM.Collection = "Independence Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16175,21 +13230,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16201,21 +13250,15 @@ ITEM.Collection = "Independence Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16227,21 +13270,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16253,21 +13290,15 @@ ITEM.Collection = "Independence Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16279,21 +13310,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16305,21 +13330,15 @@ ITEM.Collection = "Independence Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16331,21 +13350,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16357,21 +13370,15 @@ ITEM.Collection = "Independence Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16383,21 +13390,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(5)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16409,110 +13410,68 @@ ITEM.Collection = "Independence Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/sal/acc/fix/beerhat.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(5)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.029419) + (ang:Right() * 0.031807) +  (ang:Up() * 1.305687)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 131
-
 ITEM.Name = "Billy Hatcher Hat"
-
 ITEM.Description = "Good Morning"
-
 ITEM.Model = "models/lordvipes/billyhatcherhat/billyhatcherhat.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0.6) +  (ang:Up() * -1) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0.6) +  (ang:Up() * -1) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 132
-
 ITEM.Name = "Black Mage Hat"
-
 ITEM.Description = "Do you know what happens to a giant when it gets blasted with a fireball? The same thing that happens to everything else"
-
 ITEM.Model = "models/lordvipes/blackmage/blackmage_hat.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.3, 0)
-	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * -12) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * -12) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 19
-
 ITEM.Name = "Bucket Helmet"
-
 ITEM.Description = "It's a bucket"
-
 ITEM.Model = "models/props_junk/MetalBucket01a.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	model:SetModelScale( 0.7, 0 )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	model:SetModelScale(0.7, 0)
 	
-	pos = pos + ( ang:Forward() * -5 ) + ( ang:Up() * 5 )// + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -5) + (ang:Up() * 5)// + m_IsTerroristModel(ply:GetModel())
 	
-	ang:RotateAroundAxis( ang:Right(), 200 )
+	ang:RotateAroundAxis(ang:Right(), 200)
 	
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16523,73 +13482,46 @@ ITEM.Description = "You got the Bunny Hood! My, what long ears it has! Will the 
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/bunnyhood/bunnyhood.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.875)
 	p = p + (a:Forward() * -3.479)+ (a:Right() * 0.112)+ (a:Up() * 4.168)
 	a:RotateAroundAxis(a:Up(), 90)
 	a:RotateAroundAxis(a:Forward(), -0.1)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 95
-
 ITEM.Name = "Bunny Ears"
-
 ITEM.Description = "Hello there Mr Bunny"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/bunny_ears.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.8) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 58
-
 ITEM.Name = "Cake Hat"
-
 ITEM.Description = "This cake is a lie"
-
 ITEM.Model = "models/cakehat/cakehat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Up() * 1.5) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Up() * 1.5) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16600,101 +13532,60 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/models/moat/mg_hat_catinthehat.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.325)
 	p = p + (a:Forward() * -2.714)+ (a:Right() * 0)+ (a:Up() * 8.254)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 59
-
 ITEM.Name = "Cat Ears"
-
 ITEM.Description = "You look so cute with these cat ears on, omfg"
-
 ITEM.Model = "models/gmod_tower/catears.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2.5) + (ang:Up() * 2.2) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2.5) + (ang:Up() * 2.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 94
-
 ITEM.Name = "Large Cat Ears"
-
 ITEM.Description = "What big ears you have you majestic beast"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/cat_ears.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * -0.2) +  (ang:Up() * -5.8) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * -0.2) +  (ang:Up() * -5.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 93
-
 ITEM.Name = "Cat Hat"
-
 ITEM.Description = "This does not give you 9 lives"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/cat_hat.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 2.2) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 2.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16705,46 +13596,30 @@ ITEM.Description = "The paramount of stealth."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_chicken.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.2)
 	p = p + (a:Forward() * -4.189)+ (a:Right() * 0.065)+ (a:Up() * 2.904)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 92
-
 ITEM.Name = "Cowboy Hat"
-
 ITEM.Description = "It's hiiiigh nooon"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/cowboyhat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.7, 0)
-	pos = pos + (ang:Forward() * -3.8) + (ang:Up() * 3.2) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -3.8) + (ang:Up() * 3.2) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 13.2)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16755,75 +13630,46 @@ ITEM.Description = "That's not a knife. [draws a large Bowie knife] That's a kni
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/dundee/dundee.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.746)+ (a:Right() * 0.874)+ (a:Up() * 0.029)
 	a:RotateAroundAxis(a:Up(), 90)
 	a:RotateAroundAxis(a:Forward(), -9.6)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 91
-
 ITEM.Name = "Deadmau5"
-
 ITEM.Description = "A musicly talented deceased rodent"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/deadmau5.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.4) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 90
-
 ITEM.Name = "Developer Hat"
-
 ITEM.Description = "This is an exclusive hat given to people that have created content for MG"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/devhat.mdl"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Dev Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 1.4) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 1.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16834,17 +13680,14 @@ ITEM.Description = "A fez is another name for a condom. Kind of like a fez but f
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/doctorfez/doctorfez.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.025)
 	p = p + (a:Forward() * -3.492)+ (a:Right() * -0.428)+ (a:Up() * 3.722)
 	a:RotateAroundAxis(a:Forward(), -17.1)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16855,69 +13698,42 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/models/moat/mg_xmasfestive01.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -2.798)+ (a:Right() * -0.191)+ (a:Up() * 2.377)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 60
-
 ITEM.Name = "Drink Cap"
-
 ITEM.Description = "The server drunk"
-
 ITEM.Model = "models/sam/drinkcap.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.1) + (ang:Up() * 2.5) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.1) + (ang:Up() * 2.5) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 61
-
 ITEM.Name = "Dunce Hat"
-
 ITEM.Description = "You must sit in the corner and think of your terrible actions"
-
 ITEM.Model = "models/duncehat/duncehat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	ang:RotateAroundAxis(ang:Right(), 25)
-	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 2.5) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 2.5) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16928,17 +13744,14 @@ ITEM.Description = "Holy cowww"
 ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/custom_prop/moatgaming/eastbunny/eastbunny.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -3.732)+ (a:Right() * 0.001)+ (a:Up() * -0.3)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16950,14 +13763,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/moat/mg_hat_easteregg.mdl"
 ITEM.Image = "https://static.moat.gg/f/6ad1a835688e7dd265fdda23e405f2c2.png"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -2.801)+ (a:Right() * 0)+ (a:Up() * 9.259)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16968,14 +13778,11 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/models/moat/mg_hat_elf.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.015)+ (a:Right() * 0.001)+ (a:Up() * 4.144)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -16986,14 +13793,11 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/models/moat/mg_hat_elf2.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -2.73)+ (a:Right() * -0.135)+ (a:Up() * 1.204)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17004,14 +13808,11 @@ ITEM.Description = "Help the traitors celebrate Day of the Dead by wearing this 
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_estilomuerto.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.024)+ (a:Right() * 0.038)+ (a:Up() * 3.298)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17022,45 +13823,30 @@ ITEM.Description = "The cutest little horrific flower baby!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/evilplant/evilplant.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.9)
 	p = p + (a:Forward() * -6.648)+ (a:Right() * -0.004)+ (a:Up() * -4.964)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 62
-
 ITEM.Name = "Fedora"
-
 ITEM.Description = "You're the best meme of them all"
-
 ITEM.Model = "models/gmod_tower/fedorahat.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.1, 0)
-	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * 2.5) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * 2.5) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17071,14 +13857,11 @@ ITEM.Description = "My goodness! Don't you just love flower tracking on a warm s
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_sun.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.759)+ (a:Right() * 0.098)+ (a:Up() * 4.55)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17089,47 +13872,31 @@ ITEM.Description = "You must have sucked someone to get this... (kirby joke lol)
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/foolish/foolish.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.05)
 	p = p + (a:Forward() * -6.627)+ (a:Right() * 0.328)+ (a:Up() * 2.637)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 88
-
 ITEM.Name = "Frog Hat"
-
 ITEM.Description = "Ribbit ribbit bitch"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/frog_hat.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.6, 0)
-	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * 2) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * 2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17140,45 +13907,29 @@ ITEM.Description = "Behold... The Power Cosmic itself!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/galactus/galactus.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.3)
 	p = p + (a:Forward() * -5.157)+ (a:Right() * -0.125)+ (a:Up() * -5.757)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 135
-
 ITEM.Name = "General Pepper"
-
 ITEM.Description = "Commander of the great and kind"
-
 ITEM.Model = "models/lordvipes/generalpepperhat/generalpepperhat.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.9, 0)
-	pos = pos + (ang:Forward() * -4.2) + (ang:Right() * 0.4) +  (ang:Up() * 0.4) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -4.2) + (ang:Right() * 0.4) +  (ang:Up() * 0.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17190,21 +13941,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/hat01_fix.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.555908) + (ang:Right() * 0.028637) +  (ang:Up() * 2.641197)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17216,21 +13960,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/hat01_fix.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.555908) + (ang:Right() * 0.028637) +  (ang:Up() * 2.641197)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17242,21 +13979,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/hat01_fix.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.555908) + (ang:Right() * 0.028637) +  (ang:Up() * 2.641197)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17268,21 +13998,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/modified/hat01_fix.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.555908) + (ang:Right() * 0.028637) +  (ang:Up() * 2.641197)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17294,21 +14017,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/modified/hat01_fix.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.555908) + (ang:Right() * 0.028637) +  (ang:Up() * 2.641197)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17320,21 +14036,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/modified/hat01_fix.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(5)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.555908) + (ang:Right() * 0.028637) +  (ang:Up() * 2.641197)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17346,21 +14055,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 6
 ITEM.Model = "models/modified/hat01_fix.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 6 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(6)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.555908) + (ang:Right() * 0.028637) +  (ang:Up() * 2.641197)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17372,21 +14074,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 7
 ITEM.Model = "models/modified/hat01_fix.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 7 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(7)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.555908) + (ang:Right() * 0.028637) +  (ang:Up() * 2.641197)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17398,21 +14093,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/hat03.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.285522) + (ang:Right() * 0.027466) +  (ang:Up() * 2.641327)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17424,21 +14112,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/hat03.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.285522) + (ang:Right() * 0.027466) +  (ang:Up() * 2.641327)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17450,21 +14131,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/hat03.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.285522) + (ang:Right() * 0.027466) +  (ang:Up() * 2.641327)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17476,21 +14150,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/modified/hat03.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.285522) + (ang:Right() * 0.027466) +  (ang:Up() * 2.641327)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17502,21 +14169,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/modified/hat03.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.285522) + (ang:Right() * 0.027466) +  (ang:Up() * 2.641327)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17528,21 +14188,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/hat04.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -5.724609) + (ang:Right() * -0.245316) +  (ang:Up() * 3.670235)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17554,21 +14207,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/hat04.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -5.724609) + (ang:Right() * -0.245316) +  (ang:Up() * 3.670235)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17580,21 +14226,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/hat04.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -5.724609) + (ang:Right() * -0.245316) +  (ang:Up() * 3.670235)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17606,21 +14245,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/modified/hat04.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -5.724609) + (ang:Right() * -0.245316) +  (ang:Up() * 3.670235)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17632,21 +14264,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/modified/hat04.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -5.724609) + (ang:Right() * -0.245316) +  (ang:Up() * 3.670235)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17657,20 +14282,13 @@ ITEM.Rarity = 3
 ITEM.Collection = "Urban Style Collection"
 ITEM.Model = "models/modified/hat06.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.1, 0 )
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17682,21 +14300,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17708,21 +14319,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17734,21 +14338,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 10
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 10 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(10)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17760,21 +14357,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17786,21 +14376,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17812,21 +14395,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17838,21 +14414,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(5)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17864,21 +14433,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 6
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 6 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(6)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17890,21 +14452,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 7
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 7 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(7)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17916,21 +14471,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 8
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 8 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(8)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17942,21 +14490,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 9
 ITEM.Model = "models/modified/hat07.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 9 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(9)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298584) + (ang:Right() * 0.209599) +  (ang:Up() * 3.671799)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17968,21 +14509,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/hat08.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298096) + (ang:Right() * 0.203354) +  (ang:Up() * 2.404396)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -17994,21 +14528,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/hat08.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298096) + (ang:Right() * 0.203354) +  (ang:Up() * 2.404396)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18020,21 +14547,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/hat08.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298096) + (ang:Right() * 0.203354) +  (ang:Up() * 2.404396)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18046,21 +14567,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/modified/hat08.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298096) + (ang:Right() * 0.203354) +  (ang:Up() * 2.404396)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18072,21 +14587,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/modified/hat08.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298096) + (ang:Right() * 0.203354) +  (ang:Up() * 2.404396)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18098,21 +14607,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/modified/hat08.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
-	model:SetSkin( 5 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(5)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298096) + (ang:Right() * 0.203354) +  (ang:Up() * 2.404396)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18124,21 +14627,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 6
 ITEM.Model = "models/modified/hat08.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	
-	model:SetSkin( 6 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(6)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.298096) + (ang:Right() * 0.203354) +  (ang:Up() * 2.404396)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18150,134 +14647,81 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/custom_prop/moatgaming/eastegg/eastegg.mdl"
 ITEM.Image = "https://static.moat.gg/f/24e1b504b09d4c6625e51cd2f7140b3b.png"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -3.8)+ (a:Right() * -1.007)+ (a:Up() * -9.757)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 106
-
 ITEM.Name = "Headcrab"
-
 ITEM.Description = "You will be eaten alive"
-
 ITEM.Model = "models/gmod_tower/headcrabhat.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.7, 0)
-	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * 3.4) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * 3.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 107
-
 ITEM.Name = "Headphones"
-
 ITEM.Description = "I can't hear you, I'm listeng to a game"
-
 ITEM.Model = "models/gmod_tower/headphones.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.9, 0)
-	pos = pos + (ang:Forward() * -3.2) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 87
-
 ITEM.Name = "Heartband"
-
 ITEM.Description = "Wear this if you have no friends and want people to love you"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/heartband.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.9, 0)
-	pos = pos + (ang:Forward() * -3.2) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 6572
-
 ITEM.Name = "Heartband"
 ITEM.NameColor = Color(255, 0, 255)
 ITEM.Description = "Wear this if you have no friends and want people to love you"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/heartband.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Valentine Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.9, 0)
-	pos = pos + (ang:Forward() * -3.2) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18288,10 +14732,7 @@ ITEM.Rarity = 4
 ITEM.Collection = "Crimson Collection"
 ITEM.Model = "models/balloons/balloon_classicheart.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetModelScale(0.775, 0)
 	model:SetColor(Color(255, 0, 0))
 	pos = pos + (ang:Forward() * -3) + (ang:Right() * 0) + (ang:Up() * 0)
@@ -18302,9 +14743,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18316,10 +14755,7 @@ ITEM.Rarity = 4
 ITEM.Collection = "Valentine Collection"
 ITEM.Model = "models/balloons/balloon_classicheart.mdl"
 ITEM.Bone = "ValveBiped.Bip01_Head1"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetModelScale(0.775, 0)
 	model:SetColor(Color(255, 0, 0))
 	pos = pos + (ang:Forward() * -3) + (ang:Right() * 0) + (ang:Up() * 0)
@@ -18330,9 +14766,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18344,46 +14778,30 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/moat/mg_hat_easterchick.mdl"
 ITEM.Image = "https://static.moat.gg/f/bd134f0c72698bc5e8df2bede9015f1f.png"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -2.04)+ (a:Right() * 0.001)+ (a:Up() * 9.416)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 108
-
 ITEM.Name = "Popcorn Bucket"
-
 ITEM.Description = "Incoming racist joke"
-
 ITEM.Model = "models/gmod_tower/kfcbucket.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -2.6) + (ang:Up() * 0.2) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -2.6) + (ang:Up() * 0.2) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 25.8)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18394,105 +14812,64 @@ ITEM.Description = "I win!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_neptune.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.8)
 	p = p + (a:Forward() * -3.981)+ (a:Right() * 0.046)+ (a:Up() * 8.859)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 109
-
 ITEM.Name = "King Boo's Crown"
-
 ITEM.Description = "Boo, bitch"
-
 ITEM.Model = "models/gmod_tower/king_boos_crown.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.2, 0)
-	pos = pos + (ang:Forward() * -3.8) + (ang:Up() * 2.8) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -3.8) + (ang:Up() * 2.8) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), -19.6)
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 143
-
 ITEM.Name = "Kitty Hat"
-
 ITEM.Description = "Aww so cute"
-
 ITEM.Model = "models/gmod_tower/toetohat.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.1, 0)
-	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * 0.6) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * 0.6) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 137
-
 ITEM.Name = "Klonoa Hat"
-
 ITEM.Description = "Become the ultimate hipster"
-
 ITEM.Model = "models/lordvipes/klonoahat/klonoahat.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.77, 0)
-	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * -0.2) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * -0.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18503,15 +14880,12 @@ ITEM.Description = "I'm ready! I'm ready! I'm ready!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_krustykrab.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.5)
 	p = p + (a:Forward() * -3.779)+ (a:Right() * 0.091)+ (a:Up() * 9.58)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18522,73 +14896,45 @@ ITEM.Description = "I will not be so passive in your demise."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_kunglao.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.9)
 	p = p + (a:Forward() * -4.054)+ (a:Right() * 0.119)+ (a:Up() * 4.079)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 111
-
 ITEM.Name = "Link Hat"
-
 ITEM.Description = "Hyeeeh kyaah hyaaah haa hyet haa haa jum jum haaa"
-
 ITEM.Model = "models/gmod_tower/linkhat.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3) +(ang:Up() * -0.8) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3) +(ang:Up() * -0.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 138
-
 ITEM.Name = "Luigi Hat"
-
 ITEM.Description = "Taller and jumps higher than mario. Still doesn't get to be the main character. (no this does not change jump height)"
-
 ITEM.Model = "models/lordvipes/luigihat/luigihat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -3) + (ang:Up() * -3) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3) + (ang:Up() * -3) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18599,105 +14945,63 @@ ITEM.Description = "We're all mad here! or Whats the hatter with me! (get it? it
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_madhatter.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.969)+ (a:Right() * 0.068)+ (a:Up() * 5.221)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 77
-
 ITEM.Name = "Mario Hat"
-
 ITEM.Description = "Shut up you fat italian"
-
 ITEM.Model = "models/lordvipes/mariohat/mariohat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * -1.6) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * -1.6) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 114
-
 ITEM.Name = "Midna Hat"
-
 ITEM.Description = "EPIC"
-
 ITEM.Model = "models/gmod_tower/midnahat.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * -1.4) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * -1.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 85
-
 ITEM.Name = "Monocle"
-
 ITEM.Description = "You probably think you're smart now. That's incorrect"
-
 ITEM.Model = "models/captainbigbutt/skeyler/accessories/monocle.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -1.2) + (ang:Right() * -2.8) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -1.2) + (ang:Right() * -2.8) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 22.4)
 	ang:RotateAroundAxis(ang:Up(),-9)
 	ang:RotateAroundAxis(ang:Forward(), 153.8)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18708,43 +15012,27 @@ ITEM.Description = "A Shinobi's life is not measured by how they lived but rathe
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_narutosleeping.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.982)+ (a:Right() * 0.045)+ (a:Up() * 3.56)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 104
-
 ITEM.Name = "Nightmare Hat"
-
 ITEM.Description = "Jack is on your head.."
-
 ITEM.Model = "models/gmod_tower/halloween_nightmarehat.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -4.2) + (ang:Up() * 1.6) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -4.2) + (ang:Up() * 1.6) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18756,15 +15044,12 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/olimar/olimar.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 1
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.9)
 	p = p + (a:Forward() * -3.685)+ (a:Right() * 1.373)+ (a:Up() * -6.748)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18775,43 +15060,27 @@ ITEM.Description = "Waka Waka Waka Waka..."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_packman.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -7.723)+ (a:Right() * 0.064)+ (a:Up() * 0.957)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 116
-
 ITEM.Name = "Party Hat"
-
 ITEM.Description = "Raise the ruff"
-
 ITEM.Model = "models/gmod_tower/partyhat.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3) + (ang:Right() * 1.2) +  (ang:Up() * 2.8) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3) + (ang:Right() * 1.2) +  (ang:Up() * 2.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18822,45 +15091,29 @@ ITEM.Description = "Basically gives you a headache with pictures."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_lightb.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.075)
 	p = p + (a:Forward() * -3.602)+ (a:Right() * 0.092)+ (a:Up() * 2.62)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 117
-
 ITEM.Name = "Pilgrim Hat"
-
 ITEM.Description = "What is a Mayflower"
-
 ITEM.Model = "models/gmod_tower/pilgrimhat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * 1.2) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * 1.2) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 16.4)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18871,17 +15124,14 @@ ITEM.Description = "25% off. Everything must go. Maybe even you."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_fedora.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -3.92)+ (a:Right() * 0.018)+ (a:Up() * 2.601)
 	a:RotateAroundAxis(a:Up(), 180)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18892,15 +15142,12 @@ ITEM.Description = "The Peak Point Helmet, also known as Pipo Helmet, is an expe
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/apeescape/apeescape.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.125)
 	p = p + (a:Forward() * -3.877)+ (a:Right() * -0.867)+ (a:Up() * 2.149)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18912,14 +15159,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/moat/mg_hat_easterhat.mdl"
 ITEM.Image = "https://static.moat.gg/f/8cd435b47a8606ad6f0112eeb870085f.png"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -2.8)+ (a:Right() * 0)+ (a:Up() * 4.104)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18931,14 +15175,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/moat/mg_hat_easterflowers.mdl"
 ITEM.Image = "https://static.moat.gg/f/7e81543cab4cc40c0414fe1ff9d17d75.png"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -2.801)+ (a:Right() * 0)+ (a:Up() * 5.267)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18950,14 +15191,11 @@ ITEM.Collection = "Easter 2020 Collection"
 ITEM.Model = "models/moat/mg_hat_easterflowers.mdl"
 ITEM.Image = "https://static.moat.gg/f/7e81543cab4cc40c0414fe1ff9d17d75.png"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -2.801)+ (a:Right() * 0)+ (a:Up() * 5.267)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -18968,45 +15206,29 @@ ITEM.Description = "I am in another castle!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/princess/princess.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.454)+ (a:Right() * 0.845)+ (a:Up() * 5.339)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 142
-
 ITEM.Name = "Red's Hat"
-
 ITEM.Description = "Pokemon red hat"
-
 ITEM.Model = "models/lordvipes/redshat/redshat.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.75, 0)
-	pos = pos + (ang:Forward() * -3.8) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -3.8) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 18)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19017,15 +15239,12 @@ ITEM.Description = "Why did the chicken REALLY cross the road? To get hit by a c
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_robotchicken.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.775)
 	p = p + (a:Forward() * -4.184)+ (a:Right() * 0.081)+ (a:Up() * 6.122)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19036,49 +15255,32 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/models/moat/mg_hat_rudolph.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.825)
 	p = p + (a:Forward() * -2.738)+ (a:Right() * -0.167)+ (a:Up() * 2.144)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 83
-
 ITEM.Name = "Santa Hat"
-
 ITEM.Description = "It's Christmas"
-
 ITEM.Model = "models/gmod_tower/santahat.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2) + (ang:Right() * -0.2) +  (ang:Up() * 2.2) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2) + (ang:Right() * -0.2) +  (ang:Up() * 2.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
 ITEM.ID = 7001
-
 
 ITEM.Name = "Santa's Cap"
 ITEM.Description = "Ho Ho Ho Merry Christmas"
@@ -19086,15 +15288,11 @@ ITEM.Rarity = 7
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/santa/santa.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
     model:SetModelScale(1.1, 0)
-
     pos = pos + (ang:Forward() * -5.4) + (ang:Up() * -1)
-
 	return model, pos, ang
 end
-
 /*
 children:
 self:
@@ -19124,7 +15322,6 @@ self:
 		Size	=	1.1
 		UniqueID	=	3221970254
 
-
 children:
 self:
 		Angles	=	0.000 -90.000 0.000
@@ -19149,39 +15346,24 @@ self:
 		Size	=	1.1
 		UniqueID	=	3503520631
 
-
 */
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 121
-
 ITEM.Name = "Seuss Hat"
-
 ITEM.Description = "Thing 1 and Thing 2 are not a thing here"
-
 ITEM.Model = "models/gmod_tower/seusshat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 1) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 1) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19192,17 +15374,14 @@ ITEM.Description = "Your friend from the ocean!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/shark/shark.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.15)
 	p = p + (a:Forward() * -2.451)+ (a:Right() * -0.109)+ (a:Up() * 6.517)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19213,17 +15392,14 @@ ITEM.Description = "TEENAGE MUTANT NINJA TURTLES"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/shredder/shredder.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.075)
 	p = p + (a:Forward() * -4.59)+ (a:Right() * 0.03)+ (a:Up() * 0.677)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19234,44 +15410,28 @@ ITEM.Description = "Warning! This cozy comfy smores like hat is not edible while
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_law.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.035)+ (a:Right() * 0.136)+ (a:Up() * 6.665)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 123
-
 ITEM.Name = "Sombrero"
-
 ITEM.Description = "Arriba"
-
 ITEM.Model = "models/gmod_tower/sombrero.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 2) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 2) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 12.6)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19282,17 +15442,13 @@ ITEM.Model = "models/gmod_tower/sombrero.mdl"
 ITEM.Rarity = 5
 ITEM.Collection = "Cinco de Mayo Collection"
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 2) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 2) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 12.6)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19303,14 +15459,11 @@ ITEM.Description = "Hmm, difficult. VERY difficult. Plenty of courage, I see. No
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/sortinghat/sortinghat.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.208)+ (a:Right() * -0.965)+ (a:Up() * 1.495)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19321,45 +15474,29 @@ ITEM.Description = "You can sexually identify as an attack helicopter with this 
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_spinny.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.975)
 	p = p + (a:Forward() * -3.765)+ (a:Right() * 0.07)+ (a:Up() * 1.862)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 82
-
 ITEM.Name = "Star Headband"
-
 ITEM.Description = "You are amazing"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/starband.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.9, 0)
-	pos = pos + (ang:Forward() * -3.2) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19370,15 +15507,12 @@ ITEM.Description = "OMG YOU GUYS it has come to my attention that SOMEONE on the
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/sterling/mg_hat_punk.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.35)
 	p = p + (a:Forward() * -3.161)+ (a:Right() * 0.133)+ (a:Up() * 7.737)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19389,104 +15523,63 @@ ITEM.Description = "Welcome to the rice fields, mutha fucka."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/strawhat/strawhat.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.161)+ (a:Right() * -1.299)+ (a:Up() * 0.491)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 81
-
 ITEM.Name = "Straw Hat"
-
 ITEM.Description = "Old McDonald had a farm"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/strawhat.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 2.2) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 2.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 80
-
 ITEM.Name = "Sun Hat"
-
 ITEM.Description = "It has flowers and protects you from the sun"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/sunhat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -5) + (ang:Up() * 0.2) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -5) + (ang:Up() * 0.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 125
-
 ITEM.Name = "Team Rocket Hat"
-
 ITEM.Description = "Prepare for trouble, and make it double!"
-
 ITEM.Model = "models/gmod_tower/teamrockethat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.15, 0)
-	pos = pos + (ang:Forward() * -4) + (ang:Up() * -0.6) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -4) + (ang:Up() * -0.6) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 18.2)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19497,14 +15590,11 @@ ITEM.Description = "Never underestimate the power of the Scout's code."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_teemo.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.566)+ (a:Right() * 0.143)+ (a:Up() * 4.251)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19515,14 +15605,11 @@ ITEM.Description = "I'm a goofy goober, ROCK! You're a goofy goober, ROCK! We're
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_goofygoober.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -2.733)+ (a:Right() * 0.01)+ (a:Up() * -0.255)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19533,14 +15620,11 @@ ITEM.Description = "A haiku for war. To default one's enemies. Honor the IC."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_killerskabuto.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.453)+ (a:Right() * 0.089)+ (a:Up() * 3.924)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19551,14 +15635,11 @@ ITEM.Description = "Hey man, that's Smitty Werben Man Jensen's hat, give it back
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/sterling/mg_hat_number1.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.558)+ (a:Right() * -0.002)+ (a:Up() * 0.848)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19569,14 +15650,11 @@ ITEM.Description = "The grand achievement of Victorian military fashion."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_drummer.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.832)+ (a:Right() * 0.044)+ (a:Up() * 8.242)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19587,17 +15665,14 @@ ITEM.Description = "The god of Thunder. Can drink anyone under the table. Not a 
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/thundergod/thundergod.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.05)
 	p = p + (a:Forward() * -3.531)+ (a:Right() * -2.098)+ (a:Up() * -88.611)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19608,44 +15683,28 @@ ITEM.Description = "For those times when a plain old top hat made out of solid g
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_robloxmoney.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.667)+ (a:Right() * 0.1)+ (a:Up() * 5.519)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 127
-
 ITEM.Name = "Top Hat"
-
 ITEM.Description = "If only you had a suit"
-
 ITEM.Model = "models/gmod_tower/tophat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 0.6) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 0.6) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 10.6)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19656,73 +15715,45 @@ ITEM.Description = "A-ha-ha! You are as PRESUMPTUOUS as you are POOR and IRISH. 
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_multi.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.275)
 	p = p + (a:Forward() * -3.901)+ (a:Right() * 0.059)+ (a:Up() * 3.53)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 129
-
 ITEM.Name = "Turkey"
-
 ITEM.Description = "Stick this hot thing on your head"
-
 ITEM.Model = "models/gmod_tower/turkey.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * 1.6) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * 1.6) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 18
-
 ITEM.Name = "Turtle Hat"
-
 ITEM.Description = "This cute little turtle can sit on your head and give you amazing love"
-
 ITEM.Model = "models/props/de_tides/Vending_turtle.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + ( ang:Forward() * -3 ) + m_IsTerroristModel( ply:GetModel() )
-
-	ang:RotateAroundAxis( ang:Up(), -90 )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3) + m_IsTerroristModel(ply:GetModel())
+	ang:RotateAroundAxis(ang:Up(), -90)
 	
-
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19733,77 +15764,48 @@ ITEM.Description = "You can stand under my umbrella, ella, ella, eh, eh, eh..."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_unbrella.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.05)
 	p = p + (a:Forward() * -4.134)+ (a:Right() * 0.177)+ (a:Up() * 5.8)
 	a:RotateAroundAxis(a:Right(), 11.1)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 144
-
 ITEM.Name = "Viewtiful Joe Helmet"
-
 ITEM.Description = "Shoot em up"
-
 ITEM.Model = "models/lordvipes/viewtifuljoehelmet/viewtifuljoehelmet.mdl"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * -0.6) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.6) + (ang:Up() * -0.6) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 130
-
 ITEM.Name = "Witch Hat"
-
 ITEM.Description = "Mwahahaha"
-
 ITEM.Model = "models/gmod_tower/witchhat.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 1.4) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.4) + (ang:Up() * 1.4) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 22.6)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
@@ -19814,184 +15816,107 @@ ITEM.Description = "What is Courage? Courage is owning your fear!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_checkered_top.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.2)
 	p = p + (a:Forward() * -3.877)+ (a:Right() * 0.036)+ (a:Up() * 3.853)
-
 	return m, p, a
 end
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 78
-
 ITEM.Name = "Gangsta Hat"
-
 ITEM.Description = "sup fam"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/zhat.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -3.68) + (ang:Right() * -0.013) +  (ang:Up() * 1.693) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.68) + (ang:Right() * -0.013) +  (ang:Up() * 1.693) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Hat')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Hat') end
 
 ITEM = {}
-
 ITEM.ID = 566
-
 ITEM.Name = "Walter White Model"
-
 ITEM.Description = [["Say my name". "I am the one who knocks". "You're Goddamn Right". I could go on all day, but there's only do much room in this box]]
-
 ITEM.Model = "models/agent_47/agent_47.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 526
-
 ITEM.Name = "Altair Model"
-
 ITEM.Description = "Actually gives you the ability to jump 200ft into hay"
-
 ITEM.Model = "models/burd/player/altair.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 63
-
 ITEM.Name = "Alyx Model"
-
 ITEM.Description = "slut"
-
 ITEM.Model = "models/player/alyx.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Alpha Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 200
-
 ITEM.Name = "Barney Model"
-
 ITEM.Description = "I'm not a bad guy"
-
 ITEM.Model = "models/player/barney.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 527
-
 ITEM.Name = "Boba Fett Model"
-
 ITEM.Description = "Unfortunatley your Jetpack is out of fuel on this model"
-
 ITEM.Model = "models/moat/player/bobafett.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 201
-
 ITEM.Name = "Breen Model"
-
 ITEM.Description = "The wise man"
-
 ITEM.Model = "models/player/breen.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -20001,265 +15926,153 @@ ITEM.Description = "Eh... What's up doc? Hehe.."
 ITEM.Model = "models/player/bugsb/bugsb.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Easter Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 528
-
 ITEM.Name = "Chewbacca Model"
-
 ITEM.Description = "WUUH HUUGUUGHGHG HUURH UUH UGGGUH"
-
 ITEM.Model = "models/moat/player/chewbacca.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 529
-
 ITEM.Name = "Chris Redfield Model"
-
 ITEM.Description = "Just your typical Hunky, Sexy Military Man. All Homo"
-
 ITEM.Model = "models/player/chris.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 161
-
 ITEM.Name = "Citizen Female 1"
-
 ITEM.Description = "Just your average female citizen"
-
 ITEM.Model = "models/player/Group01/female_01.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 162
-
 ITEM.Name = "Citizen Female 2"
-
 ITEM.Description = "Just your average female citizen"
-
 ITEM.Model = "models/player/Group01/female_02.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 163
-
 ITEM.Name = "Citizen Female 3"
-
 ITEM.Description = "Just your average female citizen"
-
 ITEM.Model = "models/player/Group01/female_03.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 164
-
 ITEM.Name = "Citizen Female 4"
-
 ITEM.Description = "Just your average female citizen"
-
 ITEM.Model = "models/player/Group01/female_04.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 165
-
 ITEM.Name = "Citizen Female 5"
-
 ITEM.Description = "Just your average female citizen"
-
 ITEM.Model = "models/player/Group01/female_05.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 166
-
 ITEM.Name = "Citizen Female 6"
-
 ITEM.Description = "Just your average female citizen"
-
 ITEM.Model = "models/player/Group01/female_06.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 530
-
 ITEM.Name = "Classy Gentleman Model"
-
 ITEM.Description = "Only for the Most Dapper of Tea-Sipping Gentlemen"
-
 ITEM.Model = "models/player/macdguy.mdl"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "George Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 531
-
 ITEM.Name = "Inferno Armor Model"
-
 ITEM.Description = "Now you can survive a wild volcano attack"
-
 ITEM.Model = "models/moat/player/inferno_armour.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 532
-
 ITEM.Name = "Deathstroke Model"
-
 ITEM.Description = "The result of Two-Face and Deadpool having a Baby"
-
 ITEM.Model = "models/burd/norpo/arkhamorigins/assassins/deathstroke_valvebiped.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -20269,35 +16082,23 @@ ITEM.Description = "Tyrannosaurus is a genus of coelurosaurian theropod dinosaur
 ITEM.Model = "models/moat/player/foohysaurusrex_fixed.mdl"
 ITEM.Rarity = 9
 ITEM.Collection = "Extinct IRL Collection"
-
 function ITEM:OnPlayerSpawn(ply)
 	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 533
-
 ITEM.Name = "Dishonored Assassin Model"
-
 ITEM.Description = "This model is an Assassin from the game Dishonored. Who would have guessed that? Hmm.."
-
 ITEM.Model = "models/player/dishonored_assassin1.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -20307,35 +16108,23 @@ ITEM.Description = "I'm a catist, not a feminist"
 ITEM.Model = "models/kaesar/moat/catwoman/catwoman.mdl"
 ITEM.Rarity = 5
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 534
-
 ITEM.Name = "Dude Model"
-
 ITEM.Description = "Just Piss on everything"
-
 ITEM.Model = "models/player/dude.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -20345,12 +16134,10 @@ ITEM.Description = "You sure this is where we're supposed to wait? - Yes"
 ITEM.Model = "models/burd/player/eastertrooper/eastertrooper.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Easter Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -20360,219 +16147,127 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/superheroes/batman.mdl"
 ITEM.Rarity = 5
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 199
-
 ITEM.Name = "Eli Model"
-
 ITEM.Description = "I bet you can't guess why he lost a leg"
-
 ITEM.Model = "models/player/eli.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 185
-
 ITEM.Name = "Rebel Female 1"
-
 ITEM.Description = "Just your average rebel female citizen"
-
 ITEM.Model = "models/player/Group03/female_01.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 186
-
 ITEM.Name = "Rebel Female 2"
-
 ITEM.Description = "Just your average rebel female citizen"
-
 ITEM.Model = "models/player/Group03/female_02.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 187
-
 ITEM.Name = "Rebel Female 3"
-
 ITEM.Description = "Just your average rebel female citizen"
-
 ITEM.Model = "models/player/Group03/female_03.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 188
-
 ITEM.Name = "Rebel Female 4"
-
 ITEM.Description = "Just your average rebel female citizen"
-
 ITEM.Model = "models/player/Group03/female_04.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 189
-
 ITEM.Name = "Rebel Female 5"
-
 ITEM.Description = "Just your average rebel female citizen"
-
 ITEM.Model = "models/player/Group03/female_05.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 190
-
 ITEM.Name = "Rebel Female 6"
-
 ITEM.Description = "Just your average rebel female citizen"
-
 ITEM.Model = "models/player/Group03/female_06.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 535
-
 ITEM.Name = "Ninja Model"
-
 ITEM.Description = "Hide in the shadows comrade"
-
 ITEM.Model = "models/moat/player/ninja_player.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 536
-
 ITEM.Name = "Freddy Kruger Model"
-
 ITEM.Description = "Invading people's dreams since 1984"
-
 ITEM.Model = "models/player/freddykruger.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -20582,81 +16277,49 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/superheroes/flash.mdl"
 ITEM.Rarity = 5
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 202
-
 ITEM.Name = "GMan Model"
-
 ITEM.Description = "Good Morning"
-
 ITEM.Model = "models/player/gman_high.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 537
-
 ITEM.Name = "Gordon Freeman Model"
-
 ITEM.Description = "Before I actually played the game, I thought Morgan Freeman played Gordon Freeman"
-
 ITEM.Model = "models/moat/player/gordon.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 538
-
 ITEM.Name = "Chell Model"
-
 ITEM.Description = "How nice. There are no jiggle boobs"
-
 ITEM.Model = "models/player/p2_chell.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -20666,242 +16329,140 @@ ITEM.Description = "Truely the king of halloween, so let's party bitches"
 ITEM.Model = "models/player/zack/zackhalloween.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 539
-
 ITEM.Name = "Harold Lott Model"
-
 ITEM.Description = "LOADSA MONEY"
-
 ITEM.Model = "models/player/haroldlott.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 191
-
 ITEM.Name = "Working Asian"
-
 ITEM.Description = "Just your average male worker"
-
 ITEM.Model = "models/player/hostage/hostage_01.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 192
-
 ITEM.Name = "Working Man"
-
 ITEM.Description = "Just your average male worker"
-
 ITEM.Model = "models/player/hostage/hostage_02.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 193
-
 ITEM.Name = "Working Older Man"
-
 ITEM.Description = "Just your average male worker"
-
 ITEM.Model = "models/player/hostage/hostage_03.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 194
-
 ITEM.Name = "Working Grandpa"
-
 ITEM.Description = "Just your average male worker"
-
 ITEM.Model = "models/player/hostage/hostage_04.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 540
-
 ITEM.Name = "Hunter Model"
-
 ITEM.Description = "You are probably expecting a Zombie joke here about how you were Left 4 Dead. But I guess you're now only a Half-Life"
-
 ITEM.Model = "models/player/hunter.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 541
-
 ITEM.Name = "Iron Man Model"
-
 ITEM.Description = "He will get your Laundry ironed in mere seconds"
-
 ITEM.Model = "models/avengers/iron man/mark7_player.mdl"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 542
-
 ITEM.Name = "Isaac Clarke Model"
-
 ITEM.Description = "You may not be in Space, but you're sure as Hell Dead"
-
 ITEM.Model = "models/player/security_suit.mdl"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 543
-
 ITEM.Name = "Spider-Man Model"
-
 ITEM.Description = "My spider senses are starting to tingle!"
-
 ITEM.Model = "models/otv/scarletspider.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 544
-
 ITEM.Name = "Joker Model"
-
 ITEM.Description = "You wanna know how I got these Scars? HAHA"
-
 ITEM.Model = "models/player/joker.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -20911,35 +16472,23 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/christmas/santa.mdl"
 ITEM.Rarity = 7
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 21
-
 ITEM.Name = "Kliener Model"
-
 ITEM.Description = "The smartest of them all"
-
 ITEM.Model = "models/player/kleiner.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -20949,633 +16498,361 @@ ITEM.Description = "Fixed"
 ITEM.Model = "models/moat/player/knight_fixed.mdl"
 ITEM.Rarity = 6
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple(1, function() ply:SetModel( self.Model ) end)
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 167
-
 ITEM.Name = "Citizen Male 1"
-
 ITEM.Description = "Just your average male citizen"
-
 ITEM.Model = "models/player/Group01/male_01.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 177
-
 ITEM.Name = "Rebel Male 9"
-
 ITEM.Description = "Just your average rebel male citizen"
-
 ITEM.Model = "models/player/Group03/male_09.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 176
-
 ITEM.Name = "Rebel Male 1"
-
 ITEM.Description = "Just your average rebel male citizen"
-
 ITEM.Model = "models/player/Group03/male_01.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 168
-
 ITEM.Name = "Citizen Male 2"
-
 ITEM.Description = "Just your average male citizen"
-
 ITEM.Model = "models/player/Group01/male_02.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 178
-
 ITEM.Name = "Rebel Male 2"
-
 ITEM.Description = "Just your average rebel male citizen"
-
 ITEM.Model = "models/player/Group03/male_02.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 169
-
 ITEM.Name = "Citizen Male 3"
-
 ITEM.Description = "Just your average male citizen"
-
 ITEM.Model = "models/player/Group01/male_03.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 179
-
 ITEM.Name = "Rebel Male 3"
-
 ITEM.Description = "Just your average rebel male citizen"
-
 ITEM.Model = "models/player/Group03/male_03.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 170
-
 ITEM.Name = "Citizen Male 4"
-
 ITEM.Description = "Just your average male citizen"
-
 ITEM.Model = "models/player/Group01/male_04.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 180
-
 ITEM.Name = "Rebel Male 4"
-
 ITEM.Description = "Just your average rebel male citizen"
-
 ITEM.Model = "models/player/Group03/male_04.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 171
-
 ITEM.Name = "Citizen Male 5"
-
 ITEM.Description = "Just your average male citizen"
-
 ITEM.Model = "models/player/Group01/male_05.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 181
-
 ITEM.Name = "Rebel Male 5"
-
 ITEM.Description = "Just your average rebel male citizen"
-
 ITEM.Model = "models/player/Group03/male_05.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 172
-
 ITEM.Name = "Citizen Male 6"
-
 ITEM.Description = "Just your average male citizen"
-
 ITEM.Model = "models/player/Group01/male_06.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 182
-
 ITEM.Name = "Rebel Male 6"
-
 ITEM.Description = "Just your average rebel male citizen"
-
 ITEM.Model = "models/player/Group03/male_06.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 173
-
 ITEM.Name = "Citizen Male 7"
-
 ITEM.Description = "Just your average male citizen"
-
 ITEM.Model = "models/player/Group01/male_07.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 183
-
 ITEM.Name = "Rebel Male 7"
-
 ITEM.Description = "Just your average rebel male citizen"
-
 ITEM.Model = "models/player/Group03/male_07.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 174
-
 ITEM.Name = "Citizen Male 8"
-
 ITEM.Description = "Just your average male citizen"
-
 ITEM.Model = "models/player/Group01/male_08.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 184
-
 ITEM.Name = "Rebel Male 8"
-
 ITEM.Description = "Just your average rebel male citizen"
-
 ITEM.Model = "models/player/Group03/male_08.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 175
-
 ITEM.Name = "Citizen Male 9"
-
 ITEM.Description = "Just your average male citizen"
-
 ITEM.Model = "models/player/Group01/male_09.mdl"
-
 ITEM.Rarity = 1
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 195
-
 ITEM.Name = "Magnusson Model"
-
 ITEM.Description = "Hello doctor"
-
 ITEM.Model = "models/player/magnusson.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 546
-
 ITEM.Name = "Masked Breen Model"
-
 ITEM.Description = "It's got to be said. There's something very BDSM about this Model"
-
 ITEM.Model = "models/moat/player/sunabouzu.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 567
-
 ITEM.Name = "Black Mask Model"
-
 ITEM.Description = "I can see the darkness inside of you"
-
 ITEM.Model = "models/player/bobert/aoblackmask.mdl"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 547
-
 ITEM.Name = "Master Chief Model"
-
 ITEM.Description = "Master Chief is not a Master Chef"
-
 ITEM.Model = "models/player/lordvipes/haloce/spartan_classic.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 196
-
 ITEM.Name = "Bald Monk Model"
-
 ITEM.Description = "Hummmmmm...."
-
 ITEM.Model = "models/player/monk.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 198
-
 ITEM.Name = "Mossman Model"
-
 ITEM.Description = "Not as slutty as Alyx, but gettin' there"
-
 ITEM.Model = "models/player/mossman.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 548
-
 ITEM.Name = "Niko Model"
-
 ITEM.Description = "Brother. Let's go Traitor Hunting"
-
 ITEM.Model = "models/player/niko.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 549
-
 ITEM.Name = "Normal Model"
-
 ITEM.Description = "This isn't a Normal Model. A Normal Model is Gigi Hadid"
-
 ITEM.Model = "models/moat/player/normal.mdl"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 197
-
 ITEM.Name = "Odessa Model"
-
 ITEM.Description = "Security guard for hire"
-
 ITEM.Model = "models/player/odessa.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -21585,81 +16862,49 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/superheroes/greenlantern.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 550
-
 ITEM.Name = "Robber Model"
-
 ITEM.Description = "Maybe when he's not looking you could rob some of Moat's Cosmics"
-
 ITEM.Model = "models/player/robber.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 551
-
 ITEM.Name = "Obama Model"
-
 ITEM.Description = "I was better than Trump"
-
 ITEM.Model = "models/moat/player/obama.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 552
-
 ITEM.Name = "Rorschach Model"
-
 ITEM.Description = "Somebody help him! He's spilt ink all over his face"
-
 ITEM.Model = "models/player/rorschach.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -21669,12 +16914,10 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/superheroes/superman.mdl"
 ITEM.Rarity = 6
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -21684,58 +16927,36 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/jesus/jesus.mdl"
 ITEM.Rarity = 7
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 553
-
 ITEM.Name = "Scarecrow Model"
-
 ITEM.Description = "Now you have a Model to match Yourself. Someone who scares off Birds"
-
 ITEM.Model = "models/player/scarecrow.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 554
-
 ITEM.Name = "Scorpion Model"
-
 ITEM.Description = "(From Mortal Kombat) Just incase you thought it was the insect and you had a Giant Stinger"
-
 ITEM.Model = "models/player/scorpion.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -21745,311 +16966,179 @@ ITEM.Description = "Please do not scream as loud as you can when wearing this mo
 ITEM.Model = "models/player/screamplayermodel/scream/scream.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 555
-
 ITEM.Name = "Shaun Model"
-
 ITEM.Description = "Why are you still here? You should be watching Shaun of the Dead right now"
-
 ITEM.Model = "models/player/shaun.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 66
-
 ITEM.Name = "Skeleton Model"
-
 ITEM.Description = "An exclusive item given to Shiny Mega Gallade, first donator of $100"
-
 ITEM.Model = "models/player/skeleton.mdl"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Sugar Daddy Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 556
-
 ITEM.Name = "Agent Smith Model"
-
 ITEM.Description = "This model looks an awful lot like Agent K from Men in Black"
-
 ITEM.Model = "models/player/smith.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 557
-
 ITEM.Name = "Stripped Soldier Model"
-
 ITEM.Description = "Be careful in the Cold Weather with those Nips out. You might get Banned for possession of two extra weapons"
-
 ITEM.Model = "models/player/soldier_stripped.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 558
-
 ITEM.Name = "Solid Snake Model"
-
 ITEM.Description = "Wait. Did that Cardboard Box just move? What.."
-
 ITEM.Model = "models/player/big_boss.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 559
-
 ITEM.Name = "Space Suit Model"
-
 ITEM.Description = "Went to the Moon and back. Killed a bunch of Terrorists. Didn't even take off the Suit"
-
 ITEM.Model = "models/moat/player/spacesuit.mdl"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 560
-
 ITEM.Name = "TF2 Spy Model"
-
 ITEM.Description = "Everyone's favourite Back Stabbing, Invisible, Rage Inducing Frenchman"
-
 ITEM.Model = "models/moat/player/spy.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 561
-
 ITEM.Name = "Sub Zero Model"
-
 ITEM.Description = "About -1472.18 to be exact"
-
 ITEM.Model = "models/player/subzero.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 45
-
 ITEM.Name = "Aperture Containment Model"
-
 ITEM.Description = [[The Enrichment Center is committed to the well being of all participants]]
-
 ITEM.Model = "models/player/aphaztech.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Aqua Palm Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 46
-
 ITEM.Name = "Veteran Soldier Model"
-
 ITEM.Description = "He's seen some stuff"
-
 ITEM.Model = "models/player/clopsy.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Aqua Palm Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 49
-
 ITEM.Name = "Zelda Model"
-
 ITEM.Description = "It's dangerous to go alone! Take this... model"
-
 ITEM.Model = "models/player/zelda.mdl"
-
 ITEM.Rarity = 9
-
 ITEM.Collection = "Aqua Palm Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 50
-
 ITEM.Name = "Ash Ketchum Model"
-
 ITEM.Description = "Gotta catch em all"
-
 ITEM.Model = "models/player/red.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Aqua Palm Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 53
-
 ITEM.Name = "Stormtrooper Model"
-
 ITEM.Description = "Victory is written in the stars"
-
 ITEM.Model = "models/player/stormtrooper.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Aqua Palm Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22059,12 +17148,10 @@ ITEM.Description = "Chilli now isn't it.."
 ITEM.Model = "models/player/arctic.mdl"
 ITEM.Rarity = 3
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22074,12 +17161,10 @@ ITEM.Description = "Go hide in the jungle"
 ITEM.Model = "models/player/guerilla.mdl"
 ITEM.Rarity = 3
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22089,12 +17174,10 @@ ITEM.Description = "Rush B"
 ITEM.Model = "models/player/leet.mdl"
 ITEM.Rarity = 3
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22104,12 +17187,10 @@ ITEM.Description = "Rush A"
 ITEM.Model = "models/player/phoenix.mdl"
 ITEM.Rarity = 3
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22119,12 +17200,10 @@ ITEM.Description = "Now you can collect IC and beg properly"
 ITEM.Model = "models/player/corpse1.mdl"
 ITEM.Rarity = 3
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22134,12 +17213,10 @@ ITEM.Description = "Choose your team"
 ITEM.Model = "models/player/urban.mdl"
 ITEM.Rarity = 3
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22149,12 +17226,10 @@ ITEM.Description = "I think they're going B guys"
 ITEM.Model = "models/player/riot.mdl"
 ITEM.Rarity = 3
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22164,12 +17239,10 @@ ITEM.Description = "Don't stand out too much from the terrorists"
 ITEM.Model = "models/player/swat.mdl"
 ITEM.Rarity = 3
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22179,12 +17252,10 @@ ITEM.Description = "Don't stand out too much from the terrorists"
 ITEM.Model = "models/player/gasmask.mdl"
 ITEM.Rarity = 3
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22194,12 +17265,10 @@ ITEM.Description = "Don't stand out too much from the terrorists"
 ITEM.Model = "models/player/combine_super_soldier.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22209,12 +17278,10 @@ ITEM.Description = "Don't stand out too much from the terrorists"
 ITEM.Model = "models/player/combine_soldier.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22224,12 +17291,10 @@ ITEM.Description = "Don't stand out too much from the terrorists"
 ITEM.Model = "models/player/combine_soldier_prisonguard.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22239,12 +17304,10 @@ ITEM.Description = "Wow the police are here"
 ITEM.Model = "models/player/police.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22254,35 +17317,23 @@ ITEM.Description = "Wow the police are here"
 ITEM.Model = "models/player/police_fem.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Titan Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 562
-
 ITEM.Name = "Tesla Power Model"
-
 ITEM.Description = "Temporarily osama model until proper power replacement is found by a conscience scientist" -- "If you aren't using a weapon with the Tesla Talent whilst wearing this skin, you're doing it wrong"
-
 ITEM.Model = "models/code_gs/osama/osamaplayer.mdl" -- "models/player/teslapower.mdl"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22292,12 +17343,10 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/portal/male_02_snow.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
 	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22307,12 +17356,10 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/portal/male_04_snow.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22322,12 +17369,10 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/portal/male_05_snow.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22337,12 +17382,10 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/portal/male_07_snow.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22352,12 +17395,10 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/portal/male_08_snow.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
@@ -22367,116 +17408,68 @@ ITEM.Description = "A special model from the holiday season"
 ITEM.Model = "models/player/portal/male_09_snow.mdl"
 ITEM.Rarity = 4
 ITEM.Collection = "Holiday Collection"
-
 function ITEM:OnPlayerSpawn(ply)
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 563
-
 ITEM.Name = "Osama Model"
-
 ITEM.Description = "The dead leader of the terrorists"
-
 ITEM.Model = "models/code_gs/osama/osamaplayer.mdl"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 564
-
 ITEM.Name = "Zoey Model"
-
 ITEM.Description = 'Killing Terrorists is the same as killing Infected "Zombies", right? Hmm...'
-
 ITEM.Model = "models/player/zoey.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Model Collection"
-
-function ITEM:OnPlayerSpawn( ply )
-
-	timer.Simple( 1, function() ply:SetModel( self.Model ) end )
-
+function ITEM:OnPlayerSpawn(ply)
+	timer.Simple(1, function() ply:SetModel(self.Model) end)
 end
 m_AddDroppableItem(ITEM, 'Model')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Model') end
 
 ITEM = {}
-
 ITEM.ID = 96
-
 ITEM.Name = "3D Glasses"
-
 ITEM.Description = "The most practical way to get your head in the game"
-
 ITEM.Model = "models/gmod_tower/3dglasses.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -1) + (ang:Up() * -0.4) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -1) + (ang:Up() * -0.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
-
 
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 2096
-
 ITEM.Name = "USA 3D Glasses"
-
 ITEM.Description = "The most practical way to get your head in the game"
-
 ITEM.Model = "models/gmod_tower/3dglasses.mdl"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -1) + (ang:Up() * -0.4) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -1) + (ang:Up() * -0.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22487,17 +17480,14 @@ ITEM.Description = "A floating mask from the Crash Bandicoot game series. He aid
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/aku/aku.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.3)
 	p = p + (a:Forward() * -5.52)+ (a:Right() * 0.001)+ (a:Up() * -0.621)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22508,46 +17498,30 @@ ITEM.Description = "The head of a person from outerspace. It was generally peace
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/alien/alien.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.075)
 	p = p + (a:Forward() * -6.061)+ (a:Right() * 0.031)+ (a:Up() * -3.541)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 77
-
 ITEM.Name = "Andross Mask"
-
 ITEM.Description = "I've been waiting for you, Star Fox. You know that I control the galaxy. It's foolish to come against me. You will die just like your father"
-
 ITEM.Model = "models/gmod_tower/androssmask.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -1) + (ang:Up() * -2.8) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -1) + (ang:Up() * -2.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22558,15 +17532,12 @@ ITEM.Description = "KNOWLEDGE IS EXPENSIVE. WE ARE IDENTIFIED. WE ARE FEW. WE DO
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/anonymous/anonymous.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.075)
 	p = p + (a:Forward() * -4.595)+ (a:Right() * 0.047)+ (a:Up() * -3.804)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22577,17 +17548,14 @@ ITEM.Description = "The damn straight best super hero ever."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/arkham/arkham.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.125)
 	p = p + (a:Forward() * -5.484)+ (a:Right() * 0.001)+ (a:Up() * 0.106)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22599,12 +17567,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/arnold_mask/arnold_mask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 0) + (ang:Right() * 0) + (ang:Up() * 0)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -22614,63 +17578,37 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 57
-
 ITEM.Name = "Aviators"
-
 ITEM.Description = "You look like the terminator with these badass glasses on"
-
 ITEM.Model = "models/gmod_tower/aviators.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2) + (ang:Up() * -0.5) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2) + (ang:Up() * -0.5) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 2057
-
 ITEM.Name = "USA Aviators"
-
 ITEM.Description = "You look like the terminator with these badass glasses on"
-
 ITEM.Model = "models/gmod_tower/aviators.mdl"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2) + (ang:Up() * -0.5) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2) + (ang:Up() * -0.5) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22682,21 +17620,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22708,21 +17640,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22734,21 +17660,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 10
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 10 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(10)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22760,21 +17680,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 11
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 11 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(11)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22786,21 +17700,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 12
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 12 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(12)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22812,21 +17720,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 13
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 13 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(13)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22838,21 +17740,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 14
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 14 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(14)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22864,21 +17760,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 15
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 15 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(15)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22890,21 +17780,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 16
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 16 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(16)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22916,21 +17800,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 17
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 17 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(17)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22942,21 +17820,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 18
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 18 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(18)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22968,21 +17840,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 19
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 19 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(19)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -22994,21 +17860,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23020,21 +17880,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 20
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 20 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(20)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23046,21 +17900,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 21
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 21 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(21)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23072,21 +17920,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 22
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 22 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(22)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23098,21 +17940,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 23
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 23 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(23)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23124,21 +17960,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 24
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 24 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(24)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23150,21 +17980,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 25
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 25 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(25)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23177,21 +18001,15 @@ ITEM.Collection = "Valentine Collection"
 ITEM.Skin = 24
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 24 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(24)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23203,21 +18021,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23229,21 +18041,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23255,21 +18061,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(5)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23281,21 +18081,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 6
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 6 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(6)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23307,21 +18101,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 7
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 7 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(7)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23333,21 +18121,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 8
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 8 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(8)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23359,21 +18141,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 9
 ITEM.Model = "models/sal/halloween/bag.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 9 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(9)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.225098) + (ang:Right() * 0.245583) +  (ang:Up() * -0.539162)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23384,45 +18160,29 @@ ITEM.Description = "ass batman villian that uses a super steroid called 'Venom' 
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/bane/bane.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.861)+ (a:Up() * -1.637)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 99
-
 ITEM.Name = "Batman Mask"
-
 ITEM.Description = "Where the fuck is Rachel"
-
 ITEM.Model = "models/gmod_tower/batmanmask.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2.2) + (ang:Up() * -0.8) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2.2) + (ang:Up() * -0.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23434,22 +18194,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Model = "models/sal/bear.mdl"
 ITEM.Attachment = "eyes"
 
-
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.1, 0 )
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.391235) + (ang:Right() * -0.229431) +  (ang:Up() * -0.777100)
 	
 	return model, pos, ang
 end
 
-
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23460,17 +18212,14 @@ ITEM.Description = "Blackmail is such an ugly word. I prefer extortion. The 'x' 
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/bender/bender.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.15)
 	p = p + (a:Forward() * -4.861)+ (a:Right() * 0.314)+ (a:Up() * -6.522)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23481,17 +18230,14 @@ ITEM.Description = "The face of a crying baby from the indie game The Binding of
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/isaac/isaac.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.9)
 	p = p + (a:Forward() * -4.675)+ (a:Right() * -0.003)+ (a:Up() * -7.871)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23502,15 +18248,12 @@ ITEM.Description = "The prettiest boy in all the land."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/billy/billy.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -4.454)+ (a:Right() * 0.008)+ (a:Up() * -5.909)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23522,11 +18265,7 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/horsie/horsiemask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetSkin(1)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 1.2) + (ang:Right() * 0) + (ang:Up() * 0.8)
@@ -23537,9 +18276,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23551,12 +18288,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/splicermasks/birdmask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 0.2) + (ang:Right() * 0) + (ang:Up() * -3)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -23566,9 +18299,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23580,12 +18311,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/splicermasks/butterflymask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
+	model:SetSkin(2)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 1.6) + (ang:Right() * 0) + (ang:Up() * -2.4)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -23595,9 +18322,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23609,12 +18334,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/splicermasks/catmask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 1) + (ang:Right() * 0.6) + (ang:Up() * -4.6)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -23624,9 +18345,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23638,12 +18357,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/splicermasks/rabbitmask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 0.8) + (ang:Right() * 0) + (ang:Up() * -2.4)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -23653,38 +18368,23 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 100
-
 ITEM.Name = "Bomberman Helmet"
-
 ITEM.Description = "FOR THE GLORY OF ALLAH!!!"
-
 ITEM.Model = "models/gmod_tower/bombermanhelmet.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2.2) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23695,17 +18395,14 @@ ITEM.Description = "World's best dad"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/bondrewd/bondrewd.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -2.268)+ (a:Right() * -2.339)+ (a:Up() * 0.071)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23717,11 +18414,7 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/horsie/horsiemask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetSkin(0)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 1.2) + (ang:Right() * 0) + (ang:Up() * 0.8)
@@ -23732,9 +18425,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23745,17 +18436,14 @@ ITEM.Description = "FALCOOOOON PUNCH!!!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/falcon/falcon.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -5.152)+ (a:Right() * -0.002)+ (a:Up() * 0.055)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23767,21 +18455,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Model = "models/sal/cat.mdl"
 ITEM.Attachment = "eyes"
 
-
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.1, 0 )
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.390503) + (ang:Right() * -0.228668) +  (ang:Up() * -0.152496)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23793,12 +18474,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/chuck_mask/chuck_mask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 2) + (ang:Right() * 0) + (ang:Up() * 0)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -23808,9 +18485,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23821,15 +18496,12 @@ ITEM.Description = "A pair of iconic glasses that should be treasured and only w
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_clout_goggles.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.8)
 	p = p + (a:Forward() * -1.075)+ (a:Right() * 0.002)+ (a:Up() * 0.793)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23840,11 +18512,7 @@ ITEM.Rarity = 2
 ITEM.Collection = "Crimson Collection"
 ITEM.Model = "models/splicermasks/birdmask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 0.2) + (ang:Right() * 0) + (ang:Up() * -3)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -23854,9 +18522,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23867,15 +18533,12 @@ ITEM.Description = "Your thoughts will be trapped for eternity."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_skullcage.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.6)
 	p = p + (a:Forward() * -4.078)+ (a:Right() * 0.088)+ (a:Up() * 0.208)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23886,45 +18549,29 @@ ITEM.Description = "Join for Glory so all will remember you as a soldier of Moat
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/crusaders/crusaders.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.15)
 	p = p + (a:Forward() * -4.982)+ (a:Right() * 0.003)+ (a:Up() * -4.512)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 133
-
 ITEM.Name = "Cubone Skull"
-
 ITEM.Description = "I choose you"
-
 ITEM.Model = "models/lordvipes/cuboneskull/cuboneskull.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.3, 0)
-	pos = pos + (ang:Forward() * 0.2) + (ang:Up() * -6.4) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * 0.2) + (ang:Up() * -6.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23935,15 +18582,12 @@ ITEM.Description = "She's up all night to the sun, I'm up all night to get some,
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/daft/daft.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.15)
 	p = p + (a:Forward() * -4.608)+ (a:Right() * 0.006)+ (a:Up() * -4.951)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23954,17 +18598,14 @@ ITEM.Description = "Give yourself to the Dark Side. It is the only way you can s
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/darthvader/darthvader.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.125)
 	p = p + (a:Forward() * -4.859)+ (a:Right() * 0.003)+ (a:Up() * -1.382)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23975,15 +18616,12 @@ ITEM.Description = "Raised from the depths of hell, to die, again and again"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/demonshank/demonshank.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.125)
 	p = p + (a:Forward() * -4.646)+ (a:Right() * 0.009)+ (a:Up() * -3.553)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -23995,13 +18633,9 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/halloween/doctor.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1, 0)
 	
 	if (moat_TerroristModels[ply:GetModel()]) then
 		pos = pos + (ang:Forward() * -4.917358) + (ang:Right() * 0.063934) + (ang:Up() * -1.163300)
@@ -24012,9 +18646,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24026,13 +18658,9 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/halloween/doctor.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1, 0)
 	
 	if (moat_TerroristModels[ply:GetModel()]) then
 		pos = pos + (ang:Forward() * -4.917358) + (ang:Right() * 0.063934) + (ang:Up() * -1.163300)
@@ -24043,9 +18671,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24057,13 +18683,9 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/halloween/doctor.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.1, 0)
 	
 	if (moat_TerroristModels[ply:GetModel()]) then
 		pos = pos + (ang:Forward() * -4.917358) + (ang:Right() * 0.063934) + (ang:Up() * -1.163300)
@@ -24074,9 +18696,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24088,12 +18708,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/dolph_mask/dolph_mask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 0) + (ang:Right() * 0) + (ang:Up() * 0)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -24103,9 +18719,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24116,18 +18730,15 @@ ITEM.Description = "The name is supposed to be Fuck Mask, but it was auto-correc
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/duck/duck.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.025)
 	p = p + (a:Forward() * -6.317)+ (a:Right() * -0.03)+ (a:Up() * -5.161)
 	a:RotateAroundAxis(a:Right(), 0.1)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24139,15 +18750,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/props_phx/misc/egg.mdl"
 ITEM.Attachment = "eyes"
 ITEM.EggMaterial = "models/weapons/v_slam/new light2"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	local mat = Matrix()
 	mat:Scale(Vector(3, 3, 3))
 	model:EnableMatrix("RenderMultiply", mat)
 	model:SetMaterial(self.EggMaterial)
-
 	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0) + (ang:Up() * -8)
 	ang:RotateAroundAxis(ang:Right(), -0)
 	ang:RotateAroundAxis(ang:Up(), 0)
@@ -24156,7 +18763,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24168,15 +18774,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/props_phx/misc/egg.mdl"
 ITEM.Attachment = "eyes"
 ITEM.EggMaterial = "models/shadertest/shader1_dudv"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	local mat = Matrix()
 	mat:Scale(Vector(3, 3, 3))
 	model:EnableMatrix("RenderMultiply", mat)
 	model:SetMaterial(self.EggMaterial)
-
 	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0) + (ang:Up() * -8)
 	ang:RotateAroundAxis(ang:Right(), -0)
 	ang:RotateAroundAxis(ang:Up(), 0)
@@ -24185,7 +18787,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24197,15 +18798,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/props_phx/misc/egg.mdl"
 ITEM.Attachment = "eyes"
 ITEM.EggMaterial = "models/props_lab/Tank_Glass001"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	local mat = Matrix()
 	mat:Scale(Vector(3, 3, 3))
 	model:EnableMatrix("RenderMultiply", mat)
 	model:SetMaterial(self.EggMaterial)
-
 	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0) + (ang:Up() * -8)
 	ang:RotateAroundAxis(ang:Right(), -0)
 	ang:RotateAroundAxis(ang:Up(), 0)
@@ -24214,7 +18811,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24226,15 +18822,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/props_phx/misc/egg.mdl"
 ITEM.Attachment = "eyes"
 ITEM.EggMaterial = "models/props/cs_assault/moneytop"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	local mat = Matrix()
 	mat:Scale(Vector(3, 3, 3))
 	model:EnableMatrix("RenderMultiply", mat)
 	model:SetMaterial(self.EggMaterial)
-
 	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0) + (ang:Up() * -8)
 	ang:RotateAroundAxis(ang:Right(), -0)
 	ang:RotateAroundAxis(ang:Up(), 0)
@@ -24243,7 +18835,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24255,15 +18846,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/props_phx/misc/egg.mdl"
 ITEM.Attachment = "eyes"
 ITEM.EggMaterial = "models/props_lab/cornerunit_cloud"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	local mat = Matrix()
 	mat:Scale(Vector(3, 3, 3))
 	model:EnableMatrix("RenderMultiply", mat)
 	model:SetMaterial(self.EggMaterial)
-
 	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0) + (ang:Up() * -8)
 	ang:RotateAroundAxis(ang:Right(), -0)
 	ang:RotateAroundAxis(ang:Up(), 0)
@@ -24272,7 +18859,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24284,15 +18870,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/props_phx/misc/egg.mdl"
 ITEM.Attachment = "eyes"
 ITEM.EggMaterial = "models/effects/slimebubble_sheet"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	local mat = Matrix()
 	mat:Scale(Vector(3, 3, 3))
 	model:EnableMatrix("RenderMultiply", mat)
 	model:SetMaterial(self.EggMaterial)
-
 	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0) + (ang:Up() * -8)
 	ang:RotateAroundAxis(ang:Right(), -0)
 	ang:RotateAroundAxis(ang:Up(), 0)
@@ -24301,7 +18883,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24313,15 +18894,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/props_phx/misc/egg.mdl"
 ITEM.Attachment = "eyes"
 ITEM.EggMaterial = "models/shadertest/shader5"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	local mat = Matrix()
 	mat:Scale(Vector(3, 3, 3))
 	model:EnableMatrix("RenderMultiply", mat)
 	model:SetMaterial(self.EggMaterial)
-
 	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0) + (ang:Up() * -8)
 	ang:RotateAroundAxis(ang:Right(), -0)
 	ang:RotateAroundAxis(ang:Up(), 0)
@@ -24330,7 +18907,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24342,15 +18918,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/props_phx/misc/egg.mdl"
 ITEM.Attachment = "eyes"
 ITEM.EggMaterial = "models/wireframe"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	local mat = Matrix()
 	mat:Scale(Vector(3, 3, 3))
 	model:EnableMatrix("RenderMultiply", mat)
 	model:SetMaterial(self.EggMaterial)
-
 	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0) + (ang:Up() * -8)
 	ang:RotateAroundAxis(ang:Right(), -0)
 	ang:RotateAroundAxis(ang:Up(), 0)
@@ -24359,7 +18931,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24371,15 +18942,11 @@ ITEM.Collection = "Easter Collection"
 ITEM.Model = "models/props_phx/misc/egg.mdl"
 ITEM.Attachment = "eyes"
 ITEM.EggMaterial = "models/props/CS_militia/roofbeams03"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	local mat = Matrix()
 	mat:Scale(Vector(3, 3, 3))
 	model:EnableMatrix("RenderMultiply", mat)
 	model:SetMaterial(self.EggMaterial)
-
 	pos = pos + (ang:Forward() * -2.6) + (ang:Right() * 0) + (ang:Up() * -8)
 	ang:RotateAroundAxis(ang:Right(), -0)
 	ang:RotateAroundAxis(ang:Up(), 0)
@@ -24388,7 +18955,6 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24406,7 +18972,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24424,7 +18989,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24442,7 +19006,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24460,7 +19023,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24478,7 +19040,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24496,7 +19057,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24514,7 +19074,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24532,7 +19091,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24550,7 +19108,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24568,7 +19125,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24586,7 +19142,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24604,7 +19159,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24622,7 +19176,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24640,7 +19193,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24658,7 +19210,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24676,7 +19227,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24694,7 +19244,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24712,7 +19261,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24730,7 +19278,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24748,7 +19295,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24766,7 +19312,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24784,7 +19329,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24802,7 +19346,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24820,7 +19363,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24838,7 +19380,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24856,7 +19397,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24874,7 +19414,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24892,7 +19431,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24910,7 +19448,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24928,7 +19465,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24946,7 +19482,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24964,7 +19499,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -24982,7 +19516,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25000,7 +19533,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25018,7 +19550,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25036,7 +19567,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25054,7 +19584,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25072,7 +19601,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25090,7 +19618,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25108,7 +19635,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25126,7 +19652,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25144,7 +19669,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25162,7 +19686,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25180,7 +19703,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25198,7 +19720,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25216,7 +19737,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25234,7 +19754,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25252,7 +19771,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25270,7 +19788,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25288,7 +19805,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25306,7 +19822,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25324,7 +19839,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25342,7 +19856,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25360,7 +19873,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25378,7 +19890,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25396,7 +19907,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25414,7 +19924,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25432,7 +19941,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25450,7 +19958,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25468,7 +19975,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25486,7 +19992,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25504,7 +20009,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25522,7 +20026,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25540,7 +20043,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25558,7 +20060,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25576,7 +20077,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25594,7 +20094,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25612,7 +20111,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25630,7 +20128,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25648,7 +20145,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25666,7 +20162,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25684,7 +20179,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25702,7 +20196,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25720,7 +20213,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25738,7 +20230,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25756,7 +20247,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25774,7 +20264,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25792,7 +20281,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25810,7 +20298,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25828,7 +20315,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25846,7 +20332,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25864,7 +20349,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25882,7 +20366,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25900,7 +20383,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25918,7 +20400,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25936,7 +20417,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25954,7 +20434,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25972,7 +20451,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -25990,7 +20468,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26008,7 +20485,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26026,7 +20502,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26044,7 +20519,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26062,7 +20536,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26080,7 +20553,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26098,7 +20570,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26116,7 +20587,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26134,7 +20604,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26155,7 +20624,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26176,7 +20644,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26197,7 +20664,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26218,7 +20684,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26239,7 +20704,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26260,7 +20724,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26281,7 +20744,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26302,7 +20764,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26323,7 +20784,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26344,7 +20804,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26365,7 +20824,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26386,7 +20844,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26407,7 +20864,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26428,7 +20884,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26449,7 +20904,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26470,7 +20924,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26491,7 +20944,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26512,7 +20964,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26533,7 +20984,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26554,7 +21004,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26575,7 +21024,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26596,7 +21044,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26617,7 +21064,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26638,7 +21084,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26659,7 +21104,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26680,7 +21124,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26701,7 +21144,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26722,7 +21164,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26743,7 +21184,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26764,7 +21204,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26785,7 +21224,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26806,7 +21244,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26827,7 +21264,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26848,7 +21284,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26869,7 +21304,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26890,7 +21324,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26911,7 +21344,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26932,7 +21364,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26953,7 +21384,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26974,7 +21404,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -26995,7 +21424,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27016,7 +21444,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27037,7 +21464,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27058,7 +21484,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27079,7 +21504,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27100,7 +21524,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27121,7 +21544,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27142,7 +21564,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27163,7 +21584,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27184,7 +21604,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27205,7 +21624,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27226,7 +21644,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27247,7 +21664,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27268,7 +21684,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27289,7 +21704,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27310,7 +21724,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27331,7 +21744,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27352,7 +21764,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27373,7 +21784,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27394,7 +21804,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27412,7 +21821,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27433,7 +21841,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27454,7 +21861,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27475,7 +21881,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27496,7 +21901,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27517,7 +21921,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27538,7 +21941,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27559,7 +21961,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27579,7 +21980,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27600,7 +22000,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27621,7 +22020,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27642,7 +22040,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27660,7 +22057,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27681,7 +22077,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27702,7 +22097,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27723,7 +22117,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27744,7 +22137,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27765,7 +22157,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27786,7 +22177,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27804,7 +22194,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27825,7 +22214,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27842,7 +22230,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27863,7 +22250,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27884,7 +22270,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27905,7 +22290,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27926,7 +22310,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27947,7 +22330,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27968,7 +22350,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -27989,7 +22370,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28010,7 +22390,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28028,7 +22407,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28049,7 +22427,6 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28067,35 +22444,22 @@ function ITEM:ModifyClientsideModel(pl, mdl, pos, ang)
 	return mdl, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 72
-
 ITEM.Name = "El Mustache"
-
 ITEM.Description = "You sir are the most handsome and dashing man in all of the server"
-
 ITEM.Model = "models/captainbigbutt/skeyler/accessories/mustache.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * 1.6) + (ang:Up() * -2.4) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * 1.6) + (ang:Up() * -2.4) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 7.6)
-
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28107,21 +22471,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Model = "models/sal/fox.mdl"
 ITEM.Attachment = "eyes"
 
-
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.1, 0 )
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.561279) + (ang:Right() * 0.079376) +  (ang:Up() * -0.346680)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28132,37 +22489,30 @@ ITEM.Description = "This allows whoever is wearing the gas mask to inhale farts 
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/gasmask/gasmask.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.05)
 	p = p + (a:Forward() * -4.534)+ (a:Right() * -0.258)+ (a:Up() * -2.983)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 7002
-
 ITEM.Name = "Gingerbread Mask"
 ITEM.Description = "Please don't eat my face"
 ITEM.Rarity = 6
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/sal/gingerbread.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.1, 0)
-
 	pos = pos + (ang:Forward() * -3.8)
 	
 	return model, pos, ang
 end
-
 
 /*
 		Bone	=	eyes
@@ -28173,7 +22523,6 @@ end
 		UniqueID	=	3503520631
 		*/
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28185,32 +22534,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/glasses01.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-
+	model:SetSkin(0)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.869751) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -4)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
-
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28222,30 +22559,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/glasses01.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.869751) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -4)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28257,30 +22584,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/glasses01.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
+	model:SetSkin(2)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.869751) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -4)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28292,30 +22609,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/modified/glasses01.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
+	model:SetSkin(3)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.869751) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -4)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28327,30 +22634,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/modified/glasses01.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
+	model:SetSkin(4)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.869751) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -4)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28362,30 +22659,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/modified/glasses01.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
+	model:SetSkin(5)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.869751) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -4)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28397,31 +22684,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/glasses02.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-
+	model:SetSkin(0)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.110229) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -3.7)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28433,30 +22709,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/glasses02.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.110229) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -3.7)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28468,30 +22734,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/glasses02.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
+	model:SetSkin(2)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.110229) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -3.7)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28503,30 +22759,20 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/modified/glasses02.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
+	model:SetSkin(3)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.110229) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -3.7)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28538,57 +22784,35 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/modified/glasses02.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
+	model:SetSkin(4)
 	if (moat_TerroristModels[ply:GetModel()]) then
-
-		model:SetModelScale( 1.15, 0 )
+		model:SetModelScale(1.15, 0)
 		pos = pos + (ang:Forward() * -4.110229) + (ang:Right() * 0) +  (ang:Up() * 1)
-
 	else
-
 		pos = pos + (ang:Forward() * -3.7)
 		ang:RotateAroundAxis(ang:Up(), 0)
-
 	end
 	
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 71
-
 ITEM.Name = "Grandma Glasses"
-
 ITEM.Description = "I hope these are big enough for you"
-
 ITEM.Model = "models/captainbigbutt/skeyler/accessories/glasses04.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -0.8) + (ang:Up() * -1.4) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -0.8) + (ang:Up() * -1.4) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 7.6)
-
 	return model, pos, ang
-
 end
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28599,15 +22823,12 @@ ITEM.Description = "Make me feel alive again!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/greyfox/greyfox.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -5.26)+ (a:Right() * -0.044)+ (a:Up() * -4.198)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28618,17 +22839,13 @@ ITEM.Model = "models/player/holiday/facemasks/evil_clown.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28639,17 +22856,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_boar.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28660,17 +22873,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_bunny.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28681,17 +22890,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_bunny_gold.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28702,17 +22907,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_chicken.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28723,17 +22924,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_devil_plastic.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28744,17 +22941,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_porcelain_doll_kabuki.mdl
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28765,17 +22958,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_pumpkin.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28786,17 +22975,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_samurai.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28807,17 +22992,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_sheep_bloody.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28828,17 +23009,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_sheep_gold.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28849,17 +23026,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_sheep_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28870,17 +23043,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_skull.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28891,17 +23060,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_skull_gold.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28912,17 +23077,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_template.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28933,17 +23094,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tf2_demo_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28954,17 +23111,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tf2_engi_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28975,17 +23128,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tf2_heavy_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -28996,17 +23145,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tf2_medic_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29017,17 +23162,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tf2_pyro_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29038,16 +23179,12 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_chains.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 0.2) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29058,16 +23195,12 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_dallas.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 0.2) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29078,17 +23211,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tf2_scout_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29099,16 +23228,12 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_hoxton.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 0.2) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29119,16 +23244,12 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_wolf.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 0.2) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29139,17 +23260,13 @@ ITEM.Model = "models/gmod_tower/halloween_pumpkinhat.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.875, 0)
 	pos = pos + (ang:Forward() * -3.1) + (ang:Up() * -7.5) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29160,17 +23277,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tf2_sniper_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29181,17 +23294,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tf2_soldier_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29202,17 +23311,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tf2_spy_model.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29223,17 +23328,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_tiki.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29244,17 +23345,13 @@ ITEM.Model = "models/player/holiday/facemasks/facemask_zombie_fortune_plastic.md
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29265,17 +23362,13 @@ ITEM.Model = "models/player/holiday/facemasks/porcelain_doll.mdl"
 ITEM.Rarity = 8
 ITEM.Collection = "Pumpkin Collection"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.225, 0)
 	pos = pos + (ang:Forward() * 0.7) + (ang:Up() * 1.9) + m_IsTerroristModel(ply:GetModel())
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29286,15 +23379,12 @@ ITEM.Description = "Clarice..."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/hannibal/hannibal.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.05)
 	p = p + (a:Forward() * -3.679)+ (a:Right() * -0.002)+ (a:Up() * -0.31)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29306,15 +23396,12 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_mask_hattington.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 4
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.45)
 	p = p + (a:Forward() * -3.458)+ (a:Up() * 0.848)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29326,15 +23413,12 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_mask_hattington.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 5
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.45)
 	p = p + (a:Forward() * -3.458)+ (a:Up() * 0.848)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29346,15 +23430,12 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_mask_hattington.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 3
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.45)
 	p = p + (a:Forward() * -3.458)+ (a:Up() * 0.848)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29365,15 +23446,12 @@ ITEM.Description = "Oh what the f... fart."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_mask_hattington.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.45)
 	p = p + (a:Forward() * -3.458)+ (a:Up() * 0.848)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29385,15 +23463,12 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_mask_hattington.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 1
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.45)
 	p = p + (a:Forward() * -3.458)+ (a:Up() * 0.848)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29405,15 +23480,12 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_mask_hattington.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 2
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.45)
 	p = p + (a:Forward() * -3.458)+ (a:Up() * 0.848)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29424,18 +23496,13 @@ ITEM.Rarity = 6
 ITEM.Collection = "Urban Style Collection"
 ITEM.Model = "models/sal/hawk_1.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.1, 0 )
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.406860) + (ang:Right() * 0.094940) +  (ang:Up() * -3.257416)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29446,18 +23513,13 @@ ITEM.Rarity = 8
 ITEM.Collection = "Independence Collection"
 ITEM.Model = "models/sal/hawk_1.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.1, 0 )
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.406860) + (ang:Right() * 0.094940) +  (ang:Up() * -3.257416)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29468,18 +23530,14 @@ ITEM.Rarity = 6
 ITEM.Collection = "Urban Style Collection"
 ITEM.Model = "models/sal/hawk_2.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.1, 0 )
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.406860) + (ang:Right() * 0.094940) +  (ang:Up() * -3.257416)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29490,18 +23548,14 @@ ITEM.Rarity = 8
 ITEM.Collection = "Independence Collection"
 ITEM.Model = "models/sal/hawk_2.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.1, 0 )
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.406860) + (ang:Right() * 0.094940) +  (ang:Up() * -3.257416)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29513,21 +23567,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/halloween/headwrap1.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -3.935547) + (ang:Right() * -0.018433) +  (ang:Up() * -0.911530)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29539,21 +23587,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/halloween/headwrap1.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -3.935547) + (ang:Right() * -0.018433) +  (ang:Up() * -0.911530)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29565,21 +23607,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/halloween/headwrap1.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -3.935547) + (ang:Right() * -0.018433) +  (ang:Up() * -0.911530)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29591,21 +23627,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/halloween/headwrap1.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -3.935547) + (ang:Right() * -0.018433) +  (ang:Up() * -0.911530)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29617,21 +23647,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/halloween/headwrap2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.167603) + (ang:Right() * 0.109802) +  (ang:Up() * -1.415833)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29643,21 +23667,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/halloween/headwrap2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.167603) + (ang:Right() * 0.109802) +  (ang:Up() * -1.415833)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29669,21 +23687,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/halloween/headwrap2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.167603) + (ang:Right() * 0.109802) +  (ang:Up() * -1.415833)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29695,21 +23706,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/halloween/headwrap2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.167603) + (ang:Right() * 0.109802) +  (ang:Up() * -1.415833)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29720,11 +23725,7 @@ ITEM.Rarity = 5
 ITEM.Collection = "Crimson Collection"
 ITEM.Model = "models/splicermasks/weldingmask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -3.6) + (ang:Right() * 2.6) + (ang:Up() * -7.6)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -29734,9 +23735,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29748,11 +23747,7 @@ ITEM.NameColor = Color(255, 0, 255)
 ITEM.Collection = "Valentine Collection"
 ITEM.Model = "models/splicermasks/weldingmask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -3.6) + (ang:Right() * 2.6) + (ang:Up() * -7.6)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -29762,9 +23757,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29775,14 +23768,11 @@ ITEM.Description = "Bearing the sins of the children of earth, the moon begins t
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_hat_darkerthenblack.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * 1.361)+ (a:Up() * 0.001)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29793,16 +23783,13 @@ ITEM.Description = "This is the Helmet of Fate. It is not a 'shiny target'. It h
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/fate/fate.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -5.006)+ (a:Right() * -0.002)+ (a:Up() * -1.971)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29813,14 +23800,11 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/moat/mg_glasses_stars.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * 0.524)+ (a:Right() * -0.035)+ (a:Up() * 1.509)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29831,16 +23815,13 @@ ITEM.Description = "Brave the depths of a forgotten kingdom with this mask."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/hollow/hollow.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.369)+ (a:Right() * 0)+ (a:Up() * -5.281)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29851,15 +23832,12 @@ ITEM.Description = "+42 Damage resistance against dragons"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/moat/mg_helmet_iron.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.05)
 	p = p + (a:Forward() * -2.956)+ (a:Right() * -0.043)+ (a:Up() * 1.603)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29870,45 +23848,29 @@ ITEM.Description = "The pumpkin king comes to freight tonight..."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/pumpkin/pumpkin.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -5.234)+ (a:Right() * -0.005)+ (a:Up() * -5.159)
 	a:RotateAroundAxis(a:Up(), 93.9)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 103
-
 ITEM.Name = "Jason Mask"
-
 ITEM.Description = "Boo"
-
 ITEM.Model = "models/gmod_tower/halloween_jasonmask.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -4.4) + (ang:Up() * -6.8) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -4.4) + (ang:Up() * -6.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29919,75 +23881,46 @@ ITEM.Description = "SENPAI NOTICED ME"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/skullgirl/skullgirl.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.467)+ (a:Up() * -3.063)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 136
-
 ITEM.Name = "Keaton Mask"
-
 ITEM.Description = "What did the fox say"
-
 ITEM.Model = "models/lordvipes/keatonmask/keatonmask.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.9, 0)
-	pos = pos + (ang:Forward() * -5.6) + (ang:Up() * -0.4) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -5.6) + (ang:Up() * -0.4) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 110
-
 ITEM.Name = "Lego Head"
-
 ITEM.Description = "Everything is awesome"
-
 ITEM.Model = "models/gmod_tower/legohead.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * -0.2) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * -0.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -29998,17 +23931,14 @@ ITEM.Description = "Bite the bullet"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/lvl3/lvl3.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.479)+ (a:Right() * -0.001)+ (a:Up() * -1.422)
 	a:RotateAroundAxis(a:Up(), 90)
 	a:RotateAroundAxis(a:Forward(), 7.1)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30019,47 +23949,31 @@ ITEM.Description = "Mankind has always feared what it doesn't understand"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/magneto/magneto.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.075)
 	p = p + (a:Forward() * -4.701)+ (a:Right() * -0.002)+ (a:Up() * -1.711)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 139
-
 ITEM.Name = "Majora's Mask"
-
 ITEM.Description = "It is a colorful mask"
-
 ITEM.Model = "models/lordvipes/majoramask/majoramask.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.2, 0)
-	pos = pos + (ang:Forward() * 1.8) + (ang:Up() * -9.8) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * 1.8) + (ang:Up() * -9.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30071,47 +23985,31 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/moon/moon.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 1
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.979)+ (a:Right() * -0.001)+ (a:Up() * -0.718)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 140
-
 ITEM.Name = "Makar's Mask"
-
 ITEM.Description = "That's a very nice leaf you have there"
-
 ITEM.Model = "models/lordvipes/makarmask/makarmask.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(2.2, 0)
-	pos = pos + (ang:Forward() * -4.4) + (ang:Up() * -9.6) + m_IsTerroristModel( ply:GetModel() )
+	pos = pos + (ang:Forward() * -4.4) + (ang:Up() * -9.6) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), -16)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30122,17 +24020,14 @@ ITEM.Description = "I heard you keeping it 'Mello' Eh Eh no okay..."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/marshmello/marshmello.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.05)
 	p = p + (a:Forward() * -4.226)+ (a:Right() * 0.023)+ (a:Up() * -5.588)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30144,21 +24039,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30170,21 +24059,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30196,21 +24079,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 10
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 10 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(10)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30222,21 +24099,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 11
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 11 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(11)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30248,21 +24119,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 12
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 12 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(12)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30274,21 +24139,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 13
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 13 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(13)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30300,21 +24159,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 14
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 14 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(14)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30326,21 +24179,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30352,21 +24199,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30378,21 +24219,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30404,21 +24239,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(5)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30430,21 +24259,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 6
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 6 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(6)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30456,21 +24279,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 7
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 7 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(7)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30482,21 +24299,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 8
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 8 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(8)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30508,21 +24319,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 9
 ITEM.Model = "models/sal/acc/fix/mask_2.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 9 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(9)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.216187) + (ang:Right() * 0.022186) +  (ang:Up() * -0.913788)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30534,21 +24339,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/acc/fix/mask_4.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30560,21 +24359,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/acc/fix/mask_4.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30586,21 +24379,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/acc/fix/mask_4.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30612,21 +24399,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/acc/fix/mask_4.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30638,21 +24419,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/sal/acc/fix/mask_4.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(4)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30664,21 +24439,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/sal/acc/fix/mask_4.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(5)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30690,21 +24459,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 6
 ITEM.Model = "models/sal/acc/fix/mask_4.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 6 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(6)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30716,21 +24479,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 7
 ITEM.Model = "models/sal/acc/fix/mask_4.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 7 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(7)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30742,21 +24499,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 8
 ITEM.Model = "models/sal/acc/fix/mask_4.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 8 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(8)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30767,20 +24518,14 @@ ITEM.Rarity = 4
 ITEM.Collection = "Urban Style Collection"
 ITEM.Model = "models/modified/mask5.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.05, 0 )
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.338135) + (ang:Right() * 0.040802) +  (ang:Up() * -1.451752)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30792,18 +24537,13 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/modified/mask6.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
+	model:SetSkin(0)
 	pos = pos + (ang:Forward() * -3.950562) + (ang:Right() * 0.060364) +  (ang:Up() * -2.116272)
 	
 	return model, pos, ang
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30815,20 +24555,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/modified/mask6.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	pos = pos + (ang:Forward() * -3.950562) + (ang:Right() * 0.060364) +  (ang:Up() * -2.116272)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30840,20 +24574,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/modified/mask6.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
+	model:SetSkin(2)
 	pos = pos + (ang:Forward() * -3.950562) + (ang:Right() * 0.060364) +  (ang:Up() * -2.116272)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30865,20 +24593,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/modified/mask6.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
+	model:SetSkin(3)
 	pos = pos + (ang:Forward() * -3.950562) + (ang:Right() * 0.060364) +  (ang:Up() * -2.116272)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30889,16 +24611,13 @@ ITEM.Description = "Watch out for the spikes blocks."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/megaman/megaman.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -11.287)+ (a:Right() * -0.006)+ (a:Up() * -1.14)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30909,44 +24628,28 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/moat/mg_glasses_xmas.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -1.135)+ (a:Right() * 0.002)+ (a:Up() * 2.996)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 113
-
 ITEM.Name = "Metaknight Mask"
-
 ITEM.Description = "Where the fuck is Kirby"
-
 ITEM.Model = "models/gmod_tower/metaknight_mask.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.2, 0)
-	pos = pos + (ang:Forward() * 1.8) + (ang:Up() * -4.8) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * 1.8) + (ang:Up() * -4.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30958,16 +24661,13 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/metroid/metroid.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 1
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -7.034)+ (a:Right() * -0.001)+ (a:Up() * 7.255)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -30979,16 +24679,13 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/miraak/miraak.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 1
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.986)+ (a:Right() * -0.002)+ (a:Up() * -3.053)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31000,19 +24697,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/halloween/monkey.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.365112) + (ang:Right() * 0.059586) +  (ang:Up() * -1.330437)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31024,19 +24717,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/halloween/monkey.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.365112) + (ang:Right() * 0.059586) +  (ang:Up() * -1.330437)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31048,19 +24737,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/halloween/monkey.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.365112) + (ang:Right() * 0.059586) +  (ang:Up() * -1.330437)
-
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31073,54 +24757,34 @@ ITEM.Skin = 3
 ITEM.Model = "models/sal/halloween/monkey.mdl"
 ITEM.Attachment = "eyes"
 
-
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.365112) + (ang:Right() * 0.059586) +  (ang:Up() * -1.330437)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 85
-
 ITEM.Name = "Monocle"
-
 ITEM.Description = "You probably think you're smart now. That's incorrect"
-
 ITEM.Model = "models/captainbigbutt/skeyler/accessories/monocle.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -1.2) + (ang:Right() * -2.8) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -1.2) + (ang:Right() * -2.8) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 22.4)
 	ang:RotateAroundAxis(ang:Up(),-9)
 	ang:RotateAroundAxis(ang:Forward(), 153.8)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31132,17 +24796,14 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/monstro/monstro.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 1
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.76)
 	p = p + (a:Forward() * -4.334)+ (a:Right() * -0.005)+ (a:Up() * -5.066)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31153,14 +24814,11 @@ ITEM.Description = "Either this guy is hacking, or he actually managed to turn o
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/trihelmet/trihelmet.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.437)+ (a:Right() * 0.185)+ (a:Up() * 0.442)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31172,21 +24830,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31198,21 +24850,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31224,21 +24870,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 10
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 10 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(10)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31250,21 +24890,15 @@ ITEM.Collection = "Independence Collection"
 ITEM.Skin = 10
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 10 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(10)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31276,21 +24910,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(2)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31302,21 +24930,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(3)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31328,21 +24950,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 4
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 4 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(4)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31354,21 +24970,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 5
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 5 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(5)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31380,21 +24990,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 6
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 6 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(6)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31406,21 +25010,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 7
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 7 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(7)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31432,21 +25030,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 8
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 8 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(8)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31458,81 +25050,50 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 9
 ITEM.Model = "models/sal/halloween/ninja.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 9 )
-	model:SetModelScale( 1.1 )
+	model:SetSkin(9)
+	model:SetModelScale(1.1)
 	pos = pos + (ang:Forward() * -4.500366) + (ang:Right() * -0.229553) +  (ang:Up() * -1.120453)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 20
-
 ITEM.Name = "No Entry Mask"
-
 ITEM.Description = "No man shall enter your face again"
-
 ITEM.Model = "models/props_c17/streetsign004f.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Alpha Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	model:SetModelScale( 0.7, 0 )
-
-	pos = pos + ( ang:Forward() * 3 )
-
-	ang:RotateAroundAxis( ang:Up(), -90 )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	model:SetModelScale(0.7, 0)
+	pos = pos + (ang:Forward() * 3)
+	ang:RotateAroundAxis(ang:Up(), -90)
 	
 	return model, pos, ang
 	
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 115
-
 ITEM.Name = "No Face Mask"
-
 ITEM.Description = "Where did your face go?"
-
 ITEM.Model = "models/gmod_tower/noface.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * 1.6) + (ang:Up() * -0.8) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * 1.6) + (ang:Up() * -0.8) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31544,17 +25105,14 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/ori/ori.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 1
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.8)
 	p = p + (a:Forward() * -5.785)+ (a:Right() * 0.154)+ (a:Up() * -4.91)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31566,21 +25124,14 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Model = "models/sal/owl.mdl"
 ITEM.Attachment = "eyes"
 
-
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.1, 0 )
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.365112) + (ang:Right() * 0.059586) +  (ang:Up() * -1.330437)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31592,12 +25143,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/splicermasks/butterflymask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 1.6) + (ang:Right() * 0) + (ang:Up() * -2.4)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -31607,9 +25154,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31621,16 +25166,13 @@ ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/pennywise/pennywise.mdl"
 ITEM.Attachment = "eyes"
 ITEM.Skin = 1
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.206)+ (a:Right() * -0.004)+ (a:Up() * -2.71)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31643,22 +25185,15 @@ ITEM.Skin = 0
 ITEM.Model = "models/sal/pig.mdl"
 ITEM.Attachment = "eyes"
 
-
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.220093) + (ang:Right() * 0.055542) +  (ang:Up() * -1.410973)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31671,22 +25206,15 @@ ITEM.Skin = 1
 ITEM.Model = "models/sal/pig.mdl"
 ITEM.Attachment = "eyes"
 
-
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.05, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.05, 0)
 	pos = pos + (ang:Forward() * -4.220093) + (ang:Right() * 0.055542) +  (ang:Up() * -1.410973)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31698,12 +25226,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/jean-claude_mask/jean-claude_mask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
+	model:SetSkin(1)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 1) + (ang:Right() * 0) + (ang:Up() * 0)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -31713,9 +25237,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31726,44 +25248,29 @@ ITEM.Description = "Strip the flesh, Salt the wound."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/psycho/psycho.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.987)+ (a:Right() * -0.002)+ (a:Up() * -5.456)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 84
-
 ITEM.Name = "Scary Pumpkin"
-
 ITEM.Description = "Shine bright like a pumpkin"
-
 ITEM.Model = "models/captainbigbutt/skeyler/hats/pumpkin.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * -3) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * -3) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31774,15 +25281,12 @@ ITEM.Description = "Reeeeeee!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/redead/redead.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.025)
 	p = p + (a:Forward() * 0.942)+ (a:Right() * 0.253)+ (a:Up() * -1.381)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31793,14 +25297,11 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/moat/mg_glasses_reindeer.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * 0.738)+ (a:Right() * -0.023)+ (a:Up() * 0.752)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31811,17 +25312,14 @@ ITEM.Description = "Dead or Alive, you're coming with me."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/robocop/robocop.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -4.054)+ (a:Right() * 0.079)+ (a:Up() * 2.747)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31832,11 +25330,7 @@ ITEM.Rarity = 3
 ITEM.Collection = "Crimson Collection"
 ITEM.Model = "models/splicermasks/catmask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 1) + (ang:Right() * 0.6) + (ang:Up() * -4.6)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -31846,9 +25340,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31859,11 +25351,7 @@ ITEM.Rarity = 2
 ITEM.Collection = "Crimson Collection"
 ITEM.Model = "models/splicermasks/rabbitmask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 0.8) + (ang:Right() * 0) + (ang:Up() * -2.4)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -31873,9 +25361,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31886,11 +25372,7 @@ ITEM.Rarity = 2
 ITEM.Collection = "Crimson Collection"
 ITEM.Model = "models/splicermasks/spidermask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 1) + (ang:Right() * 0) + (ang:Up() * -1.8)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -31900,39 +25382,24 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 118
-
 ITEM.Name = "Rubiks Cube"
-
 ITEM.Description = "You can't solve this one"
-
 ITEM.Model = "models/gmod_tower/rubikscube.mdl"
-
 ITEM.Rarity = 6
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.6, 0)
-	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 1) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -2.8) + (ang:Up() * 1) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31943,46 +25410,30 @@ ITEM.Description = "Something, something, power level, something, 9000..."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/saiyanvisor/saiyanvisor.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -4.051)+ (a:Right() * 0.689)+ (a:Up() * 0.917)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 119
-
 ITEM.Name = "Samus Helmet"
-
 ITEM.Description = "It's a girl"
-
 ITEM.Model = "models/gmod_tower/samushelmet.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.05, 0)
-	pos = pos + (ang:Forward() * -2.05) + (ang:Up() * -1.2) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -2.05) + (ang:Up() * -1.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -31993,14 +25444,11 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/moat/mg_glasses_santa.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * 0.741)+ (a:Right() * -0.029)+ (a:Up() * 1.508)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32011,14 +25459,11 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/moat/mg_glasses_santahat.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * 0.524)+ (a:Right() * -0.035)+ (a:Up() * 1.509)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32029,15 +25474,12 @@ ITEM.Description = "Kneel before the witch king!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/sauron/sauron.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.075)
 	p = p + (a:Forward() * -3.261)+ (a:Right() * -0.597)+ (a:Up() * -3.087)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32048,46 +25490,30 @@ ITEM.Description = "You're not going to pee alone any more. If you pee, I pee. I
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/scream/scream.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * 0.517)+ (a:Up() * -3.868)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 77
-
 ITEM.Name = "Servbot Head"
-
 ITEM.Description = "Smile"
-
 ITEM.Model = "models/lordvipes/servbothead/servbothead.mdl"
-
 ITEM.Rarity = 5
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(0.8, 0)
-	pos = pos + (ang:Forward() * -2.6) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -2.6) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32098,73 +25524,46 @@ ITEM.Description = "SHOVEL JUSTICE!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/shovel/shovel.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -4.488)+ (a:Right() * 0.009)+ (a:Up() * -5.436)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 70
-
 ITEM.Name = "Shutter Glasses"
-
 ITEM.Description = "The party is just getting started"
-
 ITEM.Model = "models/captainbigbutt/skeyler/accessories/glasses03.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -0.8) + (ang:Up() * -0.8) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -0.8) + (ang:Up() * -0.8) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 7.6)
-
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 2070
-
 ITEM.Name = "USA Shutter Glasses"
-
 ITEM.Description = "The party is just getting started"
-
 ITEM.Model = "models/captainbigbutt/skeyler/accessories/glasses03.mdl"
-
 ITEM.Rarity = 8
-
 ITEM.Collection = "Independence Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -0.8) + (ang:Up() * -0.8) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -0.8) + (ang:Up() * -0.8) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 7.6)
-
 	return model, pos, ang
-
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32176,21 +25575,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/halloween/skull.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.471313) + (ang:Right() * 0.043533) +  (ang:Up() * 0.217781)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32202,21 +25595,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/halloween/skull.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.471313) + (ang:Right() * 0.043533) +  (ang:Up() * 0.217781)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32228,21 +25615,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/sal/halloween/skull.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(2)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.471313) + (ang:Right() * 0.043533) +  (ang:Up() * 0.217781)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32254,71 +25635,48 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 3
 ITEM.Model = "models/sal/halloween/skull.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 3 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(3)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.471313) + (ang:Right() * 0.043533) +  (ang:Up() * 0.217781)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 122
-
 ITEM.Name = "Snowboard Goggles"
-
 ITEM.Description = "We don't need snow to wear these"
-
 ITEM.Model = "models/gmod_tower/snowboardgoggles.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -3.8) + (ang:Up() * -0.2) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -3.8) + (ang:Up() * -0.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
 ITEM.ID = 7003
-
 ITEM.Name = "Snowman Head"
 ITEM.Description = "Frosty the terrorist"
 ITEM.Rarity = 5
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/props/cs_office/snowman_face.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
     model:SetModelScale(1.1, 0)
-
     pos = pos + (ang:Forward() * -2.5) + (ang:Up() * 0.5)
     ang:RotateAroundAxis(ang:Up(), -90)
     
 	return model, pos, ang
 end
-
 /*
 		Angles	=	0.000 -90.000 0.000
 		Bone	=	eyes
@@ -32329,7 +25687,6 @@ end
 		UniqueID	=	3503520631
 		*/
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32340,46 +25697,30 @@ ITEM.Description = "You sent me to Hell. I'm here to return the favor."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/spawn/spawn.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -5.296)+ (a:Right() * 2.1)+ (a:Up() * -93.192)
 	a:RotateAroundAxis(a:Up(), -90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 124
-
 ITEM.Name = "Star Glasses"
-
 ITEM.Description = "Too good for regular glasses"
-
 ITEM.Model = "models/gmod_tower/starglasses.mdl"
-
 ITEM.Rarity = 4
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -1.4) + (ang:Up() * -0.2) + m_IsTerroristModel( ply:GetModel() )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -1.4) + (ang:Up() * -0.2) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32390,105 +25731,63 @@ ITEM.Description = "You can go about your business."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/trooperhelmet/trooperhelmet.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -4.786)+ (a:Right() * 0.008)+ (a:Up() * -5.99)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 69
-
 ITEM.Name = "Stylish Glasses"
-
 ITEM.Description = "Work those pretty little things gurl"
-
 ITEM.Model = "models/captainbigbutt/skeyler/accessories/glasses02.mdl"
-
 ITEM.Rarity = 2
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -1.2) + (ang:Up() * -1.2) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -1.2) + (ang:Up() * -1.2) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 7.6)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 134
-
 ITEM.Name = "Tomas Helmet"
-
 ITEM.Description = "Hit that"
-
 ITEM.Model = "models/lordvipes/daftpunk/thomas.mdl"
-
 ITEM.Rarity = 7
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	model:SetModelScale(1.1, 0)
-	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * -0.6) + m_IsTerroristModel( ply:GetModel() )
-
+	pos = pos + (ang:Forward() * -3.2) + (ang:Up() * -0.6) + m_IsTerroristModel(ply:GetModel())
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
-
 ITEM.ID = 128
-
 ITEM.Name = "Toro Mask"
-
 ITEM.Description = ":3"
-
 ITEM.Model = "models/gmod_tower/toromask.mdl"
-
 ITEM.Rarity = 3
-
 ITEM.Collection = "Cosmetic Collection"
-
 ITEM.Attachment = "eyes"
-
-function ITEM:ModifyClientsideModel( ply, model, pos, ang )
-
-	pos = pos + (ang:Forward() * -4.6) + (ang:Up() * -0.8) + m_IsTerroristModel( ply:GetModel() )
+function ITEM:ModifyClientsideModel(ply, model, pos, ang)
+	pos = pos + (ang:Forward() * -4.6) + (ang:Up() * -0.8) + m_IsTerroristModel(ply:GetModel())
 	ang:RotateAroundAxis(ang:Right(), 10.6)
-
 	return model, pos, ang
-
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32499,17 +25798,14 @@ ITEM.Description = "Perfect to cover a bald head and an ugly face!"
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/trapper/trapper.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.05)
 	p = p + (a:Forward() * 0.378)+ (a:Right() * 0.243)+ (a:Up() * -0.971)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32520,17 +25816,14 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/custom_prop/moatgaming/trashbag/trashbag.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(0.8)
 	p = p + (a:Forward() * -3.711)+ (a:Right() * -0.119)+ (a:Up() * -8.322)
 	a:RotateAroundAxis(a:Up(), 180)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32542,12 +25835,8 @@ ITEM.Collection = "Crimson Collection"
 ITEM.Skin = 2
 ITEM.Model = "models/splicermasks/birdmask.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 2 )
+	model:SetSkin(2)
 	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * 0.2) + (ang:Right() * 0) + (ang:Up() * -3)
 	ang:RotateAroundAxis(ang:Right(), -0)
@@ -32557,9 +25846,7 @@ function ITEM:ModifyClientsideModel(ply, model, pos, ang)
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32570,17 +25857,14 @@ ITEM.Description = "The real pussy destroyer. I'm a motherfuckin' pimp-ass mask 
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/vaultboy/vaultboy.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	m:SetModelScale(1.1)
 	p = p + (a:Forward() * -4.758)+ (a:Right() * 0.015)+ (a:Up() * 1.482)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32591,19 +25875,14 @@ ITEM.Rarity = 6
 ITEM.Collection = "Urban Style Collection"
 ITEM.Model = "models/sal/wolf.mdl"
 ITEM.Attachment = "eyes"
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetModelScale( 1.05 )
+	model:SetModelScale(1.05)
 	pos = pos + (ang:Forward() * -4.468628) + (ang:Right() * 0.039375) +  (ang:Up() * -2.770370)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32614,14 +25893,11 @@ ITEM.Description = "Special swag item from the 2018 Holiday Event! Right click w
 ITEM.Collection = "Holiday Collection"
 ITEM.Model = "models/moat/mg_glasses_xmastree.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -1.427)+ (a:Right() * 0.001)+ (a:Up() * 2.779)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32632,16 +25908,13 @@ ITEM.Description = "The dragon mask acquired from the remains of Zahkriisos, one
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/zhariisos/zhariisos.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * 0.111)+ (a:Up() * -3.485)
 	a:RotateAroundAxis(a:Up(), 90)
 
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32652,14 +25925,11 @@ ITEM.Description = "Your eyes deceive you, an illusion fools you all."
 ITEM.Collection = "Hype Collection"
 ITEM.Model = "models/custom_prop/moatgaming/zero/zero.mdl"
 ITEM.Attachment = "eyes"
-
 function ITEM:ModifyClientsideModel(pl, m, p, a)
 	p = p + (a:Forward() * -3.427)+ (a:Up() * -5.324)
-
 	return m, p, a
 end
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32671,21 +25941,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 0
 ITEM.Model = "models/sal/halloween/zombie.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 0 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(0)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.030151) + (ang:Right() * 0.035046) +  (ang:Up() * -1.245018)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32697,21 +25961,15 @@ ITEM.Collection = "Urban Style Collection"
 ITEM.Skin = 1
 ITEM.Model = "models/sal/halloween/zombie.mdl"
 ITEM.Attachment = "eyes"
-
-
-
 function ITEM:ModifyClientsideModel(ply, model, pos, ang)
-
-	model:SetSkin( 1 )
-	model:SetModelScale( 1.1, 0 )
+	model:SetSkin(1)
+	model:SetModelScale(1.1, 0)
 	pos = pos + (ang:Forward() * -4.030151) + (ang:Right() * 0.035046) +  (ang:Up() * -1.245018)
 	
 	return model, pos, ang
 end
 
-
 m_AddDroppableItem(ITEM, 'Mask')
-
 if (CLIENT) then m_AddCosmeticItem(ITEM, 'Mask') end
 
 ITEM = {}
@@ -32725,11 +25983,9 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.Stats = {
 	{min = 30, max = 60}
 }
-
 function ITEM:OnPlayerSpawn(ply, powerup_mods)
 	ply.CreditGoblin = self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * powerup_mods[1])
 end
-
 m_AddDroppableItem(ITEM, 'Power-Up')
 
 ITEM = {}
@@ -32743,10 +25999,8 @@ ITEM.Collection = "Aqua Palm Collection"
 ITEM.Stats = {
 	{min = 50, max = 90}
 }
-
 function ITEM:OnPlayerSpawn(ply, powerup_mods)
 	ply.SilentPower = self.Stats[1].min + ((self.Stats[1].max - self.Stats[1].min) * powerup_mods[1])
 	ply:SetNW2Bool("SilentPower", true)
 end
-
 m_AddDroppableItem(ITEM, 'Power-Up')
