@@ -248,10 +248,18 @@ if CLIENT then
         end
     end
 
-    function GM:UpdateAnimation(ply, vel, maxseqgroundspeed)
-        ply:AnimUpdateGesture()
+    if (not GM._UpdateAnimation and GM.UpdateAnimation) then
+		GM._UpdateAnimation = GM.UpdateAnimation
+	end
 
-        return self.BaseClass.UpdateAnimation(self, ply, vel, maxseqgroundspeed)
+    function GM:UpdateAnimation(ply, vel, maxseqgroundspeed)
+		if (not self.BaseClass.UpdateAnimation) then
+			self.BaseClass.UpdateAnimation = self._UpdateAnimation or function() end
+		end
+
+		ply:AnimUpdateGesture()
+
+        return self.BaseClass.UpdateAnimation and self.BaseClass.UpdateAnimation(self, ply, vel, maxseqgroundspeed)
     end
 
     function GM:GrabEarAnimation(ply)
