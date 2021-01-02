@@ -466,6 +466,10 @@ function CheckIdle()
 end
 
 function GM:OnEntityCreated(ent)
+	if (not self.BaseClass.OnEntityCreated) then
+		self.BaseClass.OnEntityCreated = function() end
+	end
+
     -- Make ragdolls look like the player that has died
     if ent:IsRagdoll() then
         local ply = CORPSE.GetPlayer(ent)
@@ -482,5 +486,5 @@ function GM:OnEntityCreated(ent)
         end
     end
 
-    return self.BaseClass.OnEntityCreated(self, ent)
+    return self.BaseClass.OnEntityCreated and self.BaseClass.OnEntityCreated(self, ent)
 end
