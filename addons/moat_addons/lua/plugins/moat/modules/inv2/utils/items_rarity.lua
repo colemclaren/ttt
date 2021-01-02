@@ -60,22 +60,26 @@ function rarity.Register(id)
 	return rarity.Roster[id]
 end
 
-function rarity.Generate(num)
-	num = num or 1
-
-	for i = 2, 8 do
-		if (math.random(1, i) ~= i) then
-			break
-		end
-
-		num = i
-	end
-
-	return (num == 8) and 9 or num
+function rarity.GetTable(id)
+	return rarity.Roster[id]
 end
 
-function rarity.Get(num)
-	return rarity.Roster[num]
+function rarity.Get(low, high)
+	if (low and high and low == high) then
+		return low or high
+	end
+
+	for i = low or 1, high or 9 do
+		if ((high and high ~= 8 or not high) and i == 8) then
+			return (low and low == 8) and low or 9
+		end
+
+		if (math.random(i + 1) ~= i + 1) then
+			return i
+		end
+	end
+
+	return 9
 end
 
 mi.Rarity = rarity

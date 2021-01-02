@@ -24,25 +24,7 @@ hook.Add("TTTWeaponCreated", "moat_ApplyRandom", function(e)
             return 
         end
 
-        local chosen_rarity = RANDOM_DROPS.Minimum
-        for i = chosen_rarity, 7 do
-            if (i == 7) then
-                local chance_to_move = math.random(8)
-
-                if (chance_to_move == 8) then
-                    chosen_rarity = MOAT_RARITIES[9].ID
-                    break
-                end
-            else
-                local chance_to_move = math.random(MOAT_RARITIES[i + 1].Rarity)
-
-                if (chance_to_move ~= MOAT_RARITIES[i + 1].Rarity) then
-                    chosen_rarity = MOAT_RARITIES[i].ID
-                    break
-                end
-            end
-        end
-
+        local chosen_rarity = mi.Rarity.Get(RANDOM_DROPS.Minimum)
         local chosen_item
 
         for _, item in RandomPairs(MOAT_DROPTABLE) do
