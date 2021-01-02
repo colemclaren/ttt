@@ -1,3 +1,5 @@
+DEFINE_BASECLASS "gamemode_base"
+GM.BaseClass = baseclass.Get "gamemode_base"
 -- shared extensions to player table
 local plymeta = FindMetaTable("Player")
 if not plymeta then return end

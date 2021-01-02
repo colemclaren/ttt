@@ -5,6 +5,8 @@ if (util.NetworkStringToID"ttt_enable_tc" ~= 0) then
     return
 end
 
+DEFINE_BASECLASS "gamemode_base"
+GM.BaseClass = baseclass.Get "gamemode_base"
 include("shared.lua")
 
 -- Define GM12 fonts for compatibility
