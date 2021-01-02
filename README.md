@@ -1,4 +1,4 @@
-THE FIRST INVENTORY TTT GAMEMODE
+VELKON GAMING TTT SERVER CODE
 =========
 From my past experiences, your gmod server's player slots __WILL__ become fulled or be filled up too quickly.
 
