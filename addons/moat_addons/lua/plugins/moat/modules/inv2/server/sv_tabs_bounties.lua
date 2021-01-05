@@ -146,7 +146,7 @@ function _contracts()
                 d[k].bnty.runfunc(d[k].mods, d[k].id, id + 1)
             end
 
-            MsgC(Color(0, 255, 0), "Global Bounty with ID " .. d[k].id .. d[k].bnty.name .. " has Loaded.\n")
+            MsgC(Color(0, 255, 0), "Global Bounty with ID " .. d[k].id .. d[k].bnty.name .. " has refreshed.\n")
         end
 
         MOAT_BOUNTIES.ActiveBounties = table.Copy(d)
@@ -170,6 +170,9 @@ function _contracts()
         local q = db:query("SELECT * FROM bounties_current ORDER BY ID DESC LIMIT 1;")
 
         function q:onSuccess(d)
+            if (d[1] == nil) then
+                global_bounties_refresh()
+            end
             local idd = d[1].ID
             d = util.JSONToTable(d[1].bounties)
 
@@ -265,11 +268,10 @@ function _contracts()
         local q = db:query("SELECT amount from moat_lottery;")
 
         function q:onSuccess(d)
-            if (not d or not d[1]) then return end
             lottery_stats.loaded = true
             lottery_stats.amount = d[1].amount
             net.Start("lottery.updateamount")
-            net.WriteUInt(d[1].amount, 32)
+            net.WriteInt(d[1].amount, 32)
             net.Broadcast()
         end
 
@@ -318,10 +320,9 @@ function _contracts()
         local q = db:query("SELECT num FROM moat_lottery_last")
 
         function q:onSuccess(d)
-            if (not d or not d[1]) then return end
             lottery_stats.last_num = d[1].num
             net.Start("lottery.last")
-            net.WriteUInt(d[1].num, 32)
+            net.WriteInt(d[1].num, 32)
             net.Broadcast()
         end
 
@@ -1924,7 +1925,7 @@ function MOAT_BOUNTIES:GetRandomBounty(tier_)
     return sql.SQLStr(util.TableToJSON(bounty_tbl), true)
 end
 
-game.GetIP = function() return "1.1.1.1:27015" end -- REPLACE WITH UR SERVER IP
+game.GetIP = function() return "1.1.1.1:27015" end
 
 function MOAT_BOUNTIES.ResetBounties()
 end
