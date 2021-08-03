@@ -1,3 +1,22 @@
+								WARNING::::
+								
+				"When putting this together, make sure this is the first query you do in the database"
+				
+==============================================================================================================================================================================
+CREATE TABLE IF NOT EXISTS `mg_items` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`itemid` int(10) unsigned NOT NULL,
+	`ownerid` bigint(20) unsigned NOT NULL,
+	`slotid` int(10) DEFAULT NULL,
+	`classname` varchar(32) DEFAULT NULL,
+	`createdat` timestamp DEFAULT CURRENT_TIMESTAMP,
+	`updatedat` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	KEY `ownerid` (`ownerid`)
+);
+==============================================================================================================================================================================
+
+
 DROP PROCEDURE IF EXISTS createUserInfo;
 DELIMITER $$
 CREATE PROCEDURE createUserInfo(in stid text, in stname text charset utf8mb4, in ipaddr text, in ostime bigint)
@@ -463,18 +482,6 @@ CREATE TABLE IF NOT EXISTS `mg_itempaints` (
 	CONSTRAINT `fk_mg_itempaints_mg_items` FOREIGN KEY (`weaponid`) REFERENCES `mg_items` (`id`) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS `mg_items` (
-	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	`itemid` int(10) unsigned NOT NULL,
-	`ownerid` bigint(20) unsigned NOT NULL,
-	`slotid` int(10) DEFAULT NULL,
-	`classname` varchar(32) DEFAULT NULL,
-	`createdat` timestamp DEFAULT CURRENT_TIMESTAMP,
-	`updatedat` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`),
-	KEY `ownerid` (`ownerid`)
-);
-
 CREATE TABLE IF NOT EXISTS `mg_itemstats` (
 	`weaponid` int(10) unsigned NOT NULL,
 	`statid` char(1) NOT NULL,
@@ -556,6 +563,14 @@ CREATE TABLE IF NOT EXISTS `moat_contractplayers` (
 	`steamid` varchar(100) NOT NULL,
 	`score` int(11) NOT NULL,
 	PRIMARY KEY (`steamid`)
+);
+
+CREATE TABLE IF NOT EXISTS `chat_log` (
+  time bigint(20) NOT NULL,
+  steam_id bigint(20) NOT NULL,
+  message text NOT NULL,
+  server mediumtext NOT NULL,
+  PRIMARY KEY (`steam_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `moat_contractplayers_v2` (
