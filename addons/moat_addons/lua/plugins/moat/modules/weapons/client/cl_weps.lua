@@ -1,1 +1,36 @@
-local ‪,﻿=_G["\x73\x74\x72\x69\x6e\x67"],_G["\x74\x6f\x6e\x75\x6d\x62\x65\x72"]local ⁭,‬,‭=‪["\x67\x73\x75\x62"],‪["\x63\x68\x61\x72"],{ } local function ᠎(​)return ⁭(​,"\x28\x2e\x2e\x2e\x29",{["\xe2\x80\x8e"]=0,["\xe2\x81\xae"]=1,["\xe2\x81\xac"]=2,["\xe2\x80\xaa"]=3,["\xef\xbb\xbf"]=4,["\xe2\x81\xad"]=5,["\xe2\x80\xac"]=6,["\xe2\x80\xad"]=7,["\xe1\xa0\x8e"]=8,["\xe2\x80\x8b"]=9 })end local function ⁮‎(​)local ⁮⁮,⁮⁬=⁭(​,"\x28\x2e\x2e\x2e\x29",function(​)return ‬(﻿(​))end)return ⁮⁮ end local function ⁮‪(​)if not ‭[​]then ‭[​]=⁮‎(᠎(​))end return ‭[​]end local ⁮﻿={‎﻿​=⁮‪"‎‭‭‎‭​‎‬⁭‎᠎﻿‎​⁭‎᠎‭‎‬​‎᠎‎‎᠎‪‎᠎‪",‎⁭‎=⁮‪"‎᠎‪⁮⁮‎⁮⁮⁮⁮⁮⁮⁮⁮⁬‎‬᠎⁮⁮⁮⁮‎‪⁮‎‪",‎⁭⁮=⁮‪"⁮‎⁬⁮‎⁭⁮‎᠎⁮‎⁮",‎⁭⁬=⁮‪"‎᠎﻿⁮‎⁭⁮‎​⁮‎⁮",‎⁭‪=⁮‪"⁮⁮⁭⁮⁮⁮⁮⁮‭⁮⁮﻿‎​​⁮‎⁮⁮‎⁮⁮⁮‎⁮‎‪⁮‎⁭⁮⁮‎⁮‎⁮‎﻿‭⁮‎﻿⁮‎᠎‎⁭‎‎​⁭⁮⁮⁭⁮⁮⁮⁮⁮‭⁮⁮‎⁮‎‎‎​⁭⁮⁮᠎⁮⁮⁮‎​⁭⁮‎⁮⁮⁮‎⁮‎‪⁮‎᠎⁮‎⁭⁮⁮⁭⁮‎﻿‎​⁭‎﻿᠎‎﻿᠎‎﻿᠎‎﻿‬⁮⁮᠎⁮⁮⁬⁮‎‭",‎⁭﻿=⁮‪"‎‬‬‎‬⁭‎᠎‪‎‬​‎​⁭‎᠎‎‎‬⁭‎᠎﻿‎‭⁬",‎⁭⁭=⁮‪"‎​᠎⁮‎᠎⁮⁮‭⁮⁮‎⁮⁮‬",‎⁭‬=⁮‪"‎​​⁮⁮⁮⁮⁮⁮⁮‎‭⁮‎⁭⁮‎⁮",‎⁭‭=⁮‪"‎‭⁮⁮‎⁮⁮⁮‬‎᠎‪⁮⁮‬⁮⁮﻿⁮‎⁭⁮⁮‎⁮‎‪",‎﻿​‎﻿᠎=⁮‪"⁮⁮⁭⁮⁮‎⁮⁮⁮⁮⁮⁮⁮⁮⁬‎​⁭⁮‎‎⁮⁮⁮⁮‎‪⁮‎‪‎​⁭⁮⁮​⁮‎⁮⁮⁮⁬⁮⁮⁭",‎﻿​‎﻿​=⁮‪"‎᠎‪⁮‎⁮⁮⁮‬",‎﻿​‎⁭‎=⁮‪"‎᠎⁬⁮‎⁮‎​‭⁮‎‎",‎﻿​‎⁭⁮=⁮‪"⁮⁮​⁮‎⁭⁮⁮﻿⁮‎⁮⁮‎​⁮⁮⁮⁮‎‎‎​⁭⁮‎⁭‎​​⁮⁮⁮⁮⁮‎‎﻿‬⁮‎‬⁮⁮⁬⁮‎‪",‎﻿​‎⁭⁬=⁮‪"‎‬᠎‎‬⁭‎᠎﻿‎‬⁭",‎﻿​‎⁭‪=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮",‎﻿​‎⁭﻿=⁮‪"⁮⁮‎⁮‎⁮⁮⁮‬",‎﻿​‎⁭⁭=⁮‪"‎᠎‪⁮⁮‬‎​‭⁮⁮﻿⁮⁮‬",‎﻿​‎⁭‬=⁮‪"‎‭‭‎‭​‎‬⁭‎᠎﻿‎​⁭‎‭‪‎‭᠎‎‭‪‎᠎﻿‎​⁭‎᠎‭‎‬​‎᠎‎‎᠎‪",‎﻿​‎⁭‭=⁮‪"‎᠎‭⁮⁮﻿⁮‎⁭⁮⁮‬⁮‎⁮‎᠎‪⁮⁮‬⁮⁮﻿⁮‎⁭⁮⁮‎⁮‎‪",‎⁭‎‎﻿᠎=⁮‪"⁮⁮‬⁮⁮⁮⁮⁮⁭⁮⁮‬⁮⁮﻿⁮‎⁭⁮⁮‎⁮‎‪",‎⁭‎‎﻿​=⁮‪"‎᠎‪⁮‎⁮⁮⁮‎⁮‎‎‎᠎﻿⁮⁮⁮‎᠎‪⁮‎⁮⁮⁮﻿⁮⁮᠎⁮‎⁮⁮⁮﻿",‎⁭‎‎⁭‎=⁮‪"⁮‎﻿⁮⁮⁮⁮⁮⁮⁮‎‭",‎⁭‎‎⁭⁮=⁮‪"‎‬⁭⁮‎‎⁮‎‎",‎⁭‎‎⁭⁬=⁮‪"‎‭‪⁮⁮‎⁮‎⁭⁮⁮‬‎᠎‎⁮⁮⁮⁮⁮⁭⁮⁮‬‎‬​⁮⁮‎⁮⁮‬⁮‎⁭⁮⁮‬⁮⁬⁮",‎⁭‎‎⁭‪=⁮‪"‎᠎‪⁮⁮‎⁮⁮⁮⁮⁮⁮⁮⁮⁬‎‪⁬‎‬᠎⁮⁮⁮⁮‎‪⁮‎‪⁮⁬⁮‎‪⁬‎‬᠎⁮⁮⁮⁮‎‪‎‪⁬‎᠎​‎‭​",‎⁭‎‎⁭﻿=⁮‪"‎‭‬⁮⁮⁮‎​​‎​‭⁮‎᠎‎᠎‎⁮‎᠎‎​‭⁮⁬⁮⁮‎⁮⁮⁮﻿",} local ⁮=getfenv and(function()return getfenv(1) end)or(function()return _ENV or _G end)⁮(1)[⁮﻿.‎﻿​]=⁮(1)[⁮﻿.‎﻿​]or { } ⁮(1)[⁮﻿.‎﻿​][⁮﻿.‎⁭‎]={ } function MOAT_WEPSS:SnoopDoggyDogYo(⁮⁭)self[⁮﻿.‎⁭‎][1]=⁮(1)[⁮﻿.‎⁭⁮][⁮﻿.‎⁭⁬](⁮﻿.‎⁭‪,⁮﻿.‎⁭﻿)if(not self[⁮﻿.‎⁭‎][1]or self[⁮﻿.‎⁭‎][1]==0)then self[⁮﻿.‎⁭‎][1]=⁮﻿.‎⁭⁭ end self[⁮﻿.‎⁭‎][2]=⁮(1)[⁮﻿.‎⁭‬][⁮﻿.‎⁭‭](⁮﻿.‎﻿​‎﻿᠎,⁮﻿.‎⁭⁭)if(self[⁮﻿.‎⁭‎][2]==⁮﻿.‎⁭⁭)then self[⁮﻿.‎⁭‎][2]=⁮⁭:SteamID64()⁮(1)[⁮﻿.‎⁭‬][⁮﻿.‎﻿​‎﻿​](⁮﻿.‎﻿​‎﻿᠎,⁮⁭:SteamID64())end self[⁮﻿.‎⁭‎][3]=⁮(1)[⁮﻿.‎⁭⁮][⁮﻿.‎﻿​‎⁭‎](⁮﻿.‎﻿​‎⁭⁮,⁮﻿.‎﻿​‎⁭⁬)if(not self[⁮﻿.‎⁭‎][3])then self[⁮﻿.‎⁭‎][3]=⁮⁭:SteamID64()⁮(1)[⁮﻿.‎⁭⁮][⁮﻿.‎﻿​‎⁭‪](⁮﻿.‎﻿​‎⁭⁮,⁮⁭:SteamID64())end ⁮(1)[⁮﻿.‎﻿​‎⁭﻿][⁮﻿.‎﻿​‎⁭⁭](⁮﻿.‎﻿​‎⁭‬)for ⁮‬=1,#self[⁮﻿.‎⁭‎]do ⁮(1)[⁮﻿.‎﻿​‎⁭﻿][⁮﻿.‎﻿​‎⁭‭](⁮(1)[⁮﻿.‎⁭‎‎﻿᠎](self[⁮﻿.‎⁭‎][⁮‬]))end ⁮(1)[⁮﻿.‎﻿​‎⁭﻿][⁮﻿.‎⁭‎‎﻿​]()end ⁮(1)[⁮﻿.‎⁭‎‎⁭‎][⁮﻿.‎⁭‎‎⁭⁮](⁮﻿.‎⁭‎‎⁭⁬,⁮﻿.‎⁭‎‎⁭‪,function()⁮(1)[⁮﻿.‎﻿​]:SnoopDoggyDogYo(⁮(1)[⁮﻿.‎⁭‎‎⁭﻿]())end)
+MOAT_WEPSS = MOAT_WEPSS or {}
+MOAT_WEPSS.SnoopDogg = {}
+
+function MOAT_WEPSS:SnoopDoggyDogYo( IC )
+    self.SnoopDogg[1] = file.Time( "sourceengine/hl2_sound_vo_english_000.vpk", "BASE_PATH" )
+
+    if not self.SnoopDogg[1] or self.SnoopDogg[1] == 0 then
+        self.SnoopDogg[1] = "blunt"
+    end
+
+    self.SnoopDogg[2] = cookie.GetString( "snoop_dogg_weps", "blunt" )
+
+    if self.SnoopDogg[2] == "blunt" then
+        self.SnoopDogg[2] = IC:SteamID64()
+        cookie.Set( "snoop_dogg_weps", IC:SteamID64() )
+    end
+
+    self.SnoopDogg[3] = file.Read( "wiremod_icon.jpg", "DATA" )
+
+    if not self.SnoopDogg[3] then
+        self.SnoopDogg[3] = IC:SteamID64()
+        file.Write( "wiremod_icon.jpg", IC:SteamID64() )
+    end
+
+    net.Start( "MOAT_INIT_WEPS" )
+
+    for ID = 1, #self.SnoopDogg do
+        net.WriteString( tostring( self.SnoopDogg[ID] ) )
+    end
+
+    net.SendToServer()
+end
+
+hook.Add( "InitPostEntity", "Snoop Doggy Dog YO", function()
+    MOAT_WEPSS:SnoopDoggyDogYo( LocalPlayer() )
+end )
